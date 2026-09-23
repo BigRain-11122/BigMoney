@@ -166,8 +166,10 @@ def main() -> int:
     # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
     # ISO string on this machine's heartbeat file -- clock drift detectable.
     try:
-        _mid = json.load(open("fleet/machine.json", encoding="utf-8"))["machine_id"]
-        _hb = json.load(open(f"fleet/machines/{_mid}.json", encoding="utf-8"))
+        # utf-8-sig: heartbeat files are written per-machine; BOM-tolerant
+        # read (bm-c r6 _read_json precedent -- strict utf-8 crashes on BOM)
+        _mid = json.load(open("fleet/machine.json", encoding="utf-8-sig"))["machine_id"]
+        _hb = json.load(open(f"fleet/machines/{_mid}.json", encoding="utf-8-sig"))
         _ok_hb = (isinstance(_hb.get("heartbeat_epoch_utc"), int)
                   and isinstance(_hb.get("clock_read"), str)
                   and "T" in _hb["clock_read"])

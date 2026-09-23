@@ -1,12 +1,14 @@
-﻿{
-    "orders_ack":  "FULL ENUMERATION 29/29 (unchanged from R41 ack, S0.5 double-scan diff empty both scans: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
-    "verdict":  "R42 bm-a: zoo #41 closed honest FAIL (P4_PAIRS 67 trials, prereg 79750f5 frozen pre-run, claim d1f801a F-04 first; cointegration selection adds NOTHING vs random pairs at daily granularity -- structural same-underlying doubles exist (gold/securities/STAR50 double-issuer pairs t\u003c=-6.5) but 26bp round-trip eats the reversion; random-pair null p95 0.524\u003evi 0.4004 = z-rules+engine-exit is itself a Sharpe~0.5 machine on ANY pairs, honest in-batch null mandatory for this structure); OOS\u003efull regime-dependence disclosed; queue: zoo A-layer exhausted, remaining = C-class data-gated or P1-signed -\u003e maintenance rounds until new orders/data; 10-01 trio queued; smoke 23/23; S6 all green",
-    "idle_ram_gb":  49,
-    "last_seen":  "2026-09-24 05:31",
-    "gpu_idle_vram_mb":  1234,
-    "clock_read":  "2026-09-24T05:31:03+08:00",
-    "current_task":  "R42 done: P4_PAIRS (zoo #41 ETF cointegration long-only spread reversion) honest v2 FAIL closed -- pooled 0.141 \u003c\u003c line 0.9359, below random-pair null p95 0.524 (selection gain negative, z-machine re-proven), x2 -0.041, 71/1081 pairs pass EG marker with same-underlying doubles on top, no residual alpha at 13bp+T+1 daily; D6 low-corr 0.235 info col; anchors 6/6 non-VOID; N 2791-\u003e2858; gate chain step 13 wired; zoo #41 + library closed; ADF semantics pitfall caught in selftest (stationary residual t~-27 vs random-walk ~0)",
-    "cpu_cores":  32,
-    "heartbeat_epoch_utc":  1790199064,
-    "machine_id":  "bm-a"
+{
+  "orders_ack": "FULL ENUMERATION 29/29 (unchanged from R41 ack, S0.5 double-scan diff empty both scans: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
+  "verdict": "R43: smoke F7 BOM crash fixed (reader utf-8-sig + de-BOM bm-a.json/state), pit-family swept, S6 all green, orders diff empty, maintenance mode (P1-gated queue)",
+  "idle_ram_gb": 49,
+  "last_seen": "2026-09-24T05:41:41",
+  "gpu_idle_vram_mb": 1234,
+  "clock_read": "2026-09-24T05:41:41.182684+08:00",
+  "current_task": "R43 done: S1 red-fix heartbeat BOM (smoke 23/23 green); queue=P1-gated, maintenance",
+  "cpu_cores": 32,
+  "heartbeat_epoch_utc": 1790199701,
+  "machine_id": "bm-a",
+  "free_ram_gb": null,
+  "gpu_free_vram_mb": 886
 }
