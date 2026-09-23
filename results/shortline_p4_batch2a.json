@@ -1,0 +1,878 @@
+{
+  "batch": "shortline-p4-batch2a-ta-A-migration",
+  "generated": "2026-09-23 18:47:37",
+  "preregistered_doc": "research/shortline/P4_BATCH2A.md",
+  "order_chain": [
+    "O-20260923-1828 (CEO TA/style families)",
+    "digest DIGEST-20260923-ta-styles",
+    "playbook s6 P-4 batch 2A (GM lane)",
+    "MSG-20260923-1841 claim (quant-GM session)"
+  ],
+  "universe": {
+    "pool": "core48-bare-codes",
+    "data_end": "2026-09-22",
+    "evidence_cutoff": "2026-09-22",
+    "oos_start": "2025-01-01"
+  },
+  "void": false,
+  "gate": {
+    "recorded_constants": {
+      "i_full_sharpe_gt": 0.3521,
+      "ii_ann_gt": 0,
+      "iii_dd_min": -0.35,
+      "iv_trades_min": 30,
+      "v_oos_sharpe_gt": 0,
+      "v_oos_ann_gt": 0,
+      "vi_full_sharpe_gt": 0.4004,
+      "effective_skill_bar": 0.4004
+    },
+    "i_line_recorded": 0.3521,
+    "ce_null_recorded_nsp1": 0.4229,
+    "ce_line_recorded_batch1": 0.4474,
+    "vi_bar_recorded": 0.4004,
+    "i_line_rule": "default cells: recorded 0.3521; CE cells: max(in-batch CE p95, batch1-recorded CE line, NSP1-recorded 0.4229, 0.3521)",
+    "i_bar_ce_used": 0.4474,
+    "random_p95_inbatch_full": {
+      "default": 0.3064,
+      "ce": 0.4074
+    },
+    "passive_consistency_check": {
+      "ew48_buyhold": {
+        "inbatch_full_sharpe": 0.3004,
+        "recorded_gate_vi": 0.4004
+      },
+      "ew48_monthly_rebal": {
+        "inbatch_full_sharpe": 0.3792,
+        "recorded_gate_vi": 0.4004
+      }
+    },
+    "sleeve_max_corr": 0.3
+  },
+  "passive": {
+    "ew48_buyhold": {
+      "full": {
+        "sharpe": 0.3004,
+        "annual_return": 0.038,
+        "max_drawdown": -0.3843
+      },
+      "oos": {
+        "sharpe": 0.7101,
+        "annual_return": 0.1202,
+        "max_drawdown": -0.1677
+      }
+    },
+    "ew48_monthly_rebal": {
+      "full": {
+        "sharpe": 0.3792,
+        "annual_return": 0.0521,
+        "max_drawdown": -0.3652
+      },
+      "oos": {
+        "sharpe": 0.8051,
+        "annual_return": 0.1306,
+        "max_drawdown": -0.116
+      }
+    }
+  },
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 0.4514,
+        "annual_return": 0.0283,
+        "max_drawdown": -0.1633,
+        "trades": 302
+      },
+      "got_oos": {
+        "sharpe": 1.6085,
+        "annual_return": 0.1441,
+        "max_drawdown": -0.0567,
+        "trades": 172
+      },
+      "full_sharpe": 0.8114
+    },
+    "COMPOSITE-CE-02": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 0.4585,
+        "annual_return": 0.0544,
+        "max_drawdown": -0.2217,
+        "trades": 520
+      },
+      "got_oos": {
+        "sharpe": 1.4853,
+        "annual_return": 0.1089,
+        "max_drawdown": -0.0361,
+        "trades": 275
+      },
+      "full_sharpe": 0.6099
+    },
+    "VOLATILITY-CE-01": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 1.0275,
+        "annual_return": 0.0262,
+        "max_drawdown": -0.0378,
+        "trades": 375
+      },
+      "got_oos": {
+        "sharpe": 2.0568,
+        "annual_return": 0.0424,
+        "max_drawdown": -0.009,
+        "trades": 147
+      },
+      "full_sharpe": 1.2578
+    }
+  },
+  "cells": [
+    {
+      "name": "strong_close",
+      "family": "ta_strong_close",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 StrongClose frozen 0.85/1.5/20, state",
+      "full": {
+        "annual_return": -0.0714,
+        "sharpe": -0.9603,
+        "max_drawdown": -0.4314,
+        "win_rate": 0.4251,
+        "profit_factor": 0.8331,
+        "num_trades": 1376,
+        "avg_hold_days": 1.41
+      },
+      "oos": {
+        "sharpe": -0.7828,
+        "annual_return": -0.0663,
+        "max_drawdown": -0.1716
+      },
+      "n_trades": 1376,
+      "oos_trades": 387,
+      "x2_full_sharpe": -1.7048,
+      "x2_oos_sharpe": -1.6746,
+      "x2_n_trades": 1356,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1551,
+        "COMPOSITE-CE-02": 0.121,
+        "VOLATILITY-CE-01": 0.1289
+      },
+      "max_corr": 0.1551,
+      "sleeve_tag": false
+    },
+    {
+      "name": "strong_close",
+      "family": "ta_strong_close",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 StrongClose frozen 0.85/1.5/20, state",
+      "full": {
+        "annual_return": -0.0718,
+        "sharpe": -0.9629,
+        "max_drawdown": -0.4333,
+        "win_rate": 0.425,
+        "profit_factor": 0.8311,
+        "num_trades": 1374,
+        "avg_hold_days": 1.42
+      },
+      "oos": {
+        "sharpe": -0.7956,
+        "annual_return": -0.0682,
+        "max_drawdown": -0.1761
+      },
+      "n_trades": 1374,
+      "oos_trades": 385,
+      "x2_full_sharpe": -1.7048,
+      "x2_oos_sharpe": -1.6746,
+      "x2_n_trades": 1356,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1553,
+        "COMPOSITE-CE-02": 0.1211,
+        "VOLATILITY-CE-01": 0.1284
+      },
+      "max_corr": 0.1553,
+      "sleeve_tag": false
+    },
+    {
+      "name": "macd_trend",
+      "family": "ta_macd_trend",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 MacdTrend 12/26/9 condition-state, zero-line confirm",
+      "full": {
+        "annual_return": -0.0217,
+        "sharpe": -0.2035,
+        "max_drawdown": -0.3005,
+        "win_rate": 0.4957,
+        "profit_factor": 1.0099,
+        "num_trades": 1404,
+        "avg_hold_days": 5.82
+      },
+      "oos": {
+        "sharpe": -0.0677,
+        "annual_return": -0.0125,
+        "max_drawdown": -0.1162
+      },
+      "n_trades": 1404,
+      "oos_trades": 382,
+      "x2_full_sharpe": -0.7263,
+      "x2_oos_sharpe": -0.5724,
+      "x2_n_trades": 1404,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4816,
+        "COMPOSITE-CE-02": 0.3024,
+        "VOLATILITY-CE-01": 0.2514
+      },
+      "max_corr": 0.4816,
+      "sleeve_tag": false
+    },
+    {
+      "name": "macd_trend",
+      "family": "ta_macd_trend",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 MacdTrend 12/26/9 condition-state, zero-line confirm",
+      "full": {
+        "annual_return": -0.0076,
+        "sharpe": -0.0536,
+        "max_drawdown": -0.2295,
+        "win_rate": 0.5008,
+        "profit_factor": 1.0547,
+        "num_trades": 1198,
+        "avg_hold_days": 7.3
+      },
+      "oos": {
+        "sharpe": 0.0471,
+        "annual_return": 0.0,
+        "max_drawdown": -0.1049
+      },
+      "n_trades": 1198,
+      "oos_trades": 328,
+      "x2_full_sharpe": -0.5137,
+      "x2_oos_sharpe": -0.3917,
+      "x2_n_trades": 1198,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4896,
+        "COMPOSITE-CE-02": 0.3062,
+        "VOLATILITY-CE-01": 0.2555
+      },
+      "max_corr": 0.4896,
+      "sleeve_tag": false
+    },
+    {
+      "name": "kdj_reversal",
+      "family": "ta_kdj_reversal",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 KdjReversal 9/0/80/60, J oversold above MA60",
+      "full": {
+        "annual_return": -0.0033,
+        "sharpe": 0.0192,
+        "max_drawdown": -0.1795,
+        "win_rate": 0.5548,
+        "profit_factor": 1.0763,
+        "num_trades": 867,
+        "avg_hold_days": 5.59
+      },
+      "oos": {
+        "sharpe": 0.1499,
+        "annual_return": 0.0091,
+        "max_drawdown": -0.0957
+      },
+      "n_trades": 867,
+      "oos_trades": 250,
+      "x2_full_sharpe": -0.3004,
+      "x2_oos_sharpe": -0.2982,
+      "x2_n_trades": 867,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1549,
+        "COMPOSITE-CE-02": 0.6745,
+        "VOLATILITY-CE-01": 0.1726
+      },
+      "max_corr": 0.6745,
+      "sleeve_tag": false
+    },
+    {
+      "name": "kdj_reversal",
+      "family": "ta_kdj_reversal",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 KdjReversal 9/0/80/60, J oversold above MA60",
+      "full": {
+        "annual_return": 0.0129,
+        "sharpe": 0.1803,
+        "max_drawdown": -0.1628,
+        "win_rate": 0.6421,
+        "profit_factor": 1.178,
+        "num_trades": 665,
+        "avg_hold_days": 7.58
+      },
+      "oos": {
+        "sharpe": 0.0451,
+        "annual_return": 0.0004,
+        "max_drawdown": -0.094
+      },
+      "n_trades": 665,
+      "oos_trades": 192,
+      "x2_full_sharpe": -0.0758,
+      "x2_oos_sharpe": -0.277,
+      "x2_n_trades": 665,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1788,
+        "COMPOSITE-CE-02": 0.6899,
+        "VOLATILITY-CE-01": 0.1954
+      },
+      "max_corr": 0.6899,
+      "sleeve_tag": false
+    },
+    {
+      "name": "rsrs_timing",
+      "family": "ta_rsrs_timing",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "Everbright RSRS 18/250/0.8/-0.8, panel adaptation pre-reg",
+      "full": {
+        "annual_return": -0.0292,
+        "sharpe": -0.2534,
+        "max_drawdown": -0.2716,
+        "win_rate": 0.5248,
+        "profit_factor": 0.9417,
+        "num_trades": 949,
+        "avg_hold_days": 7.61
+      },
+      "oos": {
+        "sharpe": 0.3734,
+        "annual_return": 0.039,
+        "max_drawdown": -0.1575
+      },
+      "n_trades": 949,
+      "oos_trades": 310,
+      "x2_full_sharpe": -0.5692,
+      "x2_oos_sharpe": 0.0204,
+      "x2_n_trades": 949,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.244,
+        "COMPOSITE-CE-02": 0.2321,
+        "VOLATILITY-CE-01": 0.2432
+      },
+      "max_corr": 0.244,
+      "sleeve_tag": false
+    },
+    {
+      "name": "rsrs_timing",
+      "family": "ta_rsrs_timing",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "Everbright RSRS 18/250/0.8/-0.8, panel adaptation pre-reg",
+      "full": {
+        "annual_return": -0.0011,
+        "sharpe": 0.0334,
+        "max_drawdown": -0.236,
+        "win_rate": 0.583,
+        "profit_factor": 1.0501,
+        "num_trades": 657,
+        "avg_hold_days": 11.99
+      },
+      "oos": {
+        "sharpe": 0.8398,
+        "annual_return": 0.0861,
+        "max_drawdown": -0.1124
+      },
+      "n_trades": 657,
+      "oos_trades": 237,
+      "x2_full_sharpe": -0.1749,
+      "x2_oos_sharpe": 0.5955,
+      "x2_n_trades": 657,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2395,
+        "COMPOSITE-CE-02": 0.2246,
+        "VOLATILITY-CE-01": 0.2578
+      },
+      "max_corr": 0.2578,
+      "sleeve_tag": true
+    },
+    {
+      "name": "streak_up",
+      "family": "ta_streak_up",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 Streak 3-day up relay",
+      "full": {
+        "annual_return": -0.0894,
+        "sharpe": -0.9763,
+        "max_drawdown": -0.5007,
+        "win_rate": 0.4323,
+        "profit_factor": 0.9108,
+        "num_trades": 2424,
+        "avg_hold_days": 1.37
+      },
+      "oos": {
+        "sharpe": -0.582,
+        "annual_return": -0.0673,
+        "max_drawdown": -0.1673
+      },
+      "n_trades": 2424,
+      "oos_trades": 624,
+      "x2_full_sharpe": -2.5293,
+      "x2_oos_sharpe": -2.5808,
+      "x2_n_trades": 2022,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1708,
+        "COMPOSITE-CE-02": 0.1363,
+        "VOLATILITY-CE-01": 0.1595
+      },
+      "max_corr": 0.1708,
+      "sleeve_tag": false
+    },
+    {
+      "name": "streak_up",
+      "family": "ta_streak_up",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 Streak 3-day up relay",
+      "full": {
+        "annual_return": -0.0894,
+        "sharpe": -0.9763,
+        "max_drawdown": -0.5007,
+        "win_rate": 0.4323,
+        "profit_factor": 0.9108,
+        "num_trades": 2424,
+        "avg_hold_days": 1.37
+      },
+      "oos": {
+        "sharpe": -0.582,
+        "annual_return": -0.0673,
+        "max_drawdown": -0.1673
+      },
+      "n_trades": 2424,
+      "oos_trades": 624,
+      "x2_full_sharpe": -2.5293,
+      "x2_oos_sharpe": -2.5808,
+      "x2_n_trades": 2022,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1708,
+        "COMPOSITE-CE-02": 0.1363,
+        "VOLATILITY-CE-01": 0.1595
+      },
+      "max_corr": 0.1708,
+      "sleeve_tag": false
+    },
+    {
+      "name": "vol_breakout",
+      "family": "ta_vol_breakout",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 VolBreak 20/1.5/20/10, same-family discount vs P1 breakout_confirm (pre-reg s2)",
+      "full": {
+        "annual_return": 0.025,
+        "sharpe": 0.3442,
+        "max_drawdown": -0.1487,
+        "win_rate": 0.564,
+        "profit_factor": 1.206,
+        "num_trades": 1117,
+        "avg_hold_days": 7.51
+      },
+      "oos": {
+        "sharpe": 1.3998,
+        "annual_return": 0.1066,
+        "max_drawdown": -0.0447
+      },
+      "n_trades": 1117,
+      "oos_trades": 295,
+      "x2_full_sharpe": -0.0247,
+      "x2_oos_sharpe": 1.0004,
+      "x2_n_trades": 1117,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3976,
+        "COMPOSITE-CE-02": 0.2737,
+        "VOLATILITY-CE-01": 0.2445
+      },
+      "max_corr": 0.3976,
+      "sleeve_tag": false
+    },
+    {
+      "name": "vol_breakout",
+      "family": "ta_vol_breakout",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "M0923 VolBreak 20/1.5/20/10, same-family discount vs P1 breakout_confirm (pre-reg s2)",
+      "full": {
+        "annual_return": 0.0315,
+        "sharpe": 0.4665,
+        "max_drawdown": -0.117,
+        "win_rate": 0.5903,
+        "profit_factor": 1.2782,
+        "num_trades": 803,
+        "avg_hold_days": 11.35
+      },
+      "oos": {
+        "sharpe": 1.267,
+        "annual_return": 0.0824,
+        "max_drawdown": -0.0399
+      },
+      "n_trades": 803,
+      "oos_trades": 215,
+      "x2_full_sharpe": 0.2013,
+      "x2_oos_sharpe": 0.9807,
+      "x2_n_trades": 803,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4112,
+        "COMPOSITE-CE-02": 0.2844,
+        "VOLATILITY-CE-01": 0.2503
+      },
+      "max_corr": 0.4112,
+      "sleeve_tag": false
+    },
+    {
+      "name": "hammer_reversal",
+      "family": "ta_hammer_reversal",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "NEW: classic hammer + 5d drop>=5%, exit reclaim MA20",
+      "full": {
+        "annual_return": 0.0122,
+        "sharpe": 0.2326,
+        "max_drawdown": -0.1287,
+        "win_rate": 0.6028,
+        "profit_factor": 1.1838,
+        "num_trades": 360,
+        "avg_hold_days": 5.12
+      },
+      "oos": {
+        "sharpe": 0.1544,
+        "annual_return": 0.008,
+        "max_drawdown": -0.0873
+      },
+      "n_trades": 360,
+      "oos_trades": 124,
+      "x2_full_sharpe": 0.0256,
+      "x2_oos_sharpe": -0.0798,
+      "x2_n_trades": 360,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0781,
+        "COMPOSITE-CE-02": 0.1094,
+        "VOLATILITY-CE-01": 0.1876
+      },
+      "max_corr": 0.1876,
+      "sleeve_tag": true
+    },
+    {
+      "name": "hammer_reversal",
+      "family": "ta_hammer_reversal",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "NEW: classic hammer + 5d drop>=5%, exit reclaim MA20",
+      "full": {
+        "annual_return": 0.01,
+        "sharpe": 0.1957,
+        "max_drawdown": -0.1229,
+        "win_rate": 0.6816,
+        "profit_factor": 1.1687,
+        "num_trades": 267,
+        "avg_hold_days": 7.24
+      },
+      "oos": {
+        "sharpe": 0.1283,
+        "annual_return": 0.0062,
+        "max_drawdown": -0.0906
+      },
+      "n_trades": 267,
+      "oos_trades": 95,
+      "x2_full_sharpe": 0.0447,
+      "x2_oos_sharpe": -0.0491,
+      "x2_n_trades": 267,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0837,
+        "COMPOSITE-CE-02": 0.1122,
+        "VOLATILITY-CE-01": 0.1942
+      },
+      "max_corr": 0.1942,
+      "sleeve_tag": true
+    },
+    {
+      "name": "engulf_reversal",
+      "family": "ta_engulf_reversal",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "NEW: bullish engulfing + 5d drop>=5%, exit reclaim MA20",
+      "full": {
+        "annual_return": 0.0159,
+        "sharpe": 0.482,
+        "max_drawdown": -0.0513,
+        "win_rate": 0.6531,
+        "profit_factor": 1.4587,
+        "num_trades": 196,
+        "avg_hold_days": 4.83
+      },
+      "oos": {
+        "sharpe": 0.2999,
+        "annual_return": 0.0095,
+        "max_drawdown": -0.0344
+      },
+      "n_trades": 196,
+      "oos_trades": 59,
+      "x2_full_sharpe": 0.2914,
+      "x2_oos_sharpe": 0.0729,
+      "x2_n_trades": 196,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0332,
+        "COMPOSITE-CE-02": 0.0908,
+        "VOLATILITY-CE-01": 0.114
+      },
+      "max_corr": 0.114,
+      "sleeve_tag": false
+    },
+    {
+      "name": "engulf_reversal",
+      "family": "ta_engulf_reversal",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "NEW: bullish engulfing + 5d drop>=5%, exit reclaim MA20",
+      "full": {
+        "annual_return": 0.0172,
+        "sharpe": 0.5392,
+        "max_drawdown": -0.0423,
+        "win_rate": 0.7343,
+        "profit_factor": 1.6284,
+        "num_trades": 143,
+        "avg_hold_days": 6.87
+      },
+      "oos": {
+        "sharpe": 0.2944,
+        "annual_return": 0.0091,
+        "max_drawdown": -0.0366
+      },
+      "n_trades": 143,
+      "oos_trades": 44,
+      "x2_full_sharpe": 0.4023,
+      "x2_oos_sharpe": 0.1301,
+      "x2_n_trades": 143,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0349,
+        "COMPOSITE-CE-02": 0.0927,
+        "VOLATILITY-CE-01": 0.1168
+      },
+      "max_corr": 0.1168,
+      "sleeve_tag": false
+    }
+  ],
+  "survivors_g1_prime": [
+    "vol_breakout@ce",
+    "engulf_reversal@default",
+    "engulf_reversal@ce"
+  ],
+  "sleeve_candidates": [
+    "rsrs_timing@ce",
+    "hammer_reversal@default",
+    "hammer_reversal@ce"
+  ],
+  "verdict": {
+    "void": false,
+    "n_survivors": 3,
+    "n_sleeves": 3,
+    "survivors_are": "G1' CANDIDATES ONLY -- no registration this batch; G2 deepening (neighborhood + cost + yearly) requires a separate pre-registration",
+    "fail_branch": null
+  },
+  "trials_ledger": {
+    "prev_total": 1883,
+    "batch_trials": 137,
+    "note": "16 cells x(1x+x2) + 100 random + 3 trader anchors + 2 passive; pre-registered n=137 (research/shortline/P4_BATCH2A.md sec.7); prereg prev=1883 (p5 chain head)",
+    "total": 2020
+  },
+  "audit": {
+    "elapsed_sec": 52.1,
+    "n_backtests": 137,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}
