@@ -1,0 +1,1263 @@
+{
+  "batch": "SLEEVE-P3-admission",
+  "generated": "2026-09-23 12:54:17",
+  "preregistered_doc": "research/SLEEVE_P3.md (written before run)",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "member_cutoff": "registered evidence_cutoff",
+    "sleeve_cutoff": "2026-09-22",
+    "oos_start": "2025-01-01"
+  },
+  "void": false,
+  "constants": {
+    "g1_prime_i_bar": 0.3521,
+    "g1_prime_vi_bar": 0.4004,
+    "cmp_margin": 0.05,
+    "crash_year": -0.3,
+    "family_reps": [
+      "donchian_20_10@default",
+      "double_bottom_20@ce",
+      "price_volume_trend_20@ce"
+    ],
+    "note": "recorded constants rule (J19); random baselines not re-run (P3 precedent: composition batch, zero new search); null = incumbent BASE + recorded passive"
+  },
+  "family_reps_rule": "per-signal higher recorded NSP1 full sharpe, fixed before this batch ran",
+  "anchors": {
+    "members": {
+      "COMPOSITE-CE-01": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_is": {
+          "sharpe": 0.4514,
+          "annual_return": 0.0283,
+          "max_drawdown": -0.1633,
+          "trades": 302
+        },
+        "got_oos": {
+          "sharpe": 1.6085,
+          "annual_return": 0.1441,
+          "max_drawdown": -0.0567,
+          "trades": 172
+        },
+        "got_x2_full": 0.5228,
+        "got_x2_oos": 1.2661,
+        "want_x2_full": 0.5228,
+        "want_x2_oos": 1.2661
+      },
+      "COMPOSITE-CE-02": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_is": {
+          "sharpe": 0.4585,
+          "annual_return": 0.0544,
+          "max_drawdown": -0.2217,
+          "trades": 520
+        },
+        "got_oos": {
+          "sharpe": 1.4853,
+          "annual_return": 0.1089,
+          "max_drawdown": -0.0361,
+          "trades": 275
+        },
+        "got_x2_full": 0.4311,
+        "got_x2_oos": 1.1075,
+        "want_x2_full": 0.4311,
+        "want_x2_oos": 1.1075
+      },
+      "VOLATILITY-CE-01": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_is": {
+          "sharpe": 1.0275,
+          "annual_return": 0.0262,
+          "max_drawdown": -0.0378,
+          "trades": 375
+        },
+        "got_oos": {
+          "sharpe": 2.0568,
+          "annual_return": 0.0424,
+          "max_drawdown": -0.009,
+          "trades": 147
+        },
+        "got_x2_full": 0.5338,
+        "got_x2_oos": 1.1659,
+        "want_x2_full": 0.5338,
+        "want_x2_oos": 1.1659
+      }
+    },
+    "sleeves_vs_nsp1": {
+      "donchian_20_10@default": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_full": 0.0858,
+        "got_oos": 0.8297,
+        "got_trades": 1013,
+        "rec_full": 0.0858,
+        "rec_oos": 0.8297,
+        "rec_trades": 1013,
+        "got_x2_full": -0.2429,
+        "got_x2_oos": 0.5107,
+        "rec_x2_full": -0.2429,
+        "rec_x2_oos": 0.5107
+      },
+      "donchian_20_10@ce": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_full": 0.0515,
+        "got_oos": 0.5898,
+        "got_trades": 651,
+        "rec_full": 0.0515,
+        "rec_oos": 0.5898,
+        "rec_trades": 651,
+        "got_x2_full": -0.143,
+        "got_x2_oos": 0.3938,
+        "rec_x2_full": -0.143,
+        "rec_x2_oos": 0.3938
+      },
+      "double_bottom_20@default": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_full": 0.1881,
+        "got_oos": 0.5492,
+        "got_trades": 1465,
+        "rec_full": 0.1881,
+        "rec_oos": 0.5492,
+        "rec_trades": 1465,
+        "got_x2_full": -0.1985,
+        "got_x2_oos": -0.1554,
+        "rec_x2_full": -0.1985,
+        "rec_x2_oos": -0.1554
+      },
+      "double_bottom_20@ce": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_full": 0.2402,
+        "got_oos": 0.6897,
+        "got_trades": 1308,
+        "rec_full": 0.2402,
+        "rec_oos": 0.6897,
+        "rec_trades": 1308,
+        "got_x2_full": -0.1067,
+        "got_x2_oos": 0.0753,
+        "rec_x2_full": -0.1067,
+        "rec_x2_oos": 0.0753
+      },
+      "price_volume_trend_20@default": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_full": 0.1236,
+        "got_oos": 1.3773,
+        "got_trades": 1451,
+        "rec_full": 0.1236,
+        "rec_oos": 1.3773,
+        "rec_trades": 1451,
+        "got_x2_full": -0.39,
+        "got_x2_oos": 0.8116,
+        "rec_x2_full": -0.39,
+        "rec_x2_oos": 0.8116
+      },
+      "price_volume_trend_20@ce": {
+        "anchor_ok": true,
+        "x2_ok": true,
+        "got_full": 0.3097,
+        "got_oos": 1.2903,
+        "got_trades": 1142,
+        "rec_full": 0.3097,
+        "rec_oos": 1.2903,
+        "rec_trades": 1142,
+        "got_x2_full": -0.1329,
+        "got_x2_oos": 0.8366,
+        "rec_x2_full": -0.1329,
+        "rec_x2_oos": 0.8366
+      }
+    },
+    "base_vs_p3": {
+      "BASE-EW3:x1:full": {
+        "got": 0.9229,
+        "want": 0.9229,
+        "ok": true
+      },
+      "BASE-EW3:x1:oos": {
+        "got": 1.7334,
+        "want": 1.7334,
+        "ok": true
+      },
+      "BASE-EW3:x2:full": {
+        "got": 0.5754,
+        "want": 0.5754,
+        "ok": true
+      },
+      "BASE-EW3:x2:oos": {
+        "got": 1.2828,
+        "want": 1.2828,
+        "ok": true
+      },
+      "BASE-IV3:x1:full": {
+        "got": 1.1726,
+        "want": 1.1726,
+        "ok": true
+      },
+      "BASE-IV3:x1:oos": {
+        "got": 1.9733,
+        "want": 1.9733,
+        "ok": true
+      },
+      "BASE-IV3:x2:full": {
+        "got": 0.6461,
+        "want": 0.6461,
+        "ok": true
+      },
+      "BASE-IV3:x2:oos": {
+        "got": 1.3848,
+        "want": 1.3848,
+        "ok": true
+      }
+    }
+  },
+  "correlation_9curve": {
+    "full": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.48,
+          "VOLATILITY-CE-01": 0.3459,
+          "donchian_20_10@default": 0.2395,
+          "donchian_20_10@ce": 0.2453,
+          "double_bottom_20@default": 0.2226,
+          "double_bottom_20@ce": 0.2203,
+          "price_volume_trend_20@default": 0.2725,
+          "price_volume_trend_20@ce": 0.2756
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.48,
+          "COMPOSITE-CE-02": 1.0,
+          "VOLATILITY-CE-01": 0.2492,
+          "donchian_20_10@default": 0.2385,
+          "donchian_20_10@ce": 0.2395,
+          "double_bottom_20@default": 0.1678,
+          "double_bottom_20@ce": 0.1684,
+          "price_volume_trend_20@default": 0.2128,
+          "price_volume_trend_20@ce": 0.2142
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.3459,
+          "COMPOSITE-CE-02": 0.2492,
+          "VOLATILITY-CE-01": 1.0,
+          "donchian_20_10@default": 0.2664,
+          "donchian_20_10@ce": 0.2801,
+          "double_bottom_20@default": 0.1364,
+          "double_bottom_20@ce": 0.1372,
+          "price_volume_trend_20@default": 0.2489,
+          "price_volume_trend_20@ce": 0.2583
+        },
+        "donchian_20_10@default": {
+          "COMPOSITE-CE-01": 0.2395,
+          "COMPOSITE-CE-02": 0.2385,
+          "VOLATILITY-CE-01": 0.2664,
+          "donchian_20_10@default": 1.0,
+          "donchian_20_10@ce": 0.9625,
+          "double_bottom_20@default": 0.3877,
+          "double_bottom_20@ce": 0.3793,
+          "price_volume_trend_20@default": 0.5643,
+          "price_volume_trend_20@ce": 0.5756
+        },
+        "donchian_20_10@ce": {
+          "COMPOSITE-CE-01": 0.2453,
+          "COMPOSITE-CE-02": 0.2395,
+          "VOLATILITY-CE-01": 0.2801,
+          "donchian_20_10@default": 0.9625,
+          "donchian_20_10@ce": 1.0,
+          "double_bottom_20@default": 0.4115,
+          "double_bottom_20@ce": 0.4028,
+          "price_volume_trend_20@default": 0.589,
+          "price_volume_trend_20@ce": 0.5973
+        },
+        "double_bottom_20@default": {
+          "COMPOSITE-CE-01": 0.2226,
+          "COMPOSITE-CE-02": 0.1678,
+          "VOLATILITY-CE-01": 0.1364,
+          "donchian_20_10@default": 0.3877,
+          "donchian_20_10@ce": 0.4115,
+          "double_bottom_20@default": 1.0,
+          "double_bottom_20@ce": 0.9942,
+          "price_volume_trend_20@default": 0.4018,
+          "price_volume_trend_20@ce": 0.4042
+        },
+        "double_bottom_20@ce": {
+          "COMPOSITE-CE-01": 0.2203,
+          "COMPOSITE-CE-02": 0.1684,
+          "VOLATILITY-CE-01": 0.1372,
+          "donchian_20_10@default": 0.3793,
+          "donchian_20_10@ce": 0.4028,
+          "double_bottom_20@default": 0.9942,
+          "double_bottom_20@ce": 1.0,
+          "price_volume_trend_20@default": 0.3854,
+          "price_volume_trend_20@ce": 0.3893
+        },
+        "price_volume_trend_20@default": {
+          "COMPOSITE-CE-01": 0.2725,
+          "COMPOSITE-CE-02": 0.2128,
+          "VOLATILITY-CE-01": 0.2489,
+          "donchian_20_10@default": 0.5643,
+          "donchian_20_10@ce": 0.589,
+          "double_bottom_20@default": 0.4018,
+          "double_bottom_20@ce": 0.3854,
+          "price_volume_trend_20@default": 1.0,
+          "price_volume_trend_20@ce": 0.9698
+        },
+        "price_volume_trend_20@ce": {
+          "COMPOSITE-CE-01": 0.2756,
+          "COMPOSITE-CE-02": 0.2142,
+          "VOLATILITY-CE-01": 0.2583,
+          "donchian_20_10@default": 0.5756,
+          "donchian_20_10@ce": 0.5973,
+          "double_bottom_20@default": 0.4042,
+          "double_bottom_20@ce": 0.3893,
+          "price_volume_trend_20@default": 0.9698,
+          "price_volume_trend_20@ce": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.48,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.3459,
+        "COMPOSITE-CE-01|donchian_20_10@default": 0.2395,
+        "COMPOSITE-CE-01|donchian_20_10@ce": 0.2453,
+        "COMPOSITE-CE-01|double_bottom_20@default": 0.2226,
+        "COMPOSITE-CE-01|double_bottom_20@ce": 0.2203,
+        "COMPOSITE-CE-01|price_volume_trend_20@default": 0.2725,
+        "COMPOSITE-CE-01|price_volume_trend_20@ce": 0.2756,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.2492,
+        "COMPOSITE-CE-02|donchian_20_10@default": 0.2385,
+        "COMPOSITE-CE-02|donchian_20_10@ce": 0.2395,
+        "COMPOSITE-CE-02|double_bottom_20@default": 0.1678,
+        "COMPOSITE-CE-02|double_bottom_20@ce": 0.1684,
+        "COMPOSITE-CE-02|price_volume_trend_20@default": 0.2128,
+        "COMPOSITE-CE-02|price_volume_trend_20@ce": 0.2142,
+        "VOLATILITY-CE-01|donchian_20_10@default": 0.2664,
+        "VOLATILITY-CE-01|donchian_20_10@ce": 0.2801,
+        "VOLATILITY-CE-01|double_bottom_20@default": 0.1364,
+        "VOLATILITY-CE-01|double_bottom_20@ce": 0.1372,
+        "VOLATILITY-CE-01|price_volume_trend_20@default": 0.2489,
+        "VOLATILITY-CE-01|price_volume_trend_20@ce": 0.2583,
+        "donchian_20_10@default|donchian_20_10@ce": 0.9625,
+        "donchian_20_10@default|double_bottom_20@default": 0.3877,
+        "donchian_20_10@default|double_bottom_20@ce": 0.3793,
+        "donchian_20_10@default|price_volume_trend_20@default": 0.5643,
+        "donchian_20_10@default|price_volume_trend_20@ce": 0.5756,
+        "donchian_20_10@ce|double_bottom_20@default": 0.4115,
+        "donchian_20_10@ce|double_bottom_20@ce": 0.4028,
+        "donchian_20_10@ce|price_volume_trend_20@default": 0.589,
+        "donchian_20_10@ce|price_volume_trend_20@ce": 0.5973,
+        "double_bottom_20@default|double_bottom_20@ce": 0.9942,
+        "double_bottom_20@default|price_volume_trend_20@default": 0.4018,
+        "double_bottom_20@default|price_volume_trend_20@ce": 0.4042,
+        "double_bottom_20@ce|price_volume_trend_20@default": 0.3854,
+        "double_bottom_20@ce|price_volume_trend_20@ce": 0.3893,
+        "price_volume_trend_20@default|price_volume_trend_20@ce": 0.9698
+      },
+      "avg_pairwise": 0.3759,
+      "band": "low"
+    },
+    "is": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.4242,
+          "VOLATILITY-CE-01": 0.3357,
+          "donchian_20_10@default": 0.1302,
+          "donchian_20_10@ce": 0.1382,
+          "double_bottom_20@default": 0.186,
+          "double_bottom_20@ce": 0.1881,
+          "price_volume_trend_20@default": 0.191,
+          "price_volume_trend_20@ce": 0.2032
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.4242,
+          "COMPOSITE-CE-02": 1.0,
+          "VOLATILITY-CE-01": 0.2187,
+          "donchian_20_10@default": 0.163,
+          "donchian_20_10@ce": 0.1628,
+          "double_bottom_20@default": 0.1246,
+          "double_bottom_20@ce": 0.127,
+          "price_volume_trend_20@default": 0.1426,
+          "price_volume_trend_20@ce": 0.1445
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.3357,
+          "COMPOSITE-CE-02": 0.2187,
+          "VOLATILITY-CE-01": 1.0,
+          "donchian_20_10@default": 0.2634,
+          "donchian_20_10@ce": 0.2703,
+          "double_bottom_20@default": 0.1129,
+          "double_bottom_20@ce": 0.1138,
+          "price_volume_trend_20@default": 0.239,
+          "price_volume_trend_20@ce": 0.2493
+        },
+        "donchian_20_10@default": {
+          "COMPOSITE-CE-01": 0.1302,
+          "COMPOSITE-CE-02": 0.163,
+          "VOLATILITY-CE-01": 0.2634,
+          "donchian_20_10@default": 1.0,
+          "donchian_20_10@ce": 0.9563,
+          "double_bottom_20@default": 0.3339,
+          "double_bottom_20@ce": 0.3265,
+          "price_volume_trend_20@default": 0.5264,
+          "price_volume_trend_20@ce": 0.5443
+        },
+        "donchian_20_10@ce": {
+          "COMPOSITE-CE-01": 0.1382,
+          "COMPOSITE-CE-02": 0.1628,
+          "VOLATILITY-CE-01": 0.2703,
+          "donchian_20_10@default": 0.9563,
+          "donchian_20_10@ce": 1.0,
+          "double_bottom_20@default": 0.3641,
+          "double_bottom_20@ce": 0.3552,
+          "price_volume_trend_20@default": 0.5646,
+          "price_volume_trend_20@ce": 0.5764
+        },
+        "double_bottom_20@default": {
+          "COMPOSITE-CE-01": 0.186,
+          "COMPOSITE-CE-02": 0.1246,
+          "VOLATILITY-CE-01": 0.1129,
+          "donchian_20_10@default": 0.3339,
+          "donchian_20_10@ce": 0.3641,
+          "double_bottom_20@default": 1.0,
+          "double_bottom_20@ce": 0.995,
+          "price_volume_trend_20@default": 0.3676,
+          "price_volume_trend_20@ce": 0.373
+        },
+        "double_bottom_20@ce": {
+          "COMPOSITE-CE-01": 0.1881,
+          "COMPOSITE-CE-02": 0.127,
+          "VOLATILITY-CE-01": 0.1138,
+          "donchian_20_10@default": 0.3265,
+          "donchian_20_10@ce": 0.3552,
+          "double_bottom_20@default": 0.995,
+          "double_bottom_20@ce": 1.0,
+          "price_volume_trend_20@default": 0.3507,
+          "price_volume_trend_20@ce": 0.3574
+        },
+        "price_volume_trend_20@default": {
+          "COMPOSITE-CE-01": 0.191,
+          "COMPOSITE-CE-02": 0.1426,
+          "VOLATILITY-CE-01": 0.239,
+          "donchian_20_10@default": 0.5264,
+          "donchian_20_10@ce": 0.5646,
+          "double_bottom_20@default": 0.3676,
+          "double_bottom_20@ce": 0.3507,
+          "price_volume_trend_20@default": 1.0,
+          "price_volume_trend_20@ce": 0.9702
+        },
+        "price_volume_trend_20@ce": {
+          "COMPOSITE-CE-01": 0.2032,
+          "COMPOSITE-CE-02": 0.1445,
+          "VOLATILITY-CE-01": 0.2493,
+          "donchian_20_10@default": 0.5443,
+          "donchian_20_10@ce": 0.5764,
+          "double_bottom_20@default": 0.373,
+          "double_bottom_20@ce": 0.3574,
+          "price_volume_trend_20@default": 0.9702,
+          "price_volume_trend_20@ce": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.4242,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.3357,
+        "COMPOSITE-CE-01|donchian_20_10@default": 0.1302,
+        "COMPOSITE-CE-01|donchian_20_10@ce": 0.1382,
+        "COMPOSITE-CE-01|double_bottom_20@default": 0.186,
+        "COMPOSITE-CE-01|double_bottom_20@ce": 0.1881,
+        "COMPOSITE-CE-01|price_volume_trend_20@default": 0.191,
+        "COMPOSITE-CE-01|price_volume_trend_20@ce": 0.2032,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.2187,
+        "COMPOSITE-CE-02|donchian_20_10@default": 0.163,
+        "COMPOSITE-CE-02|donchian_20_10@ce": 0.1628,
+        "COMPOSITE-CE-02|double_bottom_20@default": 0.1246,
+        "COMPOSITE-CE-02|double_bottom_20@ce": 0.127,
+        "COMPOSITE-CE-02|price_volume_trend_20@default": 0.1426,
+        "COMPOSITE-CE-02|price_volume_trend_20@ce": 0.1445,
+        "VOLATILITY-CE-01|donchian_20_10@default": 0.2634,
+        "VOLATILITY-CE-01|donchian_20_10@ce": 0.2703,
+        "VOLATILITY-CE-01|double_bottom_20@default": 0.1129,
+        "VOLATILITY-CE-01|double_bottom_20@ce": 0.1138,
+        "VOLATILITY-CE-01|price_volume_trend_20@default": 0.239,
+        "VOLATILITY-CE-01|price_volume_trend_20@ce": 0.2493,
+        "donchian_20_10@default|donchian_20_10@ce": 0.9563,
+        "donchian_20_10@default|double_bottom_20@default": 0.3339,
+        "donchian_20_10@default|double_bottom_20@ce": 0.3265,
+        "donchian_20_10@default|price_volume_trend_20@default": 0.5264,
+        "donchian_20_10@default|price_volume_trend_20@ce": 0.5443,
+        "donchian_20_10@ce|double_bottom_20@default": 0.3641,
+        "donchian_20_10@ce|double_bottom_20@ce": 0.3552,
+        "donchian_20_10@ce|price_volume_trend_20@default": 0.5646,
+        "donchian_20_10@ce|price_volume_trend_20@ce": 0.5764,
+        "double_bottom_20@default|double_bottom_20@ce": 0.995,
+        "double_bottom_20@default|price_volume_trend_20@default": 0.3676,
+        "double_bottom_20@default|price_volume_trend_20@ce": 0.373,
+        "double_bottom_20@ce|price_volume_trend_20@default": 0.3507,
+        "double_bottom_20@ce|price_volume_trend_20@ce": 0.3574,
+        "price_volume_trend_20@default|price_volume_trend_20@ce": 0.9702
+      },
+      "avg_pairwise": 0.3358,
+      "band": "low"
+    },
+    "oos": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.8687,
+          "VOLATILITY-CE-01": 0.4023,
+          "donchian_20_10@default": 0.4807,
+          "donchian_20_10@ce": 0.4867,
+          "double_bottom_20@default": 0.4341,
+          "double_bottom_20@ce": 0.4207,
+          "price_volume_trend_20@default": 0.4873,
+          "price_volume_trend_20@ce": 0.4734
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.8687,
+          "COMPOSITE-CE-02": 1.0,
+          "VOLATILITY-CE-01": 0.4717,
+          "donchian_20_10@default": 0.6783,
+          "donchian_20_10@ce": 0.6903,
+          "double_bottom_20@default": 0.5859,
+          "double_bottom_20@ce": 0.5786,
+          "price_volume_trend_20@default": 0.6612,
+          "price_volume_trend_20@ce": 0.6652
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.4023,
+          "COMPOSITE-CE-02": 0.4717,
+          "VOLATILITY-CE-01": 1.0,
+          "donchian_20_10@default": 0.282,
+          "donchian_20_10@ce": 0.3205,
+          "double_bottom_20@default": 0.2963,
+          "double_bottom_20@ce": 0.3011,
+          "price_volume_trend_20@default": 0.2879,
+          "price_volume_trend_20@ce": 0.2942
+        },
+        "donchian_20_10@default": {
+          "COMPOSITE-CE-01": 0.4807,
+          "COMPOSITE-CE-02": 0.6783,
+          "VOLATILITY-CE-01": 0.282,
+          "donchian_20_10@default": 1.0,
+          "donchian_20_10@ce": 0.9798,
+          "double_bottom_20@default": 0.7204,
+          "double_bottom_20@ce": 0.7172,
+          "price_volume_trend_20@default": 0.6875,
+          "price_volume_trend_20@ce": 0.6809
+        },
+        "donchian_20_10@ce": {
+          "COMPOSITE-CE-01": 0.4867,
+          "COMPOSITE-CE-02": 0.6903,
+          "VOLATILITY-CE-01": 0.3205,
+          "donchian_20_10@default": 0.9798,
+          "donchian_20_10@ce": 1.0,
+          "double_bottom_20@default": 0.7164,
+          "double_bottom_20@ce": 0.7184,
+          "price_volume_trend_20@default": 0.6708,
+          "price_volume_trend_20@ce": 0.67
+        },
+        "double_bottom_20@default": {
+          "COMPOSITE-CE-01": 0.4341,
+          "COMPOSITE-CE-02": 0.5859,
+          "VOLATILITY-CE-01": 0.2963,
+          "donchian_20_10@default": 0.7204,
+          "donchian_20_10@ce": 0.7164,
+          "double_bottom_20@default": 1.0,
+          "double_bottom_20@ce": 0.9863,
+          "price_volume_trend_20@default": 0.6402,
+          "price_volume_trend_20@ce": 0.6246
+        },
+        "double_bottom_20@ce": {
+          "COMPOSITE-CE-01": 0.4207,
+          "COMPOSITE-CE-02": 0.5786,
+          "VOLATILITY-CE-01": 0.3011,
+          "donchian_20_10@default": 0.7172,
+          "donchian_20_10@ce": 0.7184,
+          "double_bottom_20@default": 0.9863,
+          "double_bottom_20@ce": 1.0,
+          "price_volume_trend_20@default": 0.6339,
+          "price_volume_trend_20@ce": 0.6215
+        },
+        "price_volume_trend_20@default": {
+          "COMPOSITE-CE-01": 0.4873,
+          "COMPOSITE-CE-02": 0.6612,
+          "VOLATILITY-CE-01": 0.2879,
+          "donchian_20_10@default": 0.6875,
+          "donchian_20_10@ce": 0.6708,
+          "double_bottom_20@default": 0.6402,
+          "double_bottom_20@ce": 0.6339,
+          "price_volume_trend_20@default": 1.0,
+          "price_volume_trend_20@ce": 0.9688
+        },
+        "price_volume_trend_20@ce": {
+          "COMPOSITE-CE-01": 0.4734,
+          "COMPOSITE-CE-02": 0.6652,
+          "VOLATILITY-CE-01": 0.2942,
+          "donchian_20_10@default": 0.6809,
+          "donchian_20_10@ce": 0.67,
+          "double_bottom_20@default": 0.6246,
+          "double_bottom_20@ce": 0.6215,
+          "price_volume_trend_20@default": 0.9688,
+          "price_volume_trend_20@ce": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.8687,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.4023,
+        "COMPOSITE-CE-01|donchian_20_10@default": 0.4807,
+        "COMPOSITE-CE-01|donchian_20_10@ce": 0.4867,
+        "COMPOSITE-CE-01|double_bottom_20@default": 0.4341,
+        "COMPOSITE-CE-01|double_bottom_20@ce": 0.4207,
+        "COMPOSITE-CE-01|price_volume_trend_20@default": 0.4873,
+        "COMPOSITE-CE-01|price_volume_trend_20@ce": 0.4734,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.4717,
+        "COMPOSITE-CE-02|donchian_20_10@default": 0.6783,
+        "COMPOSITE-CE-02|donchian_20_10@ce": 0.6903,
+        "COMPOSITE-CE-02|double_bottom_20@default": 0.5859,
+        "COMPOSITE-CE-02|double_bottom_20@ce": 0.5786,
+        "COMPOSITE-CE-02|price_volume_trend_20@default": 0.6612,
+        "COMPOSITE-CE-02|price_volume_trend_20@ce": 0.6652,
+        "VOLATILITY-CE-01|donchian_20_10@default": 0.282,
+        "VOLATILITY-CE-01|donchian_20_10@ce": 0.3205,
+        "VOLATILITY-CE-01|double_bottom_20@default": 0.2963,
+        "VOLATILITY-CE-01|double_bottom_20@ce": 0.3011,
+        "VOLATILITY-CE-01|price_volume_trend_20@default": 0.2879,
+        "VOLATILITY-CE-01|price_volume_trend_20@ce": 0.2942,
+        "donchian_20_10@default|donchian_20_10@ce": 0.9798,
+        "donchian_20_10@default|double_bottom_20@default": 0.7204,
+        "donchian_20_10@default|double_bottom_20@ce": 0.7172,
+        "donchian_20_10@default|price_volume_trend_20@default": 0.6875,
+        "donchian_20_10@default|price_volume_trend_20@ce": 0.6809,
+        "donchian_20_10@ce|double_bottom_20@default": 0.7164,
+        "donchian_20_10@ce|double_bottom_20@ce": 0.7184,
+        "donchian_20_10@ce|price_volume_trend_20@default": 0.6708,
+        "donchian_20_10@ce|price_volume_trend_20@ce": 0.67,
+        "double_bottom_20@default|double_bottom_20@ce": 0.9863,
+        "double_bottom_20@default|price_volume_trend_20@default": 0.6402,
+        "double_bottom_20@default|price_volume_trend_20@ce": 0.6246,
+        "double_bottom_20@ce|price_volume_trend_20@default": 0.6339,
+        "double_bottom_20@ce|price_volume_trend_20@ce": 0.6215,
+        "price_volume_trend_20@default|price_volume_trend_20@ce": 0.9688
+      },
+      "avg_pairwise": 0.589,
+      "band": "low"
+    }
+  },
+  "schemes": {
+    "BASE-EW3": {
+      "kind": "EW",
+      "members": [
+        "COMPOSITE-CE-01",
+        "COMPOSITE-CE-02",
+        "VOLATILITY-CE-01"
+      ],
+      "weights": {
+        "COMPOSITE-CE-01": 0.333333,
+        "COMPOSITE-CE-02": 0.333333,
+        "VOLATILITY-CE-01": 0.333333
+      },
+      "x1": {
+        "full": {
+          "sharpe": 0.9229,
+          "annual_return": 0.0531,
+          "max_drawdown": -0.1247
+        },
+        "oos": {
+          "sharpe": 1.7334,
+          "annual_return": 0.0996,
+          "max_drawdown": -0.0261
+        },
+        "n_trades": 1791,
+        "yearly": {
+          "2020": 0.0275,
+          "2021": 0.044,
+          "2022": -0.0408,
+          "2023": 0.04,
+          "2024": 0.1069,
+          "2025": 0.1174,
+          "2026": 0.0423
+        },
+        "worst_year": -0.0408,
+        "clauses": {
+          "i_beats_rand_p95": true,
+          "ii_ann_pos": true,
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": true
+        },
+        "member_sharpes": {
+          "COMPOSITE-CE-01": 0.8114,
+          "COMPOSITE-CE-02": 0.6099,
+          "VOLATILITY-CE-01": 1.2578
+        },
+        "weighted_mean_member_sharpe": 0.893,
+        "benefit": 0.0299,
+        "dr": 1.0334,
+        "x2_survive": true,
+        "validated": true
+      },
+      "x2": {
+        "full": {
+          "sharpe": 0.5754,
+          "annual_return": 0.0339,
+          "max_drawdown": -0.1507
+        },
+        "oos": {
+          "sharpe": 1.2828,
+          "annual_return": 0.0803,
+          "max_drawdown": -0.0297
+        },
+        "n_trades": 1777,
+        "yearly": {
+          "2020": 0.0208,
+          "2021": 0.016,
+          "2022": -0.0575,
+          "2023": 0.0214,
+          "2024": 0.0844,
+          "2025": 0.1007,
+          "2026": 0.0269
+        },
+        "worst_year": -0.0575
+      }
+    },
+    "BASE-IV3": {
+      "kind": "IV",
+      "members": [
+        "COMPOSITE-CE-01",
+        "COMPOSITE-CE-02",
+        "VOLATILITY-CE-01"
+      ],
+      "weights": {
+        "COMPOSITE-CE-01": 0.24250806291972876,
+        "COMPOSITE-CE-02": 0.12143197176271885,
+        "VOLATILITY-CE-01": 0.6360599653175524
+      },
+      "x1": {
+        "full": {
+          "sharpe": 1.1726,
+          "annual_return": 0.0425,
+          "max_drawdown": -0.0801
+        },
+        "oos": {
+          "sharpe": 1.9733,
+          "annual_return": 0.0765,
+          "max_drawdown": -0.0169
+        },
+        "n_trades": 1791,
+        "yearly": {
+          "2020": 0.0368,
+          "2021": 0.0287,
+          "2022": -0.0351,
+          "2023": 0.0361,
+          "2024": 0.0815,
+          "2025": 0.0865,
+          "2026": 0.0362
+        },
+        "worst_year": -0.0351,
+        "clauses": {
+          "i_beats_rand_p95": true,
+          "ii_ann_pos": true,
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": true
+        },
+        "member_sharpes": {
+          "COMPOSITE-CE-01": 0.8114,
+          "COMPOSITE-CE-02": 0.6099,
+          "VOLATILITY-CE-01": 1.2578
+        },
+        "weighted_mean_member_sharpe": 1.0709,
+        "benefit": 0.1017,
+        "dr": 1.095,
+        "x2_survive": true,
+        "validated": true
+      },
+      "x2": {
+        "full": {
+          "sharpe": 0.6461,
+          "annual_return": 0.0242,
+          "max_drawdown": -0.1011
+        },
+        "oos": {
+          "sharpe": 1.3848,
+          "annual_return": 0.0586,
+          "max_drawdown": -0.0199
+        },
+        "n_trades": 1777,
+        "yearly": {
+          "2020": 0.0251,
+          "2021": 0.0054,
+          "2022": -0.0529,
+          "2023": 0.0192,
+          "2024": 0.0623,
+          "2025": 0.0702,
+          "2026": 0.0226
+        },
+        "worst_year": -0.0529
+      }
+    },
+    "A-EW9": {
+      "kind": "EW",
+      "members": [
+        "COMPOSITE-CE-01",
+        "COMPOSITE-CE-02",
+        "VOLATILITY-CE-01",
+        "donchian_20_10@default",
+        "donchian_20_10@ce",
+        "double_bottom_20@default",
+        "double_bottom_20@ce",
+        "price_volume_trend_20@default",
+        "price_volume_trend_20@ce"
+      ],
+      "weights": {
+        "COMPOSITE-CE-01": 0.111111,
+        "COMPOSITE-CE-02": 0.111111,
+        "VOLATILITY-CE-01": 0.111111,
+        "donchian_20_10@default": 0.111111,
+        "donchian_20_10@ce": 0.111111,
+        "double_bottom_20@default": 0.111111,
+        "double_bottom_20@ce": 0.111111,
+        "price_volume_trend_20@default": 0.111111,
+        "price_volume_trend_20@ce": 0.111111
+      },
+      "x1": {
+        "full": {
+          "sharpe": 0.475,
+          "annual_return": 0.0265,
+          "max_drawdown": -0.1466
+        },
+        "oos": {
+          "sharpe": 1.3393,
+          "annual_return": 0.0797,
+          "max_drawdown": -0.0371
+        },
+        "n_trades": 8821,
+        "yearly": {
+          "2020": 0.0707,
+          "2021": -0.0263,
+          "2022": -0.0826,
+          "2023": 0.0026,
+          "2024": 0.0856,
+          "2025": 0.1149,
+          "2026": 0.0123
+        },
+        "worst_year": -0.0826,
+        "clauses": {
+          "i_beats_rand_p95": true,
+          "ii_ann_pos": true,
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": true
+        },
+        "member_sharpes": {
+          "COMPOSITE-CE-01": 0.8114,
+          "COMPOSITE-CE-02": 0.6099,
+          "VOLATILITY-CE-01": 1.2578,
+          "donchian_20_10@default": 0.0858,
+          "donchian_20_10@ce": 0.0515,
+          "double_bottom_20@default": 0.1881,
+          "double_bottom_20@ce": 0.2402,
+          "price_volume_trend_20@default": 0.1236,
+          "price_volume_trend_20@ce": 0.3097
+        },
+        "weighted_mean_member_sharpe": 0.4087,
+        "benefit": 0.0663,
+        "dr": 1.1623,
+        "x2_survive": false,
+        "validated": true
+      },
+      "x2": {
+        "full": {
+          "sharpe": -0.0425,
+          "annual_return": -0.0049,
+          "max_drawdown": -0.2274
+        },
+        "oos": {
+          "sharpe": 0.7942,
+          "annual_return": 0.0548,
+          "max_drawdown": -0.0518
+        },
+        "n_trades": 8807,
+        "yearly": {
+          "2020": 0.0484,
+          "2021": -0.0615,
+          "2022": -0.1187,
+          "2023": -0.034,
+          "2024": 0.0578,
+          "2025": 0.0988,
+          "2026": -0.013
+        },
+        "worst_year": -0.1187
+      }
+    },
+    "A-IV9": {
+      "kind": "IV",
+      "members": [
+        "COMPOSITE-CE-01",
+        "COMPOSITE-CE-02",
+        "VOLATILITY-CE-01",
+        "donchian_20_10@default",
+        "donchian_20_10@ce",
+        "double_bottom_20@default",
+        "double_bottom_20@ce",
+        "price_volume_trend_20@default",
+        "price_volume_trend_20@ce"
+      ],
+      "weights": {
+        "COMPOSITE-CE-01": 0.12100956236706563,
+        "COMPOSITE-CE-02": 0.06059357195575143,
+        "VOLATILITY-CE-01": 0.31738877922490005,
+        "donchian_20_10@default": 0.08942299359025259,
+        "donchian_20_10@ce": 0.08951626947515645,
+        "double_bottom_20@default": 0.0647866317044537,
+        "double_bottom_20@ce": 0.06634601670249327,
+        "price_volume_trend_20@default": 0.08879991870651191,
+        "price_volume_trend_20@ce": 0.10213625627341508
+      },
+      "x1": {
+        "full": {
+          "sharpe": 0.6122,
+          "annual_return": 0.0275,
+          "max_drawdown": -0.1197
+        },
+        "oos": {
+          "sharpe": 1.5313,
+          "annual_return": 0.0739,
+          "max_drawdown": -0.0272
+        },
+        "n_trades": 8821,
+        "yearly": {
+          "2020": 0.0634,
+          "2021": -0.0184,
+          "2022": -0.0654,
+          "2023": 0.0088,
+          "2024": 0.0742,
+          "2025": 0.0991,
+          "2026": 0.0185
+        },
+        "worst_year": -0.0654,
+        "clauses": {
+          "i_beats_rand_p95": true,
+          "ii_ann_pos": true,
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": true
+        },
+        "member_sharpes": {
+          "COMPOSITE-CE-01": 0.8114,
+          "COMPOSITE-CE-02": 0.6099,
+          "VOLATILITY-CE-01": 1.2578,
+          "donchian_20_10@default": 0.0858,
+          "donchian_20_10@ce": 0.0515,
+          "double_bottom_20@default": 0.1881,
+          "double_bottom_20@ce": 0.2402,
+          "price_volume_trend_20@default": 0.1236,
+          "price_volume_trend_20@ce": 0.3097
+        },
+        "weighted_mean_member_sharpe": 0.6174,
+        "benefit": -0.0052,
+        "dr": 0.9916,
+        "x2_survive": false,
+        "validated": false
+      },
+      "x2": {
+        "full": {
+          "sharpe": 0.0281,
+          "annual_return": 0.0001,
+          "max_drawdown": -0.1808
+        },
+        "oos": {
+          "sharpe": 0.9357,
+          "annual_return": 0.0516,
+          "max_drawdown": -0.0364
+        },
+        "n_trades": 8807,
+        "yearly": {
+          "2020": 0.0428,
+          "2021": -0.0491,
+          "2022": -0.0962,
+          "2023": -0.0216,
+          "2024": 0.0492,
+          "2025": 0.0826,
+          "2026": -0.0022
+        },
+        "worst_year": -0.0962
+      }
+    },
+    "B-EW6": {
+      "kind": "EW",
+      "members": [
+        "COMPOSITE-CE-01",
+        "COMPOSITE-CE-02",
+        "VOLATILITY-CE-01",
+        "donchian_20_10@default",
+        "double_bottom_20@ce",
+        "price_volume_trend_20@ce"
+      ],
+      "weights": {
+        "COMPOSITE-CE-01": 0.166667,
+        "COMPOSITE-CE-02": 0.166667,
+        "VOLATILITY-CE-01": 0.166667,
+        "donchian_20_10@default": 0.166667,
+        "double_bottom_20@ce": 0.166667,
+        "price_volume_trend_20@ce": 0.166667
+      },
+      "x1": {
+        "full": {
+          "sharpe": 0.6748,
+          "annual_return": 0.0352,
+          "max_drawdown": -0.1311
+        },
+        "oos": {
+          "sharpe": 1.5241,
+          "annual_return": 0.0859,
+          "max_drawdown": -0.0316
+        },
+        "n_trades": 5254,
+        "yearly": {
+          "2020": 0.0607,
+          "2021": -0.0034,
+          "2022": -0.0695,
+          "2023": 0.0137,
+          "2024": 0.0904,
+          "2025": 0.1176,
+          "2026": 0.0201
+        },
+        "worst_year": -0.0695,
+        "clauses": {
+          "i_beats_rand_p95": true,
+          "ii_ann_pos": true,
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": true
+        },
+        "member_sharpes": {
+          "COMPOSITE-CE-01": 0.8114,
+          "COMPOSITE-CE-02": 0.6099,
+          "VOLATILITY-CE-01": 1.2578,
+          "donchian_20_10@default": 0.0858,
+          "double_bottom_20@ce": 0.2402,
+          "price_volume_trend_20@ce": 0.3097
+        },
+        "weighted_mean_member_sharpe": 0.5525,
+        "benefit": 0.1223,
+        "dr": 1.2214,
+        "x2_survive": false,
+        "validated": true
+      },
+      "x2": {
+        "full": {
+          "sharpe": 0.1649,
+          "annual_return": 0.008,
+          "max_drawdown": -0.1812
+        },
+        "oos": {
+          "sharpe": 0.9933,
+          "annual_return": 0.0638,
+          "max_drawdown": -0.0417
+        },
+        "n_trades": 5240,
+        "yearly": {
+          "2020": 0.0423,
+          "2021": -0.0362,
+          "2022": -0.0994,
+          "2023": -0.0165,
+          "2024": 0.0646,
+          "2025": 0.1021,
+          "2026": -0.0013
+        },
+        "worst_year": -0.0994
+      }
+    },
+    "B-IV6": {
+      "kind": "IV",
+      "members": [
+        "COMPOSITE-CE-01",
+        "COMPOSITE-CE-02",
+        "VOLATILITY-CE-01",
+        "donchian_20_10@default",
+        "double_bottom_20@ce",
+        "price_volume_trend_20@ce"
+      ],
+      "weights": {
+        "COMPOSITE-CE-01": 0.15987582665965183,
+        "COMPOSITE-CE-02": 0.08005522222534227,
+        "VOLATILITY-CE-01": 0.419328790704634,
+        "donchian_20_10@default": 0.11814417590616277,
+        "double_bottom_20@ce": 0.08765525681111833,
+        "price_volume_trend_20@ce": 0.13494072769309073
+      },
+      "x1": {
+        "full": {
+          "sharpe": 0.8537,
+          "annual_return": 0.0336,
+          "max_drawdown": -0.0916
+        },
+        "oos": {
+          "sharpe": 1.745,
+          "annual_return": 0.0754,
+          "max_drawdown": -0.0213
+        },
+        "n_trades": 5254,
+        "yearly": {
+          "2020": 0.0552,
+          "2021": 0.0006,
+          "2022": -0.0535,
+          "2023": 0.0184,
+          "2024": 0.0758,
+          "2025": 0.096,
+          "2026": 0.0245
+        },
+        "worst_year": -0.0535,
+        "clauses": {
+          "i_beats_rand_p95": true,
+          "ii_ann_pos": true,
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": true
+        },
+        "member_sharpes": {
+          "COMPOSITE-CE-01": 0.8114,
+          "COMPOSITE-CE-02": 0.6099,
+          "VOLATILITY-CE-01": 1.2578,
+          "donchian_20_10@default": 0.0858,
+          "double_bottom_20@ce": 0.2402,
+          "price_volume_trend_20@ce": 0.3097
+        },
+        "weighted_mean_member_sharpe": 0.779,
+        "benefit": 0.0747,
+        "dr": 1.0959,
+        "x2_survive": false,
+        "validated": true
+      },
+      "x2": {
+        "full": {
+          "sharpe": 0.2472,
+          "annual_return": 0.0097,
+          "max_drawdown": -0.1378
+        },
+        "oos": {
+          "sharpe": 1.135,
+          "annual_return": 0.0551,
+          "max_drawdown": -0.027
+        },
+        "n_trades": 5240,
+        "yearly": {
+          "2020": 0.0375,
+          "2021": -0.0274,
+          "2022": -0.0794,
+          "2023": -0.0067,
+          "2024": 0.053,
+          "2025": 0.0798,
+          "2026": 0.0069
+        },
+        "worst_year": -0.0794
+      }
+    }
+  },
+  "admission_clauses": {
+    "A-EW9": {
+      "c1_beat_base_by_margin": false,
+      "c2_oos_no_degrade": false,
+      "c3_validated_p3_template": true,
+      "c4_x2_survive": false,
+      "got_full": 0.475,
+      "need_full": 0.9729000000000001,
+      "got_oos": 1.3393,
+      "need_oos": 1.7334,
+      "admitted": false
+    },
+    "B-EW6": {
+      "c1_beat_base_by_margin": false,
+      "c2_oos_no_degrade": false,
+      "c3_validated_p3_template": true,
+      "c4_x2_survive": false,
+      "got_full": 0.6748,
+      "need_full": 0.9729000000000001,
+      "got_oos": 1.5241,
+      "need_oos": 1.7334,
+      "admitted": false
+    }
+  },
+  "verdict": {
+    "template": "SLEEVE admission one-shot (EW carrier; IV = secondary evidence only)",
+    "void": false,
+    "sleeve_admission": false,
+    "admitted_schemes": [],
+    "fail_branch": "no scheme admitted: sleeves archived as material with real variance-reduction but insufficient alpha vs the incumbent; NO scheme/weight/member retries (p-hacking ban); core48 in-pool diversification material exhausted -- next material must come from outside the pool (cash-leg engine feature = user-side decision; pool expansion naming audit = J9 data source, outside this node's mandate), both via new pre-registration"
+  },
+  "trials_ledger": [
+    {
+      "batch": "432-MA-param-grid (pre-plan)",
+      "n": 432
+    },
+    {
+      "batch": "J6-factor-IC-study",
+      "n": 30
+    },
+    {
+      "batch": "P1-strategy-screen",
+      "n": 59
+    },
+    {
+      "batch": "P2-null-calibration",
+      "n": 122
+    },
+    {
+      "batch": "P2-survivor-deepening",
+      "n": 27
+    },
+    {
+      "batch": "J14-low-churn-family",
+      "n": 26
+    },
+    {
+      "batch": "J15-combined-exit-softening",
+      "n": 12
+    },
+    {
+      "batch": "J19-ce-transfer",
+      "n": 9
+    },
+    {
+      "batch": "P3-portfolio-validation",
+      "n": 10,
+      "note": "6 engine member runs (anchor-cum-sleeve) + 4 portfolio evaluations (derived, non-engine)"
+    },
+    {
+      "batch": "LFC-P1-mini-screen",
+      "n": 145,
+      "note": "20 cells x(1x+x2) + 100 random + 3 trader anchors + 2 passive; pre-registered n=145 (research/LFC_P1_SCREEN.md sec.7)"
+    },
+    {
+      "batch": "NSP1-new-signal-mini-screen",
+      "n": 153,
+      "note": "24 cells x(1x+x2) + 100 random + 3 trader anchors + 2 passive; pre-registered n=153 (research/NEW_SIGNAL_P1.md sec.7)"
+    },
+    {
+      "batch": "G2-NSP1-deepening",
+      "n": 18,
+      "note": "7+7 OAT neighborhood 1x + 2 centers x(x2,x3) cost stress; pre-registered n=18 (research/G2_NSP1.md sec.7); gates on recorded constants (CE i-line 0.4229, vi 0.4004)"
+    },
+    {
+      "batch": "SLEEVE-P3-admission",
+      "n": 30,
+      "note": "18 engine runs (3 members x2 anchor-cum-sleeve + 6 sleeves x2 NSP1-record anchor) + 12 portfolio evaluations (derived, non-engine); pre-registered n=30 (research/SLEEVE_P3.md sec.4)"
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 13.0,
+    "n_backtests": 18,
+    "n_portfolio_evals": 12,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}

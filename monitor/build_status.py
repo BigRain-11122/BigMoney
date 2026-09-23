@@ -146,6 +146,7 @@ def _gate_chain(bt: dict) -> dict:
     lfc = _read_json(os.path.join(res, "lfc_p1.json")) or {}
     nsp = _read_json(os.path.join(res, "new_signal_p1.json")) or {}
     g2n = _read_json(os.path.join(res, "g2_nsp1.json")) or {}
+    slp = _read_json(os.path.join(res, "sleeve_p3.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -161,7 +162,8 @@ def _gate_chain(bt: dict) -> dict:
     lfc_gate = lfc.get("gate") or {}
     traders = (ce.get("traders_registered") or []) + \
               (ct.get("traders_registered") or [])
-    ledger = (g2n.get("trials_ledger") or nsp.get("trials_ledger")
+    ledger = (slp.get("trials_ledger")
+              or g2n.get("trials_ledger") or nsp.get("trials_ledger")
               or lfc.get("trials_ledger") or ct.get("trials_ledger")
               or ce.get("trials_ledger") or lc.get("trials_ledger")
               or dep.get("trials_ledger") or [])
@@ -232,10 +234,26 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"triple_ma/high252 双双折戟×2成本关"
                                f"（A×2≈{g2n_x2s}），候选归档收线"
                                if g2n_x2s is not None else "")})
+    sl_v = slp.get("verdict") or {}
+    sl_adm = sl_v.get("sleeve_admission")
+    sl_schemes = slp.get("schemes") or {}
+    if slp and not slp.get("void"):
+        n_adm = len(sl_v.get("admitted_schemes") or [])
+        b6 = ((sl_schemes.get("B-EW6") or {}).get("x1") or {}).get("full") or {}
+        b6x2 = ((sl_schemes.get("B-EW6") or {}).get("x2") or {}).get("full") or {}
+        base = ((sl_schemes.get("BASE-EW3") or {}).get("x1") or {}).get("full") or {}
+        steps.append({"stage": "SLEEVE_P3 低相关袖并入决策 · 6 袖 vs 在位组合",
+                      "result": f"{n_adm}/2 方案 admitted",
+                      "pass": bool(sl_adm),
+                      "note": (f"最佳 B-EW6 {b6.get('sharpe')} vs 在位 "
+                               f"{base.get('sharpe')}，×2≈{b6x2.get('sharpe')}"
+                               f" 成本传染+α稀释，池内素材收线"
+                               if b6 and base else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
             "n_g2nsp": g2n_pass,
+            "n_sleeve_p3": (None if sl_adm is None else int(bool(sl_adm))),
             "n_traders": len(traders),
             "trader_ids": traders}
 
@@ -404,6 +422,8 @@ def build() -> dict:
     payload["gamification"]["milestones_done"] = sum(
         1 for a in payload["gamification"]["achievements"] if a["unlocked"])
     payload["gamification"]["milestones_total"] = len(payload["gamification"]["achievements"])
+    slp_txt = "" if chain["n_sleeve_p3"] is None else (
+        f" → SLEEVE_P3 袖并入{'过' if chain['n_sleeve_p3'] else '收线'}")
     payload["events"] = [
         {"time": smoke["at"] or "-", "text": f"自检 {smoke['pass']}项通过/{smoke['fail']}失败"},
         {"time": "-", "text": f"门禁链定案（试验账本 N={chain['trials_total']}）："
@@ -412,6 +432,7 @@ def build() -> dict:
                               f" → LFC 债金池 {chain['n_lfc']}员"
                               f" → NSP1 新信号 {chain['n_nsp']}候选"
                               f" → G2_NSP1 深化 {chain['n_g2nsp']}员"
+                              f"{slp_txt}"
                               f"（累计 {chain['n_traders']} 员注册编制）"},
     ]
     if chain["trader_ids"]:

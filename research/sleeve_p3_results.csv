@@ -1,0 +1,31 @@
+kind,id,scheme,cost_mult,weights,full_sharpe,full_ann,full_dd,n_trades,oos_sharpe,oos_ann,benefit,dr,worst_year,validated,x2_survive,c1,c2,c4,admitted,anchor_ok
+member,COMPOSITE-CE-01,,1,,0.8114,0.0576,-0.1633,474,1.6085,0.1441,,,,,,,,,,True
+member,COMPOSITE-CE-01,,2,,0.5228,0.0377,-0.1805,464,1.2661,0.1234,,,,,,,,,,True
+member,COMPOSITE-CE-02,,1,,0.6099,0.0691,-0.2217,795,1.4853,0.1089,,,,,,,,,,True
+member,COMPOSITE-CE-02,,2,,0.4311,0.0489,-0.2531,791,1.1075,0.0885,,,,,,,,,,True
+member,VOLATILITY-CE-01,,1,,1.2578,0.0307,-0.0378,522,2.0568,0.0424,,,,,,,,,,True
+member,VOLATILITY-CE-01,,2,,0.5338,0.0134,-0.0652,522,1.1659,0.0264,,,,,,,,,,True
+sleeve,donchian_20_10@default,,1,,0.0858,0.0037,-0.2457,1013,0.8297,0.0748,,,,,,,,,,True
+sleeve,donchian_20_10@default,,2,,-0.2429,-0.0291,-0.3589,1013,0.5107,0.0521,,,,,,,,,,True
+sleeve,donchian_20_10@ce,,1,,0.0515,0.0005,-0.2446,651,0.5898,0.0506,,,,,,,,,,True
+sleeve,donchian_20_10@ce,,2,,-0.143,-0.0182,-0.2939,651,0.3938,0.0353,,,,,,,,,,True
+sleeve,double_bottom_20@default,,1,,0.1881,0.0154,-0.2422,1465,0.5492,0.0362,,,,,,,,,,True
+sleeve,double_bottom_20@default,,2,,-0.1985,-0.0375,-0.4118,1465,-0.1554,-0.0188,,,,,,,,,,True
+sleeve,double_bottom_20@ce,,1,,0.2402,0.021,-0.2224,1308,0.6897,0.0442,,,,,,,,,,True
+sleeve,double_bottom_20@ce,,2,,-0.1067,-0.0226,-0.3712,1308,0.0753,0.0028,,,,,,,,,,True
+sleeve,price_volume_trend_20@default,,1,,0.1236,0.007,-0.2249,1451,1.3773,0.1142,,,,,,,,,,True
+sleeve,price_volume_trend_20@default,,2,,-0.39,-0.0471,-0.4359,1451,0.8116,0.0901,,,,,,,,,,True
+sleeve,price_volume_trend_20@ce,,1,,0.3097,0.021,-0.1541,1142,1.2903,0.0907,,,,,,,,,,True
+sleeve,price_volume_trend_20@ce,,2,,-0.1329,-0.0153,-0.2862,1142,0.8366,0.071,,,,,,,,,,True
+portfolio,BASE-EW3,BASE-EW3,1,"{""COMPOSITE-CE-01"": 0.333333, ""COMPOSITE-CE-02"": 0.333333, ""VOLATILITY-CE-01"": 0.333333}",0.9229,0.0531,-0.1247,1791,1.7334,0.0996,0.0299,1.0334,-0.0408,True,True,,,,,
+portfolio,BASE-EW3,BASE-EW3,2,"{""COMPOSITE-CE-01"": 0.333333, ""COMPOSITE-CE-02"": 0.333333, ""VOLATILITY-CE-01"": 0.333333}",0.5754,0.0339,-0.1507,1777,1.2828,0.0803,,,-0.0575,,,,,,,
+portfolio,BASE-IV3,BASE-IV3,1,"{""COMPOSITE-CE-01"": 0.24250806291972876, ""COMPOSITE-CE-02"": 0.12143197176271885, ""VOLATILITY-CE-01"": 0.6360599653175524}",1.1726,0.0425,-0.0801,1791,1.9733,0.0765,0.1017,1.095,-0.0351,True,True,,,,,
+portfolio,BASE-IV3,BASE-IV3,2,"{""COMPOSITE-CE-01"": 0.24250806291972876, ""COMPOSITE-CE-02"": 0.12143197176271885, ""VOLATILITY-CE-01"": 0.6360599653175524}",0.6461,0.0242,-0.1011,1777,1.3848,0.0586,,,-0.0529,,,,,,,
+portfolio,A-EW9,A-EW9,1,"{""COMPOSITE-CE-01"": 0.111111, ""COMPOSITE-CE-02"": 0.111111, ""VOLATILITY-CE-01"": 0.111111, ""donchian_20_10@default"": 0.111111, ""donchian_20_10@ce"": 0.111111, ""double_bottom_20@default"": 0.111111, ""double_bottom_20@ce"": 0.111111, ""price_volume_trend_20@default"": 0.111111, ""price_volume_trend_20@ce"": 0.111111}",0.475,0.0265,-0.1466,8821,1.3393,0.0797,0.0663,1.1623,-0.0826,True,False,,,,False,
+portfolio,A-EW9,A-EW9,2,"{""COMPOSITE-CE-01"": 0.111111, ""COMPOSITE-CE-02"": 0.111111, ""VOLATILITY-CE-01"": 0.111111, ""donchian_20_10@default"": 0.111111, ""donchian_20_10@ce"": 0.111111, ""double_bottom_20@default"": 0.111111, ""double_bottom_20@ce"": 0.111111, ""price_volume_trend_20@default"": 0.111111, ""price_volume_trend_20@ce"": 0.111111}",-0.0425,-0.0049,-0.2274,8807,0.7942,0.0548,,,-0.1187,,,,,,,
+portfolio,A-IV9,A-IV9,1,"{""COMPOSITE-CE-01"": 0.12100956236706563, ""COMPOSITE-CE-02"": 0.06059357195575143, ""VOLATILITY-CE-01"": 0.31738877922490005, ""donchian_20_10@default"": 0.08942299359025259, ""donchian_20_10@ce"": 0.08951626947515645, ""double_bottom_20@default"": 0.0647866317044537, ""double_bottom_20@ce"": 0.06634601670249327, ""price_volume_trend_20@default"": 0.08879991870651191, ""price_volume_trend_20@ce"": 0.10213625627341508}",0.6122,0.0275,-0.1197,8821,1.5313,0.0739,-0.0052,0.9916,-0.0654,False,False,,,,,
+portfolio,A-IV9,A-IV9,2,"{""COMPOSITE-CE-01"": 0.12100956236706563, ""COMPOSITE-CE-02"": 0.06059357195575143, ""VOLATILITY-CE-01"": 0.31738877922490005, ""donchian_20_10@default"": 0.08942299359025259, ""donchian_20_10@ce"": 0.08951626947515645, ""double_bottom_20@default"": 0.0647866317044537, ""double_bottom_20@ce"": 0.06634601670249327, ""price_volume_trend_20@default"": 0.08879991870651191, ""price_volume_trend_20@ce"": 0.10213625627341508}",0.0281,0.0001,-0.1808,8807,0.9357,0.0516,,,-0.0962,,,,,,,
+portfolio,B-EW6,B-EW6,1,"{""COMPOSITE-CE-01"": 0.166667, ""COMPOSITE-CE-02"": 0.166667, ""VOLATILITY-CE-01"": 0.166667, ""donchian_20_10@default"": 0.166667, ""double_bottom_20@ce"": 0.166667, ""price_volume_trend_20@ce"": 0.166667}",0.6748,0.0352,-0.1311,5254,1.5241,0.0859,0.1223,1.2214,-0.0695,True,False,,,,False,
+portfolio,B-EW6,B-EW6,2,"{""COMPOSITE-CE-01"": 0.166667, ""COMPOSITE-CE-02"": 0.166667, ""VOLATILITY-CE-01"": 0.166667, ""donchian_20_10@default"": 0.166667, ""double_bottom_20@ce"": 0.166667, ""price_volume_trend_20@ce"": 0.166667}",0.1649,0.008,-0.1812,5240,0.9933,0.0638,,,-0.0994,,,,,,,
+portfolio,B-IV6,B-IV6,1,"{""COMPOSITE-CE-01"": 0.15987582665965183, ""COMPOSITE-CE-02"": 0.08005522222534227, ""VOLATILITY-CE-01"": 0.419328790704634, ""donchian_20_10@default"": 0.11814417590616277, ""double_bottom_20@ce"": 0.08765525681111833, ""price_volume_trend_20@ce"": 0.13494072769309073}",0.8537,0.0336,-0.0916,5254,1.745,0.0754,0.0747,1.0959,-0.0535,True,False,,,,,
+portfolio,B-IV6,B-IV6,2,"{""COMPOSITE-CE-01"": 0.15987582665965183, ""COMPOSITE-CE-02"": 0.08005522222534227, ""VOLATILITY-CE-01"": 0.419328790704634, ""donchian_20_10@default"": 0.11814417590616277, ""double_bottom_20@ce"": 0.08765525681111833, ""price_volume_trend_20@ce"": 0.13494072769309073}",0.2472,0.0097,-0.1378,5240,1.135,0.0551,,,-0.0794,,,,,,,
