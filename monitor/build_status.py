@@ -265,7 +265,8 @@ def _paper_state() -> dict:
     hire-date bars start flowing). No hard-coded flags.
     """
     out = {"started": False, "n_active": 0, "months_tracked": 0,
-           "trades": 0, "bars": 0, "last_update": None}
+           "trades": 0, "bars": 0, "last_update": None,
+           "paper_start": None, "first_check": None, "month_progress": None}
     d = os.path.join(PATHS.results_dir, "paper")
     if not os.path.isdir(d):
         return out
@@ -284,7 +285,43 @@ def _paper_state() -> dict:
         u = s.get("updated")
         if u and (out["last_update"] is None or u > out["last_update"]):
             out["last_update"] = u
+        ps = s.get("paper_start")
+        if ps and (out["paper_start"] is None or ps < out["paper_start"]):
+            out["paper_start"] = ps
+    if out["paper_start"]:
+        _add_month_progress(out)
     return out
+
+
+def _next_month(y, m):
+    m += 1
+    if m > 12:
+        y, m = y + 1, 1
+    return y, m
+
+
+def _add_month_progress(out):
+    """Progress toward the first paper promotion check.
+
+    firm/hr.py whole-month rule: a month only counts when its first day falls
+    on/after paper_start, so the first check lands at the end of the first
+    such month (e.g. hire 2026-09-23 -> check 2026-10-31). Derived, not stored:
+    when hr's paper_months_min changes, only this derivation tracks it.
+    """
+    try:
+        p = dt.date.fromisoformat(out["paper_start"])
+    except ValueError:
+        return
+    y, m = (p.year, p.month) if p.day == 1 else _next_month(p.year, p.month)
+    nxt = _next_month(y, m)
+    first_check = dt.date(nxt[0], nxt[1], 1) - dt.timedelta(days=1)
+    out["first_check"] = first_check.isoformat()
+    span = (first_check - p).days
+    if span <= 0:
+        out["month_progress"] = 1.0
+    else:
+        elapsed = (dt.date.today() - p).days
+        out["month_progress"] = round(max(0.0, min(1.0, elapsed / span)), 4)
 
 
 # ---- group (parallel-managed sibling projects, e.g. Biggame game lines) ----

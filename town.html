@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.3 · 组织对齐 org_chart v2（七部门+总经办）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.4 · paper 首月晋升进度可视化（hr 整月规则驱动）· 组织对齐 org_chart v2（七部门+总经办）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -140,7 +140,14 @@ function drawHall(b) {                       // 交易大厅 (trading)
   const open = D.trading.paper_started;
   rrect(x+28, y-16, 44, 12, '#161a22');
   text(open?'PAPER OPEN':'RECRUITING', x+30, y-7, open?'#5fd38a':'#e8c15a', 7);
-  text('交易大厅', x+24, y+70, '#7a8494');
+  const pp = D.trading.paper || {};
+  if (pp.month_progress != null) {           // paper first-promotion-check progress
+    rrect(x+8, y+60, 84, 5, '#12151d');
+    px(x+8, y+60, Math.max(1, Math.round(84*pp.month_progress)), 5,
+       pp.month_progress >= 1 ? '#e8c15a' : '#5fd38a');
+    text('首月检查 ' + (pp.first_check||'').slice(5), x+56, y+74, '#5a9ab8', 7);
+  }
+  text('交易大厅', x+8, y+74, '#7a8494');
 }
 function drawData(b) {                       // 数据塔 (data freshness)
   const {x,y} = b, f = D.data.fresh;
@@ -302,7 +309,9 @@ const BUILDS = [
     dept:'交易部 Trading Desk', mandate:'交易员实战 · 模拟盘战绩=唯一计分板',
     info: () => (D.trading.traders.length ? D.trading.traders.map(t =>
         '<div class="row">'+t.name+' <span class="gold">'+t.level+'</span> · IS '+t.is_sharpe.toFixed(2)+' / OOS '+t.oos_sharpe.toFixed(2)+'<br><span class="dim">'+t.oos_trades+'笔 · ×2成本'+(t.cost_x2_survive?'存活':'阵亡')+' · paper '+(t.paper_months??0)+'月</span></div>').join('')
-      : '<div class="row dim">暂无在册交易员</div>') + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
+      : '<div class="row dim">暂无在册交易员</div>')
+      + ((D.trading.paper||{}).first_check ? '<div class="row">模拟盘首月：进度 <span class="green">'+Math.round(100*(D.trading.paper.month_progress??0))+'%</span> · 晋升检查日 '+D.trading.paper.first_check+' · 已计 '+D.trading.paper.months_tracked+' 月</div>' : '')
+      + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
   { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
     dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库/新鲜度 · 零污染',
     info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div><div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },

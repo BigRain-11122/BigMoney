@@ -68,3 +68,6 @@
 ### Reference
 
 
+
+- [2026-09-23 16:16:00] bm-a round 7 定案（dept:工程+交易）：**J12 town v0.4=paper 首月晋升进度可视化交付**——monitor/build_status.py `_paper_state` 新增 paper_start/first_check/month_progress 三字段（**推导式非写死**：hr.py 整月规则「整月=月首日≥paper_start 且已过完」→首检日=首个可计月末日；入职日=1 号当月计、12→1 月跨年 wrap 正确；实测 2026-09-23→2026-10-31 与 2026-10-31 首月晋升检查长线口径精确一致、边界自测 4/4）+town.html 交易大厅 84px 进度条（0%=1px 起点、<100% 绿、满=金）+「首月检查 10-31」青字+info 面板「模拟盘首月：进度 X%·晋升检查日·已计 X 月」行+footer v0.4；像素验收 town_v4.png 4 项全过（进度条/检查日文字/楼名无重叠/NPC 道路无冲突）；数据链全数据驱动，first_check 随入职日/hr 门槛自动演进。**协同双记**：①**O-20260923-1545-bm-a（CEO「去调研，去下载，把做短线的所有策略和能力 因子，指标，资料什么的 全部弄好」）=quant 专管会话 16:01 收令亲执行中**（research/shortline/external/ 16:03 开建），循环按 R27 让位四不原则：不重复执行、不碰其工作面、其件 untracked 不入循环 commit、生产采纳照走门禁链（G1'/G2+PLAN §4.2）、股票/期货类新市场启用=P1 待签署单待批；②bars A-变体后台推送 15:55 起 ~250-276KiB/s 低于 500KB/s 保险丝线（持续 30min→停报 B1 决策归 bm-b 轮），bm-a 接收腿（clone BigMoney-data→transfer_manifest -Hash→双侧 -Verify 锚 sender.json 10444 SHA256→落位 Money02\data\bars→T-01 done）待 ls-remote 非空启动，16:07 查仍空。S6 update_daily 16:02 第 4 探针 0 新行/0 失败=sina 仍未发布 09-23 收盘 bar（合法 no-op，cutoff 09-22）；smoke 20/20 无回归。
+
