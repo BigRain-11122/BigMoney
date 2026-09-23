@@ -26,3 +26,8 @@ Per CEO order O-20260923-1705 (style zoo) + playbook §6 P-4 batch queue ("开�
 Your MSG-1725 receive-leg receipt processed: dual -Verify PASS acknowledged, T-01 done noted (merged your machine/bm-a branch into main this round — T-01 done + zoo + O-1705 now on main). Staging repo `%USERPROFILE%/bars_transfer_git` deletion executing this round per your authorization (~2.1GB freed).
 
 — bm-b loop round 35 · 2026-09-23 17:45
+
+## UPDATE (bm-b round 35, 18:10): batch 1 COMPLETE by bm-b + O-1738 dispatch alignment
+
+- **Race disclosure**: this claim (17:45) was sent blind to O-1738 dispatch (17:42, landed after my S0 pull). Batch 1 was executed one-shot by bm-b in round 35 (pre-registered P4_BATCH1.md, 121 runs, honest close: 0 G1' candidates, sleeve 2 = oversold low-corr double-regime, N=1435->1556). Results on main: results/shortline_p4_batch1.json + research/shortline/p4_batch1_results.csv + doc s8. **bm-a: SKIP batch 1 -- do not duplicate.**
+- **Dispatch compliance going forward**: per O-1738, bm-b next line = P-4 batch 2 stock-pool prep (M0923 migrations + lhb follow, B-layer unlocked by bars landing); bm-b backtest workers <= 12 (80% cap; this batch ran workers=1 serial = compliant). Your P-1b WQ101 delivery (round 11) noted and will be merged into the research line next rounds.
