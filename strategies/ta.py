@@ -157,3 +157,81 @@ def engulf_reversal(open_: pd.Series, close: pd.Series,
     downtrend = (close.pct_change(5) < drop_th).fillna(False)
     ma20 = close.rolling(20, min_periods=20).mean()
     return _hold(engulf & downtrend, (close > ma20).fillna(False))
+
+
+# ---- P-4 queue-batch additions (CEO order O-20260923-2210, zoo #48) ----
+
+def cci_revert(high: pd.Series, low: pd.Series, close: pd.Series,
+                cci_n: int = 20, entry_th: float = -100.0,
+                exit_th: float = 100.0, trend_ma: int = 60) -> pd.Series:
+    """CCI oversold reversion (classic): CCI below -100 while price holds
+    above the trend MA; exit when CCI recovers above +100."""
+    tp = (high + low + close) / 3.0
+    ma = tp.rolling(cci_n, min_periods=cci_n).mean()
+    mad = (tp - ma).abs().rolling(cci_n, min_periods=cci_n).mean()
+    cci = (tp - ma) / (0.015 * mad.replace(0, np.nan))
+    trend_up = close > close.rolling(trend_ma, min_periods=trend_ma).mean()
+    entry = (trend_up & (cci < entry_th)).fillna(False)
+    exit_ = (cci > exit_th).fillna(False)
+    return _hold(entry, exit_)
+
+
+def williams_reversal(high: pd.Series, low: pd.Series, close: pd.Series,
+                      wr_n: int = 14, entry_th: float = -80.0,
+                      exit_th: float = -20.0) -> pd.Series:
+    """Williams %R oversold reversion (classic): %R < -80 with an up-day
+    entry; exit when %R recovers above -20."""
+    hh = high.rolling(wr_n, min_periods=wr_n).max()
+    ll = low.rolling(wr_n, min_periods=wr_n).min()
+    wr = (hh - close) / (hh - ll).replace(0, np.nan) * -100.0
+    entry = ((wr < entry_th) & (close > close.shift(1))).fillna(False)
+    exit_ = (wr > exit_th).fillna(False)
+    return _hold(entry, exit_)
+
+
+def nr7_breakout(high: pd.Series, low: pd.Series, close: pd.Series,
+                 nr_n: int = 7, hold_n: int = 5) -> pd.Series:
+    """NR7 narrow-range squeeze breakout (classic swing setup): the prior
+    bar's range is the narrowest of the last nr_n bars, today closes above
+    the squeeze bar's high. Exit below the squeeze bar's low."""
+    rng = (high - low).shift(1)
+    narrowest = rng == pd.concat(
+        [(high - low).shift(k) for k in range(1, nr_n + 1)], axis=1).min(axis=1)
+    entry = (narrowest.shift(1).fillna(False)
+             & (close > high.shift(1))).fillna(False)
+    exit_ = (close < low.shift(hold_n)).fillna(False)
+    return _hold(entry, exit_)
+
+
+def bb_squeeze_breakout(high: pd.Series, low: pd.Series, close: pd.Series,
+                        bb_n: int = 20, k: float = 2.0,
+                        width_n: int = 60) -> pd.Series:
+    """Bollinger-squeeze breakout (classic): band width at a width_n-day
+    low (contraction), entry when close breaks the upper band; exit when
+    close falls below the mid band."""
+    ma = close.rolling(bb_n, min_periods=bb_n).mean()
+    sd = close.rolling(bb_n, min_periods=bb_n).std()
+    upper = ma + k * sd
+    width = (4.0 * sd) / ma
+    squeezed = (width <= width.rolling(width_n, min_periods=width_n)
+                .min() * 1.05).shift(1)
+    entry = (squeezed.fillna(False) & (close > upper)).fillna(False)
+    exit_ = (close < ma).fillna(False)
+    return _hold(entry, exit_)
+
+
+def rsi_divergence(open_: pd.Series, high: pd.Series, low: pd.Series,
+                   close: pd.Series, look: int = 30,
+                   n: int = 14) -> pd.Series:
+    """Bullish RSI divergence (classic; MACD-divergence same-family --
+    discount pre-registered): price at look-day low while RSI holds above
+    its own 60-day low + margin = momentum not confirming the new low."""
+    delta = close.diff()
+    gain = delta.where(delta > 0, 0).rolling(n).mean()
+    loss = (-delta.where(delta < 0, 0)).rolling(n).mean()
+    rsi = 100 - 100 / (1 + gain / loss.replace(0, np.nan))
+    price_low = close <= close.rolling(look, min_periods=look).min() * 1.001
+    rsi_floor = rsi.rolling(60, min_periods=60).min()
+    entry = (price_low & (rsi > rsi_floor + 5)).fillna(False)
+    return _hold(entry, (close > close.rolling(20, min_periods=20)
+                         .mean()).fillna(False))
