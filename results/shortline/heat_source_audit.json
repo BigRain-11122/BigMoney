@@ -1,0 +1,232 @@
+{
+ "audit": "P-B heat/attention data-source audit",
+ "order_ref": "O-20260923-1850 P-B (GM dispatch bm-b)",
+ "asof": "2026-09-23T19:37:56",
+ "today": "2026-09-23",
+ "machine": "bm-b",
+ "discipline": "akshare/public no-key endpoints only; cookie/key sources register-only",
+ "probes": {
+  "concept_boards": {
+   "latency_ms": 21071,
+   "ok": false,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  "board_hist_depth": {
+   "latency_ms": 20947,
+   "ok": false,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  "board_cons": {
+   "latency_ms": 21640,
+   "ok": false,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  "hot_rank": {
+   "latency_ms": 7486,
+   "ok": false,
+   "error": "RuntimeError: stock_hot_rank_em failed after retry"
+  },
+  "news_em": {
+   "latency_ms": 1267,
+   "ok": false,
+   "error": "ArrowInvalid: Invalid regular expression: invalid escape sequence: \\u"
+  },
+  "ths_concept": {
+   "latency_ms": 4799,
+   "ok": true,
+   "n_boards_ths": 375,
+   "columns": [
+    "name",
+    "code"
+   ],
+   "sample": [
+    {
+     "name": "�����ĺ�Ĭ����",
+     "code": "308614"
+    },
+    {
+     "name": "AI PC",
+     "code": "309121"
+    }
+   ]
+  },
+  "margin_depth": {
+   "latency_ms": 2134,
+   "ok": true,
+   "probe_date": "2010-03-31",
+   "rows": 25,
+   "columns": [
+    "���ý�������",
+    "���֤ȯ����",
+    "���֤ȯ���",
+    "�������",
+    "���������",
+    "���ʳ�����",
+    "��ȯ����",
+    "��ȯ������",
+    "��ȯ������"
+   ],
+   "verdict_hint": "margin detail back to 2010-03 if rows>0"
+  },
+  "dzjy_depth": {
+   "latency_ms": 1763,
+   "ok": true,
+   "probe_date": "2013-01-04",
+   "rows": 1,
+   "columns": [
+    "���",
+    "��������",
+    "֤ȯ����",
+    "֤ȯ���",
+    "�ɽ���",
+    "�ɽ���",
+    "�ɽ���",
+    "��Ӫҵ��",
+    "����Ӫҵ��"
+   ],
+   "verdict_hint": "block-trade detail back to 2013 if rows>0"
+  },
+  "gdhs_depth": {
+   "latency_ms": 5545,
+   "ok": true,
+   "probe_date": "2015-09-30",
+   "rows": 2454,
+   "columns": [
+    "����",
+    "����",
+    "���¼�",
+    "�ǵ���",
+    "�ɶ�����-����",
+    "�ɶ�����-�ϴ�",
+    "�ɶ�����-����",
+    "�ɶ�����-��������",
+    "�����ǵ���",
+    "�ɶ�����ͳ�ƽ�ֹ��-����",
+    "�ɶ�����ͳ�ƽ�ֹ��-�ϴ�",
+    "�����ֹ���ֵ",
+    "�����ֹ�����",
+    "����ֵ",
+    "�ܹɱ�",
+    "��������"
+   ],
+   "verdict_hint": "holder-count back to 2015Q3 if rows>0"
+  },
+  "raw_board_list": {
+   "latency_ms": 176,
+   "ok": false,
+   "error": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  "raw_board_kline": {
+   "latency_ms": 172,
+   "ok": false,
+   "error": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  "raw_board_cons": {
+   "latency_ms": 284,
+   "ok": false,
+   "error": "RemoteDisconnected: Remote end closed connection without response"
+  },
+  "raw_news": {
+   "latency_ms": 243,
+   "ok": true,
+   "route": "direct",
+   "articles_page1": 100,
+   "first_ts": "2026-06-24 16:50:00",
+   "last_ts": "2026-09-23 10:46:54"
+  },
+  "ths_board_hist": {
+   "latency_ms": 23417,
+   "ok": true,
+   "board": "�����ĺ�Ĭ����",
+   "bars": 661,
+   "columns": [
+    "����",
+    "���̼�",
+    "��߼�",
+    "��ͼ�",
+    "���̼�",
+    "�ɽ���",
+    "�ɽ���"
+   ],
+   "first": "2024-01-02",
+   "last": "2026-09-22"
+  }
+ },
+ "classification": [
+  {
+   "source": "concept_board_index_kline_em",
+   "family": "P-B",
+   "verdict": "unverified",
+   "depth": "n/a",
+   "usage": "hot_concept_mom_5/20, hot_concept_zt_count via board index"
+  },
+  {
+   "source": "concept_board_membership_em",
+   "family": "P-B",
+   "verdict": "forward_collect + bias_clause",
+   "depth": "current snapshot only",
+   "usage": "hot_concept_* membership: survivorship bias disclosure per spec §2B"
+  },
+  {
+   "source": "em_popularity_rank_current+detail",
+   "family": "P-C(前向)",
+   "verdict": "forward_collect",
+   "depth": "current list only",
+   "usage": "guba_hot_rank_z / guba_rank_delta per spec §2C"
+  },
+  {
+   "source": "em_per_stock_news",
+   "family": "P-C(前向)",
+   "verdict": "forward_collect",
+   "depth": "feed page1 rows=100 first=2026-06-24 16:50:00",
+   "usage": "news_count_1d/5d per spec §2D"
+  },
+  {
+   "source": "ths_concept_boards(+index_hist)",
+   "family": "P-B(alt)",
+   "verdict": "backtestable",
+   "depth": "boards=375; sample(new board)=661 bars from 2024-01-02; old board 物联网=3088 bars from 2011-01-04 -> depth=board-creation-bounded, 15y for 2010s boards",
+   "usage": "alternative concept taxonomy (THS): board list + index history"
+  },
+  {
+   "source": "sse_margin_detail",
+   "family": "extension_slot",
+   "verdict": "backtestable",
+   "depth": "probe rows=25",
+   "usage": "两融余额因子（扩展槽）"
+  },
+  {
+   "source": "block_trade_detail",
+   "family": "extension_slot",
+   "verdict": "backtestable",
+   "depth": "probe rows=1",
+   "usage": "大宗交易因子（扩展槽）"
+  },
+  {
+   "source": "holder_count_quarterly",
+   "family": "extension_slot",
+   "verdict": "backtestable",
+   "depth": "probe rows=2454",
+   "usage": "股东户数因子（扩展槽）"
+  },
+  {
+   "source": "em_push2_route_finding",
+   "family": "infra",
+   "verdict": "direct_required",
+   "depth": "akshare push2/clist probes via Clash proxy = RemoteDisconnected after ~22s; raw direct (no-proxy) probes OK -> EM quote endpoints need direct route",
+   "usage": "P-B pull pipeline must bypass proxy for push2.eastmoney.com family"
+  }
+ ],
+ "zero_engine_runs": true,
+ "supplementary_probes": {
+  "ths_old_board_wlw": {
+   "board": "物联网",
+   "bars": 3088,
+   "first": "2011-01-04",
+   "last": "2026-09-22",
+   "cmd": "ak.stock_board_concept_index_ths(symbol='物联网', start_date='20100101', end_date='20260923')",
+   "note": "old THS boards carry 15y daily index history; depth bounded by board creation date"
+  }
+ },
+ "em_push2_throttle_note": "EM push2/clist + emappdata throttled our IP after rapid sequential probing (instant RemoteDisconnected across 3 spaced runs); single-shot run-2 evidence: board membership snapshot ok (68 members, direct route); EM board-index kline depth left unverified -> P-B pull pipeline must use direct route + rate limiting; THS already satisfies concept-index depth need"
+}
