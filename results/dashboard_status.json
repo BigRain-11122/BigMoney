@@ -4,7 +4,7 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T05:52:10"
+    "generated_at": "2026-09-24T05:54:59"
   },
   "health": {
     "smoke": {
@@ -28,7 +28,7 @@
     "update": {
       "present": true,
       "last_run": "2026-09-24 05:51:32",
-      "age_min": 0,
+      "age_min": 3,
       "symbols": 48,
       "total_new_rows": 0,
       "failures": 0,
@@ -53,14 +53,14 @@
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 05:43:11",
+      "generated": "2026-09-24 05:52:10",
       "mandate_est": 2856,
-      "codely_context_est": 107110,
-      "state_est": 2483,
-      "report_est": 58268,
-      "delta_state": -6,
-      "delta_report": 1586,
-      "delta_prev": "2026-09-24 05:32:41"
+      "codely_context_est": 108125,
+      "state_est": 2227,
+      "report_est": 59112,
+      "delta_state": -256,
+      "delta_report": 844,
+      "delta_prev": "2026-09-24 05:43:11"
     },
     "regime": {
       "present": true,
@@ -151,45 +151,45 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-24T05:41:41",
-        "age_min": 10.5,
+        "last_seen": "2026-09-24T05:50:53",
+        "age_min": 4.1,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 49,
         "gpu_idle_vram_mb": 1234,
-        "current_task": "R43 done: S1 red-fix heartbeat BOM (smoke 23/23 green); queue=P1-gated, maintenance",
-        "verdict": "R43: smoke F7 BOM crash fixed (reader utf-8-sig + de-BOM bm-a.json/state), pit-family swept, S6 all green, orders diff empty, maintenance mode (P1-gated queue)",
-        "orders_ack": "FULL ENUMERATION 29/29 (unchanged from R41 ack, S0.5 double-scan diff empty both scans: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
-        "clock_read": "2026-09-24T05:41:41.182684+08:00",
-        "round_no": 43
+        "current_task": "R44 done: maintenance (boards empty, P1-gated queue); next=10-01 monthly trio (briefing+science_audit+corr-watch W3)",
+        "verdict": "R44: clean maintenance round -- smoke 23/23, S6 all green (audit CLEAN, daily pre-market no-op cutoff 09-23, regime ORANGE shadow d1, guards no-op, mask 5/5, panel traders=6 5/7), orders 29/29 diff empty, queue=P1-gated awaiting GM signature",
+        "orders_ack": "FULL ENUMERATION 29/29 (R44 double-scan diff empty: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
+        "clock_read": "2026-09-24T05:50:53+08:00",
+        "round_no": 44
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-09-24 05:35",
-        "age_min": 16.7,
+        "last_seen": "2026-09-24 05:58",
+        "age_min": 3.6,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 10.6,
         "gpu_idle_vram_mb": 2400,
-        "current_task": "P-1c WQ leg batch in-flight (25/82@05:3x, PID 27128 full-core active, honest ETA 06:15-07:15) -> r66+ harvest (meta.wq_complete gate); P-B clist parked; monthly trio due 10-01",
+        "current_task": "r66 P-1d gdhs quarterly batch DONE (2/3 PASS, factor ledger 5394, strategy-conversion=open-pool candidate); WQ leg 28/82 in-flight PID 27128 (ETA ~07:40, harvest r68+-); P-B clist parked ~10.7h",
         "verdict": "CLEAN",
         "orders_ack": "FULL ENUMERATION 29/29 (r65 full-disk scan vs ack set, diff=EMPTY; note: ack is a summary string, matching must account for both full-date and abbreviated O-token forms): O-20260923-1514 (Money0923 triage, quant session), O-1533 (bars A+B dual-approved, T-01 done Verify PASS), O-1536 (local-first J13 both machines), O-1538 (firm/ four-pack), O-1545 (shortline playbook+research lanes), O-1620 (P1 authority delegated), O-1636 (research mechanism+style atlas), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit in S6), O-1816 (P-5 random entry all-FAIL), O-1819 (24h continuous backtest), O-1820 (three allocation red lines, all parts closed), O-1823 (evaluation framework), O-1828 (TA batch 2A), O-1844 (lane coordination), O-1850 (heat/attention family), O-2134 (folk expansion), O-2205 (retro automation+improvements), O-2210 (max-scale backtest+library, 3 new traders), O-2215 (backtest science v2, T-02 CLOSED), O-2250 (full audit, T-03/T-04+3 T2 rules), O-2310 (operating plan), O-2311 (org expansion T-06/T-07 both done), O-2315 (REGIME_GUARD v1.0, T-05 CLOSED shadow-first), O-2325 (local-first token meter), O-2345 (CPU mobilization P-5B), O-20260924-0100 (QuantBull archive via bm-c, consumption=P1 signed ticket)",
-        "clock_read": "2026-09-24T05:35:29+08:00",
-        "round_no": 65
+        "clock_read": "2026-09-24T05:51:26+08:00",
+        "round_no": 66
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-09-24 05:46:19",
-        "age_min": 5.9,
+        "last_seen": "2026-09-24T05:52:53+08:00",
+        "age_min": 2.1,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 11.4,
         "gpu_idle_vram_mb": 13276,
-        "current_task": "idle-monitor (r15: HANDOVER 5x check landed 7eaaac5; next: post-WQ digest no-clip re-check at first round after bm-b finalize)",
-        "verdict": "r15 HANDOVER 5x check done (r42 pairs + r14 display pre-fix recorded, N 2791->2858); smoke 23/23 pre+post-merge; S6 green; push landed",
-        "orders_ack": "29/29: round-15 opening+closing double-scan diff empty (zero new orders); boards: job_list 0, tickets 7/7 done, inbox empty; mid-round bm-a R43 integrated via rebase (union clean)",
-        "clock_read": "2026-09-24T05:46:19",
-        "round_no": 15
+        "current_task": "round 16 idle-monitor + NET placeholder fill (LAN) closure; watching bm-b WQ finalize",
+        "verdict": "round 16 green: smoke 23/23, S6 all-green (lhb store-absent=design), NET=LAN placeholder closed (network_detector fill, zero code), WQ finalize not landed yet (ETA window), boards empty, idle-monitor",
+        "orders_ack": "29/29: round-16 opening+closing double-scan diff empty (zero new orders); boards: job_list 0, tickets 7/7 done, inbox empty",
+        "clock_read": "2026-09-24T05:52:53+08:00",
+        "round_no": 16
       }
     ],
     "tickets": [
@@ -383,8 +383,8 @@
     "composite_plan": "0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2×price_position",
     "factor_line": {
       "present": true,
-      "total": 5241,
-      "head_file": "xlib_synth.json",
+      "total": 5394,
+      "head_file": "p1d_gdhs_quarterly.json",
       "batches": [
         {
           "id": "P-A LHB",
@@ -402,6 +402,11 @@
           "short": "1/10"
         },
         {
+          "id": "P-1d gdhs quarterly",
+          "text": "2/3 quarterly-frequency",
+          "short": "2/3"
+        },
+        {
           "id": "热度 L2",
           "text": "0/4 过门",
           "short": "0/4"
@@ -412,7 +417,7 @@
           "short": "K4判负"
         }
       ],
-      "digest": "N=5241 · LHB 3/4 · GTJA 21/181 WQ飞 · 槽 1/10 · L2 0/4 · XLIB K4判负"
+      "digest": "N=5394 · LHB 3/4 · GTJA 21/181 WQ飞 · 槽 1/10 · gdhs 2/3 · L2 0/4 · XLIB K4判负"
     }
   },
   "strategy": {
@@ -723,8 +728,8 @@
       "text": "热度链 · L1 人气榜快照 0 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24 05:43:11",
-      "text": "本地化 · token 粗估 状态 2483 · 报告 58268 · 回合固定载入 107110（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 05:52:10",
+      "text": "本地化 · token 粗估 状态 2227 · 报告 59112 · 回合固定载入 108125（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -732,7 +737,7 @@
     },
     {
       "time": "-",
-      "text": "研究线 · 因子账本 N=5241 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 腿在飞 · P-1d 扩展槽 1/10 过门 · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=2858 另计）"
+      "text": "研究线 · 因子账本 N=5394 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 腿在飞 · P-1d 扩展槽 1/10 过门 · P-1d gdhs quarterly 2/3 quarterly-frequency · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=2858 另计）"
     },
     {
       "time": "2026-09-23",
@@ -747,7 +752,7 @@
       "text": "相关性监控 · ORANGE · W2 IS2 越线 1 对 · IS2 最高对 0.87 · 尾窗均值 0.26 · ×2 垫最小 0.36 · FL insufficient_data（组合部 §一.2 · 月更 · twinOK）"
     },
     {
-      "time": "2026-09-24T05:41:41",
+      "time": "2026-09-24T05:50:53",
       "text": "机队 · 3 节点 3 活 · 票据 done 7/claimed 0/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
@@ -763,8 +768,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 05:51",
-        "age_min": 0.9,
+        "last_active": "09-24 05:54",
+        "age_min": 0.3,
         "alive": true
       }
     ]

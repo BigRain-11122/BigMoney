@@ -363,6 +363,12 @@ def _factor_line() -> dict:
         c = p1d.get("counts") or {}
         _add("P-1d 扩展槽", f"{c.get('pass')}/{c.get('computed')} 过门",
              f"{c.get('pass')}/{c.get('computed')}")
+    gq = _sl("p1d_gdhs_quarterly.json")
+    if gq:
+        vs = gq.get("verdict_summary") or {}
+        _add("P-1d gdhs quarterly",
+             f"{vs.get('pass')}/{vs.get('of')} quarterly-frequency",
+             f"{vs.get('pass')}/{vs.get('of')}")
     pc = _sl("pc_l2_ic.json")
     if pc:
         rows = [r for r in (pc.get("rows") or []) if r.get("pass") is not None]
@@ -382,7 +388,8 @@ def _factor_line() -> dict:
     # the events log); built data-driven from the batch shorts above.
     if out["present"]:
         short = {"P-A LHB": "LHB", "P-1c 股票池": "", "P-1d 扩展槽": "槽",
-                 "热度 L2": "L2", "XLIB 跨库合成": "XLIB"}
+                 "热度 L2": "L2", "XLIB 跨库合成": "XLIB",
+                 "P-1d gdhs quarterly": "gdhs"}
         seg = []
         for b in out["batches"]:
             label = (short.get(b["id"], b["id"]) + " "
