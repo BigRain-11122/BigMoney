@@ -206,9 +206,13 @@ if __name__ == "__main__":
         sys.exit(0)
     if cmd == "pull":
         t0 = time.time()
-        rc = 0
-        stage_boards()          # fast throttle probe (1-2 requests)
-        stage_membership()      # 1 big-pz request
+        try:
+            stage_boards()      # fast throttle probe (1-2 requests)
+            stage_membership()  # 1 big-pz request
+        except Exception as e:  # clist source unreachable -> honest exit 2
+            print(f"[pull] source unreachable at clist stage: {e!r}"
+                  " -> exit 2 (checkpoints kept)")
+            sys.exit(2)
         rc = stage_klines()
         print(f"pull done rc={rc} elapsed={time.time()-t0:.0f}s")
         sys.exit(rc)
