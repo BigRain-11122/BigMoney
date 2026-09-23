@@ -79,3 +79,24 @@
 ## §8 判据变更协议
 
 改任何一检的判据/阈值/白名单 = 本件修订 + 新预注册 + 7 天否决窗（BACKTEST_SCIENCE §7 末行原文）。白名单只减不增。
+
+## §9 检六：行情防线完整性（REGIME_GUARD 月检 · 2026-09-24 追加冻结 · 跑前写死）
+
+> 权威链：firm/risk/REGIME_GUARD.md ④ 治理接线（O-2315 入法）+ T-2026-09-23-05-P1 交付件 (5)。本节=检六判据冻结，先于检六首场实跑；§8 变更协议同等适用。既有五检判据零改动。
+
+- 数据面：results/regime_state.json（scripts/market_regime.py 每日 shadow 探测产物）+ scripts/market_regime.py 模块本体 + results/paper/*_paper.json + data/daily/510300.csv（交易日历独立源，零网络）。
+- 冻结判据（裁定词汇=OK / DRIFT / GAP / STALE / INCONSISTENT / VIOLATION / MISSING，任一发现如实报、只报不阻断）：
+  - **(a) 阈值指纹**：`scripts.market_regime.threshold_fingerprint()`（THRESHOLDS 典范字典 sha256）≠ 本节冻结值 → `DRIFT`（法值被改而未走预注册）。冻结值（2026-09-24 由现行模块算出后写死于此）：
+    `368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601`
+    覆盖面注记：指纹=声明的典范字典（v1 矩阵映射/急跌三档/恐慌/波动分位/广度两档/防抖 2 绿日/事件日历/窗口常数+v2 重映射留档）；字典未载而行为面漂改由 market_regime._selftest 边界用例守（各自检项互为纵深）。
+  - **(b) 状态序列连续性**（读 regime_state.json.history，逐对相邻条目）：
+    - 任一 state ∉ {GREEN,YELLOW,ORANGE,RED} → `INCONSISTENT`；
+    - asof 非严格递增/重复 → `INCONSISTENT`；
+    - 相邻两日非 510300 交易日历连续对（跳过非交易日）→ `GAP`（机器停机日=如实发现非隐瞒）；
+    - 状态变更日必有 transitions 条目 {from=前日 state, to=当日 state, asof=当日} 且 days_in_state 当日=1、同态日=前日+1 → 违者 `INCONSISTENT`；
+    - history 末条 asof ≠ 510300 独立读数的最后一根 bar 日期 → `STALE`（最新 bar 已落而探测未跑）。
+  - **(c) 响应一致性**：
+    - state 件 mode=='shadow'（现行纪元）时：任一 results/paper/*_paper.json 的 regime_guard 块 mode≠'shadow' → `VIOLATION`（越权干预）；块 state 与 history 该 asof 读数不符 → `VIOLATION`；**块缺席=诚实注记非发现**（T-05 part5 2026-09-24 引入，各员文件随下一次 paper 刷新携带；n_with_block/n_paper 如实计数）；
+    - mode=='enforce'（未来·须校准过门+GM 批+法文件修订三前置）：橙/红日 paper 窗口新开仓须为零——**该腿在 enforce 接线（独立署名单）落地前不实现**，届时=新预注册追加判据；审计器在 mode=='enforce' 且接线缺失时报 `enforce_response_check:not_wired` 诚实注记。
+  - state 件不存在（探测从未跑过）→ `MISSING`（诚实基线，非违规）。
+- 节律：随月度审计常跑（检六并入五检后的六检制）；发现项永不阻断、CEO 仅收通知（O-2205 口径不变）。

@@ -60,11 +60,20 @@
     "source": "registration_x2_seed"
   },
   "cutoff": "2026-09-23",
-  "updated": "2026-09-24 02:15:02",
+  "updated": "2026-09-24 03:54:10",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
     "as_of": "2026-09-23"
+  },
+  "regime_guard": {
+    "mode": "shadow",
+    "state": "ORANGE",
+    "state_cn": "橙·高危",
+    "asof": "2026-09-23",
+    "raw_level": "ORANGE",
+    "days_in_state": 1,
+    "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
   },
   "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
 }

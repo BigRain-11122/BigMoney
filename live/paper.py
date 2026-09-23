@@ -61,6 +61,9 @@ COST_X1_RATE = 0.0013041       # G2-recorded baseline single-side cost
 MIN_BARS_COST_CHECK = 20       # cost-x2 verdict needs a real window
 INITIAL_CASH = 1_000_000.0     # engine default (anchor + paper same)
 PAPER_LEVELS = ("INTERN", "TRAINEE")   # paper-tracked levels (TRADER+ -> live)
+REGIME_GUARD_STATE = os.path.join(PATHS.results_dir, "regime_state.json")
+REGIME_GUARD_APPROVAL = os.path.join(PATHS.results_dir,
+                                     "regime_enforce_approved.json")
 
 # registered entry expressions -> signal builder(P) where P = panels dict
 # (composite rotation needs high/low/close); unknown key = hard abort
@@ -392,8 +395,56 @@ def _append_x2_watch_log(entry: dict) -> None:
         fh.write(json.dumps(entry, ensure_ascii=False, default=str) + "\n")
 
 
+def regime_guard_context(mode: str | None = None) -> dict:
+    """T-05 deliverable (3): additive regime-guard context for paper state.
+
+    'shadow' (default; env BIGMONEY_REGIME_GUARD): log-only -- the block
+    rides along in results/paper/<TID>_paper.json, ZERO behavior change
+    (engine, sizing, entries, anchor gate untouched).
+    'enforce': hard-refused unless results/regime_enforce_approved.json
+    carries calibration_pass AND gm_approval -- and even then the response
+    wiring is a separate signed item (REGIME_GUARD s3 + T-05 ticket: OFF
+    until calibration passes + GM approval; calibration v1/v2 = honest
+    FAIL as of 2026-09-24, so enforce is structurally OFF)."""
+    mode = mode or os.environ.get("BIGMONEY_REGIME_GUARD", "shadow")
+    if mode not in ("shadow", "enforce"):
+        raise SystemExit(f"regime_guard: unknown mode {mode!r} (shadow|enforce)")
+    if mode == "enforce":
+        appr = None
+        if os.path.exists(REGIME_GUARD_APPROVAL):
+            try:
+                with open(REGIME_GUARD_APPROVAL, encoding="utf-8") as fh:
+                    appr = json.load(fh)
+            except (OSError, ValueError):
+                appr = None
+        if not (isinstance(appr, dict) and appr.get("calibration_pass")
+                and appr.get("gm_approval")):
+            raise SystemExit(
+                "regime_guard enforce REFUSED: requires calibration PASS + GM "
+                "approval (results/regime_enforce_approved.json). Calibration "
+                "v1/v2 = honest FAIL (REGIME_GUARD_VALIDATION*) -- enforce "
+                "stays OFF (REGIME_GUARD s3 / T-05 ticket).")
+        raise SystemExit(
+            "regime_guard enforce approved, but response wiring is a separate "
+            "signed item -- refusing to run paper under enforce (T-05 scope).")
+    st = {}
+    if os.path.exists(REGIME_GUARD_STATE):
+        try:
+            with open(REGIME_GUARD_STATE, encoding="utf-8") as fh:
+                st = json.load(fh)
+        except (OSError, ValueError):
+            st = {}
+    return {"mode": "shadow", "state": st.get("state"),
+            "state_cn": st.get("state_cn"), "asof": st.get("asof"),
+            "raw_level": st.get("raw_level"),
+            "days_in_state": st.get("days_in_state"),
+            "note": "shadow = log-only; enforce needs calibration PASS + "
+                    "GM approval (T-05)"}
+
+
 def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
-                  data_cutoff: str, regime: dict) -> dict:
+                  data_cutoff: str, regime: dict,
+                  rg: dict | None = None) -> dict:
     """Full pipeline for one trader. Returns the state dict; writes only
     when the anchor gate passes (trader JSON never touched on drift)."""
     anchor = anchor_gate(t, prices_full)
@@ -428,6 +479,9 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
             "risk_regime": {"is_major_bear": regime["is_major_bear"],
                             "position_cap": regime["position_cap"],
                             "as_of": regime["as_of"]},
+            "regime_guard": rg if rg is not None else
+                {"mode": "shadow", "state": None,
+                 "note": "context unavailable (T-05 default block)"},
             "no_future_data": "closed bars only; signal T close -> T+1 open "
                               "(engine contract)"}
 
@@ -526,6 +580,56 @@ def _selftest_x2_watch() -> bool:
     return bool(ok)
 
 
+def _selftest_regime_guard() -> bool:
+    """T-05 (3): shadow block from synthetic state file; state-file-absent
+    honest; enforce refused without approval AND with approval (wiring =
+    separate signed item); unknown mode refused. Offline path-swap only."""
+    import shutil
+    import tempfile
+    global REGIME_GUARD_STATE, REGIME_GUARD_APPROVAL
+    real_state, real_appr = REGIME_GUARD_STATE, REGIME_GUARD_APPROVAL
+    tmp = tempfile.mkdtemp(prefix="rg_ctx_st_")
+    ok = True
+    try:
+        REGIME_GUARD_STATE = os.path.join(tmp, "regime_state.json")
+        REGIME_GUARD_APPROVAL = os.path.join(tmp, "regime_enforce_approved.json")
+        # A: no state file -> shadow block with state None, no crash
+        blk = regime_guard_context()
+        ok &= blk["mode"] == "shadow" and blk["state"] is None
+        # B: state file present -> block carries state/asof verbatim
+        with open(REGIME_GUARD_STATE, "w", encoding="utf-8") as fh:
+            json.dump({"state": "ORANGE", "state_cn": "橙·高危",
+                       "asof": "2026-09-23", "raw_level": "ORANGE",
+                       "days_in_state": 1}, fh)
+        blk = regime_guard_context()
+        ok &= (blk["mode"] == "shadow" and blk["state"] == "ORANGE"
+               and blk["asof"] == "2026-09-23" and blk["days_in_state"] == 1)
+        # C: enforce without approval -> hard refuse
+        try:
+            regime_guard_context("enforce")
+            ok &= False
+        except SystemExit:
+            pass
+        # D: enforce WITH approval -> still refused (wiring = separate item)
+        with open(REGIME_GUARD_APPROVAL, "w", encoding="utf-8") as fh:
+            json.dump({"calibration_pass": True, "gm_approval": True}, fh)
+        try:
+            regime_guard_context("enforce")
+            ok &= False
+        except SystemExit:
+            pass
+        # E: unknown mode -> refuse
+        try:
+            regime_guard_context("banana")
+            ok &= False
+        except SystemExit:
+            pass
+    finally:
+        REGIME_GUARD_STATE, REGIME_GUARD_APPROVAL = real_state, real_appr
+        shutil.rmtree(tmp, ignore_errors=True)
+    return bool(ok)
+
+
 def _selftest_causality(prices_full: dict) -> bool:
     """Every registered builder must be causal: truncating data at D
     leaves the signal on [.., D] unchanged (no look-ahead)."""
@@ -562,6 +666,11 @@ def selftest() -> bool:
     w_ok = _selftest_x2_watch()
     print("PASS" if w_ok else "FAIL")
     ok &= w_ok
+
+    print("  [paper] regime_guard additive flag (T-05)...", end=" ")
+    rg_ok = _selftest_regime_guard()
+    print("PASS" if rg_ok else "FAIL")
+    ok &= rg_ok
     if not ok:
         return False
 
@@ -608,10 +717,12 @@ def main(argv=None) -> int:
     data_cutoff = str(P["close"].index[-1].date())
     vi_bar = load_vi_bar()
     regime = regime_report()   # R-配3 portfolio gate context (O-1820), report-only in paper domain
+    rg = regime_guard_context()   # T-05 (3): additive shadow block (enforce refused)
     print(f"universe: {len(prices_full)} ETFs, data through {data_cutoff}")
     print(f"regime: major_bear={regime['is_major_bear']} "
           f"cap={regime['position_cap']} (close<MA250={regime['below_ma250']}, "
           f"dd={regime['dd_from_250d_high']})")
+    print(f"regime_guard: {rg['mode']} state={rg['state']} asof={rg['asof']}")
 
     ok_all = True
     paper_dir = os.path.join(PATHS.results_dir, "paper")
@@ -622,7 +733,7 @@ def main(argv=None) -> int:
         t = load_trader(path.stem)
         if t.get("level") not in PAPER_LEVELS:
             continue
-        state = update_trader(t, prices_full, P, vi_bar, data_cutoff, regime)
+        state = update_trader(t, prices_full, P, vi_bar, data_cutoff, regime, rg)
         if not state["anchor_ok"]:
             ok_all = False
             print(f"{t['id']}: ANCHOR DRIFT -- trader JSON untouched")

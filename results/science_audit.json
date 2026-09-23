@@ -520,16 +520,207 @@
     "c5_line": "OK",
     "n_findings": 0
    }
+  },
+  {
+   "generated": "2026-09-24 03:54:19",
+   "ledger_head": {
+    "total": 2791,
+    "file": "regime_calibration_v2.json",
+    "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)"
+   },
+   "null_pool": {
+    "n_values": 120,
+    "mu": -0.033217,
+    "sigma": 0.242917
+   },
+   "skill_line": {
+    "line": 0.9344,
+    "n_eff": 2791
+   },
+   "checks": [
+    {
+     "check": "C1_null_mu_sigma_recompute",
+     "n_values": 120,
+     "mu": -0.033217,
+     "sigma": 0.242917,
+     "coverage_note": [
+      "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+     ],
+     "flags": {
+      "mu_drift_flag": false,
+      "sigma_drift_flag": false,
+      "pool_change": false
+     },
+     "drift_vs": {
+      "mu_prev": -0.033217,
+      "sigma_prev": 0.242917,
+      "n_prev": 120
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C2_lockbox_violation_scan",
+     "data_cutoff": "2026-09-23",
+     "n_ledger_files": 24,
+     "n_whitelisted_legacy": 19,
+     "n_ok_with_cutoff": 5,
+     "violations": [],
+     "verdict": "OK"
+    },
+    {
+     "check": "C3_trader_dsr_recheck",
+     "n_traders": 6,
+     "n_stale": 0,
+     "n_warn": 0,
+     "n_gate_cross": 0,
+     "rows": [
+      {
+       "trader": "COMPOSITE-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.042409,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2791,
+       "ci_low_recorded": -0.0485,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.041858,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "COMPOSITE-CE-02",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.074987,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2791,
+       "ci_low_recorded": -0.1586,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.074139,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "DROUGHT-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.030128,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2791,
+       "ci_low_recorded": -0.0214,
+       "pbo_recorded": 0.4714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.029716,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "ENGULF-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.018704,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2791,
+       "ci_low_recorded": -0.2763,
+       "pbo_recorded": 0.1143,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.018423,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "NEEDLE-DE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.044671,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2791,
+       "ci_low_recorded": -0.0843,
+       "pbo_recorded": 0.6429,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.044098,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "VOLATILITY-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.348554,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2791,
+       "ci_low_recorded": 0.4548,
+       "pbo_recorded": 0.3,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.346254,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      }
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C4_gate_attrition_summary",
+     "status": "PRESENT",
+     "n_entries": 2,
+     "keys": [
+      "created",
+      "entries",
+      "purpose",
+      "schema"
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C5_skill_line_v2_recompute",
+     "line": 0.9344,
+     "n_eff": 2791,
+     "passive_term": 0.4792,
+     "null_term": 0.9344,
+     "ledger_head": {
+      "total": 2791,
+      "file": "regime_calibration_v2.json",
+      "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)"
+     },
+     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
+     "formula_selfconsistent": true,
+     "line_prev": 0.9342,
+     "flags": {
+      "line_drift_flag": false
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C6_regime_guard_integrity",
+     "flags": {
+      "paper_block_absent_everywhere": false
+     },
+     "findings": [],
+     "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "fp_matches_prereg": true,
+     "n_history": 1,
+     "state_file_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "state_mode": "shadow",
+     "paper_files": 6,
+     "paper_with_block": 6,
+     "verdict": "OK"
+    }
+   ],
+   "summary": {
+    "c1_null": "OK",
+    "c2_lockbox": "OK",
+    "c3_traders": "OK",
+    "c4_attrition": "OK",
+    "c5_line": "OK",
+    "c6_regime": "OK",
+    "n_findings": 0
+   }
   }
  ],
  "current": {
   "module": "scripts/science_audit.py",
-  "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (frozen before first run)",
-  "generated": "2026-09-24 03:36:21",
+  "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run)",
+  "generated": "2026-09-24 03:54:19",
   "ledger_head": {
-   "total": 2779,
-   "file": "portfolio_iv6.json",
-   "note": "12 engine member runs (anchor-cum-sleeve, x1+x2, EW6-identical cells; only delta = additive report_num_entries flag) + 2 IV portfolio evaluations (derived, non-engine); twin-gate EW re-derivations and v2 readouts are gates/disclosures, not ledger cells; zero search => zero nulls (composition disclosed, prereg s0); actual=14 vs frozen budget 14; REBASE-WINDOW CORRECTION 2026-09-24 03:1x: bm-b T-05 part3 (+12, total 2765) landed mid-window after this batch computed its block at then-head 2753 -- prev re-seated 2753->2765, total 2767->2779 to preserve ALL true trials (max-chain would have absorbed bm-b +12 = undercount); bookkeeping-only, zero experimental digits changed, batch cells stay 14"
+   "total": 2791,
+   "file": "regime_calibration_v2.json",
+   "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)"
   },
   "previous_snapshot_source": "science_audit.json:history[-1]",
   "checks": [
@@ -556,9 +747,9 @@
    {
     "check": "C2_lockbox_violation_scan",
     "data_cutoff": "2026-09-23",
-    "n_ledger_files": 23,
+    "n_ledger_files": 24,
     "n_whitelisted_legacy": 19,
-    "n_ok_with_cutoff": 4,
+    "n_ok_with_cutoff": 5,
     "violations": [],
     "verdict": "OK"
    },
@@ -574,11 +765,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.042409,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2779,
+      "ledger_head_now": 2791,
       "ci_low_recorded": -0.0485,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.04196,
+      "dsr_rechecked_now": 0.041858,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -587,11 +778,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.074987,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2779,
+      "ledger_head_now": 2791,
       "ci_low_recorded": -0.1586,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.074299,
+      "dsr_rechecked_now": 0.074139,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -600,11 +791,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.030128,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2779,
+      "ledger_head_now": 2791,
       "ci_low_recorded": -0.0214,
       "pbo_recorded": 0.4714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.029793,
+      "dsr_rechecked_now": 0.029716,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -613,11 +804,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.018704,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2779,
+      "ledger_head_now": 2791,
       "ci_low_recorded": -0.2763,
       "pbo_recorded": 0.1143,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.018475,
+      "dsr_rechecked_now": 0.018423,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -626,11 +817,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.044671,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2779,
+      "ledger_head_now": 2791,
       "ci_low_recorded": -0.0843,
       "pbo_recorded": 0.6429,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.044205,
+      "dsr_rechecked_now": 0.044098,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -639,11 +830,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.348554,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2779,
+      "ledger_head_now": 2791,
       "ci_low_recorded": 0.4548,
       "pbo_recorded": 0.3,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.346675,
+      "dsr_rechecked_now": 0.346254,
       "dsr_gate_cross": false,
       "status": "OK"
      }
@@ -664,21 +855,36 @@
    },
    {
     "check": "C5_skill_line_v2_recompute",
-    "line": 0.9342,
-    "n_eff": 2779,
+    "line": 0.9344,
+    "n_eff": 2791,
     "passive_term": 0.4792,
-    "null_term": 0.9342,
+    "null_term": 0.9344,
     "ledger_head": {
-     "total": 2779,
-     "file": "portfolio_iv6.json",
-     "note": "12 engine member runs (anchor-cum-sleeve, x1+x2, EW6-identical cells; only delta = additive report_num_entries flag) + 2 IV portfolio evaluations (derived, non-engine); twin-gate EW re-derivations and v2 readouts are gates/disclosures, not ledger cells; zero search => zero nulls (composition disclosed, prereg s0); actual=14 vs frozen budget 14; REBASE-WINDOW CORRECTION 2026-09-24 03:1x: bm-b T-05 part3 (+12, total 2765) landed mid-window after this batch computed its block at then-head 2753 -- prev re-seated 2753->2765, total 2767->2779 to preserve ALL true trials (max-chain would have absorbed bm-b +12 = undercount); bookkeeping-only, zero experimental digits changed, batch cells stay 14"
+     "total": 2791,
+     "file": "regime_calibration_v2.json",
+     "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)"
     },
     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
     "formula_selfconsistent": true,
-    "line_prev": 0.9336,
+    "line_prev": 0.9342,
     "flags": {
      "line_drift_flag": false
     },
+    "verdict": "OK"
+   },
+   {
+    "check": "C6_regime_guard_integrity",
+    "flags": {
+     "paper_block_absent_everywhere": false
+    },
+    "findings": [],
+    "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+    "fp_matches_prereg": true,
+    "n_history": 1,
+    "state_file_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+    "state_mode": "shadow",
+    "paper_files": 6,
+    "paper_with_block": 6,
     "verdict": "OK"
    }
   ],
@@ -688,6 +894,7 @@
    "c3_traders": "OK",
    "c4_attrition": "OK",
    "c5_line": "OK",
+   "c6_regime": "OK",
    "n_findings": 0
   },
   "discipline": "findings never block any lane; CEO notification zero-action (O-2205)"

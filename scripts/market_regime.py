@@ -69,6 +69,37 @@ FOMC_2026_BEIJING = [
 LONG_GAP_DAYS = 6        # calendar-day gap defining a long holiday
 LONG_GAP_MONTHS = {1, 2, 10}   # spring festival / national day only
 
+# Canonical declared thresholds of the deployed live probe (v1 §1 matrix,
+# REGIME_GUARD.md law values verbatim). The science_audit C6 monthly check
+# fingerprints this dict (sha256 over canonical JSON) against the value
+# frozen in research/SCIENCE_AUDIT_PREREG.md §9 -- any drift (law number
+# changed without a new prereg) is a finding. Behavior-level drift is
+# guarded by the _selftest boundary cases which hit each threshold.
+THRESHOLDS = {
+    "windows": {"win10": WIN10, "vol_win": VOL_WIN, "vol_base": VOL_BASE,
+                "ma_breadth": MA_BRE, "ma_trend": MA_TREND,
+                "breadth_lookback": BREADTH_LOOKBACK},
+    "crash_10d": {"red": -0.12, "orange": -0.08, "yellow": -0.05},
+    "panic_1d": {"red": -0.05},
+    "vol_burst": {"orange_quantile": 0.95, "yellow_quantile": 0.80},
+    "breadth": {"orange_share": 0.80, "orange_slope_negative": True,
+                "yellow_share": 0.65},
+    "v1_mapping": {"trend_below_ma200": "ORANGE",     # iron_rules #10 collected
+                   "r_pei3_major_bear": "RED"},       # R-配3 collected v1
+    "v2_remap": {"red": "crash|panic only", "r_pei3_major_bear": "YELLOW",
+                 "trend_below_ma200": "de-collected (T0 ruling, separate wiring)"},
+    "hysteresis": {"downgrade_green_days": 2},
+    "events": {"fomc_2026_beijing": FOMC_2026_BEIJING,
+               "pre_holiday": "replay-only (bars-gap derived)"},
+}
+
+
+def threshold_fingerprint() -> str:
+    """sha256 of the canonical THRESHOLDS JSON (audit C6 drift anchor)."""
+    import hashlib
+    canon = json.dumps(THRESHOLDS, sort_keys=True, ensure_ascii=True)
+    return hashlib.sha256(canon.encode("utf-8")).hexdigest()
+
 
 def _bare_codes():
     return sorted(f[:-4] for f in os.listdir(PATHS.daily_dir)
@@ -273,22 +304,14 @@ def resolve_state(prev_state: str, prev_streak: int, raw: str):
     return prev_state, 0
 
 
-def _load_prev():
-    if not os.path.exists(STATE_PATH):
-        return None, 0
-    try:
-        d = json.load(open(STATE_PATH, encoding="utf-8"))
-        hist = d.get("history") or []
-        if hist:
-            last = hist[-1]
-            return last.get("state", GREEN), int(last.get("green_streak", 0))
-        return d.get("state", GREEN), int(d.get("green_streak", 0))
-    except (json.JSONDecodeError, OSError):
-        return None, 0
-
-
 def probe(write: bool = True) -> dict:
-    """Daily shadow probe: compute dims -> state machine -> atomic write."""
+    """Daily shadow probe: compute dims -> state machine -> atomic write.
+
+    Same-trading-day re-probes (intraday S6 rounds before a new bar lands)
+    update the day's row in place: history keeps exactly one row per asof
+    and green_streak/days_in_state never double-count (continuity
+    contract consumed by science_audit C6; found live: the r54 probe
+    appended a duplicate row every 10-min round)."""
     from firm.risk.regime import load_benchmark_close, major_bear_state
 
     bench = load_benchmark_close()
@@ -297,12 +320,6 @@ def probe(write: bool = True) -> dict:
     bear = major_bear_state(bench)  # single source, R-配3
     raw, triggers = raw_level(bd, br, bool(bear.get("is_major_bear")))
 
-    prev_state, prev_streak = _load_prev()
-    if prev_state is None:
-        state, streak = raw, 1 if raw == GREEN else 0
-    else:
-        state, streak = resolve_state(prev_state, prev_streak, raw)
-
     old = {}
     if os.path.exists(STATE_PATH):
         try:
@@ -310,14 +327,25 @@ def probe(write: bool = True) -> dict:
         except (json.JSONDecodeError, OSError):
             old = {}
     hist = list(old.get("history") or [])
+    # idempotency: drop today's earlier rows, then resolve the state
+    # machine from the last *different* trading day
+    hist = [e for e in hist if e.get("asof") != bd["asof"]]
+    prev_entry = hist[-1] if hist else None
+    if prev_entry is None:
+        state, streak = raw, 1 if raw == GREEN else 0
+    else:
+        state, streak = resolve_state(prev_entry.get("state", GREEN),
+                                      int(prev_entry.get("green_streak", 0)),
+                                      raw)
     days_in_state = 1
-    if hist and hist[-1].get("state") == state:
-        days_in_state = int(hist[-1].get("days_in_state", 0)) + 1
+    if prev_entry is not None and prev_entry.get("state") == state:
+        days_in_state = int(prev_entry.get("days_in_state", 0)) + 1
     hist.append({"asof": bd["asof"], "raw": raw, "state": state,
                  "green_streak": streak, "days_in_state": days_in_state})
     hist = hist[-HISTORY_KEEP:]
 
     trans = list(old.get("transitions") or [])
+    prev_state = prev_entry.get("state") if prev_entry is not None else None
     if prev_state is not None and state != prev_state:
         trans.append({"asof": bd["asof"], "from": prev_state, "to": state})
         trans = trans[-TRANSITION_KEEP:]
@@ -326,6 +354,7 @@ def probe(write: bool = True) -> dict:
            "asof": bd["asof"], "mode": MODE, "state": state,
            "state_cn": _CN[state], "raw_level": raw,
            "green_streak": streak, "days_in_state": days_in_state,
+           "thresholds_fp": threshold_fingerprint(),
            "dims": {"bench": bd, "breadth": br,
                     "bear_r_pei3": bear},
            "triggers": triggers, "transitions": trans, "history": hist,
@@ -409,6 +438,28 @@ def _selftest() -> bool:
     check("H real probe writes state file",
           os.path.exists(STATE_PATH) and out["mode"] == MODE and
           out["state"] in _ORD and len(out["history"]) >= 1)
+
+    # I: threshold fingerprint = stable 64-hex, sensitive to any value edit
+    fp = threshold_fingerprint()
+    check("I thresholds fp stable 64-hex + carried in probe output",
+          len(fp) == 64 and out.get("thresholds_fp") == fp)
+    import copy as _copy
+    mutant = _copy.deepcopy(THRESHOLDS)
+    mutant["crash_10d"]["red"] = -0.13
+    import hashlib as _hl, json as _js
+    check("I fp sensitive to threshold edit",
+          _hl.sha256(_js.dumps(mutant, sort_keys=True,
+                               ensure_ascii=True).encode("utf-8")
+                     ).hexdigest() != fp)
+
+    # J: same-trading-day re-probe idempotent -- one row per asof, no
+    #    double-counted days_in_state (C6 continuity contract)
+    asof = out["asof"]
+    out2 = probe(write=True)
+    rows_today = [e for e in out2["history"] if e["asof"] == asof]
+    check("J same-day re-probe keeps one row per asof",
+          len(rows_today) == 1 and rows_today[0]["days_in_state"]
+          == out["days_in_state"])
     return ok
 
 

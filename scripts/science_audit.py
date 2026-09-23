@@ -8,13 +8,16 @@ The audit is a CHECK-AND-REPORT layer: findings NEVER block any lane, CEO gets
 notification with zero action (O-2205). Exit codes: 0 = audit completed (findings or
 not), 1 = auditor itself broken (exception / self-consistency red).
 
-Five checks (registry design — new checks are appended via their own prereg, e.g.
-REGIME_GUARD monthly check 6 = T-05 lane):
+Five checks + C6 (registry design — new checks are appended via their own
+prereg section; C6 = REGIME_GUARD monthly integrity check, criteria frozen in
+research/SCIENCE_AUDIT_PREREG.md s9 BEFORE its first run, authority
+REGIME_GUARD.md s4 + T-2026-09-23-05-P1 deliverable (5)):
   C1  null mu/sigma recompute          (rolling drift vs previous snapshot)
   C2  lockbox violation scan           (trials-ledger batch cutoff metadata)
   C3  registered-trader DSR recheck     (recomputed from stored g25 stats at current head)
   C4  gate attrition ledger summary     (results/gate_attrition.json presence/summary)
   C5  skill_line_v2 recompute           (current standing line + drift + formula gate)
+  C6  regime-guard integrity            (threshold fingerprint / state continuity / response consistency)
 
 Usage:
   python scripts/science_audit.py selftest   # offline synthetic, zero network, zero writes
@@ -57,6 +60,10 @@ C2_LEGACY_WHITELIST = {       # frozen 19 pre-v2 batch files (prereg s2; never e
 C3_DSR_GATE = 0.95
 C3_SIGMA_CONSISTENCY_RTOL = 1e-3
 C5_LINE_DRIFT_K = 0.05
+# --- C6 frozen criteria (SCIENCE_AUDIT_PREREG s9; fp frozen at append time) ---
+C6_EXPECTED_FP = "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601"
+C6_STATES = ("GREEN", "YELLOW", "ORANGE", "RED")
+C6_PRIORITY = ("VIOLATION", "INCONSISTENT", "DRIFT", "GAP", "STALE")
 
 
 def _load(path: str):
@@ -257,6 +264,152 @@ def check_skill_line(prev: dict | None) -> dict:
     return out
 
 
+# ---------------------------------------------------------------- C6 regime-guard integrity
+
+def _bench_calendar():
+    """Independent trading-day calendar from data/daily/510300.csv
+    (read-only, zero network; date column by header name)."""
+    path = os.path.join(_ROOT, "data", "daily", "510300.csv")
+    if not os.path.exists(path):
+        return None
+    try:
+        import csv
+        with open(path, encoding="utf-8", newline="") as fh:
+            out = []
+            for row in csv.DictReader(fh):
+                d = str(row.get("date", "")).split(" ")[0].split("T")[0]
+                if d:
+                    out.append(d)
+            return out or None
+    except (OSError, ValueError):
+        return None
+
+
+def check_regime_guard(fp_expected: str | None = None) -> dict:
+    """SCIENCE_AUDIT_PREREG s9 (criteria FROZEN before first C6 run).
+    (a) threshold fingerprint vs prereg; (b) state-series continuity vs
+    independent bench calendar; (c) response consistency in shadow era.
+    fp_expected param = selftest-only injection; production callers pass
+    nothing and get the s9-frozen constant."""
+    out = {"check": "C6_regime_guard_integrity", "flags": {}, "findings": []}
+    findings = out["findings"]
+    expected = fp_expected if fp_expected is not None else C6_EXPECTED_FP
+
+    # (a) threshold fingerprint
+    fp = None
+    try:
+        import scripts.market_regime as mr
+        fp = mr.threshold_fingerprint()
+    except Exception as exc:            # auditor never dies on lane module
+        findings.append({"kind": "MODULE_ERROR", "detail": str(exc)[:200]})
+    out["thresholds_fp"] = fp
+    out["fp_matches_prereg"] = (fp == expected) if fp is not None else None
+    if fp is not None and fp != expected:
+        findings.append({"kind": "DRIFT",
+                         "detail": "threshold fingerprint != prereg-frozen "
+                                   "value (s9) -- law values changed without "
+                                   "a new prereg"})
+
+    # (b) state-series continuity
+    st = _load(os.path.join(RESULTS_DIR, "regime_state.json"))
+    if st is None:
+        out["verdict"] = "MISSING"
+        out["note"] = "regime_state.json absent -- probe never ran on this node"
+        return out
+    hist = st.get("history") or []
+    out["n_history"] = len(hist)
+    cal = _bench_calendar()
+    cal_pos = {d: i for i, d in enumerate(cal)} if cal else None
+    prev = None
+    for e in hist:
+        asof, s = str(e.get("asof", "")), e.get("state")
+        if s not in C6_STATES:
+            findings.append({"kind": "INCONSISTENT",
+                             "detail": f"invalid state {s!r} @ {asof}"})
+        if prev is not None:
+            if asof <= prev["asof"]:
+                findings.append({"kind": "INCONSISTENT",
+                                 "detail": f"asof not strictly increasing "
+                                           f"{prev['asof']} -> {asof}"})
+            elif (cal_pos is not None and prev["asof"] in cal_pos
+                  and asof in cal_pos
+                  and cal_pos[asof] != cal_pos[prev["asof"]] + 1):
+                findings.append({"kind": "GAP",
+                                 "detail": f"calendar gap {prev['asof']} -> "
+                                           f"{asof} (machine-off probe day = "
+                                           f"honest finding, not hidden)"})
+            if s != prev["state"]:
+                if not any(t.get("asof") == asof and t.get("from") == prev["state"]
+                           and t.get("to") == s
+                           for t in (st.get("transitions") or [])):
+                    findings.append({"kind": "INCONSISTENT",
+                                     "detail": f"state change "
+                                               f"{prev['state']}->{s} @ {asof} "
+                                               f"without matching transition"})
+                if int(e.get("days_in_state", 0) or 0) != 1:
+                    findings.append({"kind": "INCONSISTENT",
+                                     "detail": f"days_in_state != 1 on change "
+                                               f"day @ {asof}"})
+            elif int(e.get("days_in_state", 0) or 0) != \
+                    int(prev.get("days_in_state", 0) or 0) + 1:
+                findings.append({"kind": "INCONSISTENT",
+                                 "detail": f"days_in_state not prev+1 on "
+                                           f"same-state day @ {asof}"})
+        prev = e
+    if cal and hist and str(hist[-1].get("asof")) != cal[-1]:
+        findings.append({"kind": "STALE",
+                         "detail": f"history tail {hist[-1].get('asof')} != "
+                                   f"bench last bar {cal[-1]} (probe not run "
+                                   f"after the latest bar)"})
+    sfp = st.get("thresholds_fp")
+    out["state_file_fp"] = sfp
+    if sfp is not None and sfp != expected:
+        findings.append({"kind": "DRIFT",
+                         "detail": "state-file carried fp != prereg (state "
+                                   "written by drifted code, or prereg "
+                                   "superseded without s9 revision)"})
+
+    # (c) response consistency (shadow era; enforce response leg = separate
+    #     signed item, reported as not_wired when mode ever flips)
+    mode = st.get("mode")
+    out["state_mode"] = mode
+    if mode == "enforce":
+        out["flags"]["enforce_response_check"] = \
+            "not_wired (separate signed item per s9)"
+    if mode not in ("shadow", "enforce"):
+        findings.append({"kind": "INCONSISTENT",
+                         "detail": f"state mode {mode!r} unknown"})
+    state_by_asof = {str(e.get("asof")): e.get("state") for e in hist}
+    n_paper = n_block = 0
+    for p in sorted(glob.glob(os.path.join(RESULTS_DIR, "paper",
+                                           "*_paper.json"))):
+        n_paper += 1
+        d = _load(p)
+        blk = d.get("regime_guard") if isinstance(d, dict) else None
+        if not isinstance(blk, dict):
+            continue    # block absent = honest rollout note, not a finding
+        n_block += 1
+        if blk.get("mode") != "shadow":
+            findings.append({"kind": "VIOLATION",
+                             "detail": f"{os.path.basename(p)}: regime_guard "
+                                       f"mode {blk.get('mode')!r} != shadow "
+                                       f"(unauthorized interference)"})
+        basof = str(blk.get("asof"))
+        if basof in state_by_asof and blk.get("state") != state_by_asof[basof]:
+            findings.append({"kind": "VIOLATION",
+                             "detail": f"{os.path.basename(p)}: block state "
+                                       f"{blk.get('state')} != history "
+                                       f"{state_by_asof[basof]} @ {basof}"})
+    out["paper_files"] = n_paper
+    out["paper_with_block"] = n_block
+    out["flags"]["paper_block_absent_everywhere"] = bool(n_paper and n_block == 0)
+
+    out["verdict"] = "OK" if not findings else next(
+        (k for k in C6_PRIORITY
+         if any(f["kind"] == k for f in findings)), "FINDINGS")
+    return out
+
+
 def _exit_code(c5_verdict: str, auditor_error: bool = False) -> int:
     """Prereg s6: 0 = audit completed (findings or not); 1 = auditor broken
     (self-consistency red or internal fault — uncaught exceptions exit 1 anyway)."""
@@ -287,20 +440,23 @@ def run() -> int:
     c3 = check_traders(head["total"])
     c4 = check_attrition()
     c5 = check_skill_line(line_prev)
+    c6 = check_regime_guard()
 
     payload = {
         "module": "scripts/science_audit.py",
-        "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (frozen before first run)",
+        "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run)",
         "generated": _now(),
         "ledger_head": head,
         "previous_snapshot_source": prev_src,
-        "checks": [c1, c2, c3, c4, c5],
+        "checks": [c1, c2, c3, c4, c5, c6],
         "summary": {
             "c1_null": c1["verdict"], "c2_lockbox": c2["verdict"], "c3_traders": c3["verdict"],
             "c4_attrition": c4["verdict"], "c5_line": c5["verdict"],
+            "c6_regime": c6["verdict"],
             "n_findings": len(c2["violations"]) + c3["n_stale"] + c3["n_warn"]
                            + (1 if c4["verdict"] == "MISSING" else 0)
-                           + sum(1 for v in c5["flags"].values() if v) ,
+                           + sum(1 for v in c5["flags"].values() if v)
+                           + len(c6["findings"]),
         },
         "discipline": "findings never block any lane; CEO notification zero-action (O-2205)",
     }
@@ -332,6 +488,8 @@ def run() -> int:
         for r in c.get("rows", []):
             if r["status"] != "OK":
                 print(f"      {r['status']} {r.get('trader','')}: {r.get('reason','')}")
+        for f in c.get("findings", []):
+            print(f"      {f['kind']}: {f['detail']}")
     return _exit_code(c5["verdict"])
 
 
@@ -413,6 +571,61 @@ def selftest() -> int:
            abs(1.05 - 0.93) > C5_LINE_DRIFT_K and not (abs(0.94 - 0.93) > C5_LINE_DRIFT_K))
         ok("C5 math: formula self-consistency expression",
            abs(0.933 - max(0.4792, 0.933)) < 1e-9)
+
+        # --- C6 regime-guard integrity (synthetic state on temp dir; bench
+        #     calendar read real + read-only)
+        cal = _bench_calendar()
+        d1, d2, d3 = cal[-3], cal[-2], cal[-1]
+
+        def st_write(hist, transitions=None, mode="shadow"):
+            with open(os.path.join(tmp, "regime_state.json"), "w",
+                      encoding="utf-8") as fh:
+                json.dump({"mode": mode, "history": hist,
+                           "transitions": transitions or []}, fh)
+
+        st_write([{"asof": d1, "state": "GREEN", "days_in_state": 1},
+                  {"asof": d2, "state": "GREEN", "days_in_state": 2},
+                  {"asof": d3, "state": "GREEN", "days_in_state": 3}])
+        c6 = check_regime_guard()
+        ok("C6 OK path: contiguous days + fp match -> OK, zero paper files",
+           c6["verdict"] == "OK" and c6["fp_matches_prereg"] is True
+           and c6["paper_files"] == 0)
+        c6 = check_regime_guard(fp_expected="0" * 64)
+        ok("C6 fp mismatch vs injected expected -> DRIFT", c6["verdict"] == "DRIFT")
+        st_write([{"asof": d1, "state": "GREEN", "days_in_state": 1},
+                  {"asof": d3, "state": "GREEN", "days_in_state": 2}])
+        c6 = check_regime_guard()
+        ok("C6 calendar gap -> GAP", c6["verdict"] == "GAP")
+        st_write([{"asof": d1, "state": "GREEN", "days_in_state": 1},
+                  {"asof": d2, "state": "ORANGE", "days_in_state": 1},
+                  {"asof": d3, "state": "ORANGE", "days_in_state": 2}],
+                 transitions=[{"asof": d2, "from": "GREEN", "to": "YELLOW"}])
+        c6 = check_regime_guard()
+        ok("C6 state change without matching transition -> INCONSISTENT",
+           c6["verdict"] == "INCONSISTENT")
+        os.makedirs(os.path.join(tmp, "paper"), exist_ok=True)
+        st_write([{"asof": d3, "state": "ORANGE", "days_in_state": 1}])
+        with open(os.path.join(tmp, "paper", "X_paper.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"regime_guard": {"mode": "enforce",
+                                        "state": "ORANGE", "asof": d3}}, fh)
+        c6 = check_regime_guard()
+        ok("C6 paper block mode != shadow -> VIOLATION",
+           c6["verdict"] == "VIOLATION" and c6["paper_with_block"] == 1)
+        with open(os.path.join(tmp, "paper", "X_paper.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"regime_guard": {"mode": "shadow",
+                                        "state": "ORANGE", "asof": d3}}, fh)
+        c6 = check_regime_guard()
+        ok("C6 matching shadow block -> clean OK (no violation, no stale)",
+           c6["verdict"] == "OK" and c6["paper_with_block"] == 1)
+        st_write([{"asof": d1, "state": "GREEN", "days_in_state": 1}])
+        os.remove(os.path.join(tmp, "paper", "X_paper.json"))
+        c6 = check_regime_guard()
+        ok("C6 history tail != bench last bar -> STALE", c6["verdict"] == "STALE")
+        os.remove(os.path.join(tmp, "regime_state.json"))
+        c6 = check_regime_guard()
+        ok("C6 absent state file -> MISSING", c6["verdict"] == "MISSING")
 
         # --- run() exit rule: only C5 hard-red exits 1; findings exit 0
         ok("run exit rule: only SELFCONSISTENCY_RED (or auditor fault) exits 1; findings exit 0",
