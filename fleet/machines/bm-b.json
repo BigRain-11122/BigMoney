@@ -1,10 +1,10 @@
 {
   "machine_id": "bm-b",
-  "orders_ack": "All 19 orders through O-20260923-2134 acked (r44 full-scan diff; O-2134 folk-expansion = GM session own lane per MSG-2136, bm-b loop stand-down on that lane only; zero other new orders).",
-  "last_seen": "2026-09-23 21:58",
-  "idle_ram_gb": "10.2",
-  "gpu_idle_vram_mb": "2333",
-  "current_task": "round 44 delivered: r43 orphan salvaged + 3x rebase races landed; O-2134 acked (GM folk lane); P-B push2his still blocked -> parked; update_heat first bm-b run OK; S6 green. Next: extension-slot prereg (MSG claim first) / P-B re-probe.",
+  "orders_ack": "All 19 orders through O-20260923-2134 acked (r44 full-scan diff + r45 closeout rescan: zero new orders).",
+  "last_seen": "2026-09-23 22:10",
+  "idle_ram_gb": "9.8",
+  "gpu_idle_vram_mb": "2330",
+  "current_task": "round 45: P-1d extension-slot factor line opened (MSG-2155 claim + prereg frozen + backfill_ext_slots.py selftest 7/7 + background pull chain PID 4448: dzjy leg in flight, then gdhs, then margin ~7h multi-round). P-B push2his still blocked (parked). Next: monitor pull chain -> P-1d IC batch when data-completeness gates pass.",
   "cpu_cores": "16",
-  "verdict": "healthy: smoke 20/20; audit CLEAN 9% zero flags; daily cutoff 09-23 no-op; lhb no-op; heat own snapshot 100 rows; fundamental skip 0.9h; mask gates OK; gate chain 12 steps N=2090; orders_ack: 19/19 through O-2134; long-lines: 2026-10-31 promo check, CE-02 x2 watch"
+  "verdict": "healthy: smoke 20/20; audit CLEAN 18% zero flags; daily cutoff 09-23 no-op; lhb+heat no-op; fundamental skip 1.3h; mask gates 5/5; panel traders=3 milestones 5/7; ext-slot pull chain alive (dzjy 24mo/21226 rows zero-fail); long-lines: 2026-10-31 promo check, CE-02 x2 watch"
 }
