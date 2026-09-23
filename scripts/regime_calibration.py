@@ -367,6 +367,129 @@ def _write(payload: dict):
     os.replace(tmp, OUT_PATH)
 
 
+def counterfactual(write: bool = True) -> dict:
+    """Prereg s3.3 staged leg: 6 traders x {baseline, ORANGE/RED-masked}.
+
+    Masking zeroes ENTRY rows on ORANGE/RED state days (states derive from
+    <=t data only -- no lookahead); exit semantics stay the strategy's own
+    (derived from the UNMASKED entry). 12 engine runs = real trials ->
+    science_gates ledger +12. Measurement only: the batch verdict is already
+    frozen by G1/G2 (FAIL); this leg never reverses it (prereg s8).
+    """
+    from firm.hr import TRADERS_DIR, load_trader
+    try:
+        from science_gates import append_ledger
+    except ImportError:                       # imported-as-module fallback
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from science_gates import append_ledger
+    from engine import run_backtest
+    from live.paper import (OOS_START, SIGNAL_BUILDERS, ExitPatch,
+                            _evidence_matches, build_panels, evidence_cutoff,
+                            load_core, seg_metrics)
+
+    # 1. deterministic re-derivation of the frozen r55 state series; hard
+    #    abort if the bench has drifted since (counts must match recorded).
+    bench = build_bench()
+    raw = raw_series(bench, bench_dim_series(bench), breadth_series(bench))
+    states, _, _ = state_replay(bench, raw)
+    win = [d for d in bench.index if str(d.date()) >= WINDOW_START]
+    counts = {}
+    for d in win:
+        counts[states[d]] = counts.get(states[d], 0) + 1
+    with open(OUT_PATH, encoding="utf-8") as f:
+        recorded = json.load(f)
+    want = {k: counts.get(k, 0) for k in ("GREEN", "YELLOW", "ORANGE", "RED")}
+    if want != {k: int(v) for k, v in recorded["state_counts"].items()}:
+        raise AssertionError(f"state_counts drift vs recorded r55 run: "
+                             f"{want} != {recorded['state_counts']}")
+    mask_set = {d for d in win if states[d] in (ORANGE, RED)}
+
+    tids = [t[:-5] for t in sorted(os.listdir(TRADERS_DIR))
+            if t.endswith(".json") and not t.startswith("_")]
+    if len(tids) != 6:
+        raise AssertionError(f"roster size {len(tids)} != 6 (prereg s3.3)")
+    prices_full = load_core()
+    rows, mask_rows_n = [], None
+    for tid in tids:
+        t = load_trader(tid)
+        cutoff = evidence_cutoff(t, prices_full)
+        ps = pd.Timestamp(cutoff)
+        prices = {s: df[df.index <= ps] for s, df in prices_full.items()}
+        P = build_panels(prices)
+        entry = SIGNAL_BUILDERS[t["params"]["entry"]](P)
+        exit_sig = (entry <= 0)              # strategy's own exit semantics
+        params = {k: v for k, v in t["params"].items() if k != "entry"}
+        mask_rows = entry.index[entry.index.isin(mask_set)]
+        if mask_rows_n is None:
+            mask_rows_n = len(mask_rows)
+        entry_masked = entry.copy()
+        for c in entry_masked.columns:       # dtype-faithful zeroing
+            entry_masked.loc[mask_rows, c] = (False
+                                               if entry_masked[c].dtype == bool
+                                               else 0)
+        with ExitPatch(t.get("exit_overrides")):
+            base = run_backtest(prices, params, entry_signal=entry,
+                                exit_signal=exit_sig)
+            msk = run_backtest(prices, params, entry_signal=entry_masked,
+                               exit_signal=exit_sig)
+        # baseline MUST reproduce registration evidence (anchor law)
+        eq = pd.Series(base["equity_curve"],
+                       index=P["close"].index[:len(base["equity_curve"])])
+        oos_tr = sum(1 for tr in base["trades"]
+                     if str(tr["date"]) >= OOS_START)
+        got_is = {**seg_metrics(eq[eq.index < pd.Timestamp(OOS_START)]),
+                  "trades": base["metrics"]["num_trades"] - oos_tr}
+        got_is2 = {**seg_metrics(eq, OOS_START), "trades": oos_tr}
+        a_ok = (_evidence_matches(got_is, t["backtest"]["in_sample"])
+                and _evidence_matches(got_is2, t["backtest"]["out_sample"]))
+        blocked = int((entry.loc[mask_rows] > 0).sum().sum()) \
+            if len(mask_rows) else 0
+        total_e = int((entry > 0).sum().sum())
+        bm, mm = base["metrics"], msk["metrics"]
+        rows.append({"tid": tid, "anchor_ok": bool(a_ok),
+                     "blocked_entries": blocked, "total_entries": total_e,
+                     "blocked_share": (round(blocked / total_e, 4)
+                                       if total_e else None),
+                     "base_trades": bm["num_trades"],
+                     "masked_trades": mm["num_trades"],
+                     "d_trades": mm["num_trades"] - bm["num_trades"],
+                     "base_sharpe": round(bm["sharpe"], 4),
+                     "masked_sharpe": round(mm["sharpe"], 4),
+                     "d_sharpe": round(mm["sharpe"] - bm["sharpe"], 4),
+                     "base_annual": round(bm["annual_return"], 4),
+                     "masked_annual": round(mm["annual_return"], 4),
+                     "d_annual": round(mm["annual_return"]
+                                       - bm["annual_return"], 4)})
+    if not all(r["anchor_ok"] for r in rows):
+        raise AssertionError("baseline anchor gate FAILED -- batch invalid")
+
+    def rng(vals):
+        return {"min": min(vals), "max": max(vals)}
+
+    led = append_ledger("regime_guard_calibration", 12,
+                        note="prereg s3.3: 6 traders x {baseline, "
+                             "ORANGE/RED entry-mask} full-history legs",
+                        evidence_cutoff=EVIDENCE_CUTOFF)
+    cf = {"n_runs": 12, "mask_days_in_window": len(mask_set),
+          "mask_days_on_panel": mask_rows_n,
+          "rows": rows,
+          "range": {"d_sharpe": rng([r["d_sharpe"] for r in rows]),
+                    "d_annual": rng([r["d_annual"] for r in rows]),
+                    "d_trades": rng([r["d_trades"] for r in rows]),
+                    "blocked_share": rng([r["blocked_share"] for r in rows
+                                          if r["blocked_share"] is not None])},
+          "anchors_ok": True, "ledger": led,
+          "note": "measurement only; verdict unchanged (G1/G2 FAIL frozen "
+                  "by r55, prereg s8 -- re-prereg is the only enforce path)"}
+    if write:
+        recorded["counterfactual"] = cf
+        # top-level trials_ledger = the ONLY key ledger_head() scans (chain
+        # visibility); counterfactual.ledger is the provenance copy.
+        recorded["trials_ledger"] = led
+        _write(recorded)
+    return cf
+
+
 def _selftest() -> bool:
     ok = True
 
@@ -447,10 +570,20 @@ def main(argv=None) -> int:
                          ensure_ascii=False, indent=1))
         return 0 if g["ok"] else 1
     if "counterfactual" in argv:
-        print("counterfactual: STAGED LEG not yet implemented -- run engine "
-              "legs per prereg s3.3 (6 traders x {baseline, masked}) in a "
-              "follow-up round; honest exit 3")
-        return 3
+        cf = counterfactual()
+        print(json.dumps({"n_runs": cf["n_runs"],
+                          "mask_days_window": cf["mask_days_in_window"],
+                          "mask_days_panel": cf["mask_days_on_panel"],
+                          "range": cf["range"],
+                          "anchors_ok": cf["anchors_ok"],
+                          "ledger_total": (cf.get("ledger") or {}).get("total"),
+                          "rows": [{k: r[k] for k in
+                                    ("tid", "blocked_entries",
+                                     "blocked_share", "d_trades",
+                                     "d_sharpe", "d_annual")}
+                                   for r in cf["rows"]],
+                          "out": OUT_PATH}, ensure_ascii=False, indent=1))
+        return 0
     res = replay(write=True)
     print(json.dumps({"verdict": res["verdict"],
                       "gates_ok": res["gates"]["ok"],

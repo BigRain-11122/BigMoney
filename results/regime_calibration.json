@@ -220,7 +220,145 @@
     "G2_orange_fa_le_60pct": false,
     "G3_zero_gaps": true
   },
-  "counterfactual": "PENDING (staged leg, prereg s5)",
+  "counterfactual": {
+    "n_runs": 12,
+    "mask_days_in_window": 1005,
+    "mask_days_on_panel": 1004,
+    "rows": [
+      {
+        "tid": "COMPOSITE-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 4460,
+        "total_entries": 6955,
+        "blocked_share": 0.6413,
+        "base_trades": 474,
+        "masked_trades": 245,
+        "d_trades": -229,
+        "base_sharpe": 0.8114,
+        "masked_sharpe": 0.8227,
+        "d_sharpe": 0.0113,
+        "base_annual": 0.0576,
+        "masked_annual": 0.0425,
+        "d_annual": -0.0151
+      },
+      {
+        "tid": "COMPOSITE-CE-02",
+        "anchor_ok": true,
+        "blocked_entries": 7136,
+        "total_entries": 11128,
+        "blocked_share": 0.6413,
+        "base_trades": 795,
+        "masked_trades": 380,
+        "d_trades": -415,
+        "base_sharpe": 0.6099,
+        "masked_sharpe": 0.5984,
+        "d_sharpe": -0.0115,
+        "base_annual": 0.0691,
+        "masked_annual": 0.0311,
+        "d_annual": -0.038
+      },
+      {
+        "tid": "DROUGHT-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 549,
+        "total_entries": 873,
+        "blocked_share": 0.6289,
+        "base_trades": 120,
+        "masked_trades": 52,
+        "d_trades": -68,
+        "base_sharpe": 0.724,
+        "masked_sharpe": 0.5106,
+        "d_sharpe": -0.2134,
+        "base_annual": 0.0228,
+        "masked_annual": 0.0092,
+        "d_annual": -0.0136
+      },
+      {
+        "tid": "ENGULF-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 860,
+        "total_entries": 1177,
+        "blocked_share": 0.7307,
+        "base_trades": 143,
+        "masked_trades": 47,
+        "d_trades": -96,
+        "base_sharpe": 0.5392,
+        "masked_sharpe": 0.0898,
+        "d_sharpe": -0.4494,
+        "base_annual": 0.0172,
+        "masked_annual": 0.0015,
+        "d_annual": -0.0157
+      },
+      {
+        "tid": "NEEDLE-DE-01",
+        "anchor_ok": true,
+        "blocked_entries": 342,
+        "total_entries": 404,
+        "blocked_share": 0.8465,
+        "base_trades": 73,
+        "masked_trades": 11,
+        "d_trades": -62,
+        "base_sharpe": 0.6624,
+        "masked_sharpe": 0.0957,
+        "d_sharpe": -0.5667,
+        "base_annual": 0.0168,
+        "masked_annual": 0.0008,
+        "d_annual": -0.016
+      },
+      {
+        "tid": "VOLATILITY-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 4800,
+        "total_entries": 7855,
+        "blocked_share": 0.6111,
+        "base_trades": 522,
+        "masked_trades": 268,
+        "d_trades": -254,
+        "base_sharpe": 1.2578,
+        "masked_sharpe": 0.9539,
+        "d_sharpe": -0.3039,
+        "base_annual": 0.0307,
+        "masked_annual": 0.016,
+        "d_annual": -0.0147
+      }
+    ],
+    "range": {
+      "d_sharpe": {
+        "min": -0.5667,
+        "max": 0.0113
+      },
+      "d_annual": {
+        "min": -0.038,
+        "max": -0.0136
+      },
+      "d_trades": {
+        "min": -415,
+        "max": -62
+      },
+      "blocked_share": {
+        "min": 0.6111,
+        "max": 0.8465
+      }
+    },
+    "anchors_ok": true,
+    "ledger": {
+      "prev_total": 2753,
+      "batch_trials": 12,
+      "total": 2765,
+      "batch": "regime_guard_calibration",
+      "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs",
+      "evidence_cutoff": "2026-09-22"
+    },
+    "note": "measurement only; verdict unchanged (G1/G2 FAIL frozen by r55, prereg s8 -- re-prereg is the only enforce path)"
+  },
   "prereg": "research/REGIME_GUARD_VALIDATION.md @ a885044",
-  "evidence_cutoff": "2026-09-22"
+  "evidence_cutoff": "2026-09-22",
+  "trials_ledger": {
+    "prev_total": 2753,
+    "batch_trials": 12,
+    "total": 2765,
+    "batch": "regime_guard_calibration",
+    "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs",
+    "evidence_cutoff": "2026-09-22"
+  }
 }
