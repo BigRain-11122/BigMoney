@@ -27,9 +27,74 @@
    "seed": 20260923
   },
   "pbo": {
-   "status": "pending",
-   "family": "combined_exit_softening (J15 grid, 12 cells)",
-   "reason": "family harness not wired yet (queued next rounds; leg = insufficient -> blocks promotion until computed)"
+   "status": "observe",
+   "family": "combined_exit_softening (J15 grid, 10 cells)",
+   "pbo": 0.3,
+   "n_cells": 10,
+   "T": 1630,
+   "n_combinations": 70,
+   "repro": {
+    "ce_base": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 814,
+     "recorded_trades": 814
+    },
+    "ce_c2": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 731,
+     "recorded_trades": 731
+    },
+    "ce_c3": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 676,
+     "recorded_trades": 676
+    },
+    "ce_c23": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 538,
+     "recorded_trades": 538
+    },
+    "ce_c23_L12": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 581,
+     "recorded_trades": 581
+    },
+    "ce_c23_L24": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 493,
+     "recorded_trades": 493
+    },
+    "ce_c23_D20": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 574,
+     "recorded_trades": 574
+    },
+    "ce_c23_D32": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 538,
+     "recorded_trades": 538
+    },
+    "ce_c23_tp1": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 495,
+     "recorded_trades": 495
+    },
+    "ce_c23_trail4": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 522,
+     "recorded_trades": 522
+    }
+   }
   }
  },
  "inputs": {
@@ -53,5 +118,5 @@
   }
  },
  "ledger_note": "engine runs = recorded-cell reproductions (anchor gate + recorded family grids, evidence_cutoff panel) -- audit reproductions, NOT new trials; ledger N unchanged (pbo_cscv_v1 precedent)",
- "generated": "2026-09-24 00:22:45"
+ "generated": "2026-09-24 00:43:12"
 }

@@ -64,16 +64,26 @@ FAMILY_REGISTRY = {
                         "batch_results": "shortline_g2_folk.json"},
     "DROUGHT-CE-01":   {"kind": "g2_folk", "family": "vol_drought_reversal",
                         "batch_results": "shortline_g2_folk.json"},
-    "VOLATILITY-CE-01": {"kind": "pending_harness",
-                         "family": "combined_exit_softening (J15 grid, 12 cells)",
+    "VOLATILITY-CE-01": {"kind": "j15_grid",
+                         "family": "combined_exit_softening (J15 grid, 10 cells)",
                          "batch_results": "combined_exit.json"},
-    "COMPOSITE-CE-01": {"kind": "pending_harness",
-                        "family": "ce_transfer (J19 grid, 9 cells)",
+    "COMPOSITE-CE-01": {"kind": "j19_grid",
+                        "family": "ce_transfer composite grid (J19, 4 cells)",
                         "batch_results": "ce_transfer.json"},
-    "COMPOSITE-CE-02": {"kind": "pending_harness",
-                        "family": "ce_transfer (J19 grid, 9 cells)",
+    "COMPOSITE-CE-02": {"kind": "j19_grid",
+                        "family": "ce_transfer composite grid (J19, 4 cells)",
                         "batch_results": "ce_transfer.json"},
 }
+
+# J19 family grid (frozen design choice, made BEFORE computing): the four
+# composite cells of the pre-registered J19 grid. ct_anchor is EXCLUDED --
+# it is the J15 registered config reproduced as the batch's repro GATE (it
+# belongs to VOLATILITY-CE-01's family, not a composite candidate); x2/x3
+# rows are cost variants of the same cells, not distinct trials.
+J19_FAMILY_CELLS = (("ct_base_top5", 5, False),
+                    ("ct_base_top8", 8, False),
+                    ("ct_ce_top5", 5, True),
+                    ("ct_ce_top8", 8, True))
 
 
 # ---------------------------------------------------------------- legs (pure aggregation)
@@ -170,6 +180,124 @@ def _folk_family_matrix(g2f, fam_name: str) -> tuple[pd.DataFrame, dict]:
                              str(matrix.index[-1].date())]}
 
 
+# ---------------------------------------------------------------- J15/J19 recorded-grid harnesses
+
+def _repro_cell(r: dict, rr: dict | None, tol: float = 0.002) -> dict:
+    """Recorded-cell reproduction check: |full-recorded| < tol AND trades exact."""
+    if rr is None:
+        return {"ok": False, "reason": "no recorded cell"}
+    d = abs(r["full"]["sharpe"] - rr["full"]["sharpe"])
+    return {"ok": bool(d < tol and r["n_trades"] == rr["n_trades"]),
+            "abs_d": round(d, 4), "trades": r["n_trades"],
+            "recorded_trades": rr["n_trades"]}
+
+
+def _finalize_family_matrix(series: dict, repro: dict, cells: int,
+                            extra: dict | None = None):
+    if not all(v.get("ok") for v in repro.values()):
+        return None, {"repro_ok": False, "repro": repro, "n_cells": cells,
+                      "reason": "recorded-cell repro mismatch -- harness/panel "
+                                "drift, matrix NOT fabricated, leg stays pending",
+                      **(extra or {})}
+    matrix = align_returns(series)
+    return matrix, {"repro_ok": True, "repro": repro, "n_cells": cells,
+                    "span": [str(matrix.index[0].date()),
+                             str(matrix.index[-1].date())],
+                    **(extra or {})}
+
+
+def _j15_family_matrix(ces) -> tuple[pd.DataFrame | None, dict]:
+    """Rerun the RECORDED J15 combined-exit grid (10 pre-registered cells) on
+    the panel truncated to the batch's recorded history end (R27 pitfall: any
+    recorded-cell comparison must truncate the live panel to the recording
+    time -- data has grown since). ALL 10 cells are recorded in runs_1x ->
+    ALL must reproduce, or the leg stays pending (fail-loud, never a
+    fabricated matrix)."""
+    with open(os.path.join(_PBO_RESULTS, "combined_exit.json"),
+              encoding="utf-8") as fh:
+        rec = json.load(fh)
+    runs_rec = rec["runs_1x"]
+    hist_end = rec["universe"]["history"].split("..")[-1].strip()
+    ps = pd.Timestamp(hist_end)
+    prices = {s: df.loc[:ps].copy() for s, df in ces.load_core().items()}
+    P = {f: pd.DataFrame({s: df[f] for s, df in prices.items()})
+         .sort_index().ffill()
+         for f in ["open", "high", "low", "close", "volume", "amount"]}
+    close = P["close"]
+    idx = close.index
+    from strategies import volatility
+    entry_w = volatility.low_vol_long(close, 60, top_k=5)
+    series: dict[str, pd.Series] = {}
+    repro: dict[str, dict] = {}
+    cells = 0
+    for point, params, patch, _role in ces.GRID:
+        r = ces.run_one(prices, idx, entry_w, params, patch)
+        cells += 1
+        repro[point] = _repro_cell(r, runs_rec.get(point))
+        series[point] = equity_to_daily_returns(r["equity"])
+    return _finalize_family_matrix(
+        series, repro, cells, extra={"history_end": hist_end})
+
+
+def _j19_family_matrix(ct) -> tuple[pd.DataFrame | None, dict]:
+    """Rerun the RECORDED J19 composite transfer grid (J19_FAMILY_CELLS, see
+    frozen design note there) on the panel truncated to the batch's recorded
+    data end. All 4 cells must reproduce or the leg stays pending."""
+    with open(os.path.join(_PBO_RESULTS, "ce_transfer.json"),
+              encoding="utf-8") as fh:
+        rec = json.load(fh)
+    runs_rec = rec["runs"]
+    data_end = rec["universe"]["history"].split("..")[-1].strip()
+    ps = pd.Timestamp(data_end)
+    prices = {s: df.loc[:ps].copy() for s, df in ct.load_core().items()}
+    P = ct.panels(prices)
+    close, high, low = P["close"], P["high"], P["low"]
+    idx = close.index
+    from strategies.composite_rotation import top_n_rotation
+    entries = {n: top_n_rotation(high, low, close, top_n=n, rebal_days=20)
+               for n in (5, 8)}
+    series: dict[str, pd.Series] = {}
+    repro: dict[str, dict] = {}
+    cells = 0
+    for name, n, use_ce in J19_FAMILY_CELLS:
+        params = {"max_positions": n, "position_size_pct": round(0.95 / n, 4)}
+        patch = dict(ct.CE_PATCH) if use_ce else None
+        if use_ce:
+            params = {**params, **ct.CE_BRIDGE}
+        r = ct.run_one(prices, idx, entries[n], params, patch)
+        cells += 1
+        repro[name] = _repro_cell(r, runs_rec.get(name))
+        series[name] = equity_to_daily_returns(r["equity"])
+    return _finalize_family_matrix(
+        series, repro, cells, extra={"data_end": data_end})
+
+
+def _family_matrix(reg: dict, fam_cache: dict) -> tuple[pd.DataFrame | None, dict]:
+    """Dispatch to the wired family harness; unknown/unwired kind = pending
+    (insufficient -- blocks promotion until computed, never silently
+    skipped)."""
+    kind = reg["kind"]
+    if kind == "g2_folk":
+        fam = reg["family"]
+        if fam not in fam_cache:
+            import g2_folk as g2f
+            fam_cache[fam] = _folk_family_matrix(g2f, fam)
+        return fam_cache[fam]
+    if kind == "j15_grid":
+        if kind not in fam_cache:
+            import combined_exit_screen as ces
+            fam_cache[kind] = _j15_family_matrix(ces)
+        return fam_cache[kind]
+    if kind == "j19_grid":
+        if kind not in fam_cache:
+            import ce_transfer as ct
+            fam_cache[kind] = _j19_family_matrix(ct)
+        return fam_cache[kind]
+    return None, {"reason": "family harness not wired (unknown kind "
+                            f"'{kind}'; queued; leg = insufficient -> "
+                            "blocks promotion until computed)"}
+
+
 # ---------------------------------------------------------------- live run
 
 def run() -> int:
@@ -197,28 +325,18 @@ def run() -> int:
             fam_ctx = _registration_ledger_head(None)
         else:
             fam_ctx = _registration_ledger_head(reg["batch_results"])
-            if reg["kind"] == "g2_folk":
-                fam = reg["family"]
-                if fam not in fam_cache:
-                    import g2_folk as g2f
-                    fam_cache[fam] = _folk_family_matrix(g2f, fam)
-                fam_matrix, fam_info = fam_cache[fam]
-                if fam_matrix is None:
-                    pbo_leg = {"status": "pending",
-                               "family": fam, **fam_info}
-                else:
-                    cscv = cscv_pbo(fam_matrix)
-                    pbo_leg = {"status": _pbo_leg_status(cscv["pbo"]),
-                               "family": fam, "pbo": cscv["pbo"],
-                               "n_cells": fam_info["n_cells"],
-                               "T": cscv["n_rows"],
-                               "n_combinations": cscv["n_combinations"],
-                               "repro": fam_info["repro"]}
-            else:
+            fam_matrix, fam_info = _family_matrix(reg, fam_cache)
+            if fam_matrix is None:
                 pbo_leg = {"status": "pending", "family": reg["family"],
-                           "reason": "family harness not wired yet "
-                                     "(queued next rounds; leg = insufficient "
-                                     "-> blocks promotion until computed)"}
+                           **(fam_info or {})}
+            else:
+                cscv = cscv_pbo(fam_matrix)
+                pbo_leg = {"status": _pbo_leg_status(cscv["pbo"]),
+                           "family": reg["family"], "pbo": cscv["pbo"],
+                           "n_cells": fam_info["n_cells"],
+                           "T": cscv["n_rows"],
+                           "n_combinations": cscv["n_combinations"],
+                           "repro": fam_info["repro"]}
         verdict = _aggregate_verdict(dsr["dsr"] >= DSR_GATE,
                                     ci["ci_lower_bound_positive"],
                                     pbo_leg["status"])
@@ -340,9 +458,29 @@ def selftest() -> int:
             os.remove(p)
 
     # registry completeness offline: every entry's family kind is known
-    kinds = {"g2_folk", "pending_harness"}
+    kinds = {"g2_folk", "j15_grid", "j19_grid"}
     ok("FAMILY_REGISTRY kinds all known",
        all(v["kind"] in kinds for v in FAMILY_REGISTRY.values()))
+
+    # harness wiring offline (no engine runs): grids must line up with the
+    # RECORDED batch JSONs -- the live harness refuses any cell missing a
+    # recorded counterpart, so wiring gaps must fail here first.
+    import combined_exit_screen as _ces
+    ok("J15 harness grid = 10 recorded cells",
+       len(_ces.GRID) == 10
+       and all(p in json.load(open(os.path.join(
+           _PBO_RESULTS, "combined_exit.json"), encoding="utf-8"))["runs_1x"]
+           for p, _pa, _pt, _ro in _ces.GRID))
+    ok("J19 harness grid = 4 composite cells (anchor/x2/x3 excluded)",
+       len(J19_FAMILY_CELLS) == 4
+       and all(n in json.load(open(os.path.join(
+           _PBO_RESULTS, "ce_transfer.json"), encoding="utf-8"))["runs"]
+           for n, _k, _ce in J19_FAMILY_CELLS)
+       and all(n != "ct_anchor" for n, _k, _ce in J19_FAMILY_CELLS))
+    ok("J15/J19 batch results mapped in registry exist on disk",
+       all(os.path.exists(os.path.join(_PBO_RESULTS,
+                                       v["batch_results"]))
+           for v in FAMILY_REGISTRY.values()))
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\ng25_retro selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")

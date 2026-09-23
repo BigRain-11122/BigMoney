@@ -27,9 +27,38 @@
    "seed": 20260923
   },
   "pbo": {
-   "status": "pending",
-   "family": "ce_transfer (J19 grid, 9 cells)",
-   "reason": "family harness not wired yet (queued next rounds; leg = insufficient -> blocks promotion until computed)"
+   "status": "pass",
+   "family": "ce_transfer composite grid (J19, 4 cells)",
+   "pbo": 0.0714,
+   "n_cells": 4,
+   "T": 1630,
+   "n_combinations": 70,
+   "repro": {
+    "ct_base_top5": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 707,
+     "recorded_trades": 707
+    },
+    "ct_base_top8": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 1188,
+     "recorded_trades": 1188
+    },
+    "ct_ce_top5": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 474,
+     "recorded_trades": 474
+    },
+    "ct_ce_top8": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 795,
+     "recorded_trades": 795
+    }
+   }
   }
  },
  "inputs": {
@@ -53,5 +82,5 @@
   }
  },
  "ledger_note": "engine runs = recorded-cell reproductions (anchor gate + recorded family grids, evidence_cutoff panel) -- audit reproductions, NOT new trials; ledger N unchanged (pbo_cscv_v1 precedent)",
- "generated": "2026-09-24 00:22:22"
+ "generated": "2026-09-24 00:42:49"
 }
