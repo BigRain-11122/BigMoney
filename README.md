@@ -85,7 +85,7 @@ Master (笔记本) 100.x.x.x ── Redis :6379 (bind Tailscale only)
 ## 快速开始（任何机器，一条命令）
 
 ```powershell
-# 1. clone 或拷贝本文件夹到新机器（git 已跟踪≈105MB：代码+数据+成果+规则+记忆）
+# 1. git clone git@github.com:BigRain-11122/bigmoney.git（多机并行开发交流全靠 git；拷贝文件夹仅为离线后备）
 # 2. 一条命令自举：依赖自装（清华镜像回退）→ 20 项自检 → 总控数据生成
 python bootstrap.py
 # 3. 打开总控 bigmoney.html；（可选，Windows）装 10 分钟 AI 自迭代循环（路径自适应零改动）：

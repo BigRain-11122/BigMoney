@@ -48,7 +48,7 @@ python -m screening.rank          # 432 组排名重建
 ```
 
 - 机器要求：Python 3.10+（3.11 实测）；AI 循环需装 **Codely CLI 并登录**（循环用 `codely -y -p` 无头模式）；GPU 非必需（回测=CPU 任务，GPU 启用条件见 `research/BACKTEST_PLAN.md` §四）。
-- **git 同步（推荐机制）**：本仓库已初始化（基线 `eec105e`，2321 文件/105MB），循环每轮自动 commit 成果。远端未配置——加一条 `git remote add origin <你的私库> && git push -u origin master` 即可在任意机器间同步；本机跑出的新成果，在任何机器 `git pull` 即得。
+- **git 同步（并行开发唯一通道）**：远端已预设 = `git@github.com:BigRain-11122/bigmoney.git`（SSH/Clash 链路实测认证通过）。**唯一待办：在 GitHub 建空私库 `BigRain-11122/bigmoney`（不勾选任何初始化文件）**——建好后循环下一轮（≤10 分钟）自动 push 接上；此后本机每批成果在任何机器 `git pull` 即得。主分支=main，并行开发协议=PLAN.md §8（节点侧遇冲突只读避让）。
 - 规则与记忆随仓库走：`PLAN.md`（契约+接手清单 §6）、根 `CODELY.md`（项目记忆）、`Tools/iteration_prompt.txt`（循环 mandate）——任何机器上的任何 AI 会话打开本项目即自动继承全部规则。
 
 ## 五、文件格式速查
