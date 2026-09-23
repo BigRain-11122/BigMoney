@@ -51,8 +51,8 @@ SLEEVE_MAX_CORR = 0.30
 CE_PARAMS = {"time_decay_period": 25, "time_decay_threshold": 0.05,
              "trailing_stop_activate": 0.1}
 CE_OVERRIDES = {"loss_time_days": 16}
-TRIALS_PRIOR = "shortline_p4_folk.json"
-PREREG_PREV = 2299
+TRIALS_PRIOR = "shortline_g2_folk.json"   # chain head 2393 (G2 ran first)
+PREREG_PREV = 2393
 LEDGER_KEY = "shortline-p4-queue"
 
 FAMILIES = {
