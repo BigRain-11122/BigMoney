@@ -1,38 +1,38 @@
 {
  "audit": "P-B heat/attention data-source audit",
  "order_ref": "O-20260923-1850 P-B (GM dispatch bm-b)",
- "asof": "2026-09-23T19:37:56",
- "today": "2026-09-23",
+ "asof": "2026-09-24T07:44:12",
+ "today": "2026-09-24",
  "machine": "bm-b",
  "discipline": "akshare/public no-key endpoints only; cookie/key sources register-only",
  "probes": {
   "concept_boards": {
-   "latency_ms": 21071,
+   "latency_ms": 22456,
    "ok": false,
    "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
   },
   "board_hist_depth": {
-   "latency_ms": 20947,
+   "latency_ms": 22554,
    "ok": false,
    "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
   },
   "board_cons": {
-   "latency_ms": 21640,
+   "latency_ms": 21123,
    "ok": false,
    "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
   },
   "hot_rank": {
-   "latency_ms": 7486,
+   "latency_ms": 7571,
    "ok": false,
    "error": "RuntimeError: stock_hot_rank_em failed after retry"
   },
   "news_em": {
-   "latency_ms": 1267,
+   "latency_ms": 1361,
    "ok": false,
    "error": "ArrowInvalid: Invalid regular expression: invalid escape sequence: \\u"
   },
   "ths_concept": {
-   "latency_ms": 4799,
+   "latency_ms": 4972,
    "ok": true,
    "n_boards_ths": 375,
    "columns": [
@@ -51,7 +51,7 @@
    ]
   },
   "margin_depth": {
-   "latency_ms": 2134,
+   "latency_ms": 2158,
    "ok": true,
    "probe_date": "2010-03-31",
    "rows": 25,
@@ -69,7 +69,7 @@
    "verdict_hint": "margin detail back to 2010-03 if rows>0"
   },
   "dzjy_depth": {
-   "latency_ms": 1763,
+   "latency_ms": 2151,
    "ok": true,
    "probe_date": "2013-01-04",
    "rows": 1,
@@ -87,7 +87,7 @@
    "verdict_hint": "block-trade detail back to 2013 if rows>0"
   },
   "gdhs_depth": {
-   "latency_ms": 5545,
+   "latency_ms": 5631,
    "ok": true,
    "probe_date": "2015-09-30",
    "rows": 2454,
@@ -112,22 +112,22 @@
    "verdict_hint": "holder-count back to 2015Q3 if rows>0"
   },
   "raw_board_list": {
-   "latency_ms": 176,
+   "latency_ms": 189,
    "ok": false,
    "error": "RemoteDisconnected: Remote end closed connection without response"
   },
   "raw_board_kline": {
-   "latency_ms": 172,
+   "latency_ms": 179,
    "ok": false,
    "error": "RemoteDisconnected: Remote end closed connection without response"
   },
   "raw_board_cons": {
-   "latency_ms": 284,
+   "latency_ms": 182,
    "ok": false,
    "error": "RemoteDisconnected: Remote end closed connection without response"
   },
   "raw_news": {
-   "latency_ms": 243,
+   "latency_ms": 306,
    "ok": true,
    "route": "direct",
    "articles_page1": 100,
@@ -135,10 +135,10 @@
    "last_ts": "2026-09-23 10:46:54"
   },
   "ths_board_hist": {
-   "latency_ms": 23417,
+   "latency_ms": 22083,
    "ok": true,
    "board": "�����ĺ�Ĭ����",
-   "bars": 661,
+   "bars": 730,
    "columns": [
     "����",
     "���̼�",
@@ -148,8 +148,8 @@
     "�ɽ���",
     "�ɽ���"
    ],
-   "first": "2024-01-02",
-   "last": "2026-09-22"
+   "first": "2023-09-19",
+   "last": "2026-09-23"
   }
  },
  "classification": [
@@ -185,7 +185,7 @@
    "source": "ths_concept_boards(+index_hist)",
    "family": "P-B(alt)",
    "verdict": "backtestable",
-   "depth": "boards=375; sample(new board)=661 bars from 2024-01-02; old board 物联网=3088 bars from 2011-01-04 -> depth=board-creation-bounded, 15y for 2010s boards",
+   "depth": "boards=375, sample index bars=730 first=2023-09-19",
    "usage": "alternative concept taxonomy (THS): board list + index history"
   },
   {
@@ -217,16 +217,5 @@
    "usage": "P-B pull pipeline must bypass proxy for push2.eastmoney.com family"
   }
  ],
- "zero_engine_runs": true,
- "supplementary_probes": {
-  "ths_old_board_wlw": {
-   "board": "物联网",
-   "bars": 3088,
-   "first": "2011-01-04",
-   "last": "2026-09-22",
-   "cmd": "ak.stock_board_concept_index_ths(symbol='物联网', start_date='20100101', end_date='20260923')",
-   "note": "old THS boards carry 15y daily index history; depth bounded by board creation date"
-  }
- },
- "em_push2_throttle_note": "EM push2/clist + emappdata throttled our IP after rapid sequential probing (instant RemoteDisconnected across 3 spaced runs); single-shot run-2 evidence: board membership snapshot ok (68 members, direct route); EM board-index kline depth left unverified -> P-B pull pipeline must use direct route + rate limiting; THS already satisfies concept-index depth need"
+ "zero_engine_runs": true
 }
