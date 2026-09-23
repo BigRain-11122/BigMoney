@@ -30,8 +30,13 @@
 | 腿 | 内容 | 状态 |
 |---|---|---|
 | L1 人气榜日快照 | 本件（scripts/update_heat.py + data/heat/popularity/） | **V1 交付 2026-09-23** |
-| L2 单股排名历史回填 | detail_em 按当日 top-100 成员拉 366 bars 历史（100 请求×3-5s 限速≈8min，另开轮次跑） | 未启动 |
+| L2 单股排名历史回填 | scripts/backfill_heat_history.py（认领 MSG-20260923-2105）：emappdata `getHisList`+`getHisProfileList` 双腿/股（同域直连），按当日 top-100 成员回填，每股原子写 `data/heat/rank_history/<SEC>.json`（冻结 schema=date/rank/new_uid_rate/old_uid_rate），限速 ≥2.5s/请求+连续 5 失败保险丝+checkpoint 可续跑+selftest 14 用例；探针定案=数据集纪元 **2025-09-23 起、窗封顶 366 bars（≈1 年）**，yearType="5" 亦只返 1 年 | **V1 交付 2026-09-23（R20）** |
 | L3 新闻腿 | search-api-web raw jsonp（C 级·3 个月窗）——宇宙 5222 全采不经济，须先定子集策略 | 未启动 |
+
+## §4.1 L2 幸存者条款（消费方必读，写死于交付时）
+
+- 素材=**当日 top-100 成员**的历史回填：只覆盖「现在热门」的股票，强选择偏差（前向性幸存者条款同 P-B spec §2B）；**不存在全市场日截面历史**（r39 审计定案），任何 IC 批跑前必须声明前向窗口起点 2025-09-23 与本条款。
+- 快照成员随 L1 前向积累逐日扩张真宇宙；L2 文件=回填时刻冻结，**禁合并不同 fetch 时刻的文件冒充统一截面**。
 
 ## §5 exit 语义（S6 链接线）
 
