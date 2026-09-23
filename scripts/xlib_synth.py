@@ -43,8 +43,7 @@ from composite_ic import IS_END, ic_series, stats_block
 from science_gates import cutoff_meta
 from shortline_p1_ic import _ic_series_fast, load_alpha191, load_panels
 from shortline_p1b_wq101 import load_wq101
-from ps2_synth import (composite_z, fwd_ret, ic_from_ranks, ic_of, rank_rows,
-                       z_rows)
+from ps2_synth import composite_z, z_rows
 
 OUT_DIR = os.path.join(ROOT, "results", "shortline")
 RES_DIR = os.path.join(ROOT, "research", "shortline")
@@ -97,17 +96,37 @@ def seg_stats(s):
             stats_block(s[s.index > IS_END_TS]))
 
 
+def _num(v):
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return None
+
+
+def _repro_delta(recorded, blk):
+    """Reproduction delta; empty-on-both-sides counts as exact match."""
+    r = _num(recorded)
+    got = blk.get("ic_mean")
+    if r is not None and got is not None:
+        return abs(float(got) - r)
+    if r is None and got is None:
+        return 0.0
+    return 9.9
+
+
 def main():
     t0 = time.time()
     print("[XLIB_SYNTH] load panels (truncate to evidence_cutoff)...")
     panels = load_panels()
     panels = {k: v.loc[v.index <= CUTOFF] for k, v in panels.items()}
     close = panels["close"]
-    amount = panels["amount"]
     T, N = close.shape
     cal = close.index
     print(f"  panel: {T} dates x {N} symbols (cutoff {CUTOFF.date()})")
-    maskA = (close.notna() & amount.notna()).values
+    # P-1a/P-1b recorded-line IC convention: pairwise-complete on the
+    # ffill-price panel, no extra tradability mask (core48 has no amount
+    # mask in the recorded line; the ps2 maskA convention is stock-domain).
+    maskC = close.notna().values
     fwd10 = close.shift(-H_GATE) / close - 1
 
     # ---- recorded shelf / population
@@ -125,14 +144,10 @@ def main():
     assert len(pop) == N_POP_EXPECT, "prereg s4 population mismatch"
     assert set(shelf) <= set(pop), "shelf must be subset of population"
 
-    # ---- equivalence probe (fast IC-of path vs reference ic_series)
+    # ---- equivalence probe (batch fast path vs reference ic_series)
     probe = -close.pct_change(60)
     ref = ic_series(probe, fwd10)
-    eff = maskA & np.isfinite(probe.values) & np.isfinite(fwd10.values)
-    fast = ic_from_ranks(rank_rows(eff, probe.values),
-                         rank_rows(eff, fwd10.values),
-                         cal.values)
-    fast = pd.Series(fast.values, index=cal[~np.isnan(fast.values)])
+    fast = _ic_series_fast(probe, fwd10)
     common = ref.index.intersection(fast.index)
     worst = float((ref[common] - fast[common]).abs().max()) if len(common) else 9.9
     print(f"  equivalence probe: max|diff|={worst:.2e} "
@@ -164,11 +179,18 @@ def main():
     is_sign = {}
     oos_repro = {}
     is_repro = {}
+    sanitized = []
     t1 = time.time()
     for i, name in enumerate(pop, 1):
         vals = compute_member(name)
-        z_panels[name] = z_rows(vals.values, maskA).astype(np.float32)
-        s = _ic_series_fast(vals, fwd10)
+        arr = vals.values
+        if arr.dtype == object:  # vendor hygiene (P-2 precedent): to_numeric
+            arr = vals.apply(pd.to_numeric, errors="coerce").values
+            arr = np.asarray(arr, dtype=np.float64)
+            sanitized.append(name)
+        z_panels[name] = z_rows(arr, maskC).astype(np.float32)
+        s = _ic_series_fast(pd.DataFrame(arr, index=vals.index,
+                                         columns=vals.columns), fwd10)
         s_is = s[s.index <= IS_END_TS]
         ic_series_is[name] = s_is
         blk_is = stats_block(s_is)
@@ -176,10 +198,10 @@ def main():
         ic_is[name] = blk_is.get("ic_mean", np.nan)
         is_sign[name] = 1.0 if blk_is.get("ic_mean", 0) >= 0 else -1.0
         if name in rec_rows:
-            is_repro[name] = abs(float(blk_is.get("ic_mean", 9))
-                                 - float(rec_rows[name]["h10_is_ic"]))
-            oos_repro[name] = abs(float(blk_oos.get("ic_mean", 9))
-                                  - float(rec_rows[name]["h10_oos_ic"]))
+            is_repro[name] = _repro_delta(rec_rows[name].get("h10_is_ic"),
+                                          blk_is)
+            oos_repro[name] = _repro_delta(rec_rows[name].get("h10_oos_ic"),
+                                          blk_oos)
         if i % 50 == 0:
             print(f"  ... {i}/{len(pop)} ({time.time()-t1:.0f}s)", flush=True)
     print(f"  member panels done ({time.time()-t1:.0f}s)")
@@ -198,7 +220,12 @@ def main():
         sys.exit(2)
 
     # ---- clustering (prereg s1): greedy rep-based on IS IC-series corr
-    order = sorted(shelf, key=lambda n: (-abs(ic_is[n]), n))
+    def sort_key(n):
+        v = ic_is[n]
+        fin = bool(np.isfinite(v))
+        return (0 if fin else 1, -abs(v) if fin else 0.0, n)
+
+    order = sorted(shelf, key=sort_key)
     reps = []
     clusters = {}
     for name in order:
@@ -222,9 +249,12 @@ def main():
         zs = [z_panels[n] * is_sign[n] for n in names]
         return composite_z(zs, min_valid)
 
+    def comp_ic(comp_arr, fwd_df):
+        df = pd.DataFrame(comp_arr, index=close.index, columns=close.columns)
+        return _ic_series_fast(df, fwd_df)
+
     comp = build_comp(top_reps[:K_PRIMARY], MV_PRIMARY)
-    s_comp = ic_of(comp, maskA, fwd10.values, cal.values)
-    s_comp = pd.Series(s_comp.values, index=cal[~np.isnan(s_comp.values)])
+    s_comp = comp_ic(comp, fwd10)
     b_full, b_is, b_oos = seg_stats(s_comp)
     print(f"  primary: is_ic={b_is.get('ic_mean')} is_ir={b_is.get('ic_ir')} "
           f"oos_ic={b_oos.get('ic_mean')} ({time.time()-t1:.0f}s)")
@@ -237,9 +267,7 @@ def main():
             idx = rng.choice(len(pop_names), K_PRIMARY, replace=False)
             names = [pop_names[j] for j in idx]
             zs = [z_panels[n] * is_sign[n] for n in names]
-            s = ic_of(composite_z(zs, MV_PRIMARY), maskA, fwd10.values,
-                      cal.values)
-            s = pd.Series(s.values, index=cal[~np.isnan(s.values)])
+            s = comp_ic(composite_z(zs, MV_PRIMARY), fwd10)
             blk = stats_block(s[s.index <= IS_END_TS])
             if "ic_mean" in blk:
                 abs_is.append(abs(blk["ic_mean"]))
@@ -271,8 +299,7 @@ def main():
     sens = []
     for k, mv in K_SENS:
         c2 = build_comp(top_reps[:k], mv)
-        s2 = ic_of(c2, maskA, fwd10.values, cal.values)
-        s2 = pd.Series(s2.values, index=cal[~np.isnan(s2.values)])
+        s2 = comp_ic(c2, fwd10)
         _, bis2, bos2 = seg_stats(s2)
         sens.append({"role": f"sensitivity_k{k}", "k": k, "min_valid": mv,
                      "members": top_reps[:k],
@@ -285,8 +312,7 @@ def main():
     if passed:
         for h in H_REPORT:
             fw = close.shift(-h) / close - 1
-            sh = ic_of(comp, maskA, fw.values, cal.values)
-            sh = pd.Series(sh.values, index=cal[~np.isnan(sh.values)])
+            sh = comp_ic(comp, fw)
             _, his, hos = seg_stats(sh)
             h20[f"h{h}"] = {"is_ic": his.get("ic_mean", ""),
                             "oos_ic": hos.get("ic_mean", ""),
@@ -336,6 +362,7 @@ def main():
                               "max_delta_is": repro_max_is,
                               "max_delta_oos": repro_max_oos,
                               "pass": not repro_bad},
+        "sanitized_panels": sanitized,
         "clustering": {"corr_threshold": CLUSTER_CORR,
                        "min_overlap": MIN_OVERLAP,
                        "n_families": len(reps),
