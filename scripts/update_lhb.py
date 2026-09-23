@@ -31,6 +31,24 @@ EM datacenter (bm-b r39 finding + seat-pull 300s backoff evidence):
   - min re-attempt interval: last_attempt recorded in the status mirror
     BEFORE the network call (crash mid-fetch still throttles next round)
   - `selftest` subcommand: offline guard tests, zero network zero writes
+
+T-04 F2 robustness batch (bm-c, AUDIT-20260923 P0-6/P1-7):
+  - store-absent guard: nodes that sparse-clone without Money02 (HANDOVER
+    s3, bm-c profile) exit 2 honestly instead of crashing on read_parquet;
+    store backfill stays a GM-lane decision, never auto-fetched
+  - holiday awareness: expected-disclosure now intersects the SSE trading
+    calendar derived from local data/daily core bars (maintained by
+    update_daily on every node, zero new deps, zero network). Mid-week
+    holidays no longer trigger pointless fetches. Documented caveat: if
+    sina publishes today's EOD bar late (09-23 precedent: ~20:26), the
+    in-window branch rolls back one day and the fetch happens a few
+    hours later the same evening -- self-healing, no correctness loss.
+    No local daily data at all (fresh node) -> weekday fallback (old
+    behavior, harmless direction: extra throttled fetch attempts)
+  - last_attempt carried on ALL early-return paths (overlap-mismatch
+    previously dropped it -> 30-min throttle bypassed, hammering EM)
+  - chunk/parquet writes atomic (.tmp + rowcount verify + os.replace)
+  - corrupted status file logged to stderr instead of silent {} reset
 """
 import json
 import os
@@ -44,6 +62,8 @@ LHB_DIR = os.path.join(ROOT, "Money02", "data", "lhb")
 PARQUET = os.path.join(LHB_DIR, "lhb_detail.parquet")
 CHUNKS = os.path.join(LHB_DIR, "chunks")
 STATUS = os.path.join(ROOT, "results", "lhb_update_status.json")
+DAILY_DIR = os.path.join(ROOT, "data", "daily")
+CORE_CALENDAR_FILE = os.path.join(DAILY_DIR, "510300.csv")
 TOL = 1e-6
 PUBLISH_HOUR = 17                # LHB disclosures land ~17-19h local
 MIN_ATTEMPT_INTERVAL = 30 * 60  # min seconds between network attempts
@@ -61,28 +81,84 @@ def load_status():
         try:
             with open(STATUS, encoding="utf-8") as f:
                 return json.load(f)
-        except Exception:
+        except Exception as ex:
+            print(f"WARN: lhb status file unreadable "
+                  f"({type(ex).__name__}: {str(ex)[:80]}); "
+                  "starting from empty status", file=sys.stderr, flush=True)
             return {}
     return {}
 
 
-def expected_disclosure_date(now):
-    """LHB trading-day events disclose in the evening (~17h+). Before the
-    publish window - and on weekends - the freshest possible disclosure
-    is the most recent weekday strictly before today."""
+# ---------------------------------------------------------------- calendar
+_DATES_CACHE = "unset"
+
+
+def _load_local_dates():
+    """SSE trading-day history from local data/daily core bars (510300 =
+    most liquid core ETF, trades every market day; updated by update_daily
+    each round on every node). Returns sorted list of Timestamps or None
+    when no local daily data exists. Module-level cache: single-shot CLI
+    plus repeated selftest calls must not re-read the CSV each time."""
+    global _DATES_CACHE
+    if _DATES_CACHE != "unset":
+        return _DATES_CACHE
+    path = CORE_CALENDAR_FILE
+    if not os.path.exists(path):
+        import glob as _glob
+        cands = sorted(_glob.glob(os.path.join(DAILY_DIR, "*.csv")))
+        path = cands[0] if cands else None
+    dates = None
+    if path:
+        try:
+            df = pd.read_csv(path, usecols=[0])
+            ds = pd.to_datetime(df[df.columns[0]], errors="coerce")
+            ds = sorted(ds.dropna().normalize().unique())
+            if len(ds):
+                dates = [pd.Timestamp(d) for d in ds]
+        except Exception:
+            dates = None
+    _DATES_CACHE = dates
+    return dates
+
+
+def expected_disclosure_date(now, dates=None):
+    """LHB trading-day events disclose in the evening (~17h+). Latest
+    POSSIBLE disclosure date given `now`:
+      - in publish window with today present in the local trading
+        calendar (today's EOD bar already landed) -> today
+      - otherwise the most recent local trading day strictly before
+        today (handles weekends AND mid-week holidays precisely; a
+        same-evening sina publication delay just defers the fetch a few
+        hours, self-healing)
+      - no local calendar at all -> weekday approximation (old behavior)
+    """
+    if dates is None:
+        dates = _load_local_dates()
     today = now.normalize()
-    if now.hour >= PUBLISH_HOUR and today.weekday() < 5:
+    if dates is None:
+        if now.hour >= PUBLISH_HOUR and today.weekday() < 5:
+            return today
+        d = today - pd.Timedelta(days=1)
+        while d.weekday() >= 5:
+            d -= pd.Timedelta(days=1)
+        return d
+    if now.hour >= PUBLISH_HOUR and today in dates:
         return today
+    prior = [d for d in dates if d < today]
+    if prior:
+        return prior[-1]
+    # local history does not reach back before today (degenerate):
+    # weekday fallback rather than crash
     d = today - pd.Timedelta(days=1)
     while d.weekday() >= 5:
         d -= pd.Timedelta(days=1)
     return d
 
 
-def fetch_gate(cutoff, now, last_attempt):
+def fetch_gate(cutoff, now, last_attempt, dates=None):
     """(should_fetch, reason). Publish-window/cutoff staleness first, then
     min re-attempt interval (EM datacenter throttle citizenship)."""
-    expected = expected_disclosure_date(now)
+    expected = expected_disclosure_date(now, dates)
     if cutoff >= expected:
         return False, (f"no-op: cutoff {cutoff.date()} covers latest "
                        f"disclosure window ({expected.date()})")
@@ -92,6 +168,29 @@ def fetch_gate(cutoff, now, last_attempt):
                        "fetch attempt (min-interval guard)")
     return True, (f"fetch: cutoff {cutoff.date()} behind expected "
                  f"disclosure {expected.date()}")
+
+
+def atomic_parquet_write(df, path):
+    """.tmp + rowcount verify + os.replace: a crash mid-write must never
+    leave a truncated store that the next rebuild silently ingests."""
+    tmp = path + ".tmp"
+    df.to_parquet(tmp, index=False)
+    back = pd.read_parquet(tmp)
+    if len(back) != len(df):
+        raise RuntimeError(f"atomic write verify failed for {path}: "
+                           f"wrote {len(df)} rows, tmp holds {len(back)}")
+    os.replace(tmp, path)
+
+
+def store_state(parquet_path, chunks_dir):
+    """(present, reason). Sparse-clone nodes (HANDOVER s3, bm-c profile)
+    must skip honestly instead of crashing on read_parquet."""
+    if not os.path.exists(parquet_path):
+        return False, "lhb_detail.parquet missing (sparse-clone " \
+                      "design exclusion, HANDOVER s3)"
+    if not os.path.isdir(chunks_dir):
+        return False, "chunks dir missing (cannot rebuild parquet)"
+    return True, "ok"
 
 
 def rebuild_from_chunks():
@@ -104,12 +203,23 @@ def rebuild_from_chunks():
             continue
         frames.append(pd.read_parquet(p))
     full = pd.concat([f for f in frames if len(f)], ignore_index=True)
-    full.to_parquet(PARQUET, index=False)
+    atomic_parquet_write(full, PARQUET)
     return len(full)
 
 
 def main():
     t0 = time.time()
+    present, store_reason = store_state(PARQUET, CHUNKS)
+    if not present:
+        prev = load_status()
+        save_status({"cutoff": "unknown", "new_rows": 0,
+                     "verdict": f"store absent on this node "
+                                f"({store_reason}); backfill is a GM-lane "
+                                "decision, not auto-fetched",
+                     "last_attempt": prev.get("last_attempt")})
+        print(f"STORE ABSENT - {store_reason}; honest skip, no crash",
+              flush=True)
+        return 2
     lhb = pd.read_parquet(PARQUET)
     dates = pd.to_datetime(lhb["上榜日"])
     cutoff = dates.max()
@@ -181,7 +291,8 @@ def main():
         save_status({"cutoff": str(cutoff.date()),
                      "verdict": "overlap_mismatch: source restated history, "
                                 "local kept untouched",
-                     "overlap": detail})
+                     "overlap": detail,
+                     "last_attempt": str(now)})
         print(f"OVERLAP MISMATCH {detail} - kept local, no write", flush=True)
         return 3
 
@@ -193,7 +304,7 @@ def main():
         print("no events beyond cutoff yet - no-op", flush=True)
         return 0
     chunk_path = os.path.join(CHUNKS, f"{q}.parquet")
-    df.to_parquet(chunk_path, index=False)
+    atomic_parquet_write(df, chunk_path)
     total = rebuild_from_chunks()
     new_cutoff = str(pd.to_datetime(
         pd.read_parquet(PARQUET, columns=["上榜日"])["上榜日"]).max().date())
@@ -208,9 +319,14 @@ def main():
 
 
 def selftest():
-    """Offline guard tests: disclosure-window/weekend dates, gate logic,
-    min-interval. Zero network, zero writes."""
+    """Offline guard tests: disclosure-window/weekend/holiday dates, gate
+    logic, min-interval, store-absent guard, atomic writes. Zero network,
+    zero writes outside a temp sandbox."""
     ts = pd.Timestamp
+    global _DATES_CACHE
+
+    # ---- weekday fallback (fresh node without local daily data)
+    _DATES_CACHE = None
     exp_cases = [
         ("Fri 16:00 pre-window", "2026-09-25 16:00", "2026-09-24"),
         ("Fri 17:30 in-window", "2026-09-25 17:30", "2026-09-25"),
@@ -224,9 +340,57 @@ def selftest():
         got = expected_disclosure_date(ts(now_s))
         want = ts(want_s)
         assert got == want, f"{name}: got {got.date()} want {want.date()}"
-        print(f"[PASS] expected_disclosure_date {name} -> {got.date()}",
-              flush=True)
+        print(f"[PASS] expected_disclosure_date(fallback) {name} -> "
+              f"{got.date()}", flush=True)
 
+    # ---- holiday-aware calendar (SSE closure style: mid-week holiday)
+    # synthetic week: Mon 09-28, Tue 09-29 trade; Wed 09-30 holiday;
+    # next trade days Thu 10-08, Fri 10-09 (National-Day-style gap)
+    cal = [ts("2026-09-28"), ts("2026-09-29"), ts("2026-10-08"),
+           ts("2026-10-09")]
+    hol_cases = [
+        ("holiday evening rolls back to Tue", "2026-09-30 18:00",
+         "2026-09-29"),
+        ("holiday morning rolls back to Tue", "2026-09-30 09:00",
+         "2026-09-29"),
+        ("trading day in window -> today", "2026-10-08 18:00", "2026-10-08"),
+        ("pre-window on trade day -> prior trade day", "2026-10-09 10:00",
+         "2026-10-08"),
+    ]
+    for name, now_s, want_s in hol_cases:
+        got = expected_disclosure_date(ts(now_s), cal)
+        want = ts(want_s)
+        assert got == want, f"{name}: got {got.date()} want {want.date()}"
+        print(f"[PASS] expected_disclosure_date(calendar) {name} -> "
+              f"{got.date()}", flush=True)
+
+    # ---- sina-late self-heal pair: Wed 09-30 trades, bar lands 20:26
+    # (09-23 precedent). Before the bar: expected rolls back (fetch
+    # deferred); after the bar lands: expected == today (fetch fires).
+    cal_before = [ts("2026-09-28"), ts("2026-09-29")]
+    got = expected_disclosure_date(ts("2026-09-30 18:00"), cal_before)
+    assert got == ts("2026-09-29"), \
+        f"sina-late before-bar: got {got.date()} want 2026-09-29"
+    print(f"[PASS] sina-late before-bar rollbacks -> {got.date()}",
+          flush=True)
+    cal_after = cal_before + [ts("2026-09-30")]
+    got = expected_disclosure_date(ts("2026-09-30 20:30"), cal_after)
+    assert got == ts("2026-09-30"), \
+        f"sina-late after-bar: got {got.date()} want 2026-09-30"
+    print(f"[PASS] sina-late after-bar self-heals -> {got.date()}",
+          flush=True)
+
+    # ---- fetch_gate with holiday calendar
+    should, reason = fetch_gate(ts("2026-09-29"), ts("2026-09-30 18:00"),
+                                None, cal)
+    assert should is False, f"holiday no-op case: {reason}"
+    print("[PASS] fetch_gate holiday caught-up -> no-op", flush=True)
+    should, reason = fetch_gate(ts("2026-09-28"), ts("2026-09-29 18:00"),
+                                None, cal)
+    assert should is True, f"behind-on-calendar case: {reason}"
+    print("[PASS] fetch_gate behind calendar -> fetch", flush=True)
+
+    # ---- min-interval gate (unchanged semantics, explicit dates)
     gate_cases = [
         ("behind -> fetch", "2026-09-23", "2026-09-25 16:00", None, True),
         ("caught up -> no-op", "2026-09-25", "2026-09-26 18:00", None,
@@ -241,6 +405,38 @@ def selftest():
                                     ts(la_s) if la_s else None)
         assert should == want_fetch, f"{name}: got {should} ({reason})"
         print(f"[PASS] fetch_gate {name}", flush=True)
+
+    # ---- store-absent guard (HANDOVER s3 sparse-clone profile)
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        ok, reason = store_state(os.path.join(td, "nope.parquet"),
+                                 os.path.join(td, "chunks"))
+        assert ok is False and "missing" in reason, \
+            f"absent parquet: {ok} {reason}"
+        print("[PASS] store_state absent parquet -> honest skip", flush=True)
+        p = os.path.join(td, "lhb_detail.parquet")
+        pd.DataFrame({"a": [1]}).to_parquet(p)
+        ok, reason = store_state(p, os.path.join(td, "no_chunks"))
+        assert ok is False and "chunks" in reason, \
+            f"absent chunks: {ok} {reason}"
+        print("[PASS] store_state absent chunks dir -> honest skip",
+              flush=True)
+        cd = os.path.join(td, "chunks")
+        os.makedirs(cd)
+        ok, reason = store_state(p, cd)
+        assert ok is True, f"present store: {ok} {reason}"
+        print("[PASS] store_state present -> ok", flush=True)
+
+        # ---- atomic write: verify + replace + no tmp residue
+        df = pd.DataFrame({"上榜日": ["2026-09-23", "2026-09-24"],
+                           "v": [1.0, 2.0]})
+        atomic_parquet_write(df, p)
+        back = pd.read_parquet(p)
+        assert len(back) == 2 and not os.path.exists(p + ".tmp"), \
+            "atomic write roundtrip failed"
+        print("[PASS] atomic_parquet_write roundtrip + tmp cleanup",
+              flush=True)
+
     print("selftest: all guard cases PASS", flush=True)
     return 0
 
