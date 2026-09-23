@@ -333,7 +333,8 @@ class _LCG:
 # ---------------------------------------------------------------- T-03 additions (F3/F6/F9/F10/F11/F12)
 
 def append_ledger(batch_name: str, batch_trials: int, file_name: str | None = None,
-                  note: str | None = None, results_dir: str = RESULTS_DIR) -> dict:
+                  note: str | None = None, results_dir: str = RESULTS_DIR,
+                  evidence_cutoff: str | None = None) -> dict:
     """F3 (audit P0-7): unified trials-ledger entry, dict schema for ALL producers.
 
     prev_total = data-driven chain head at run time (ledger_head()); total =
@@ -352,7 +353,18 @@ def append_ledger(batch_name: str, batch_trials: int, file_name: str | None = No
         out["file"] = file_name
     if note:
         out["note"] = note
+    if evidence_cutoff:
+        out["evidence_cutoff"] = str(evidence_cutoff)
     return out
+
+
+def cutoff_meta(cutoff) -> dict:
+    """T-02 7/7 (forward lockbox, BACKTEST_SCIENCE s7-M): mandatory top-level
+    metadata block for every post-v2 batch results JSON. science_audit C2 scans
+    file top level for one of evidence_cutoff/history_end/panel_end/data_cutoff;
+    merge this block at the TOP level of the batch payload (ledger-embedded
+    copies alone are invisible to C2 by design -- prereg-frozen scan scope)."""
+    return {"evidence_cutoff": str(cutoff)}
 
 
 def ledger_total(entry) -> int:
@@ -496,7 +508,8 @@ def selftest() -> int:
     # skill line: monotone in N_eff, both terms present, data-driven
     line50 = skill_line_v2(batch_cells=50)
     line500 = skill_line_v2(batch_cells=500)
-    ok("skill_line_v2 ledger head = 2727 (chain head, data-driven)", line50["n_eff"] == 2727 + 50)
+    ok("skill_line_v2 n_eff = live chain head + cells (data-driven, no frozen count)",
+       line50["n_eff"] == ledger_head()["total"] + 50)
     ok("skill_line_v2 monotone in N_eff", line500["null_term"] > line50["null_term"])
     ok("skill_line_v2 line = max(passive_term, null_term)",
        abs(line50["line"] - max(line50["passive_term"], line50["null_term"])) < 1e-9)
@@ -555,6 +568,12 @@ def selftest() -> int:
        and ledger_total([{"n": 432}, {"n": 59}]) == 491
        and ledger_total({"prev_total": 100, "batch_trials": 27}) == 127
        and ledger_total(None) == 0)
+    led_cut = append_ledger("t02-7of7-selftest", 1, "selftest.json", evidence_cutoff="2026-09-22")
+    led_nocut = append_ledger("t02-7of7-selftest", 1, "selftest.json")
+    ok("T-02 7/7 evidence_cutoff: append_ledger embeds when given, omits when not",
+       led_cut["evidence_cutoff"] == "2026-09-22" and "evidence_cutoff" not in led_nocut
+       and cutoff_meta("2026-09-22") == {"evidence_cutoff": "2026-09-22"}
+       and led_nocut["total"] == led_cut["total"])
 
     # T-03 F6: dual-basis trade gate
     ok("dual_trade_gate: tranches pad, entries honest",
