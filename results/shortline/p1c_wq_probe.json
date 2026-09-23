@@ -1,0 +1,76 @@
+{
+  "meta": {
+    "batch": "P-1c WQ leg probe (P1C SS5 probe-first)",
+    "date": "2026-09-24 04:47",
+    "probe_factors": [
+      1,
+      2,
+      18
+    ],
+    "elapsed_s": 73.1
+  },
+  "smoke": {
+    "alpha001": {
+      "shape": [
+        600,
+        60
+      ],
+      "finite_any": true,
+      "ok": true
+    },
+    "alpha002": {
+      "shape": [
+        600,
+        60
+      ],
+      "finite_any": true,
+      "ok": true
+    },
+    "alpha018": {
+      "shape": [
+        600,
+        60
+      ],
+      "finite_any": true,
+      "ok": true
+    }
+  },
+  "anchor": {
+    "alpha001": {
+      "bit_exact": true,
+      "d_ic": 0.0,
+      "d_ir": 0.0,
+      "n_eq": true,
+      "ok": true
+    },
+    "alpha018": {
+      "bit_exact": true,
+      "d_ic": 0.0,
+      "d_ir": 0.0,
+      "n_eq": true,
+      "ok": true
+    }
+  },
+  "timing": {
+    "alpha001": {
+      "compute_plus_ic_s": 18.87,
+      "is_n": 8341
+    },
+    "alpha002": {
+      "compute_plus_ic_s": 19.8,
+      "is_n": 8043
+    },
+    "alpha018": {
+      "compute_plus_ic_s": 22.29,
+      "is_n": 8358
+    },
+    "mean_probe_s": 20.32,
+    "eta_leg_s": 1977.8,
+    "peak_ram_gb": null
+  },
+  "gates": {
+    "smoke": true,
+    "anchor": true,
+    "all": true
+  }
+}
