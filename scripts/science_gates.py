@@ -1,0 +1,415 @@
+"""scripts/science_gates.py — Backtest-science v2 shared gates library (T-2026-09-23-02-P1, deliverable 1).
+
+Authority: research/BACKTEST_SCIENCE.md (O-20260923-2215). Single source for:
+  D1  skill_line_v2 = max(passive+0.10, mu_null + sigma_null*sqrt(2*ln N_eff))   (§1)
+  D1  DSR >= 0.95 registration gate (Bailey & Lopez de Prado 2014 approximation)  (§1)
+  D3  stationary bootstrap 95% CI (block=10d, 1000 resamples, prereg seed family) (§3)
+
+Discipline: gate/judgement numbers MUST come from here — no hand-copied constants in batch scripts.
+All data read from results/*.json is data-driven (no frozen numbers); formulas are frozen per
+BACKTEST_SCIENCE.md (revision = prereg + 7-day veto window).
+
+Usage:
+  python scripts/science_gates.py selftest      # offline synthetic assertions, zero network
+  python scripts/science_gates.py report       # live reading -> results/science_gates_v2.json
+  import scripts.science_gates as sg           # library use
+"""
+from __future__ import annotations
+
+import glob
+import json
+import math
+import os
+
+RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "results")
+PERIODS_PER_YEAR = 252.0
+EULER_GAMMA = 0.5772156649015329
+
+
+# ---------------------------------------------------------------- ledger (D1: N_eff)
+
+def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
+    """Chain head of the trials ledger: the results JSON with the largest cumulative total.
+
+    Every batch JSON carries {"trials_ledger": {"prev_total", "batch_trials", "total", ...}}.
+    The chain head is data-driven (max total across files), never a hand-copied number.
+    """
+    head = {"total": 0, "file": None, "note": None}
+    for path in sorted(glob.glob(os.path.join(results_dir, "*.json"))):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                tl = json.load(fh).get("trials_ledger")
+        except (OSError, ValueError, UnicodeDecodeError):
+            continue
+        if isinstance(tl, dict) and isinstance(tl.get("total"), (int, float)):
+            if tl["total"] > head["total"]:
+                head = {"total": int(tl["total"]), "file": os.path.basename(path),
+                        "note": tl.get("note")}
+    return head
+
+
+def n_eff(batch_cells: int, results_dir: str = RESULTS_DIR) -> int:
+    """D1: N_eff = ledger chain head + current batch cell count (line rises with the ledger)."""
+    return int(ledger_head(results_dir)["total"]) + int(batch_cells)
+
+
+# ---------------------------------------------------------------- null pool (D1: mu/sigma)
+
+def null_sharpes(results_dir: str = RESULTS_DIR) -> dict:
+    """Collect random-null FULL-PERIOD annualized Sharpe values across batch schemas.
+
+    Extensible schema registry: each entry knows how to mine one batch family's null runs.
+    Coverage is reported honestly — unparseable batch files are listed, never silently dropped.
+    """
+    values: list[float] = []
+    parsed: list[str] = []
+
+    def _load(name: str):
+        path = os.path.join(results_dir, name)
+        if not os.path.exists(path):
+            return None
+        try:
+            with open(path, encoding="utf-8") as fh:
+                return json.load(fh)
+        except (OSError, ValueError):
+            return None
+
+    # p2_calibration.json: families[random*].runs[].full.sharpe  (n=100 engine-exit null family +
+    # n=20 random-exit family = the project's calibration-grade null population)
+    d = _load("p2_calibration.json")
+    if d:
+        for fam_name, fam in (d.get("families") or {}).items():
+            if "random" not in fam_name.lower():
+                continue
+            runs = fam.get("runs") if isinstance(fam, dict) else None
+            if isinstance(runs, dict):
+                runs = list(runs.values())
+            for run in runs or []:
+                full = run.get("full") or {} if isinstance(run, dict) else {}
+                sr = full.get("sharpe")
+                if isinstance(sr, (int, float)) and math.isfinite(sr):
+                    values.append(float(sr))
+        if values:
+            parsed.append("p2_calibration.json:families[random*].runs[].full.sharpe")
+
+    coverage = {
+        "n_values": len(values),
+        "schemas_parsed": parsed,
+        "known_unparsed": [
+            "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; "
+            "full-period null sharpes not persisted -> out of coverage, disclosed)",
+        ],
+        "mu": (sum(values) / len(values)) if values else None,
+        "sigma": (_pstdev(values) if len(values) > 1 else None),
+    }
+    return {"values": values, "coverage": coverage}
+
+
+def _pstdev(xs: list[float]) -> float:
+    mu = sum(xs) / len(xs)
+    return math.sqrt(sum((x - mu) ** 2 for x in xs) / (len(xs) - 1))
+
+
+# ---------------------------------------------------------------- passive baselines (D1)
+
+def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> float:
+    """Per-pool frozen passive baseline: strict (max) of EW-hold vs monthly-rebalance Sharpe.
+
+    core48 values are read live from results/p2_calibration.json (data-driven). New pools must
+    register their calibration file here — no silent cross-pool reuse.
+    """
+    path = os.path.join(results_dir, "p2_calibration.json")
+    if pool != "core48" or not os.path.exists(path):
+        raise KeyError(f"no frozen passive calibration on file for pool '{pool}' — "
+                       "register a calibration batch first (BACKTEST_SCIENCE.md §1)")
+    with open(path, encoding="utf-8") as fh:
+        fams = (json.load(fh).get("families") or {})
+    cands = []
+    for fam_name, fam in fams.items():
+        if "passive" not in fam_name.lower():
+            continue
+        runs = fam.get("runs") if isinstance(fam, dict) else None
+        if isinstance(runs, dict):
+            runs = list(runs.values())
+        for run in runs or []:
+            sr = (run.get("full") or {}).get("sharpe") if isinstance(run, dict) else None
+            if isinstance(sr, (int, float)) and math.isfinite(sr):
+                cands.append(float(sr))
+    if not cands:
+        raise KeyError("passive family not found in p2_calibration.json — schema drift, fix collector")
+    return max(cands)  # strict = harder line
+
+
+def skill_line_v2(batch_cells: int, pool: str = "core48", results_dir: str = RESULTS_DIR,
+                  null_pool: dict | None = None) -> dict:
+    """D1: skill_line_v2 = max(passive+0.10, mu_null + sigma_null*sqrt(2*ln N_eff)).
+
+    Returns the line plus every input so batch reports can disclose the whole computation.
+    """
+    if null_pool is None:
+        null_pool = null_sharpes(results_dir)
+    cov = null_pool["coverage"]
+    if cov["mu"] is None or cov["sigma"] is None or cov["n_values"] < 30:
+        raise ValueError(f"null pool too thin ({cov['n_values']} values) — extend collector first")
+    n = n_eff(batch_cells, results_dir)
+    extreme = cov["sigma"] * math.sqrt(2.0 * math.log(max(n, 2)))
+    null_term = cov["mu"] + extreme
+    passive = passive_baseline(pool, results_dir)
+    passive_term = passive + 0.10
+    return {
+        "n_eff": n,
+        "line": round(max(passive_term, null_term), 4),
+        "passive_term": round(passive_term, 4),
+        "null_term": round(null_term, 4),
+        "mu_null": round(cov["mu"], 4),
+        "sigma_null": round(cov["sigma"], 4),
+        "pool": pool,
+        "ledger_head": ledger_head(results_dir),
+    }
+
+
+# ---------------------------------------------------------------- DSR (D1 registration gate)
+
+def _norm_ppf(p: float) -> float:
+    """Acklam's inverse normal CDF approximation (no scipy dependency)."""
+    if not 0.0 < p < 1.0:
+        raise ValueError("p out of range")
+    a = [-3.969683028665376e+01, 2.209460984245205e+02, -2.759285104469687e+02,
+         1.383577518672690e+02, -3.066479806614716e+01, 2.506628277459239e+00]
+    b = [-5.447609879822406e+01, 1.615858368580409e+02, -1.556989798598866e+02,
+         6.680131188771972e+01, -1.328068155288572e+01, 1.0]
+    c = [-7.784894002430293e-03, -3.223964580411365e-01, -2.400758277161838e+00,
+         -2.549796539399786e+00, 4.374664141464968e+00, 2.938163982698783e+00]
+    d = [7.784695709041462e-03, 3.224671290700398e-01, 2.445134137142996e+00,
+         3.754408661907416e+00]
+    plow, phigh = 0.02425, 1 - 0.02425
+    if p < plow:
+        q = math.sqrt(-2 * math.log(p))
+        return (((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+    if p > phigh:
+        q = math.sqrt(-2 * math.log(1 - p))
+        return -(((((c[0]*q+c[1])*q+c[2])*q+c[3])*q+c[4])*q+c[5]) / ((((d[0]*q+d[1])*q+d[2])*q+d[3])*q+1)
+    q = p - 0.5
+    r = q * q
+    return (((((a[0]*r+a[1])*r+a[2])*r+a[3])*r+a[4])*r+a[5])*q / (((((b[0]*r+b[1])*r+b[2])*r+b[3])*r+b[4])*r+b[5])
+
+
+def _norm_cdf(x: float) -> float:
+    return 0.5 * math.erfc(-x / math.sqrt(2.0))
+
+
+def deflated_sharpe_ratio(returns, n_trials: int, var_null_sr: float | None = None,
+                          periods_per_year: float = PERIODS_PER_YEAR) -> dict:
+    """DSR (Bailey & Lopez de Prado 2014 practical approximation).
+
+    DSR = Phi( (SR_hat - SR_star) / sigma_SR ),  sigma_SR = sqrt((1 - g3*SR + (g4-1)/4*SR^2)/(T-1))
+    SR_star = expected max SR of N null trials = sqrt(V[SR_null]) *
+              ((1-gamma)*Phi^-1(1-1/N) + gamma*Phi^-1(1-1/(N*e)))   (Euler-Mascheroni gamma)
+    SR_hat is the NON-annualized per-period Sharpe (daily); annualized value returned for report.
+    var_null_sr defaults to the estimated SR variance when the null population is unavailable.
+    """
+    xs = [float(x) for x in returns]
+    t = len(xs)
+    if t < 20:
+        raise ValueError("DSR needs >= 20 returns")
+    mu = sum(xs) / t
+    var = sum((x - mu) ** 2 for x in xs) / (t - 1)
+    sd = math.sqrt(var)
+    if sd == 0:
+        raise ValueError("zero-variance returns")
+    sr = mu / sd  # per-period Sharpe
+    m2 = sum(x ** 2 for x in xs) / t
+    m3 = sum(x ** 3 for x in xs) / t
+    m4 = sum(x ** 4 for x in xs) / t
+    g3 = m3 / sd ** 3            # skewness
+    g4 = m4 / sd ** 4            # kurtosis (plain, not excess)
+    denom = 1.0 - g3 * sr + (g4 - 1.0) / 4.0 * sr * sr
+    denom = max(denom, 1e-12)
+    sigma_sr = math.sqrt(denom / (t - 1))
+    n = max(int(n_trials), 2)
+    v_null = var_null_sr if (var_null_sr and var_null_sr > 0) else (sigma_sr * sigma_sr)
+    n_e = math.e
+    z1 = _norm_ppf(1.0 - 1.0 / n)
+    z2 = _norm_ppf(1.0 - 1.0 / (n * n_e)) if n * n_e > 1.0 else 0.0
+    sr_star = math.sqrt(v_null) * ((1.0 - EULER_GAMMA) * z1 + EULER_GAMMA * z2)
+    dsr = _norm_cdf((sr - sr_star) / sigma_sr)
+    return {
+        "dsr": round(dsr, 6),
+        "sr_annualized": round(sr * math.sqrt(periods_per_year), 4),
+        "sr_star": round(sr_star, 6),
+        "sigma_sr": round(sigma_sr, 6),
+        "n_trials": n,
+        "T": t,
+        "skew": round(g3, 4),
+        "kurtosis": round(g4, 4),
+    }
+
+
+# ---------------------------------------------------------------- D3 stationary bootstrap CI
+
+def bootstrap_ci_sharpe(returns, n_resamples: int = 1000, block: float = 10.0,
+                        seed: int = 20260923, periods_per_year: float = PERIODS_PER_YEAR) -> dict:
+    """Stationary bootstrap (Politis-Romano) 95% CI for annualized Sharpe.
+
+    Mean block length `block` days; geometric block lengths; wraparound resampling;
+    1000 resamples; seed = prereg seed family. Deterministic for a fixed seed.
+    """
+    xs = [float(x) for x in returns]
+    t = len(xs)
+    if t < 20:
+        raise ValueError("bootstrap needs >= 20 returns")
+    ann = math.sqrt(periods_per_year)
+
+    def _sharpe(series):
+        m = sum(series) / len(series)
+        v = sum((x - m) ** 2 for x in series) / (len(series) - 1)
+        return (m / math.sqrt(v)) * ann if v > 0 else 0.0
+
+    point = _sharpe(xs)
+    rng = _LCG(seed)
+    p_block = 1.0 / max(block, 1.0)
+    draws = []
+    for _ in range(n_resamples):
+        out = []
+        while len(out) < t:
+            start = int(rng.next() * t) % t
+            # geometric block length with mean 1/p_block
+            length = 1
+            while rng.next() > (1.0 - p_block) and length < 4 * t:
+                length += 1
+            for k in range(length):
+                out.append(xs[(start + k) % t])
+        draws.append(_sharpe(out[:t]))
+    draws.sort()
+    lo = draws[int(0.025 * (n_resamples - 1))]
+    hi = draws[int(0.975 * (n_resamples - 1))]
+    return {
+        "ci95_low": round(lo, 4),
+        "ci95_high": round(hi, 4),
+        "point": round(point, 4),
+        "ci_lower_bound_positive": bool(lo > 0.0),
+        "n_resamples": n_resamples,
+        "block_days": block,
+        "seed": seed,
+    }
+
+
+class _LCG:
+    """Deterministic 64-bit LCG (portable across machines/Python versions, zero deps)."""
+
+    def __init__(self, seed: int):
+        self._s = (int(seed) ^ 0x9E3779B97F4A7C15) & ((1 << 64) - 1)
+
+    def next(self) -> float:
+        self._s = (self._s * 6364136223846793005 + 1442695040888963407) & ((1 << 64) - 1)
+        return (self._s >> 11) / float(1 << 53)
+
+
+# ---------------------------------------------------------------- selftest / report
+
+def _synth_returns(n: int, sr_annual: float, seed: int) -> list[float]:
+    """Deterministic synthetic daily returns with an approximate target annualized Sharpe."""
+    rng = _LCG(seed)
+    daily_sr = sr_annual / math.sqrt(PERIODS_PER_YEAR)
+    xs = [rng.next() * 2.0 - 1.0 for _ in range(n)]  # uniform(-1,1), zero mean
+    m = sum(xs) / n
+    xs = [x - m for x in xs]
+    sd = math.sqrt(sum(x * x for x in xs) / (n - 1))
+    unit = [x / sd for x in xs]  # zero-mean, unit sd
+    return [x + daily_sr for x in unit]  # daily Sharpe ~= daily_sr
+
+
+def selftest() -> int:
+    checks = []
+
+    def ok(name, cond):
+        checks.append((name, bool(cond)))
+        print(f"[{'PASS' if cond else 'FAIL'}] {name}")
+
+    # skill line: monotone in N_eff, both terms present, data-driven
+    line50 = skill_line_v2(batch_cells=50)
+    line500 = skill_line_v2(batch_cells=500)
+    ok("skill_line_v2 ledger head = 2727 (chain head, data-driven)", line50["n_eff"] == 2727 + 50)
+    ok("skill_line_v2 monotone in N_eff", line500["null_term"] > line50["null_term"])
+    ok("skill_line_v2 line = max(passive_term, null_term)",
+       abs(line50["line"] - max(line50["passive_term"], line50["null_term"])) < 1e-9)
+    ok("skill_line_v2 passive core48 strict(>=0.379)+0.10", line50["passive_term"] >= 0.479)
+
+    # DSR: honest multiple-testing calibration. At N=2727 the 0.95 gate demands full-period
+    # Sharpe ~2.1+ (6y) — a 1.6 edge must NOT clear it; a 2.5 edge must. Noise fails hard.
+    good16 = _synth_returns(1512, 1.6, seed=11)
+    good25 = _synth_returns(1512, 2.5, seed=13)
+    noise = _synth_returns(1512, 0.0, seed=12)
+    dsr_good16 = deflated_sharpe_ratio(good16, n_trials=2727)
+    dsr_good25 = deflated_sharpe_ratio(good25, n_trials=2727)
+    dsr_noise = deflated_sharpe_ratio(noise, n_trials=2727)
+    dsr_noise_bigN = deflated_sharpe_ratio(noise, n_trials=20000)
+    ok("DSR honest: SR~1.6 at N=2727 does NOT clear 0.95 (calibration bite)", 0.45 < dsr_good16["dsr"] < 0.95)
+    ok("DSR strong edge (SR~2.5 ann) > 0.95 at N=2727", dsr_good25["dsr"] > 0.95)
+    ok("DSR pure noise < 0.60", dsr_noise["dsr"] < 0.60)
+    ok("DSR penalizes more trials (2727 -> 20000 lowers noise DSR)",
+       dsr_noise_bigN["dsr"] < dsr_noise["dsr"])
+
+    # bootstrap CI: covers point, deterministic, low-power honesty
+    ci_a = bootstrap_ci_sharpe(good25, seed=4242)
+    ci_b = bootstrap_ci_sharpe(good25, seed=4242)
+    ok("bootstrap CI deterministic under fixed seed", ci_a == ci_b)
+    ok("bootstrap CI brackets point estimate", ci_a["ci95_low"] <= ci_a["point"] <= ci_a["ci95_high"])
+    ok("bootstrap CI lower bound > 0 for genuine edge", ci_a["ci_lower_bound_positive"])
+    ci_noise = bootstrap_ci_sharpe(noise, seed=4242)
+    ok("bootstrap CI noise lower bound < 0 (low-power disclosure)",
+       not ci_noise["ci_lower_bound_positive"])
+
+    # passive baseline: only calibrated pools
+    try:
+        passive_baseline("lfc_gold5")
+        ok("passive_baseline rejects uncalibrated pool", False)
+    except KeyError:
+        ok("passive_baseline rejects uncalibrated pool", True)
+
+    n_fail = sum(1 for _, c in checks if not c)
+    print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
+    return 1 if n_fail else 0
+
+
+def report() -> int:
+    out_path = os.path.join(RESULTS_DIR, "science_gates_v2.json")
+    head = ledger_head()
+    nulls = null_sharpes()
+    line = skill_line_v2(batch_cells=0)  # current standing line (no batch in flight)
+    payload = {
+        "module": "scripts/science_gates.py",
+        "authority": "research/BACKTEST_SCIENCE.md (O-20260923-2215) D1/D3",
+        "ledger_head": head,
+        "null_pool_coverage": nulls["coverage"],
+        "skill_line_v2_current": line,
+        "formulas_frozen": {
+            "skill_line_v2": "max(passive+0.10, mu_null + sigma_null*sqrt(2*ln N_eff))",
+            "dsr": "Phi((SR-SR*)/sigma_SR), SR*=sqrt(V[SR_null])*((1-g)*Z(1-1/N)+g*Z(1-1/(N*e)))",
+            "bootstrap": "stationary bootstrap, block=10d mean, 1000 resamples, seed=prereg family",
+        },
+        "gate_bindings": {"registration": "DSR>=0.95 AND PBO<=0.25 AND CI lower>0 (D1/D3/D4 composite)"},
+        "honesty": "null collector v0.1 covers p2_calibration random family only; "
+                   "p1_screen and later batches' null arrays persist OOS-side only -> disclosed "
+                   "in coverage, extension queued (T-02 follow-up)",
+        "generated": _now(),
+    }
+    tmp = out_path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1)
+    os.replace(tmp, out_path)
+    print(f"report -> {out_path}")
+    print(json.dumps({"ledger_head": head, "skill_line_v2_current": line,
+                      "null_n": nulls["coverage"]["n_values"]}, ensure_ascii=False))
+    return 0
+
+
+def _now() -> str:
+    import datetime
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+if __name__ == "__main__":
+    import sys
+    cmd = sys.argv[1] if len(sys.argv) > 1 else ""
+    raise SystemExit(selftest() if cmd == "selftest" else report() if cmd == "report" else 0)

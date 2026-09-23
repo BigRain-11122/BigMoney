@@ -1,0 +1,44 @@
+{
+ "module": "scripts/science_gates.py",
+ "authority": "research/BACKTEST_SCIENCE.md (O-20260923-2215) D1/D3",
+ "ledger_head": {
+  "total": 2727,
+  "file": "p5b_new_traders.json",
+  "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+ },
+ "null_pool_coverage": {
+  "n_values": 120,
+  "schemas_parsed": [
+   "p2_calibration.json:families[random*].runs[].full.sharpe"
+  ],
+  "known_unparsed": [
+   "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+  ],
+  "mu": -0.033216666666666665,
+  "sigma": 0.2429174989919965
+ },
+ "skill_line_v2_current": {
+  "n_eff": 2727,
+  "line": 0.933,
+  "passive_term": 0.4792,
+  "null_term": 0.933,
+  "mu_null": -0.0332,
+  "sigma_null": 0.2429,
+  "pool": "core48",
+  "ledger_head": {
+   "total": 2727,
+   "file": "p5b_new_traders.json",
+   "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+  }
+ },
+ "formulas_frozen": {
+  "skill_line_v2": "max(passive+0.10, mu_null + sigma_null*sqrt(2*ln N_eff))",
+  "dsr": "Phi((SR-SR*)/sigma_SR), SR*=sqrt(V[SR_null])*((1-g)*Z(1-1/N)+g*Z(1-1/(N*e)))",
+  "bootstrap": "stationary bootstrap, block=10d mean, 1000 resamples, seed=prereg family"
+ },
+ "gate_bindings": {
+  "registration": "DSR>=0.95 AND PBO<=0.25 AND CI lower>0 (D1/D3/D4 composite)"
+ },
+ "honesty": "null collector v0.1 covers p2_calibration random family only; p1_screen and later batches' null arrays persist OOS-side only -> disclosed in coverage, extension queued (T-02 follow-up)",
+ "generated": "2026-09-23 22:29:26"
+}
