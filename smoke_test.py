@@ -143,9 +143,39 @@ def main() -> int:
     try:
         from live import paper as live_paper
         check("paper: pipeline selftest", live_paper.selftest(),
-              "patches+aggregation+causality+anchor reproduce registered evidence")
+              "patches+aggregation+causality+anchor + seg-honesty(F4) "
+              "+ x2-watch escalation(F3)")
     except Exception as e:
         check("paper: pipeline selftest", False, str(e))
+
+    # --- 9) S6 updater selftests + heartbeat epoch fields (T-04 F7) ---
+    # Exit-code contract: offline --selftest must exit 0 (no network);
+    # production contracts (0 ok/1 warn/2 fetch fail/3 anchor drift for
+    # daily; 0 ok/2 source fail/3 history-rewrite flag for lhb) are
+    # asserted case-by-case inside each sub-suite.
+    import subprocess as _sp
+    for _name, _args in (("daily", ["--selftest"]), ("lhb", ["selftest"])):
+        _label = f"updater: update_{_name} selftest (exit-code contract)"
+        try:
+            _r = _sp.run([sys.executable, f"scripts/update_{_name}.py", *_args],
+                         capture_output=True, text=True, timeout=180)
+            _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
+            check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")
+        except Exception as e:
+            check(_label, False, str(e))
+    # heartbeat epoch fields (T-04 F5): heartbeat_epoch_utc int + clock_read
+    # ISO string on this machine's heartbeat file -- clock drift detectable.
+    try:
+        _mid = json.load(open("fleet/machine.json", encoding="utf-8"))["machine_id"]
+        _hb = json.load(open(f"fleet/machines/{_mid}.json", encoding="utf-8"))
+        _ok_hb = (isinstance(_hb.get("heartbeat_epoch_utc"), int)
+                  and isinstance(_hb.get("clock_read"), str)
+                  and "T" in _hb["clock_read"])
+        check("fleet: heartbeat epoch fields present", _ok_hb,
+              f"{_mid}: epoch={_hb.get('heartbeat_epoch_utc')} "
+              f"clock={_hb.get('clock_read')}")
+    except Exception as e:
+        check("fleet: heartbeat epoch fields present", False, str(e))
 
     return _finish()
 
