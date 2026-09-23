@@ -157,10 +157,14 @@ function render(D) {
   $('k-data').textContent = dat.latest_bar + ` (${dat.stale_days}d)`;
 
   const bt = D.strategy;
+  const upd = (D.data && D.data.update) || {};
+  const updCls = upd.status === 'bad' ? 'bad'
+               : (upd.status === 'warn' || !upd.present) ? 'warn' : '';
   const depts = [
     ['研究部', '', `因子IC研究完成 · 复合因子立项`],
     ['策略部', bt.n_traders > 0 ? '' : 'bad', bt.n_traders > 0 ? `门禁链出首员 · 试验N=${bt.trials_total}` : `432组内置信号全灭 · 策略换血中`],
     ['风控部', '', '铁律就位 · 0 违规'],
+    ['数据部', updCls, upd.text || '更新链待产出'],
     ['工程部', sm.fail === 0 ? '' : 'bad', `自检 ${sm.pass} 项 PASS`],
     ['交易部', nTraders ? '' : 'warn', nTraders
       ? (D.trading.paper_started

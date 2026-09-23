@@ -81,6 +81,37 @@ def _data_freshness() -> dict:
             "fresh": stale <= 15}
 
 
+def _update_state() -> dict:
+    """Daily-update chain health from results/update_status.json (J18b).
+
+    update_daily.py rewrites the file every loop tick; a missing file or an
+    old timestamp means the data lifeline is not running on this machine.
+    """
+    st = _read_json(os.path.join(PATHS.results_dir, "update_status.json")) or {}
+    out = {"present": bool(st), "last_run": st.get("updated"), "age_min": None,
+           "symbols": st.get("symbols"), "total_new_rows": st.get("total_new_rows"),
+           "failures": len(st.get("failures") or []),
+           "overlap_mismatches": len(st.get("overlap_mismatches") or []),
+           "data_cutoff": st.get("data_cutoff"),
+           "status": "none", "text": "更新链待产出"}
+    if not st:
+        return out
+    try:
+        t = dt.datetime.fromisoformat(str(st.get("now") or st.get("updated")))
+        out["age_min"] = int((dt.datetime.now() - t).total_seconds() // 60)
+    except Exception:
+        pass
+    if out["failures"] > 0:
+        out["status"], out["text"] = "bad", f"更新链 {out['failures']} 失败"
+    elif out["overlap_mismatches"] > 0:
+        out["status"], out["text"] = "warn", "更新链 overlap 错配"
+    elif out["age_min"] is not None and out["age_min"] > 60:
+        out["status"], out["text"] = "warn", f"更新链 {out['age_min']}分未跑"
+    else:
+        out["status"], out["text"] = "ok", "更新链活 · 0 失败"
+    return out
+
+
 def _factor_top(n: int = 10) -> list:
     ic = _read_json(os.path.join(PATHS.results_dir, "factor_ic.json")) or {}
     rows = [{"factor": k[:-4], "horizon": k[-2:],
@@ -425,6 +456,7 @@ def _achievements(bt: dict, data: dict, smoke: dict, n_traders: int,
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
+    data["update"] = _update_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -483,7 +515,14 @@ def build() -> dict:
             "text": f"paper 跟踪进行中 · {paper['n_active']} 员在册 · 累计 "
                     f"{paper['months_tracked']} 个月 · 窗口 {paper['trades']} 笔"
                     f"（每日自动 accrue · 锚定门禁先行）"})
-    payload["events"] += [
+    tail_events = []
+    if data["update"]["present"]:
+        tail_events.append({
+            "time": data["update"]["last_run"] or "-",
+            "text": f"数据链 · 日线更新 {data['update']['symbols']} 符号 · 新增 "
+                    f"{data['update']['total_new_rows']} 行 · 失败 {data['update']['failures']}"
+                    f" · cutoff {data['update']['data_cutoff']}"})
+    payload["events"] += tail_events + [
         {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
         {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},
     ]
