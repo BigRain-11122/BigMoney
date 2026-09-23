@@ -208,6 +208,56 @@ def raw_level(bd: dict, br: dict, bear: bool) -> str:
     return lvl, triggers
 
 
+def raw_level_v2(bd: dict, br: dict, bear: bool) -> str:
+    """V2 structural remap (research/REGIME_GUARD_VALIDATION_V2.md s1,
+    prereg FROZEN ee8498e -- T-05 part 4).
+
+    RED=crash/panic only; ORANGE=crash/vol-p95/breadth; YELLOW collects
+    R-配3 major bear (its T0 <=20% position cap stays iron_rules law,
+    untouched); #10 hs300<MA200 DE-COLLECTED -- the T0 no-new-position ban
+    stands alone and its independent enforcement wiring is a separate
+    signed item, so v2 never reads below_ma200. All thresholds verbatim v1
+    constants. The live probe() keeps the v1 matrix until the law file is
+    amended (PASS + GM approval + veto window); this function is the
+    calibration-layer v2 decision source only.
+    """
+    lvl = GREEN
+    triggers = []
+    # -- RED: pure crash/panic semantics --
+    if bd["crash_10d"] is not None and bd["crash_10d"] <= -0.12:
+        lvl = RED; triggers.append(f"crash10d {bd['crash_10d']:.3f}<=-12%")
+    if bd["panic_1d"] is not None and bd["panic_1d"] <= -0.05:
+        lvl = RED; triggers.append(f"panic {bd['panic_1d']:.3f}<=-5%")
+    # -- ORANGE --
+    if bd["crash_10d"] is not None and bd["crash_10d"] <= -0.08:
+        if _ORD[lvl] < _ORD[ORANGE]: lvl = ORANGE
+        triggers.append(f"crash10d {bd['crash_10d']:.3f}<=-8%")
+    if bd.get("vol_status") == "ok" and bd["vol20"] > bd["vol_p95"]:
+        if _ORD[lvl] < _ORD[ORANGE]: lvl = ORANGE
+        triggers.append("vol20>p95 (3y)")
+    sh, sl = br.get("share_below_ma20"), br.get("share_slope_5d")
+    if sh is not None and sh >= 0.80 and sl is not None and sl < 0:
+        if _ORD[lvl] < _ORD[ORANGE]: lvl = ORANGE
+        triggers.append(f"breadth {sh:.2f}>=80% slope {sl:+.4f}<0")
+    # -- YELLOW (v2: + R-配3 collected here; #10 de-collected, not read) --
+    if bd["crash_10d"] is not None and bd["crash_10d"] <= -0.05:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append(f"crash10d {bd['crash_10d']:.3f}<=-5%")
+    if bd.get("vol_status") == "ok" and bd["vol20"] > bd["vol_p80"]:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append("vol20>p80 (3y)")
+    if sh is not None and sh >= 0.65:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append(f"breadth {sh:.2f}>=65%")
+    if bd.get("event_fomc") or bd.get("event_pre_holiday"):
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append("event window (appendix A)")
+    if bear:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append("R-配3 major bear (regime.py)")
+    return lvl, triggers
+
+
 def resolve_state(prev_state: str, prev_streak: int, raw: str):
     """Upgrade immediate; downgrade needs 2 consecutive GREEN signal days."""
     if _ORD[raw] > _ORD[prev_state]:

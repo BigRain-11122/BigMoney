@@ -33,12 +33,13 @@ from config import PATHS
 from scripts.market_regime import (
     BENCH, MA_BRE, MA_TREND, WIN10, VOL_WIN, VOL_BASE,
     GREEN, YELLOW, ORANGE, RED, _ORD,
-    bench_dims, breadth_dims, raw_level, resolve_state,
+    bench_dims, breadth_dims, raw_level, raw_level_v2, resolve_state,
     LONG_GAP_DAYS, LONG_GAP_MONTHS,
 )
 from firm.risk.regime import major_bear_state, MA_WINDOW as MA_BREACH, DD_LINE
 
 OUT_PATH = os.path.join(PATHS.results_dir, "regime_calibration.json")
+OUT_PATH_V2 = os.path.join(PATHS.results_dir, "regime_calibration_v2.json")
 WINDOW_START = "2020-01-01"
 # Appendix A event calendar, replay extension (prereg s1.1 frozen):
 # Beijing day = US FOMC announcement day + 1 calendar day.
@@ -153,7 +154,8 @@ def breadth_series(bench: pd.Series) -> dict:
 BREADTH_LOOKBACK_POS = 5   # live: last 6 bench dates -> now vs 5 bench days ago
 
 
-def raw_series(bench: pd.Series, ds: dict, br: dict) -> pd.DataFrame:
+def raw_series(bench: pd.Series, ds: dict, br: dict,
+               level_fn=raw_level) -> pd.DataFrame:
     """Per-day raw level via the LIVE decision function (imported, reused)."""
     rows = []
     for i, d in enumerate(bench.index):
@@ -168,7 +170,7 @@ def raw_series(bench: pd.Series, ds: dict, br: dict) -> pd.DataFrame:
         brr = {"share_below_ma20": _r4(br["share_below_ma20"], i),
                "share_slope_5d": _r4(br["share_slope_5d"], i),
                "status": "ok"}
-        raw, trig = raw_level(bd, brr, bool(ds["bear"].iloc[i]))
+        raw, trig = level_fn(bd, brr, bool(ds["bear"].iloc[i]))
         rows.append({"date": d, "raw": raw, "triggers": trig})
     return pd.DataFrame(rows).set_index("date")
 
@@ -308,7 +310,15 @@ def _episode(dates, j, closes, horizon, line):
             "false_alarm": bool(drop > line), "further_drop": round(drop, 4)}
 
 
-def replay(write: bool = True) -> dict:
+def replay(write: bool = True, matrix: str = "v1") -> dict:
+    """v1 matrix -> regime_calibration.json; v2 (prereg ee8498e) -> _v2.
+
+    v2 = structural remap only (dims/hysteresis/init/material verbatim);
+    adds de-collection disclosures: R-配3 yellow raw days + #10-blindness
+    census (below-MA200 days and the subset falling in GREEN state).
+    """
+    level_fn = raw_level if matrix == "v1" else raw_level_v2
+    out_path = OUT_PATH if matrix == "v1" else OUT_PATH_V2
     bench = build_bench()
     ds = bench_dim_series(bench)
     br = breadth_series(bench)
@@ -316,9 +326,9 @@ def replay(write: bool = True) -> dict:
     if not gates["ok"]:
         if write:
             _write({"verdict": "GATES_FAILED", "gates": gates,
-                    "evidence_cutoff": EVIDENCE_CUTOFF})
+                    "evidence_cutoff": EVIDENCE_CUTOFF}, out_path)
         return {"verdict": "GATES_FAILED", "gates": gates}
-    raw = raw_series(bench, ds, br)
+    raw = raw_series(bench, ds, br, level_fn=level_fn)
     states, streaks, init_day = state_replay(bench, raw)
     win = [d for d in bench.index if str(d.date()) >= WINDOW_START]
     counts = {s: 0 for s in (GREEN, YELLOW, ORANGE, RED)}
@@ -340,7 +350,7 @@ def replay(write: bool = True) -> dict:
     g3 = all(states[d] in _ORD for d in win) and n == len(
         [d for d in bench.index if str(d.date()) >= WINDOW_START])
     verdict = "PASS" if (g1 and g2 and g3) else "FAIL"
-    result = {"verdict": verdict, "gates": gates,
+    result = {"verdict": verdict, "matrix": matrix, "gates": gates,
               "window": {"start": str(win[0].date()),
                          "end": str(win[-1].date()), "days": n},
               "init_day": str(init_day.date()),
@@ -353,18 +363,37 @@ def replay(write: bool = True) -> dict:
                                "G2_orange_fa_le_60pct": bool(g2),
                                "G3_zero_gaps": bool(g3)},
               "counterfactual": "PENDING (staged leg, prereg s5)",
-              "prereg": "research/REGIME_GUARD_VALIDATION.md @ a885044",
+              "prereg": ("research/REGIME_GUARD_VALIDATION.md @ a885044"
+                         if matrix == "v1" else
+                         "research/REGIME_GUARD_VALIDATION_V2.md @ ee8498e"),
               "evidence_cutoff": EVIDENCE_CUTOFF}
+    if matrix == "v2":
+        pos = {d: bench.index.get_loc(d) for d in win}
+        r3_yellow = sum(1 for d in win if raw.loc[d, "raw"] == YELLOW
+                        and any("R-配3" in t for t in raw.loc[d, "triggers"]))
+        ma200_days = sum(1 for d in win
+                         if bool(ds["below_ma200"].iloc[pos[d]]))
+        ma200_green = sum(1 for d in win
+                          if bool(ds["below_ma200"].iloc[pos[d]])
+                          and states[d] == GREEN)
+        result["v2_disclosures"] = {
+            "r_pei3_yellow_raw_days": r3_yellow,
+            "ma200_below_days_total": ma200_days,
+            "ma200_below_days_state_blind_green": ma200_green,
+            "note": ("#10 de-collected (T0 stands alone, wiring = separate "
+                     "signed item); blindness census feeds that item's "
+                     "economic review (prereg V2 s3.3)")}
     if write:
-        _write(result)
+        _write(result, out_path)
     return result
 
 
-def _write(payload: dict):
-    tmp = OUT_PATH + ".tmp"
+def _write(payload: dict, out_path: str = None):
+    out_path = out_path or OUT_PATH
+    tmp = out_path + ".tmp"
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2, default=str)
-    os.replace(tmp, OUT_PATH)
+    os.replace(tmp, out_path)
 
 
 def counterfactual(write: bool = True) -> dict:
@@ -551,6 +580,32 @@ def _selftest() -> bool:
         b2, pd.DataFrame({"raw": [GREEN] * len(b2)}, index=b2.index))
     check("G state replay all-GREEN bench stays GREEN",
           all(s == GREEN for s in states.values()))
+
+    # V2 mapping unit gates (prereg V2 s2, frozen @ ee8498e)
+    bd_calm = {"crash_10d": -0.01, "panic_1d": -0.005, "vol20": 0.010,
+               "vol_p95": 0.020, "vol_p80": 0.015, "vol_status": "ok",
+               "below_ma200": True, "event_fomc": False,
+               "event_pre_holiday": False}
+    br_ok = {"share_below_ma20": 0.10, "share_slope_5d": -0.01,
+             "status": "ok"}
+    lvl_a, _ = raw_level_v2(bd_calm, br_ok, True)
+    check("V2a bear calm -> YELLOW (v1-RED fixpoint)", lvl_a == YELLOW)
+    lvl_f, _ = raw_level_v2(bd_calm, br_ok, False)
+    check("V2f #10-only day -> GREEN (de-collected)", lvl_f == GREEN)
+    lvl_b, _ = raw_level_v2(dict(bd_calm, crash_10d=-0.13), br_ok, False)
+    check("V2b crash -13% -> RED", lvl_b == RED)
+    lvl_c, _ = raw_level_v2(dict(bd_calm, panic_1d=-0.06), br_ok, False)
+    check("V2c panic -6% -> RED", lvl_c == RED)
+    lvl_d, _ = raw_level_v2(dict(bd_calm, vol20=0.025), br_ok, False)
+    check("V2d vol>p95 -> ORANGE", lvl_d == ORANGE)
+    lvl_e, _ = raw_level_v2(bd_calm,
+                            {"share_below_ma20": 0.85,
+                             "share_slope_5d": -0.02, "status": "ok"}, False)
+    check("V2e breadth 85%+neg slope -> ORANGE", lvl_e == ORANGE)
+    lvl_g, _ = raw_level_v2(dict(bd_calm, crash_10d=-0.09), br_ok, True)
+    check("V2g bear+crash -9% -> ORANGE", lvl_g == ORANGE)
+    lvl_h, _ = raw_level_v2(dict(bd_calm, event_fomc=True), br_ok, False)
+    check("V2h event window -> YELLOW", lvl_h == YELLOW)
     return ok
 
 
@@ -584,6 +639,20 @@ def main(argv=None) -> int:
                                    for r in cf["rows"]],
                           "out": OUT_PATH}, ensure_ascii=False, indent=1))
         return 0
+    if "replay-v2" in argv:
+        res = replay(write=True, matrix="v2")
+        print(json.dumps({"verdict": res["verdict"], "matrix": "v2",
+                          "gates_ok": res["gates"]["ok"],
+                          "window": res.get("window"),
+                          "state_share": res.get("state_share"),
+                          "gate_results": res.get("gate_results"),
+                          "fa_orange": (res.get("false_alarm") or {})
+                          .get("orange", {}).get("fa_rate"),
+                          "fa_yellow": (res.get("false_alarm") or {})
+                          .get("yellow", {}).get("fa_rate"),
+                          "v2_disclosures": res.get("v2_disclosures"),
+                          "out": OUT_PATH_V2}, ensure_ascii=False, indent=1))
+        return 0 if res["verdict"] == "PASS" else 1
     res = replay(write=True)
     print(json.dumps({"verdict": res["verdict"],
                       "gates_ok": res["gates"]["ok"],
