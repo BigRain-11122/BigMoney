@@ -126,7 +126,7 @@ def main():
                                 mmap_mode="r")[i0:], dtype=np.float64)
     amount = np.asarray(np.load(os.path.join(CACHE_DIR, "amount.npy"),
                                 mmap_mode="r")[i0:], dtype=np.float64)
-    print(f"panel slice: T={T} (from {np.datetime64(cal[0], 'us')}) "
+    print(f"panel slice: T={T} (from {cal[0].astype('datetime64[us]')}) "
           f"x N={N} syms ({time.time()-t0:.0f}s)", flush=True)
 
     # ---- LHB events: dedup per (code, date) = row with max LHB turnover
@@ -329,8 +329,8 @@ def main():
                                         "returns are unmeasurable in this "
                                         "panel (recorded limitation)"},
         "panel": {"T": T, "N": N,
-                  "start": str(np.datetime64(cal[0], "us")),
-                  "end": str(np.datetime64(cal[-1], "us"))},
+                  "start": str(cal[0].astype("datetime64[us]")),
+                  "end": str(cal[-1].astype("datetime64[us]"))},
         "counts": {"computed": 4, "skipped": 1, "pass": n_pass},
         "rows": rows,
         "audit": {"elapsed_sec": round(time.time() - t0, 1), "workers": 1,

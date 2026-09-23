@@ -1,0 +1,6 @@
+factor,mask,status,v1_thr,h10_full_ic_mean,h10_full_ic_ir,h10_full_n_periods,h10_is_ic_mean,h10_is_ic_ir,h10_is_n_periods,h10_oos_ic_mean,h10_oos_ic_ir,h10_oos_n_periods,v1,v2,v3,period_gate,pass,h5_is_ic,h5_oos_ic,h20_is_ic,h20_oos_ic,compute_s,skip_reason
+lhb_count_20,A,ok,0.02,-0.0643,-0.836,4782.0,-0.0642,-0.84,4373.0,-0.0647,-0.79,409.0,True,True,True,True,True,-0.0528,-0.055,-0.0724,-0.0721,10.6,
+lhb_netbuy_amt_60,B,ok,0.02,0.0197,0.22,4782.0,0.0224,0.245,4373.0,-0.0091,-0.153,409.0,True,False,False,True,False,,,,,2.9,
+lhb_days_since,C,ok,0.02,0.0636,0.724,4781.0,0.0632,0.723,4372.0,0.0674,0.736,409.0,True,True,True,True,True,0.052,0.0569,0.0724,0.0768,10.3,
+lhb_amt_share_20,B,ok,0.02,0.0641,0.58,4782.0,0.0643,0.567,4373.0,0.0618,0.854,409.0,True,True,True,True,True,0.0523,0.0466,0.0797,0.0769,9.2,
+lhb_seat_top5_conc,,skip_no_seat_level_data,,,,,,,,,,,,,,,,,,,,,in-house LHB (parquet+chunks) is per-criterion aggregate; seat detail absent -> honest skip (PA_LHB_IC SS2); seat-data source probe = separate lane

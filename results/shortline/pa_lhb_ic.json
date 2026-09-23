@@ -1,0 +1,172 @@
+{
+  "meta": {
+    "batch": "P-A LHB attention factor IC",
+    "pre_reg": "research/shortline/PA_LHB_IC.md",
+    "order": "O-20260923-1850",
+    "claim": "MSG-20260923-1910",
+    "date": "2026-09-23 19:14",
+    "is_end": "2024-12-31",
+    "gate_horizon": 10,
+    "n_nulls_per_mask": 50,
+    "seed0": 20260923,
+    "window": "2007-01-01 -> cache cutoff",
+    "dedup_rule": "per (code,date) keep max LHB-turnover row",
+    "lag_trade_days": 1,
+    "engine_runs": 0,
+    "ledger_note": "factor IC batch: strategy engine ledger N untouched (P-4-2a precedent)",
+    "ic_computations": 154
+  },
+  "equivalence": {
+    "max_abs_diff": 1.1102230246251565e-16,
+    "n_common": 393,
+    "tol": 1e-06,
+    "pass": true
+  },
+  "thresholds": {
+    "A": {
+      "p95_abs_ic": 0.0007,
+      "p95_abs_ir": 0.0311,
+      "n_nulls": 50,
+      "median_cross_section": 2553
+    },
+    "B": {
+      "p95_abs_ic": 0.0021,
+      "p95_abs_ir": 0.0375,
+      "n_nulls": 50,
+      "median_cross_section": 362
+    },
+    "C": {
+      "p95_abs_ic": 0.0007,
+      "p95_abs_ir": 0.0273,
+      "n_nulls": 50,
+      "median_cross_section": 1937
+    }
+  },
+  "events": {
+    "raw_rows": 265831,
+    "dedup_stock_days": 227662,
+    "placed": 196641,
+    "dropped_no_cache_col": 30998,
+    "dropped_no_calendar_date": 31,
+    "survivorship_note": "LHB syms beyond the bars cache are delisted-era names; their post-event returns are unmeasurable in this panel (recorded limitation)"
+  },
+  "panel": {
+    "T": 4793,
+    "N": 5222,
+    "start": "2007-01-04T00:00:00.000000",
+    "end": "2026-09-22T00:00:00.000000"
+  },
+  "counts": {
+    "computed": 4,
+    "skipped": 1,
+    "pass": 3
+  },
+  "rows": [
+    {
+      "factor": "lhb_count_20",
+      "mask": "A",
+      "status": "ok",
+      "v1_thr": 0.02,
+      "h10_full_ic_mean": -0.0643,
+      "h10_full_ic_ir": -0.836,
+      "h10_full_n_periods": 4782,
+      "h10_is_ic_mean": -0.0642,
+      "h10_is_ic_ir": -0.84,
+      "h10_is_n_periods": 4373,
+      "h10_oos_ic_mean": -0.0647,
+      "h10_oos_ic_ir": -0.79,
+      "h10_oos_n_periods": 409,
+      "v1": true,
+      "v2": true,
+      "v3": true,
+      "period_gate": true,
+      "pass": true,
+      "h5_is_ic": -0.0528,
+      "h5_oos_ic": -0.055,
+      "h20_is_ic": -0.0724,
+      "h20_oos_ic": -0.0721,
+      "compute_s": 10.6
+    },
+    {
+      "factor": "lhb_netbuy_amt_60",
+      "mask": "B",
+      "status": "ok",
+      "v1_thr": 0.02,
+      "h10_full_ic_mean": 0.0197,
+      "h10_full_ic_ir": 0.22,
+      "h10_full_n_periods": 4782,
+      "h10_is_ic_mean": 0.0224,
+      "h10_is_ic_ir": 0.245,
+      "h10_is_n_periods": 4373,
+      "h10_oos_ic_mean": -0.0091,
+      "h10_oos_ic_ir": -0.153,
+      "h10_oos_n_periods": 409,
+      "v1": true,
+      "v2": false,
+      "v3": false,
+      "period_gate": true,
+      "pass": false,
+      "compute_s": 2.9
+    },
+    {
+      "factor": "lhb_days_since",
+      "mask": "C",
+      "status": "ok",
+      "v1_thr": 0.02,
+      "h10_full_ic_mean": 0.0636,
+      "h10_full_ic_ir": 0.724,
+      "h10_full_n_periods": 4781,
+      "h10_is_ic_mean": 0.0632,
+      "h10_is_ic_ir": 0.723,
+      "h10_is_n_periods": 4372,
+      "h10_oos_ic_mean": 0.0674,
+      "h10_oos_ic_ir": 0.736,
+      "h10_oos_n_periods": 409,
+      "v1": true,
+      "v2": true,
+      "v3": true,
+      "period_gate": true,
+      "pass": true,
+      "h5_is_ic": 0.052,
+      "h5_oos_ic": 0.0569,
+      "h20_is_ic": 0.0724,
+      "h20_oos_ic": 0.0768,
+      "compute_s": 10.3
+    },
+    {
+      "factor": "lhb_amt_share_20",
+      "mask": "B",
+      "status": "ok",
+      "v1_thr": 0.02,
+      "h10_full_ic_mean": 0.0641,
+      "h10_full_ic_ir": 0.58,
+      "h10_full_n_periods": 4782,
+      "h10_is_ic_mean": 0.0643,
+      "h10_is_ic_ir": 0.567,
+      "h10_is_n_periods": 4373,
+      "h10_oos_ic_mean": 0.0618,
+      "h10_oos_ic_ir": 0.854,
+      "h10_oos_n_periods": 409,
+      "v1": true,
+      "v2": true,
+      "v3": true,
+      "period_gate": true,
+      "pass": true,
+      "h5_is_ic": 0.0523,
+      "h5_oos_ic": 0.0466,
+      "h20_is_ic": 0.0797,
+      "h20_oos_ic": 0.0769,
+      "compute_s": 9.2
+    },
+    {
+      "factor": "lhb_seat_top5_conc",
+      "status": "skip_no_seat_level_data",
+      "skip_reason": "in-house LHB (parquet+chunks) is per-criterion aggregate; seat detail absent -> honest skip (PA_LHB_IC SS2); seat-data source probe = separate lane"
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 368.2,
+    "workers": 1,
+    "cpu_cap_policy": "O-20260923-1738 (vectorized single-proc, memory-bound rank ops)"
+  }
+}

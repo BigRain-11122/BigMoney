@@ -76,7 +76,7 @@ python -m screening.rank          # 432 组排名重建
 - `results/p1_screen.json` / `p2_survivors.json` / `p2_calibration.json`：海选/深化明细（含 OOS 指标与门禁判定）
 - `results/paper/<交易员>_paper.json`：纸盘账本（bars/trades/months_tracked/equity）
 - `results/update_status.json`：数据增量状态（per-symbol appended / data_cutoff）
-- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`、`new_signal_p1_results`、`g2_nsp1_results`、`sleeve_p3_results`；短线线另在 `research/shortline/`：`p2_gtja_composite`、`p2_gtja_runs`、`p4_batch1_results`
+- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`、`new_signal_p1_results`、`g2_nsp1_results`、`sleeve_p3_results`、`p5_random_entry`；短线线另在 `research/shortline/`：`p2_gtja_composite`、`p2_gtja_runs`、`p4_batch1_results`、`p4_batch2a_results`、`pa_lhb_ic_results`（P-A LHB 注意力因子批 3/4 过门）
 - `research/auto/retro-*.md`：LLM 自动复盘（J13 产物，advisory only——LLM 数字偶有误读，人工核验后采信）
 - `fleet/orders/O-*.md`：用户令台账（/CEO 发言自动落册）；`fleet/tasks/T-*.json`：机队任务单（T-2026-09-23-01=done 全弧闭环）
 - `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 11 步数据驱动、试验账本 N 实时聚合）；`town.html` 同数据链（J12 公司小镇）
@@ -84,11 +84,11 @@ python -m screening.rank          # 432 组排名重建
 ## 六、本机将持续产出什么（你回来取时会有更多）
 
 - 每个交易日 15:30 后：48 池日线增量 → 纸盘自动记账 → 成果/面板文件刷新（查 `results/update_status.json` 的 data_cutoff 与 total_new_rows）。
-- 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；旧策略线三路径穷尽后曾转维护态，**CEO 09-23 下午重启短线研究线**——P-1a GTJA191 双轨已跑、P-2 合成已诚实收线（bm-b r34）、**P-4 动物园批一已收线（bm-b r35：0 候选/袖 2 oversold 低相关记档）**、P-1b WQ101=bm-a in-flight、O-1705 风格动物园已交付（批二 M0923 迁族+lhb／批三死扛族 spec=认领制待认领，lhb 19 年数据在 Money02 双机就位）；批测均预注册+零假设基线+账本记账（N=1556）。
+- 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；**CEO 09-23 重启短线研究线后进展（round 15 bm-a 核对）**：P-1a GTJA191 双轨（严口径 0）、P-2 合成（bm-b r34）、P-4 批一（bm-b r35）、**P-1b WQ101（bm-a r11：严口径 0/82、宽筛池 36=跨库合成素材）**、**P-4 批 2A TA 迁族（GM 亲执：G1' 候选 3、0 注册，G2 另开预注册）**、**P-5 随机起点实战检验（R13：三员全 FAIL 0.70 跑赢线诚实判负）**、**P-A LHB 注意力因子批（R15：3/4 过门=项目首个强幸存者因子批——lhb_count_20 IC−0.064/IR−0.84、lhb_days_since +0.063/0.72、lhb_amt_share_20 +0.064/OOS IR 0.854，OOS 全保留；双外部库皆灭后首破）**均已收线；P-1c Stage-A 股票缓存已建（8792×5222 memmap）；批测均预注册+零假设基线+账本记账（**N=2020**）。
 - bars 1.09GB（Money02\data\bars）传输**全弧闭环**：A-变体推送完成（BigMoney-data main=81b93d3）+bm-a 接收腿 dual -Verify PASS+落位再验 PASS → **T-2026-09-23-01 done**；bars 双机就位，bm-b 暂存仓已删；数据面机制归档=`fleet/TRANSFER.md`。
 - 机队协同：每轮自动消化 `fleet/orders/` 新令与 `fleet/inbox/` 定向消息；J12 公司小镇 v0.4/J13 LLM 助理 v0.1/J18b 数据部行已交付；P 线分工=GM MSG-1700（**P-1b WQ101 移植=bm-a in-flight、P-2 合成=bm-b 已收线**，开工前 inbox 认领制=F-04 已成 fleet 规范）。
 - 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
-- 开发队列（接管版，CEO 可随时改序）**round 35 更新**：J12 已交付 v0.4、J13 已交付 v0.1、J18b 已交付（bm-b r31）→ 余 J10 dashboard.html 分布式监控页 → Optuna 贝叶斯调参骨架；**研究线现役=短线 P 线**（P-1b WQ101 无 cap 子集移植批测=bm-a（先预注册）、P-2 已收线、**P-4 批一已收线（bm-b r35）→ 批二（M0923 迁族+lhb）/批三（死扛族 spec）认领制待认领**、素材=zoo 42 族+lhb 19 年在库）；P1 级新方向须署名任务单才开工（GM 署名即有效，O-1620）。
+- 开发队列（接管版，CEO 可随时改序）**round 15 bm-a 更新**：J12 v0.4/J13 v0.1/J18b 已交付 → 余 J10 dashboard.html 分布式监控页 → Optuna 骨架；**研究线现役（O-1819 队列永不清空）**：P-C 前向热度采集管道（bm-a 下轮，O-1850 工程车道）→ P-1c Stage-B probe → O-1820 item2 akshare 财务+ST 源 → P-6 记分卡（O-1823 认领制）→ P-B 概念板块源审计（bm-b 可认领）→ LHB 三幸存者合成批（P-2 型预注册另开）；P1 级新方向须署名任务单才开工（GM 署名即有效，O-1620）。
 
 ## 七、诚实声明
 
