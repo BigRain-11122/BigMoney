@@ -305,6 +305,148 @@ class _LCG:
         return (self._s >> 11) / float(1 << 53)
 
 
+# ---------------------------------------------------------------- T-03 additions (F3/F6/F9/F10/F11/F12)
+
+def append_ledger(batch_name: str, batch_trials: int, file_name: str | None = None,
+                  note: str | None = None, results_dir: str = RESULTS_DIR) -> dict:
+    """F3 (audit P0-7): unified trials-ledger entry, dict schema for ALL producers.
+
+    prev_total = data-driven chain head at run time (ledger_head()); total =
+    prev_total + batch_trials. Historical flat-list writers are retired. Any
+    re-run of a historical batch needs fresh prereg (audit note), so the chain
+    stays linear under this schema.
+    """
+    prev = int(ledger_head(results_dir)["total"])
+    out = {
+        "prev_total": prev,
+        "batch_trials": int(batch_trials),
+        "total": prev + int(batch_trials),
+        "batch": batch_name,
+    }
+    if file_name:
+        out["file"] = file_name
+    if note:
+        out["note"] = note
+    return out
+
+
+def ledger_total(entry) -> int:
+    """F3 (audit P0-7): tolerant trials-ledger reader -- accepts the unified
+    dict schema {total | prev_total+batch_trials} and the historical flat
+    list [{batch,n},...] (g25_retro / p3_portfolio / sleeve_p3 precedent)."""
+    if isinstance(entry, dict):
+        if isinstance(entry.get("total"), (int, float)):
+            return int(entry["total"])
+        return int(entry.get("prev_total", 0)) + int(entry.get("batch_trials", 0))
+    if isinstance(entry, list):
+        return sum(int(x.get("n", 0)) for x in entry if isinstance(x, dict))
+    return 0
+
+
+def dual_trade_gate(n_trades: int, n_entries: int, min_trades: int = 30) -> dict:
+    """F6 (audit P1-3): dual-basis trade-count gate. num_trades counts TRANCHE
+    closes (layered take-profit pads it); num_entries counts distinct position
+    opens (engine report_num_entries flag). Batch gate reports disclose BOTH;
+    new batches pass on entries_ok, not trades_ok alone."""
+    return {
+        "n_trades": int(n_trades), "n_entries": int(n_entries), "min": int(min_trades),
+        "trades_ok": bool(n_trades >= min_trades),
+        "entries_ok": bool(n_entries >= min_trades),
+        "dual_ok": bool(n_trades >= min_trades and n_entries >= min_trades),
+    }
+
+
+def passive_strict_max(passive_sharpes) -> float:
+    """F10 (audit P1-14): the ONE passive definition -- strict (max) across the
+    pool's passive variants (buy-and-hold, monthly-rebalance, ...). Calibration
+    PRODUCERS pass their computed Sharpe list here; readers use
+    passive_baseline(), which reads the registered calibration file."""
+    cands = [float(x) for x in passive_sharpes
+             if isinstance(x, (int, float)) and math.isfinite(float(x))]
+    if not cands:
+        raise ValueError("no finite passive sharpe candidates")
+    return max(cands)
+
+
+def recorded_lines(results_dir: str = RESULTS_DIR) -> dict:
+    """F9 (audit P1-13): recorded historical gate constants, read LIVE from the
+    authoritative batch JSONs (machine-linkable provenance -- batch scripts
+    import from here, no hand-copied numbers). These are REPRODUCTION records
+    of the pre-v2 era; the CURRENT registration line is skill_line_v2 (D1)."""
+    def _load(name):
+        with open(os.path.join(results_dir, name), encoding="utf-8") as fh:
+            return json.load(fh)
+    gate = _load("p2_calibration.json")["g1_prime_gate"]
+    nsp1_ce = float(_load("new_signal_p1.json")["gate"]["random_p95_inbatch_full"]["ce"])
+    b1_ce = float(_load("shortline_p4_batch1.json")["gate"]["i_bar_ce_used"])
+    return {
+        "i_line": float(gate["i_full_sharpe_gt"]),      # 0.3521 recorded (n=100 calibration)
+        "vi_bar": float(gate["vi_full_sharpe_gt"]),     # 0.4004 recorded (EW48 bh + 0.10)
+        "ce_null_core48": nsp1_ce,                      # 0.4229 recorded (first core48 CE null)
+        "ce_null_p4_batch1": b1_ce,                     # 0.4474 recorded (P4-b1 max-rule line)
+        "jurisdiction": "historical repro constants; current line = skill_line_v2",
+    }
+
+
+SEED_REGISTRY = {
+    # F11 (audit P1-15): prereg seed-family bases, historical frozen; NEW
+    # batches register their base here (cross-batch comparability). Verified
+    # against the scripts' module constants 2026-09-24.
+    "policy": "prereg seed family bases, historical frozen; new batches register here",
+    "p2_null_calibration_a": 10_000,    # rng(10_000+k) random+engine family
+    "p2_null_calibration_b": 20_000,    # rng_x(20_000+k) random-exit pairing
+    "lfc_p1_screen": 30_000,           # default_rng(30_000+k)
+    "new_signal_p1": 40_000,           # default regime cells (40_000+k; ce=40_050+k)
+    "new_signal_p1_ce": 40_050,
+    "p4_batch1": 41_000,               # fresh draw (NSP1 used 40_000)
+    "p4_folk": 43_000,                 # fresh draw (40k/41k/42k used before)
+    "p4_queue": 44_000,
+    "p5_random_entry": 20260923,        # K=50 start-point draw
+    "p5b_new_traders": 20260924,        # K=50 fresh independent draw
+    "factor_ic_screens": 20260923,     # GTJA191/WQ101 K=50 white-noise panels
+}
+
+
+# ---------------------------------------------------------------- F12 CostPatch (single source)
+
+COST_X2_RATE = 0.0026082  # G2-recorded stressed single-side cost (2x fee schedule)
+
+
+class CostPatch:
+    """FeeSchedule name-factory stress patch (G2-proven pattern; single source
+    since T-03-F12 -- was duplicated in paper/ce_transfer/combined_exit/
+    lowchurn/p2_deepening).
+
+    Replaces the FeeSchedule NAME inside engine.backtester with a factory
+    returning a stressed instance. (Class-attribute patching does NOT work:
+    dataclass __init__ bakes field defaults into the function signature at
+    class creation, so FeeSchedule() ignores later class-attr edits --
+    verified empirically 2026-09-23, J14.) Engine/knowledge files untouched,
+    name always restored. Stress only ever makes costs STRICTER.
+    """
+
+    def __init__(self, mult: float):
+        self.mult = mult
+        self.orig = None
+        self._eb = None
+
+    def __enter__(self):
+        import engine.backtester as _eb
+        self._eb = _eb
+        self.orig = _eb.FeeSchedule
+        Orig, m = self.orig, self.mult
+        _eb.FeeSchedule = lambda: Orig(
+            commission_rate=Orig.commission_rate * m,
+            handling_fee=Orig.handling_fee * m,
+            supervision_fee=Orig.supervision_fee * m,
+            slippage_a=Orig.slippage_a * m)
+        return self
+
+    def __exit__(self, *exc):
+        self._eb.FeeSchedule = self.orig
+        return False
+
+
 # ---------------------------------------------------------------- selftest / report
 
 def _synth_returns(n: int, sr_annual: float, seed: int) -> list[float]:
@@ -366,6 +508,54 @@ def selftest() -> int:
         ok("passive_baseline rejects uncalibrated pool", False)
     except KeyError:
         ok("passive_baseline rejects uncalibrated pool", True)
+
+    # T-03 F3: unified ledger schema + tolerant reader
+    head_total = ledger_head()["total"]
+    led = append_ledger("t03-selftest-batch", 7, "selftest.json", note="synthetic")
+    ok("append_ledger dict schema + chain-head prev",
+       led["prev_total"] == head_total and led["total"] == head_total + 7
+       and {"prev_total", "batch_trials", "total", "batch", "file", "note"} <= set(led))
+    ok("ledger_total tolerant: dict / flat list / dict-without-total / junk",
+       ledger_total(led) == led["total"]
+       and ledger_total([{"n": 432}, {"n": 59}]) == 491
+       and ledger_total({"prev_total": 100, "batch_trials": 27}) == 127
+       and ledger_total(None) == 0)
+
+    # T-03 F6: dual-basis trade gate
+    ok("dual_trade_gate: tranches pad, entries honest",
+       dual_trade_gate(35, 12)["trades_ok"] and not dual_trade_gate(35, 12)["entries_ok"]
+       and dual_trade_gate(35, 12)["dual_ok"] is False
+       and dual_trade_gate(35, 32)["dual_ok"] is True)
+
+    # T-03 F10: passive strict-max
+    ok("passive_strict_max = max across variants (0.3004 vs 0.379)",
+       passive_strict_max([0.3004, 0.379]) == 0.379)
+
+    # T-03 F9: recorded lines live-read from source JSONs
+    rl = recorded_lines()
+    ok("recorded_lines: p2 gate + CE nulls live-read",
+       rl["i_line"] == 0.3521 and rl["vi_bar"] == 0.4004
+       and rl["ce_null_core48"] == 0.4229 and rl["ce_null_p4_batch1"] == 0.4474)
+
+    # T-03 F12: CostPatch stresses and restores
+    import sys
+    _root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if _root not in sys.path:
+        sys.path.insert(0, _root)
+    import engine.backtester as _eb
+    orig_cls = _eb.FeeSchedule
+    with CostPatch(2.0):
+        stressed = _eb.FeeSchedule()
+        rate2 = (stressed.commission_rate + stressed.handling_fee
+                 + stressed.supervision_fee + stressed.slippage_a)
+        ok("CostPatch x2: stressed single-side == recorded COST_X2_RATE",
+           abs(rate2 - COST_X2_RATE) < 1e-12)
+    ok("CostPatch restores FeeSchedule name on exit", _eb.FeeSchedule is orig_cls)
+
+    # T-03 F11: seed registry sanity
+    ok("SEED_REGISTRY: verified bases present, all ints positive",
+       SEED_REGISTRY["p4_folk"] == 43_000 and SEED_REGISTRY["p5b_new_traders"] == 20260924
+       and all(v > 0 for v in SEED_REGISTRY.values() if isinstance(v, int)))
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
