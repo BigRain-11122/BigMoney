@@ -1,0 +1,469 @@
+"""Regime guard calibration batch -- T-05 part 2.
+
+Authority: research/REGIME_GUARD_VALIDATION.md (prereg FROZEN at a885044,
+BEFORE any run) -- law source firm/risk/REGIME_GUARD.md s3.2-3.4.
+Shadow-only: zero behavior change; this measures the s1 state machine over
+2020-2026 and produces the enforce-gate verdict inputs.
+
+Design (reuse law): the daily decision code is IMPORTED from
+scripts/market_regime.py (raw_level + resolve_state) and firm/risk/regime.py
+(major-bear semantics) -- never re-implemented here. This file adds only the
+vectorized dimension series (with hard equivalence gates vs the point
+functions) and the replay/FA/counterfactual measurement layer.
+
+Subcommands (staged execution legal per prereg s5):
+    selftest        -- synthetic offline checks (no data reads)
+    gates           -- equivalence gates vs point functions (hard pre-gate)
+    replay          -- gates + 2020-2026 state replay + FA metrics + verdict
+    counterfactual  -- 6-trader entry-masking engine legs (staged; see note)
+
+Provenance: bench = sh510300 prefix twin (2012-05-28 -> 2026-09-22) + bare
+tail day(s); overlap byte-identity is asserted at build time (J9a twin law).
+"""
+import json
+import os
+import sys
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import numpy as np
+import pandas as pd
+
+from config import PATHS
+from scripts.market_regime import (
+    BENCH, MA_BRE, MA_TREND, WIN10, VOL_WIN, VOL_BASE,
+    GREEN, YELLOW, ORANGE, RED, _ORD,
+    bench_dims, breadth_dims, raw_level, resolve_state,
+    LONG_GAP_DAYS, LONG_GAP_MONTHS,
+)
+from firm.risk.regime import major_bear_state, MA_WINDOW as MA_BREACH, DD_LINE
+
+OUT_PATH = os.path.join(PATHS.results_dir, "regime_calibration.json")
+WINDOW_START = "2020-01-01"
+# Appendix A event calendar, replay extension (prereg s1.1 frozen):
+# Beijing day = US FOMC announcement day + 1 calendar day.
+FOMC_BEIJING = {
+    # 2020 (incl. three emergency March actions -- public record)
+    "2020-01-30", "2020-03-04", "2020-03-16", "2020-03-24", "2020-04-30",
+    "2020-06-11", "2020-07-30", "2020-09-17", "2020-11-06", "2020-12-17",
+    # 2021
+    "2021-01-28", "2021-03-18", "2021-04-29", "2021-06-17", "2021-07-29",
+    "2021-09-23", "2021-11-04", "2021-12-16",
+    # 2022
+    "2022-01-27", "2022-03-17", "2022-05-05", "2022-06-16", "2022-07-28",
+    "2022-09-22", "2022-11-03", "2022-12-15",
+    # 2023
+    "2023-02-02", "2023-03-23", "2023-05-04", "2023-06-15", "2023-07-27",
+    "2023-09-21", "2023-11-02", "2023-12-14",
+    # 2024
+    "2024-02-01", "2024-03-21", "2024-05-02", "2024-06-13", "2024-08-01",
+    "2024-09-19", "2024-11-08", "2024-12-19",
+    # 2025
+    "2025-01-30", "2025-03-20", "2025-05-08", "2025-06-19", "2025-07-31",
+    "2025-09-18", "2025-10-30", "2025-12-11",
+    # 2026 (provisional, same list as live probe)
+    "2026-01-29", "2026-03-19", "2026-04-30", "2026-06-18", "2026-07-30",
+    "2026-09-17", "2026-10-29", "2026-12-10",
+}
+EVIDENCE_CUTOFF = "2026-09-22"   # trader-panel side (prereg header)
+
+
+def _bare_codes():
+    return sorted(f[:-4] for f in os.listdir(PATHS.daily_dir)
+                  if f.endswith(".csv") and f[:-4].isdigit())
+
+
+def build_bench() -> pd.Series:
+    """Twin (long history) + bare-only tail; overlap byte-identity asserted."""
+    tw = pd.read_csv(os.path.join(PATHS.daily_dir, f"sh{BENCH}.csv"),
+                     parse_dates=["date"]).set_index("date")["close"].astype(float)
+    ba = pd.read_csv(os.path.join(PATHS.daily_dir, f"{BENCH}.csv"),
+                     parse_dates=["date"]).set_index("date")["close"].astype(float)
+    ov = tw.index.intersection(ba.index)
+    if len(ov) == 0 or float(np.max(np.abs(tw.loc[ov] - ba.loc[ov]))) != 0.0:
+        raise AssertionError("twin overlap identity gate FAILED (prereg s1)")
+    tail = ba[ba.index.difference(tw.index)]
+    return pd.concat([tw.sort_index(), tail]).sort_index()
+
+
+def bench_dim_series(bench: pd.Series) -> dict:
+    """Vectorized bench dims, live-point-function semantics (prereg s1)."""
+    r1 = bench.pct_change()
+    crash10 = bench.pct_change(WIN10)
+    vol20 = r1.rolling(VOL_WIN).std()
+    vol_cum = vol20.notna().cumsum()
+    vol_ok = vol_cum > (VOL_BASE + VOL_WIN)      # live: len(dropna)>776
+    p95 = vol20.shift(1).rolling(VOL_BASE).quantile(0.95)
+    p80 = vol20.shift(1).rolling(VOL_BASE).quantile(0.80)
+    ma200 = bench.rolling(MA_TREND).mean()
+    ma250 = bench.rolling(MA_BREACH).mean()
+    high250 = bench.rolling(MA_BREACH).max()
+    dd250 = bench / high250 - 1.0
+    below200 = (bench < ma200).fillna(False)
+    bear = ((bench < ma250) & (dd250 <= DD_LINE)).fillna(False)
+
+    dstr = pd.Series([str(d.date()) for d in bench.index], index=bench.index)
+    fomc = dstr.isin(FOMC_BEIJING)
+    # pre-long-holiday: next bench gap >= 6 calendar days AND post-gap month
+    # in {1,2,10} (prereg s1.1 frozen derivation; replay-only by design)
+    pre_hol = pd.Series(False, index=bench.index)
+    if len(bench) > 1:
+        gaps = (bench.index[1:] - bench.index[:-1]).days
+        nxt_month = bench.index[1:].month
+        mask = (gaps >= LONG_GAP_DAYS) & nxt_month.isin(LONG_GAP_MONTHS)
+        pre_hol.iloc[:-1] = mask
+
+    return {"crash_10d": crash10, "panic_1d": r1, "vol20": vol20,
+            "vol_ok": vol_ok, "vol_p95": p95, "vol_p80": p80,
+            "below_ma200": below200, "bear": bear,
+            "event_fomc": fomc, "event_pre_holiday": pre_hol}
+
+
+def breadth_series(bench: pd.Series) -> dict:
+    """core48 close<MA20 share, per-symbol as-of semantics == live point fn.
+
+    Suspended symbols keep counting with stale last-traded close/MA20 (exact
+    live breadth_dims semantics: closes.loc[:d] reads own history only).
+    """
+    idx = bench.index
+    below = pd.DataFrame(False, index=idx, columns=_bare_codes())
+    valid = pd.DataFrame(False, index=idx, columns=_bare_codes())
+    for code in below.columns:
+        p = os.path.join(PATHS.daily_dir, f"{code}.csv")
+        own = pd.read_csv(p, parse_dates=["date"]).set_index("date")[
+            "close"].astype(float).sort_index()
+        sb = own.reindex(idx)
+        cum = sb.notna().cumsum()
+        v = cum >= MA_BRE
+        close_asof = sb.ffill()
+        ma20_asof = own.rolling(MA_BRE).mean().reindex(idx).ffill()
+        # tie policy: quantize 9dp, ties -> not below. rolling-mean vs
+        # slice-mean last-bit noise flipped 515790@2023-11-08 (close==MA20
+        # exactly); quantization makes the replay deterministic while the
+        # live point function keeps its own float-luck on measure-zero ties.
+        below[code] = v & (close_asof.round(9) < ma20_asof.round(9))
+        valid[code] = v
+    n_valid = valid.sum(axis=1)
+    share = below.sum(axis=1) / n_valid.where(n_valid > 0)
+    slope = share - share.shift(BREADTH_LOOKBACK_POS)
+    return {"share_below_ma20": share, "share_slope_5d": slope,
+            "n_valid": n_valid}
+
+
+BREADTH_LOOKBACK_POS = 5   # live: last 6 bench dates -> now vs 5 bench days ago
+
+
+def raw_series(bench: pd.Series, ds: dict, br: dict) -> pd.DataFrame:
+    """Per-day raw level via the LIVE decision function (imported, reused)."""
+    rows = []
+    for i, d in enumerate(bench.index):
+        bd = {"crash_10d": _v(ds["crash_10d"], i), "panic_1d": _v(ds["panic_1d"], i),
+              "vol20": _r6(ds["vol20"], i) if ds["vol_ok"].iloc[i] else None,
+              "vol_p95": _r6(ds["vol_p95"], i) if ds["vol_ok"].iloc[i] else None,
+              "vol_p80": _r6(ds["vol_p80"], i) if ds["vol_ok"].iloc[i] else None,
+              "vol_status": "ok" if ds["vol_ok"].iloc[i] else "insufficient_history",
+              "below_ma200": bool(ds["below_ma200"].iloc[i]),
+              "event_fomc": bool(ds["event_fomc"].iloc[i]),
+              "event_pre_holiday": bool(ds["event_pre_holiday"].iloc[i])}
+        brr = {"share_below_ma20": _r4(br["share_below_ma20"], i),
+               "share_slope_5d": _r4(br["share_slope_5d"], i),
+               "status": "ok"}
+        raw, trig = raw_level(bd, brr, bool(ds["bear"].iloc[i]))
+        rows.append({"date": d, "raw": raw, "triggers": trig})
+    return pd.DataFrame(rows).set_index("date")
+
+
+def _v(s, i):
+    x = s.iloc[i]
+    return None if pd.isna(x) else float(x)
+
+
+def _r4(s, i):
+    x = s.iloc[i]
+    return None if pd.isna(x) else round(float(x), 4)
+
+
+def _r6(s, i):
+    x = s.iloc[i]
+    return None if pd.isna(x) else round(float(x), 6)
+
+
+def state_replay(bench: pd.Series, raw: pd.Series):
+    """Frozen init (prereg s1.2): prev=raw@last-2019-day, streak 0, then loop."""
+    dates = list(raw.index)
+    pre = [d for d in dates if str(d.date()) < WINDOW_START]
+    init_day = pre[-1] if pre else dates[0]
+    states, streaks = {}, {}
+    prev_state, streak = raw.loc[init_day, "raw"], 0
+    states[init_day] = prev_state
+    streaks[init_day] = streak
+    for d in dates:
+        if d == init_day:
+            continue
+        prev_state, streak = resolve_state(prev_state, streak, raw.loc[d, "raw"])
+        states[d] = prev_state
+        streaks[d] = streak
+    return states, streaks, init_day
+
+
+def equivalence_gates(bench: pd.Series, ds: dict, br: dict,
+                      n_samples: int = 8) -> dict:
+    """Vectorized vs point functions on sample dates (prereg s2 hard gate).
+
+    Event legs are replay-extensions by design (live point fn carries the
+    2026-only FOMC list and unknowable pre-holiday) -- excluded from the
+    gate, disclosed (prereg s1.1).
+    """
+    idx = [d for d in bench.index if str(d.date()) >= WINDOW_START]
+    picks = [idx[int(k * (len(idx) - 1) / max(n_samples - 1, 1))]
+             for k in range(n_samples)]
+    if idx[-1] not in picks:
+        picks.append(idx[-1])
+    checks, ok = [], True
+    for d in picks:
+        trunc = bench.loc[:d]
+        pbd = bench_dims(trunc)
+        pbr = breadth_dims(trunc)
+        pba = major_bear_state(trunc)
+        i = bench.index.get_loc(d)
+        exp = {
+            "crash_10d": _v(ds["crash_10d"], i),
+            "panic_1d": _v(ds["panic_1d"], i),
+            "vol20": pbd["vol20"],
+            "vol_p95": pbd["vol_p95"],
+            "vol_p80": pbd["vol_p80"],
+            "below_ma200": (True if pbd["below_ma200"] else
+                            (False if pbd["below_ma200"] is False else None)),
+            "bear": bool(pba.get("is_major_bear", False)),
+            "share": pbr.get("share_below_ma20"),
+            "slope": pbr.get("share_slope_5d"),
+        }
+        got = {"crash_10d": exp["crash_10d"], "panic_1d": exp["panic_1d"],
+               "vol20": _r6(ds["vol20"], i) if ds["vol_ok"].iloc[i] else None,
+               "vol_p95": _r6(ds["vol_p95"], i) if ds["vol_ok"].iloc[i] else None,
+               "vol_p80": _r6(ds["vol_p80"], i) if ds["vol_ok"].iloc[i] else None,
+               "below_ma200": bool(ds["below_ma200"].iloc[i]),
+               "bear": bool(ds["bear"].iloc[i]),
+               "share": _r4(br["share_below_ma20"], i),
+               "slope": _r4(br["share_slope_5d"], i)}
+        row_ok = True
+        for k in exp:
+            e, g = exp[k], got[k]
+            if e is None or g is None:
+                match = (e is None and g is None)
+            elif isinstance(e, bool) or isinstance(g, bool):
+                match = bool(e) == bool(g)
+            else:
+                match = abs(float(e) - float(g)) <= 1e-9
+            if not match:
+                ok = row_ok = False
+                checks.append({"date": str(d.date()), "field": k,
+                               "point": None if e is None else e,
+                               "vector": None if g is None else g,
+                               "match": False})
+        if row_ok:
+            checks.append({"date": str(d.date()), "match": True})
+    return {"ok": ok, "n_sample_dates": len(picks), "details": checks}
+
+
+def fa_metrics(bench: pd.Series, states: dict) -> dict:
+    """ORANGE/YELLOW false-alarm rates (prereg s3.2 frozen definitions)."""
+    dates = [d for d in bench.index if str(d.date()) >= WINDOW_START]
+    closes = bench
+    out = {"orange": [], "yellow": []}
+    for j, d in enumerate(dates):
+        prev = states.get(dates[j - 1]) if j else None
+        cur = states[d]
+        prev_ord = _ORD[prev] if prev is not None else -1
+        if cur == ORANGE and prev_ord < _ORD[ORANGE]:
+            out["orange"].append(_episode(dates, j, closes, 20, -0.05))
+        if cur == YELLOW and prev_ord < _ORD[YELLOW]:
+            out["yellow"].append(_episode(dates, j, closes, 10, -0.03))
+    res = {}
+    for lvl in ("orange", "yellow"):
+        eps = out[lvl]
+        main = [e for e in eps if not e["truncated"]]
+        trunc = [e for e in eps if e["truncated"]]
+        fa = [e for e in main if e["false_alarm"]]
+        res[lvl] = {"episodes": len(eps), "main": len(main),
+                    "truncated": len(trunc), "false_alarms": len(fa),
+                    "fa_rate": (len(fa) / len(main)) if main else None,
+                    "episode_dates": [e["date"] for e in eps],
+                    "fa_dates": [e["date"] for e in fa],
+                    "truncated_dates": [e["date"] for e in trunc]}
+    return res
+
+
+def _episode(dates, j, closes, horizon, line):
+    """Entry day d: FA iff min close over next <=h bench days > close*(1+line)."""
+    d = dates[j]
+    fut = dates[j + 1: j + 1 + horizon]
+    if not fut:
+        return {"date": str(d.date()), "truncated": True,
+                "false_alarm": None, "further_drop": None}
+    mn = float(closes.loc[fut].min())
+    base = float(closes.loc[d])
+    drop = mn / base - 1.0
+    return {"date": str(d.date()), "truncated": len(fut) < horizon,
+            "false_alarm": bool(drop > line), "further_drop": round(drop, 4)}
+
+
+def replay(write: bool = True) -> dict:
+    bench = build_bench()
+    ds = bench_dim_series(bench)
+    br = breadth_series(bench)
+    gates = equivalence_gates(bench, ds, br)
+    if not gates["ok"]:
+        if write:
+            _write({"verdict": "GATES_FAILED", "gates": gates,
+                    "evidence_cutoff": EVIDENCE_CUTOFF})
+        return {"verdict": "GATES_FAILED", "gates": gates}
+    raw = raw_series(bench, ds, br)
+    states, streaks, init_day = state_replay(bench, raw)
+    win = [d for d in bench.index if str(d.date()) >= WINDOW_START]
+    counts = {s: 0 for s in (GREEN, YELLOW, ORANGE, RED)}
+    for d in win:
+        counts[states[d]] += 1
+    n = len(win)
+    share = {s: counts[s] / n for s in counts}
+    trans = {}
+    for a, b in zip(win, win[1:]):
+        k = f"{states[a]}->{states[b]}"
+        trans[k] = trans.get(k, 0) + 1
+    fa = fa_metrics(bench, states)
+    # raw-level event-leg contribution to YELLOW (disclosure, prereg s1.1)
+    ev_yellow = sum(1 for d in win if raw.loc[d, "raw"] == YELLOW
+                    and any("event" in t for t in raw.loc[d, "triggers"]))
+    g1 = 0.02 <= share[RED] + share[ORANGE] <= 0.25
+    g2 = (fa["orange"]["fa_rate"] is not None
+          and fa["orange"]["fa_rate"] <= 0.60)
+    g3 = all(states[d] in _ORD for d in win) and n == len(
+        [d for d in bench.index if str(d.date()) >= WINDOW_START])
+    verdict = "PASS" if (g1 and g2 and g3) else "FAIL"
+    result = {"verdict": verdict, "gates": gates,
+              "window": {"start": str(win[0].date()),
+                         "end": str(win[-1].date()), "days": n},
+              "init_day": str(init_day.date()),
+              "state_counts": counts, "state_share": {
+                  k: round(v, 4) for k, v in share.items()},
+              "transition_matrix": trans,
+              "false_alarm": fa,
+              "event_leg_yellow_raw_days": ev_yellow,
+              "gate_results": {"G1_red_orange_share_in_2_25pct": bool(g1),
+                               "G2_orange_fa_le_60pct": bool(g2),
+                               "G3_zero_gaps": bool(g3)},
+              "counterfactual": "PENDING (staged leg, prereg s5)",
+              "prereg": "research/REGIME_GUARD_VALIDATION.md @ a885044",
+              "evidence_cutoff": EVIDENCE_CUTOFF}
+    if write:
+        _write(result)
+    return result
+
+
+def _write(payload: dict):
+    tmp = OUT_PATH + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2, default=str)
+    os.replace(tmp, OUT_PATH)
+
+
+def _selftest() -> bool:
+    ok = True
+
+    def check(name, cond):
+        nonlocal ok
+        ok &= bool(cond)
+        print(f"  [calib] {name}... {'PASS' if cond else 'FAIL'}")
+
+    # A: synthetic bench -- engineered -14% 10d crash -> RED episode, FA path
+    idx = pd.bdate_range("2020-01-01", periods=900)
+    bench = pd.Series(4.0, index=idx)
+    bench.iloc[500:510] = 4.0 * (1 - 0.14 * pd.Series(
+        range(1, 11), index=idx[500:510]) / 10)
+    fa = fa_metrics(bench, {d: (RED if 500 <= i < 510 else GREEN)
+                            for i, d in enumerate(idx)})
+    check("A RED crash episode recorded as orange-episodes=0",
+          fa["orange"]["episodes"] == 0)
+
+    # B: ORANGE episode + FA classification (further drop < 5% -> FA)
+    states = {d: (ORANGE if i == 400 else GREEN) for i, d in enumerate(idx)}
+    fa = fa_metrics(bench, states)
+    check("B single-day ORANGE episode counted",
+          fa["orange"]["episodes"] == 1 and
+          fa["orange"]["main"] == 1 and fa["orange"]["fa_rate"] is not None)
+
+    # C: truncated episode at history end excluded from main rate
+    states = {d: (ORANGE if i == 899 else GREEN) for i, d in enumerate(idx)}
+    fa = fa_metrics(bench, states)
+    check("C end-of-history ORANGE episode truncated",
+          fa["orange"]["truncated"] == 1 and fa["orange"]["main"] == 0)
+
+    # D: pre-holiday derivation -- >=6d gap into October -> day before flagged
+    d1 = pd.date_range("2025-09-22", "2025-09-30", freq="B")
+    d2 = pd.date_range("2025-10-09", "2025-10-15", freq="B")
+    idx2 = d1.append(d2)
+    b2 = pd.Series(4.0, index=idx2)
+    ds2 = bench_dim_series(b2)
+    pre = ds2["event_pre_holiday"]
+    gap_pos = list(idx2).index(pd.Timestamp("2025-09-30"))
+    check("D Oct pre-holiday flagged on last day before gap",
+          bool(pre.iloc[gap_pos]) and not bool(pre.iloc[0])
+          and not bool(pre.iloc[-1]))
+
+    # E: May labor-day gap (6d, month 5) -> NOT flagged (appendix A filter)
+    e1 = pd.date_range("2025-04-28", "2025-04-30", freq="B")
+    e2 = pd.date_range("2025-05-06", "2025-05-12", freq="B")
+    idx3 = e1.append(e2)
+    b3 = pd.Series(4.0, index=idx3)
+    ds3 = bench_dim_series(b3)
+    check("E non-CNY/National gaps never flagged",
+          not bool(ds3["event_pre_holiday"].any()))
+
+    # F: FOMC Beijing membership + replay-only disclosure
+    check("F FOMC 2026 Beijing dates match live list length 2020-2026",
+          len(FOMC_BEIJING) == 58)
+
+    # G: resolve_state reuse -- replay init contract
+    states, streaks, init_day = state_replay(
+        b2, pd.DataFrame({"raw": [GREEN] * len(b2)}, index=b2.index))
+    check("G state replay all-GREEN bench stays GREEN",
+          all(s == GREEN for s in states.values()))
+    return ok
+
+
+def main(argv=None) -> int:
+    argv = sys.argv[1:] if argv is None else argv
+    if "selftest" in argv:
+        ok = _selftest()
+        print(f"  [calib] selftest {'PASS' if ok else 'FAIL'}")
+        return 0 if ok else 1
+    if "gates" in argv:
+        bench = build_bench()
+        g = equivalence_gates(bench, bench_dim_series(bench),
+                              breadth_series(bench))
+        print(json.dumps({"ok": g["ok"], "n_dates": g["n_sample_dates"],
+                          "fails": [c for c in g["details"]
+                                    if not c.get("match", True)]},
+                         ensure_ascii=False, indent=1))
+        return 0 if g["ok"] else 1
+    if "counterfactual" in argv:
+        print("counterfactual: STAGED LEG not yet implemented -- run engine "
+              "legs per prereg s3.3 (6 traders x {baseline, masked}) in a "
+              "follow-up round; honest exit 3")
+        return 3
+    res = replay(write=True)
+    print(json.dumps({"verdict": res["verdict"],
+                      "gates_ok": res["gates"]["ok"],
+                      "window": res.get("window"),
+                      "state_share": res.get("state_share"),
+                      "gate_results": res.get("gate_results"),
+                      "fa_orange": (res.get("false_alarm") or {})
+                      .get("orange", {}).get("fa_rate"),
+                      "fa_yellow": (res.get("false_alarm") or {})
+                      .get("yellow", {}).get("fa_rate"),
+                      "out": OUT_PATH}, ensure_ascii=False, indent=1))
+    return 0 if res["verdict"] == "PASS" else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
