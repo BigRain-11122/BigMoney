@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>BIGMONEY · 公司小镇</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0f1115; color: #c8d0dc; font-family: 'Courier New', monospace;
+         font-size: 12px; line-height: 1.45; padding: 10px; }
+  .gold { color: #e8c15a; } .green { color: #5fd38a; } .red { color: #e05a5a; }
+  .cyan { color: #5a9ab8; } .dim { color: #7a8494; }
+
+  header { display: flex; gap: 10px; align-items: center; justify-content: space-between;
+           border: 2px solid #2a3140; background: #161a22; padding: 6px 12px; margin-bottom: 8px; }
+  .logo { font-size: 18px; font-weight: bold; color: #e8c15a; letter-spacing: 2px;
+          text-shadow: 2px 2px 0 #000; }
+  .logo small { display: block; font-size: 10px; color: #7a8494; letter-spacing: 0; }
+  .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+  .badge { border: 1px solid #2a3140; background: #1d222c; padding: 3px 8px; }
+  .badge b { color: #5fd38a; } .badge b.warn { color: #e05a5a; }
+  button { background: #1d222c; color: #e8c15a; border: 1px solid #2a3140;
+           padding: 3px 10px; cursor: pointer; font-family: inherit; }
+
+  .kpirow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 8px; }
+  .kpi { border: 2px solid #2a3140; background: #161a22; padding: 5px; text-align: center; }
+  .kpi b { display: block; font-size: 15px; color: #e8c15a; }
+  .kpi span { font-size: 10px; color: #7a8494; }
+
+  #wrap { position: relative; border: 2px solid #2a3140; background: #0b0d12; }
+  canvas { width: 100%; display: block; image-rendering: pixelated; }
+  #info { position: absolute; top: 8px; right: 8px; width: 300px; max-height: 92%;
+          overflow-y: auto; border: 2px solid #e8c15a; background: rgba(13,15,20,.96);
+          padding: 10px; display: none; font-size: 11px; }
+  #info h4 { color: #e8c15a; font-size: 12px; margin-bottom: 6px; letter-spacing: 1px; }
+  #info .row { padding: 2px 0; border-bottom: 1px dashed #1d222c; }
+  #info .close { float: right; cursor: pointer; color: #7a8494; }
+
+  footer { text-align: center; color: #7a8494; font-size: 10px; margin-top: 8px; }
+  #nodata { position: fixed; inset: 0; background: #0f1115; color: #e8c15a;
+            display: none; place-items: center; z-index: 99; text-align: center; }
+</style>
+</head>
+<body>
+<div id="nodata"><div>NO DATA<br><br>先运行：python -m monitor.build_status</div></div>
+
+<header>
+  <div class="logo">BIGMONEY 公司小镇<small id="stage">—</small></div>
+  <div class="dim" style="text-align:center">像素小镇 · 每栋楼都是真实数据 · <span class="gold">点击建筑查看详情</span></div>
+  <div class="badges">
+    <div class="badge">自检 <b id="b-smoke">—</b></div>
+    <div class="badge">数据 <b id="b-data">—</b></div>
+    <div class="badge">paper <b id="b-paper">—</b></div>
+    <button onclick="location.href='bigmoney.html'">↩ 总控 v1</button>
+  </div>
+</header>
+
+<div class="kpirow">
+  <div class="kpi"><b id="k-capital">—</b><span>公司资金</span></div>
+  <div class="kpi"><b id="k-nav">—</b><span>净值</span></div>
+  <div class="kpi"><b id="k-pass">—</b><span>在册交易员</span></div>
+  <div class="kpi"><b id="k-mile">—</b><span>里程碑</span></div>
+  <div class="kpi"><b id="k-trials">—</b><span>试验账本 N</span></div>
+  <div class="kpi"><b id="k-data">—</b><span>行情数据至</span></div>
+</div>
+
+<div id="wrap">
+  <canvas id="town" width="1280" height="760"></canvas>
+  <div id="info"><span class="close" onclick="this.parentElement.style.display='none'">[关闭]</span>
+    <h4 id="i-title"></h4><div id="i-body"></div></div>
+</div>
+
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.1</footer>
+
+<script src="results/dashboard_status.js"></script>
+<script>
+const SPRITE = { slime:'monitor/assets/slime.png', robot:'monitor/assets/robot.png',
+                 ghost:'monitor/assets/ghost.png', dragon:'monitor/assets/dragon.png',
+                 star:'monitor/assets/star.png', coin:'monitor/assets/coin.png',
+                 gem:'monitor/assets/gem.png', heart:'monitor/assets/heart.png' };
+const LEVEL_SPRITE = { INTERN:'slime', TRAINEE:'robot', TRADER:'ghost',
+                       SENIOR:'dragon', PRINCIPAL:'star' };
+const $ = id => document.getElementById(id);
+const cv = $('town'), cx = cv.getContext('2d');
+const W = 640, H = 380, S = 2;              // logical 640x380, scale 2x
+cx.imageSmoothingEnabled = false;
+
+let D = null, SPR = {}, hits = [];           // SPR=loaded sprites, hits=click zones
+
+function px(x, y, w, h, c) { cx.fillStyle = c; cx.fillRect(x*S, y*S, w*S, h*S); }
+function text(str, x, y, c, size=8, bold=true) {
+  cx.fillStyle = c; cx.font = (bold?'bold ':'')+size+'px "Courier New",monospace';
+  cx.fillText(str, x*S, y*S);
+}
+function rrect(x, y, w, h, c) { px(x, y, w, h, c); }
+
+/* ---------- buildings: each = rect zones + windows lit by real data ---------- */
+function drawLab(b) {                        // 研究楼 (research)
+  const {x,y} = b; rrect(x, y, 70, 55, '#232a38'); rrect(x, y, 70, 6, '#3a4356');
+  rrect(x-3, y-8, 76, 8, '#2a3140');          // roof
+  rrect(x+30, y-22, 8, 16, '#2a3140');        // small dome tower
+  rrect(x+33, y-26, 2, 6, '#e8c15a');
+  for (let r=0; r<2; r++) for (let c=0; c<5; c++) {
+    const lit = (r*5+c) < Math.min(10, D.research.factor_top.length);
+    px(x+6+c*13, y+12+r*22, 8, 10, lit ? '#e8c15a' : '#12151d');
+  }
+  px(x+6, y+48, 58, 4, '#161a22');           // door
+  text('研究楼', x+2, y+68, '#7a8494');
+}
+function drawFactory(b) {                     // 策略厂 (strategy/gates)
+  const {x,y} = b, gc = D.strategy.gate_chain;
+  rrect(x, y, 96, 66, '#232a38'); rrect(x, y, 96, 6, '#3a4356');
+  rrect(x+8, y-20, 10, 22, '#2a3140'); rrect(x+74, y-20, 10, 22, '#2a3140'); // stacks
+  // smoke when traders exist
+  if (D.strategy.n_traders > 0) {
+    const t = (Date.now()/600)%40;
+    for (let i=0;i<3;i++) { const sy = y-24-((t+i*13)%40)*0.6;
+      px(x+10+((t+i*13)%16)-8+((i%2)*64), sy, 5, 5, 'rgba(122,132,148,'+(0.55-(t+i*13)%40*0.012)+')'); }
+  }
+  for (let r=0; r<2; r++) for (let c=0; c<5; c++) {
+    const i = r*5+c, st = gc[i];
+    px(x+6+c*18, y+12+r*24, 12, 11, st ? (st.pass ? '#5fd38a' : '#e05a5a') : '#12151d');
+  }
+  px(x+38, y+54, 20, 12, '#161a22');
+  text('策略厂', x+2, y+80, '#7a8494');
+  text('N='+D.strategy.trials_total, x+56, y+80, '#5a9ab8', 7);
+}
+function drawTower(b) {                      // 风控塔 (risk)
+  const {x,y} = b, n = D.risk.length;
+  for (let i=0; i<5; i++) rrect(x+i*3, y+i*13, 40-i*6, 14, i%2?'#232a38':'#1d222c');
+  rrect(x+16, y-14, 8, 16, '#2a3140'); px(x+18, y-20, 4, 6, '#e05a5a'); // beacon mast
+  for (let i=0; i<n; i++)                    // 6 rule segments, all lit = 0 violation
+    px(x+6, y+66+i*6, 28, 3, '#5fd38a');
+  text('风控塔 0违规', x-8, y+66+n*6+8, '#5fd38a');
+}
+function drawHall(b) {                       // 交易大厅 (trading)
+  const {x,y} = b, trs = D.trading.traders;
+  rrect(x, y, 100, 56, '#232a38'); rrect(x, y, 100, 6, '#e8c15a');
+  for (let c=0; c<4; c++) px(x+8+c*24, y+14, 14, 16, c<trs.length ? '#e8c15a' : '#12151d');
+  rrect(x+40, y+42, 20, 14, '#161a22');
+  const open = D.trading.paper_started;
+  rrect(x+28, y-16, 44, 12, '#161a22');
+  text(open?'PAPER OPEN':'RECRUITING', x+30, y-7, open?'#5fd38a':'#e8c15a', 7);
+  text('交易大厅', x+24, y+70, '#7a8494');
+}
+function drawData(b) {                       // 数据塔 (data freshness)
+  const {x,y} = b, f = D.data.fresh;
+  rrect(x, y, 34, 110, '#232a38'); rrect(x+14, y-26, 6, 30, '#2a3140');
+  const blink = Math.floor(Date.now()/700)%2;
+  px(x+12, y-32, 10, 8, f ? (blink?'#5fd38a':'#1d3a2a') : (blink?'#e05a5a':'#3a1a1a'));
+  for (let i=0; i<3; i++) px(x+30, y-14+i*9, 8, 2, '#3a4356');  // antenna arms
+  for (let r=0; r<4; r++) for (let c=0; c<2; c++)
+    px(x+7+c*14, y+12+r*24, 8, 10, (r*2+c) < 6 ? '#5a9ab8' : '#12151d');
+  text('数据塔', x-6, y+122, '#7a8494');
+}
+function drawDock(b) {                       // 机队码头 (fleet/group)
+  const {x,y} = b, sib = (D.group && D.group.siblings) ? D.group.siblings : [];
+  // water
+  for (let i=0; i<5; i++) rrect(x-4, y+26+i*12, 150, 6, i%2 ? '#0d1b26' : '#10222f');
+  rrect(x-8, y+18, 158, 6, '#2a3140');       // pier edge
+  for (let i=0; i<6; i++) px(x+i*26, y+12, 4, 8, '#2a3140'); // posts
+  sib.slice(0,3).forEach((s, i) => {
+    const bx = x+8+i*46, by = y+30+i*4, alive = s.alive;
+    rrect(bx, by, 34, 10, alive ? '#4a5870' : '#1d222c');     // hull
+    px(bx+15, by-14, 2, 14, alive ? '#e8c15a' : '#3a4356');   // mast
+    px(bx+6, by-10, 10, 8, alive ? '#e8c15a' : '#161a22');    // sail
+    if (alive) { px(bx+2, by+10, 30, 2, 'rgba(90,154,184,.5)');
+      const bl = Math.floor(Date.now()/900+i)%2; px(bx+16, by-20, 4, 4, bl?'#e8c15a':'#5a4310'); }
+  });
+  text('机队码头', x+38, y+14-8, '#7a8494');
+}
+function drawFlags() {                       // milestone flags bottom strip
+  const g = D.gamification, n = g.milestones_total, x0 = 24, y = H-42;
+  for (let i=0; i<n; i++) {
+    const lit = i < g.milestones_done, fx = x0+i*34;
+    px(fx, y, 2, 26, '#3a4356');
+    px(fx+2, y+2, 14, 8, lit ? '#e8c15a' : '#1d222c');
+    if (lit) px(fx+4, y+4, 10, 4, '#b89030');
+  }
+  text('里程碑 '+g.milestones_done+'/'+n, x0+n*34+6, y+8, '#e8c15a');
+}
+function drawAchBoard() {                    // achievement wall
+  const g = D.gamification, x0 = 260, y = H-46;
+  rrect(x0-8, y-8, 300, 44, '#161a22'); rrect(x0-8, y-8, 300, 2, '#3a4356');
+  text('成就墙', x0-2, y+4, '#7a8494');
+  g.achievements.forEach((a, i) => {
+    const img = SPR[a.icon], ax = x0+i*36;
+    if (img) { cx.globalAlpha = a.unlocked ? 1 : 0.35;
+      cx.drawImage(img, ax*S, (y+8)*S, 16*S, 16*S); cx.globalAlpha = 1; }
+    px(ax+13, y+28, 2, 2, a.unlocked ? '#5fd38a' : '#3a4356');
+  });
+}
+/* ---------- NPC traders walking on the plaza ---------- */
+function drawNPCs(t) {
+  const trs = D.trading.traders, area = {x:314, y:302, w:96};
+  trs.forEach((tr, i) => {
+    const img = SPR[LEVEL_SPRITE[tr.level] || 'slime'];
+    const spd = 8+i*3, ph = (t/1000*spd + i*120) % (area.w*2);
+    const nx = area.x + (ph < area.w ? ph : area.w*2-ph);
+    const bob = Math.floor(t/240+i)%2;
+    if (img) cx.drawImage(img, nx*S, (area.y-14+bob)*S, 16*S, 16*S);
+    px(nx-6, area.y+2, 26, 2, 'rgba(90,154,184,.35)');
+    const tag = (tr.school === 'composite' ? '复' : tr.school === 'volatility' ? '波' : '?')
+              + (tr.name.endsWith('一号') ? '①' : '②');
+    text(tag, nx+2, area.y-17, '#c8d0dc', 7);
+  });
+}
+/* ---------- scene ---------- */
+function drawScene(t) {
+  // sky
+  const grd = cx.createLinearGradient(0, 0, 0, 90*S);
+  grd.addColorStop(0, '#07080c'); grd.addColorStop(1, '#0f1420');
+  cx.fillStyle = grd; cx.fillRect(0, 0, W*S, 90*S);
+  for (let i=0; i<40; i++) { const sx = (i*53)%W, sy = (i*29)%70;
+    px(sx, sy, 1, 1, Math.floor(t/500+i)%3 ? '#3a4356' : '#e8c15a'); }
+  px(596, 14, 14, 14, '#e8c15a'); px(590, 20, 10, 10, '#07080c'); px(600, 10, 10, 10, '#07080c'); // moon
+  // ground
+  rrect(0, 90, W, 6, '#1a2130');              // horizon
+  rrect(0, 96, W, H-96, '#10161f');
+  for (let i=0; i<90; i++) px((i*37)%W, 100+((i*61)%(H-110)), 2, 1, '#16202c');
+  // roads
+  rrect(0, 300, W, 14, '#1d222c'); px(0, 306, W, 1, '#3a4356');
+  rrect(436, 236, 12, 64, '#1d222c');
+  rrect(150, 236, 10, 64, '#1d222c');
+  // signboard
+  rrect(4, 98, 140, 26, '#161a22'); rrect(4, 98, 140, 2, '#e8c15a');
+  text('BIGMONEY · ' + D.meta.stage, 8, 114, '#e8c15a', 8);
+  const bs = BUILDS;
+  bs.forEach(b => b.draw(b));
+  drawNPCs(t);
+  drawFlags();
+  drawAchBoard();
+  text('生成于 ' + D.meta.generated_at, 446, H-8, '#5a6474', 7, false);
+}
+
+const BUILDS = [
+  { id:'lab',  x:16,  y:160, w:70,  h:55,  draw:drawLab,   label:'研究楼',
+    info: () => '<div class="row">复合因子方案</div><div class="row gold">'+D.research.composite_plan+'</div>'
+      + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('') },
+  { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
+    info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
+      + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>' },
+  { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
+    info: () => D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' },
+  { id:'hall', x:310, y:160, w:100, h:56,  draw:drawHall,   label:'交易大厅',
+    info: () => (D.trading.traders.length ? D.trading.traders.map(t =>
+        '<div class="row">'+t.name+' <span class="gold">'+t.level+'</span> · IS '+t.is_sharpe.toFixed(2)+' / OOS '+t.oos_sharpe.toFixed(2)+'<br><span class="dim">'+t.oos_trades+'笔 · ×2成本'+(t.cost_x2_survive?'存活':'阵亡')+' · paper '+(t.paper_months??0)+'月</span></div>').join('')
+      : '<div class="row dim">暂无在册交易员</div>') + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
+  { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
+    info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div><div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
+  { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
+    info: () => ((D.group && D.group.siblings && D.group.siblings.length)
+      ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
+      : '<div class="row dim">本机无集团心跳源</div>') },
+];
+function findBuild(lx, ly) {
+  const pad = 6;
+  for (const b of BUILDS)
+    if (lx >= b.x-pad && lx <= b.x+b.w+pad && ly >= b.y-26 && ly <= b.y+b.h+pad+14) return b;
+  return null;
+}
+cv.addEventListener('click', e => {
+  const r = cv.getBoundingClientRect();
+  const lx = (e.clientX - r.left) / r.width * W, ly = (e.clientY - r.top) / r.height * H;
+  const b = findBuild(lx, ly);
+  if (!b) { $('info').style.display = 'none'; return; }
+  $('i-title').textContent = '🏢 ' + b.label;
+  $('i-body').innerHTML = b.info();
+  $('info').style.display = 'block';
+});
+cv.addEventListener('mousemove', e => {
+  const r = cv.getBoundingClientRect();
+  const b = findBuild((e.clientX-r.left)/r.width*W, (e.clientY-r.top)/r.height*H);
+  cv.style.cursor = b ? 'pointer' : 'default';
+});
+
+function render() {
+  D = window.DASH_DATA;
+  $('stage').textContent = D.meta.stage;
+  const sm = D.health.smoke, dat = D.data, pp = D.trading.paper || {};
+  $('b-smoke').textContent = sm.fail === 0 ? sm.pass + ' PASS' : sm.fail + ' FAIL';
+  $('b-smoke').className = sm.fail === 0 ? '' : 'warn';
+  $('b-data').textContent = dat.fresh ? '新鲜' : '过期';
+  $('b-data').className = dat.fresh ? '' : 'warn';
+  $('b-paper').textContent = (pp.months_tracked ?? 0) + ' 月';
+  $('k-capital').textContent = '¥' + (D.meta.capital/10000).toFixed(0) + '万';
+  $('k-nav').textContent = D.meta.nav.toFixed(3);
+  const nT = D.trading.traders.length;
+  $('k-pass').textContent = nT; $('k-pass').style.color = nT > 0 ? '#5fd38a' : '#e05a5a';
+  $('k-mile').textContent = D.gamification.milestones_done + '/' + D.gamification.milestones_total;
+  $('k-trials').textContent = 'N=' + D.strategy.trials_total;
+  $('k-data').textContent = dat.latest_bar + ' (' + dat.stale_days + 'd)';
+  const loop = t => { drawScene(t); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+}
+// preload sprites then render
+let loaded = 0; const keys = Object.keys(SPRITE);
+keys.forEach(k => { const im = new Image(); im.src = SPRITE[k];
+  im.onload = im.onerror = () => { if (++loaded === keys.length) render(); }; SPR[k] = im; });
+if (!window.DASH_DATA) $('nodata').style.display = 'grid';
+</script>
+</body>
+</html>

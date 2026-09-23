@@ -1,10 +1,10 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-09-23 14:42",
-  "current_task": "iteration round 2 (backoff repeat): interactive session last commit 14:38:10 (3min before round start) fails R1 pre-registered >=10min quiet gate -> read-only maintenance, J12 left queued; fixed R1 dirty-tree trap (unstaged heartbeat had blocked S0 pull) via restore+refresh+targeted commit of this file only; no push (bm-b T-01 upload window push-pause honored)",
+  "last_seen": "2026-09-23 15:15",
+  "current_task": "iteration round 3 (dev resumed after quiet gate passed): .gitignore per-machine-ledger whitelist wildcarded (bm-a ledger now git-visible) + J12 company-town v0.1 delivered (town.html: 6 real-data buildings, 3 trader NPCs, milestone flags, achievement wall, click-details; 2-round screenshot acceptance PASS + bigmoney.html cross-link regression PASS); fleet: croc receive-side ready (v11.5.3), ruling MSG-1458 sent to bm-b (B2 official-relay retry first for bars 1.09GB; B1/A-variant need user action); MSG-1455/1520 processed->archived",
   "cpu_cores": "32",
-  "idle_ram_gb": "50.2",
-  "gpu_idle_vram_mb": 1509,
-  "orders_ack": "none-yet (orders ledger empty at 14:41 check; /CEO wiring f315109 acknowledged)",
-  "verdict": "SMOKE_20/20; LOOP_INSTALLED_RUNNING (this round fired by task 14:40:00); repo synced with origin/main at 14:41 fetch; queue: J12 pixel-town (CEO-named) once >=10min quiet -> .gitignore per-machine-ledger whitelist fix -> J12 small loop; after-15:30 first full sweep verify (48 new rows, paper bars>0)"
+  "idle_ram_gb": "50.3",
+  "gpu_idle_vram_mb": 1703,
+  "orders_ack": "none-yet (orders ledger empty; /CEO protocol acknowledged and wired via bm-b commit 99f4720, landed in local pull)",
+  "verdict": "SMOKE_20/20; loop task refreshed idempotently (register -Force, trigger re-anchored 15:08+10min grid; earlier 'task missing' was transient Get-ScheduledTask CIM false-negative, run logs prove firing since 14:33); rebased local commits onto bm-b 99f4720; queue: receive bars if bm-b sends new croc code -> J12 step2 (see job#2 continuation) -> after-15:30 first full sweep verify (48 new rows, paper bars>0); user decision pending: B1 tailscale install / BigMoney-data repo creation only if B2-retry fails"
 }
