@@ -188,6 +188,10 @@
 
   <div id="main">
     <div class="panel" style="flex: 0 0 auto;">
+      <h2>公司面 // 组合·监控·记分</h2>
+      <div class="body" id="company"></div>
+    </div>
+    <div class="panel" style="flex: 0 0 auto;">
       <h2>任务票据 // 认领锁板</h2>
       <div class="body" id="tickets"></div>
     </div>
@@ -302,6 +306,48 @@ function chainRow(name, val, st, stTxt) {
           <span class="st ${st}">${esc(stTxt)}</span></div>`;
 }
 
+function pct(v, d) { return (typeof v === "number") ? (v * 100).toFixed(d) + "%" : "—"; }
+
+function renderCompany() {
+  const el = document.getElementById("company");
+  if (!D) { el.innerHTML = '<div class="empty">等待数据 — python -m monitor.build_status</div>'; return; }
+  const rows = [];
+  const p = (D.data && D.data.portfolio) || {};
+  if (p.present) {
+    rows.push(chainRow("EW6 组合",
+      `Sharpe ${fnum(p.ew_sharpe,4)} · 年化 ${pct(p.ew_annual,1)} · 回撤 ${pct(p.ew_dd,1)} · ×2 ${fnum(p.x2_sharpe,4)}${p.x2_survive ? " 存活" : ""}`,
+      p.ew_validated ? "ok" : "dim", p.ew_validated ? "validated" : "报告制"));
+    const iv = p.iv || {};
+    if (iv.present) {
+      rows.push(chainRow("IV6 预算",
+        `Sharpe ${fnum(iv.sharpe,4)} · 益 +${fnum(iv.benefit,3)} · DR ${fnum(iv.dr,2)} · ×2 ${fnum(iv.x2_sharpe,4)}${iv.x2_survive ? " 存活" : ""}`,
+        iv.v2_pass ? "ok" : "warn", iv.v2_pass ? "v2门过" : "T1待批"));
+    }
+  }
+  const cw = (D.data && D.data.corr_watch) || {};
+  if (cw.present) {
+    rows.push(chainRow("相关性监控",
+      `${n2(cw.verdict)} · W2 ${n2(cw.w2_hits)} 对 · 最高 ${fnum(cw.max_is2_pair,2)} · 尾窗 ${fnum(cw.rolling_avg_last,3)}`,
+      cw.verdict === "GREEN" ? "ok" : (cw.verdict === "RED" ? "bad" : "warn"),
+      (cw.w1_flag && cw.w1_flag !== "none") ? "W1旗" : "月更"));
+  }
+  const sc = (D.trading && D.trading.scorecard) || {};
+  if (sc.present) {
+    const g = sc.grade_counts || {};
+    const b = sc.best || {};
+    rows.push(chainRow("P-6 记分卡",
+      `S${n2(g.S)} A${n2(g.A)} B${n2(g.B)} C${n2(g.C)} · 最优 ${n2(b.id)} ${fnum(b.total,1)}`,
+      "dim", "月度重算"));
+  }
+  const pp = (D.trading && D.trading.paper) || {};
+  if (pp.x2_probation) {
+    rows.push(chainRow("×2 看护",
+      `probation ${n2(pp.x2_probation)} 员 · ${(pp.x2_probation_names || []).join(" ")}`,
+      "warn", "随 bar 滚动"));
+  }
+  el.innerHTML = rows.join("") || '<div class="empty">公司面待产出</div>';
+}
+
 function renderChains() {
   const el = document.getElementById("chains");
   if (!D) { el.innerHTML = '<div class="empty">等待数据 — python -m monitor.build_status</div>'; return; }
@@ -389,7 +435,7 @@ function renderLog() {
     <span class="info">${esc(e.text)}</span></div>`).join("");
 }
 
-renderHeader(); renderNodes(); renderTickets(); renderChains();
+renderHeader(); renderNodes(); renderTickets(); renderCompany(); renderChains();
 renderAudit(); renderToken(); renderLog();
 setInterval(renderHeader, 1000);
 </script>
