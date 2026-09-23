@@ -1,0 +1,163 @@
+{
+ "generated": "2026-09-24T02:35:56",
+ "machine": "bm-a",
+ "purpose": "daily-bar second-source audit (dual-leg Phase 0 precursor); zero adoption, zero data/daily writes, P1 ticket remains GM-gated",
+ "akshare_version": "1.18.96",
+ "env_proxy_vars": {},
+ "fresh_date_expected": "2026-09-23",
+ "symbols": [
+  "159934",
+  "510300",
+  "511010"
+ ],
+ "arms": {
+  "159934": {
+   "local_rows_tail": 60,
+   "sina_control": {
+    "rows": 3108,
+    "earliest": "2013-12-16",
+    "latest": "2026-09-23",
+    "has_fresh": true,
+    "amount_col": true,
+    "ok": true,
+    "parity_vs_local": {
+     "common_dates": 59,
+     "return_parity_max": 0.0,
+     "level_diff_last": 0.0,
+     "level_rel_diff_last": 0.0,
+     "last_common_date": "2026-09-22",
+     "overlap_insufficient": false
+    }
+   },
+   "em_direct": {
+    "ok": false,
+    "error_class": "ConnectionError",
+    "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "error_kind": "network"
+   },
+   "em_envproxy": {
+    "ok": false,
+    "error_class": "ConnectionError",
+    "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "error_kind": "network"
+   },
+   "tencent_direct": {
+    "ok": true,
+    "rows": 640,
+    "earliest": "2024-02-01",
+    "latest": "2026-09-23",
+    "has_fresh": true,
+    "amount_col": false,
+    "parity_vs_local": {
+     "common_dates": 59,
+     "return_parity_max": 0.0,
+     "level_diff_last": 0.0,
+     "level_rel_diff_last": 0.0,
+     "last_common_date": "2026-09-22",
+     "overlap_insufficient": false
+    }
+   }
+  },
+  "510300": {
+   "local_rows_tail": 60,
+   "sina_control": {
+    "rows": 3484,
+    "earliest": "2012-05-28",
+    "latest": "2026-09-23",
+    "has_fresh": true,
+    "amount_col": true,
+    "ok": true,
+    "parity_vs_local": {
+     "common_dates": 60,
+     "return_parity_max": 0.0,
+     "level_diff_last": 0.0,
+     "level_rel_diff_last": 0.0,
+     "last_common_date": "2026-09-23",
+     "overlap_insufficient": false
+    }
+   },
+   "em_direct": {
+    "ok": false,
+    "error_class": "ConnectionError",
+    "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "error_kind": "network"
+   },
+   "em_envproxy": {
+    "ok": false,
+    "error_class": "ConnectionError",
+    "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "error_kind": "network"
+   },
+   "tencent_direct": {
+    "ok": true,
+    "rows": 640,
+    "earliest": "2024-02-01",
+    "latest": "2026-09-23",
+    "has_fresh": true,
+    "amount_col": false,
+    "parity_vs_local": {
+     "common_dates": 60,
+     "return_parity_max": 0.0,
+     "level_diff_last": 0.0,
+     "level_rel_diff_last": 0.0,
+     "last_common_date": "2026-09-23",
+     "overlap_insufficient": false
+    }
+   }
+  },
+  "511010": {
+   "local_rows_tail": 60,
+   "sina_control": {
+    "rows": 3274,
+    "earliest": "2013-04-09",
+    "latest": "2026-09-23",
+    "has_fresh": true,
+    "amount_col": true,
+    "ok": true,
+    "parity_vs_local": {
+     "common_dates": 60,
+     "return_parity_max": 0.0,
+     "level_diff_last": 0.0,
+     "level_rel_diff_last": 0.0,
+     "last_common_date": "2026-09-23",
+     "overlap_insufficient": false
+    }
+   },
+   "em_direct": {
+    "ok": false,
+    "error_class": "ConnectionError",
+    "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "error_kind": "network"
+   },
+   "em_envproxy": {
+    "ok": false,
+    "error_class": "ConnectionError",
+    "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+    "error_kind": "network"
+   },
+   "tencent_direct": {
+    "ok": true,
+    "rows": 640,
+    "earliest": "2024-02-01",
+    "latest": "2026-09-23",
+    "has_fresh": true,
+    "amount_col": false,
+    "parity_vs_local": {
+     "common_dates": 60,
+     "return_parity_max": 0.004390629021489456,
+     "level_diff_last": 0.0,
+     "level_rel_diff_last": 0.0,
+     "last_common_date": "2026-09-23",
+     "overlap_insufficient": false
+    }
+   }
+  }
+ },
+ "audit": {
+  "ledger_trials_added": 0,
+  "engine_runs": 0,
+  "writes": [
+   "results/daily_source_probe.json"
+  ]
+ }
+}
