@@ -232,25 +232,18 @@ def _gate_chain(bt: dict) -> dict:
     lfc_gate = lfc.get("gate") or {}
     traders = (ce.get("traders_registered") or []) + \
               (ct.get("traders_registered") or [])
-    ledger = (slp.get("trials_ledger")
-              or g2n.get("trials_ledger") or nsp.get("trials_ledger")
-              or lfc.get("trials_ledger") or ct.get("trials_ledger")
-              or ce.get("trials_ledger") or lc.get("trials_ledger")
-              or dep.get("trials_ledger") or [])
-    trials_total = sum(x.get("n", 0) for x in ledger)
-    tl_p4 = p4b1.get("trials_ledger")
-    if isinstance(tl_p4, dict) and tl_p4.get("total"):
-        # research-line cumulative N (engine trials + factor trials,
-        # P-1a/P-2/P-4 lineage) -- this file is the freshest truth source
-        trials_total = int(tl_p4["total"])
-    tl_p5 = p5re.get("trials_ledger")
-    if isinstance(tl_p5, dict) and tl_p5.get("total"):
-        # P-5 random-entry re-check (O-1816) = freshest truth source
-        trials_total = int(tl_p5["total"])
-    tl_p4b2 = p4b2.get("trials_ledger")
-    if isinstance(tl_p4b2, dict) and tl_p4b2.get("total"):
-        # P-4 batch2 stock-pool B-layer (R38-b) = freshest truth source
-        trials_total = int(tl_p4b2["total"])
+    # Counting single-source rule (O-2250 T2): panel N = data-driven ledger
+    # chain head via science_gates.ledger_head (max total across
+    # results/*.json). Replaces the r35-era hardcoded file cascade that
+    # froze at p4_batch2 (2090) and missed P-5B (2727) / EW6 (2753).
+    trials_total = 0
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))), "scripts"))
+        from science_gates import ledger_head
+        trials_total = int(ledger_head(str(PATHS.results_dir))["total"])
+    except Exception:
+        trials_total = 0
     skill_bar = gate.get("effective_skill_bar")
     ct_note = ""
     if ct:
