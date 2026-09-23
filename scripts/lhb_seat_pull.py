@@ -56,7 +56,9 @@ WINDOW_DAYS = 10
 PAGE_SIZE = 500
 PAGE_CAP = 2000
 SLEEP_S = 2.0                          # bm-b r39 finding (SS3.1 amendment)
-BACKOFF_S = (5, 15, 45)
+BACKOFF_S = (5, 15, 45, 120, 300)      # extended after live 2009-12-26 stop:
+# EM burst-throttle cooldown can exceed 45s (bm-b r39 + live evidence);
+# ladder now rides out ~8min outages per request before checkpoint stop
 REQ_FIELDS = ["TRADE_DATE", "SECURITY_CODE", "OPERATEDEPT_NAME", "BUY", "SELL"]
 FIRST_WINDOW = (pd.Timestamp("2026-09-11"), pd.Timestamp("2026-09-21"))
 OVERLAP_HARD_FLOOR = 0.50              # below = pull broken (SS3.1)
