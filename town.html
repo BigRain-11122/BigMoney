@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.7 · IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.8 · 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -125,9 +125,16 @@ function drawFactory(b) {                     // 策略厂 (strategy/gates)
   text('N='+D.strategy.trials_total, x+56, y+80, '#5a9ab8', 7);
 }
 function drawTower(b) {                      // 风控塔 (risk)
-  const {x,y} = b, n = D.risk.length;
+  const {x,y} = b, n = D.risk.length, rg = (D.data && D.data.regime) || {};
+  const RG_C = { GREEN:'#5fd38a', YELLOW:'#e8c15a', ORANGE:'#e8a34a', RED:'#e05a5a' };
   for (let i=0; i<5; i++) rrect(x+i*3, y+i*13, 40-i*6, 14, i%2?'#232a38':'#1d222c');
-  rrect(x+16, y-14, 8, 16, '#2a3140'); px(x+18, y-20, 4, 6, '#e05a5a'); // beacon mast
+  rrect(x+16, y-14, 8, 16, '#2a3140');        // beacon mast
+  // REGIME_GUARD state beacon (T-05 shadow): colour = live state, ORANGE/RED blink
+  const bc = rg.present ? (RG_C[rg.state] || '#e05a5a') : '#e05a5a';
+  const att = rg.present && (rg.state === 'ORANGE' || rg.state === 'RED');
+  px(x+18, y-20, 4, 6, (!att || Math.floor(Date.now()/700)%2) ? bc : '#3a1a1a');
+  rrect(x+12, y+63, 28, 2, rg.present ? (RG_C[rg.state] || '#3a4356') : '#1d222c');  // regime band on tower base
+  if (rg.present) text(rg.state, x+26, y-12, RG_C[rg.state] || '#7a8494', 7);
   for (let i=0; i<n; i++)                    // 6 rule segments, all lit = 0 violation
     px(x+6, y+66+i*6, 28, 3, '#5fd38a');
   text('风控塔 0违规', x-8, y+66+n*6+8, '#5fd38a');
@@ -319,7 +326,12 @@ const BUILDS = [
       + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>' },
   { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
     dept:'风控部 Risk & Audit', mandate:'铁律执行 · 熔断 · 零假设校准 · 防作弊审计',
-    info: () => D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' },
+    info: () => { const rg = (D.data && D.data.regime) || {};
+      const rgRows = rg.present
+        ? '<div class="row">行情防线 REGIME_GUARD：<span class="'+(rg.state==='GREEN'?'green':rg.state==='RED'?'red':'gold')+'">'+(rg.state_cn||rg.state)+'</span> · '+rg.mode+' · 在态 '+rg.days_in_state+' 日（asof '+rg.asof+'）</div>'
+          + '<div class="row dim">触发：'+((rg.triggers||[]).join('；')||'无')+' · shadow 只记录不干预 · enforce=GM/CEO 重审后（T-05 校准 FAIL 证据包在案）</div>'
+        : '<div class="row dim">行情防线待产出（python scripts/market_regime.py）</div>';
+      return D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' + rgRows; } },
   { id:'hall', x:310, y:160, w:100, h:56,  draw:drawHall,   label:'交易大厅',
     dept:'交易部 Trading Desk', mandate:'交易员实战 · 模拟盘战绩=唯一计分板',
     info: () => (D.trading.traders.length ? D.trading.traders.map(t =>
