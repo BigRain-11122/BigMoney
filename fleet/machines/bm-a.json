@@ -1,10 +1,10 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-09-23 15:10",
-  "current_task": "fleet governance online: FLEET-OPS.md v1.0 (comm SLA / machine lifecycle / user orders / cloud backup) + TRANSFER.md v1.0 dispatched; monitoring bm-b T-2026-09-23-01",
+  "last_seen": "2026-09-23 14:42",
+  "current_task": "iteration round 2 (backoff repeat): interactive session last commit 14:38:10 (3min before round start) fails R1 pre-registered >=10min quiet gate -> read-only maintenance, J12 left queued; fixed R1 dirty-tree trap (unstaged heartbeat had blocked S0 pull) via restore+refresh+targeted commit of this file only; no push (bm-b T-01 upload window push-pause honored)",
   "cpu_cores": "32",
-  "idle_ram_gb": "53.8",
-  "gpu_idle_vram_mb": 2332,
-  "orders_ack": "none-yet",
-  "verdict": "CPU_BACKTEST_OK | GPU_SHARED_LOW; no iteration loop installed on this machine; user dev machine at FluxGroup/quant/bigmoney"
+  "idle_ram_gb": "50.2",
+  "gpu_idle_vram_mb": 1509,
+  "orders_ack": "none-yet (orders ledger empty at 14:41 check; /CEO wiring f315109 acknowledged)",
+  "verdict": "SMOKE_20/20; LOOP_INSTALLED_RUNNING (this round fired by task 14:40:00); repo synced with origin/main at 14:41 fetch; queue: J12 pixel-town (CEO-named) once >=10min quiet -> .gitignore per-machine-ledger whitelist fix -> J12 small loop; after-15:30 first full sweep verify (48 new rows, paper bars>0)"
 }
