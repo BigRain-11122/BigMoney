@@ -499,6 +499,11 @@ def _gate_chain(bt: dict) -> dict:
     p4p = _read_json(os.path.join(res, "shortline_p4_pairs.json")) or {}
     p4q = _read_json(os.path.join(res, "shortline_p4_queue.json")) or {}
     p4e = _read_json(os.path.join(res, "shortline_p4_ext_tilt.json")) or {}
+    p2s = _read_json(os.path.join(res, "shortline_p2_synth.json")) or {}
+    gm1 = _read_json(os.path.join(res, "p4_batch1.json")) or {}
+    b2a = _read_json(os.path.join(res, "shortline_p4_batch2a.json")) or {}
+    folk = _read_json(os.path.join(res, "shortline_p4_folk.json")) or {}
+    p5b = _read_json(os.path.join(res, "p5b_new_traders.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -619,6 +624,23 @@ def _gate_chain(bt: dict) -> dict:
                                f"{base.get('sharpe')}，×2≈{b6x2.get('sharpe')}"
                                f" 成本传染+α稀释，池内素材收线"
                                if b6 and base else "")})
+    if p2s:
+        # P-2 GTJA191 synthesis (bm-b r34): factor V2 thin-pass but strategy
+        # G1' 0/3 -- gtja_top5 cleared the i-line yet missed vi by a hair.
+        # Live-read from batch JSON (counting single-source, O-2250 T2).
+        _p2s_rc = p2s.get("recorded_constants") or {}
+        _p2s_n = len(p2s.get("survivors_g1") or [])
+        _p2s_cand = len(p2s.get("strategy") or {})
+        _p2s_top5 = (((p2s.get("strategy") or {}).get("gtja_top5") or {})
+                     .get("full") or {}).get("sharpe")
+        steps.append({"stage": "P-2 合成 · GTJA191 因子合成→策略终审",
+                      "result": f"{_p2s_n}/{_p2s_cand} 员过 G1'",
+                      "pass": _p2s_n > 0,
+                      "note": (f"gtja_top5 {_p2s_top5} 过 i 线 "
+                               f"{_p2s_rc.get('i_bar')} 差 vi "
+                               f"{_p2s_rc.get('vi_bar')} 一线；合成增益在 "
+                               f"OOS 端（政体存活），ETF 外部库合成线收线"
+                               if _p2s_top5 is not None else "")})
     if p4b1:
         p4_v = p4b1.get("verdict") or {}
         p4_slv = p4b1.get("sleeve_candidates") or []
@@ -630,6 +652,52 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"低相关素材 {'/'.join(p4_slv) or '无'}；"
                                f"CE i 线取严 {p4_ce_line}；52周低点=接飞刀，"
                                f"批一线诚实收线" if p4_ce_line else "")})
+    if gm1:
+        # GM-session P-4b1 dual implementation (O-1738 GM lane; R13
+        # rename-union kept bm-b's canonical batch above -- this step reads
+        # the GM variant's own file, +124 retro-counted real trials).
+        # Live-read from batch JSON (counting single-source, O-2250 T2).
+        _gm_s = gm1.get("survivors_g1_prime") or []
+        _gm_g = gm1.get("gate_g1_prime") or {}
+        _gm_tl = gm1.get("trial_ledger") or {}
+        steps.append({"stage": "P-4 批一 GM 双实现 · A 层易族（超跌/深水/换手）",
+                      "result": f"{len(_gm_s)} 员过 G1'",
+                      "pass": bool(_gm_s),
+                      "note": (f"双实现 +{_gm_tl.get('this_batch')} 真试验追溯"
+                               f"入账；vi={_gm_g.get('vi')}（被动+随机p95抬线）；"
+                               f"与 canonical 批一同判 0 幸存")})
+    if p5re:
+        # P-5 random-entry field check (O-1816 bm-a R13): K=50 starts, all
+        # 3 then-registered traders FAILED the 0.70 beat line; drawdown
+        # clause all-pass. Live-read from batch JSON (O-2250 T2).
+        _p5j = p5re.get("judgment") or {}
+        _p5p = p5re.get("pooled") or {}
+        _p5t = p5re.get("per_trader") or {}
+        _p5_fail = sum(1 for v in _p5t.values()
+                       if (v.get("beat_rate_6m") or 0)
+                       < (_p5j.get("beat_line_6m") or 1))
+        steps.append({"stage": "P-5 随机起点实战检验 · K=50（O-1816）",
+                      "result": f"{_p5_fail}/{len(_p5t)} 员 FAIL 跑赢线",
+                      "pass": _p5_fail < len(_p5t),
+                      "note": (f"跑赢线 {_p5j.get('beat_line_6m')}；pooled "
+                               f"{_p5p.get('beat_rate_6m')}；回撤条款全过"
+                               f"（最深 {_p5p.get('min_dd_6m')} vs 红线 "
+                               f"{_p5j.get('dd_red_line')}）——政体依赖实证，"
+                               f"α 成色归纸盘通道")})
+    if b2a:
+        # P-4 batch 2A TA migration (O-1828 GM lane): 3 G1' candidates
+        # (engulf dual-exit + vol_breakout@ce) + 3 sleeve pockets;
+        # candidates only, no registration this batch. Live-read (O-2250 T2).
+        _b2a_v = b2a.get("verdict") or {}
+        _b2a_s = b2a.get("survivors_g1_prime") or []
+        _b2a_slv = b2a.get("sleeve_candidates") or []
+        steps.append({"stage": "P-4 批 2A · TA 流派迁移海选（O-1828·9 流派）",
+                      "result": (f"{_b2a_v.get('n_survivors', len(_b2a_s))} "
+                                 f"G1' 候选 · 袖珍 {len(_b2a_slv)}"),
+                      "pass": bool(_b2a_s),
+                      "note": (f"{'/'.join(_b2a_s[:3])}；确认构造>形态+语境>"
+                               f"指标超卖阶梯首证；strong_close/streak 跨域"
+                               f"单向门深负；G2 深化另开预注册")})
     n_p4b2_surv = None
     if p4b2:
         n_p4b2_surv = len(p4b2.get("survivors_g1_prime") or [])
@@ -640,6 +708,20 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"vi={vi_used.get('default')}（被动月度EW+0.10 主导）"
                                f"；七族全深负，打板/短持有线被成本碾压，"
                                f"B 层首开诚实判负" if vi_used else "")})
+    if folk:
+        # P4_FOLK expansion (O-2134 GM lane): 6 G1' candidates = 3 families
+        # dual-exit (needle/drought/duck), ×2 survivors gave the best G2
+        # prior in project history -> G2_FOLK followed. Live-read (O-2250 T2).
+        _fk_v = folk.get("verdict") or {}
+        _fk_s = folk.get("survivors_g1_prime") or []
+        _fk_slv = folk.get("sleeve_candidates") or []
+        steps.append({"stage": "P4_FOLK · 民间手法大扩容海选（O-2134·26 入场）",
+                      "result": (f"{_fk_v.get('n_survivors', len(_fk_s))} "
+                                 f"G1' 候选 · 袖珍 {len(_fk_slv)}"),
+                      "pass": bool(_fk_s),
+                      "note": (f"{'/'.join(_fk_s[:6])}；金针/地量 ×2 已存活="
+                               f"史上最优出厂先验；红三兵跨域单向门、"
+                               f"MACD 背离民谚降级；候选不注册待 G2")})
     g2f_reg = g2f.get("registered") or []
     if g2f:
         g2f_x3 = sum(1 for v in (g2f.get("verdicts") or [])
@@ -666,6 +748,24 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"vi={_qg.get('vi_bar_recorded')}；振荡超卖类"
                                f"四族全灭律+背离域双负律入法；袖珍=bb_squeeze"
                                f" 双制（正但差 i 线）")})
+    if p5b:
+        # P-5B new-trader due diligence (O-2345 bm-a R26): 150 parallel
+        # engine runs, 3 new folk traders all FAILED the 0.70 line --
+        # regime dependence now proven for all 6 members. Live-read
+        # from batch JSON (counting single-source, O-2250 T2).
+        _p5bj = p5b.get("judgment") or {}
+        _p5bp = p5b.get("pooled") or {}
+        _p5bt = p5b.get("per_trader") or {}
+        _p5b_fail = sum(1 for v in _p5bt.values()
+                        if (v.get("beat_rate_6m") or 0)
+                        < (_p5bj.get("beat_line_6m") or 1))
+        steps.append({"stage": "P-5B 新员随机起点尽调 · K=50 并行（O-2345）",
+                      "result": f"{_p5b_fail}/{len(_p5bt)} 新员 FAIL 跑赢线",
+                      "pass": _p5b_fail < len(_p5bt),
+                      "note": (f"pooled {_p5bp.get('beat_rate_6m')}；政体依赖"
+                               f"实证扩至全员 6/6；回撤条款全过（最深 "
+                               f"{_p5bp.get('min_dd_6m')}）——账面 OOS 高分"
+                               f"含政体红利，α 成色以纸盘为准")})
     if p4p:
         _pv = p4p.get("verdict") or {}
         _v2 = _pv.get("v2_gate") or {}
