@@ -48,6 +48,7 @@ import engine.backtester as _eb
 from engine import run_backtest
 from engine.metrics import annual_return, max_drawdown, sharpe
 from firm.hr import TRADERS_DIR, load_trader, save_trader
+from firm.risk.regime import regime_report
 from strategies import volatility
 from strategies.composite_rotation import top_n_rotation
 
@@ -331,7 +332,7 @@ def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar) -> dict:
 
 
 def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
-                  data_cutoff: str) -> dict:
+                  data_cutoff: str, regime: dict) -> dict:
     """Full pipeline for one trader. Returns the state dict; writes only
     when the anchor gate passes (trader JSON never touched on drift)."""
     anchor = anchor_gate(t, prices_full)
@@ -353,6 +354,9 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
             "current_dd": agg["current_dd"], "months_detail": agg["months_detail"],
             "window_metrics": run["metrics"], "cost_x2_check": x2,
             "cutoff": data_cutoff, "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "risk_regime": {"is_major_bear": regime["is_major_bear"],
+                            "position_cap": regime["position_cap"],
+                            "as_of": regime["as_of"]},
             "no_future_data": "closed bars only; signal T close -> T+1 open "
                               "(engine contract)"}
 
@@ -465,7 +469,11 @@ def main(argv=None) -> int:
     P = build_panels(prices_full)
     data_cutoff = str(P["close"].index[-1].date())
     vi_bar = load_vi_bar()
+    regime = regime_report()   # R-配3 portfolio gate context (O-1820), report-only in paper domain
     print(f"universe: {len(prices_full)} ETFs, data through {data_cutoff}")
+    print(f"regime: major_bear={regime['is_major_bear']} "
+          f"cap={regime['position_cap']} (close<MA250={regime['below_ma250']}, "
+          f"dd={regime['dd_from_250d_high']})")
 
     ok_all = True
     paper_dir = os.path.join(PATHS.results_dir, "paper")
@@ -476,7 +484,7 @@ def main(argv=None) -> int:
         t = load_trader(path.stem)
         if t.get("level") not in PAPER_LEVELS:
             continue
-        state = update_trader(t, prices_full, P, vi_bar, data_cutoff)
+        state = update_trader(t, prices_full, P, vi_bar, data_cutoff, regime)
         if not state["anchor_ok"]:
             ok_all = False
             print(f"{t['id']}: ANCHOR DRIFT -- trader JSON untouched")
