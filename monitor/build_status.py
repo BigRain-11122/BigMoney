@@ -145,6 +145,7 @@ def _gate_chain(bt: dict) -> dict:
     ct = _read_json(os.path.join(res, "ce_transfer.json")) or {}
     lfc = _read_json(os.path.join(res, "lfc_p1.json")) or {}
     nsp = _read_json(os.path.join(res, "new_signal_p1.json")) or {}
+    g2n = _read_json(os.path.join(res, "g2_nsp1.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -160,8 +161,8 @@ def _gate_chain(bt: dict) -> dict:
     lfc_gate = lfc.get("gate") or {}
     traders = (ce.get("traders_registered") or []) + \
               (ct.get("traders_registered") or [])
-    ledger = (nsp.get("trials_ledger") or lfc.get("trials_ledger")
-              or ct.get("trials_ledger")
+    ledger = (g2n.get("trials_ledger") or nsp.get("trials_ledger")
+              or lfc.get("trials_ledger") or ct.get("trials_ledger")
               or ce.get("trials_ledger") or lc.get("trials_ledger")
               or dep.get("trials_ledger") or [])
     trials_total = sum(x.get("n", 0) for x in ledger)
@@ -220,9 +221,21 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"core48 CE null 首档≈{ns_ce_null}；袖珍 {ns_sleeve}；"
                                f"候选过G1'待G2深化，本批不注册"
                                if ns_ce_null else "")})
+    g2n_v = g2n.get("verdicts_g2") or {}
+    g2n_pass = sum(1 for v in g2n_v.values() if v.get("g2_pass"))
+    if g2n and not g2n.get("void"):
+        g2n_x2 = (g2n.get("cost_stress") or {}).get("A_x2") or {}
+        g2n_x2s = (g2n_x2.get("full") or {}).get("sharpe")
+        steps.append({"stage": "G2_NSP1 深化门 · 两候选±邻域+成本×2",
+                      "result": f"{g2n_pass} 员 PASS",
+                      "pass": g2n_pass > 0,
+                      "note": (f"triple_ma/high252 双双折戟×2成本关"
+                               f"（A×2≈{g2n_x2s}），候选归档收线"
+                               if g2n_x2s is not None else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
+            "n_g2nsp": g2n_pass,
             "n_traders": len(traders),
             "trader_ids": traders}
 
@@ -398,6 +411,7 @@ def build() -> dict:
                               f"J14 {chain['n_lowchurn']} → J15 1员 → J19 {chain['n_j19']}员"
                               f" → LFC 债金池 {chain['n_lfc']}员"
                               f" → NSP1 新信号 {chain['n_nsp']}候选"
+                              f" → G2_NSP1 深化 {chain['n_g2nsp']}员"
                               f"（累计 {chain['n_traders']} 员注册编制）"},
     ]
     if chain["trader_ids"]:

@@ -1,0 +1,706 @@
+{
+  "batch": "G2-NSP1-deepening",
+  "generated": "2026-09-23 12:43:19",
+  "preregistered_doc": "research/G2_NSP1.md (written before run)",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "n_syms": 48,
+    "window": "2020-01-02 .. 2026-09-22",
+    "evidence_cutoff": "2026-09-22"
+  },
+  "oos_start": "2025-01-01",
+  "void": false,
+  "constants": {
+    "g1_prime_gate": {
+      "i_full_sharpe_gt": 0.3521,
+      "ii_ann_gt": 0,
+      "iii_dd_min": -0.35,
+      "iv_trades_min": 30,
+      "v_oos_sharpe_gt": 0,
+      "v_oos_ann_gt": 0,
+      "vi_full_sharpe_gt": 0.4004,
+      "effective_skill_bar": 0.4004
+    },
+    "ce_i_line": 0.4229,
+    "vi_bar": 0.4004,
+    "decay_floor": 0.7,
+    "ref_oos_A": 0.8884,
+    "ref_oos_B": 0.8892,
+    "crash_year": -0.3,
+    "anchor_tol": 0.002
+  },
+  "families": {
+    "A": [
+      {
+        "point": "triple_ma_5_20_60",
+        "desc": "MA(5,20,60)",
+        "params": {},
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": true,
+        "green": true,
+        "full": {
+          "annual_return": 0.0322,
+          "sharpe": 0.5481,
+          "max_drawdown": -0.0787,
+          "win_rate": 0.5379,
+          "profit_factor": 1.3263,
+          "num_trades": 924,
+          "avg_hold_days": 9.76
+        },
+        "oos": {
+          "sharpe": 0.8884,
+          "annual_return": 0.0568,
+          "max_drawdown": -0.0585
+        },
+        "n_trades": 924,
+        "oos_trades": 273
+      },
+      {
+        "point": "triple_ma_3_20_60",
+        "desc": "MA(3,20,60)",
+        "params": {},
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0265,
+          "sharpe": 0.4443,
+          "max_drawdown": -0.0886,
+          "win_rate": 0.5168,
+          "profit_factor": 1.2717,
+          "num_trades": 983,
+          "avg_hold_days": 9.29
+        },
+        "oos": {
+          "sharpe": 0.369,
+          "annual_return": 0.0254,
+          "max_drawdown": -0.0886
+        },
+        "n_trades": 983,
+        "oos_trades": 285
+      },
+      {
+        "point": "triple_ma_10_20_60",
+        "desc": "MA(10,20,60)",
+        "params": {},
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": true,
+        "green": true,
+        "full": {
+          "annual_return": 0.0383,
+          "sharpe": 0.67,
+          "max_drawdown": -0.0703,
+          "win_rate": 0.5719,
+          "profit_factor": 1.4108,
+          "num_trades": 869,
+          "avg_hold_days": 10.38
+        },
+        "oos": {
+          "sharpe": 0.8085,
+          "annual_return": 0.0512,
+          "max_drawdown": -0.0424
+        },
+        "n_trades": 869,
+        "oos_trades": 266
+      },
+      {
+        "point": "triple_ma_5_10_60",
+        "desc": "MA(5,10,60)",
+        "params": {},
+        "clauses": {
+          "i_beats_rand_p95": "False",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "False"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0185,
+          "sharpe": 0.3153,
+          "max_drawdown": -0.1161,
+          "win_rate": 0.5198,
+          "profit_factor": 1.2284,
+          "num_trades": 1185,
+          "avg_hold_days": 6.75
+        },
+        "oos": {
+          "sharpe": 0.2851,
+          "annual_return": 0.0191,
+          "max_drawdown": -0.0935
+        },
+        "n_trades": 1185,
+        "oos_trades": 354
+      },
+      {
+        "point": "triple_ma_5_40_60",
+        "desc": "MA(5,40,60)",
+        "params": {},
+        "clauses": {
+          "i_beats_rand_p95": "False",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "False"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0057,
+          "sharpe": 0.1181,
+          "max_drawdown": -0.169,
+          "win_rate": 0.5244,
+          "profit_factor": 1.1096,
+          "num_trades": 799,
+          "avg_hold_days": 11.41
+        },
+        "oos": {
+          "sharpe": 0.2471,
+          "annual_return": 0.0174,
+          "max_drawdown": -0.1033
+        },
+        "n_trades": 799,
+        "oos_trades": 246
+      },
+      {
+        "point": "triple_ma_5_20_40",
+        "desc": "MA(5,20,40)",
+        "params": {},
+        "clauses": {
+          "i_beats_rand_p95": "False",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "False"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0165,
+          "sharpe": 0.2747,
+          "max_drawdown": -0.1022,
+          "win_rate": 0.5361,
+          "profit_factor": 1.1878,
+          "num_trades": 942,
+          "avg_hold_days": 9.51
+        },
+        "oos": {
+          "sharpe": 0.6072,
+          "annual_return": 0.0457,
+          "max_drawdown": -0.1022
+        },
+        "n_trades": 942,
+        "oos_trades": 279
+      },
+      {
+        "point": "triple_ma_5_20_120",
+        "desc": "MA(5,20,120)",
+        "params": {},
+        "clauses": {
+          "i_beats_rand_p95": "False",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "False"
+        },
+        "decay_ok": true,
+        "green": false,
+        "full": {
+          "annual_return": 0.0093,
+          "sharpe": 0.1756,
+          "max_drawdown": -0.1539,
+          "win_rate": 0.5333,
+          "profit_factor": 1.147,
+          "num_trades": 870,
+          "avg_hold_days": 9.82
+        },
+        "oos": {
+          "sharpe": 0.8757,
+          "annual_return": 0.0659,
+          "max_drawdown": -0.062
+        },
+        "n_trades": 870,
+        "oos_trades": 262
+      }
+    ],
+    "B": [
+      {
+        "point": "high252_w252_k5_r20",
+        "desc": "win=252 mp=200 k=5 rebal=20",
+        "params": {
+          "max_positions": 5,
+          "position_size_pct": 0.19
+        },
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": true,
+        "green": true,
+        "full": {
+          "annual_return": 0.0428,
+          "sharpe": 0.4378,
+          "max_drawdown": -0.2646,
+          "win_rate": 0.6539,
+          "profit_factor": 1.3353,
+          "num_trades": 575,
+          "avg_hold_days": 13.83
+        },
+        "oos": {
+          "sharpe": 0.8892,
+          "annual_return": 0.1081,
+          "max_drawdown": -0.0954
+        },
+        "n_trades": 575,
+        "oos_trades": 197
+      },
+      {
+        "point": "high252_w126_k5_r20",
+        "desc": "win=126 mp=100 k=5 rebal=20",
+        "params": {
+          "max_positions": 5,
+          "position_size_pct": 0.19
+        },
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": true,
+        "green": true,
+        "full": {
+          "annual_return": 0.086,
+          "sharpe": 0.6509,
+          "max_drawdown": -0.1506,
+          "win_rate": 0.6351,
+          "profit_factor": 1.6378,
+          "num_trades": 644,
+          "avg_hold_days": 12.57
+        },
+        "oos": {
+          "sharpe": 0.7584,
+          "annual_return": 0.0644,
+          "max_drawdown": -0.062
+        },
+        "n_trades": 644,
+        "oos_trades": 189
+      },
+      {
+        "point": "high252_w504_k5_r20",
+        "desc": "win=504 mp=400 k=5 rebal=20",
+        "params": {
+          "max_positions": 5,
+          "position_size_pct": 0.19
+        },
+        "clauses": {
+          "i_beats_rand_p95": "False",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "False"
+        },
+        "decay_ok": true,
+        "green": false,
+        "full": {
+          "annual_return": 0.0268,
+          "sharpe": 0.3027,
+          "max_drawdown": -0.2402,
+          "win_rate": 0.6137,
+          "profit_factor": 1.2742,
+          "num_trades": 422,
+          "avg_hold_days": 14.43
+        },
+        "oos": {
+          "sharpe": 0.9581,
+          "annual_return": 0.1348,
+          "max_drawdown": -0.1079
+        },
+        "n_trades": 422,
+        "oos_trades": 197
+      },
+      {
+        "point": "high252_w252_k3_r20",
+        "desc": "win=252 mp=200 k=3 rebal=20",
+        "params": {
+          "max_positions": 3,
+          "position_size_pct": 0.3167
+        },
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0476,
+          "sharpe": 0.5481,
+          "max_drawdown": -0.141,
+          "win_rate": 0.6272,
+          "profit_factor": 1.4903,
+          "num_trades": 338,
+          "avg_hold_days": 13.38
+        },
+        "oos": {
+          "sharpe": 0.1265,
+          "annual_return": 0.0077,
+          "max_drawdown": -0.141
+        },
+        "n_trades": 338,
+        "oos_trades": 106
+      },
+      {
+        "point": "high252_w252_k8_r20",
+        "desc": "win=252 mp=200 k=8 rebal=20",
+        "params": {
+          "max_positions": 8,
+          "position_size_pct": 0.1187
+        },
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0543,
+          "sharpe": 0.4672,
+          "max_drawdown": -0.2783,
+          "win_rate": 0.6254,
+          "profit_factor": 1.3525,
+          "num_trades": 929,
+          "avg_hold_days": 14.41
+        },
+        "oos": {
+          "sharpe": 0.565,
+          "annual_return": 0.0565,
+          "max_drawdown": -0.0944
+        },
+        "n_trades": 929,
+        "oos_trades": 307
+      },
+      {
+        "point": "high252_w252_k5_r10",
+        "desc": "win=252 mp=200 k=5 rebal=10",
+        "params": {
+          "max_positions": 5,
+          "position_size_pct": 0.19
+        },
+        "clauses": {
+          "i_beats_rand_p95": "True",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "True"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0373,
+          "sharpe": 0.4237,
+          "max_drawdown": -0.1605,
+          "win_rate": 0.6135,
+          "profit_factor": 1.2769,
+          "num_trades": 639,
+          "avg_hold_days": 12.03
+        },
+        "oos": {
+          "sharpe": 0.1494,
+          "annual_return": 0.0111,
+          "max_drawdown": -0.1605
+        },
+        "n_trades": 639,
+        "oos_trades": 237
+      },
+      {
+        "point": "high252_w252_k5_r40",
+        "desc": "win=252 mp=200 k=5 rebal=40",
+        "params": {
+          "max_positions": 5,
+          "position_size_pct": 0.19
+        },
+        "clauses": {
+          "i_beats_rand_p95": "False",
+          "ii_ann_pos": "True",
+          "iii_dd_ok": true,
+          "iv_trades_ok": true,
+          "v_oos_ok": true,
+          "vi_beats_passive": "False"
+        },
+        "decay_ok": false,
+        "green": false,
+        "full": {
+          "annual_return": 0.0119,
+          "sharpe": 0.1589,
+          "max_drawdown": -0.3306,
+          "win_rate": 0.6224,
+          "profit_factor": 1.1229,
+          "num_trades": 527,
+          "avg_hold_days": 14.64
+        },
+        "oos": {
+          "sharpe": 0.5743,
+          "annual_return": 0.0753,
+          "max_drawdown": -0.1016
+        },
+        "n_trades": 527,
+        "oos_trades": 178
+      }
+    ]
+  },
+  "cost_stress": {
+    "A_x2": {
+      "center": "triple_ma_5_20_60",
+      "cost_mult": 2,
+      "full": {
+        "annual_return": 0.0073,
+        "sharpe": 0.1428,
+        "max_drawdown": -0.1612,
+        "win_rate": 0.5249,
+        "profit_factor": 1.2202,
+        "num_trades": 924,
+        "avg_hold_days": 9.76
+      },
+      "oos": {
+        "sharpe": 0.4947,
+        "annual_return": 0.0345,
+        "max_drawdown": -0.0747
+      },
+      "n_trades": 924,
+      "survive_x2_clause": false,
+      "x2_matches_nsp1_info_column": "True",
+      "note": "G2 clause"
+    },
+    "A_x3": {
+      "center": "triple_ma_5_20_60",
+      "cost_mult": 3,
+      "full": {
+        "annual_return": -0.0215,
+        "sharpe": -0.2603,
+        "max_drawdown": -0.2671,
+        "win_rate": 0.513,
+        "profit_factor": 1.1248,
+        "num_trades": 924,
+        "avg_hold_days": 9.76
+      },
+      "oos": {
+        "sharpe": 0.1012,
+        "annual_return": 0.005,
+        "max_drawdown": -0.1062
+      },
+      "n_trades": 924,
+      "survive_x2_clause": false,
+      "x2_matches_nsp1_info_column": null,
+      "note": "recorded only (G4 reference)"
+    },
+    "B_x2": {
+      "center": "high252_prox_top5_r20",
+      "cost_mult": 2,
+      "full": {
+        "annual_return": 0.0231,
+        "sharpe": 0.2581,
+        "max_drawdown": -0.2815,
+        "win_rate": 0.6407,
+        "profit_factor": 1.2991,
+        "num_trades": 565,
+        "avg_hold_days": 13.67
+      },
+      "oos": {
+        "sharpe": 0.6219,
+        "annual_return": 0.0785,
+        "max_drawdown": -0.1147
+      },
+      "n_trades": 565,
+      "survive_x2_clause": false,
+      "x2_matches_nsp1_info_column": "True",
+      "note": "G2 clause"
+    },
+    "B_x3": {
+      "center": "high252_prox_top5_r20",
+      "cost_mult": 3,
+      "full": {
+        "annual_return": -0.0006,
+        "sharpe": 0.0574,
+        "max_drawdown": -0.2843,
+        "win_rate": 0.6162,
+        "profit_factor": 1.2514,
+        "num_trades": 542,
+        "avg_hold_days": 13.63
+      },
+      "oos": {
+        "sharpe": 0.3241,
+        "annual_return": 0.038,
+        "max_drawdown": -0.1271
+      },
+      "n_trades": 542,
+      "survive_x2_clause": false,
+      "x2_matches_nsp1_info_column": null,
+      "note": "recorded only (G4 reference)"
+    }
+  },
+  "verdicts_g2": {
+    "A": {
+      "candidate": "triple_ma_5_20_60",
+      "g2_pass": false,
+      "neighborhood_all_green": false,
+      "n_points": 7,
+      "red_points": [
+        "triple_ma_3_20_60",
+        "triple_ma_5_10_60",
+        "triple_ma_5_40_60",
+        "triple_ma_5_20_40",
+        "triple_ma_5_20_120"
+      ],
+      "center_anchor": {
+        "expected": 0.5481,
+        "got": 0.5481,
+        "ok": "True"
+      },
+      "cost_x2_survive": false,
+      "yearly_returns": {
+        "2020": 0.1355,
+        "2021": -0.0037,
+        "2022": -0.0134,
+        "2023": -0.0082,
+        "2024": 0.0065,
+        "2025": 0.1141,
+        "2026": -0.0244
+      },
+      "worst_year": -0.0244,
+      "yearly_no_crash": true
+    },
+    "B": {
+      "candidate": "high252_prox_top5_r20",
+      "g2_pass": false,
+      "neighborhood_all_green": false,
+      "n_points": 7,
+      "red_points": [
+        "high252_w504_k5_r20",
+        "high252_w252_k3_r20",
+        "high252_w252_k8_r20",
+        "high252_w252_k5_r10",
+        "high252_w252_k5_r40"
+      ],
+      "center_anchor": {
+        "expected": 0.4378,
+        "got": 0.4378,
+        "ok": "True"
+      },
+      "cost_x2_survive": false,
+      "yearly_returns": {
+        "2020": 0.0486,
+        "2021": 0.0837,
+        "2022": -0.1857,
+        "2023": 0.0812,
+        "2024": 0.089,
+        "2025": 0.0965,
+        "2026": 0.0716
+      },
+      "worst_year": -0.1857,
+      "yearly_no_crash": true
+    }
+  },
+  "traders_registered": [],
+  "trials_ledger": [
+    {
+      "batch": "432-MA-param-grid (pre-plan)",
+      "n": 432
+    },
+    {
+      "batch": "J6-factor-IC-study",
+      "n": 30
+    },
+    {
+      "batch": "P1-strategy-screen",
+      "n": 59
+    },
+    {
+      "batch": "P2-null-calibration",
+      "n": 122
+    },
+    {
+      "batch": "P2-survivor-deepening",
+      "n": 27
+    },
+    {
+      "batch": "J14-low-churn-family",
+      "n": 26
+    },
+    {
+      "batch": "J15-combined-exit-softening",
+      "n": 12
+    },
+    {
+      "batch": "J19-ce-transfer",
+      "n": 9
+    },
+    {
+      "batch": "P3-portfolio-validation",
+      "n": 10,
+      "note": "6 engine member runs (anchor-cum-sleeve) + 4 portfolio evaluations (derived, non-engine)"
+    },
+    {
+      "batch": "LFC-P1-mini-screen",
+      "n": 145,
+      "note": "20 cells x(1x+x2) + 100 random + 3 trader anchors + 2 passive; pre-registered n=145 (research/LFC_P1_SCREEN.md sec.7)"
+    },
+    {
+      "batch": "NSP1-new-signal-mini-screen",
+      "n": 153,
+      "note": "24 cells x(1x+x2) + 100 random + 3 trader anchors + 2 passive; pre-registered n=153 (research/NEW_SIGNAL_P1.md sec.7)"
+    },
+    {
+      "batch": "G2-NSP1-deepening",
+      "n": 18,
+      "note": "7+7 OAT neighborhood 1x + 2 centers x(x2,x3) cost stress; pre-registered n=18 (research/G2_NSP1.md sec.7); gates on recorded constants (CE i-line 0.4229, vi 0.4004)"
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 9.3,
+    "n_backtests": 18,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}
