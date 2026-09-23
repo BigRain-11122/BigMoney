@@ -178,6 +178,7 @@ def _gate_chain(bt: dict) -> dict:
     nsp = _read_json(os.path.join(res, "new_signal_p1.json")) or {}
     g2n = _read_json(os.path.join(res, "g2_nsp1.json")) or {}
     slp = _read_json(os.path.join(res, "sleeve_p3.json")) or {}
+    p4b1 = _read_json(os.path.join(res, "shortline_p4_batch1.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -199,6 +200,11 @@ def _gate_chain(bt: dict) -> dict:
               or ce.get("trials_ledger") or lc.get("trials_ledger")
               or dep.get("trials_ledger") or [])
     trials_total = sum(x.get("n", 0) for x in ledger)
+    tl_p4 = p4b1.get("trials_ledger")
+    if isinstance(tl_p4, dict) and tl_p4.get("total"):
+        # research-line cumulative N (engine trials + factor trials,
+        # P-1a/P-2/P-4 lineage) -- this file is the freshest truth source
+        trials_total = int(tl_p4["total"])
     skill_bar = gate.get("effective_skill_bar")
     ct_note = ""
     if ct:
@@ -267,6 +273,10 @@ def _gate_chain(bt: dict) -> dict:
                                if g2n_x2s is not None else "")})
     sl_v = slp.get("verdict") or {}
     sl_adm = sl_v.get("sleeve_admission")
+    n_p4_surv = None
+    if p4b1:
+        p4_v = p4b1.get("verdict") or {}
+        n_p4_surv = 0 if p4_v.get("void") else int(p4_v.get("n_survivors") or 0)
     sl_schemes = slp.get("schemes") or {}
     if slp and not slp.get("void"):
         n_adm = len(sl_v.get("admitted_schemes") or [])
@@ -280,11 +290,24 @@ def _gate_chain(bt: dict) -> dict:
                                f"{base.get('sharpe')}，×2≈{b6x2.get('sharpe')}"
                                f" 成本传染+α稀释，池内素材收线"
                                if b6 and base else "")})
+    if p4b1:
+        p4_v = p4b1.get("verdict") or {}
+        p4_slv = p4b1.get("sleeve_candidates") or []
+        p4_ce_line = (p4b1.get("gate") or {}).get("i_bar_ce_used")
+        steps.append({"stage": "P-4 动物园批一 · A 层易族 core48 mini 海选",
+                      "result": (f"{n_p4_surv} 员候选 · 袖珍 {len(p4_slv)}"
+                                 if not p4_v.get("void") else "无效（锚点破）"),
+                      "pass": bool(n_p4_surv),
+                      "note": (f"低相关素材 {'/'.join(p4_slv) or '无'}；"
+                               f"CE i 线取严 {p4_ce_line}；52周低点=接飞刀，"
+                               f"批一线诚实收线" if p4_ce_line else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
             "n_g2nsp": g2n_pass,
             "n_sleeve_p3": (None if sl_adm is None else int(bool(sl_adm))),
+            "n_p4b1": n_p4_surv, "n_p4b1_sleeve": (
+                len(p4b1.get("sleeve_candidates") or []) if p4b1 else None),
             "n_traders": len(traders),
             "trader_ids": traders}
 
@@ -493,6 +516,8 @@ def build() -> dict:
     payload["gamification"]["milestones_total"] = len(payload["gamification"]["achievements"])
     slp_txt = "" if chain["n_sleeve_p3"] is None else (
         f" → SLEEVE_P3 袖并入{'过' if chain['n_sleeve_p3'] else '收线'}")
+    p4_txt = "" if chain["n_p4b1"] is None else (
+        f" → P-4 动物园批一 {chain['n_p4b1']}候选·袖{chain['n_p4b1_sleeve']}")
     payload["events"] = [
         {"time": smoke["at"] or "-", "text": f"自检 {smoke['pass']}项通过/{smoke['fail']}失败"},
         {"time": "-", "text": f"门禁链定案（试验账本 N={chain['trials_total']}）："
@@ -502,6 +527,7 @@ def build() -> dict:
                               f" → NSP1 新信号 {chain['n_nsp']}候选"
                               f" → G2_NSP1 深化 {chain['n_g2nsp']}员"
                               f"{slp_txt}"
+                              f"{p4_txt}"
                               f"（累计 {chain['n_traders']} 员注册编制）"},
     ]
     if chain["trader_ids"]:

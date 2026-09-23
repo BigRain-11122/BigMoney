@@ -1,7 +1,7 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
 > 2026-09-23 11:35 整理；15:1x 接管版更新。CEO 令：AI 全面接管 Bigmoney 系统开发（mandate=`Tools\iteration_prompt.txt` 接管版：开发范围=PLAN P0-P4+§7+任务板，P1 新方向须 CEO 署名）。机队实况：bm-a=32 核开发机（DASHENG）｜bm-b=16 核回测/数据节点（Money02 宿主，维护链常驻）；多机大文件传输机制=`fleet/TRANSFER.md`（控制面 git、数据面择通道）。
-> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=bm-a round 10（2026-09-23 17:15；对账区间=bm-b rounds 31-33+bm-a rounds 6-10+quant 专管会话 O-1545/1636/1653/1705 执行）：新增=短线研究线 V1（playbook/外部资产/外调机制/风格图鉴/回测就绪审计）+P-1a GTJA191 双轨批测+J12 v0.3-v0.4+J18b 数据部行；账本 N=1073→**1312**（bm-b P1 因子批测 +239）；bars A-变体**推送完成**（BigMoney-data main=81b93d3）→ bm-a 接收腿进行中（clone 后台）。
+> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=bm-b round 35（2026-09-23 17:55；对账区间=bm-b rounds 34-35+bm-a round 10 集成）：新增=**P-2 GTJA191 合成诚实收线**（bm-b r34，N 1312→1435）+**P-4 风格动物园批一 A 层易族 mini 海选**（bm-b r35 认领 MSG-1745→一次定稿，0 候选/袖 2，N→**1556**）+**T-01 bars 传输全弧闭环**（bm-a 接收腿 17:26 dual -Verify PASS 10444 文件全 SHA256、任务 done、bm-b 暂存仓已删）+O-1705 风格动物园已交付入库（ASTYLE_ZOO 42 族+7 涨停情绪因子）+bm-a machine 分支两提交集成 main（48c795f）。
 
 ## 一、当前模式与怎么停/恢复
 
@@ -10,7 +10,7 @@
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
 - **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\` 按机分账本（bm-b=state.json+round_reports.md；其余机含 bm-a=state-<机id>.json+round_reports-<机id>.md；字段=轮号/做了什么/下轮指针/每轮固定报告）＋ 根目录 `CODELY.md`（项目记忆，行级追加）。轮活性另看 `logs\probe-heartbeat.txt`。
 
-## 二、成果速览（截至 2026-09-23 17:15=bm-a round 10／bm-b round 33；策略线重启=短线研究线，回测账本 N=1312）
+## 二、成果速览（截至 2026-09-23 17:55=bm-b round 35／bm-a round 10；策略线=短线 P 线，回测账本 N=1556）
 
 | 成果 | 位置 | 关键数字（样本外 2025+，×2 成本压力全过） |
 |---|---|---|
@@ -28,8 +28,10 @@
 | **SLEEVE_P3 低相关袖并入决策（round 18）** | `research/SLEEVE_P3.md`、`results/sleeve_p3.json`、`research/sleeve_p3_results.csv` | admission FAIL 0/2：近零 α 袖=免费风险缩减+付费收益稀释、×2 传染律（袖 ×2 深负拖垮组合）；6 袖归档，core48 池内分散化素材穷尽，**策略线全收线→节点转纯维护态** |
 | **短线研究线 V1（O-1545/1636/1653 令件，quant 会话执行）** | `research/shortline/`（SHORTLINE_PLAYBOOK 总纲+external 9 件资产台账）、`research/RESEARCH_MECHANISM.md`（外调机制常设化）、`research/styles/QUANT_STYLE_ATLAS.md`（20 风格图鉴：A 11/B 3/C 3/D 4）、`research/digests/`、`research/BACKTEST_READINESS.md` | 策略族三层（A=ETF 域自主过闸/B=股票池 GM 已批/C=期货 GM 已批/期权不批）；GTJA191 全套+WorldQuant101 MIT 参照已下载；回测 14 要素 12 绿 |
 | **P-1a GTJA191 因子批测双轨（bm-a R9 宽筛/bm-b r32 严门，撞行后 GM 裁定合并）** | bm-a：`scripts/shortline_p1_ic.py`+`research/shortline/P1_GTJA191_IC.md`（池 A1-A4=89，宽筛候选池非有效名单）；bm-b：`screening/gtja191_ops.py`+`research/shortline/P1_FACTOR_SCREEN.md`（0/183 过 V1/V2/V3 严门） | 双独立实现同证头部=负 IC 反转 DNA（081/100/097/165 同族）；单因子日频 IC_IR 0.30=48 截面高墙、**合成才过墙**（P-2）；分工=GM MSG-1700：**P-1b WQ101=bm-a、P-2 合成=bm-b**；账本 +239 |
+| **P-2 GTJA191 簇代表合成（bm-b r34，GM 裁定本机主导）** | `research/shortline/P2_GTJA191_SYNTH.md`、`results/shortline_p2_synth.json`、`research/shortline/p2_gtja_composite.csv`+`p2_gtja_runs.csv` | **诚实判负双杀**：因子级 V2 差线（合成 IS IC 0.0679/IR 0.236<0.30）+策略级 G1' 0/3（gtja_top5 0.353 差 vi 0.4004 一线）→ G2 未触发 0 注册；机制=定向即偏差（符号定向合成 null p95 0.058 构造性正偏）/弱尾稀释/合成增益在 OOS 端（+74%）；N 1312→1435 |
+| **O-1705 风格动物园（quant 会话交付）+P-4 批一 A 层易族（bm-b r35，认领 MSG-1745）** | `research/shortline/ASTYLE_ZOO.md`（十族系 42 族+7 涨停情绪因子，执行层全集）、`research/shortline/P4_BATCH1.md`、`results/shortline_p4_batch1.json`、`research/shortline/p4_batch1_results.csv`、`scripts/p4_batch1_screen.py` | **批一 0 G1' 候选（诚实）·袖珍 2**：oversold_bounce 双制=max\|corr\|<0.30 唯一真低相关族（×2 为正 0.142 但<vi 不达 SLEEVE_P3 准入）；52 周低点=接飞刀（与高点强度镜像不对称）；CE 增益=砍笔减成本通道（非「日频刷新」本身）；CE i 线取严 0.4474；N 1435→1556 |
 | **J18b update_status 上面板（bm-b r31）** | `monitor/build_status.py` `_update_state()`、bigmoney.html 数据部行 | org_chart 七部门第 6 行对齐；数据链状态实时驱动（present/age/failures/cutoff） |
-| Money02 清理（round 27-28，bm-b） | `research/MONEY02_CLEANUP_REPORT.md`、`research/MONEY02_ASSETS.md` | 清理 6.35GB 可再生缓存（Money02 7.7→1.20GB/10968 件，bars 1.09GB 保留）；bars 传输 B2 croc 公共中继双侧实测死（HTTP 污染）→ **A-变体推送完成**（BigMoney-data main=81b93d3，bm-b 侧 64min@~246KiB/s），bm-a 接收腿进行中 |
+| Money02 清理（round 27-28，bm-b） | `research/MONEY02_CLEANUP_REPORT.md`、`research/MONEY02_ASSETS.md` | 清理 6.35GB 可再生缓存（Money02 7.7→1.20GB/10968 件，bars 1.09GB 保留）；**bars 传输全弧闭环**：B2 croc 公共中继双侧实测死→A-变体推送完成（BigMoney-data main=81b93d3，64min@~246KiB/s）→bm-a 接收腿 17:26 **dual -Verify PASS**（10444 文件/1,167,172,943 字节全 SHA256 0 缺 0 错 0 多+落位后再验 PASS）→ T-2026-09-23-01 **done**（result_ref=双 manifest）；bars 双机就位（bm-a/bm-b `Money02\data\bars`），bm-b 暂存仓已删（释放 1.1GB） |
 | 纸盘（100 万虚拟本金） | `live/paper.py`、`results/paper/` | 锚定门禁=注册指标与实时重算逐位一致才记账；**2026-10-31 首月到期检查**（months_tracked=1 → `python -m firm.hr` 应自动 PROMOTE→TRAINEE，禁手工改数） |
 | 日线数据增量管线 | `scripts/update_daily.py`、`results/update_status.json` | 交易日 15:30 后自动增量 48 池 → paper 自动记账；收盘守卫防半根 bar |
 | 旧 432 网格（死信号存档） | `results/*.json`（432 份）、`ranking.csv` | 最好 Sharpe 0.44，已判淘汰，仅供复现 |
@@ -39,7 +41,7 @@
 | **firm/ 建章立制四件套（O-1538，e293f36）** | `firm/RULES.md`+`TECH.md`+`DEV_AUTOMATION.md`+`org_chart.md` v2 | T0-T3 权力分层+红线指针化+总经理七部门表（mandate/KPI/town 映射）+AI 赋能五原则+立法流程；零代码重构零红线数值改动；循环轮执行/汇报按部门标注 |
 | **Money0923 前代系统归档（O-1514，f597750）** | `Money0923/`（782 件/95.8MB） | 用户《Money 自进化量化系统》有用集（代码/25 年面板/分钟语料/state.json 复活锚/MoneyViz 源）；**其自动化停机中**（09-22 停机令），可学 12 条=`research/MONEY0923_TRIAGE.md` §三（采纳须 CEO 署名） |
 | **舰队治理面（fleet v1.0 全家）** | `fleet/README.md`+`FLEET-OPS.md`+`orders/`台账+`HQ-FEEDBACK.md`+machine/<id> 分支机制 | /CEO 令牌+心跳+任务认领+TRANSFER.md 大文件机制+集团反馈面；机器身份=`fleet/machine.json` 本地私有不入库（模板 `_machine.json.template`）；bars 1.09GB 走 **A-变体**（BigMoney-data 私库：**推送完成 81b93d3**，bm-a 接收腿进行中=clone 后台+双侧 manifest -Verify 收官，T-01） |
-| **试验账本累计 N=1312**（432+30+59+122+27+26+12+9+10+145+153+18+30+239） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示 |
+| **试验账本累计 N=1556**（432+30+59+122+27+26+12+9+10+145+153+18+30+239+123+121） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示（P-4 起 JSON `trials_ledger.total` 为面板真值源） |
 
 ## 三、取数清单（两条路径）
 
@@ -74,23 +76,23 @@ python -m screening.rank          # 432 组排名重建
 - `results/p1_screen.json` / `p2_survivors.json` / `p2_calibration.json`：海选/深化明细（含 OOS 指标与门禁判定）
 - `results/paper/<交易员>_paper.json`：纸盘账本（bars/trades/months_tracked/equity）
 - `results/update_status.json`：数据增量状态（per-symbol appended / data_cutoff）
-- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`、`new_signal_p1_results`、`g2_nsp1_results`、`sleeve_p3_results`
+- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`、`new_signal_p1_results`、`g2_nsp1_results`、`sleeve_p3_results`；短线线另在 `research/shortline/`：`p2_gtja_composite`、`p2_gtja_runs`、`p4_batch1_results`
 - `research/auto/retro-*.md`：LLM 自动复盘（J13 产物，advisory only——LLM 数字偶有误读，人工核验后采信）
-- `fleet/orders/O-*.md`：用户令台账（/CEO 发言自动落册）；`fleet/tasks/T-*.json`：机队任务单（status=open 可认领）
-- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 10 步数据驱动、试验账本 N 实时聚合）；`town.html` 同数据链（J12 公司小镇）
+- `fleet/orders/O-*.md`：用户令台账（/CEO 发言自动落册）；`fleet/tasks/T-*.json`：机队任务单（T-2026-09-23-01=done 全弧闭环）
+- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 11 步数据驱动、试验账本 N 实时聚合）；`town.html` 同数据链（J12 公司小镇）
 
 ## 六、本机将持续产出什么（你回来取时会有更多）
 
 - 每个交易日 15:30 后：48 池日线增量 → 纸盘自动记账 → 成果/面板文件刷新（查 `results/update_status.json` 的 data_cutoff 与 total_new_rows）。
-- 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；旧策略线三路径穷尽后曾转维护态，**CEO 09-23 下午重启短线研究线（O-1545→P 线批测：P-1a GTJA191 双轨已跑、P-1b WQ101=bm-a、P-2 合成=bm-b（GM MSG-1700 分工）、O-1705 风格动物园 quant 会话 in-flight）**——批测均预注册+零假设基线+账本记账（N=1312）。
-- bars 1.09GB（Money02\data\bars）传输=**A-变体推送完成→bm-a 接收腿进行中**（BigMoney-data main=81b93d3；bm-a clone 后台 17:09 点火，实测 ~210-264KiB/s、ETA ~18:15-18:35 跨多轮；双侧 manifest -Verify PASS 后落位 Money02\data\bars＋T-2026-09-23-01 done；SOP 与进度=`fleet/TRANSFER.md`＋`fleet/transfers/`＋T-01 任务单）。
-- 机队协同：每轮自动消化 `fleet/orders/` 新令与 `fleet/inbox/` 定向消息；J12 公司小镇 v0.4/J13 LLM 助理 v0.1/J18b 数据部行已交付；P 线分工=GM MSG-1700（**P-1b WQ101 移植=bm-a、P-2 合成=bm-b**，开工前 inbox 认领制）。
+- 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；旧策略线三路径穷尽后曾转维护态，**CEO 09-23 下午重启短线研究线**——P-1a GTJA191 双轨已跑、P-2 合成已诚实收线（bm-b r34）、**P-4 动物园批一已收线（bm-b r35：0 候选/袖 2 oversold 低相关记档）**、P-1b WQ101=bm-a in-flight、O-1705 风格动物园已交付（批二 M0923 迁族+lhb／批三死扛族 spec=认领制待认领，lhb 19 年数据在 Money02 双机就位）；批测均预注册+零假设基线+账本记账（N=1556）。
+- bars 1.09GB（Money02\data\bars）传输**全弧闭环**：A-变体推送完成（BigMoney-data main=81b93d3）+bm-a 接收腿 dual -Verify PASS+落位再验 PASS → **T-2026-09-23-01 done**；bars 双机就位，bm-b 暂存仓已删；数据面机制归档=`fleet/TRANSFER.md`。
+- 机队协同：每轮自动消化 `fleet/orders/` 新令与 `fleet/inbox/` 定向消息；J12 公司小镇 v0.4/J13 LLM 助理 v0.1/J18b 数据部行已交付；P 线分工=GM MSG-1700（**P-1b WQ101 移植=bm-a in-flight、P-2 合成=bm-b 已收线**，开工前 inbox 认领制=F-04 已成 fleet 规范）。
 - 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
-- 开发队列（接管版，CEO 可随时改序）**round 10 更新**：J12 已交付 v0.4、J13 已交付 v0.1、J18b 已交付（bm-b r31）→ 余 J10 dashboard.html 分布式监控页 → Optuna 贝叶斯调参骨架；**研究线现役=短线 P 线**（P-1b WQ101 无 cap 子集移植批测=bm-a（先预注册）、P-2 GTJA191 簇代表合成=bm-b、O-1705 ASTYLE_ZOO=quant 会话 in-flight，新风格实现批次挂 P 线队列认领制）；P1 级新方向须署名任务单才开工（GM 署名即有效，O-1620）。
+- 开发队列（接管版，CEO 可随时改序）**round 35 更新**：J12 已交付 v0.4、J13 已交付 v0.1、J18b 已交付（bm-b r31）→ 余 J10 dashboard.html 分布式监控页 → Optuna 贝叶斯调参骨架；**研究线现役=短线 P 线**（P-1b WQ101 无 cap 子集移植批测=bm-a（先预注册）、P-2 已收线、**P-4 批一已收线（bm-b r35）→ 批二（M0923 迁族+lhb）/批三（死扛族 spec）认领制待认领**、素材=zoo 42 族+lhb 19 年在库）；P1 级新方向须署名任务单才开工（GM 署名即有效，O-1620）。
 
 ## 七、诚实声明
 
 - 所有样本外指标为 2025-2026 盲测窗、成本恒开、一次定稿跑数（预注册范式）；试验总数 N 已入档（多重检验可追溯）。
-- 纸盘尚未有真实成交 bars（等待 15:30 后新交易日数据落账；2026-09-23 17:15 复查=10 次探针 sina 源端仍未发布当日收盘 bar，双机互证=源端延迟非管线故障，每轮轮询中）；`dashboard_status.json` 的 trading.paper_started 由数据驱动，非写死。
+- 纸盘尚未有真实成交 bars（等待 15:30 后新交易日数据落账；2026-09-23 17:51 复查=11 次探针 sina 源端仍未发布当日收盘 bar，双机互证=源端延迟非管线故障，每轮轮询中）；`dashboard_status.json` 的 trading.paper_started 由数据驱动，非写死。
 - 3 名交易员均为 INTERN 级注册，晋升只走 `python -m firm.hr` 自动评审（2026-10-31 首查）。
 - J13 LLM 全部产物（`research/auto/`）为模型生成 advisory only，未经人工审计不作为决策依据。
