@@ -31,13 +31,28 @@ def _exit_signal(close: pd.Series, fast: int = 5, slow: int = 20) -> pd.Series:
 def run_backtest(prices: dict, params: dict,
                  initial_cash: float = 1_000_000.0,
                  entry_signal: pd.DataFrame = None,
-                 exit_signal: pd.DataFrame = None) -> dict:
+                 exit_signal: pd.DataFrame = None,
+                 fill_guard=None) -> dict:
     """prices: dict[symbol] -> DataFrame with date index, cols open/close/high/low.
 
     J7 signal-injection adapter (BACKTEST_PLAN S2 contract):
       entry_signal / exit_signal: DataFrame (date x symbol), truthy -> on.
       Default None -> built-in MA(5,20) cross (432-grid behavior unchanged).
       Signals computed on day T close execute at T+1 open (no look-ahead).
+
+    P4-B2 s3.1 fill_guard (additive; default None = legacy path
+    byte-identical). Execution-time transactability overlay built from the
+    execution day's OWN information (no look-ahead):
+      dict {"buy": DF(date x symbol, bool), "sell": DF(...)} -> side-aware
+        (stock limit-board semantics: buy blocked on sealed limit-UP open,
+         sell deferred off sealed limit-DOWN close);
+      single DataFrame(date x symbol, bool) -> applied to BOTH sides.
+      buy False on execution day -> pending entry DROPPED (unfilled order,
+        not retried; a fresh signal may re-queue later -- that is a new order).
+      sell False on exit day -> exit DEFERRED: retried each later close,
+        force-executed at the first fillable close with the ORIGINAL exit
+        reason/size (stale decision, honest late fill).
+      Missing symbol/date -> unrestricted (True).
     """
     cfg = ExitConfig(
         take_profit_levels=tuple(params.get("take_profit_levels", (0.05, 0.10, 0.20))),
@@ -77,8 +92,35 @@ def run_backtest(prices: dict, params: dict,
     else:
         exit_sig = {sym: _injected(exit_signal, sym) for sym in closes.columns}
 
+    # P4-B2 s3.1 fill guard: None -> fully unrestricted (legacy path).
+    def _guard_arrays(guard) -> dict:
+        out = {}
+        for sym in closes.columns:
+            if guard is not None and sym in guard.columns:
+                out[sym] = guard[sym].reindex(dates).fillna(True).astype(bool).to_numpy()
+            else:
+                out[sym] = None
+        return out
+
+    if fill_guard is None:
+        buy_g = sell_g = None
+    elif isinstance(fill_guard, dict):
+        buy_g = _guard_arrays(fill_guard.get("buy"))
+        sell_g = _guard_arrays(fill_guard.get("sell"))
+    else:
+        buy_g = _guard_arrays(fill_guard)
+        sell_g = buy_g
+
+    def _fillable(arrs: dict, sym: str, i: int) -> bool:
+        if arrs is None:
+            return True
+        a = arrs.get(sym)
+        return True if a is None else bool(a[i])
+
     # pending entries: signal fired at day T, execute at day T+1 open
     pending_entries: dict[str, dict] = {}
+    # sell-deferral book (P4-B2): sym -> stored ExitAction awaiting a fillable close
+    deferred_exits: dict[str, object] = {}
 
     for i, date in enumerate(dates):
         row_close = closes.loc[date]
@@ -92,6 +134,11 @@ def run_backtest(prices: dict, params: dict,
                 break
             px = row_open[sym]
             if pd.isna(px):
+                continue
+            if not _fillable(buy_g, sym, i):
+                # P4-B2 buy rejection: unfilled at this open (e.g. sealed
+                # limit-up) -> order dropped, not retried on stale signal.
+                del pending_entries[sym]
                 continue
             target_value = initial_cash * cfg.position_size_pct
             qty = target_value / px
@@ -115,10 +162,19 @@ def run_backtest(prices: dict, params: dict,
             if pd.isna(px):
                 st.hold_days += 1
                 continue
-            sig_rev = bool(exit_sig[sym].loc[date])
-            action = evaluate(st, px, cfg, signal_reversed=sig_rev)
+            if sym in deferred_exits:
+                # P4-B2 sell deferral: exit already decided, executing late.
+                action = deferred_exits.pop(sym)
+            else:
+                action = evaluate(st, px, cfg, signal_reversed=bool(exit_sig[sym].loc[date]))
 
             if action.should_close:
+                if not _fillable(sell_g, sym, i):
+                    # P4-B2 sell deferral: no liquidity at this close (e.g.
+                    # sealed limit-down) -> retry at next fillable close.
+                    deferred_exits[sym] = action
+                    st.hold_days += 1
+                    continue
                 qty = st.quantity * action.close_fraction
                 gross = qty * px
                 proceeds = gross * (1 - cost_rate)

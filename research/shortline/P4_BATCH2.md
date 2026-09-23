@@ -92,3 +92,18 @@
 - 禁令：跑后禁调门槛/禁换口径/禁跑到达标为止；「更绿的另一口径」可记录不翻案；本批零注册（G1' 幸存者只是观察名单，G2 过门才注册）。
 
 —— bm-b 研究部 · 2026-09-23 18:3x · dept:研究
+
+## §9 R37 执行留痕（引擎件+门禁，跑后如实记，零门槛改动）
+
+- **引擎改动（红线内全守）**：`engine/backtester.py` 加可选参数 `fill_guard`（default None=现行为；dict{"buy","sell"} 分向 / 单 DataFrame 双向；缺符号缺日=True 不限）；买拒单=执行日 open 可成交性 False→pending 丢弃不重试；卖顺延=退出日 close False→存原 ExitAction（reason/fraction 原样），次一可卖收盘强制执行；`exit_rules.py`/T+1/成本默认值零触碰。文件=engine/backtester.py 单文件。
+- **门禁脚本**：`scripts/p4_batch2_gates.py`（8 门）+ 产物 `results/shortline_p4_batch2_gates.json`。**全绿 ALL PASS（10.5s，2026-09-23 18:4x）**：
+  - G0 smoke 20/20（子进程真跑，实测 smoke 全程 ~3.6s）；
+  - **G1 432 确定性 5 抽样点（idx 0/108/216/324/431）全逐位 PASS**——metrics dict+equity_curve 全列表+trades 数 vs 原 432 产物 `results/<hash>.json` 逐字节相等=fill_guard=None 路径对历史证据零扰动+面板复现口径实证（bare 48、min_listing 60、open 回退；当年 432 跑时 data/daily 只有 48 个裸码文件，现 1724 中纯 6 位 stem 恰 48）；
+  - G2 全 True 守卫≡None 守卫（dict+单 DF 两形态，equity/metrics/trades 全等）；
+  - G3 买拒单单元（拒单日 pending 丢弃、equity 全程平直；对照无守卫同日成交）；
+  - G4 卖顺延单元（1d/2d 两链：控制组收盘日 idx5→顺延组 idx6/idx7，reason=`signal_reversal` 原样保留、hold_days +1/+2；股票代码名 300750 在引擎内走 T+1 路径）；
+  - G5 is_t0：60/00/30/68 四前缀全 False（T+1）；ETF T+0 名单 5 码全 True；
+  - G6 CostPatch ×1/×2/×3/恢复=0.0013041/0.0026082/0.0039123/0.0013041（J14 机制复验；股票回合=2×13.041bp=26.082bp≈§3.2 26bp，×2=52bp/×3=78bp 压力档）；
+  - G7 守卫态确定性（同场景重跑 trades+equity 逐位相同）。
+- **坑三条（如实）**：①data/daily 前缀孪生格式=`sh510010.csv`（无点）非 `sh.510300`——首版过滤器漏拦 1623 只进面板（首跑 45.8s/2480 笔即错误面板症状），正解=纯 6 位数字 stem 全匹配，修正后 48 只/6.7s；②`round(np.float64,4)` 仍是 np.float64、比较产出 np.bool_——进 JSON 前须 `.item()` 递归转型（backtest_task 同款先例）；③G4 断言 reason 字符串初版笔误 `signal_reversed`（实际 `signal_reversal`，以 exit_rules.py 字面量为准）——断言错非机制错，机制首跑即工作正常。
+- **R38 解锁**：门禁全绿=按 §7 许建面板。R38=面板 build 一次（float32）+七族信号 builder+guard 构建（板别真值表）+null 机（n≥20 default+被动）+26-30 跑一次定稿+G1' 五条款裁定。

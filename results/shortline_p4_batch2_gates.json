@@ -1,0 +1,137 @@
+{
+  "generated": "2026-09-23 18:40:33",
+  "round": "R37 (P4_BATCH2.md s7 execution order)",
+  "engine_change": "additive fill_guard param (default None = legacy byte-identical); buy-rejection drop + sell-deferral force-execute at next fillable close",
+  "all_pass": true,
+  "elapsed_sec": 10.5,
+  "gates": [
+    {
+      "gate": "G0",
+      "name": "smoke 20/20 (subprocess)",
+      "status": "PASS",
+      "detail": "Summary: 20/20 PASS, 0 FAIL"
+    },
+    {
+      "gate": "G1",
+      "name": "432-grid determinism (fill_guard=None, 5 sampled combos)",
+      "status": "PASS",
+      "rows": [
+        {
+          "hash": "079d85ab",
+          "idx": 0,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.0023
+        },
+        {
+          "hash": "936c29bc",
+          "idx": 108,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.4186
+        },
+        {
+          "hash": "51554fff",
+          "idx": 216,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.0864
+        },
+        {
+          "hash": "c3b80ff0",
+          "idx": 324,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.0359
+        },
+        {
+          "hash": "cc62883b",
+          "idx": 431,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.1213
+        }
+      ]
+    },
+    {
+      "gate": "G2",
+      "name": "all-True guard == None guard (dict + flat forms)",
+      "status": "PASS",
+      "n_equity": 1631
+    },
+    {
+      "gate": "G3",
+      "name": "buy-rejection unit (pending dropped, not retried)",
+      "status": "PASS",
+      "blocked_eq_flat": true,
+      "control_bought_day3": true
+    },
+    {
+      "gate": "G4",
+      "name": "sell-deferral unit (1d + 2d chains, stock-code T+1)",
+      "status": "PASS",
+      "close_dates": [
+        "2026-01-08",
+        "2026-01-09",
+        "2026-01-12"
+      ],
+      "hold_days": [
+        4,
+        5,
+        6
+      ],
+      "reasons": [
+        "signal_reversal",
+        "signal_reversal",
+        "signal_reversal"
+      ]
+    },
+    {
+      "gate": "G5",
+      "name": "is_t0: 60/00/30/68 -> T+1; ETF T+0 sanity",
+      "status": "PASS",
+      "stocks_t1": {
+        "600000": true,
+        "000001": true,
+        "300750": true,
+        "688111": true
+      },
+      "etf_t0": {
+        "511880": true,
+        "511260": true,
+        "511010": true,
+        "518880": true,
+        "159934": true
+      }
+    },
+    {
+      "gate": "G6",
+      "name": "CostPatch x1/x2/x3/restore (stock 26bp round trip scale)",
+      "status": "PASS",
+      "x1": 0.0013041,
+      "x2": 0.0026082,
+      "x3": 0.0039123,
+      "restored": 0.0013041,
+      "stock_round_trip_bp": 26.082,
+      "stress_round_trip_bp": {
+        "x2": 52.164,
+        "x3": 78.246
+      }
+    },
+    {
+      "gate": "G7",
+      "name": "guard-active determinism (rerun identical)",
+      "status": "PASS"
+    }
+  ]
+}
