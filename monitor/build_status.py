@@ -434,6 +434,7 @@ def _gate_chain(bt: dict) -> dict:
     p4b1 = _read_json(os.path.join(res, "shortline_p4_batch1.json")) or {}
     p5re = _read_json(os.path.join(res, "p5_random_entry.json")) or {}
     p4b2 = _read_json(os.path.join(res, "shortline_p4_batch2.json")) or {}
+    p4p = _read_json(os.path.join(res, "shortline_p4_pairs.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -586,6 +587,20 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"{'/'.join(g2f_reg)} 过邻域+成本门注册；"
                                f"×3 亦越技能线 {g2f_x3} 员"
                                if g2f_reg else "0 员过门")})
+    if p4p:
+        _pv = p4p.get("verdict") or {}
+        _v2 = _pv.get("v2_gate") or {}
+        _pl = ((p4p.get("pooled") or {}).get("full") or {}).get("sharpe")
+        _np95 = (p4p.get("nulls") or {}).get("p95")
+        _line = (_v2.get("skill_line") or {}).get("line")
+        _mc = p4p.get("max_corr")
+        steps.append({"stage": "P4_PAIRS · 配对协整长多形态（zoo #41·67 跑）",
+                      "result": ("v2 过线（G2 另开预注册）" if _pv.get("v2_pass")
+                                 else "0 候选收线"),
+                      "pass": bool(_pv.get("v2_pass")),
+                      "note": (f"池化 {_pl} < v2 线 {_line}，亦低于随机对同构 "
+                               f"null p95 {_np95}（协整选择增益为负）；"
+                               f"×2 转负；D6 低相关 {_mc}（信息列）")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
