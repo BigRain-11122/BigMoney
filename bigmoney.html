@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>BIGMONEY · 量化交易公司总控</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: #0f1115; color: #c8d0dc;
+    font-family: 'Courier New', monospace; font-size: 12px; line-height: 1.45;
+    padding: 10px;
+  }
+  .panel { border: 2px solid #2a3140; background: #161a22; padding: 8px 10px; margin-bottom: 10px; }
+  .panel h3 { font-size: 11px; color: #7a8494; border-bottom: 1px solid #2a3140;
+              padding-bottom: 4px; margin-bottom: 6px; letter-spacing: 1px; }
+  .gold { color: #e8c15a; } .green { color: #5fd38a; } .red { color: #e05a5a; }
+  .cyan { color: #5a9ab8; } .dim { color: #7a8494; }
+
+  header { display: grid; grid-template-columns: auto 1fr auto; gap: 16px;
+           align-items: center; border: 2px solid #2a3140; background: #161a22;
+           padding: 8px 14px; margin-bottom: 10px; }
+  .logo { font-size: 22px; font-weight: bold; color: #e8c15a;
+          text-shadow: 2px 2px 0 #000; letter-spacing: 2px; }
+  .logo small { display: block; font-size: 10px; color: #7a8494; letter-spacing: 0; }
+  .badges { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+  .badge { border: 1px solid #2a3140; background: #1d222c; padding: 3px 8px; }
+  .badge b { color: #5fd38a; } .badge b.warn { color: #e05a5a; }
+
+  .kpirow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 10px; }
+  .kpi { border: 2px solid #2a3140; background: #161a22; padding: 8px; text-align: center; }
+  .kpi b { display: block; font-size: 18px; color: #e8c15a; }
+  .kpi span { font-size: 10px; color: #7a8494; }
+
+  .grid { display: grid; grid-template-columns: 270px 1fr 270px; gap: 10px; align-items: start; }
+
+  .dept { display: grid; grid-template-columns: 8px 1fr auto; gap: 8px; align-items: center;
+          background: #1d222c; border-left: 4px solid #3a4356; padding: 5px 8px; margin: 4px 0; }
+  .dept .dot { width: 8px; height: 8px; background: #5fd38a; }
+  .dept.warn .dot { background: #e8c15a; } .dept.bad .dot { background: #e05a5a; }
+  .dept .st { font-size: 10px; color: #7a8494; text-align: right; }
+
+  canvas { width: 100%; height: 210px; background: #0f1115; display: block; }
+
+  .kv { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; font-size: 11px; }
+  .kv .dim { font-size: 10px; }
+
+  .ach { display: flex; flex-wrap: wrap; gap: 6px; }
+  .ach .it { display: flex; align-items: center; gap: 6px; border: 1px solid #2a3140;
+             background: #1d222c; padding: 4px 8px; }
+  .ach .it img { width: 20px; height: 20px; image-rendering: pixelated; }
+  .ach .it.locked { opacity: 0.38; filter: grayscale(1); }
+
+  .xbar { height: 12px; background: #0f1115; border: 1px solid #2a3140; margin-top: 4px; }
+  .xbar i { display: block; height: 100%; background: #5fd38a;
+            box-shadow: 0 0 6px #5fd38a; }
+
+  .lvl { display: flex; gap: 4px; align-items: center; margin: 2px 0; font-size: 11px; }
+  .lvl img { width: 16px; height: 16px; image-rendering: pixelated; }
+  .lvl.cur { color: #e8c15a; }
+
+  .trader { display: grid; grid-template-columns: 16px 1fr auto auto; gap: 6px; align-items: center;
+            background: #1d222c; padding: 4px 6px; margin: 3px 0; }
+  .trader img { width: 16px; height: 16px; image-rendering: pixelated; }
+
+  .ev { font-size: 11px; padding: 3px 0; border-bottom: 1px dashed #1d222c; }
+  .ev .t { color: #7a8494; }
+
+  footer { text-align: center; color: #7a8494; font-size: 10px; margin-top: 8px; }
+  button { background: #1d222c; color: #e8c15a; border: 1px solid #2a3140;
+           padding: 3px 10px; cursor: pointer; font-family: inherit; }
+  #nodata { position: fixed; inset: 0; background: #0f1115; color: #e8c15a;
+            display: none; place-items: center; z-index: 99; text-align: center; }
+</style>
+</head>
+<body>
+<div id="nodata"><div>NO DATA<br><br>先运行：python -m monitor.build_status</div></div>
+
+<header>
+  <div class="logo">BIGMONEY<small id="stage">—</small></div>
+  <div class="dim" style="text-align:center">沪深 ETF · 日线短线 · 小型特色化对冲基金<br>
+    <span class="dim" id="gen">—</span></div>
+  <div class="badges">
+    <div class="badge">自检 <b id="b-smoke">—</b></div>
+    <div class="badge">网络 <b id="b-net">—</b></div>
+    <div class="badge">数据 <b id="b-data">—</b></div>
+    <button onclick="location.reload()">↻ 刷新</button>
+  </div>
+</header>
+
+<div class="kpirow">
+  <div class="kpi"><b id="k-capital">—</b><span>公司资金（纸盘筹备）</span></div>
+  <div class="kpi"><b id="k-nav">—</b><span>净值</span></div>
+  <div class="kpi"><b id="k-pass">—</b><span>在册交易员（过全 G2 门禁链）</span></div>
+  <div class="kpi"><b id="k-mile">—</b><span>公司里程碑</span></div>
+  <div class="kpi"><b id="k-data">—</b><span>行情数据至</span></div>
+</div>
+
+<div class="grid">
+  <div>
+    <div class="panel"><h3>部门总览</h3><div id="depts"></div></div>
+    <div class="panel"><h3>交易部 · 交易员</h3><div id="traders"></div></div>
+    <div class="panel"><h3>晋升阶梯</h3><div id="levels"></div></div>
+  </div>
+
+  <div>
+    <div class="panel"><h3>研究部 · 因子 IC TOP10（20日期，横截面 Spearman）</h3>
+      <canvas id="icchart"></canvas>
+      <div class="dim" style="margin-top:6px">复合因子立项：<span class="gold" id="composite">—</span></div>
+    </div>
+    <div class="panel"><h3>策略部 · 回测判定（诚实面板）</h3><div class="kv" id="backtest"></div></div>
+  </div>
+
+  <div>
+    <div class="panel"><h3>成就墙</h3>
+      <div class="xbar"><i id="xpbar"></i></div>
+      <div class="dim" style="margin:4px 0 8px" id="xptext">—</div>
+      <div class="ach" id="ach"></div>
+    </div>
+    <div class="panel"><h3>风控红线</h3><div id="risk"></div></div>
+    <div class="panel"><h3>事件日志</h3><div id="events"></div></div>
+  </div>
+</div>
+
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 自动刷新）· 全部真实数据，无 mock</footer>
+
+<script src="results/dashboard_status.js"></script>
+<script>
+const SPRITE = { slime:'monitor/assets/slime.png', robot:'monitor/assets/robot.png',
+                 ghost:'monitor/assets/ghost.png', dragon:'monitor/assets/dragon.png',
+                 star:'monitor/assets/star.png', coin:'monitor/assets/coin.png',
+                 gem:'monitor/assets/gem.png', heart:'monitor/assets/heart.png' };
+const LEVEL_SPRITE = { INTERN:'slime', TRAINEE:'robot', TRADER:'ghost',
+                       SENIOR:'dragon', PRINCIPAL:'star' };
+const $ = id => document.getElementById(id);
+
+function fmt(v, d=3) { return (v===null||v===undefined) ? '—' : v.toFixed(d); }
+
+function render(D) {
+  $('stage').textContent = D.meta.stage;
+  $('gen').textContent = '数据生成于 ' + D.meta.generated_at;
+  const sm = D.health.smoke, net = D.health.network, dat = D.data;
+  $('b-smoke').textContent = sm.fail === 0 ? `${sm.pass} PASS` : `${sm.fail} FAIL`;
+  $('b-smoke').className = sm.fail === 0 ? '' : 'warn';
+  $('b-net').textContent = net.net_type + (net.hotspot ? '·热点限流' : '');
+  $('b-net').className = net.hotspot ? 'warn' : '';
+  $('b-data').textContent = dat.fresh ? '新鲜' : '过期';
+  $('b-data').className = dat.fresh ? '' : 'warn';
+
+  $('k-capital').textContent = '¥' + (D.meta.capital/10000).toFixed(0) + '万';
+  $('k-nav').textContent = D.meta.nav.toFixed(3);
+  const nTraders = D.trading.traders.length;
+  $('k-pass').textContent = nTraders;
+  $('k-pass').style.color = nTraders > 0 ? '#5fd38a' : '#e05a5a';
+  $('k-mile').textContent = `${D.gamification.milestones_done}/${D.gamification.milestones_total}`;
+  $('k-data').textContent = dat.latest_bar + ` (${dat.stale_days}d)`;
+
+  const bt = D.strategy;
+  const depts = [
+    ['研究部', '', `因子IC研究完成 · 复合因子立项`],
+    ['策略部', bt.n_traders > 0 ? '' : 'bad', bt.n_traders > 0 ? `门禁链出首员 · 试验N=${bt.trials_total}` : `432组内置信号全灭 · 策略换血中`],
+    ['风控部', '', '铁律就位 · 0 违规'],
+    ['工程部', sm.fail === 0 ? '' : 'bad', `自检 ${sm.pass} 项 PASS`],
+    ['交易部', nTraders ? '' : 'warn', nTraders
+      ? (D.trading.paper_started
+          ? `${nTraders} 名在册 · paper ${(D.trading.paper||{}).months_tracked??0} 月`
+          : `${nTraders} 名交易员在册（paper 跟踪待启动）`)
+      : '招募中（等策略过线）'],
+  ];
+  $('depts').innerHTML = depts.map(d =>
+    `<div class="dept ${d[1]}"><span class="dot"></span><span>${d[0]}</span><span class="st">${d[2]}</span></div>`).join('');
+
+  const trs = D.trading.traders;
+  $('traders').innerHTML = trs.length
+    ? trs.map(t => `<div class="trader"><img src="${SPRITE[LEVEL_SPRITE[t.level]||'slime']}">
+        <span>${t.name||t.id}<br><span class="dim" style="font-size:10px">IS ${fmt(t.is_sharpe)} · OOS ${fmt(t.oos_sharpe)}<br>${t.oos_trades}笔 · ×2成本 ${fmt(t.cost_x2_sharpe)} ${t.cost_x2_survive?'存活':'阵亡'}<br>paper ${(t.paper_months??0)}月</span></span>
+        <span class="gold">${t.level}</span></div>`).join('')
+    : `<div class="dim" style="padding:6px 0">暂无在册交易员。<br>策略工厂（Job#7）产出过线策略后，第一批交易员将持证上岗。</div>`;
+
+  $('levels').innerHTML = D.trading.levels.map((lv,i) =>
+    `<div class="lvl ${i===0?'cur':''}"><img src="${SPRITE[LEVEL_SPRITE[lv]]}">
+     <span>${lv}</span><span class="dim">${i===0?'← 当前最低档':''}</span></div>`).join('');
+
+  const g = D.gamification;
+  $('xpbar').style.width = (100*g.milestones_done/g.milestones_total) + '%';
+  $('xptext').textContent = `公司进度 ${g.milestones_done}/${g.milestones_total} —— ${D.meta.stage}`;
+  $('ach').innerHTML = g.achievements.map(a =>
+    `<div class="it ${a.unlocked?'':'locked'}"><img src="${SPRITE[a.icon]}"><span>${a.name}</span></div>`).join('');
+
+  $('risk').innerHTML = D.risk.map(r => `<div class="ev">⚑ ${r}</div>`).join('');
+  $('events').innerHTML = D.events.map(e => `<div class="ev"><span class="t">${e.time}</span> · ${e.text}</div>`).join('');
+
+  $('composite').textContent = D.research.composite_plan;
+  const gc = bt.gate_chain || [];
+  $('backtest').innerHTML = gc.map(s => `
+    <span class="dim">${s.stage}</span><span class="${s.pass?'green':'red'}">${s.result}</span>
+    ${s.note ? `<span class="dim">└ 证据</span><span class="dim">${s.note}</span>` : ''}`).join('')
+    + `<span class="dim">试验账本</span><span>N=${bt.trials_total}（基线+因子+五批门禁全记录）</span>`
+    + `<span class="dim">当前判定</span><span class="${bt.n_traders>0?'green':'red'}">${
+        bt.n_traders>0 ? `${bt.n_traders} 名交易员持证上岗（INTERN）· paper 跟踪 ≥6 个月才可谈实盘`
+                       : '全链尚无编制 · 策略工厂继续交付'}</span>`;
+
+  drawIC(D.research.factor_top);
+}
+
+function drawIC(rows) {
+  const c = $('icchart'), W = c.width = c.offsetWidth*2, H = c.height = 420;
+  const x = c.getContext('2d'); x.scale(1,1);
+  const rowH = H/rows.length, maxAbs = Math.max(...rows.map(r=>Math.abs(r.ic_mean))) || 1;
+  x.font = '22px Courier New';
+  rows.forEach((r,i) => {
+    const y = i*rowH, w = Math.abs(r.ic_mean)/maxAbs*(W-560);
+    x.fillStyle = r.ic_mean > 0 ? '#e8c15a' : '#5a9ab8';
+    x.fillRect(230, y+10, w, rowH-24);
+    x.fillStyle = '#c8d0dc'; x.fillText(r.factor, 10, y+rowH/2+8);
+    x.fillStyle = '#7a8494';
+    x.fillText(r.ic_mean.toFixed(4) + '  IR ' + r.ic_ir.toFixed(2), 240, y+rowH/2+8);
+  });
+}
+
+if (window.DASH_DATA) { render(DASH_DATA); }
+else { document.getElementById('nodata').style.display = 'grid'; }
+</script>
+</body>
+</html>

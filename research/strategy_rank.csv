@@ -1,0 +1,60 @@
+strategy,school,kind,status,n_trades,oos_trades,annual_return,sharpe,max_drawdown,win_rate,oos_sharpe,oos_annual_return,oos_max_drawdown,rand_oos_p95,beats_rand_oos,beats_rand_full,g1_pass,note
+rand_p0.05_s6,random_baseline,baseline,ok,851,269,0.0369,0.3734,-0.1767,0.5687,1.494,0.1013,-0.0487,1.3982,True,False,False,random entry p=0.05 seed=6; exits=engine rules
+rand_p0.02_s6,random_baseline,baseline,ok,844,241,0.0235,0.3516,-0.2077,0.5948,1.3932,0.0994,-0.0544,1.3982,False,False,False,random entry p=0.02 seed=6; exits=engine rules
+price_volume_trend_20,sentiment,panel,ok,1451,370,0.007,0.1236,-0.2249,0.5196,1.3773,0.1142,-0.0627,1.3982,False,False,False,
+low_vol_long_60,volatility,panel,ok,814,226,0.019,0.7583,-0.0569,0.5283,1.3631,0.0302,-0.0132,1.3982,False,True,False,
+rand_p0.02_s5,random_baseline,baseline,ok,787,249,0.046,0.6757,-0.1501,0.5921,1.3581,0.0756,-0.0349,1.3982,False,True,False,random entry p=0.02 seed=5; exits=engine rules
+dual_ma_5_20,trend,sym,ok,1269,331,-0.0036,0.0013,-0.3034,0.5217,1.2123,0.1037,-0.0732,1.3982,False,False,False,state-hold semantics (vs 432 event)
+rand_p0.02_s8,random_baseline,baseline,ok,767,257,-0.0012,0.0211,-0.2615,0.558,1.1443,0.0941,-0.0516,1.3982,False,False,False,random entry p=0.02 seed=8; exits=engine rules
+rand_p0.05_s9,random_baseline,baseline,ok,838,270,-0.0081,-0.0599,-0.3146,0.5453,1.1352,0.1039,-0.0544,1.3982,False,False,False,random entry p=0.05 seed=9; exits=engine rules
+composite_top8,composite,panel,ok,1188,397,0.0502,0.4327,-0.2551,0.5547,1.0405,0.0939,-0.0506,1.3982,False,False,False,"J6 composite, 20d rebalance, 240d warmup; fully-invested sizing"
+rand_p0.05_s4,random_baseline,baseline,ok,870,256,0.005,0.0974,-0.2993,0.5598,1.0194,0.0881,-0.0642,1.3982,False,False,False,random entry p=0.05 seed=4; exits=engine rules
+rand_p0.05_s2,random_baseline,baseline,ok,855,263,-0.0161,-0.1626,-0.3184,0.5333,1.0159,0.0966,-0.0602,1.3982,False,False,False,random entry p=0.05 seed=2; exits=engine rules
+supertrend_10_3,trend,sym,ok,1092,309,-0.0,0.0453,-0.2375,0.5833,0.99,0.0912,-0.073,1.3982,False,False,False,
+mom_accel_20_120,momentum,panel,ok,1043,297,-0.014,-0.094,-0.2837,0.4938,0.9773,0.0767,-0.0515,1.3982,False,False,False,
+composite_top5,composite,panel,ok,707,250,0.0307,0.4225,-0.1952,0.5403,0.9727,0.0979,-0.0675,1.3982,False,False,False,"J6 composite, 20d rebalance, 240d warmup; fully-invested sizing"
+rand_p0.05_s5,random_baseline,baseline,ok,878,275,-0.0011,0.0276,-0.2711,0.5524,0.9355,0.0835,-0.076,1.3982,False,False,False,random entry p=0.05 seed=5; exits=engine rules
+parabolic_sar,trend,sym,ok,1135,330,0.0046,0.0976,-0.2323,0.5401,0.9128,0.0811,-0.0664,1.3982,False,False,False,
+rand_p0.02_s1,random_baseline,baseline,ok,835,250,-0.0287,-0.2641,-0.36,0.5533,0.8475,0.0796,-0.1017,1.3982,False,False,False,random entry p=0.02 seed=1; exits=engine rules
+donchian_20_10,trend,sym,ok,1013,259,0.0037,0.0858,-0.2457,0.5607,0.8297,0.0748,-0.085,1.3982,False,False,False,
+rand_p0.05_s0,random_baseline,baseline,ok,895,268,0.0363,0.4857,-0.2073,0.5598,0.785,0.0515,-0.0566,1.3982,False,False,False,random entry p=0.05 seed=0; exits=engine rules
+vol_breakout_20,volatility,sym,ok,648,214,-0.0038,-0.0043,-0.2463,0.5725,0.7291,0.056,-0.0566,1.3982,False,False,False,
+vol_target_15,volatility,sym,ok,1006,248,-0.0209,-0.1453,-0.3754,0.5239,0.7231,0.0684,-0.0771,1.3982,False,False,False,fractional signal binarized >0
+composite_top3,composite,panel,ok,360,120,-0.0098,-0.0531,-0.3247,0.4917,0.6388,0.0672,-0.124,1.3982,False,False,False,"J6 composite, 20d rebalance, 240d warmup; fully-invested sizing"
+triple_ma_5_20_60,trend,sym,ok,1224,351,0.0109,0.1893,-0.1601,0.5261,0.6217,0.0492,-0.0982,1.3982,False,False,False,
+amount_rank_20_10,sentiment,panel,ok,1012,249,0.026,0.2704,-0.1781,0.5208,0.6045,0.0357,-0.0551,1.3982,False,False,False,top_k=10 vs max_pos=5: engine fills first 5 by column order
+intraday_momentum_10,sentiment,panel,ok,1484,374,-0.0089,-0.0521,-0.2589,0.5007,0.5841,0.051,-0.0858,1.3982,False,False,False,
+double_bottom_20,event,sym,ok,1465,404,0.0154,0.1881,-0.2422,0.4648,0.5492,0.0362,-0.0804,1.3982,False,False,False,
+ts_mom_200,momentum,sym,ok,922,280,-0.0036,-0.0122,-0.1783,0.5206,0.5376,0.0472,-0.0833,1.3982,False,False,False,price>MA200
+dual_mom_120,momentum,panel,ok,1621,500,-0.0108,-0.0244,-0.299,0.57,0.5046,0.0746,-0.1667,1.3982,False,False,False,bench=CSI300
+xsec_mom_120_20,momentum,panel,ok,1581,448,-0.0131,-0.052,-0.3745,0.5699,0.502,0.073,-0.1999,1.3982,False,False,False,skip-last-20d
+macro_trend_filter,macro,macro,ok,428,222,0.0033,0.0903,-0.099,0.528,0.502,0.0257,-0.0525,1.3982,False,False,False,MA5/20 cross AND bench>MA200
+rand_p0.02_s3,random_baseline,baseline,ok,796,226,-0.0265,-0.2464,-0.3469,0.5678,0.4979,0.0396,-0.0893,1.3982,False,False,False,random entry p=0.02 seed=3; exits=engine rules
+macro_vol_regime,macro,macro,ok,393,119,-0.0083,-0.1946,-0.1413,0.4885,0.4946,0.0186,-0.0501,1.3982,False,False,False,MA cross AND low-vol regime
+overnight_drift_10,sentiment,panel,ok,1409,379,-0.0192,-0.2342,-0.2489,0.4947,0.4849,0.033,-0.0566,1.3982,False,False,False,
+rand_p0.05_s1,random_baseline,baseline,ok,872,252,-0.0216,-0.2182,-0.2621,0.5413,0.4827,0.0414,-0.0704,1.3982,False,False,False,random entry p=0.05 seed=1; exits=engine rules
+rand_p0.02_s7,random_baseline,baseline,ok,806,237,-0.0176,-0.181,-0.2616,0.5596,0.2292,0.0177,-0.0679,1.3982,False,False,False,random entry p=0.02 seed=7; exits=engine rules
+rand_p0.02_s2,random_baseline,baseline,ok,824,230,-0.0194,-0.2047,-0.2567,0.5437,0.2188,0.0147,-0.0919,1.3982,False,False,False,random entry p=0.02 seed=2; exits=engine rules
+rand_p0.02_s0,random_baseline,baseline,ok,783,253,-0.039,-0.4248,-0.3187,0.5402,0.2123,0.0174,-0.1012,1.3982,False,False,False,random entry p=0.02 seed=0; exits=engine rules
+weekday_effect_fri,seasonal,mask,ok,1603,410,-0.0321,-0.4716,-0.3663,0.4947,0.2032,0.0094,-0.0661,1.3982,False,False,False,
+rand_p0.05_s7,random_baseline,baseline,ok,868,248,-0.0112,-0.1222,-0.1928,0.5334,0.1961,0.0126,-0.1076,1.3982,False,False,False,random entry p=0.05 seed=7; exits=engine rules
+rs_rotation_20,momentum,panel,ok,2278,635,-0.0087,0.0196,-0.2598,0.5312,0.146,0.0107,-0.1879,1.3982,False,False,False,bench=CSI300
+rand_p0.02_s4,random_baseline,baseline,ok,818,238,-0.0142,-0.1609,-0.2308,0.5403,0.1135,0.0059,-0.1304,1.3982,False,False,False,random entry p=0.02 seed=4; exits=engine rules
+bollinger_revert_20_2,mean_reversion,sym,ok,933,246,-0.0261,-0.2315,-0.3097,0.4995,0.0917,0.0042,-0.1225,1.3982,False,False,False,
+rand_p0.02_s9,random_baseline,baseline,ok,819,231,-0.0121,-0.1179,-0.217,0.5617,0.0876,0.0038,-0.0874,1.3982,False,False,False,random entry p=0.02 seed=9; exits=engine rules
+vol_regime_switch_20_200,volatility,sym,ok,836,261,-0.0475,-0.7377,-0.311,0.4222,0.0758,0.0028,-0.1122,1.3982,False,False,False,
+rsi2,mean_reversion,sym,ok,3146,831,-0.0851,-0.6558,-0.5246,0.5057,0.0626,-0.0013,-0.1254,1.3982,False,False,False,
+trend_by_season_jan,seasonal,sym,ok,88,24,0.0,0.01,-0.0606,0.5455,0.0216,0.0002,-0.0238,1.3982,False,False,False,
+turnover_surge_20_2,sentiment,panel,ok,1381,419,-0.0461,-0.6633,-0.3006,0.449,-0.0645,-0.0073,-0.0689,1.3982,False,False,False,
+rsi_revert_14_30_70,mean_reversion,sym,ok,973,247,-0.0089,-0.0471,-0.2911,0.5015,-0.0834,-0.0093,-0.1031,1.3982,False,False,False,
+rand_p0.05_s8,random_baseline,baseline,ok,895,261,-0.0371,-0.3741,-0.2895,0.5408,-0.1432,-0.0229,-0.157,1.3982,False,False,False,random entry p=0.05 seed=8; exits=engine rules
+holiday_effect,seasonal,sym,ok,336,68,-0.0054,-0.0716,-0.128,0.5446,-0.1453,-0.0067,-0.0416,1.3982,False,False,False,months 1/2/10/11 approximation
+rand_p0.05_s3,random_baseline,baseline,ok,848,241,0.0149,0.2243,-0.1631,0.5495,-0.3091,-0.0252,-0.0741,1.3982,False,False,False,random entry p=0.05 seed=3; exits=engine rules
+month_seasonality_jan,seasonal,mask,ok,104,23,-0.0137,-0.4603,-0.0991,0.4712,-0.4312,-0.01,-0.0188,1.3982,False,False,False,"market mask, engine holds first 5 by column order"
+macro_mom_filter,macro,macro,ok,494,163,0.0019,0.0628,-0.1322,0.5223,-0.4434,-0.0218,-0.0962,1.3982,False,False,False,MA cross AND bench 60d mom>0
+month_end_effect_3,seasonal,mask,ok,409,101,0.0067,0.1705,-0.0736,0.4792,-0.4727,-0.0137,-0.0442,1.3982,False,False,False,fixed: original crashed on RangeIndex.year
+breakout_confirm_20_1.5,event,sym,ok,1238,385,-0.0306,-0.4929,-0.2462,0.4443,-0.6117,-0.0352,-0.1269,1.3982,False,False,False,
+macro_drawdown_filter,macro,macro,ok,265,16,-0.0074,-0.1874,-0.1189,0.5019,-0.6387,-0.0119,-0.0237,1.3982,False,False,False,MA cross AND bench dd>-15%
+zscore_revert_20_-2,mean_reversion,sym,ok,942,264,-0.0541,-0.4168,-0.3714,0.5308,-0.6977,-0.0773,-0.1693,1.3982,False,False,False,
+pullback_bounce_60_10,mean_reversion,sym,ok,445,145,-0.0253,-0.5109,-0.1936,0.4697,-0.7859,-0.0543,-0.1057,1.3982,False,False,False,
+gap_fill_5,event,sym,ok,1296,362,-0.0953,-1.0589,-0.4926,0.4398,-1.1923,-0.148,-0.2808,1.3982,False,False,False,

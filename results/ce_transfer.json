@@ -1,0 +1,585 @@
+{
+  "batch": "J19-ce-transfer",
+  "generated": "2026-09-23 11:22:48",
+  "preregistered_doc": "research/CE_TRANSFER.md (written before run)",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "n_syms": 48,
+    "history": "anchor .. 2026-09-22"
+  },
+  "oos_start": "2025-01-01",
+  "constants": {
+    "g1_prime_i_bar": 0.3521,
+    "g1_prime_vi_bar": 0.4004,
+    "decay_floor": 0.7,
+    "ref_oos_composite": 1.0404,
+    "oos_decay_bar": 0.7283,
+    "crash_year": -0.3,
+    "min_trades": 30,
+    "max_dd": -0.35
+  },
+  "anchor": {
+    "expected_full": 1.2578,
+    "expected_oos": 2.0568,
+    "got_full": 1.2578,
+    "got_oos": 2.0568,
+    "history_end": "2026-09-22",
+    "ok": true
+  },
+  "consistency_vs_p1": {
+    "composite_top5": {
+      "expected_full_sharpe": 0.4225,
+      "expected_oos_sharpe": 0.9727,
+      "expected_trades": 707,
+      "got_full_sharpe": 0.4225,
+      "got_oos_sharpe": 0.9727,
+      "got_trades": 707,
+      "ok": true,
+      "note": "informational; valid while data end == P1 data end (2020-01-02 .. 2026-09-22)"
+    },
+    "composite_top8": {
+      "expected_full_sharpe": 0.4327,
+      "expected_oos_sharpe": 1.0405,
+      "expected_trades": 1188,
+      "got_full_sharpe": 0.4327,
+      "got_oos_sharpe": 1.0405,
+      "got_trades": 1188,
+      "ok": true,
+      "note": "informational; valid while data end == P1 data end (2020-01-02 .. 2026-09-22)"
+    }
+  },
+  "runs": {
+    "ct_anchor": {
+      "role": "anchor",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "full": {
+        "annual_return": 0.0307,
+        "sharpe": 1.2578,
+        "max_drawdown": -0.0378,
+        "win_rate": 0.5747,
+        "profit_factor": 1.9024,
+        "num_trades": 522,
+        "avg_hold_days": 15.24
+      },
+      "oos": {
+        "sharpe": 2.0568,
+        "annual_return": 0.0424,
+        "max_drawdown": -0.009
+      },
+      "n_trades": 522,
+      "oos_trades": 147,
+      "cost_mult": 1,
+      "green": "OK",
+      "anchor_ok": true
+    },
+    "ct_base_top5": {
+      "role": "base",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19
+      },
+      "exit_patch": null,
+      "full": {
+        "annual_return": 0.0307,
+        "sharpe": 0.4225,
+        "max_drawdown": -0.1952,
+        "win_rate": 0.5403,
+        "profit_factor": 1.3578,
+        "num_trades": 707,
+        "avg_hold_days": 9.66
+      },
+      "oos": {
+        "sharpe": 0.9727,
+        "annual_return": 0.0979,
+        "max_drawdown": -0.0675
+      },
+      "n_trades": 707,
+      "oos_trades": 250,
+      "cost_mult": 1,
+      "green": "",
+      "consistency_ok": true
+    },
+    "ct_base_top8": {
+      "role": "base",
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187
+      },
+      "exit_patch": null,
+      "full": {
+        "annual_return": 0.0502,
+        "sharpe": 0.4327,
+        "max_drawdown": -0.2551,
+        "win_rate": 0.5547,
+        "profit_factor": 1.4143,
+        "num_trades": 1188,
+        "avg_hold_days": 9.88
+      },
+      "oos": {
+        "sharpe": 1.0405,
+        "annual_return": 0.0939,
+        "max_drawdown": -0.0506
+      },
+      "n_trades": 1188,
+      "oos_trades": 397,
+      "cost_mult": 1,
+      "green": "",
+      "consistency_ok": true
+    },
+    "ct_ce_top5": {
+      "role": "transfer",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "full": {
+        "annual_return": 0.0576,
+        "sharpe": 0.8114,
+        "max_drawdown": -0.1633,
+        "win_rate": 0.616,
+        "profit_factor": 1.7164,
+        "num_trades": 474,
+        "avg_hold_days": 15.97
+      },
+      "oos": {
+        "sharpe": 1.6085,
+        "annual_return": 0.1441,
+        "max_drawdown": -0.0567
+      },
+      "n_trades": 474,
+      "oos_trades": 172,
+      "cost_mult": 1,
+      "green": "GREEN",
+      "i_beats_rand_p95": "True",
+      "ii_ann_pos": "True",
+      "iii_dd_ok": true,
+      "iv_trades_ok": true,
+      "v_oos_ok": true,
+      "vi_beats_passive": "True",
+      "decay_ok": true,
+      "worst_year": -0.1121
+    },
+    "ct_ce_top5_x2": {
+      "role": "stress",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "full": {
+        "annual_return": 0.0377,
+        "sharpe": 0.5228,
+        "max_drawdown": -0.1805,
+        "win_rate": 0.5948,
+        "profit_factor": 1.6157,
+        "num_trades": 464,
+        "avg_hold_days": 15.67
+      },
+      "oos": {
+        "sharpe": 1.2661,
+        "annual_return": 0.1234,
+        "max_drawdown": -0.0643
+      },
+      "n_trades": 464,
+      "oos_trades": 173,
+      "cost_mult": 2,
+      "green": "SURVIVE"
+    },
+    "ct_ce_top5_x3": {
+      "role": "stress",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "full": {
+        "annual_return": 0.0143,
+        "sharpe": 0.2155,
+        "max_drawdown": -0.2059,
+        "win_rate": 0.5556,
+        "profit_factor": 1.4819,
+        "num_trades": 450,
+        "avg_hold_days": 15.51
+      },
+      "oos": {
+        "sharpe": 0.913,
+        "annual_return": 0.0972,
+        "max_drawdown": -0.0713
+      },
+      "n_trades": 450,
+      "oos_trades": 168,
+      "cost_mult": 3,
+      "green": "rec"
+    },
+    "ct_ce_top8": {
+      "role": "transfer",
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "full": {
+        "annual_return": 0.0691,
+        "sharpe": 0.6099,
+        "max_drawdown": -0.2217,
+        "win_rate": 0.6025,
+        "profit_factor": 1.6561,
+        "num_trades": 795,
+        "avg_hold_days": 15.85
+      },
+      "oos": {
+        "sharpe": 1.4853,
+        "annual_return": 0.1089,
+        "max_drawdown": -0.0361
+      },
+      "n_trades": 795,
+      "oos_trades": 275,
+      "cost_mult": 1,
+      "green": "GREEN",
+      "i_beats_rand_p95": "True",
+      "ii_ann_pos": "True",
+      "iii_dd_ok": true,
+      "iv_trades_ok": true,
+      "v_oos_ok": true,
+      "vi_beats_passive": "True",
+      "decay_ok": true,
+      "worst_year": 0.0028
+    },
+    "ct_ce_top8_x2": {
+      "role": "stress",
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "full": {
+        "annual_return": 0.0489,
+        "sharpe": 0.4311,
+        "max_drawdown": -0.2531,
+        "win_rate": 0.5929,
+        "profit_factor": 1.5488,
+        "num_trades": 791,
+        "avg_hold_days": 15.83
+      },
+      "oos": {
+        "sharpe": 1.1075,
+        "annual_return": 0.0885,
+        "max_drawdown": -0.0437
+      },
+      "n_trades": 791,
+      "oos_trades": 276,
+      "cost_mult": 2,
+      "green": "SURVIVE"
+    },
+    "ct_ce_top8_x3": {
+      "role": "stress",
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "full": {
+        "annual_return": 0.0213,
+        "sharpe": 0.2149,
+        "max_drawdown": -0.3055,
+        "win_rate": 0.5606,
+        "profit_factor": 1.4118,
+        "num_trades": 776,
+        "avg_hold_days": 15.72
+      },
+      "oos": {
+        "sharpe": 0.7285,
+        "annual_return": 0.0652,
+        "max_drawdown": -0.0555
+      },
+      "n_trades": 776,
+      "oos_trades": 276,
+      "cost_mult": 3,
+      "green": "rec"
+    }
+  },
+  "transfers": {
+    "composite_top5": {
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "full": {
+        "annual_return": 0.0576,
+        "sharpe": 0.8114,
+        "max_drawdown": -0.1633,
+        "win_rate": 0.616,
+        "profit_factor": 1.7164,
+        "num_trades": 474,
+        "avg_hold_days": 15.97
+      },
+      "oos": {
+        "sharpe": 1.6085,
+        "annual_return": 0.1441,
+        "max_drawdown": -0.0567
+      },
+      "n_trades": 474,
+      "oos_trades": 172,
+      "yearly_returns": {
+        "2020": 0.0126,
+        "2021": 0.0697,
+        "2022": -0.1121,
+        "2023": 0.0279,
+        "2024": 0.1536,
+        "2025": 0.1806,
+        "2026": 0.0537
+      },
+      "worst_year": -0.1121,
+      "cost_x2_survive": true,
+      "transfer_pass": true
+    },
+    "composite_top8": {
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "full": {
+        "annual_return": 0.0691,
+        "sharpe": 0.6099,
+        "max_drawdown": -0.2217,
+        "win_rate": 0.6025,
+        "profit_factor": 1.6561,
+        "num_trades": 795,
+        "avg_hold_days": 15.85
+      },
+      "oos": {
+        "sharpe": 1.4853,
+        "annual_return": 0.1089,
+        "max_drawdown": -0.0361
+      },
+      "n_trades": 795,
+      "oos_trades": 275,
+      "yearly_returns": {
+        "2020": 0.0209,
+        "2021": 0.0547,
+        "2022": 0.0028,
+        "2023": 0.0553,
+        "2024": 0.122,
+        "2025": 0.1282,
+        "2026": 0.0444
+      },
+      "worst_year": 0.0028,
+      "cost_x2_survive": true,
+      "transfer_pass": true
+    }
+  },
+  "cost_stress": {
+    "ce_top5_x2": {
+      "entry": "composite_top5",
+      "cost_mult": 2,
+      "full": {
+        "annual_return": 0.0377,
+        "sharpe": 0.5228,
+        "max_drawdown": -0.1805,
+        "win_rate": 0.5948,
+        "profit_factor": 1.6157,
+        "num_trades": 464,
+        "avg_hold_days": 15.67
+      },
+      "oos": {
+        "sharpe": 1.2661,
+        "annual_return": 0.1234,
+        "max_drawdown": -0.0643
+      },
+      "n_trades": 464,
+      "survive": true,
+      "note": "G2 gate clause"
+    },
+    "ce_top5_x3": {
+      "entry": "composite_top5",
+      "cost_mult": 3,
+      "full": {
+        "annual_return": 0.0143,
+        "sharpe": 0.2155,
+        "max_drawdown": -0.2059,
+        "win_rate": 0.5556,
+        "profit_factor": 1.4819,
+        "num_trades": 450,
+        "avg_hold_days": 15.51
+      },
+      "oos": {
+        "sharpe": 0.913,
+        "annual_return": 0.0972,
+        "max_drawdown": -0.0713
+      },
+      "n_trades": 450,
+      "survive": false,
+      "note": "recorded only"
+    },
+    "ce_top8_x2": {
+      "entry": "composite_top8",
+      "cost_mult": 2,
+      "full": {
+        "annual_return": 0.0489,
+        "sharpe": 0.4311,
+        "max_drawdown": -0.2531,
+        "win_rate": 0.5929,
+        "profit_factor": 1.5488,
+        "num_trades": 791,
+        "avg_hold_days": 15.83
+      },
+      "oos": {
+        "sharpe": 1.1075,
+        "annual_return": 0.0885,
+        "max_drawdown": -0.0437
+      },
+      "n_trades": 791,
+      "survive": true,
+      "note": "G2 gate clause"
+    },
+    "ce_top8_x3": {
+      "entry": "composite_top8",
+      "cost_mult": 3,
+      "full": {
+        "annual_return": 0.0213,
+        "sharpe": 0.2149,
+        "max_drawdown": -0.3055,
+        "win_rate": 0.5606,
+        "profit_factor": 1.4118,
+        "num_trades": 776,
+        "avg_hold_days": 15.72
+      },
+      "oos": {
+        "sharpe": 0.7285,
+        "annual_return": 0.0652,
+        "max_drawdown": -0.0555
+      },
+      "n_trades": 776,
+      "survive": false,
+      "note": "recorded only"
+    }
+  },
+  "verdict": {
+    "template": "J19 transfer one-shot (pre-registered)",
+    "anchor_ok": true,
+    "void": false,
+    "n_pass": 2,
+    "n_candidates": 2,
+    "green_entries": [
+      "composite_top5",
+      "composite_top8"
+    ],
+    "fail_branch": null
+  },
+  "traders_registered": [
+    "COMPOSITE-CE-01",
+    "COMPOSITE-CE-02"
+  ],
+  "trials_ledger": [
+    {
+      "batch": "432-MA-param-grid (pre-plan)",
+      "n": 432
+    },
+    {
+      "batch": "J6-factor-IC-study",
+      "n": 30
+    },
+    {
+      "batch": "P1-strategy-screen",
+      "n": 59
+    },
+    {
+      "batch": "P2-null-calibration",
+      "n": 122
+    },
+    {
+      "batch": "P2-survivor-deepening",
+      "n": 27
+    },
+    {
+      "batch": "J14-low-churn-family",
+      "n": 26
+    },
+    {
+      "batch": "J15-combined-exit-softening",
+      "n": 12
+    },
+    {
+      "batch": "J19-ce-transfer",
+      "n": 9
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 5.1,
+    "n_backtests": 9,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}

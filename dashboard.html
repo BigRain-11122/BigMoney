@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>QUANT SYS // 分布式回测监控</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e14;
+    --panel: #121822;
+    --panel2: #1a2230;
+    --border: #2a3a4a;
+    --text: #cdd3e0;
+    --dim: #6a7a8a;
+    --green: #4a9d7a;
+    --red: #b85a5a;
+    --yellow: #b89a5a;
+    --blue: #5a7ab8;
+    --cyan: #5a9ab8;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; image-rendering: pixelated; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    line-height: 1.3;
+    overflow: hidden;
+  }
+  /* scanline overlay */
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg,
+      rgba(0,0,0,0.15) 0px, rgba(0,0,0,0.15) 1px,
+      transparent 1px, transparent 3px);
+    pointer-events: none;
+    z-index: 100;
+  }
+  .title-font { font-family: 'Press Start 2P', monospace; }
+  .pixel {
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
+    image-rendering: pixelated;
+  }
+
+  /* layout */
+  #app {
+    display: grid;
+    grid-template-rows: 48px 1fr 120px;
+    grid-template-columns: 280px 1fr 320px;
+    grid-template-areas:
+      "header header header"
+      "nodes  main   side"
+      "log    log    side";
+    gap: 8px;
+    padding: 8px;
+    height: 100vh;
+  }
+  header {
+    grid-area: header;
+    background: var(--panel);
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  header h1 {
+    font-size: 14px;
+    color: var(--cyan);
+    letter-spacing: 2px;
+  }
+  .hdr-right { display: flex; gap: 24px; align-items: center; }
+  .hdr-item { font-size: 16px; }
+  .hdr-item .lbl { color: var(--dim); font-size: 12px; }
+  .hdr-item .val { color: var(--text); }
+  .dot {
+    display: inline-block; width: 10px; height: 10px;
+    background: var(--green); margin-right: 6px;
+    box-shadow: 0 0 8px var(--green);
+    animation: blink 2s infinite;
+  }
+  .dot.red { background: var(--red); box-shadow: 0 0 8px var(--red); }
+  .dot.yellow { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+  @keyframes blink { 50% { opacity: 0.4; } }
+
+  .panel { background: var(--panel); padding: 10px; overflow: hidden; }
+  .panel h2 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 10px;
+    color: var(--dim);
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--border);
+    letter-spacing: 1px;
+  }
+
+  #nodes { grid-area: nodes; display: flex; flex-direction: column; gap: 8px; }
+  .node {
+    background: var(--panel2);
+    padding: 8px;
+    border-left: 4px solid var(--green);
+  }
+  .node.offline { border-left-color: var(--red); opacity: 0.6; }
+  .node .name {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 9px;
+    color: var(--cyan);
+  }
+  .node .meta { color: var(--dim); font-size: 14px; margin-top: 2px; }
+  .node .bar {
+    height: 8px; background: #0a0e14; margin-top: 6px;
+    border: 1px solid var(--border);
+  }
+  .node .bar > div { height: 100%; background: var(--green); }
+  .node .bar.cpu > div { background: var(--blue); }
+  .node .tasks { color: var(--yellow); font-size: 14px; margin-top: 4px; }
+
+  #main { grid-area: main; display: flex; flex-direction: column; gap: 8px; }
+  #equity-panel { flex: 1; }
+  #progress-panel { height: 140px; }
+  #equity, #progress-canvas { width: 100%; height: 100%; display: block; }
+
+  #side { grid-area: side; display: flex; flex-direction: column; gap: 8px; }
+  .strat-row {
+    display: flex; justify-content: space-between;
+    padding: 4px 6px; margin: 2px 0;
+    background: var(--panel2);
+    font-size: 15px;
+  }
+  .strat-row .rank { color: var(--yellow); width: 24px; }
+  .strat-row .hash { color: var(--dim); }
+  .strat-row .metric { color: var(--green); }
+  .strat-row .metric.neg { color: var(--red); }
+
+  #pnl-big {
+    font-size: 36px;
+    color: var(--green);
+    text-align: center;
+    padding: 12px;
+    font-family: 'VT323', monospace;
+  }
+  #pnl-big.neg { color: var(--red); }
+
+  #log {
+    grid-area: log;
+    background: var(--panel);
+    padding: 8px;
+    overflow-y: auto;
+    font-size: 14px;
+  }
+  #log .line { padding: 1px 0; }
+  #log .t { color: var(--dim); }
+  #log .info { color: var(--blue); }
+  #log .ok { color: var(--green); }
+  #log .warn { color: var(--yellow); }
+  #log .err { color: var(--red); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .kv { display: flex; justify-content: space-between; padding: 2px 0; font-size: 15px; }
+  .kv .k { color: var(--dim); }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>QUANT SYS // ETF 3-15D</h1>
+    <div class="hdr-right">
+      <div class="hdr-item"><span class="lbl">NET</span> <span class="dot" id="net-dot"></span><span class="val" id="net-type">WIFI</span></div>
+      <div class="hdr-item"><span class="lbl">TASK</span> <span class="val" id="hdr-tasks">87/432</span></div>
+      <div class="hdr-item"><span class="lbl">PnL</span> <span class="val" id="hdr-pnl">+0.00%</span></div>
+      <div class="hdr-item"><span class="lbl" id="clock">--:--:--</span></div>
+    </div>
+  </header>
+
+  <div id="nodes">
+    <div class="panel" style="flex:1; display:flex; flex-direction:column;">
+      <h2>NODES</h2>
+      <div id="node-list"></div>
+    </div>
+  </div>
+
+  <div id="main">
+    <div class="panel" id="equity-panel">
+      <h2>EQUITY CURVE // 1.0M INIT</h2>
+      <canvas id="equity"></canvas>
+    </div>
+    <div class="panel" id="progress-panel">
+      <h2>BACKTEST PROGRESS // 432 COMBOS</h2>
+      <canvas id="progress-canvas"></canvas>
+    </div>
+  </div>
+
+  <div id="side">
+    <div class="panel">
+      <h2>PORTFOLIO</h2>
+      <div id="pnl-big">+0.00%</div>
+      <div class="kv"><span class="k">Total Value</span><span class="v" id="pv">¥1,000,000</span></div>
+      <div class="kv"><span class="k">Day PnL</span><span class="v" id="day-pnl">+0</span></div>
+      <div class="kv"><span class="k">Positions</span><span class="v" id="pos-count">0/10</span></div>
+      <div class="kv"><span class="k">Win Rate</span><span class="v" id="wr">--</span></div>
+    </div>
+    <div class="panel" style="flex:1;">
+      <h2>TOP STRATEGIES</h2>
+      <div id="strat-list"></div>
+    </div>
+    <div class="panel">
+      <h2>NETWORK</h2>
+      <div class="kv"><span class="k">Type</span><span class="v" id="net-type2">WIFI</span></div>
+      <div class="kv"><span class="k">Tailscale</span><span class="v" id="ts-ip">100.x.x.x</span></div>
+      <div class="kv"><span class="k">Redis</span><span class="v" id="redis">ONLINE</span></div>
+      <div class="kv"><span class="k">Latency</span><span class="v" id="latency">8ms</span></div>
+    </div>
+  </div>
+
+  <div id="log"><div class="line"><span class="t">[boot]</span> <span class="info">quant sys v1.0 started</span></div></div>
+</div>
+
+<script>
+// ===== state (mocked; replace with fetch /api/status when live) =====
+const state = {
+  net: "WIFI",
+  nodes: [
+    { name: "MASTER", role: "laptop", online: true, cpu: 23, mem: 41, tasks: 0, ip: "100.1.1.1" },
+    { name: "WORKER-1", role: "desktop", online: true, cpu: 67, mem: 58, tasks: 144, ip: "100.1.1.2" },
+    { name: "WORKER-2", role: "desktop", online: true, cpu: 82, mem: 71, tasks: 144, ip: "100.1.1.3" },
+    { name: "WORKER-3", role: "desktop", online: false, cpu: 0, mem: 0, tasks: 0, ip: "100.1.1.4" },
+  ],
+  backtest: { done: 87, total: 432, ok: 85, err: 2 },
+  equity: [],
+  pnl: 0.0,
+  positions: 8,
+  topStrats: [
+    { rank: 1, hash: "adf8f301", ar: 4.47, sh: 1.33, mdd: -1.62, risk: "LOW" },
+    { rank: 2, hash: "adf448a2", ar: 2.24, sh: 1.33, mdd: -0.82, risk: "LOW" },
+    { rank: 3, hash: "a2332436", ar: 4.35, sh: 1.28, mdd: -1.60, risk: "LOW" },
+    { rank: 4, hash: "079d85ab", ar: 2.17, sh: 1.28, mdd: -0.81, risk: "MED" },
+    { rank: 5, hash: "bb5e6e82", ar: 2.11, sh: 1.27, mdd: -0.82, risk: "LOW" },
+  ],
+};
+
+// seed equity curve (60 days, random walk around 1.0)
+let eq = 1.0;
+for (let i = 0; i < 120; i++) {
+  eq += (Math.random() - 0.48) * 0.004;
+  state.equity.push(eq);
+}
+
+// ===== render =====
+function renderNodes() {
+  const el = document.getElementById("node-list");
+  el.innerHTML = state.nodes.map(n => `
+    <div class="node ${n.online ? "" : "offline"}">
+      <div class="name">${n.name} ${n.online ? "" : "[OFFLINE]"}</div>
+      <div class="meta">${n.role} // ${n.ip}</div>
+      <div class="meta">CPU</div>
+      <div class="bar cpu"><div style="width:${n.cpu}%"></div></div>
+      <div class="meta">MEM</div>
+      <div class="bar"><div style="width:${n.mem}%"></div></div>
+      <div class="tasks">TASKS: ${n.tasks}</div>
+    </div>`).join("");
+}
+
+function renderStrats() {
+  const el = document.getElementById("strat-list");
+  el.innerHTML = state.topStrats.map(s => `
+    <div class="strat-row">
+      <span class="rank">#${s.rank}</span>
+      <span class="hash">${s.hash}</span>
+      <span class="metric ${s.ar < 0 ? "neg" : ""}">${(s.ar*100).toFixed(2)}%</span>
+    </div>`).join("");
+}
+
+function renderEquity() {
+  const c = document.getElementById("equity");
+  const dpr = window.devicePixelRatio || 1;
+  const w = c.clientWidth, h = c.clientHeight;
+  c.width = w * dpr; c.height = h * dpr;
+  const ctx = c.getContext("2d");
+  ctx.scale(dpr, dpr);
+  ctx.fillStyle = "#0a0e14";
+  ctx.fillRect(0, 0, w, h);
+
+  const data = state.equity;
+  const min = Math.min(...data), max = Math.max(...data);
+  const pad = 20;
+  const x = i => pad + (i / (data.length - 1)) * (w - pad * 2);
+  const y = v => h - pad - ((v - min) / (max - min)) * (h - pad * 2);
+
+  // zero line (cost)
+  ctx.strokeStyle = "#2a3a4a";
+  ctx.setLineDash([2, 2]);
+  ctx.beginPath();
+  ctx.moveTo(pad, y(1.0));
+  ctx.lineTo(w - pad, y(1.0));
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // area fill
+  ctx.beginPath();
+  ctx.moveTo(x(0), y(data[0]));
+  data.forEach((v, i) => ctx.lineTo(x(i), y(v)));
+  ctx.lineTo(x(data.length - 1), h - pad);
+  ctx.lineTo(x(0), h - pad);
+  ctx.closePath();
+  ctx.fillStyle = "rgba(90, 122, 184, 0.15)";
+  ctx.fill();
+
+  // line
+  ctx.beginPath();
+  data.forEach((v, i) => {
+    if (i === 0) ctx.moveTo(x(i), y(v));
+    else ctx.lineTo(x(i), y(v));
+  });
+  ctx.strokeStyle = "#5a7ab8";
+  ctx.lineWidth = 2;
+  ctx.stroke();
+
+  // last point
+  ctx.fillStyle = "#cdd3e0";
+  ctx.fillRect(x(data.length - 1) - 3, y(data[data.length - 1]) - 3, 6, 6);
+}
+
+function renderProgress() {
+  const c = document.getElementById("progress-canvas");
+  const dpr = window.devicePixelRatio || 1;
+  const w = c.clientWidth, h = c.clientHeight;
+  c.width = w * dpr; c.height = h * dpr;
+  const ctx = c.getContext("2d");
+  ctx.scale(dpr, dpr);
+  ctx.fillStyle = "#0a0e14";
+  ctx.fillRect(0, 0, w, h);
+
+  const { done, total, ok, err } = state.backtest;
+  const bw = w - 40, bh = 24, bx = 20, by = 20;
+  // bg
+  ctx.fillStyle = "#121822";
+  ctx.fillRect(bx, by, bw, bh);
+  ctx.strokeStyle = "#2a3a4a";
+  ctx.strokeRect(bx, by, bw, bh);
+  // ok
+  ctx.fillStyle = "#4a9d7a";
+  ctx.fillRect(bx, by, bw * (ok / total), bh);
+  // err
+  ctx.fillStyle = "#b85a5a";
+  ctx.fillRect(bx + bw * (ok / total), by, bw * (err / total), bh);
+
+  // text
+  ctx.fillStyle = "#cdd3e0";
+  ctx.font = "16px VT323, monospace";
+  ctx.fillText(`${done}/${total}  OK:${ok}  ERR:${err}  (${(done/total*100).toFixed(1)}%)`,
+               bx + 8, by + bh + 20);
+}
+
+function renderHeader() {
+  const d = new Date();
+  document.getElementById("clock").textContent =
+    d.toTimeString().slice(0, 8);
+  document.getElementById("hdr-tasks").textContent =
+    `${state.backtest.done}/${state.backtest.total}`;
+  const pnlEl = document.getElementById("hdr-pnl");
+  pnlEl.textContent = (state.pnl >= 0 ? "+" : "") + (state.pnl * 100).toFixed(2) + "%";
+  pnlEl.style.color = state.pnl >= 0 ? "var(--green)" : "var(--red)";
+  document.getElementById("net-type").textContent = state.net;
+  const dot = document.getElementById("net-dot");
+  dot.className = "dot" + (state.net === "HOTSPOT" ? " yellow" : state.net === "UNKNOWN" ? " red" : "");
+}
+
+function renderSide() {
+  const pnlEl = document.getElementById("pnl-big");
+  pnlEl.textContent = (state.pnl >= 0 ? "+" : "") + (state.pnl * 100).toFixed(2) + "%";
+  pnlEl.className = state.pnl >= 0 ? "" : "neg";
+  document.getElementById("pv").textContent =
+    "¥" + (1_000_000 * (1 + state.pnl)).toLocaleString("en-US", {maximumFractionDigits: 0});
+  document.getElementById("day-pnl").textContent =
+    (state.pnl >= 0 ? "+" : "") + (state.pnl * 100).toFixed(2) + "%";
+  document.getElementById("pos-count").textContent = `${state.positions}/10`;
+  document.getElementById("net-type2").textContent = state.net;
+}
+
+function log(msg, cls = "info") {
+  const el = document.getElementById("log");
+  const d = new Date();
+  const t = d.toTimeString().slice(0, 8);
+  const div = document.createElement("div");
+  div.className = "line";
+  div.innerHTML = `<span class="t">[${t}]</span> <span class="${cls}">${msg}</span>`;
+  el.appendChild(div);
+  while (el.children.length > 50) el.removeChild(el.firstChild);
+  el.scrollTop = el.scrollHeight;
+}
+
+// ===== simulation loop =====
+function tick() {
+  // jitter nodes
+  state.nodes.forEach(n => {
+    if (!n.online) return;
+    n.cpu = Math.max(10, Math.min(95, n.cpu + (Math.random() - 0.5) * 10));
+    n.mem = Math.max(20, Math.min(90, n.mem + (Math.random() - 0.5) * 5));
+  });
+  // progress
+  if (state.backtest.done < state.backtest.total && Math.random() < 0.4) {
+    state.backtest.done++;
+    if (Math.random() < 0.95) state.backtest.ok++;
+    else state.backtest.err++;
+    if (state.backtest.done % 10 === 0) {
+      log(`backtest done ${state.backtest.done}/${state.backtest.total}`, "ok");
+    }
+  }
+  // equity
+  state.equity.push(state.equity[state.equity.length - 1] + (Math.random() - 0.48) * 0.002);
+  if (state.equity.length > 200) state.equity.shift();
+  state.pnl = state.equity[state.equity.length - 1] - 1.0;
+
+  renderNodes(); renderStrats(); renderEquity();
+  renderProgress(); renderHeader(); renderSide();
+}
+
+// initial log
+log("data: 48 ETFs loaded from Sina", "ok");
+log("CSI300 benchmark loaded", "ok");
+log("waiting for backtest workers...", "info");
+
+renderNodes(); renderStrats(); renderEquity();
+renderProgress(); renderHeader(); renderSide();
+setInterval(tick, 1500);
+window.addEventListener("resize", () => { renderEquity(); renderProgress(); });
+</script>
+</body>
+</html>

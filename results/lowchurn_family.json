@@ -1,0 +1,1053 @@
+{
+  "batch": "J14-low-churn-family",
+  "generated": "2026-09-23 10:08:42",
+  "preregistered_doc": "research/LOW_CHURN_FAMILY.md (written before run)",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "n_syms": 48,
+    "history": "2020-01-02 .. 2026-09-22"
+  },
+  "oos_start": "2025-01-01",
+  "constants": {
+    "g1_prime_i_bar": 0.3521,
+    "g1_prime_vi_bar": 0.4004,
+    "decay_floor": 0.7,
+    "ref_oos_low_vol": 1.3631,
+    "ref_oos_composite": 1.0405,
+    "crash_year": -0.3,
+    "min_trades": 30,
+    "max_dd": -0.35
+  },
+  "runs_1x": {
+    "lowvol_n60_k5_daily": {
+      "family": "LC-A",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "n": 60,
+        "rebal_days": null,
+        "top_k": 5
+      },
+      "full": {
+        "annual_return": 0.019,
+        "sharpe": 0.7583,
+        "max_drawdown": -0.0569,
+        "win_rate": 0.5283,
+        "profit_factor": 1.5746,
+        "num_trades": 814,
+        "avg_hold_days": 9.4
+      },
+      "oos": {
+        "sharpe": 1.3631,
+        "annual_return": 0.0302,
+        "max_drawdown": -0.0132
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 814,
+      "oos_trades": 226
+    },
+    "lowvol_n60_k5_r20": {
+      "family": "LC-A",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "n": 60,
+        "rebal_days": 20,
+        "top_k": 5
+      },
+      "full": {
+        "annual_return": 0.0103,
+        "sharpe": 0.3295,
+        "max_drawdown": -0.0659,
+        "win_rate": 0.5184,
+        "profit_factor": 1.3474,
+        "num_trades": 760,
+        "avg_hold_days": 10.38
+      },
+      "oos": {
+        "sharpe": -0.0265,
+        "annual_return": -0.0021,
+        "max_drawdown": -0.0515
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 760,
+      "oos_trades": 213
+    },
+    "lowvol_n60_k5_r40": {
+      "family": "LC-A",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "n": 60,
+        "rebal_days": 40,
+        "top_k": 5
+      },
+      "full": {
+        "annual_return": 0.0091,
+        "sharpe": 0.2906,
+        "max_drawdown": -0.0583,
+        "win_rate": 0.5246,
+        "profit_factor": 1.3222,
+        "num_trades": 751,
+        "avg_hold_days": 10.31
+      },
+      "oos": {
+        "sharpe": -0.2476,
+        "annual_return": -0.0118,
+        "max_drawdown": -0.0583
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 751,
+      "oos_trades": 213
+    },
+    "lowvol_n60_k5_r60": {
+      "family": "LC-A",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "n": 60,
+        "rebal_days": 60,
+        "top_k": 5
+      },
+      "full": {
+        "annual_return": 0.0084,
+        "sharpe": 0.2906,
+        "max_drawdown": -0.0486,
+        "win_rate": 0.5152,
+        "profit_factor": 1.3264,
+        "num_trades": 759,
+        "avg_hold_days": 10.47
+      },
+      "oos": {
+        "sharpe": -0.2286,
+        "annual_return": -0.0086,
+        "max_drawdown": -0.0486
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 759,
+      "oos_trades": 209
+    },
+    "lowvol_n80_k5_r20": {
+      "family": "LC-A",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "n": 80,
+        "rebal_days": 20,
+        "top_k": 5
+      },
+      "full": {
+        "annual_return": 0.0115,
+        "sharpe": 0.3611,
+        "max_drawdown": -0.0578,
+        "win_rate": 0.5209,
+        "profit_factor": 1.3672,
+        "num_trades": 741,
+        "avg_hold_days": 10.59
+      },
+      "oos": {
+        "sharpe": 0.0326,
+        "annual_return": 0.0004,
+        "max_drawdown": -0.0578
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 741,
+      "oos_trades": 214
+    },
+    "lowvol_n80_k5_r40": {
+      "family": "LC-A",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "n": 80,
+        "rebal_days": 40,
+        "top_k": 5
+      },
+      "full": {
+        "annual_return": 0.0113,
+        "sharpe": 0.3821,
+        "max_drawdown": -0.0569,
+        "win_rate": 0.5314,
+        "profit_factor": 1.3886,
+        "num_trades": 732,
+        "avg_hold_days": 10.71
+      },
+      "oos": {
+        "sharpe": 0.3907,
+        "annual_return": 0.0138,
+        "max_drawdown": -0.0435
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 732,
+      "oos_trades": 212
+    },
+    "lowvol_n80_k5_r60": {
+      "family": "LC-A",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "n": 80,
+        "rebal_days": 60,
+        "top_k": 5
+      },
+      "full": {
+        "annual_return": 0.0116,
+        "sharpe": 0.3995,
+        "max_drawdown": -0.0429,
+        "win_rate": 0.5192,
+        "profit_factor": 1.4066,
+        "num_trades": 730,
+        "avg_hold_days": 10.59
+      },
+      "oos": {
+        "sharpe": 0.277,
+        "annual_return": 0.0093,
+        "max_drawdown": -0.0429
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 730,
+      "oos_trades": 217
+    },
+    "comp_N3_r40": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 3,
+        "position_size_pct": 0.3167
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 3,
+        "rebal_days": 40
+      },
+      "full": {
+        "annual_return": 0.0452,
+        "sharpe": 0.7308,
+        "max_drawdown": -0.1022,
+        "win_rate": 0.5435,
+        "profit_factor": 1.891,
+        "num_trades": 414,
+        "avg_hold_days": 10.19
+      },
+      "oos": {
+        "sharpe": 1.5068,
+        "annual_return": 0.1335,
+        "max_drawdown": -0.0557
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 414,
+      "oos_trades": 141
+    },
+    "comp_N3_r60": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 3,
+        "position_size_pct": 0.3167
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 3,
+        "rebal_days": 60
+      },
+      "full": {
+        "annual_return": 0.0063,
+        "sharpe": 0.1179,
+        "max_drawdown": -0.2193,
+        "win_rate": 0.5128,
+        "profit_factor": 1.2565,
+        "num_trades": 351,
+        "avg_hold_days": 10.01
+      },
+      "oos": {
+        "sharpe": 0.6811,
+        "annual_return": 0.0572,
+        "max_drawdown": -0.0707
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 351,
+      "oos_trades": 132
+    },
+    "comp_N3_r80": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 3,
+        "position_size_pct": 0.3167
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 3,
+        "rebal_days": 80
+      },
+      "full": {
+        "annual_return": 0.0173,
+        "sharpe": 0.2414,
+        "max_drawdown": -0.2002,
+        "win_rate": 0.5429,
+        "profit_factor": 1.3603,
+        "num_trades": 361,
+        "avg_hold_days": 10.23
+      },
+      "oos": {
+        "sharpe": 0.6553,
+        "annual_return": 0.0581,
+        "max_drawdown": -0.0942
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 361,
+      "oos_trades": 139
+    },
+    "comp_N5_r40": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 5,
+        "rebal_days": 40
+      },
+      "full": {
+        "annual_return": 0.0566,
+        "sharpe": 0.8174,
+        "max_drawdown": -0.1034,
+        "win_rate": 0.5765,
+        "profit_factor": 1.6919,
+        "num_trades": 706,
+        "avg_hold_days": 10.49
+      },
+      "oos": {
+        "sharpe": 1.2211,
+        "annual_return": 0.1223,
+        "max_drawdown": -0.09
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 706,
+      "oos_trades": 239
+    },
+    "comp_N5_r60": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 5,
+        "rebal_days": 60
+      },
+      "full": {
+        "annual_return": 0.0135,
+        "sharpe": 0.2089,
+        "max_drawdown": -0.1911,
+        "win_rate": 0.5367,
+        "profit_factor": 1.2559,
+        "num_trades": 641,
+        "avg_hold_days": 10.36
+      },
+      "oos": {
+        "sharpe": 0.781,
+        "annual_return": 0.0793,
+        "max_drawdown": -0.0938
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": true,
+      "green": false,
+      "n_trades": 641,
+      "oos_trades": 227
+    },
+    "comp_N5_r80": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.19
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 5,
+        "rebal_days": 80
+      },
+      "full": {
+        "annual_return": 0.0088,
+        "sharpe": 0.1423,
+        "max_drawdown": -0.1842,
+        "win_rate": 0.5429,
+        "profit_factor": 1.1823,
+        "num_trades": 665,
+        "avg_hold_days": 10.07
+      },
+      "oos": {
+        "sharpe": 0.3318,
+        "annual_return": 0.036,
+        "max_drawdown": -0.111
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 665,
+      "oos_trades": 245
+    },
+    "comp_N8_r40": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 8,
+        "rebal_days": 40
+      },
+      "full": {
+        "annual_return": 0.057,
+        "sharpe": 0.507,
+        "max_drawdown": -0.2043,
+        "win_rate": 0.5819,
+        "profit_factor": 1.4739,
+        "num_trades": 1160,
+        "avg_hold_days": 10.3
+      },
+      "oos": {
+        "sharpe": 1.2083,
+        "annual_return": 0.1126,
+        "max_drawdown": -0.0543
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 1160,
+      "oos_trades": 392
+    },
+    "comp_N8_r60": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 8,
+        "rebal_days": 60
+      },
+      "full": {
+        "annual_return": -0.0082,
+        "sharpe": -0.0343,
+        "max_drawdown": -0.331,
+        "win_rate": 0.5459,
+        "profit_factor": 1.0619,
+        "num_trades": 1024,
+        "avg_hold_days": 10.15
+      },
+      "oos": {
+        "sharpe": 0.4514,
+        "annual_return": 0.0448,
+        "max_drawdown": -0.0837
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 1024,
+      "oos_trades": 344
+    },
+    "comp_N8_r80": {
+      "family": "LC-B",
+      "params": {
+        "max_positions": 8,
+        "position_size_pct": 0.1187
+      },
+      "exit_patch": null,
+      "meta": {
+        "top_n": 8,
+        "rebal_days": 80
+      },
+      "full": {
+        "annual_return": 0.0352,
+        "sharpe": 0.3167,
+        "max_drawdown": -0.2624,
+        "win_rate": 0.5685,
+        "profit_factor": 1.2894,
+        "num_trades": 1168,
+        "avg_hold_days": 10.11
+      },
+      "oos": {
+        "sharpe": 0.5377,
+        "annual_return": 0.0551,
+        "max_drawdown": -0.0838
+      },
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "decay_ok": false,
+      "green": false,
+      "n_trades": 1168,
+      "oos_trades": 402
+    },
+    "lc_c1_tp_sparser": {
+      "family": "LC-C",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1,
+        "take_profit_levels": [
+          0.1,
+          0.25
+        ]
+      },
+      "exit_patch": {
+        "take_profit_fractions": [
+          0.5,
+          1.0
+        ]
+      },
+      "meta": {
+        "axis": "lc_c1_tp_sparser"
+      },
+      "full": {
+        "annual_return": 0.019,
+        "sharpe": 0.7436,
+        "max_drawdown": -0.0576,
+        "win_rate": 0.5007,
+        "profit_factor": 1.5725,
+        "num_trades": 769,
+        "avg_hold_days": 9.28
+      },
+      "oos": {
+        "sharpe": 1.3303,
+        "annual_return": 0.0303,
+        "max_drawdown": -0.0137
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 769,
+      "oos_trades": 212
+    },
+    "lc_c2_losstime16": {
+      "family": "LC-C",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "exit_patch": {
+        "loss_time_days": 16
+      },
+      "meta": {
+        "axis": "lc_c2_losstime16"
+      },
+      "full": {
+        "annual_return": 0.0217,
+        "sharpe": 0.8649,
+        "max_drawdown": -0.0543,
+        "win_rate": 0.5978,
+        "profit_factor": 1.6383,
+        "num_trades": 731,
+        "avg_hold_days": 10.55
+      },
+      "oos": {
+        "sharpe": 1.9429,
+        "annual_return": 0.0424,
+        "max_drawdown": -0.0102
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 731,
+      "oos_trades": 201
+    },
+    "lc_c3_decay_loose": {
+      "family": "LC-C",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1,
+        "time_decay_period": 25,
+        "time_decay_threshold": 0.05
+      },
+      "exit_patch": null,
+      "meta": {
+        "axis": "lc_c3_decay_loose"
+      },
+      "full": {
+        "annual_return": 0.0265,
+        "sharpe": 1.0867,
+        "max_drawdown": -0.0533,
+        "win_rate": 0.4822,
+        "profit_factor": 1.7062,
+        "num_trades": 676,
+        "avg_hold_days": 11.74
+      },
+      "oos": {
+        "sharpe": 1.7885,
+        "annual_return": 0.0387,
+        "max_drawdown": -0.0096
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 676,
+      "oos_trades": 191
+    },
+    "lc_c4_trail_late": {
+      "family": "LC-C",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1,
+        "trailing_stop_activate": 0.1
+      },
+      "exit_patch": null,
+      "meta": {
+        "axis": "lc_c4_trail_late"
+      },
+      "full": {
+        "annual_return": 0.0193,
+        "sharpe": 0.7833,
+        "max_drawdown": -0.0594,
+        "win_rate": 0.5208,
+        "profit_factor": 1.6104,
+        "num_trades": 795,
+        "avg_hold_days": 9.71
+      },
+      "oos": {
+        "sharpe": 1.4248,
+        "annual_return": 0.031,
+        "max_drawdown": -0.012
+      },
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "decay_ok": true,
+      "green": true,
+      "n_trades": 795,
+      "oos_trades": 219
+    }
+  },
+  "cost_stress": {
+    "LC-A_lowvol_n60_k5_daily_x2": {
+      "family": "LC-A",
+      "rep": "lowvol_n60_k5_daily",
+      "cost_mult": 2,
+      "full": {
+        "annual_return": -0.0113,
+        "sharpe": -0.3914,
+        "max_drawdown": -0.1181,
+        "win_rate": 0.4779,
+        "profit_factor": 1.2847,
+        "num_trades": 814,
+        "avg_hold_days": 9.4
+      },
+      "oos": {
+        "sharpe": -0.0017,
+        "annual_return": -0.0004,
+        "max_drawdown": -0.0349
+      },
+      "survive_x2_clause": false,
+      "note": "G2 gate clause"
+    },
+    "LC-A_lowvol_n60_k5_daily_x3": {
+      "family": "LC-A",
+      "rep": "lowvol_n60_k5_daily",
+      "cost_mult": 3,
+      "full": {
+        "annual_return": -0.0477,
+        "sharpe": -1.5155,
+        "max_drawdown": -0.2878,
+        "win_rate": 0.4373,
+        "profit_factor": 1.0542,
+        "num_trades": 814,
+        "avg_hold_days": 9.4
+      },
+      "oos": {
+        "sharpe": -1.31,
+        "annual_return": -0.0434,
+        "max_drawdown": -0.0862
+      },
+      "survive_x2_clause": false,
+      "note": "recorded only"
+    },
+    "LC-B_comp_N5_r40_x2": {
+      "family": "LC-B",
+      "rep": "comp_N5_r40",
+      "cost_mult": 2,
+      "full": {
+        "annual_return": 0.0202,
+        "sharpe": 0.2911,
+        "max_drawdown": -0.1518,
+        "win_rate": 0.5316,
+        "profit_factor": 1.4982,
+        "num_trades": 681,
+        "avg_hold_days": 10.24
+      },
+      "oos": {
+        "sharpe": 0.7485,
+        "annual_return": 0.0863,
+        "max_drawdown": -0.1144
+      },
+      "survive_x2_clause": false,
+      "note": "G2 gate clause"
+    },
+    "LC-B_comp_N5_r40_x3": {
+      "family": "LC-B",
+      "rep": "comp_N5_r40",
+      "cost_mult": 3,
+      "full": {
+        "annual_return": -0.0298,
+        "sharpe": -0.3172,
+        "max_drawdown": -0.2636,
+        "win_rate": 0.4952,
+        "profit_factor": 1.2365,
+        "num_trades": 620,
+        "avg_hold_days": 10.3
+      },
+      "oos": {
+        "sharpe": 0.1005,
+        "annual_return": 0.0044,
+        "max_drawdown": -0.1267
+      },
+      "survive_x2_clause": false,
+      "note": "recorded only"
+    },
+    "LC-C_lc_c3_decay_loose_x2": {
+      "family": "LC-C",
+      "rep": "lc_c3_decay_loose",
+      "cost_mult": 2,
+      "full": {
+        "annual_return": 0.0033,
+        "sharpe": 0.1368,
+        "max_drawdown": -0.0989,
+        "win_rate": 0.4615,
+        "profit_factor": 1.4324,
+        "num_trades": 676,
+        "avg_hold_days": 11.74
+      },
+      "oos": {
+        "sharpe": 0.6703,
+        "annual_return": 0.0164,
+        "max_drawdown": -0.0194
+      },
+      "survive_x2_clause": false,
+      "note": "G2 gate clause"
+    },
+    "LC-C_lc_c3_decay_loose_x3": {
+      "family": "LC-C",
+      "rep": "lc_c3_decay_loose",
+      "cost_mult": 3,
+      "full": {
+        "annual_return": -0.0233,
+        "sharpe": -0.7952,
+        "max_drawdown": -0.1775,
+        "win_rate": 0.4349,
+        "profit_factor": 1.2126,
+        "num_trades": 676,
+        "avg_hold_days": 11.74
+      },
+      "oos": {
+        "sharpe": -0.4132,
+        "annual_return": -0.0124,
+        "max_drawdown": -0.0448
+      },
+      "survive_x2_clause": false,
+      "note": "recorded only"
+    }
+  },
+  "verdicts": {
+    "LC-A": {
+      "template": "full-G2",
+      "g2_pass": false,
+      "neighborhood_all_green": false,
+      "n_points": 7,
+      "red_points": [
+        "lowvol_n60_k5_r20",
+        "lowvol_n60_k5_r40",
+        "lowvol_n60_k5_r60",
+        "lowvol_n80_k5_r20",
+        "lowvol_n80_k5_r40",
+        "lowvol_n80_k5_r60"
+      ],
+      "anchor": {
+        "point": "lowvol_n60_k5_daily",
+        "expected": 0.7583,
+        "got": 0.7583,
+        "ok": "True"
+      },
+      "representative": "lowvol_n60_k5_daily",
+      "cost_x2_survive": false,
+      "yearly_returns": {
+        "2020": 0.0445,
+        "2021": -0.0034,
+        "2022": -0.0275,
+        "2023": 0.0244,
+        "2024": 0.0358,
+        "2025": 0.0303,
+        "2026": 0.0169
+      },
+      "worst_year": -0.0275,
+      "yearly_no_crash": true
+    },
+    "LC-B": {
+      "template": "full-G2",
+      "g2_pass": false,
+      "neighborhood_all_green": false,
+      "n_points": 9,
+      "red_points": [
+        "comp_N3_r60",
+        "comp_N3_r80",
+        "comp_N5_r60",
+        "comp_N5_r80",
+        "comp_N8_r60",
+        "comp_N8_r80"
+      ],
+      "anchor": {
+        "point": "comp_N5_r40",
+        "expected": 0.8174,
+        "got": 0.8174,
+        "ok": "True"
+      },
+      "representative": "comp_N5_r40",
+      "cost_x2_survive": false,
+      "yearly_returns": {
+        "2020": 0.0126,
+        "2021": 0.0644,
+        "2022": -0.0374,
+        "2023": 0.0171,
+        "2024": 0.1093,
+        "2025": 0.1129,
+        "2026": 0.0822
+      },
+      "worst_year": -0.0374,
+      "yearly_no_crash": true
+    },
+    "LC-C": {
+      "template": "axis-probe (no trader registration by design)",
+      "any_green": true,
+      "green_variants": [
+        "lc_c1_tp_sparser",
+        "lc_c2_losstime16",
+        "lc_c3_decay_loose",
+        "lc_c4_trail_late"
+      ],
+      "representative": "lc_c3_decay_loose",
+      "cost_x2_survive": false,
+      "yearly_returns": {
+        "2020": 0.0585,
+        "2021": -0.0019,
+        "2022": -0.022,
+        "2023": 0.0348,
+        "2024": 0.0388,
+        "2025": 0.036,
+        "2026": 0.0253
+      },
+      "worst_year": -0.022,
+      "yearly_no_crash": true,
+      "conditional_pass": false
+    }
+  },
+  "traders_registered": [],
+  "trials_ledger": [
+    {
+      "batch": "432-MA-param-grid (pre-plan)",
+      "n": 432
+    },
+    {
+      "batch": "J6-factor-IC-study",
+      "n": 30
+    },
+    {
+      "batch": "P1-strategy-screen",
+      "n": 59
+    },
+    {
+      "batch": "P2-null-calibration",
+      "n": 122
+    },
+    {
+      "batch": "P2-survivor-deepening",
+      "n": 27
+    },
+    {
+      "batch": "J14-low-churn-family",
+      "n": 26
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 14.6,
+    "n_backtests": 26,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}
