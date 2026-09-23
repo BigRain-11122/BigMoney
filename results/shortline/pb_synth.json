@@ -1,0 +1,226 @@
+{
+  "meta": {
+    "batch": "P-B LHB x internal small-K synthesis",
+    "pre_reg": "research/shortline/PB_SYNTH.md",
+    "claim": "MSG-20260923-1937",
+    "order": "O-1819 continuous lane + CEO standing R&D directive",
+    "date": "2026-09-23 19:52",
+    "is_end": "2024-12-31",
+    "gate_horizon": 10,
+    "recipe": {
+      "members": [
+        "lhb_count_20",
+        "lhb_amt_share_20",
+        "vol_60",
+        "intraday_range",
+        "mom_12_1",
+        "price_position"
+      ],
+      "orientations": {
+        "lhb_count_20": -1.0,
+        "lhb_amt_share_20": 1.0,
+        "vol_60": -1.0,
+        "intraday_range": -1.0,
+        "mom_12_1": 1.0,
+        "price_position": 1.0
+      },
+      "orientation_source": "PA_LHB_IC SS6 (LHB) / J6 core48 records (internal)",
+      "min_valid": 3,
+      "equal_weight": true,
+      "shelf_for_nullA": [
+        "lhb_count_20",
+        "lhb_amt_share_20",
+        "vol_60",
+        "intraday_range",
+        "mom_12_1",
+        "price_position",
+        "lhb_days_since",
+        "lhb_netbuy_amt_60"
+      ]
+    },
+    "window": "2007-01-01 -> cache cutoff",
+    "engine_runs": 0,
+    "ledger_note": "factor-layer synthesis: strategy engine ledger N untouched (P-A precedent)"
+  },
+  "equivalence": {
+    "max_abs_diff": 1.1102230246251565e-16,
+    "n_common": 393,
+    "tol": 1e-06,
+    "pass": true
+  },
+  "recipe_anchor": {
+    "mean_ic": 1.0000000000000002,
+    "pass": true
+  },
+  "determinism_anchor": {
+    "tol": 5e-05,
+    "detail": {
+      "lhb_count_20": {
+        "this_batch": -0.0642,
+        "pa_record": -0.0642,
+        "abs_delta": 0.0
+      },
+      "lhb_amt_share_20": {
+        "this_batch": 0.0643,
+        "pa_record": 0.0643,
+        "abs_delta": 0.0
+      }
+    },
+    "pass": true
+  },
+  "thresholds": {
+    "nullA_p95_abs_ic": 0.0785,
+    "nullB_p95_abs_ic": 0.0007,
+    "v1_thr": 0.0785,
+    "v1_floor": 0.02
+  },
+  "rows": [
+    {
+      "role": "member",
+      "name": "lhb_count_20",
+      "mask": "A",
+      "compute_s": 4.0,
+      "h10_full_ic_mean": -0.0643,
+      "h10_full_ic_ir": -0.836,
+      "h10_full_n_periods": 4782,
+      "h10_is_ic_mean": -0.0642,
+      "h10_is_ic_ir": -0.84,
+      "h10_is_n_periods": 4373,
+      "h10_oos_ic_mean": -0.0647,
+      "h10_oos_ic_ir": -0.79,
+      "h10_oos_n_periods": 409
+    },
+    {
+      "role": "member",
+      "name": "lhb_amt_share_20",
+      "mask": "B",
+      "compute_s": 3.0,
+      "h10_full_ic_mean": 0.0641,
+      "h10_full_ic_ir": 0.58,
+      "h10_full_n_periods": 4782,
+      "h10_is_ic_mean": 0.0643,
+      "h10_is_ic_ir": 0.567,
+      "h10_is_n_periods": 4373,
+      "h10_oos_ic_mean": 0.0618,
+      "h10_oos_ic_ir": 0.854,
+      "h10_oos_n_periods": 409
+    },
+    {
+      "role": "member",
+      "name": "vol_60",
+      "mask": "A",
+      "compute_s": 3.7,
+      "h10_full_ic_mean": -0.062,
+      "h10_full_ic_ir": -0.308,
+      "h10_full_n_periods": 4723,
+      "h10_is_ic_mean": -0.0633,
+      "h10_is_ic_ir": -0.321,
+      "h10_is_n_periods": 4314,
+      "h10_oos_ic_mean": -0.0484,
+      "h10_oos_ic_ir": -0.202,
+      "h10_oos_n_periods": 409
+    },
+    {
+      "role": "member",
+      "name": "intraday_range",
+      "mask": "A",
+      "compute_s": 4.0,
+      "h10_full_ic_mean": -0.0652,
+      "h10_full_ic_ir": -0.468,
+      "h10_full_n_periods": 4783,
+      "h10_is_ic_mean": -0.0653,
+      "h10_is_ic_ir": -0.483,
+      "h10_is_n_periods": 4374,
+      "h10_oos_ic_mean": -0.0642,
+      "h10_oos_ic_ir": -0.36,
+      "h10_oos_n_periods": 409
+    },
+    {
+      "role": "member",
+      "name": "mom_12_1",
+      "mask": "A",
+      "compute_s": 4.0,
+      "h10_full_ic_mean": -0.0129,
+      "h10_full_ic_ir": -0.084,
+      "h10_full_n_periods": 4543,
+      "h10_is_ic_mean": -0.0129,
+      "h10_is_ic_ir": -0.086,
+      "h10_is_n_periods": 4134,
+      "h10_oos_ic_mean": -0.0127,
+      "h10_oos_ic_ir": -0.071,
+      "h10_oos_n_periods": 409
+    },
+    {
+      "role": "member",
+      "name": "price_position",
+      "mask": "A",
+      "compute_s": 3.9,
+      "h10_full_ic_mean": -0.0276,
+      "h10_full_ic_ir": -0.199,
+      "h10_full_n_periods": 4764,
+      "h10_is_ic_mean": -0.0273,
+      "h10_is_ic_ir": -0.197,
+      "h10_is_n_periods": 4355,
+      "h10_oos_ic_mean": -0.0311,
+      "h10_oos_ic_ir": -0.219,
+      "h10_oos_n_periods": 409
+    },
+    {
+      "role": "primary",
+      "name": "pb_composite_6",
+      "mask": "A",
+      "compute_s": 427.2,
+      "h10_full_ic_mean": 0.0598,
+      "h10_full_ic_ir": 0.381,
+      "h10_full_n_periods": 4782,
+      "h10_is_ic_mean": 0.0605,
+      "h10_is_ic_ir": 0.389,
+      "h10_is_n_periods": 4373,
+      "h10_oos_ic_mean": 0.0531,
+      "h10_oos_ic_ir": 0.308,
+      "h10_oos_n_periods": 409,
+      "v1_thr": 0.0785,
+      "v1": false,
+      "v2": true,
+      "v3": true,
+      "period_gate": true,
+      "pass": false
+    },
+    {
+      "role": "secondary_report_only",
+      "name": "lhb_pair_2",
+      "mask": "A",
+      "compute_s": 3.3,
+      "h10_full_ic_mean": 0.0934,
+      "h10_full_ic_ir": 0.74,
+      "h10_full_n_periods": 4782,
+      "h10_is_ic_mean": 0.0943,
+      "h10_is_ic_ir": 0.728,
+      "h10_is_n_periods": 4373,
+      "h10_oos_ic_mean": 0.0834,
+      "h10_oos_ic_ir": 1.02,
+      "h10_oos_n_periods": 409
+    },
+    {
+      "role": "secondary_report_only",
+      "name": "internal_4",
+      "mask": "A",
+      "compute_s": 4.7,
+      "h10_full_ic_mean": 0.044,
+      "h10_full_ic_ir": 0.276,
+      "h10_full_n_periods": 4764,
+      "h10_is_ic_mean": 0.044,
+      "h10_is_ic_ir": 0.278,
+      "h10_is_n_periods": 4355,
+      "h10_oos_ic_mean": 0.0437,
+      "h10_oos_ic_ir": 0.254,
+      "h10_oos_n_periods": 409
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 712.3,
+    "workers": 1,
+    "ic_computations": 109,
+    "cpu_cap_policy": "O-20260923-1738 (vectorized single-proc, memory-bound rank ops)"
+  }
+}
