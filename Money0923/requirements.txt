@@ -1,0 +1,8 @@
+akshare>=1.14.0
+pandas>=2.0
+numpy>=1.26
+# pyarrow 可选（加速 parquet）；Python 3.14 无 wheel 时可去掉
+pyarrow
+# 实盘专用：miniQMT 的 xtquant 库。
+# 安装方式一：pip install xtquant（若源可用）
+# 安装方式二：把 QMT 安装目录下 xtquant 所在路径填入 config.json 的 qmt.xtquant_path

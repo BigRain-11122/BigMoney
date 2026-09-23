@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta http-equiv="refresh" content="30">
+<title>💰 Money · 自进化交易看盘室</title>
+<style>
+  :root { --bg:#0b1220; --card:#121b30; --line:#1f2b47; --tx:#dbe6ff; --dim:#8296b8; }
+  * { box-sizing:border-box; }
+  body { margin:0; padding:20px 24px 32px; background:radial-gradient(1200px 600px at 80% -10%, #16223f 0%, var(--bg) 60%);
+        color:var(--tx); font-family:"Microsoft YaHei",system-ui,sans-serif; }
+  h1 { font-size:22px; margin:0 0 4px; }
+  .sub { color:var(--dim); font-size:12px; margin-bottom:14px; display:flex; gap:14px; flex-wrap:wrap; align-items:center; }
+  .sub b { color:#7dd3fc; }
+  a { color:#7dd3fc; text-decoration:none; } a:hover { text-decoration:underline; }
+  .grid { display:grid; gap:14px; grid-template-columns:repeat(12,1fr); }
+  .card { background:linear-gradient(180deg,var(--card),#0e1729); border:1px solid var(--line);
+          border-radius:14px; padding:16px; box-shadow:0 8px 24px #0006; }
+  .c3 { grid-column:span 3; } .c4 { grid-column:span 4; } .c6 { grid-column:span 6; }
+  .c8 { grid-column:span 8; } .c12 { grid-column:span 12; }
+  .card-title { font-size:13px; color:var(--dim); margin-bottom:10px; letter-spacing:1px; }
+  .kpi b { font-size:26px; display:block; }
+  .kpi span { color:var(--dim); font-size:12px; }
+  .chart { width:100%; height:auto; }
+  .tick { fill:#8296b8; font-size:11px; font-family:Consolas,monospace; }
+  line.grid { stroke:#1a2540; stroke-width:1; }
+  .empty { color:var(--dim); font-size:12px; padding:14px 4px; line-height:1.7; }
+  table { width:100%; border-collapse:collapse; font-size:12px; }
+  th { color:var(--dim); text-align:left; font-weight:normal; padding:4px 6px; border-bottom:1px solid var(--line); }
+  td { padding:5px 6px; border-bottom:1px solid #18233c; }
+  td.dim, .dim { color:var(--dim); }
+  .pill { font-size:11px; padding:2px 10px; border-radius:999px; border:1px solid; margin-left:8px; }
+  .pill-ok { color:#4ade80; border-color:#2f5d43; background:#12291c; }
+  .pill-bad { color:#fb7185; border-color:#5d2f36; background:#291318; }
+  .side { padding:1px 8px; border-radius:6px; font-size:11px; }
+  .side.b { background:#12321f; color:#4ade80; } .side.s { background:#321212; color:#fb7185; }
+  .gauge-bar { height:10px; background:#18233c; border-radius:999px; overflow:hidden; }
+  .gauge-fill { height:100%; border-radius:999px; transition:width .6s; }
+  .gauge-label { font-size:12px; color:var(--dim); margin-top:8px; }
+  .donut { width:170px; flex:none; } .donut-num { fill:#dbe6ff; font-size:26px; text-anchor:middle; }
+  .donut-sub { fill:#8296b8; font-size:11px; text-anchor:middle; }
+  .legend-col { display:flex; flex-direction:column; gap:4px; font-size:12px; }
+  .lg-row { display:flex; gap:6px; align-items:center; color:var(--dim); }
+  .lg-row b { color:var(--tx); }
+  .dot { width:8px; height:8px; border-radius:50%; display:inline-block; margin-right:4px; }
+  .legend { font-size:11px; color:var(--dim); margin-top:6px; line-height:1.6; }
+  .metrics { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+  .m { background:#0e1729; border:1px solid var(--line); border-radius:10px; padding:8px 12px; min-width:86px; }
+  .m b { display:block; font-size:16px; } .m span { color:var(--dim); font-size:11px; }
+  .params code { font-size:11px; color:#7dd3fc; word-break:break-all; }
+  .champ-name { color:#fbbf24; font-size:15px; }
+  .ticker { font-family:Consolas,monospace; font-size:12px; color:#7dd3fc; overflow:hidden;
+            white-space:nowrap; text-overflow:ellipsis; }
+  .rev { font-size:12px; color:var(--dim); padding:6px 0; border-bottom:1px dashed #1c2946; }
+  .chips { display:flex; gap:8px; flex-wrap:wrap; }
+  .chip { font-size:12px; background:#0e1729; border:1px solid var(--line); border-radius:8px;
+          padding:4px 10px; color:var(--dim); }
+  .chip b { color:var(--tx); }
+  .fam { color:#7dd3fc; }
+  .badge { display:inline-block; font-size:10px; padding:0 6px; margin-left:5px; border-radius:7px;
+           background:#1b2a4a; color:#cddffb; border:1px solid #26375f; }
+  .fam-bars { display:flex; flex-direction:column; gap:5px; }
+  .bar-row { display:flex; align-items:center; gap:8px; font-size:12px; }
+  .bar-name { width:110px; color:var(--dim); overflow:hidden; white-space:nowrap; text-overflow:ellipsis; }
+  .bar-track { flex:1; height:12px; background:#152036; border-radius:999px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:999px; }
+  .bar-row b { color:var(--tx); min-width:18px; }
+  #cd { font-family:Consolas,monospace; color:#7dd3fc; font-weight:bold; }
+  @media (max-width:960px) { .c3,.c4,.c6,.c8 { grid-column:span 12; } }
+</style></head><body>
+<h1>💰 Money · 自进化交易看盘室</h1>
+<div class="sub">模式 <b>paper</b> · 更新于 2026-09-22 21:32:45 · 每30秒自动刷新 · 守护每轮进化后重生成
+· 距下一开市 <span id="cd"></span>（2026-09-23 09:25）
+· 所有数字来自真实运行状态与留痕，零虚构</div>
+<div class="grid">
+
+  <div class="card c3 kpi"><div class="card-title">账户权益（模拟本金 100,000）</div>
+    <b>99,928</b><span>累计 -0.07% · 今日 +0.09%</span></div>
+  <div class="card c3 kpi"><div class="card-title">现金 / 持仓市值</div>
+    <b>1,205</b><span>市值 88,795 · 9 只持仓</span></div>
+  <div class="card c3 kpi"><div class="card-title">进化世代（本轮GA）</div>
+    <b>3,133</b><span>晋升尝试 12/12（今日）
+    · 上次运行 2026-09-22T21:32</span></div>
+  <div class="card c3 kpi"><div class="card-title">风控红绿灯</div>
+    <b>🟢 正常</b>
+    <span><span class="pill pill-ok">🟢 停机未触发</span>
+    <span class="pill pill-ok">🟢 无STOP</span>
+    <span class="pill pill-ok">🟢 日熔断未触发</span></span></div>
+
+  <div class="card c6"><div class="card-title">📈 账户权益曲线（模拟实盘轨道 · 团队定型后）</div>
+    <svg viewBox="0 0 640 200" class="chart">
+      <line x1="30" y1="30.0" x2="610" y2="30.0" class="grid"/><text x="614.0" y="34.0" class="tick">99,965</text><line x1="30" y1="170.0" x2="610" y2="170.0" class="grid"/><text x="614.0" y="174.0" class="tick">99,928</text>
+      <path d="M30.0,30.0 L610.0,170.0 L610.0,170.0 L30.0,170.0 Z" fill="#38bdf8" opacity="0.12"/>
+      <path d="M30.0,30.0 L610.0,170.0" fill="none" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="30.0" cy="30.0" r="3.5" fill="#38bdf8" opacity="0.7"/>
+      <circle cx="610.0" cy="170.0" r="4" fill="#38bdf8"/>
+      <text x="30" y="194" class="tick">2026-09-21</text>
+      <text x="610" y="194" class="tick" text-anchor="end">2026-09-22</text>
+      <text x="602.0" y="160.0" class="tick" text-anchor="end">99,928</text>
+    </svg>
+    <div class="gauge" style="margin-top:8px"><div class="gauge">
+      <div class="gauge-bar"><div class="gauge-fill" style="width:1%;background:#4ade80"></div></div>
+      <div class="gauge-label">距停机线（-10%）剩余缓冲 <b style="color:#4ade80">99%</b>
+      &nbsp;·&nbsp; 当前回撤 <b style="color:#4ade80">-0.07%</b></div>
+    </div></div></div>
+
+  <div class="card c6"><div class="card-title">🧬 进化曲线（训练适应度 · 最近200代）</div>
+    <svg viewBox="0 0 640 220" class="chart">
+      <path d="M28.0,112.6 L30.9,106.5 L33.9,111.3 L36.8,97.9 L39.7,107.3 L42.7,106.9 L45.6,103.6 L48.5,108.7 L51.5,108.9 L54.4,91.9 L57.3,168.1 L60.3,145.9 L63.2,144.8 L66.2,115.6 L69.1,103.7 L72.0,106.3 L75.0,104.1 L77.9,97.9 L80.8,103.7 L83.8,96.2 L86.7,166.7 L89.6,163.6 L92.6,152.9 L95.5,132.2 L98.4,137.5 L101.4,143.9 L104.3,136.3 L107.2,121.1 L110.2,130.5 L113.1,138.3 L116.0,150.1 L119.0,145.8 L121.9,141.9 L124.8,132.7 L127.8,137.9 L130.7,137.4 L133.6,128.1 L136.6,129.9 L139.5,131.7 L142.5,130.7 L145.4,123.6 L148.3,137.5 L151.3,145.1 L154.2,134.7 L157.1,155.8 L160.1,143.3 L163.0,146.5 L165.9,133.4 L168.9,148.8 L171.8,163.0 L174.7,177.4 L177.7,170.1 L180.6,177.6 L183.5,175.7 L186.5,162.4 L189.4,165.3 L192.3,152.8 L195.3,153.7 L198.2,149.4 L201.1,159.7 L204.1,186.2 L207.0,192.0 L209.9,166.1 L212.9,156.9 L215.8,151.2 L218.8,143.2 L221.7,146.0 L224.6,145.0 L227.6,149.9 L230.5,144.9 L233.4,173.9 L236.4,166.1 L239.3,158.6 L242.2,154.2 L245.2,147.6 L248.1,143.5 L251.0,136.7 L254.0,139.6 L256.9,132.2 L259.8,131.8 L262.8,163.3 L265.7,138.0 L268.6,131.2 L271.6,135.1 L274.5,120.4 L277.4,132.6 L280.4,137.3 L283.3,129.9 L286.3,120.9 L289.2,125.7 L292.1,126.9 L295.1,120.3 L298.0,114.9 L300.9,111.0 L303.9,101.2 L306.8,102.3 L309.7,112.8 L312.7,112.2 L315.6,107.1 L318.5,107.4 L321.5,161.3 L324.4,137.5 L327.3,125.6 L330.3,120.0 L333.2,107.1 L336.1,111.6 L339.1,99.9 L342.0,106.9 L344.9,113.7 L347.9,93.0 L350.8,126.0 L353.7,124.5 L356.7,123.5 L359.6,113.3 L362.6,100.4 L365.5,120.2 L368.4,117.2 L371.4,112.0 L374.3,128.7 L377.2,118.8 L380.2,137.3 L383.1,121.4 L386.0,121.4 L389.0,113.1 L391.9,139.6 L394.8,133.3 L397.8,121.5 L400.7,124.4 L403.6,126.0 L406.6,131.2 L409.5,164.0 L412.4,159.9 L415.4,129.3 L418.3,127.0 L421.2,137.5 L424.2,128.7 L427.1,132.9 L430.1,122.5 L433.0,123.0 L435.9,127.7 L438.9,176.3 L441.8,145.9 L444.7,125.4 L447.7,132.9 L450.6,123.7 L453.5,137.8 L456.5,129.6 L459.4,139.2 L462.3,143.8 L465.3,124.1 L468.2,173.2 L471.1,137.8 L474.1,139.0 L477.0,135.1 L479.9,141.7 L482.9,134.7 L485.8,136.1 L488.7,131.6 L491.7,151.8 L494.6,135.6 L497.5,125.4 L500.5,130.4 L503.4,122.4 L506.4,114.4 L509.3,121.0 L512.2,123.0 L515.2,122.4 L518.1,117.0 L521.0,115.7 L524.0,128.4 L526.9,145.9 L529.8,131.1 L532.8,117.9 L535.7,112.0 L538.6,116.0 L541.6,114.3 L544.5,112.6 L547.4,112.9 L550.4,112.3 L553.3,110.2 L556.2,128.7 L559.2,115.3 L562.1,110.1 L565.0,113.5 L568.0,119.7 L570.9,113.4 L573.8,106.9 L576.8,110.4 L579.7,107.1 L582.7,135.8 L585.6,185.0 L588.5,154.9 L591.5,144.1 L594.4,145.2 L597.3,145.5 L600.3,135.0 L603.2,147.7 L606.1,168.8 L609.1,135.3 L612.0,152.9" fill="none" stroke="#fbbf24" stroke-width="1.6" opacity="0.85"/>
+      <path d="M28.0,56.9 L30.9,45.0 L33.9,44.8 L36.8,44.8 L39.7,44.8 L42.7,44.8 L45.6,44.1 L48.5,44.1 L51.5,44.1 L54.4,44.1 L57.3,113.4 L60.3,107.5 L63.2,56.7 L66.2,54.3 L69.1,44.2 L72.0,37.2 L75.0,30.8 L77.9,30.8 L80.8,30.8 L83.8,30.8 L86.7,103.4 L89.6,73.5 L92.6,73.5 L95.5,55.4 L98.4,55.4 L101.4,55.4 L104.3,55.4 L107.2,55.4 L110.2,55.4 L113.1,55.4 L116.0,73.0 L119.0,55.7 L121.9,55.7 L124.8,42.4 L127.8,41.5 L130.7,41.3 L133.6,41.3 L136.6,41.3 L139.5,41.3 L142.5,41.3 L145.4,41.9 L148.3,41.5 L151.3,41.5 L154.2,41.3 L157.1,41.3 L160.1,41.3 L163.0,41.3 L165.9,39.0 L168.9,38.2 L171.8,37.5 L174.7,145.8 L177.7,145.8 L180.6,131.5 L183.5,131.5 L186.5,128.4 L189.4,87.7 L192.3,87.7 L195.3,74.4 L198.2,74.1 L201.1,74.1 L204.1,133.7 L207.0,128.4 L209.9,87.7 L212.9,87.7 L215.8,87.7 L218.8,87.7 L221.7,87.7 L224.6,87.7 L227.6,87.7 L230.5,87.7 L233.4,114.8 L236.4,111.9 L239.3,95.4 L242.2,86.0 L245.2,84.1 L248.1,84.1 L251.0,75.8 L254.0,44.7 L256.9,44.7 L259.8,44.7 L262.8,72.2 L265.7,58.7 L268.6,33.6 L271.6,32.2 L274.5,29.1 L277.4,28.1 L280.4,28.1 L283.3,28.1 L286.3,28.0 L289.2,28.0 L292.1,32.3 L295.1,29.3 L298.0,29.3 L300.9,29.1 L303.9,29.0 L306.8,29.0 L309.7,28.8 L312.7,28.5 L315.6,28.5 L318.5,28.3 L321.5,42.8 L324.4,41.5 L327.3,35.3 L330.3,35.3 L333.2,34.5 L336.1,34.5 L339.1,34.5 L342.0,34.2 L344.9,34.2 L347.9,34.2 L350.8,37.7 L353.7,37.5 L356.7,37.5 L359.6,37.1 L362.6,34.8 L365.5,34.1 L368.4,34.1 L371.4,34.1 L374.3,34.1 L377.2,34.1 L380.2,34.4 L383.1,34.4 L386.0,34.4 L389.0,34.4 L391.9,34.4 L394.8,34.4 L397.8,34.4 L400.7,34.4 L403.6,34.4 L406.6,34.2 L409.5,38.9 L412.4,37.0 L415.4,35.3 L418.3,35.3 L421.2,35.3 L424.2,35.3 L427.1,34.5 L430.1,34.4 L433.0,34.2 L435.9,34.1 L438.9,39.2 L441.8,39.2 L444.7,35.2 L447.7,34.8 L450.6,34.8 L453.5,34.8 L456.5,34.8 L459.4,34.8 L462.3,34.8 L465.3,34.8 L468.2,52.0 L471.1,38.4 L474.1,38.4 L477.0,38.4 L479.9,38.4 L482.9,38.4 L485.8,38.4 L488.7,38.0 L491.7,38.0 L494.6,38.0 L497.5,40.8 L500.5,39.8 L503.4,39.3 L506.4,38.4 L509.3,38.4 L512.2,38.0 L515.2,38.0 L518.1,38.0 L521.0,38.0 L524.0,38.0 L526.9,41.0 L529.8,39.4 L532.8,39.4 L535.7,39.4 L538.6,37.1 L541.6,37.1 L544.5,36.6 L547.4,36.6 L550.4,35.6 L553.3,35.6 L556.2,42.1 L559.2,37.6 L562.1,37.1 L565.0,36.9 L568.0,36.9 L570.9,36.8 L573.8,36.8 L576.8,36.8 L579.7,36.8 L582.7,36.6 L585.6,61.6 L588.5,61.6 L591.5,53.4 L594.4,47.0 L597.3,47.0 L600.3,47.0 L603.2,40.3 L606.1,40.3 L609.1,40.3 L612.0,39.8" fill="none" stroke="#38bdf8" stroke-width="2"/>
+      <circle cx="612.0" cy="39.8" r="4" fill="#38bdf8"/>
+      <text x="28" y="212" class="tick">09-22T16:03</text>
+      <text x="612" y="212" class="tick" text-anchor="end">09-22T21:32</text>
+      <text x="612" y="16" class="tick" text-anchor="end">best 0.8673 / mean 0.6786</text>
+    </svg>
+    <div class="legend"><span class="dot" style="background:#38bdf8"></span>最优适应度
+    <span class="dot" style="background:#fbbf24"></span>种群均值</div>
+    <div class="ticker" style="margin-top:8px">⟳ 第3133代 best=0.867 · 第3132代 best=0.866 · 第3131代 best=0.866 · 第3130代 best=0.866 · 第3129代 best=0.855</div></div>
+
+  <div class="card c8"><div class="card-title">👑 冠军王座 · <span class="champ-name">multifactor</span>
+        <span class="pill pill-ok">第2490代上位 · 2026-09-22T01:36</span></div>
+        <div class="params"><code>{&quot;w_mom&quot;: 0.9071, &quot;w_rev&quot;: 0.0, &quot;w_lowvol&quot;: 0.4948, &quot;w_trend&quot;: 0.8127, &quot;lookback&quot;: 22, &quot;top_k&quot;: 3, &quot;rebal_days&quot;: 7}</code></div>
+        <div class="metrics">
+          <div class="m"><b>+14.92%</b><span>样本外年化</span></div>
+          <div class="m"><b>-8.42%</b><span>最大回撤</span></div>
+          <div class="m"><b>0.96</b><span>夏普</span></div>
+          <div class="m"><b>+43.24%</b><span>胜率</span></div>
+          <div class="m"><b>0.5794</b><span>样本外分</span></div>
+        </div><table style="margin-top:8px"><tr><th>成员</th><th>策略族</th><th>仓位基因</th><th>状态</th></tr><tr><td>multifactor</td><td><span class="fam">multifactor</span></td><td><span class="badge">inv_vol</span></td><td>✅在岗</td></tr></table><div class="legend" style="margin-top:6px">开市后按团队合成权重执行（各成员资金均分，成员样本外回撤≤10%硬约束在岗）</div><div class="legend" style="margin-top:6px">褪任者留名：?(2026-09-22)</div></div>
+
+  <div class="card c4"><div class="card-title">🌦 市场风格雷达（风格引擎实时识别）</div>
+    <div class="chips"><span class="chip">趋势: <b>震荡</b></span><span class="chip">因子风格: <b>反转有效</b></span><span class="chip">波动率: <b>10.0%</b></span><span class="chip">市场宽度: <b>42%</b></span><span class="chip">大小盘: <b>均衡</b></span></div><div class="metrics" style="margin-top:10px"><div class="m"><b style="color:#fbbf24">×0.6</b><span>曝光系数</span></div><div class="m"><b>multifactor</b><span>冠军近段(夏普-3.67)</span></div><div class="m"><b>rsrs</b><span>当期最佳(夏普31.95)</span></div><div class="m"><b>⚠失配</b><span>冠军适配度</span></div></div><div class="legend" style="margin-top:8px">风格引擎提示进化方向：—（失配时曝光自动收缩，体检不过线时进入防御态）</div></div>
+
+  <div class="card c6"><div class="card-title">🎽 多队并行分仓制（策略风格差异化 · 每仓独立10%停机线）</div>
+    <table><tr><th>仓</th><th>成员</th><th>权益</th><th>自起点</th><th>距高水位</th><th>换人</th></tr><tr><td>S1</td><td>multifactor/inv_vol</td><td>59,620</td><td>-0.13%</td><td>-0.13%</td><td>0</td></tr><tr><td>S2</td><td>etf_trend/equal</td><td>20,248</td><td>+0.48%</td><td>-0.00%</td><td>0</td></tr><tr><td>S3</td><td>small_reversal/equal</td><td>20,061</td><td>-0.45%</td><td>-0.45%</td><td>0</td></tr></table><div class="legend" style="margin-top:6px">每仓独立10%停机线（收盘判定）· 队死换人资金保留 · 账户毁灭线80%兜底 · S1跟随冠军换血</div></div>
+
+  <div class="card c6"><div class="card-title">🏟 联赛循环赛（随机窗开局 · 多样性前10晋级 · 认证基因注入GA）</div>
+    <div class="metrics" style="margin-top:0"><div class="m"><b>33,605</b><span>累计局数</span></div><div class="m"><b>200</b><span>稳定前10认证</span></div><div class="m"><b>0.111</b><span>本局均分</span></div><div class="m"><b>G4630676</b><span>本局最佳(momentum 0.59)</span></div></div><div class="legend" style="margin-top:8px">最新一局窗口 2007-12-06~2008-12-16（252日≈1.0年） · 每局=随机1.0年窗100人独立回测，多样性前10晋级，连续3局晋级即认证</div><div style="margin-top:10px"><div class="legend" style="margin:0 0 4px">本局Top10 家族构成</div><div class="fam-bars"><div class="bar-row"><span class="bar-name">momentum</span><div class="bar-track"><div class="bar-fill" style="width:100%;background:#38bdf8"></div></div><b>1</b></div></div></div><div class="chips" style="margin-top:10px"><span class="chip dim">本局无新认证</span></div></div>
+
+  <div class="card c6"><div class="card-title">🔬 Walk-Forward 链式验证（历史当实盘 · 周末自动重跑）</div>
+    <div class="chips"><span class="chip">链式 <b style="color:#4ade80">+0.00%</b></span><span class="chip">年化 <b style="color:#4ade80">+0.00%</b></span><span class="chip">等权基准 <b style="color:#4ade80">+12.96%</b></span><span class="chip">相对基准 <b style="color:#fb7185">-12.96%</b></span></div><table style="margin-top:10px"><tr><th>窗口（实盘段）</th><th>团队</th><th>段收益</th></tr><tr><td>2025-09-05~2025-11-11</td><td class="dim">空仓(无合格团队)</td><td style="color:#4ade80">+0.00%</td></tr><tr><td>2025-11-12~2026-01-12</td><td class="dim">空仓(无合格团队)</td><td style="color:#4ade80">+0.00%</td></tr><tr><td>2026-01-13~2026-03-19</td><td class="dim">空仓(无合格团队)</td><td style="color:#4ade80">+0.00%</td></tr><tr><td>2026-03-20~2026-05-22</td><td class="dim">空仓(无合格团队)</td><td style="color:#4ade80">+0.00%</td></tr><tr><td>2026-05-25~2026-07-22</td><td class="dim">空仓(无合格团队)</td><td style="color:#4ade80">+0.00%</td></tr><tr><td>2026-07-23~2026-09-18</td><td class="dim">空仓(无合格团队)</td><td style="color:#4ade80">+0.00%</td></tr></table><div class="legend">报告 walkforward_20260921.md · 生成于 2026-09-21 00:29 · 每窗只用窗前数据进化，下一段当实盘全规则撮合 · <a href="logs/walkforward_20260921.md">原文</a></div></div>
+
+  <div class="card c4"><div class="card-title">🏆 百人锦标赛（前瞻轨道 · 每队100万 · 5档风格谱系）</div>
+    <table><tr><th>#</th><th>选手</th><th>策略/风格</th><th>连胜</th><th>前瞻收益</th></tr><tr><td>🥇</td><td>G4630676</td><td><span class="fam">momentum</span><span class="badge">激进</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>🥈</td><td>N4630920</td><td><span class="fam">momentum</span><span class="badge">激进</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>🥉</td><td>N4630932</td><td><span class="fam">momentum</span><span class="badge">保守</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>4</td><td>V4630802</td><td><span class="fam">momentum</span><span class="badge">极稳</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>5</td><td>V4630803</td><td><span class="fam">momentum</span><span class="badge">保守</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>6</td><td>V4630804</td><td><span class="fam">momentum</span><span class="badge">均衡</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>7</td><td>V4630805</td><td><span class="fam">momentum</span><span class="badge">进取</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>8</td><td>V4630806</td><td><span class="fam">momentum</span><span class="badge">极稳</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>9</td><td>V4630807</td><td><span class="fam">momentum</span><span class="badge">保守</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr><tr><td>10</td><td>V4630808</td><td><span class="fam">momentum</span><span class="badge">均衡</span></td><td></td><td style="color:#4ade80">+0.00%</td></tr></table><div class="legend">参赛 200 人（每队100万 · 5档风格谱系）· 认证 200 人 · 已赛 33605 局 · 前瞻起点 2026-09-22 · 前瞻轨道自下个交易日收盘后开始逐日结算 · <a href="logs/arena_board.html">完整竞技场看板 ↗</a></div></div>
+
+  <div class="card c4"><div class="card-title">🧪 GA种群家族分布（精英池快照 · 5 族）</div>
+    <div style="display:flex;gap:14px;align-items:center"><svg viewBox="0 0 180 180" class="donut"><circle cx="90" cy="90" r="70" fill="none" stroke="#38bdf8" stroke-width="26" stroke-dasharray="256.6 183.3" stroke-dashoffset="-0.0" transform="rotate(-90 90 90)"/><circle cx="90" cy="90" r="70" fill="none" stroke="#f472b6" stroke-width="26" stroke-dasharray="137.4 302.4" stroke-dashoffset="-256.6" transform="rotate(-90 90 90)"/><circle cx="90" cy="90" r="70" fill="none" stroke="#fbbf24" stroke-width="26" stroke-dasharray="36.7 403.2" stroke-dashoffset="-394.0" transform="rotate(-90 90 90)"/><circle cx="90" cy="90" r="70" fill="none" stroke="#34d399" stroke-width="26" stroke-dasharray="4.6 435.2" stroke-dashoffset="-430.7" transform="rotate(-90 90 90)"/><circle cx="90" cy="90" r="70" fill="none" stroke="#a78bfa" stroke-width="26" stroke-dasharray="4.6 435.2" stroke-dashoffset="-435.2" transform="rotate(-90 90 90)"/><text x="90" y="86" class="donut-num">96</text><text x="90" y="104" class="donut-sub">个体</text></svg><div class="legend-col"><div class="lg-row"><span class="dot" style="background:#38bdf8"></span>gap_mom <b>56</b></div><div class="lg-row"><span class="dot" style="background:#f472b6"></span>vol_mom <b>30</b></div><div class="lg-row"><span class="dot" style="background:#fbbf24"></span>small_reversal <b>8</b></div><div class="lg-row"><span class="dot" style="background:#34d399"></span>vol_regime <b>1</b></div><div class="lg-row"><span class="dot" style="background:#a78bfa"></span>sub_new <b>1</b></div></div></div></div>
+
+  <div class="card c4"><div class="card-title">⚙️ 机制生命周期（自我更新的累计留痕）</div>
+    <div class="metrics"><div class="m"><b>🧬 进化世代</b><span>3133</span></div><div class="m"><b>🛬 累计移民注入</b><span>25240</span></div><div class="m"><b>🔁 停滞重启次数</b><span>1677</span></div><div class="m"><b>👑 冠军晋升次数</b><span>2</span></div><div class="m"><b>🩺 最近体检均分</b><span>❌ 0.425</span></div><div class="m"><b>🏃 跑赢持币占比</b><span>79%</span></div></div></div>
+
+  <div class="card c4"><div class="card-title">📋 下一交易日订单（0 笔待执行）</div>
+    <table><tr><th>方向</th><th>代码</th><th>股数</th><th>原因</th></tr><tr><td colspan="4" class="empty">暂无待执行订单</td></tr></table></div>
+
+  <div class="card c4"><div class="card-title">💼 当前持仓</div>
+    <table><tr><th>代码</th><th>股数</th><th>可卖</th><th>成本</th></tr><tr><td>000651</td><td>300</td><td>300</td><td>38.29</td></tr><tr><td>000001</td><td>1000</td><td>1000</td><td>11.67</td></tr><tr><td>600941</td><td>100</td><td>100</td><td>96.51</td></tr><tr><td>601985</td><td>1300</td><td>1300</td><td>8.93</td></tr><tr><td>600050</td><td>2800</td><td>2800</td><td>4.21</td></tr><tr><td>512800</td><td>8600</td><td>0</td><td>0.84</td></tr><tr><td>513100</td><td>2900</td><td>2900</td><td>2.29</td></tr><tr><td>513500</td><td>2300</td><td>2300</td><td>2.74</td></tr><tr><td>600031</td><td>700</td><td>0</td><td>17.85</td></tr></table></div>
+
+  <div class="card c4"><div class="card-title">🧾 最近成交（真实流水）</div>
+    <table><tr><th>日期</th><th>方向</th><th>代码</th><th>股数</th><th>价格</th><th>原因</th></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>600031</td><td>100</td><td>17.738</td><td>rebalance</td></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>600031</td><td>100</td><td>17.798</td><td>rebalance</td></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>600031</td><td>100</td><td>17.798</td><td>rebalance</td></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>600031</td><td>100</td><td>17.808</td><td>rebalance</td></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>600031</td><td>100</td><td>17.838</td><td>rebalance</td></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>600031</td><td>100</td><td>17.798</td><td>rebalance</td></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>512800</td><td>600</td><td>0.836</td><td>rebalance</td></tr><tr><td>20260922</td><td><span class="side b">买</span></td><td>600031</td><td>100</td><td>17.818</td><td>rebalance</td></tr></table></div>
+
+  <div class="card c8"><div class="card-title">🧠 机制复盘档案（自动总结）</div>
+    <div class="rev">📋 <b>2026-W39</b> · 世代 893 · 冠军 无 · 轨道收益 —</div><div class="rev">📋 <b>2026-W38</b> · 世代 0 · 冠军 无 · 轨道收益 —</div></div>
+
+  <div class="card c4"><div class="card-title">🛡 防作弊审计（先声明后揭示 · 每日自动）</div>
+    <div class="metrics" style="margin-top:0"><div class="m"><b>✅</b><span>总体结论</span></div><div class="m"><b>5/5</b><span>无未来函数抽查</span></div><div class="m"><b>✓</b><span>复算哈希一致</span></div><div class="m"><b>79eb5184</b><span>净值指纹</span></div></div><div class="legend" style="margin-top:8px"><span class="pill pill-ok">🟢 通过</span> 完成于 2026-09-22T21:18:34 · 复核期末权益 97,831 元 · 先声明后揭示（台账 logs/audit_ledger.jsonl），防"先看结果再下结论"</div></div>
+
+  <div class="card c12"><div class="card-title">红线与证据链</div>
+    <div class="empty">红线（永不被进化自动修改）：单股≤15% / ETF≤50%
+    / 最高持股15个交易日 / 出局只看收盘结算：回撤10%停机（人工复盘可恢复）+ 本金亏80%毁灭出局（唯一账户出局，盘中波动永不触发）
+    　|　证据链：<a href="logs/arena_board.html">竞技场看板</a> · <a href="logs/audit_ledger.jsonl">审计台账</a>
+     · MoneyViz 像素竞技场（MoneyViz/ 目录，Play 即看）
+    　|　历史回测≠未来收益，模拟盘轨道是唯一的"实盘为证"</div></div>
+
+</div>
+<script>
+(function() {
+  var t = Date.parse("2026-09-23T09:25:00");
+  var el = document.getElementById("cd");
+  if (!el) return;
+  function tick() {
+    var s = Math.floor((t - Date.now()) / 1000);
+    if (s <= 0) { el.textContent = "即将开市"; return; }
+    var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600),
+        m = Math.floor(s % 3600 / 60), ss = s % 60;
+    el.textContent = (d > 0 ? d + "天 " : "") + ("0" + h).slice(-2) + ":" +
+                     ("0" + m).slice(-2) + ":" + ("0" + ss).slice(-2);
+  }
+  tick(); setInterval(tick, 1000);
+})();
+</script>
+</body></html>
