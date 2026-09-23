@@ -6,9 +6,17 @@ Subcommands (all idempotent via checkpoints, safe to kill/restart):
   run-nulls   K=50 white-noise null lines (stock-pool, seeds 20260923+i)
   run-gtja    GTJA191 leg: per-factor checkpoint results/shortline/p1c_partial/
               (r32 net-room semantics via big-panel streaming op injection)
-  run-wq      phase 2 (next round: WQ101 no-cap 82, harness adapter)
+  run-wq      WQ101 no-cap 82 leg (P1C SS3 phase-2, r61): P-1b vendor glue
+              (shortline_p1b_wq101.load_wq101/CAP_EXCLUDED, no rebuild) on the
+              stock panel; checkpoint loop shared with run-gtja (_run_leg)
+  probe-wq    probe-first gates (P1C SS5): stock-slice vendor smoke + core48
+              anchor vs frozen P-1b wq101_ic.json rows + full-universe timing;
+              writes results/shortline/p1c_wq_probe.json
   finalize    aggregate checkpoints + V1/V2/V3 gate table (h10 primary) +
-              results JSON/CSV + factor-ledger block (engine ledger untouched)
+              results JSON/CSV + factor-ledger block (engine ledger untouched);
+              r61: idempotent delta ledger (re-finalize adds only NEW factor
+              cells, never re-adds ledgered cells/nulls) + top-level
+              evidence_cutoff + meta.legs/wq_complete
 
 Conventions (P1C_STOCK_IC.md SS4, no rewrite):
   IS_END=2024-12-31 (composite_ic), fwd=close.shift(-h)/close-1, IC=rank-after-
@@ -34,6 +42,11 @@ sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import p1c_bigpanel_ops as OPS          # streaming op layer (gated PASS r50)
 from composite_ic import ic_series, stats_block, IS_END   # established methodology
 from shortline_p1_ic import _ic_series_fast               # gated fast IC path
+# P-1b WQ101 vendor glue reuse (MSG-0415: no rebuild): load_wq101 stubs polars
+# and loads the MIT Alpha101 module; CAP_EXCLUDED={56} keeps the no-cap subset.
+from shortline_p1b_wq101 import CAP_EXCLUDED, load_wq101
+
+WQ_PREFIX = "wq101_alpha"   # checkpoint prefix: no collision with alpha191_*
 
 CACHE_DIR = os.path.join(ROOT, "Money02", "data", "cache", "p1c_stock")
 BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars")
@@ -194,13 +207,15 @@ def run_nulls(panels, fwd):
     return thr
 
 
-def run_gtja(panels, fwd, thr, limit=0):
-    mod = load_alpha191_bigpanel()
-    funcs = {nm: fn for nm, fn in vars(mod).items()
-            if nm.startswith("alpha191_") and callable(fn)}
+def _run_leg(todo, panels, fwd, thr, limit=0, leg=""):
+    """Shared per-factor checkpoint loop (r59 GTJA leg semantics; WQ reuses).
+
+    Same IC/gates/bookkeeping, per-factor checkpoint resume, no methodology
+    rewrite (P1C SS4). ``leg`` tag is recorded on NEW checkpoints only;
+    existing GTJA checkpoints stay untouched (frozen record discipline).
+    """
     os.makedirs(PARTIAL_DIR, exist_ok=True)
     thr_h = {h: thr.get(f"h{h}", {"p95_abs_ic": 0.0}) for h in HORIZONS}
-    todo = sorted(funcs.items())
     if limit:
         todo = todo[:limit]
     n_done = n_skip = n_err = 0
@@ -212,6 +227,8 @@ def run_gtja(panels, fwd, thr, limit=0):
             continue
         rec = {"factor": nm, "status": "ok", "skip_reason": "",
                "compute_s": 0.0}
+        if leg:
+            rec["leg"] = leg
         tc = time.time()
         try:
             out = fn(panels)
@@ -258,6 +275,189 @@ def run_gtja(panels, fwd, thr, limit=0):
             print(f"  {i}/{len(todo)} done={n_done} skip={n_skip} "
                   f"err={n_err} ({time.time() - t0:.0f}s)", flush=True)
     return {"todo": len(todo), "done": n_done, "skip": n_skip, "err": n_err}
+
+
+def run_gtja(panels, fwd, thr, limit=0):
+    mod = load_alpha191_bigpanel()
+    funcs = {nm: fn for nm, fn in vars(mod).items()
+            if nm.startswith("alpha191_") and callable(fn)}
+    return _run_leg(sorted(funcs.items()), panels, fwd, thr, limit)
+
+
+# --------------------------------------------------------------- WQ101 leg
+
+def _wq_engine(panels):
+    """Alpha101 engine on the stock panel via P-1b glue (interface: dict of
+    dense (T,N) arrays; returns recomputed from ffilled close exactly as
+    P-1b; market_cap NaN = no-cap subset; 688/689 normalization already
+    built into the Stage-A cache per r49)."""
+    close = panels["close"]
+    data = {k: panels[k].values for k in
+            ("open", "high", "low", "close", "volume", "vwap")}
+    data["returns"] = close.pct_change().values
+    data["market_cap"] = np.full(close.shape, np.nan)
+    return load_wq101().Alpha101(data, classifications={})
+
+
+def _wq_computable():
+    wq = load_wq101()
+    excluded = set(wq._NEUTRALIZED_ALPHAS) | set(CAP_EXCLUDED)
+    computable = [n for n in range(1, 102) if n not in excluded]
+    assert len(computable) == 82, "pre-reg SS3 computable-82 mismatch"
+    return computable
+
+
+def run_wq(panels, fwd, thr, limit=0):
+    engine = _wq_engine(panels)
+    close = panels["close"]
+
+    def _wrap(n):
+        def fn(_panels):
+            out = getattr(engine, f"alpha{n:03d}")()
+            if not isinstance(out, np.ndarray):
+                out = np.asarray(out)
+            return pd.DataFrame(out, index=close.index,
+                                columns=close.columns)
+        return fn
+
+    todo = [(f"{WQ_PREFIX}{n:03d}", _wrap(n)) for n in _wq_computable()]
+    return _run_leg(todo, panels, fwd, thr, limit, leg="wq")
+
+
+def probe_wq():
+    """Probe-first gates (P1C SS5) for the WQ leg; exit 1 on any gate fail.
+
+    [1] stock-slice vendor smoke (3 op families: stddev/if_else, correlation,
+        mixed rank) on a real cache slice; [2] core48 ANCHOR: alpha001/018 IC
+        recomputed end-to-end vs the frozen P-1b wq101_ic.json rows (r32
+        anchor-gate pattern; stats_block rounding -> bit_exact reported,
+        tolerance 1e-4 + exact n_periods); [3] full-universe timing of the 3
+        probe factors + process peak RAM -> ETA for the 82-factor leg.
+    """
+    t0 = time.time()
+    probe_factors = (1, 2, 18)     # stddev class / corr class / mixed class
+    report = {"meta": {"batch": "P-1c WQ leg probe (P1C SS5 probe-first)",
+                       "date": time.strftime("%Y-%m-%d %H:%M"),
+                       "probe_factors": list(probe_factors)},
+              "smoke": {}, "anchor": {}, "timing": {}, "gates": {}}
+
+    # [1] stock-slice vendor smoke
+    idx, syms, meta = load_universe()
+    sl_idx, sl_cols = idx[-600:], syms[:60]
+    small = {f: pd.DataFrame(
+        np.asarray(np.load(os.path.join(CACHE_DIR, f + ".npy"),
+                           mmap_mode="r")[-600:, :60], dtype=np.float64),
+        index=sl_idx, columns=sl_cols) for f in FIELDS}
+    for f in ("open", "high", "low", "close"):
+        small[f] = small[f].ffill()
+    eng_small = _wq_engine(small)
+    smoke_ok = True
+    for n in probe_factors:
+        out = getattr(eng_small, f"alpha{n:03d}")()
+        ok = (isinstance(out, np.ndarray) and out.shape == (600, 60)
+              and bool(np.isfinite(out).any()))
+        report["smoke"][f"alpha{n:03d}"] = {
+            "shape": list(out.shape) if isinstance(out, np.ndarray) else None,
+            "finite_any": bool(np.isfinite(out).any())
+            if isinstance(out, np.ndarray) else False, "ok": bool(ok)}
+        smoke_ok &= ok
+        del out
+    report["gates"]["smoke"] = bool(smoke_ok)
+    print(f"[1/3] stock-slice smoke: "
+          f"{'PASS' if smoke_ok else 'FAIL'} {report['smoke']}", flush=True)
+    del small, eng_small
+
+    # [2] core48 anchor vs frozen P-1b record
+    from shortline_p1_ic import load_panels as load_core48
+    panels48 = load_core48()
+    close48 = panels48["close"]
+    eng48 = _wq_engine(panels48)
+    rec_path = os.path.join(OUT_DIR, "wq101_ic.json")
+    recorded = {r.get("factor"): r for r in
+                json.load(open(rec_path, encoding="utf-8")).get("rows", [])}
+    fwd10 = close48.shift(-10) / close48 - 1.0
+    anchor_ok = True
+    for n in (1, 18):
+        nm = f"alpha{n:03d}"
+        out = getattr(eng48, nm)()
+        s = _ic_series_fast(pd.DataFrame(out, index=close48.index,
+                                         columns=close48.columns), fwd10)
+        blk = stats_block(s[s.index <= IS_END])
+        ref = recorded.get(nm, {})
+        d_ic = abs(blk.get("ic_mean", 9.9) - ref.get("h10_is_ic", 9.9))
+        d_ir = abs(blk.get("ic_ir", 9.9) - ref.get("h10_is_ir", 9.9))
+        n_eq = blk.get("n_periods", -1) == ref.get("h10_is_n", -2)
+        bit = bool(d_ic == 0.0 and d_ir == 0.0 and n_eq)
+        ok = bool(d_ic <= 1e-4 and d_ir <= 1e-4 and n_eq)
+        report["anchor"][nm] = {"bit_exact": bit, "d_ic": d_ic,
+                                "d_ir": d_ir, "n_eq": bool(n_eq),
+                                "ok": ok}
+        anchor_ok &= ok
+        del out
+    report["gates"]["anchor"] = bool(anchor_ok)
+    print(f"[2/3] core48 anchor vs P-1b record: "
+          f"{'PASS' if anchor_ok else 'FAIL'} {report['anchor']}", flush=True)
+    del panels48, eng48
+
+    # [3] full-universe timing + peak RAM
+    panels = load_panels(idx, syms)
+    fwd = fwd_rets(panels)
+    close = panels["close"]
+    eng_full = _wq_engine(panels)
+    for n in probe_factors:
+        tc = time.time()
+        out = getattr(eng_full, f"alpha{n:03d}")()
+        out = pd.DataFrame(out, index=close.index, columns=close.columns)
+        s = _ic_series_fast(out, fwd[10])
+        blk = stats_block(s[s.index <= IS_END])
+        el = round(time.time() - tc, 2)
+        report["timing"][f"alpha{n:03d}"] = {
+            "compute_plus_ic_s": el, "is_n": blk.get("n_periods", 0)}
+        del out, s
+    peak_gb = _peak_ram_gb()
+    mean_s = float(np.mean([v["compute_plus_ic_s"]
+                            for v in report["timing"].values()]))
+    eta_s = round(82 * (mean_s + 2 * 1.9), 1)   # +2 remaining horizons @1.9s
+    report["timing"]["mean_probe_s"] = round(mean_s, 2)
+    report["timing"]["eta_leg_s"] = eta_s
+    report["timing"]["peak_ram_gb"] = peak_gb
+    print(f"[3/3] full-universe timing: {report['timing']}", flush=True)
+    report["gates"]["all"] = bool(smoke_ok and anchor_ok)
+    report["meta"]["elapsed_s"] = round(time.time() - t0, 1)
+
+    path = os.path.join(OUT_DIR, "p1c_wq_probe.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=2, ensure_ascii=False)
+    print(f"saved: {path}", flush=True)
+    return 0 if report["gates"]["all"] else 1
+
+
+def _peak_ram_gb():
+    """Process peak working set (Windows psapi via ctypes; honest None off-
+    Windows/failure - probe timing remains the primary gate)."""
+    try:
+        import ctypes
+        from ctypes import wintypes
+        class PMC(ctypes.Structure):
+            _fields_ = [("cb", wintypes.DWORD), ("PageFaultCount",
+                          wintypes.DWORD), ("PeakWorkingSetSize",
+                          ctypes.c_size_t), ("WorkingSetSize",
+                          ctypes.c_size_t), ("QuotaPeakPagedPoolUsage",
+                          ctypes.c_size_t), ("QuotaPagedPoolUsage",
+                          ctypes.c_size_t), ("QuotaPeakNonPagedPoolUsage",
+                          ctypes.c_size_t), ("QuotaNonPagedPoolUsage",
+                          ctypes.c_size_t), ("PagefileUsage",
+                          ctypes.c_size_t), ("PeakPagefileUsage",
+                          ctypes.c_size_t)]
+        pmc = PMC()
+        pmc.cb = ctypes.sizeof(PMC)
+        handle = ctypes.windll.kernel32.GetCurrentProcess()
+        if ctypes.windll.psapi.GetProcessMemoryInfo(
+                handle, ctypes.byref(pmc), pmc.cb):
+            return round(pmc.PeakWorkingSetSize / 2**30, 2)
+    except Exception:
+        pass
+    return None
 
 
 def _chain_head_total():
@@ -319,33 +519,76 @@ def finalize():
     pool = [r["factor"] for r in rows if r.get("in_pool")]
     per_h = {f"h{h}": sum(1 for r in rows if r.get(f"h{h}_pass"))
              for h in HORIZONS}
-    prev = _chain_head_total()
-    added = n_ok + n_err + (N_NULLS if thr else 0)
+    # legs summary + WQ completeness (r61 phase-2; leg inferred from prefix
+    # for the frozen GTJA checkpoints that predate the leg field)
+    legs = {}
+    for r in rows:
+        lg = r.get("leg") or ("gtja" if str(r["factor"]).startswith(
+            "alpha191_") else "wq")
+        d = legs.setdefault(lg, {"ok": 0, "skip": 0, "error": 0,
+                                 "checkpoints": 0})
+        d["checkpoints"] += 1
+        if r["status"] == "ok":
+            d["ok"] += 1
+        elif r["status"] == "error":
+            d["error"] += 1
+        else:
+            d["skip"] += 1
+    wq_complete = legs.get("wq", {}).get("checkpoints", 0) >= 82
+    # idempotent delta ledger (r60 P1D double-count lesson, hardened r61):
+    # re-finalize adds only NEW factor cells (by name; ok/error per r32
+    # accounting); nulls ledgered exactly once (first finalize); a
+    # zero-delta re-finalize keeps the frozen ledger block verbatim so the
+    # chain head can never be rewritten by a no-op rerun.
+    old = None
+    if os.path.exists(RESULT_JSON):
+        try:
+            with open(RESULT_JSON, encoding="utf-8") as f:
+                old = json.load(f)
+        except Exception:
+            old = None
+    old_factors = {r.get("factor") for r in (old or {}).get("rows", [])}
+    new_cells = [r for r in rows if r["factor"] not in old_factors
+                 and r["status"] in ("ok", "error")]
+    if old is not None and not new_cells:
+        ledger = old.get("trials_ledger") or {
+            "prev": _chain_head_total(), "added": 0,
+            "total": _chain_head_total()}
+    else:
+        prev = _chain_head_total()
+        added = len(new_cells) + (N_NULLS if (old is None and thr) else 0)
+        ledger = {"prev": prev, "added": added, "total": prev + added,
+                  "note": "factor-ledger accounting (r32): computed+error"
+                          "+nulls(once); delta-idempotent since r61 "
+                          "(re-finalize adds only new cells); engine N "
+                          "untouched"}
     out = {
         "meta": {
-            "batch": "P-1c stock-pool GTJA191 IC (Stage-B full batch)",
+            "batch": "P-1c stock-pool GTJA191 + WQ101-no-cap IC "
+                     "(Stage-B full batch, two legs)",
             "pre_reg": "research/shortline/P1C_STOCK_IC.md",
             "date": time.strftime("%Y-%m-%d %H:%M"),
             "is_end": str(IS_END),
             "universe": "stock pool 5129 ok + cache 5222 cols, T=8792",
             "op_layer": "scripts/p1c_bigpanel_ops.py (30/30 gates vs net-room)",
             "n_checkpoints": len(rows),
+            "legs": legs,
+            "wq_complete": bool(wq_complete),
         },
+        "evidence_cutoff": "2026-09-22",   # Stage-A panel last bar (C2 key)
         "thresholds": thr,
         "counts": {"ok": n_ok, "skip": n_skip, "error": n_err,
                    "pool_h10": len(pool), "per_h_pass": per_h},
         "pool_h10": pool,
-        "trials_ledger": {"prev": prev, "added": added,
-                          "total": prev + added,
-                          "note": "factor-ledger accounting (r32): "
-                                  "computed+error+nulls; engine N untouched"},
+        "trials_ledger": ledger,
         "rows": rows,
     }
     with open(RESULT_JSON, "w", encoding="utf-8") as f:
         json.dump(out, f, indent=2, ensure_ascii=False)
     pd.DataFrame(rows).to_csv(RESULT_CSV, index=False)
     print(f"finalize: ok={n_ok} skip={n_skip} err={n_err} "
-          f"pool={len(pool)} ledger {prev}->{prev + added}", flush=True)
+          f"pool={len(pool)} legs={legs} wq_complete={wq_complete}", flush=True)
+    print(f"ledger: {json.dumps(ledger)}", flush=True)
     print(f"saved: {RESULT_JSON}", flush=True)
     return 0
 
@@ -404,27 +647,29 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("mode",
                     choices=["selftest", "run-nulls", "run-gtja", "run-wq",
-                             "finalize", "status"])
+                             "probe-wq", "finalize", "status"])
     ap.add_argument("--limit", type=int, default=0)
     args = ap.parse_args()
     if args.mode == "selftest":
         sys.exit(selftest())
     if args.mode == "status":
         ck = len(glob.glob(os.path.join(PARTIAL_DIR, "*.json")))
-        print(f"checkpoints={ck} nulls={os.path.exists(NULLS_JSON)}",
-              flush=True)
+        ck_wq = len(glob.glob(os.path.join(PARTIAL_DIR,
+                                           WQ_PREFIX + "*.json")))
+        print(f"checkpoints={ck} wq={ck_wq}/82 "
+              f"nulls={os.path.exists(NULLS_JSON)}", flush=True)
         sys.exit(0)
-    if args.mode == "run-wq":
-        print("phase 2 (next round): WQ101 no-cap 82 harness adapter",
-              flush=True)
-        sys.exit(0)
+    if args.mode == "probe-wq":
+        sys.exit(probe_wq())
+    if args.mode == "finalize":
+        sys.exit(finalize())
     idx, syms, meta = load_universe()
     panels = load_panels(idx, syms)
     fwd = fwd_rets(panels)
     if args.mode == "run-nulls":
         run_nulls(panels, fwd)
         sys.exit(0)
-    if args.mode == "run-gtja":
+    if args.mode in ("run-gtja", "run-wq"):
         if not os.path.exists(NULLS_JSON):
             print("REFUSED: nulls checkpoint missing - run-nulls first "
                   "(prereg: no judgement without null lines)", flush=True)
@@ -432,11 +677,10 @@ def main():
         thr = json.load(open(NULLS_JSON, encoding="utf-8"))
         print(json.dumps({k: v for k, v in thr.items() if k != "meta"}),
               flush=True)
-        r = run_gtja(panels, fwd, thr, limit=args.limit)
+        r = (run_gtja if args.mode == "run-gtja" else run_wq)(
+            panels, fwd, thr, limit=args.limit)
         print(json.dumps(r), flush=True)
         sys.exit(0)
-    if args.mode == "finalize":
-        sys.exit(finalize())
 
 
 if __name__ == "__main__":
