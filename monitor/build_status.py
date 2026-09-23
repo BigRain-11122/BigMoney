@@ -216,6 +216,7 @@ def _gate_chain(bt: dict) -> dict:
     slp = _read_json(os.path.join(res, "sleeve_p3.json")) or {}
     p4b1 = _read_json(os.path.join(res, "shortline_p4_batch1.json")) or {}
     p5re = _read_json(os.path.join(res, "p5_random_entry.json")) or {}
+    p4b2 = _read_json(os.path.join(res, "shortline_p4_batch2.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -246,6 +247,10 @@ def _gate_chain(bt: dict) -> dict:
     if isinstance(tl_p5, dict) and tl_p5.get("total"):
         # P-5 random-entry re-check (O-1816) = freshest truth source
         trials_total = int(tl_p5["total"])
+    tl_p4b2 = p4b2.get("trials_ledger")
+    if isinstance(tl_p4b2, dict) and tl_p4b2.get("total"):
+        # P-4 batch2 stock-pool B-layer (R38-b) = freshest truth source
+        trials_total = int(tl_p4b2["total"])
     skill_bar = gate.get("effective_skill_bar")
     ct_note = ""
     if ct:
@@ -342,6 +347,16 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"低相关素材 {'/'.join(p4_slv) or '无'}；"
                                f"CE i 线取严 {p4_ce_line}；52周低点=接飞刀，"
                                f"批一线诚实收线" if p4_ce_line else "")})
+    n_p4b2_surv = None
+    if p4b2:
+        n_p4b2_surv = len(p4b2.get("survivors_g1_prime") or [])
+        vi_used = (p4b2.get("gate") or {}).get("vi_used") or {}
+        steps.append({"stage": "P-4 批二 · 股票池 B 层七族海选（26bp+拒单撮合）",
+                      "result": f"{n_p4b2_surv} 员幸存",
+                      "pass": n_p4b2_surv > 0,
+                      "note": (f"vi={vi_used.get('default')}（被动月度EW+0.10 主导）"
+                               f"；七族全深负，打板/短持有线被成本碾压，"
+                               f"B 层首开诚实判负" if vi_used else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
@@ -349,6 +364,7 @@ def _gate_chain(bt: dict) -> dict:
             "n_sleeve_p3": (None if sl_adm is None else int(bool(sl_adm))),
             "n_p4b1": n_p4_surv, "n_p4b1_sleeve": (
                 len(p4b1.get("sleeve_candidates") or []) if p4b1 else None),
+            "n_p4b2": n_p4b2_surv,
             "n_traders": len(traders),
             "trader_ids": traders}
 
@@ -560,6 +576,8 @@ def build() -> dict:
         f" → SLEEVE_P3 袖并入{'过' if chain['n_sleeve_p3'] else '收线'}")
     p4_txt = "" if chain["n_p4b1"] is None else (
         f" → P-4 动物园批一 {chain['n_p4b1']}候选·袖{chain['n_p4b1_sleeve']}")
+    p4b2_txt = "" if chain["n_p4b2"] is None else (
+        f" → P-4 批二股票池 {chain['n_p4b2']}员幸存")
     payload["events"] = [
         {"time": smoke["at"] or "-", "text": f"自检 {smoke['pass']}项通过/{smoke['fail']}失败"},
         {"time": "-", "text": f"门禁链定案（试验账本 N={chain['trials_total']}）："
@@ -570,6 +588,7 @@ def build() -> dict:
                               f" → G2_NSP1 深化 {chain['n_g2nsp']}员"
                               f"{slp_txt}"
                               f"{p4_txt}"
+                              f"{p4b2_txt}"
                               f"（累计 {chain['n_traders']} 员注册编制）"},
     ]
     if chain["trader_ids"]:

@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-23T21:33:15"
+    "generated_at": "2026-09-23T21:22:57"
   },
   "health": {
     "smoke": {
       "pass": 20,
       "fail": 0,
-      "at": "2026-09-23T21:28:46",
+      "at": "2026-09-23T21:00:59",
       "ok": true
     },
     "network": {
-      "net_type": "UNKNOWN",
+      "net_type": "LAN",
       "hotspot": false,
-      "allow_heavy_sync": false,
-      "detected_at": null
+      "allow_heavy_sync": true,
+      "detected_at": "2026-09-22T16:10:11+00:00"
     }
   },
   "data": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-23 21:33:06",
+      "last_run": "2026-09-23 21:22:45",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -36,20 +36,6 @@
       "data_cutoff": "2026-09-23",
       "status": "ok",
       "text": "更新链活 · 0 失败"
-    },
-    "heat": {
-      "present": true,
-      "l1_verdict": "no-op: snapshot for 2026-09-23 already collected",
-      "l1_snapshots": 1,
-      "l1_updated": "2026-09-23 21:33:07",
-      "l2_updated": "2026-09-23 21:21:10",
-      "l2_done": 97,
-      "l2_target": 100,
-      "l2_rejects": 3,
-      "era_min": "2025-09-23",
-      "era_max": "2026-09-23",
-      "status": "ok",
-      "text": "热度链活 · L1 1份 · L2 97/100件"
     }
   },
   "research": {
@@ -201,9 +187,15 @@
         "result": "0 员候选 · 袖珍 2",
         "pass": false,
         "note": "低相关素材 oversold_bounce_20_15@default/oversold_bounce_20_15@ce；CE i 线取严 0.4474；52周低点=接飞刀，批一线诚实收线"
+      },
+      {
+        "stage": "P-4 批二 · 股票池 B 层七族海选（26bp+拒单撮合）",
+        "result": "0 员幸存",
+        "pass": false,
+        "note": "vi=0.561（被动月度EW+0.10 主导）；七族全深负，打板/短持有线被成本碾压，B 层首开诚实判负"
       }
     ],
-    "trials_total": 1883,
+    "trials_total": 2090,
     "n_traders": 3,
     "ranking": []
   },
@@ -274,7 +266,7 @@
       "months_tracked": 0,
       "trades": 0,
       "bars": 3,
-      "last_update": "2026-09-23 20:48:04",
+      "last_update": "2026-09-23 21:22:56",
       "paper_start": "2026-09-23",
       "first_check": "2026-10-31",
       "month_progress": 0.0
@@ -323,7 +315,7 @@
   },
   "events": [
     {
-      "time": "2026-09-23T21:28:46",
+      "time": "2026-09-23T21:00:59",
       "text": "自检 20项通过/0失败"
     },
     {
@@ -331,20 +323,16 @@
       "text": "交易员 VOLATILITY-CE-01/COMPOSITE-CE-01/COMPOSITE-CE-02 过全 G2 门禁链持证上岗（INTERN）· paper 跟踪进行中，≥6 个月才可谈实盘"
     },
     {
-      "time": "2026-09-23 20:48:04",
+      "time": "2026-09-23 21:22:56",
       "text": "paper 跟踪进行中 · 3 员在册 · 累计 0 个月 · 窗口 0 笔（每日自动 accrue · 锚定门禁先行）"
     },
     {
       "time": "-",
-      "text": "门禁链定案（试验账本 N=1883）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2（累计 3 员注册编制）"
+      "text": "门禁链定案（试验账本 N=2090）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 3 员注册编制）"
     },
     {
-      "time": "2026-09-23 21:33:06",
+      "time": "2026-09-23 21:22:45",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
-    },
-    {
-      "time": "2026-09-23 21:33:07",
-      "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
       "time": "-",
@@ -358,9 +346,27 @@
   "group": {
     "siblings": [
       {
+        "name": "Biggame · biu你一下",
+        "last_active": "09-23 21:22",
+        "age_min": 0.8,
+        "alive": true
+      },
+      {
+        "name": "Biggame · HomeWreck",
+        "last_active": "09-23 21:20",
+        "age_min": 2.3,
+        "alive": true
+      },
+      {
+        "name": "Biggame · PhantomEscapeGo",
+        "last_active": "09-23 21:19",
+        "age_min": 3.9,
+        "alive": true
+      },
+      {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-23 21:33",
-        "age_min": 0.0,
+        "last_active": "09-23 21:22",
+        "age_min": 0.4,
         "alive": true
       }
     ]
