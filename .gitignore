@@ -27,6 +27,9 @@ logs/iteration-loop/*
 fleet/machine.json
 # local transfer binaries (croc etc.) - see fleet/TRANSFER.md
 Tools/bin/
+# P-C forward-collect snapshots (O-1850): accrue locally, never fabricate
+# backtest history; join at factor-build layer with strict availability lag
+data/heat/
 __pycache__/
 *.pyc
 .venv/
