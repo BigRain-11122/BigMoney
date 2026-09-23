@@ -1,7 +1,7 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
 > 2026-09-23 11:35 整理。用户令：本机暂停自动化开发、转为「回测算力节点」；用户赴另一台机器开发系统；本机回测继续跑，成果随时可取。
-> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。
+> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=round 25（2026-09-23 14:05）：产物清单逐项对账无缺件、账本 N=1073 无误、git 段更新（仓库改名 BigMoney+通道已全通）。
 
 ## 一、当前模式与怎么停/恢复
 
@@ -10,7 +10,7 @@
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
 - **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\state.json`（轮号/做了什么/下轮指针）＋ `round_reports.md`（每轮固定字段报告）＋ 根目录 `CODELY.md`（项目记忆）。轮活性另看 `logs\probe-heartbeat.txt`。
 
-## 二、成果速览（截至 OS round 20，2026-09-23 13:15）
+## 二、成果速览（截至 OS round 25，2026-09-23 14:05；round 21-25=纯维护轮，无新增回测产物）
 
 | 成果 | 位置 | 关键数字（样本外 2025+，×2 成本压力全过） |
 |---|---|---|
@@ -41,7 +41,7 @@
 
 ```powershell
 # 1. 取项目：**铁律=git clone（禁文件夹直接复制**——防携带锁文件/临时态；Biggame 08号传输铁律同源）
-#    git clone git@github.com:BigRain-11122/bigmoney.git
+#    git clone git@github.com:BigRain-11122/BigMoney.git
 #    （Money02/、logs/、.codely-cli/、fleet/machine.json 为各机局部，clone 不含、也禁手拷）
 #    新机器接入 5 步与机队协议（身份/心跳/任务认领/借算/写域）= fleet\README.md
 # 2. 一条命令自举：依赖自装（清华镜像回退）→ 20 项自检 → 总控数据生成
@@ -56,7 +56,7 @@ python -m screening.rank          # 432 组排名重建
 ```
 
 - 机器要求：Python 3.10+（3.11 实测）；AI 循环需装 **Codely CLI 并登录**（循环用 `codely -y -p` 无头模式）；GPU 非必需（回测=CPU 任务，GPU 启用条件见 `research/BACKTEST_PLAN.md` §四）。
-- **git 同步（并行开发唯一通道）**：远端 = `git@github.com:BigRain-11122/bigmoney.git`（SSH/Clash 链路实测认证通过），私库**已建好（2026-09-23 round 20 实证：ls-remote 通、空仓库）——循环自动 push 已接通**；此后本机每批成果在任何机器 `git pull` 即得。主分支=main，并行开发协议=PLAN.md §8（节点侧遇冲突只读避让）。
+- **git 同步（并行开发唯一通道）**：远端 = `git@github.com:BigRain-11122/BigMoney.git`（round 22 用户改名 bigmoney→BigMoney，本机 remote 已同步更新；SSH/Clash 链路实测认证通过）。**通道已全通（round 22 实证）**：105MB 全量基线已在远端（首推 ba85d9a 成功），此后每轮增量秒推（ba85d9a..a102b05 实证）＋S0 `git pull --rebase` 每轮正常化——任何机器 `git pull` 即得本机全部成果。主分支=main，并行开发协议=PLAN.md §8（节点侧遇冲突只读避让）。
 - 规则与记忆随仓库走：`PLAN.md`（契约+接手清单 §6）、根 `CODELY.md`（项目记忆）、`Tools/iteration_prompt.txt`（循环 mandate）——任何机器上的任何 AI 会话打开本项目即自动继承全部规则。
 
 ## 五、文件格式速查
