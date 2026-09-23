@@ -14,6 +14,12 @@ Semantics (update_daily family):
   to the *next* trading day's bar in sina convention, partial today-row dropped).
 - Atomic writes (.tmp + os.replace); dedupe by date; strictly-increasing dates;
   no-NaN close validation gate.
+- Daily-cutoff gate (R51 S6 wiring): when local history already covers the
+  latest possible COMPLETE bar date (15:30 convention; local ETF trading
+  calendar primary, weekday fallback), the run is a verified zero-network
+  no-op -- status ts/last_attempt refreshed for the panel reader
+  (update_lhb expected_disclosure_date precedent: a same-evening source
+  publication delay just defers the fetch a few hours, self-healing).
 - Throttle: min 30min between attempts; last_attempt mirror is written BEFORE
   fetching (r18 lesson: crash mid-run still throttles).
 - Network: direct connection (proxy env cleared -- Clash hijack lesson), 2.5s
@@ -68,6 +74,94 @@ def completeness_filter(rows, now=None):
         kept.pop()
         dropped += 1
     return kept, dropped
+
+
+_DATES_CACHE = None
+COMPLETE_HOUR = dt.time(15, 30)  # mirrors completeness_filter convention
+
+
+def _load_trading_dates():
+    """Local ETF trading-day calendar as sorted ISO strings (update_lhb
+    pattern: data/daily 510300.csv primary, glob fallback, None -> weekday
+    approximation). Same exchange-day fabric as futures (R50 G3: two
+    cross-exchange gap dates in 21k rows = 0.009%, accepted)."""
+    global _DATES_CACHE
+    if _DATES_CACHE is not None:
+        return _DATES_CACHE
+    import csv as _csv
+    import glob as _glob
+    cands = [os.path.join(ROOT, "data", "daily", "510300.csv")]
+    cands += [p for p in sorted(_glob.glob(os.path.join(ROOT, "data", "daily", "*.csv")))
+              if p != cands[0]]
+    dates = None
+    for p in dict.fromkeys(cands):
+        try:
+            with io.open(p, "r", encoding="utf-8") as f:
+                ds = {str(r.get("date") or "") for r in _csv.DictReader(f)}
+            ds = sorted(d for d in ds if re.match(r"^\d{4}-\d{2}-\d{2}$", d))
+            if len(ds) >= 100:
+                dates = ds
+                break
+        except Exception:
+            continue
+    _DATES_CACHE = dates
+    return dates
+
+
+def expected_latest_bar_date(now, dates=None):
+    """Latest date a COMPLETE futures daily bar can exist at `now` (pure).
+
+    Today counts only when now >= 15:30 AND today's bar is already in the
+    local calendar (evening source lag defers the fetch a few hours,
+    self-healing -- expected_disclosure_date precedent). Otherwise the most
+    recent local trading day strictly before today. Weekday approximation
+    when no calendar is available.
+    """
+    if dates is None:
+        dates = _load_trading_dates()
+    today = now.date().isoformat()
+    if now.time() >= COMPLETE_HOUR:
+        if dates is None:
+            if now.weekday() < 5:
+                return today
+        elif today in dates:
+            return today
+    if dates is not None:
+        prior = [d for d in dates if d < today]
+        if prior:
+            return prior[-1]
+    d = now.date() - dt.timedelta(days=1) if now.time() < COMPLETE_HOUR else now.date()
+    while d.weekday() >= 5:
+        d -= dt.timedelta(days=1)
+    return d.isoformat()
+
+
+def cutoff_gate(local_cutoff, now, dates=None):
+    """(needs_fetch, expected_date, reason). Zero-network no-op when the
+    local chain already covers the latest possible complete-bar date."""
+    expected = expected_latest_bar_date(now, dates)
+    if local_cutoff is None:
+        return True, expected, "no local variety data (first run)"
+    if str(local_cutoff) >= expected:
+        return False, expected, (f"local cutoff {local_cutoff} covers expected "
+                                f"complete-bar date {expected}")
+    return True, expected, f"local cutoff {local_cutoff} behind expected {expected}"
+
+
+def local_data_cutoff(data_dir=None):
+    """Max last-bar date across the 9 variety CSVs; None if any file is
+    missing/empty (gate then degrades honestly to a real fetch)."""
+    data_dir = data_dir or DATA_DIR
+    lasts = []
+    for v in VARIETIES:
+        p = os.path.join(data_dir, v + ".csv")
+        if not os.path.exists(p):
+            return None
+        rows = read_local_csv(p)
+        if not rows:
+            return None
+        lasts.append(str(rows[-1]["date"]))
+    return max(lasts)
 
 
 def validate_rows(rows):
@@ -244,8 +338,24 @@ def fetch(sym):
 
 def run():
     st = load_status()
-    last_attempt = st.get("last_attempt")
     now = dt.datetime.now()
+    # Daily-cutoff gate FIRST: verified zero-network no-op when the local
+    # chain already covers the latest possible complete-bar date. Bumps
+    # ts+last_attempt so the panel reader stays fresh; throttle window also
+    # restarts (benign: worst case the new daily bar lands ~30min after
+    # publication -- same-evening source lag self-heals, update_lhb precedent).
+    local_cut = local_data_cutoff()
+    needs_fetch, expected, gate_reason = cutoff_gate(local_cut, now)
+    if not needs_fetch:
+        st["last_attempt"] = st["ts"] = now.isoformat(timespec="seconds")
+        st["mode"] = "no-op: cutoff covered"
+        st["no_op_reason"] = gate_reason
+        st["expected_cutoff"] = expected
+        st["data_cutoff"] = local_cut
+        write_status(st)
+        print(f"no-op: {gate_reason} -> zero network")
+        return 0
+    last_attempt = st.get("last_attempt")
     if last_attempt:
         try:
             age = (now - dt.datetime.fromisoformat(last_attempt)).total_seconds()
@@ -392,7 +502,38 @@ def _selftest():
     assert [v + "0" for v in ["IF", "AU"]] == ["IF0", "AU0"]
     # S7 status JSON roundtrip: native types only
     assert json.loads(json.dumps({"a": int(2), "b": None, "c": bool(1)}))["b"] is None
-    print("selftest: 7/7 PASS")
+    # S8 expected_latest_bar_date (injected calendar; fabric = ETF trading
+    # days through 09-23, today 09-24 Thu; J18 self-consistency -- constructed
+    # calendar, no live-data dependence)
+    cal = ["2026-09-21", "2026-09-22", "2026-09-23"]
+    assert expected_latest_bar_date(dt.datetime(2026, 9, 24, 7, 0), cal) == "2026-09-23"   # pre-15:30
+    assert expected_latest_bar_date(dt.datetime(2026, 9, 24, 16, 0), cal) == "2026-09-23"  # post-15:30, today's bar not landed -> self-heal
+    assert expected_latest_bar_date(dt.datetime(2026, 9, 24, 16, 0), cal + ["2026-09-24"]) == "2026-09-24"
+    cal5 = cal + ["2026-09-24", "2026-09-25"]
+    assert expected_latest_bar_date(dt.datetime(2026, 9, 26, 16, 0), cal5) == "2026-09-25"  # Sat -> Fri
+    assert expected_latest_bar_date(dt.datetime(2026, 10, 1, 16, 0), cal5 + ["2026-09-30"]) == "2026-09-30"  # holiday -> prior
+    assert expected_latest_bar_date(dt.datetime(2026, 9, 24, 16, 0), []) == "2026-09-24"  # degenerate/absent calendar -> weekday fallback, post-15:30 Thu
+    assert expected_latest_bar_date(dt.datetime(2026, 9, 24, 7, 0), []) == "2026-09-23"
+    assert expected_latest_bar_date(dt.datetime(2026, 9, 26, 16, 0), []) == "2026-09-25"  # Sat -> walk back
+    # S9 cutoff_gate
+    needs, exp, _ = cutoff_gate("2026-09-23", dt.datetime(2026, 9, 24, 7, 0), cal)
+    assert not needs and exp == "2026-09-23"
+    needs, exp, _ = cutoff_gate("2026-09-22", dt.datetime(2026, 9, 24, 7, 0), cal)
+    assert needs and exp == "2026-09-23"
+    needs, _, _ = cutoff_gate(None, dt.datetime(2026, 9, 24, 7, 0), cal)
+    assert needs  # no local data -> honest fetch
+    # S10 local_data_cutoff on a constructed variety set (offline, temp dir)
+    with tempfile.TemporaryDirectory() as td:
+        base = [{"date": "2026-09-22", "close": 1.0}, {"date": "2026-09-23", "close": 1.1}]
+        for v in VARIETIES:
+            atomic_write(os.path.join(td, v + ".csv"),
+                         rows_to_csv_text([dict(r, open=r["close"], high=r["close"],
+                                               low=r["close"], volume=1.0, oi=1.0,
+                                               settle=None) for r in base]))
+        assert local_data_cutoff(td) == "2026-09-23"
+        os.remove(os.path.join(td, "AU" + ".csv"))
+        assert local_data_cutoff(td) is None  # any-missing -> None (honest fetch)
+    print("selftest: 10/10 PASS")
     return 0
 
 

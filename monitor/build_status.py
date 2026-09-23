@@ -152,8 +152,9 @@ def _heat_state() -> dict:
 
 def _futures_state() -> dict:
     """C-layer futures daily chain (bm-a R48 update_futures.py) from
-    results/futures_update_status.json. Full-history one-shot chain, not yet
-    in the S6 auto-loop; staleness is disclosed as warn (age>24h), not red."""
+    results/futures_update_status.json. In the S6 auto-loop since R51 bm-a
+    (daily-cutoff zero-network no-op guard); staleness is disclosed as warn
+    (age>24h), not red."""
     st = _read_json(os.path.join(PATHS.results_dir, "futures_update_status.json")) or {}
     pv = st.get("per_variety") or []
     out = {"present": bool(st), "varieties": len(pv),
