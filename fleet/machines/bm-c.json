@@ -1,10 +1,12 @@
 {
  "machine_id": "bm-c",
- "last_seen": "2026-09-24 00:40",
- "current_task": "ONBOARDING COMPLETE (dept:fleet): sparse blobless clone (Money02/Money0923 excluded by design) + data/daily 1724/1724 blobs backfilled via api.github.com recipe (zero fail) + bootstrap READY + loop registered; next: first headless round, S6 chain adoption, task board scan",
+ "last_seen": "2026-09-24 01:41",
+ "current_task": "T-2026-09-23-04 (pipeline robustness F1-F8, dept:工程): round-1 delivered F1+F8/F6/F5 + compute_audit tenant-whitelist (salvaged r2), all pushed (origin/main 9ebfdce); remaining F2 (update_lhb robustness: missing-store honest guard for sparse-clone nodes -- lhb_detail.parquet design-excluded here, S6 lhb step crashes exit 1 -- + last_attempt all paths + SSE calendar + chunk atomicity) / F3 (x2 watchdog) / F4 (seg_metrics insufficient_data honesty) / F7 (smoke additions)",
  "cpu_cores": 32,
- "idle_ram_gb": 9.9,
- "gpu_idle_vram_mb": 13264,
- "orders_ack": "FIRST ONBOARDING FULL ENUMERATION 28/28 (all pre-existing, executed by GM/bm-a/bm-b before bm-c joined, bm-c ack-only): O-20260923-1514 (Money0923 triage), O-1533 (bars A-variant), O-1536 (J13 local-first), O-1538 (firm/ four-pack), O-1545 (shortline playbook), O-1620 (P1 authority delegated), O-1636 (research mechanism), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit), O-1816 (P-5 honest all-FAIL), O-1819 (24h backtest), O-1820 (three red lines), O-1823 (STRATEGY_EVALUATION), O-1828 (TA styles), O-1844 (lane confirmation), O-1850 (heat/attention lanes), O-2134 (folk expansion), O-2205 (no-manual-review), O-2210 (max-scale + STRATEGY_LIBRARY), O-2215 (backtest science v2), O-2250 (audit + fixes), O-2310 (OPERATING_PLAN), O-2311 (org expansion), O-2315 (regime guard), O-2325 (local-first routing), O-2345 (CPU mobilization)",
- "verdict": "healthy: onboarded 2026-09-24 00:40; smoke 20/20 incl 6 trader anchor gates; bootstrap READY; panel traders=6 milestones=5/7; hostname YUHUWAN1904 32c/13.2GB-VRAM-free; NETWORK NOTE: github git channels unstable on this LAN - git push/pull must ride Clash 7897 proxy (global config set for github.com), bulk blob pulls use api.github.com ls-tree+blobs+hash-object recipe (see CODELY.md onboarding entry)"
+ "idle_ram_gb": 10.6,
+ "gpu_idle_vram_mb": 13267,
+ "orders_ack": "29/29: 28/28 onboarding enumeration (pre-existing orders, ack-only, executed by GM/bm-a/bm-b before bm-c joined) + O-20260924-0100 (QuantBull decommission triage, executed on this machine 2026-09-24 ~01:00-01:15 by co-resident ACP session under live user order, archive commit c2e36e8 on origin/main, receipt in CODELY.md; adoption items need signed ticket)",
+ "verdict": "healthy: round 2 = orphan-salvage + rebase + push f8b6585..9ebfdce; smoke 20/20; S6 green except lhb step (crash on design-excluded Money02/data/lhb store = T-04 F2 item, queued next round); LoopWatchdog registered on this node (mutual-heal C1 coverage closed); lane discipline with co-resident ACP session held all round, zero collision (reflog-forensics documented)",
+ "heartbeat_epoch_utc": 1790185152,
+ "clock_read": "2026-09-24T01:39:12+08:00"
 }
