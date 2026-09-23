@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-c",
- "last_seen": "2026-09-24 01:41",
- "current_task": "T-2026-09-23-04 (pipeline robustness F1-F8, dept:工程): round-1 delivered F1+F8/F6/F5 + compute_audit tenant-whitelist (salvaged r2), all pushed (origin/main 9ebfdce); remaining F2 (update_lhb robustness: missing-store honest guard for sparse-clone nodes -- lhb_detail.parquet design-excluded here, S6 lhb step crashes exit 1 -- + last_attempt all paths + SSE calendar + chunk atomicity) / F3 (x2 watchdog) / F4 (seg_metrics insufficient_data honesty) / F7 (smoke additions)",
+ "last_seen": "2026-09-24 01:58",
+ "current_task": "T-2026-09-23-04 (pipeline robustness F1-F8, dept:工程): F1/F5/F6/F8 + F2 delivered (F2 commit 8c90022: update_lhb store-absent honest exit-2 guard = bm-c S6 crash root-fix, SSE holiday-aware disclosure window via local data/daily calendar, overlap-path last_attempt throttle fix audit P0-6, atomic chunk/parquet writes, corruption logging; selftest 11->23 PASS); remaining F4 (seg_metrics insufficient_data honesty) / F3 (x2 watchdog escalation) / F7 (smoke additions covering new guards)",
  "cpu_cores": 32,
  "idle_ram_gb": 10.6,
  "gpu_idle_vram_mb": 13267,
  "orders_ack": "29/29: 28/28 onboarding enumeration (pre-existing orders, ack-only, executed by GM/bm-a/bm-b before bm-c joined) + O-20260924-0100 (QuantBull decommission triage, executed on this machine 2026-09-24 ~01:00-01:15 by co-resident ACP session under live user order, archive commit c2e36e8 on origin/main, receipt in CODELY.md; adoption items need signed ticket)",
- "verdict": "healthy: round 2 = orphan-salvage + rebase + push f8b6585..9ebfdce; smoke 20/20; S6 green except lhb step (crash on design-excluded Money02/data/lhb store = T-04 F2 item, queued next round); LoopWatchdog registered on this node (mutual-heal C1 coverage closed); lane discipline with co-resident ACP session held all round, zero collision (reflog-forensics documented)",
- "heartbeat_epoch_utc": 1790185152,
- "clock_read": "2026-09-24T01:39:12+08:00"
+ "verdict": "healthy: round 3 = T-04 F2 delivered+committed; smoke 20/20; S6 chain green with lhb now honest exit 2 store-absent (design-expected on this node, no crash); audit FLAG idle_with_work = open-tasks queue signal (T-05/T-07 unclaimed fleet-wide + T-04 F4/F3/F7 remainder), honest not force-cleared; panel traders=6; LoopWatchdog alive (Ready 02:10)",
+ "heartbeat_epoch_utc": 1790187580,
+ "clock_read": "2026-09-24T01:59:40+08:00"
 }
