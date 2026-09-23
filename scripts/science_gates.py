@@ -137,6 +137,26 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
             raise KeyError("passive block missing/empty in "
                           "shortline_p4_ext_tilt.json — schema drift, fix batch writer")
         return max(cands)  # strict = harder line
+    if pool == "cta_futures":
+        # CTA_P1 additive pool (research/CTA_P1.md SS4): strict-max of this
+        # batch's own two passive long baselines (r20 / monthly rebalance),
+        # read from the product file — futures domain never borrows core48
+        # or stock-domain passives (no silent cross-pool reuse).
+        path = os.path.join(results_dir, "shortline_cta_p1.json")
+        if not os.path.exists(path):
+            raise KeyError(f"cta_futures passive not on file yet "
+                          f"({path}) — run CTA_P1 phase-1 write first")
+        with open(path, encoding="utf-8") as fh:
+            pas = (json.load(fh).get("passive") or {})
+        cands = []
+        for name in ("passive_long_r20", "passive_long_monthly"):
+            sr = ((pas.get(name) or {}).get("full") or {}).get("sharpe")
+            if isinstance(sr, (int, float)) and math.isfinite(sr):
+                cands.append(float(sr))
+        if not cands:
+            raise KeyError("passive block missing/empty in "
+                          "shortline_cta_p1.json — schema drift, fix batch writer")
+        return max(cands)  # strict = harder line
     path = os.path.join(results_dir, "p2_calibration.json")
     if pool != "core48" or not os.path.exists(path):
         raise KeyError(f"no frozen passive calibration on file for pool '{pool}' — "
