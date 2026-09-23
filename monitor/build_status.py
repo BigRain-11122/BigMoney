@@ -497,6 +497,8 @@ def _gate_chain(bt: dict) -> dict:
     p5re = _read_json(os.path.join(res, "p5_random_entry.json")) or {}
     p4b2 = _read_json(os.path.join(res, "shortline_p4_batch2.json")) or {}
     p4p = _read_json(os.path.join(res, "shortline_p4_pairs.json")) or {}
+    p4q = _read_json(os.path.join(res, "shortline_p4_queue.json")) or {}
+    p4e = _read_json(os.path.join(res, "shortline_p4_ext_tilt.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -649,6 +651,21 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"{'/'.join(g2f_reg)} 过邻域+成本门注册；"
                                f"×3 亦越技能线 {g2f_x3} 员"
                                if g2f_reg else "0 员过门")})
+    if p4q:
+        # P4_QUEUE oscillator/divergence batch (O-2210): 0 G1' candidates +
+        # 2 sleeve pockets (bb_squeeze dual-exit). Verdict laws: oscillator
+        # oversold family extinction + divergence double-negative. All
+        # live-read from batch JSON (counting single-source, O-2250 T2).
+        _qv = p4q.get("verdict") or {}
+        _qg = p4q.get("gate") or {}
+        _q_slv = p4q.get("sleeve_candidates") or []
+        steps.append({"stage": "P4_QUEUE · 振荡/背离排队族海选（O-2210·5 族）",
+                      "result": (f"{_qv.get('n_survivors', 0)} G1' 候选 · "
+                                 f"袖珍 {len(_q_slv)}"),
+                      "pass": bool(_qv.get("n_survivors")),
+                      "note": (f"vi={_qg.get('vi_bar_recorded')}；振荡超卖类"
+                               f"四族全灭律+背离域双负律入法；袖珍=bb_squeeze"
+                               f" 双制（正但差 i 线）")})
     if p4p:
         _pv = p4p.get("verdict") or {}
         _v2 = _pv.get("v2_gate") or {}
@@ -663,6 +680,27 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"池化 {_pl} < v2 线 {_line}，亦低于随机对同构 "
                                f"null p95 {_np95}（协整选择增益为负）；"
                                f"×2 转负；D6 低相关 {_mc}（信息列）")})
+    if p4e:
+        # P4_EXT_TILT (bm-b r68-69): extension-slot factor survivors failed
+        # strategy-level conversion 0/5. Stock-domain own skill line (vi
+        # floor 0.561 binding). Live-read from batch JSON (O-2250 T2).
+        _ev = p4e.get("survivors") or []
+        _eline = (p4e.get("vi") or {}).get("line")
+        _ebest_k, _ebest_s = None, None
+        for _c in (p4e.get("cells") or []):
+            _s = ((_c.get("g1_prime_v2") or {}).get("sharpe_full"))
+            if _s is not None and (_ebest_s is None or _s > _ebest_s):
+                _ebest_k, _ebest_s = _c.get("key"), _s
+        _emu = (p4e.get("null_pool") or {}).get("mu")
+        steps.append({"stage": ("P4_EXT_TILT · 扩展槽因子→策略转化"
+                                "（gdhs/dzjy·B 层长多倾斜）"),
+                      "result": (f"{len(_ev)}/{len(p4e.get('cells') or [])} "
+                                 f"员过 G1' v2"),
+                      "pass": bool(_ev),
+                      "note": (f"vi={_eline}（被动月度EW+0.10 主导·地板绑定）；"
+                               f"最优 {_ebest_k} {_ebest_s} 仍差线；随机 null "
+                               f"μ={_emu}——股票域摩擦墙：因子级幸存者"
+                               f"≠策略级可转化")})
     ctap = _read_json(os.path.join(res, "shortline_cta_p1.json")) or {}
     if ctap:
         # CTA_P1 futures screen (bm-a R50): 0/16 honest close, futures-domain
