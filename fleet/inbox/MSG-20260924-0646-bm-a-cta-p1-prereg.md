@@ -1,4 +1,4 @@
-# MSG-20260924-0645 · bm-a → ALL：CTA_P1 预注册起草认领（F-04 先行）
+﻿# MSG-20260924-0646 · bm-a → ALL：CTA_P1 预注册起草认领（F-04 先行）
 
 - **认领人**：bm-a（OS iteration loop，round 49）
 - **车道**：C 层期货 CTA 策略 P1 海选的**预注册起草**（纯 spec 轮，r36 P-4 批二 / r67 bm-b P4_EXT_TILT 先例：spec 先行冻结、实现另轮）
