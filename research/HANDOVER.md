@@ -1,7 +1,7 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
 > 2026-09-23 11:35 整理；15:1x 接管版更新。CEO 令：AI 全面接管 Bigmoney 系统开发（mandate=`Tools\iteration_prompt.txt` 接管版：开发范围=PLAN P0-P4+§7+任务板，P1 新方向须 CEO 署名）。机队实况：bm-a=32 核开发机（DASHENG）｜bm-b=16 核回测/数据节点（Money02 宿主，维护链常驻）；多机大文件传输机制=`fleet/TRANSFER.md`（控制面 git、数据面择通道）。
-> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=bm-b round 35（2026-09-23 17:55；对账区间=bm-b rounds 34-35+bm-a round 10 集成）：新增=**P-2 GTJA191 合成诚实收线**（bm-b r34，N 1312→1435）+**P-4 风格动物园批一 A 层易族 mini 海选**（bm-b r35 认领 MSG-1745→一次定稿，0 候选/袖 2，N→**1556**）+**T-01 bars 传输全弧闭环**（bm-a 接收腿 17:26 dual -Verify PASS 10444 文件全 SHA256、任务 done、bm-b 暂存仓已删）+O-1705 风格动物园已交付入库（ASTYLE_ZOO 42 族+7 涨停情绪因子）+bm-a machine 分支两提交集成 main（48c795f）。
+> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=bm-b round 40（2026-09-23 20:05；对账区间=bm-b rounds 36-40+bm-a rounds 11-15+quant 会话批，round 35 基线之上）：新增=**P-4 批二 spec+引擎撮合护栏+股票面板缓存**（bm-b r36-38a：fill_guard 8 门全绿、T=2850×N=5212×7 列面板；批跑被 O-1820 红线门挡=待 bm-a 财务数据源件）+**P-5 随机起点实战检验**（bm-a R13：三员全 FAIL 0.70 跑赢线诚实判负，N→1883）+**P-4 批 2A TA 迁族**（GM 亲执：G1' 候选 3（engulf_reversal 双制/vol_breakout）、0 注册，N→**2020**）+**P-A LHB 注意力因子批**（bm-a R15：**3/4 过门=项目首个强幸存者因子批**）+**O-1820 三配置红线+大熊市判定器+hr paper 门槛**（bm-a R14）+**P-B 热度数据源专项审计**（bm-b r39：THS 概念板块=主分类法 backtestable-A，EM 成分现值快照→幸存者条款）+**P-B 热点概念因子批预注册+拉取件**（bm-b r40：分类法修订 THS→EM 端到端（akshare 1.18.96 无 THS 成分接口）、**EM push2 域持续阻断中批跑诚实停发待源恢复**）。
 
 ## 一、当前模式与怎么停/恢复
 
@@ -10,7 +10,7 @@
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
 - **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\` 按机分账本（bm-b=state.json+round_reports.md；其余机含 bm-a=state-<机id>.json+round_reports-<机id>.md；字段=轮号/做了什么/下轮指针/每轮固定报告）＋ 根目录 `CODELY.md`（项目记忆，行级追加）。轮活性另看 `logs\probe-heartbeat.txt`。
 
-## 二、成果速览（截至 2026-09-23 17:55=bm-b round 35／bm-a round 10；策略线=短线 P 线，回测账本 N=1556）
+## 二、成果速览（截至 2026-09-23 20:05=bm-b round 40／bm-a round 15；策略线=短线 P 线，回测账本 N=2020）
 
 | 成果 | 位置 | 关键数字（样本外 2025+，×2 成本压力全过） |
 |---|---|---|
@@ -41,7 +41,8 @@
 | **firm/ 建章立制四件套（O-1538，e293f36）** | `firm/RULES.md`+`TECH.md`+`DEV_AUTOMATION.md`+`org_chart.md` v2 | T0-T3 权力分层+红线指针化+总经理七部门表（mandate/KPI/town 映射）+AI 赋能五原则+立法流程；零代码重构零红线数值改动；循环轮执行/汇报按部门标注 |
 | **Money0923 前代系统归档（O-1514，f597750）** | `Money0923/`（782 件/95.8MB） | 用户《Money 自进化量化系统》有用集（代码/25 年面板/分钟语料/state.json 复活锚/MoneyViz 源）；**其自动化停机中**（09-22 停机令），可学 12 条=`research/MONEY0923_TRIAGE.md` §三（采纳须 CEO 署名） |
 | **舰队治理面（fleet v1.0 全家）** | `fleet/README.md`+`FLEET-OPS.md`+`orders/`台账+`HQ-FEEDBACK.md`+machine/<id> 分支机制 | /CEO 令牌+心跳+任务认领+TRANSFER.md 大文件机制+集团反馈面；机器身份=`fleet/machine.json` 本地私有不入库（模板 `_machine.json.template`）；bars 1.09GB 走 **A-变体**（BigMoney-data 私库：**推送完成 81b93d3**，bm-a 接收腿进行中=clone 后台+双侧 manifest -Verify 收官，T-01） |
-| **试验账本累计 N=1556**（432+30+59+122+27+26+12+9+10+145+153+18+30+239+123+121） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示（P-4 起 JSON `trials_ledger.total` 为面板真值源） |
+| **试验账本累计 N=2020**（432+30+59+122+27+26+12+9+10+145+153+18+30+239+123+121+327+124+137） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示（P-4 起 JSON `trials_ledger.total` 为面板真值源） |
+| **短线研究线第二波（bm-b r36-40+bm-a R11-15+GM 批，round 35 后增量）** | `research/shortline/P4_BATCH2.md`+`scripts/p4_batch2_gates.py`（撮合护栏 8 门）+`Money02/data/cache/p4_batch2_panel/`（T=2850×N=5212 面板，gitignored）、`research/P5_RANDOM_ENTRY.md`+`results/p5_random_entry.json`（P-5）、`research/shortline/P4_BATCH2A.md`+`scripts/p4_batch1_screen_gm.py`（TA 8 流派）、`research/shortline/PA_LHB_IC.md`+`scripts/pa_lhb_ic.py`（**P-A 3/4 过门**：lhb_count_20 IC−0.064/IR−0.84、lhb_days_since +0.063/0.72、lhb_amt_share_20 +0.064/OOS IR 0.854）、`research/digests/DIGEST-20260923-heat-source-audit.md`+`scripts/heat_source_audit.py`（P-B 源审计）、`research/shortline/PB_HEAT_CONCEPT_IC.md`+`scripts/pb_heat_pull.py`（P-B 预注册+断点续拉件） | P-4 批二批跑=O-1820 红线门挡后（待财务数据源）；P-4b2A 3 候选 0 注册；**P-B 批跑=EM push2 域 IP 级持续阻断（19:25→20:00 实证，datacenter-web 域不受影响）→ 拉取件 checkpoint 续拉待源恢复**；firm/ 三红线+regime.py+hr paper 门槛（bm-a R14）；COMPUTE_AUDIT 章程+审计器常驻 S6 链 |
 
 ## 三、取数清单（两条路径）
 
@@ -88,7 +89,7 @@ python -m screening.rank          # 432 组排名重建
 - bars 1.09GB（Money02\data\bars）传输**全弧闭环**：A-变体推送完成（BigMoney-data main=81b93d3）+bm-a 接收腿 dual -Verify PASS+落位再验 PASS → **T-2026-09-23-01 done**；bars 双机就位，bm-b 暂存仓已删；数据面机制归档=`fleet/TRANSFER.md`。
 - 机队协同：每轮自动消化 `fleet/orders/` 新令与 `fleet/inbox/` 定向消息；J12 公司小镇 v0.4/J13 LLM 助理 v0.1/J18b 数据部行已交付；P 线分工=GM MSG-1700（**P-1b WQ101 移植=bm-a in-flight、P-2 合成=bm-b 已收线**，开工前 inbox 认领制=F-04 已成 fleet 规范）。
 - 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
-- 开发队列（接管版，CEO 可随时改序）**round 15 bm-a 更新**：J12 v0.4/J13 v0.1/J18b 已交付 → 余 J10 dashboard.html 分布式监控页 → Optuna 骨架；**研究线现役（O-1819 队列永不清空）**：P-C 前向热度采集管道（bm-a 下轮，O-1850 工程车道）→ P-1c Stage-B probe → O-1820 item2 akshare 财务+ST 源 → P-6 记分卡（O-1823 认领制）→ P-B 概念板块源审计（bm-b 可认领）→ LHB 三幸存者合成批（P-2 型预注册另开）；P1 级新方向须署名任务单才开工（GM 署名即有效，O-1620）。
+- 开发队列（接管版，CEO 可随时改序）**round 40 bm-b 更新**：J12 v0.4/J13 v0.1/J18b 已交付 → 余 J10 dashboard.html 分布式监控页 → Optuna 骨架；**研究线现役（O-1819 队列永不清空）**：bm-a=P-C 前向热度采集管道（O-1850 工程车道，注意 emappdata 域与 push2 同族阻断风险）→ O-1820 item2 akshare 财务+ST 源（R38-b 门挡解锁钥匙）→ P-1c Stage-B probe；bm-b=**P-B 热点概念因子批（认领中：源审计 r39 已交付、prereg+拉取件 r40 已交付，EM push2 域恢复即 checkpoint 续拉→批跑）** → LHB 三幸存者合成批（P-2 型预注册另开）→ 跨库联合合成（GTJA89+WQ36，O-1819 指名）；P-6 记分卡（O-1823 认领制开放）；P1 级新方向须署名任务单才开工（GM 署名即有效，O-1620）。
 
 ## 七、诚实声明
 
