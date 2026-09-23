@@ -233,6 +233,44 @@ def _portfolio_state() -> dict:
     return out
 
 
+def _corr_watch_state() -> dict:
+    """Correlation watch + IV-weight refresh monitor (portfolio dept
+    charter s1.2, R36) from results/corr_watch.json. Report-only watch
+    (W1 full-window D6 line / W2 IS2 convergence / W3 trend / W4
+    disclosure / W5 x2 margin); zero-N_eff monitoring class per JSON
+    audit block — no promotion or allocation signal derived here."""
+    j = _read_json(os.path.join(PATHS.results_dir, "corr_watch.json")) or {}
+    w = j.get("watch") or {}
+    w2 = w.get("W2_is2_convergence") or {}
+    w5 = w.get("W5_x2_margins") or {}
+    margins = [m.get("margin") for m in w5.values()
+               if isinstance(m, dict) and isinstance(m.get("margin"), (int, float))]
+    traj = w.get("rolling_traj") or {}
+    ivw = (j.get("iv_weight_refresh") or {}).get("weights") or {}
+    fl = j.get("forward_leg") or {}
+    flag = j.get("verdict")
+    out = {
+        "present": bool(w),
+        "generated": j.get("generated"),
+        "verdict": flag,
+        "w1_flag": (w.get("W1_full_d6_line") or {}).get("flag"),
+        "w2_flag": w2.get("flag"),
+        "w2_hits": len(w2.get("hits") or {}),
+        "max_is2_pair": w.get("max_is2_pair"),
+        "corr_iv6_ew6": (w.get("W4_corr_iv6_ew6") or {}).get("got"),
+        "x2_margin_min": min(margins) if margins else None,
+        "rolling_avg_last": traj.get("avg_last"),
+        "iv_weight_max": max(ivw.values()) if ivw else None,
+        "twin_ok": (j.get("twin") or {}).get("ok"),
+        "forward_status": fl.get("status"),
+        "forward_bars": fl.get("min_bars"),
+        "status": "ok" if w else "none",
+        "text": (f"{flag} · W2 IS2 越线 {len(w2.get('hits') or {})} 对"
+                 if w else "监控待产出"),
+    }
+    return out
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -824,6 +862,7 @@ def build() -> dict:
     data["token"] = _token_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
+    data["corr_watch"] = _corr_watch_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -951,6 +990,18 @@ def build() -> dict:
                     f" · 分散收益 +{_pf2(pf['benefit'])} · ×2 成本 {_pf2(pf['x2_sharpe'])} "
                     f"{('存活' if pf['x2_survive'] else '阵亡') if pf['x2_survive'] is not None else '—'}"
                     f"（T-06 报告制 · EW 载体）{iv_txt}"})
+    cw = data["corr_watch"]
+    if cw["present"]:
+        def _cw2(v):
+            return format(v, ".2f") if isinstance(v, (int, float)) else "—"
+        tail_events.append({
+            "time": cw["generated"] or "-",
+            "text": f"相关性监控 · {cw['text']}"
+                    f" · IS2 最高对 {_cw2(cw['max_is2_pair'])}"
+                    f" · 尾窗均值 {_cw2(cw['rolling_avg_last'])}"
+                    f" · ×2 垫最小 {_cw2(cw['x2_margin_min'])}"
+                    f" · FL {cw['forward_status'] or '—'}"
+                    f"（组合部 §一.2 · 月更 · twin{'OK' if cw['twin_ok'] else '红'}）"})
     fl = payload["fleet"]
     if fl["present"]:
         m_alive = sum(1 for m in fl["machines"] if m["health"] == "ok")
