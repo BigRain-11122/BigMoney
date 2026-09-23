@@ -723,6 +723,31 @@ def _gate_chain(bt: dict) -> dict:
                                f"（被动 {_cl.get('passive_term')} 主导）；最优 "
                                f"{_best_k} {_best_s} 超随机带 p95 {_np95}"
                                f" 但差线收线（律8 成本结构刻度）" if _cl else "")})
+    ctap2 = _read_json(os.path.join(res, "shortline_cta_p2_noau.json")) or {}
+    if ctap2:
+        # CTA_P2_NOAU (bm-a R53): AU-drop mechanism decomposition, 0/16 honest
+        # close. All values live-read from the batch JSON (O-2250 rule).
+        _cl2 = ctap2.get("skill_line") or {}
+        _p2 = ctap2.get("g1_passers") or []
+        _vg2 = ctap2.get("verdicts_g1") or {}
+        _b2k, _b2s = None, None
+        for _k, _v in _vg2.items():
+            _s = _v.get("sharpe_full")
+            if _s is not None and (_b2s is None or _s > _b2s):
+                _b2k, _b2s = _k, _s
+        _p1b = None
+        for _v in ((ctap.get("verdicts_g1") or {}) if ctap else {}).values():
+            _s = _v.get("sharpe_full")
+            if _s is not None and (_p1b is None or _s > _p1b):
+                _p1b = _s
+        steps.append({"stage": "CTA_P2_NOAU · 期货 CTA 复评（剔 AU 机制分解·8 品种）",
+                      "result": f"{len(_p2)}/{len(_vg2)} 员过 G1' v2",
+                      "pass": bool(_p2),
+                      "note": (f"AU-β 嫌疑推翻：剔 AU 最优 {_b2k} {_b2s} "
+                               f"未塌陷（vs 全9品种批 {_p1b}）；技能线 "
+                               f"{_cl2.get('line')} 新高（律9 判线=宇宙宽度"
+                               f"刻度·σ抬线）；CTA 复活收窄至 P1 署名门"
+                               if _cl2 else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
