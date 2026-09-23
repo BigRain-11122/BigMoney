@@ -10,7 +10,7 @@
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
 - **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\state.json`（轮号/做了什么/下轮指针）＋ `round_reports.md`（每轮固定字段报告）＋ 根目录 `CODELY.md`（项目记忆）。轮活性另看 `logs\probe-heartbeat.txt`。
 
-## 二、成果速览（截至 OS round 12，2026-09-23 11:27）
+## 二、成果速览（截至 OS round 15，2026-09-23 12:15）
 
 | 成果 | 位置 | 关键数字（样本外 2025+，×2 成本压力全过） |
 |---|---|---|
@@ -19,11 +19,15 @@
 | **幸存者 1：VOLATILITY-CE-01**（ce_c23_trail4） | `firm/traders/VOLATILITY-CE-01.json` | OOS Sharpe **2.0568**（锚点截断复现） |
 | **幸存者 2：COMPOSITE-CE-01**（ct_ce_top5） | `firm/traders/COMPOSITE-CE-01.json` | full 0.811 / **OOS 1.609** / 474 笔 / 胜率 0.523 |
 | **幸存者 3：COMPOSITE-CE-02**（ct_ce_top8） | `firm/traders/COMPOSITE-CE-02.json` | full 0.610 / **OOS 1.485** / 795 笔（×2 成本余量 +0.031 偏薄=纸盘期盯防对象） |
-| CE 迁移实验（预注册范式） | `research/CE_TRANSFER.md`、`results/ce_transfer.json`、`scripts/ce_transfer.py` | 2/2 迁移 PASS，一次定稿 9 跑，试验总数 N=717 入档 |
+| CE 迁移实验（预注册范式） | `research/CE_TRANSFER.md`、`results/ce_transfer.json`、`scripts/ce_transfer.py` | 2/2 迁移 PASS，一次定稿 9 跑 |
+| **P3 组合验证（round 13）** | `research/portfolio_report.md`、`results/p3_portfolio.json`、`research/p3_portfolio_results.csv` | **EW 组合 validated**：全期 0.9229 / OOS 1.7334 / 回撤 -12.5% / ×2 0.5754 存活；IV 同判稳健；全期平均两两相关 0.36 低档但 OOS 抬至 0.58=盯防点 |
+| **J9a 数据池审计（round 14）** | `research/POOL_AUDIT.md`、`results/pool_audit.json`、`research/pool_audit.csv` | unique 1676 对账、前缀池=09-22 一次性快照无续命、孪生 48/48 一致、扩池候选 517（启用前逐只核名） |
+| **LFC 低频低成本品种族 mini 海选（round 15）** | `research/LFC_P1_SCREEN.md`、`results/lfc_p1.json`、`research/lfc_p1_results.csv` | **0 员幸存 0 袖珍（诚实判负）**：core5 债金池技能线 1.285=权益池 3 倍；low_vol 全负=成本厚度是资产 carry 刻度的；tsmom/donchian CE 最佳 0.917 未达线；袖珍相关线 0.30 因素材⊂交易员池结构不可达 |
 | 纸盘（100 万虚拟本金） | `live/paper.py`、`results/paper/` | 锚定门禁=注册指标与实时重算逐位一致才记账；**2026-10-31 首月到期检查**（months_tracked=1 → `python -m firm.hr` 应自动 PROMOTE→TRAINEE，禁手工改数） |
 | 日线数据增量管线 | `scripts/update_daily.py`、`results/update_status.json` | 交易日 15:30 后自动增量 48 池 → paper 自动记账；收盘守卫防半根 bar |
 | 旧 432 网格（死信号存档） | `results/*.json`（432 份）、`ranking.csv` | 最好 Sharpe 0.44，已判淘汰，仅供复现 |
 | 因子研究 | `results/factor_ic.json`、`composite_ic.json`、`research/FACTOR_RESEARCH.md`、`COMPOSITE_FACTOR.md` | 最强 vol_60 IC=-0.064；复合因子 IC 实测 0.061/0.023（95% 满仓口径） |
+| **试验账本累计 N=872**（432+30+59+122+27+26+12+9+10+145） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示 |
 
 ## 三、取数清单（两条路径）
 
@@ -58,13 +62,14 @@ python -m screening.rank          # 432 组排名重建
 - `results/p1_screen.json` / `p2_survivors.json` / `p2_calibration.json`：海选/深化明细（含 OOS 指标与门禁判定）
 - `results/paper/<交易员>_paper.json`：纸盘账本（bars/trades/months_tracked/equity）
 - `results/update_status.json`：数据增量状态（per-symbol appended / data_cutoff）
-- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`
-- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新）
+- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`
+- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 7 步数据驱动、试验账本 N 实时聚合）
 
 ## 六、本机将持续产出什么（你回来取时会有更多）
 
 - 每个交易日 15:30 后：48 池日线增量 → 纸盘自动记账 → 成果/面板文件刷新（查 `results/update_status.json` 的 data_cutoff 与 total_new_rows）。
-- 回测计划内剩余：P3 组合验证（3 员相关性/风险预算/合并回测）、低频族支线深化（`research/LOW_CHURN_FAMILY.md`）。
+- 回测计划内现状：P1/P2/P3 与 J14/J15/J19 迁移、J9a 审计、LFC 品族 mini 海选**均已闭环**（P3 组合 validated、LFC 0 员诚实判负）；策略线续作候选（须另开预注册）：货币现金腿（exit-to-asset 引擎特性+511880/511990 池外零相关素材）或新信号设计；扩素材启用前逐只核名。
+- 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
 - 不会做（等你回来定）：总控 v2 公司小镇、本地 LLM 助理、dashboard.html 改造、数据源扩容等一切新功能。
 
 ## 七、诚实声明

@@ -143,6 +143,7 @@ def _gate_chain(bt: dict) -> dict:
     lc = _read_json(os.path.join(res, "lowchurn_family.json")) or {}
     ce = _read_json(os.path.join(res, "combined_exit.json")) or {}
     ct = _read_json(os.path.join(res, "ce_transfer.json")) or {}
+    lfc = _read_json(os.path.join(res, "lfc_p1.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -153,10 +154,14 @@ def _gate_chain(bt: dict) -> dict:
     ce_pass = 1 if ce_v.get("g2_pass") else 0
     ct_v = ct.get("verdict") or {}
     ct_pass = int(ct_v.get("n_pass") or 0)
+    lfc_v = lfc.get("verdict") or {}
+    lfc_pass = int(lfc_v.get("n_survivors") or 0) if not lfc_v.get("void") else 0
+    lfc_gate = lfc.get("gate") or {}
     traders = (ce.get("traders_registered") or []) + \
               (ct.get("traders_registered") or [])
-    ledger = (ct.get("trials_ledger") or ce.get("trials_ledger")
-              or lc.get("trials_ledger") or dep.get("trials_ledger") or [])
+    ledger = (lfc.get("trials_ledger") or ct.get("trials_ledger")
+              or ce.get("trials_ledger") or lc.get("trials_ledger")
+              or dep.get("trials_ledger") or [])
     trials_total = sum(x.get("n", 0) for x in ledger)
     skill_bar = gate.get("effective_skill_bar")
     ct_note = ""
@@ -187,10 +192,23 @@ def _gate_chain(bt: dict) -> dict:
                       "result": f"{ct_pass} 员 PASS" if not ct_v.get("void")
                       else "无效（锚点破）",
                       "pass": ct_pass > 0, "note": ct_note})
+    if lfc:
+        p95 = lfc_gate.get("random_p95_full") or {}
+        vb = lfc_gate.get("vi_bar")
+        n_sleeve = int(lfc_v.get("n_sleeves") or 0)
+        skill = max([v for v in (p95.get("ce"), p95.get("default"), vb)
+                     if v is not None], default=None)
+        steps.append({"stage": "LFC 低频低成本品种族 · 债金池 mini 海选",
+                      "result": f"{lfc_pass} 员幸存" if not lfc_v.get("void")
+                      else "无效（锚点破）",
+                      "pass": lfc_pass > 0,
+                      "note": (f"池本地技能线≈{skill}（随机p95+被动+0.1，为权益池3倍）；"
+                               f"tsmom/donchian CE 最佳未达线；袖珍候选 {n_sleeve}"
+                               if skill else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
-            "n_j19": ct_pass, "n_traders": len(traders), "trader_ids": traders}
-
+            "n_j19": ct_pass, "n_lfc": lfc_pass, "n_traders": len(traders),
+            "trader_ids": traders}
 
 def _paper_state() -> dict:
     """Paper tracking state from results/paper/*_paper.json (live.paper output).
@@ -315,6 +333,7 @@ def build() -> dict:
         {"time": "-", "text": f"门禁链定案（试验账本 N={chain['trials_total']}）："
                               f"432基线灭 → G1' {chain['n_g1_prime']}员 → G2 {chain['n_g2']} → "
                               f"J14 {chain['n_lowchurn']} → J15 1员 → J19 {chain['n_j19']}员"
+                              f" → LFC 债金池 {chain['n_lfc']}员"
                               f"（累计 {chain['n_traders']} 员注册编制）"},
     ]
     if chain["trader_ids"]:
