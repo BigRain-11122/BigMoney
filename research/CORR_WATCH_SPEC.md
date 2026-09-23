@@ -63,10 +63,26 @@ charter §五 T1 呈报路径，本监控零分配后果。月更意义=新员�
   （scorecard 同款 automation_note 口径）。
 - 面板接线（build_status _corr_watch_state + 事件行）= 后续轮候选，本 spec 不预支（防撞 bm-c 车道）。
 
-## §6 占位纪律（跑前为空）
+## §6 占位纪律（跑前为空，跑后回填——2026-09-24 03:5x 首跑）
 
-（跑后回填——跑前写数字即造假）
+- verdict=**ORANGE**（W2 触发：IS2 段 COMPOSITE-CE-01|CE-02 pairwise 0.8687 ≥ 0.70——IV6 批已知
+  政体趋同事实被监控机械正式捕获；全窗 W1 无命中=组合面 D6 线干净）。
+- TWIN 全绿：成员统计逐位、corr 全窗/IS/IS2 avg 逐位（0.1761/0.3313）、IV 权重重推 max|d|=0.0、
+  corr(IV6,EW6) 重推 0.8882=记录值逐位——零漂移实证。
+- W5 margins：EW6 +0.357 / IV6 +0.4985（正，无旗）。FL=insufficient_data（1 bar）诚实。
+- rolling-60d 轨迹首档：尾窗 avg_last 0.2576（全窗 0.1761 < 尾窗 < IS2 0.3313=「续升」方向证据）；
+  **尾段收敛不止 composite 对**：ENGULF|VOLATILITY 末值 0.5017（其 IS2 段均值仅 0.1896）、
+  C1|VOLATILITY 0.4759、ENGULF|NEEDLE 0.4738——注册窗最后 ~3 月相关性加速抬升、
+  覆盖面比段均值显示的更宽，但全部 <0.70 线。W3 首跑=baseline。
+- audit：6 跑/6 workers/1.4s/ledger_trials_added=0（类裁定兑现）。
 
 ## §7 跑后复盘（跑后回填）
 
-（跑后回填）
+- 监控读数 vs 上游记录完全一致（twin 全绿）= corr-watch 可靠性首证；首跑即抓出「尾段收敛
+  广度」这一段均值遮蔽的增量信息——rolling 轨迹（§4「不开新门」条款）证明其保留价值。
+- W2=ORANGE 是设计预期（预注册披露：该对相关为 IV6 记录事实，非新发现）；W1/W5 无旗。
+- **盯防优先级读数**：下次月更看三个点——①max IS2 pair 是否突破 0.90（W3 步长线 +0.05）
+  ②ENGULF|VOLATILITY 尾段是否站稳 0.5+（防守袖与反转确认袖趋同=独立引擎数下降的先兆，
+  P3「1.5 个真独立引擎」担忧的新候选证据链）③FL bars≥60（≈2026-12）时 forward 窗接管盯防。
+- 面板接线（_corr_watch_state）与 FL 机械（live.paper 暴露窗口日权益）= 后续轮候选，本 spec
+  不预支；corr_watch.json history 已为 W3 趋势判读备好基线。

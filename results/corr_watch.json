@@ -1,0 +1,269 @@
+{
+ "spec": "research\\CORR_WATCH_SPEC.md",
+ "class": "recorded-config-reproduction-monitoring (zero N_eff; smoke anchor gate / g25 family-matrix precedent)",
+ "generated": "2026-09-24 03:25:47",
+ "members": [
+  "COMPOSITE-CE-01",
+  "COMPOSITE-CE-02",
+  "DROUGHT-CE-01",
+  "ENGULF-CE-01",
+  "NEEDLE-DE-01",
+  "VOLATILITY-CE-01"
+ ],
+ "twin": {
+  "roster_ok": true,
+  "members": {
+   "COMPOSITE-CE-01": {
+    "ok": true,
+    "full_sharpe": true,
+    "is2_sharpe": true,
+    "n_trades": true,
+    "cutoff": true
+   },
+   "COMPOSITE-CE-02": {
+    "ok": true,
+    "full_sharpe": true,
+    "is2_sharpe": true,
+    "n_trades": true,
+    "cutoff": true
+   },
+   "DROUGHT-CE-01": {
+    "ok": true,
+    "full_sharpe": true,
+    "is2_sharpe": true,
+    "n_trades": true,
+    "cutoff": true
+   },
+   "ENGULF-CE-01": {
+    "ok": true,
+    "full_sharpe": true,
+    "is2_sharpe": true,
+    "n_trades": true,
+    "cutoff": true
+   },
+   "NEEDLE-DE-01": {
+    "ok": true,
+    "full_sharpe": true,
+    "is2_sharpe": true,
+    "n_trades": true,
+    "cutoff": true
+   },
+   "VOLATILITY-CE-01": {
+    "ok": true,
+    "full_sharpe": true,
+    "is2_sharpe": true,
+    "n_trades": true,
+    "cutoff": true
+   }
+  },
+  "corr": {
+   "full": {
+    "got": 0.1761,
+    "recorded": 0.1761,
+    "ok": true
+   },
+   "is": {
+    "got": 0.1303,
+    "recorded": 0.1303,
+    "ok": true
+   },
+   "is2": {
+    "got": 0.3313,
+    "recorded": 0.3313,
+    "ok": true
+   }
+  },
+  "iv_weights": {
+   "ok": true,
+   "max_abs_diff": 0.0
+  },
+  "ok": true
+ },
+ "watch": {
+  "W1_full_d6_line": {
+   "line": 0.7,
+   "hits": {},
+   "flag": "none"
+  },
+  "W2_is2_convergence": {
+   "line": 0.7,
+   "hits": {
+    "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.8687
+   },
+   "flag": "ORANGE"
+  },
+  "W3_trend_vs_prev": {
+   "prev": null,
+   "cur": 0.8687,
+   "flag": "baseline"
+  },
+  "max_is2_pair": 0.8687,
+  "W4_corr_iv6_ew6": {
+   "got": 0.8882,
+   "recorded": 0.8882,
+   "twin_ok": true,
+   "flag": "disclosure"
+  },
+  "W5_x2_margins": {
+   "EW6": {
+    "x2_full": 0.7574,
+    "vi_bar": 0.4004,
+    "margin": 0.357
+   },
+   "IV6": {
+    "x2_full": 0.8989,
+    "vi_bar": 0.4004,
+    "margin": 0.4985
+   },
+   "flag": "none"
+  },
+  "rolling_traj": {
+   "window_days": 252,
+   "roll_window": 60,
+   "pairs": {
+    "COMPOSITE-CE-01|COMPOSITE-CE-02": {
+     "last": 0.8448,
+     "first": 0.9168,
+     "max": 0.9249,
+     "min": 0.8118
+    },
+    "COMPOSITE-CE-01|DROUGHT-CE-01": {
+     "last": 0.2012,
+     "first": 0.1878,
+     "max": 0.5207,
+     "min": -0.0525
+    },
+    "COMPOSITE-CE-01|ENGULF-CE-01": {
+     "last": 0.1699,
+     "first": 0.296,
+     "max": 0.5533,
+     "min": -0.1277
+    },
+    "COMPOSITE-CE-01|NEEDLE-DE-01": {
+     "last": 0.0247,
+     "first": -0.0143,
+     "max": 0.4612,
+     "min": -0.0474
+    },
+    "COMPOSITE-CE-01|VOLATILITY-CE-01": {
+     "last": 0.4759,
+     "first": 0.3975,
+     "max": 0.8112,
+     "min": 0.3194
+    },
+    "COMPOSITE-CE-02|DROUGHT-CE-01": {
+     "last": 0.1808,
+     "first": 0.2355,
+     "max": 0.6954,
+     "min": -0.0301
+    },
+    "COMPOSITE-CE-02|ENGULF-CE-01": {
+     "last": 0.1118,
+     "first": 0.3213,
+     "max": 0.7977,
+     "min": -0.097
+    },
+    "COMPOSITE-CE-02|NEEDLE-DE-01": {
+     "last": 0.0545,
+     "first": -0.029,
+     "max": 0.72,
+     "min": -0.029
+    },
+    "COMPOSITE-CE-02|VOLATILITY-CE-01": {
+     "last": 0.3486,
+     "first": 0.5028,
+     "max": 0.7565,
+     "min": 0.2105
+    },
+    "DROUGHT-CE-01|ENGULF-CE-01": {
+     "last": -0.0195,
+     "first": -0.0005,
+     "max": 0.8768,
+     "min": -0.0195
+    },
+    "DROUGHT-CE-01|NEEDLE-DE-01": {
+     "last": 0.0087,
+     "first": 0.0051,
+     "max": 0.9077,
+     "min": -0.044
+    },
+    "DROUGHT-CE-01|VOLATILITY-CE-01": {
+     "last": 0.1505,
+     "first": 0.0641,
+     "max": 0.574,
+     "min": -0.1135
+    },
+    "ENGULF-CE-01|NEEDLE-DE-01": {
+     "last": 0.4738,
+     "first": 0.0127,
+     "max": 0.8771,
+     "min": 0.0127
+    },
+    "ENGULF-CE-01|VOLATILITY-CE-01": {
+     "last": 0.5017,
+     "first": 0.2254,
+     "max": 0.6511,
+     "min": -0.0382
+    },
+    "NEEDLE-DE-01|VOLATILITY-CE-01": {
+     "last": 0.3364,
+     "first": -0.1074,
+     "max": 0.4866,
+     "min": -0.1202
+    }
+   },
+   "avg_last": 0.2576
+  }
+ },
+ "forward_leg": {
+  "min_periods": 60,
+  "bars_per_member": {
+   "COMPOSITE-CE-01": 1,
+   "COMPOSITE-CE-02": 1,
+   "DROUGHT-CE-01": 1,
+   "ENGULF-CE-01": 1,
+   "NEEDLE-DE-01": 1,
+   "VOLATILITY-CE-01": 1
+  },
+  "min_bars": 1,
+  "status": "insufficient_data",
+  "machinery": "deferred (spec s1: paper JSON has aggregates only)"
+ },
+ "iv_weight_refresh": {
+  "weights": {
+   "COMPOSITE-CE-01": 0.090018,
+   "COMPOSITE-CE-02": 0.045075,
+   "DROUGHT-CE-01": 0.192833,
+   "ENGULF-CE-01": 0.183957,
+   "NEEDLE-DE-01": 0.252014,
+   "VOLATILITY-CE-01": 0.236103
+  },
+  "sum": 1.0,
+  "is_vol": {
+   "COMPOSITE-CE-01": 0.004212,
+   "COMPOSITE-CE-02": 0.008412,
+   "DROUGHT-CE-01": 0.001966,
+   "ENGULF-CE-01": 0.002061,
+   "NEEDLE-DE-01": 0.001505,
+   "VOLATILITY-CE-01": 0.001606
+  }
+ },
+ "verdict": "ORANGE",
+ "audit": {
+  "elapsed_sec": 1.4,
+  "n_engine_runs": 6,
+  "workers": 6,
+  "ledger_trials_added": 0
+ },
+ "history": {
+  "2026-09-24": {
+   "verdict": "ORANGE",
+   "corr_full_avg": 0.1761,
+   "corr_is2_avg": 0.3313,
+   "max_is2_pair": 0.8687,
+   "w1": "none",
+   "w2": "ORANGE",
+   "twin_ok": true
+  }
+ }
+}
