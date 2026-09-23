@@ -1,10 +1,10 @@
 {
-  "machine_id": "bm-b",
-  "orders_ack": "All 19 orders through O-20260923-2134 acked (r46 round-start + closeout double-scan: zero new orders).",
-  "last_seen": "2026-09-23 22:35",
-  "idle_ram_gb": "9.5",
-  "gpu_idle_vram_mb": "2330",
-  "current_task": "round 46: P-1d ext-slot data line in flight (dzjy DONE 316k rows gate PASS 99.94%, gdhs DONE 44/44 quarters gate PASS, margin leg pulling ~7h background PID 4448; next=p1d_ext_slots_ic.py batch runner build then one-shot IC when margin gate passes). P-B split-block: push2his recovered, push2/clist still blocked (honest exit-2 fix landed), lane parked.",
-  "cpu_cores": "16",
-  "verdict": "healthy: smoke 20/20; audit CLEAN 14% zero flags; daily cutoff 09-23 no-op; lhb+heat no-op; fundamental skip; mask gates 5/5; panel traders=3 milestones 5/7; ext-slot margin pull chain alive background; P-B push2his recovered but clist blocked (per-subdomain); long-lines: 2026-10-31 promo check, CE-02 x2 watch"
+ "machine_id": "bm-b",
+ "orders_ack": "FULL ENUMERATION 25/25 (r47 double-scan diff vs disk): O-20260923-1514 (Money0923 triage, quant session), O-1533 (bars A+B dual-approved, A-variant done + T-01 done Verify PASS), O-1536 (local-first J13 integrated both machines), O-1538 (firm/ four-pack legislated), O-1545 (shortline playbook + research lanes), O-1620 (P1 authority delegated), O-1636 (research mechanism + style atlas), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit live in S6), O-1816 (P-5 random entry honest all-FAIL), O-1819 (24h continuous backtest, queue-never-empty honored), O-1820 (three red lines, R14-R17 full closure), O-1823 (STRATEGY_EVALUATION v1.0), O-1828 (TA styles GM lane), O-1844 (lane confirmation), O-1850 (heat/attention: P-A LHB 3/4, P-C L1+L2, P-B bm-b lane parked clist-blocked), O-2134 (folk expansion GM lane 6 G1' cands), O-2205 (no-manual-review auto-rupture legislated, GM), O-2210 (max-scale backtest: G2_FOLK 3 new traders book=6, P4_QUEUE 0, STRATEGY_LIBRARY v1.0, GM), O-2215 (backtest science v2 legislated; T-02 tooling = bm-a loop claim MSG-2208, deliverable 1/7 done R24 - bm-b zero touch), O-2310 (OPERATING_PLAN v1.0, GM), O-2325 (local-first LOCAL_FIRST.md + token_meter, S6 wiring adopted in loop prompt), O-2345 (CPU mobilization parallel_runner + P-5B all-FAIL regime-dependence 6/6, GM; bm-b 12w cap policy adopted).",
+ "last_seen": "2026-09-23 23:10",
+ "idle_ram_gb": "8.8",
+ "gpu_idle_vram_mb": "2330",
+ "current_task": "round 47 done (dept:research+data): P-1d batch runner p1d_ext_slots_ic.py delivered (gates/run/selftest; frozen lag rules dzjy shift2/margin shift1/gdhs qe+45d; unit calibration margin=YUAN both exchanges probe-backed; masks A/B_dzjy/C_margin/A_gdhs x K=50 nulls; V1/V2/V3+h10 gate; equivalence hard gate) selftest 13/13 + gates LIVE: dzjy 99.94% PASS / gdhs 44/44 PASS / margin 12.51% FAIL -> exit2 rejects puller false-green; puller done-flag false-green bug patched (6 lines, 3 legs). next: margin chain monitor -> gates green -> run ONE-SHOT",
+ "cpu_cores": "16",
+ "verdict": "healthy: smoke 20/20; S6 chain green (audit CLEAN 7% zero flags, daily cutoff 09-23 no-op zero paper, lhb+heat no-op, fundamental skip, b_layer mask OK, panel traders=6 milestones 5/7, token delta 193); orders diff 25/25 acked zero new; P-1d margin pull chain alive background PID 4448 (~2011-07 of 2010-03..2026-09 span, zero failures); P-B clist still blocked lane parked; long-lines: 2026-10-31 six-trader promo check, CE-02 x2 watch"
 }

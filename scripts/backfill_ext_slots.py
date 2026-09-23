@@ -136,6 +136,8 @@ def pull_dzjy(ak, st, log):
     os.makedirs(outdir, exist_ok=True)
     months = month_ranges(2013, 1, 2026, 9)
     consec_fail = 0
+    leg["done"] = False   # honest in-flight flag (r47: done was init-True, never
+    _save_status(st)      # reset on completion paths -> false-green mid-pull)
     for ym, s, e in months:
         path = os.path.join(outdir, "mrmx_%06d.parquet" % ym)
         marker = os.path.join(outdir, "mrmx_%06d.done.json" % ym)
@@ -158,6 +160,8 @@ def pull_dzjy(ak, st, log):
         leg["rows"] += rows
         _save_status(st)
     log("dzjy leg complete: %d chunks, %d rows" % (leg["chunks"], leg["rows"]))
+    leg["done"] = True
+    _save_status(st)
     return 0
 
 
@@ -198,6 +202,8 @@ def pull_gdhs(ak, st, log):
     os.makedirs(outdir, exist_ok=True)
     quarters = quarter_ends(2015, 3, 2026, 2)
     consec_fail = 0
+    leg["done"] = False   # r47 false-green fix (see pull_dzjy note)
+    _save_status(st)
     for q in quarters:
         path = os.path.join(outdir, "gdhs_%s.parquet" % q)
         if os.path.exists(path):
@@ -218,6 +224,8 @@ def pull_gdhs(ak, st, log):
         leg["rows"] += len(df)
         _save_status(st)
     log("gdhs leg complete: %d quarters, %d rows" % (leg["chunks"], leg["rows"]))
+    leg["done"] = True
+    _save_status(st)
     return 0
 
 
@@ -232,6 +240,8 @@ def pull_margin(ak, st, log):
     for d in cal:
         by_month.setdefault(d[:6], []).append(d)
     consec_fail = 0
+    leg["done"] = False   # r47 false-green fix (see pull_dzjy note)
+    _save_status(st)
     for ym, days in sorted(by_month.items()):
         path_sse = os.path.join(outdir, "sse_%s.parquet" % ym)
         path_szse = os.path.join(outdir, "szse_%s.parquet" % ym)
@@ -293,6 +303,8 @@ def pull_margin(ak, st, log):
         leg["rows"] += sum(len(x) for x in buf_sse) + sum(len(x) for x in buf_szse)
         _save_status(st)
     log("margin leg complete: %d months, %d rows" % (leg["chunks"], leg["rows"]))
+    leg["done"] = True
+    _save_status(st)
     return 0
 
 
