@@ -112,6 +112,42 @@ def _update_state() -> dict:
     return out
 
 
+def _heat_state() -> dict:
+    """Heat/attention chain health (P-C family, O-1850) from results/heat_*_status.json.
+
+    L1 = update_heat.py daily guba-popularity snapshot collector;
+    L2 = backfill_heat_history.py per-stock rank-history backfill.
+    L2 rejects are honest short-history refusals (frozen floor policy,
+    PC_COLLECTOR sec4.1) and do not raise a flag by design.
+    """
+    l1 = _read_json(os.path.join(PATHS.results_dir, "heat_update_status.json")) or {}
+    l2 = _read_json(os.path.join(PATHS.results_dir, "heat_backfill_status.json")) or {}
+    era = l2.get("dataset_era") or {}
+    n_l2 = l2.get("n_done_run")
+    out = {
+        "present": bool(l1 or l2),
+        "l1_verdict": l1.get("verdict"),
+        "l1_snapshots": l1.get("snapshots"),
+        "l1_updated": l1.get("updated"),
+        "l2_updated": l2.get("updated"),
+        "l2_done": n_l2, "l2_target": l2.get("n_target"),
+        "l2_rejects": len(l2.get("failures") or []),
+        "era_min": era.get("date_min"), "era_max": era.get("date_max"),
+        "status": "none", "text": "热度链待产出",
+    }
+    if not out["present"]:
+        return out
+    v = str(out["l1_verdict"] or "")
+    if v.startswith("fetch_fail") or v.startswith("validation_fail"):
+        out["status"], out["text"] = "bad", "热度采集失败"
+    elif v == "fetching":
+        out["status"], out["text"] = "warn", "热度采集中"
+    else:
+        l2_txt = "—" if n_l2 is None else f"{n_l2}/{out['l2_target'] or 0}件"
+        out["status"], out["text"] = "ok", f"热度链活 · L1 {out['l1_snapshots'] or 0}份 · L2 {l2_txt}"
+    return out
+
+
 def _factor_top(n: int = 10) -> list:
     ic = _read_json(os.path.join(PATHS.results_dir, "factor_ic.json")) or {}
     rows = [{"factor": k[:-4], "horizon": k[-2:],
@@ -485,6 +521,7 @@ def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
     data["update"] = _update_state()
+    data["heat"] = _heat_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -553,6 +590,16 @@ def build() -> dict:
             "text": f"数据链 · 日线更新 {data['update']['symbols']} 符号 · 新增 "
                     f"{data['update']['total_new_rows']} 行 · 失败 {data['update']['failures']}"
                     f" · cutoff {data['update']['data_cutoff']}"})
+    heat = data["heat"]
+    if heat["present"]:
+        era_txt = (f" · era {heat['era_min']}→{heat['era_max']}"
+                   if heat["era_min"] and heat["era_max"] else "")
+        tail_events.append({
+            "time": max(str(t) for t in (heat["l1_updated"], heat["l2_updated"]) if t) or "-",
+            "text": f"热度链 · L1 人气榜快照 {heat['l1_snapshots'] or 0} 份 · L2 回填 "
+                    f"{heat['l2_done'] if heat['l2_done'] is not None else '—'}/"
+                    f"{heat['l2_target'] or 0} 件 · 拒 {heat['l2_rejects']}"
+                    f"（真短史）{era_txt}"})
     payload["events"] += tail_events + [
         {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
         {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},
