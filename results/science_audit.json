@@ -1,0 +1,353 @@
+{
+ "history": [
+  {
+   "generated": "2026-09-24 01:09:29",
+   "ledger_head": {
+    "total": 2727,
+    "file": "p5b_new_traders.json",
+    "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+   },
+   "null_pool": {
+    "n_values": 120,
+    "mu": -0.033217,
+    "sigma": 0.242917
+   },
+   "skill_line": {
+    "line": 0.933,
+    "n_eff": 2727
+   },
+   "checks": [
+    {
+     "check": "C1_null_mu_sigma_recompute",
+     "n_values": 120,
+     "mu": -0.033217,
+     "sigma": 0.242917,
+     "coverage_note": [
+      "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+     ],
+     "flags": {
+      "mu_drift_flag": false,
+      "sigma_drift_flag": false,
+      "pool_change": false
+     },
+     "drift_vs": {
+      "mu_prev": -0.033217,
+      "sigma_prev": 0.242917,
+      "n_prev": 120
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C2_lockbox_violation_scan",
+     "data_cutoff": "2026-09-23",
+     "n_ledger_files": 20,
+     "n_whitelisted_legacy": 19,
+     "n_ok_with_cutoff": 0,
+     "violations": [
+      {
+       "file": "p5b_new_traders.json",
+       "cutoff": null,
+       "key": null,
+       "status": "VIOLATION",
+       "reason": "post-v2 batch missing cutoff metadata (unverifiable lockbox read)"
+      }
+     ],
+     "verdict": "VIOLATIONS"
+    },
+    {
+     "check": "C3_trader_dsr_recheck",
+     "n_traders": 6,
+     "n_stale": 0,
+     "n_warn": 0,
+     "n_gate_cross": 0,
+     "rows": [
+      {
+       "trader": "COMPOSITE-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.042409,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2727,
+       "ci_low_recorded": -0.0485,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.042409,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "COMPOSITE-CE-02",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.074987,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2727,
+       "ci_low_recorded": -0.1586,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.075004,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "DROUGHT-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.030128,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2727,
+       "ci_low_recorded": -0.0214,
+       "pbo_recorded": 0.4714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.030133,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "ENGULF-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.018704,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2727,
+       "ci_low_recorded": -0.2763,
+       "pbo_recorded": 0.1143,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.018702,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "NEEDLE-DE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.044671,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2727,
+       "ci_low_recorded": -0.0843,
+       "pbo_recorded": 0.6429,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.044674,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "VOLATILITY-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.348554,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 2727,
+       "ci_low_recorded": 0.4548,
+       "pbo_recorded": 0.3,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.348522,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      }
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C4_gate_attrition_summary",
+     "status": "MISSING",
+     "note": "results/gate_attrition.json not yet filed by any batch receipt (BACKTEST_SCIENCE s7-T machine-readable attrition); first batch post-review with attrition section creates it",
+     "verdict": "MISSING"
+    },
+    {
+     "check": "C5_skill_line_v2_recompute",
+     "line": 0.933,
+     "n_eff": 2727,
+     "passive_term": 0.4792,
+     "null_term": 0.933,
+     "ledger_head": {
+      "total": 2727,
+      "file": "p5b_new_traders.json",
+      "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+     },
+     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
+     "formula_selfconsistent": true,
+     "line_prev": 0.933,
+     "flags": {
+      "line_drift_flag": false
+     },
+     "verdict": "OK"
+    }
+   ],
+   "summary": {
+    "c1_null": "OK",
+    "c2_lockbox": "VIOLATIONS",
+    "c3_traders": "OK",
+    "c4_attrition": "MISSING",
+    "c5_line": "OK",
+    "n_findings": 2
+   }
+  }
+ ],
+ "current": {
+  "module": "scripts/science_audit.py",
+  "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (frozen before first run)",
+  "generated": "2026-09-24 01:09:29",
+  "ledger_head": {
+   "total": 2727,
+   "file": "p5b_new_traders.json",
+   "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+  },
+  "previous_snapshot_source": "science_gates_v2.json",
+  "checks": [
+   {
+    "check": "C1_null_mu_sigma_recompute",
+    "n_values": 120,
+    "mu": -0.033217,
+    "sigma": 0.242917,
+    "coverage_note": [
+     "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+    ],
+    "flags": {
+     "mu_drift_flag": false,
+     "sigma_drift_flag": false,
+     "pool_change": false
+    },
+    "drift_vs": {
+     "mu_prev": -0.033217,
+     "sigma_prev": 0.242917,
+     "n_prev": 120
+    },
+    "verdict": "OK"
+   },
+   {
+    "check": "C2_lockbox_violation_scan",
+    "data_cutoff": "2026-09-23",
+    "n_ledger_files": 20,
+    "n_whitelisted_legacy": 19,
+    "n_ok_with_cutoff": 0,
+    "violations": [
+     {
+      "file": "p5b_new_traders.json",
+      "cutoff": null,
+      "key": null,
+      "status": "VIOLATION",
+      "reason": "post-v2 batch missing cutoff metadata (unverifiable lockbox read)"
+     }
+    ],
+    "verdict": "VIOLATIONS"
+   },
+   {
+    "check": "C3_trader_dsr_recheck",
+    "n_traders": 6,
+    "n_stale": 0,
+    "n_warn": 0,
+    "n_gate_cross": 0,
+    "rows": [
+     {
+      "trader": "COMPOSITE-CE-01",
+      "verdict_recorded": "fail",
+      "dsr_recorded": 0.042409,
+      "n_trials_recorded": 2727,
+      "ledger_head_now": 2727,
+      "ci_low_recorded": -0.0485,
+      "pbo_recorded": 0.0714,
+      "sigma_consistent": true,
+      "dsr_rechecked_now": 0.042409,
+      "dsr_gate_cross": false,
+      "status": "OK"
+     },
+     {
+      "trader": "COMPOSITE-CE-02",
+      "verdict_recorded": "fail",
+      "dsr_recorded": 0.074987,
+      "n_trials_recorded": 2727,
+      "ledger_head_now": 2727,
+      "ci_low_recorded": -0.1586,
+      "pbo_recorded": 0.0714,
+      "sigma_consistent": true,
+      "dsr_rechecked_now": 0.075004,
+      "dsr_gate_cross": false,
+      "status": "OK"
+     },
+     {
+      "trader": "DROUGHT-CE-01",
+      "verdict_recorded": "fail",
+      "dsr_recorded": 0.030128,
+      "n_trials_recorded": 2727,
+      "ledger_head_now": 2727,
+      "ci_low_recorded": -0.0214,
+      "pbo_recorded": 0.4714,
+      "sigma_consistent": true,
+      "dsr_rechecked_now": 0.030133,
+      "dsr_gate_cross": false,
+      "status": "OK"
+     },
+     {
+      "trader": "ENGULF-CE-01",
+      "verdict_recorded": "fail",
+      "dsr_recorded": 0.018704,
+      "n_trials_recorded": 2727,
+      "ledger_head_now": 2727,
+      "ci_low_recorded": -0.2763,
+      "pbo_recorded": 0.1143,
+      "sigma_consistent": true,
+      "dsr_rechecked_now": 0.018702,
+      "dsr_gate_cross": false,
+      "status": "OK"
+     },
+     {
+      "trader": "NEEDLE-DE-01",
+      "verdict_recorded": "fail",
+      "dsr_recorded": 0.044671,
+      "n_trials_recorded": 2727,
+      "ledger_head_now": 2727,
+      "ci_low_recorded": -0.0843,
+      "pbo_recorded": 0.6429,
+      "sigma_consistent": true,
+      "dsr_rechecked_now": 0.044674,
+      "dsr_gate_cross": false,
+      "status": "OK"
+     },
+     {
+      "trader": "VOLATILITY-CE-01",
+      "verdict_recorded": "fail",
+      "dsr_recorded": 0.348554,
+      "n_trials_recorded": 2727,
+      "ledger_head_now": 2727,
+      "ci_low_recorded": 0.4548,
+      "pbo_recorded": 0.3,
+      "sigma_consistent": true,
+      "dsr_rechecked_now": 0.348522,
+      "dsr_gate_cross": false,
+      "status": "OK"
+     }
+    ],
+    "verdict": "OK"
+   },
+   {
+    "check": "C4_gate_attrition_summary",
+    "status": "MISSING",
+    "note": "results/gate_attrition.json not yet filed by any batch receipt (BACKTEST_SCIENCE s7-T machine-readable attrition); first batch post-review with attrition section creates it",
+    "verdict": "MISSING"
+   },
+   {
+    "check": "C5_skill_line_v2_recompute",
+    "line": 0.933,
+    "n_eff": 2727,
+    "passive_term": 0.4792,
+    "null_term": 0.933,
+    "ledger_head": {
+     "total": 2727,
+     "file": "p5b_new_traders.json",
+     "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+    },
+    "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
+    "formula_selfconsistent": true,
+    "line_prev": 0.933,
+    "flags": {
+     "line_drift_flag": false
+    },
+    "verdict": "OK"
+   }
+  ],
+  "summary": {
+   "c1_null": "OK",
+   "c2_lockbox": "VIOLATIONS",
+   "c3_traders": "OK",
+   "c4_attrition": "MISSING",
+   "c5_line": "OK",
+   "n_findings": 2
+  },
+  "discipline": "findings never block any lane; CEO notification zero-action (O-2205)"
+ }
+}

@@ -64,7 +64,17 @@
 
 ## §7 首场实跑结果（跑前必须为空——写数字即造假）
 
-（占位：首跑后回填）
+**首跑**：2026-09-24 01:0x（bm-a R30，判据冻结 aeb0164 → 实现 9f15bca 之后）·exit 0（审计完成含发现项）·账本链头 2727（p5b_new_traders.json）·漂移基线=science_gates_v2.json（R24 快照，首场无历史）。产物=results/science_audit.json（history[0]）。selftest 19/19 + science_gates 23/23 先行全绿。
+
+| 检 | 裁定 | 读数 |
+|---|---|---|
+| C1 null μ/σ | **OK**（首场基线） | n=120 · μ=−0.0332 · σ=0.2429 ·零漂移旗（与 R24 快照逐位同=池静态，采集器未扩） |
+| C2 锁盒扫描 | **VIOLATIONS ×1** | p5b_new_traders.json：v2 后批件缺截断元数据键（机读不可证）。**定性补注**：实际截断已由其预注册 P5B_NEW_TRADERS.md 与 g25 verdict inputs（returns_window 止 2026-09-22）旁证=元数据缺口非实际越权读；修复路径=7/7 执行腿（门禁脚本统一写 evidence_cutoff 字段），存量不回改。另 19 件白名单=11 缺键豁免 + 8 件带合法键全 OK（含 ce_transfer 的 history_end 键）。 |
+| C3 在册 DSR 复检 | **OK** | 6/6 verdict 件新鲜（n_stale=0）·σ_SR 一致性 6/6 过·现行链头重推 DSR 与记录值差 ≤3.2e-5（远小于 ±0.005 容差）·**dsr_gate_cross=0/6**（VOLATILITY 0.3486 最高，全员 <<0.95，与 R28/R29 三检 FAIL 一致·N 单调只降不升如实应验） |
+| C4 损耗账 | **MISSING**（诚实发现） | results/gate_attrition.json 尚无批件回填（§7-T 机器可读损耗账新纪律，首个带损耗账节的批回执创建之；非违规） |
+| C5 判线 v2 | **OK** | 线=0.933 @N_eff 2727 ·公式自洽门过·零漂移旗（对 R24 基线 0.933）·passive_term 0.4792 < null_term 0.933=null 校正主导 |
+
+**发现项处置**（只报不阻断）：①p5b 元数据缺口→7/7 执行腿统一修复（新批必带 evidence_cutoff）；②损耗账空→待首个批回执按 §7-T 回填。两项均已挂 T-02 剩余 6/7、7/7 的验收清单。
 
 ## §8 判据变更协议
 
