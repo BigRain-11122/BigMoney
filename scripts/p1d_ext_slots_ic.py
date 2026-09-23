@@ -601,6 +601,7 @@ def run_batch():
                  "is_end": IS_END, "gate_horizon": H_GATE,
                  "report_horizons": H_REPORT, "n_nulls_per_mask": N_NULLS,
                  "seed0": SEED0, "window": f"{WIN_START} -> {CUT_OFF}",
+                 "evidence_cutoff": CUT_OFF,  # C2 legal key (s9 promise)
                  "engine_runs": 0,
                  "ledger_note": "factor IC batch: engine ledger N untouched "
                                 "(P-A precedent); multiplicity = n_factors x "

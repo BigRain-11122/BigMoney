@@ -261,18 +261,26 @@ def run_gtja(panels, fwd, thr, limit=0):
 
 
 def _chain_head_total():
-    """Max trials_ledger.total across results/*.json (R24 scan convention)."""
+    """Max trials_ledger.total across results/*.json AND results/shortline/*.json.
+
+    R24 scan convention, extended r60: the factor-ledger series lives in
+    results/shortline/ (P-1c 3028, P-1d 3238) and would be invisible to a
+    top-level-only scan -> WQ finalize would fork the chain off the engine
+    head (2791). Both dirs are one chain per the max-total convention.
+    Legacy flat-list trials_ledger files are schema-skipped as before.
+    """
     best = 0
-    for p in glob.glob(os.path.join(ROOT, "results", "*.json")):
-        try:
-            with open(p, encoding="utf-8") as f:
-                obj = json.load(f)
-            tl = obj.get("trials_ledger") or {}
-            tot = tl.get("total", 0)
-            if isinstance(tot, (int, float)) and tot > best:
-                best = int(tot)
-        except Exception:
-            continue
+    for sub in ("", os.path.join("shortline", "")):
+        for p in glob.glob(os.path.join(ROOT, "results", sub, "*.json")):
+            try:
+                with open(p, encoding="utf-8") as f:
+                    obj = json.load(f)
+                tl = obj.get("trials_ledger")
+                tot = tl.get("total", 0) if isinstance(tl, dict) else 0
+                if isinstance(tot, (int, float)) and tot > best:
+                    best = int(tot)
+            except Exception:
+                continue
     return best
 
 
