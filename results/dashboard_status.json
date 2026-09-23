@@ -4,7 +4,7 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T05:30:07"
+    "generated_at": "2026-09-24T05:32:41"
   },
   "health": {
     "smoke": {
@@ -28,7 +28,7 @@
     "update": {
       "present": true,
       "last_run": "2026-09-24 05:29:49",
-      "age_min": 0,
+      "age_min": 2,
       "symbols": 48,
       "total_new_rows": 0,
       "failures": 0,
@@ -53,14 +53,14 @@
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 05:12:08",
+      "generated": "2026-09-24 05:30:07",
       "mandate_est": 2856,
-      "codely_context_est": 102652,
-      "state_est": 2179,
-      "report_est": 53584,
-      "delta_state": -490,
-      "delta_report": 822,
-      "delta_prev": "2026-09-24 04:45:48"
+      "codely_context_est": 104486,
+      "state_est": 2394,
+      "report_est": 55733,
+      "delta_state": 215,
+      "delta_report": 2149,
+      "delta_prev": "2026-09-24 05:12:08"
     },
     "regime": {
       "present": true,
@@ -151,45 +151,45 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-24 05:26",
-        "age_min": 14.0,
+        "last_seen": "2026-09-24 05:31",
+        "age_min": 1.6,
         "health": "ok",
         "cpu_cores": 32,
-        "idle_ram_gb": 49.0,
+        "idle_ram_gb": 49,
         "gpu_idle_vram_mb": 1234,
-        "current_task": "R41 done: XLIB_SYNTH cross-library small-K synthesis re-eval honestly closed FAIL (V1 pass IC 0.0795>nullA 0.0509, V2 razor-miss IR 0.294<0.30, retention 79% V3 pass; K-structure peak K4 = IR wall is material scale; 'synthesis gains IC not IR' 3rd cross-domain proof; ETF external-lib synthesis line closes with P-2 per multiplicity clause; 125/125 bit-exact shelf reproduction; factor ledger 3238->5241); unilateral queue near empty again (rest=P1-gated or other-machine lanes) -> maintenance rounds; 10-01 trio queued",
-        "verdict": "R41 bm-a: open-pool research batch XLIB_SYNTH (cross-library small-K synthesis, claim MSG-0512 + frozen prereg + one-shot 60s) honest FAIL -- V2 razor miss IR 0.294<0.30 with V1/V3 pass; ETF-domain external-lib synthesis line closes with P-2 (IR wall = material scale, member IR 0.270 x ~1.1 ceiling); 125/125 bit-exact shelf reproduction (evidence_cutoff 09-22 truncation); factor ledger 3238->5241; engine N untouched; 3 zero-number engineering-fix reruns (equivalence gate caught cross-domain mask-convention clash 4th time in project history: ps2 stock-domain maskA vs core48 P-1a pairwise-complete recorded line); S6 all green; smoke 23/23; orders 29/29 double-scanned diff empty",
-        "orders_ack": "FULL ENUMERATION 29/29 (mechanically diff-scannable): O-20260923-1514 (Money0923 triage), O-1533 (bars A-variant, T-01 done), O-1536 (localization J13), O-1538 (firm/ four-pack), O-1545 (shortline playbook), O-1620 (P1 authority delegated), O-1636 (research mechanism + style atlas), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit live S6), O-1816 (P-5 random entry all-FAIL honest), O-1819 (24h continuous backtest, queue-never-empty honored), O-1820 (three red lines fully executed), O-1823 (STRATEGY_EVALUATION v1.0), O-1828 (TA styles P-4b2A GM lane), O-1844 (lane confirmation), O-1850 (heat/attention P-A/P-B/P-C lanes; L2 first IC batch closed by R39 bm-a 0/4 pass; cross-lib synthesis closed by R41 bm-a FAIL), O-2134 (folk expansion GM lane), O-2205 (no-manual-review legislated; only P1-signed items remain), O-2210 (max-scale backtest + STRATEGY_LIBRARY v1.0, GM), O-2215 (backtest science v2: T-02 CLOSED 7/7), O-2250 (full audit + fixes GM-executed), O-2310 (OPERATING_PLAN v1.0 GM), O-2311 (org expansion GM-executed: T-06/T-07 done, loop ack-only), O-2315 (regime guard law: T-05 CLOSED by bm-b r59; enforce still parked pending GM/CEO re-review of v1/v2 calibration FAIL evidence pack), O-2325 (local-first GM), O-2345 (CPU mobilization GM: parallel_runner + P-5B), O-20260924-0100 (QuantBull assets merged + bm-c single-project discipline; negative-event-library consumption = P1 signed-ticket required, not started).",
-        "clock_read": "2026-09-24T05:25:30+08:00",
-        "round_no": 41
+        "current_task": "R42 done: P4_PAIRS (zoo #41 ETF cointegration long-only spread reversion) honest v2 FAIL closed -- pooled 0.141 << line 0.9359, below random-pair null p95 0.524 (selection gain negative, z-machine re-proven), x2 -0.041, 71/1081 pairs pass EG marker with same-underlying doubles on top, no residual alpha at 13bp+T+1 daily; D6 low-corr 0.235 info col; anchors 6/6 non-VOID; N 2791->2858; gate chain step 13 wired; zoo #41 + library closed; ADF semantics pitfall caught in selftest (stationary residual t~-27 vs random-walk ~0)",
+        "verdict": "R42 bm-a: zoo #41 closed honest FAIL (P4_PAIRS 67 trials, prereg 79750f5 frozen pre-run, claim d1f801a F-04 first; cointegration selection adds NOTHING vs random pairs at daily granularity -- structural same-underlying doubles exist (gold/securities/STAR50 double-issuer pairs t<=-6.5) but 26bp round-trip eats the reversion; random-pair null p95 0.524>vi 0.4004 = z-rules+engine-exit is itself a Sharpe~0.5 machine on ANY pairs, honest in-batch null mandatory for this structure); OOS>full regime-dependence disclosed; queue: zoo A-layer exhausted, remaining = C-class data-gated or P1-signed -> maintenance rounds until new orders/data; 10-01 trio queued; smoke 23/23; S6 all green",
+        "orders_ack": "FULL ENUMERATION 29/29 (unchanged from R41 ack, S0.5 double-scan diff empty both scans: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
+        "clock_read": "2026-09-24T05:31:03+08:00",
+        "round_no": 42
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-09-24 05:13:22",
-        "age_min": 16.8,
+        "last_seen": "2026-09-24 05:23:11",
+        "age_min": 9.5,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 10.2,
         "gpu_idle_vram_mb": 2400,
-        "current_task": "P-1c WQ leg batch in flight (PID 27128, 12/82, hours-scale); harvest deferred; P-B parked (clist blocked ~10h)",
+        "current_task": "P-1c WQ leg batch in-flight (16/82, PID 27128, ETA 06:05-07:00) + monitoring rounds",
         "verdict": "CLEAN",
         "orders_ack": "FULL ENUMERATION 29/29 (r53 full-disk scan vs ack set, diff=EMPTY): O-20260923-1514 (Money0923 triage, quant session), O-1533 (bars A+B dual-approved, A-variant done + T-01 done Verify PASS), O-1536 (local-first J13 integrated both machines), O-1538 (firm/ four-pack legislated), O-1545 (shortline playbook + research lanes), O-1620 (P1 authority delegated), O-1636 (research mechanism + style atlas), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit live in S6), O-1816 (P-5 random entry honest all-FAIL), O-1819 (24h continuous backtest, queue-never-empty honored), O-1820 (three red lines, R14-R17 full closure), O-1823 (STRATEGY_EVALUATION v1.0), O-1828 (TA styles GM lane), O-1844 (lane confirmation), O-1850 (heat/attention: P-A LHB 3/4, P-C L1+L2, P-B bm-b lane parked clist-blocked), O-2134 (folk expansion GM lane 6 G1' cands), O-2205 (no-manual-review auto-rupture legislated, GM), O-2210 (max-scale backtest: G2_FOLK 3 new traders book=6, P4_QUEUE 0, STRATEGY_LIBRARY v1.0, GM), O-2215 (backtest science v2 legislated; T-02 CLOSED 7/7 bm-a), O-2310 (OPERATING_PLAN v1.0, GM), O-2325 (local-first LOCAL_FIRST.md + token_meter, S6 wiring adopted), O-2345 (CPU mobilization parallel_runner + P-5B all-FAIL regime-dependence 6/6, GM), O-2250 (full audit + T-03/T-04 substance + 3 T2 rules, GM via bm-a; T-03 done by bm-b interactive MSG-2350), O-2311 (org expansion: portfolio dept + GM office + org_chart v3 + T-06/T-07 tickets, GM via bm-a 893685b; T-06 done r52, T-07 done r53), O-2315 (REGIME_GUARD.md v1.0 law + T-05 CLOSED by bm-b r59 shadow-first + C6; enforce parked pending GM/CEO re-review), O-20260924-0100 (QuantBull asset merge + single-project discipline, bm-c-executed via machine/bm-c branch: negative-announcement archive 4830 rows + triage, consumption=P1 needs signed ticket; bm-b zero-touch, lane discipline reaffirmed).",
-        "clock_read": "2026-09-24T05:13:22+08:00",
-        "round_no": 63
+        "clock_read": "2026-09-24T05:23:11+08:00",
+        "round_no": 64
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-09-24 05:03",
-        "age_min": 26.6,
+        "last_seen": "2026-09-24 05:17",
+        "age_min": 14.8,
         "health": "ok",
         "cpu_cores": 32,
-        "idle_ram_gb": 10.5,
+        "idle_ram_gb": 11.3,
         "gpu_idle_vram_mb": 13276,
-        "current_task": "idle: round 12 CLOSED -- NET=UNKNOWN gap filled (network_detector.py executed, LAN detected, dashboard header parity with bm-a/bm-b)",
-        "verdict": "healthy: round 12 closed = NET gap micro-closure via existing-mechanism reuse (node-verified LAN through real DASH_DATA, zero code change) + S6 all-green (audit CLEAN, daily pre-market no-op cutoff 09-23, regime ORANGE shadow d1, lhb exit2 store-absent design-expected, token -490); unilateral queue empty (Optuna/L3/cash-leg/dual-leg all P1-gated, research lanes = bm-a/bm-b); long lines intact (10-31 six-trader all-HOLD, probation duo, corr-watch 3 watch-points); next 5x=round 15",
-        "orders_ack": "29/29: round-12 opening + closing full-scan diff empty (zero new orders); boards empty (job_list 0, tickets 7/7 done); inbox empty",
-        "clock_read": "2026-09-24T05:03:31+08:00",
-        "round_no": 12
+        "current_task": "round 13 CLOSED -- P-1c build_status wiring landed (factor_line payload + dashboard 6th row, dual-series 3238/2791, WQ-status-driven)",
+        "verdict": "healthy: round 13 closed = P-1c panel wiring SS6 micro-closure (claim MSG-0513 first, _factor_line data-driven reader, dual-series display, node 10/10 + screenshot no-clip, smoke 23/23) + S6 all-green (audit CLEAN, daily pre-market no-op cutoff 09-23, regime ORANGE shadow d1, lhb exit2 store-absent design-expected, token -19); unilateral queue empty (P1-gated items untouched, research lanes = bm-a/bm-b); long lines intact; next 5x=round 15",
+        "orders_ack": "29/29: round-13 opening + closing full-scan diff empty (zero new orders; total O-files scanned=29); boards empty (job_list 0, tickets 7/7 done); inbox 1 item = my own claim MSG-0513 (kept for bm-b to read at their next S0)",
+        "clock_read": "2026-09-24T05:17:53+08:00",
+        "round_no": 13
       }
     ],
     "tickets": [
@@ -380,7 +380,40 @@
         "ic_pos_pct": 0.541
       }
     ],
-    "composite_plan": "0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2×price_position"
+    "composite_plan": "0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2×price_position",
+    "factor_line": {
+      "present": true,
+      "total": 5241,
+      "head_file": "xlib_synth.json",
+      "batches": [
+        {
+          "id": "P-A LHB",
+          "text": "3/4 过门",
+          "short": "3/4"
+        },
+        {
+          "id": "P-1c 股票池",
+          "text": "GTJA 21/181 · WQ 腿在飞",
+          "short": "GTJA 21/181 WQ飞"
+        },
+        {
+          "id": "P-1d 扩展槽",
+          "text": "1/10 过门",
+          "short": "1/10"
+        },
+        {
+          "id": "热度 L2",
+          "text": "0/4 过门",
+          "short": "0/4"
+        },
+        {
+          "id": "XLIB 跨库合成",
+          "text": "K4 V2 剃刀差收线",
+          "short": "K4判负"
+        }
+      ],
+      "digest": "N=5241 · LHB 3/4 · GTJA 21/181 WQ飞 · 槽 1/10 · L2 0/4 · XLIB K4判负"
+    }
   },
   "strategy": {
     "n_combos": 432,
@@ -690,12 +723,16 @@
       "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24 05:12:08",
-      "text": "本地化 · token 粗估 状态 2179 · 报告 53584 · 回合固定载入 102652（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 05:30:07",
+      "text": "本地化 · token 粗估 状态 2394 · 报告 55733 · 回合固定载入 104486（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
       "text": "P-6 记分卡 · 记分卡 6 员评级 S×3 A×3 B×0 C×0 · 最优 DROUGHT-CE-01 S 88.64 分（评价面 · hr 仍为唯一编制权）"
+    },
+    {
+      "time": "-",
+      "text": "研究线 · 因子账本 N=5241 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 腿在飞 · P-1d 扩展槽 1/10 过门 · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=2858 另计）"
     },
     {
       "time": "2026-09-23",
@@ -710,7 +747,7 @@
       "text": "相关性监控 · ORANGE · W2 IS2 越线 1 对 · IS2 最高对 0.87 · 尾窗均值 0.26 · ×2 垫最小 0.36 · FL insufficient_data（组合部 §一.2 · 月更 · twinOK）"
     },
     {
-      "time": "2026-09-24 05:26",
+      "time": "2026-09-24 05:31",
       "text": "机队 · 3 节点 3 活 · 票据 done 7/claimed 0/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
@@ -726,8 +763,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 05:29",
-        "age_min": 0.5,
+        "last_active": "09-24 05:32",
+        "age_min": 0.1,
         "alive": true
       }
     ]
