@@ -35,6 +35,7 @@ import numpy as np
 import pandas as pd
 
 from config import PATHS
+from science_gates import ledger_total, recorded_lines  # T-03 F3/F9 (audit P0-7/P1-13)
 from engine import run_backtest
 from live.paper import (OOS_START, CostPatch, ExitPatch, _evidence_matches,
                         build_panels, load_core, seg_metrics,
@@ -50,8 +51,10 @@ SLEEVE_MAX_CORR = 0.30  # unused here, kept for packet parity
 CE_PARAMS = {"time_decay_period": 25, "time_decay_threshold": 0.05,
              "trailing_stop_activate": 0.1}
 CE_OVERRIDES = {"loss_time_days": 16}
-VI_BAR = 0.4004
-I_LINE = {"default": 0.3521, "ce": 0.4474}
+RL = recorded_lines()                        # T-03-F9 machine-linked registry
+VI_BAR = RL["vi_bar"]                        # recorded 0.4004
+I_LINE = {"default": RL["i_line"],            # recorded 0.3521
+          "ce": RL["ce_null_p4_batch1"]}       # recorded 0.4474 (P4-b1 max-rule line)
 WORST_YEAR_FLOOR = -0.35
 REPRO_TOL = 0.005
 TRIALS_PRIOR = "shortline_p4_folk.json"   # chain head 2299
@@ -287,7 +290,7 @@ def main():
 
     with open(os.path.join(PATHS.results_dir, TRIALS_PRIOR),
               encoding="utf-8") as fh:
-        prev_total = int(json.load(fh)["trials_ledger"]["total"])
+        prev_total = ledger_total(json.load(fh)["trials_ledger"])  # T-03-F3 tolerant (dict | flat)
     out = {
         "batch": LEDGER_KEY,
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),

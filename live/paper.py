@@ -53,11 +53,11 @@ from strategies import volatility
 from strategies.composite_rotation import top_n_rotation
 import strategies.patterns as _pt_mod
 import strategies.ta as _ta_mod
+from scripts.science_gates import COST_X2_RATE, CostPatch  # T-03-F12 single source (re-exported for lfc/p3 importers)
 
 OOS_START = "2025-01-01"        # registered evidence segment split (J7+)
 ANCHOR_TOL = 0.002             # project standard (J14/J15)
 COST_X1_RATE = 0.0013041       # G2-recorded baseline single-side cost
-COST_X2_RATE = 0.0026082       # G2-recorded stressed single-side cost
 MIN_BARS_COST_CHECK = 20       # cost-x2 verdict needs a real window
 INITIAL_CASH = 1_000_000.0     # engine default (anchor + paper same)
 PAPER_LEVELS = ("INTERN", "TRAINEE")   # paper-tracked levels (TRADER+ -> live)
@@ -153,26 +153,8 @@ class ExitPatch:
         return False
 
 
-class CostPatch:
-    """FeeSchedule name-factory stress patch (G2-proven pattern)."""
-
-    def __init__(self, mult: float):
-        self.mult = mult
-        self.orig = None
-
-    def __enter__(self):
-        self.orig = _eb.FeeSchedule
-        Orig, m = self.orig, self.mult
-        _eb.FeeSchedule = lambda: Orig(
-            commission_rate=Orig.commission_rate * m,
-            handling_fee=Orig.handling_fee * m,
-            supervision_fee=Orig.supervision_fee * m,
-            slippage_a=Orig.slippage_a * m)
-        return self
-
-    def __exit__(self, *exc):
-        _eb.FeeSchedule = self.orig
-        return False
+# CostPatch -> single source scripts/science_gates.py (T-03-F12;
+# re-exported via the module-level import above for live.paper importers)
 
 
 def self_test_patches() -> bool:

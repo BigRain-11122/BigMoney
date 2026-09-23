@@ -52,6 +52,7 @@ import numpy as np
 import pandas as pd
 
 from config import PATHS
+from science_gates import append_ledger, passive_strict_max  # T-03 F3/F10
 from engine import run_backtest
 from strategies import momentum, trend, volatility
 from strategies.composite_rotation import top_n_rotation
@@ -229,7 +230,9 @@ def main():
         [r["full"]["sharpe"] for r in randoms
          if r["exit_regime"] == reg and r["status"] == "ok"], 95)), 4)
         for reg in ("default", "ce")}
-    passive_full = passive_rows["ew5_buyhold"]["full"]["sharpe"]
+    passive_full = passive_strict_max(
+        [passive_rows["ew5_buyhold"]["full"]["sharpe"],
+         passive_rows["ew5_monthly_rebal"]["full"]["sharpe"]])  # T-03-F10 strict-max (recorded 0.9898 bh at run time)
     vi_bar = round(passive_full + PASSIVE_MARGIN, 4)
     print(f"\nrandom p95: default={p95['default']} ce={p95['ce']}")
     print(f"passive EW5 buyhold full={passive_full} -> vi_bar={vi_bar}")
@@ -314,11 +317,12 @@ def write_outputs(cells, randoms, passive_rows, anchors, survivors, sleeves,
               encoding="utf-8") as fh:
         prior = json.load(fh)
     n_runs = len(cells) * 2 + len(randoms) + len(anchors) + len(passive_rows)
-    ledger = list(prior["trials_ledger"]) + [{
-        "batch": "LFC-P1-mini-screen", "n": n_runs,
-        "note": f"{len(cells)} cells x(1x+x2) + {len(randoms)} random "
-                f"+ {len(anchors)} trader anchors + {len(passive_rows)} passive; "
-                f"pre-registered n=145 (research/LFC_P1_SCREEN.md sec.7)"}]
+    ledger = append_ledger(
+        "LFC-P1-mini-screen", n_runs, "lfc_p1.json",
+        note=f"{len(cells)} cells x(1x+x2) + {len(randoms)} random "
+             f"+ {len(anchors)} trader anchors + {len(passive_rows)} passive; "
+             f"pre-registered n=145 (research/LFC_P1_SCREEN.md sec.7); "
+             f"T-03-F3 unified dict schema")
     out = {
         "batch": "LFC-P1-mini-screen",
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),

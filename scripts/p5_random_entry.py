@@ -41,6 +41,7 @@ from firm.hr import TRADERS_DIR, load_trader
 from live.paper import (PAPER_LEVELS, SIGNAL_BUILDERS, ExitPatch,
                         anchor_gate, build_panels, load_core,
                         self_test_patches)
+from science_gates import ledger_head  # T-03-F3 (audit P0-7)
 
 SEED = 20260923
 K = 50
@@ -50,7 +51,7 @@ W3M, W6M, W12M = 63, 126, 252
 MIN_LISTED = 24
 BEAT_LINE = 0.70
 DD_RED_LINE = -0.35
-LEDGER_PREV = 1680       # 1556 formal + 124 GM-session P-4b1 dual-impl
+LEDGER_PREV = ledger_head()["total"]   # T-03-F3 data-driven chain head (recorded 1680 at run time)
 LEDGER_ADDED = 203       # 150 strategy + 50 passive + 3 anchors
 RES_JSON = os.path.join(PATHS.results_dir, "p5_random_entry.json")
 RES_CSV = os.path.join(PATHS.root_dir, "research", "p5_random_entry_results.csv"

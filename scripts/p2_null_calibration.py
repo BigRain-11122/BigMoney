@@ -35,6 +35,7 @@ import numpy as np
 import pandas as pd
 
 from config import PATHS
+from science_gates import append_ledger, passive_strict_max  # T-03 F3/F10
 from engine import run_backtest
 from engine.metrics import annual_return, sharpe, max_drawdown
 from knowledge.rules import FeeSchedule
@@ -195,7 +196,9 @@ def main():
     b_oos = [r["oos"]["sharpe"] for r in fam_b]
     p95_full = round(float(np.percentile(a_full, 95)), 4)
     p95_oos = round(float(np.percentile(a_oos, 95)), 4)
-    passive_full_sharpe = passive["ew48_buyhold"]["full"]["sharpe"]
+    passive_full_sharpe = passive_strict_max(
+        [passive["ew48_buyhold"]["full"]["sharpe"],
+         passive["ew48_monthly_rebal"]["full"]["sharpe"]])  # T-03-F10 strict-max (recorded 0.3004 bh at run time)
     skill_bar = round(max(p95_full, passive_full_sharpe + PASSIVE_MARGIN), 4)
     paired_delta_oos = [a_oos[k] - b_oos[k] for k in range(N_PAIRED)]
     paired_delta_full = [a_full[k] - b_full[k] for k in range(N_PAIRED)]
@@ -277,13 +280,10 @@ def main():
             "effective_skill_bar": skill_bar},
         "survivors_g1_prime": survivors,
         "candidate_verdicts": verdicts,
-        "trials_ledger": [
-            {"batch": "432-MA-param-grid (pre-plan)", "n": 432},
-            {"batch": "J6-factor-IC-study", "n": 30},
-            {"batch": "P1-strategy-screen", "n": 59},
-            {"batch": "P2-null-calibration", "n": N_BASELINES + N_PAIRED + 2,
-             "note": f"{N_BASELINES} rand+engine + {N_PAIRED} rand+rand + 2 passive (not engine runs)"},
-        ],
+        "trials_ledger": append_ledger(
+            "P2-null-calibration", N_BASELINES + N_PAIRED + 2, "p2_calibration.json",
+            note=f"{N_BASELINES} rand+engine + {N_PAIRED} rand+rand + 2 passive "
+                 f"(not engine runs); T-03-F3 unified dict schema"),
         "audit": {"elapsed_sec": round(time.time() - t0, 1),
                   "n_backtests": N_BASELINES + N_PAIRED,
                   "workers": 1, "cpu_parallel": "serial (single-process)"},

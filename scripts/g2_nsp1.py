@@ -47,6 +47,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # new_signal_p1
 import pandas as pd
 
 from config import PATHS
+from science_gates import append_ledger, ledger_head, ledger_total  # T-03 F3 (audit P0-7)
 from live.paper import (OOS_START, build_panels, load_core, seg_metrics,
                         self_test_patches)
 from new_signal_p1 import _topk_frozen, run_cell
@@ -319,7 +320,7 @@ def main():
             note = (f"G2_NSP1 pass: 7-pt neighborhood all green + anchor "
                     f"reproduced + cost x2 survive + no crash year. "
                     f"i-line 0.4229/6 clauses, ledger N="
-                    f"{sum(x['n'] for x in prior_ledger) + BATCH_N}. "
+                    f"{ledger_head()['total'] + BATCH_N}. "  # T-03-F3 data-driven chain head
                     f"Evidence: research/G2_NSP1.md, "
                     f"research/g2_nsp1_results.csv, results/g2_nsp1.json")
             if famkey == "A":
@@ -352,11 +353,12 @@ def main():
     print(f"saved: {csv_path} ({len(rows)} rows)")
 
     # ---------- JSON ----------
-    ledger = list(prior_ledger) + [{
-        "batch": "G2-NSP1-deepening", "n": BATCH_N,
-        "note": "7+7 OAT neighborhood 1x + 2 centers x(x2,x3) cost stress; "
-                "pre-registered n=18 (research/G2_NSP1.md sec.7); "
-                "gates on recorded constants (CE i-line 0.4229, vi 0.4004)"}]
+    ledger = append_ledger(
+        "G2-NSP1-deepening", BATCH_N, "g2_nsp1.json",
+        note="7+7 OAT neighborhood 1x + 2 centers x(x2,x3) cost stress; "
+             "pre-registered n=18 (research/G2_NSP1.md sec.7); "
+             "gates on recorded constants (CE i-line 0.4229, vi 0.4004); "
+             "T-03-F3 unified dict schema (flat chain narrative retired)")
     out = {
         "batch": "G2-NSP1-deepening",
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),

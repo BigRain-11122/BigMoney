@@ -33,6 +33,7 @@ import numpy as np
 import pandas as pd
 
 from config import PATHS
+from science_gates import ledger_total, recorded_lines  # T-03 F3/F9
 from engine import run_backtest
 from live.paper import (OOS_START, CostPatch, ExitPatch, _evidence_matches,
                         build_panels, load_core, seg_metrics,
@@ -70,20 +71,13 @@ def load_gate() -> dict:
         return json.load(fh)["g1_prime_gate"]
 
 
-def recorded_ce_nulls():
-    with open(os.path.join(PATHS.results_dir, "new_signal_p1.json"),
-              encoding="utf-8") as fh:
-        nsp1 = float(json.load(fh)["gate"]["random_p95_inbatch_full"]["ce"])
-    with open(os.path.join(PATHS.results_dir, "shortline_p4_batch1.json"),
-              encoding="utf-8") as fh:
-        b1 = float(json.load(fh)["gate"]["i_bar_ce_used"])
-    return nsp1, b1
-
-
+# recorded-ce-nulls reader -> single source scripts/science_gates.py (T-03-F9)
+RL = recorded_lines()
 GATE = load_gate()
-I_LINE_RECORDED = GATE["i_full_sharpe_gt"]
-VI_BAR = GATE["vi_full_sharpe_gt"]
-CE_NULL_NSP1, CE_LINE_BATCH1 = recorded_ce_nulls()
+I_LINE_RECORDED = RL["i_line"]            # recorded 0.3521
+VI_BAR = RL["vi_bar"]                     # recorded 0.4004
+CE_NULL_NSP1 = RL["ce_null_core48"]       # recorded 0.4229
+CE_LINE_BATCH1 = RL["ce_null_p4_batch1"]  # recorded 0.4474
 
 
 def queue_self_test() -> bool:
@@ -200,7 +194,7 @@ def write_outputs(cells, randoms, passive_rows, anchors, survivors, sleeves,
 
     with open(os.path.join(PATHS.results_dir, TRIALS_PRIOR),
               encoding="utf-8") as fh:
-        prior_total = int(json.load(fh)["trials_ledger"]["total"])
+        prior_total = ledger_total(json.load(fh)["trials_ledger"])  # T-03-F3 tolerant (dict | flat)
     if prior_total != PREREG_PREV:
         print(f"WARNING: chain head drift -- prior_total {prior_total} "
               f"!= prereg {PREREG_PREV}; using chain head")

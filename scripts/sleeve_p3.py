@@ -59,6 +59,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # sibling import
 import pandas as pd
 
 from config import PATHS
+from science_gates import append_ledger, ledger_total  # T-03 F3 (audit P0-7)
 from live.paper import (ANCHOR_TOL, OOS_START, build_panels, load_core,
                         self_test_patches, seg_metrics)
 from firm.hr import TRADERS_DIR, load_trader
@@ -95,7 +96,7 @@ def load_constants() -> dict:
         "i_bar": g["i_full_sharpe_gt"], "vi_bar": g["vi_full_sharpe_gt"],
         "dd_min": g["iii_dd_min"], "trades_min": g["iv_trades_min"],
         "prior_ledger": prior["trials_ledger"],
-        "prior_n": sum(x["n"] for x in prior["trials_ledger"]),
+        "prior_n": ledger_total(prior["trials_ledger"]),  # T-03-F3 tolerant reader
         "sleeve_cutoff": nsp1["universe"]["data_end"],   # 2026-09-22
         "nsp1_cells": {f"{c['name']}@{c['exit_regime']}": c
                        for c in nsp1["cells"] if c["status"] == "ok"},
@@ -311,12 +312,12 @@ def write_outputs(K, members, sleeves, anchors, sleeve_anchors, schemes,
                   base_repro, corr, admission, t0, void=False):
     n_engine = 0 if sleeves is None else 2 * len(sleeves)
     n_evals = 0 if schemes is None else 2 * len(schemes)
-    ledger = list(K["prior_ledger"]) + [{
-        "batch": "SLEEVE-P3-admission", "n": n_engine + n_evals,
-        "note": f"{n_engine} engine runs (3 members x2 anchor-cum-sleeve + "
-                f"6 sleeves x2 NSP1-record anchor) + {n_evals} portfolio "
-                f"evaluations (derived, non-engine); pre-registered n=30 "
-                f"(research/SLEEVE_P3.md sec.4)"}]
+    ledger = append_ledger(
+        "SLEEVE-P3-admission", n_engine + n_evals, "sleeve_p3.json",
+        note=f"{n_engine} engine runs (3 members x2 anchor-cum-sleeve + "
+             f"6 sleeves x2 NSP1-record anchor) + {n_evals} portfolio "
+             f"evaluations (derived, non-engine); pre-registered n=30 "
+             f"(research/SLEEVE_P3.md sec.4); T-03-F3 unified dict schema")
 
     # ---------- CSV ----------
     rows = []

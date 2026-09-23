@@ -46,6 +46,7 @@ import pandas as pd
 
 from config import PATHS
 import engine.backtester as _eb
+from science_gates import CostPatch  # T-03-F12 single source (rich docstring lives there)
 from engine import run_backtest
 from engine.metrics import annual_return, sharpe, max_drawdown
 from knowledge.rules import FeeSchedule
@@ -118,34 +119,8 @@ def yearly_returns(equity: pd.Series) -> dict:
     return out
 
 
-class CostPatch:
-    """Runtime stress profile: multiply fee components by `mult`.
-
-    Replaces the FeeSchedule NAME inside engine.backtester with a factory
-    returning a stressed instance. (Class-attribute patching does NOT work
-    here: dataclass __init__ bakes field defaults into the function signature
-    at class creation, so FeeSchedule() ignores later class-attr edits --
-    verified empirically 2026-09-23.) Engine/knowledge files untouched,
-    name always restored. Stress only ever makes costs STRICTER.
-    """
-
-    def __init__(self, mult: float):
-        self.mult = mult
-        self.orig = None
-
-    def __enter__(self):
-        self.orig = _eb.FeeSchedule
-        Orig, m = self.orig, self.mult
-        _eb.FeeSchedule = lambda: Orig(
-            commission_rate=Orig.commission_rate * m,
-            handling_fee=Orig.handling_fee * m,
-            supervision_fee=Orig.supervision_fee * m,
-            slippage_a=Orig.slippage_a * m)
-        return self
-
-    def __exit__(self, *exc):
-        _eb.FeeSchedule = self.orig
-        return False
+# CostPatch -> single source scripts/science_gates.py (T-03-F12; the
+# dataclass-baking pitfall is documented in the canonical class docstring)
 
 
 def main():

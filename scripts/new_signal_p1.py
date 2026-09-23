@@ -62,6 +62,7 @@ import numpy as np
 import pandas as pd
 
 from config import PATHS
+from science_gates import append_ledger, recorded_lines  # T-03 F3/F9
 from engine import run_backtest
 from strategies import trend, momentum, sentiment, event
 from live.paper import (OOS_START, CostPatch, ExitPatch, _evidence_matches,
@@ -89,8 +90,9 @@ def load_gate() -> dict:
 
 
 GATE = load_gate()
-I_LINE_RECORDED = GATE["i_full_sharpe_gt"]      # 0.3521 (n=100 calibrated)
-VI_BAR = GATE["vi_full_sharpe_gt"]              # 0.4004 (passive + 0.10)
+RL = recorded_lines()                            # T-03-F9 machine-linked registry
+I_LINE_RECORDED = RL["i_line"]                   # 0.3521 (n=100 calibrated)
+VI_BAR = RL["vi_bar"]                            # 0.4004 (passive + 0.10)
 
 
 def _topk_frozen(score, top_k, rebal_days, ascending=False):
@@ -291,11 +293,12 @@ def write_outputs(cells, randoms, passive_rows, anchors, survivors, sleeves,
               encoding="utf-8") as fh:
         prior = json.load(fh)
     n_runs = len(cells) * 2 + len(randoms) + len(anchors) + len(passive_rows)
-    ledger = list(prior["trials_ledger"]) + [{
-        "batch": "NSP1-new-signal-mini-screen", "n": n_runs,
-        "note": f"{len(cells)} cells x(1x+x2) + {len(randoms)} random "
-                f"+ {len(anchors)} trader anchors + {len(passive_rows)} passive; "
-                f"pre-registered n=153 (research/NEW_SIGNAL_P1.md sec.7)"}]
+    ledger = append_ledger(
+        "NSP1-new-signal-mini-screen", n_runs, "new_signal_p1.json",
+        note=f"{len(cells)} cells x(1x+x2) + {len(randoms)} random "
+             f"+ {len(anchors)} trader anchors + {len(passive_rows)} passive; "
+             f"pre-registered n=153 (research/NEW_SIGNAL_P1.md sec.7); "
+             f"T-03-F3 unified dict schema")
     verdict = {
         "void": void,
         "n_survivors": None if survivors is None else len(survivors),

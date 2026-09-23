@@ -49,6 +49,7 @@ import pandas as pd
 
 from config import PATHS
 import engine.backtester as _eb
+from science_gates import COST_X2_RATE, CostPatch, append_ledger, ledger_head  # T-03 F3/F12 (audit P0-7/P1-16)
 from engine import run_backtest
 from engine.metrics import annual_return, sharpe, max_drawdown
 from strategies import volatility
@@ -60,7 +61,7 @@ CRASH_YEAR = -0.30
 COST_MULTS = [2, 3]
 MIN_TRADES = 30
 MAX_DD = -0.35
-COST_X2_RATE = 0.0026082     # G2-recorded stressed single-side cost
+# COST_X2_RATE -> single source scripts/science_gates.py (T-03-F12)
 COST_X1_RATE = 0.0013041     # G2-recorded baseline single-side cost
 
 BASE_PARAMS = {"max_positions": 5, "position_size_pct": 0.10}
@@ -129,26 +130,7 @@ def yearly_returns(equity: pd.Series) -> dict:
     return out
 
 
-class CostPatch:
-    """FeeSchedule name-factory stress patch (G2-proven pattern)."""
-
-    def __init__(self, mult: float):
-        self.mult = mult
-        self.orig = None
-
-    def __enter__(self):
-        self.orig = _eb.FeeSchedule
-        Orig, m = self.orig, self.mult
-        _eb.FeeSchedule = lambda: Orig(
-            commission_rate=Orig.commission_rate * m,
-            handling_fee=Orig.handling_fee * m,
-            supervision_fee=Orig.supervision_fee * m,
-            slippage_a=Orig.slippage_a * m)
-        return self
-
-    def __exit__(self, *exc):
-        _eb.FeeSchedule = self.orig
-        return False
+# CostPatch -> single source scripts/science_gates.py (T-03-F12)
 
 
 class ExitPatch:
@@ -398,7 +380,7 @@ def main():
     # ---------- trader registration (full-G2 passer only) ----------
     registered = []
     today = time.strftime("%Y-%m-%d")
-    ledger_note = f"ledger N={696 + n_runs}"
+    ledger_note = f"ledger N={ledger_head()['total'] + n_runs}"  # T-03-F3 data-driven chain head (recorded 696 at run time)
     if g2_pass:
         r = runs[rep["point"]]
         eq = r["equity"]
@@ -487,15 +469,9 @@ def main():
         "cost_stress": cost_runs,
         "verdict": verdict,
         "traders_registered": registered,
-        "trials_ledger": [
-            {"batch": "432-MA-param-grid (pre-plan)", "n": 432},
-            {"batch": "J6-factor-IC-study", "n": 30},
-            {"batch": "P1-strategy-screen", "n": 59},
-            {"batch": "P2-null-calibration", "n": 122},
-            {"batch": "P2-survivor-deepening", "n": 27},
-            {"batch": "J14-low-churn-family", "n": 26},
-            {"batch": "J15-combined-exit-softening", "n": n_runs},
-        ],
+        "trials_ledger": append_ledger(
+            "J15-combined-exit-softening", n_runs, "combined_exit.json",
+            note="T-03-F3 unified dict schema; flat chain narrative retired (git history)"),
         "audit": {"elapsed_sec": round(time.time() - t0, 1),
                   "n_backtests": n_runs, "workers": 1,
                   "cpu_parallel": "serial (single-process)"},

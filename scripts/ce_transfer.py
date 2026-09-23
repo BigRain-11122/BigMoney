@@ -50,6 +50,7 @@ import pandas as pd
 
 from config import PATHS
 import engine.backtester as _eb
+from science_gates import COST_X2_RATE, CostPatch, append_ledger, ledger_head, ledger_total  # T-03 F3/F12
 from engine import run_backtest
 from engine.metrics import annual_return, sharpe, max_drawdown
 from strategies import volatility
@@ -62,7 +63,7 @@ CRASH_YEAR = -0.30
 MIN_TRADES = 30
 MAX_DD = -0.35
 COST_MULTS = [2, 3]
-COST_X2_RATE = 0.0026082     # G2-recorded stressed single-side cost
+# COST_X2_RATE -> single source scripts/science_gates.py (T-03-F12)
 COST_X1_RATE = 0.0013041     # G2-recorded baseline single-side cost
 
 # registered CE machine (J15, trader VOLATILITY-CE-01, verbatim)
@@ -116,26 +117,7 @@ def yearly_returns(equity: pd.Series) -> dict:
     return out
 
 
-class CostPatch:
-    """FeeSchedule name-factory stress patch (G2-proven pattern)."""
-
-    def __init__(self, mult: float):
-        self.mult = mult
-        self.orig = None
-
-    def __enter__(self):
-        self.orig = _eb.FeeSchedule
-        Orig, m = self.orig, self.mult
-        _eb.FeeSchedule = lambda: Orig(
-            commission_rate=Orig.commission_rate * m,
-            handling_fee=Orig.handling_fee * m,
-            supervision_fee=Orig.supervision_fee * m,
-            slippage_a=Orig.slippage_a * m)
-        return self
-
-    def __exit__(self, *exc):
-        _eb.FeeSchedule = self.orig
-        return False
+# CostPatch -> single source scripts/science_gates.py (T-03-F12)
 
 
 class ExitPatch:
@@ -231,7 +213,7 @@ def main():
     anchor_hist_end = str(anchor_exp.get("history_end")
                           or ce_prior["universe"]["history"].split("..")[-1].strip())
     prior_ledger = ce_prior["trials_ledger"]
-    prior_n = sum(x["n"] for x in prior_ledger)
+    prior_n = ledger_total(prior_ledger)  # T-03-F3 tolerant reader (dict | flat list)
     with open(os.path.join(PATHS.results_dir, "p1_screen.json"),
               encoding="utf-8") as fh:
         p1 = json.load(fh)
@@ -461,7 +443,7 @@ def write_outputs(rows, runs, anchor, transfers, stress, n_runs, prior_ledger,
                              "+ no crash year. Evidence: "
                              "research/CE_TRANSFER.md, "
                              "research/ce_transfer_results.csv, ledger "
-                             f"N={sum(x['n'] for x in prior_ledger) + n_runs}"},
+                             f"N={ledger_head()['total'] + n_runs}"},  # T-03-F3 data-driven chain head
                 ],
                 "notes": "J15-registered CE exit machine (loss_time 16 + "
                          "decay 25d/5% + trail 0.10) as-is port onto "
@@ -490,7 +472,8 @@ def write_outputs(rows, runs, anchor, transfers, stress, n_runs, prior_ledger,
     print(f"saved: {csv_path} ({len(rows)} rows)")
 
     # ---------- JSON ----------
-    ledger = list(prior_ledger) + [{"batch": "J19-ce-transfer", "n": n_runs}]
+    ledger = append_ledger("J19-ce-transfer", n_runs, "ce_transfer.json",
+                           note="T-03-F3 unified dict schema; flat chain narrative retired (git history)")
     out = {
         "batch": "J19-ce-transfer",
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),

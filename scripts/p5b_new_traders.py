@@ -35,10 +35,11 @@ from parallel_runner import run_cells_parallel, worker_cap
 from p5_random_entry import (BEAT_LINE, DD_RED_LINE, K, MIN_GAP_TD,
                              MIN_LISTED, W12M, W3M, W6M, WARMUP_TD,
                              passive_rel, sample_starts, slice_metrics)
+from science_gates import ledger_head  # T-03-F3 (audit P0-7)
 
 SEED = 20260924            # fresh independent draw (P-5 used 20260923)
 NEW_TRADERS = ["ENGULF-CE-01", "NEEDLE-DE-01", "DROUGHT-CE-01"]
-LEDGER_PREV = 2521
+LEDGER_PREV = ledger_head()["total"]   # T-03-F3 data-driven chain head (recorded 2521 at run time)
 LEDGER_ADDED = 206         # 150 strategy + 50 passive + 6 anchors
 RES_JSON = os.path.join(PATHS.results_dir, "p5b_new_traders.json")
 RES_CSV = os.path.join(PATHS.root, "research", "shortline",

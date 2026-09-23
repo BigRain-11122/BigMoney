@@ -43,6 +43,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 
 from config import PATHS
+from science_gates import append_ledger, ledger_total  # T-03 F3 (audit P0-7)
 from engine import run_backtest
 from engine.metrics import annual_return, max_drawdown, sharpe
 from firm.hr import TRADERS_DIR, load_trader
@@ -73,7 +74,7 @@ def load_constants() -> dict:
         "passive_ew48_buyhold": passive["ew48_buyhold"],
         "passive_ew48_monthly": passive["ew48_monthly_rebal"],
         "prior_ledger": prior["trials_ledger"],
-        "prior_n": sum(x["n"] for x in prior["trials_ledger"]),
+        "prior_n": ledger_total(prior["trials_ledger"]),  # T-03-F3 tolerant reader
     }
 
 
@@ -283,10 +284,11 @@ def write_outputs(K, traders, sleeves, anchors, corr, ports, t0, data_end,
     tids = list(traders)
     n_runs = 0 if sleeves is None else 2 * len(tids)          # engine runs
     n_evals = 0 if ports is None else 2 * len(SCHEMES)        # portfolio evals
-    ledger = list(K["prior_ledger"]) + [{
-        "batch": "P3-portfolio-validation", "n": n_runs + n_evals,
-        "note": f"{n_runs} engine member runs (anchor-cum-sleeve) + "
-                f"{n_evals} portfolio evaluations (derived, non-engine)"}]
+    ledger = append_ledger(
+        "P3-portfolio-validation", n_runs + n_evals, "p3_portfolio.json",
+        note=f"{n_runs} engine member runs (anchor-cum-sleeve) + "
+             f"{n_evals} portfolio evaluations (derived, non-engine); "
+             f"T-03-F3 unified dict schema")
 
     # ---------- CSV ----------
     rows = []
@@ -409,7 +411,7 @@ def write_outputs(K, traders, sleeves, anchors, corr, ports, t0, data_end,
                    f"IV validated={iv.get('validated')}")
     print(f"\n===== P3 verdict: {summary} =====")
     print(f"runs={n_runs} evals={n_evals} elapsed: {time.time()-t0:.0f}s "
-          f"ledger N={sum(x['n'] for x in ledger)}")
+          f"ledger N={ledger['total']}")
     return 0
 
 
