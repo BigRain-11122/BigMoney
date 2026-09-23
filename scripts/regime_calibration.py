@@ -396,7 +396,7 @@ def _write(payload: dict, out_path: str = None):
     os.replace(tmp, out_path)
 
 
-def counterfactual(write: bool = True) -> dict:
+def counterfactual(write: bool = True, matrix: str = "v1") -> dict:
     """Prereg s3.3 staged leg: 6 traders x {baseline, ORANGE/RED-masked}.
 
     Masking zeroes ENTRY rows on ORANGE/RED state days (states derive from
@@ -404,6 +404,14 @@ def counterfactual(write: bool = True) -> dict:
     (derived from the UNMASKED entry). 12 engine runs = real trials ->
     science_gates ledger +12. Measurement only: the batch verdict is already
     frozen by G1/G2 (FAIL); this leg never reverses it (prereg s8).
+
+    matrix="v1" -> regime_calibration.json (batch regime_guard_calibration,
+    r56 part3 done); matrix="v2" -> regime_calibration_v2.json (batch
+    regime_guard_calibration_v2, prereg V2 ee8498e s3.5) -- v2 state series
+    via raw_level_v2, mask = v2 ORANGE/RED days, plus YELLOW entry census
+    (per-trader entries on v2-YELLOW days; the x0.5 sizing impact stays a
+    census per prereg V2 s3.5 -- engine sizing sim deferred to GM stage,
+    not implemented, honest note).
     """
     from firm.hr import TRADERS_DIR, load_trader
     try:
@@ -416,22 +424,29 @@ def counterfactual(write: bool = True) -> dict:
                             _evidence_matches, build_panels, evidence_cutoff,
                             load_core, seg_metrics)
 
-    # 1. deterministic re-derivation of the frozen r55 state series; hard
-    #    abort if the bench has drifted since (counts must match recorded).
+    # 1. deterministic re-derivation of the frozen state series (matrix-
+    #    selected); hard abort if the bench has drifted since (counts must
+    #    match the recorded run for THAT matrix).
+    level_fn = raw_level if matrix == "v1" else raw_level_v2
+    out_path = OUT_PATH if matrix == "v1" else OUT_PATH_V2
+    batch = ("regime_guard_calibration" if matrix == "v1"
+             else "regime_guard_calibration_v2")
     bench = build_bench()
-    raw = raw_series(bench, bench_dim_series(bench), breadth_series(bench))
+    raw = raw_series(bench, bench_dim_series(bench), breadth_series(bench),
+                     level_fn=level_fn)
     states, _, _ = state_replay(bench, raw)
     win = [d for d in bench.index if str(d.date()) >= WINDOW_START]
     counts = {}
     for d in win:
         counts[states[d]] = counts.get(states[d], 0) + 1
-    with open(OUT_PATH, encoding="utf-8") as f:
+    with open(out_path, encoding="utf-8") as f:
         recorded = json.load(f)
     want = {k: counts.get(k, 0) for k in ("GREEN", "YELLOW", "ORANGE", "RED")}
     if want != {k: int(v) for k, v in recorded["state_counts"].items()}:
-        raise AssertionError(f"state_counts drift vs recorded r55 run: "
+        raise AssertionError(f"state_counts drift vs recorded {matrix} run: "
                              f"{want} != {recorded['state_counts']}")
     mask_set = {d for d in win if states[d] in (ORANGE, RED)}
+    yellow_set = {d for d in win if states[d] == YELLOW}
 
     tids = [t[:-5] for t in sorted(os.listdir(TRADERS_DIR))
             if t.endswith(".json") and not t.startswith("_")]
@@ -474,11 +489,18 @@ def counterfactual(write: bool = True) -> dict:
         blocked = int((entry.loc[mask_rows] > 0).sum().sum()) \
             if len(mask_rows) else 0
         total_e = int((entry > 0).sum().sum())
+        # v2 prereg s3.5 disclosure: YELLOW entry census (x0.5 sizing
+        # impact stays a census; engine sizing sim deferred to GM stage)
+        y_rows = entry.index[entry.index.isin(yellow_set)]
+        yellow_e = int((entry.loc[y_rows] > 0).sum().sum()) \
+            if len(y_rows) else 0
         bm, mm = base["metrics"], msk["metrics"]
         rows.append({"tid": tid, "anchor_ok": bool(a_ok),
                      "blocked_entries": blocked, "total_entries": total_e,
                      "blocked_share": (round(blocked / total_e, 4)
                                        if total_e else None),
+                     "yellow_entries": yellow_e,
+                     "yellow_days_in_window": len(yellow_set),
                      "base_trades": bm["num_trades"],
                      "masked_trades": mm["num_trades"],
                      "d_trades": mm["num_trades"] - bm["num_trades"],
@@ -495,13 +517,20 @@ def counterfactual(write: bool = True) -> dict:
     def rng(vals):
         return {"min": min(vals), "max": max(vals)}
 
-    led = append_ledger("regime_guard_calibration", 12,
-                        note="prereg s3.3: 6 traders x {baseline, "
-                             "ORANGE/RED entry-mask} full-history legs",
+    led = append_ledger(batch, 12,
+                        note=f"prereg s3.3: 6 traders x {{baseline, "
+                             f"ORANGE/RED entry-mask}} full-history legs "
+                             f"(matrix={matrix})",
                         evidence_cutoff=EVIDENCE_CUTOFF)
-    cf = {"n_runs": 12, "mask_days_in_window": len(mask_set),
+    cf = {"n_runs": 12, "matrix": matrix,
+          "mask_days_in_window": len(mask_set),
           "mask_days_on_panel": mask_rows_n,
           "rows": rows,
+          "yellow_entry_census": (
+              "per-row yellow_entries: entries falling on v2-YELLOW state "
+              "days (prereg V2 s3.5; x0.5 sizing impact = census only, "
+              "engine sizing sim deferred to GM stage -- not implemented)")
+          if matrix == "v2" else None,
           "range": {"d_sharpe": rng([r["d_sharpe"] for r in rows]),
                     "d_annual": rng([r["d_annual"] for r in rows]),
                     "d_trades": rng([r["d_trades"] for r in rows]),
@@ -509,13 +538,14 @@ def counterfactual(write: bool = True) -> dict:
                                           if r["blocked_share"] is not None])},
           "anchors_ok": True, "ledger": led,
           "note": "measurement only; verdict unchanged (G1/G2 FAIL frozen "
-                  "by r55, prereg s8 -- re-prereg is the only enforce path)"}
+                  "by the replay leg, prereg s8 -- re-prereg is the only "
+                  "enforce path)"}
     if write:
         recorded["counterfactual"] = cf
         # top-level trials_ledger = the ONLY key ledger_head() scans (chain
         # visibility); counterfactual.ledger is the provenance copy.
         recorded["trials_ledger"] = led
-        _write(recorded)
+        _write(recorded, out_path)
     return cf
 
 
@@ -624,11 +654,18 @@ def main(argv=None) -> int:
                                     if not c.get("match", True)]},
                          ensure_ascii=False, indent=1))
         return 0 if g["ok"] else 1
-    if "counterfactual" in argv:
-        cf = counterfactual()
-        print(json.dumps({"n_runs": cf["n_runs"],
+    if any(a.startswith("counterfactual") for a in argv):
+        # NOTE: plain `in argv` is exact list membership -- "counterfactual-
+        # v2" would NOT match it and fall through to the v1 replay default,
+        # which rewrites regime_calibration.json (wipes the r56 cf block).
+        matrix = "v2" if any(a == "counterfactual-v2" for a in argv) else "v1"
+        cf = counterfactual(matrix=matrix)
+        print(json.dumps({"matrix": cf["matrix"],
+                          "n_runs": cf["n_runs"],
                           "mask_days_window": cf["mask_days_in_window"],
                           "mask_days_panel": cf["mask_days_on_panel"],
+                          "yellow_entries": {r["tid"]: r["yellow_entries"]
+                                             for r in cf["rows"]},
                           "range": cf["range"],
                           "anchors_ok": cf["anchors_ok"],
                           "ledger_total": (cf.get("ledger") or {}).get("total"),
@@ -637,7 +674,8 @@ def main(argv=None) -> int:
                                      "blocked_share", "d_trades",
                                      "d_sharpe", "d_annual")}
                                    for r in cf["rows"]],
-                          "out": OUT_PATH}, ensure_ascii=False, indent=1))
+                          "out": OUT_PATH_V2 if matrix == "v2"
+                          else OUT_PATH}, ensure_ascii=False, indent=1))
         return 0
     if "replay-v2" in argv:
         res = replay(write=True, matrix="v2")

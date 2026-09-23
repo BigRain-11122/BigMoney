@@ -272,7 +272,151 @@
     "G2_orange_fa_le_60pct": true,
     "G3_zero_gaps": true
   },
-  "counterfactual": "PENDING (staged leg, prereg s5)",
+  "counterfactual": {
+    "n_runs": 12,
+    "matrix": "v2",
+    "mask_days_in_window": 433,
+    "mask_days_on_panel": 433,
+    "rows": [
+      {
+        "tid": "COMPOSITE-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 1740,
+        "total_entries": 6955,
+        "blocked_share": 0.2502,
+        "yellow_entries": 2490,
+        "yellow_days_in_window": 535,
+        "base_trades": 474,
+        "masked_trades": 401,
+        "d_trades": -73,
+        "base_sharpe": 0.8114,
+        "masked_sharpe": 0.8406,
+        "d_sharpe": 0.0292,
+        "base_annual": 0.0576,
+        "masked_annual": 0.0505,
+        "d_annual": -0.0071
+      },
+      {
+        "tid": "COMPOSITE-CE-02",
+        "anchor_ok": true,
+        "blocked_entries": 2784,
+        "total_entries": 11128,
+        "blocked_share": 0.2502,
+        "yellow_entries": 3984,
+        "yellow_days_in_window": 535,
+        "base_trades": 795,
+        "masked_trades": 652,
+        "d_trades": -143,
+        "base_sharpe": 0.6099,
+        "masked_sharpe": 0.5416,
+        "d_sharpe": -0.0683,
+        "base_annual": 0.0691,
+        "masked_annual": 0.0566,
+        "d_annual": -0.0125
+      },
+      {
+        "tid": "DROUGHT-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 309,
+        "total_entries": 873,
+        "blocked_share": 0.354,
+        "yellow_entries": 347,
+        "yellow_days_in_window": 535,
+        "base_trades": 120,
+        "masked_trades": 87,
+        "d_trades": -33,
+        "base_sharpe": 0.724,
+        "masked_sharpe": 0.7342,
+        "d_sharpe": 0.0102,
+        "base_annual": 0.0228,
+        "masked_annual": 0.0165,
+        "d_annual": -0.0063
+      },
+      {
+        "tid": "ENGULF-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 474,
+        "total_entries": 1177,
+        "blocked_share": 0.4027,
+        "yellow_entries": 496,
+        "yellow_days_in_window": 535,
+        "base_trades": 143,
+        "masked_trades": 95,
+        "d_trades": -48,
+        "base_sharpe": 0.5392,
+        "masked_sharpe": -0.0142,
+        "d_sharpe": -0.5534,
+        "base_annual": 0.0172,
+        "masked_annual": -0.0008,
+        "d_annual": -0.018
+      },
+      {
+        "tid": "NEEDLE-DE-01",
+        "anchor_ok": true,
+        "blocked_entries": 219,
+        "total_entries": 404,
+        "blocked_share": 0.5421,
+        "yellow_entries": 102,
+        "yellow_days_in_window": 535,
+        "base_trades": 73,
+        "masked_trades": 36,
+        "d_trades": -37,
+        "base_sharpe": 0.6624,
+        "masked_sharpe": 0.349,
+        "d_sharpe": -0.3134,
+        "base_annual": 0.0168,
+        "masked_annual": 0.006,
+        "d_annual": -0.0108
+      },
+      {
+        "tid": "VOLATILITY-CE-01",
+        "anchor_ok": true,
+        "blocked_entries": 1945,
+        "total_entries": 7855,
+        "blocked_share": 0.2476,
+        "yellow_entries": 2670,
+        "yellow_days_in_window": 535,
+        "base_trades": 522,
+        "masked_trades": 428,
+        "d_trades": -94,
+        "base_sharpe": 1.2578,
+        "masked_sharpe": 1.0305,
+        "d_sharpe": -0.2273,
+        "base_annual": 0.0307,
+        "masked_annual": 0.0222,
+        "d_annual": -0.0085
+      }
+    ],
+    "yellow_entry_census": "per-row yellow_entries: entries falling on v2-YELLOW state days (prereg V2 s3.5; x0.5 sizing impact = census only, engine sizing sim deferred to GM stage -- not implemented)",
+    "range": {
+      "d_sharpe": {
+        "min": -0.5534,
+        "max": 0.0292
+      },
+      "d_annual": {
+        "min": -0.018,
+        "max": -0.0063
+      },
+      "d_trades": {
+        "min": -143,
+        "max": -33
+      },
+      "blocked_share": {
+        "min": 0.2476,
+        "max": 0.5421
+      }
+    },
+    "anchors_ok": true,
+    "ledger": {
+      "prev_total": 2779,
+      "batch_trials": 12,
+      "total": 2791,
+      "batch": "regime_guard_calibration_v2",
+      "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)",
+      "evidence_cutoff": "2026-09-22"
+    },
+    "note": "measurement only; verdict unchanged (G1/G2 FAIL frozen by the replay leg, prereg s8 -- re-prereg is the only enforce path)"
+  },
   "prereg": "research/REGIME_GUARD_VALIDATION_V2.md @ ee8498e",
   "evidence_cutoff": "2026-09-22",
   "v2_disclosures": {
@@ -280,5 +424,13 @@
     "ma200_below_days_total": 799,
     "ma200_below_days_state_blind_green": 221,
     "note": "#10 de-collected (T0 stands alone, wiring = separate signed item); blindness census feeds that item's economic review (prereg V2 s3.3)"
+  },
+  "trials_ledger": {
+    "prev_total": 2779,
+    "batch_trials": 12,
+    "total": 2791,
+    "batch": "regime_guard_calibration_v2",
+    "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)",
+    "evidence_cutoff": "2026-09-22"
   }
 }
