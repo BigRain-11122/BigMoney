@@ -148,6 +148,8 @@ def run(params: dict) -> dict:
 
 ### 4.2 质量闸门（任何新策略必须过）
 
+> **判据科学层唯一权威=`research/BACKTEST_SCIENCE.md`（O-2215·DSR 试验校正/前向锁盒/CI 必报/PBO·与本节条款冲突时从严者生效）**；策略工厂计数实况=`research/STRATEGY_LIBRARY.md` §一（本文件计数为历史快照·O-2250）。
+
 - 交易次数 ≥30（统计显著）
 - 样本外 Sharpe ≥0.8
 - 最大回撤 ≤25%

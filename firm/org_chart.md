@@ -96,8 +96,8 @@ CEO Jason（唯一决策面：方向变更/P1署名/红线裁决/资源调配）
 | 部门 | mandate | 域（指针） | KPI | 自动化钩子 | 升级线 |
 |---|---|---|---|---|---|
 | 研究部 | 因子/信号挖掘、IC/回测研究、idea→候选池、可学清单采纳评估、**外部调研**（O-1636 常设职能） | `research/` · `screening/` · `knowledge/` | 新知识入库量 · idea 过闸率 · 外调轮执行率 | 周进化轮（PLAN §4.1）+**外调轮**（`research/RESEARCH_MECHANISM.md`） | P1 总经理署名制（O-1620） |
-| 策略部 | 11 流派 70 策略工厂、门禁链 G1'/G2、注册与退役 | `strategies/` · `firm/review/` | 在册交易员质量 · 门禁通过率 | `firm/hr.py` 自动考核 | 红线变更=T0 |
-| 交易部 | 交易员实战（现役 3 员：COMPOSITE-CE-01/02 · VOLATILITY-CE-01） | `firm/traders/` · `live/` | 模拟盘战绩（**唯一计分板**） | paper 锚定链+日结算 | 停盘/熔断 T1 上报 |
+| 策略部 | 策略工厂（**实况计数指针=`research/STRATEGY_LIBRARY.md` §一**·O-2250）、门禁链 G1'/G2+判据科学层 v2、注册与退役 | `strategies/` · `firm/review/` | 在册交易员质量 · 门禁通过率 | `firm/hr.py` 自动考核 | 红线变更=T0 |
+| 交易部 | 交易员实战（**在册名单指针=`research/STRATEGY_LIBRARY.md` §二**·O-2250 审计实况同步） | `firm/traders/` · `live/` | 模拟盘战绩（**唯一计分板**） | paper 锚定链+日结算 | 停盘/熔断 T1 上报 |
 | 风控部（含审计） | 铁律执行、熔断、零假设校准、防作弊审计 | `firm/risk/` · 门禁链 | 红线零违例 | iron_rules+熔断自动触发 | 熔断即自动处置+结果入台账（CEO 零动作·O-2205） |
 | 数据部 | 日线数据链、语料库、数据纪元/校验、新鲜度 | `data/` · `scripts/update_daily.py` | 新鲜度 · 零污染 | 每日 update 链 | 源故障 T1 |
 | 工程部 | OS 循环、自动化开发、质量闸门、基础设施 | `Tools/` · `smoke_test` · `tasks/` | 轮健康度 · 修红时延 · 交付吞吐 | 10min 自迭代循环（`firm/DEV_AUTOMATION.md`） | 修红第一优先 |
