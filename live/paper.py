@@ -184,10 +184,23 @@ def self_test_patches() -> bool:
 def seg_metrics(equity: pd.Series, start: str | None = None) -> dict:
     seg = equity[equity.index >= start] if start else equity
     if len(seg) < 20:
-        return {"sharpe": 0.0, "annual_return": 0.0, "max_drawdown": 0.0}
+        # T-04 F4: explicit honesty, never fake zeros (a fake 0.0 sharpe
+        # could spuriously match a near-zero registered evidence).
+        return {"status": "insufficient_data", "bars": int(len(seg))}
     return {"sharpe": round(float(sharpe(seg)), 4),
             "annual_return": round(float(annual_return(seg)), 4),
             "max_drawdown": round(float(max_drawdown(seg)), 4)}
+
+
+def anchor_seg_guard(got: dict) -> str | None:
+    """Anchor-gate guard for F4: insufficient segments must yield an
+    explicit honest not-ok, never a fake pass/fail via zero comparison."""
+    for seg_name in ("in_sample", "out_sample"):
+        m = got.get(seg_name, {})
+        if m.get("status") == "insufficient_data":
+            return (f"{seg_name} segment too short ({m['bars']} bars < 20): "
+                    "anchor evidence not computable")
+    return None
 
 
 def _evidence_matches(got: dict, want: dict) -> bool:
@@ -236,6 +249,9 @@ def anchor_gate(t: dict, prices_full: dict) -> dict:
     got = {"in_sample": {**seg_metrics(eq[eq.index < OOS_START]),
                          "trades": n_trades - oos_trades},
            "out_sample": {**seg_metrics(eq, OOS_START), "trades": oos_trades}}
+    guard = anchor_seg_guard(got)
+    if guard is not None:
+        return {"ok": False, "cutoff": cutoff, "error": guard}
     want = t["backtest"]
     checks = {"in_sample": _evidence_matches(got["in_sample"], want["in_sample"]),
               "out_sample": _evidence_matches(got["out_sample"], want["out_sample"])}
@@ -404,6 +420,30 @@ def _selftest_aggregation() -> bool:
     return bool(ok)
 
 
+def _selftest_seg_metrics() -> bool:
+    """F4: short segment -> explicit insufficient_data (no fake zeros);
+    normal segment -> metrics keys, no status key; guard maps to honest
+    not-ok error string."""
+    ok = True
+    full_month = _ramp_month(1.0, 1.1, 2026, 1)
+    short = seg_metrics(full_month.iloc[:19])
+    ok &= (short.get("status") == "insufficient_data"
+           and short.get("bars") == 19 and "sharpe" not in short)
+    full = seg_metrics(full_month)
+    ok &= ("sharpe" in full and "status" not in full
+           and abs(full["sharpe"] - round(float(sharpe(full_month)), 4)) < 1e-12)
+    # exactly at the boundary is computable (>= 20)
+    ok &= seg_metrics(full_month.iloc[:20]).get("status") is None
+    err = anchor_seg_guard({"in_sample": {"sharpe": 0.5, "annual_return": 0.1,
+                                          "max_drawdown": -0.05},
+                            "out_sample": {"status": "insufficient_data",
+                                           "bars": 12}})
+    ok &= err is not None and "out_sample segment too short (12 bars" in err
+    ok &= anchor_seg_guard({"in_sample": {"sharpe": 0.5},
+                            "out_sample": {"sharpe": 0.4}}) is None
+    return bool(ok)
+
+
 def _selftest_causality(prices_full: dict) -> bool:
     """Every registered builder must be causal: truncating data at D
     leaves the signal on [.., D] unchanged (no look-ahead)."""
@@ -430,6 +470,11 @@ def selftest() -> bool:
     agg_ok = _selftest_aggregation()
     print("PASS" if agg_ok else "FAIL")
     ok &= agg_ok
+
+    print("  [paper] seg_metrics short-segment honesty (F4)...", end=" ")
+    seg_ok = _selftest_seg_metrics()
+    print("PASS" if seg_ok else "FAIL")
+    ok &= seg_ok
     if not ok:
         return False
 
