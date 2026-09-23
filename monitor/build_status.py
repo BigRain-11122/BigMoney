@@ -148,6 +148,24 @@ def _heat_state() -> dict:
     return out
 
 
+def _regime_state() -> dict:
+    """Market regime guard shadow state (REGIME_GUARD v1.0, T-05) from
+    results/regime_state.json. Missing file = honest not-yet-probed."""
+    st = _read_json(os.path.join(PATHS.results_dir, "regime_state.json")) or {}
+    state = st.get("state")
+    bad = state in ("ORANGE", "RED")
+    out = {
+        "present": bool(st), "asof": st.get("asof"), "mode": st.get("mode"),
+        "state": state, "state_cn": st.get("state_cn"),
+        "raw_level": st.get("raw_level"),
+        "days_in_state": st.get("days_in_state"),
+        "triggers": st.get("triggers") or [],
+        "last_transition": (st.get("transitions") or [{}])[-1] or None,
+    }
+    out["status"] = "bad" if bad else ("ok" if st else "missing")
+    return out
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -607,6 +625,7 @@ def build() -> dict:
     data["update"] = _update_state()
     data["heat"] = _heat_state()
     data["token"] = _token_state()
+    data["regime"] = _regime_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -704,6 +723,12 @@ def build() -> dict:
             "text": f"P-6 记分卡 · {sc['text']} · 最优 {b.get('id', '—')} "
                     f"{b.get('grade', '—')} {b.get('total', '—')} 分"
                     f"（评价面 · hr 仍为唯一编制权）"})
+    rg = data["regime"]
+    if rg["present"]:
+        tail_events.append({
+            "time": rg["asof"] or "-",
+            "text": f"行情防线 · {rg['state_cn']} · 在态 {rg['days_in_state']} 日"
+                    f" · {rg['mode']} 记录（触发：{'；'.join(rg['triggers']) or '无'}）"})
     payload["events"] += tail_events + [
         {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
         {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},

@@ -1,0 +1,61 @@
+{
+  "updated": "2026-09-24 02:13:24",
+  "asof": "2026-09-23",
+  "mode": "shadow",
+  "state": "ORANGE",
+  "state_cn": "橙·高危",
+  "raw_level": "ORANGE",
+  "green_streak": 0,
+  "days_in_state": 1,
+  "dims": {
+    "bench": {
+      "asof": "2026-09-23",
+      "close": 4.59,
+      "crash_10d": -0.010135863704981651,
+      "panic_1d": -0.0049859093865164406,
+      "vol20": 0.005976,
+      "vol_p95": 0.0173,
+      "vol_p80": 0.011901,
+      "vol_status": "ok",
+      "ma200": 4.7399,
+      "below_ma200": true,
+      "event_fomc": false,
+      "event_pre_holiday": null,
+      "event_note": "pre-holiday leg bars-gap-derived (replay-capable, live needs frozen official calendar via prereg)"
+    },
+    "breadth": {
+      "share_below_ma20": 0.5625,
+      "share_slope_5d": -0.125,
+      "share_5d_ago": 0.6875,
+      "status": "ok",
+      "n_symbols": 48,
+      "interpretation": "slope = share_now - share_5d_ago (literal s1)"
+    },
+    "bear_r_pei3": {
+      "status": "ok",
+      "as_of": "2026-09-23",
+      "close": 4.59,
+      "ma250": 4.7321,
+      "dd_from_250d_high": -0.0984,
+      "below_ma250": true,
+      "dd_triggered": false,
+      "is_major_bear": false,
+      "position_cap": 0.8,
+      "cash_floor": 0.2
+    }
+  },
+  "triggers": [
+    "hs300<MA200 (#10 collected)"
+  ],
+  "transitions": [],
+  "history": [
+    {
+      "asof": "2026-09-23",
+      "raw": "ORANGE",
+      "state": "ORANGE",
+      "green_streak": 0,
+      "days_in_state": 1
+    }
+  ],
+  "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)"
+}
