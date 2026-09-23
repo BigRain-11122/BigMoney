@@ -148,6 +148,25 @@ def _heat_state() -> dict:
     return out
 
 
+def _token_state() -> dict:
+    """Local-first token metering (O-2325, T-04 F6) from
+    results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
+    st = _read_json(os.path.join(PATHS.results_dir, "token_usage.json")) or {}
+    ctx = st.get("per_round_context") or {}
+    delta = st.get("delta_vs_prev") or {}
+    out = {
+        "present": bool(st), "generated": st.get("generated"),
+        "mandate_est": ctx.get("mandate_read_tokens_est"),
+        "codely_context_est": ctx.get("codely_read_tokens_est"),
+        "state_est": st.get("total_state_tokens_est"),
+        "report_est": st.get("total_report_tokens_est"),
+        "delta_state": delta.get("state_tokens_growth"),
+        "delta_report": delta.get("report_tokens_growth"),
+        "delta_prev": delta.get("prev_generated"),
+    }
+    return out
+
+
 def _factor_top(n: int = 10) -> list:
     ic = _read_json(os.path.join(PATHS.results_dir, "factor_ic.json")) or {}
     rows = [{"factor": k[:-4], "horizon": k[-2:],
@@ -531,6 +550,7 @@ def build() -> dict:
     data = _data_freshness()
     data["update"] = _update_state()
     data["heat"] = _heat_state()
+    data["token"] = _token_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -612,6 +632,13 @@ def build() -> dict:
                     f"{heat['l2_done'] if heat['l2_done'] is not None else '—'}/"
                     f"{heat['l2_target'] or 0} 件 · 拒 {heat['l2_rejects']}"
                     f"（真短史）{era_txt}"})
+    tok = data["token"]
+    if tok["present"]:
+        tail_events.append({
+            "time": tok["generated"] or "-",
+            "text": f"本地化 · token 粗估 状态 {tok['state_est']} · 报告 {tok['report_est']}"
+                    f" · 回合固定载入 {tok['codely_context_est']}"
+                    f"（byte/3.5 代理口径 · O-2325）"})
     payload["events"] += tail_events + [
         {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
         {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},
