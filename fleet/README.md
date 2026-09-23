@@ -7,7 +7,7 @@
 
 - **本机身份 = `fleet/machine.json`（本地私有，不入库）**——tracked 身份文件会被跨机合并静默覆写（Biggame X104 实证教训），故只入模板 `fleet/_machine.json.template`。新机接入=拷模板改名填本机 id。
 - **每机心跳 = `fleet/machines/<id>.json`，每机只写自己的文件**（零跨机合并冲突，git 同步全机队可读）。每轮循环收尾更新：
-  `last_seen / current_task / cpu_cores / ram_free_gb / gpu_vram_free_mb / verdict`
+  `last_seen / current_task / cpu_cores / ram_free_gb / gpu_vram_free_mb / verdict` + `heartbeat_epoch_utc / clock_read`（T-04 F5 钟漂探测：epoch=写心跳时 UTC epoch 秒、clock_read=本机钟 ISO 含 UTC 偏移；bm-b 曾 30-40min 钟漂由此机器可检——对比 git commit %ci 即得漂移。**跨机事件排序权威仍=git %ci**，O-2250 §8 不变）
 - **verdict 语义**（算力档位，判定永远 INFO 非门禁）：`CPU_BACKTEST_OK`（回测可跑）｜`GPU_ML_READY`（GPU 空闲 ≥6GB，ML 可开）｜`GPU_SHARED_LOW`（GPU 空闲 <6GB，仅小模型/共享态）｜后缀 `|RAM_LOW`（空闲 RAM<15% 本轮禁新开重活）。
 
 ## 2. 互相通信
