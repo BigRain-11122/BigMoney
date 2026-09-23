@@ -23,6 +23,7 @@
 
 - **铁律 = git clone（禁文件夹直接复制）**——防携带锁文件/临时态/被忽略物（Biggame 08号传输铁律同源）。
 - 库内 ≈105MB（代码+数据+成果+规则+记忆）随 clone 全通；**大资产不入库**：`Money02/`（7.7GB 前代 A 股资产）按需一次性通道拷贝/移动硬盘，各机局部。
+- **机队公网互传机制 = `fleet/TRANSFER.md`**（v1.0·2026-09-23 用户令）：git=方案A / croc 公网直传=方案B2 / Tailscale 组网=方案B1（装机须用户授权）/ 云中转=方案C / 离线摆渡=方案D；选型矩阵+编排协议+校验工具 `Tools/transfer_manifest.ps1`（manifest 双侧一致才算交付）。
 - 派生文件（`results/dashboard_status.*` 等）**冲突解法=重新生成**（`python -m monitor.build_status`），禁手工合并。
 
 ## 4. 任务分配（fleet/tasks/ 认领制）
