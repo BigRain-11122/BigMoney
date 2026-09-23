@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.1</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.2 · 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -204,19 +204,49 @@ function drawNPCs(t) {
     text(tag, nx+2, area.y-17, '#c8d0dc', 7);
   });
 }
+/* ---------- day-night cycle: sky follows the real local clock (?hour=H[.m] = acceptance override) ---------- */
+const HOUR_OVR = parseFloat(new URLSearchParams(location.search).get('hour'));
+function clockHour() {
+  return isNaN(HOUR_OVR) ? new Date().getHours() + new Date().getMinutes()/60
+                         : ((HOUR_OVR % 24) + 24) % 24;
+}
+function dayness() {                        // 0=night 1=day; dawn 5-8 / dusk 17-20 ramps
+  const h = clockHour();
+  if (h >= 8 && h < 17) return 1;
+  if (h >= 20 || h < 5) return 0;
+  return h < 8 ? (h-5)/3 : 1-(h-17)/3;
+}
+const lerpC = (a, b, k) => 'rgb(' + a.map((v, i) => Math.round(v+(b[i]-v)*k)).join(',') + ')';
+
 /* ---------- scene ---------- */
 function drawScene(t) {
-  // sky
+  const h = clockHour(), dn = dayness();
+  const topC = lerpC([7,8,12], [58,96,138], dn);          // sky night->day
   const grd = cx.createLinearGradient(0, 0, 0, 90*S);
-  grd.addColorStop(0, '#07080c'); grd.addColorStop(1, '#0f1420');
+  grd.addColorStop(0, topC); grd.addColorStop(1, lerpC([15,20,32], [126,156,190], dn));
   cx.fillStyle = grd; cx.fillRect(0, 0, W*S, 90*S);
-  for (let i=0; i<40; i++) { const sx = (i*53)%W, sy = (i*29)%70;
-    px(sx, sy, 1, 1, Math.floor(t/500+i)%3 ? '#3a4356' : '#e8c15a'); }
-  px(596, 14, 14, 14, '#e8c15a'); px(590, 20, 10, 10, '#07080c'); px(600, 10, 10, 10, '#07080c'); // moon
+  if (dn < 0.95) {                          // stars fade out with daylight
+    cx.globalAlpha = 1-dn;
+    for (let i=0; i<40; i++) { const sx = (i*53)%W, sy = (i*29)%70;
+      px(sx, sy, 1, 1, Math.floor(t/500+i)%3 ? '#3a4356' : '#e8c15a'); }
+    cx.globalAlpha = 1;
+  }
+  if (dn < 0.5) {                           // moon at night (craters punch sky colour)
+    cx.globalAlpha = 1-dn*2;
+    px(596, 14, 14, 14, '#e8c15a'); px(590, 20, 10, 10, topC); px(600, 10, 10, 10, topC);
+    cx.globalAlpha = 1;
+  }
+  if (dn > 0.1) {                           // sun arcs 5h->20h, blocky pixel rays
+    const p = (h-5)/15, sx = 30+p*(W-70), sy = 82-Math.sin(p*Math.PI)*56;
+    cx.globalAlpha = Math.min(1, dn*1.6);
+    px(sx, sy, 16, 16, '#f0d264'); px(sx+3, sy-5, 10, 5, '#f0d264'); px(sx+3, sy+16, 10, 5, '#f0d264');
+    px(sx-5, sy+3, 5, 10, '#f0d264'); px(sx+16, sy+3, 5, 10, '#f0d264');
+    cx.globalAlpha = 1;
+  }
   // ground
-  rrect(0, 90, W, 6, '#1a2130');              // horizon
-  rrect(0, 96, W, H-96, '#10161f');
-  for (let i=0; i<90; i++) px((i*37)%W, 100+((i*61)%(H-110)), 2, 1, '#16202c');
+  rrect(0, 90, W, 6, lerpC([26,33,48], [58,74,96], dn));   // horizon
+  rrect(0, 96, W, H-96, lerpC([16,22,31], [26,36,51], dn));
+  for (let i=0; i<90; i++) px((i*37)%W, 100+((i*61)%(H-110)), 2, 1, lerpC([22,32,44], [40,54,72], dn));
   // roads
   rrect(0, 300, W, 14, '#1d222c'); px(0, 306, W, 1, '#3a4356');
   rrect(436, 236, 12, 64, '#1d222c');
