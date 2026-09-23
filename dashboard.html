@@ -378,6 +378,12 @@ function renderChains() {
     const L = fl.lhb;
     rows.push(chainRow("LHB", `cutoff ${n2(L.cutoff)} · 新 ${n2(L.new_rows)} 行`, L.verdict && String(L.verdict).startsWith("fail") ? "bad" : "ok", n2(L.verdict).slice(0, 24)));
   }
+  const fq = D.data.futures;
+  if (fq && fq.present) {
+    rows.push(chainRow("期货日线",
+      `${n2(fq.varieties)} 品种 · ${n2(Math.round((fq.rows_total || 0) / 1000))}k 行 · cutoff ${n2(fq.cutoff)}`,
+      fq.status === "bad" ? "bad" : (fq.status === "warn" ? "warn" : "ok"), fq.text));
+  }
   const h = D.data.heat;
   if (h && h.present) {
     rows.push(chainRow("热度链",

@@ -150,6 +150,42 @@ def _heat_state() -> dict:
     return out
 
 
+def _futures_state() -> dict:
+    """C-layer futures daily chain (bm-a R48 update_futures.py) from
+    results/futures_update_status.json. Full-history one-shot chain, not yet
+    in the S6 auto-loop; staleness is disclosed as warn (age>24h), not red."""
+    st = _read_json(os.path.join(PATHS.results_dir, "futures_update_status.json")) or {}
+    pv = st.get("per_variety") or []
+    out = {"present": bool(st), "varieties": len(pv),
+           "planned": len(st.get("varieties_planned") or []),
+           "last_attempt": st.get("last_attempt") or st.get("ts"),
+           "age_min": None, "cutoff": None, "errors": 0, "rows_total": 0,
+           "status": "none", "text": "期货链待产出"}
+    if not out["present"]:
+        return out
+    for v in pv:
+        if v.get("error"):
+            out["errors"] += 1
+        out["rows_total"] += v.get("rows_local") or 0
+        last = str(v.get("last") or "")
+        if last and (out["cutoff"] is None or last > out["cutoff"]):
+            out["cutoff"] = last
+    try:
+        t = dt.datetime.fromisoformat(str(out["last_attempt"]))
+        out["age_min"] = int((dt.datetime.now() - t).total_seconds() // 60)
+    except Exception:
+        pass
+    if out["errors"]:
+        out["status"], out["text"] = "bad", f"期货链 {out['errors']} 品种失败"
+    elif out["varieties"] < out["planned"]:
+        out["status"], out["text"] = "warn", f"期货链 {out['varieties']}/{out['planned']} 品种"
+    elif out["age_min"] is not None and out["age_min"] > 24 * 60:
+        out["status"], out["text"] = "warn", f"期货链 {out['age_min'] // 60}h 未跑"
+    else:
+        out["status"], out["text"] = "ok", f"期货链 {out['varieties']} 品种在库"
+    return out
+
+
 def _regime_state() -> dict:
     """Market regime guard shadow state (REGIME_GUARD v1.0, T-05) from
     results/regime_state.json. Missing file = honest not-yet-probed."""
@@ -974,6 +1010,7 @@ def build() -> dict:
     data = _data_freshness()
     data["update"] = _update_state()
     data["heat"] = _heat_state()
+    data["futures"] = _futures_state()
     data["token"] = _token_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
@@ -1068,6 +1105,14 @@ def build() -> dict:
                     f"{heat['l2_done'] if heat['l2_done'] is not None else '—'}/"
                     f"{heat['l2_target'] or 0} 件 · 拒 {heat['l2_rejects']}"
                     f"（真短史）{era_txt}"})
+    fu = data["futures"]
+    if fu["present"]:
+        age_h = None if fu["age_min"] is None else fu["age_min"] // 60
+        age_txt = "—" if age_h is None else (f"{age_h}h 前" if age_h else "刚跑")
+        tail_events.append({
+            "time": fu["last_attempt"] or "-",
+            "text": f"期货链 · C 层 {fu['varieties']} 品种主力连续 · "
+                    f"{fu['rows_total'] // 1000}k 行 · cutoff {fu['cutoff'] or '—'} · {age_txt}"})
     tok = data["token"]
     if tok["present"]:
         tail_events.append({
