@@ -1,0 +1,58 @@
+{
+  "stage": "R38-a panel build (data engineering only, zero engine runs)",
+  "gate_context": "batch runs deferred per O-1820/MSG-1845: bars lack fundamentals -> R-pei1 unverifiable pool-wide -> conservative literal execution = zero output; run subcommand gated on research/shortline/R38_RUN_CLEARANCE.md",
+  "window": {
+    "start": "2015-01-01",
+    "end": "2026-09-22",
+    "days": 2850
+  },
+  "symbols": {
+    "included": 5212,
+    "excluded_under_20_bars": 10,
+    "scanned_parquet": 5222,
+    "board_mix": {
+      "60": 1699,
+      "00": 1494,
+      "30": 1403,
+      "68": 616
+    }
+  },
+  "dtype": "float32",
+  "layout": "(T,N,7)",
+  "columns": [
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "amount",
+    "pct_chg"
+  ],
+  "workers": 12,
+  "build_seconds": 5.78,
+  "cache": {
+    "dir": "Money02\\data\\cache\\p4_batch2_panel",
+    "panel_prices_sha256": "620a62df2d5db6c06a1d02edb4e5d4ec2e298cec33d0032db0edc8d76f0f969d",
+    "panel_bytes": 415917728
+  },
+  "nan_frac_by_col": {
+    "open": 0.26032219843545934,
+    "high": 0.26032219843545934,
+    "low": 0.26032219843545934,
+    "close": 0.26032219843545934,
+    "volume": 0.26032219843545934,
+    "amount": 0.26032219843545934,
+    "pct_chg": 0.26051392872049656
+  },
+  "gates": {
+    "P1_window": true,
+    "P2_counts": true,
+    "P3_dtype_nan": true,
+    "P4_spot_bitwise": true,
+    "P5_determinism_50": true
+  },
+  "all_pass": true,
+  "trials_n_delta": 0,
+  "engine_runs": 0,
+  "meta_note": "prices already forward-adjusted in bars parquet (P-1c lesson: sidecar factors never applied); pct_chg = official raw daily change, sole limit-detection input per spec s3.1"
+}

@@ -107,3 +107,10 @@
   - G7 守卫态确定性（同场景重跑 trades+equity 逐位相同）。
 - **坑三条（如实）**：①data/daily 前缀孪生格式=`sh510010.csv`（无点）非 `sh.510300`——首版过滤器漏拦 1623 只进面板（首跑 45.8s/2480 笔即错误面板症状），正解=纯 6 位数字 stem 全匹配，修正后 48 只/6.7s；②`round(np.float64,4)` 仍是 np.float64、比较产出 np.bool_——进 JSON 前须 `.item()` 递归转型（backtest_task 同款先例）；③G4 断言 reason 字符串初版笔误 `signal_reversed`（实际 `signal_reversal`，以 exit_rules.py 字面量为准）——断言错非机制错，机制首跑即工作正常。
 - **R38 解锁**：门禁全绿=按 §7 许建面板。R38=面板 build 一次（float32）+七族信号 builder+guard 构建（板别真值表）+null 机（n≥20 default+被动）+26-30 跑一次定稿+G1' 五条款裁定。
+
+## §10 R38-a 执行留痕（面板件交付，批跑让位——2026-09-23 19:0x）
+
+- **批跑让位裁定（O-1820 红线门）**：CEO 令 O-20260923-1820 配置三红线上桌于本 spec 冻结之后——bars 无财务列→R-配1 亏损维度全池不可验证→保守字面执行=候选全跳过零产出；bm-a MSG-1845 通报 R38 批跑建议排在数据源（其件2 akshare 财务+ST，已认领）之后，或须 GM 显式裁定折中口径（「亏损不可验证=如实记跳过+保留 ST 代理过滤」与令件保守条款相悖，禁自批）。**本机接受序：R38 批跑挂起，`scripts/p4_batch2_screen.py run` 子命令硬门挡（exit 2，锁文件=research/shortline/R38_RUN_CLEARANCE.md，须数据源接通或 GM/CEO 署名裁定才可建）**——防任何执行体（含本机未来轮）无意抢跑。
+- **R38-a=面板件（数据工程，非批跑，spec §7 长杆先除）**：`scripts/p4_batch2_screen.py panel`——**T=2850 交易日（2015-01-01→2026-09-22，末位=cutoff 无未来）×N=5212 只 ×7 列 [open,high,low,close,volume,amount,pct_chg] float32 (T,N,7) 布局**，含入规则=窗内 ≥20 bars（5222−5212=10 只剔除=2026 尾段 IPO 不足 20 bars，与 r36 宇宙扫描对账：主板 1699+1494=3193 vs 3196、创业板 1403 vs 1407、科创 616 vs 617——差值全为 <20 bars 剔除，双源一致）；缓存=`Money02/data/cache/p4_batch2_panel/`（gitignored 可再生，panel_prices.npy 416MB sha256=620a62df…）；12 workers 5.78s。
+- **验证六门全 PASS**（`results/shortline_p4_batch2_panel.json`）：P1 窗边界（首≥2015-01-01、末==2026-09-22）；P2 板别=纯 60/00/30/68 股票前缀（51/15/58 基金零泄漏）；P3 float32+NaN 密度 26.03%（=停牌缺口行；pct_chg 26.05%≈+每股首行无 preclose）；P4 三抽点（000001/300750/688981）全 7 列 vs 新鲜 parquet 重读 float32 后**逐位相等**（equal_nan）；P5 50 只确定性重取切片逐位相同；P6 sha256 入账。**本批零引擎跑、账本 N 不变（1556）**。
+- **R38-b 续作（下轮）**：七族信号 builder+fill_guard 板别真值表（主板 10%/创业板 2020-08-24 起 20%/科创 20%、±0.5pp 带宽）+null 机（n≥20 default+被动月度 EW）+limitup_mom default 探针测耗时定 null 容量——**全部为 run 门挡后面的件，批跑仍待：bm-a 财务数据源接通（→R-配1/2 前置过滤 wiring）或 GM 折中口径署名**。
