@@ -240,6 +240,52 @@ def _paper_state() -> dict:
     return out
 
 
+# ---- group (parallel-managed sibling projects, e.g. Biggame game lines) ----
+# Paths are machine-local: absent on other machines -> panel degrades gracefully.
+_SIBLINGS = [
+    {"name": "Biggame · biu你一下", "root": r"E:\Minigame\BiuNiYiXia\Logs"},
+    {"name": "Biggame · HomeWreck", "root": r"E:\Minigame\HomeWreck\Logs"},
+    {"name": "Biggame · PhantomEscapeGo", "root": r"E:\Minigame\PhantomEscapeGo\Logs"},
+]
+_GROUP_ALIVE_MIN = 30  # sibling loops run at 1-10 min cadence
+
+
+def _group() -> dict:
+    now = dt.datetime.now()
+
+    def _newest_mtime(root: str):
+        newest = None
+        for dirpath, _dirs, files in os.walk(root):
+            for fn in files:
+                try:
+                    m = os.path.getmtime(os.path.join(dirpath, fn))
+                except OSError:
+                    continue
+                if newest is None or m > newest:
+                    newest = m
+        return newest
+
+    sibs = []
+    for s in _SIBLINGS:
+        root = s["root"]
+        if not os.path.isdir(root):
+            continue  # machine without sibling sources: hide silently
+        m = _newest_mtime(root)
+        if m is None:
+            continue
+        age = (now - dt.datetime.fromtimestamp(m)).total_seconds() / 60
+        sibs.append({"name": s["name"],
+                     "last_active": dt.datetime.fromtimestamp(m).strftime("%m-%d %H:%M"),
+                     "age_min": round(age, 1), "alive": age <= _GROUP_ALIVE_MIN})
+    self_m = _newest_mtime(os.path.join(PATHS.logs_dir, "iteration-loop"))
+    if self_m is not None:
+        age = (now - dt.datetime.fromtimestamp(self_m)).total_seconds() / 60
+        sibs.append({"name": "Bigmoney · 回测节点（本机）",
+                     "last_active": dt.datetime.fromtimestamp(self_m).strftime("%m-%d %H:%M"),
+                     "age_min": round(age, 1), "alive": age <= _GROUP_ALIVE_MIN})
+    return {"siblings": sibs}
+
+
 def _traders() -> list:
     out = []
     d = os.path.join(PATHS.root, "firm", "traders")
@@ -322,6 +368,7 @@ def build() -> dict:
                     "paper": paper},
         "gamification": {},
         "events": [],
+        "group": _group(),
     }
     payload["gamification"]["achievements"] = _achievements(
         bt, data, smoke, chain["n_traders"], paper)

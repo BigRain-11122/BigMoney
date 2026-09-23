@@ -74,3 +74,11 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1
 ## 9. 版本
 
 v1.0（2026-09-23）——首版由 bm-b 建立；修订走 CODELY.md 记录变更理由与日期。
+
+## 10. 集团并联条款（与 Biggame 工程并联管理 · 2026-09-23 用户令）
+
+- **集团 = 两公司并行**：**Biggame**（游戏公司 · 治理 = E:\Minigame\MiniGame 仓库体系：AI总控接口/登记簿/快照/08号分治协议）∥ **Bigmoney**（金融公司 · 治理 = 本仓库：PLAN.md / fleet/README / CODELY.md）。
+- **互不越权**：两公司各自仓库各自治理，**互不写对方仓库**（唯一例外=用户直接指令）。
+- **互见层**：Bigmoney 总控面板「集团产线」实时读兄弟工程心跳（三游戏循环 + 本机回测循环，`monitor/build_status.py _group()`；兄弟路径不存在=远端机器自动隐藏，可移植性不破）。Biggame 侧对 Bigmoney 的可见性=其全局记忆 + 本机 fleet 心跳。
+- **共享机纪律（bm-b 双公司同机并行）**：①任一公司开重活前查空闲 RAM（<4GB 禁新开重活）②GPU 作业走 keepwarm.pause 释放阀（Biggame U020 同源礼仪）③CPU 并行两公司合计 ≤ 物理核-2（Bigmoney 回测 worker ≤12 已限幅，游戏 batchmode 各自限幅为既定配置）④全静默零弹窗铁律两公司通用。
+- **协议同源**：本 fleet 协议移植自 Biggame 08 号（坑#45/#48/#85/X104/U067/U080 已吸收）；修订单边各自演进，重大变更经用户互通。

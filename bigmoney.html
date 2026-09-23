@@ -117,6 +117,7 @@
       <div class="ach" id="ach"></div>
     </div>
     <div class="panel"><h3>风控红线</h3><div id="risk"></div></div>
+    <div class="panel"><h3>集团产线（并联工程）</h3><div id="group"></div></div>
     <div class="panel"><h3>事件日志</h3><div id="events"></div></div>
   </div>
 </div>
@@ -187,6 +188,11 @@ function render(D) {
     `<div class="it ${a.unlocked?'':'locked'}"><img src="${SPRITE[a.icon]}"><span>${a.name}</span></div>`).join('');
 
   $('risk').innerHTML = D.risk.map(r => `<div class="ev">⚑ ${r}</div>`).join('');
+  const gr = D.group, gs = (gr && gr.siblings) ? gr.siblings : [];
+  $('group').innerHTML = gs.length
+    ? gs.map(s => `<div class="dept ${s.alive ? '' : 'bad'}"><span class="dot"></span>` +
+        `<span>${s.name}</span><span class="st">${s.alive ? s.age_min + ' 分钟前活跃' : '静默 ' + s.age_min + ' 分钟'}</span></div>`).join('')
+    : '<div class="dim" style="padding:4px 0">本机无集团心跳源（远端机器自动隐藏此面板数据）</div>';
   $('events').innerHTML = D.events.map(e => `<div class="ev"><span class="t">${e.time}</span> · ${e.text}</div>`).join('');
 
   $('composite').textContent = D.research.composite_plan;
