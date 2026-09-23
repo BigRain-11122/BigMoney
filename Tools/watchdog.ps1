@@ -5,8 +5,8 @@
 #   C1  Bigmoney-IterationLoop task deleted/corrupted  -> re-register (chicken-egg: task gone = no round can heal it)
 #   C2  loop stalls (no fire for 45+ min)              -> kick with schtasks /run
 #   C3  fresh reboot, grid not caught up               -> kick with schtasks /run
-#   C4  margin/ext-slots pull chain dead + gates FAIL  -> relaunch backfill_ext_slots.py all (checkpoint resume)
-#   C5  P-1c stock IC batch chain dead + unfinished    -> relaunch phase chain (checkpoint resume)
+#   C4  margin/ext-slots pull chain dead + gates FAIL  -> relaunch backfill_ext_slots.py all (checkpoint resume, LANE OWNER ONLY)
+#   C5  P-1c stock IC batch chain dead + unfinished    -> relaunch phase chain (checkpoint resume, LANE OWNER ONLY)
 #   C6  watchdog task self-re-registration (mutual heal: rounds heal loop+watchdog via S7, watchdog heals both too)
 # Rules: idempotent; NEVER blocks (always exit 0); all decisions logged to
 # logs\watchdog.log; task-existence via schtasks /query only (transient CIM
@@ -75,7 +75,26 @@ try {
         return $false
     }
 
-    # ---- C4: margin/ext-slots pull chain ----
+    # ---- lane ownership guard (C4/C5) ----
+    # C4 ext-slots pull + C5 P-1c batch chains are bm-b lanes (MSG-2155 claim lock;
+    # P-1c batch owner per r49/r50). Synced status/checkpoint files exist on EVERY
+    # machine, but the gitignored data caches live on the OWNER only: on non-owners
+    # gates always fail (no local data), and a relaunch would duplicate EM pulls /
+    # batch runs from scratch and clobber tracked status files the owner writes.
+    # Non-owners log and skip both. If a lane ever migrates, update $BatchLaneOwner
+    # in the same commit that moves the lane.
+    $MyId = ''
+    $mf = Join-Path $Project 'fleet\machine.json'
+    if (Test-Path $mf) {
+        try { $MyId = (Get-Content $mf -Raw | ConvertFrom-Json).machine_id } catch { $MyId = '' }
+    }
+    $BatchLaneOwner = 'bm-b'
+    $OwnBatchLanes = ($MyId -eq $BatchLaneOwner)
+
+    # ---- C4: margin/ext-slots pull chain (lane owner only) ----
+    if (-not $OwnBatchLanes) {
+        Log ('C4 skipped on ' + $MyId + ': ext-slots pull lane owned by ' + $BatchLaneOwner)
+    } else {
     $backfillAlive = Test-ProcAlive 'backfill_ext_slots'
     if ($backfillAlive) {
         Log 'C4 ext-slots pull chain ALIVE -> no action'
@@ -99,8 +118,12 @@ try {
             Log 'C4 gates script missing -> skip'
         }
     }
+    }
 
-    # ---- C5: P-1c stock IC batch chain ----
+    # ---- C5: P-1c stock IC batch chain (lane owner only) ----
+    if (-not $OwnBatchLanes) {
+        Log ('C5 skipped on ' + $MyId + ': P-1c batch lane owned by ' + $BatchLaneOwner)
+    } else {
     $p1cAlive = Test-ProcAlive 'p1c_stock_ic_batch'
     $finalJson = Join-Path $Project 'results\shortline\p1c_stock_ic.json'
     if ($p1cAlive) {
@@ -128,6 +151,7 @@ try {
             Start-Process -WindowStyle Hidden -FilePath 'cmd.exe' -ArgumentList $chainCmd -WorkingDirectory $Project
             Log 'C5 resume chain issued'
         }
+    }
     }
 
     # ---- C6: watchdog task self-heal (idempotent -Force) ----
