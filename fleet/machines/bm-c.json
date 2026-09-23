@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-c",
- "last_seen": "2026-09-24 01:58",
- "current_task": "T-2026-09-23-04 (pipeline robustness F1-F8, dept:工程): F1/F5/F6/F8 + F2 delivered (F2 commit 8c90022: update_lhb store-absent honest exit-2 guard = bm-c S6 crash root-fix, SSE holiday-aware disclosure window via local data/daily calendar, overlap-path last_attempt throttle fix audit P0-6, atomic chunk/parquet writes, corruption logging; selftest 11->23 PASS); remaining F4 (seg_metrics insufficient_data honesty) / F3 (x2 watchdog escalation) / F7 (smoke additions covering new guards)",
+ "last_seen": "2026-09-24 02:28",
+ "current_task": "idle: T-2026-09-23-04 CLOSED (all F1-F8 delivered, done+result_ref); T-05 = next claim candidate (last open P1 ticket)",
  "cpu_cores": 32,
  "idle_ram_gb": 10.6,
  "gpu_idle_vram_mb": 13267,
- "orders_ack": "29/29: 28/28 onboarding enumeration (pre-existing orders, ack-only, executed by GM/bm-a/bm-b before bm-c joined) + O-20260924-0100 (QuantBull decommission triage, executed on this machine 2026-09-24 ~01:00-01:15 by co-resident ACP session under live user order, archive commit c2e36e8 on origin/main, receipt in CODELY.md; adoption items need signed ticket)",
- "verdict": "healthy: round 3 = T-04 F2 delivered+committed; smoke 20/20; S6 chain green with lhb now honest exit 2 store-absent (design-expected on this node, no crash); audit FLAG idle_with_work = open-tasks queue signal (T-05/T-07 unclaimed fleet-wide + T-04 F4/F3/F7 remainder), honest not force-cleared; panel traders=6; LoopWatchdog alive (Ready 02:10)",
- "heartbeat_epoch_utc": 1790187580,
- "clock_read": "2026-09-24T01:59:40+08:00"
+ "orders_ack": "29/29: 28/28 onboarding enumeration + O-20260924-0100 (executed on this machine ~01:00-01:15 by co-resident ACP session, archive commit c2e36e8)",
+ "verdict": "healthy: round 4 = T-04 full closure (F3 x2 watchdog landed with registration-seeded probation -- CE-02/ENGULF watched from day one, O-2205 gap closed; F4 seg honesty; F7 smoke 20->23); smoke 23/23; hr 6/6 INTERN HOLD; S6 chain green (lhb exit 2 store-absent = design-expected on sparse clone); audit idle_with_work = T-05 queue signal honest; probation duo rolls with each new bar",
+ "heartbeat_epoch_utc": 1790187763,
+ "clock_read": "2026-09-24T02:22:43+08:00"
 }
