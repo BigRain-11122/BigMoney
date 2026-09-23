@@ -1,0 +1,141 @@
+"""Global market registry (user order 2026-09-21: 全球主流市场都可以尝试).
+
+Every market = universe + data-source matrix + a TRADING-RULE PROFILE
+(price limits / T+1 / fees / calendar) + its own cache dir. The 31-family
+strategy library is price/volume driven and market-agnostic; rule profiles
+let the SAME engine trade each market the way it actually trades:
+
+  price_limit : None | "cn_board" (10/20/30 by prefix) | float pct
+  t_plus_1    : True -> cannot sell same day (A-share)
+  fees        : bps per side + stamp tax on sells + minimum commission
+  calendar    : "exchange" (derived from index bars) | "continuous" (7x24)
+
+Sources are probed in global_probe.py; the matrix records the plan, actual
+backfill prefers whichever endpoint is alive that day.
+"""
+
+MARKETS = {
+    "cn": {
+        "name": "A股",
+        "asset": "equity",
+        "cache_dir": "data/cache",
+        "sources": {"bars": "tx_raw_x_sina_factors", "spot": "akshare_official",
+                    "bench": "tx"},
+        "bench": {"sse": "sh000001", "csi300": "sh000300",
+                  "csi500": "sh000905"},
+        "rules": {"price_limit": "cn_board", "t_plus_1": True,
+                  "commission_bps": 2.5, "stamp_tax_bps": 5.0,
+                  "min_commission": 5.0, "slippage_bps": 10.0,
+                  "calendar": "exchange"},
+        "universe": "akshare exchange lists (5221)",
+        "status": "live (34y panel, league, paper)",
+    },
+    "crypto": {
+        "name": "加密货币",
+        "asset": "crypto",
+        "cache_dir": "data/mkt_crypto",
+        "sources": {"bars": "binance|okx|coingecko", "bench": "btc_index"},
+        "bench": {"btc": "BTCUSDT", "total": "market-cap-weighted"},
+        "rules": {"price_limit": None, "t_plus_1": False,
+                  "commission_bps": 10.0, "stamp_tax_bps": 0.0,
+                  "min_commission": 0.0, "slippage_bps": 10.0,
+                  "calendar": "continuous"},
+        "universe": "top-30 by market cap (BTC/ETH/SOL/...)",
+        "status": "planned - probe first market to land (7x24 data accrues "
+                  "fastest; simplest rules)",
+    },
+    "us": {
+        "name": "美股",
+        "asset": "equity",
+        "cache_dir": "data/mkt_us",
+        "sources": {"bars": "yahoo|stooq", "spot": "yahoo_screener",
+                    "bench": "spy"},
+        "bench": {"spy": "SPY", "qqq": "QQQ"},
+        "rules": {"price_limit": None, "t_plus_1": False,
+                  "commission_bps": 0.0, "stamp_tax_bps": 0.0,
+                  "min_commission": 0.0, "slippage_bps": 10.0,
+                  "calendar": "exchange"},
+        "universe": "top-500 by market cap",
+        "status": "planned",
+    },
+    "hk": {
+        "name": "港股",
+        "asset": "equity",
+        "cache_dir": "data/mkt_hk",
+        "sources": {"bars": "tx", "spot": "retry_em",
+                    "bench": "hkHSI"},
+        "bench": {"hsi": "hkHSI", "hstech": "hkHSTECH"},
+        "rules": {"price_limit": None, "t_plus_1": False,
+                  "commission_bps": 3.0, "stamp_tax_bps": 13.0,
+                  "min_commission": 3.0, "slippage_bps": 10.0,
+                  "calendar": "exchange"},
+        "universe": "top-300 by market cap",
+        "status": "planned (tx verified)",
+    },
+    "jp": {
+        "name": "日股",
+        "asset": "equity",
+        "cache_dir": "data/mkt_jp",
+        "sources": {"bars": "yahoo", "bench": "1306.T or ^nkx via stooq"},
+        "bench": {"nikkei": "^NKX"},
+        "rules": {"price_limit": None, "t_plus_1": False,
+                  "commission_bps": 5.0, "stamp_tax_bps": 10.0,
+                  "min_commission": 0.0, "slippage_bps": 10.0,
+                  "calendar": "exchange"},
+        "universe": "top-300 Nikkei constituents",
+        "status": "planned",
+    },
+    "eu": {
+        "name": "欧洲股",
+        "asset": "equity",
+        "cache_dir": "data/mkt_eu",
+        "sources": {"bars": "yahoo|stooq", "bench": "^STOXX50E"},
+        "bench": {"stoxx50": "^STOXX50E"},
+        "rules": {"price_limit": None, "t_plus_1": False,
+                  "commission_bps": 2.0, "stamp_tax_bps": 0.0,
+                  "min_commission": 2.0, "slippage_bps": 10.0,
+                  "calendar": "exchange"},
+        "universe": "top-300 EU blue chips (DE/FR/NL/CH/UK)",
+        "status": "planned",
+    },
+    "fx": {
+        "name": "外汇主流对",
+        "asset": "fx",
+        "cache_dir": "data/mkt_fx",
+        "sources": {"bars": "stooq|yahoo", "bench": "eurusd"},
+        "bench": {"dxy": "DXY"},
+        "rules": {"price_limit": None, "t_plus_1": False,
+                  "commission_bps": 1.0, "stamp_tax_bps": 0.0,
+                  "min_commission": 0.0, "slippage_bps": 2.0,
+                  "calendar": "mon-fri"},
+        "universe": "G10 majors + CNH (~12 pairs), spot only",
+        "status": "planned",
+    },
+    "commodity": {
+        "name": "商品主力",
+        "asset": "commodity",
+        "cache_dir": "data/mkt_cmdty",
+        "sources": {"bars": "stooq|yahoo", "bench": "gold"},
+        "bench": {"gold": "XAUUSD"},
+        "rules": {"price_limit": None, "t_plus_1": False,
+                  "commission_bps": 5.0, "stamp_tax_bps": 0.0,
+                  "min_commission": 0.0, "slippage_bps": 10.0,
+                  "calendar": "mon-fri"},
+        "universe": "XAU/XAG/WTI/Brent/Cu/SPY-like ETF proxies (~8)",
+        "status": "planned",
+    },
+    "kr": {"name": "韩股", "asset": "equity", "cache_dir": "data/mkt_kr",
+           "sources": {"bars": "yahoo"}, "bench": {}, 
+           "rules": {"price_limit": 0.30, "t_plus_1": False,
+                     "commission_bps": 1.5, "stamp_tax_bps": 0.0,
+                     "min_commission": 0.0, "slippage_bps": 10.0,
+                     "calendar": "exchange"},
+           "universe": "KOSPI top-200", "status": "planned"},
+    "tw": {"name": "台股", "asset": "equity", "cache_dir": "data/mkt_tw",
+           "sources": {"bars": "yahoo"}, "bench": {},
+           "rules": {"price_limit": 0.10, "t_plus_1": False,
+                     "commission_bps": 1.4, "stamp_tax_bps": 3.0,
+                     "min_commission": 0.0, "slippage_bps": 10.0,
+                     "calendar": "exchange"},
+           "universe": "TWSE top-200", "status": "planned"},
+}

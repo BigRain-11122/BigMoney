@@ -1,5 +1,20 @@
 # machine-local / runtime assets (NOT part of the portable repo)
-Money02/
+# --- Money02 legacy archive: PUSH the useful smalls, ARCHIVE the heavy/regenerable ---
+Money02/*
+!Money02/README.md
+!Money02/CODELY.md
+!Money02/*.py
+!Money02/*.ps1
+!Money02/data/
+Money02/data/*
+!Money02/data/index/
+!Money02/data/lhb/
+!Money02/data/mkt_crypto/
+!Money02/results/
+!Money02/results_crypto/
+# (excluded & archived: data/bars 1.1GB, data/cache 6.5GB regenerable, data/live stale,
+#  .codely-cli machine-local, __pycache__ - see Money02/ARCHIVE_MANIFEST.md)
+
 # logs/: local evidence, EXCEPT the cross-machine ledger (whitelisted below)
 logs/*
 !logs/iteration-loop/
