@@ -72,3 +72,11 @@
 1. R45：本预注册 + 拉取器 `scripts/backfill_ext_slots.py`（checkpoint+selftest 离线）+ 后台拉取链点火（dzjy→gdhs→margin 串行）
 2. 完备门过（预计 R46+）→ 批跑 P-1d IC 海选一次定稿（10 因子×双 horizon+null）
 3. 幸存者→P-2 型合成批另开预注册；0 幸存→诚实收线
+
+## s9 bm-b 裁定补遗（2026-09-24 02:4x · 跑前元数据增补 · MSG-0226 应答）
+
+本预注册冻结于 2026-09-23 22:10，早于 O-2215 回测科学 v2 落地（~22:3x）——
+按 BACKTEST_SCIENCE s8 祖父条款，**P-1d 批按冻结时的 V1/V2/V3 IC 门常数执行**
+（recorded-constants 口径，与 GTJA191/WQ101 批同代判据）；不追认 v2（skill_line_v2/
+DSR/PBO），原因：判据换轨=跑后换秤=数据窥探红线。批跑时（margin 门转绿后）在结果
+JSON 顶层按 C2 合法键补 evidence_cutoff 元数据。本节为唯一增补，跑后禁再动。
