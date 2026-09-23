@@ -1,10 +1,10 @@
 {
   "machine_id": "bm-b",
-  "orders_ack": "All 19 orders through O-20260923-2134 acked (r44 full-scan diff + r45 closeout rescan: zero new orders).",
-  "last_seen": "2026-09-23 22:10",
-  "idle_ram_gb": "9.8",
+  "orders_ack": "All 19 orders through O-20260923-2134 acked (r46 round-start + closeout double-scan: zero new orders).",
+  "last_seen": "2026-09-23 22:35",
+  "idle_ram_gb": "9.5",
   "gpu_idle_vram_mb": "2330",
-  "current_task": "round 45: P-1d extension-slot factor line opened (MSG-2155 claim + prereg frozen + backfill_ext_slots.py selftest 7/7 + background pull chain PID 4448: dzjy leg in flight, then gdhs, then margin ~7h multi-round). P-B push2his still blocked (parked). Next: monitor pull chain -> P-1d IC batch when data-completeness gates pass.",
+  "current_task": "round 46: P-1d ext-slot data line in flight (dzjy DONE 316k rows gate PASS 99.94%, gdhs DONE 44/44 quarters gate PASS, margin leg pulling ~7h background PID 4448; next=p1d_ext_slots_ic.py batch runner build then one-shot IC when margin gate passes). P-B split-block: push2his recovered, push2/clist still blocked (honest exit-2 fix landed), lane parked.",
   "cpu_cores": "16",
-  "verdict": "healthy: smoke 20/20; audit CLEAN 18% zero flags; daily cutoff 09-23 no-op; lhb+heat no-op; fundamental skip 1.3h; mask gates 5/5; panel traders=3 milestones 5/7; ext-slot pull chain alive (dzjy 24mo/21226 rows zero-fail); long-lines: 2026-10-31 promo check, CE-02 x2 watch"
+  "verdict": "healthy: smoke 20/20; audit CLEAN 14% zero flags; daily cutoff 09-23 no-op; lhb+heat no-op; fundamental skip; mask gates 5/5; panel traders=3 milestones 5/7; ext-slot margin pull chain alive background; P-B push2his recovered but clist blocked (per-subdomain); long-lines: 2026-10-31 promo check, CE-02 x2 watch"
 }
