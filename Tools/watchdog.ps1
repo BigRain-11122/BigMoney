@@ -129,7 +129,23 @@ try {
     if ($p1cAlive) {
         Log 'C5 P-1c batch chain ALIVE -> no action'
     } elseif (Test-Path $finalJson) {
-        Log 'C5 P-1c final JSON present (batch complete) -> no action'
+        # r61: the GTJA-leg finalize predates the WQ leg, so the final JSON
+        # alone is no longer completeness proof. Complete = meta.wq_complete
+        # true (finalize writes it once all 82 WQ checkpoints aggregate).
+        $wqComplete = $false
+        try { $wqComplete = [bool]((Get-Content $finalJson -Raw | ConvertFrom-Json).meta.wq_complete) } catch { $wqComplete = $false }
+        if ($wqComplete) {
+            Log 'C5 P-1c final JSON present + wq_complete (batch complete) -> no action'
+        } else {
+            $runner = Join-Path $Project 'scripts\p1c_stock_ic_batch.py'
+            $chainLog = Join-Path $LogsDir 'p1c_chain_watchdog.log'
+            $phases = 'run-wq', 'finalize'
+            Log 'C5 P-1c WQ leg unfinished (final JSON pre-wq) -> resuming from run-wq'
+            $chainCmd = ($phases | ForEach-Object { 'python -u "' + $runner + '" ' + $_ }) -join ' >> "' + $chainLog + '" 2>&1 && '
+            $chainCmd = 'cmd /c "' + $chainCmd + ' >> "' + $chainLog + '" 2>&1"'
+            Start-Process -WindowStyle Hidden -FilePath 'cmd.exe' -ArgumentList $chainCmd -WorkingDirectory $Project
+            Log 'C5 resume chain issued'
+        }
     } else {
         $nullsJson = Join-Path $Project 'results\shortline\p1c_nulls.json'
         $partialDir = Join-Path $Project 'results\shortline\p1c_partial'
