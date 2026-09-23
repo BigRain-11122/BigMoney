@@ -1092,12 +1092,12 @@
     "applicability": "descriptive continuity metrics + v2 gate readout; no promotion, no allocation, no carrier switch; IV adoption = charter s5 T1; regime premium (P-5B 6/6 fail 0.70 beat line) discounts all Sharpe reads"
   },
   "trials_ledger": {
-    "prev_total": 2753,
+    "prev_total": 2765,
     "batch_trials": 14,
-    "total": 2767,
+    "total": 2779,
     "batch": "IV6-portfolio-riskbudget",
     "file": "results/portfolio_iv6.json",
-    "note": "12 engine member runs (anchor-cum-sleeve, x1+x2, EW6-identical cells; only delta = additive report_num_entries flag) + 2 IV portfolio evaluations (derived, non-engine); twin-gate EW re-derivations and v2 readouts are gates/disclosures, not ledger cells; zero search => zero nulls (composition disclosed, prereg s0); actual=14 vs frozen budget 14",
+    "note": "12 engine member runs (anchor-cum-sleeve, x1+x2, EW6-identical cells; only delta = additive report_num_entries flag) + 2 IV portfolio evaluations (derived, non-engine); twin-gate EW re-derivations and v2 readouts are gates/disclosures, not ledger cells; zero search => zero nulls (composition disclosed, prereg s0); actual=14 vs frozen budget 14; REBASE-WINDOW CORRECTION 2026-09-24 03:1x: bm-b T-05 part3 (+12, total 2765) landed mid-window after this batch computed its block at then-head 2753 -- prev re-seated 2753->2765, total 2767->2779 to preserve ALL true trials (max-chain would have absorbed bm-b +12 = undercount); bookkeeping-only, zero experimental digits changed, batch cells stay 14",
     "evidence_cutoff": "2026-09-22"
   },
   "audit": {
@@ -1108,5 +1108,19 @@
     "workers": 6,
     "parallel": "parallel_runner ProcessPool workers=6"
   },
-  "evidence_cutoff": "2026-09-22"
+  "evidence_cutoff": "2026-09-22",
+  "rebase_window_corrections": {
+    "ledger": {
+      "prev_total": 2765,
+      "total": 2779,
+      "reason": "bm-b T-05 part3 +12 landed mid-window; serial re-seat, all true trials preserved"
+    },
+    "skill_line_v2_recheck": {
+      "n_eff": 2779,
+      "line": 0.9342,
+      "sharpe_full": 1.3702,
+      "line_ok_at_corrected_n_eff": true,
+      "note": "v2 verdict computed at run-time N_eff 2767 (line 0.9339); recheck at corrected serial position N_eff 2779 line 0.9342 -- verdict robust"
+    }
+  }
 }
