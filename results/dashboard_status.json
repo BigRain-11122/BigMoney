@@ -4,7 +4,7 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T06:52:40"
+    "generated_at": "2026-09-24T06:56:34"
   },
   "health": {
     "smoke": {
@@ -28,7 +28,7 @@
     "update": {
       "present": true,
       "last_run": "2026-09-24 06:52:22",
-      "age_min": 0,
+      "age_min": 4,
       "symbols": 48,
       "total_new_rows": 0,
       "failures": 0,
@@ -51,16 +51,28 @@
       "status": "ok",
       "text": "热度链活 · L1 1份 · L2 97/100件"
     },
+    "futures": {
+      "present": true,
+      "varieties": 9,
+      "planned": 9,
+      "last_attempt": "2026-09-24T06:29:55",
+      "age_min": 26,
+      "cutoff": "2026-09-23",
+      "errors": 0,
+      "rows_total": 23647,
+      "status": "ok",
+      "text": "期货链 9 品种在库"
+    },
     "token": {
       "present": true,
-      "generated": "2026-09-24 06:45:02",
+      "generated": "2026-09-24 06:52:41",
       "mandate_est": 2856,
-      "codely_context_est": 111351,
-      "state_est": 2109,
-      "report_est": 63969,
-      "delta_state": 181,
-      "delta_report": 596,
-      "delta_prev": "2026-09-24 06:31:26"
+      "codely_context_est": 113447,
+      "state_est": 2293,
+      "report_est": 65533,
+      "delta_state": 184,
+      "delta_report": 1564,
+      "delta_prev": "2026-09-24 06:45:02"
     },
     "regime": {
       "present": true,
@@ -152,7 +164,7 @@
       {
         "id": "bm-a",
         "last_seen": "2026-09-24T06:44:32",
-        "age_min": 8.1,
+        "age_min": 12.0,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 47,
@@ -165,31 +177,31 @@
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-09-24T06:45",
-        "age_min": 6.7,
+        "last_seen": "2026-09-24 06:54",
+        "age_min": 1.8,
         "health": "ok",
         "cpu_cores": 16,
-        "idle_ram_gb": 10.4,
+        "idle_ram_gb": 8.6,
         "gpu_idle_vram_mb": 2400,
-        "current_task": "r69 rescue complete; WQ leg 42/82 in-flight (harvest r70+); P4_EXT_TILT closed 0/5",
+        "current_task": "r70 5x HANDOVER check done (ledger 2905 row added); WQ leg 47/82 in-flight (harvest r75+-1); P-B clist blocked ~12h parked",
         "verdict": "CLEAN",
         "orders_ack": "FULL ENUMERATION 29/29 (r65 full-disk scan vs ack set, diff=EMPTY; note: ack is a summary string, matching must account for both full-date and abbreviated O-token forms): O-20260923-1514 (Money0923 triage, quant session), O-1533 (bars A+B dual-approved, T-01 done Verify PASS), O-1536 (local-first J13 both machines), O-1538 (firm/ four-pack), O-1545 (shortline playbook+research lanes), O-1620 (P1 authority delegated), O-1636 (research mechanism+style atlas), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit in S6), O-1816 (P-5 random entry all-FAIL), O-1819 (24h continuous backtest), O-1820 (three allocation red lines, all parts closed), O-1823 (evaluation framework), O-1828 (TA batch 2A), O-1844 (lane coordination), O-1850 (heat/attention family), O-2134 (folk expansion), O-2205 (retro automation+improvements), O-2210 (max-scale backtest+library, 3 new traders), O-2215 (backtest science v2, T-02 CLOSED), O-2250 (full audit, T-03/T-04+3 T2 rules), O-2310 (operating plan), O-2311 (org expansion T-06/T-07 both done), O-2315 (REGIME_GUARD v1.0, T-05 CLOSED shadow-first), O-2325 (local-first token meter), O-2345 (CPU mobilization P-5B), O-20260924-0100 (QuantBull archive via bm-c, consumption=P1 signed ticket)",
-        "clock_read": "2026-09-24T06:45:57+08:00",
-        "round_no": 69
+        "clock_read": "2026-09-24T06:54:45+08:00",
+        "round_no": 70
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-09-24T06:45",
-        "age_min": 8.3,
+        "last_seen": "2026-09-24T06:53",
+        "age_min": 3.2,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 11.2,
         "gpu_idle_vram_mb": 13257,
-        "current_task": "r21 display-lane verification closure done: post-WQ digest clip risk PRE-CLOSED (A 75-char + C 81-char sim both render un-clipped; r13 clip-line corrected = pixel-width not char-count; zero code change needed); gdhs segment + p1d 3-gates display verified green data-driven; WQ landing watch continues (only (b) evidence_cutoff + (c) leg-split data checks remain); orders 29/29 diff empty",
+        "current_task": "r22 futures-chain display wiring done: _futures_state() + J10 期货日线 row + 事件行, verified 5/5 (payload 9品种/23647行/cutoff 09-23/ok + screenshot un-clipped); S6 all-green; WQ landing watch continues ((b) evidence_cutoff + (c) leg-split remain); orders 29/29 diff empty",
         "verdict": "ok",
-        "orders_ack": "29/29: r21 opening + closing double-scan diff empty (zero new orders; last order still O-20260924-0100-bm-c)",
-        "clock_read": "2026-09-24T06:45:00+08:00",
-        "round_no": 21
+        "orders_ack": "29/29: r22 opening + closing double-scan diff empty (zero new orders; last order still O-20260924-0100-bm-c); MSG-0646/0650 archived (bm-a lane claims, no conflict)",
+        "clock_read": "2026-09-24T06:53:21+08:00",
+        "round_no": 22
       }
     ],
     "tickets": [
@@ -728,8 +740,12 @@
       "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24 06:45:02",
-      "text": "本地化 · token 粗估 状态 2109 · 报告 63969 · 回合固定载入 111351（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24T06:29:55",
+      "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-23 · 刚跑"
+    },
+    {
+      "time": "2026-09-24 06:52:41",
+      "text": "本地化 · token 粗估 状态 2293 · 报告 65533 · 回合固定载入 113447（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -768,26 +784,26 @@
     "siblings": [
       {
         "name": "Biggame · biu你一下",
-        "last_active": "09-24 06:51",
-        "age_min": 1.6,
-        "alive": true
-      },
-      {
-        "name": "Biggame · HomeWreck",
-        "last_active": "09-24 06:51",
+        "last_active": "09-24 06:55",
         "age_min": 1.0,
         "alive": true
       },
       {
+        "name": "Biggame · HomeWreck",
+        "last_active": "09-24 06:56",
+        "age_min": 0.4,
+        "alive": true
+      },
+      {
         "name": "Biggame · PhantomEscapeGo",
-        "last_active": "09-24 06:50",
-        "age_min": 2.1,
+        "last_active": "09-24 06:56",
+        "age_min": 0.2,
         "alive": true
       },
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 06:52",
-        "age_min": 0.1,
+        "last_active": "09-24 06:56",
+        "age_min": 0.2,
         "alive": true
       }
     ]
