@@ -1,14 +1,14 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
 > 2026-09-23 11:35 整理；15:1x 接管版更新。CEO 令：AI 全面接管 Bigmoney 系统开发（mandate=`Tools\iteration_prompt.txt` 接管版：开发范围=PLAN P0-P4+§7+任务板，P1 新方向须 CEO 署名）。机队实况：bm-a=32 核开发机（DASHENG）｜bm-b=16 核回测/数据节点（Money02 宿主，维护链常驻）；多机大文件传输机制=`fleet/TRANSFER.md`（控制面 git、数据面择通道）。
-> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=round 25（2026-09-23 14:05）：产物清单逐项对账无缺件、账本 N=1073 无误、git 段更新（仓库改名 BigMoney+通道已全通）。
+> 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=bm-a round 5（2026-09-23 15:50；对账区间=bm-b rounds 26-30+bm-a rounds 1-5+quant 专管会话令件执行）：新增产物已入清单（J12 小镇/J13 llm_assist/firm 四件套/Money0923 归档/舰队治理），账本 N=1073 无变化（区间内零新回测批，纯维护+治理/工具线）。
 
 ## 一、当前模式与怎么停/恢复
 
-- **本机在跑什么**：Windows 计划任务 `Bigmoney-IterationLoop`（每 10 分钟一轮，无头静默），当前 mandate=`Tools\iteration_prompt.txt`（AI 接管系统开发版：PLAN P0-P4+§7+任务板队列，P1 新方向须用户署名；bm-a 侧未装循环前由交互会话开发）。
+- **本机在跑什么**：Windows 计划任务 `Bigmoney-IterationLoop`（每 10 分钟一轮，无头静默），当前 mandate=`Tools\iteration_prompt.txt`（AI 接管系统开发版：PLAN P0-P4+§7+任务板队列，P1 新方向须用户署名）；**双机均已装循环**（bm-a=DASHENG 32 核开发机，计划任务 14:33 起；bm-b=16 核回测/数据节点，Money02 宿主）。
 - **停止本机循环**：`schtasks /change /tn "\Bigmoney-IterationLoop" /disable`；恢复把 `/disable` 换 `/enable`。只拷文件取数不用停（读文件不冲突）。
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
-- **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\state.json`（轮号/做了什么/下轮指针）＋ `round_reports.md`（每轮固定字段报告）＋ 根目录 `CODELY.md`（项目记忆）。轮活性另看 `logs\probe-heartbeat.txt`。
+- **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\` 按机分账本（bm-b=state.json+round_reports.md；其余机含 bm-a=state-<机id>.json+round_reports-<机id>.md；字段=轮号/做了什么/下轮指针/每轮固定报告）＋ 根目录 `CODELY.md`（项目记忆，行级追加）。轮活性另看 `logs\probe-heartbeat.txt`。
 
 ## 二、成果速览（截至 OS round 25，2026-09-23 14:05；round 21-25=纯维护轮，无新增回测产物）
 
@@ -30,11 +30,16 @@
 | 日线数据增量管线 | `scripts/update_daily.py`、`results/update_status.json` | 交易日 15:30 后自动增量 48 池 → paper 自动记账；收盘守卫防半根 bar |
 | 旧 432 网格（死信号存档） | `results/*.json`（432 份）、`ranking.csv` | 最好 Sharpe 0.44，已判淘汰，仅供复现 |
 | 因子研究 | `results/factor_ic.json`、`composite_ic.json`、`research/FACTOR_RESEARCH.md`、`COMPOSITE_FACTOR.md` | 最强 vol_60 IC=-0.064；复合因子 IC 实测 0.061/0.023（95% 满仓口径） |
+| **J12 公司小镇总控 v2（bm-a round 3-4 交付）** | `town.html`（v0.2）、入口在 `bigmoney.html` | 6 楼真实数据化（因子/门禁链/交易员/风控/数据/机队）+真实本地钟昼夜动画+?hour=H 验收参数；CEO 点名高优先级项**已交付**，截图证据 `logs\town_v2_*.png` |
+| **J13 本地 LLM 研究助理 v0.1（bm-b round 29 建→bm-a round 5 集成 main，merge 9a4a300）** | `scripts/llm_assist.py`、`research/auto/retro-20260923.md`（首个真实复盘产物） | ask/review/retro/ideas/selftest 五模式，复用本机现役 Ollama qwen2.5:7b（禁重建禁抢 pause 阀），写域限 research/；双机 selftest 全绿=**O-1536 本地化算力路线载体**，轮报告 token 用量记账已启动 |
+| **firm/ 建章立制四件套（O-1538，e293f36）** | `firm/RULES.md`+`TECH.md`+`DEV_AUTOMATION.md`+`org_chart.md` v2 | T0-T3 权力分层+红线指针化+总经理七部门表（mandate/KPI/town 映射）+AI 赋能五原则+立法流程；零代码重构零红线数值改动；循环轮执行/汇报按部门标注 |
+| **Money0923 前代系统归档（O-1514，f597750）** | `Money0923/`（782 件/95.8MB） | 用户《Money 自进化量化系统》有用集（代码/25 年面板/分钟语料/state.json 复活锚/MoneyViz 源）；**其自动化停机中**（09-22 停机令），可学 12 条=`research/MONEY0923_TRIAGE.md` §三（采纳须 CEO 署名） |
+| **舰队治理面（fleet v1.0 全家）** | `fleet/README.md`+`FLEET-OPS.md`+`orders/`台账+`HQ-FEEDBACK.md`+machine/<id> 分支机制 | /CEO 令牌+心跳+任务认领+TRANSFER.md 大文件机制+集团反馈面；bars 1.09GB 走 **A-变体进行中**（BigMoney-data 私库：bm-b 推送、bm-a 接收双侧 Verify 收官，T-01） |
 | **试验账本累计 N=1073**（432+30+59+122+27+26+12+9+10+145+153+18+30） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示 |
 
 ## 三、取数清单（两条路径）
 
-1. **轻装收割（~105MB，推荐）**：整个 `Bigmoney\` 文件夹**排除 `Money02\`**——引擎+策略+数据（92MB）+全部成果（11.5MB）+研究文档+日志证据全在内。
+1. **轻装收割（推荐，git clone）**：pack 实测 ~129MiB（2026-09-23）——引擎+策略+数据+全部成果+研究文档+Money0923 归档（95.8MB）+Money02 小件（87MB）全在内；文件夹拷贝路径=整个 `Bigmoney\` 排除 `Money02\`（bars 1.09GB 走 BigMoney-data 数据通道，见 `fleet/TRANSFER.md`）。
 2. **全量（~7.8GB）**：另含 `Money02\`（前代 A 股系统资产库：5221 只个股全史 parquet+复权因子、19 年龙虎榜、Gate.io 26 币全史，清单=`research/MONEY02_ASSETS.md`）。新机器只做 ETF 波段则不需要它。
 
 ## 四、新机器跑起来（PLAN.md 可拷贝迁移原则）
@@ -73,7 +78,7 @@ python -m screening.rank          # 432 组排名重建
 - 每个交易日 15:30 后：48 池日线增量 → 纸盘自动记账 → 成果/面板文件刷新（查 `results/update_status.json` 的 data_cutoff 与 total_new_rows）。
 - 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；**策略线三路径已穷尽（现金腿=用户侧决策、扩池=数据源用户令禁碰、袖=已收线）→ 本节点转纯维护态**（数据增量+纸盘记账+面板+交接物保鲜），续作均须用户回来定方向。
 - 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
-- 开发队列（接管版，CEO 可随时改序）：J12 总控 v2 公司小镇（CEO 点名高优先级）→ J13 本地 LLM 研究助理 → J10 dashboard.html 分布式监控页、J18b update_status 上面板 → Optuna 贝叶斯调参骨架；P1 级新方向（数据源扩容/现金腿/新大类）须 CEO 署名任务单才开工。
+- 开发队列（接管版，CEO 可随时改序）**round 5 更新**：J12 已交付 v0.2、J13 已交付 v0.1（扩展方向=轮报告摘要/策略代码一审接管，用 llm_assist 既有模式禁新建）→ 余 J10 dashboard.html 分布式监控页、J18b update_status 上面板 → Optuna 贝叶斯调参骨架；P1 级新方向（数据源扩容/现金腿/新大类）须 CEO 署名任务单才开工。bars 1.09GB 通道=A-变体进行中（BigMoney-data 私库，bm-b 推送+bm-a 接收 Verify，T-01 收官件）。
 
 ## 七、诚实声明
 
