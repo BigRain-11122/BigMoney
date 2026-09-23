@@ -25,7 +25,7 @@
 
 | 域 | 唯一权威 |
 |---|---|
-| 交易红线 | `firm/risk/iron_rules.md`（配置三红线 T0·O-1820 + 10 铁律 + 熔断 + 合规边界）+ `firm/hr.py` 考核阈值 |
+| 交易红线 | `firm/risk/iron_rules.md`（配置三红线 T0·O-1820 + 10 铁律 + 熔断 + 合规边界）+ `firm/risk/REGIME_GUARD.md`（行情防御状态机·O-2315）+ `firm/hr.py` 考核阈值 |
 | 工程红线 | `PLAN.md` §0 六条不可妥协 + `Tools/iteration_prompt.txt` 反重复铁律 + 根 `CODELY.md` 坑律 |
 | 集团红线 | FluxGroup `docs/governance.md` 安全密钥律/编码律/静默律 |
 
