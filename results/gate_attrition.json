@@ -1,0 +1,50 @@
+{
+  "schema": "gate-attrition-ledger v1",
+  "created": "2026-09-24 03:03:01",
+  "purpose": "science_audit C4: per-batch gate-chain losses account (s7-T retro mandatory; measurement batches record gate outcomes, search batches record eliminations)",
+  "entries": [
+    {
+      "batch": "EW6-portfolio-validation",
+      "ts": "2026-09-24 00:54:38",
+      "kind": "measurement",
+      "retro_fill": true,
+      "cells_ledger_delta": 26,
+      "ledger_total_after": 2753,
+      "gates": {
+        "descriptive_g1_clauses_all_pass": true,
+        "x2_survive": true,
+        "worst_year_ok": true,
+        "validated": true,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_ew6.json",
+        "prereg": "research/shortline/EW6_PORTFOLIO.md"
+      }
+    },
+    {
+      "batch": "IV6-portfolio-riskbudget",
+      "ts": "2026-09-24 03:03:01",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 14,
+      "ledger_total_after": 2767,
+      "gates": {
+        "g1_prime_v2_pass": true,
+        "descriptive_g1_clauses_all_pass": true,
+        "x2_survive": true,
+        "worst_year_ok": true,
+        "twin_gate_crosscheck": true,
+        "validated": true,
+        "void": false,
+        "void_reason": null
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_iv6.json",
+        "prereg": "research/IV6_PORTFOLIO.md"
+      }
+    }
+  ]
+}

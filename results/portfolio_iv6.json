@@ -1,0 +1,1112 @@
+{
+  "batch": "IV6-portfolio-riskbudget",
+  "task": "EW6 continuation pointer s6.7-1 (report-only pass 2, charter s1.1 IV upgrade path)",
+  "generated": "2026-09-24 03:03:01",
+  "preregistered_doc": "research/IV6_PORTFOLIO.md",
+  "prereg_sha256_at_run": "0f33111afd302001dc2189155a0adc8611fe073d78c2ba52063db480114b20d7",
+  "oos_start": "2025-01-01",
+  "d2_note": "2025+ segment = IS2 (forward-lockbox demotion); true OOS = post-cutoff locked box via paper accrual, not consumed",
+  "void": false,
+  "void_reason": null,
+  "constants": {
+    "g1_prime_i_bar": 0.3521,
+    "g1_prime_vi_bar": 0.4004,
+    "crash_year": -0.3,
+    "batch_cells": 14,
+    "passive_ew48_buyhold": {
+      "full": {
+        "sharpe": 0.3004,
+        "annual_return": 0.038,
+        "max_drawdown": -0.3843
+      },
+      "oos": {
+        "sharpe": 0.7101,
+        "annual_return": 0.1202,
+        "max_drawdown": -0.1677
+      },
+      "n_trades": 0,
+      "oos_trades": 0
+    },
+    "passive_ew48_monthly": {
+      "full": {
+        "sharpe": 0.3792,
+        "annual_return": 0.0521,
+        "max_drawdown": -0.3652
+      },
+      "oos": {
+        "sharpe": 0.8051,
+        "annual_return": 0.1306,
+        "max_drawdown": -0.116
+      },
+      "n_trades": 0,
+      "oos_trades": 0
+    },
+    "cost_basis": "legacy fee path (additive engine flags OFF except report_num_entries metric key; cost_v2 not used this batch)"
+  },
+  "universe": {
+    "pool": "core48-bare-codes",
+    "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01",
+      "VOLATILITY-CE-01"
+    ],
+    "member_cutoffs": {
+      "COMPOSITE-CE-01": "2026-09-22",
+      "COMPOSITE-CE-02": "2026-09-22",
+      "DROUGHT-CE-01": "2026-09-22",
+      "ENGULF-CE-01": "2026-09-22",
+      "NEEDLE-DE-01": "2026-09-22",
+      "VOLATILITY-CE-01": "2026-09-22"
+    }
+  },
+  "members": {
+    "COMPOSITE-CE-01": {
+      "cutoff": "2026-09-22",
+      "n_entries": 392,
+      "x1": {
+        "full": {
+          "annual_return": 0.0576,
+          "sharpe": 0.8114,
+          "max_drawdown": -0.1633,
+          "win_rate": 0.616,
+          "profit_factor": 1.7164,
+          "num_trades": 474,
+          "avg_hold_days": 15.97,
+          "num_entries": 392
+        },
+        "is": {
+          "sharpe": 0.4514,
+          "annual_return": 0.0283,
+          "max_drawdown": -0.1633
+        },
+        "is2": {
+          "sharpe": 1.6085,
+          "annual_return": 0.1441,
+          "max_drawdown": -0.0567
+        },
+        "n_trades": 474,
+        "oos_trades": 172
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0377,
+          "sharpe": 0.5228,
+          "max_drawdown": -0.1805,
+          "win_rate": 0.5948,
+          "profit_factor": 1.6157,
+          "num_trades": 464,
+          "avg_hold_days": 15.67,
+          "num_entries": 382
+        },
+        "is2": {
+          "sharpe": 1.2661,
+          "annual_return": 0.1234,
+          "max_drawdown": -0.0643
+        },
+        "n_trades": 464,
+        "n_entries": 382
+      }
+    },
+    "COMPOSITE-CE-02": {
+      "cutoff": "2026-09-22",
+      "n_entries": 626,
+      "x1": {
+        "full": {
+          "annual_return": 0.0691,
+          "sharpe": 0.6099,
+          "max_drawdown": -0.2217,
+          "win_rate": 0.6025,
+          "profit_factor": 1.6561,
+          "num_trades": 795,
+          "avg_hold_days": 15.85,
+          "num_entries": 626
+        },
+        "is": {
+          "sharpe": 0.4585,
+          "annual_return": 0.0544,
+          "max_drawdown": -0.2217
+        },
+        "is2": {
+          "sharpe": 1.4853,
+          "annual_return": 0.1089,
+          "max_drawdown": -0.0361
+        },
+        "n_trades": 795,
+        "oos_trades": 275
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0489,
+          "sharpe": 0.4311,
+          "max_drawdown": -0.2531,
+          "win_rate": 0.5929,
+          "profit_factor": 1.5488,
+          "num_trades": 791,
+          "avg_hold_days": 15.83,
+          "num_entries": 623
+        },
+        "is2": {
+          "sharpe": 1.1075,
+          "annual_return": 0.0885,
+          "max_drawdown": -0.0437
+        },
+        "n_trades": 791,
+        "n_entries": 623
+      }
+    },
+    "DROUGHT-CE-01": {
+      "cutoff": "2026-09-22",
+      "n_entries": 116,
+      "x1": {
+        "full": {
+          "annual_return": 0.0228,
+          "sharpe": 0.724,
+          "max_drawdown": -0.0476,
+          "win_rate": 0.8167,
+          "profit_factor": 2.2279,
+          "num_trades": 120,
+          "avg_hold_days": 6.0,
+          "num_entries": 116
+        },
+        "is": {
+          "sharpe": 0.5538,
+          "annual_return": 0.0169,
+          "max_drawdown": -0.0476
+        },
+        "is2": {
+          "sharpe": 1.213,
+          "annual_return": 0.0408,
+          "max_drawdown": -0.0252
+        },
+        "n_trades": 120,
+        "oos_trades": 44
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0185,
+          "sharpe": 0.5902,
+          "max_drawdown": -0.05,
+          "win_rate": 0.8,
+          "profit_factor": 2.0961,
+          "num_trades": 120,
+          "avg_hold_days": 6.0,
+          "num_entries": 116
+        },
+        "is2": {
+          "sharpe": 1.0462,
+          "annual_return": 0.0354,
+          "max_drawdown": -0.0284
+        },
+        "n_trades": 120,
+        "n_entries": 116
+      }
+    },
+    "ENGULF-CE-01": {
+      "cutoff": "2026-09-22",
+      "n_entries": 119,
+      "x1": {
+        "full": {
+          "annual_return": 0.0172,
+          "sharpe": 0.5392,
+          "max_drawdown": -0.0423,
+          "win_rate": 0.7343,
+          "profit_factor": 1.6284,
+          "num_trades": 143,
+          "avg_hold_days": 6.87,
+          "num_entries": 119
+        },
+        "is": {
+          "sharpe": 0.6239,
+          "annual_return": 0.0201,
+          "max_drawdown": -0.0423
+        },
+        "is2": {
+          "sharpe": 0.2944,
+          "annual_return": 0.0091,
+          "max_drawdown": -0.0366
+        },
+        "n_trades": 143,
+        "oos_trades": 44
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0128,
+          "sharpe": 0.4023,
+          "max_drawdown": -0.0464,
+          "win_rate": 0.7343,
+          "profit_factor": 1.5422,
+          "num_trades": 143,
+          "avg_hold_days": 6.87,
+          "num_entries": 119
+        },
+        "is2": {
+          "sharpe": 0.1301,
+          "annual_return": 0.0038,
+          "max_drawdown": -0.0397
+        },
+        "n_trades": 143,
+        "n_entries": 119
+      }
+    },
+    "NEEDLE-DE-01": {
+      "cutoff": "2026-09-22",
+      "n_entries": 62,
+      "x1": {
+        "full": {
+          "annual_return": 0.0168,
+          "sharpe": 0.6624,
+          "max_drawdown": -0.0282,
+          "win_rate": 0.7534,
+          "profit_factor": 2.2888,
+          "num_trades": 73,
+          "avg_hold_days": 4.92,
+          "num_entries": 62
+        },
+        "is": {
+          "sharpe": 0.7781,
+          "annual_return": 0.0185,
+          "max_drawdown": -0.0254
+        },
+        "is2": {
+          "sharpe": 0.4089,
+          "annual_return": 0.0119,
+          "max_drawdown": -0.0282
+        },
+        "n_trades": 73,
+        "oos_trades": 23
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0144,
+          "sharpe": 0.5738,
+          "max_drawdown": -0.0297,
+          "win_rate": 0.7534,
+          "profit_factor": 2.1737,
+          "num_trades": 73,
+          "avg_hold_days": 4.92,
+          "num_entries": 62
+        },
+        "is2": {
+          "sharpe": 0.3199,
+          "annual_return": 0.0093,
+          "max_drawdown": -0.0297
+        },
+        "n_trades": 73,
+        "n_entries": 62
+      }
+    },
+    "VOLATILITY-CE-01": {
+      "cutoff": "2026-09-22",
+      "n_entries": 483,
+      "x1": {
+        "full": {
+          "annual_return": 0.0307,
+          "sharpe": 1.2578,
+          "max_drawdown": -0.0378,
+          "win_rate": 0.5747,
+          "profit_factor": 1.9024,
+          "num_trades": 522,
+          "avg_hold_days": 15.24,
+          "num_entries": 483
+        },
+        "is": {
+          "sharpe": 1.0275,
+          "annual_return": 0.0262,
+          "max_drawdown": -0.0378
+        },
+        "is2": {
+          "sharpe": 2.0568,
+          "annual_return": 0.0424,
+          "max_drawdown": -0.009
+        },
+        "n_trades": 522,
+        "oos_trades": 147
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0134,
+          "sharpe": 0.5338,
+          "max_drawdown": -0.0652,
+          "win_rate": 0.5498,
+          "profit_factor": 1.6368,
+          "num_trades": 522,
+          "avg_hold_days": 15.24,
+          "num_entries": 483
+        },
+        "is2": {
+          "sharpe": 1.1659,
+          "annual_return": 0.0264,
+          "max_drawdown": -0.0143
+        },
+        "n_trades": 522,
+        "n_entries": 483
+      }
+    }
+  },
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_x2_full": 0.5228,
+      "got_x2_is2": 1.2661,
+      "want_x2_full": 0.5228,
+      "want_x2_is2": 1.2661
+    },
+    "COMPOSITE-CE-02": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_x2_full": 0.4311,
+      "got_x2_is2": 1.1075,
+      "want_x2_full": 0.4311,
+      "want_x2_is2": 1.1075
+    },
+    "DROUGHT-CE-01": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_x2_full": 0.5902,
+      "got_x2_is2": 1.0462,
+      "want_x2_full": 0.59,
+      "want_x2_is2": null
+    },
+    "ENGULF-CE-01": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_x2_full": 0.4023,
+      "got_x2_is2": 0.1301,
+      "want_x2_full": 0.402,
+      "want_x2_is2": null
+    },
+    "NEEDLE-DE-01": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_x2_full": 0.5738,
+      "got_x2_is2": 0.3199,
+      "want_x2_full": 0.574,
+      "want_x2_is2": null
+    },
+    "VOLATILITY-CE-01": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_x2_full": 0.5338,
+      "got_x2_is2": 1.1659,
+      "want_x2_full": 0.5338,
+      "want_x2_is2": 1.1659
+    }
+  },
+  "crosscheck_twin_gate_vs_ew6": {
+    "ok": true,
+    "members": {
+      "COMPOSITE-CE-01": {
+        "cutoff": true,
+        "n_trades": true,
+        "oos_trades": true,
+        "x1_full_sharpe": true,
+        "x1_is_sharpe": true,
+        "x1_is2_sharpe": true,
+        "x2_full_sharpe": true,
+        "x2_is2_sharpe": true,
+        "x2_n_trades": true
+      },
+      "COMPOSITE-CE-02": {
+        "cutoff": true,
+        "n_trades": true,
+        "oos_trades": true,
+        "x1_full_sharpe": true,
+        "x1_is_sharpe": true,
+        "x1_is2_sharpe": true,
+        "x2_full_sharpe": true,
+        "x2_is2_sharpe": true,
+        "x2_n_trades": true
+      },
+      "DROUGHT-CE-01": {
+        "cutoff": true,
+        "n_trades": true,
+        "oos_trades": true,
+        "x1_full_sharpe": true,
+        "x1_is_sharpe": true,
+        "x1_is2_sharpe": true,
+        "x2_full_sharpe": true,
+        "x2_is2_sharpe": true,
+        "x2_n_trades": true
+      },
+      "ENGULF-CE-01": {
+        "cutoff": true,
+        "n_trades": true,
+        "oos_trades": true,
+        "x1_full_sharpe": true,
+        "x1_is_sharpe": true,
+        "x1_is2_sharpe": true,
+        "x2_full_sharpe": true,
+        "x2_is2_sharpe": true,
+        "x2_n_trades": true
+      },
+      "NEEDLE-DE-01": {
+        "cutoff": true,
+        "n_trades": true,
+        "oos_trades": true,
+        "x1_full_sharpe": true,
+        "x1_is_sharpe": true,
+        "x1_is2_sharpe": true,
+        "x2_full_sharpe": true,
+        "x2_is2_sharpe": true,
+        "x2_n_trades": true
+      },
+      "VOLATILITY-CE-01": {
+        "cutoff": true,
+        "n_trades": true,
+        "oos_trades": true,
+        "x1_full_sharpe": true,
+        "x1_is_sharpe": true,
+        "x1_is2_sharpe": true,
+        "x2_full_sharpe": true,
+        "x2_is2_sharpe": true,
+        "x2_n_trades": true
+      }
+    },
+    "corr": {
+      "full": true,
+      "is": true,
+      "is2": true
+    },
+    "ew_port": {
+      "x1_full_sharpe": true,
+      "x1_ann": true,
+      "x1_dd": true,
+      "x1_n_trades": true,
+      "x1_worst_year": true,
+      "x1_benefit": true,
+      "x1_dr": true,
+      "x2_full_sharpe": true,
+      "x2_is2_sharpe": true,
+      "x2_survive": true
+    }
+  },
+  "correlation": {
+    "full": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.48,
+          "DROUGHT-CE-01": 0.0487,
+          "ENGULF-CE-01": 0.0349,
+          "NEEDLE-DE-01": 0.0201,
+          "VOLATILITY-CE-01": 0.3459
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.48,
+          "COMPOSITE-CE-02": 1.0,
+          "DROUGHT-CE-01": 0.0589,
+          "ENGULF-CE-01": 0.0927,
+          "NEEDLE-DE-01": 0.0701,
+          "VOLATILITY-CE-01": 0.2492
+        },
+        "DROUGHT-CE-01": {
+          "COMPOSITE-CE-01": 0.0487,
+          "COMPOSITE-CE-02": 0.0589,
+          "DROUGHT-CE-01": 1.0,
+          "ENGULF-CE-01": 0.2914,
+          "NEEDLE-DE-01": 0.2298,
+          "VOLATILITY-CE-01": 0.1055
+        },
+        "ENGULF-CE-01": {
+          "COMPOSITE-CE-01": 0.0349,
+          "COMPOSITE-CE-02": 0.0927,
+          "DROUGHT-CE-01": 0.2914,
+          "ENGULF-CE-01": 1.0,
+          "NEEDLE-DE-01": 0.3724,
+          "VOLATILITY-CE-01": 0.1168
+        },
+        "NEEDLE-DE-01": {
+          "COMPOSITE-CE-01": 0.0201,
+          "COMPOSITE-CE-02": 0.0701,
+          "DROUGHT-CE-01": 0.2298,
+          "ENGULF-CE-01": 0.3724,
+          "NEEDLE-DE-01": 1.0,
+          "VOLATILITY-CE-01": 0.1256
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.3459,
+          "COMPOSITE-CE-02": 0.2492,
+          "DROUGHT-CE-01": 0.1055,
+          "ENGULF-CE-01": 0.1168,
+          "NEEDLE-DE-01": 0.1256,
+          "VOLATILITY-CE-01": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.48,
+        "COMPOSITE-CE-01|DROUGHT-CE-01": 0.0487,
+        "COMPOSITE-CE-01|ENGULF-CE-01": 0.0349,
+        "COMPOSITE-CE-01|NEEDLE-DE-01": 0.0201,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.3459,
+        "COMPOSITE-CE-02|DROUGHT-CE-01": 0.0589,
+        "COMPOSITE-CE-02|ENGULF-CE-01": 0.0927,
+        "COMPOSITE-CE-02|NEEDLE-DE-01": 0.0701,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.2492,
+        "DROUGHT-CE-01|ENGULF-CE-01": 0.2914,
+        "DROUGHT-CE-01|NEEDLE-DE-01": 0.2298,
+        "DROUGHT-CE-01|VOLATILITY-CE-01": 0.1055,
+        "ENGULF-CE-01|NEEDLE-DE-01": 0.3724,
+        "ENGULF-CE-01|VOLATILITY-CE-01": 0.1168,
+        "NEEDLE-DE-01|VOLATILITY-CE-01": 0.1256
+      },
+      "avg_pairwise": 0.1761,
+      "band": "low"
+    },
+    "is": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.4242,
+          "DROUGHT-CE-01": 0.0258,
+          "ENGULF-CE-01": 0.0159,
+          "NEEDLE-DE-01": -0.0024,
+          "VOLATILITY-CE-01": 0.3357
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.4242,
+          "COMPOSITE-CE-02": 1.0,
+          "DROUGHT-CE-01": 0.0293,
+          "ENGULF-CE-01": 0.0791,
+          "NEEDLE-DE-01": 0.0395,
+          "VOLATILITY-CE-01": 0.2187
+        },
+        "DROUGHT-CE-01": {
+          "COMPOSITE-CE-01": 0.0258,
+          "COMPOSITE-CE-02": 0.0293,
+          "DROUGHT-CE-01": 1.0,
+          "ENGULF-CE-01": 0.2086,
+          "NEEDLE-DE-01": 0.0159,
+          "VOLATILITY-CE-01": 0.0856
+        },
+        "ENGULF-CE-01": {
+          "COMPOSITE-CE-01": 0.0159,
+          "COMPOSITE-CE-02": 0.0791,
+          "DROUGHT-CE-01": 0.2086,
+          "ENGULF-CE-01": 1.0,
+          "NEEDLE-DE-01": 0.2723,
+          "VOLATILITY-CE-01": 0.0976
+        },
+        "NEEDLE-DE-01": {
+          "COMPOSITE-CE-01": -0.0024,
+          "COMPOSITE-CE-02": 0.0395,
+          "DROUGHT-CE-01": 0.0159,
+          "ENGULF-CE-01": 0.2723,
+          "NEEDLE-DE-01": 1.0,
+          "VOLATILITY-CE-01": 0.1085
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.3357,
+          "COMPOSITE-CE-02": 0.2187,
+          "DROUGHT-CE-01": 0.0856,
+          "ENGULF-CE-01": 0.0976,
+          "NEEDLE-DE-01": 0.1085,
+          "VOLATILITY-CE-01": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.4242,
+        "COMPOSITE-CE-01|DROUGHT-CE-01": 0.0258,
+        "COMPOSITE-CE-01|ENGULF-CE-01": 0.0159,
+        "COMPOSITE-CE-01|NEEDLE-DE-01": -0.0024,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.3357,
+        "COMPOSITE-CE-02|DROUGHT-CE-01": 0.0293,
+        "COMPOSITE-CE-02|ENGULF-CE-01": 0.0791,
+        "COMPOSITE-CE-02|NEEDLE-DE-01": 0.0395,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.2187,
+        "DROUGHT-CE-01|ENGULF-CE-01": 0.2086,
+        "DROUGHT-CE-01|NEEDLE-DE-01": 0.0159,
+        "DROUGHT-CE-01|VOLATILITY-CE-01": 0.0856,
+        "ENGULF-CE-01|NEEDLE-DE-01": 0.2723,
+        "ENGULF-CE-01|VOLATILITY-CE-01": 0.0976,
+        "NEEDLE-DE-01|VOLATILITY-CE-01": 0.1085
+      },
+      "avg_pairwise": 0.1303,
+      "band": "low"
+    },
+    "is2": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.8687,
+          "DROUGHT-CE-01": 0.0949,
+          "ENGULF-CE-01": 0.0798,
+          "NEEDLE-DE-01": 0.0611,
+          "VOLATILITY-CE-01": 0.4023
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.8687,
+          "COMPOSITE-CE-02": 1.0,
+          "DROUGHT-CE-01": 0.2192,
+          "ENGULF-CE-01": 0.1826,
+          "NEEDLE-DE-01": 0.2232,
+          "VOLATILITY-CE-01": 0.4717
+        },
+        "DROUGHT-CE-01": {
+          "COMPOSITE-CE-01": 0.0949,
+          "COMPOSITE-CE-02": 0.2192,
+          "DROUGHT-CE-01": 1.0,
+          "ENGULF-CE-01": 0.5161,
+          "NEEDLE-DE-01": 0.6907,
+          "VOLATILITY-CE-01": 0.1747
+        },
+        "ENGULF-CE-01": {
+          "COMPOSITE-CE-01": 0.0798,
+          "COMPOSITE-CE-02": 0.1826,
+          "DROUGHT-CE-01": 0.5161,
+          "ENGULF-CE-01": 1.0,
+          "NEEDLE-DE-01": 0.6092,
+          "VOLATILITY-CE-01": 0.1896
+        },
+        "NEEDLE-DE-01": {
+          "COMPOSITE-CE-01": 0.0611,
+          "COMPOSITE-CE-02": 0.2232,
+          "DROUGHT-CE-01": 0.6907,
+          "ENGULF-CE-01": 0.6092,
+          "NEEDLE-DE-01": 1.0,
+          "VOLATILITY-CE-01": 0.1851
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.4023,
+          "COMPOSITE-CE-02": 0.4717,
+          "DROUGHT-CE-01": 0.1747,
+          "ENGULF-CE-01": 0.1896,
+          "NEEDLE-DE-01": 0.1851,
+          "VOLATILITY-CE-01": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.8687,
+        "COMPOSITE-CE-01|DROUGHT-CE-01": 0.0949,
+        "COMPOSITE-CE-01|ENGULF-CE-01": 0.0798,
+        "COMPOSITE-CE-01|NEEDLE-DE-01": 0.0611,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.4023,
+        "COMPOSITE-CE-02|DROUGHT-CE-01": 0.2192,
+        "COMPOSITE-CE-02|ENGULF-CE-01": 0.1826,
+        "COMPOSITE-CE-02|NEEDLE-DE-01": 0.2232,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.4717,
+        "DROUGHT-CE-01|ENGULF-CE-01": 0.5161,
+        "DROUGHT-CE-01|NEEDLE-DE-01": 0.6907,
+        "DROUGHT-CE-01|VOLATILITY-CE-01": 0.1747,
+        "ENGULF-CE-01|NEEDLE-DE-01": 0.6092,
+        "ENGULF-CE-01|VOLATILITY-CE-01": 0.1896,
+        "NEEDLE-DE-01|VOLATILITY-CE-01": 0.1851
+      },
+      "avg_pairwise": 0.3313,
+      "band": "low"
+    }
+  },
+  "iv_weights": {
+    "weights": {
+      "COMPOSITE-CE-01": 0.090018,
+      "COMPOSITE-CE-02": 0.045075,
+      "DROUGHT-CE-01": 0.192833,
+      "ENGULF-CE-01": 0.183957,
+      "NEEDLE-DE-01": 0.252014,
+      "VOLATILITY-CE-01": 0.236103
+    },
+    "sum": 1.0,
+    "is_vol": {
+      "COMPOSITE-CE-01": 0.004212,
+      "COMPOSITE-CE-02": 0.008412,
+      "DROUGHT-CE-01": 0.001966,
+      "ENGULF-CE-01": 0.002061,
+      "NEEDLE-DE-01": 0.001505,
+      "VOLATILITY-CE-01": 0.001606
+    },
+    "raw_inverse_vol": {
+      "COMPOSITE-CE-01": 237.4131816,
+      "COMPOSITE-CE-02": 118.88079273,
+      "DROUGHT-CE-01": 508.57499675,
+      "ENGULF-CE-01": 485.16539971,
+      "NEEDLE-DE-01": 664.66053605,
+      "VOLATILITY-CE-01": 622.69690433
+    }
+  },
+  "portfolios_iv": {
+    "x1": {
+      "scheme": "IV",
+      "cost_mult": 1,
+      "weights": {
+        "COMPOSITE-CE-01": 0.090018,
+        "COMPOSITE-CE-02": 0.045075,
+        "DROUGHT-CE-01": 0.192833,
+        "ENGULF-CE-01": 0.183957,
+        "NEEDLE-DE-01": 0.252014,
+        "VOLATILITY-CE-01": 0.236103
+      },
+      "full": {
+        "sharpe": 1.3702,
+        "annual_return": 0.0279,
+        "max_drawdown": -0.0242
+      },
+      "is2": {
+        "sharpe": 1.7119,
+        "annual_return": 0.042,
+        "max_drawdown": -0.0176
+      },
+      "n_trades": 2127,
+      "n_entries": 1798,
+      "yearly": {
+        "2020": 0.0466,
+        "2021": 0.0084,
+        "2022": 0.0001,
+        "2023": 0.0125,
+        "2024": 0.0431,
+        "2025": 0.0479,
+        "2026": 0.02
+      },
+      "worst_year": 0.0001,
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": true
+      },
+      "weighted_mean_member_sharpe": 0.8032,
+      "benefit": 0.567,
+      "dr": 1.7058,
+      "x2_survive": true,
+      "validated": true
+    },
+    "x2": {
+      "scheme": "IV",
+      "cost_mult": 2,
+      "weights": {
+        "COMPOSITE-CE-01": 0.090018,
+        "COMPOSITE-CE-02": 0.045075,
+        "DROUGHT-CE-01": 0.192833,
+        "ENGULF-CE-01": 0.183957,
+        "NEEDLE-DE-01": 0.252014,
+        "VOLATILITY-CE-01": 0.236103
+      },
+      "full": {
+        "sharpe": 0.8989,
+        "annual_return": 0.0186,
+        "max_drawdown": -0.034
+      },
+      "is2": {
+        "sharpe": 1.2387,
+        "annual_return": 0.0316,
+        "max_drawdown": -0.0198
+      },
+      "n_trades": 2127,
+      "n_entries": 1798,
+      "yearly": {
+        "2020": 0.0393,
+        "2021": -0.0027,
+        "2022": -0.0078,
+        "2023": 0.0056,
+        "2024": 0.0334,
+        "2025": 0.0389,
+        "2026": 0.0118
+      },
+      "worst_year": -0.0078,
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": true
+      },
+      "weighted_mean_member_sharpe": 0.8032,
+      "benefit": 0.0957,
+      "dr": 1.1191
+    }
+  },
+  "ew_repro": {
+    "x1": {
+      "scheme": "EW-repro",
+      "cost_mult": 1,
+      "weights": {
+        "COMPOSITE-CE-01": 0.166667,
+        "COMPOSITE-CE-02": 0.166667,
+        "DROUGHT-CE-01": 0.166667,
+        "ENGULF-CE-01": 0.166667,
+        "NEEDLE-DE-01": 0.166667,
+        "VOLATILITY-CE-01": 0.166667
+      },
+      "full": {
+        "sharpe": 1.1438,
+        "annual_return": 0.0368,
+        "max_drawdown": -0.0567
+      },
+      "is2": {
+        "sharpe": 1.7727,
+        "annual_return": 0.0624,
+        "max_drawdown": -0.0177
+      },
+      "n_trades": 2127,
+      "n_entries": 1798,
+      "yearly": {
+        "2020": 0.0404,
+        "2021": 0.0194,
+        "2022": -0.0094,
+        "2023": 0.0191,
+        "2024": 0.0634,
+        "2025": 0.0731,
+        "2026": 0.0273
+      },
+      "worst_year": -0.0094,
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": true
+      },
+      "weighted_mean_member_sharpe": 0.7675,
+      "benefit": 0.3763,
+      "dr": 1.4904,
+      "x2_survive": true
+    },
+    "x2": {
+      "scheme": "EW-repro",
+      "cost_mult": 2,
+      "weights": {
+        "COMPOSITE-CE-01": 0.166667,
+        "COMPOSITE-CE-02": 0.166667,
+        "DROUGHT-CE-01": 0.166667,
+        "ENGULF-CE-01": 0.166667,
+        "NEEDLE-DE-01": 0.166667,
+        "VOLATILITY-CE-01": 0.166667
+      },
+      "full": {
+        "sharpe": 0.7574,
+        "annual_return": 0.0248,
+        "max_drawdown": -0.072
+      },
+      "is2": {
+        "sharpe": 1.3171,
+        "annual_return": 0.0488,
+        "max_drawdown": -0.0209
+      },
+      "n_trades": 2127,
+      "n_entries": 1798,
+      "yearly": {
+        "2020": 0.0346,
+        "2021": 0.0035,
+        "2022": -0.0188,
+        "2023": 0.0092,
+        "2024": 0.0495,
+        "2025": 0.0614,
+        "2026": 0.0165
+      },
+      "worst_year": -0.0188,
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": true
+      },
+      "weighted_mean_member_sharpe": 0.7675,
+      "benefit": -0.0101,
+      "dr": 0.9869
+    }
+  },
+  "head_to_head": {
+    "delta_full_sharpe": 0.2264,
+    "delta_annual": -0.0089,
+    "delta_max_dd": 0.0325,
+    "delta_worst_year": 0.0095,
+    "delta_benefit": 0.1907,
+    "delta_dr": 0.2154,
+    "delta_x2_full_sharpe": 0.1415,
+    "corr_iv6_ew6": 0.8882,
+    "carrier_note": "EW stays the validated carrier (prereg s4: no post-run switching; IV adoption = charter s5 T1)"
+  },
+  "v2_gate_iv6": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 1.3702,
+    "skill_line": {
+      "n_eff": 2767,
+      "line": 0.9339,
+      "passive_term": 0.4792,
+      "null_term": 0.9339,
+      "mu_null": -0.0332,
+      "sigma_null": 0.2429,
+      "pool": "core48",
+      "ledger_head": {
+        "total": 2753,
+        "file": "portfolio_ew6.json",
+        "note": "12 engine member runs (anchor-cum-sleeve, x1+x2) + 2 portfolio evaluations (derived, non-engine) + 12 voided runs from first attempt (crashed on folk-registration cost_x2 schema KeyError AFTER sleeves completed, zero partial output; deterministic rerun, G2_FOLK double-count precedent); report-only pass 1, zero search => zero nulls (composition disclosed per prereg s2.3; n deviates from frozen budget 14 by the voided attempt)"
+      }
+    },
+    "line_ok": true,
+    "bootstrap_ci": {
+      "ci95_low": 0.5984,
+      "ci95_high": 2.1055,
+      "point": 1.3702,
+      "ci_lower_bound_positive": true,
+      "n_resamples": 1000,
+      "block_days": 10.0,
+      "seed": 20260923
+    },
+    "ci_lower_bound_positive": true,
+    "pass_v2": true,
+    "trade_gate": {
+      "n_trades": 2127,
+      "n_entries": 1798,
+      "min": 30,
+      "trades_ok": true,
+      "entries_ok": true,
+      "dual_ok": true
+    }
+  },
+  "extra": {
+    "v2_ew_repro_today_line": {
+      "gate": "g1_prime_v2",
+      "sharpe_full": 1.1438,
+      "skill_line": {
+        "n_eff": 2767,
+        "line": 0.9339,
+        "passive_term": 0.4792,
+        "null_term": 0.9339,
+        "mu_null": -0.0332,
+        "sigma_null": 0.2429,
+        "pool": "core48",
+        "ledger_head": {
+          "total": 2753,
+          "file": "portfolio_ew6.json",
+          "note": "12 engine member runs (anchor-cum-sleeve, x1+x2) + 2 portfolio evaluations (derived, non-engine) + 12 voided runs from first attempt (crashed on folk-registration cost_x2 schema KeyError AFTER sleeves completed, zero partial output; deterministic rerun, G2_FOLK double-count precedent); report-only pass 1, zero search => zero nulls (composition disclosed per prereg s2.3; n deviates from frozen budget 14 by the voided attempt)"
+        }
+      },
+      "line_ok": true,
+      "bootstrap_ci": {
+        "ci95_low": 0.3405,
+        "ci95_high": 1.8939,
+        "point": 1.1438,
+        "ci_lower_bound_positive": true,
+        "n_resamples": 1000,
+        "block_days": 10.0,
+        "seed": 20260923
+      },
+      "ci_lower_bound_positive": true,
+      "pass_v2": true,
+      "trade_gate": {
+        "n_trades": 2127,
+        "n_entries": 1798,
+        "min": 30,
+        "trades_ok": true,
+        "entries_ok": true,
+        "dual_ok": true
+      }
+    },
+    "regime": {
+      "overlay": {
+        "full": {
+          "sharpe": 1.3293,
+          "annual_return": 0.0191,
+          "max_drawdown": -0.0195
+        },
+        "is2": {
+          "sharpe": 1.7119,
+          "annual_return": 0.0335,
+          "max_drawdown": -0.0141
+        },
+        "yearly": {
+          "2020": 0.0371,
+          "2021": 0.0067,
+          "2022": -0.0132,
+          "2023": 0.0098,
+          "2024": 0.0275,
+          "2025": 0.0382,
+          "2026": 0.016
+        },
+        "worst_year": -0.0132,
+        "bear_days_used": 188,
+        "first_day_defaults": 0
+      },
+      "slices": {
+        "classification": "same-day bear state (descriptive; overlay uses t-1 causal state per EW6 prereg s2.9)",
+        "bear_days": {
+          "n_days": 188,
+          "sharpe": 0.9933,
+          "ann_return": 0.0281
+        },
+        "normal_days": {
+          "n_days": 1443,
+          "sharpe": 1.4606,
+          "ann_return": 0.0279
+        },
+        "bear_ann_return_share": {
+          "bear_cum_return": 0.0209,
+          "normal_cum_return": 0.1707
+        }
+      },
+      "state_latest": {
+        "status": "ok",
+        "as_of": "2026-09-23",
+        "close": 4.59,
+        "ma250": 4.7321,
+        "dd_from_250d_high": -0.0984,
+        "below_ma250": true,
+        "dd_triggered": false,
+        "is_major_bear": false,
+        "position_cap": 0.8,
+        "cash_floor": 0.2
+      },
+      "warmup_days": 249
+    }
+  },
+  "verdict": {
+    "template": "IV6 report-only pass 2 (pre-registered IV carrier measurement; EW stays validated baseline)",
+    "void": false,
+    "void_reason": null,
+    "crosscheck_ok": true,
+    "iv_validated": true,
+    "iv_clauses": {
+      "i_beats_rand_p95": true,
+      "ii_ann_pos": true,
+      "iii_dd_ok": true,
+      "iv_trades_ok": true,
+      "v_is2_ok": true,
+      "vi_beats_passive": true
+    },
+    "iv_benefit": 0.567,
+    "iv_dr": 1.7058,
+    "iv_x2_survive": true,
+    "iv_worst_year": 0.0001,
+    "v2_pass": true,
+    "skill_line_v2": 0.9339,
+    "head_to_head": {
+      "delta_full_sharpe": 0.2264,
+      "delta_annual": -0.0089,
+      "delta_max_dd": 0.0325,
+      "delta_worst_year": 0.0095,
+      "delta_benefit": 0.1907,
+      "delta_dr": 0.2154,
+      "delta_x2_full_sharpe": 0.1415,
+      "corr_iv6_ew6": 0.8882,
+      "carrier_note": "EW stays the validated carrier (prereg s4: no post-run switching; IV adoption = charter s5 T1)"
+    },
+    "applicability": "descriptive continuity metrics + v2 gate readout; no promotion, no allocation, no carrier switch; IV adoption = charter s5 T1; regime premium (P-5B 6/6 fail 0.70 beat line) discounts all Sharpe reads"
+  },
+  "trials_ledger": {
+    "prev_total": 2753,
+    "batch_trials": 14,
+    "total": 2767,
+    "batch": "IV6-portfolio-riskbudget",
+    "file": "results/portfolio_iv6.json",
+    "note": "12 engine member runs (anchor-cum-sleeve, x1+x2, EW6-identical cells; only delta = additive report_num_entries flag) + 2 IV portfolio evaluations (derived, non-engine); twin-gate EW re-derivations and v2 readouts are gates/disclosures, not ledger cells; zero search => zero nulls (composition disclosed, prereg s0); actual=14 vs frozen budget 14",
+    "evidence_cutoff": "2026-09-22"
+  },
+  "audit": {
+    "elapsed_sec": 4.5,
+    "n_backtests": 12,
+    "n_portfolio_evals": 2,
+    "n_twin_repro_evals": 2,
+    "workers": 6,
+    "parallel": "parallel_runner ProcessPool workers=6"
+  },
+  "evidence_cutoff": "2026-09-22"
+}
