@@ -1,0 +1,1069 @@
+{
+  "meta": {
+    "batch": "P4_EXT_TILT",
+    "dept": "research",
+    "prereg": "research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1)",
+    "date": "2026-09-24 06:34",
+    "panel": {
+      "T": 2850,
+      "N": 5212,
+      "source": "Money02/data/cache/p4_batch2_panel (r38-a)"
+    },
+    "exit_regime": "default (engine exit machine, no CE)",
+    "cost": "V1 stock 26.082bp roundtrip (CostPatch 2x ETF); x2/x3 = G2 deepening prereg scope per SS4",
+    "seeds": {
+      "quarterly_null_base": 49000,
+      "d20_null_base": 49100,
+      "n_nulls_each": 20
+    },
+    "audit": {
+      "workers": 8,
+      "policy": "O-1738 bm-b <= 12",
+      "sampled": {
+        "cpu_total_pct": 48.0,
+        "verdict": "CLEAN",
+        "flags": [],
+        "ts": "2026-09-24 06:24:36"
+      }
+    },
+    "elapsed_s": 29.3
+  },
+  "passive": {
+    "stock_ew_monthly": {
+      "key": "stock_ew_monthly",
+      "kind": "passive",
+      "full": {
+        "sharpe": 0.4606,
+        "annual_return": 0.069,
+        "max_drawdown": -0.3714
+      },
+      "oos": {
+        "sharpe": 1.2965,
+        "annual_return": 0.2816,
+        "max_drawdown": -0.1802
+      },
+      "n_sleeves": 3508
+    },
+    "stock_ew_quarterly": {
+      "key": "stock_ew_quarterly",
+      "kind": "passive",
+      "full": {
+        "sharpe": 0.454,
+        "annual_return": 0.0674,
+        "max_drawdown": -0.3754
+      },
+      "oos": {
+        "sharpe": 1.3405,
+        "annual_return": 0.2951,
+        "max_drawdown": -0.1567
+      },
+      "n_sleeves": 3508
+    }
+  },
+  "universe_gates": {
+    "median_daily_eligible": 1524,
+    "gate_median": 1000,
+    "pass_median": true,
+    "first_q_rebal_pos": 210,
+    "first_q_factor_count": 1230,
+    "first_d20_rebal_pos": 19,
+    "first_d20_factor_count": 751,
+    "gate_first_rebal": 500,
+    "pass_first_rebal": true,
+    "pass": true
+  },
+  "skill_line": {
+    "n_eff": 2952,
+    "line": 0.5606,
+    "passive_term": 0.5606,
+    "null_term": 0.4471,
+    "mu_null": -0.1408,
+    "sigma_null": 0.1471,
+    "pool": "stock_b_layer",
+    "ledger_head": {
+      "total": 2905,
+      "file": "shortline_p4_ext_tilt.json",
+      "note": "5 main cells + 40 random nulls (20 quarterly seed 49_000+k, 20 20-day seed 49_100+k) + 2 passive (monthly/quarterly EW stock_b_layer); prereg research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1); D6 member reruns = record-cell reproductions, ledger_trials_added 0"
+    }
+  },
+  "vi": {
+    "line": 0.561,
+    "floor": 0.561,
+    "rule": "max(skill_line_v2, 0.561)"
+  },
+  "null_pool": {
+    "mu": -0.1408,
+    "sigma": 0.1471,
+    "n": 40,
+    "p95": 0.086
+  },
+  "d6_correlation": {
+    "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01",
+      "VOLATILITY-CE-01"
+    ],
+    "pairs": {
+      "gq_top5": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0491,
+          "COMPOSITE-CE-02": 0.0393,
+          "DROUGHT-CE-01": 0.0558,
+          "ENGULF-CE-01": 0.032,
+          "NEEDLE-DE-01": 0.0262,
+          "VOLATILITY-CE-01": 0.045
+        },
+        "max_abs": 0.0558,
+        "max_abs_member": "DROUGHT-CE-01",
+        "d6_ok": true
+      },
+      "gq_top10": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0605,
+          "COMPOSITE-CE-02": 0.0506,
+          "DROUGHT-CE-01": 0.0701,
+          "ENGULF-CE-01": 0.024,
+          "NEEDLE-DE-01": 0.0253,
+          "VOLATILITY-CE-01": 0.0431
+        },
+        "max_abs": 0.0701,
+        "max_abs_member": "DROUGHT-CE-01",
+        "d6_ok": true
+      },
+      "g2q_top5": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0247,
+          "COMPOSITE-CE-02": 0.0292,
+          "DROUGHT-CE-01": 0.0386,
+          "ENGULF-CE-01": 0.0288,
+          "NEEDLE-DE-01": 0.0392,
+          "VOLATILITY-CE-01": 0.0246
+        },
+        "max_abs": 0.0392,
+        "max_abs_member": "NEEDLE-DE-01",
+        "d6_ok": true
+      },
+      "g2q_top10": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0559,
+          "COMPOSITE-CE-02": 0.0438,
+          "DROUGHT-CE-01": 0.0484,
+          "ENGULF-CE-01": 0.0419,
+          "NEEDLE-DE-01": 0.0365,
+          "VOLATILITY-CE-01": 0.0375
+        },
+        "max_abs": 0.0559,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "dz20_top10": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0298,
+          "COMPOSITE-CE-02": 0.0918,
+          "DROUGHT-CE-01": 0.1193,
+          "ENGULF-CE-01": 0.2026,
+          "NEEDLE-DE-01": 0.1016,
+          "VOLATILITY-CE-01": 0.1437
+        },
+        "max_abs": 0.2026,
+        "max_abs_member": "ENGULF-CE-01",
+        "d6_ok": true
+      }
+    },
+    "reject_line": 0.7
+  },
+  "cells": [
+    {
+      "key": "gq_top5",
+      "family": "gdhs",
+      "grid": "g_chg_q",
+      "top_k": 5,
+      "rank": "asc",
+      "full": {
+        "annual_return": -0.0122,
+        "sharpe": -0.2124,
+        "max_drawdown": -0.1999,
+        "win_rate": 0.6302,
+        "profit_factor": 0.9078999757766724,
+        "num_trades": 338,
+        "avg_hold_days": 5.36,
+        "num_entries": 220
+      },
+      "oos": {
+        "sharpe": -1.3457,
+        "annual_return": -0.0529,
+        "max_drawdown": -0.0921
+      },
+      "n_trades": 338,
+      "num_entries": 220,
+      "oos_trades": 47,
+      "yearly": {
+        "2015": -0.0224,
+        "2016": 0.0225,
+        "2017": -0.044,
+        "2018": 0.0353,
+        "2019": 0.0149,
+        "2020": -0.0351,
+        "2021": 0.0727,
+        "2022": -0.0178,
+        "2023": -0.0516,
+        "2024": -0.0165,
+        "2025": -0.0399,
+        "2026": -0.0485
+      },
+      "run_seconds": 8.8,
+      "n_syms": 205,
+      "n_rebal_days": 44,
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.2124,
+        "skill_line": {
+          "n_eff": 2952,
+          "line": 0.5606,
+          "passive_term": 0.5606,
+          "null_term": 0.4471,
+          "mu_null": -0.1408,
+          "sigma_null": 0.1471,
+          "pool": "stock_b_layer",
+          "ledger_head": {
+            "total": 2905,
+            "file": "shortline_p4_ext_tilt.json",
+            "note": "5 main cells + 40 random nulls (20 quarterly seed 49_000+k, 20 20-day seed 49_100+k) + 2 passive (monthly/quarterly EW stock_b_layer); prereg research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1); D6 member reruns = record-cell reproductions, ledger_trials_added 0"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.7687,
+          "ci95_high": 0.3662,
+          "point": -0.2124,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 338,
+          "n_entries": 220,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "vi_ok": false,
+      "trades_ok": true,
+      "entries_ok": true,
+      "descriptive": {
+        "annual_pos": false,
+        "oos_dual_pos": false,
+        "dd_ok": true,
+        "worst_year": -0.0516
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0491,
+          "COMPOSITE-CE-02": 0.0393,
+          "DROUGHT-CE-01": 0.0558,
+          "ENGULF-CE-01": 0.032,
+          "NEEDLE-DE-01": 0.0262,
+          "VOLATILITY-CE-01": 0.045
+        },
+        "max_abs": 0.0558,
+        "max_abs_member": "DROUGHT-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass_v2": false
+    },
+    {
+      "key": "gq_top10",
+      "family": "gdhs",
+      "grid": "g_chg_q",
+      "top_k": 10,
+      "rank": "asc",
+      "full": {
+        "annual_return": -0.0304,
+        "sharpe": -0.278,
+        "max_drawdown": -0.3331,
+        "win_rate": 0.6373,
+        "profit_factor": 0.891700029373169,
+        "num_trades": 692,
+        "avg_hold_days": 5.3,
+        "num_entries": 440
+      },
+      "oos": {
+        "sharpe": -1.2402,
+        "annual_return": -0.1082,
+        "max_drawdown": -0.183
+      },
+      "n_trades": 692,
+      "num_entries": 440,
+      "oos_trades": 102,
+      "yearly": {
+        "2015": -0.0578,
+        "2016": 0.0269,
+        "2017": -0.0676,
+        "2018": 0.0131,
+        "2019": 0.0392,
+        "2020": -0.0811,
+        "2021": 0.1215,
+        "2022": -0.0567,
+        "2023": -0.1196,
+        "2024": 0.05,
+        "2025": -0.068,
+        "2026": -0.113
+      },
+      "run_seconds": 18.1,
+      "n_syms": 409,
+      "n_rebal_days": 44,
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.278,
+        "skill_line": {
+          "n_eff": 2952,
+          "line": 0.5606,
+          "passive_term": 0.5606,
+          "null_term": 0.4471,
+          "mu_null": -0.1408,
+          "sigma_null": 0.1471,
+          "pool": "stock_b_layer",
+          "ledger_head": {
+            "total": 2905,
+            "file": "shortline_p4_ext_tilt.json",
+            "note": "5 main cells + 40 random nulls (20 quarterly seed 49_000+k, 20 20-day seed 49_100+k) + 2 passive (monthly/quarterly EW stock_b_layer); prereg research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1); D6 member reruns = record-cell reproductions, ledger_trials_added 0"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.8918,
+          "ci95_high": 0.2931,
+          "point": -0.278,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 692,
+          "n_entries": 440,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "vi_ok": false,
+      "trades_ok": true,
+      "entries_ok": true,
+      "descriptive": {
+        "annual_pos": false,
+        "oos_dual_pos": false,
+        "dd_ok": true,
+        "worst_year": -0.1196
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0605,
+          "COMPOSITE-CE-02": 0.0506,
+          "DROUGHT-CE-01": 0.0701,
+          "ENGULF-CE-01": 0.024,
+          "NEEDLE-DE-01": 0.0253,
+          "VOLATILITY-CE-01": 0.0431
+        },
+        "max_abs": 0.0701,
+        "max_abs_member": "DROUGHT-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass_v2": false
+    },
+    {
+      "key": "g2q_top5",
+      "family": "gdhs",
+      "grid": "g_chg_2q",
+      "top_k": 5,
+      "rank": "asc",
+      "full": {
+        "annual_return": -0.0236,
+        "sharpe": -0.4344,
+        "max_drawdown": -0.2646,
+        "win_rate": 0.6208,
+        "profit_factor": 0.776199996471405,
+        "num_trades": 327,
+        "avg_hold_days": 5.3,
+        "num_entries": 210
+      },
+      "oos": {
+        "sharpe": -1.42,
+        "annual_return": -0.0711,
+        "max_drawdown": -0.1617
+      },
+      "n_trades": 327,
+      "num_entries": 210,
+      "oos_trades": 50,
+      "yearly": {
+        "2015": 0.0,
+        "2016": -0.0083,
+        "2017": -0.1212,
+        "2018": -0.015,
+        "2019": -0.0087,
+        "2020": -0.0321,
+        "2021": 0.0948,
+        "2022": -0.0115,
+        "2023": 0.0006,
+        "2024": -0.0324,
+        "2025": -0.033,
+        "2026": -0.0853
+      },
+      "run_seconds": 8.7,
+      "n_syms": 199,
+      "n_rebal_days": 42,
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.4344,
+        "skill_line": {
+          "n_eff": 2952,
+          "line": 0.5606,
+          "passive_term": 0.5606,
+          "null_term": 0.4471,
+          "mu_null": -0.1408,
+          "sigma_null": 0.1471,
+          "pool": "stock_b_layer",
+          "ledger_head": {
+            "total": 2905,
+            "file": "shortline_p4_ext_tilt.json",
+            "note": "5 main cells + 40 random nulls (20 quarterly seed 49_000+k, 20 20-day seed 49_100+k) + 2 passive (monthly/quarterly EW stock_b_layer); prereg research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1); D6 member reruns = record-cell reproductions, ledger_trials_added 0"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -1.0009,
+          "ci95_high": 0.1071,
+          "point": -0.4344,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 327,
+          "n_entries": 210,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "vi_ok": false,
+      "trades_ok": true,
+      "entries_ok": true,
+      "descriptive": {
+        "annual_pos": false,
+        "oos_dual_pos": false,
+        "dd_ok": true,
+        "worst_year": -0.1212
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0247,
+          "COMPOSITE-CE-02": 0.0292,
+          "DROUGHT-CE-01": 0.0386,
+          "ENGULF-CE-01": 0.0288,
+          "NEEDLE-DE-01": 0.0392,
+          "VOLATILITY-CE-01": 0.0246
+        },
+        "max_abs": 0.0392,
+        "max_abs_member": "NEEDLE-DE-01",
+        "d6_ok": true
+      },
+      "g1_pass_v2": false
+    },
+    {
+      "key": "g2q_top10",
+      "family": "gdhs",
+      "grid": "g_chg_2q",
+      "top_k": 10,
+      "rank": "asc",
+      "full": {
+        "annual_return": -0.0103,
+        "sharpe": -0.081,
+        "max_drawdown": -0.2794,
+        "win_rate": 0.6572,
+        "profit_factor": 0.9993000030517578,
+        "num_trades": 671,
+        "avg_hold_days": 5.84,
+        "num_entries": 420
+      },
+      "oos": {
+        "sharpe": -0.9123,
+        "annual_return": -0.0725,
+        "max_drawdown": -0.1818
+      },
+      "n_trades": 671,
+      "num_entries": 420,
+      "oos_trades": 103,
+      "yearly": {
+        "2015": 0.0,
+        "2016": 0.0296,
+        "2017": -0.1604,
+        "2018": -0.0028,
+        "2019": 0.0012,
+        "2020": 0.0014,
+        "2021": 0.2235,
+        "2022": 0.0186,
+        "2023": 0.0137,
+        "2024": -0.0769,
+        "2025": -0.0062,
+        "2026": -0.112
+      },
+      "run_seconds": 16.3,
+      "n_syms": 373,
+      "n_rebal_days": 42,
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.081,
+        "skill_line": {
+          "n_eff": 2952,
+          "line": 0.5606,
+          "passive_term": 0.5606,
+          "null_term": 0.4471,
+          "mu_null": -0.1408,
+          "sigma_null": 0.1471,
+          "pool": "stock_b_layer",
+          "ledger_head": {
+            "total": 2905,
+            "file": "shortline_p4_ext_tilt.json",
+            "note": "5 main cells + 40 random nulls (20 quarterly seed 49_000+k, 20 20-day seed 49_100+k) + 2 passive (monthly/quarterly EW stock_b_layer); prereg research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1); D6 member reruns = record-cell reproductions, ledger_trials_added 0"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.68,
+          "ci95_high": 0.4903,
+          "point": -0.081,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 671,
+          "n_entries": 420,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "vi_ok": false,
+      "trades_ok": true,
+      "entries_ok": true,
+      "descriptive": {
+        "annual_pos": false,
+        "oos_dual_pos": false,
+        "dd_ok": true,
+        "worst_year": -0.1604
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0559,
+          "COMPOSITE-CE-02": 0.0438,
+          "DROUGHT-CE-01": 0.0484,
+          "ENGULF-CE-01": 0.0419,
+          "NEEDLE-DE-01": 0.0365,
+          "VOLATILITY-CE-01": 0.0375
+        },
+        "max_abs": 0.0559,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass_v2": false
+    },
+    {
+      "key": "dz20_top10",
+      "family": "dzjy",
+      "grid": "f_share",
+      "top_k": 10,
+      "rank": "desc",
+      "full": {
+        "annual_return": 0.0144,
+        "sharpe": 0.1814,
+        "max_drawdown": -0.2615,
+        "win_rate": 0.6531,
+        "profit_factor": 1.1395000219345093,
+        "num_trades": 2208,
+        "avg_hold_days": 6.72,
+        "num_entries": 1419
+      },
+      "oos": {
+        "sharpe": -0.4271,
+        "annual_return": -0.0403,
+        "max_drawdown": -0.1819
+      },
+      "n_trades": 2208,
+      "num_entries": 1419,
+      "oos_trades": 303,
+      "yearly": {
+        "2015": 0.188,
+        "2016": -0.0296,
+        "2017": 0.0217,
+        "2018": -0.1825,
+        "2019": 0.2342,
+        "2020": 0.0821,
+        "2021": 0.0538,
+        "2022": -0.0523,
+        "2023": 0.0525,
+        "2024": -0.0143,
+        "2025": 0.1067,
+        "2026": -0.1569
+      },
+      "run_seconds": 28.6,
+      "n_syms": 738,
+      "n_rebal_days": 142,
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.1814,
+        "skill_line": {
+          "n_eff": 2952,
+          "line": 0.5606,
+          "passive_term": 0.5606,
+          "null_term": 0.4471,
+          "mu_null": -0.1408,
+          "sigma_null": 0.1471,
+          "pool": "stock_b_layer",
+          "ledger_head": {
+            "total": 2905,
+            "file": "shortline_p4_ext_tilt.json",
+            "note": "5 main cells + 40 random nulls (20 quarterly seed 49_000+k, 20 20-day seed 49_100+k) + 2 passive (monthly/quarterly EW stock_b_layer); prereg research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1); D6 member reruns = record-cell reproductions, ledger_trials_added 0"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.4233,
+          "ci95_high": 0.7656,
+          "point": 0.1814,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 2208,
+          "n_entries": 1419,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "vi_ok": false,
+      "trades_ok": true,
+      "entries_ok": true,
+      "descriptive": {
+        "annual_pos": true,
+        "oos_dual_pos": false,
+        "dd_ok": true,
+        "worst_year": -0.1825
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.0298,
+          "COMPOSITE-CE-02": 0.0918,
+          "DROUGHT-CE-01": 0.1193,
+          "ENGULF-CE-01": 0.2026,
+          "NEEDLE-DE-01": 0.1016,
+          "VOLATILITY-CE-01": 0.1437
+        },
+        "max_abs": 0.2026,
+        "max_abs_member": "ENGULF-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass_v2": false
+    }
+  ],
+  "nulls": [
+    {
+      "key": "nullq_s49000",
+      "kind": "random_null_q",
+      "sharpe": -0.1365,
+      "n_trades": 700,
+      "num_entries": 460,
+      "annual_return": -0.0156,
+      "max_drawdown": -0.3084
+    },
+    {
+      "key": "nullq_s49001",
+      "kind": "random_null_q",
+      "sharpe": -0.0782,
+      "n_trades": 700,
+      "num_entries": 459,
+      "annual_return": -0.0094,
+      "max_drawdown": -0.2357
+    },
+    {
+      "key": "nullq_s49002",
+      "kind": "random_null_q",
+      "sharpe": -0.2555,
+      "n_trades": 699,
+      "num_entries": 460,
+      "annual_return": -0.0267,
+      "max_drawdown": -0.336
+    },
+    {
+      "key": "nullq_s49003",
+      "kind": "random_null_q",
+      "sharpe": -0.2724,
+      "n_trades": 690,
+      "num_entries": 458,
+      "annual_return": -0.028,
+      "max_drawdown": -0.4097
+    },
+    {
+      "key": "nullq_s49004",
+      "kind": "random_null_q",
+      "sharpe": 0.1139,
+      "n_trades": 717,
+      "num_entries": 460,
+      "annual_return": 0.006,
+      "max_drawdown": -0.2167
+    },
+    {
+      "key": "nullq_s49005",
+      "kind": "random_null_q",
+      "sharpe": -0.0856,
+      "n_trades": 705,
+      "num_entries": 458,
+      "annual_return": -0.0099,
+      "max_drawdown": -0.2112
+    },
+    {
+      "key": "nullq_s49006",
+      "kind": "random_null_q",
+      "sharpe": -0.0054,
+      "n_trades": 718,
+      "num_entries": 460,
+      "annual_return": -0.0039,
+      "max_drawdown": -0.2745
+    },
+    {
+      "key": "nullq_s49007",
+      "kind": "random_null_q",
+      "sharpe": -0.2147,
+      "n_trades": 695,
+      "num_entries": 460,
+      "annual_return": -0.0209,
+      "max_drawdown": -0.2969
+    },
+    {
+      "key": "nullq_s49008",
+      "kind": "random_null_q",
+      "sharpe": -0.2082,
+      "n_trades": 707,
+      "num_entries": 459,
+      "annual_return": -0.0218,
+      "max_drawdown": -0.3199
+    },
+    {
+      "key": "nullq_s49009",
+      "kind": "random_null_q",
+      "sharpe": -0.1638,
+      "n_trades": 702,
+      "num_entries": 460,
+      "annual_return": -0.0194,
+      "max_drawdown": -0.3166
+    },
+    {
+      "key": "nullq_s49010",
+      "kind": "random_null_q",
+      "sharpe": -0.3142,
+      "n_trades": 683,
+      "num_entries": 459,
+      "annual_return": -0.0289,
+      "max_drawdown": -0.385
+    },
+    {
+      "key": "nullq_s49011",
+      "kind": "random_null_q",
+      "sharpe": -0.3279,
+      "n_trades": 691,
+      "num_entries": 459,
+      "annual_return": -0.0283,
+      "max_drawdown": -0.3971
+    },
+    {
+      "key": "nullq_s49012",
+      "kind": "random_null_q",
+      "sharpe": -0.2358,
+      "n_trades": 704,
+      "num_entries": 460,
+      "annual_return": -0.0219,
+      "max_drawdown": -0.3067
+    },
+    {
+      "key": "nullq_s49013",
+      "kind": "random_null_q",
+      "sharpe": -0.1003,
+      "n_trades": 694,
+      "num_entries": 460,
+      "annual_return": -0.0123,
+      "max_drawdown": -0.2772
+    },
+    {
+      "key": "nullq_s49014",
+      "kind": "random_null_q",
+      "sharpe": -0.2019,
+      "n_trades": 692,
+      "num_entries": 459,
+      "annual_return": -0.0229,
+      "max_drawdown": -0.3407
+    },
+    {
+      "key": "nullq_s49015",
+      "kind": "random_null_q",
+      "sharpe": 0.1418,
+      "n_trades": 715,
+      "num_entries": 459,
+      "annual_return": 0.0078,
+      "max_drawdown": -0.1591
+    },
+    {
+      "key": "nullq_s49016",
+      "kind": "random_null_q",
+      "sharpe": -0.1702,
+      "n_trades": 700,
+      "num_entries": 460,
+      "annual_return": -0.0166,
+      "max_drawdown": -0.2917
+    },
+    {
+      "key": "nullq_s49017",
+      "kind": "random_null_q",
+      "sharpe": -0.1964,
+      "n_trades": 699,
+      "num_entries": 460,
+      "annual_return": -0.021,
+      "max_drawdown": -0.3128
+    },
+    {
+      "key": "nullq_s49018",
+      "kind": "random_null_q",
+      "sharpe": 0.0845,
+      "n_trades": 710,
+      "num_entries": 460,
+      "annual_return": 0.0035,
+      "max_drawdown": -0.2065
+    },
+    {
+      "key": "nullq_s49019",
+      "kind": "random_null_q",
+      "sharpe": -0.1696,
+      "n_trades": 687,
+      "num_entries": 459,
+      "annual_return": -0.0181,
+      "max_drawdown": -0.3297
+    },
+    {
+      "key": "nulld_s49100",
+      "kind": "random_null_d20",
+      "sharpe": -0.609,
+      "n_trades": 1862,
+      "num_entries": 1229,
+      "annual_return": -0.1393,
+      "max_drawdown": -0.8744
+    },
+    {
+      "key": "nulld_s49101",
+      "kind": "random_null_d20",
+      "sharpe": -0.1473,
+      "n_trades": 2219,
+      "num_entries": 1419,
+      "annual_return": -0.0331,
+      "max_drawdown": -0.4882
+    },
+    {
+      "key": "nulld_s49102",
+      "kind": "random_null_d20",
+      "sharpe": 0.024,
+      "n_trades": 2245,
+      "num_entries": 1419,
+      "annual_return": -0.0067,
+      "max_drawdown": -0.3206
+    },
+    {
+      "key": "nulld_s49103",
+      "kind": "random_null_d20",
+      "sharpe": -0.0822,
+      "n_trades": 2199,
+      "num_entries": 1418,
+      "annual_return": -0.0276,
+      "max_drawdown": -0.5743
+    },
+    {
+      "key": "nulld_s49104",
+      "kind": "random_null_d20",
+      "sharpe": -0.4582,
+      "n_trades": 1924,
+      "num_entries": 1288,
+      "annual_return": -0.1128,
+      "max_drawdown": -0.8064
+    },
+    {
+      "key": "nulld_s49105",
+      "kind": "random_null_d20",
+      "sharpe": -0.1443,
+      "n_trades": 2194,
+      "num_entries": 1417,
+      "annual_return": -0.0362,
+      "max_drawdown": -0.5896
+    },
+    {
+      "key": "nulld_s49106",
+      "kind": "random_null_d20",
+      "sharpe": 0.0127,
+      "n_trades": 2249,
+      "num_entries": 1419,
+      "annual_return": -0.0095,
+      "max_drawdown": -0.4127
+    },
+    {
+      "key": "nulld_s49107",
+      "kind": "random_null_d20",
+      "sharpe": -0.0899,
+      "n_trades": 2208,
+      "num_entries": 1418,
+      "annual_return": -0.0248,
+      "max_drawdown": -0.4535
+    },
+    {
+      "key": "nulld_s49108",
+      "kind": "random_null_d20",
+      "sharpe": -0.0886,
+      "n_trades": 2229,
+      "num_entries": 1419,
+      "annual_return": -0.0253,
+      "max_drawdown": -0.4892
+    },
+    {
+      "key": "nulld_s49109",
+      "kind": "random_null_d20",
+      "sharpe": -0.2802,
+      "n_trades": 2171,
+      "num_entries": 1410,
+      "annual_return": -0.0652,
+      "max_drawdown": -0.6727
+    },
+    {
+      "key": "nulld_s49110",
+      "kind": "random_null_d20",
+      "sharpe": -0.1672,
+      "n_trades": 2174,
+      "num_entries": 1415,
+      "annual_return": -0.0459,
+      "max_drawdown": -0.5823
+    },
+    {
+      "key": "nulld_s49111",
+      "kind": "random_null_d20",
+      "sharpe": -0.1141,
+      "n_trades": 2232,
+      "num_entries": 1416,
+      "annual_return": -0.0327,
+      "max_drawdown": -0.4333
+    },
+    {
+      "key": "nulld_s49112",
+      "kind": "random_null_d20",
+      "sharpe": -0.26,
+      "n_trades": 2152,
+      "num_entries": 1410,
+      "annual_return": -0.0713,
+      "max_drawdown": -0.662
+    },
+    {
+      "key": "nulld_s49113",
+      "kind": "random_null_d20",
+      "sharpe": -0.0593,
+      "n_trades": 2200,
+      "num_entries": 1418,
+      "annual_return": -0.0213,
+      "max_drawdown": -0.6059
+    },
+    {
+      "key": "nulld_s49114",
+      "kind": "random_null_d20",
+      "sharpe": -0.1366,
+      "n_trades": 2207,
+      "num_entries": 1417,
+      "annual_return": -0.0367,
+      "max_drawdown": -0.5859
+    },
+    {
+      "key": "nulld_s49115",
+      "kind": "random_null_d20",
+      "sharpe": 0.0709,
+      "n_trades": 2251,
+      "num_entries": 1418,
+      "annual_return": -0.0009,
+      "max_drawdown": -0.4655
+    },
+    {
+      "key": "nulld_s49116",
+      "kind": "random_null_d20",
+      "sharpe": -0.0569,
+      "n_trades": 2239,
+      "num_entries": 1419,
+      "annual_return": -0.0231,
+      "max_drawdown": -0.4497
+    },
+    {
+      "key": "nulld_s49117",
+      "kind": "random_null_d20",
+      "sharpe": -0.1476,
+      "n_trades": 2227,
+      "num_entries": 1418,
+      "annual_return": -0.036,
+      "max_drawdown": -0.5116
+    },
+    {
+      "key": "nulld_s49118",
+      "kind": "random_null_d20",
+      "sharpe": -0.1144,
+      "n_trades": 2197,
+      "num_entries": 1416,
+      "annual_return": -0.0339,
+      "max_drawdown": -0.5208
+    },
+    {
+      "key": "nulld_s49119",
+      "kind": "random_null_d20",
+      "sharpe": 0.0125,
+      "n_trades": 2237,
+      "num_entries": 1415,
+      "annual_return": -0.0087,
+      "max_drawdown": -0.4739
+    }
+  ],
+  "survivors": [],
+  "trials_ledger": {
+    "prev_total": 2858,
+    "batch_trials": 47,
+    "total": 2905,
+    "batch": "p4_ext_tilt",
+    "file": "shortline_p4_ext_tilt.json",
+    "note": "5 main cells + 40 random nulls (20 quarterly seed 49_000+k, 20 20-day seed 49_100+k) + 2 passive (monthly/quarterly EW stock_b_layer); prereg research/shortline/P4_EXT_TILT.md (frozen r67 cccd5f1); D6 member reruns = record-cell reproductions, ledger_trials_added 0",
+    "evidence_cutoff": "2026-09-22"
+  },
+  "next_step": "survivors -> G2 deepening prereg (family neighborhood + x2/x3 + DSR raw returns + family PBO CSCV) per SS4",
+  "evidence_cutoff": "2026-09-22"
+}

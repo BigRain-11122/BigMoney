@@ -1,74 +1,90 @@
 {
- "schema": "gate-attrition-ledger v1",
- "created": "2026-09-24 03:03:01",
- "purpose": "science_audit C4: per-batch gate-chain losses account (s7-T retro mandatory; measurement batches record gate outcomes, search batches record eliminations)",
- "entries": [
-  {
-   "batch": "EW6-portfolio-validation",
-   "ts": "2026-09-24 00:54:38",
-   "kind": "measurement",
-   "retro_fill": true,
-   "cells_ledger_delta": 26,
-   "ledger_total_after": 2753,
-   "gates": {
-    "descriptive_g1_clauses_all_pass": true,
-    "x2_survive": true,
-    "worst_year_ok": true,
-    "validated": true,
-    "void": false
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/portfolio_ew6.json",
-    "prereg": "research/shortline/EW6_PORTFOLIO.md"
-   }
-  },
-  {
-   "batch": "IV6-portfolio-riskbudget",
-   "ts": "2026-09-24 03:03:01",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 14,
-   "ledger_total_after": 2779,
-   "gates": {
-    "g1_prime_v2_pass": true,
-    "descriptive_g1_clauses_all_pass": true,
-    "x2_survive": true,
-    "worst_year_ok": true,
-    "twin_gate_crosscheck": true,
-    "validated": true,
-    "void": false,
-    "void_reason": null
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/portfolio_iv6.json",
-    "prereg": "research/IV6_PORTFOLIO.md"
-   },
-   "correction_note": "rebase-window re-seat: bm-b T-05 part3 +12 mid-window; serial total 2779 (was 2767 at run time when head was 2753)"
-  },
-  {
-   "batch": "p4-pairs",
-   "ts": "2026-09-24 05:31:00",
-   "kind": "measurement",
-   "cells_ledger_delta": 67,
-   "ledger_total_after": 2858,
-   "gates": {
-    "v2_skill_line": 0.9359,
-    "v2_pass": false,
-    "ci_lower_bound_positive": false,
-    "trade_gate_dual_ok": true,
-    "beats_inbatch_null_p95": false,
-    "x2_survive_vi": false,
-    "d6_max_corr": 0.235
-   },
-   "eliminated": 1,
-   "elim_note": "1 pooled candidate -> 0 survivors (long-only pairs line closes)",
-   "refs": {
-    "results": "results/shortline_p4_pairs.json",
-    "prereg": "research/P4_PAIRS.md",
-    "csv": "research/shortline/p4_pairs_results.csv"
-   }
-  }
- ]
+  "schema": "gate-attrition-ledger v1",
+  "created": "2026-09-24 03:03:01",
+  "purpose": "science_audit C4: per-batch gate-chain losses account (s7-T retro mandatory; measurement batches record gate outcomes, search batches record eliminations)",
+  "entries": [
+    {
+      "batch": "EW6-portfolio-validation",
+      "ts": "2026-09-24 00:54:38",
+      "kind": "measurement",
+      "retro_fill": true,
+      "cells_ledger_delta": 26,
+      "ledger_total_after": 2753,
+      "gates": {
+        "descriptive_g1_clauses_all_pass": true,
+        "x2_survive": true,
+        "worst_year_ok": true,
+        "validated": true,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_ew6.json",
+        "prereg": "research/shortline/EW6_PORTFOLIO.md"
+      }
+    },
+    {
+      "batch": "IV6-portfolio-riskbudget",
+      "ts": "2026-09-24 03:03:01",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 14,
+      "ledger_total_after": 2779,
+      "gates": {
+        "g1_prime_v2_pass": true,
+        "descriptive_g1_clauses_all_pass": true,
+        "x2_survive": true,
+        "worst_year_ok": true,
+        "twin_gate_crosscheck": true,
+        "validated": true,
+        "void": false,
+        "void_reason": null
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_iv6.json",
+        "prereg": "research/IV6_PORTFOLIO.md"
+      },
+      "correction_note": "rebase-window re-seat: bm-b T-05 part3 +12 mid-window; serial total 2779 (was 2767 at run time when head was 2753)"
+    },
+    {
+      "batch": "p4-pairs",
+      "ts": "2026-09-24 05:31:00",
+      "kind": "measurement",
+      "cells_ledger_delta": 67,
+      "ledger_total_after": 2858,
+      "gates": {
+        "v2_skill_line": 0.9359,
+        "v2_pass": false,
+        "ci_lower_bound_positive": false,
+        "trade_gate_dual_ok": true,
+        "beats_inbatch_null_p95": false,
+        "x2_survive_vi": false,
+        "d6_max_corr": 0.235
+      },
+      "eliminated": 1,
+      "elim_note": "1 pooled candidate -> 0 survivors (long-only pairs line closes)",
+      "refs": {
+        "results": "results/shortline_p4_pairs.json",
+        "prereg": "research/P4_PAIRS.md",
+        "csv": "research/shortline/p4_pairs_results.csv"
+      }
+    },
+    {
+      "batch": "P4_EXT_TILT",
+      "ts": "2026-09-24 06:34:36",
+      "kind": "search",
+      "cells_ledger_delta": 47,
+      "ledger_total_after": 2905,
+      "gates": {
+        "cells_run": 47,
+        "survivors_g1_prime_v2": 0
+      },
+      "eliminated": 47,
+      "refs": {
+        "results": "results/shortline_p4_ext_tilt.json",
+        "prereg": "research/shortline/P4_EXT_TILT.md"
+      }
+    }
+  ]
 }

@@ -118,6 +118,25 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
     core48 values are read live from results/p2_calibration.json (data-driven). New pools must
     register their calibration file here — no silent cross-pool reuse.
     """
+    if pool == "stock_b_layer":
+        # P4_EXT_TILT additive pool (spec SS4): strict-max of this batch's own
+        # monthly-EW + quarterly-EW passive nulls, read from the product file.
+        # core48 path below untouched (additive branch, T-02 pattern).
+        path = os.path.join(results_dir, "shortline_p4_ext_tilt.json")
+        if not os.path.exists(path):
+            raise KeyError(f"stock_b_layer passive not on file yet "
+                           f"({path}) — run P4_EXT_TILT finalize first")
+        with open(path, encoding="utf-8") as fh:
+            pas = (json.load(fh).get("passive") or {})
+        cands = []
+        for name in ("stock_ew_monthly", "stock_ew_quarterly"):
+            sr = ((pas.get(name) or {}).get("full") or {}).get("sharpe")
+            if isinstance(sr, (int, float)) and math.isfinite(sr):
+                cands.append(float(sr))
+        if not cands:
+            raise KeyError("passive block missing/empty in "
+                          "shortline_p4_ext_tilt.json — schema drift, fix batch writer")
+        return max(cands)  # strict = harder line
     path = os.path.join(results_dir, "p2_calibration.json")
     if pool != "core48" or not os.path.exists(path):
         raise KeyError(f"no frozen passive calibration on file for pool '{pool}' — "
@@ -447,6 +466,8 @@ SEED_REGISTRY = {
     # missed p4_pairs' registration): same base, machinery fully disjoint
     # (pair-index draws vs within-universe value permutations); verdict
     # robustness documented in P1D_GDHS_QUARTERLY.md SS6.
+    "p4_ext_tilt_q": 49_000,             # P4_EXT_TILT random quarterly-null base
+    "p4_ext_tilt_d20": 49_100,           # P4_EXT_TILT random 20d-null base (r67 prereg)
 }
 
 
@@ -455,7 +476,8 @@ SEED_REGISTRY = {
 def g1_prime_v2(sharpe_full, returns, batch_cells, pool: str = "core48",
                 n_trades: int | None = None, n_entries: int | None = None,
                 min_trades: int = 30, ci_seed: int = 20260923,
-                results_dir: str = RESULTS_DIR) -> dict:
+                results_dir: str = RESULTS_DIR,
+                null_pool: dict | None = None) -> dict:
     """T-02 7/7: new-batch G1' verdict under v2 (BACKTEST_SCIENCE D1+D3).
 
     The two v2 clauses the ticket froze -- full-period Sharpe vs skill_line_v2
@@ -465,8 +487,11 @@ def g1_prime_v2(sharpe_full, returns, batch_cells, pool: str = "core48",
     dd>=-35%) stay batch-level requirements disclosed in the batch report,
     not re-implemented here. Line is data-driven (live chain head), so the
     verdict NEVER hand-copies a number (O-2250 single-source rule).
+    null_pool (additive, P4_EXT_TILT): batch-own null family overrides the
+    default collector — stock-domain batches calibrate their own line.
     """
-    line = skill_line_v2(batch_cells=batch_cells, pool=pool, results_dir=results_dir)
+    line = skill_line_v2(batch_cells=batch_cells, pool=pool,
+                         results_dir=results_dir, null_pool=null_pool)
     ci = bootstrap_ci_sharpe(returns, seed=ci_seed)
     line_ok = bool(float(sharpe_full) > line["line"])
     ci_ok = bool(ci["ci_lower_bound_positive"])
