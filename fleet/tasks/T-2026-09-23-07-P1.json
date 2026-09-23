@@ -3,10 +3,12 @@
     "priority":  "P1",
     "type":  "scorecard-delivery",
     "spec":  "CEO order O-20260923-2311 (GM Office activation first deliverable) + OPERATING_PLAN Phase 0 row \u0027P-6 璁板垎鍗′氦浠? + framework authority firm/STRATEGY_EVALUATION.md (O-1823: S/A/B/C x dimensions + one-vote veto). Deliverables: (1) scripts/scorecard.py -- data-driven from trader JSONs (firm/traders/) + paper ledger + STRATEGY_LIBRARY s2 roster pointer; NO hardcoded counts (counts single-source rule O-2250); scores per framework dimensions with one-vote-veto flags; any unmappable dimension disclosed honestly, not invented. (2) First run: six current traders, results/scorecard_v1.json per-trader sections; panel step per token-panel precedent (results/*.json consumed by dashboard/build_status, T-04 panel step pattern). (3) Monthly hook wiring: rerun cadence documented in automation notes; hr.py adjudication stays the ONLY level-mutation authority -- scorecard = evaluation/report only, ZERO writes to trader level/paper fields. Acceptance: six first S/A/B/C scores on disk; new-field discipline (no historical key overwrites); smoke 20/20 unchanged; framework dimensions all mapped or explicitly marked unmapped-with-reason. ZERO-TOUCH: hr.py thresholds (T0), iron_rules, trader files, G2.5 precondition wiring (T-02 owns hr.py promotion precondition).",
-    "status":  "claimed",
+    "status":  "done",
     "created_by":  "GM (quant 涓撶浼氳瘽) via O-20260923-2311",
     "created_at":  "2026-09-23 23:18",
     "note":  "Claim-first (F-04). 10-31 first monthly check depends on this (scorecard feeds 鎬荤粡鍔?monthly brief + PK 璧涘埗杩愯惀, org_chart v3). Judgment criteria = firm/STRATEGY_EVALUATION.md authority.",
     "claimed_by":  "bm-b",
-    "claimed_at":  "2026-09-24 01:34"
+    "claimed_at":  "2026-09-24 01:34",
+    "result_ref":  "scripts/scorecard.py + results/scorecard_v1.json (6 traders: S=3 DROUGHT 88.64/VOLATILITY 87.0/NEEDLE 81.8, A=3 CE-01 79.7/CE-02 73.7/ENGULF 69.8) + monitor/build_status.py trading.scorecard panel block + P-6 event line; selftest 6/6 offline; framework dims mapped d1-d8 with untested sub-fields disclosed; BONUS FIX: strategy.n_traders stale-3 (J19-era batch-list aggregation missed G2_FOLK) -\u003e roster glob single-source + G2_FOLK gate-chain step added (r53 pixel acceptance catch); naming discrepancy (framework s4 strategy_scorecard vs ticket scorecard) disclosed in JSON provenance for GM",
+    "done_at":  "2026-09-24 01:51"
 }

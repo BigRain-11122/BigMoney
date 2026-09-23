@@ -249,8 +249,16 @@ def _gate_chain(bt: dict) -> dict:
     lfc_v = lfc.get("verdict") or {}
     lfc_pass = int(lfc_v.get("n_survivors") or 0) if not lfc_v.get("void") else 0
     lfc_gate = lfc.get("gate") or {}
-    traders = (ce.get("traders_registered") or []) + \
-              (ct.get("traders_registered") or [])
+    g2f = _read_json(os.path.join(res, "shortline_g2_folk.json")) or {}
+    # Counting single-source rule (O-2250 T2): registered-roster count/ids come
+    # from the firm/traders glob (same source as the org wall _traders()), NOT
+    # from per-batch "traders_registered" lists -- those froze at J19 (3) and
+    # missed G2_FOLK's 3 folk traders (stale-3 panel bug caught in r53 pixel
+    # acceptance: strategy wall said 3 while the org wall showed 6 cards).
+    _troot = os.path.join(os.path.dirname(os.path.dirname(
+        os.path.abspath(__file__))), "firm", "traders")
+    traders = [f[:-5] for f in sorted(os.listdir(_troot))
+               if f.endswith(".json") and not f.startswith("_")]
     # Counting single-source rule (O-2250 T2): panel N = data-driven ledger
     # chain head via science_gates.ledger_head (max total across
     # results/*.json). Replaces the r35-era hardcoded file cascade that
@@ -369,6 +377,17 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"vi={vi_used.get('default')}（被动月度EW+0.10 主导）"
                                f"；七族全深负，打板/短持有线被成本碾压，"
                                f"B 层首开诚实判负" if vi_used else "")})
+    g2f_reg = g2f.get("registered") or []
+    if g2f:
+        g2f_x3 = sum(1 for v in (g2f.get("verdicts") or [])
+                     if (v.get("x3") is not None and skill_bar is not None
+                         and v["x3"] >= skill_bar))
+        steps.append({"stage": "G2_FOLK 出厂门 · 民间三族深化（邻域+成本×2/×3）",
+                      "result": f"{len(g2f_reg)} 员 PASS 注册",
+                      "pass": bool(g2f_reg),
+                      "note": (f"{'/'.join(g2f_reg)} 过邻域+成本门注册；"
+                               f"×3 亦越技能线 {g2f_x3} 员"
+                               if g2f_reg else "0 员过门")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
@@ -413,6 +432,43 @@ def _paper_state() -> dict:
             out["paper_start"] = ps
     if out["paper_start"]:
         _add_month_progress(out)
+    return out
+
+
+def _scorecard_state() -> dict:
+    """P-6 strategy scorecard (T-2026-09-23-07, framework firm/STRATEGY_EVALUATION.md).
+
+    Reads results/scorecard_v1.json (scripts/scorecard.py output); report-only
+    evaluation layer -- hr.py stays the sole level-mutation authority.
+    Missing file = honest 'pending'; no hard-coded trader names/counts.
+    """
+    out = {"present": False, "n_traders": None, "grade_counts": None,
+           "best": None, "generated": None, "status": "none", "text": "记分卡待产出"}
+    s = _read_json(os.path.join(PATHS.results_dir, "scorecard_v1.json"))
+    if not s:
+        return out
+    summ = s.get("summary") or {}
+    out["present"] = True
+    out["n_traders"] = summ.get("n_traders")
+    out["grade_counts"] = summ.get("grade_counts")
+    out["generated"] = s.get("generated")
+    best = summ.get("best") or {}
+    out["best"] = best
+    stale_days = None
+    try:
+        g = dt.datetime.fromisoformat(s["generated"])
+        stale_days = (dt.datetime.now() - g).days
+    except (KeyError, ValueError):
+        pass
+    out["stale_days"] = stale_days
+    if out["n_traders"]:
+        gc = out["grade_counts"] or {}
+        out["status"] = "ok"
+        out["text"] = (f"记分卡 {out['n_traders']} 员评级 "
+                       f"S×{gc.get('S', 0)} A×{gc.get('A', 0)} "
+                       f"B×{gc.get('B', 0)} C×{gc.get('C', 0)}")
+    else:
+        out["status"], out["text"] = "warn", "记分卡空员"
     return out
 
 
@@ -575,7 +631,8 @@ def build() -> dict:
         "trading": {"traders": _traders(),
                     "levels": ["INTERN", "TRAINEE", "TRADER", "SENIOR", "PRINCIPAL"],
                     "paper_started": paper["started"],
-                    "paper": paper},
+                    "paper": paper,
+                    "scorecard": _scorecard_state()},
         "gamification": {},
         "events": [],
         "group": _group(),
@@ -639,6 +696,14 @@ def build() -> dict:
             "text": f"本地化 · token 粗估 状态 {tok['state_est']} · 报告 {tok['report_est']}"
                     f" · 回合固定载入 {tok['codely_context_est']}"
                     f"（byte/3.5 代理口径 · O-2325）"})
+    sc = payload["trading"]["scorecard"]
+    if sc["present"]:
+        b = sc["best"] or {}
+        tail_events.append({
+            "time": sc["generated"] or "-",
+            "text": f"P-6 记分卡 · {sc['text']} · 最优 {b.get('id', '—')} "
+                    f"{b.get('grade', '—')} {b.get('total', '—')} 分"
+                    f"（评价面 · hr 仍为唯一编制权）"})
     payload["events"] += tail_events + [
         {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
         {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},

@@ -1,0 +1,796 @@
+{
+ "task": "T-2026-09-23-07 (O-2311 GM Office first deliverable; O-1823 framework)",
+ "framework": "firm/STRATEGY_EVALUATION.md v1.0 -- weights s2 + grade bands s3 frozen",
+ "formula_version": "v1 (in-dimension sub-weights + linear anchors = implementation choice, frozen here; revision = new version + round report)",
+ "naming_disclosure": "framework s4 names strategy_scorecard(.py/.json); ticket T-07 names scorecard.py + scorecard_v1.json -- implementation follows the claimed ticket; law-side rename belongs to GM",
+ "generated": "2026-09-24T01:44:08",
+ "lines": {
+  "skill_line_v2": 0.9336,
+  "skill_line_n_eff": 2753,
+  "i_line": 0.3521,
+  "vi_bar": 0.4004,
+  "passive": 0.3792,
+  "ledger_head": {
+   "total": 2753,
+   "file": "portfolio_ew6.json",
+   "note": "12 engine member runs (anchor-cum-sleeve, x1+x2) + 2 portfolio evaluations (derived, non-engine) + 12 voided runs from first attempt (crashed on folk-registration cost_x2 schema KeyError AFTER sleeves completed, zero partial output; deterministic rerun, G2_FOLK double-count precedent); report-only pass 1, zero search => zero nulls (composition disclosed per prereg s2.3; n deviates from frozen budget 14 by the voided attempt)"
+  },
+  "source": "science_gates live reads (skill_line_v2 batch_cells=0, recorded_lines, passive_baseline)"
+ },
+ "weights": {
+  "1": 0.3,
+  "2": 0.2,
+  "3": 0.15,
+  "4": 0.1,
+  "5": 0.1,
+  "6": 0.1,
+  "7": 0.05
+ },
+ "grade_bands": {
+  "S": 80.0,
+  "A": 65.0,
+  "B": 50.0
+ },
+ "automation_note": "rerun monthly before hr first-business-day review + after any new trader registration or new P-5/paper/EW evidence; NOT in 10-min S6 chain (event cadence); report-only -- hr.py is sole level authority",
+ "summary": {
+  "n_traders": 6,
+  "grade_counts": {
+   "S": 3,
+   "A": 3,
+   "B": 0,
+   "C": 0
+  },
+  "best": {
+   "id": "DROUGHT-CE-01",
+   "grade": "S",
+   "total": 88.64
+  }
+ },
+ "per_trader": {
+  "COMPOSITE-CE-01": {
+   "grade": "A",
+   "total": 79.69,
+   "veto_clean": true,
+   "vetoes": {
+    "future_data": {
+     "pass": true,
+     "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+    },
+    "x2_not_survive": {
+     "pass": true,
+     "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+    },
+    "worst_start_dd_breach": {
+     "pass": true,
+     "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+    },
+    "oos_blindspot": {
+     "pass": true,
+     "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+    },
+    "snooping_undeclared": {
+     "pass": true,
+     "provenance": "family-discount/honest flags recorded in registration notes = declared"
+    }
+   },
+   "dims": {
+    "1": {
+     "score": 85.08,
+     "weight": 0.3,
+     "status": "tested",
+     "reads": {
+      "beat_rate_6m": 0.64,
+      "min_dd_6m": -0.1673,
+      "median_excess_6m": 0.054535,
+      "p5_verdict_pass": false
+     },
+     "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+    },
+    "2": {
+     "score": 90.84,
+     "weight": 0.2,
+     "status": "tested",
+     "reads": {
+      "full_sharpe": 0.8114,
+      "oos_sharpe": 1.6085,
+      "skill_line_v2": 0.9336,
+      "i_line": 0.3521
+     },
+     "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+    },
+    "3": {
+     "score": 72.24,
+     "weight": 0.15,
+     "status": "tested",
+     "reads": {
+      "cost_x2_sharpe": 0.5228,
+      "x3_full_recorded": 0.2155,
+      "vi_bar": 0.4004,
+      "x2_survive": true
+     },
+     "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+    },
+    "4": {
+     "score": 77.58,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "is2_sharpe": 1.6085,
+      "full_sharpe": 0.8114,
+      "worst_year": -0.1121
+     },
+     "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+    },
+    "5": {
+     "score": 24.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "max_corr_others": 0.48,
+      "portfolio_benefit_context": 0.3763,
+      "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+     },
+     "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+    },
+    "6": {
+     "score": 100.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "n_trades_full": 474,
+      "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+     },
+     "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+    },
+    "7": {
+     "score": 100.0,
+     "weight": 0.05,
+     "status": "tested",
+     "reads": {
+      "prereg_chain": true,
+      "declared_clean": true,
+      "batch_script": "ce_transfer.py",
+      "null_margin_vs_skill_line": -0.1222,
+      "ledger_head_total": 2753
+     },
+     "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+    },
+    "8": {
+     "score": 0.0,
+     "weight": 0.0,
+     "status": "untested",
+     "reads": {
+      "paper_months_tracked": 0
+     },
+     "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+    }
+   },
+   "honest_notes": [
+    "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+   ],
+   "level": "INTERN",
+   "name": "复合软化一号"
+  },
+  "COMPOSITE-CE-02": {
+   "grade": "A",
+   "total": 73.65,
+   "veto_clean": true,
+   "vetoes": {
+    "future_data": {
+     "pass": true,
+     "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+    },
+    "x2_not_survive": {
+     "pass": true,
+     "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+    },
+    "worst_start_dd_breach": {
+     "pass": true,
+     "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+    },
+    "oos_blindspot": {
+     "pass": true,
+     "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+    },
+    "snooping_undeclared": {
+     "pass": true,
+     "provenance": "family-discount/honest flags recorded in registration notes = declared"
+    }
+   },
+   "dims": {
+    "1": {
+     "score": 83.93,
+     "weight": 0.3,
+     "status": "tested",
+     "reads": {
+      "beat_rate_6m": 0.68,
+      "min_dd_6m": -0.204,
+      "median_excess_6m": 0.044914499999999996,
+      "p5_verdict_pass": false
+     },
+     "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+    },
+    "2": {
+     "score": 75.73,
+     "weight": 0.2,
+     "status": "tested",
+     "reads": {
+      "full_sharpe": 0.6099,
+      "oos_sharpe": 1.4853,
+      "skill_line_v2": 0.9336,
+      "i_line": 0.3521
+     },
+     "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+    },
+    "3": {
+     "score": 39.52,
+     "weight": 0.15,
+     "status": "tested",
+     "reads": {
+      "cost_x2_sharpe": 0.4311,
+      "x3_full_recorded": 0.2149,
+      "vi_bar": 0.4004,
+      "x2_survive": true
+     },
+     "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+    },
+    "4": {
+     "score": 100.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "is2_sharpe": 1.4853,
+      "full_sharpe": 0.6099,
+      "worst_year": 0.0028
+     },
+     "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+    },
+    "5": {
+     "score": 24.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "max_corr_others": 0.48,
+      "portfolio_benefit_context": 0.3763,
+      "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+     },
+     "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+    },
+    "6": {
+     "score": 100.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "n_trades_full": 795,
+      "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+     },
+     "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+    },
+    "7": {
+     "score": 100.0,
+     "weight": 0.05,
+     "status": "tested",
+     "reads": {
+      "prereg_chain": true,
+      "declared_clean": true,
+      "batch_script": "ce_transfer.py",
+      "null_margin_vs_skill_line": -0.3237,
+      "ledger_head_total": 2753
+     },
+     "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+    },
+    "8": {
+     "score": 0.0,
+     "weight": 0.0,
+     "status": "untested",
+     "reads": {
+      "paper_months_tracked": 0
+     },
+     "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+    }
+   },
+   "honest_notes": [
+    "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+   ],
+   "level": "INTERN",
+   "name": "复合软化二号"
+  },
+  "DROUGHT-CE-01": {
+   "grade": "S",
+   "total": 88.64,
+   "veto_clean": true,
+   "vetoes": {
+    "future_data": {
+     "pass": true,
+     "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+    },
+    "x2_not_survive": {
+     "pass": true,
+     "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+    },
+    "worst_start_dd_breach": {
+     "pass": true,
+     "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+    },
+    "oos_blindspot": {
+     "pass": true,
+     "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+    },
+    "snooping_undeclared": {
+     "pass": true,
+     "provenance": "family-discount/honest flags recorded in registration notes = declared"
+    }
+   },
+   "dims": {
+    "1": {
+     "score": 86.28,
+     "weight": 0.3,
+     "status": "tested",
+     "reads": {
+      "beat_rate_6m": 0.64,
+      "min_dd_6m": -0.0512,
+      "median_excess_6m": 0.021739500000000002,
+      "p5_verdict_pass": false
+     },
+     "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+    },
+    "2": {
+     "score": 84.28,
+     "weight": 0.2,
+     "status": "tested",
+     "reads": {
+      "full_sharpe": 0.724,
+      "oos_sharpe": 1.213,
+      "skill_line_v2": 0.9336,
+      "i_line": 0.3521
+     },
+     "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+    },
+    "3": {
+     "score": 100.0,
+     "weight": 0.15,
+     "status": "tested",
+     "reads": {
+      "cost_x2_sharpe": 0.59,
+      "x3_full_recorded": 0.4542,
+      "vi_bar": 0.4004,
+      "x2_survive": true
+     },
+     "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+    },
+    "4": {
+     "score": 97.28,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "is2_sharpe": 1.213,
+      "full_sharpe": 0.724,
+      "worst_year": -0.0136
+     },
+     "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+    },
+    "5": {
+     "score": 61.72,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "max_corr_others": 0.2914,
+      "portfolio_benefit_context": 0.3763,
+      "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+     },
+     "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+    },
+    "6": {
+     "score": 100.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "n_trades_full": 120,
+      "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+     },
+     "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+    },
+    "7": {
+     "score": 100.0,
+     "weight": 0.05,
+     "status": "tested",
+     "reads": {
+      "prereg_chain": true,
+      "declared_clean": true,
+      "batch_script": "g2_folk.py",
+      "null_margin_vs_skill_line": -0.2096,
+      "ledger_head_total": 2753
+     },
+     "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+    },
+    "8": {
+     "score": 0.0,
+     "weight": 0.0,
+     "status": "untested",
+     "reads": {
+      "paper_months_tracked": 0
+     },
+     "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+    }
+   },
+   "honest_notes": [
+    "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+   ],
+   "level": "INTERN",
+   "name": "地量反转一号"
+  },
+  "ENGULF-CE-01": {
+   "grade": "A",
+   "total": 69.76,
+   "veto_clean": true,
+   "vetoes": {
+    "future_data": {
+     "pass": true,
+     "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+    },
+    "x2_not_survive": {
+     "pass": true,
+     "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+    },
+    "worst_start_dd_breach": {
+     "pass": true,
+     "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+    },
+    "oos_blindspot": {
+     "pass": true,
+     "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+    },
+    "snooping_undeclared": {
+     "pass": true,
+     "provenance": "family-discount/honest flags recorded in registration notes = declared"
+    }
+   },
+   "dims": {
+    "1": {
+     "score": 82.68,
+     "weight": 0.3,
+     "status": "tested",
+     "reads": {
+      "beat_rate_6m": 0.6,
+      "min_dd_6m": -0.0414,
+      "median_excess_6m": 0.020829,
+      "p5_verdict_pass": false
+     },
+     "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+    },
+    "2": {
+     "score": 65.51,
+     "weight": 0.2,
+     "status": "tested",
+     "reads": {
+      "full_sharpe": 0.5392,
+      "oos_sharpe": 0.2944,
+      "skill_line_v2": 0.9336,
+      "i_line": 0.3521
+     },
+     "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+    },
+    "3": {
+     "score": 29.14,
+     "weight": 0.15,
+     "status": "tested",
+     "reads": {
+      "cost_x2_sharpe": 0.402,
+      "x3_full_recorded": 0.2633,
+      "vi_bar": 0.4004,
+      "x2_survive": true
+     },
+     "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+    },
+    "4": {
+     "score": 79.28,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "is2_sharpe": 0.2944,
+      "full_sharpe": 0.5392,
+      "worst_year": -0.0128
+     },
+     "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+    },
+    "5": {
+     "score": 45.52,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "max_corr_others": 0.3724,
+      "portfolio_benefit_context": 0.3763,
+      "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+     },
+     "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+    },
+    "6": {
+     "score": 100.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "n_trades_full": 143,
+      "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+     },
+     "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+    },
+    "7": {
+     "score": 100.0,
+     "weight": 0.05,
+     "status": "tested",
+     "reads": {
+      "prereg_chain": true,
+      "declared_clean": true,
+      "batch_script": "g2_folk.py",
+      "null_margin_vs_skill_line": -0.3944,
+      "ledger_head_total": 2753
+     },
+     "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+    },
+    "8": {
+     "score": 0.0,
+     "weight": 0.0,
+     "status": "untested",
+     "reads": {
+      "paper_months_tracked": 0
+     },
+     "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+    }
+   },
+   "honest_notes": [
+    "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)",
+    "x2 margin razor-thin (<5% over vi_bar) -- watchdog mandatory (O-2205)"
+   ],
+   "level": "INTERN",
+   "name": "阳包阴一号"
+  },
+  "NEEDLE-DE-01": {
+   "grade": "S",
+   "total": 81.8,
+   "veto_clean": true,
+   "vetoes": {
+    "future_data": {
+     "pass": true,
+     "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+    },
+    "x2_not_survive": {
+     "pass": true,
+     "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+    },
+    "worst_start_dd_breach": {
+     "pass": true,
+     "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+    },
+    "oos_blindspot": {
+     "pass": true,
+     "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+    },
+    "snooping_undeclared": {
+     "pass": true,
+     "provenance": "family-discount/honest flags recorded in registration notes = declared"
+    }
+   },
+   "dims": {
+    "1": {
+     "score": 78.38,
+     "weight": 0.3,
+     "status": "tested",
+     "reads": {
+      "beat_rate_6m": 0.58,
+      "min_dd_6m": -0.0312,
+      "median_excess_6m": 0.012214,
+      "p5_verdict_pass": false
+     },
+     "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+    },
+    "2": {
+     "score": 79.67,
+     "weight": 0.2,
+     "status": "tested",
+     "reads": {
+      "full_sharpe": 0.6624,
+      "oos_sharpe": 0.4089,
+      "skill_line_v2": 0.9336,
+      "i_line": 0.3521
+     },
+     "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+    },
+    "3": {
+     "score": 95.51,
+     "weight": 0.15,
+     "status": "tested",
+     "reads": {
+      "cost_x2_sharpe": 0.574,
+      "x3_full_recorded": 0.4833,
+      "vi_bar": 0.4004,
+      "x2_survive": true
+     },
+     "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+    },
+    "4": {
+     "score": 84.69,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "is2_sharpe": 0.4089,
+      "full_sharpe": 0.6624,
+      "worst_year": 0.0
+     },
+     "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+    },
+    "5": {
+     "score": 45.52,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "max_corr_others": 0.3724,
+      "portfolio_benefit_context": 0.3763,
+      "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+     },
+     "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+    },
+    "6": {
+     "score": 100.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "n_trades_full": 73,
+      "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+     },
+     "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+    },
+    "7": {
+     "score": 100.0,
+     "weight": 0.05,
+     "status": "tested",
+     "reads": {
+      "prereg_chain": true,
+      "declared_clean": true,
+      "batch_script": "g2_folk.py",
+      "null_margin_vs_skill_line": -0.2712,
+      "ledger_head_total": 2753
+     },
+     "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+    },
+    "8": {
+     "score": 0.0,
+     "weight": 0.0,
+     "status": "untested",
+     "reads": {
+      "paper_months_tracked": 0
+     },
+     "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+    }
+   },
+   "honest_notes": [
+    "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+   ],
+   "level": "INTERN",
+   "name": "金针探底一号"
+  },
+  "VOLATILITY-CE-01": {
+   "grade": "S",
+   "total": 87.05,
+   "veto_clean": true,
+   "vetoes": {
+    "future_data": {
+     "pass": true,
+     "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+    },
+    "x2_not_survive": {
+     "pass": true,
+     "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+    },
+    "worst_start_dd_breach": {
+     "pass": true,
+     "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+    },
+    "oos_blindspot": {
+     "pass": true,
+     "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+    },
+    "snooping_undeclared": {
+     "pass": true,
+     "provenance": "family-discount/honest flags recorded in registration notes = declared"
+    }
+   },
+   "dims": {
+    "1": {
+     "score": 85.96,
+     "weight": 0.3,
+     "status": "tested",
+     "reads": {
+      "beat_rate_6m": 0.62,
+      "min_dd_6m": -0.0354,
+      "median_excess_6m": 0.0260535,
+      "p5_verdict_pass": false
+     },
+     "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+    },
+    "2": {
+     "score": 100.0,
+     "weight": 0.2,
+     "status": "tested",
+     "reads": {
+      "full_sharpe": 1.2578,
+      "oos_sharpe": 2.0568,
+      "skill_line_v2": 0.9336,
+      "i_line": 0.3521
+     },
+     "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+    },
+    "3": {
+     "score": 76.17,
+     "weight": 0.15,
+     "status": "tested",
+     "reads": {
+      "cost_x2_sharpe": 0.5338,
+      "x3_full_recorded": null,
+      "vi_bar": 0.4004,
+      "x2_survive": true
+     },
+     "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+    },
+    "4": {
+     "score": 97.54,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "is2_sharpe": 2.0568,
+      "full_sharpe": 1.2578,
+      "worst_year": -0.0123
+     },
+     "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+    },
+    "5": {
+     "score": 50.82,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "max_corr_others": 0.3459,
+      "portfolio_benefit_context": 0.3763,
+      "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+     },
+     "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+    },
+    "6": {
+     "score": 100.0,
+     "weight": 0.1,
+     "status": "tested",
+     "reads": {
+      "n_trades_full": 522,
+      "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+     },
+     "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+    },
+    "7": {
+     "score": 100.0,
+     "weight": 0.05,
+     "status": "tested",
+     "reads": {
+      "prereg_chain": true,
+      "declared_clean": true,
+      "batch_script": "combined_exit_screen.py",
+      "null_margin_vs_skill_line": 0.3242,
+      "ledger_head_total": 2753
+     },
+     "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+    },
+    "8": {
+     "score": 0.0,
+     "weight": 0.0,
+     "status": "untested",
+     "reads": {
+      "paper_months_tracked": 0
+     },
+     "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+    }
+   },
+   "honest_notes": [
+    "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+   ],
+   "level": "INTERN",
+   "name": "组合软化一号"
+  }
+ }
+}
