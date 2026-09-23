@@ -1,10 +1,10 @@
 {
   "machine_id": "bm-b",
-  "orders_ack": "All 18 orders through O-20260923-1850 acked (re-verified by full-scan diff at r43 open AND closeout double-scan; zero new orders 21:00-21:35). bm-a MSG-2055 P-C forward-collect claim archived (zero overlap with bm-b P-B lane).",
-  "last_seen": "2026-09-23 21:35",
+  "orders_ack": "All 19 orders through O-20260923-2134 acked (r44 full-scan diff; O-2134 folk-expansion = GM session own lane per MSG-2136, bm-b loop stand-down on that lane only; zero other new orders).",
+  "last_seen": "2026-09-23 21:58",
   "idle_ram_gb": "10.2",
   "gpu_idle_vram_mb": "2333",
-  "current_task": "round 43 delivered: P-4 batch2 R38-b stock-pool B-layer ONE-SHOT FINAL -- G1 0/19 all families deep-negative vs vi=0.561 (passive-dominated); ledger N=2090; line CLOSED (no G2, no registration). Next: P-B push2his re-probe -> extension-slot prereg refill (O-1819 queue-never-empty) -> step-12 pixel acceptance.",
+  "current_task": "round 44 delivered: r43 orphan salvaged + 3x rebase races landed; O-2134 acked (GM folk lane); P-B push2his still blocked -> parked; update_heat first bm-b run OK; S6 green. Next: extension-slot prereg (MSG claim first) / P-B re-probe.",
   "cpu_cores": "16",
-  "verdict": "healthy: smoke 20/20; compute_audit CLEAN (cpu 4%, zero flags); update_daily cutoff 09-23 current no-op; live.paper 3 traders anchor OK first bar months=0; b_layer mask gates 5/5; gate chain 12 steps N=2090; long-lines: 2026-10-31 first-month promo check, COMPOSITE-CE-02 x2 watch"
+  "verdict": "healthy: smoke 20/20; audit CLEAN 9% zero flags; daily cutoff 09-23 no-op; lhb no-op; heat own snapshot 100 rows; fundamental skip 0.9h; mask gates OK; gate chain 12 steps N=2090; orders_ack: 19/19 through O-2134; long-lines: 2026-10-31 promo check, CE-02 x2 watch"
 }
