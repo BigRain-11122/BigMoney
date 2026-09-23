@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.2 · 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.3 · 组织对齐 org_chart v2（七部门+总经办）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -168,6 +168,30 @@ function drawDock(b) {                       // 机队码头 (fleet/group)
   });
   text('机队码头', x+38, y+14-8, '#7a8494');
 }
+function drawOffice(b) {                     // 总经办 (GM office · J13 LLM 研究助理)
+  const {x,y} = b;
+  rrect(x, y, 64, 40, '#262e3d'); rrect(x, y, 64, 5, '#e8c15a');
+  rrect(x-4, y-9, 72, 9, '#3a4356');          // roof slab
+  rrect(x+46, y-17, 5, 9, '#3a4356');         // chimney
+  px(x+10, y+16, 12, 12, '#e8c15a');          // GM window lit
+  px(x+28, y+16, 12, 12, Math.floor(Date.now()/700)%2 ? '#e8c15a' : '#12151d'); // J13 blink
+  rrect(x+44, y+16, 12, 24, '#161a22');       // door
+  text('总经办', x+12, y+52, '#7a8494');
+}
+function drawBunker(b) {                      // 工程部 (engineering · 地下机房)
+  const {x,y} = b, ok = D.health.smoke.fail === 0, t = Date.now();
+  rrect(x, y, 92, 32, '#1b2029'); rrect(x, y, 92, 3, '#3a4356');
+  rrect(x+74, y+6, 16, 26, '#0d1016');         // stair shaft mouth (dark, goes down)
+  for (let i=0;i<4;i++) px(x+76+i*3, y+8+i*6, 12-i*3, 4, '#232a38'); // descending steps
+  for (let i=0;i<2;i++) {                     // vent fans: spin only while smoke green
+    const fx = x+18+i*26, fy = y+16, spin = ok ? Math.floor(t/280+i)%2===0 : false;
+    rrect(fx-8, fy-8, 16, 16, '#12151d');
+    px(fx-1, fy-6, 2, 12, spin ? '#5fd38a' : '#3a4356');
+    px(fx-6, fy-1, 12, 2, spin ? '#3a4356' : '#232a38');
+  }
+  px(x+2, y+6, 4, 4, ok ? '#5fd38a' : '#e05a5a');  // status LED
+  text('工程部·地下机房', x-2, y-8, '#7a8494');
+}
 function drawFlags() {                       // milestone flags bottom strip
   const g = D.gamification, n = g.milestones_total, x0 = 24, y = H-42;
   for (let i=0; i<n; i++) {
@@ -264,23 +288,42 @@ function drawScene(t) {
 
 const BUILDS = [
   { id:'lab',  x:16,  y:160, w:70,  h:55,  draw:drawLab,   label:'研究楼',
+    dept:'研究部 Research', mandate:'因子/信号挖掘 · IC/回测研究 · idea→候选池',
     info: () => '<div class="row">复合因子方案</div><div class="row gold">'+D.research.composite_plan+'</div>'
       + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('') },
   { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
+    dept:'策略部 Strategy Factory', mandate:'策略工厂 · 门禁链 G1\'/G2 · 注册与退役',
     info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
       + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>' },
   { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
+    dept:'风控部 Risk & Audit', mandate:'铁律执行 · 熔断 · 零假设校准 · 防作弊审计',
     info: () => D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' },
   { id:'hall', x:310, y:160, w:100, h:56,  draw:drawHall,   label:'交易大厅',
+    dept:'交易部 Trading Desk', mandate:'交易员实战 · 模拟盘战绩=唯一计分板',
     info: () => (D.trading.traders.length ? D.trading.traders.map(t =>
         '<div class="row">'+t.name+' <span class="gold">'+t.level+'</span> · IS '+t.is_sharpe.toFixed(2)+' / OOS '+t.oos_sharpe.toFixed(2)+'<br><span class="dim">'+t.oos_trades+'笔 · ×2成本'+(t.cost_x2_survive?'存活':'阵亡')+' · paper '+(t.paper_months??0)+'月</span></div>').join('')
       : '<div class="row dim">暂无在册交易员</div>') + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
   { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
+    dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库/新鲜度 · 零污染',
     info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div><div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
   { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
+    dept:'舰队部 Fleet', mandate:'bm-a/bm-b 协同 · 传输 · 心跳 · SLA 10min 单跳',
     info: () => ((D.group && D.group.siblings && D.group.siblings.length)
       ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
       : '<div class="row dim">本机无集团心跳源</div>') },
+  { id:'office', x:520, y:128, w:64, h:40, draw:drawOffice, label:'总经办',
+    dept:'总经办 GM Office', mandate:'总经理统筹+对 CEO 汇报 · J13 LLM 研究助理',
+    info: () => '<div class="row">公司阶段：'+D.meta.stage+'</div>'
+      + '<div class="row">资金 ¥'+(D.meta.capital/10000).toFixed(0)+'万 · NAV '+D.meta.nav.toFixed(3)+'</div>'
+      + '<div class="row">J13 LLM 助理 <span class="green">v0.1 已交付</span>：ask/review/retro/ideas/selftest · Ollama qwen2.5:7b 本地常驻</div>'
+      + '<div class="row dim">总经理=quant 专管 AI 会话 · CEO 只见决策项（RULES §4）</div>'
+      + '<div class="row dim">LLM 产物=主张非指令 · 未经人工审计不采信</div>' },
+  { id:'bunker', x:30, y:258, w:92, h:32, draw:drawBunker, label:'工程部·地下机房',
+    dept:'工程部 Engineering', mandate:'OS 循环 · 自动化开发 · 质量闸门 · 基础设施',
+    info: () => '<div class="row">安全网 smoke：<span class="'+(D.health.smoke.fail===0?'green':'red')+'">'+D.health.smoke.pass+' PASS / '+D.health.smoke.fail+' FAIL</span></div>'
+      + '<div class="row">10min 自迭代循环：Bigmoney-IterationLoop（OS 任务 · 关窗不死）</div>'
+      + '<div class="row dim">KPI：轮健康度 · 修红时延 · 交付吞吐</div>'
+      + '<div class="row dim">数据链 tick '+D.meta.generated_at+' · 开发链=firm/DEV_AUTOMATION.md</div>' },
 ];
 function findBuild(lx, ly) {
   const pad = 6;
@@ -294,7 +337,8 @@ cv.addEventListener('click', e => {
   const b = findBuild(lx, ly);
   if (!b) { $('info').style.display = 'none'; return; }
   $('i-title').textContent = '🏢 ' + b.label;
-  $('i-body').innerHTML = b.info();
+  $('i-body').innerHTML = (b.dept ? '<div class="row gold">'+b.dept+'</div>' : '')
+    + (b.mandate ? '<div class="row dim">'+b.mandate+'</div>' : '') + b.info();
   $('info').style.display = 'block';
 });
 cv.addEventListener('mousemove', e => {
