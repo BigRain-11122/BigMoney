@@ -163,23 +163,24 @@ def run(params: dict) -> dict:
 
 ---
 
-## 5. 可移植性 checklist（拷贝到新机器时）
+## 5. 可移植性 checklist（任何机器随时开工）
 
-```bash
-# 1. 拷贝整个 Bigmoney/ 文件夹
-# 2. 装 Python 3.11+
-python -m venv .venv && .venv\Scripts\activate
-pip install -r requirements.txt
+```powershell
+# 路径 A：git 同步（推荐——仓库即唯一真值源：代码+数据+成果+规则+记忆全在内）
+git clone <你的远端> Bigmoney && cd Bigmoney
+# 路径 B：拷贝整个 Bigmoney/ 文件夹（git 已跟踪内容≈105MB；Money02/、logs/、.codely-cli/ 为本机局部，不跟踪）
 
-# 3. 一键自检
-python -m smoke_test
+# 一条命令自举：依赖自装（清华镜像回退）→ 20 项自检 → 总控数据生成
+python bootstrap.py
 
-# 4. 设环境变量（Master 才需要）
+# （可选，Windows）装 10 分钟 AI 自迭代循环——路径自适应，零改动可用
+powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1
+
+# （可选）分布式 Master 才需要
 set BIGMONEY_MASTER_IP=100.x.x.x
-
-# 5. 跑
-python -m tasks.local_runner
 ```
+
+机器要求：Python 3.10+（3.11 实测）；AI 循环需装 Codely CLI 并登录；GPU 非必需（回测=CPU 任务，GPU 启用条件见 research/BACKTEST_PLAN.md §四）。
 
 ---
 
@@ -194,6 +195,9 @@ python -m tasks.local_runner
 5. `engine/backtester.py`（回测引擎接口）
 6. `engine/exit_rules.py`（持仓铁律）
 7. `knowledge/market_rules.md`（合规边界）
+8. `research/BACKTEST_PLAN.md`（算力纪律与 P1-P3 门禁链）
+9. `research/HANDOVER.md`（交接与成果清单）
+10. `Tools/iteration_prompt.txt`（当前循环 mandate）+ `logs/iteration-loop/round_reports.md`、`state.json`（OS 轮账本）
 
 **禁止**：
 - 改 `engine/exit_rules.py` 的优先级（熔断>止损>时间>兜底）
@@ -203,10 +207,12 @@ python -m tasks.local_runner
 
 ---
 
-## 7. 待办优先级（下周）
+## 7. 待办优先级（2026-09-23 更新）
 
-1. 补数据：全 A 股 ETF 池（800 只）+ 2015 年前历史
-2. 写 `smoke_test.py` 一键自检
-3. 把 CSV 数据迁到 parquet（增量更新快 10 倍）
-4. 对 35 个策略批量跑 IC，输出 `research/strategy_ic.csv`
-5. 写 Optuna 贝叶斯调参骨架
+- [x] `smoke_test.py` 一键自检（20 项，每轮循环必跑）
+- [x] 35+ 策略批量海选与排名（research/strategy_rank.csv，P1 完成）
+- [x] P2 幸存者深化（G2 门，3 交易员注册在册）
+- [ ] P3 组合验证（3 员相关性/风险预算/合并回测）——进行中
+- [ ] 纸盘首月观察（2026-10-31 首次自动晋升检查）
+- [ ] 补数据：2015 年前历史、北向资金（用户回本机后定）
+- [ ] Optuna 贝叶斯调参骨架（幸存者足够多才有意义）

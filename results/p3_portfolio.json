@@ -1,0 +1,570 @@
+{
+  "batch": "P3-portfolio-validation",
+  "generated": "2026-09-23 11:40:04",
+  "preregistered_doc": "research/portfolio_report.md (written before run)",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "history": ".. 2026-09-22"
+  },
+  "oos_start": "2025-01-01",
+  "void": false,
+  "constants": {
+    "g1_prime_i_bar": 0.3521,
+    "g1_prime_vi_bar": 0.4004,
+    "crash_year": -0.3,
+    "corr_bands": {
+      "low": "<0.60",
+      "moderate": "0.60-0.80",
+      "high": ">0.80"
+    },
+    "passive_ew48_buyhold": {
+      "full": {
+        "sharpe": 0.3004,
+        "annual_return": 0.038,
+        "max_drawdown": -0.3843
+      },
+      "oos": {
+        "sharpe": 0.7101,
+        "annual_return": 0.1202,
+        "max_drawdown": -0.1677
+      },
+      "n_trades": 0,
+      "oos_trades": 0
+    },
+    "passive_ew48_monthly": {
+      "full": {
+        "sharpe": 0.3792,
+        "annual_return": 0.0521,
+        "max_drawdown": -0.3652
+      },
+      "oos": {
+        "sharpe": 0.8051,
+        "annual_return": 0.1306,
+        "max_drawdown": -0.116
+      },
+      "n_trades": 0,
+      "oos_trades": 0
+    },
+    "note": "passive null = recorded p2_calibration constants (no rerun; this batch is measurement, members+weights pre-registered, zero new search)"
+  },
+  "members": {
+    "COMPOSITE-CE-01": {
+      "cutoff": "2026-09-22",
+      "x1": {
+        "full": {
+          "annual_return": 0.0576,
+          "sharpe": 0.8114,
+          "max_drawdown": -0.1633,
+          "win_rate": 0.616,
+          "profit_factor": 1.7164,
+          "num_trades": 474,
+          "avg_hold_days": 15.97
+        },
+        "oos": {
+          "sharpe": 1.6085,
+          "annual_return": 0.1441,
+          "max_drawdown": -0.0567
+        },
+        "n_trades": 474,
+        "oos_trades": 172
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0377,
+          "sharpe": 0.5228,
+          "max_drawdown": -0.1805,
+          "win_rate": 0.5948,
+          "profit_factor": 1.6157,
+          "num_trades": 464,
+          "avg_hold_days": 15.67
+        },
+        "oos": {
+          "sharpe": 1.2661,
+          "annual_return": 0.1234,
+          "max_drawdown": -0.0643
+        },
+        "n_trades": 464
+      },
+      "yearly_returns": {
+        "2020": 0.0126,
+        "2021": 0.0697,
+        "2022": -0.1121,
+        "2023": 0.0279,
+        "2024": 0.1536,
+        "2025": 0.1806,
+        "2026": 0.0537
+      }
+    },
+    "COMPOSITE-CE-02": {
+      "cutoff": "2026-09-22",
+      "x1": {
+        "full": {
+          "annual_return": 0.0691,
+          "sharpe": 0.6099,
+          "max_drawdown": -0.2217,
+          "win_rate": 0.6025,
+          "profit_factor": 1.6561,
+          "num_trades": 795,
+          "avg_hold_days": 15.85
+        },
+        "oos": {
+          "sharpe": 1.4853,
+          "annual_return": 0.1089,
+          "max_drawdown": -0.0361
+        },
+        "n_trades": 795,
+        "oos_trades": 275
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0489,
+          "sharpe": 0.4311,
+          "max_drawdown": -0.2531,
+          "win_rate": 0.5929,
+          "profit_factor": 1.5488,
+          "num_trades": 791,
+          "avg_hold_days": 15.83
+        },
+        "oos": {
+          "sharpe": 1.1075,
+          "annual_return": 0.0885,
+          "max_drawdown": -0.0437
+        },
+        "n_trades": 791
+      },
+      "yearly_returns": {
+        "2020": 0.0209,
+        "2021": 0.0547,
+        "2022": 0.0028,
+        "2023": 0.0553,
+        "2024": 0.122,
+        "2025": 0.1282,
+        "2026": 0.0444
+      }
+    },
+    "VOLATILITY-CE-01": {
+      "cutoff": "2026-09-22",
+      "x1": {
+        "full": {
+          "annual_return": 0.0307,
+          "sharpe": 1.2578,
+          "max_drawdown": -0.0378,
+          "win_rate": 0.5747,
+          "profit_factor": 1.9024,
+          "num_trades": 522,
+          "avg_hold_days": 15.24
+        },
+        "oos": {
+          "sharpe": 2.0568,
+          "annual_return": 0.0424,
+          "max_drawdown": -0.009
+        },
+        "n_trades": 522,
+        "oos_trades": 147
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0134,
+          "sharpe": 0.5338,
+          "max_drawdown": -0.0652,
+          "win_rate": 0.5498,
+          "profit_factor": 1.6368,
+          "num_trades": 522,
+          "avg_hold_days": 15.24
+        },
+        "oos": {
+          "sharpe": 1.1659,
+          "annual_return": 0.0264,
+          "max_drawdown": -0.0143
+        },
+        "n_trades": 522
+      },
+      "yearly_returns": {
+        "2020": 0.049,
+        "2021": 0.0087,
+        "2022": -0.0123,
+        "2023": 0.0352,
+        "2024": 0.0481,
+        "2025": 0.041,
+        "2026": 0.0265
+      }
+    }
+  },
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_is": {
+        "sharpe": 0.4514,
+        "annual_return": 0.0283,
+        "max_drawdown": -0.1633,
+        "trades": 302
+      },
+      "got_oos": {
+        "sharpe": 1.6085,
+        "annual_return": 0.1441,
+        "max_drawdown": -0.0567,
+        "trades": 172
+      },
+      "got_x2_full": 0.5228,
+      "got_x2_oos": 1.2661,
+      "want_x2_full": 0.5228,
+      "want_x2_oos": 1.2661
+    },
+    "COMPOSITE-CE-02": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_is": {
+        "sharpe": 0.4585,
+        "annual_return": 0.0544,
+        "max_drawdown": -0.2217,
+        "trades": 520
+      },
+      "got_oos": {
+        "sharpe": 1.4853,
+        "annual_return": 0.1089,
+        "max_drawdown": -0.0361,
+        "trades": 275
+      },
+      "got_x2_full": 0.4311,
+      "got_x2_oos": 1.1075,
+      "want_x2_full": 0.4311,
+      "want_x2_oos": 1.1075
+    },
+    "VOLATILITY-CE-01": {
+      "anchor_ok": true,
+      "x2_ok": true,
+      "got_is": {
+        "sharpe": 1.0275,
+        "annual_return": 0.0262,
+        "max_drawdown": -0.0378,
+        "trades": 375
+      },
+      "got_oos": {
+        "sharpe": 2.0568,
+        "annual_return": 0.0424,
+        "max_drawdown": -0.009,
+        "trades": 147
+      },
+      "got_x2_full": 0.5338,
+      "got_x2_oos": 1.1659,
+      "want_x2_full": 0.5338,
+      "want_x2_oos": 1.1659
+    }
+  },
+  "correlation": {
+    "full": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.48,
+          "VOLATILITY-CE-01": 0.3459
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.48,
+          "COMPOSITE-CE-02": 1.0,
+          "VOLATILITY-CE-01": 0.2492
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.3459,
+          "COMPOSITE-CE-02": 0.2492,
+          "VOLATILITY-CE-01": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.48,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.3459,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.2492
+      },
+      "avg_pairwise": 0.3584,
+      "band": "low"
+    },
+    "is": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.4242,
+          "VOLATILITY-CE-01": 0.3357
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.4242,
+          "COMPOSITE-CE-02": 1.0,
+          "VOLATILITY-CE-01": 0.2187
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.3357,
+          "COMPOSITE-CE-02": 0.2187,
+          "VOLATILITY-CE-01": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.4242,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.3357,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.2187
+      },
+      "avg_pairwise": 0.3262,
+      "band": "low"
+    },
+    "oos": {
+      "matrix": {
+        "COMPOSITE-CE-01": {
+          "COMPOSITE-CE-01": 1.0,
+          "COMPOSITE-CE-02": 0.8687,
+          "VOLATILITY-CE-01": 0.4023
+        },
+        "COMPOSITE-CE-02": {
+          "COMPOSITE-CE-01": 0.8687,
+          "COMPOSITE-CE-02": 1.0,
+          "VOLATILITY-CE-01": 0.4717
+        },
+        "VOLATILITY-CE-01": {
+          "COMPOSITE-CE-01": 0.4023,
+          "COMPOSITE-CE-02": 0.4717,
+          "VOLATILITY-CE-01": 1.0
+        }
+      },
+      "pairs": {
+        "COMPOSITE-CE-01|COMPOSITE-CE-02": 0.8687,
+        "COMPOSITE-CE-01|VOLATILITY-CE-01": 0.4023,
+        "COMPOSITE-CE-02|VOLATILITY-CE-01": 0.4717
+      },
+      "avg_pairwise": 0.5809,
+      "band": "low"
+    }
+  },
+  "portfolios": {
+    "EW_x1": {
+      "scheme": "EW",
+      "cost_mult": 1,
+      "weights": {
+        "COMPOSITE-CE-01": 0.333333,
+        "COMPOSITE-CE-02": 0.333333,
+        "VOLATILITY-CE-01": 0.333333
+      },
+      "full": {
+        "sharpe": 0.9229,
+        "annual_return": 0.0531,
+        "max_drawdown": -0.1247
+      },
+      "oos": {
+        "sharpe": 1.7334,
+        "annual_return": 0.0996,
+        "max_drawdown": -0.0261
+      },
+      "n_trades": 1791,
+      "yearly": {
+        "2020": 0.0275,
+        "2021": 0.044,
+        "2022": -0.0408,
+        "2023": 0.04,
+        "2024": 0.1069,
+        "2025": 0.1174,
+        "2026": 0.0423
+      },
+      "worst_year": -0.0408,
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": true
+      },
+      "member_sharpes": {
+        "COMPOSITE-CE-01": 0.8114,
+        "COMPOSITE-CE-02": 0.6099,
+        "VOLATILITY-CE-01": 1.2578
+      },
+      "weighted_mean_member_sharpe": 0.893,
+      "benefit": 0.0299,
+      "dr": 1.0334,
+      "x2_survive": true,
+      "validated": true
+    },
+    "EW_x2": {
+      "scheme": "EW",
+      "cost_mult": 2,
+      "weights": {
+        "COMPOSITE-CE-01": 0.333333,
+        "COMPOSITE-CE-02": 0.333333,
+        "VOLATILITY-CE-01": 0.333333
+      },
+      "full": {
+        "sharpe": 0.5754,
+        "annual_return": 0.0339,
+        "max_drawdown": -0.1507
+      },
+      "oos": {
+        "sharpe": 1.2828,
+        "annual_return": 0.0803,
+        "max_drawdown": -0.0297
+      },
+      "n_trades": 1777,
+      "yearly": {
+        "2020": 0.0208,
+        "2021": 0.016,
+        "2022": -0.0575,
+        "2023": 0.0214,
+        "2024": 0.0844,
+        "2025": 0.1007,
+        "2026": 0.0269
+      },
+      "worst_year": -0.0575
+    },
+    "IV_x1": {
+      "scheme": "IV",
+      "cost_mult": 1,
+      "weights": {
+        "COMPOSITE-CE-01": 0.24250806291972876,
+        "COMPOSITE-CE-02": 0.12143197176271885,
+        "VOLATILITY-CE-01": 0.6360599653175524
+      },
+      "full": {
+        "sharpe": 1.1726,
+        "annual_return": 0.0425,
+        "max_drawdown": -0.0801
+      },
+      "oos": {
+        "sharpe": 1.9733,
+        "annual_return": 0.0765,
+        "max_drawdown": -0.0169
+      },
+      "n_trades": 1791,
+      "yearly": {
+        "2020": 0.0368,
+        "2021": 0.0287,
+        "2022": -0.0351,
+        "2023": 0.0361,
+        "2024": 0.0815,
+        "2025": 0.0865,
+        "2026": 0.0362
+      },
+      "worst_year": -0.0351,
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": true
+      },
+      "member_sharpes": {
+        "COMPOSITE-CE-01": 0.8114,
+        "COMPOSITE-CE-02": 0.6099,
+        "VOLATILITY-CE-01": 1.2578
+      },
+      "weighted_mean_member_sharpe": 1.0709,
+      "benefit": 0.1017,
+      "dr": 1.095,
+      "x2_survive": true,
+      "validated": true
+    },
+    "IV_x2": {
+      "scheme": "IV",
+      "cost_mult": 2,
+      "weights": {
+        "COMPOSITE-CE-01": 0.24250806291972876,
+        "COMPOSITE-CE-02": 0.12143197176271885,
+        "VOLATILITY-CE-01": 0.6360599653175524
+      },
+      "full": {
+        "sharpe": 0.6461,
+        "annual_return": 0.0242,
+        "max_drawdown": -0.1011
+      },
+      "oos": {
+        "sharpe": 1.3848,
+        "annual_return": 0.0586,
+        "max_drawdown": -0.0199
+      },
+      "n_trades": 1777,
+      "yearly": {
+        "2020": 0.0251,
+        "2021": 0.0054,
+        "2022": -0.0529,
+        "2023": 0.0192,
+        "2024": 0.0623,
+        "2025": 0.0702,
+        "2026": 0.0226
+      },
+      "worst_year": -0.0529
+    }
+  },
+  "verdict": {
+    "template": "P3 one-shot (pre-registered; EW=primary carrier)",
+    "void": false,
+    "corr_band_full": "low",
+    "ew_validated": true,
+    "ew_clauses": {
+      "i_beats_rand_p95": true,
+      "ii_ann_pos": true,
+      "iii_dd_ok": true,
+      "iv_trades_ok": true,
+      "v_oos_ok": true,
+      "vi_beats_passive": true
+    },
+    "ew_benefit": 0.0299,
+    "ew_dr": 1.0334,
+    "ew_x2_survive": true,
+    "ew_worst_year": -0.0408,
+    "iv_validated": true,
+    "iv_clauses": {
+      "i_beats_rand_p95": true,
+      "ii_ann_pos": true,
+      "iii_dd_ok": true,
+      "iv_trades_ok": true,
+      "v_oos_ok": true,
+      "vi_beats_passive": true
+    },
+    "iv_benefit": 0.1017,
+    "iv_x2_survive": true,
+    "iv_worst_year": -0.0351,
+    "fail_branch": null
+  },
+  "trials_ledger": [
+    {
+      "batch": "432-MA-param-grid (pre-plan)",
+      "n": 432
+    },
+    {
+      "batch": "J6-factor-IC-study",
+      "n": 30
+    },
+    {
+      "batch": "P1-strategy-screen",
+      "n": 59
+    },
+    {
+      "batch": "P2-null-calibration",
+      "n": 122
+    },
+    {
+      "batch": "P2-survivor-deepening",
+      "n": 27
+    },
+    {
+      "batch": "J14-low-churn-family",
+      "n": 26
+    },
+    {
+      "batch": "J15-combined-exit-softening",
+      "n": 12
+    },
+    {
+      "batch": "J19-ce-transfer",
+      "n": 9
+    },
+    {
+      "batch": "P3-portfolio-validation",
+      "n": 10,
+      "note": "6 engine member runs (anchor-cum-sleeve) + 4 portfolio evaluations (derived, non-engine)"
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 4.5,
+    "n_backtests": 6,
+    "n_portfolio_evals": 4,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}

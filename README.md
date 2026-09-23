@@ -82,23 +82,17 @@ Master (笔记本) 100.x.x.x ── Redis :6379 (bind Tailscale only)
 
 实盘券商 API 走公网直连，**不经过 Tailscale**；交易指令仅 Master 本机生成。
 
-## 快速开始（单机无 Redis 验证）
+## 快速开始（任何机器，一条命令）
 
 ```powershell
-# 1. 安装依赖
-python -m pip install -r requirements.txt
-
-# 2. 放数据：data/daily/<SYMBOL>.csv（已就绪）
-
-# 3. 本地多进程跑全部 432 组参数（无需 Redis）
-python -m tasks.local_runner
-
-# 4. 因子 IC 分析
-python scripts/factor_ic.py
-
-# 5. 筛选排名
-python -m screening.rank
+# 1. clone 或拷贝本文件夹到新机器（git 已跟踪≈105MB：代码+数据+成果+规则+记忆）
+# 2. 一条命令自举：依赖自装（清华镜像回退）→ 20 项自检 → 总控数据生成
+python bootstrap.py
+# 3. 打开总控 bigmoney.html；（可选，Windows）装 10 分钟 AI 自迭代循环（路径自适应零改动）：
+powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1
 ```
+
+常用命令：`python -m tasks.local_runner`（432 组回测）｜`python scripts\ce_transfer.py`（复现 CE 迁移）｜`python -m screening.rank`（排名重建）｜交接指南=`research/HANDOVER.md`
 
 ## 当前状态
 
