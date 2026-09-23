@@ -31,6 +31,12 @@ Contract:
     --no-paper skips the hook.
   - status log: results/update_status.json (per-symbol rows appended,
     overlap mismatches, failures, totals) for ops/dashboard reads.
+  - single assembly (T-04 F1): the status file is written ONCE, after
+    the paper hook, by main() -- it always carries exit_code + hook_ok
+    (+ hook_exit, cutoff_error). Staged .tmp + os.replace, atomic.
+  - single-instance lock (T-04 F1): logs/update_daily.lock PID lockfile;
+    a second live instance exits 0 without touching data. Stale PID is
+    reclaimed (dead-PID check; age > LOCK_STALE_AGE fallback).
 
 Exit codes: 0 ok | 1 selftest fail | 2 symbol fetch failure |
 3 paper hook failed (anchor drift or crash -- NEVER silenced).
@@ -58,6 +64,107 @@ CLOSE_ACCEPT_TIME = dt.time(15, 30)      # today's bar only after market close
 PROBE_SYMBOL = "510300"                  # liquid SSE ETF, calendar proxy
 FETCH_SLEEP = 0.3                        # rate limit, mirrors download_etf.py
 STATUS_PATH = os.path.join(PATHS.results_dir, "update_status.json")
+LOCK_PATH = os.path.join(PATHS.root, "logs", "update_daily.lock")
+LOCK_STALE_AGE = 30 * 60        # belt-and-braces reclaim behind the PID check
+
+
+def _pid_alive(pid: int) -> bool:
+    """True if `pid` names a live process. Windows: kernel32 OpenProcess +
+    WaitForSingleObject (WAIT_TIMEOUT == still running); a re-openable but
+    terminated process reports WAIT_OBJECT_0 -> dead. POSIX: os.kill(pid, 0).
+    ACCESS_DENIED on Windows means the process exists (elevated) -> alive."""
+    if not pid or pid < 1:
+        return False
+    if os.name == "nt":
+        try:
+            import ctypes
+            k32 = ctypes.WinDLL("kernel32", use_last_error=True)
+            h = k32.OpenProcess(0x00100000, False, pid)  # SYNCHRONIZE
+            if not h:
+                # 5 == ACCESS_DENIED: exists but elevated -> alive
+                return ctypes.get_last_error() == 5
+            try:
+                rc = k32.WaitForSingleObject(h, 0)
+                return rc == 258  # WAIT_TIMEOUT
+            finally:
+                k32.CloseHandle(h)
+        except Exception:  # noqa: BLE001 -- never fatal
+            return False
+    try:
+        os.kill(pid, 0)
+        return True
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    except OSError:
+        return False
+
+
+def acquire_lock(path: str) -> bool:
+    """PID lockfile with stale-PID reclaim (round.lock precedent). True if
+    we hold the lock; False if another live instance holds it. A confirmed
+    dead PID is reclaimed at any age; an unparseable lock is only reclaimed
+    once older than LOCK_STALE_AGE (conservative stand-down while fresh)."""
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    if os.path.exists(path):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                other = int(fh.read().strip() or 0)
+        except (OSError, ValueError):
+            other = 0
+        age = dt.datetime.now().timestamp() - os.path.getmtime(path)
+        if other and _pid_alive(other):
+            return False
+        if not other and age < LOCK_STALE_AGE:
+            return False  # unparseable + fresh: be conservative, stand down
+        # dead pid -> reclaim below
+    with open(path, "w", encoding="utf-8") as fh:
+        fh.write(str(os.getpid()))
+    return True
+
+
+def release_lock(path: str) -> None:
+    try:
+        if os.path.exists(path):
+            os.remove(path)
+    except OSError:
+        pass
+
+
+def _write_status_atomic(summary: dict, path: str | None = None) -> None:
+    """Status log write: staged .tmp + os.replace (crash never leaves a
+    half-written JSON behind). Optional `path` for selftest isolation."""
+    path = path or STATUS_PATH
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(summary, fh, indent=2, ensure_ascii=False)
+    os.replace(tmp, path)
+
+
+def _pool_cutoff(files: list) -> tuple:
+    """Post-update max last date across the pool. Returns (cutoff, error);
+    error is recorded, NEVER silently swallowed (T-04 F8)."""
+    try:
+        lasts = []
+        for p in files:
+            old = load_existing(p)
+            lasts.append(str(old["date"].iloc[-1]))
+        return max(lasts), None
+    except Exception as e:  # noqa: BLE001 -- field, not silence
+        return None, f"{type(e).__name__}: {e}"
+
+
+def _finalize_summary(summary: dict, exit_code: int,
+                       hook_ok, hook_exit) -> dict:
+    """Single status assembly (T-04 F1): everything the ops reader needs is
+    merged here, once, right before the atomic write. hook_ok is None when
+    the hook did not run (--no-paper or 0 new rows)."""
+    summary["exit_code"] = exit_code
+    summary["hook_ok"] = hook_ok
+    summary["hook_exit"] = hook_exit
+    return summary
 
 
 def to_sina_symbol(code: str) -> str:
@@ -177,17 +284,9 @@ def run_update(now: dt.datetime | None = None, fetcher=None) -> dict:
                                if r.get("overlap_mismatch")],
         "data_cutoff": None, "per_symbol": results,
     }
-    # data cutoff = max last date across the pool (post-update read)
-    try:
-        lasts = []
-        for p in files:
-            old = load_existing(p)
-            lasts.append(str(old["date"].iloc[-1]))
-        summary["data_cutoff"] = max(lasts)
-    except Exception:  # noqa: BLE001 -- status log must never crash the run
-        pass
-    with open(STATUS_PATH, "w", encoding="utf-8") as fh:
-        json.dump(summary, fh, indent=2, ensure_ascii=False)
+    # data cutoff = max last date across the pool (post-update read);
+    # read failure is recorded in the status, never swallowed (F8)
+    summary["data_cutoff"], summary["cutoff_error"] = _pool_cutoff(files)
     return summary
 
 
@@ -269,6 +368,47 @@ def selftest() -> bool:
         print("  [updater] overlap-mismatch flag, no history rewrite... "
               + ("PASS" if c else "FAIL"))
 
+        # E: _pool_cutoff -- read failure recorded, never swallowed (F8)
+        e = _pool_cutoff([os.path.join(td, "nope.csv")])
+        e_ok = (e[0] is None and isinstance(e[1], str) and bool(e[1]))
+        e = _pool_cutoff([p, p2])   # both end 2026-09-23 in sandbox
+        e_ok &= (e[0] == "2026-09-23" and e[1] is None)
+        ok &= e_ok
+        print("  [updater] pool cutoff error field... "
+              + ("PASS" if e_ok else "FAIL"))
+
+        # F: single assembly + atomic status write (F1)
+        sm = {"updated": "x", "total_new_rows": 3}
+        _finalize_summary(sm, exit_code=3, hook_ok=False, hook_exit=1)
+        st_path = os.path.join(td, "update_status.json")
+        _write_status_atomic(sm, st_path)
+        back = json.load(open(st_path, encoding="utf-8"))
+        f_ok = (back["exit_code"] == 3 and back["hook_ok"] is False
+                and back["hook_exit"] == 1
+                and not os.path.exists(st_path + ".tmp"))
+        _finalize_summary(sm, 0, None, None)
+        f_ok &= sm["hook_ok"] is None and sm["exit_code"] == 0
+        ok &= f_ok
+        print("  [updater] single assembly + atomic status write... "
+              + ("PASS" if f_ok else "FAIL"))
+
+        # G: PID lockfile -- mutual exclusion + stale-PID reclaim (F1)
+        lk = os.path.join(td, "update_daily.lock")
+        g_ok = acquire_lock(lk) is True
+        g_ok &= acquire_lock(lk) is False      # our own pid is alive -> busy
+        release_lock(lk)
+        g_ok &= not os.path.exists(lk)
+        g_ok &= acquire_lock(lk) is True
+        with open(lk, "w", encoding="utf-8") as fh:   # stale holder: bogus pid
+            fh.write("4000000")
+        g_ok &= acquire_lock(lk) is True      # dead pid -> reclaimed
+        g_ok &= _pid_alive(os.getpid()) is True
+        g_ok &= _pid_alive(0) is False and _pid_alive(-1) is False
+        release_lock(lk)
+        ok &= g_ok
+        print("  [updater] PID lock + stale reclaim... "
+              + ("PASS" if g_ok else "FAIL"))
+
     # D: source parity on real data (network; SKIP if unreachable)
     try:
         hist = fetch_history(PROBE_SYMBOL)
@@ -298,26 +438,47 @@ def main(argv=None) -> int:
     print(f"=== Bigmoney daily update {time.strftime('%Y-%m-%d %H:%M:%S')} ===")
     print(f"core pool: {len(core_files())} CSVs | "
           f"today-bar guard: >= {CLOSE_ACCEPT_TIME}")
-    summary = run_update(now)
-    print(f"new rows: {summary['total_new_rows']} | "
-          f"failures: {len(summary['failures'])} | "
-          f"overlap_mismatch: {summary['overlap_mismatches']} | "
-          f"data cutoff: {summary['data_cutoff']}")
-    if summary['overlap_mismatches']:
-        print(f"WARNING: source history changed for "
-              f"{summary['overlap_mismatches']} -- history NOT rewritten; "
-              f"live.paper anchor gate will abort if evidence drifted")
-    exit_code = 0
-    if summary["failures"]:
-        exit_code = 2
-    if summary["total_new_rows"] > 0 and "--no-paper" not in argv:
-        if paper_hook() != 0:
-            print("paper hook FAILED -- anchor drift or crash (never silenced)")
-            exit_code = 3
-    with open(STATUS_PATH, "w", encoding="utf-8") as fh:
-        json.dump(summary, fh, indent=2, ensure_ascii=False)
-    print(f"status -> {STATUS_PATH}")
-    return exit_code
+    if not acquire_lock(LOCK_PATH):
+        print("another live update_daily instance holds the lock -> stand down")
+        return 0
+    try:
+        summary = run_update(now)
+        print(f"new rows: {summary['total_new_rows']} | "
+              f"failures: {len(summary['failures'])} | "
+              f"overlap_mismatch: {summary['overlap_mismatches']} | "
+              f"data cutoff: {summary['data_cutoff']}")
+        if summary["overlap_mismatches"]:
+            print(f"WARNING: source history changed for "
+                  f"{summary['overlap_mismatches']} -- history NOT rewritten; "
+                  f"live.paper anchor gate will abort if evidence drifted")
+        exit_code = 0
+        if summary["failures"]:
+            exit_code = 2
+        hook_ok, hook_exit = None, None
+        if summary["total_new_rows"] > 0 and "--no-paper" not in argv:
+            hook_exit = paper_hook()
+            hook_ok = hook_exit == 0
+            if hook_exit != 0:
+                print("paper hook FAILED -- anchor drift or crash "
+                      "(never silenced)")
+                exit_code = 3
+        # single assembly, single atomic write (T-04 F1): the on-disk
+        # status ALWAYS carries the exit code + hook verdict
+        _finalize_summary(summary, exit_code, hook_ok, hook_exit)
+        _write_status_atomic(summary)
+        print(f"status -> {STATUS_PATH}")
+        return exit_code
+    except Exception as e:  # noqa: BLE001 -- status log must never crash the run
+        emergency = {"updated": time.strftime("%Y-%m-%d %H:%M:%S"),
+                     "now": str(now), "run_error": f"{type(e).__name__}: {e}",
+                     "exit_code": 1, "hook_ok": None, "hook_exit": None}
+        try:
+            _write_status_atomic(emergency)
+        except Exception:  # noqa: BLE001 -- best effort
+            pass
+        raise
+    finally:
+        release_lock(LOCK_PATH)
 
 
 if __name__ == "__main__":
