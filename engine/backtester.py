@@ -10,7 +10,7 @@ import numpy as np
 import pandas as pd
 
 from .exit_rules import ExitConfig, ExitState, evaluate
-from .metrics import summarize
+from .metrics import summarize, win_rate, profit_factor
 from knowledge.rules import (
     FeeSchedule, is_t0,
     ADV20_TIER_2BP_YUAN, ADV20_TIER_5BP_YUAN, ADV_FILL_CAP_RATE,
@@ -72,10 +72,35 @@ def run_backtest(prices: dict, params: dict,
     dropped; missing ADV -> no cap, counted). Exits keep the tiered rate but
     are NOT quantity-capped (exit machine owns sizing via close_fraction).
     Basis + counters are disclosed in result["cost_v2"] (key absent when off).
+
+    T-03 engine-integrity additive flags (AUDIT-20260923 P0-2/3/4, P1-1/2/3;
+    task T-2026-09-23-03). ALL flags default OFF/absent -> legacy path
+    byte-identical (engine additive iron rule). New metrics use NEW field
+    names; historical keys are never overwritten:
+      trade_pnl_mode="full"   -> per-trade pnl_full charges BUY-side cost
+                                 (legacy 'pnl' omits it, ~13bp/trade, P0-2);
+                                 metrics gain win_rate_full/profit_factor_full/
+                                 avg_pnl_full.
+      strict_open_fills=True   -> fills require a REAL bar that day, not an
+                                 ffilled stale price (P0-3): pending entries on
+                                 suspension days are DROPPED (fill_guard
+                                 precedent); exits on stale closes are DEFERRED
+                                 to the next real close.
+      stale_mark_tag=True      -> mark-to-market on ffilled close is flagged;
+                                 metrics gain stale_mark_days + sharpe_ex_stale
+                                 (stale-end days excluded, P0-4).
+      sizing_mode="equity_fraction" -> target_value = (cash+pos_val)*pct at
+                                 execution instead of initial_cash*pct (P1-1).
+      report_num_entries=True  -> metrics gain num_entries (distinct position
+                                 opens) alongside num_trades (tranche count,
+                                 P1-3 layered take-profit padding).
+      params["trailing_lock"]/["initial_stop"] -> exposed via ExitConfig (P1-2).
     """
     cfg = ExitConfig(
         take_profit_levels=tuple(params.get("take_profit_levels", (0.05, 0.10, 0.20))),
         trailing_activate=params.get("trailing_stop_activate", 0.05),
+        trailing_lock=params.get("trailing_lock", 0.01),   # T-03-F5 exposed (default = ExitConfig legacy)
+        initial_stop=params.get("initial_stop", -0.08),   # T-03-F5 exposed (default = ExitConfig legacy)
         time_decay_period=params.get("time_decay_period", 12),
         time_decay_threshold=params.get("time_decay_threshold", 0.02),
         position_size_pct=params.get("position_size_pct", 0.10),
@@ -84,15 +109,34 @@ def run_backtest(prices: dict, params: dict,
     fee = FeeSchedule()
     cost_rate = fee.commission_rate + fee.handling_fee + fee.supervision_fee + fee.slippage_a
 
+    # T-03 additive flags: defaults keep the legacy path byte-identical.
+    strict_fills = bool(params.get("strict_open_fills", False))
+    stale_marks = bool(params.get("stale_mark_tag", False))
+    trade_pnl_mode = params.get("trade_pnl_mode", "legacy")
+    sizing_mode = params.get("sizing_mode", "fixed_initial")
+    report_num_entries = bool(params.get("report_num_entries", False))
+
     # align all symbols on common trading calendar
     closes = pd.DataFrame({sym: df["close"] for sym, df in prices.items()}).sort_index()
     opens = pd.DataFrame({sym: df["open"] for sym, df in prices.items()}).sort_index()
+    # T-03-F2: real-bar masks captured BEFORE ffill (suspension gaps ARE the
+    # ffilled cells). Consumed only when strict/stale flags are ON.
+    if strict_fills or stale_marks:
+        col_pos = {sym: j for j, sym in enumerate(closes.columns)}
+        real_close_mask = (~closes.isna()).to_numpy()
+        real_open_mask = (~opens.isna()).to_numpy() if strict_fills else None
+    else:
+        col_pos = None
+        real_close_mask = None
+        real_open_mask = None
     closes = closes.ffill()
     opens = opens.ffill()
 
     cash = initial_cash
     positions: dict[str, ExitState] = {}
     trades: list[dict] = []
+    num_entries = 0                   # T-03-F6: distinct position opens
+    stale_flags: list[bool] = []      # T-03-F2: per-day stale-mark day flag (flag ON only)
     equity_curve: list[float] = []
     dates = closes.index
 
@@ -163,6 +207,13 @@ def run_backtest(prices: dict, params: dict,
         a = arrs.get(sym)
         return True if a is None else bool(a[i])
 
+    def _real_bar(mask, sym: str, i: int) -> bool:
+        # T-03-F2: was there a REAL (non-ffilled) bar for sym on day i?
+        if mask is None:
+            return True
+        j = col_pos.get(sym)
+        return True if j is None else bool(mask[i][j])
+
     # pending entries: signal fired at day T, execute at day T+1 open
     pending_entries: dict[str, dict] = {}
     # sell-deferral book (P4-B2): sym -> stored ExitAction awaiting a fillable close
@@ -186,51 +237,56 @@ def run_backtest(prices: dict, params: dict,
                 # limit-up) -> order dropped, not retried on stale signal.
                 del pending_entries[sym]
                 continue
-            if tier_v2 is None:
-                # legacy path (verbatim, byte-identical when flag off)
+            if strict_fills and not _real_bar(real_open_mask, sym, i):
+                # T-03-F2 strict_open_fills: suspension day (ffilled stale
+                # open, no real bar) -> cannot fill; drop the pending order.
+                del pending_entries[sym]
+                continue
+            if sizing_mode == "equity_fraction":
+                # T-03-F4: target as a fraction of CURRENT equity (cash +
+                # positions marked at today's open) instead of frozen initial.
+                pos_val_now = sum(st.quantity * row_open[s]
+                                  for s, st in positions.items() if s in row_open)
+                target_value = (cash + pos_val_now) * cfg.position_size_pct
+            else:
                 target_value = initial_cash * cfg.position_size_pct
-                qty = target_value / px
-                total_cost = px * qty * (1 + cost_rate)
-                if total_cost > cash:
+            if tier_v2 is None:
+                rate_buy = cost_rate   # legacy path (identical arithmetic)
+            else:
+                # --- D5 cost-v2 entry path ---
+                cap_i = float(cap_v2.at[date, sym])
+                tier_i = float(tier_v2.at[date, sym])
+                if not np.isfinite(cap_i):
+                    # missing ADV: conservative 10bp slippage (= legacy), no cap
+                    stats_v2["missing_adv_executions"] += 1
+                elif cap_i <= 0:
+                    # zero/negative ADV(20d): no measurable liquidity -> dropped
+                    del pending_entries[sym]
+                    stats_v2["dropped_zero_adv"] += 1
                     continue
-                cash -= total_cost
-                positions[sym] = ExitState(
-                    cost_price=px, quantity=qty, high_watermark=px,
-                )
-                del pending_entries[sym]
-                continue
-            # --- D5 cost-v2 entry path ---
-            target_value = initial_cash * cfg.position_size_pct
-            cap_i = float(cap_v2.at[date, sym])
-            tier_i = float(tier_v2.at[date, sym])
-            if not np.isfinite(cap_i):
-                # missing ADV: conservative 10bp slippage (= legacy), no cap
-                stats_v2["missing_adv_executions"] += 1
-            elif cap_i <= 0:
-                # zero/negative ADV(20d): no measurable liquidity -> dropped
-                del pending_entries[sym]
-                stats_v2["dropped_zero_adv"] += 1
-                continue
-            elif cap_i < target_value:
-                # D5 volume constraint: demand > 1% ADV -> excess unfilled
-                target_value = cap_i
-                stats_v2["capped_entries"] += 1
-            rate_buy = (fee.commission_rate + fee.handling_fee
-                        + fee.supervision_fee + tier_i)
+                elif cap_i < target_value:
+                    # D5 volume constraint: demand > 1% ADV -> excess unfilled
+                    target_value = cap_i
+                    stats_v2["capped_entries"] += 1
+                rate_buy = (fee.commission_rate + fee.handling_fee
+                            + fee.supervision_fee + tier_i)
+
             qty = target_value / px
             total_cost = px * qty * (1 + rate_buy)
             if total_cost > cash:
                 continue
             cash -= total_cost
-            if tier_i == SLIPPAGE_TIER_2BP:
-                stats_v2["tier_entries_2bp"] += 1
-            elif tier_i == SLIPPAGE_TIER_5BP:
-                stats_v2["tier_entries_5bp"] += 1
-            else:
-                stats_v2["tier_entries_10bp"] += 1
+            if tier_v2 is not None:
+                if tier_i == SLIPPAGE_TIER_2BP:
+                    stats_v2["tier_entries_2bp"] += 1
+                elif tier_i == SLIPPAGE_TIER_5BP:
+                    stats_v2["tier_entries_5bp"] += 1
+                else:
+                    stats_v2["tier_entries_10bp"] += 1
             positions[sym] = ExitState(
                 cost_price=px, quantity=qty, high_watermark=px,
             )
+            num_entries += 1
             del pending_entries[sym]
 
         # 1) manage open positions at today's CLOSE
@@ -257,6 +313,13 @@ def run_backtest(prices: dict, params: dict,
                     deferred_exits[sym] = action
                     st.hold_days += 1
                     continue
+                if strict_fills and not _real_bar(real_close_mask, sym, i):
+                    # T-03-F2 strict_open_fills: suspension day (ffilled
+                    # stale close) -> cannot trade; defer with the ORIGINAL
+                    # action until the first real-bar close.
+                    deferred_exits[sym] = action
+                    st.hold_days += 1
+                    continue
                 qty = st.quantity * action.close_fraction
                 gross = qty * px
                 if tier_v2 is None:
@@ -277,6 +340,14 @@ def run_backtest(prices: dict, params: dict,
                     "pnl_rate": round(pnl_rate, 4),
                     "hold_days": st.hold_days,
                 })
+                if trade_pnl_mode == "full":
+                    # T-03-F1: honest per-trade pnl incl. the BUY-side cost
+                    # (legacy 'pnl' above omits it -- audit P0-2, ~13bp/trade;
+                    # applies to every tranche scale-out on its closed qty).
+                    trades[-1]["pnl_full"] = round(
+                        (px - st.cost_price) * qty
+                        - gross * cost_rate
+                        - st.cost_price * qty * cost_rate, 2)
                 if action.close_fraction >= 1.0:
                     del positions[sym]
                 else:
@@ -296,10 +367,47 @@ def run_backtest(prices: dict, params: dict,
         # 3) mark-to-market
         pos_val = sum(st.quantity * row_close[sym]
                       for sym, st in positions.items() if sym in row_close)
+        if stale_marks:
+            # T-03-F2 stale_mark_tag: a day is stale-marked when ANY held
+            # position is marked at an ffilled (non-real) close.
+            stale_today = False
+            for sym in positions:
+                j = col_pos.get(sym)
+                if j is not None and not bool(real_close_mask[i][j]):
+                    stale_today = True
+                    break
+            stale_flags.append(stale_today)
         equity_curve.append(cash + pos_val)
 
     equity = pd.Series(equity_curve, index=dates[:len(equity_curve)])
     metrics = summarize(equity, trades)
+    if trade_pnl_mode == "full":
+        # T-03-F1: full-cost per-trade stats under NEW field names only
+        # (legacy win_rate/profit_factor keys untouched).
+        pnls_full = [t["pnl_full"] for t in trades]
+        metrics.update({
+            "win_rate_full": round(win_rate(pnls_full), 4),
+            "profit_factor_full": round(profit_factor(pnls_full), 4),
+            "avg_pnl_full": round(float(np.mean(pnls_full)) if pnls_full else 0.0, 2),
+        })
+    if report_num_entries:
+        # T-03-F6: dual-basis trade count (num_trades counts tranches;
+        # num_entries counts distinct position opens).
+        metrics["num_entries"] = num_entries
+    if stale_marks:
+        # T-03-F2: NEW Sharpe field excluding stale-marked end-days.
+        rets = equity.pct_change().tolist()
+        kept = [r for k, r in enumerate(rets) if k >= 1 and not stale_flags[k]]
+        if len(kept) >= 2:
+            m = sum(kept) / len(kept)
+            sd = (sum((r - m) ** 2 for r in kept) / (len(kept) - 1)) ** 0.5
+            sharpe_ex = (m / sd) * (252 ** 0.5) if sd > 0 else 0.0
+        else:
+            sharpe_ex = 0.0
+        metrics.update({
+            "stale_mark_days": int(sum(1 for f in stale_flags if f)),
+            "sharpe_ex_stale": round(sharpe_ex, 4),
+        })
     result = {
         "metrics": metrics,
         "trades": trades,

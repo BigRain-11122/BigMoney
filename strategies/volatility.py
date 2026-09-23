@@ -22,8 +22,15 @@ def low_vol_long(close: pd.DataFrame, n: int = 60, top_k: int = 5,
 
 def vol_target(close: pd.Series, target_vol: float = 0.15,
                n: int = 20) -> pd.Series:
-    """Scale position by inverse vol."""
-    rv = close.pct_change().rolling(n).std() * np.sqrt(252)
+    """Scale position by inverse vol.
+
+    T-03-F7 (audit P1-5): zero realized vol now maps to NaN (was division by
+    zero -> inf, then clip -> dirty 1.0/-inf targets). NaN signal = flat in
+    the engine (truthy mask). Output differs from legacy ONLY on rv==0 cells,
+    which previously produced non-finite targets.
+    """
+    rv = close.pct_change().rolling(n, min_periods=n).std() * np.sqrt(252)
+    rv = rv.replace(0, np.nan)
     return (target_vol / rv).clip(upper=1.0)
 
 
