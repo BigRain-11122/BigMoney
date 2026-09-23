@@ -442,6 +442,7 @@ SEED_REGISTRY = {
     "p5b_new_traders": 20260924,        # K=50 fresh independent draw
     "factor_ic_screens": 20260923,     # GTJA191/WQ101 K=50 white-noise panels
     "pc_l2_ic": 45_000,                 # L2 popularity-history K=50 same-mask panels
+    "p4_pairs": 48_000,                 # P4_PAIRS random-pair null draws (48_000+k)
 }
 
 
