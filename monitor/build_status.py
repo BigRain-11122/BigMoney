@@ -144,6 +144,7 @@ def _gate_chain(bt: dict) -> dict:
     ce = _read_json(os.path.join(res, "combined_exit.json")) or {}
     ct = _read_json(os.path.join(res, "ce_transfer.json")) or {}
     lfc = _read_json(os.path.join(res, "lfc_p1.json")) or {}
+    nsp = _read_json(os.path.join(res, "new_signal_p1.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -159,7 +160,8 @@ def _gate_chain(bt: dict) -> dict:
     lfc_gate = lfc.get("gate") or {}
     traders = (ce.get("traders_registered") or []) + \
               (ct.get("traders_registered") or [])
-    ledger = (lfc.get("trials_ledger") or ct.get("trials_ledger")
+    ledger = (nsp.get("trials_ledger") or lfc.get("trials_ledger")
+              or ct.get("trials_ledger")
               or ce.get("trials_ledger") or lc.get("trials_ledger")
               or dep.get("trials_ledger") or [])
     trials_total = sum(x.get("n", 0) for x in ledger)
@@ -205,9 +207,23 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"池本地技能线≈{skill}（随机p95+被动+0.1，为权益池3倍）；"
                                f"tsmom/donchian CE 最佳未达线；袖珍候选 {n_sleeve}"
                                if skill else "")})
+    ns_v = nsp.get("verdict") or {}
+    ns_pass = int(ns_v.get("n_survivors") or 0) if not ns_v.get("void") else 0
+    if nsp:
+        ns_gate = nsp.get("gate") or {}
+        ns_ce_null = (ns_gate.get("random_p95_inbatch_full") or {}).get("ce")
+        ns_sleeve = int(ns_v.get("n_sleeves") or 0)
+        steps.append({"stage": "NSP1 新信号设计 · core48 mini 海选",
+                      "result": f"{ns_pass} 员候选" if not ns_v.get("void")
+                      else "无效（锚点破）",
+                      "pass": ns_pass > 0,
+                      "note": (f"core48 CE null 首档≈{ns_ce_null}；袖珍 {ns_sleeve}；"
+                               f"候选过G1'待G2深化，本批不注册"
+                               if ns_ce_null else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
-            "n_j19": ct_pass, "n_lfc": lfc_pass, "n_traders": len(traders),
+            "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
+            "n_traders": len(traders),
             "trader_ids": traders}
 
 def _paper_state() -> dict:
@@ -381,6 +397,7 @@ def build() -> dict:
                               f"432基线灭 → G1' {chain['n_g1_prime']}员 → G2 {chain['n_g2']} → "
                               f"J14 {chain['n_lowchurn']} → J15 1员 → J19 {chain['n_j19']}员"
                               f" → LFC 债金池 {chain['n_lfc']}员"
+                              f" → NSP1 新信号 {chain['n_nsp']}候选"
                               f"（累计 {chain['n_traders']} 员注册编制）"},
     ]
     if chain["trader_ids"]:
