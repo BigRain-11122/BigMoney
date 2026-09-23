@@ -179,6 +179,7 @@ def _gate_chain(bt: dict) -> dict:
     g2n = _read_json(os.path.join(res, "g2_nsp1.json")) or {}
     slp = _read_json(os.path.join(res, "sleeve_p3.json")) or {}
     p4b1 = _read_json(os.path.join(res, "shortline_p4_batch1.json")) or {}
+    p5re = _read_json(os.path.join(res, "p5_random_entry.json")) or {}
     surv = cal.get("survivors_g1_prime") or []
     gate = cal.get("g1_prime_gate") or {}
     g2 = dep.get("verdicts_g2") or {}
@@ -205,6 +206,10 @@ def _gate_chain(bt: dict) -> dict:
         # research-line cumulative N (engine trials + factor trials,
         # P-1a/P-2/P-4 lineage) -- this file is the freshest truth source
         trials_total = int(tl_p4["total"])
+    tl_p5 = p5re.get("trials_ledger")
+    if isinstance(tl_p5, dict) and tl_p5.get("total"):
+        # P-5 random-entry re-check (O-1816) = freshest truth source
+        trials_total = int(tl_p5["total"])
     skill_bar = gate.get("effective_skill_bar")
     ct_note = ""
     if ct:

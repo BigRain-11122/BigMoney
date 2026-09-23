@@ -1,0 +1,313 @@
+{
+  "order": "O-20260923-1816",
+  "prereg": "research/shortline/P5_RANDOM_ENTRY.md",
+  "seed": 20260923,
+  "k": 50,
+  "min_gap_td": 18,
+  "gap_note": "2-month gap infeasible on 2020-01-02-anchored panel (62 eligible months < 100); 25td = K-50 panel-fit cap, prereg s2 adjudication, disclosed",
+  "windows_td": {
+    "3m": 63,
+    "6m": 126,
+    "12m": 252
+  },
+  "start_positions": [
+    261,
+    282,
+    309,
+    340,
+    362,
+    396,
+    425,
+    449,
+    478,
+    512,
+    532,
+    556,
+    582,
+    605,
+    623,
+    651,
+    675,
+    705,
+    732,
+    757,
+    787,
+    812,
+    835,
+    856,
+    874,
+    894,
+    915,
+    951,
+    971,
+    989,
+    1021,
+    1048,
+    1066,
+    1097,
+    1130,
+    1149,
+    1167,
+    1198,
+    1219,
+    1242,
+    1263,
+    1295,
+    1331,
+    1350,
+    1371,
+    1395,
+    1428,
+    1449,
+    1475,
+    1495
+  ],
+  "start_dates": [
+    "2021-01-28",
+    "2021-03-05",
+    "2021-04-14",
+    "2021-06-01",
+    "2021-07-02",
+    "2021-08-19",
+    "2021-10-08",
+    "2021-11-11",
+    "2021-12-22",
+    "2022-02-16",
+    "2022-03-16",
+    "2022-04-21",
+    "2022-06-01",
+    "2022-07-05",
+    "2022-07-29",
+    "2022-09-07",
+    "2022-10-19",
+    "2022-11-30",
+    "2023-01-09",
+    "2023-02-20",
+    "2023-04-03",
+    "2023-05-12",
+    "2023-06-14",
+    "2023-07-17",
+    "2023-08-10",
+    "2023-09-07",
+    "2023-10-16",
+    "2023-12-05",
+    "2024-01-03",
+    "2024-01-29",
+    "2024-03-21",
+    "2024-05-06",
+    "2024-05-30",
+    "2024-07-15",
+    "2024-08-29",
+    "2024-09-27",
+    "2024-10-30",
+    "2024-12-12",
+    "2025-01-13",
+    "2025-02-21",
+    "2025-03-24",
+    "2025-05-13",
+    "2025-07-03",
+    "2025-07-30",
+    "2025-08-28",
+    "2025-10-09",
+    "2025-11-25",
+    "2025-12-24",
+    "2026-02-02",
+    "2026-03-10"
+  ],
+  "n_eligible": 1254,
+  "warmup_td": 252,
+  "min_listed": 24,
+  "passive": "EW buy&hold of core48 members listed at start (equal cash)",
+  "judgment": {
+    "beat_line_6m": 0.7,
+    "dd_red_line": -0.35,
+    "rule": "per-trader PASS iff beat_rate_6m>=0.70 AND min_dd_6m>=-0.35 (frozen prereg s4)"
+  },
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    },
+    "COMPOSITE-CE-02": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    },
+    "VOLATILITY-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    }
+  },
+  "per_trader": {
+    "COMPOSITE-CE-01": {
+      "n_starts": 50,
+      "n_full_12m": 45,
+      "beat_rate_3m": 0.72,
+      "beat_rate_6m": 0.64,
+      "beat_rate_12m": 0.7111,
+      "min_dd_6m": -0.1673,
+      "median_ret_6m": 0.0438,
+      "median_sharpe_6m": 1.1101,
+      "median_dd_6m": -0.0371,
+      "q25_ret_6m": -0.0023,
+      "q75_ret_6m": 0.0756,
+      "worst_starts": [
+        {
+          "start": "2022-03-16",
+          "ret_6m": -0.152913,
+          "dd_6m": -0.1673,
+          "p_ret_6m": -0.011744,
+          "beat_6m": false
+        },
+        {
+          "start": "2021-12-22",
+          "ret_6m": -0.11908,
+          "dd_6m": -0.1549,
+          "p_ret_6m": -0.12241,
+          "beat_6m": true
+        },
+        {
+          "start": "2022-02-16",
+          "ret_6m": -0.097161,
+          "dd_6m": -0.1606,
+          "p_ret_6m": -0.055922,
+          "beat_6m": false
+        },
+        {
+          "start": "2021-11-11",
+          "ret_6m": -0.073286,
+          "dd_6m": -0.1268,
+          "p_ret_6m": -0.188715,
+          "beat_6m": true
+        },
+        {
+          "start": "2022-06-01",
+          "ret_6m": -0.072964,
+          "dd_6m": -0.0887,
+          "p_ret_6m": 0.023741,
+          "beat_6m": false
+        }
+      ],
+      "verdict_pass": false
+    },
+    "COMPOSITE-CE-02": {
+      "n_starts": 50,
+      "n_full_12m": 45,
+      "beat_rate_3m": 0.68,
+      "beat_rate_6m": 0.68,
+      "beat_rate_12m": 0.6889,
+      "min_dd_6m": -0.204,
+      "median_ret_6m": 0.0416,
+      "median_sharpe_6m": 1.1598,
+      "median_dd_6m": -0.0408,
+      "q25_ret_6m": 0.0248,
+      "q75_ret_6m": 0.0867,
+      "worst_starts": [
+        {
+          "start": "2021-12-22",
+          "ret_6m": -0.197434,
+          "dd_6m": -0.2012,
+          "p_ret_6m": -0.12241,
+          "beat_6m": false
+        },
+        {
+          "start": "2021-11-11",
+          "ret_6m": -0.188595,
+          "dd_6m": -0.204,
+          "p_ret_6m": -0.188715,
+          "beat_6m": true
+        },
+        {
+          "start": "2021-10-08",
+          "ret_6m": -0.160725,
+          "dd_6m": -0.1842,
+          "p_ret_6m": -0.176532,
+          "beat_6m": true
+        },
+        {
+          "start": "2022-02-16",
+          "ret_6m": -0.113918,
+          "dd_6m": -0.1452,
+          "p_ret_6m": -0.055922,
+          "beat_6m": false
+        },
+        {
+          "start": "2021-08-19",
+          "ret_6m": -0.075912,
+          "dd_6m": -0.1278,
+          "p_ret_6m": -0.075861,
+          "beat_6m": false
+        }
+      ],
+      "verdict_pass": false
+    },
+    "VOLATILITY-CE-01": {
+      "n_starts": 50,
+      "n_full_12m": 45,
+      "beat_rate_3m": 0.58,
+      "beat_rate_6m": 0.62,
+      "beat_rate_12m": 0.5333,
+      "min_dd_6m": -0.0354,
+      "median_ret_6m": 0.015,
+      "median_sharpe_6m": 1.3438,
+      "median_dd_6m": -0.0129,
+      "q25_ret_6m": 0.0059,
+      "q75_ret_6m": 0.0289,
+      "worst_starts": [
+        {
+          "start": "2022-04-21",
+          "ret_6m": -0.024453,
+          "dd_6m": -0.0275,
+          "p_ret_6m": 0.005918,
+          "beat_6m": false
+        },
+        {
+          "start": "2021-11-11",
+          "ret_6m": -0.02281,
+          "dd_6m": -0.0291,
+          "p_ret_6m": -0.188715,
+          "beat_6m": true
+        },
+        {
+          "start": "2021-12-22",
+          "ret_6m": -0.021089,
+          "dd_6m": -0.0233,
+          "p_ret_6m": -0.12241,
+          "beat_6m": true
+        },
+        {
+          "start": "2022-02-16",
+          "ret_6m": -0.01853,
+          "dd_6m": -0.0354,
+          "p_ret_6m": -0.055922,
+          "beat_6m": true
+        },
+        {
+          "start": "2022-03-16",
+          "ret_6m": -0.011759,
+          "dd_6m": -0.0275,
+          "p_ret_6m": -0.011744,
+          "beat_6m": false
+        }
+      ],
+      "verdict_pass": false
+    }
+  },
+  "pooled": {
+    "beat_rate_6m": 0.6467,
+    "min_dd_6m": -0.204
+  },
+  "trials_ledger": {
+    "prev_total": 1680,
+    "batch_trials": 203,
+    "total": 1883,
+    "note": "150 strategy runs (3 traders x 50 starts) + 50 passive windows + 3 anchor reproductions; prev 1680 = formal chain 1556 + 124 GM-session P-4b1 dual-implementation runs retro-counted (real trials, prereg s5)"
+  },
+  "audit": {
+    "verdict": "CLEAN",
+    "sampled_at": "2026-09-23 18:31:59",
+    "audit_file": "results/compute_audit.json"
+  },
+  "honesty": "robustness distribution re-check, NOT new OOS; 2025+ windows read with OOS discount; 25td gap -> adjacent 6m windows overlap ~80%, effective n < 50; no param changes from these results; paper tracking remains the forward evidence channel",
+  "runtime_sec": 17.7,
+  "generated": "2026-09-23 18:31:59"
+}
