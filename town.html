@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.6 · IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.7 · IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -202,9 +202,11 @@ function drawBunker(b) {                      // 工程部 (engineering · 地�
 function drawPortfolio(b) {                   // 组合调度中心 (portfolio & capital · EW6 载体 + IV6 报告制 pass 2)
   const {x,y} = b, p = (D.data && D.data.portfolio) || {};
   const nm = p.members || 0, ok = !!p.ew_validated, iv = p.iv || {};
+  const cw = (D.data && D.data.corr_watch) || {};
   rrect(x, y, 80, 48, '#232a38');
   rrect(x, y, 80, 4, ok ? '#e8c15a' : '#e05a5a');   // gold band top (EW validated carrier)
   rrect(x, y+4, 80, 2, iv.present ? (iv.v2_pass ? '#5fd38a' : '#e8a34a') : '#1d222c');  // IV sub-band (report-only)
+  rrect(x, y+6, 80, 2, cw.present ? ({GREEN:'#5fd38a',ORANGE:'#e8a34a',RED:'#e05a5a'})[cw.verdict] || '#5fd38a' : '#1d222c');  // corr-watch band (monitor R36)
   for (let c=0; c<6; c++)                     // 6 windows = EW6 member sleeves
     px(x+6+c*12, y+10, 9, 10, p.present && c < nm ? '#e8c15a' : '#12151d');
   rrect(x+10, y+26, 60, 10, '#161a22');       // facade sign strip
@@ -341,12 +343,18 @@ const BUILDS = [
       } else {
         ivRows = '<div class="row dim">IV 风险预算批待产出</div>';
       }
+      const cw = (D.data && D.data.corr_watch) || {};
+      const cwRows = cw.present
+        ? '<div class="row">相关性监控 <span class="'+(cw.verdict==='RED'?'red':cw.verdict==='ORANGE'?'gold':'green')+'">'+cw.verdict+'</span> · W2 IS2 越线 '+cw.w2_hits+' 对 · max '+f2(cw.max_is2_pair)+'</div>'
+          + '<div class="row dim">尾窗 rolling '+f2(cw.rolling_avg_last)+' · corr(IV,EW) '+f2(cw.corr_iv6_ew6)+' · ×2 最薄垫 '+f2(cw.x2_margin_min)+' · FL '+cw.forward_bars+' bars（监控件 R36 · 盯防三看点）</div>'
+        : '<div class="row dim">相关性监控待产出</div>';
       return '<div class="row">EW6 等权 '+p.members+' 员：Sharpe <span class="gold">'+f2(p.ew_sharpe)+'</span> · 年化 '+f1(p.ew_annual)+'% · 回撤 '+f1(p.ew_dd)+'%</div>'
         + '<div class="row">'+p.n_trades+' 笔 · 最差年 '+f1(p.worst_year)+'%（无崩年）</div>'
         + '<div class="row">分散收益 <span class="green">+'+f2(p.benefit)+'</span> · DR '+f2(p.dr)+'（成员加权均值 '+f2(p.weighted_mean)+'）</div>'
         + '<div class="row">×2 成本 Sharpe '+f2(p.x2_sharpe)+' <span class="'+(p.x2_survive?'green':'red')+'">'+(p.x2_survive?'存活':'阵亡')+'</span>（vi 0.4004）</div>'
         + '<div class="row dim">R-配3 熊市帽 overlay '+f2(p.overlay_sharpe)+' · 熊段 '+p.bear_days+' 日 · 报告制 T1</div>'
         + ivRows
+        + cwRows
         + '<div class="row dim">团队：组合构建 · 现金腿与资金运营 · 相关性监控</div>'
         + '<div class="row dim">IV 采纳=章程 §五 T1 呈报待批 · EW 仍为验证载体（择优禁令）</div>'
         + '<div class="row dim">读数政体折价（P-5B 6/6 FAIL 0.70 线）· 分配=章程 §五 T1 呈报</div>';
