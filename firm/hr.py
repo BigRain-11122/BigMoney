@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 TRADERS_DIR = ROOT / "firm" / "traders"
+G25_DIR = ROOT / "results" / "g25"
 
 # promotion thresholds
 # INTERN->TRAINEE requires paper tracking: backtest evidence alone must never
@@ -57,11 +58,41 @@ def list_traders() -> list[dict]:
     return out
 
 
+def g25_verdict(tid: str) -> str:
+    """Per-trader G2.5 three-check verdict (DSR/CI/PBO) from results/g25/<ID>.json.
+
+    BACKTEST_SCIENCE.md s8: G2.5 is a promotion precondition -- missing/fail/
+    pending (insufficient) = no promotion, paper observation continues.
+    Written by scripts/g25_retro.py (T-02 4/7); this file only READS verdicts.
+    """
+    p = G25_DIR / f"{tid}.json"
+    if not p.exists():
+        return "missing"
+    try:
+        with open(p, encoding="utf-8") as f:
+            v = json.load(f).get("verdict")
+    except (OSError, ValueError):
+        return "invalid"
+    return v if v in ("pass", "fail", "pending") else "invalid"
+
+
 def evaluate(t: dict) -> str:
     """Return action: PROMOTE / FIRE / HOLD."""
     lvl = t["level"]
     if lvl == "FIRED":
         return "HOLD"
+
+    action = _evaluate_level(t)
+    # G2.5 promotion precondition (audit P0-1): only a full three-check pass
+    # may promote; missing/fail/pending/invalid all hold. Never gates FIRE.
+    if action == "PROMOTE" and g25_verdict(t["id"]) != "pass":
+        return "HOLD"
+    return action
+
+
+def _evaluate_level(t: dict) -> str:
+    """Level ladder (unchanged thresholds); promotion gating lives in evaluate()."""
+    lvl = t["level"]
 
     # INTERN -> TRAINEE
     if lvl == "INTERN":

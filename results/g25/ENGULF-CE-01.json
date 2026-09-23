@@ -1,0 +1,74 @@
+{
+ "trader": "ENGULF-CE-01",
+ "authority": "research/BACKTEST_SCIENCE.md s8 (G2.5 three-check)",
+ "verdict": "fail",
+ "legs": {
+  "dsr": {
+   "value": 0.018704,
+   "gate": 0.95,
+   "pass": false,
+   "dsr": 0.018704,
+   "sr_annualized": 0.5392,
+   "sr_star": 0.082757,
+   "sigma_sr": 0.023442,
+   "n_trials": 2727,
+   "T": 1630,
+   "skew": 3.4619,
+   "kurtosis": 45.2678
+  },
+  "ci": {
+   "pass": false,
+   "ci95_low": -0.2763,
+   "ci95_high": 1.2052,
+   "point": 0.5392,
+   "ci_lower_bound_positive": false,
+   "n_resamples": 1000,
+   "block_days": 10.0,
+   "seed": 20260923
+  },
+  "pbo": {
+   "status": "pass",
+   "family": "engulf_reversal",
+   "pbo": 0.1143,
+   "n_cells": 6,
+   "T": 1630,
+   "n_combinations": 70,
+   "repro": {
+    "center@default": {
+     "ok": true,
+     "abs_d": 0.0,
+     "trades": 196,
+     "recorded_trades": 196
+    },
+    "center@ce": {
+     "ok": true,
+     "abs_d": 0.0002,
+     "trades": 143,
+     "recorded_trades": 143
+    }
+   }
+  }
+ },
+ "inputs": {
+  "n_trials_now": 2727,
+  "ledger_head_file": "p5b_new_traders.json",
+  "registration_ledger_head": {
+   "total": 2393,
+   "file": "shortline_g2_folk.json",
+   "note": null
+  },
+  "returns_window": [
+   "2020-01-03",
+   "2026-09-22"
+  ],
+  "T": 1630,
+  "anchor_validity": {
+   "cutoff": "2026-09-22",
+   "is_match": true,
+   "oos_match": true,
+   "full_sharpe": 0.5392
+  }
+ },
+ "ledger_note": "engine runs = recorded-cell reproductions (anchor gate + recorded family grids, evidence_cutoff panel) -- audit reproductions, NOT new trials; ledger N unchanged (pbo_cscv_v1 precedent)",
+ "generated": "2026-09-24 00:22:36"
+}

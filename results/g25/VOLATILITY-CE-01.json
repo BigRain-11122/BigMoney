@@ -1,0 +1,57 @@
+{
+ "trader": "VOLATILITY-CE-01",
+ "authority": "research/BACKTEST_SCIENCE.md s8 (G2.5 three-check)",
+ "verdict": "fail",
+ "legs": {
+  "dsr": {
+   "value": 0.348554,
+   "gate": 0.95,
+   "pass": false,
+   "dsr": 0.348554,
+   "sr_annualized": 1.2578,
+   "sr_star": 0.089056,
+   "sigma_sr": 0.025226,
+   "n_trials": 2727,
+   "T": 1630,
+   "skew": -0.3244,
+   "kurtosis": 7.9658
+  },
+  "ci": {
+   "pass": true,
+   "ci95_low": 0.4548,
+   "ci95_high": 2.0726,
+   "point": 1.2578,
+   "ci_lower_bound_positive": true,
+   "n_resamples": 1000,
+   "block_days": 10.0,
+   "seed": 20260923
+  },
+  "pbo": {
+   "status": "pending",
+   "family": "combined_exit_softening (J15 grid, 12 cells)",
+   "reason": "family harness not wired yet (queued next rounds; leg = insufficient -> blocks promotion until computed)"
+  }
+ },
+ "inputs": {
+  "n_trials_now": 2727,
+  "ledger_head_file": "p5b_new_traders.json",
+  "registration_ledger_head": {
+   "total": 708,
+   "file": "combined_exit.json",
+   "note": "legacy flat-list ledger schema (T-03 unification pending) -- total = sum of per-batch n"
+  },
+  "returns_window": [
+   "2020-01-03",
+   "2026-09-22"
+  ],
+  "T": 1630,
+  "anchor_validity": {
+   "cutoff": "2026-09-22",
+   "is_match": true,
+   "oos_match": true,
+   "full_sharpe": 1.2578
+  }
+ },
+ "ledger_note": "engine runs = recorded-cell reproductions (anchor gate + recorded family grids, evidence_cutoff panel) -- audit reproductions, NOT new trials; ledger N unchanged (pbo_cscv_v1 precedent)",
+ "generated": "2026-09-24 00:22:45"
+}

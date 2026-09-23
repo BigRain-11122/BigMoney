@@ -1,0 +1,63 @@
+{
+ "module": "scripts/g25_retro.py",
+ "authority": "BACKTEST_SCIENCE.md s8 + audit P0-1 (T-02 4/7)",
+ "summary": [
+  {
+   "trader": "COMPOSITE-CE-01",
+   "verdict": "fail",
+   "dsr": 0.042409,
+   "ci_low": -0.0485,
+   "pbo": null,
+   "pbo_status": "pending"
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "verdict": "fail",
+   "dsr": 0.074987,
+   "ci_low": -0.1586,
+   "pbo": null,
+   "pbo_status": "pending"
+  },
+  {
+   "trader": "DROUGHT-CE-01",
+   "verdict": "fail",
+   "dsr": 0.030128,
+   "ci_low": -0.0214,
+   "pbo": 0.4714,
+   "pbo_status": "observe"
+  },
+  {
+   "trader": "ENGULF-CE-01",
+   "verdict": "fail",
+   "dsr": 0.018704,
+   "ci_low": -0.2763,
+   "pbo": 0.1143,
+   "pbo_status": "pass"
+  },
+  {
+   "trader": "NEEDLE-DE-01",
+   "verdict": "fail",
+   "dsr": 0.044671,
+   "ci_low": -0.0843,
+   "pbo": 0.6429,
+   "pbo_status": "fail"
+  },
+  {
+   "trader": "VOLATILITY-CE-01",
+   "verdict": "fail",
+   "dsr": 0.348554,
+   "ci_low": 0.4548,
+   "pbo": null,
+   "pbo_status": "pending"
+  }
+ ],
+ "completeness_missing": [],
+ "n_trials_now": 2727,
+ "bands": {
+  "dsr_gate": 0.95,
+  "pbo_pass": "<=0.25",
+  "pbo_observe": "(0.25,0.5]",
+  "pbo_fail": ">0.5"
+ },
+ "generated": "2026-09-24 00:22:45"
+}
