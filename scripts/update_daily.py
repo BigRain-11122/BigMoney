@@ -24,6 +24,14 @@ Contract:
   - probe fast-path: one liquid symbol (510300) is updated first; if it
     yields 0 new rows the whole market calendar is unchanged and the
     remaining fetches are skipped (10-min polling stays cheap).
+  - laggard catch-up (R54): per-symbol publication lag breaks the
+    "one probe == whole calendar" assumption (2026-09-23: 12 SZ 159xxx
+    ETFs published hours after the sh names, then stayed frozen behind
+    the probe fast-path). When the probe yields 0 new rows, core files
+    whose last bar date is BEHIND the probe's are fetched anyway (heal),
+    with a per-symbol 60-min retry backoff (catchup_attempts in the
+    status file) and a 15-day staleness exit (dead/suspended symbols
+    stop being fetched, mirroring the pool F1 freshness rule).
   - atomic write: staged to <path>.tmp then os.replace.
   - idempotent: re-running the same day yields 0 new rows.
   - hook: if ANY new bar landed, run `python -m live.paper` once
@@ -63,6 +71,8 @@ COLUMNS = ["date", "open", "high", "low", "close", "volume", "amount"]
 CLOSE_ACCEPT_TIME = dt.time(15, 30)      # today's bar only after market close
 PROBE_SYMBOL = "510300"                  # liquid SSE ETF, calendar proxy
 FETCH_SLEEP = 0.3                        # rate limit, mirrors download_etf.py
+CATCHUP_RETRY_MIN = 60          # laggard retry backoff window (minutes)
+CATCHUP_STALE_DAYS = 15        # lag beyond this -> dead symbol, stop fetching
 STATUS_PATH = os.path.join(PATHS.results_dir, "update_status.json")
 LOCK_PATH = os.path.join(PATHS.root, "logs", "update_daily.lock")
 LOCK_STALE_AGE = 30 * 60        # belt-and-braces reclaim behind the PID check
@@ -251,13 +261,57 @@ def core_files() -> list:
                   if f.endswith(".csv") and f[:-4].isdigit())
 
 
-def run_update(now: dt.datetime | None = None, fetcher=None) -> dict:
-    """Probe fast-path + full sweep. Returns the status dict."""
+def _last_date(path: str) -> str:
+    return str(load_existing(path)["date"].iloc[-1])
+
+
+def _laggards_of(files: list, probe_last: str) -> list:
+    """[(path, last_date)] for core files whose last bar date is behind the
+    probe's. Unreadable files are skipped here (they keep their old data;
+    the full-sweep branch is where broken files surface as failures)."""
+    out = []
+    for p in files:
+        if os.path.basename(p)[:-4] == PROBE_SYMBOL:
+            continue
+        try:
+            last = _last_date(p)
+        except Exception:  # noqa: BLE001 -- probe-0 branch stays cheap
+            continue
+        if last < probe_last:
+            out.append((p, last))
+    return out
+
+
+def _backoff_active(ts, now: dt.datetime) -> bool:
+    """True while the laggard's last catch-up attempt is younger than
+    CATCHUP_RETRY_MIN minutes. Missing/unparseable -> expired (attempt)."""
+    if not ts:
+        return False
+    try:
+        t = dt.datetime.fromisoformat(str(ts))
+    except ValueError:
+        return False
+    return (now - t) < dt.timedelta(minutes=CATCHUP_RETRY_MIN)
+
+
+def run_update(now: dt.datetime | None = None, fetcher=None,
+               status_path: str | None = None) -> dict:
+    """Probe fast-path + full sweep + laggard catch-up (R54). Returns the
+    status dict."""
     now = now or dt.datetime.now()
     fetcher = fetcher or fetch_history
+    status_path = status_path or STATUS_PATH
     files = core_files()
     probe_path = os.path.join(PATHS.daily_dir, f"{PROBE_SYMBOL}.csv")
     results = []
+    catchup = {"laggards": [], "fetched": [], "backoff": [], "stale_dead": []}
+
+    # prior per-symbol catch-up attempt timestamps -> retry backoff
+    try:
+        with open(status_path, encoding="utf-8") as fh:
+            attempts = dict(json.load(fh).get("catchup_attempts") or {})
+    except (OSError, ValueError):
+        attempts = {}
 
     probe = update_one(probe_path, fetcher, now)
     results.append(probe)
@@ -268,11 +322,50 @@ def run_update(now: dt.datetime | None = None, fetcher=None) -> dict:
                 continue
             results.append(update_one(path, fetcher, now))
             time.sleep(FETCH_SLEEP)
+        # post-sweep laggards (source not ready for them yet) count as
+        # attempted now, so the 60-min backoff applies to them as well
+        probe_last = _last_date(probe_path)
+        post = _laggards_of(files, probe_last)
+        catchup["laggards"] = [os.path.basename(p)[:-4] for p, _ in post]
+        for p, _lag in post:
+            attempts[os.path.basename(p)[:-4]] = \
+                now.isoformat(timespec="seconds")
     else:
-        results.extend([{"symbol": os.path.basename(p)[:-4], "appended": 0,
-                         "overlap_mismatch": False, "error": None,
-                         "skipped": "probe_no_new"}
-                        for p in files if p != probe_path])
+        probe_last = _last_date(probe_path)
+        laggards = _laggards_of(files, probe_last)
+        catchup["laggards"] = [os.path.basename(p)[:-4] for p, _ in laggards]
+        lag_last = dict(laggards)
+        for path in files:
+            if path == probe_path:
+                continue
+            sym = os.path.basename(path)[:-4]
+            if path not in lag_last:
+                results.append({"symbol": sym, "appended": 0,
+                                "overlap_mismatch": False, "error": None,
+                                "skipped": "probe_no_new"})
+                continue
+            lag_days = (dt.date.fromisoformat(probe_last)
+                        - dt.date.fromisoformat(lag_last[path])).days
+            if lag_days > CATCHUP_STALE_DAYS:
+                catchup["stale_dead"].append(sym)
+                results.append({"symbol": sym, "appended": 0,
+                                "overlap_mismatch": False, "error": None,
+                                "skipped": "catchup_stale_dead"})
+            elif _backoff_active(attempts.get(sym), now):
+                catchup["backoff"].append(sym)
+                results.append({"symbol": sym, "appended": 0,
+                                "overlap_mismatch": False, "error": None,
+                                "skipped": "catchup_backoff"})
+            else:
+                r = update_one(path, fetcher, now)
+                r["catchup_fetch"] = True
+                results.append(r)
+                catchup["fetched"].append(sym)
+                attempts[sym] = now.isoformat(timespec="seconds")
+                time.sleep(FETCH_SLEEP)
+    # prune the backoff bookkeeping to symbols lagging right now
+    attempts = {s: t for s, t in attempts.items()
+                if s in catchup["laggards"]}
 
     summary = {
         "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -283,6 +376,8 @@ def run_update(now: dt.datetime | None = None, fetcher=None) -> dict:
         "overlap_mismatches": [r["symbol"] for r in results
                                if r.get("overlap_mismatch")],
         "data_cutoff": None, "per_symbol": results,
+        "catchup": catchup,
+        "catchup_attempts": attempts,
     }
     # data cutoff = max last date across the pool (post-update read);
     # read failure is recorded in the status, never swallowed (F8)
@@ -408,6 +503,77 @@ def selftest() -> bool:
         ok &= g_ok
         print("  [updater] PID lock + stale reclaim... "
               + ("PASS" if g_ok else "FAIL"))
+
+    # H: laggard catch-up in the probe fast-path (R54) -- offline injected
+    # source; mirrors the 2026-09-23 incident (12 SZ 159xxx lagging 510300)
+    with tempfile.TemporaryDirectory() as td:
+        cols = ["date", "open", "high", "low", "close", "volume", "amount"]
+
+        def _rows(d0, d1, base):
+            dates = [d for d in ("2026-09-21", "2026-09-22", "2026-09-23")
+                     if d0 <= d <= d1]
+            return [(d, base, base + 0.1, base - 0.1, base, 1000, 4000)
+                    for d in dates]
+
+        def _csv(name, rows):
+            p = os.path.join(td, name)
+            pd.DataFrame(rows, columns=cols).to_csv(p, index=False)
+            return p
+
+        _csv("510300.csv", _rows("2026-09-21", "2026-09-23", 4.0))  # probe
+        _csv("510301.csv", _rows("2026-09-21", "2026-09-23", 5.0))  # coherent
+        _csv("159934.csv", _rows("2026-09-21", "2026-09-22", 6.0))  # laggard
+        _csv("159901.csv", [("2026-08-01", 1.0, 1.1, 0.9, 1.0, 100, 400)])
+        st = os.path.join(td, "update_status.json")
+        calls = []
+
+        def _mk_src(lag_has_23):
+            def f(code):
+                calls.append(code)
+                table = {
+                    "510300": _rows("2026-09-21", "2026-09-23", 4.0),
+                    "510301": _rows("2026-09-21", "2026-09-23", 5.0),
+                    "159934": _rows("2026-09-21",
+                                    "2026-09-23" if lag_has_23
+                                    else "2026-09-22", 6.0),
+                }
+                if code not in table:
+                    return None
+                return pd.DataFrame(table[code], columns=cols)
+            return f
+
+        real_daily = PATHS.daily_dir
+        PATHS.daily_dir = td
+        try:
+            t0 = dt.datetime(2026, 9, 24, 8, 0)
+            s1 = run_update(now=t0, fetcher=_mk_src(False), status_path=st)
+            h = (s1["total_new_rows"] == 0
+                 and sorted(s1["catchup"]["laggards"]) == ["159901", "159934"]
+                 and s1["catchup"]["fetched"] == ["159934"]
+                 and s1["catchup"]["stale_dead"] == ["159901"]
+                 and s1["catchup"]["backoff"] == []
+                 and "159901" not in calls)     # dead symbol -> never fetched
+            json.dump({"catchup_attempts": s1["catchup_attempts"]},
+                      open(st, "w", encoding="utf-8"))
+            n_before = len(calls)
+            s2 = run_update(now=t0 + dt.timedelta(minutes=30),
+                            fetcher=_mk_src(False), status_path=st)
+            h &= (s2["catchup"]["fetched"] == []
+                  and s2["catchup"]["backoff"] == ["159934"]
+                  and calls[n_before:] == [PROBE_SYMBOL])  # probe only
+            json.dump({"catchup_attempts": s2["catchup_attempts"]},
+                      open(st, "w", encoding="utf-8"))
+            s3 = run_update(now=t0 + dt.timedelta(minutes=61),
+                            fetcher=_mk_src(True), status_path=st)
+            h &= (s3["total_new_rows"] == 1
+                  and s3["catchup"]["fetched"] == ["159934"]
+                  and _last_date(os.path.join(td, "159934.csv"))
+                  == "2026-09-23")
+        finally:
+            PATHS.daily_dir = real_daily
+        ok &= h
+        print("  [updater] laggard catch-up + backoff + stale-dead... "
+              + ("PASS" if h else "FAIL"))
 
     # D: source parity on real data (network; SKIP if unreachable)
     try:
