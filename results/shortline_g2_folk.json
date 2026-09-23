@@ -1,0 +1,204 @@
+{
+  "batch": "shortline-g2-folk",
+  "generated": "2026-09-23 21:57:49",
+  "preregistered_doc": "research/shortline/G2_FOLK.md",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "evidence_cutoff": "2026-09-22",
+    "oos_start": "2025-01-01"
+  },
+  "gates": {
+    "vi_bar": 0.4004,
+    "i_line": {
+      "default": 0.3521,
+      "ce": 0.4474
+    },
+    "worst_year_floor": -0.35,
+    "repro_tol": 0.005
+  },
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "anchor_ok": true,
+      "full_sharpe": 0.8114
+    },
+    "COMPOSITE-CE-02": {
+      "anchor_ok": true,
+      "full_sharpe": 0.6099
+    },
+    "VOLATILITY-CE-01": {
+      "anchor_ok": true,
+      "full_sharpe": 1.2578
+    }
+  },
+  "verdicts": [
+    {
+      "family": "engulf_reversal",
+      "repro_ok": true,
+      "red": 2,
+      "points": 4,
+      "x2": 0.402,
+      "x3": 0.2633,
+      "worst_year": -0.0128,
+      "pass": true,
+      "reasons": [],
+      "packet": {
+        "rep_regime": "ce",
+        "in_sample": {
+          "sharpe": 0.6239,
+          "annual_return": 0.0201,
+          "max_drawdown": -0.0423,
+          "trades": 99
+        },
+        "out_sample": {
+          "sharpe": 0.2944,
+          "annual_return": 0.0091,
+          "max_drawdown": -0.0366,
+          "trades": 44
+        },
+        "cost_x2": {
+          "sharpe": 0.402,
+          "survive": true
+        }
+      }
+    },
+    {
+      "family": "vol_breakout",
+      "repro_ok": true,
+      "red": 4,
+      "points": 6,
+      "x2": 0.201,
+      "x3": -0.0617,
+      "worst_year": -0.0357,
+      "pass": false,
+      "reasons": [
+        "neighborhood red 4/6",
+        "x2 0.201 <= vi 0.4004"
+      ],
+      "packet": {
+        "rep_regime": "ce",
+        "in_sample": {
+          "sharpe": 0.2336,
+          "annual_return": 0.0147,
+          "max_drawdown": -0.117,
+          "trades": 588
+        },
+        "out_sample": {
+          "sharpe": 1.267,
+          "annual_return": 0.0824,
+          "max_drawdown": -0.0399,
+          "trades": 215
+        },
+        "cost_x2": {
+          "sharpe": 0.201,
+          "survive": false
+        }
+      }
+    },
+    {
+      "family": "needle_probe",
+      "repro_ok": true,
+      "red": 0,
+      "points": 8,
+      "x2": 0.574,
+      "x3": 0.4833,
+      "worst_year": 0.0,
+      "pass": true,
+      "reasons": [],
+      "packet": {
+        "rep_regime": "default",
+        "in_sample": {
+          "sharpe": 0.7781,
+          "annual_return": 0.0185,
+          "max_drawdown": -0.0254,
+          "trades": 50
+        },
+        "out_sample": {
+          "sharpe": 0.4089,
+          "annual_return": 0.0119,
+          "max_drawdown": -0.0282,
+          "trades": 23
+        },
+        "cost_x2": {
+          "sharpe": 0.574,
+          "survive": true
+        }
+      }
+    },
+    {
+      "family": "vol_drought_reversal",
+      "repro_ok": true,
+      "red": 3,
+      "points": 8,
+      "x2": 0.59,
+      "x3": 0.4542,
+      "worst_year": -0.0136,
+      "pass": true,
+      "reasons": [],
+      "packet": {
+        "rep_regime": "ce",
+        "in_sample": {
+          "sharpe": 0.5538,
+          "annual_return": 0.0169,
+          "max_drawdown": -0.0476,
+          "trades": 76
+        },
+        "out_sample": {
+          "sharpe": 1.213,
+          "annual_return": 0.0408,
+          "max_drawdown": -0.0252,
+          "trades": 44
+        },
+        "cost_x2": {
+          "sharpe": 0.59,
+          "survive": true
+        }
+      }
+    },
+    {
+      "family": "duck_head",
+      "repro_ok": true,
+      "red": 0,
+      "points": 4,
+      "x2": 0.258,
+      "x3": -0.161,
+      "worst_year": -0.0249,
+      "pass": false,
+      "reasons": [
+        "x2 0.258 <= vi 0.4004"
+      ],
+      "packet": {
+        "rep_regime": "default",
+        "in_sample": {
+          "sharpe": 0.668,
+          "annual_return": 0.0406,
+          "max_drawdown": -0.077,
+          "trades": 683
+        },
+        "out_sample": {
+          "sharpe": 0.8227,
+          "annual_return": 0.0472,
+          "max_drawdown": -0.0439,
+          "trades": 264
+        },
+        "cost_x2": {
+          "sharpe": 0.258,
+          "survive": false
+        }
+      }
+    }
+  ],
+  "registered": [
+    "engulf_reversal",
+    "needle_probe",
+    "vol_drought_reversal"
+  ],
+  "trials_ledger": {
+    "prev_total": 2299,
+    "batch_trials": 94,
+    "note": "94 real trials = 47 (run2 VOID: panel bug dropped stale 512390 -> 47/48 syms; repro hard-gate caught it, verdicts voided, zero registrations) + 47 (run3 corrected, the evidence run). Prereg s7 said 47; dual-run honest over-count (Money02 zero-null lesson: count every real trial, no selective retry)",
+    "total": 2393
+  },
+  "audit": {
+    "elapsed_sec": 20.4
+  }
+}

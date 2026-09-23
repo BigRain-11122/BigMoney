@@ -51,6 +51,8 @@ from firm.hr import TRADERS_DIR, load_trader, save_trader
 from firm.risk.regime import regime_report
 from strategies import volatility
 from strategies.composite_rotation import top_n_rotation
+import strategies.patterns as _pt_mod
+import strategies.ta as _ta_mod
 
 OOS_START = "2025-01-01"        # registered evidence segment split (J7+)
 ANCHOR_TOL = 0.002             # project standard (J14/J15)
@@ -72,6 +74,28 @@ SIGNAL_BUILDERS = {
         lambda P: top_n_rotation(P["high"], P["low"], P["close"],
                                  top_n=8, rebal_days=20),
 }
+
+
+def _apply_sym(fn, P, keys, **kw):
+    """Per-symbol state application (batch sym_panel convention): the
+    per-symbol Series constructors are applied column-wise."""
+    syms = list(P["close"].columns)
+    return pd.DataFrame({s: fn(*[P[k][s] for k in keys], **kw)
+                         for s in syms}).fillna(0)
+
+
+# G2_FOLK registrants (2026-09-23, CEO order O-20260923-2210 chain)
+SIGNAL_BUILDERS["engulf_reversal(drop_th=-0.05)"] = lambda P: _apply_sym(
+    _ta_mod.engulf_reversal, P, ["open", "close"], drop_th=-0.05)
+SIGNAL_BUILDERS["needle_probe(drop_th=-0.05, shadow_pct=0.02)"] = \
+    lambda P: _apply_sym(
+        _pt_mod.needle_probe, P, ["open", "high", "low", "close"],
+        drop_th=-0.05, shadow_pct=0.02)
+SIGNAL_BUILDERS["vol_drought_reversal(vol_floor=0.55, drop_th=-0.05)"] = \
+    lambda P: _apply_sym(
+        _pt_mod.vol_drought_reversal, P,
+        ["open", "high", "low", "close", "volume"],
+        vol_floor=0.55, drop_th=-0.05)
 
 
 def load_core(min_listing_days: int = 60) -> dict:

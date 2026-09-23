@@ -1,0 +1,62 @@
+{
+  "id": "DROUGHT-CE-01",
+  "name": "地量反转一号",
+  "school": "pattern",
+  "author": "g2-folk-batch",
+  "created": "2026-09-23",
+  "evidence_cutoff": "2026-09-22",
+  "level": "INTERN",
+  "params": {
+    "entry": "vol_drought_reversal(vol_floor=0.55, drop_th=-0.05)",
+    "time_decay_period": 25,
+    "time_decay_threshold": 0.05,
+    "trailing_stop_activate": 0.1
+  },
+  "exit_overrides": {
+    "loss_time_days": 16
+  },
+  "repro": {
+    "script": "scripts/g2_folk.py",
+    "note": "G2_FOLK deepening PASS (rep regime ce): center repro + neighborhood 3/8 red (below half) + x2 0.590 AND x3 0.4542 both above vi 0.4004 + worst year -1.36% no crash + OOS 1.213 (best OOS among new registrants). Evidence: results/shortline_g2_folk.json verdicts, research/shortline/g2_folk_results.csv"
+  },
+  "backtest": {
+    "in_sample": {
+      "sharpe": 0.5538,
+      "max_dd": -0.0476,
+      "annual": 0.0169,
+      "trades": 76
+    },
+    "out_sample": {
+      "sharpe": 1.213,
+      "max_dd": -0.0252,
+      "annual": 0.0408,
+      "trades": 44
+    },
+    "cost_x2": {
+      "sharpe": 0.59,
+      "survive": true,
+      "note": "x3 0.4542 also above vi; folk saying 'di liang chu di jia' (volume drought marks the floor) validated through the factory gate"
+    }
+  },
+  "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-23",
+    "cutoff": "2026-09-22"
+  },
+  "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+  },
+  "status_history": [
+    {
+      "date": "2026-09-23",
+      "from": null,
+      "to": "INTERN",
+      "note": "G2_FOLK factory gate PASS (CEO order O-20260923-2210 chain): first volume-drought folk trader. OOS trades 44 >= 30 promotion clause OK"
+    }
+  ],
+  "notes": "Volume shrink below 0.55x 60d mean in >=5% five-day-deep water + first green day (confirmation construction); CE exit machine; exit reclaim MA20"
+}

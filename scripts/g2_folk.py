@@ -58,37 +58,36 @@ TRIALS_PRIOR = "shortline_p4_folk.json"   # chain head 2299
 LEDGER_KEY = "shortline-g2-folk"
 
 
-# family -> (signal builder(P, overrides), survivor regimes, recorded
-# centers {regime: (full, oos, trades, x2)}, neighborhood override points)
+# family -> (signal builder(P, overrides) -> state panel, survivor regimes,
+# recorded centers {regime: (full, oos, trades, x2)}, neighborhood points)
+def _per_sym(fn, P, keys, ov):
+    """Per-symbol application (batch sym_panel convention): functions are
+    per-symbol Series constructors -- apply column-wise."""
+    syms = list(P["close"].columns)
+    return pd.DataFrame({s: fn(*[P[k][s] for k in keys], **ov)
+                         for s in syms}).fillna(0)
+
+
 def _engulf(P, ov):
-    return ta.engulf_reversal(P["open"], P["close"],
-                              drop_th=ov.get("drop_th", -0.05))
+    return _per_sym(ta.engulf_reversal, P, ["open", "close"], ov)
 
 
 def _volbreak(P, ov):
-    return ta.vol_breakout(P["high"], P["low"], P["close"], P["volume"],
-                           brk_len=ov.get("brk_len", 20),
-                           vol_mult=ov.get("vol_mult", 1.5),
-                           vol_avg_len=20,
-                           exit_len=ov.get("exit_len", 10))
+    return _per_sym(ta.vol_breakout, P,
+                    ["high", "low", "close", "volume"], ov)
 
 
 def _needle(P, ov):
-    return pt.needle_probe(P["open"], P["high"], P["low"], P["close"],
-                           drop_th=ov.get("drop_th", -0.05),
-                           shadow_pct=ov.get("shadow_pct", 0.02))
+    return _per_sym(pt.needle_probe, P, ["open", "high", "low", "close"], ov)
 
 
 def _drought(P, ov):
-    return pt.vol_drought_reversal(P["open"], P["high"], P["low"],
-                                   P["close"], P["volume"],
-                                   vol_floor=ov.get("vol_floor", 0.55),
-                                   drop_th=ov.get("drop_th", -0.05))
+    return _per_sym(pt.vol_drought_reversal, P,
+                    ["open", "high", "low", "close", "volume"], ov)
 
 
 def _duck(P, ov):
-    return pt.duck_head(P["open"], P["high"], P["low"], P["close"],
-                        neck=ov.get("neck", 8))
+    return _per_sym(pt.duck_head, P, ["open", "high", "low", "close"], ov)
 
 
 FAMILIES = {
@@ -160,11 +159,15 @@ def main():
 
     prices_full = load_core()
     cut = pd.Timestamp(EVIDENCE_CUT)
-    prices = {s: df.loc[:cut].copy() for s, df in prices_full.items()
-              if df.index[-1] > cut} or {s: df for s, df in
-                                         prices_full.items()}
+    # truncate ALL symbols (loc no-ops on shorter files) -- batch-2A/folk
+    # convention. run2 of this script used a conditional filter that silently
+    # dropped the stale 512390 (last bar 09-04 < cut) -> 47/48 syms, repro
+    # hard-gate caught it, verdicts VOID (dual-run disclosure in prereg s8).
+    prices = {s: df.loc[:cut].copy() for s, df in prices_full.items()}
     P = build_panels(prices)
     idx = P["close"].index
+    print(f"panel: {len(P['close'].columns)} syms, "
+          f"{idx[0].date()} .. {idx[-1].date()}")
 
     # trader anchors (hard gate)
     tids = [p.stem for p in sorted(TRADERS_DIR.glob("*.json"))
@@ -298,11 +301,16 @@ def main():
         "anchors": anchors,
         "verdicts": [{k: v for k, v in f.items()} for f in verdicts],
         "registered": [f["family"] for f in verdicts if f["pass"]],
-        "trials_ledger": {"prev_total": prev_total, "batch_trials": n_runs,
-                          "note": f"{n_runs} runs = 9 center + 30 nbhd + "
-                                  f"5 x3 + 3 anchors (prereg s7 says 47; "
-                                  f"counted live: {n_runs})",
-                          "total": prev_total + n_runs},
+        "trials_ledger": {"prev_total": prev_total, "batch_trials": 94,
+                          "note": "94 real trials = 47 (run2 VOID: panel "
+                                  "bug dropped stale 512390 -> 47/48 syms; "
+                                  "repro hard-gate caught it, verdicts "
+                                  "voided, zero registrations) + 47 (run3 "
+                                  "corrected, the evidence run). Prereg s7 "
+                                  "said 47; dual-run honest over-count "
+                                  "(Money02 zero-null lesson: count every "
+                                  "real trial, no selective retry)",
+                          "total": prev_total + 94},
         "audit": {"elapsed_sec": round(time.time() - t0, 1)},
     }
     json_path = os.path.join(PATHS.results_dir, "shortline_g2_folk.json")

@@ -1,0 +1,40 @@
+family,cell,regime,full_sharpe,oos_sharpe,trades,note
+engulf_reversal,center,default,0.482,0.2999,196,repro=OK d=0.0000
+engulf_reversal,center,ce,0.5392,0.2944,143,repro=OK d=0.0002
+engulf_reversal,nbhd {'drop_th': -0.04},default,0.0803,0.3572,314,RED
+engulf_reversal,nbhd {'drop_th': -0.06},default,0.8668,0.7662,132,green
+engulf_reversal,nbhd {'drop_th': -0.04},ce,0.1382,0.3152,241,RED
+engulf_reversal,nbhd {'drop_th': -0.06},ce,0.8621,0.6608,98,green
+vol_breakout,center,ce,0.4665,1.267,803,repro=OK d=0.0005
+vol_breakout,nbhd {'brk_len': 15},ce,0.4663,1.379,859,green
+vol_breakout,nbhd {'brk_len': 25},ce,0.3029,0.3639,771,RED
+vol_breakout,nbhd {'vol_mult': 1.2},ce,0.349,0.8287,829,RED
+vol_breakout,nbhd {'vol_mult': 1.8},ce,0.1954,0.4693,733,RED
+vol_breakout,nbhd {'exit_len': 7},ce,0.3351,0.5765,829,RED
+vol_breakout,nbhd {'exit_len': 14},ce,0.5336,1.7897,804,green
+needle_probe,center,default,0.6624,0.4089,73,repro=OK d=0.0004
+needle_probe,center,ce,0.6395,0.4023,63,repro=OK d=0.0005
+needle_probe,nbhd {'drop_th': -0.04},default,0.5505,0.3682,90,green
+needle_probe,nbhd {'drop_th': -0.06},default,0.7664,0.6655,60,green
+needle_probe,nbhd {'shadow_pct': 0.015},default,0.5818,0.481,95,green
+needle_probe,nbhd {'shadow_pct': 0.025},default,0.7076,0.7187,59,green
+needle_probe,nbhd {'drop_th': -0.04},ce,0.543,0.3619,78,green
+needle_probe,nbhd {'drop_th': -0.06},ce,0.7432,0.6531,53,green
+needle_probe,nbhd {'shadow_pct': 0.015},ce,0.5829,0.4757,81,green
+needle_probe,nbhd {'shadow_pct': 0.025},ce,0.6989,0.6927,50,green
+vol_drought_reversal,center,default,0.6863,1.2296,145,repro=OK d=0.0003
+vol_drought_reversal,center,ce,0.724,1.213,120,repro=OK d=0.0000
+vol_drought_reversal,nbhd {'vol_floor': 0.5},default,1.0468,0.9938,80,green
+vol_drought_reversal,nbhd {'vol_floor': 0.6},default,0.7612,1.2096,188,green
+vol_drought_reversal,nbhd {'drop_th': -0.04},default,0.5855,0.1623,266,green
+vol_drought_reversal,nbhd {'drop_th': -0.06},default,0.3138,1.0129,82,RED
+vol_drought_reversal,nbhd {'vol_floor': 0.5},ce,1.039,0.9633,66,green
+vol_drought_reversal,nbhd {'vol_floor': 0.6},ce,0.7727,1.163,156,green
+vol_drought_reversal,nbhd {'drop_th': -0.04},ce,0.364,0.1872,214,RED
+vol_drought_reversal,nbhd {'drop_th': -0.06},ce,0.3753,1.1111,63,RED
+duck_head,center,default,0.6817,0.8227,947,repro=OK d=0.0003
+duck_head,center,ce,0.5347,0.6059,798,repro=OK d=0.0003
+duck_head,nbhd {'neck': 6},default,0.4981,0.5843,999,green
+duck_head,nbhd {'neck': 10},default,0.4321,0.8511,864,green
+duck_head,nbhd {'neck': 6},ce,0.6962,0.4809,850,green
+duck_head,nbhd {'neck': 10},ce,0.5783,0.6399,736,green
