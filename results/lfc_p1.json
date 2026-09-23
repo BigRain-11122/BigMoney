@@ -1,0 +1,1126 @@
+{
+  "batch": "LFC-P1-mini-screen",
+  "generated": "2026-09-23 12:08:25",
+  "preregistered_doc": "research/LFC_P1_SCREEN.md (incl. sec.1.5 pre-run amendment)",
+  "universe": {
+    "pool": [
+      "511010",
+      "511090",
+      "511260",
+      "518880",
+      "159934"
+    ],
+    "ranges": {
+      "511010": [
+        "2020-01-02",
+        "2026-09-22"
+      ],
+      "511090": [
+        "2023-06-13",
+        "2026-09-22"
+      ],
+      "511260": [
+        "2020-01-02",
+        "2026-09-22"
+      ],
+      "518880": [
+        "2020-01-02",
+        "2026-09-22"
+      ],
+      "159934": [
+        "2020-01-02",
+        "2026-09-22"
+      ]
+    },
+    "data_end": "2026-09-22",
+    "oos_start": "2025-01-01"
+  },
+  "void": false,
+  "gate": {
+    "random_p95_full": {
+      "default": 0.8411,
+      "ce": 1.285
+    },
+    "passive_margin": 0.1,
+    "vi_bar": 1.0898,
+    "min_trades": 30,
+    "max_dd": -0.35,
+    "sleeve_max_corr": 0.3
+  },
+  "passive": {
+    "ew5_buyhold": {
+      "full": {
+        "sharpe": 0.9898,
+        "annual_return": 0.0952,
+        "max_drawdown": -0.2036
+      },
+      "oos": {
+        "sharpe": 0.9109,
+        "annual_return": 0.1412,
+        "max_drawdown": -0.2036
+      }
+    },
+    "ew5_monthly_rebal": {
+      "full": {
+        "sharpe": 1.1313,
+        "annual_return": 0.0836,
+        "max_drawdown": -0.1347
+      },
+      "oos": {
+        "sharpe": 0.989,
+        "annual_return": 0.1049,
+        "max_drawdown": -0.1347
+      }
+    }
+  },
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 0.4514,
+        "annual_return": 0.0283,
+        "max_drawdown": -0.1633,
+        "trades": 302
+      },
+      "got_oos": {
+        "sharpe": 1.6085,
+        "annual_return": 0.1441,
+        "max_drawdown": -0.0567,
+        "trades": 172
+      },
+      "full_sharpe": 0.8114
+    },
+    "COMPOSITE-CE-02": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 0.4585,
+        "annual_return": 0.0544,
+        "max_drawdown": -0.2217,
+        "trades": 520
+      },
+      "got_oos": {
+        "sharpe": 1.4853,
+        "annual_return": 0.1089,
+        "max_drawdown": -0.0361,
+        "trades": 275
+      },
+      "full_sharpe": 0.6099
+    },
+    "VOLATILITY-CE-01": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 1.0275,
+        "annual_return": 0.0262,
+        "max_drawdown": -0.0378,
+        "trades": 375
+      },
+      "got_oos": {
+        "sharpe": 2.0568,
+        "annual_return": 0.0424,
+        "max_drawdown": -0.009,
+        "trades": 147
+      },
+      "full_sharpe": 1.2578
+    }
+  },
+  "cells": [
+    {
+      "name": "low_vol_60_k1",
+      "family": "low_vol",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": -0.0039,
+        "sharpe": -1.908,
+        "max_drawdown": -0.0258,
+        "win_rate": 0.4752,
+        "profit_factor": 0.7506,
+        "num_trades": 141,
+        "avg_hold_days": 10.09
+      },
+      "oos": {
+        "sharpe": -3.2889,
+        "annual_return": -0.0061,
+        "max_drawdown": -0.0104
+      },
+      "n_trades": 141,
+      "oos_trades": 38,
+      "x2_full_sharpe": -3.9,
+      "x2_oos_sharpe": -5.1496,
+      "x2_n_trades": 141,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0253,
+        "COMPOSITE-CE-02": -0.0037,
+        "VOLATILITY-CE-01": 0.1513
+      },
+      "max_corr": 0.1513,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_vol_60_k1",
+      "family": "low_vol",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": -0.0011,
+        "sharpe": -0.5617,
+        "max_drawdown": -0.0083,
+        "win_rate": 0.5493,
+        "profit_factor": 1.1823,
+        "num_trades": 71,
+        "avg_hold_days": 20.96
+      },
+      "oos": {
+        "sharpe": -1.9473,
+        "annual_return": -0.0035,
+        "max_drawdown": -0.0061
+      },
+      "n_trades": 71,
+      "oos_trades": 20,
+      "x2_full_sharpe": -1.7966,
+      "x2_oos_sharpe": -3.1328,
+      "x2_n_trades": 71,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0555,
+        "COMPOSITE-CE-02": 0.0075,
+        "VOLATILITY-CE-01": 0.1749
+      },
+      "max_corr": 0.1749,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_vol_60_k2",
+      "family": "low_vol",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": -0.0066,
+        "sharpe": -1.5327,
+        "max_drawdown": -0.0456,
+        "win_rate": 0.4764,
+        "profit_factor": 0.8858,
+        "num_trades": 275,
+        "avg_hold_days": 10.39
+      },
+      "oos": {
+        "sharpe": -3.0902,
+        "annual_return": -0.013,
+        "max_drawdown": -0.0221
+      },
+      "n_trades": 275,
+      "oos_trades": 76,
+      "x2_full_sharpe": -3.6838,
+      "x2_oos_sharpe": -5.1198,
+      "x2_n_trades": 275,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0076,
+        "COMPOSITE-CE-02": -0.0177,
+        "VOLATILITY-CE-01": 0.1662
+      },
+      "max_corr": 0.1662,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_vol_60_k2",
+      "family": "low_vol",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": -0.0007,
+        "sharpe": -0.1695,
+        "max_drawdown": -0.0132,
+        "win_rate": 0.518,
+        "profit_factor": 1.5075,
+        "num_trades": 139,
+        "avg_hold_days": 21.43
+      },
+      "oos": {
+        "sharpe": -1.7532,
+        "annual_return": -0.0071,
+        "max_drawdown": -0.0124
+      },
+      "n_trades": 139,
+      "oos_trades": 39,
+      "x2_full_sharpe": -1.4039,
+      "x2_oos_sharpe": -2.9145,
+      "x2_n_trades": 139,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0328,
+        "COMPOSITE-CE-02": -0.0083,
+        "VOLATILITY-CE-01": 0.2011
+      },
+      "max_corr": 0.2011,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_vol_120_k1",
+      "family": "low_vol",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": -0.003,
+        "sharpe": -1.6341,
+        "max_drawdown": -0.0203,
+        "win_rate": 0.4885,
+        "profit_factor": 0.9041,
+        "num_trades": 131,
+        "avg_hold_days": 10.48
+      },
+      "oos": {
+        "sharpe": -3.2411,
+        "annual_return": -0.0059,
+        "max_drawdown": -0.01
+      },
+      "n_trades": 131,
+      "oos_trades": 37,
+      "x2_full_sharpe": -3.6386,
+      "x2_oos_sharpe": -5.1143,
+      "x2_n_trades": 131,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0266,
+        "COMPOSITE-CE-02": -0.0044,
+        "VOLATILITY-CE-01": 0.151
+      },
+      "max_corr": 0.151,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_vol_120_k1",
+      "family": "low_vol",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": -0.0003,
+        "sharpe": -0.1887,
+        "max_drawdown": -0.0059,
+        "win_rate": 0.5692,
+        "profit_factor": 1.7538,
+        "num_trades": 65,
+        "avg_hold_days": 22.06
+      },
+      "oos": {
+        "sharpe": -1.8792,
+        "annual_return": -0.0034,
+        "max_drawdown": -0.0059
+      },
+      "n_trades": 65,
+      "oos_trades": 19,
+      "x2_full_sharpe": -1.4328,
+      "x2_oos_sharpe": -2.9764,
+      "x2_n_trades": 65,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0652,
+        "COMPOSITE-CE-02": 0.011,
+        "VOLATILITY-CE-01": 0.2052
+      },
+      "max_corr": 0.2052,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_vol_120_k2",
+      "family": "low_vol",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": -0.0056,
+        "sharpe": -1.3915,
+        "max_drawdown": -0.0363,
+        "win_rate": 0.4905,
+        "profit_factor": 0.9849,
+        "num_trades": 263,
+        "avg_hold_days": 10.45
+      },
+      "oos": {
+        "sharpe": -3.0902,
+        "annual_return": -0.0129,
+        "max_drawdown": -0.022
+      },
+      "n_trades": 263,
+      "oos_trades": 76,
+      "x2_full_sharpe": -3.5401,
+      "x2_oos_sharpe": -5.1198,
+      "x2_n_trades": 263,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.01,
+        "COMPOSITE-CE-02": -0.0177,
+        "VOLATILITY-CE-01": 0.1691
+      },
+      "max_corr": 0.1691,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_vol_120_k2",
+      "family": "low_vol",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": 0.0002,
+        "sharpe": 0.0415,
+        "max_drawdown": -0.0123,
+        "win_rate": 0.5455,
+        "profit_factor": 1.871,
+        "num_trades": 132,
+        "avg_hold_days": 21.71
+      },
+      "oos": {
+        "sharpe": -1.7532,
+        "annual_return": -0.0071,
+        "max_drawdown": -0.0123
+      },
+      "n_trades": 132,
+      "oos_trades": 39,
+      "x2_full_sharpe": -1.2295,
+      "x2_oos_sharpe": -2.9145,
+      "x2_n_trades": 132,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0343,
+        "COMPOSITE-CE-02": -0.0099,
+        "VOLATILITY-CE-01": 0.2081
+      },
+      "max_corr": 0.2081,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t1_r40",
+      "family": "composite",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.95
+      },
+      "full": {
+        "annual_return": -0.0091,
+        "sharpe": -0.8602,
+        "max_drawdown": -0.0651,
+        "win_rate": 0.4138,
+        "profit_factor": 0.6887,
+        "num_trades": 29,
+        "avg_hold_days": 9.66
+      },
+      "oos": {
+        "sharpe": -2.2384,
+        "annual_return": -0.0382,
+        "max_drawdown": -0.0651
+      },
+      "n_trades": 29,
+      "oos_trades": 19,
+      "x2_full_sharpe": -0.8958,
+      "x2_oos_sharpe": -1.7591,
+      "x2_n_trades": 15,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": false,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": -0.0013,
+        "COMPOSITE-CE-02": -0.0023,
+        "VOLATILITY-CE-01": 0.1116
+      },
+      "max_corr": 0.1116,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t1_r40",
+      "family": "composite",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.95
+      },
+      "full": {
+        "annual_return": -0.0065,
+        "sharpe": -0.5113,
+        "max_drawdown": -0.0669,
+        "win_rate": 0.4286,
+        "profit_factor": 1.0271,
+        "num_trades": 28,
+        "avg_hold_days": 18.25
+      },
+      "oos": {
+        "sharpe": -1.7958,
+        "annual_return": -0.039,
+        "max_drawdown": -0.0669
+      },
+      "n_trades": 28,
+      "oos_trades": 23,
+      "x2_full_sharpe": -0.7328,
+      "x2_oos_sharpe": -2.0801,
+      "x2_n_trades": 16,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": false,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": -0.0486,
+        "COMPOSITE-CE-02": -0.0333,
+        "VOLATILITY-CE-01": 0.0984
+      },
+      "max_corr": 0.0984,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t1_r20",
+      "family": "composite",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.95
+      },
+      "full": {
+        "annual_return": -0.0094,
+        "sharpe": -0.8356,
+        "max_drawdown": -0.0722,
+        "win_rate": 0.3667,
+        "profit_factor": 0.681,
+        "num_trades": 30,
+        "avg_hold_days": 9.3
+      },
+      "oos": {
+        "sharpe": -2.4762,
+        "annual_return": -0.0421,
+        "max_drawdown": -0.0714
+      },
+      "n_trades": 30,
+      "oos_trades": 19,
+      "x2_full_sharpe": -0.7911,
+      "x2_oos_sharpe": -1.8079,
+      "x2_n_trades": 16,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": -0.0273,
+        "COMPOSITE-CE-02": -0.0139,
+        "VOLATILITY-CE-01": 0.0979
+      },
+      "max_corr": 0.0979,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t1_r20",
+      "family": "composite",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 1,
+        "position_size_pct": 0.95
+      },
+      "full": {
+        "annual_return": -0.0077,
+        "sharpe": -0.7034,
+        "max_drawdown": -0.0628,
+        "win_rate": 0.3043,
+        "profit_factor": 0.6744,
+        "num_trades": 23,
+        "avg_hold_days": 14.52
+      },
+      "oos": {
+        "sharpe": -2.2753,
+        "annual_return": -0.0375,
+        "max_drawdown": -0.0624
+      },
+      "n_trades": 23,
+      "oos_trades": 17,
+      "x2_full_sharpe": -0.7691,
+      "x2_oos_sharpe": -2.107,
+      "x2_n_trades": 15,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": false,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": -0.0235,
+        "COMPOSITE-CE-02": -0.0103,
+        "VOLATILITY-CE-01": 0.1099
+      },
+      "max_corr": 0.1099,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t2_r40",
+      "family": "composite",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.475
+      },
+      "full": {
+        "annual_return": -0.005,
+        "sharpe": -0.3384,
+        "max_drawdown": -0.0837,
+        "win_rate": 0.4747,
+        "profit_factor": 1.276,
+        "num_trades": 99,
+        "avg_hold_days": 10.28
+      },
+      "oos": {
+        "sharpe": -2.3073,
+        "annual_return": -0.0479,
+        "max_drawdown": -0.0837
+      },
+      "n_trades": 99,
+      "oos_trades": 77,
+      "x2_full_sharpe": -1.1176,
+      "x2_oos_sharpe": -4.0021,
+      "x2_n_trades": 75,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0172,
+        "COMPOSITE-CE-02": 0.0001,
+        "VOLATILITY-CE-01": 0.1379
+      },
+      "max_corr": 0.1379,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t2_r40",
+      "family": "composite",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.475
+      },
+      "full": {
+        "annual_return": 0.0042,
+        "sharpe": 0.2948,
+        "max_drawdown": -0.0516,
+        "win_rate": 0.4118,
+        "profit_factor": 1.9204,
+        "num_trades": 51,
+        "avg_hold_days": 20.47
+      },
+      "oos": {
+        "sharpe": -1.2621,
+        "annual_return": -0.0259,
+        "max_drawdown": -0.0516
+      },
+      "n_trades": 51,
+      "oos_trades": 41,
+      "x2_full_sharpe": -0.3605,
+      "x2_oos_sharpe": -2.3914,
+      "x2_n_trades": 51,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.039,
+        "COMPOSITE-CE-02": 0.0061,
+        "VOLATILITY-CE-01": 0.1541
+      },
+      "max_corr": 0.1541,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t2_r20",
+      "family": "composite",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.475
+      },
+      "full": {
+        "annual_return": -0.0078,
+        "sharpe": -0.4928,
+        "max_drawdown": -0.0962,
+        "win_rate": 0.3981,
+        "profit_factor": 1.1473,
+        "num_trades": 103,
+        "avg_hold_days": 9.75
+      },
+      "oos": {
+        "sharpe": -1.5641,
+        "annual_return": -0.0414,
+        "max_drawdown": -0.0962
+      },
+      "n_trades": 103,
+      "oos_trades": 82,
+      "x2_full_sharpe": -1.205,
+      "x2_oos_sharpe": -2.7033,
+      "x2_n_trades": 81,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0525,
+        "COMPOSITE-CE-02": 0.0079,
+        "VOLATILITY-CE-01": 0.1532
+      },
+      "max_corr": 0.1532,
+      "sleeve_tag": false
+    },
+    {
+      "name": "composite_t2_r20",
+      "family": "composite",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 2,
+        "position_size_pct": 0.475
+      },
+      "full": {
+        "annual_return": 0.0012,
+        "sharpe": 0.0842,
+        "max_drawdown": -0.0555,
+        "win_rate": 0.4182,
+        "profit_factor": 1.7468,
+        "num_trades": 55,
+        "avg_hold_days": 18.96
+      },
+      "oos": {
+        "sharpe": -0.5488,
+        "annual_return": -0.0142,
+        "max_drawdown": -0.0555
+      },
+      "n_trades": 55,
+      "oos_trades": 44,
+      "x2_full_sharpe": -0.5704,
+      "x2_oos_sharpe": -1.6955,
+      "x2_n_trades": 54,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0492,
+        "COMPOSITE-CE-02": 0.0025,
+        "VOLATILITY-CE-01": 0.1486
+      },
+      "max_corr": 0.1486,
+      "sleeve_tag": false
+    },
+    {
+      "name": "tsmom_200",
+      "family": "ts_trend",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": 0.0095,
+        "sharpe": 0.3938,
+        "max_drawdown": -0.0601,
+        "win_rate": 0.519,
+        "profit_factor": 1.5413,
+        "num_trades": 499,
+        "avg_hold_days": 9.9
+      },
+      "oos": {
+        "sharpe": 0.7605,
+        "annual_return": 0.0279,
+        "max_drawdown": -0.0601
+      },
+      "n_trades": 499,
+      "oos_trades": 178,
+      "x2_full_sharpe": -0.3045,
+      "x2_oos_sharpe": 0.1816,
+      "x2_n_trades": 499,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3651,
+        "COMPOSITE-CE-02": 0.193,
+        "VOLATILITY-CE-01": 0.3978
+      },
+      "max_corr": 0.3978,
+      "sleeve_tag": false
+    },
+    {
+      "name": "tsmom_200",
+      "family": "ts_trend",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": 0.0206,
+        "sharpe": 0.9169,
+        "max_drawdown": -0.0404,
+        "win_rate": 0.5552,
+        "profit_factor": 2.0803,
+        "num_trades": 317,
+        "avg_hold_days": 16.4
+      },
+      "oos": {
+        "sharpe": 1.0889,
+        "annual_return": 0.0357,
+        "max_drawdown": -0.0404
+      },
+      "n_trades": 317,
+      "oos_trades": 120,
+      "x2_full_sharpe": 0.4575,
+      "x2_oos_sharpe": 0.7059,
+      "x2_n_trades": 317,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3672,
+        "COMPOSITE-CE-02": 0.1981,
+        "VOLATILITY-CE-01": 0.4109
+      },
+      "max_corr": 0.4109,
+      "sleeve_tag": false
+    },
+    {
+      "name": "donchian_55_20",
+      "family": "ts_trend",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": 0.0096,
+        "sharpe": 0.4188,
+        "max_drawdown": -0.0714,
+        "win_rate": 0.5622,
+        "profit_factor": 1.5541,
+        "num_trades": 402,
+        "avg_hold_days": 10.7
+      },
+      "oos": {
+        "sharpe": 0.6221,
+        "annual_return": 0.0247,
+        "max_drawdown": -0.0714
+      },
+      "n_trades": 402,
+      "oos_trades": 189,
+      "x2_full_sharpe": -0.168,
+      "x2_oos_sharpe": 0.061,
+      "x2_n_trades": 402,
+      "i_bar": 0.8411,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3413,
+        "COMPOSITE-CE-02": 0.2015,
+        "VOLATILITY-CE-01": 0.3291
+      },
+      "max_corr": 0.3413,
+      "sleeve_tag": false
+    },
+    {
+      "name": "donchian_55_20",
+      "family": "ts_trend",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {
+        "max_positions": 5,
+        "position_size_pct": 0.1
+      },
+      "full": {
+        "annual_return": 0.0169,
+        "sharpe": 0.7777,
+        "max_drawdown": -0.0477,
+        "win_rate": 0.6293,
+        "profit_factor": 2.0009,
+        "num_trades": 232,
+        "avg_hold_days": 19.11
+      },
+      "oos": {
+        "sharpe": 0.9979,
+        "annual_return": 0.0367,
+        "max_drawdown": -0.0477
+      },
+      "n_trades": 232,
+      "oos_trades": 117,
+      "x2_full_sharpe": 0.4327,
+      "x2_oos_sharpe": 0.6655,
+      "x2_n_trades": 232,
+      "i_bar": 1.285,
+      "vi_bar": 1.0898,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3393,
+        "COMPOSITE-CE-02": 0.1988,
+        "VOLATILITY-CE-01": 0.3377
+      },
+      "max_corr": 0.3393,
+      "sleeve_tag": false
+    }
+  ],
+  "survivors_g1_prime": [],
+  "sleeve_candidates": [],
+  "verdict": {
+    "void": false,
+    "n_survivors": 0,
+    "n_sleeves": 0,
+    "fail_branch": "no G1' survivor this batch: family verdict = existing machinery (signals x exit regimes) finds no trader on the core-5 bond/gold pool; sleeve candidates recorded for a future P3-style pre-registered integration decision; expansion material (money-market cash leg / convertible) or new signal design = separate pre-registration. NO threshold tuning, NO re-run (iron rule 3)"
+  },
+  "trials_ledger": [
+    {
+      "batch": "432-MA-param-grid (pre-plan)",
+      "n": 432
+    },
+    {
+      "batch": "J6-factor-IC-study",
+      "n": 30
+    },
+    {
+      "batch": "P1-strategy-screen",
+      "n": 59
+    },
+    {
+      "batch": "P2-null-calibration",
+      "n": 122
+    },
+    {
+      "batch": "P2-survivor-deepening",
+      "n": 27
+    },
+    {
+      "batch": "J14-low-churn-family",
+      "n": 26
+    },
+    {
+      "batch": "J15-combined-exit-softening",
+      "n": 12
+    },
+    {
+      "batch": "J19-ce-transfer",
+      "n": 9
+    },
+    {
+      "batch": "P3-portfolio-validation",
+      "n": 10,
+      "note": "6 engine member runs (anchor-cum-sleeve) + 4 portfolio evaluations (derived, non-engine)"
+    },
+    {
+      "batch": "LFC-P1-mini-screen",
+      "n": 145,
+      "note": "20 cells x(1x+x2) + 100 random + 3 trader anchors + 2 passive; pre-registered n=145 (research/LFC_P1_SCREEN.md sec.7)"
+    }
+  ],
+  "audit": {
+    "elapsed_sec": 39.5,
+    "n_backtests": 145,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}

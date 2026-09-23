@@ -7,6 +7,9 @@ logs/iteration-loop/*
 !logs/iteration-loop/round_reports.md
 !logs/iteration-loop/state.json
 .codely-cli/
+# fleet: local machine identity must NOT be tracked (X104 lesson: cross-machine
+# merge silently overwrites tracked identity files). Template IS tracked.
+fleet/machine.json
 __pycache__/
 *.pyc
 .venv/

@@ -33,9 +33,10 @@
 ## 四、新机器跑起来（PLAN.md 可拷贝迁移原则）
 
 ```powershell
-# 1. 取项目（二选一）：
-#    A. git clone（推荐——仓库=唯一真值源，含代码+数据+成果+规则+记忆；循环每轮自动 commit，随时 pull 最新回测成果）
-#    B. 拷贝整个 Bigmoney/ 文件夹（git 未跟踪：Money02/、logs/、.codely-cli/ 为本机局部资产）
+# 1. 取项目：**铁律=git clone（禁文件夹直接复制**——防携带锁文件/临时态；Biggame 08号传输铁律同源）
+#    git clone git@github.com:BigRain-11122/bigmoney.git
+#    （Money02/、logs/、.codely-cli/、fleet/machine.json 为各机局部，clone 不含、也禁手拷）
+#    新机器接入 5 步与机队协议（身份/心跳/任务认领/借算/写域）= fleet\README.md
 # 2. 一条命令自举：依赖自装（清华镜像回退）→ 20 项自检 → 总控数据生成
 python bootstrap.py
 # 3. 打开总控（读真实数据，双击可开）

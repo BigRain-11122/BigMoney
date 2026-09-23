@@ -230,3 +230,4 @@ set BIGMONEY_MASTER_IP=100.x.x.x
 - **交流载体**：commit message（每轮一句话成果）｜`CODELY.md` 项目记忆｜`research/` 报告｜`logs/iteration-loop/round_reports.md` + `state.json`（轮账本，已白名单入库）。
 - **不入库（各机器局部）**：`Money02/`（7.7GB 前代资产）、`logs/`（除轮账本两文件）、`.codely-cli/`。
 - **远端** = `git@github.com:BigRain-11122/bigmoney.git`（SSH 走 Clash 代理已配好）。用户在 GitHub 建好空私库 `bigmoney` 后，循环下一轮自动 push 接上，无需任何手动操作。
+- **机队协议 = `fleet/README.md`（v1.0）**：机器身份/心跳台账（每机只写自己文件）、定向消息收件箱（fleet/inbox/）、任务分配认领制（fleet/tasks/，commit 即锁）、共享算力与借算、写域分治、新机接入 5 步、X128-lite 推送兜底——机制模式移植自 Biggame 08 号多机分治协议。
