@@ -200,6 +200,36 @@ def _portfolio_state() -> dict:
         "status": "ok" if x1 else "none",
         "text": "EW6 报告制" if x1 else "组合批待产出",
     }
+    # IV6 report-only pass 2 (bm-a R35, charter s1.1 IV path): display-only block;
+    # EW stays the validated carrier (no post-run switching), IV adoption = charter s5 T1.
+    ivj = _read_json(os.path.join(PATHS.results_dir, "portfolio_iv6.json")) or {}
+    ivx1 = (ivj.get("portfolios_iv") or {}).get("x1") or {}
+    ivx2 = (ivj.get("portfolios_iv") or {}).get("x2") or {}
+    ivv = ivj.get("verdict") or {}
+    ivh = ivv.get("head_to_head") or (ivj.get("head_to_head") or {})
+    ivg = ivj.get("v2_gate_iv6") or {}
+    out["iv"] = {
+        "present": bool(ivx1),
+        "generated": ivj.get("generated"),
+        "sharpe": (ivx1.get("full") or {}).get("sharpe"),
+        "annual": (ivx1.get("full") or {}).get("annual_return"),
+        "dd": (ivx1.get("full") or {}).get("max_drawdown"),
+        "worst_year": ivx1.get("worst_year"),
+        "n_trades": ivx1.get("n_trades"),
+        "benefit": ivx1.get("benefit", ivv.get("iv_benefit")),
+        "dr": ivx1.get("dr", ivv.get("iv_dr")),
+        "x2_sharpe": (ivx2.get("full") or {}).get("sharpe"),
+        "x2_survive": ivv.get("iv_x2_survive"),
+        "validated": ivv.get("iv_validated"),
+        "v2_pass": ivv.get("v2_pass"),
+        "skill_line_v2": ivg.get("skill_line", {}).get("line") if isinstance(ivg.get("skill_line"), dict) else ivg.get("skill_line"),
+        "ci95_low": (ivg.get("bootstrap_ci") or {}).get("ci95_low"),
+        "delta_sharpe": ivh.get("delta_full_sharpe"),
+        "delta_dd": ivh.get("delta_max_dd"),
+        "corr_ew": ivh.get("corr_iv6_ew6"),
+        "weights": ivx1.get("weights") or {},
+        "status": "ok" if ivx1 else "none",
+    }
     return out
 
 
@@ -908,12 +938,19 @@ def build() -> dict:
     if pf["present"]:
         def _pf2(v):
             return format(v, ".2f") if isinstance(v, (int, float)) else "—"
+        iv = pf.get("iv") or {}
+        if iv.get("present"):
+            iv_txt = (f" · IV6 风险预算 Sharpe {_pf2(iv['sharpe'])} · DR {_pf2(iv['dr'])}"
+                      f"（报告制 pass 2 · v2 门{'过' if iv.get('v2_pass') else '未过'}"
+                      f" · 采纳=章程 §五 T1 待批）")
+        else:
+            iv_txt = " · IV=待产出"
         tail_events.append({
             "time": pf["generated"] or "-",
             "text": f"组合层 · EW6 等权 {pf['members']} 员 · Sharpe {_pf2(pf['ew_sharpe'])}"
                     f" · 分散收益 +{_pf2(pf['benefit'])} · ×2 成本 {_pf2(pf['x2_sharpe'])} "
                     f"{('存活' if pf['x2_survive'] else '阵亡') if pf['x2_survive'] is not None else '—'}"
-                    f"（T-06 报告制 · IV=Phase 1 待开）"})
+                    f"（T-06 报告制 · EW 载体）{iv_txt}"})
     fl = payload["fleet"]
     if fl["present"]:
         m_alive = sum(1 for m in fl["machines"] if m["health"] == "ok")
