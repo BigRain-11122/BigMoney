@@ -11,7 +11,11 @@ import pandas as pd
 
 from .exit_rules import ExitConfig, ExitState, evaluate
 from .metrics import summarize
-from knowledge.rules import FeeSchedule, is_t0
+from knowledge.rules import (
+    FeeSchedule, is_t0,
+    ADV20_TIER_2BP_YUAN, ADV20_TIER_5BP_YUAN, ADV_FILL_CAP_RATE,
+    SLIPPAGE_TIER_2BP, SLIPPAGE_TIER_5BP, SLIPPAGE_TIER_10BP, COST_BASIS_V2,
+)
 
 
 def _entry_signal(close: pd.Series, fast: int = 5, slow: int = 20) -> pd.Series:
@@ -32,7 +36,8 @@ def run_backtest(prices: dict, params: dict,
                  initial_cash: float = 1_000_000.0,
                  entry_signal: pd.DataFrame = None,
                  exit_signal: pd.DataFrame = None,
-                 fill_guard=None) -> dict:
+                 fill_guard=None,
+                 cost_v2=None) -> dict:
     """prices: dict[symbol] -> DataFrame with date index, cols open/close/high/low.
 
     J7 signal-injection adapter (BACKTEST_PLAN S2 contract):
@@ -53,6 +58,20 @@ def run_backtest(prices: dict, params: dict,
         force-executed at the first fillable close with the ORIGINAL exit
         reason/size (stale decision, honest late fill).
       Missing symbol/date -> unrestricted (True).
+
+    D5 cost-basis v2 (BACKTEST_SCIENCE.md s5; additive; default None =
+    legacy path byte-identical). cost_v2 accepts:
+      DataFrame(date x symbol) -- ADV(20d) panel: rolling 20-day mean daily
+        turnover in yuan ENDING at each date (inclusive); the engine shifts
+        one day so an execution on day D only sees information through the
+        prior (signal) close -- no look-ahead;
+      dict {"adv20": <that DataFrame>} -- same panel keyed.
+    When ON: per-side slippage tiered 2/5/10bp by ADV(20d) (missing ->
+    10bp conservative = legacy); entry demand capped at 1% of ADV(20d)
+    (excess does not fill, partial fill kept; zero/negative ADV -> order
+    dropped; missing ADV -> no cap, counted). Exits keep the tiered rate but
+    are NOT quantity-capped (exit machine owns sizing via close_fraction).
+    Basis + counters are disclosed in result["cost_v2"] (key absent when off).
     """
     cfg = ExitConfig(
         take_profit_levels=tuple(params.get("take_profit_levels", (0.05, 0.10, 0.20))),
@@ -76,6 +95,33 @@ def run_backtest(prices: dict, params: dict,
     trades: list[dict] = []
     equity_curve: list[float] = []
     dates = closes.index
+
+    # D5 cost v2 panels (built only when the additive flag is ON; the
+    # legacy path below never touches these variables when cost_v2=None).
+    if cost_v2 is None:
+        tier_v2 = cap_v2 = None
+        stats_v2 = None
+    else:
+        adv = cost_v2["adv20"] if isinstance(cost_v2, dict) else cost_v2
+        adv = adv.reindex(index=dates, columns=closes.columns)
+        adv_arr = adv.shift(1).to_numpy(dtype=float)   # exec day -> signal-day info
+        with np.errstate(invalid="ignore"):
+            finite = np.isfinite(adv_arr)
+            tier_arr = np.full(adv_arr.shape, SLIPPAGE_TIER_10BP, dtype=float)
+            m5 = finite & (adv_arr >= ADV20_TIER_5BP_YUAN)
+            m2 = finite & (adv_arr >= ADV20_TIER_2BP_YUAN)
+            tier_arr[m5] = SLIPPAGE_TIER_5BP
+            tier_arr[m2] = SLIPPAGE_TIER_2BP          # m2 subset of m5: 2bp wins
+            cap_arr = np.where(finite, ADV_FILL_CAP_RATE * adv_arr, np.inf)
+        tier_v2 = pd.DataFrame(tier_arr, index=dates, columns=closes.columns)
+        cap_v2 = pd.DataFrame(cap_arr, index=dates, columns=closes.columns)
+        stats_v2 = {
+            "cost_basis": COST_BASIS_V2,
+            "tier_entries_2bp": 0, "tier_entries_5bp": 0,
+            "tier_entries_10bp": 0,
+            "capped_entries": 0, "dropped_zero_adv": 0,
+            "missing_adv_executions": 0,
+        }
 
     # precompute signals on close
     def _injected(sig: pd.DataFrame, sym: str) -> pd.Series:
@@ -140,12 +186,48 @@ def run_backtest(prices: dict, params: dict,
                 # limit-up) -> order dropped, not retried on stale signal.
                 del pending_entries[sym]
                 continue
+            if tier_v2 is None:
+                # legacy path (verbatim, byte-identical when flag off)
+                target_value = initial_cash * cfg.position_size_pct
+                qty = target_value / px
+                total_cost = px * qty * (1 + cost_rate)
+                if total_cost > cash:
+                    continue
+                cash -= total_cost
+                positions[sym] = ExitState(
+                    cost_price=px, quantity=qty, high_watermark=px,
+                )
+                del pending_entries[sym]
+                continue
+            # --- D5 cost-v2 entry path ---
             target_value = initial_cash * cfg.position_size_pct
+            cap_i = float(cap_v2.at[date, sym])
+            tier_i = float(tier_v2.at[date, sym])
+            if not np.isfinite(cap_i):
+                # missing ADV: conservative 10bp slippage (= legacy), no cap
+                stats_v2["missing_adv_executions"] += 1
+            elif cap_i <= 0:
+                # zero/negative ADV(20d): no measurable liquidity -> dropped
+                del pending_entries[sym]
+                stats_v2["dropped_zero_adv"] += 1
+                continue
+            elif cap_i < target_value:
+                # D5 volume constraint: demand > 1% ADV -> excess unfilled
+                target_value = cap_i
+                stats_v2["capped_entries"] += 1
+            rate_buy = (fee.commission_rate + fee.handling_fee
+                        + fee.supervision_fee + tier_i)
             qty = target_value / px
-            total_cost = px * qty * (1 + cost_rate)
+            total_cost = px * qty * (1 + rate_buy)
             if total_cost > cash:
                 continue
             cash -= total_cost
+            if tier_i == SLIPPAGE_TIER_2BP:
+                stats_v2["tier_entries_2bp"] += 1
+            elif tier_i == SLIPPAGE_TIER_5BP:
+                stats_v2["tier_entries_5bp"] += 1
+            else:
+                stats_v2["tier_entries_10bp"] += 1
             positions[sym] = ExitState(
                 cost_price=px, quantity=qty, high_watermark=px,
             )
@@ -177,15 +259,21 @@ def run_backtest(prices: dict, params: dict,
                     continue
                 qty = st.quantity * action.close_fraction
                 gross = qty * px
-                proceeds = gross * (1 - cost_rate)
+                if tier_v2 is None:
+                    rate_sell = cost_rate   # legacy path (identical arithmetic)
+                else:
+                    rate_sell = (fee.commission_rate + fee.handling_fee
+                                 + fee.supervision_fee
+                                 + float(tier_v2.at[date, sym]))
+                proceeds = gross * (1 - rate_sell)
                 cash += proceeds
                 pnl_rate = (px - st.cost_price) / st.cost_price
                 trades.append({
                     "date": str(date.date()), "symbol": sym,
                     "reason": action.reason,
                     "price": round(px, 4), "qty": round(qty, 2),
-                    "fee": round(gross * cost_rate, 2),
-                    "pnl": round((px - st.cost_price) * qty - gross * cost_rate, 2),
+                    "fee": round(gross * rate_sell, 2),
+                    "pnl": round((px - st.cost_price) * qty - gross * rate_sell, 2),
                     "pnl_rate": round(pnl_rate, 4),
                     "hold_days": st.hold_days,
                 })
@@ -212,8 +300,11 @@ def run_backtest(prices: dict, params: dict,
 
     equity = pd.Series(equity_curve, index=dates[:len(equity_curve)])
     metrics = summarize(equity, trades)
-    return {
+    result = {
         "metrics": metrics,
         "trades": trades,
         "equity_curve": [round(v, 2) for v in equity_curve],
     }
+    if stats_v2 is not None:
+        result["cost_v2"] = stats_v2
+    return result

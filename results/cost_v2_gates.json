@@ -1,0 +1,225 @@
+{
+  "generated": "2026-09-23 23:56:21",
+  "task": "T-2026-09-23-02 deliverable 3/7 (D5 cost-basis v2)",
+  "engine_change": "additive cost_v2 flag (default None = legacy byte-identical); ADV(20d) tiers 2/5/10bp + 1% ADV entry fill cap; missing-ADV -> 10bp conservative, no cap, counted",
+  "all_pass": true,
+  "elapsed_sec": 2.9,
+  "audit": {
+    "workers": 1,
+    "purpose": "tooling-gate (engine/rules verification, zero strategy selection)",
+    "ledger_trials_added": 0
+  },
+  "gates": [
+    {
+      "gate": "G0",
+      "name": "rules constants sanity",
+      "status": "PASS",
+      "checks": {
+        "tier_monotone": true,
+        "tier10bp_is_legacy": true,
+        "cap_rate": true,
+        "tier_edges": true,
+        "basis_strings": true
+      }
+    },
+    {
+      "gate": "G1",
+      "name": "432-grid determinism (fill_guard=None, 5 sampled combos)",
+      "status": "PASS",
+      "rows": [
+        {
+          "hash": "079d85ab",
+          "idx": 0,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.0023
+        },
+        {
+          "hash": "936c29bc",
+          "idx": 108,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.4186
+        },
+        {
+          "hash": "51554fff",
+          "idx": 216,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.0864
+        },
+        {
+          "hash": "c3b80ff0",
+          "idx": 324,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.0359
+        },
+        {
+          "hash": "cc62883b",
+          "idx": 431,
+          "status": "PASS",
+          "metrics_eq": true,
+          "equity_eq": true,
+          "trades_eq": true,
+          "sharpe": 0.1213
+        }
+      ]
+    },
+    {
+      "gate": "G2",
+      "name": "tier math + fallbacks",
+      "status": "PASS",
+      "cases": [
+        [
+          "600000000.0",
+          0.0002
+        ],
+        [
+          "500000000.0",
+          0.0002
+        ],
+        [
+          "499000000.0",
+          0.0005
+        ],
+        [
+          "100000000.0",
+          0.0005
+        ],
+        [
+          "99000000.0",
+          0.001
+        ],
+        [
+          "1.0",
+          0.001
+        ],
+        [
+          "nan",
+          0.001
+        ],
+        [
+          "None",
+          0.001
+        ],
+        [
+          "'bad'",
+          0.001
+        ],
+        [
+          "-1000000000.0",
+          0.001
+        ]
+      ],
+      "side_rate_2bp": 0.0005041000000000001
+    },
+    {
+      "gate": "G3",
+      "name": "engine cap + tiered cost (synthetic)",
+      "status": "PASS",
+      "checks": {
+        "two_trades": true,
+        "aaa_qty_capped_to_1pct_adv": true,
+        "bbb_qty_uncapped": true,
+        "aaa_fee_10bp_tier": true,
+        "bbb_fee_2bp_tier": true,
+        "capped_entries": true,
+        "tier_counts": true,
+        "no_drops": true
+      },
+      "stats": {
+        "cost_basis": "v2-adv20-tiered",
+        "tier_entries_2bp": 1,
+        "tier_entries_5bp": 0,
+        "tier_entries_10bp": 1,
+        "capped_entries": 1,
+        "dropped_zero_adv": 0,
+        "missing_adv_executions": 0
+      }
+    },
+    {
+      "gate": "G4",
+      "name": "zero-ADV drop + missing-ADV fallback",
+      "status": "PASS",
+      "checks": {
+        "zed_dropped_no_trade": true,
+        "mis_uncapped_qty": true,
+        "mis_fee_10bp_fallback": true,
+        "dropped_zero_adv_counter": true,
+        "missing_adv_counter": true,
+        "capped_zero": true
+      },
+      "stats": {
+        "cost_basis": "v2-adv20-tiered",
+        "tier_entries_2bp": 0,
+        "tier_entries_5bp": 0,
+        "tier_entries_10bp": 1,
+        "capped_entries": 0,
+        "dropped_zero_adv": 1,
+        "missing_adv_executions": 1
+      }
+    },
+    {
+      "gate": "G5",
+      "name": "no-look-ahead (engine shifts adv one day)",
+      "status": "PASS",
+      "checks": {
+        "qty_uses_prior_day_cap": true,
+        "tier_uses_prior_day_adv": true,
+        "sell_side_uses_its_own_prior_day": true
+      },
+      "stats": {
+        "cost_basis": "v2-adv20-tiered",
+        "tier_entries_2bp": 0,
+        "tier_entries_5bp": 0,
+        "tier_entries_10bp": 1,
+        "capped_entries": 1,
+        "dropped_zero_adv": 0,
+        "missing_adv_executions": 0
+      }
+    },
+    {
+      "gate": "G6",
+      "name": "live-fire VOLATILITY-CE-01 anchor under v2 basis",
+      "status": "PASS",
+      "checks": {
+        "anchor_repro_default_path": true,
+        "basis_declared": true,
+        "v1_result_has_no_cost_key": true,
+        "equity_lengths_equal": true,
+        "zero_adv_drops": true,
+        "tier_counters_populated": true,
+        "fees_not_higher_than_legacy": true,
+        "uncapped_implies_strictly_cheaper": true
+      },
+      "evidence_cutoff": "2026-09-22",
+      "v1_full_sharpe": 1.2578,
+      "v2_full_sharpe": 1.5124,
+      "v1_max_dd": null,
+      "v2_max_dd": null,
+      "v1_num_trades": 522,
+      "v2_num_trades": 522,
+      "fee_total_v1": 62779.08,
+      "fee_total_v2": 35808.22,
+      "cost_v2_stats": {
+        "cost_basis": "v2-adv20-tiered",
+        "tier_entries_2bp": 220,
+        "tier_entries_5bp": 162,
+        "tier_entries_10bp": 101,
+        "capped_entries": 17,
+        "dropped_zero_adv": 0,
+        "missing_adv_executions": 0
+      },
+      "note": "demonstration only, zero selection -> not a ledger trial"
+    }
+  ]
+}

@@ -3,6 +3,7 @@
 Version: v2026.09.22
 Source: see market_rules.md
 """
+import math
 from dataclasses import dataclass, field
 from datetime import date
 
@@ -74,3 +75,53 @@ def total_sell_proceeds(price: float, qty: int,
     fee_total += gross * (fee.handling_fee + fee.supervision_fee)
     fee_total += gross * fee.slippage_a
     return gross - fee_total
+
+
+# ---------------------------------------------------------------------------
+# D5 cost-basis v2 -- liquidity-tiered slippage (BACKTEST_SCIENCE.md s5).
+# Frozen thresholds; NEW batches declare the basis version in their report;
+# historical anchors keep the v1 flat basis (engine default path unchanged,
+# dual-track prevents anchor drift). x2/x3 stress stays a second-level stress
+# face applied on whichever basis a batch declares.
+# ---------------------------------------------------------------------------
+
+COST_BASIS_V1 = "v1-flat"           # per-side 13.041bp = fixed fees + 10bp flat slippage
+COST_BASIS_V2 = "v2-adv20-tiered"   # ADV(20d) tiers 2/5/10bp + 1% ADV fill cap
+
+# ADV(20d) tier edges, unit = yuan of mean daily turnover
+ADV20_TIER_2BP_YUAN = 500_000_000.0   # >= 5e8 -> 2bp
+ADV20_TIER_5BP_YUAN = 100_000_000.0   # [1e8, 5e8) -> 5bp; < 1e8 -> 10bp
+ADV_FILL_CAP_RATE = 0.01              # entry demand above 1% of ADV(20d) does not fill
+
+SLIPPAGE_TIER_2BP = 0.0002
+SLIPPAGE_TIER_5BP = 0.0005
+SLIPPAGE_TIER_10BP = 0.001            # == FeeSchedule.slippage_a (legacy flat)
+
+
+def cost_v2_slippage(adv20_yuan) -> float:
+    """Per-side slippage rate for an ADV(20d) turnover figure (yuan).
+
+    adv20_yuan = rolling 20-day mean daily turnover ending at the SIGNAL
+    close (the engine shifts it one execution day internally, so callers
+    pass the unshifted through-date panel). Missing or invalid input falls
+    back to the 10bp tier (= legacy slippage_a): a data gap can never
+    cheapen costs.
+    """
+    try:
+        v = float(adv20_yuan)
+    except (TypeError, ValueError):
+        return SLIPPAGE_TIER_10BP
+    if math.isnan(v):
+        return SLIPPAGE_TIER_10BP
+    if v >= ADV20_TIER_2BP_YUAN:
+        return SLIPPAGE_TIER_2BP
+    if v >= ADV20_TIER_5BP_YUAN:
+        return SLIPPAGE_TIER_5BP
+    return SLIPPAGE_TIER_10BP
+
+
+def cost_v2_side_rate(adv20_yuan, fee: FeeSchedule = None) -> float:
+    """Full per-side rate under the v2 basis: fixed fees + tiered slippage."""
+    f = fee if fee is not None else FeeSchedule()
+    return (f.commission_rate + f.handling_fee + f.supervision_fee
+            + cost_v2_slippage(adv20_yuan))
