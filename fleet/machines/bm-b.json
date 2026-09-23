@@ -1,9 +1,10 @@
 {
   "machine_id": "bm-b",
-  "last_seen": "2026-09-23 14:10",
-  "current_task": "backtest-node maintenance round 26 (data chain intraday no-op, panel refreshed, board empty no claim)",
+  "last_seen": "2026-09-23 14:58",
+  "orders_ack": "2026-09-23 14:58",
+  "current_task": "round 27: T-2026-09-23-01 B2 croc send of bars to bm-a IN FLIGHT (code bm-money02-ETWP, 10444 files/1.09GB, sender manifest done, waiting receiver); A-part smalls delivered by user session triage 880f6a2; loop prompt wired with S0.5 orders step",
   "cpu_cores": "16",
-  "idle_ram_gb": "11.6",
-  "gpu_idle_vram_mb": 2495,
-  "verdict": "healthy: smoke 20/20, update_daily exit0 (intraday no-op, cutoff 2026-09-22), pull up-to-date, board empty + no fleet tickets = maintenance mode; next round after 15:30 = first full sweep (total_new_rows should be 48, paper bars>0, then recheck CE-02 x2 margin 0.431 + EW x2 cushion +0.175)"
+  "idle_ram_gb": "5.5",
+  "gpu_idle_vram_mb": "2495",
+  "verdict": "healthy: smoke 20/20, data chain intraday no-op (cutoff 2026-09-22); TRANSFER.md+FLEET-OPS.md v1.0 wired (orders_ack field live, prompt S0.5 added); next rounds: monitor logs/transfer-T-2026-09-23-01.log (throughput fuse <500KB/s 30min -> stop+report for B1), verify bm-a receiver manifest when it lands -> mark T-2026-09-23-01 done; after 15:30 first full sweep (total_new_rows=48, paper bars>0, recheck CE-02 x2 margin 0.431 + EW cushion +0.175)"
 }
