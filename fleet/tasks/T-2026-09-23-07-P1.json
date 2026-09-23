@@ -1,0 +1,10 @@
+{
+  "id": "T-2026-09-23-07",
+  "priority": "P1",
+  "type": "scorecard-delivery",
+  "spec": "CEO order O-20260923-2311 (GM Office activation first deliverable) + OPERATING_PLAN Phase 0 row 'P-6 记分卡交付' + framework authority firm/STRATEGY_EVALUATION.md (O-1823: S/A/B/C x dimensions + one-vote veto). Deliverables: (1) scripts/scorecard.py -- data-driven from trader JSONs (firm/traders/) + paper ledger + STRATEGY_LIBRARY s2 roster pointer; NO hardcoded counts (counts single-source rule O-2250); scores per framework dimensions with one-vote-veto flags; any unmappable dimension disclosed honestly, not invented. (2) First run: six current traders, results/scorecard_v1.json per-trader sections; panel step per token-panel precedent (results/*.json consumed by dashboard/build_status, T-04 panel step pattern). (3) Monthly hook wiring: rerun cadence documented in automation notes; hr.py adjudication stays the ONLY level-mutation authority -- scorecard = evaluation/report only, ZERO writes to trader level/paper fields. Acceptance: six first S/A/B/C scores on disk; new-field discipline (no historical key overwrites); smoke 20/20 unchanged; framework dimensions all mapped or explicitly marked unmapped-with-reason. ZERO-TOUCH: hr.py thresholds (T0), iron_rules, trader files, G2.5 precondition wiring (T-02 owns hr.py promotion precondition).",
+  "status": "open",
+  "created_by": "GM (quant 专管会话) via O-20260923-2311",
+  "created_at": "2026-09-23 23:18",
+  "note": "Claim-first (F-04). 10-31 first monthly check depends on this (scorecard feeds 总经办 monthly brief + PK 赛制运营, org_chart v3). Judgment criteria = firm/STRATEGY_EVALUATION.md authority."
+}
