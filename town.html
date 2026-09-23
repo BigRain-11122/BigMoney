@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.4 · paper 首月晋升进度可视化（hr 整月规则驱动）· 组织对齐 org_chart v2（七部门+总经办）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.5 · 组合调度中心落成（org_chart v3 八部门+总经办全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -199,6 +199,18 @@ function drawBunker(b) {                      // 工程部 (engineering · 地�
   px(x+2, y+6, 4, 4, ok ? '#5fd38a' : '#e05a5a');  // status LED
   text('工程部·地下机房', x-2, y-8, '#7a8494');
 }
+function drawPortfolio(b) {                   // 组合调度中心 (portfolio & capital · EW6 报告制)
+  const {x,y} = b, p = (D.data && D.data.portfolio) || {};
+  const nm = p.members || 0, ok = !!p.ew_validated;
+  rrect(x, y, 80, 48, '#232a38');
+  rrect(x, y, 80, 4, ok ? '#e8c15a' : '#e05a5a');   // gold band top (validated), hall-style
+  for (let c=0; c<6; c++)                     // 6 windows = EW6 member sleeves
+    px(x+6+c*12, y+10, 9, 10, p.present && c < nm ? '#e8c15a' : '#12151d');
+  rrect(x+10, y+26, 60, 10, '#161a22');       // facade sign strip
+  text(p.present ? 'EW6 报告制' : 'EW6 待产', x+13, y+34, ok ? '#5fd38a' : '#e8c15a', 7);
+  rrect(x+33, y+40, 14, 8, '#161a22');        // door
+  text('组合调度中心', x+8, y+62, '#7a8494');
+}
 function drawFlags() {                       // milestone flags bottom strip
   const g = D.gamification, n = g.milestones_total, x0 = 24, y = H-42;
   for (let i=0; i<n; i++) {
@@ -312,6 +324,21 @@ const BUILDS = [
       : '<div class="row dim">暂无在册交易员</div>')
       + ((D.trading.paper||{}).first_check ? '<div class="row">模拟盘首月：进度 <span class="green">'+Math.round(100*(D.trading.paper.month_progress??0))+'%</span> · 晋升检查日 '+D.trading.paper.first_check+' · 已计 '+D.trading.paper.months_tracked+' 月</div>' : '')
       + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
+  { id:'pf', x:176, y:236, w:80, h:48, draw:drawPortfolio, label:'组合调度中心',
+    dept:'组合与资金部 Portfolio & Capital', mandate:'组合构建 EW→IV · 相关性监控 · R-配3 帽应用层 · 现金腿（Phase 1）',
+    info: () => {
+      const p = (D.data && D.data.portfolio) || {};
+      if (!p.present) return '<div class="row dim">组合批待产出（T-06 EW6 报告制）</div>';
+      const f2 = v => (v==null ? '—' : Number(v).toFixed(2));
+      const f1 = v => (v==null ? '—' : (Number(v)*100).toFixed(1));
+      return '<div class="row">EW6 等权 '+p.members+' 员：Sharpe <span class="gold">'+f2(p.ew_sharpe)+'</span> · 年化 '+f1(p.ew_annual)+'% · 回撤 '+f1(p.ew_dd)+'%</div>'
+        + '<div class="row">'+p.n_trades+' 笔 · 最差年 '+f1(p.worst_year)+'%（无崩年）</div>'
+        + '<div class="row">分散收益 <span class="green">+'+f2(p.benefit)+'</span> · DR '+f2(p.dr)+'（成员加权均值 '+f2(p.weighted_mean)+'）</div>'
+        + '<div class="row">×2 成本 Sharpe '+f2(p.x2_sharpe)+' <span class="'+(p.x2_survive?'green':'red')+'">'+(p.x2_survive?'存活':'阵亡')+'</span>（vi 0.4004）</div>'
+        + '<div class="row dim">R-配3 熊市帽 overlay '+f2(p.overlay_sharpe)+' · 熊段 '+p.bear_days+' 日 · 报告制 T1</div>'
+        + '<div class="row dim">团队：组合构建 · 现金腿与资金运营 | IV 风险预算=Phase 1 预注册待开</div>'
+        + '<div class="row dim">读数政体折价（P-5B 6/6 FAIL 0.70 线）· 分配=章程 §五 T1 呈报</div>';
+    } },
   { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
     dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库/新鲜度 · 零污染',
     info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div><div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },

@@ -166,6 +166,41 @@ def _regime_state() -> dict:
     return out
 
 
+def _portfolio_state() -> dict:
+    """Portfolio & Capital dept dashboard (org_chart v3, O-2311) from
+    results/portfolio_ew6.json (T-06, EW6 report-only pass 1).
+    Report-only by charter: reads are regime-discounted, no promotion
+    or allocation signal is derived here."""
+    j = _read_json(os.path.join(PATHS.results_dir, "portfolio_ew6.json")) or {}
+    x1 = (j.get("portfolios") or {}).get("x1") or {}
+    x2 = (j.get("portfolios") or {}).get("x2") or {}
+    ev = j.get("verdict") or {}
+    ov = (j.get("regime") or {}).get("overlay") or {}
+    out = {
+        "present": bool(x1),
+        "generated": j.get("generated"),
+        "members": len((j.get("universe") or {}).get("members") or []),
+        "ew_sharpe": (x1.get("full") or {}).get("sharpe"),
+        "ew_annual": (x1.get("full") or {}).get("annual_return"),
+        "ew_dd": (x1.get("full") or {}).get("max_drawdown"),
+        "n_trades": x1.get("n_trades"),
+        "worst_year": ev.get("ew_worst_year", x1.get("worst_year")),
+        "weighted_mean": x1.get("weighted_mean_member_sharpe"),
+        "benefit": ev.get("ew_benefit"),
+        "dr": ev.get("ew_dr"),
+        "ew_validated": ev.get("ew_validated"),
+        "x2_sharpe": (x2.get("full") or {}).get("sharpe"),
+        "x2_survive": ev.get("ew_x2_survive"),
+        "overlay_sharpe": (ov.get("full") or {}).get("sharpe"),
+        "overlay_worst_year": ov.get("worst_year"),
+        "bear_days": ov.get("bear_days_used"),
+        "applicability": ev.get("applicability"),
+        "status": "ok" if x1 else "none",
+        "text": "EW6 报告制" if x1 else "组合批待产出",
+    }
+    return out
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -632,6 +667,7 @@ def build() -> dict:
     data["heat"] = _heat_state()
     data["token"] = _token_state()
     data["regime"] = _regime_state()
+    data["portfolio"] = _portfolio_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -741,6 +777,16 @@ def build() -> dict:
             "time": rg["asof"] or "-",
             "text": f"行情防线 · {rg['state_cn']} · 在态 {rg['days_in_state']} 日"
                     f" · {rg['mode']} 记录（触发：{'；'.join(rg['triggers']) or '无'}）"})
+    pf = data["portfolio"]
+    if pf["present"]:
+        def _pf2(v):
+            return format(v, ".2f") if isinstance(v, (int, float)) else "—"
+        tail_events.append({
+            "time": pf["generated"] or "-",
+            "text": f"组合层 · EW6 等权 {pf['members']} 员 · Sharpe {_pf2(pf['ew_sharpe'])}"
+                    f" · 分散收益 +{_pf2(pf['benefit'])} · ×2 成本 {_pf2(pf['x2_sharpe'])} "
+                    f"{('存活' if pf['x2_survive'] else '阵亡') if pf['x2_survive'] is not None else '—'}"
+                    f"（T-06 报告制 · IV=Phase 1 待开）"})
     payload["events"] += tail_events + [
         {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
         {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},

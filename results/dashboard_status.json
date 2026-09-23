@@ -4,13 +4,13 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T02:40:33"
+    "generated_at": "2026-09-24T02:37:04"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T02:28:56",
+      "at": "2026-09-24T02:34:04",
       "ok": true
     },
     "network": {
@@ -27,8 +27,8 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-24 02:39:54",
-      "age_min": 0,
+      "last_run": "2026-09-24 02:20:30",
+      "age_min": 16,
       "symbols": 48,
       "total_new_rows": 0,
       "failures": 0,
@@ -40,8 +40,8 @@
     "heat": {
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
-      "l1_snapshots": 1,
-      "l1_updated": "2026-09-24 02:40:04",
+      "l1_snapshots": 0,
+      "l1_updated": "2026-09-24 02:20:54",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -49,7 +49,7 @@
       "era_min": "2025-09-23",
       "era_max": "2026-09-23",
       "status": "ok",
-      "text": "热度链活 · L1 1份 · L2 97/100件"
+      "text": "热度链活 · L1 0份 · L2 97/100件"
     },
     "token": {
       "present": true,
@@ -69,12 +69,34 @@
       "state": "ORANGE",
       "state_cn": "橙·高危",
       "raw_level": "ORANGE",
-      "days_in_state": 2,
+      "days_in_state": 1,
       "triggers": [
         "hs300<MA200 (#10 collected)"
       ],
       "last_transition": null,
       "status": "bad"
+    },
+    "portfolio": {
+      "present": true,
+      "generated": "2026-09-24 00:54:38",
+      "members": 6,
+      "ew_sharpe": 1.1438,
+      "ew_annual": 0.0368,
+      "ew_dd": -0.0567,
+      "n_trades": 2127,
+      "worst_year": -0.0094,
+      "weighted_mean": 0.7675,
+      "benefit": 0.3763,
+      "dr": 1.4904,
+      "ew_validated": true,
+      "x2_sharpe": 0.7574,
+      "x2_survive": true,
+      "overlay_sharpe": 1.1943,
+      "overlay_worst_year": -0.0279,
+      "bear_days": 188,
+      "applicability": "descriptive continuity metrics only -- no promotion, no allocation; regime premium (P-5B 6/6 fail 0.70 beat line) discounts all Sharpe reads; allocation = charter s5 T1 route",
+      "status": "ok",
+      "text": "EW6 报告制"
     }
   },
   "research": {
@@ -426,7 +448,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T02:28:56",
+      "time": "2026-09-24T02:34:04",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -446,12 +468,12 @@
       "text": "门禁链定案（试验账本 N=2753）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-24 02:39:54",
+      "time": "2026-09-24 02:20:30",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 02:40:04",
-      "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
+      "time": "2026-09-24 02:20:54",
+      "text": "热度链 · L1 人气榜快照 0 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
       "time": "2026-09-24 02:21:04",
@@ -463,7 +485,11 @@
     },
     {
       "time": "2026-09-23",
-      "text": "行情防线 · 橙·高危 · 在态 2 日 · shadow 记录（触发：hs300<MA200 (#10 collected)）"
+      "text": "行情防线 · 橙·高危 · 在态 1 日 · shadow 记录（触发：hs300<MA200 (#10 collected)）"
+    },
+    {
+      "time": "2026-09-24 00:54:38",
+      "text": "组合层 · EW6 等权 6 员 · Sharpe 1.14 · 分散收益 +0.38 · ×2 成本 0.76 存活（T-06 报告制 · IV=Phase 1 待开）"
     },
     {
       "time": "-",
@@ -478,8 +504,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 02:39",
-        "age_min": 0.9,
+        "last_active": "09-24 02:37",
+        "age_min": 0.1,
         "alive": true
       }
     ]
