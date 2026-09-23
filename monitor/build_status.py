@@ -1005,6 +1005,70 @@ def _achievements(bt: dict, data: dict, smoke: dict, n_traders: int,
     ]
 
 
+def _governance_state() -> dict:
+    """Governance visibility (总经办 mandate): science-audit M-layer
+    (O-2215 monthly) + monthly briefing (O-2205 ⑨). Audit findings are
+    report-only by design — surface as warn, never bad; absence honest."""
+    st = _read_json(os.path.join(PATHS.results_dir, "science_audit.json")) or {}
+    cur = st.get("current") or {}
+    summ = cur.get("summary") or {}
+    verdicts = [v for v in summ.values() if isinstance(v, str)]
+    n_checks = len(verdicts)
+    n_ok = sum(1 for v in verdicts if v == "OK")
+    findings = summ.get("n_findings")
+    if findings is None and cur.get("checks"):
+        findings = sum(1 for c in cur["checks"]
+                       if str(c.get("verdict")) not in ("OK", "", "None"))
+    a_gen = cur.get("generated")
+    a_age_min = None
+    try:
+        a_age_min = int((dt.datetime.now()
+                         - dt.datetime.fromisoformat(str(a_gen))).total_seconds() // 60)
+    except Exception:
+        pass
+    audit = {"present": bool(cur), "generated": a_gen,
+             "age_days": None if a_age_min is None else a_age_min // 1440,
+             "checks": n_checks, "ok": n_ok, "findings": findings,
+             "ledger_head": (cur.get("ledger_head") or {}).get("total")}
+    b_month = None
+    b_generated = None
+    try:
+        cands = sorted(glob.glob(os.path.join(PATHS.results_dir, "briefings",
+                                               "BRIEF-*.md")))
+        if cands:
+            name = os.path.basename(cands[-1])
+            if name.startswith("BRIEF-") and len(name) >= 12:
+                b_month = f"{name[6:10]}-{name[10:12]}"
+            with open(cands[-1], encoding="utf-8") as f:
+                for line in f:
+                    if line.startswith("##"):
+                        break
+                    if "生成时间" in line and "：" in line:
+                        b_generated = line.split("：", 1)[1].split("（")[0].strip()
+                        break
+    except Exception:
+        pass
+    today = dt.date.today()
+    prev_month = (today.replace(day=1) - dt.timedelta(days=1)).strftime("%Y-%m")
+    stale = b_month is not None and b_month < prev_month
+    briefing = {"present": b_month is not None, "month": b_month,
+                 "generated": b_generated, "stale": stale}
+    out = {"present": audit["present"] or briefing["present"],
+           "audit": audit, "briefing": briefing,
+           "status": "none", "text": "治理面待产出"}
+    if audit["present"] and briefing["present"]:
+        bad = bool(findings) or n_ok < n_checks or stale
+        out["status"] = "warn" if bad else "ok"
+        out["text"] = f"审计 {n_ok}/{n_checks} OK · findings {findings} · 简报 {b_month}"
+    elif audit["present"]:
+        out["status"] = "warn"
+        out["text"] = f"审计 {n_ok}/{n_checks} OK · 简报待产出"
+    elif briefing["present"]:
+        out["status"] = "warn"
+        out["text"] = f"科学审计待产出 · 简报 {b_month}"
+    return out
+
+
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
@@ -1015,6 +1079,7 @@ def build() -> dict:
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()
+    data["governance"] = _governance_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -1171,6 +1236,18 @@ def build() -> dict:
                     f" · ×2 垫最小 {_cw2(cw['x2_margin_min'])}"
                     f" · FL {cw['forward_status'] or '—'}"
                     f"（组合部 §一.2 · 月更 · twin{'OK' if cw['twin_ok'] else '红'}）"})
+    gv = data["governance"]
+    if gv["present"]:
+        ga, gb = gv["audit"], gv["briefing"]
+        parts = []
+        if ga["present"]:
+            parts.append(f"科学审计 {ga['ok']}/{ga['checks']} 检 OK · findings {ga['findings']}")
+        if gb["present"]:
+            parts.append(f"月度简报 {gb['month']} 在档")
+        tail_events.append({
+            "time": ga["generated"] or gb["generated"] or "-",
+            "text": "治理面 · " + " · ".join(parts)
+                    + "（月度 M 层 · 总经办 · findings 只报不阻断）"})
     fl = payload["fleet"]
     if fl["present"]:
         m_alive = sum(1 for m in fl["machines"] if m["health"] == "ok")

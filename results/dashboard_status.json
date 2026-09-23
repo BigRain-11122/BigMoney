@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T07:01:43"
+    "generated_at": "2026-09-24T07:04:19"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T06:57:57",
+      "at": "2026-09-24T06:59:52",
       "ok": true
     },
     "network": {
-      "net_type": "UNKNOWN",
+      "net_type": "LAN",
       "hotspot": false,
-      "allow_heavy_sync": false,
-      "detected_at": null
+      "allow_heavy_sync": true,
+      "detected_at": "2026-09-23T21:51:09+00:00"
     }
   },
   "data": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-24 07:01:22",
+      "last_run": "2026-09-24 07:03:48",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -40,8 +40,8 @@
     "heat": {
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
-      "l1_snapshots": 1,
-      "l1_updated": "2026-09-24 07:01:31",
+      "l1_snapshots": 0,
+      "l1_updated": "2026-09-24 07:04:05",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -49,14 +49,14 @@
       "era_min": "2025-09-23",
       "era_max": "2026-09-23",
       "status": "ok",
-      "text": "热度链活 · L1 1份 · L2 97/100件"
+      "text": "热度链活 · L1 0份 · L2 97/100件"
     },
     "futures": {
       "present": true,
       "varieties": 9,
       "planned": 9,
       "last_attempt": "2026-09-24T06:29:55",
-      "age_min": 31,
+      "age_min": 34,
       "cutoff": "2026-09-23",
       "errors": 0,
       "rows_total": 23647,
@@ -156,6 +156,26 @@
       "forward_bars": 1,
       "status": "ok",
       "text": "ORANGE · W2 IS2 越线 1 对"
+    },
+    "governance": {
+      "present": true,
+      "audit": {
+        "present": true,
+        "generated": "2026-09-24 04:20:18",
+        "age_days": 0,
+        "checks": 6,
+        "ok": 6,
+        "findings": 0,
+        "ledger_head": 2791
+      },
+      "briefing": {
+        "present": true,
+        "month": "2026-09",
+        "generated": "2026-09-24 04:03",
+        "stale": false
+      },
+      "status": "ok",
+      "text": "审计 6/6 OK · findings 0 · 简报 2026-09"
     }
   },
   "fleet": {
@@ -164,7 +184,7 @@
       {
         "id": "bm-a",
         "last_seen": "2026-09-24T06:44:32",
-        "age_min": 17.2,
+        "age_min": 19.8,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 47,
@@ -178,7 +198,7 @@
       {
         "id": "bm-b",
         "last_seen": "2026-09-24 06:54",
-        "age_min": 7.0,
+        "age_min": 9.6,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 8.6,
@@ -192,7 +212,7 @@
       {
         "id": "bm-c",
         "last_seen": "2026-09-24T06:53",
-        "age_min": 8.4,
+        "age_min": 11.0,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 11.2,
@@ -259,16 +279,16 @@
     "n_claimed": 0,
     "n_done": 7,
     "audit": {
-      "ts": "2026-09-24 07:01:20",
+      "ts": "2026-09-24 07:03:45",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 12.0,
-      "py_cpu_pct": 0.4,
+      "cpu_total_pct": 10.0,
+      "py_cpu_pct": 0.0,
       "cores": 32,
-      "py_procs": 5,
+      "py_procs": 4,
       "zombies": 0,
-      "gpu_util_pct": 7.0,
-      "gpu_mem_used_mb": 11066.0,
+      "gpu_util_pct": 1.0,
+      "gpu_mem_used_mb": 2890.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -313,9 +333,9 @@
       "gates_date": "2026-09-24 06:30"
     },
     "lhb": {
-      "verdict": "no-op: cutoff 2026-09-23 covers latest disclosure window (2026-09-23)",
-      "cutoff": "2026-09-23",
-      "updated": "2026-09-24 07:01:30",
+      "verdict": "store absent on this node (lhb_detail.parquet missing (sparse-clone design exclusion, HANDOVER s3)); backfill is a GM-lane decision, not auto-fetched",
+      "cutoff": "unknown",
+      "updated": "2026-09-24 07:04:05",
       "new_rows": 0
     }
   },
@@ -526,7 +546,7 @@
         "note": "池化 0.1406 < v2 线 0.9359，亦低于随机对同构 null p95 0.5238（协整选择增益为负）；×2 转负；D6 低相关 0.2352（信息列）"
       }
     ],
-    "trials_total": 2973,
+    "trials_total": 2905,
     "n_traders": 6,
     "ranking": []
   },
@@ -639,7 +659,7 @@
       "months_tracked": 0,
       "trades": 0,
       "bars": 6,
-      "last_update": "2026-09-24 07:01:42",
+      "last_update": "2026-09-24 04:20:05",
       "paper_start": "2026-09-23",
       "first_check": "2026-10-31",
       "month_progress": 0.0263,
@@ -712,7 +732,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T06:57:57",
+      "time": "2026-09-24T06:59:52",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -720,24 +740,24 @@
       "text": "交易员 COMPOSITE-CE-01/COMPOSITE-CE-02/DROUGHT-CE-01/ENGULF-CE-01/NEEDLE-DE-01/VOLATILITY-CE-01 过全 G2 门禁链持证上岗（INTERN）· paper 跟踪进行中，≥6 个月才可谈实盘"
     },
     {
-      "time": "2026-09-24 07:01:42",
+      "time": "2026-09-24 04:20:05",
       "text": "paper 跟踪进行中 · 6 员在册 · 累计 0 个月 · 窗口 0 笔（每日自动 accrue · 锚定门禁先行）"
     },
     {
-      "time": "2026-09-24 07:01:42",
+      "time": "2026-09-24 04:20:05",
       "text": "x2 看守 · 2 员薄垫看护（COMPOSITE-CE-02/ENGULF-CE-01）· margin<0.05 或不存活即 probation（T-04 F3 升级链）"
     },
     {
       "time": "-",
-      "text": "门禁链定案（试验账本 N=2973）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
+      "text": "门禁链定案（试验账本 N=2905）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-24 07:01:22",
+      "time": "2026-09-24 07:03:48",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 07:01:31",
-      "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
+      "time": "2026-09-24 07:04:05",
+      "text": "热度链 · L1 人气榜快照 0 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
       "time": "2026-09-24T06:29:55",
@@ -753,7 +773,7 @@
     },
     {
       "time": "-",
-      "text": "研究线 · 因子账本 N=5394 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 腿在飞 · P-1d 扩展槽 1/10 过门 · P-1d gdhs quarterly 2/3 quarterly-frequency · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=2973 另计）"
+      "text": "研究线 · 因子账本 N=5394 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 腿在飞 · P-1d 扩展槽 1/10 过门 · P-1d gdhs quarterly 2/3 quarterly-frequency · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=2905 另计）"
     },
     {
       "time": "2026-09-23",
@@ -766,6 +786,10 @@
     {
       "time": "2026-09-24 03:26:59",
       "text": "相关性监控 · ORANGE · W2 IS2 越线 1 对 · IS2 最高对 0.87 · 尾窗均值 0.26 · ×2 垫最小 0.36 · FL insufficient_data（组合部 §一.2 · 月更 · twinOK）"
+    },
+    {
+      "time": "2026-09-24 04:20:18",
+      "text": "治理面 · 科学审计 6/6 检 OK · findings 0 · 月度简报 2026-09 在档（月度 M 层 · 总经办 · findings 只报不阻断）"
     },
     {
       "time": "2026-09-24T06:44:32",
@@ -784,8 +808,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 07:01",
-        "age_min": 0.6,
+        "last_active": "09-24 07:03",
+        "age_min": 0.8,
         "alive": true
       }
     ]

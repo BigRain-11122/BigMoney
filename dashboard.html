@@ -349,6 +349,13 @@ function renderCompany() {
   if (fr.present) {
     rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));
   }
+  const gv = (D.data && D.data.governance) || {};
+  if (gv.present) {
+    const ga = gv.audit || {}, gb = gv.briefing || {};
+    rows.push(chainRow("治理面",
+      `审计 ${n2(ga.ok)}/${n2(ga.checks)} OK · findings ${n2(ga.findings)} · 简报 ${n2(gb.month)}`,
+      gv.status === "ok" ? "ok" : "warn", gv.status === "ok" ? "月度" : "待办"));
+  }
   el.innerHTML = rows.join("") || '<div class="empty">公司面待产出</div>';
 }
 
