@@ -1,0 +1,162 @@
+{
+ "meta": {
+  "batch": "p1d_gdhs_quarterly",
+  "prereg": "research/shortline/P1D_GDHS_QUARTERLY.md",
+  "lane": "P-1d dedicated quarterly口径 (r60 sanctioned)",
+  "panel": {
+   "T": 4062,
+   "N": 3517,
+   "n_bars_syms": 5222,
+   "n_ok_static": 3517,
+   "n_universe": 3517,
+   "start": "2010-01-04T00:00:00.000000",
+   "end": "2026-09-22T00:00:00.000000"
+  },
+  "gdhs": {
+   "gdhs_rows": 183927,
+   "gdhs_records": 114604,
+   "gdhs_drop_code": 69323
+  },
+  "events": {
+   "n_events": 44,
+   "usable_with_forward": 41,
+   "n_is": 37,
+   "n_oos": 7,
+   "median_universe": 2446.0,
+   "irregular_placements_dropped": 0
+  },
+  "method": {
+   "forward": "event-to-event close ratio (~1Q)",
+   "fresh": "avail 0->1 flip at placement row",
+   "splits": "IS<2025-01-01, OOS>=2025-01-01",
+   "power": "n_is~37 -> IR0.30 ~ t1.8 p~0.08 thin-power caveat (prereg SS4)"
+  },
+  "elapsed_s": 9.3
+ },
+ "results": {
+  "gdhs_chg_q": {
+   "full": {
+    "ic_mean": -0.0274,
+    "ic_std": 0.0514,
+    "ic_ir": -0.534,
+    "ic_pos_pct": 0.317,
+    "n_periods": 41
+   },
+   "is": {
+    "ic_mean": -0.0263,
+    "ic_std": 0.0484,
+    "ic_ir": -0.544,
+    "ic_pos_pct": 0.314,
+    "n_periods": 35
+   },
+   "oos": {
+    "n_periods": 6,
+    "ic_mean": -0.0337,
+    "thin_sample_disclosure": "n<30: observation-grade only"
+   },
+   "gates": {
+    "v1_ic": true,
+    "v2_ir": true,
+    "v3_oos": true
+   },
+   "verdict": "PASS",
+   "null_p95_abs_mean_ic": 0.00609,
+   "null_p95_abs_ir": 0.3252,
+   "effective_v2_line": 0.3252
+  },
+  "gdhs_chg_2q": {
+   "full": {
+    "ic_mean": -0.0441,
+    "ic_std": 0.0659,
+    "ic_ir": -0.669,
+    "ic_pos_pct": 0.268,
+    "n_periods": 41
+   },
+   "is": {
+    "ic_mean": -0.0421,
+    "ic_std": 0.0623,
+    "ic_ir": -0.675,
+    "ic_pos_pct": 0.257,
+    "n_periods": 35
+   },
+   "oos": {
+    "n_periods": 6,
+    "ic_mean": -0.0557,
+    "thin_sample_disclosure": "n<30: observation-grade only"
+   },
+   "gates": {
+    "v1_ic": true,
+    "v2_ir": true,
+    "v3_oos": true
+   },
+   "verdict": "PASS",
+   "null_p95_abs_mean_ic": 0.00627,
+   "null_p95_abs_ir": 0.301,
+   "effective_v2_line": 0.301
+  },
+  "gdhs_level": {
+   "full": {
+    "ic_mean": -0.0445,
+    "ic_std": 0.1569,
+    "ic_ir": -0.284,
+    "ic_pos_pct": 0.415,
+    "n_periods": 41
+   },
+   "is": {
+    "ic_mean": -0.0493,
+    "ic_std": 0.1632,
+    "ic_ir": -0.302,
+    "ic_pos_pct": 0.4,
+    "n_periods": 35
+   },
+   "oos": {
+    "n_periods": 6,
+    "ic_mean": -0.0169,
+    "thin_sample_disclosure": "n<30: observation-grade only"
+   },
+   "gates": {
+    "v1_ic": true,
+    "v2_ir": false,
+    "v3_oos": false
+   },
+   "verdict": "FAIL",
+   "null_p95_abs_mean_ic": 0.00784,
+   "null_p95_abs_ir": 0.4121,
+   "effective_v2_line": 0.4121
+  }
+ },
+ "audit": {
+  "ic_computations": 153,
+  "ledger_trials_added": 153,
+  "engine_runs": 0,
+  "network": "none",
+  "seed_registered": "p1d_gdhs_quarterly=48_000",
+  "nulls": {
+   "seed": 48000,
+   "k": 50,
+   "p95_abs_mean_ic": {
+    "gdhs_chg_q": 0.00609,
+    "gdhs_chg_2q": 0.00627,
+    "gdhs_level": 0.00784
+   },
+   "p95_abs_ir": {
+    "gdhs_chg_q": 0.3252,
+    "gdhs_chg_2q": 0.301,
+    "gdhs_level": 0.4121
+   }
+  }
+ },
+ "trials_ledger": {
+  "prev_total": 5241,
+  "prev_file": "xlib_synth.json",
+  "batch_trials": 153,
+  "total": 5394
+ },
+ "verdict_summary": {
+  "pass": 2,
+  "of": 3,
+  "batch_verdict": "PASS",
+  "registration": "none (factor evidence only)"
+ },
+ "evidence_cutoff": "2026-09-22"
+}

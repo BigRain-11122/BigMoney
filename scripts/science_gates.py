@@ -443,6 +443,10 @@ SEED_REGISTRY = {
     "factor_ic_screens": 20260923,     # GTJA191/WQ101 K=50 white-noise panels
     "pc_l2_ic": 45_000,                 # L2 popularity-history K=50 same-mask panels
     "p4_pairs": 48_000,                 # P4_PAIRS random-pair null draws (48_000+k)
+    "p1d_gdhs_quarterly": 48_000,        # COLLISION DISCLOSURE (prereg author
+    # missed p4_pairs' registration): same base, machinery fully disjoint
+    # (pair-index draws vs within-universe value permutations); verdict
+    # robustness documented in P1D_GDHS_QUARTERLY.md SS6.
 }
 
 

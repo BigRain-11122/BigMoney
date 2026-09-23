@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T05:43:11"
+    "generated_at": "2026-09-24T05:49:18"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T05:39:45",
+      "at": "2026-09-24T05:48:41",
       "ok": true
     },
     "network": {
       "net_type": "LAN",
       "hotspot": false,
       "allow_heavy_sync": true,
-      "detected_at": "2026-09-23T21:01:28+00:00"
+      "detected_at": "2026-09-22T16:10:11+00:00"
     }
   },
   "data": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-24 05:42:53",
+      "last_run": "2026-09-24 05:48:58",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -40,8 +40,8 @@
     "heat": {
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
-      "l1_snapshots": 0,
-      "l1_updated": "2026-09-24 05:43:03",
+      "l1_snapshots": 1,
+      "l1_updated": "2026-09-24 05:49:10",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -49,7 +49,7 @@
       "era_min": "2025-09-23",
       "era_max": "2026-09-23",
       "status": "ok",
-      "text": "热度链活 · L1 0份 · L2 97/100件"
+      "text": "热度链活 · L1 1份 · L2 97/100件"
     },
     "token": {
       "present": true,
@@ -152,7 +152,7 @@
       {
         "id": "bm-a",
         "last_seen": "2026-09-24 05:31",
-        "age_min": 12.1,
+        "age_min": 18.2,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 49,
@@ -166,7 +166,7 @@
       {
         "id": "bm-b",
         "last_seen": "2026-09-24 05:35",
-        "age_min": 7.7,
+        "age_min": 13.8,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 10.6,
@@ -180,7 +180,7 @@
       {
         "id": "bm-c",
         "last_seen": "2026-09-24 05:34:53",
-        "age_min": 8.3,
+        "age_min": 14.4,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 11.3,
@@ -247,16 +247,16 @@
     "n_claimed": 0,
     "n_done": 7,
     "audit": {
-      "ts": "2026-09-24 05:42:29",
+      "ts": "2026-09-24 05:48:55",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 23.0,
-      "py_cpu_pct": 0.0,
-      "cores": 32,
-      "py_procs": 4,
+      "cpu_total_pct": 6.0,
+      "py_cpu_pct": 10.4,
+      "cores": 16,
+      "py_procs": 11,
       "zombies": 0,
-      "gpu_util_pct": 0.0,
-      "gpu_mem_used_mb": 2890.0,
+      "gpu_util_pct": 1.0,
+      "gpu_mem_used_mb": 5633.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -301,9 +301,9 @@
       "gates_date": "2026-09-24 05:30"
     },
     "lhb": {
-      "verdict": "store absent on this node (lhb_detail.parquet missing (sparse-clone design exclusion, HANDOVER s3)); backfill is a GM-lane decision, not auto-fetched",
-      "cutoff": "unknown",
-      "updated": "2026-09-24 05:43:03",
+      "verdict": "no-op: cutoff 2026-09-23 covers latest disclosure window (2026-09-23)",
+      "cutoff": "2026-09-23",
+      "updated": "2026-09-24 05:49:09",
       "new_rows": 0
     }
   },
@@ -383,8 +383,8 @@
     "composite_plan": "0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2×price_position",
     "factor_line": {
       "present": true,
-      "total": 5241,
-      "head_file": "xlib_synth.json",
+      "total": 5394,
+      "head_file": "p1d_gdhs_quarterly.json",
       "batches": [
         {
           "id": "P-A LHB",
@@ -412,7 +412,7 @@
           "short": "K4判负"
         }
       ],
-      "digest": "N=5241 · LHB 3/4 · GTJA 21/181 WQ飞 · 槽 1/10 · L2 0/4 · XLIB K4判负"
+      "digest": "N=5394 · LHB 3/4 · GTJA 21/181 WQ飞 · 槽 1/10 · L2 0/4 · XLIB K4判负"
     }
   },
   "strategy": {
@@ -695,7 +695,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T05:39:45",
+      "time": "2026-09-24T05:48:41",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -715,12 +715,12 @@
       "text": "门禁链定案（试验账本 N=2858）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-24 05:42:53",
+      "time": "2026-09-24 05:48:58",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 05:43:03",
-      "text": "热度链 · L1 人气榜快照 0 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
+      "time": "2026-09-24 05:49:10",
+      "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
       "time": "2026-09-24 05:32:41",
@@ -732,7 +732,7 @@
     },
     {
       "time": "-",
-      "text": "研究线 · 因子账本 N=5241 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 腿在飞 · P-1d 扩展槽 1/10 过门 · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=2858 另计）"
+      "text": "研究线 · 因子账本 N=5394 · P-A LHB 3/4 过门 · P-1c 股票池 GTJA 21/181 · WQ 腿在飞 · P-1d 扩展槽 1/10 过门 · 热度 L2 0/4 过门 · XLIB 跨库合成 K4 V2 剃刀差收线（双系列口径 · 引擎账本 N=2858 另计）"
     },
     {
       "time": "2026-09-23",
@@ -762,9 +762,27 @@
   "group": {
     "siblings": [
       {
+        "name": "Biggame · biu你一下",
+        "last_active": "09-24 05:44",
+        "age_min": 4.5,
+        "alive": true
+      },
+      {
+        "name": "Biggame · HomeWreck",
+        "last_active": "09-24 05:48",
+        "age_min": 0.8,
+        "alive": true
+      },
+      {
+        "name": "Biggame · PhantomEscapeGo",
+        "last_active": "09-24 05:44",
+        "age_min": 5.0,
+        "alive": true
+      },
+      {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 05:43",
-        "age_min": 0.1,
+        "last_active": "09-24 05:48",
+        "age_min": 0.6,
         "alive": true
       }
     ]

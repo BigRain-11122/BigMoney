@@ -76,7 +76,75 @@
 6. OOS (n≈6): even a survivor stays observation-grade; retention check
    expected noisy.
 
-## §6 Results (PLACEHOLDER — fill only after run; numbers here before run = fraud)
+## §6 Results (backfilled after run — one-shot, deterministic double-run verified)
+
+Run: 9.3s, one-shot. Determinism: re-run diff (excl. elapsed_s) = identical.
+
+Panel/events: 44 canonical quarter events (2015Q3..2026Q2), 0 irregular
+placements dropped; 41 usable-with-forward rows → **35 IS ICs + 6 OOS ICs**
+(2 early IS events dropped by ic_from_ranks ≥5-names/zero-variance filter +
+last event no-forward + 1 more; disclosed vs prereg expectation 37/6).
+Universe median 2,446 stocks/event (max 3,319).
+
+Nulls (K=50, seed 48_000): p95 |mean IC| = 0.0061 / 0.0063 / 0.0078
+(chg_q/chg_2q/level) → **V1 floor 0.02 dominated** as predicted. Null p95
+|IR| = **0.3252 / 0.3010 / 0.4121** → the frozen effective-V2-line
+correction (max(0.30, null p95 IR)) was decisive — see level below.
+
+| factor | IS IC | IS IR | IS n | OOS IC | OOS n | eff. V2 line | verdict |
+|---|---|---|---|---|---|---|---|
+| gdhs_chg_q  | −0.0263 | −0.544 | 35 | −0.0337 | 6 | 0.3252 | **PASS** |
+| gdhs_chg_2q | −0.0421 | **−0.675** | 35 | −0.0557 | 6 | 0.3010 | **PASS** |
+| gdhs_level  | −0.0493 | −0.302 | 35 | −0.0169 | 6 | 0.4121 | FAIL |
+
+**2/3 PASS** — both shareholder-CHANGE factors pass all three gates with
+wide margins; OOS (2025+, n=6 thin) **retained AND deepened** (chg_q
+−0.0337 vs IS −0.0263; chg_2q −0.0557 vs −0.0421). Per prereg §4: **zero
+registration** — recorded as candidate material for a future preregistered
+strategy conversion (quarterly rebalance, shareholder-count tilt).
+
+Mechanism readings:
+- 股东户数变化负向预测下季收益（户数减少=筹码集中=后续涨）在 A 股股票池
+  季度口径成立；chg_2q (两季累计) 强于 chg_q = 持续筹码集中比单季骤变更有
+  信息量（反向于「平滑衰减」直觉）。
+- gdhs_level: biggest mean IC (−0.0493) but IC std 0.1632 (3.4× chg_2q's)
+  → IR collapses. Level is a slow structural variable (散户密度) whose
+  quarterly IC is regime-volatile; killed by the null-corrected line
+  (0.302 < 0.4121) — **the raw 0.30 line would have let it pass by 0.002**
+  = the SS3 power correction flipped a real verdict (first decisive use).
+- Verdict robustness under seed-collision disclosure: all three margins
+  (0.544−0.325=0.219 / 0.675−0.301=0.374 / 0.412−0.302=0.110) exceed
+  any plausible null-band wobble (±15% → max line 0.374/0.346/0.352);
+  chg_q & chg_2q still PASS, level still FAIL under the whole band.
+
+### Seed collision disclosure (honest, post-run)
+
+Prereg registered seed 48_000 **without checking** that p4_pairs (bm-a R42,
+committed ~05:43, after my prereg draft started) had already taken 48_000.
+Kept as-run: prereg frozen before results; machinery fully disjoint
+(pair-index draws vs value permutations); robustness argument above.
+Future preregs must grep SEED_REGISTRY for the base BEFORE freezing (§5 of
+this doc did not include that check — added to the reconciliation below).
+
+### Prediction reconciliation (SS7)
+
+1. chg_q negative ✓ (70% → confirmed, IS −0.0263 / OOS −0.0337)
+2. level negative sign ✓ but gate FAIL (55% → direction right, IR killed)
+3. chg_2q negative ✓ but "weaker than chg_q" ✗ — actual STRONGER (|IR|
+   0.675 vs 0.544, |IC| 0.0421 vs 0.0263): double-quarter accumulation
+   amplifies, does not damp. Half-right.
+4. Survivors "0–1 of 3" ✗ — actual 2/3 PASS (pessimistic miscalibration;
+   r60 had the opposite miss on the same family — overestimated it in the
+   daily framing, underestimated at the correct quarterly frequency. Both
+   misses share one root: no prior anchor for quarterly-frequency power).
+5. Null p95 |meanIC| ≈ 0.003–0.007 → actual 0.0061/0.0063/0.0078:
+   level slightly above band (half-right); V1 floor dominance ✓.
+6. OOS noisy/thin ✓ disclosed (n=6), but retention >1 (deepening) beat
+   the "noisy retention" expectation.
+7. (NEW, process): seed-base registry check missing from prereg checklist
+   → now standard: `rg -n '"<base>"' scripts/science_gates.py` before
+   freezing any prereg seed.
+
 
 ## §7 Ledger
 
