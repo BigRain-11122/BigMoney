@@ -337,9 +337,27 @@ def _factor_line() -> dict:
         m = p1c.get("meta") or {}
         wq = "WQ 腿完成" if m.get("wq_complete") else "WQ 腿在飞"
         wq_s = "WQ完成" if m.get("wq_complete") else "WQ飞"
-        _add("P-1c 股票池",
-             f"GTJA {c.get('pool_h10')}/{c.get('ok')} · {wq}",
-             f"GTJA {c.get('pool_h10')}/{c.get('ok')} {wq_s}")
+        legs = m.get("legs") or {}
+        if "wq" in legs:
+            # Post-WQ finalize counts are COMBINED across legs (finalize
+            # aggregates all checkpoints); split per-leg pool by factor-name
+            # prefix -- same inference finalize itself uses -- so the GTJA
+            # label stays factual after the WQ leg lands.
+            pool = p1c.get("pool_h10") or []
+            gp = sum(1 for f in pool if str(f).startswith("alpha191_"))
+            wp = len(pool) - gp
+            g_ok = (legs.get("gtja") or {}).get("ok")
+            w_ok = (legs.get("wq") or {}).get("ok")
+            # single-CJK-char state suffix keeps the dashboard digest under
+            # the r13-measured ~75-char ellipsis clip line after WQ lands
+            wq_end = "完" if m.get("wq_complete") else "飞"
+            _add("P-1c 股票池",
+                 f"GTJA {gp}/{g_ok} · WQ {wp}/{w_ok} · {wq}",
+                 f"GTJA {gp}/{g_ok} WQ {wp}/{w_ok}{wq_end}")
+        else:
+            _add("P-1c 股票池",
+                 f"GTJA {c.get('pool_h10')}/{c.get('ok')} · {wq}",
+                 f"GTJA {c.get('pool_h10')}/{c.get('ok')} {wq_s}")
     p1d = _sl("p1d_ext_slots_ic.json")
     if p1d:
         c = p1d.get("counts") or {}
