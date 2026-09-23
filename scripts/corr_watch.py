@@ -308,6 +308,7 @@ def run() -> int:
            "forward_leg": fl,
            "iv_weight_refresh": iv_refresh,
            "verdict": verdict,
+           "evidence_cutoff": "2026-09-22",   # sleeve truncation (C2 metadata; all members share it)
            "audit": {"elapsed_sec": round(time.time() - t0, 1),
                      "n_engine_runs": len(tids) if roster_ok else 0,
                      "workers": workers,
