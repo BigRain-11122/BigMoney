@@ -212,7 +212,21 @@ set BIGMONEY_MASTER_IP=100.x.x.x
 - [x] `smoke_test.py` 一键自检（20 项，每轮循环必跑）
 - [x] 35+ 策略批量海选与排名（research/strategy_rank.csv，P1 完成）
 - [x] P2 幸存者深化（G2 门，3 交易员注册在册）
-- [ ] P3 组合验证（3 员相关性/风险预算/合并回测）——进行中
+- [x] P3 组合验证（EW 组合 OOS Sharpe 1.73 validated）
+- [x] 既有数据池审计（1676 口径实锤 + 债金扩池候选 30 只清单）
 - [ ] 纸盘首月观察（2026-10-31 首次自动晋升检查）
 - [ ] 补数据：2015 年前历史、北向资金（用户回本机后定）
 - [ ] Optuna 贝叶斯调参骨架（幸存者足够多才有意义）
+
+---
+
+## 8. 并行开发协议（git 模式 · 2026-09-23 用户令）
+
+多机组网并行开发，**git = 唯一交流与协调通道**。
+
+- **主分支 = `main`**，唯一集成分支，所有机器向 main 收敛。
+- **回测节点（本机）每轮循环**：S0 `git pull --rebase` → 干活 → S7 `git commit` + `git push`。**pull 冲突 = 本轮转只读维护 + 轮报告注明**（禁强推、禁擅自解冲突——自主取舍有风险，冲突留人解）。
+- **用户开发机**：直接在 main 或 `dev-<主题>` 分支开发，push 前先 pull；与回测节点同时改同一文件时以用户侧为准，节点侧只读避让。
+- **交流载体**：commit message（每轮一句话成果）｜`CODELY.md` 项目记忆｜`research/` 报告｜`logs/iteration-loop/round_reports.md` + `state.json`（轮账本，已白名单入库）。
+- **不入库（各机器局部）**：`Money02/`（7.7GB 前代资产）、`logs/`（除轮账本两文件）、`.codely-cli/`。
+- **远端** = `git@github.com:BigRain-11122/bigmoney.git`（SSH 走 Clash 代理已配好）。用户在 GitHub 建好空私库 `bigmoney` 后，循环下一轮自动 push 接上，无需任何手动操作。
