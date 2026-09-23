@@ -345,6 +345,10 @@ function renderCompany() {
       `probation ${n2(pp.x2_probation)} 员 · ${(pp.x2_probation_names || []).join(" ")}`,
       "warn", "随 bar 滚动"));
   }
+  const fr = (D.research && D.research.factor_line) || {};
+  if (fr.present) {
+    rows.push(chainRow("因子研究线", n2(fr.digest), "dim", "双系列"));
+  }
   el.innerHTML = rows.join("") || '<div class="empty">公司面待产出</div>';
 }
 

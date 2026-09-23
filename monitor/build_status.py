@@ -300,6 +300,81 @@ def _factor_top(n: int = 10) -> list:
     return rows[:n]
 
 
+def _factor_line() -> dict:
+    """Research-line factor batches + factor-ledger head (dual-series, R60).
+
+    Factor ledger series lives in results/shortline/*.json (r32 precedent,
+    engine N untouched); head via science_gates.ledger_head over that dir.
+    All counts data-driven (O-2250 counting single-source rule).
+    """
+    sl = os.path.join(PATHS.results_dir, "shortline")
+    out = {"present": False, "total": None, "head_file": None, "batches": []}
+    try:
+        sys.path.insert(0, os.path.join(os.path.dirname(
+            os.path.dirname(os.path.abspath(__file__))), "scripts"))
+        from science_gates import ledger_head
+        head = ledger_head(sl)
+        if head["total"]:
+            out["total"] = int(head["total"])
+            out["head_file"] = head["file"]
+    except Exception:
+        pass
+
+    def _sl(name):
+        return _read_json(os.path.join(sl, name))
+
+    def _add(bid, text, short):
+        out["batches"].append({"id": bid, "text": text, "short": short})
+
+    pa = _sl("pa_lhb_ic.json")
+    if pa:
+        rows = [r for r in (pa.get("rows") or []) if r.get("pass") is not None]
+        n_pass = sum(1 for r in rows if r.get("pass"))
+        _add("P-A LHB", f"{n_pass}/{len(rows)} 过门", f"{n_pass}/{len(rows)}")
+    p1c = _sl("p1c_stock_ic.json")
+    if p1c:
+        c = p1c.get("counts") or {}
+        m = p1c.get("meta") or {}
+        wq = "WQ 腿完成" if m.get("wq_complete") else "WQ 腿在飞"
+        wq_s = "WQ完成" if m.get("wq_complete") else "WQ飞"
+        _add("P-1c 股票池",
+             f"GTJA {c.get('pool_h10')}/{c.get('ok')} · {wq}",
+             f"GTJA {c.get('pool_h10')}/{c.get('ok')} {wq_s}")
+    p1d = _sl("p1d_ext_slots_ic.json")
+    if p1d:
+        c = p1d.get("counts") or {}
+        _add("P-1d 扩展槽", f"{c.get('pass')}/{c.get('computed')} 过门",
+             f"{c.get('pass')}/{c.get('computed')}")
+    pc = _sl("pc_l2_ic.json")
+    if pc:
+        rows = [r for r in (pc.get("rows") or []) if r.get("pass") is not None]
+        n_pass = sum(1 for r in rows if r.get("pass"))
+        _add("热度 L2", f"{n_pass}/{len(rows)} 过门", f"{n_pass}/{len(rows)}")
+    xl = _sl("xlib_synth.json")
+    if xl:
+        pr = xl.get("primary") or {}
+        if pr:
+            k4 = pr.get("k")
+            _add("XLIB 跨库合成",
+                 (f"K{k4} 过门" if pr.get("pass")
+                  else f"K{k4} V2 剃刀差收线"),
+                 f"K{k4}{'过' if pr.get('pass') else '判负'}")
+    out["present"] = bool(out["batches"]) or out["total"] is not None
+    # Compact digest for width-budgeted dashboard rows (full text stays in
+    # the events log); built data-driven from the batch shorts above.
+    if out["present"]:
+        short = {"P-A LHB": "LHB", "P-1c 股票池": "", "P-1d 扩展槽": "槽",
+                 "热度 L2": "L2", "XLIB 跨库合成": "XLIB"}
+        seg = []
+        for b in out["batches"]:
+            label = (short.get(b["id"], b["id"]) + " "
+                     + (b.get("short") or b["text"])).strip()
+            seg.append(label)
+        dig = " · ".join(seg)
+        out["digest"] = f"N={out['total'] or '—'} · {dig}" if out["total"] else dig
+    return out
+
+
 def _backtest_summary() -> dict:
     sharpe, ar, mdd = [], [], []
     n_ok = passed = 0
@@ -879,7 +954,8 @@ def build() -> dict:
         "data": data,
         "fleet": _fleet_state(),
         "research": {"factor_top": _factor_top(),
-                     "composite_plan": COMPOSITE_PLAN},
+                     "composite_plan": COMPOSITE_PLAN,
+                     "factor_line": _factor_line()},
         "strategy": {**bt, "gate_chain": chain["steps"],
                      "trials_total": chain["trials_total"],
                      "n_traders": chain["n_traders"],
@@ -967,6 +1043,14 @@ def build() -> dict:
             "text": f"P-6 记分卡 · {sc['text']} · 最优 {b.get('id', '—')} "
                     f"{b.get('grade', '—')} {b.get('total', '—')} 分"
                     f"（评价面 · hr 仍为唯一编制权）"})
+    fl_line = payload["research"]["factor_line"]
+    if fl_line["present"]:
+        parts = " · ".join(f"{b['id']} {b['text']}"
+                           for b in fl_line["batches"]) or "批次件待产出"
+        tail_events.append({
+            "time": "-",
+            "text": f"研究线 · 因子账本 N={fl_line['total'] or '—'} · {parts}"
+                    f"（双系列口径 · 引擎账本 N={chain['trials_total']} 另计）"})
     rg = data["regime"]
     if rg["present"]:
         tail_events.append({
