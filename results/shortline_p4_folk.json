@@ -1,0 +1,2510 @@
+{
+  "batch": "shortline-p4-folk-expansion",
+  "generated": "2026-09-23 21:41:28",
+  "preregistered_doc": "research/shortline/P4_FOLK_EXPANSION.md",
+  "order_chain": [
+    "O-20260923-2134 (CEO mass-enrichment order)",
+    "digest DIGEST-20260923-folk-strategies",
+    "zoo s12 folk atlas registration",
+    "MSG-20260923-2136 claim (quant-GM session)"
+  ],
+  "universe": {
+    "pool": "core48-bare-codes",
+    "data_end": "2026-09-22",
+    "evidence_cutoff": "2026-09-22",
+    "oos_start": "2025-01-01"
+  },
+  "void": false,
+  "gate": {
+    "recorded_constants": {
+      "i_full_sharpe_gt": 0.3521,
+      "ii_ann_gt": 0,
+      "iii_dd_min": -0.35,
+      "iv_trades_min": 30,
+      "v_oos_sharpe_gt": 0,
+      "v_oos_ann_gt": 0,
+      "vi_full_sharpe_gt": 0.4004,
+      "effective_skill_bar": 0.4004
+    },
+    "i_line_recorded": 0.3521,
+    "ce_null_recorded_nsp1": 0.4229,
+    "ce_line_recorded_batch1": 0.4474,
+    "vi_bar_recorded": 0.4004,
+    "i_line_rule": "default cells: recorded 0.3521; CE cells: max(in-batch CE p95, batch1-recorded CE line, NSP1-recorded 0.4229, 0.3521)",
+    "i_bar_ce_used": 0.4474,
+    "random_p95_inbatch_full": {
+      "default": 0.2898,
+      "ce": 0.336
+    },
+    "passive_consistency_check": {
+      "ew48_buyhold": {
+        "inbatch_full_sharpe": 0.3004,
+        "recorded_gate_vi": 0.4004
+      },
+      "ew48_monthly_rebal": {
+        "inbatch_full_sharpe": 0.3792,
+        "recorded_gate_vi": 0.4004
+      }
+    },
+    "sleeve_max_corr": 0.3
+  },
+  "passive": {
+    "ew48_buyhold": {
+      "full": {
+        "sharpe": 0.3004,
+        "annual_return": 0.038,
+        "max_drawdown": -0.3843
+      },
+      "oos": {
+        "sharpe": 0.7101,
+        "annual_return": 0.1202,
+        "max_drawdown": -0.1677
+      }
+    },
+    "ew48_monthly_rebal": {
+      "full": {
+        "sharpe": 0.3792,
+        "annual_return": 0.0521,
+        "max_drawdown": -0.3652
+      },
+      "oos": {
+        "sharpe": 0.8051,
+        "annual_return": 0.1306,
+        "max_drawdown": -0.116
+      }
+    }
+  },
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 0.4514,
+        "annual_return": 0.0283,
+        "max_drawdown": -0.1633,
+        "trades": 302
+      },
+      "got_oos": {
+        "sharpe": 1.6085,
+        "annual_return": 0.1441,
+        "max_drawdown": -0.0567,
+        "trades": 172
+      },
+      "full_sharpe": 0.8114
+    },
+    "COMPOSITE-CE-02": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 0.4585,
+        "annual_return": 0.0544,
+        "max_drawdown": -0.2217,
+        "trades": 520
+      },
+      "got_oos": {
+        "sharpe": 1.4853,
+        "annual_return": 0.1089,
+        "max_drawdown": -0.0361,
+        "trades": 275
+      },
+      "full_sharpe": 0.6099
+    },
+    "VOLATILITY-CE-01": {
+      "anchor_ok": true,
+      "got_is": {
+        "sharpe": 1.0275,
+        "annual_return": 0.0262,
+        "max_drawdown": -0.0378,
+        "trades": 375
+      },
+      "got_oos": {
+        "sharpe": 2.0568,
+        "annual_return": 0.0424,
+        "max_drawdown": -0.009,
+        "trades": 147
+      },
+      "full_sharpe": 1.2578
+    }
+  },
+  "cells": [
+    {
+      "name": "morning_star",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.morning_star frozen",
+      "full": {
+        "annual_return": -0.0002,
+        "sharpe": 0.0173,
+        "max_drawdown": -0.0734,
+        "win_rate": 0.5965,
+        "profit_factor": 1.0579,
+        "num_trades": 171,
+        "avg_hold_days": 4.41
+      },
+      "oos": {
+        "sharpe": -0.2406,
+        "annual_return": -0.0124,
+        "max_drawdown": -0.0734
+      },
+      "n_trades": 171,
+      "oos_trades": 45,
+      "x2_full_sharpe": -0.1236,
+      "x2_oos_sharpe": -0.3742,
+      "x2_n_trades": 171,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.041,
+        "COMPOSITE-CE-02": 0.0337,
+        "VOLATILITY-CE-01": 0.1137
+      },
+      "max_corr": 0.1137,
+      "sleeve_tag": false
+    },
+    {
+      "name": "morning_star",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.morning_star frozen",
+      "full": {
+        "annual_return": 0.0014,
+        "sharpe": 0.054,
+        "max_drawdown": -0.0727,
+        "win_rate": 0.6643,
+        "profit_factor": 1.09,
+        "num_trades": 143,
+        "avg_hold_days": 5.48
+      },
+      "oos": {
+        "sharpe": -0.2177,
+        "annual_return": -0.0112,
+        "max_drawdown": -0.0727
+      },
+      "n_trades": 143,
+      "oos_trades": 41,
+      "x2_full_sharpe": -0.064,
+      "x2_oos_sharpe": -0.3378,
+      "x2_n_trades": 143,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0426,
+        "COMPOSITE-CE-02": 0.0384,
+        "VOLATILITY-CE-01": 0.1176
+      },
+      "max_corr": 0.1176,
+      "sleeve_tag": false
+    },
+    {
+      "name": "three_soldiers",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.three_soldiers frozen",
+      "full": {
+        "annual_return": -0.0213,
+        "sharpe": -0.1593,
+        "max_drawdown": -0.3115,
+        "win_rate": 0.5103,
+        "profit_factor": 1.0013,
+        "num_trades": 1356,
+        "avg_hold_days": 4.42
+      },
+      "oos": {
+        "sharpe": 0.6048,
+        "annual_return": 0.0716,
+        "max_drawdown": -0.1269
+      },
+      "n_trades": 1356,
+      "oos_trades": 378,
+      "x2_full_sharpe": -0.5513,
+      "x2_oos_sharpe": 0.2221,
+      "x2_n_trades": 1356,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2573,
+        "COMPOSITE-CE-02": 0.1763,
+        "VOLATILITY-CE-01": 0.1725
+      },
+      "max_corr": 0.2573,
+      "sleeve_tag": false
+    },
+    {
+      "name": "three_soldiers",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.three_soldiers frozen",
+      "full": {
+        "annual_return": -0.0164,
+        "sharpe": -0.1179,
+        "max_drawdown": -0.3409,
+        "win_rate": 0.5133,
+        "profit_factor": 1.0111,
+        "num_trades": 1241,
+        "avg_hold_days": 5.08
+      },
+      "oos": {
+        "sharpe": 0.9562,
+        "annual_return": 0.1131,
+        "max_drawdown": -0.0788
+      },
+      "n_trades": 1241,
+      "oos_trades": 336,
+      "x2_full_sharpe": -0.4763,
+      "x2_oos_sharpe": 0.6001,
+      "x2_n_trades": 1241,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2646,
+        "COMPOSITE-CE-02": 0.1818,
+        "VOLATILITY-CE-01": 0.1766
+      },
+      "max_corr": 0.2646,
+      "sleeve_tag": false
+    },
+    {
+      "name": "piercing_line",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.piercing_line frozen",
+      "full": {
+        "annual_return": -0.0192,
+        "sharpe": -0.3458,
+        "max_drawdown": -0.1514,
+        "win_rate": 0.5683,
+        "profit_factor": 0.8673,
+        "num_trades": 322,
+        "avg_hold_days": 3.7
+      },
+      "oos": {
+        "sharpe": -0.9212,
+        "annual_return": -0.0448,
+        "max_drawdown": -0.1104
+      },
+      "n_trades": 322,
+      "oos_trades": 65,
+      "x2_full_sharpe": -0.593,
+      "x2_oos_sharpe": -1.1188,
+      "x2_n_trades": 322,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.065,
+        "COMPOSITE-CE-02": 0.0821,
+        "VOLATILITY-CE-01": 0.0786
+      },
+      "max_corr": 0.0821,
+      "sleeve_tag": false
+    },
+    {
+      "name": "piercing_line",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.piercing_line frozen",
+      "full": {
+        "annual_return": -0.0194,
+        "sharpe": -0.3515,
+        "max_drawdown": -0.1518,
+        "win_rate": 0.629,
+        "profit_factor": 0.8501,
+        "num_trades": 283,
+        "avg_hold_days": 4.34
+      },
+      "oos": {
+        "sharpe": -1.0307,
+        "annual_return": -0.0491,
+        "max_drawdown": -0.1168
+      },
+      "n_trades": 283,
+      "oos_trades": 61,
+      "x2_full_sharpe": -0.5677,
+      "x2_oos_sharpe": -1.2147,
+      "x2_n_trades": 283,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0663,
+        "COMPOSITE-CE-02": 0.0824,
+        "VOLATILITY-CE-01": 0.0769
+      },
+      "max_corr": 0.0824,
+      "sleeve_tag": false
+    },
+    {
+      "name": "needle_probe",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.needle_probe frozen",
+      "full": {
+        "annual_return": 0.0168,
+        "sharpe": 0.6624,
+        "max_drawdown": -0.0282,
+        "win_rate": 0.7534,
+        "profit_factor": 2.2888,
+        "num_trades": 73,
+        "avg_hold_days": 4.92
+      },
+      "oos": {
+        "sharpe": 0.4089,
+        "annual_return": 0.0119,
+        "max_drawdown": -0.0282
+      },
+      "n_trades": 73,
+      "oos_trades": 23,
+      "x2_full_sharpe": 0.5738,
+      "x2_oos_sharpe": 0.3199,
+      "x2_n_trades": 73,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0201,
+        "COMPOSITE-CE-02": 0.0701,
+        "VOLATILITY-CE-01": 0.1256
+      },
+      "max_corr": 0.1256,
+      "sleeve_tag": false
+    },
+    {
+      "name": "needle_probe",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.needle_probe frozen",
+      "full": {
+        "annual_return": 0.0161,
+        "sharpe": 0.6395,
+        "max_drawdown": -0.0281,
+        "win_rate": 0.7937,
+        "profit_factor": 2.3634,
+        "num_trades": 63,
+        "avg_hold_days": 5.94
+      },
+      "oos": {
+        "sharpe": 0.4023,
+        "annual_return": 0.0116,
+        "max_drawdown": -0.0281
+      },
+      "n_trades": 63,
+      "oos_trades": 20,
+      "x2_full_sharpe": 0.5636,
+      "x2_oos_sharpe": 0.3268,
+      "x2_n_trades": 63,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0211,
+        "COMPOSITE-CE-02": 0.0706,
+        "VOLATILITY-CE-01": 0.1272
+      },
+      "max_corr": 0.1272,
+      "sleeve_tag": false
+    },
+    {
+      "name": "three_methods_up",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.three_methods_up frozen",
+      "full": {
+        "annual_return": 0.0015,
+        "sharpe": 0.0897,
+        "max_drawdown": -0.0403,
+        "win_rate": 0.6296,
+        "profit_factor": 1.2794,
+        "num_trades": 54,
+        "avg_hold_days": 4.93
+      },
+      "oos": {
+        "sharpe": 0.5381,
+        "annual_return": 0.0162,
+        "max_drawdown": -0.0214
+      },
+      "n_trades": 54,
+      "oos_trades": 22,
+      "x2_full_sharpe": 0.0023,
+      "x2_oos_sharpe": 0.4591,
+      "x2_n_trades": 54,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.088,
+        "COMPOSITE-CE-02": 0.0481,
+        "VOLATILITY-CE-01": 0.0257
+      },
+      "max_corr": 0.088,
+      "sleeve_tag": true
+    },
+    {
+      "name": "three_methods_up",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.three_methods_up frozen",
+      "full": {
+        "annual_return": 0.0015,
+        "sharpe": 0.0945,
+        "max_drawdown": -0.0383,
+        "win_rate": 0.6122,
+        "profit_factor": 1.295,
+        "num_trades": 49,
+        "avg_hold_days": 6.43
+      },
+      "oos": {
+        "sharpe": 0.5009,
+        "annual_return": 0.0137,
+        "max_drawdown": -0.0195
+      },
+      "n_trades": 49,
+      "oos_trades": 18,
+      "x2_full_sharpe": 0.0143,
+      "x2_oos_sharpe": 0.4373,
+      "x2_n_trades": 49,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0791,
+        "COMPOSITE-CE-02": 0.0434,
+        "VOLATILITY-CE-01": 0.016
+      },
+      "max_corr": 0.0791,
+      "sleeve_tag": true
+    },
+    {
+      "name": "island_reversal",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.island_reversal frozen",
+      "full": {
+        "annual_return": -0.0036,
+        "sharpe": -0.3057,
+        "max_drawdown": -0.0417,
+        "win_rate": 0.3962,
+        "profit_factor": 0.7662,
+        "num_trades": 53,
+        "avg_hold_days": 3.66
+      },
+      "oos": {
+        "sharpe": -0.7084,
+        "annual_return": -0.0141,
+        "max_drawdown": -0.0417
+      },
+      "n_trades": 53,
+      "oos_trades": 28,
+      "x2_full_sharpe": -0.4861,
+      "x2_oos_sharpe": -0.9283,
+      "x2_n_trades": 53,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.085,
+        "COMPOSITE-CE-02": 0.0813,
+        "VOLATILITY-CE-01": 0.0776
+      },
+      "max_corr": 0.085,
+      "sleeve_tag": false
+    },
+    {
+      "name": "island_reversal",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.island_reversal frozen",
+      "full": {
+        "annual_return": -0.003,
+        "sharpe": -0.2555,
+        "max_drawdown": -0.0375,
+        "win_rate": 0.3864,
+        "profit_factor": 0.8823,
+        "num_trades": 44,
+        "avg_hold_days": 4.2
+      },
+      "oos": {
+        "sharpe": -0.5981,
+        "annual_return": -0.0119,
+        "max_drawdown": -0.0375
+      },
+      "n_trades": 44,
+      "oos_trades": 22,
+      "x2_full_sharpe": -0.4069,
+      "x2_oos_sharpe": -0.7738,
+      "x2_n_trades": 44,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0834,
+        "COMPOSITE-CE-02": 0.0796,
+        "VOLATILITY-CE-01": 0.0776
+      },
+      "max_corr": 0.0834,
+      "sleeve_tag": false
+    },
+    {
+      "name": "doji_at_low",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.doji_at_low frozen",
+      "full": {
+        "annual_return": 0.0133,
+        "sharpe": 0.2102,
+        "max_drawdown": -0.1913,
+        "win_rate": 0.5989,
+        "profit_factor": 1.154,
+        "num_trades": 541,
+        "avg_hold_days": 5.23
+      },
+      "oos": {
+        "sharpe": 0.3398,
+        "annual_return": 0.0211,
+        "max_drawdown": -0.0877
+      },
+      "n_trades": 541,
+      "oos_trades": 141,
+      "x2_full_sharpe": -0.034,
+      "x2_oos_sharpe": 0.0726,
+      "x2_n_trades": 541,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0956,
+        "COMPOSITE-CE-02": 0.1351,
+        "VOLATILITY-CE-01": 0.1964
+      },
+      "max_corr": 0.1964,
+      "sleeve_tag": true
+    },
+    {
+      "name": "doji_at_low",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.doji_at_low frozen",
+      "full": {
+        "annual_return": 0.0155,
+        "sharpe": 0.2438,
+        "max_drawdown": -0.1685,
+        "win_rate": 0.6872,
+        "profit_factor": 1.1905,
+        "num_trades": 422,
+        "avg_hold_days": 6.95
+      },
+      "oos": {
+        "sharpe": 0.4018,
+        "annual_return": 0.0242,
+        "max_drawdown": -0.074
+      },
+      "n_trades": 422,
+      "oos_trades": 105,
+      "x2_full_sharpe": 0.0523,
+      "x2_oos_sharpe": 0.2008,
+      "x2_n_trades": 422,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1059,
+        "COMPOSITE-CE-02": 0.1389,
+        "VOLATILITY-CE-01": 0.2048
+      },
+      "max_corr": 0.2048,
+      "sleeve_tag": true
+    },
+    {
+      "name": "big_yin_shakeout",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.big_yin_shakeout frozen",
+      "full": {
+        "annual_return": -0.0079,
+        "sharpe": -0.38,
+        "max_drawdown": -0.0675,
+        "win_rate": 0.4528,
+        "profit_factor": 0.5562,
+        "num_trades": 53,
+        "avg_hold_days": 5.79
+      },
+      "oos": {
+        "sharpe": -0.0628,
+        "annual_return": -0.0013,
+        "max_drawdown": -0.018
+      },
+      "n_trades": 53,
+      "oos_trades": 13,
+      "x2_full_sharpe": -0.4607,
+      "x2_oos_sharpe": -0.1458,
+      "x2_n_trades": 53,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0465,
+        "COMPOSITE-CE-02": 0.0364,
+        "VOLATILITY-CE-01": 0.0111
+      },
+      "max_corr": 0.0465,
+      "sleeve_tag": false
+    },
+    {
+      "name": "big_yin_shakeout",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.big_yin_shakeout frozen",
+      "full": {
+        "annual_return": -0.0093,
+        "sharpe": -0.4699,
+        "max_drawdown": -0.0771,
+        "win_rate": 0.3902,
+        "profit_factor": 0.42,
+        "num_trades": 41,
+        "avg_hold_days": 7.93
+      },
+      "oos": {
+        "sharpe": -0.0396,
+        "annual_return": -0.0008,
+        "max_drawdown": -0.0142
+      },
+      "n_trades": 41,
+      "oos_trades": 8,
+      "x2_full_sharpe": -0.5284,
+      "x2_oos_sharpe": -0.09,
+      "x2_n_trades": 41,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0382,
+        "COMPOSITE-CE-02": 0.0332,
+        "VOLATILITY-CE-01": 0.0243
+      },
+      "max_corr": 0.0382,
+      "sleeve_tag": false
+    },
+    {
+      "name": "macd_divergence",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.macd_divergence frozen",
+      "full": {
+        "annual_return": -0.0669,
+        "sharpe": -0.6109,
+        "max_drawdown": -0.4589,
+        "win_rate": 0.5349,
+        "profit_factor": 0.8187,
+        "num_trades": 873,
+        "avg_hold_days": 5.72
+      },
+      "oos": {
+        "sharpe": -0.0319,
+        "annual_return": -0.0094,
+        "max_drawdown": -0.1623
+      },
+      "n_trades": 873,
+      "oos_trades": 228,
+      "x2_full_sharpe": -1.0527,
+      "x2_oos_sharpe": -0.5835,
+      "x2_n_trades": 852,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1073,
+        "COMPOSITE-CE-02": 0.1142,
+        "VOLATILITY-CE-01": 0.2544
+      },
+      "max_corr": 0.2544,
+      "sleeve_tag": false
+    },
+    {
+      "name": "macd_divergence",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.macd_divergence frozen",
+      "full": {
+        "annual_return": -0.0469,
+        "sharpe": -0.4815,
+        "max_drawdown": -0.382,
+        "win_rate": 0.649,
+        "profit_factor": 0.8534,
+        "num_trades": 678,
+        "avg_hold_days": 7.67
+      },
+      "oos": {
+        "sharpe": -0.1028,
+        "annual_return": -0.0155,
+        "max_drawdown": -0.1428
+      },
+      "n_trades": 678,
+      "oos_trades": 181,
+      "x2_full_sharpe": -0.8019,
+      "x2_oos_sharpe": -0.4385,
+      "x2_n_trades": 678,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1302,
+        "COMPOSITE-CE-02": 0.1331,
+        "VOLATILITY-CE-01": 0.2749
+      },
+      "max_corr": 0.2749,
+      "sleeve_tag": false
+    },
+    {
+      "name": "obv_divergence",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.obv_divergence frozen",
+      "full": {
+        "annual_return": 0.0007,
+        "sharpe": 0.0509,
+        "max_drawdown": -0.1672,
+        "win_rate": 0.5237,
+        "profit_factor": 1.0879,
+        "num_trades": 674,
+        "avg_hold_days": 5.89
+      },
+      "oos": {
+        "sharpe": -0.522,
+        "annual_return": -0.0336,
+        "max_drawdown": -0.1129
+      },
+      "n_trades": 674,
+      "oos_trades": 189,
+      "x2_full_sharpe": -0.2339,
+      "x2_oos_sharpe": -0.9582,
+      "x2_n_trades": 674,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1071,
+        "COMPOSITE-CE-02": 0.6907,
+        "VOLATILITY-CE-01": 0.1951
+      },
+      "max_corr": 0.6907,
+      "sleeve_tag": false
+    },
+    {
+      "name": "obv_divergence",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.obv_divergence frozen",
+      "full": {
+        "annual_return": -0.0008,
+        "sharpe": 0.0361,
+        "max_drawdown": -0.1662,
+        "win_rate": 0.6138,
+        "profit_factor": 1.066,
+        "num_trades": 492,
+        "avg_hold_days": 8.5
+      },
+      "oos": {
+        "sharpe": -0.3442,
+        "annual_return": -0.025,
+        "max_drawdown": -0.0913
+      },
+      "n_trades": 492,
+      "oos_trades": 144,
+      "x2_full_sharpe": -0.1636,
+      "x2_oos_sharpe": -0.6506,
+      "x2_n_trades": 492,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.118,
+        "COMPOSITE-CE-02": 0.6957,
+        "VOLATILITY-CE-01": 0.2005
+      },
+      "max_corr": 0.6957,
+      "sleeve_tag": false
+    },
+    {
+      "name": "vol_drought_reversal",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.vol_drought_reversal frozen",
+      "full": {
+        "annual_return": 0.022,
+        "sharpe": 0.6863,
+        "max_drawdown": -0.05,
+        "win_rate": 0.7241,
+        "profit_factor": 2.0249,
+        "num_trades": 145,
+        "avg_hold_days": 4.78
+      },
+      "oos": {
+        "sharpe": 1.2296,
+        "annual_return": 0.0408,
+        "max_drawdown": -0.024
+      },
+      "n_trades": 145,
+      "oos_trades": 53,
+      "x2_full_sharpe": 0.5253,
+      "x2_oos_sharpe": 1.0194,
+      "x2_n_trades": 145,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0463,
+        "COMPOSITE-CE-02": 0.0571,
+        "VOLATILITY-CE-01": 0.0999
+      },
+      "max_corr": 0.0999,
+      "sleeve_tag": false
+    },
+    {
+      "name": "vol_drought_reversal",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.vol_drought_reversal frozen",
+      "full": {
+        "annual_return": 0.0228,
+        "sharpe": 0.724,
+        "max_drawdown": -0.0476,
+        "win_rate": 0.8167,
+        "profit_factor": 2.2279,
+        "num_trades": 120,
+        "avg_hold_days": 6.0
+      },
+      "oos": {
+        "sharpe": 1.213,
+        "annual_return": 0.0408,
+        "max_drawdown": -0.0252
+      },
+      "n_trades": 120,
+      "oos_trades": 44,
+      "x2_full_sharpe": 0.5902,
+      "x2_oos_sharpe": 1.0462,
+      "x2_n_trades": 120,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0487,
+        "COMPOSITE-CE-02": 0.0589,
+        "VOLATILITY-CE-01": 0.1055
+      },
+      "max_corr": 0.1055,
+      "sleeve_tag": false
+    },
+    {
+      "name": "inside_bar_breakup",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.inside_bar_breakup frozen",
+      "full": {
+        "annual_return": 0.0245,
+        "sharpe": 0.2694,
+        "max_drawdown": -0.2466,
+        "win_rate": 0.4885,
+        "profit_factor": 1.2502,
+        "num_trades": 1306,
+        "avg_hold_days": 4.82
+      },
+      "oos": {
+        "sharpe": 1.1122,
+        "annual_return": 0.0897,
+        "max_drawdown": -0.053
+      },
+      "n_trades": 1306,
+      "oos_trades": 365,
+      "x2_full_sharpe": -0.0697,
+      "x2_oos_sharpe": 0.6177,
+      "x2_n_trades": 1306,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1671,
+        "COMPOSITE-CE-02": 0.1178,
+        "VOLATILITY-CE-01": 0.0989
+      },
+      "max_corr": 0.1671,
+      "sleeve_tag": true
+    },
+    {
+      "name": "inside_bar_breakup",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.inside_bar_breakup frozen",
+      "full": {
+        "annual_return": 0.0338,
+        "sharpe": 0.3691,
+        "max_drawdown": -0.2279,
+        "win_rate": 0.4899,
+        "profit_factor": 1.3343,
+        "num_trades": 1192,
+        "avg_hold_days": 5.53
+      },
+      "oos": {
+        "sharpe": 1.3755,
+        "annual_return": 0.093,
+        "max_drawdown": -0.0388
+      },
+      "n_trades": 1192,
+      "oos_trades": 335,
+      "x2_full_sharpe": 0.0416,
+      "x2_oos_sharpe": 0.8654,
+      "x2_n_trades": 1192,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.14,
+        "COMPOSITE-CE-02": 0.1102,
+        "VOLATILITY-CE-01": 0.1037
+      },
+      "max_corr": 0.14,
+      "sleeve_tag": true
+    },
+    {
+      "name": "yang_break_3ma",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.yang_break_3ma frozen",
+      "full": {
+        "annual_return": -0.0247,
+        "sharpe": -0.2832,
+        "max_drawdown": -0.311,
+        "win_rate": 0.4392,
+        "profit_factor": 1.0129,
+        "num_trades": 1580,
+        "avg_hold_days": 4.93
+      },
+      "oos": {
+        "sharpe": 0.2143,
+        "annual_return": 0.0156,
+        "max_drawdown": -0.0869
+      },
+      "n_trades": 1580,
+      "oos_trades": 425,
+      "x2_full_sharpe": -1.099,
+      "x2_oos_sharpe": -0.8396,
+      "x2_n_trades": 1561,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4154,
+        "COMPOSITE-CE-02": 0.2563,
+        "VOLATILITY-CE-01": 0.2669
+      },
+      "max_corr": 0.4154,
+      "sleeve_tag": false
+    },
+    {
+      "name": "yang_break_3ma",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.yang_break_3ma frozen",
+      "full": {
+        "annual_return": -0.0168,
+        "sharpe": -0.184,
+        "max_drawdown": -0.3056,
+        "win_rate": 0.443,
+        "profit_factor": 1.033,
+        "num_trades": 1422,
+        "avg_hold_days": 5.72
+      },
+      "oos": {
+        "sharpe": 0.5272,
+        "annual_return": 0.0427,
+        "max_drawdown": -0.0748
+      },
+      "n_trades": 1422,
+      "oos_trades": 381,
+      "x2_full_sharpe": -0.7866,
+      "x2_oos_sharpe": -0.0971,
+      "x2_n_trades": 1422,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4239,
+        "COMPOSITE-CE-02": 0.2555,
+        "VOLATILITY-CE-01": 0.2565
+      },
+      "max_corr": 0.4239,
+      "sleeve_tag": false
+    },
+    {
+      "name": "ma_converge_break",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.ma_converge_break frozen",
+      "full": {
+        "annual_return": 0.0157,
+        "sharpe": 0.2822,
+        "max_drawdown": -0.1132,
+        "win_rate": 0.498,
+        "profit_factor": 1.2146,
+        "num_trades": 1279,
+        "avg_hold_days": 5.82
+      },
+      "oos": {
+        "sharpe": 0.7651,
+        "annual_return": 0.0425,
+        "max_drawdown": -0.0653
+      },
+      "n_trades": 1279,
+      "oos_trades": 345,
+      "x2_full_sharpe": -0.3731,
+      "x2_oos_sharpe": 0.0352,
+      "x2_n_trades": 1279,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2732,
+        "COMPOSITE-CE-02": 0.197,
+        "VOLATILITY-CE-01": 0.2762
+      },
+      "max_corr": 0.2762,
+      "sleeve_tag": true
+    },
+    {
+      "name": "ma_converge_break",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.ma_converge_break frozen",
+      "full": {
+        "annual_return": 0.0183,
+        "sharpe": 0.337,
+        "max_drawdown": -0.1038,
+        "win_rate": 0.4896,
+        "profit_factor": 1.2473,
+        "num_trades": 1107,
+        "avg_hold_days": 7.08
+      },
+      "oos": {
+        "sharpe": 0.9458,
+        "annual_return": 0.0508,
+        "max_drawdown": -0.0464
+      },
+      "n_trades": 1107,
+      "oos_trades": 303,
+      "x2_full_sharpe": -0.2443,
+      "x2_oos_sharpe": 0.3048,
+      "x2_n_trades": 1107,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2756,
+        "COMPOSITE-CE-02": 0.1955,
+        "VOLATILITY-CE-01": 0.2824
+      },
+      "max_corr": 0.2824,
+      "sleeve_tag": true
+    },
+    {
+      "name": "duck_head",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.duck_head frozen",
+      "full": {
+        "annual_return": 0.0409,
+        "sharpe": 0.6817,
+        "max_drawdown": -0.077,
+        "win_rate": 0.5871,
+        "profit_factor": 1.4205,
+        "num_trades": 947,
+        "avg_hold_days": 5.6
+      },
+      "oos": {
+        "sharpe": 0.8227,
+        "annual_return": 0.0472,
+        "max_drawdown": -0.0439
+      },
+      "n_trades": 947,
+      "oos_trades": 264,
+      "x2_full_sharpe": 0.2583,
+      "x2_oos_sharpe": 0.3909,
+      "x2_n_trades": 947,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2883,
+        "COMPOSITE-CE-02": 0.2004,
+        "VOLATILITY-CE-01": 0.2147
+      },
+      "max_corr": 0.2883,
+      "sleeve_tag": false
+    },
+    {
+      "name": "duck_head",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.duck_head frozen",
+      "full": {
+        "annual_return": 0.0334,
+        "sharpe": 0.5347,
+        "max_drawdown": -0.1165,
+        "win_rate": 0.5915,
+        "profit_factor": 1.3609,
+        "num_trades": 798,
+        "avg_hold_days": 7.14
+      },
+      "oos": {
+        "sharpe": 0.6059,
+        "annual_return": 0.0366,
+        "max_drawdown": -0.0558
+      },
+      "n_trades": 798,
+      "oos_trades": 225,
+      "x2_full_sharpe": 0.2097,
+      "x2_oos_sharpe": 0.2715,
+      "x2_n_trades": 798,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": true,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3049,
+        "COMPOSITE-CE-02": 0.1915,
+        "VOLATILITY-CE-01": 0.2053
+      },
+      "max_corr": 0.3049,
+      "sleeve_tag": false
+    },
+    {
+      "name": "box_breakout",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.box_breakout frozen",
+      "full": {
+        "annual_return": 0.005,
+        "sharpe": 0.1118,
+        "max_drawdown": -0.1944,
+        "win_rate": 0.5005,
+        "profit_factor": 1.1253,
+        "num_trades": 961,
+        "avg_hold_days": 8.99
+      },
+      "oos": {
+        "sharpe": 0.8434,
+        "annual_return": 0.0534,
+        "max_drawdown": -0.0806
+      },
+      "n_trades": 961,
+      "oos_trades": 269,
+      "x2_full_sharpe": -0.3704,
+      "x2_oos_sharpe": 0.3545,
+      "x2_n_trades": 961,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3838,
+        "COMPOSITE-CE-02": 0.2896,
+        "VOLATILITY-CE-01": 0.3464
+      },
+      "max_corr": 0.3838,
+      "sleeve_tag": false
+    },
+    {
+      "name": "box_breakout",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.box_breakout frozen",
+      "full": {
+        "annual_return": -0.0039,
+        "sharpe": -0.0362,
+        "max_drawdown": -0.1823,
+        "win_rate": 0.5214,
+        "profit_factor": 1.035,
+        "num_trades": 631,
+        "avg_hold_days": 14.29
+      },
+      "oos": {
+        "sharpe": 0.2945,
+        "annual_return": 0.016,
+        "max_drawdown": -0.086
+      },
+      "n_trades": 631,
+      "oos_trades": 174,
+      "x2_full_sharpe": -0.353,
+      "x2_oos_sharpe": -0.035,
+      "x2_n_trades": 631,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3825,
+        "COMPOSITE-CE-02": 0.2902,
+        "VOLATILITY-CE-01": 0.3616
+      },
+      "max_corr": 0.3825,
+      "sleeve_tag": false
+    },
+    {
+      "name": "immortal_guide",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.immortal_guide frozen",
+      "full": {
+        "annual_return": -0.0,
+        "sharpe": 0.0447,
+        "max_drawdown": -0.2123,
+        "win_rate": 0.5784,
+        "profit_factor": 1.0624,
+        "num_trades": 906,
+        "avg_hold_days": 4.21
+      },
+      "oos": {
+        "sharpe": 0.432,
+        "annual_return": 0.0396,
+        "max_drawdown": -0.0636
+      },
+      "n_trades": 906,
+      "oos_trades": 286,
+      "x2_full_sharpe": -0.2358,
+      "x2_oos_sharpe": 0.1321,
+      "x2_n_trades": 906,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1686,
+        "COMPOSITE-CE-02": 0.1442,
+        "VOLATILITY-CE-01": 0.086
+      },
+      "max_corr": 0.1686,
+      "sleeve_tag": true
+    },
+    {
+      "name": "immortal_guide",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.immortal_guide frozen",
+      "full": {
+        "annual_return": -0.0019,
+        "sharpe": 0.0208,
+        "max_drawdown": -0.208,
+        "win_rate": 0.5765,
+        "profit_factor": 1.0491,
+        "num_trades": 791,
+        "avg_hold_days": 5.14
+      },
+      "oos": {
+        "sharpe": 0.3595,
+        "annual_return": 0.0309,
+        "max_drawdown": -0.0637
+      },
+      "n_trades": 791,
+      "oos_trades": 247,
+      "x2_full_sharpe": -0.2234,
+      "x2_oos_sharpe": 0.1011,
+      "x2_n_trades": 791,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1719,
+        "COMPOSITE-CE-02": 0.1452,
+        "VOLATILITY-CE-01": 0.0855
+      },
+      "max_corr": 0.1719,
+      "sleeve_tag": true
+    },
+    {
+      "name": "n_shape",
+      "family": "s10_patterns",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.n_shape frozen",
+      "full": {
+        "annual_return": -0.0173,
+        "sharpe": -0.1767,
+        "max_drawdown": -0.3407,
+        "win_rate": 0.5213,
+        "profit_factor": 0.965,
+        "num_trades": 727,
+        "avg_hold_days": 4.12
+      },
+      "oos": {
+        "sharpe": 1.3803,
+        "annual_return": 0.1505,
+        "max_drawdown": -0.0954
+      },
+      "n_trades": 727,
+      "oos_trades": 252,
+      "x2_full_sharpe": -0.4473,
+      "x2_oos_sharpe": 1.0874,
+      "x2_n_trades": 727,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2787,
+        "COMPOSITE-CE-02": 0.1802,
+        "VOLATILITY-CE-01": 0.0706
+      },
+      "max_corr": 0.2787,
+      "sleeve_tag": false
+    },
+    {
+      "name": "n_shape",
+      "family": "s10_patterns",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "patterns.n_shape frozen",
+      "full": {
+        "annual_return": -0.0108,
+        "sharpe": -0.1054,
+        "max_drawdown": -0.3121,
+        "win_rate": 0.5177,
+        "profit_factor": 0.992,
+        "num_trades": 651,
+        "avg_hold_days": 4.99
+      },
+      "oos": {
+        "sharpe": 1.4014,
+        "annual_return": 0.1435,
+        "max_drawdown": -0.0862
+      },
+      "n_trades": 651,
+      "oos_trades": 219,
+      "x2_full_sharpe": -0.3506,
+      "x2_oos_sharpe": 1.1548,
+      "x2_n_trades": 651,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2889,
+        "COMPOSITE-CE-02": 0.1856,
+        "VOLATILITY-CE-01": 0.0676
+      },
+      "max_corr": 0.2889,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_suction",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.low_suction frozen",
+      "full": {
+        "annual_return": 0.0182,
+        "sharpe": 0.3903,
+        "max_drawdown": -0.107,
+        "win_rate": 0.5366,
+        "profit_factor": 1.2708,
+        "num_trades": 902,
+        "avg_hold_days": 8.24
+      },
+      "oos": {
+        "sharpe": -0.0355,
+        "annual_return": -0.0037,
+        "max_drawdown": -0.107
+      },
+      "n_trades": 902,
+      "oos_trades": 259,
+      "x2_full_sharpe": -0.1663,
+      "x2_oos_sharpe": -0.5381,
+      "x2_n_trades": 902,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "True",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2997,
+        "COMPOSITE-CE-02": 0.2166,
+        "VOLATILITY-CE-01": 0.2801
+      },
+      "max_corr": 0.2997,
+      "sleeve_tag": false
+    },
+    {
+      "name": "low_suction",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.low_suction frozen",
+      "full": {
+        "annual_return": 0.0187,
+        "sharpe": 0.4352,
+        "max_drawdown": -0.0956,
+        "win_rate": 0.5477,
+        "profit_factor": 1.2732,
+        "num_trades": 608,
+        "avg_hold_days": 12.96
+      },
+      "oos": {
+        "sharpe": 0.0329,
+        "annual_return": 0.0004,
+        "max_drawdown": -0.0956
+      },
+      "n_trades": 608,
+      "oos_trades": 170,
+      "x2_full_sharpe": 0.0554,
+      "x2_oos_sharpe": -0.3241,
+      "x2_n_trades": 608,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "True"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.32,
+        "COMPOSITE-CE-02": 0.2237,
+        "VOLATILITY-CE-01": 0.3037
+      },
+      "max_corr": 0.32,
+      "sleeve_tag": false
+    },
+    {
+      "name": "lian_yin_first_yang",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.lian_yin_first_yang frozen",
+      "full": {
+        "annual_return": -0.0756,
+        "sharpe": -0.5398,
+        "max_drawdown": -0.5005,
+        "win_rate": 0.4329,
+        "profit_factor": 0.9162,
+        "num_trades": 2109,
+        "avg_hold_days": 2.58
+      },
+      "oos": {
+        "sharpe": -0.5461,
+        "annual_return": -0.0603,
+        "max_drawdown": -0.1823
+      },
+      "n_trades": 2109,
+      "oos_trades": 510,
+      "x2_full_sharpe": -1.816,
+      "x2_oos_sharpe": -1.8531,
+      "x2_n_trades": 1704,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2221,
+        "COMPOSITE-CE-02": 0.1633,
+        "VOLATILITY-CE-01": 0.1677
+      },
+      "max_corr": 0.2221,
+      "sleeve_tag": false
+    },
+    {
+      "name": "lian_yin_first_yang",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.lian_yin_first_yang frozen",
+      "full": {
+        "annual_return": -0.0717,
+        "sharpe": -0.5211,
+        "max_drawdown": -0.4943,
+        "win_rate": 0.435,
+        "profit_factor": 0.9189,
+        "num_trades": 2055,
+        "avg_hold_days": 2.67
+      },
+      "oos": {
+        "sharpe": -0.5146,
+        "annual_return": -0.0553,
+        "max_drawdown": -0.1786
+      },
+      "n_trades": 2055,
+      "oos_trades": 495,
+      "x2_full_sharpe": -1.7485,
+      "x2_oos_sharpe": -1.6423,
+      "x2_n_trades": 1667,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.2202,
+        "COMPOSITE-CE-02": 0.1622,
+        "VOLATILITY-CE-01": 0.1667
+      },
+      "max_corr": 0.2202,
+      "sleeve_tag": false
+    },
+    {
+      "name": "false_break_back",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.false_break_back frozen",
+      "full": {
+        "annual_return": 0.0072,
+        "sharpe": 0.1487,
+        "max_drawdown": -0.1726,
+        "win_rate": 0.5075,
+        "profit_factor": 1.1507,
+        "num_trades": 1070,
+        "avg_hold_days": 7.76
+      },
+      "oos": {
+        "sharpe": 0.6644,
+        "annual_return": 0.0454,
+        "max_drawdown": -0.0855
+      },
+      "n_trades": 1070,
+      "oos_trades": 305,
+      "x2_full_sharpe": -0.4085,
+      "x2_oos_sharpe": 0.1541,
+      "x2_n_trades": 1070,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3732,
+        "COMPOSITE-CE-02": 0.3183,
+        "VOLATILITY-CE-01": 0.3262
+      },
+      "max_corr": 0.3732,
+      "sleeve_tag": false
+    },
+    {
+      "name": "false_break_back",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.false_break_back frozen",
+      "full": {
+        "annual_return": 0.0153,
+        "sharpe": 0.2976,
+        "max_drawdown": -0.1538,
+        "win_rate": 0.5033,
+        "profit_factor": 1.2134,
+        "num_trades": 767,
+        "avg_hold_days": 11.56
+      },
+      "oos": {
+        "sharpe": 0.7588,
+        "annual_return": 0.0477,
+        "max_drawdown": -0.072
+      },
+      "n_trades": 767,
+      "oos_trades": 220,
+      "x2_full_sharpe": -0.0959,
+      "x2_oos_sharpe": 0.4025,
+      "x2_n_trades": 767,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3785,
+        "COMPOSITE-CE-02": 0.3135,
+        "VOLATILITY-CE-01": 0.3377
+      },
+      "max_corr": 0.3785,
+      "sleeve_tag": false
+    },
+    {
+      "name": "ants_climb",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.ants_climb frozen",
+      "full": {
+        "annual_return": 0.0061,
+        "sharpe": 0.2599,
+        "max_drawdown": -0.0611,
+        "win_rate": 0.5348,
+        "profit_factor": 1.395,
+        "num_trades": 187,
+        "avg_hold_days": 5.74
+      },
+      "oos": {
+        "sharpe": 0.6294,
+        "annual_return": 0.0171,
+        "max_drawdown": -0.0227
+      },
+      "n_trades": 187,
+      "oos_trades": 66,
+      "x2_full_sharpe": 0.0146,
+      "x2_oos_sharpe": 0.3472,
+      "x2_n_trades": 187,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.169,
+        "COMPOSITE-CE-02": 0.1062,
+        "VOLATILITY-CE-01": 0.1481
+      },
+      "max_corr": 0.169,
+      "sleeve_tag": true
+    },
+    {
+      "name": "ants_climb",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.ants_climb frozen",
+      "full": {
+        "annual_return": 0.0047,
+        "sharpe": 0.2052,
+        "max_drawdown": -0.0623,
+        "win_rate": 0.5367,
+        "profit_factor": 1.3151,
+        "num_trades": 177,
+        "avg_hold_days": 6.4
+      },
+      "oos": {
+        "sharpe": 0.5221,
+        "annual_return": 0.0133,
+        "max_drawdown": -0.0201
+      },
+      "n_trades": 177,
+      "oos_trades": 60,
+      "x2_full_sharpe": -0.027,
+      "x2_oos_sharpe": 0.2636,
+      "x2_n_trades": 177,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "True",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.1664,
+        "COMPOSITE-CE-02": 0.1045,
+        "VOLATILITY-CE-01": 0.1502
+      },
+      "max_corr": 0.1664,
+      "sleeve_tag": true
+    },
+    {
+      "name": "volume_mound",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.volume_mound frozen",
+      "full": {
+        "annual_return": -0.0198,
+        "sharpe": -0.1988,
+        "max_drawdown": -0.2738,
+        "win_rate": 0.4944,
+        "profit_factor": 0.9988,
+        "num_trades": 1157,
+        "avg_hold_days": 4.8
+      },
+      "oos": {
+        "sharpe": -0.0462,
+        "annual_return": -0.009,
+        "max_drawdown": -0.1086
+      },
+      "n_trades": 1157,
+      "oos_trades": 318,
+      "x2_full_sharpe": -0.6453,
+      "x2_oos_sharpe": -0.4811,
+      "x2_n_trades": 1157,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4182,
+        "COMPOSITE-CE-02": 0.243,
+        "VOLATILITY-CE-01": 0.1817
+      },
+      "max_corr": 0.4182,
+      "sleeve_tag": false
+    },
+    {
+      "name": "volume_mound",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.volume_mound frozen",
+      "full": {
+        "annual_return": -0.0194,
+        "sharpe": -0.1965,
+        "max_drawdown": -0.2876,
+        "win_rate": 0.4966,
+        "profit_factor": 0.9888,
+        "num_trades": 1043,
+        "avg_hold_days": 5.57
+      },
+      "oos": {
+        "sharpe": 0.0931,
+        "annual_return": 0.0043,
+        "max_drawdown": -0.1099
+      },
+      "n_trades": 1043,
+      "oos_trades": 286,
+      "x2_full_sharpe": -0.5888,
+      "x2_oos_sharpe": -0.2816,
+      "x2_n_trades": 1043,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4152,
+        "COMPOSITE-CE-02": 0.2407,
+        "VOLATILITY-CE-01": 0.1823
+      },
+      "max_corr": 0.4152,
+      "sleeve_tag": false
+    },
+    {
+      "name": "second_wave",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.second_wave frozen",
+      "full": {
+        "annual_return": -0.0302,
+        "sharpe": -0.4067,
+        "max_drawdown": -0.3087,
+        "win_rate": 0.4421,
+        "profit_factor": 0.9812,
+        "num_trades": 1441,
+        "avg_hold_days": 4.21
+      },
+      "oos": {
+        "sharpe": -0.292,
+        "annual_return": -0.0317,
+        "max_drawdown": -0.1002
+      },
+      "n_trades": 1441,
+      "oos_trades": 420,
+      "x2_full_sharpe": -1.1227,
+      "x2_oos_sharpe": -0.9625,
+      "x2_n_trades": 1441,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4541,
+        "COMPOSITE-CE-02": 0.2732,
+        "VOLATILITY-CE-01": 0.2537
+      },
+      "max_corr": 0.4541,
+      "sleeve_tag": false
+    },
+    {
+      "name": "second_wave",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.second_wave frozen",
+      "full": {
+        "annual_return": -0.0212,
+        "sharpe": -0.3033,
+        "max_drawdown": -0.2712,
+        "win_rate": 0.4367,
+        "profit_factor": 1.0102,
+        "num_trades": 1319,
+        "avg_hold_days": 4.79
+      },
+      "oos": {
+        "sharpe": -0.0038,
+        "annual_return": -0.0035,
+        "max_drawdown": -0.0774
+      },
+      "n_trades": 1319,
+      "oos_trades": 390,
+      "x2_full_sharpe": -1.0087,
+      "x2_oos_sharpe": -0.6977,
+      "x2_n_trades": 1319,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": false,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.4167,
+        "COMPOSITE-CE-02": 0.2721,
+        "VOLATILITY-CE-01": 0.2555
+      },
+      "max_corr": 0.4167,
+      "sleeve_tag": false
+    },
+    {
+      "name": "gap_up_hold",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.gap_up_hold frozen",
+      "full": {
+        "annual_return": -0.0258,
+        "sharpe": -0.2162,
+        "max_drawdown": -0.3908,
+        "win_rate": 0.4607,
+        "profit_factor": 0.997,
+        "num_trades": 1348,
+        "avg_hold_days": 2.34
+      },
+      "oos": {
+        "sharpe": 1.0906,
+        "annual_return": 0.1357,
+        "max_drawdown": -0.1286
+      },
+      "n_trades": 1348,
+      "oos_trades": 434,
+      "x2_full_sharpe": -0.6946,
+      "x2_oos_sharpe": 0.4001,
+      "x2_n_trades": 1340,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3127,
+        "COMPOSITE-CE-02": 0.2038,
+        "VOLATILITY-CE-01": 0.1371
+      },
+      "max_corr": 0.3127,
+      "sleeve_tag": false
+    },
+    {
+      "name": "gap_up_hold",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.gap_up_hold frozen",
+      "full": {
+        "annual_return": -0.0216,
+        "sharpe": -0.1843,
+        "max_drawdown": -0.3689,
+        "win_rate": 0.4588,
+        "profit_factor": 1.0095,
+        "num_trades": 1297,
+        "avg_hold_days": 2.51
+      },
+      "oos": {
+        "sharpe": 1.1534,
+        "annual_return": 0.1365,
+        "max_drawdown": -0.1275
+      },
+      "n_trades": 1297,
+      "oos_trades": 411,
+      "x2_full_sharpe": -0.637,
+      "x2_oos_sharpe": 0.5926,
+      "x2_n_trades": 1297,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.3109,
+        "COMPOSITE-CE-02": 0.202,
+        "VOLATILITY-CE-01": 0.1414
+      },
+      "max_corr": 0.3109,
+      "sleeve_tag": false
+    },
+    {
+      "name": "rsi_low_flat",
+      "family": "s11_folk",
+      "exit_regime": "default",
+      "status": "ok",
+      "params": {},
+      "note": "folk.rsi_low_flat frozen",
+      "full": {
+        "annual_return": -0.0099,
+        "sharpe": -0.0945,
+        "max_drawdown": -0.1975,
+        "win_rate": 0.5516,
+        "profit_factor": 1.0044,
+        "num_trades": 640,
+        "avg_hold_days": 5.88
+      },
+      "oos": {
+        "sharpe": 0.247,
+        "annual_return": 0.0138,
+        "max_drawdown": -0.0587
+      },
+      "n_trades": 640,
+      "oos_trades": 148,
+      "x2_full_sharpe": -0.4173,
+      "x2_oos_sharpe": -0.0972,
+      "x2_n_trades": 640,
+      "i_bar": 0.3521,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0558,
+        "COMPOSITE-CE-02": 0.0986,
+        "VOLATILITY-CE-01": 0.2473
+      },
+      "max_corr": 0.2473,
+      "sleeve_tag": false
+    },
+    {
+      "name": "rsi_low_flat",
+      "family": "s11_folk",
+      "exit_regime": "ce",
+      "status": "ok",
+      "params": {},
+      "note": "folk.rsi_low_flat frozen",
+      "full": {
+        "annual_return": -0.0135,
+        "sharpe": -0.1451,
+        "max_drawdown": -0.1835,
+        "win_rate": 0.6232,
+        "profit_factor": 0.9616,
+        "num_trades": 491,
+        "avg_hold_days": 7.93
+      },
+      "oos": {
+        "sharpe": 0.3123,
+        "annual_return": 0.018,
+        "max_drawdown": -0.0564
+      },
+      "n_trades": 491,
+      "oos_trades": 118,
+      "x2_full_sharpe": -0.3917,
+      "x2_oos_sharpe": 0.038,
+      "x2_n_trades": 491,
+      "i_bar": 0.4474,
+      "vi_bar": 0.4004,
+      "clauses": {
+        "i_beats_rand_p95": "False",
+        "ii_ann_pos": "False",
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_oos_ok": true,
+        "vi_beats_passive": "False"
+      },
+      "g1_pass": false,
+      "corr_vs_traders": {
+        "COMPOSITE-CE-01": 0.0538,
+        "COMPOSITE-CE-02": 0.095,
+        "VOLATILITY-CE-01": 0.2462
+      },
+      "max_corr": 0.2462,
+      "sleeve_tag": false
+    }
+  ],
+  "survivors_g1_prime": [
+    "needle_probe@default",
+    "needle_probe@ce",
+    "vol_drought_reversal@default",
+    "vol_drought_reversal@ce",
+    "duck_head@default",
+    "duck_head@ce"
+  ],
+  "sleeve_candidates": [
+    "three_methods_up@default",
+    "three_methods_up@ce",
+    "doji_at_low@default",
+    "doji_at_low@ce",
+    "inside_bar_breakup@default",
+    "inside_bar_breakup@ce",
+    "ma_converge_break@default",
+    "ma_converge_break@ce",
+    "immortal_guide@default",
+    "immortal_guide@ce",
+    "ants_climb@default",
+    "ants_climb@ce"
+  ],
+  "verdict": {
+    "void": false,
+    "n_survivors": 6,
+    "n_sleeves": 12,
+    "survivors_are": "G1' CANDIDATES ONLY -- no registration this batch; G2 deepening (neighborhood + cost + yearly) requires a separate pre-registration",
+    "fail_branch": null
+  },
+  "trials_ledger": {
+    "prev_total": 2090,
+    "batch_trials": 209,
+    "note": "52 cells x(1x+x2) + 100 random + 3 trader anchors + 2 passive; pre-registered n=209 (research/shortline/P4_FOLK_EXPANSION.md sec.7); prereg prev=2090 (chain head after bm-b r43 P-4 batch-2 B-layer 70 runs)",
+    "total": 2299
+  },
+  "audit": {
+    "elapsed_sec": 68.8,
+    "n_backtests": 209,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)"
+  }
+}
