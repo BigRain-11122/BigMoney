@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.8 · 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v0.9 · 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -383,6 +383,10 @@ const BUILDS = [
     dept:'总经办 GM Office', mandate:'总经理统筹+对 CEO 汇报 · J13 LLM 研究助理',
     info: () => '<div class="row">公司阶段：'+D.meta.stage+'</div>'
       + '<div class="row">资金 ¥'+(D.meta.capital/10000).toFixed(0)+'万 · NAV '+D.meta.nav.toFixed(3)+'</div>'
+      + (() => { const g=(D.data&&D.data.governance)||{}, a=g.audit||{}, bf=g.briefing||{};
+          const seg = g.present ? '审计 '+(a.ok||0)+'/'+(a.checks||0)+' OK · findings '+((a.findings!=null)?a.findings:'-')+' · 简报 '+(bf.month||'待产出') : '待产出';
+          return '<div class="row">治理面：'+(g.status==='ok' ? '<span class="green">'+seg+'</span>' : seg)+'</div>'
+            + '<div class="row dim">月度科学审计五检（O-2215）· 经营简报（O-2205 ⑨）· findings 只报不阻断</div>'; })()
       + '<div class="row">J13 LLM 助理 <span class="green">v0.1 已交付</span>：ask/review/retro/ideas/selftest · Ollama qwen2.5:7b 本地常驻</div>'
       + '<div class="row dim">总经理=quant 专管 AI 会话 · CEO 只见决策项（RULES §4）</div>'
       + '<div class="row dim">LLM 产物=主张非指令 · 未经人工审计不采信</div>' },
