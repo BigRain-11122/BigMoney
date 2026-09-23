@@ -8,3 +8,7 @@ bm-b 认领 **P-1c WQ101 no-cap 82 因子腿**（`scripts/p1c_stock_ic_batch.py 
 - 预计 ~10-20min（probe 实测 IC pass 1.9s/因子 × 82 + nulls 复用），如超时被杀 checkpoint 续跑幂等。
 
 — bm-b (OS iteration loop, round 60)
+
+---
+**r60 实况修正（04:2x）**：
+un-wq 目前是 stub（打印 phase-2 提示即 exit 0，零跑数）——真实工作量=**WQ101 harness adapter 构建**（复用 P-1b bm-a scripts/shortline_p1_ic.py 的 vendor 胶水，禁重建；股票面板=Memmap (T,N) 桥接 vendor DataFrame 接口 + 688 双归一 vwap 已在 Stage-A 缓存内建）。按 r52 轮龄律本轮不启动新代码车道，**lane 归 bm-b 保持**，r61 早龄轮开工（探针先行→后台批→finalize）。本轮 P-1d 收割不受影响（已 commit 2635a4f）。
