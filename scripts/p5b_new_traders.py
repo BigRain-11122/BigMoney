@@ -70,7 +70,8 @@ def _p5b_starts(idx, listed):
             "n_eligible": len(eligible)}
 
 
-# module-level for pickling into workers
+# module-level shared state, set per pool worker via the initializer
+# (ProcessPool pickles job fns -- closures are FORBIDDEN)
 _P = None
 _PRICES = None
 _IDX = None
@@ -87,9 +88,8 @@ def _init_worker(prices, params, overrides, entry, panel):
     _IDX = panel["close"].index
 
 
-def _run_one(payload):
-    """One (trader, start) cell inside the pool worker."""
-    tid, p = payload
+def _run_one_cell(tid: str, p: int) -> dict:
+    """One (trader, start) cell inside a pool worker (top-level = picklable)."""
     sdate = _IDX[p]
     e12 = _IDX[min(p + W12M - 1, len(_IDX) - 1)]
     window = {s: df[(df.index >= sdate) & (df.index <= e12)]
@@ -167,11 +167,13 @@ def main() -> int:
                            if k != "entry"}
         ovr[t["id"]] = t.get("exit_overrides") or {}
 
-    jobs = [(f"{t['id']}@{p}", (lambda tid, pp: (lambda _: _run_one((tid, pp))))(  # noqa: E731
-                t["id"], p)) for t in new_traders for p in starts]
+    jobs = [(f"{t['id']}@{p}", _run_one_cell, (t["id"], p))
+            for t in new_traders for p in starts]
     print(f"pool: {len(jobs)} strategy cells across {worker_cap()} workers")
     t_pool = time.time()
-    results = run_cells_parallel(jobs, desc="cells")
+    results = run_cells_parallel(jobs, desc="cells",
+                                 initializer=_init_worker,
+                                 initargs=(prices, params, ovr, entry, P))
     workers = results.pop("__workers__")
     rows = list(results.values())
     pool_sec = time.time() - t_pool

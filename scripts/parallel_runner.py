@@ -39,16 +39,24 @@ def worker_cap() -> int:
     return max(1, min(cap, ram_cap))
 
 
-def run_cells_parallel(jobs, workers=None, desc="cells"):
-    """jobs: list of (key, fn) where fn() -> dict. Returns {key: payload}.
+def run_cells_parallel(jobs, workers=None, desc="cells", initializer=None,
+                       initargs=()):
+    """jobs: list of (key, fn, args) -- fn must be a TOP-LEVEL picklable
+    callable (NO closures: ProcessPool pickles the fn); invoked as
+    fn(*args) inside the worker. Shared state (panels/prices) must be
+    passed via `initializer` + `initargs` (module globals in the batch
+    script), never via closures. Returns {key: payload} plus
+    "__workers__" (int) for the audit section.
 
-    Deterministic output order (keys preserved); worker count recorded for
-    the batch audit section.
+    Deterministic: results keyed by job key, independent of scheduling.
     """
     n = workers or worker_cap()
     out = {}
-    with ProcessPoolExecutor(max_workers=n) as pool:
-        futures = {pool.submit(fn): key for key, fn in jobs}
+    with ProcessPoolExecutor(max_workers=n, initializer=initializer,
+                             initargs=initargs) as pool:
+        futures = {}
+        for key, fn, args in jobs:
+            futures[pool.submit(fn, *args)] = key
         done = 0
         for fut in futures:
             key = futures[fut]
