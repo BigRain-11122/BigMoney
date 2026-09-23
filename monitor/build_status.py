@@ -663,6 +663,28 @@ def _gate_chain(bt: dict) -> dict:
                       "note": (f"池化 {_pl} < v2 线 {_line}，亦低于随机对同构 "
                                f"null p95 {_np95}（协整选择增益为负）；"
                                f"×2 转负；D6 低相关 {_mc}（信息列）")})
+    ctap = _read_json(os.path.join(res, "shortline_cta_p1.json")) or {}
+    if ctap:
+        # CTA_P1 futures screen (bm-a R50): 0/16 honest close, futures-domain
+        # own skill line (never core48 constants). All values live-read from
+        # the batch JSON, counting single-source rule (O-2250 T2).
+        _cl = ctap.get("skill_line") or {}
+        _passers = ctap.get("g1_passers") or []
+        _vg1 = ctap.get("verdicts_g1") or {}
+        _best_k, _best_s = None, None
+        for _k, _v in _vg1.items():
+            _s = _v.get("sharpe_full")
+            if _s is not None and (_best_s is None or _s > _best_s):
+                _best_k, _best_s = _k, _s
+        _np95 = ((ctap.get("nulls") or {}).get("summary") or {}).get("p95")
+        _ncand = len(_vg1) or len(ctap.get("candidates") or [])
+        steps.append({"stage": "CTA_P1 · 期货 CTA 海选（C 层首开·9 品种主力连续）",
+                      "result": f"{len(_passers)}/{_ncand} 员过 G1' v2",
+                      "pass": bool(_passers),
+                      "note": (f"期货域技能线 {_cl.get('line')}=全项目最高域线"
+                               f"（被动 {_cl.get('passive_term')} 主导）；最优 "
+                               f"{_best_k} {_best_s} 超随机带 p95 {_np95}"
+                               f" 但差线收线（律8 成本结构刻度）" if _cl else "")})
     return {"steps": steps, "trials_total": trials_total,
             "n_g1_prime": len(surv), "n_g2": g2_pass, "n_lowchurn": lc_pass,
             "n_j19": ct_pass, "n_lfc": lfc_pass, "n_nsp": ns_pass,
