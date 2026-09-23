@@ -333,6 +333,7 @@ def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar) -> dict:
     """Rolling x2-cost safety check on the paper window to date.
 
     Guarded: not enough bars -> insufficient_data, never a fake verdict.
+    vi_bar unavailable is an ALARM, never a silent skip (T-04 F3).
     """
     ps = pd.Timestamp(t["created"])
     n_bars = int((P["close"].index >= ps).sum())
@@ -340,7 +341,9 @@ def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar) -> dict:
         return {"status": "insufficient_data", "bars": n_bars,
                 "min_bars": MIN_BARS_COST_CHECK}
     if vi_bar is None:
-        return {"status": "no_calibration_constants"}
+        return {"status": "alarm_vi_bar_unavailable",
+                "note": "p2_calibration.json vi_bar load failed -- x2 "
+                        "safety check blinded, escalate (T-04 F3)"}
     entry = SIGNAL_BUILDERS[t["params"]["entry"]](P)
     window = {s: df[df.index >= ps] for s, df in prices_full.items()}
     params = {k: v for k, v in t["params"].items() if k != "entry"}
@@ -350,7 +353,43 @@ def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar) -> dict:
     s = res["metrics"]["sharpe"]
     return {"status": "ok", "paper_window_sharpe_x2": s,
             "skill_bar": vi_bar, "survive": bool(s > vi_bar),
+            "margin": round(float(s - vi_bar), 4),
             "note": "rolling x2-cost safety on paper window to date"}
+
+
+X2_PROBATION_MARGIN = 0.05
+
+
+def x2_watch_verdict(x2: dict, seed: dict | None = None) -> dict:
+    """T-04 F3 escalation chain (O-2205 promised watchdog).
+
+    Non-surviving OR thin margin (< 0.05) -> probation. While the paper
+    window is still immature (insufficient bars), the verdict is SEEDED
+    from the registration-time cost_x2 evidence so razor-margin traders
+    (e.g. +0.031/+0.002) are watched from day one, never naked.
+    Report-only annotation: level authority stays with firm/hr.py.
+    """
+    if x2.get("status") == "ok":
+        margin, survive = x2.get("margin"), bool(x2.get("survive"))
+        thin = (margin is not None and margin < X2_PROBATION_MARGIN) or not survive
+        return {"status": "probation" if thin else "ok",
+                "probation": bool(thin), "margin": margin, "survive": survive,
+                "source": "paper_window"}
+    if seed and seed.get("sharpe") is not None and seed.get("vi_bar") is not None:
+        margin = round(float(seed["sharpe"]) - float(seed["vi_bar"]), 4)
+        survive = bool(seed.get("survive", margin > 0))
+        thin = margin < X2_PROBATION_MARGIN or not survive
+        return {"status": "probation" if thin else "ok",
+                "probation": bool(thin), "margin": margin, "survive": survive,
+                "source": "registration_x2_seed"}
+    return {"status": x2.get("status", "unknown"), "probation": False}
+
+
+def _append_x2_watch_log(entry: dict) -> None:
+    """F3 ledger: one JSONL line per trader per paper run (append-only)."""
+    p = os.path.join(PATHS.results_dir, "x2_watch_log.jsonl")
+    with open(p, "a", encoding="utf-8") as fh:
+        fh.write(json.dumps(entry, ensure_ascii=False, default=str) + "\n")
 
 
 def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
@@ -363,11 +402,20 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
     run = paper_run(t, prices_full, P)
     agg = monthly_aggregate(run["equity"], INITIAL_CASH, t["created"])
     x2 = cost_x2_check(t, prices_full, P, vi_bar)
+    bt_x2 = (t.get("backtest") or {}).get("cost_x2") or {}
+    seed = ({"sharpe": bt_x2.get("sharpe"), "vi_bar": vi_bar,
+             "survive": bt_x2.get("survive")}
+            if (bt_x2.get("sharpe") is not None and vi_bar is not None) else None)
+    watch = x2_watch_verdict(x2, seed=seed)
+    _append_x2_watch_log({"ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+                           "trader": t["id"], **watch})
     t["paper"] = {"months_tracked": agg["months_tracked"],
                   "monthly_returns": agg["monthly_returns"],
                   "current_dd": agg["current_dd"],
                   "as_of": time.strftime("%Y-%m-%d"),
-                  "cutoff": data_cutoff}
+                  "cutoff": data_cutoff,
+                  "x2_watch": {**watch,
+                               "as_of": time.strftime("%Y-%m-%d")}}
     save_trader(t)
     return {"trader": t["id"], "anchor_ok": True, "anchor": anchor,
             "paper_start": t["created"], "bars": agg["bars"],
@@ -375,6 +423,7 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
             "monthly_returns": agg["monthly_returns"],
             "current_dd": agg["current_dd"], "months_detail": agg["months_detail"],
             "window_metrics": run["metrics"], "cost_x2_check": x2,
+            "x2_watch": watch,
             "cutoff": data_cutoff, "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
             "risk_regime": {"is_major_bear": regime["is_major_bear"],
                             "position_cap": regime["position_cap"],
@@ -444,6 +493,39 @@ def _selftest_seg_metrics() -> bool:
     return bool(ok)
 
 
+def _selftest_x2_watch() -> bool:
+    """F3: thin margin / non-survive -> probation; healthy -> ok;
+    immature window seeded from registration x2 evidence (razor-margin
+    traders watched from day one); non-ok statuses pass through, never
+    fake-ok."""
+    ok = True
+    v = x2_watch_verdict({"status": "ok", "survive": True, "margin": 0.031})
+    ok &= v["probation"] is True and v["status"] == "probation" \
+        and v["source"] == "paper_window"
+    v = x2_watch_verdict({"status": "ok", "survive": False, "margin": 0.20})
+    ok &= v["probation"] is True and v["status"] == "probation"
+    v = x2_watch_verdict({"status": "ok", "survive": True, "margin": 0.05})
+    ok &= v["probation"] is False and v["status"] == "ok"   # boundary: not thin
+    # immature window + razor registration margin (+0.002 like ENGULF) -> probation now
+    v = x2_watch_verdict({"status": "insufficient_data", "bars": 3},
+                         seed={"sharpe": 0.4020, "vi_bar": 0.4004, "survive": True})
+    ok &= v["probation"] is True and v["status"] == "probation" \
+        and v["source"] == "registration_x2_seed" and v["margin"] == 0.0016
+    # immature window + healthy registration margin -> ok (seeded), not insufficient
+    v = x2_watch_verdict({"status": "insufficient_data", "bars": 1},
+                         seed={"sharpe": 0.5740, "vi_bar": 0.4004})
+    ok &= v["probation"] is False and v["status"] == "ok" \
+        and v["source"] == "registration_x2_seed"
+    # alarm/unknown statuses never become fake-ok, seed or not
+    v = x2_watch_verdict({"status": "alarm_vi_bar_unavailable"})
+    ok &= v["probation"] is False and v["status"] == "alarm_vi_bar_unavailable"
+    v = x2_watch_verdict({"status": "insufficient_data", "bars": 3}, seed=None)
+    ok &= v["probation"] is False and v["status"] == "insufficient_data"
+    v = x2_watch_verdict({})
+    ok &= v["status"] == "unknown" and v["probation"] is False
+    return bool(ok)
+
+
 def _selftest_causality(prices_full: dict) -> bool:
     """Every registered builder must be causal: truncating data at D
     leaves the signal on [.., D] unchanged (no look-ahead)."""
@@ -475,6 +557,11 @@ def selftest() -> bool:
     seg_ok = _selftest_seg_metrics()
     print("PASS" if seg_ok else "FAIL")
     ok &= seg_ok
+
+    print("  [paper] x2 watch escalation chain (F3)...", end=" ")
+    w_ok = _selftest_x2_watch()
+    print("PASS" if w_ok else "FAIL")
+    ok &= w_ok
     if not ok:
         return False
 
@@ -549,7 +636,10 @@ def main(argv=None) -> int:
               f"paper {state['bars']} bars since {state['paper_start']} | "
               f"months_tracked={state['months_tracked']} "
               f"dd={state['current_dd']} | x2: {state['cost_x2_check']['status']}"
-              f" | saved {sp}")
+              f" | x2 watch: {state['x2_watch']['status']}"
+              + (f" margin {state['x2_watch']['margin']}" if state['x2_watch'].get('probation') else "")
+              + (" [PROBATION]" if state['x2_watch'].get('probation') else "")
+              + f" | saved {sp}")
     print("paper tracking:", "OK" if ok_all else "FAILED")
     return 0 if ok_all else 1
 

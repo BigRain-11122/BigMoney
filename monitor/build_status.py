@@ -426,7 +426,8 @@ def _paper_state() -> dict:
     """
     out = {"started": False, "n_active": 0, "months_tracked": 0,
            "trades": 0, "bars": 0, "last_update": None,
-           "paper_start": None, "first_check": None, "month_progress": None}
+           "paper_start": None, "first_check": None, "month_progress": None,
+           "x2_probation": 0, "x2_probation_names": []}
     d = os.path.join(PATHS.results_dir, "paper")
     if not os.path.isdir(d):
         return out
@@ -438,6 +439,11 @@ def _paper_state() -> dict:
             continue
         out["started"] = True
         out["n_active"] += 1
+        x2w = s.get("x2_watch") or {}
+        if x2w.get("probation"):
+            out["x2_probation"] += 1
+            tid = str(s.get("trader") or f[:-len("_paper.json")])
+            out["x2_probation_names"].append(tid)
         out["months_tracked"] += int(s.get("months_tracked", 0))
         out["bars"] += int(s.get("bars", 0))
         wm = s.get("window_metrics") or {}
@@ -691,6 +697,12 @@ def build() -> dict:
             "text": f"paper 跟踪进行中 · {paper['n_active']} 员在册 · 累计 "
                     f"{paper['months_tracked']} 个月 · 窗口 {paper['trades']} 笔"
                     f"（每日自动 accrue · 锚定门禁先行）"})
+        if paper["x2_probation"]:
+            payload["events"].insert(3, {
+                "time": paper["last_update"] or "-",
+                "text": f"x2 看守 · {paper['x2_probation']} 员薄垫看护（"
+                        f"{'/'.join(paper['x2_probation_names'])}）· "
+                        f"margin<0.05 或不存活即 probation（T-04 F3 升级链）"})
     tail_events = []
     if data["update"]["present"]:
         tail_events.append({
