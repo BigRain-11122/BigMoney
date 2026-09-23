@@ -107,9 +107,15 @@ def gpu_sample():
                 names.append(line.split(",", 1)[1].strip().lower())
         info["compute_apps_count"] = len(names)
         # rogue = OUR batch processes touching GPU (python*) — desktop apps
-        # and whitelisted services (ollama) are other tenants, out of scope
+        # and whitelisted services (ollama) are other tenants, out of scope.
+        # TENANT_PY_PATHS: other-tenant standing services that happen to be
+        # python.exe -- the user's ComfyUI mini-game asset production line
+        # (machine-level standing authorization, same class as the ollama
+        # whitelist; inert on machines without it).
+        tenant_py = ("comfyui", "python_embeded")
         info["rogue_apps"] = [n for n in names
-                              if "python" in n]
+                              if "python" in n
+                              and not any(t in n for t in tenant_py)]
         return info
     except Exception:
         return {"present": False}
