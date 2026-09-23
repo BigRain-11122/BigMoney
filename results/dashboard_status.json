@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T06:04:47"
+    "generated_at": "2026-09-24T06:09:52"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T06:01:02",
+      "at": "2026-09-24T06:09:06",
       "ok": true
     },
     "network": {
-      "net_type": "LAN",
+      "net_type": "UNKNOWN",
       "hotspot": false,
-      "allow_heavy_sync": true,
-      "detected_at": "2026-09-22T16:10:11+00:00"
+      "allow_heavy_sync": false,
+      "detected_at": null
     }
   },
   "data": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-24 06:04:27",
+      "last_run": "2026-09-24 06:09:33",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
       "l1_snapshots": 1,
-      "l1_updated": "2026-09-24 06:04:35",
+      "l1_updated": "2026-09-24 06:09:43",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -53,14 +53,14 @@
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 05:52:10",
+      "generated": "2026-09-24 06:04:47",
       "mandate_est": 2856,
-      "codely_context_est": 108125,
-      "state_est": 2227,
-      "report_est": 59112,
-      "delta_state": -256,
-      "delta_report": 844,
-      "delta_prev": "2026-09-24 05:43:11"
+      "codely_context_est": 108728,
+      "state_est": 1710,
+      "report_est": 60934,
+      "delta_state": -517,
+      "delta_report": 1822,
+      "delta_prev": "2026-09-24 05:52:10"
     },
     "regime": {
       "present": true,
@@ -151,45 +151,45 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-24T05:50:53",
-        "age_min": 13.9,
+        "last_seen": "2026-09-24T06:03:01",
+        "age_min": 6.9,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 49,
         "gpu_idle_vram_mb": 1234,
-        "current_task": "R44 done: maintenance (boards empty, P1-gated queue); next=10-01 monthly trio (briefing+science_audit+corr-watch W3)",
-        "verdict": "R44: clean maintenance round -- smoke 23/23, S6 all green (audit CLEAN, daily pre-market no-op cutoff 09-23, regime ORANGE shadow d1, guards no-op, mask 5/5, panel traders=6 5/7), orders 29/29 diff empty, queue=P1-gated awaiting GM signature",
-        "orders_ack": "FULL ENUMERATION 29/29 (R44 double-scan diff empty: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
-        "clock_read": "2026-09-24T05:50:53+08:00",
-        "round_no": 44
+        "current_task": "R45 done: 5x HANDOVER check (window R43+R44+bm-b r66); next=maintenance rounds, 10-01 monthly trio (briefing+science_audit+corr-watch W3), next 5x=R50",
+        "verdict": "R45: 5x HANDOVER reconciliation landed (factor ledger 5394, gdhs quarterly 2/3 + WQ in-flight recorded, dev-queue refreshed round 45); smoke 23/23, S6 all green (audit CLEAN, daily pre-market no-op cutoff 09-23, regime ORANGE shadow d1, guards no-op, mask 5/5, panel traders=6 trials 2858 factor 5394); queue=P1-gated awaiting GM signature",
+        "orders_ack": "FULL ENUMERATION 29/29 (R45 double-scan diff empty: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
+        "clock_read": "2026-09-24T06:03:01+08:00",
+        "round_no": 45
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-09-24 05:58",
-        "age_min": 13.4,
+        "last_seen": "2026-09-24T06:05",
+        "age_min": 4.7,
         "health": "ok",
         "cpu_cores": 16,
-        "idle_ram_gb": 10.6,
+        "idle_ram_gb": 10.4,
         "gpu_idle_vram_mb": 2400,
-        "current_task": "r66 P-1d gdhs quarterly batch DONE (2/3 PASS, factor ledger 5394, strategy-conversion=open-pool candidate); WQ leg 28/82 in-flight PID 27128 (ETA ~07:40, harvest r68+-); P-B clist parked ~10.7h",
+        "current_task": "r67 P4_EXT_TILT spec prereg FROZEN (commit cccd5f1, implementation next rounds probe-first); WQ leg 34/82 in-flight PID 27128 (ETA ~07:40, harvest r68+-); P-B clist parked ~11h",
         "verdict": "CLEAN",
         "orders_ack": "FULL ENUMERATION 29/29 (r65 full-disk scan vs ack set, diff=EMPTY; note: ack is a summary string, matching must account for both full-date and abbreviated O-token forms): O-20260923-1514 (Money0923 triage, quant session), O-1533 (bars A+B dual-approved, T-01 done Verify PASS), O-1536 (local-first J13 both machines), O-1538 (firm/ four-pack), O-1545 (shortline playbook+research lanes), O-1620 (P1 authority delegated), O-1636 (research mechanism+style atlas), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit in S6), O-1816 (P-5 random entry all-FAIL), O-1819 (24h continuous backtest), O-1820 (three allocation red lines, all parts closed), O-1823 (evaluation framework), O-1828 (TA batch 2A), O-1844 (lane coordination), O-1850 (heat/attention family), O-2134 (folk expansion), O-2205 (retro automation+improvements), O-2210 (max-scale backtest+library, 3 new traders), O-2215 (backtest science v2, T-02 CLOSED), O-2250 (full audit, T-03/T-04+3 T2 rules), O-2310 (operating plan), O-2311 (org expansion T-06/T-07 both done), O-2315 (REGIME_GUARD v1.0, T-05 CLOSED shadow-first), O-2325 (local-first token meter), O-2345 (CPU mobilization P-5B), O-20260924-0100 (QuantBull archive via bm-c, consumption=P1 signed ticket)",
-        "clock_read": "2026-09-24T05:51:26+08:00",
-        "round_no": 66
+        "clock_read": "2026-09-24T06:05:08+08:00",
+        "round_no": 67
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-09-24T05:52:53+08:00",
-        "age_min": 11.9,
+        "last_seen": "2026-09-24T06:04:09+08:00",
+        "age_min": 5.7,
         "health": "ok",
         "cpu_cores": 32,
-        "idle_ram_gb": 11.4,
-        "gpu_idle_vram_mb": 13276,
-        "current_task": "round 16 idle-monitor + NET placeholder fill (LAN) closure; watching bm-b WQ finalize",
-        "verdict": "round 16 green: smoke 23/23, S6 all-green (lhb store-absent=design), NET=LAN placeholder closed (network_detector fill, zero code), WQ finalize not landed yet (ETA window), boards empty, idle-monitor",
-        "orders_ack": "29/29: round-16 opening+closing double-scan diff empty (zero new orders); boards: job_list 0, tickets 7/7 done, inbox empty",
-        "clock_read": "2026-09-24T05:52:53+08:00",
-        "round_no": 16
+        "idle_ram_gb": 10.8,
+        "gpu_idle_vram_mb": 13272,
+        "current_task": "round 17 maintenance/monitor: watchdog lane-guard verified on bm-c (C4/C5 skip), C2 pre-scan OK (p1c pre-hardening obs = bm-b lane), WQ finalize not landed, boards empty",
+        "verdict": "round 17 green: smoke 23/23, S6 all-green (lhb store-absent=design), watchdog lane-guard empirically verified C4/C5 skip on bm-c, C2 pre-scan 12 recent batches OK, WQ finalize pending, idle-monitor",
+        "orders_ack": "29/29: round-17 opening scan diff empty (closing scan at S7 commit); boards: job_list 0, tickets 7/7 done; inbox MSG-0545 archived",
+        "clock_read": "2026-09-24T06:04:09+08:00",
+        "round_no": 17
       }
     ],
     "tickets": [
@@ -247,16 +247,16 @@
     "n_claimed": 0,
     "n_done": 7,
     "audit": {
-      "ts": "2026-09-24 06:04:25",
+      "ts": "2026-09-24 06:09:32",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 3.0,
-      "py_cpu_pct": 10.2,
-      "cores": 16,
-      "py_procs": 13,
+      "cpu_total_pct": 8.0,
+      "py_cpu_pct": 0.2,
+      "cores": 32,
+      "py_procs": 5,
       "zombies": 0,
-      "gpu_util_pct": 2.0,
-      "gpu_mem_used_mb": 5619.0,
+      "gpu_util_pct": 7.0,
+      "gpu_mem_used_mb": 11064.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -303,7 +303,7 @@
     "lhb": {
       "verdict": "no-op: cutoff 2026-09-23 covers latest disclosure window (2026-09-23)",
       "cutoff": "2026-09-23",
-      "updated": "2026-09-24 06:04:34",
+      "updated": "2026-09-24 06:09:43",
       "new_rows": 0
     }
   },
@@ -700,7 +700,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T06:01:02",
+      "time": "2026-09-24T06:09:06",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -720,16 +720,16 @@
       "text": "门禁链定案（试验账本 N=2858）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-24 06:04:27",
+      "time": "2026-09-24 06:09:33",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 06:04:35",
+      "time": "2026-09-24 06:09:43",
       "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24 05:52:10",
-      "text": "本地化 · token 粗估 状态 2227 · 报告 59112 · 回合固定载入 108125（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 06:04:47",
+      "text": "本地化 · token 粗估 状态 1710 · 报告 60934 · 回合固定载入 108728（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -752,7 +752,7 @@
       "text": "相关性监控 · ORANGE · W2 IS2 越线 1 对 · IS2 最高对 0.87 · 尾窗均值 0.26 · ×2 垫最小 0.36 · FL insufficient_data（组合部 §一.2 · 月更 · twinOK）"
     },
     {
-      "time": "2026-09-24T05:50:53",
+      "time": "2026-09-24T06:03:01",
       "text": "机队 · 3 节点 3 活 · 票据 done 7/claimed 0/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
@@ -767,26 +767,8 @@
   "group": {
     "siblings": [
       {
-        "name": "Biggame · biu你一下",
-        "last_active": "09-24 06:04",
-        "age_min": 0.1,
-        "alive": true
-      },
-      {
-        "name": "Biggame · HomeWreck",
-        "last_active": "09-24 06:02",
-        "age_min": 2.4,
-        "alive": true
-      },
-      {
-        "name": "Biggame · PhantomEscapeGo",
-        "last_active": "09-24 06:04",
-        "age_min": 0.2,
-        "alive": true
-      },
-      {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 06:04",
+        "last_active": "09-24 06:09",
         "age_min": 0.6,
         "alive": true
       }
