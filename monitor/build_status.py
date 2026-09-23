@@ -28,7 +28,9 @@ COMPOSITE_PLAN = "0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2�
 
 def _read_json(path):
     try:
-        with open(path, encoding="utf-8") as f:
+        # utf-8-sig: transparently accepts BOM'd files (state-bm-a.json is
+        # written by bm-a's PowerShell tooling with a BOM) and plain UTF-8.
+        with open(path, encoding="utf-8-sig") as f:
             return json.load(f)
     except Exception:
         return None
@@ -572,6 +574,130 @@ _SIBLINGS = [
 _GROUP_ALIVE_MIN = 30  # sibling loops run at 1-10 min cadence
 
 
+_FLEET_STALE_WARN_MIN = 30   # heartbeat older -> yellow (loop cadence is 10 min)
+_FLEAT_STALE_BAD_MIN = 120  # heartbeat older -> red
+
+
+def _fleet_state() -> dict:
+    """Fleet distributed-monitor state for dashboard.html (J10).
+
+    Sources (all git-synced real files; each machine writes only its own
+    heartbeat per fleet/README.md, so every node sees the whole fleet):
+      - fleet/machines/*.json        : per-machine heartbeats
+      - logs/iteration-loop/state*.json : per-machine OS-loop round numbers
+        (bm-b keeps the legacy name state.json, others state-<id>.json)
+      - fleet/tasks/T-*.json         : claim-lock task tickets
+      - results/compute_audit.json   : latest audit sample (writer machine mixes)
+      - results/ext_slots_pull_status.json + results/p1d_gates.json : P-1d chain
+    Missing/absent files degrade to honest placeholders, never mock numbers.
+    """
+    out = {"present": False, "machines": [], "tickets": [],
+           "n_open": 0, "n_claimed": 0, "n_done": 0,
+           "audit": None, "p1d": None}
+    now = dt.datetime.now()
+    fdir = os.path.join(PATHS.root, "fleet", "machines")
+    if os.path.isdir(fdir):
+        for f in sorted(os.listdir(fdir)):
+            if not f.endswith(".json"):
+                continue
+            m = _read_json(os.path.join(fdir, f))
+            if not m:
+                continue
+            mid = m.get("machine_id") or f[:-5]
+            age_min = None
+            ep = m.get("heartbeat_epoch_utc")
+            if isinstance(ep, (int, float)) and ep > 0:
+                age_min = round(max(0.0, (dt.datetime.now().timestamp() - ep) / 60), 1)
+            sfile = "state.json" if mid == "bm-b" else f"state-{mid}.json"
+            st = _read_json(os.path.join(PATHS.logs_dir, "iteration-loop", sfile))
+            if age_min is None:
+                health = "unknown"
+            elif age_min <= _FLEET_STALE_WARN_MIN:
+                health = "ok"
+            elif age_min <= _FLEAT_STALE_BAD_MIN:
+                health = "warn"
+            else:
+                health = "bad"
+            out["machines"].append({
+                "id": mid,
+                "last_seen": m.get("last_seen"),
+                "age_min": age_min,
+                "health": health,
+                "cpu_cores": m.get("cpu_cores"),
+                "idle_ram_gb": m.get("idle_ram_gb"),
+                "gpu_idle_vram_mb": m.get("gpu_idle_vram_mb"),
+                "current_task": m.get("current_task"),
+                "verdict": m.get("verdict"),
+                "orders_ack": m.get("orders_ack"),
+                "clock_read": m.get("clock_read"),
+                "round_no": (st or {}).get("round_no"),
+            })
+        out["present"] = bool(out["machines"])
+    tdir = os.path.join(PATHS.root, "fleet", "tasks")
+    if os.path.isdir(tdir):
+        for f in sorted(os.listdir(tdir)):
+            if not (f.startswith("T-") and f.endswith(".json")):
+                continue
+            t = _read_json(os.path.join(tdir, f))
+            if not t:
+                continue
+            status = str(t.get("status") or "open")
+            if status == "done":
+                out["n_done"] += 1
+            elif status == "claimed":
+                out["n_claimed"] += 1
+            else:
+                out["n_open"] += 1
+            out["tickets"].append({
+                "id": t.get("id") or f[:-5],
+                "type": t.get("type"),
+                "priority": t.get("priority"),
+                "status": status,
+                "claimed_by": t.get("claimed_by"),
+            })
+    au = _read_json(os.path.join(PATHS.results_dir, "compute_audit.json"))
+    if au and au.get("latest"):
+        la = au["latest"]
+        g = la.get("gpu") or {}
+        out["audit"] = {
+            "ts": la.get("ts"), "verdict": la.get("verdict"),
+            "flags": la.get("flags") or [],
+            "cpu_total_pct": la.get("cpu_total_pct"),
+            "py_cpu_pct": la.get("py_cpu_pct"),
+            "cores": la.get("cores"), "py_procs": la.get("py_procs"),
+            "zombies": len(la.get("zombies") or []),
+            "gpu_util_pct": g.get("util_pct"),
+            "gpu_mem_used_mb": g.get("mem_used_mb"),
+            "rogue_apps": g.get("rogue_apps") or [],
+        }
+    pull = _read_json(os.path.join(PATHS.results_dir, "ext_slots_pull_status.json"))
+    gates = _read_json(os.path.join(PATHS.results_dir, "p1d_gates.json"))
+    if pull or gates:
+        legs = (pull or {}).get("legs") or {}
+        gd = {k: (gates or {}).get(k) or {} for k in ("dzjy", "gdhs", "margin")}
+        out["p1d"] = {
+            "pull_updated": (pull or {}).get("updated"),
+            "legs": {
+                k: {"chunks": v.get("chunks"), "rows": v.get("rows"),
+                    "done": bool(v.get("done")),
+                    "failures": len(v.get("failures") or [])}
+                for k, v in legs.items()},
+            "gates": {k: {"coverage": v.get("coverage") or
+                          (v.get("valid_quarters") and
+                           f"{v.get('valid_quarters')}/{v.get('expected_quarters')}"),
+                      "gate": v.get("gate"), "pass": v.get("pass")}
+                      for k, v in gd.items()},
+            "gates_date": (gates or {}).get("meta", {}).get("date"),
+        }
+    lhb = _read_json(os.path.join(PATHS.results_dir, "lhb_update_status.json"))
+    if lhb:
+        out["lhb"] = {"verdict": lhb.get("verdict"),
+                      "cutoff": lhb.get("cutoff"),
+                      "updated": lhb.get("updated"),
+                      "new_rows": lhb.get("new_rows")}
+    return out
+
+
 def _group() -> dict:
     now = dt.datetime.now()
 
@@ -682,6 +808,7 @@ def build() -> dict:
         },
         "health": {"smoke": smoke, "network": _network()},
         "data": data,
+        "fleet": _fleet_state(),
         "research": {"factor_top": _factor_top(),
                      "composite_plan": COMPOSITE_PLAN},
         "strategy": {**bt, "gate_chain": chain["steps"],
@@ -787,6 +914,20 @@ def build() -> dict:
                     f" · 分散收益 +{_pf2(pf['benefit'])} · ×2 成本 {_pf2(pf['x2_sharpe'])} "
                     f"{('存活' if pf['x2_survive'] else '阵亡') if pf['x2_survive'] is not None else '—'}"
                     f"（T-06 报告制 · IV=Phase 1 待开）"})
+    fl = payload["fleet"]
+    if fl["present"]:
+        m_alive = sum(1 for m in fl["machines"] if m["health"] == "ok")
+        p1d_txt = ""
+        if fl["p1d"] and fl["p1d"]["gates"]:
+            gs = fl["p1d"]["gates"]
+            p1d_txt = (f" · P-1d 三槽门 dzjy{'✓' if gs['dzjy']['pass'] else '✗'}/"
+                       f"gdhs{'✓' if gs['gdhs']['pass'] else '✗'}/"
+                       f"margin{'✓' if gs['margin']['pass'] else '✗'}")
+        tail_events.append({
+            "time": fl["machines"][0]["last_seen"] if fl["machines"] else "-",
+            "text": f"机队 · {len(fl['machines'])} 节点 {m_alive} 活 · 票据 "
+                    f"done {fl['n_done']}/claimed {fl['n_claimed']}/"
+                    f"open {fl['n_open']}{p1d_txt}"})
     payload["events"] += tail_events + [
         {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
         {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},

@@ -2,7 +2,7 @@
 <html lang="zh">
 <head>
 <meta charset="UTF-8">
-<title>QUANT SYS // 分布式回测监控</title>
+<title>BIGMONEY // 机队分布式监控</title>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -18,11 +18,11 @@
     --blue: #5a7ab8;
     --cyan: #5a9ab8;
   }
-  * { box-sizing: border-box; margin: 0; padding: 0; image-rendering: pixelated; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: 'VT323', monospace;
+    font-family: 'VT323', 'Courier New', monospace;
     font-size: 18px;
     line-height: 1.3;
     overflow: hidden;
@@ -37,18 +37,12 @@
     pointer-events: none;
     z-index: 100;
   }
-  .title-font { font-family: 'Press Start 2P', monospace; }
-  .pixel {
-    border: 2px solid var(--border);
-    box-shadow: 4px 4px 0 rgba(0,0,0,0.4);
-    image-rendering: pixelated;
-  }
+  .title-font { font-family: 'Press Start 2P', 'Courier New', monospace; }
 
-  /* layout */
   #app {
     display: grid;
-    grid-template-rows: 48px 1fr 120px;
-    grid-template-columns: 280px 1fr 320px;
+    grid-template-rows: 48px 1fr 150px;
+    grid-template-columns: 300px 1fr 330px;
     grid-template-areas:
       "header header header"
       "nodes  main   side"
@@ -65,13 +59,9 @@
     align-items: center;
     justify-content: space-between;
   }
-  header h1 {
-    font-size: 14px;
-    color: var(--cyan);
-    letter-spacing: 2px;
-  }
-  .hdr-right { display: flex; gap: 24px; align-items: center; }
-  .hdr-item { font-size: 16px; }
+  header h1 { font-size: 13px; color: var(--cyan); letter-spacing: 2px; }
+  .hdr-right { display: flex; gap: 22px; align-items: center; }
+  .hdr-item { font-size: 16px; white-space: nowrap; }
   .hdr-item .lbl { color: var(--dim); font-size: 12px; }
   .hdr-item .val { color: var(--text); }
   .dot {
@@ -82,72 +72,84 @@
   }
   .dot.red { background: var(--red); box-shadow: 0 0 8px var(--red); }
   .dot.yellow { background: var(--yellow); box-shadow: 0 0 8px var(--yellow); }
+  .dot.gray { background: var(--dim); box-shadow: none; animation: none; }
   @keyframes blink { 50% { opacity: 0.4; } }
 
-  .panel { background: var(--panel); padding: 10px; overflow: hidden; }
+  .panel { background: var(--panel); padding: 10px; overflow: hidden;
+           display: flex; flex-direction: column; min-height: 0; }
   .panel h2 {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 10px;
-    color: var(--dim);
-    margin-bottom: 8px;
-    padding-bottom: 4px;
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px; color: var(--dim);
+    margin-bottom: 8px; padding-bottom: 4px;
     border-bottom: 1px solid var(--border);
-    letter-spacing: 1px;
+    letter-spacing: 1px; flex: 0 0 auto;
   }
+  .panel .body { overflow-y: auto; min-height: 0; }
+  .panel .body::-webkit-scrollbar { width: 6px; }
+  .panel .body::-webkit-scrollbar-thumb { background: var(--border); }
 
-  #nodes { grid-area: nodes; display: flex; flex-direction: column; gap: 8px; }
+  #nodes { grid-area: nodes; }
+  #main { grid-area: main; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+  #side { grid-area: side; display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+
   .node {
     background: var(--panel2);
-    padding: 8px;
+    padding: 8px; margin-bottom: 8px;
     border-left: 4px solid var(--green);
   }
-  .node.offline { border-left-color: var(--red); opacity: 0.6; }
+  .node.warn { border-left-color: var(--yellow); }
+  .node.bad { border-left-color: var(--red); opacity: 0.75; }
+  .node.unknown { border-left-color: var(--dim); }
   .node .name {
-    font-family: 'Press Start 2P', monospace;
-    font-size: 9px;
-    color: var(--cyan);
+    font-family: 'Press Start 2P', 'Courier New', monospace;
+    font-size: 9px; color: var(--cyan);
   }
-  .node .meta { color: var(--dim); font-size: 14px; margin-top: 2px; }
-  .node .bar {
-    height: 8px; background: #0a0e14; margin-top: 6px;
+  .node .row { color: var(--dim); font-size: 15px; margin-top: 2px;
+               white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .node .row b { color: var(--text); font-weight: normal; }
+  .node .task { color: var(--yellow); font-size: 14px; margin-top: 4px;
+                display: -webkit-box; -webkit-line-clamp: 2;
+                -webkit-box-orient: vertical; overflow: hidden; }
+
+  table.tickets { width: 100%; border-collapse: collapse; font-size: 15px; }
+  table.tickets th {
+    text-align: left; color: var(--dim); font-weight: normal; font-size: 13px;
+    border-bottom: 1px solid var(--border); padding: 2px 6px;
+  }
+  table.tickets td { padding: 3px 6px; border-bottom: 1px solid #1c2634;
+                     white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  td.chip { width: 86px; }
+  .chip span {
+    padding: 0 6px; font-size: 13px;
     border: 1px solid var(--border);
   }
-  .node .bar > div { height: 100%; background: var(--green); }
-  .node .bar.cpu > div { background: var(--blue); }
-  .node .tasks { color: var(--yellow); font-size: 14px; margin-top: 4px; }
+  .chip.done span { color: var(--green); border-color: var(--green); }
+  .chip.claimed span { color: var(--yellow); border-color: var(--yellow); }
+  .chip.open span { color: var(--red); border-color: var(--red); }
+  td.owner { color: var(--dim); max-width: 150px; }
 
-  #main { grid-area: main; display: flex; flex-direction: column; gap: 8px; }
-  #equity-panel { flex: 1; }
-  #progress-panel { height: 140px; }
-  #equity, #progress-canvas { width: 100%; height: 100%; display: block; }
-
-  #side { grid-area: side; display: flex; flex-direction: column; gap: 8px; }
-  .strat-row {
-    display: flex; justify-content: space-between;
-    padding: 4px 6px; margin: 2px 0;
-    background: var(--panel2);
-    font-size: 15px;
+  .chain-row {
+    display: flex; align-items: center; gap: 8px;
+    padding: 3px 6px; margin: 2px 0;
+    background: var(--panel2); font-size: 15px;
   }
-  .strat-row .rank { color: var(--yellow); width: 24px; }
-  .strat-row .hash { color: var(--dim); }
-  .strat-row .metric { color: var(--green); }
-  .strat-row .metric.neg { color: var(--red); }
+  .chain-row .nm { color: var(--dim); flex: 0 0 96px; }
+  .chain-row .val { flex: 1 1 auto; color: var(--text);
+                    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .chain-row .st { flex: 0 0 auto; font-size: 13px; max-width: 118px;
+                   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .st.ok { color: var(--green); }
+  .st.warn { color: var(--yellow); }
+  .st.bad { color: var(--red); }
+  .st.dim { color: var(--dim); }
 
-  #pnl-big {
-    font-size: 36px;
-    color: var(--green);
-    text-align: center;
-    padding: 12px;
-    font-family: 'VT323', monospace;
-  }
-  #pnl-big.neg { color: var(--red); }
+  .kv { display: flex; justify-content: space-between; padding: 2px 0; font-size: 15px; }
+  .kv .k { color: var(--dim); }
+  .kv .v { color: var(--text); }
 
   #log {
-    grid-area: log;
-    background: var(--panel);
-    padding: 8px;
-    overflow-y: auto;
-    font-size: 14px;
+    grid-area: log; background: var(--panel); padding: 8px;
+    overflow-y: auto; font-size: 15px;
   }
   #log .line { padding: 1px 0; }
   #log .t { color: var(--dim); }
@@ -156,275 +158,240 @@
   #log .warn { color: var(--yellow); }
   #log .err { color: var(--red); }
 
-  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .kv { display: flex; justify-content: space-between; padding: 2px 0; font-size: 15px; }
-  .kv .k { color: var(--dim); }
+  .links { display: flex; flex-direction: column; gap: 6px; }
+  .links a {
+    display: block; background: var(--panel2); color: var(--cyan);
+    text-decoration: none; padding: 6px 10px; font-size: 15px;
+    border: 1px solid var(--border);
+  }
+  .links a:hover { border-color: var(--cyan); }
+  .empty { color: var(--dim); padding: 8px; font-size: 15px; }
 </style>
 </head>
 <body>
 <div id="app">
   <header>
-    <h1>QUANT SYS // ETF 3-15D</h1>
+    <h1>BIGMONEY // FLEET MONITOR</h1>
     <div class="hdr-right">
-      <div class="hdr-item"><span class="lbl">NET</span> <span class="dot" id="net-dot"></span><span class="val" id="net-type">WIFI</span></div>
-      <div class="hdr-item"><span class="lbl">TASK</span> <span class="val" id="hdr-tasks">87/432</span></div>
-      <div class="hdr-item"><span class="lbl">PnL</span> <span class="val" id="hdr-pnl">+0.00%</span></div>
+      <div class="hdr-item"><span class="lbl">SMOKE</span> <span class="dot" id="smoke-dot"></span><span class="val" id="smoke-val">--</span></div>
+      <div class="hdr-item"><span class="lbl">N</span> <span class="val" id="hdr-n">--</span></div>
+      <div class="hdr-item"><span class="lbl">TRADERS</span> <span class="val" id="hdr-traders">--</span></div>
+      <div class="hdr-item"><span class="lbl">NET</span> <span class="val" id="net-type">--</span></div>
       <div class="hdr-item"><span class="lbl" id="clock">--:--:--</span></div>
     </div>
   </header>
 
-  <div id="nodes">
-    <div class="panel" style="flex:1; display:flex; flex-direction:column;">
-      <h2>NODES</h2>
-      <div id="node-list"></div>
-    </div>
+  <div class="panel" id="nodes">
+    <h2>NODES // 心跳 ≤10min 轮</h2>
+    <div class="body" id="node-list"></div>
   </div>
 
   <div id="main">
-    <div class="panel" id="equity-panel">
-      <h2>EQUITY CURVE // 1.0M INIT</h2>
-      <canvas id="equity"></canvas>
+    <div class="panel" style="flex: 0 0 auto;">
+      <h2>任务票据 // 认领锁板</h2>
+      <div class="body" id="tickets"></div>
     </div>
-    <div class="panel" id="progress-panel">
-      <h2>BACKTEST PROGRESS // 432 COMBOS</h2>
-      <canvas id="progress-canvas"></canvas>
+    <div class="panel" style="flex: 1 1 auto;">
+      <h2>数据链与长链 // S6 维护面</h2>
+      <div class="body" id="chains"></div>
     </div>
   </div>
 
   <div id="side">
-    <div class="panel">
-      <h2>PORTFOLIO</h2>
-      <div id="pnl-big">+0.00%</div>
-      <div class="kv"><span class="k">Total Value</span><span class="v" id="pv">¥1,000,000</span></div>
-      <div class="kv"><span class="k">Day PnL</span><span class="v" id="day-pnl">+0</span></div>
-      <div class="kv"><span class="k">Positions</span><span class="v" id="pos-count">0/10</span></div>
-      <div class="kv"><span class="k">Win Rate</span><span class="v" id="wr">--</span></div>
+    <div class="panel" style="flex: 0 0 auto;">
+      <h2>算力审计 // 最近采样</h2>
+      <div class="body" id="audit"></div>
     </div>
-    <div class="panel" style="flex:1;">
-      <h2>TOP STRATEGIES</h2>
-      <div id="strat-list"></div>
+    <div class="panel" style="flex: 0 0 auto;">
+      <h2>TOKEN 计量</h2>
+      <div class="body" id="token"></div>
     </div>
-    <div class="panel">
-      <h2>NETWORK</h2>
-      <div class="kv"><span class="k">Type</span><span class="v" id="net-type2">WIFI</span></div>
-      <div class="kv"><span class="k">Tailscale</span><span class="v" id="ts-ip">100.x.x.x</span></div>
-      <div class="kv"><span class="k">Redis</span><span class="v" id="redis">ONLINE</span></div>
-      <div class="kv"><span class="k">Latency</span><span class="v" id="latency">8ms</span></div>
+    <div class="panel" style="flex: 1 1 auto;">
+      <h2>入口</h2>
+      <div class="body links">
+        <a href="bigmoney.html">总公司控 · bigmoney.html</a>
+        <a href="town.html">公司小镇 · town.html</a>
+      </div>
     </div>
   </div>
 
-  <div id="log"><div class="line"><span class="t">[boot]</span> <span class="info">quant sys v1.0 started</span></div></div>
+  <div id="log"></div>
 </div>
 
+<script src="results/dashboard_status.js"></script>
 <script>
-// ===== state (mocked; replace with fetch /api/status when live) =====
-const state = {
-  net: "WIFI",
-  nodes: [
-    { name: "MASTER", role: "laptop", online: true, cpu: 23, mem: 41, tasks: 0, ip: "100.1.1.1" },
-    { name: "WORKER-1", role: "desktop", online: true, cpu: 67, mem: 58, tasks: 144, ip: "100.1.1.2" },
-    { name: "WORKER-2", role: "desktop", online: true, cpu: 82, mem: 71, tasks: 144, ip: "100.1.1.3" },
-    { name: "WORKER-3", role: "desktop", online: false, cpu: 0, mem: 0, tasks: 0, ip: "100.1.1.4" },
-  ],
-  backtest: { done: 87, total: 432, ok: 85, err: 2 },
-  equity: [],
-  pnl: 0.0,
-  positions: 8,
-  topStrats: [
-    { rank: 1, hash: "adf8f301", ar: 4.47, sh: 1.33, mdd: -1.62, risk: "LOW" },
-    { rank: 2, hash: "adf448a2", ar: 2.24, sh: 1.33, mdd: -0.82, risk: "LOW" },
-    { rank: 3, hash: "a2332436", ar: 4.35, sh: 1.28, mdd: -1.60, risk: "LOW" },
-    { rank: 4, hash: "079d85ab", ar: 2.17, sh: 1.28, mdd: -0.81, risk: "MED" },
-    { rank: 5, hash: "bb5e6e82", ar: 2.11, sh: 1.27, mdd: -0.82, risk: "LOW" },
-  ],
-};
+// J10 distributed monitor -- real data only (window.DASH_DATA, JSONP convention
+// same as bigmoney.html/town.html; refreshed every loop tick by
+// python -m monitor.build_status). No mock values anywhere; missing data
+// degrades to explicit placeholders.
 
-// seed equity curve (60 days, random walk around 1.0)
-let eq = 1.0;
-for (let i = 0; i < 120; i++) {
-  eq += (Math.random() - 0.48) * 0.004;
-  state.equity.push(eq);
+const D = window.DASH_DATA || null;
+
+function esc(s) {
+  return String(s == null ? "" : s)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
-
-// ===== render =====
-function renderNodes() {
-  const el = document.getElementById("node-list");
-  el.innerHTML = state.nodes.map(n => `
-    <div class="node ${n.online ? "" : "offline"}">
-      <div class="name">${n.name} ${n.online ? "" : "[OFFLINE]"}</div>
-      <div class="meta">${n.role} // ${n.ip}</div>
-      <div class="meta">CPU</div>
-      <div class="bar cpu"><div style="width:${n.cpu}%"></div></div>
-      <div class="meta">MEM</div>
-      <div class="bar"><div style="width:${n.mem}%"></div></div>
-      <div class="tasks">TASKS: ${n.tasks}</div>
-    </div>`).join("");
+function n2(v, d) { return (v == null) ? "—" : v; }
+function fnum(v, digits) {
+  return (typeof v === "number") ? v.toFixed(digits) : "—";
 }
-
-function renderStrats() {
-  const el = document.getElementById("strat-list");
-  el.innerHTML = state.topStrats.map(s => `
-    <div class="strat-row">
-      <span class="rank">#${s.rank}</span>
-      <span class="hash">${s.hash}</span>
-      <span class="metric ${s.ar < 0 ? "neg" : ""}">${(s.ar*100).toFixed(2)}%</span>
-    </div>`).join("");
-}
-
-function renderEquity() {
-  const c = document.getElementById("equity");
-  const dpr = window.devicePixelRatio || 1;
-  const w = c.clientWidth, h = c.clientHeight;
-  c.width = w * dpr; c.height = h * dpr;
-  const ctx = c.getContext("2d");
-  ctx.scale(dpr, dpr);
-  ctx.fillStyle = "#0a0e14";
-  ctx.fillRect(0, 0, w, h);
-
-  const data = state.equity;
-  const min = Math.min(...data), max = Math.max(...data);
-  const pad = 20;
-  const x = i => pad + (i / (data.length - 1)) * (w - pad * 2);
-  const y = v => h - pad - ((v - min) / (max - min)) * (h - pad * 2);
-
-  // zero line (cost)
-  ctx.strokeStyle = "#2a3a4a";
-  ctx.setLineDash([2, 2]);
-  ctx.beginPath();
-  ctx.moveTo(pad, y(1.0));
-  ctx.lineTo(w - pad, y(1.0));
-  ctx.stroke();
-  ctx.setLineDash([]);
-
-  // area fill
-  ctx.beginPath();
-  ctx.moveTo(x(0), y(data[0]));
-  data.forEach((v, i) => ctx.lineTo(x(i), y(v)));
-  ctx.lineTo(x(data.length - 1), h - pad);
-  ctx.lineTo(x(0), h - pad);
-  ctx.closePath();
-  ctx.fillStyle = "rgba(90, 122, 184, 0.15)";
-  ctx.fill();
-
-  // line
-  ctx.beginPath();
-  data.forEach((v, i) => {
-    if (i === 0) ctx.moveTo(x(i), y(v));
-    else ctx.lineTo(x(i), y(v));
-  });
-  ctx.strokeStyle = "#5a7ab8";
-  ctx.lineWidth = 2;
-  ctx.stroke();
-
-  // last point
-  ctx.fillStyle = "#cdd3e0";
-  ctx.fillRect(x(data.length - 1) - 3, y(data[data.length - 1]) - 3, 6, 6);
-}
-
-function renderProgress() {
-  const c = document.getElementById("progress-canvas");
-  const dpr = window.devicePixelRatio || 1;
-  const w = c.clientWidth, h = c.clientHeight;
-  c.width = w * dpr; c.height = h * dpr;
-  const ctx = c.getContext("2d");
-  ctx.scale(dpr, dpr);
-  ctx.fillStyle = "#0a0e14";
-  ctx.fillRect(0, 0, w, h);
-
-  const { done, total, ok, err } = state.backtest;
-  const bw = w - 40, bh = 24, bx = 20, by = 20;
-  // bg
-  ctx.fillStyle = "#121822";
-  ctx.fillRect(bx, by, bw, bh);
-  ctx.strokeStyle = "#2a3a4a";
-  ctx.strokeRect(bx, by, bw, bh);
-  // ok
-  ctx.fillStyle = "#4a9d7a";
-  ctx.fillRect(bx, by, bw * (ok / total), bh);
-  // err
-  ctx.fillStyle = "#b85a5a";
-  ctx.fillRect(bx + bw * (ok / total), by, bw * (err / total), bh);
-
-  // text
-  ctx.fillStyle = "#cdd3e0";
-  ctx.font = "16px VT323, monospace";
-  ctx.fillText(`${done}/${total}  OK:${ok}  ERR:${err}  (${(done/total*100).toFixed(1)}%)`,
-               bx + 8, by + bh + 20);
+function hhmm(s) {
+  const t = String(s == null ? "" : s);
+  return t.length >= 11 ? t.slice(11, 19) : t;
 }
 
 function renderHeader() {
   const d = new Date();
-  document.getElementById("clock").textContent =
-    d.toTimeString().slice(0, 8);
-  document.getElementById("hdr-tasks").textContent =
-    `${state.backtest.done}/${state.backtest.total}`;
-  const pnlEl = document.getElementById("hdr-pnl");
-  pnlEl.textContent = (state.pnl >= 0 ? "+" : "") + (state.pnl * 100).toFixed(2) + "%";
-  pnlEl.style.color = state.pnl >= 0 ? "var(--green)" : "var(--red)";
-  document.getElementById("net-type").textContent = state.net;
-  const dot = document.getElementById("net-dot");
-  dot.className = "dot" + (state.net === "HOTSPOT" ? " yellow" : state.net === "UNKNOWN" ? " red" : "");
+  document.getElementById("clock").textContent = d.toTimeString().slice(0, 8);
+  if (!D) return;
+  const sm = D.health.smoke;
+  const dot = document.getElementById("smoke-dot");
+  dot.className = "dot" + (sm.ok ? "" : " red");
+  document.getElementById("smoke-val").textContent = `${sm.pass}/${sm.pass + Math.max(0, sm.fail)}`;
+  document.getElementById("hdr-n").textContent = D.strategy.trials_total;
+  document.getElementById("hdr-traders").textContent = D.strategy.n_traders;
+  const net = D.health.network.net_type;
+  document.getElementById("net-type").textContent = net;
 }
 
-function renderSide() {
-  const pnlEl = document.getElementById("pnl-big");
-  pnlEl.textContent = (state.pnl >= 0 ? "+" : "") + (state.pnl * 100).toFixed(2) + "%";
-  pnlEl.className = state.pnl >= 0 ? "" : "neg";
-  document.getElementById("pv").textContent =
-    "¥" + (1_000_000 * (1 + state.pnl)).toLocaleString("en-US", {maximumFractionDigits: 0});
-  document.getElementById("day-pnl").textContent =
-    (state.pnl >= 0 ? "+" : "") + (state.pnl * 100).toFixed(2) + "%";
-  document.getElementById("pos-count").textContent = `${state.positions}/10`;
-  document.getElementById("net-type2").textContent = state.net;
-}
-
-function log(msg, cls = "info") {
-  const el = document.getElementById("log");
-  const d = new Date();
-  const t = d.toTimeString().slice(0, 8);
-  const div = document.createElement("div");
-  div.className = "line";
-  div.innerHTML = `<span class="t">[${t}]</span> <span class="${cls}">${msg}</span>`;
-  el.appendChild(div);
-  while (el.children.length > 50) el.removeChild(el.firstChild);
-  el.scrollTop = el.scrollHeight;
-}
-
-// ===== simulation loop =====
-function tick() {
-  // jitter nodes
-  state.nodes.forEach(n => {
-    if (!n.online) return;
-    n.cpu = Math.max(10, Math.min(95, n.cpu + (Math.random() - 0.5) * 10));
-    n.mem = Math.max(20, Math.min(90, n.mem + (Math.random() - 0.5) * 5));
-  });
-  // progress
-  if (state.backtest.done < state.backtest.total && Math.random() < 0.4) {
-    state.backtest.done++;
-    if (Math.random() < 0.95) state.backtest.ok++;
-    else state.backtest.err++;
-    if (state.backtest.done % 10 === 0) {
-      log(`backtest done ${state.backtest.done}/${state.backtest.total}`, "ok");
-    }
+function renderNodes() {
+  const el = document.getElementById("node-list");
+  if (!D || !D.fleet || !D.fleet.present) {
+    el.innerHTML = '<div class="empty">机队心跳待产出（fleet/machines/）</div>';
+    return;
   }
-  // equity
-  state.equity.push(state.equity[state.equity.length - 1] + (Math.random() - 0.48) * 0.002);
-  if (state.equity.length > 200) state.equity.shift();
-  state.pnl = state.equity[state.equity.length - 1] - 1.0;
-
-  renderNodes(); renderStrats(); renderEquity();
-  renderProgress(); renderHeader(); renderSide();
+  el.innerHTML = D.fleet.machines.map(m => {
+    const age = m.age_min == null ? "—" : m.age_min + "分";
+    return `
+    <div class="node ${m.health}">
+      <div class="name">${esc(m.id)} <span class="dot ${m.health === "ok" ? "" : (m.health === "warn" ? "yellow" : (m.health === "bad" ? "red" : "gray"))}"></span>R${n2(m.round_no)}</div>
+      <div class="row">心跳 <b>${esc(m.last_seen)}</b> · 龄 <b>${age}</b></div>
+      <div class="row"><b>${n2(m.cpu_cores)}</b>核 · 闲RAM <b>${n2(m.idle_ram_gb)}</b>G · GPU闲 <b>${n2(m.gpu_idle_vram_mb)}</b>M</div>
+      <div class="task">${esc(m.current_task || "—")}</div>
+    </div>`;
+  }).join("");
 }
 
-// initial log
-log("data: 48 ETFs loaded from Sina", "ok");
-log("CSI300 benchmark loaded", "ok");
-log("waiting for backtest workers...", "info");
+function renderTickets() {
+  const el = document.getElementById("tickets");
+  if (!D || !D.fleet || !D.fleet.tickets.length) {
+    el.innerHTML = '<div class="empty">票据待产出（fleet/tasks/）</div>';
+    return;
+  }
+  const rows = D.fleet.tickets.map(t => `
+    <tr>
+      <td>${esc(t.id)}</td>
+      <td>${esc(t.type)}</td>
+      <td class="chip ${esc(t.status)}"><span>${esc(t.status)}</span></td>
+      <td class="owner">${esc(t.claimed_by || "—")}</td>
+    </tr>`).join("");
+  el.innerHTML = `
+    <table class="tickets">
+      <tr><th>ID</th><th>TYPE</th><th>STATUS</th><th>OWNER</th></tr>
+      ${rows}
+    </table>
+    <div class="kv" style="margin-top:4px;">
+      <span class="k">合计</span>
+      <span class="v">done ${D.fleet.n_done} · claimed ${D.fleet.n_claimed} · open ${D.fleet.n_open}</span>
+    </div>`;
+}
 
-renderNodes(); renderStrats(); renderEquity();
-renderProgress(); renderHeader(); renderSide();
-setInterval(tick, 1500);
-window.addEventListener("resize", () => { renderEquity(); renderProgress(); });
+function chainRow(name, val, st, stTxt) {
+  return `<div class="chain-row"><span class="nm">${esc(name)}</span>
+          <span class="val">${esc(val)}</span>
+          <span class="st ${st}">${esc(stTxt)}</span></div>`;
+}
+
+function renderChains() {
+  const el = document.getElementById("chains");
+  if (!D) { el.innerHTML = '<div class="empty">等待数据 — python -m monitor.build_status</div>'; return; }
+  const rows = [];
+  const u = D.data.update;
+  rows.push(chainRow("日线更新",
+    `cutoff ${n2(u.data_cutoff)} · ${n2(u.total_new_rows)} 行 · 失败 ${n2(u.failures)} · ${n2(u.symbols)} 符号`,
+    u.status === "bad" ? "bad" : (u.status === "warn" ? "warn" : (u.present ? "ok" : "dim")),
+    u.present ? u.text : "无件"));
+  const fl = D.fleet;
+  if (fl && fl.p1d) {
+    const g = fl.p1d.gates || {};
+    for (const [k, v] of Object.entries(fl.p1d.legs)) {
+      const gate = g[k] || {};
+      const cov = typeof gate.coverage === "number" ? (gate.coverage * 100).toFixed(1) + "%" : (gate.coverage || "—");
+      rows.push(chainRow("P-1d " + k,
+        `${n2(v.rows)} 行 · 门覆盖 ${cov}（门 ${n2(gate.gate)}）`,
+        gate.pass === true ? "ok" : (gate.pass === false ? "bad" : "dim"),
+        gate.pass === true ? "PASS" : (gate.pass === false ? "FAIL" : "—")));
+    }
+    rows.push(chainRow("P-1d 门时点", `gates ${n2(fl.p1d.gates_date)} · pull ${n2(fl.p1d.pull_updated)}`, "dim", "信息"));
+  }
+  if (fl && fl.lhb) {
+    const L = fl.lhb;
+    rows.push(chainRow("LHB", `cutoff ${n2(L.cutoff)} · 新 ${n2(L.new_rows)} 行`, L.verdict && String(L.verdict).startsWith("fail") ? "bad" : "ok", n2(L.verdict).slice(0, 24)));
+  }
+  const h = D.data.heat;
+  if (h && h.present) {
+    rows.push(chainRow("热度链",
+      `L1 ${n2(h.l1_snapshots)} 份 · L2 ${n2(h.l2_done)}/${n2(h.l2_target)} 件 · 拒 ${n2(h.l2_rejects)}`,
+      h.status === "bad" ? "bad" : (h.status === "warn" ? "warn" : "ok"), h.text));
+  }
+  const r = D.data.regime;
+  if (r && r.present) {
+    rows.push(chainRow("行情防线",
+      `${n2(r.state_cn)} · 在态 ${n2(r.days_in_state)} 日 · ${n2(r.mode)}`,
+      (r.state === "ORANGE" || r.state === "RED") ? "warn" : "ok",
+      (r.triggers || []).length ? "触发 " + r.triggers.join("；").slice(0, 16) : "无触发"));
+  }
+  const t = D.data.token;
+  if (t && t.present) {
+    rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));
+  }
+  el.innerHTML = rows.join("") || '<div class="empty">链待产出</div>';
+}
+
+function renderAudit() {
+  const el = document.getElementById("audit");
+  if (!D || !D.fleet || !D.fleet.audit) {
+    el.innerHTML = '<div class="empty">审计待产出</div>'; return;
+  }
+  const a = D.fleet.audit;
+  const flags = (a.flags || []).join(", ");
+  el.innerHTML = `
+    <div class="kv"><span class="k">判定</span><span class="v">${esc(a.verdict)}</span></div>
+    <div class="kv"><span class="k">时刻</span><span class="v">${esc(a.ts)}</span></div>
+    <div class="kv"><span class="k">CPU 总/我方</span><span class="v">${fnum(a.cpu_total_pct, 0)}% / ${fnum(a.py_cpu_pct, 1)}%</span></div>
+    <div class="kv"><span class="k">核 / py 进程</span><span class="v">${n2(a.cores)} / ${n2(a.py_procs)}</span></div>
+    <div class="kv"><span class="k">GPU 利用/占用</span><span class="v">${fnum(a.gpu_util_pct, 0)}% / ${fnum(a.gpu_mem_used_mb, 0)}M</span></div>
+    <div class="kv"><span class="k">僵尸 / 越权</span><span class="v">${n2(a.zombies)} / ${(a.rogue_apps || []).length}</span></div>
+    ${flags ? `<div class="kv" style="color:var(--yellow)"><span class="k">旗</span><span class="v">${esc(flags)}</span></div>` : ""}`;
+}
+
+function renderToken() {
+  const el = document.getElementById("token");
+  if (!D || !D.data || !D.data.token || !D.data.token.present) {
+    el.innerHTML = '<div class="empty">计量待产出</div>'; return;
+  }
+  const t = D.data.token;
+  el.innerHTML = `
+    <div class="kv"><span class="k">状态载入</span><span class="v">${n2(t.state_est)}</span></div>
+    <div class="kv"><span class="k">报告累计</span><span class="v">${n2(t.report_est)}</span></div>
+    <div class="kv"><span class="k">回合增长</span><span class="v">${n2(t.delta_state)}</span></div>
+    <div class="kv"><span class="k">快照</span><span class="v">${esc(t.generated)}</span></div>`;
+}
+
+function renderLog() {
+  const el = document.getElementById("log");
+  if (!D || !D.events || !D.events.length) {
+    el.innerHTML = '<div class="line"><span class="t">[--]</span> <span class="info">事件待产出</span></div>';
+    return;
+  }
+  el.innerHTML = D.events.map(e => `
+    <div class="line"><span class="t">[${esc(hhmm(e.time))}]</span>
+    <span class="info">${esc(e.text)}</span></div>`).join("");
+}
+
+renderHeader(); renderNodes(); renderTickets(); renderChains();
+renderAudit(); renderToken(); renderLog();
+setInterval(renderHeader, 1000);
 </script>
 </body>
 </html>
