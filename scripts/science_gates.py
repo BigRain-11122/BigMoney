@@ -153,10 +153,30 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
             sr = ((pas.get(name) or {}).get("full") or {}).get("sharpe")
             if isinstance(sr, (int, float)) and math.isfinite(sr):
                 cands.append(float(sr))
-        if not cands:
-            raise KeyError("passive block missing/empty in "
-                          "shortline_cta_p1.json — schema drift, fix batch writer")
-        return max(cands)  # strict = harder line
+            if not cands:
+                raise KeyError("passive block missing/empty in "
+                               "shortline_cta_p1.json — schema drift, fix batch writer")
+            return max(cands)  # strict = harder line
+        if pool == "cta_futures_noau":
+            # CTA_P2_NOAU additive pool (research/CTA_P2_NOAU.md SS4): strict-max of
+            # THIS batch's own two passive long baselines (r20 / monthly) on the
+            # 8-variety no-AU panel — read from the product file; never borrows the
+            # 9-variety cta_futures passives (AU must stay out of the line).
+            path = os.path.join(results_dir, "shortline_cta_p2_noau.json")
+            if not os.path.exists(path):
+                raise KeyError(f"cta_futures_noau passive not on file yet "
+                               f"({path}) — run CTA_P2_NOAU phase-1 write first")
+            with open(path, encoding="utf-8") as fh:
+                pas = (json.load(fh).get("passive") or {})
+            cands = []
+            for name in ("passive_long_r20", "passive_long_monthly"):
+                sr = ((pas.get(name) or {}).get("full") or {}).get("sharpe")
+                if isinstance(sr, (int, float)) and math.isfinite(sr):
+                    cands.append(float(sr))
+            if not cands:
+                raise KeyError("passive block missing/empty in "
+                               "shortline_cta_p2_noau.json — schema drift, fix batch writer")
+            return max(cands)  # strict = harder line
     path = os.path.join(results_dir, "p2_calibration.json")
     if pool != "core48" or not os.path.exists(path):
         raise KeyError(f"no frozen passive calibration on file for pool '{pool}' — "
@@ -490,6 +510,8 @@ SEED_REGISTRY = {
     # robustness documented in P1D_GDHS_QUARTERLY.md SS6.
     "p4_ext_tilt_q": 49_000,             # P4_EXT_TILT random quarterly-null base
     "p4_ext_tilt_d20": 49_100,           # P4_EXT_TILT random 20d-null base (r67 prereg)
+    "cta_p2_noau": 50_500,               # CTA_P2_NOAU 8-variety K=50 random nulls
+    # (50_500+k; registry+rg scanned free 2026-09-24 07:20 before prereg freeze)
 }
 
 
