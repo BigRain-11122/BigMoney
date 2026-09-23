@@ -1,0 +1,892 @@
+{
+ "module": "screening/pbo.py",
+ "authority": "research/BACKTEST_SCIENCE.md §4 D4 (O-20260923-2215), T-02 deliverable 2/7",
+ "frozen_params": {
+  "n_blocks": 8,
+  "is_blocks": 4,
+  "combinations": "C(8,4)=70 exhaustive",
+  "split_rule": "bounds[i]=i*T//8 contiguous",
+  "metric": "annualized Sharpe 252",
+  "is_best_tiebreak": "first argmax column",
+  "oos_ties": "average rank",
+  "min_rows_per_block": 20,
+  "bands": {
+   "register_eligible": "<=0.25",
+   "observe": "(0.25,0.5]",
+   "fail": ">0.5"
+  }
+ },
+ "live_fire": {
+  "scope": "book-level CSCV across registered traders — PIPELINE VALIDATION DEMO",
+  "NOT": "this is NOT the G2.5 per-family retro (T-02 deliverable 4, due before the 2026-10-31 promotion gate) — G2.5 runs PBO per candidate family against its own prereg trial grid",
+  "validity_gate": "per trader: reproduced full-history curve seg-metrics match the registered backtest evidence at anchor tolerances -> the matrix IS the registered evidence (6 engine runs = anchor-gate reproductions, same as smoke/paper run each round; NOT new trials, trials ledger N unchanged)",
+  "traders": {
+   "COMPOSITE-CE-01": {
+    "cutoff": "2026-09-22",
+    "is_match": true,
+    "oos_match": true,
+    "full_sharpe": 0.8114
+   },
+   "COMPOSITE-CE-02": {
+    "cutoff": "2026-09-22",
+    "is_match": true,
+    "oos_match": true,
+    "full_sharpe": 0.6099
+   },
+   "DROUGHT-CE-01": {
+    "cutoff": "2026-09-22",
+    "is_match": true,
+    "oos_match": true,
+    "full_sharpe": 0.724
+   },
+   "ENGULF-CE-01": {
+    "cutoff": "2026-09-22",
+    "is_match": true,
+    "oos_match": true,
+    "full_sharpe": 0.5392
+   },
+   "NEEDLE-DE-01": {
+    "cutoff": "2026-09-22",
+    "is_match": true,
+    "oos_match": true,
+    "full_sharpe": 0.6624
+   },
+   "VOLATILITY-CE-01": {
+    "cutoff": "2026-09-22",
+    "is_match": true,
+    "oos_match": true,
+    "full_sharpe": 1.2578
+   }
+  },
+  "matrix": {
+   "T": 1630,
+   "N": 6,
+   "span": [
+    "2020-01-03",
+    "2026-09-22"
+   ],
+   "alignment": {
+    "t_common": 1630,
+    "per_trial_own_rows": {
+     "COMPOSITE-CE-01": 1630,
+     "COMPOSITE-CE-02": 1630,
+     "DROUGHT-CE-01": 1630,
+     "ENGULF-CE-01": 1630,
+     "NEEDLE-DE-01": 1630,
+     "VOLATILITY-CE-01": 1630
+    },
+    "per_trial_kept_fraction": {
+     "COMPOSITE-CE-01": 1.0,
+     "COMPOSITE-CE-02": 1.0,
+     "DROUGHT-CE-01": 1.0,
+     "ENGULF-CE-01": 1.0,
+     "NEEDLE-DE-01": 1.0,
+     "VOLATILITY-CE-01": 1.0
+    },
+    "max_truncation": 0.5
+   }
+  },
+  "cscv": {
+   "pbo": 0.3429,
+   "verdict": "observe",
+   "n_trials": 6,
+   "n_rows": 1630,
+   "n_combinations": 70,
+   "n_blocks": 8,
+   "block_bounds": [
+    0,
+    203,
+    407,
+    611,
+    815,
+    1018,
+    1222,
+    1426,
+    1630
+   ],
+   "omega_mean": 0.38,
+   "omega_median": 0.2,
+   "omega_p05": 0.0,
+   "omega_p95": 1.0,
+   "per_combination": [
+    {
+     "is_blocks": [
+      0,
+      1,
+      2,
+      3
+     ],
+     "is_best_trial": "ENGULF-CE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      2,
+      4
+     ],
+     "is_best_trial": "NEEDLE-DE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      2,
+      5
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      2,
+      6
+     ],
+     "is_best_trial": "ENGULF-CE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      2,
+      7
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 4.0,
+     "omega": 0.6
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      3,
+      4
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      3,
+      5
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      3,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      3,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      4,
+      5
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      4,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      4,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      5,
+      7
+     ],
+     "is_best_trial": "COMPOSITE-CE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      1,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      3,
+      4
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 4.0,
+     "omega": 0.6
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      3,
+      5
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 5.0,
+     "omega": 0.8
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      3,
+      6
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 4.0,
+     "omega": 0.6
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      3,
+      7
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      4,
+      5
+     ],
+     "is_best_trial": "NEEDLE-DE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      4,
+      6
+     ],
+     "is_best_trial": "NEEDLE-DE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      4,
+      7
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 5.0,
+     "omega": 0.8
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      5,
+      6
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 4.0,
+     "omega": 0.6
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      5,
+      7
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      0,
+      2,
+      6,
+      7
+     ],
+     "is_best_trial": "DROUGHT-CE-01",
+     "oos_rank": 5.0,
+     "omega": 0.8
+    },
+    {
+     "is_blocks": [
+      0,
+      3,
+      4,
+      5
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      0,
+      3,
+      4,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      0,
+      3,
+      4,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      0,
+      3,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      0,
+      3,
+      5,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      0,
+      3,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      0,
+      4,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      4,
+      5,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      0,
+      4,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      0,
+      5,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      3,
+      4
+     ],
+     "is_best_trial": "NEEDLE-DE-01",
+     "oos_rank": 5.0,
+     "omega": 0.8
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      3,
+      5
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      3,
+      6
+     ],
+     "is_best_trial": "ENGULF-CE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      3,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      4,
+      5
+     ],
+     "is_best_trial": "NEEDLE-DE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      4,
+      6
+     ],
+     "is_best_trial": "NEEDLE-DE-01",
+     "oos_rank": 5.0,
+     "omega": 0.8
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      4,
+      7
+     ],
+     "is_best_trial": "NEEDLE-DE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      5,
+      6
+     ],
+     "is_best_trial": "COMPOSITE-CE-01",
+     "oos_rank": 3.0,
+     "omega": 0.4
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      5,
+      7
+     ],
+     "is_best_trial": "COMPOSITE-CE-01",
+     "oos_rank": 4.0,
+     "omega": 0.6
+    },
+    {
+     "is_blocks": [
+      1,
+      2,
+      6,
+      7
+     ],
+     "is_best_trial": "COMPOSITE-CE-01",
+     "oos_rank": 3.0,
+     "omega": 0.4
+    },
+    {
+     "is_blocks": [
+      1,
+      3,
+      4,
+      5
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      1,
+      3,
+      4,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      1,
+      3,
+      4,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      1,
+      3,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 3.0,
+     "omega": 0.4
+    },
+    {
+     "is_blocks": [
+      1,
+      3,
+      5,
+      7
+     ],
+     "is_best_trial": "COMPOSITE-CE-01",
+     "oos_rank": 5.0,
+     "omega": 0.8
+    },
+    {
+     "is_blocks": [
+      1,
+      3,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 3.0,
+     "omega": 0.4
+    },
+    {
+     "is_blocks": [
+      1,
+      4,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      1,
+      4,
+      5,
+      7
+     ],
+     "is_best_trial": "COMPOSITE-CE-02",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      1,
+      4,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      1,
+      5,
+      6,
+      7
+     ],
+     "is_best_trial": "COMPOSITE-CE-01",
+     "oos_rank": 6.0,
+     "omega": 1.0
+    },
+    {
+     "is_blocks": [
+      2,
+      3,
+      4,
+      5
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      3,
+      4,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    },
+    {
+     "is_blocks": [
+      2,
+      3,
+      4,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      3,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      3,
+      5,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      3,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      4,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      4,
+      5,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      4,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      2,
+      5,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      3,
+      4,
+      5,
+      6
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 3.0,
+     "omega": 0.4
+    },
+    {
+     "is_blocks": [
+      3,
+      4,
+      5,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 3.0,
+     "omega": 0.4
+    },
+    {
+     "is_blocks": [
+      3,
+      4,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 1.0,
+     "omega": 0.0
+    },
+    {
+     "is_blocks": [
+      3,
+      5,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 3.0,
+     "omega": 0.4
+    },
+    {
+     "is_blocks": [
+      4,
+      5,
+      6,
+      7
+     ],
+     "is_best_trial": "VOLATILITY-CE-01",
+     "oos_rank": 2.0,
+     "omega": 0.2
+    }
+   ],
+   "bands_frozen": {
+    "register_eligible": "pbo <= 0.25",
+    "observe": "0.25 < pbo <= 0.5",
+    "fail": "pbo > 0.5"
+   }
+  },
+  "interpretation": "book-level PBO reads the time-stability of the members' relative ranking under CSCV block rotations; P-5B already established regime dependence book-wide, so a high book PBO would be consistent evidence, not a surprise"
+ },
+ "generated": "2026-09-23 23:20:30"
+}
