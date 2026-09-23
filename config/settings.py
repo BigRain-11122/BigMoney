@@ -19,6 +19,7 @@ class PathConfig:
     data_dir: str = os.path.join(root, "data")
     daily_dir: str = os.path.join(data_dir, "daily")
     basic_dir: str = os.path.join(data_dir, "basic")
+    fundamental_dir: str = os.path.join(data_dir, "fundamental")  # O-1820 R-pei1/2 lane
     results_dir: str = os.path.join(root, "results")
     logs_dir: str = os.path.join(root, "logs")
 

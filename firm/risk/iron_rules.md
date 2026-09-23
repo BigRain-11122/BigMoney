@@ -13,6 +13,7 @@
    定义：大熊市 = 沪深300 收盘 < 250 日均线 **且** 自 250 日收盘高点回撤 ≥20%（双条件同时满足）；任一条件不再满足即解除。
 
 适用面：全部**后续**配置——股票池 B 层在制线（P-4②/打板族）+ ETF 组合层（在册 3 员 paper 面）。ETF 无亏损/戴帽概念 → R-配1/R-配2 主要约束股票池；R-配3 对 ETF 组合即刻生效。
+数据源（O-1820 件2 已接管线，2026-09-23）：`scripts/update_fundamental.py`（akshare 业绩报表+ST 名单，三级兜底链 vendor→直连 UA→sina 现名标记）→ **`data/fundamental/eligibility.csv`**（逐股 R-配1/R-配2 判定侧表：r1_loss/r2_st/eligible，快照制 24h 刷新，保守语义「缺失=不配」）——B 层批测前置过滤器与纸盘/live 负面清单 join 此表执行；源健康证据=`results/fundamental_status.json`，双机互证=`--probe`。立案调查/审计非标两子维无可靠免费源=如实记跳过（status skipped_dims）。
 边界：GM 补呈的新增规则提案（单股/行业集中度等六条）未经 CEO 一句话**不得**自行入法。
 
 ## 全局硬规则（任何交易员不可违反）
