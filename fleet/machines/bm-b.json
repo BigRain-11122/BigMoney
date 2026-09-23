@@ -1,10 +1,10 @@
 {
   "machine_id": "bm-b",
-  "last_seen": "2026-09-23 14:58",
-  "orders_ack": "2026-09-23 14:58",
-  "current_task": "round 27: T-2026-09-23-01 B2 croc send of bars to bm-a IN FLIGHT (code bm-money02-ETWP, 10444 files/1.09GB, sender manifest done, waiting receiver); A-part smalls delivered by user session triage 880f6a2; loop prompt wired with S0.5 orders step",
+  "last_seen": "2026-09-23 15:33",
+  "orders_ack": "2026-09-23 15:14",
+  "current_task": "round 29 done: J13 local LLM research assistant v0.1 delivered (scripts/llm_assist.py 5 cmds + first real retro research/auto/retro-20260923.md, resident Ollama qwen2.5:7b reused); CEO order O-1514 (Money0923 triage) acked = quant-manager session on bm-a executes, loop does not duplicate; bars T-2026-09-23-01 stays parked awaiting user ruling (B1 vs A-variant, MSG-1502)",
   "cpu_cores": "16",
-  "idle_ram_gb": "5.5",
-  "gpu_idle_vram_mb": "2495",
-  "verdict": "healthy: smoke 20/20, data chain intraday no-op (cutoff 2026-09-22); TRANSFER.md+FLEET-OPS.md v1.0 wired (orders_ack field live, prompt S0.5 added); next rounds: monitor logs/transfer-T-2026-09-23-01.log (throughput fuse <500KB/s 30min -> stop+report for B1), verify bm-a receiver manifest when it lands -> mark T-2026-09-23-01 done; after 15:30 first full sweep (total_new_rows=48, paper bars>0, recheck CE-02 x2 margin 0.431 + EW cushion +0.175)"
+  "idle_ram_gb": "11.5",
+  "gpu_idle_vram_mb": "2365",
+  "verdict": "healthy: smoke 20/20; J13 v0.1 live (selftest exit0, num_ctx 8192 request-level fix after 4096 default 400s; urllib needs ProxyHandler({}) on this Clash box); data chain legal no-op at 15:25 (pre-15:30 guard, cutoff 2026-09-22); next rounds: 15:30+ FIRST FULL SWEEP verification (total_new_rows=48 expected, 3 traders paper bars>0, cutoff->2026-09-23, then recheck CE-02 x2 margin 0.431 + EW x2 cushion +0.175), round 30 = HANDOVER 5x check (add J13 artifacts), bars decision pending user (A-variant: user creates empty private repo BigMoney-data -> git push 1.17GB -> bm-a verify -> T-01 done; B1: bm-a Tailscale install authorization), 2026-10-31 first-month promotion check (months_tracked=1, no manual edits)"
 }
