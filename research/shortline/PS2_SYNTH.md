@@ -41,6 +41,12 @@ P-1c Stage-A 缓存切片 2007-01-01→cutoff；LHB 事件/去重/滞后 1 交�
 - 零引擎跑→N 不动；IC 计算数=1 primary+28 nullA+50 nullB（+过门补 2）≈81 记 JSON audit 段
 - `scripts/ps2_synth.py` → `research/shortline/ps2_synth_results.csv` + `results/shortline/ps2_synth.json`；§7 跑后一次追加
 
-## §7 跑后实证（跑前禁触）
+## §7 跑后实证（2026-09-23 20:35 实跑一次定稿，353s，确定性可复现）
 
-（空——跑后填写）
+- 硬门全过：等价门禁 PASS + **确定性锚三项 Δ=0.0 全复现**（IS IC 0.0943/IR 0.728、OOS IC 0.0834 对 v1 记录）
+- **主判：诚实判负于 V1——primary IS IC 0.0943 < v1_thr 0.0957（nullA 28 对 p95）**；V2 PASS（IR 0.728）、V3 PASS；**primary 排名 3/28**，被 lhb_amt_share_20+intraday_range（**0.111**）与 lhb_netbuy_amt_60+intraday_range（0.0965）反超
+- nullB（50 组 K=2 噪声）p95=0.0007；IC 计数 79 记 JSON audit
+- **机制定案（收线读数）**：①**强货架内「任意双强员对」即达 ~0.09-0.11 IC**（双 0.064 级成员等权均值的 √2 分散化增益）——选定对无选择边际（3/28）→「两条强信号」主张收缩为「货架效应」，§5 fail 分支精确兑现；②**pair IR 0.728 < lhb_count_20 单兵 |IR| 0.84**——合成增益在 IC 不在 IR，**lhb_count_20 仍为全项目最强单因子证据**；③nullA 带随 K 缩小不降反升（K=6 0.0785→K=2 0.0957）=抽样越集中、强员命中密度越高（与 v1 机制②同源）
+- **预测对账**：锚 ✓；排名预测 1-3→实 3（区间下沿）✓；nullA 预测 0.055-0.085→实 0.0957 高于区间（强货架低估第三现）✗；nullB 0.002-0.010→0.0007 略低 ✗；PASS 65%→实 FAIL ✗（方向乐观）
+- **P-S 线收线**（按 §5 fail 分支执行）：LHB 材料保持**单因子用法**（count_20 主力 + amt_share/days_since 辅助，B 层 lhb_follow/mood 族以本线因子级证据为输入）；顶部对（amt_share+range 0.111）=**封闭线观察记录，禁直接采信**——任何后续使用须全新预注册+独立多重性记账；跑后禁令照旧
+

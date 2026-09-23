@@ -1,0 +1,212 @@
+{
+  "meta": {
+    "batch": "P-S v2 lhb_pair promotion",
+    "pre_reg": "research/shortline/PS2_SYNTH.md",
+    "claim": "MSG-20260923-2012",
+    "multiplicity": "family second look, declared; nullA exhaustive 28 pairs includes primary (same bias, same scale)",
+    "date": "2026-09-23 20:05",
+    "is_end": "2024-12-31",
+    "gate_horizon": 10,
+    "engine_runs": 0,
+    "ledger_note": "factor layer: engine ledger N untouched"
+  },
+  "equivalence": {
+    "max_abs_diff": 1.1102230246251565e-16,
+    "pass": true
+  },
+  "determinism_anchor": {
+    "tol": 5e-05,
+    "detail": {
+      "is_ic": {
+        "v1": 0.0943,
+        "v2": 0.0943,
+        "delta": 0.0
+      },
+      "is_ir": {
+        "v1": 0.728,
+        "v2": 0.728,
+        "delta": 0.0
+      },
+      "oos_ic": {
+        "v1": 0.0834,
+        "v2": 0.0834,
+        "delta": 0.0
+      }
+    },
+    "pass": true
+  },
+  "thresholds": {
+    "nullA_p95": 0.0957,
+    "nullB_p95": 0.0007,
+    "v1_thr": 0.0957,
+    "primary_rank_of_28": 3
+  },
+  "nullA_pairs": [
+    {
+      "pair": "lhb_count_20+lhb_days_since",
+      "abs_is_ic": 0.0635,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_count_20+lhb_amt_share_20",
+      "abs_is_ic": 0.0943,
+      "is_primary": true
+    },
+    {
+      "pair": "lhb_count_20+lhb_netbuy_amt_60",
+      "abs_is_ic": 0.0712,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_count_20+vol_60",
+      "abs_is_ic": 0.0696,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_count_20+intraday_range",
+      "abs_is_ic": 0.0751,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_count_20+mom_12_1",
+      "abs_is_ic": 0.0146,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_count_20+price_position",
+      "abs_is_ic": 0.0038,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_days_since+lhb_amt_share_20",
+      "abs_is_ic": 0.0753,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_days_since+lhb_netbuy_amt_60",
+      "abs_is_ic": 0.0439,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_days_since+vol_60",
+      "abs_is_ic": 0.0708,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_days_since+intraday_range",
+      "abs_is_ic": 0.0821,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_days_since+mom_12_1",
+      "abs_is_ic": 0.0225,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_days_since+price_position",
+      "abs_is_ic": 0.0111,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_amt_share_20+lhb_netbuy_amt_60",
+      "abs_is_ic": 0.0528,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_amt_share_20+vol_60",
+      "abs_is_ic": 0.0781,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_amt_share_20+intraday_range",
+      "abs_is_ic": 0.111,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_amt_share_20+mom_12_1",
+      "abs_is_ic": 0.0152,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_amt_share_20+price_position",
+      "abs_is_ic": 0.0348,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_netbuy_amt_60+vol_60",
+      "abs_is_ic": 0.0628,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_netbuy_amt_60+intraday_range",
+      "abs_is_ic": 0.0965,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_netbuy_amt_60+mom_12_1",
+      "abs_is_ic": 0.0118,
+      "is_primary": false
+    },
+    {
+      "pair": "lhb_netbuy_amt_60+price_position",
+      "abs_is_ic": 0.0642,
+      "is_primary": false
+    },
+    {
+      "pair": "vol_60+intraday_range",
+      "abs_is_ic": 0.0765,
+      "is_primary": false
+    },
+    {
+      "pair": "vol_60+mom_12_1",
+      "abs_is_ic": 0.0431,
+      "is_primary": false
+    },
+    {
+      "pair": "vol_60+price_position",
+      "abs_is_ic": 0.021,
+      "is_primary": false
+    },
+    {
+      "pair": "intraday_range+mom_12_1",
+      "abs_is_ic": 0.0349,
+      "is_primary": false
+    },
+    {
+      "pair": "intraday_range+price_position",
+      "abs_is_ic": 0.0315,
+      "is_primary": false
+    },
+    {
+      "pair": "mom_12_1+price_position",
+      "abs_is_ic": 0.0367,
+      "is_primary": false
+    }
+  ],
+  "primary": {
+    "role": "primary",
+    "name": "lhb_pair_2",
+    "mask": "A",
+    "h10_full_ic_mean": 0.0934,
+    "h10_full_ic_ir": 0.74,
+    "h10_full_n_periods": 4782,
+    "h10_is_ic_mean": 0.0943,
+    "h10_is_ic_ir": 0.728,
+    "h10_is_n_periods": 4373,
+    "h10_oos_ic_mean": 0.0834,
+    "h10_oos_ic_ir": 1.02,
+    "h10_oos_n_periods": 409,
+    "v1_thr": 0.0957,
+    "v1": false,
+    "v2": true,
+    "v3": true,
+    "period_gate": true,
+    "pass": false
+  },
+  "audit": {
+    "elapsed_sec": 353.4,
+    "ic_computations": 79,
+    "workers": 1,
+    "cpu_cap_policy": "O-20260923-1738"
+  }
+}
