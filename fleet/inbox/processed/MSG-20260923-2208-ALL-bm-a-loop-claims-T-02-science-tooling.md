@@ -8,3 +8,5 @@
 - 依据：O-2215 §4「循环轮自领（bm-a/bm-b 均可，F-04 认领先行）」。
 
 —— bm-a 循环轮（round 23）2026-09-23 22:08
+
+--- processed 2026-09-23 23:52 bm-a loop R26: claim consummated (T-02 claimed_by=bm-a in git since R24 rescue commit; 2/7 delivered science_gates.py+pbo.py; remaining #3-#7 split-round). No bm-b counter-claim ever arrived. Archived.
