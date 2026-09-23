@@ -10,7 +10,7 @@
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
 - **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\` 按机分账本（bm-b=state.json+round_reports.md；其余机含 bm-a=state-<机id>.json+round_reports-<机id>.md；字段=轮号/做了什么/下轮指针/每轮固定报告）＋ 根目录 `CODELY.md`（项目记忆，行级追加）。轮活性另看 `logs\probe-heartbeat.txt`。
 
-## 二、成果速览（截至 OS round 25，2026-09-23 14:05；round 21-25=纯维护轮，无新增回测产物）
+## 二、成果速览（截至 2026-09-23 15:50=bm-b round 30／bm-a round 5；机队并联+基建/LLM 轮，回测账本 N=1073 不变）
 
 | 成果 | 位置 | 关键数字（样本外 2025+，×2 成本压力全过） |
 |---|---|---|
@@ -26,6 +26,7 @@
 | **NSP1 新信号设计 mini 海选（round 16）** | `research/NEW_SIGNAL_P1.md`、`results/new_signal_p1.json`、`research/new_signal_p1_results.csv` | G1' 候选 2 员（triple_ma_5_20_60@ce OOS 0.888 / high252_prox_top5_r20@ce OOS 0.889）但 ×2 成本 0.143/0.258 远低技能线；core48 CE null 首档 0.4229；CE 增益非普适（集中在日频成员刷新类入场） |
 | **G2_NSP1 两候选深化（round 17）** | `research/G2_NSP1.md`、`results/g2_nsp1.json`、`research/g2_nsp1_results.csv` | **双 FAIL（0 注册）**：邻域 5/6 红 + ×2 成本不存活（A 0.143/B 0.258 < 0.4004）；state-trend/frozen-rotation 族 α 厚度不足以出厂，NSP1 线诚实收线 |
 | **SLEEVE_P3 低相关袖并入决策（round 18）** | `research/SLEEVE_P3.md`、`results/sleeve_p3.json`、`research/sleeve_p3_results.csv` | admission FAIL 0/2：近零 α 袖=免费风险缩减+付费收益稀释、×2 传染律（袖 ×2 深负拖垮组合）；6 袖归档，core48 池内分散化素材穷尽，**策略线全收线→节点转纯维护态** |
+| Money02 清理（round 27-28，bm-b） | `research/MONEY02_CLEANUP_REPORT.md`、`research/MONEY02_ASSETS.md` | 清理 6.35GB 可再生缓存（Money02 7.7→1.20GB/10968 件，bars 1.09GB 保留）；bars 传输 B2 croc 公共中继双双侧实测死（HTTP 污染）→ A-变体获批进行中（见舰队治理面行） |
 | 纸盘（100 万虚拟本金） | `live/paper.py`、`results/paper/` | 锚定门禁=注册指标与实时重算逐位一致才记账；**2026-10-31 首月到期检查**（months_tracked=1 → `python -m firm.hr` 应自动 PROMOTE→TRAINEE，禁手工改数） |
 | 日线数据增量管线 | `scripts/update_daily.py`、`results/update_status.json` | 交易日 15:30 后自动增量 48 池 → paper 自动记账；收盘守卫防半根 bar |
 | 旧 432 网格（死信号存档） | `results/*.json`（432 份）、`ranking.csv` | 最好 Sharpe 0.44，已判淘汰，仅供复现 |
@@ -34,13 +35,13 @@
 | **J13 本地 LLM 研究助理 v0.1（bm-b round 29 建→bm-a round 5 集成 main，merge 9a4a300）** | `scripts/llm_assist.py`、`research/auto/retro-20260923.md`（首个真实复盘产物） | ask/review/retro/ideas/selftest 五模式，复用本机现役 Ollama qwen2.5:7b（禁重建禁抢 pause 阀），写域限 research/；双机 selftest 全绿=**O-1536 本地化算力路线载体**，轮报告 token 用量记账已启动 |
 | **firm/ 建章立制四件套（O-1538，e293f36）** | `firm/RULES.md`+`TECH.md`+`DEV_AUTOMATION.md`+`org_chart.md` v2 | T0-T3 权力分层+红线指针化+总经理七部门表（mandate/KPI/town 映射）+AI 赋能五原则+立法流程；零代码重构零红线数值改动；循环轮执行/汇报按部门标注 |
 | **Money0923 前代系统归档（O-1514，f597750）** | `Money0923/`（782 件/95.8MB） | 用户《Money 自进化量化系统》有用集（代码/25 年面板/分钟语料/state.json 复活锚/MoneyViz 源）；**其自动化停机中**（09-22 停机令），可学 12 条=`research/MONEY0923_TRIAGE.md` §三（采纳须 CEO 署名） |
-| **舰队治理面（fleet v1.0 全家）** | `fleet/README.md`+`FLEET-OPS.md`+`orders/`台账+`HQ-FEEDBACK.md`+machine/<id> 分支机制 | /CEO 令牌+心跳+任务认领+TRANSFER.md 大文件机制+集团反馈面；bars 1.09GB 走 **A-变体进行中**（BigMoney-data 私库：bm-b 推送、bm-a 接收双侧 Verify 收官，T-01） |
+| **舰队治理面（fleet v1.0 全家）** | `fleet/README.md`+`FLEET-OPS.md`+`orders/`台账+`HQ-FEEDBACK.md`+machine/<id> 分支机制 | /CEO 令牌+心跳+任务认领+TRANSFER.md 大文件机制+集团反馈面；机器身份=`fleet/machine.json` 本地私有不入库（模板 `_machine.json.template`）；bars 1.09GB 走 **A-变体进行中**（BigMoney-data 私库：bm-b 推送、bm-a 接收双侧 Verify 收官，T-01） |
 | **试验账本累计 N=1073**（432+30+59+122+27+26+12+9+10+145+153+18+30） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示 |
 
 ## 三、取数清单（两条路径）
 
 1. **轻装收割（推荐，git clone）**：pack 实测 ~129MiB（2026-09-23）——引擎+策略+数据+全部成果+研究文档+Money0923 归档（95.8MB）+Money02 小件（87MB）全在内；文件夹拷贝路径=整个 `Bigmoney\` 排除 `Money02\`（bars 1.09GB 走 BigMoney-data 数据通道，见 `fleet/TRANSFER.md`）。
-2. **全量（~7.8GB）**：另含 `Money02\`（前代 A 股系统资产库：5221 只个股全史 parquet+复权因子、19 年龙虎榜、Gate.io 26 币全史，清单=`research/MONEY02_ASSETS.md`）。新机器只做 ETF 波段则不需要它。
+2. **全量（~1.4GB）**：另含 `Money02\` 清理后全量（1.20GB/10968 件——2026-09-23 round 27 bm-b 清理掉 6.35GB 可再生缓存；前代 A 股系统资产库：bars 1.09GB+5221 只个股全史 parquet+复权因子+19 年龙虎榜，清单=`research/MONEY02_ASSETS.md`）。新机器只做 ETF 波段则不需要它。
 
 ## 四、新机器跑起来（PLAN.md 可拷贝迁移原则）
 
@@ -71,17 +72,22 @@ python -m screening.rank          # 432 组排名重建
 - `results/paper/<交易员>_paper.json`：纸盘账本（bars/trades/months_tracked/equity）
 - `results/update_status.json`：数据增量状态（per-symbol appended / data_cutoff）
 - `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`、`new_signal_p1_results`、`g2_nsp1_results`、`sleeve_p3_results`
-- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 10 步数据驱动、试验账本 N 实时聚合）
+- `research/auto/retro-*.md`：LLM 自动复盘（J13 产物，advisory only——LLM 数字偶有误读，人工核验后采信）
+- `fleet/orders/O-*.md`：用户令台账（/CEO 发言自动落册）；`fleet/tasks/T-*.json`：机队任务单（status=open 可认领）
+- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 10 步数据驱动、试验账本 N 实时聚合）；`town.html` 同数据链（J12 公司小镇）
 
 ## 六、本机将持续产出什么（你回来取时会有更多）
 
 - 每个交易日 15:30 后：48 池日线增量 → 纸盘自动记账 → 成果/面板文件刷新（查 `results/update_status.json` 的 data_cutoff 与 total_new_rows）。
-- 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；**策略线三路径已穷尽（现金腿=用户侧决策、扩池=数据源用户令禁碰、袖=已收线）→ 本节点转纯维护态**（数据增量+纸盘记账+面板+交接物保鲜），续作均须用户回来定方向。
+- 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；**策略线三路径已穷尽（现金腿=用户侧决策、扩池=数据源用户令禁碰、袖=已收线）→ 回测节点转纯维护态**（数据增量+纸盘记账+面板+交接物保鲜），续作均须用户回来定方向。
+- bars 1.09GB（Money02\data\bars）传输=**A-变体进行中**（BigMoney-data 私库通道：bm-b 推送→bm-a 接收双侧 manifest -Verify 收官，T-2026-09-23-01；SOP 与进度=`fleet/TRANSFER.md`＋`fleet/transfers/`＋T-01 任务单）。
+- 机队协同：每轮自动消化 `fleet/orders/` 新令与 `fleet/inbox/` 定向消息；J12 公司小镇/J13 LLM 助理 v0.1 已交付，v0.2 按需另开。
 - 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
 - 开发队列（接管版，CEO 可随时改序）**round 5 更新**：J12 已交付 v0.2、J13 已交付 v0.1（扩展方向=轮报告摘要/策略代码一审接管，用 llm_assist 既有模式禁新建）→ 余 J10 dashboard.html 分布式监控页、J18b update_status 上面板 → Optuna 贝叶斯调参骨架；P1 级新方向（数据源扩容/现金腿/新大类）须 CEO 署名任务单才开工。bars 1.09GB 通道=A-变体进行中（BigMoney-data 私库，bm-b 推送+bm-a 接收 Verify，T-01 收官件）。
 
 ## 七、诚实声明
 
 - 所有样本外指标为 2025-2026 盲测窗、成本恒开、一次定稿跑数（预注册范式）；试验总数 N 已入档（多重检验可追溯）。
-- 纸盘尚未有真实成交 bars（等待 15:30 后新交易日数据落账）；`dashboard_status.json` 的 trading.paper_started 由数据驱动，非写死。
+- 纸盘尚未有真实成交 bars（等待 15:30 后新交易日数据落账；2026-09-23 15:46 复查=sina 源端尚未发布当日收盘 bar，管线每轮轮询中）；`dashboard_status.json` 的 trading.paper_started 由数据驱动，非写死。
 - 3 名交易员均为 INTERN 级注册，晋升只走 `python -m firm.hr` 自动评审（2026-10-31 首查）。
+- J13 LLM 全部产物（`research/auto/`）为模型生成 advisory only，未经人工审计不作为决策依据。
