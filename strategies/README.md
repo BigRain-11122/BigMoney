@@ -1,13 +1,13 @@
 # 策略流派库
 
-11 大流派，覆盖 A 股常见交易风格+民间手法。每个函数输入 OHLCV，输出仓位信号（0/1）或权重矩阵。
+12 个模块 · 77 个策略函数（11 大流派 75 + 组合引擎 2，组合引擎内含 2 名在册交易员注册底座）。每个函数输入 OHLCV，输出仓位信号（0/1）或权重矩阵。**策略/函数计数唯一权威 = `research/STRATEGY_LIBRARY.md` §一**（计数单源规则，叙述性文件禁写死计数）。
 
 ## 流派清单
 
 ### 1. 趋势跟踪流 `trend.py`
 | 函数 | 逻辑 | 适用 |
 |---|---|---|
-| `donchian_breakout` | 20 日新高买入，10 日新低卖出（海龟） | 趋势市 |
+| `donchian_breakout` | 20 日新高买入，10 日新低卖出（海龟）。**v2（T-03-F7·P1-4）：长仓 0/1 契约，原 {-1,0,1} 三值输出已废**——击穿下轨现为空仓 0 而非做空 −1；掩码消费 (pos>0) 等价已证（自测 S6） | 趋势市 |
 | `dual_ma_cross` | MA5/MA20 金叉 | 所有市 |
 | `triple_ma` | MA5>MA20>MA60 多头排列 | 强趋势 |
 | `parabolic_sar` | PSAR 转向 | 趋势跟踪 |
@@ -125,6 +125,34 @@ M0923 迁族 6 + 经典 K 线形态 2 + 排队批经典振荡/收缩系 5；语�
 | `second_wave` | 前高回踩不破再起 | 民间二波确认 |
 | `gap_up_hold` | 上跳空缺口不回补持有 | 民间跳空不补 |
 | `rsi_low_flat` | RSI<25 钝化+价格两日不再新低 | 民间超卖钝化 |
+
+### 12. 组合引擎 `composite_rotation.py`（在册交易员底座 · T-03-F8 补录）
+复合因子 Top-N 轮动（非重叠再平衡）。**2 名在册交易员（COMPOSITE-CE-01/02）的注册底座 = `top_n_rotation`**——本模块被在册锚定逐字节依赖，禁改（J6 定案）。
+| 函数 | 逻辑 | 适用 |
+|---|---|---|
+| `composite_score` | 复合因子打分（0.3×(−vol_60)+0.3×(−intraday_range)+0.2×mom_12_1+0.2×price_position，横截面 z 合成） | 因子轮动 |
+| `top_n_rotation` | Top-N 冻结成员轮动（rebal_days 非重叠再平衡，J19 注册口径 top5/top8 r20） | 月频/20d |
+
+## 冻结参数魔法数表（T-03-F8 · 审计 P2 收口 · 源码亲验 2026-09-24）
+
+改数=新预注册，禁跑后调参：
+
+| 函数 | 冻结魔法数 |
+|---|---|
+| `ta.hammer_reversal` | 实体上限 0.35×区间；有效区间地板 0.005×close；下影 ≥2×实体；语境 5 日跌 ≥5% |
+| `patterns.doji_at_low` | 十字体 ≤0.15×区间；有效区间地板 0.008×close；语境 5 日跌 ≥5%+前阴 |
+| `ta.bb_squeeze_breakout` | 收缩判定=带宽 ≤60 日最低 ×1.05（容差）；收破上轨入、跌破中轨离 |
+| `patterns.macd_divergence` | 价 30 日新低（×1.001 容差）；DIF > 60 日低点 +0.002 |
+| `ta.rsi_divergence` | 价 30 日新低（×1.001 容差）；RSI > 60 日低点 +5 |
+| `folk.ants_climb` | 6 日内 5 小阳；累计涨幅 ∈[3%, 8%]；单日涨幅 ≤1.2% |
+| `momentum.cross_sectional_momentum` | skip=20（动量形成窗跳过最近 20 日） |
+
+## 同族折扣披露（重复簇 · 审计 P2 收口）
+
+- **RSI 超卖五连簇**：`rsi_revert` / `rsi2` / `ta.kdj_reversal` / `ta.cci_revert` / `ta.williams_reversal`——同一「单一超卖读数」信息面；批 2A+排队批判定律=振荡超卖类在 48 池无一立起，簇内互用须预注册披露折扣（`folk.rsi_low_flat` 钝化构造为邻接成员）。
+- **波动率政体三连簇**：`volatility.low_vol_long` / `vol_target` / `vol_regime_switch`——同源 realized-vol 信号；low_vol 为唯一在册代表（VOLATILITY-CE-01 底座），簇内新变体须报对在册员 max|corr|。
+- **背离域双负簇**：`patterns.macd_divergence` / `ta.rsi_divergence`——民间「底背离」宽基 ETF 域双负判负律（O-2210 批实证）。
+- **形态确认谱系**（G2_FOLK 三员在册定案）：确认构造类（needle_probe）> 形态+语境类（engulf/drought）> 指标超卖类——谱系位次=出厂先验。
 
 ## 使用方式
 
