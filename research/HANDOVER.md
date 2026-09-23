@@ -10,7 +10,7 @@
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
 - **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\state.json`（轮号/做了什么/下轮指针）＋ `round_reports.md`（每轮固定字段报告）＋ 根目录 `CODELY.md`（项目记忆）。轮活性另看 `logs\probe-heartbeat.txt`。
 
-## 二、成果速览（截至 OS round 15，2026-09-23 12:15）
+## 二、成果速览（截至 OS round 20，2026-09-23 13:15）
 
 | 成果 | 位置 | 关键数字（样本外 2025+，×2 成本压力全过） |
 |---|---|---|
@@ -23,11 +23,14 @@
 | **P3 组合验证（round 13）** | `research/portfolio_report.md`、`results/p3_portfolio.json`、`research/p3_portfolio_results.csv` | **EW 组合 validated**：全期 0.9229 / OOS 1.7334 / 回撤 -12.5% / ×2 0.5754 存活；IV 同判稳健；全期平均两两相关 0.36 低档但 OOS 抬至 0.58=盯防点 |
 | **J9a 数据池审计（round 14）** | `research/POOL_AUDIT.md`、`results/pool_audit.json`、`research/pool_audit.csv` | unique 1676 对账、前缀池=09-22 一次性快照无续命、孪生 48/48 一致、扩池候选 517（启用前逐只核名） |
 | **LFC 低频低成本品种族 mini 海选（round 15）** | `research/LFC_P1_SCREEN.md`、`results/lfc_p1.json`、`research/lfc_p1_results.csv` | **0 员幸存 0 袖珍（诚实判负）**：core5 债金池技能线 1.285=权益池 3 倍；low_vol 全负=成本厚度是资产 carry 刻度的；tsmom/donchian CE 最佳 0.917 未达线；袖珍相关线 0.30 因素材⊂交易员池结构不可达 |
+| **NSP1 新信号设计 mini 海选（round 16）** | `research/NEW_SIGNAL_P1.md`、`results/new_signal_p1.json`、`research/new_signal_p1_results.csv` | G1' 候选 2 员（triple_ma_5_20_60@ce OOS 0.888 / high252_prox_top5_r20@ce OOS 0.889）但 ×2 成本 0.143/0.258 远低技能线；core48 CE null 首档 0.4229；CE 增益非普适（集中在日频成员刷新类入场） |
+| **G2_NSP1 两候选深化（round 17）** | `research/G2_NSP1.md`、`results/g2_nsp1.json`、`research/g2_nsp1_results.csv` | **双 FAIL（0 注册）**：邻域 5/6 红 + ×2 成本不存活（A 0.143/B 0.258 < 0.4004）；state-trend/frozen-rotation 族 α 厚度不足以出厂，NSP1 线诚实收线 |
+| **SLEEVE_P3 低相关袖并入决策（round 18）** | `research/SLEEVE_P3.md`、`results/sleeve_p3.json`、`research/sleeve_p3_results.csv` | admission FAIL 0/2：近零 α 袖=免费风险缩减+付费收益稀释、×2 传染律（袖 ×2 深负拖垮组合）；6 袖归档，core48 池内分散化素材穷尽，**策略线全收线→节点转纯维护态** |
 | 纸盘（100 万虚拟本金） | `live/paper.py`、`results/paper/` | 锚定门禁=注册指标与实时重算逐位一致才记账；**2026-10-31 首月到期检查**（months_tracked=1 → `python -m firm.hr` 应自动 PROMOTE→TRAINEE，禁手工改数） |
 | 日线数据增量管线 | `scripts/update_daily.py`、`results/update_status.json` | 交易日 15:30 后自动增量 48 池 → paper 自动记账；收盘守卫防半根 bar |
 | 旧 432 网格（死信号存档） | `results/*.json`（432 份）、`ranking.csv` | 最好 Sharpe 0.44，已判淘汰，仅供复现 |
 | 因子研究 | `results/factor_ic.json`、`composite_ic.json`、`research/FACTOR_RESEARCH.md`、`COMPOSITE_FACTOR.md` | 最强 vol_60 IC=-0.064；复合因子 IC 实测 0.061/0.023（95% 满仓口径） |
-| **试验账本累计 N=872**（432+30+59+122+27+26+12+9+10+145） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示 |
+| **试验账本累计 N=1073**（432+30+59+122+27+26+12+9+10+145+153+18+30） | 各批 results/*.json 的 trials_ledger 累计链 | 多重检验可追溯；面板「策略簿」实时显示 |
 
 ## 三、取数清单（两条路径）
 
@@ -53,7 +56,7 @@ python -m screening.rank          # 432 组排名重建
 ```
 
 - 机器要求：Python 3.10+（3.11 实测）；AI 循环需装 **Codely CLI 并登录**（循环用 `codely -y -p` 无头模式）；GPU 非必需（回测=CPU 任务，GPU 启用条件见 `research/BACKTEST_PLAN.md` §四）。
-- **git 同步（并行开发唯一通道）**：远端已预设 = `git@github.com:BigRain-11122/bigmoney.git`（SSH/Clash 链路实测认证通过）。**唯一待办：在 GitHub 建空私库 `BigRain-11122/bigmoney`（不勾选任何初始化文件）**——建好后循环下一轮（≤10 分钟）自动 push 接上；此后本机每批成果在任何机器 `git pull` 即得。主分支=main，并行开发协议=PLAN.md §8（节点侧遇冲突只读避让）。
+- **git 同步（并行开发唯一通道）**：远端 = `git@github.com:BigRain-11122/bigmoney.git`（SSH/Clash 链路实测认证通过），私库**已建好（2026-09-23 round 20 实证：ls-remote 通、空仓库）——循环自动 push 已接通**；此后本机每批成果在任何机器 `git pull` 即得。主分支=main，并行开发协议=PLAN.md §8（节点侧遇冲突只读避让）。
 - 规则与记忆随仓库走：`PLAN.md`（契约+接手清单 §6）、根 `CODELY.md`（项目记忆）、`Tools/iteration_prompt.txt`（循环 mandate）——任何机器上的任何 AI 会话打开本项目即自动继承全部规则。
 
 ## 五、文件格式速查
@@ -62,13 +65,13 @@ python -m screening.rank          # 432 组排名重建
 - `results/p1_screen.json` / `p2_survivors.json` / `p2_calibration.json`：海选/深化明细（含 OOS 指标与门禁判定）
 - `results/paper/<交易员>_paper.json`：纸盘账本（bars/trades/months_tracked/equity）
 - `results/update_status.json`：数据增量状态（per-symbol appended / data_cutoff）
-- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`
-- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 7 步数据驱动、试验账本 N 实时聚合）
+- `research/*.csv`：`strategy_rank`（海选全表）、`p2_deepening`、`ce_transfer_results`、`combined_exit_results`、`lowchurn_results`、`p3_portfolio_results`、`pool_audit`(1676 行)、`lfc_p1_results`、`new_signal_p1_results`、`g2_nsp1_results`、`sleeve_p3_results`
+- `bigmoney.html` ← `results/dashboard_status.js`（`python -m monitor.build_status` 刷新；门禁链 10 步数据驱动、试验账本 N 实时聚合）
 
 ## 六、本机将持续产出什么（你回来取时会有更多）
 
 - 每个交易日 15:30 后：48 池日线增量 → 纸盘自动记账 → 成果/面板文件刷新（查 `results/update_status.json` 的 data_cutoff 与 total_new_rows）。
-- 回测计划内现状：P1/P2/P3 与 J14/J15/J19 迁移、J9a 审计、LFC 品族 mini 海选**均已闭环**（P3 组合 validated、LFC 0 员诚实判负）；策略线续作候选（须另开预注册）：货币现金腿（exit-to-asset 引擎特性+511880/511990 池外零相关素材）或新信号设计；扩素材启用前逐只核名。
+- 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；**策略线三路径已穷尽（现金腿=用户侧决策、扩池=数据源用户令禁碰、袖=已收线）→ 本节点转纯维护态**（数据增量+纸盘记账+面板+交接物保鲜），续作均须用户回来定方向。
 - 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
 - 不会做（等你回来定）：总控 v2 公司小镇、本地 LLM 助理、dashboard.html 改造、数据源扩容等一切新功能。
 
