@@ -9,7 +9,10 @@ event-day gate: bar close day-over-day return == pct_chg on adjustment dates);
 factor.json sidecar is reference metadata only and is NOT applied (first
 build attempt divided again = double-adjustment, caught by the pre-run gate).
 Built-in pre-run gates (SS2): event-day bar return vs pct_chg (<=0.5%),
-random re-read equivalence (rel 1e-5).
+random re-read equivalence (rel 1e-5), STAR/CDR sanity gate (688xxx/689xxx
+bars store volume AND amount both at 100x real units -- turnover anchor
+volume/100/osh == stored turnover, vwap anchor amount/volume == close on all
+years; build normalizes both to real units, vwap invariant).
 Cache is pure data engineering: zero statistical trials, ledger N unchanged.
 """
 import glob
@@ -29,7 +32,8 @@ ADJ_FIELDS = ["open", "high", "low", "close", "vwap"]     # divided by f(t)
 RAW_FIELDS = ["volume", "amount", "turnover", "pct_chg"]  # scale-free / official
 FIELDS = ADJ_FIELDS + RAW_FIELDS
 MIN_ROWS = 250
-WORKERS = 25
+# O-1738/O-2345 compute policy: workers = min(25, floor(cores*0.8))
+WORKERS = min(25, max(1, os.cpu_count() * 4 // 5))
 BATCHES = 50  # symbol batches per worker task (memmaps opened once per batch)
 
 
@@ -67,8 +71,18 @@ def _build_batch(args):
         dates = df["date"].values.astype("int64")
         pos = np.searchsorted(calendar_int64, dates)
         vol = df["volume"].to_numpy(float)
+        amt = df["amount"].to_numpy(float)
+        if sym.startswith("688") or sym.startswith("689"):
+            # STAR-board/CDR bars store volume AND amount both at 100x real
+            # units (anchors, verified per-year on 688001/688008/688981/689009:
+            # volume/100/osh == stored turnover  AND  amount/volume == close,
+            # so amount is co-inflated and vwap=amount/volume is invariant).
+            # Normalize both to real units AT BUILD so downstream consumers
+            # are cross-sectionally comparable; vwap unchanged by construction.
+            vol = vol / 100.0
+            amt = amt / 100.0
         with np.errstate(invalid="ignore", divide="ignore"):
-            vwap = np.where(vol > 0, df["amount"].to_numpy(float) / vol, np.nan)
+            vwap = np.where(vol > 0, amt / vol, np.nan)
         # bars are already qfq-adjusted (event-day gate proves it): cache as-is
         cols = {
             "open": df["open"].to_numpy(float),
@@ -77,7 +91,7 @@ def _build_batch(args):
             "close": df["close"].to_numpy(float),
             "vwap": vwap,
             "volume": vol,
-            "amount": df["amount"].to_numpy(float),
+            "amount": amt,
             "turnover": df["turnover"].to_numpy(float),
             "pct_chg": df["pct_chg"].to_numpy(float),
         }
@@ -126,6 +140,45 @@ def _validate(ok_syms, all_files, calendar_int64):
         m = np.isfinite(ref) & np.isfinite(got)
         rel = np.nanmax(np.abs(got[m] - ref[m]) / np.maximum(np.abs(ref[m]), 1e-9))
         recheck.append({"sym": sym, "max_rel_err": float(rel)})
+    # STAR/CDR gate: vwap near price level AND volume/amount normalized to
+    # real units (raw bars store both at 100x for 688xxx/689xxx)
+    vwap_cache = np.load(os.path.join(CACHE_DIR, "vwap.npy"), mmap_mode="r")
+    vol_cache = np.load(os.path.join(CACHE_DIR, "volume.npy"), mmap_mode="r")
+    amt_cache = np.load(os.path.join(CACHE_DIR, "amount.npy"), mmap_mode="r")
+    v688 = [s for s in ok_syms
+            if s.startswith("688") or s.startswith("689")][:3]
+    v688_details = []
+    for sym in v688:
+        j = sym_pos[sym]
+        vw = np.asarray(vwap_cache[:, j], dtype=float)
+        cl = np.asarray(close_cache[:, j], dtype=float)
+        m = np.isfinite(vw) & np.isfinite(cl) & (cl > 0)
+        idx = np.where(m)[0][-252:]
+        if len(idx) == 0:
+            v688_details.append({"sym": sym, "rows": 0, "gate": False})
+            continue
+        med = float(np.median(np.abs(vw[idx] / cl[idx] - 1.0)))
+        rdf = pd.read_parquet(os.path.join(BARS_DIR, sym + ".parquet")
+                              ).sort_values("date").reset_index(drop=True)
+        rpos = np.searchsorted(calendar_int64,
+                               rdf["date"].values.astype("int64"))
+        raw_v = rdf["volume"].to_numpy(float) / 100.0
+        raw_a = rdf["amount"].to_numpy(float) / 100.0
+        gv = np.asarray(vol_cache[rpos, j], dtype=float)
+        ga = np.asarray(amt_cache[rpos, j], dtype=float)
+        ok_v = np.isfinite(raw_v) & np.isfinite(gv)
+        ok_a = np.isfinite(raw_a) & np.isfinite(ga)
+        rel_v = float(np.max(np.abs(gv[ok_v] - raw_v[ok_v])
+                             / np.maximum(np.abs(raw_v[ok_v]), 1e-9)))
+        rel_a = float(np.max(np.abs(ga[ok_a] - raw_a[ok_a])
+                             / np.maximum(np.abs(raw_a[ok_a]), 1e-9)))
+        v688_details.append({"sym": sym, "rows": int(len(idx)),
+                              "median_abs_vwap_dev": round(med, 4),
+                              "volume_vs_raw_div100_rel_err": round(rel_v, 7),
+                              "amount_vs_raw_div100_rel_err": round(rel_a, 7),
+                              "gate": bool(med <= 0.05 and rel_v <= 1e-5
+                                           and rel_a <= 1e-5)})
+    del close_cache, vwap_cache, vol_cache, amt_cache
     return {"event_day_check": {"samples": ev_report,
                                 "events_total": sum(r["events_checked"]
                                                     for r in ev_report),
@@ -135,7 +188,10 @@ def _validate(ok_syms, all_files, calendar_int64):
                                     >= 5)},
             "re_read_check": {"details": recheck,
                               "gate": bool(all(r["max_rel_err"] <= 1e-5
-                                          for r in recheck))}}
+                                          for r in recheck))},
+            "vwap_688_check": {"details": v688_details,
+                               "gate": bool(len(v688_details) > 0 and all(
+                                   r["gate"] for r in v688_details))}}
 
 
 def main():
@@ -201,6 +257,10 @@ def main():
         "fields": FIELDS,
         "adj_convention": "bars already qfq (event-day gate proves it); "
                           "sidecar = reference metadata, not applied",
+        "volume_688_fix": "688xxx/689xxx volume AND amount stored at real "
+                          "units (raw/100; both co-inflated at 100x in bars, "
+                          "vwap=amount/volume invariant); enforced by "
+                          "vwap_688_check gate",
         "universe_status": status,
         "sidecar_error_syms": sidecar_bad,
         "ok_universe": len(ok_syms),
@@ -214,6 +274,7 @@ def main():
               encoding="utf-8") as f:
         json.dump(meta, f, indent=2, ensure_ascii=False)
     ok = (val["event_day_check"]["gate"] and val["re_read_check"]["gate"]
+          and val["vwap_688_check"]["gate"]
           and status.get("read_error", 0) == 0
           and status.get("sidecar_error", 0) == 0)
     print(json.dumps(meta, indent=2, ensure_ascii=False), flush=True)

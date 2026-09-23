@@ -1,0 +1,106 @@
+{
+  "batch": "P1C-StageB-probe",
+  "generated": "2026-09-23 23:49:51",
+  "gates_pass": true,
+  "gate_rows": [
+    {
+      "gate": "real_slice:roll_mean(20)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 0.0,
+      "tol_scale": 6.829368662834168,
+      "pass": true
+    },
+    {
+      "gate": "real_slice:wma(10)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 1.7763568394002505e-15,
+      "tol_scale": 6.887393422560257,
+      "pass": true
+    },
+    {
+      "gate": "real_slice:decaylinear(10)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 1.7763568394002505e-15,
+      "tol_scale": 6.887393422560257,
+      "pass": true
+    },
+    {
+      "gate": "real_slice:highday(20)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 0.0,
+      "tol_scale": 19.0,
+      "pass": true
+    },
+    {
+      "gate": "real_slice:corr(20)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 1.668559734824271e-11,
+      "tol_scale": 1.0,
+      "pass": true
+    },
+    {
+      "gate": "synthetic_holes:roll_mean(20)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 6.661338147750939e-16,
+      "tol_scale": 1.0,
+      "pass": true
+    },
+    {
+      "gate": "synthetic_holes:wma(10)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 2.220446049250313e-16,
+      "tol_scale": 1.3135384878033056,
+      "pass": true
+    },
+    {
+      "gate": "synthetic_holes:decaylinear(10)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 2.220446049250313e-16,
+      "tol_scale": 1.3135384878033056,
+      "pass": true
+    },
+    {
+      "gate": "synthetic_holes:highday(20)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 0.0,
+      "tol_scale": 19.0,
+      "pass": true
+    },
+    {
+      "gate": "synthetic_holes:corr(20)",
+      "nan_mask_equal": true,
+      "max_abs_diff": 2.3314683517128287e-15,
+      "tol_scale": 1.0,
+      "pass": true
+    }
+  ],
+  "timing": {
+    "shape": {
+      "T": 8792,
+      "N": 5222
+    },
+    "timings_sec": {
+      "roll_mean_n20_full": 3.73,
+      "roll_wma_n10_full": 0.92,
+      "highday_n20_full": 4.22,
+      "corr_n20_full": 11.58,
+      "fwd_ret_build": 0.34,
+      "ic_pass_full_wma": 1.9,
+      "chain_3ops_full": 8.99
+    },
+    "n_ic_days_measured": 7985,
+    "est_worker_peak_mb": 808.0,
+    "fir_path": "scipy.signal.lfilter"
+  },
+  "eta": {
+    "per_factor_sec": 3.59,
+    "serial_total_sec": 1247.1,
+    "serial_total_min": 20.8,
+    "parallel_min_at_workers": 1.7,
+    "workers_assumed": 12,
+    "n_factors_assumed": 268,
+    "n_nulls_assumed": 150
+  },
+  "verdict": "PROBE_PASS -> full batch may start (next round)",
+  "ledger_note": "engineering probe only, trials N unchanged"
+}

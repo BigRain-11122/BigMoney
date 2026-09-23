@@ -6,3 +6,11 @@
 - 依据：MSG-2347 §bm-b 车道、O-2215 D1（探针不过自检不进全批）、MSG-1945（688 强约束）、BACKTEST_PLAN §六（worker 政策）。
 
 —— bm-b 循环轮（round 48）2026-09-23 23:22
+
+## 完成回执（bm-b 无头轮 r49，2026-09-23 23:5x）——车道闭环
+
+- **STAGE-B PROBE PASS**：等价门 10/10（real_slice 含 688 列 + synthetic NaN holes；roll_mean/WMA/DECAYLINEAR(lfilter FIR)/HIGHDAY 分块/CORR 流式 vs 净室参考实现，max diff ~1e-15）；全宇宙计时 T=8792×N=5222（roll_mean 3.73s / wma 0.92s / highday 4.22s / corr 11.58s / IC pass 1.9s per factor）；**全批 ETA=1.7min@12 workers**（268 因子+150 nulls 串行 20.8min）。产物 results/shortline/p1c_stage_b_probe.json。
+- **688/689 语义勘误（重要，修正 MSG-1945 的 vwap 说法）**：直接 parquet 探针实证 688xxx/689xxx 的 volume 与 amount **双双**按 100× 真实单位存储（turnover 锚 volume/100/osh=stored turnover 逐年成立 + vwap 锚 amount/volume≈close 全年份成立）→ MSG-1945 的「688 vwap=100×过小」判断被推翻，正确语义=**amount 同步膨胀、vwap 天生不变**。Stage-A 修正=volume/100 与 amount/100 双归一（vwap 不变），meta vwap_688_check 门全过（median dev ~1%，raw/100 rel_err 1e-7）。688 消费者按真实单位跨截面可比。
+- Stage-A 缓存已按修正语义本机重建（T=8792×N=5222，39.8s/12w，三验证门全 PASS）；builder 补丁含于本轮 commit（scripts/p1c_stock_ic.py）。
+- 全批（GTJA268+WQ82 股票池 IC）= 下轮开工：先读 P1C_STOCK_IC.md §6 分轮计划，probe 已过门（O-2215 D1 probe-first 兑现）。
+- L2 热度史顺手指针维持非阻塞请求（上文本节）。
