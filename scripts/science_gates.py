@@ -245,6 +245,31 @@ def deflated_sharpe_ratio(returns, n_trials: int, var_null_sr: float | None = No
     }
 
 
+def dsr_from_stats(sr_annualized: float, sigma_sr: float, n_trials: int,
+                   periods_per_year: float = PERIODS_PER_YEAR) -> dict:
+    """T-02 5/7: DSR recheck path from STORED stats (g25 verdict files) — audit use.
+
+    Same formula/convention as deflated_sharpe_ratio with var_null defaulting to
+    sigma_sr^2 (the convention g25_retro runs under): SR_daily = SR_ann/sqrt(ppy);
+    SR* = sigma_sr*((1-gamma)*Z(1-1/N)+gamma*Z(1-1/(N*e))). Inputs are the ROUNDED
+    stored values, so results carry a +-0.005 DSR rounding tolerance vs the raw-
+    returns computation — fine for monthly recheck, NOT a substitute: registration-
+    grade DSR always comes from deflated_sharpe_ratio on raw returns.
+    """
+    sr = float(sr_annualized) / math.sqrt(periods_per_year)
+    sigma = float(sigma_sr)
+    n = max(int(n_trials), 2)
+    z1 = _norm_ppf(1.0 - 1.0 / n)
+    z2 = _norm_ppf(1.0 - 1.0 / (n * math.e)) if n * math.e > 1.0 else 0.0
+    sr_star = sigma * ((1.0 - EULER_GAMMA) * z1 + EULER_GAMMA * z2)
+    return {
+        "dsr": round(_norm_cdf((sr - sr_star) / sigma), 6),
+        "sr_daily": round(sr, 8),
+        "sr_star": round(sr_star, 6),
+        "n_trials": n,
+    }
+
+
 # ---------------------------------------------------------------- D3 stationary bootstrap CI
 
 def bootstrap_ci_sharpe(returns, n_resamples: int = 1000, block: float = 10.0,
@@ -491,6 +516,16 @@ def selftest() -> int:
     ok("DSR pure noise < 0.60", dsr_noise["dsr"] < 0.60)
     ok("DSR penalizes more trials (2727 -> 20000 lowers noise DSR)",
        dsr_noise_bigN["dsr"] < dsr_noise["dsr"])
+
+    # T-02 5/7: recheck path from stored stats reproduces raw-returns DSR (rounding tolerance)
+    re_16 = dsr_from_stats(dsr_good16["sr_annualized"], dsr_good16["sigma_sr"], 2727)
+    re_25 = dsr_from_stats(dsr_good25["sr_annualized"], dsr_good25["sigma_sr"], 2727)
+    ok("dsr_from_stats reproduces raw-returns DSR within +-0.005 rounding tolerance",
+       abs(re_16["dsr"] - dsr_good16["dsr"]) <= 0.005
+       and abs(re_25["dsr"] - dsr_good25["dsr"]) <= 0.005)
+    ok("dsr_from_stats monotone in N (growing ledger never raises DSR)",
+       dsr_from_stats(dsr_good25["sr_annualized"], dsr_good25["sigma_sr"], 20000)["dsr"]
+       <= re_25["dsr"])
 
     # bootstrap CI: covers point, deterministic, low-power honesty
     ci_a = bootstrap_ci_sharpe(good25, seed=4242)
