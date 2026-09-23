@@ -1,11 +1,11 @@
 # Bigmoney 交接与成果收割指南（HANDOVER）
 
-> 2026-09-23 11:35 整理。用户令：本机暂停自动化开发、转为「回测算力节点」；用户赴另一台机器开发系统；本机回测继续跑，成果随时可取。
+> 2026-09-23 11:35 整理；15:1x 接管版更新。CEO 令：AI 全面接管 Bigmoney 系统开发（mandate=`Tools\iteration_prompt.txt` 接管版：开发范围=PLAN P0-P4+§7+任务板，P1 新方向须 CEO 署名）。机队实况：bm-a=32 核开发机（DASHENG）｜bm-b=16 核回测/数据节点（Money02 宿主，维护链常驻）；多机大文件传输机制=`fleet/TRANSFER.md`（控制面 git、数据面择通道）。
 > 本文件由循环每 5 轮核对更新一次产物清单（mandate 已写明）。最近核对=round 25（2026-09-23 14:05）：产物清单逐项对账无缺件、账本 N=1073 无误、git 段更新（仓库改名 BigMoney+通道已全通）。
 
 ## 一、当前模式与怎么停/恢复
 
-- **本机在跑什么**：Windows 计划任务 `Bigmoney-IterationLoop`（每 10 分钟一轮，无头静默），当前 mandate=`Tools\iteration_prompt.txt`（回测专用：只推进 research/BACKTEST_PLAN.md 及其派生与维护，不做任何新功能开发）。
+- **本机在跑什么**：Windows 计划任务 `Bigmoney-IterationLoop`（每 10 分钟一轮，无头静默），当前 mandate=`Tools\iteration_prompt.txt`（AI 接管系统开发版：PLAN P0-P4+§7+任务板队列，P1 新方向须用户署名；bm-a 侧未装循环前由交互会话开发）。
 - **停止本机循环**：`schtasks /change /tn "\Bigmoney-IterationLoop" /disable`；恢复把 `/disable` 换 `/enable`。只拷文件取数不用停（读文件不冲突）。
 - **恢复全自动开发**（用户回本机时）：把 `Tools\iteration_prompt.DEV.txt` 内容拷回 `Tools\iteration_prompt.txt` 即可，其余零改动。
 - **跨会话真账本**（任务板 job_list 是会话级的，不作为交接依据）：`logs\iteration-loop\state.json`（轮号/做了什么/下轮指针）＋ `round_reports.md`（每轮固定字段报告）＋ 根目录 `CODELY.md`（项目记忆）。轮活性另看 `logs\probe-heartbeat.txt`。
@@ -73,7 +73,7 @@ python -m screening.rank          # 432 组排名重建
 - 每个交易日 15:30 后：48 池日线增量 → 纸盘自动记账 → 成果/面板文件刷新（查 `results/update_status.json` 的 data_cutoff 与 total_new_rows）。
 - 回测计划内现状：P1/P2/P3、J14/J15/J19 迁移、J9a 审计、LFC 品族、NSP1 新信号、G2_NSP1 深化、SLEEVE_P3 袖并入**全部闭环**（P3 组合 validated；LFC/NSP1/G2_NSP1/SLEEVE_P3 均诚实判负）；**策略线三路径已穷尽（现金腿=用户侧决策、扩池=数据源用户令禁碰、袖=已收线）→ 本节点转纯维护态**（数据增量+纸盘记账+面板+交接物保鲜），续作均须用户回来定方向。
 - 长线自动检查：2026-10-31 三员首月到期（months_tracked 应=1、`python -m firm.hr` 应 PROMOTE→TRAINEE，禁手工改数）；盯防 COMPOSITE-CE-02 ×2 薄余量与组合 OOS 相关抬升。
-- 不会做（等你回来定）：总控 v2 公司小镇、本地 LLM 助理、dashboard.html 改造、数据源扩容等一切新功能。
+- 开发队列（接管版，CEO 可随时改序）：J12 总控 v2 公司小镇（CEO 点名高优先级）→ J13 本地 LLM 研究助理 → J10 dashboard.html 分布式监控页、J18b update_status 上面板 → Optuna 贝叶斯调参骨架；P1 级新方向（数据源扩容/现金腿/新大类）须 CEO 署名任务单才开工。
 
 ## 七、诚实声明
 
