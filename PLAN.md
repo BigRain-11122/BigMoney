@@ -219,6 +219,7 @@ set BIGMONEY_MASTER_IP=100.x.x.x
 - [ ] Optuna 贝叶斯调参骨架（幸存者足够多才有意义）
 - [ ] 短线因子动物园批测与 A 层族过闸（O-20260923-1545·研究部自主域：research/shortline/SHORTLINE_PLAYBOOK.md §6 P-1/P-2）
 - [ ] 股票池策略族启用 / 资金流源 / 期货 CTA——**总经理已署名批准**（O-20260923-1620，CEO 下放非重大自决权），按 SHORTLINE_PLAYBOOK.md §6 排期开工（期权不在批）
+- [ ] 外调轮常设机制（O-20260923-1636）：research/RESEARCH_MECHANISM.md——周巡检随周进化轮，纪要入 research/digests/，产出进风格图鉴/playbook，采纳走门禁
 
 ---
 

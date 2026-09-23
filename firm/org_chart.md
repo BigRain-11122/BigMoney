@@ -95,7 +95,7 @@ CEO Jason（唯一决策面：方向变更/P1署名/红线裁决/资源调配）
 
 | 部门 | mandate | 域（指针） | KPI | 自动化钩子 | 升级线 |
 |---|---|---|---|---|---|
-| 研究部 | 因子/信号挖掘、IC/回测研究、idea→候选池、可学清单采纳评估 | `research/` · `screening/` · `knowledge/` | 新知识入库量 · idea 过闸率 | 周进化轮（PLAN §4.1） | P1 采纳呈 CEO 署名 |
+| 研究部 | 因子/信号挖掘、IC/回测研究、idea→候选池、可学清单采纳评估、**外部调研**（O-1636 常设职能） | `research/` · `screening/` · `knowledge/` | 新知识入库量 · idea 过闸率 · 外调轮执行率 | 周进化轮（PLAN §4.1）+**外调轮**（`research/RESEARCH_MECHANISM.md`） | P1 总经理署名制（O-1620） |
 | 策略部 | 8 流派 35 策略工厂、门禁链 G1'/G2、注册与退役 | `strategies/` · `firm/review/` | 在册交易员质量 · 门禁通过率 | `firm/hr.py` 自动考核 | 红线变更=T0 |
 | 交易部 | 交易员实战（现役 3 员：COMPOSITE-CE-01/02 · VOLATILITY-CE-01） | `firm/traders/` · `live/` | 模拟盘战绩（**唯一计分板**） | paper 锚定链+日结算 | 停盘/熔断 T1 上报 |
 | 风控部（含审计） | 铁律执行、熔断、零假设校准、防作弊审计 | `firm/risk/` · 门禁链 | 红线零违例 | iron_rules+熔断自动触发 | 熔断即上报 CEO |
