@@ -1,0 +1,83 @@
+{
+  "meta": {
+    "batch": "turnover derivation probe (data audit)",
+    "note": "research/shortline/TURNOVER_DERIVATION.md",
+    "claim_rider": "MSG-20260923-1937 SS3",
+    "formula": "turnover = volume / outstanding_share",
+    "date": "2026-09-23 19:41",
+    "ledger_note": "pure data engineering: N untouched, zero engine runs, zero IC computations"
+  },
+  "universe": {
+    "files": 5222,
+    "ok": 5222,
+    "read_error": 0,
+    "read_error_syms": []
+  },
+  "check_A_stored_vs_derived": {
+    "tol": 1e-06,
+    "mismatch_rows": 5204,
+    "mismatch_symbols": [
+      "000001",
+      "000002",
+      "000006",
+      "000007",
+      "000008",
+      "000009",
+      "000010",
+      "000011",
+      "000012",
+      "000014",
+      "000017",
+      "000019",
+      "000020",
+      "000021",
+      "000025",
+      "000026",
+      "000027",
+      "000028",
+      "000029",
+      "000030"
+    ],
+    "n_mismatch_symbols": 5204,
+    "max_rel_dev": 101.52090806055995
+  },
+  "check_B_osh_coverage": {
+    "max_null_frac": 0.0,
+    "mean_null_frac": 0.0
+  },
+  "check_C_derived_coverage": {
+    "finite_rows_over_rows": 1.0
+  },
+  "check_D_sanity": {
+    "threshold": 1.05,
+    "rows_gt_threshold": 335779,
+    "example_symbols": [
+      "688001",
+      "688002",
+      "688003",
+      "688004",
+      "688005",
+      "688006",
+      "688007",
+      "688008",
+      "688009",
+      "688010",
+      "688011",
+      "688012",
+      "688013",
+      "688015",
+      "688016",
+      "688017",
+      "688018",
+      "688019",
+      "688020",
+      "688021"
+    ]
+  },
+  "verdict": "MISMATCH",
+  "audit": {
+    "elapsed_sec": 1.9,
+    "workers": 8,
+    "cpu_cap_policy": "O-20260923-1738"
+  }
+}
