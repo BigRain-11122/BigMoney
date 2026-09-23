@@ -444,6 +444,75 @@ SEED_REGISTRY = {
 }
 
 
+# ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
+
+def g1_prime_v2(sharpe_full, returns, batch_cells, pool: str = "core48",
+                n_trades: int | None = None, n_entries: int | None = None,
+                min_trades: int = 30, ci_seed: int = 20260923,
+                results_dir: str = RESULTS_DIR) -> dict:
+    """T-02 7/7: new-batch G1' verdict under v2 (BACKTEST_SCIENCE D1+D3).
+
+    The two v2 clauses the ticket froze -- full-period Sharpe vs skill_line_v2
+    AND stationary-bootstrap CI lower bound > 0 -- plus the F6 dual trade
+    gate folded in WHEN counts are supplied (new batches pass on entries_ok).
+    Historical descriptive clauses (annualized>0, OOS dual-positive,
+    dd>=-35%) stay batch-level requirements disclosed in the batch report,
+    not re-implemented here. Line is data-driven (live chain head), so the
+    verdict NEVER hand-copies a number (O-2250 single-source rule).
+    """
+    line = skill_line_v2(batch_cells=batch_cells, pool=pool, results_dir=results_dir)
+    ci = bootstrap_ci_sharpe(returns, seed=ci_seed)
+    line_ok = bool(float(sharpe_full) > line["line"])
+    ci_ok = bool(ci["ci_lower_bound_positive"])
+    out = {
+        "gate": "g1_prime_v2",
+        "sharpe_full": round(float(sharpe_full), 4),
+        "skill_line": line,
+        "line_ok": line_ok,
+        "bootstrap_ci": ci,
+        "ci_lower_bound_positive": ci_ok,
+        "pass_v2": bool(line_ok and ci_ok),
+    }
+    if n_trades is not None or n_entries is not None:
+        dtg = dual_trade_gate(int(n_trades or 0), int(n_entries or 0), min_trades)
+        out["trade_gate"] = dtg
+        out["pass_v2"] = bool(out["pass_v2"] and dtg["entries_ok"])
+    return out
+
+
+def g2_registration_v2(g1_pass, dsr, pbo, dsr_gate: float = 0.95,
+                       pbo_gate: float = 0.25) -> dict:
+    """T-02 7/7: G2 registration eligibility v2 columns (BACKTEST_SCIENCE D1/D4).
+
+    eligible_v2 = g1_prime_v2 pass AND DSR>=0.95 (raw-returns
+    deflated_sharpe_ratio -- dsr_from_stats is an audit path, NOT this) AND
+    family PBO<=0.25 (screening/pbo.py CSCV, same-family grid per g25_retro).
+    Missing inputs are refused honestly (missing_inputs list, never silently
+    skipped); hr.py promotion reads the same rule via g25 verdict files.
+    """
+    dsr_val = float(dsr["dsr"]) if isinstance(dsr, dict) else float(dsr)
+    pbo_val = None if pbo is None else float(pbo)
+    missing = []
+    if not g1_pass:
+        missing.append("g1_prime_v2")
+    if pbo_val is None:
+        missing.append("family_pbo")
+    dsr_ok = bool(dsr_val >= dsr_gate)
+    pbo_ok = bool(pbo_val is not None and pbo_val <= pbo_gate)
+    return {
+        "gate": "g2_registration_v2",
+        "g1_pass": bool(g1_pass),
+        "dsr": round(dsr_val, 6),
+        "dsr_gate": dsr_gate,
+        "dsr_ok": dsr_ok,
+        "family_pbo": (round(pbo_val, 4) if pbo_val is not None else None),
+        "pbo_gate": pbo_gate,
+        "pbo_ok": pbo_ok,
+        "missing_inputs": missing,
+        "eligible_v2": bool(bool(g1_pass) and dsr_ok and pbo_ok),
+    }
+
+
 # ---------------------------------------------------------------- F12 CostPatch (single source)
 
 COST_X2_RATE = 0.0026082  # G2-recorded stressed single-side cost (2x fee schedule)
@@ -610,6 +679,29 @@ def selftest() -> int:
     ok("SEED_REGISTRY: verified bases present, all ints positive",
        SEED_REGISTRY["p4_folk"] == 43_000 and SEED_REGISTRY["p5b_new_traders"] == 20260924
        and all(v > 0 for v in SEED_REGISTRY.values() if isinstance(v, int)))
+
+    # T-02 close-out: v2 batch-gate verdicts
+    g1_edge = g1_prime_v2(sharpe_full=1.8, returns=good25, batch_cells=60,
+                          n_trades=80, n_entries=45, ci_seed=4242)
+    g1_noise = g1_prime_v2(sharpe_full=0.30, returns=noise, batch_cells=60,
+                           n_trades=80, n_entries=45, ci_seed=4242)
+    ok("g1_prime_v2: line data-driven (= skill_line_v2 live, CI seed passthrough)",
+       g1_edge["skill_line"]["line"] == skill_line_v2(batch_cells=60)["line"]
+       and g1_edge["skill_line"]["n_eff"] == ledger_head()["total"] + 60
+       and g1_edge["bootstrap_ci"]["seed"] == 4242)
+    ok("g1_prime_v2: genuine edge passes; noise fails line clause (edge vs ~0.93 line)",
+       g1_edge["pass_v2"] and not g1_noise["line_ok"] and not g1_noise["pass_v2"])
+    ok("g1_prime_v2: F6 entries gate folded when counts supplied",
+       not g1_prime_v2(1.8, good25, 60, n_trades=80, n_entries=12)["pass_v2"])
+    ok("g2_registration_v2: eligible only all-three; missing/weak inputs refused",
+       g2_registration_v2(True, 0.97, 0.20)["eligible_v2"]
+       and not g2_registration_v2(True, 0.97, None)["eligible_v2"]
+       and "family_pbo" in g2_registration_v2(True, 0.97, None)["missing_inputs"]
+       and not g2_registration_v2(False, 0.97, 0.20)["eligible_v2"]
+       and not g2_registration_v2(True, 0.90, 0.30)["eligible_v2"])
+    ok("g2_registration_v2: consumes deflated_sharpe_ratio dict directly",
+       g2_registration_v2(True, dsr_good25, 0.1143)["dsr"] == dsr_good25["dsr"]
+       and g2_registration_v2(True, dsr_good25, 0.1143)["eligible_v2"])
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
