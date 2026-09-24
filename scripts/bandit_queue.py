@@ -60,13 +60,15 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
                  "rates, acceptance 26 runs all-pass, zero-registration claim)", "status": "closed"},
     ],
     "synthesis-crosslib": [
-        {"name": "XSTOCK_SYNTH (stock-pool cross-lib small-K)", "status": "claimed", "by": "bm-b"},
+        {"name": "XSTOCK_SYNTH (stock-pool cross-lib small-K; CLOSED PASS r109 run/r114 "
+                 "backfill: IS IC 0.1078/IR 1.03/OOS retention 0.895, ledger 60074)", "status": "closed"},
     ],
     "patterns-confirmation": [
         {"name": "A-layer exhausted (R42); oscillator/divergence laws closed", "status": "closed"},
     ],
     "event-attention-factors": [
-        {"name": "Alpha158 true-gap 7 families (Aroon x3 / WVMA / volume-RSI x3, R59)", "status": "open"},
+        {"name": "Alpha158 true-gap 7 families (Aroon x3 / WVMA / volume-RSI x3, R59; "
+                 "claimed r119 A158_TRUEGAP_IC)", "status": "claimed", "by": "bm-b (F-04 MSG-2246)"},
         {"name": "moneyflow IC reference batch (collector delivered R63; panel parked "
                  "source-blocked with 30-min self-heal; IC batch when panel completes)", "status": "open"},
         {"name": "P-B sector heat (EM clist leg blocked >13h)", "status": "blocked-source"},
@@ -94,12 +96,13 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
 
 ENGINEERING_CANDIDATES = [  # do not occupy arms (prereg s4); statuses track reality (advisory)
     {"name": "J13 v2 mill line (qualification 0.90 via v2a R65; prereg J13_V2_MINILOOP R66; "
-             "IC1+IC2 novel 0/24, n_distinct 13/11; continue s9 cadence, stop when 2-run "
-             "novel=0 AND n_distinct<8)", "status": "open"},
+             "IC1+IC2 novel 0/24, n_distinct 13/11; CLOSED r98 per O-20260924-1721 CEO "
+             "borrow-strength law: endogenous novelty exhausted, external-digest lane "
+             "supersedes s9 cadence)", "status": "closed"},
     {"name": "Optuna bayesian tuning skeleton (O-1120 D2 unfreeze: validated>=8 AND "
              "new-registrations<=1 in last window)", "status": "gated-P1"},
-    {"name": "negative-event library first consumption = T-11 (signed O-1045; sequenced "
-             "after XSTOCK harvest)", "status": "open"},
+    {"name": "negative-event library first consumption = T-11 (signed O-1045; CLOSED r99: "
+             "0/8 FAIL floor-robust, mean-drift face closed per prereg SS4, ledger 60482)", "status": "closed"},
     {"name": "daily dual-leg T-08 (tencent validation leg; claimed r68, interactive-session "
              "WIP in tree)", "status": "claimed", "by": "bm-a + interactive session"},
 ]

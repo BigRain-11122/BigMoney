@@ -1,6 +1,6 @@
 {
  "schema": "bandit-queue v1",
- "generated": "2026-09-24 13:51:39",
+ "generated": "2026-09-24 23:00:29",
  "source_ledger": "results/gate_attrition.json",
  "algorithm": {
   "name": "UCB1",
@@ -58,9 +58,8 @@
    "pulls": [],
    "candidates": [
     {
-     "name": "XSTOCK_SYNTH (stock-pool cross-lib small-K)",
-     "status": "claimed",
-     "by": "bm-b"
+     "name": "XSTOCK_SYNTH (stock-pool cross-lib small-K; CLOSED PASS r109 run/r114 backfill: IS IC 0.1078/IR 1.03/OOS retention 0.895, ledger 60074)",
+     "status": "closed"
     }
    ]
   },
@@ -89,8 +88,9 @@
    "pulls": [],
    "candidates": [
     {
-     "name": "Alpha158 true-gap 7 families (Aroon x3 / WVMA / volume-RSI x3, R59)",
-     "status": "open"
+     "name": "Alpha158 true-gap 7 families (Aroon x3 / WVMA / volume-RSI x3, R59; claimed r119 A158_TRUEGAP_IC)",
+     "status": "claimed",
+     "by": "bm-b (F-04 MSG-2246)"
     },
     {
      "name": "moneyflow IC reference batch (collector delivered R63; panel parked source-blocked with 30-min self-heal; IC batch when panel completes)",
@@ -252,11 +252,23 @@
   "j13v2_mill_ic2",
   "etf-rules-fidelity-t14",
   "regime-guard-validation-v3",
-  "regime-guard-validation-v3-cf"
+  "regime-guard-validation-v3-cf",
+  "PA1_PREMIUM_IC",
+  "T27-blend-tournament",
+  "T27-blend-tournament-v2",
+  "PA1E_PREMIUM_EVENT",
+  "OG1_OVERNIGHT_IC",
+  "P5C_VIRTUAL_TIMEPOINT-LEG-L",
+  "T28_STABLE_PROFIT",
+  "XSTOCK_SYNTH",
+  "T33_ATTACK_WAVE",
+  "T34_EARLY_SIGNAL",
+  "t18_deep_reval",
+  "T11_NEGDAY_IC"
  ],
  "engineering_candidates": [
   {
-   "name": "J13 v2 mill line CLOSED per O-20260924-1721 CEO 借力律 (internal generation exhausted: IC1+IC2 novel 0/24 = CEO-cited exhaustion evidence; mill continuation = 自我苦算违令; s9 stop-rule R66 freeze 10:10 superseded by CEO law 17:21; J13 llm_assist engineering face per O-2325 unaffected)",
+   "name": "J13 v2 mill line (qualification 0.90 via v2a R65; prereg J13_V2_MINILOOP R66; IC1+IC2 novel 0/24, n_distinct 13/11; CLOSED r98 per O-20260924-1721 CEO borrow-strength law: endogenous novelty exhausted, external-digest lane supersedes s9 cadence)",
    "status": "closed"
   },
   {
@@ -264,9 +276,8 @@
    "status": "gated-P1"
   },
   {
-   "name": "negative-event library first consumption = T-11 (signed O-1045; sequenced after XSTOCK harvest)",
-   "status": "claimed",
-   "by": "bm-a r98 (F-04 MSG-20260924-2232; XSTOCK finalize gate satisfied per bm-b r114 unlock note)"
+   "name": "negative-event library first consumption = T-11 (signed O-1045; CLOSED r99: 0/8 FAIL floor-robust, mean-drift face closed per prereg SS4, ledger 60482)",
+   "status": "closed"
   },
   {
    "name": "daily dual-leg T-08 (tencent validation leg; claimed r68, interactive-session WIP in tree)",
