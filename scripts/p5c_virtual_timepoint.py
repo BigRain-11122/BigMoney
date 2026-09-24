@@ -70,7 +70,8 @@ from live.paper import (PAPER_LEVELS, SIGNAL_BUILDERS, ExitPatch,
                         self_test_patches, v3_state_series)
 from parallel_runner import worker_cap
 from p5_random_entry import passive_rel, slice_metrics, WARMUP_TD
-from science_gates import COST_X2_RATE, CostPatch, append_ledger, ledger_head
+from science_gates import (COST_X2_RATE, CostPatch, append_ledger,
+                           cutoff_meta, ledger_head)
 
 WINDOWS = {"6m": 126, "12m": 252, "24m": 504}   # prereg s3 (td, inclusive bars)
 EVIDENCE_CUTOFF_GRID = "2026-09-22"             # P-5C frozen (both grid legs)
@@ -612,6 +613,323 @@ def cmd_status():
     return 0
 
 
+# --------------------------------------------------------------- finalize
+BEAT_LINE = 0.70          # P-5/P-5B frozen caliber (prereg s4)
+DD_RED_LINE = -0.35        # P-5 frozen dd red line (prereg s4)
+REGIME_MAP = {"GREEN": "bull", "YELLOW": "chop", "ORANGE": "bear", "RED": "bear"}
+WILSON_Z = 1.959963984540054
+OUT_JSON = os.path.join(PATHS.results_dir, "shortline",
+                        "p5c_virtual_timepoint.json")
+OUT_CSV = os.path.join(PATHS.root, "research", "shortline",
+                       "p5c_virtual_timepoint_results.csv")
+# r110 bm-b 5x reconciliation: forced prev_total for the next batch on the
+# shortline one-chain convention (dual-machine same-base 5709 race merged).
+PREV_TOTAL_FLOOR = 5862
+
+
+def _wilson(k: int, n: int):
+    """Wilson 95% interval on k/n (prereg s4 D7 CI width = hi - lo)."""
+    if n == 0:
+        return 0.0, 1.0
+    p = k / n
+    z, z2 = WILSON_Z, WILSON_Z ** 2
+    d = 1 + z2 / n
+    c = p + z2 / (2 * n)
+    h = z * ((p * (1 - p) / n + z2 / (4 * n * n)) ** 0.5)
+    return (c - h) / d, (c + h) / d
+
+
+def _leg_starts(leg, idx, listed):
+    """Start grid enumeration, verbatim cmd_run caliber (finalize re-derives
+    the expected start set = grid drift gate against the frozen census)."""
+    n = len(idx)
+    use_ml = (leg == "L")
+    floor = LEG_L_FLOOR if leg == "L" else LEG_D_FLOOR
+    return [p for p in range(n)
+            if idx[p] >= floor and p >= WARMUP_TD
+            and p <= n - 1 - WINDOWS["6m"]
+            and ((listed.iloc[p] >= MIN_LISTED) if use_ml else True)]
+
+
+def _agg_face_window(rows, passive, wname):
+    """One (trader, face, window) aggregate cell: beat stats + D7 + segments."""
+    elig = [r for r in rows if wname in r.get("windows", {})]
+    n, k = len(elig), 0
+    dds, seg = [], {}
+    for r in elig:
+        pw = passive.get(r["start"], {}).get("windows", {}).get(wname)
+        if pw is None:
+            continue
+        beat = float(r["windows"][wname]["ret"]) > float(pw["ret"])
+        k += int(beat)
+        dds.append(float(r["windows"][wname].get("dd", 0.0)))
+        s = REGIME_MAP.get(r.get("regime_state_start"), "na")
+        b = seg.setdefault(s, {"n": 0, "k": 0, "dds": []})
+        b["n"] += 1
+        b["k"] += int(beat)
+        b["dds"].append(float(r["windows"][wname].get("dd", 0.0)))
+    rate = k / n if n else None
+    min_dd = min(dds) if dds else None
+    lo, hi = _wilson(k, n)
+    starts = [pd.Timestamp(r["start"]) for r in elig]
+    covered_years = (round((max(starts) - min(starts)).days / 365.25, 2)
+                     if starts else None)
+    # independent regime windows: runs of consecutive starts in one mapped state
+    n_regime = 0
+    last = None
+    for r in sorted(elig, key=lambda r: r["start"]):
+        s = REGIME_MAP.get(r.get("regime_state_start"), "na")
+        if s != last:
+            n_regime += 1
+            last = s
+    segments = {}
+    for s, b in seg.items():
+        segments[s] = {"n": b["n"], "beat_rate": round(b["k"] / b["n"], 4),
+                       "min_dd": round(min(b["dds"]), 4)}
+    return {"n": n, "beats": k,
+            "beat_rate": round(rate, 4) if rate is not None else None,
+            "min_dd": round(min_dd, 4) if min_dd is not None else None,
+            "mean_dd": (round(sum(dds) / len(dds), 4) if dds else None),
+            "oos_trades": int(sum(r["windows"][wname].get("trades", 0)
+                                  for r in elig)),
+            "covered_years": covered_years,
+            "independent_regime_windows": n_regime,
+            "ci95_width": round(hi - lo, 4),
+            "window_overlap_note": f"adjacent starts 1td -> overlap "
+                                   f"{(WINDOWS[wname]-1)/WINDOWS[wname]:.3f}",
+            "segments": segments,
+            "mean_events_n": (round(sum(r.get("events", {}).get(wname, 0)
+                                        for r in elig) / n, 3) if n else None),
+            "verdict": (bool(rate is not None and rate >= BEAT_LINE
+                             and min_dd is not None and min_dd >= DD_RED_LINE)
+                        if n else None)}
+
+
+def cmd_finalize(leg):
+    t0 = time.time()
+    print(f"=== P-5C finalize (leg {leg}) ===")
+    if leg not in ("L", "D"):
+        print("finalize: --leg must be L or D")
+        return 3
+    batch = f"P5C_VIRTUAL_TIMEPOINT-LEG-{leg}"
+    if os.path.exists(OUT_JSON):
+        try:
+            prior = json.load(open(OUT_JSON, encoding="utf-8"))
+            done_legs = prior.get("legs_finalized", [])
+            if leg in done_legs:
+                print(f"finalize: leg {leg} already finalized in {OUT_JSON} "
+                      f"-- re-run needs fresh prereg (F3 audit P0-7)")
+                return 2
+        except Exception:
+            pass
+    # 1) load shards (received checkpoint; leg L sha-verified from bm-b
+    #    via transfer/t22-legL-cells, dual-manifest match, MSG-1954/2005)
+    import glob
+    rows, dups, bad = [], 0, 0
+    seen = set()
+    for path in sorted(glob.glob(os.path.join(CKPT_DIR, f"leg{leg}",
+                                              "shard_*.jsonl"))):
+        with open(path, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    r = json.loads(line)
+                except json.JSONDecodeError:
+                    bad += 1
+                    continue
+                if r["cell_id"] in seen:      # duplicates = reproductions
+                    dups += 1
+                    continue
+                seen.add(r["cell_id"])
+                rows.append(r)
+    if bad:
+        print(f"finalize: {bad} corrupt line(s) -- abort (rerun the shard)")
+        return 2
+    if not rows:
+        print(f"finalize: no cells for leg {leg} -- run `run --leg {leg}` first")
+        return 2
+    print(f"cells loaded: {len(rows)} (duplicates-as-reproductions skipped: "
+          f"{dups})")
+
+    # 2) grid census gate: live panel at the FROZEN cutoff must reproduce the
+    #    frozen probe counts (r105 drift-gate law; data moved under the batch
+    #    -> abort). Then re-derive the expected start set from the panel.
+    prices, P, idx, listed, cen = _load_leg(leg)
+    if cen != FROZEN_CENSUS[leg]:
+        print(f"finalize: GRID DRIFT on leg {leg}: panel census {cen} != "
+              f"frozen {FROZEN_CENSUS[leg]} -- abort")
+        return 2
+    print(f"census gate PASS: {cen} == frozen probe")
+    exp_starts = {str(idx[p].date()) for p in _leg_starts(leg, idx, listed)}
+    states = sorted({r.get("regime_state_start", "NA") for r in rows})
+
+    # 3) split passive / trader faces and verify per-face start coverage
+    passive = {r["start"]: r for r in rows if r.get("trader") == "PASSIVE"}
+    tfaces = {}
+    for r in rows:
+        if r.get("trader") != "PASSIVE":
+            tfaces.setdefault((r["trader"], r["face"]), []).append(r)
+    n_traders = len({t for t, _ in tfaces})
+    face_gates = {}
+    for wname, wnum in WINDOWS.items():
+        c = cen[wname]
+        fg = {"expected_rows_per_face": c * n_traders,
+              "expected_passive": c}
+        okw = (sum(1 for r in passive.values()
+                   if wname in r.get("windows", {})) == c)
+        for (t, f), rws in tfaces.items():
+            if sum(1 for r in rws if wname in r.get("windows", {})) != c:
+                okw = False
+        fg["pass"] = bool(okw)
+        face_gates[wname] = fg
+    starts_ok = (set(passive) == exp_starts and all(
+        {r["start"] for r in rws} == exp_starts for rws in tfaces.values()))
+    if not starts_ok or not all(g["pass"] for g in face_gates.values()):
+        print(f"finalize: START/COVERAGE GATE FAIL (starts_ok={starts_ok}, "
+              f"windows={[g['pass'] for g in face_gates.values()]}) -- abort")
+        return 2
+    print(f"start-coverage gate PASS: {len(exp_starts)} starts x "
+          f"{n_traders} traders x {len({f for _, f in tfaces})} faces")
+
+    # 4) aggregate + judge (prereg s4: per trader x window, dual-face verdicts)
+    judgments = {}
+    for (tid, _f), rws in sorted(tfaces.items()):
+        judgments.setdefault(tid, {})
+    for tid in judgments:
+        for wname in WINDOWS:
+            cell = {"window_td": WINDOWS[wname]}
+            for face in ("x1", "x2"):
+                if (tid, face) in tfaces:
+                    cell[face] = _agg_face_window(tfaces[(tid, face)],
+                                                  passive, wname)
+            dual = [cell[f]["verdict"] for f in ("x1", "x2") if f in cell]
+            cell["verdict_x1"], cell["verdict_x2"] = (
+                dual[0] if "x1" in cell else None,
+                dual[1] if len(dual) > 1 else None)
+            judgments[tid][wname] = cell
+
+    # per-start CSV rows (prereg s6)
+    os.makedirs(os.path.dirname(OUT_CSV), exist_ok=True)
+    n_csv = 0
+    with open(OUT_CSV, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("leg,trader,face,start,window,ret,dd,n_trades,passive,"
+                 "beat,events_n,regime_state,segment\n")
+        for (tid, face), rws in sorted(tfaces.items()):
+            for r in sorted(rws, key=lambda r: r["start"]):
+                for wname, m in r.get("windows", {}).items():
+                    pw = passive.get(r["start"], {}).get("windows", {}
+                                                         ).get(wname)
+                    if pw is None:
+                        continue
+                    s = REGIME_MAP.get(r.get("regime_state_start"), "na")
+                    fh.write(f"{leg},{tid},{face},{r['start']},{wname},"
+                             f"{m['ret']},{m.get('dd', '')},"
+                             f"{m.get('trades', '')},{pw['ret']},"
+                             f"{int(float(m['ret']) > float(pw['ret']))},"
+                             f"{r.get('events', {}).get(wname, '')},"
+                             f"{r.get('regime_state_start', '')},{s}\n")
+                    n_csv += 1
+
+    # 5) ledger (F3; prev_total forced floor per r110 5x reconciliation;
+    #    strategy+passive checkpoint cells + run-side anchor-gate runs,
+    #    prereg s0 accounting: strategy=start x member x face,
+    #    passive=start, anchors=member)
+    head = ledger_head()
+    prev = max(PREV_TOTAL_FLOOR, head["total"])
+    trials = len(rows) + n_traders
+    led = append_ledger(batch, trials, os.path.basename(OUT_JSON),
+                        note=f"leg-{leg} virtual-timepoint stratum: "
+                             f"{len(rows)} checkpoint cells (sha-verified "
+                             f"transfer from bm-b, dual-manifest MSG-1954/"
+                             f"2005) + {n_traders} anchor-gate runs (run-side "
+                             f"batch log, prereg s2-3); leg-D pending",
+                        evidence_cutoff=EVIDENCE_CUTOFF_GRID,
+                        prev_total=prev)
+    print(f"ledger: prev={prev} +{trials} -> {led['total']}")
+
+    # 6) results JSON (cutoff_meta top level per T-02 7/7 / C2 scan scope)
+    strata = {}
+    for r in rows:
+        if r.get("trader") != "PASSIVE":
+            strata[r.get("stratum", "n/a")] = strata.get(
+                r.get("stratum", "n/a"), 0) + 1
+    other_leg = "D" if leg == "L" else "L"
+    out = cutoff_meta(EVIDENCE_CUTOFF_GRID)
+    out.update({
+        "batch": batch, "leg": leg, "legs_finalized": [leg],
+        "grid": {"census_frozen": FROZEN_CENSUS[leg], "census_gate": "PASS",
+                 "starts": len(exp_starts), "windows_td": WINDOWS,
+                 "probe_ref": "results/shortline/p5c_grid_probe.json"},
+        "census_reconciliation": (
+            f"p5c probe {cen['6m']} vs P-5 archived 1254 (boundary "
+            f"convention, prereg s2) vs t22-canonical 1255 (inclusive "
+            f"upper bound n-126 vs p5c n-1-126; deferred-to-finalize "
+            f"disclosure per GM R2, both preregs frozen independently)"),
+        "cells_audit": {"checkpoint_cells": len(rows),
+                        "duplicates_as_reproductions": dups,
+                        "corrupt": bad,
+                        "faces": sorted({r.get("face") for r in rows}),
+                        "passive_cells": len(passive),
+                        "strategies_per_face": {
+                            f: sum(1 for (t, ff) in tfaces if ff == f)
+                            for f in sorted({f for _, f in tfaces})},
+                        "traders": n_traders,
+                        "anchors_ledger_counted": n_traders,
+                        "transfer": ("sha256 8716f8c6b6b4f465... dual-manifest "
+                                     "match, branch transfer/t22-legL-cells"
+                                     if leg == "L" else "n/a")},
+        "gf_branch_admission": ("leg L = anchor-axis registration caliber "
+                                 "(no GF dependency, prereg s2.5); events_n "
+                                 "exposure column disclosed per cell"),
+        "regime_states_seen": states,
+        "strata_rows": strata,
+        "judgments": judgments,
+        "judgment_rule": ("PASS iff beat_rate >= 0.70 AND min_dd >= -0.35 "
+                          "(P-5/P-5B frozen, prereg s4); dual-cost verdicts "
+                          "disclosed side by side, never merged"),
+        "other_leg_status": (f"leg {other_leg}: pending (no shards on disk; "
+                             f"queued behind XSTOCK post-chain per prereg "
+                             f"s0)"),
+        "trials_ledger": led,
+        "audit": {"runtime_sec": round(time.time() - t0, 1),
+                  "machine": "bm-a", "finalize_ts": time.strftime(
+                      "%Y-%m-%d %H:%M:%S"),
+                  "outputs": {"json": OUT_JSON, "csv_rows": n_csv,
+                              "csv": OUT_CSV}},
+    })
+    with open(OUT_JSON, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=1, default=float)
+    print(f"finalize DONE leg {leg}: {len(rows)} cells, judgments "
+          f"{len(judgments)} traders x {len(WINDOWS)} windows -> {OUT_JSON}")
+
+    # 7) gate_attrition row (s8)
+    try:
+        ga = json.load(open(os.path.join(PATHS.results_dir,
+                                        "gate_attrition.json"),
+                            encoding="utf-8"))
+        n_cells = sum(1 for t in judgments for w in judgments[t])
+        n_pass = sum(1 for t in judgments for w in judgments[t]
+                     if judgments[t][w].get("verdict_x1"))
+        ga["entries"].append({
+            "batch": batch, "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "kind": "measurement", "cells_ledger_delta": trials,
+            "ledger_total_after": led["total"],
+            "gates": {"beat_line": BEAT_LINE, "dd_red_line": DD_RED_LINE,
+                      "judgment_cells": n_cells,
+                      "x1_pass_cells": n_pass},
+            "eliminated": None,
+            "refs": {"results": OUT_JSON,
+                     "prereg": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md"}})
+        with open(os.path.join(PATHS.results_dir, "gate_attrition.json"),
+                  "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(ga, fh, ensure_ascii=False, indent=1)
+    except FileNotFoundError:
+        print("gate_attrition.json absent -- skipped (disclosed)")
+    return 0
+
+
 # ---------------------------------------------------------------- selftest
 def _mk_panel(n_days=1400, n_syms=4, seed=7):
     """Deterministic synthetic close-only panel (business-day index)."""
@@ -764,6 +1082,38 @@ def cmd_selftest():
     # 11) ledger head reachable (data-driven chain)
     ok("ledger: head readable", ledger_head()["total"] > 0)
 
+    # 12) finalize aggregation on synthetic rows (beat/D7/verdict semantics)
+    pas_rows = {"2021-01-15": {"windows": {"6m": {"ret": 0.01}}},
+                "2021-01-18": {"windows": {"6m": {"ret": -0.02}}}}
+    syn = [
+        {"trader": "T", "face": "x1", "start": "2021-01-15",
+         "windows": {"6m": {"ret": 0.02, "dd": -0.05, "trades": 7}},
+         "events": {"6m": 1}, "regime_state_start": "GREEN"},
+        {"trader": "T", "face": "x1", "start": "2021-01-18",
+         "windows": {"6m": {"ret": -0.01, "dd": -0.10, "trades": 3}},
+         "events": {"6m": 0}, "regime_state_start": "ORANGE"},
+        {"trader": "T", "face": "x2", "start": "2021-01-15",
+         "windows": {"6m": {"ret": 0.005, "dd": -0.06, "trades": 7}},
+         "events": {"6m": 1}, "regime_state_start": "GREEN"},
+        {"trader": "T", "face": "x2", "start": "2021-01-18",
+         "windows": {"6m": {"ret": -0.04, "dd": -0.11, "trades": 3}},
+         "events": {"6m": 0}, "regime_state_start": "ORANGE"},
+    ]
+    a1 = _agg_face_window([r for r in syn if r["face"] == "x1"],
+                          pas_rows, "6m")
+    a2 = _agg_face_window([r for r in syn if r["face"] == "x2"],
+                          pas_rows, "6m")
+    ok("finalize agg: n/beats/min_dd/oos_trades/regime_windows",
+       a1["n"] == 2 and a1["beats"] == 2 and a1["min_dd"] == -0.1
+       and a1["oos_trades"] == 10
+       and a1["independent_regime_windows"] == 2
+       and a1["segments"]["bull"]["beat_rate"] == 1.0
+       and a1["segments"]["bear"]["beat_rate"] == 1.0)
+    ok("finalize agg: verdicts (rate 1.0 PASS x1; rate 0.0 FAIL x2)",
+       a1["verdict"] is True and a1["beat_rate"] == 1.0
+       and a2["verdict"] is False and a2["beat_rate"] == 0.0
+       and a1["ci95_width"] > 0)
+
     print(f"selftest: {ok_n} checks ALL PASS")
     return 0
 
@@ -781,7 +1131,8 @@ def main():
     r.add_argument("--workers", type=int, default=None)
     r.add_argument("--limit", type=int, default=None)
     sub.add_parser("status")
-    sub.add_parser("finalize")
+    fz = sub.add_parser("finalize")
+    fz.add_argument("--leg", choices=["L", "D"], required=True)
     a = ap.parse_args()
     if a.cmd == "selftest":
         return cmd_selftest()
@@ -793,9 +1144,7 @@ def main():
     if a.cmd == "status":
         return cmd_status()
     if a.cmd == "finalize":
-        print("finalize: pending until leg grids complete (D7 + judgments "
-              "per frozen prereg s4); run `status` for progress")
-        return 0
+        return cmd_finalize(a.leg)
     return 1
 
 

@@ -73,13 +73,23 @@
 - `research/shortline/p5c_virtual_timepoint_results.csv`（逐起点行：leg/trader/face/start/window/ret/dd/n_trades/passive/beat/events_n/regime_state/segment）
 - 本文件 §7/§8 回填；`results/gate_attrition.json` 追加一行。
 
-## §7 跑后实证（跑前必须为空——写数字即造假）
+## §7 跑后实证（leg-L stratum 2026-09-24 r90 bm-a finalize；leg-D pending）
 
-（占位）
+- 16,289 cells（x1 7,518 + x2 7,518 + passive 1,253）sha 校验传输自 bm-b（transfer/t22-legL-cells 双 manifest 比对，MSG-1954/2005）；census 门 PASS（{6m 1253, 12m 1127, 24m 875}==冻结探针）+ 起点覆盖门 PASS（1,253 起点 × 6 员 × 2 面）。
+- **主判定（6 员 × 3 窗 = 18 判定格，双面 verdict 并列）**：x1 面**仅 COMPOSITE-CE-01 24m PASS**（beat_rate 0.7371 / minDD −0.2091，熊段 beat 1.0）；其余 17 格 FAIL 0.70 线；x2 面全 18 格 FAIL（24m 最高 CE-02 0.6206）。
+- pooled beat_rate：x1 {6m **0.5774**, 12m 0.5513, 24m 0.5573} / x2 {0.5474, 0.5185, 0.5053}。
+- 政体段分歧实证：bear 段双峰——COMPOSITE-01/VOLATILITY 24m bear=1.0（深熊窗防守性）vs NEEDLE/ENGULF/DROUGHT bear 多 <0.31（形态族熊段失效）；bull 段全员 0.55-0.84。
+- D7（逐格全报，例 CE-01 24m：OOS 笔数 141,646 / 覆盖 3.6 年 / 独立政体窗 90 / CI 宽 0.0582；相邻起点 1td 窗重叠披露 (W−1)/W）。
+- 账本：5,862（r110 并合真值）+16,295→**22,157**（16,289 checkpoint cells + 6 锚定门 run-side）。
+- leg-D（深轴）pending：本机零分片（bm-b 排队 XSTOCK post-chain 后），落地后另行 finalize 判定。
 
-## §8 批后复盘（必填 s7-T）
+## §8 批后复盘（leg-L 面；leg-D 落地后补记）
 
-- 预测对账（对/部分/错）+ gate_attrition 追加 + skill_line_v2 当批读数=N/A 披露（无新注册）；
-- 回执入轮报告+CODELY.md 行级追加；判负=诚实收线（注册件注记区 P-5B §5 范式，level/paper 数据零触碰，纸盘通道不变）；禁调判据/禁重跑/禁以本检结果调参。
+- 预测对账（leg-L 适用 4 项）：①pooled 6m 0.5774∈[0.55,0.68] **对** + 6 员 6m FAIL 6/6 **对**；③窗族部分对（CE-01 12m≥6m 对/CE-02 反、24m 续升双员对、VOLATILITY 6m>12m 对但 24m>12m 反）；④x2≤x1 单调 **对**，幅度 6m 3.0pp 贴界、12m 3.3pp/24m 5.2pp 超 3pp 带 **部分错**（长窗成本敏感低估）；⑤VOLATILITY bear>bull 仅 24m 成立（1.0>0.637），6m/12m 反向 **错**（防守溢价集中在长窗）；②（腿D−腿L）与⑥（薄池段）**pending leg-D**。
+- gate_attrition 行已追加（judgment_cells 18 / x1_pass 1 / cells_ledger_delta 16,295 / total_after 22,157）；skill_line_v2 当批读数=N/A（零新注册）。
+- 影响面：本批=在册 6 员稳健性复检（非注册闸）——FAIL 不改 member level/纸盘通道（披露面），读数喂 10-31 首月检统计置信 + live-gate pack criterion #7 候选；**禁跑到达标为止**（§4 冻结）。
+- Census 对账（R2 deferred-to-finalize 披露兑现）：p5c 1,253 vs P-5 存档 1,254（边界约定）vs t22 正典 1,255（上界含/不含差）——三口径各属其冻结件，互不迁移，结果件内已逐字披露。
+
+—— r90 bm-a finalize 回填（leg-L）；leg-D 段位保留占位待 bm-b 落地。
 
 —— bm-b 循环轮 r105 · dept:研究+数据 · 2026-09-24 16:1x 写死（跑前冻结，commit 即锁）
