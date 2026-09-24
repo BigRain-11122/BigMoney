@@ -350,6 +350,44 @@ def _corr_watch_state() -> dict:
     return out
 
 
+def _watermark_state() -> dict:
+    """CPU watermark closed-loop display (T-25 / O-20260924-1626 R3):
+    py curve tail from watermark.jsonl + RED flag from watermark_red.json
+    (watchdog C7 leg) + recent RED count from watchdog.log tail."""
+    out: dict = {"present": False, "py_tail": [], "last_sample": None,
+                 "red": False, "lane": "—", "zombies_killed": [],
+                 "red_flags_recent": 0}
+    py_tail: list = []
+    try:
+        with open(os.path.join(PATHS.results_dir, "watermark.jsonl"),
+                  "r", encoding="utf-8") as f:
+            lines = f.readlines()[-5:]
+        for ln in lines:
+            s = json.loads(ln)
+            py_tail.append(round(float(s.get("py_cpu_pct", 0.0)), 1))
+            out["last_sample"] = s.get("ts")
+    except Exception:
+        py_tail = []
+    if py_tail:
+        out["present"] = True
+        out["py_tail"] = py_tail
+    rf = _read_json(os.path.join(PATHS.results_dir, "watermark_red.json"))
+    if rf:
+        out["red"] = bool(rf.get("red"))
+        out["lane"] = rf.get("lane") or "—"
+        out["zombies_killed"] = rf.get("zombies_killed") or []
+    n_red = 0
+    try:
+        with open(os.path.join(PATHS.logs_dir, "watchdog.log"),
+                  "r", encoding="utf-8", errors="replace") as f:
+            tail = f.readlines()[-400:]
+        n_red = sum(1 for ln in tail if "C7 WATERMARK RED" in ln)
+    except Exception:
+        n_red = 0
+    out["red_flags_recent"] = n_red
+    return out
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -1386,6 +1424,7 @@ def build() -> dict:
     data["futures"] = _futures_state()
     data["moneyflow"] = _moneyflow_state()
     data["token"] = _token_state()
+    data["watermark"] = _watermark_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()
@@ -1501,6 +1540,16 @@ def build() -> dict:
             "text": f"本地化 · token 粗估 状态 {tok['state_est']} · 报告 {tok['report_est']}"
                     f" · 回合固定载入 {tok['codely_context_est']}"
                     f"（byte/3.5 代理口径 · O-2325）"})
+    wmz = data["watermark"]
+    if wmz["present"]:
+        py_curve = "→".join(str(v) for v in wmz["py_tail"])
+        flag_txt = ("🚩红牌" if wmz["red"] else "绿")
+        tail_events.append({
+            "time": wmz["last_sample"] or "-",
+            "text": f"算力水位 · py {py_curve}% · {flag_txt}"
+                    f" · 近段红牌 {wmz['red_flags_recent']} 次"
+                    f" · 僵尸处置 {len(wmz['zombies_killed'])} 例"
+                    f"（watchdog C7 · O-1626 判定即处置）"})
     sc = payload["trading"]["scorecard"]
     if sc["present"]:
         b = sc["best"] or {}

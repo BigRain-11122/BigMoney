@@ -12,6 +12,24 @@
 # logs\watchdog.log; task-existence via schtasks /query only (transient CIM
 # trap documented 2026-09-23); single instance via 15-min-stale lock file.
 # PATH-AGNOSTIC: all paths derived from this file's location. Pure ASCII.
+# C7 (O-20260924-1626): watermark closed-loop -- judgment becomes disposal.
+#   RED = >=3 trailing watermark samples with py<70% while runnable work exists
+#   (open tickets / bandit open). Actions: zombie python kill (3-check guarded,
+#   known-batch whitelist only), escalation file results\watermark_red.json for
+#   dashboards + round-report P0 first line, queue-lane diagnosis. -C7Only runs
+#   ONLY the C7 leg with overridable paths/thresholds (injection acceptance
+#   tests use it; production schtasks calls pass no args).
+
+param(
+    [switch]$C7Only,
+    [string]$WmFile = '',
+    [string]$RedFile = '',
+    [string]$PyStateFile = '',
+    [double]$ZombieAgeMin = 45,
+    [double]$ZombieCpuDeltaSec = 5.0,
+    [int]$MinRedSamples = 3,
+    [string[]]$ZombieLanes = @()
+)
 
 $ErrorActionPreference = 'Continue'
 $Project = Split-Path -Parent $PSScriptRoot
@@ -22,6 +40,135 @@ $Lock = Join-Path $LogsDir 'watchdog.lock'
 function Log([string]$msg) {
     $line = ("{0} {1}" -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $msg)
     Add-Content -Path $WdLog -Value $line -Encoding ASCII
+}
+
+# ---- C7: watermark closed-loop (judgment -> disposal) ----
+# Zombie = python process older than $ZombieAgeMin whose accumulated CPU grew
+# less than $ZombieCpuDeltaSec since the previous watchdog tick. 3-check guard:
+#   (1) known checkpoint-able batch lane only (whitelist below; unknown lanes
+#       and interactive-session processes are NEVER killed -- conservative);
+#   (2) interactive-session guard: command lines containing codely/claude/node
+#       are exempt even if they also match a batch lane;
+#   (3) every kill + resume routing is logged (watchdog.log + red-flag file).
+# Resume routing: killed lanes are revived by their OWN existing healers
+# (S6 gates re-spawn, C4/C5 own the pull/p1c chains) -- C7 never duplicates a
+# relaunch, it only clears the stuck process so the checkpoint machinery takes over.
+function Invoke-C7 {
+    param(
+        [string]$ProjectDir,
+        [string]$LogsDirIn,
+        [string]$WmFileIn = '',
+        [string]$RedFileIn = '',
+        [string]$PyStateIn = '',
+        [double]$AgeMin = 45,
+        [double]$CpuDeltaSec = 5.0,
+        [int]$MinSamples = 3,
+        [string[]]$ZombieLanesIn = @()
+    )
+    if (-not $WmFileIn) { $WmFileIn = Join-Path $ProjectDir 'results\watermark.jsonl' }
+    if (-not $RedFileIn) { $RedFileIn = Join-Path $ProjectDir 'results\watermark_red.json' }
+    if (-not $PyStateIn) { $PyStateIn = Join-Path $LogsDirIn 'watchdog_py_state.json' }
+    $MyIdC7 = ''
+    $mf = Join-Path $ProjectDir 'fleet\machine.json'
+    if (Test-Path $mf) { try { $MyIdC7 = (Get-Content $mf -Raw | ConvertFrom-Json).machine_id } catch { $MyIdC7 = '' } }
+
+    # -- sample C7: read trailing watermark samples, decide RED --
+    $red = $false
+    $lane = 'insufficient_history'
+    $killed = @()
+    $pySeries = @()
+    if (Test-Path $WmFileIn) {
+        $lines = @(Get-Content $WmFileIn -Tail 8 | Where-Object { $_ -match 'py_cpu_pct' })
+        if ($lines.Count -ge $MinSamples) {
+            $tail = @($lines | Select-Object -Last $MinSamples)
+            $allLow = $true
+            $hasWork = $false
+            foreach ($l in $tail) {
+                try {
+                    $s = $l | ConvertFrom-Json
+                    $pySeries += ('{0}' -f [double]$s.py_cpu_pct)
+                    if ([double]$s.py_cpu_pct -ge 70) { $allLow = $false }
+                    if ([int]$s.open_tickets -gt 0 -or [int]$s.bandit_open -gt 0) { $hasWork = $true }
+                } catch { $allLow = $false }
+            }
+            if ($allLow -and $hasWork) {
+                $red = $true
+                $lane = 'runnable-work-idle-low-cpu (escalate: round-report P0 + dashboard red; GM waiver per O-1612)'
+            } else {
+                $lane = 'healthy'
+            }
+        }
+    }
+
+    # -- zombie sweep (every tick, independent of RED: disposal = judgment) --
+    $prev = $null
+    if (Test-Path $PyStateIn) {
+        try { $prev = Get-Content $PyStateIn -Raw | ConvertFrom-Json } catch { $prev = $null }
+    }
+    $cur = @{}
+    $zombieLanes = @('backfill_ext_slots','p1c_stock_ic_batch','t18_deep_axis','update_moneyflow','lof_census','nav_backfill','c7_zombie_test')
+    if ($ZombieLanesIn.Count -gt 0) { $zombieLanes = $ZombieLanesIn }   # test lane narrowing (injection safety)
+    $interactiveGuard = @('codely','claude','node')
+    $procs = Get-CimInstance Win32_Process -Filter "Name='python.exe' or Name='pythonw.exe'" -ErrorAction SilentlyContinue
+    foreach ($p in $procs) {
+        $gp = Get-Process -Id $p.ProcessId -ErrorAction SilentlyContinue
+        # r100 pitfall law: Get-Process can transiently return empty for a live
+        # separated process -- CPU sample via CIM second opinion before judging.
+        $cpu = -1.0
+        if ($gp -and $null -ne $gp.CPU) { $cpu = [double]$gp.CPU }
+        elseif ($p) { try { $cpu = [math]::Round([double]$p.KernelModeTime / 10000000 + [double]$p.UserModeTime / 10000000, 3) } catch { $cpu = -1.0 } }
+        $pidStr = [string]$p.ProcessId
+        $cur[$pidStr] = $cpu
+        $cmd = [string]$p.CommandLine
+        $interactive = $false
+        foreach ($g in $interactiveGuard) { if ($cmd -like ('*' + $g + '*')) { $interactive = $true } }
+        $knownLane = $null
+        foreach ($zl in $zombieLanes) { if ($cmd -like ('*' + $zl + '*')) { $knownLane = $zl } }
+        $prevCpu = $null
+        if ($prev) {
+            $prop = $prev.PSObject.Properties[$pidStr]
+            if ($prop) { $prevCpu = [double]$prop.Value }
+        }
+        if (-not $knownLane) { continue }           # check 1: whitelist only
+        if ($interactive) { continue }              # check 2: session guard
+        $ageNowMin = 0.0
+        try { $ageNowMin = ((Get-Date) - $p.CreationDate).TotalMinutes } catch { continue }
+        if ($ageNowMin -le $AgeMin) { continue }     # age gate
+        if ($null -eq $prevCpu -or $cpu -lt 0) { continue }  # need two samples
+        if (($cpu - $prevCpu) -lt $CpuDeltaSec) {
+            Log ('C7 ZOMBIE KILL pid=' + $pidStr + ' lane=' + $knownLane + (' age={0:N0}min cpu_delta={1:N2}s (3-check passed)' -f $ageNowMin, ($cpu - $prevCpu)) + ' resume=existing-healers(S6/C4/C5)')
+            try {
+                Stop-Process -Id $p.ProcessId -Force -ErrorAction Stop
+                $killed += ('pid=' + $pidStr + ' lane=' + $knownLane)
+            } catch { Log ('C7 kill FAILED pid=' + $pidStr + ' : ' + $_.Exception.Message) }
+        }
+    }
+    try { $cur | ConvertTo-Json -Depth 3 | Set-Content -Path $PyStateIn -Encoding ASCII } catch { Log ('C7 state write failed: ' + $_.Exception.Message) }
+
+    # -- red-flag file (always written: dashboards read live state) --
+    $out = [ordered]@{
+        ts      = (Get-Date -Format 'yyyy-MM-dd HH:mm:ss')
+        machine = $MyIdC7
+        red     = $red
+        lane    = $lane
+        py_series_tail = @($pySeries)
+        zombies_killed  = @($killed)
+        order_ref = 'O-20260924-1626 R1/R2/R3'
+    }
+    try { $out | ConvertTo-Json -Depth 4 | Set-Content -Path $RedFileIn -Encoding ASCII } catch { Log ('C7 red-file write failed: ' + $_.Exception.Message) }
+    if ($red) {
+        Log ('C7 WATERMARK RED lane=' + $lane + ' py_tail=' + ($pySeries -join ','))
+    } else {
+        Log ('C7 watermark ' + $lane + ' py_tail=' + ($pySeries -join ','))
+    }
+}
+
+# -C7Only: injection-acceptance path -- run ONLY the C7 leg (no lock taken,
+# no C1-C6 touched, all paths/thresholds overridable from the command line).
+if ($C7Only) {
+    Invoke-C7 -ProjectDir (Split-Path -Parent $PSScriptRoot) -LogsDirIn (Join-Path (Split-Path -Parent $PSScriptRoot) 'logs') `
+        -WmFileIn $WmFile -RedFileIn $RedFile -PyStateIn $PyStateFile -AgeMin $ZombieAgeMin -CpuDeltaSec $ZombieCpuDeltaSec -MinSamples $MinRedSamples -ZombieLanesIn $ZombieLanes
+    exit 0
 }
 
 # ---- single instance (stale lock takeover after 15 min) ----
@@ -180,6 +327,9 @@ try {
     } else {
         Log 'C6 watchdog task present'
     }
+
+    # ---- C7: watermark closed-loop (O-20260924-1626 R1/R2/R3) ----
+    Invoke-C7 -ProjectDir $Project -LogsDirIn $LogsDir -AgeMin $ZombieAgeMin -CpuDeltaSec $ZombieCpuDeltaSec -MinSamples $MinRedSamples
 } catch {
     Log ('EXCEPTION: ' + $_.Exception.Message)
 } finally {
