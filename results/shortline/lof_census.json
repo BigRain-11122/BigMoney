@@ -1,0 +1,83 @@
+{
+ "census": "lof_census",
+ "ticket": "T-2026-09-24-16",
+ "lane": "ARB-1 deliverable-4 (P-A2 gate inputs + P-A3 keep-or-drop)",
+ "ran_at": "2026-09-24T15:15:33",
+ "session_state": "post_close",
+ "faces": {
+  "fund_lof_spot_em": {
+   "ok": false,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": false,
+     "latency_s": 6.12,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    },
+    {
+     "attempt": 2,
+     "ok": false,
+     "latency_s": 5.59,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    },
+    {
+     "attempt": 3,
+     "ok": false,
+     "latency_s": 4.68,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    }
+   ],
+   "value_probe": null
+  }
+ },
+ "inventory": null,
+ "discount": null,
+ "pa3": {
+  "offline_introspection": {
+   "fund_close_cands": [
+    "fund_scale_close_sina"
+   ],
+   "quote_or_nav_face_exists": false,
+   "akshare_version": "1.18.96"
+  },
+  "scale_face": {
+   "ok": true,
+   "rows": 192,
+   "cols": [
+    "序号",
+    "基金代码",
+    "基金简称",
+    "单位净值",
+    "总募集规模",
+    "最近总份额",
+    "成立日期",
+    "基金经理",
+    "更新日期"
+   ],
+   "value_probe": {
+    "col": "序号",
+    "non_null": 192,
+    "total": 192,
+    "non_null_rate": 1.0
+   },
+   "latency_s": 0.35
+  },
+  "recommendation": "DROP from ARB-1 v0.1 auto-lane: akshare 1.18.96 carries no closed-end quote/NAV face, discount panorama NOT constructible (scale census only, universe_n=192); shares shrinking per playbook (P-A3 low priority). Revisit only on akshare face addition or a signed P1 direction change. Scale face may seed a manual census if CEO wants the panorama via web lane."
+ },
+ "spot_csv": null,
+ "audit": {
+  "ledger_trials_added": 0,
+  "kind": "exploration census (probe-first family, zero trials)",
+  "throttle_s": 2.5,
+  "retry_window": {
+   "max_attempts": 3,
+   "backoff_s": 20,
+   "authorization": "r51 intermittent ruling (push2 family on bm-c)"
+  },
+  "proxy_env_cleared": true
+ },
+ "evidence_cutoff": "2026-09-24"
+}
