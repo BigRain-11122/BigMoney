@@ -2,7 +2,7 @@
  "census": "lof_census",
  "ticket": "T-2026-09-24-16",
  "lane": "ARB-1 deliverable-4 (P-A2 gate inputs + P-A3 keep-or-drop)",
- "ran_at": "2026-09-24T15:15:33",
+ "ran_at": "2026-09-24T15:41:27",
  "session_state": "post_close",
  "faces": {
   "fund_lof_spot_em": {
@@ -11,21 +11,21 @@
     {
      "attempt": 1,
      "ok": false,
-     "latency_s": 6.12,
+     "latency_s": 5.5,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     },
     {
      "attempt": 2,
      "ok": false,
-     "latency_s": 5.59,
+     "latency_s": 5.04,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     },
     {
      "attempt": 3,
      "ok": false,
-     "latency_s": 4.68,
+     "latency_s": 5.18,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     }
@@ -63,7 +63,7 @@
     "total": 192,
     "non_null_rate": 1.0
    },
-   "latency_s": 0.35
+   "latency_s": 1.61
   },
   "recommendation": "DROP from ARB-1 v0.1 auto-lane: akshare 1.18.96 carries no closed-end quote/NAV face, discount panorama NOT constructible (scale census only, universe_n=192); shares shrinking per playbook (P-A3 low priority). Revisit only on akshare face addition or a signed P1 direction change. Scale face may seed a manual census if CEO wants the panorama via web lane."
  },
