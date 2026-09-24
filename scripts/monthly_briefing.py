@@ -397,7 +397,14 @@ def main():
     if args and args[0] == "run":
         month = None
         if "--month" in args:
-            month = args[args.index("--month") + 1]
+            try:
+                month = args[args.index("--month") + 1]
+            except IndexError:
+                print("usage: python scripts/monthly_briefing.py run [--month YYYYMM] | selftest")
+                return 2
+            if not (len(month) == 6 and month.isdigit() and 1 <= int(month[4:6]) <= 12):
+                print(f"[monthly_briefing] invalid --month '{month}': expected YYYYMM (e.g. 202609)")
+                return 2
         return cmd_run(month)
     print("usage: python scripts/monthly_briefing.py run [--month YYYYMM] | selftest")
     return 2

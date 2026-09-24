@@ -902,16 +902,408 @@
     "c6_regime": "OK",
     "n_findings": 0
    }
+  },
+  {
+   "generated": "2026-09-24 08:20:12",
+   "ledger_head": {
+    "total": 3041,
+    "file": "shortline_cta_p2_noau.json",
+    "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
+   },
+   "null_pool": {
+    "n_values": 120,
+    "mu": -0.033217,
+    "sigma": 0.242917
+   },
+   "skill_line": {
+    "line": 0.9397,
+    "n_eff": 3041
+   },
+   "checks": [
+    {
+     "check": "C1_null_mu_sigma_recompute",
+     "n_values": 120,
+     "mu": -0.033217,
+     "sigma": 0.242917,
+     "coverage_note": [
+      "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+     ],
+     "flags": {
+      "mu_drift_flag": false,
+      "sigma_drift_flag": false,
+      "pool_change": false
+     },
+     "drift_vs": {
+      "mu_prev": -0.033217,
+      "sigma_prev": 0.242917,
+      "n_prev": 120
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C2_lockbox_violation_scan",
+     "data_cutoff": "2026-09-23",
+     "n_ledger_files": 28,
+     "n_whitelisted_legacy": 19,
+     "n_ok_with_cutoff": 8,
+     "violations": [
+      {
+       "file": "shortline_p4_pairs.json",
+       "cutoff": {
+        "evidence_cutoff": "2026-09-22"
+       },
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "declared cutoff {'evidence_cutoff': '2026-09-22'} > data cutoff 2026-09-23 (impossible data)"
+      }
+     ],
+     "verdict": "VIOLATIONS"
+    },
+    {
+     "check": "C3_trader_dsr_recheck",
+     "n_traders": 6,
+     "n_stale": 0,
+     "n_warn": 0,
+     "n_gate_cross": 0,
+     "rows": [
+      {
+       "trader": "COMPOSITE-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.042409,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.0485,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.039875,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "COMPOSITE-CE-02",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.074987,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.1586,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.071017,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "DROUGHT-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.030128,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.0214,
+       "pbo_recorded": 0.4714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.028221,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "ENGULF-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.018704,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.2763,
+       "pbo_recorded": 0.1143,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.017426,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "NEEDLE-DE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.044671,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.0843,
+       "pbo_recorded": 0.6429,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.042029,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "VOLATILITY-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.348554,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": 0.4548,
+       "pbo_recorded": 0.3,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.337947,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      }
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C4_gate_attrition_summary",
+     "status": "PRESENT",
+     "n_entries": 6,
+     "keys": [
+      "created",
+      "entries",
+      "purpose",
+      "schema"
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C5_skill_line_v2_recompute",
+     "line": 0.9397,
+     "n_eff": 3041,
+     "passive_term": 0.4792,
+     "null_term": 0.9397,
+     "ledger_head": {
+      "total": 3041,
+      "file": "shortline_cta_p2_noau.json",
+      "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
+     },
+     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
+     "formula_selfconsistent": true,
+     "line_prev": 0.9344,
+     "flags": {
+      "line_drift_flag": false
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C6_regime_guard_integrity",
+     "flags": {
+      "paper_block_absent_everywhere": false
+     },
+     "findings": [],
+     "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "fp_matches_prereg": true,
+     "n_history": 1,
+     "state_file_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "state_mode": "shadow",
+     "paper_files": 6,
+     "paper_with_block": 6,
+     "verdict": "OK"
+    }
+   ],
+   "summary": {
+    "c1_null": "OK",
+    "c2_lockbox": "VIOLATIONS",
+    "c3_traders": "OK",
+    "c4_attrition": "OK",
+    "c5_line": "OK",
+    "c6_regime": "OK",
+    "n_findings": 1
+   }
+  },
+  {
+   "generated": "2026-09-24 08:20:45",
+   "ledger_head": {
+    "total": 3041,
+    "file": "shortline_cta_p2_noau.json",
+    "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
+   },
+   "null_pool": {
+    "n_values": 120,
+    "mu": -0.033217,
+    "sigma": 0.242917
+   },
+   "skill_line": {
+    "line": 0.9397,
+    "n_eff": 3041
+   },
+   "checks": [
+    {
+     "check": "C1_null_mu_sigma_recompute",
+     "n_values": 120,
+     "mu": -0.033217,
+     "sigma": 0.242917,
+     "coverage_note": [
+      "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+     ],
+     "flags": {
+      "mu_drift_flag": false,
+      "sigma_drift_flag": false,
+      "pool_change": false
+     },
+     "drift_vs": {
+      "mu_prev": -0.033217,
+      "sigma_prev": 0.242917,
+      "n_prev": 120
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C2_lockbox_violation_scan",
+     "data_cutoff": "2026-09-23",
+     "n_ledger_files": 28,
+     "n_whitelisted_legacy": 19,
+     "n_ok_with_cutoff": 9,
+     "violations": [],
+     "verdict": "OK"
+    },
+    {
+     "check": "C3_trader_dsr_recheck",
+     "n_traders": 6,
+     "n_stale": 0,
+     "n_warn": 0,
+     "n_gate_cross": 0,
+     "rows": [
+      {
+       "trader": "COMPOSITE-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.042409,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.0485,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.039875,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "COMPOSITE-CE-02",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.074987,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.1586,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.071017,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "DROUGHT-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.030128,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.0214,
+       "pbo_recorded": 0.4714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.028221,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "ENGULF-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.018704,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.2763,
+       "pbo_recorded": 0.1143,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.017426,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "NEEDLE-DE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.044671,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": -0.0843,
+       "pbo_recorded": 0.6429,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.042029,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "VOLATILITY-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.348554,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 3041,
+       "ci_low_recorded": 0.4548,
+       "pbo_recorded": 0.3,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.337947,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      }
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C4_gate_attrition_summary",
+     "status": "PRESENT",
+     "n_entries": 6,
+     "keys": [
+      "created",
+      "entries",
+      "purpose",
+      "schema"
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C5_skill_line_v2_recompute",
+     "line": 0.9397,
+     "n_eff": 3041,
+     "passive_term": 0.4792,
+     "null_term": 0.9397,
+     "ledger_head": {
+      "total": 3041,
+      "file": "shortline_cta_p2_noau.json",
+      "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
+     },
+     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
+     "formula_selfconsistent": true,
+     "line_prev": 0.9397,
+     "flags": {
+      "line_drift_flag": false
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C6_regime_guard_integrity",
+     "flags": {
+      "paper_block_absent_everywhere": false
+     },
+     "findings": [],
+     "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "fp_matches_prereg": true,
+     "n_history": 1,
+     "state_file_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "state_mode": "shadow",
+     "paper_files": 6,
+     "paper_with_block": 6,
+     "verdict": "OK"
+    }
+   ],
+   "summary": {
+    "c1_null": "OK",
+    "c2_lockbox": "OK",
+    "c3_traders": "OK",
+    "c4_attrition": "OK",
+    "c5_line": "OK",
+    "c6_regime": "OK",
+    "n_findings": 0
+   }
   }
  ],
  "current": {
   "module": "scripts/science_audit.py",
   "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run)",
-  "generated": "2026-09-24 04:20:18",
+  "generated": "2026-09-24 08:20:45",
   "ledger_head": {
-   "total": 2791,
-   "file": "regime_calibration_v2.json",
-   "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)"
+   "total": 3041,
+   "file": "shortline_cta_p2_noau.json",
+   "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
   },
   "previous_snapshot_source": "science_audit.json:history[-1]",
   "checks": [
@@ -938,9 +1330,9 @@
    {
     "check": "C2_lockbox_violation_scan",
     "data_cutoff": "2026-09-23",
-    "n_ledger_files": 24,
+    "n_ledger_files": 28,
     "n_whitelisted_legacy": 19,
-    "n_ok_with_cutoff": 5,
+    "n_ok_with_cutoff": 9,
     "violations": [],
     "verdict": "OK"
    },
@@ -956,11 +1348,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.042409,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2791,
+      "ledger_head_now": 3041,
       "ci_low_recorded": -0.0485,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.041858,
+      "dsr_rechecked_now": 0.039875,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -969,11 +1361,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.074987,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2791,
+      "ledger_head_now": 3041,
       "ci_low_recorded": -0.1586,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.074139,
+      "dsr_rechecked_now": 0.071017,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -982,11 +1374,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.030128,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2791,
+      "ledger_head_now": 3041,
       "ci_low_recorded": -0.0214,
       "pbo_recorded": 0.4714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.029716,
+      "dsr_rechecked_now": 0.028221,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -995,11 +1387,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.018704,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2791,
+      "ledger_head_now": 3041,
       "ci_low_recorded": -0.2763,
       "pbo_recorded": 0.1143,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.018423,
+      "dsr_rechecked_now": 0.017426,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -1008,11 +1400,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.044671,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2791,
+      "ledger_head_now": 3041,
       "ci_low_recorded": -0.0843,
       "pbo_recorded": 0.6429,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.044098,
+      "dsr_rechecked_now": 0.042029,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -1021,11 +1413,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.348554,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 2791,
+      "ledger_head_now": 3041,
       "ci_low_recorded": 0.4548,
       "pbo_recorded": 0.3,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.346254,
+      "dsr_rechecked_now": 0.337947,
       "dsr_gate_cross": false,
       "status": "OK"
      }
@@ -1035,7 +1427,7 @@
    {
     "check": "C4_gate_attrition_summary",
     "status": "PRESENT",
-    "n_entries": 2,
+    "n_entries": 6,
     "keys": [
      "created",
      "entries",
@@ -1046,18 +1438,18 @@
    },
    {
     "check": "C5_skill_line_v2_recompute",
-    "line": 0.9344,
-    "n_eff": 2791,
+    "line": 0.9397,
+    "n_eff": 3041,
     "passive_term": 0.4792,
-    "null_term": 0.9344,
+    "null_term": 0.9397,
     "ledger_head": {
-     "total": 2791,
-     "file": "regime_calibration_v2.json",
-     "note": "prereg s3.3: 6 traders x {baseline, ORANGE/RED entry-mask} full-history legs (matrix=v2)"
+     "total": 3041,
+     "file": "shortline_cta_p2_noau.json",
+     "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
     },
     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
     "formula_selfconsistent": true,
-    "line_prev": 0.9344,
+    "line_prev": 0.9397,
     "flags": {
      "line_drift_flag": false
     },
