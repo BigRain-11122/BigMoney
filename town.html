@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -380,7 +380,16 @@ const BUILDS = [
     } },
   { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
     dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库/新鲜度 · 零污染',
-    info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div><div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
+    info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div>'
+      + (() => { const rows = [];
+          [['heat','热度链'],['futures','期货链'],['moneyflow','资金流']].forEach(([k,name]) => {
+            const b = (D.data && D.data[k]) || null;
+            rows.push(!b || !b.present
+              ? '<div class="row dim">'+name+'待产出</div>'
+              : '<div class="row"><span class="'+(b.status==='ok'?'green':(b.status==='bad'?'red':''))+'">'+(b.text || '-')+'</span></div>');
+          });
+          return rows.join(''); })()
+      + '<div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
   { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
     dept:'舰队部 Fleet', mandate:'bm-a/bm-b 协同 · 传输 · 心跳 · SLA 10min 单跳',
     info: () => ((D.group && D.group.siblings && D.group.siblings.length)
