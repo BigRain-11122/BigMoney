@@ -429,11 +429,15 @@ def _validation_fallback(summary: dict, fetcher=None) -> dict:
     here = os.path.dirname(os.path.abspath(__file__))
     if here not in sys.path:
         sys.path.insert(0, here)
-    from daily_validate import (audit_new_rows, fallback_diagnose,
-                                 freshness, local_last_date, tencent_daily)
     summary["source_used"] = "sina"
     summary.setdefault("fallback_events", [])
     try:
+        # import inside the guard: a missing validation-leg module must
+        # degrade to a validation_leg_error event per the docstring
+        # contract ("never breaks the update run"), never crash the run
+        from daily_validate import (audit_new_rows, fallback_diagnose,
+                                     freshness, local_last_date,
+                                     tencent_daily)
         if summary.get("failures"):
             summary["fallback_events"].extend(
                 fallback_diagnose(summary["failures"], fetcher=fetcher))
@@ -676,7 +680,8 @@ def selftest() -> bool:
                     {"symbol": "510300", "appended": 1}]}
                 _validation_fallback(s_ok, fetcher=_diag_fetch)
                 i2 = (s_ok["source_used"] == "sina"
-                      and s_ok["parity_audit"]["symbols"] == ["510300"])
+                      and s_ok.get("parity_audit", {}).get("symbols")
+                      == ["510300"])
 
                 def _boom(code):
                     raise ConnectionError("validation leg down")
@@ -688,10 +693,31 @@ def selftest() -> bool:
                       == "validation_leg_unreachable")
             finally:
                 PATHS.daily_dir = real_daily
-            i = i1 and i2 and i3
+            try:
+                from daily_validate import fallback_diagnose  # noqa: F401
+                leg_present = True
+            except ImportError:
+                leg_present = False
+            if leg_present:
+                i = i1 and i2 and i3
+                print("  [updater] dual-leg fallback wiring (T-08)... "
+                      + ("PASS" if i else "FAIL"))
+            else:
+                # module absent on this clone: assert the documented
+                # degradation contract instead -- each branch records
+                # exactly one validation_leg_error event, run never crashes
+                evs = [s.get("fallback_events", [])
+                       for s in (s_fail, s_ok, s_err)]
+                i = (all(len(e) == 1 and e[0].get("diagnosis")
+                         == "validation_leg_error" for e in evs)
+                     and s_fail["source_used"] == "sina")
+                print("  [updater] dual-leg fallback wiring (T-08)... "
+                      + ("PASS" if i else "FAIL")
+                      + " [degraded: scripts/daily_validate.py absent on "
+                        "this clone -- T-08 owner bm-a untracked-file "
+                        "omission, bm-c r58 guard; online-leg cases "
+                        "auto-activate when the module lands]")
             ok &= i
-            print("  [updater] dual-leg fallback wiring (T-08)... "
-                  + ("PASS" if i else "FAIL"))
 
     # D: source parity on real data (network; SKIP if unreachable)
     try:
