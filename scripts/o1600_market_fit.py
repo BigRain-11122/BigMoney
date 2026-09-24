@@ -39,9 +39,6 @@ def run() -> dict:
     passive = float((1.0 + rets.mean(axis=1)).prod() - 1.0)
 
     rows = []
-    roster = sorted(
-        f for f in os.listdir(os.path.join(LP.PATHS.roster_dir, ".."))
-        if False)  # placeholder removed below
     import glob
     tdir = os.path.join(os.path.dirname(__file__), "..", "firm", "traders")
     files = [f for f in sorted(glob.glob(os.path.join(tdir, "*.json")))
