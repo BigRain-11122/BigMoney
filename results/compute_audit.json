@@ -1,22 +1,24 @@
 {
   "latest": {
-    "ts": "2026-09-24 13:15:06",
-    "cpu_total_pct": 55.0,
-    "py_cpu_pct": 1.7,
+    "ts": "2026-09-24 13:28:17",
+    "cpu_total_pct": 7.0,
+    "py_cpu_pct": 0.0,
     "cores": 32,
-    "py_procs": 9,
-    "result_stale_min": 4.3,
-    "fleet_open_tasks": 4,
+    "py_procs": 4,
+    "result_stale_min": 14.5,
+    "fleet_open_tasks": 3,
     "gpu": {
       "present": true,
-      "util_pct": 8.0,
-      "mem_used_mb": 7278.0,
-      "compute_apps_count": 40,
+      "util_pct": 1.0,
+      "mem_used_mb": 3190.0,
+      "compute_apps_count": 23,
       "rogue_apps": []
     },
     "zombies": [],
-    "flags": [],
-    "verdict": "CLEAN"
+    "flags": [
+      "idle_with_work"
+    ],
+    "verdict": "FLAG:idle_with_work"
   },
   "history": [
     {
@@ -1458,23 +1460,46 @@
       "verdict": "FLAG:idle_with_work"
     },
     {
-      "ts": "2026-09-24 13:15:06",
-      "cpu_total_pct": 55.0,
-      "py_cpu_pct": 1.7,
+      "ts": "2026-09-24 13:12:42",
+      "cpu_total_pct": 14.0,
+      "py_cpu_pct": 0.1,
       "cores": 32,
-      "py_procs": 9,
-      "result_stale_min": 4.3,
+      "py_procs": 5,
+      "result_stale_min": 4.8,
       "fleet_open_tasks": 4,
       "gpu": {
         "present": true,
-        "util_pct": 8.0,
-        "mem_used_mb": 7278.0,
-        "compute_apps_count": 40,
+        "util_pct": 1.0,
+        "mem_used_mb": 3196.0,
+        "compute_apps_count": 23,
         "rogue_apps": []
       },
       "zombies": [],
-      "flags": [],
-      "verdict": "CLEAN"
+      "flags": [
+        "idle_with_work"
+      ],
+      "verdict": "FLAG:idle_with_work"
+    },
+    {
+      "ts": "2026-09-24 13:28:17",
+      "cpu_total_pct": 7.0,
+      "py_cpu_pct": 0.0,
+      "cores": 32,
+      "py_procs": 4,
+      "result_stale_min": 14.5,
+      "fleet_open_tasks": 3,
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 3190.0,
+        "compute_apps_count": 23,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "flags": [
+        "idle_with_work"
+      ],
+      "verdict": "FLAG:idle_with_work"
     }
   ]
 }
