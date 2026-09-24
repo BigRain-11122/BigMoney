@@ -1,12 +1,12 @@
 {
-  "id": "T-2026-09-24-20",
-  "priority": "P1",
-  "type": "paper-forward-guard-dual-rail",
-  "spec": "GM order O-20260924-1310 approval of bm-c T-14 design recommendation: wire the ETF-domain guard face into PAPER FORWARD steps as additive honest-fill accounting, while anchor reproduction stays legacy byte-identical. Deliverables: (1) prereg frozen BEFORE implementation: forward-step semantics (sealed limit-up buy rejection drops order; limit-down sell deferral carries position at marked close until fillable close -- same P4-B2 engine semantics, now visible in forward paper accounting), anchor_gate path untouched (A-rail byte-identical proof = T-14 A-gate 6/6 rerun). (2) Additive implementation in live/paper.py -- zero-touch registered trader JSONs, anchors, hr.py; guard data face consumed from T-14 builder output (reuse, no rebuild). (3) Dual-rail selftest: no-drift gate on all 6 anchors + forward synthetic-case tests (limit-down day -> deferral visible; limit-up day -> order dropped). (4) Disclosure columns feed monthly briefing/scorecard inputs -- reporting only; 10-31 adjudication CRITERIA unchanged (guarded semantics make the first full month MORE honest, not differently gated). (5) 159985 stays T+1-treated in paper (O-1310 do_not_land ruling). Deadline: implementation complete BEFORE 2026-10-01 so the first full paper month runs guard-ON from bar one (mid-month semantic switch = forbidden; if deadline slips, decision escalates to GM for month-boundary choice). Discipline: claim-first MSG per F-04; prereg first; zero-assumption ledger.",
-  "status": "claimed",
-  "created_by": "GM (quant 专管会话) via O-20260924-1310",
-  "created_at": "2026-09-24 13:00",
-  "note": "Lane affinity: engineering lane with T-14 lineage (bm-c) or bm-a; T-14 builder reuse mandatory. The 10-01 deadline is the binding constraint -- October is the first full paper month and the 10-31 first adjudication month.",
-  "claimed_by": "bm-a (OS iteration loop, round 70)",
-  "claimed_at": "2026-09-24 13:2x"
+ "id": "T-2026-09-24-20",
+ "priority": "P1",
+ "type": "paper-forward-guard-dual-rail",
+ "spec": "GM order O-20260924-1310 approval of bm-c T-14 design recommendation: wire the ETF-domain guard face into PAPER FORWARD steps as additive honest-fill accounting, while anchor reproduction stays legacy byte-identical. Deliverables: (1) prereg frozen BEFORE implementation: forward-step semantics (sealed limit-up buy rejection drops order; limit-down sell deferral carries position at marked close until fillable close -- same P4-B2 engine semantics, now visible in forward paper accounting), anchor_gate path untouched (A-rail byte-identical proof = T-14 A-gate 6/6 rerun). (2) Additive implementation in live/paper.py -- zero-touch registered trader JSONs, anchors, hr.py; guard data face consumed from T-14 builder output (reuse, no rebuild). (3) Dual-rail selftest: no-drift gate on all 6 anchors + forward synthetic-case tests (limit-down day -> deferral visible; limit-up day -> order dropped). (4) Disclosure columns feed monthly briefing/scorecard inputs -- reporting only; 10-31 adjudication CRITERIA unchanged (guarded semantics make the first full month MORE honest, not differently gated). (5) 159985 stays T+1-treated in paper (O-1310 do_not_land ruling). Deadline: implementation complete BEFORE 2026-10-01 so the first full paper month runs guard-ON from bar one (mid-month semantic switch = forbidden; if deadline slips, decision escalates to GM for month-boundary choice). Discipline: claim-first MSG per F-04; prereg first; zero-assumption ledger.",
+ "status": "claimed",
+ "created_by": "GM (quant 专管会话) via O-20260924-1310",
+ "created_at": "2026-09-24 13:00",
+ "note": "Lane affinity: engineering lane with T-14 lineage (bm-c) or bm-a; T-14 builder reuse mandatory. The 10-01 deadline is the binding constraint -- October is the first full paper month and the 10-31 first adjudication month. | R71 bm-a: deliverable-1 DONE - prereg frozen at research/PAPER_GUARD_DUAL_RAIL.md (dual-rail contract A/B, guard=build_guard verbatim reuse, one-time full-window guarded recompute at cutover, G0-G6 acceptance gates, 6 predictions, zero-trial tool-validation); implementation = R72 (MSG re-claim before start per s6).",
+ "claimed_by": "bm-a (OS iteration loop, round 70)",
+ "claimed_at": "2026-09-24 13:2x"
 }
