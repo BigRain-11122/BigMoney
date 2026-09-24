@@ -39,6 +39,10 @@ data/moneyflow/
 # T-16 ARB-1 fund-premium lane (r52 bm-c): NAV snapshots + per-fund NAV history
 # accrue locally on the lane owner; status via results/fund_premium_status.json only
 data/fund_premium/
+# T-43 THS aggregate-flow AUXILIARY panel (R121 bm-a): forward-lockbox daily
+# cross-sections (no backfill source exists); machine-local status via
+# data/ths_ggzjl/status.json (lane = bm-a only, R31); spec THS_PANEL.md
+data/ths_ggzjl/
 # O-1136 watermark probe series: machine-local utilization append-log (3 machines
 # x 10min cadence = append-conflict hostile if tracked; round reports cite numbers)
 results/watermark.jsonl
