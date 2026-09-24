@@ -1,0 +1,148 @@
+{
+ "batch": "paper_guard_dual_rail",
+ "ticket": "T-2026-09-24-20",
+ "class": "tool-validation",
+ "ledger_trials_added": 0,
+ "evidence_cutoff": "2026-09-23",
+ "prereg": "research/PAPER_GUARD_DUAL_RAIL.md",
+ "guard_source": "t14_rules_fidelity.build_guard",
+ "frozen_face_last_bar": "2026-09-23",
+ "G0": {
+  "pass": true,
+  "summary": "Summary: 23/23 PASS, 0 FAIL"
+ },
+ "G1": {
+  "pass": true,
+  "anchor_ok": {
+   "COMPOSITE-CE-01": true,
+   "COMPOSITE-CE-02": true,
+   "DROUGHT-CE-01": true,
+   "ENGULF-CE-01": true,
+   "NEEDLE-DE-01": true,
+   "VOLATILITY-CE-01": true
+  },
+  "anchor_source_clean": true,
+  "structural": true
+ },
+ "G2": {
+  "pass": true,
+  "COMPOSITE-CE-01": {
+   "default_run": true,
+   "alltrue_run": true,
+   "default_x2": true,
+   "alltrue_x2": true,
+   "monthly": true
+  },
+  "COMPOSITE-CE-02": {
+   "default_run": true,
+   "alltrue_run": true,
+   "default_x2": true,
+   "alltrue_x2": true,
+   "monthly": true
+  },
+  "DROUGHT-CE-01": {
+   "default_run": true,
+   "alltrue_run": true,
+   "default_x2": true,
+   "alltrue_x2": true,
+   "monthly": true
+  },
+  "ENGULF-CE-01": {
+   "default_run": true,
+   "alltrue_run": true,
+   "default_x2": true,
+   "alltrue_x2": true,
+   "monthly": true
+  },
+  "NEEDLE-DE-01": {
+   "default_run": true,
+   "alltrue_run": true,
+   "default_x2": true,
+   "alltrue_x2": true,
+   "monthly": true
+  },
+  "VOLATILITY-CE-01": {
+   "default_run": true,
+   "alltrue_run": true,
+   "default_x2": true,
+   "alltrue_x2": true,
+   "monthly": true
+  }
+ },
+ "G3": {
+  "pass": true,
+  "g3_buy_dropped_n": true,
+  "g3_sell_deferred_events": true,
+  "g3_deferred_days_total": true,
+  "g3_first_deferred_date": true,
+  "g3_S1_exit_deferred_one_bd": true,
+  "g3_S1_reason_preserved": true,
+  "g3_S1_control_stopped_at_stop_day": true,
+  "g3_S2_exit_deferred_one_bd": true,
+  "g3_S2_reason_preserved": true,
+  "g3_S2_control_stopped_at_stop_day": true,
+  "g3_blocked_day_mark_visible": true,
+  "g3_all_syms_entered": true,
+  "g3_s2_hold_net_zero": true,
+  "g3_determinism": true,
+  "g3_all_true_noop": true
+ },
+ "G4": {
+  "pass": true,
+  "evidence_untouched": true
+ },
+ "G5": {
+  "pass": true,
+  "forward_guard_blocks": true
+ },
+ "G6": {
+  "pass": true,
+  "prod_rc": 0,
+  "g5_forward_guard_blocks": true,
+  "g4_judgment_files_clean": true,
+  "g6_months_unchanged": true,
+  "g6_x2_ledger_lineage": {
+   "checked_tail": 6,
+   "ok": true
+  },
+  "g6_guard_events": {
+   "COMPOSITE-CE-01": {
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null
+   },
+   "COMPOSITE-CE-02": {
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null
+   },
+   "DROUGHT-CE-01": {
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null
+   },
+   "ENGULF-CE-01": {
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null
+   },
+   "NEEDLE-DE-01": {
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null
+   },
+   "VOLATILITY-CE-01": {
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null
+   }
+  }
+ },
+ "verdict": "PASS"
+}

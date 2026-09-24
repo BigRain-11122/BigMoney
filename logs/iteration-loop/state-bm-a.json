@@ -1,21 +1,19 @@
 {
- "round_no": 79,
+ "round_no": 80,
  "did": [
-  "R79 = BACKOFF-ROUND per occupation evidence: live ACP sessions (2, started 15:35/15:36) + writes 15:48:18 (CODELY.md/update_daily.py/MSG pulls) + session git bulk op 15:52:33 (staged O-1542/T-24, rewrote tracked files) => loop = read-only maintenance + own-lane bookkeeping only, no claims, no CODELY.md writes",
-  "S0 pull --rebase BLOCKED by session WIP dirty tree (non-blocking per protocol); S0.5 orders double-scan 44->45: O-1532/O-1536 session-registered (commits 8d5afb9/d479679 pushed, tickets T-22 claimed bm-b per MSG-1552 / T-23 open) + MID-ROUND NEW O-20260924-1542 (PROSPECT probation-roster expansion CEO order, T-24 opened+staged by session) -- all three ACKED in heartbeat (registration+tickets = receipt; execution tracked on board; no double-exec per anti-dup law)",
-  "P-32 decisions review FIRST-TIME receipts for BigMoney rows: D-01 EXECUTED (evidence: bm-b r99 CODELY 472763B->5729B + bm-a R78 archive backfill dee9a2c 477973B zero-loss); D-02 ADOPTED (fleet-protocol items already in-repo practice per decision row itself); D-07 PARTIAL: 3) checkpoint-resume already standard practice (MF_COLLECTOR 5222-stock / fund-NAV per-symbol / lof_census retry-window precedents), 1) EM-subdomain-blocked-verification clause LANDED in research/shortline/PC_COLLECTOR.md S1 (RACE incident: first write clobbered by session git bulk op at 15:52:33 -- verified absent post-write by content check + replace-tool staleness guard catch; re-applied), 2) datacenter alternative-source pre-validation queued for P-C expansion face",
-  "S1 smoke 23/23 PASS; S2 job_list empty; T-24 open+unclaimed NOT claimed this round (live session faster on fresh order, anti-race; NEXT-ROUND TOP CLAIM CANDIDATE if still open); T-20 (bm-a claimed R70, prereg frozen R71, implementation pending, HARD deadline pre-10-01 co-landing with T-21 which is DONE r99) = next-round TOP WORK",
-  "S6 chain FULL RUN minus update_daily (blocked: T-08 WIP session code discipline) minus live.paper (no new bar): audit CLEAN 0 flags / watermark insufficient_history n=1 / regime ORANGE shadow d1 #10 (hs300<MA200) / lhb no-op cutoff-covers / heat no-op 30min-throttle / futures no-op cutoff-covers / moneyflow SPAWN detached full-universe refresh (no local panel first-run bm-a, checkpoint-resumable, lane-owner legal) / fund_premium bm-c-lane stdout-only no-op (R65) / fundamental fresh-skip 19.4h / b_layer mask regen 5222 all-gates-pass / build_status traders=6 / token delta -266",
-  "S7: schtasks Loop Running + Watchdog Ready (no rebuild); inbox processed: MSG-1552 (T-22 bm-b claim, ack) + MSG-1410 (bm-c futurets, bm-c r52 already receipted content) archived to processed/; MSG-1545 (GM ruling request: T-13 D-C re-prereg 3 candidates, bm-b recommends (b) distribution-bound + crisis-annotation, V2 file PENDING-GM-RULING) LEFT IN INBOX for GM interactive face -- flagged in heartbeat current_task",
-  "PIT (S4 candidate, CODELY.md owned by session so parked here): backoff-round shared-repo-file write raced and LOST vs live-session git bulk operation (D-07 clause vanished post-write, mtime evidence 15:52:33) => law: in backoff rounds, write-then-VERIFY-CONTENT immediately, prefer pathspec commit in same command; replace-tool staleness guard = the safety net that caught it"
+  "R80 = T-20 main-delivery round (backoff lifted: session WIP stale ~3h): S0.5 diff-scan 45/45 empty; P-32 zero new rows; smoke 23/23",
+  "T-20 d2-d4 one-shot DONE: MSG-1608 -> pre-change baseline (frozen 09-23) -> wiring commit b8172ba (engine additive sell-deferral keys + live/paper.py B-rail guard) -> gates G0-G6 ALL PASS (paper_guard_dual_rail.json) -> production cutover = first post-commit paper run full-window guarded recompute; prereg s7/s8 backfilled; ticket note updated; remaining = briefing/scorecard display wiring",
+  "5x HANDOVER accounted: header chain + s2 cutoff (R80/r104/r57) + table-tail R80 row + s6 queue row round 80 (T-20 done, T-22/23/24 ledger); diff 5+/3-",
+  "S6 chain green: audit CLEAN / wm insufficient_history n=1 / daily 0 new rows (09-24 source-lag) / regime ORANGE d1 / lhb no-op / heat n=100 landed / futures no-op / moneyflow detached spawn / fund_premium R65 no-op / fundamental fresh / b_layer 5 gates / token +180",
+  "PIT: fixture guard-cell authoring must trace signal-bar -> exec-bar shift (bar60->bar61); G3 first red = fixture-side, criteria untouched (J18 2nd)"
  ],
  "next_pointer": [
-  "(1) TOP: T-20 implementation (bm-a claimed, prereg research/PAPER_GUARD_DUAL_RAIL.md frozen R71, MSG re-claim before start per s6) -- HARD pre-10-01 co-landing with T-21 (delivered r99, date-gated); 6 days left",
-  "(2) T-24 PROSPECT-pool claim candidate if still open (lane affinity bm-a hr.py lineage; O-1542 7-day veto window; coordinate T-22 same candidate universe)",
-  "(3) MSG-1545 GM ruling pending interactive face (T-13 D-C candidates a/b/c; if session silent next rounds, loop may rule per O-1620 with explicit face-note)",
-  "(4) D-07② datacenter alternative-source pre-validation before any P-C expansion; D-07① verify clause survived in tree (race re-check)",
-  "(5) S6 update_daily + 09-24 bar sweep resume once session commits T-08 WIP; watermark verdict watch; moneyflow detached refresh harvest (checkpoint)"
+  "(1) T-24 PROSPECT probation-roster claim candidate (open; O-1542; hr.py lineage affinity)",
+  "(2) T-20 briefing/scorecard display wiring (reporting-only additive step)",
+  "(3) daily 09-24 bar sweep self-heal (source unpublished 15:44+16:18 probes) + moneyflow detached refresh harvest",
+  "(4) MSG-1545 GM ruling pending interactive face (T-13 D-C candidates; bm-b recommends (b))",
+  "(5) next 5x = R85 HANDOVER; T-19 stage-2a sequencing now UNBLOCKED by T-20 landing (bm-c lane)"
  ],
- "note": "R79 = backoff round under live session (strategy-order window O-1532/1536/1542 being executed by interactive GM face + bm-b). Loop kept to own lanes: S6 maintenance + bookkeeping + receipts. No engine runs, ledger untouched, zero CODELY.md writes (session owns face per R78 law).",
- "last_round_ts": "2026-09-24T15:54:00+08:00"
+ "note": "R80 delivered T-20 (10-01 hard deadline met, 6 days early); paper forward window now runs guarded from first bar; October = first full month under both T-21 enforce (date-gated) and T-20 guard semantics.",
+ "last_round_ts": "2026-09-24T16:21:53+08:00"
 }

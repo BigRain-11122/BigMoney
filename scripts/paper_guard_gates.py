@@ -337,7 +337,7 @@ def _g4_g5_g6(detail: dict, pre_state: dict) -> bool:
             continue
         with open(os.path.join(PAPER_DIR, f), encoding="utf-8") as fh:
             blk = json.load(fh)
-        post_state[f[:-5]] = blk
+        post_state[f[:-len("_paper.json")]] = blk
         fg = blk.get("forward_guard") or {}
         want_keys = {"enabled", "guard_source", "buy_rejected_n",
                      "sell_deferred_events_n", "deferred_days_total",
@@ -397,7 +397,12 @@ def run_gates() -> int:
     for name, fn in (("G0", _g0), ("G1", _g1), ("G2", _g2)):
         print(f"{name}...", end=" ", flush=True)
         d = {}
-        ok = (fn(d, prices, base) if name in ("G1", "G2") else fn(d))
+        if name == "G2":
+            ok = fn(d, prices, P, base)
+        elif name == "G1":
+            ok = fn(d, prices, base)
+        else:
+            ok = fn(d)
         out[name] = {"pass": ok, **d}
         print("PASS" if ok else "FAIL")
 
@@ -412,7 +417,7 @@ def run_gates() -> int:
     for f in sorted(os.listdir(PAPER_DIR)):
         if f.endswith("_paper.json"):
             with open(os.path.join(PAPER_DIR, f), encoding="utf-8") as fh:
-                pre_state[f[:-5]] = json.load(fh)
+                pre_state[f[:-len("_paper.json")]] = json.load(fh)
     d456 = {}
     ok456 = _g4_g5_g6(d456, pre_state)
     out["G4"] = {"pass": d456.get("g4_evidence_untouched", False),

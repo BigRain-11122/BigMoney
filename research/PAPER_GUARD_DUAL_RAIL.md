@@ -63,10 +63,19 @@
 - 回滚条款：G1/G2 任一红=实现回滚（live/paper.py 恢复改动前 commit），票面 deadline 风险即报 GM。
 - 实现轮开工前再发 MSG（车道续作声明，防他机误认领 T-20 尾段）。
 
-## §7 跑后实证【占位纪律：跑前必须为空——写数字即造假】
+## §7 跑后实证【R80 bm-a 实现轮回填·2026-09-24】
 
-（空）
+- **G0** PASS：smoke 23/23（未加新 smoke 项——声明：双轨 fixture 用例由验收 runner G3 承载，23 计数不动，T-21 已交付件 G0 断言面保持相容）。
+- **G1** PASS：anchor 6/6 且与改前基线逐位同；anchor_gate 源码零 fill_guard/build_guard；结构断言=T-21 两子串保持 + update_trader 新增 fill_guard=fill_guard。
+- **G2** PASS：冻结面（09-23）6 员×四腿全逐字节同基线（default_run/alltrue_run/default_x2/alltrue_x2）；缺省路径零加性键发射；全 True 守卫加性键全零。
+- **G3** PASS 15/15：买拒 3（S2 封板日 1+S3 停牌双封 2）、卖顺延 2 事件/2 天、first_deferred_date、reason 逐字保留、顺延恰 +1 交易日、封锁日 close 盯市可见、S2 入场位移与顺延抵消（hold 净零）、双跑确定、全 True noop。**首跑红=fixture 作者侧错**（信号 bar→执行 bar off-by-one：bar60 信号→bar61 首执行窗；S2 卖封锁腿漏写）——修 fixture 禁改判据（J18 律），修后 15/15。
+- **G4** PASS：六员注册件 evidence 块（level/params/backtest 含 x2 种子/exit_overrides/created/evidence_cutoff）切换前后逐字节同；hr.py+monthly_briefing.py git 面零改动。
+- **G5** PASS：6/6 results/paper/*.json forward_guard 块=冻结键集逐字（enabled/guard_source/buy_rejected_n/sell_deferred_events_n/deferred_days_total/first_deferred_date/window_semantics="guarded"/as_of）。
+- **G6** PASS：接线 commit b8172ba 后首个生产跑 python -m live.paper=全窗 guarded 重算完成（prod_rc=0，双跑幂等）；months_tracked 0→0（九月残月不计月语义不变）；x2 看护台账尾条目全带 window_semantics 谱系字段；**六员窗口守卫事件全零**（窗口 1-2 bar 无封板日——§5 预测 3 命中，对窗口 Sharpe 影响不可测=零）。
+- **runner 自修两处（判据零触碰）**：门循环 dispatch 签名 bug（G2 缺 P 参）；产物 JSON tid 键名 _paper 尾缀。
+- **披露交互（已披露不阻断）**：T-21 已交付件 regime_enforce_gates 若未来重跑，其 G1a noop 键排除集需扩 T-20 三新加性键、其 G1b/G4 parity 需容 forward_guard 块（含逐跑 as_of）——无常设链重跑它，已交付判定件不受影响。
 
-## §8 批后复盘【s7-T·跑后回填】
+## §8 批后复盘【R80 bm-a】
 
-（空）
+- 预测对账：①G1 零漂移 PASS（构造性保证兑现）；②G2 PASS（reindex+fillna(True) 面未咬合，90% 置信兑现）；③切换事件≈0 兑现（全零）；④G3 首版红=fixture 编写期错非集成面错——实现一次落地全绿（预测「3-4/4 中等置信」按 fixture 质量错归档）；⑤披露块对 10-31 首检路径零影响兑现（G4 判据件零改动+hr 不消费守卫字段）；⑥总时长=1 个 OS 轮兑现（R80 单轮实现+门+切换；R72-79 连续退避为活会话让路，非本批滑期）。
+- 教训：合成 fixture 造守卫格前必须先推信号 bar→执行 bar 位移（引擎 T 收盘→T+1 开盘契约是 fixture 作者侧最常见 off-by-one 源）；门 runner 自身 bug=runner 侧修，禁触判据（J18 律第二例证）。
