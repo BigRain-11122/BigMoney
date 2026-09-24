@@ -356,6 +356,10 @@ function renderCompany() {
       `审计 ${n2(ga.ok)}/${n2(ga.checks)} OK · findings ${n2(ga.findings)} · 简报 ${n2(gb.month)}`,
       gv.status === "ok" ? "ok" : "warn", gv.status === "ok" ? "月度" : "待办"));
   }
+  const qb = (D.data && D.data.queue_bandit) || {};
+  if (qb.present) {
+    rows.push(chainRow("队列排程", n2(qb.text), "dim", "UCB1 advisory"));
+  }
   el.innerHTML = rows.join("") || '<div class="empty">公司面待产出</div>';
 }
 

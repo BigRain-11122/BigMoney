@@ -1273,6 +1273,69 @@ def _governance_state() -> dict:
     return out
 
 
+_QUEUE_ARM_CN = {
+    "portfolio-construction": "组合构建",
+    "synthesis-crosslib": "跨库合成",
+    "patterns-confirmation": "形态确认",
+    "event-attention-factors": "事件注意力",
+    "trend-timeseries": "趋势时序",
+    "stock-pool-tilt": "股票池倾斜",
+    "futures-cta": "期货CTA",
+    "pairs-cointegration": "配对协整",
+    "low-freq-asset": "低频品种",
+    "regime-defense": "行情防线",
+}
+
+
+def _queue_bandit_state() -> dict:
+    """Batch-queue bandit scheduler visibility (QUEUE_BANDIT v1, bm-a R62;
+    O-1819 queue-never-empties mechanization). Advisory-only surface: UCB1
+    lane ordering + candidate registry. Scheduler never initiates batches;
+    every batch still needs prereg + claim (research/QUEUE_BANDIT.md §0)."""
+    st = _read_json(os.path.join(PATHS.results_dir, "bandit_queue.json")) or {}
+    arms = st.get("arms")
+    if not arms:
+        return {"present": False, "status": "none", "text": "队列排程待产出"}
+    order = st.get("ucb1_policy_order") or []
+    exploit = st.get("exploit_ranking") or []
+    cands = st.get("engineering_candidates") or []
+    tried = [k for k, a in arms.items() if a.get("n_pulls")]
+    total_pulls = sum(int(a.get("n_pulls") or 0) for a in arms.values())
+    positive = [k for k, a in arms.items() if (a.get("mean_reward") or 0) > 0]
+    n_open = sum(1 for c in cands if c.get("status") == "open")
+    n_gated = sum(1 for c in cands
+                  if str(c.get("status", "")).startswith("gated"))
+    next_lane = order[0] if order else None
+    best_exploit = exploit[0] if exploit else None
+    next_txt = _QUEUE_ARM_CN.get(next_lane, next_lane) if next_lane else "—"
+    next_tag = ""
+    if next_lane and not arms.get(next_lane, {}).get("n_pulls"):
+        next_tag = "（未试）"
+    pos_txt = "/".join(_QUEUE_ARM_CN.get(k, k) for k in positive) if positive else "无"
+    return {
+        "present": True,
+        "generated": st.get("generated"),
+        "schema": st.get("schema"),
+        "n_arms": len(arms),
+        "tried_arms": len(tried),
+        "total_pulls": total_pulls,
+        "next_lane": next_lane,
+        "next_lane_cn": next_txt + next_tag,
+        "best_exploit": best_exploit,
+        "best_exploit_cn": (_QUEUE_ARM_CN.get(best_exploit, best_exploit)
+                            if best_exploit else "—"),
+        "positive_arms": positive,
+        "positive_arms_cn": pos_txt,
+        "n_open_candidates": n_open,
+        "n_gated_candidates": n_gated,
+        "unmapped_batches": len(st.get("unmapped_batches") or []),
+        "evidence_cutoff": st.get("evidence_cutoff"),
+        "status": "ok",
+        "text": (f"下一 {next_txt}{next_tag} · 正收益 {pos_txt}"
+                 f" · 开放{n_open} · P1门{n_gated}"),
+    }
+
+
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
@@ -1284,6 +1347,7 @@ def build() -> dict:
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()
     data["governance"] = _governance_state()
+    data["queue_bandit"] = _queue_bandit_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()
@@ -1452,6 +1516,13 @@ def build() -> dict:
             "time": ga["generated"] or gb["generated"] or "-",
             "text": "治理面 · " + " · ".join(parts)
                     + "（月度 M 层 · 总经办 · findings 只报不阻断）"})
+    qb = data["queue_bandit"]
+    if qb["present"]:
+        tail_events.append({
+            "time": qb["generated"] or "-",
+            "text": f"队列排程 · UCB1 advisory · {qb['text']}"
+                    f" · 已试臂 {qb['tried_arms']}/{qb['n_arms']} · exploit 最优 {qb['best_exploit_cn']}"
+                    f"（QUEUE_BANDIT v1 · O-1819 队列永不清空 · 只排序不发起批）"})
     fl = payload["fleet"]
     if fl["present"]:
         m_alive = sum(1 for m in fl["machines"] if m["health"] == "ok")
