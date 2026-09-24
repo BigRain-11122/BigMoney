@@ -1,0 +1,169 @@
+{
+ "probe_ts": "2026-09-24 08:31:17",
+ "lane": "moneyflow_source_audit",
+ "claim": "MSG-20260924-0830 (R58 bm-a, F-04)",
+ "domain_map": {
+  "A/B/C_fund_flow": "push2his.eastmoney.com (known intermittent, R34/r40)",
+  "D/E/F_hsgt": "datacenter-web.eastmoney.com (proven working domain, r39)"
+ },
+ "northbound_premise": "playbook frozen: real-time disclosure stopped 2024-08 -> replacement channel = per-stock holding detail (E)",
+ "probes": [
+  {
+   "probe": "A.individual_fund_flow:000001",
+   "status": "ok",
+   "error": null,
+   "rows": 120,
+   "first": "2026-04-02",
+   "last": "2026-09-23",
+   "cols": [
+    "日期",
+    "收盘价",
+    "涨跌幅",
+    "主力净流入-净额",
+    "主力净流入-净占比",
+    "超大单净流入-净额",
+    "超大单净流入-净占比",
+    "大单净流入-净额",
+    "大单净流入-净占比",
+    "中单净流入-净额",
+    "中单净流入-净占比",
+    "小单净流入-净额"
+   ],
+   "elapsed_s": 0.4
+  },
+  {
+   "probe": "A.individual_fund_flow:600519",
+   "status": "ok",
+   "error": null,
+   "rows": 120,
+   "first": "2026-04-02",
+   "last": "2026-09-23",
+   "cols": [
+    "日期",
+    "收盘价",
+    "涨跌幅",
+    "主力净流入-净额",
+    "主力净流入-净占比",
+    "超大单净流入-净额",
+    "超大单净流入-净占比",
+    "大单净流入-净额",
+    "大单净流入-净占比",
+    "中单净流入-净额",
+    "中单净流入-净占比",
+    "小单净流入-净额"
+   ],
+   "elapsed_s": 0.5
+  },
+  {
+   "probe": "A.individual_fund_flow:300750",
+   "status": "ok",
+   "error": null,
+   "rows": 120,
+   "first": "2026-04-02",
+   "last": "2026-09-23",
+   "cols": [
+    "日期",
+    "收盘价",
+    "涨跌幅",
+    "主力净流入-净额",
+    "主力净流入-净占比",
+    "超大单净流入-净额",
+    "超大单净流入-净占比",
+    "大单净流入-净额",
+    "大单净流入-净占比",
+    "中单净流入-净额",
+    "中单净流入-净占比",
+    "小单净流入-净额"
+   ],
+   "elapsed_s": 0.4
+  },
+  {
+   "probe": "B.sector_fund_flow_hist:汽车服务",
+   "status": "fail",
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "elapsed_s": 7.0
+  },
+  {
+   "probe": "C.market_fund_flow",
+   "status": "ok",
+   "error": null,
+   "rows": 120,
+   "first": "2026-04-02",
+   "last": "2026-09-23",
+   "cols": [
+    "日期",
+    "上证-收盘价",
+    "上证-涨跌幅",
+    "深证-收盘价",
+    "深证-涨跌幅",
+    "主力净流入-净额",
+    "主力净流入-净占比",
+    "超大单净流入-净额",
+    "超大单净流入-净占比",
+    "大单净流入-净额",
+    "大单净流入-净占比",
+    "中单净流入-净额"
+   ],
+   "elapsed_s": 0.5
+  },
+  {
+   "probe": "D.hsgt_hist_em:北向资金",
+   "status": "ok",
+   "error": null,
+   "rows": 2759,
+   "first": "2014-11-17",
+   "last": "2026-09-23",
+   "cols": [
+    "日期",
+    "当日成交净买额",
+    "买入成交额",
+    "卖出成交额",
+    "历史累计净买额",
+    "当日资金流入",
+    "当日余额",
+    "持股市值",
+    "领涨股",
+    "领涨股-涨跌幅",
+    "沪深300",
+    "沪深300-涨跌幅"
+   ],
+   "elapsed_s": 2.4
+  },
+  {
+   "probe": "E.hsgt_individual_detail:600519",
+   "status": "ok",
+   "error": null,
+   "rows": 6043,
+   "first": "2024-09-30",
+   "last": "2024-05-16",
+   "cols": [
+    "持股日期",
+    "当日收盘价",
+    "当日涨跌幅",
+    "机构名称",
+    "持股数量",
+    "持股市值",
+    "持股数量占A股百分比",
+    "持股市值变化-1日",
+    "持股市值变化-5日",
+    "持股市值变化-10日"
+   ],
+   "elapsed_s": 9.1
+  },
+  {
+   "probe": "F.hsgt_hold_stock_rank:沪股通/今日排行",
+   "status": "fail",
+   "error": "TypeError: 'NoneType' object is not subscriptable",
+   "elapsed_s": 1.1
+  }
+ ],
+ "summary": {
+  "n_probes": 8,
+  "n_ok": 6,
+  "n_fail": 2
+ },
+ "notes": [
+  "probe-only: NO data files written, pipeline/prereg belongs to a future batch",
+  "throttle 3.0s/probe honored; direct connection (no-proxy opener + env cleared)"
+ ]
+}
