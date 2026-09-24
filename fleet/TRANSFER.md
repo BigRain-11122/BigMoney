@@ -65,6 +65,12 @@ Tools\transfer_manifest.ps1 -Path <数据集> -Out fleet\transfers\<taskid>-send
 # 接收机：落位后生成 + 比对
 Tools\transfer_manifest.ps1 -Path <落位目录> -Out fleet\transfers\<taskid>-receiver.json [-Hash]
 Tools\transfer_manifest.ps1 -Path <落位目录> -Verify fleet\transfers\<taskid>-sender.json [-Hash]
+# git transfer 分支（§0.3 方案 A）收件腿坑律（bm-a R90 实证）：
+# `git checkout <分支> -- <path>` 会把 gitignored 路径上的件自动 STAGE 进 main
+# index（大件险入 main 史）——checkout 后必须：
+#   git restore --staged <path>   （保留工作树件=gitignored 设计态，撤销暂存）
+# 校验目录名与 sender manifest 的相对名不匹配时，接收机可构造同构暂存目录
+# （copy 两件到 $env:TEMP\<stage> 后 -Path <stage> -Verify，用毕即删）。
 ```
 - PASS → 任务单 `status=done` + `result_ref=双侧 manifest 路径` + 双侧 commit push；FAIL → 差异清单（缺/多/哈希坏）入轮报告，按差异重传。
 
