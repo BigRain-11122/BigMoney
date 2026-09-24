@@ -7,3 +7,5 @@
 - 判据三态：立法=D-01 集团拍板（git 可验）；生效=本轮实弹（19,270B≤50KB + 零丢失 PASS）；验收=post_review 下波 derive 复核（bm-c C9 腿）。
 
 —— bm-a R96
+---
+- processed 2026-09-24 22:37 bm-a loop R98: ALL-receipt zero-action (D-01 layering already in project memory; hot-layer append discipline confirmed; post_review acceptance = bm-c C9 next wave).
