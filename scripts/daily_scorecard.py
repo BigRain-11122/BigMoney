@@ -50,6 +50,7 @@ def _load_paper():
             "win_rate": wm.get("win_rate"),
             "fill_guard_buy_dropped": wm.get("fill_guard_buy_dropped"),
             "fill_guard_sell_deferred": wm.get("fill_guard_sell_deferred_events"),
+            "forward_guard": d.get("forward_guard") or {},
             "risk_regime": d.get("risk_regime") or {},
         })
     return rows
@@ -239,6 +240,41 @@ def build():
     A("</table>")
     A("<div class='sub'>操作台账：实盘舱大字版（上节）逐日自 results/paper_export 差分链派生；"
       "纸盘尚在首月（起跑 2026-09-23），fill_guard 计数随每 bar 更新（禁买弃单/禁卖递延如实记）。</div>")
+
+    # T-20 disclosure block: dual-rail fill_guard face (reporting-only wiring).
+    fg_rows = [r for r in rows if r.get("forward_guard")]
+    A("<h2>双轨护栏披露（T-20 · fill_guard 逐员披露面）</h2>")
+    if fg_rows:
+        fg_all_zero = all(
+            (fg.get("buy_rejected_n") or 0) == 0
+            and (fg.get("sell_deferred_events_n") or 0) == 0
+            and (fg.get("deferred_days_total") or 0) == 0
+            for fg in (r["forward_guard"] for r in fg_rows))
+        A(f"<div class='sub'>护栏=A 轨规则保真（t14_rules_fidelity.build_guard 逐字复用）"
+          f"+ B 轨纸盘执行面；{'窗口守卫事件全零（护栏在位·零拦截）' if fg_all_zero else '存在拦截/递延事件（见下表·诚实记录）'}"
+          "（O-1820 · T-20）</div>")
+        A("<table><tr><th>交易员</th><th>护栏</th><th>窗口语义</th>"
+          "<th>买弃单</th><th>卖递延事件</th><th>递延天数</th><th>首递延日</th></tr>")
+        for r in rows:
+            fg = r.get("forward_guard") or {}
+            if not fg:
+                continue
+            enabled = fg.get("enabled")
+            any_hit = ((fg.get("buy_rejected_n") or 0) > 0
+                       or (fg.get("sell_deferred_events_n") or 0) > 0)
+            A(f"<tr><td>{r['trader']}</td>"
+              f"<td class='{'pos' if enabled else 'neg'}'>"
+              f"{'在位' if enabled else '缺失'}</td>"
+              f"<td class='dim'>{fg.get('window_semantics') or '—'}</td>"
+              f"<td class='{'neg' if (fg.get('buy_rejected_n') or 0) > 0 else ''}'>"
+              f"{fg.get('buy_rejected_n', 0)}</td>"
+              f"<td class='{'neg' if (fg.get('sell_deferred_events_n') or 0) > 0 else ''}'>"
+              f"{fg.get('sell_deferred_events_n', 0)}</td>"
+              f"<td>{fg.get('deferred_days_total', 0)}</td>"
+              f"<td class='dim'>{fg.get('first_deferred_date') or '—'}</td></tr>")
+        A("</table>")
+    else:
+        A("<div class='sub'>披露面缺件（forward_guard 未生成=护栏未随跑或字段缺失，如实标注）</div>")
 
     A("<h2>月度战绩（完整成绩单）</h2>")
     A("<div class='sub'>完整战绩月自 2026-10-01 起算（IV6+REGIME_GUARD enforce 双切换）；"

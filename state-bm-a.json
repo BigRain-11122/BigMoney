@@ -1,10 +1,10 @@
 {
- "round_no": 106,
+ "round_no": 107,
  "did": [
-  "R106 (dept:交易+工程+舰队): P-32 双决策执行: D-20260925-01 四条全落地 (PREREG §4 硬界三件套+§5 极端日先验 / TRANSFER §2 发送方收尾 / fleet README §8 fallback=machine/<id>-r<N>+fold 后 GC / iteration_prompt S4 水位当窗即办) + D-20260925-05 T-35 数据面前置 (results/paper_export/README.md 契约 schema t35_paper_export_v1) + D-03 自评达标 (IgnoreNew OS 级单实例)",
-  "R106 S3: T-29 v0.2 CEO 面切片接管 (bm-c 停机 21:51+零 commit, S3 stale>20min, MSG-20260925-0020): daily_scorecard.py BIG-FONT 实盘舱 (T-35 消费·6 员大字卡+持仓+操作) + 桌面 量化战绩.lnk CEO 机装机 + dashboard 顶行 + S6 自动刷新接线; scorecard 幂等 hash 1cd435c2287723ed; smoke 23/23; S6 全绿 (regime ORANGE d2/b_layer 四门/t35 export 幂等)"
+  "R107 (dept:交易+工程): 红牌三源裁定=GM 豁免合法 idle (尾样本 T-38 open 信号陈旧已闭: 池 6/6 done+open 0+bandit 0+audit CLEAN; 下 tick 00:50 自然翻绿) + T-20 收尾闭环 (最后 reporting-only 步交付: daily_scorecard.py T-20 双轨护栏披露块 6 员表 + monthly_briefing.py 三节风险旗 guard rollup 行, 实弹 6/6 enabled/guarded/零事件, briefing selftest 11/11) + T-20 票 done (G0-G6 ALL PASS+生产切换 R106+显示接线 R107)",
+  "R107 S6: 全绿 (audit CLEAN py0.2% flags[] / wm n=1 insufficient_history 合法 / daily 0 行 cutoff 09-24 / regime ORANGE d2 shadow / lhb+heat+futures no-op 守卫内 / moneyflow spawn→conn 级源阻断自愈设计内 53/5222 checkpoint / fp 车道 no-op bm-c / fundamental fresh / b_layer 四门 all_pass / t35 幂等 export-09-24 / tok delta 64) + smoke 23/23 + orders 双扫 61/61 空"
  ],
- "verdict": "WM=GREEN (red=false, legal idle: board fully closed + bandit 0 + pool empty + moneyflow network-IO refresh in-flight; audit CLEAN)",
- "next": "R107: T-35 d2-c 09:30 open-fill first live window (IntradayMarks first fire 09:25) + T-29 residual slices (weekly one-liner + monthly four-piece, natural no-op until 10-31) owner bm-c on revival or next takeover + bm-c 24h escalation line 09-25 22:00 + moneyflow EM block monitor",
- "ts": "2026-09-25T00:18:30+08:00"
+ "verdict": "WM=RED->GM-waiver legal idle (red=true stale work-signal: trailing samples held T-38 open pre-23:59, current pool 6/6 done + open 0 + bandit 0 = O-1612 whitelist; self-clears next C7 tick) ; T-20 fully closed (G0-G6 PASS + display wiring)",
+ "next": "R108: C7 tick 00:50 后核 red 文件自然翻绿 (预期 healthy) + bm-c 复活观察 (T-16/17/19/25/32+T-29 残片) + 09:30 开盘 T-35 d2-c 首实弹窗 (IntradayMarks 09:25 首火) + moneyflow conn 阻断解除自愈监控",
+ "ts": "2026-09-25T00:32:52+08:00"
 }

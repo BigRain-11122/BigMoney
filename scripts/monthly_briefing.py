@@ -111,6 +111,27 @@ def gather(root=ROOT, month=None, asof=None):
                 }
     g["paper"] = paper
 
+    # T-20 dual-rail fill_guard disclosure rollup (reporting-only).
+    guard = {"n": 0, "enabled_n": 0, "buy_rejected_total": 0,
+             "sell_deferred_total": 0, "deferred_days_total": 0,
+             "first_deferred_dates": []}
+    if paper_dir.is_dir():
+        for p in sorted(paper_dir.glob("*_paper.json")):
+            d = _read_json(p)
+            if not (isinstance(d, dict) and "trader" in d):
+                continue
+            fg = d.get("forward_guard") or {}
+            guard["n"] += 1
+            if fg.get("enabled"):
+                guard["enabled_n"] += 1
+            guard["buy_rejected_total"] += int(fg.get("buy_rejected_n") or 0)
+            guard["sell_deferred_total"] += int(fg.get("sell_deferred_events_n") or 0)
+            guard["deferred_days_total"] += int(fg.get("deferred_days_total") or 0)
+            if fg.get("first_deferred_date"):
+                guard["first_deferred_dates"].append(
+                    f"{d['trader']}@{fg['first_deferred_date']}")
+    g["guard"] = guard
+
     # Ledger N (single source: science_gates scanner).
     n_total = None
     try:
@@ -265,6 +286,19 @@ def render(g):
         L.append(f"- ×2 薄垫 probation：{', '.join(g['probation'])}（随每根新 bar 自动滚动盯防）")
     else:
         L.append("- ×2 薄垫 probation：无")
+    gd = g.get("guard") or {}
+    if gd.get("n"):
+        gd_zero = (gd.get("buy_rejected_total") == 0
+                   and gd.get("sell_deferred_total") == 0
+                   and gd.get("deferred_days_total") == 0)
+        gd_state = "护栏在位·窗口零拦截" if gd_zero else (
+            f"买弃 {gd.get('buy_rejected_total')} / 卖递延 {gd.get('sell_deferred_total')}"
+            f" / 递延 {gd.get('deferred_days_total')} 日"
+            + (f"（首递延 {', '.join(gd.get('first_deferred_dates', [])[:3])}）"
+               if gd.get("first_deferred_dates") else ""))
+        L.append(f"- T-20 双轨护栏（fill_guard 披露面）：{gd.get('enabled_n')}/{gd.get('n')} 在位 guarded；{gd_state}（报告面如实记录，禁买弃单/禁卖递延不静默）")
+    else:
+        L.append("- T-20 双轨护栏：披露面缺件（results/paper forward_guard 未生成，如实标注）")
     L.append("")
 
     # 4) Research & ledger.
