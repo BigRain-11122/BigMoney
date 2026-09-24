@@ -3,7 +3,9 @@
   "priority": "P1",
   "type": "deep-history-regime-calibration",
   "spec": "GM order O-20260924-1120 adjudication D5: activate in-repo deep history (Money02 25-year panel, bars anchor 10444 files verified local at Money02/data/bars, T-01 chain closed) for regime-episode calibration depth. Deliverables: (1) prereg frozen BEFORE any run: episode segmentation definition on extended window (pre-2015 crisis regimes: 2008 GFC / 2011 bear / 2013 钱荒 etc.), same frozen-gate methodology lineage as regime calibration v1/v2 (results/regime_calibration.json + regime_calibration_v2.json precedent). (2) Deep-history replay support for market_regime.py MA200-style state machine: full-history backfill of regime state episodes writing to NEW output files only (additive, zero-touch on current shadow state files/iron_rules/in-flight lanes). (3) Hand-off pack to T-2026-09-24-10 (REGIME_GUARD v3 redesign): per-episode calibration stats table (red/orange share, false-alarm rates) across the extended window so v3 can cite whether v1/v2 double-FAIL (61.6% residenced / 26.53% vs 25% target) was episode-scarcity-driven. (4) Data-integrity gate: 25y panel vs 10444-anchor consistency check + honest disclosure of panel gaps (pre-2015 = index-level only, ETF universe thinness). Discipline: prereg first (PREREG_TEMPLATE v2), 零假设记账, claim-first MSG per F-04.",
-  "status": "open",
+  "status": "claimed",
+  "claimed_by": "bm-b (OS iteration loop, round 102)",
+  "claimed_at": "2026-09-24 14:55",
   "created_by": "GM (quant 专管会话) via O-20260924-1120",
   "created_at": "2026-09-24 11:20",
   "note": "Feeds T-2026-09-24-10 (REGIME_GUARD v3). Owner dept = 研究部(政体研究团队)+数据部. Lane affinity: research lane (bm-b precedent) or bm-a/bm-c research rounds; display zero-touch. D5 rationale: deep history existed locally but had no consumer -- this ticket is the consumer; ETF pre-2015 = index-level only (honest boundary); no new network pulls required (data local)."
