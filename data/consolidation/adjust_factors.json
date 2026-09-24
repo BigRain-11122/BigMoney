@@ -1,0 +1,556 @@
+{
+ "evidence_cutoff": "2026-09-23",
+ "registry": "consolidation_adjustment_factors",
+ "schema_version": 1,
+ "generated_at": "2026-09-24T16:25:13",
+ "ticket": "T-2026-09-24-19",
+ "stage": 3,
+ "delivery": "O-20260924-1612 must-deliver-today (GF gate: data/consolidation/adjust* + ticket note marker)",
+ "panel_source": "data/daily/*.csv via live.paper.load_core (raw face authoritative; D2 lockbox, zero rewrite)",
+ "method": "price-implied back-adjustment: factor_k = close_k/prev_close_k; history strictly before each break scaled by the cumulative product, volume by its inverse (amount invariance), amount untouched; day-k true market return absorbed (0 by construction) pending stage-2b official ratios",
+ "guard_consumption": "option-a guard consumption face (O-1325 approved): flag/drop evaluation rows whose holding crosses a break day; boundary face included -- entry < break == exit_on_break also exposes phantom P&L (8/10 rows per exposure audit)",
+ "counts": {
+  "events": 21,
+  "symbols": 19,
+  "first_event": "2021-02-25",
+  "last_event": "2026-07-07",
+  "deep_axis_applicability": "all events >= 2021-04-12 > deep panel start 2013-06-17 -> factor series applies to the T-18 deep panel by date join (zero Money02 writes)"
+ },
+ "events": [
+  {
+   "sym": "159901",
+   "date": "2021-04-12",
+   "prev_date": "2021-04-09",
+   "prev_close": 7.411,
+   "close": 3.629,
+   "factor": 0.48967750640939145,
+   "registry_pct_observed": -0.510322,
+   "registry_implied_ratio_approx": 2.04216,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 4.935906084968522e-07,
+   "reconcile_dp_ratio": 3.7475888658988765e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "159928",
+   "date": "2021-06-25",
+   "prev_date": "2021-06-24",
+   "prev_close": 4.94,
+   "close": 1.261,
+   "factor": 0.2552631578947368,
+   "registry_pct_observed": -0.744737,
+   "registry_implied_ratio_approx": 3.917526,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 1.5789473684080235e-07,
+   "reconcile_dp_ratio": 2.2680412303799358e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "159995",
+   "date": "2026-07-07",
+   "prev_date": "2026-07-06",
+   "prev_close": 3.009,
+   "close": 1.501,
+   "factor": 0.49883682286473907,
+   "registry_pct_observed": -0.501163,
+   "registry_implied_ratio_approx": 2.004664,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 1.7713526090368248e-07,
+   "reconcile_dp_ratio": 4.4237175211847557e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "510310",
+   "date": "2024-09-23",
+   "prev_date": "2024-09-20",
+   "prev_close": 1.599,
+   "close": 3.213,
+   "factor": 2.0093808630393997,
+   "registry_pct_observed": 1.009381,
+   "registry_implied_ratio_approx": 0.497666,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 1.3696060041645808e-07,
+   "reconcile_dp_ratio": 2.6704014938205844e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "510500",
+   "date": "2022-08-29",
+   "prev_date": "2022-08-26",
+   "prev_close": 7.22,
+   "close": 6.3,
+   "factor": 0.8725761772853186,
+   "registry_pct_observed": -0.127424,
+   "registry_implied_ratio_approx": 1.146032,
+   "amplitude_class": "beyond_window_marginal",
+   "reconcile_dp_pct": 1.772853185644241e-07,
+   "reconcile_dp_ratio": 2.5396825398260603e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512000",
+   "date": "2025-08-04",
+   "prev_date": "2025-08-01",
+   "prev_close": 1.138,
+   "close": 0.572,
+   "factor": 0.5026362038664324,
+   "registry_pct_observed": -0.497364,
+   "registry_implied_ratio_approx": 1.98951,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 2.0386643234671098e-07,
+   "reconcile_dp_ratio": 4.895104894764302e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512010",
+   "date": "2021-06-28",
+   "prev_date": "2021-06-24",
+   "prev_close": 3.206,
+   "close": 0.836,
+   "factor": 0.2607610729881472,
+   "registry_pct_observed": -0.739239,
+   "registry_implied_ratio_approx": 3.834928,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 7.298814719280955e-08,
+   "reconcile_dp_ratio": 2.2966507184918328e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512100",
+   "date": "2022-09-05",
+   "prev_date": "2022-09-01",
+   "prev_close": 0.982,
+   "close": 2.713,
+   "factor": 2.7627291242362526,
+   "registry_pct_observed": 1.762729,
+   "registry_implied_ratio_approx": 0.361961,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 1.2423625261881455e-07,
+   "reconcile_dp_ratio": 7.113896055566116e-08,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512170",
+   "date": "2021-02-25",
+   "prev_date": "2021-02-23",
+   "prev_close": 2.564,
+   "close": 0.818,
+   "factor": 0.3190327613104524,
+   "registry_pct_observed": -0.680967,
+   "registry_implied_ratio_approx": 3.134474,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 2.386895475714468e-07,
+   "reconcile_dp_ratio": 3.2762836221778e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512200",
+   "date": "2024-08-12",
+   "prev_date": "2024-08-09",
+   "prev_close": 0.441,
+   "close": 1.191,
+   "factor": 2.7006802721088436,
+   "registry_pct_observed": 1.70068,
+   "registry_implied_ratio_approx": 0.370277,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 2.721088436796748e-07,
+   "reconcile_dp_ratio": 7.808564228550807e-08,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512480",
+   "date": "2021-03-29",
+   "prev_date": "2021-03-25",
+   "prev_close": 1.734,
+   "close": 0.886,
+   "factor": 0.510957324106113,
+   "registry_pct_observed": -0.489043,
+   "registry_implied_ratio_approx": 1.957111,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 3.2410611305877524e-07,
+   "reconcile_dp_ratio": 3.9051918743204794e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512480",
+   "date": "2026-07-03",
+   "prev_date": "2026-07-02",
+   "prev_close": 2.7,
+   "close": 1.331,
+   "factor": 0.49296296296296294,
+   "registry_pct_observed": -0.507037,
+   "registry_implied_ratio_approx": 2.02855,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 3.7037037103893056e-08,
+   "reconcile_dp_ratio": 3.756573985214118e-08,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512690",
+   "date": "2021-05-17",
+   "prev_date": "2021-05-13",
+   "prev_close": 2.644,
+   "close": 1.375,
+   "factor": 0.5200453857791225,
+   "registry_pct_observed": -0.479955,
+   "registry_implied_ratio_approx": 1.922909,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 3.8577912253590085e-07,
+   "reconcile_dp_ratio": 9.0909090921798e-08,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512690",
+   "date": "2021-12-31",
+   "prev_date": "2021-12-30",
+   "prev_close": 1.323,
+   "close": 0.965,
+   "factor": 0.7294028722600151,
+   "registry_pct_observed": -0.270597,
+   "registry_implied_ratio_approx": 1.370984,
+   "amplitude_class": "beyond_window_marginal",
+   "reconcile_dp_pct": 1.2773998492310312e-07,
+   "reconcile_dp_ratio": 4.5595854936131275e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512710",
+   "date": "2021-03-22",
+   "prev_date": "2021-03-18",
+   "prev_close": 1.481,
+   "close": 0.746,
+   "factor": 0.5037137069547603,
+   "registry_pct_observed": -0.496286,
+   "registry_implied_ratio_approx": 1.985255,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 2.930452397409411e-07,
+   "reconcile_dp_ratio": 3.083109918478044e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "512800",
+   "date": "2025-07-07",
+   "prev_date": "2025-07-04",
+   "prev_close": 1.777,
+   "close": 0.894,
+   "factor": 0.5030951041080473,
+   "registry_pct_observed": -0.496905,
+   "registry_implied_ratio_approx": 1.987696,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 1.0410804723859357e-07,
+   "reconcile_dp_ratio": 2.505592839874282e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "513100",
+   "date": "2022-01-14",
+   "prev_date": "2022-01-12",
+   "prev_close": 5.192,
+   "close": 1.015,
+   "factor": 0.1954930662557781,
+   "registry_pct_observed": -0.804507,
+   "registry_implied_ratio_approx": 5.115271,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 6.625577808616612e-08,
+   "reconcile_dp_ratio": 6.40394075546169e-08,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "513500",
+   "date": "2022-03-30",
+   "prev_date": "2022-03-28",
+   "prev_close": 2.735,
+   "close": 1.39,
+   "factor": 0.5082266910420475,
+   "registry_pct_observed": -0.491773,
+   "registry_implied_ratio_approx": 1.967626,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 3.0895795244401114e-07,
+   "reconcile_dp_ratio": 1.0071942457834382e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "515000",
+   "date": "2025-09-08",
+   "prev_date": "2025-09-05",
+   "prev_close": 1.835,
+   "close": 0.908,
+   "factor": 0.4948228882833788,
+   "registry_pct_observed": -0.505177,
+   "registry_implied_ratio_approx": 2.020925,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 1.117166212871723e-07,
+   "reconcile_dp_ratio": 1.1013215850397273e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "515050",
+   "date": "2026-05-13",
+   "prev_date": "2026-05-12",
+   "prev_close": 3.33,
+   "close": 1.156,
+   "factor": 0.3471471471471471,
+   "registry_pct_observed": -0.652853,
+   "registry_implied_ratio_approx": 2.880623,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 1.4714714713370824e-07,
+   "reconcile_dp_ratio": 1.6262975766068166e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  },
+  {
+   "sym": "515220",
+   "date": "2024-04-12",
+   "prev_date": "2024-04-11",
+   "prev_close": 2.612,
+   "close": 1.297,
+   "factor": 0.4965543644716692,
+   "registry_pct_observed": -0.503446,
+   "registry_implied_ratio_approx": 2.013878,
+   "amplitude_class": "consolidation_scale",
+   "reconcile_dp_pct": 3.6447166917863427e-07,
+   "reconcile_dp_ratio": 1.8041634541887674e-07,
+   "ratio_source": "price_implied (official announcement pending stage-2b; marginal-class events may reclassify)",
+   "day_k_real_return": "absorbed into factor (== 0 by construction)"
+  }
+ ],
+ "symbols": {
+  "159901": {
+   "events": [
+    "2021-04-12"
+   ],
+   "factors": [
+    0.48967750640939145
+   ],
+   "rows_total": 1631,
+   "rows_affected": 306,
+   "adjusted_view": "data/consolidation/adjusted_view/159901.parquet"
+  },
+  "159928": {
+   "events": [
+    "2021-06-25"
+   ],
+   "factors": [
+    0.2552631578947368
+   ],
+   "rows_total": 1632,
+   "rows_affected": 357,
+   "adjusted_view": "data/consolidation/adjusted_view/159928.parquet"
+  },
+  "159995": {
+   "events": [
+    "2026-07-07"
+   ],
+   "factors": [
+    0.49883682286473907
+   ],
+   "rows_total": 1611,
+   "rows_affected": 1554,
+   "adjusted_view": "data/consolidation/adjusted_view/159995.parquet"
+  },
+  "510310": {
+   "events": [
+    "2024-09-23"
+   ],
+   "factors": [
+    2.0093808630393997
+   ],
+   "rows_total": 1632,
+   "rows_affected": 1145,
+   "adjusted_view": "data/consolidation/adjusted_view/510310.parquet"
+  },
+  "510500": {
+   "events": [
+    "2022-08-29"
+   ],
+   "factors": [
+    0.8725761772853186
+   ],
+   "rows_total": 1632,
+   "rows_affected": 644,
+   "adjusted_view": "data/consolidation/adjusted_view/510500.parquet"
+  },
+  "512000": {
+   "events": [
+    "2025-08-04"
+   ],
+   "factors": [
+    0.5026362038664324
+   ],
+   "rows_total": 1632,
+   "rows_affected": 1353,
+   "adjusted_view": "data/consolidation/adjusted_view/512000.parquet"
+  },
+  "512010": {
+   "events": [
+    "2021-06-28"
+   ],
+   "factors": [
+    0.2607610729881472
+   ],
+   "rows_total": 1631,
+   "rows_affected": 357,
+   "adjusted_view": "data/consolidation/adjusted_view/512010.parquet"
+  },
+  "512100": {
+   "events": [
+    "2022-09-05"
+   ],
+   "factors": [
+    2.7627291242362526
+   ],
+   "rows_total": 1631,
+   "rows_affected": 648,
+   "adjusted_view": "data/consolidation/adjusted_view/512100.parquet"
+  },
+  "512170": {
+   "events": [
+    "2021-02-25"
+   ],
+   "factors": [
+    0.3190327613104524
+   ],
+   "rows_total": 1631,
+   "rows_affected": 275,
+   "adjusted_view": "data/consolidation/adjusted_view/512170.parquet"
+  },
+  "512200": {
+   "events": [
+    "2024-08-12"
+   ],
+   "factors": [
+    2.7006802721088436
+   ],
+   "rows_total": 1632,
+   "rows_affected": 1117,
+   "adjusted_view": "data/consolidation/adjusted_view/512200.parquet"
+  },
+  "512480": {
+   "events": [
+    "2021-03-29",
+    "2026-07-03"
+   ],
+   "factors": [
+    0.510957324106113,
+    0.49296296296296294
+   ],
+   "rows_total": 1631,
+   "rows_affected": 1572,
+   "adjusted_view": "data/consolidation/adjusted_view/512480.parquet"
+  },
+  "512690": {
+   "events": [
+    "2021-05-17",
+    "2021-12-31"
+   ],
+   "factors": [
+    0.5200453857791225,
+    0.7294028722600151
+   ],
+   "rows_total": 1631,
+   "rows_affected": 484,
+   "adjusted_view": "data/consolidation/adjusted_view/512690.parquet"
+  },
+  "512710": {
+   "events": [
+    "2021-03-22"
+   ],
+   "factors": [
+    0.5037137069547603
+   ],
+   "rows_total": 1631,
+   "rows_affected": 292,
+   "adjusted_view": "data/consolidation/adjusted_view/512710.parquet"
+  },
+  "512800": {
+   "events": [
+    "2025-07-07"
+   ],
+   "factors": [
+    0.5030951041080473
+   ],
+   "rows_total": 1632,
+   "rows_affected": 1333,
+   "adjusted_view": "data/consolidation/adjusted_view/512800.parquet"
+  },
+  "513100": {
+   "events": [
+    "2022-01-14"
+   ],
+   "factors": [
+    0.1954930662557781
+   ],
+   "rows_total": 1631,
+   "rows_affected": 493,
+   "adjusted_view": "data/consolidation/adjusted_view/513100.parquet"
+  },
+  "513500": {
+   "events": [
+    "2022-03-30"
+   ],
+   "factors": [
+    0.5082266910420475
+   ],
+   "rows_total": 1631,
+   "rows_affected": 541,
+   "adjusted_view": "data/consolidation/adjusted_view/513500.parquet"
+  },
+  "515000": {
+   "events": [
+    "2025-09-08"
+   ],
+   "factors": [
+    0.4948228882833788
+   ],
+   "rows_total": 1632,
+   "rows_affected": 1378,
+   "adjusted_view": "data/consolidation/adjusted_view/515000.parquet"
+  },
+  "515050": {
+   "events": [
+    "2026-05-13"
+   ],
+   "factors": [
+    0.3471471471471471
+   ],
+   "rows_total": 1632,
+   "rows_affected": 1537,
+   "adjusted_view": "data/consolidation/adjusted_view/515050.parquet"
+  },
+  "515220": {
+   "events": [
+    "2024-04-12"
+   ],
+   "factors": [
+    0.4965543644716692
+   ],
+   "rows_total": 1596,
+   "rows_affected": 999,
+   "adjusted_view": "data/consolidation/adjusted_view/515220.parquet"
+  }
+ },
+ "governance": {
+  "option_a": "approved (O-1325): registry break lists consumed as evaluation/paper exclusion-marking mask",
+  "option_b": "consumption adjudication deferred to post-stage-2c per O-1325; this asset is the additive landing plane",
+  "stage_2a": "paper forward-protection flag holds on the T-20 relay timing (O-1325 explicit; bm-a lane active in live/paper.py per MSG-20260924-1608)"
+ }
+}

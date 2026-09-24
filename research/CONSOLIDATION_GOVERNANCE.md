@@ -27,10 +27,17 @@
 | 阶段 | 交付 | 状态 |
 |---|---|---|
 | stage-1 | 登记册 + 六员暴露审计 + 决策包骨架（本件） | **DONE（r48）** |
-| stage-2a | paper 前向保护件（deliverable 5，**live-gate 前置必需**）：live/paper.py 加性默认关 flag 消费登记册做断点日 no-trade/剔除标记 | 未开工（独立验收：锚定门 6/6 零漂移 + smoke） |
-| stage-2b | 官方公告证据核验（数据面探针，逐事件来源 URL，marginal 级改判如实记） | 未开工 |
+| stage-2a | paper 前向保护件（deliverable 5，**live-gate 前置必需**）：live/paper.py 加性默认关 flag 消费登记册做断点日 no-trade/剔除标记 | **HOLD（O-1325 显式 T-20 接力时序；bm-a MSG-1608 车道在飞 live/paper.py）**——其 G6 生产切换后落地 |
+| stage-2b | 官方公告证据核验（数据面探针，逐事件来源 URL，marginal 级改判如实记） | 未开工（ratios 现为 price-implied 披露态） |
 | stage-2c | 幻影贡献量化批（预注册反事实面：暴露行剔除 vs 基线的 ΔSharpe/Δ年化 per trader，两选项 a 的实测证据） | 未开工 |
-| stage-3 | 调整因子序列+调整视图面板（选项 b 落地面） | 未开工 |
+| stage-3 | 调整因子序列+调整视图面板（选项 b 落地面） | **DONE（r59 bm-c·O-1612 今日必交）**：adjust_factors.json + adjusted_view/×19 parquet + 六门全 PASS（scripts/t19_adjust_view.py）；因子=price-implied 回调整（断点日真收益吸收为 0·待 stage-2b 官方比例）；选项 b **消费**裁决仍缓议（O-1325：stage-2c 出数后裁），本件为加性落地资产；GF 硬门（O-1310 s3）据此放行深轴清洁版重跑 |
+
+### stage-3 交付语义（r59 落地·O-1612）
+
+- **资产面**：`data/consolidation/adjust_factors.json`（21 事件因子+逐员断点日清单=选项 a 守卫消费面，含边界面语义）+ `data/consolidation/adjusted_view/<sym>.parquet`×19（回调整 OHLCV(A)，含 adj_factor/cons_break 列；volume 反比缩放=成交额不变律；amount 不动=真成交货币额；raw 面恒权威，D2 零改写）。
+- **因子口径披露**：`factor_k = close_k/prev_close_k`（price-implied）——断点日 k 的真实市场收益被吸收（构造上=0）；官方折算比例=stage-2b 证据槽未填，marginal 级事件仍可能改判为真实极端日。
+- **消费律（O-1325 维持）**：评估/纸盘默认面=选项 a 守卫（断点日+边界面打旗/剔除）；调整视图服务于深轴清洁版重跑（O-1612 条 1）与选项 b 消费裁决（stage-2c 出数后）。
+- **六门**：GA 断点日连续性（=0·写盘后验证）/ GB 未触段值精确等（float64 归一披露）+非断点收益保全 / GC 成交额不变 / GD 登记册对账（6dp 容差如实标）/ GE 覆盖 / GF 确定性（门侧重算与写盘 JSON 逐位同）→ results/t19_adjust_view_gates.json verdict PASS。
 
 ## 四、纪律与车道
 
