@@ -1,0 +1,10 @@
+{
+  "id": "T-2026-09-24-09",
+  "priority": "P1",
+  "type": "engine-feature-cash-leg",
+  "spec": "GM order O-20260924-1045 + OPERATING_PLAN Phase 1 row '现金腿引擎特性' + firm/portfolio.md mandate 4 + bandit_queue candidate 'cash leg exit-to-asset + reverse-repo parking' (gated-P1 -> signed). Deliverables: (1) prereg frozen BEFORE implementation: exit-to-asset engine feature, ADDITIVE FLAG default OFF = legacy byte-identical (engine additive iron rule O-2250); R-pei3 bear-market parking target (80% cash parking) numeric frozen in prereg ONLY; reverse-repo rate history in-library (Money0923 逆回购利率全史) consumed read-only as parking-yield context. (2) Implementation + engine acceptance gate: smoke green, determinism, in-roll 6-trader anchor gate 6/6 with flag OFF, new-field outputs only. (3) REGIME_GUARD dependency disclosed: RED response 'new cash parking' needs this leg; enforce stays gated behind calibration pass (T-10) -- no coupling, shadow continues. ZERO-TOUCH: trader files, iron_rules numbers, in-flight lanes.",
+  "status": "open",
+  "created_by": "GM (quant 专管会话) via O-20260924-1045",
+  "created_at": "2026-09-24 10:50",
+  "note": "Claim-first (F-04). Owner dept = 组合与资金部 现金腿与资金运营团队 (pipeline = 研究部预注册制). Phase 1 item started early = justified by REGIME_GUARD RED-response dependency + R-pei3 application layer already report-validated (EW6 pass 1)."
+}
