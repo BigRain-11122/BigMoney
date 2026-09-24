@@ -50,6 +50,13 @@
 - 产物：机本地逐格 checkpoint=results/t22/cells_{axis}_{face}_{shard}.jsonl+done 标记+logs/（gitignore）；finalize（收割轮）=results/t22_virtual_timepoints.json（顶层 evidence_cutoff+cutoff_meta+audit 段）+ research/shortline/ 聚合 CSV（小件入 git）＋本文件 §7 回填。
 - 分片声明：bm-c=legacy 全轴（shard c1·pos [0,1255)·双面）先行（票 deliverable-5 legacy 控制批无 GF 依赖可先跑）→deep 轴 d-c1（pos [0,1400)）次之；bm-a 若接手=deep 轴剩余分片；bm-b 恢复按 checkpoint 归队（任意分片皆可，键去重幂等）。
 
+## 跑前勘误（2026-09-24 17:4x · bm-a fix-forward · J18 实现修正判据零改动 · commit 随本块冻结）
+
+- **Erratum-1（x2 面）**：§3「x2 面=CostPatch(COST_X2_RATE=0.0026082)」勘误为 **CostPatch(2.0)**。CostPatch 契约=**乘子**（G2 先例：ce_transfer L168/combined_exit_screen L184 皆 `CostPatch(2)`；science_gates 注释原文「mult」）；COST_X2_RATE=压测后单边费率常数（13bp 全套×2≈0.0026082）非乘子。原实现把费率常数当乘子=全部费字段×0.0026（近零费）=压测面反向成超廉价面，污染 §4「x2 生存门」。**bm-c 机已跑的 x2 面 cells 全部作废须重跑**（base 面不受影响；重跑法=删 results/t22/cells_legacy_x2_c1.jsonl 后 `run --axis legacy --shard c1 --faces x2`）。selftest 新增 S5b 方向门（断言 stressed commission==2×base）防回归。
+- **Erratum-2（深轴装载缺失）**：runner `_init_worker`/`cmd_run` 原恒载 legacy 面板（axis 参数被忽略）→ 补 `_load_axis_prices(axis)`：deep=T-18 面板窗（manifest 冻结）+T-19 adjusted view 19 只（GF 法：return 面修正）+amount 列按 live/paper.py L135 回退律合成（volume×close，在册 6 员 entry builder 零消费，披露代理）+twin 面字符串日期 to_datetime 归一。深轴实弹探针（dprobe，12 cells）全 PASS：panel 2013-06-17→2026-09-22。
+- **事实披露（判据不动，呈 GM 裁定）**：MIN_LISTED=24（§3 冻结·P-5 口径）下深轴 eligible=**1,506**、首起点=**2020-01-02**——T-18 面板 2013-2019 段（约 7 年，含 2015 股灾/2018 熊，深史主轴的立身段）全被 listed≥24 排除，深腿≈legacy 窗的孪生面复检。若 GM 欲兑现 O-1532「深史海量」意图，须另开预注册增订（MIN_LISTED=5=T-18 panel_start 同款下限的子网格，判据同 §4）——**未裁前本批按冻结口径跑 2020+ 段**。
+- **撞车史披露**：bm-a r82 曾独立交付同名 prereg/runner 变体（commit 17:32:23，晚于 bm-c 17:23:51）→ 按 fleet/README §4 后到让路+GM 17:35 reconciliation 裁定 superseded（备份 quant/.codely-cli/t22-bm-a-wip-20260924/），bm-a 归并正典：本勘误三件（Erratum-1/2+探针）+d-a1 分片执行即归并动作。bm-b r105（17:29:47/17:33:25）同窗另交付 P-5C 变体批并已发 leg L（16,289 cells，PID 10380）——与正典 T22 legacy c1 重复烧算，**呈 GM 裁定**（bm-a 不裁）。
+
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
 （finalize 轮回填：per 员×面×窗 beat_rate/min_dd/CI、分段表、D7 四字段、与 §5 预测逐条对账、trial 总数与账本 delta。）

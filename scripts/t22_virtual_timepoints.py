@@ -108,6 +108,55 @@ def load_done_keys(path: str) -> set:
 _G = {}  # per-worker globals, built once by _init_worker
 
 
+def _load_axis_prices(axis: str) -> dict:
+    """Axis price source (r82 bm-a fix-forward, J18: implementation repair
+    only, prereg s2 judgments untouched). legacy = core48 CSVs (load_core);
+    deep = T-18 panel window (manifest frozen) with the T-19 adjusted view
+    as the price source for the 19 consolidation-affected members -- GF
+    law: return face fixed, raw face authoritative elsewhere. Caller must
+    have run `scripts/t18_deep_axis.py build` locally (idempotent, sha gate).
+    """
+    from live.paper import load_core
+    if axis == "legacy":
+        return load_core()
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    man_path = os.path.join(root, "results", "shortline",
+                            "t18_deep_manifest.json")
+    man = json.load(open(man_path, encoding="utf-8"))
+    assert man.get("verdict") == "PASS", "T22-GATE: t18 manifest != PASS"
+    bad = [c for c, m in man["members"].items() if not m.get("pass")]
+    assert not bad, f"T22-GATE: t18 members fail: {bad}"
+    lo = pd.Timestamp(man["panel_start"])
+    hi = pd.Timestamp(man["evidence_cutoff"])
+    ohlcv_dir = os.path.join(root, "Money02", "data", "cache",
+                             "t18_deep_panel", "ohlcv")
+    adj_dir = os.path.join(root, "data", "consolidation", "adjusted_view")
+    prices, adj_used = {}, []
+    for code in sorted(man["members"]):
+        vpath = os.path.join(adj_dir, code + ".parquet")
+        src = vpath if os.path.exists(vpath) else os.path.join(
+            ohlcv_dir, code + ".parquet")
+        df = pd.read_parquet(src)
+        if "date" in df.columns:
+            df = df.set_index("date")
+        if not isinstance(df.index, pd.DatetimeIndex):
+            df.index = pd.to_datetime(df.index)   # twin face: string dates
+        df = df.sort_index()
+        df = df.loc[(df.index >= lo) & (df.index <= hi)]
+        assert df.index.is_monotonic_increasing \
+            and not df.index.duplicated().any()
+        df = df[["open", "high", "low", "close", "volume"]].copy()
+        # paper.py L135 canonical fallback (t18 cache carries no amount;
+        # no in-register entry builder consumes amount -- disclosed proxy)
+        df["amount"] = df["volume"] * df["close"]
+        prices[code] = df
+        if src == vpath:
+            adj_used.append(code)
+    assert len(adj_used) == 19, \
+        f"T22-GATE: adjusted view {len(adj_used)}/19 -- GF hard gate"
+    return prices
+
+
 def _init_worker(axis: str, log_path: str):
     import psutil
     pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
@@ -116,10 +165,9 @@ def _init_worker(axis: str, log_path: str):
             psutil.Process().nice(pri)   # O-1136 full-load low-priority pool
         except Exception:
             pass
-    from live.paper import (PAPER_LEVELS, SIGNAL_BUILDERS, build_panels,
-                            load_core)
+    from live.paper import (PAPER_LEVELS, SIGNAL_BUILDERS, build_panels)
     from firm.hr import TRADERS_DIR, load_trader
-    prices = load_core()
+    prices = _load_axis_prices(axis)
     P = build_panels(prices)
     close = P["close"]
     traders = []
@@ -178,7 +226,13 @@ def _run_cell(trader_id: str, pos: int, face: str) -> dict:
               for s, df in prices.items()}
     with ExitPatch(_G["exits_by_id"][trader_id]):
         if face == "x2":
-            with CostPatch(COST_X2_RATE):
+            # r82 bm-a fix-forward (J18): CostPatch takes a MULTIPLIER
+            # (G2 convention CostPatch(2), ce_transfer/combined_exit
+            # precedent). COST_X2_RATE is the resulting stressed single-
+            # side RATE (0.0026082), not the multiplier -- passing it here
+            # multiplied all fee fields BY 0.0026 (near-zero fees), which
+            # inverted the x2 stress face. Judgments unchanged (prereg s3).
+            with CostPatch(2.0):
                 res = run_backtest(window, params, entry_signal=entry,
                                    exit_signal=exit_sig)
         else:
@@ -254,7 +308,7 @@ def cmd_run(args) -> int:
         return 3
     del prices
 
-    P = build_panels(load_core())
+    P = build_panels(_load_axis_prices(args.axis))   # r82 fix: axis-aware
     close = P["close"]
     idx = close.index
     listed = close.notna().sum(axis=1)
@@ -418,6 +472,18 @@ def cmd_selftest(_) -> int:
         inside = eb.FeeSchedule
     t("S5 CostPatch swaps inside + restores",
       inside is not before and eb.FeeSchedule is before)
+
+    # S5b (r82 bm-a fix-forward regression): the x2 face must STRESS costs
+    # strictly -- the stressed commission inside the patch == 2x base.
+    # Catches the J14-adjacent trap of passing a RATE where a MULTIPLIER
+    # is expected (near-zero fees = inverted stress face).
+    base_fee = eb.FeeSchedule()
+    with CostPatch(2.0):
+        stressed_fee = eb.FeeSchedule()
+        doubled = (stressed_fee.commission_rate == base_fee.commission_rate * 2
+                   and stressed_fee.slippage_a == base_fee.slippage_a * 2)
+    t("S5b CostPatch(2.0) doubles fee fields (direction gate)",
+      doubled and eb.FeeSchedule().commission_rate == base_fee.commission_rate)
 
     # S6: metric slicing sanity on synthetic equity
     eq = pd.Series(np.linspace(100, 120, 300),
