@@ -498,6 +498,122 @@ def cmd_backfill_nav() -> int:
     return 2
 
 
+# ------------------------------------------------------------------ dividends backfill leg (ex-div guard face, deliverable-3)
+DIV_DIR = os.path.join(DATA_DIR, "dividends")
+DIV_COLS = ["ex_date", "cum_div"]
+
+
+def _sina_symbol(code: str) -> str:
+    """裸码 → sina 前缀码（r51 probe：fund_etf_dividend_sina 须交易所前缀，裸码返 0 行）。
+    5 开头=sh（51/56/58xxxx），1 开头=sz（15/16xxxx）。"""
+    return ("sh" if code.startswith("5") else "sz") + code
+
+
+def normalize_dividends(df):
+    """sina 分红面 → [ex_date, cum_div]。列名实证（r53 live probe, 510300 14 行）：
+    ['日期', '累计分红'] —— 第二列是**累计分红**非每份派息（0.880=2026 年累计值，
+    per-event=逐行差分 0.123），缓存按面原样存累计值，差分归面板 builder 消费。
+    分红额列按 '分红' 子串定位，其余首列为权息日；校验失败抛 ValueError（诚实炸）。"""
+    import pandas as pd
+    div_col = next((c for c in df.columns if "分红" in str(c)), df.columns[-1])
+    date_col = next((c for c in df.columns if c != div_col), df.columns[0])
+    d = pd.DataFrame({
+        "ex_date": df[date_col].astype(str).str.strip(),
+        "cum_div": pd.to_numeric(df[div_col], errors="coerce"),
+    })
+    d = d[d["ex_date"].str.len() == 10]
+    if len(d) and d["cum_div"].isna().any():
+        bad = int(d["cum_div"].isna().sum())
+        raise ValueError(f"{bad} dividend rows with non-numeric cumulative amount")
+    d = d.drop_duplicates(subset="ex_date", keep="first").sort_values("ex_date")
+    return d.reset_index(drop=True)
+
+
+def cmd_backfill_dividends() -> int:
+    owner = _lane_owner_id()
+    if owner != LANE_OWNER:
+        print(f"no-op: fund_premium lane owned by {LANE_OWNER}, not this machine ({owner or '?'})")
+        return 0
+    codes = _core48_codes()
+    if not codes:
+        print("no core48 codes found (data/daily empty) -> honest exit 2")
+        return 2
+    os.makedirs(DIV_DIR, exist_ok=True)
+    clear_proxy_env()
+    import akshare as ak
+
+    todo, done_skip = [], []
+    for c in codes:
+        p = os.path.join(DIV_DIR, f"{c}.csv")
+        (done_skip if os.path.exists(p) else todo).append(c)
+
+    st = load_status()
+    dv = st.get("dividends") or {}
+    failures, conn_streak, fused = [], 0, False
+    zero_div = []
+    for c in todo:
+        if conn_streak >= CONN_FUSE:
+            fused = True
+            break
+        got, err_last = None, None
+        for attempt in range(MAX_ATTEMPTS):
+            try:
+                got = ak.fund_etf_dividend_sina(symbol=_sina_symbol(c))
+                break
+            except Exception as e:  # noqa: BLE001
+                cls = classify_error(e)
+                err_last = cls + ": " + str(e)[:150]
+                if cls == "conn_level":
+                    conn_streak += 1          # R63 law: conn-level never retried inline
+                    break
+                time.sleep(RETRY_BACKOFF_S)
+        if got is None:
+            failures.append({"code": c, "reason": err_last or "unknown"})
+            print(f"div {c}: FAILED ({err_last}) -> honest skip label")
+            if conn_streak >= CONN_FUSE:
+                fused = True
+                break
+            time.sleep(THROTTLE_S)
+            continue
+        try:
+            d = normalize_dividends(got)
+        except ValueError as e:
+            failures.append({"code": c, "reason": "shape: " + str(e)[:150]})
+            print(f"div {c}: SHAPE violation ({e}) -> not stored")
+            time.sleep(THROTTLE_S)
+            continue
+        # 零分红=真实历史（从未派息），写 header-only 文件=done 标记，非失败（诚实区分）
+        out_path = os.path.join(DIV_DIR, f"{c}.csv")
+        tmp = out_path + ".tmp"
+        d[DIV_COLS].to_csv(tmp, index=False, encoding="utf-8")
+        os.replace(tmp, out_path)
+        if len(d) == 0:
+            zero_div.append(c)
+        print(f"div {c}: stored rows={len(d)}"
+              + (f" (zero dividends on record -- honest)" if len(d) == 0 else ""))
+        time.sleep(THROTTLE_S)
+
+    total = len(codes)
+    have = len(done_skip) + sum(1 for c in todo
+                                if os.path.exists(os.path.join(DIV_DIR, f"{c}.csv")))
+    coverage = have / total if total else 0.0
+    dv.update({"done": have, "total": total, "coverage": round(coverage, 4),
+               "failures": failures, "fused": fused, "zero_dividend_funds": zero_div,
+               "last_run": dt.datetime.now().isoformat(timespec="seconds")})
+    st.update({"ts": dt.datetime.now().isoformat(timespec="seconds"),
+               "lane_owner": LANE_OWNER,
+               "mode": ("dividends backfill fused (source blocked)" if fused
+                        else "dividends backfill complete" if not failures
+                        else "dividends backfill partial (honest labels)"),
+               "dividends": dv})
+    write_status(st)
+    print(f"dividends backfill: {have}/{total} on disk, coverage {coverage:.1%}, "
+          f"zero-div funds={len(zero_div)}, failures={len(failures)}, fused={fused}")
+    if have == total and not failures:
+        return 0
+    return 2
+
+
 # ------------------------------------------------------------------ gate / status
 def cmd_gate() -> int:
     codes = _core48_codes()
@@ -642,13 +758,15 @@ def selftest() -> int:
 # ------------------------------------------------------------------ entry
 def main(argv):
     if len(argv) < 2:
-        print("usage: update_fund_premium.py snapshot|backfill-nav|gate|status|selftest")
+        print("usage: update_fund_premium.py snapshot|backfill-nav|backfill-dividends|gate|status|selftest")
         return 2
     cmd = argv[1]
     if cmd == "snapshot":
         return cmd_snapshot()
     if cmd == "backfill-nav":
         return cmd_backfill_nav()
+    if cmd == "backfill-dividends":
+        return cmd_backfill_dividends()
     if cmd == "gate":
         return cmd_gate()
     if cmd == "status":
