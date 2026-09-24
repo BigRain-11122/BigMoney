@@ -1,603 +1,619 @@
 {
- "schema": "gate-attrition-ledger v1",
- "created": "2026-09-24 03:03:01",
- "purpose": "science_audit C4: per-batch gate-chain losses account (s7-T retro mandatory; measurement batches record gate outcomes, search batches record eliminations)",
- "entries": [
-  {
-   "batch": "EW6-portfolio-validation",
-   "ts": "2026-09-24 00:54:38",
-   "kind": "measurement",
-   "retro_fill": true,
-   "cells_ledger_delta": 26,
-   "ledger_total_after": 2753,
-   "gates": {
-    "descriptive_g1_clauses_all_pass": true,
-    "x2_survive": true,
-    "worst_year_ok": true,
-    "validated": true,
-    "void": false
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/portfolio_ew6.json",
-    "prereg": "research/shortline/EW6_PORTFOLIO.md"
-   }
-  },
-  {
-   "batch": "IV6-portfolio-riskbudget",
-   "ts": "2026-09-24 03:03:01",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 14,
-   "ledger_total_after": 2779,
-   "gates": {
-    "g1_prime_v2_pass": true,
-    "descriptive_g1_clauses_all_pass": true,
-    "x2_survive": true,
-    "worst_year_ok": true,
-    "twin_gate_crosscheck": true,
-    "validated": true,
-    "void": false,
-    "void_reason": null
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/portfolio_iv6.json",
-    "prereg": "research/IV6_PORTFOLIO.md"
-   },
-   "correction_note": "rebase-window re-seat: bm-b T-05 part3 +12 mid-window; serial total 2779 (was 2767 at run time when head was 2753)"
-  },
-  {
-   "batch": "p4-pairs",
-   "ts": "2026-09-24 05:31:00",
-   "kind": "measurement",
-   "cells_ledger_delta": 67,
-   "ledger_total_after": 2858,
-   "gates": {
-    "v2_skill_line": 0.9359,
-    "v2_pass": false,
-    "ci_lower_bound_positive": false,
-    "trade_gate_dual_ok": true,
-    "beats_inbatch_null_p95": false,
-    "x2_survive_vi": false,
-    "d6_max_corr": 0.235
-   },
-   "eliminated": 1,
-   "elim_note": "1 pooled candidate -> 0 survivors (long-only pairs line closes)",
-   "refs": {
-    "results": "results/shortline_p4_pairs.json",
-    "prereg": "research/P4_PAIRS.md",
-    "csv": "research/shortline/p4_pairs_results.csv"
-   }
-  },
-  {
-   "batch": "P4_EXT_TILT",
-   "ts": "2026-09-24 06:34:36",
-   "kind": "search",
-   "cells_ledger_delta": 47,
-   "ledger_total_after": 2905,
-   "gates": {
-    "cells_run": 47,
-    "survivors_g1_prime_v2": 0
-   },
-   "eliminated": 47,
-   "refs": {
-    "results": "results/shortline_p4_ext_tilt.json",
-    "prereg": "research/shortline/P4_EXT_TILT.md"
-   }
-  },
-  {
-   "batch": "CTA_P1",
-   "ts": "2026-09-24 06:58:56",
-   "kind": "search",
-   "cells_ledger_delta": 68,
-   "ledger_total_after": 2973,
-   "gates": {
-    "skill_line_v2": 1.1463,
-    "g1_passers": 0,
-    "descriptive_all_pass_candidates": 0
-   },
-   "eliminated": 16,
-   "refs": {
-    "results": "results/shortline_cta_p1.json",
-    "prereg": "research/CTA_P1.md"
-   }
-  },
-  {
-   "batch": "CTA_P2_NOAU",
-   "ts": "2026-09-24 07:34:35",
-   "kind": "search",
-   "cells_ledger_delta": 68,
-   "ledger_total_after": 3041,
-   "gates": {
-    "skill_line_v2": 1.4278,
-    "g1_passers": 0,
-    "descriptive_all_pass_candidates": 0
-   },
-   "eliminated": 16,
-   "refs": {
-    "results": "results/shortline_cta_p2_noau.json",
-    "prereg": "research/CTA_P2_NOAU.md"
-   }
-  },
-  {
-   "batch": "j13v2_mill_ic1",
-   "ts": "2026-09-24 10:41:00",
-   "kind": "search",
-   "retro_fill": false,
-   "cells_ledger_delta": 63,
-   "ledger_total_after": 5539,
-   "gates": {
-    "n_generated": 32,
-    "n_distinct": 13,
-    "n_entering_e4": 13,
-    "mechanical_valid": 12,
-    "v1_pass": 5,
-    "v2_pass": 0,
-    "v3_pass": 6,
-    "novel_survivors": 0,
-    "dup_survivors": 0,
-    "nullA_is_ic_p95": 0.010045,
-    "nullA_is_ir_p95": 0.06705,
-    "void": false
-   },
-   "eliminated": 13,
-   "elimination_note": "all deduped formulas entering E4 died at judgment: 12/12 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.129 << 0.30); 1 E4 compute failure; D6 kinship 100% among V1-passers (max|corr| 0.84-1.0)",
-   "refs": {
-    "results": "results/shortline/j13v2_mill_ic1.json",
-    "prereg": "research/J13_V2_MINILOOP.md"
-   }
-  },
-  {
-   "batch": "j13v2_mill_ic2",
-   "ts": "2026-09-24 12:15:14",
-   "kind": "search",
-   "retro_fill": false,
-   "cells_ledger_delta": 61,
-   "ledger_total_after": 5600,
-   "gates": {
-    "n_generated": 32,
-    "n_distinct": 11,
-    "n_entering_e4": 11,
-    "mechanical_valid": 10,
-    "v1_pass": 3,
-    "v2_pass": 0,
-    "v3_pass": 5,
-    "novel_survivors": 0,
-    "dup_survivors": 0,
-    "nullA_is_ic_p95": 0.00752,
-    "nullA_is_ir_p95": 0.04865,
-    "void": false
-   },
-   "eliminated": 11,
-   "elimination_note": "all deduped formulas entering E4 died at judgment: 10/10 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.142 << 0.30); 1 E4 compute failure; D6 never reached (V2 first-kill); IS2 ic positive for 10/10 (2025+ regime drift, stability-window only, never called OOS)",
-   "refs": {
-    "results": "results/shortline/j13v2_mill_ic2.json",
-    "prereg": "research/J13_V2_MINILOOP.md"
-   }
-  },
-  {
-   "batch": "etf-rules-fidelity-t14",
-   "ts": "2026-09-24 12:31:00",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 24,
-   "ledger_total_after": 3065,
-   "gates": {
-    "anchor_6of6": true,
-    "b2_landing_bit_identical": false,
-    "b2_landing_decision": "do_not_land_gm_adjudication",
-    "b1_drift_max_abs_delta_is_sharpe": 0.305,
-    "guard_counts_match_frozen_scan": true
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/rules_fidelity_t14.json",
-    "prereg": "research/ETF_RULES_FIDELITY.md",
-    "ticket": "fleet/tasks/T-2026-09-24-14-P1.json"
-   }
-  },
-  {
-   "batch": "regime-guard-validation-v3",
-   "ts": "2026-09-24 12:52:00",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 0,
-   "ledger_total_after": 3041,
-   "gates": {
-    "G1_red_orange_share_in_2_25pct": true,
-    "G2_orange_fa_le_60pct": true,
-    "G3_zero_gaps": true,
-    "verdict": "PASS",
-    "r_plus_o_days": 196,
-    "r_plus_o_share": 0.1201,
-    "red_days": 161,
-    "orange_days": 35,
-    "orange_fa_rate": 0.0,
-    "orange_episodes_main": 1,
-    "orange_fa_low_power": true,
-    "single_dim_orange_cut_days": 120,
-    "red_first_green_releases": 5,
-    "window_days": 1632,
-    "ledger_note": "replay=0 trials (pure measurement); counterfactual +12 staged next round per prereg s4.5"
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/regime_calibration_v3.json",
-    "prereg": "research/REGIME_GUARD_VALIDATION_V3.md"
-   },
-   "note": "first calibration PASS on the regime-guard line (v1 FAIL 61.6pct, v2 FAIL 26.53pct); G2 passes on a single ORANGE episode (low-power clause triggered, must ride the enforce proposal)"
-  },
-  {
-   "batch": "regime-guard-validation-v3-cf",
-   "ts": "2026-09-24 13:02:00",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 12,
-   "ledger_total_after": 3077,
-   "gates": {
-    "anchor_6of6": true,
-    "mask_days_window": 196,
-    "mask_days_on_panel": 196,
-    "d_sharpe_neg_members": 2,
-    "d_annual_range_pp": [
-     -1.11,
-     0.46
-    ],
-    "blocked_share_range": [
-     0.0968,
-     0.3985
-    ],
-    "yellow_census_max": 5608,
-    "verdict": "measurement-only (never reverses replay verdict PASS)"
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/regime_calibration_v3.json",
-    "prereg": "research/REGIME_GUARD_VALIDATION_V3.md",
-    "ticket": "fleet/tasks/T-2026-09-24-10-P1.json"
-   },
-   "note": "T-10 d4 counterfactual 12 legs one-shot: masking surface 1005->433->196 days, DeltaSharpe negative roster 4/6->2/6 (ENGULF -0.32/NEEDLE -0.25 keep sign = alpha-habitat third proof; CE-02/VOLATILITY back to noise band); DeltaAnnual worst -1.11pp (v2 -1.80pp); CE-01/DROUGHT turn positive under narrow v3 crisis-mask; yellow x0.5 sizing census (max 5608 entries CE-02) rides the enforce proposal"
-  },
-  {
-   "batch": "PA1_PREMIUM_IC",
-   "ts": "2026-09-24 14:57:59",
-   "kind": "measurement",
-   "cells_ledger_delta": 53,
-   "ledger_total_after": 5653,
-   "gates": {
-    "v1_floor": 0.02,
-    "null_is_p95_abs_ic": 0.0083,
-    "v1_thr": 0.02,
-    "primary_v1": false,
-    "primary_v2": false,
-    "primary_v3": true,
-    "period_gate": true,
-    "pass": false,
-    "void": false
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/shortline/pa1_premium_ic.json",
-    "prereg": "research/shortline/PA1_PREMIUM_IC.md"
-   }
-  },
-  {
-   "batch": "T27-blend-tournament",
-   "ts": "2026-09-24 18:39:38",
-   "kind": "tournament",
-   "cells_ledger_delta": 42,
-   "ledger_total_after": 3119,
-   "gates": {
-    "void": true,
-    "eligible_count": 0,
-    "winner": null
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/portfolio_blend_tournament.json",
-    "prereg": "research/T27_BLEND_TOURNAMENT.md"
-   }
-  },
-  {
-   "batch": "T27-blend-tournament-v2",
-   "ts": "2026-09-24 18:45:06",
-   "kind": "tournament",
-   "cells_ledger_delta": 86,
-   "ledger_total_after": 3205,
-   "gates": {
-    "void": false,
-    "eligible_count": 2,
-    "winner": "B_MAXDIV"
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/portfolio_blend_tournament.json",
-    "prereg": "research/T27_BLEND_TOURNAMENT_V2.md"
-   }
-  },
-  {
-   "batch": "PA1E_PREMIUM_EVENT",
-   "ts": "2026-09-24 19:09:41",
-   "kind": "measurement",
-   "cells_ledger_delta": 56,
-   "ledger_total_after": 5709,
-   "gates": {
-    "n_gate": true,
-    "null_is_p95_abs": 0.007412,
-    "v1_thr": 0.007412,
-    "primary_v1": false,
-    "primary_v2": false,
-    "primary_v3": false,
-    "pass": false,
-    "void": false
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/shortline/pa1e_premium_event.json",
-    "prereg": "research/shortline/PA1E_PREMIUM_EVENT.md"
-   }
-  },
-  {
-   "batch": "OG1_OVERNIGHT_IC",
-   "ts": "2026-09-24 19:29:37",
-   "kind": "measurement",
-   "cells_ledger_delta": 55,
-   "ledger_total_after": 5764,
-   "gates": {
-    "v1_floor": 0.02,
-    "null_is_p95_abs_ic": 0.0086,
-    "v1_thr": 0.02,
-    "primary_v1": false,
-    "primary_v2": false,
-    "primary_v3": false,
-    "period_gate": true,
-    "pass": false,
-    "void": false
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/shortline/og1_overnight_ic.json",
-    "prereg": "research/shortline/OG1_OVERNIGHT_IC.md"
-   }
-  },
-  {
-   "batch": "P5C_VIRTUAL_TIMEPOINT-LEG-L",
-   "ts": "2026-09-24 20:05:31",
-   "kind": "measurement",
-   "cells_ledger_delta": 16295,
-   "ledger_total_after": 22157,
-   "gates": {
-    "beat_line": 0.7,
-    "dd_red_line": -0.35,
-    "judgment_cells": 18,
-    "x1_pass_cells": 1
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\shortline\\p5c_virtual_timepoint.json",
-    "prereg": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md"
-   }
-  },
-  {
-   "batch": "T28_STABLE_PROFIT",
-   "ts": "2026-09-24 20:12:11",
-   "kind": "measurement",
-   "cells_ledger_delta": 0,
-   "ledger_total_after": 22177,
-   "gates": {
-    "J1_current_window": true,
-    "J2_x2_survival": true,
-    "J3_regime_segments": true,
-    "J4_grid_beat_12m_pooled": 0.4854
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\current_market_stable_profit.json",
-    "prereg": "research/T28_STABLE_PROFIT.md"
-   }
-  },
-  {
-   "batch": "XSTOCK_SYNTH",
-   "ts": "2026-09-24 20:50:54",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 2004,
-   "ledger_total_after": 60074,
-   "gates": {
-    "v1_floor": 0.02,
-    "nullA_p95": 0.08883848866829815,
-    "nullB_p95": 0.06301877633768437,
-    "v1_thr": 0.08883848866829815,
-    "primary_v1": true,
-    "primary_v2": true,
-    "primary_v3": true,
-    "period_gate": true,
-    "pass": true,
-    "void": false
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/shortline/xstock_synth.json",
-    "prereg": "research/shortline/XSTOCK_SYNTH.md",
-    "csv": "research/shortline/xstock_synth_results.csv"
-   },
-   "note": "stock-pool cross-library synthesis PASS (IC 0.1078/IR 1.03 vs nullA 0.0888, OOS 0.0965 retention 0.895); prev=58070 read post r114-S0-pull (bm-a T22 finalize head, benign race, no double-count); strategy conversion requires separate prereg"
-  },
-  {
-   "batch": "T33_ATTACK_WAVE",
-   "ts": "2026-09-24 21:05:53",
-   "kind": "measurement",
-   "cells_ledger_delta": 40,
-   "ledger_total_after": 58110,
-   "gates": {
-    "g1_prime_v2_pass": 0,
-    "skill_line_v2": 1.1046,
-    "anchor_repro_all_pass": true
-   },
-   "eliminated": 20,
-   "refs": {
-    "results": "results\\t33_attack_wave.json",
-    "prereg": "research\\T33_ATTACK_WAVE.md"
-   }
-  },
-  {
-   "batch": "T34_EARLY_SIGNAL",
-   "ts": "2026-09-24 21:27:23",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 0,
-   "ledger_total_after": null,
-   "gates": {
-    "j1_uplift_legacy": 0.0363,
-    "j1_uplift_deep": 0.0362,
-    "j2_min_dd_ladder_legacy": -0.1249,
-    "j2_min_dd_ladder_deep": -0.1041,
-    "pass": true,
-    "void": false
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/t34_early_signal_verdict.json",
-    "prereg": "research/T34_EARLY_SIGNAL.md",
-    "csv": "research/shortline/t34_envelope_results.csv",
-    "ticket": "fleet/tasks/T-2026-09-24-34-P1.json"
-   },
-   "note": "routing-rule A/B (no member registration); curves = T-22 cell re-derivation, not re-counted"
-  },
-  {
-   "batch": "t18_deep_reval",
-   "ts": "2026-09-24 22:32:12",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 40,
-   "ledger_total_after": 60172,
-   "gates": {
-    "engulf_reversal": 0.2143,
-    "j15_combined_exit": 0.2429,
-    "j19_ce_transfer": 0.1143,
-    "needle_probe": 0.9571,
-    "vol_drought_reversal": 0.4714
-   },
-   "eliminated": null,
-   "refs": {
-    "results": "results/shortline/t18_deep_reval.json",
-    "prereg": "research/DEEP_AXIS_REVALIDATION.md",
-    "csv": "research/shortline/t18_deep_reval.csv",
-    "ticket": "fleet/tasks/T-2026-09-24-18-P1.json"
-   },
-   "note": "pbo-stage finalize: single SS3 append 6+50+2+40; revalidation evidence only, zero registration consequence"
-  },
-  {
-   "batch": "T11_NEGDAY_IC",
-   "ts": "2026-09-24 22:52:00",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 408,
-   "ledger_total_after": 60482,
-   "gates": {
-    "v1_floor": 0.02,
-    "null_p95_abs_ic_range": [
-     0.0059,
-     0.0073
-    ],
-    "best_abs_is_ic": 0.0155,
-    "best_cell": "negban_W_10",
-    "best_is_ir": -0.88,
-    "pass_cells": 0,
-    "computed_cells": 8,
-    "robustness": "0/8 robust to V1 floor: W cells fail V3 (OOS retention 11-18% << 50%), H cells fail V2 (H_40 fails V1 vs null 0.0062<0.0066)"
-   },
-   "eliminated": 8,
-   "refs": {
-    "results": "results/shortline/t11_negday_ic.json",
-    "prereg": "research/shortline/T11_NEGDAY_MASK.md",
-    "csv": "research/shortline/t11_negday_ic_results.csv",
-    "ticket": "fleet/tasks/T-2026-09-24-11-P1.json"
-   },
-   "note": "T-11 first consumption batch (negban mask IC); mean-drift face closes per prereg SS4; W-scope IS drift real vs null band but OOS collapse; V2 fixed wall 0.30 < null p95 IR 0.46-0.56 at n=58-125 = caliber-design lesson for sparse-event batches (future preregs: null-anchor V2), not applied retroactively (J18) | same-window same-base disclosure (r110 family): t18_deep_reval (bm-b r118, ledger_total_after 60172 = 60074+98) and this batch (60074+408=60482) both chained off xstock head 60074 in the same window without seeing each other; both blocks are honest run-time records; true linear sum 60580; scanner head (recursive max) = 60482; the 98-cell gap is a same-window artifact, next batch chains off the data-driven head."
-  },
-  {
-   "batch": "A158_TRUEGAP_IC",
-   "ts": "2026-09-24 23:37:05",
-   "kind": "measurement",
-   "retro_fill": false,
-   "cells_ledger_delta": 65,
-   "ledger_total_after": 60547,
-   "gates": {
-    "v1_floor": 0.02,
-    "null_p95_abs_ic_range": [
-     0.002,
-     0.0025
-    ],
-    "best_abs_is_ic": 0.0254,
-    "best_cell": "WVMA20",
-    "best_is_ir": -0.181,
-    "pass_cells": 0,
-    "computed_cells": 5,
-    "robustness": "0/5 robust: IMAX20/IMIN20/IMXD20/VSUMP20 fail V1 (|IS IC| 0.0035-0.0185 < 0.02 floor) AND V2 (IR 0.02-0.124 < 0.30); WVMA20 passes V1 (0.0254>0.02) fails V2 (IR 0.181<0.30); V3 pass 5/5 (OOS |IC| 0.033-0.0524 >= 0.5x|IS|, same sign); A3 pass 5/5 (n 8327-8370); OOS |IC| >> IS |IC| regime-dependent but IS floor unfazed (frozen)"
-   },
-   "eliminated": 5,
-   "refs": {
-    "results": "results/shortline/a158_truegap_ic.json",
-    "prereg": "research/shortline/A158_TRUEGAP_IC.md",
-    "csv": "research/shortline/a158_truegap_ic_cells.csv",
-    "ticket": "open-pool claim MSG-20260924-2246-bm-b (T-23 wave1, no fleet ticket)"
-   },
-   "note": "Alpha158 true-gap 7-family first trial -> 0/5 primary FAIL -> Alpha158 gap-line CLOSED per prereg s0 multiplicity law (revival needs new prereg + mechanism argument); s0 itemization 5 primary + 2 affine-clone disclosure + 50 nulls-once + 7 h5 report cols + 1 h20 col (WVMA20 V1-passer only) = 65; mid-flight P0 disclosed: r120 run (pid 29396) killed before false-verdict assembly (fwd-frame column-alignment bug: memmap round-trip dropped symbol cols -> empty IC series -> stats_block skip-block -> str into gates_v123 abs() TypeError; 5 error checkpoints deleted, fix proven offline 0-vs-60 periods, selftest 3/3 intact, nulls checkpoint 50/50 preserved); corr disclosure face degenerate-NaN disclosed (daily_mean_z of per-row-demeaned z = 0 -> zero variance, prereg s1 disclosure-only face, verdict-irrelevant); predictions s5 scorecard -> prereg s7/s8 backfill"
-  },
-  {
-   "batch": "GRID-P1",
-   "ts": "2026-09-25 03:20:14",
-   "kind": "measurement",
-   "cells_ledger_delta": 112,
-   "ledger_total_after": 60659,
-   "gates": {
-    "skill_line_v2": 1.1068,
-    "g1_prime_v2_pass": 0,
-    "d6_registered_rejects": [],
-    "d6_same_batch_merged": null,
-    "anchor_repro_all_pass": true,
-    "best_cell": "ce",
-    "best_full_sharpe": 0.0683
-   },
-   "eliminated": 2,
-   "refs": {
-    "results": "results/grid_p1.json",
-    "prereg": "research/GRID_P1.md",
-    "csv": "research/grid_p1_results.csv",
-    "ticket": "T-2026-09-25-40"
-   }
-  },
-  {
-   "batch": "P4-B3-DCA",
-   "ts": "2026-09-25 04:11:32",
-   "kind": "measurement",
-   "cells_ledger_delta": 125,
-   "ledger_total_after": 60784,
-   "gates": {
-    "skill_line_v2": 1.1069,
-    "g1_prime_v2_pass": 0,
-    "d6_registered_rejects": [],
-    "d6_same_batch_merged": [],
-    "anchor_repro_all_pass": true,
-    "g2_info_face": {},
-    "best_cell": "ovb|single|ce",
-    "best_full_sharpe": 0.3348,
-    "pair_delta_sharpe": {
-     "ovb@default": -0.0634,
-     "ovb@ce": -0.0606,
-     "low252@default": 0.072,
-     "low252@ce": -0.0087
+  "schema": "gate-attrition-ledger v1",
+  "created": "2026-09-24 03:03:01",
+  "purpose": "science_audit C4: per-batch gate-chain losses account (s7-T retro mandatory; measurement batches record gate outcomes, search batches record eliminations)",
+  "entries": [
+    {
+      "batch": "EW6-portfolio-validation",
+      "ts": "2026-09-24 00:54:38",
+      "kind": "measurement",
+      "retro_fill": true,
+      "cells_ledger_delta": 26,
+      "ledger_total_after": 2753,
+      "gates": {
+        "descriptive_g1_clauses_all_pass": true,
+        "x2_survive": true,
+        "worst_year_ok": true,
+        "validated": true,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_ew6.json",
+        "prereg": "research/shortline/EW6_PORTFOLIO.md"
+      }
+    },
+    {
+      "batch": "IV6-portfolio-riskbudget",
+      "ts": "2026-09-24 03:03:01",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 14,
+      "ledger_total_after": 2779,
+      "gates": {
+        "g1_prime_v2_pass": true,
+        "descriptive_g1_clauses_all_pass": true,
+        "x2_survive": true,
+        "worst_year_ok": true,
+        "twin_gate_crosscheck": true,
+        "validated": true,
+        "void": false,
+        "void_reason": null
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_iv6.json",
+        "prereg": "research/IV6_PORTFOLIO.md"
+      },
+      "correction_note": "rebase-window re-seat: bm-b T-05 part3 +12 mid-window; serial total 2779 (was 2767 at run time when head was 2753)"
+    },
+    {
+      "batch": "p4-pairs",
+      "ts": "2026-09-24 05:31:00",
+      "kind": "measurement",
+      "cells_ledger_delta": 67,
+      "ledger_total_after": 2858,
+      "gates": {
+        "v2_skill_line": 0.9359,
+        "v2_pass": false,
+        "ci_lower_bound_positive": false,
+        "trade_gate_dual_ok": true,
+        "beats_inbatch_null_p95": false,
+        "x2_survive_vi": false,
+        "d6_max_corr": 0.235
+      },
+      "eliminated": 1,
+      "elim_note": "1 pooled candidate -> 0 survivors (long-only pairs line closes)",
+      "refs": {
+        "results": "results/shortline_p4_pairs.json",
+        "prereg": "research/P4_PAIRS.md",
+        "csv": "research/shortline/p4_pairs_results.csv"
+      }
+    },
+    {
+      "batch": "P4_EXT_TILT",
+      "ts": "2026-09-24 06:34:36",
+      "kind": "search",
+      "cells_ledger_delta": 47,
+      "ledger_total_after": 2905,
+      "gates": {
+        "cells_run": 47,
+        "survivors_g1_prime_v2": 0
+      },
+      "eliminated": 47,
+      "refs": {
+        "results": "results/shortline_p4_ext_tilt.json",
+        "prereg": "research/shortline/P4_EXT_TILT.md"
+      }
+    },
+    {
+      "batch": "CTA_P1",
+      "ts": "2026-09-24 06:58:56",
+      "kind": "search",
+      "cells_ledger_delta": 68,
+      "ledger_total_after": 2973,
+      "gates": {
+        "skill_line_v2": 1.1463,
+        "g1_passers": 0,
+        "descriptive_all_pass_candidates": 0
+      },
+      "eliminated": 16,
+      "refs": {
+        "results": "results/shortline_cta_p1.json",
+        "prereg": "research/CTA_P1.md"
+      }
+    },
+    {
+      "batch": "CTA_P2_NOAU",
+      "ts": "2026-09-24 07:34:35",
+      "kind": "search",
+      "cells_ledger_delta": 68,
+      "ledger_total_after": 3041,
+      "gates": {
+        "skill_line_v2": 1.4278,
+        "g1_passers": 0,
+        "descriptive_all_pass_candidates": 0
+      },
+      "eliminated": 16,
+      "refs": {
+        "results": "results/shortline_cta_p2_noau.json",
+        "prereg": "research/CTA_P2_NOAU.md"
+      }
+    },
+    {
+      "batch": "j13v2_mill_ic1",
+      "ts": "2026-09-24 10:41:00",
+      "kind": "search",
+      "retro_fill": false,
+      "cells_ledger_delta": 63,
+      "ledger_total_after": 5539,
+      "gates": {
+        "n_generated": 32,
+        "n_distinct": 13,
+        "n_entering_e4": 13,
+        "mechanical_valid": 12,
+        "v1_pass": 5,
+        "v2_pass": 0,
+        "v3_pass": 6,
+        "novel_survivors": 0,
+        "dup_survivors": 0,
+        "nullA_is_ic_p95": 0.010045,
+        "nullA_is_ir_p95": 0.06705,
+        "void": false
+      },
+      "eliminated": 13,
+      "elimination_note": "all deduped formulas entering E4 died at judgment: 12/12 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.129 << 0.30); 1 E4 compute failure; D6 kinship 100% among V1-passers (max|corr| 0.84-1.0)",
+      "refs": {
+        "results": "results/shortline/j13v2_mill_ic1.json",
+        "prereg": "research/J13_V2_MINILOOP.md"
+      }
+    },
+    {
+      "batch": "j13v2_mill_ic2",
+      "ts": "2026-09-24 12:15:14",
+      "kind": "search",
+      "retro_fill": false,
+      "cells_ledger_delta": 61,
+      "ledger_total_after": 5600,
+      "gates": {
+        "n_generated": 32,
+        "n_distinct": 11,
+        "n_entering_e4": 11,
+        "mechanical_valid": 10,
+        "v1_pass": 3,
+        "v2_pass": 0,
+        "v3_pass": 5,
+        "novel_survivors": 0,
+        "dup_survivors": 0,
+        "nullA_is_ic_p95": 0.00752,
+        "nullA_is_ir_p95": 0.04865,
+        "void": false
+      },
+      "eliminated": 11,
+      "elimination_note": "all deduped formulas entering E4 died at judgment: 10/10 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.142 << 0.30); 1 E4 compute failure; D6 never reached (V2 first-kill); IS2 ic positive for 10/10 (2025+ regime drift, stability-window only, never called OOS)",
+      "refs": {
+        "results": "results/shortline/j13v2_mill_ic2.json",
+        "prereg": "research/J13_V2_MINILOOP.md"
+      }
+    },
+    {
+      "batch": "etf-rules-fidelity-t14",
+      "ts": "2026-09-24 12:31:00",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 24,
+      "ledger_total_after": 3065,
+      "gates": {
+        "anchor_6of6": true,
+        "b2_landing_bit_identical": false,
+        "b2_landing_decision": "do_not_land_gm_adjudication",
+        "b1_drift_max_abs_delta_is_sharpe": 0.305,
+        "guard_counts_match_frozen_scan": true
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/rules_fidelity_t14.json",
+        "prereg": "research/ETF_RULES_FIDELITY.md",
+        "ticket": "fleet/tasks/T-2026-09-24-14-P1.json"
+      }
+    },
+    {
+      "batch": "regime-guard-validation-v3",
+      "ts": "2026-09-24 12:52:00",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 0,
+      "ledger_total_after": 3041,
+      "gates": {
+        "G1_red_orange_share_in_2_25pct": true,
+        "G2_orange_fa_le_60pct": true,
+        "G3_zero_gaps": true,
+        "verdict": "PASS",
+        "r_plus_o_days": 196,
+        "r_plus_o_share": 0.1201,
+        "red_days": 161,
+        "orange_days": 35,
+        "orange_fa_rate": 0.0,
+        "orange_episodes_main": 1,
+        "orange_fa_low_power": true,
+        "single_dim_orange_cut_days": 120,
+        "red_first_green_releases": 5,
+        "window_days": 1632,
+        "ledger_note": "replay=0 trials (pure measurement); counterfactual +12 staged next round per prereg s4.5"
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/regime_calibration_v3.json",
+        "prereg": "research/REGIME_GUARD_VALIDATION_V3.md"
+      },
+      "note": "first calibration PASS on the regime-guard line (v1 FAIL 61.6pct, v2 FAIL 26.53pct); G2 passes on a single ORANGE episode (low-power clause triggered, must ride the enforce proposal)"
+    },
+    {
+      "batch": "regime-guard-validation-v3-cf",
+      "ts": "2026-09-24 13:02:00",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 12,
+      "ledger_total_after": 3077,
+      "gates": {
+        "anchor_6of6": true,
+        "mask_days_window": 196,
+        "mask_days_on_panel": 196,
+        "d_sharpe_neg_members": 2,
+        "d_annual_range_pp": [
+          -1.11,
+          0.46
+        ],
+        "blocked_share_range": [
+          0.0968,
+          0.3985
+        ],
+        "yellow_census_max": 5608,
+        "verdict": "measurement-only (never reverses replay verdict PASS)"
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/regime_calibration_v3.json",
+        "prereg": "research/REGIME_GUARD_VALIDATION_V3.md",
+        "ticket": "fleet/tasks/T-2026-09-24-10-P1.json"
+      },
+      "note": "T-10 d4 counterfactual 12 legs one-shot: masking surface 1005->433->196 days, DeltaSharpe negative roster 4/6->2/6 (ENGULF -0.32/NEEDLE -0.25 keep sign = alpha-habitat third proof; CE-02/VOLATILITY back to noise band); DeltaAnnual worst -1.11pp (v2 -1.80pp); CE-01/DROUGHT turn positive under narrow v3 crisis-mask; yellow x0.5 sizing census (max 5608 entries CE-02) rides the enforce proposal"
+    },
+    {
+      "batch": "PA1_PREMIUM_IC",
+      "ts": "2026-09-24 14:57:59",
+      "kind": "measurement",
+      "cells_ledger_delta": 53,
+      "ledger_total_after": 5653,
+      "gates": {
+        "v1_floor": 0.02,
+        "null_is_p95_abs_ic": 0.0083,
+        "v1_thr": 0.02,
+        "primary_v1": false,
+        "primary_v2": false,
+        "primary_v3": true,
+        "period_gate": true,
+        "pass": false,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/shortline/pa1_premium_ic.json",
+        "prereg": "research/shortline/PA1_PREMIUM_IC.md"
+      }
+    },
+    {
+      "batch": "T27-blend-tournament",
+      "ts": "2026-09-24 18:39:38",
+      "kind": "tournament",
+      "cells_ledger_delta": 42,
+      "ledger_total_after": 3119,
+      "gates": {
+        "void": true,
+        "eligible_count": 0,
+        "winner": null
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_blend_tournament.json",
+        "prereg": "research/T27_BLEND_TOURNAMENT.md"
+      }
+    },
+    {
+      "batch": "T27-blend-tournament-v2",
+      "ts": "2026-09-24 18:45:06",
+      "kind": "tournament",
+      "cells_ledger_delta": 86,
+      "ledger_total_after": 3205,
+      "gates": {
+        "void": false,
+        "eligible_count": 2,
+        "winner": "B_MAXDIV"
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/portfolio_blend_tournament.json",
+        "prereg": "research/T27_BLEND_TOURNAMENT_V2.md"
+      }
+    },
+    {
+      "batch": "PA1E_PREMIUM_EVENT",
+      "ts": "2026-09-24 19:09:41",
+      "kind": "measurement",
+      "cells_ledger_delta": 56,
+      "ledger_total_after": 5709,
+      "gates": {
+        "n_gate": true,
+        "null_is_p95_abs": 0.007412,
+        "v1_thr": 0.007412,
+        "primary_v1": false,
+        "primary_v2": false,
+        "primary_v3": false,
+        "pass": false,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/shortline/pa1e_premium_event.json",
+        "prereg": "research/shortline/PA1E_PREMIUM_EVENT.md"
+      }
+    },
+    {
+      "batch": "OG1_OVERNIGHT_IC",
+      "ts": "2026-09-24 19:29:37",
+      "kind": "measurement",
+      "cells_ledger_delta": 55,
+      "ledger_total_after": 5764,
+      "gates": {
+        "v1_floor": 0.02,
+        "null_is_p95_abs_ic": 0.0086,
+        "v1_thr": 0.02,
+        "primary_v1": false,
+        "primary_v2": false,
+        "primary_v3": false,
+        "period_gate": true,
+        "pass": false,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/shortline/og1_overnight_ic.json",
+        "prereg": "research/shortline/OG1_OVERNIGHT_IC.md"
+      }
+    },
+    {
+      "batch": "P5C_VIRTUAL_TIMEPOINT-LEG-L",
+      "ts": "2026-09-24 20:05:31",
+      "kind": "measurement",
+      "cells_ledger_delta": 16295,
+      "ledger_total_after": 22157,
+      "gates": {
+        "beat_line": 0.7,
+        "dd_red_line": -0.35,
+        "judgment_cells": 18,
+        "x1_pass_cells": 1
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\shortline\\p5c_virtual_timepoint.json",
+        "prereg": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md"
+      }
+    },
+    {
+      "batch": "T28_STABLE_PROFIT",
+      "ts": "2026-09-24 20:12:11",
+      "kind": "measurement",
+      "cells_ledger_delta": 0,
+      "ledger_total_after": 22177,
+      "gates": {
+        "J1_current_window": true,
+        "J2_x2_survival": true,
+        "J3_regime_segments": true,
+        "J4_grid_beat_12m_pooled": 0.4854
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\current_market_stable_profit.json",
+        "prereg": "research/T28_STABLE_PROFIT.md"
+      }
+    },
+    {
+      "batch": "XSTOCK_SYNTH",
+      "ts": "2026-09-24 20:50:54",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 2004,
+      "ledger_total_after": 60074,
+      "gates": {
+        "v1_floor": 0.02,
+        "nullA_p95": 0.08883848866829815,
+        "nullB_p95": 0.06301877633768437,
+        "v1_thr": 0.08883848866829815,
+        "primary_v1": true,
+        "primary_v2": true,
+        "primary_v3": true,
+        "period_gate": true,
+        "pass": true,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/shortline/xstock_synth.json",
+        "prereg": "research/shortline/XSTOCK_SYNTH.md",
+        "csv": "research/shortline/xstock_synth_results.csv"
+      },
+      "note": "stock-pool cross-library synthesis PASS (IC 0.1078/IR 1.03 vs nullA 0.0888, OOS 0.0965 retention 0.895); prev=58070 read post r114-S0-pull (bm-a T22 finalize head, benign race, no double-count); strategy conversion requires separate prereg"
+    },
+    {
+      "batch": "T33_ATTACK_WAVE",
+      "ts": "2026-09-24 21:05:53",
+      "kind": "measurement",
+      "cells_ledger_delta": 40,
+      "ledger_total_after": 58110,
+      "gates": {
+        "g1_prime_v2_pass": 0,
+        "skill_line_v2": 1.1046,
+        "anchor_repro_all_pass": true
+      },
+      "eliminated": 20,
+      "refs": {
+        "results": "results\\t33_attack_wave.json",
+        "prereg": "research\\T33_ATTACK_WAVE.md"
+      }
+    },
+    {
+      "batch": "T34_EARLY_SIGNAL",
+      "ts": "2026-09-24 21:27:23",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 0,
+      "ledger_total_after": null,
+      "gates": {
+        "j1_uplift_legacy": 0.0363,
+        "j1_uplift_deep": 0.0362,
+        "j2_min_dd_ladder_legacy": -0.1249,
+        "j2_min_dd_ladder_deep": -0.1041,
+        "pass": true,
+        "void": false
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/t34_early_signal_verdict.json",
+        "prereg": "research/T34_EARLY_SIGNAL.md",
+        "csv": "research/shortline/t34_envelope_results.csv",
+        "ticket": "fleet/tasks/T-2026-09-24-34-P1.json"
+      },
+      "note": "routing-rule A/B (no member registration); curves = T-22 cell re-derivation, not re-counted"
+    },
+    {
+      "batch": "t18_deep_reval",
+      "ts": "2026-09-24 22:32:12",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 40,
+      "ledger_total_after": 60172,
+      "gates": {
+        "engulf_reversal": 0.2143,
+        "j15_combined_exit": 0.2429,
+        "j19_ce_transfer": 0.1143,
+        "needle_probe": 0.9571,
+        "vol_drought_reversal": 0.4714
+      },
+      "eliminated": null,
+      "refs": {
+        "results": "results/shortline/t18_deep_reval.json",
+        "prereg": "research/DEEP_AXIS_REVALIDATION.md",
+        "csv": "research/shortline/t18_deep_reval.csv",
+        "ticket": "fleet/tasks/T-2026-09-24-18-P1.json"
+      },
+      "note": "pbo-stage finalize: single SS3 append 6+50+2+40; revalidation evidence only, zero registration consequence"
+    },
+    {
+      "batch": "T11_NEGDAY_IC",
+      "ts": "2026-09-24 22:52:00",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 408,
+      "ledger_total_after": 60482,
+      "gates": {
+        "v1_floor": 0.02,
+        "null_p95_abs_ic_range": [
+          0.0059,
+          0.0073
+        ],
+        "best_abs_is_ic": 0.0155,
+        "best_cell": "negban_W_10",
+        "best_is_ir": -0.88,
+        "pass_cells": 0,
+        "computed_cells": 8,
+        "robustness": "0/8 robust to V1 floor: W cells fail V3 (OOS retention 11-18% << 50%), H cells fail V2 (H_40 fails V1 vs null 0.0062<0.0066)"
+      },
+      "eliminated": 8,
+      "refs": {
+        "results": "results/shortline/t11_negday_ic.json",
+        "prereg": "research/shortline/T11_NEGDAY_MASK.md",
+        "csv": "research/shortline/t11_negday_ic_results.csv",
+        "ticket": "fleet/tasks/T-2026-09-24-11-P1.json"
+      },
+      "note": "T-11 first consumption batch (negban mask IC); mean-drift face closes per prereg SS4; W-scope IS drift real vs null band but OOS collapse; V2 fixed wall 0.30 < null p95 IR 0.46-0.56 at n=58-125 = caliber-design lesson for sparse-event batches (future preregs: null-anchor V2), not applied retroactively (J18) | same-window same-base disclosure (r110 family): t18_deep_reval (bm-b r118, ledger_total_after 60172 = 60074+98) and this batch (60074+408=60482) both chained off xstock head 60074 in the same window without seeing each other; both blocks are honest run-time records; true linear sum 60580; scanner head (recursive max) = 60482; the 98-cell gap is a same-window artifact, next batch chains off the data-driven head."
+    },
+    {
+      "batch": "A158_TRUEGAP_IC",
+      "ts": "2026-09-24 23:37:05",
+      "kind": "measurement",
+      "retro_fill": false,
+      "cells_ledger_delta": 65,
+      "ledger_total_after": 60547,
+      "gates": {
+        "v1_floor": 0.02,
+        "null_p95_abs_ic_range": [
+          0.002,
+          0.0025
+        ],
+        "best_abs_is_ic": 0.0254,
+        "best_cell": "WVMA20",
+        "best_is_ir": -0.181,
+        "pass_cells": 0,
+        "computed_cells": 5,
+        "robustness": "0/5 robust: IMAX20/IMIN20/IMXD20/VSUMP20 fail V1 (|IS IC| 0.0035-0.0185 < 0.02 floor) AND V2 (IR 0.02-0.124 < 0.30); WVMA20 passes V1 (0.0254>0.02) fails V2 (IR 0.181<0.30); V3 pass 5/5 (OOS |IC| 0.033-0.0524 >= 0.5x|IS|, same sign); A3 pass 5/5 (n 8327-8370); OOS |IC| >> IS |IC| regime-dependent but IS floor unfazed (frozen)"
+      },
+      "eliminated": 5,
+      "refs": {
+        "results": "results/shortline/a158_truegap_ic.json",
+        "prereg": "research/shortline/A158_TRUEGAP_IC.md",
+        "csv": "research/shortline/a158_truegap_ic_cells.csv",
+        "ticket": "open-pool claim MSG-20260924-2246-bm-b (T-23 wave1, no fleet ticket)"
+      },
+      "note": "Alpha158 true-gap 7-family first trial -> 0/5 primary FAIL -> Alpha158 gap-line CLOSED per prereg s0 multiplicity law (revival needs new prereg + mechanism argument); s0 itemization 5 primary + 2 affine-clone disclosure + 50 nulls-once + 7 h5 report cols + 1 h20 col (WVMA20 V1-passer only) = 65; mid-flight P0 disclosed: r120 run (pid 29396) killed before false-verdict assembly (fwd-frame column-alignment bug: memmap round-trip dropped symbol cols -> empty IC series -> stats_block skip-block -> str into gates_v123 abs() TypeError; 5 error checkpoints deleted, fix proven offline 0-vs-60 periods, selftest 3/3 intact, nulls checkpoint 50/50 preserved); corr disclosure face degenerate-NaN disclosed (daily_mean_z of per-row-demeaned z = 0 -> zero variance, prereg s1 disclosure-only face, verdict-irrelevant); predictions s5 scorecard -> prereg s7/s8 backfill"
+    },
+    {
+      "batch": "GRID-P1",
+      "ts": "2026-09-25 03:20:14",
+      "kind": "measurement",
+      "cells_ledger_delta": 112,
+      "ledger_total_after": 60659,
+      "gates": {
+        "skill_line_v2": 1.1068,
+        "g1_prime_v2_pass": 0,
+        "d6_registered_rejects": [],
+        "d6_same_batch_merged": null,
+        "anchor_repro_all_pass": true,
+        "best_cell": "ce",
+        "best_full_sharpe": 0.0683
+      },
+      "eliminated": 2,
+      "refs": {
+        "results": "results/grid_p1.json",
+        "prereg": "research/GRID_P1.md",
+        "csv": "research/grid_p1_results.csv",
+        "ticket": "T-2026-09-25-40"
+      }
+    },
+    {
+      "batch": "P4-B3-DCA",
+      "ts": "2026-09-25 04:11:32",
+      "kind": "measurement",
+      "cells_ledger_delta": 125,
+      "ledger_total_after": 60784,
+      "gates": {
+        "skill_line_v2": 1.1069,
+        "g1_prime_v2_pass": 0,
+        "d6_registered_rejects": [],
+        "d6_same_batch_merged": [],
+        "anchor_repro_all_pass": true,
+        "g2_info_face": {},
+        "best_cell": "ovb|single|ce",
+        "best_full_sharpe": 0.3348,
+        "pair_delta_sharpe": {
+          "ovb@default": -0.0634,
+          "ovb@ce": -0.0606,
+          "low252@default": 0.072,
+          "low252@ce": -0.0087
+        }
+      },
+      "eliminated": 8,
+      "refs": {
+        "results": "results/shortline_p4_batch3.json",
+        "prereg": "research/P4_BATCH3.md",
+        "csv": "research/shortline/p4_batch3_results.csv",
+        "ticket": "T-2026-09-25-44"
+      }
+    },
+    {
+      "batch": "XSTOCK_TILT",
+      "ts": "2026-09-25 06:36:43",
+      "kind": "search",
+      "cells_ledger_delta": 44,
+      "ledger_total_after": 60828,
+      "gates": {
+        "cells_run": 44,
+        "survivors_g1_prime_v2": 0
+      },
+      "eliminated": 44,
+      "refs": {
+        "results": "results/shortline_xstock_tilt.json",
+        "prereg": "research/shortline/XSTOCK_TILT.md"
+      }
     }
-   },
-   "eliminated": 8,
-   "refs": {
-    "results": "results/shortline_p4_batch3.json",
-    "prereg": "research/P4_BATCH3.md",
-    "csv": "research/shortline/p4_batch3_results.csv",
-    "ticket": "T-2026-09-25-44"
-   }
-  }
- ]
+  ]
 }
