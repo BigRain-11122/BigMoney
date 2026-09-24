@@ -184,13 +184,18 @@ def _p95(vals):
     return float(np.percentile(np.asarray(vals, dtype="float64"), 95))
 
 
-def null_band(fwd, close_shape_index, close_cols):
-    """K=50 white-noise panels through the identical IC pipeline (IS window only)."""
+def _noise_panel(rng, index, columns):
+    """iid N(0,1) factor panel with the close panel's exact (index, columns)."""
+    return pd.DataFrame(rng.standard_normal((len(index), len(columns))),
+                         index=index, columns=columns)
+
+
+def null_band(fwd, index, columns, k=K_NULLS):
+    """K white-noise panels through the identical IC pipeline (IS window only)."""
     ic_means, ic_irs, n_periods = [], [], []
-    for i in range(K_NULLS):
+    for i in range(k):
         rng = np.random.default_rng(SEED_BASE + i)
-        noise = pd.DataFrame(rng.standard_normal((len(close_shape_index), close_shape_index.size)),
-                             index=close_shape_index, columns=close_cols)
+        noise = _noise_panel(rng, index, columns)
         ic = ic_series(noise, fwd)
         is_s, _ = _split_windows(ic)
         st = stats_block(is_s)
@@ -199,7 +204,7 @@ def null_band(fwd, close_shape_index, close_cols):
             ic_irs.append(abs(st["ic_ir"]))
             n_periods.append(st["n_periods"])
     return {
-        "k": K_NULLS, "seed_base": SEED_BASE,
+        "k": k, "seed_base": SEED_BASE,
         "is_ic_mean_p95": round(_p95(ic_means), 6) if ic_means else None,
         "is_ic_ir_p95": round(_p95(ic_irs), 6) if ic_irs else None,
         "n_null_periods_min": int(min(n_periods)) if n_periods else 0,
@@ -522,13 +527,21 @@ def selftest():
     check("verdict_d6_insufficient_conservative",
           verdict_of(c_d6i, nullA) == "d6_insufficient")
 
-    # 5. null determinism: same seed -> same panel; different i -> different
+    # 5. null machinery: seed determinism + noise panel shape + end-to-end tiny null band
     idx = panel["close"].index
     cols = panel["close"].columns
     n1 = np.random.default_rng(SEED_BASE + 0).standard_normal((len(idx), len(cols)))
     n1b = np.random.default_rng(SEED_BASE + 0).standard_normal((len(idx), len(cols)))
     n2 = np.random.default_rng(SEED_BASE + 1).standard_normal((len(idx), len(cols)))
     check("null_seed_determinism", np.array_equal(n1, n1b) and not np.array_equal(n1, n2))
+    noise_df = _noise_panel(np.random.default_rng(SEED_BASE), idx, cols)
+    check("noise_panel_shape", noise_df.shape == (len(idx), len(cols))
+          and list(noise_df.columns) == list(cols))
+    fwd_st = panel["close"].shift(-H) / panel["close"] - 1
+    nb = null_band(fwd_st, idx, cols, k=3)
+    check("null_band_end_to_end", nb["n_valid_nulls"] == 3 and nb["k"] == 3
+          and nb["is_ic_mean_p95"] is not None and nb["is_ic_ir_p95"] is not None
+          and nb["n_null_periods_min"] >= 30)
 
     # 6. D6: identical series -> corr 1.0 -> dup; disjoint-length -> shared_ok False
     s = pd.Series(np.sin(np.linspace(0, 40, 600)),
