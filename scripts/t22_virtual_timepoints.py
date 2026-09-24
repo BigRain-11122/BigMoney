@@ -407,6 +407,397 @@ def cmd_status(_) -> int:
             print(f"{name}: {open(path, encoding='utf-8').read()[:200]}")
     return 0
 
+# ------------------------------------------------------------------ finalize
+
+LEGACY_CUTOFF = "2026-09-23"   # prereg s2: legacy axis panel end at run time
+BATCH_CUTOFF = "2026-09-22"    # binding cutoff (deep manifest, min of axes)
+BOOTSTRAP_B = 2000             # prereg s4: binomial bootstrap, frozen
+BOOTSTRAP_SEED = 20260924      # frozen seed, disclosed in output
+SUBSAMPLE_STEP = 25            # prereg s4: 25td de-overlap subsample
+WINDOWS = {"6m": W6M, "12m": W12M, "24m": W24M}
+CANON_FILES = {
+    ("legacy", "base"): ["cells_legacy_base_c1.jsonl"],
+    ("legacy", "x2"): ["cells_legacy_x2_c1.jsonl"],
+    ("deep", "base"): ["cells_deep_base_d-a1.jsonl",
+                       "cells_deep_base_d-c1.jsonl"],
+    ("deep", "x2"): ["cells_deep_x2_d-a1.jsonl",
+                     "cells_deep_x2_d-c1.jsonl"],
+}
+REPRO_FILE = "cells_deep_base_dprobe.jsonl"   # 12 reproduction cells (r82 probe)
+_COMPARE_FIELDS = ("ret_6m", "ret_12m", "ret_24m", "p_ret_6m", "p_ret_12m",
+                   "p_ret_24m", "dd_6m", "dd_12m", "dd_24m", "sharpe_6m",
+                   "sharpe_12m", "sharpe_24m", "trades_6m", "trades_12m",
+                   "trades_24m", "beat_6m", "beat_12m", "beat_24m")
+
+
+def _bootstrap_ci(k: int, n: int):
+    """Binomial bootstrap 95% CI on the beat rate (prereg s4, B/seed frozen).
+    Fresh seeded rng per cell -> each CI independently reproducible."""
+    if n == 0:
+        return None, None, None
+    rng = np.random.default_rng(BOOTSTRAP_SEED)
+    draws = rng.binomial(n, k / n, BOOTSTRAP_B) / n
+    lo, hi = np.percentile(draws, [2.5, 97.5])
+    return round(float(lo), 4), round(float(hi), 4), round(float(hi - lo), 4)
+
+
+def _agg(rows, wname):
+    """One (trader, face, window) aggregate on the COMPLETE-window subset
+    (prereg s3: partial windows flagged, main read on full-window subset;
+    all-window face disclosed in parallel)."""
+    pflag = {"6m": None, "12m": "partial_12m", "24m": "partial_24m"}[wname]
+    full = [r for r in rows if pflag is None or not r.get(pflag)]
+    partial_n = len(rows) - len(full)
+    n, k, dds, trades = len(full), 0, [], 0
+    seg = {}
+    for r in full:
+        k += int(bool(r[f"beat_{wname}"]))
+        dds.append(float(r[f"dd_{wname}"]))
+        trades += int(r[f"trades_{wname}"])
+        s = r.get("regime", "na")
+        b = seg.setdefault(s, {"n": 0, "k": 0, "dds": []})
+        b["n"] += 1
+        b["k"] += int(bool(r[f"beat_{wname}"]))
+        b["dds"].append(float(r[f"dd_{wname}"]))
+    rate = k / n if n else None
+    min_dd = min(dds) if dds else None
+    starts = sorted({r["start"] for r in full})
+    covered_years = (round((pd.Timestamp(starts[-1])
+                            - pd.Timestamp(starts[0])).days / 365.25, 2)
+                     if starts else None)
+    n_regime, last = 0, None
+    for r in sorted(full, key=lambda r: (r["pos"], r["trader"])):
+        s = r.get("regime", "na")
+        if s != last:
+            n_regime += 1
+            last = s
+    ci_lo, ci_hi, ci_w = _bootstrap_ci(k, n)
+    all_dds = [float(r[f"dd_{wname}"]) for r in rows]
+    all_k = sum(1 for r in rows if r[f"beat_{wname}"])
+    segments = {s: {"n": b["n"], "beat_rate": round(b["k"] / b["n"], 4),
+                    "min_dd": round(min(b["dds"]), 4)}
+                for s, b in sorted(seg.items())}
+    return {"n": n, "beats": k,
+            "beat_rate": round(rate, 4) if rate is not None else None,
+            "min_dd": round(min_dd, 4) if min_dd is not None else None,
+            "mean_dd": round(sum(dds) / len(dds), 4) if dds else None,
+            "oos_trades": trades, "covered_years": covered_years,
+            "independent_regime_windows": n_regime,
+            "ci95_lo": ci_lo, "ci95_hi": ci_hi, "ci95_width": ci_w,
+            "partial_n": partial_n,
+            "all_windows": {"n": len(rows),
+                            "beat_rate": round(all_k / len(rows), 4)
+                            if rows else None,
+                            "min_dd": round(min(all_dds), 4)
+                            if all_dds else None},
+            "segments": segments,
+            "verdict": (bool(rate is not None and rate >= BEAT_LINE
+                             and min_dd is not None
+                             and min_dd >= DD_RED_LINE) if n else None)}
+
+
+def _pooled(rows, wname, keyfn):
+    """Pooled beat rate by a row key (regime segment / start-year cohort)."""
+    out = {}
+    for r in rows:
+        g = out.setdefault(keyfn(r), {"n": 0, "k": 0})
+        g["n"] += 1
+        g["k"] += int(bool(r[f"beat_{wname}"]))
+    return {s: {"n": v["n"], "beat_rate": round(v["k"] / v["n"], 4)}
+            for s, v in sorted(out.items())}
+
+
+def _sub_rate(rows, wname):
+    """Beat rate on the 25td-spaced start subsample (prereg s4 de-overlap
+    robustness disclosure), complete-window subset only."""
+    pflag = {"6m": None, "12m": "partial_12m", "24m": "partial_24m"}[wname]
+    sub = [r for r in rows if r["pos"] % SUBSAMPLE_STEP == 0
+           and (pflag is None or not r.get(pflag))]
+    if not sub:
+        return None
+    return round(sum(1 for r in sub if r[f"beat_{wname}"]) / len(sub), 4)
+
+
+def cmd_finalize(_) -> int:
+    t0 = time.time()
+    print("=== T-22 axis finalize (prereg s3/s6) ===")
+    from live.paper import PAPER_LEVELS, build_panels, load_core
+    from firm.hr import TRADERS_DIR, load_trader
+    live_ids = set()
+    for path in sorted(TRADERS_DIR.glob("*.json")):
+        if path.name.startswith("_"):
+            continue
+        t = load_trader(path.stem)
+        if t.get("level") in PAPER_LEVELS:
+            live_ids.add(t["id"])
+
+    # 1) load canonical cells; corrupt line anywhere = integrity abort
+    cells, corrupt, dup_reports = {}, 0, []
+    cells_audit = {"files": {}, "corrupt": corrupt}
+    for (axis, face), names in sorted(CANON_FILES.items()):
+        union, seen = [], set()
+        for name in names:
+            path = os.path.join(OUT_DIR, name)
+            if not os.path.exists(path):
+                print(f"finalize: missing shard {path} -- abort")
+                return 2
+            n_rows = 0
+            with open(path, encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        r = json.loads(line)
+                    except json.JSONDecodeError:
+                        corrupt += 1
+                        continue
+                    n_rows += 1
+                    if r["key"] in seen:
+                        dup_reports.append(r["key"])
+                        continue
+                    seen.add(r["key"])
+                    union.append(r)
+            cells_audit["files"][name] = n_rows
+        cells[(axis, face)] = union
+    if corrupt:
+        print(f"finalize: {corrupt} corrupt line(s) -- abort")
+        return 2
+    if dup_reports:
+        print(f"finalize: {len(dup_reports)} unexpected duplicate key(s) "
+              f"inside canonical shards -- integrity abort")
+        return 2
+
+    # 2) reproduction gate: dprobe 12 rows must equal canonical deep-base
+    repro_path = os.path.join(OUT_DIR, REPRO_FILE)
+    repro_n, repro_match = 0, 0
+    deep_base_idx = {r["key"]: r for r in cells[("deep", "base")]}
+    repro_bad = []
+    with open(repro_path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if not line:
+                continue
+            rp = json.loads(line)
+            repro_n += 1
+            orig = deep_base_idx.get(rp["key"])
+            if orig is None:
+                repro_bad.append(f"{rp['key']}: no canonical counterpart")
+                continue
+            diff = [f for f in _COMPARE_FIELDS
+                    if orig.get(f) != rp.get(f)]
+            if diff:
+                repro_bad.append(f"{rp['key']}: field drift {diff[:3]}")
+            else:
+                repro_match += 1
+    cells_audit["reproductions"] = {"n": repro_n, "value_match": repro_match,
+                                    "mismatches": repro_bad}
+    if repro_n != repro_match:
+        print(f"finalize: REPRODUCTION GATE FAIL ({repro_match}/{repro_n}) "
+              f"-- pipeline nondeterminism or shard corruption, abort")
+        return 2
+    print(f"reproduction gate PASS: {repro_match}/{repro_n} bit-equal")
+
+    # 3) census gate (r105 drift-gate law): live panel at the FROZEN cutoff
+    #    must re-derive the exact start set the cells ran on
+    machine = json.load(open("fleet/machine.json",
+                             encoding="utf-8"))["machine_id"]
+    axes_out, trials_cells, trials_passive = {}, 0, 0
+    for axis in ("legacy", "deep"):
+        if axis == "legacy":
+            prices = load_core()
+            hi = pd.Timestamp(LEGACY_CUTOFF)
+            prices = {s: df[df.index <= hi] for s, df in prices.items()}
+            cutoff = LEGACY_CUTOFF
+        else:
+            prices = _load_axis_prices(axis)
+            cutoff = BATCH_CUTOFF
+        P = build_panels(prices)
+        listed = P["close"].notna().sum(axis=1)
+        elig = enumerate_starts(len(P["close"].index), listed)
+        elig_set = set(elig)
+        rows_by_face = {f: cells[(axis, f)] for f in FACES}
+        starts_by_face = {f: {r["pos"] for r in rows} for f, rows in
+                          rows_by_face.items()}
+        traders_seen = {r["trader"] for rows in rows_by_face.values()
+                        for r in rows}
+        ok = (traders_seen == live_ids
+              and all(s == elig_set for s in starts_by_face.values()))
+        n_starts = len(elig_set)
+        if not ok:
+            print(f"finalize: CENSUS/COVERAGE GATE FAIL on {axis} "
+                  f"(starts={n_starts}, traders_ok="
+                  f"{traders_seen == live_ids}) -- abort")
+            return 2
+        print(f"census gate PASS [{axis}]: {n_starts} starts x "
+              f"{len(traders_seen)} traders x 2 faces, cutoff {cutoff}")
+        trials_cells += sum(len(rows) for rows in rows_by_face.values())
+        trials_passive += n_starts
+
+        judgments = {tid: {} for tid in sorted(traders_seen)}
+        for tid in judgments:
+            for wname in WINDOWS:
+                cell = {"window_td": WINDOWS[wname]}
+                for face in FACES:
+                    rows = [r for r in rows_by_face[face]
+                            if r["trader"] == tid]
+                    cell[face] = _agg(rows, wname)
+                cell["verdict_base"] = cell["base"]["verdict"]
+                cell["verdict_x2"] = cell["x2"]["verdict"]
+                judgments[tid][wname] = cell
+        base6 = [r for r in rows_by_face["base"]]
+        axes_out[axis] = {
+            "cutoff": cutoff, "n_starts": n_starts,
+            "passive_windows": n_starts,
+            "cells": {f: len(rows_by_face[f]) for f in FACES},
+            "cells_total": sum(len(rows_by_face[f]) for f in FACES),
+            "traders": sorted(traders_seen),
+            "judgments": judgments,
+            "segments_pooled_base_6m": _pooled(base6, "6m",
+                                                lambda r: r.get("regime",
+                                                                "na")),
+            "start_year_cohorts_base_6m": _pooled(
+                base6, "6m", lambda r: r["start"][:4]),
+            "subsample_25td": {tid: {
+                wname: {face: _sub_rate(
+                    [r for r in rows_by_face[face] if r["trader"] == tid],
+                    wname) for face in FACES} for wname in WINDOWS}
+                for tid in sorted(traders_seen)},
+        }
+
+    # 4) x2 survival gate (prereg s4): any trader breaching on x2 -> flag
+    x2_fail = [{"axis": ax, "trader": tid, "window": w}
+               for ax in ("legacy", "deep")
+               for tid, j in axes_out[ax]["judgments"].items()
+               for w, cell in j.items() if cell["verdict_x2"] is False]
+
+    # 5) predictions reconciliation (prereg s5, frozen pre-run)
+    def _pooled_base6(ax):
+        return round(sum(j["6m"]["base"]["beats"]
+                         for j in axes_out[ax]["judgments"].values())
+                     / sum(j["6m"]["base"]["n"]
+                           for j in axes_out[ax]["judgments"].values()), 4)
+    pooled = {ax: _pooled_base6(ax) for ax in ("legacy", "deep")}
+    preds = []
+    for ax in ("legacy", "deep"):
+        seg = axes_out[ax]["segments_pooled_base_6m"]
+        delta_x2 = {tid: round(
+            (j["6m"]["x2"]["beat_rate"] or 0)
+            - (j["6m"]["base"]["beat_rate"] or 0), 4)
+            for tid, j in axes_out[ax]["judgments"].items()}
+        cohorts = axes_out[ax]["start_year_cohorts_base_6m"]
+        y25 = cohorts.get("2025", {}).get("beat_rate")
+        y26 = cohorts.get("2026", {}).get("beat_rate")
+        late = round((y25 + y26) / 2, 4) if y25 is not None \
+            and y26 is not None else (y25 or y26)
+        preds.append({
+            "axis": ax,
+            "p1_pooled_base_6m_in_[0.55,0.70]": bool(
+                0.55 <= pooled[ax] <= 0.70),
+            "p1_pooled": pooled[ax],
+            "p1_majority_below_line": bool(sum(
+                1 for j in axes_out[ax]["judgments"].values()
+                if j["6m"]["base"]["beat_rate"] is not None
+                and j["6m"]["base"]["beat_rate"] < BEAT_LINE)
+                > len(axes_out[ax]["judgments"]) / 2),
+            "p2_bear_gt_bull": bool(
+                seg.get("bear", {}).get("beat_rate", -1)
+                > seg.get("bull", {}).get("beat_rate", -1)),
+            "p2_chop_weakest": bool(
+                seg.get("chop", {}).get("beat_rate", 1)
+                <= min([v["beat_rate"] for k, v in seg.items()
+                        if k != "chop"] or [1])),
+            "p3_x2_degradation_max_pp": max(
+                (abs(v) for v in delta_x2.values()), default=0.0),
+            "p3_cost_sensitivity_redflag": bool(any(
+                v <= -0.10 for v in delta_x2.values())),
+            "p4_2025plus_cohort_highest": bool(late is not None and late
+                == max(v["beat_rate"] for v in cohorts.values())),
+            "p4_2025plus_cohort": late,
+            "cohorts": cohorts, "segments_pooled": seg,
+            "x2_vs_base_delta_6m": delta_x2})
+
+    # 6) ledger (F3): cells + passive windows, zero-assumption, no hand-copied
+    #    prev; dprobe 12 reproductions NOT counted (P5C precedent)
+    from science_gates import append_ledger, cutoff_meta
+    batch_trials = trials_cells + trials_passive
+    ledger = append_ledger(
+        "T22_VIRTUAL_TIMEPOINTS", batch_trials,
+        file_name="t22_virtual_timepoints.json",
+        evidence_cutoff=BATCH_CUTOFF,
+        note=(f"axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, "
+              f"dual-manifest transfer MSG-2032) + deep 18,072 unique cells "
+              f"(d-c1 16,800 + d-a1 1,272, bm-a) + passive windows "
+              f"{trials_passive} (1,255+1,506, P-5 per-start accounting); "
+              f"dprobe 12 reproductions deduped; anchors verified at shard "
+              f"run time not counted (prereg s0)"))
+
+    # 7) outputs: JSON (top-level C2 key) + aggregated CSV (small, git)
+    out_json = os.path.join("results", "t22_virtual_timepoints.json")
+    out_csv = os.path.join("research", "shortline",
+                           "t22_virtual_timepoints_results.csv")
+    os.makedirs(os.path.dirname(out_csv), exist_ok=True)
+    n_csv = 0
+    with open(out_csv, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write("axis,trader,face,window,segment,n,beat_rate,min_dd,"
+                 "mean_dd,oos_trades,ci95_width,verdict\n")
+        for ax in ("legacy", "deep"):
+            for tid, j in axes_out[ax]["judgments"].items():
+                for w, cell in j.items():
+                    for face in FACES:
+                        a = cell[face]
+                        rows = [("all", a["n"], a["beat_rate"], a["min_dd"],
+                                 a["mean_dd"], a["oos_trades"],
+                                 a["ci95_width"], a["verdict"])]
+                        rows += [(s, v["n"], v["beat_rate"], v["min_dd"],
+                                  None, None, None, None)
+                                 for s, v in a["segments"].items()]
+                        for s, n_, br, mdd, mddm, tr, ciw, vd in rows:
+                            fh.write(f"{ax},{tid},{face},{w},{s},{n_},{br},"
+                                     f"{mdd},{mddm},{tr},{ciw},{vd}\n")
+                            n_csv += 1
+    payload = {
+        "batch": "T22_VIRTUAL_TIMEPOINTS",
+        "evidence_cutoff": BATCH_CUTOFF,
+        "cutoff_meta": cutoff_meta(BATCH_CUTOFF),
+        "axis_cutoffs": {"legacy": LEGACY_CUTOFF, "deep": BATCH_CUTOFF},
+        "evidence_cutoff_note": (
+            "binding cutoff = deep manifest (2026-09-22); legacy axis cells "
+            "ran on the 2026-09-23 panel (prereg s2 dual-cutoff disclosure)"),
+        "judgment_rule": (
+            "PASS iff beat_rate >= 0.70 AND min_dd >= -0.35 on the "
+            "complete-window subset (P-5/P-5B frozen, prereg s4); primary "
+            "read = base face 6m; x2 = survival gate; partial windows "
+            "flagged, all-window face disclosed in parallel"),
+        "bootstrap": {"B": BOOTSTRAP_B, "seed": BOOTSTRAP_SEED,
+                      "method": "binomial percentile 95% CI"},
+        "cells_audit": cells_audit,
+        "axes": axes_out,
+        "x2_survival_gate": {"fail_count": len(x2_fail), "fails": x2_fail},
+        "predictions_vs_results": preds,
+        "census_reconciliation": (
+            "t22-canonical 1255 legacy starts vs p5c probe 1253 (exclusive "
+            "upper bound n-1-126) vs P-5 archived 1254; both preregs frozen "
+            "independently, boundary convention disclosed per P5C finalize"),
+        "trials_ledger": ledger,
+        "audit": {"runtime_sec": None, "machine": machine,
+                  "finalize_ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+                  "outputs": {"json": os.path.abspath(out_json),
+                              "csv": os.path.abspath(out_csv),
+                              "csv_rows": n_csv}},
+    }
+    payload["audit"]["runtime_sec"] = round(time.time() - t0, 1)
+    with open(out_json, "w", encoding="utf-8") as fh:
+        json.dump(payload, fh, indent=1, ensure_ascii=False, default=bool)
+    print(f"judgments: legacy pooled base 6m = {pooled['legacy']}, "
+          f"deep pooled base 6m = {pooled['deep']}")
+    print(f"trials: {trials_cells} cells + {trials_passive} passive "
+          f"= {batch_trials}; ledger total -> {ledger['total']}")
+    print(f"finalize DONE in {payload['audit']['runtime_sec']}s "
+          f"-> {out_json} + {out_csv} ({n_csv} rows)")
+    return 0
+
+
 # ----------------------------------------------------------------- selftest
 
 def cmd_selftest(_) -> int:
@@ -497,6 +888,55 @@ def cmd_selftest(_) -> int:
     # S7: faces constant
     t("S7 faces tuple", FACES == ("base", "x2") and COST_X2_RATE > 0)
 
+    # S8: finalize aggregation on synthetic rows (verdict + partial split
+    # + segment buckets); 6m has no partial flag by construction
+    rows = []
+    for i, (beat, dd, reg) in enumerate([
+            (True, -0.01, "bull"), (False, -0.50, "bear"),
+            (True, -0.02, "bull"), (True, -0.03, "chop"),
+            (False, -0.01, "bear"), (False, -0.02, "bull")]):
+        rows.append({"key": f"T|{i}", "trader": "T", "pos": i,
+                     "start": f"2021-01-0{i+1}", "face": "base",
+                     "regime": reg, "beat_6m": beat, "dd_6m": dd,
+                     "trades_6m": 3, "beat_12m": beat, "dd_12m": dd,
+                     "trades_12m": 5, "partial_12m": False,
+                     "beat_24m": beat, "dd_24m": dd, "trades_24m": 5,
+                     "partial_24m": i >= 4})
+    a = _agg(rows, "6m")
+    t("S8 agg beat_rate/min_dd/verdict",
+      a["n"] == 6 and a["beats"] == 3 and abs(a["beat_rate"] - 0.5) < 1e-9
+      and a["min_dd"] == -0.5 and a["verdict"] is False
+      and a["segments"]["bull"]["n"] == 3
+      and a["segments"]["bear"]["beat_rate"] == 0.0)
+    a12 = _agg(rows, "12m")
+    t("S8b partial split (12m full / 24m drops 2)",
+      a12["n"] == 6 and _agg(rows, "24m")["n"] == 4
+      and _agg(rows, "24m")["partial_n"] == 2)
+    t("S8c oos_trades + covered_years + regime runs",
+      a["oos_trades"] == 18 and a["covered_years"] == 0.01
+      and a["independent_regime_windows"] == 6)
+
+    # S9: bootstrap CI determinism (frozen seed) + width sanity
+    lo1, hi1, w1 = _bootstrap_ci(7, 10)
+    lo2, hi2, w2 = _bootstrap_ci(7, 10)
+    t("S9 bootstrap deterministic + sane width",
+      (lo1, hi1) == (lo2, hi2) and 0 < w1 <= 1
+      and _bootstrap_ci(0, 10)[0] == 0.0
+      and _bootstrap_ci(10, 10)[1] == 1.0)
+
+    # S10: pooled-by-key grouping
+    pooled = _pooled(rows, "6m", lambda r: r["regime"])
+    t("S10 pooled segment counts",
+      pooled["bull"]["n"] == 3 and pooled["bull"]["beat_rate"] > 0
+      and pooled["bear"]["beat_rate"] == 0.0
+      and sum(v["n"] for v in pooled.values()) == 6)
+
+    # S11: verdict gate semantics mirror P-5 frozen line
+    t("S11 frozen judgment constants",
+      BEAT_LINE == 0.70 and DD_RED_LINE == -0.35
+      and WINDOWS == {"6m": 126, "12m": 252, "24m": 504}
+      and SUBSAMPLE_STEP == 25 and BOOTSTRAP_B == 2000)
+
     print(f"\nselftest: {'ALL PASS' if not fails else 'FAIL x' + str(len(fails))}")
     return 0 if not fails else 1
 
@@ -513,12 +953,15 @@ def main() -> int:
     r.add_argument("--limit", type=int, default=0)
     r.add_argument("--workers", type=int, default=0)
     sub.add_parser("status")
+    sub.add_parser("finalize")
     sub.add_parser("selftest")
     args = ap.parse_args()
     if args.cmd == "run":
         return cmd_run(args)
     if args.cmd == "status":
         return cmd_status(args)
+    if args.cmd == "finalize":
+        return cmd_finalize(args)
     return cmd_selftest(args)
 
 
