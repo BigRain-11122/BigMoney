@@ -1,0 +1,112 @@
+{
+ "history": [
+  {
+   "probe": "d07_datacenter_preval",
+   "order_ref": "D-20260924-07 item-2 (P-32 decision row, executor BigMoney; PC_COLLECTOR.md §1 D-07②)",
+   "ts": "2026-09-24T22:20:44",
+   "today": "2026-09-24",
+   "machine": "bm-a",
+   "request_budget": "exactly 1 (datacenter aliveness)",
+   "emappdata_face": {
+    "face": "emappdata_today_evidence",
+    "snapshot_file": "20260924.json",
+    "exists": true,
+    "meta": {},
+    "note": "today L1 snapshot existence = emappdata alive-today evidence (zero extra request; snapshot by update_heat.py)"
+   },
+   "datacenter_face": {
+    "face": "datacenter_web_alive",
+    "route": "direct",
+    "latency_ms": 470,
+    "success": true,
+    "n_rows": 1,
+    "request_count": 1
+   },
+   "alt_search": {
+    "face": "alternative_search_offline",
+    "akshare_version": "1.18.96",
+    "popularity_functions": {
+     "__init__": [
+      "https://data.eastmoney.com"
+     ],
+     "other_taptap": [],
+     "stock_hk_hot_rank_em": [
+      "https://emappdata.eastmoney.com",
+      "https://guba.eastmoney.com",
+      "https://push2.eastmoney.com"
+     ],
+     "stock_hot_rank_em": [
+      "https://emappdata.eastmoney.com",
+      "https://guba.eastmoney.com",
+      "https://push2.eastmoney.com"
+     ],
+     "stock_hot_up_em": [
+      "https://emappdata.eastmoney.com",
+      "https://guba.eastmoney.com",
+      "https://push2.eastmoney.com"
+     ],
+     "stock_hot_xq": [],
+     "stock_weibo_nlp": []
+    },
+    "datacenter_hosted_families": [
+     "bond_zh_cov",
+     "energy_oil_em",
+     "futures_comex_em",
+     "futures_inventory_em",
+     "interbank_rate_em",
+     "macro_australia",
+     "macro_canada",
+     "macro_china",
+     "macro_china_hk",
+     "macro_germany",
+     "macro_japan",
+     "macro_swiss",
+     "macro_uk",
+     "macro_usa",
+     "option_lhb_em",
+     "stock_account_em",
+     "stock_comment_em",
+     "stock_dxsyl_em",
+     "stock_dzjy_em",
+     "stock_fhps_em",
+     "stock_fund_hold",
+     "stock_gddh_em",
+     "stock_gdfx_em",
+     "stock_gdhs",
+     "stock_gdzjc_em",
+     "stock_gpzy_em",
+     "stock_gsrl_em",
+     "stock_hold_control_em",
+     "stock_hsgt_em",
+     "stock_ipo_declare",
+     "stock_ipo_review",
+     "stock_ipo_tutor",
+     "stock_jgdy_em",
+     "stock_lhb_em",
+     "stock_margin_em",
+     "stock_profit_forecast_em",
+     "stock_qsjy_em",
+     "stock_register_em",
+     "stock_report_em",
+     "stock_repurchase_em",
+     "stock_restricted_em",
+     "stock_sy_em",
+     "stock_tfp_em",
+     "stock_value_em",
+     "stock_yjbb_em",
+     "stock_yjyg_em",
+     "stock_zdhtmx_em",
+     "stock_zf_pg"
+    ],
+    "popularity_functions_on_datacenter": [],
+    "note": "popularity dataset is guba-community specific; datacenter families = fundamental/structured reports (margin, block trade, holders, etc.)"
+   },
+   "verdict_block": {
+    "verdict": "no_datacenter_equivalent",
+    "downgrade_registration": "downgrade registered: P-C lane stays emappdata single-source (same-family block risk per bm-b r40); on persistent subdomain block = honest exit 2 + 30min throttle + no cooling assumption (update_heat.py §2 mechanics), lane pauses, zero fabricated data; L2 backfill checkpoint-resumable; consumption clauses (PC_COLLECTOR §3/§4.1) unchanged; any lane expansion re-runs this probe first",
+    "emappdata_alive_today": true,
+    "datacenter_web_alive": true
+   }
+  }
+ ]
+}

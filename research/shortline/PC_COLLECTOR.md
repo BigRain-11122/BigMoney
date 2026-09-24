@@ -9,6 +9,7 @@
 - **源**：EM `emappdata.eastmoney.com/stockrank/getAllCurrentList`（akshare `stock_hot_rank_em` 的第一腿同端点同 payload；bm-b r39 审计 P-C 行判定 forward_collect）。
 - **只取第一腿**：akshare 封装的第二腿=pull2.eastmoney.com 行情富化——(a) bm-b 实证 push2/emappdata 系子域 IP 级阻断风险（r40）、(b) 价格/涨跌幅我们 bars 面板自有，禁重复请求。**单请求/日=EM datacenter 公民义务**。
 - **源审计·子域分块验证**（D-20260924-07①）：EM 可用性按子域（push2 族 / datacenter-web / emappdata 等）**分块各自验证、跨子域不可互证**（push2 族死而 datacenter-web 活=不同块不同命，bm-b r40 + heat_source_audit.json 14 探针实证）；本 spec 或 P-C 车道**扩面前置**：先验 datacenter 替代源或降级登记（D-07②）。
+- **D-07② 预验已执行**（R97 bm-a·2026-09-24，探针=scripts/d07_datacenter_preval.py 可复跑）：akshare 全源离线扫描=人气榜三函数（stock_hot_rank_em/hk_hot_rank_em/hot_up_em）全挂 emappdata/guba/push2 域，datacenter-web 47 API 族（两融/股东户数/LHB/IPO/业绩等基本面结构化数据）**无人气/热度等价源**；datacenter-web 今日活探针 1 请求 470ms success。**降级登记生效**：P-C 车道=emappdata 单源（push2 同族阻断高危，bm-b r40 实证），持续子域阻断→update_heat.py §2 既有机制=诚实 exit 2+30min 节流+零冷却假设+零假数据，L2 回填 checkpoint 可续，消费条款（§3/§4.1）不变；**车道任何扩面（L3 新闻腿/IC 批/新腿）开工前重跑本探针**（append-only 台账 results/shortline/d07_datacenter_preval.json）。
 - **规模**：pageSize=100 定案（>100 实测返回 0 行，2026-09-23 bm-a 直连探针）=公开股吧人气榜 top-100 语义。
 - **字段**（冻结 schema）：`code`（裸 6 位）/`market`（SH|SZ）/`rank`（1..N 置换校验）/`rc`/`hisRc`（原样保留，语义以后源侧核名再定名）/`raw_sc`；文件级 meta=`as_of`/`fetched_at`/`source`/`n_rows`。
 - **落盘**：`data/heat/popularity/YYYYMMDD.json`（gitignored，原子写 .tmp+os.replace）。
