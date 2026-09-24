@@ -54,7 +54,7 @@
 - portfolio-construction：open=（FL 前向窗口=2026-12 自然到期件、月度 corr-watch W3=10-01 例行）；gated-P1=现金腿（exit-to-asset 引擎特性+逆回购停泊）。
 - synthesis-crosslib：**closed=XSTOCK_SYNTH（PASS 收线 r109 跑/r114 回填：IS IC 0.1078/IR 1.03/OOS 留存 0.895，账本 60074）**；臂下次素材按 SS8 多重性条款（gdhs 季频解冻或新库）另开预注册。
 - patterns-confirmation：closed（A 层穷尽 R42；振荡/背离双判定律）。
-- event-attention-factors：**claimed=Alpha158 真缺口 7 族 B 类批（bm-b r119：prereg A158_TRUEGAP_IC 冻结+seed 55_000；实现跑批 r120+；F-04 MSG-20260924-2246）**、open=资金流 mf_main_net_5/10/20 前向采集器+短窗 IC 参照批（R58·120d 源顶披露条款·面板 source-blocked 中）；blocked-source=P-B 板块热度（clist 腿阻断 ~13h+）。
+- event-attention-factors：**closed=Alpha158 真缺口 7 族 B 类批（bm-b r121 finalize：一次试验 0/5 主格 FAIL，prereg §0 多重性律收线；账本 +65=60547；V1 0.02 地板杀 4/5+V2 0.30 墙杀 5/5=IS 量级主死因；复活须新预注册+新机制论证）**、open=资金流 mf_main_net_5/10/20 前向采集器+短窗 IC 参照批（R58·120d 源顶披露条款·面板 source-blocked 中）；blocked-source=P-B 板块热度（clist 腿阻断 ~13h+）。
 - trend-timeseries：closed（NSP1/G2_NSP1/CTA 三判；复活须另开预注册+期货扩容=P1）。
 - stock-pool-tilt：closed（P4_BATCH2 0/19+P4_EXT_TILT 0/5 摩擦墙判定律）。
 - futures-cta：closed（CTA_P1/NOAU 双判；降杠杆变体/分合约 roll 平移=另开预注册）。

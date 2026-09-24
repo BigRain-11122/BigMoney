@@ -711,9 +711,16 @@ def run():
             if thr is None:
                 return 2
 
-        # zero-copy fwd frames over the temp memmaps (factor IC legs)
+        # zero-copy fwd frames over the temp memmaps (factor IC legs).
+        # r121 P0 fix: re-attach the symbol columns -- the memmap round-trip
+        # dropped them (RangeIndex), and _ic_series_fast aligns on BOTH index
+        # and columns, so symbol-keyed factor frames vs RangeIndex fwd frames
+        # produced an empty column intersection -> empty IC series ->
+        # stats_block skip-block (no ic_mean) -> "" string into gates_v123
+        # abs() TypeError. Nulls leg was RangeIndex-vs-RangeIndex (unaffected).
         fwd_frames = {h: pd.DataFrame(
-            np.asarray(np.load(paths["fwd"][h], mmap_mode="r")), index=idx)
+            np.asarray(np.load(paths["fwd"][h], mmap_mode="r")), index=idx,
+            columns=panels["close"].columns)
             for h in HORIZONS}
         rows = run_factors(panels, fwd_frames, thr)
         workers_note = thr.get("meta", {}).get("workers", "checkpointed-skip")
