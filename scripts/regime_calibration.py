@@ -33,14 +33,20 @@ from config import PATHS
 from scripts.market_regime import (
     BENCH, MA_BRE, MA_TREND, WIN10, VOL_WIN, VOL_BASE,
     GREEN, YELLOW, ORANGE, RED, _ORD,
-    bench_dims, breadth_dims, raw_level, raw_level_v2, resolve_state,
+    bench_dims, breadth_dims, raw_level, raw_level_v2, raw_level_v3,
+    resolve_state, resolve_state_v3,
     LONG_GAP_DAYS, LONG_GAP_MONTHS,
 )
 from firm.risk.regime import major_bear_state, MA_WINDOW as MA_BREACH, DD_LINE
 
 OUT_PATH = os.path.join(PATHS.results_dir, "regime_calibration.json")
 OUT_PATH_V2 = os.path.join(PATHS.results_dir, "regime_calibration_v2.json")
+OUT_PATH_V3 = os.path.join(PATHS.results_dir, "regime_calibration_v3.json")
 WINDOW_START = "2020-01-01"
+# v3 window identity gate (prereg V3 s3.2): bench tail capped at the v2
+# recorded end (R27 data-drift law -- forward growth must not break the
+# recorded-window comparison).
+WINDOW_END_CAP = "2026-09-23"
 # Appendix A event calendar, replay extension (prereg s1.1 frozen):
 # Beijing day = US FOMC announcement day + 1 calendar day.
 FOMC_BEIJING = {
@@ -190,8 +196,14 @@ def _r6(s, i):
     return None if pd.isna(x) else round(float(x), 6)
 
 
-def state_replay(bench: pd.Series, raw: pd.Series):
-    """Frozen init (prereg s1.2): prev=raw@last-2019-day, streak 0, then loop."""
+def state_replay(bench: pd.Series, raw: pd.Series,
+                 resolver=resolve_state):
+    """Frozen init (prereg s1.2): prev=raw@last-2019-day, streak 0, then loop.
+
+    resolver parameter added additively for the v3 matrix (resolve_state_v3,
+    prereg V3 s2 twist-B hysteresis); default stays the v1/v2 function so
+    v1/v2 replays are byte-identical to their recorded runs.
+    """
     dates = list(raw.index)
     pre = [d for d in dates if str(d.date()) < WINDOW_START]
     init_day = pre[-1] if pre else dates[0]
@@ -202,7 +214,7 @@ def state_replay(bench: pd.Series, raw: pd.Series):
     for d in dates:
         if d == init_day:
             continue
-        prev_state, streak = resolve_state(prev_state, streak, raw.loc[d, "raw"])
+        prev_state, streak = resolver(prev_state, streak, raw.loc[d, "raw"])
         states[d] = prev_state
         streaks[d] = streak
     return states, streaks, init_day
@@ -310,31 +322,62 @@ def _episode(dates, j, closes, horizon, line):
             "false_alarm": bool(drop > line), "further_drop": round(drop, 4)}
 
 
-def replay(write: bool = True, matrix: str = "v1") -> dict:
-    """v1 matrix -> regime_calibration.json; v2 (prereg ee8498e) -> _v2.
+_LEVEL_FNS = {"v1": raw_level, "v2": raw_level_v2, "v3": raw_level_v3}
+_RESOLVERS = {"v1": resolve_state, "v2": resolve_state, "v3": resolve_state_v3}
+_PREREG_REFS = {
+    "v1": "research/REGIME_GUARD_VALIDATION.md @ a885044",
+    "v2": "research/REGIME_GUARD_VALIDATION_V2.md @ ee8498e",
+    "v3": "research/REGIME_GUARD_VALIDATION_V3.md @ a25f47a",
+}
 
-    v2 = structural remap only (dims/hysteresis/init/material verbatim);
-    adds de-collection disclosures: R-配3 yellow raw days + #10-blindness
-    census (below-MA200 days and the subset falling in GREEN state).
+
+def replay(write: bool = True, matrix: str = "v1") -> dict:
+    """v1 matrix -> regime_calibration.json; v2 (prereg ee8498e) -> _v2;
+    v3 (prereg a25f47a, twist B partial-release + C multi-dim confirm) ->
+    _v3. v2 adds de-collection disclosures; v3 adds the window identity
+    gate vs the recorded v2 run (prereg V3 s3.2, bench capped at the v2
+    end per R27 data-drift law) and the prereg V3 s4.3 disclosure columns.
     """
-    level_fn = raw_level if matrix == "v1" else raw_level_v2
-    out_path = OUT_PATH if matrix == "v1" else OUT_PATH_V2
+    if matrix not in _LEVEL_FNS:
+        raise ValueError(f"unknown matrix {matrix}")
+    level_fn = _LEVEL_FNS[matrix]
+    out_path = {"v1": OUT_PATH, "v2": OUT_PATH_V2, "v3": OUT_PATH_V3}[matrix]
     bench = build_bench()
+    if matrix == "v3":
+        bench = bench[bench.index <= pd.Timestamp(WINDOW_END_CAP)]
     ds = bench_dim_series(bench)
     br = breadth_series(bench)
     gates = equivalence_gates(bench, ds, br)
     if not gates["ok"]:
         if write:
-            _write({"verdict": "GATES_FAILED", "gates": gates,
+            _write({"verdict": "GATES_FAILED", "matrix": matrix,
+                    "gates": gates,
                     "evidence_cutoff": EVIDENCE_CUTOFF}, out_path)
         return {"verdict": "GATES_FAILED", "gates": gates}
     raw = raw_series(bench, ds, br, level_fn=level_fn)
-    states, streaks, init_day = state_replay(bench, raw)
+    states, streaks, init_day = state_replay(
+        bench, raw, resolver=_RESOLVERS[matrix])
     win = [d for d in bench.index if str(d.date()) >= WINDOW_START]
+    n = len(win)
+    if matrix == "v3":
+        # prereg V3 s3.2 window identity gate vs the recorded v2 run
+        with open(OUT_PATH_V2, encoding="utf-8") as f:
+            rec2 = json.load(f)
+        ident = {"start": str(win[0].date()), "end": str(win[-1].date()),
+                 "days": n}
+        if ident != rec2["window"]:
+            res = {"verdict": "GATES_FAILED", "matrix": "v3", "gates": gates,
+                   "window_identity": {"got": ident,
+                                       "recorded_v2": rec2["window"],
+                                       "note": "prereg V3 s3.2: window must "
+                                               "bit-match the v2 bench"},
+                   "evidence_cutoff": EVIDENCE_CUTOFF}
+            if write:
+                _write(res, out_path)
+            return res
     counts = {s: 0 for s in (GREEN, YELLOW, ORANGE, RED)}
     for d in win:
         counts[states[d]] += 1
-    n = len(win)
     share = {s: counts[s] / n for s in counts}
     trans = {}
     for a, b in zip(win, win[1:]):
@@ -363,9 +406,7 @@ def replay(write: bool = True, matrix: str = "v1") -> dict:
                                "G2_orange_fa_le_60pct": bool(g2),
                                "G3_zero_gaps": bool(g3)},
               "counterfactual": "PENDING (staged leg, prereg s5)",
-              "prereg": ("research/REGIME_GUARD_VALIDATION.md @ a885044"
-                         if matrix == "v1" else
-                         "research/REGIME_GUARD_VALIDATION_V2.md @ ee8498e"),
+              "prereg": _PREREG_REFS[matrix],
               "evidence_cutoff": EVIDENCE_CUTOFF}
     if matrix == "v2":
         pos = {d: bench.index.get_loc(d) for d in win}
@@ -383,6 +424,43 @@ def replay(write: bool = True, matrix: str = "v1") -> dict:
             "note": ("#10 de-collected (T0 stands alone, wiring = separate "
                      "signed item); blindness census feeds that item's "
                      "economic review (prereg V2 s3.3)")}
+    if matrix == "v3":
+        pos = {d: bench.index.get_loc(d) for d in win}
+        # C-cut face: single-dim orange days (land YELLOW, sizing x0.5)
+        c_cut = sum(1 for d in win if any("C-downgrade" in t
+                                          for t in raw.loc[d, "triggers"]))
+        # B-release face: RED->ORANGE transitions -- only reachable via
+        # twist B (upgrades to ORANGE from RED are impossible by ordering);
+        # counted over WINDOW pairs only (the pre-window chain days are
+        # replay-init artifacts, not B-release evidence)
+        b_rel = sum(1 for a, b in zip(win, win[1:])
+                    if states[a] == RED and states[b] == ORANGE)
+        r3_yellow = sum(1 for d in win if raw.loc[d, "raw"] == YELLOW
+                        and any("R-配3" in t for t in raw.loc[d, "triggers"]))
+        ma200_days = sum(1 for d in win
+                         if bool(ds["below_ma200"].iloc[pos[d]]))
+        result["v3_disclosures"] = {
+            "single_dim_orange_to_yellow_days": c_cut,
+            "red_first_green_release_days": b_rel,
+            "r_pei3_yellow_raw_days": r3_yellow,
+            "ma200_below_days_total": ma200_days,
+            "event_leg_yellow_raw_days": ev_yellow,
+            "orange_fa_low_power": bool(fa["orange"]["main"] < 8),
+            "note": ("prereg V3 s4.3 measurement columns; x0.5 sizing "
+                     "impact of YELLOW days = census only (engine sizing "
+                     "sim deferred to GM stage)")}
+        cmp3 = {}
+        for tag, pth in (("v1", OUT_PATH), ("v2", OUT_PATH_V2)):
+            try:
+                with open(pth, encoding="utf-8") as f:
+                    rr = json.load(f)
+                cmp3[tag] = {"state_share": rr.get("state_share"),
+                             "verdict": rr.get("verdict")}
+            except OSError:
+                cmp3[tag] = None
+        cmp3["v3"] = {"state_share": result["state_share"],
+                      "verdict": result["verdict"]}
+        result["three_table_comparison"] = cmp3
     if write:
         _write(result, out_path)
     return result
@@ -427,14 +505,19 @@ def counterfactual(write: bool = True, matrix: str = "v1") -> dict:
     # 1. deterministic re-derivation of the frozen state series (matrix-
     #    selected); hard abort if the bench has drifted since (counts must
     #    match the recorded run for THAT matrix).
-    level_fn = raw_level if matrix == "v1" else raw_level_v2
-    out_path = OUT_PATH if matrix == "v1" else OUT_PATH_V2
-    batch = ("regime_guard_calibration" if matrix == "v1"
-             else "regime_guard_calibration_v2")
+    if matrix not in _LEVEL_FNS:
+        raise ValueError(f"unknown matrix {matrix}")
+    level_fn = _LEVEL_FNS[matrix]
+    out_path = {"v1": OUT_PATH, "v2": OUT_PATH_V2,
+                "v3": OUT_PATH_V3}[matrix]
+    batch = (f"regime_guard_calibration"
+             if matrix == "v1" else f"regime_guard_calibration_{matrix}")
     bench = build_bench()
+    if matrix == "v3":
+        bench = bench[bench.index <= pd.Timestamp(WINDOW_END_CAP)]
     raw = raw_series(bench, bench_dim_series(bench), breadth_series(bench),
                      level_fn=level_fn)
-    states, _, _ = state_replay(bench, raw)
+    states, _, _ = state_replay(bench, raw, resolver=_RESOLVERS[matrix])
     win = [d for d in bench.index if str(d.date()) >= WINDOW_START]
     counts = {}
     for d in win:
@@ -527,10 +610,11 @@ def counterfactual(write: bool = True, matrix: str = "v1") -> dict:
           "mask_days_on_panel": mask_rows_n,
           "rows": rows,
           "yellow_entry_census": (
-              "per-row yellow_entries: entries falling on v2-YELLOW state "
-              "days (prereg V2 s3.5; x0.5 sizing impact = census only, "
-              "engine sizing sim deferred to GM stage -- not implemented)")
-          if matrix == "v2" else None,
+              "per-row yellow_entries: entries falling on YELLOW state "
+              f"days (matrix={matrix} prereg; x0.5 sizing impact = census "
+              "only, engine sizing sim deferred to GM stage -- not "
+              "implemented)")
+          if matrix in ("v2", "v3") else None,
           "range": {"d_sharpe": rng([r["d_sharpe"] for r in rows]),
                     "d_annual": rng([r["d_annual"] for r in rows]),
                     "d_trades": rng([r["d_trades"] for r in rows]),
@@ -636,6 +720,50 @@ def _selftest() -> bool:
     check("V2g bear+crash -9% -> ORANGE", lvl_g == ORANGE)
     lvl_h, _ = raw_level_v2(dict(bd_calm, event_fomc=True), br_ok, False)
     check("V2h event window -> YELLOW", lvl_h == YELLOW)
+
+    # V3 unit gates (prereg V3 s3.3 (a)-(p), frozen @ a25f47a)
+    s, k = resolve_state_v3(RED, 0, GREEN)
+    check("V3a RED first green -> ORANGE partial release, streak=1",
+          s == ORANGE and k == 1)
+    s, k = resolve_state_v3(ORANGE, 1, GREEN)
+    check("V3b second green after B-release -> GREEN", s == GREEN and k == 2)
+    s, k = resolve_state_v3(ORANGE, 1, RED)
+    check("V3c crisis resurgence after release -> RED, streak=0",
+          s == RED and k == 0)
+    s, k = resolve_state_v3(ORANGE, 0, GREEN)
+    check("V3d true-orange holds on first green", s == ORANGE and k == 1)
+    s2, k2 = resolve_state_v3(s, k, GREEN)
+    check("V3d2 second green downgrades true-orange", s2 == GREEN and k2 == 2)
+    s, k = resolve_state_v3(RED, 0, ORANGE)
+    check("V3e RED holds on non-green raw, streak=0", s == RED and k == 0)
+    lvl_f, _ = raw_level_v3(dict(bd_calm, crash_10d=-0.09), br_ok, False)
+    check("V3f single-dim orange (crash -9%) -> YELLOW", lvl_f == YELLOW)
+    lvl_g, _ = raw_level_v3(dict(bd_calm, crash_10d=-0.09, vol20=0.025),
+                            br_ok, False)
+    check("V3g crash -9% + vol>p95 -> ORANGE", lvl_g == ORANGE)
+    lvl_h3, _ = raw_level_v3(dict(bd_calm, crash_10d=-0.09),
+                            {"share_below_ma20": 0.85,
+                             "share_slope_5d": -0.02, "status": "ok"}, False)
+    check("V3h crash -9% + breadth collapse -> ORANGE", lvl_h3 == ORANGE)
+    lvl_i, _ = raw_level_v3(dict(bd_calm, vol20=0.025), br_ok, False)
+    check("V3i single-dim vol>p95 -> YELLOW", lvl_i == YELLOW)
+    lvl_j, _ = raw_level_v3(bd_calm,
+                            {"share_below_ma20": 0.85,
+                             "share_slope_5d": -0.02, "status": "ok"}, False)
+    check("V3j single-dim breadth collapse -> YELLOW", lvl_j == YELLOW)
+    lvl_k, _ = raw_level_v3(dict(bd_calm, crash_10d=-0.13), br_ok, False)
+    check("V3k crash -13% single-dim -> RED (no confirm)", lvl_k == RED)
+    lvl_l, _ = raw_level_v3(dict(bd_calm, panic_1d=-0.06), br_ok, False)
+    check("V3l panic -6% single-dim -> RED", lvl_l == RED)
+    lvl_m, _ = raw_level_v3(bd_calm, br_ok, True)
+    check("V3m bear calm -> YELLOW", lvl_m == YELLOW)
+    lvl_n, _ = raw_level_v3(bd_calm, br_ok, False)   # below_ma200=True ignored
+    check("V3n #10-only day -> GREEN (de-collected)", lvl_n == GREEN)
+    lvl_o, _ = raw_level_v3(dict(bd_calm, event_fomc=True), br_ok, False)
+    check("V3o event window -> YELLOW", lvl_o == YELLOW)
+    s, k = resolve_state_v3(RED, 0, YELLOW)
+    check("V3p RED holds on YELLOW-floor raw (known interaction)",
+          s == RED and k == 0)
     return ok
 
 
@@ -655,10 +783,17 @@ def main(argv=None) -> int:
                          ensure_ascii=False, indent=1))
         return 0 if g["ok"] else 1
     if any(a.startswith("counterfactual") for a in argv):
-        # NOTE: plain `in argv` is exact list membership -- "counterfactual-
-        # v2" would NOT match it and fall through to the v1 replay default,
-        # which rewrites regime_calibration.json (wipes the r56 cf block).
-        matrix = "v2" if any(a == "counterfactual-v2" for a in argv) else "v1"
+        # NOTE: startswith prefix dispatch (prereg V3 s6 law, r58 overwrite
+        # accident): the matrix is parsed from the matched token; an unknown
+        # variant must NEVER fall through to the v1 default (its replay
+        # rewrites regime_calibration.json and wipes recorded blocks).
+        tok = next(a for a in argv if a.startswith("counterfactual"))
+        matrix = ("v3" if tok == "counterfactual-v3"
+                  else "v2" if tok == "counterfactual-v2"
+                  else "v1" if tok == "counterfactual" else None)
+        if matrix is None:
+            print(f"unknown counterfactual variant: {tok}")
+            return 2
         cf = counterfactual(matrix=matrix)
         print(json.dumps({"matrix": cf["matrix"],
                           "n_runs": cf["n_runs"],
@@ -674,12 +809,15 @@ def main(argv=None) -> int:
                                      "blocked_share", "d_trades",
                                      "d_sharpe", "d_annual")}
                                    for r in cf["rows"]],
-                          "out": OUT_PATH_V2 if matrix == "v2"
-                          else OUT_PATH}, ensure_ascii=False, indent=1))
+                          "out": {"v1": OUT_PATH, "v2": OUT_PATH_V2,
+                                  "v3": OUT_PATH_V3}[matrix]},
+                         ensure_ascii=False, indent=1))
         return 0
-    if "replay-v2" in argv:
-        res = replay(write=True, matrix="v2")
-        print(json.dumps({"verdict": res["verdict"], "matrix": "v2",
+    tok = next((a for a in argv if a.startswith("replay-")), None)
+    if tok == "replay-v2" or tok == "replay-v3":
+        matrix = "v2" if tok == "replay-v2" else "v3"
+        res = replay(write=True, matrix=matrix)
+        print(json.dumps({"verdict": res["verdict"], "matrix": matrix,
                           "gates_ok": res["gates"]["ok"],
                           "window": res.get("window"),
                           "state_share": res.get("state_share"),
@@ -689,7 +827,12 @@ def main(argv=None) -> int:
                           "fa_yellow": (res.get("false_alarm") or {})
                           .get("yellow", {}).get("fa_rate"),
                           "v2_disclosures": res.get("v2_disclosures"),
-                          "out": OUT_PATH_V2}, ensure_ascii=False, indent=1))
+                          "v3_disclosures": res.get("v3_disclosures"),
+                          "three_table_comparison":
+                              res.get("three_table_comparison"),
+                          "out": {"v2": OUT_PATH_V2,
+                                  "v3": OUT_PATH_V3}[matrix]},
+                         ensure_ascii=False, indent=1))
         return 0 if res["verdict"] == "PASS" else 1
     res = replay(write=True)
     print(json.dumps({"verdict": res["verdict"],

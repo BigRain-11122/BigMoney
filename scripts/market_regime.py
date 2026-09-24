@@ -304,6 +304,85 @@ def resolve_state(prev_state: str, prev_streak: int, raw: str):
     return prev_state, 0
 
 
+def raw_level_v3(bd: dict, br: dict, bear: bool):
+    """V3 structural matrix (research/REGIME_GUARD_VALIDATION_V3.md s2,
+    prereg FROZEN a25f47a -- T-10 deliverable-2/3). Twist B (RED partial
+    release) lives in resolve_state_v3; this is twist C (ORANGE needs >=2
+    same-day dims; single-dim orange day lands YELLOW). RED = crash/panic
+    only, no multi-dim confirm (acute-crisis semantics is itself the
+    signature, prereg s1 verbatim). All thresholds verbatim v1 constants;
+    #10 below_ma200 DE-COLLECTED (never read, v2 ruling verbatim); R-配3
+    major bear collected at YELLOW (T0 <=20% cap stays iron_rules law).
+    Live probe() keeps the v1 matrix until law amendment (PASS + GM
+    approval + veto window); this function is the calibration-layer v3
+    decision source only.
+    """
+    lvl = GREEN
+    triggers = []
+    # -- RED: pure crash/panic semantics, no multi-dim confirm --
+    if bd["crash_10d"] is not None and bd["crash_10d"] <= -0.12:
+        lvl = RED; triggers.append(f"crash10d {bd['crash_10d']:.3f}<=-12%")
+    if bd["panic_1d"] is not None and bd["panic_1d"] <= -0.05:
+        lvl = RED; triggers.append(f"panic {bd['panic_1d']:.3f}<=-5%")
+    # -- ORANGE dims (twist C: >=2 same-day required) --
+    odims = []
+    if (bd["crash_10d"] is not None
+            and -0.12 < bd["crash_10d"] <= -0.08):
+        odims.append(f"crash10d {bd['crash_10d']:.3f} in (-12%,-8%]")
+    if bd.get("vol_status") == "ok" and bd["vol20"] > bd["vol_p95"]:
+        odims.append("vol20>p95 (3y)")
+    sh, sl = br.get("share_below_ma20"), br.get("share_slope_5d")
+    if sh is not None and sh >= 0.80 and sl is not None and sl < 0:
+        odims.append(f"breadth {sh:.2f}>=80% slope {sl:+.4f}<0")
+    if len(odims) >= 2:
+        if _ORD[lvl] < _ORD[ORANGE]: lvl = ORANGE
+        triggers.extend(odims)
+    elif len(odims) == 1:
+        triggers.append(odims[0] + " [C-downgrade: single-dim ORANGE day]")
+    # -- YELLOW (v2 set verbatim; single-dim orange days land here) --
+    if bd["crash_10d"] is not None and bd["crash_10d"] <= -0.05:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append(f"crash10d {bd['crash_10d']:.3f}<=-5%")
+    if bd.get("vol_status") == "ok" and bd["vol20"] > bd["vol_p80"]:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append("vol20>p80 (3y)")
+    if sh is not None and sh >= 0.65:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append(f"breadth {sh:.2f}>=65%")
+    if bd.get("event_fomc") or bd.get("event_pre_holiday"):
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append("event window (appendix A)")
+    if bear:
+        if _ORD[lvl] < _ORD[YELLOW]: lvl = YELLOW
+        triggers.append("R-配3 major bear (regime.py)")
+    # belt-and-braces frozen landing: single-dim orange day == YELLOW
+    if len(odims) == 1 and lvl == GREEN:
+        lvl = YELLOW
+    return lvl, triggers
+
+
+def resolve_state_v3(prev_state: str, prev_streak: int, raw: str):
+    """V3 hysteresis (prereg V3 s2 frozen). Twist B: RED -> ORANGE on the
+    FIRST green signal day (acute-crisis residual risk is orange-grade,
+    not cash-parking grade); RED -> GREEN still needs 2 consecutive green
+    days; ORANGE/YELLOW -> GREEN downgrades verbatim v1/v2; RED does NOT
+    downgrade on non-green days (literal-B, conservative).
+    """
+    if _ORD[raw] > _ORD[prev_state]:
+        return raw, 0
+    if _ORD[raw] == _ORD[prev_state]:
+        return prev_state, (prev_streak + 1) if raw == GREEN else 0
+    # raw < prev: only GREEN signal days accumulate toward downgrade
+    if raw == GREEN:
+        streak = prev_streak + 1
+        if streak >= 2:
+            return GREEN, streak
+        if prev_state == RED:
+            return ORANGE, 1          # twist B partial release
+        return prev_state, streak
+    return prev_state, 0
+
+
 def probe(write: bool = True) -> dict:
     """Daily shadow probe: compute dims -> state machine -> atomic write.
 
