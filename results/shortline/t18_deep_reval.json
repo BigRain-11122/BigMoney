@@ -1,0 +1,593 @@
+{
+ "batch": "t18_deep_reval",
+ "stage": "reval",
+ "generated": "2026-09-24 22:10:20",
+ "prereg": "research/DEEP_AXIS_REVALIDATION.md (frozen sha256 5cdea03e48933d219aea7d666d8cc808b84c70d4b66fe062cee7dd35bbab309d)",
+ "evidence_cutoff": "2026-09-22",
+ "manifest_sha256": "a7c3cdec61fad36eebbbdb5fcdf480eb90c20b7b0067620cf7b499f5270ca8e5",
+ "panel": {
+  "panel_start": "2013-06-17",
+  "evidence_cutoff": "2026-09-22",
+  "members": 48,
+  "axis_days": 3230
+ },
+ "anchor_gate": {
+  "COMPOSITE-CE-01": {
+   "ok": true,
+   "cutoff": "2026-09-22",
+   "error": null
+  },
+  "COMPOSITE-CE-02": {
+   "ok": true,
+   "cutoff": "2026-09-22",
+   "error": null
+  },
+  "DROUGHT-CE-01": {
+   "ok": true,
+   "cutoff": "2026-09-22",
+   "error": null
+  },
+  "ENGULF-CE-01": {
+   "ok": true,
+   "cutoff": "2026-09-22",
+   "error": null
+  },
+  "NEEDLE-DE-01": {
+   "ok": true,
+   "cutoff": "2026-09-22",
+   "error": null
+  },
+  "VOLATILITY-CE-01": {
+   "ok": true,
+   "cutoff": "2026-09-22",
+   "error": null
+  }
+ },
+ "nulls_basis": {
+  "mu": 0.21241,
+  "sigma": 0.157358,
+  "null_median_trades": 1716,
+  "passive_strict_max": 0.478
+ },
+ "batch_cells_stage1": 64,
+ "traders": [
+  {
+   "tid": "COMPOSITE-CE-01",
+   "full": {
+    "sharpe": 0.6844,
+    "annual_return": 0.0508,
+    "max_drawdown": -0.1655
+   },
+   "is1": {
+    "sharpe": 0.6067,
+    "annual_return": 0.0464,
+    "max_drawdown": -0.1655
+   },
+   "is2": {
+    "sharpe": 1.6527,
+    "annual_return": 0.0796,
+    "max_drawdown": -0.0397
+   },
+   "is1_is2_double_positive": true,
+   "worst_year": -0.1174,
+   "n_trades_full": 1147,
+   "n_entries": 907,
+   "x2_cost_disclosure": {
+    "x2_full": {
+     "sharpe": 0.372,
+     "annual_return": 0.0286,
+     "max_drawdown": -0.2342
+    },
+    "x2_minus_base_sharpe": -0.3124
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.6844,
+    "skill_line": {
+     "n_eff": 60138,
+     "line": 0.9506,
+     "passive_term": 0.578,
+     "null_term": 0.9506,
+     "mu_null": 0.2124,
+     "sigma_null": 0.1574,
+     "pool": "t18_deep_axis",
+     "ledger_head": {
+      "total": 60074,
+      "file": "xstock_synth.json",
+      "note": ""
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": 0.1195,
+     "ci95_high": 1.2713,
+     "point": 0.6844,
+     "ci_lower_bound_positive": true,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": true,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1147,
+     "n_entries": 907,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.0,
+    "sr_annualized": 0.6844,
+    "n_trials": 60138
+   },
+   "four_mandatory": {
+    "is2_trades": 155,
+    "covered_years": 12.82,
+    "independent_regime_windows": 51,
+    "ci_width_95": 1.1518
+   },
+   "break_exposure": {
+    "n_coincident_closes": 1,
+    "events": [
+     {
+      "sym": "513100",
+      "date": "2022-01-14",
+      "pct": -0.8045
+     }
+    ]
+   }
+  },
+  {
+   "tid": "COMPOSITE-CE-02",
+   "full": {
+    "sharpe": 0.7029,
+    "annual_return": 0.0498,
+    "max_drawdown": -0.2123
+   },
+   "is1": {
+    "sharpe": 0.6166,
+    "annual_return": 0.0446,
+    "max_drawdown": -0.2123
+   },
+   "is2": {
+    "sharpe": 1.568,
+    "annual_return": 0.0843,
+    "max_drawdown": -0.0377
+   },
+   "is1_is2_double_positive": true,
+   "worst_year": -0.122,
+   "n_trades_full": 1873,
+   "n_entries": 1413,
+   "x2_cost_disclosure": {
+    "x2_full": {
+     "sharpe": 0.3806,
+     "annual_return": 0.0281,
+     "max_drawdown": -0.2857
+    },
+    "x2_minus_base_sharpe": -0.3223
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.7029,
+    "skill_line": {
+     "n_eff": 60138,
+     "line": 0.9506,
+     "passive_term": 0.578,
+     "null_term": 0.9506,
+     "mu_null": 0.2124,
+     "sigma_null": 0.1574,
+     "pool": "t18_deep_axis",
+     "ledger_head": {
+      "total": 60074,
+      "file": "xstock_synth.json",
+      "note": ""
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": 0.1834,
+     "ci95_high": 1.2853,
+     "point": 0.7029,
+     "ci_lower_bound_positive": true,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": true,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1873,
+     "n_entries": 1413,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.0,
+    "sr_annualized": 0.7029,
+    "n_trials": 60138
+   },
+   "four_mandatory": {
+    "is2_trades": 256,
+    "covered_years": 12.82,
+    "independent_regime_windows": 51,
+    "ci_width_95": 1.1019
+   },
+   "break_exposure": {
+    "n_coincident_closes": 3,
+    "events": [
+     {
+      "sym": "159928",
+      "date": "2021-06-25",
+      "pct": -0.7447
+     },
+     {
+      "sym": "513100",
+      "date": "2022-01-14",
+      "pct": -0.8045
+     },
+     {
+      "sym": "513500",
+      "date": "2022-03-30",
+      "pct": -0.4918
+     }
+    ]
+   }
+  },
+  {
+   "tid": "DROUGHT-CE-01",
+   "full": {
+    "sharpe": 0.2781,
+    "annual_return": 0.0117,
+    "max_drawdown": -0.1344
+   },
+   "is1": {
+    "sharpe": 0.1841,
+    "annual_return": 0.0076,
+    "max_drawdown": -0.1344
+   },
+   "is2": {
+    "sharpe": 1.213,
+    "annual_return": 0.0406,
+    "max_drawdown": -0.0252
+   },
+   "is1_is2_double_positive": true,
+   "worst_year": -0.0187,
+   "n_trades_full": 242,
+   "n_entries": 215,
+   "x2_cost_disclosure": {
+    "x2_full": {
+     "sharpe": 0.1904,
+     "annual_return": 0.0078,
+     "max_drawdown": -0.1375
+    },
+    "x2_minus_base_sharpe": -0.0877
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.2781,
+    "skill_line": {
+     "n_eff": 60138,
+     "line": 0.9506,
+     "passive_term": 0.578,
+     "null_term": 0.9506,
+     "mu_null": 0.2124,
+     "sigma_null": 0.1574,
+     "pool": "t18_deep_axis",
+     "ledger_head": {
+      "total": 60074,
+      "file": "xstock_synth.json",
+      "note": ""
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.2417,
+     "ci95_high": 0.8569,
+     "point": 0.2781,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 242,
+     "n_entries": 215,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.0,
+    "sr_annualized": 0.2781,
+    "n_trials": 60138
+   },
+   "four_mandatory": {
+    "is2_trades": 44,
+    "covered_years": 12.82,
+    "independent_regime_windows": 51,
+    "ci_width_95": 1.0986
+   },
+   "break_exposure": {
+    "n_coincident_closes": 1,
+    "events": [
+     {
+      "sym": "512480",
+      "date": "2021-03-29",
+      "pct": -0.489
+     }
+    ]
+   }
+  },
+  {
+   "tid": "ENGULF-CE-01",
+   "full": {
+    "sharpe": 0.5118,
+    "annual_return": 0.0138,
+    "max_drawdown": -0.0408
+   },
+   "is1": {
+    "sharpe": 0.5492,
+    "annual_return": 0.0146,
+    "max_drawdown": -0.0408
+   },
+   "is2": {
+    "sharpe": 0.2933,
+    "annual_return": 0.0085,
+    "max_drawdown": -0.0343
+   },
+   "is1_is2_double_positive": true,
+   "worst_year": -0.012,
+   "n_trades_full": 180,
+   "n_entries": 146,
+   "x2_cost_disclosure": {
+    "x2_full": {
+     "sharpe": 0.4165,
+     "annual_return": 0.0112,
+     "max_drawdown": -0.0436
+    },
+    "x2_minus_base_sharpe": -0.0953
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.5118,
+    "skill_line": {
+     "n_eff": 60138,
+     "line": 0.9506,
+     "passive_term": 0.578,
+     "null_term": 0.9506,
+     "mu_null": 0.2124,
+     "sigma_null": 0.1574,
+     "pool": "t18_deep_axis",
+     "ledger_head": {
+      "total": 60074,
+      "file": "xstock_synth.json",
+      "note": ""
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.0012,
+     "ci95_high": 1.0058,
+     "point": 0.5118,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 180,
+     "n_entries": 146,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.0,
+    "sr_annualized": 0.5118,
+    "n_trials": 60138
+   },
+   "four_mandatory": {
+    "is2_trades": 44,
+    "covered_years": 12.82,
+    "independent_regime_windows": 51,
+    "ci_width_95": 1.007
+   },
+   "break_exposure": {
+    "n_coincident_closes": 0,
+    "events": []
+   }
+  },
+  {
+   "tid": "NEEDLE-DE-01",
+   "full": {
+    "sharpe": 0.4127,
+    "annual_return": 0.0089,
+    "max_drawdown": -0.0498
+   },
+   "is1": {
+    "sharpe": 0.4188,
+    "annual_return": 0.0084,
+    "max_drawdown": -0.0498
+   },
+   "is2": {
+    "sharpe": 0.4088,
+    "annual_return": 0.0118,
+    "max_drawdown": -0.028
+   },
+   "is1_is2_double_positive": true,
+   "worst_year": -0.0185,
+   "n_trades_full": 101,
+   "n_entries": 84,
+   "x2_cost_disclosure": {
+    "x2_full": {
+     "sharpe": 0.3408,
+     "annual_return": 0.0073,
+     "max_drawdown": -0.0509
+    },
+    "x2_minus_base_sharpe": -0.0719
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.4127,
+    "skill_line": {
+     "n_eff": 60138,
+     "line": 0.9506,
+     "passive_term": 0.578,
+     "null_term": 0.9506,
+     "mu_null": 0.2124,
+     "sigma_null": 0.1574,
+     "pool": "t18_deep_axis",
+     "ledger_head": {
+      "total": 60074,
+      "file": "xstock_synth.json",
+      "note": ""
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.1086,
+     "ci95_high": 0.918,
+     "point": 0.4127,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 101,
+     "n_entries": 84,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.0,
+    "sr_annualized": 0.4127,
+    "n_trials": 60138
+   },
+   "four_mandatory": {
+    "is2_trades": 23,
+    "covered_years": 12.82,
+    "independent_regime_windows": 51,
+    "ci_width_95": 1.0266
+   },
+   "break_exposure": {
+    "n_coincident_closes": 0,
+    "events": []
+   }
+  },
+  {
+   "tid": "VOLATILITY-CE-01",
+   "full": {
+    "sharpe": 0.8,
+    "annual_return": 0.0237,
+    "max_drawdown": -0.0464
+   },
+   "is1": {
+    "sharpe": 0.695,
+    "annual_return": 0.0215,
+    "max_drawdown": -0.0464
+   },
+   "is2": {
+    "sharpe": 2.0549,
+    "annual_return": 0.0379,
+    "max_drawdown": -0.008
+   },
+   "is1_is2_double_positive": true,
+   "worst_year": -0.0121,
+   "n_trades_full": 1109,
+   "n_entries": 1007,
+   "x2_cost_disclosure": {
+    "x2_full": {
+     "sharpe": 0.219,
+     "annual_return": 0.0066,
+     "max_drawdown": -0.0653
+    },
+    "x2_minus_base_sharpe": -0.581
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.8,
+    "skill_line": {
+     "n_eff": 60138,
+     "line": 0.9506,
+     "passive_term": 0.578,
+     "null_term": 0.9506,
+     "mu_null": 0.2124,
+     "sigma_null": 0.1574,
+     "pool": "t18_deep_axis",
+     "ledger_head": {
+      "total": 60074,
+      "file": "xstock_synth.json",
+      "note": ""
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": 0.2545,
+     "ci95_high": 1.3837,
+     "point": 0.8,
+     "ci_lower_bound_positive": true,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": true,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1109,
+     "n_entries": 1007,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.0,
+    "sr_annualized": 0.8,
+    "n_trials": 60138
+   },
+   "four_mandatory": {
+    "is2_trades": 147,
+    "covered_years": 12.82,
+    "independent_regime_windows": 51,
+    "ci_width_95": 1.1292
+   },
+   "break_exposure": {
+    "n_coincident_closes": 0,
+    "events": []
+   }
+  }
+ ],
+ "pbo_pending": {
+  "family_grids": "J15 10 + J19 4 + G2_FOLK 3-family frozen grids",
+  "g2_column": "deferred (needs pbo_deep, prereg s4)",
+  "ledger": "deferred to pbo-stage finalize (SS3 single append covers 6 + 50 + 2 + family cells)"
+ },
+ "audit": {
+  "workers": 12,
+  "elapsed_sec": 8.3,
+  "n_backtests": 12,
+  "anchor_runs": 6,
+  "ledger_appended": false
+ }
+}

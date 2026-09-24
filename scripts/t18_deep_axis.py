@@ -21,8 +21,18 @@ nulls: K=50 deep-axis null regeneration (prereg SS3, GF-gated) -- p2
       resume via t18_deep_nulls_runs.jsonl (manifest-sha keyed); finalize
       -> results/shortline/t18_deep_nulls.json + R53 live dual-pool probe.
       No ledger append (batch-level accounting at reval finalize, SS3).
-reval/pbo: GF + XSTOCK data-dir mutex checked first; blocked = exit 2
-      (implementation rounds pending).
+reval: 6-trader deep-axis revalidation (prereg SS3/SS4, GF-gated) --
+      anchor gate 6/6 first (registration window, live.paper anchor_gate
+      canonical; drift => batch invalid, deep runs refused), then 6 x
+      (base, x2) cells on the RAW twin panel with on-axis entry masking
+      (panel_start >=5-member law; per-trader faces: full/IS1/IS2, DSR
+      vs deep null sigma, stationary-bootstrap CI, four-mandatory fields,
+      break-coincident-close exposure). Checkpoint resume via
+      t18_deep_reval_runs.jsonl (manifest-sha keyed); stage product =
+      results/shortline/t18_deep_reval.json WITHOUT ledger (single SS3
+      append happens at pbo-stage finalize with family grid cells).
+pbo:   GF + XSTOCK data-dir mutex checked first; blocked = exit 2
+      (family grids + CSCV PBO + G2 column + SS3 ledger append pending).
 status/selftest.
 
 Exit codes: 0 = pass / no-op, 1 = gate fail / refused, 2 = stage blocked
@@ -672,6 +682,340 @@ def cmd_nulls() -> int:
     return _nulls_finalize(man, msha, done, workers, time.time() - t0)
 
 
+# ----------------------------------------------------------------- reval stage
+# Prereg SS3/SS4: 6-trader deep-axis revalidation. Anchor gate 6/6 (6.7y
+# registration window, live.paper anchor_gate canonical) = hard precondition;
+# deep cells run on the RAW twin panel (registration semantics -- the
+# adjusted view is the T-22 return face, NOT this batch) with on-axis entry
+# masking (panel_start = first day the >=5-member cross-section exists).
+# Stage split: this stage = anchor + 6 x (base,x2) cells + per-trader faces
+# (DSR/CI/four-mandatory/break exposure). Family grids + CSCV PBO + G2
+# column + the ONE ledger append (SS3, 6+50+2+family) = pbo stage.
+REVAL_RUNS_PATH = os.path.join(ROOT, "results", "shortline",
+                               "t18_deep_reval_runs.jsonl")
+REVAL_OUT_PATH = os.path.join(ROOT, "results", "shortline",
+                              "t18_deep_reval.json")
+IS1_END = "2024-12-31"        # prereg SS2 frozen split (IS2 == live.paper OOS_START)
+IS2_START = "2025-01-01"
+_RG: dict = {}
+
+
+def _reval_trader_ids() -> list:
+    from firm.hr import TRADERS_DIR, load_trader
+    from live.paper import PAPER_LEVELS
+    out = []
+    for path in sorted(TRADERS_DIR.glob("*.json")):
+        if path.name.startswith("_"):
+            continue
+        t = load_trader(path.stem)
+        if t.get("level") in PAPER_LEVELS:
+            out.append(t["id"])
+    return out
+
+
+def _reval_worker_init():
+    import psutil
+    pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
+    if pri is not None:
+        try:
+            psutil.Process().nice(pri)   # O-1136 full-load low-priority pool
+        except Exception:
+            pass
+    man = json.load(open(MANIFEST_PATH, encoding="utf-8"))
+    prices, idx, syms, mask = _panel_inputs(man)
+    from firm.hr import load_trader
+    from live.paper import PAPER_LEVELS, SIGNAL_BUILDERS, build_panels
+    P = build_panels(prices)
+    ps = pd.Timestamp(man["panel_start"])
+    axis_ok = np.asarray(idx >= ps)   # DatetimeIndex compare -> ndarray
+    axis_frame = pd.DataFrame(
+        np.repeat(axis_ok[:, None], len(syms), axis=1),
+        index=idx, columns=syms)
+    entries, params_by_id, exits_by_id = {}, {}, {}
+    for path in sorted(glob.glob(os.path.join(ROOT, "firm",
+                                              "traders", "*.json"))):
+        if os.path.basename(path).startswith("_"):
+            continue
+        t = load_trader(os.path.basename(path)[:-5])
+        if t.get("level") not in PAPER_LEVELS:
+            continue
+        # on-axis entry mask: <5-member cross-section days must never trade
+        # (SS2 growing-membership law; on-axis values pass through untouched)
+        e = SIGNAL_BUILDERS[t["params"]["entry"]](P)
+        entries[t["id"]] = e.where(axis_frame.reindex(
+            columns=e.columns), 0) if hasattr(e, "where") else e
+        params_by_id[t["id"]] = {k: v for k, v in t["params"].items()
+                                 if k != "entry"}
+        exits_by_id[t["id"]] = t.get("exit_overrides")
+    try:
+        events = json.load(open(REGISTRY_PATH, encoding="utf-8-sig")).get(
+            "events", [])
+    except FileNotFoundError:
+        events = []
+    _RG.update(prices=prices, idx=idx, panel_start=man["panel_start"],
+               entries=entries, params_by_id=params_by_id,
+               exits_by_id=exits_by_id, events=events)
+
+
+def _reval_run_one(job: tuple) -> dict:
+    """One (trader, cost-face) deep-axis cell. report_num_entries additive
+    flag per t33 precedent; break exposure = closed trades coinciding with
+    registry consolidation events (same symbol+date), disclosed verbatim."""
+    import time as _t
+    from contextlib import nullcontext
+    from engine import run_backtest
+    from live.paper import ExitPatch, seg_metrics
+    from science_gates import CostPatch
+    tid, face = job
+    t0 = _t.time()
+    prices, idx = _RG["prices"], _RG["idx"]
+    entry = _RG["entries"][tid]
+    params = {**_RG["params_by_id"][tid], "report_num_entries": True}
+    cctx = CostPatch(2.0) if face == "x2" else nullcontext()
+    with cctx, ExitPatch(_RG["exits_by_id"][tid]):
+        res = run_backtest(prices, params, entry_signal=entry,
+                           exit_signal=(entry <= 0))
+    eq = pd.Series(res["equity_curve"], index=idx[:len(res["equity_curve"])])
+    ps = pd.Timestamp(_RG["panel_start"])
+    full = eq[eq.index >= ps]
+    is1 = full[full.index <= pd.Timestamp(IS1_END)]
+    is2 = full[full.index >= pd.Timestamp(IS2_START)]
+    tr = res["trades"]
+    ev_set = {(e["sym"], e["date"]): e for e in _RG["events"]}
+    hits = [dict(sym=t["symbol"], date=t["date"],
+                 # r101 field map: registry carries pct_detector_4dp, not pct
+                 pct=ev_set[(t["symbol"], t["date"])].get(
+                     "pct_detector_4dp",
+                     ev_set[(t["symbol"], t["date"])].get("pct_observed")))
+            for t in tr if (t["symbol"], t["date"]) in ev_set]
+    rets = full.pct_change().dropna()
+    by = (1 + rets).groupby(rets.index.year).prod() - 1
+    return {"key": f"{tid}|{face}", "tid": tid, "face": face,
+            "full": seg_metrics(full), "is1": seg_metrics(is1),
+            "is2": seg_metrics(is2),
+            "n_trades_full": int(res["metrics"].get("num_trades", 0)),
+            "n_entries": int(res["metrics"].get("num_entries", -1)),
+            "n_is2_trades": sum(1 for t in tr if str(t["date"]) >= IS2_START),
+            "n_days_axis": int(len(full)),
+            "worst_year": round(float(by.min()), 4) if len(by) else 0.0,
+            "break_coincident_closes": hits,
+            "rets": [round(float(v), 10) for v in rets],
+            "elapsed_sec": round(_t.time() - t0, 1)}
+
+
+def _reval_resume(msha: str) -> dict:
+    done: dict = {}
+    if not os.path.exists(REVAL_RUNS_PATH):
+        return done
+    with open(REVAL_RUNS_PATH, encoding="utf-8") as fh:
+        for ln in fh:
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                rec = json.loads(ln)
+            except ValueError:
+                continue
+            if (isinstance(rec, dict) and rec.get("ok")
+                    and rec.get("manifest_sha") == msha
+                    and isinstance(rec.get("key"), str)):
+                done[rec["key"]] = rec
+    return done
+
+
+def _reval_finalize(man: dict, msha: str, done: dict, workers: int,
+                    elapsed: float, anchors: dict) -> int:
+    from scripts.science_gates import (deflated_sharpe_ratio, g1_prime_v2,
+                                        n_eff)
+    nulls = json.load(open(NULLS_OUT_PATH, encoding="utf-8"))
+    null_pool = nulls["null_pool"]
+    cov = null_pool["coverage"]
+    batch_cells_stage1 = NULLS_K + 2 + len(done)   # 50 null + 2 passive + this stage's cells
+    n_trials = n_eff(batch_cells_stage1)           # O-2250 chain-head single source
+    rows: dict = {}
+    for key, rec in done.items():
+        tid, face = key.split("|")
+        rows.setdefault(tid, {})[face] = rec
+    table = []
+    for tid in sorted(rows):
+        base = rows[tid].get("base")
+        if base is None:
+            continue
+        rets = base["rets"]
+        g1 = g1_prime_v2(sharpe_full=base["full"]["sharpe"], returns=rets,
+                         batch_cells=batch_cells_stage1, pool="t18_deep_axis",
+                         n_trades=base["n_trades_full"],
+                         n_entries=base["n_entries"], null_pool=null_pool)
+        dsr = deflated_sharpe_ratio(
+            rets, n_trials=n_trials, var_null_sr=float(cov["sigma"]) ** 2)
+        x2 = rows[tid].get("x2", {})
+        x2_full = x2.get("full", {})
+        four = {"is2_trades": base["n_is2_trades"],
+                "covered_years": round(base["n_days_axis"] / 252, 2),
+                "independent_regime_windows": base["n_days_axis"] // 63,
+                "ci_width_95": round(g1["bootstrap_ci"]["ci95_high"]
+                                     - g1["bootstrap_ci"]["ci95_low"], 4)}
+        table.append({
+            "tid": tid,
+            "full": base["full"], "is1": base["is1"], "is2": base["is2"],
+            "is1_is2_double_positive": bool(
+                base["is1"].get("annual_return", 0) > 0
+                and base["is2"].get("annual_return", 0) > 0),
+            "worst_year": base["worst_year"],
+            "n_trades_full": base["n_trades_full"],
+            "n_entries": base["n_entries"],
+            "x2_cost_disclosure": {
+                "x2_full": x2_full,
+                "x2_minus_base_sharpe": round(
+                    float(x2_full.get("sharpe", 0))
+                    - float(base["full"].get("sharpe", 0)), 4)
+                if x2_full else None},
+            "g1_prime_v2": g1,
+            "dsr": {k: dsr[k] for k in ("dsr", "sr_annualized", "n_trials")
+                    if k in dsr},
+            "four_mandatory": four,
+            "break_exposure": {"n_coincident_closes":
+                                len(base["break_coincident_closes"]),
+                                "events": base["break_coincident_closes"]},
+        })
+    axis_days_probe = next(iter(done.values()), {}).get("n_days_axis", 0)
+    payload = {
+        "batch": "t18_deep_reval",
+        "stage": "reval",
+        "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "prereg": f"research/DEEP_AXIS_REVALIDATION.md (frozen sha256 {PREREG_SHA})",
+        "evidence_cutoff": EVIDENCE_CUTOFF,   # top-level C2 key (science_audit)
+        "manifest_sha256": msha,
+        "panel": {"panel_start": man["panel_start"],
+                  "evidence_cutoff": EVIDENCE_CUTOFF,
+                  "members": len(man["members"]),
+                  "axis_days": int(axis_days_probe)},
+        "anchor_gate": anchors,
+        "nulls_basis": {"mu": cov["mu"], "sigma": cov["sigma"],
+                        "null_median_trades":
+                            nulls["four_mandatory_fields"]
+                            ["null_median_trades"],
+                        "passive_strict_max": max(
+                            nulls["passive"]["ew48_buyhold"]["full_axis"]
+                            ["sharpe"],
+                            nulls["passive"]["ew48_monthly_rebal"]
+                            ["full_axis"]["sharpe"])},
+        "batch_cells_stage1": batch_cells_stage1,
+        "traders": table,
+        "pbo_pending": {
+            "family_grids": "J15 10 + J19 4 + G2_FOLK 3-family frozen grids",
+            "g2_column": "deferred (needs pbo_deep, prereg s4)",
+            "ledger": "deferred to pbo-stage finalize (SS3 single append "
+                      "covers 6 + 50 + 2 + family cells)"},
+        "audit": {"workers": workers, "elapsed_sec": round(elapsed, 1),
+                  "n_backtests": len(done), "anchor_runs": len(anchors),
+                  "ledger_appended": False},
+    }
+    os.makedirs(os.path.dirname(REVAL_OUT_PATH), exist_ok=True)
+    with open(REVAL_OUT_PATH, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1)
+    n_pass = sum(1 for r in table if r["g1_prime_v2"]["pass_v2"])
+    print(f"[reval] finalize: {len(table)} traders, g1_prime_v2 deep "
+          f"pass {n_pass}/{len(table)}, batch_cells_stage1="
+          f"{batch_cells_stage1}")
+    for r in table:
+        print(f"  {r['tid']}: full={r['full'].get('sharpe')} "
+              f"is1={r['is1'].get('sharpe')} is2={r['is2'].get('sharpe')} "
+              f"g1_pass={r['g1_prime_v2']['pass_v2']} "
+              f"dsr={r['dsr'].get('dsr')}")
+    print("saved:", REVAL_OUT_PATH)
+    return 0
+
+
+def cmd_reval() -> int:
+    gf = _gf_state()
+    if not gf["satisfied"]:
+        print(f"[reval] BLOCKED by GF adjusted-view hard gate (O-1310 s3): "
+              f"delivered={gf['delivered']} waiver={gf['gm_waiver']}")
+        return 2
+    busy, why = _xstock_mutex()
+    if busy:
+        print(f"[reval] BLOCKED by XSTOCK data-dir mutex (s0): {why}")
+        return 2
+    if not os.path.exists(MANIFEST_PATH):
+        print("[reval] manifest absent -- run gates first")
+        return 2
+    man = json.load(open(MANIFEST_PATH, encoding="utf-8"))
+    if man.get("verdict") != "PASS":
+        print("[reval] manifest verdict != PASS; refused")
+        return 2
+    msha = _manifest_sha()
+    meta_path = os.path.join(CACHE_DIR, "meta.json")
+    if not os.path.exists(meta_path):
+        print("[reval] panel cache absent -- run build first")
+        return 2
+    meta = json.load(open(meta_path, encoding="utf-8-sig"))
+    if meta.get("manifest_sha256") != msha:
+        print("[reval] panel cache stale for manifest -- run build first")
+        return 2
+    try:
+        import psutil
+        psutil.Process().nice(getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS",
+                                      None))   # whole batch low priority
+    except Exception:
+        pass
+    # anchor gate 6/6 -- batch precondition (prereg SS3), registration window
+    from firm.hr import load_trader
+    from live.paper import anchor_gate, load_core
+    prices_full = load_core()
+    anchors = {}
+    for tid in _reval_trader_ids():
+        a = anchor_gate(load_trader(tid), prices_full)
+        anchors[tid] = {"ok": bool(a.get("ok")), "cutoff": a.get("cutoff"),
+                        "error": a.get("error")}
+        print(f"[reval] anchor {tid}: "
+              f"{'PASS' if a.get('ok') else 'FAIL ' + str(a.get('error'))[:80]}",
+              flush=True)
+    if not all(a["ok"] for a in anchors.values()) or len(anchors) != 6:
+        print(f"[reval] anchor gate NOT 6/6 -- batch invalid, deep runs refused")
+        return 1
+    try:
+        import psutil
+    except ImportError:
+        print("[reval] psutil unavailable (fail-safe block, s0 budget law)")
+        return 2
+    cores = psutil.cpu_count() or 4
+    free_gb = psutil.virtual_memory().available / (1024 ** 3)
+    done = _reval_resume(msha)
+    jobs = [(tid, face) for tid in sorted(anchors)
+            for face in ("base", "x2")]
+    pending = [j for j in jobs if f"{j[0]}|{j[1]}" not in done]
+    workers = max(1, min(int(cores * 0.8), int(free_gb / 0.5),
+                         max(1, len(pending))))  # SS0
+    print(f"[reval] axis {man['panel_start']}..{EVIDENCE_CUTOFF}; done="
+          f"{len(done)} pending={len(pending)} workers={workers} "
+          f"(cores={cores} free_gb={round(free_gb, 1)})")
+    t0 = time.time()
+    if pending:
+        from concurrent.futures import ProcessPoolExecutor, as_completed
+        with ProcessPoolExecutor(max_workers=workers,
+                                 initializer=_reval_worker_init) as ex:
+            futs = {ex.submit(_reval_run_one, j): j for j in pending}
+            for fut in as_completed(futs):
+                rec = fut.result()   # engine crash = honest abort, checkpoint kept
+                with open(REVAL_RUNS_PATH, "a", encoding="utf-8",
+                          newline="\n") as fh:
+                    fh.write(json.dumps({**rec, "manifest_sha": msha,
+                                         "ok": True},
+                                        ensure_ascii=False) + "\n")
+                done[rec["key"]] = rec
+                print(f"[reval {len(done)}/{len(jobs)}] {rec['key']} "
+                      f"full={rec['full'].get('sharpe')} "
+                      f"trades={rec['n_trades_full']} "
+                      f"({rec['elapsed_sec']}s)", flush=True)
+    if len(done) < len(jobs):
+        print(f"[reval] incomplete: {len(done)}/{len(jobs)} -- checkpoint "
+              f"preserved for resume; honest partial, no finalize")
+        return 1
+    return _reval_finalize(man, msha, done, workers, time.time() - t0,
+                           anchors)
+
+
 def _blocked_stage(name: str) -> int:
     gf = _gf_state()
     if not gf["satisfied"]:
@@ -866,6 +1210,51 @@ def _selftest() -> int:
         and not mask3.loc["2015-06-02", "510001"]
         and not mask3.loc["2015-06-02", "510003"])
 
+    # ---- reval-stage offline legs (no engine runs) ----
+    rl2 = os.path.join(tmp, "reval_runs.jsonl")
+    mod.REVAL_RUNS_PATH = rl2
+    with open(rl2, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps({"key": "T1|base", "ok": True,
+                             "manifest_sha": "S1"}) + "\n")
+        fh.write(json.dumps({"key": "T1|x2", "ok": True,
+                             "manifest_sha": "S2"}) + "\n")   # stale sha
+        fh.write(json.dumps({"key": "T2|base", "ok": False,
+                             "manifest_sha": "S1"}) + "\n")   # not ok
+        fh.write("{broken json\n")
+    r2 = mod._reval_resume("S1")
+    chk("reval resume: manifest-sha keyed done-set filters stale/notok/bad",
+        set(r2.keys()) == {"T1|base"})
+    # IS1/IS2 split + worst-year semantics on synthetic yearly compounding
+    idx4 = pd.bdate_range("2023-06-01", periods=420)
+    vals4 = [1.0] * 100 + [0.8] * 200 + [1.1] * 120   # stepped level series
+    eq4 = pd.Series(vals4, index=idx4)
+    full4 = eq4
+    is1_4 = full4[full4.index <= pd.Timestamp(mod.IS1_END)]
+    is2_4 = full4[full4.index >= pd.Timestamp(mod.IS2_START)]
+    rets4 = full4.pct_change().dropna()
+    by4 = (1 + rets4).groupby(rets4.index.year).prod() - 1
+    chk("reval split: IS1/IS2 boundaries cover axis disjointly",
+        len(is1_4) + len(is2_4) == len(full4)
+        and str(is1_4.index[-1].date()) <= mod.IS1_END
+        and str(is2_4.index[0].date()) >= mod.IS2_START)
+    chk("reval worst-year: min yearly compound == -0.2",
+        abs(round(float(by4.min()), 4) - (-0.2)) < 1e-9)
+    mod.REGISTRY_PATH = os.path.join(tmp, "registry_absent.json")
+    evs = json.load(open(mod.REGISTRY_PATH, encoding="utf-8-sig")) \
+        if os.path.exists(mod.REGISTRY_PATH) else []
+    chk("reval events: absent registry tolerated as empty list", evs == [])
+    # axis-mask frame construction on the synthetic panelcache (the r117
+    # BrokenProcessPool root cause: DatetimeIndex compare is an ndarray)
+    ps3 = pd.Timestamp("2016-01-04")
+    axis_ok3 = np.asarray(idx3 >= ps3)
+    af3 = pd.DataFrame(np.repeat(axis_ok3[:, None], len(syms3), axis=1),
+                      index=idx3, columns=syms3)
+    chk("reval axis frame: ndarray compare + broadcast shape",
+        af3.shape == (len(idx3), len(syms3))
+        and not bool(af3.loc["2015-12-31", "510001"])
+        and bool(af3.loc["2016-01-05", "510001"])
+        and bool(af3.loc["2016-01-05", "510003"]))
+
     print("selftest: all PASS")
     return 0
 
@@ -879,7 +1268,9 @@ def main(argv=None) -> int:
         return cmd_build()
     if cmd == "nulls":
         return cmd_nulls()
-    if cmd in ("reval", "pbo"):
+    if cmd == "reval":
+        return cmd_reval()
+    if cmd == "pbo":
         return _blocked_stage(cmd)
     if cmd == "status":
         return cmd_status()
