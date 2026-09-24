@@ -1,18 +1,19 @@
 {
- "round_no": 109,
- "did": [
-  "r109 = XSTOCK relay-recovery round (dept:research+data+engineering): S0 up-to-date 99a158f; S0.5 orders 55/55 zero-new + inbox MSG-1850 (T-27 winner proposal) acked+archived w/ T-28 lane-interest reply; smoke 23/23",
-  "IDENTITY CORRECTION P0 (zero-damage): round-start mis-ID as bm-a from git-tracked replicas (state-bm-a/heartbeat bm-a present in every clone) -> briefly worked bm-a's claimed T-24 slice (b), FULLY REVERTED pre-commit (zero pollution); law: identity = fleet/machine.json ONLY",
-  "XSTOCK relay forensics: rewaiter read rc=0 but true exit=1 (OpenProcess SYNCHRONIZE-only cannot GetExitCodeProcess; rc buffer never written) -> relay never fired, chain died before ledger (synth.json absent); recovery per r107's own rc!=0 spec: fixed-code relaunch PID 24856 @19:21:22 BelowNormal detached (0 live xstock + 689GB disk pre-checks; repro 3/3 re-PASS, clustering 14, primary is_ic 0.1078 xcheck 0.0, nulls ETA ~20:5x; log logs/xstock_post_r109.log)",
-  "S6 all green: audit FLAG idle_with_work (pre-spawn sample; batch now burns) / wm insufficient n=1 / daily 0 rows cutoff 09-23 source-unpublished 6th / regime ORANGE shadow d1 / lhb+heat+futures no-op / mf+fp non-owner / fundamental 22.6h / b_layer 5 gates / token -60"
- ],
- "next_pointer": [
-  "(1) r110+: monitor logs/xstock_post_r109.log -- harvest on 'post done verdict=...': equiv <=1e-6 + partials + finalize + factor ledger 5600+delta + T-11 unblock + xstock_z_manifest.json package commit",
-  "(2) r110 = 5x HANDOVER (J3 deep-window v3 citation in)",
-  "(3) T-28 stable-profit report = post-harvest claim candidate (dual-disclosure pre-GM-ruling per MSG-1850; F-04 claim first; yield to earlier claimer)",
-  "(4) daily 09-24 bar self-heal next rounds"
- ],
- "note": "P0 lessons: identity = fleet/machine.json only (tracked replicas live in every clone); Windows rc gates need OpenProcess(SYNCHRONIZE|PROCESS_QUERY_LIMITED_INFORMATION) + BOOL check (silent-0 read killed the designed relay); recovery per r107 spec = one fixed-code relaunch, old batch dead confirmed via err log (rc=1) not rewaiter reading",
- "last_round_ts": "2026-09-24T19:23:58.992541+08:00",
- "last_result": "ok"
+  "round_no": 110,
+  "did": [
+    "r110 = T-26 expansion acceptance one-shot (dept:fleet+engineering): claim 294efb2 -> deliver c091d98",
+    "S0 autostash-rebase absorbed bm-a r88 (T-24 G2 pack DONE) + bm-c r64 (PA1E honest FAIL close); first-job table rewritten accordingly (G2 pack removed, J-1 T-22 PROSPECT beat-rate = sole ready first-job)",
+    "T-26 deliverable: fleet/EXPANSION_ACCEPTANCE.md v1.0 (A1-A6 + first-job shard table) + fleet/_machine.dual-role.template + honest gap disclosure (bootstrap-machine.ps1 not in-repo = T-08-pattern suspicion, owner-commit request MSG-1945, actual in-repo path documented)",
+    "XSTOCK relay chain monitored healthy (PID 24856: gates 6/6 + repro PASS + primary done, nullA 40/131 streaming, err log 0 bytes, ETA ~20:5x -> harvest r111+)",
+    "S6 all green + promotion evaluator 0/22 honest (t22_rows=0 = J-1 binding evidence gap)"
+  ],
+  "next_pointer": [
+    "(1) r110+: monitor logs/xstock_post_r109.log -- harvest on 'post done verdict=...': equiv <=1e-6 + partials + finalize + factor ledger 5600+delta + T-11 unblock + xstock_z_manifest.json package commit",
+    "(2) r110 = 5x HANDOVER (J3 deep-window v3 citation in)",
+    "(3) T-28 stable-profit report = post-harvest claim candidate (dual-disclosure pre-GM-ruling per MSG-1850; F-04 claim first; yield to earlier claimer)",
+    "(4) daily 09-24 bar self-heal next rounds"
+  ],
+  "note": "P0 lessons: identity = fleet/machine.json only (tracked replicas live in every clone); Windows rc gates need OpenProcess(SYNCHRONIZE|PROCESS_QUERY_LIMITED_INFORMATION) + BOOL check (silent-0 read killed the designed relay); recovery per r107 spec = one fixed-code relaunch, old batch dead confirmed via err log (rc=1) not rewaiter reading",
+  "last_round_ts": "2026-09-24T19:23:58.992541+08:00",
+  "last_result": "ok"
 }
