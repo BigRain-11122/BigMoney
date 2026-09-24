@@ -38,7 +38,8 @@ def run_backtest(prices: dict, params: dict,
                  exit_signal: pd.DataFrame = None,
                  fill_guard=None,
                  cost_v2=None,
-                 cash_parking=None) -> dict:
+                 cash_parking=None,
+                 entry_size_scale=None) -> dict:
     """prices: dict[symbol] -> DataFrame with date index, cols open/close/high/low.
 
     J7 signal-injection adapter (BACKTEST_PLAN S2 contract):
@@ -118,6 +119,21 @@ def run_backtest(prices: dict, params: dict,
                                  opens) alongside num_trades (tranche count,
                                  P1-3 layered take-profit padding).
       params["trailing_lock"]/["initial_stop"] -> exposed via ExitConfig (P1-2).
+
+    T-21 REGIME_ENFORCE additive flag (research/REGIME_ENFORCE_WIRING.md
+    frozen spec; default None = legacy path byte-identical).
+      entry_size_scale  pd.Series (date-indexed, 0<scale<=1) -- per
+        EXECUTION-day nominal multiplier applied to target_value AFTER the
+        sizing-mode base and BEFORE the cost-v2 ADV cap. Missing dates ->
+        1.0 (legacy nominal); values clipped to [0,1] (the response matrix
+        only halves, never leverages). Decision causality is the CALLER's
+        contract: the value indexed at exec day E must reflect information
+        through the prior close (REGIME_GUARD state known at E-1).
+      fill_guard buy-side drops are COUNTED when any fill_guard is supplied:
+        metrics gain "fill_guard_buy_dropped" (new key only when a guard is
+        present; the None path never emits it).
+      metrics gain "scaled_entries" only when entry_size_scale is not None
+        (count of filled entries whose applied scale was < 1.0).
     """
     cfg = ExitConfig(
         take_profit_levels=tuple(params.get("take_profit_levels", (0.05, 0.10, 0.20))),
@@ -237,12 +253,27 @@ def run_backtest(prices: dict, params: dict,
 
     if fill_guard is None:
         buy_g = sell_g = None
+        guard_drops = 0                   # T-21: count buy-side drops (any guard)
     elif isinstance(fill_guard, dict):
         buy_g = _guard_arrays(fill_guard.get("buy"))
         sell_g = _guard_arrays(fill_guard.get("sell"))
+        guard_drops = 0
     else:
         buy_g = _guard_arrays(fill_guard)
         sell_g = buy_g
+        guard_drops = 0
+
+    # T-21 REGIME_ENFORCE additive: per-execution-day nominal scale
+    # (default None -> arr None -> legacy path byte-identical).
+    if entry_size_scale is None:
+        scale_arr = None
+    else:
+        _es = entry_size_scale
+        if isinstance(_es, dict):
+            _es = pd.Series(_es)
+        scale_arr = (_es.reindex(dates).astype(float)
+                     .fillna(1.0).clip(lower=0.0, upper=1.0).to_numpy())
+    scaled_entries = 0
 
     def _fillable(arrs: dict, sym: str, i: int) -> bool:
         if arrs is None:
@@ -279,6 +310,7 @@ def run_backtest(prices: dict, params: dict,
                 # P4-B2 buy rejection: unfilled at this open (e.g. sealed
                 # limit-up) -> order dropped, not retried on stale signal.
                 del pending_entries[sym]
+                guard_drops += 1
                 continue
             if strict_fills and not _real_bar(real_open_mask, sym, i):
                 # T-03-F2 strict_open_fills: suspension day (ffilled stale
@@ -293,6 +325,12 @@ def run_backtest(prices: dict, params: dict,
                 target_value = (cash + pos_val_now) * cfg.position_size_pct
             else:
                 target_value = initial_cash * cfg.position_size_pct
+            if scale_arr is not None:
+                # T-21 REGIME_ENFORCE: YELLOW-day nominal x0.5 (caller owns
+                # the decision-date causality; scale read at EXEC day).
+                target_value *= float(scale_arr[i])
+                if scale_arr[i] < 1.0:
+                    scaled_entries += 1
             if tier_v2 is None:
                 rate_buy = cost_rate   # legacy path (identical arithmetic)
             else:
@@ -463,6 +501,13 @@ def run_backtest(prices: dict, params: dict,
         # T-03-F6: dual-basis trade count (num_trades counts tranches;
         # num_entries counts distinct position opens).
         metrics["num_entries"] = num_entries
+    if fill_guard is not None:
+        # T-21: buy-side drops under any guard (new key only when a guard
+        # is supplied; the None path never emits it).
+        metrics["fill_guard_buy_dropped"] = guard_drops
+    if entry_size_scale is not None:
+        # T-21: filled entries whose nominal was scaled below 1.0.
+        metrics["scaled_entries"] = scaled_entries
     if stale_marks:
         # T-03-F2: NEW Sharpe field excluding stale-marked end-days.
         rets = equity.pct_change().tolist()

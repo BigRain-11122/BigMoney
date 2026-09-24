@@ -1,0 +1,67 @@
+{
+  "batch": "regime_enforce_wiring",
+  "ticket": "T-2026-09-24-21",
+  "class": "tool-validation",
+  "ledger_trials_added": 0,
+  "evidence_cutoff": "2026-09-23",
+  "G0": {
+    "pass": true,
+    "summary": "Summary: 23/23 PASS, 0 FAIL"
+  },
+  "G1a": {
+    "pass": true,
+    "determinism": true,
+    "noop_scale": true,
+    "noop_guard": true,
+    "keys_additive_only": true,
+    "half_scale_bites": true,
+    "guard_block_counts": true
+  },
+  "G2": {
+    "pass": true,
+    "init_day_match": true,
+    "days_match": true,
+    "state_counts_match": true,
+    "tail_match": true,
+    "replay_counts": {
+      "GREEN": 664,
+      "YELLOW": 772,
+      "ORANGE": 35,
+      "RED": 161
+    },
+    "recorded_counts": {
+      "GREEN": 664,
+      "YELLOW": 772,
+      "ORANGE": 35,
+      "RED": 161
+    }
+  },
+  "G3": {
+    "pass": true,
+    "first_row_open": true,
+    "pre_gate_legacy": true,
+    "gate_day_blocked": true,
+    "pre_gate_nominal": true,
+    "yellow_next_day_half": true,
+    "day_counts": true,
+    "pre_gate_window_noop": true
+  },
+  "G1b": {
+    "pass": true,
+    "diffs": "none",
+    "rc": 0
+  },
+  "G4": {
+    "pass": true,
+    "all_downgraded": true,
+    "window_metrics_parity": true,
+    "rc": 0
+  },
+  "G5": {
+    "anchor_x2_parity": true,
+    "structural": true,
+    "pass": true
+  },
+  "restore_rc": 0,
+  "verdict": "PASS"
+}

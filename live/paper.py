@@ -54,6 +54,9 @@ from strategies.composite_rotation import top_n_rotation
 import strategies.patterns as _pt_mod
 import strategies.ta as _ta_mod
 from scripts.science_gates import COST_X2_RATE, CostPatch  # T-03-F12 single source (re-exported for lfc/p3 importers)
+from scripts.regime_calibration import (  # T-21 s3.2 import-replay (no cache)
+    build_bench, bench_dim_series, breadth_series, raw_series, state_replay)
+from scripts.market_regime import raw_level_v3, resolve_state_v3
 
 OOS_START = "2025-01-01"        # registered evidence segment split (J7+)
 ANCHOR_TOL = 0.002             # project standard (J14/J15)
@@ -64,6 +67,12 @@ PAPER_LEVELS = ("INTERN", "TRAINEE")   # paper-tracked levels (TRADER+ -> live)
 REGIME_GUARD_STATE = os.path.join(PATHS.results_dir, "regime_state.json")
 REGIME_GUARD_APPROVAL = os.path.join(PATHS.results_dir,
                                      "regime_enforce_approved.json")
+# T-21 (REGIME_ENFORCE_WIRING s3.1 gate 2): O-1325 condition-2 month-boundary
+# lock -- HARD constant; paper-window dates on/after this day follow the v3
+# enforce response matrix (when all three gates are open), earlier window
+# dates stay legacy (no retroactive rewrite). Node self-rule excludes
+# changing the month boundary.
+ENFORCE_ACTIVE_FROM = "2026-10-01"
 
 # registered entry expressions -> signal builder(P) where P = panels dict
 # (composite rotation needs high/low/close); unknown key = hard abort
@@ -298,13 +307,18 @@ def monthly_aggregate(equity: pd.Series | None, initial_cash: float,
             "bars": int(len(equity)), "last_bar": str(cutoff)}
 
 
-def paper_run(t: dict, prices_full: dict, P: dict) -> dict:
+def paper_run(t: dict, prices_full: dict, P: dict,
+              regime_mask: dict | None = None) -> dict:
     """Fresh-portfolio paper window from hire date, closed bars only.
 
     Signal is computed on the full close history (warmup lookback uses
     PAST closes); the engine only trades window dates (its _injected
     reindexes the signal frame to engine dates -- pre-hire rows never
     enter the engine loop).
+
+    T-21 regime_mask (None = legacy, zero change): dict from
+    _enforce_mask -- buy_fillable gates new-entry FILLS (P4-B2 drop
+    semantics, exits untouched), scale halves YELLOW-day nominals.
     """
     entry = SIGNAL_BUILDERS[t["params"]["entry"]](P)
     ps = pd.Timestamp(t["created"])
@@ -313,9 +327,16 @@ def paper_run(t: dict, prices_full: dict, P: dict) -> dict:
         return {"bars": 0, "equity": None, "metrics": None, "trades": []}
     window = {s: df[df.index >= ps] for s, df in prices_full.items()}
     params = {k: v for k, v in t["params"].items() if k != "entry"}
+    guard = None
+    scale = None
+    if regime_mask is not None:
+        guard = {"buy": pd.DataFrame(
+            {s: regime_mask["buy_fillable"] for s in window})}
+        scale = regime_mask["scale"]
     with ExitPatch(t.get("exit_overrides")):
         res = run_backtest(window, params, entry_signal=entry,
-                           exit_signal=(entry <= 0))
+                           exit_signal=(entry <= 0),
+                           fill_guard=guard, entry_size_scale=scale)
     idx = P["close"].index
     widx = idx[idx >= ps][:len(res["equity_curve"])]
     eq = pd.Series(res["equity_curve"], index=widx)
@@ -395,38 +416,99 @@ def _append_x2_watch_log(entry: dict) -> None:
         fh.write(json.dumps(entry, ensure_ascii=False, default=str) + "\n")
 
 
+def _load_approval() -> dict | None:
+    if not os.path.exists(REGIME_GUARD_APPROVAL):
+        return None
+    try:
+        with open(REGIME_GUARD_APPROVAL, encoding="utf-8") as fh:
+            appr = json.load(fh)
+    except (OSError, ValueError):
+        return None
+    return appr if isinstance(appr, dict) else None
+
+
+def v3_state_series() -> pd.Series:
+    """T-21 s3.2: v3 state series via import-replay of the calibration
+    primitives (frozen seed: init at last pre-2020 day, resolve_state_v3).
+    Live data is re-replayed on every call -- no cache, no second state
+    store (bit-consistency with the calibration batch is gate G2)."""
+    bench = build_bench()
+    ds = bench_dim_series(bench)
+    br = breadth_series(bench)
+    raw = raw_series(bench, ds, br, level_fn=raw_level_v3)
+    states, _streaks, _init = state_replay(bench, raw,
+                                           resolver=resolve_state_v3)
+    return pd.Series(states).sort_index()
+
+
+def _enforce_mask(states: pd.Series, panel_index: pd.DatetimeIndex,
+                  active_from: str = ENFORCE_ACTIVE_FROM) -> dict:
+    """T-21 s3.3: response-matrix mask for the paper window.
+
+    Decision causality (no look-ahead): the state known at exec day E's
+    open is the state resolved at the PRIOR close (E-1). buy_fillable(E)
+    = state(E-1) not in {ORANGE, RED}; scale(E) = 0.5 iff state(E-1) ==
+    YELLOW else 1.0. The matrix applies to exec days ON/after active_from
+    only -- earlier window dates stay legacy (single semantics switch
+    point, no retroactive rewrite; deterministic on every rerun).
+
+    states are resolved on bench (510300) dates; panel-only dates (a
+    bench date absent from the panel) inherit the last known state -- the
+    state machine is a step function, ffill is its persistence, disclosed.
+    """
+    af = pd.Timestamp(active_from)
+    st = states.reindex(panel_index).ffill()
+    blocked = st.isin(["ORANGE", "RED"])          # decision-day state
+    yellow = st == "YELLOW"
+    # decision day T -> execution day T+1 (next panel row): shift(1);
+    # first row has no prior decision -> not blocked / scale 1.0.
+    blocked_exec = blocked.shift(1, fill_value=False)
+    yellow_exec = yellow.shift(1, fill_value=False)
+    on_or_after = pd.Series(panel_index >= af, index=panel_index)
+    blocked_exec = (blocked_exec & on_or_after).astype(bool)
+    yellow_exec = (yellow_exec & on_or_after).astype(bool)
+    scale = pd.Series(1.0, index=panel_index)
+    scale[yellow_exec] = 0.5
+    return {"buy_fillable": (~blocked_exec).astype(bool),
+            "scale": scale,
+            "yellow_exec_days": int(yellow_exec.sum()),
+            "blocked_exec_days": int(blocked_exec.sum())}
+
+
 def regime_guard_context(mode: str | None = None) -> dict:
-    """T-05 deliverable (3): additive regime-guard context for paper state.
+    """T-05 (3) + T-21 additive upgrade: regime-guard context for paper.
 
     'shadow' (default; env BIGMONEY_REGIME_GUARD): log-only -- the block
     rides along in results/paper/<TID>_paper.json, ZERO behavior change
     (engine, sizing, entries, anchor gate untouched).
-    'enforce': hard-refused unless results/regime_enforce_approved.json
-    carries calibration_pass AND gm_approval -- and even then the response
-    wiring is a separate signed item (REGIME_GUARD s3 + T-05 ticket: OFF
-    until calibration passes + GM approval; calibration v1/v2 = honest
-    FAIL as of 2026-09-24, so enforce is structurally OFF)."""
+    'enforce' (T-21 s3.1 three-gate): legal state since O-20260924-1325
+    (CEO approved the v3 enforce proposal; approval file
+    results/regime_enforce_approved.json delivered with T-21). Gates:
+      1. approval file present with calibration_pass AND gm_approval;
+      2. date gate ENFORCE_ACTIVE_FROM (2026-10-01) -- enforced per
+         window exec date by _enforce_mask; requests whose whole window
+         predates the gate = honest downgrade to shadow + gate_note;
+      3. env BIGMONEY_REGIME_GUARD stays the request channel -- default
+         'shadow' keeps every machine without the env at zero change.
+    The pre-T-21 double-refusal ('approved but wiring is a separate signed
+    item') is SUPERSEDED by the batch per prereg s3.1."""
     mode = mode or os.environ.get("BIGMONEY_REGIME_GUARD", "shadow")
     if mode not in ("shadow", "enforce"):
         raise SystemExit(f"regime_guard: unknown mode {mode!r} (shadow|enforce)")
     if mode == "enforce":
-        appr = None
-        if os.path.exists(REGIME_GUARD_APPROVAL):
-            try:
-                with open(REGIME_GUARD_APPROVAL, encoding="utf-8") as fh:
-                    appr = json.load(fh)
-            except (OSError, ValueError):
-                appr = None
-        if not (isinstance(appr, dict) and appr.get("calibration_pass")
+        appr = _load_approval()
+        if not (appr and appr.get("calibration_pass")
                 and appr.get("gm_approval")):
             raise SystemExit(
                 "regime_guard enforce REFUSED: requires calibration PASS + GM "
-                "approval (results/regime_enforce_approved.json). Calibration "
-                "v1/v2 = honest FAIL (REGIME_GUARD_VALIDATION*) -- enforce "
-                "stays OFF (REGIME_GUARD s3 / T-05 ticket).")
-        raise SystemExit(
-            "regime_guard enforce approved, but response wiring is a separate "
-            "signed item -- refusing to run paper under enforce (T-05 scope).")
+                "approval (results/regime_enforce_approved.json; "
+                "calibration_pass + gm_approval). Absent/incomplete approval "
+                "-> enforce stays OFF (REGIME_GUARD s3 / T-21 gate 1).")
+        return {"mode": "enforce", "approved": True,
+                "active_from": ENFORCE_ACTIVE_FROM,
+                "note": "v3 response matrix wired (T-21); per-date semantics "
+                        "governed by the date gate -- pre-active_from window "
+                        "dates stay legacy"}
     st = {}
     if os.path.exists(REGIME_GUARD_STATE):
         try:
@@ -444,13 +526,19 @@ def regime_guard_context(mode: str | None = None) -> dict:
 
 def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
                   data_cutoff: str, regime: dict,
-                  rg: dict | None = None) -> dict:
+                  rg: dict | None = None, regime_mask: dict | None = None,
+                  v3_states: pd.Series | None = None) -> dict:
     """Full pipeline for one trader. Returns the state dict; writes only
-    when the anchor gate passes (trader JSON never touched on drift)."""
+    when the anchor gate passes (trader JSON never touched on drift).
+
+    T-21 A-track iron law: anchor_gate and cost_x2_check NEVER receive
+    regime_mask / any masking (registration-frame comparisons stay
+    same-frame); x2 registration-period seed stays legacy. Only the
+    paper_run accounting window carries the enforce response matrix."""
     anchor = anchor_gate(t, prices_full)
     if not anchor["ok"]:
         return {"trader": t["id"], "anchor_ok": False, "anchor": anchor}
-    run = paper_run(t, prices_full, P)
+    run = paper_run(t, prices_full, P, regime_mask=regime_mask)
     agg = monthly_aggregate(run["equity"], INITIAL_CASH, t["created"])
     x2 = cost_x2_check(t, prices_full, P, vi_bar)
     bt_x2 = (t.get("backtest") or {}).get("cost_x2") or {}
@@ -459,7 +547,7 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
             if (bt_x2.get("sharpe") is not None and vi_bar is not None) else None)
     watch = x2_watch_verdict(x2, seed=seed)
     _append_x2_watch_log({"ts": time.strftime("%Y-%m-%d %H:%M:%S"),
-                           "trader": t["id"], **watch})
+                          "trader": t["id"], **watch})
     t["paper"] = {"months_tracked": agg["months_tracked"],
                   "monthly_returns": agg["monthly_returns"],
                   "current_dd": agg["current_dd"],
@@ -468,6 +556,39 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
                   "x2_watch": {**watch,
                                "as_of": time.strftime("%Y-%m-%d")}}
     save_trader(t)
+    guard_block = (rg if rg is not None else
+                   {"mode": "shadow", "state": None,
+                    "note": "context unavailable (T-05 default block)"})
+    if regime_mask is not None:
+        # T-21 s3.4 dual-track block: enforced counters + shadow reference.
+        af = pd.Timestamp(ENFORCE_ACTIVE_FROM)
+        widx = P["close"].index
+        wd = widx[widx >= pd.Timestamp(t["created"])]
+        m = run["metrics"] or {}
+        days_enforced = int((wd >= af).sum())
+        tail = None
+        if v3_states is not None and len(wd):
+            tail_s = v3_states.reindex(wd).ffill()
+            tail = {str(d.date()): s for d, s in tail_s.tail(10).items()}
+        sh = (rg if isinstance(rg, dict) and rg.get("mode") == "shadow"
+              else {})
+        guard_block = {
+            "mode": "enforce", "active": bool(days_enforced > 0),
+            "active_from": ENFORCE_ACTIVE_FROM,
+            "gate_note": None if days_enforced else
+                f"date gate not yet open (active_from={ENFORCE_ACTIVE_FROM}) "
+                "-- window exec dates all legacy, honest downgrade to "
+                "shadow semantics",
+            "v3_state_tail": tail,
+            "enforced": {"active_from": ENFORCE_ACTIVE_FROM,
+                         "days_enforced": days_enforced,
+                         "entries_blocked": m.get("fill_guard_buy_dropped", 0),
+                         "entries_halved": m.get("scaled_entries", 0)},
+            "shadow_ref": {"state": sh.get("state"),
+                           "asof": sh.get("asof")},
+            "note": "v3-enforced paper window (T-21); exits never forced; "
+                    "RED new-cash parking is structurally inert in paper "
+                    "(fixed INITIAL_CASH) -- live-gate concern, disclosed"}
     return {"trader": t["id"], "anchor_ok": True, "anchor": anchor,
             "paper_start": t["created"], "bars": agg["bars"],
             "months_tracked": agg["months_tracked"],
@@ -479,9 +600,7 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
             "risk_regime": {"is_major_bear": regime["is_major_bear"],
                             "position_cap": regime["position_cap"],
                             "as_of": regime["as_of"]},
-            "regime_guard": rg if rg is not None else
-                {"mode": "shadow", "state": None,
-                 "note": "context unavailable (T-05 default block)"},
+            "regime_guard": guard_block,
             "no_future_data": "closed bars only; signal T close -> T+1 open "
                               "(engine contract)"}
 
@@ -581,9 +700,11 @@ def _selftest_x2_watch() -> bool:
 
 
 def _selftest_regime_guard() -> bool:
-    """T-05 (3): shadow block from synthetic state file; state-file-absent
-    honest; enforce refused without approval AND with approval (wiring =
-    separate signed item); unknown mode refused. Offline path-swap only."""
+    """T-05 (3) + T-21: shadow block from synthetic state file; state-file
+    absent honest; enforce three-gate resolution (no approval / incomplete
+    approval = refuse; full approval = legal enforce context); mask
+    builder shift/active-from/no-lookahead fixtures; unknown mode refused.
+    Offline path-swap only (no data loads)."""
     import shutil
     import tempfile
     global REGIME_GUARD_STATE, REGIME_GUARD_APPROVAL
@@ -604,26 +725,57 @@ def _selftest_regime_guard() -> bool:
         blk = regime_guard_context()
         ok &= (blk["mode"] == "shadow" and blk["state"] == "ORANGE"
                and blk["asof"] == "2026-09-23" and blk["days_in_state"] == 1)
-        # C: enforce without approval -> hard refuse
+        # C: enforce without approval -> hard refuse (gate 1)
         try:
             regime_guard_context("enforce")
             ok &= False
         except SystemExit:
             pass
-        # D: enforce WITH approval -> still refused (wiring = separate item)
+        # D (T-21): approval present but incomplete (gm_approval missing)
+        # -> still refuse (gate 1 completeness)
         with open(REGIME_GUARD_APPROVAL, "w", encoding="utf-8") as fh:
-            json.dump({"calibration_pass": True, "gm_approval": True}, fh)
+            json.dump({"calibration_pass": True}, fh)
         try:
             regime_guard_context("enforce")
             ok &= False
         except SystemExit:
             pass
-        # E: unknown mode -> refuse
+        # E (T-21 supersedes T-05 double-refusal): FULL approval ->
+        # enforce is a legal context; date gate is per-window (main).
+        with open(REGIME_GUARD_APPROVAL, "w", encoding="utf-8") as fh:
+            json.dump({"calibration_pass": True, "gm_approval": True,
+                       "active_from": ENFORCE_ACTIVE_FROM}, fh)
+        blk = regime_guard_context("enforce")
+        ok &= (blk["mode"] == "enforce" and blk["approved"] is True
+               and blk["active_from"] == ENFORCE_ACTIVE_FROM)
+        # F: unknown mode -> refuse
         try:
             regime_guard_context("banana")
             ok &= False
         except SystemExit:
             pass
+        # G (T-21 s3.3 mask fixtures): decision-day state gates the NEXT
+        # session's fill; matrix applies to exec days on/after active_from
+        # only; first panel row has no prior decision -> never blocked.
+        idx = pd.bdate_range("2026-09-25", "2026-10-09")
+        states = pd.Series("GREEN", index=idx)
+        states.loc["2026-09-28"] = "ORANGE"   # pre-gate decision -> pre-gate exec
+        states.loc["2026-09-30"] = "ORANGE"   # pre-gate decision -> gate-day exec
+        states.loc["2026-10-05"] = "YELLOW"   # post-gate yellow -> next-day x0.5
+        m = _enforce_mask(states, idx, active_from="2026-10-01")
+        ok &= bool(m["buy_fillable"].iloc[0])            # no prior decision
+        ok &= bool(m["buy_fillable"].loc["2026-09-29"])   # pre-gate legacy
+        ok &= not bool(m["buy_fillable"].loc["2026-10-01"])  # gate day, state ORANGE
+        ok &= bool(m["scale"].loc["2026-09-29"] == 1.0)   # pre-gate nominal
+        ok &= bool(m["scale"].loc["2026-10-06"] == 0.5)   # YELLOW decision 10-05
+        ok &= m["blocked_exec_days"] == 1 and m["yellow_exec_days"] == 1
+        # H: whole window pre-gate -> mask is an exact no-op (downgrade path)
+        idx2 = pd.bdate_range("2026-09-23", "2026-09-30")
+        m2 = _enforce_mask(pd.Series("ORANGE", index=idx2), idx2,
+                           active_from="2026-10-01")
+        ok &= (m2["blocked_exec_days"] == 0 and m2["yellow_exec_days"] == 0
+               and bool(m2["buy_fillable"].all())
+               and bool((m2["scale"] == 1.0).all()))
     finally:
         REGIME_GUARD_STATE, REGIME_GUARD_APPROVAL = real_state, real_appr
         shutil.rmtree(tmp, ignore_errors=True)
@@ -717,12 +869,41 @@ def main(argv=None) -> int:
     data_cutoff = str(P["close"].index[-1].date())
     vi_bar = load_vi_bar()
     regime = regime_report()   # R-配3 portfolio gate context (O-1820), report-only in paper domain
-    rg = regime_guard_context()   # T-05 (3): additive shadow block (enforce refused)
+    rg = regime_guard_context()   # T-05 (3) + T-21: shadow default / enforce 3-gate
+    rg_shadow = (regime_guard_context("shadow") if rg.get("mode") == "enforce"
+                 else rg)          # T-21 s3.4: v1 live state for shadow_ref
+    regime_mask = None
+    v3_states = None
+    if rg.get("mode") == "enforce":
+        af = pd.Timestamp(ENFORCE_ACTIVE_FROM)
+        if P["close"].index[-1] < af:
+            # date gate not yet open for the whole window: honest downgrade
+            # -- pure legacy call (byte-identical accounting), block records it.
+            rg = dict(rg, active=False,
+                      enforced={"active_from": ENFORCE_ACTIVE_FROM,
+                               "days_enforced": 0, "entries_blocked": 0,
+                               "entries_halved": 0},
+                      gate_note=f"date gate not yet open "
+                      f"(active_from={ENFORCE_ACTIVE_FROM}) -- downgrade to "
+                      "shadow semantics until the window reaches the gate")
+            print(f"regime_guard: enforce requested, DOWNGRADED to shadow "
+                  f"semantics (date gate {ENFORCE_ACTIVE_FROM})")
+        else:
+            v3_states = v3_state_series()
+            regime_mask = _enforce_mask(v3_states, P["close"].index)
+            print(f"regime_guard: ENFORCE active from {ENFORCE_ACTIVE_FROM} "
+                  f"(window masked exec days: blocked="
+                  f"{regime_mask['blocked_exec_days']}, yellow="
+                  f"{regime_mask['yellow_exec_days']})")
     print(f"universe: {len(prices_full)} ETFs, data through {data_cutoff}")
     print(f"regime: major_bear={regime['is_major_bear']} "
           f"cap={regime['position_cap']} (close<MA250={regime['below_ma250']}, "
           f"dd={regime['dd_from_250d_high']})")
-    print(f"regime_guard: {rg['mode']} state={rg['state']} asof={rg['asof']}")
+    print(f"regime_guard: {rg['mode']}"
+          + (f" state={rg.get('state')} asof={rg.get('asof')}"
+             if rg.get("mode") == "shadow" else
+             (f" active_from={ENFORCE_ACTIVE_FROM}"
+              f" active={rg.get('active', True)}")))
 
     ok_all = True
     paper_dir = os.path.join(PATHS.results_dir, "paper")
@@ -733,7 +914,9 @@ def main(argv=None) -> int:
         t = load_trader(path.stem)
         if t.get("level") not in PAPER_LEVELS:
             continue
-        state = update_trader(t, prices_full, P, vi_bar, data_cutoff, regime, rg)
+        state = update_trader(t, prices_full, P, vi_bar, data_cutoff, regime,
+                              rg_shadow if regime_mask is not None else rg,
+                              regime_mask=regime_mask, v3_states=v3_states)
         if not state["anchor_ok"]:
             ok_all = False
             print(f"{t['id']}: ANCHOR DRIFT -- trader JSON untouched")

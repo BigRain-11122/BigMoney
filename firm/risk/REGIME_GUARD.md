@@ -53,3 +53,14 @@
 `fleet/tasks/T-2026-09-23-05-P1.json`：(1) scripts/market_regime.py 探测器（shadow 写 regime_state.json·selftest·原子写·**复用 firm/risk/regime.py 的 load_benchmark_close() 与 major_bear_state() 作 R-配3 维度唯一实现源**）→ (2) 校准批预注册+跑 → (3) live/paper.py additive flag `regime_guard`（默认 shadow=只记录；enforce 模式独立开关，校准过门后另批启用）→ (4) build_status 面板加行情状态行 → (5) science_audit 第 6 检接线。
 
 —— O-20260923-2315 执行体：quant 专管 GM 会话 · 2026-09-23 23:10
+## §6 enforcement-state（T2·O-20260924-1325 批准链·否决窗至 2026-10-02）
+
+1. **批准链**：v1 校准 FAIL（R+O 61.6%）→ v2 FAIL（26.53%）→ **v3 三门 PASS**（拧法 B=RED 首绿释放 + C=橙级多维确认，阈值零改动；`results/regime_calibration_v3.json`）→ CEO 令 **O-20260924-1325** 批准 enforce 提案（三条件随行）→ 实装票 T-2026-09-24-21（bm-b·research/REGIME_ENFORCE_WIRING.md）→ 接线验收 G0-G5 全 PASS（`results/regime_enforce_gates.json`）。
+2. **G2 低统计力注记（§4.2 小样本标注条款原文触发，逐字随节）**：ORANGE 回合数=1（main=1 < 8）——G2 为机械 PASS，橙级误报率 0.0% 系单回合样本，统计力不足；本 PASS 判定不因小样本回撤，但提案裁决必须知情此点。本注记逐字随票、随本预注册、随法文件 enforcement-state 节；10-31 首月包必报 v3-enforced 纸盘增量 vs shadow 增量（诚实双轨）；月度裁决窗直至 2026-10-02（7 天否决窗延续）。
+3. **激活门**：`ENFORCE_ACTIVE_FROM=2026-10-01`（硬常量月界锁；与 T-20 PAPER_GUARD_DUAL_RAIL 同月界同落=单一语义切换点，禁月中双切；滑期=两件同步升级 GM）。三重门=批准件（`results/regime_enforce_approved.json`：calibration_pass+gm_approval+active_from+注记 verbatim）+ 日期门 + 环境变量 `BIGMONEY_REGIME_GUARD`（请求通道；默认 shadow=他机/无环境零行为变化）。
+4. **paper 域响应矩阵映射**（预注册 §3.3）：ORANGE/RED 决策日→次一执行日停开新仓（引擎 fill_guard 买拒单 P4-B2 语义逐字：pending 丢弃不重试；卖出/退出机零触碰=**红不强平既有仓**）；YELLOW 决策日→次一执行日新仓名义 ×0.5（paper 域单次入场制无加仓路径，如实注记）；RED 新资金现金停泊=paper 域结构性惰性（INITIAL_CASH 固定，无新增资金流）＝实盘执行闸门关切，非本节实现面。决策日状态门控次一执行日成交（无未来数据：执行日只读先一日收盘已知状态）。
+5. **A 轨铁律**：anchor_gate 与 cost_x2_check 永不接收掩蔽（x2 注册期种子恒 legacy=同帧对照）；hr.py / firm/traders 注册字段零触碰；live 探测器（scripts/market_regime.py probe）维持 v1 shadow DARK——v3 实切=GM 交付后复核独立动作，非本节运行时效果。
+6. **双轨记录**（过渡期 1 个月）：paper JSON `regime_guard` 块并行携带 `enforced` 计数器（days_enforced/entries_blocked/entries_halved）与 `shadow_ref`（v1 live 现值）；10-31 首月包必报 v3-enforced vs shadow 增量。
+7. **C6 联动**：月度科学审计第 6 检覆盖 enforce 后响应与状态一致性——v3 未动 THRESHOLDS 字典（阈值零改动），C6 应保持绿；如红修联动面非阈值。
+
+— END enforcement-state：bm-b T-2026-09-24-21（REGIME_ENFORCE_WIRING）· 2026-09-24 round 99

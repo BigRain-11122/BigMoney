@@ -79,3 +79,16 @@ paper JSON `regime_guard` 块加性升级：`{mode, active, gate_note, v3_state_
 
 - 实现轮=本件逐字执行；任一门红=修实现禁改判据；滑期=与 T-20 同步 defer+升级 GM（O-1325 条件 2）。
 - 他机禁自启 enforce 接线（MSG-1305-ALL 在效）；本批产物落账=票据 done+result_ref。
+## §7 实现与验收留痕（跑后回填）
+
+**实现轮=r99（bm-b，2026-09-24）——全弧一次定稿，G0-G5 全 PASS。**
+
+- **引擎加性件**（engine/backtester.py，O-2250 加性铁律）：`entry_size_scale`（date-indexed Series，执行日名义乘子，作用于 sizing 基数之后/成本 v2 ADV 帽之前；缺失日=1.0；clip[0,1]——响应矩阵只减半不加杠杆）+ `fill_guard_buy_dropped` 计数器（任何 fill_guard 在场时 metrics 增键，None 路径永不发射）+ `scaled_entries`（scale<1 成交计数）。legacy 逐字节不变实证=G1a noop 等价（全 1 scale/全 True 守卫=行为与基线全同）+ G1b 生产双跑字段级奇偶。
+- **paper 接线**（live/paper.py）：`_load_approval`/`v3_state_series`（§3.2 import-replay：build_bench→bench_dim_series→breadth_series→raw_series(raw_level_v3)→state_replay(resolve_state_v3)，冻结种子，无缓存）/`_enforce_mask`（决策日状态门控次一执行日：buy_fillable(E)=state(E-1)∉{ORANGE,RED}；scale(E)=0.5 iff state(E-1)=YELLOW；**执行日 ≥ ENFORCE_ACTIVE_FROM 才适用=月界前窗口日期恒 legacy 禁追溯改写**；首行无先决=不拦）/`regime_guard_context` 三重门（批准件完整性硬拒→enforce 合法态；**T-05 双拒语义正式取代**）/`update_trader` 双轨块（enforced 计数器+shadow_ref+gate_note）/main 降级路径（窗口末日 < 日期门=纯 legacy 调用+块记录降级注记）。
+- **批准件交付**：results/regime_enforce_approved.json（calibration_pass 引 v3 三门 PASS+gm_approval 引 O-20260924-1325+active_from=2026-10-01+**§2 注记逐字**+co-landing 声明+反事实证据链）。
+- **S6 请求通道接线**：iteration_prompt.txt live.paper 步改「先设 `$env:BIGMONEY_REGIME_GUARD='enforce'` 再跑」——三机经 git 同享同一请求+同一批准件+同一日期门=语义确定性（防他机无请求→paper JSON 掩蔽/未掩蔽互相覆写漂移）；日期门未开期该请求被诚实降级=零行为变化（G4 实证）。
+- **法文件**：REGIME_GUARD.md §6 enforcement-state（批准链/注记逐字/激活门/响应矩阵映射/A 轨/双轨/C6 七条）；iron_rules.md 指针括注同步（数值零改动）。
+- **验收**（scripts/regime_enforce_gates.py → results/regime_enforce_gates.json，verdict=PASS）：G0 smoke 23/23；G1a 引擎加性旗标六断言（确定性/全1无操作/全真无操作/键只增/半缩咬合 qty 490.82=981.65/2/买拒计数）；G1b shadow 生产双跑字段级奇偶（ex 墙钟 updated）；**G2 v3 重放 bit 一致**（1632 日窗口全量重放 vs 校准批记录：GREEN 664/YELLOW 772/ORANGE 35/RED 161 逐位、init 2019-12-31 在位、tail=2026-09-23）；G3 掩蔽语义 fixture 七断言；G4 降级路径真数据实弹（env=enforce 全跑：6 员块全降级、days_enforced=0/entries_blocked=0、窗口指标与 shadow 跑逐字段一致、退出码 0）；G5 A 轨（anchor/cost_x2 块跨模式逐字段相同+结构断言 mask 只达 paper_run）；收尾恢复 shadow 正典文件。
+- **C6 联动核验**：science_audit run 6/6 OK（阈值零改动预期兑现，C6 绿）。
+- **x2 腿口径裁定（如实披露）**：cost_x2_check 维持 legacy 语义帧——x2 看护对照的注册期种子恒 legacy（§3.3 A 轨行），滚动腿同帧对照才保 probation 信号效度；enforce 掩蔽只落 paper_run 记账面。T-20（bm-a 在制）B 轨按其预注册另行接规则守卫腿，两轴正交、各自披露。
+- **坑三条（入册）**：⑴ PS 双引号内 `$env:VAR` 被 PowerShell 变量展开吞名（python -c 内联坑族新变体：变量展开型，非转义型）——**含 `$` 的内联 python 一律临时件**；⑵ noop 等价断言必须剔除加性披露键（scaled_entries/fill_guard_buy_dropped 是「旗标在场即增键」的设计行为，整 dict 比较必假红——判据=行为等价非键集等价）；⑶ qty 粒度 round(,2) 决定半缩断言容差 0.01（1e-9 必假红，J18 自洽坑族新例）。G1a/G2 首跑红=门 fixture 实现层，按「修实现禁改判据」修复后四跑全绿。
