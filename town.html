@@ -345,6 +345,7 @@ const BUILDS = [
       : '<div class="row dim">暂无在册交易员</div>')
       + ((D.trading.paper||{}).first_check ? '<div class="row">模拟盘首月：进度 <span class="green">'+Math.round(100*(D.trading.paper.month_progress??0))+'%</span> · 晋升检查日 '+D.trading.paper.first_check+' · 已计 '+D.trading.paper.months_tracked+' 月</div>' : '')
       + ((D.trading.paper||{}).x2_probation ? '<div class="row">×2 看护：<span class="gold">'+D.trading.paper.x2_probation+' 员在护</span> · '+(D.trading.paper.x2_probation_names||[]).join(' ')+' · 剃刀线随新bar滚动</div>' : '')
+      + ((D.trading.scorecard||{}).present ? '<div class="row">P-6 记分卡：最优 <span class="gold">'+D.trading.scorecard.best.id+' '+D.trading.scorecard.best.grade+' '+Number(D.trading.scorecard.best.total).toFixed(2)+'</span> · S×'+((D.trading.scorecard.grade_counts||{}).S||0)+' A×'+((D.trading.scorecard.grade_counts||{}).A||0)+' B×'+((D.trading.scorecard.grade_counts||{}).B||0)+' C×'+((D.trading.scorecard.grade_counts||{}).C||0)+'</div>' : '<div class="row dim">P-6 记分卡待产出（python scripts/scorecard.py）</div>')
       + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
   { id:'pf', x:176, y:236, w:80, h:48, draw:drawPortfolio, label:'组合调度中心',
     dept:'组合与资金部 Portfolio & Capital', mandate:'组合构建 EW→IV · 相关性监控 · R-配3 帽应用层 · 现金腿（Phase 1）',

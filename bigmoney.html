@@ -61,6 +61,8 @@
   .trader { display: grid; grid-template-columns: 16px 1fr auto auto; gap: 6px; align-items: center;
             background: #1d222c; padding: 4px 6px; margin: 3px 0; }
   .trader img { width: 16px; height: 16px; image-rendering: pixelated; }
+  .sc-line { font-size: 11px; background: #1d222c; border-left: 2px solid #e8c15a;
+             padding: 4px 6px; margin: 3px 0; }
 
   .ev { font-size: 11px; padding: 3px 0; border-bottom: 1px dashed #1d222c; }
   .ev .t { color: #7a8494; }
@@ -183,11 +185,15 @@ function render(D) {
 
   const trs = D.trading.traders;
   const probIds = (D.trading.paper||{}).x2_probation_names || [];
-  $('traders').innerHTML = trs.length
+  const sc = D.trading.scorecard || {}, scg = sc.grade_counts || {};
+  const scRow = sc.present
+    ? `<div class="sc-line">P-6 记分卡 · 最优 <span class="gold">${((sc.best||{}).id)||'—'}</span> ${((sc.best||{}).grade)||''} ${((sc.best||{}).total!=null)?Number(sc.best.total).toFixed(2):'—'} · S×${scg.S||0} A×${scg.A||0} B×${scg.B||0} C×${scg.C||0}<span class="dim"> · ${(sc.generated||'').slice(5,10)}</span></div>`
+    : `<div class="dim" style="font-size:10px;padding:2px 0">P-6 记分卡待产出（python scripts/scorecard.py）</div>`;
+  $('traders').innerHTML = scRow + (trs.length
     ? trs.map(t => `<div class="trader"><img src="${SPRITE[LEVEL_SPRITE[t.level]||'slime']}">
         <span>${t.name||t.id}<br><span class="dim" style="font-size:10px">IS ${fmt(t.is_sharpe)} · OOS ${fmt(t.oos_sharpe)}<br>${t.oos_trades}笔 · ×2成本 ${fmt(t.cost_x2_sharpe)} ${t.cost_x2_survive?'存活':'阵亡'}${probIds.includes(t.id)?'<span class="cyan"> ·在护</span>':''}<br>paper ${(t.paper_months??0)}月</span></span>
         <span class="gold">${t.level}</span></div>`).join('')
-    : `<div class="dim" style="padding:6px 0">暂无在册交易员。<br>策略工厂（Job#7）产出过线策略后，第一批交易员将持证上岗。</div>`;
+    : `<div class="dim" style="padding:6px 0">暂无在册交易员。<br>策略工厂（Job#7）产出过线策略后，第一批交易员将持证上岗。</div>`);
 
   $('levels').innerHTML = D.trading.levels.map((lv,i) =>
     `<div class="lvl ${i===0?'cur':''}"><img src="${SPRITE[LEVEL_SPRITE[lv]]}">
