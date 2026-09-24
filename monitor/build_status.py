@@ -1275,10 +1275,11 @@ def _traders() -> list:
 
 def _prospect_state() -> dict:
     """T-24 PROSPECT pool line: observation members (level=PROSPECT in
-    firm/traders) + anchor-repro batch state. Distinct from the
+    firm/traders) + anchor-repro batch state + paper-tracking lane state
+    (slice-a: results/prospect_paper/_summary.json). Distinct from the
     registered 6 by construction (allocation permanently 0)."""
     out = {"count": 0, "ids": [], "anchor_pass": None, "anchor_complete": None,
-           "batch": "none"}
+           "batch": "none", "paper": None}
     d = os.path.join(PATHS.root, "firm", "traders")
     for f in sorted(os.listdir(d)):
         if not f.endswith(".json") or f.startswith("_"):
@@ -1292,6 +1293,15 @@ def _prospect_state() -> dict:
         out["anchor_pass"] = b.get("n_pass")
         out["anchor_complete"] = b.get("complete")
         out["batch"] = b.get("batch", "none")
+    s = _read_json(os.path.join(PATHS.results_dir, "prospect_paper",
+                                "_summary.json"))
+    if s:
+        out["paper"] = {"n_pass": s.get("n_pass"),
+                        "n_drift": s.get("n_drift"),
+                        "months_total": s.get("months_total"),
+                        "data_cutoff": s.get("data_cutoff"),
+                        "generated": s.get("generated"),
+                        "window_semantics": s.get("window_semantics")}
     return out
 
 
@@ -1528,10 +1538,16 @@ def build() -> dict:
     _pros = payload["trading"]["prospect"]
     if _pros["count"]:
         _anch = "?" if _pros["anchor_pass"] is None else _pros["anchor_pass"]
+        _trk = ""
+        if _pros.get("paper"):
+            _trk = (f" · 纸面跟踪道已接线（过 {_pros['paper']['n_pass']}"
+                    f"/{_pros['count']}·漂移 {_pros['paper']['n_drift']}"
+                    f"·月账累积 {_pros['paper']['months_total']}）")
         payload["events"].insert(2, {
             "time": "-", "text": f"PROSPECT 观察池 {_pros['count']} 员入场（T-24 首批，配置恒 0）· "
                                  f"anchor-repro {_anch}/{_pros['count']} 通过"
                                  + ("" if _pros["anchor_complete"] else "（批在途）")
+                                 + _trk
                                  + "· 晋升 INTERN 须全 G2+T-22 0.70 门禁不放宽"})
     if paper["started"]:
         payload["events"].insert(2, {

@@ -1,0 +1,59 @@
+{
+  "trader": "PROS-BBS-01",
+  "anchor_ok": true,
+  "anchor": {
+    "pass": true,
+    "checks": {
+      "full_sharpe": true,
+      "oos_sharpe": true,
+      "x2_full_sharpe": true,
+      "n_trades": true,
+      "oos_trades": true,
+      "max_dd": true
+    },
+    "got": {
+      "full_sharpe": 0.2386,
+      "oos_sharpe": 0.5315,
+      "x2_full_sharpe": -0.118,
+      "n_trades": 672,
+      "oos_trades": 167,
+      "max_dd": -0.1342
+    }
+  },
+  "evidence_cutoff": "2026-09-22",
+  "cutoff": "2026-09-23",
+  "updated": "2026-09-24 18:53:58",
+  "paper_start": "2026-09-24",
+  "bars": 0,
+  "months_tracked": 0,
+  "monthly_returns": [],
+  "current_dd": 0.0,
+  "months_detail": [],
+  "window_metrics": null,
+  "recorded_evidence": {
+    "recorded_full_sharpe": 0.2386,
+    "recorded_oos_sharpe": 0.5315,
+    "recorded_x2_full_sharpe": -0.118,
+    "recorded_n_trades": 672,
+    "recorded_oos_trades": 167,
+    "recorded_max_dd": -0.1342
+  },
+  "regime_guard": {
+    "mode": "shadow",
+    "state": "ORANGE",
+    "state_cn": "橙·高危",
+    "asof": "2026-09-23",
+    "raw_level": "ORANGE",
+    "days_in_state": 1,
+    "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
+  },
+  "forward_guard": {
+    "enabled": true,
+    "guard_source": "t14_rules_fidelity.build_guard",
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "window_semantics": "guarded"
+  },
+  "allocation_pct": 0,
+  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
+}
