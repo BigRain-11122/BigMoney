@@ -1,0 +1,94 @@
+{
+  "pass": true,
+  "reproduction": {
+    "recomputed_is_ic": 0.1078,
+    "recomputed_is_ir": 1.03,
+    "recorded_is_ic": 0.1078,
+    "recorded_is_ir": 1.03,
+    "delta_ic": 0.0,
+    "delta_ir": 0.0,
+    "tol_ic": 5e-05,
+    "tol_ir": 0.005,
+    "pass": true
+  },
+  "universe_probe": {
+    "median_daily_eligible": 1524,
+    "gate_median": 1000,
+    "pass_median": true,
+    "ref_median_r68": 1524,
+    "daily_sigma": 729.1,
+    "drift_gt_2sigma": false,
+    "gate_first_rebal": 500,
+    "h20": {
+      "first_scheduled_pos": 19,
+      "first_effective_pos": 19,
+      "empty_elig_days_skipped": 0,
+      "first_effective_eligible": 751,
+      "first_effective_composite_count": 751,
+      "first_scheduled_day_composite_over_raw": 2093,
+      "first_scheduled_day_eligible": 751
+    },
+    "h10": {
+      "first_scheduled_pos": 9,
+      "first_effective_pos": 19,
+      "empty_elig_days_skipped": 1,
+      "first_effective_eligible": 751,
+      "first_effective_composite_count": 751,
+      "first_scheduled_day_composite_over_raw": 2107,
+      "first_scheduled_day_eligible": 0
+    },
+    "pass_first_rebal": true,
+    "ss25_resolution": "first rebalance day = first scheduled day with non-empty eligible set (pre-run adjudication, frozen r152; degenerate-day numbers disclosed per schedule)",
+    "pass": true
+  },
+  "projection": {
+    "n_strat_dates": 2850,
+    "n_p1c_dates": 8792,
+    "unmatched_dates": 0,
+    "n_strat_codes": 5212,
+    "n_p1c_codes": 5222,
+    "codes_missing_on_p1c_grid": [],
+    "n_codes_not_in_strategy_panel": 10,
+    "codes_not_in_strategy_panel_head": [
+      "301686",
+      "301688",
+      "301689",
+      "301697",
+      "301699",
+      "601091",
+      "601123",
+      "603448",
+      "688801",
+      "688837"
+    ],
+    "join": "(date, code) value lookup; zero future data (composite[t] known at t close; entry t+1 open per SS3)"
+  },
+  "causal_check": {
+    "check": "tail-poisoned projection head bit-identical",
+    "head_rows": 1425,
+    "head_finite": 4104647,
+    "pass": true
+  },
+  "members": [
+    "alpha191_070",
+    "alpha191_042",
+    "lhb_amt_share_20",
+    "lhb_count_20"
+  ],
+  "signs": [
+    -1.0,
+    1.0,
+    1.0,
+    -1.0
+  ],
+  "elig_clone_nonstar_identical": true,
+  "probe": {
+    "main_cell_s": 19.3,
+    "null_cell_s": 24.6,
+    "probe_total_s": 65.2,
+    "est_batch_wall_s": 152.0,
+    "n_engine_cells": 52,
+    "h20_top10_full_sharpe": 0.0606,
+    "null_full_sharpe": -0.0956
+  }
+}
