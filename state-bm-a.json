@@ -1,11 +1,11 @@
 {
- "round_no": 112,
+ "round_no": 113,
  "did": [
-  "R112 (dept:工程+数据): S6 全链绿维护轮 (daily 0 行 cutoff 09-24 无新 bar -> live.paper+t24_prospect_paper 合法跳过; regime ORANGE d2 shadow; lhb/heat/futures/mf/fp/fundamental/b_layer/t24_promotion 0-22 诚实/t35 幂等 6 员 18 持仓/scorecard/build_status/tok delta 0); market_regime 腿批跑遗漏自捕即补跑零产物影响",
-  "R112 T-39 自愈窗 2 前置观察: gate 诚实节流 no-op (rank spawn 01:50:43 9.7min<30min), 下窗 ~02:20 归 R113/R114 S6 腿; 禁手工探针维持; 票留 open 至验收 >=5000 股",
-  "R112 队列盘点: J10/J12/J13/J18b/town 对齐全在册 (dashboard fleet 消费面+build_status.py:87 J18b+town.html 9 楼对齐 org_chart v2); Optuna gated (validated 6<8); 纸盘 10-31; 真无可做零新开 (合法 idle 诚实律)"
+  "R113 (dept:工程+数据): S6 全链绿维护轮 16 腿逐腿核销 (daily 0 行 cutoff 09-24 无新 bar -> live.paper+t24_prospect_paper 合法跳过; regime ORANGE d2 shadow; mf gate 节流 no-op; t35 幂等 6 员 18 持仓 equity 5,996,645; tok delta +100)",
+  "R113 T-39 自愈窗 3 前置观察: gate 诚实节流 no-op (19.9min<30min), 过窗腿=R115 ~02:28 (IterationLoop next 02:18 仍在窗 02:20:43 前); 禁手工探针维持; 票留 open 至验收 >=5000 股",
+  "R113 复审纪律: post_review YES=9 NO=0 WAIT=6 零 FAIL; bm-c 仍停 09-24 21:51:47 (inbox 4 件全为本机/bm-b 外发至 bm-c 待取, 本机零动作面); 队列真无可做零新开 (合法 idle 诚实律)"
  ],
- "verdict": "WM=GREEN (01:50:02 tick red=false healthy; py_watermark insufficient_history n=2+三源板空=合法 idle O-1612); T-39 gate 自愈节奏在飞 (下窗 ~02:20); S6 全链绿; smoke 23/23; bm-c 仍停 09-24 21:51 (升级线 09-25 22:00)",
- "next": "R113/R114: T-39 自愈窗 2 观察 (30min 节流解除后首个 S6 gate 腿; 若通=验收判据复核 >=5000 股+S1/S4.1 日频措辞改写+闭票; 仍阻=gate 继续 30min 自愈节奏) + IntradayMarks 09:25 首火窗实弹观察 + bm-c 复活观察",
- "ts": "2026-09-25T02:03:45+08:00"
+ "verdict": "WM=GREEN (01:50:02 tick red=false healthy; py_watermark insufficient_history n=2+三源板空=合法 idle O-1612); S6 全链绿; smoke 23/23; post_review 0 FAIL; T-39 窗口 02:20:43 归 R115 S6 腿; bm-c 仍停 09-24 21:51 (升级线 09-25 22:00)",
+ "next": "R114/R115: T-39 自愈窗 3 观察 (02:20:43 后首个 S6 gate 腿=R115 ~02:28; 若通=验收判据复核 >=5000 股+S1/S4.1 日频措辞改写+闭票; 仍阻=gate 继续 30min 自愈节奏) + IntradayMarks 09:25 首火窗实弹观察 + bm-c 复活观察 (升级线 09-25 22:00)",
+ "ts": "2026-09-25T02:12:33+08:00"
 }
