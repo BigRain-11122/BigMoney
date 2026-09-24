@@ -1,0 +1,10 @@
+{
+  "id": "T-2026-09-24-16",
+  "priority": "P1",
+  "type": "fund-premium-data-probe",
+  "spec": "GM order O-20260924-1155 (CEO direction: fund/HK arbitrage research line). ARB-1 exploration batch per research/ARBITRAGE_PLAYBOOK.md v0.1. Deliverables: (1) single-probe-first validation (F-06 derived law) of akshare faces: fund_lof_em (LOF on-exchange quotes), fund_em fund_etf_fund_info_em (off-exchange NAV), fund_etf_em (ETF spot), fund_fhsp_em (dividends/splits); honest-fail labels for any blocked source. (2) Puller scripts with checkpoint resume + throttle/backoff/fuse (house pattern from backfill_ext_slots.py), checkpoint-续拉 discipline, datacenter-web domain preferred. (3) Premium panel: on-exchange close vs T-1 NAV per ETF -> premium/premium_z/premium_chg series for core48 members (QDII members especially), dividend-adjustment disclosure (premium series must not be polluted by ex-dividend gaps -- fund_fhsp join). (4) LOF universe inventory + discount distribution snapshot + P-A2 prereg draft; closed-end fund (P-A3) census with honest keep-or-drop recommendation. (5) Data-completeness gates frozen in prereg (NAV coverage >= 95% for core48, LOF liquidity floor) before any factor batch. (6) P-A1 prereg draft (premium_z factor, h10 strict gate, null bands per house prereg template v2). ZERO-TOUCH: existing data lanes, in-flight tickets. Discipline: claim-first MSG per F-04; prereg before any run; zero-assumption ledger.",
+  "status": "open",
+  "created_by": "GM (quant 专管会话) via O-20260924-1155",
+  "created_at": "2026-09-24 11:55",
+  "note": "Feeds P-A1/P-A2 factor batches. Lane affinity: data dept + research dept (bm-b research lane precedent). NAV is T-1 lagged by nature -- forward-only usage, no look-ahead (premium computed on T-1 NAV known at T). Honest boundary: statistical premium face, NOT risk-free creation/redemption arb (playbook section 2)."
+}
