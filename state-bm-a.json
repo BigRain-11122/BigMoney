@@ -1,18 +1,17 @@
 {
- "round_no": 121,
+ "round_no": 122,
  "did": [
-  "R121 (dept:数据): T-43 slices 2/3/4 一次交付: (2) collector scripts/update_ths_panel.py gate/refresh/status/selftest (2.5s/页+页级重试x2+conn-fuse3+checkpoint 逐页落盘+逐页窗卫; lazy akshare/py_mini_racer import 面 R118; 列名字节恒等校验败=blocked exit3 待人工裁定); (3) selftest 全绿 hermetic (冻结四夹具 窗卫/date-stamp/万-亿原样/幂等跳过 + 面纪续拉 resume_valid + 形状漂移 + 日历滞后保守闸); (4) spec research/shortline/THS_PANEL.md + MF_COLLECTOR §8 指针行 + .gitignore data/ths_ggzjl/ + S6 链接线 (iteration_prompt.txt, moneyflow 之后 fund_premium 之前); 设计法=面纪一致性律 (无日期字段活快照: bar 未落禁拉/未记账周中日保守禁拉/跨面纪续拉结构性拦截) 入 CODELY 坑律 R121 条",
-  "R121 S6: 15 腿绿 (audit CLEAN py0.8 flags[]/wm probe py_low_board_clear 合法 idle/daily 0 行 cutoff 09-24/regime ORANGE d2 shadow/lhb+heat+futures no-op/mf rank pass window8 spawn 04:15/fp 车道 no-op bm-c/fundamental fresh 7.5h/b_layer all_pass/t24_paper 22/22 drift0/t24_promotion 0/22 诚实 NOT-ELIGIBLE/t35 export 6 员 18 持仓 equity 5,996,645/scorecard/build 10+432+6+5/7/tok delta 0); orders 61/61 轮首扫空; decisions D-20260925-06=HQ executed 本仓零动作; smoke 23/23; inbox 3 终结态归档 (T-43 registered/claimed 自持 x2 + bm-b T-44 认领零撞车面)",
-  "R121 首发实弹: THS gate 04:14:45 spawn 分离后台刷新 (预开盘 gap-fill 窗, stamp=2026-09-24, pages_total=105 实读与探针一致), 轮末 64/105 在飞零失败, 验收计数归 R122",
-  "R121 addendum: THS 首发实弹验收 PASS (rows=5210 pages=105 requests=105 零重试零失败, cutoff=2026-09-24, dup=0); push 撞窗 rebase 12 冲突按分级配方解 (bm-b r140 配方互证); 验收后复核踩真缺陷 read_html 剥代码前导零 1491 行 → _fix_code 修复+F8 夹具+当日文件原位确定性恢复 (5210 unique 零碰撞零请求); T-43 progress_r121b 回执"
+  "R122 (dept:工程+策略): hr.py SENIOR→PRINCIPAL 分支实装 (O-20260924-1727 理顺令遗留工程待办收口, promotion.md v2 判据已立法缺实装): 冻结阈值 months>=12+sharpe>=1.5+abs(current_dd)<=0.15 (F-1 abs 口径) J18 零阈值字节改动; .get 缺件=缺证据 HOLD 不崩溃 (G2.5 门同哲学); SENIOR 无自动淘汰闸不发明 (淘汰归风控审计裁定面); promotion.md L24 实装待补旗翻面 (文档-代码同步律); 合成夹具 18/18 (SENIOR 矩阵+G2.5 三态+既有分支回归; R2 首跑 1 FAIL=夹具预期错——TRADER 冻结语义晋升先于 FIRE, 修夹具禁改判据); 实弹 python -m firm.hr 28 员全 HOLD allocation 0% exit 0 firm/traders 零写零漂移",
+  "R122 S6: 19 腿全绿 (audit CLEAN py0.8 flags[]/wm board_clear n=3 span29.0 合法 idle/daily 0 行 cutoff 09-24/regime ORANGE d2 shadow/lhb+heat+futures no-op/mf 节流 no-op 窗9 ~04:45/ths_panel 日常 no-op 路径首验 PASS=同日幂等守卫正确 (R121 计划观察项兑现)/fp 车道 no-op bm-c/fundamental fresh 7.8h/b_layer all_pass 5222=3517+1705/live.paper 6/6 锚 OK shadow (CE-02+ENGULF x2 probation 常态在册)/t24_paper 22/22 drift0/t24_promotion 0/22 诚实 NOT-ELIGIBLE/t35 export-09-24 6 员 18 持仓 equity 5,996,645 ops 18/0/scorecard/build 10+432/0+6+5/7/tok delta 671); orders 61/61 轮首+S7 双扫空; decisions 尾行 D-20260925-06 已核零新行; smoke 23/23; post_review 231 行 0 FAIL; 板 0 open/11 claimed; schtasks 四任务在册 (IntradayMarks Ready next 09:25 首火窗就绪)",
+  "R122 S0: fast-forward pull 并入 bm-b r141 T-44 P4-B3 收线 (P-4 全弧闭环 0/8 诚实负: 分批摊薄不足翻转超跌判负, 125 试验账本 60,784; staged 全配对压回撤不升止损和=回撤减震器非 alpha)"
  ],
  "verdict": [
-  "WM=GREEN (03:50 tick red=false lane=healthy; probe py_low_board_clear=合法 idle 板闭环 bandit 池空, IO 采集器在飞非 CPU 批); smoke 23/23; S6 15 腿绿; T-43 三 slice 交付+selftest 全绿; THS 首发刷新在飞 64/105 (ETA ~04:27); post_review 216 行无新 ✗ (2 NO=09-24 历史已闭环件)"
+  "WM=GREEN (04:20:02 tick red=false lane=healthy; probe py_low_board_clear 合法 idle n=3 span29.0 板 0 open/bandit 0/池无 ready=O-1612 豁免面; 本轮主闭环为 IO 轻代码实装非 CPU 批); smoke 23/23; S6 19 腿绿; post_review 0 FAIL; hr 夹具 18/18+实弹 28 HOLD zero-write"
  ],
  "next": [
-  "R122+: 面板日常 no-op 路径观察 (S6 链腿已接线) + Friday 15:30 后当日 bar 落地窗新截面采集首验; mf rank pass window9 观察 (T-39 push2-face 验收在飞); B 相 ths_agg_p1.py=gated >=130td (~2027-04 最早); IntradayMarks 09-25 09:25 首火窗; bm-c 升级线 09-25 22:00"
+  "R123+: mf 窗9 ~04:45 rank lane 观察 (连阻 5 窗在案 30min 自愈续; T-41 探针证据面在案); IntradayMarks 09:25 首火窗实弹观察; Friday 15:30 首个完整日常周期=当日 bar 落地+THS 新截面子采集+t35 差分链首验; bm-c 复活观察升级线 09-25 22:00 (artifact-first 三查); ths_agg_p1 B 相 gated >=130td (~2027-04); 10-01 月界三件套+REGIME_GUARD v3 首个 enforce 生产跑"
  ],
- "ts": "2026-09-25T04:21:52",
- "last_round_ts": "2026-09-25 04:17",
- "updated_at": "2026-09-25T04:21:52"
+ "ts": "2026-09-25T04:33:18",
+ "last_round_ts": "2026-09-25 04:21",
+ "updated_at": "2026-09-25T04:33:50"
 }

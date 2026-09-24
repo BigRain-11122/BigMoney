@@ -152,6 +152,22 @@ def _evaluate_level(t: dict) -> str:
             return "FIRE"
         return "HOLD"
 
+    # SENIOR -> PRINCIPAL (promotion.md v2 frozen criteria; branch installed
+    # 2026-09-25, closing the O-20260924-1727 engineering todo). No SENIOR
+    # auto-fire: FIRED at this tier is risk-department audit territory only.
+    # .get() with fail-safe defaults -- live settlement fields may not exist
+    # yet on legacy files; missing evidence must HOLD (same philosophy as the
+    # G2.5 gate) and must never crash run_review for the other traders.
+    if lvl == "SENIOR":
+        l = t["live"]
+        th = THRESHOLDS["SENIOR_TO_PRINCIPAL"]
+        dd = l.get("current_dd")
+        if (l.get("months_tracked", 0) >= th["months_min"]
+                and l.get("sharpe", 0.0) >= th["sharpe_min"]
+                and dd is not None and abs(dd) <= th["max_dd_max"]):
+            return "PROMOTE"
+        return "HOLD"
+
     return "HOLD"
 
 
