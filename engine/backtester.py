@@ -39,7 +39,8 @@ def run_backtest(prices: dict, params: dict,
                  fill_guard=None,
                  cost_v2=None,
                  cash_parking=None,
-                 entry_size_scale=None) -> dict:
+                 entry_size_scale=None,
+                 staged_entry=None) -> dict:
     """prices: dict[symbol] -> DataFrame with date index, cols open/close/high/low.
 
     J7 signal-injection adapter (BACKTEST_PLAN S2 contract):
@@ -134,6 +135,38 @@ def run_backtest(prices: dict, params: dict,
         present; the None path never emits it).
       metrics gain "scaled_entries" only when entry_size_scale is not None
         (count of filled entries whose applied scale was < 1.0).
+
+    P4-B3 STAGED_ENTRY additive flag (research/shortline/P4_BATCH3_DCA_SPEC.md
+    section 2 frozen spec; default None = legacy path byte-identical).
+      staged_entry dict {"grid_fracs": (0.40, 0.30, 0.30),
+                         "add_triggers": (0.0, -0.05, -0.10)}
+      Splits the SAME legacy nominal (sizing_mode -> entry_size_scale ->
+      cost_v2 ADV-cap chain, all computed up-front exactly as the single-shot
+      entry) into per-tranche budgets x fracs; HARD ASSERT sum(fracs) <= 1.0
+      (staging pre-splits the budget, never leverages it -- redline 3-a).
+      Tranche 0 = the normal entry signal; tranche k >= 1 queues at a close
+      where close <= first_fill * (1 + trigger_k) (level state; the first-fill
+      price anchors every trigger; no trigger exists before tranche 0 fills)
+      and fills at the NEXT day open (same T -> T+1 causality as entries,
+      zero future data; max_adds = len(fracs) - 1 constructive cap). On each
+      add fill: quantity += add_qty; cost_price := VWAP (exit machinery
+      untouched -> stop/tiers/trailing inherit the new average; the -8%
+      initial stop follows the VWAP down -- the definitionally accepted cost
+      of averaging down); high_watermark keeps its continuous max since the
+      first fill (never reset, conservative); trailing_stop_price never
+      reset; hold_days / tier_reached unchanged. Each add is an independent
+      execution: fill_guard buy-reject drops that tranche's order (counted;
+      the level may re-queue it at a later close -- P4-B2 precedent),
+      cost_v2 ADV cap applies per tranche at its own execution day,
+      strict_open_fills drops on suspension days; insufficient cash keeps
+      the add queued (retries next open, legacy pending-entry precedent).
+      Adds bypass max_positions (a staged position occupies its slot by
+      name, not by capital). Execution order within the open: signal
+      entries first (legacy loop untouched), then staged adds.
+      New metric keys ONLY when the flag is ON (G5 keyset discipline):
+      num_adds_filled / num_adds_dropped / avg_cost_first / avg_cost_end /
+      adds_per_entry. Queued adds orphaned by a full position close or by
+      the window end count as drops (they never filled).
     """
     cfg = ExitConfig(
         take_profit_levels=tuple(params.get("take_profit_levels", (0.05, 0.10, 0.20))),
@@ -154,6 +187,25 @@ def run_backtest(prices: dict, params: dict,
     trade_pnl_mode = params.get("trade_pnl_mode", "legacy")
     sizing_mode = params.get("sizing_mode", "fixed_initial")
     report_num_entries = bool(params.get("report_num_entries", False))
+
+    # P4-B3 staged_entry additive flag: None -> legacy path byte-identical
+    # (engine additive iron rule).
+    if staged_entry is None:
+        stage_fracs = stage_triggers = None
+    else:
+        stage_fracs = tuple(float(x) for x in staged_entry["grid_fracs"])
+        stage_triggers = tuple(float(x) for x in staged_entry["add_triggers"])
+        if len(stage_triggers) != len(stage_fracs):
+            raise ValueError("staged_entry: add_triggers must align 1:1 with grid_fracs")
+        if sum(stage_fracs) > 1.0:
+            # redline hard assert (P4_BATCH3_DCA_SPEC.md section 2 / 3-a):
+            # staging pre-splits the SAME single-shot nominal budget;
+            # sum > 1.0 would be leveraging, refuse to run.
+            raise ValueError(
+                f"staged_entry: grid_fracs sum {sum(stage_fracs):.4f} > 1.0 "
+                "(staged budget must not exceed the single-shot nominal)")
+        if any(f <= 0.0 for f in stage_fracs):
+            raise ValueError("staged_entry: every grid_frac must be > 0")
 
     # align all symbols on common trading calendar
     closes = pd.DataFrame({sym: df["close"] for sym, df in prices.items()}).sort_index()
@@ -300,6 +352,15 @@ def run_backtest(prices: dict, params: dict,
     first_deferred_date = None
     deferred_open: set = set() # episodes still awaiting a fillable close
 
+    # P4-B3 staged_entry books (flag ON only; the None path never reads them)
+    staged_books: dict = {}          # sym -> {"first_fill", "nominal", "filled"}
+    pending_adds: dict = {}           # sym -> {tranche k: queued close-date}
+    adds_filled_total = 0
+    adds_dropped_total = 0
+    staged_entries_total = 0
+    stage_first_fill_px: list = []    # first-tranche fill px per staged entry
+    stage_end_cost_px: list = []      # final cost_price per staged position
+
     for i, date in enumerate(dates):
         row_close = closes.loc[date]
         row_open = opens.loc[date]
@@ -359,7 +420,14 @@ def run_backtest(prices: dict, params: dict,
                 rate_buy = (fee.commission_rate + fee.handling_fee
                             + fee.supervision_fee + tier_i)
 
-            qty = target_value / px
+            if stage_fracs is not None:
+                # P4-B3: the SAME nominal (sizing/scale/ADV-cap chain above,
+                # untouched) pre-split into per-tranche budgets; tranche 0
+                # fills now, the rest are drawdown-triggered adds.
+                budget = target_value * stage_fracs[0]
+            else:
+                budget = target_value
+            qty = budget / px
             total_cost = px * qty * (1 + rate_buy)
             if total_cost > cash:
                 continue
@@ -375,7 +443,88 @@ def run_backtest(prices: dict, params: dict,
                 cost_price=px, quantity=qty, high_watermark=px,
             )
             num_entries += 1
+            if stage_fracs is not None:
+                # P4-B3: open the staged book; every trigger is anchored to
+                # THIS first-fill price (no trigger exists before it).
+                staged_books[sym] = {
+                    "first_fill": px,
+                    "nominal": target_value,
+                    "filled": set(),
+                }
+                staged_entries_total += 1
+                stage_first_fill_px.append(px)
             del pending_entries[sym]
+
+        # 0b) P4-B3 staged adds: queued at a prior close, fill at today's
+        # OPEN (flag ON only). Signal entries keep cash priority; adds
+        # never take a max_positions slot (a staged position occupies its
+        # slot by name, not by capital).
+        if stage_fracs is not None and pending_adds:
+            for sym in list(pending_adds.keys()):
+                if sym not in positions:
+                    # defensive: staged book dies with the position (step 1);
+                    # anything still queued here never filled.
+                    adds_dropped_total += len(pending_adds.pop(sym))
+                    continue
+                px = row_open[sym]
+                if pd.isna(px):
+                    continue            # no open price -> stays queued
+                st = positions[sym]
+                guard_ok = _fillable(buy_g, sym, i)
+                real_ok = (not strict_fills) or _real_bar(real_open_mask, sym, i)
+                for k in list(pending_adds[sym].keys()):
+                    if not guard_ok or not real_ok:
+                        # P4-B2 buy-reject / strict-suspension precedent:
+                        # drop THIS tranche's order (counted); the level
+                        # trigger may re-queue it at a later close.
+                        del pending_adds[sym][k]
+                        adds_dropped_total += 1
+                        continue
+                    budget = staged_books[sym]["nominal"] * stage_fracs[k]
+                    if tier_v2 is None:
+                        rate_buy = cost_rate   # legacy path (identical arithmetic)
+                    else:
+                        # --- D5 cost-v2 add path: cap per tranche at its own day
+                        cap_i = float(cap_v2.at[date, sym])
+                        tier_i = float(tier_v2.at[date, sym])
+                        if not np.isfinite(cap_i):
+                            stats_v2["missing_adv_executions"] += 1
+                        elif cap_i <= 0:
+                            del pending_adds[sym][k]
+                            stats_v2["dropped_zero_adv"] += 1
+                            adds_dropped_total += 1
+                            continue
+                        elif cap_i < budget:
+                            budget = cap_i
+                            stats_v2["capped_entries"] += 1
+                        if tier_i == SLIPPAGE_TIER_2BP:
+                            stats_v2["tier_entries_2bp"] += 1
+                        elif tier_i == SLIPPAGE_TIER_5BP:
+                            stats_v2["tier_entries_5bp"] += 1
+                        else:
+                            stats_v2["tier_entries_10bp"] += 1
+                        rate_buy = (fee.commission_rate + fee.handling_fee
+                                    + fee.supervision_fee + tier_i)
+                    add_qty = budget / px
+                    total_cost = px * add_qty * (1 + rate_buy)
+                    if total_cost > cash:
+                        continue        # stays queued, retries next open
+                    cash -= total_cost
+                    old_qty = st.quantity
+                    # P4-B3 frozen add accounting: VWAP update only.
+                    st.quantity = old_qty + add_qty
+                    st.cost_price = ((st.cost_price * old_qty + px * add_qty)
+                                    / st.quantity)
+                    # high_watermark: continuous max since first fill, never
+                    # reset (conservative). trailing_stop_price: never reset
+                    # (inactive -> the -8% initial stop follows the VWAP
+                    # down automatically; active -> keeps its locked line).
+                    # hold_days / tier_reached: unchanged.
+                    staged_books[sym]["filled"].add(k)
+                    del pending_adds[sym][k]
+                    adds_filled_total += 1
+                if sym in pending_adds and not pending_adds[sym]:
+                    del pending_adds[sym]
 
         # 1) manage open positions at today's CLOSE
         for sym in list(positions.keys()):
@@ -443,6 +592,13 @@ def run_backtest(prices: dict, params: dict,
                         - gross * cost_rate
                         - st.cost_price * qty * cost_rate, 2)
                 if action.close_fraction >= 1.0:
+                    if stage_fracs is not None and sym in staged_books:
+                        # P4-B3: the staged book dies with the position;
+                        # queued adds that never filled are honest drops.
+                        staged_books.pop(sym, None)
+                        if sym in pending_adds:
+                            adds_dropped_total += len(pending_adds.pop(sym))
+                        stage_end_cost_px.append(st.cost_price)
                     del positions[sym]
                 else:
                     st.quantity -= qty
@@ -453,6 +609,23 @@ def run_backtest(prices: dict, params: dict,
                     deferred_open.discard(sym)
                     deferred_events += 1
             st.hold_days += 1
+
+        # 1b) P4-B3 staged trigger check at today's CLOSE (flag ON only):
+        # unfilled tranche k (>= 1) with close <= first_fill*(1+trigger_k)
+        # queues for tomorrow's open (level state; first-fill anchor; the
+        # T+1 sell guard does not apply -- adds are buys).
+        if stage_fracs is not None and staged_books:
+            for sym, bk in staged_books.items():
+                if sym not in positions:
+                    continue
+                px_c = row_close[sym]
+                if pd.isna(px_c):
+                    continue
+                for k in range(1, len(stage_fracs)):
+                    if k in bk["filled"] or k in pending_adds.get(sym, {}):
+                        continue
+                    if px_c <= bk["first_fill"] * (1.0 + stage_triggers[k]):
+                        pending_adds.setdefault(sym, {})[k] = str(date.date())
 
         # 2) queue new entries based on today's close signals
         for sym in closes.columns:
@@ -508,6 +681,13 @@ def run_backtest(prices: dict, params: dict,
     # T-20 additive disclosure: episodes still open at window end happened --
     # the position is held at close, exit awaiting a fillable day (counted).
     deferred_events += len(deferred_open)
+    if stage_fracs is not None:
+        # P4-B3: adds still queued at the window end never filled (honest
+        # drops); still-open staged positions close the avg_cost book.
+        adds_dropped_total += sum(len(v) for v in pending_adds.values())
+        for sym in staged_books:
+            if sym in positions:
+                stage_end_cost_px.append(positions[sym].cost_price)
     metrics = summarize(equity, trades)
     if trade_pnl_mode == "full":
         # T-03-F1: full-cost per-trade stats under NEW field names only
@@ -534,6 +714,22 @@ def run_backtest(prices: dict, params: dict,
     if entry_size_scale is not None:
         # T-21: filled entries whose nominal was scaled below 1.0.
         metrics["scaled_entries"] = scaled_entries
+    if stage_fracs is not None:
+        # P4-B3 STAGED_ENTRY: NEW metrics keys only (flag ON); the legacy
+        # keyset is never touched (G5 keyset discipline).
+        metrics.update({
+            "num_adds_filled": adds_filled_total,
+            "num_adds_dropped": adds_dropped_total,
+            "avg_cost_first": round(
+                float(np.mean(stage_first_fill_px))
+                if stage_first_fill_px else 0.0, 4),
+            "avg_cost_end": round(
+                float(np.mean(stage_end_cost_px))
+                if stage_end_cost_px else 0.0, 4),
+            "adds_per_entry": round(
+                adds_filled_total / staged_entries_total
+                if staged_entries_total else 0.0, 4),
+        })
     if stale_marks:
         # T-03-F2: NEW Sharpe field excluding stale-marked end-days.
         rets = equity.pct_change().tolist()
