@@ -1,22 +1,24 @@
 {
   "latest": {
-    "ts": "2026-09-24 10:47:29",
-    "cpu_total_pct": 1.0,
-    "py_cpu_pct": 10.0,
-    "cores": 16,
-    "py_procs": 9,
-    "result_stale_min": 2.0,
-    "fleet_open_tasks": 0,
+    "ts": "2026-09-24 11:14:42",
+    "cpu_total_pct": 15.0,
+    "py_cpu_pct": 0.0,
+    "cores": 32,
+    "py_procs": 4,
+    "result_stale_min": 0.6,
+    "fleet_open_tasks": 2,
     "gpu": {
       "present": true,
-      "util_pct": 4.0,
-      "mem_used_mb": 5606.0,
-      "compute_apps_count": 25,
+      "util_pct": 1.0,
+      "mem_used_mb": 3015.0,
+      "compute_apps_count": 22,
       "rogue_apps": []
     },
     "zombies": [],
-    "flags": [],
-    "verdict": "CLEAN"
+    "flags": [
+      "idle_with_work"
+    ],
+    "verdict": "FLAG:idle_with_work"
   },
   "history": [
     {
@@ -1315,6 +1317,27 @@
       "zombies": [],
       "flags": [],
       "verdict": "CLEAN"
+    },
+    {
+      "ts": "2026-09-24 11:14:42",
+      "cpu_total_pct": 15.0,
+      "py_cpu_pct": 0.0,
+      "cores": 32,
+      "py_procs": 4,
+      "result_stale_min": 0.6,
+      "fleet_open_tasks": 2,
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 3015.0,
+        "compute_apps_count": 22,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "flags": [
+        "idle_with_work"
+      ],
+      "verdict": "FLAG:idle_with_work"
     }
   ]
 }
