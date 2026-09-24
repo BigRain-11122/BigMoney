@@ -187,6 +187,48 @@ def _futures_state() -> dict:
     return out
 
 
+def _moneyflow_state() -> dict:
+    """Stock main-moneyflow forward panel (bm-a R63 update_moneyflow.py,
+    MF_COLLECTOR spec) from results/moneyflow_update_status.json.
+    Connection-level source block = parked with 30min-gate self-heal
+    (honest warn, P-B r40 precedent); mismatches = bad."""
+    st = _read_json(os.path.join(PATHS.results_dir,
+                                 "moneyflow_update_status.json")) or {}
+    pn = st.get("panel") or {}
+    lr = st.get("last_refresh") or {}
+    out = {"present": bool(st), "mode": st.get("mode"),
+           "complete": bool(pn.get("complete")), "cutoff": pn.get("cutoff"),
+           "n_symbols": pn.get("n_symbols") or 0,
+           "universe_n": pn.get("universe_n"),
+           "appended": lr.get("appended") or 0,
+           "failures": lr.get("failures") or 0,
+           "conn_stopped": bool(lr.get("conn_stopped")),
+           "mismatches": lr.get("n_mismatches") or 0,
+           "last_attempt": st.get("ts"), "age_min": None,
+           "status": "none", "text": "资金流面板待产出"}
+    if not out["present"]:
+        return out
+    try:
+        t = dt.datetime.fromisoformat(str(out["last_attempt"]))
+        out["age_min"] = int((dt.datetime.now() - t).total_seconds() // 60)
+    except Exception:
+        pass
+    have = f"{out['n_symbols']}/{out['universe_n']}"
+    if out["mismatches"]:
+        out["status"] = "bad"
+        out["text"] = f"资金流源改史 {out['mismatches']} 行旗标"
+    elif out["complete"]:
+        out["status"] = "ok"
+        out["text"] = f"资金流面板 {have} 只 · cutoff {out['cutoff'] or '—'}"
+    elif out["conn_stopped"]:
+        out["status"] = "warn"
+        out["text"] = f"资金流源阻断停发 · 30min 自愈 · 已采 {have}"
+    else:
+        out["status"] = "warn"
+        out["text"] = f"资金流首拉/刷新在途 · 已采 {have}"
+    return out
+
+
 def _regime_state() -> dict:
     """Market regime guard shadow state (REGIME_GUARD v1.0, T-05) from
     results/regime_state.json. Missing file = honest not-yet-probed."""
@@ -1342,6 +1384,7 @@ def build() -> dict:
     data["update"] = _update_state()
     data["heat"] = _heat_state()
     data["futures"] = _futures_state()
+    data["moneyflow"] = _moneyflow_state()
     data["token"] = _token_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
@@ -1446,6 +1489,11 @@ def build() -> dict:
             "time": fu["last_attempt"] or "-",
             "text": f"期货链 · C 层 {fu['varieties']} 品种主力连续 · "
                     f"{fu['rows_total'] // 1000}k 行 · cutoff {fu['cutoff'] or '—'} · {age_txt}"})
+    mf = data["moneyflow"]
+    if mf["present"]:
+        tail_events.append({
+            "time": mf["last_attempt"] or "-",
+            "text": f"数据链 · {mf['text']}（MF_COLLECTOR 前向 · bm-a R63）"})
     tok = data["token"]
     if tok["present"]:
         tail_events.append({

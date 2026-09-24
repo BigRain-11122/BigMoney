@@ -395,6 +395,12 @@ function renderChains() {
       `${n2(fq.varieties)} 品种 · ${n2(Math.round((fq.rows_total || 0) / 1000))}k 行 · cutoff ${n2(fq.cutoff)}`,
       fq.status === "bad" ? "bad" : (fq.status === "warn" ? "warn" : "ok"), fq.text));
   }
+  const mfw = D.data.moneyflow;
+  if (mfw && mfw.present) {
+    rows.push(chainRow("主力资金流",
+      `${n2(mfw.n_symbols)}/${n2(mfw.universe_n)} 只 · ${mfw.complete ? "cutoff " + n2(mfw.cutoff) : "前向采集"}`,
+      mfw.status === "bad" ? "bad" : (mfw.status === "warn" ? "warn" : "ok"), mfw.text));
+  }
   const h = D.data.heat;
   if (h && h.present) {
     rows.push(chainRow("热度链",
