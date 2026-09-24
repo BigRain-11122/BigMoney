@@ -1,0 +1,13 @@
+{
+ "id": "T-2026-09-24-38",
+ "priority": "P1",
+ "type": "fulfillment-engine-interface-draft",
+ "immediate": false,
+ "spec": "Group decision D-20260924-10 (org synthesis #4) BigMoney leg: 履约引擎接口设计排期为 P1 前置件（接口草案）. Context: BigDomain 策略观测付费产品（19.9 算力验证包形态）需要 BigMoney 引擎供给；收款出口=BigCompute（随 D-09）；分账=产品方 BigDomain 大头、引擎方 BigMoney 服务费、出口方 BigCompute 通道费. Deliverable: research/fulfillment/INTERFACE_DRAFT.md v0.1 (DESIGN ONLY, no engine build) covering: (1) input contract -- what a 观测付费 request carries (strategy/factor id from STRATEGY_LIBRARY or ASTYLE_ZOO universe, observation window, virtual-capital config); (2) engine execution contract -- BigMoney runs preregistered strategy compute on owned panel data, returns observational output ONLY (回测/纸面观测数据 + evidence cutoff + trial-count N), NEVER 直播荐股 (合规死红线: 9.9/19.9 卖=算力验证服务非荐股, D-10 定案 -- output framing must be verification-service semantics, no buy/sell advice fields); (3) exit channel handoff -- output JSON schema handed to BigCompute 收款出口 (D-09 alignment), provenance fields (engine version, evidence_cutoff, N_trials, cost model on) per SCIENCE disclosure laws; (4) revenue-split interface note -- metering fields so BigCompute can bill per D-10 分账 (产品/引擎/通道三面), no billing logic in engine; (5) data authorization rows per D-09 (BigMoney 数据授权行) -- which panel fields may leave the firm boundary, which never do (locked-box/forward data stays internal, aggregate stats only). Acceptance: draft merged with 三律 -- (a) J18 修实现禁改判据 n/a here but prereg-style: draft states it is non-binding design pending GM+HQ review; (b) smoke 23/23 unchanged; (c) draft file exists with all 5 sections + explicit 合规死红线 statement; (d) zero engine/runtime code changes in this ticket. Scope guard: P1 新方向授权=D-20260924-10 集团决策（GM 署名记账）, 实盘/真金面不涉及（T0 门不动）.",
+ "status": "open",
+ "created_by": "GM (quant 专管会话) via D-20260924-10 (P-32 decision-audit step, round 104 bm-a)",
+ "created_at": "2026-09-24 23:50",
+ "note": "Owner dept = 工程+交易部 (interface drafting), 研究部 consult for prereg/SCIENCE disclosure fields. Anti-dup: no existing ticket covers fulfillment-engine interface (full-text scan 2026-09-24 23:49 zero hits for 履约/fulfillment). Dependencies: none in-repo (design-only); cross-org handoff to BigDomain/BigCompute goes via their own ledgers, this ticket only produces the draft. Local-7b review note per D-10: 保留点=平台公司收不到数据授权费风险 -- draft §5 must address which data rows are billable authorization rows vs internal-only.",
+ "claimed_by": null,
+ "claimed_at": null
+}
