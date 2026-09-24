@@ -54,8 +54,15 @@
 
 scripts/t27_blend_tournament.py（selftest/run/status 子命令）＋ results/portfolio_blend_tournament.json（顶层 evidence_cutoff＋cutoff_meta＋audit 段）＋ research/shortline/t27_results.csv ＋ gate_attrition.json 追加行（tournament 条目）＋本文件 §7/§8 回填。
 
-## §7 跑后实证【跑前为空——占位纪律】
+## §7 跑后实证【跑后回填——run#1 唯一产数跑】
+
+- run#1（2026-09-24 18:39:38）：**VOID（roster_drift_vs_iv6）**——冻结后 S0 拉取带入 bm-a R84（c87b08b8）T-24 PROSPECT 22 员 onboard（firm/traders/ 6→28），票面 spec 预期的「PROSPECT as T-24 lands」恰在冻结与跑批之间落地；roster 相等门（§2 门①）诚实跳闸。
+- run#1 计算足迹=**零**（roster 门在任何引擎跑之前跳闸；elapsed 0s、sleeve 零格、CSV 0 行）；账本块 +42 保留为已尝试批件身份（EW6 voided-attempt 先例对完成计算者计数；本例零计算=保守方向的诚实披露，未来 skill_line 因 N_eff 增大只会更严不会更松）；chain 3077→3119；gate_attrition 条目 #13（void=true 如实）。
+- 无修补重跑：按 IV6 双胎门教义「mismatch => batch VOID, no verdict, no repair-rerun (new prereg instead)」→ 预注册 v2（research/T27_BLEND_TOURNAMENT_V2.md，池=冻结 28 员显式清单）。
+- run#1 产物存档：results/portfolio_blend_tournament_run1_void.json（v2 跑批前改名保全）。
 
 ## §8 批后复盘【s7-T】
 
-- 预测对账：______；门禁链损耗账：gate_attrition 追加行 ts=______；skill_line_v2 当批读数：______；回执入轮报告＋CODELY 行级追加：______。
+- 预测对账：**N/A**（零产数跑，五预测原样转入 v2 §5 继续对账）；门禁链损耗账：gate_attrition #13 已入（kind=tournament·void）；skill_line_v2 当批读数：未触达（roster 门前跳闸）；回执入轮报告 r63 bm-c＋CODELY 行级追加：已入。
+- 根因坑录（P0/E1 级）：**预注册 §2 的池定义引用了跑批时刻会漂移的活状态（在册名单）而非冻结显式清单**——bm-a T-24 onboard 与本批同窗竞速（合法双车道），冻结的 roster 断言在跑批时已被正典推进推翻；v2 修正=显式 28 员 ID 清单冻结（r62「消费冻结探针的批必设普查漂移门」坑律的 roster 版）。
+

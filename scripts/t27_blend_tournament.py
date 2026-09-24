@@ -1,15 +1,20 @@
-"""T27 blend-method tournament -> one-shot ranked report (T-2026-09-24-27).
+"""T27 blend-method tournament v2 -> one-shot ranked report (T-2026-09-24-27).
 
-PRE-REGISTERED before running (research/T27_BLEND_TOURNAMENT.md, frozen
+PRE-REGISTERED before running (research/T27_BLEND_TOURNAMENT_V2.md, frozen
 commit precedes any run; prereg sha256 embedded in the output JSON). Do NOT
 tune weights/formulas/thresholds after seeing results (iron rule 3).
 
-Five FROZEN blend-method candidates over the FIXED registered 6-member
-roster (zero search, zero new signal functions -> zero nulls; D6 scoping
-disclosed in prereg s1). Uniform evaluation frame = daily-rebalanced to
-target weights on inner-joined member sleeve daily returns (prereg s3);
-canon static-combine continuity is carried by the twin gate leg, NOT by
-the ranking frame.
+v1 -> v2 lineage: v1 run#1 VOIDed at the roster gate (bm-a T-24 PROSPECT
+onboarding landed between v1 freeze and run; zero compute, +42 ledger block
+kept honest, per IV6 "VOID -> new prereg, no repair-rerun" doctrine). v2
+freezes an EXPLICIT 28-member roster list.
+
+Five FROZEN blend-method candidates over the FIXED 28-member roster
+(6 INTERN + 22 PROSPECT, per ticket spec "registered 6 + PROSPECT as
+T-24 lands"; zero search, zero new signal functions -> zero nulls). Uniform
+evaluation frame = daily-rebalanced to target weights on inner-joined member
+sleeve daily returns (prereg s3); canon static-combine continuity is carried
+by the CE6-scoped twin gate leg, NOT by the ranking frame.
 
 Methods (all weight estimation IS-segment-only = pre-OOS_START, causal;
 x2 face reuses x1-frozen weights):
@@ -24,16 +29,19 @@ x2 face reuses x1-frozen weights):
                            major-bear (firm/risk/regime.py bear_series, single
                            source, causal) -> defensive else offensive; first
                            day defaults to normal (EW6 overlay precedent)
-  E Equal-weight         = control
+  E Equal-weight         = control (1/28)
 
-Gates (frozen prereg s4): twin determinism vs portfolio_iv6.json (members /
-corr / static EW-repro / IV weights+portfolio, |d| < 1e-9, mismatch => VOID);
-per-candidate primary gates = G1' v2 (42 cells) + six clauses + benefit > 0
-+ DR > 1 + x2 survival + robustness (IS sharpe > 0, worst_year > -0.30).
-Winner = best MEDIAN rank across 3 faces (benefit / drawdown / x2 margin)
-among eligible; tie -> benefit face; zero eligible -> no winner, IV canon
-retained. Adoption = GM ratify + 7-day veto (ticket item 3) -- NOT wired
-in this batch; zero engine changes, zero paper-canon touches.
+Gates (frozen prereg s2/s4): roster equality vs frozen list; dual-schema
+anchor gates 28/28 (CE-era: ew6 anchor_checks verbatim; PROSPECT: prospect
+recorded-block anchor, ANCHOR_TOL); CE6-scoped twin determinism vs
+portfolio_iv6.json (members / corr / static EW-repro / IV weights+portfolio,
+|d| < 1e-9, mismatch => VOID); per-candidate primary gates = G1' v2 (86
+cells) + six clauses + benefit > 0 + DR > 1 + x2 survival + robustness
+(IS sharpe > 0, worst_year > -0.30). Winner = best MEDIAN rank across 3
+faces (benefit / drawdown / x2 margin) among eligible; tie -> benefit face;
+zero eligible -> no winner, IV canon retained. Adoption = GM ratify + 7-day
+veto (ticket item 3) -- NOT wired in this batch; zero engine changes, zero
+paper-canon touches.
 
 CLI: run | selftest | status.
 """
@@ -54,19 +62,17 @@ from config import PATHS
 from firm.hr import TRADERS_DIR, load_trader
 from firm.risk.regime import (load_benchmark_close, major_bear_state,
                               MA_WINDOW)
-from live.paper import OOS_START, seg_metrics, self_test_patches
+from live.paper import (ANCHOR_TOL, OOS_START, seg_metrics, self_test_patches)
 from parallel_runner import run_cells_parallel, worker_cap
 from science_gates import append_ledger, cutoff_meta, g1_prime_v2
 
-import ew6_portfolio as W
 from ew6_portfolio import (anchor_checks, bear_series, corr_block,
                            g1_clauses, self_test_portfolio_math,
                            yearly_returns)
-import iv6_portfolio as V
 from iv6_portfolio import (_init_worker, eval_port, iv_weights,
                            member_run_iv6, self_test_iv_math)
 
-PREREG = os.path.join(PATHS.root, "research", "T27_BLEND_TOURNAMENT.md")
+PREREG = os.path.join(PATHS.root, "research", "T27_BLEND_TOURNAMENT_V2.md")
 IV6_JSON = os.path.join(PATHS.results_dir, "portfolio_iv6.json")
 OUT_JSON = os.path.join(PATHS.results_dir, "portfolio_blend_tournament.json")
 ATTRITION_JSON = os.path.join(PATHS.results_dir, "gate_attrition.json")
@@ -74,12 +80,21 @@ CSV_PATH = os.path.join(PATHS.root, "research", "shortline",
                         "t27_results.csv")
 LOG_PATH = os.path.join(PATHS.root, "logs", "iteration-loop",
                         "t27_tournament.log")
-BATCH = "T27-blend-tournament"
-BATCH_CELLS = 42          # frozen prereg s3/s4 (12 engine + 10 frame + 20 seg)
+BATCH = "T27-blend-tournament-v2"
+BATCH_CELLS = 86          # frozen prereg s3 (56 engine + 10 frame + 20 seg)
 TOL = 1e-9                # twin-gate tolerance (deterministic engine)
 CRASH_YEAR = -0.30
 MAX_WORKERS = 12          # polite cap; worker_cap() RAM guard still applies
 METHODS = ("A_IV", "B_MAXDIV", "C_IVMOM", "D_REGIME", "E_EW")
+FROZEN_ROSTER = (
+    "COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01", "ENGULF-CE-01",
+    "NEEDLE-DE-01", "VOLATILITY-CE-01",
+    "PROS-ANTS-01", "PROS-ANTS-CE-01", "PROS-BBS-01", "PROS-BBS-CE-01",
+    "PROS-DOJI-01", "PROS-DOJI-CE-01", "PROS-DUCK-01", "PROS-DUCK-CE-01",
+    "PROS-HAM-01", "PROS-HAM-CE-01", "PROS-IBB-01", "PROS-IBB-CE-01",
+    "PROS-IMM-01", "PROS-IMM-CE-01", "PROS-MCB-01", "PROS-MCB-CE-01",
+    "PROS-OVB-01", "PROS-OVB-CE-01", "PROS-RSRS-CE-01", "PROS-TMU-01",
+    "PROS-TMU-CE-01", "PROS-VOB-CE-01")
 
 
 def log(msg: str) -> None:
@@ -266,12 +281,49 @@ def _regime_slices(port_ret: pd.Series, bear: pd.Series) -> dict:
             "normal_days": _sl(port_ret[~s_same])}
 
 
-def twin_gate(sleeves: dict, corr: dict, anchors: dict, rec: dict,
-              K: dict, member_s: dict, n_tr_sum: int, n_ent_sum: int) -> dict:
-    """Twin determinism leg vs portfolio_iv6.json (prereg s2 gate 2)."""
+def pros_anchor(t: dict, r1: dict, r2: dict) -> dict:
+    """PROSPECT-schema anchor (prereg s2 gate 2): reproduce the prospect
+    recorded block (bm-a T-24 onboard anchor-repro record) at the stored
+    evidence_cutoff. Same ANCHOR_TOL as the CE-era anchor gate."""
+    p = t["prospect"]
+    checks = {
+        "full_sharpe": abs(float(r1["full"]["sharpe"])
+                           - float(p["recorded_full_sharpe"])) < ANCHOR_TOL,
+        "full_dd": abs(float(r1["full"]["max_drawdown"])
+                       - float(p["recorded_max_dd"])) < ANCHOR_TOL,
+        "n_trades": int(r1["n_trades"]) == int(p["recorded_n_trades"]),
+        "oos_sharpe": abs(float(r1["is2"]["sharpe"])
+                          - float(p["recorded_oos_sharpe"])) < ANCHOR_TOL,
+        "oos_trades": int(r1["oos_trades"])
+                      == int(p["recorded_oos_trades"]),
+    }
+    x2_ok = abs(float(r2["full"]["sharpe"])
+                - float(p["recorded_x2_full_sharpe"])) < ANCHOR_TOL
+    return {"schema": "prospect", "checks": checks,
+            "anchor_ok": bool(all(checks.values())), "x2_ok": bool(x2_ok)}
+
+
+def anchor_gates(traders: dict, sleeves: dict) -> dict:
+    """Dual-schema anchor gates (prereg s2): CE-era registrations (with
+    backtest.in_sample) -> ew6 anchor_checks verbatim; PROSPECT registrations
+    -> prospect recorded-block anchor."""
+    out = {}
+    for tid, t in traders.items():
+        if "in_sample" in t.get("backtest", {}):
+            a = anchor_checks(t, sleeves[tid]["x1"], sleeves[tid]["x2"])
+            a["schema"] = "ce"
+        else:
+            a = pros_anchor(t, sleeves[tid]["x1"], sleeves[tid]["x2"])
+        out[tid] = a
+    return out
+
+
+def twin_gate(sleeves_ce6: dict, corr_ce6: dict, anchors: dict, rec: dict,
+              K: dict, member_s6: dict, n_tr6: int, n_ent6: int) -> dict:
+    """CE6-scoped twin determinism leg vs portfolio_iv6.json (prereg s2)."""
     mem = {}
     for tid, m in rec["members"].items():
-        r1, r2 = sleeves[tid]["x1"], sleeves[tid]["x2"]
+        r1, r2 = sleeves_ce6[tid]["x1"], sleeves_ce6[tid]["x2"]
         mem[tid] = {
             "cutoff": str(m["cutoff"]) == str(r1["cutoff"]),
             "n_entries": int(m["n_entries"]) == int(r1["n_entries"]),
@@ -292,23 +344,23 @@ def twin_gate(sleeves: dict, corr: dict, anchors: dict, rec: dict,
             "x2_n_entries": int(m["x2"]["n_entries"]) == int(r2["n_entries"]),
         }
     corr_ok = {seg: abs(float(rec["correlation"][seg]["avg_pairwise"])
-                       - float(corr[seg]["avg_pairwise"])) < TOL
+                       - float(corr_ce6[seg]["avg_pairwise"])) < TOL
                for seg in ("full", "is", "is2")}
-    ew_w = {tid: round(1.0 / len(sleeves), 6) for tid in sleeves}
+    ew_w = {tid: round(1.0 / len(sleeves_ce6), 6) for tid in sleeves_ce6}
     ew_repro = {}
     for mult, key in ((1, "x1"), (2, "x2")):
         ew_repro[key] = eval_port(
-            {tid: sleeves[tid][key]["eq_s"] for tid in sleeves}, ew_w,
-            "EW-repro", mult, member_s, n_tr_sum, n_ent_sum, K)
+            {tid: sleeves_ce6[tid][key]["eq_s"] for tid in sleeves_ce6},
+            ew_w, "EW-repro", mult, member_s6, n_tr6, n_ent6, K)
     ew_repro["x1"]["x2_survive"] = bool(
         ew_repro["x2"]["full"]["sharpe"] > K["vi_bar"]
         and ew_repro["x2"]["is2"]["sharpe"] > 0)
-    iv = iv_weights(sleeves)
+    iv = iv_weights(sleeves_ce6)
     iv_repro = {}
     for mult, key in ((1, "x1"), (2, "x2")):
         iv_repro[key] = eval_port(
-            {tid: sleeves[tid][key]["eq_s"] for tid in sleeves},
-            iv["weights"], "IV-repro", mult, member_s, n_tr_sum, n_ent_sum, K)
+            {tid: sleeves_ce6[tid][key]["eq_s"] for tid in sleeves_ce6},
+            iv["weights"], "IV-repro", mult, member_s6, n_tr6, n_ent6, K)
     iv_repro["x1"]["x2_survive"] = bool(
         iv_repro["x2"]["full"]["sharpe"] > K["vi_bar"]
         and iv_repro["x2"]["is2"]["sharpe"] > 0)
@@ -345,7 +397,7 @@ def twin_gate(sleeves: dict, corr: dict, anchors: dict, rec: dict,
     ok = (all(all(v.values()) for v in mem.values())
           and all(corr_ok.values()) and all(ew_leg.values())
           and all(iv_leg.values()) and all(iv_w_ok.values()) and anchors_ok)
-    return {"ok": bool(ok), "members": mem, "corr": corr_ok,
+    return {"ok": bool(ok), "scope": "CE6", "members": mem, "corr": corr_ok,
             "ew_repro_leg": ew_leg, "iv_repro_leg": iv_leg,
             "iv_weights_ok": iv_w_ok, "anchors_ok": anchors_ok,
             "ew_repro": {k: {kk: vv for kk, vv in q.items()
@@ -437,6 +489,22 @@ def self_test_t27() -> bool:
                     static_w={"A": 0.5, "B": 0.5})
     ok &= all(abs(g - float(R.iloc[i].mean())) < 1e-12
               for i, g in enumerate(fe["port_ret_head"]))
+    # --- PROSPECT anchor: pass on matching record, fail on drift
+    t_pros = {"prospect": {"recorded_full_sharpe": 0.2052,
+                           "recorded_max_dd": -0.0623,
+                           "recorded_n_trades": 177,
+                           "recorded_oos_sharpe": 0.5221,
+                           "recorded_oos_trades": 60,
+                           "recorded_x2_full_sharpe": -0.027}}
+    r1 = {"full": {"sharpe": 0.2052, "max_drawdown": -0.0623},
+          "is2": {"sharpe": 0.5221}, "n_trades": 177, "oos_trades": 60}
+    r2 = {"full": {"sharpe": -0.027}}
+    pa = pros_anchor(t_pros, r1, r2)
+    ok &= pa["schema"] == "prospect" and pa["anchor_ok"] and pa["x2_ok"]
+    r1_drift = dict(r1)
+    r1_drift["full"] = {"sharpe": 0.5, "max_drawdown": -0.0623}
+    pa2 = pros_anchor(t_pros, r1_drift, r2)
+    ok &= (not pa2["anchor_ok"]) and (not pa2["checks"]["full_sharpe"])
     # --- JSON-face fixture law (machine pitfall #1): str keys survive a
     #     JSON round-trip; the column guard RAISES on mismatch (no silent
     #     empty-set pass-through)
@@ -454,7 +522,7 @@ def self_test_t27() -> bool:
 
 def run_batch() -> int:
     t0 = time.time()
-    log(f"{BATCH} start (prereg frozen; cells={BATCH_CELLS})")
+    log(f"{BATCH} start (prereg v2 frozen; cells={BATCH_CELLS})")
     if not self_test_patches():
         log("patch self-test FAILED -- abort"); return 2
     if not self_test_portfolio_math():
@@ -473,22 +541,22 @@ def run_batch() -> int:
          "dd_min": g["iii_dd_min"], "trades_min": g["iv_trades_min"]}
     with open(IV6_JSON, encoding="utf-8") as fh:
         rec = json.load(fh)
-    cutoff_rec = max(m["cutoff"] for m in rec["members"].values())
 
     tids = sorted(p.stem for p in TRADERS_DIR.glob("*.json")
                   if not p.name.startswith("_"))
-    if set(tids) != set(rec["members"]):
-        log("ROSTER DRIFT vs IV6 record -- batch void")
+    if set(tids) != set(FROZEN_ROSTER):
+        log("ROSTER DRIFT vs FROZEN list -- batch void")
         return write_outputs(K, tids, None, None, None, None, None, None,
-                             None, None, 0, t0, cutoff=cutoff_rec,
-                             void=True, void_reason="roster_drift_vs_iv6")
-    log(f"members ({len(tids)}): {tids}")
+                             None, None, 0, t0, cutoff="unknown",
+                             void=True, void_reason="roster_drift_vs_frozen")
+    log(f"members ({len(tids)}): frozen-list match PASS")
+    cutoff = "2026-09-22"
 
-    # ---------- sleeves (12 engine cells, anchor-cum-sleeve reuse) ----------
+    # ---------- sleeves (56 engine cells, anchor-cum-sleeve reuse) ----------
     jobs = [(f"{tid}|{mult}", member_run_iv6, (tid, mult))
             for tid in tids for mult in (None, 2)]
     res = run_cells_parallel(jobs, workers=min(worker_cap(), MAX_WORKERS),
-                             desc="t27-sleeves", initializer=_init_worker)
+                             desc="t27v2-sleeves", initializer=_init_worker)
     workers = int(res.pop("__workers__"))
     sleeves = {}
     for tid in tids:
@@ -496,30 +564,52 @@ def run_batch() -> int:
         for r in (r1, r2):
             r["eq_s"] = pd.Series(r["eq"], index=pd.to_datetime(r["dates"]))
         sleeves[tid] = {"x1": r1, "x2": r2}
-        log(f"  {tid:<16} x1 full_s={r1['full']['sharpe']:>7.4f} "
-            f"entries={r1['n_entries']:<4} | x2 full_s="
-            f"{r2['full']['sharpe']:>7.4f}")
     cutoff = max(sleeves[t]["x1"]["cutoff"] for t in tids)
+    for tid in tids:
+        s1 = sleeves[tid]["x1"]["full"]["sharpe"]
+        s2 = sleeves[tid]["x2"]["full"]["sharpe"]
+        ne = sleeves[tid]["x1"]["n_entries"]
+        log(f"  {tid:<16} x1 full_s={s1:>7.4f} entries={ne:<4} | "
+            f"x2 full_s={s2:>7.4f}")
 
     traders = {tid: load_trader(tid) for tid in tids}
-    anchors = {tid: anchor_checks(traders[tid], sleeves[tid]["x1"],
-                                  sleeves[tid]["x2"]) for tid in tids}
+    anchors = anchor_gates(traders, sleeves)
+    n_anchor_fail = [t for t, a in anchors.items()
+                     if not (a["anchor_ok"] and a["x2_ok"])]
+    log(f"anchor gates: {len(tids) - len(n_anchor_fail)}/{len(tids)} ok"
+        + (f" FAIL={n_anchor_fail}" if n_anchor_fail else ""))
 
-    norm1 = pd.concat({tid: sleeves[tid]["x1"]["eq_s"] /
-                       sleeves[tid]["x1"]["eq_s"].iloc[0] for tid in tids},
-                      axis=1, join="inner").dropna()
-    rets1 = norm1.pct_change().dropna()
-    is2_mask = rets1.index >= pd.Timestamp(OOS_START)
-    corr = {"full": corr_block(rets1), "is": corr_block(rets1, ~is2_mask),
-            "is2": corr_block(rets1, is2_mask)}
+    # ---------- batch corr (28) + CE6 corr (twin input) ----------
+    def _corr(slv):
+        norm = pd.concat({tid: slv[tid]["x1"]["eq_s"] /
+                          slv[tid]["x1"]["eq_s"].iloc[0] for tid in slv},
+                         axis=1, join="inner").dropna()
+        rets = norm.pct_change().dropna()
+        m = rets.index >= pd.Timestamp(OOS_START)
+        return {"full": corr_block(rets), "is": corr_block(rets, ~m),
+                "is2": corr_block(rets, m)}, rets
+    corr, rets_all = _corr(sleeves)
+    ce6 = sorted(rec["members"].keys())
+    sleeves_ce6 = {t: sleeves[t] for t in ce6}
+    corr_ce6, _ = _corr(sleeves_ce6)
 
     member_s = {tid: sleeves[tid]["x1"]["full"]["sharpe"] for tid in tids}
     n_tr_sum = sum(sleeves[tid]["x1"]["n_trades"] for tid in tids)
     n_ent_sum = sum(sleeves[tid]["x1"]["n_entries"] for tid in tids)
+    member_s6 = {t: sleeves[t]["x1"]["full"]["sharpe"] for t in ce6}
+    n_tr6 = sum(sleeves[t]["x1"]["n_trades"] for t in ce6)
+    n_ent6 = sum(sleeves[t]["x1"]["n_entries"] for t in ce6)
 
-    tw = twin_gate(sleeves, corr, anchors, rec, K, member_s, n_tr_sum,
-                   n_ent_sum)
-    log(f"twin gate vs portfolio_iv6.json: {'PASS' if tw['ok'] else 'FAIL'}")
+    if n_anchor_fail:
+        log("ANCHOR/X2 BROKEN -- batch void, no verdict")
+        return write_outputs(K, tids, sleeves, anchors, corr, None, None,
+                             None, None, None, workers, t0, cutoff=cutoff,
+                             void=True, void_reason="anchor_gates_broken")
+
+    tw = twin_gate(sleeves_ce6, corr_ce6, anchors, rec, K, member_s6,
+                   n_tr6, n_ent6)
+    log(f"twin gate (CE6) vs portfolio_iv6.json: "
+        f"{'PASS' if tw['ok'] else 'FAIL'}")
     if not tw["ok"]:
         log("TWIN GATE BROKEN (data drift since IV6) -- batch void")
         return write_outputs(K, tids, sleeves, anchors, corr, tw, None,
@@ -537,9 +627,8 @@ def run_batch() -> int:
         f"(bear={st_last['is_major_bear']})")
     if not cons_ok:
         return write_outputs(K, tids, sleeves, anchors, corr, tw, None,
-                             None, None, st_last, workers, t0,
-                             cutoff=cutoff, void=True,
-                             void_reason="regime_source_mismatch")
+                             None, None, st_last, workers, t0, cutoff=cutoff,
+                             void=True, void_reason="regime_source_mismatch")
 
     # ---------- frozen weight rules (IS-segment only, causal) ----------
     R1 = daily_ret_matrix(sleeves, "x1")
@@ -550,11 +639,10 @@ def run_batch() -> int:
     wC = ivmom_weights(sleeves)
     wE = {tid: round(1.0 / len(tids), 6) for tid in tids}
     wD_off = sharpe_offensive_weights(sleeves)
-    log(f"weights A(IV)={wA['weights']}")
     log(f"weights B(MAXDIV path={wB['solver_path']} dr={wB['dr_solution']} "
-        f"vs EW {wB['dr_ew_baseline']}) {wB['weights']}")
-    log(f"weights C(IVMOM path={wC['path']}) {wC['weights']}")
-    log(f"weights D(offensive path={wD_off['path']}) {wD_off['weights']}")
+        f"vs EW {wB['dr_ew_baseline']})")
+    log(f"weights C(IVMOM path={wC['path']}) "
+        f"D(offensive path={wD_off['path']})")
 
     statics = {"A_IV": wA["weights"], "B_MAXDIV": wB["weights"],
                "C_IVMOM": wC["weights"], "E_EW": wE}
@@ -617,13 +705,13 @@ def run_batch() -> int:
 
     # candidate return corr (descriptive, prereg s1)
     pret = {n: _frame_returns(R1, None if n == "D_REGIME" else statics[n],
-                             regime_w, bear) for n in METHODS}
+                              regime_w, bear) for n in METHODS}
     cand_corr = pd.concat(pret, axis=1).corr()
 
     verdict = {
-        "template": "T27 tournament (prereg s4): winner = proposed paper-"
-                    "canon blend method, GM ratify + 7-day veto pending; "
-                    "adoption NOT wired in this batch",
+        "template": "T27 tournament v2 (prereg s4): winner = proposed "
+                    "paper-canon blend method, GM ratify + 7-day veto "
+                    "pending; adoption NOT wired in this batch",
         "eligible": elig,
         "winner": winner,
         "faces": faces,
@@ -648,13 +736,16 @@ def write_outputs(K, tids, sleeves, anchors, corr, tw, cands, verdict,
         BATCH, BATCH_CELLS,
         file_name="results/portfolio_blend_tournament.json",
         evidence_cutoff=cutoff or "unknown",
-        note="12 engine member runs (anchor-cum-sleeve, x1+x2, IV6-identical "
-             "cells) + 10 ranking-frame portfolio evaluations (5 methods x 2 "
-             "cost faces, daily-rebalanced) + 20 window/segment cells "
-             "(5 methods x IS/IS2/bear/normal); zero search, zero new signal "
-             "functions => zero nulls (composition disclosed, prereg s3); "
-             "twin-gate re-derivations and v2 readouts are gates/disclosures, "
-             "not ledger cells")
+        note="56 engine member runs (28-member frozen roster x x1+x2, "
+             "anchor-cum-sleeve, member_run_iv6 verbatim) + 10 ranking-frame "
+             "portfolio evaluations (5 methods x 2 cost faces, "
+             "daily-rebalanced) + 20 window/segment cells (5 methods x "
+             "IS/IS2/bear/normal); zero search, zero new signal functions "
+             "=> zero nulls (composition disclosed, prereg v2 s3); "
+             "CE6 twin-gate re-derivations and v2 readouts are "
+             "gates/disclosures, not ledger cells; v1 run#1 VOID block (+42, "
+             "roster gate, zero compute) sits earlier on the chain -- "
+             "conservative N_eff direction, disclosed in v1 prereg s7")
     prereg_sha = hashlib.sha256(open(PREREG, "rb").read()).hexdigest()
 
     rows = []
@@ -685,9 +776,12 @@ def write_outputs(K, tids, sleeves, anchors, corr, tw, cands, verdict,
 
     out = {
         "batch": BATCH,
-        "task": "T-2026-09-24-27 blend-method tournament (O-20260924-1702)",
+        "task": "T-2026-09-24-27 blend-method tournament v2 (O-20260924-1702)",
+        "lineage": "v1 run#1 VOID roster gate, zero compute, +42 block "
+                   "(research/T27_BLEND_TOURNAMENT.md s7); v2 = frozen "
+                   "28-member explicit roster",
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "preregistered_doc": "research/T27_BLEND_TOURNAMENT.md",
+        "preregistered_doc": "research/T27_BLEND_TOURNAMENT_V2.md",
         "prereg_sha256_at_run": prereg_sha,
         "void": void, "void_reason": void_reason,
         "universe": {"pool": "core48-bare-codes",
@@ -706,7 +800,7 @@ def write_outputs(K, tids, sleeves, anchors, corr, tw, cands, verdict,
         "anchors": anchors,
         "correlation": corr,
         "twin_gate_vs_iv6": ({k: v for k, v in tw.items()
-                              if k in ("ok", "members", "corr",
+                              if k in ("ok", "scope", "members", "corr",
                                        "ew_repro_leg", "iv_repro_leg",
                                        "iv_weights_ok", "anchors_ok")}
                              if tw else None),
@@ -747,7 +841,7 @@ def write_outputs(K, tids, sleeves, anchors, corr, tw, cands, verdict,
                        verdict.get("winner")},
              "eliminated": None,
              "refs": {"results": "results/portfolio_blend_tournament.json",
-                      "prereg": "research/T27_BLEND_TOURNAMENT.md"}}
+                      "prereg": "research/T27_BLEND_TOURNAMENT_V2.md"}}
     if os.path.exists(ATTRITION_JSON):
         with open(ATTRITION_JSON, encoding="utf-8") as fh:
             data = json.load(fh)
