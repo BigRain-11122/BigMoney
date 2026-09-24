@@ -1,0 +1,961 @@
+{
+ "evidence_cutoff": "2026-09-23",
+ "batch": "T33_CORPS_ROSTER",
+ "ticket": "T-2026-09-24-33",
+ "generated": "2026-09-24T20:34:59+08:00",
+ "prereg": "research/T33_CORPS_ROSTER.md",
+ "prereg_sha256_16": "65b7c51463f63096",
+ "rule": {
+  "beat_rate_12m_line": 0.5,
+  "min_n": 30,
+  "blowup_line": -0.35,
+  "face": "base",
+  "primary_window": "12m",
+  "segmentation": "t22 regime_proxy (510300 vs MA200 disclosed proxy)",
+  "family_map": {
+   "vol_breakout": "attack",
+   "inside_bar_breakup": "attack",
+   "duck_head": "attack",
+   "bb_squeeze_breakout": "chop",
+   "doji_at_low": "chop",
+   "hammer_reversal": "chop",
+   "three_methods_up": "chop",
+   "oversold_bounce_20_15": "chop",
+   "oversold_bounce": "chop"
+  }
+ },
+ "registered": [
+  {
+   "member": "COMPOSITE-CE-01",
+   "tier": "registered",
+   "style_note": "registered defensive/reversal cohort (T-33 ticket note, O-1600 bear-segment evidence)",
+   "segments": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.8191,
+     "beat_ci95_12m": [
+      0.7818,
+      0.8513
+     ],
+     "pooled_excess_12m": 0.081899,
+     "n_trades_12m": 42196,
+     "worst_dd_all_windows": -0.1724,
+     "beat_rate_6m": 0.6149,
+     "beat_rate_24m": 0.9979,
+     "n_episode_blocks": 13
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5659,
+     "beat_ci95_12m": [
+      0.5289,
+      0.6022
+     ],
+     "pooled_excess_12m": 0.006448,
+     "n_trades_12m": 53091,
+     "worst_dd_all_windows": -0.2091,
+     "beat_rate_6m": 0.5946,
+     "beat_rate_24m": 0.6777,
+     "n_episode_blocks": 20
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.7356,
+     "beat_ci95_12m": [
+      0.6344,
+      0.8169
+     ],
+     "pooled_excess_12m": 0.092981,
+     "n_trades_12m": 6957,
+     "worst_dd_all_windows": -0.169,
+     "beat_rate_6m": 0.7011,
+     "beat_rate_24m": 0.7011,
+     "n_episode_blocks": 11
+    }
+   },
+   "x2_face_disclosure": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.7553,
+     "pooled_excess_12m": 0.046378
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.4599,
+     "pooled_excess_12m": -0.026203
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6667,
+     "pooled_excess_12m": 0.05888
+    }
+   },
+   "no_blowup": true,
+   "corps": "attack",
+   "assignment_basis": "argmax beat_rate_12m=0.8191 on segment bull (n=470, excess=0.081899)",
+   "passing_segments": [
+    "bear",
+    "bull",
+    "chop"
+   ]
+  },
+  {
+   "member": "COMPOSITE-CE-02",
+   "tier": "registered",
+   "style_note": "registered defensive/reversal cohort (T-33 ticket note, O-1600 bear-segment evidence)",
+   "segments": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.634,
+     "beat_ci95_12m": [
+      0.5896,
+      0.6763
+     ],
+     "pooled_excess_12m": 0.040104,
+     "n_trades_12m": 68195,
+     "worst_dd_all_windows": -0.2748,
+     "beat_rate_6m": 0.5638,
+     "beat_rate_24m": 1.0,
+     "n_episode_blocks": 13
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.6533,
+     "beat_ci95_12m": [
+      0.6172,
+      0.6877
+     ],
+     "pooled_excess_12m": 0.062772,
+     "n_trades_12m": 88283,
+     "worst_dd_all_windows": -0.2685,
+     "beat_rate_6m": 0.6905,
+     "beat_rate_24m": 0.6218,
+     "n_episode_blocks": 20
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6667,
+     "beat_ci95_12m": [
+      0.5624,
+      0.7568
+     ],
+     "pooled_excess_12m": 0.093094,
+     "n_trades_12m": 11156,
+     "worst_dd_all_windows": -0.243,
+     "beat_rate_6m": 0.6207,
+     "beat_rate_24m": 0.7011,
+     "n_episode_blocks": 11
+    }
+   },
+   "x2_face_disclosure": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5085,
+     "pooled_excess_12m": 0.004928
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.6261,
+     "pooled_excess_12m": 0.030745
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6437,
+     "pooled_excess_12m": 0.059474
+    }
+   },
+   "no_blowup": true,
+   "corps": "chop",
+   "assignment_basis": "argmax beat_rate_12m=0.6667 on segment chop (n=87, excess=0.093094)",
+   "passing_segments": [
+    "bear",
+    "bull",
+    "chop"
+   ]
+  },
+  {
+   "member": "DROUGHT-CE-01",
+   "tier": "registered",
+   "style_note": "registered defensive/reversal cohort (T-33 ticket note, O-1600 bear-segment evidence)",
+   "segments": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5638,
+     "beat_ci95_12m": [
+      0.5187,
+      0.608
+     ],
+     "pooled_excess_12m": -0.013146,
+     "n_trades_12m": 9198,
+     "worst_dd_all_windows": -0.0516,
+     "beat_rate_6m": 0.4404,
+     "beat_rate_24m": 0.5468,
+     "n_episode_blocks": 13
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5616,
+     "beat_ci95_12m": [
+      0.5246,
+      0.598
+     ],
+     "pooled_excess_12m": -0.021084,
+     "n_trades_12m": 7872,
+     "worst_dd_all_windows": -0.0282,
+     "beat_rate_6m": 0.6361,
+     "beat_rate_24m": 0.4011,
+     "n_episode_blocks": 20
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "beat_ci95_12m": [
+      0.5157,
+      0.7155
+     ],
+     "pooled_excess_12m": 0.0252,
+     "n_trades_12m": 1086,
+     "worst_dd_all_windows": -0.0273,
+     "beat_rate_6m": 0.6782,
+     "beat_rate_24m": 0.1149,
+     "n_episode_blocks": 11
+    }
+   },
+   "x2_face_disclosure": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5617,
+     "pooled_excess_12m": -0.018203
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5587,
+     "pooled_excess_12m": -0.024055
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "pooled_excess_12m": 0.021962
+    }
+   },
+   "no_blowup": true,
+   "corps": "chop",
+   "assignment_basis": "argmax beat_rate_12m=0.6207 on segment chop (n=87, excess=0.0252)",
+   "passing_segments": [
+    "bear",
+    "bull",
+    "chop"
+   ]
+  },
+  {
+   "member": "ENGULF-CE-01",
+   "tier": "registered",
+   "style_note": "registered defensive/reversal cohort (T-33 ticket note, O-1600 bear-segment evidence)",
+   "segments": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5426,
+     "beat_ci95_12m": [
+      0.4973,
+      0.5871
+     ],
+     "pooled_excess_12m": -0.028508,
+     "n_trades_12m": 10510,
+     "worst_dd_all_windows": -0.0461,
+     "beat_rate_6m": 0.3872,
+     "beat_rate_24m": 0.5191,
+     "n_episode_blocks": 13
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.563,
+     "beat_ci95_12m": [
+      0.526,
+      0.5994
+     ],
+     "pooled_excess_12m": -0.014443,
+     "n_trades_12m": 14484,
+     "worst_dd_all_windows": -0.0475,
+     "beat_rate_6m": 0.6519,
+     "beat_rate_24m": 0.3954,
+     "n_episode_blocks": 20
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "beat_ci95_12m": [
+      0.5157,
+      0.7155
+     ],
+     "pooled_excess_12m": 0.020663,
+     "n_trades_12m": 1887,
+     "worst_dd_all_windows": -0.0461,
+     "beat_rate_6m": 0.6207,
+     "beat_rate_24m": 0.069,
+     "n_episode_blocks": 11
+    }
+   },
+   "x2_face_disclosure": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5319,
+     "pooled_excess_12m": -0.033438
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5559,
+     "pooled_excess_12m": -0.019102
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "pooled_excess_12m": 0.015524
+    }
+   },
+   "no_blowup": true,
+   "corps": "chop",
+   "assignment_basis": "argmax beat_rate_12m=0.6207 on segment chop (n=87, excess=0.020663)",
+   "passing_segments": [
+    "bear",
+    "bull",
+    "chop"
+   ]
+  },
+  {
+   "member": "NEEDLE-DE-01",
+   "tier": "registered",
+   "style_note": "registered defensive/reversal cohort (T-33 ticket note, O-1600 bear-segment evidence)",
+   "segments": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5596,
+     "beat_ci95_12m": [
+      0.5144,
+      0.6038
+     ],
+     "pooled_excess_12m": -0.022073,
+     "n_trades_12m": 6748,
+     "worst_dd_all_windows": -0.0323,
+     "beat_rate_6m": 0.383,
+     "beat_rate_24m": 0.5362,
+     "n_episode_blocks": 13
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5258,
+     "beat_ci95_12m": [
+      0.4887,
+      0.5626
+     ],
+     "pooled_excess_12m": -0.023693,
+     "n_trades_12m": 5439,
+     "worst_dd_all_windows": -0.0312,
+     "beat_rate_6m": 0.6146,
+     "beat_rate_24m": 0.3954,
+     "n_episode_blocks": 20
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "beat_ci95_12m": [
+      0.5157,
+      0.7155
+     ],
+     "pooled_excess_12m": 0.02546,
+     "n_trades_12m": 519,
+     "worst_dd_all_windows": -0.0306,
+     "beat_rate_6m": 0.6667,
+     "beat_rate_24m": 0.092,
+     "n_episode_blocks": 11
+    }
+   },
+   "x2_face_disclosure": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5574,
+     "pooled_excess_12m": -0.025315
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5244,
+     "pooled_excess_12m": -0.025456
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "pooled_excess_12m": 0.024089
+    }
+   },
+   "no_blowup": true,
+   "corps": "chop",
+   "assignment_basis": "argmax beat_rate_12m=0.6207 on segment chop (n=87, excess=0.02546)",
+   "passing_segments": [
+    "bear",
+    "bull",
+    "chop"
+   ]
+  },
+  {
+   "member": "VOLATILITY-CE-01",
+   "tier": "registered",
+   "style_note": "registered defensive/reversal cohort (T-33 ticket note, O-1600 bear-segment evidence)",
+   "segments": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.5702,
+     "beat_ci95_12m": [
+      0.5251,
+      0.6142
+     ],
+     "pooled_excess_12m": -0.005412,
+     "n_trades_12m": 36436,
+     "worst_dd_all_windows": -0.0435,
+     "beat_rate_6m": 0.4362,
+     "beat_rate_24m": 0.5702,
+     "n_episode_blocks": 13
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5917,
+     "beat_ci95_12m": [
+      0.5548,
+      0.6276
+     ],
+     "pooled_excess_12m": -0.007321,
+     "n_trades_12m": 52596,
+     "worst_dd_all_windows": -0.0482,
+     "beat_rate_6m": 0.649,
+     "beat_rate_24m": 0.4742,
+     "n_episode_blocks": 20
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "beat_ci95_12m": [
+      0.5157,
+      0.7155
+     ],
+     "pooled_excess_12m": 0.048897,
+     "n_trades_12m": 6393,
+     "worst_dd_all_windows": -0.0414,
+     "beat_rate_6m": 0.6897,
+     "beat_rate_24m": 0.3448,
+     "n_episode_blocks": 11
+    }
+   },
+   "x2_face_disclosure": {
+    "bull": {
+     "n_startpoints": 470,
+     "beat_rate_12m": 0.566,
+     "pooled_excess_12m": -0.024704
+    },
+    "bear": {
+     "n_startpoints": 698,
+     "beat_rate_12m": 0.5602,
+     "pooled_excess_12m": -0.026408
+    },
+    "chop": {
+     "n_startpoints": 87,
+     "beat_rate_12m": 0.6207,
+     "pooled_excess_12m": 0.030422
+    }
+   },
+   "no_blowup": true,
+   "corps": "chop",
+   "assignment_basis": "argmax beat_rate_12m=0.6207 on segment chop (n=87, excess=0.048897)",
+   "passing_segments": [
+    "bear",
+    "bull",
+    "chop"
+   ]
+  }
+ ],
+ "prospect": [
+  {
+   "member": "PROS-ANTS-01",
+   "strategy": "ants_climb",
+   "family": "ANTS",
+   "exit_regime": "default",
+   "candidate_corps": "pending-classification",
+   "mapping_source": "pending-classification (not in CEO-named lists; honest)",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0227,
+    "recorded_oos_sharpe": 0.6294,
+    "recorded_x2_full_sharpe": 0.0146,
+    "recorded_oos_trades": 66,
+    "recorded_max_dd": -0.0611
+   }
+  },
+  {
+   "member": "PROS-ANTS-CE-01",
+   "strategy": "ants_climb",
+   "family": "ANTS",
+   "exit_regime": "ce",
+   "candidate_corps": "pending-classification",
+   "mapping_source": "pending-classification (not in CEO-named lists; honest)",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0228,
+    "recorded_oos_sharpe": 0.5221,
+    "recorded_x2_full_sharpe": -0.027,
+    "recorded_oos_trades": 60,
+    "recorded_max_dd": -0.0623
+   }
+  },
+  {
+   "member": "PROS-BBS-01",
+   "strategy": "bb_squeeze_breakout",
+   "family": "BBS",
+   "exit_regime": "default",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": true,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0497,
+    "recorded_oos_sharpe": 0.5315,
+    "recorded_x2_full_sharpe": -0.118,
+    "recorded_oos_trades": 167,
+    "recorded_max_dd": -0.1342
+   }
+  },
+  {
+   "member": "PROS-BBS-CE-01",
+   "strategy": "bb_squeeze_breakout",
+   "family": "BBS",
+   "exit_regime": "ce",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0536,
+    "recorded_oos_sharpe": 0.6196,
+    "recorded_x2_full_sharpe": -0.0162,
+    "recorded_oos_trades": 131,
+    "recorded_max_dd": -0.1384
+   }
+  },
+  {
+   "member": "PROS-DOJI-01",
+   "strategy": "doji_at_low",
+   "family": "DOJI",
+   "exit_regime": "default",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0601,
+    "recorded_oos_sharpe": 0.3398,
+    "recorded_x2_full_sharpe": -0.034,
+    "recorded_oos_trades": 141,
+    "recorded_max_dd": -0.1913
+   }
+  },
+  {
+   "member": "PROS-DOJI-CE-01",
+   "strategy": "doji_at_low",
+   "family": "DOJI",
+   "exit_regime": "ce",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0568,
+    "recorded_oos_sharpe": 0.4018,
+    "recorded_x2_full_sharpe": 0.0523,
+    "recorded_oos_trades": 105,
+    "recorded_max_dd": -0.1685
+   }
+  },
+  {
+   "member": "PROS-DUCK-01",
+   "strategy": "duck_head",
+   "family": "DUCK",
+   "exit_regime": "default",
+   "candidate_corps": "attack",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": true,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0242,
+    "recorded_oos_sharpe": 0.8227,
+    "recorded_x2_full_sharpe": 0.2583,
+    "recorded_oos_trades": 264,
+    "recorded_max_dd": -0.077
+   }
+  },
+  {
+   "member": "PROS-DUCK-CE-01",
+   "strategy": "duck_head",
+   "family": "DUCK",
+   "exit_regime": "ce",
+   "candidate_corps": "attack",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": true,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0695,
+    "recorded_oos_sharpe": 0.6059,
+    "recorded_x2_full_sharpe": 0.2097,
+    "recorded_oos_trades": 225,
+    "recorded_max_dd": -0.1165
+   }
+  },
+  {
+   "member": "PROS-HAM-01",
+   "strategy": "hammer_reversal",
+   "family": "HAM",
+   "exit_regime": "default",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0363,
+    "recorded_oos_sharpe": 0.1544,
+    "recorded_x2_full_sharpe": 0.0256,
+    "recorded_oos_trades": 124,
+    "recorded_max_dd": -0.1287
+   }
+  },
+  {
+   "member": "PROS-HAM-CE-01",
+   "strategy": "hammer_reversal",
+   "family": "HAM",
+   "exit_regime": "ce",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0393,
+    "recorded_oos_sharpe": 0.1283,
+    "recorded_x2_full_sharpe": 0.0447,
+    "recorded_oos_trades": 95,
+    "recorded_max_dd": -0.1229
+   }
+  },
+  {
+   "member": "PROS-IBB-01",
+   "strategy": "inside_bar_breakup",
+   "family": "IBB",
+   "exit_regime": "default",
+   "candidate_corps": "attack",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0937,
+    "recorded_oos_sharpe": 1.1122,
+    "recorded_x2_full_sharpe": -0.0697,
+    "recorded_oos_trades": 365,
+    "recorded_max_dd": -0.2466
+   }
+  },
+  {
+   "member": "PROS-IBB-CE-01",
+   "strategy": "inside_bar_breakup",
+   "family": "IBB",
+   "exit_regime": "ce",
+   "candidate_corps": "attack",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0879,
+    "recorded_oos_sharpe": 1.3755,
+    "recorded_x2_full_sharpe": 0.0416,
+    "recorded_oos_trades": 335,
+    "recorded_max_dd": -0.2279
+   }
+  },
+  {
+   "member": "PROS-IMM-01",
+   "strategy": "immortal_guide",
+   "family": "IMM",
+   "exit_regime": "default",
+   "candidate_corps": "pending-classification",
+   "mapping_source": "pending-classification (not in CEO-named lists; honest)",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.1194,
+    "recorded_oos_sharpe": 0.432,
+    "recorded_x2_full_sharpe": -0.2358,
+    "recorded_oos_trades": 286,
+    "recorded_max_dd": -0.2123
+   }
+  },
+  {
+   "member": "PROS-IMM-CE-01",
+   "strategy": "immortal_guide",
+   "family": "IMM",
+   "exit_regime": "ce",
+   "candidate_corps": "pending-classification",
+   "mapping_source": "pending-classification (not in CEO-named lists; honest)",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.1183,
+    "recorded_oos_sharpe": 0.3595,
+    "recorded_x2_full_sharpe": -0.2234,
+    "recorded_oos_trades": 247,
+    "recorded_max_dd": -0.208
+   }
+  },
+  {
+   "member": "PROS-MCB-01",
+   "strategy": "ma_converge_break",
+   "family": "MCB",
+   "exit_regime": "default",
+   "candidate_corps": "pending-classification",
+   "mapping_source": "pending-classification (not in CEO-named lists; honest)",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0588,
+    "recorded_oos_sharpe": 0.7651,
+    "recorded_x2_full_sharpe": -0.3731,
+    "recorded_oos_trades": 345,
+    "recorded_max_dd": -0.1132
+   }
+  },
+  {
+   "member": "PROS-MCB-CE-01",
+   "strategy": "ma_converge_break",
+   "family": "MCB",
+   "exit_regime": "ce",
+   "candidate_corps": "pending-classification",
+   "mapping_source": "pending-classification (not in CEO-named lists; honest)",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0437,
+    "recorded_oos_sharpe": 0.9458,
+    "recorded_x2_full_sharpe": -0.2443,
+    "recorded_oos_trades": 303,
+    "recorded_max_dd": -0.1038
+   }
+  },
+  {
+   "member": "PROS-OVB-01",
+   "strategy": "oversold_bounce",
+   "family": "OVB",
+   "exit_regime": "default",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": true,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0182,
+    "recorded_oos_sharpe": 0.4749,
+    "recorded_x2_full_sharpe": 0.1419,
+    "recorded_oos_trades": 41,
+    "recorded_max_dd": -0.0455
+   }
+  },
+  {
+   "member": "PROS-OVB-CE-01",
+   "strategy": "oversold_bounce",
+   "family": "OVB",
+   "exit_regime": "ce",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": true,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0176,
+    "recorded_oos_sharpe": 0.4749,
+    "recorded_x2_full_sharpe": 0.1513,
+    "recorded_oos_trades": 41,
+    "recorded_max_dd": -0.0455
+   }
+  },
+  {
+   "member": "PROS-RSRS-CE-01",
+   "strategy": "rsrs_timing",
+   "family": "RSRS",
+   "exit_regime": "ce",
+   "candidate_corps": "pending-classification",
+   "mapping_source": "pending-classification (not in CEO-named lists; honest)",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.09,
+    "recorded_oos_sharpe": 0.8398,
+    "recorded_x2_full_sharpe": -0.1749,
+    "recorded_oos_trades": 237,
+    "recorded_max_dd": -0.236
+   }
+  },
+  {
+   "member": "PROS-TMU-01",
+   "strategy": "three_methods_up",
+   "family": "TMU",
+   "exit_regime": "default",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0199,
+    "recorded_oos_sharpe": 0.5381,
+    "recorded_x2_full_sharpe": 0.0023,
+    "recorded_oos_trades": 22,
+    "recorded_max_dd": -0.0403
+   }
+  },
+  {
+   "member": "PROS-TMU-CE-01",
+   "strategy": "three_methods_up",
+   "family": "TMU",
+   "exit_regime": "ce",
+   "candidate_corps": "chop",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0198,
+    "recorded_oos_sharpe": 0.5009,
+    "recorded_x2_full_sharpe": 0.0143,
+    "recorded_oos_trades": 18,
+    "recorded_max_dd": -0.0383
+   }
+  },
+  {
+   "member": "PROS-VOB-CE-01",
+   "strategy": "vol_breakout",
+   "family": "VOB",
+   "exit_regime": "ce",
+   "candidate_corps": "attack",
+   "mapping_source": "O-20260924-2012 s3 CEO-named list",
+   "status": "candidate",
+   "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+   "no_blowup": true,
+   "evidence": {
+    "g2_neighborhood_pass": false,
+    "g2_cost_x3_pass": false,
+    "g2_per_year_pass": true,
+    "g2_worst_year": -0.0389,
+    "recorded_oos_sharpe": 1.267,
+    "recorded_x2_full_sharpe": 0.2013,
+    "recorded_oos_trades": 215,
+    "recorded_max_dd": -0.117
+   }
+  }
+ ],
+ "summary": {
+  "n_members": 28,
+  "registered_corps_counts": {
+   "attack": 1,
+   "chop": 5
+  },
+  "prospect_candidate_counts": {
+   "pending-classification": 7,
+   "chop": 10,
+   "attack": 5
+  },
+  "assigned_total": 6,
+  "candidate_total": 22
+ },
+ "audit": {
+  "ledger_trials_added": 0,
+  "engine_runs": 0,
+  "source_batches": [
+   "T22_VIRTUAL_TIMEPOINTS",
+   "T24_G2_PACK"
+  ],
+  "note": "aggregation/labeling over recorded cells (t24_prospect_paper precedent); source cells already ledgered by their batches; zero new trials"
+ },
+ "verdict": "corps roster v1: registered {'attack': 1, 'chop': 5} | prospect candidates {'pending-classification': 7, 'chop': 10, 'attack': 5} (assignment requires segment evidence per rule; PROSPECT = candidate-only)"
+}
