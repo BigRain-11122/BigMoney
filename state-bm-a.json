@@ -1,18 +1,17 @@
 {
- "round_no": 86,
+ "round_no": 87,
  "did": [
-  "R86 = T-24 slice (a) delivery round (dept:交易+工程): S0 pull fast-forward (bm-b r107 T-27 V2 + run1-void landed); S0.5 orders diff 55/55 EMPTY (double-scan closeout pending); P-32 decisions.md mtime 17:23:58 no new rows post-R83 D-11; smoke 23/23; inbox empty",
-  "T-28 stays open (T-27 winner = hard input; bm-c run1 VOID per pulled results -> winner not landed; physical-dependency defer clause stands in ticket)",
-  "T-24 slice (a) DONE: scripts/t24_prospect_paper.py = PROSPECT paper-tracking lane (PROSPECT_LEVELS in-script; live/paper.py untouched; composition byte-identity GIT-VERIFIED: results/paper/ + registered trader files zero changes) -- anchor replay = p3_portfolio.member_run base+x2 x t24_prospect_onboard._compare vs member prospect recorded_* (replay-gate precedent, ledger+0, engine_runs=44); paper window = live.paper.paper_run + T-20 fill_guard fresh + T-21 3-gate mirror (shadow today); monthly = live.paper.monthly_aggregate registered shape; drift->member untouched+exit2",
-  "batch LIVE-FIRE: 22/22 anchor PASS 0 drift, months_total=0 HONEST (created 09-24 > cutoff 09-23 = zero-bar windows, monthly ledger accumulates from first new bar); products results/prospect_paper/ 22 JSONs + _summary.json + cells jsonl (cutoff-keyed checkpoint); member files t[paper] updated (indent 2 hr-writer convention); hr 28/28 HOLD rc0 alloc 0%; selftest S1-S5 ALL PASS; display = build_status prospect.paper + town event line; S6 wiring landed in Tools/iteration_prompt.txt (runs after live.paper on new-bar rounds)",
-  "S6 all green: audit CLEAN / wm insufficient_history n=1 (new window; batch burned 44 engine runs in-round = red-flag real disposal) / daily 0 new rows cutoff 09-23 (source still unpublished 09-24 bar, fifth round, self-heal) / regime ORANGE shadow d1 #10 / lhb no-op cutoff-covers / heat no-op 09-24 collected / futures no-op / moneyflow spawn-throttle no-op 18.4min / fund_premium non-owner (R65) / fundamental fresh-skip 22.5h / b_layer mask ok / no new bar -> paper+prospect anchored no-run (prospect lane already ran as validation harvest) / build_status rc0 / token delta +33"
+  "R87 = T-24 slice (b) promotion-gate wiring round (dept:交易+工程): S0 ff-pull ccc2fdc..99a158f (bm-b r108 T-23 wave-1 judgment); S0.5 orders 55/55 empty double-scan (suffix-norm); P-32 no new rows; smoke 23/23; board 4 open (T-11 gated XSTOCK / T-26 / T-28 7d-veto / T-31) none bm-a-claimable",
+  "T-24 slice (b) DONE: scripts/t24_prospect_promotion.py = PROSPECT->INTERN promotion gate evaluator READ-ONLY, zero engine runs ledger+0 -- 3 legs per hr.PROSPECT_PROMOTION_GATE verbatim: paper_months>=1 (hr.THRESHOLDS shared), g2_full (onboarding legs + results/prospect_g2/<ID>.json pack neighborhood/x3/per_year, pack batch=future prereg), t22_beat_passive beat_rate_6m>=0.70 (P-5/P-5B from results/t22/*.jsonl; grid covers registered 6 only -> PROSPECT zero rows = honest leg fail); promotion execution stays registration-pipeline step (hr always HOLDs PROSPECT); member files never written",
+  "LIVE-FIRE: selftest S1-S8 ALL PASS; 22/22 honest NOT-ELIGIBLE (paper 0m + pack_missing + t22_rows 0); products results/prospect_promotion/ 22 verdicts + _summary.json (evidence_cutoff 2026-09-22); display = build_status _prospect_state().promotion + event line verified; S6 wired into Tools/iteration_prompt.txt (new-bar rounds after t24_prospect_paper)",
+  "S6 all green: audit CLEAN / wm insufficient_history n=1 new window / daily 0 new rows cutoff 09-23 (source unpublished 6th round, self-heal) / regime ORANGE shadow d1 #10 / lhb+heat+futures no-op / moneyflow DETACHED REFRESH spawned 19:14 (throttle expired; push2 block may re-fuse, monitor) / fund_premium non-owner R65 / fundamental 22.7h fresh-skip / b_layer 5 gates / token delta -60; MSG-1850 (bm-c->ALL T-27 winner B_MAXDIV GM-ratified+7d veto) processed+archived, bm-a zero action"
  ],
  "next_pointer": [
-  "(1) T-24 remaining: slice (b) PROSPECT_PROMOTION_GATE evidence-pack wiring (g2_full + t22_beat_passive packs), slice (c) rolling onboarding cadence from new research waves (O-1536 pool refresh)",
-  "(2) daily 09-24 bar self-heal sweep next round; moneyflow throttle-window self-heal",
-  "(3) T-22 finalize = bm-b lane (no bm-a action); T-27 batch = bm-c lane (run1 void, V2 in flight); T-28 unblocks when T-27 winner lands",
-  "(4) next 5x = R90 HANDOVER"
+  "(1) R88: G2 evidence-pack mini-prereg (PREREG_TEMPLATE: 22-member neighborhood grid + cost x3 + per-year, frozen SIGNAL_BUILDERS params, N_eff accounting) -> BelowNormal batch spawn = real red-flag carrier (watermark RED carryover honest: slice-b was L1 wiring)",
+  "(2) T-24 slice (c) rolling onboarding cadence (O-1536 pool refresh) after G2 pack batch",
+  "(3) daily 09-24 bar self-heal sweep; moneyflow detached refresh harvest next round (may re-fuse per push2 block)",
+  "(4) T-22 finalize = bm-b/GM lane; T-28 waits GM dual-disclosure ruling + veto window; next 5x = R90 HANDOVER"
  ],
- "note": "R86 red-flag disposition executed via real batch (44 anchor engine runs, T-24 lane validation harvest); watermark window reset -> insufficient_history n=1 accumulating; no new pitfall discovered (draft-stage local-global pd bug caught pre-run by selftest discipline, not production)",
- "last_round_ts": "2026-09-24T18:58:00+08:00"
+ "note": "R87 watermark red carryover disposed honestly: no fake padding -- real CPU carriers identified (G2 pack batch + T-22 PROSPECT sharding), G2 prereg = next round first slice; promotion gate now live so legs fill as evidence lands (first real eligibility check possible >= 1 paper month post first new bar + pack batches)",
+ "last_round_ts": "2026-09-24T19:14:28+08:00"
 }

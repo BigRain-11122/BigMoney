@@ -1302,6 +1302,13 @@ def _prospect_state() -> dict:
                         "data_cutoff": s.get("data_cutoff"),
                         "generated": s.get("generated"),
                         "window_semantics": s.get("window_semantics")}
+    g = _read_json(os.path.join(PATHS.results_dir, "prospect_promotion",
+                                "_summary.json"))
+    if g:
+        out["promotion"] = {"n_eligible": g.get("n_eligible"),
+                            "n_members": g.get("n_members"),
+                            "leg_pass": g.get("leg_pass"),
+                            "generated": g.get("generated")}
     return out
 
 
@@ -1543,11 +1550,20 @@ def build() -> dict:
             _trk = (f" · 纸面跟踪道已接线（过 {_pros['paper']['n_pass']}"
                     f"/{_pros['count']}·漂移 {_pros['paper']['n_drift']}"
                     f"·月账累积 {_pros['paper']['months_total']}）")
+        _gate = ""
+        if _pros.get("promotion"):
+            _p = _pros["promotion"]
+            _lp = _p.get("leg_pass") or {}
+            _gate = (f" · 晋升门评估 {_p['n_eligible']}/{_p['n_members']}"
+                     f" 达标（腿：纸面 {_lp.get('paper_months', 0)}"
+                     f"/{_p['n_members']}·G2包 {_lp.get('g2_full', 0)}"
+                     f"/{_p['n_members']}·T-22 {_lp.get('t22_beat_passive', 0)}"
+                     f"/{_p['n_members']}）")
         payload["events"].insert(2, {
             "time": "-", "text": f"PROSPECT 观察池 {_pros['count']} 员入场（T-24 首批，配置恒 0）· "
                                  f"anchor-repro {_anch}/{_pros['count']} 通过"
                                  + ("" if _pros["anchor_complete"] else "（批在途）")
-                                 + _trk
+                                 + _trk + _gate
                                  + "· 晋升 INTERN 须全 G2+T-22 0.70 门禁不放宽"})
     if paper["started"]:
         payload["events"].insert(2, {
