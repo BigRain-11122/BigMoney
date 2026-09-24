@@ -586,6 +586,7 @@ SEED_REGISTRY = {
     # repo-scan verified free 2026-09-24 22:4x before T-11 prereg freeze r99;
     # cross-window union with a158_truegap_ic 55_000 -- bases disjoint, both valid)
     "grid_p1": 55_500,                      # GRID_P1 grid-harvest K=100
+    "ths_agg_p1": 56_000,                   # THS-AGG-P1 all-size aggregate flow IC null K=50 (T-2026-09-25-43; band 56_000..56_049, rg-scan pre-register 2026-09-25 R120)
     # random-signal nulls (55_500+k default / 55_550+k ce, k<50; band verified
     # free: registry+rg scan 2026-09-25 03:1x -- sole other repo hits =
     # Money02/Money0923 data-file digit coincidences (non-RNG, t34 precedent);
