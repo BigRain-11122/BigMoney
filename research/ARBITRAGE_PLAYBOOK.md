@@ -29,7 +29,11 @@
 
 ## 三、数据面（外勘实锤 2026-09-24·akshare 源码级）
 
-- 基金面：`fund_lof_em`（LOF 场内行情）/`fund_em`（场外净值·fund_etf_fund_info_em）/`fund_etf_em`（ETF spot）/`fund_fhsp_em`（分红除息——premium 序列必须除息调整）
+- 基金面（**T-16 探针 pass3 实测实名**——骨架名 fund_etf_em/fund_lof_em/fund_fhsp_em 在 akshare 1.18.96 均不存在，probe-first 纠正）：
+  - `fund_etf_fund_daily_em`（ETF 日报表批量面·1660 行·**当日新鲜 2026-09-23**·自带 市价/单位净值/源算折价率 = premium 面板主源候选，单请求覆盖全宇宙）
+  - `fund_etf_fund_info_em(fund)`（单基金净值历史·fund.eastmoney 域·当日新鲜·panel 回填腿）
+  - `fund_etf_spot_em` / `fund_lof_spot_em`（场内快照·push2 域·**bm-c 实测间歇阻断**（pass2 双死/pass3 LOF 活）=bm-b r88 间歇抽杀同型；panel 场内腿改用本地 data/daily close 零新网络依赖，快照面仅 LOF 盘点用）
+  - `fund_etf_dividend_sina`（ETF 分红·sina 域·**须交易所前缀码 sh510300**，裸码返 0 行）/ `fund_announcement_dividend_em`（分红公告·datacenter 域·14 行实测）——premium 序列必须除息调整（两腿皆可承担守卫面）
 - AH 面：`stock_zh_ah_tx`（AH 比价）/`stock_hk_sina`（港股行情）/`stock_hsgt_em`（沪深港通）；恒生 AH 指数（index 模块待探）
 - 纪律：单探针先行（F-06 衍生律）·datacenter-web 域优先·checkpoint 续拉·活源单探针失败→诚实 parked
 - 汇率面：港币/人民币（AH 价差序列必含汇率口径披露）

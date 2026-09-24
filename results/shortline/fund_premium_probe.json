@@ -1,0 +1,422 @@
+{
+ "probe": "fund_premium_probe",
+ "ticket": "T-2026-09-24-16",
+ "lane": "ARB-1 fund premium (deliverable-1 probe-first)",
+ "ran_at": "2026-09-24T13:26:01",
+ "name_discovery": {
+  "playbook_skeleton_names": [
+   "fund_etf_em",
+   "fund_lof_em",
+   "fund_fhsp_em"
+  ],
+  "verdict": "absent in akshare 1.18.96 (AttributeError, first probe pass)",
+  "real_names_probed": [
+   "fund_etf_spot_em",
+   "fund_lof_spot_em",
+   "fund_etf_fund_daily_em",
+   "fund_etf_dividend_sina",
+   "fund_announcement_dividend_em"
+  ]
+ },
+ "faces": [
+  {
+   "face": "fund_etf_spot_em",
+   "meta": {
+    "desc": "ETF 场内行情快照",
+    "domain_family": "fund.eastmoney",
+    "renamed_from": "fund_etf_em (skeleton)"
+   },
+   "ok": false,
+   "latency_s": 5.86,
+   "error_class": "conn_level",
+   "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+  },
+  {
+   "face": "fund_lof_spot_em",
+   "meta": {
+    "desc": "LOF 场内行情快照",
+    "domain_family": "fund.eastmoney",
+    "renamed_from": "fund_lof_em (skeleton)"
+   },
+   "ok": true,
+   "latency_s": 5.56,
+   "rows": 390,
+   "cols": [
+    "代码",
+    "名称",
+    "最新价",
+    "涨跌额",
+    "涨跌幅",
+    "成交量",
+    "成交额",
+    "开盘价",
+    "最高价",
+    "最低价",
+    "昨收",
+    "换手率",
+    "流通市值",
+    "总市值"
+   ],
+   "sample": [
+    {
+     "代码": "161129",
+     "名称": "原油LOF易方达",
+     "最新价": "1.926",
+     "涨跌额": "0.059",
+     "涨跌幅": "3.16",
+     "成交量": "3884889.0",
+     "成交额": "746587550.846",
+     "开盘价": "1.9",
+     "最高价": "1.94",
+     "最低价": "1.897",
+     "昨收": "1.867",
+     "换手率": "88.65",
+     "流通市值": "843997052",
+     "总市值": "843997052"
+    },
+    {
+     "代码": "501018",
+     "名称": "南方原油LOF",
+     "最新价": "1.983",
+     "涨跌额": "0.047",
+     "涨跌幅": "2.43",
+     "成交量": "1478445.0",
+     "成交额": "293419514.0",
+     "开盘价": "1.975",
+     "最高价": "1.997",
+     "最低价": "1.971",
+     "昨收": "1.936",
+     "换手率": "20.24",
+     "流通市值": "1448369716",
+     "总市值": "1448369716"
+    },
+    {
+     "代码": "160723",
+     "名称": "嘉实原油LOF",
+     "最新价": "2.251",
+     "涨跌额": "0.047",
+     "涨跌幅": "2.13",
+     "成交量": "741106.0",
+     "成交额": "166999293.576",
+     "开盘价": "2.236",
+     "最高价": "2.268",
+     "最低价": "2.236",
+     "昨收": "2.204",
+     "换手率": "13.53",
+     "流通市值": "1232547620",
+     "总市值": "1232547620"
+    }
+   ],
+   "freshness": {
+    "col": null,
+    "max": null
+   },
+   "value_probe": {
+    "col": "最新价",
+    "non_null": 322,
+    "total": 390,
+    "non_null_rate": 0.8256
+   }
+  },
+  {
+   "face": "fund_etf_fund_info_em",
+   "meta": {
+    "desc": "场外单位净值历史（单基金）",
+    "fund": "510300",
+    "why": "domestic core48 member"
+   },
+   "ok": true,
+   "latency_s": 1.04,
+   "rows": 259,
+   "cols": [
+    "净值日期",
+    "单位净值",
+    "累计净值",
+    "日增长率",
+    "申购状态",
+    "赎回状态"
+   ],
+   "sample": [
+    {
+     "净值日期": "2025-09-01",
+     "单位净值": "4.6194",
+     "累计净值": "1.9944",
+     "日增长率": "0.6",
+     "申购状态": "场内买入",
+     "赎回状态": "场内卖出"
+    },
+    {
+     "净值日期": "2025-09-02",
+     "单位净值": "4.5853",
+     "累计净值": "1.9817",
+     "日增长率": "-0.74",
+     "申购状态": "场内买入",
+     "赎回状态": "场内卖出"
+    },
+    {
+     "净值日期": "2025-09-03",
+     "单位净值": "4.5538",
+     "累计净值": "1.97",
+     "日增长率": "-0.69",
+     "申购状态": "场内买入",
+     "赎回状态": "场内卖出"
+    }
+   ],
+   "freshness": {
+    "col": "净值日期",
+    "max": "2026-09-23"
+   },
+   "value_probe": {
+    "col": "单位净值",
+    "non_null": 259,
+    "total": 259,
+    "non_null_rate": 1.0
+   }
+  },
+  {
+   "face": "fund_etf_fund_info_em",
+   "meta": {
+    "desc": "场外单位净值历史（单基金）",
+    "fund": "513100",
+    "why": "QDII member (premium key)"
+   },
+   "ok": true,
+   "latency_s": 0.97,
+   "rows": 258,
+   "cols": [
+    "净值日期",
+    "单位净值",
+    "累计净值",
+    "日增长率",
+    "申购状态",
+    "赎回状态"
+   ],
+   "sample": [
+    {
+     "净值日期": "2025-09-01",
+     "单位净值": "1.666",
+     "累计净值": "8.33",
+     "日增长率": "0.06",
+     "申购状态": "暂停申购",
+     "赎回状态": "暂停赎回"
+    },
+    {
+     "净值日期": "2025-09-02",
+     "单位净值": "1.653",
+     "累计净值": "8.265",
+     "日增长率": "-0.78",
+     "申购状态": "暂停申购",
+     "赎回状态": "场内卖出"
+    },
+    {
+     "净值日期": "2025-09-03",
+     "单位净值": "1.666",
+     "累计净值": "8.33",
+     "日增长率": "0.79",
+     "申购状态": "暂停申购",
+     "赎回状态": "场内卖出"
+    }
+   ],
+   "freshness": {
+    "col": "净值日期",
+    "max": "2026-09-23"
+   },
+   "value_probe": {
+    "col": "单位净值",
+    "non_null": 258,
+    "total": 258,
+    "non_null_rate": 1.0
+   }
+  },
+  {
+   "face": "fund_etf_fund_daily_em",
+   "meta": {
+    "desc": "ETF 日报表（净值/IOPV 批量面候选）",
+    "domain_family": "fund.eastmoney"
+   },
+   "ok": true,
+   "latency_s": 0.6,
+   "rows": 1660,
+   "cols": [
+    "基金代码",
+    "基金简称",
+    "类型",
+    "2026-09-23-单位净值",
+    "2026-09-23-累计净值",
+    "2026-09-22-单位净值",
+    "2026-09-22-累计净值",
+    "增长值",
+    "增长率",
+    "市价",
+    "折价率"
+   ],
+   "sample": [
+    {
+     "基金代码": "511010",
+     "基金简称": "国债ETF国泰",
+     "类型": "指数型-固收",
+     "2026-09-23-单位净值": "140.6640",
+     "2026-09-23-累计净值": "1.4610",
+     "2026-09-22-单位净值": "140.6960",
+     "2026-09-22-累计净值": "1.4610",
+     "增长值": "-0.0320",
+     "增长率": "-0.02%",
+     "市价": "140.6640",
+     "折价率": "0.00%"
+    },
+    {
+     "基金代码": "511260",
+     "基金简称": "十年国债ETF国泰",
+     "类型": "指数型-固收",
+     "2026-09-23-单位净值": "134.8140",
+     "2026-09-23-累计净值": "1.4020",
+     "2026-09-22-单位净值": "134.8380",
+     "2026-09-22-累计净值": "1.4020",
+     "增长值": "-0.0240",
+     "增长率": "-0.02%",
+     "市价": "134.8050",
+     "折价率": "0.01%"
+    },
+    {
+     "基金代码": "511270",
+     "基金简称": "10年地方债ETF海",
+     "类型": "指数型-固收",
+     "2026-09-23-单位净值": "121.4540",
+     "2026-09-23-累计净值": "1.4214",
+     "2026-09-22-单位净值": "121.4389",
+     "2026-09-22-累计净值": "1.4212",
+     "增长值": "0.0151",
+     "增长率": "0.01%",
+     "市价": "121.4460",
+     "折价率": "0.01%"
+    }
+   ],
+   "freshness_via": "column_names",
+   "freshness": {
+    "col": "2026-09-23",
+    "max": "2026-09-23"
+   },
+   "value_probe": {
+    "col": null,
+    "non_null": 0,
+    "total": 1660,
+    "non_null_rate": 0.0
+   }
+  },
+  {
+   "face": "fund_etf_dividend_sina",
+   "meta": {
+    "desc": "ETF 分红除息记录",
+    "domain_family": "sina",
+    "renamed_from": "fund_fhsp_em (skeleton)",
+    "arg_note": "pass2 bare '510300' returned 0 rows; sina wants prefixed code"
+   },
+   "ok": true,
+   "latency_s": 0.27,
+   "rows": 14,
+   "cols": [
+    "日期",
+    "累计分红"
+   ],
+   "sample": [
+    {
+     "日期": "2012-12-18",
+     "累计分红": "0.033"
+    },
+    {
+     "日期": "2014-01-21",
+     "累计分红": "0.081"
+    },
+    {
+     "日期": "2015-01-20",
+     "累计分红": "0.116"
+    }
+   ],
+   "freshness": {
+    "col": "日期",
+    "max": "2026-01-19"
+   },
+   "value_probe": {
+    "col": "累计分红",
+    "non_null": 14,
+    "total": 14,
+    "non_null_rate": 1.0
+   }
+  },
+  {
+   "face": "fund_announcement_dividend_em",
+   "meta": {
+    "desc": "基金分红公告（datacenter）",
+    "domain_family": "datacenter-web",
+    "renamed_from": "fund_fhsp_em (skeleton)"
+   },
+   "ok": true,
+   "latency_s": 0.03,
+   "rows": 14,
+   "cols": [
+    "基金代码",
+    "公告标题",
+    "基金名称",
+    "公告日期",
+    "报告ID"
+   ],
+   "sample": [
+    {
+     "基金代码": "510300",
+     "公告标题": "华泰柏瑞基金管理有限公司关于华泰柏瑞沪深300交易型开放式指数证券投资基金收益分配公告",
+     "基金名称": "华泰柏瑞沪深300ETF",
+     "公告日期": "2012-12-12",
+     "报告ID": "AN201212120005643424"
+    },
+    {
+     "基金代码": "510300",
+     "公告标题": "华泰柏瑞基金管理有限公司关于华泰柏瑞沪深300交易型开放式指数证券投资基金收益分配公告",
+     "基金名称": "华泰柏瑞沪深300ETF",
+     "公告日期": "2014-01-15",
+     "报告ID": "AN201401140004972119"
+    },
+    {
+     "基金代码": "510300",
+     "公告标题": "华泰柏瑞基金管理有限公司关于华泰柏瑞沪深300交易型开放式指数证券投资基金收益分配公告",
+     "基金名称": "华泰柏瑞沪深300ETF",
+     "公告日期": "2015-01-14",
+     "报告ID": "AN201501130008127186"
+    }
+   ],
+   "freshness": {
+    "col": "公告日期",
+    "max": "2026-01-12"
+   },
+   "value_probe": {
+    "col": null,
+    "non_null": 0,
+    "total": 14,
+    "non_null_rate": 0.0
+   }
+  }
+ ],
+ "cross_check_510300": {
+  "constructible": true,
+  "note": "via fund_etf_fund_daily_em (source-computed 折价率; spot face push2-blocked on bm-c)",
+  "fund": "510300",
+  "市价": 4.59,
+  "单位净值_2026-09-23": 4.5904,
+  "source_discount_rate": "0.01%",
+  "nav_date": "2026-09-23",
+  "lag_semantics": "NAV published T-day (source shows same-day NAV); forward-only usage per ticket note",
+  "evidence": "tail-verified fund_etf_fund_info_em last=2026-09-23; daily face row verified live"
+ },
+ "audit": {
+  "ledger_trials_added": 0,
+  "kind": "source-probe (probe-first, zero-assumption)",
+  "throttle_s": 2.5,
+  "proxy_env_cleared": true,
+  "passes": 2,
+  "pass1_note": "skeleton-name AttributeError trail preserved here; pass2 = real names"
+ },
+ "pass3_addendum": {
+  "freshness_fix": "df_freshness head(200)-truncation bug: inverted condition kept head-scan for 259-row faces; targeted live check proved NAV history fresh to 2026-09-23 (NOT 2026-07-02); script fixed for future runs",
+  "spot_face_ruling": "fund_etf_spot_em conn_level blocked (push2 family, bm-c); panel on-exchange leg = local data/daily close (zero new network) + daily face 市价/折价率 cross",
+  "lof_face_ruling": "fund_lof_spot_em intermittent (pass2 blocked / pass3 ok 390 rows) = bm-b r88 间歇抽杀同型, puller must be retry-windowed"
+ }
+}
