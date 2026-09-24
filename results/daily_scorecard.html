@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang='zh-CN'><head><meta charset='utf-8'>
+<title>量化战绩 · BigMoney</title>
+<style>body{font-family:'Microsoft YaHei',sans-serif;background:#0d1117;color:#e6edf3;margin:0;padding:24px;max-width:980px}h1{font-size:22px;margin:0 0 4px}h2{font-size:15px;color:#58a6ff;margin:22px 0 8px;border-bottom:1px solid #21262d;padding-bottom:6px}.sub{color:#8b949e;font-size:12px;margin-bottom:14px}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:6px 10px;border-bottom:1px solid #21262d;text-align:left}th{color:#8b949e;font-weight:normal}.pos{color:#3fb950}.neg{color:#f85149}.dim{color:#8b949e}.card{background:#161b22;border:1px solid #21262d;border-radius:8px;padding:14px 16px;margin-bottom:10px}.warn{background:#1f1221;border:1px solid #3d1f4d;border-radius:8px;padding:10px 14px;font-size:12px;color:#d2a8ff;margin-top:16px}</style></head><body>
+<h1>量化战绩 · 每日直达面</h1>
+<div class='sub'>数据截止 2026-09-23 · 生成于 paper 真账本+已归档成绩单 · 全部数字自动取自 results/paper 与 O-1600 成绩单，零手写（T-29 · O-1718）</div>
+<h2>当前市场适配成绩单（已归档 · 2026-01-05 → 2026-09-23）</h2>
+<div class='sub'>同期被动基准 EW-48：-3.89%——2026 为下行市场，跑赢被动即适配；在册员 beat_passive 见表（O-1600）</div>
+<table><tr><th>交易员</th><th>窗口收益%</th><th>回撤%</th><th>相对被动(pp)</th><th>笔数</th><th>Sharpe</th><th>跑赢被动</th></tr>
+<tr><td>COMPOSITE-CE-01</td><td>+1.41%</td><td>-7.50%</td><td class='pos'>+5.30</td><td>66</td><td>0.253</td><td class='pos'>✓</td></tr>
+<tr><td>COMPOSITE-CE-02</td><td>+2.47%</td><td>-8.06%</td><td class='pos'>+6.36</td><td>117</td><td>0.371</td><td class='pos'>✓</td></tr>
+<tr><td>DROUGHT-CE-01</td><td>+3.99%</td><td>-2.65%</td><td class='pos'>+7.88</td><td>22</td><td>1.209</td><td class='pos'>✓</td></tr>
+<tr><td>ENGULF-CE-01</td><td>-1.45%</td><td>-4.14%</td><td class='pos'>+2.44</td><td>22</td><td>-0.482</td><td class='pos'>✓</td></tr>
+<tr><td>NEEDLE-DE-01</td><td>+0.61%</td><td>-3.12%</td><td class='pos'>+4.50</td><td>19</td><td>0.202</td><td class='pos'>✓</td></tr>
+<tr><td>VOLATILITY-CE-01</td><td>+2.94%</td><td>-0.94%</td><td class='pos'>+6.83</td><td>62</td><td>1.605</td><td class='pos'>✓</td></tr>
+</table>
+<h2>纸盘实盘级跟踪（live.paper 真账本）</h2>
+<table><tr><th>交易员</th><th>起跑</th><th>bars</th><th>完整月数</th><th>当月(残月·不计)</th><th>当前回撤</th><th>笔数</th><th>风控政体</th></tr>
+<tr><td>COMPOSITE-CE-01</td><td>2026-09-23</td><td>1</td><td>0</td><td class='dim'>2026-09 +0.00% (1 bars)</td><td class=''>+0.00%</td><td>0</td><td class='dim'>— cap 0.8</td></tr>
+<tr><td>COMPOSITE-CE-02</td><td>2026-09-23</td><td>1</td><td>0</td><td class='dim'>2026-09 +0.00% (1 bars)</td><td class=''>+0.00%</td><td>0</td><td class='dim'>— cap 0.8</td></tr>
+<tr><td>DROUGHT-CE-01</td><td>2026-09-23</td><td>1</td><td>0</td><td class='dim'>2026-09 +0.00% (1 bars)</td><td class=''>+0.00%</td><td>0</td><td class='dim'>— cap 0.8</td></tr>
+<tr><td>ENGULF-CE-01</td><td>2026-09-23</td><td>1</td><td>0</td><td class='dim'>2026-09 +0.00% (1 bars)</td><td class=''>+0.00%</td><td>0</td><td class='dim'>— cap 0.8</td></tr>
+<tr><td>NEEDLE-DE-01</td><td>2026-09-23</td><td>1</td><td>0</td><td class='dim'>2026-09 +0.00% (1 bars)</td><td class=''>+0.00%</td><td>0</td><td class='dim'>— cap 0.8</td></tr>
+<tr><td>VOLATILITY-CE-01</td><td>2026-09-23</td><td>1</td><td>0</td><td class='dim'>2026-09 +0.00% (1 bars)</td><td class=''>+0.00%</td><td>0</td><td class='dim'>— cap 0.8</td></tr>
+</table>
+<div class='sub'>操作台账：纸盘尚在首月（起跑 2026-09-23），在册员尚未触发开平仓信号；「选股择时」动作台账自首笔信号起逐笔记录（fill_guard 计数随每 bar 更新）。</div>
+<h2>月度战绩（完整成绩单）</h2>
+<div class='sub'>完整战绩月自 2026-10-01 起算（IV6+REGIME_GUARD enforce 双切换）；首份完整月度成绩单=2026-10-31 首检；月度四件套自动并入。</div>
+<div class='warn'><b>诚实边界</b>：残月不计入战绩（全员 months_tracked=0）；上表窗口成绩=研究计分口径（样本外 2026 窗·成本恒开）；不承诺未来收益；跑分幅度现阶段为稳健起步（年化 3% 级·回撤 −2.4%），「大幅」靠锦标赛与新因子线迭代爬坡，如实展示不夸大。</div>
+</body></html>

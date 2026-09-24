@@ -1,15 +1,15 @@
 {
  "machine_id": "bm-c",
- "last_seen": "2026-09-24T17:29:46",
- "current_task": "r60: T-22 shard takeover per O-1730 s1 (prereg frozen + runner + legacy shard c1 15,060 cells detached BelowNormal COMPLETED in-round 323s = real-RED disposal done) + T-25 collision absorbed (bm-a C7 adopted, duplicate orphaned leg-1 discarded, marker untracked) + 6 CEO orders acked (T-26..T-30 on board); r61 = T-22 finalize + deep d-c1 + T-29 claim",
+ "last_seen": "2026-09-24T17:54",
+ "current_task": "r61 closed: T-29 claim+start (scorecard v0.1 delivered) + T-22 x2 rerun confirmed done (orphan tail, MSG-1752 reply) + d-c1 [0,1400) physical data-block (no Money02 on bm-c) with MSG-1752 cache-transfer request + canonical runner adopted (GM 69dfc9c, selftest green); r62 = d-c1 on cache arrival + T-22 full finalize + T-29 v0.2",
  "cores": 32,
- "free_ram_gb": 9.7,
+ "free_ram_gb": 9.9,
  "gpu_free_vram_gb": 12.4,
  "total_ram_gb": 25.7,
- "cpu_util_pct": 7.9,
- "verdict": "r60 FULL WORK CLOSED: T-22 legacy axis COMPLETED IN-ROUND (shard c1 15,060/15,060 cells in 323s, 19 workers BelowNormal, py 93.6% burn = RED disposal per O-1730; prereg frozen pre-run commit c8baf1c, P-5 caliber, {6m,12m,24m}x{base,x2}; finalize+deep-axis = r61) + T-25 cession absorbed (anti-dup: orphaned duplicate discarded, bm-a canonical adopted, marker hygiene) + 6 CEO orders acked 54/54 + 5x HANDOVER r60 + S6 green (daily source-lag honest retry, regime ORANGE d1) + smoke 23/23; orders 54/54, round 60",
- "heartbeat_epoch_utc": 1790242186,
- "clock_read": "2026-09-24T17:29:46+08:00",
- "orders_ack": "O-20260923-1514 O-20260923-1533 O-20260923-1536 O-20260923-1538 O-20260923-1545 O-20260923-1620 O-20260923-1636 O-20260923-1653 O-20260923-1705 O-20260923-1738 O-20260923-1810 O-20260923-1816 O-20260923-1819 O-20260923-1820 O-20260923-1823 O-20260923-1828 O-20260923-1844 O-20260923-1850 O-20260923-2134 O-20260923-2205 O-20260923-2210 O-20260923-2215 O-20260923-2250 O-20260923-2310 O-20260923-2311 O-20260923-2315 O-20260923-2325 O-20260923-2345 O-20260924-0100 O-20260924-1045 O-20260924-1110 O-20260924-1120 O-20260924-1136 O-20260924-1141 O-20260924-1145 O-20260924-1155 O-20260924-1235 O-20260924-1255 O-20260924-1310 O-20260924-1320 O-20260924-1325 O-20260924-1402 O-20260924-1532 O-20260924-1536 O-20260924-1542 O-20260924-1600 O-20260924-1612 O-20260924-1626 O-20260924-1655 O-20260924-1702 O-20260924-1712 O-20260924-1718 O-20260924-1721 O-20260924-1730",
+ "cpu_util_pct": 1.2,
+ "verdict": "r61 CLOSED: scorecard direct-face v0.1 (O-1718) claimed+started+delivered same round per O-1730 s1.5; T-22 legacy c1 both faces valid on disk (base 7530 + x2 7530 rerun), deep d-c1 data-blocked with transfer request filed (legit O-1730 defer, ticket-noted); duplicate-batch P5C-vs-T22 + deep MIN_LISTED ruling = GM pending; S6 green (daily source-lag honest, regime ORANGE d1); orders 56/56, round 61",
+ "heartbeat_epoch_utc": 1790243660,
+ "clock_read": "2026-09-24T17:54:20+08:00",
+ "orders_ack": "O-20260923-1514 O-20260923-1533 O-20260923-1536 O-20260923-1538 O-20260923-1545 O-20260923-1620 O-20260923-1636 O-20260923-1653 O-20260923-1705 O-20260923-1738 O-20260923-1810 O-20260923-1816 O-20260923-1819 O-20260923-1820 O-20260923-1823 O-20260923-1828 O-20260923-1844 O-20260923-1850 O-20260923-2134 O-20260923-2205 O-20260923-2210 O-20260923-2215 O-20260923-2250 O-20260923-2310 O-20260923-2311 O-20260923-2315 O-20260923-2325 O-20260923-2345 O-20260924-0100 O-20260924-1045 O-20260924-1110 O-20260924-1120 O-20260924-1136 O-20260924-1141 O-20260924-1145 O-20260924-1155 O-20260924-1235 O-20260924-1255 O-20260924-1310 O-20260924-1320 O-20260924-1325 O-20260924-1402 O-20260924-1532 O-20260924-1536 O-20260924-1542 O-20260924-1600 O-20260924-1612 O-20260924-1626 O-20260924-1655 O-20260924-1702 O-20260924-1712 O-20260924-1718 O-20260924-1721 O-20260924-1730 O-20260924-1402-cph4 O-20260924-1727",
  "cpu_cores": 32
 }

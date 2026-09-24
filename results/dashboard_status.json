@@ -4,13 +4,13 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T17:26:03"
+    "generated_at": "2026-09-24T17:53:35"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T17:11:17",
+      "at": "2026-09-24T17:48:07",
       "ok": true
     },
     "network": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-24 17:25:32",
+      "last_run": "2026-09-24 17:53:14",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: snapshot for 2026-09-24 already collected",
       "l1_snapshots": 1,
-      "l1_updated": "2026-09-24 17:25:47",
+      "l1_updated": "2026-09-24 17:53:25",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -55,7 +55,7 @@
       "present": true,
       "varieties": 9,
       "planned": 9,
-      "last_attempt": "2026-09-24T17:25:47",
+      "last_attempt": "2026-09-24T17:53:25",
       "age_min": 0,
       "cutoff": "2026-09-23",
       "errors": 0,
@@ -75,35 +75,35 @@
       "conn_stopped": true,
       "mismatches": 0,
       "last_attempt": "2026-09-24T16:18:56",
-      "age_min": 67,
+      "age_min": 94,
       "status": "warn",
       "text": "资金流源阻断停发 · 30min 自愈 · 已采 53/5222"
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 16:38:39",
-      "mandate_est": 4240,
-      "codely_context_est": 9521,
-      "state_est": 2557,
-      "report_est": 110299,
-      "delta_state": -736,
-      "delta_report": 939,
-      "delta_prev": "2026-09-24 16:18:57"
+      "generated": "2026-09-24 17:26:04",
+      "mandate_est": 4334,
+      "codely_context_est": 11366,
+      "state_est": 2072,
+      "report_est": 112483,
+      "delta_state": -485,
+      "delta_report": 2184,
+      "delta_prev": "2026-09-24 16:38:39"
     },
     "watermark": {
       "present": true,
       "py_tail": [
-        0.0,
         1.6,
         0.5,
         0.0,
-        66.2
+        66.2,
+        0.3
       ],
-      "last_sample": "2026-09-24 17:25:21",
-      "red": false,
-      "lane": "—",
+      "last_sample": "2026-09-24 17:53:11",
+      "red": true,
+      "lane": "runnable-work-idle-low-cpu (escalate: round-report P0 + dashboard red; GM waiver per O-1612)",
       "zombies_killed": [],
-      "red_flags_recent": 4
+      "red_flags_recent": 5
     },
     "regime": {
       "present": true,
@@ -237,7 +237,7 @@
       {
         "id": "bm-a",
         "last_seen": "2026-09-24T16:44:33+08:00",
-        "age_min": 41.5,
+        "age_min": 69.0,
         "health": "warn",
         "cpu_cores": 32,
         "idle_ram_gb": null,
@@ -250,31 +250,31 @@
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-09-24T15:45:46+08:00",
-        "age_min": 100.3,
+        "last_seen": "2026-09-24T16:41:40+08:00",
+        "age_min": 71.9,
         "health": "warn",
         "cpu_cores": 16,
         "idle_ram_gb": null,
         "gpu_idle_vram_mb": null,
-        "current_task": "r104 closed: S0 union re-integration + T-13 d2b re-prereg (GM ruling pending) + T-22 claimed (CEO O-1532)",
+        "current_task": "r105 closed: T-22 slice-2 (runner selftest 15/15 + O-1600 market-fit slice 6/6 fit + leg L grid in flight PID 10380); 5 orders acked 48/48",
         "verdict": "ok",
-        "orders_ack": "FULL ENUMERATION 43/43 (all: O-20260923-1514-bm-a O-20260923-1533-bm-a O-20260923-1536-bm-a O-20260923-1538-bm-a O-20260923-1545-bm-a O-20260923-1620-bm-a O-20260923-1636-bm-a O-20260923-1653-bm-a O-20260923-1705-bm-a O-20260923-1738-bm-a O-20260923-1810-bm-a O-20260923-1816-bm-a O-20260923-1819-bm-a O-20260923-1820-bm-a O-20260923-1823-bm-a O-20260923-1828-bm-a O-20260923-1844-bm-a O-20260923-1850-bm-a O-20260923-2134-bm-a O-20260923-2205-bm-a O-20260923-2210-bm-a O-20260923-2215-bm-a O-20260923-2250-bm-a O-20260923-2310-bm-a O-20260923-2311-bm-a O-20260923-2315-bm-a O-20260923-2325-bm-a O-20260923-2345-bm-a O-20260924-0100-bm-c O-20260924-1045-bm-a O-20260924-1110-bm-a O-20260924-1120-bm-a O-20260924-1136-bm-a O-20260924-1141-bm-a O-20260924-1145-bm-a O-20260924-1155-bm-a O-20260924-1235-bm-a O-20260924-1255-bm-a O-20260924-1310-bm-a O-20260924-1320-bm-a O-20260924-1325-bm-a O-20260924-1402-cph4 O-20260924-1532-bm-a) -- r104 bm-b acks: O-20260924-1402-cph4 executed on bm-b scope (E0 four-questions gate adopted+live, P-33 total_ram_gb/cpu_util_pct landed in this heartbeat, item3 bm-c lane per bm-a MSG-1410, item4 decisions.md absent on bm-b=honest no-op, item5 T-13 spec R-20260924-infra-4-overfit.md unreachable in-repo=disclosed not started; bulk CODELY.md surgery N/A on bm-b: project 21,230B + user-level 4,794B + .codely-cli 648B all <=50KB watermark, 470KB bloat=bm-a machine-local per their r76 defer); O-20260924-1532-bm-a CEO order received+executed: T-22 claimed same round (MSG-1552), prereg-first r105, run-phase shards + GF gate handling before any run",
-        "clock_read": "2026-09-24T15:45:46+08:00",
-        "round_no": 104
+        "orders_ack": "O-20260923-1514-bm-a O-20260923-1533-bm-a O-20260923-1536-bm-a O-20260923-1538-bm-a O-20260923-1545-bm-a O-20260923-1620-bm-a O-20260923-1636-bm-a O-20260923-1653-bm-a O-20260923-1705-bm-a O-20260923-1738-bm-a O-20260923-1810-bm-a O-20260923-1816-bm-a O-20260923-1819-bm-a O-20260923-1820-bm-a O-20260923-1823-bm-a O-20260923-1828-bm-a O-20260923-1844-bm-a O-20260923-1850-bm-a O-20260923-2134-bm-a O-20260923-2205-bm-a O-20260923-2210-bm-a O-20260923-2215-bm-a O-20260923-2250-bm-a O-20260923-2310-bm-a O-20260923-2311-bm-a O-20260923-2315-bm-a O-20260923-2325-bm-a O-20260923-2345-bm-a O-20260924-0100-bm-c O-20260924-1045-bm-a O-20260924-1110-bm-a O-20260924-1120-bm-a O-20260924-1136-bm-a O-20260924-1141-bm-a O-20260924-1145-bm-a O-20260924-1155-bm-a O-20260924-1235-bm-a O-20260924-1255-bm-a O-20260924-1310-bm-a O-20260924-1320-bm-a O-20260924-1325-bm-a O-20260924-1402-cph4 O-20260924-1532-bm-a O-20260924-1536-bm-a O-20260924-1542-bm-a O-20260924-1600-bm-a O-20260924-1612-bm-a O-20260924-1626-bm-a -- FULL ENUMERATION 48/48 -- r105 bm-b acks: O-20260924-1536 strategy-enrichment+external-research T-23 (ticket open, enrichment lane queued behind T-22 run-phase, ban-zones+top-rules red lines adopted); O-20260924-1542 PROSPECT roster T-24 (bm-a lane; O-1600 slice reads pool dynamically = 0 honest at run time); O-20260924-1600 market-fit slice EXECUTED: window 2026-01-05->2026-09-23 177 bars, anchors 6/6, PROSPECT 0, passive EW-48 -5.82% dd -13.53%, ALL 6 beat passive = fit-current-market 6/6 (DROUGHT +3.99 top; x2 face 3pos/3neg disclosed), products results/shortline/o1600_market_fit.json + research/shortline/o1600_market_fit.csv, ledger 3077+19=3096, CEO report delivered same round; O-20260924-1612 full-load unblock+GF waiver EXECUTED: leg L legacy-axis grid launched immediately (16,289 cells detached PID 10380 checkpointed, 12 workers BelowNormal, py_cpu 100% = compliance inversion, audit cap_violation flag disclosed), leg D = branch-b events_n disclosure column queued behind XSTOCK post-chain (Money02 data contention; XSTOCK 274/274 ok @16:4x), T-19 today-must = bm-c lane respected zero-touch; O-20260924-1626 CPU closed-loop mechanism T-25 (ticket open, unclaimed this round -- bm-b lane loaded; R3 adopted live from this round: report first line carries WM-VERDICT; R4 = GM-side discipline noted)",
+        "clock_read": "2026-09-24T16:41:40+08:00",
+        "round_no": 105
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-09-24T16:30:50",
-        "age_min": 55.2,
-        "health": "warn",
+        "last_seen": "2026-09-24T17:29:46",
+        "age_min": 23.8,
+        "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": null,
         "gpu_idle_vram_mb": null,
-        "current_task": "r59 closed: T-19 stage-3 delivered per O-1612 (adjust_factors + adjusted_view x19, gates 6/6 PASS, GF hard gate O-1310 s3 SATISFIED = deep-axis clean re-run unblocked; stage-2a holds on O-1325 T-20 relay, lands after bm-a G6) + T-25 claimed (O-1626 CPU full-load closed-loop, watermark-author lineage, MSG-1633); r60 = T-25 leg-1 (watchdog C7 + audit disposal) + 5x HANDOVER",
-        "verdict": "healthy: O-1612 executed (T-19 stage-3 delivered today per must-deliver clause: 21 price-implied factors + per-sym break lists = option-a guard face, adjusted_view x19 parquet, gates 6/6 PASS, GF O-1310 s3 probe-replicated SATISFIED -> deep-axis clean re-run unblocked; raw panel authoritative, D2 zero-rewrite) + O-1626 executed (T-25 claimed by bm-c 16:33, watermark-author lineage, freest lane tonight, F-04 MSG-1633 first, r60 leg-1 delivery) + S6 green (wm insufficient_history n=1 window accumulating, daily source-lag honest no-op cutoff 09-23, regime ORANGE shadow d1, lhb store-absent design-state, token +180); orders 48/48, round 59",
-        "orders_ack": "O-20260923-1514 O-20260923-1533 O-20260923-1536 O-20260923-1538 O-20260923-1545 O-20260923-1620 O-20260923-1636 O-20260923-1653 O-20260923-1705 O-20260923-1738 O-20260923-1810 O-20260923-1816 O-20260923-1819 O-20260923-1820 O-20260923-1823 O-20260923-1828 O-20260923-1844 O-20260923-1850 O-20260923-2134 O-20260923-2205 O-20260923-2210 O-20260923-2215 O-20260923-2250 O-20260923-2310 O-20260923-2311 O-20260923-2315 O-20260923-2325 O-20260923-2345 O-20260924-0100 O-20260924-1045 O-20260924-1110 O-20260924-1120 O-20260924-1136 O-20260924-1141 O-20260924-1145 O-20260924-1155 O-20260924-1235 O-20260924-1255 O-20260924-1310 O-20260924-1320 O-20260924-1325 O-20260924-1402 O-20260924-1532 O-20260924-1536 O-20260924-1542 O-20260924-1600 O-20260924-1612 O-20260924-1626",
-        "clock_read": "2026-09-24T16:30:50+08:00",
-        "round_no": 59
+        "current_task": "r60: T-22 shard takeover per O-1730 s1 (prereg frozen + runner + legacy shard c1 15,060 cells detached BelowNormal COMPLETED in-round 323s = real-RED disposal done) + T-25 collision absorbed (bm-a C7 adopted, duplicate orphaned leg-1 discarded, marker untracked) + 6 CEO orders acked (T-26..T-30 on board); r61 = T-22 finalize + deep d-c1 + T-29 claim",
+        "verdict": "r60 FULL WORK CLOSED: T-22 legacy axis COMPLETED IN-ROUND (shard c1 15,060/15,060 cells in 323s, 19 workers BelowNormal, py 93.6% burn = RED disposal per O-1730; prereg frozen pre-run commit c8baf1c, P-5 caliber, {6m,12m,24m}x{base,x2}; finalize+deep-axis = r61) + T-25 cession absorbed (anti-dup: orphaned duplicate discarded, bm-a canonical adopted, marker hygiene) + 6 CEO orders acked 54/54 + 5x HANDOVER r60 + S6 green (daily source-lag honest retry, regime ORANGE d1) + smoke 23/23; orders 54/54, round 60",
+        "orders_ack": "O-20260923-1514 O-20260923-1533 O-20260923-1536 O-20260923-1538 O-20260923-1545 O-20260923-1620 O-20260923-1636 O-20260923-1653 O-20260923-1705 O-20260923-1738 O-20260923-1810 O-20260923-1816 O-20260923-1819 O-20260923-1820 O-20260923-1823 O-20260923-1828 O-20260923-1844 O-20260923-1850 O-20260923-2134 O-20260923-2205 O-20260923-2210 O-20260923-2215 O-20260923-2250 O-20260923-2310 O-20260923-2311 O-20260923-2315 O-20260923-2325 O-20260923-2345 O-20260924-0100 O-20260924-1045 O-20260924-1110 O-20260924-1120 O-20260924-1136 O-20260924-1141 O-20260924-1145 O-20260924-1155 O-20260924-1235 O-20260924-1255 O-20260924-1310 O-20260924-1320 O-20260924-1325 O-20260924-1402 O-20260924-1532 O-20260924-1536 O-20260924-1542 O-20260924-1600 O-20260924-1612 O-20260924-1626 O-20260924-1655 O-20260924-1702 O-20260924-1712 O-20260924-1718 O-20260924-1721 O-20260924-1730",
+        "clock_read": "2026-09-24T17:29:46+08:00",
+        "round_no": 60
       }
     ],
     "tickets": [
@@ -478,8 +478,8 @@
         "id": "T-2026-09-24-29",
         "type": "scorecard-direct-access",
         "priority": "P1",
-        "status": "open",
-        "claimed_by": null
+        "status": "claimed",
+        "claimed_by": "bm-c (OS iteration loop, round 61)"
       },
       {
         "id": "T-2026-09-24-30",
@@ -489,20 +489,22 @@
         "claimed_by": null
       }
     ],
-    "n_open": 8,
-    "n_claimed": 9,
+    "n_open": 7,
+    "n_claimed": 10,
     "n_done": 13,
     "audit": {
-      "ts": "2026-09-24 17:25:14",
-      "verdict": "CLEAN",
-      "flags": [],
-      "cpu_total_pct": 65.0,
-      "py_cpu_pct": 93.6,
+      "ts": "2026-09-24 17:53:04",
+      "verdict": "FLAG:idle_with_work",
+      "flags": [
+        "idle_with_work"
+      ],
+      "cpu_total_pct": 11.0,
+      "py_cpu_pct": 0.0,
       "cores": 32,
-      "py_procs": 24,
+      "py_procs": 5,
       "zombies": 0,
       "gpu_util_pct": 1.0,
-      "gpu_mem_used_mb": 3176.0,
+      "gpu_mem_used_mb": 3062.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -549,7 +551,7 @@
     "lhb": {
       "verdict": "store absent on this node (lhb_detail.parquet missing (sparse-clone design exclusion, HANDOVER s3)); backfill is a GM-lane decision, not auto-fetched",
       "cutoff": "unknown",
-      "updated": "2026-09-24 17:25:46",
+      "updated": "2026-09-24 17:53:24",
       "new_rows": 0
     }
   },
@@ -1012,7 +1014,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T17:11:17",
+      "time": "2026-09-24T17:48:07",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -1032,15 +1034,15 @@
       "text": "门禁链定案（试验账本 N=3077）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-24 17:25:32",
+      "time": "2026-09-24 17:53:14",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 17:25:47",
+      "time": "2026-09-24 17:53:25",
       "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24T17:25:47",
+      "time": "2026-09-24T17:53:25",
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-23 · 刚跑"
     },
     {
@@ -1048,12 +1050,12 @@
       "text": "数据链 · 资金流源阻断停发 · 30min 自愈 · 已采 53/5222（MF_COLLECTOR 前向 · bm-a R63）"
     },
     {
-      "time": "2026-09-24 16:38:39",
-      "text": "本地化 · token 粗估 状态 2557 · 报告 110299 · 回合固定载入 9521（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 17:26:04",
+      "text": "本地化 · token 粗估 状态 2072 · 报告 112483 · 回合固定载入 11366（byte/3.5 代理口径 · O-2325）"
     },
     {
-      "time": "2026-09-24 17:25:21",
-      "text": "算力水位 · py 0.0→1.6→0.5→0.0→66.2% · 绿 · 近段红牌 4 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
+      "time": "2026-09-24 17:53:11",
+      "text": "算力水位 · py 1.6→0.5→0.0→66.2→0.3% · 🚩红牌 · 近段红牌 5 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -1085,7 +1087,7 @@
     },
     {
       "time": "2026-09-24T16:44:33+08:00",
-      "text": "机队 · 3 节点 0 活 · 票据 done 13/claimed 9/open 8 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
+      "text": "机队 · 3 节点 1 活 · 票据 done 13/claimed 10/open 7 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
       "time": "-",
@@ -1100,8 +1102,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 17:25",
-        "age_min": 0.6,
+        "last_active": "09-24 17:52",
+        "age_min": 0.7,
         "alive": true
       }
     ]
