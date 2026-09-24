@@ -1,6 +1,6 @@
 {
-  "updated": "2026-09-24 16:38:18",
-  "now": "2026-09-24 16:38:17.906206",
+  "updated": "2026-09-24 16:37:24",
+  "now": "2026-09-24 16:37:20.947110",
   "close_accept_time": "15:30:00",
   "symbols": 48,
   "total_new_rows": 0,
@@ -355,10 +355,8 @@
   "source_used": "sina",
   "fallback_events": [
     {
-      "symbol": "510300",
-      "diagnosis": "upstream_has_newer_bar",
-      "tencent_latest": "2026-09-24",
-      "note": "zero-row ambiguity: upstream bar-existence probe"
+      "diagnosis": "validation_leg_error",
+      "error": "ModuleNotFoundError: No module named 'daily_validate'"
     }
   ],
   "exit_code": 0,

@@ -1,0 +1,209 @@
+{
+  "order": "O-20260924-1600",
+  "ticket": "T-2026-09-24-22",
+  "window": {
+    "start": "2026-01-05",
+    "end": "2026-09-23",
+    "bars": 177
+  },
+  "start_note": "first 2026 trading day, data-confirmed (bm-c MSG-1630 expected 2026-01-05; 以数据为准)",
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    },
+    "COMPOSITE-CE-02": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    },
+    "DROUGHT-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    },
+    "ENGULF-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    },
+    "NEEDLE-DE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    },
+    "VOLATILITY-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22"
+    }
+  },
+  "prospect_pool": {
+    "n": 0,
+    "skipped": [],
+    "note": "T-24 PROSPECT onboarding in flight (bm-a); pool read dynamically at run time per MSG-1630 -- zero now = honest 0, later slices absorb new members"
+  },
+  "passive_ew48": {
+    "ret": -0.05819,
+    "dd": -0.1353,
+    "n_members": 48
+  },
+  "regime": {
+    "as_of": "2026-09-23",
+    "current_state": "GREEN",
+    "window_mix": {
+      "YELLOW": 123,
+      "GREEN": 54
+    },
+    "note": "v3 import-replay (T-21 s3.2), causal per-date"
+  },
+  "judgment": {
+    "beat_line_semantics": "P-5 frozen caliber: beat = same-window strategy ret > passive EW ret (single start = binary, no rate); verdict on x1 face; x2 face + dd disclosed alongside",
+    "report_only": "order s5: 本切片不单独立门 -- no level/gate changes, CEO report only"
+  },
+  "rows": [
+    {
+      "trader": "DROUGHT-CE-01",
+      "level": "INTERN",
+      "x1": {
+        "ret": 0.039937,
+        "dd": -0.0265,
+        "sharpe": 1.2094,
+        "n_trades": 22,
+        "n_bars": 177
+      },
+      "x2": {
+        "ret": 0.034139,
+        "dd": -0.0279,
+        "sharpe": 1.0492,
+        "n_trades": 22,
+        "n_bars": 177
+      },
+      "beat_x1": true,
+      "beat_x2": true,
+      "spread_vs_passive": 0.098127,
+      "verdict": "适合当前市场"
+    },
+    {
+      "trader": "VOLATILITY-CE-01",
+      "level": "INTERN",
+      "x1": {
+        "ret": 0.029359,
+        "dd": -0.0094,
+        "sharpe": 1.6051,
+        "n_trades": 62,
+        "n_bars": 177
+      },
+      "x2": {
+        "ret": 0.013784,
+        "dd": -0.0142,
+        "sharpe": 0.762,
+        "n_trades": 62,
+        "n_bars": 177
+      },
+      "beat_x1": true,
+      "beat_x2": true,
+      "spread_vs_passive": 0.087549,
+      "verdict": "适合当前市场"
+    },
+    {
+      "trader": "COMPOSITE-CE-02",
+      "level": "INTERN",
+      "x1": {
+        "ret": 0.024662,
+        "dd": -0.0806,
+        "sharpe": 0.3712,
+        "n_trades": 117,
+        "n_bars": 177
+      },
+      "x2": {
+        "ret": -0.005737,
+        "dd": -0.0877,
+        "sharpe": -0.0182,
+        "n_trades": 117,
+        "n_bars": 177
+      },
+      "beat_x1": true,
+      "beat_x2": true,
+      "spread_vs_passive": 0.082852,
+      "verdict": "适合当前市场"
+    },
+    {
+      "trader": "COMPOSITE-CE-01",
+      "level": "INTERN",
+      "x1": {
+        "ret": 0.014142,
+        "dd": -0.075,
+        "sharpe": 0.2532,
+        "n_trades": 66,
+        "n_bars": 177
+      },
+      "x2": {
+        "ret": -0.014891,
+        "dd": -0.0891,
+        "sharpe": -0.1651,
+        "n_trades": 66,
+        "n_bars": 177
+      },
+      "beat_x1": true,
+      "beat_x2": true,
+      "spread_vs_passive": 0.072332,
+      "verdict": "适合当前市场"
+    },
+    {
+      "trader": "NEEDLE-DE-01",
+      "level": "INTERN",
+      "x1": {
+        "ret": 0.006106,
+        "dd": -0.0312,
+        "sharpe": 0.2021,
+        "n_trades": 19,
+        "n_bars": 177
+      },
+      "x2": {
+        "ret": 0.002181,
+        "dd": -0.0325,
+        "sharpe": 0.088,
+        "n_trades": 19,
+        "n_bars": 177
+      },
+      "beat_x1": true,
+      "beat_x2": true,
+      "spread_vs_passive": 0.064296,
+      "verdict": "适合当前市场"
+    },
+    {
+      "trader": "ENGULF-CE-01",
+      "level": "INTERN",
+      "x1": {
+        "ret": -0.014538,
+        "dd": -0.0414,
+        "sharpe": -0.4817,
+        "n_trades": 22,
+        "n_bars": 177
+      },
+      "x2": {
+        "ret": -0.01922,
+        "dd": -0.0428,
+        "sharpe": -0.6467,
+        "n_trades": 22,
+        "n_bars": 177
+      },
+      "beat_x1": true,
+      "beat_x2": true,
+      "spread_vs_passive": 0.043652,
+      "verdict": "适合当前市场"
+    }
+  ],
+  "trials_ledger": {
+    "prev_total": 3077,
+    "batch_trials": 19,
+    "total": 3096,
+    "batch": "O1600_MARKET_FIT",
+    "file": "shortline/o1600_market_fit.json",
+    "note": "CEO O-20260924-1600 designated single-start slice of T-22 (order-specified window 2026-01-05->2026-09-23; strategy 6x2 faces + 1 passive + anchors 6; not a P-5C grid cell)",
+    "evidence_cutoff": "2026-09-23"
+  },
+  "audit": {
+    "workers": 1,
+    "runtime_sec": 14.9,
+    "evidence_cutoff": "2026-09-23"
+  },
+  "runtime_sec": 14.9,
+  "generated": "2026-09-24 16:33:39"
+}
