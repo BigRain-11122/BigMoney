@@ -1,0 +1,81 @@
+{
+ "version": 1,
+ "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
+ "schema": {
+  "entries[].status": "ready=可跑 (prereg冻结+runner在+数据门绿) | waiting=等owner补 runner/shard 计划 | running=在飞 | done=收割",
+  "entries[].shards[]": "认领单位=分片 {key,status,owner,owner_since,checkpoint}; 单写者=分片文件; owner 心跳停滞>20min=他机可接管(checkpoint 续跑)",
+  "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
+  "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
+  "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
+ },
+ "updated_at": "2026-09-24 21:08:52",
+ "entries": [
+  {
+   "id": "J1-PROSPECT-BEATRATE",
+   "ticket_ref": "T-2026-09-24-24 slice(c) + T-2026-09-24-26 J-1 first-job designation",
+   "prereg_ref": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md s2/s3 (grid frozen, census {1253,1127,875}) + P-5/P-5B beat caliber beat_rate_6m>=0.70 (t24_prospect_promotion.BEAT_RATE_MIN 冻结); 判据零新增——PROSPECT cells=晋升门腿3实证源(report-only)",
+   "runner": "scripts/t24_prospect_beatrate.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-09-24 20:54:15",
+   "data_gates": "in-runner: patch selftest + census drift gate (r105 坑律㊀) + passive 覆盖门; 面板=本地 core48 日线 CSV(零 Money02 争用, clone 即跑)",
+   "shards": [
+    {
+     "key": "pros-0of1",
+     "status": "done",
+     "owner": "bm-a",
+     "owner_since": "2026-09-24 20:55:24",
+     "checkpoint": "results/t22/cells_prospect_base.jsonl + cells_prospect_x2.jsonl (resume=行级 done set; 完成时 compact 去重)",
+     "note": "22 PROSPECT x 1253 starts x x1/x2 = 55,132 cells; 4 cells 已实弹预验(R92 smoke, ledger +4); 单写者=本分片; 接管=stale>20min"
+    }
+   ],
+   "note_done": "completed R92 21:05: 55,132 cells 616s BelowNormal C8-launched (fill latency 1.2min); result 0/22 >= 0.70 honest; consumer=t24_prospect_promotion leg 3 (real rates now), summary=results/t22/prospect_beatrate.json",
+   "workers_plan": {
+    "workers": "runner worker_cap() pool (50 observed live)",
+    "priority": "BelowNormal",
+    "note": "multi-core by construction (ProcessPoolExecutor, O-2130 compliant)"
+   }
+  },
+  {
+   "id": "T33-CORPS-ROSTER",
+   "ticket_ref": "T-2026-09-24-33",
+   "prereg_ref": "bm-c r68 corps_roster v1 + prereg (frozen); runner/shard 计划由 owner(bm-c) 补齐后翻 ready",
+   "runner": null,
+   "runner_args": [],
+   "lane_owner": "bm-c",
+   "priority": 2,
+   "status": "waiting",
+   "entered_at": "2026-09-24 20:54:15",
+   "data_gates": "owner 侧冻结后填",
+   "shards": [],
+   "note": "O-2100 s4 ③在制票算力腿回填——本行为占位登记非可跑批",
+   "workers_plan": null,
+   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)"
+  },
+  {
+   "id": "T34-PRESIGNAL-HALFSTEP",
+   "ticket_ref": "T-2026-09-24-34",
+   "prereg_ref": "O-20260924-2030 前置信号半档梯; prereg 在途(bm-b 车道)——harness 3,200 起点 A/B 批冻结后翻 ready",
+   "runner": null,
+   "runner_args": [],
+   "lane_owner": "bm-b",
+   "priority": 3,
+   "status": "waiting",
+   "entered_at": "2026-09-24 20:54:15",
+   "data_gates": "owner 侧冻结后填",
+   "shards": [],
+   "note": "O-2100 s4 ③在制票算力腿回填——占位登记非可跑批",
+   "workers_plan": null,
+   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)"
+  }
+ ],
+ "_stamp_note": "r92 stamp correction per r65 anti-estimation law: prior updated_at 21:26:00 was an estimated future-stamp, re-stamped from Get-Date real read"
+}

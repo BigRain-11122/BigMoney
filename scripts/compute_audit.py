@@ -165,6 +165,33 @@ def main():
     open_tasks = fleet_open_tasks()
     gpu = gpu_sample()
 
+    # sixth flag candidate (O-20260924-2130 s1.3): single-core hog on a
+    # multi-core machine -- ONE python process burning ~1 core while the
+    # rest of the py load is idle. Shape candidate now; the FLAG requires
+    # the previous audit sample (>=10min old) to carry the same candidate
+    # (sustained window; class verification/disposal = watchdog C7 lanes).
+    hog = None
+    if cores >= 8:
+        dom_pid, dom_d = None, 0.0
+        for pid, (name, cpu2, age) in p2.items():
+            cpu1 = p1.get(pid, (name, 0.0, age))[1]
+            d = max(0.0, cpu2 - cpu1)
+            if d > dom_d:
+                dom_pid, dom_d = pid, d
+        if (dom_d >= 0.8 and dom_d <= 1.5
+                and delta_total <= dom_d * 1.7 and dom_pid is not None):
+            hog = {"pid": dom_pid, "cores_used": round(dom_d, 2)}
+    hog_candidate = hog is not None
+
+    # history is read BEFORE flagging (sustained-window check needs it)
+    hist = []
+    if os.path.exists(OUT):
+        try:
+            with open(OUT, encoding="utf-8") as f:
+                hist = json.load(f).get("history", [])[-200:]
+        except Exception:
+            hist = []
+
     flags = []
     if py_cpu_pct > BLIND_BURN_PY_CPU and (stale is None or
                                            stale > BLIND_BURN_STALE_MIN):
@@ -177,6 +204,18 @@ def main():
         flags.append("gpu_unauthorized")
     if zombies:
         flags.append("zombie_process")
+    if hog_candidate:
+        prev = hist[-1] if hist else None
+        prev_cand = bool(prev and prev.get("single_core_hog_candidate"))
+        prev_age_min = None
+        if prev:
+            try:
+                prev_age_min = (time.time() - time.mktime(time.strptime(
+                    prev["ts"], "%Y-%m-%d %H:%M:%S"))) / 60.0
+            except Exception:
+                prev_age_min = None
+        if prev_cand and prev_age_min is not None and prev_age_min >= 10:
+            flags.append("single_core_hog")
 
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -188,17 +227,12 @@ def main():
         "fleet_open_tasks": open_tasks,
         "gpu": gpu,
         "zombies": zombies,
+        "single_core_hog_candidate": hog_candidate,
+        "single_core_hog_detail": hog,
         "flags": flags,
         "verdict": "CLEAN" if not flags else "FLAG:" + ",".join(flags),
     }
 
-    hist = []
-    if os.path.exists(OUT):
-        try:
-            with open(OUT, encoding="utf-8") as f:
-                hist = json.load(f).get("history", [])[-200:]
-        except Exception:
-            hist = []
     hist.append(record)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump({"latest": record, "history": hist}, f, indent=2,

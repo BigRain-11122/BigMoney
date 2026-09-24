@@ -388,6 +388,34 @@ def _watermark_state() -> dict:
     return out
 
 
+def _autofill_state() -> dict:
+    """C8 auto-fill display (T-36 / O-20260924-2100 §2): runnable-pool
+    ready count + last autofill tick verdict + fill latency vs the
+    ready->running <=10min hard target (from results/autofill_state.json)."""
+    pool = _read_json(os.path.join(PATHS.results_dir, "runnable_pool.json")) or {}
+    entries = pool.get("entries") or []
+    ready = [e for e in entries if e.get("status") == "ready"]
+    waiting = [e for e in entries if e.get("status") == "waiting"]
+    st = _read_json(os.path.join(PATHS.results_dir, "autofill_state.json")) or {}
+    tick = st.get("last_tick") or {}
+    launches = st.get("launches") or []
+    lat = [l.get("fill_latency_min") for l in launches
+           if l.get("fill_latency_min") is not None]
+    return {
+        "present": bool(pool),
+        "pool_ready": len(ready),
+        "pool_waiting": len(waiting),
+        "ready_ids": [e.get("id") for e in ready],
+        "last_tick": tick.get("ts"),
+        "verdict": tick.get("verdict"),
+        "py_cpu_pct": tick.get("py_cpu_pct"),
+        "launches_total": len(launches),
+        "fill_latency_last": lat[-1] if lat else None,
+        "fill_target_met": all(
+            l.get("target_met", True) for l in launches[-10:]),
+    }
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -1474,6 +1502,7 @@ def build() -> dict:
     data["moneyflow"] = _moneyflow_state()
     data["token"] = _token_state()
     data["watermark"] = _watermark_state()
+    data["autofill"] = _autofill_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()

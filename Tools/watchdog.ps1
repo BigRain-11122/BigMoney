@@ -328,6 +328,40 @@ try {
         Log 'C6 watchdog task present'
     }
 
+    # ---- C8: autofill task heal (T-36, O-20260924-2100 s2.2) ----
+    $afInfo = schtasks /query /tn 'Bigmoney-Autofill' 2>$null
+    if ($LASTEXITCODE -ne 0) {
+        Log 'C8 autofill task MISSING -> re-registering'
+        $regAf = Join-Path $Project 'Tools\register_autofill_task.ps1'
+        if (Test-Path $regAf) {
+            powershell -NoProfile -ExecutionPolicy Bypass -File $regAf | Out-Null
+            Log ('C8 autofill re-register exit={0}' -f $LASTEXITCODE)
+        } else {
+            Log 'C8 autofill register script absent -> skip (pre-T-36 clone)'
+        }
+    } else {
+        Log 'C8 autofill task present'
+    }
+
+    # ---- C9: post-review daily leg (T-37, O-20260924-2115 s2) ----
+    # Once per day: if the review ledger has no row dated today, run the
+    # deterministic reviewer (zero-LLM). Read-only gate on ledger mtime.
+    $prLedger = Join-Path $Project 'results\post_review.jsonl'
+    $prRun = $false
+    if (Test-Path $prLedger) {
+        $lastLine = Get-Content $prLedger -Tail 1 -ErrorAction SilentlyContinue
+        if ($lastLine -match '"ts": "(\d{4}-\d{2}-\d{2})') {
+            if ($Matches[1] -ne (Get-Date -Format 'yyyy-MM-dd')) { $prRun = $true }
+        } else { $prRun = $true }
+    } else { $prRun = $true }
+    if ($prRun -and (Test-Path (Join-Path $Project 'Tools\post_review.py'))) {
+        Log 'C9 post-review ledger stale/absent -> running reviewer'
+        python (Join-Path $Project 'Tools\post_review.py') 'run' 2>&1 | Out-Null
+        Log ('C9 reviewer exit={0}' -f $LASTEXITCODE)
+    } else {
+        Log 'C9 post-review fresh (today) or reviewer absent -> no action'
+    }
+
     # ---- C7: watermark closed-loop (O-20260924-1626 R1/R2/R3) ----
     Invoke-C7 -ProjectDir $Project -LogsDirIn $LogsDir -AgeMin $ZombieAgeMin -CpuDeltaSec $ZombieCpuDeltaSec -MinSamples $MinRedSamples
 } catch {

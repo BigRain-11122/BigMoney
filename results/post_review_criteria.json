@@ -1,0 +1,141 @@
+{
+  "_law": "firm/POST_REVIEW.md v1.0 (O-20260924-2115); criteria frozen from each ticket's pre-frozen spec at encode time; reviewer never invents criteria; first batch = this week's closed stream per canonical s5",
+  "items": [
+    {
+      "id": "T-22-FINALIZE",
+      "claim": "T-22 主轴 finalize：四门 PASS，主判 base 6m 两轴 6/6 FAIL 0.70 线（诚实负），分段表+账本 35,893 落盘",
+      "claim_source": "T-2026-09-24-22 spec + research/P5C prereg (R91 bm-a)",
+      "status": "closed",
+      "checks": [
+        {"kind": "file_exists", "args": ["results/t22_virtual_timepoints.json"]},
+        {"kind": "json_field", "args": ["results/t22_virtual_timepoints.json", "predictions_vs_results", "*"]},
+        {"kind": "json_field", "args": ["results/t22_virtual_timepoints.json", "cells_audit", "*"]},
+        {"kind": "json_field", "args": ["results/t22_virtual_timepoints.json", "x2_survival_gate", "*"]}
+      ]
+    },
+    {
+      "id": "T-24-SLICES",
+      "claim": "T-24 三片：观察纸面道 22 员态+锚全过；G2 证据包 22 员（anchor 22/22·cost_x3 0/22 诚实·per-year 22/22）；晋升评估器 0/22 诚实三腿待证",
+      "claim_source": "T-2026-09-24-24 spec (R83-88 bm-a)",
+      "status": "closed",
+      "checks": [
+        {"kind": "file_exists", "args": ["results/prospect_paper/_summary.json"]},
+        {"kind": "count_glob", "args": ["results/prospect_g2/*.json", 22]},
+        {"kind": "file_exists", "args": ["scripts/t24_prospect_promotion.py"]}
+      ]
+    },
+    {
+      "id": "T-25-WATERMARK-C7",
+      "claim": "T-25 C7 腿 LIVE：watchdog 红牌判定+僵尸三查杀+watermark_red.json，自检 10/10 真杀",
+      "claim_source": "T-2026-09-24-25 spec (O-1626, R81 bm-a)",
+      "status": "closed",
+      "checks": [
+        {"kind": "file_contains", "args": ["Tools/watchdog.ps1", "C7"]},
+        {"kind": "file_exists", "args": ["Tools/watchdog_c7_selftest.ps1"]},
+        {"kind": "file_exists", "args": ["results/watermark_red.json"]}
+      ]
+    },
+    {
+      "id": "T-26-EXPANSION",
+      "claim": "T-26 扩容验收包 v1.0：A1-A6 门+首单分片表（J-1 T-22 PROSPECT beat-rate）+双角色模板；A4 缺件已由 owner 闭环（R89 bootstrap-machine.ps1 落件）",
+      "claim_source": "T-2026-09-24-26 spec (R110 bm-b + R89 bm-a owner closure)",
+      "status": "closed",
+      "checks": [
+        {"kind": "file_exists", "args": ["fleet/EXPANSION_ACCEPTANCE.md"]},
+        {"kind": "file_contains", "args": ["fleet/EXPANSION_ACCEPTANCE.md", "J-1"]},
+        {"kind": "file_exists", "args": ["Tools/bootstrap-machine.ps1"]}
+      ]
+    },
+    {
+      "id": "T-27-BMAXDIV-WIRING",
+      "claim": "T-27 五法锦标赛 v2 一次定稿 winner=B_MAXDIV（1.068/0.660/x2 0.614 存活），批准后零接线",
+      "claim_source": "T-2026-09-24-27 spec (R63 bm-c) + GM 批准",
+      "status": "in_flight",
+      "waiting_on": "7 天否决窗内零接线=按律（R63：批准+否决窗前零接线）；窗后接线判据届时翻 closed",
+      "checks": [
+        {"kind": "file_exists", "args": ["results/portfolio_blend_tournament.json"]},
+        {"kind": "file_contains", "args": ["results/portfolio_blend_tournament.json", "B_MAXDIV"]}
+      ]
+    },
+    {
+      "id": "T-28-STABLE-PROFIT",
+      "claim": "T-28 稳定盈利批 done 诚实负：J1/J2/J3 过、J4 12m pooled 0.4854<0.70 ✗ 如实（零合格=三道闸设计态）",
+      "claim_source": "T-2026-09-24-28 spec + research/T28_STABLE_PROFIT.md (R89-90 bm-a)",
+      "status": "closed",
+      "checks": [
+        {"kind": "file_exists", "args": ["results/current_market_stable_profit.json"]},
+        {"kind": "json_field", "args": ["results/current_market_stable_profit.json", "judgments", "*"]},
+        {"kind": "file_exists", "args": ["research/T28_STABLE_PROFIT_REPORT.md"]}
+      ]
+    },
+    {
+      "id": "T-29-SCORECARD",
+      "claim": "T-29 战绩直达面 v0.1：daily_scorecard.py 纸盘真账本驱动（大字版消费面由 O-2045 s3 增补）",
+      "claim_source": "T-2026-09-24-29 spec (R61 bm-c)",
+      "status": "closed",
+      "checks": [
+        {"kind": "file_exists", "args": ["scripts/daily_scorecard.py"]}
+      ]
+    },
+    {
+      "id": "T-33-CORPS-ROSTER",
+      "claim": "O-2012 三军种制：军种路由正典 STYLE_CORPS v1.1 + T-33 corps_roster v1+prereg 已落（bm-c r68）；进攻军 0 员在册=最大缺口诚实",
+      "claim_source": "O-20260924-2012 + T-2026-09-24-33 spec",
+      "status": "in_flight",
+      "waiting_on": "军名册批跑段（bm-c 认领中，d2+）+完整路由切换 11-01 月界目标",
+      "checks": [
+        {"kind": "file_exists", "args": ["firm/STYLE_CORPS.md"]},
+        {"kind": "file_exists", "args": ["results/corps_roster.json"]},
+        {"kind": "file_exists", "args": ["research/T33_CORPS_ROSTER.md"]}
+      ]
+    },
+    {
+      "id": "O-2030-PRESIGNAL",
+      "claim": "O-2030 前置+组合令：军种建设前置律+组合律入正典；前置快线 harness A/B 批未跑",
+      "claim_source": "O-20260924-2030 + T-2026-09-24-34 (bm-b 认领)",
+      "status": "in_flight",
+      "waiting_on": "快线值不值=harness 3,200 起点 A/B 实测（T-34 prereg 在途，池 waiting 行已登记）",
+      "checks": [
+        {"kind": "file_contains", "args": ["firm/STYLE_CORPS.md", "半档"]},
+        {"kind": "file_exists", "args": ["results/runnable_pool.json"]}
+      ]
+    },
+    {
+      "id": "O-2045-MILLION-PAPER",
+      "claim": "O-2045 百万纸盘 d1：INITIAL_CASH 1,000,000 构造性满足（6 注册员）；d2 交易时段道/d3 导出面/d4 协调未动工",
+      "claim_source": "O-20260924-2045 + T-2026-09-24-35 (bm-a 认领)",
+      "status": "in_flight",
+      "waiting_on": "d2-d4 未动工（R92 让位 T-36/T-37 同窗 CEO 即时令，R93 起排）；实盘开闸恒 T0 CEO 专属",
+      "checks": [
+        {"kind": "file_contains", "args": ["live/paper.py", "INITIAL_CASH = 1_000_000"]},
+        {"kind": "file_exists", "args": ["fleet/tasks/T-2026-09-24-35-P1.json"]}
+      ]
+    },
+    {
+      "id": "O-2100-COMPUTE-DISPATCH",
+      "claim": "O-2100 算力调度机制 d2 核心：runnable pool + autofill C8 + 10min schtasks + watchdog 自愈腿 + 真验收 launch（fill latency 1.2min<=10min）；stale-takeover 实弹演练未发生",
+      "claim_source": "O-20260924-2100 + T-2026-09-24-36 (R92 bm-a)",
+      "status": "in_flight",
+      "waiting_on": "stale-takeover 真实停滞接管演练（现仅 selftest 路径）+ C7 红牌池感知 + 跨机双跑实弹",
+      "checks": [
+        {"kind": "file_exists", "args": ["Tools/autofill.py"]},
+        {"kind": "file_exists", "args": ["Tools/register_autofill_task.ps1"]},
+        {"kind": "json_field", "args": ["results/autofill_state.json", "launches.0.verdict", "launched"]},
+        {"kind": "json_field", "args": ["results/runnable_pool.json", "entries.0.id", "J1-PROSPECT-BEATRATE"]},
+        {"kind": "file_contains", "args": ["monitor/build_status.py", "_autofill_state"]}
+      ]
+    },
+    {
+      "id": "O-2115-POST-REVIEW",
+      "claim": "O-2115 复审机制 d1：正典（GM 令 commit 预落）+确定性复审器 post_review.py（注入虚报样本必捕 selftest 7/7）+首批判据 registry+首份报告；d2 跨机复核/战报复审列/C9 腿接线未动工",
+      "claim_source": "O-20260924-2115 + T-2026-09-24-37 (R92 bm-a)",
+      "status": "in_flight",
+      "waiting_on": "d2：跨机 LLM 复核协议接线+watchdog C9 每日腿+T-29 战报复审列+轮 mandate ✗=P0 句",
+      "checks": [
+        {"kind": "git_log_file", "args": ["firm/POST_REVIEW.md", "2115"]},
+        {"kind": "file_exists", "args": ["Tools/post_review.py"]},
+        {"kind": "file_exists", "args": ["results/post_review_criteria.json"]}
+      ]
+    }
+  ]
+}
