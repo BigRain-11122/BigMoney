@@ -217,8 +217,8 @@ set BIGMONEY_MASTER_IP=100.x.x.x
 - [x] P3 组合验证（EW 组合 OOS Sharpe 1.73 validated）
 - [x] 既有数据池审计（1676 口径实锤 + 债金扩池候选 30 只清单）
 - [ ] 纸盘首月观察（2026-10-31 首次自动晋升检查）
-- [ ] 补数据：2015 年前历史、北向资金（用户回本机后定）
-- [ ] Optuna 贝叶斯调参骨架（幸存者足够多才有意义）
+- [x] 补数据裁决（O-20260924-1120·积压决策清裁令）：北向资金个股线=**撤销**（2024-08 披露机制变更：盘中实时停+个股日频真实持股终止·东财现行增持字段=估算非披露）；指数级北向盘后净买额=候选源登记（datacenter-web 活域·无管道待 prereg）；2015 年前历史=**活库深史启用**（Money02 25 年面板已落位·T-13 开单喂 T-10 政体校准）
+- [ ] Optuna 贝叶斯调参骨架——gated 维持+解封判据冻结（O-20260924-1120：触发=在册 validated ≥8 且最近晋升窗新注册 ≤1；解封后走研究部 prereg=walk-forward+OOS 恒盲+TPESampler seed 固定+HyperbandPruner study_name 固定+参数 ≤5·Cawley-Talbot 2010 选择偏差律）
 - [ ] 短线因子动物园批测与 A 层族过闸（O-20260923-1545·研究部自主域：research/shortline/SHORTLINE_PLAYBOOK.md §6 P-1/P-2）
 - [ ] 股票池策略族启用 / 资金流源 / 期货 CTA——**总经理已署名批准**（O-20260923-1620，CEO 下放非重大自决权），按 SHORTLINE_PLAYBOOK.md §6 排期开工（期权不在批）
 - [ ] 外调轮常设机制（O-20260923-1636）：research/RESEARCH_MECHANISM.md——周巡检随周进化轮，纪要入 research/digests/，产出进风格图鉴/playbook，采纳走门禁
