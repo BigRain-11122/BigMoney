@@ -42,6 +42,12 @@ data/fund_premium/
 # O-1136 watermark probe series: machine-local utilization append-log (3 machines
 # x 10min cadence = append-conflict hostile if tracked; round reports cite numbers)
 results/watermark.jsonl
+# O-1626 watermark RED marker (T-25 C7 escalation): machine-local disposal
+# state, self-clearing on green; rounds cite verdict, git never carries it
+results/watermark_red.json
+# T-22 virtual-timepoint batch: machine-local per-cell checkpoints + logs;
+# committed products land in results/t22_virtual_timepoints.json instead
+results/t22/
 __pycache__/
 *.pyc
 .venv/
