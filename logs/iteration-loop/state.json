@@ -1,19 +1,18 @@
 {
-  "round_no": 110,
+  "round_no": 111,
   "did": [
-    "r110 = T-26 expansion acceptance one-shot (dept:fleet+engineering): claim 294efb2 -> deliver c091d98",
-    "S0 autostash-rebase absorbed bm-a r88 (T-24 G2 pack DONE) + bm-c r64 (PA1E honest FAIL close); first-job table rewritten accordingly (G2 pack removed, J-1 T-22 PROSPECT beat-rate = sole ready first-job)",
-    "T-26 deliverable: fleet/EXPANSION_ACCEPTANCE.md v1.0 (A1-A6 + first-job shard table) + fleet/_machine.dual-role.template + honest gap disclosure (bootstrap-machine.ps1 not in-repo = T-08-pattern suspicion, owner-commit request MSG-1945, actual in-repo path documented)",
-    "XSTOCK relay chain monitored healthy (PID 24856: gates 6/6 + repro PASS + primary done, nullA 40/131 streaming, err log 0 bytes, ETA ~20:5x -> harvest r111+)",
-    "S6 all green + promotion evaluator 0/22 honest (t22_rows=0 = J-1 binding evidence gap)"
+    "r111 = T-22 leg-L cells transfer round (dept:research+data+engineering): S0 autostash rebase onto bm-a r89 d35c464 (bootstrap owner file + T-28 claimed by bm-a)",
+    "S0.5 orders 55/55 diff empty (double scan); P-32 decisions.md absent no-op; inbox MSG-1946 processed (bootstrap closure + leg-L request EXECUTED same round) + MSG-1947 T-28 ack -> both archived",
+    "S3 leg-L TRANSFERRED: origin branch transfer/t22-legL-cells = results/shortline/p5c_checkpoint/legL/shard_0of1.jsonl (16,289 = x1 7518 + x2 7518 + passive 1253, sha256 8716f8c6.., 7,925,405B); sender manifest fleet/transfers/T22-LEG-L-cells-sender.json committed; reply MSG-1954; T-22 ticket note updated; deep_2 8,160 cells NOT sent (d-c1 identity duplicate per GM R2, offered)",
+    "PITFALL EXTENDED (R84/HQ-F-13): restore SOP step 3 = git checkout <branch> -- <path> also STAGES file into main index -> restore --staged cleanup required",
+    "S6 all green: audit CLEAN py78% batch / wm insufficient_history n=1 / daily 0 rows cutoff 09-23 8th round / regime ORANGE d1 / lhb+heat+futures no-op / mf+fp non-owner / fundamental 23.2h / b_layer 5 gates / token -105 / no new bar = paper legs skipped"
   ],
   "next_pointer": [
-    "(1) r110+: monitor logs/xstock_post_r109.log -- harvest on 'post done verdict=...': equiv <=1e-6 + partials + finalize + factor ledger 5600+delta + T-11 unblock + xstock_z_manifest.json package commit",
-    "(2) r110 = 5x HANDOVER (J3 deep-window v3 citation in)",
-    "(3) T-28 stable-profit report = post-harvest claim candidate (dual-disclosure pre-GM-ruling per MSG-1850; F-04 claim first; yield to earlier claimer)",
-    "(4) daily 09-24 bar self-heal next rounds"
+    "(1) r112: XSTOCK harvest (PID 24856 alive, nullA/B in flight, ETA ~20:5x; equiv gate <=1e-6 + partials + finalize + factor ledger + T-11 unlock)",
+    "(2) bm-a receiver manifest T22-LEG-L-cells = transfer done closure (TRANSFERS0.3)",
+    "(3) T-28 = bm-a lane (claimed r89, not ours); daily 09-24 bar self-heal watch (8 rounds unpublished)"
   ],
-  "note": "P0 lessons: identity = fleet/machine.json only (tracked replicas live in every clone); Windows rc gates need OpenProcess(SYNCHRONIZE|PROCESS_QUERY_LIMITED_INFORMATION) + BOOL check (silent-0 read killed the designed relay); recovery per r107 spec = one fixed-code relaunch, old batch dead confirmed via err log (rc=1) not rewaiter reading",
-  "last_round_ts": "2026-09-24T19:23:58.992541+08:00",
+  "note": "P0 lessons kept: identity=fleet/machine.json only; Windows rc gates need SYNCHRONIZE|QUERY_LIMITED_INFORMATION+BOOL check. NEW: transfer-branch restore = 3 steps (checkout file + restore --staged + verify ignored-untracked).",
+  "last_round_ts": "2026-09-24T19:57:43+08:00",
   "last_result": "ok"
 }
