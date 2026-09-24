@@ -1,0 +1,97 @@
+{
+  "ticket": "T-2026-09-24-35",
+  "deliverable": "d1-capital-hard-assertion",
+  "law_ref": "O-20260924-2045 s1 (T-35 d1); engine default lineage J16; anchor+paper same INITIAL_CASH (live/paper.py)",
+  "verdict": "PASS",
+  "assertions": [
+    {
+      "assertion": "A1_paper_initial_cash_1m",
+      "pass": true,
+      "detail": {
+        "live_paper_INITIAL_CASH": 1000000.0
+      }
+    },
+    {
+      "assertion": "A2_engine_default_1m",
+      "pass": true,
+      "detail": {
+        "run_backtest_initial_cash_default": 1000000.0
+      }
+    },
+    {
+      "assertion": "A3_probe_equity_first_1m",
+      "pass": true,
+      "detail": {
+        "equity_curve_first": 1000000.0,
+        "n_trades": 0
+      }
+    },
+    {
+      "assertion": "A4_roster_six_paper_level",
+      "pass": true,
+      "detail": {
+        "n": 6,
+        "ids": [
+          "COMPOSITE-CE-01",
+          "COMPOSITE-CE-02",
+          "DROUGHT-CE-01",
+          "ENGULF-CE-01",
+          "NEEDLE-DE-01",
+          "VOLATILITY-CE-01"
+        ],
+        "levels": {
+          "COMPOSITE-CE-01": "INTERN",
+          "COMPOSITE-CE-02": "INTERN",
+          "DROUGHT-CE-01": "INTERN",
+          "ENGULF-CE-01": "INTERN",
+          "NEEDLE-DE-01": "INTERN",
+          "VOLATILITY-CE-01": "INTERN"
+        }
+      }
+    },
+    {
+      "assertion": "A5_total_capital_6m_cny",
+      "pass": true,
+      "detail": {
+        "per_trader_cny": 1000000.0,
+        "total_cny": 6000000.0
+      }
+    },
+    {
+      "assertion": "A6_paper_state_files_present",
+      "pass": true,
+      "detail": {
+        "missing": []
+      }
+    },
+    {
+      "assertion": "A7_prospect_zero_capital",
+      "pass": true,
+      "detail": {
+        "n_members": 22,
+        "bad_level": [],
+        "nonzero_or_missing_state": []
+      }
+    },
+    {
+      "assertion": "A9_live_allocation_stays_zero",
+      "pass": true,
+      "detail": {
+        "nonzero": []
+      }
+    }
+  ],
+  "migration_disclosure": {
+    "migration_event": "none-needed-constructive",
+    "note": "INITIAL_CASH=1M has been the engine default since the J16 pipeline birth (live/paper.py L72 + engine/backtester.py L36); the paper plane was 1 bar old with zero open positions at claim time (R91 finding) -> clean constructive satisfaction, zero migration step",
+    "promotion_wiring": "PROSPECT->INTERN promotion (t24 slice-b) will carry 1M per head automatically via the same engine default"
+  },
+  "cny_denomination": "daily CSV quotes are CNY; equity curves CNY by construction",
+  "evidence_cutoff": "2026-09-24",
+  "generated": "2026-09-24 21:20:38",
+  "audit": {
+    "engine_runs": 1,
+    "engine_runs_note": "single A3 constructor probe, zero metrics recorded, not a trial",
+    "ledger_trials_added": 0
+  }
+}

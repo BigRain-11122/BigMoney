@@ -1,0 +1,105 @@
+{
+  "probe": "t35-d2a-intraday-spot-source",
+  "ticket": "T-202609-24-35",
+  "ran_at": "2026-09-24T21:21:35",
+  "attempts": [],
+  "faces": [
+    {
+      "face": "fund_etf_category_sina",
+      "attempts": [
+        {
+          "i": 0,
+          "ok": true,
+          "latency_s": 2.33,
+          "rows": 1685
+        }
+      ],
+      "ok": true,
+      "rows": 1685,
+      "cols_sample": [
+        "代码",
+        "名称",
+        "最新价",
+        "涨跌额",
+        "涨跌幅",
+        "买入",
+        "卖出",
+        "昨收",
+        "今开",
+        "最高",
+        "最低",
+        "成交量"
+      ],
+      "sample_keys": {
+        "代码": "sz159998",
+        "名称": "计算机ETF天弘",
+        "最新价": "0.935",
+        "涨跌额": "-0.015",
+        "涨跌幅": "-1.579",
+        "买入": "0.934"
+      }
+    },
+    {
+      "face": "fund_etf_spot_ths",
+      "attempts": [
+        {
+          "i": 0,
+          "ok": true,
+          "latency_s": 0.65,
+          "rows": 1725
+        }
+      ],
+      "ok": true,
+      "rows": 1725,
+      "cols_sample": [
+        "序号",
+        "基金代码",
+        "基金名称",
+        "当前-单位净值",
+        "当前-累计净值",
+        "前一日-单位净值",
+        "前一日-累计净值",
+        "增长值",
+        "增长率",
+        "赎回状态",
+        "申购状态",
+        "最新-交易日"
+      ],
+      "sample_keys": {
+        "序号": "1",
+        "基金代码": "159981",
+        "基金名称": "建信能源化工期货ETF",
+        "当前-单位净值": "1.7268",
+        "当前-累计净值": "1.7268",
+        "前一日-单位净值": "1.7031"
+      }
+    },
+    {
+      "face": "fund_etf_spot_em",
+      "attempts": [
+        {
+          "i": 0,
+          "ok": false,
+          "latency_s": 5.0,
+          "error_class": "ConnectionError",
+          "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+        },
+        {
+          "i": 1,
+          "ok": false,
+          "latency_s": 5.8,
+          "error_class": "ConnectionError",
+          "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+        },
+        {
+          "i": 2,
+          "ok": false,
+          "latency_s": 4.86,
+          "error_class": "ConnectionError",
+          "error": "('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+        }
+      ],
+      "ok": false
+    }
+  ]
+}

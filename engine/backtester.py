@@ -564,6 +564,19 @@ def run_backtest(prices: dict, params: dict,
         "trades": trades,
         "equity_curve": [round(v, 2) for v in equity_curve],
     }
+    if positions:
+        # T-35 (O-2045 s2/s3): positions still held at window end -- the
+        # paper intraday-marking and daily-export faces need the held set.
+        # ADDITIVE top-level key, emitted only when non-empty (legacy
+        # empty-window runs keep the exact legacy keyset); read-side
+        # consumers use .get("open_positions", []). Exit priority, T+1
+        # fills and the cost model are untouched.
+        result["open_positions"] = [
+            {"symbol": s, "quantity": round(st.quantity, 2),
+             "cost_price": round(st.cost_price, 4),
+             "high_watermark": round(st.high_watermark, 4),
+             "hold_days": int(st.hold_days)}
+            for s, st in sorted(positions.items())]
     if stats_v2 is not None:
         result["cost_v2"] = stats_v2
     return result

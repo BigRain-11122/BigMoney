@@ -410,7 +410,8 @@ def paper_run(t: dict, prices_full: dict, P: dict,
     widx = idx[idx >= ps][:len(res["equity_curve"])]
     eq = pd.Series(res["equity_curve"], index=widx)
     return {"bars": n_bars, "equity": eq, "metrics": res["metrics"],
-            "trades": res["trades"]}
+            "trades": res["trades"],
+            "open_positions": res.get("open_positions", [])}
 
 
 def load_vi_bar():
@@ -649,6 +650,35 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
         forward_guard["note"] = ("composition: buy_rejected_n may include "
                                   "T-21 regime-matrix drops (guard faces "
                                   "ANDed on the buy leg)")
+    # T-35 (O-2045 s1.4/s2): CNY capital + open-positions faces, additive
+    # to the state JSON (consumed by the intraday marking lane, the daily
+    # export and T-29); marks use the last CLOSE bar -- intraday re-marks
+    # are the marking lane's job, never backdated here.
+    last_close = P["close"].iloc[-1] if len(P["close"]) else None
+    pos_face = []
+    for p in run.get("open_positions", []):
+        sym = p["symbol"]
+        lc = (float(last_close[sym])
+              if last_close is not None and sym in last_close.index else None)
+        pos_face.append({**p,
+                         "last_close": round(lc, 4) if lc is not None else None,
+                         "market_value_cny":
+                             round(p["quantity"] * lc, 2) if lc else None,
+                         "unrealized_pnl_cny":
+                             round((lc - p["cost_price"]) * p["quantity"], 2)
+                             if lc else None})
+    eq_end = (float(run["equity"].iloc[-1])
+              if run["equity"] is not None and len(run["equity"]) else 0.0)
+    pos_val = round(sum(pf["market_value_cny"] or 0.0 for pf in pos_face), 2)
+    capital_block = {
+        "initial_cash_cny": INITIAL_CASH,
+        "equity_cny": round(eq_end, 2),
+        "positions_value_cny": pos_val,
+        "cash_cny": round(eq_end - pos_val, 2),
+        "cash_derivation": "equity - positions mark (paper plane runs no "
+                           "parking leg; T-09 cash_parking never wired here)",
+        "denomination": "CNY",
+    }
     t["paper"] = {"months_tracked": agg["months_tracked"],
                   "monthly_returns": agg["monthly_returns"],
                   "current_dd": agg["current_dd"],
@@ -703,6 +733,8 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
                             "as_of": regime["as_of"]},
             "regime_guard": guard_block,
             "forward_guard": forward_guard,
+            "open_positions": pos_face,
+            "capital": capital_block,
             "no_future_data": "closed bars only; signal T close -> T+1 open "
                               "(engine contract)"}
 
