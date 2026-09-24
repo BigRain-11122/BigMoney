@@ -68,4 +68,4 @@ arXiv API all:"WorldQuant" 查询中止（超时）；平台 SPA 墙维持 wave-
 
 **T-32（波-4）随本 digest 预开**：PBCSF/CJoE 学术替代路径重试+BRAIN 论文面重试+hibor 金工深列 URL 模式发现+果仁/优矿社区面探测+微盘趋势股策略帖深捕获（wzetf 2026-08-23）+≥1 新族或既有族证据升级。onin_corr_20 单列预注册=GM 裁定面（禁自动开票）。
 
-—— bm-c r65 · 2026-09-24 20:0x · fetch 记录如上 · digest 完
+—— bm-c r65 · 2026-09-24 19:3x · fetch 记录如上 · digest 完

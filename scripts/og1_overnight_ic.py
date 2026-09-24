@@ -31,7 +31,7 @@ discount, non-gating).
 Frozen mask: on_mom_20 finite AND close finite AND fwd_h10 computable AND
 no cons event in (t, t+h] -- the K=50 nulls share the same mask.
 Null seeds: 20260927+i, i=0..49 (SEED_REGISTRY["og1_overnight_ic"]; repo
-rg sweep 2026-09-24 19:4x confirmed free).
+rg sweep 2026-09-24 19:2x confirmed free).
 
 Gates (SS4, frozen before the run, primary only, one-sided positive
 direction per SS1 mechanism):

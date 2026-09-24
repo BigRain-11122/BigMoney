@@ -30,7 +30,7 @@
 - **面板**：价格面=data/fund_premium/panel/panel.csv 的 close/div_per_unit/cons_flag（r53 建成 2020-01-02..2026-09-23·1632 td）；开盘面=data/daily/<code>.csv 48 件 no-prefix OHLCV 按 panel 日历 reindex join。
 - **evidence_cutoff=2026-09-23**（前向锁盒 D2 同 PA1）；结果 JSON 顶层必须带 `science_gates.cutoff_meta(evidence_cutoff)`。
 - **因子定义（冻结·日线 OHLCV 可算）**：ON(t)=open(t)/close(t−1)−1；IN(t)=close(t)/open(t)−1；K=20：on_mom_20=expm1(Σlog1p(ON))；in_mom_20 同构；on_vol_20=std(ON)；on_in_div_20=on_mom_20−in_mom_20；onin_corr_20=配对完备 20 日 corr(ON,IN)。open≤0 坏点→双腿 NaN。**信息时点：因子于 t 收盘后已知（IN(t) 需 close(t)），入场 close(t)→close(t+h)，零未来数据。**
-- **跑前探针事实（2026-09-24 19:5x 采样·样本量非结果）**：T=1632×N=48；daily-join coverage=**0.9708**（panel 行有对应日线有限 open+close 的比例；2.92% 缺口=源差日（EM 面板 vs 日线 CSV 源差）+晚上市首日窗，**掩码职责非数据病**（r55 行/矩形律））；on_mom_20 有限格占比=0.9509（20 日 warmup+join 缺口）；mask10 cells=73,790·中位截面=47·IS 期数(n≥5)=1192·OOS=410。IS/OOS 切分=composite_ic.IS_END=2024-12-31 全公司口径。
+- **跑前探针事实（2026-09-24 19:2x 采样·claim 19:22:05→freeze 19:29:22 窗内·样本量非结果）**：T=1632×N=48；daily-join coverage=**0.9708**（panel 行有对应日线有限 open+close 的比例；2.92% 缺口=源差日（EM 面板 vs 日线 CSV 源差）+晚上市首日窗，**掩码职责非数据病**（r55 行/矩形律））；on_mom_20 有限格占比=0.9509（20 日 warmup+join 缺口）；mask10 cells=73,790·中位截面=47·IS 期数(n≥5)=1192·OOS=410。IS/OOS 切分=composite_ic.IS_END=2024-12-31 全公司口径。
 - **数据完备门（不过门禁跑批·探针校准值跑前冻结）**：①panel summary verdict=PASS 且 evidence_cutoff=2026-09-23 且 members=48 ②join coverage≥**0.95**（探针 0.9708 留裕量；阈值选于产数前非事后）③on_mom_20 有限格占比≥**0.90**（探针 0.9509）。
 - 样本窗诚实披露：6.75 年政体覆盖有限（同 PA1 §2）；48 员截面以指数 ETF 为主体、共同运动高（PA1 平价员稀释教训在案）；T+0 员（债/跨境/金）与 T+1 员结构相反=类间噪声源（zoo #78 注记）。
 
@@ -39,7 +39,7 @@
 - **前瞻收益（冻结，PA1 逐字）**：fwd_ret_h=分红包容=(close[t+h]+Σ_{t<d≤t+h} div_per_unit[d])/close[t]−1；cons 窗排除：(t,t+h] 内该员 cons_flag=1 任一日→剔除该 (t,员) 对。h10=唯一门控期限；h5/h20=primary 过 V1 后报告列（snooping 折价标签）。
 - **估计量**：逐日横截面 Spearman IC（mask-first 后排名·n≥5·零方差→NaN）；IS 段（≤2024-12-31）池化 ic_mean/ic_ir（primary 判据）+OOS 段（V3）。
 - **mask（冻结）**：on_mom_20 有限 ∧ close 有限 ∧ fwd_h10 可算 ∧ (t,t+h] 无 cons；K=50 null **同 mask**（P-A 律：窄截面须同 mask 带）。
-- **null（白噪·冻结）**：K=50；每 null i（**seed=20260927+i，i=0..49；新基已登记 `science_gates.SEED_REGISTRY["og1_overnight_ic"]=20260927`**（rg 全 repo 扫描 2026-09-24 19:4x 确认空闲，非 registry-only 双查 r54 坑律））：mask 内标准正态噪→IS 段 |ic_mean| p95。白噪选择=PA1 连续 IC 先例（PA1E 圆移位为事件聚簇设计，本批连续口径无聚簇结构）。
+- **null（白噪·冻结）**：K=50；每 null i（**seed=20260927+i，i=0..49；新基已登记 `science_gates.SEED_REGISTRY["og1_overnight_ic"]=20260927`**（rg 全 repo 扫描 2026-09-24 19:2x 确认空闲，非 registry-only 双查 r54 坑律））：mask 内标准正态噪→IS 段 |ic_mean| p95。白噪选择=PA1 连续 IC 先例（PA1E 圆移位为事件聚簇设计，本批连续口径无聚簇结构）。
 - **等价门（先跑）**：−60d 动量探针（close 面·零接触 open 列）400 日随机子样 vs composite_ic.ic_series 参照；max|diff|>1e-6→中止零产数。
 - **成本口径声明**：IC=信息层零成本；经济地板 0.02=因子层墙（非可交易利润）；转化批届时走 ETF 域成本模型。
 - **账本**：零引擎跑→引擎账本 N 不动；因子账本 added=55（±2 报告列）——`science_gates.append_ledger("og1_overnight_ic", ...)`（prev=max(results, results/shortline) 双目录 r60 惯例）。
@@ -72,7 +72,7 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（2026-09-24 20:0x r65 一次定稿回填；判据零改动）
+（2026-09-24 19:3x r65 一次定稿回填；判据零改动）
 
 - **数据门**：g1 panel summary PASS/cutoff=2026-09-23/48 员 ✓｜g2 join_cov=0.9708≥0.95 ✓｜g3 on_mom_20 有限格 0.9509≥0.90 ✓——三门全过。
 - **等价门**：−60d 动量探针 n=383 common，max|diff|=2.22e-16 ≤1e-6 ✓（与 PA1 同探针同量级）。
@@ -83,7 +83,7 @@
 
 ## §8 批后复盘【必填·s7-T】
 
-（2026-09-24 20:0x r65 回填）
+（2026-09-24 19:3x r65 回填）
 
 **§5 预测逐条对账**：
 1. primary 方向正（45% 置信）→ **命中**：IS +0.0127 正号，但量级在 null 带缘。
