@@ -119,6 +119,34 @@
     "results": "results/shortline_cta_p2_noau.json",
     "prereg": "research/CTA_P2_NOAU.md"
    }
+  },
+  {
+   "batch": "j13v2_mill_ic1",
+   "ts": "2026-09-24 10:41:00",
+   "kind": "search",
+   "retro_fill": false,
+   "cells_ledger_delta": 63,
+   "ledger_total_after": 5539,
+   "gates": {
+    "n_generated": 32,
+    "n_distinct": 13,
+    "n_entering_e4": 13,
+    "mechanical_valid": 12,
+    "v1_pass": 5,
+    "v2_pass": 0,
+    "v3_pass": 6,
+    "novel_survivors": 0,
+    "dup_survivors": 0,
+    "nullA_is_ic_p95": 0.010045,
+    "nullA_is_ir_p95": 0.06705,
+    "void": false
+   },
+   "eliminated": 13,
+   "elimination_note": "all deduped formulas entering E4 died at judgment: 12/12 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.129 << 0.30); 1 E4 compute failure; D6 kinship 100% among V1-passers (max|corr| 0.84-1.0)",
+   "refs": {
+    "results": "results/shortline/j13v2_mill_ic1.json",
+    "prereg": "research/J13_V2_MINILOOP.md"
+   }
   }
  ]
 }

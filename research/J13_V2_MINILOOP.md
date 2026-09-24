@@ -112,14 +112,39 @@ E5 validity（≥50% 交易日有 ≥5 有限值＋有限值占比 ≥50%＋≥3
 - `results/shortline/j13v2_mill_ic1.json`（磨坊 readout＋逐候选全统计＋nullA＋D6 对照清单＋trials_ledger＋audit 段＋顶层 cutoff_meta）
 - 本文件 §7 回填（一次定稿；工程修复重跑双跑留痕如实记账）
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【2026-09-24 R67 bm-a 一次定稿·J13V2_MILL_IC1】
 
-（IC1 待跑后回填）
+- **磨坊**: 32 草稿（8 家族×4，temp0.7）→ **去重独立公式 13**（DUP=19=家族内塌缩持续，R64 机制(b) 判定维持：
+  家族提示扩了谱面跨度但未扩族内多样性）；进入 E4=13，**E4/E5 机械合格 12/13=92.3%**（E4 失败 1 例 range_position；
+  E5 零触发——1632 日面板下 rolling warmup 不足以压破 50% 日覆盖门）；GEN 失败 0。
+- **L1 判定: novel=0 / dup_survivor=0（诚实判负）**——**V2 内部单因子墙全灭 12 员**（最强 |IS IR|=0.129
+  （range_position）<<0.30，J6/P-1a/P-1b/XLIB 四证之墙对 7B 草稿同样成立）；V1 过 5/12（IS |IC| 0.0375-0.0502>0.02
+  地板；nullA |IS IC| p95=0.010045 低于地板→地板主导）；V3 过 6/12（IS2 同号且留存≥0.5，动量/标准化族
+  IS2 反强=J6「mom 类 2025+ 政体走强」同向读数）。
+- **D6 同族实锤: V1 过线 5 员 max|corr| 全≥0.84=100% 在库近亲**——trend_120d≡mom_120（corr=1.0）、
+  overnight_gap≡gap_overnight（1.0）、short_reversal≡intraday_range/rev_5（1.0）、illiquidity_vol≡intraday_range（0.965）、
+  mean_reversion/range_position≡ma_bias_60/mom_120（0.89-0.92）——7B 在冻结 prompt 下系统性重发现在库因子
+  （R65 判定再证），「novel」防线必要但本轮未被触发（V2 先杀）。
+- **nullA 当批读数**: |IS IC| p95=0.010045 / |IS IR| p95=0.06705（K=50，n_periods≥1212）——白噪声 IC 均值带
+  远低于 0.02 地板=V1 地板主导结构性成立；该读数为族内后续 run 的 null 参照档（种子梯子换基后重算）。
+- **账本**: 因子链 5476+63（13 公式+50 null）→ **5539**；引擎账本不动（零引擎跑）；evidence_cutoff=2026-09-23。
+- **停环监视**: novel_zero_streak=1（须连续 2 run 且 n_distinct<8 才 park）；n_distinct=13≥8 → 磨坊线按 §9 继续。
+- **工程双跑留痕（诚实）**: r1 finalize 崩于白噪声面板构造 shape bug（`index.size` 误用→1632×1632 vs 1632×48），
+  修复+自测锁（`_noise_panel` helper+end-to-end null_band selftest，22/22）后 r2 finalize 数字逐位复现；
+  r2 账本误走引擎链（append_ledger 默认 results/ → prev=3041/total=3104）违反 §0 因子账本=results/shortline/，
+  修=science_gates.append_ledger 加 `prev_total` 覆盖参数（加性默认 None=legacy 零行为变化，selftest 30/30 加锁）
+  +磨坊侧按 r60 单链双目录 max 约定（p1c `_chain_head_total` 先例）重算 prev=5476 → r3 finalize 总账 5539 定稿；
+  **磨坊相位从未重生成**（checkpoint 32 件续跑冻结）=审计轨迹保真，三跑判定数字逐位相同（判定侧确定性设计应验）。
 
-## §8 批后复盘【s7-T 必填】
+## §8 批后复盘【s7-T 已填·R67】
 
-- 预测对账（§5 逐条对/部分/错）＋`results/gate_attrition.json` 追加一行＋nullA 当批读数；
-- 回执入轮报告＋CODELY.md 行级追加；幸存者（如有）只登记「候选发现」事实，下游批另开预注册。
+- **预测对账（§5 逐条）**: ①机械合格率 92.3% vs [50,90] —— 方向对、带上沿外 2.3pp（部分对）；②n_distinct 13∈[10,25]
+  **✓**；③novel 0∈[0,2] **✓**（带下沿）；④最常见死因预测 E5>E4 —— **错**：机械层 E5 零触发（DUP 19/E4 1），
+  真死因在判定层 V2 墙（12/12）；⑤same_family_dup 占比 100%≥50% **✓**；⑥墙钟 [5,21]min —— **错**：实际
+  ~2min（磨坊 17.1s+finalize 87-105s；R64 探针 gen_s=0.3-1.8s 早已实测，预注册估算沿用了 spec 起草时的
+  [10,40]s 假设未回查探针数据——教训：预算段估算须回查在库实测）。
+- `results/gate_attrition.json` 已追加 j13v2_mill_ic1 条目（kind=search，eliminated=13-0=13 进 E4 全灭于 V2）。
+- 幸存者=0 → 无候选登记、无下游消费动作；磨坊线按 §9 继续（停环监视未触发）。
 
 ## §9 迷你环章程（recurring charter）
 
