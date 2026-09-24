@@ -1,12 +1,10 @@
 {
-  "id": "T-2026-09-24-31",
-  "priority": "P1",
-  "type": "transfer",
-  "spec": "TRANSFER.md 方案 A (git branch). Direction: bm-a -> bm-c. Dataset: Money02/data/cache/t18_deep_panel/ohlcv (48 parquet, ~3.1MB, T-18 deep-axis panel cache = T-22 d-c1 [0,1400) physical data blocker, MSG-20260924-1752 request). Channel: git branch transfer/t18-ohlcv-cache on origin BigMoney (files are gitignored on main; force-added on branch only). Landing path (bm-c): Money02/data/cache/t18_deep_panel/ohlcv (same relative path). Verify: manifest dual-side (sender fleet/transfers/T-2026-09-24-31-sender.json with SHA256; bm-c -Verify then receiver json). On arrival bm-c runs: python scripts/t22_virtual_timepoints.py run --axis deep --shard d-c1 --pos-from 0 --pos-to 1400 (checkpoint idempotent).",
-  "status": "claimed",
-  "claimed_by": "bm-a (OS iteration loop, round 83)",
-  "claimed_at": "2026-09-24 18:14",
-  "created_by": "bm-a per MSG-20260924-1752 s2 request (TRANSFER.md s0.1)",
-  "created_at": "2026-09-24 18:14",
-  "note": "Support transfer for T-22 canonical owner bm-c (O-1730 s5: CEO batch must not stall on data face). Sender cache built r82 (114,142 rows, manifest sha idempotent vs bm-b r101)."
+ "id": "T-2026-09-24-31",
+ "priority": "P1",
+ "type": "external-mining-wave3",
+ "spec": "Wave-3 of the standing external harvest chain (O-20260924-1721 sec.3.2 chain rule; wave-2 = T-30 delivered by GM direct-exec, see research/digests/DIGEST-20260924-source-matrix.md). Network-bound research lane, parallel with CPU-saturated batches. Deliverables: (1) academic sweep deep-dive: SSRN/arXiv A-share factor & ETF strategy papers -- seeds from wave-2 DDG harvest: Tsinghua PBCSF monthly-momentum-disappearance paper (pbcsf.tsinghua.edu.cn PDF), CJoE overnight/intraday risk-return paper (cjoe.cjoe.ac.cn), plus 2-3 new finds. (2) broker jin-gong face: hibor.com.cn jin-rong-gong-cheng category harvest (login-free listing verified in wave-2 matrix) + factor-LOGIC extraction from zhongxin-jiantou 'Zhu Lu' #29 overnight 32-factor report and guang-fa overnight-correlation factor research (clean-room rewrite, source+license lines, copyright-respect: research-report logic extraction for internal research only). (3) wzetf.cn micro-cap strategy deep-capture: >=1 concrete strategy evidence card (claimed-not-verified tags). (4) WorldQuant BRAIN paper face via academic-search alternate path (JS-wall noted in matrix). (5) >=1 NEW candidate family registered into ASTYLE_ZOO (zoo-first law, D6 paragraph + judgment-law blocklist screening) OR upgrade wave-2 family overnight_gap to IC-pretest prereg (zhongxin-jiantou 32-factor subset, 3-5 factors preferred). (6) Chain rule: on completion pre-open wave-4 ticket -- no chain breaks unless CEO redirects. (7) Funnel dual-column in round report (harvested vs gate-passed; 0 passed = honest and fine). Discipline: honesty tags on ALL community numbers, source URL per entry, fetch-fail rows recorded honestly, no login credentials, no paid-tier circumvention, politeness per traffic discipline, token economy L1-first.",
+ "status": "open",
+ "created_by": "GM (quant 专管会话) via O-20260924-1721 (chain rule sec.3.2)",
+ "created_at": "2026-09-24 18:10",
+ "note": "Standing chain ticket (weekly deep-wave / daily small-batch cadence per RESEARCH_MECHANISM v1.1 常态双频). Owner dept = 研究部 external-research lane (probe-first pattern, alternating loop rounds). Consumption drain = T-23 judgment process."
 }
