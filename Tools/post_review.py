@@ -62,6 +62,17 @@ def _now():
 
 
 # ------------------------------------------------------------------ checks
+def _json_path(d, path):
+    """Walk a dotted path. Numeric segments index lists as ints (dicts keep
+    string keys), so frozen criteria like 'launches.0.verdict' resolve."""
+    for k in path.split("."):
+        if isinstance(d, list) and k.lstrip("-").isdigit():
+            d = d[int(k)]
+        else:
+            d = d[k]
+    return d
+
+
 def _check(kind, args):
     """One deterministic re-derivation. Returns (ok: bool, detail: str)."""
     try:
@@ -79,8 +90,7 @@ def _check(kind, args):
         if kind == "json_field":
             p = os.path.join(ROOT, args[0])
             d = json.load(open(p, encoding="utf-8"))
-            for k in args[1].split("."):
-                d = d[k]
+            d = _json_path(d, args[1])
             if args[2] == "*":
                 return True, f"{args[1]}={d}"
             ok = str(d) == str(args[2])
@@ -88,8 +98,7 @@ def _check(kind, args):
         if kind == "json_gte":
             p = os.path.join(ROOT, args[0])
             d = json.load(open(p, encoding="utf-8"))
-            for k in args[1].split("."):
-                d = d[k]
+            d = _json_path(d, args[1])
             ok = float(d) >= float(args[2])
             return ok, f"{args[1]}={d} (min {args[2]})"
         if kind == "count_glob":
@@ -303,6 +312,18 @@ def cmd_selftest():
         ok("S7 anti-all-green logic",
            any(r["verdict"] == "NO" for r in rows)
            and not (all(r["verdict"] == "YES" for r in rows)))
+        # S8 hermetic numeric-path boundary fixtures (pure fn, no file face)
+        ok("S8a numeric list index resolves",
+           _json_path({"launches": [{"verdict": "launched"}]},
+                      "launches.0.verdict") == "launched")
+        ok("S8b dict string key '0' stays a key",
+           _json_path({"launches": {"0": {"verdict": "x"}}},
+                      "launches.0.verdict") == "x")
+        try:
+            _json_path([{"a": 1}], "1.a")
+            ok("S8c out-of-range index raises", False)
+        except IndexError:
+            ok("S8c out-of-range index raises", True)
     print("SELFTEST", "ALL PASS" if ok_all else "FAIL")
     return 0 if ok_all else 1
 

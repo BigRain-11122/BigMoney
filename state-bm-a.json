@@ -1,10 +1,11 @@
 {
- "round_no": 101,
+ "round_no": 103,
  "did": [
-  "R101 (dept:数据+工程+舰队): T-08 CLOSED -- dual-leg redundancy acceptance verified in-place (sim run 48/48 honest outage failures exit_code 2, source_used=\"sina(failed)->tencent(validation-only)\", per-symbol fallback_events diagnosis; validation leg 48/48 level parity zero divergence; production status carries source_used/fallback_events live; panel row ok; smoke 23/23) ticket->done result_ref set",
-  "bm-c health flag MSG-20260924-2312 escalated (stall >80min: hb 21:51:47/last commit b5f435f4 21:55:41/no artifacts post-22:02; takeover NOT applicable per O-1730+R100 artifact-first -- pool 5/5 done zero stale bm-c shards; fp lane read-verified fresh no-op; revival checklist + 24h escalation line 09-25 22:00 declared)",
-  "S6 chain all green: audit CLEAN py 1.1% flags[]/wm probe insufficient_history n=2/daily 0 rows cutoff 09-24/regime ORANGE d2 shadow #10/lhb+heat+futures no-op/moneyflow throttle no-op 23.4min<30min respawn >=23:20:30/fp bm-c lane honest no-op/fundamental fresh skip/b_layer ok/t24 promotion 0/22 honest/t35 export idempotent equity 5,996,645/build_status refreshed/token delta=0; no new bar->paper+t24-paper legal skip"
+  "R103 (dept:工程+舰队): P0=post_review json_field numeric-path resolver false-red fixed (O-2100-COMPUTE-DISPATCH 2 crash checks -> _json_path int-index walker, criteria zero-byte change, selftest S8a/b/c 10/10, re-derive 5/5 failed=[] wave YES=9/NO=0/WAIT=6 zero error-tail)",
+  "moneyflow EM block corrected: checkpoint frozen 53/5222 (spawn 23:21:24 -> 1 symbol -> conn-level fuse self-stop, no refresh process); throttle 21.2min<30min no-op; next self-heal window >=23:51:24 via 00:00 autofill tick",
+  "S6 all green: audit FLAG cap_violation=total CPU 88% attributed user-side (Tuanjie/llama-server/Doubao/node), our py 0.7% healthy / wm insufficient_history n=2 window rebuild legal idle / daily 0 rows cutoff 09-24 / regime ORANGE d2 shadow #10 / lhb+heat+futures no-op / fp bm-c lane no-op / fundamental fresh 2.9h / b_layer all_pass / t24 promotion 0/22 honest / t35 export idempotent equity 5,996,645 / token delta 0 / no new bar -> paper legs legal skip",
+  "bm-c stall watch ~120min (hb 21:51:47), zero stale ready shards no-takeover per O-1730 artifact-first, 24h escalation line 09-25 22:00"
  ],
- "verdict": "WM=RED-persisted-22:50-tick (probe insufficient_history n=2, clear-window rebuild); legal idle face unchanged (pool 5/5 done+board 0 open+bandit 0 open); natural clear pending 23:20 watchdog tick; S6 all green",
- "next": "R102: moneyflow respawn harvest (throttle expires ~23:20:30, checkpoint 52/5222 resume, EM block self-heal watch) + C7 red natural-clear recheck + bm-c stall watch (24h escalation line 09-25 22:00, takeover only if stale ready shard appears) + T-35 IntradayMarks first fire 09-25 09:25 natural window"
+ "verdict": "WM=GREEN (watermark_red red=false lane=healthy; legal idle face = board 0 open + pool no-ready + bandit 0 + moneyflow=network-IO batch not CPU candidate; audit cap_violation=user-side load attribution, our lane clean)",
+ "next": "R104: moneyflow self-heal window recheck (00:00 autofill tick crosses 23:51:24 throttle gate; EM block persists = GM data-source discretion per D-07 track, no idle retries) + T-35 IntradayMarks first fire 09-25 09:25 natural window + bm-c 24h escalation line 09-25 22:00 (takeover only if stale ready shard appears)"
 }
