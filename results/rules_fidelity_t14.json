@@ -47,8 +47,14 @@
    "trader": "COMPOSITE-CE-01",
    "cutoff": "2026-09-22",
    "b2_landing_bit_identical": false,
-   "break_intersections": 0,
-   "break_detail": [],
+   "break_intersections": 1,
+   "break_detail": [
+    {
+     "sym": "510500",
+     "break_date": "2022-08-29",
+     "exit_date": "2022-09-21"
+    }
+   ],
    "A": {
     "is": {
      "sharpe": 0.4514,
@@ -166,8 +172,19 @@
    "trader": "COMPOSITE-CE-02",
    "cutoff": "2026-09-22",
    "b2_landing_bit_identical": false,
-   "break_intersections": 0,
-   "break_detail": [],
+   "break_intersections": 2,
+   "break_detail": [
+    {
+     "sym": "512100",
+     "break_date": "2022-09-05",
+     "exit_date": "2022-09-06"
+    },
+    {
+     "sym": "512100",
+     "break_date": "2022-09-05",
+     "exit_date": "2022-09-07"
+    }
+   ],
    "A": {
     "is": {
      "sharpe": 0.4585,
@@ -1401,5 +1418,6 @@
   "share_consolidation": "raw sina series carries structural share-consolidation breaks (see break_days); engine keeps no consolidation adjustment -> cross-break holds embed phantom jumps; anchor-frozen evidence NOT recomputed (D2 lockbox); panel-integrity governance = new-ticket candidate; paper forward pollution risk disclosed to GM.",
   "paper_dual_rail_recommendation": "recommendation only (GM adjudication domain): wire the same guard into live/paper window runs behind an additive default-off flag so forward paper fills respect board-seal/suspension un-fillability."
  },
- "break_detector": "|pct| beyond real board window (tier+1.5pp) on raw per-symbol rows: 21 events / 19 symbols, reconciles the prereg s5 enumeration exactly; first write used the narrower |pct|>=30% subset (19 events) -- disclosure-face fix, rails/ledger untouched"
+ "break_detector": "|pct| beyond real board window (tier+1.5pp) on raw per-symbol rows: 21 events / 19 symbols, reconciles the prereg s5 enumeration exactly; first write used the narrower |pct|>=30% subset (19 events) -- disclosure-face fix, rails/ledger untouched",
+ "break_intersection_fix": "T-19 stage-1 (bm-c r48): _break_intersections pos_of was keyed by raw Timestamps while trade/break dates are strings -> every trade hit the continue guard -> the original 0/6 was a VACUOUS zero (type-vacuity, J7 alignment-pit family). Function fixed (keys normalized YYYY-MM-DD both faces, frozen s5 boundary semantics unchanged) and rebreak re-run: corrected frozen face = COMPOSITE-CE-01 x1 (entry ON break day, benign), COMPOSITE-CE-02 x2 (512100 +176.27pct phantom windfall). Boundary face (exit ON break day, missed by frozen strict-<) carries the full exposure set -> results/t19_exposure_audit.json phantom_exposure_summary. Rails/ledger/guard/t0_landing untouched (r56 disclosure-face law). Registered anchors frozen (D2 lockbox)."
 }

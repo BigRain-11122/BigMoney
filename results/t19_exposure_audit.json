@@ -1,0 +1,281 @@
+{
+ "evidence_cutoff": "2026-09-23",
+ "batch": "consolidation_exposure_audit_t19",
+ "ticket": "T-2026-09-24-19",
+ "stage": 1,
+ "deliverable": "six-trader holding-path x consolidation-break audit",
+ "registry_source": "data/consolidation/registry.json (dogfood consumed)",
+ "intersection_semantics": "Holding-path x consolidation-break-day intersections (prereg s5).",
+ "boundary_semantics": "t19 layer, additive to frozen s5: exit ON a break day (entry < break == exit) is a real held-across exposure the frozen strict-< face misses; all boundary rows are phantom-exposed",
+ "traders": [
+  {
+   "trader": "COMPOSITE-CE-01",
+   "cutoff": "2026-09-22",
+   "anchor_gate_pass": true,
+   "a_face_matches_frozen": true,
+   "break_intersections": 1,
+   "phantom_accrual_rows": 0,
+   "boundary_rows_missed_by_frozen": 2,
+   "break_detail": [
+    {
+     "sym": "510500",
+     "break_date": "2022-08-29",
+     "exit_date": "2022-09-21",
+     "entry_date": "2022-08-29",
+     "phantom_accrued": false
+    }
+   ],
+   "boundary_detail": [
+    {
+     "sym": "513500",
+     "break_date": "2022-03-30",
+     "entry_date": "2022-03-29",
+     "exit_date": "2022-03-30",
+     "phantom_accrued": true
+    },
+    {
+     "sym": "512800",
+     "break_date": "2025-07-07",
+     "entry_date": "2025-06-19",
+     "exit_date": "2025-07-07",
+     "phantom_accrued": true
+    }
+   ]
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "cutoff": "2026-09-22",
+   "anchor_gate_pass": true,
+   "a_face_matches_frozen": true,
+   "break_intersections": 2,
+   "phantom_accrual_rows": 2,
+   "boundary_rows_missed_by_frozen": 5,
+   "break_detail": [
+    {
+     "sym": "512100",
+     "break_date": "2022-09-05",
+     "exit_date": "2022-09-06",
+     "entry_date": "2022-08-25",
+     "phantom_accrued": true
+    },
+    {
+     "sym": "512100",
+     "break_date": "2022-09-05",
+     "exit_date": "2022-09-07",
+     "entry_date": "2022-08-25",
+     "phantom_accrued": true
+    }
+   ],
+   "boundary_detail": [
+    {
+     "sym": "513100",
+     "break_date": "2022-01-14",
+     "entry_date": "2022-01-10",
+     "exit_date": "2022-01-14",
+     "phantom_accrued": true
+    },
+    {
+     "sym": "513500",
+     "break_date": "2022-03-30",
+     "entry_date": "2022-03-29",
+     "exit_date": "2022-03-30",
+     "phantom_accrued": true
+    },
+    {
+     "sym": "510500",
+     "break_date": "2022-08-29",
+     "entry_date": "2022-08-24",
+     "exit_date": "2022-08-29",
+     "phantom_accrued": true
+    },
+    {
+     "sym": "512100",
+     "break_date": "2022-09-05",
+     "entry_date": "2022-08-25",
+     "exit_date": "2022-09-05",
+     "phantom_accrued": true
+    },
+    {
+     "sym": "512800",
+     "break_date": "2025-07-07",
+     "entry_date": "2025-05-29",
+     "exit_date": "2025-07-07",
+     "phantom_accrued": true
+    }
+   ]
+  },
+  {
+   "trader": "DROUGHT-CE-01",
+   "cutoff": "2026-09-22",
+   "anchor_gate_pass": true,
+   "a_face_matches_frozen": true,
+   "break_intersections": 0,
+   "phantom_accrual_rows": 0,
+   "boundary_rows_missed_by_frozen": 1,
+   "break_detail": [],
+   "boundary_detail": [
+    {
+     "sym": "512480",
+     "break_date": "2021-03-29",
+     "entry_date": "2021-03-12",
+     "exit_date": "2021-03-29",
+     "phantom_accrued": true
+    }
+   ]
+  },
+  {
+   "trader": "ENGULF-CE-01",
+   "cutoff": "2026-09-22",
+   "anchor_gate_pass": true,
+   "a_face_matches_frozen": true,
+   "break_intersections": 0,
+   "phantom_accrual_rows": 0,
+   "boundary_rows_missed_by_frozen": 0,
+   "break_detail": [],
+   "boundary_detail": []
+  },
+  {
+   "trader": "NEEDLE-DE-01",
+   "cutoff": "2026-09-22",
+   "anchor_gate_pass": true,
+   "a_face_matches_frozen": true,
+   "break_intersections": 0,
+   "phantom_accrual_rows": 0,
+   "boundary_rows_missed_by_frozen": 0,
+   "break_detail": [],
+   "boundary_detail": []
+  },
+  {
+   "trader": "VOLATILITY-CE-01",
+   "cutoff": "2026-09-22",
+   "anchor_gate_pass": true,
+   "a_face_matches_frozen": true,
+   "break_intersections": 0,
+   "phantom_accrual_rows": 0,
+   "boundary_rows_missed_by_frozen": 0,
+   "break_detail": [],
+   "boundary_detail": []
+  }
+ ],
+ "verdict": {
+  "total_intersections_frozen_face": 3,
+  "phantom_accrual_rows": 2,
+  "boundary_rows_missed_by_frozen": 8,
+  "statement": "After the T-19 type-vacuity fix the frozen face is no longer vacuous: registered faces carry REAL phantom P&L from share-consolidation breaks -- windfalls AND losses, in both IS and OOS windows (see phantom_exposure_summary rows for the exact trader/symbol/date/event_pct faces). Registered anchors stay frozen (D2 lockbox) -- disclosure only; contribution quantification = stage-2 preregged counterfactual face for the GM decision pack.",
+  "phantom_exposure_summary": [
+   {
+    "trader": "COMPOSITE-CE-01",
+    "phantom_exposed_rows": 2,
+    "rows": [
+     {
+      "sym": "513500",
+      "break_date": "2022-03-30",
+      "entry_date": "2022-03-29",
+      "exit_date": "2022-03-30",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": -0.491773
+     },
+     {
+      "sym": "512800",
+      "break_date": "2025-07-07",
+      "entry_date": "2025-06-19",
+      "exit_date": "2025-07-07",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": -0.496905
+     }
+    ]
+   },
+   {
+    "trader": "COMPOSITE-CE-02",
+    "phantom_exposed_rows": 7,
+    "rows": [
+     {
+      "sym": "512100",
+      "break_date": "2022-09-05",
+      "exit_date": "2022-09-06",
+      "entry_date": "2022-08-25",
+      "phantom_accrued": true,
+      "face": "frozen",
+      "event_pct": 1.762729
+     },
+     {
+      "sym": "512100",
+      "break_date": "2022-09-05",
+      "exit_date": "2022-09-07",
+      "entry_date": "2022-08-25",
+      "phantom_accrued": true,
+      "face": "frozen",
+      "event_pct": 1.762729
+     },
+     {
+      "sym": "513100",
+      "break_date": "2022-01-14",
+      "entry_date": "2022-01-10",
+      "exit_date": "2022-01-14",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": -0.804507
+     },
+     {
+      "sym": "513500",
+      "break_date": "2022-03-30",
+      "entry_date": "2022-03-29",
+      "exit_date": "2022-03-30",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": -0.491773
+     },
+     {
+      "sym": "510500",
+      "break_date": "2022-08-29",
+      "entry_date": "2022-08-24",
+      "exit_date": "2022-08-29",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": -0.127424
+     },
+     {
+      "sym": "512100",
+      "break_date": "2022-09-05",
+      "entry_date": "2022-08-25",
+      "exit_date": "2022-09-05",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": 1.762729
+     },
+     {
+      "sym": "512800",
+      "break_date": "2025-07-07",
+      "entry_date": "2025-05-29",
+      "exit_date": "2025-07-07",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": -0.496905
+     }
+    ]
+   },
+   {
+    "trader": "DROUGHT-CE-01",
+    "phantom_exposed_rows": 1,
+    "rows": [
+     {
+      "sym": "512480",
+      "break_date": "2021-03-29",
+      "entry_date": "2021-03-12",
+      "exit_date": "2021-03-29",
+      "phantom_accrued": true,
+      "face": "boundary",
+      "event_pct": -0.489043
+     }
+    ]
+   }
+  ],
+  "anchor_rewrites": 0
+ },
+ "audit": {
+  "ledger_trials_added": 0,
+  "basis": "recorded-cell reproduction of registered A-rail (g25 family-matrix / corr-watch precedent); break-day scan = data face, not a trial"
+ }
+}

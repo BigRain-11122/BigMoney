@@ -203,17 +203,27 @@ def _break_intersections(rail: dict, break_by_sym: dict) -> list[dict]:
     every engine trading day a position was open, so entry_pos =
     exit_pos - hold_days on the run's own dates index (exact, incl. NaN
     suspension days which also increment hold_days).
+
+    T-19 type-vacuity fix (bm-c r48, caught by t19 selftest): pos_of was
+    keyed by raw index entries (Timestamps) while trade/break dates are
+    strings -> every trade hit the `continue` guard -> the first frozen
+    batch write's 0/6 was vacuous. Keys now normalized to YYYY-MM-DD on
+    both faces; intersection semantics (frozen s5 boundaries) unchanged.
     """
-    pos_of = {d: i for i, d in enumerate(rail["idx"])}
+    def _k(d):
+        return d.strftime("%Y-%m-%d") if hasattr(d, "strftime") else str(d)[:10]
+
+    pos_of = {_k(d): i for i, d in enumerate(rail["idx"])}
     out = []
     for tr in rail["trades"]:
-        sym, ex = tr["symbol"], tr["date"]
+        sym, ex = tr["symbol"], _k(tr["date"])
         if sym not in break_by_sym or ex not in pos_of:
             continue
         e_pos = pos_of[ex] - int(tr["hold_days"])
         for bd in break_by_sym[sym]:
-            if bd in pos_of and e_pos <= pos_of[bd] < pos_of[ex]:
-                out.append({"sym": sym, "break_date": bd, "exit_date": ex})
+            bdk = _k(bd)
+            if bdk in pos_of and e_pos <= pos_of[bdk] < pos_of[ex]:
+                out.append({"sym": sym, "break_date": bdk, "exit_date": ex})
     return out
 
 
