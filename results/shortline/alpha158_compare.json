@@ -1,0 +1,351 @@
+{
+ "provenance": {
+  "source": "https://github.com/microsoft/qlib/blob/main/qlib/contrib/data/loader.py",
+  "license": "MIT",
+  "vendored_commit": "a7d5a9b500de (file last commit 2024-07-05, fetched 2026-09-24)",
+  "loader_sha256": "814b7f7ab3d418ae3c87ce352220080b239eba2670eac9e38376b794be4075cb",
+  "handler_sha256": "b621481c6009c39066c67c71390fd2bea635f56daf9f2c4e38817eff268e3232",
+  "handler_price_config": {
+   "windows": [
+    0
+   ],
+   "feature": [
+    "OPEN",
+    "HIGH",
+    "LOW",
+    "VWAP"
+   ]
+  },
+  "handler_excludes_volume_raw": true
+ },
+ "composition_gate": {
+  "kbar_count": 9,
+  "price0_count": 4,
+  "rolling_ops": 29,
+  "rolling_feats": 145,
+  "total_features": 158,
+  "total_is_158": true,
+  "names_unique": true
+ },
+ "rolling_windows": [
+  5,
+  10,
+  20,
+  30,
+  60
+ ],
+ "families": [
+  {
+   "family": "KBAR",
+   "features": 9,
+   "expr_examples": "KMID",
+   "names": [
+    "KMID",
+    "KLEN",
+    "KMID2",
+    "KUP",
+    "KUP2",
+    "KLOW",
+    "KLOW2",
+    "KSFT",
+    "KSFT2"
+   ],
+   "v": "partial",
+   "refs": "internal intraday_range=KLEN (J6 DNA, strongest single); KUP/KLOW/KSFT covered only as EVENT forms (engulf/needle/hammer G1' candidates); continuous shadow-ratio factor untested",
+   "cls": "C"
+  },
+  {
+   "family": "PRICE0",
+   "features": 4,
+   "expr_examples": "$<field>/$close (windows=[0])",
+   "names": [
+    "OPEN0",
+    "HIGH0",
+    "LOW0",
+    "VWAP0"
+   ],
+   "v": "partial",
+   "refs": "VWAP0=$vwap/$close: GTJA/WQ use vwap extensively (alpha191 wma-vwap family / WQ alpha40-41); internal no direct continuous form; group is ML level-feature oriented",
+   "cls": "C"
+  },
+  {
+   "family": "ROC",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "mom_20/mom_12_1 internal (J6 DNA); tsmom family; GTJA slope trio 021/116/147 tested (weak IS / OOS-strong mom regime)",
+   "cls": "-"
+  },
+  {
+   "family": "MA",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "432 MA-cross grid (all dead); dual_ma/triple_ma strategies tested (batch 2A negative)",
+   "cls": "-"
+  },
+  {
+   "family": "STD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "vol_60 (J6 DNA, stock-pool sign preserved); GTJA std-based factors",
+   "cls": "-"
+  },
+  {
+   "family": "BETA",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "GTJA REGBETA 021/116/147 re-tested (021 dead-flat, 116/147 pool-only); trend_r2 adjacent",
+   "cls": "-"
+  },
+  {
+   "family": "RSQR",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "internal trend_r2 (NSP1 new-design 4-grid, ~0.116 = info-overlap with composite, eaten by cost)",
+   "cls": "-"
+  },
+  {
+   "family": "RESI",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "zoo resid_mom (A-layer) excluded from batches as adjacent to tested trend materials; never IC-tested directly",
+   "cls": "C"
+  },
+  {
+   "family": "MAX",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "high252_prox (NSP1 G1' pass -> G2 FAIL); 52-week single-sidedness law (George-Hwang strength only on strong side)",
+   "cls": "-"
+  },
+  {
+   "family": "LOW",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "unmapped",
+   "cls": "?"
+  },
+  {
+   "family": "QTLU",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "price_position (J6 DNA) = range-position family; quantile form untested",
+   "cls": "C"
+  },
+  {
+   "family": "QTLD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "same family, lower side",
+   "cls": "C"
+  },
+  {
+   "family": "RANK",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "price_position / 52w-rank family (J6 DNA + high252 proximity)",
+   "cls": "-"
+  },
+  {
+   "family": "RSV",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered_tested_dead",
+   "refs": "KDJ (batch 2A judged negative); oscillator-oversold all-dead law (kdj+cci+williams+rsi four-family)",
+   "cls": "-"
+  },
+  {
+   "family": "IMAX",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "gap",
+   "refs": "Aroon time-since-high: ABSENT from GTJA191+WQ101 (mechanical scan), absent internally; zoo has no time-since-extreme family",
+   "cls": "B"
+  },
+  {
+   "family": "IMIN",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "gap",
+   "refs": "Aroon time-since-low, same mechanical absence",
+   "cls": "B"
+  },
+  {
+   "family": "IMXD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "gap",
+   "refs": "Aroon max-min index spread (downward-momentum idea), same absence",
+   "cls": "B"
+  },
+  {
+   "family": "CORR",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered",
+   "refs": "price_volume_trend_20 (P1 observation); 量价背离 family (P4_BATCH1 judged); WQ corr-class",
+   "cls": "-"
+  },
+  {
+   "family": "CORD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "return-volume corr variant distinct from level corr; adjacent to tested pv family",
+   "cls": "C"
+  },
+  {
+   "family": "CNTP",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "streak_up tested deeply negative (-0.976, M0923 cross-domain one-way gate) -- adjacent run-length form; up-day FRACTION untested; low prior",
+   "cls": "C"
+  },
+  {
+   "family": "CNTN",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "mirror of CNTP",
+   "cls": "C"
+  },
+  {
+   "family": "CNTD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "derived diff form",
+   "cls": "C"
+  },
+  {
+   "family": "SUMP",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered_tested_dead",
+   "refs": "RSI-family (SUMP~RSI): rsi_divergence queue-batch negative; kdj negative; oscillator law",
+   "cls": "-"
+  },
+  {
+   "family": "SUMN",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered_tested_dead",
+   "refs": "=1-SUMP derived",
+   "cls": "-"
+  },
+  {
+   "family": "SUMD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "covered_tested_dead",
+   "refs": "=2*SUMP-1 derived",
+   "cls": "-"
+  },
+  {
+   "family": "VMA",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "换手异动 family (P4_BATCH1 judged); vol_drought uses volume LEVEL (percentile), VMA ratio adjacent",
+   "cls": "C"
+  },
+  {
+   "family": "VSTD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "partial",
+   "refs": "GTJA has std(amount,6) adjacent (volume-level std); volume dispersion as continuous factor untested internally",
+   "cls": "C"
+  },
+  {
+   "family": "WVMA",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "gap",
+   "refs": "volume-weighted price-change volatility Std(|ret|*vol)/Mean(...): no volume-x-abs-ret compound in internal set; vendored scan shows GTJA std-lines are close/high std not vol-weighted |ret| -- genuinely new B-class candidate",
+   "cls": "B"
+  },
+  {
+   "family": "VSUMP",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "gap",
+   "refs": "up-volume share (volume-RSI): 量堆/放量 tested as EVENT forms only; continuous up-volume share untested",
+   "cls": "B"
+  },
+  {
+   "family": "VSUMN",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "gap",
+   "refs": "=1-VSUMP mirror",
+   "cls": "B"
+  },
+  {
+   "family": "VSUMD",
+   "features": 5,
+   "expr_examples": "n/a",
+   "v": "gap",
+   "refs": "derived diff form",
+   "cls": "B"
+  }
+ ],
+ "verdict_tallies_features": {
+  "partial": 63,
+  "covered": 40,
+  "covered_tested_dead": 20,
+  "gap": 35
+ },
+ "gap_families_b_class": [
+  "IMAX",
+  "IMIN",
+  "IMXD",
+  "WVMA",
+  "VSUMP",
+  "VSUMN",
+  "VSUMD"
+ ],
+ "mech_scan": {
+  "aroon_absent_in_gtja_wq": {
+   "keyword": "aroon",
+   "found": false,
+   "expected_found": false,
+   "pass": true
+  },
+  "idxmax_absent_in_gtja_wq": {
+   "keyword": "idxmax",
+   "found": false,
+   "expected_found": false,
+   "pass": true
+  },
+  "vwap_present_in_gtja": {
+   "keyword": "vwap",
+   "found": true,
+   "expected_found": true,
+   "pass": true
+  },
+  "stdxvolume_lines_gtja": 14,
+  "stdxvolume_lines_wq": 2
+ },
+ "honest_baseline": {
+  "law": "external-lib single-factor wall: GTJA 0/183 @core48 (21/181 stock-pool strict), WQ 0/82 strict; strongest single evidence remains proprietary lhb_count_20 |IR|0.84",
+  "implication": "coverage map only; gap families are SYNTHESIS-MATERIAL / small-K IC candidates at best, each requiring own preregistration (PREREG_TEMPLATE D6 mechanism section mandatory)",
+  "domain_note": "Alpha158 targets CSI500 stock ML; our tradable ETF core48 + B-layer stock pool (long-only tilt failed twice = friction-wall law) -- volume features historically stronger on stocks than ETFs"
+ },
+ "audit": {
+  "engine_runs": 0,
+  "ledger_trials_added": 0,
+  "evidence_cutoff": "2026-09-23 (data state ref only, zero engine)"
+ }
+}

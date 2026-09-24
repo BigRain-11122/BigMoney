@@ -52,6 +52,7 @@
 | 涨停/情绪族 | 7 登记 | zt_count_60/zt_dist/lb_height/zt_premium/mood_temp/lhb_follow/bias_extreme（B 层配套，批二后按先验降级） |
 | 热度/注意力 | L1+L2 | 人气榜日快照前向采集+单股 366 日史回填（O-1850）；L2 首场 IC 批=**0/4 pass 诚实判负**（PC_L2_IC·2026-09-24·V2 IR 线瓶颈·mom_20 IR−0.193 最强·素材池留档带幸存者折价） |
 | 资金流族（主力/北向） | **源审计完成** | DIGEST-20260924-moneyflow-source-audit（R58 bm-a·probe-only）：主力资金流=**push2his 源端 120d 硬顶**（lmt=0 全史请求仍只回 120 行·3/3 代表股一致）→前向采集+短窗回测类（h5/h10/h20 窗内可算、长回测结构性不可得）；北向=**死源证据固定**（聚合 2024-08 后行壳延续但资金流字段全 NaN+个股机构明细止 2024-09-30+排行封装崩三证）→真值段 2014-11→2024-08 仅历史素材、在产因子域除名；板块资金流=clist 码表腿阻断（BK 码表硬编码可绕） |
+| **Alpha158 参照库**（qlib·MIT） | **对照导出完成** | DIGEST-20260924-alpha158-comparison（R59 bm-a·O-1636 外调队·零引擎）：158=9 KBAR+4 PRICE0+29 滚动族×5 窗；四库覆盖图 covered 40/tested-dead 20/partial 63/**gap 35**；**真缺口 7 族 B 类候选**=Aroon 三族（IMAX/IMIN/IMXD·时间距极值，GTJA191+WQ101 机械扫描同构缺失实锤）+WVMA（量加权波动率）+量 RSI 三族（VSUMP/VSUMN/VSUMD）；六成特征所在信息族已被四库覆盖且大半实测判死=外部单因子过墙律第三证；**参照身份非可算资产**（vendored 定义件永不 import），开批=各自预注册（D6 机制段+股票池 null 校正线+小 K 防弱尾稀释） |
 
 ## 五、门禁链与常数（唯一权威=`p2_calibration.json`+各预注册）
 

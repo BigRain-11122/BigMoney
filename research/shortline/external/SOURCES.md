@@ -10,6 +10,7 @@
 | `gtja191_README.md` | 同上 | 同上 | 用法原文 |
 | `worldquant101_alpha101.py` | github.com/OctopusTakopi/toraniko-alpha101 | **MIT**（见 `worldquant101_LICENSE`） | 36.7KB·WorldQuant《101 Formulaic Alphas》全量实现（Kakushadze, arXiv:1601.00991, Wilmott 2016；平均持仓 0.6-6.4 天=短线经典）；**Polars 长表实现** → 作公式权威参照，pandas 适配由研究部做 |
 | `worldquant101_LICENSE` / `worldquant101_README.md` | 同上 | MIT | 许可与说明原文 |
+| `qlib_alpha158_loader.py` / `qlib_alpha158_handler.py` | github.com/microsoft/qlib（`qlib/contrib/data/loader.py::Alpha158DL` + `handler.py::Alpha158`，文件末次 commit `a7d5a9b500de` 2024-07-05，取于 2026-09-24） | **MIT**（qlib 仓库根 LICENSE） | 21.2KB 两件**逐字节原样** vendored（R59 bm-a·O-1636 外调队「Alpha158 对照导出」专用对照源，**永不 import 执行**——顶部 qlib import 天然防误执行）；158 特征定义层=对照导出对象非计算依赖（DIGEST-20260924-alpha158-comparison；采纳缺口族开批=各自预注册） |
 
 ## 参照文献（不下载，引用即够）
 
