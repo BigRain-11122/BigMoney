@@ -121,3 +121,17 @@
 - **车道耦合披露**：rank 道在 stale+夜窗时 gate 早返回，daykline 回填道在该窗饥饿——但日间
   09:15-15:30 rank 窗卫期 legacy 道正常获得 tick，两道合计覆盖全日；daykline 面本身硬断≥25h 其
   spawn 仅为 3 请求探针，饥饿=省烧。若未来 daykline 面复活而 rank 道长阻，再评估车道回退调度。
+
+## §8 替代源冗余审计收线（2026-09-25 R118 addendum·T-20260925-41 done 诚实负结果）
+
+- **R108 双面冗余律量纲修正**：个股主力分解（超大+大单族分解+占比）截面的可达双面=**EM 族内跨端点**
+  （push2 rank 主面 × push2his daykline 回填面），两 端点阻断按日轮换实证独立阻断窗（R58 晨 vs R108
+  夜完全倒转）；**跨 provider 冗余对该量纲在免费 API 空间结构性不存在**——THS ggzjl 传输面 ALIVE
+  （105 页×50≈全市场）但为全单聚合口径（流入/流出/净额/成交额，无主力分解无占比），映射表无物可映，
+  聚合冒充主力=量纲造假禁行；EM `stock_main_fund_flow` 源码内省证伪=push2 同端点（docstring 网页壳
+  datacenter≠API 背面）。证据三件=`research/digests/DIGEST-20260925-t41-alt-source-probe.md` +
+  `results/shortline/t41_ths_probe_raw.json` + `t41_endpoint_map.json`（13 函数端点图）。
+- **长阻期数据面风险接受**（GM 裁定 2026-09-25 03:50）：rank 道断供由 daykline 复活窗回填补片
+  （120td 回看=gap 修复器），gate 30min 自愈 3 请求/窗维持，两道新鲜度门并存（rank 1td / 回填 20td）。
+- **THS 聚合面登记为候选辅助面板**（新方向另开票另预注册：mf_ths_net 全单净额日频~105 请求/日，
+  本 spec scope 外；金额列亿/万后缀须单位解析器）。T-41 收线=验收第二路径（诚实负结果+证据+升级件）。

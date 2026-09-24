@@ -1,0 +1,103 @@
+{
+ "ts": "2026-09-25 03:42:55",
+ "network_requests_used": 0,
+ "method": "akshare source introspection (inspect.getsource), zero network",
+ "functions": {
+  "stock_concept_fund_flow_hist": [
+   "https://data.eastmoney.com/bkzj/BK0574.html",
+   "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get"
+  ],
+  "stock_fund_flow_big_deal": [
+   "http://data.10jqka.com.cn/funds/ddzz/order/asc/page/",
+   "http://data.10jqka.com.cn/funds/ddzz/order/desc/ajax/1/free/1/",
+   "http://data.10jqka.com.cn/funds/hyzjl/",
+   "https://data.10jqka.com.cn/funds/ddzz"
+  ],
+  "stock_fund_flow_concept": [
+   "http://data.10jqka.com.cn/funds/gnzjl/",
+   "http://data.10jqka.com.cn/funds/gnzjl/board/10/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/gnzjl/board/20/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/gnzjl/board/3/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/gnzjl/board/5/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/gnzjl/field/tradezdf/order/desc/ajax/1/free/1/",
+   "http://data.10jqka.com.cn/funds/gnzjl/field/tradezdf/order/desc/page/",
+   "https://data.10jqka.com.cn/funds/gnzjl/"
+  ],
+  "stock_fund_flow_individual": [
+   "http://data.10jqka.com.cn/funds/ggzjl/board/10/field/zdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/ggzjl/board/20/field/zdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/ggzjl/board/3/field/zdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/ggzjl/board/5/field/zdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/ggzjl/field/code/order/desc/ajax/1/free/1/",
+   "http://data.10jqka.com.cn/funds/ggzjl/field/zdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/hyzjl/",
+   "https://data.10jqka.com.cn/funds/ggzjl/"
+  ],
+  "stock_fund_flow_industry": [
+   "http://data.10jqka.com.cn/funds/hyzjl/",
+   "http://data.10jqka.com.cn/funds/hyzjl/board/10/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/hyzjl/board/20/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/hyzjl/board/3/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/hyzjl/board/5/field/tradezdf/order/desc/page/",
+   "http://data.10jqka.com.cn/funds/hyzjl/field/tradezdf/order/desc/ajax/1/free/1/",
+   "http://data.10jqka.com.cn/funds/hyzjl/field/tradezdf/order/desc/page/",
+   "https://data.10jqka.com.cn/funds/hyzjl/"
+  ],
+  "stock_hsgt_fund_flow_summary_em": [
+   "https://data.eastmoney.com/hsgt/index.html",
+   "https://datacenter-web.eastmoney.com/api/data/v1/get"
+  ],
+  "stock_individual_fund_flow": [
+   "https://data.eastmoney.com/zjlx/detail.html",
+   "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get"
+  ],
+  "stock_individual_fund_flow_rank": [
+   "https://data.eastmoney.com/zjlx/detail.html",
+   "https://push2.eastmoney.com/api/qt/clist/get"
+  ],
+  "stock_main_fund_flow": [
+   "https://data.eastmoney.com/zjlx/list.html",
+   "https://push2.eastmoney.com/api/qt/clist/get"
+  ],
+  "stock_market_fund_flow": [
+   "https://data.eastmoney.com/zjlx/dpzjlx.html",
+   "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get"
+  ],
+  "stock_sector_fund_flow_hist": [
+   "https://data.eastmoney.com/bkzj/BK1034.html",
+   "https://push2his.eastmoney.com/api/qt/stock/fflow/daykline/get"
+  ],
+  "stock_sector_fund_flow_rank": [
+   "https://data.eastmoney.com/bkzj/hy.html",
+   "https://push2.eastmoney.com/api/qt/clist/get"
+  ],
+  "stock_sector_fund_flow_summary": [
+   "https://data.eastmoney.com/bkzj/BK1034.html",
+   "https://push2.eastmoney.com/api/qt/clist/get"
+  ]
+ },
+ "endpoint_map_verdict": {
+  "push2_clist_get_family": [
+   "stock_individual_fund_flow_rank",
+   "stock_main_fund_flow",
+   "stock_sector_fund_flow_rank",
+   "stock_sector_fund_flow_summary"
+  ],
+  "push2his_daykline_family": [
+   "stock_individual_fund_flow",
+   "stock_concept_fund_flow_hist",
+   "stock_market_fund_flow",
+   "stock_sector_fund_flow_hist"
+  ],
+  "ths_10jqka_family": {
+   "stock_fund_flow_individual": "ggzjl individual-stock daily cross-section (aggregate only)",
+   "stock_fund_flow_big_deal": "ddzz intraday big-deal tick list (not a daily summary)",
+   "stock_fund_flow_concept": "gnzjl concept-level",
+   "stock_fund_flow_industry": "hyzjl industry-level"
+  },
+  "datacenter_web_family": [
+   "stock_hsgt_fund_flow_summary_em (northbound summary only, NOT individual money flow)"
+  ],
+  "conclusion": "No individual-stock cross-section face with EM-style zhu-li (super-large+large) breakdown exists outside EM push2/push2his in the free-public-API (akshare) space."
+ }
+}
