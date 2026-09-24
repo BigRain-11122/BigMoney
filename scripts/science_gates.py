@@ -592,6 +592,10 @@ SEED_REGISTRY = {
     # Money02/Money0923 data-file digit coincidences (non-RNG, t34 precedent);
     # registered before GRID_P1 slice-2 pool submission r137, prereg s3 frozen
     # r136 names this base)
+    "p4_batch3_dca": 56_500,                # P4-B3-DCA staged vs single K=100
+    # random-signal nulls (56_500+k default / 56_550+k ce, k<50; next free
+    # band above grid_p1 55_500, registry scan 2026-09-25 04:1x before
+    # P4_BATCH3.md prereg freeze r140; prereg s3 names this base)
 }
 
 
