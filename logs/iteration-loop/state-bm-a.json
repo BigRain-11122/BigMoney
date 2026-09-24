@@ -1,19 +1,19 @@
 {
- "round_no": 80,
+ "round_no": 81,
  "did": [
-  "R80 = T-20 main-delivery round (backoff lifted: session WIP stale ~3h): S0.5 diff-scan 45/45 empty; P-32 zero new rows; smoke 23/23",
-  "T-20 d2-d4 one-shot DONE: MSG-1608 -> pre-change baseline (frozen 09-23) -> wiring commit b8172ba (engine additive sell-deferral keys + live/paper.py B-rail guard) -> gates G0-G6 ALL PASS (paper_guard_dual_rail.json) -> production cutover = first post-commit paper run full-window guarded recompute; prereg s7/s8 backfilled; ticket note updated; remaining = briefing/scorecard display wiring",
-  "5x HANDOVER accounted: header chain + s2 cutoff (R80/r104/r57) + table-tail R80 row + s6 queue row round 80 (T-20 done, T-22/23/24 ledger); diff 5+/3-",
-  "S6 chain green: audit CLEAN / wm insufficient_history n=1 / daily 0 new rows (09-24 source-lag) / regime ORANGE d1 / lhb no-op / heat n=100 landed / futures no-op / moneyflow detached spawn / fund_premium R65 no-op / fundamental fresh / b_layer 5 gates / token +180",
-  "PIT: fixture guard-cell authoring must trace signal-bar -> exec-bar shift (bar60->bar61); G3 first red = fixture-side, criteria untouched (J18 2nd)"
+  "R81 = T-25 watermark closed-loop round (O-1626 CEO order executed): S0 R80 tail + daily_validate.py debt settled (3f00de3, MSG-1615 unblock); S0.5 orders 45->48 (O-1600 slice=bm-b lane no poach, O-1612 executed-ack, O-1626 ack+executed); smoke 23/23",
+  "T-25 core loop DELIVERED (f843682): watchdog.ps1 C7 leg LIVE (RED detect 3-sample + zombie 3-check kill + watermark_red.json escalation) + injection acceptance c7_selftest 10/10 REAL kill + COMPUTE_AUDIT.md v1.1 dual-column + build_status watermark line + iteration_prompt R3 wiring",
+  "C7 first production run hit REAL RED (py_tail 0.6/0.5/0.9 + 3 open tickets) -- honest per O-1612 status quo; disposal = next rounds start runnable batches (T-24 anchor batch = CPU carrier)",
+  "S6 all green: audit CLEAN / wm insufficient_history n=1 / daily 0 rows cutoff 09-23 / regime ORANGE d1 / lhb+heat+futures no-op legal / moneyflow throttle 19.7min / fund_premium non-owner / fundamental fresh / b_layer 5 gates / token -736",
+  "PIT: closeout git add -A on dirty-start round swallowed user-side untracked files (harmless, zero modification) -- targeted-add discipline must span whole round"
  ],
  "next_pointer": [
-  "(1) T-24 PROSPECT probation-roster claim candidate (open; O-1542; hr.py lineage affinity)",
-  "(2) T-20 briefing/scorecard display wiring (reporting-only additive step)",
-  "(3) daily 09-24 bar sweep self-heal (source unpublished 15:44+16:18 probes) + moneyflow detached refresh harvest",
-  "(4) MSG-1545 GM ruling pending interactive face (T-13 D-C candidates; bm-b recommends (b))",
-  "(5) next 5x = R85 HANDOVER; T-19 stage-2a sequencing now UNBLOCKED by T-20 landing (bm-c lane)"
+  "(1) T-24 PROSPECT claim + anchor batch launch (O-1612 full-load CPU carrier, hr.py lane) = red-flag disposal by real batch burn",
+  "(2) T-25 remaining: lane split gate-blocked vs queue-empty bandit-auto-pick + dashboard.html watermark consumption",
+  "(3) daily 09-24 bar self-heal sweep + moneyflow detached refresh harvest (30min throttle window passed)",
+  "(4) MSG-1545 GM ruling pending interactive face (T-13 D-C candidates, bm-b recommends (b))",
+  "(5) next 5x = R85 HANDOVER"
  ],
- "note": "R80 delivered T-20 (10-01 hard deadline met, 6 days early); paper forward window now runs guarded from first bar; October = first full month under both T-21 enforce (date-gated) and T-20 guard semantics.",
- "last_round_ts": "2026-09-24T16:21:53+08:00"
+ "note": "R81 mechanized O-1626: judgment->disposal closed (C7 kills zombies, escalates RED); CPU burn lane (T-24) queued next as the actual red-clearing action.",
+ "last_round_ts": "2026-09-24T16:39:53+08:00"
 }
