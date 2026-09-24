@@ -1,17 +1,18 @@
 {
- "round_no": 72,
+ "round_no": 73,
  "did": [
-  "R72 bm-a (dept:engineering+fleet): retreat/read-only maintenance round 3 (live ACP session PID 76388 writing V3/V4 docs 13:11-13:12 -> one-executor rule backoff, R69 precedent). S0: stash->ff-only->pop to origin 8556747; CODELY.md pop conflict union-resolved zero-loss (14 session lines incl GM entries + R71 line preserved, upstream 235 lines intact, 1 conflict hunk sorted by timestamp); R71 report line backfilled (bookkeeping gap: dc9aa75 touched file but line absent post-rebase-cycles - reconstructed verbatim from state-71 record). S6: audit CLEAN; watermark probe first sample (new shared step); regime ORANGE shadow d1; lhb/heat/futures no-op; moneyflow throttle self-heal; fund skip 16.8h; mask 5 gates; build_status + token -80. Session surfaces untouched: CODELY.md (uncommitted in-tree), update_daily.py WIP, daily_validate.py, V3/V4/SYSTEM_LOGIC research docs, seat_pull_status."
+  "R73 read-only maintenance + silent backoff (R72 precedent: 3 live ACP sessions; GM O-1320/1325 receipt + T-08 update_daily in-flight, both untouched)",
+  "orders double-scan empty 41/41 (open + pre-commit close)",
+  "smoke 23/23 (in-flight update_daily source-parity selftest also PASS = T-08 face healthy)",
+  "S6 chain all green: audit CLEAN / watermark bootstrap / regime ORANGE shadow d1 / lhb+heat+futures no-op / moneyflow first-pull spawned / fund fresh-skip / mask 5-gate / build_status / token +365",
+  "update_daily production run skipped per R69-71 precedent (T-08 WIP in tree); no CODELY.md add (GM session owns uncommitted entry, deferred backfill)"
  ],
  "next_pointer": [
-  "(1) T-2026-09-24-20 implementation (deliverable-2): EARLY-AGE round once interactive session face quiets; MSG re-claim first (s6 discipline); live/paper.py additive guard param default None; scripts/paper_guard_gates.py G0-G6; pre-change baseline on frozen face cutoff 2026-09-23 BEFORE commit; deadline pre-10-01, slip = escalate GM. Do NOT start while ACP session live.",
-  "(2) bandit stale candidate regen: engineering_candidates J13v2 blind-draft prereg still open but consumed by R64/R65 (bm-c MSG-1310 pointer; R62 author = bm-a): regenerate results/bandit_queue.json + fix candidate status in script.",
-  "(3) 15:30+ 09-24 sweep: update_daily production (skip only while T-08 WIP in tree; coordinate or run once face clears) + R54 laggard catch-up verify (SZ 159xxx heal to 09-24) + live.paper accrual; moneyflow spawn window ~13:23+ (30min throttle from 12:53).",
+  "(1) T-2026-09-24-20 implementation (deliverable-2): EARLY-AGE round once interactive session face quiets; MSG re-claim first (s6 discipline); live/paper.py additive guard param default None; scripts/paper_guard_gates.py G0-G6; pre-change baseline on frozen face cutoff 2026-09-23 BEFORE commit; deadline pre-10-01 co-landing lock with T-21, slip = escalate GM. Do NOT start while ACP session live.",
+  "(2) bandit stale candidate regen: engineering_candidates J13v2 blind-draft prereg consumed by R64/R65 (bm-c MSG-1310 pointer; R62 author=bm-a): regenerate results/bandit_queue.json + fix candidate status in script.",
+  "(3) 15:30+ 09-24 sweep: update_daily production (skip only while T-08 WIP in tree; session face looks close to landing - source-parity selftest already green in-flight) + R54 laggard catch-up verify (SZ 159xxx heal to 09-24) + live.paper accrual; moneyflow refresh spawned 13:30 (source-blocked, self-heal loop by design).",
   "(4) long lines: 10-01 monthly quartet (briefing+science_audit+corr-watch W3+self_review); 10-31 six-trader first check all-HOLD; CE-02/ENGULF probation x2-watch rolling."
  ],
- "note": [
-  "R72 evidence: smoke 23/23; orders_diff empty 39/39 (helper + manual token check for O-1310); all S6 exit codes 0; watermark verdict=insufficient_history (bootstrap first sample, by design); union script logs/iteration-loop/_r72_union.py deleted after verification; temp dir _r72_tmp removed. Known mojibake in console = GBK display only, files written utf-8.",
-  "R72 close addendum: O-20260924-1325 (regime-enforce T-21 opened=bm-b lane; T-19 option-a-first; autostash incident adjudicated in order sec3) acked -> 41/41 tokens; session pushed dcc9605 carrying our replayed round-72 commit 04adbad (verified: state 72, hb 40->41, CODELY 251, R72 report line); T-20/T-21 sequencing lock at 2026-10-01 month boundary recorded."
- ],
- "last_round_ts": "2026-09-24T13:17:22+08:00"
+ "note": "R73=second retreat round of live-session window; CODELY.md entry for R73 deferred to next session-quiet round (GM session owns CODELY in-flight); T-08 (claimed R68) remains interactive-session lane, loop does not touch.",
+ "last_round_ts": "2026-09-24T13:31:21+08:00"
 }
