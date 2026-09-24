@@ -33,8 +33,10 @@
 - **evidence_cutoff = 2026-09-22**（池与成员件冻结口径；面板截断到该日，
   cutoff 后新 bar 锁定不得回流本批）；结果 JSON 顶层必带
   `science_gates.cutoff_meta(cutoff)`（缺=science_audit C2 VIOLATION）。
-- 数据完备门（不过门禁跑批）：48/48 符、close 索引严格单调、面板零 NaN、
-  截断后窗口尾=2026-09-22。
+- 数据完备门（不过门禁跑批）：48/48 符、close 索引严格单调、截断后窗口尾
+  =2026-09-22、**逐符号 first_valid_index 之后零 NaN**（晚上市员前沿 NaN=合法面板
+  结构，p4/anchor 同约定——首跑实证 11 员有前沿 NaN 共 2275 格，批诚实中止零产数，
+  跑前窗内修正本门条款，判据零触碰）。
 - **inside_bar_breakup 族诚实披露**：冻结构造（`inside_bar_breakup()`）无任何可扰动
   参数（单格族，p4_folk 亦无兄弟变体）→ 该族 2 员（PROS-IBB-01/CE-01）邻域网格为空，
   neighborhood_pass=REFUSED（missing-input 拒收先例，g2_registration_v2 缺输入诚实

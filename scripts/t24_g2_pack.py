@@ -316,14 +316,25 @@ def cmd_run() -> int:
     prices = {s: df[df.index <= cut] for s, df in prices.items()}
     P = build_panels(prices)
     idx = P["close"].index
+    # per-symbol contract: leading NaN before first_valid_index is the
+    # legal late-listing panel structure (onboarding anchor 22/22 on this
+    # same panel); NaN AFTER a symbol's first valid bar = data rot -> abort.
+    c = P["close"]
     if str(idx[-1].date()) != EVIDENCE_CUT:
         print(f"HONEST ABORT: panel tail {idx[-1].date()} != cutoff "
               f"{EVIDENCE_CUT}")
         return 2
-    if bool(P["close"].isna().any().any()) or len(P["close"].columns) != 48:
-        print("HONEST ABORT: panel NaN or universe != 48")
+    if len(c.columns) != 48:
+        print(f"HONEST ABORT: universe {len(c.columns)} != 48")
         return 2
-    print(f"core48: {len(P['close'].columns)} syms, "
+    bad = [s for s in c.columns
+           if c[s].first_valid_index() is None
+           or bool(c.loc[c[s].first_valid_index():, s].isna().any())]
+    if bad:
+        print(f"HONEST ABORT: post-listing NaN in {len(bad)} syms "
+              f"(e.g. {bad[:3]})")
+        return 2
+    print(f"core48: {len(c.columns)} syms, "
           f"{idx[0].date()} .. {idx[-1].date()}")
 
     t0 = time.time()
