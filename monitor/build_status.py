@@ -489,6 +489,7 @@ def _gate_chain(bt: dict) -> dict:
     lc = _read_json(os.path.join(res, "lowchurn_family.json")) or {}
     ce = _read_json(os.path.join(res, "combined_exit.json")) or {}
     ct = _read_json(os.path.join(res, "ce_transfer.json")) or {}
+    p3p = _read_json(os.path.join(res, "p3_portfolio.json")) or {}
     lfc = _read_json(os.path.join(res, "lfc_p1.json")) or {}
     nsp = _read_json(os.path.join(res, "new_signal_p1.json")) or {}
     g2n = _read_json(os.path.join(res, "g2_nsp1.json")) or {}
@@ -568,6 +569,23 @@ def _gate_chain(bt: dict) -> dict:
                       "result": f"{ct_pass} 员 PASS" if not ct_v.get("void")
                       else "无效（锚点破）",
                       "pass": ct_pass > 0, "note": ct_note})
+    # r34 bm-c chain-integrity sweep #6: P3 portfolio validation (plan §四
+    # stage, OS-round-13) was never wired -- J19(step6) jumped straight to
+    # LFC(step7); wired here in chronological slot after J19, data-driven.
+    if p3p:
+        p3v = p3p.get("verdict") or {}
+        ew_ok = bool(p3v.get("ew_validated"))
+        iv_ok = bool(p3v.get("iv_validated"))
+        ew_ben = p3v.get("ew_benefit")
+        iv_ben = p3v.get("iv_benefit")
+        steps.append({"stage": "P3 组合验证 · 三员 EW/IV 双载体",
+                      "result": f"EW {'validated' if ew_ok else 'FAIL'}"
+                                f"·IV {'同判过' if iv_ok else '异判'}",
+                      "pass": ew_ok,
+                      "note": (f"benefit EW +{ew_ben:.2f}/IV +{iv_ben:.2f}；"
+                               "分散化素材=低相关；载体裁定=先验EW（择优禁令）"
+                               if ew_ben is not None and iv_ben is not None
+                               else "")})
     if lfc:
         p95 = lfc_gate.get("random_p95_full") or {}
         vb = lfc_gate.get("vi_bar")
