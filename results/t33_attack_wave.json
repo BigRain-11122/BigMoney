@@ -1,0 +1,1579 @@
+{
+ "evidence_cutoff": "2026-09-24",
+ "batch": "T33_ATTACK_WAVE",
+ "ticket": "T-2026-09-24-33",
+ "prereg": "research\\T33_ATTACK_WAVE.md",
+ "prereg_sha256_16": "2c5eac01183dc1a0",
+ "generated": "2026-09-24T21:05:53+08:00",
+ "rule": {
+  "batch_cells": 40,
+  "faces": [
+   "base",
+   "x2"
+  ],
+  "oos_start": "2025-01-01",
+  "cost": "V1 legacy 13bp x2 + CostPatch(2.0)",
+  "turnover_budget_per_year": 50.0,
+  "d6_line": 0.7,
+  "d6_priority_order": [
+   "PROS-VOB-CE-01",
+   "PROS-IBB-01",
+   "PROS-IBB-CE-01",
+   "PROS-DUCK-01",
+   "PROS-DUCK-CE-01",
+   "slope_r2_rotation_25_top3_r8",
+   "dual_momentum_etf_20_60_top3",
+   "gem_ashare_m12",
+   "donchian_20_10",
+   "dual_ma_5_20",
+   "triple_ma_5_20_60",
+   "parabolic_sar",
+   "supertrend_10_3",
+   "xsec_mom_120_20",
+   "dual_mom_120",
+   "ts_mom_200",
+   "rs_rotation_20",
+   "mom_accel_20_120",
+   "composite_top5",
+   "composite_top8"
+  ]
+ },
+ "gates": {
+  "g1_anchor_repro": {
+   "ok": true,
+   "members": [
+    {
+     "member": "COMPOSITE-CE-01",
+     "anchor_ok": true,
+     "x2_ok": true,
+     "x2_clauses": {
+      "x2_full": true,
+      "x2_oos": true
+     }
+    },
+    {
+     "member": "COMPOSITE-CE-02",
+     "anchor_ok": true,
+     "x2_ok": true,
+     "x2_clauses": {
+      "x2_full": true,
+      "x2_oos": true
+     }
+    },
+    {
+     "member": "DROUGHT-CE-01",
+     "anchor_ok": true,
+     "x2_ok": true,
+     "x2_clauses": {
+      "x2_full": true
+     }
+    },
+    {
+     "member": "ENGULF-CE-01",
+     "anchor_ok": true,
+     "x2_ok": true,
+     "x2_clauses": {
+      "x2_full": true
+     }
+    },
+    {
+     "member": "NEEDLE-DE-01",
+     "anchor_ok": true,
+     "x2_ok": true,
+     "x2_clauses": {
+      "x2_full": true
+     }
+    },
+    {
+     "member": "VOLATILITY-CE-01",
+     "anchor_ok": true,
+     "x2_ok": true,
+     "x2_clauses": {
+      "x2_full": true,
+      "x2_oos": true
+     }
+    }
+   ]
+  },
+  "g2_panel": {
+   "ok": true,
+   "n_syms": 48,
+   "end_510300": "2026-09-24",
+   "cutoff": "2026-09-24"
+  },
+  "g4_line_inputs": {
+   "ok": true,
+   "null_n": 120,
+   "null_mu": -0.033216666666666665,
+   "null_sigma": 0.2429174989919965,
+   "passive_core48": 0.3792
+  },
+  "ok": true
+ },
+ "skill_line": {
+  "n_eff": 58110,
+  "line": 1.1046,
+  "passive_term": 0.4792,
+  "null_term": 1.1046,
+  "mu_null": -0.0332,
+  "sigma_null": 0.2429,
+  "pool": "core48",
+  "ledger_head": {
+   "total": 58070,
+   "file": "t22_virtual_timepoints.json",
+   "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+  }
+ },
+ "summary": {
+  "n_candidates": 20,
+  "g1_prime_v2_pass": 0,
+  "d6_merged": [
+   "PROS-DUCK-CE-01",
+   "PROS-IBB-CE-01",
+   "dual_ma_5_20",
+   "dual_mom_120",
+   "parabolic_sar",
+   "rs_rotation_20",
+   "supertrend_10_3",
+   "triple_ma_5_20_60"
+  ],
+  "turnover_breaches": [
+   "PROS-VOB-CE-01",
+   "PROS-IBB-01",
+   "PROS-IBB-CE-01",
+   "PROS-DUCK-01",
+   "PROS-DUCK-CE-01",
+   "slope_r2_rotation_25_top3_r8",
+   "dual_momentum_etf_20_60_top3",
+   "donchian_20_10",
+   "dual_ma_5_20",
+   "triple_ma_5_20_60",
+   "parabolic_sar",
+   "supertrend_10_3",
+   "xsec_mom_120_20",
+   "dual_mom_120",
+   "ts_mom_200",
+   "rs_rotation_20",
+   "mom_accel_20_120",
+   "composite_top5",
+   "composite_top8"
+  ]
+ },
+ "candidates": [
+  {
+   "cand": "PROS-VOB-CE-01",
+   "group": "A",
+   "kind": "member",
+   "exit_regime": "ce",
+   "sharpe_full": 0.4586,
+   "annual_return": 0.0309,
+   "max_drawdown": -0.117,
+   "oos_sharpe": 1.23,
+   "oos_annual_return": 0.0797,
+   "oos_double_positive": true,
+   "n_trades": 805,
+   "n_entries": 528,
+   "oos_trades": 217,
+   "entries_per_year": 78.49,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": 0.1927,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.0,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.4112,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.4586,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.3235,
+     "ci95_high": 1.262,
+     "point": 0.4586,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 805,
+     "n_entries": 528,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.646,
+   "pass_v2": false
+  },
+  {
+   "cand": "PROS-IBB-01",
+   "group": "A",
+   "kind": "member",
+   "exit_regime": "default",
+   "sharpe_full": 0.2618,
+   "annual_return": 0.0236,
+   "max_drawdown": -0.2466,
+   "oos_sharpe": 1.0687,
+   "oos_annual_return": 0.0858,
+   "oos_double_positive": true,
+   "n_trades": 1307,
+   "n_entries": 1083,
+   "oos_trades": 366,
+   "entries_per_year": 161.0,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.0777,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.3559,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.1671,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.2618,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.642,
+     "ci95_high": 0.8347,
+     "point": 0.2618,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1307,
+     "n_entries": 1083,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.8428,
+   "pass_v2": false
+  },
+  {
+   "cand": "PROS-IBB-CE-01",
+   "group": "A",
+   "kind": "member",
+   "exit_regime": "ce",
+   "sharpe_full": 0.3613,
+   "annual_return": 0.0329,
+   "max_drawdown": -0.2279,
+   "oos_sharpe": 1.3251,
+   "oos_annual_return": 0.0893,
+   "oos_double_positive": true,
+   "n_trades": 1193,
+   "n_entries": 967,
+   "oos_trades": 336,
+   "entries_per_year": 143.75,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": 0.0335,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.9879,
+    "merged_into": "PROS-IBB-01",
+    "max_corr_vs_registered": 0.14,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.3613,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.5095,
+     "ci95_high": 0.9057,
+     "point": 0.3613,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1193,
+     "n_entries": 967,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.7433,
+   "pass_v2": false
+  },
+  {
+   "cand": "PROS-DUCK-01",
+   "group": "A",
+   "kind": "member",
+   "exit_regime": "default",
+   "sharpe_full": 0.6703,
+   "annual_return": 0.0401,
+   "max_drawdown": -0.077,
+   "oos_sharpe": 0.7751,
+   "oos_annual_return": 0.0443,
+   "oos_double_positive": true,
+   "n_trades": 947,
+   "n_entries": 743,
+   "oos_trades": 264,
+   "entries_per_year": 110.45,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": 0.2457,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.6421,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.2883,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.6703,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.0756,
+     "ci95_high": 1.4157,
+     "point": 0.6703,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 947,
+     "n_entries": 743,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.4343,
+   "pass_v2": false
+  },
+  {
+   "cand": "PROS-DUCK-CE-01",
+   "group": "A",
+   "kind": "member",
+   "exit_regime": "ce",
+   "sharpe_full": 0.5237,
+   "annual_return": 0.0326,
+   "max_drawdown": -0.1165,
+   "oos_sharpe": 0.5606,
+   "oos_annual_return": 0.0337,
+   "oos_double_positive": true,
+   "n_trades": 798,
+   "n_entries": 594,
+   "oos_trades": 225,
+   "entries_per_year": 88.3,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": 0.1975,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.8954,
+    "merged_into": "PROS-DUCK-01",
+    "max_corr_vs_registered": 0.3049,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.5237,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.178,
+     "ci95_high": 1.3322,
+     "point": 0.5237,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 798,
+     "n_entries": 594,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.5809,
+   "pass_v2": false
+  },
+  {
+   "cand": "slope_r2_rotation_25_top3_r8",
+   "group": "B",
+   "kind": "slope_r2",
+   "exit_regime": "default",
+   "sharpe_full": -0.0544,
+   "annual_return": -0.0417,
+   "max_drawdown": -0.4944,
+   "oos_sharpe": -0.1985,
+   "oos_annual_return": -0.0981,
+   "oos_double_positive": false,
+   "n_trades": 829,
+   "n_entries": 634,
+   "oos_trades": 211,
+   "entries_per_year": 94.25,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.8551,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": false,
+    "dd_ok": false
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.6097,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.3706,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.0544,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.7716,
+     "ci95_high": 0.7323,
+     "point": -0.0544,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 829,
+     "n_entries": 634,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.159,
+   "pass_v2": false
+  },
+  {
+   "cand": "dual_momentum_etf_20_60_top3",
+   "group": "B",
+   "kind": "dual_mom_v",
+   "exit_regime": "default",
+   "sharpe_full": -0.2178,
+   "annual_return": -0.0824,
+   "max_drawdown": -0.5972,
+   "oos_sharpe": -0.3394,
+   "oos_annual_return": -0.1611,
+   "oos_double_positive": false,
+   "n_trades": 1154,
+   "n_entries": 974,
+   "oos_trades": 286,
+   "entries_per_year": 144.79,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.9526,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": false,
+    "dd_ok": false
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.6074,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.2723,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.2178,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.9395,
+     "ci95_high": 0.5639,
+     "point": -0.2178,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1154,
+     "n_entries": 974,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.3224,
+   "pass_v2": false
+  },
+  {
+   "cand": "gem_ashare_m12",
+   "group": "B",
+   "kind": "gem",
+   "exit_regime": "default",
+   "sharpe_full": -0.2127,
+   "annual_return": -0.0078,
+   "max_drawdown": -0.1285,
+   "oos_sharpe": 0.0,
+   "oos_annual_return": 0.0,
+   "oos_double_positive": false,
+   "n_trades": 4,
+   "n_entries": 3,
+   "oos_trades": 0,
+   "entries_per_year": 0.45,
+   "turnover_budget_ok": true,
+   "x2_full_sharpe": -0.245,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": false,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.1326,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.1083,
+    "vs_registered_argmax": "DROUGHT-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.2127,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.9023,
+     "ci95_high": 0.5813,
+     "point": -0.2127,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 4,
+     "n_entries": 3,
+     "min": 30,
+     "trades_ok": false,
+     "entries_ok": false,
+     "dual_ok": false
+    }
+   },
+   "dist_to_line": -1.3173,
+   "pass_v2": false
+  },
+  {
+   "cand": "donchian_20_10",
+   "group": "C",
+   "kind": "lib_donchian",
+   "exit_regime": "default",
+   "sharpe_full": 0.0794,
+   "annual_return": 0.0031,
+   "max_drawdown": -0.2457,
+   "oos_sharpe": 0.803,
+   "oos_annual_return": 0.072,
+   "oos_double_positive": true,
+   "n_trades": 1014,
+   "n_entries": 762,
+   "oos_trades": 260,
+   "entries_per_year": 113.28,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.2503,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.6004,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.3016,
+    "vs_registered_argmax": "NEEDLE-DE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.0794,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.6288,
+     "ci95_high": 0.8807,
+     "point": 0.0794,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1014,
+     "n_entries": 762,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.0252,
+   "pass_v2": false
+  },
+  {
+   "cand": "dual_ma_5_20",
+   "group": "C",
+   "kind": "lib_dual_ma",
+   "exit_regime": "default",
+   "sharpe_full": -0.0108,
+   "annual_return": -0.0046,
+   "max_drawdown": -0.3034,
+   "oos_sharpe": 1.1605,
+   "oos_annual_return": 0.0988,
+   "oos_double_positive": true,
+   "n_trades": 1270,
+   "n_entries": 1023,
+   "oos_trades": 332,
+   "entries_per_year": 152.08,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.4778,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.7314,
+    "merged_into": "PROS-VOB-CE-01",
+    "max_corr_vs_registered": 0.3913,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.0108,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.7221,
+     "ci95_high": 0.7777,
+     "point": -0.0108,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1270,
+     "n_entries": 1023,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.1154,
+   "pass_v2": false
+  },
+  {
+   "cand": "triple_ma_5_20_60",
+   "group": "C",
+   "kind": "lib_triple_ma",
+   "exit_regime": "default",
+   "sharpe_full": 0.1744,
+   "annual_return": 0.0099,
+   "max_drawdown": -0.1601,
+   "oos_sharpe": 0.5704,
+   "oos_annual_return": 0.0447,
+   "oos_double_positive": true,
+   "n_trades": 1225,
+   "n_entries": 984,
+   "oos_trades": 352,
+   "entries_per_year": 146.28,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.3565,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.7489,
+    "merged_into": "PROS-VOB-CE-01",
+    "max_corr_vs_registered": 0.3505,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.1744,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.5382,
+     "ci95_high": 0.9662,
+     "point": 0.1744,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1225,
+     "n_entries": 984,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.9302,
+   "pass_v2": false
+  },
+  {
+   "cand": "parabolic_sar",
+   "group": "C",
+   "kind": "lib_sar",
+   "exit_regime": "default",
+   "sharpe_full": 0.0949,
+   "annual_return": 0.0044,
+   "max_drawdown": -0.2323,
+   "oos_sharpe": 0.9014,
+   "oos_annual_return": 0.0798,
+   "oos_double_positive": true,
+   "n_trades": 1135,
+   "n_entries": 873,
+   "oos_trades": 330,
+   "entries_per_year": 129.78,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.3229,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.7169,
+    "merged_into": "dual_ma_5_20",
+    "max_corr_vs_registered": 0.2981,
+    "vs_registered_argmax": "ENGULF-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.0949,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.6484,
+     "ci95_high": 0.9055,
+     "point": 0.0949,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1135,
+     "n_entries": 873,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.0097,
+   "pass_v2": false
+  },
+  {
+   "cand": "supertrend_10_3",
+   "group": "C",
+   "kind": "lib_supertrend",
+   "exit_regime": "default",
+   "sharpe_full": 0.0299,
+   "annual_return": -0.0014,
+   "max_drawdown": -0.2375,
+   "oos_sharpe": 0.9275,
+   "oos_annual_return": 0.0849,
+   "oos_double_positive": true,
+   "n_trades": 1094,
+   "n_entries": 803,
+   "oos_trades": 311,
+   "entries_per_year": 119.37,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.3152,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.7735,
+    "merged_into": "donchian_20_10",
+    "max_corr_vs_registered": 0.3355,
+    "vs_registered_argmax": "ENGULF-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.0299,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.7192,
+     "ci95_high": 0.881,
+     "point": 0.0299,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1094,
+     "n_entries": 803,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.0747,
+   "pass_v2": false
+  },
+  {
+   "cand": "xsec_mom_120_20",
+   "group": "C",
+   "kind": "lib_xsec_mom",
+   "exit_regime": "default",
+   "sharpe_full": -0.0599,
+   "annual_return": -0.014,
+   "max_drawdown": -0.3745,
+   "oos_sharpe": 0.4788,
+   "oos_annual_return": 0.0687,
+   "oos_double_positive": true,
+   "n_trades": 1586,
+   "n_entries": 1292,
+   "oos_trades": 453,
+   "entries_per_year": 192.06,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.4497,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": true,
+    "dd_ok": false
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.6062,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.2767,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.0599,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.7878,
+     "ci95_high": 0.7438,
+     "point": -0.0599,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1586,
+     "n_entries": 1292,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.1645,
+   "pass_v2": false
+  },
+  {
+   "cand": "dual_mom_120",
+   "group": "C",
+   "kind": "lib_dual_mom_120",
+   "exit_regime": "default",
+   "sharpe_full": -0.0358,
+   "annual_return": -0.0122,
+   "max_drawdown": -0.299,
+   "oos_sharpe": 0.4707,
+   "oos_annual_return": 0.0683,
+   "oos_double_positive": true,
+   "n_trades": 1623,
+   "n_entries": 1228,
+   "oos_trades": 502,
+   "entries_per_year": 182.55,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.3991,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.8366,
+    "merged_into": "xsec_mom_120_20",
+    "max_corr_vs_registered": 0.3663,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.0358,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.7629,
+     "ci95_high": 0.7669,
+     "point": -0.0358,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1623,
+     "n_entries": 1228,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.1404,
+   "pass_v2": false
+  },
+  {
+   "cand": "ts_mom_200",
+   "group": "C",
+   "kind": "lib_ts_mom",
+   "exit_regime": "default",
+   "sharpe_full": -0.0195,
+   "annual_return": -0.0041,
+   "max_drawdown": -0.1783,
+   "oos_sharpe": 0.5141,
+   "oos_annual_return": 0.0448,
+   "oos_double_positive": true,
+   "n_trades": 922,
+   "n_entries": 741,
+   "oos_trades": 280,
+   "entries_per_year": 110.15,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.4149,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.697,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.3869,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.0195,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.7329,
+     "ci95_high": 0.8478,
+     "point": -0.0195,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 922,
+     "n_entries": 741,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.1241,
+   "pass_v2": false
+  },
+  {
+   "cand": "rs_rotation_20",
+   "group": "C",
+   "kind": "lib_rs_rot",
+   "exit_regime": "default",
+   "sharpe_full": 0.014,
+   "annual_return": -0.0096,
+   "max_drawdown": -0.2598,
+   "oos_sharpe": 0.1216,
+   "oos_annual_return": 0.0072,
+   "oos_double_positive": true,
+   "n_trades": 2283,
+   "n_entries": 1872,
+   "oos_trades": 640,
+   "entries_per_year": 278.29,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.4072,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "d6-merged",
+    "max_corr_same_batch": 0.7205,
+    "merged_into": "PROS-IBB-01",
+    "max_corr_vs_registered": 0.308,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.014,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.8562,
+     "ci95_high": 0.7678,
+     "point": 0.014,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 2283,
+     "n_entries": 1872,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.0906,
+   "pass_v2": false
+  },
+  {
+   "cand": "mom_accel_20_120",
+   "group": "C",
+   "kind": "lib_mom_accel",
+   "exit_regime": "default",
+   "sharpe_full": -0.1001,
+   "annual_return": -0.0146,
+   "max_drawdown": -0.2837,
+   "oos_sharpe": 0.9443,
+   "oos_annual_return": 0.0738,
+   "oos_double_positive": true,
+   "n_trades": 1046,
+   "n_entries": 875,
+   "oos_trades": 300,
+   "entries_per_year": 130.07,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.4489,
+   "descriptive": {
+    "ann_positive": false,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.6767,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.2879,
+    "vs_registered_argmax": "ENGULF-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": -0.1001,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.9303,
+     "ci95_high": 0.6595,
+     "point": -0.1001,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1046,
+     "n_entries": 875,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -1.2047,
+   "pass_v2": false
+  },
+  {
+   "cand": "composite_top5",
+   "group": "C",
+   "kind": "lib_comp5",
+   "exit_regime": "default",
+   "sharpe_full": 0.4201,
+   "annual_return": 0.0305,
+   "max_drawdown": -0.1952,
+   "oos_sharpe": 0.9638,
+   "oos_annual_return": 0.0967,
+   "oos_double_positive": true,
+   "n_trades": 707,
+   "n_entries": 619,
+   "oos_trades": 250,
+   "entries_per_year": 92.02,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": -0.1058,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.4128,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.9344,
+    "vs_registered_argmax": "COMPOSITE-CE-01"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.4201,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.3034,
+     "ci95_high": 1.3339,
+     "point": 0.4201,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 707,
+     "n_entries": 619,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.6845,
+   "pass_v2": false
+  },
+  {
+   "cand": "composite_top8",
+   "group": "C",
+   "kind": "lib_comp8",
+   "exit_regime": "default",
+   "sharpe_full": 0.4296,
+   "annual_return": 0.0498,
+   "max_drawdown": -0.2553,
+   "oos_sharpe": 1.0224,
+   "oos_annual_return": 0.092,
+   "oos_double_positive": true,
+   "n_trades": 1189,
+   "n_entries": 1017,
+   "oos_trades": 398,
+   "entries_per_year": 151.18,
+   "turnover_budget_ok": false,
+   "x2_full_sharpe": 0.193,
+   "descriptive": {
+    "ann_positive": true,
+    "oos_double_positive": true,
+    "dd_ok": true
+   },
+   "d6": {
+    "status": "unique",
+    "max_corr_same_batch": 0.479,
+    "merged_into": null,
+    "max_corr_vs_registered": 0.9873,
+    "vs_registered_argmax": "COMPOSITE-CE-02"
+   },
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.4296,
+    "skill_line": {
+     "n_eff": 58110,
+     "line": 1.1046,
+     "passive_term": 0.4792,
+     "null_term": 1.1046,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "ledger_head": {
+      "total": 58070,
+      "file": "t22_virtual_timepoints.json",
+      "note": "axis finalize: legacy c1 15,060 cells (bm-c canonical rerun, dual-manifest transfer MSG-2032) + deep 18,072 unique cells (d-c1 16,800 + d-a1 1,272, bm-a) + passive windows 2761 (1,255+1,506, P-5 per-start accounting); dprobe 12 reproductions deduped; anchors verified at shard run time not counted (prereg s0)"
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.3419,
+     "ci95_high": 1.008,
+     "point": 0.4296,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 1189,
+     "n_entries": 1017,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dist_to_line": -0.675,
+   "pass_v2": false
+  }
+ ],
+ "ledger": {
+  "prev_total": 58070,
+  "batch_trials": 40,
+  "total": 58110,
+  "batch": "t33_attack_wave",
+  "file": "results/t33_attack_wave.json",
+  "evidence_cutoff": "2026-09-24"
+ },
+ "audit": {
+  "machine": "bm-c",
+  "engine_runs": 40,
+  "anchor_repro_runs": 12,
+  "null_pool_consumed": "shared core48 collector (K=0 own nulls, prereg s3)",
+  "prereg_frozen_before_run": true
+ }
+}
