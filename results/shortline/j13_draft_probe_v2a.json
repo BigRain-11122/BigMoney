@@ -1,0 +1,145 @@
+{
+ "probe": "j13_v2_blind_draft_v2a",
+ "spec": "research/J13_V2_BLIND_DRAFT.md",
+ "variant": "v2a",
+ "meta": {
+  "model": "qwen2.5:7b-instruct",
+  "n_drafts": 10,
+  "temperature": 0.7,
+  "num_predict": 512,
+  "num_ctx": 4096,
+  "panel_symbols": 48,
+  "panel_rows": 1632,
+  "panel_last_date": "2026-09-23",
+  "nondeterministic": true
+ },
+ "summary": {
+  "n_valid": 9,
+  "rate": 0.9,
+  "verdict": "viable_draft_mill",
+  "n_distinct_valid_formulas": 5,
+  "stage_counts": {
+   "PASS": 9,
+   "E4": 1
+  },
+  "prediction_check": "spec 1.4 predictions vs outcomes -> digest"
+ },
+ "drafts": [
+  {
+   "raw": "```python\nfactor = (open - close).abs()\n```\nNAME: abs_open_close_diff",
+   "code": "factor = (open - close).abs()\n",
+   "name": "abs_open_close_diff",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 0,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (high - low) / close\n```\nNAME: range_close_ratio",
+   "code": "factor = (high - low) / close\n",
+   "name": "range_close_ratio",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 1,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (high - low) / close\n```\n\nNAME: range_close_ratio",
+   "code": "factor = (high - low) / close\n",
+   "name": "range_close_ratio",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 2,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (open - low) / (high - low)\n```\n\nNAME: 开盘与最低价差比最高与最低价差",
+   "code": "factor = (open - low) / (high - low)\n",
+   "name": "开盘与最低价差比最高与最低价差",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 3,
+   "gen_s": 0.4
+  },
+  {
+   "raw": "```python\nfactor = (close - open) / open\n```\n\nNAME: 简单日收益比例",
+   "code": "factor = (close - open) / open\n",
+   "name": "简单日收益比例",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 4,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (open - low) / (high - low)\n```\n\nNAME: range_ratio",
+   "code": "factor = (open - low) / (high - low)\n",
+   "name": "range_ratio",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 5,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (high - low) / close\n```\nNAME: range_close_ratio",
+   "code": "factor = (high - low) / close\n",
+   "name": "range_close_ratio",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 6,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (close - open) / open\n```\nNAME: simple_return_ratio",
+   "code": "factor = (close - open) / open\n",
+   "name": "simple_return_ratio",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 7,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (high - low) / open\n```\n\nNAME: range_open_to_high_low_ratio",
+   "code": "factor = (high - low) / open\n",
+   "name": "range_open_to_high_low_ratio",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 8,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = ( ETF_close - ETF_close.shift(1) ) / ETF_close.shift(1)\n```\nNAME: 单日涨跌幅",
+   "code": "factor = ( ETF_close - ETF_close.shift(1) ) / ETF_close.shift(1)\n",
+   "name": "单日涨跌幅",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'ETF_close' is not defined",
+   "valid": false,
+   "i": 9,
+   "gen_s": 1.8
+  }
+ ],
+ "audit": {
+  "class": "L2 capability probe -- zero engine runs, zero trial-ledger entries, zero registrations, zero pool entry",
+  "ledger_trials_added": 0,
+  "engine_runs": 0,
+  "evidence_cutoff": "2026-09-23",
+  "disclaimer": "claims-not-instructions: valid drafts are 7B suggestions, NOT entered into any pool; real factor testing requires a separate preregistered IC batch"
+ }
+}

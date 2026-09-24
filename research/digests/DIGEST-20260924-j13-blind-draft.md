@@ -59,3 +59,28 @@ v1 盲测 rate 0.20=marginal，dominant 死因一句话可修但未证实修复�
 通过前，J13 v2 迷你环不进入实现。7B 在该岗位的真实画像=格式优秀、语义约定
 脆弱、想法谱面窄——与 R61「qwen2.5:7b 只配 advisory idea 生成器，判定权恒在
 L1 门禁+预注册」的预期一致。
+
+## 6. v2a 复测结果（R65 bm-a 执行，协议=§3 冻结版零改动）
+
+- **9/10 机械合格（rate 0.90）→ verdict= viable_draft_mill**——v1 冻结判据条
+  「≥0.3 viable」首次触发，df 澄清句一举消灭 v1 的单形死因（8/10 NameError 'df' →
+  0/10）。产物=results/shortline/j13_draft_probe_v2a.json（variant 字段+prompt
+  delta 断言入 selftest 10/10，v1 路径字节不变）。
+- 唯一失败（draft 9）= `ETF_close` 命名习惯（`(ETF_close-ETF_close.shift(1))
+  /ETF_close.shift(1)`）——约定错配的**新变体**（ETF 前缀变量名），非 df 复发；
+  若迷你环 prompt 需要再收紧一句「变量名必须逐字使用清单中的名字」，但按
+  marginal→viable 档不需要第三次盲测。
+- **多样性读数（n_distinct_valid_formulas=5/9）**：塌缩缓解但仍在——
+  5 个族=①`(open-close).abs()` 隔夜跳空绝对值 ②`(high-low)/close` 日内波幅
+  （3 份重复）③`(open-low)/(high-low)` 开盘位置（2 份重复）④`(close-open)/open`
+  日内收益（2 份重复）⑤`(high-low)/open`。**全部为无回看窗的单日形态族**，
+  零 volume/amount 消费、零 rolling——8 行预算+裸 prompt 下 7B 默认收缩到
+  one-day shape 空间；草稿磨坊若要谱面（时序族/量价族），必须 prompt 侧家族
+  提示轮换（R64 机制(b) 判定维持）。
+- 判定权边界不变：viable≠这些草稿有效——**全部 5 族均与在库内部因子高度
+  同源**（intraday_range/vol 族近亲），迷你环的 L1 IC 判定批才是真门槛
+  （GTJA/WQ「合成是唯一路径」墙同读）。
+- **后继（§3 冻结条款）**：J13 v2 迷你环解锁 → 进入「预注册 IC 判定协议
+  设计」阶段（PREREG_TEMPLATE 起草：草稿生成协议=本 probe 的 prompt+N 批次+
+  家族提示轮换设计 / L1 判定=core48 IC harness+null 校正线 / 判定权恒在 L1
+  门禁 / LLM 产物=主张非指令）。设计件另开轮，不与本轮混批。

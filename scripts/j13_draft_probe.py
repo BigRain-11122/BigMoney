@@ -65,6 +65,17 @@ Rules:
 Respond with EXACTLY one fenced python code block, then one final line of the
 form: NAME: <short_factor_name>"""
 
+# v2a protocol (DIGEST-20260924-j13-blind-draft.md s3, frozen pre-run): the ONLY
+# delta vs v1 = one convention-clarification sentence inserted as rule 5
+# (verbatim); everything else (N/temp/num_predict/E1-E5/verdict bars) unchanged.
+_V2A_SENTENCE = ("5. The six inputs are SEPARATE DataFrame variables. There is no "
+                 "variable named df, and df must not be used.\n")
+PROMPT_USER_V2A = PROMPT_USER.replace(
+    "4. At most 8 lines of code.\n",
+    "4. At most 8 lines of code.\n" + _V2A_SENTENCE,
+)
+OUT_JSON_V2A = ROOT / "results" / "shortline" / "j13_draft_probe_v2a.json"
+
 
 # ---------------------------------------------------------------- panel ----
 
@@ -211,8 +222,19 @@ def _fake_panel():
             for f in ("open", "high", "low", "close", "volume", "amount")}
 
 
+def _norm_code(code):
+    """Whitespace-stripped code string for distinct-formula counting (v2a s3)."""
+    return re.sub(r"\s+", "", code or "")
+
+
 def selftest():
     panel = _fake_panel()
+    # v2a prompt delta guard: exactly one sentence inserted, v1 prompt untouched
+    assert _V2A_SENTENCE.strip() in PROMPT_USER_V2A
+    assert "df must not be used" not in PROMPT_USER
+    assert PROMPT_USER_V2A.count("5. The six inputs") == 1
+    assert len(PROMPT_USER_V2A) == len(PROMPT_USER) + len(_V2A_SENTENCE)
+    assert _norm_code("factor = a / b\n") == _norm_code("factor=a/b")
     cases = [
         ("good", "```python\nfactor = close / close.rolling(20).mean()\n```\nNAME: price_ratio_20", True),
         ("no_block", "Here is my factor: close/ma.\nNAME: x", False),
@@ -242,8 +264,11 @@ def selftest():
 
 # ------------------------------------------------------------------ run ----
 
-def run():
+def run(variant="v1"):
     t0 = time.time()
+    prompt = PROMPT_USER if variant == "v1" else PROMPT_USER_V2A
+    out_path = OUT_JSON if variant == "v1" else OUT_JSON_V2A
+    probe_name = "j13_v2_blind_draft" if variant == "v1" else "j13_v2_blind_draft_v2a"
     panel = load_panel()
     close_panel = panel["close"]
     drafts, n_valid = [], 0
@@ -254,7 +279,7 @@ def run():
             try:
                 raw = llm_assist.chat(
                     [{"role": "system", "content": llm_assist.SYSTEM_PROMPT},
-                     {"role": "user", "content": PROMPT_USER}],
+                     {"role": "user", "content": prompt}],
                     temperature=TEMPERATURE, num_predict=NUM_PREDICT)
                 break
             except Exception as e:  # noqa: BLE001
@@ -275,9 +300,12 @@ def run():
     stages = {}
     for d in drafts:
         stages[d["stage"]] = stages.get(d["stage"], 0) + 1
+    # v2a s3 record column (non-gating): distinct valid formulas by normalized code
+    n_distinct = len({_norm_code(d.get("code")) for d in drafts if d.get("valid")})
     out = {
-        "probe": "j13_v2_blind_draft",
+        "probe": probe_name,
         "spec": "research/J13_V2_BLIND_DRAFT.md",
+        "variant": variant,
         "meta": {
             "model": llm_assist.MODEL, "n_drafts": N_DRAFTS,
             "temperature": TEMPERATURE, "num_predict": NUM_PREDICT,
@@ -289,6 +317,7 @@ def run():
         },
         "summary": {
             "n_valid": n_valid, "rate": rate, "verdict": verdict_of(rate),
+            "n_distinct_valid_formulas": n_distinct,
             "stage_counts": stages,
             "prediction_check": "spec 1.4 predictions vs outcomes -> digest",
         },
@@ -304,11 +333,11 @@ def run():
                           "separate preregistered IC batch",
         },
     }
-    OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
-    OUT_JSON.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"\nsummary: {n_valid}/{N_DRAFTS} mechanically valid "
-          f"(rate {rate:.2f}) -> verdict {verdict_of(rate)}")
-    print(f"wrote {OUT_JSON} in {round(time.time()-t0,1)}s")
+          f"(rate {rate:.2f}, distinct {n_distinct}) -> verdict {verdict_of(rate)}")
+    print(f"wrote {out_path} in {round(time.time()-t0,1)}s")
     return 0
 
 
@@ -320,8 +349,10 @@ def main(argv):
         return 0
     if argv[0] == "selftest":
         return selftest()
+    if argv[0] == "run-v2a":
+        return run(variant="v2a")
     if argv[0] == "run":
-        return run()
+        return run(variant="v1")
     print(f"unknown subcommand: {argv[0]}")
     return 2
 
