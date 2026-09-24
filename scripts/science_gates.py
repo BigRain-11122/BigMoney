@@ -542,6 +542,9 @@ SEED_REGISTRY = {
     "pa1e_premium_event": 20260926,        # PA1E_PREMIUM_EVENT K=50 circular-shift nulls
     # (20260926+i, i<50; date-style base, rg-repo-scan verified free 2026-09-24
     # 19:0x before PA1E prereg freeze)
+    "og1_overnight_ic": 20260927,           # OG1_OVERNIGHT_IC K=50 white-noise nulls
+    # (20260927+i, i<50; date-style base, rg-repo-scan verified free 2026-09-24
+    # 19:4x before OG1 prereg freeze, T-31 deliverable-5)
 }
 
 
