@@ -292,6 +292,13 @@ def run_backtest(prices: dict, params: dict,
     pending_entries: dict[str, dict] = {}
     # sell-deferral book (P4-B2): sym -> stored ExitAction awaiting a fillable close
     deferred_exits: dict[str, object] = {}
+    # T-20 PAPER_GUARD_DUAL_RAIL additive disclosure counters (emitted ONLY
+    # when fill_guard is present -- same pattern as fill_guard_buy_dropped;
+    # fill semantics above stay P4-B2 verbatim, these are report-only).
+    deferred_events = 0        # guard-deferral episodes (incl. window-end open)
+    deferred_days = 0         # closes where a guard-deferred exit waited
+    first_deferred_date = None
+    deferred_open: set = set() # episodes still awaiting a fillable close
 
     for i, date in enumerate(dates):
         row_close = closes.loc[date]
@@ -392,6 +399,12 @@ def run_backtest(prices: dict, params: dict,
                     # P4-B2 sell deferral: no liquidity at this close (e.g.
                     # sealed limit-down) -> retry at next fillable close.
                     deferred_exits[sym] = action
+                    # T-20 additive disclosure: count guard-driven deferral
+                    # days/episodes (the None path never reads these).
+                    deferred_days += 1
+                    if first_deferred_date is None:
+                        first_deferred_date = str(date.date())
+                    deferred_open.add(sym)
                     st.hold_days += 1
                     continue
                 if strict_fills and not _real_bar(real_close_mask, sym, i):
@@ -434,6 +447,11 @@ def run_backtest(prices: dict, params: dict,
                 else:
                     st.quantity -= qty
                     st.tier_reached += 1
+                # T-20 additive disclosure: a guard-deferred episode just
+                # filled -- close it (episode == decision -> first fillable).
+                if sym in deferred_open:
+                    deferred_open.discard(sym)
+                    deferred_events += 1
             st.hold_days += 1
 
         # 2) queue new entries based on today's close signals
@@ -487,6 +505,9 @@ def run_backtest(prices: dict, params: dict,
                 parked_bal = 0.0                    # non-bear day: full release
 
     equity = pd.Series(equity_curve, index=dates[:len(equity_curve)])
+    # T-20 additive disclosure: episodes still open at window end happened --
+    # the position is held at close, exit awaiting a fillable day (counted).
+    deferred_events += len(deferred_open)
     metrics = summarize(equity, trades)
     if trade_pnl_mode == "full":
         # T-03-F1: full-cost per-trade stats under NEW field names only
@@ -505,6 +526,11 @@ def run_backtest(prices: dict, params: dict,
         # T-21: buy-side drops under any guard (new key only when a guard
         # is supplied; the None path never emits it).
         metrics["fill_guard_buy_dropped"] = guard_drops
+        # T-20 PAPER_GUARD_DUAL_RAIL: sell-deferral disclosure (additive;
+        # P4-B2 fill semantics unchanged, report-only face).
+        metrics["fill_guard_sell_deferred_events"] = deferred_events
+        metrics["fill_guard_deferred_days_total"] = deferred_days
+        metrics["fill_guard_first_deferred_date"] = first_deferred_date
     if entry_size_scale is not None:
         # T-21: filled entries whose nominal was scaled below 1.0.
         metrics["scaled_entries"] = scaled_entries

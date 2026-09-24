@@ -23,6 +23,12 @@ Contract per trader JSON (self-contained repro, no results-file dependency):
     the data cutoff; the hire stub-month never counts (no promotion
     gaming); current_dd uses the engine negative convention (hr.py
     thresholds compare against negative drawdowns)
+  - T-20 PAPER_GUARD_DUAL_RAIL: the FORWARD accounting window runs
+    guarded (board-seal buy drops / limit-down sell deferral /
+    suspension blocks via scripts/t14_rules_fidelity.build_guard, built
+    fresh each run); the anchor_gate reproduction path NEVER receives a
+    guard (A-rail legacy byte-identical). Disclosure rides in the
+    additive "forward_guard" block of results/paper/<TID>_paper.json.
 
 Usage:
     python -m live.paper             # update paper state + trader JSONs
@@ -73,6 +79,9 @@ REGIME_GUARD_APPROVAL = os.path.join(PATHS.results_dir,
 # dates stay legacy (no retroactive rewrite). Node self-rule excludes
 # changing the month boundary.
 ENFORCE_ACTIVE_FROM = "2026-10-01"
+# T-20 PAPER_GUARD_DUAL_RAIL: forward-window execution-fidelity guard
+# source (prereg s2: T-14 builder reuse mandatory, built fresh per run).
+GUARD_SOURCE_LABEL = "t14_rules_fidelity.build_guard"
 
 # registered entry expressions -> signal builder(P) where P = panels dict
 # (composite rotation needs high/low/close); unknown key = hard abort
@@ -308,7 +317,8 @@ def monthly_aggregate(equity: pd.Series | None, initial_cash: float,
 
 
 def paper_run(t: dict, prices_full: dict, P: dict,
-              regime_mask: dict | None = None) -> dict:
+              regime_mask: dict | None = None,
+              fill_guard: dict | None = None) -> dict:
     """Fresh-portfolio paper window from hire date, closed bars only.
 
     Signal is computed on the full close history (warmup lookback uses
@@ -319,6 +329,14 @@ def paper_run(t: dict, prices_full: dict, P: dict,
     T-21 regime_mask (None = legacy, zero change): dict from
     _enforce_mask -- buy_fillable gates new-entry FILLS (P4-B2 drop
     semantics, exits untouched), scale halves YELLOW-day nominals.
+
+    T-20 PAPER_GUARD_DUAL_RAIL B-rail (None = legacy, zero change): dict
+    from scripts/t14_rules_fidelity.build_guard -- {"buy": DF, "sell": DF}.
+    Engine consumption = P4-B2 verbatim: buy=False exec day -> pending
+    order DROPPED; sell=False exit day -> deferred to the next fillable
+    close with the ORIGINAL action. Composition with regime_mask: buy
+    blocked iff EITHER face blocks; sell = guard only (the T-21 response
+    matrix never touches exits).
     """
     entry = SIGNAL_BUILDERS[t["params"]["entry"]](P)
     ps = pd.Timestamp(t["created"])
@@ -333,6 +351,20 @@ def paper_run(t: dict, prices_full: dict, P: dict,
         guard = {"buy": pd.DataFrame(
             {s: regime_mask["buy_fillable"] for s in window})}
         scale = regime_mask["scale"]
+    if fill_guard is not None:
+        widx = P["close"].index[P["close"].index >= ps]
+        cols = list(window)
+        gbuy = fill_guard["buy"].reindex(
+            index=widx, columns=cols).fillna(True)
+        gsell = fill_guard["sell"].reindex(
+            index=widx, columns=cols).fillna(True)
+        if guard is None:
+            guard = {"buy": gbuy, "sell": gsell}
+        else:
+            # T-20 x T-21 composition: buy blocked iff either face blocks
+            guard = {"buy": gbuy & guard["buy"].reindex(
+                index=widx, columns=cols).fillna(True),
+                "sell": gsell}
     with ExitPatch(t.get("exit_overrides")):
         res = run_backtest(window, params, entry_signal=entry,
                            exit_signal=(entry <= 0),
@@ -353,11 +385,15 @@ def load_vi_bar():
         return None
 
 
-def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar) -> dict:
+def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar,
+                  fill_guard: dict | None = None) -> dict:
     """Rolling x2-cost safety check on the paper window to date.
 
     Guarded: not enough bars -> insufficient_data, never a fake verdict.
     vi_bar unavailable is an ALARM, never a silent skip (T-04 F3).
+    T-20 B-rail: the ROLLING recompute leg runs guarded (same window
+    semantics as paper_run); the x2 REGISTRATION seed stays legacy (it is
+    read from the trader JSON, never recomputed here).
     """
     ps = pd.Timestamp(t["created"])
     n_bars = int((P["close"].index >= ps).sum())
@@ -373,7 +409,7 @@ def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar) -> dict:
     params = {k: v for k, v in t["params"].items() if k != "entry"}
     with CostPatch(2), ExitPatch(t.get("exit_overrides")):
         res = run_backtest(window, params, entry_signal=entry,
-                           exit_signal=(entry <= 0))
+                           exit_signal=(entry <= 0), fill_guard=fill_guard)
     s = res["metrics"]["sharpe"]
     return {"status": "ok", "paper_window_sharpe_x2": s,
             "skill_bar": vi_bar, "survive": bool(s > vi_bar),
@@ -527,27 +563,55 @@ def regime_guard_context(mode: str | None = None) -> dict:
 def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
                   data_cutoff: str, regime: dict,
                   rg: dict | None = None, regime_mask: dict | None = None,
-                  v3_states: pd.Series | None = None) -> dict:
+                  v3_states: pd.Series | None = None,
+                  fill_guard: dict | None = None) -> dict:
     """Full pipeline for one trader. Returns the state dict; writes only
     when the anchor gate passes (trader JSON never touched on drift).
 
     T-21 A-track iron law: anchor_gate and cost_x2_check NEVER receive
     regime_mask / any masking (registration-frame comparisons stay
     same-frame); x2 registration-period seed stays legacy. Only the
-    paper_run accounting window carries the enforce response matrix."""
+    paper_run accounting window carries the enforce response matrix.
+    T-20 B-rail: fill_guard reaches paper_run and the cost_x2_check
+    ROLLING leg only; anchor_gate NEVER receives it (A-rail verbatim);
+    the x2 registration seed stays legacy (read, never recomputed).
+    """
     anchor = anchor_gate(t, prices_full)
     if not anchor["ok"]:
         return {"trader": t["id"], "anchor_ok": False, "anchor": anchor}
-    run = paper_run(t, prices_full, P, regime_mask=regime_mask)
+    run = paper_run(t, prices_full, P, regime_mask=regime_mask,
+                    fill_guard=fill_guard)
     agg = monthly_aggregate(run["equity"], INITIAL_CASH, t["created"])
-    x2 = cost_x2_check(t, prices_full, P, vi_bar)
+    x2 = cost_x2_check(t, prices_full, P, vi_bar, fill_guard=fill_guard)
     bt_x2 = (t.get("backtest") or {}).get("cost_x2") or {}
     seed = ({"sharpe": bt_x2.get("sharpe"), "vi_bar": vi_bar,
              "survive": bt_x2.get("survive")}
             if (bt_x2.get("sharpe") is not None and vi_bar is not None) else None)
     watch = x2_watch_verdict(x2, seed=seed)
     _append_x2_watch_log({"ts": time.strftime("%Y-%m-%d %H:%M:%S"),
-                          "trader": t["id"], **watch})
+                          "trader": t["id"],
+                          "window_semantics":
+                          "guarded" if fill_guard is not None else "legacy",
+                          **watch})
+    m_run = run["metrics"] or {}
+    forward_guard = {
+        "enabled": fill_guard is not None,
+        "guard_source": (GUARD_SOURCE_LABEL
+                        if fill_guard is not None else None),
+        "buy_rejected_n": int(m_run.get("fill_guard_buy_dropped", 0)),
+        "sell_deferred_events_n":
+            int(m_run.get("fill_guard_sell_deferred_events", 0)),
+        "deferred_days_total":
+            int(m_run.get("fill_guard_deferred_days_total", 0)),
+        "first_deferred_date": m_run.get("fill_guard_first_deferred_date"),
+        "window_semantics":
+            "guarded" if fill_guard is not None else "legacy",
+        "as_of": time.strftime("%Y-%m-%d %H:%M:%S"),
+    }
+    if regime_mask is not None:
+        forward_guard["note"] = ("composition: buy_rejected_n may include "
+                                  "T-21 regime-matrix drops (guard faces "
+                                  "ANDed on the buy leg)")
     t["paper"] = {"months_tracked": agg["months_tracked"],
                   "monthly_returns": agg["monthly_returns"],
                   "current_dd": agg["current_dd"],
@@ -601,6 +665,7 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
                             "position_cap": regime["position_cap"],
                             "as_of": regime["as_of"]},
             "regime_guard": guard_block,
+            "forward_guard": forward_guard,
             "no_future_data": "closed bars only; signal T close -> T+1 open "
                               "(engine contract)"}
 
@@ -896,6 +961,14 @@ def main(argv=None) -> int:
                   f"{regime_mask['blocked_exec_days']}, yellow="
                   f"{regime_mask['yellow_exec_days']})")
     print(f"universe: {len(prices_full)} ETFs, data through {data_cutoff}")
+    # T-20 B-rail: guard built FRESH each run (seconds; no cache -- prereg
+    # s2 reuse-bar). Lazy import: t14_rules_fidelity imports live.paper.
+    from scripts.t14_rules_fidelity import build_guard
+    fill_guard, guard_diag = build_guard(prices_full)
+    gtot = guard_diag["totals"]
+    print(f"forward_guard: {GUARD_SOURCE_LABEL} wired (board-seal up="
+          f"{gtot['buy_blocked']} dn={gtot['sell_blocked']} "
+          f"susp={gtot['susp']})")
     print(f"regime: major_bear={regime['is_major_bear']} "
           f"cap={regime['position_cap']} (close<MA250={regime['below_ma250']}, "
           f"dd={regime['dd_from_250d_high']})")
@@ -916,7 +989,8 @@ def main(argv=None) -> int:
             continue
         state = update_trader(t, prices_full, P, vi_bar, data_cutoff, regime,
                               rg_shadow if regime_mask is not None else rg,
-                              regime_mask=regime_mask, v3_states=v3_states)
+                              regime_mask=regime_mask, v3_states=v3_states,
+                              fill_guard=fill_guard)
         if not state["anchor_ok"]:
             ok_all = False
             print(f"{t['id']}: ANCHOR DRIFT -- trader JSON untouched")
