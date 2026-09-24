@@ -1,14 +1,14 @@
 {
- "round_no": 54,
- "did": "r54 bm-c: T-16 deliverable-6 P-A1 prereg DRAFTED+FROZEN (PA1_PREMIUM_IC: premium_z primary + premium_adj/premium_chg_5d sensitivity, N_eff=53 incl 50 matched-mask nulls, h10 V1/V2/V3+n_periods>=500, seed 20260925 date-style registered, availability convention frozen as-of no-uniform-T1, D6 structural mechanism, fwd_ret div-inclusive + cons-window exclusion; no run this round) + S6 chain green",
- "next_pointer": "r55: scripts/pa1_premium_ic.py (equivalence probe -60d momentum) + batch run + append_ledger(pa1_premium_ic) + gate_attrition row; then deliverable-4 LOF census (retry-windowed spot); T-17 early-age claim candidate; first fund_premium bulk snapshot auto-fires >=15:30 via S6 (pre-close this round); r55=5x HANDOVER reconciliation round (bm-c); T-19 stage-2a still waits T-20 landing (bm-a)",
- "note": "stage-2a ownership adjudicated by bm-a MSG-1320: bm-c lane, relay after T-20 implementation lands (avoid same-window double-head on live/paper.py); T-20 bound pre-2026-10-01. Bandit 'J13 v2 prereg' open entry = stale consumed R64/65, regen belongs bm-a R62-author lane. T-18 dependency flag: adjusted view (T-19 stage-3) must land before T-18 deep-history batch (O-1310 s3, honored in r96 claim note). XSTOCK harvest belongs bm-b r97+; T-11 gated on it. audit idle_with_work = honest queue signal, T-16/T-17 = r51 claim candidates.",
- "ts": "2026-09-24T14:38:26",
- "last_round_ts": "2026-09-24T14:38:26+08:00",
+ "round_no": 55,
+ "did": "r55 bm-c: T-16 d7 PA1_PREMIUM_IC batch run one-shot DONE, primary judged NEGATIVE (honest close): data gates row-wise 3/3 (nav 1.0/0-NaN/summary PASS; g3 rect-scope bug run#1 aborted zero-numbers, fixed to row-wise, run#2 = only numbers-producing run, judgment/seed/mask zero-touch) -> equivalence probe -60d momentum max|diff|=2.22e-16 PASS -> K=50 matched-mask nulls IS p95|IC|=0.0083 -> premium_z h10 IS +0.0033/IR 0.011 (n=1212) FAIL V1 floor 0.02 + FAIL V2 wall 0.30 (V3 same-sign retain TRUE, period gate TRUE, h5/h20 locked by frozen protocol); sensitivity premium_adj +0.0033 identical self-consistent, premium_chg_5d -0.0032 opposite-sign report-only; mechanism note = QDII premium events time-sparse, diluted in daily full-cross-section IC caliber (event-window caliber = P-A2, not D6 mechanism falsification); factor ledger 5600->5653 (+53, engine N=3077 untouched), gate_attrition measurement row, prereg SS7/SS8 backfilled (7 predictions: 4 hits / 3 misses incl positive-sign surprise); 5x HANDOVER reconciliation r55 done (header chain + SS2 asof line r55/5653 + r55 buhe row 4-pipes structural gate + SS6 queue line T-16 d7)",
+ "next_pointer": "r56: T-16 deliverable-4 LOF census (retry-windowed fund_lof_spot_em face, r51 probe precedent) or P-A2 event-window prereg draft (premium event studies on QDII episodes); T-17 AH/HK exploration ticket = early-age claim candidate (open, zero overlap with bm-b T-13 claim); T-19 stage-2a still waits T-20 landing (bm-a); first fund_premium bulk snapshot auto-fires >=15:30 via S6; XSTOCK harvest belongs bm-b r103+ (T-11 gated on it)",
+ "note": "rebase-vs-r102 push collision resolved per R24/R50 paradigm: 10 conflicts all S6 derived mirrors (zero real-product conflicts), --theirs = own replayed side, marker scan clean, pushed d2b233b..92f741f. T-13 claimed by bm-b r102 (MSG-1455 archived, informational, zero overlap with bm-c lanes; they honor T-19 stage-3 = bm-c lane). Idle_with_work flag = 3 open tickets (T-11 gated XSTOCK / T-13 now claimed bm-b / T-17 open) = honest queue signal. lhb exit 2 = store-absent sparse-clone design state.",
+ "ts": "2026-09-24T15:06:20",
+ "last_round_ts": "2026-09-24T15:06:20+08:00",
  "last_action": "round 50: 5x HANDOVER reconciliation (4 edits + ledger row refresh) + S6 maintenance chain all green",
  "last_run_at": "2026-09-24T13:14:43+08:00",
- "last_round_at": "2026-09-24 14:38",
- "last_round_summary": "round 54: T-16 d6 P-A1 prereg frozen",
+ "last_round_at": "2026-09-24 15:06",
+ "last_round_summary": "round 55: T-16 d7 P-A1 batch run, primary judged negative (honest close)",
  "last_run": "2026-09-24T13:14:43+08:00",
  "next": "S6 chain + S7 wrap; then T-16 deliverable-2 (puller, early-age round): fund_etf_fund_daily_em daily snapshot puller + NAV backfill core48; T-17 open unclaimed"
 }
