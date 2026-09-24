@@ -1,0 +1,15 @@
+{
+ "id": "T-2026-09-25-41",
+ "priority": "P1",
+ "type": "data-pipeline-source-expansion",
+ "immediate": false,
+ "spec": "MF_COLLECTOR v2.1 source-redundancy expansion (T-39 follow-up; R115 pre-registered trigger met: rank lane 4 consecutive fully-blocked firings 01:09 R109 / 01:50 R111 / 02:23 R114 / 03:11 R116, page-1 RemoteDisconnected same signature; daykline face >=25h hard block). Law basis: R108 pit-law = EM pipeline dual-face redundancy MANDATORY (block rotates by subdomain x path x day; any single EM face will have blocked windows); current push2-rank + push2his-daykline = single-subdomain dependency = structural violation. Deliverable: (1) candidate verification one-off probes <=3 requests each (diagnostic abstinence R109): a. THS cross-provider akshare stock_fund_flow_individual (data.10jqka.com.cn/funds/ggzjl/ cross-section 3/5/10/20-day periods; interface existence confirmed via local introspection, provider/shape = claims-not-verified); b. EM cross-subdomain akshare stock_main_fund_flow (data.eastmoney.com/zjlx/list.html datacenter-web family; R58 precedent = datacenter blocks independently of push2 family); (2) implement verified face(s) as fallback lane(s) in scripts/update_moneyflow.py rank pass: lane chain push2-rank primary -> fallback(s), per-lane conn-fuse + 30-min throttle, frozen panel schema zero-change (THS column names differ -> explicit field-mapping table required), date-stamp = last completed bar day (T-39 item 1 semantics), trading-window guard 09:15-15:05, same-day idempotent, universe filter bars-join 5222; (3) selftest offline fixtures window-guard / date-stamp / field-mapping / idempotent-skip / universe-filter (existing 20/20 must keep passing); (4) MF_COLLECTOR.md S1/S4.1 cadence wording update after live-fire pass. Acceptance: one full pass >=5000 stocks appended one row each for last completed bar day via fallback lane while push2 blocked (or honest proof of universal cross-provider block = ticket closes with evidence + separate escalation), honest counts, zero schema drift (column names byte-identical), exit codes per S5 contract unchanged.",
+ "status": "pending-gm-signature",
+ "created_by": "bm-a (OS iteration loop, round 116)",
+ "created_at": "2026-09-25 03:15",
+ "claimed_by": "",
+ "claimed_at": "",
+ "result_ref": "",
+ "note": "P1 new direction (数据源扩容) -> work does NOT start until GM signature per O-1620 devolution; status stays pending-gm-signature (not open) so no machine claims it pre-signature. Presented to GM via MSG-20260925-0315. Owner dept: 数据; lane: bm-a (R31 moneyflow lane guard); single-writer on scripts/update_moneyflow.py during implementation (F-04 MSG claim before edit). Anti-dup: T-39 stays open for push2-face acceptance; this ticket = redundancy lanes only, no collector rebuild.",
+ "note_updated_at": "2026-09-25 03:15"
+}
