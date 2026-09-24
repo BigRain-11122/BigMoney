@@ -550,6 +550,11 @@ SEED_REGISTRY = {
     "og1_overnight_ic": 20260927,           # OG1_OVERNIGHT_IC K=50 white-noise nulls
     # (20260927+i, i<50; date-style base, rg-repo-scan verified free 2026-09-24
     # 19:2x before OG1 prereg freeze, T-31 deliverable-5)
+    "t34_early_signal": 20260928,          # T34_EARLY_SIGNAL envelope A/B binomial
+    # bootstrap CIs on pooled beat rates (single rng base, B=2000, no +i family;
+    # date-style base, registry+rg repo-scan verified free 2026-09-24 21:2x --
+    # sole repo hit = Money0923/tests fixture date string (non-RNG coincidence,
+    # disclosed); registered before T-34 prereg freeze r114)
 }
 
 
