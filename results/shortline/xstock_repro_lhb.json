@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "batch": "XSTOCK_SYNTH repro LHB leg",
+    "convention": "PA2-verbatim (WIN_START slice, masks A/B/C)",
+    "tol_mean": 5e-05,
+    "tol_ir": 0.0005,
+    "elapsed_s": 20.7
+  },
+  "grids": {
+    "raw_rows": 265981,
+    "dedup_events": 227796,
+    "placed": 196701,
+    "T": 4793,
+    "n_cols": 5222
+  },
+  "rows": [
+    {
+      "factor": "lhb_count_20",
+      "ok": true,
+      "reproduced_is_ic": -0.0642,
+      "recorded_is_ic": -0.0642,
+      "reproduced_oos_ic": -0.0647,
+      "recorded_oos_ic": -0.0647,
+      "checks": {
+        "is_ic": true,
+        "is_ir": true,
+        "is_n": true,
+        "oos_ic": true,
+        "oos_ir": true,
+        "oos_n": true
+      }
+    },
+    {
+      "factor": "lhb_days_since",
+      "ok": true,
+      "reproduced_is_ic": 0.0632,
+      "recorded_is_ic": 0.0632,
+      "reproduced_oos_ic": 0.0674,
+      "recorded_oos_ic": 0.0674,
+      "checks": {
+        "is_ic": true,
+        "is_ir": true,
+        "is_n": true,
+        "oos_ic": true,
+        "oos_ir": true,
+        "oos_n": true
+      }
+    },
+    {
+      "factor": "lhb_amt_share_20",
+      "ok": true,
+      "reproduced_is_ic": 0.0643,
+      "recorded_is_ic": 0.0643,
+      "reproduced_oos_ic": 0.0618,
+      "recorded_oos_ic": 0.0618,
+      "checks": {
+        "is_ic": true,
+        "is_ir": true,
+        "is_n": true,
+        "oos_ic": true,
+        "oos_ir": true,
+        "oos_n": true
+      }
+    }
+  ],
+  "pass": true
+}

@@ -39,7 +39,13 @@ Subcommands:
              G5 disk >= 60GB free (z-cache ~48GB)    -> exit 2 if tight
              G6 seeds 51000/52000 in SEED_REGISTRY  -> exit 2 if missing
   selftest offline logic gates (synthetic; zero vendor/panel loads)
-  run      staged batch; NOT YET IMPLEMENTED (exit 3; WQ gate blocks anyway)
+  repro --src {lhb,dzjy}
+           shelf-member reproduction legs vs recorded evidence (prereg
+           SS2 hard gate; PA2-verbatim / p1d-verbatim conventions)
+  run      staged batch; WQ-gated (exit 3 until gates G1 green). The
+           streaming-null machinery + z-cache io + repro legs are
+           delivered (r85); remaining stages: member grid build on the
+           unified panel, z-cache build, clustering, primary, nulls.
 
 Ledger: zero engine runs (engine N untouched); factor ledger added per prereg
 SS0 = 1 primary + 2 sensitivity + 2000 nulls (+1 h20 if primary passes V1);
@@ -286,6 +292,339 @@ def run_gates():
     return out, all_pass
 
 
+# ---------------------------------------------------------------- run path
+# Delivered r85 (implementation round 2/N); execution stages stay WQ-gated
+# via `gates` (G1). Design frozen in r84 notes + module header:
+#   z-cache    = one float32 .npy per member, row 0 = cache date 0. IS dates
+#                are a PREFIX of the full panel, so shelf (full-era) and
+#                population (IS-only) files share IS row coordinates.
+#   streaming  = date-block tasks (Z_BLOCK dates); each member file read
+#                exactly once across the whole job (~48GB I/O total); worker
+#                RAM ~0.4-0.8GB (member blocks dict-cached per task).
+#   equivalence= streaming per-draw IC vs direct composite materialization
+#                must hold <=1e-6 BEFORE any null number (selftest now on a
+#                synthetic panel; real-cache gate reruns in the null stage).
+
+Z_BLOCK = 64                      # dates per streaming block task
+EQUIV_TOL_STREAM = 1e-6
+REPRO_TOL_MEAN_R4 = 0.5e-4        # 4dp-rounded records (pa/p1d): half last digit
+REPRO_TOL_IR_R3 = 0.5e-3          # 3dp-rounded IR records
+Z_MANIFEST = os.path.join(OUT_DIR, "xstock_z_manifest.json")
+
+
+def z_cache_write(name, z):
+    """Write one member z-panel (float32). Callers pass the z of the member
+    on the unified grid (ps2 z_rows: per-date cross-section, MIN_Z_NAMES=5
+    floor, close-finite mask). kind ('shelf' full-era / 'pop' IS-only) is
+    recorded in the manifest by the build stage."""
+    os.makedirs(Z_CACHE_DIR, exist_ok=True)
+    path = os.path.join(Z_CACHE_DIR, name.replace("/", "_") + ".npy")
+    np.save(path, np.asarray(z, dtype=np.float32))
+    return path
+
+
+def z_read_block(path, row0, nrows):
+    arr = np.load(path, mmap_mode="r")
+    return np.asarray(arr[row0:row0 + nrows], dtype=np.float64)
+
+
+def _null_block_task(payload):
+    """One date-block pass: per-draw per-date IC values over the z-cache.
+
+    Top-level picklable (parallel_runner contract: no closures). Semantics
+    identical to the direct reference (ps2_synth composite_z + rank_rows +
+    ic_from_ranks; eff = close-finite & finite(comp) & finite(fwd)):
+    equivalence-gated before any number is consumed.
+    payload keys: row0, nrows (IS-segment window), close_path, close_row0
+    (p1c cache row of IS row 0), n_cols, h, files (member z-cache paths,
+    draw indices point here), draws (n,K) int, signs (n,K) float,
+    min_valid, cal (nrows int64-us IS slice).
+    Returns {draw_id, date_pos, ic} arrays (date_pos = absolute IS row).
+    """
+    from ps2_synth import composite_z, fwd_ret, ic_from_ranks, rank_rows
+    row0, nrows = payload["row0"], payload["nrows"]
+    h, mv, cal = payload["h"], payload["min_valid"], payload["cal"]
+    files, draws, signs = payload["files"], payload["draws"], payload["signs"]
+    cm = np.load(payload["close_path"], mmap_mode="r")
+    c0 = payload["close_row0"] + row0     # cache row of this block's start
+    end = min(cm.shape[0], c0 + nrows + h)
+    close_ext = np.asarray(cm[c0:end], dtype=np.float64)
+    fwd = fwd_ret(close_ext, h)[:nrows]          # tail fwd from +h rows
+    finite = np.isfinite(close_ext[:nrows])
+    n_draws, k = draws.shape
+    blocks = {}                                   # member block cache
+    out_d, out_p, out_v = [], [], []
+    for d in range(n_draws):
+        zs = []
+        for j in range(k):
+            mi = int(draws[d, j])
+            if mi not in blocks:
+                blocks[mi] = z_read_block(files[mi], row0, nrows)
+            z = blocks[mi]
+            zs.append(z if signs[d, j] > 0 else -z)
+        comp = composite_z(zs, mv)
+        eff = finite & np.isfinite(comp) & np.isfinite(fwd)
+        if not eff.any():
+            continue
+        s = ic_from_ranks(rank_rows(eff, comp), rank_rows(eff, fwd), cal)
+        if len(s) == 0:
+            continue
+        idx_us = s.index.values.astype("datetime64[us]").astype("int64")
+        pos = np.searchsorted(cal, idx_us)         # cal sorted; exact hits
+        out_d.append(np.full(len(s), d, dtype=np.int32))
+        out_p.append((row0 + pos).astype(np.int32))
+        out_v.append(s.values.astype(np.float64))
+    if out_d:
+        return {"draw_id": np.concatenate(out_d),
+                "date_pos": np.concatenate(out_p),
+                "ic": np.concatenate(out_v)}
+    return {"draw_id": np.empty(0, np.int32),
+            "date_pos": np.empty(0, np.int32),
+            "ic": np.empty(0, np.float64)}
+
+
+def streaming_null_pass(close_path, close_row0, n_cols, is_cal, files,
+                        draws, signs, min_valid, h=H_GATE,
+                        block=Z_BLOCK, parallel=True):
+    """Block the IS calendar; run _null_block_task per block (serial or
+    parallel_runner); assemble the (n_draws, T_is) IC matrix.
+
+    Returns (ic_matrix, meta) - per-draw per-IS-row IC values (NaN where
+    the date dropped out). Deterministic: rows keyed by date, not schedule.
+    """
+    t0 = time.time()
+    T_is = len(is_cal)
+    jobs = []
+    for row0 in range(0, T_is, block):
+        nrows = min(block, T_is - row0)
+        payload = {"row0": row0, "nrows": nrows, "close_path": close_path,
+                   "close_row0": close_row0, "n_cols": n_cols, "h": h,
+                   "files": list(files), "draws": draws, "signs": signs,
+                   "min_valid": min_valid, "cal": is_cal[row0:row0 + nrows]}
+        jobs.append((f"blk{row0}", _null_block_task, (payload,)))
+    if parallel:
+        from parallel_runner import run_cells_parallel, worker_cap
+        n_workers = worker_cap()
+        try:
+            import psutil
+            free_gb = psutil.virtual_memory().available / 2**30
+            n_workers = max(1, min(n_workers, int(free_gb * 0.8 / 1.1)))
+        except Exception:
+            pass
+        out = run_cells_parallel(jobs, workers=n_workers,
+                                 desc="null-blocks")
+        blocks = [out[k] for k in
+                  [f"blk{r}" for r in range(0, T_is, block)]]
+        workers_used = out.get("__workers__", n_workers)
+    else:
+        blocks = [_null_block_task(j[2][0]) for j in jobs]
+        workers_used = 1
+    ic = np.full((len(draws), T_is), np.nan)
+    for b in blocks:
+        ic[b["draw_id"], b["date_pos"]] = b["ic"]
+    meta = {"blocks": len(jobs), "workers": workers_used,
+            "block_rows": block, "elapsed_s": round(time.time() - t0, 1)}
+    return ic, meta
+
+
+def null_abs_ic_p95(ic_matrix, lo, hi):
+    """Per-draw IS |mean IC| over rows [lo, hi) of the draw table -> p95."""
+    abs_mean = []
+    for d in range(lo, hi):
+        v = ic_matrix[d][np.isfinite(ic_matrix[d])]
+        if len(v):
+            abs_mean.append(abs(float(v.mean())))
+    if not abs_mean:
+        return float("nan"), 0
+    return float(np.quantile(abs_mean, 0.95)), len(abs_mean)
+
+
+# ------------------------------------------------- member reproduction legs
+# Prereg SS2 hard gate (before ANY number): shelf members recomputed per
+# their source-library convention vs recorded evidence. PA2 precedent:
+# construction copied verbatim, anchor gate adjudicates fidelity.
+
+def _lhb_event_grids(cal, col_map, n_cols):
+    """PA2-verbatim LHB event-grid core (calendar-agnostic): dedup per
+    (code,date) = max LHB turnover row, rolling windows, shift-1 signal
+    grids. Returns (count_s, days_s, share_s, meta)."""
+    from pa_lhb_ic import (LHB_PATH, W_COUNT, W_DECAY, W_SHARE, rolling_sum,
+                           shift1)
+    T = len(cal)
+    lhb = pd.read_parquet(LHB_PATH)
+    n_raw = len(lhb)
+    lhb = lhb.sort_values(["龙虎榜成交额", "序号"], ascending=[True, False])
+    ev = lhb.drop_duplicates(subset=["代码", "上榜日"], keep="last")
+    n_events = len(ev)
+    ev_us = (pd.to_datetime(ev["上榜日"]).values
+             .astype("datetime64[us]").astype("int64"))
+    pos = np.searchsorted(cal, ev_us)
+    in_cal = pos < T
+    pos_safe = np.minimum(pos, T - 1)
+    pos_ok = in_cal & (cal[pos_safe] == ev_us)
+    cols = ev["代码"].map(col_map)
+    col_ok = cols.notna().values
+    keep = pos_ok & col_ok
+    r_idx, c_idx = pos[keep], cols.values[keep].astype(int)
+    ind = np.zeros((T, n_cols))
+    ind[r_idx, c_idx] = 1.0
+    sh_grid = np.zeros((T, n_cols))
+    sh_grid[r_idx, c_idx] = ev["成交额占总成交比"].values[keep]
+    count20 = rolling_sum(ind, W_COUNT)
+    share20 = rolling_sum(sh_grid, W_SHARE)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        amt_share20 = np.where(count20 > 0, share20 / count20, np.nan)
+    ev_pos = np.where(ind > 0, np.arange(T)[:, None], -1.0)
+    last_ev = np.maximum.accumulate(ev_pos, axis=0)
+    days_since = np.arange(T)[:, None] - last_ev
+    days_since[last_ev < 0] = np.nan
+    days_capped = np.where(days_since <= W_DECAY, days_since, np.nan)
+    meta = {"raw_rows": n_raw, "dedup_events": n_events,
+            "placed": int(keep.sum()), "T": T, "n_cols": n_cols}
+    return (shift1(count20, 0.0), shift1(days_capped),
+            shift1(amt_share20), meta)
+
+
+def _seg_ic(mask, vals, fwd, cal):
+    """ps2-verbatim masked rank IC -> (full, is, oos) stat blocks."""
+    from ps2_synth import ic_from_ranks, rank_rows
+    from composite_ic import stats_block
+    eff = mask & np.isfinite(vals) & np.isfinite(fwd)
+    if not eff.any():
+        return {}, {}, {}
+    s = ic_from_ranks(rank_rows(eff, vals), rank_rows(eff, fwd), cal)
+    return (stats_block(s), stats_block(s[s.index <= IS_END_TS]),
+            stats_block(s[s.index > IS_END_TS]))
+
+
+def repro_lhb(write=True):
+    """LHB shelf members (3) on the PA2-verbatim slice vs pa_lhb_ic.json
+    records: is_ic/is_ir/is_n + oos_ic/oos_ir/oos_n (PA2 anchor tolerances,
+    stricter than prereg 1e-4)."""
+    from pa_lhb_ic import (BARS_DIR, CACHE_DIR, H_GATE, WIN_START, fwd_ret)
+    t0 = time.time()
+    dates_all = np.load(os.path.join(CACHE_DIR, "dates.npy"))
+    i0 = int(np.searchsorted(
+        dates_all, np.datetime64(WIN_START, "us").astype("int64")))
+    cal = dates_all[i0:]
+    T = len(cal)
+    files = sorted(glob.glob(os.path.join(BARS_DIR, "*.parquet")))
+    syms = [os.path.basename(p)[:-8] for p in files]
+    col_map = {s: i for i, s in enumerate(syms)}
+    close = np.asarray(np.load(os.path.join(CACHE_DIR, "close.npy"),
+                               mmap_mode="r")[i0:], dtype=np.float64)
+    amount = np.asarray(np.load(os.path.join(CACHE_DIR, "amount.npy"),
+                                mmap_mode="r")[i0:], dtype=np.float64)
+    count_s, days_s, share_s, gmeta = _lhb_event_grids(cal, col_map, len(syms))
+    A = np.isfinite(close) & np.isfinite(amount)
+    B = A & (count_s >= 1)
+    C = A & np.isfinite(days_s)
+    fwd10 = fwd_ret(close, H_GATE)
+    pa = _load(PA_JSON)
+    recs = {r["factor"]: r for r in pa["rows"]}
+    rows, ok_all = [], True
+    for name, vals, mask in (("lhb_count_20", count_s, A),
+                             ("lhb_days_since", days_s, C),
+                             ("lhb_amt_share_20", share_s, B)):
+        _, bis, bos = _seg_ic(mask, vals, fwd10, cal)
+        reg = recs[name]
+        checks = {
+            "is_ic": abs(bis["ic_mean"] - reg["h10_is_ic_mean"])
+                     < REPRO_TOL_MEAN_R4,
+            "is_ir": abs(bis["ic_ir"] - reg["h10_is_ic_ir"]) < REPRO_TOL_IR_R3,
+            "is_n": bis["n_periods"] == reg["h10_is_n_periods"],
+            "oos_ic": abs(bos["ic_mean"] - reg["h10_oos_ic_mean"])
+                      < REPRO_TOL_MEAN_R4,
+            "oos_ir": abs(bos["ic_ir"] - reg["h10_oos_ic_ir"])
+                      < REPRO_TOL_IR_R3,
+            "oos_n": bos["n_periods"] == reg["h10_oos_n_periods"],
+        }
+        ok = all(checks.values())
+        ok_all &= ok
+        rows.append({"factor": name, "ok": bool(ok),
+                     "reproduced_is_ic": bis["ic_mean"],
+                     "recorded_is_ic": reg["h10_is_ic_mean"],
+                     "reproduced_oos_ic": bos["ic_mean"],
+                     "recorded_oos_ic": reg["h10_oos_ic_mean"],
+                     "checks": {k: bool(v) for k, v in checks.items()}})
+        print(f"  repro {name}: is_ic={bis['ic_mean']:.5f} vs "
+              f"{reg['h10_is_ic_mean']} oos_ic={bos['ic_mean']:.5f} vs "
+              f"{reg['h10_oos_ic_mean']} ok={ok}", flush=True)
+    out = {"meta": {"batch": "XSTOCK_SYNTH repro LHB leg",
+                    "convention": "PA2-verbatim (WIN_START slice, masks A/B/C)",
+                    "tol_mean": REPRO_TOL_MEAN_R4, "tol_ir": REPRO_TOL_IR_R3,
+                    "elapsed_s": round(time.time() - t0, 1)},
+           "grids": gmeta, "rows": rows, "pass": bool(ok_all)}
+    if write:
+        path = os.path.join(OUT_DIR, "xstock_repro_lhb.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(out, f, indent=2, ensure_ascii=False, default=str)
+        print(f"saved: {path}", flush=True)
+    print(f"REPRO-LHB {'PASS 3/3' if ok_all else 'FAIL'} "
+          f"({time.time() - t0:.0f}s)", flush=True)
+    return out, bool(ok_all)
+
+
+def repro_dzjy(write=True):
+    """dzjy shelf member (dzjy_amt_share_20) on the p1d-verbatim panel
+    (b_layer universe, WIN_START 2010 slice) vs p1d records."""
+    import p1d_ext_slots_ic as p1d
+    t0 = time.time()
+    cal, col, close, amount, meta = p1d.load_panel()
+    T, N = len(cal), len(col)
+    A = np.isfinite(close) & np.isfinite(amount)
+    amt0 = np.nan_to_num(amount)
+    fwd10 = p1d.fwd_ret(close, p1d.H_GATE)
+
+    def log(msg):
+        print(msg, flush=True)
+
+    ind, amtg, premw, deepg, dz_meta = p1d.build_dzjy(cal, col, T, N, log)
+    amt20 = p1d.rolling_sum(amt0, p1d.W_DZJY)
+    cnt20 = p1d.rolling_sum(ind, p1d.W_DZJY)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        share20 = np.where(amt20 > 0,
+                           p1d.rolling_sum(amtg, p1d.W_DZJY) / amt20, np.nan)
+    f_share = p1d.shift_n(share20, p1d.DZJY_SHIFT)
+    f_count = p1d.shift_n(cnt20, p1d.DZJY_SHIFT, 0.0)
+    B_dzjy = A & (f_count >= 1)
+    p1d_json = _load(P1D_JSON)
+    reg = next(r for r in p1d_json["rows"]
+               if r["factor"] == "dzjy_amt_share_20")
+    _, bis, bos = _seg_ic(B_dzjy, f_share, fwd10, cal)
+    checks = {
+        "is_ic": abs(bis["ic_mean"] - reg["h10_is_ic_mean"]) < REPRO_TOL_MEAN_R4,
+        "is_ir": abs(bis["ic_ir"] - reg["h10_is_ic_ir"]) < REPRO_TOL_IR_R3,
+        "is_n": bis["n_periods"] == reg["h10_is_n_periods"],
+        "oos_ic": abs(bos["ic_mean"] - reg["h10_oos_ic_mean"]) < REPRO_TOL_MEAN_R4,
+        "oos_ir": abs(bos["ic_ir"] - reg["h10_oos_ic_ir"]) < REPRO_TOL_IR_R3,
+        "oos_n": bos["n_periods"] == reg["h10_oos_n_periods"],
+    }
+    ok = all(checks.values())
+    out = {"meta": {"batch": "XSTOCK_SYNTH repro dzjy leg",
+                    "convention": "p1d-verbatim (b_layer universe, 2010 slice,"
+                                   " mask B_dzjy, shift 2)",
+                    "tol_mean": REPRO_TOL_MEAN_R4, "tol_ir": REPRO_TOL_IR_R3,
+                    "elapsed_s": round(time.time() - t0, 1)},
+           "panel": meta, "grids": dz_meta,
+           "rows": [{"factor": "dzjy_amt_share_20", "ok": bool(ok),
+                     "reproduced_is_ic": bis["ic_mean"],
+                     "recorded_is_ic": reg["h10_is_ic_mean"],
+                     "reproduced_oos_ic": bos["ic_mean"],
+                     "recorded_oos_ic": reg["h10_oos_ic_mean"],
+                     "checks": {k: bool(v) for k, v in checks.items()}}],
+           "pass": bool(ok)}
+    if write:
+        path = os.path.join(OUT_DIR, "xstock_repro_dzjy.json")
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(out, f, indent=2, ensure_ascii=False, default=str)
+        print(f"saved: {path}", flush=True)
+    print(f"REPRO-DZJY {'PASS' if ok else 'FAIL'} "
+          f"is_ic={bis['ic_mean']:.5f} vs {reg['h10_is_ic_mean']} "
+          f"({time.time() - t0:.0f}s)", flush=True)
+    return out, bool(ok)
+
+
 # ---------------------------------------------------------------- selftest
 
 def run_selftest():
@@ -409,6 +748,117 @@ def run_selftest():
              == "2026-09-22")
     check("cutoff_meta_key", ok_cm, f"{cm}")
 
+    # [8]-[11] streaming null engine (synthetic panel; offline, temp dir)
+    import tempfile
+    import shutil
+    from ps2_synth import (composite_z, fwd_ret, ic_from_ranks, rank_rows,
+                           z_rows)
+    tmp = tempfile.mkdtemp(prefix="xstock_z_test_")
+    try:
+        rng = np.random.default_rng(11)
+        T_full, N, n_is, h = 300, 60, 280, 10
+        close = (np.cumprod(1 + 0.001 * rng.standard_normal((T_full, N)),
+                            axis=0) * 10.0)
+        close[0, 40:] = np.nan            # late-listed names
+        close[150:160, 10:20] = np.nan    # suspension gap
+        dates = (pd.bdate_range("2020-01-01", periods=T_full).values
+                 .astype("datetime64[us]").astype("int64"))
+        cal_is = dates[:n_is]
+        fin_full = np.isfinite(close)
+
+        # [8] z-cache roundtrip: write float32, read a block, byte equality
+        z_probe = rng.standard_normal((T_full, N)).astype(np.float32)
+        p8 = os.path.join(tmp, "roundtrip.npy")
+        np.save(p8, z_probe)
+        back = z_read_block(p8, 120, 40)
+        ok_rt = (back.dtype == np.float64
+                 and np.array_equal(back, z_probe[120:160].astype(np.float64)))
+        check("z_cache_roundtrip", ok_rt, f"block={back.shape}")
+
+        # synthetic members: mixed era patterns; z on close-finite mask
+        names = [f"m{i}" for i in range(8)]
+        files, z_full = [], {}
+        for i, nm in enumerate(names):
+            v = rng.standard_normal((T_full, N))
+            if i % 2 == 0:
+                v[:100] = np.nan          # era-like pre-window absence
+            v[~fin_full] = np.nan
+            z = z_rows(v, fin_full)
+            z_full[i] = z
+            rows = T_full if i < 4 else n_is    # shelf full-era vs pop IS-only
+            p = os.path.join(tmp, nm + ".npy")
+            np.save(p, z[:rows].astype(np.float32))
+            files.append(p)
+
+        # draws: 6 x K=3, min_valid=2 (draw 1 = sign-flip of draw 0)
+        draws = np.array([[0, 1, 2], [0, 1, 2], [3, 4, 5],
+                          [6, 7, 0], [1, 4, 7], [5, 6, 3]], dtype=np.int64)
+        signs = np.array([[1, 1, 1], [-1, -1, -1], [1, -1, 1],
+                          [1, 1, -1], [1, 1, 1], [-1, 1, 1]], dtype=np.float64)
+        mv = 2
+
+        # streaming (serial in-process: exercises the real task function)
+        close_path = os.path.join(tmp, "close.npy")
+        np.save(close_path, close)
+        ic_m, smeta = streaming_null_pass(
+            close_path, 0, N, cal_is, files, draws,
+            signs, mv, h=h, parallel=False)
+
+        # direct reference: full IS materialization, ps2-verbatim path
+        fwd_is = fwd_ret(close, h)[:n_is]
+        fin_is = fin_full[:n_is]
+        worst = 0.0
+        set_mismatch = 0
+        for d in range(len(draws)):
+            zs = [z_full[int(m)][:n_is] for m in draws[d]]
+            zs = [z if signs[d, j] > 0 else -z
+                  for j, z in enumerate(zs)]
+            comp = composite_z(zs, mv)
+            eff = fin_is & np.isfinite(comp) & np.isfinite(fwd_is)
+            s_ref = ic_from_ranks(rank_rows(eff, comp),
+                                  rank_rows(eff, fwd_is), cal_is)
+            st = ic_m[d][np.isfinite(ic_m[d])]
+            if len(s_ref) != len(st) or not np.allclose(
+                    st, s_ref.values, atol=EQUIV_TOL_STREAM, rtol=0):
+                set_mismatch += 1
+            if len(s_ref):
+                worst = max(worst, float(np.max(np.abs(st - s_ref.values)))
+                            if len(st) == len(s_ref) else 9.9)
+        check("stream_vs_direct_equiv", set_mismatch == 0
+              and worst <= EQUIV_TOL_STREAM,
+          f"worst|d|={worst:.2e} mismatches={set_mismatch} "
+          f"blocks={smeta['blocks']}")
+
+        # [10] tail-block fwd edge: last IS rows' IC uses fwd from beyond-IS
+        # close rows (rows 270..279 -> close 280..289); assert the direct
+        # reference produces tail values and streaming captured them
+        tail_ts = pd.Timestamp(
+            np.datetime64(int(cal_is[n_is - h - 1]), "us"))
+        tail_ref_ok = True
+        for d in (0, 2):
+            zs = [z_full[int(m)][:n_is] * (1 if signs[d, j] > 0 else -1)
+                  for j, m in enumerate(draws[d])]
+            comp = composite_z(zs, mv)
+            eff = fin_is & np.isfinite(comp) & np.isfinite(fwd_is)
+            s_ref = ic_from_ranks(rank_rows(eff, comp),
+                                  rank_rows(eff, fwd_is), cal_is)
+            if len(s_ref[s_ref.index >= tail_ts]) == 0:
+                tail_ref_ok = False
+        st_tail = ic_m[0][n_is - h - 1:n_is]
+        check("tail_block_fwd_edge", tail_ref_ok
+              and np.isfinite(st_tail).sum() > 0,
+          f"tail finite={int(np.isfinite(st_tail).sum())}/{len(st_tail)}")
+
+        # [11] orientation symmetry: draw 1 (all signs flipped) = -draw 0
+        d0 = ic_m[0][np.isfinite(ic_m[0])]
+        d1 = ic_m[1][np.isfinite(ic_m[1])]
+        ok_flip = (len(d0) == len(d1) and len(d0) > 0
+                   and np.max(np.abs(d1 + d0)) <= 1e-12)
+        check("orientation_symmetry", ok_flip,
+              f"max|d1+d0|={np.max(np.abs(d1 + d0)):.2e}")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
     n_fail = sum(1 for _, ok, _ in results if not ok)
     print(f"SELFTEST {'PASS' if n_fail == 0 else 'FAIL'} "
           f"({len(results) - n_fail}/{len(results)}, "
@@ -420,19 +870,28 @@ def run_selftest():
 
 def run_batch():
     """Staged batch (population z-cache -> reproduction -> clustering ->
-    primary -> streaming nulls -> gates). Implementation lands in the next
-    rounds; WQ finalize gate blocks execution regardless today."""
-    print("run: NOT YET IMPLEMENTED (staged implementation in progress; "
-          "WQ finalize gate must be green first - see gates)", flush=True)
+    primary -> streaming nulls -> gates). WQ finalize gate blocks execution
+    until green; the block/null machinery and the LHB/dzjy repro legs are
+    delivered and validated (r85) so the post-finalize run is mechanics."""
+    print("run: staged execution pending WQ finalize gate (gates G1); "
+          "machinery delivered r85 (streaming nulls + z-cache + repro "
+          "legs) - see selftest / repro", flush=True)
     sys.exit(3)
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("mode", choices=["gates", "run", "selftest"])
+    ap.add_argument("mode", choices=["gates", "run", "selftest", "repro"])
+    ap.add_argument("--src", choices=["lhb", "dzjy"], default="lhb")
     args = ap.parse_args()
     if args.mode == "selftest":
         sys.exit(run_selftest())
+    if args.mode == "repro":
+        if args.src == "lhb":
+            _, ok = repro_lhb()
+        else:
+            _, ok = repro_dzjy()
+        sys.exit(0 if ok else 1)
     if args.mode == "run":
         run_batch()
     out, ok = run_gates()
