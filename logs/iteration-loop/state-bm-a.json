@@ -1,19 +1,20 @@
 {
- "round_no": 75,
+ "round_no": 76,
  "did": [
-  "R75 4th retreat-window maintenance + bandit stale-candidate regen (R74 next_pointer 3 closed): ACP 76668 alive but zero repo writes >=16min; T-08 WIP (update_daily.py/CODELY.md) untouched since 13:32:41; rebase/history surgery still banned, integration deferred",
-  "S0 fetch-only: behind 3 unchanged (bm-b T-21 chain on origin); S0.5 orders diff empty 41/41 (helper); smoke 23/23 incl T-08 source-parity PASS",
-  "S2 boards: job_list empty; no claimable lane (T-11 gated on XSTOCK / T-13 gated on T-18 / T-17=bm-c declared candidate / T-21=claimed by bm-b on origin, local ticket view stale); T-20 impl stays deferred while session live",
-  "S3 bandit candidate registry surgery (4 edits in scripts/bandit_queue.py) + results/bandit_queue.json regen: selftest 8/8, n_total_pulls=6 unchanged (frozen mapping/rubric/UCB1 zero-touch), unmapped=5 new engineering/measurement batches honestly bucketed, exploit order unchanged (portfolio-construction Q=1.00 n=2); statuses now track reality: mill line open (IC1+IC2 novel 0/24), T-11 signed->open post-XSTOCK, T-08->claimed, cash-leg T-09 delivered->closed, regime v3 PASS->claimed (T-21 bm-b)",
-  "S6 all green: audit CLEAN / wm insufficient_history n=2 / regime ORANGE shadow d1 #10 / lhb+heat+futures+moneyflow no-op (mf throttle 21.9min) / fund 17.4h skip / mask regen / build_status traders=6 / token +279; update_daily production skipped per R69-74 precedent (pre-15:30 no-op anyway)"
+  "R76 mid-round: O-20260924-1402-cph4 executed — E0 four-questions gate wired (止血 immediate), bulk CODELY surgery deferred to quiet window (live-session write-race + all-entries-hot finding: age-based cold layer EMPTY, 471KB=hot restating entries needing per-entry curation); P-33 bm-a fields added; bm-c future-ts diagnosed+MSG-1410; P-32 decisions step wired into S0.5; T-13 deferred",
+  "R76 5th retreat maintenance: ACP session live (CODELY.md write 13:54:42), zero session-face touches; behind 5 (T-21=bm-b on origin, local view stale), local bookkeeping chain now 3 commits",
+  "S0 fetch-only + orders 41/41 empty (helper); smoke 23/23 incl T-08 source-parity PASS",
+  "S3 lane closure: moneyflow 14:00 self-heal window capture 31->53/5222 (+2640 rows) then conn-stopped; intermittent-source regime confirmed, checkpoint intact, self-heal loop healthy",
+  "S6 green: audit CLEAN / wm insufficient_history n=2 / regime ORANGE shadow d1 #10 / lhb+heat+futures+fund no-op / mask regen / build_status traders=6 / token delta +15"
  ],
  "next_pointer": [
-  "(1) T-2026-09-24-20 implementation (deliverable-2): EARLY-AGE round once interactive session face quiets; MSG re-claim first; live/paper.py additive guard param default None; scripts/paper_guard_gates.py G0-G6; pre-change baseline on frozen face cutoff 2026-09-23 BEFORE commit; deadline pre-10-01 co-landing lock with T-21 (bm-b), slip = escalate GM. Do NOT start while ACP session live.",
-  "(2) session-quiet round FIRST ACT: git pull --rebase integration of 3 behind commits (CODELY.md union per R71/R32 paradigm), then push local bookkeeping chain (round74 49a11c6 + round75), then CODELY backfill entries R73/R74/R75.",
-  "(3) 15:30+ 09-24 sweep: update_daily production (skip only while T-08 WIP in tree) + R54 laggard catch-up verify (SZ 159xxx heal to 09-24) + live.paper accrual; moneyflow refresh spawned 13:30 source-blocked, self-heal loop polling.",
-  "(4) bandit regen DONE this round; next engineering hygiene = corr-watch W3 monthly cadence falls to 10-01 first round (monthly quartet).",
-  "(5) long lines: 10-01 monthly quartet (briefing+science_audit+corr-watch W3+self_review); 10-31 six-trader first check all-HOLD; CE-02/ENGULF probation x2-watch rolling."
+  "(0) O-1402 item1 bulk surgery: session-quiet window = per-entry four-questions curation -> research/memory-archive/202609.md, batch 10+/round byte-accounted, target <=50KB by 09-30 (week criterion); item5 T-13 claim = next-round early-age candidate (gated on T-18)",
+  "(1) session-quiet round FIRST ACT: git pull --rebase integrate 5 behind commits (CODELY union per R71/R32), push local 3 bookkeeping commits (round74+75+76), CODELY backfill R73-R76 entries",
+  "(2) T-20 deliverable-2 implementation: early-age round once session face quiets; MSG re-claim; pre-change baseline on frozen face cutoff 2026-09-23 BEFORE commit; deadline pre-10-01 co-landing lock with T-21 (bm-b)",
+  "(3) 15:30+ 09-24 sweep: update_daily production (skip while T-08 WIP in tree) + R54 laggard catch-up verify (SZ 159xxx) + live.paper accrual",
+  "(4) watermark 3rd datapoint -> first verdict next round (15min trailing window)",
+  "(5) long lines: 10-01 monthly quartet (briefing+science_audit+corr-watch W3+self_review); 10-31 six-trader first check all-HOLD; CE-02/ENGULF probation rolling"
  ],
- "note": "R75=4th retreat round; after this round's commit local main holds 2 unpushed bookkeeping commits (round74 + round75); main push = diverged behind 3, rebase blocked by live-session WIP (CODELY.md + update_daily.py), machine/bm-a fallback non-FF vs stale tip per R74. ZERO loss risk. Session-quiet round must: (a) pull --rebase integrate origin 3, (b) push both local commits, (c) CODELY backfill R73/R74/R75 entries.",
- "last_round_ts": "2026-09-24T13:53:31+08:00"
+ "note": "R76=5th retreat round + mid-round E0 order execution; local main holds 3 unpushed bookkeeping commits + this round (4); push non-FF (behind 5), rebase blocked by live-session WIP. O-1402 committed+acked 42/42; memory bulk surgery = quiet-window first act alongside integration.",
+ "last_round_ts": "2026-09-24T14:15:00+08:00"
 }
