@@ -57,8 +57,24 @@
 
 scripts/t27_blend_tournament.py（v2 化：冻结清单门＋双 schema 锚＋CE6 作用域双胎门；selftest/run/status 子命令）＋ results/portfolio_blend_tournament.json（顶层 evidence_cutoff＋cutoff_meta＋audit 段）＋ research/shortline/t27_results.csv ＋ gate_attrition.json 追加行（tournament-v2 条目）＋本文件 §7/§8 回填＋run#1 存档 results/portfolio_blend_tournament_run1_void.json。
 
-## §7 跑后实证【跑前为空——占位纪律】
+## §7 跑后实证【跑后回填——run#2 唯一产数跑·一次定稿】
+
+- run#2（2026-09-24 18:44:35–18:45:06，elapsed 20s，56 引擎格+派生）：**非 VOID，一次定稿**。全门 PASS：冻结清单 set 相等 ✓；双 schema 锚 28/28 ✓（CE 6 员 ew6 anchor_checks+PROSPECT 22 员 prospect 记录块锚，ANCHOR_TOL=0.002）；CE6 双胎确定性门 vs portfolio_iv6.json 全等 ✓（成员统计/corr/静态 EW-repro/IV 权重+组合 |d|<1e-9）；制度单源一致门 ✓（bear=False 与 major_bear_state 同刻对账）。
+- 五候选读数（x1 full Sharpe｜benefit｜DR｜dd｜x2 full Sharpe｜x2 存活｜G1'v2）：
+  - **B_MAXDIV（winner）**：1.0680｜0.6600｜2.6179｜−1.63%｜0.6141｜存活｜过线 → **eligible**
+  - D_REGIME：1.0045｜0.4307｜1.7506｜−4.51%｜0.4231｜存活｜过线 → eligible
+  - A_IV（正典）：0.7041｜0.3515｜1.9970｜−3.87%｜0.1705｜**不存活**｜不过线
+  - C_IVMOM：0.7385｜0.3712｜2.0104｜−3.86%｜0.1975｜不存活｜不过线
+  - E_EW（对照）：0.6192｜0.2506｜1.6801｜−7.47%｜0.0985｜不存活｜不过线
+- **winner=B_MAXDIV（三面中位秩最优；eligible={B,D}；drawdown 面 −1.63% 与 x2 margin +0.2137 与 benefit 面 0.66 三面全一）**；MDP 权重走 pg_fallback_local_optimum 路径（28 员协差阵闭式解含负分量→确定性投影梯度回退，DR 2.4328 vs EW 基线 1.8407，非全局最优披露如实）。
+- 账本：chain 3119→3205（+86=56 引擎+10 帧+20 段）；gate_attrition 条目 #14（kind=tournament）；skill_line_v2 当批读数（86 格 N_eff 口径）：A/C/E 三员 line_ok/v2 面落马（逐候选 v2 输入披露于 results JSON candidates.*.x1.v2）。
+- 产物：results/portfolio_blend_tournament.json（顶层 evidence_cutoff=2026-09-22+cutoff_meta+audit）＋research/shortline/t27_results.csv（10 行）＋run#1 存档 portfolio_blend_tournament_run1_void.json。
+- **采纳状态：winner 提案已交 GM 批准面（＋7 天否决窗）；本批零引擎改动零 paper 正典接线**；落选者（A 正典续任待裁定/C/E）留注册为制度轮换储备——D_REGIME 为 eligible 储备首位。
 
 ## §8 批后复盘【s7-T】
 
-- 预测对账：______；门禁链损耗账：gate_attrition 追加行 ts=______；skill_line_v2 当批读数：______；回执入轮报告＋CODELY 行级追加：______。
+- 预测对账（v2 §5 六条）：①E 对照 |Δ|≥0.15——**对**（0.6192 vs EW6 静态记录 1.1438，Δ=0.525，池稀释方向命中）；②A 统一帧 benefit>0——**对**（0.3515）；③B drawdown 面优于 E——**对**（−1.63% vs −7.47%）；④D x2 margin≥A——**对**（+0.0227 vs −0.2299）；⑤至少一候选倒主门——**对**（A/C/E 三员倒）；⑥零 eligible 现实可能——**未中**（2 员 eligible，实况比预测乐观，诚实记录）。**5/6 命中**。
+- v1→v2 损耗账：v1 run#1 VOID 零产数（+42 空转块），v2 一次定稿（+86）——批件身份链 3077→3119→3205 全披露；撞认领处置：bm-a 18:34:13 后到让路（5fd785d4，commit 时间序裁定，其 prereg+probe 零格零账本改挂 -bma-yielded supplement）。
+- skill_line_v2 当批读数：86 格口径下 B/D 过线、A/C/E 不过；回执入轮报告 r63 bm-c＋CODELY 行级追加：已入；新员注册：无（本批零注册零接线）。
+- 待 GM 面：winner=B_MAXDIV 批准＋7 天否决窗→批准后才接 paper 正典（blend 切换+月界重算机制启动，prereg §4 月度节律已定谳）；T-28（当前市场稳定盈利报告）依赖输入已具备（T-27 winner 已出）。
+
