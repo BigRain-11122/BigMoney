@@ -1,0 +1,557 @@
+{
+ "evidence_cutoff": "2026-09-23",
+ "batch": "T28_STABLE_PROFIT",
+ "verdict": "NOT-DEMONSTRATED (honest negative, all faces disclosed)",
+ "judgments": {
+  "J1_current_window_profit": true,
+  "J2_x2_survival": true,
+  "J3_regime_segment_stability": true,
+  "J4_grid_beat_rate_12m": false,
+  "rule": "J1-J4 all pass = STABLE-PROFIT-DEMONSTRATED (prereg s4, honest negative otherwise)"
+ },
+ "weights": {
+  "source": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\portfolio_blend_tournament.json",
+  "method": "B_MAXDIV",
+  "sha256_first16": "9b112d51583aeeb7",
+  "n_members": 28,
+  "grid_ce6_restricted": {
+   "COMPOSITE-CE-01": 0.09393812,
+   "COMPOSITE-CE-02": 0.04243953,
+   "DROUGHT-CE-01": 0.25687136,
+   "ENGULF-CE-01": 0.16528972,
+   "NEEDLE-DE-01": 0.2981543,
+   "VOLATILITY-CE-01": 0.14330697
+  },
+  "grid_restriction_note": "grid preregs froze 6-CE membership; W-GRID blend = frozen weights restricted to CE-6 renormalized (sub-portfolio face, disclosed); W-CUR/W-SEG use the full 28-member vector exactly"
+ },
+ "w_cur": {
+  "x1": {
+   "n_days": 177,
+   "ret": 0.00943,
+   "dd": -0.009585
+  },
+  "x2": {
+   "n_days": 177,
+   "ret": 0.00484,
+   "dd": -0.011468
+  }
+ },
+ "w_seg": {
+  "x1": {
+   "bull": {
+    "n_days": 663,
+    "cum_ret": 0.038277
+   },
+   "chop": {
+    "n_days": 772,
+    "cum_ret": 0.04297
+   },
+   "bear": {
+    "n_days": 196,
+    "cum_ret": 0.010016
+   }
+  },
+  "x2": {
+   "bull": {
+    "n_days": 663,
+    "cum_ret": 0.023556
+   },
+   "chop": {
+    "n_days": 772,
+    "cum_ret": 0.025813
+   },
+   "bear": {
+    "n_days": 196,
+    "cum_ret": 0.00411
+   }
+  }
+ },
+ "w_grid": {
+  "legacy|6m|x1": {
+   "n": 1253,
+   "beats": 722,
+   "beat_rate": 0.5762,
+   "member_cells_N": 7518,
+   "oos_trades_pooled": 210266,
+   "covered_years": 5.18,
+   "independent_regime_windows": 130,
+   "ci95_width": 0.0546,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.6089
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1253,
+     "beat_rate": 0.6377
+    },
+    "DROUGHT-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.565
+    },
+    "ENGULF-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.5507
+    },
+    "NEEDLE-DE-01": {
+     "n": 1253,
+     "beat_rate": 0.5307
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.5714
+    }
+   }
+  },
+  "legacy|6m|x2": {
+   "n": 1253,
+   "beats": 694,
+   "beat_rate": 0.5539,
+   "member_cells_N": 7518,
+   "oos_trades_pooled": 210070,
+   "covered_years": 5.18,
+   "independent_regime_windows": 130,
+   "ci95_width": 0.055,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.5499
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1253,
+     "beat_rate": 0.5746
+    },
+    "DROUGHT-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.5563
+    },
+    "ENGULF-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.5387
+    },
+    "NEEDLE-DE-01": {
+     "n": 1253,
+     "beat_rate": 0.5267
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1253,
+     "beat_rate": 0.5379
+    }
+   }
+  },
+  "legacy|12m|x1": {
+   "n": 1127,
+   "beats": 594,
+   "beat_rate": 0.5271,
+   "member_cells_N": 6762,
+   "oos_trades_pooled": 382238,
+   "covered_years": 4.65,
+   "independent_regime_windows": 112,
+   "ci95_width": 0.0582,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.6362
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1127,
+     "beat_rate": 0.6069
+    },
+    "DROUGHT-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.5173
+    },
+    "ENGULF-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.5146
+    },
+    "NEEDLE-DE-01": {
+     "n": 1127,
+     "beat_rate": 0.4942
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.5386
+    }
+   }
+  },
+  "legacy|12m|x2": {
+   "n": 1127,
+   "beats": 580,
+   "beat_rate": 0.5146,
+   "member_cells_N": 6762,
+   "oos_trades_pooled": 381270,
+   "covered_years": 4.65,
+   "independent_regime_windows": 112,
+   "ci95_width": 0.0583,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.5413
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1127,
+     "beat_rate": 0.5359
+    },
+    "DROUGHT-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.5146
+    },
+    "ENGULF-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.5093
+    },
+    "NEEDLE-DE-01": {
+     "n": 1127,
+     "beat_rate": 0.4925
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1127,
+     "beat_rate": 0.5173
+    }
+   }
+  },
+  "legacy|24m|x1": {
+   "n": 875,
+   "beats": 437,
+   "beat_rate": 0.4994,
+   "member_cells_N": 5250,
+   "oos_trades_pooled": 583077,
+   "covered_years": 3.6,
+   "independent_regime_windows": 90,
+   "ci95_width": 0.0661,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 875,
+     "beat_rate": 0.7371
+    },
+    "COMPOSITE-CE-02": {
+     "n": 875,
+     "beat_rate": 0.6926
+    },
+    "DROUGHT-CE-01": {
+     "n": 875,
+     "beat_rate": 0.4606
+    },
+    "ENGULF-CE-01": {
+     "n": 875,
+     "beat_rate": 0.4526
+    },
+    "NEEDLE-DE-01": {
+     "n": 875,
+     "beat_rate": 0.4537
+    },
+    "VOLATILITY-CE-01": {
+     "n": 875,
+     "beat_rate": 0.5474
+    }
+   }
+  },
+  "legacy|24m|x2": {
+   "n": 875,
+   "beats": 412,
+   "beat_rate": 0.4709,
+   "member_cells_N": 5250,
+   "oos_trades_pooled": 580426,
+   "covered_years": 3.6,
+   "independent_regime_windows": 90,
+   "ci95_width": 0.066,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 875,
+     "beat_rate": 0.5669
+    },
+    "COMPOSITE-CE-02": {
+     "n": 875,
+     "beat_rate": 0.6206
+    },
+    "DROUGHT-CE-01": {
+     "n": 875,
+     "beat_rate": 0.4514
+    },
+    "ENGULF-CE-01": {
+     "n": 875,
+     "beat_rate": 0.4526
+    },
+    "NEEDLE-DE-01": {
+     "n": 875,
+     "beat_rate": 0.4526
+    },
+    "VOLATILITY-CE-01": {
+     "n": 875,
+     "beat_rate": 0.488
+    }
+   }
+  },
+  "deep|6m|x1": {
+   "n": 1506,
+   "beats": 725,
+   "beat_rate": 0.4814,
+   "member_cells_N": 9036,
+   "oos_trades_pooled": 255702,
+   "covered_years": 6.22,
+   "independent_regime_windows": 56,
+   "ci95_width": 0.0504,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.5432
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1506,
+     "beat_rate": 0.4801
+    },
+    "DROUGHT-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.4788
+    },
+    "ENGULF-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.4582
+    },
+    "NEEDLE-DE-01": {
+     "n": 1506,
+     "beat_rate": 0.4389
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.488
+    }
+   }
+  },
+  "deep|6m|x2": {
+   "n": 1506,
+   "beats": 701,
+   "beat_rate": 0.4655,
+   "member_cells_N": 9036,
+   "oos_trades_pooled": 255527,
+   "covered_years": 6.22,
+   "independent_regime_windows": 56,
+   "ci95_width": 0.0503,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.488
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1506,
+     "beat_rate": 0.4037
+    },
+    "DROUGHT-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.4708
+    },
+    "ENGULF-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.4442
+    },
+    "NEEDLE-DE-01": {
+     "n": 1506,
+     "beat_rate": 0.4343
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1506,
+     "beat_rate": 0.4548
+    }
+   }
+  },
+  "deep|12m|x1": {
+   "n": 1380,
+   "beats": 623,
+   "beat_rate": 0.4514,
+   "member_cells_N": 8280,
+   "oos_trades_pooled": 469968,
+   "covered_years": 5.69,
+   "independent_regime_windows": 55,
+   "ci95_width": 0.0524,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.6
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1380,
+     "beat_rate": 0.4928
+    },
+    "DROUGHT-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.4522
+    },
+    "ENGULF-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.4514
+    },
+    "NEEDLE-DE-01": {
+     "n": 1380,
+     "beat_rate": 0.4355
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.4623
+    }
+   }
+  },
+  "deep|12m|x2": {
+   "n": 1380,
+   "beats": 612,
+   "beat_rate": 0.4435,
+   "member_cells_N": 8280,
+   "oos_trades_pooled": 469078,
+   "covered_years": 5.69,
+   "independent_regime_windows": 55,
+   "ci95_width": 0.0524,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.5246
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1380,
+     "beat_rate": 0.4203
+    },
+    "DROUGHT-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.4478
+    },
+    "ENGULF-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.4471
+    },
+    "NEEDLE-DE-01": {
+     "n": 1380,
+     "beat_rate": 0.4348
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1380,
+     "beat_rate": 0.4362
+    }
+   }
+  },
+  "deep|24m|x1": {
+   "n": 1128,
+   "beats": 636,
+   "beat_rate": 0.5638,
+   "member_cells_N": 6768,
+   "oos_trades_pooled": 758650,
+   "covered_years": 4.65,
+   "independent_regime_windows": 49,
+   "ci95_width": 0.0578,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.7881
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1128,
+     "beat_rate": 0.6879
+    },
+    "DROUGHT-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.5124
+    },
+    "ENGULF-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.4991
+    },
+    "NEEDLE-DE-01": {
+     "n": 1128,
+     "beat_rate": 0.5089
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.6055
+    }
+   }
+  },
+  "deep|24m|x2": {
+   "n": 1128,
+   "beats": 603,
+   "beat_rate": 0.5346,
+   "member_cells_N": 6768,
+   "oos_trades_pooled": 755569,
+   "covered_years": 4.65,
+   "independent_regime_windows": 49,
+   "ci95_width": 0.0581,
+   "per_member_beat_rate": {
+    "COMPOSITE-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.6649
+    },
+    "COMPOSITE-CE-02": {
+     "n": 1128,
+     "beat_rate": 0.5035
+    },
+    "DROUGHT-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.5018
+    },
+    "ENGULF-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.4902
+    },
+    "NEEDLE-DE-01": {
+     "n": 1128,
+     "beat_rate": 0.5027
+    },
+    "VOLATILITY-CE-01": {
+     "n": 1128,
+     "beat_rate": 0.5133
+    }
+   }
+  }
+ },
+ "w_grid_meta": {
+  "evidence_cutoff": "2026-09-22",
+  "assembly": "static initial-capital blend of member window returns (pure cell arithmetic, no rebalance inference); per-member rates from grid cells",
+  "pooled_12m": {
+   "n": 2507,
+   "beats": 1217,
+   "rate": 0.4854
+  },
+  "legacy_counts": {
+   "6m": {
+    "n_x1": 1253,
+    "member_cells": 7518
+   },
+   "12m": {
+    "n_x1": 1127,
+    "member_cells": 6762
+   },
+   "24m": {
+    "n_x1": 875,
+    "member_cells": 5250
+   }
+  },
+  "deep_counts": {
+   "6m": {
+    "n_x1": 1506,
+    "member_cells": 9036
+   },
+   "12m": {
+    "n_x1": 1380,
+    "member_cells": 8280
+   },
+   "24m": {
+    "n_x1": 1128,
+    "member_cells": 6768
+   }
+  }
+ },
+ "trials_ledger": {
+  "prev_total": 22157,
+  "batch_trials": 20,
+  "total": 22177,
+  "batch": "T28_STABLE_PROFIT",
+  "file": "current_market_stable_profit.json",
+  "note": "engineering re-run of run#1 (W-SEG face VOID: v3 raw states unmapped -> zero segment days, J3 judged on broken face; J18 fix implementation only); 20 cells already counted in run#1 entry, ledger +0",
+  "evidence_cutoff": "2026-09-23"
+ },
+ "adoption": "ZERO wiring this batch (veto window 09-24..10-01 honored; activation 10-01 month boundary per GM MSG-20260924-1958)",
+ "audit": {
+  "runtime_sec": 5.4,
+  "machine": "bm-a",
+  "ts": "2026-09-24 20:12:11",
+  "sleeve_cutoff": "2026-09-23",
+  "rerun_void_repair": true
+ }
+}
