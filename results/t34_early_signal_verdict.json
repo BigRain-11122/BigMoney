@@ -1,0 +1,226 @@
+{
+ "batch": "T34_EARLY_SIGNAL",
+ "ticket": "T-2026-09-24-34",
+ "prereg": "research/T34_EARLY_SIGNAL.md",
+ "prereg_sha256": "a695491b206a4e8ffb5467b7e978d4b9783b89bc96ea4db2216e121612970989",
+ "evidence_cutoff": "2026-09-22",
+ "cutoff_meta": {
+  "evidence_cutoff": "2026-09-22"
+ },
+ "axis_cutoffs": {
+  "legacy": "2026-09-23",
+  "deep": "2026-09-22"
+ },
+ "frozen_judgments": {
+  "J1": "pooled 12m beat uplift (LADDER-CONF) > 0 on BOTH axes",
+  "J2": "worst-start 12m dd (LADDER) >= -0.35 on both axes",
+  "J3": "whipsaw switch counts disclosed (no gate)",
+  "PASS": "J1 AND J2; FAIL -> keep confirmed-only (O-2030 s3)"
+ },
+ "gates": {
+  "G_V3": {
+   "ok": true,
+   "expected": {
+    "GREEN": 664,
+    "YELLOW": 772,
+    "ORANGE": 35,
+    "RED": 161
+   },
+   "got": {
+    "YELLOW": 772,
+    "GREEN": 664,
+    "RED": 161,
+    "ORANGE": 35
+   },
+   "window_days": 1632
+  },
+  "G_CENSUS_expected": {
+   "legacy": 1255,
+   "deep": 1506
+  },
+  "G_PROBE": {
+   "n": 24,
+   "value_match": 24,
+   "mismatches": []
+  },
+  "G_ANCHOR": "6/6 at stage-A start"
+ },
+ "half_step": 0.5,
+ "ladder_p": 5,
+ "switch_cost_per_side": 0.0013041,
+ "axes": {
+  "legacy": {
+   "n_starts": 1255,
+   "confirmed_line": "REGIME_GUARD v3 import-replay",
+   "conf": {
+    "n": 1129,
+    "beats_12m": 485,
+    "beat_rate_12m": 0.4296,
+    "ci95": [
+     0.4021,
+     0.4579
+    ],
+    "min_dd_12m": -0.1376,
+    "mean_dd_12m": -0.0691,
+    "switches_mean": 48.3,
+    "switches_median": 49.0,
+    "switches_max": 56
+   },
+   "ladder_C1": {
+    "n": 1129,
+    "beats_12m": 526,
+    "beat_rate_12m": 0.4659,
+    "ci95": [
+     0.4376,
+     0.4942
+    ],
+    "min_dd_12m": -0.1249,
+    "mean_dd_12m": -0.0628,
+    "switches_mean": 52.74,
+    "switches_median": 54.0,
+    "switches_max": 61
+   },
+   "uplift_12m": 0.0363,
+   "paired_discordance_12m": {
+    "L+_R-": 41,
+    "L-_R+": 0
+   },
+   "ladder_fires_full_history": 16,
+   "sensitivity": {
+    "C2": {
+     "uplift_12m": 0.0,
+     "switches_mean": 66.67,
+     "min_dd_12m": -0.148
+    },
+    "C3": {
+     "uplift_12m": 0.0319,
+     "switches_mean": 61.36,
+     "min_dd_12m": -0.1544
+    },
+    "C4": {
+     "uplift_12m": -0.0044,
+     "switches_mean": 58.16,
+     "min_dd_12m": -0.1502
+    },
+    "h25": {
+     "uplift_12m": 0.0204,
+     "switches_mean": 52.74,
+     "min_dd_12m": -0.1305
+    },
+    "h75": {
+     "uplift_12m": 0.0505,
+     "switches_mean": 52.74,
+     "min_dd_12m": -0.1196
+    }
+   },
+   "cells": {
+    "conf": 1255,
+    "ladder": 1255
+   }
+  },
+  "deep": {
+   "n_starts": 1506,
+   "confirmed_line": "T-22 3-way proxy (disclosed, non-v3)",
+   "conf": {
+    "n": 1380,
+    "beats_12m": 544,
+    "beat_rate_12m": 0.3942,
+    "ci95": [
+     0.3696,
+     0.4196
+    ],
+    "min_dd_12m": -0.1193,
+    "mean_dd_12m": -0.0369,
+    "switches_mean": 17.66,
+    "switches_median": 17.0,
+    "switches_max": 26
+   },
+   "ladder_C1": {
+    "n": 1380,
+    "beats_12m": 594,
+    "beat_rate_12m": 0.4304,
+    "ci95": [
+     0.4058,
+     0.4565
+    ],
+    "min_dd_12m": -0.1041,
+    "mean_dd_12m": -0.0356,
+    "switches_mean": 23.63,
+    "switches_median": 22.0,
+    "switches_max": 35
+   },
+   "uplift_12m": 0.0362,
+   "paired_discordance_12m": {
+    "L+_R-": 50,
+    "L-_R+": 0
+   },
+   "ladder_fires_full_history": 32,
+   "sensitivity": {
+    "C2": {
+     "uplift_12m": -0.0507,
+     "switches_mean": 43.45,
+     "min_dd_12m": -0.1091
+    },
+    "C3": {
+     "uplift_12m": 0.0159,
+     "switches_mean": 34.24,
+     "min_dd_12m": -0.0969
+    },
+    "C4": {
+     "uplift_12m": -0.0217,
+     "switches_mean": 25.12,
+     "min_dd_12m": -0.1191
+    },
+    "h25": {
+     "uplift_12m": 0.0123,
+     "switches_mean": 23.63,
+     "min_dd_12m": -0.1112
+    },
+    "h75": {
+     "uplift_12m": 0.0623,
+     "switches_mean": 23.63,
+     "min_dd_12m": -0.1008
+    }
+   },
+   "cells": {
+    "conf": 1506,
+    "ladder": 1506
+   }
+  }
+ },
+ "verdict": {
+  "j1": true,
+  "j2": true,
+  "pass": true,
+  "per_axis": {
+   "legacy": {
+    "j1_uplift_positive": true,
+    "j2_dd_ok": true
+   },
+   "deep": {
+    "j1_uplift_positive": true,
+    "j2_dd_ok": true
+   }
+  },
+  "disposition": "ladder ENABLED candidate -> T-33 d3 router spec + monthly-boundary wiring batch (NO activation here)"
+ },
+ "bootstrap": {
+  "B": 2000,
+  "seed": 20260928,
+  "method": "binomial percentile 95% CI"
+ },
+ "trials_ledger": {
+  "prev_total": null,
+  "batch_trials": 5522,
+  "total": null,
+  "note": "audit not CLEAN - not counted per prereg s0"
+ },
+ "audit": {
+  "verdict": "FLAG:idle_with_work",
+  "flags": [
+   "idle_with_work"
+  ],
+  "asof": "2026-09-24 21:26:17"
+ },
+ "finalize_runtime_sec": 74.2
+}

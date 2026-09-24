@@ -65,6 +65,21 @@ script `scripts/t34_early_signal.py`（run/overlay/finalize/selftest 子命令�
 
 ## §7 跑后实证（跑前必须为空——占位纪律：写数字即造假）
 
+- **跑动**：r115 bm-b 一次定稿（stage A=r114 死轮分离批 7518+9036 格双轴全完 262.6s/575.5s @ workers_plan=10；stage B=finalize 74.3s；run#1 门红→run#2 正典，见 §8 坑注）。
+- **门读数**：G-V3 PASS（1632 日窗逐位 GREEN664/YELLOW772/ORANGE35/RED161）；G-CENSUS PASS {legacy 1,255, deep 1,506} 逐位；G-PROBE 12/12+24/24 bit-equal；G-ANCHOR 6/6（stage A 起跑）；audit 段=FLAG:idle_with_work @21:26:17（finalize 内联 I/O 间隙采样瞬时，如实入 verdict）。
+- **legacy 轴**（完整 12m 窗 n=1,129）：CONF 485/1,129=**0.4296** CI[0.4021,0.4579]；LADDER 526/1,129=**0.4659** CI[0.4376,0.4942]；**uplift=+0.0363**；配对 L+R−=41 / L−R+=**0**；LADDER 最差起点 dd=**−0.1249**（红线 −0.35 不绑定）；换防均值 48.3→52.74（+4.44）。
+- **deep 轴**（n=1,380）：CONF 544/1,380=**0.3942** CI[0.3696,0.4196]；LADDER 594/1,380=**0.4304** CI[0.4058,0.4565]；**uplift=+0.0362**；配对 50/**0**；最差起点 dd=**−0.1041**；换防 17.66→23.63（+5.97）。
+- **梯子点火**：legacy 16 次/6.7y≈2.4/年；deep 32 次/13.3y≈2.4/年。
+- **敏感性（零判定权报告列）**：C2 uplift legacy +0.0/deep −0.0507（宽度线不迁移）；C3 +0.0319/+0.0159（双轴正）；C4 −0.0044/−0.0217；半档 h25 +0.0204/+0.0123、h75 +0.0505/+0.0623（更高半档读数更优=报告面，采用仍绑 C1@h=0.5 冻结值，禁事后择优）。
+- **判定**：J1 ✓（双轴 uplift>0 同号）∧ J2 ✓（双轴最差 dd 远离红线）→ **PASS**。产物=results/t34_early_signal_verdict.json（evidence_cutoff=2026-09-22+prereg_sha256）+research/shortline/t34_envelope_results.csv。
+- **账本**：batch_trials=5,522 **未入统一账本**（audit 非 CLEAN→per §0 不计数，verdict trials_ledger total=null 如实；不重跑刷采样——确定性 finalize 重跑唯一差异=audit 采样，属「跑到达标为止」禁律邻域）。链头维持 60,074（xstock_synth 面）。
+
 ## §8 批后复盘（s7-T 必填）
+
+- **预测对账（对3/部分1/错2）**：①G-CENSUS 逐位复现=**对**；②CONF 12m ∈[0.50,0.65]=**错**（实测 0.4296/0.3942 双轴低于带——12m 窗含熊段多于 6m 切片，T-22 6m 带迁移假设过乐观）；③uplift ∈[−0.01,+0.04]=**对**（+0.0363/+0.0362 双双带内；PASS 概率 30-45% 的保守方向兑现，预测的最可能失败点「双轴同号」实测未失败）；④点火 [2,8]/年=**对**（双轴均 ~2.4/年）；⑤最差 dd ∈[−0.32,−0.12]=**部分**（legacy −0.1249 带内；deep −0.1041 浅于带沿=保守方向偏离；「红线不绑定」兑现）；⑥换防增量 [+0.5,+3]=**错**（实测 +4.44/+5.97 超上沿——半档开关鞭打代价被低估；但配对 41/50 wins vs **0** regressions 证明增量换手换来纯增益，J3 披露面如实）。
+- **坑注（run#1 门红→修实现禁改判据 J18）**：G-V3 首跑红=T-18 Twin 长史（r101 落地）把 v3 重放面扩到 2012 起（3,484 态）vs 校准窗 2020-01-02 起（1,632）——门实现只裁 end 未裁 start；实测窗内段逐位一致（664/772/35/161 精确）证重放无恙，修=窗口过滤补 start 界（判据零触碰）；selftest 13/13 无 G-V3 活线覆盖=假绿盲区（门族自检缺口，HQ-FEEDBACK 候选）。
+- **attrition 行**：runner 正典行已在 results/gate_attrition.json（T34_EARLY_SIGNAL · measurement · cells_ledger_delta=0 未入账如实 · ledger_total_after=null · gates={pass=true, uplift 双轴, min_dd 双轴}；r115 手动重复行已删=保 runner 自动行唯一）。
+- **定案（O-2030 §三3 逐字）**：半档梯=**ENABLED candidate**——另批走 T-33 d3 路由 spec 冻结+月界接线（本批零接线零激活零注册；目标月界=11-01 per STYLE_CORPS §6）；接线注已落 firm/STYLE_CORPS.md §4.5。
+- **回执**：入 r115 轮报告+CODELY.md；票 T-2026-09-24-34 done（result_ref=results/t34_early_signal_verdict.json）。
 
 预测对账（对/部分/错）+ gate_attrition.json 追加行 + 回执入轮报告与 CODELY.md；PASS→接线注+路由 spec 指针；FAIL→保持纯确认线定案（O-2030 逐字）。

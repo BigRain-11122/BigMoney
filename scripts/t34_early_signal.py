@@ -426,9 +426,14 @@ def _gate_v3() -> dict:
     expect = {k: int(v) for k, v in cal["state_counts"].items()}
     from live.paper import v3_state_series
     st = v3_state_series()
-    st = st[st.index <= pd.Timestamp(cal["window"]["end"])]
+    # calibration window is the comparison domain: the twin long-history
+    # bench (T-18, landed r101) extends the replay back to 2012 -- pre-window
+    # states are replay warmup, out of calibration scope; trim BOTH bounds.
+    st = st[(st.index >= pd.Timestamp(cal["window"]["start"]))
+            & (st.index <= pd.Timestamp(cal["window"]["end"]))]
     got = {k: int(v) for k, v in st.value_counts().items()}
-    return {"ok": bool(got == expect), "expected": expect, "got": got}
+    return {"ok": bool(got == expect), "expected": expect, "got": got,
+            "window_days": int(len(st))}
 
 
 def cmd_finalize(_) -> int:
