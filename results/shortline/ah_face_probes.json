@@ -1,0 +1,428 @@
+{
+ "census": "ah_face_probe",
+ "ticket": "T-2026-09-24-17",
+ "lane": "ARB-2 deliverable-1 (probe-first face validation, zero trials)",
+ "ran_at": "2026-09-24T19:53:23",
+ "session_state": "post_close",
+ "akshare_version": "1.18.96",
+ "faces": {
+  "stock_zh_ah_spot": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 2.52,
+     "rows": 220
+    }
+   ],
+   "rows": 220,
+   "cols": [
+    "代码",
+    "名称",
+    "最新价",
+    "涨跌幅",
+    "涨跌额",
+    "买入",
+    "卖出",
+    "成交量",
+    "成交额",
+    "今开",
+    "昨收",
+    "最高",
+    "最低"
+   ],
+   "value_probe": {
+    "col": "最新价",
+    "non_null": 220,
+    "total": 220,
+    "non_null_rate": 1.0
+   },
+   "last_date": null
+  },
+  "stock_zh_ah_spot_em": {
+   "ok": false,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": false,
+     "latency_s": 5.2,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    },
+    {
+     "attempt": 2,
+     "ok": false,
+     "latency_s": 5.36,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    }
+   ],
+   "args": "push2 family, same-day block risk per moneyflow/lof evidence"
+  },
+  "stock_hk_daily": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.26,
+     "rows": 5479
+    }
+   ],
+   "args": "symbol=00700",
+   "rows": 5479,
+   "cols": [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "amount"
+   ],
+   "value_probe": {
+    "col": "open",
+    "non_null": 5479,
+    "total": 5479,
+    "non_null_rate": 1.0
+   },
+   "last_date": "2026-09-23"
+  },
+  "stock_hk_spot": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 39.11,
+     "rows": 2808
+    }
+   ],
+   "rows": 2808,
+   "cols": [
+    "日期时间",
+    "代码",
+    "中文名称",
+    "英文名称",
+    "交易类型",
+    "最新价",
+    "涨跌额",
+    "涨跌幅",
+    "昨收",
+    "今开",
+    "最高",
+    "最低",
+    "成交量",
+    "成交额",
+    "买一",
+    "卖一"
+   ],
+   "value_probe": {
+    "col": "最新价",
+    "non_null": 2808,
+    "total": 2808,
+    "non_null_rate": 1.0
+   },
+   "last_date": null
+  },
+  "stock_hk_spot_em": {
+   "ok": false,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": false,
+     "latency_s": 5.58,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    },
+    {
+     "attempt": 2,
+     "ok": false,
+     "latency_s": 5.21,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    }
+   ]
+  },
+  "stock_hsgt_hist_em": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.56,
+     "rows": 2760
+    }
+   ],
+   "args": "symbol=北向资金 (push2 family risk)",
+   "rows": 2760,
+   "cols": [
+    "日期",
+    "当日成交净买额",
+    "买入成交额",
+    "卖出成交额",
+    "历史累计净买额",
+    "当日资金流入",
+    "当日余额",
+    "持股市值",
+    "领涨股",
+    "领涨股-涨跌幅",
+    "沪深300",
+    "沪深300-涨跌幅",
+    "领涨股-代码"
+   ],
+   "value_probe": {
+    "col": "当日成交净买额",
+    "non_null": 2264,
+    "total": 2760,
+    "non_null_rate": 0.8203
+   },
+   "last_date": "2026-09-24"
+  },
+  "ah_premium_index": {
+   "ok": true,
+   "candidates": {
+    "HSAHP": {
+     "ok": true,
+     "attempts": [
+      {
+       "attempt": 1,
+       "ok": true,
+       "latency_s": 0.21,
+       "rows": 54
+      }
+     ],
+     "args": "symbol=HSAHP",
+     "rows": 54,
+     "cols": [
+      "date",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "amount"
+     ],
+     "value_probe": {
+      "col": "open",
+      "non_null": 54,
+      "total": 54,
+      "non_null_rate": 1.0
+     },
+     "last_date": "2026-09-23"
+    },
+    "HSI": {
+     "ok": true,
+     "attempts": [
+      {
+       "attempt": 1,
+       "ok": true,
+       "latency_s": 0.17,
+       "rows": 3223
+      }
+     ],
+     "args": "symbol=HSI",
+     "rows": 3223,
+     "cols": [
+      "date",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "amount"
+     ],
+     "value_probe": {
+      "col": "open",
+      "non_null": 3223,
+      "total": 3223,
+      "non_null_rate": 1.0
+     },
+     "last_date": "2026-09-23"
+    },
+    "HSCEI": {
+     "ok": true,
+     "attempts": [
+      {
+       "attempt": 1,
+       "ok": true,
+       "latency_s": 0.15,
+       "rows": 3223
+      }
+     ],
+     "args": "symbol=HSCEI",
+     "rows": 3223,
+     "cols": [
+      "date",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "amount"
+     ],
+     "value_probe": {
+      "col": "open",
+      "non_null": 3223,
+      "total": 3223,
+      "non_null_rate": 1.0
+     },
+     "last_date": "2026-09-23"
+    },
+    "CES100": {
+     "ok": true,
+     "attempts": [
+      {
+       "attempt": 1,
+       "ok": true,
+       "latency_s": 0.19,
+       "rows": 2900
+      }
+     ],
+     "args": "symbol=CES100",
+     "rows": 2900,
+     "cols": [
+      "date",
+      "open",
+      "high",
+      "low",
+      "close",
+      "volume",
+      "amount"
+     ],
+     "value_probe": {
+      "col": "open",
+      "non_null": 2900,
+      "total": 2900,
+      "non_null_rate": 1.0
+     },
+     "last_date": "2026-09-23"
+    },
+    "em:HSAHP": {
+     "ok": false,
+     "attempts": [
+      {
+       "attempt": 1,
+       "ok": false,
+       "latency_s": 6.38,
+       "error_class": "conn_level",
+       "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+      },
+      {
+       "attempt": 2,
+       "ok": false,
+       "latency_s": 22.64,
+       "error_class": "conn_level",
+       "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+      }
+     ],
+     "args": "symbol=HSAHP (push2 family risk)"
+    }
+   },
+   "note": "availability probe per spec: per-symbol alive/dead labels; HSAHP=Hang Seng Stock Connect AH Premium Index"
+  },
+  "stock_zh_ah_name": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 2.51,
+     "rows": 220
+    }
+   ],
+   "rows": 220,
+   "cols": [
+    "代码",
+    "名称"
+   ],
+   "value_probe": {
+    "col": null,
+    "non_null": 0,
+    "total": 220,
+    "non_null_rate": 0.0
+   },
+   "last_date": null
+  },
+  "stock_zh_ah_daily": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.41,
+     "rows": 426
+    }
+   ],
+   "args": "symbol=02318 2025-2026 bounded window",
+   "rows": 426,
+   "cols": [
+    "日期",
+    "开盘",
+    "收盘",
+    "最高",
+    "最低",
+    "成交量"
+   ],
+   "value_probe": {
+    "col": "开盘",
+    "non_null": 426,
+    "total": 426,
+    "non_null_rate": 1.0
+   },
+   "last_date": "2026-09-24"
+  },
+  "fx_quote_baidu": {
+   "ok": false,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": false,
+     "latency_s": 0.0,
+     "error_class": "data_level",
+     "error": "KeyError: '港币'\n"
+    }
+   ],
+   "args": "symbol=港币 (Baidu quote basis)"
+  },
+  "fx_spot_quote": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.18,
+     "rows": 25
+    }
+   ],
+   "args": "chinamoney CNY central parity incl HKD row",
+   "rows": 25,
+   "cols": [
+    "货币对",
+    "买报价",
+    "卖报价"
+   ],
+   "value_probe": {
+    "col": "买报价",
+    "non_null": 25,
+    "total": 25,
+    "non_null_rate": 1.0
+   },
+   "last_date": null
+  }
+ },
+ "fx_basis_preview": {
+  "premium_formula": "A_price(CNY) / (H_price(HKD) * fx_HKD_CNY) - 1",
+  "rate_basis_disclosure": "premium > 0 = A-share premium; fx series MUST carry explicit rate basis (Baidu quote vs chinamoney central parity differ) -- deliverable-2 puller freezes ONE basis before any join"
+ },
+ "verdict": "CONSTRUCTIBLE: per-stock AH premium panel buildable via alive faces (universe list alive)",
+ "audit": {
+  "ledger_trials_added": 0,
+  "kind": "face probe (probe-first family, zero trials)",
+  "throttle_s": 2.5,
+  "backoff_s": 8,
+  "proxy_env_cleared": true
+ },
+ "evidence_cutoff": "2026-09-24"
+}
