@@ -1,11 +1,15 @@
 {
- "round_no": 114,
+ "round_no": 115,
  "did": [
-  "R114 (dept:工程): D-20260925-03 锁标准采纳闭环——round.lock+watchdog.lock 双锁升 pid-liveness+CreateNew 原子抢锁 (iteration_loop.ps1+watchdog.ps1+-LockProbeOnly 探针+loop_lock_selftest.ps1 沙盒 10/10+实弹 probe SKIP legacy-fresh 4min 零漂移; commit 77ee5fbc)",
-  "R114 S6: 16 腿全绿 (含 t24_promotion 0/22 NOT-ELIGIBLE 诚实负) (daily 0 行 cutoff 09-24 无新 bar→paper/t24 skip; regime ORANGE d2; b_layer all_pass; t35 幂等 6 员 equity 5,996,645; tok -140); T-39 rank lane 首次实弹 firing 02:23 fetch_failed RemoteDisconnected exit 2 nothing written=源阻断持续, gate 30min 自愈续 (~02:53), 票 open+progress_r114",
-  "R114 复审/令/队列: post_review 171 行零现行 FAIL; orders 61/61 双扫空; decisions D-03=采纳执行回执; monthly 三件 9 月窗已覆盖跳过; inbox 4 件全 bm-c 待取零动作; schtasks 双任务在册"
+  "R115 (dept:工程): S0 autofill live-state 定向提交+rebase 1 UU last_tick 双机撞窗 (r120 分级配方取新镜像, JSON 门先于 add, core.editor=true); orders 61/61 双扫空; decisions D-04 零动作/D-05 T-35 回执已就绪/D-06 零动作; smoke 23/23; post_review 零现行 FAIL; T-39 gate 节流 no-op 下窗 ~02:53",
+  "R115 S6: 18 腿全绿 (audit CLEAN py1.0/wm insuff/daily 0 行 cutoff 09-24 无新 bar->paper/t24 skip/regime ORANGE d2/lhb/heat/futures/mf/fp no-op/fundamental fresh/b_layer all_pass/t24 paper 22/22/t24 promotion 0/22 诚实/t35 幂等 5,996,645/scorecard 6/tok -17); monthly 三件 9 月已覆盖; schtasks 双任务在册 raw 实读零重建",
+  "R115 5x: HANDOVER 三处核对更新 (头截至行 R115/r134/r71+最近核对段+§六增量窗行; 统一链 head 60,547 实读平持=a158_truegap_ic.json)"
  ],
- "verdict": "WM=GREEN (01:50:02 tick red=false; py insuff n=2+三源空=合法 idle); smoke 23/23; S6 16 腿绿; D-03 锁标准已采纳 selftest 10/10 实弹零漂移; T-39 rank lane 首弹仍源阻 (≥25h, 下窗 ~02:53); bm-c 仍停 09-24 21:51 (升级线 09-25 22:00)",
- "next": "R115+: T-39 下窗 ~02:53 rank lane 观察 (连续 firing 全阻=替代源票呈 GM); IntradayMarks 09:25 首火窗; bm-c 复活观察 (升级线 09-25 22:00)",
- "ts": "2026-09-25T02:25:10+08:00"
+ "verdict": [
+  "WM=GREEN (02:20:02 tick red=false; py insuff n=1+三源空=合法 idle); smoke 23/23; S6 18 腿绿; rebase autofill tick 撞窗分级解零损; D-05 T-35 回执=已就绪 (d3 live+契约发布); T-39 下窗 ~02:53; bm-c 仍停 09-24 21:51 (升级线 09-25 22:00)"
+ ],
+ "next": [
+  "R116+: T-39 下窗 ~02:53 rank lane 观察 (连续 firing 全阻=替代源票呈 GM); IntradayMarks 09:25 首火窗; bm-c 复活观察 (升级线 09-25 22:00)"
+ ],
+ "ts": "2026-09-25T02:43:32+08:00"
 }
