@@ -581,6 +581,10 @@ SEED_REGISTRY = {
     # white-noise nulls (55_000+i, i<50; 55_x00 band verified free: registry scan
     # 2026-09-24 22:4x -- nearest neighbors 54_000=t18_deep_axis (i<=999) and
     # date-style 202609xx bases disjoint; registered before prereg freeze r119)
+    "t11_negday_ic": 20260929,              # T11_NEGDAY_IC K=50 event-permutation
+    # nulls (20260929+i, i<100; H: i<50, W: 50+i; date-style base, registry+rg
+    # repo-scan verified free 2026-09-24 22:4x before T-11 prereg freeze r99;
+    # cross-window union with a158_truegap_ic 55_000 -- bases disjoint, both valid)
 }
 
 
