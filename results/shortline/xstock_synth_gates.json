@@ -1,0 +1,105 @@
+{
+  "meta": {
+    "batch": "XSTOCK_SYNTH gates",
+    "prereg": "research/shortline/XSTOCK_SYNTH.md SS2/SS4",
+    "claim": "MSG-20260924-0905",
+    "date": "2026-09-24 09:16",
+    "elapsed_s": 0.0
+  },
+  "shelf_report": {
+    "lhb_shelf": [
+      "lhb_amt_share_20",
+      "lhb_count_20",
+      "lhb_days_since"
+    ],
+    "lhb_pop": [
+      "lhb_amt_share_20",
+      "lhb_count_20",
+      "lhb_days_since",
+      "lhb_netbuy_amt_60"
+    ],
+    "gtja_shelf": [
+      "alpha191_001",
+      "alpha191_016",
+      "alpha191_032",
+      "alpha191_036",
+      "alpha191_042",
+      "alpha191_064",
+      "alpha191_070",
+      "alpha191_081",
+      "alpha191_083",
+      "alpha191_090",
+      "alpha191_094",
+      "alpha191_095",
+      "alpha191_097",
+      "alpha191_099",
+      "alpha191_100",
+      "alpha191_105",
+      "alpha191_113",
+      "alpha191_132",
+      "alpha191_175",
+      "alpha191_176",
+      "alpha191_187"
+    ],
+    "wq_shelf": [],
+    "dzjy_shelf": [
+      "dzjy_amt_share_20"
+    ],
+    "dzjy_pop": [
+      "dzjy_amt_share_20",
+      "dzjy_count_20",
+      "dzjy_deep_disc_5",
+      "dzjy_prem_mean_20",
+      "margin_bal_chg_20",
+      "margin_buy_int_5",
+      "margin_short_int_20"
+    ],
+    "p1c_ok_n": 181,
+    "shelf_n": 25,
+    "population_n": 192,
+    "wq_complete": false,
+    "shelf_is_subset_of_population": true
+  },
+  "checks": {
+    "g1_wq_finalize": {
+      "wq_complete": false,
+      "pass": false
+    },
+    "g2_shelf_rules": {
+      "lhb_shelf_ok": true,
+      "dzjy_shelf_ok": true,
+      "gtja_shelf_n_ok": true,
+      "wq_shelf_n": 0,
+      "shelf_subset_ok": true,
+      "pass": true
+    },
+    "g3_population": {
+      "population_n": 192,
+      "expected_approx": 192,
+      "lhb_pop_ok": true,
+      "dzjy_pop_ok": true,
+      "gdhs_excluded_ok": true,
+      "pass": false
+    },
+    "g4_data_presence": {
+      "p1c_cache_meta": true,
+      "p1c_cache_close": true,
+      "lhb_parquet": true,
+      "ext_dzjy_dir": true,
+      "ext_margin_dir": true,
+      "pass": true
+    },
+    "g5_disk": {
+      "free_gb": 737.1,
+      "need_gb": 60.0,
+      "pass": true
+    },
+    "g6_seeds": {
+      "nullA": 51000,
+      "nullB": 52000,
+      "pass": true,
+      "detail": "in-registry"
+    }
+  },
+  "pass": false
+}
