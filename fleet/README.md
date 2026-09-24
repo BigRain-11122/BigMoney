@@ -70,7 +70,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1
 
 ## 8. 推送规则（X128-lite）
 
-- 默认**直推 main**：S7 `git push`；被拒 → `git pull --rebase` 重试一次 → **再被拒 = 推本机分支 `origin machine/<本机id>`**（成果永不丢，下轮重试 main 或用户机 fold）。
+- 默认**直推 main**：S7 `git push`；被拒 → `git pull --rebase` 重试一次 → **再被拒 = 推本机分支 `origin machine/<本机id>-r<N>`**（N=本机 round_no 轮次后缀，天然免陈旧分支 non-FF 撞死·D-20260925-01③·F-20260924-15；成果永不丢，下轮重试 main 或用户机 fold）。
+- **fold 后 GC**：machine 分支被 fold/收割入 main 后由 folding 机 `git push origin --delete machine/<id>-r<N>` 清理陈旧分支（delete 远端分支≠force-push，不违禁令）；旧式无后缀 `machine/<id>` 遗留分支确认已 fold 后同法清。
 - **禁 force-push**（历史重写须用户逐次确认）；机器分支由用户机或空闲节点 fold 入 main。
 
 ## 9. 版本

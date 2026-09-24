@@ -6,11 +6,15 @@ Reads ONLY canonical ledgers (zero handwriting):
   results/shortline/o1600_market_fit.json  archived window result (O-1600, first-screen 战绩)
 Emits:
   results/daily_scorecard.html   (战绩直达页, self-contained, no JS deps)
-  results/daily_scorecard.json    (machine-readable mirror, evidence_cutoff top-level)
+  results/daily_scorecard.json   (machine-readable mirror, evidence_cutoff top-level)
+
+v0.2 (bm-a R106 takeover slice, O-20260924-2045 s3 big-font amendment): BIG-FONT
+in-house trader live face consuming results/paper_export/latest.json (T-35 d3
+feed: 1M CNY capital + open positions + operations_today, deterministic zero-copy).
 
 Honesty rules (O-1718 §三): months_tracked=0 -> 残月不计, first full 战绩月=2026-10,
 first complete report=10-31 首检; no future promises; numbers as-is from ledgers.
-v0.2 queue (ticket note): desktop 量化战绩.lnk + dashboard top-row wiring.
+v0.2 residual queue (ticket note): weekly one-liner -> monthly four-piece cadence.
 """
 import io
 import json
@@ -22,6 +26,7 @@ PAPER_DIR = os.path.join(ROOT, "results", "paper")
 OUT_HTML = os.path.join(ROOT, "results", "daily_scorecard.html")
 OUT_JSON = os.path.join(ROOT, "results", "daily_scorecard.json")
 POST_REVIEW_LEDGER = os.path.join(ROOT, "results", "post_review.jsonl")
+PAPER_EXPORT = os.path.join(ROOT, "results", "paper_export", "latest.json")
 
 
 def _load_paper():
@@ -56,6 +61,21 @@ def _load_o1600():
         return None
     d = json.load(io.open(p, encoding="utf-8"))
     return d
+
+
+def _load_paper_export():
+    """T-35 d3 daily export face (results/paper_export/latest.json,
+    schema t35_paper_export_v1). Consumed read-only; missing file =
+    face silently absent (pre-T-35 windows render v0.1 sections only)."""
+    if not os.path.exists(PAPER_EXPORT):
+        return None
+    return json.load(io.open(PAPER_EXPORT, encoding="utf-8"))
+
+
+def _cny(x):
+    if x is None:
+        return "—"
+    return f"{x:,.0f}"
 
 
 def _load_post_review():
@@ -118,10 +138,70 @@ def build():
       ".card{background:#161b22;border:1px solid #21262d;border-radius:8px;"
       "padding:14px 16px;margin-bottom:10px}"
       ".warn{background:#1f1221;border:1px solid #3d1f4d;border-radius:8px;"
-      "padding:10px 14px;font-size:12px;color:#d2a8ff;margin-top:16px}</style></head><body>")
+      "padding:10px 14px;font-size:12px;color:#d2a8ff;margin-top:16px}"
+      "h2.bigface{font-size:26px;margin:22px 0 10px;color:#ffa657}"
+      ".tcard{background:#161b22;border:1px solid #30363d;border-radius:10px;"
+      "padding:18px 22px;margin-bottom:14px}"
+      ".tname{font-size:24px;font-weight:bold;color:#e6edf3;margin-bottom:8px}"
+      ".teq{font-size:38px;font-weight:bold;line-height:1.1}"
+      ".tsub{font-size:15px;color:#8b949e;margin:2px 0 10px}"
+      ".ttable{border-collapse:collapse;width:100%;font-size:16px}"
+      ".ttable th,.ttable td{padding:8px 12px;border-bottom:1px solid #21262d;"
+      "text-align:left}.ttable th{color:#8b949e;font-weight:normal}"
+      ".facecap{font-size:13px;color:#8b949e;margin:0 0 10px}</style></head><body>")
     A("<h1>量化战绩 · 每日直达面</h1>")
     A(f"<div class='sub'>数据截止 {cutoff} · 生成于 paper 真账本+已归档成绩单 · "
       f"全部数字自动取自 results/paper 与 O-1600 成绩单，零手写（T-29 · O-1718）</div>")
+
+    pe = _load_paper_export()
+    if pe:
+        pes = pe.get("summary") or {}
+        first_snap = bool(pes.get("exits_not_derivable_first_snapshot"))
+        A("<h2 class='bigface'>在册交易员实盘舱（大字版 · 100 万/人 纸盘本金）</h2>")
+        A(f"<div class='facecap'>持仓+操作+资本自动取自 results/paper_export（T-35 d3 导出面 · "
+          f"数据日 {pe.get('export_date')} · 确定性零网络）；"
+          f"今日入场 {pes.get('entries_today')} 笔 / 出场 {pes.get('exits_today')} 笔"
+          f"{' · 首日快照出场不可派生（诚实旗）' if first_snap else ''}（O-2045 s3）</div>")
+        for t in pe.get("traders", []):
+            cap = t.get("capital_cny") or {}
+            eq, init = cap.get("equity"), cap.get("initial")
+            pnl = None if (eq is None or init is None) else eq - init
+            pnl_cls = "pos" if (pnl or 0) >= 0 else "neg"
+            ops = t.get("operations_today") or []
+            A("<div class='tcard'>")
+            A(f"<div class='tname'>{t.get('trader')}</div>")
+            A(f"<div class='teq'>{_cny(eq)} <span style='font-size:16px;"
+              f"color:#8b949e'>CNY 总资产</span> "
+              f"<span class='{pnl_cls}' style='font-size:18px'>"
+              f"{'—' if pnl is None else f'{pnl:+,.0f}'}</span></div>")
+            A(f"<div class='tsub'>本金 {_cny(init)} · 持仓市值 {_cny(cap.get('positions_value'))}"
+              f" · 现金 {_cny(cap.get('cash'))} · 持仓 {t.get('positions_count')} 只</div>")
+            pos = t.get("open_positions") or []
+            if pos:
+                A("<table class='ttable'><tr><th>持仓</th><th>数量</th>"
+                  "<th>市值 CNY</th><th>浮动盈亏 CNY</th><th>持有天数</th></tr>")
+                for p in pos:
+                    up = p.get("unrealized_pnl_cny")
+                    A(f"<tr><td>{p.get('symbol')}</td>"
+                      f"<td>{p.get('quantity'):,.0f}</td>"
+                      f"<td>{_cny(p.get('market_value_cny'))}</td>"
+                      f"<td class='{'pos' if (up or 0) >= 0 else 'neg'}'>"
+                      f"{'—' if up is None else f'{up:+,.0f}'}</td>"
+                      f"<td>{p.get('hold_days')}</td></tr>")
+                A("</table>")
+            if ops:
+                A("<table class='ttable'><tr><th>今日操作</th><th>动作</th>"
+                  "<th>数量</th><th>价格</th></tr>")
+                for op in ops:
+                    act = op.get("action")
+                    a_cls = "pos" if act == "entry" else "neg"
+                    a_txt = "买入" if act == "entry" else ("卖出" if act == "exit" else act)
+                    A(f"<tr><td>{op.get('symbol')}</td>"
+                      f"<td class='{a_cls}'><b>{a_txt}</b></td>"
+                      f"<td>{op.get('quantity'):,.0f}</td>"
+                      f"<td>{op.get('cost_price')}</td></tr>")
+                A("</table>")
+            A("</div>")
 
     A("<h2>当前市场适配成绩单（已归档 · 2026-01-05 → 2026-09-23）</h2>")
     if passive_pct is not None:
@@ -157,8 +237,8 @@ def build():
           f"<td class='dim'>{r['risk_regime'].get('state', '—')} "
           f"cap {r['risk_regime'].get('position_cap', '—')}</td></tr>")
     A("</table>")
-    A("<div class='sub'>操作台账：纸盘尚在首月（起跑 2026-09-23），在册员尚未触发开平仓信号；"
-      "「选股择时」动作台账自首笔信号起逐笔记录（fill_guard 计数随每 bar 更新）。</div>")
+    A("<div class='sub'>操作台账：实盘舱大字版（上节）逐日自 results/paper_export 差分链派生；"
+      "纸盘尚在首月（起跑 2026-09-23），fill_guard 计数随每 bar 更新（禁买弃单/禁卖递延如实记）。</div>")
 
     A("<h2>月度战绩（完整成绩单）</h2>")
     A("<div class='sub'>完整战绩月自 2026-10-01 起算（IV6+REGIME_GUARD enforce 双切换）；"
@@ -194,8 +274,20 @@ def build():
     payload = {
         "ticket": "T-2026-09-24-29",
         "evidence_cutoff": cutoff,
-        "generated_from": ["results/paper", "results/shortline/o1600_market_fit.json"],
+        "generated_from": ["results/paper", "results/shortline/o1600_market_fit.json",
+                           "results/paper_export/latest.json"],
         "traders": rows,
+        "paper_export_face": None if not pe else {
+            "export_date": pe.get("export_date"),
+            "schema": pe.get("schema"),
+            "summary": pe.get("summary"),
+            "traders": [
+                {"trader": t.get("trader"),
+                 "capital_cny": t.get("capital_cny"),
+                 "positions_count": t.get("positions_count"),
+                 "operations_today_count": len(t.get("operations_today") or [])}
+                for t in pe.get("traders", [])],
+        },
         "o1600_first_screen": {"passive_ew48_ret_pct": passive_pct,
                                "traders": o1600_rows},
         "post_review_latest": pr_rows,

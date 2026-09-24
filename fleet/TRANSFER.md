@@ -27,6 +27,7 @@
 
 - 分批 commit ≤1.5GB、每批一 push；单件 >95MB 预检排除并报告（GitHub 100MB 硬限）；单次 push >2GB 会被拒，批内勿超。
 - 后台顺序推送、日志留痕；push 被拒 = `pull --rebase` 重试一次，再拒即停并报告，**禁 force-push、禁双 push 撞锁**（round 20-22 实录）。
+- **发送方收尾【必行·D-20260925-01②·F-20260924-13】**：force-add 推送传输分支并切回 main 后，凡上分支的路径本机仍需本地使用，须 `git checkout <transfer-branch> -- <path>` 显式落回工作树——git 只认 tracked-in-source/absent-in-target=切回即静默删（T-31 实弹：48 parquet 缓存推 transfer/t18-ohlcv-cache 后工作树仅剩 meta.json）；落回后按 §7 坑律补 `git restore --staged <path>` 防 A 状态污染。发送方 SOP 与接收方 SOP（§7）分节适用。
 - 保险丝：预估总传输 >12h 或数据集 >5GB → 停，切 B2。
 - 适合：代码、研究结果、中小数据集；一次入库全机队随 clone 分发。
 
