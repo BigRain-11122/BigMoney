@@ -35,7 +35,12 @@ def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
     The chain head is data-driven (max total across files), never a hand-copied number.
     """
     head = {"total": 0, "file": None, "note": None}
-    for path in sorted(glob.glob(os.path.join(results_dir, "*.json"))):
+    # r112: recursive scan -- shortline-family batch files carry trials_ledger
+    # blocks invisible to a top-level-only glob, silently diverging this scanner
+    # from xlib_synth.chain_head_total's two-face scan (the r110 same-base
+    # double-count root cause). Recursive glob unifies the visible face.
+    for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
+                                 recursive=True)):
         try:
             with open(path, encoding="utf-8") as fh:
                 tl = json.load(fh).get("trials_ledger")
@@ -755,6 +760,21 @@ def selftest() -> int:
     ok("append_ledger prev_total override honored (r60 one-chain max, factor-line)",
        led_ovr["prev_total"] == 5476 and led_ovr["total"] == 5539
        and ledger_total(led_ovr) == 5539)
+
+    # r112: ledger_head must see subdirectory batch files (shortline family)
+    sub = os.path.join(RESULTS_DIR, "_selftest_sub")
+    os.makedirs(sub, exist_ok=True)
+    sub_path = os.path.join(sub, "sub_ledger.json")
+    try:
+        with open(sub_path, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"prev_total": 1, "batch_trials": 1,
+                                         "total": head_total + 11}}, fh)
+        ok("ledger_head recursive: subdir batch file visible (r112 fix)",
+           ledger_head()["total"] == head_total + 11
+           and ledger_head()["file"] == "sub_ledger.json")
+    finally:
+        os.unlink(sub_path)
+        os.rmdir(sub)
 
     # T-03 F6: dual-basis trade gate
     ok("dual_trade_gate: tranches pad, entries honest",
