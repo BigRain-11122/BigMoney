@@ -332,10 +332,14 @@ def finalize():
     n_dup = sum(c.get("verdict") == "dup_survivor" for c in candidates)
 
     trials = n_trials_formula + K_NULLS
+    # r60 one-chain convention (P-1c _chain_head_total precedent): factor-line
+    # batches take prev = max total across BOTH results/ and results/shortline/.
+    prev = max(int(sg.ledger_head(str(ROOT / "results"))["total"]),
+               int(sg.ledger_head(str(OUT_JSON.parent))["total"]))
     ledger = sg.append_ledger(BATCH, trials, str(OUT_JSON.relative_to(ROOT)),
                                note="J13V2_MILL_IC1: mill candidates (deduped entering E4) "
                                     f"={n_trials_formula} + K=50 nulls; zero engine runs",
-                               evidence_cutoff=cutoff)
+                               evidence_cutoff=cutoff, prev_total=prev)
 
     out = {
         **sg.cutoff_meta(cutoff),

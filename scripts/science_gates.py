@@ -393,15 +393,21 @@ class _LCG:
 
 def append_ledger(batch_name: str, batch_trials: int, file_name: str | None = None,
                   note: str | None = None, results_dir: str = RESULTS_DIR,
-                  evidence_cutoff: str | None = None) -> dict:
+                  evidence_cutoff: str | None = None,
+                  prev_total: int | None = None) -> dict:
     """F3 (audit P0-7): unified trials-ledger entry, dict schema for ALL producers.
 
     prev_total = data-driven chain head at run time (ledger_head()); total =
     prev_total + batch_trials. Historical flat-list writers are retired. Any
     re-run of a historical batch needs fresh prereg (audit note), so the chain
     stays linear under this schema.
+
+    prev_total override (additive, default None = data-driven): for factor-line
+    batches whose file lives in results/shortline/ — the r60 one-chain
+    convention takes prev = max total across BOTH results/ and
+    results/shortline/ (P-1c _chain_head_total precedent); pass that max here.
     """
-    prev = int(ledger_head(results_dir)["total"])
+    prev = int(ledger_head(results_dir)["total"]) if prev_total is None else int(prev_total)
     out = {
         "prev_total": prev,
         "batch_trials": int(batch_trials),
@@ -728,6 +734,10 @@ def selftest() -> int:
        led_cut["evidence_cutoff"] == "2026-09-22" and "evidence_cutoff" not in led_nocut
        and cutoff_meta("2026-09-22") == {"evidence_cutoff": "2026-09-22"}
        and led_nocut["total"] == led_cut["total"])
+    led_ovr = append_ledger("prev-override-selftest", 63, prev_total=5476)
+    ok("append_ledger prev_total override honored (r60 one-chain max, factor-line)",
+       led_ovr["prev_total"] == 5476 and led_ovr["total"] == 5539
+       and ledger_total(led_ovr) == 5539)
 
     # T-03 F6: dual-basis trade gate
     ok("dual_trade_gate: tranches pad, entries honest",
