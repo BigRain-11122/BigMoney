@@ -1,0 +1,274 @@
+{
+ "schema": "bandit-queue v1",
+ "generated": "2026-09-24 09:11:55",
+ "source_ledger": "results/gate_attrition.json",
+ "algorithm": {
+  "name": "UCB1",
+  "c": 1.4142135623730951,
+  "n_total_pulls": 6
+ },
+ "arms": {
+  "portfolio-construction": {
+   "n_pulls": 2,
+   "mean_reward": 1.0,
+   "ucb1_score": 2.33856619904585,
+   "status": "exploit",
+   "last_batch": "IV6-portfolio-riskbudget",
+   "last_ts": "2026-09-24 03:03:01",
+   "pulls": [
+    {
+     "batch": "EW6-portfolio-validation",
+     "ts": "2026-09-24 00:54:38",
+     "reward": 1.0,
+     "reason": "tier1:validated",
+     "cells_ledger_delta": 26,
+     "kind": "measurement"
+    },
+    {
+     "batch": "IV6-portfolio-riskbudget",
+     "ts": "2026-09-24 03:03:01",
+     "reward": 1.0,
+     "reason": "tier1:validated",
+     "cells_ledger_delta": 14,
+     "kind": "measurement"
+    }
+   ],
+   "candidates": [
+    {
+     "name": "corr-watch W3 monthly cadence",
+     "status": "open"
+    },
+    {
+     "name": "FL forward window (needs >=60 paper bars, ~2026-12)",
+     "status": "open"
+    },
+    {
+     "name": "cash leg exit-to-asset + reverse-repo parking",
+     "status": "gated-P1"
+    }
+   ]
+  },
+  "synthesis-crosslib": {
+   "n_pulls": 0,
+   "mean_reward": null,
+   "ucb1_score": null,
+   "status": "untried",
+   "last_batch": null,
+   "last_ts": null,
+   "pulls": [],
+   "candidates": [
+    {
+     "name": "XSTOCK_SYNTH (stock-pool cross-lib small-K)",
+     "status": "claimed",
+     "by": "bm-b"
+    }
+   ]
+  },
+  "patterns-confirmation": {
+   "n_pulls": 0,
+   "mean_reward": null,
+   "ucb1_score": null,
+   "status": "untried",
+   "last_batch": null,
+   "last_ts": null,
+   "pulls": [],
+   "candidates": [
+    {
+     "name": "A-layer exhausted (R42); oscillator/divergence laws closed",
+     "status": "closed"
+    }
+   ]
+  },
+  "event-attention-factors": {
+   "n_pulls": 0,
+   "mean_reward": null,
+   "ucb1_score": null,
+   "status": "untried",
+   "last_batch": null,
+   "last_ts": null,
+   "pulls": [],
+   "candidates": [
+    {
+     "name": "Alpha158 true-gap 7 families (Aroon x3 / WVMA / volume-RSI x3, R59)",
+     "status": "open"
+    },
+    {
+     "name": "moneyflow mf_main_net_5/10/20 forward collector + short-window IC (R58, 120d source cap)",
+     "status": "open"
+    },
+    {
+     "name": "P-B sector heat (EM clist leg blocked >13h)",
+     "status": "blocked-source"
+    }
+   ]
+  },
+  "trend-timeseries": {
+   "n_pulls": 0,
+   "mean_reward": null,
+   "ucb1_score": null,
+   "status": "untried",
+   "last_batch": null,
+   "last_ts": null,
+   "pulls": [],
+   "candidates": [
+    {
+     "name": "NSP1/G2_NSP1/CTA triple-closed; revival needs new prereg (+P1 for expansion)",
+     "status": "closed"
+    }
+   ]
+  },
+  "stock-pool-tilt": {
+   "n_pulls": 1,
+   "mean_reward": 0.0,
+   "ucb1_score": 1.8930184728248456,
+   "status": "exploit",
+   "last_batch": "P4_EXT_TILT",
+   "last_ts": "2026-09-24 06:34:36",
+   "pulls": [
+    {
+     "batch": "P4_EXT_TILT",
+     "ts": "2026-09-24 06:34:36",
+     "reward": 0.0,
+     "reason": "eliminated",
+     "cells_ledger_delta": 47,
+     "kind": "search"
+    }
+   ],
+   "candidates": [
+    {
+     "name": "P4_BATCH2 0/19 + P4_EXT_TILT 0/5 friction-wall law",
+     "status": "closed"
+    }
+   ]
+  },
+  "futures-cta": {
+   "n_pulls": 2,
+   "mean_reward": 0.0,
+   "ucb1_score": 1.3385661990458504,
+   "status": "exploit",
+   "last_batch": "CTA_P2_NOAU",
+   "last_ts": "2026-09-24 07:34:35",
+   "pulls": [
+    {
+     "batch": "CTA_P1",
+     "ts": "2026-09-24 06:58:56",
+     "reward": 0.0,
+     "reason": "eliminated",
+     "cells_ledger_delta": 68,
+     "kind": "search"
+    },
+    {
+     "batch": "CTA_P2_NOAU",
+     "ts": "2026-09-24 07:34:35",
+     "reward": 0.0,
+     "reason": "eliminated",
+     "cells_ledger_delta": 68,
+     "kind": "search"
+    }
+   ],
+   "candidates": [
+    {
+     "name": "CTA_P1/NOAU closed; de-leveraged variant / per-contract roll = new prereg",
+     "status": "closed"
+    }
+   ]
+  },
+  "pairs-cointegration": {
+   "n_pulls": 1,
+   "mean_reward": 0.0,
+   "ucb1_score": 1.8930184728248456,
+   "status": "exploit",
+   "last_batch": "p4-pairs",
+   "last_ts": "2026-09-24 05:31:00",
+   "pulls": [
+    {
+     "batch": "p4-pairs",
+     "ts": "2026-09-24 05:31:00",
+     "reward": 0.0,
+     "reason": "eliminated",
+     "cells_ledger_delta": 67,
+     "kind": "measurement"
+    }
+   ],
+   "candidates": [
+    {
+     "name": "P4_PAIRS closed; dual-leg / intraday = P1",
+     "status": "closed"
+    }
+   ]
+  },
+  "low-freq-asset": {
+   "n_pulls": 0,
+   "mean_reward": null,
+   "ucb1_score": null,
+   "status": "untried",
+   "last_batch": null,
+   "last_ts": null,
+   "pulls": [],
+   "candidates": [
+    {
+     "name": "LFC closed",
+     "status": "closed"
+    }
+   ]
+  },
+  "regime-defense": {
+   "n_pulls": 0,
+   "mean_reward": null,
+   "ucb1_score": null,
+   "status": "untried",
+   "last_batch": null,
+   "last_ts": null,
+   "pulls": [],
+   "candidates": [
+    {
+     "name": "REGIME_GUARD v3 re-design (v1/v2 calibration double-FAIL, evidence pack filed)",
+     "status": "pending-GM-CEO"
+    }
+   ]
+  }
+ },
+ "exploit_ranking": [
+  "portfolio-construction",
+  "stock-pool-tilt",
+  "pairs-cointegration",
+  "futures-cta"
+ ],
+ "ucb1_policy_order": [
+  "synthesis-crosslib",
+  "patterns-confirmation",
+  "event-attention-factors",
+  "trend-timeseries",
+  "low-freq-asset",
+  "regime-defense",
+  "portfolio-construction",
+  "stock-pool-tilt",
+  "pairs-cointegration",
+  "futures-cta"
+ ],
+ "unmapped_batches": [],
+ "engineering_candidates": [
+  {
+   "name": "J13 v2 blind-draft qualification prereg",
+   "status": "open"
+  },
+  {
+   "name": "Optuna bayesian tuning skeleton",
+   "status": "gated-P1"
+  },
+  {
+   "name": "negative-event library consumption (QuantBull)",
+   "status": "gated-P1"
+  },
+  {
+   "name": "daily dual-leg ticket (tencent validation leg)",
+   "status": "gated-P1"
+  }
+ ],
+ "advisory_note": "advisory only: scheduler never initiates batches; every batch needs prereg+claim; P1-gated and GM/CEO-review items stay gated",
+ "audit": {
+  "ledger_trials_added": 0,
+  "kind": "decision-support"
+ },
+ "evidence_cutoff": "2026-09-23"
+}

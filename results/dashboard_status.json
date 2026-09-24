@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T09:07:39"
+    "generated_at": "2026-09-24T09:13:44"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T08:59:42",
+      "at": "2026-09-24T09:08:46",
       "ok": true
     },
     "network": {
-      "net_type": "LAN",
+      "net_type": "UNKNOWN",
       "hotspot": false,
-      "allow_heavy_sync": true,
-      "detected_at": "2026-09-23T21:51:09+00:00"
+      "allow_heavy_sync": false,
+      "detected_at": null
     }
   },
   "data": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-24 09:07:13",
+      "last_run": "2026-09-24 09:13:34",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -40,8 +40,8 @@
     "heat": {
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
-      "l1_snapshots": 0,
-      "l1_updated": "2026-09-24 09:07:24",
+      "l1_snapshots": 1,
+      "l1_updated": "2026-09-24 09:13:36",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -49,13 +49,13 @@
       "era_min": "2025-09-23",
       "era_max": "2026-09-23",
       "status": "ok",
-      "text": "热度链活 · L1 0份 · L2 97/100件"
+      "text": "热度链活 · L1 1份 · L2 97/100件"
     },
     "futures": {
       "present": true,
       "varieties": 9,
       "planned": 9,
-      "last_attempt": "2026-09-24T09:07:25",
+      "last_attempt": "2026-09-24T09:13:37",
       "age_min": 0,
       "cutoff": "2026-09-23",
       "errors": 0,
@@ -65,14 +65,14 @@
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 08:54:44",
+      "generated": "2026-09-24 09:05:27",
       "mandate_est": 2987,
-      "codely_context_est": 127535,
-      "state_est": 1408,
-      "report_est": 77366,
-      "delta_state": 214,
-      "delta_report": 1358,
-      "delta_prev": "2026-09-24 08:44:06"
+      "codely_context_est": 128881,
+      "state_est": 1552,
+      "report_est": 78714,
+      "delta_state": 144,
+      "delta_report": 1348,
+      "delta_prev": "2026-09-24 08:54:44"
     },
     "regime": {
       "present": true,
@@ -183,13 +183,13 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-24 08:52:20",
-        "age_min": 15.3,
+        "last_seen": "2026-09-24 09:16:30",
+        "age_min": 0.0,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": null,
         "gpu_idle_vram_mb": null,
-        "current_task": "R60 done: 5x HANDOVER collation (window bm-a R58-59 + bm-b r81 + bm-c r31-32, zero-engine; engine N 3041 / factor 5394 dual-line verified); next = 15:30 09-24 sweep catch-up first-fire check + WQ harvest watch (bm-b lane) + outreach queue RD-Agent",
+        "current_task": "R61 done: RD-Agent deep-read closed (O-1636 outreach queue last item, styles-sweep queue fully cleared; digest filed, open-pool candidates bandit-queue/J13-v2-blind-draft both NOT started pending prereg); next = 15:30 09-24 sweep catch-up first-fire check + 10-01 monthly trio + 10-31 six-trader all-HOLD",
         "verdict": "healthy",
         "orders_ack": [
           "O-20260923-1514",
@@ -222,19 +222,19 @@
           "O-20260923-2345",
           "O-20260924-0100"
         ],
-        "clock_read": "2026-09-24T08:52:20+08:00",
-        "round_no": 60
+        "clock_read": "2026-09-24T09:16:30+08:00",
+        "round_no": 62
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-09-24 08:55:08",
-        "age_min": 12.5,
+        "last_seen": "2026-09-24T09:06:12+08:00",
+        "age_min": 7.5,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 10.4,
         "gpu_idle_vram_mb": 2407,
-        "current_task": "r82 done: monitoring (WQ harvest gate unmet 75/82 heavy-tail healthy PID 27128, P-B clist still blocked 13.5h); next = r83 WQ harvest poll -> partials+finalize commit + SS7/SS8 + xlib prereg",
-        "verdict": "healthy",
+        "current_task": "r83: XSTOCK_SYNTH prereg frozen pre-WQ-finalize (rule-based shelf, snooping-proof) + WQ harvest poll 76/82 + P-B parked",
+        "verdict": "CLEAN",
         "orders_ack": [
           "O-20260923-1514",
           "O-20260923-1533",
@@ -266,13 +266,13 @@
           "O-20260923-2345",
           "O-20260924-0100"
         ],
-        "clock_read": "2026-09-24T08:55:08.804984+08:00",
-        "round_no": 82
+        "clock_read": "2026-09-24T09:06:12+08:00",
+        "round_no": 83
       },
       {
         "id": "bm-c",
         "last_seen": "2026-09-24T08:55:36+08:00",
-        "age_min": 12.1,
+        "age_min": 18.1,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 10.2,
@@ -339,16 +339,16 @@
     "n_claimed": 0,
     "n_done": 7,
     "audit": {
-      "ts": "2026-09-24 09:07:02",
+      "ts": "2026-09-24 09:13:33",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 9.0,
+      "cpu_total_pct": 53.0,
       "py_cpu_pct": 0.5,
       "cores": 32,
       "py_procs": 5,
       "zombies": 0,
-      "gpu_util_pct": 1.0,
-      "gpu_mem_used_mb": 2902.0,
+      "gpu_util_pct": 7.0,
+      "gpu_mem_used_mb": 11065.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -390,12 +390,12 @@
           "pass": true
         }
       },
-      "gates_date": "2026-09-24 08:00"
+      "gates_date": "2026-09-24 09:00"
     },
     "lhb": {
-      "verdict": "store absent on this node (lhb_detail.parquet missing (sparse-clone design exclusion, HANDOVER s3)); backfill is a GM-lane decision, not auto-fetched",
-      "cutoff": "unknown",
-      "updated": "2026-09-24 09:07:24",
+      "verdict": "no-op: cutoff 2026-09-23 covers latest disclosure window (2026-09-23)",
+      "cutoff": "2026-09-23",
+      "updated": "2026-09-24 09:13:36",
       "new_rows": 0
     }
   },
@@ -556,12 +556,6 @@
         "result": "2 员 PASS",
         "pass": true,
         "note": "composite_top5/composite_top8 ×2 成本存活，注册 2 员"
-      },
-      {
-        "stage": "P3 组合验证 · 三员 EW/IV 双载体",
-        "result": "EW validated·IV 同判过",
-        "pass": true,
-        "note": "benefit EW +0.03/IV +0.10；分散化素材=低相关；载体裁定=先验EW（择优禁令）"
       },
       {
         "stage": "LFC 低频低成本品种族 · 债金池 mini 海选",
@@ -858,7 +852,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T08:59:42",
+      "time": "2026-09-24T09:08:46",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -878,20 +872,20 @@
       "text": "门禁链定案（试验账本 N=3041）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-24 09:07:13",
+      "time": "2026-09-24 09:13:34",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 09:07:24",
-      "text": "热度链 · L1 人气榜快照 0 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
+      "time": "2026-09-24 09:13:36",
+      "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24T09:07:25",
+      "time": "2026-09-24T09:13:37",
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-23 · 刚跑"
     },
     {
-      "time": "2026-09-24 08:54:44",
-      "text": "本地化 · token 粗估 状态 1408 · 报告 77366 · 回合固定载入 127535（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 09:05:27",
+      "text": "本地化 · token 粗估 状态 1552 · 报告 78714 · 回合固定载入 128881（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -918,7 +912,7 @@
       "text": "治理面 · 科学审计 6/6 检 OK · findings 0 · 月度简报 2026-09 在档（月度 M 层 · 总经办 · findings 只报不阻断）"
     },
     {
-      "time": "2026-09-24 08:52:20",
+      "time": "2026-09-24 09:16:30",
       "text": "机队 · 3 节点 3 活 · 票据 done 7/claimed 0/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
@@ -934,8 +928,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 09:06",
-        "age_min": 0.8,
+        "last_active": "09-24 09:13",
+        "age_min": 0.1,
         "alive": true
       }
     ]
