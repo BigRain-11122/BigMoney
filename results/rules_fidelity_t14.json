@@ -1,0 +1,1405 @@
+{
+ "evidence_cutoff": "2026-09-23",
+ "batch": "etf_rules_fidelity_t14",
+ "ticket": "T-2026-09-24-14",
+ "prereg": "research/ETF_RULES_FIDELITY.md",
+ "prereg_sha256": "480543139544aa2386c2ed8e5f2b74757dad6606e8b120c9a1cffa75c1136d55",
+ "rails": [
+  "A",
+  "B1",
+  "B2",
+  "B",
+  "Bx2",
+  "Ax2",
+  "B2x2"
+ ],
+ "accounted_runs": 24,
+ "control_runs_unaccounted": 12,
+ "guard_totals": {
+  "buy_blocked": 24,
+  "sell_blocked": 42,
+  "susp": 10,
+  "break_days": 21,
+  "break_days_distinct_syms": 19,
+  "consolidation_scale": 19
+ },
+ "scan_loose_totals": {
+  "up": 24,
+  "dn": 42,
+  "susp": 10
+ },
+ "trials_ledger": {
+  "prev_total": 3041,
+  "batch_trials": 24,
+  "total": 3065,
+  "batch": "etf_rules_fidelity_t14",
+  "file": "rules_fidelity_t14.json",
+  "note": "T-14 ETF rules-fidelity measurement batch: 6x{B1,B2,B,Bx2}=24 accounted; A/Ax2/B2x2 control runs unaccounted (recorded-cell repro + landing gate)",
+  "evidence_cutoff": "2026-09-23"
+ },
+ "t0_landing": {
+  "decision": "do_not_land",
+  "landed": false,
+  "gate": "B2 bit-identical to A on both cost faces, 6/6"
+ },
+ "traders": [
+  {
+   "trader": "COMPOSITE-CE-01",
+   "cutoff": "2026-09-22",
+   "b2_landing_bit_identical": false,
+   "break_intersections": 0,
+   "break_detail": [],
+   "A": {
+    "is": {
+     "sharpe": 0.4514,
+     "annual_return": 0.0283,
+     "max_drawdown": -0.1633,
+     "trades": 302
+    },
+    "oos": {
+     "sharpe": 1.6085,
+     "annual_return": 0.1441,
+     "max_drawdown": -0.0567,
+     "trades": 172
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B1": {
+    "is": {
+     "sharpe": 0.7564,
+     "annual_return": 0.0406,
+     "max_drawdown": -0.1069,
+     "trades": 309
+    },
+    "oos": {
+     "sharpe": 1.6071,
+     "annual_return": 0.1364,
+     "max_drawdown": -0.0537,
+     "trades": 172
+    },
+    "delta_is_sharpe": 0.305,
+    "delta_oos_sharpe": -0.0014
+   },
+   "B2": {
+    "is": {
+     "sharpe": 0.4514,
+     "annual_return": 0.0283,
+     "max_drawdown": -0.1633,
+     "trades": 302
+    },
+    "oos": {
+     "sharpe": 1.6085,
+     "annual_return": 0.1441,
+     "max_drawdown": -0.0567,
+     "trades": 172
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B": {
+    "is": {
+     "sharpe": 0.7564,
+     "annual_return": 0.0406,
+     "max_drawdown": -0.1069,
+     "trades": 309
+    },
+    "oos": {
+     "sharpe": 1.6071,
+     "annual_return": 0.1364,
+     "max_drawdown": -0.0537,
+     "trades": 172
+    },
+    "delta_is_sharpe": 0.305,
+    "delta_oos_sharpe": -0.0014
+   },
+   "Bx2": {
+    "is": {
+     "sharpe": 0.209,
+     "annual_return": 0.0104,
+     "max_drawdown": -0.1457,
+     "trades": 301
+    },
+    "oos": {
+     "sharpe": 1.2721,
+     "annual_return": 0.1229,
+     "max_drawdown": -0.0638,
+     "trades": 172
+    },
+    "delta_is_sharpe": -0.2424,
+    "delta_oos_sharpe": -0.3364
+   },
+   "Ax2": {
+    "is": {
+     "sharpe": 0.1605,
+     "annual_return": 0.0087,
+     "max_drawdown": -0.1805,
+     "trades": 291
+    },
+    "oos": {
+     "sharpe": 1.2661,
+     "annual_return": 0.1234,
+     "max_drawdown": -0.0643,
+     "trades": 173
+    },
+    "delta_is_sharpe": -0.2909,
+    "delta_oos_sharpe": -0.3424
+   },
+   "B2x2": {
+    "is": {
+     "sharpe": 0.1661,
+     "annual_return": 0.009,
+     "max_drawdown": -0.184,
+     "trades": 292
+    },
+    "oos": {
+     "sharpe": 1.2723,
+     "annual_return": 0.1237,
+     "max_drawdown": -0.0642,
+     "trades": 172
+    },
+    "delta_is_sharpe": -0.2853,
+    "delta_oos_sharpe": -0.3362
+   }
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "cutoff": "2026-09-22",
+   "b2_landing_bit_identical": false,
+   "break_intersections": 0,
+   "break_detail": [],
+   "A": {
+    "is": {
+     "sharpe": 0.4585,
+     "annual_return": 0.0544,
+     "max_drawdown": -0.2217,
+     "trades": 520
+    },
+    "oos": {
+     "sharpe": 1.4853,
+     "annual_return": 0.1089,
+     "max_drawdown": -0.0361,
+     "trades": 275
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B1": {
+    "is": {
+     "sharpe": 0.5381,
+     "annual_return": 0.061,
+     "max_drawdown": -0.1789,
+     "trades": 518
+    },
+    "oos": {
+     "sharpe": 1.4831,
+     "annual_return": 0.1057,
+     "max_drawdown": -0.0352,
+     "trades": 276
+    },
+    "delta_is_sharpe": 0.0796,
+    "delta_oos_sharpe": -0.0022
+   },
+   "B2": {
+    "is": {
+     "sharpe": 0.4566,
+     "annual_return": 0.0542,
+     "max_drawdown": -0.2217,
+     "trades": 520
+    },
+    "oos": {
+     "sharpe": 1.4853,
+     "annual_return": 0.1091,
+     "max_drawdown": -0.0362,
+     "trades": 275
+    },
+    "delta_is_sharpe": -0.0019,
+    "delta_oos_sharpe": 0.0
+   },
+   "B": {
+    "is": {
+     "sharpe": 0.5421,
+     "annual_return": 0.0615,
+     "max_drawdown": -0.1789,
+     "trades": 519
+    },
+    "oos": {
+     "sharpe": 1.483,
+     "annual_return": 0.1055,
+     "max_drawdown": -0.0352,
+     "trades": 276
+    },
+    "delta_is_sharpe": 0.0836,
+    "delta_oos_sharpe": -0.0023
+   },
+   "Bx2": {
+    "is": {
+     "sharpe": 0.3739,
+     "annual_return": 0.0423,
+     "max_drawdown": -0.2113,
+     "trades": 512
+    },
+    "oos": {
+     "sharpe": 1.106,
+     "annual_return": 0.0853,
+     "max_drawdown": -0.0423,
+     "trades": 276
+    },
+    "delta_is_sharpe": -0.0846,
+    "delta_oos_sharpe": -0.3793
+   },
+   "Ax2": {
+    "is": {
+     "sharpe": 0.3025,
+     "annual_return": 0.0342,
+     "max_drawdown": -0.2531,
+     "trades": 515
+    },
+    "oos": {
+     "sharpe": 1.1075,
+     "annual_return": 0.0885,
+     "max_drawdown": -0.0437,
+     "trades": 276
+    },
+    "delta_is_sharpe": -0.156,
+    "delta_oos_sharpe": -0.3778
+   },
+   "B2x2": {
+    "is": {
+     "sharpe": 0.3025,
+     "annual_return": 0.0342,
+     "max_drawdown": -0.2531,
+     "trades": 515
+    },
+    "oos": {
+     "sharpe": 1.1075,
+     "annual_return": 0.0885,
+     "max_drawdown": -0.0437,
+     "trades": 276
+    },
+    "delta_is_sharpe": -0.156,
+    "delta_oos_sharpe": -0.3778
+   }
+  },
+  {
+   "trader": "DROUGHT-CE-01",
+   "cutoff": "2026-09-22",
+   "b2_landing_bit_identical": true,
+   "break_intersections": 0,
+   "break_detail": [],
+   "A": {
+    "is": {
+     "sharpe": 0.5538,
+     "annual_return": 0.0169,
+     "max_drawdown": -0.0476,
+     "trades": 76
+    },
+    "oos": {
+     "sharpe": 1.213,
+     "annual_return": 0.0408,
+     "max_drawdown": -0.0252,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B1": {
+    "is": {
+     "sharpe": 0.5538,
+     "annual_return": 0.0169,
+     "max_drawdown": -0.0476,
+     "trades": 76
+    },
+    "oos": {
+     "sharpe": 1.213,
+     "annual_return": 0.0408,
+     "max_drawdown": -0.0252,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B2": {
+    "is": {
+     "sharpe": 0.5538,
+     "annual_return": 0.0169,
+     "max_drawdown": -0.0476,
+     "trades": 76
+    },
+    "oos": {
+     "sharpe": 1.213,
+     "annual_return": 0.0408,
+     "max_drawdown": -0.0252,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B": {
+    "is": {
+     "sharpe": 0.5538,
+     "annual_return": 0.0169,
+     "max_drawdown": -0.0476,
+     "trades": 76
+    },
+    "oos": {
+     "sharpe": 1.213,
+     "annual_return": 0.0408,
+     "max_drawdown": -0.0252,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "Bx2": {
+    "is": {
+     "sharpe": 0.432,
+     "annual_return": 0.0131,
+     "max_drawdown": -0.05,
+     "trades": 76
+    },
+    "oos": {
+     "sharpe": 1.0462,
+     "annual_return": 0.0354,
+     "max_drawdown": -0.0284,
+     "trades": 44
+    },
+    "delta_is_sharpe": -0.1218,
+    "delta_oos_sharpe": -0.1668
+   },
+   "Ax2": {
+    "is": {
+     "sharpe": 0.432,
+     "annual_return": 0.0131,
+     "max_drawdown": -0.05,
+     "trades": 76
+    },
+    "oos": {
+     "sharpe": 1.0462,
+     "annual_return": 0.0354,
+     "max_drawdown": -0.0284,
+     "trades": 44
+    },
+    "delta_is_sharpe": -0.1218,
+    "delta_oos_sharpe": -0.1668
+   },
+   "B2x2": {
+    "is": {
+     "sharpe": 0.432,
+     "annual_return": 0.0131,
+     "max_drawdown": -0.05,
+     "trades": 76
+    },
+    "oos": {
+     "sharpe": 1.0462,
+     "annual_return": 0.0354,
+     "max_drawdown": -0.0284,
+     "trades": 44
+    },
+    "delta_is_sharpe": -0.1218,
+    "delta_oos_sharpe": -0.1668
+   }
+  },
+  {
+   "trader": "ENGULF-CE-01",
+   "cutoff": "2026-09-22",
+   "b2_landing_bit_identical": true,
+   "break_intersections": 0,
+   "break_detail": [],
+   "A": {
+    "is": {
+     "sharpe": 0.6239,
+     "annual_return": 0.0201,
+     "max_drawdown": -0.0423,
+     "trades": 99
+    },
+    "oos": {
+     "sharpe": 0.2944,
+     "annual_return": 0.0091,
+     "max_drawdown": -0.0366,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B1": {
+    "is": {
+     "sharpe": 0.6239,
+     "annual_return": 0.0201,
+     "max_drawdown": -0.0423,
+     "trades": 99
+    },
+    "oos": {
+     "sharpe": 0.2944,
+     "annual_return": 0.0091,
+     "max_drawdown": -0.0366,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B2": {
+    "is": {
+     "sharpe": 0.6239,
+     "annual_return": 0.0201,
+     "max_drawdown": -0.0423,
+     "trades": 99
+    },
+    "oos": {
+     "sharpe": 0.2944,
+     "annual_return": 0.0091,
+     "max_drawdown": -0.0366,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B": {
+    "is": {
+     "sharpe": 0.6239,
+     "annual_return": 0.0201,
+     "max_drawdown": -0.0423,
+     "trades": 99
+    },
+    "oos": {
+     "sharpe": 0.2944,
+     "annual_return": 0.0091,
+     "max_drawdown": -0.0366,
+     "trades": 44
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "Bx2": {
+    "is": {
+     "sharpe": 0.4979,
+     "annual_return": 0.0159,
+     "max_drawdown": -0.0464,
+     "trades": 99
+    },
+    "oos": {
+     "sharpe": 0.1301,
+     "annual_return": 0.0038,
+     "max_drawdown": -0.0397,
+     "trades": 44
+    },
+    "delta_is_sharpe": -0.126,
+    "delta_oos_sharpe": -0.1643
+   },
+   "Ax2": {
+    "is": {
+     "sharpe": 0.4979,
+     "annual_return": 0.0159,
+     "max_drawdown": -0.0464,
+     "trades": 99
+    },
+    "oos": {
+     "sharpe": 0.1301,
+     "annual_return": 0.0038,
+     "max_drawdown": -0.0397,
+     "trades": 44
+    },
+    "delta_is_sharpe": -0.126,
+    "delta_oos_sharpe": -0.1643
+   },
+   "B2x2": {
+    "is": {
+     "sharpe": 0.4979,
+     "annual_return": 0.0159,
+     "max_drawdown": -0.0464,
+     "trades": 99
+    },
+    "oos": {
+     "sharpe": 0.1301,
+     "annual_return": 0.0038,
+     "max_drawdown": -0.0397,
+     "trades": 44
+    },
+    "delta_is_sharpe": -0.126,
+    "delta_oos_sharpe": -0.1643
+   }
+  },
+  {
+   "trader": "NEEDLE-DE-01",
+   "cutoff": "2026-09-22",
+   "b2_landing_bit_identical": true,
+   "break_intersections": 0,
+   "break_detail": [],
+   "A": {
+    "is": {
+     "sharpe": 0.7781,
+     "annual_return": 0.0185,
+     "max_drawdown": -0.0254,
+     "trades": 50
+    },
+    "oos": {
+     "sharpe": 0.4089,
+     "annual_return": 0.0119,
+     "max_drawdown": -0.0282,
+     "trades": 23
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B1": {
+    "is": {
+     "sharpe": 0.7781,
+     "annual_return": 0.0185,
+     "max_drawdown": -0.0254,
+     "trades": 50
+    },
+    "oos": {
+     "sharpe": 0.4089,
+     "annual_return": 0.0119,
+     "max_drawdown": -0.0282,
+     "trades": 23
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B2": {
+    "is": {
+     "sharpe": 0.7781,
+     "annual_return": 0.0185,
+     "max_drawdown": -0.0254,
+     "trades": 50
+    },
+    "oos": {
+     "sharpe": 0.4089,
+     "annual_return": 0.0119,
+     "max_drawdown": -0.0282,
+     "trades": 23
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B": {
+    "is": {
+     "sharpe": 0.7781,
+     "annual_return": 0.0185,
+     "max_drawdown": -0.0254,
+     "trades": 50
+    },
+    "oos": {
+     "sharpe": 0.4089,
+     "annual_return": 0.0119,
+     "max_drawdown": -0.0282,
+     "trades": 23
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "Bx2": {
+    "is": {
+     "sharpe": 0.6911,
+     "annual_return": 0.0162,
+     "max_drawdown": -0.0262,
+     "trades": 50
+    },
+    "oos": {
+     "sharpe": 0.3199,
+     "annual_return": 0.0093,
+     "max_drawdown": -0.0297,
+     "trades": 23
+    },
+    "delta_is_sharpe": -0.087,
+    "delta_oos_sharpe": -0.089
+   },
+   "Ax2": {
+    "is": {
+     "sharpe": 0.6911,
+     "annual_return": 0.0162,
+     "max_drawdown": -0.0262,
+     "trades": 50
+    },
+    "oos": {
+     "sharpe": 0.3199,
+     "annual_return": 0.0093,
+     "max_drawdown": -0.0297,
+     "trades": 23
+    },
+    "delta_is_sharpe": -0.087,
+    "delta_oos_sharpe": -0.089
+   },
+   "B2x2": {
+    "is": {
+     "sharpe": 0.6911,
+     "annual_return": 0.0162,
+     "max_drawdown": -0.0262,
+     "trades": 50
+    },
+    "oos": {
+     "sharpe": 0.3199,
+     "annual_return": 0.0093,
+     "max_drawdown": -0.0297,
+     "trades": 23
+    },
+    "delta_is_sharpe": -0.087,
+    "delta_oos_sharpe": -0.089
+   }
+  },
+  {
+   "trader": "VOLATILITY-CE-01",
+   "cutoff": "2026-09-22",
+   "b2_landing_bit_identical": false,
+   "break_intersections": 0,
+   "break_detail": [],
+   "A": {
+    "is": {
+     "sharpe": 1.0275,
+     "annual_return": 0.0262,
+     "max_drawdown": -0.0378,
+     "trades": 375
+    },
+    "oos": {
+     "sharpe": 2.0568,
+     "annual_return": 0.0424,
+     "max_drawdown": -0.009,
+     "trades": 147
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B1": {
+    "is": {
+     "sharpe": 1.0275,
+     "annual_return": 0.0262,
+     "max_drawdown": -0.0378,
+     "trades": 375
+    },
+    "oos": {
+     "sharpe": 2.0568,
+     "annual_return": 0.0424,
+     "max_drawdown": -0.009,
+     "trades": 147
+    },
+    "delta_is_sharpe": 0.0,
+    "delta_oos_sharpe": 0.0
+   },
+   "B2": {
+    "is": {
+     "sharpe": 1.0566,
+     "annual_return": 0.0268,
+     "max_drawdown": -0.0377,
+     "trades": 375
+    },
+    "oos": {
+     "sharpe": 1.9471,
+     "annual_return": 0.04,
+     "max_drawdown": -0.0109,
+     "trades": 149
+    },
+    "delta_is_sharpe": 0.0291,
+    "delta_oos_sharpe": -0.1097
+   },
+   "B": {
+    "is": {
+     "sharpe": 1.0566,
+     "annual_return": 0.0268,
+     "max_drawdown": -0.0377,
+     "trades": 375
+    },
+    "oos": {
+     "sharpe": 1.9471,
+     "annual_return": 0.04,
+     "max_drawdown": -0.0109,
+     "trades": 149
+    },
+    "delta_is_sharpe": 0.0291,
+    "delta_oos_sharpe": -0.1097
+   },
+   "Bx2": {
+    "is": {
+     "sharpe": 0.3575,
+     "annual_return": 0.0091,
+     "max_drawdown": -0.065,
+     "trades": 375
+    },
+    "oos": {
+     "sharpe": 1.043,
+     "annual_return": 0.0235,
+     "max_drawdown": -0.0172,
+     "trades": 149
+    },
+    "delta_is_sharpe": -0.67,
+    "delta_oos_sharpe": -1.0138
+   },
+   "Ax2": {
+    "is": {
+     "sharpe": 0.3308,
+     "annual_return": 0.0085,
+     "max_drawdown": -0.0652,
+     "trades": 375
+    },
+    "oos": {
+     "sharpe": 1.1659,
+     "annual_return": 0.0264,
+     "max_drawdown": -0.0143,
+     "trades": 147
+    },
+    "delta_is_sharpe": -0.6967,
+    "delta_oos_sharpe": -0.8909
+   },
+   "B2x2": {
+    "is": {
+     "sharpe": 0.3575,
+     "annual_return": 0.0091,
+     "max_drawdown": -0.065,
+     "trades": 375
+    },
+    "oos": {
+     "sharpe": 1.043,
+     "annual_return": 0.0235,
+     "max_drawdown": -0.0172,
+     "trades": 149
+    },
+    "delta_is_sharpe": -0.67,
+    "delta_oos_sharpe": -1.0138
+   }
+  }
+ ],
+ "instruments": [
+  {
+   "sym": "159901",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 1
+  },
+  {
+   "sym": "159915",
+   "tier": 0.2,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 0,
+   "guard_susp": 1
+  },
+  {
+   "sym": "159919",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159920",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159928",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 2,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159934",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159949",
+   "tier": 0.2,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159980",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159985",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159992",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1568,
+   "first": "2020-04-10",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159995",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1611,
+   "first": "2020-02-10",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "159996",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1586,
+   "first": "2020-03-16",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "510050",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "510300",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "510310",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "510330",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "510500",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "511010",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "511090",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 798,
+   "first": "2023-06-13",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "511260",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512000",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 2,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512010",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 0,
+   "guard_susp": 1
+  },
+  {
+   "sym": "512100",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 2,
+   "guard_susp": 1
+  },
+  {
+   "sym": "512170",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 0,
+   "guard_susp": 1
+  },
+  {
+   "sym": "512200",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 2,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512400",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 4,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512480",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 2,
+   "guard_sell_blocked": 1,
+   "guard_susp": 1
+  },
+  {
+   "sym": "512660",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512690",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 2,
+   "guard_susp": 1
+  },
+  {
+   "sym": "512710",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 1
+  },
+  {
+   "sym": "512720",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 2,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512800",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512880",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 2,
+   "guard_susp": 0
+  },
+  {
+   "sym": "512980",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 3,
+   "guard_susp": 0
+  },
+  {
+   "sym": "513050",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "513100",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 1
+  },
+  {
+   "sym": "513180",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1297,
+   "first": "2021-05-25",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "513500",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1631,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 1,
+   "guard_susp": 1
+  },
+  {
+   "sym": "513520",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "515000",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 2,
+   "guard_susp": 0
+  },
+  {
+   "sym": "515030",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1594,
+   "first": "2020-03-04",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "515050",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 3,
+   "guard_susp": 0
+  },
+  {
+   "sym": "515170",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1382,
+   "first": "2021-01-13",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "515220",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1596,
+   "first": "2020-03-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "515790",
+   "tier": 0.1,
+   "t0_scan": false,
+   "bars": 1399,
+   "first": "2020-12-18",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "518880",
+   "tier": 0.1,
+   "t0_scan": true,
+   "bars": 1632,
+   "first": "2020-01-02",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 0,
+   "guard_sell_blocked": 1,
+   "guard_susp": 0
+  },
+  {
+   "sym": "588000",
+   "tier": 0.2,
+   "t0_scan": false,
+   "bars": 1423,
+   "first": "2020-11-16",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  },
+  {
+   "sym": "588080",
+   "tier": 0.2,
+   "t0_scan": false,
+   "bars": 1423,
+   "first": "2020-11-16",
+   "last": "2026-09-23",
+   "guard_buy_blocked": 1,
+   "guard_sell_blocked": 0,
+   "guard_susp": 0
+  }
+ ],
+ "break_days": [
+  {
+   "sym": "159901",
+   "date": "2021-04-12",
+   "pct": -0.5103
+  },
+  {
+   "sym": "159928",
+   "date": "2021-06-25",
+   "pct": -0.7447
+  },
+  {
+   "sym": "159995",
+   "date": "2026-07-07",
+   "pct": -0.5012
+  },
+  {
+   "sym": "510310",
+   "date": "2024-09-23",
+   "pct": 1.0094
+  },
+  {
+   "sym": "510500",
+   "date": "2022-08-29",
+   "pct": -0.1274
+  },
+  {
+   "sym": "512000",
+   "date": "2025-08-04",
+   "pct": -0.4974
+  },
+  {
+   "sym": "512010",
+   "date": "2021-06-28",
+   "pct": -0.7392
+  },
+  {
+   "sym": "512100",
+   "date": "2022-09-05",
+   "pct": 1.7627
+  },
+  {
+   "sym": "512170",
+   "date": "2021-02-25",
+   "pct": -0.681
+  },
+  {
+   "sym": "512200",
+   "date": "2024-08-12",
+   "pct": 1.7007
+  },
+  {
+   "sym": "512480",
+   "date": "2021-03-29",
+   "pct": -0.489
+  },
+  {
+   "sym": "512480",
+   "date": "2026-07-03",
+   "pct": -0.507
+  },
+  {
+   "sym": "512690",
+   "date": "2021-05-17",
+   "pct": -0.48
+  },
+  {
+   "sym": "512690",
+   "date": "2021-12-31",
+   "pct": -0.2706
+  },
+  {
+   "sym": "512710",
+   "date": "2021-03-22",
+   "pct": -0.4963
+  },
+  {
+   "sym": "512800",
+   "date": "2025-07-07",
+   "pct": -0.4969
+  },
+  {
+   "sym": "513100",
+   "date": "2022-01-14",
+   "pct": -0.8045
+  },
+  {
+   "sym": "513500",
+   "date": "2022-03-30",
+   "pct": -0.4918
+  },
+  {
+   "sym": "515000",
+   "date": "2025-09-08",
+   "pct": -0.5052
+  },
+  {
+   "sym": "515050",
+   "date": "2026-05-13",
+   "pct": -0.6529
+  },
+  {
+   "sym": "515220",
+   "date": "2024-04-12",
+   "pct": -0.5034
+  }
+ ],
+ "disclosures": {
+  "F_A_board_seal": "sell-leg limit-down deferral was omitted in the unguarded default path -> registered evidence is directionally optimistic on exit liquidity; impact measured in rails B1/B.",
+  "F_D_cost_v2_floor": "cost v2 (ADV-tier slippage) lacks the 5-yuan commission floor; low-value orders are undercharged under v2 faces -- disclosure only, no code change in this batch.",
+  "share_consolidation": "raw sina series carries structural share-consolidation breaks (see break_days); engine keeps no consolidation adjustment -> cross-break holds embed phantom jumps; anchor-frozen evidence NOT recomputed (D2 lockbox); panel-integrity governance = new-ticket candidate; paper forward pollution risk disclosed to GM.",
+  "paper_dual_rail_recommendation": "recommendation only (GM adjudication domain): wire the same guard into live/paper window runs behind an additive default-off flag so forward paper fills respect board-seal/suspension un-fillability."
+ },
+ "break_detector": "|pct| beyond real board window (tier+1.5pp) on raw per-symbol rows: 21 events / 19 symbols, reconciles the prereg s5 enumeration exactly; first write used the narrower |pct|>=30% subset (19 events) -- disclosure-face fix, rails/ledger untouched"
+}

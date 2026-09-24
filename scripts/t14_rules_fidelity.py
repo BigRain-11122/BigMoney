@@ -59,7 +59,7 @@ RULES_PATH = os.path.join(_REPO, "knowledge", "rules.py")
 TIER_20 = frozenset({"159915", "159949", "588000", "588080"})  # frozen scan s2
 CAL_SYM = "510300"                                            # prereg s3 calendar
 TOL_LO, TOL_HI = 0.005, 0.015          # board window [tier-0.5pp, tier+1.5pp]
-BREAK_MAG = 0.30                       # |pct| >= 30% = consolidation-scale day
+CONSOL_MAG = 0.30                     # secondary: |pct| >= 30% consolidation-scale
 T0_NEW = "159985"                      # Rail B2 patch target (prereg s2.3)
 BATCH_TRIALS = 24                      # prereg s4 accounted grid
 
@@ -94,8 +94,12 @@ def build_guard(prices_full: dict) -> tuple[dict, dict]:
             list(df.index[dn_seal.fillna(False)])
         # suspension: calendar days inside [first,last] with no raw row
         susp_days = [d for d in cal if (first <= d <= last) and d not in df.index]
-        # consolidation-scale artifact days (disclosure, excluded by window)
-        art = ((pct.abs() >= BREAK_MAG)).fillna(False)
+        # structural break days (disclosure): |pct| beyond the real board
+        # window is impossible as a trade -> share-consolidation artifact
+        # (deterministic rule; reconciles the prereg s5 enumeration exactly:
+        # 21 events / 19 symbols). Secondary: |pct| >= 30% consolidation-scale.
+        art = (pct.abs() > t + TOL_HI).fillna(False)
+        consol_days = list(df.index[(pct.abs() >= CONSOL_MAG).fillna(False)])
         art_days = list(df.index[art])
         for d in up_days:
             buy.at[d, sym] = False
@@ -112,6 +116,8 @@ def build_guard(prices_full: dict) -> tuple[dict, dict]:
             "up_days": [str(d.date()) for d in up_days],
             "dn_days": [str(d.date()) for d in dn_days],
             "susp_dates": [str(d.date()) for d in susp_days],
+            "break_days": len(art_days),
+            "consolidation_scale_days": len(consol_days),
         }
         for d in art_days:
             diag["break_days"].append({
@@ -123,6 +129,9 @@ def build_guard(prices_full: dict) -> tuple[dict, dict]:
         "sell_blocked": sum(v["sell_blocked_days"] for v in diag["per_symbol"].values()),
         "susp": sum(v["susp_days"] for v in diag["per_symbol"].values()),
         "break_days": len(diag["break_days"]),
+        "break_days_distinct_syms": len({b["sym"] for b in diag["break_days"]}),
+        "consolidation_scale": sum(v["consolidation_scale_days"]
+                                   for v in diag["per_symbol"].values()),
     }
     return {"buy": buy, "sell": sell}, diag
 
@@ -256,7 +265,8 @@ def selftest() -> bool:
     art = fx["AAA"].index[4]  # d5 row: close 40 vs prev 99 -> -0.596
     _chk("artifact day NOT sell-blocked (window law)", bool(g["sell"].at[art, "AAA"]))
     _chk("artifact day disclosed in break_days", dg["totals"]["break_days"] == 1
-         and dg["break_days"][0]["sym"] == "AAA")
+         and dg["break_days"][0]["sym"] == "AAA"
+         and dg["totals"]["consolidation_scale"] == 1)
     pre = fx[CAL_SYM].index[0]
     _chk("pre-listing BBB cell True", bool(g["buy"].at[pre, "BBB"])
          and bool(g["sell"].at[pre, "BBB"]))
@@ -280,6 +290,8 @@ def _load_traders() -> list[dict]:
     out = []
     tdir = LP.TRADERS_DIR
     for path in sorted(tdir.glob("*.json")):
+        if path.name.startswith("_"):        # _template.json (paper.py law)
+            continue
         with open(path, encoding="utf-8-sig") as fh:
             t = json.load(fh)
         if t.get("level") != "INTERN":
@@ -436,13 +448,67 @@ def run_batch() -> int:
     return 0
 
 
+def rebreak() -> int:
+    """Patch pass: correct the break-day disclosure face of the batch JSON.
+
+    Product-writing fix only (r56 legitimate-reexecution law): rails/ledger/
+    guard counts are byte-untouched; rail A is re-run deterministically
+    (recorded-cell repro, unaccounted) to recompute holding-path x break-day
+    intersections against the beyond-board detector (21 events / 19 syms,
+    reconciling the prereg s5 enumeration; the first write used a narrower
+    |pct|>=30% subset = 19 events). Ledger is NEVER touched here.
+    """
+    print("[t14] rebreak: loading ...")
+    out = json.load(open(OUT_PATH, encoding="utf-8"))
+    traders = _load_traders()
+    prices_full = LP.load_core()
+    guard, diag = build_guard(prices_full)
+    assert diag["totals"]["break_days"] == 21, diag["totals"]
+    assert diag["totals"]["break_days_distinct_syms"] == 19, diag["totals"]
+    break_by_sym: dict[str, list[str]] = {}
+    for b in diag["break_days"]:
+        break_by_sym.setdefault(b["sym"], []).append(b["date"])
+    rows = {r["trader"]: r for r in out["traders"]}
+    for t in traders:
+        tid = t["id"]
+        cutoff = LP.evidence_cutoff(t, prices_full)
+        ps = pd.Timestamp(cutoff)
+        prices = {s: df[df.index <= ps] for s, df in prices_full.items()}
+        P = LP.build_panels(prices)
+        a = run_rail(t, prices, P)  # rail A only, unaccounted
+        row = rows[tid]
+        # determinism cross-check: recomputed A must equal the stored A face
+        assert _seg_clean(a["got"]["in_sample"]) == _seg_clean(row["A"]["is"]), tid
+        assert _seg_clean(a["got"]["out_sample"]) == _seg_clean(row["A"]["oos"]), tid
+        inter = _break_intersections(a, break_by_sym)
+        row["break_intersections"] = len(inter)
+        row["break_detail"] = inter[:20]
+        print(f"[t14] rebreak {tid}: break_x={len(inter)}")
+    out["break_days"] = diag["break_days"]
+    out["break_detector"] = ("|pct| beyond real board window (tier+1.5pp) on raw "
+                             "per-symbol rows: 21 events / 19 symbols, reconciles "
+                             "the prereg s5 enumeration exactly; first write used "
+                             "the narrower |pct|>=30% subset (19 events) -- "
+                             "disclosure-face fix, rails/ledger untouched")
+    out["guard_totals"]["break_days"] = diag["totals"]["break_days"]
+    out["guard_totals"]["break_days_distinct_syms"] = \
+        diag["totals"]["break_days_distinct_syms"]
+    out["guard_totals"]["consolidation_scale"] = diag["totals"]["consolidation_scale"]
+    with open(OUT_PATH, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=1)
+    print(f"[t14] rebreak: JSON patched {OUT_PATH} (ledger untouched)")
+    return 0
+
+
 def main(argv=None) -> int:
     argv = list(sys.argv[1:] if argv is None else argv)
     if argv and argv[0] == "selftest":
         return 0 if selftest() else 1
     if argv and argv[0] == "run":
         return run_batch()
-    print("usage: t14_rules_fidelity.py [selftest|run]")
+    if argv and argv[0] == "rebreak":
+        return rebreak()
+    print("usage: t14_rules_fidelity.py [selftest|run|rebreak]")
     return 2
 
 

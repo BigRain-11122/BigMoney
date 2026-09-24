@@ -47,7 +47,16 @@
 
 ## §6 跑后回填（占位纪律：跑前必须为空）
 
-（空）
+**执行**：2026-09-24 r47 bm-c（scripts/t14_rules_fidelity.py：selftest 14/14 → run 42.4s → rebreak 断点面修补）；账本 N 3041+24=**3065**（append_ledger，evidence_cutoff=2026-09-23）；产物 results/rules_fidelity_t14.json（prereg_sha256 随件；A/Ax2/B2x2 控制跑 12 次不计账）。
+
+1. **守卫面计数与冻结 scan 逐位吻合**：buy_blocked 24 / sell_blocked 42 / susp 10（独立构造复现输入事实=双源对账）。断点探测实跑修正为「超板窗」规则（|pct|>tier+1.5pp）：**21 事件/19 员，与 §5 枚举逐符号逐位吻合**——§5 prose「12 员 20 事件」系枚举手误，以枚举+确定性重算为准；首写 |pct|≥30% 严档=19 事件为子集（510500 −12.74% 与 512690 2021-12-31 −27.06% 仅超板窗档收录）；JSON 带 break_detector 注记（披露面修补，rails/ledger 零改动——r56 合法重执行口径）。
+2. **A 锚定门 6/6 PASS**（批内 live.paper.anchor_gate 全过 + 本 harness A 轨 seg 逐位一致双证）。
+3. **B2（159985 T+0）落地门=3/6 非逐位 → 常量不落地（冻结裁决律执行）**：VOLATILITY-CE-01 ΔOOS −0.1097（OOS 522→524 笔）；COMPOSITE-CE-02 首异 @trades#299（2023-03-23）；COMPOSITE-CE-01 一倍面逐位同、×2 面首异 @#121（2022-06-29）——**漂移形态单一：T0 豁免使 159985 持仓的 signal_reversal 退出提前一个交易日（hold_days 1→0）**；成本面调制首异位置（一倍面/×2 面不同员先破）。DROUGHT/ENGULF/NEEDLE 三员从未持有 159985=逐位同。**发现呈 GM**：注册证据冻结于 T+1 保守语义，更正=语义变更=GM 裁决域；rules.py 常量未动、market_rules.md §4 注记维持现状；重开须 GM 裁决+新预注册（证据冻结律）。
+4. **B1（守卫）漂移**：COMPOSITE-CE-01 ΔIS **+0.3050**（IS 302→309 笔——买入拒单释放槽位→成员路径重排的路径依赖放大；OOS −0.0014 几乎不动）；COMPOSITE-CE-02 ΔIS +0.0796；VOLATILITY/NEEDLE/DROUGHT/ENGULF 全零（从未踩中 24 涨停封板/42 跌停/10 停牌日——防守袖与短持有族的入场日天然避开板/停牌日）。注册证据的卖出腿「跌停不可卖延迟」方向性乐观披露成立但量级集中于一员入场腿再循环。
+5. **断点×持仓交集=0/6 员**（21 事件全表）——在册配置的持仓路径未跨任何断点日（combo 轮换持有面宽但时间错开）；paper 前向污染风险仍在（断点 2026-07 双事件落在窗口外是运气非结构保证）。
+6. **F-D 披露行**（cost v2 无 5 元起点）+份额折算面板完整性治理新票候选+paper 前向双轨设计建议（additive default-off flag、GM 裁决域）随批 JSON disclosures 块落盘。
+7. **预测对账（对照 §7）**：P1 **大错**（0/6 实 3/6——「退出机极少同日翻转」对日频成员刷新员不成立）；P2 半对（B1 非零员=COMPOSITE 双员 ✓、VOLATILITY B1=0 ✗）；P3 **大错**（B1 +0.305 IS 超 0.15 带一倍——槽位再循环路径依赖被低估）；P4 半对（COMPOSITE 最大 ✓、VOLATILITY B1 反例 ✗、三短持有员全零 ✓）；P5 ✓（6/6）；P6 错（交集 0 非 ≥1）。
+8. **T0 落地门判定**：`do_not_land`（landed=false，批 JSON t0_landing 块）。
 
 ## §7 跑前预测（写死后禁改）
 
