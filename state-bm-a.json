@@ -1,10 +1,10 @@
 {
- "round_no": 107,
+ "round_no": 108,
  "did": [
-  "R107 (dept:交易+工程): 红牌三源裁定=GM 豁免合法 idle (尾样本 T-38 open 信号陈旧已闭: 池 6/6 done+open 0+bandit 0+audit CLEAN; 下 tick 00:50 自然翻绿) + T-20 收尾闭环 (最后 reporting-only 步交付: daily_scorecard.py T-20 双轨护栏披露块 6 员表 + monthly_briefing.py 三节风险旗 guard rollup 行, 实弹 6/6 enabled/guarded/零事件, briefing selftest 11/11) + T-20 票 done (G0-G6 ALL PASS+生产切换 R106+显示接线 R107)",
-  "R107 S6: 全绿 (audit CLEAN py0.2% flags[] / wm n=1 insufficient_history 合法 / daily 0 行 cutoff 09-24 / regime ORANGE d2 shadow / lhb+heat+futures no-op 守卫内 / moneyflow spawn→conn 级源阻断自愈设计内 53/5222 checkpoint / fp 车道 no-op bm-c / fundamental fresh / b_layer 四门 all_pass / t35 幂等 export-09-24 / tok delta 64) + smoke 23/23 + orders 双扫 61/61 空"
+  "R108 (dept:数据): moneyflow 源死亡诊断闭环 (三层分型: daykline 双域双路硬断≥25h=域活路径死; clist 排行面+盘中 fflow 面活) → 三产物: DIGEST-20260925-moneyflow-daykline-dead.md + MF_COLLECTOR.md §6 addendum + 票 T-2026-09-25-39 (v2 排行面修复, 60 请求/日替代 5222/月, 12 值列全映射 schema 零改)",
+  "R108 S6: 全绿 (audit CLEAN py0.6% / wm n=1 insufficient_history 合法 / daily 0 行 cutoff 09-24 / regime ORANGE d2 shadow / lhb+heat+futures no-op / mf throttle no-op / fp 车道 no-op / fundamental fresh / b_layer all_pass / t35 幂等 / tok +164) + smoke 23/23 + orders 61/61 双扫空 + IntradayMarks 首火就绪 (schtasks Ready 09:25 + selftest PASS)"
  ],
- "verdict": "WM=RED->GM-waiver legal idle (red=true stale work-signal: trailing samples held T-38 open pre-23:59, current pool 6/6 done + open 0 + bandit 0 = O-1612 whitelist; self-clears next C7 tick) ; T-20 fully closed (G0-G6 PASS + display wiring)",
- "next": "R108: C7 tick 00:50 后核 red 文件自然翻绿 (预期 healthy) + bm-c 复活观察 (T-16/17/19/25/32+T-29 残片) + 09:30 开盘 T-35 d2-c 首实弹窗 (IntradayMarks 09:25 首火) + moneyflow conn 阻断解除自愈监控",
- "ts": "2026-09-25T00:32:52+08:00"
+ "verdict": "WM=GREEN (red 00:50:02 tick 自然翻绿, R107 陈旧信号预判兑现) ; moneyflow daykline 源死亡证明落档, v2 修复票 T-39 已开待下轮认领",
+ "next": "R109: 认领 T-39 开工 v2 (fetch 面+字段映射+盘中守卫纯函数切片+selftest 夹具) + IntradayMarks 09:25 首实弹窗观察 + bm-c 复活观察 (仍停 21:51, R101 判例零 stale shards 不接管)",
+ "ts": "2026-09-25T00:57:30+08:00"
 }

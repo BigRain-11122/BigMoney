@@ -84,3 +84,17 @@
   data/ 面板 gitignored（可再生）。
 - 判链活性：看状态件 ts + `logs/moneyflow_refresh.log` 尾部 + `data/moneyflow/_progress.json` 计数
   （勿信 done 旗读磁盘——margin 假绿坑律 r47）。
+
+## §6 源面死亡证明与 v2 修复裁定（2026-09-25 R108 addendum）
+
+- **V1 主源已死**：daykline 面（`fflow/daykline/get`）自 09-24 夜起接口级硬断 ≥25h——双域（push2his/push2）
+  双路（代理/直连）仿冒头均 RemoteDisconnected 即断；同域 kline 面活=域活路径死。
+  「阻断按日波动」前提**证伪为阻断按日轮换**（R58 晨=daykline 活×clist 死；R108 夜=完全倒转）。
+  证据件=`research/digests/DIGEST-20260925-moneyflow-daykline-dead.md`（三探针表+坑律）。
+- **v2 修复票=T-2026-09-25-39**（bm-a 数据车道）：主面换 `push2 clist/get` 排行横截面
+  （60 请求/日全市场 5920→bars 宇宙 5222 join，12 值列全映射 f62/f184/f66/f69/f72/f75/f78/f81/f84/f87，
+  schema 冻结面零改动）；**窗语义=纯前向日频**（横截面无回看）；daykline 路径保留为机会性回填副面
+  （120td 回看=天然 gap 修复器，自愈机制零改动复用）；盘中 09:15-15:05 禁拉（快照≠终值）；
+  日期=本地 ETF 日历最近完整 bar 日自戳。V1 的 §1「月度级重拉+20td 门」与 §4.1「月度新鲜度」
+  口径在 v2 落地后由 T-39 同步修订为日频门；此前 gate 3 请求/30min 探测=诚实空烧已知态（非缺陷）。
+- 面板存量（53/5222 股 daykline 史）不废：合法回填存量，v2 追加不重写。

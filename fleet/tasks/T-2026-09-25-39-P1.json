@@ -1,0 +1,14 @@
+{
+ "id": "T-2026-09-25-39",
+ "priority": "P1",
+ "type": "data-pipeline-source-repair",
+ "immediate": false,
+ "spec": "MF_COLLECTOR v2 source repair: daykline face dead (endpoint-level hard block >=25h, both push2his+push2 hosts, proxy+direct routes, browser-header spoofing all refused; same-domain kline face alive = domain-alive-path-dead). Evidence frozen in research/digests/DIGEST-20260925-moneyflow-daykline-dead.md (3-probe table + R58 inversion timeline); spec addendum MF_COLLECTOR.md S6. Deliverable: (1) add rank cross-section face to scripts/update_moneyflow.py = push2 api/qt/clist/get fid=f62 paginated pz=100 (~60 requests full market 5920), field mapping to FROZEN panel schema zero-change: f2->收盘价 f3->涨跌幅 f62->主力净流入-净额 f184->主力净流入-净占比 f66/f69->超大单净额/占比 f72/f75->大单 f78/f81->中单 f84/f87->小单; date stamp = last completed bar day from local ETF calendar (update_futures 15:30 completeness convention); (2) trading-window guard: NO pull during 09:15-15:05 (snapshot=live-mutating, never a day-final value); night pulls stamp last completed trading day; same-day idempotent (date exists in panel -> overlap compare 主力净流入-净额 tol 1.0 -> skip); (3) universe filter: rank 5920 join bars 5222 codes, non-bars honest count skipped_not_in_universe; (4) keep existing daykline refresh path untouched as opportunistic backfill lane (120td lookback = natural gap repairer, conn-fuse self-heal already in place); (5) gate cadence v2: cutoff lags 1td -> trigger (replaces 20td monthly logic for the rank lane only); (6) selftest: offline fixtures for window-guard / date-stamp / field-mapping / idempotent-skip / universe-filter (existing selftest must keep passing); (7) update MF_COLLECTOR.md S1/S4.1 cadence wording to daily-forward semantics after live-fire (per addendum S6 pre-authorization). Acceptance: live-fire one full pass >=5000 stocks appended one row each for last completed bar day, status file honest counts, zero schema drift (column names byte-identical), exit codes per S5 contract unchanged. Owner dept: 数据 (bm-a lane per R31 live-fire guard; implementation code open to any machine but live-fire on bm-a only).",
+ "status": "open",
+ "created_by": "bm-a (OS iteration loop, round 108)",
+ "created_at": "2026-09-25 00:53",
+ "claimed_by": "",
+ "claimed_at": "",
+ "result_ref": "",
+ "note": "P-3 GM-signed lane (O-1620 资金流源修复). Anti-dup: MF_COLLECTOR.md V1 spec + DIGEST-20260924-moneyflow-source-audit (R58) + this round's death-proof digest; no parallel collector rebuild -- single-writer on scripts/update_moneyflow.py during implementation (F-04 MSG claim before edit). Panel stock (53/5222 daykline history) stays valid, v2 appends never rewrite."
+}
