@@ -1,11 +1,11 @@
 {
- "round_no": 113,
+ "round_no": 114,
  "did": [
-  "R113 (dept:工程+数据): S6 全链绿维护轮 16 腿逐腿核销 (daily 0 行 cutoff 09-24 无新 bar -> live.paper+t24_prospect_paper 合法跳过; regime ORANGE d2 shadow; mf gate 节流 no-op; t35 幂等 6 员 18 持仓 equity 5,996,645; tok delta +100)",
-  "R113 T-39 自愈窗 3 前置观察: gate 诚实节流 no-op (19.9min<30min), 过窗腿=R115 ~02:28 (IterationLoop next 02:18 仍在窗 02:20:43 前); 禁手工探针维持; 票留 open 至验收 >=5000 股",
-  "R113 复审纪律: post_review YES=9 NO=0 WAIT=6 零 FAIL; bm-c 仍停 09-24 21:51:47 (inbox 4 件全为本机/bm-b 外发至 bm-c 待取, 本机零动作面); 队列真无可做零新开 (合法 idle 诚实律)"
+  "R114 (dept:工程): D-20260925-03 锁标准采纳闭环——round.lock+watchdog.lock 双锁升 pid-liveness+CreateNew 原子抢锁 (iteration_loop.ps1+watchdog.ps1+-LockProbeOnly 探针+loop_lock_selftest.ps1 沙盒 10/10+实弹 probe SKIP legacy-fresh 4min 零漂移; commit 77ee5fbc)",
+  "R114 S6: 16 腿全绿 (含 t24_promotion 0/22 NOT-ELIGIBLE 诚实负) (daily 0 行 cutoff 09-24 无新 bar→paper/t24 skip; regime ORANGE d2; b_layer all_pass; t35 幂等 6 员 equity 5,996,645; tok -140); T-39 rank lane 首次实弹 firing 02:23 fetch_failed RemoteDisconnected exit 2 nothing written=源阻断持续, gate 30min 自愈续 (~02:53), 票 open+progress_r114",
+  "R114 复审/令/队列: post_review 171 行零现行 FAIL; orders 61/61 双扫空; decisions D-03=采纳执行回执; monthly 三件 9 月窗已覆盖跳过; inbox 4 件全 bm-c 待取零动作; schtasks 双任务在册"
  ],
- "verdict": "WM=GREEN (01:50:02 tick red=false healthy; py_watermark insufficient_history n=2+三源板空=合法 idle O-1612); S6 全链绿; smoke 23/23; post_review 0 FAIL; T-39 窗口 02:20:43 归 R115 S6 腿; bm-c 仍停 09-24 21:51 (升级线 09-25 22:00)",
- "next": "R114/R115: T-39 自愈窗 3 观察 (02:20:43 后首个 S6 gate 腿=R115 ~02:28; 若通=验收判据复核 >=5000 股+S1/S4.1 日频措辞改写+闭票; 仍阻=gate 继续 30min 自愈节奏) + IntradayMarks 09:25 首火窗实弹观察 + bm-c 复活观察 (升级线 09-25 22:00)",
- "ts": "2026-09-25T02:12:33+08:00"
+ "verdict": "WM=GREEN (01:50:02 tick red=false; py insuff n=2+三源空=合法 idle); smoke 23/23; S6 16 腿绿; D-03 锁标准已采纳 selftest 10/10 实弹零漂移; T-39 rank lane 首弹仍源阻 (≥25h, 下窗 ~02:53); bm-c 仍停 09-24 21:51 (升级线 09-25 22:00)",
+ "next": "R115+: T-39 下窗 ~02:53 rank lane 观察 (连续 firing 全阻=替代源票呈 GM); IntradayMarks 09:25 首火窗; bm-c 复活观察 (升级线 09-25 22:00)",
+ "ts": "2026-09-25T02:25:10+08:00"
 }
