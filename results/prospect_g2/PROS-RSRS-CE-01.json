@@ -1,0 +1,108 @@
+{
+ "member": "PROS-RSRS-CE-01",
+ "family": "RSRS",
+ "exit_regime": "ce",
+ "entry_key": "rsrs_timing(18/250/0.8/-0.8)",
+ "gate": "t24-g2-pack (prereg research/shortline/T24_G2_PACK.md)",
+ "lines": {
+  "i_line": 0.4474,
+  "vi_bar": 0.4004,
+  "worst_year_floor": -0.35,
+  "source": "science_gates.recorded_lines() live read"
+ },
+ "neighborhood_pass": false,
+ "cost_x3_pass": false,
+ "per_year_pass": true,
+ "anchor_reverify": {
+  "d_full": 0.0,
+  "trades_exact": true,
+  "pass": true
+ },
+ "yearly": {
+  "2020": 0.0,
+  "2021": -0.09,
+  "2022": -0.0687,
+  "2023": -0.0132,
+  "2024": 0.0521,
+  "2025": 0.1432,
+  "2026": -0.0066
+ },
+ "worst_year": -0.09,
+ "neighborhood": {
+  "points": 8,
+  "red": 8,
+  "clause": "red*2 <= points (G2_FOLK clause 2 verbatim)",
+  "cells": [
+   {
+    "point": {
+     "buy_z": 0.7
+    },
+    "full_sharpe": -0.0021,
+    "red": true
+   },
+   {
+    "point": {
+     "buy_z": 0.9
+    },
+    "full_sharpe": 0.0941,
+    "red": true
+   },
+   {
+    "point": {
+     "exit_z": -0.7
+    },
+    "full_sharpe": -0.0317,
+    "red": true
+   },
+   {
+    "point": {
+     "exit_z": -0.9
+    },
+    "full_sharpe": -0.0482,
+    "red": true
+   },
+   {
+    "point": {
+     "window": 12
+    },
+    "full_sharpe": -0.2892,
+    "red": true
+   },
+   {
+    "point": {
+     "window": 24
+    },
+    "full_sharpe": -0.0669,
+    "red": true
+   },
+   {
+    "point": {
+     "z_win": 120
+    },
+    "full_sharpe": 0.0882,
+    "red": true
+   },
+   {
+    "point": {
+     "z_win": 480
+    },
+    "full_sharpe": 0.0593,
+    "red": true
+   }
+  ]
+ },
+ "x3": {
+  "full_sharpe": -0.374,
+  "oos_sharpe": 0.354,
+  "n_trades": 657
+ },
+ "cost_clause": {
+  "x3_positive": false,
+  "recorded_x2_beats_vi": false,
+  "recorded_x2_full_sharpe": -0.1749,
+  "note": "x2>vi = registration-standard G2 clause 3 on recorded evidence (no relaxation); x3 survival = new evidence"
+ },
+ "status": "judged",
+ "evidence_cutoff": "2026-09-22",
+ "generated": "2026-09-24T19:28:06+08:00"
+}

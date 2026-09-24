@@ -1,0 +1,94 @@
+{
+ "member": "PROS-BBS-CE-01",
+ "family": "BBS",
+ "exit_regime": "ce",
+ "entry_key": "bb_squeeze_breakout()",
+ "gate": "t24-g2-pack (prereg research/shortline/T24_G2_PACK.md)",
+ "lines": {
+  "i_line": 0.4474,
+  "vi_bar": 0.4004,
+  "worst_year_floor": -0.35,
+  "source": "science_gates.recorded_lines() live read"
+ },
+ "neighborhood_pass": false,
+ "cost_x3_pass": false,
+ "per_year_pass": true,
+ "anchor_reverify": {
+  "d_full": 0.0,
+  "trades_exact": true,
+  "pass": true
+ },
+ "yearly": {
+  "2020": 0.0298,
+  "2021": -0.0536,
+  "2022": -0.0216,
+  "2023": -0.0013,
+  "2024": 0.0703,
+  "2025": 0.0407,
+  "2026": 0.0015
+ },
+ "worst_year": -0.0536,
+ "neighborhood": {
+  "points": 6,
+  "red": 4,
+  "clause": "red*2 <= points (G2_FOLK clause 2 verbatim)",
+  "cells": [
+   {
+    "point": {
+     "bb_n": 15
+    },
+    "full_sharpe": 0.387,
+    "red": true
+   },
+   {
+    "point": {
+     "bb_n": 25
+    },
+    "full_sharpe": 0.8903,
+    "red": false
+   },
+   {
+    "point": {
+     "k": 1.7
+    },
+    "full_sharpe": 0.2712,
+    "red": true
+   },
+   {
+    "point": {
+     "k": 2.3
+    },
+    "full_sharpe": 0.1132,
+    "red": true
+   },
+   {
+    "point": {
+     "width_n": 40
+    },
+    "full_sharpe": 0.2271,
+    "red": true
+   },
+   {
+    "point": {
+     "width_n": 80
+    },
+    "full_sharpe": 0.6269,
+    "red": false
+   }
+  ]
+ },
+ "x3": {
+  "full_sharpe": -0.2635,
+  "oos_sharpe": 0.1252,
+  "n_trades": 495
+ },
+ "cost_clause": {
+  "x3_positive": false,
+  "recorded_x2_beats_vi": false,
+  "recorded_x2_full_sharpe": -0.0162,
+  "note": "x2>vi = registration-standard G2 clause 3 on recorded evidence (no relaxation); x3 survival = new evidence"
+ },
+ "status": "judged",
+ "evidence_cutoff": "2026-09-22",
+ "generated": "2026-09-24T19:28:06+08:00"
+}

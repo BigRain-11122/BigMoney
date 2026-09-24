@@ -1,0 +1,66 @@
+{
+ "member": "PROS-TMU-CE-01",
+ "family": "TMU",
+ "exit_regime": "ce",
+ "entry_key": "three_methods_up()",
+ "gate": "t24-g2-pack (prereg research/shortline/T24_G2_PACK.md)",
+ "lines": {
+  "i_line": 0.4474,
+  "vi_bar": 0.4004,
+  "worst_year_floor": -0.35,
+  "source": "science_gates.recorded_lines() live read"
+ },
+ "neighborhood_pass": false,
+ "cost_x3_pass": false,
+ "per_year_pass": true,
+ "anchor_reverify": {
+  "d_full": 0.0,
+  "trades_exact": true,
+  "pass": true
+ },
+ "yearly": {
+  "2020": 0.0006,
+  "2021": 0.0,
+  "2022": 0.0098,
+  "2023": -0.0034,
+  "2024": -0.0198,
+  "2025": 0.028,
+  "2026": -0.0049
+ },
+ "worst_year": -0.0198,
+ "neighborhood": {
+  "points": 2,
+  "red": 2,
+  "clause": "red*2 <= points (G2_FOLK clause 2 verbatim)",
+  "cells": [
+   {
+    "point": {
+     "big_yang": 0.02
+    },
+    "full_sharpe": 0.2381,
+    "red": true
+   },
+   {
+    "point": {
+     "big_yang": 0.04
+    },
+    "full_sharpe": -0.5739,
+    "red": true
+   }
+  ]
+ },
+ "x3": {
+  "full_sharpe": -0.0646,
+  "oos_sharpe": 0.3739,
+  "n_trades": 49
+ },
+ "cost_clause": {
+  "x3_positive": false,
+  "recorded_x2_beats_vi": false,
+  "recorded_x2_full_sharpe": 0.0143,
+  "note": "x2>vi = registration-standard G2 clause 3 on recorded evidence (no relaxation); x3 survival = new evidence"
+ },
+ "status": "judged",
+ "evidence_cutoff": "2026-09-22",
+ "generated": "2026-09-24T19:28:06+08:00"
+}

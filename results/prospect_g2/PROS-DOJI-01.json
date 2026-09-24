@@ -1,0 +1,66 @@
+{
+ "member": "PROS-DOJI-01",
+ "family": "DOJI",
+ "exit_regime": "default",
+ "entry_key": "doji_at_low()",
+ "gate": "t24-g2-pack (prereg research/shortline/T24_G2_PACK.md)",
+ "lines": {
+  "i_line": 0.3521,
+  "vi_bar": 0.4004,
+  "worst_year_floor": -0.35,
+  "source": "science_gates.recorded_lines() live read"
+ },
+ "neighborhood_pass": false,
+ "cost_x3_pass": false,
+ "per_year_pass": true,
+ "anchor_reverify": {
+  "d_full": 0.0,
+  "trades_exact": true,
+  "pass": true
+ },
+ "yearly": {
+  "2020": 0.0855,
+  "2021": -0.013,
+  "2022": -0.0601,
+  "2023": 0.0293,
+  "2024": 0.0266,
+  "2025": 0.0717,
+  "2026": -0.034
+ },
+ "worst_year": -0.0601,
+ "neighborhood": {
+  "points": 2,
+  "red": 2,
+  "clause": "red*2 <= points (G2_FOLK clause 2 verbatim)",
+  "cells": [
+   {
+    "point": {
+     "drop_th": -0.04
+    },
+    "full_sharpe": 0.2591,
+    "red": true
+   },
+   {
+    "point": {
+     "drop_th": -0.06
+    },
+    "full_sharpe": 0.09,
+    "red": true
+   }
+  ]
+ },
+ "x3": {
+  "full_sharpe": -0.2769,
+  "oos_sharpe": -0.1943,
+  "n_trades": 541
+ },
+ "cost_clause": {
+  "x3_positive": false,
+  "recorded_x2_beats_vi": false,
+  "recorded_x2_full_sharpe": -0.034,
+  "note": "x2>vi = registration-standard G2 clause 3 on recorded evidence (no relaxation); x3 survival = new evidence"
+ },
+ "status": "judged",
+ "evidence_cutoff": "2026-09-22",
+ "generated": "2026-09-24T19:28:06+08:00"
+}

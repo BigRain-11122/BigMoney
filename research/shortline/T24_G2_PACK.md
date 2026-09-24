@@ -118,14 +118,36 @@ i_line=0.3521 / vi_bar=0.4004 / ce_null_p4_batch1=0.4474）：
 - results/prospect_g2/t24_g2_pack_cells.jsonl（checkpoint 逐格幂等）；
 - research/shortline/t24_g2_pack_results.csv（邻域+成本行，批级披露表）。
 
-## §7 跑后实证【跑前必须为空——占位纪律】
+## §7 跑后实证【一次定稿】
 
-（一次定稿；工程修复重跑须双跑留痕如实记；确定性引执级写 bug 的合法重跑口径≠结果重跑）
+- **批 56 秒全弧完成**（120 跑；§0 预算 25-40 分钟高估 ~35×——core48 向量化
+  回测亚秒级实证，后续批预算按 ~0.5s/格修正）；一次跑无中断无重跑，零占位兑现。
+- anchor re-verify **22/22 PASS**（tol 0.002 逐员）。
+- 邻域 **5/22 过**：PROS-BBS-01 / PROS-DUCK-01 / PROS-DUCK-CE-01 / PROS-OVB-01 /
+  PROS-OVB-CE-01；IBB 双员 grid_empty REFUSED 如 §2 披露；VOB-CE 5/8 红 FAIL。
+- cost_x3 **0/22**：全体 22 员 recorded_x2 < vi_bar 0.4004（最高 DUCK-01 0.2583）
+  且 x3 全期 Sharpe 多为负（正者如 VOB-CE x3 OOS +0.70 但 full −0.06）——两
+  conjunct 双证据一致败，无放松无美化。
+- per_year **22/22 过**（最差年 −3.89%..−2.42% 区间，远高于 −35% 地板）。
+- 数据门首跑诚实中止（晚上市员前沿 NaN 2275 格/11 员，零产数）→ 跑前窗内修正
+  §2 门条款+实现（commit 89c05ec），判据零触碰；重跑一次定稿。
+- 账本：prev **5709**（pa1e_premium_event 链头）+ 98 = **5807**
+  （results/t24_g2_pack.json trials_ledger 载体）。
 
-## §8 批后复盘【必填·§7-T】
+## §8 批后复盘【§5 预测对账】
 
-- 预测对账（§5 逐条对/部分对/错+量级）；
-- gate_attrition measurement 行（若产耗损面；本批=证据生产非筛选漏斗，无 attrition
-  则记 no-attrition 一行）；
-- 轮报告+CODELY.md 行级追加；若三子腿有翻转影响晋升门读数：下一新 bar 轮
-  t24_prospect_promotion.py 自动拾取（S6 已接线，无需人工）。
+- 预测①（anchor 22/22）：**命中**。
+- 预测②（IBB REFUSED）：**命中**（设计必然，非实证发现）。
+- 预测③（cost_x3 过 0-4 员）：**命中**——0 员过=区间下沿，且「0 员过=零合格
+  闸设计态一致」条款兑现（sleeve 观察员本就不该过注册级成本门）。
+- 预测④（per_year 18-22）：**命中**（22=上沿；窄 OAT 族成员逐年浅）。
+- 预测⑤（sleeve 员邻域过半红）：**部分命中**——VOB-CE/HAM/DOJI/IMM/MCB/TMU/
+  ANTS/RSRS 如预测 FAIL，但 OVB 双员+BBS-01 邻域过（OVB 中心 0.3318 低于
+  i-line 但 6 格中仅 3 红=边界 3×2≤6 恰过）＝未点名面如实按冻结判据判，
+  不因预测调线（判据优先于预测条款兑现）。
+- gate_attrition：**no-attrition**（证据生产批非筛选漏斗，无入闸/出闸计数面）。
+- 联动：下一新 bar 轮 t24_prospect_promotion.py 自动拾取 packs——g2_full 腿从
+  pack_missing 翻为 judged（FALSE 子腿如实），整体 NOT-ELIGIBLE 依旧（paper 0 月
+  +T-22 PROSPECT 分片 0 行仍卡=三道闸设计态不变）。
+- 工程复盘：§0 算力预算系统性高估（历史 10min-批心智锚定 vs core48 亚秒/格
+  实测）→ 后续 mini 批预算按实测格时外推。
