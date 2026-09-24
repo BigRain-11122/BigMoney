@@ -47,7 +47,11 @@ results/watermark.jsonl
 results/watermark_red.json
 # T-22 virtual-timepoint batch: machine-local per-cell checkpoints + logs;
 # committed products land in results/t22_virtual_timepoints.json instead
-results/t22/
+# (R108: runner SUMMARY prospect_beatrate.json un-ignored for evidence durability
+#  per MSG-20260925-0054 bm-b -- single-point disk survival was a 10-31 audit gap;
+#  cells/jsonl stay machine-local)
+results/t22/*
+!results/t22/prospect_beatrate.json
 # T-34 early-signal batch: machine-local member-curve checkpoints (~90MB);
 # committed products land in results/t34_early_signal_verdict.json instead
 results/t34/
