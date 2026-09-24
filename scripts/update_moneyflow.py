@@ -582,9 +582,9 @@ def gate():
     now = dt.datetime.now()
     owner = _lane_owner_id()
     if owner != LANE_OWNER:
-        st["ts"] = now.isoformat(timespec="seconds")
-        st["mode"] = f"no-op: lane owned by {LANE_OWNER} (R31 guard, this={owner or 'unknown'})"
-        write_status(st)
+        # R31 lane guard, hardened per bm-c MSG-20260924-0955: non-owner machines
+        # must NEVER touch the shared status mirror (mode/ts falsification +
+        # throttle-clock refresh on the owner's status). stdout-only early exit.
         print(f"no-op: moneyflow lane owned by {LANE_OWNER}, not this machine ({owner or '?'})")
         return 0
     panel = st.get("panel") or {}
@@ -752,7 +752,24 @@ def _selftest():
     assert _is_conn_error("ReadTimeout", "")
     assert not _is_conn_error("RuntimeError", "validation_fail:bad_date_format:x")
     assert not _is_conn_error("KeyError", "missing column")
-    print("selftest: 13/13 PASS")
+    # S14 non-owner gate: stdout-only no-op, shared status mirror untouched
+    # (bm-c MSG-20260924-0955: non-owner mirror rewrite = lane stomp)
+    with tempfile.TemporaryDirectory() as td:
+        global STATUS, _lane_owner_id
+        old_status, old_owner_fn = STATUS, _lane_owner_id
+        STATUS = os.path.join(td, "mf_status.json")
+        _lane_owner_id = lambda: "bm-c"
+        try:
+            write_status({"ts": "2026-09-24T09:23:55",
+                          "mode": "refresh source-blocked (connection-level)",
+                          "panel": {"cutoff": None, "complete": False}})
+            before = io.open(STATUS, "r", encoding="utf-8").read()
+            assert gate() == 0
+            after = io.open(STATUS, "r", encoding="utf-8").read()
+            assert before == after, "non-owner gate must not rewrite the shared mirror"
+        finally:
+            STATUS, _lane_owner_id = old_status, old_owner_fn
+    print("selftest: 14/14 PASS")
     return 0
 
 
