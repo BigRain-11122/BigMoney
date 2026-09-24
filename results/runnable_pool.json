@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 03:06:31",
+ "updated_at": "2026-09-25 03:21:24",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -182,15 +182,15 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 03:06:31",
    "data_gates": "in-runner: patch selftest + 48/48 panel >=cutoff lockbox 2026-09-24 (truncated, no reflow) + anchor repro 6/6 hard gate (any BROKEN = VOID exit 2) + finalize single-shot guard (GRID_P1_REFINALIZE=1 to redo)",
    "shards": [
     {
      "key": "gridp1-0of1",
-     "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 03:10:03",
      "checkpoint": "results/grid_p1_cells.jsonl (row-level done-key resume, t22 law; truncated tail tolerated)",
      "note": "112 trials = 4 cells (1 entry x 2 exit regimes x 2 cost faces) + 100 nulls (55_500+k/55_550+k, k<50) + 2 passive formula + 6 anchor reruns (1x, own cutoffs); est <10min serial; single-writer shard; takeover = owner hb stale >20min"
     }
@@ -200,7 +200,9 @@
     "priority": "BelowNormal",
     "note": "prereg s0 frozen: est <10min serial single-process (NSP1-isomorphic); light-batch workers=1 precedent T33-CORPS-ROSTER; autofill sets BelowNormal on launch; runner is pure-serial by design (deterministic resume)"
    },
-   "note": "slice-2 pool submission r137 bm-b; verdict face = x1 cost per prereg s4; D6 resolution note frozen in runner docstring pre-burn (r71 protocol)"
+   "note": "slice-2 pool submission r137 bm-b; verdict face = x1 cost per prereg s4; D6 resolution note frozen in runner docstring pre-burn (r71 protocol)",
+   "note_done": "completed r137 bm-b via C8 autofill (launch 03:10:03 latency 3.5min -> finalize wiring bug crashed post-compute -> fix 55f9b8c9 J18 impl-only -> relaunch 03:20:03 checkpoint-resume deterministic -> finalize landed): all hard gates PASS (patch/panel 48/48 lockbox 09-24/anchor 6/6); verdict HONEST NEGATIVE 0 survivors (default s=-0.4091 / ce s=+0.0683 vs skill line 1.1068, CI lower <=0; D6 registered 0.3301/0.2419 < 0.70 no reject, pair 0.6608 < 0.70 no merge); ledger +112=60659; result=results/grid_p1.json + research/grid_p1_results.csv + prereg s7/s8 backfilled + gate_attrition row",
+   "done_at": "2026-09-25 03:21:24"
   }
  ],
  "_stamp_note": "r92 stamp correction per r65 anti-estimation law: prior updated_at 21:26:00 was an estimated future-stamp, re-stamped from Get-Date real read"

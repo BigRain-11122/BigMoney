@@ -52,8 +52,16 @@
 
 ## §7 跑后实证【跑前必须为空——写数字即造假】
 
-（占位）
+- 批运行：2026-09-25 03:10–03:21 C8 autofill 双弹（03:10:03 首弹 latency 3.5min→finalize 接线 bug 计算后崩溃（零科学损失）→修复 commit 55f9b8c9（J18 实现修零判据改）→03:20:03 复弹 checkpoint 恢复（104/104 行零重算）→finalize 落盘）；audit n_backtests=110（4 cells+100 nulls+6 anchors，2 passive=公式腿不计）。
+- 硬门全过：patch selftest PASS／48/48 面板 2020-01-02..2026-09-24（lockbox 生效 raw end=cutoff）／anchor 复现 **6/6 OK**。
+- cells（判据面=x1 V1）：default **full Sharpe −0.4091**（ann −5.1%、dd −44.9%、OOS S −0.1403）；ce **full Sharpe +0.0683**（ann −0.07%、dd −41.7%、OOS S −0.0540）；x2 面 default −0.1958／ce −0.7303。
+- 技能线：**1.1068**（ledger 60,547+112=**60,659** 数据驱动；被动项 0.4606 不主导）；两 cell line_ok=False、bootstrap CI 下界非正（ci_ok=False）、entries_ok=True（641/470≥30）→ **pass_v2 双 False**。
+- D6：注册面 max|corr| default **0.3301**／ce **0.2419**（argmax 均 VOLATILITY-CE-01）——**均 <0.70 无拒收**；同批 pair **0.6608 < 0.70 → unique 无合并**（同族未撞线，§5-1 预测未中）。
+- nulls：K=100 mu=0.0074 sigma=0.2191，批内 p95 default 0.384／ce 0.3191（披露面；技能线=共享采集器）；passive：ew48_buyhold 0.2825／ew48_monthly_rebal 0.3606（J8 一致性 info）。
+- **生存者=0（诚实负）**；产物：results/grid_p1.json＋research/grid_p1_results.csv＋gate_attrition GRID-P1 行＋ledger 60,659。
 
 ## §8 批后复盘【必填·s7-T】
 
-（占位）
+- **预测记分**：§5-1 撞车带 0.4–0.8 → 实测 0.24–0.33 **未中**（二元会员+10d 冻结持有的收益流形与低波持有族差异大于预测）；§5-2 量级 0.2–1.0 → 实测 −0.41/+0.07 **未中**（方向「诚实负」命中、量级低于预测带下沿）；§5-3 门槛 1.10–1.46 → 1.1068 **命中**；§5-5 锚定 6/6 **命中**（2/4）。
+- **结论**：网格收割 A 层迁移在 core48+T+1+13bp 面未获数据支持——两 exit regime 全期 Sharpe 均远低于技能线且 CI 下界非正；Money0923 sane 先验（+27.7%/S 0.96）不可迁移获实证确认。主因候选=§3 已披露发散面（二元会员制／池内冻结持有／0.95÷5 sizing）+短史+成本面；归因分解=本批范围外。**收线：按预注册禁翻案，复活须新预注册+新机制论证。**
+- **工程复盘**：finalize 首跑接线 bug（x2 压测 sharpe 未接进 verdict cells）→计算后崩溃零科学损失、checkpoint 行级恢复确定性闭环实证（T-33 律生效面）；C8 池批自愈双弹链路（launch→crash→relaunch→finalize）全程零人工干预。教训：verdict 组装前对新增字段做存在性核（r89 引用件审计律的批内变体）。
