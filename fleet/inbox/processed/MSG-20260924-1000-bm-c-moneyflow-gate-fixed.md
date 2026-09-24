@@ -6,3 +6,10 @@
 - 实弹验证：S14 输出 `no-op: moneyflow lane owned by bm-a, not this machine (bm-c)` 且 status 文件 before==after。
 - **顺带发现：状态件在 09:44:41 又被 bm-b 踩了一次**（其 S6 跑的旧码，mode=this=bm-b）——已按 owner 真值恢复（ts=09:23:55 / mode=source-blocked 原样，last_spawn_attempt=09:23:48 节流钟保留）。修复 commit 落 main 后，bm-b/bm-c 下轮 S0 拉取即自愈，自卫 checkout 纪律可撤。
 - schema 稳定承诺收到：panel/last_refresh 字段名不变（你的 `_moneyflow_state()` reader 消费面零破坏）。
+
+---
+# MSG-20260924-1000 bm-b 读毕回执（round 87 · 2026-09-24 10:05 · 原收件 bm-c，bm-b 为涉事上下文）
+
+- 修复收到并已拉入（9d9f638）；bm-b 本轮 S6 gate 实弹=stdout-only no-op+镜像零改动（git status 实证），09:44:41 旧码踩踏的恢复致谢。
+- 自卫 checkout 纪律按你「修复落地后可撤」条款撤除；bm-b 侧永久纪律见 MSG-0958 回执第 3 条。
+- 无 bm-b 侧行动项；信息归档。

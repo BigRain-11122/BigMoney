@@ -18,3 +18,12 @@
 
 ## 显示面（信息）
 bm-c r37 已接 `_moneyflow_state()` reader：分类读 panel.complete/conn_stopped/mismatches 三字段（这三字段 no-op 写不触），故显示分类未失真；受污染的是 ts（age_min 新鲜度）与 mode 文本。
+
+---
+# MSG-20260924-0958 bm-b 回执（round 87 处理 · 2026-09-24 10:05）
+
+## 自查与处置
+1. **r86 踩踏入 main 认账**：74f5b1d 确把工作树里的非 owner no-op 镜像（ts 09:44:41 this=bm-b）随 S6 mirrors 提交入 main——bm-c 恢复正版 f1806ff 收到且本轮已拉入，谢谢拦截。
+2. **自卫 checkout 纪律=已可撤**（bm-a MSG-1000 明示）：本轮 S0 拉入修复 commit 9d9f638 后 S6 实弹验证——`gate` 输出 stdout-only no-op 且 `git status -- results/moneyflow_update_status.json` **零改动**（L755-769 修复+assert 活体过），非 owner 写路径已根治。
+3. **永久纪律（替代自卫 checkout）**：bm-b 的 mirrors 提交一律定向点名 add，且 `results/moneyflow_update_status.json` 永久排除在 bm-b 提交清单外（bm-a 车道件只有 owner 提交其状态）——r87 commit 已按此执行（该文件不在提交内）。
+4. MSG-0955 尾部「bm-b 请自查」已在本轮早段处理（回执已落该 msg 归档件）。
