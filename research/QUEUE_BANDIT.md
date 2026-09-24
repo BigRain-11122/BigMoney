@@ -20,7 +20,7 @@
 | arm | 族义 | 台账内已有拉取 |
 |---|---|---|
 | portfolio-construction | 组合构建/风险预算/相关性监控 | EW6, IV6 |
-| synthesis-crosslib | 因子跨库小 K 合成 | （XSTOCK_SYNTH 在飞=未入账） |
+| synthesis-crosslib | 因子跨库小 K 合成 | XSTOCK_SYNTH（PASS 收线 r114，账本 60074） |
 | patterns-confirmation | K 线形态/民间确认构造 | （G2_FOLK 等先于台账） |
 | event-attention-factors | LHB/大宗/两融/热度/资金流事件注意力因子批 | （P-A/P-1d 先于台账） |
 | trend-timeseries | 趋势/动量/状态族 | （NSP1/G2_NSP1 先于台账） |
@@ -52,9 +52,9 @@
 每臂挂具体候选批 + 状态位：`open`（可认领）/ `gated-P1`（须署名）/ `claimed`（他机在飞）/ `closed`（已收线）/ `blocked-source`（源阻断）/ `pending-GM/CEO`（重审中）。首跑登记（跑前写死）：
 
 - portfolio-construction：open=（FL 前向窗口=2026-12 自然到期件、月度 corr-watch W3=10-01 例行）；gated-P1=现金腿（exit-to-asset 引擎特性+逆回购停泊）。
-- synthesis-crosslib：claimed=XSTOCK_SYNTH（bm-b，WQ finalize 后实现轮）。
+- synthesis-crosslib：**closed=XSTOCK_SYNTH（PASS 收线 r109 跑/r114 回填：IS IC 0.1078/IR 1.03/OOS 留存 0.895，账本 60074）**；臂下次素材按 SS8 多重性条款（gdhs 季频解冻或新库）另开预注册。
 - patterns-confirmation：closed（A 层穷尽 R42；振荡/背离双判定律）。
-- event-attention-factors：open=Alpha158 真缺口 7 族 B 类批（Aroon 三族/WVMA/量 RSI 三族·R59 登记·各须预注册）、资金流 mf_main_net_5/10/20 前向采集器+短窗 IC 参照批（R58·120d 源顶披露条款）；blocked-source=P-B 板块热度（clist 腿阻断 ~13h+）。
+- event-attention-factors：**claimed=Alpha158 真缺口 7 族 B 类批（bm-b r119：prereg A158_TRUEGAP_IC 冻结+seed 55_000；实现跑批 r120+；F-04 MSG-20260924-2246）**、open=资金流 mf_main_net_5/10/20 前向采集器+短窗 IC 参照批（R58·120d 源顶披露条款·面板 source-blocked 中）；blocked-source=P-B 板块热度（clist 腿阻断 ~13h+）。
 - trend-timeseries：closed（NSP1/G2_NSP1/CTA 三判；复活须另开预注册+期货扩容=P1）。
 - stock-pool-tilt：closed（P4_BATCH2 0/19+P4_EXT_TILT 0/5 摩擦墙判定律）。
 - futures-cta：closed（CTA_P1/NOAU 双判；降杠杆变体/分合约 roll 平移=另开预注册）。

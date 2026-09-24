@@ -577,6 +577,10 @@ SEED_REGISTRY = {
     # date-style base, registry+rg repo-scan verified free 2026-09-24 21:2x --
     # sole repo hit = Money0923/tests fixture date string (non-RNG coincidence,
     # disclosed); registered before T-34 prereg freeze r114)
+    "a158_truegap_ic": 55_000,             # A158_TRUEGAP_IC K=50 same-mask stock-pool
+    # white-noise nulls (55_000+i, i<50; 55_x00 band verified free: registry scan
+    # 2026-09-24 22:4x -- nearest neighbors 54_000=t18_deep_axis (i<=999) and
+    # date-style 202609xx bases disjoint; registered before prereg freeze r119)
 }
 
 
