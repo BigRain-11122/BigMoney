@@ -599,6 +599,13 @@ SEED_REGISTRY = {
     # cross-window union with ths_agg_p1 56_000 (band 56_000..56_049, bm-a
     # r120 same-window freeze) -- bases disjoint, both valid, t11/a158
     # precedent)
+    "xstock_tilt_h20": 57_000,              # XSTOCK_TILT h20-frequency random
+    # top-K nulls (57_000+i, i<20; band 57_000..57_019, next free band above
+    # p4_batch3_dca 56_500; registry+rg repo-scan verified free 2026-09-25
+    # 06:2x before XSTOCK_TILT prereg freeze r151 bm-b)
+    "xstock_tilt_h10": 57_100,              # XSTOCK_TILT h10-frequency random
+    # top-K nulls (57_100+i, i<20; band 57_100..57_119, same scan; disjoint
+    # from h20 band per p4_ext_tilt 49_000/49_100 split precedent)
 }
 
 
