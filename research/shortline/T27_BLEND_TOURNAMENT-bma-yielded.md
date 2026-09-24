@@ -1,3 +1,5 @@
+> **[SUPERSEDED / YIELDED 2026-09-24 r85 bm-a]** 本文件为撞认领让路的**后到方补充卷**，已被 bm-c 正典预注册 `research/T27_BLEND_TOURNAMENT.md`（claim 133b522 %ci=18:31:16 先于 bm-a ~18:34:13，fleet README §4 commit 时间序裁定）**取代**——同批名唯一判据集=bm-c 版；本卷零格跑动零账本（p-hacking 防混淆：两套冻结判据并存时以正典为准，本卷仅留档增量设计（S28 全池层+月界前向锁协议）供 bm-c item4 增补评估）。rebase 后对应 commit=952bb79（认领+让路）/fb8df8f（本卷冻结）。
+
 # T27_BLEND_TOURNAMENT —— 五法组合锦标赛预注册（跑前冻结）
 
 > 权威：research/BACKTEST_SCIENCE.md（v2 判据唯一权威）＋ BACKTEST_PLAN.md 三铁律 ＋ research/COMPUTE_AUDIT.md（批纪律）。
