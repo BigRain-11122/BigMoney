@@ -497,10 +497,14 @@ def cmd_run(_) -> int:
         return finalize(cell_rows, [], {"rows": null_rows, "summary": {}},
                         {}, {"repro": [], "rets": {}}, gates, t0, void=True)
 
-    # verdict cells = x1 faces, DatetimeIndex re-attached (r69 law)
+    # verdict cells = x1 faces, DatetimeIndex re-attached (r69 law),
+    # x2 stress sharpes wired in from the x2 rows (disclosure fields)
     verdict_cells = []
     for reg in REGIMES:
         c = dict(rows[f"grid|{reg}|x1"])
+        x2r = rows[f"grid|{reg}|x2"]
+        c["x2_full_sharpe"] = x2r["full"]["sharpe"]
+        c["x2_oos_sharpe"] = x2r["oos"]["sharpe"]
         c["_rets"] = pd.Series(c["_rets"],
                                index=pd.DatetimeIndex(c["_eq_index"][1:]))
         c.pop("_eq_index", None)
