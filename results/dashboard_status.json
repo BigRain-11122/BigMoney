@@ -4,7 +4,7 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T08:01:17"
+    "generated_at": "2026-09-24T08:03:34"
   },
   "health": {
     "smoke": {
@@ -28,7 +28,7 @@
     "update": {
       "present": true,
       "last_run": "2026-09-24 08:00:52",
-      "age_min": 0,
+      "age_min": 2,
       "symbols": 48,
       "total_new_rows": 0,
       "failures": 0,
@@ -56,7 +56,7 @@
       "varieties": 9,
       "planned": 9,
       "last_attempt": "2026-09-24T08:01:06",
-      "age_min": 0,
+      "age_min": 2,
       "cutoff": "2026-09-23",
       "errors": 0,
       "rows_total": 23647,
@@ -65,14 +65,14 @@
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 07:53:09",
+      "generated": "2026-09-24 08:01:18",
       "mandate_est": 2987,
-      "codely_context_est": 119042,
-      "state_est": 1825,
-      "report_est": 69882,
-      "delta_state": 0,
-      "delta_report": 0,
-      "delta_prev": "2026-09-24 07:50:02"
+      "codely_context_est": 120046,
+      "state_est": 1694,
+      "report_est": 71076,
+      "delta_state": -131,
+      "delta_report": 1194,
+      "delta_prev": "2026-09-24 07:53:09"
     },
     "regime": {
       "present": true,
@@ -183,22 +183,22 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-24T07:53:52+08:00",
-        "age_min": 7.4,
+        "last_seen": "2026-09-24T08:05:00+08:00",
+        "age_min": 1.4,
         "health": "ok",
         "cpu_cores": 32,
-        "idle_ram_gb": 49.2,
-        "gpu_idle_vram_mb": 901,
-        "current_task": "R54 done: update_daily laggard catch-up fix + 12 SZ 159xxx 09-23 bar healed (48/48 coherent); maintenance chain all green",
-        "verdict": "smoke 23/23; probe-fast-path blind spot fixed and live-healed; lane near-empty (P1-gated only); next R55=5x HANDOVER",
-        "orders_ack": "FULL ENUMERATION 29/29 (R54 S0.5 + S7 double-scan diff empty: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100)",
-        "clock_read": "2026-09-24T07:53:52+08:00",
-        "round_no": 54
+        "idle_ram_gb": null,
+        "gpu_idle_vram_mb": null,
+        "current_task": "R55 5x HANDOVER collation done; maintenance rounds",
+        "verdict": "GREEN",
+        "orders_ack": "29/29 (all O-2026xxxx orders in fleet/orders acked; diff via Tools/orders_diff.py)",
+        "clock_read": "2026-09-24T08:02:11+08:00",
+        "round_no": 55
       },
       {
         "id": "bm-b",
         "last_seen": "2026-09-24T08:00:00+08:00",
-        "age_min": 7.5,
+        "age_min": 9.8,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 12.3,
@@ -211,17 +211,17 @@
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-09-24 07:45:28",
-        "age_min": 15.8,
+        "last_seen": "2026-09-24T07:57:26+08:00",
+        "age_min": 6.1,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 10.3,
         "gpu_idle_vram_mb": 13276,
-        "current_task": "round 27 done: CTA_P2_NOAU gate-chain step-18 display wiring (17->18, live-read, stash-regression verified)",
+        "current_task": "r28 gate-chain completeness sweep #2: 6 closed engine batches wired chronologically live-read (P-2/GM-P4b1/P-5/2A/P4_FOLK/P-5B), chain 18->24 steps, regime-dependence narrative now on panel",
         "verdict": "OK",
-        "orders_ack": "29/29: r27 opening scan diff empty + closing rescan diff empty (zero new orders; last still O-20260924-0100-bm-c); inbox empty",
-        "clock_read": "2026-09-24T07:45:28+08:00",
-        "round_no": 27
+        "orders_ack": "29/29: r28 opening scan diff empty + closing rescan diff empty (zero new orders; last still O-20260924-0100-bm-c); inbox empty",
+        "clock_read": "2026-09-24T07:57:26+08:00",
+        "round_no": 28
       }
     ],
     "tickets": [
@@ -522,16 +522,46 @@
         "note": "最佳 B-EW6 0.6748 vs 在位 0.9229，×2≈0.1649 成本传染+α稀释，池内素材收线"
       },
       {
+        "stage": "P-2 合成 · GTJA191 因子合成→策略终审",
+        "result": "0/3 员过 G1'",
+        "pass": false,
+        "note": "gtja_top5 0.3533 过 i 线 0.3521 差 vi 0.4004 一线；合成增益在 OOS 端（政体存活），ETF 外部库合成线收线"
+      },
+      {
         "stage": "P-4 动物园批一 · A 层易族 core48 mini 海选",
         "result": "0 员候选 · 袖珍 2",
         "pass": false,
         "note": "低相关素材 oversold_bounce_20_15@default/oversold_bounce_20_15@ce；CE i 线取严 0.4474；52周低点=接飞刀，批一线诚实收线"
       },
       {
+        "stage": "P-4 批一 GM 双实现 · A 层易族（超跌/深水/换手）",
+        "result": "0 员过 G1'",
+        "pass": false,
+        "note": "双实现 +124 真试验追溯入账；vi=0.4796（被动+随机p95抬线）；与 canonical 批一同判 0 幸存"
+      },
+      {
+        "stage": "P-5 随机起点实战检验 · K=50（O-1816）",
+        "result": "3/3 员 FAIL 跑赢线",
+        "pass": false,
+        "note": "跑赢线 0.7；pooled 0.6467；回撤条款全过（最深 -0.204 vs 红线 -0.35）——政体依赖实证，α 成色归纸盘通道"
+      },
+      {
+        "stage": "P-4 批 2A · TA 流派迁移海选（O-1828·9 流派）",
+        "result": "3 G1' 候选 · 袖珍 3",
+        "pass": true,
+        "note": "vol_breakout@ce/engulf_reversal@default/engulf_reversal@ce；确认构造>形态+语境>指标超卖阶梯首证；strong_close/streak 跨域单向门深负；G2 深化另开预注册"
+      },
+      {
         "stage": "P-4 批二 · 股票池 B 层七族海选（26bp+拒单撮合）",
         "result": "0 员幸存",
         "pass": false,
         "note": "vi=0.561（被动月度EW+0.10 主导）；七族全深负，打板/短持有线被成本碾压，B 层首开诚实判负"
+      },
+      {
+        "stage": "P4_FOLK · 民间手法大扩容海选（O-2134·26 入场）",
+        "result": "6 G1' 候选 · 袖珍 12",
+        "pass": true,
+        "note": "needle_probe@default/needle_probe@ce/vol_drought_reversal@default/vol_drought_reversal@ce/duck_head@default/duck_head@ce；金针/地量 ×2 已存活=史上最优出厂先验；红三兵跨域单向门、MACD 背离民谚降级；候选不注册待 G2"
       },
       {
         "stage": "G2_FOLK 出厂门 · 民间三族深化（邻域+成本×2/×3）",
@@ -544,6 +574,12 @@
         "result": "0 G1' 候选 · 袖珍 2",
         "pass": false,
         "note": "vi=0.4004；振荡超卖类四族全灭律+背离域双负律入法；袖珍=bb_squeeze 双制（正但差 i 线）"
+      },
+      {
+        "stage": "P-5B 新员随机起点尽调 · K=50 并行（O-2345）",
+        "result": "3/3 新员 FAIL 跑赢线",
+        "pass": false,
+        "note": "pooled 0.6067；政体依赖实证扩至全员 6/6；回撤条款全过（最深 -0.0512）——账面 OOS 高分含政体红利，α 成色以纸盘为准"
       },
       {
         "stage": "P4_PAIRS · 配对协整长多形态（zoo #41·67 跑）",
@@ -788,8 +824,8 @@
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-23 · 刚跑"
     },
     {
-      "time": "2026-09-24 07:53:09",
-      "text": "本地化 · token 粗估 状态 1825 · 报告 69882 · 回合固定载入 119042（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 08:01:18",
+      "text": "本地化 · token 粗估 状态 1694 · 报告 71076 · 回合固定载入 120046（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -816,7 +852,7 @@
       "text": "治理面 · 科学审计 6/6 检 OK · findings 0 · 月度简报 2026-09 在档（月度 M 层 · 总经办 · findings 只报不阻断）"
     },
     {
-      "time": "2026-09-24T07:53:52+08:00",
+      "time": "2026-09-24T08:05:00+08:00",
       "text": "机队 · 3 节点 3 活 · 票据 done 7/claimed 0/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
@@ -832,8 +868,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 08:00",
-        "age_min": 0.7,
+        "last_active": "09-24 08:03",
+        "age_min": 0.1,
         "alive": true
       }
     ]
