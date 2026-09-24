@@ -1,6 +1,6 @@
 {
  "schema": "bandit-queue v1",
- "generated": "2026-09-24 09:19:14",
+ "generated": "2026-09-24 13:51:39",
  "source_ledger": "results/gate_attrition.json",
  "algorithm": {
   "name": "UCB1",
@@ -43,8 +43,8 @@
      "status": "open"
     },
     {
-     "name": "cash leg exit-to-asset + reverse-repo parking",
-     "status": "gated-P1"
+     "name": "cash leg delivered (T-09 bm-c r45: cash_parking additive flag + repo rates, acceptance 26 runs all-pass, zero-registration claim)",
+     "status": "closed"
     }
    ]
   },
@@ -93,7 +93,7 @@
      "status": "open"
     },
     {
-     "name": "moneyflow mf_main_net_5/10/20 forward collector + short-window IC (R58, 120d source cap)",
+     "name": "moneyflow IC reference batch (collector delivered R63; panel parked source-blocked with 30-min self-heal; IC batch when panel completes)",
      "status": "open"
     },
     {
@@ -222,8 +222,9 @@
    "pulls": [],
    "candidates": [
     {
-     "name": "REGIME_GUARD v3 re-design (v1/v2 calibration double-FAIL, evidence pack filed)",
-     "status": "pending-GM-CEO"
+     "name": "REGIME_GUARD v3 replay PASS (12.01% in-gate, r94); O-1325 enforce approved; wiring=T-21 (co-landing 2026-10-01)",
+     "status": "claimed",
+     "by": "bm-b"
     }
    ]
   }
@@ -246,23 +247,30 @@
   "pairs-cointegration",
   "futures-cta"
  ],
- "unmapped_batches": [],
+ "unmapped_batches": [
+  "j13v2_mill_ic1",
+  "j13v2_mill_ic2",
+  "etf-rules-fidelity-t14",
+  "regime-guard-validation-v3",
+  "regime-guard-validation-v3-cf"
+ ],
  "engineering_candidates": [
   {
-   "name": "J13 v2 blind-draft qualification prereg",
+   "name": "J13 v2 mill line (qualification 0.90 via v2a R65; prereg J13_V2_MINILOOP R66; IC1+IC2 novel 0/24, n_distinct 13/11; continue s9 cadence, stop when 2-run novel=0 AND n_distinct<8)",
    "status": "open"
   },
   {
-   "name": "Optuna bayesian tuning skeleton",
+   "name": "Optuna bayesian tuning skeleton (O-1120 D2 unfreeze: validated>=8 AND new-registrations<=1 in last window)",
    "status": "gated-P1"
   },
   {
-   "name": "negative-event library consumption (QuantBull)",
-   "status": "gated-P1"
+   "name": "negative-event library first consumption = T-11 (signed O-1045; sequenced after XSTOCK harvest)",
+   "status": "open"
   },
   {
-   "name": "daily dual-leg ticket (tencent validation leg)",
-   "status": "gated-P1"
+   "name": "daily dual-leg T-08 (tencent validation leg; claimed r68, interactive-session WIP in tree)",
+   "status": "claimed",
+   "by": "bm-a + interactive session"
   }
  ],
  "advisory_note": "advisory only: scheduler never initiates batches; every batch needs prereg+claim; P1-gated and GM/CEO-review items stay gated",

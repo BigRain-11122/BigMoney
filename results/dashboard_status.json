@@ -4,13 +4,13 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T13:41:41"
+    "generated_at": "2026-09-24T13:52:36"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T13:39:53",
+      "at": "2026-09-24T13:50:16",
       "ok": true
     },
     "network": {
@@ -28,7 +28,7 @@
     "update": {
       "present": true,
       "last_run": "2026-09-24 13:28:26",
-      "age_min": 13,
+      "age_min": 24,
       "symbols": 48,
       "total_new_rows": 0,
       "failures": 0,
@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
       "l1_snapshots": 1,
-      "l1_updated": "2026-09-24 13:41:12",
+      "l1_updated": "2026-09-24 13:52:17",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -55,7 +55,7 @@
       "present": true,
       "varieties": 9,
       "planned": 9,
-      "last_attempt": "2026-09-24T13:41:26",
+      "last_attempt": "2026-09-24T13:52:18",
       "age_min": 0,
       "cutoff": "2026-09-23",
       "errors": 0,
@@ -75,20 +75,20 @@
       "conn_stopped": true,
       "mismatches": 0,
       "last_attempt": "2026-09-24T13:30:34",
-      "age_min": 11,
+      "age_min": 22,
       "status": "warn",
       "text": "资金流源阻断停发 · 30min 自愈 · 已采 31/5222"
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 13:30:32",
+      "generated": "2026-09-24 13:41:41",
       "mandate_est": 3579,
-      "codely_context_est": 133840,
-      "state_est": 2177,
-      "report_est": 96937,
-      "delta_state": 365,
-      "delta_report": 1794,
-      "delta_prev": "2026-09-24 13:15:36"
+      "codely_context_est": 134446,
+      "state_est": 2032,
+      "report_est": 97597,
+      "delta_state": -145,
+      "delta_report": 660,
+      "delta_prev": "2026-09-24 13:30:32"
     },
     "regime": {
       "present": true,
@@ -195,7 +195,7 @@
     },
     "queue_bandit": {
       "present": true,
-      "generated": "2026-09-24 09:19:14",
+      "generated": "2026-09-24 13:51:39",
       "schema": "bandit-queue v1",
       "n_arms": 10,
       "tried_arms": 4,
@@ -208,12 +208,12 @@
         "portfolio-construction"
       ],
       "positive_arms_cn": "组合构建",
-      "n_open_candidates": 1,
-      "n_gated_candidates": 3,
-      "unmapped_batches": 0,
+      "n_open_candidates": 2,
+      "n_gated_candidates": 1,
+      "unmapped_batches": 5,
       "evidence_cutoff": "2026-09-23",
       "status": "ok",
-      "text": "下一 跨库合成（未试） · 正收益 组合构建 · 开放1 · P1门3"
+      "text": "下一 跨库合成（未试） · 正收益 组合构建 · 开放2 · P1门1"
     }
   },
   "fleet": {
@@ -221,23 +221,23 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-24T13:31:21+08:00",
-        "age_min": 10.3,
+        "last_seen": "2026-09-24T13:42:56+08:00",
+        "age_min": 9.7,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": null,
         "gpu_idle_vram_mb": null,
-        "current_task": "R73: read-only maintenance + backoff (live ACP session active, T-08 in-flight untouched)",
-        "verdict": "smoke 23/23; orders 41/41 double-scan empty; S6 all green (regime ORANGE shadow d1; moneyflow first-pull spawned, source-blocked self-heal by design); update_daily prod skipped (T-08 WIP precedent); T-20 deferred to session-quiet early-age round, 10-01 co-landing lock with T-21",
+        "current_task": "R74: read-only maintenance + backoff round 3 of live-session window (2x ACP alive 13:12/13:19, update_daily.py touched 13:32; behind origin 3, integration deferred to session-quiet round)",
+        "verdict": "smoke 23/23; orders 41/41 double-scan empty; S6 all green (audit CLEAN, py 0.9pct; regime ORANGE shadow d1 #10; moneyflow throttle no-op, first-pull spawned 13:30 self-heal; token -145); update_daily prod skipped (T-08 WIP precedent R69-73); T-20 deferred to session-quiet early-age round, 10-01 co-landing lock with T-21 (bm-b claimed T-21 on origin)",
         "orders_ack": "O-20260923-1514 O-20260923-1533 O-20260923-1536 O-20260923-1538 O-20260923-1545 O-20260923-1620 O-20260923-1636 O-20260923-1653 O-20260923-1705 O-20260923-1738 O-20260923-1810 O-20260923-1816 O-20260923-1819 O-20260923-1820 O-20260923-1823 O-20260923-1828 O-20260923-1844 O-20260923-1850 O-20260923-2134 O-20260923-2205 O-20260923-2210 O-20260923-2215 O-20260923-2250 O-20260923-2310 O-20260923-2311 O-20260923-2315 O-20260923-2325 O-20260923-2345 O-20260924-0100 O-20260924-1045 O-20260924-1110 O-20260924-1120 O-20260924-1136 O-20260924-1141 O-20260924-1145 O-20260924-1155 O-20260924-1235 O-20260924-1255 O-20260924-1310 O-20260924-1320 O-20260924-1325",
-        "clock_read": "2026-09-24T13:31:21+08:00",
-        "round_no": 73
+        "clock_read": "2026-09-24T13:42:56+08:00",
+        "round_no": 74
       },
       {
         "id": "bm-b",
         "last_seen": "2026-09-24T13:20:20+08:00",
-        "age_min": 24.5,
-        "health": "ok",
+        "age_min": 35.4,
+        "health": "warn",
         "cpu_cores": 16,
         "idle_ram_gb": 11.0,
         "gpu_idle_vram_mb": 2355,
@@ -250,7 +250,7 @@
       {
         "id": "bm-c",
         "last_seen": "2026-09-24T13:58:00+08:00",
-        "age_min": 12.2,
+        "age_min": 23.1,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": null,
@@ -415,16 +415,16 @@
     "n_claimed": 5,
     "n_done": 12,
     "audit": {
-      "ts": "2026-09-24 13:40:46",
+      "ts": "2026-09-24 13:51:58",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 73.0,
-      "py_cpu_pct": 0.9,
+      "cpu_total_pct": 45.0,
+      "py_cpu_pct": 0.8,
       "cores": 32,
-      "py_procs": 7,
+      "py_procs": 6,
       "zombies": 0,
-      "gpu_util_pct": 3.0,
-      "gpu_mem_used_mb": 7351.0,
+      "gpu_util_pct": 4.0,
+      "gpu_mem_used_mb": 7441.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -471,7 +471,7 @@
     "lhb": {
       "verdict": "no-op: cutoff 2026-09-23 covers latest disclosure window (2026-09-23)",
       "cutoff": "2026-09-23",
-      "updated": "2026-09-24 13:41:10",
+      "updated": "2026-09-24 13:52:16",
       "new_rows": 0
     }
   },
@@ -934,7 +934,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T13:39:53",
+      "time": "2026-09-24T13:50:16",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -958,11 +958,11 @@
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 13:41:12",
+      "time": "2026-09-24 13:52:17",
       "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24T13:41:26",
+      "time": "2026-09-24T13:52:18",
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-23 · 刚跑"
     },
     {
@@ -970,8 +970,8 @@
       "text": "数据链 · 资金流源阻断停发 · 30min 自愈 · 已采 31/5222（MF_COLLECTOR 前向 · bm-a R63）"
     },
     {
-      "time": "2026-09-24 13:30:32",
-      "text": "本地化 · token 粗估 状态 2177 · 报告 96937 · 回合固定载入 133840（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 13:41:41",
+      "text": "本地化 · token 粗估 状态 2032 · 报告 97597 · 回合固定载入 134446（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -998,12 +998,12 @@
       "text": "治理面 · 科学审计 6/6 检 OK · findings 0 · 月度简报 2026-09 在档（月度 M 层 · 总经办 · findings 只报不阻断）"
     },
     {
-      "time": "2026-09-24 09:19:14",
-      "text": "队列排程 · UCB1 advisory · 下一 跨库合成（未试） · 正收益 组合构建 · 开放1 · P1门3 · 已试臂 4/10 · exploit 最优 组合构建（QUEUE_BANDIT v1 · O-1819 队列永不清空 · 只排序不发起批）"
+      "time": "2026-09-24 13:51:39",
+      "text": "队列排程 · UCB1 advisory · 下一 跨库合成（未试） · 正收益 组合构建 · 开放2 · P1门1 · 已试臂 4/10 · exploit 最优 组合构建（QUEUE_BANDIT v1 · O-1819 队列永不清空 · 只排序不发起批）"
     },
     {
-      "time": "2026-09-24T13:31:21+08:00",
-      "text": "机队 · 3 节点 3 活 · 票据 done 12/claimed 5/open 4 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
+      "time": "2026-09-24T13:42:56+08:00",
+      "text": "机队 · 3 节点 2 活 · 票据 done 12/claimed 5/open 4 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
       "time": "-",
@@ -1018,8 +1018,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 13:40",
-        "age_min": 1.2,
+        "last_active": "09-24 13:51",
+        "age_min": 0.9,
         "alive": true
       }
     ]

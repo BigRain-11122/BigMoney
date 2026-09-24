@@ -56,7 +56,8 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
     "portfolio-construction": [
         {"name": "corr-watch W3 monthly cadence", "status": "open"},
         {"name": "FL forward window (needs >=60 paper bars, ~2026-12)", "status": "open"},
-        {"name": "cash leg exit-to-asset + reverse-repo parking", "status": "gated-P1"},
+        {"name": "cash leg delivered (T-09 bm-c r45: cash_parking additive flag + repo "
+                 "rates, acceptance 26 runs all-pass, zero-registration claim)", "status": "closed"},
     ],
     "synthesis-crosslib": [
         {"name": "XSTOCK_SYNTH (stock-pool cross-lib small-K)", "status": "claimed", "by": "bm-b"},
@@ -66,7 +67,8 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
     ],
     "event-attention-factors": [
         {"name": "Alpha158 true-gap 7 families (Aroon x3 / WVMA / volume-RSI x3, R59)", "status": "open"},
-        {"name": "moneyflow mf_main_net_5/10/20 forward collector + short-window IC (R58, 120d source cap)", "status": "open"},
+        {"name": "moneyflow IC reference batch (collector delivered R63; panel parked "
+                 "source-blocked with 30-min self-heal; IC batch when panel completes)", "status": "open"},
         {"name": "P-B sector heat (EM clist leg blocked >13h)", "status": "blocked-source"},
     ],
     "trend-timeseries": [
@@ -85,15 +87,21 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
         {"name": "LFC closed", "status": "closed"},
     ],
     "regime-defense": [
-        {"name": "REGIME_GUARD v3 re-design (v1/v2 calibration double-FAIL, evidence pack filed)", "status": "pending-GM-CEO"},
+        {"name": "REGIME_GUARD v3 replay PASS (12.01% in-gate, r94); O-1325 enforce approved; "
+                 "wiring=T-21 (co-landing 2026-10-01)", "status": "claimed", "by": "bm-b"},
     ],
 }
 
-ENGINEERING_CANDIDATES = [  # do not occupy arms (prereg s4)
-    {"name": "J13 v2 blind-draft qualification prereg", "status": "open"},
-    {"name": "Optuna bayesian tuning skeleton", "status": "gated-P1"},
-    {"name": "negative-event library consumption (QuantBull)", "status": "gated-P1"},
-    {"name": "daily dual-leg ticket (tencent validation leg)", "status": "gated-P1"},
+ENGINEERING_CANDIDATES = [  # do not occupy arms (prereg s4); statuses track reality (advisory)
+    {"name": "J13 v2 mill line (qualification 0.90 via v2a R65; prereg J13_V2_MINILOOP R66; "
+             "IC1+IC2 novel 0/24, n_distinct 13/11; continue s9 cadence, stop when 2-run "
+             "novel=0 AND n_distinct<8)", "status": "open"},
+    {"name": "Optuna bayesian tuning skeleton (O-1120 D2 unfreeze: validated>=8 AND "
+             "new-registrations<=1 in last window)", "status": "gated-P1"},
+    {"name": "negative-event library first consumption = T-11 (signed O-1045; sequenced "
+             "after XSTOCK harvest)", "status": "open"},
+    {"name": "daily dual-leg T-08 (tencent validation leg; claimed r68, interactive-session "
+             "WIP in tree)", "status": "claimed", "by": "bm-a + interactive session"},
 ]
 
 
