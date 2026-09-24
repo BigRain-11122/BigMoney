@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-24 23:10:41",
+ "updated_at": "2026-09-25 03:06:31",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -171,6 +171,36 @@
    },
    "note": "r121 bm-b FINALIZE: verdict 0/5 primary FAIL -> Alpha158 gap-line CLOSED per prereg s0 multiplicity law (revival needs new prereg + mechanism argument); ledger +65=60547 (5 primary + 2 affine-clone disclosure + 50 nulls-once + 7 h5 + 1 h20 report cols); result_ref=results/shortline/a158_truegap_ic.json + research/shortline/a158_truegap_ic_cells.csv + prereg s7/s8 backfilled + gate_attrition row 24; mid-flight P0 disclosed in attrition note (r120 run killed pre-verdict on fwd-frame column-alignment bug, fixed+proven, deterministic rerun 7/7 ok) | ts-corrections: run finish 23:37:05 artifact-mtime, claim owner_since restored to r120 original (same lane bm-b throughout, mid-flight P0 fix disclosed)",
    "finished_at": "2026-09-24 23:37:05"
+  },
+  {
+   "id": "GRID-P1",
+   "ticket_ref": "T-2026-09-25-40",
+   "prereg_ref": "research/GRID_P1.md FROZEN r136 (commit 1b4bffd2; slice-1 skeleton+prereg; slice-2 runner commit 9905d2d9 selftest 11/11 + SEED_REGISTRY grid_p1 55_500)",
+   "runner": "scripts/grid_p1_screen.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 03:06:31",
+   "data_gates": "in-runner: patch selftest + 48/48 panel >=cutoff lockbox 2026-09-24 (truncated, no reflow) + anchor repro 6/6 hard gate (any BROKEN = VOID exit 2) + finalize single-shot guard (GRID_P1_REFINALIZE=1 to redo)",
+   "shards": [
+    {
+     "key": "gridp1-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/grid_p1_cells.jsonl (row-level done-key resume, t22 law; truncated tail tolerated)",
+     "note": "112 trials = 4 cells (1 entry x 2 exit regimes x 2 cost faces) + 100 nulls (55_500+k/55_550+k, k<50) + 2 passive formula + 6 anchor reruns (1x, own cutoffs); est <10min serial; single-writer shard; takeover = owner hb stale >20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "prereg s0 frozen: est <10min serial single-process (NSP1-isomorphic); light-batch workers=1 precedent T33-CORPS-ROSTER; autofill sets BelowNormal on launch; runner is pure-serial by design (deterministic resume)"
+   },
+   "note": "slice-2 pool submission r137 bm-b; verdict face = x1 cost per prereg s4; D6 resolution note frozen in runner docstring pre-burn (r71 protocol)"
   }
  ],
  "_stamp_note": "r92 stamp correction per r65 anti-estimation law: prior updated_at 21:26:00 was an estimated future-stamp, re-stamped from Get-Date real read"
