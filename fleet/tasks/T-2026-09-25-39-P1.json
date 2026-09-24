@@ -10,5 +10,7 @@
  "claimed_by": "bm-a (OS iteration loop, round 109)",
  "claimed_at": "2026-09-25 01:09",
  "result_ref": "",
- "note": "P-3 GM-signed lane (O-1620 资金流源修复). Anti-dup: MF_COLLECTOR.md V1 spec + DIGEST-20260924-moneyflow-source-audit (R58) + this round's death-proof digest; no parallel collector rebuild -- single-writer on scripts/update_moneyflow.py during implementation (F-04 MSG claim before edit). Panel stock (53/5222 daykline history) stays valid, v2 appends never rewrite."
+ "note": "P-3 GM-signed lane (O-1620 资金流源修复). Anti-dup: MF_COLLECTOR.md V1 spec + DIGEST-20260924-moneyflow-source-audit (R58) + this round's death-proof digest; no parallel collector rebuild -- single-writer on scripts/update_moneyflow.py during implementation (F-04 MSG claim before edit). Panel stock (53/5222 daykline history) stays valid, v2 appends never rewrite.",
+ "note_updated_at": "2026-09-25 01:18",
+ "progress_r109": "implementation complete + selftest 20/20 (six new fixtures: window-guard 09:15-15:30 incl. stamp-consistency band, field-map, idempotent-merge, rank_stale, pagination+retry, universe-join); live-fire BLOCKED endpoint-level (01:09-01:15 window x3 attempts, both routes + domain kline control dead = per-IP/domain block, R58->R108 rotation pattern again); pacing lesson frozen 0.5s draft -> 2.5s citizenship + 2x page retry; gate 30-min self-heal armed 01:15:18, idempotent redo makes each retry ~3 probe requests; ticket stays OPEN until acceptance (>=5000 stocks one row each) passes -- MF_COLLECTOR.md S7 addendum has full evidence"
 }

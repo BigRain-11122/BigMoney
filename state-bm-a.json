@@ -1,10 +1,11 @@
 {
- "round_no": 108,
+ "round_no": 109,
  "did": [
-  "R108 (dept:数据): moneyflow 源死亡诊断闭环 (三层分型: daykline 双域双路硬断≥25h=域活路径死; clist 排行面+盘中 fflow 面活) → 三产物: DIGEST-20260925-moneyflow-daykline-dead.md + MF_COLLECTOR.md §6 addendum + 票 T-2026-09-25-39 (v2 排行面修复, 60 请求/日替代 5222/月, 12 值列全映射 schema 零改)",
-  "R108 S6: 全绿 (audit CLEAN py0.6% / wm n=1 insufficient_history 合法 / daily 0 行 cutoff 09-24 / regime ORANGE d2 shadow / lhb+heat+futures no-op / mf throttle no-op / fp 车道 no-op / fundamental fresh / b_layer all_pass / t35 幂等 / tok +164) + smoke 23/23 + orders 61/61 双扫空 + IntradayMarks 首火就绪 (schtasks Ready 09:25 + selftest PASS)"
+  "R109 (dept:数据): T-39 v2 rank 面实现全落地 (clist/get fid=f62 分页 pz=100, 12 值列零 schema 漂移映射, 日期自戳=ETF 日历 15:30 约定, 同日幂等 tol 1.0, 宇宙 join 5920∩5222, 窗卫 09:15-15:30 含戳一致性带, gate cadence v2=cutoff 落后 1td 日频触发, daykline 回填道未动) + selftest 20/20 (六新节夹具)",
+  "R109 live-fire (诚实): 三轮全被端点级阻断 (00:47 R108 单探活→01:15 批量后间歇丢连→01:21 双路+域对照 kline 同死=push2 域对本 IP 限流加深); 步速教训冻结 0.5s 票面估算→2.5s 公民步速+页级重试×2; gate 30min 自愈已武装 (01:15:18 last_spawn_attempt), 票 T-39 未闭待验收判据≥5000 股; MF_COLLECTOR.md §7 增补全证据",
+  "R109 S6: 全绿 (audit CLEAN py1.3% / wm n=1 insufficient_history 合法 / daily 0 行 cutoff 09-24 / regime ORANGE d2 shadow / lhb no-op / heat no-op / futures no-op / mf gate spawn rank 自愈道在飞 / fp 车道 no-op / fundamental fresh / b_layer all_pass / t35 export 6 员 18 持仓 / scorecard 刷新 / tok +185) + smoke 23/23 + orders 62 单双扫 0 未回执 (README 非令过滤)"
  ],
- "verdict": "WM=GREEN (red 00:50:02 tick 自然翻绿, R107 陈旧信号预判兑现) ; moneyflow daykline 源死亡证明落档, v2 修复票 T-39 已开待下轮认领",
- "next": "R109: 认领 T-39 开工 v2 (fetch 面+字段映射+盘中守卫纯函数切片+selftest 夹具) + IntradayMarks 09:25 首实弹窗观察 + bm-c 复活观察 (仍停 21:51, R101 判例零 stale shards 不接管)",
- "ts": "2026-09-25T00:57:30+08:00"
+ "verdict": "WM=GREEN (red 00:50 自然翻绿延续, audit CLEAN); T-39=实现完成+验收待外源解阻 (gate 自愈在飞, 同日幂等重试成本≈3 请求/30min)",
+ "next": "R110: T-39 live-fire 自愈窗观察 (gate ~01:45/02:15 自动重试; 若通=验收判据复核≥5000 股+S1/S4.1 日频措辞改写+闭票) + IntradayMarks 09:25 首火窗实弹观察 + bm-c 复活观察 (仍停 21:51, R101 判例零接管)",
+ "ts": "2026-09-25T01:17:39+08:00"
 }

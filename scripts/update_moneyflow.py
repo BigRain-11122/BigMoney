@@ -3,6 +3,13 @@
 Spec: research/shortline/MF_COLLECTOR.md (frozen before implementation).
 Lane: data dept, O-1620 GM-approved money-flow domain; R58 source-audit follow-up.
 
+v2 (T-2026-09-25-39, R109): daykline face proven dead (endpoint-level hard
+block, frozen digest DIGEST-20260925-moneyflow-daykline-dead). Primary face =
+push2 clist rank cross-section (fid=f62, ~60 req/day full market, forward
+collect one row per symbol per completed trading day, date consumer-stamped
+from the local ETF calendar 15:30 convention). Legacy daykline refresh stays
+as opportunistic backfill lane (120td window = natural gap repairer).
+
 Core design (from R58 finding: push2his returns a rolling 120-trading-day window
 per stock): periodic FULL-universe refresh (5222 symbols, 2.5s throttle,
 detached background process) keeps the daily panel gapless as long as the
@@ -58,15 +65,42 @@ LOG = os.path.join(ROOT, "logs", "moneyflow_refresh.log")
 BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars")
 
 LANE_OWNER = "bm-a"          # R31 lane-ownership precedent
-SLEEP_S = 2.5                # EM citizenship throttle
+SLEEP_S = 2.5                # EM citizenship throttle (daykline lane)
 FUSE_LIMIT = 5               # consecutive fetch failures (any kind) -> stop
 CONN_STOP = 3                # consecutive connection-level failures -> source-block stop
 CONN_MARKERS = ("ConnectionError", "Timeout", "RemoteDisconnected",
                 "ChunkedEncodingError", "ProtocolError", "MaxRetryError")
 QUARANTINE_AT = 3            # cumulative refresh failures -> skip forever
 MAX_ROWS = 130               # 120td window + source slack
-MIN_SPAWN_S = 30 * 60        # spawn throttle
-STALE_TD = 20                # refresh trigger: panel age in trading days
+MIN_SPAWN_S = 30 * 60        # spawn throttle (shared by both lanes' gates)
+STALE_TD = 20                # daykline backfill trigger: panel age in trading days
+
+# --- v2 rank lane (T-2026-09-25-39; daykline face proven dead, frozen digest
+# DIGEST-20260925-moneyflow-daykline-dead: push2his fflow/daykline = endpoint-
+# level hard block >=25h both hosts; same-domain clist rank face ALIVE,
+# total=5920. Primary face = one forward row per symbol per completed day.) ---
+RANK_URL = "https://push2.eastmoney.com/api/qt/clist/get"
+RANK_PARAMS = {
+    "pn": 1, "pz": 100, "po": 1, "np": 1, "fltt": 2, "invt": 2,
+    "fid": "f62",
+    # R108 probe face: 沪深A + 北交 (frozen digest table row 4)
+    "fs": "m:0+t:6,m:0+t:80,m:1+t:2,m:1+t:23,m:0+t:81+s:2048",
+    "fields": "f12,f2,f3,f62,f184,f66,f69,f72,f75,f78,f81,f84,f87",
+}
+RANK_SLEEP_S = 2.5           # citizenship pace (akshare/daykline-lane precedent;
+                             # 0.5s draft pace tripped intermittent RemoteDisconnected
+                             # at bulk -- R109 live-fire, frozen in round report)
+RANK_PAGE_RETRIES = 2         # per-page retry for intermittent conn drops
+RANK_RETRY_SLEEP_S = 5.0
+RANK_MAX_PAGES = 80          # 5920/100 + slack
+RANK_FIELD_MAP = {           # 12 value cols -> FROZEN panel schema, zero drift
+    "f2": "收盘价", "f3": "涨跌幅", "f62": "主力净流入-净额",
+    "f184": "主力净流入-净占比", "f66": "超大单净流入-净额",
+    "f69": "超大单净流入-净占比", "f72": "大单净流入-净额",
+    "f75": "大单净流入-净占比", "f78": "中单净流入-净额",
+    "f81": "中单净流入-净占比", "f84": "小单净流入-净额",
+    "f87": "小单净流入-净占比",
+}
 
 # frozen schema: 12 value columns (R58 probe A, source Chinese names kept)
 FLOW_COLS = ["收盘价", "涨跌幅", "主力净流入-净额", "主力净流入-净占比",
@@ -551,6 +585,220 @@ def refresh(limit=None):
         _clear_lock()
 
 
+# ---------------------------------------------------------------- v2 rank lane
+
+
+def rank_pull_allowed(now=None, dates=None):
+    """(allowed, reason). Rank face = live snapshot with NO date field:
+    block the ticket's intraday mutation window (09:15-15:05) AND the
+    15:05-15:30 band where values are already today's finals but the 15:30
+    stamp convention would still date them to the prior trading day
+    (stamp/value-day mismatch hazard). Net: no pull on trading days
+    09:15-15:30; pre-open, night, non-trading days fine."""
+    now = now or dt.datetime.now()
+    t = now.time()
+    if not (dt.time(9, 15) <= t < dt.time(15, 30)):
+        return True, ""
+    today = now.date().isoformat()
+    ds = dates if dates is not None else _load_trading_dates()
+    if ds is None:
+        if now.weekday() < 5:
+            return False, (f"weekday {today} inside 09:15-15:30 "
+                          f"(calendar absent, conservative block)")
+        return True, "weekend (calendar absent, weekday approx)"
+    if today in ds:
+        return False, (f"trading day {today} inside 09:15-15:30 "
+                       f"(snapshot mutating / stamp-hazard band)")
+    return True, f"{today} not a trading day (snapshot static)"
+
+
+def rank_row_from_item(item):
+    """One clist item -> FLOW_COLS row (values yuan/percent as served).
+    '-' = suspended/absent -> None (honest, no fabrication)."""
+    row = {}
+    for f, col in RANK_FIELD_MAP.items():
+        v = item.get(f)
+        try:
+            row[col] = None if v in (None, "", "-") else float(v)
+        except (TypeError, ValueError):
+            row[col] = None
+    return row
+
+
+def rank_merge_one(local_rows, stamp, mapped_row, primary=PRIMARY, tol=PRIMARY_TOL):
+    """(action, payload) for one symbol. Idempotent same-day skip / honest
+    mismatch / clean append; never rewrites existing rows."""
+    stamp = str(stamp)
+    for r in local_rows:
+        if str(r.get("date")) == stamp:
+            lv, sv = r.get(primary), mapped_row.get(primary)
+            if lv is None and sv is None:
+                return "skip_same_day", "both_none"
+            if lv is None or sv is None or abs(float(lv) - float(sv)) > tol:
+                return "mismatch", f"{stamp}:{lv}!={sv}"
+            return "skip_same_day", "overlap_match"
+    if any(str(r.get("date")) > stamp for r in local_rows):
+        return "mismatch", "stamp_behind_local"   # clock/calendar anomaly: don't touch
+    return "append", list(local_rows) + [dict(mapped_row, date=stamp)]
+
+
+def rank_universe_join(items, codes):
+    """(in_universe, not_in_universe): rank-face x bars-universe code join."""
+    cs = set(codes)
+    in_u = [c for c in codes if c in items]
+    not_u = [c for c in items if c not in cs]
+    return in_u, not_u
+
+
+def _fetch_rank_page_impl(pn, timeout=10):
+    """One clist page, direct urllib + ProxyHandler({}) (digest T4 recipe:
+    registry proxies defeat _clear_proxy_env alone). Query string built
+    manually to keep EM's literal '+' separators intact."""
+    params = dict(RANK_PARAMS, pn=pn)
+    qs = "&".join(f"{k}={v}" for k, v in params.items())
+    req = urllib.request.Request(
+        RANK_URL + "?" + qs,
+        headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+                 "Referer": "https://quote.eastmoney.com/"})
+    with _no_proxy_opener().open(req, timeout=timeout) as resp:
+        return json.loads(resp.read().decode("utf-8", errors="replace"))
+
+
+def fetch_rank_all_pages(fetch_page=None, page_size=100,
+                         max_pages=RANK_MAX_PAGES, sleep_s=RANK_SLEEP_S,
+                         retry_sleep_s=RANK_RETRY_SLEEP_S, retries=RANK_PAGE_RETRIES):
+    """({code: item}, total, pages, error). All-or-nothing: caller aborts on
+    any page error after in-place retries -- same-day idempotency makes the
+    redo cheap. Intermittent RemoteDisconnected drops are retried per page
+    (EM conn-level flakiness, R109 live-fire evidence)."""
+    fetch_page = fetch_page or _fetch_rank_page_impl
+    out, total, pn = {}, None, 1
+    while pn <= max_pages:
+        js, err = None, None
+        for attempt in range(retries + 1):
+            try:
+                js = fetch_page(pn)
+                err = None
+                break
+            except Exception as e:
+                err = f"page {pn}: {type(e).__name__}: {str(e)[:160]}"
+                if attempt < retries:
+                    time.sleep(retry_sleep_s)
+        if err:
+            return out, total, pn, err
+        data = (js or {}).get("data") or {}
+        if total is None:
+            try:
+                total = int(data.get("total") or 0)
+            except (TypeError, ValueError):
+                total = 0
+        diff = data.get("diff") or []
+        if not diff:
+            break
+        for item in diff:
+            code = str(item.get("f12", ""))
+            if re.match(r"^\d{6}$", code):
+                out[code] = item
+        if (total and len(out) >= total) or len(diff) < page_size:
+            break
+        pn += 1
+        if pn <= max_pages:
+            time.sleep(sleep_s)
+    return out, total, pn, None
+
+
+def rank_stale(status=None, now=None, dates=None):
+    """(needs, reason). v2 gate cadence for the rank lane only: daily-forward
+    -- cutoff lags 1td -> trigger (replaces the 20td logic; daykline backfill
+    lane keeps its own stale_gate untouched)."""
+    st = status if status is not None else load_status()
+    rank = st.get("rank") or {}
+    stamp = rank.get("last_stamp")
+    expected = expected_latest_bar_date(now or dt.datetime.now(), dates)
+    if stamp is None:
+        return True, "rank lane never fired"
+    if str(stamp) < str(expected):
+        return True, f"rank stamp {stamp} lags expected {expected}"
+    return False, f"rank stamp {stamp} covers {expected}"
+
+
+def rank_pass(fetch_page=None):
+    """v2 primary face: one forward pass (child of gate(), or manual for the
+    live-fire acceptance). Exit 0 = full pass clean / no-op / deferred;
+    2 = fetch/machinery failure (nothing written); 3 = full pass, honest
+    mismatches counted (appended rows stand, mismatched locals untouched)."""
+    now = dt.datetime.now()
+    st = load_status()
+    allowed, why = rank_pull_allowed(now)
+    if not allowed:
+        st["rank"] = dict(st.get("rank") or {},
+                          ts=now.isoformat(timespec="seconds"), mode="no-op: " + why)
+        write_status(st)
+        print("no-op:", why)
+        return 0
+    if _lock_alive():
+        st["rank"] = dict(st.get("rank") or {}, ts=now.isoformat(timespec="seconds"),
+                          mode="deferred: daykline refresh holds the panel lock")
+        write_status(st)
+        print("deferred: daykline refresh in progress")
+        return 0
+    stamp = expected_latest_bar_date(now)
+    if not re.match(r"^\d{4}-\d{2}-\d{2}$", str(stamp)):
+        print("calendar unavailable (stamp undeterminable) -> honest exit 2")
+        return 2
+    codes, _ = universe_codes()
+    if len(codes) < 100:
+        print(f"universe unavailable ({len(codes)} codes) -- refusing honest exit 2")
+        return 2
+    _clear_proxy_env()
+    _write_lock()
+    try:
+        t0 = time.time()
+        items, total, pages, err = fetch_rank_all_pages(fetch_page=fetch_page)
+        if err or not items:
+            st["rank"] = dict(st.get("rank") or {},
+                              ts=dt.datetime.now().isoformat(timespec="seconds"),
+                              mode=f"fetch_failed: {err or 'empty rank face'}")
+            write_status(st)
+            print(f"rank pass failed: {err or 'empty rank face'} -> exit 2 (nothing written)")
+            return 2
+        in_u, not_u = rank_universe_join(items, codes)
+        appended = skipped_same = mismatches = 0
+        mismatch_head = []
+        for code in in_u:
+            row = rank_row_from_item(items[code])
+            p = os.path.join(PER_DIR, code + ".csv")
+            local = read_local_csv(p)
+            action, payload = rank_merge_one(local, stamp, row)
+            if action == "skip_same_day":
+                skipped_same += 1
+            elif action == "mismatch":
+                mismatches += 1
+                if len(mismatch_head) < 10:
+                    mismatch_head.append(f"{code}:{payload}")
+            else:
+                atomic_write(p, rows_to_csv_text(payload))
+                appended += 1
+        st["rank"] = dict(st.get("rank") or {},
+                          ts=dt.datetime.now().isoformat(timespec="seconds"),
+                          mode="ok" if not mismatches else "ok_with_mismatches",
+                          last_stamp=stamp,
+                          rank_face_n=len(items), total=total, pages=pages,
+                          universe_n=len(codes),
+                          appended=appended, skipped_same_day=skipped_same,
+                          not_in_rank_face=len(codes) - len(in_u),
+                          skipped_not_in_universe=len(not_u),
+                          mismatches_n=mismatches, mismatch_head=mismatch_head,
+                          last_run_elapsed_s=round(time.time() - t0, 1))
+        write_status(st)
+        print(f"rank pass {stamp}: +{appended} rows, {skipped_same} same-day skips, "
+              f"{len(codes) - len(in_u)} not in rank face, {len(not_u)} not in universe, "
+              f"{mismatches} mismatches")
+        return 3 if mismatches else 0
+    finally:
+        _clear_lock()
+
+
 # ---------------------------------------------------------------------- gate
 
 
@@ -563,21 +811,26 @@ def _lane_owner_id():
         return ""
 
 
-def spawn_detached_refresh():
-    """Silent detached refresh (zero popups); log appended, lock self-managed."""
+def spawn_detached(arg):
+    """Silent detached child (zero popups); log appended, lock self-managed."""
     os.makedirs(os.path.dirname(LOG), exist_ok=True)
     flags = (subprocess.DETACHED_PROCESS | subprocess.CREATE_NEW_PROCESS_GROUP
              | subprocess.CREATE_NO_WINDOW)
     with io.open(LOG, "a", encoding="utf-8") as lf:
         subprocess.Popen(
-            [sys.executable, os.path.abspath(__file__), "refresh"],
+            [sys.executable, os.path.abspath(__file__), arg],
             stdout=lf, stderr=subprocess.STDOUT,
             stdin=subprocess.DEVNULL, creationflags=flags, close_fds=False)
     # child inherits lf; parent keeps running (R20 backfill precedent)
 
 
+def spawn_detached_refresh():
+    spawn_detached("refresh")
+
+
 def gate():
-    """S6 step: zero-network no-op when fresh; spawns detached refresh when stale."""
+    """S6 step: v2 rank lane first (daily-forward, T-39), then the legacy
+    daykline opportunistic-backfill gate (stale_gate + spawn, unchanged)."""
     st = load_status()
     now = dt.datetime.now()
     owner = _lane_owner_id()
@@ -587,6 +840,34 @@ def gate():
         # throttle-clock refresh on the owner's status). stdout-only early exit.
         print(f"no-op: moneyflow lane owned by {LANE_OWNER}, not this machine ({owner or '?'})")
         return 0
+    # v2 rank lane: cutoff lags 1td -> one forward pass (60 req/day budget)
+    rank = st.get("rank") or {}
+    needs, reason = rank_stale(st, now)
+    if needs:
+        allowed, why = rank_pull_allowed(now)
+        if not allowed:
+            print(f"rank lane needs pass ({reason}) but window guard blocks: {why}")
+            # fall through to the legacy lane (its own guards unchanged)
+        else:
+            last = rank.get("last_spawn_attempt")
+            try:
+                age = None if not last else (now - dt.datetime.fromisoformat(last)).total_seconds()
+            except Exception:
+                age = None
+            if age is not None and age < MIN_SPAWN_S:
+                print(f"throttle: rank spawn {last} ({age / 60:.1f}min ago) < 30min -> no-op")
+                return 0
+            if _lock_alive():
+                print("panel lock alive (daykline refresh or rank pass running) -> no-op")
+                return 0
+            st["rank"] = dict(rank,
+                              last_spawn_attempt=now.isoformat(timespec="seconds"),
+                              mode="spawn: detached rank pass", spawn_reason=reason)
+            st["ts"] = now.isoformat(timespec="seconds")
+            write_status(st)
+            spawn_detached("rank")
+            print(f"spawned detached rank pass: {reason}")
+            return 0
     panel = st.get("panel") or {}
     complete = bool(panel.get("complete"))
     cutoff = panel.get("cutoff") if complete else None
@@ -769,7 +1050,86 @@ def _selftest():
             assert before == after, "non-owner gate must not rewrite the shared mirror"
         finally:
             STATUS, _lane_owner_id = old_status, old_owner_fn
-    print("selftest: 14/14 PASS")
+    # S15 v2 rank window guard (ticket 09:15-15:05 mutation window + the
+    # 15:05-15:30 stamp-hazard band -> net block 09:15-15:30 on trading days)
+    cal2 = cal + ["2026-09-24"]
+    assert not rank_pull_allowed(dt.datetime(2026, 9, 24, 10, 0), cal2)[0]   # intraday
+    assert not rank_pull_allowed(dt.datetime(2026, 9, 24, 15, 20), cal2)[0]  # stamp band
+    assert rank_pull_allowed(dt.datetime(2026, 9, 24, 15, 31), cal2)[0]      # post-15:30
+    assert rank_pull_allowed(dt.datetime(2026, 9, 24, 8, 0), cal2)[0]        # pre-open
+    assert rank_pull_allowed(dt.datetime(2026, 9, 26, 10, 0), cal2)[0]       # Saturday
+    assert rank_pull_allowed(dt.datetime(2026, 9, 25, 1, 10), cal2)[0]       # night
+    # S16 v2 field mapping -> FLOW_COLS zero drift; '-' / absent -> None
+    item = {"f12": "600519", "f2": 1500.5, "f3": 1.23, "f62": -123456.78,
+            "f184": -0.56, "f66": -100.0, "f69": -1.0, "f72": 200.0, "f75": 2.0,
+            "f78": 300.0, "f81": 3.0, "f84": 400.0, "f87": 4.0}
+    row = rank_row_from_item(item)
+    assert set(row) == set(FLOW_COLS) and row["主力净流入-净额"] == -123456.78
+    assert row["收盘价"] == 1500.5 and row["小单净流入-净占比"] == 4.0
+    susp = rank_row_from_item({"f12": "000001", "f2": "-", "f62": "-"})
+    assert susp["收盘价"] is None and susp["主力净流入-净额"] is None
+    assert rank_row_from_item({})["涨跌幅"] is None
+    # S17 v2 idempotent same-day merge (skip / mismatch / append / anomalies)
+    local = [{"date": "2026-09-23", PRIMARY: -1.0e8, "收盘价": 10.0}]
+    a1, _ = rank_merge_one(local, "2026-09-23", {PRIMARY: -1.0e8, "收盘价": 10.1})
+    assert a1 == "skip_same_day"                                          # tol match
+    a2, _ = rank_merge_one(local, "2026-09-23", {PRIMARY: 5.0e8, "收盘价": 10.2})
+    assert a2 == "mismatch"                                              # value drift
+    a3, p3 = rank_merge_one(local, "2026-09-24", {PRIMARY: 2.0e8, "收盘价": 10.5})
+    assert a3 == "append" and len(p3) == 2 and p3[-1]["date"] == "2026-09-24"
+    a4, _ = rank_merge_one([{"date": "2026-09-25", PRIMARY: 1.0}], "2026-09-24",
+                          {PRIMARY: 1.0})
+    assert a4 == "mismatch"                                              # stamp behind local
+    a5, _ = rank_merge_one([{"date": "2026-09-23", PRIMARY: None}], "2026-09-23",
+                           {PRIMARY: None})
+    assert a5 == "skip_same_day"                                          # both none
+    # S18 v2 rank_stale daily-forward trigger (cutoff lags 1td -> fire)
+    with tempfile.TemporaryDirectory() as td:
+        STATUS = os.path.join(td, "st.json")
+        try:
+            write_status({"rank": {"last_stamp": "2026-09-23"}})
+            n1, _ = rank_stale(now=dt.datetime(2026, 9, 25, 1, 10), dates=cal)
+            assert not n1                                                # covers expected
+            write_status({"rank": {"last_stamp": "2026-09-22"}})
+            n2, w2 = rank_stale(now=dt.datetime(2026, 9, 25, 1, 10), dates=cal)
+            assert n2 and "lags" in w2
+            write_status({})
+            n3, _ = rank_stale(now=dt.datetime(2026, 9, 25, 1, 10), dates=cal)
+            assert n3                                                    # never fired
+        finally:
+            STATUS = old_status
+    # S19 v2 pagination (stop conditions + all-or-nothing page error)
+    def fake_pages(pn):
+        data = {1: [dict(f12=f"{600000 + i}") for i in range(100)],
+                2: [dict(f12=f"{600100 + i}") for i in range(100)],
+                3: [dict(f12=f"{600200 + i}") for i in range(50)]}
+        return {"data": {"total": 250, "diff": data[pn]}}
+    items, total, pages, err = fetch_rank_all_pages(fetch_page=fake_pages, sleep_s=0,
+                                                    retry_sleep_s=0)
+    assert err is None and total == 250 and len(items) == 250 and pages == 3
+    def fake_short(pn):
+        return {"data": {"total": 100, "diff": [dict(f12=f"{600000 + i}") for i in range(100)]}}
+    it2, _, pg2, err2 = fetch_rank_all_pages(fetch_page=fake_short, sleep_s=0,
+                                              retry_sleep_s=0)
+    assert err2 is None and pg2 == 1 and len(it2) == 100                  # total-reached stop
+    def fake_dead(pn):
+        raise RuntimeError("RemoteDisconnected")
+    _, _, _, err3 = fetch_rank_all_pages(fetch_page=fake_dead, sleep_s=0,
+                                          retry_sleep_s=0)
+    assert err3 and "RemoteDisconnected" in err3                          # page error -> abort
+    flaky_state = {"n": 0}
+    def fake_flaky(pn):
+        flaky_state["n"] += 1
+        if flaky_state["n"] == 1:
+            raise RuntimeError("RemoteDisconnected")                        # 1st attempt drops
+        return {"data": {"total": 100, "diff": [dict(f12=f"{600000 + i}") for i in range(100)]}}
+    it4, _, _, err4 = fetch_rank_all_pages(fetch_page=fake_flaky, sleep_s=0,
+                                            retry_sleep_s=0)
+    assert err4 is None and len(it4) == 100 and flaky_state["n"] == 2     # retry recovers
+    # S20 v2 universe join (rank 5920 x bars 5222 code partition)
+    in_u, not_u = rank_universe_join({"600519": 1, "920025": 2}, ["600519", "000001"])
+    assert in_u == ["600519"] and not_u == ["920025"]
+    print("selftest: 20/20 PASS")
     return 0
 
 
@@ -786,6 +1146,8 @@ def main():
             except Exception:
                 return 2
         return refresh(limit=limit)
+    if argv and argv[0] == "rank":
+        return rank_pass()
     if argv and argv[0] == "status":
         return status()
     return gate()
