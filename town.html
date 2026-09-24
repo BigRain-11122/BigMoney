@@ -317,7 +317,7 @@ function drawScene(t) {
 
 const BUILDS = [
   { id:'lab',  x:16,  y:160, w:70,  h:55,  draw:drawLab,   label:'研究楼',
-    dept:'研究部 Research', mandate:'因子/信号挖掘 · IC/回测研究 · idea→候选池',
+    dept:'研究部 Research', mandate:'因子/信号挖掘 · IC/回测研究 · idea→候选池 · 外部调研',
     info: () => { const fl = (D.research && D.research.factor_line) || {};
       const flRows = fl.present
         ? '<div class="row">研究线批次 · 因子账本 N='+(fl.total ?? '—')+'</div>'
@@ -392,12 +392,12 @@ const BUILDS = [
           return rows.join(''); })()
       + '<div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
   { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
-    dept:'舰队部 Fleet', mandate:'bm-a/bm-b 协同 · 传输 · 心跳 · SLA 10min 单跳',
+    dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同 · 传输 · 心跳 · 备份 · 周期任务轮值 · SLA 10min 单跳',
     info: () => ((D.group && D.group.siblings && D.group.siblings.length)
       ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
       : '<div class="row dim">本机无集团心跳源</div>') },
   { id:'office', x:520, y:128, w:64, h:40, draw:drawOffice, label:'总经办',
-    dept:'总经办 GM Office', mandate:'总经理统筹+对 CEO 汇报 · J13 LLM 研究助理',
+    dept:'总经办 GM Office', mandate:'经营分析/月报+PK 赛制 · J13 L2 本地助理 · 月度自审包聚合',
     info: () => '<div class="row">公司阶段：'+D.meta.stage+'</div>'
       + '<div class="row">资金 ¥'+(D.meta.capital/10000).toFixed(0)+'万 · NAV '+D.meta.nav.toFixed(3)+'</div>'
       + (() => { const g=(D.data&&D.data.governance)||{}, a=g.audit||{}, bf=g.briefing||{};
