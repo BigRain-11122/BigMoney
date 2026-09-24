@@ -7,7 +7,7 @@
 ## 1. 新节点接入 SOP（以本仓实况为准）
 
 1. `git clone git@github.com:BigRain-11122/BigMoney.git`（Money02/、logs/、.codely-cli/、fleet/machine.json 为各机局部，clone 不含、禁手拷——fleet\README.md）
-2. **一键自举（实际在仓路径）**：`python bootstrap.py`（依赖自装·清华镜像回退→20 项自检→总控数据生成）
+2. **一键自举（owner 已落件 2026-09-24 R89 bm-a）**：`powershell -NoProfile -ExecutionPolicy Bypass -File Tools\bootstrap-machine.ps1 -Roles bigmoney`（=bootstrap.py 依赖+镜像回退+smoke+总控数据 → 循环/看门狗双注册（-Force 幂等）→ 身份模板拷贝引导（仅 fleet\machine.json 缺失时；既有机器不触碰）；DryRun 开关可预演；薄封装零新逻辑）
 3. 身份：`copy fleet\_machine.dual-role.template fleet\machine.json` → 编辑 `machine_id`（BigMoney 侧续编 **bm-d / bm-e**）→ 主归属=Biggame 保主（借算律 fleet-allocations §三）
 4. 心跳落位：首心跳写 `fleet\machines\<本机id>.json`（last_seen/epoch/clock_read 单瞬同源三件+total_ram_gb+cpu_util_pct，P-33）
 5. 循环+看门狗注册（路径自适应、幂等 -Force 无害）：
@@ -15,7 +15,7 @@
    - `powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_watchdog_task.ps1`
 6. 首单派工：见 §4 分片表——clone 完成即有活干，不空转。
 
-> ⚠️ **缺件披露（诚实门）**：O-1655 §二与 HQ-F-12 引用的 `Tools\bootstrap-machine.ps1 -Roles bigmoney` **不在仓**（`git log --all` 零历史+本机盘缺件，2026-09-24 19:3x 实测）——疑似 T-08 式半提交（owner=O-1538 交付面 bm-a/GM 侧未 commit）。已发 MSG 请 owner 提交原件（守约式：不重建不代写，owner 原件为准）；owner 落件后本节步骤 2 改用一条命令形态。在此之前新节点一律用上述实际路径（bootstrap.py+两 register 脚本），验收门 A4 以实际路径判。
+> ✅ **缺件已解（2026-09-24 R89 bm-a owner 落件）**：`Tools\bootstrap-machine.ps1` 已在仓（核实=从未存在非半提交——O-1655 §二引用了未落件交付物；owner 补建=薄封装 §1 实路径，DryRun 实弹 rc0+非法 role 守卫 rc1+parse 0 错）。MSG-20260924-1945 请求闭环；步骤 2 已改一条命令形态。
 
 ## 2. 共享件四机就绪验证表（A1-A6）
 
@@ -24,7 +24,7 @@
 | A1 | 水位探针 `scripts\py_watermark.py` | ✓ 在仓·S6 常设链已接线·selftest 子命令离线自检 | `python scripts\py_watermark.py selftest` rc=0 |
 | A2 | 看门狗 C7 `Tools\watchdog.ps1`（+`register_watchdog_task.ps1`） | ✓ 在仓·路径自适应·三机共享先例（bm-a R81 注入验收 10/10 真杀） | schtasks 查询 Bigmoney-LoopWatchdog 在册 |
 | A3 | 迭代循环 `Tools\iteration_loop.ps1`（+`register_loop_task.ps1`） | ✓ 在仓·路径自适应 | schtasks 查询 Bigmoney-IterationLoop 在册 |
-| A4 | 一键自举 | ⚠️ `bootstrap-machine.ps1` 缺件（§1 披露）；实际路径=`python bootstrap.py` | `python -m smoke_test` 23/23 PASS |
+| A4 | 一键自举 | ✓ `Tools\bootstrap-machine.ps1 -Roles bigmoney`（R89 bm-a 落件·DryRun rc0·薄封装实路径） | `python -m smoke_test` 23/23 PASS |
 | A5 | 身份模板 | ✓ `fleet\_machine.json.template`（单角色）+ 本票新增 `fleet\_machine.dual-role.template`（双角色） | fleet\machine.json 含 main_owner 字段 |
 | A6 | 数据面 | core48 日线 CSV 在仓（smoke 直读）；bars 1.09GB 与 Money02 深轴缓存**不入库**（`fleet\TRANSFER.md` A-变体·BigMoney-data 私库） | 首单选 §4 J-1 腿 L=纯仓内数据即跑；涉深轴腿 D=先走 TRANSFER.md |
 
@@ -73,4 +73,5 @@ J-1 分片建议：22 员按成员区间切（bm-d=前 11 员、bm-e=后 11 员�
 ## 7. 状态与维护
 
 - r110 bm-b：本件 v1.0 交付（T-26 deliverable）。bootstrap-machine.ps1 owner-commit 请求 MSG 已发；owner 落件后 §1/§A4 更新一条命令形态。
+- r89 bm-a（GM 并点面）：`Tools\bootstrap-machine.ps1` owner 落件（核实=从未存在，非半提交）+§1 步骤 2 一条命令形态+§A4 表行+缺件披露块翻面已解；MSG-20260924-1945 闭环。
 - 后续维护：首单判据变更归 T-22/T-24 owner 预注册面；本件只维护接入机制事实（低频编辑）。
