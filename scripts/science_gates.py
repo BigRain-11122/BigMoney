@@ -539,6 +539,9 @@ SEED_REGISTRY = {
     # (20260925+i, i<50; date-style base: 53_x00 band = j13v2_mill per-run ladder,
     # 54_000 = t18_deep_axis, both occupied; registry+rg scanned free 2026-09-24
     # 14:3x before prereg freeze)
+    "pa1e_premium_event": 20260926,        # PA1E_PREMIUM_EVENT K=50 circular-shift nulls
+    # (20260926+i, i<50; date-style base, rg-repo-scan verified free 2026-09-24
+    # 19:0x before PA1E prereg freeze)
 }
 
 
