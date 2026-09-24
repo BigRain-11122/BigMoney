@@ -66,7 +66,7 @@
 
 `scripts/t11_negday_ic.py`（run/selftest 子命令；machinery import 自 pa_lhb_ic+composite_ic+science_gates 禁重写；null 分片 checkpoint 断点续跑；数据门自检 exit 2）→ `results/shortline/t11_negday_ic.json`（顶层 evidence_cutoff=science_gates.cutoff_meta("2026-09-22") + trials_ledger + null 阈值 + 判定表 + audit 段）+ `research/shortline/t11_negday_ic_results.csv` + 本文件 §7 回填。算力面=runnable_pool 条目 T11-NEGDAY-IC（lane_owner=bm-b·autofill C8）。
 
-## §7 跑后实证【2026-09-24 23:03 实跑一次定稿（r99 bm-a，48s，确定性可复现）】
+## §7 跑后实证【2026-09-24 22:47 实跑一次定稿（r99 bm-a，48s，确定性可复现；时间戳以 results JSON meta.date=22:48 与 git %ci 为准——本节初稿自写 23:03 为幻影钟，如实修正）】
 
 - **时序事故披露（诚实记）**：工程性首跑发生于冻结 commit 之前——预判 bm-a 无 Money02 面板、`run` 预期 exit 2 验门，实测**本机实有面板**（§0 的 lane 预判错：根目录清单截断误导，bars A-变体同步后 bm-a 亦有 Money02/data/bars+cache），52s 全量跑完；处置=丢弃首跑产物（未入 git）→ 冻结 commit → 冻结后正式跑；**两跑数字逐格一致（确定性机器可复现）**；判据零改动（J18）。正式跑 prereg_sha256 见 results JSON meta。
 - 等价门禁：PASS（max|diff|=1.11e-16，n=378/378；探针=−60d 动量@掩码 A）。
@@ -92,7 +92,7 @@
 - 覆盖限制重申：109/~690 事件日、2024 全年洞、未采样日事件污染 0 组=保守稀释；OOS 段（2025-07+）采样模式与 IS 段不同（2025-08 大簇 923 事件），W 的 OOS 崩塌不排除覆盖结构差异所致（§5⑦ 预留，如实记，不翻案）。
 - 工程账：12 workers 48s（等价门禁+400 null+8 格）；账本 prev=60,074（xstock 链头）+408（8 格+400 null+0 报告列）=**60,482**；零引擎跑→引擎账本 N 不动。
 
-## §8 批后复盘【2026-09-24 23:04】
+## §8 批后复盘【2026-09-24 22:52】
 
 - **预测对账（§5 vs 实跑，诚实记）**：①方向 IC 负=W ✓ H=部分（H_5 翻正小值）②量级 |IC| ✓（W 落带）；|IR| 低判（预测 [0.05,0.45] 实 0.67-0.88）③**H≥W 错（实 W≫H）**；**N 单调稀释错（实非单调）**④null 带 ✓ 地板主导 ✓⑤过门 0-2/8 → 实 0/8 ✓（区间含 0）⑥OOS 留存分裂（W 崩/H 存）。计 3 对 3 错 2 半——方向对但结构预测（软硬分层/N 效应）双错，教训=先验直觉在「软硬负面分层」上与实证相反，事件类批的 scope/N 结构预测无先验可靠带。
 - 损耗账：results/gate_attrition.json 追加行（delta 408，total 60,482，eliminated 8/8）。
