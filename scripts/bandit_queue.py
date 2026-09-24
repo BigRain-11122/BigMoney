@@ -62,13 +62,20 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
     "synthesis-crosslib": [
         {"name": "XSTOCK_SYNTH (stock-pool cross-lib small-K; CLOSED PASS r109 run/r114 "
                  "backfill: IS IC 0.1078/IR 1.03/OOS retention 0.895, ledger 60074)", "status": "closed"},
+        {"name": "XSTOCK_TILT (B-layer long-tilt conversion face; CLOSED bm-b r151-r153: "
+                 "0/4 FAIL, friction-wall verdict across three batches P4_BATCH2 0/19 + "
+                 "P4_EXT_TILT 0/5 + XSTOCK 0/4, best h10_top5 S 0.2722 vs skill 0.6238; "
+                 "ledger 60784->60828; factor-level IC retained, conversion line closed; "
+                 "revival needs new prereg)", "status": "closed"},
     ],
     "patterns-confirmation": [
         {"name": "A-layer exhausted (R42); oscillator/divergence laws closed", "status": "closed"},
     ],
     "event-attention-factors": [
         {"name": "Alpha158 true-gap 7 families (Aroon x3 / WVMA / volume-RSI x3, R59; "
-                 "claimed r119 A158_TRUEGAP_IC)", "status": "claimed", "by": "bm-b (F-04 MSG-2246)"},
+                 "claimed r119, CLOSED bm-b r121: 0/5 robust FAIL, V1 0.02 floor killed 4/5 + "
+                 "V2 0.30 wall killed 5/5, best WVMA20 IS IC 0.0254/IR -0.181; ledger "
+                 "60482->60547; revival needs new prereg)", "status": "closed"},
         {"name": "moneyflow IC reference batch (collector delivered R63; panel parked "
                  "source-blocked with 30-min self-heal; IC batch when panel completes)", "status": "open"},
         {"name": "P-B sector heat (EM clist leg blocked >13h)", "status": "blocked-source"},
@@ -78,6 +85,9 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
     ],
     "stock-pool-tilt": [
         {"name": "P4_BATCH2 0/19 + P4_EXT_TILT 0/5 friction-wall law", "status": "closed"},
+        {"name": "P4-B3-DCA staged DCA 3rd batch (CLOSED bm-b r140-r141: 0/8 G1'v2 FAIL, "
+                 "best 0.3348 < record line 0.3521, adds-fire sparse 0.08-0.22 in 20d "
+                 "window; staged = DD damper not alpha source; ledger 60784+125)", "status": "closed"},
     ],
     "futures-cta": [
         {"name": "CTA_P1/NOAU closed; de-leveraged variant / per-contract roll = new prereg", "status": "closed"},
