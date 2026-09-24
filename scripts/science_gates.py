@@ -512,6 +512,13 @@ SEED_REGISTRY = {
     "p4_ext_tilt_d20": 49_100,           # P4_EXT_TILT random 20d-null base (r67 prereg)
     "cta_p2_noau": 50_500,               # CTA_P2_NOAU 8-variety K=50 random nulls
     # (50_500+k; registry+rg scanned free 2026-09-24 07:20 before prereg freeze)
+    "xlib_synth_null_a": 46_000,          # BACKFILL (compliance fix r83 bm-b): XLIB_SYNTH
+    "xlib_synth_null_b": 47_000,          # used these bases (R41 bm-a prereg §4) but never
+    # registered -- added 2026-09-24 to prevent future collision; zero code-path change.
+    "xstock_synth_null_a": 51_000,        # XSTOCK_SYNTH shelf-band nullA K=4 draws
+    "xstock_synth_null_b": 52_000,        # XSTOCK_SYNTH population-band nullB K=4 draws
+    # (51_000+i / 52_000+i, i=0..999; registry+rg scanned free 2026-09-24 09:05
+    # before prereg freeze; 51_100 rejected: collides with 51_000+i at i=100)
 }
 
 
