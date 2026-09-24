@@ -1,20 +1,19 @@
 {
- "round_no": 77,
+ "round_no": 78,
  "did": [
-  "R77 6th retreat: ACP sessions live (last CODELY write 14:04), zero session-face touches; fetch-only, origin +19 (bm-b: T-21 REGIME_ENFORCE_WIRING delivered r99 ACTIVE_FROM 10-01, T-13 claim+prereg r102, T-18 infra leg done r101 GF unsatisfied; bm-c: T-16 d2-d7 full arc, P-A1 premium IC judged negative honest close, factor ledger 5600->5653; XSTOCK build 265/274)",
-  "S0.5: orders 42/42 double-scan empty (helper); decisions.md no new lines since 11:12 = P-32 zero-action; no new origin orders (O-1402 held in unpushed local commits)",
-  "S1 smoke 23/23 (incl 6-trader anchor gates + T-08 source-parity PASS on session WIP face)",
-  "S6 green: audit CLEAN (33%, py 2%, zero flags) / watermark insufficient_history (trailing 15min window needs consecutive samples, verdict next 1-2 rounds) / regime ORANGE shadow d1 #10 / lhb+heat+futures no-op / moneyflow gate spawned refresh -> connection-level source-block stop (checkpoint 53/5222 intact, 30min self-heal loop healthy) / fundamental fresh-skip / mask regen / build_status traders=6 / token delta -184",
-  "update_daily production skipped per R76 pointer (T-08 WIP in tree + pre-publication window 15:10)",
-  "S7 push reality: main non-FF rejected + pull --rebase refused (session WIP unstaged, safe); machine/bm-a fallback ALSO blocked - remote tip 79418e2 = yesterday 17:28 orphan (T-01-era, content already integrated into main via bm-b r35 union, commit ancestry lost to later rebases), no-force law forbids overwrite; fallback-2 = dated backup branch machine/bm-a-20260924 pushed (4 bookkeeping commits preserved remotely, 30-day cleanup clause covers)"
+  "R78 FIRST ACT executed (R77 pointer 0): session-quiet integration - 5 local commits (R74-R77a) rebased onto origin via r51 sequencer recipe + autostash retry over bm-c r56 mid-flight push race; PUSH OK 2b83244..67752c1 = 4-consecutive-round integration debt cleared",
+  "S0.5: orders 42/42 ack diff empty (helper, pre-integration); O-1402 item1 = ONLY remaining item for bm-a (P-33/P-32/bm-c-futurets done R76; T-13 claimed bm-b r102); decisions.md 11:12 zero new lines = P-32 zero-action",
+  "KEY DISCOVERY: bm-b r99 (14:04:07) already reset origin CODELY.md 472763B->5729B (7-entry hot file) but SKIPPED the research/memory-archive/202609.md file => bm-a residual = archive backfill from git blob 2873c94 (last full version 472763B, 13:49:10) + 3 parked session lines (GM 13:23 O-1320/1325 + R75 PS-comma pit + R76 PS-epoch pit) currently in stash@{1}",
+  "GM session live mid-rebase: CODELY.md writes 15:24:58 (memory-format header rebuild + O-1136/1141 receipt entry) + 15:28:18 (ticket-clash Feedback entry); union-resolved in autostash pop, kept UNSTAGED (GM face owns CODELY.md now; bm-a made zero CODELY content writes)",
+  "iteration_prompt.txt 4-feature union: ours P-32 decisions step + memory four-questions gate + origin update_fund_premium step (bm-c r52) + T-21 enforce live.paper wiring (bm-b r99) - all asserted once each",
+  "S1 smoke + S6 chain NOT RUN - round at 35min hard kill edge, bookkeeping-first per R16 law; next round resumes"
  ],
  "next_pointer": [
-  "(0) session-quiet round FIRST ACT: git pull --rebase integrate origin +19 (CODELY union per R71/R32), push main, CODELY backfill R73-R77 entries; then O-1402 item1 bulk CODELY surgery (per-entry four-questions curation -> research/memory-archive/202609.md, target <=50KB by 09-30)",
-  "(1) T-20 deliverable-2 implementation early-age round once session face quiets: MSG re-claim, pre-change baseline on frozen face cutoff 2026-09-23 BEFORE commit; HARD DEADLINE pre-10-01 co-landing with T-21 enforce (bm-b r99 delivered, ACTIVE_FROM 2026-10-01) - 6 calendar days left",
-  "(2) watermark verdict: needs 2-3 consecutive in-window samples, auto-resolves next rounds",
-  "(3) 15:30+ tonight: 09-24 bar publish (~20:00 expected) -> update_daily production + laggard catch-up (SZ 159xxx) + live.paper accrual; moneyflow self-heal window polling",
-  "(4) long lines: 10-01 monthly quartet (briefing+science_audit+corr-watch W3+self_review); 10-31 six-trader first check all-HOLD (G2.5 6/6 FAIL frozen); CE-02/ENGULF probation rolling"
+  "(1) O-1402 item1 archive backfill: python script reads git blob 2873c94:CODELY.md (472763B full pre-reset) + 3 session lines from stash@{1} -> write research/memory-archive/202609.md with protocol header (date window + move list + byte accounting) -> commit+push",
+  "(2) restore T-08 WIP: git checkout stash@{1} -- scripts/update_daily.py + git restore --staged it; THEN drop stash@{0} (spent autostash) + stash@{1} (consumed: CODELY content archived, update_daily restored) - verify archive first",
+  "(3) next round: S1 smoke + full S6 chain + heartbeat P-33 fields + orders double-scan (42/42 baseline unchanged); 15:30+ 09-24 bar sweep with R54 laggard catch-up",
+  "(4) do NOT touch CODELY.md content (GM session actively rebuilding it); long lines: 10-01 monthly quartet, 10-31 six-trader all-HOLD, CE-02/ENGULF probation rolling, T-20 pre-10-01 deadline (6 days)"
  ],
- "note": "R77=6th retreat round; integration deferred 4th consecutive time (sessions live since ~13:30); bookkeeping preserved remotely via dated branch machine/bm-a-20260924 (machine/bm-a stale-orphan blocked, see did[5]); origin queue for integration = +19 commits (rebase needs CODELY.md union - session WIP file also dirty in tree, write-race risk is the defer reason). MSG-1410 visibility moot: bm-c r51 already self-fixed future-ts (origin 2873c94). T-21 enforce delivered upstream -> T-20 co-landing deadline pressure is now REAL.",
- "last_round_ts": "2026-09-24T15:15:45+08:00"
+ "note": "R78 = integration round under triple concurrency (2 ACP sessions live + GM session writing CODELY mid-rebase + bm-c pushing mid-rebase). Integration debt of R74-R77 cleared in one shot. Stash inventory: stash@{0}=spent autostash (drop), stash@{1}=park (471678B CODELY full + T-08 update_daily.py WIP). Emergency bookkeeping at 35min kill edge - smoke/S6 deferred to next round (integration itself verified by origin log).",
+ "last_round_ts": "2026-09-24T15:53:00+08:00"
 }
