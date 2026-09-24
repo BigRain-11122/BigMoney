@@ -182,9 +182,10 @@ function render(D) {
     `<div class="dept ${d[1]}"><span class="dot"></span><span>${d[0]}</span><span class="st">${d[2]}</span></div>`).join('');
 
   const trs = D.trading.traders;
+  const probIds = (D.trading.paper||{}).x2_probation_names || [];
   $('traders').innerHTML = trs.length
     ? trs.map(t => `<div class="trader"><img src="${SPRITE[LEVEL_SPRITE[t.level]||'slime']}">
-        <span>${t.name||t.id}<br><span class="dim" style="font-size:10px">IS ${fmt(t.is_sharpe)} · OOS ${fmt(t.oos_sharpe)}<br>${t.oos_trades}笔 · ×2成本 ${fmt(t.cost_x2_sharpe)} ${t.cost_x2_survive?'存活':'阵亡'}<br>paper ${(t.paper_months??0)}月</span></span>
+        <span>${t.name||t.id}<br><span class="dim" style="font-size:10px">IS ${fmt(t.is_sharpe)} · OOS ${fmt(t.oos_sharpe)}<br>${t.oos_trades}笔 · ×2成本 ${fmt(t.cost_x2_sharpe)} ${t.cost_x2_survive?'存活':'阵亡'}${probIds.includes(t.id)?'<span class="cyan"> ·在护</span>':''}<br>paper ${(t.paper_months??0)}月</span></span>
         <span class="gold">${t.level}</span></div>`).join('')
     : `<div class="dim" style="padding:6px 0">暂无在册交易员。<br>策略工厂（Job#7）产出过线策略后，第一批交易员将持证上岗。</div>`;
 
