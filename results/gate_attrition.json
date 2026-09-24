@@ -1,232 +1,263 @@
 {
-  "schema": "gate-attrition-ledger v1",
-  "created": "2026-09-24 03:03:01",
-  "purpose": "science_audit C4: per-batch gate-chain losses account (s7-T retro mandatory; measurement batches record gate outcomes, search batches record eliminations)",
-  "entries": [
-    {
-      "batch": "EW6-portfolio-validation",
-      "ts": "2026-09-24 00:54:38",
-      "kind": "measurement",
-      "retro_fill": true,
-      "cells_ledger_delta": 26,
-      "ledger_total_after": 2753,
-      "gates": {
-        "descriptive_g1_clauses_all_pass": true,
-        "x2_survive": true,
-        "worst_year_ok": true,
-        "validated": true,
-        "void": false
-      },
-      "eliminated": null,
-      "refs": {
-        "results": "results/portfolio_ew6.json",
-        "prereg": "research/shortline/EW6_PORTFOLIO.md"
-      }
-    },
-    {
-      "batch": "IV6-portfolio-riskbudget",
-      "ts": "2026-09-24 03:03:01",
-      "kind": "measurement",
-      "retro_fill": false,
-      "cells_ledger_delta": 14,
-      "ledger_total_after": 2779,
-      "gates": {
-        "g1_prime_v2_pass": true,
-        "descriptive_g1_clauses_all_pass": true,
-        "x2_survive": true,
-        "worst_year_ok": true,
-        "twin_gate_crosscheck": true,
-        "validated": true,
-        "void": false,
-        "void_reason": null
-      },
-      "eliminated": null,
-      "refs": {
-        "results": "results/portfolio_iv6.json",
-        "prereg": "research/IV6_PORTFOLIO.md"
-      },
-      "correction_note": "rebase-window re-seat: bm-b T-05 part3 +12 mid-window; serial total 2779 (was 2767 at run time when head was 2753)"
-    },
-    {
-      "batch": "p4-pairs",
-      "ts": "2026-09-24 05:31:00",
-      "kind": "measurement",
-      "cells_ledger_delta": 67,
-      "ledger_total_after": 2858,
-      "gates": {
-        "v2_skill_line": 0.9359,
-        "v2_pass": false,
-        "ci_lower_bound_positive": false,
-        "trade_gate_dual_ok": true,
-        "beats_inbatch_null_p95": false,
-        "x2_survive_vi": false,
-        "d6_max_corr": 0.235
-      },
-      "eliminated": 1,
-      "elim_note": "1 pooled candidate -> 0 survivors (long-only pairs line closes)",
-      "refs": {
-        "results": "results/shortline_p4_pairs.json",
-        "prereg": "research/P4_PAIRS.md",
-        "csv": "research/shortline/p4_pairs_results.csv"
-      }
-    },
-    {
-      "batch": "P4_EXT_TILT",
-      "ts": "2026-09-24 06:34:36",
-      "kind": "search",
-      "cells_ledger_delta": 47,
-      "ledger_total_after": 2905,
-      "gates": {
-        "cells_run": 47,
-        "survivors_g1_prime_v2": 0
-      },
-      "eliminated": 47,
-      "refs": {
-        "results": "results/shortline_p4_ext_tilt.json",
-        "prereg": "research/shortline/P4_EXT_TILT.md"
-      }
-    },
-    {
-      "batch": "CTA_P1",
-      "ts": "2026-09-24 06:58:56",
-      "kind": "search",
-      "cells_ledger_delta": 68,
-      "ledger_total_after": 2973,
-      "gates": {
-        "skill_line_v2": 1.1463,
-        "g1_passers": 0,
-        "descriptive_all_pass_candidates": 0
-      },
-      "eliminated": 16,
-      "refs": {
-        "results": "results/shortline_cta_p1.json",
-        "prereg": "research/CTA_P1.md"
-      }
-    },
-    {
-      "batch": "CTA_P2_NOAU",
-      "ts": "2026-09-24 07:34:35",
-      "kind": "search",
-      "cells_ledger_delta": 68,
-      "ledger_total_after": 3041,
-      "gates": {
-        "skill_line_v2": 1.4278,
-        "g1_passers": 0,
-        "descriptive_all_pass_candidates": 0
-      },
-      "eliminated": 16,
-      "refs": {
-        "results": "results/shortline_cta_p2_noau.json",
-        "prereg": "research/CTA_P2_NOAU.md"
-      }
-    },
-    {
-      "batch": "j13v2_mill_ic1",
-      "ts": "2026-09-24 10:41:00",
-      "kind": "search",
-      "retro_fill": false,
-      "cells_ledger_delta": 63,
-      "ledger_total_after": 5539,
-      "gates": {
-        "n_generated": 32,
-        "n_distinct": 13,
-        "n_entering_e4": 13,
-        "mechanical_valid": 12,
-        "v1_pass": 5,
-        "v2_pass": 0,
-        "v3_pass": 6,
-        "novel_survivors": 0,
-        "dup_survivors": 0,
-        "nullA_is_ic_p95": 0.010045,
-        "nullA_is_ir_p95": 0.06705,
-        "void": false
-      },
-      "eliminated": 13,
-      "elimination_note": "all deduped formulas entering E4 died at judgment: 12/12 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.129 << 0.30); 1 E4 compute failure; D6 kinship 100% among V1-passers (max|corr| 0.84-1.0)",
-      "refs": {
-        "results": "results/shortline/j13v2_mill_ic1.json",
-        "prereg": "research/J13_V2_MINILOOP.md"
-      }
-    },
-    {
-      "batch": "j13v2_mill_ic2",
-      "ts": "2026-09-24 12:15:14",
-      "kind": "search",
-      "retro_fill": false,
-      "cells_ledger_delta": 61,
-      "ledger_total_after": 5600,
-      "gates": {
-        "n_generated": 32,
-        "n_distinct": 11,
-        "n_entering_e4": 11,
-        "mechanical_valid": 10,
-        "v1_pass": 3,
-        "v2_pass": 0,
-        "v3_pass": 5,
-        "novel_survivors": 0,
-        "dup_survivors": 0,
-        "nullA_is_ic_p95": 0.00752,
-        "nullA_is_ir_p95": 0.04865,
-        "void": false
-      },
-      "eliminated": 11,
-      "elimination_note": "all deduped formulas entering E4 died at judgment: 10/10 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.142 << 0.30); 1 E4 compute failure; D6 never reached (V2 first-kill); IS2 ic positive for 10/10 (2025+ regime drift, stability-window only, never called OOS)",
-      "refs": {
-        "results": "results/shortline/j13v2_mill_ic2.json",
-        "prereg": "research/J13_V2_MINILOOP.md"
-      }
-    },
-    {
-      "batch": "etf-rules-fidelity-t14",
-      "ts": "2026-09-24 12:31:00",
-      "kind": "measurement",
-      "retro_fill": false,
-      "cells_ledger_delta": 24,
-      "ledger_total_after": 3065,
-      "gates": {
-        "anchor_6of6": true,
-        "b2_landing_bit_identical": false,
-        "b2_landing_decision": "do_not_land_gm_adjudication",
-        "b1_drift_max_abs_delta_is_sharpe": 0.305,
-        "guard_counts_match_frozen_scan": true
-      },
-      "eliminated": null,
-      "refs": {
-        "results": "results/rules_fidelity_t14.json",
-        "prereg": "research/ETF_RULES_FIDELITY.md",
-        "ticket": "fleet/tasks/T-2026-09-24-14-P1.json"
-      }
-    },
-    {
-      "batch": "regime-guard-validation-v3",
-      "ts": "2026-09-24 12:52:00",
-      "kind": "measurement",
-      "retro_fill": false,
-      "cells_ledger_delta": 0,
-      "ledger_total_after": 3041,
-      "gates": {
-        "G1_red_orange_share_in_2_25pct": true,
-        "G2_orange_fa_le_60pct": true,
-        "G3_zero_gaps": true,
-        "verdict": "PASS",
-        "r_plus_o_days": 196,
-        "r_plus_o_share": 0.1201,
-        "red_days": 161,
-        "orange_days": 35,
-        "orange_fa_rate": 0.0,
-        "orange_episodes_main": 1,
-        "orange_fa_low_power": true,
-        "single_dim_orange_cut_days": 120,
-        "red_first_green_releases": 5,
-        "window_days": 1632,
-        "ledger_note": "replay=0 trials (pure measurement); counterfactual +12 staged next round per prereg s4.5"
-      },
-      "eliminated": null,
-      "refs": {
-        "results": "results/regime_calibration_v3.json",
-        "prereg": "research/REGIME_GUARD_VALIDATION_V3.md"
-      },
-      "note": "first calibration PASS on the regime-guard line (v1 FAIL 61.6pct, v2 FAIL 26.53pct); G2 passes on a single ORANGE episode (low-power clause triggered, must ride the enforce proposal)"
-    }
-  ]
+ "schema": "gate-attrition-ledger v1",
+ "created": "2026-09-24 03:03:01",
+ "purpose": "science_audit C4: per-batch gate-chain losses account (s7-T retro mandatory; measurement batches record gate outcomes, search batches record eliminations)",
+ "entries": [
+  {
+   "batch": "EW6-portfolio-validation",
+   "ts": "2026-09-24 00:54:38",
+   "kind": "measurement",
+   "retro_fill": true,
+   "cells_ledger_delta": 26,
+   "ledger_total_after": 2753,
+   "gates": {
+    "descriptive_g1_clauses_all_pass": true,
+    "x2_survive": true,
+    "worst_year_ok": true,
+    "validated": true,
+    "void": false
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/portfolio_ew6.json",
+    "prereg": "research/shortline/EW6_PORTFOLIO.md"
+   }
+  },
+  {
+   "batch": "IV6-portfolio-riskbudget",
+   "ts": "2026-09-24 03:03:01",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 14,
+   "ledger_total_after": 2779,
+   "gates": {
+    "g1_prime_v2_pass": true,
+    "descriptive_g1_clauses_all_pass": true,
+    "x2_survive": true,
+    "worst_year_ok": true,
+    "twin_gate_crosscheck": true,
+    "validated": true,
+    "void": false,
+    "void_reason": null
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/portfolio_iv6.json",
+    "prereg": "research/IV6_PORTFOLIO.md"
+   },
+   "correction_note": "rebase-window re-seat: bm-b T-05 part3 +12 mid-window; serial total 2779 (was 2767 at run time when head was 2753)"
+  },
+  {
+   "batch": "p4-pairs",
+   "ts": "2026-09-24 05:31:00",
+   "kind": "measurement",
+   "cells_ledger_delta": 67,
+   "ledger_total_after": 2858,
+   "gates": {
+    "v2_skill_line": 0.9359,
+    "v2_pass": false,
+    "ci_lower_bound_positive": false,
+    "trade_gate_dual_ok": true,
+    "beats_inbatch_null_p95": false,
+    "x2_survive_vi": false,
+    "d6_max_corr": 0.235
+   },
+   "eliminated": 1,
+   "elim_note": "1 pooled candidate -> 0 survivors (long-only pairs line closes)",
+   "refs": {
+    "results": "results/shortline_p4_pairs.json",
+    "prereg": "research/P4_PAIRS.md",
+    "csv": "research/shortline/p4_pairs_results.csv"
+   }
+  },
+  {
+   "batch": "P4_EXT_TILT",
+   "ts": "2026-09-24 06:34:36",
+   "kind": "search",
+   "cells_ledger_delta": 47,
+   "ledger_total_after": 2905,
+   "gates": {
+    "cells_run": 47,
+    "survivors_g1_prime_v2": 0
+   },
+   "eliminated": 47,
+   "refs": {
+    "results": "results/shortline_p4_ext_tilt.json",
+    "prereg": "research/shortline/P4_EXT_TILT.md"
+   }
+  },
+  {
+   "batch": "CTA_P1",
+   "ts": "2026-09-24 06:58:56",
+   "kind": "search",
+   "cells_ledger_delta": 68,
+   "ledger_total_after": 2973,
+   "gates": {
+    "skill_line_v2": 1.1463,
+    "g1_passers": 0,
+    "descriptive_all_pass_candidates": 0
+   },
+   "eliminated": 16,
+   "refs": {
+    "results": "results/shortline_cta_p1.json",
+    "prereg": "research/CTA_P1.md"
+   }
+  },
+  {
+   "batch": "CTA_P2_NOAU",
+   "ts": "2026-09-24 07:34:35",
+   "kind": "search",
+   "cells_ledger_delta": 68,
+   "ledger_total_after": 3041,
+   "gates": {
+    "skill_line_v2": 1.4278,
+    "g1_passers": 0,
+    "descriptive_all_pass_candidates": 0
+   },
+   "eliminated": 16,
+   "refs": {
+    "results": "results/shortline_cta_p2_noau.json",
+    "prereg": "research/CTA_P2_NOAU.md"
+   }
+  },
+  {
+   "batch": "j13v2_mill_ic1",
+   "ts": "2026-09-24 10:41:00",
+   "kind": "search",
+   "retro_fill": false,
+   "cells_ledger_delta": 63,
+   "ledger_total_after": 5539,
+   "gates": {
+    "n_generated": 32,
+    "n_distinct": 13,
+    "n_entering_e4": 13,
+    "mechanical_valid": 12,
+    "v1_pass": 5,
+    "v2_pass": 0,
+    "v3_pass": 6,
+    "novel_survivors": 0,
+    "dup_survivors": 0,
+    "nullA_is_ic_p95": 0.010045,
+    "nullA_is_ir_p95": 0.06705,
+    "void": false
+   },
+   "eliminated": 13,
+   "elimination_note": "all deduped formulas entering E4 died at judgment: 12/12 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.129 << 0.30); 1 E4 compute failure; D6 kinship 100% among V1-passers (max|corr| 0.84-1.0)",
+   "refs": {
+    "results": "results/shortline/j13v2_mill_ic1.json",
+    "prereg": "research/J13_V2_MINILOOP.md"
+   }
+  },
+  {
+   "batch": "j13v2_mill_ic2",
+   "ts": "2026-09-24 12:15:14",
+   "kind": "search",
+   "retro_fill": false,
+   "cells_ledger_delta": 61,
+   "ledger_total_after": 5600,
+   "gates": {
+    "n_generated": 32,
+    "n_distinct": 11,
+    "n_entering_e4": 11,
+    "mechanical_valid": 10,
+    "v1_pass": 3,
+    "v2_pass": 0,
+    "v3_pass": 5,
+    "novel_survivors": 0,
+    "dup_survivors": 0,
+    "nullA_is_ic_p95": 0.00752,
+    "nullA_is_ir_p95": 0.04865,
+    "void": false
+   },
+   "eliminated": 11,
+   "elimination_note": "all deduped formulas entering E4 died at judgment: 10/10 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.142 << 0.30); 1 E4 compute failure; D6 never reached (V2 first-kill); IS2 ic positive for 10/10 (2025+ regime drift, stability-window only, never called OOS)",
+   "refs": {
+    "results": "results/shortline/j13v2_mill_ic2.json",
+    "prereg": "research/J13_V2_MINILOOP.md"
+   }
+  },
+  {
+   "batch": "etf-rules-fidelity-t14",
+   "ts": "2026-09-24 12:31:00",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 24,
+   "ledger_total_after": 3065,
+   "gates": {
+    "anchor_6of6": true,
+    "b2_landing_bit_identical": false,
+    "b2_landing_decision": "do_not_land_gm_adjudication",
+    "b1_drift_max_abs_delta_is_sharpe": 0.305,
+    "guard_counts_match_frozen_scan": true
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/rules_fidelity_t14.json",
+    "prereg": "research/ETF_RULES_FIDELITY.md",
+    "ticket": "fleet/tasks/T-2026-09-24-14-P1.json"
+   }
+  },
+  {
+   "batch": "regime-guard-validation-v3",
+   "ts": "2026-09-24 12:52:00",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 3041,
+   "gates": {
+    "G1_red_orange_share_in_2_25pct": true,
+    "G2_orange_fa_le_60pct": true,
+    "G3_zero_gaps": true,
+    "verdict": "PASS",
+    "r_plus_o_days": 196,
+    "r_plus_o_share": 0.1201,
+    "red_days": 161,
+    "orange_days": 35,
+    "orange_fa_rate": 0.0,
+    "orange_episodes_main": 1,
+    "orange_fa_low_power": true,
+    "single_dim_orange_cut_days": 120,
+    "red_first_green_releases": 5,
+    "window_days": 1632,
+    "ledger_note": "replay=0 trials (pure measurement); counterfactual +12 staged next round per prereg s4.5"
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/regime_calibration_v3.json",
+    "prereg": "research/REGIME_GUARD_VALIDATION_V3.md"
+   },
+   "note": "first calibration PASS on the regime-guard line (v1 FAIL 61.6pct, v2 FAIL 26.53pct); G2 passes on a single ORANGE episode (low-power clause triggered, must ride the enforce proposal)"
+  },
+  {
+   "batch": "regime-guard-validation-v3-cf",
+   "ts": "2026-09-24 13:02:00",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 12,
+   "ledger_total_after": 3077,
+   "gates": {
+    "anchor_6of6": true,
+    "mask_days_window": 196,
+    "mask_days_on_panel": 196,
+    "d_sharpe_neg_members": 2,
+    "d_annual_range_pp": [
+     -1.11,
+     0.46
+    ],
+    "blocked_share_range": [
+     0.0968,
+     0.3985
+    ],
+    "yellow_census_max": 5608,
+    "verdict": "measurement-only (never reverses replay verdict PASS)"
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/regime_calibration_v3.json",
+    "prereg": "research/REGIME_GUARD_VALIDATION_V3.md",
+    "ticket": "fleet/tasks/T-2026-09-24-10-P1.json"
+   },
+   "note": "T-10 d4 counterfactual 12 legs one-shot: masking surface 1005->433->196 days, DeltaSharpe negative roster 4/6->2/6 (ENGULF -0.32/NEEDLE -0.25 keep sign = alpha-habitat third proof; CE-02/VOLATILITY back to noise band); DeltaAnnual worst -1.11pp (v2 -1.80pp); CE-01/DROUGHT turn positive under narrow v3 crisis-mask; yellow x0.5 sizing census (max 5608 entries CE-02) rides the enforce proposal"
+  }
+ ]
 }

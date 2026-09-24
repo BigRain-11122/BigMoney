@@ -621,9 +621,14 @@ def counterfactual(write: bool = True, matrix: str = "v1") -> dict:
                     "blocked_share": rng([r["blocked_share"] for r in rows
                                           if r["blocked_share"] is not None])},
           "anchors_ok": True, "ledger": led,
-          "note": "measurement only; verdict unchanged (G1/G2 FAIL frozen "
-                  "by the replay leg, prereg s8 -- re-prereg is the only "
-                  "enforce path)"}
+          "note": ("measurement only; this leg never reverses the replay "
+                   f"verdict (matrix={matrix} prereg s8; v3 replay=PASS "
+                   "with G2 low-power note -- cf rows feed the enforce "
+                   "proposal, never the gate verdict)"
+                   if matrix == "v3" else
+                   "measurement only; verdict unchanged (G1/G2 FAIL frozen "
+                   "by the replay leg, prereg s8 -- re-prereg is the only "
+                   "enforce path)")}
     if write:
         recorded["counterfactual"] = cf
         # top-level trials_ledger = the ONLY key ledger_head() scans (chain
