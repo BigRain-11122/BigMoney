@@ -1,0 +1,223 @@
+{
+  "batch": "REGIME_GUARD_DEEP_REPLAY",
+  "prereg": "research/REGIME_GUARD_DEEP_REPLAY.md @ 59403dc",
+  "matrix_prereg_refs": {
+    "v1": "research/REGIME_GUARD_VALIDATION.md @ a885044",
+    "v2": "research/REGIME_GUARD_VALIDATION_V2.md @ ee8498e",
+    "v3": "research/REGIME_GUARD_VALIDATION_V3.md @ a25f47a"
+  },
+  "trials": 0,
+  "ledger": "none (measurement batch, prereg s0)",
+  "evidence_cutoff": "2026-09-22",
+  "bench": {
+    "source": "Money02/data/index/hs300.parquet (read-only)",
+    "face": "hs300 index points -- never spliced with the ETF yuan face (prereg s1)",
+    "rows": 5216,
+    "start": "2005-04-08",
+    "end": "2026-09-22"
+  },
+  "gates": {
+    "D-A": {
+      "ok": true,
+      "strictly_monotonic": true,
+      "no_duplicates": true,
+      "close_no_nan": true,
+      "first_date": "2005-04-08",
+      "first_le_2005_04_08": true,
+      "rows": 5216,
+      "rows_ge_5200": true,
+      "last_date": "2026-09-22"
+    },
+    "D-B": {
+      "ok": true,
+      "files_total": 10444,
+      "files_expected": 10444,
+      "parquet_total": 5222,
+      "parquet_expected": 5222
+    },
+    "D-C": {
+      "ok": false,
+      "overlap_start": "2012-05-28",
+      "overlap_end": "2026-09-22",
+      "overlap_start_expected": "2012-05-28",
+      "n_days": 3483,
+      "abs_dr1_bp": {
+        "max": 461.59,
+        "median": 9.792,
+        "p99_9": 348.87
+      },
+      "abs_dr10_max_bp": 761.95,
+      "bound_bp": 200.0,
+      "worst_days": [
+        {
+          "date": "2015-07-10",
+          "abs_dr1_bp": 461.6
+        },
+        {
+          "date": "2016-01-08",
+          "abs_dr1_bp": 422.1
+        },
+        {
+          "date": "2016-01-07",
+          "abs_dr1_bp": 419.8
+        },
+        {
+          "date": "2015-07-09",
+          "abs_dr1_bp": 358.7
+        },
+        {
+          "date": "2015-08-26",
+          "abs_dr1_bp": 338.3
+        },
+        {
+          "date": "2015-07-08",
+          "abs_dr1_bp": 326.0
+        },
+        {
+          "date": "2015-07-07",
+          "abs_dr1_bp": 263.3
+        },
+        {
+          "date": "2026-01-19",
+          "abs_dr1_bp": 254.5
+        },
+        {
+          "date": "2014-01-21",
+          "abs_dr1_bp": 234.5
+        },
+        {
+          "date": "2015-01-19",
+          "abs_dr1_bp": 229.2
+        },
+        {
+          "date": "2025-06-18",
+          "abs_dr1_bp": 224.9
+        },
+        {
+          "date": "2024-01-18",
+          "abs_dr1_bp": 214.3
+        }
+      ],
+      "worst_days_note": "top |dr1| days -- 2015-07/2016-01 千股跌停/涨停锁定+熔断日与极端溢价日=ETF↔指数微观结构分歧（涨停锁价低于公允值/熔断早收），非数据腐坏（原始行/D-A/子窗连检三方佐证）"
+    },
+    "D-D": {
+      "ok": true,
+      "per_matrix": {
+        "v1": {
+          "sub": {
+            "days": 1631,
+            "state_counts": {
+              "GREEN": 435,
+              "YELLOW": 214,
+              "ORANGE": 530,
+              "RED": 452
+            },
+            "ro_share": 0.6021,
+            "orange_rounds": 18,
+            "orange_main": 18,
+            "orange_false_alarms": 13,
+            "orange_fa_rate": 0.7222
+          },
+          "recorded_etf": {
+            "ro": 0.6157999999999999,
+            "fa": 0.8181818181818182,
+            "window": {
+              "start": "2020-01-02",
+              "end": "2026-09-23",
+              "days": 1632
+            }
+          },
+          "d_ro_share_pp": 1.37,
+          "d_orange_fa_pp": 9.6,
+          "bounds": {
+            "ro_pp": 6.0,
+            "fa_pp": 20.0
+          },
+          "pass": true
+        },
+        "v2": {
+          "sub": {
+            "days": 1631,
+            "state_counts": {
+              "GREEN": 661,
+              "YELLOW": 535,
+              "ORANGE": 254,
+              "RED": 181
+            },
+            "ro_share": 0.2667,
+            "orange_rounds": 14,
+            "orange_main": 14,
+            "orange_false_alarms": 8,
+            "orange_fa_rate": 0.5714
+          },
+          "recorded_etf": {
+            "ro": 0.2653,
+            "fa": 0.5714285714285714,
+            "window": {
+              "start": "2020-01-02",
+              "end": "2026-09-23",
+              "days": 1632
+            }
+          },
+          "d_ro_share_pp": 0.14,
+          "d_orange_fa_pp": 0.0,
+          "bounds": {
+            "ro_pp": 6.0,
+            "fa_pp": 20.0
+          },
+          "pass": true
+        },
+        "v3": {
+          "sub": {
+            "days": 1631,
+            "state_counts": {
+              "GREEN": 661,
+              "YELLOW": 770,
+              "ORANGE": 37,
+              "RED": 163
+            },
+            "ro_share": 0.1226,
+            "orange_rounds": 1,
+            "orange_main": 1,
+            "orange_false_alarms": 0,
+            "orange_fa_rate": 0.0
+          },
+          "recorded_etf": {
+            "ro": 0.1201,
+            "fa": 0.0,
+            "window": {
+              "start": "2020-01-02",
+              "end": "2026-09-23",
+              "days": 1632
+            }
+          },
+          "d_ro_share_pp": 0.25,
+          "d_orange_fa_pp": 0.0,
+          "bounds": {
+            "ro_pp": 6.0,
+            "fa_pp": 20.0
+          },
+          "pass": true
+        }
+      },
+      "prereg_vs_file_crosscheck": {
+        "v1": {
+          "prereg_ro": 0.6158,
+          "file_ro": 0.6157999999999999,
+          "prereg_fa": 0.818,
+          "file_fa": 0.8181818181818182,
+          "match": true
+        },
+        "v2": {
+          "prereg_ro": 0.2653,
+          "file_ro": 0.2653,
+          "prereg_fa": 0.571,
+          "file_fa": 0.5714285714285714,
+          "match": true
+        }
+      },
+      "note": "index-face subwindow vs recorded ETF-face runs; v3 recorded window ends 2026-09-23 (1-day tail vs index face disclosed, prereg s1)"
+    }
+  },
+  "verdict": "GATES_FAILED"
+}
