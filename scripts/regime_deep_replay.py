@@ -817,7 +817,7 @@ def main(argv=None) -> int:
     if "replay" in argv:
         res = replay(write=True)
         print(json.dumps(_summary(res), ensure_ascii=False, indent=1))
-        print(f"  out: {OUT_JSON}")
+        print(f"  out: {OUT_JSON_V2}")
         print(f"  out: {OUT_CSV}" if res["verdict"] == "GATES_OK" else "")
         return 0 if res["verdict"] == "GATES_OK" else 1
     print(__doc__)

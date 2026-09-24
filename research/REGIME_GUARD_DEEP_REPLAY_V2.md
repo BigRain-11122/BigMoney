@@ -61,6 +61,39 @@ V2 重跑预期同值（确定性）。D-C V2 预测（按裁定候选生效一�
    （顶层 evidence_cutoff 必带）+ `results/regime_deep_replay_episodes.csv`；
    verdict 语义沿用 v1 §2「不过=批无效」。
 
+## §7（V2 跑后实证）【r106 bm-b 一次定稿回填】
+
+- **verdict：GATES_OK**（results/regime_deep_replay_v2.json，顶层
+  evidence_cutoff=2026-09-22；episodes CSV 同刻落盘 15 段）。
+- D-A PASS（5216 行严格单调零 NaN，与 v1 逐位同=确定性）/ D-B PASS（10444=5222
+  精确）/ **D-C v2_b PASS**：median 9.792bp ≤ 15 + p99.9 348.87bp ≤ 400（全
+  重叠窗 3483 日）；危机日 41 天（机械定义双面 |r1|≥5%）；max 面危机感知=
+  非危机日 max 422.06bp（2016-01-08，无硬界纯披露）；超 p99.9 豁免单列 3 日=
+  2015-07-10 461.6bp（危机）/ 2016-01-08 422.1bp（非危机）/ 2016-01-07
+  419.8bp（危机）——全部标注微观结构事件非腐坏 / D-D PASS 三矩阵（与 v1 实测
+  同值=确定性复现）。
+- §4 预测对账：**(b) 行命中**——median 9.79≤15 PASS + p99.9 348.87≤400 PASS
+  → 预期 PASS = 实测 PASS（逐字兑现）；v1 §4 预测 6（D-D 0.14-1.37pp/0-9.6pp
+  全过）确定性复现同值；(a)/(c) 行未启用（GM 裁 (b)）。
+- J1/J2/J3 判读与 v1 同（确定性）：J1 v1 深窗结构性（R+O 53.49%）/ J2 v2
+  breach reproduced deep（28.6%，窗驱动）/ **J3 v3 robust**（R+O 18.36%，
+  ORANGE FA 0.0%）。
+- 产物：results/regime_deep_replay_v2.json + results/regime_deep_replay_
+  episodes.csv（v1 GATES_FAILED 原件保留未覆写）；trials=0（测量批零引擎，
+  账本零增量）；worst-12 事件日档案附录已随裁定入 v1 文件（见下）。
+
+## §8（V2 批后复盘）【s7-T】
+
+- 候选 (b) 设计验证成立：分布界（median+p99.9）在真实 14 年重叠窗上把危机日
+  涨停锁定/熔断/极端溢价分歧全部正确豁免（3 个超界日逐一携带已知微观结构
+  归因），同时保持对系统性腐坏的敏感（任一面腐坏必推高 median/p99.9）；
+  v1 200bp 硬 max 界的误分类问题就此闭合（HQ-F-20260924-11 三件套判例首用）。
+- 非危机日 422.06bp（2016-01-08）= r104 设计期诊断实测值的确定性复现
+  （熔断次日指数 +2.04% vs ETF −2.18% 微观结构分歧），在 (b) 下不再触发
+  误判——豁免单列如实披露。
+- 后续指针：T-13 票 deliverable-2b 闭合；分段政体扩检（cph4 item5）仍为
+  独立后续件未认领；episodes CSV 15 段命名档案可供后续深回放消费。
+
 ## §9（V2 修订日志）
 - r104 bm-b：起草本 V2（DRAFT-PENDING-GM-RULING）+ 设计期诊断实测入 §2 +
   F-04 claim MSG（裁决请求）+ O-20260924-1402-cph4 item5（T-13 分段政体扩检）
