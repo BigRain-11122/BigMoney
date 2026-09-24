@@ -1261,7 +1261,7 @@ def _run_post(report, shelf, population):
     if bad:
         print("REPRODUCTION FAIL - batch VOID (no numbers produced)",
               flush=True)
-        cm = cutoff_meta()
+        cm = cutoff_meta(CUTOFF.date())
         _atomic_write_json(os.path.join(OUT_DIR, "xstock_synth.json"), {
             "meta": {"batch": "XSTOCK_SYNTH", "verdict": "VOID",
                      "date": time.strftime("%Y-%m-%d %H:%M")},
@@ -1446,7 +1446,7 @@ def _run_post(report, shelf, population):
 
     added = 3 + 2 * N_NULLS + (1 if h20_row else 0)
     prev = chain_head_total()
-    cm = cutoff_meta()
+    cm = cutoff_meta(CUTOFF.date())
     ledger = {"prev": prev,
               "added": added if audit_clean else 0,
               "total": prev + (added if audit_clean else 0),
