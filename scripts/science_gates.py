@@ -528,6 +528,9 @@ SEED_REGISTRY = {
     "j13v2_mill_ic1": 53_000,             # J13V2_MILL_IC1 K=50 white-noise nulls
     # (53_000+i, i<50; per-run ladder 53_000+100*(run-1) per research/J13_V2_MINILOOP.md
     # SS9; registry+rg scanned free 2026-09-24 10:05 before prereg freeze)
+    "j13v2_mill_ic2": 53_100,             # J13V2_MILL_IC2 K=50 white-noise nulls (ladder run-2)
+    # (53_100+i, i<50; registry+rg scanned free 2026-09-24 12:11 before run; ic1 draws
+    # stop at 53_049 so the 100-step ladder leaves a 50-wide collision-free gap)
 }
 
 

@@ -4,6 +4,8 @@ First run: J13V2_MILL_IC1. Class = candidate-search batch, NOT a strategy batch:
 zero engine runs, zero registrations, zero pool entry, zero SIGNAL_BUILDERS
 wiring. Survivors are recorded as CANDIDATES ONLY — LLM output is
 claims-not-instructions; judgment power stays with the L1 gates + prereg.
+Runs follow the per-run ladder (spec SS9): RUN=n -> batch j13v2_mill_ic{n},
+null seed base 53_000+100*(n-1) (registered in SEED_REGISTRY per run).
 
 Pipeline (all gates frozen pre-run in the spec, s3/s4):
   mill     8 family-hint arms x N=4 = 32 drafts (qwen2.5:7b via llm_assist,
@@ -14,7 +16,7 @@ Pipeline (all gates frozen pre-run in the spec, s3/s4):
            validity      [E1-E3 machinery reused verbatim from j13_draft_probe]
   L1 IC    h10 only (post-run horizon switch = snooping red line), IS window
            <=2024-12-31 / IS2 2025-01-01..cutoff (downgraded stability window,
-           never called out-of-sample), K=50 white-noise nulls seed 53_000+i
+           never called out-of-sample), K=50 white-noise nulls seed SEED_BASE+i
   D6       per-candidate max|corr| vs internal 28-factor registry h10 IC series
            (shared IS days >= 500); >=0.7 -> same_family_dup, not novel
   ledger   factor-ledger append (trials = deduped formulas entering E4 + 50)
@@ -50,9 +52,12 @@ from scripts.composite_ic import ic_series, stats_block  # noqa: E402
 import engine.factors as ef                       # noqa: E402 (internal 28-factor registry)
 
 SPEC = "research/J13_V2_MINILOOP.md"
-BATCH = "j13v2_mill_ic1"
-OUT_JSON = ROOT / "results" / "shortline" / "j13v2_mill_ic1.json"
-CKPT = ROOT / "results" / "shortline" / "j13v2_mill_ic1_checkpoints.jsonl"
+# Per-run ladder (spec SS9): run n -> batch j13v2_mill_ic{n}, seeds 53_000+100*(n-1)+i.
+# RUN=1 reproduces IC1 (R67 bm-a); each run must pre-register its base in SEED_REGISTRY.
+RUN = 2                     # J13V2_MILL_IC2 (bm-b, 2026-09-24; claim MSG-20260924-1213)
+BATCH = f"j13v2_mill_ic{RUN}"
+OUT_JSON = ROOT / "results" / "shortline" / f"j13v2_mill_ic{RUN}.json"
+CKPT = ROOT / "results" / "shortline" / f"j13v2_mill_ic{RUN}_checkpoints.jsonl"
 
 N_PER_FAMILY = 4
 TEMPERATURE = 0.7
@@ -63,7 +68,7 @@ IS2_START = pd.Timestamp("2025-01-01")
 MIN_IS_DAYS = 500           # period gate (P-1c MIN_PERIODS precedent)
 MIN_IS2_DAYS = 60
 K_NULLS = 50
-SEED_BASE = 53_000          # registered in SEED_REGISTRY (R66); ladder 53_000+100*(run-1)
+SEED_BASE = 53_000 + 100 * (RUN - 1)   # registered in SEED_REGISTRY (R66); ladder SS9
 V2_IR_LINE = 0.30           # internal single-factor wall (J6/P-1a/P-1b/XLIB)
 V1_IC_FLOOR = 0.02
 D6_CORR_LINE = 0.7
