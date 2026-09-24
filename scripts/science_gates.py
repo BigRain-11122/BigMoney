@@ -535,6 +535,10 @@ SEED_REGISTRY = {
     # (54_000+i, i=0..999; rolling-full-population caliber per research/DEEP_
     # AXIS_REVALIDATION.md SS3; registry+rg scanned free 2026-09-24 13:2x
     # before prereg freeze)
+    "pa1_premium_ic": 20260925,           # PA1_PREMIUM_IC K=50 white-noise nulls
+    # (20260925+i, i<50; date-style base: 53_x00 band = j13v2_mill per-run ladder,
+    # 54_000 = t18_deep_axis, both occupied; registry+rg scanned free 2026-09-24
+    # 14:3x before prereg freeze)
 }
 
 
