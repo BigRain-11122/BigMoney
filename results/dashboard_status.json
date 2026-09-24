@@ -4,13 +4,13 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-24T08:44:06"
+    "generated_at": "2026-09-24T08:51:47"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-24T08:38:39",
+      "at": "2026-09-24T08:48:44",
       "ok": true
     },
     "network": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-24 08:43:46",
+      "last_run": "2026-09-24 08:51:21",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
       "l1_snapshots": 1,
-      "l1_updated": "2026-09-24 08:43:57",
+      "l1_updated": "2026-09-24 08:51:33",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -55,7 +55,7 @@
       "present": true,
       "varieties": 9,
       "planned": 9,
-      "last_attempt": "2026-09-24T08:43:58",
+      "last_attempt": "2026-09-24T08:51:36",
       "age_min": 0,
       "cutoff": "2026-09-23",
       "errors": 0,
@@ -65,14 +65,14 @@
     },
     "token": {
       "present": true,
-      "generated": "2026-09-24 08:35:36",
+      "generated": "2026-09-24 08:44:06",
       "mandate_est": 2987,
-      "codely_context_est": 123821,
-      "state_est": 1572,
-      "report_est": 74519,
-      "delta_state": 132,
-      "delta_report": 1090,
-      "delta_prev": "2026-09-24 08:22:55"
+      "codely_context_est": 125563,
+      "state_est": 1194,
+      "report_est": 76008,
+      "delta_state": -378,
+      "delta_report": 1489,
+      "delta_prev": "2026-09-24 08:35:36"
     },
     "regime": {
       "present": true,
@@ -183,13 +183,13 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-24 08:36:18",
-        "age_min": 7.8,
+        "last_seen": "2026-09-24 08:44:55",
+        "age_min": 6.9,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": null,
         "gpu_idle_vram_mb": null,
-        "current_task": "R58 done: moneyflow source audit closed (digest+probes+STRATEGY_LIBRARY row, cddd434); maintenance until 15:30 09-24 sweep (R54 catch-up first verification)",
+        "current_task": "R59 done: Alpha158 comparison export closed (O-1636 outreach queue; 7 B-class gap families Aroon+WVMA+volume-RSI registered as reference, zero engine); next = R60 5x HANDOVER + 15:30 09-24 sweep catch-up verification",
         "verdict": "healthy",
         "orders_ack": [
           "O-20260923-1514",
@@ -222,36 +222,36 @@
           "O-20260923-2345",
           "O-20260924-0100"
         ],
-        "clock_read": "2026-09-24T08:36:18+08:00",
-        "round_no": 58
+        "clock_read": "2026-09-24T08:44:55+08:00",
+        "round_no": 59
       },
       {
         "id": "bm-b",
-        "last_seen": "2026-09-24 08:35:16",
-        "age_min": 8.8,
+        "last_seen": "2026-09-24T08:52:00+08:00",
+        "age_min": 8.3,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 10.4,
         "gpu_idle_vram_mb": 2407,
-        "current_task": "r80 5x HANDOVER check done; WQ leg 74/82 in-flight (PID 27128), harvest r81+ (gate=meta.wq_complete)",
-        "verdict": "alive",
+        "current_task": "WQ 82-factor stock IC batch in flight (74/82, PID 27128); harvest next round; P-B clist blocked/parked",
+        "verdict": "monitoring round; WQ batch healthy in flight; all maintenance chains green",
         "orders_ack": "FULL ENUMERATION 29/29 (r65 full-disk scan vs ack set, diff=EMPTY; note: ack is a summary string, matching must account for both full-date and abbreviated O-token forms): O-20260923-1514 (Money0923 triage, quant session), O-1533 (bars A+B dual-approved, T-01 done Verify PASS), O-1536 (local-first J13 both machines), O-1538 (firm/ four-pack), O-1545 (shortline playbook+research lanes), O-1620 (P1 authority delegated), O-1636 (research mechanism+style atlas), O-1653 (backtest readiness), O-1705 (style zoo), O-1738 (compute mobilization), O-1810 (compute audit in S6), O-1816 (P-5 random entry all-FAIL), O-1819 (24h continuous backtest), O-1820 (three allocation red lines, all parts closed), O-1823 (evaluation framework), O-1828 (TA batch 2A), O-1844 (lane coordination), O-1850 (heat/attention family), O-2134 (folk expansion), O-2205 (retro automation+improvements), O-2210 (max-scale backtest+library, 3 new traders), O-2215 (backtest science v2, T-02 CLOSED), O-2250 (full audit, T-03/T-04+3 T2 rules), O-2310 (operating plan), O-2311 (org expansion T-06/T-07 both done), O-2315 (REGIME_GUARD v1.0, T-05 CLOSED shadow-first), O-2325 (local-first token meter), O-2345 (CPU mobilization P-5B), O-20260924-0100 (QuantBull archive via bm-c, consumption=P1 signed ticket)",
-        "clock_read": "2026-09-24T08:35:16.573496+08:00",
-        "round_no": 80
+        "clock_read": "2026-09-24T08:43:31.863539+08:00",
+        "round_no": 81
       },
       {
         "id": "bm-c",
-        "last_seen": "2026-09-24 08:33:11",
-        "age_min": 11.3,
+        "last_seen": "2026-09-24T08:42:00+08:00",
+        "age_min": 9.4,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 10.2,
         "gpu_idle_vram_mb": 13277,
-        "current_task": "round 31 done: monitoring (sweep #4 zero-gap via git-diff, WQ gate not met, R57 rehearsal absorbed, panels truthful); WQ display trio armed for landing round",
+        "current_task": "monitoring round 32: sweep#5 zero-gap (moneyflow=zero-engine), WQ gate unmet, S6 all-green",
         "verdict": "round 31 green: monitoring close (sweep #4 + R57 absorb verify), smoke 23/23, S6 all-green (lhb exit2=design-expected), panels truthful (trials 3041/chain 24/factor 5394 WQ-in-flight)",
-        "orders_ack": "29/29 full enum r31: O-1514/1533/1536/1538/1545/1620/1636/1653/1705/1738/1810/1816/1819/1820/1823/1828/1844/1850/2134/2205/2210/2215/2250/2310/2311/2315/2325/2345 + O-20260924-0100 (all have CODELY receipts; re-verified via Tools/orders_diff.py diff empty this round)",
-        "clock_read": "2026-09-24T08:33:11+08:00",
-        "round_no": 31
+        "orders_ack": "O-20260923-1514-bm-a O-20260923-1533-bm-a O-20260923-1536-bm-a O-20260923-1538-bm-a O-20260923-1545-bm-a O-20260923-1620-bm-a O-20260923-1636-bm-a O-20260923-1653-bm-a O-20260923-1705-bm-a O-20260923-1738-bm-a O-20260923-1810-bm-a O-20260923-1816-bm-a O-20260923-1819-bm-a O-20260923-1820-bm-a O-20260923-1823-bm-a O-20260923-1828-bm-a O-20260923-1844-bm-a O-20260923-1850-bm-a O-20260923-2134-bm-a O-20260923-2205-bm-a O-20260923-2210-bm-a O-20260923-2215-bm-a O-20260923-2250-bm-a O-20260923-2310-bm-a O-20260923-2311-bm-a O-20260923-2315-bm-a O-20260923-2325-bm-a O-20260923-2345-bm-a O-20260924-0100-bm-c",
+        "clock_read": "2026-09-24T08:42:00+08:00",
+        "round_no": 32
       }
     ],
     "tickets": [
@@ -309,16 +309,16 @@
     "n_claimed": 0,
     "n_done": 7,
     "audit": {
-      "ts": "2026-09-24 08:43:44",
+      "ts": "2026-09-24 08:51:16",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 42.0,
-      "py_cpu_pct": 1.2,
+      "cpu_total_pct": 38.0,
+      "py_cpu_pct": 0.3,
       "cores": 32,
-      "py_procs": 6,
+      "py_procs": 5,
       "zombies": 0,
       "gpu_util_pct": 7.0,
-      "gpu_mem_used_mb": 11084.0,
+      "gpu_mem_used_mb": 11106.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -365,7 +365,7 @@
     "lhb": {
       "verdict": "no-op: cutoff 2026-09-23 covers latest disclosure window (2026-09-23)",
       "cutoff": "2026-09-23",
-      "updated": "2026-09-24 08:43:57",
+      "updated": "2026-09-24 08:51:29",
       "new_rows": 0
     }
   },
@@ -822,7 +822,7 @@
   },
   "events": [
     {
-      "time": "2026-09-24T08:38:39",
+      "time": "2026-09-24T08:48:44",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -842,20 +842,20 @@
       "text": "门禁链定案（试验账本 N=3041）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-24 08:43:46",
+      "time": "2026-09-24 08:51:21",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-23"
     },
     {
-      "time": "2026-09-24 08:43:57",
+      "time": "2026-09-24 08:51:33",
       "text": "热度链 · L1 人气榜快照 1 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-24T08:43:58",
+      "time": "2026-09-24T08:51:36",
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-23 · 刚跑"
     },
     {
-      "time": "2026-09-24 08:35:36",
-      "text": "本地化 · token 粗估 状态 1572 · 报告 74519 · 回合固定载入 123821（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-24 08:44:06",
+      "text": "本地化 · token 粗估 状态 1194 · 报告 76008 · 回合固定载入 125563（byte/3.5 代理口径 · O-2325）"
     },
     {
       "time": "2026-09-24T01:44:08",
@@ -882,7 +882,7 @@
       "text": "治理面 · 科学审计 6/6 检 OK · findings 0 · 月度简报 2026-09 在档（月度 M 层 · 总经办 · findings 只报不阻断）"
     },
     {
-      "time": "2026-09-24 08:36:18",
+      "time": "2026-09-24 08:44:55",
       "text": "机队 · 3 节点 3 活 · 票据 done 7/claimed 0/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
@@ -898,8 +898,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-24 08:43",
-        "age_min": 0.6,
+        "last_active": "09-24 08:51",
+        "age_min": 0.0,
         "alive": true
       }
     ]
