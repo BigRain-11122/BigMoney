@@ -32,7 +32,9 @@ PROV_NOTE = (
 
 def _read_json(path):
     try:
-        with open(path, encoding="utf-8") as f:
+        # utf-8-sig: board files written via PS redirect carry a BOM (r131);
+        # plain utf-8 would raise JSONDecodeError -> silent ticket invisibility.
+        with open(path, encoding="utf-8-sig") as f:
             return json.load(f)
     except FileNotFoundError:
         return None
@@ -416,6 +418,15 @@ def cmd_selftest():
         check("determinism: two renders identical", txt1 == render(gather(td, month="202609", asof="2026-10-01 04:00")))
         check("month rollover: 2026-10-01 -> 202609", _prev_month(date(2026, 10, 1)) == "202609")
         check("month rollover: 2026-01-05 -> 202512", _prev_month(date(2026, 1, 5)) == "202512")
+        # BOM'd board-ticket visibility (PS-redirect writers emit utf-8 BOM;
+        # reader must tolerate, self_review.py _read_json precedent).
+        (td / "fleet" / "tasks" / "T-BOM-01.json").write_bytes(
+            b"\xef\xbb\xbf" + json.dumps({"id": "T-BOM-01", "status": "open"}).encode("utf-8"))
+        (td / "fleet" / "tasks" / "T-PLAIN-01.json").write_text(
+            json.dumps({"id": "T-PLAIN-01", "status": "open"}), encoding="utf-8")
+        g2 = gather(td, month="202609", asof="2026-10-01 04:00")
+        check("open-ticket scan sees BOM'd ticket (utf-8-sig reader)",
+              sorted(g2["open_tickets"]) == ["T-BOM-01", "T-PLAIN-01"])
         # Missing-file honesty.
         (td / "results" / "regime_state.json").unlink()
         txt2 = render(gather(td, month="202609", asof="2026-10-01 04:00"))
