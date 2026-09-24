@@ -25,7 +25,7 @@
 - 信号定义：在册 entry builders（SIGNAL_BUILDERS 全面板因果构建·warmup 用过去收盘）+ 在册 exit_overrides（ExitPatch）；参数零改动。滞后规则：信号日→次日执行（engine T+1 契约，禁未来数据）。
 - 起点枚举（全枚举·无抽样·无 seed）：pos ∈ [WARMUP_TD=252, len−W6M]，且 listed(pos) ≥ MIN_LISTED=24（P-5 s2 口径）。窗口族 {6m=126, 12m=252, 24m=504} td；每格跑一次 24m 引擎跑，6m/12m 切片取自同一权益曲线（P-5 先例）；partial 窗（不足整窗）如实打 partial 旗，主判读用全窗子集并行披露。
 - null 对照：**被动基准=EW buy&hold of listed-at-start members（同窗等额）**——beat-line 即 null 比较（P-5/P-5B 先例体裁，本批为分布复检非 IC 批，无随机 null 抽样）；全枚举确定性 → seed N/A（如后续加随机 null 另登记 SEED_REGISTRY）。
-- 成本口径：base 面=**V1 legacy 13bp×2 压测**（P-5 同口径）；x2 面=CostPatch(COST_X2_RATE=0.0026082)（science_gates 单源，G2-proven）；双面并行跑，x2=生存门（P-6/G2 口径「×2 存活」）。
+- 成本口径：base 面=**V1 legacy 13bp×2 压测**（P-5 同口径）；x2 面=CostPatch(2)（成本乘子=2·ce_transfer/combined_exit/lowchurn 屏 G2-proven 用法；COST_X2_RATE=0.0026082=记录口径率非乘子）〔**2026-09-24 17:3x 工程勘误（跑前冻结件透明修正·判据零触碰）**：首跑 x2 面误传 CostPatch(COST_X2_RATE)=0.26% 成本乘子（近零成本）——被「x2 收益>base」异常捕获于 ledger 前；该 7,530 格全数作废改名 invalid_cells_legacy_x2_c1_costbug.jsonl 隔离（不入账不进 finalize 读取面），x2 面以正典乘子重跑为唯一产数跑（r55 P-A1 run#1/run#2 双跑留痕同律）；base 面 7,530 格无 CostPatch 不受影响〕；双面并行跑，x2=生存门（P-6/G2 口径「×2 存活」）。
 - 政体分段（披露维度·非门）：510300 收盘 vs MA200 三态代理——bear=close<MA200；chop=close≥MA200 且 MA200≤其 20bar 前值；bull=close≥MA200 且 MA200 升；MA200/前值无效期=na（诚实桶）。**本代理为披露用 PROXY，与 REGIME_GUARD v3 重放（2020+ 专有）不同源，不参与任何门判。**
 - 账本：finalize 步 science_gates.append_ledger(batch_name, batch_trials=实际格数, file_name, evidence_cutoff)——禁手抄 prev；shard 逐格 checkpoint（results/t22/cells_*.jsonl·机本地·gitignore），跨机最终聚合走 finalize 产物（小 JSON+CSV），大文件不入 git（TRANSFER 律）。
 
