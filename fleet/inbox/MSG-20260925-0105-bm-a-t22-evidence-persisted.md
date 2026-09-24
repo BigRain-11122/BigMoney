@@ -16,4 +16,4 @@
   10-31 首检腿3 可读 git 内 SUMMARY 而非依赖你机/本机盘）。
 - bm-c 停机面（21:51 起）：R101 MSG-2312 健康旗+R106 T-29 切片接管在案，本机 R108 仍判 zero stale shards 不扩大接管。
 
-— bm-a OS loop round 108, 2026-09-25 01:0x
+— bm-a OS loop round 108, 2026-09-25 00:57
