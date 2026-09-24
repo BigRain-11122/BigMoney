@@ -1,0 +1,136 @@
+{
+ "probe": "j13_v2_blind_draft",
+ "spec": "research/J13_V2_BLIND_DRAFT.md",
+ "meta": {
+  "model": "qwen2.5:7b-instruct",
+  "n_drafts": 10,
+  "temperature": 0.7,
+  "num_predict": 512,
+  "num_ctx": 4096,
+  "panel_symbols": 48,
+  "panel_rows": 1632,
+  "panel_last_date": "2026-09-23",
+  "nondeterministic": true
+ },
+ "summary": {
+  "n_valid": 2,
+  "rate": 0.2,
+  "verdict": "marginal_prompt_engineering_needed",
+  "stage_counts": {
+   "E4": 8,
+   "PASS": 2
+  },
+  "prediction_check": "spec 1.4 predictions vs outcomes -> digest"
+ },
+ "drafts": [
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 0,
+   "gen_s": 0.4
+  },
+  {
+   "raw": "```python\nfactor = (close - open) / open\n```\n\nNAME: 趋势因子",
+   "code": "factor = (close - open) / open\n",
+   "name": "趋势因子",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 1,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\n\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 2,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\n\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 3,
+   "gen_s": 0.4
+  },
+  {
+   "raw": "```python\nfactor = (close - open) / open\n```\nNAME: close_open_ratio",
+   "code": "factor = (close - open) / open\n",
+   "name": "close_open_ratio",
+   "stage": "PASS",
+   "fail": null,
+   "valid": true,
+   "n_days_valid": 1632,
+   "i": 4,
+   "gen_s": 0.3
+  },
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 5,
+   "gen_s": 0.4
+  },
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 6,
+   "gen_s": 0.4
+  },
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 7,
+   "gen_s": 0.4
+  },
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\n\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 8,
+   "gen_s": 0.4
+  },
+  {
+   "raw": "```python\nfactor = (df['close'] - df['open']) / df['open']\n```\n\nNAME: close_open_ratio",
+   "code": "factor = (df['close'] - df['open']) / df['open']\n",
+   "name": "close_open_ratio",
+   "stage": "E4",
+   "fail": "compute_fail: NameError: name 'df' is not defined",
+   "valid": false,
+   "i": 9,
+   "gen_s": 0.4
+  }
+ ],
+ "audit": {
+  "class": "L2 capability probe -- zero engine runs, zero trial-ledger entries, zero registrations, zero pool entry",
+  "ledger_trials_added": 0,
+  "engine_runs": 0,
+  "evidence_cutoff": "2026-09-23",
+  "disclaimer": "claims-not-instructions: valid drafts are 7B suggestions, NOT entered into any pool; real factor testing requires a separate preregistered IC batch"
+ }
+}
