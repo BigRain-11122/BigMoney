@@ -311,6 +311,19 @@ def _page_headers(token):
     }
 
 
+def _fix_code(v):
+    """Restore zero-stripped A-share codes: pd.read_html's TextParser infers
+    the all-numeric 股票代码 column to int ('000790' -> 790). All A-share
+    codes are exactly 6 digits -> digits-only values shorter than 6 are
+    zero-strip artifacts; zfill(6) restores them bijectively (idempotent for
+    already-correct 6-digit codes; non-digit values pass through untouched).
+    Probe evidence flagged this: t41_ths_probe_raw.json numeric_cols."""
+    s = _cell(v)
+    if s and s.isdigit() and len(s) < 6:
+        return s.zfill(6)
+    return s
+
+
 def _parse_page(text):
     """(rows, page_info_or_None). Raises ShapeDrift on column drift."""
     import pandas as pd
@@ -323,6 +336,7 @@ def _parse_page(text):
     cols = [str(c) for c in df.columns]
     if cols != FROZEN_COLS:
         raise ShapeDrift(f"column drift: {cols!r} != frozen {FROZEN_COLS!r}")
+    df["股票代码"] = df["股票代码"].map(_fix_code)
     rows = [{c: v for c, v in zip(FROZEN_COLS, rec.values())}
             for rec in df.to_dict("records")]
     return rows, page_info
@@ -740,6 +754,27 @@ def _selftest():
     # F7 assemble + page order
     pd_pages = {"1": [{"股票代码": "1"}], "2": [{"股票代码": "2"}], "3": [{"股票代码": "3"}]}
     assert [r["股票代码"] for r in assemble_rows(pd_pages, 3)] == ["1", "2", "3"]
+
+    # F8 code-column zero-strip restore (read_html int inference, live-fire
+    # evidence: 1491/5210 rows collected with stripped 000xxx codes before
+    # the fix; probe numeric_cols was the advance warning)
+    assert _fix_code(790) == "000790" and _fix_code("790") == "000790"
+    assert _fix_code("301311") == "301311" and _fix_code("832566") == "832566"
+    assert _fix_code("") == "" and _fix_code("A1") == "A1"
+    import pandas as pd
+    html = pd.DataFrame([{c: "x" for c in FROZEN_COLS}]).to_html(index=False)
+    df_zero = pd.DataFrame([dict(zip(FROZEN_COLS, ["1", "000790", "测试", "1.5",
+                                                  "1%", "1%", "1亿", "1亿",
+                                                  "1万", "1亿"]))])
+    rows_z, info_z = _parse_page(df_zero.to_html(index=False) + '<span class="page_info">1/1</span>')
+    assert rows_z[0]["股票代码"] == "000790", rows_z[0]      # restored through full parse
+    assert info_z == (1, 1)
+    # csv round-trip keeps the restored code
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "z.csv")
+        atomic_write(p, rows_to_csv_text(rows_z))
+        back = list(_csv.DictReader(io.open(p, encoding="utf-8")))
+        assert back[0]["股票代码"] == "000790"
 
     print("selftest: all THS panel guard cases PASS")
     return 0
