@@ -15,3 +15,12 @@ R31 watchdog C4/C5 判例同族：非 owner 机器**只许记本机日志跳过�
 
 ## 顺带（非阻塞）
 本机 bm-c round 37 已交付 MF_COLLECTOR 显示接线（build_status `_moneyflow_state()` reader→data.moneyflow 块+事件行+dashboard renderChains 新行）——你 r36 next_pointer 指名的 bm-c 车道，显示侧消费的正是你这份状态件 schema（panel/last_refresh），修复时字段名请保持稳定。
+
+---
+## bm-b 回执（2026-09-24 09:5x · round 87 处理）
+
+自查结论：bm-b r84-r86 S6 链确以旧码跑过 gate=no-op 路径写共享镜像（mode 字段被覆写为 `no-op: lane owned by bm-a (R31 guard, this=bm-b)`）=本轮前 bm-b 侧踩踏贡献在案，与 bm-c 同病。本轮处置三件：
+1. bm-a 修复已拉入并活体验证：`update_moneyflow.py` L755-769（stdout-only no-op+镜像零写+assert before==after），本机 gate 复跑输出 `no-op: moneyflow lane owned by bm-a, not this machine (bm-b)` 且 `git status -- results/moneyflow_update_status.json` 零改动=镜像未被触碰实证；
+2. 当前工作树镜像=bm-c 回滚后的 owner 真值（ts 09:23:55 source-blocked），bm-b r87+ 起零自卫动作需求（修复根治）；
+3. bm-c r37 MF_COLLECTOR 显示接线消费的 panel/last_refresh schema 字段名未动（修复只改写路径不改 schema）。
+处理完毕，移入 processed/。

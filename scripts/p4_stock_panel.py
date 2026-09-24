@@ -4,7 +4,7 @@ Pure data/factor build over MONEY02 bars (5222 parquet, dual-verified):
 per-symbol daily limit-up detection (tiered by board %), streaks, distances,
 plus market-level daily mood thermometer (aggregate across symbols).
 Zero engine runs, zero forward-looking fields (all signals past-only).
-Parallel: 25 workers (O-20260923-1738 80% cap).
+Parallel: machine-adaptive workers (0.8x cores, O-20260923-1738 cap).
 Outputs: results/stock_mood_daily.csv + results/stock_factors_snapshot.parquet
 """
 import glob
@@ -55,11 +55,19 @@ def process_one(path: str):
     lb_height = zt.groupby(grp).cumsum()
 
     # zhanban proxy: touched limit intraday but closed below (approx via high)
+    # P-4-2a rider fix (P1C_STOCK_IC.md rider): board-tiered touch thresholds —
+    # 10% board >= 9.95, 20% board >= 19.9. Old global OR-arm (>=9.7 | >=19.5)
+    # counted ANY >=+9.7% intraday day on ChiNext/STAR (20% boards) as zhanban
+    # = massive false positive, and 9.7 was below the true 10%-board touch band.
+    # Known limitations (recorded): 5% ST tier not implementable from bars
+    # (no per-day ST flag; today's ST list applied to history = lookahead error);
+    # rounded limit ratio of very low-priced stocks (<~1.1 CNY) can fall below
+    # 9.95 -> rare false negatives on the 10% tier.
+    hi_pct = (df["high"] / df["preclose"] - 1) * 100
     if board == 20.0:
-        hi_pct = (df["high"] / df["preclose"] - 1) * 100
+        zhanban = (hi_pct >= 19.9) & ~zt
     else:
-        hi_pct = (df["high"] / df["preclose"] - 1) * 100
-    zhanban = ((hi_pct >= 9.7) | (hi_pct >= 19.5)) & ~zt
+        zhanban = (hi_pct >= 9.95) & ~zt
 
     # per-symbol factors (all past-looking)
     zt_count_60 = zt.rolling(60, min_periods=1).sum()
@@ -116,7 +124,9 @@ def main():
     print(f"universe files: {len(files)}")
     status = {"ok": 0, "short_history": 0, "read_error": 0}
     contribs, snaps = [], []
-    with ProcessPoolExecutor(max_workers=25) as ex:
+    # O-20260923-1738 80% cap, machine-adaptive (bm-b 16c -> 12, bm-a 32c -> 25)
+    workers = max(1, int(os.cpu_count() * 0.8))
+    with ProcessPoolExecutor(max_workers=workers) as ex:
         for sym, payload, st in ex.map(process_one, files, chunksize=8):
             status[st] = status.get(st, 0) + 1
             if payload is not None:
@@ -161,8 +171,8 @@ def main():
             "may2015_mean_zt": round(float(m15["zt_total"].mean()), 1)
             if len(m15) else None,
         },
-        "audit": {"elapsed_sec": round(time.time() - t0, 1), "workers": 25,
-                  "cpu_cap_policy": "O-20260923-1738"},
+        "audit": {"elapsed_sec": round(time.time() - t0, 1), "workers": workers,
+                  "cpu_cap_policy": "O-20260923-1738 adaptive 0.8x"},
     }
     with open(os.path.join(OUT_DIR, "stock_panel_mood.json"), "w",
               encoding="utf-8") as f:
