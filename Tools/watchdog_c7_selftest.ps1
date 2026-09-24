@@ -107,5 +107,31 @@ Run-C7 $wm7 $red7 $st7 45 5.0 | Out-Null
 $r7 = Get-Content $red7 -Raw | ConvertFrom-Json
 Check 'T7 insufficient history -> red=false + honest lane' ($r7.red -eq $false -and $r7.lane -eq 'insufficient_history')
 
+# ---- T8: STALE work only in older samples, freshest clear -> no red ----
+# regression fixture for the R107 (T-38) / R110 (T-39) stale false-red class:
+# ticket was open during older samples then claimed/closed; tail-union hasWork
+# kept the red alive while the current board is clear (legal idle).
+$wm8 = Join-Path $Tmp 'wm_stale.jsonl'; $red8 = Join-Path $Tmp 'red8.json'; $st8 = Join-Path $Tmp 'st8.json'
+$sBase = '{"ts": "' + $now + '", "epoch": 1790241600.0, "machine": "bm-a", "cpu_total_pct": 10.0, "cores": 32, "py_cpu_pct": 0.5, "py_procs": 3, "top_proc_cores": 0.1, "local_batch_running": false, "open_ticket_ids": [], "bandit_open": 0, "bars_present": true, "daily_panel": true, "open_tickets": '
+Set-Content -Path $wm8 -Value @(
+    ($sBase + '1}'),     # older sample: ticket still open
+    ($sBase + '1}'),     # mid sample: ticket still open
+    ($sBase + '0}')      # FRESHEST sample: ticket claimed -> board clear
+) -Encoding ASCII
+Run-C7 $wm8 $red8 $st8 45 5.0 | Out-Null
+$r8 = Get-Content $red8 -Raw | ConvertFrom-Json
+Check 'T8 stale-work-only older samples -> red=false (freshest wins)' ($r8.red -eq $false -and $r8.lane -eq 'healthy')
+# and the symmetric guard: freshest sample WITH work still escalates (T1 covers
+# all-3-work; here only the freshest shows work -> must still be red)
+$wm8b = Join-Path $Tmp 'wm_freshwork.jsonl'; $red8b = Join-Path $Tmp 'red8b.json'; $st8b = Join-Path $Tmp 'st8b.json'
+Set-Content -Path $wm8b -Value @(
+    ($sBase + '0}'),     # older sample: board clear
+    ($sBase + '0}'),     # mid sample: board clear
+    ($sBase + '2}')      # FRESHEST sample: new ticket open -> work exists NOW
+) -Encoding ASCII
+Run-C7 $wm8b $red8b $st8b 45 5.0 | Out-Null
+$r8b = Get-Content $red8b -Raw | ConvertFrom-Json
+Check 'T8b freshest-sample work + low py -> red=true (escalation preserved)' ($r8b.red -eq $true -and $r8b.lane -like '*escalate*')
+
 Write-Output ('selftest: ' + $pass + ' PASS, ' + $fail + ' FAIL')
 if ($fail -gt 0) { exit 1 } else { exit 0 }

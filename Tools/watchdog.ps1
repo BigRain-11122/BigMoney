@@ -88,7 +88,11 @@ function Invoke-C7 {
                     $s = $l | ConvertFrom-Json
                     $pySeries += ('{0}' -f [double]$s.py_cpu_pct)
                     if ([double]$s.py_cpu_pct -ge 70) { $allLow = $false }
-                    if ([int]$s.open_tickets -gt 0 -or [int]$s.bandit_open -gt 0) { $hasWork = $true }
+                    # work facts from the FRESHEST sample only (assignment, last
+                    # iteration wins): tail-union kept firing red after tickets
+                    # were claimed/closed mid-window (R107 T-38 / R110 T-39
+                    # stale false-reds); py lowness stays tail-3 (persistence test)
+                    $hasWork = ([int]$s.open_tickets -gt 0 -or [int]$s.bandit_open -gt 0)
                 } catch { $allLow = $false }
             }
             if ($allLow -and $hasWork) {
