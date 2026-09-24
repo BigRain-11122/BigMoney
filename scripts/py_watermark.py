@@ -40,6 +40,13 @@ DAILY_DIR = os.path.join(ROOT, "data", "daily")
 SAMPLE_WINDOW_S = 3.0
 LOW_PY_LINE = 70.0        # O-1136: py CPU <70% of machine capacity
 SUSTAIN_MIN = 15.0        # ... sustained 15min+ -> violation candidate
+# _load_series retention MUST exceed SUSTAIN_MIN: with the filter equal to
+# the test span, the oldest sample is dropped the moment its age reaches the
+# span, so span_obs < SUSTAIN_MIN always held and the verdict face stayed
+# permanently "insufficient_history" at the 10-min loop cadence (observed
+# every round R94-R117; selftest fed _window_verdict synthetics directly and
+# never exercised the production _load_series+_window_verdict pairing).
+RETENTION_MIN = 2 * SUSTAIN_MIN
 PRUNE_KEEP_MIN = 1440.0   # keep trailing 24h of the local series
 LOCAL_BATCH_CORES = 0.5   # hottest proc eating >=0.5 core = local batch
 
@@ -187,7 +194,7 @@ def probe():
         "daily_panel": caps["daily_panel"],
     }
     n_kept = _append_series(SERIES, record, now)
-    samples = _load_series(SERIES, now)
+    samples = _load_series(SERIES, now, span_min=RETENTION_MIN)
     work_cands = (len(ticket_ids) > 0 or bandit_open > 0
                   or samp["local_batch_running"])
     verdict, facts = _window_verdict(samples, work_cands)
@@ -254,6 +261,31 @@ def selftest():
     s_spike = [(t0, 5.0), (t0 + 300, 75.0), (t0 + 950, 5.0)]
     v, _ = _window_verdict(s_spike, True)
     check("spike breaks sustained-low", v == "loaded_ok")
+
+    # 2b) production pairing: _load_series retention must leave enough
+    # history for the span test (filter==test span left the verdict face
+    # structurally unreachable at the ~10-11min loop cadence)
+    tmpd2 = tempfile.mkdtemp()
+    try:
+        path2 = os.path.join(tmpd2, "watermark.jsonl")
+        now2 = 200000.0
+        for age_min in (33.0, 22.0, 11.0, 0.0):   # realistic probe cadence
+            with open(path2, "a", encoding="utf-8") as f:
+                f.write(json.dumps({"epoch": now2 - age_min * 60,
+                                    "py_cpu_pct": 3.0}) + "\n")
+        v_bug, f_bug = _window_verdict(_load_series(path2, now2), False)
+        check("old span-equal filter dead (n<3 or span<15)",
+              v_bug == "insufficient_history")
+        kept = _load_series(path2, now2, span_min=RETENTION_MIN)
+        v_new, f_new = _window_verdict(kept, False)
+        check("retention 2x -> board_clear fires",
+              v_new == "py_low_board_clear" and f_new["n"] == 3
+              and f_new["span_min"] >= 15.0)
+        v_new2, _ = _window_verdict(kept, True)
+        check("retention 2x -> work_cands fires",
+              v_new2 == "py_low_with_work_cands")
+    finally:
+        shutil.rmtree(tmpd2, ignore_errors=True)
 
     # 3) series append + prune + reload roundtrip in temp dir
     tmpd = tempfile.mkdtemp()
