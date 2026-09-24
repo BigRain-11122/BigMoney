@@ -376,6 +376,7 @@ def _watermark_state() -> dict:
         out["red"] = bool(rf.get("red"))
         out["lane"] = rf.get("lane") or "—"
         out["zombies_killed"] = rf.get("zombies_killed") or []
+        out["next_pick"] = rf.get("next_pick")   # T-25 seg-a advisory surface
     n_red = 0
     try:
         with open(os.path.join(PATHS.logs_dir, "watchdog.log"),

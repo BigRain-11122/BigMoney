@@ -415,6 +415,16 @@ function renderChains() {
       (r.state === "ORANGE" || r.state === "RED") ? "warn" : "ok",
       (r.triggers || []).length ? "触发 " + r.triggers.join("；").slice(0, 16) : "无触发"));
   }
+  const wm = D.data.watermark;
+  if (wm && wm.present) {
+    const py = (wm.py_tail || []).map(v => fnum(v, 1)).join("→");
+    const np = wm.next_pick;
+    rows.push(chainRow("算力水位",
+      `py ${py}% · 近红 ${n2(wm.red_flags_recent)} · 僵尸清 ${n2((wm.zombies_killed || []).length)}` +
+      (np ? ` · next ${esc(np.lane)}` : ""),
+      wm.red ? "bad" : "ok",
+      wm.red ? "🚩红牌" : (np ? n2(np.status) : "绿")));
+  }
   const t = D.data.token;
   if (t && t.present) {
     rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));

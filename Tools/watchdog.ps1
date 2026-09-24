@@ -27,6 +27,7 @@ param(
     [string]$WmFile = '',
     [string]$RedFile = '',
     [string]$PyStateFile = '',
+    [string]$LogDir = '',
     [double]$ZombieAgeMin = 45,
     [double]$ZombieCpuDeltaSec = 5.0,
     [int]$MinRedSamples = 3,
@@ -62,6 +63,7 @@ function Invoke-C7 {
         [string]$WmFileIn = '',
         [string]$RedFileIn = '',
         [string]$PyStateIn = '',
+        [string]$LogDirIn = '',
         [double]$AgeMin = 45,
         [double]$CpuDeltaSec = 5.0,
         [int]$MinSamples = 3,
@@ -70,6 +72,15 @@ function Invoke-C7 {
     if (-not $WmFileIn) { $WmFileIn = Join-Path $ProjectDir 'results\watermark.jsonl' }
     if (-not $RedFileIn) { $RedFileIn = Join-Path $ProjectDir 'results\watermark_red.json' }
     if (-not $PyStateIn) { $PyStateIn = Join-Path $LogsDirIn 'watchdog_py_state.json' }
+    # C7 log isolation (T-25 seg-c observation finding): injection selftests
+    # must not write RED/kill lines into the production watchdog.log that
+    # build_status._watermark_state counts (red_flags_recent pollution).
+    # -LogDirIn overrides the log dir for the whole C7 leg only (selftest
+    # sandbox); production path leaves it empty -> real log, unchanged.
+    $C7Log = if ($LogDirIn) { Join-Path $LogDirIn 'watchdog.log' } else { Join-Path $LogsDirIn 'watchdog.log' }
+    function Log7([string]$msg) {
+        Add-Content -Path $C7Log -Value ("{0} {1}" -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $msg) -Encoding ASCII
+    }
     $MyIdC7 = ''
     $mf = Join-Path $ProjectDir 'fleet\machine.json'
     if (Test-Path $mf) { try { $MyIdC7 = (Get-Content $mf -Raw | ConvertFrom-Json).machine_id } catch { $MyIdC7 = '' } }
@@ -103,6 +114,33 @@ function Invoke-C7 {
             } else {
                 $lane = 'healthy'
             }
+        }
+    }
+
+    # -- queue-never-empty selection surface (T-25 seg-a / O-1626 1c / O-1819) --
+    # When NOT red, surface the bandit advisory next pick so an idle round's
+    # S3 sees a ready-to-draft prereg pointer. Advisory only: pick is surfaced,
+    # never run (O-1819: scheduler never initiates batches; prereg+claim
+    # discipline intact). Skips 'closed' rows only -- gate/claim states ride
+    # along honestly in .status for the reading round to judge.
+    $nextPick = $null
+    if (-not $red) {
+        $bqFile = Join-Path $ProjectDir 'results\bandit_queue.json'
+        if (Test-Path $bqFile) {
+            try {
+                $q = Get-Content $bqFile -Raw -Encoding UTF8 | ConvertFrom-Json
+                foreach ($pk in @($q.ucb1_policy_order)) {
+                    $armProp = $q.arms.PSObject.Properties[[string]$pk]
+                    if (-not $armProp) { continue }
+                    foreach ($cand in @($armProp.Value.candidates)) {
+                        if ($cand -and $cand.status -and ([string]$cand.status -ne 'closed')) {
+                            $nextPick = @{ lane = [string]$pk; candidate = [string]$cand.name; status = [string]$cand.status }
+                            break
+                        }
+                    }
+                    if ($nextPick) { break }
+                }
+            } catch { Log7 ('C7 next_pick read failed: ' + $_.Exception.Message) }
         }
     }
 
@@ -142,14 +180,14 @@ function Invoke-C7 {
         if ($ageNowMin -le $AgeMin) { continue }     # age gate
         if ($null -eq $prevCpu -or $cpu -lt 0) { continue }  # need two samples
         if (($cpu - $prevCpu) -lt $CpuDeltaSec) {
-            Log ('C7 ZOMBIE KILL pid=' + $pidStr + ' lane=' + $knownLane + (' age={0:N0}min cpu_delta={1:N2}s (3-check passed)' -f $ageNowMin, ($cpu - $prevCpu)) + ' resume=existing-healers(S6/C4/C5)')
+            Log7 ('C7 ZOMBIE KILL pid=' + $pidStr + ' lane=' + $knownLane + (' age={0:N0}min cpu_delta={1:N2}s (3-check passed)' -f $ageNowMin, ($cpu - $prevCpu)) + ' resume=existing-healers(S6/C4/C5)')
             try {
                 Stop-Process -Id $p.ProcessId -Force -ErrorAction Stop
                 $killed += ('pid=' + $pidStr + ' lane=' + $knownLane)
-            } catch { Log ('C7 kill FAILED pid=' + $pidStr + ' : ' + $_.Exception.Message) }
+            } catch { Log7 ('C7 kill FAILED pid=' + $pidStr + ' : ' + $_.Exception.Message) }
         }
     }
-    try { $cur | ConvertTo-Json -Depth 3 | Set-Content -Path $PyStateIn -Encoding ASCII } catch { Log ('C7 state write failed: ' + $_.Exception.Message) }
+    try { $cur | ConvertTo-Json -Depth 3 | Set-Content -Path $PyStateIn -Encoding ASCII } catch { Log7 ('C7 state write failed: ' + $_.Exception.Message) }
 
     # -- red-flag file (always written: dashboards read live state) --
     $out = [ordered]@{
@@ -159,13 +197,14 @@ function Invoke-C7 {
         lane    = $lane
         py_series_tail = @($pySeries)
         zombies_killed  = @($killed)
+        next_pick = $nextPick
         order_ref = 'O-20260924-1626 R1/R2/R3'
     }
-    try { $out | ConvertTo-Json -Depth 4 | Set-Content -Path $RedFileIn -Encoding ASCII } catch { Log ('C7 red-file write failed: ' + $_.Exception.Message) }
+    try { $out | ConvertTo-Json -Depth 4 | Set-Content -Path $RedFileIn -Encoding ASCII } catch { Log7 ('C7 red-file write failed: ' + $_.Exception.Message) }
     if ($red) {
-        Log ('C7 WATERMARK RED lane=' + $lane + ' py_tail=' + ($pySeries -join ','))
+        Log7 ('C7 WATERMARK RED lane=' + $lane + ' py_tail=' + ($pySeries -join ','))
     } else {
-        Log ('C7 watermark ' + $lane + ' py_tail=' + ($pySeries -join ','))
+        Log7 ('C7 watermark ' + $lane + ' py_tail=' + ($pySeries -join ','))
     }
 }
 
@@ -173,7 +212,7 @@ function Invoke-C7 {
 # no C1-C6 touched, all paths/thresholds overridable from the command line).
 if ($C7Only) {
     Invoke-C7 -ProjectDir (Split-Path -Parent $PSScriptRoot) -LogsDirIn (Join-Path (Split-Path -Parent $PSScriptRoot) 'logs') `
-        -WmFileIn $WmFile -RedFileIn $RedFile -PyStateIn $PyStateFile -AgeMin $ZombieAgeMin -CpuDeltaSec $ZombieCpuDeltaSec -MinSamples $MinRedSamples -ZombieLanesIn $ZombieLanes
+        -WmFileIn $WmFile -RedFileIn $RedFile -PyStateIn $PyStateFile -LogDirIn $LogDir -AgeMin $ZombieAgeMin -CpuDeltaSec $ZombieCpuDeltaSec -MinSamples $MinRedSamples -ZombieLanesIn $ZombieLanes
     exit 0
 }
 

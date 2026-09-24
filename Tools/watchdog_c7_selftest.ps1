@@ -17,7 +17,10 @@ function Check([string]$name, [bool]$cond) {
     else { $script:fail++; Write-Output ('[FAIL] ' + $name) }
 }
 function Run-C7([string]$wm, [string]$red, [string]$st, [double]$age, [double]$delta) {
-    powershell -NoProfile -ExecutionPolicy Bypass -File $Wd -C7Only -WmFile $wm -RedFile $red -PyStateFile $st `
+    # -LogDir $Tmp: C7 leg logs to the sandbox (T-25 seg-c fix) so injected
+    # RED/kill lines never pollute the production watchdog.log that
+    # build_status counts for red_flags_recent.
+    powershell -NoProfile -ExecutionPolicy Bypass -File $Wd -C7Only -WmFile $wm -RedFile $red -PyStateFile $st -LogDir $Tmp `
         -ZombieAgeMin $age -ZombieCpuDeltaSec $delta -ZombieLanes @('c7_zombie_test') | Out-Null
     return $LASTEXITCODE
 }
@@ -69,7 +72,7 @@ $aliveAfterP1 = Test-AliveCim $zp.Id
 Start-Sleep -Seconds 3
 Run-C7 $wm4 $red4 $st4 0.05 0.5 | Out-Null      # pass 2: age passed + CPU delta ~0 -> KILL
 $aliveAfterP2 = Test-AliveCim $zp.Id
-$logTail = (Get-Content $WdLog -Tail 25) -join ' '
+$logTail = (Get-Content (Join-Path $Tmp 'watchdog.log') -Tail 25) -join ' '
 Check 'T4 zombie: pass1 no-kill (state recorded)' ($aliveAfterP1)
 Check 'T4 zombie: pass2 real kill executed' (-not $aliveAfterP2)
 Check 'T4 zombie: kill logged (3-check passed line)' ($logTail -like '*ZOMBIE KILL*c7_zombie_test*')
