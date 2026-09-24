@@ -1,0 +1,86 @@
+{
+  "batch": "T-18 deep-axis feasibility probe",
+  "ticket": "T-2026-09-24-18",
+  "order": "O-20260924-1141 / BACKTEST_SCIENCE §10 D7",
+  "date": "2026-09-24 13:04",
+  "universe_stats": {
+    "n_universe": 48,
+    "earliest_twin_start": "2005-02-23",
+    "latest_twin_start": "2023-06-13",
+    "median_twin_start": "2017-09-01",
+    "common_deep_window_start": "2023-06-13",
+    "n_twin_longer_than_bare": 37,
+    "n_twin_missing": 0,
+    "n_listed_by_2013": 14,
+    "n_listed_by_2015": 16,
+    "n_listed_by_2018": 27,
+    "n_listed_by_2020": 45
+  },
+  "common_deep_window_years": 3.28,
+  "registry_coverage": {
+    "present": true,
+    "n_events": 21,
+    "events_by_year": {
+      "2021": 8,
+      "2022": 4,
+      "2024": 3,
+      "2025": 3,
+      "2026": 3
+    },
+    "n_pre_2020": 0,
+    "first_event": "2021-02-25",
+    "last_event": "2026-07-07"
+  },
+  "stock_panel_depth": {
+    "present": true,
+    "n_parquet_files": 5222,
+    "samples": {
+      "600000": {
+        "rows": 6394,
+        "start": "1999-11-10",
+        "end": "2026-09-22"
+      },
+      "000001": {
+        "rows": 8539,
+        "start": "1991-01-02",
+        "end": "2026-09-22"
+      },
+      "600519": {
+        "rows": 6009,
+        "start": "2001-08-27",
+        "end": "2026-09-22"
+      }
+    },
+    "sample_earliest_start": "1991-01-02",
+    "sample_latest_end": "2026-09-22"
+  },
+  "twin_bare_overlap_spotcheck": [
+    {
+      "code": "159901",
+      "common_rows": 1630,
+      "max_abs_close_diff": 0.0
+    },
+    {
+      "code": "159915",
+      "common_rows": 1630,
+      "max_abs_close_diff": 0.0
+    },
+    {
+      "code": "159919",
+      "common_rows": 1631,
+      "max_abs_close_diff": 0.0
+    }
+  ],
+  "ledger_trials_added": 0,
+  "honest_findings": [
+    "core-48 deep axis ceiling = common twin window 2023-06-13 -> ~3.28y (vs current 6.7y mainline); earliest twin 2005-02-23",
+    "twin longer than bare for 37/48 instruments; 16/48 have data by 2015",
+    "25-year claim is stock-panel only: Money02 bars (5222 parquet, sample earliest 1991-01-02); ETF axis is listing-bound — pre-2015 segment for ETFs is thin/absent and must be disclosed as honest boundary per §10",
+    "break registry: 21 events, 0 pre-2020 — registry scan covered full twin history, deep segment inherits known-break coverage"
+  ],
+  "notes": [
+    "probe-only: zero batch runs, zero data writes, bare-code files untouched",
+    "deep panel = separate construction from twins; prepending to bare-code files would shift anchor-reproduction panels and break live.paper anchoring (rejected)",
+    "adjusted view (T-19 lane, O-1310 s3) = hard gate before any null/revalidation run"
+  ]
+}
