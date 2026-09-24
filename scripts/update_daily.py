@@ -46,6 +46,20 @@ Contract:
     a second live instance exits 0 without touching data. Stale PID is
     reclaimed (dead-PID check; age > LOCK_STALE_AGE fallback).
 
+  - dual-leg fallback (T-08, additive NEW fields only -- sina default path
+    byte-identical): on primary fetch failure the run falls back to the
+    TENCENT VALIDATION LEG (scripts/daily_validate.py) for diagnosis -- bars
+    are NEVER written from tencent (no amount column, R34 probe evidence);
+    it answers "is the bar upstream at all?" per failed symbol and "is the
+    zero-row run a sina lag or a legit no-op?" via a 1-request probe-freshness
+    check after 15:30. On sweep success a post-sweep parity audit re-checks
+    the symbols that just received bars (level parity 1e-3, ex-div dates
+    false-red -> flagged, never auto-corrected). Status gains: source_used,
+    fallback_events, parity_audit (new keys only; readers of existing keys
+    unaffected). --simulate-primary-failure forces the primary fetcher to
+    fail for acceptance evidence (writes results/update_status_sim.json --
+    production status file untouched, zero data writes).
+
 Exit codes: 0 ok | 1 selftest fail | 2 symbol fetch failure |
 3 paper hook failed (anchor drift or crash -- NEVER silenced).
 
@@ -393,6 +407,62 @@ def paper_hook() -> int:
     return r.returncode
 
 
+# -------------------------------------------------- dual-leg fallback (T-08)
+SIM_STATUS_PATH = os.path.join(PATHS.results_dir, "update_status_sim.json")
+
+
+class _PrimaryDown(Exception):
+    """Simulated primary-source outage (--simulate-primary-failure)."""
+
+
+def _sim_primary_down():
+    def f(code):
+        raise _PrimaryDown(f"simulated primary outage for {code}")
+    return f
+
+
+def _validation_fallback(summary: dict, fetcher=None) -> dict:
+    """T-08 fallback wiring (additive NEW fields only). Never breaks the
+    update run -- validation-leg errors are recorded honestly inside
+    fallback_events. `fetcher` injects the validation source for offline
+    selftest; None = real tencent leg."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    if here not in sys.path:
+        sys.path.insert(0, here)
+    from daily_validate import (audit_new_rows, fallback_diagnose,
+                                 freshness, local_last_date, tencent_daily)
+    summary["source_used"] = "sina"
+    summary.setdefault("fallback_events", [])
+    try:
+        if summary.get("failures"):
+            summary["fallback_events"].extend(
+                fallback_diagnose(summary["failures"], fetcher=fetcher))
+            summary["source_used"] = \
+                "sina(failed)->tencent(validation-only)"
+        elif summary.get("total_new_rows", 0) > 0:
+            new_syms = [r["symbol"] for r in summary.get("per_symbol", [])
+                        if r.get("appended", 0) > 0]
+            summary["parity_audit"] = audit_new_rows(new_syms,
+                                                      fetcher=fetcher)
+        else:
+            # zero-row ambiguity (stale cutoff after close): does the bar
+            # exist upstream at all? one request, probe symbol only.
+            now = dt.datetime.now()
+            if now.weekday() < 5 and now.time() >= CLOSE_ACCEPT_TIME:
+                pairs, _ = (fetcher or tencent_daily)(PROBE_SYMBOL)
+                f = freshness(pairs, local_last_date(PROBE_SYMBOL))
+                summary["fallback_events"].append({
+                    "symbol": PROBE_SYMBOL, "diagnosis": f["class"],
+                    "tencent_latest": f["tencent_latest"],
+                    "note": "zero-row ambiguity: upstream bar-existence probe"})
+    except BaseException as exc:  # noqa: BLE001 -- never break the update
+        summary["fallback_events"].append({
+            "diagnosis": "validation_leg_error",
+            "error": f"{type(exc).__name__}: {exc}"[:200]})
+    return summary
+
+
+
 # ---------------------------------------------------------------- selftest
 
 def _fake_fetcher(rows: dict):
@@ -575,6 +645,54 @@ def selftest() -> bool:
         print("  [updater] laggard catch-up + backoff + stale-dead... "
               + ("PASS" if h else "FAIL"))
 
+        # I: dual-leg fallback wiring (T-08) -- offline injected validation
+        # source; three branches: failure diagnosis / parity audit /
+        # validation-leg error resilience
+        with tempfile.TemporaryDirectory() as td:
+            PATHS.daily_dir = td
+            try:
+                cols2 = ["date", "open", "high", "low", "close", "volume",
+                         "amount"]
+                # sandbox local tail ends 09-22: a primary-failure run means
+                # local is BEHIND upstream (tencent has 09-23 in fixture)
+                pd.DataFrame([(f"2026-09-{d}", 4.0, 4.1, 3.9, 4.5, 100, 400)
+                              for d in ("21", "22")],
+                             columns=cols2).to_csv(
+                    os.path.join(td, "510300.csv"), index=False)
+
+                def _diag_fetch(code):
+                    # validation leg: upstream has the newer bar
+                    return ([("2026-09-22", 4.5), ("2026-09-23", 4.6)], False)
+
+                s_fail = {"failures": ["510300"], "total_new_rows": 0,
+                          "per_symbol": []}
+                _validation_fallback(s_fail, fetcher=_diag_fetch)
+                i1 = (s_fail["source_used"]
+                       == "sina(failed)->tencent(validation-only)"
+                       and s_fail["fallback_events"][0]["diagnosis"]
+                       == "upstream_has_newer_bar")
+
+                s_ok = {"failures": [], "total_new_rows": 1, "per_symbol": [
+                    {"symbol": "510300", "appended": 1}]}
+                _validation_fallback(s_ok, fetcher=_diag_fetch)
+                i2 = (s_ok["source_used"] == "sina"
+                      and s_ok["parity_audit"]["symbols"] == ["510300"])
+
+                def _boom(code):
+                    raise ConnectionError("validation leg down")
+
+                s_err = {"failures": ["510300"], "total_new_rows": 0,
+                         "per_symbol": []}
+                _validation_fallback(s_err, fetcher=_boom)
+                i3 = (s_err["fallback_events"][0]["diagnosis"]
+                      == "validation_leg_unreachable")
+            finally:
+                PATHS.daily_dir = real_daily
+            i = i1 and i2 and i3
+            ok &= i
+            print("  [updater] dual-leg fallback wiring (T-08)... "
+                  + ("PASS" if i else "FAIL"))
+
     # D: source parity on real data (network; SKIP if unreachable)
     try:
         hist = fetch_history(PROBE_SYMBOL)
@@ -601,14 +719,21 @@ def main(argv=None) -> int:
         return 0 if selftest() else 1
 
     now = dt.datetime.now()
-    print(f"=== Bigmoney daily update {time.strftime('%Y-%m-%d %H:%M:%S')} ===")
+    sim = "--simulate-primary-failure" in argv
+    status_out = SIM_STATUS_PATH if sim else STATUS_PATH
+    print(f"=== Bigmoney daily update {time.strftime('%Y-%m-%d %H:%M:%S')} ==="
+          + ("  [SIMULATED PRIMARY FAILURE -- acceptance evidence only]"
+             if sim else ""))
     print(f"core pool: {len(core_files())} CSVs | "
           f"today-bar guard: >= {CLOSE_ACCEPT_TIME}")
     if not acquire_lock(LOCK_PATH):
         print("another live update_daily instance holds the lock -> stand down")
         return 0
     try:
-        summary = run_update(now)
+        summary = run_update(now, fetcher=_sim_primary_down() if sim else None)
+        # T-08 dual-leg fallback: diagnosis source + post-sweep parity audit
+        # (additive fields; validation-leg errors never break the run)
+        _validation_fallback(summary)
         print(f"new rows: {summary['total_new_rows']} | "
               f"failures: {len(summary['failures'])} | "
               f"overlap_mismatch: {summary['overlap_mismatches']} | "
@@ -631,15 +756,15 @@ def main(argv=None) -> int:
         # single assembly, single atomic write (T-04 F1): the on-disk
         # status ALWAYS carries the exit code + hook verdict
         _finalize_summary(summary, exit_code, hook_ok, hook_exit)
-        _write_status_atomic(summary)
-        print(f"status -> {STATUS_PATH}")
+        _write_status_atomic(summary, status_out)
+        print(f"status -> {status_out}")
         return exit_code
     except Exception as e:  # noqa: BLE001 -- status log must never crash the run
         emergency = {"updated": time.strftime("%Y-%m-%d %H:%M:%S"),
                      "now": str(now), "run_error": f"{type(e).__name__}: {e}",
                      "exit_code": 1, "hook_ok": None, "hook_exit": None}
         try:
-            _write_status_atomic(emergency)
+            _write_status_atomic(emergency, status_out)
         except Exception:  # noqa: BLE001 -- best effort
             pass
         raise
