@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-24 21:08:52",
+ "updated_at": "2026-09-24 21:49:05",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -68,13 +68,46 @@
    "runner_args": [],
    "lane_owner": "bm-b",
    "priority": 3,
-   "status": "waiting",
+   "status": "done",
    "entered_at": "2026-09-24 20:54:15",
    "data_gates": "owner 侧冻结后填",
    "shards": [],
    "note": "O-2100 s4 ③在制票算力腿回填——占位登记非可跑批",
    "workers_plan": null,
-   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)"
+   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)",
+   "note_done": "completed r114-115 via own lane (not pool-executed): T-34 finalize one-shot PASS, half-step ladder A/B ENABLED candidate, zero activation until monthly boundary; pool entry closes as stale-waiting (prereg had frozen r114 before this entry flipped ready -- honest bookkeeping close r116 bm-b)",
+   "done_at": "2026-09-24 21:46:37"
+  },
+  {
+   "id": "T18-DEEP-NULLS",
+   "ticket_ref": "T-2026-09-24-18",
+   "prereg_ref": "research/DEEP_AXIS_REVALIDATION.md SS3 (frozen sha256 5cdea03e...; seeds 54_000+k per SEED_REGISTRY['t18_deep_axis']; K=50; p regimes {0.02, 0.05} p2 family-A machinery reuse)",
+   "runner": "scripts/t18_deep_axis.py",
+   "runner_args": [
+    "nulls"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-09-24 21:46:37",
+   "data_gates": "in-runner: GF hard gate (O-1310 s3, T-19 stage-3 delivered) + XSTOCK data-dir mutex (s0) + panel-cache manifest-sha freshness (r105 census-drift law)",
+   "shards": [
+    {
+     "key": "nulls-0of1",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-24 21:46:37",
+     "checkpoint": "results/shortline/t18_deep_nulls_runs.jsonl (manifest-sha keyed resume; 50 runs seed-deterministic)",
+     "note": "50 nulls + 2 passives, single-writer shard; r116 pre-flight 2.5s/run -> ETA ~2-5min on 12 workers; takeover = owner hb stale >20min, checkpoint resume"
+    }
+   ],
+   "workers_plan": {
+    "workers": 12,
+    "priority": "BelowNormal",
+    "note": "O-1136 pool; SS0 formula cores*0.8 RAM-guarded (in-runner enforced; BelowNormal also self-set in worker initializer)"
+   },
+   "note_done": "completed r116 bm-b in-round: 50/50 nulls (seeds 54_000+k, 21.6s elapsed on 12 BelowNormal workers) + 2 deep passives; mu=0.2124 sigma=0.1574; passive strict-max 0.478 (EW48 monthly); R53 dual-pool probe PASS (deep line 0.9506 vs core48 1.1064, faces disjoint); product=results/shortline/t18_deep_nulls.json + checkpoint jsonl; zero ledger (batch-level accounting at reval finalize per prereg SS3)",
+   "done_at": "2026-09-24 21:49:05"
   }
  ],
  "_stamp_note": "r92 stamp correction per r65 anti-estimation law: prior updated_at 21:26:00 was an estimated future-stamp, re-stamped from Get-Date real read"

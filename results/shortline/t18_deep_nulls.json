@@ -1,0 +1,158 @@
+{
+ "batch": "t18_deep_reval",
+ "stage": "nulls",
+ "generated": "2026-09-24 21:47:04",
+ "prereg": "research/DEEP_AXIS_REVALIDATION.md (frozen sha256 5cdea03e48933d219aea7d666d8cc808b84c70d4b66fe062cee7dd35bbab309d)",
+ "evidence_cutoff": "2026-09-22",
+ "manifest_sha256": "a7c3cdec61fad36eebbbdb5fcdf480eb90c20b7b0067620cf7b499f5270ca8e5",
+ "panel": {
+  "panel_start": "2013-06-17",
+  "evidence_cutoff": "2026-09-22",
+  "members": 48,
+  "axis_days": 3230,
+  "axis_years": 12.82,
+  "source": "twin cache Money02/data/cache/t18_deep_panel (bare-code files untouched; anchor law)"
+ },
+ "null_pool": {
+  "values": [
+   0.2651,
+   0.3211,
+   0.1583,
+   0.4775,
+   0.3418,
+   0.3298,
+   0.1247,
+   0.2738,
+   -0.1747,
+   0.2914,
+   0.2548,
+   0.3448,
+   0.4272,
+   0.3048,
+   0.0768,
+   0.3238,
+   0.4299,
+   0.2209,
+   0.3081,
+   -0.0634,
+   0.165,
+   0.3985,
+   -0.0802,
+   0.2625,
+   0.0577,
+   0.2242,
+   -0.0751,
+   0.3601,
+   0.1672,
+   0.287,
+   0.1585,
+   0.3029,
+   0.341,
+   0.2946,
+   0.1181,
+   0.3075,
+   0.3539,
+   0.2105,
+   0.0494,
+   0.4297,
+   0.0205,
+   0.1747,
+   0.1056,
+   0.0774,
+   0.156,
+   0.3456,
+   0.1213,
+   0.3837,
+   -0.0787,
+   -0.0551
+  ],
+  "coverage": {
+   "n_values": 50,
+   "mu": 0.21241,
+   "sigma": 0.157358,
+   "schemas_parsed": [
+    "t18_deep_nulls_runs.jsonl: seeds 54_000+k random-entry x engine-exit nulls (deep-axis window Sharpe)"
+   ],
+   "known_unparsed": []
+  }
+ },
+ "passive": {
+  "ew48_buyhold": {
+   "full_axis": {
+    "sharpe": 0.3612,
+    "annual_return": 0.0443,
+    "max_drawdown": -0.4539
+   },
+   "n_trades": 0
+  },
+  "ew48_monthly_rebal": {
+   "full_axis": {
+    "sharpe": 0.478,
+    "annual_return": 0.0576,
+    "max_drawdown": -0.3652
+   },
+   "n_trades": 0
+  },
+  "note": "p2 family-C reuse on the deep twin panel (cash before listing); strict-max defines the pool passive; window 2013-06-17..2026-09-22"
+ },
+ "seeds": {
+  "base": 54000,
+  "k": 50,
+  "p_regimes": [
+   0.02,
+   0.05
+  ],
+  "registry": "SEED_REGISTRY['t18_deep_axis'] (54_000+i, i=0..49)"
+ },
+ "machinery": "p2_null_calibration family-A reuse (Bernoulli entry matrix x engine exits, params={} registered defaults) masked to warmup-valid members on-axis; passive family-C reuse on the twin panel",
+ "four_mandatory_fields": {
+  "null_median_trades": 1716,
+  "covered_years": 12.82,
+  "independent_regime_windows": 51,
+  "ci_width_empirical_p95_null_sharpes": 0.5099,
+  "note": "null-family disclosure face (empirical p2.5-p97.5 spread, not a bootstrap CI); per-trader faces (IS2 trades, bootstrap CI width) land at the reval stage per prereg SS4"
+ },
+ "audit": {
+  "workers": 12,
+  "elapsed_sec": 21.6,
+  "n_backtests": 50,
+  "n_passive": 2,
+  "ledger_appended": false,
+  "note": "batch-level ledger accounting happens once at the reval finalize (prereg SS3); nulls stage product is an intermediate face of T18_DEEP_REVAL"
+ },
+ "r53_dual_pool_probe": {
+  "law": "R53 live dual-pool probe (branch acceptance, not selftest)",
+  "deep_line": {
+   "n_eff": 60126,
+   "line": 0.9506,
+   "passive_term": 0.578,
+   "null_term": 0.9506,
+   "mu_null": 0.2124,
+   "sigma_null": 0.1574,
+   "pool": "t18_deep_axis",
+   "ledger_head": {
+    "total": 60074,
+    "file": "xstock_synth.json",
+    "note": ""
+   }
+  },
+  "core48_line": {
+   "n_eff": 60126,
+   "line": 1.1064,
+   "passive_term": 0.4792,
+   "null_term": 1.1064,
+   "mu_null": -0.0332,
+   "sigma_null": 0.2429,
+   "pool": "core48",
+   "ledger_head": {
+    "total": 60074,
+    "file": "xstock_synth.json",
+    "note": ""
+   }
+  },
+  "deep_inputs_match_file": true,
+  "core48_face_untouched": true,
+  "pass": true,
+  "probe_n_eff_basis": "batch_cells=52 (nulls+passive probe basis; reval finalize re-derives the line with the full batch cell count, SS3)"
+ }
+}

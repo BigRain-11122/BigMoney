@@ -182,6 +182,28 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
             raise KeyError("passive block missing/empty in "
                            "shortline_cta_p2_noau.json — schema drift, fix batch writer")
         return max(cands)  # strict = harder line
+    if pool == "t18_deep_axis":
+        # T18_DEEP_REVAL additive pool (research/DEEP_AXIS_REVALIDATION.md SS3):
+        # strict-max of the deep axis's OWN two passives (EW48 monthly rebal +
+        # buy-hold, panel_start..evidence_cutoff window), read from the nulls-
+        # stage product file; never borrows core48 passives (no silent
+        # cross-pool reuse). R53 acceptance = live dual-pool probe recorded
+        # in t18_deep_nulls.json (r53_dual_pool_probe), not selftest alone.
+        path = os.path.join(results_dir, "shortline", "t18_deep_nulls.json")
+        if not os.path.exists(path):
+            raise KeyError(f"t18_deep_axis passive not on file yet ({path}) "
+                           "— run scripts/t18_deep_axis.py nulls first")
+        with open(path, encoding="utf-8") as fh:
+            pas = (json.load(fh).get("passive") or {})
+        cands = []
+        for name in ("ew48_monthly_rebal", "ew48_buyhold"):
+            sr = ((pas.get(name) or {}).get("full_axis") or {}).get("sharpe")
+            if isinstance(sr, (int, float)) and math.isfinite(sr):
+                cands.append(float(sr))
+        if not cands:
+            raise KeyError("passive block missing/empty in t18_deep_nulls.json "
+                           "— schema drift, fix nulls-stage writer")
+        return max(cands)  # strict = harder line
     path = os.path.join(results_dir, "p2_calibration.json")
     if pool != "core48" or not os.path.exists(path):
         raise KeyError(f"no frozen passive calibration on file for pool '{pool}' — "
@@ -816,6 +838,26 @@ def selftest() -> int:
     ok("SEED_REGISTRY: verified bases present, all ints positive",
        SEED_REGISTRY["p4_folk"] == 43_000 and SEED_REGISTRY["p5b_new_traders"] == 20260924
        and all(v > 0 for v in SEED_REGISTRY.values() if isinstance(v, int)))
+    ok("SEED_REGISTRY: t18_deep_axis base 54_000 registered (T-18 nulls lineage)",
+       SEED_REGISTRY["t18_deep_axis"] == 54_000)
+
+    # T-18 deep-axis additive pool branch (additive; core48 path untouched)
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as _tmp:
+        try:
+            passive_baseline(pool="t18_deep_axis", results_dir=_tmp)
+            _pre_ok = False
+        except KeyError:
+            _pre_ok = True
+        _np_file = os.path.join(_tmp, "shortline", "t18_deep_nulls.json")
+        os.makedirs(os.path.dirname(_np_file), exist_ok=True)
+        json.dump({"passive": {
+            "ew48_monthly_rebal": {"full_axis": {"sharpe": 0.31}},
+            "ew48_buyhold": {"full_axis": {"sharpe": 0.42}}}},
+            open(_np_file, "w", encoding="utf-8"))
+        _val = passive_baseline(pool="t18_deep_axis", results_dir=_tmp)
+        ok("t18_deep_axis pool: KeyError before nulls file; strict-max after",
+           _pre_ok and abs(_val - 0.42) < 1e-12)
 
     # T-02 close-out: v2 batch-gate verdicts
     g1_edge = g1_prime_v2(sharpe_full=1.8, returns=good25, batch_cells=60,
