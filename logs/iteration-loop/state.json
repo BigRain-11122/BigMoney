@@ -1,19 +1,18 @@
 {
- "round_no": 117,
+ "round_no": 118,
  "did": [
-  "r116 = T-18 nulls stage delivery round (dept:research+data+engineering)",
-  "T-18 NULLS STAGE full arc: GF dual-channel satisfied (T-19 stage-3 delivered + waiver); cmd_nulls per prereg SS3 (p2 family-A machinery reuse, seeds 54_000+k, K=50, p {0.02,0.05} masked warmup-valid on-axis; family-C passives EW48 monthly+BH on twin panel); selftest 19/19 (6 new legs; GF fixture-drift hermetic fix = delivery-rot false-red lesson); preflight 1-run 2.5s zero-state; detached BelowNormal 12 workers per SS0; 50/50 in 21.6s; product results/shortline/t18_deep_nulls.json (mu=0.2124 sigma=0.1574, passive strict-max 0.478, checkpoint jsonl manifest-sha keyed)",
-  "science_gates additive pool branch t18_deep_axis (passive_baseline strict-max from nulls product; selftest 33/33; R53 live dual-pool probe PASS recorded: deep line 0.9506 vs core48 1.1064 faces disjoint; deep line above SS5 predicted band [0.45,0.85] = honest miss-face for SS8 accounting at reval)",
-  "pool discipline: T18-DEEP-NULLS entry ready->running(bm-b shard)->done; stale T34-PRESIGNAL-HALFSTEP entry closed done (r115 own-lane honest bookkeeping)",
-  "inbox: bm-c MSG-2150 T-27 review request processed = independent cross-review (facts verified) + ruling MSG-2155 aligned to bm-a MSG-2144 additive-key path (double-ruling zero divergence, executor bm-c)",
-  "S6 all green: daily 12 late rows cutoff->09-24, paper 6/6 anchors (enforce-request honestly DOWNGRADED pre-10-01 per T-21), t24 22/22 drift=0 + promotion 0/22 honest, regime ORANGE shadow d2, lhb/heat/futures no-op, mf/fp lane-guards, fundamental fresh, b_layer 5 gates, token +292, smoke 23/23, orders double-scan 61/61"
+  "r118 = T-18 pbo stage delivery + r117 dead-round rescue (dept:research+data)",
+  "S0 RESCUE: r117 session died mid-rebase (replay of 939e370 onto bm-a R95); completed its own graded-resolution recipe (mirrors keep-own + compute_audit ts-union 118 + token_usage machines-union + CODELY line-anchored union both sides); ROOT CAUSE LAW: rebase --continue treats unstaged tracked changes (live autofill_state.json) as unresolved with misleading conflict message -> stash-unstaged/continue/pop; push race add058b->5e00aa5->80be28d absorbed via second graded cycle; machine/bm-b safety-net push non-FF (r89 lineage occupies, force-push banned, left as-is)",
+  "T-18 PBO STAGE full arc (cmd_pbo + 14 selftest legs): 40/40 family-grid cells 24.1s BelowNormal x12 -- J15 10 verbatim + J19 4 (anchor=repro gate not trial) + G2_FOLK 3-family 26 (engulf 6/needle 10/drought 10); CSCV 8-block: engulf 0.2143 / j15 0.2429 / j19 0.1143 register_eligible, drought 0.4714 observe, needle 0.9571 FAIL (deep-axis ranking instability, independent falsification face); G2 column g2_registration_v2 0/6 honest (g1 0/6 dominant vs line 0.9507; DSR 0.0 @ n=60172); single SS3 append 6+50+2+40=98 -> chain 60074+98=60172; prereg s7/s8 backfilled (predictions 1-hit/2-partial/2-miss/1-unmeasured); products: t18_deep_reval.json stage=reval+pbo + research/shortline/t18_deep_reval.csv + gate_attrition row 22; T-18 ticket -> done result_ref (ALL HEAVY STAGES COMPLETE r101/r116/r117/r118); zero-touch firm/live/scorecard/paper git-verified",
+  "S0.5 orders 61/61 double-scan empty (open+close); decisions.md absent honest no-op; MSG-2146 (T-21 hook env fix) verified in-tree L416 + accepted + archived; MSG-2229 (D-01 layering, ALL) archived; MSG-2144/2155 left for bm-c",
+  "S6 all green: audit CLEAN / wm insufficient_history n=1 (post-batch window) / daily 0 rows cutoff 09-24 (no newer bar) / regime ORANGE shadow d2 / lhb+heat+futures no-op / mf+fp lane-guard no-op (R31/R65) / fundamental fresh 1.7h / b_layer 5222 gates all-pass / promotion 0/22 honest / t35 export 6 traders 18 positions / no-new-bar => paper+t24 exempt / token -1 / smoke 23/23; p1d_gates 22:30 regen = watchdog C4 lane-owner legit action (gates PASS, no relaunch)"
  ],
  "next_pointer": [
-  "(1) r117: T-18 reval stage machinery (6 traders registered-config reproduction + deep-axis g1_prime_v2 with pool t18_deep_axis) then pbo (family grids deep-axis + CSCV) -- both GF clear",
-  "(2) T-11 claim evaluation (F-04 MSG first; XSTOCK gate satisfied r114) = next real-batch candidate",
-  "(3) rebase onto bm-a r94 fa7909d (T-27 verdict MSG-2144 + T-21 hook env fix + T-35 d3 export absorbed)"
+  "(1) r119: T-11 CLAIMED BY bm-a r98 (F-04 MSG-2232, seen during my push-retry rebase) -- DO NOT CLAIM; next real-batch candidates = board watch (all tickets claimed/done) or new CEO order; T-13 deliverable-3 open (bm-c lane)",
+  "(2) T-18 revalidation evidence sealed for GM/CEO read (ticket done; zero registration consequence by design s4)",
+  "(3) next 5x HANDOVER = r120; T-13 D-C reval candidates all consumed, deliverable-3 open"
  ],
- "note": "P0/E1 lesson kept: selftest legs asserting negative premises on real-repo file faces rot at delivery time (GF 'files empty' leg vs T-19 stage-3 landing) -- hermetic fixture law; sys.path[0]=scripts/ for `python scripts/x.py` runs needs ROOT inserted at module top (p2 precedent) or cross-package imports die in workers.",
- "last_round_ts": "2026-09-24 22:12:57",
+ "note": "P0/E1 lesson: rebase --continue refuses on ANY unstaged tracked-file change with a misleading 'edit all merge conflicts' message even when ls-files -u is empty -- check the unstaged face first, stash -> continue -> pop. Dead-session resolve scripts must re-run idempotent (ls-files -u gating; blob :2/:3 reads fail on resolved files). CODELY.md marker parsing must be line-start anchored (historical entries quote marker literals).",
+ "last_round_ts": "2026-09-24 22:36:53",
  "last_result": "ok"
 }

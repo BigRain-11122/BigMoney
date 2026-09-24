@@ -31,8 +31,19 @@ reval: 6-trader deep-axis revalidation (prereg SS3/SS4, GF-gated) --
       t18_deep_reval_runs.jsonl (manifest-sha keyed); stage product =
       results/shortline/t18_deep_reval.json WITHOUT ledger (single SS3
       append happens at pbo-stage finalize with family grid cells).
-pbo:   GF + XSTOCK data-dir mutex checked first; blocked = exit 2
-      (family grids + CSCV PBO + G2 column + SS3 ledger append pending).
+pbo:   family-grid deep rerun + CSCV PBO + G2 column + THE single SS3
+      ledger append (prereg SS3/SS4, GF-gated; requires reval stage
+      complete with anchor 6/6). Grids VERBATIM from the frozen batch
+      modules: J15 combined-exit 10 cells (scripts/combined_exit_screen
+      GRID) + J19 CE-transfer 4 cells (ct_base/ct_ce x top5/top8; anchor
+      = repro gate, not a trial) + G2_FOLK 3-family grids (engulf/needle/
+      drought x regimes x center+points, scripts/g2_folk FAMILIES) = 40
+      cells. Per family -> screening/pbo.py cscv_pbo 8 blocks; per trader
+      g2_registration_v2(g1_pass, dsr_deep, pbo_family) re-read with final
+      batch cells (6 + 50 nulls + 2 passives + family). Single append_ledger
+      at finalize; product updated in place + per-trader CSV +
+      gate_attrition measurement row. Checkpoint t18_deep_pbo_runs.jsonl
+      (manifest-sha keyed).
 status/selftest.
 
 Exit codes: 0 = pass / no-op, 1 = gate fail / refused, 2 = stage blocked
@@ -695,9 +706,28 @@ REVAL_RUNS_PATH = os.path.join(ROOT, "results", "shortline",
                                "t18_deep_reval_runs.jsonl")
 REVAL_OUT_PATH = os.path.join(ROOT, "results", "shortline",
                               "t18_deep_reval.json")
+REVAL_CSV_PATH = os.path.join(ROOT, "research", "shortline",
+                              "t18_deep_reval.csv")
 IS1_END = "2024-12-31"        # prereg SS2 frozen split (IS2 == live.paper OOS_START)
 IS2_START = "2025-01-01"
 _RG: dict = {}
+
+# ---- pbo stage (prereg SS3: family grids deep rerun -> CSCV 8 blocks) ----
+PBO_RUNS_PATH = os.path.join(ROOT, "results", "shortline",
+                             "t18_deep_pbo_runs.jsonl")
+# trader -> family grid (registration lineage: VOLATILITY=J15 lowvol family,
+# COMPOSITE x2=J19 transfer family, folk 3 families per G2_FOLK regimes)
+_PBO_TRADER_FAMILY = {
+    "VOLATILITY-CE-01": "j15_combined_exit",
+    "COMPOSITE-CE-01": "j19_ce_transfer",
+    "COMPOSITE-CE-02": "j19_ce_transfer",
+    "ENGULF-CE-01": "engulf_reversal",
+    "NEEDLE-DE-01": "needle_probe",
+    "DROUGHT-CE-01": "vol_drought_reversal",
+}
+_PBO_FOLK_FAMILIES = ("engulf_reversal", "needle_probe",
+                      "vol_drought_reversal")
+_PG: dict = {}
 
 
 def _reval_trader_ids() -> list:
@@ -1016,6 +1046,397 @@ def cmd_reval() -> int:
                            anchors)
 
 
+def _pbo_joblist() -> list:
+    """Frozen family grids, cell configs VERBATIM from the frozen batch
+    modules (import, never copy -- anti-rebuild law). Prereg SS3: J15 10 +
+    J19 4 + G2_FOLK 3-family grids. J19 ct_anchor is a reproduction gate,
+    not a trial (prereg counts 'J19 4 ge' = base_top5/8 + ce_top5/8)."""
+    from scripts import ce_transfer as cemod
+    from scripts import combined_exit_screen as j15mod
+    from scripts import g2_folk as folkmod
+    jobs = []
+    for point, params, patch, role in j15mod.GRID:
+        jobs.append({"key": f"j15|{point}", "family": "j15_combined_exit",
+                     "entry": "j15", "params": dict(params),
+                     "exit_patch": dict(patch) if patch else None,
+                     "role": role})
+    for n in (5, 8):
+        base_p = {"max_positions": n,
+                  "position_size_pct": round(0.95 / n, 4)}
+        jobs.append({"key": f"j19|ct_base_top{n}",
+                     "family": "j19_ce_transfer", "entry": f"j19_top{n}",
+                     "params": base_p, "exit_patch": None, "role": "base"})
+        jobs.append({"key": f"j19|ct_ce_top{n}",
+                     "family": "j19_ce_transfer", "entry": f"j19_top{n}",
+                     "params": {**base_p, **cemod.CE_BRIDGE},
+                     "exit_patch": dict(cemod.CE_PATCH), "role": "transfer"})
+    for fam in _PBO_FOLK_FAMILIES:
+        spec = folkmod.FAMILIES[fam]
+        for regime in spec["regimes"]:
+            pp = dict(folkmod.CE_PARAMS) if regime == "ce" else {}
+            patch = dict(folkmod.CE_OVERRIDES) if regime == "ce" else None
+            for cell, ekey in ([("center", f"{fam}|center")]
+                               + [(json.dumps(p, sort_keys=True),
+                                   f"{fam}|{json.dumps(p, sort_keys=True)}")
+                                  for p in spec["points"]]):
+                jobs.append({"key": f"{fam}|{cell}|{regime}", "family": fam,
+                             "entry": ekey, "params": dict(pp),
+                             "exit_patch": dict(patch) if patch else None,
+                             "role": f"center|{regime}" if cell == "center"
+                                     else f"nbhd|{regime}"})
+    return jobs
+
+
+def _pbo_worker_init():
+    import psutil
+    pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
+    if pri is not None:
+        try:
+            psutil.Process().nice(pri)   # O-1136 full-load low-priority pool
+        except Exception:
+            pass
+    man = json.load(open(MANIFEST_PATH, encoding="utf-8"))
+    prices, idx, syms, mask = _panel_inputs(man)
+    from live.paper import build_panels
+    from scripts import g2_folk as folkmod
+    from strategies import volatility
+    from strategies.composite_rotation import top_n_rotation
+    P = build_panels(prices)
+    ps = pd.Timestamp(man["panel_start"])
+    axis_ok = np.asarray(idx >= ps)
+    axis_frame = pd.DataFrame(
+        np.repeat(axis_ok[:, None], len(syms), axis=1),
+        index=idx, columns=syms)
+
+    def m(e):
+        return e.where(axis_frame.reindex(columns=e.columns), 0) \
+            if hasattr(e, "where") else e
+
+    entries = {"j15": m(volatility.low_vol_long(P["close"], 60, top_k=5))}
+    for n in (5, 8):
+        entries[f"j19_top{n}"] = m(top_n_rotation(
+            P["high"], P["low"], P["close"], top_n=n, rebal_days=20))
+    for fam in _PBO_FOLK_FAMILIES:
+        spec = folkmod.FAMILIES[fam]
+        entries[f"{fam}|center"] = m(spec["build"](P, {}))
+        for p in spec["points"]:
+            k = f"{fam}|{json.dumps(p, sort_keys=True)}"
+            entries[k] = m(spec["build"](P, p))
+    _PG.update(prices=prices, idx=idx, panel_start=man["panel_start"],
+               entries=entries)
+
+
+def _pbo_run_one(job: dict) -> dict:
+    """One family-grid cell on the deep axis (RAW twin panel, on-axis entry
+    mask, V1 legacy cost). Cell config frozen verbatim from the original
+    batch; equity sliced from panel_start (SS2 growing-membership law)."""
+    import time as _t
+    from contextlib import nullcontext
+    from engine import run_backtest
+    from live.paper import ExitPatch, seg_metrics
+    t0 = _t.time()
+    tid_key = job["key"]
+    prices, idx = _PG["prices"], _PG["idx"]
+    entry = _PG["entries"][job["entry"]]
+    with ExitPatch(job["exit_patch"]):
+        res = run_backtest(prices, job["params"], entry_signal=entry,
+                           exit_signal=(entry <= 0))
+    eq = pd.Series(res["equity_curve"], index=idx[:len(res["equity_curve"])])
+    ps = pd.Timestamp(_PG["panel_start"])
+    full = eq[eq.index >= ps]
+    rets = full.pct_change().dropna()
+    return {"key": tid_key, "family": job["family"], "role": job["role"],
+            "full": seg_metrics(full), "n_trades": int(
+                res["metrics"].get("num_trades", 0)),
+            "n_days_axis": int(len(full)),
+            "rets": [round(float(v), 10) for v in rets],
+            "elapsed_sec": round(_t.time() - t0, 1)}
+
+
+def _pbo_resume(msha: str) -> dict:
+    done: dict = {}
+    if not os.path.exists(PBO_RUNS_PATH):
+        return done
+    with open(PBO_RUNS_PATH, encoding="utf-8") as fh:
+        for ln in fh:
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                rec = json.loads(ln)
+            except ValueError:
+                continue
+            if (isinstance(rec, dict) and rec.get("ok")
+                    and rec.get("manifest_sha") == msha
+                    and isinstance(rec.get("key"), str)):
+                done[rec["key"]] = rec
+    return done
+
+
+def _pbo_fam_matrix(cells: dict, rets_index: pd.DatetimeIndex) -> pd.DataFrame:
+    """Family trial matrix from done-cell records (all cells share the deep
+    axis; align_returns intersection guard refuses silent truncation)."""
+    from screening.pbo import align_returns
+    series = {}
+    for key, rec in sorted(cells.items()):
+        if len(rec["rets"]) != len(rets_index):
+            raise RuntimeError(
+                f"cell {key}: rets {len(rec['rets'])} != axis "
+                f"{len(rets_index)} (engine curve length drift; refusing "
+                "silent truncation, audit-C family)")
+        series[key] = pd.Series(rec["rets"], index=rets_index, name=key)
+    return align_returns(series)
+
+
+def cmd_pbo() -> int:
+    gf = _gf_state()
+    if not gf["satisfied"]:
+        print(f"[pbo] BLOCKED by GF adjusted-view hard gate (O-1310 s3): "
+              f"delivered={gf['delivered']} waiver={gf['gm_waiver']}")
+        return 2
+    busy, why = _xstock_mutex()
+    if busy:
+        print(f"[pbo] BLOCKED by XSTOCK data-dir mutex (s0): {why}")
+        return 2
+    if not os.path.exists(MANIFEST_PATH):
+        print("[pbo] manifest absent -- run gates first")
+        return 2
+    man = json.load(open(MANIFEST_PATH, encoding="utf-8"))
+    if man.get("verdict") != "PASS":
+        print("[pbo] manifest verdict != PASS; refused")
+        return 2
+    msha = _manifest_sha()
+    meta_path = os.path.join(CACHE_DIR, "meta.json")
+    if not os.path.exists(meta_path):
+        print("[pbo] panel cache absent -- run build first")
+        return 2
+    meta = json.load(open(meta_path, encoding="utf-8-sig"))
+    if meta.get("manifest_sha256") != msha:
+        print("[pbo] panel cache stale for manifest -- run build first")
+        return 2
+    if not os.path.exists(REVAL_OUT_PATH):
+        print("[pbo] reval stage product absent -- run reval first "
+              "(G2 columns need per-trader faces)")
+        return 2
+    prod = json.load(open(REVAL_OUT_PATH, encoding="utf-8"))
+    anchors = prod.get("anchor_gate", {})
+    if (len(prod.get("traders", [])) != 6
+            or not all(a.get("ok") for a in anchors.values())
+            or len(anchors) != 6):
+        print("[pbo] reval stage incomplete (anchor not 6/6 or traders != 6)"
+              " -- refusing to fake a finalize")
+        return 1
+    try:
+        import psutil
+    except ImportError:
+        print("[pbo] psutil unavailable (fail-safe block, s0 budget law)")
+        return 2
+    import psutil
+    psutil.Process().nice(getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS",
+                                  None))   # whole batch low priority
+    cores = psutil.cpu_count() or 4
+    free_gb = psutil.virtual_memory().available / (1024 ** 3)
+    jobs = _pbo_joblist()
+    done = _pbo_resume(msha)
+    pending = [j for j in jobs if j["key"] not in done]
+    workers = max(1, min(int(cores * 0.8), int(free_gb / 0.5),
+                         max(1, len(pending))))  # SS0
+    print(f"[pbo] family grids: {len(jobs)} cells ({_pbo_grid_summary(jobs)})"
+          f"; done={len(done)} pending={len(pending)} workers={workers} "
+          f"(cores={cores} free_gb={round(free_gb, 1)})")
+    t0 = time.time()
+    if pending:
+        from concurrent.futures import ProcessPoolExecutor, as_completed
+        with ProcessPoolExecutor(max_workers=workers,
+                                 initializer=_pbo_worker_init) as ex:
+            futs = {ex.submit(_pbo_run_one, j): j for j in pending}
+            for fut in as_completed(futs):
+                rec = fut.result()   # engine crash = honest abort, kept
+                with open(PBO_RUNS_PATH, "a", encoding="utf-8",
+                         newline="\n") as fh:
+                    fh.write(json.dumps({**rec, "manifest_sha": msha,
+                                         "ok": True},
+                                        ensure_ascii=False) + "\n")
+                done[rec["key"]] = rec
+                print(f"[pbo {len(done)}/{len(jobs)}] {rec['key']} "
+                      f"full={rec['full'].get('sharpe')} "
+                      f"trades={rec['n_trades']} ({rec['elapsed_sec']}s)",
+                      flush=True)
+    if len(done) < len(jobs):
+        print(f"[pbo] incomplete: {len(done)}/{len(jobs)} -- checkpoint "
+              "preserved for resume; honest partial, no finalize")
+        return 1
+    return _pbo_finalize(man, msha, done, workers, time.time() - t0)
+
+
+def _pbo_grid_summary(jobs: list) -> str:
+    fams = {}
+    for j in jobs:
+        fams[j["family"]] = fams.get(j["family"], 0) + 1
+    return " + ".join(f"{f} {n}" for f, n in sorted(fams.items()))
+
+
+def _pbo_finalize(man: dict, msha: str, done: dict, workers: int,
+                  elapsed: float) -> int:
+    import csv
+    from scripts.science_gates import (append_ledger, deflated_sharpe_ratio,
+                                       g1_prime_v2, g2_registration_v2,
+                                       n_eff)
+    from screening.pbo import N_BLOCKS, cscv_pbo
+    nulls = json.load(open(NULLS_OUT_PATH, encoding="utf-8"))
+    null_pool = nulls["null_pool"]
+    cov = null_pool["coverage"]
+    # shared deep-axis return index (all cells: eq sliced at panel_start,
+    # pct_change drops the first axis day)
+    _, idx, _, _ = _panel_inputs(man)
+    axis_idx = idx[idx >= pd.Timestamp(man["panel_start"])]
+    rets_index = axis_idx[1:]
+    fam_cells: dict = {}
+    for rec in done.values():
+        fam_cells.setdefault(rec["family"], {})[rec["key"]] = rec
+    fam_pbo = {}
+    for fam in sorted(fam_cells):
+        matrix = _pbo_fam_matrix(fam_cells[fam], rets_index)
+        res = cscv_pbo(matrix, n_blocks=N_BLOCKS)
+        fam_pbo[fam] = {
+            "n_cells": int(matrix.shape[1]), "n_rows": res["n_rows"],
+            "pbo": res["pbo"], "verdict": res["verdict"],
+            "omega_mean": res["omega_mean"],
+            "coverage": matrix.attrs.get("coverage", "n/a"),
+            "cells": {k: {"full_sharpe": v["full"].get("sharpe"),
+                          "n_trades": v["n_trades"]}
+                      for k, v in sorted(fam_cells[fam].items())},
+        }
+        print(f"[pbo] family {fam}: cells={matrix.shape[1]} "
+              f"pbo={res['pbo']} verdict={res['verdict']}")
+    # ---- final accounting: single SS3 append, 6+50+2+family ----
+    batch_cells_final = 6 + NULLS_K + 2 + len(done)
+    n_trials = n_eff(batch_cells_final)           # O-2250 chain-head single source
+    prod = json.load(open(REVAL_OUT_PATH, encoding="utf-8"))
+    stage1_g1_line = prod["traders"][0]["g1_prime_v2"]["skill_line"] \
+        if prod.get("traders") else None
+    reval_done = _reval_resume(msha)
+    for row in prod["traders"]:
+        tid = row["tid"]
+        base = reval_done.get(f"{tid}|base")
+        if base is None:
+            print(f"[pbo] missing reval base cell for {tid}; abort")
+            return 1
+        fam = _PBO_TRADER_FAMILY[tid]
+        g1 = g1_prime_v2(sharpe_full=base["full"]["sharpe"],
+                         returns=base["rets"],
+                         batch_cells=batch_cells_final,
+                         pool="t18_deep_axis",
+                         n_trades=base["n_trades_full"],
+                         n_entries=base["n_entries"], null_pool=null_pool)
+        dsr = deflated_sharpe_ratio(base["rets"], n_trials=n_trials,
+                                    var_null_sr=float(cov["sigma"]) ** 2)
+        pbo_fam = fam_pbo[fam]["pbo"]
+        g2 = g2_registration_v2(g1["pass_v2"], dsr, pbo_fam)
+        row["g1_prime_v2"] = g1
+        row["dsr"] = {k: dsr[k] for k in ("dsr", "sr_annualized", "n_trials")
+                      if k in dsr}
+        row["family"] = fam
+        row["pbo_deep"] = pbo_fam
+        row["g2_registration_v2"] = g2
+        row["four_mandatory"]["ci_width_95"] = round(
+            g1["bootstrap_ci"]["ci95_high"]
+            - g1["bootstrap_ci"]["ci95_low"], 4)
+    led = append_ledger(batch_name="t18_deep_reval",
+                        batch_trials=batch_cells_final,
+                        file_name="results/shortline/t18_deep_reval.json",
+                        evidence_cutoff=EVIDENCE_CUTOFF,
+                        note="SS3 single append: 6 trader deep runs + "
+                             f"{NULLS_K} nulls + 2 passives + {len(done)} "
+                             "family-grid cells (J15 10 + J19 4 + G2_FOLK "
+                             "26); x2 faces are disclosure columns per s3")
+    payload = dict(prod)
+    payload.pop("pbo_pending", None)
+    payload["stage"] = "reval+pbo"
+    payload["batch_cells_final"] = batch_cells_final
+    payload["stage1_interim"] = {
+        "batch_cells_stage1": prod.get("batch_cells_stage1"),
+        "skill_line_reading": stage1_g1_line,
+        "note": "stage-1 interim N_eff basis (counted 12 trader cells); "
+                "finalize re-reads g1/dsr with batch_cells_final per SS3 "
+                "single-append accounting (6 trader runs, x2 = disclosure)"}
+    payload["pbo"] = {
+        "families": fam_pbo,
+        "trader_family_map": _PBO_TRADER_FAMILY,
+        "cscv_frozen": {"n_blocks": N_BLOCKS, "is_blocks": 4,
+                        "combos": "C(8,4)=70 exhaustive",
+                        "bands": {"register_eligible": "<=0.25",
+                                  "observe": "(0.25,0.5]", "fail": ">0.5"},
+                        "source": "screening/pbo.py (BACKTEST_SCIENCE s4 D4)"},
+    }
+    payload["trials_ledger"] = led
+    payload["generated"] = time.strftime("%Y-%m-%d %H:%M:%S")
+    audit = dict(payload.get("audit", {}))
+    audit["ledger_appended"] = True
+    audit["pbo_stage"] = {"workers": workers, "elapsed_sec": round(elapsed, 1),
+                          "n_backtests": len(done),
+                          "family_cells": len(done)}
+    payload["audit"] = audit
+    tmp = REVAL_OUT_PATH + ".tmp"
+    with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(payload, fh, ensure_ascii=False, indent=1)
+    os.replace(tmp, REVAL_OUT_PATH)
+    # ---- per-trader CSV (prereg SS6) ----
+    os.makedirs(os.path.dirname(REVAL_CSV_PATH), exist_ok=True)
+    with open(REVAL_CSV_PATH, "w", encoding="utf-8", newline="") as fh:
+        w = csv.writer(fh)
+        w.writerow(["tid", "family", "full_sharpe", "full_annual_return",
+                    "full_max_drawdown", "is1_sharpe", "is2_sharpe",
+                    "worst_year", "n_trades_full", "n_entries",
+                    "skill_line_deep", "g1_pass_v2", "dsr", "pbo_family",
+                    "g2_eligible_v2", "is2_trades", "covered_years",
+                    "regime_windows", "ci_width_95", "break_coincident"])
+        for r in payload["traders"]:
+            w.writerow([r["tid"], r["family"],
+                        r["full"]["sharpe"], r["full"]["annual_return"],
+                        r["full"]["max_drawdown"], r["is1"]["sharpe"],
+                        r["is2"]["sharpe"], r["worst_year"],
+                        r["n_trades_full"], r["n_entries"],
+                        r["g1_prime_v2"]["skill_line"]["line"],
+                        r["g1_prime_v2"]["pass_v2"], r["dsr"]["dsr"],
+                        r["pbo_deep"], r["g2_registration_v2"]["eligible_v2"],
+                        r["four_mandatory"]["is2_trades"],
+                        r["four_mandatory"]["covered_years"],
+                        r["four_mandatory"]["independent_regime_windows"],
+                        r["four_mandatory"]["ci_width_95"],
+                        r["break_exposure"]["n_coincident_closes"]])
+    # ---- gate_attrition measurement row (prereg SS4) ----
+    att_path = os.path.join(ROOT, "results", "gate_attrition.json")
+    att = json.load(open(att_path, encoding="utf-8"))
+    att["entries"].append({
+        "batch": "t18_deep_reval", "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "kind": "measurement", "retro_fill": False,
+        "cells_ledger_delta": len(done), "ledger_total_after": led["total"],
+        "gates": {fam: fam_pbo[fam]["pbo"] for fam in sorted(fam_pbo)},
+        "eliminated": None,
+        "refs": {"results": "results/shortline/t18_deep_reval.json",
+                 "prereg": "research/DEEP_AXIS_REVALIDATION.md",
+                 "csv": "research/shortline/t18_deep_reval.csv",
+                 "ticket": "fleet/tasks/T-2026-09-24-18-P1.json"},
+        "note": "pbo-stage finalize: single SS3 append 6+50+2+40; "
+                "revalidation evidence only, zero registration consequence"})
+    tmp = att_path + ".tmp"
+    with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(att, fh, ensure_ascii=False, indent=1)
+    os.replace(tmp, att_path)
+    n_g2 = sum(1 for r in payload["traders"]
+               if r["g2_registration_v2"]["eligible_v2"])
+    print(f"[pbo] finalize: batch_cells_final={batch_cells_final} "
+          f"ledger total={led['total']} g2_eligible_v2={n_g2}/6")
+    for r in payload["traders"]:
+        print(f"  {r['tid']}: g1={r['g1_prime_v2']['pass_v2']} "
+              f"dsr={r['dsr']['dsr']} pbo={r['pbo_deep']} "
+              f"g2={r['g2_registration_v2']['eligible_v2']}")
+    print("saved:", REVAL_OUT_PATH)
+    print("saved:", REVAL_CSV_PATH)
+    return 0
+
+
 def _blocked_stage(name: str) -> int:
     gf = _gf_state()
     if not gf["satisfied"]:
@@ -1255,6 +1676,79 @@ def _selftest() -> int:
         and bool(af3.loc["2016-01-05", "510001"])
         and bool(af3.loc["2016-01-05", "510003"]))
 
+    # ---- pbo-stage offline legs (no engine runs) ----
+    jobs = mod._pbo_joblist()
+    fam_n = {}
+    for j in jobs:
+        fam_n[j["family"]] = fam_n.get(j["family"], 0) + 1
+    chk("pbo joblist: 40 cells, families J15=10/J19=4/folk 6+10+10",
+        len(jobs) == 40 and fam_n == {
+            "j15_combined_exit": 10, "j19_ce_transfer": 4,
+            "engulf_reversal": 6, "needle_probe": 10,
+            "vol_drought_reversal": 10})
+    keys = {j["key"] for j in jobs}
+    chk("pbo joblist: J19 anchor excluded (4 trial cells only)",
+        {k for k in keys if k.startswith("j19|")} ==
+        {"j19|ct_base_top5", "j19|ct_base_top8",
+         "j19|ct_ce_top5", "j19|ct_ce_top8"})
+    folk_ce = [j for j in jobs
+               if j["family"] in mod._PBO_FOLK_FAMILIES
+               and j["key"].endswith("|ce")]
+    folk_def = [j for j in jobs
+                if j["family"] in mod._PBO_FOLK_FAMILIES
+                and j["key"].endswith("|default")]
+    from scripts import g2_folk as _folkmod
+    n_ce_expect = sum(1 + len(_folkmod.FAMILIES[f]["points"])
+                      for f in mod._PBO_FOLK_FAMILIES)
+    chk("pbo joblist: folk ce cells carry CE_PARAMS + CE_OVERRIDES verbatim",
+        len(folk_ce) == n_ce_expect and all(
+            j["params"] == dict(_folkmod.CE_PARAMS)
+            and j["exit_patch"] == dict(_folkmod.CE_OVERRIDES)
+            for j in folk_ce))
+    chk("pbo joblist: folk default cells bare ({} params, no patch)",
+        len(folk_def) == n_ce_expect and all(
+            j["params"] == {} and j["exit_patch"] is None
+            for j in folk_def))
+    chk("pbo trader-family map: covers exactly the reval six",
+        set(mod._PBO_TRADER_FAMILY) == set(mod._reval_trader_ids())
+        and set(mod._PBO_TRADER_FAMILY.values()) ==
+        {"j15_combined_exit", "j19_ce_transfer",
+         "engulf_reversal", "needle_probe", "vol_drought_reversal"})
+
+    rlp = os.path.join(tmp, "pbo_runs.jsonl")
+    mod.PBO_RUNS_PATH = rlp
+    with open(rlp, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps({"key": "j15|ce_base", "ok": True,
+                             "manifest_sha": "S1"}) + "\n")
+        fh.write(json.dumps({"key": "j19|ct_ce_top5", "ok": True,
+                             "manifest_sha": "S2"}) + "\n")  # stale sha
+        fh.write(json.dumps({"key": "j19|ct_ce_top8", "ok": False,
+                             "manifest_sha": "S1"}) + "\n")  # not ok
+        fh.write("{broken json\n")
+    rp = mod._pbo_resume("S1")
+    chk("pbo resume: manifest-sha keyed done-set filters stale/notok/bad",
+        set(rp.keys()) == {"j15|ce_base"})
+
+    idxp = pd.bdate_range("2015-01-01", periods=400)
+    ridx = idxp[1:]
+    rng = np.random.default_rng(54_321)
+    cells = {f"famX|c{i}": {"rets": list(rng.normal(0.0004, 0.01, 399)),
+                            "family": "famX"} for i in range(3)}
+    mat = mod._pbo_fam_matrix(cells, ridx)
+    chk("pbo matrix: assembly shape + full intersection coverage",
+        mat.shape == (399, 3))
+    from screening.pbo import cscv_pbo
+    res = cscv_pbo(mat)
+    chk("pbo cscv: synthetic 3x399 matrix -> pbo in [0,1] with verdict",
+        0.0 <= res["pbo"] <= 1.0 and res["verdict"] in
+        ("register_eligible", "observe", "fail")
+        and res["n_trials"] == 3 and res["n_rows"] == 399)
+    from scripts.science_gates import append_ledger as _al
+    le = _al("selftest-probe", 3, results_dir=tmp)
+    chk("pbo ledger block: append_ledger dict schema (no write)",
+        le["prev_total"] == 0 and le["batch_trials"] == 3
+        and le["total"] == 3 and le["batch"] == "selftest-probe")
+
     print("selftest: all PASS")
     return 0
 
@@ -1271,7 +1765,7 @@ def main(argv=None) -> int:
     if cmd == "reval":
         return cmd_reval()
     if cmd == "pbo":
-        return _blocked_stage(cmd)
+        return cmd_pbo()
     if cmd == "status":
         return cmd_status()
     if cmd == "selftest":
