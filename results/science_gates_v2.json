@@ -2,9 +2,9 @@
  "module": "scripts/science_gates.py",
  "authority": "research/BACKTEST_SCIENCE.md (O-20260923-2215) D1/D3",
  "ledger_head": {
-  "total": 2727,
-  "file": "p5b_new_traders.json",
-  "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+  "total": 3041,
+  "file": "shortline_cta_p2_noau.json",
+  "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
  },
  "null_pool_coverage": {
   "n_values": 120,
@@ -18,17 +18,17 @@
   "sigma": 0.2429174989919965
  },
  "skill_line_v2_current": {
-  "n_eff": 2727,
-  "line": 0.933,
+  "n_eff": 3041,
+  "line": 0.9397,
   "passive_term": 0.4792,
-  "null_term": 0.933,
+  "null_term": 0.9397,
   "mu_null": -0.0332,
   "sigma_null": 0.2429,
   "pool": "core48",
   "ledger_head": {
-   "total": 2727,
-   "file": "p5b_new_traders.json",
-   "note": "150 strategy (3 new traders x 50 starts, PARALLEL pool) + 50 passive windows + 6 anchors; prev 2521 = queue-batch head"
+   "total": 3041,
+   "file": "shortline_cta_p2_noau.json",
+   "note": "no-AU mechanism decomposition (R50 pointer): same 16 frozen families x daily/r20 + 50 nulls (seed 50_500+k) + 2 passive longs on the 8-variety panel; pool cta_futures_noau (own passive strict-max + null term); prereg research/CTA_P2_NOAU.md frozen a3fe81f"
   }
  },
  "formulas_frozen": {
@@ -40,5 +40,5 @@
   "registration": "DSR>=0.95 AND PBO<=0.25 AND CI lower>0 (D1/D3/D4 composite)"
  },
  "honesty": "null collector v0.1 covers p2_calibration random family only; p1_screen and later batches' null arrays persist OOS-side only -> disclosed in coverage, extension queued (T-02 follow-up)",
- "generated": "2026-09-23 22:29:26"
+ "generated": "2026-09-24 07:59:43"
 }
