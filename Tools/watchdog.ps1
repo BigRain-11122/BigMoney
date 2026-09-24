@@ -10,7 +10,8 @@
 #   C6  watchdog task self-re-registration (mutual heal: rounds heal loop+watchdog via S7, watchdog heals both too)
 # Rules: idempotent; NEVER blocks (always exit 0); all decisions logged to
 # logs\watchdog.log; task-existence via schtasks /query only (transient CIM
-# trap documented 2026-09-23); single instance via 15-min-stale lock file.
+# trap documented 2026-09-23); single instance via pid-liveness lock
+# (D-20260925-03; legacy locks fall back to 15-min mtime staleness).
 # PATH-AGNOSTIC: all paths derived from this file's location. Pure ASCII.
 # C7 (O-20260924-1626): watermark closed-loop -- judgment becomes disposal.
 #   RED = >=3 trailing watermark samples with py<70% while runnable work exists
@@ -22,6 +23,7 @@
 
 param(
     [switch]$C7Only,
+    [switch]$LockProbeOnly,
     [string]$WmFile = '',
     [string]$RedFile = '',
     [string]$PyStateFile = '',
@@ -175,12 +177,42 @@ if ($C7Only) {
     exit 0
 }
 
-# ---- single instance (stale lock takeover after 15 min) ----
+# ---- single instance (D-20260925-03 group lock standard) ----
+# lock line "pid=<n> <ts>": live pid => silent skip at ANY age (no double
+# executor), dead pid => immediate takeover (no 15-min dead lag), legacy bare
+# timestamp => 15-min mtime fallback. Atomic grab via FileStream CreateNew --
+# a concurrent watchdog loses the race and exits 0 (never blocks). -LockProbeOnly
+# reports the decision to stdout, mutates nothing, exit 0 (selftest harness
+# Tools\loop_lock_selftest.ps1 drives a sandbox copy).
+$wdPid = 0
+$wdAlive = $false
 if (Test-Path $Lock) {
+    $raw = Get-Content -Path $Lock -Raw -ErrorAction SilentlyContinue
+    if ($raw -and $raw -match 'pid=(\d+)') { $wdPid = [int]$Matches[1] }
+    if ($wdPid -gt 0 -and (Get-Process -Id $wdPid -ErrorAction SilentlyContinue)) { $wdAlive = $true }
     $age = (Get-Date) - (Get-Item $Lock).LastWriteTime
-    if ($age.TotalMinutes -lt 15) { exit 0 }
+    if ($LockProbeOnly) {
+        if ($wdAlive) { Write-Output ("probe: SKIP pid={0} alive age={1}min" -f $wdPid, [int]$age.TotalMinutes) }
+        elseif ($wdPid -gt 0) { Write-Output ("probe: TAKE pid={0} dead age={1}min" -f $wdPid, [int]$age.TotalMinutes) }
+        elseif ($age.TotalMinutes -lt 15) { Write-Output ("probe: SKIP legacy-fresh age={0}min" -f [int]$age.TotalMinutes) }
+        else { Write-Output ("probe: TAKE legacy-stale age={0}min" -f [int]$age.TotalMinutes) }
+        exit 0
+    }
+    if ($wdAlive) { exit 0 }
+    if ($wdPid -gt 0) {
+        Log ('lock pid={0} dead - takeover' -f $wdPid)
+    } elseif ($age.TotalMinutes -ge 15) {
+        Log ('stale lock expired (age={0:N0} min) - takeover' -f $age.TotalMinutes)
+    } else { exit 0 }
+    Remove-Item $Lock -Force -ErrorAction SilentlyContinue
 }
-Set-Content -Path $Lock -Value (Get-Date -Format 'yyyy-MM-dd HH:mm:ss') -Encoding ASCII
+try {
+    $fs = New-Object System.IO.FileStream($Lock, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write)
+    $sw = New-Object System.IO.StreamWriter($fs)
+    $sw.Write('pid=' + $PID + ' ' + (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'))
+    $sw.Dispose(); $fs.Dispose()
+} catch { exit 0 }
+if ($LockProbeOnly) { Write-Output ('probe: TAKE grabbed pid=' + $PID); Remove-Item $Lock -Force -ErrorAction SilentlyContinue; exit 0 }
 
 try {
     # ---- C1/C2/C3: iteration loop task heal ----

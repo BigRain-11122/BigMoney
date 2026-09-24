@@ -18,7 +18,8 @@
 param(
     [string]$Project = (Split-Path -Parent $PSScriptRoot),
     [int]$LockMaxAgeMinutes = 40,
-    [int]$RoundTimeoutMinutes = 25
+    [int]$RoundTimeoutMinutes = 25,
+    [switch]$LockProbeOnly
 )
 $ErrorActionPreference = 'Continue'
 Set-Location $Project
@@ -40,13 +41,44 @@ function Beat([string]$m) {
 }
 
 # ---- single-instance: previous headless round still alive? ----
+# D-20260925-03 group lock standard (update_daily.py T-04 F1 precedent):
+# lock line "pid=<n> <stamp>" -- live pid => skip at ANY age (no double
+# executor), dead pid => immediate takeover (no 40-min dead lag), legacy
+# bare stamp => mtime fallback. Grab is atomic (FileStream CreateNew), so
+# a concurrent launcher loses the race and skips instead of double-running.
+# -LockProbeOnly: report the decision to stdout, mutate nothing, exit 0
+# (selftest harness Tools\loop_lock_selftest.ps1 drives a sandbox copy).
 $lock = Join-Path $logDir 'round.lock'
+$lockPid = 0
+$lockAlive = $false
 if (Test-Path $lock) {
+    $raw = Get-Content -Path $lock -Raw -ErrorAction SilentlyContinue
+    if ($raw -and $raw -match 'pid=(\d+)') { $lockPid = [int]$Matches[1] }
+    if ($lockPid -gt 0 -and (Get-Process -Id $lockPid -ErrorAction SilentlyContinue)) { $lockAlive = $true }
     $age = ((Get-Date) - (Get-Item $lock).LastWriteTime).TotalMinutes
-    if ($age -lt $LockMaxAgeMinutes) { Log "skip: previous round still running (age=$([int]$age)min)"; Beat 'skip (round in flight)'; exit 0 }
-    Log "stale round lock expired (age=$([int]$age)min) - taking over"
+    if ($LockProbeOnly) {
+        if ($lockAlive) { Write-Output "probe: SKIP pid=$lockPid alive age=$([int]$age)min" }
+        elseif ($lockPid -gt 0) { Write-Output "probe: TAKE pid=$lockPid dead age=$([int]$age)min" }
+        elseif ($age -lt $LockMaxAgeMinutes) { Write-Output "probe: SKIP legacy-fresh age=$([int]$age)min" }
+        else { Write-Output "probe: TAKE legacy-stale age=$([int]$age)min" }
+        exit 0
+    }
+    if ($lockAlive) { Log "skip: previous round still running (pid=$lockPid alive, age=$([int]$age)min)"; Beat 'skip (round in flight)'; exit 0 }
+    if ($lockPid -gt 0) { Log "lock pid=$lockPid dead (age=$([int]$age)min) - taking over" }
+    elseif ($age -ge $LockMaxAgeMinutes) { Log "stale round lock expired (age=$([int]$age)min) - taking over" }
+    else { Log "skip: previous round still running (age=$([int]$age)min)"; Beat 'skip (round in flight)'; exit 0 }
+    Remove-Item $lock -Force -ErrorAction SilentlyContinue
 }
-Set-Content -Path $lock -Value $stamp -Encoding UTF8
+try {
+    $fs = New-Object System.IO.FileStream($lock, [System.IO.FileMode]::CreateNew, [System.IO.FileAccess]::Write)
+    $sw = New-Object System.IO.StreamWriter($fs)
+    $sw.Write("pid=$PID $stamp")
+    $sw.Dispose(); $fs.Dispose()
+} catch {
+    if ($LockProbeOnly) { Write-Output 'probe: SKIP race-lost'; exit 0 }
+    Log 'skip: lock grabbed concurrently by another launcher'; Beat 'skip (race lost)'; exit 0
+}
+if ($LockProbeOnly) { Write-Output "probe: TAKE grabbed pid=$PID"; Remove-Item $lock -Force -ErrorAction SilentlyContinue; exit 0 }
 
 try {
     Log "iteration round start $stamp"
