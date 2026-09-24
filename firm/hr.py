@@ -34,8 +34,24 @@ FIRE_REASONS = {
 }
 
 ALLOCATION = {
+    "PROSPECT": 0,   # T-24 (O-20260924-1542): observation tier below INTERN,
+                     # allocation PERMANENTLY 0 (hard-asserted in run_review);
+                     # excluded from scorecard ranking + EW6/IV6 composition
+                     # by construction (live.paper.PAPER_LEVELS untouched).
     "INTERN": 0, "TRAINEE": 0, "TRADER": 5,
     "SENIOR": 15, "PRINCIPAL": 30, "FIRED": 0,
+}
+
+# PROSPECT -> INTERN is EVIDENCE-gated, never metrics-auto-promoted (ticket
+# T-202609-24-24 spec verbatim: full G2 neighborhood + cost x2/x3 + per-year
+# AND T-22 virtual-timepoint mass batch beat-passive 0.70 pass -- promotion
+# standards NOT relaxed). _evaluate_level therefore always HOLDs PROSPECT;
+# the promotion itself is executed by the registration pipeline once both
+# evidence packs pass, recorded via status_history.
+PROSPECT_PROMOTION_GATE = {
+    "g2_full": "G2 neighborhood + cost x2/x3 + per-year (frozen, no relaxation)",
+    "t22_beat_passive": "T-22 virtual-timepoint mass batch beat_rate_6m >= 0.70 "
+                        "(O-20260924-1532, P-5/P-5B frozen caliber)",
 }
 
 
@@ -97,6 +113,12 @@ def _evaluate_level(t: dict) -> str:
     """Level ladder (unchanged thresholds); promotion gating lives in evaluate()."""
     lvl = t["level"]
 
+    # PROSPECT (T-24): observation-only tier, allocation 0 by construction,
+    # zero capital risk; ladder auto-actions OFF (no auto-promote, no
+    # auto-fire) -- promotion is evidence-gated per PROSPECT_PROMOTION_GATE.
+    if lvl == "PROSPECT":
+        return "HOLD"
+
     # INTERN -> TRAINEE
     if lvl == "INTERN":
         os_ = t["backtest"]["out_sample"]
@@ -144,6 +166,14 @@ def next_level(level: str) -> str:
 
 def run_review():
     traders = list_traders()
+    # T-24 hard assertion: PROSPECT is observation-only, allocation PERMANENTLY
+    # 0 (spec verbatim). Violation = abort before any level/allocation write.
+    assert ALLOCATION.get("PROSPECT") == 0, \
+        "hr invariant: PROSPECT allocation must be permanently 0"
+    for t in traders:
+        if t["level"] == "PROSPECT":
+            assert t["live"]["allocation_pct"] == 0, \
+                f"hr invariant: PROSPECT {t['id']} carries nonzero allocation"
     print(f"=== Bigmoney HR Review · {date.today()} ===")
     print(f"total traders: {len(traders)}\n")
     summary = {}

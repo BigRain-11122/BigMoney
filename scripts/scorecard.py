@@ -102,7 +102,12 @@ def load_roster():
     for f in sorted(os.listdir(TRADERS_DIR)):
         if not f.endswith(".json") or f.startswith("_"):
             continue
-        out.append(_load(os.path.join(TRADERS_DIR, f)))
+        t = _load(os.path.join(TRADERS_DIR, f))
+        # T-24: PROSPECT = observation tier, excluded from scorecard ranking
+        # (spec verbatim; ranking stays the registered roster's contest).
+        if t.get("level") == "PROSPECT":
+            continue
+        out.append(t)
     return out
 
 
