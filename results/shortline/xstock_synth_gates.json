@@ -3,7 +3,7 @@
     "batch": "XSTOCK_SYNTH gates",
     "prereg": "research/shortline/XSTOCK_SYNTH.md SS2/SS4",
     "claim": "MSG-20260924-0905",
-    "date": "2026-09-24 09:16",
+    "date": "2026-09-24 10:11",
     "elapsed_s": 0.0
   },
   "shelf_report": {
@@ -41,7 +41,19 @@
       "alpha191_176",
       "alpha191_187"
     ],
-    "wq_shelf": [],
+    "wq_shelf": [
+      "wq101_alpha003",
+      "wq101_alpha013",
+      "wq101_alpha015",
+      "wq101_alpha016",
+      "wq101_alpha027",
+      "wq101_alpha040",
+      "wq101_alpha044",
+      "wq101_alpha050",
+      "wq101_alpha055",
+      "wq101_alpha088",
+      "wq101_alpha094"
+    ],
     "dzjy_shelf": [
       "dzjy_amt_share_20"
     ],
@@ -54,32 +66,32 @@
       "margin_buy_int_5",
       "margin_short_int_20"
     ],
-    "p1c_ok_n": 181,
-    "shelf_n": 25,
-    "population_n": 192,
-    "wq_complete": false,
+    "p1c_ok_n": 263,
+    "shelf_n": 36,
+    "population_n": 274,
+    "wq_complete": true,
     "shelf_is_subset_of_population": true
   },
   "checks": {
     "g1_wq_finalize": {
-      "wq_complete": false,
-      "pass": false
+      "wq_complete": true,
+      "pass": true
     },
     "g2_shelf_rules": {
       "lhb_shelf_ok": true,
       "dzjy_shelf_ok": true,
       "gtja_shelf_n_ok": true,
-      "wq_shelf_n": 0,
+      "wq_shelf_n": 11,
       "shelf_subset_ok": true,
       "pass": true
     },
     "g3_population": {
-      "population_n": 192,
-      "expected_approx": 192,
+      "population_n": 274,
+      "expected_approx": 274,
       "lhb_pop_ok": true,
       "dzjy_pop_ok": true,
       "gdhs_excluded_ok": true,
-      "pass": false
+      "pass": true
     },
     "g4_data_presence": {
       "p1c_cache_meta": true,
@@ -90,7 +102,7 @@
       "pass": true
     },
     "g5_disk": {
-      "free_gb": 737.1,
+      "free_gb": 736.5,
       "need_gb": 60.0,
       "pass": true
     },
@@ -101,5 +113,5 @@
       "detail": "in-registry"
     }
   },
-  "pass": false
+  "pass": true
 }

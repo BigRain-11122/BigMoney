@@ -447,9 +447,9 @@ def null_abs_ic_p95(ic_matrix, lo, hi):
 def _lhb_event_grids(cal, col_map, n_cols):
     """PA2-verbatim LHB event-grid core (calendar-agnostic): dedup per
     (code,date) = max LHB turnover row, rolling windows, shift-1 signal
-    grids. Returns (count_s, days_s, share_s, meta)."""
-    from pa_lhb_ic import (LHB_PATH, W_COUNT, W_DECAY, W_SHARE, rolling_sum,
-                           shift1)
+    grids. Returns (count_s, days_s, share_s, netbuy60_s, meta)."""
+    from pa_lhb_ic import (LHB_PATH, W_COUNT, W_DECAY, W_NETBUY, W_SHARE,
+                           rolling_sum, shift1)
     T = len(cal)
     lhb = pd.read_parquet(LHB_PATH)
     n_raw = len(lhb)
@@ -470,8 +470,11 @@ def _lhb_event_grids(cal, col_map, n_cols):
     ind[r_idx, c_idx] = 1.0
     sh_grid = np.zeros((T, n_cols))
     sh_grid[r_idx, c_idx] = ev["成交额占总成交比"].values[keep]
+    nb_grid = np.zeros((T, n_cols))
+    nb_grid[r_idx, c_idx] = ev["龙虎榜净买额"].values[keep]
     count20 = rolling_sum(ind, W_COUNT)
     share20 = rolling_sum(sh_grid, W_SHARE)
+    netbuy60 = rolling_sum(nb_grid, W_NETBUY)
     with np.errstate(invalid="ignore", divide="ignore"):
         amt_share20 = np.where(count20 > 0, share20 / count20, np.nan)
     ev_pos = np.where(ind > 0, np.arange(T)[:, None], -1.0)
@@ -482,7 +485,7 @@ def _lhb_event_grids(cal, col_map, n_cols):
     meta = {"raw_rows": n_raw, "dedup_events": n_events,
             "placed": int(keep.sum()), "T": T, "n_cols": n_cols}
     return (shift1(count20, 0.0), shift1(days_capped),
-            shift1(amt_share20), meta)
+            shift1(amt_share20), shift1(netbuy60), meta)
 
 
 def _seg_ic(mask, vals, fwd, cal):
@@ -515,7 +518,7 @@ def repro_lhb(write=True):
                                mmap_mode="r")[i0:], dtype=np.float64)
     amount = np.asarray(np.load(os.path.join(CACHE_DIR, "amount.npy"),
                                 mmap_mode="r")[i0:], dtype=np.float64)
-    count_s, days_s, share_s, gmeta = _lhb_event_grids(cal, col_map, len(syms))
+    count_s, days_s, share_s, _nb60, gmeta = _lhb_event_grids(cal, col_map, len(syms))
     A = np.isfinite(close) & np.isfinite(amount)
     B = A & (count_s >= 1)
     C = A & np.isfinite(days_s)
@@ -868,21 +871,724 @@ def run_selftest():
 
 # -------------------------------------------------------------------- main
 
-def run_batch():
-    """Staged batch (population z-cache -> reproduction -> clustering ->
-    primary -> streaming nulls -> gates). WQ finalize gate blocks execution
-    until green; the block/null machinery and the LHB/dzjy repro legs are
-    delivered and validated (r85) so the post-finalize run is mechanics."""
-    print("run: staged execution pending WQ finalize gate (gates G1); "
-          "machinery delivered r85 (streaming nulls + z-cache + repro "
-          "legs) - see selftest / repro", flush=True)
-    sys.exit(3)
+# ------------------------------------------------------- staged run (r88)
+# run = stage1 build (resumable per-member z-cache + manifest checkpoint;
+# backgroundable per r52 lane-age law) -> stage2 post (repro hard gate ->
+# clustering -> primary/sensitivity -> streaming nulls with the real-cache
+# equivalence gate BEFORE any null number -> V1/V2/V3 -> outputs).
+
+IC_IS_DIR = os.path.join(Z_CACHE_DIR, "ic_is")
+CLOSE_FFILL_NPY = os.path.join(Z_CACHE_DIR, "close_ffill.npy")
+BUILD_LOCK = os.path.join(Z_CACHE_DIR, "build.lock")
+FREE_RAM_MIN_GB = 5.5          # panels ~3.3GB + event grids transient
+MAX_ATTEMPTS = 3
+
+
+def _atomic_write_json(path, obj):
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(obj, f, indent=1, ensure_ascii=False, default=str)
+    os.replace(tmp, path)
+
+
+def _load_manifest():
+    if os.path.exists(Z_MANIFEST):
+        try:
+            with open(Z_MANIFEST, encoding="utf-8") as f:
+                return json.load(f)
+        except Exception:
+            pass
+    return {"meta": {}, "members": {}}
+
+
+def _record_table():
+    """Recorded h10 IS/OOS IC per member (source-tagged). Prereg SS4 null
+    orientation = these recorded signs (matched-null letter)."""
+    rec = {}
+    for r in _load(PA_JSON)["rows"]:
+        rec[r["factor"]] = {"source": "pa",
+                            "is_ic": r.get("h10_is_ic_mean"),
+                            "oos_ic": r.get("h10_oos_ic_mean")}
+    for r in _load(P1C_JSON)["rows"]:
+        rec[r["factor"]] = {"source": "p1c",
+                            "is_ic": r.get("h10_is_ic"),
+                            "oos_ic": r.get("h10_oos_ic")}
+    for r in _load(P1D_JSON)["rows"]:
+        rec[r["factor"]] = {"source": "p1d",
+                            "is_ic": r.get("h10_is_ic_mean"),
+                            "oos_ic": r.get("h10_oos_ic_mean")}
+    return rec
+
+
+def _recorded_sign(entry, fallback_ic):
+    v = entry.get("is_ic") if entry else None
+    if isinstance(v, (int, float)) and np.isfinite(v):
+        return 1.0 if v >= 0 else -1.0
+    if isinstance(fallback_ic, (int, float)) and np.isfinite(fallback_ic):
+        return 1.0 if fallback_ic >= 0 else -1.0
+    return 1.0
+
+
+def _try_lock():
+    """Single-instance build lock (PID liveness via psutil; stale = take)."""
+    os.makedirs(Z_CACHE_DIR, exist_ok=True)
+    if os.path.exists(BUILD_LOCK):
+        alive = False
+        try:
+            with open(BUILD_LOCK) as f:
+                pid = int((f.read() or "0").strip() or 0)
+            if pid:
+                import psutil
+                alive = psutil.pid_exists(pid)
+        except Exception:
+            alive = False
+        if alive:
+            return False
+    with open(BUILD_LOCK, "w") as f:
+        f.write(str(os.getpid()))
+    return True
+
+
+def _event_member_grids(panels, syms, cal_us):
+    """Era-gated event-member factor grids on the unified p1c grid
+    (prereg SS3: within-era 0-fill, pre-era NaN). p1d math verbatim;
+    LHB core = _lhb_event_grids (PA2-verbatim) + netbuy (PA2-verbatim)."""
+    import p1d_ext_slots_ic as p1d
+    T, N = len(cal_us), len(syms)
+    col_map = {s: i for i, s in enumerate(syms)}
+    grids, meta = {}, {}
+
+    count_s, days_s, share_s, nb60_s, gmeta = _lhb_event_grids(
+        cal_us, col_map, N)
+    pre_lhb = cal_us < LHB_ERA
+    for g in (count_s, days_s, share_s, nb60_s):
+        g[pre_lhb] = np.nan
+    grids["lhb_count_20"] = count_s
+    grids["lhb_days_since"] = days_s
+    grids["lhb_amt_share_20"] = share_s
+    amt_vals = panels["amount"].values
+    with np.errstate(invalid="ignore", divide="ignore"):
+        grids["lhb_netbuy_amt_60"] = nb60_s / amt_vals
+    meta["lhb"] = gmeta
+    del nb60_s
+
+    amt0 = np.nan_to_num(amt_vals)
+    ind, amtg, premw, deepg, dz_meta = p1d.build_dzjy(
+        cal_us, col_map, T, N, lambda m: print("  " + m, flush=True))
+    amt20 = p1d.rolling_sum(amt0, p1d.W_DZJY)
+    cnt20 = p1d.rolling_sum(ind, p1d.W_DZJY)
+    prem_sum = p1d.rolling_sum(premw, p1d.W_DZJY)
+    deep5 = p1d.rolling_sum(deepg, p1d.W_DEEP)
+    with np.errstate(invalid="ignore", divide="ignore"):
+        share20 = np.where(amt20 > 0,
+                           p1d.rolling_sum(amtg, p1d.W_DZJY) / amt20, np.nan)
+        prem20 = np.where(cnt20 > 0, prem_sum / cnt20, np.nan)
+    grids["dzjy_count_20"] = p1d.shift_n(cnt20, p1d.DZJY_SHIFT, 0.0)
+    grids["dzjy_deep_disc_5"] = p1d.shift_n(deep5, p1d.DZJY_SHIFT, 0.0)
+    grids["dzjy_amt_share_20"] = p1d.shift_n(share20, p1d.DZJY_SHIFT)
+    grids["dzjy_prem_mean_20"] = p1d.shift_n(prem20, p1d.DZJY_SHIFT)
+    meta["dzjy"] = dz_meta
+    del ind, amtg, premw, deepg, amt20, cnt20, prem_sum, deep5, share20, prem20
+
+    mg, mg_meta = p1d.build_margin(
+        cal_us, col_map, T, N, lambda m: print("  " + m, flush=True))
+    with np.errstate(invalid="ignore", divide="ignore"):
+        bal_ratio = mg["bal"] / p1d.shift_n(mg["bal"], p1d.W_BAL)
+        grids["margin_bal_chg_20"] = p1d.shift_n(
+            np.log(bal_ratio), p1d.MARGIN_SHIFT)
+        buy5 = p1d.rolling_sum(np.nan_to_num(mg["buy"]), p1d.W_BUY)
+        amt5 = p1d.rolling_sum(amt0, p1d.W_BUY)
+        grids["margin_buy_int_5"] = p1d.shift_n(
+            np.where(amt5 > 0, buy5 / amt5, np.nan), p1d.MARGIN_SHIFT)
+        ss20 = p1d.rolling_sum(np.nan_to_num(mg["ssell"]), p1d.W_SHORT)
+        sb20 = p1d.rolling_sum(np.nan_to_num(mg["sbal"]), p1d.W_SHORT)
+        grids["margin_short_int_20"] = p1d.shift_n(
+            np.where(sb20 > 0, ss20 / sb20, np.nan), p1d.MARGIN_SHIFT)
+    meta["margin"] = mg_meta
+    del mg, bal_ratio, buy5, amt5, ss20, sb20, amt0
+
+    pre_ext = cal_us < EXT_ERA
+    for n in ("dzjy_count_20", "dzjy_deep_disc_5", "dzjy_amt_share_20",
+              "dzjy_prem_mean_20", "margin_buy_int_5", "margin_bal_chg_20",
+              "margin_short_int_20"):
+        grids[n][pre_ext] = np.nan
+    return grids, meta
+
+
+def _vendor_context(panels):
+    """Lazy GTJA191 module + WQ101 engine on the unified panels (p1c
+    glue reused: load_alpha191_bigpanel / _wq_engine; zero rebuild)."""
+    ctx = {}
+
+    def gtja():
+        if "gtja" not in ctx:
+            from p1c_stock_ic_batch import load_alpha191_bigpanel
+            ctx["gtja"] = load_alpha191_bigpanel()
+        return ctx["gtja"]
+
+    def wq():
+        if "wq" not in ctx:
+            from p1c_stock_ic_batch import _wq_engine
+            ctx["wq"] = _wq_engine(panels)
+        return ctx["wq"]
+
+    return gtja, wq
+
+
+def _compute_member(name, panels, grids, gtja, wq):
+    """(T,N) float64 values on the unified grid (vendor hygiene: object
+    dtype -> to_numeric, XLIB precedent)."""
+    if name in grids:
+        return grids[name]
+    if name.startswith("alpha191_"):
+        out = getattr(gtja(), name)(dict(panels))
+        arr = out.values if isinstance(out, pd.DataFrame) else np.asarray(out)
+    elif name.startswith("wq101_alpha"):
+        n = int(name.replace("wq101_alpha", ""))
+        out = getattr(wq(), f"alpha{n:03d}")()
+        arr = (out.values if isinstance(out, pd.DataFrame)
+               else np.asarray(out))
+    else:
+        raise KeyError(f"unknown member family: {name}")
+    if arr.dtype == object:
+        arr = pd.DataFrame(arr).apply(pd.to_numeric,
+                                      errors="coerce").values
+    return np.asarray(arr, dtype=np.float64)
+
+
+def _run_build(report, shelf, population):
+    """Stage 1: per-member z-cache build. Shelf -> full-era files; non-shelf
+    population -> IS-prefix files (IS dates are a row-prefix; shared
+    coordinates). Manifest = per-member checkpoint (atomic rewrite)."""
+    if not _try_lock():
+        print("build lock held by a live process - exiting (other build "
+              "in flight, resume via next invocation)", flush=True)
+        return "locked"
+    try:
+        import psutil
+        free_gb = psutil.virtual_memory().available / 2**30
+        if free_gb < FREE_RAM_MIN_GB:
+            print(f"free RAM {free_gb:.1f}GB < {FREE_RAM_MIN_GB}GB floor - "
+                  "honest exit (retry later round)", flush=True)
+            return "ram_floor"
+        from p1c_stock_ic_batch import load_panels, load_universe
+        from shortline_p1_ic import _ic_series_fast
+        from ps2_synth import z_rows
+        from composite_ic import stats_block
+
+        t0 = time.time()
+        idx, syms, cmeta = load_universe()
+        assert idx[-1] <= CUTOFF, (
+            f"cache ends {idx[-1].date()} > evidence_cutoff "
+            f"{CUTOFF.date()} - rebuild cache per its own convention first")
+        T, N = len(idx), len(syms)
+        cal_us = idx.values.astype("datetime64[us]").astype("int64")
+        is_rows = int((idx <= IS_END_TS).sum())
+        assert is_rows >= MIN_PERIODS, "IS segment too short"
+        is_cal = cal_us[:is_rows]
+        print(f"build: panel T={T} N={N} IS_rows={is_rows} "
+              f"(cutoff {CUTOFF.date()})", flush=True)
+
+        panels = load_panels(idx, syms)
+        close = panels["close"]
+        maskC = close.notna().values
+        fwd10_df = close.shift(-H_GATE) / close - 1.0
+        if not os.path.exists(CLOSE_FFILL_NPY):
+            np.save(CLOSE_FFILL_NPY, close.values)   # float64, streaming
+        os.makedirs(IC_IS_DIR, exist_ok=True)
+
+        manifest = _load_manifest()
+        members = manifest.setdefault("members", {})
+        rec = _record_table()
+        shelf_set = set(shelf)
+
+        pending = [n for n in population
+                   if (members.get(n) or {}).get("status") != "ok"]
+        grids, gmeta = {}, {}
+        if any(n.startswith(("lhb_", "dzjy_", "margin_")) for n in pending):
+            print(f"event grids for pending event members "
+                  f"({sum(1 for n in pending if n.startswith(('lhb_', 'dzjy_', 'margin_')))})...",
+                  flush=True)
+            grids, gmeta = _event_member_grids(panels, syms, cal_us)
+
+        gtja, wq = _vendor_context(panels)
+        t1 = time.time()
+        n_done = 0
+        for i, name in enumerate(population, 1):
+            row = members.get(name) or {}
+            if row.get("status") == "ok":
+                continue
+            if row.get("status") == "error" and \
+                    row.get("attempts", 0) >= MAX_ATTEMPTS:
+                continue
+            row["attempts"] = row.get("attempts", 0) + 1
+            tc = time.time()
+            try:
+                arr = _compute_member(name, panels, grids, gtja, wq)
+                s = _ic_series_fast(
+                    pd.DataFrame(arr, index=idx, columns=syms), fwd10_df)
+                z = z_rows(arr, maskC).astype(np.float32)
+                del arr
+                rows = T if name in shelf_set else is_rows
+                z_cache_write(name, z[:rows])
+                del z
+                s_is = s[s.index <= IS_END_TS]
+                s_oos = s[s.index > IS_END_TS]
+                blk_is, blk_oos = stats_block(s_is), stats_block(s_oos)
+                ical = np.full(is_rows, np.nan)
+                if len(s_is):
+                    pos = np.searchsorted(
+                        is_cal,
+                        s_is.index.values.astype("datetime64[us]")
+                        .astype("int64"))
+                    ical[pos] = s_is.values
+                np.save(os.path.join(IC_IS_DIR, name + ".npy"), ical)
+                e = rec.get(name) or {}
+                fic = blk_is.get("ic_mean")
+                ric = e.get("is_ic")
+                row.update({
+                    "member": name, "status": "ok",
+                    "kind": "shelf" if name in shelf_set else "pop",
+                    "z_kind": "full" if name in shelf_set else "is",
+                    "z_rows": rows,
+                    "is_ic": fic, "is_ir": blk_is.get("ic_ir"),
+                    "is_n": blk_is.get("n_periods", 0),
+                    "oos_ic": blk_oos.get("ic_mean"),
+                    "oos_ir": blk_oos.get("ic_ir"),
+                    "oos_n": blk_oos.get("n_periods", 0),
+                    "recorded_source": e.get("source"),
+                    "recorded_is_ic": ric,
+                    "delta_is": (abs(float(fic) - float(ric))
+                                 if isinstance(ric, (int, float))
+                                 and ric is not None and fic is not None
+                                 else None),
+                    "recorded_oos_ic": e.get("oos_ic"),
+                    "sign": _recorded_sign(e, fic),
+                    "compute_s": round(time.time() - tc, 2),
+                })
+            except Exception as ex:
+                row["member"] = name
+                row["status"] = "error"
+                row["error"] = f"{type(ex).__name__}: {str(ex)[:160]}"
+                print(f"  ERROR {name}: {row['error']}", flush=True)
+            members[name] = row
+            _atomic_write_json(Z_MANIFEST, manifest)
+            n_done += 1
+            if n_done % 10 == 0:
+                ok_n = sum(1 for r in members.values()
+                           if r.get("status") == "ok")
+                print(f"  {i}/{len(population)} ok={ok_n} "
+                      f"({time.time() - t1:.0f}s)", flush=True)
+
+        ok_n = sum(1 for r in members.values() if r.get("status") == "ok")
+        err = sorted(n for n, r in members.items()
+                     if r.get("status") == "error")
+        complete = ok_n == len(population)
+        manifest["meta"].update({
+            "T": T, "N": N, "is_rows": is_rows,
+            "cutoff": str(CUTOFF.date()), "is_end": str(IS_END_TS.date()),
+            "grid": "p1c full-cache panel, close-ffill-finite mask; "
+                    "ok_universe=5130 = cache build status (disclosed, "
+                    "r84 adjudication)",
+            "era_gates": {"lhb": "2007-01-01", "ext": "2010-01-01"},
+            "event_grid_meta": gmeta,
+            "built_at": time.strftime("%Y-%m-%d %H:%M"),
+            "build_complete": bool(complete),
+            "build_errors": err,
+        })
+        _atomic_write_json(Z_MANIFEST, manifest)
+        print(f"build: {ok_n}/{len(population)} ok complete={complete} "
+              f"errors={len(err)} ({time.time() - t0:.0f}s)", flush=True)
+        return "complete" if complete else "incomplete"
+    finally:
+        try:
+            os.remove(BUILD_LOCK)
+        except OSError:
+            pass
+
+
+def _z_path(name):
+    return os.path.join(Z_CACHE_DIR, name.replace("/", "_") + ".npy")
+
+
+def _run_post(report, shelf, population):
+    """Stage 2: repro hard gate -> clustering -> primary/sensitivity ->
+    streaming nulls (real-cache equivalence BEFORE any null number) ->
+    V1/V2/V3 -> JSON/CSV outputs. Deterministic; safe to re-run."""
+    import hashlib
+    import subprocess
+    from ps2_synth import (composite_z, fwd_ret, ic_from_ranks, rank_rows)
+    from composite_ic import stats_block
+    from shortline_p1_ic import _ic_series_fast
+    from xlib_synth import chain_head_total
+
+    t0 = time.time()
+    manifest = _load_manifest()
+    members = manifest["members"]
+    meta = manifest["meta"]
+    T, N, is_rows = meta["T"], meta["N"], meta["is_rows"]
+    from p1c_stock_ic_batch import load_universe
+    idx, syms, _ = load_universe()
+    assert len(idx) == T and len(syms) == N, "cache drifted vs manifest"
+    cal_us = idx.values.astype("datetime64[us]").astype("int64")
+    is_cal = cal_us[:is_rows]
+
+    # ---- [1] hard reproduction gate (prereg SS2, before ANY number)
+    #   GTJA/WQ shelf (32): recomputed IS IC vs p1c records <= 1e-4
+    #   LHB/dzjy shelf (4): per-source legs re-run (PA2 / p1d conventions)
+    bad = []
+    for n in shelf:
+        r = members.get(n) or {}
+        if r.get("status") != "ok":
+            bad.append([n, "missing_member"])
+            continue
+        if r.get("recorded_source") == "p1c":
+            d = r.get("delta_is")
+            if d is None or d > REPRO_TOL:
+                bad.append([n, f"delta_is={d}"])
+    out_lhb, ok_lhb = repro_lhb(write=False)
+    out_dzjy, ok_dzjy = repro_dzjy(write=False)
+    if not ok_lhb:
+        bad.append(["lhb_leg", "repro_lhb FAIL"])
+    if not ok_dzjy:
+        bad.append(["dzjy_leg", "repro_dzjy FAIL"])
+    p1c_deltas = [members[n].get("delta_is") for n in shelf
+                  if (members.get(n) or {}).get("recorded_source") == "p1c"
+                  and members[n].get("delta_is") is not None]
+    repro_max = max(p1c_deltas) if p1c_deltas else None
+    print(f"repro gate: p1c_shelf_max_delta={repro_max} "
+          f"legs lhb={ok_lhb} dzjy={ok_dzjy} bad={bad}", flush=True)
+    if bad:
+        print("REPRODUCTION FAIL - batch VOID (no numbers produced)",
+              flush=True)
+        cm = cutoff_meta()
+        _atomic_write_json(os.path.join(OUT_DIR, "xstock_synth.json"), {
+            "meta": {"batch": "XSTOCK_SYNTH", "verdict": "VOID",
+                     "date": time.strftime("%Y-%m-%d %H:%M")},
+            "repro_bad": bad, "evidence_cutoff": cm.get("evidence_cutoff")})
+        return "void"
+
+    # ---- [2] clustering (prereg SS1: IS IC-series corr, greedy |IS IC| desc)
+    ic_series_is = {n: np.load(os.path.join(IC_IS_DIR, n + ".npy"))
+                    for n in shelf}
+
+    def corr_fn(a, b):
+        x, y = ic_series_is[a], ic_series_is[b]
+        m = np.isfinite(x) & np.isfinite(y)
+        if m.sum() < MIN_OVERLAP:
+            return np.nan
+        return float(np.corrcoef(x[m], y[m])[0, 1])
+
+    def sort_key(n):
+        v = (members.get(n) or {}).get("is_ic")
+        fin = isinstance(v, (int, float)) and np.isfinite(v)
+        return (0 if fin else 1, -abs(v) if fin else 0.0, n)
+
+    order = sorted(shelf, key=sort_key)
+    reps, families = greedy_cluster(order, corr_fn, CLUSTER_CORR)
+    top_reps = reps[:max(K_PRIMARY, max(k for k, _ in K_SENS))]
+    tops = [(r, round(members[r]["is_ic"], 4), len(families[r]))
+            for r in top_reps]
+    print(f"clustering: {len(reps)} families; top reps={tops}", flush=True)
+
+    # ---- [3] primary + sensitivity (sign-oriented ps2 path; XLIB convention)
+    close_arr = np.asarray(np.load(CLOSE_FFILL_NPY, mmap_mode="r"),
+                           dtype=np.float64)
+    maskC = np.isfinite(close_arr)
+    fwd10 = fwd_ret(close_arr, H_GATE)
+
+    def load_z(name, rows):
+        return np.asarray(np.load(_z_path(name), mmap_mode="r")[:rows],
+                          dtype=np.float64)
+
+    def comp_eval(names, min_valid, h):
+        fwd = fwd10 if h == H_GATE else fwd_ret(close_arr, h)
+        zs = [load_z(n, T) * members[n]["sign"] for n in names]
+        comp = composite_z(zs, min_valid)
+        del zs
+        eff = maskC & np.isfinite(comp) & np.isfinite(fwd)
+        s = ic_from_ranks(rank_rows(eff, comp), rank_rows(eff, fwd), cal_us)
+        return s, comp
+
+    def seg(s):
+        return (stats_block(s), stats_block(s[s.index <= IS_END_TS]),
+                stats_block(s[s.index > IS_END_TS]))
+
+    s_prim, comp_prim = comp_eval(top_reps[:K_PRIMARY], MV_PRIMARY, H_GATE)
+    b_full, b_is, b_oos = seg(s_prim)
+    # pandas cross-check (XLIB convention) <= 1e-6 on the IS mean
+    close_df = pd.DataFrame(close_arr, index=idx, columns=syms)
+    s_pd = _ic_series_fast(pd.DataFrame(comp_prim, index=idx, columns=syms),
+                           close_df.shift(-H_GATE) / close_df - 1.0)
+    pd_is = stats_block(s_pd[s_pd.index <= IS_END_TS]).get("ic_mean")
+    xcheck = (abs(float(b_is.get("ic_mean")) - float(pd_is))
+              if pd_is is not None else None)
+    print(f"primary: is_ic={b_is.get('ic_mean')} is_ir={b_is.get('ic_ir')} "
+          f"oos_ic={b_oos.get('ic_mean')} pandas_xcheck={xcheck}",
+          flush=True)
+    if xcheck is None or xcheck > EQUIV_TOL_STREAM:
+        print("PRIMARY PATH EQUIVALENCE FAIL - abort (no numbers)",
+              flush=True)
+        return "equiv_fail"
+
+    sens_rows = []
+    for k, mv in K_SENS:
+        s_k, _ = comp_eval(top_reps[:k], mv, H_GATE)
+        kf, ki, ko = seg(s_k)
+        sens_rows.append({"k": k, "min_valid": mv,
+                          "names": top_reps[:k],
+                          "is_ic": ki.get("ic_mean"),
+                          "is_ir": ki.get("ic_ir"),
+                          "is_n": ki.get("n_periods", 0),
+                          "oos_ic": ko.get("ic_mean"),
+                          "oos_ir": ko.get("ic_ir"),
+                          "oos_n": ko.get("n_periods", 0),
+                          "full_ic": kf.get("ic_mean")})
+
+    # ---- [4] nulls (streaming; real-cache equivalence BEFORE numbers)
+    shelf_names, pop_names = list(shelf), list(population)
+    filesA = [_z_path(n) for n in shelf_names]
+    filesB = [_z_path(n) for n in pop_names]
+    drawsA = draw_indices(shelf_names, K_PRIMARY, SEED_NULLA)
+    drawsB = draw_indices(pop_names, K_PRIMARY, SEED_NULLB)
+    signsA = np.array([[members[shelf_names[int(mi)]]["sign"]
+                        for mi in row] for row in drawsA])
+    signsB = np.array([[members[pop_names[int(mi)]]["sign"]
+                        for mi in row] for row in drawsB])
+    print(f"nullA streaming ({len(shelf_names)} shelf members)...",
+          flush=True)
+    t1 = time.time()
+    icA, metaA = streaming_null_pass(CLOSE_FFILL_NPY, 0, N, is_cal,
+                                     filesA, drawsA, signsA, MV_PRIMARY)
+    # equivalence: draws 0/1 direct vs streaming (real cache, prereg gate)
+    worst, mismatches = 0.0, 0
+    for d in (0, 1):
+        zs = [load_z(shelf_names[int(drawsA[d, j])], is_rows) * signsA[d, j]
+              for j in range(K_PRIMARY)]
+        comp = composite_z(zs, MV_PRIMARY)
+        del zs
+        eff = maskC[:is_rows] & np.isfinite(comp) & np.isfinite(
+            fwd10[:is_rows])
+        s_ref = ic_from_ranks(rank_rows(eff, comp),
+                              rank_rows(eff, fwd10[:is_rows]), is_cal)
+        ref = np.full(is_rows, np.nan)
+        pos = np.searchsorted(
+            is_cal, s_ref.index.values.astype("datetime64[us]")
+            .astype("int64"))
+        ref[pos] = s_ref.values
+        mismatches += int((np.isfinite(icA[d]) ^ np.isfinite(ref)).sum())
+        m = np.isfinite(icA[d]) & np.isfinite(ref)
+        if m.any():
+            worst = max(worst, float(
+                np.abs(icA[d][m] - ref[m]).max()))
+    print(f"  nullA equivalence: worst={worst:.2e} "
+          f"mismatches={mismatches} ({time.time() - t1:.0f}s)", flush=True)
+    if worst > EQUIV_TOL_STREAM or mismatches:
+        print("STREAMING EQUIVALENCE FAIL - abort before null numbers",
+              flush=True)
+        return "equiv_fail"
+    p95A, nA = null_abs_ic_p95(icA, 0, len(drawsA))
+    del icA
+    print(f"  nullA p95={p95A:.4f} (n={nA})", flush=True)
+    print(f"nullB streaming ({len(pop_names)} population members)...",
+          flush=True)
+    t1 = time.time()
+    icB, metaB = streaming_null_pass(CLOSE_FFILL_NPY, 0, N, is_cal,
+                                     filesB, drawsB, signsB, MV_PRIMARY)
+    p95B, nB = null_abs_ic_p95(icB, 0, len(drawsB))
+    del icB
+    print(f"  nullB p95={p95B:.4f} (n={nB}) ({time.time() - t1:.0f}s)",
+          flush=True)
+
+    # ---- [5] gates (prereg SS4, h10 primary judgement)
+    is_ic = b_is.get("ic_mean")
+    is_ir = b_is.get("ic_ir")
+    oos_ic = b_oos.get("ic_mean")
+    is_n = b_is.get("n_periods", 0)
+    v1 = bool(abs(is_ic) > max(V1_FLOOR, p95A, p95B))
+    v2 = bool(abs(is_ir) >= V2_IR)
+    v3 = bool(np.sign(oos_ic) == np.sign(is_ic)
+              and abs(oos_ic) >= V3_RETAIN * abs(is_ic))
+    period_ok = bool(is_n >= MIN_PERIODS)
+    passed = bool(v1 and v2 and v3 and period_ok)
+    print(f"gates: V1={v1} V2={v2} V3={v3} period={period_ok} "
+          f"PASS={passed}", flush=True)
+
+    h20_row = None
+    if v1:
+        s20, _ = comp_eval(top_reps[:K_PRIMARY], MV_PRIMARY, 20)
+        hf, hi, ho = seg(s20)
+        h20_row = {"names": top_reps[:K_PRIMARY],
+                   "is_ic": hi.get("ic_mean"), "is_ir": hi.get("ic_ir"),
+                   "is_n": hi.get("n_periods", 0),
+                   "oos_ic": ho.get("ic_mean"),
+                   "oos_ir": ho.get("ic_ir"),
+                   "full_ic": hf.get("ic_mean"),
+                   "snooping_discount": True}
+
+    # ---- [6] outputs (ledger gated on compute-audit CLEAN, prereg SS0)
+    try:
+        subprocess.run([sys.executable,
+                        os.path.join(ROOT, "scripts", "compute_audit.py")],
+                       capture_output=True, text=True, timeout=180)
+        with open(os.path.join(ROOT, "results", "compute_audit.json"),
+                  encoding="utf-8") as f:
+            aj = json.load(f)
+        latest = aj.get("history", aj)
+        if isinstance(latest, list) and latest:
+            latest = latest[-1]
+        audit = {"verdict": latest.get("verdict"),
+                 "flags": latest.get("flags"),
+                 "asof": latest.get("ts") or latest.get("asof")}
+    except Exception as ex:
+        audit = {"verdict": "unavailable", "error": str(ex)[:120]}
+    audit_clean = audit.get("verdict") == "CLEAN"
+
+    added = 3 + 2 * N_NULLS + (1 if h20_row else 0)
+    prev = chain_head_total()
+    cm = cutoff_meta()
+    ledger = {"prev": prev,
+              "added": added if audit_clean else 0,
+              "total": prev + (added if audit_clean else 0),
+              "audit_counted": bool(audit_clean),
+              "note": "" if audit_clean else
+              "audit not CLEAN - not counted per prereg SS0"}
+    try:
+        with open(os.path.join(ROOT, "fleet", "machine.json"),
+                  encoding="utf-8") as f:
+            machine_id = json.load(f).get("machine_id")
+    except Exception:
+        machine_id = "unknown"
+    prereg_path = os.path.join(RES_DIR, "XSTOCK_SYNTH.md")
+    with open(prereg_path, "rb") as f:
+        prereg_sha = hashlib.sha256(f.read()).hexdigest()
+
+    out = {
+        "meta": {
+            "batch": "XSTOCK_SYNTH (stock-pool cross-library small-K "
+                     "synthesis)", "prereg": "research/shortline/"
+                     "XSTOCK_SYNTH.md", "prereg_sha256": prereg_sha,
+            "claim": "MSG-20260924-0905", "machine": machine_id,
+            "date": time.strftime("%Y-%m-%d %H:%M"),
+            "elapsed_s": round(time.time() - t0, 1),
+            "grid": meta.get("grid"), "era_gates": meta.get("era_gates"),
+            "orientation": "recorded IS IC signs (prereg SS4); "
+                           "recorded==recomputed for all shelf members "
+                           "(repro gate <=1e-4)",
+        },
+        "shelf_report": report,
+        "repro": {"p1c_shelf_max_delta_is": repro_max,
+                  "leg_lhb_pass": bool(ok_lhb),
+                  "leg_dzjy_pass": bool(ok_dzjy)},
+        "clustering": {"n_families": len(reps), "rep_order": reps,
+                       "families": families, "top_reps": top_reps},
+        "primary": {"names": top_reps[:K_PRIMARY],
+                    "k": K_PRIMARY, "min_valid": MV_PRIMARY,
+                    "is_ic": is_ic, "is_ir": is_ir, "is_n": is_n,
+                    "oos_ic": oos_ic,
+                    "oos_ir": b_oos.get("ic_ir"),
+                    "oos_n": b_oos.get("n_periods", 0),
+                    "full_ic": b_full.get("ic_mean"),
+                    "pandas_xcheck_is": xcheck},
+        "sensitivity": sens_rows,
+        "h20_report": h20_row,
+        "nulls": {"nullA": {"p95_abs_is_ic": p95A, "n_draws": nA,
+                            "seed": SEED_NULLA, **metaA},
+                  "nullB": {"p95_abs_is_ic": p95B, "n_draws": nB,
+                            "seed": SEED_NULLB, **metaB},
+                  "equivalence_worst": worst,
+                  "equivalence_mismatches": mismatches},
+        "verdict": {"v1": v1, "v2": v2, "v3": v3,
+                    "period_gate": period_ok, "pass": passed,
+                    "lines": {"v1_floor": V1_FLOOR, "v2_ir": V2_IR,
+                              "v3_retain": V3_RETAIN,
+                              "nullA_p95": p95A, "nullB_p95": p95B,
+                              "min_periods": MIN_PERIODS}},
+        "trials_ledger": {**ledger, **cm},
+        "evidence_cutoff": cm.get("evidence_cutoff"),
+        "audit": audit,
+    }
+    jpath = os.path.join(OUT_DIR, "xstock_synth.json")
+    _atomic_write_json(jpath, out)
+    print(f"saved: {jpath}", flush=True)
+
+    import csv
+    cpath = os.path.join(RES_DIR, "xstock_synth_results.csv")
+    with open(cpath, "w", newline="", encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["row", "names", "k", "min_valid", "is_ic", "is_ir",
+                    "is_n", "oos_ic", "oos_ir", "oos_n", "full_ic",
+                    "note"])
+        w.writerow(["primary", "+".join(top_reps[:K_PRIMARY]), K_PRIMARY,
+                    MV_PRIMARY, is_ic, is_ir, is_n, oos_ic,
+                    b_oos.get("ic_ir"), b_oos.get("n_periods", 0),
+                    b_full.get("ic_mean"),
+                    "PASS" if passed else
+                    "FAIL " + ",".join(
+                        k for k, v in (("V1", v1), ("V2", v2), ("V3", v3),
+                                       ("period", period_ok)) if not v)])
+        for r in sens_rows:
+            w.writerow([f"sens_k{r['k']}", "+".join(r["names"]), r["k"],
+                        r["min_valid"], r["is_ic"], r["is_ir"], r["is_n"],
+                        r["oos_ic"], r["oos_ir"], r["oos_n"], r["full_ic"],
+                        "report-only"])
+        if h20_row:
+            w.writerow(["h20_report", "+".join(h20_row["names"]), K_PRIMARY,
+                        MV_PRIMARY, h20_row["is_ic"], h20_row["is_ir"],
+                        h20_row["is_n"], h20_row["oos_ic"],
+                        h20_row["oos_ir"], "", h20_row["full_ic"],
+                        "snooping-discount report column"])
+        w.writerow(["nullA_band", f"shelf {len(shelf_names)}", K_PRIMARY,
+                    MV_PRIMARY, p95A, "", nA, "", "", "", "",
+                    "p95 of 1000 oriented draws"])
+        w.writerow(["nullB_band", f"pop {len(pop_names)}", K_PRIMARY,
+                    MV_PRIMARY, p95B, "", nB, "", "", "", "",
+                    "p95 of 1000 oriented draws"])
+    print(f"saved: {cpath}", flush=True)
+    print(f"[XSTOCK_SYNTH] post done verdict={'PASS' if passed else 'FAIL'} "
+          f"({time.time() - t0:.0f}s)", flush=True)
+    return "done"
+
+
+def run_batch(stage="auto"):
+    """Staged run: build (resumable) -> post. Exit codes: 0 done / 2 hard
+    fail (gates, repro VOID, equivalence) / 3 build incomplete."""
+    t0 = time.time()
+    print("[XSTOCK_SYNTH] staged run (prereg frozen pre-WQ finalize; "
+          "claim MSG-20260924-0905)", flush=True)
+    gates_out, ok = run_gates()
+    if not ok:
+        print("GATES FAIL - run blocked (prereg discipline)", flush=True)
+        return 2
+    report, shelf, population, _ = build_shelf_and_population()
+    manifest = _load_manifest()
+    complete = bool(manifest.get("meta", {}).get("build_complete")) and all(
+        (manifest["members"].get(n) or {}).get("status") == "ok"
+        for n in population)
+    if stage in ("auto", "build") and not complete:
+        status = _run_build(report, shelf, population)
+        if status != "complete":
+            print(f"build status={status} - post deferred (resumable)",
+                  flush=True)
+            return 3 if status == "incomplete" else 2
+        complete = True
+    if stage == "build":
+        print(f"build-only complete ({time.time() - t0:.0f}s)", flush=True)
+        return 0
+    if not complete:
+        print("build incomplete - post blocked (run `run` to finish build)",
+              flush=True)
+        return 3
+    status = _run_post(report, shelf, population)
+    return 0 if status == "done" else 2
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("mode", choices=["gates", "run", "selftest", "repro"])
     ap.add_argument("--src", choices=["lhb", "dzjy"], default="lhb")
+    ap.add_argument("--stage", choices=["auto", "build", "post"],
+                    default="auto")
     args = ap.parse_args()
     if args.mode == "selftest":
         sys.exit(run_selftest())
@@ -893,7 +1599,7 @@ def main():
             _, ok = repro_dzjy()
         sys.exit(0 if ok else 1)
     if args.mode == "run":
-        run_batch()
+        sys.exit(run_batch(stage=args.stage))
     out, ok = run_gates()
     path = os.path.join(OUT_DIR, "xstock_synth_gates.json")
     with open(path, "w", encoding="utf-8") as f:
