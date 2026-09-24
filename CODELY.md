@@ -80,3 +80,4 @@
 
 - [2026-09-25 07:2x] 坑律（bm-b r155·r125 家族复踩·推前拦获）：分级配方 latest 腿同样禁顶层键假设——compute_audit.json 的 latest ts 嵌在 latest 块内非顶层，顶层 probe 落空后空串==空串比较静默取 HEAD（实况 MINE 07:02:53 更新 06:59:23 被误选）；解=逐件键位清单必须覆盖嵌套面（latest.ts/meta.generated_at/data.update.last_run），resolver 决策日志 winner ts 必须打印真值、None/空即红旗当场复核。
 - [2026-09-25 07:3x] 坑律（bm-b r156·T-25 收口窗）：replace 工具对 JSON 票面字段做追加手术时，old_string 锚止于字段内部文本（含闭合引号）而 new_string 忘带闭合标点＝字段引号被吞、JSON 当场断裂；正律=追加类编辑锚必须含字段完整闭合标点+new_string 同步补齐，且「json.loads 校验先于 git add」rc 门控（r119 律）作安全网当场拦获零外泄（本例实证：校验红→add 未执行→修复后提交）。连带：接管停滞票的接管锁与闭票分两 commit（锁先落防撞车，T-29/T-32 惯例）。
+- [2026-09-25 07:44] URL 发现律（bm-a R138·T-45 slice-7）：WeCenter 型站（集思录）深捕获 ID 发现正道=/feed/category-<id>.rss 类目 feed（XML <link> 直含 question/<数字ID>·零登录·绕开 markdown 剥 href 死结）；/search 三形态死面（?q= 回退热帖流·/q- 登录墙·/questions 404）+Bing site: 经通道失效=R124 sitemap→robots→直猜梯的 feed 第四例；常设排片面=套利 category-5 feed。指针=research/digests/DIGEST-20260925-wave5-slice7.md §〇
