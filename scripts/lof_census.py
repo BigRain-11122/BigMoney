@@ -39,7 +39,9 @@ Storage:
 Exit codes: 0 = census ok (P-A3 side-face failure does not block: its
 expected outcome IS a keep-or-drop recommendation); 2 = LOF spot face total
 failure after retry window OR NAV face total failure (honest, partial JSON
-still written, never masked).
+still written, never masked). r57 design fix: the NAV leg runs INDEPENDENTLY
+of the spot leg -- a dead spot face no longer masks NAV-face evidence
+(nav_census lands in the JSON even when spot is blocked).
 Selftest: offline, zero network, natural-JSON-face fixtures (string codes,
 string prices -- machine pitfall law #1: join/lookup functions must be tested
 on real serialized shapes, not memory-native forms).
@@ -222,6 +224,24 @@ def discount_snapshot(spot_df, nav_df, nav_col, top_n=10):
     return out
 
 
+def nav_face_census(nav_df, nav_col, nav_date):
+    """NAV 腿独立盘点（纯函数·r57 设计修正）。spot 面死时 NAV 证据不再被掩盖：
+    记录 NAV 面总量 + 名义 LOF 宇宙代理（名称含 LOF——该面无基金类型列，
+    r57 探针 640 行同口径）+ 净值列新鲜度。缺名称列=诚实零计数。"""
+    rec = {"rows_total": int(len(nav_df)), "lof_named_n": 0,
+           "universe_proxy": "name-contains-LOF (face has no fund-type column)"}
+    import pandas as pd
+    if "基金简称" in nav_df.columns:
+        lof_mask = nav_df["基金简称"].astype(str).str.upper().str.contains("LOF", na=False)
+        rec["lof_named_n"] = int(lof_mask.sum())
+        if nav_col and nav_col in nav_df.columns:
+            navv = pd.to_numeric(nav_df.loc[lof_mask, nav_col], errors="coerce").dropna()
+            rec["nav_col"] = nav_col
+            rec["nav_date"] = nav_date
+            rec["lof_nav_nonnull_n"] = int(len(navv))
+    return rec
+
+
 def session_state(now=None):
     """盘态判定（纯函数）：>=15:00=post_close；周末=weekend（诚实披露用）。"""
     now = now or dt.datetime.now()
@@ -309,6 +329,7 @@ def run():
         "session_state": sess,
         "faces": {},
         "inventory": None,
+        "nav_census": None,
         "discount": None,
         "pa3": None,
         "spot_csv": None,
@@ -317,7 +338,9 @@ def run():
             "kind": "exploration census (probe-first family, zero trials)",
             "throttle_s": THROTTLE_S,
             "retry_window": {"max_attempts": SPOT_MAX_ATTEMPTS, "backoff_s": SPOT_BACKOFF_S,
-                             "authorization": "r51 intermittent ruling (push2 family on bm-c)"},
+                             "authorization": "r51 intermittent ruling upgraded r57: push2 family "
+                                              "same-day persistent blockage (9 conn_level fails), "
+                                              "revisit = next day or proxy change; NAV leg independent"},
             "proxy_env_cleared": True,
         },
     }
@@ -329,21 +352,24 @@ def run():
         "attempts": spot_attempts,
         "value_probe": _value_probe(spot_df) if spot_df is not None else None,
     }
+    time.sleep(THROTTLE_S)
+
+    # 2) open-fund bulk NAV face -- INDEPENDENT leg (r57 design fix: spot-dead
+    #    no longer masks NAV evidence; NAV-face census lands regardless)
+    nav_df, nav_attempts = pull_retry_windowed("fund_open_fund_daily_em",
+                                               lambda: ak.fund_open_fund_daily_em())
+    nav_col, nav_date = (find_nav_col(nav_df.columns) if nav_df is not None else (None, None))
+    out["faces"]["fund_open_fund_daily_em"] = {
+        "ok": nav_df is not None,
+        "attempts": nav_attempts,
+        "cols": [str(c) for c in nav_df.columns][:20] if nav_df is not None else None,
+        "rows": int(len(nav_df)) if nav_df is not None else None,
+        "value_probe": _value_probe(nav_df) if nav_df is not None else None,
+    }
+    if nav_df is not None:
+        out["nav_census"] = nav_face_census(nav_df, nav_col, nav_date)
+
     if spot_df is not None:
-        time.sleep(THROTTLE_S)
-
-        # 2) open-fund bulk NAV face (LOF NAV join candidate)
-        nav_df, nav_attempts = pull_retry_windowed("fund_open_fund_daily_em",
-                                                   lambda: ak.fund_open_fund_daily_em())
-        out["faces"]["fund_open_fund_daily_em"] = {
-            "ok": nav_df is not None,
-            "attempts": nav_attempts,
-            "cols": [str(c) for c in nav_df.columns][:20] if nav_df is not None else None,
-            "rows": int(len(nav_df)) if nav_df is not None else None,
-            "value_probe": _value_probe(nav_df) if nav_df is not None else None,
-        }
-        nav_col, nav_date = (find_nav_col(nav_df.columns) if nav_df is not None else (None, None))
-
         # 3) census computation (pure)
         out["inventory"] = lof_inventory(spot_df)
         out["inventory"]["spot_csv_note"] = "spot face carries no date column; run date disclosed"
@@ -378,11 +404,11 @@ def run():
     os.replace(tmp, OUT_PATH)
 
     spot_ok = spot_df is not None
-    nav_dead = spot_ok and nav_df is None and out["faces"].get("fund_open_fund_daily_em") is not None
-    print(f"[census] spot ok={spot_ok}; inventory={bool(out['inventory'])}; "
-          f"discount={bool(out.get('discount'))}; pa3_face_ok={pa3_ok}")
+    nav_ok = nav_df is not None
+    print(f"[census] spot ok={spot_ok}; nav ok={nav_ok} (independent leg); "
+          f"inventory={bool(out['inventory'])}; discount={bool(out.get('discount'))}; pa3_face_ok={pa3_ok}")
     print(f"[census] out -> {OUT_PATH}")
-    return 0 if (spot_ok and not nav_dead) else 2
+    return 0 if (spot_ok and nav_ok) else 2
 
 
 # ---------------------------------------------------------------- selftest
@@ -460,6 +486,19 @@ def selftest():
     df5, att5 = pull_retry_windowed("fake", boom, max_attempts=2, backoff_s=0)
     chk("retry window honest fail", df5 is None and len(att5) == 2
         and all(a["ok"] is False for a in att5))
+
+    # S6 NAV independent-leg census (r57 fix; natural-JSON-face fixture)
+    nav_face = pd.DataFrame({
+        "基金代码": ["161129", "501018", "000001"],
+        "基金简称": ["原油LOF易方达", "南方原油(LOF)", "华夏成长混合"],
+        "2026-09-23-单位净值": ["1.900", "2.010", "-"],
+    })
+    nc = nav_face_census(nav_face, "2026-09-23-单位净值", "2026-09-23")
+    chk("nav census lof named + nonnull", nc["rows_total"] == 3 and nc["lof_named_n"] == 2
+        and nc["lof_nav_nonnull_n"] == 2 and nc["nav_date"] == "2026-09-23")
+    nc2 = nav_face_census(pd.DataFrame({"基金代码": ["000001"]}), None, None)
+    chk("nav census no-name-col honest zero",
+        nc2["lof_named_n"] == 0 and "lof_nav_nonnull_n" not in nc2 and "nav_col" not in nc2)
 
     print(f"selftest: {'ALL PASS' if not fails else fails}")
     return 0 if not fails else 1

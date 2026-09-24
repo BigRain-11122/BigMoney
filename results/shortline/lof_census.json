@@ -2,7 +2,7 @@
  "census": "lof_census",
  "ticket": "T-2026-09-24-16",
  "lane": "ARB-1 deliverable-4 (P-A2 gate inputs + P-A3 keep-or-drop)",
- "ran_at": "2026-09-24T15:41:27",
+ "ran_at": "2026-09-24T20:13:27",
  "session_state": "post_close",
  "faces": {
   "fund_lof_spot_em": {
@@ -11,29 +11,68 @@
     {
      "attempt": 1,
      "ok": false,
-     "latency_s": 5.5,
+     "latency_s": 4.87,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     },
     {
      "attempt": 2,
      "ok": false,
-     "latency_s": 5.04,
+     "latency_s": 5.26,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     },
     {
      "attempt": 3,
      "ok": false,
-     "latency_s": 5.18,
+     "latency_s": 4.83,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     }
    ],
    "value_probe": null
+  },
+  "fund_open_fund_daily_em": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 37.08,
+     "rows": 24110
+    }
+   ],
+   "cols": [
+    "基金代码",
+    "基金简称",
+    "2026-09-24-单位净值",
+    "2026-09-24-累计净值",
+    "2026-09-23-单位净值",
+    "2026-09-23-累计净值",
+    "日增长值",
+    "日增长率",
+    "申购状态",
+    "赎回状态",
+    "手续费"
+   ],
+   "rows": 24110,
+   "value_probe": {
+    "col": null,
+    "non_null": 0,
+    "total": 24110,
+    "non_null_rate": 0.0
+   }
   }
  },
  "inventory": null,
+ "nav_census": {
+  "rows_total": 24110,
+  "lof_named_n": 640,
+  "universe_proxy": "name-contains-LOF (face has no fund-type column)",
+  "nav_col": "2026-09-24-单位净值",
+  "nav_date": "2026-09-24",
+  "lof_nav_nonnull_n": 505
+ },
  "discount": null,
  "pa3": {
   "offline_introspection": {
@@ -63,7 +102,7 @@
     "total": 192,
     "non_null_rate": 1.0
    },
-   "latency_s": 1.61
+   "latency_s": 0.93
   },
   "recommendation": "DROP from ARB-1 v0.1 auto-lane: akshare 1.18.96 carries no closed-end quote/NAV face, discount panorama NOT constructible (scale census only, universe_n=192); shares shrinking per playbook (P-A3 low priority). Revisit only on akshare face addition or a signed P1 direction change. Scale face may seed a manual census if CEO wants the panorama via web lane."
  },
@@ -75,7 +114,7 @@
   "retry_window": {
    "max_attempts": 3,
    "backoff_s": 20,
-   "authorization": "r51 intermittent ruling (push2 family on bm-c)"
+   "authorization": "r51 intermittent ruling upgraded r57: push2 family same-day persistent blockage (9 conn_level fails), revisit = next day or proxy change; NAV leg independent"
   },
   "proxy_env_cleared": true
  },
