@@ -595,7 +595,10 @@ SEED_REGISTRY = {
     "p4_batch3_dca": 56_500,                # P4-B3-DCA staged vs single K=100
     # random-signal nulls (56_500+k default / 56_550+k ce, k<50; next free
     # band above grid_p1 55_500, registry scan 2026-09-25 04:1x before
-    # P4_BATCH3.md prereg freeze r140; prereg s3 names this base)
+    # P4_BATCH3.md prereg freeze r140; prereg s3 names this base;
+    # cross-window union with ths_agg_p1 56_000 (band 56_000..56_049, bm-a
+    # r120 same-window freeze) -- bases disjoint, both valid, t11/a158
+    # precedent)
 }
 
 
