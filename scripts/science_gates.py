@@ -182,6 +182,12 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
             raise KeyError("passive block missing/empty in "
                            "shortline_cta_p2_noau.json — schema drift, fix batch writer")
         return max(cands)  # strict = harder line
+    if pool == "im_ic_pair":
+        # IM_IC_PAIR additive pool (research/IM_IC_PAIR.md SS4): the only
+        # passive on a two-leg mean-zero pair face is FLAT (no position) --
+        # constant 0.0, frozen in the prereg; never borrows cta/core48
+        # passives (no silent cross-pool reuse).
+        return 0.0
     if pool == "t18_deep_axis":
         # T18_DEEP_REVAL additive pool (research/DEEP_AXIS_REVALIDATION.md SS3):
         # strict-max of the deep axis's OWN two passives (EW48 monthly rebal +
@@ -604,6 +610,7 @@ SEED_REGISTRY = {
     # p4_batch3_dca 56_500; registry+rg repo-scan verified free 2026-09-25
     # 06:2x before XSTOCK_TILT prereg freeze r151 bm-b)
     "xstock_tilt_h10": 57_100,              # XSTOCK_TILT h10-frequency random
+    "im_ic_pair": 58_000,                   # IM_IC_PAIR pair-direction random nulls (prereg frozen R139 bm-a)
     # top-K nulls (57_100+i, i<20; band 57_100..57_119, same scan; disjoint
     # from h20 band per p4_ext_tilt 49_000/49_100 split precedent)
 }
