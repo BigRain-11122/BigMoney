@@ -531,6 +531,10 @@ SEED_REGISTRY = {
     "j13v2_mill_ic2": 53_100,             # J13V2_MILL_IC2 K=50 white-noise nulls (ladder run-2)
     # (53_100+i, i<50; registry+rg scanned free 2026-09-24 12:11 before run; ic1 draws
     # stop at 53_049 so the 100-step ladder leaves a 50-wide collision-free gap)
+    "t18_deep_axis": 54_000,              # T18_DEEP_REVAL deep-axis null regeneration
+    # (54_000+i, i=0..999; rolling-full-population caliber per research/DEEP_
+    # AXIS_REVALIDATION.md SS3; registry+rg scanned free 2026-09-24 13:2x
+    # before prereg freeze)
 }
 
 
