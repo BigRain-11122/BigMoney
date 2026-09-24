@@ -1,0 +1,64 @@
+{
+ "id": "PROS-ANTS-CE-01",
+ "name": "ants_climb PROSPECT (ce)",
+ "school": "s11_folk",
+ "author": "t24-prospect-onboard",
+ "created": "2026-09-24",
+ "evidence_cutoff": "2026-09-22",
+ "level": "PROSPECT",
+ "params": {
+  "entry": "ants_climb()",
+  "time_decay_period": 25,
+  "time_decay_threshold": 0.05,
+  "trailing_stop_activate": 0.1
+ },
+ "prospect": {
+  "source_batch": "research/shortline\\p4_folk",
+  "exit_regime": "ce",
+  "sleeve_tag": true,
+  "g1_pass": false,
+  "anchor_status": "repro-PASS (results/t24_prospect_onboard.json)",
+  "recorded_full_sharpe": 0.2052,
+  "recorded_oos_sharpe": 0.5221,
+  "recorded_x2_full_sharpe": -0.027,
+  "recorded_n_trades": 177,
+  "recorded_oos_trades": 60,
+  "recorded_max_dd": -0.0623
+ },
+ "backtest": {
+  "full": {
+   "sharpe": 0.2052,
+   "max_dd": -0.0623,
+   "trades": 177
+  },
+  "out_sample": {
+   "sharpe": 0.5221,
+   "trades": 60
+  },
+  "cost_x2": {
+   "full_sharpe": -0.027
+  }
+ },
+ "paper": {
+  "months_tracked": 0,
+  "monthly_returns": [],
+  "current_dd": 0.0
+ },
+ "live": {
+  "months_tracked": 0,
+  "allocation_pct": 0,
+  "pnl": 0
+ },
+ "status_history": [
+  {
+   "date": "2026-09-24",
+   "from": null,
+   "to": "PROSPECT",
+   "note": "T-24 first-batch PROSPECT onboarding (pool results/prospect_pool.json; anchor-repro PASS results/t24_prospect_onboard.json); allocation permanently 0; promotion INTERN needs full G2 + T-22 0.70 beat-passive (standards NOT relaxed)"
+  }
+ ],
+ "notes": "folk.ants_climb frozen",
+ "exit_overrides": {
+  "loss_time_days": 16
+ }
+}

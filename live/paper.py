@@ -57,6 +57,7 @@ from firm.hr import TRADERS_DIR, load_trader, save_trader
 from firm.risk.regime import regime_report
 from strategies import volatility
 from strategies.composite_rotation import top_n_rotation
+import strategies.folk as _fk_mod
 import strategies.patterns as _pt_mod
 import strategies.ta as _ta_mod
 from scripts.science_gates import COST_X2_RATE, CostPatch  # T-03-F12 single source (re-exported for lfc/p3 importers)
@@ -117,6 +118,42 @@ SIGNAL_BUILDERS["vol_drought_reversal(vol_floor=0.55, drop_th=-0.05)"] = \
         _pt_mod.vol_drought_reversal, P,
         ["open", "high", "low", "close", "volume"],
         vol_floor=0.55, drop_th=-0.05)
+
+# T-24 PROSPECT candidate families (2026-09-24, ticket T-20260924-24
+# slice-2): constructions VERBATIM from the frozen p4 batch cells
+# (batch1 state panel / batch2a+folk+queue per-symbol convention); key
+# strings carry the frozen params. These keys are consumed ONLY by the
+# PROSPECT anchor-repro gate (scripts/t24_prospect_onboard.py via
+# p3_portfolio.member_run) -- PROSPECT is not in PAPER_LEVELS, so the
+# registered 6 composition stays byte-identical by construction.
+SIGNAL_BUILDERS["oversold_bounce(lookback=20, drop=-15%, shrink=0.8)"] = \
+    lambda P: ((P["close"].pct_change(20) < -0.15)
+               & (P["amount"].rolling(5).mean()
+                  < 0.8 * P["amount"].rolling(20).mean())
+               ).fillna(False).astype(int)
+SIGNAL_BUILDERS["rsrs_timing(18/250/0.8/-0.8)"] = lambda P: _apply_sym(
+    _ta_mod.rsrs_timing, P, ["high", "low"])
+SIGNAL_BUILDERS["vol_breakout(20/1.5/20/10)"] = lambda P: _apply_sym(
+    _ta_mod.vol_breakout, P, ["high", "low", "close", "volume"])
+SIGNAL_BUILDERS["hammer_reversal(classic, drop5, reclaim_ma20)"] = \
+    lambda P: _apply_sym(
+        _ta_mod.hammer_reversal, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["three_methods_up()"] = lambda P: _apply_sym(
+    _pt_mod.three_methods_up, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["doji_at_low()"] = lambda P: _apply_sym(
+    _pt_mod.doji_at_low, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["inside_bar_breakup()"] = lambda P: _apply_sym(
+    _pt_mod.inside_bar_breakup, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["ma_converge_break()"] = lambda P: _apply_sym(
+    _pt_mod.ma_converge_break, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["duck_head()"] = lambda P: _apply_sym(
+    _pt_mod.duck_head, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["immortal_guide()"] = lambda P: _apply_sym(
+    _pt_mod.immortal_guide, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["ants_climb()"] = lambda P: _apply_sym(
+    _fk_mod.ants_climb, P, ["open", "high", "low", "close"])
+SIGNAL_BUILDERS["bb_squeeze_breakout()"] = lambda P: _apply_sym(
+    _ta_mod.bb_squeeze_breakout, P, ["high", "low", "close"])
 
 
 def load_core(min_listing_days: int = 60) -> dict:

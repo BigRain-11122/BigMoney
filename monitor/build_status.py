@@ -604,10 +604,18 @@ def _gate_chain(bt: dict) -> dict:
     # from per-batch "traders_registered" lists -- those froze at J19 (3) and
     # missed G2_FOLK's 3 folk traders (stale-3 panel bug caught in r53 pixel
     # acceptance: strategy wall said 3 while the org wall showed 6 cards).
+    # T-24 (2026-09-24): PROSPECT observation members live in the same dir
+    # but are NOT registered roster -- excluded here + shown as a separate
+    # prospect pool line (_prospect_state).
     _troot = os.path.join(os.path.dirname(os.path.dirname(
         os.path.abspath(__file__))), "firm", "traders")
-    traders = [f[:-5] for f in sorted(os.listdir(_troot))
-               if f.endswith(".json") and not f.startswith("_")]
+    traders = []
+    for f in sorted(os.listdir(_troot)):
+        if not (f.endswith(".json") and not f.startswith("_")):
+            continue
+        t = _read_json(os.path.join(_troot, f))
+        if t and t.get("level") != "PROSPECT":
+            traders.append(f[:-5])
     # Counting single-source rule (O-2250 T2): panel N = data-driven ledger
     # chain head via science_gates.ledger_head (max total across
     # results/*.json). Replaces the r35-era hardcoded file cascade that
@@ -1246,6 +1254,8 @@ def _traders() -> list:
         t = _read_json(os.path.join(d, f))
         if not t:
             continue
+        if t.get("level") == "PROSPECT":
+            continue   # T-24: observation tier -- wall = registered roster
         bt = t.get("backtest") or {}
         pp = t.get("paper") or {}
         out.append({
@@ -1260,6 +1270,28 @@ def _traders() -> list:
             "paper_months": pp.get("months_tracked"),
             "paper_as_of": pp.get("as_of"),
         })
+    return out
+
+
+def _prospect_state() -> dict:
+    """T-24 PROSPECT pool line: observation members (level=PROSPECT in
+    firm/traders) + anchor-repro batch state. Distinct from the
+    registered 6 by construction (allocation permanently 0)."""
+    out = {"count": 0, "ids": [], "anchor_pass": None, "anchor_complete": None,
+           "batch": "none"}
+    d = os.path.join(PATHS.root, "firm", "traders")
+    for f in sorted(os.listdir(d)):
+        if not f.endswith(".json") or f.startswith("_"):
+            continue
+        t = _read_json(os.path.join(d, f))
+        if t and t.get("level") == "PROSPECT":
+            out["count"] += 1
+            out["ids"].append(t.get("id", f[:-5]))
+    b = _read_json(os.path.join(PATHS.results_dir, "t24_prospect_onboard.json"))
+    if b:
+        out["anchor_pass"] = b.get("n_pass")
+        out["anchor_complete"] = b.get("complete")
+        out["batch"] = b.get("batch", "none")
     return out
 
 
@@ -1454,7 +1486,9 @@ def build() -> dict:
                      "ranking": _ranking_rows()},
         "risk": _risk_lines(),
         "trading": {"traders": _traders(),
-                    "levels": ["INTERN", "TRAINEE", "TRADER", "SENIOR", "PRINCIPAL"],
+                    "levels": ["PROSPECT", "INTERN", "TRAINEE", "TRADER",
+                               "SENIOR", "PRINCIPAL"],
+                    "prospect": _prospect_state(),
                     "paper_started": paper["started"],
                     "paper": paper,
                     "scorecard": _scorecard_state()},
@@ -1491,6 +1525,14 @@ def build() -> dict:
             "time": "-", "text": f"交易员 {'/'.join(chain['trader_ids'])} 过全 G2 门禁链持证上岗（INTERN）· "
                                  + ("paper 跟踪进行中，≥6 个月才可谈实盘" if paper["started"]
                                     else "paper 跟踪启动前不进实盘")})
+    _pros = payload["trading"]["prospect"]
+    if _pros["count"]:
+        _anch = "?" if _pros["anchor_pass"] is None else _pros["anchor_pass"]
+        payload["events"].insert(2, {
+            "time": "-", "text": f"PROSPECT 观察池 {_pros['count']} 员入场（T-24 首批，配置恒 0）· "
+                                 f"anchor-repro {_anch}/{_pros['count']} 通过"
+                                 + ("" if _pros["anchor_complete"] else "（批在途）")
+                                 + "· 晋升 INTERN 须全 G2+T-22 0.70 门禁不放宽"})
     if paper["started"]:
         payload["events"].insert(2, {
             "time": paper["last_update"] or "-",

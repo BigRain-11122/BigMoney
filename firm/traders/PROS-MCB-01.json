@@ -1,0 +1,58 @@
+{
+ "id": "PROS-MCB-01",
+ "name": "ma_converge_break PROSPECT (default)",
+ "school": "s10_patterns",
+ "author": "t24-prospect-onboard",
+ "created": "2026-09-24",
+ "evidence_cutoff": "2026-09-22",
+ "level": "PROSPECT",
+ "params": {
+  "entry": "ma_converge_break()"
+ },
+ "prospect": {
+  "source_batch": "research/shortline\\p4_folk",
+  "exit_regime": "default",
+  "sleeve_tag": true,
+  "g1_pass": false,
+  "anchor_status": "repro-PASS (results/t24_prospect_onboard.json)",
+  "recorded_full_sharpe": 0.2822,
+  "recorded_oos_sharpe": 0.7651,
+  "recorded_x2_full_sharpe": -0.3731,
+  "recorded_n_trades": 1279,
+  "recorded_oos_trades": 345,
+  "recorded_max_dd": -0.1132
+ },
+ "backtest": {
+  "full": {
+   "sharpe": 0.2822,
+   "max_dd": -0.1132,
+   "trades": 1279
+  },
+  "out_sample": {
+   "sharpe": 0.7651,
+   "trades": 345
+  },
+  "cost_x2": {
+   "full_sharpe": -0.3731
+  }
+ },
+ "paper": {
+  "months_tracked": 0,
+  "monthly_returns": [],
+  "current_dd": 0.0
+ },
+ "live": {
+  "months_tracked": 0,
+  "allocation_pct": 0,
+  "pnl": 0
+ },
+ "status_history": [
+  {
+   "date": "2026-09-24",
+   "from": null,
+   "to": "PROSPECT",
+   "note": "T-24 first-batch PROSPECT onboarding (pool results/prospect_pool.json; anchor-repro PASS results/t24_prospect_onboard.json); allocation permanently 0; promotion INTERN needs full G2 + T-22 0.70 beat-passive (standards NOT relaxed)"
+  }
+ ],
+ "notes": "patterns.ma_converge_break frozen"
+}
