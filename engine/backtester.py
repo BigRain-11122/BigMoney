@@ -37,7 +37,8 @@ def run_backtest(prices: dict, params: dict,
                  entry_signal: pd.DataFrame = None,
                  exit_signal: pd.DataFrame = None,
                  fill_guard=None,
-                 cost_v2=None) -> dict:
+                 cost_v2=None,
+                 cash_parking=None) -> dict:
     """prices: dict[symbol] -> DataFrame with date index, cols open/close/high/low.
 
     J7 signal-injection adapter (BACKTEST_PLAN S2 contract):
@@ -72,6 +73,28 @@ def run_backtest(prices: dict, params: dict,
     dropped; missing ADV -> no cap, counted). Exits keep the tiered rate but
     are NOT quantity-capped (exit machine owns sizing via close_fraction).
     Basis + counters are disclosed in result["cost_v2"] (key absent when off).
+
+    T-09 CASH_LEG additive flag (research/CASH_LEG.md frozen spec; default
+    None = legacy path byte-identical). cash_parking is a dict, three keys:
+      repo_rate     pd.Series -- annualized % (1.475 = 1.475%), date-indexed;
+                    the engine does no IO: caller assembles and truncates.
+      major_bear    pd.Series(bool) -- bear-day mask; sole implementation
+                    source = firm/risk/regime.py (caller assembles).
+      bear_park_frac  float -- parking target fraction (R-配3 = 0.80).
+    Daily rolling block appended AFTER close mark-to-market (GC001-style
+    T+1; engine intra-day order unchanged): settle the balance parked at
+    the prior close back into cash + accrue one trading-day of interest
+    rate(T)/100/252 on it (missing-rate day -> ffill last known rate; no
+    known rate yet -> 0, never fabricated; trading-day-only accrual is a
+    conservative understatement of true repo carry); then on bear days
+    re-park min(cash, frac*equity) and on non-bear days fully release.
+    Parked funds are NOT available for same-day entries (subtracted from
+    cash when parked; returned by the settle step). No forced liquidation
+    if positions hold the equity share -- enforcement to the 80% target is
+    a portfolio-layer concern (gated behind REGIME_GUARD calibration),
+    explicitly out of scope. New metrics keys appear ONLY when the flag
+    is ON: parked_days / bear_days_in_window / parking_yield_total /
+    parked_balance_end / parking_accrual_series.
 
     T-03 engine-integrity additive flags (AUDIT-20260923 P0-2/3/4, P1-1/2/3;
     task T-2026-09-23-03). ALL flags default OFF/absent -> legacy path
@@ -166,6 +189,26 @@ def run_backtest(prices: dict, params: dict,
             "capped_entries": 0, "dropped_zero_adv": 0,
             "missing_adv_executions": 0,
         }
+
+    # T-09 CASH_LEG additive flag: default None keeps the legacy path
+    # byte-identical (engine additive iron rule).
+    if cash_parking is None:
+        park_rate = park_bear = None
+        park_frac = 0.80
+        parking_state = None
+        parked_bal = 0.0          # on-deposit balance held into today
+    else:
+        park_rate = cash_parking["repo_rate"].reindex(dates).ffill()
+        park_bear = (cash_parking["major_bear"]
+                     .reindex(dates).fillna(False).astype(bool))
+        park_frac = float(cash_parking.get("bear_park_frac", 0.80))
+        parking_state = {
+            "parked_days": 0,          # days funds were on deposit (accrued)
+            "bear_days_in_window": 0,
+            "parking_yield_total": 0.0,
+            "parking_accrual_series": [],
+        }
+        parked_bal = 0.0
 
     # precompute signals on close
     def _injected(sig: pd.DataFrame, sym: str) -> pd.Series:
@@ -377,7 +420,33 @@ def run_backtest(prices: dict, params: dict,
                     stale_today = True
                     break
             stale_flags.append(stale_today)
-        equity_curve.append(cash + pos_val)
+        eq_today = cash + pos_val
+        if parked_bal:
+            # T-09 CASH_LEG: on-deposit balance is part of total equity
+            eq_today += parked_bal
+        equity_curve.append(eq_today)
+        if parking_state is not None:
+            # T-09 CASH_LEG parking block (appended after close valuation;
+            # parked funds were excluded from `cash` all day -> they never
+            # funded same-day entries, invariant by construction).
+            rate_t = park_rate.iloc[i]
+            if pd.isna(rate_t):
+                rate_t = 0.0        # no known rate -> no fabricated interest
+            interest = parked_bal * float(rate_t) / 100.0 / 252.0
+            cash += parked_bal + interest          # settle principal + yield
+            parking_state["parking_yield_total"] += interest
+            parking_state["parking_accrual_series"].append(round(interest, 6))
+            if parked_bal > 0.0:
+                parking_state["parked_days"] += 1
+            if interest:
+                equity_curve[-1] = equity_curve[-1] + interest
+            if bool(park_bear.iloc[i]):
+                parking_state["bear_days_in_window"] += 1
+                eq_close = cash + pos_val          # parked_bal already settled
+                parked_bal = min(cash, park_frac * eq_close)
+                cash -= parked_bal
+            else:
+                parked_bal = 0.0                    # non-bear day: full release
 
     equity = pd.Series(equity_curve, index=dates[:len(equity_curve)])
     metrics = summarize(equity, trades)
@@ -407,6 +476,17 @@ def run_backtest(prices: dict, params: dict,
         metrics.update({
             "stale_mark_days": int(sum(1 for f in stale_flags if f)),
             "sharpe_ex_stale": round(sharpe_ex, 4),
+        })
+    if parking_state is not None:
+        # T-09 CASH_LEG: NEW metrics keys only (flag ON); legacy keyset
+        # untouched (G5 keyset discipline).
+        metrics.update({
+            "parked_days": parking_state["parked_days"],
+            "bear_days_in_window": parking_state["bear_days_in_window"],
+            "parking_yield_total": round(
+                parking_state["parking_yield_total"], 6),
+            "parked_balance_end": round(parked_bal, 2),
+            "parking_accrual_series": parking_state["parking_accrual_series"],
         })
     result = {
         "metrics": metrics,

@@ -87,6 +87,23 @@ def major_bear_state(close: pd.Series) -> dict:
             "cash_floor": 0.80 if bear else 0.20}
 
 
+def major_bear_series(close: pd.Series) -> pd.Series:
+    """T-09 CASH_LEG additive series helper: full-history major-bear mask.
+
+    Vectorized per-bar form of major_bear_state's dual condition (same
+    constants MA_WINDOW / DD_LINE; trailing 250d windows only -> causal).
+    Warmup bars (< MA_WINDOW) -> False, mirroring major_bear_state's
+    'insufficient_history is NOT major bear'. Point-in-time functions and
+    report are untouched (additive iron rule); the engine caller reindexes
+    this series onto its own trading calendar.
+    """
+    ma = close.rolling(MA_WINDOW).mean()
+    high = close.rolling(MA_WINDOW).max()
+    dd = close / high - 1.0
+    bear = (close < ma) & (dd <= DD_LINE)
+    return bear.fillna(False).astype(bool)
+
+
 def regime_report() -> dict:
     """Real-data regime report for paper/portfolio wiring."""
     st = major_bear_state(load_benchmark_close())
