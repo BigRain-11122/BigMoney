@@ -487,6 +487,35 @@
     "ticket": "fleet/tasks/T-2026-09-24-18-P1.json"
    },
    "note": "pbo-stage finalize: single SS3 append 6+50+2+40; revalidation evidence only, zero registration consequence"
+  },
+  {
+   "batch": "T11_NEGDAY_IC",
+   "ts": "2026-09-24 22:52:00",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 408,
+   "ledger_total_after": 60482,
+   "gates": {
+    "v1_floor": 0.02,
+    "null_p95_abs_ic_range": [
+     0.0059,
+     0.0073
+    ],
+    "best_abs_is_ic": 0.0155,
+    "best_cell": "negban_W_10",
+    "best_is_ir": -0.88,
+    "pass_cells": 0,
+    "computed_cells": 8,
+    "robustness": "0/8 robust to V1 floor: W cells fail V3 (OOS retention 11-18% << 50%), H cells fail V2 (H_40 fails V1 vs null 0.0062<0.0066)"
+   },
+   "eliminated": 8,
+   "refs": {
+    "results": "results/shortline/t11_negday_ic.json",
+    "prereg": "research/shortline/T11_NEGDAY_MASK.md",
+    "csv": "research/shortline/t11_negday_ic_results.csv",
+    "ticket": "fleet/tasks/T-2026-09-24-11-P1.json"
+   },
+   "note": "T-11 first consumption batch (negban mask IC); mean-drift face closes per prereg SS4; W-scope IS drift real vs null band but OOS collapse; V2 fixed wall 0.30 < null p95 IR 0.46-0.56 at n=58-125 = caliber-design lesson for sparse-event batches (future preregs: null-anchor V2), not applied retroactively (J18)"
   }
  ]
 }

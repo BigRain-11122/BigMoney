@@ -1,11 +1,10 @@
 {
- "round_no": 98,
+ "round_no": 99,
  "did": [
-  "R98 (dept:研究+工程, 红牌处置): watermark red=true 22:20:03 (C7 落地后首个真实红牌期) -> O-1612 真处置=开真实批: T-11 claimed (F-04 MSG-20260924-2232 + ticket flip + commit 30367fb pushed; remote fetch 预检 open 无撞; bm-b r114 解锁门满足 XSTOCK finalize PASS; bm-b claim-eval 队列让路 README s4)",
-  "J13 v2 磨坊工程候选关停 per O-1721 CEO 借力律 (IC1+IC2 novel 0/24 内生枯竭=CEO 引用证据; R66 s9 stop-rule 被 17:21 CEO 律 supersede; llm_assist 工程面 O-2325 不受影响); bandit T-11 候选翻 claimed; 探针后 watermark open_tickets=0/bandit_open=0 -> C7 22:50 tick 红牌自然转绿预期 (未手改 watchdog 件)",
-  "T-11 数据探针(只读): QuantBull/data/negative_events.parquet 4830 行 [date,code,title] 2023-11-03→2026-09-18 与票面一致; 14 关键词表=sentiment.py in-archive (预注册须声明子词表口径 per TRIAGE §三.4); 消费设计=negday N 日禁持遮罩(T+1 可见→信号 T+2, P-1d 先例)+7 日 veto 决策面; 与 B 层静态掩码正交",
-  "P-79 全机桌面分发令: bm-a 面=已验(超体宇宙城.lnk 桌面实证) 零动作回执; S6 全绿 no-op 链(daily 0 行 cutoff 09-24 / regime ORANGE #10 / moneyflow 30min 节流差 1 分钟 no-op 自愈 armed / t35 export 6 员 18 仓 5,996,645 幂等 / token delta=0); MSG-2229 ALL 件处理归 processed; schtasks 3/3"
+  "R99 (dept:研究, T-11 full closure): prereg frozen (commit pre-run) + formal run 48s (equiv 1.11e-16, panel 903x5222, events 4830->3495->3493->placed 2941) + verdict 0/8 FAIL floor-robust (W IS drift real vs null band but OOS retention 11-18% collapsed -> V3; H in noise band) -> mean-drift face CLOSED per prereg SS4; ledger 60074+408=60482; gate_attrition +408; ticket T-2026-09-24-11 done (result_ref set); seq-mishap disclosed: engineering first-run pre-freeze on wrong no-panel premise (bm-a HAS Money02 via bars A-variant sync), artifacts discarded, formal post-freeze run reproduced identical numbers, J18 zero criteria touched",
+  "S6 green no-op chain: daily 0 rows cutoff 09-24 / regime ORANGE #10 / lhb+heat+futures no-op / moneyflow FIRST full-universe refresh spawned detached in-flight (bm-a lane, checkpoint resume ~3.6h) / fp bm-c lane honest no-op / t35 export idempotent (6 traders 18 pos equity 5,996,645) / token delta=0; no new bars -> paper/t24 legs legally skipped; MSG-2232 archived to processed (superseded by ticket done)",
+  "memory: freeze-before-any-gate-test pitfall logged CODELY.md (panel-presence misjudged from truncated dir listing)"
  ],
- "verdict": "RED->disposal-opened (work-cands face cleaned: T-11 claimed, J13 closed, bandit_open=0 open_tickets=0; C7 natural clear expected 22:50)",
- "next": "R99 = T-11 预注册冻结 (research/shortline/T11_NEGDAY_MASK.md: D6 机制段+mask/veto-INPUT 条款逐字+V1/V2/V3+K=50 同掩码 null+seed SEED_REGISTRY 撞号扫描+子词表口径) -> 计算腿入 runnable_pool 分片 autofill C8 续批; moneyflow 阻断解除收割; T-35 IntradayMarks 首火 09-25 09:25; C7 红牌转绿复核"
+ "verdict": "RED-persisted-22:50-tick (insufficient clean-window history; disposal COMPLETE: T-11 real batch ran+closed, bm-a board clear, moneyflow batch in flight; natural clear expected once 15min clean window accrues; watchdog files untouched)",
+ "next": "R100 = C7 red natural-clear verify; moneyflow first-pull harvest monitoring; bm-b heartbeat stale since 21:51 (>20min) - T-18 lane health watch, O-1730 takeover rules if persists (no bm-b ready pool batch to take over); T-35 IntradayMarks first fire 09-25 09:25; T-11 tail-veto face / library 2024-hole backfill = GM decision items (not auto-started)"
 }
