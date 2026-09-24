@@ -342,7 +342,7 @@ def finalize():
     prev = max(int(sg.ledger_head(str(ROOT / "results"))["total"]),
                int(sg.ledger_head(str(OUT_JSON.parent))["total"]))
     ledger = sg.append_ledger(BATCH, trials, str(OUT_JSON.relative_to(ROOT)),
-                               note="J13V2_MILL_IC1: mill candidates (deduped entering E4) "
+                               note=f"{BATCH}: mill candidates (deduped entering E4) "
                                     f"={n_trials_formula} + K=50 nulls; zero engine runs",
                                evidence_cutoff=cutoff, prev_total=prev)
 

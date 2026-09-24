@@ -147,6 +147,34 @@
     "results": "results/shortline/j13v2_mill_ic1.json",
     "prereg": "research/J13_V2_MINILOOP.md"
    }
+  },
+  {
+   "batch": "j13v2_mill_ic2",
+   "ts": "2026-09-24 12:15:14",
+   "kind": "search",
+   "retro_fill": false,
+   "cells_ledger_delta": 61,
+   "ledger_total_after": 5600,
+   "gates": {
+    "n_generated": 32,
+    "n_distinct": 11,
+    "n_entering_e4": 11,
+    "mechanical_valid": 10,
+    "v1_pass": 3,
+    "v2_pass": 0,
+    "v3_pass": 5,
+    "novel_survivors": 0,
+    "dup_survivors": 0,
+    "nullA_is_ic_p95": 0.00752,
+    "nullA_is_ir_p95": 0.04865,
+    "void": false
+   },
+   "eliminated": 11,
+   "elimination_note": "all deduped formulas entering E4 died at judgment: 10/10 valid candidates fail V2 internal single-factor wall (max |IS IR| 0.142 << 0.30); 1 E4 compute failure; D6 never reached (V2 first-kill); IS2 ic positive for 10/10 (2025+ regime drift, stability-window only, never called OOS)",
+   "refs": {
+    "results": "results/shortline/j13v2_mill_ic2.json",
+    "prereg": "research/J13_V2_MINILOOP.md"
+   }
   }
  ]
 }
