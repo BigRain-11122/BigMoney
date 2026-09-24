@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -318,8 +318,14 @@ function drawScene(t) {
 const BUILDS = [
   { id:'lab',  x:16,  y:160, w:70,  h:55,  draw:drawLab,   label:'研究楼',
     dept:'研究部 Research', mandate:'因子/信号挖掘 · IC/回测研究 · idea→候选池',
-    info: () => '<div class="row">复合因子方案</div><div class="row gold">'+D.research.composite_plan+'</div>'
-      + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('') },
+    info: () => { const fl = (D.research && D.research.factor_line) || {};
+      const flRows = fl.present
+        ? '<div class="row">研究线批次 · 因子账本 N='+(fl.total ?? '—')+'</div>'
+          + (fl.batches||[]).map(b => '<div class="row dim">'+b.id+' <span class="gold">'+(b.short||b.text)+'</span></div>').join('')
+        : '<div class="row dim">研究线批次待产出（results/shortline）</div>';
+      return '<div class="row">复合因子方案</div><div class="row gold">'+D.research.composite_plan+'</div>'
+      + flRows
+      + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('') } },
   { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
     dept:'策略部 Strategy Factory', mandate:'策略工厂 · 门禁链 G1\'/G2 · 注册与退役',
     info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
