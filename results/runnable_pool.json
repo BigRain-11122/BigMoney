@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 04:08:26",
+ "updated_at": "2026-09-25 04:12:39",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -214,7 +214,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 04:08:26",
    "data_gates": "in-runner: patch selftest + 48/48 panel at cutoff + NAMED_SIX anchor 6/6 reproduction (prereg s2 hard gates, any FAIL = VOID exit 2); panels local core48 daily CSV (zero Money02 contention)",
    "workers_plan": {
@@ -225,12 +225,14 @@
    "shards": [
     {
      "key": "p4b3-0of1",
-     "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 04:10:01",
      "checkpoint": "results/p4_batch3_cells.jsonl (row-level resume t22 law; finalize single-shot guard OUT_JSON)"
     }
-   ]
+   ],
+   "completed_at": "2026-09-25 04:12:39",
+   "result_ref": "results/shortline_p4_batch3.json (VALID, void=false, 16/16 cells, anchors 6/6, honest 0 G1 candidates, ledger +125=60784; autofill C8 launch 04:10:01 pid 14208 fill_latency 1.6min target_met)"
   }
  ],
  "_stamp_note": "r92 stamp correction per r65 anti-estimation law: prior updated_at 21:26:00 was an estimated future-stamp, re-stamped from Get-Date real read"
