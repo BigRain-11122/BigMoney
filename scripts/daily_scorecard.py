@@ -21,6 +21,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAPER_DIR = os.path.join(ROOT, "results", "paper")
 OUT_HTML = os.path.join(ROOT, "results", "daily_scorecard.html")
 OUT_JSON = os.path.join(ROOT, "results", "daily_scorecard.json")
+POST_REVIEW_LEDGER = os.path.join(ROOT, "results", "post_review.jsonl")
 
 
 def _load_paper():
@@ -55,6 +56,37 @@ def _load_o1600():
         return None
     d = json.load(io.open(p, encoding="utf-8"))
     return d
+
+
+def _load_post_review():
+    """T-37 d5 review column: latest sweep per claim id from the append-only
+    post-review ledger (deterministic re-derivation, zero LLM, O-2115 s5).
+    Filtered to the live criteria-registry id set so superseded rows (e.g.
+    merged ids later split) drop off the CEO face naturally."""
+    if not os.path.exists(POST_REVIEW_LEDGER):
+        return None
+    reg_ids = None
+    reg_p = os.path.join(ROOT, "results", "post_review_criteria.json")
+    if os.path.exists(reg_p):
+        try:
+            reg = json.load(io.open(reg_p, encoding="utf-8"))
+            items = reg.get("items", reg) if isinstance(reg, dict) else reg
+            reg_ids = {it.get("id") for it in items if it.get("id")}
+        except ValueError:
+            reg_ids = None
+    latest = {}
+    with io.open(POST_REVIEW_LEDGER, encoding="utf-8") as fh:
+        for ln in fh:
+            ln = ln.strip()
+            if not ln:
+                continue
+            try:
+                r = json.loads(ln)
+            except ValueError:
+                continue
+            if r.get("id") and (reg_ids is None or r["id"] in reg_ids):
+                latest[r["id"]] = r  # append-only -> last occurrence wins
+    return list(latest.values())
 
 
 def _pct(x):
@@ -131,6 +163,27 @@ def build():
     A("<h2>月度战绩（完整成绩单）</h2>")
     A("<div class='sub'>完整战绩月自 2026-10-01 起算（IV6+REGIME_GUARD enforce 双切换）；"
       "首份完整月度成绩单=2026-10-31 首检；月度四件套自动并入。</div>")
+
+    pr_rows = _load_post_review()
+    A("<h2>宣称→复验（post-review 复审列 · T-37 d5 / O-2115 §五）</h2>")
+    if pr_rows:
+        A("<div class='sub'>复审=确定性重derive（零 LLM·判据事前冻结·执行侧不自证）；"
+          "✗=判据红=下一轮 P0 修复单；🟡=在制/未到期（pending 诚实标注，禁折算成成果）</div>")
+        A("<table><tr><th>宣称</th><th>复验</th><th>宣称内容（一句话）</th>"
+          "<th>证据 derive</th></tr>")
+        for r in sorted(pr_rows, key=lambda x: x.get("ts", "")):
+            v = r.get("verdict")
+            glyph, cls = {"YES": ("✓", "pos"), "NO": ("✗", "neg"),
+                          "WAIT": ("🟡", "dim"), "IDLE": ("⬜", "dim")}.get(
+                v, ("?", "dim"))
+            A(f"<tr><td>{r.get('id')}</td>"
+              f"<td class='{cls}'>{glyph}</td>"
+              f"<td>{(r.get('claim') or '')[:90]}</td>"
+              f"<td class='dim'>{(r.get('evidence') or '—')[:70]}</td></tr>")
+        A("</table>")
+    else:
+        A("<div class='sub'>复审台账未生成（post_review 首扫后本列自动出现）</div>")
+
     A("<div class='warn'><b>诚实边界</b>：残月不计入战绩（全员 months_tracked=0）；"
       "上表窗口成绩=研究计分口径（样本外 2026 窗·成本恒开）；"
       "不承诺未来收益；跑分幅度现阶段为稳健起步（年化 3% 级·回撤 −2.4%），"
@@ -145,6 +198,8 @@ def build():
         "traders": rows,
         "o1600_first_screen": {"passive_ew48_ret_pct": passive_pct,
                                "traders": o1600_rows},
+        "post_review_latest": pr_rows,
+        "post_review_source": "results/post_review.jsonl (append-only, per-id last sweep; T-37 d5)",
         "honesty": "months_tracked=0 partial-month not counted; first full month 2026-10; "
                    "first complete report 2026-10-31",
     }

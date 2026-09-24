@@ -25,6 +25,11 @@
 - 判据必须在**开工前**随令/票/预注册冻结；跑后补判据=无效（审计红线）。
 - 判据三型：`file_exists`（存在性）/ `json_field`（字段值比对，op ∈ {==, >=, <=, contains, in}）/
   `git_log`（提交存在性）/ `rc`（命令退出码，须确定性零网络）。
+- **时效承诺字段化**（v1.0.1 补充卷·2026-09-24 r71 bm-c·源=T-27-VETO-FIELD fail 行）：
+  凡含时效承诺（否决窗/生效门/到期日）的批，产物 JSON 必带机器可验时效字段
+  （`veto_window_until`/`active_from`/`due` 等），判据模板对应 `json_field` 存在性检查；
+  跑后补字段=补充卷模式补注记（带 provenance 键，禁改冻结数字面）——流程真值在而产物字段缺
+  =「动作词冒充成果词」同族缺口。
 
 ## 三、verdict 行 schema（append-only，`results/post_review.jsonl`，单写者锁）
 

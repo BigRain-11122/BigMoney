@@ -48,17 +48,24 @@
    "id": "T33-CORPS-ROSTER",
    "ticket_ref": "T-2026-09-24-33",
    "prereg_ref": "bm-c r68 corps_roster v1 + prereg (frozen); runner/shard 计划由 owner(bm-c) 补齐后翻 ready",
-   "runner": null,
-   "runner_args": [],
+   "runner": "scripts/t33_router_validation.py",
+   "runner_args": [
+    "run"
+   ],
    "lane_owner": "bm-c",
    "priority": 2,
-   "status": "waiting",
+   "status": "done",
    "entered_at": "2026-09-24 20:54:15",
-   "data_gates": "owner 侧冻结后填",
+   "data_gates": "in-runner: v3 counts bit-match {GREEN664/YELLOW772/ORANGE35/RED161} + roster counts + panel cutoff + calendar coverage >=98% (all PASS)",
    "shards": [],
    "note": "O-2100 s4 ③在制票算力腿回填——本行为占位登记非可跑批",
-   "workers_plan": null,
-   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)"
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "d4 = deterministic aggregation + replay (18 member anchor reruns, elapsed ~70s) -- light batch, spec s0 in-round legal"
+   },
+   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)",
+   "note_done": "completed r71 bm-c 2026-09-24 21:49: in-round per spec s0 (light batch <10min); GATES_OK, verdict honest negative (V-R1 attack fail -9.13bp/d / V-R2 RED claim x1-x2 pass x3 marginal fail / V-R3 drag 6.53% > 1.5% line -> tenure-review flag per frozen s4); result=results/t33_router_validation.json; zero wiring zero registration zero ledger-N"
   },
   {
    "id": "T34-PRESIGNAL-HALFSTEP",
