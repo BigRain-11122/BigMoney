@@ -1,0 +1,86 @@
+# MF_COLLECTOR — 个股主力资金流前向采集管道 spec 小件 V1（数据车道）
+
+> 认领：bm-a 数据部（MSG-20260924-0920，F-04 先行；2026-09-24 R63）。
+> 定位：R58 资金流源审计续作（`research/digests/DIGEST-20260924-moneyflow-source-audit.md`）；
+> O-1620 GM 已批「资金流数据源」域（SHORTLINE_PLAYBOOK P-3 lane）；QUEUE_BANDIT explore 臂
+> event-attention 的现成材料（R58 点名 mf_main_net_5/10/20 前向采集器）。
+> 范式：update_daily / update_lhb / update_futures 同族（守卫幂等+原子写+诚实 exit 码+selftest 离线）。
+
+## §1 采集物 V1（个股日频主力资金流滚动史面板）
+
+- **源**：EM `push2his.eastmoney.com` 个股资金流日线（akshare `stock_individual_fund_flow(stock, market)`，
+  R58 探针 A 三股实证从 bm-a 直连可用；120 交易日/股滚动窗硬顶——R58 定案：**lmt=0 请求也被源静默截断，
+  永不信任请求参数，以响应行数为准**）。
+- **滚动窗反推设计（本件核心裁定）**：源=120 交易日/股滚动窗 → **周期性全宇宙重拉即可维持无缝日频面板**
+  （每股每次拉取都带回过去 120td 完整日线），刷新间隔只需 < 120 交易日。
+  - 刷新触发门：面板 cutoff 落后最近完整 bar 日 **20 个交易日**（本地 ETF 交易日历，update_lhb R51 同构；
+    无日历退化=28 自然日近似，如实降级）；首拉/未完成面板恒触发。
+  - 拒绝「每日 5222 请求」设计（EM datacenter 公民义务，R19/P-C 单发纪律）；月度级全宇宙重拉
+    ≈5222 请求 × 2.5s 限速 ≈ 3.6h，**一律后台分离跑**（r52 轮龄律），checkpoint 断点续拉。
+- **宇宙**：`Money02/data/bars/*.parquet` glob = 5222 只（R36 宇宙扫描口径；北交所整库缺席=结构性）。
+  market 推导：代码首 6=sh、其余 0/3=sz；非 0/3/6 前缀诚实跳过计数（`skipped_unmapped`）。
+  bars 宇宙为静态快照 → 后续 IPO 不入面板（如实局限，与 P-1c 缓存同口径）。
+- **字段**（冻结 schema，CSV utf-8 无 BOM，中文列名原样）：`date` + 12 值列
+  `收盘价/涨跌幅/主力净流入-净额/主力净流入-净占比/超大单净流入-净额/超大单净流入-净占比/大单净流入-净额/大单净流入-净占比/中单净流入-净额/中单净流入-净占比/小单净流入-净额/小单净流入-净占比`；
+  硬契约=`主力净流入-净额` 必在（缺→该股校验失败诚实计入，不落盘）；价格列只做溯源存储
+  （复权口径不保证），**禁当行情数据消费**（行情唯一源=Money02 bars）。
+
+## §2 守卫（S6 链 10 分钟轮询安全）
+
+1. **完整性守卫**：15:30 前**丢弃当日行**（源盘中有实时半根行=盘中资金流在变动；update_futures
+   completeness_filter 同构）；周末/节假日自然由滚动窗覆盖。
+2. **新鲜度门（gate 子命令=S6 步）**：面板 `complete=true` 且 cutoff 未落后 20td → **零网络 no-op**
+   （仅刷状态件 ts/last_attempt 保 panel reader 新鲜）；否则（首拉/未完成/过期）→ 检查刷新锁：
+   锁活=「刷新在途」no-op；锁死=**分离启动后台刷新**（DETACHED+无窗口，日志 `logs/moneyflow_refresh.log`）。
+   **30min 最小重试间隔**：`last_attempt` 先写镜像后动作（r18 坑律：中途崩也节流，防 spawn 风暴）。
+3. **限速与保险丝**：2.5s/请求全局限速（EM push2 公民义务）；**双级熔断**（实现期精化，首弹实弹抓获）：
+   - **连接级 3 连失败 → 判源阻断即停**（RemoteDisconnected/Timeout 族=IP 级阻断签名，r40/r46 同族；
+     **不记 per-symbol attempts**——持续阻断下 gate 30min 重启×3 轮会把全宇宙错误 quarantine 成永久跳过
+     =quarantine 风暴设计缺陷，实弹首跑当场暴露当场修）；每 30min 重试窗仅烧 3 请求，阻断解除自愈续拉；
+   - **任意 5 连失败 → 保险丝熔断**（checkpoint 保留，exit 2，`complete=false`）；
+   - **累计 3 轮失败 → 单股 quarantine**（只适用于股票级失败如校验失败/端点缺列；连接级失败永不累积）；
+   - 下轮 gate 过 30min 节流窗自愈续拉。**实弹现状（交付时）**：bm-a push2his 首拉 3/3 连接级失败
+     =源阻断中（R58 昨晨同端点可用=阻断按日波动），面板 parked 待 gate 自愈，诚实非缺陷。
+4. **直连铁律**：proxy env 清空（Clash 劫持 EM 域，J13/r39/R34 坑律）；判定探针生死看 stdout 产物
+   不看 tqdm/exit（r39）。
+5. **诚实失败**：校验失败/源失败 → 不落盘该股、原样计数上报，绝不落假数据。
+6. **断点续拉**：`data/moneyflow/_progress.json`（已抓集合）；每股原子写后即更 checkpoint
+   （崩了最多重抓一股）；全宇宙跑尽 → `complete=true` 写面板汇总。
+
+## §3 数据语义（消费方必读，写死于交付时）
+
+- **只追加不重写**：overlap 行比对**主字段 `主力净流入-净额`（元，tol 1.0=分位稳定）**；
+  mismatch（源改史）→ 该股本地不动、计 `overlap_mismatch`、整轮 exit 3（锚定门禁诚实律；
+  消费批暴露漂移）。价格列不参与 overlap 比对（源可能改复权）。
+- **滚动窗=可回填**：未建面板的日期只要还在源 120td 窗内即可补——**但窗口每天左移一格**，
+  超过 120td 的历史只能靠本地面板保存（面板即档案）。
+- **行数上限 130/股**（120+源侧松量）；日期严格单调无重复；行数/日期域/主字段非全 NaN 校验门。
+- **信号滞后对齐例**：EM 资金流日线为盘后终值（当日行 T 收盘后才完整）→ 因子位用 **T+1**
+  （P-A LHB 滞后 1 交易日同构；15:30 守卫已保证盘中半行不入面板）。
+
+## §4 因子转化（另开工，认领制 MSG 先行，不在本件范围）
+
+| 腿 | 内容 | 状态 |
+|---|---|---|
+| V1 采集器+面板 | scripts/update_moneyflow.py + data/moneyflow/per/（gate/refresh/status/selftest） | **本件交付** |
+| MF-IC 参照批 | mf_main_net_5/10/20（R58 点名）+超大单/占比族；**须另开预注册**（PREREG_TEMPLATE：α 机制段+股票池 P-1c harness 主口径 h10+null 校正线+120d 源窗披露条款=禁与全史批同口径比较+SEED_REGISTRY 查占用）；素材=滚动窗首拉即得 ~120td 面板 | 未启动 |
+| 合成入料 | 过门幸存者进 XSTOCK 型跨库合成货架（须全新预注册） | 未启动 |
+
+## §4.1 面板局限条款（消费方必读）
+
+- 宇宙=bars 静态快照 5222 只（后续 IPO 缺席）；停牌/退市股源停止出新行（面板保留其窗内史）；
+- 首拉面板起点=源窗左沿（2026-04-02 级），**2026-04 前历史结构性不存在**（R58 北向/120d 窗定案）；
+- 面板新鲜度=月度级（20td 门），**非日更**——日频「当日新行」只随每次全量重拉落地；
+  实时性敏感消费场景须另立日更子集方案（如 LHB 事件股跟随，另开工）。
+
+## §5 S6 链接线与运维口径
+
+- 链位：`update_futures` 之后（`python scripts\update_moneyflow.py` 无参=gate；
+  刷新动作在分离进程内跑，不占轮预算——轮内只做门判定+spawn，秒级）。
+- exit 契约：gate 0=正常/no-op/已 spawn/在途；2=机制故障。refresh（分离进程）：0=全宇宙完成
+  （complete=true）；2=保险丝/失败熔断（checkpoint 保留）；3=完成但有 overlap_mismatch（面板已更）。
+- 状态件：`results/moneyflow_update_status.json`（ts/last_attempt/mode/no_op_reason/panel
+  {cutoff, complete, n_symbols, n_rows, universe_n}/last_refresh{failures, mismatches, appended}）；
+  data/ 面板 gitignored（可再生）。
+- 判链活性：看状态件 ts + `logs/moneyflow_refresh.log` 尾部 + `data/moneyflow/_progress.json` 计数
+  （勿信 done 旗读磁盘——margin 假绿坑律 r47）。
