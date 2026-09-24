@@ -400,10 +400,21 @@ def run_update(now: dt.datetime | None = None, fetcher=None,
 
 
 def paper_hook() -> int:
-    """Post-download hook: accrue paper evidence (anchor gate inside)."""
+    """Post-download hook: accrue paper evidence (anchor gate inside).
+
+    T-21 request channel on the auto path (R94 bm-a integrity fix): the
+    hook carries the same BIGMONEY_REGIME_GUARD='enforce' request the OS
+    loop's manual paper step makes (R99 bm-b wiring, "三机同请求") -- without
+    it, a 2026-10-01 new-bar auto-run would silently miss the env leg of
+    the three-gate activation (approval file + date gate + env request).
+    setdefault: an explicit caller-set value always wins; pre-10-01 the
+    date gate downgrades honestly either way (zero behavior change).
+    """
     root = PATHS.root
     print(f"[hook] new bars landed -> python -m live.paper")
-    r = subprocess.run([sys.executable, "-m", "live.paper"], cwd=root)
+    env = dict(os.environ)
+    env.setdefault("BIGMONEY_REGIME_GUARD", "enforce")
+    r = subprocess.run([sys.executable, "-m", "live.paper"], cwd=root, env=env)
     return r.returncode
 
 
