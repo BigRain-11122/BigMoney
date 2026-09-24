@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-24 23:11:47",
+ "generated": "2026-09-24 23:14:26",
  "order": "O-20260923-2325",
  "method": {
   "bpe_proxy": 3.5,
@@ -7,21 +7,21 @@
  },
  "per_round_context": {
   "mandate_read_tokens_est": 4972,
-  "codely_read_tokens_est": 6736,
+  "codely_read_tokens_est": 6869,
   "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
  },
  "machines": {
+  "-bm-a": {
+   "state_bytes": 0,
+   "state_tokens_est": 0,
+   "report_bytes": 184704,
+   "report_tokens_est": 52772
+  },
   "-bm-c": {
    "state_bytes": 0,
    "state_tokens_est": 0,
    "report_bytes": 132725,
    "report_tokens_est": 37921
-  },
-  "default": {
-   "state_bytes": 4440,
-   "state_tokens_est": 1268,
-   "report_bytes": 201285,
-   "report_tokens_est": 57510
   },
   "bm-a": {
    "state_bytes": 3646,
@@ -29,25 +29,25 @@
    "report_bytes": 0,
    "report_tokens_est": 0
   },
-  "-bm-a": {
-   "state_bytes": 0,
-   "state_tokens_est": 0,
-   "report_bytes": 182330,
-   "report_tokens_est": 52094
-  },
   "bm-c": {
    "state_bytes": 1768,
    "state_tokens_est": 505,
    "report_bytes": 0,
    "report_tokens_est": 0
+  },
+  "default": {
+   "state_bytes": 4440,
+   "state_tokens_est": 1268,
+   "report_bytes": 201285,
+   "report_tokens_est": 57510
   }
  },
  "total_state_tokens_est": 2814,
- "total_report_tokens_est": 147461,
+ "total_report_tokens_est": 148203,
  "delta_vs_prev": {
-  "prev_generated": "2026-09-24 22:51:03",
-  "state_tokens_growth": 551,
-  "report_tokens_growth": 3213,
+  "prev_generated": "2026-09-24 23:02:39",
+  "state_tokens_growth": 0,
+  "report_tokens_growth": 678,
   "mandate_growth": 0
  }
 }

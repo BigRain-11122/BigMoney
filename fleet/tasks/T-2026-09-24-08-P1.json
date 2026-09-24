@@ -1,12 +1,13 @@
-{
-  "id": "T-2026-09-24-08",
-  "priority": "P1",
-  "type": "data-redundancy-leg",
-  "spec": "GM order O-20260924-1045 (P1 queue starvation fix) + OPERATING_PLAN Phase 0 row '日线源双腿' + bandit_queue engineering candidate 'daily dual-leg ticket (tencent validation leg)' + groundwork results/daily_source_probe.json. Deliverables: (1) validation leg for daily bars (tencent/eastmoney per probe findings) with SAME adjusted-price discipline as sina primary; overlap-compare only, NEVER rewrite history, mismatch flagged not auto-applied (update_daily overlap_mismatch precedent). (2) Fallback wiring in update_daily chain: primary failure (exit 2 / stale cutoff) -> automatic fallback to validation source; status file records source_used + fallback events (NEW fields only). (3) Acceptance: one simulated-primary-failure fallback实证 + overlap window zero divergence (or honest mismatch flags) + smoke green + panel row. ZERO-TOUCH: sina primary default path (additive only), iron_rules, in-flight lanes (J13 mill / XSTOCK / moneyflow / margin).",
-  "status": "claimed",
-  "created_by": "GM (quant 专管会话) via O-20260924-1045",
-  "created_at": "2026-09-24 10:50",
-  "note": "Claim-first (F-04). Owner dept = 数据部 双源与核名团队. Background: sina 延迟 11+ 实证 + 09-23 全日源端延迟 = Phase 0 唯一未闭环数据项. Workers policy per BACKTEST_PLAN s6 if batched.",
-  "claimed_by": "bm-a (OS iteration loop, round 68)",
-  "claimed_at": "2026-09-24 11:52"
+﻿{
+ "id": "T-2026-09-24-08",
+ "priority": "P1",
+ "type": "data-redundancy-leg",
+ "spec": "GM order O-20260924-1045 (P1 queue starvation fix) + OPERATING_PLAN Phase 0 row '日线源双腿' + bandit_queue engineering candidate 'daily dual-leg ticket (tencent validation leg)' + groundwork results/daily_source_probe.json. Deliverables: (1) validation leg for daily bars (tencent/eastmoney per probe findings) with SAME adjusted-price discipline as sina primary; overlap-compare only, NEVER rewrite history, mismatch flagged not auto-applied (update_daily overlap_mismatch precedent). (2) Fallback wiring in update_daily chain: primary failure (exit 2 / stale cutoff) -> automatic fallback to validation source; status file records source_used + fallback events (NEW fields only). (3) Acceptance: one simulated-primary-failure fallback实证 + overlap window zero divergence (or honest mismatch flags) + smoke green + panel row. ZERO-TOUCH: sina primary default path (additive only), iron_rules, in-flight lanes (J13 mill / XSTOCK / moneyflow / margin).",
+ "status": "done",
+ "created_by": "GM (quant 专管会话) via O-20260924-1045",
+ "created_at": "2026-09-24 10:50",
+ "note": "Claim-first (F-04). Owner dept = 数据部 双源与核名团队. Background: sina 延迟 11+ 实证 + 09-23 全日源端延迟 = Phase 0 唯一未闭环数据项. Workers policy per BACKTEST_PLAN s6 if batched. | R101 bm-a closure: deliverables verified in-place -- (1) validation leg scripts/daily_validate.py committed 0181aa1f (R80, MSG-1615 fleet-unblock settled) + bm-c r58 never-break import guard (a50050ed, cross-machine verified); (2) fallback wiring _validation_fallback additive NEW fields only, sina default path byte-identical; (3) acceptance triad complete: sim run 12:00:39 + overlap zero divergence 48/48 + smoke 23/23 + dashboard update health row (panel) present/ok. tencent NEVER a bar-write source (no amount column, R34 probe) -- diagnosis-only by design; primary default path ZERO-TOUCH preserved.",
+ "claimed_by": "bm-a (OS iteration loop, round 68)",
+ "claimed_at": "2026-09-24 11:52",
+ "result_ref": "results/update_status_sim.json (acceptance: 48/48 simulated primary outage -> honest failures, source_used=\"sina(failed)->tencent(validation-only)\", per-symbol fallback_events diagnosis, exit_code 2 propagated, zero data writes, production status untouched) + results/daily_validate_status.json (48/48 level parity, overlap_mismatches=[], zero divergence) + production face results/update_status.json (source_used/fallback_events/parity_audit live, zero-row ambiguity probe \"upstream_equal\" @ 2026-09-24 23:01) + smoke source-parity PASS"
 }

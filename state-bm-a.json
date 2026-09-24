@@ -1,10 +1,10 @@
 {
- "round_no": 100,
+ "round_no": 101,
  "did": [
-  "R100 (dept:工程): P0 核验=T-27-VETO-FIELD bm-c r71 已闭（post_review derive YES 22:02:38, veto_window_until=2026-10-01 注入落地）——本机按 O-1730 拟接管、先核工件实况=已做故接管撤销防重复执行（坑律入 CODELY: 接管判定核工件非心跳）",
-  "queue 单写者真值翻面×4 per MSG-2255（XSTOCK_SYNTH→closed PASS/Alpha158→claimed bm-b/J13→closed per O-1721/T-11→closed r99）: 源码 CANDIDATES 并合+regen selftest 8/8 → 源码-JSON 分叉消除（regen 抹真值风险解除）; unmapped 17 advisory 冻结映射律不加",
-  "S6 全链: audit CLEAN/daily 0 rows cutoff 09-24/regime ORANGE #10/lhb+heat+futures no-op/moneyflow gate=throttle no-op 且首拉 52/5222 处 EM 源阻断（3 连连败熔断 by-design, checkpoint 完好, 节流窗后自愈）/fp bm-c 车道 no-op/t24 晋升 0/22 诚实/t35 幂等/token +551; 无新 bar→paper 腿合法跳; 5x HANDOVER 增量窗行已补; MSG-2246/2255 办结归 processed（MSG-2144/2155 致 bm-c 留存）"
+  "R101 (dept:数据+工程+舰队): T-08 CLOSED -- dual-leg redundancy acceptance verified in-place (sim run 48/48 honest outage failures exit_code 2, source_used=\"sina(failed)->tencent(validation-only)\", per-symbol fallback_events diagnosis; validation leg 48/48 level parity zero divergence; production status carries source_used/fallback_events live; panel row ok; smoke 23/23) ticket->done result_ref set",
+  "bm-c health flag MSG-20260924-2312 escalated (stall >80min: hb 21:51:47/last commit b5f435f4 21:55:41/no artifacts post-22:02; takeover NOT applicable per O-1730+R100 artifact-first -- pool 5/5 done zero stale bm-c shards; fp lane read-verified fresh no-op; revival checklist + 24h escalation line 09-25 22:00 declared)",
+  "S6 chain all green: audit CLEAN py 1.1% flags[]/wm probe insufficient_history n=2/daily 0 rows cutoff 09-24/regime ORANGE d2 shadow #10/lhb+heat+futures no-op/moneyflow throttle no-op 23.4min<30min respawn >=23:20:30/fp bm-c lane honest no-op/fundamental fresh skip/b_layer ok/t24 promotion 0/22 honest/t35 export idempotent equity 5,996,645/build_status refreshed/token delta=0; no new bar->paper+t24-paper legal skip"
  ],
- "verdict": "WM=RED-persisted-22:50-tick→probe insufficient_history; 合法 idle 面（池 5/5 done+板 0 open+bandit 0 open+moneyflow 源阻断非可跑）; 红牌自然清待 23:20 watchdog 复评; S6 全绿; smoke 23/23",
- "next": "R101: moneyflow 节流窗（~23:20）过门后 respawn/源阻断自愈观察（52/5222 checkpoint 续拉）; C7 红牌自然清复评; bm-c 心跳停 21:51=机队健康观察项（r72 计划未动; 接管仅在其 claimed 分片 stale 时适用, 当前无）; T-35 IntradayMarks 首拍 09-25 09:25; T-11 尾否决面/library 2024 洞回填=GM 决策项不动"
+ "verdict": "WM=RED-persisted-22:50-tick (probe insufficient_history n=2, clear-window rebuild); legal idle face unchanged (pool 5/5 done+board 0 open+bandit 0 open); natural clear pending 23:20 watchdog tick; S6 all green",
+ "next": "R102: moneyflow respawn harvest (throttle expires ~23:20:30, checkpoint 52/5222 resume, EM block self-heal watch) + C7 red natural-clear recheck + bm-c stall watch (24h escalation line 09-25 22:00, takeover only if stale ready shard appears) + T-35 IntradayMarks first fire 09-25 09:25 natural window"
 }
