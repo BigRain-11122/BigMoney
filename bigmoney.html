@@ -64,6 +64,8 @@
 
   .ev { font-size: 11px; padding: 3px 0; border-bottom: 1px dashed #1d222c; }
   .ev .t { color: #7a8494; }
+  .rg-GREEN { color: #5fd38a; } .rg-YELLOW { color: #e8c15a; }
+  .rg-ORANGE { color: #e8a34a; } .rg-RED { color: #e05a5a; }
 
   footer { text-align: center; color: #7a8494; font-size: 10px; margin-top: 8px; }
   button { background: #1d222c; color: #e8c15a; border: 1px solid #2a3140;
@@ -160,10 +162,14 @@ function render(D) {
   const upd = (D.data && D.data.update) || {};
   const updCls = upd.status === 'bad' ? 'bad'
                : (upd.status === 'warn' || !upd.present) ? 'warn' : '';
+  const rg = (D.data && D.data.regime) || {};
+  const rgDot = !rg.present ? '' : rg.state === 'RED' ? 'bad'
+              : (rg.state === 'ORANGE' || rg.state === 'YELLOW') ? 'warn' : '';
+  const rgTxt = rg.present ? `防线 ${rg.state} · 0 违规` : '铁律就位 · 0 违规';
   const depts = [
     ['研究部', '', `因子IC研究完成 · 复合因子立项`],
     ['策略部', bt.n_traders > 0 ? '' : 'bad', bt.n_traders > 0 ? `门禁链出首员 · 试验N=${bt.trials_total}` : `432组内置信号全灭 · 策略换血中`],
-    ['风控部', '', '铁律就位 · 0 违规'],
+    ['风控部', rgDot, rgTxt],
     ['数据部', updCls, upd.text || '更新链待产出'],
     ['工程部', sm.fail === 0 ? '' : 'bad', `自检 ${sm.pass} 项 PASS`],
     ['交易部', nTraders ? '' : 'warn', nTraders
@@ -192,7 +198,11 @@ function render(D) {
   $('ach').innerHTML = g.achievements.map(a =>
     `<div class="it ${a.unlocked?'':'locked'}"><img src="${SPRITE[a.icon]}"><span>${a.name}</span></div>`).join('');
 
-  $('risk').innerHTML = D.risk.map(r => `<div class="ev">⚑ ${r}</div>`).join('');
+  const rgTrig = (rg.triggers || []).join('；');
+  $('risk').innerHTML = (rg.present
+    ? `<div class="ev">⚑ 行情防线 <b class="rg-${rg.state}">${rg.state}</b> · ${rg.mode} · 在态 ${rg.days_in_state} 日` +
+      (rgTrig ? `<div style="font-size:10px;color:#7a8494;padding-left:14px">触发：${rgTrig}</div>` : '') + '</div>'
+    : '') + D.risk.map(r => `<div class="ev">⚑ ${r}</div>`).join('');
   const gr = D.group, gs = (gr && gr.siblings) ? gr.siblings : [];
   $('group').innerHTML = gs.length
     ? gs.map(s => `<div class="dept ${s.alive ? '' : 'bad'}"><span class="dot"></span>` +
