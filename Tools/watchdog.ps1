@@ -364,6 +364,29 @@ try {
 
     # ---- C7: watermark closed-loop (O-20260924-1626 R1/R2/R3) ----
     Invoke-C7 -ProjectDir $Project -LogsDirIn $LogsDir -AgeMin $ZombieAgeMin -CpuDeltaSec $ZombieCpuDeltaSec -MinSamples $MinRedSamples
+
+    # ---- C9: post-review daily sweep (O-20260924-2115, T-2026-09-24-37) ----
+    # once per ~day: deterministic zero-LLM re-derivation of closed-item claims
+    # into results\post_review.jsonl; any FAIL row = next-round P0 per canon s5.
+    $prPy = Join-Path $Project 'Tools\post_review.py'
+    if (Test-Path $prPy) {
+        $lastSweep = Get-Date '2000-01-01'
+        $prJsonl = Join-Path $Project 'results\post_review.jsonl'
+        if (Test-Path $prJsonl) {
+            $lastLine = Get-Content $prJsonl -Tail 1 -ErrorAction SilentlyContinue
+            if ($lastLine) {
+                try { $lastSweep = [datetime]((($lastLine | ConvertFrom-Json).ts)) } catch { $lastSweep = Get-Date '2000-01-01' }
+            }
+        }
+        if (((Get-Date) - $lastSweep).TotalHours -ge 20) {
+            python $prPy run 2>$null | Out-Null
+            Log ('C9 post-review sweep exit={0}' -f $LASTEXITCODE)
+        } else {
+            Log 'C9 post-review: swept within 20h -> skip'
+        }
+    } else {
+        Log 'C9 post_review.py missing -> skip'
+    }
 } catch {
     Log ('EXCEPTION: ' + $_.Exception.Message)
 } finally {
