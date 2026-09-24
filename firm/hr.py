@@ -15,6 +15,9 @@ G25_DIR = ROOT / "results" / "g25"
 # promotion thresholds
 # INTERN->TRAINEE requires paper tracking: backtest evidence alone must never
 # promote (PLAN.md 0.6 no-live-before-paper; prevents wall-of-fame fake promotes)
+# win_rate_min: advisory-only, NOT enforced (3 monthly points = noise-dominated;
+# see firm/review/promotion.md v2). dd caps enforced via abs() -- dd is stored
+# negative-signed (O-20260924-1727 F-1 fix: plain <= made the cap vacuous).
 THRESHOLDS = {
     "INTERN_TO_TRAINEE": {"os_sharpe_min": 0.8, "trades_min": 30, "max_dd_max": 0.25,
                           "paper_months_min": 1},
@@ -101,7 +104,7 @@ def _evaluate_level(t: dict) -> str:
         if (t["paper"]["months_tracked"] >= th["paper_months_min"]
                 and os_["sharpe"] >= th["os_sharpe_min"]
                 and os_["trades"] >= th["trades_min"]
-                and os_["max_dd"] <= th["max_dd_max"]):
+                and abs(os_["max_dd"]) <= th["max_dd_max"]):
             return "PROMOTE"
         # fail after 3 months
         return "HOLD"
@@ -111,7 +114,7 @@ def _evaluate_level(t: dict) -> str:
         p = t["paper"]
         th = THRESHOLDS["TRAINEE_TO_TRADER"]
         if (p["months_tracked"] >= th["months_min"]
-                and p["current_dd"] <= th["max_dd_max"]):
+                and abs(p["current_dd"]) <= th["max_dd_max"]):
             return "PROMOTE"
         if p["current_dd"] <= -0.20:
             return "FIRE"
