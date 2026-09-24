@@ -36,6 +36,9 @@ data/ext_slots/
 # MF money-flow forward-collect panel (R63): rolling-120d source window keeps it
 # regenerable while inside the window; status via results/moneyflow_update_status.json only
 data/moneyflow/
+# O-1136 watermark probe series: machine-local utilization append-log (3 machines
+# x 10min cadence = append-conflict hostile if tracked; round reports cite numbers)
+results/watermark.jsonl
 __pycache__/
 *.pyc
 .venv/
