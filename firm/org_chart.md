@@ -105,7 +105,7 @@ CEO Jason（唯一决策面：方向变更/P1署名/红线裁决/资源调配）
 | 工程部 | OS 循环、自动化开发、质量闸门、基础设施 | `Tools/` · `smoke_test` · `tasks/` | 轮健康度 · 修红时延 · 交付吞吐 | 10min 自迭代循环（`firm/DEV_AUTOMATION.md`） | 修红第一优先 |
 | 舰队部 | bm-a/bm-b/bm-c 三机协同（bm-c=显示/工程维护车道·O-0100 单项目纪律；bm-a/bm-b=研究/数据认领制）、传输、心跳、备份、周期任务轮值（O-20260924-1045：5x/月度件=bm-a 3 倍数/bm-b 5 倍数/bm-c 10 倍数轮） | `fleet/` | SLA 达标（10min 单跳/20min 心跳） | FLEET-OPS 协议 | 通道故障呈裁 |
 | 组合与资金部（O-2311） | 组合构建（EW 基线→IV 风险预算）、相关性监控、R-配3 大熊市帽应用层、现金腿（逆回购停泊）、hr.py 资金阶梯执行面 | `firm/portfolio.md`（章程）· `results/portfolio_*` · 预注册 `research/shortline/` | EW6 Sharpe/回撤/两两相关矩阵/R-配3 状态（OPERATING_PLAN §五 组合行归口） | EW6 批（T-2026-09-23-06）+相关性面板+月度简报组合节 | 组合层熔断 T1；实盘资金承诺=CEO 唯一门 |
-| 总经办（O-2311 转正） | 经营分析与月报（P-6 记分卡运营+月度经营简报=对 CEO 唯一汇报出口）、PK 赛制运营（晋升/淘汰/条款短板呈报）、J13 L2 本地助理（O-2325 承接） | `firm/STRATEGY_EVALUATION.md`（P-6 框架）· `results/scorecard_*` · `firm/LOCAL_FIRST.md`（J13） | 月报按期交付 · 记分卡运营 · PK 裁决落台账 | hr.py 月度裁决+月报自动生成（O-2205 项9）+J13 L2 路由 | 汇报口径变更 T1 |
+| 总经办（O-2311 转正） | 经营分析与月报（P-6 记分卡运营+月度经营简报=对 CEO 唯一汇报出口）、PK 赛制运营（晋升/淘汰/条款短板呈报）、J13 L2 本地助理（O-2325 承接）、**月度自审包聚合**（`firm/SELF_REVIEW.md`·O-20260924-1110） | `firm/STRATEGY_EVALUATION.md`（P-6 框架）· `results/scorecard_*` · `firm/LOCAL_FIRST.md`（J13）· `results/self_review/` | 月报按期交付 · 记分卡运营 · PK 裁决落台账 · 自审包按期 | hr.py 月度裁决+月报自动生成（O-2205 项9）+J13 L2 路由+self_review.py 月度聚合 | 汇报口径变更 T1 |
 
 ## AI 赋能原则
 
