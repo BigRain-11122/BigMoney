@@ -1,9 +1,9 @@
 {
- "round_no": 104,
+ "round_no": 105,
  "did": [
-  "R104 (dept:工程+总经办): P-32 D-20260924-10 BigMoney leg EXECUTED=T-38 ticket opened (fulfillment-engine interface draft P1 pre-item, GM sign via D-10, anti-dup scan zero hits); D-07 verified closed-in-place R97 (spec clause+probe+downgrade reg), zero rebuild; S6 chain all green/no-op (daily cutoff 09-24, regime ORANGE d2, moneyflow refresh in-flight, b_layer regen); post_review zero open fail rows (T-27 latest derive YES 23:41); smoke 23/23; inbox 3 MSG all non-bm-a addressee (bm-c harvest pending its revival)"
+  "R105 (dept:工程+交易): T-38 撞车让路终局 (bm-b r122 %ci 23:59:19 先到+origin 在册 vs 本机 00:02:53 未推送, R81 正典): 本机 v0.1 弃置不并存, 正典零触碰, 独有评审输入保全=research/fulfillment/INTERFACE_DRAFT_supplement-bm-a.md (负清单词形+时态纪律/subject git 锚/评审待决三条), MSG-20260925-0006 递 bm-b; 推送冲突 11 文件分级解 (7 镜取新鲜侧+audit/token union 132/两面), rebase 干净零标记; 5x HANDOVER 三处改写 (T-38=bm-b r122 done 正典, 统一链 head 60,074→60,547 三批入链=+98 T-18pbo/+310 T-11/+65 A158 r121 判负收线, 截至 R105/122/71); S6 全绿 (moneyflow 00:00 自愈窗 spawn, EM 阻断=D-07 裁量面); smoke 23/23 双跑; 轮内时间戳估算自违已勘误 (r62 律)"
  ],
- "verdict": "WM=GREEN (watermark_red red=false lane=healthy; legal idle face = board 0 open + pool no-ready + bandit 0 + moneyflow=network-IO batch not CPU candidate; audit cap_violation=user-side load attribution, our lane clean)",
- "next": "R104: moneyflow self-heal window recheck (00:00 autofill tick crosses 23:51:24 throttle gate; EM block persists = GM data-source discretion per D-07 track, no idle retries) + T-35 IntradayMarks first fire 09-25 09:25 natural window + bm-c 24h escalation line 09-25 22:00 (takeover only if stale ready shard appears)",
- "ts": "2026-09-24T23:54:00+08:00"
+ "verdict": "WM=GREEN (red=false lane healthy; legal idle face = board T-38 closed by bm-b canonical + bandit 0 + moneyflow=network-IO batch not CPU candidate; audit CLEAN)",
+ "next": "R105: bm-c 24h escalation line 09-25 22:00 (takeover only if stale ready shard appears) + T-35 IntradayMarks first fire 09-25 09:25 natural window + moneyflow EM block monitor (30min self-heal cycles, zero idle retries per D-07); fulfillment 车道归 bm-b, 本机不再入",
+ "ts": "2026-09-25T00:06:30+08:00"
 }
