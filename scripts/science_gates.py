@@ -519,6 +519,9 @@ SEED_REGISTRY = {
     "xstock_synth_null_b": 52_000,        # XSTOCK_SYNTH population-band nullB K=4 draws
     # (51_000+i / 52_000+i, i=0..999; registry+rg scanned free 2026-09-24 09:05
     # before prereg freeze; 51_100 rejected: collides with 51_000+i at i=100)
+    "j13v2_mill_ic1": 53_000,             # J13V2_MILL_IC1 K=50 white-noise nulls
+    # (53_000+i, i<50; per-run ladder 53_000+100*(run-1) per research/J13_V2_MINILOOP.md
+    # SS9; registry+rg scanned free 2026-09-24 10:05 before prereg freeze)
 }
 
 
