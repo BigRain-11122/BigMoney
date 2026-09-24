@@ -1,0 +1,11 @@
+{
+ "id": "T-2026-09-24-35",
+ "priority": "P1",
+ "type": "million-paper-capital-trading-hours",
+ "immediate": true,
+ "spec": "CEO order O-20260924-2045 (million paper capital per trader + real-trading-hours execution/marking + daily positions/operations export + city feed). Deliverables: (1) Capital migration: locate initial_cash source (registration/config in live/paper.py lineage), set each REGISTERED trader (6 INTERN) = 1,000,000 CNY paper capital, hard assertion 6x1,000,000; migration disclosure (paper plane is 1 bar old, zero open positions = clean migration window, record honestly); PROSPECT members stay allocation-0 observation (promotion = automatic 1M); per-trader CNY-denominated P&L faces everywhere. (2) Trading-hours passes: 09:30 open-fill pass (T+1 open fills at real opening prices, real execution timestamps logged, trading-calendar gated), intraday marking 09:30-15:00 via live ETF spot quote lane (akshare family, existing data-lane discipline: source-audit + checkpoint + no-pop silent law), 15:00 close settle + daily ledger. (3) Daily export feed for city consumption: results/paper_export/ (positions + operations + capital, full data layer; city display neutralizes per its own sensitivity law -- not this batch's concern). (4) T-29 coordination: scorecard consumes capital + positions + operations + BIG-FONT face per O-2045 s3 (T-29 claimed by bm-c r61, coordinate not collide). Engine contract UNCHANGED: daily-bar signals, T close -> T+1 open, zero future data. Verification: capital assertion pass, execution-timestamp evidence, intraday-marking selftest, causality selftest, smoke 23/23.",
+ "status": "open",
+ "created_by": "GM (quant 专管会话) via O-20260924-2045",
+ "created_at": "2026-09-24 20:45",
+ "note": "Owner dept = 交易部+工程部(数据车道). Lane affinity: bm-a (paper.py/live lane owner) or bm-c (T-29 scorecard in-flight = consumption face). Honest boundary: paper capital only -- real-money gate stays T0 CEO-only. 'Real trading time' = execution/marking/display timing realism, NOT intraday strategy changes (daily-bar contract frozen per O-2045 s2.4). Coordinate with T-29 (bm-c r61) -- its spec is amended by O-2045 s3, big-font + capital + positions/ops."
+}
