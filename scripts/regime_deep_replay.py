@@ -52,6 +52,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 INDEX_PARQUET = os.path.join(ROOT, "Money02", "data", "index", "hs300.parquet")
 BARS_DIR = os.path.join(ROOT, "Money02", "data", "bars")
 OUT_JSON = os.path.join(PATHS.results_dir, "regime_deep_replay.json")
+OUT_JSON_V2 = os.path.join(PATHS.results_dir, "regime_deep_replay_v2.json")
 OUT_CSV = os.path.join(PATHS.results_dir, "regime_deep_replay_episodes.csv")
 RECORDED = {
     "v1": os.path.join(PATHS.results_dir, "regime_calibration.json"),
@@ -63,7 +64,10 @@ OVERLAP_END = "2026-09-22"       # index-face last bar == evidence_cutoff
 SUB_START, SUB_END = "2020-01-02", "2026-09-22"
 DD_RO_BOUND = 0.06              # |R+O share delta| <= 6pp (prereg s2 D-D)
 DD_FA_BOUND = 0.20              # ORANGE FA rate delta <= 20pp
-DC_R1_BOUND_BP = 200.0          # |daily return delta| hard bound (prereg s2 D-C)
+DC_R1_BOUND_BP = 200.0          # |daily return delta| hard bound (prereg s2 D-C, v1 -- superseded)
+DC_V2_MEDIAN_BP = 15.0          # V2 candidate (b): median distribution bound (GM ruling MSG-20260924-1722)
+DC_V2_P999_BP = 400.0           # V2 candidate (b): p99.9 tail bound
+DC_CRISIS_R1 = 0.05             # mechanical crisis day: |r1| >= 5% on either face
 EP_ENTER, EP_EXIT = -0.15, -0.05   # dd250 crisis bands (prereg s1, hysteresis)
 BREADTH_MIN_VALID = 5           # deep-scope breadth rule (prereg s1)
 # prereg s2 recorded ETF-face baselines (cross-check against the recorded
@@ -109,37 +113,86 @@ def gate_db() -> dict:
             "parquet_total": n_pq, "parquet_expected": 5222}
 
 
-def gate_dc(bench: pd.Series) -> dict:
+def dc_v2_verdict(dr1: pd.Series, crisis_mask: pd.Series) -> dict:
+    """Pure v2_b judgment core (offline-testable). GM ruling
+    MSG-20260924-1722 candidate (b): median <= 15bp AND p99.9 <= 400bp
+    distribution bounds (full overlap window, crisis days included -- a
+    corrupt face inflates both regardless); the max face is crisis-aware
+    (only days with |r1| < 5% on BOTH faces count) and carries NO hard
+    bound; days above the p99.9 bound are exempted microstructure-event
+    disclosure, never corruption."""
+    med_bp = float(dr1.median()) * 1e4
+    p999_bp = float(dr1.quantile(0.999)) * 1e4
+    nc = dr1[~crisis_mask.reindex(dr1.index).fillna(False)]
+    return {"ok": bool(med_bp <= DC_V2_MEDIAN_BP and p999_bp <= DC_V2_P999_BP),
+            "median_bp": round(med_bp, 3),
+            "p99_9_bp": round(p999_bp, 2),
+            "non_crisis_max_bp": (round(float(nc.max()) * 1e4, 2)
+                                  if len(nc) else None),
+            "crisis_days_n": int(crisis_mask.sum())}
+
+
+def gate_dc(bench: pd.Series, mode: str = "v1") -> dict:
     """D-C basis difference: index vs ETF face over the twin overlap.
 
-    Hard bound: max |daily return delta| <= 200bp (beyond that = data
-    corruption, not tracking error). Full disclosure of median / p99.9
-    and the 10-day cumulative return max|delta| (dividend/fee drag
-    enters the ledger honestly, prereg s2).
+    mode="v1" (superseded, kept for regression fixtures): max |daily
+    return delta| <= 200bp hard bound -- misclassified real microstructure
+    days as corruption (v1 GATES_FAILED, HQ-F-20260924-11).
+    mode="v2_b" (prereg V2 s2, GM ruling MSG-20260924-1722 candidate (b)):
+    median <= 15bp AND p99.9 <= 400bp distribution bounds; crisis-aware max
+    face (|r1| < 5% on BOTH faces to count, no hard bound); days above the
+    p99.9 bound = exempted microstructure-event disclosure. Full disclosure
+    of median / p99.9 and the 10-day cumulative return max|delta|
+    (dividend/fee drag enters the ledger honestly, prereg s2).
     """
     etf = build_bench()
     etf = etf[etf.index <= pd.Timestamp(OVERLAP_END)]
     ov = bench.index.intersection(etf.index)
     b2, e2 = bench.loc[ov], etf.loc[ov]
-    dr1 = (b2.pct_change() - e2.pct_change()).abs().dropna()
+    rb, re = b2.pct_change(), e2.pct_change()
+    dr1 = (rb - re).abs().dropna()
     dr10 = (b2.pct_change(10) - e2.pct_change(10)).abs().dropna()
     max_bp = float(dr1.max()) * 1e4
     worst = [{"date": str(d.date()), "abs_dr1_bp": round(float(v) * 1e4, 1)}
              for d, v in dr1.sort_values(ascending=False).head(12).items()]
-    return {"ok": max_bp <= DC_R1_BOUND_BP,
-            "overlap_start": str(ov[0].date()), "overlap_end": str(ov[-1].date()),
-            "overlap_start_expected": OVERLAP_START,
-            "n_days": int(len(ov)),
-            "abs_dr1_bp": {"max": round(max_bp, 2),
-                           "median": round(float(dr1.median()) * 1e4, 3),
-                           "p99_9": round(float(dr1.quantile(0.999)) * 1e4, 2)},
-            "abs_dr10_max_bp": round(float(dr10.max()) * 1e4, 2),
-            "bound_bp": DC_R1_BOUND_BP,
-            "worst_days": worst,
-            "worst_days_note": ("top |dr1| days -- 2015-07/2016-01 千股"
-                               "跌停/涨停锁定+熔断日与极端溢价日=ETF↔指数"
-                               "微观结构分歧（涨停锁价低于公允值/熔断早收），"
-                               "非数据腐坏（原始行/D-A/子窗连检三方佐证）")}
+    common = {
+        "overlap_start": str(ov[0].date()), "overlap_end": str(ov[-1].date()),
+        "overlap_start_expected": OVERLAP_START,
+        "n_days": int(len(ov)),
+        "abs_dr1_bp": {"max": round(max_bp, 2),
+                       "median": round(float(dr1.median()) * 1e4, 3),
+                       "p99_9": round(float(dr1.quantile(0.999)) * 1e4, 2)},
+        "abs_dr10_max_bp": round(float(dr10.max()) * 1e4, 2),
+        "worst_days": worst,
+        "worst_days_note": ("top |dr1| days -- 2015-07/2016-01 千股"
+                            "跌停/涨停锁定+熔断日与极端溢价日=ETF↔指数"
+                            "微观结构分歧（涨停锁价低于公允值/熔断早收），"
+                            "非数据腐坏（原始行/D-A/子窗连检三方佐证）")}
+    if mode == "v1":
+        return {"ok": max_bp <= DC_R1_BOUND_BP,
+                "bound_bp": DC_R1_BOUND_BP,
+                **common}
+    # mode == "v2_b" (production V2 leg)
+    crisis_mask = ((rb.abs() >= DC_CRISIS_R1) | (re.abs() >= DC_CRISIS_R1)
+                   ).reindex(dr1.index).fillna(False)
+    core = dc_v2_verdict(dr1, crisis_mask)
+    above = [{"date": str(d.date()), "abs_dr1_bp": round(float(v) * 1e4, 1),
+              "crisis_day": bool(crisis_mask.loc[d]),
+              "exempt": "microstructure event (not corruption)"}
+             for d, v in dr1[dr1 > DC_V2_P999_BP / 1e4]
+             .sort_values(ascending=False).items()]
+    return {"ok": core["ok"], "mode": "v2_b",
+            "bounds_bp": {"median": DC_V2_MEDIAN_BP,
+                          "p99_9": DC_V2_P999_BP},
+            "judgment": core,
+            "max_face_crisis_aware": {
+                "definition": "|r1| < %.0f%% on BOTH faces to count"
+                              % (DC_CRISIS_R1 * 100),
+                "hard_bound": None,
+                "crisis_days_n": core["crisis_days_n"],
+                "non_crisis_max_bp": core["non_crisis_max_bp"]},
+            "above_p99_9_exempt": above,
+            **common}
 
 
 # ------------------------------------------------- deep replay primitives
@@ -426,12 +479,14 @@ def replay(write: bool = True) -> dict:
     """One-shot deep replay (prereg s5: rerun-forbidden after the fact;
     a corrupted product = deterministic re-execution legal)."""
     bench = load_index_bench()
-    da, db, dc = gate_da(bench), gate_db(), gate_dc(bench)
+    da, db, dc = gate_da(bench), gate_db(), gate_dc(bench, mode="v2_b")
     matrices, ds, br = run_matrices(bench)
     dd = gate_dd(bench, matrices)
     gates = {"D-A": da, "D-B": db, "D-C": dc, "D-D": dd}
-    base = {"batch": "REGIME_GUARD_DEEP_REPLAY",
-            "prereg": "research/REGIME_GUARD_DEEP_REPLAY.md @ 59403dc",
+    base = {"batch": "REGIME_GUARD_DEEP_REPLAY_V2",
+            "prereg": ("research/REGIME_GUARD_DEEP_REPLAY_V2.md (FROZEN r106"
+                       " post GM ruling MSG-20260924-1722 candidate (b);"
+                       " v1 lineage @ 8c8c9f0)"),
             "matrix_prereg_refs": dict(_PREREG_REFS),
             "trials": 0,
             "ledger": "none (measurement batch, prereg s0)",
@@ -445,7 +500,7 @@ def replay(write: bool = True) -> dict:
     if not all(g["ok"] for g in gates.values()):
         res = {**base, "verdict": "GATES_FAILED"}
         if write:
-            _write_json(res, OUT_JSON)
+            _write_json(res, OUT_JSON_V2)
         return res
 
     eps = crisis_episodes(bench)
@@ -544,7 +599,7 @@ def replay(write: bool = True) -> dict:
                "FOMC 冻结日历只覆盖 2020-2026 -> 2020 前恒不触发=覆盖面披露",
                "本批 trials=0（测量批无引擎腿）；零阈值改动"]}
     if write:
-        _write_json(res, OUT_JSON)
+        _write_json(res, OUT_JSON_V2)
         import csv as _csv
         with open(OUT_CSV, "w", encoding="utf-8-sig", newline="") as f:
             w = _csv.DictWriter(f, fieldnames=list(ep_rows[0].keys()))
@@ -706,6 +761,33 @@ def _selftest() -> bool:
           s6["orange_rounds"] == 4 and s6["orange_main"] == 3
           and s6["orange_false_alarms"] == 2
           and s6["orange_fa_rate"] == 0.6667)
+
+    # J: V2 candidate (b) judgment core (GM ruling MSG-20260924-1722)
+    idxj = pd.bdate_range("2012-05-28", periods=2000)
+    base_delta = pd.Series(0.001, index=idxj)          # 10bp healthy days
+    cm = pd.Series(False, index=idxj)
+    v = dc_v2_verdict(base_delta, cm)
+    check("J v2_b healthy distribution PASS (10bp median/p99.9)",
+          v["ok"] is True and v["median_bp"] == 10.0
+          and v["non_crisis_max_bp"] == 10.0)
+    big = base_delta.copy()
+    big.iloc[-1] = 0.050                                # one 500bp day
+    cm2 = pd.Series(False, index=idxj)
+    cm2.iloc[-1] = True                                 # flagged crisis
+    v2 = dc_v2_verdict(big, cm2)
+    check("J v2_b crisis day exempted from max face, gate still PASS",
+          v2["ok"] is True and v2["non_crisis_max_bp"] == 10.0
+          and v2["crisis_days_n"] == 1)
+    corr = base_delta.copy()
+    corr.iloc[:1100] = 0.003                            # majority at 30bp
+    v3 = dc_v2_verdict(corr, cm)
+    check("J v2_b median corruption FAIL (30bp median > 15bp bound)",
+          v3["ok"] is False and v3["median_bp"] == 30.0)
+    tail = base_delta.copy()
+    tail.iloc[::10] = 0.05                              # 10% days at 500bp
+    v4 = dc_v2_verdict(tail, pd.Series(False, index=idxj))
+    check("J v2_b tail corruption FAIL (p99.9 500bp > 400bp bound)",
+          v4["ok"] is False and v4["p99_9_bp"] == 500.0)
     return ok
 
 
@@ -717,7 +799,7 @@ def main(argv=None) -> int:
         return 0 if ok else 1
     if "gates" in argv:
         bench = load_index_bench()
-        da, db, dc = gate_da(bench), gate_db(), gate_dc(bench)
+        da, db, dc = gate_da(bench), gate_db(), gate_dc(bench, mode="v2_b")
         matrices, _, _ = run_matrices(bench)
         dd = gate_dd(bench, matrices)
         gates = {"D-A": da, "D-B": db, "D-C": dc, "D-D": dd}
