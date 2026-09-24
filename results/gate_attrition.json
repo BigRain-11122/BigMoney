@@ -398,6 +398,33 @@
    }
   },
   {
+   "batch": "XSTOCK_SYNTH",
+   "ts": "2026-09-24 20:50:54",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 2004,
+   "ledger_total_after": 60074,
+   "gates": {
+    "v1_floor": 0.02,
+    "nullA_p95": 0.08883848866829815,
+    "nullB_p95": 0.06301877633768437,
+    "v1_thr": 0.08883848866829815,
+    "primary_v1": true,
+    "primary_v2": true,
+    "primary_v3": true,
+    "period_gate": true,
+    "pass": true,
+    "void": false
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/shortline/xstock_synth.json",
+    "prereg": "research/shortline/XSTOCK_SYNTH.md",
+    "csv": "research/shortline/xstock_synth_results.csv"
+   },
+   "note": "stock-pool cross-library synthesis PASS (IC 0.1078/IR 1.03 vs nullA 0.0888, OOS 0.0965 retention 0.895); prev=58070 read post r114-S0-pull (bm-a T22 finalize head, benign race, no double-count); strategy conversion requires separate prereg"
+  },
+  {
    "batch": "T33_ATTACK_WAVE",
    "ts": "2026-09-24 21:05:53",
    "kind": "measurement",
