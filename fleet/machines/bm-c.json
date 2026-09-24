@@ -1,15 +1,15 @@
 {
  "machine_id": "bm-c",
- "last_seen": "2026-09-24T15:48:17",
- "current_task": "T-17 claimed r57 (AH/HK probe-first, starts r58 behind P-A2 prereg); T-16 LOF leg spot honest-parked (push2 day-block 9 conn-fails, NAV face ALIVE 640 LOF rows); O-1402-cph4 executed",
+ "last_seen": "2026-09-24T15:52:27",
+ "current_task": "r57 closed: O-1402-cph4 executed + T-17 claimed (probe-first r58) + LOF day-block disposition; r58 = P-A2 event-window prereg (T-16 lane) then T-17 d1 face probes; O-1532 shard-role awaits bm-b T-22 batch design; T-23 claim candidate if siblings pass",
  "cores": 32,
  "free_ram_gb": 9.2,
  "gpu_free_vram_gb": 12.97,
  "total_ram_gb": 23.9,
  "cpu_util_pct": 2.1,
- "verdict": "healthy: O-20260924-1402-cph4 executed (item2 P-33 fields added; item3 future-ts = single-instant triple-write law applied, write path verified sole-writer; item1 bm-c CODELY 19KB<50KB compliant, 471KB instance=bm-a local lane deferred by owner; item4 decisions.md absent=zero-new; item5 superseded by bm-b claim); T-17 early-age claimed (MSG-1546, commit=lock); S6 green (heat+fund_premium captured, daily source-lag 0 rows honest self-heal), orders 42/42, round 57",
- "heartbeat_epoch_utc": 1790236097,
- "clock_read": "2026-09-24T15:48:17+08:00",
- "orders_ack": "O-20260923-1514 O-20260923-1533 O-20260923-1536 O-20260923-1538 O-20260923-1545 O-20260923-1620 O-20260923-1636 O-20260923-1653 O-20260923-1705 O-20260923-1738 O-20260923-1810 O-20260923-1816 O-20260923-1819 O-20260923-1820 O-20260923-1823 O-20260923-1828 O-20260923-1844 O-20260923-1850 O-20260923-2134 O-20260923-2205 O-20260923-2210 O-20260923-2215 O-20260923-2250 O-20260923-2310 O-20260923-2311 O-20260923-2315 O-20260923-2325 O-20260923-2345 O-20260924-0100 O-20260924-1045 O-20260924-1110 O-20260924-1120 O-20260924-1136 O-20260924-1141 O-20260924-1145 O-20260924-1155 O-20260924-1235 O-20260924-1255 O-20260924-1310 O-20260924-1320 O-20260924-1325 O-20260924-1402",
+ "verdict": "healthy: O-1402-cph4 items executed (E0 ack: local 19KB<50KB compliant + bm-a archive closed fleet-side; P-33 fields added; future-ts single-instant law applied + write-path verified sole-writer; P-32 decisions.md absent=zero-new; T-13 superseded by bm-b); O-1532 acked (T-22 bm-b claimed, bm-c shard role pending batch design); O-1536 acked (T-23 open, bm-c no-hoard candidate r59+; enrichment principles applied to own lanes; T-17 = ETF-domain line within direction-5 spirit); T-17 early-age claimed (MSG-1546, commit=lock); MSG-1410 processed + archived; S6 green, orders 44/44, round 57",
+ "heartbeat_epoch_utc": 1790236347,
+ "clock_read": "2026-09-24T15:52:27+08:00",
+ "orders_ack": "O-20260923-1514 O-20260923-1533 O-20260923-1536 O-20260923-1538 O-20260923-1545 O-20260923-1620 O-20260923-1636 O-20260923-1653 O-20260923-1705 O-20260923-1738 O-20260923-1810 O-20260923-1816 O-20260923-1819 O-20260923-1820 O-20260923-1823 O-20260923-1828 O-20260923-1844 O-20260923-1850 O-20260923-2134 O-20260923-2205 O-20260923-2210 O-20260923-2215 O-20260923-2250 O-20260923-2310 O-20260923-2311 O-20260923-2315 O-20260923-2325 O-20260923-2345 O-20260924-0100 O-20260924-1045 O-20260924-1110 O-20260924-1120 O-20260924-1136 O-20260924-1141 O-20260924-1145 O-20260924-1155 O-20260924-1235 O-20260924-1255 O-20260924-1310 O-20260924-1320 O-20260924-1325 O-20260924-1402 O-20260924-1532 O-20260924-1536",
  "cpu_cores": 32
 }
