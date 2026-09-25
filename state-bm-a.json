@@ -1,12 +1,12 @@
 ﻿{
- "round_no": 228,
- "did": "R228: T-72 s2 first-pull SUPERVISION (3506/5228 @07:09, PID 29132 alive since 04:33:37, attempts-map empty=zero failures, avg ~22.5/min, ETA ~08:25; acceptance turnkey command + takeover pointer written to ticket progress_r228) + ticket progress_r228 bookkeeping + in-flight spawn health check (EM rank + AH both honest exit-2 churn vs known R118/R212 EM block, accepted-risk 30min self-heal, zero probe burn) + S6 weekend chain all green (audit CLEAN, probe py_low_board_clear legal idle, cutoff 09-24 regime ORANGE shadow, MF/THS/AH/FUT/OPT all no-op or throttled, B-layer 5222 all_pass, paper export byte-family idempotent, scorecard+dashboard+token refreshed) + orders 74/74 round-start scan zero-diff + decisions no new lines + smoke 25/25",
+ "round_no": 229,
+ "did": "R229: T-72 s2 first-pull supervision R2 (3782/5228 @07:21, PID 29132 alive, zero failures, rate 22.2/min, ETA ~08:26; acceptance RUN turnkey lands pull-completion round ~R236; s3 wiring follows PASS only) + S6 weekend chain 17 legs all green (audit CLEAN, probe py_low_board_clear legal idle, cutoff 09-24, regime ORANGE d3 shadow, MF/AH known EM-block 30min self-heal churn, blf 5222 all_pass, paper family gated off no-new-bar, scorecard+dashboard refreshed, token delta=0) + orders 74/74 round-start scan zero-diff + decisions no new lines + smoke 25/25",
  "verdict": "GREEN",
- "next": "T-72 s2 acceptance RUN at pull completion (ETA ~08:25: python scripts/sina_mf_accept.py run -> exit 0=PASS/1=FAIL/2=machinery; artifact results/sina_mf_accept.json) then s3 S6 wiring (consumer rule: aggregate display must use official r0+r1 recipe per R225); 09-28 Monday new-bar full-chain relay; 10-01 month-boundary trio + REGIME_GUARD v3 date gate; T-70 midterm 10-09",
- "ts": "2026-09-26T07:16:30+08:00",
- "last_round_ts": "2026-09-26T07:02:24",
- "updated_at": "2026-09-26T07:16:30+08:00",
- "current_task": "r228 done: s2 pull supervised healthy (3506/5228, ETA ~08:25); acceptance RUN at pull-completion round",
- "last_run": "2026-09-26T07:16:30",
- "last_round_at": "2026-09-26T07:16:30+08:00"
+ "next": "acceptance RUN at pull completion ~08:26 (python scripts/sina_mf_accept.py run -> exit 0=PASS/1=FAIL/2=machinery; artifact results/sina_mf_accept.json) then s3 S6 wiring (consumer rule: main-force aggregate display must use official r0+r1 recipe per R225); 09-28 Monday new-bar full-chain relay; 10-01 month-boundary trio + REGIME_GUARD v3 date gate; T-70 midterm 10-09",
+ "ts": "2026-09-26T07:21:59+08:00",
+ "last_round_ts": "2026-09-26T07:16:30+08:00",
+ "updated_at": "2026-09-26T07:21:59+08:00",
+ "current_task": "r229 done: s2 pull supervised healthy (3782/5228 @07:21, ETA ~08:26); acceptance RUN at pull-completion round",
+ "last_run": "2026-09-26 07:21:59",
+ "last_round_at": "2026-09-26T07:21:59+08:00"
 }
