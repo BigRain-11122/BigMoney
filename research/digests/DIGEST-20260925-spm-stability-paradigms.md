@@ -51,3 +51,46 @@
 3. 面 a：集思录 feed 通道（R138 正典）风险平价/全天卫 ETF 讨论面；面 d：转债/逆回购 carry 面（与 P-A1 判负子线防混淆）。
 4. 面 e：低波因子外源面（学术 ATR/低波异象+社区实践双源）。
 5. S2 深读（arXiv PDF 全文抽取，pypdf/PyMuPDF 双探针律 r168）。
+
+## 七 slice-2 采集（2026-09-25 16:4x-16:5x · bm-a R174 · T-53）
+
+### 通道记录
+
+| 探针 | 结果 |
+|---|---|
+| nber.org/papers/w22445（凭记忆猜的 Moreira-Muir 号） | ✗ **号错页错**（实为日本老龄化论文 Labor Supply and Demand）——记忆拼引用号坑律第二例（首例 1512.01602，R169）；引用号必须检索定位，禁凭记忆 |
+| DDG lite 搜索 Moreira-Muir | ✅ 命中真源：NBER **w22208** + EconPapers 摘要行 |
+| nber.org/papers/w22208 | ✅ 逐字摘要全文到手（grade A） |
+| sgi.sgmarkets.com（SG 官网新址） | ✗ JS 空壳，md 化零内容——死面如实记 |
+| portal.barclayhedge.com SG-Trend-Index 页 | ✗ 壳页仅描述文字无数值表——死面如实记 |
+| larryswedroe.substack.com 文章页 | ⚠ 付费墙：首屏可见段落含关键数字（取用并如实标注截断） |
+| html.duckduckgo.com 搜 SG Trend 统计 | ✅ 多源命中（priceactionlab / advisoranalyst / SG 自家 PDF 快照行） |
+
+### slice-2 源清单（relevance grade A-D）
+
+- **S3** NBER w22208《Volatility Managed Portfolios》（Alan Moreira & Tyler Muir·NBER 2016-04-26·DOI 10.3386/w22208；正式版=Journal of Finance 2017, 72(4):1611-1644）https://www.nber.org/papers/w22208 — **grade A**（逐字摘要）。摘要逐字：「Managed portfolios that take less risk when volatility is high produce large alphas, substantially increase factor Sharpe ratios, and produce large utility gains for mean-variance investors. We document this for the market, value, momentum, profitability, return on equity, and investment factors in equities, as well as the currency carry trade. Volatility timing increases Sharpe ratios because changes in factor volatilities are not offset by proportional changes in expected returns. Our strategy is contrary to conventional wisdom because it takes relatively less risk in recessions and crises yet still earns high average returns. This rules out typical risk-based explanations and is a challenge to structural models of time-varying expected returns.」
+- **S4** Larry Swedroe Substack《Understanding Trend Following: A Strategic Diversifier for Modern Portfolios》（引 Meketa Investment Group 2025-12 白皮书）https://larryswedroe.substack.com/p/understanding-trend-following-a-strategic — **grade B**（署名作者引机构白皮书；付费墙截断如实标注，仅取首屏可见数字）。可见数字：SG Trend Index 2000-01 至 2025-05 **年化收益 4.9%**（vs Bloomberg US Agg 4.0% / MSCI ACWI 6.2%）、**年化波动 13.4%**（vs 美债 4.2% / 全球股票 15.6%）。
+- **S5** Price Action Lab 博客《Trend-Following Many Markets Maximizes Sharpe》（2023-09）https://www.priceactionlab.com/Blog/2023/09/trend-following-sharpe/ — **grade C**（独立博客、口径自算）。数字：2000 年起 SG Trend **Sharpe 0.45** vs S&P500 TR **0.34**；期间总收益 290%（2000-01-03→2023-09-15，快照截断、按 SG Trend 侧理解≈年化 6.0%）。
+- **S6** AdvisorAnalyst 转载（2026-06-24）《The Map Is Not the Trend》https://advisoranalyst.com/2026/06/24/the-map-is-not-the-trend-why-chasing-cta-winners-across-asset-classes-fails.html — **grade C**（二手媒体）。数字：SG Trend 2020-01→2026-05 **年化约 8.1%**、与全球股票**微负相关**。
+- **S7** SG 自家 CTA Update 演示稿快照行（content.sgmarkets.com，DDG 摘要级）— **grade B**（发行方一手、快照级）：SG Trend 2024 年成分**平均两两相关性 0.78**、成分年收益**离散近 15%**（同指数同年间成分回报差 15pp=趋势族内部拥挤度+风格分化的直接证据）。
+
+### 面 b 实况（slice-2 后）
+
+**已升级**：SSRN 403 绕墙成功（NBER 开通道），CAND-2 的机制主张（波动高时减风险→alpha+Sharpe 改善；覆盖 market/value/momentum/profitability/ROE/investment+currency carry）现在有**一手逐字摘要级验证**。边界如实记：摘要级≠全文复现（未取全文数字）；A 股 ETF 日频可实现性+换手成本面（H3）仍待我方预注册内验证；「crisis 期减风险仍高平均收益」与 CAND-1 趋势袖的防御叙事同向（两面互证但各自独立过门禁链）。
+
+### 面 f 实况（slice-2 后）
+
+判线校准第一批外部数字到位（CAND-3 输入）：旗舰趋势指数（机构级趋势跟随的公开基准）25 年实况=**年化 4.9%×波动 13.4%（Sharpe≈0.37）/ 2000 起 Sharpe 0.45**；近 6 年窗（2020-2026）年化 8.1%。校准注记：①外部机构级「稳定盈利」实况=个位数年化+双位数波动+Sharpe<0.5——我方 0.70 滚动 12m beat 线是**显著高于外部基准现实的高门槛**（0.70 判线冻结不动·O-1105 §二·只校准不翻线）；②SG Trend 成分两两相关 0.78+年回报差 15pp=「同族策略内部分化巨大」的外源实证，与 D6 同族 max|corr|≥0.7 拒收门的设定同向（族内合并防重复计算）。**诚实留白**：滚动 12m 胜率/月度序列仍未到手（SG 官网/Barclay 双壳页死面）——月度序列需 SG 月报 PDF 线（scribd 存档/wholesale feed），下一切片主攻。
+
+### 漏斗双列（slice-2）
+
+| 切片 | 采集（harvest） | 入册（gated/入候选册） |
+|---|---|---|
+| slice-2 | 5 源（S3 grade A 逐字 / S4 grade B / S7 grade B / S5+S6 grade C）+3 死面如实记 +1 号错页如实记 | **0 过闸**（CAND-2 升级=外源验证到位，入册仍待 prereg 起草+D6 门；CAND-3 判线校准件获首批数字但月度序列缺） |
+
+## 八 续作指针（slice-3+）
+
+1. 面 f 月度序列：SG Trend 月报 PDF 线（scribd 存档 https://www.scribd.com/document/326953743/SG-Trend-Monthly-Report 或 wholesale.banking.societegenerale.com feeds 页）→ 滚动 12m 胜率实算。
+2. 面 a：集思录 feed 通道（R138 正典）风险平价/全天卫 ETF 讨论面；面 d：转债/逆回购 carry 面（与 P-A1 判负子线防混淆）。
+3. 面 e：低波因子外源面（学术低波异象+社区实践双源）。
+4. S2（arXiv 2201.06635）深读（PDF 全文抽取，pypdf/PyMuPDF 双探针律 r168）。

@@ -1,44 +1,44 @@
 {
-  "ok": true,
-  "updated": "2026-09-25 16:26:41",
-  "module": "firm/risk/b_layer_filter.py",
-  "order": "O-20260923-1820 item3b",
-  "inputs": {
-    "universe_csv": "research/shortline/stock_universe_scan.csv",
-    "universe_rows": 5222,
-    "eligibility_csv": "data/fundamental/eligibility.csv",
-    "eligibility_rows": 11626,
-    "eligibility_asof": "2026-09-24 20:41:20"
+ "ok": true,
+ "updated": "2026-09-25 16:30:16",
+ "module": "firm/risk/b_layer_filter.py",
+ "order": "O-20260923-1820 item3b",
+ "inputs": {
+  "universe_csv": "research/shortline/stock_universe_scan.csv",
+  "universe_rows": 5222,
+  "eligibility_csv": "data/fundamental/eligibility.csv",
+  "eligibility_rows": 11626,
+  "eligibility_asof": "2026-09-24 20:41:20"
+ },
+ "mask": {
+  "total": 5222,
+  "ok_static": 3517,
+  "excluded_total": 1705,
+  "excluded_by_reason": {
+   "r1_loss": 1504,
+   "r2_st": 27,
+   "r1_loss+r2_st": 174,
+   "not_in_snapshot": 0
   },
-  "mask": {
-    "total": 5222,
-    "ok_static": 3517,
-    "excluded_total": 1705,
-    "excluded_by_reason": {
-      "r1_loss": 1504,
-      "r2_st": 27,
-      "r1_loss+r2_st": 174,
-      "not_in_snapshot": 0
-    },
-    "st_crosstab_informational": {
-      "snapshot_st_in_universe": 201,
-      "scan_regime_proxy_sealed5": 82,
-      "overlap": 4,
-      "note": "proxy=sealed5>=3 & sealed10==0 (SS2); snapshot ST is today's list applied full-window -- overlap gap = the two conservatism directions differ"
-    }
-  },
-  "caveats": [
-    "point-in-time snapshot applied to full backtest window (conservative over-kill of today's suspects; recovered-ST eras NOT excluded) -- sanctioned by iron_rules.md + P4_BATCH2 SS2, direction conservative",
-    "skipped dims (no reliable free source): 证监会立案调查 / 年报审计非标意见 -- see fundamental_status.json skipped_dims",
-    "R-pei2 mid-hold force-clear = paper/live layer, not backtest",
-    "listing-age / liquidity / price / zombie / ST-regime rules remain the screen's own bars-driven dynamic rules (SS2)"
-  ],
-  "gates": {
-    "universe_unique": true,
-    "excluded_reconciles": true,
-    "total_reconciles": true,
-    "determinism": true,
-    "all_pass": true
-  },
-  "mask_csv": "data/fundamental/b_layer_mask.csv"
+  "st_crosstab_informational": {
+   "snapshot_st_in_universe": 201,
+   "scan_regime_proxy_sealed5": 82,
+   "overlap": 4,
+   "note": "proxy=sealed5>=3 & sealed10==0 (SS2); snapshot ST is today's list applied full-window -- overlap gap = the two conservatism directions differ"
+  }
+ },
+ "caveats": [
+  "point-in-time snapshot applied to full backtest window (conservative over-kill of today's suspects; recovered-ST eras NOT excluded) -- sanctioned by iron_rules.md + P4_BATCH2 SS2, direction conservative",
+  "skipped dims (no reliable free source): 证监会立案调查 / 年报审计非标意见 -- see fundamental_status.json skipped_dims",
+  "R-pei2 mid-hold force-clear = paper/live layer, not backtest",
+  "listing-age / liquidity / price / zombie / ST-regime rules remain the screen's own bars-driven dynamic rules (SS2)"
+ ],
+ "gates": {
+  "universe_unique": true,
+  "excluded_reconciles": true,
+  "total_reconciles": true,
+  "determinism": true,
+  "all_pass": true
+ },
+ "mask_csv": "data/fundamental/b_layer_mask.csv"
 }
