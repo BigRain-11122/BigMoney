@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 14:09:53",
+ "updated_at": "2026-09-25 14:21:46",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -639,24 +639,27 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 13:21:31",
    "data_gates": "in-runner: completeness gate per prereg sec.2 listed-range semantics (48/48 zero internal gaps verified r179 plan-probe) + single-shot finalize guard (MF_ROT_S1_REFINALIZE=1 only redo) + determinism selftest 18/18 pre-burn",
    "shards": [
     {
      "key": "mf-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-25 14:09:53",
      "checkpoint": "results/midfreq/mf_rot_s1_cells/<cell>.json + mf_rot_s1_nulls.json (config-sha keyed resume, T-33 law)",
-     "note": "single-process vector sim, est 10-25min per prereg sec.0; fire on first tick with py headroom (T54 deep serial lane dB/dC/dD coexists fine: 1-process BelowNormal); pre-claim r170 claim-first by bm-b r179; F-04 MSG-20260925-1321 declared BEFORE this pool entry (commit a115d176)"
+     "note": "single-process vector sim, est 10-25min per prereg sec.0; fire on first tick with py headroom (T54 deep serial lane dB/dC/dD coexists fine: 1-process BelowNormal); pre-claim r170 claim-first by bm-b r179; F-04 MSG-20260925-1321 declared BEFORE this pool entry (commit a115d176)",
+     "done_at": "2026-09-25 14:21:46"
     }
    ],
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal",
     "note": "prereg sec.0 pool routing; pure-python serial sim O(days x members); deterministic idempotent, checkpoint-resumable"
-   }
+   },
+   "done_at": "2026-09-25 14:21:46",
+   "done_note": "r182 bm-b: runner complete 14:20:52 (3rd fire after 2 crash fixes: NaN-head poison 94526ba8 + run_nulls call-site b2c59437); HONEST NEGATIVE -- 4/4 cells FAIL G1'v2 (best Sharpe 0.099 vs skill line 2.949; DDs -49%..-87%); D6 merge -> N_eff=2; g2_registration empty; ledger 61415->61417; judged-negative dimension stays closed per house law (revival only via new prereg)"
   }
  ],
  "_stamp_note": "r173 bm-b: T-54 slice-2 first P0 carrier entered per O-1137 s2.1 (8 shards, 121,528 cells full face); entered_at corrected to real clock (r62 law; originally estimate-stamped)"
