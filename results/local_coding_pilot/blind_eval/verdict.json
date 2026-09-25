@@ -1,0 +1,46 @@
+{
+  "_meta": {
+    "task": "T-70 pilot criteria-2 aggregation + non-inferiority verdict",
+    "prereg": "research/R-20260925-bma-local-coding-pilot.md §3 判据2 (本地均分 >= 云端-0.5 = 非劣判过)",
+    "rubric": "results/local_coding_pilot/blind_eval/RUBRIC.md §2.5/§2.6",
+    "scoring_commit": "a33b03d2 (blind scores, committed BEFORE mask reveal)",
+    "mask_reveal_commit": "c794f7a0 (.mask_map.json, hash chain verified pre-reveal: MANIFEST._mask_map_sha == file-byte sha256 3417ba5d835eaafc321d61336b77235904c6097a8fb6caa5bcfd23f6f241b4c6)",
+    "evaluator": "cloud GM primary only; auxiliary qwen2.5:14b NOT run (optional face, honest disclosure; RUBRIC §2.4 limitation stands: A-arm style-residual risk not zeroed)",
+    "aggregation_rule": "per-file 4-dim mean -> per-arm mean across 10 files (prereg frozen wording)",
+    "computed_at": "2026-09-26 bm-a R206"
+  },
+  "per_task": {
+    "01": {"A_file": "sample-01-v.py", "A_avg": 8.0, "B_file": "sample-01-u.py", "B_avg": 5.25},
+    "02": {"A_file": "sample-02-u.py", "A_avg": 8.75, "B_file": "sample-02-v.py", "B_avg": 5.75},
+    "03": {"A_file": "sample-03-u.py", "A_avg": 8.75, "B_file": "sample-03-v.py", "B_avg": 6.5},
+    "04": {"A_file": "sample-04-v.py", "A_avg": 8.25, "B_file": "sample-04-u.py", "B_avg": 6.0},
+    "05": {"A_file": "sample-05-u.py", "A_avg": 9.25, "B_file": "sample-05-v.py", "B_avg": 4.25},
+    "06": {"A_file": "sample-06-v.py", "A_avg": 8.75, "B_file": "sample-06-u.py", "B_avg": 6.0},
+    "07": {"A_file": "sample-07-v.py", "A_avg": 8.75, "B_file": "sample-07-u.py", "B_avg": 6.5},
+    "08": {"A_file": "sample-08-v.py", "A_avg": 9.0, "B_file": "sample-08-u.py", "B_avg": 5.25},
+    "09": {"A_file": "sample-09-v.py", "A_avg": 9.0, "B_file": "sample-09-u.py", "B_avg": 5.5},
+    "10": {"A_file": "sample-10-v.py", "A_avg": 9.25, "B_file": "sample-10-u.py", "B_avg": 6.75}
+  },
+  "per_dim": {
+    "readability":  {"A": 8.8, "B": 6.2, "diff_B_minus_A": -2.6},
+    "idiomatic":    {"A": 8.6, "B": 5.5, "diff_B_minus_A": -3.1},
+    "boundaries":   {"A": 8.9, "B": 5.2, "diff_B_minus_A": -3.7},
+    "structure":    {"A": 8.8, "B": 6.2, "diff_B_minus_A": -2.6}
+  },
+  "arm_overall": {"A_cloud": 8.875, "B_local": 5.775},
+  "noninferiority": {
+    "threshold": "B >= A - 0.5 = 8.375",
+    "actual": 5.775,
+    "margin": -3.1,
+    "verdict": "FAIL",
+    "note": "criteria-2 码质非劣判不过：本地臂均分落后云端 3.10 分，远超 -0.5 非劣容许带"
+  },
+  "b_defect_family_clusters": [
+    "验证逻辑面（最重族）：selftest 不调生产函数（测副本/空转 json.dumps）、selftest 期望值算术错、VERDICT 输出行缺失致自家 IndexError——与判据-1 的 B 臂 8/10 FAIL 同根：实现理解强、自证验证弱",
+    "惯用法反模式族：`A and 0 or C` 伪三元、裸 except、str|dict 混返回型契约、split('-')[3] 索引取段",
+    "边界病族：空列表 []->1 计数、dup_codes 在原始行串上 count(code) 语义错+malformed 行裸崩、bool-is-int 陷阱漏防、收件人截断 'bm' 致定向消息恒 stranded",
+    "结构冗余族：ok 计算双写、测试例 3 倍填充重复、单函数 120 行混合职责"
+  ],
+  "convergent_validity_note": "盲评缺陷判定与判据-1 功能面独立收敛：u-08 dup_codes / u-09 []->1 / u-10 VERDICT 缺失三处盲评所见缺陷与 B 臂已知失败族互证，评者全程未见臂标签与台账（映射揭示于分数 commit 之后）",
+  "midterm_trajectory_note": "过线定义两必需件均判负（①功能 2/10 vs 云端 10/10 ②码质非劣 FAIL），中期判读 2026-10-09 按 prereg 走如实坑清单路径，非劣差距 3.10 分为购买卡提案的主要否定证据面"
+}
