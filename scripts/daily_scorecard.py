@@ -27,6 +27,16 @@ OUT_HTML = os.path.join(ROOT, "results", "daily_scorecard.html")
 OUT_JSON = os.path.join(ROOT, "results", "daily_scorecard.json")
 POST_REVIEW_LEDGER = os.path.join(ROOT, "results", "post_review.jsonl")
 PAPER_EXPORT = os.path.join(ROOT, "results", "paper_export", "latest.json")
+THREE_CARD = os.path.join(ROOT, "results", "strategy_scorecard.json")
+
+
+def _load_three_cards():
+    """T-63 / O-20260925-1755 three-card face (strategy/trader/portfolio).
+    Read-only consumption; trader/portfolio cards are READOUT-only
+    pre-calibration (charter sec 8.5) -- no composite ranking rendered."""
+    if not os.path.exists(THREE_CARD):
+        return None
+    return json.load(io.open(THREE_CARD, encoding="utf-8"))
 
 
 def _load_paper():
@@ -276,6 +286,58 @@ def build():
     else:
         A("<div class='sub'>披露面缺件（forward_guard 未生成=护栏未随跑或字段缺失，如实标注）</div>")
 
+    # T-63 three-card section (O-20260925-1755): strategy face full 8-dim +
+    # trader/portfolio READOUT-only (sec 8.5 pre-calibration, no ranking).
+    tc3 = _load_three_cards()
+    A("<h2>三对象多维评价（v2 · 策略八维全卡 + 交易员/组合读数卡 · T-63）</h2>")
+    if tc3:
+        vet3 = tc3.get("discipline_veto_hits") or {}
+        A(f"<div class='sub'>统一评价律：≥2 维呈报·评价≠门禁·数据驱动·"
+          f"硬否决即刻生效；交易员/组合卡=校准前读数卡（无总分排名，"
+          f"校准预注册 research/STRATEGY_SCORECARD_CALIB.md 冻结后启用）·"
+          f"纪律否决命中 {len(vet3)}{'：' + ', '.join(sorted(vet3)) if vet3 else ''}</div>")
+        sface = tc3.get("strategy_face") or {}
+        A("<table><tr><th>策略（八维 v1.0 冻结）</th><th>级</th><th>总分</th>"
+          "<th>实战</th><th>风险</th><th>成本</th><th>政体</th><th>分散</th>"
+          "<th>交易</th><th>纯度</th><th>否决</th></tr>")
+        for tid, c in sorted((sface.get("per_trader") or {}).items(),
+                             key=lambda kv: -(kv[1].get("total") or 0)):
+            dm = c.get("dims") or {}
+            dv = [dm.get(str(i), {}).get("score") for i in range(1, 8)]
+            A(f"<tr><td>{tid}</td><td class='pos'>{c.get('grade')}</td>"
+              f"<td><b>{c.get('total'):.1f}</b></td>"
+              + "".join(f"<td>{'—' if v is None else f'{v:.0f}'}</td>" for v in dv)
+              + f"<td class='{'pos' if c.get('veto_clean') else 'neg'}'>"
+              f"{'清' if c.get('veto_clean') else '触发'}</td></tr>")
+        A("</table>")
+        ptc = tc3.get("portfolio_cards") or {}
+        A("<div class='sub'>组合卡（读数·无总分）：质量 Sharpe/成本 ×2/方法间 max|corr|/"
+          "选择批 N（统计面）</div>")
+        A("<table><tr><th>组合</th><th>x1 Sharpe</th><th>年化</th><th>回撤</th>"
+          "<th>×2 Sharpe</th><th>benefit</th><th>max|corr|</th><th>选择批 N</th></tr>")
+        for name, p in ptc.items():
+            q, cost = p.get("quality") or {}, p.get("cost") or {}
+            marg, stat = p.get("marginal") or {}, p.get("statistical") or {}
+            mc = marg.get("max_abs_corr_vs_other_methods") \
+                or marg.get("max_abs_offdiag_member_corr")
+            A(f"<tr><td>{name}</td>"
+              f"<td>{q.get('x1_full_sharpe') or '—'}</td>"
+              f"<td>{_pct(q.get('x1_annual'))}</td>"
+              f"<td>{_pct(q.get('x1_max_dd'))}</td>"
+              f"<td>{cost.get('x2_full_sharpe') or '—'}</td>"
+              f"<td>{q.get('benefit') if q.get('benefit') is not None else '—'}</td>"
+              f"<td>{mc if mc is not None else '—'}</td>"
+              f"<td>{stat.get('trials_ledger_total') or '—'}</td></tr>")
+        A("</table>")
+        trc = tc3.get("trader_cards") or {}
+        reg_n = sum(1 for c in trc.values()
+                    if not str(c.get("trader", "")).startswith("PROS"))
+        A(f"<div class='sub'>交易员卡 {len(trc)} 张（在册 {reg_n} + PROSPECT "
+          f"{len(trc) - reg_n}·读数卡）：继承策略分/纸盘实战/纪律/进度/军种画像"
+          "——一切采纳晋升恒走 hr.py 冻结判据（评价≠门禁）</div>")
+    else:
+        A("<div class='sub'>三卡面未产出（results/strategy_scorecard.json 缺件，如实标注）</div>")
+
     A("<h2>月度战绩（完整成绩单）</h2>")
     A("<div class='sub'>完整战绩月自 2026-10-01 起算（IV6+REGIME_GUARD enforce 双切换）；"
       "首份完整月度成绩单=2026-10-31 首检；月度四件套自动并入。</div>")
@@ -311,7 +373,8 @@ def build():
         "ticket": "T-2026-09-24-29",
         "evidence_cutoff": cutoff,
         "generated_from": ["results/paper", "results/shortline/o1600_market_fit.json",
-                           "results/paper_export/latest.json"],
+                           "results/paper_export/latest.json",
+                           "results/strategy_scorecard.json (T-63 three-card face)"],
         "traders": rows,
         "paper_export_face": None if not pe else {
             "export_date": pe.get("export_date"),

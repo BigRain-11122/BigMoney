@@ -1107,9 +1107,28 @@ def _scorecard_state() -> dict:
     Reads results/scorecard_v1.json (scripts/scorecard.py output); report-only
     evaluation layer -- hr.py stays the sole level-mutation authority.
     Missing file = honest 'pending'; no hard-coded trader names/counts.
+    v2 three-card face (T-2026-09-25-63 / O-20260925-1755): also reads
+    results/strategy_scorecard.json (strategy/trader/portfolio cards);
+    trader/portfolio = READOUT-only pre-calibration (charter sec 8.5);
+    discipline veto hits surface immediately.
     """
     out = {"present": False, "n_traders": None, "grade_counts": None,
            "best": None, "generated": None, "status": "none", "text": "记分卡待产出"}
+    three = _read_json(os.path.join(PATHS.results_dir, "strategy_scorecard.json"))
+    tsum = three.get("summary") or {} if three else {}
+    vetoes = three.get("discipline_veto_hits") or {} if three else {}
+    out["three_card"] = {"present": False} if not three else {
+        "present": True, "generated": three.get("generated"),
+        "n_strategy_cards": tsum.get("n_strategy_cards"),
+        "n_trader_cards": tsum.get("n_trader_cards"),
+        "n_portfolio_cards": tsum.get("n_portfolio_cards"),
+        "calibration_state": "pre-calibration readout (sec 8.5)",
+        "discipline_veto_hits": vetoes,
+        "text": (f"三卡: 策略{tsum.get('n_strategy_cards')} "
+                 f"交易员{tsum.get('n_trader_cards')} "
+                 f"组合{tsum.get('n_portfolio_cards')}"
+                 + (f" | 纪律否决 {len(vetoes)}" if vetoes else " | 纪律否决 0")),
+    }
     s = _read_json(os.path.join(PATHS.results_dir, "scorecard_v1.json"))
     if not s:
         return out

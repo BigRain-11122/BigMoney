@@ -1,0 +1,3497 @@
+{
+ "ticket": "T-2026-09-25-63",
+ "order": "O-20260925-1755",
+ "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
+ "generated": "2026-09-25T18:08:47",
+ "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
+ "calibration_state": "pre-calibration: trader/portfolio cards are READOUT-ONLY (sec 8.5); composite totals for these two faces require the first-cohort calibration prereg (research/STRATEGY_SCORECARD_CALIB.md) frozen THEN run. Strategy-face totals = v1.0 frozen.",
+ "unified_law": {
+  "sec8": ">=2-dimension decision basis; hard-veto faces universal; evaluation never overrides gates; data-driven; calibration-before-totals"
+ },
+ "strategy_face": {
+  "source": "results/scorecard_v1.json (scripts/scorecard.py)",
+  "summary": {
+   "n_traders": 6,
+   "grade_counts": {
+    "S": 2,
+    "A": 4,
+    "B": 0,
+    "C": 0
+   },
+   "best": {
+    "id": "VOLATILITY-CE-01",
+    "grade": "S",
+    "total": 87.05
+   }
+  },
+  "per_trader": {
+   "COMPOSITE-CE-01": {
+    "grade": "A",
+    "total": 77.29,
+    "veto_clean": true,
+    "vetoes": {
+     "future_data": {
+      "pass": true,
+      "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+     },
+     "x2_not_survive": {
+      "pass": true,
+      "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+     },
+     "worst_start_dd_breach": {
+      "pass": true,
+      "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+     },
+     "oos_blindspot": {
+      "pass": true,
+      "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+     },
+     "snooping_undeclared": {
+      "pass": true,
+      "provenance": "family-discount/honest flags recorded in registration notes = declared"
+     }
+    },
+    "dims": {
+     "1": {
+      "score": 85.08,
+      "weight": 0.3,
+      "status": "tested",
+      "reads": {
+       "beat_rate_6m": 0.64,
+       "min_dd_6m": -0.1673,
+       "median_excess_6m": 0.054535,
+       "p5_verdict_pass": false
+      },
+      "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+     },
+     "2": {
+      "score": 78.85,
+      "weight": 0.2,
+      "status": "tested",
+      "reads": {
+       "full_sharpe": 0.8114,
+       "oos_sharpe": 1.6085,
+       "skill_line_v2": 1.1626,
+       "i_line": 0.3521
+      },
+      "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+     },
+     "3": {
+      "score": 72.24,
+      "weight": 0.15,
+      "status": "tested",
+      "reads": {
+       "cost_x2_sharpe": 0.5228,
+       "x3_full_recorded": 0.2155,
+       "vi_bar": 0.4004,
+       "x2_survive": true
+      },
+      "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+     },
+     "4": {
+      "score": 77.58,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "is2_sharpe": 1.6085,
+       "full_sharpe": 0.8114,
+       "worst_year": -0.1121
+      },
+      "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+     },
+     "5": {
+      "score": 24.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "max_corr_others": 0.48,
+       "portfolio_benefit_context": 0.3763,
+       "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+      },
+      "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+     },
+     "6": {
+      "score": 100.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "n_trades_full": 474,
+       "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+      },
+      "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+     },
+     "7": {
+      "score": 100.0,
+      "weight": 0.05,
+      "status": "tested",
+      "reads": {
+       "prereg_chain": true,
+       "declared_clean": true,
+       "batch_script": "ce_transfer.py",
+       "null_margin_vs_skill_line": -0.3512,
+       "ledger_head_total": 182952
+      },
+      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+     },
+     "8": {
+      "score": 0.0,
+      "weight": 0.0,
+      "status": "untested",
+      "reads": {
+       "paper_months_tracked": 0
+      },
+      "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+     }
+    },
+    "honest_notes": [
+     "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+    ],
+    "level": "INTERN",
+    "name": "复合软化一号"
+   },
+   "COMPOSITE-CE-02": {
+    "grade": "A",
+    "total": 71.85,
+    "veto_clean": true,
+    "vetoes": {
+     "future_data": {
+      "pass": true,
+      "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+     },
+     "x2_not_survive": {
+      "pass": true,
+      "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+     },
+     "worst_start_dd_breach": {
+      "pass": true,
+      "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+     },
+     "oos_blindspot": {
+      "pass": true,
+      "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+     },
+     "snooping_undeclared": {
+      "pass": true,
+      "provenance": "family-discount/honest flags recorded in registration notes = declared"
+     }
+    },
+    "dims": {
+     "1": {
+      "score": 83.93,
+      "weight": 0.3,
+      "status": "tested",
+      "reads": {
+       "beat_rate_6m": 0.68,
+       "min_dd_6m": -0.204,
+       "median_excess_6m": 0.044914499999999996,
+       "p5_verdict_pass": false
+      },
+      "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+     },
+     "2": {
+      "score": 66.72,
+      "weight": 0.2,
+      "status": "tested",
+      "reads": {
+       "full_sharpe": 0.6099,
+       "oos_sharpe": 1.4853,
+       "skill_line_v2": 1.1626,
+       "i_line": 0.3521
+      },
+      "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+     },
+     "3": {
+      "score": 39.52,
+      "weight": 0.15,
+      "status": "tested",
+      "reads": {
+       "cost_x2_sharpe": 0.4311,
+       "x3_full_recorded": 0.2149,
+       "vi_bar": 0.4004,
+       "x2_survive": true
+      },
+      "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+     },
+     "4": {
+      "score": 100.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "is2_sharpe": 1.4853,
+       "full_sharpe": 0.6099,
+       "worst_year": 0.0028
+      },
+      "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+     },
+     "5": {
+      "score": 24.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "max_corr_others": 0.48,
+       "portfolio_benefit_context": 0.3763,
+       "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+      },
+      "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+     },
+     "6": {
+      "score": 100.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "n_trades_full": 795,
+       "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+      },
+      "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+     },
+     "7": {
+      "score": 100.0,
+      "weight": 0.05,
+      "status": "tested",
+      "reads": {
+       "prereg_chain": true,
+       "declared_clean": true,
+       "batch_script": "ce_transfer.py",
+       "null_margin_vs_skill_line": -0.5527,
+       "ledger_head_total": 182952
+      },
+      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+     },
+     "8": {
+      "score": 0.0,
+      "weight": 0.0,
+      "status": "untested",
+      "reads": {
+       "paper_months_tracked": 0
+      },
+      "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+     }
+    },
+    "honest_notes": [
+     "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+    ],
+    "level": "INTERN",
+    "name": "复合软化二号"
+   },
+   "DROUGHT-CE-01": {
+    "grade": "S",
+    "total": 86.5,
+    "veto_clean": true,
+    "vetoes": {
+     "future_data": {
+      "pass": true,
+      "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+     },
+     "x2_not_survive": {
+      "pass": true,
+      "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+     },
+     "worst_start_dd_breach": {
+      "pass": true,
+      "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+     },
+     "oos_blindspot": {
+      "pass": true,
+      "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+     },
+     "snooping_undeclared": {
+      "pass": true,
+      "provenance": "family-discount/honest flags recorded in registration notes = declared"
+     }
+    },
+    "dims": {
+     "1": {
+      "score": 86.28,
+      "weight": 0.3,
+      "status": "tested",
+      "reads": {
+       "beat_rate_6m": 0.64,
+       "min_dd_6m": -0.0512,
+       "median_excess_6m": 0.021739500000000002,
+       "p5_verdict_pass": false
+      },
+      "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+     },
+     "2": {
+      "score": 73.59,
+      "weight": 0.2,
+      "status": "tested",
+      "reads": {
+       "full_sharpe": 0.724,
+       "oos_sharpe": 1.213,
+       "skill_line_v2": 1.1626,
+       "i_line": 0.3521
+      },
+      "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+     },
+     "3": {
+      "score": 100.0,
+      "weight": 0.15,
+      "status": "tested",
+      "reads": {
+       "cost_x2_sharpe": 0.59,
+       "x3_full_recorded": 0.4542,
+       "vi_bar": 0.4004,
+       "x2_survive": true
+      },
+      "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+     },
+     "4": {
+      "score": 97.28,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "is2_sharpe": 1.213,
+       "full_sharpe": 0.724,
+       "worst_year": -0.0136
+      },
+      "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+     },
+     "5": {
+      "score": 61.72,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "max_corr_others": 0.2914,
+       "portfolio_benefit_context": 0.3763,
+       "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+      },
+      "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+     },
+     "6": {
+      "score": 100.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "n_trades_full": 120,
+       "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+      },
+      "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+     },
+     "7": {
+      "score": 100.0,
+      "weight": 0.05,
+      "status": "tested",
+      "reads": {
+       "prereg_chain": true,
+       "declared_clean": true,
+       "batch_script": "g2_folk.py",
+       "null_margin_vs_skill_line": -0.4386,
+       "ledger_head_total": 182952
+      },
+      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+     },
+     "8": {
+      "score": 0.0,
+      "weight": 0.0,
+      "status": "untested",
+      "reads": {
+       "paper_months_tracked": 0
+      },
+      "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+     }
+    },
+    "honest_notes": [
+     "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+    ],
+    "level": "INTERN",
+    "name": "地量反转一号"
+   },
+   "ENGULF-CE-01": {
+    "grade": "A",
+    "total": 68.17,
+    "veto_clean": true,
+    "vetoes": {
+     "future_data": {
+      "pass": true,
+      "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+     },
+     "x2_not_survive": {
+      "pass": true,
+      "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+     },
+     "worst_start_dd_breach": {
+      "pass": true,
+      "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+     },
+     "oos_blindspot": {
+      "pass": true,
+      "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+     },
+     "snooping_undeclared": {
+      "pass": true,
+      "provenance": "family-discount/honest flags recorded in registration notes = declared"
+     }
+    },
+    "dims": {
+     "1": {
+      "score": 82.68,
+      "weight": 0.3,
+      "status": "tested",
+      "reads": {
+       "beat_rate_6m": 0.6,
+       "min_dd_6m": -0.0414,
+       "median_excess_6m": 0.020829,
+       "p5_verdict_pass": false
+      },
+      "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+     },
+     "2": {
+      "score": 57.55,
+      "weight": 0.2,
+      "status": "tested",
+      "reads": {
+       "full_sharpe": 0.5392,
+       "oos_sharpe": 0.2944,
+       "skill_line_v2": 1.1626,
+       "i_line": 0.3521
+      },
+      "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+     },
+     "3": {
+      "score": 29.14,
+      "weight": 0.15,
+      "status": "tested",
+      "reads": {
+       "cost_x2_sharpe": 0.402,
+       "x3_full_recorded": 0.2633,
+       "vi_bar": 0.4004,
+       "x2_survive": true
+      },
+      "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+     },
+     "4": {
+      "score": 79.28,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "is2_sharpe": 0.2944,
+       "full_sharpe": 0.5392,
+       "worst_year": -0.0128
+      },
+      "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+     },
+     "5": {
+      "score": 45.52,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "max_corr_others": 0.3724,
+       "portfolio_benefit_context": 0.3763,
+       "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+      },
+      "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+     },
+     "6": {
+      "score": 100.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "n_trades_full": 143,
+       "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+      },
+      "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+     },
+     "7": {
+      "score": 100.0,
+      "weight": 0.05,
+      "status": "tested",
+      "reads": {
+       "prereg_chain": true,
+       "declared_clean": true,
+       "batch_script": "g2_folk.py",
+       "null_margin_vs_skill_line": -0.6234,
+       "ledger_head_total": 182952
+      },
+      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+     },
+     "8": {
+      "score": 0.0,
+      "weight": 0.0,
+      "status": "untested",
+      "reads": {
+       "paper_months_tracked": 0
+      },
+      "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+     }
+    },
+    "honest_notes": [
+     "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)",
+     "x2 margin razor-thin (<5% over vi_bar) -- watchdog mandatory (O-2205)"
+    ],
+    "level": "INTERN",
+    "name": "阳包阴一号"
+   },
+   "NEEDLE-DE-01": {
+    "grade": "A",
+    "total": 79.84,
+    "veto_clean": true,
+    "vetoes": {
+     "future_data": {
+      "pass": true,
+      "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+     },
+     "x2_not_survive": {
+      "pass": true,
+      "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+     },
+     "worst_start_dd_breach": {
+      "pass": true,
+      "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+     },
+     "oos_blindspot": {
+      "pass": true,
+      "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+     },
+     "snooping_undeclared": {
+      "pass": true,
+      "provenance": "family-discount/honest flags recorded in registration notes = declared"
+     }
+    },
+    "dims": {
+     "1": {
+      "score": 78.38,
+      "weight": 0.3,
+      "status": "tested",
+      "reads": {
+       "beat_rate_6m": 0.58,
+       "min_dd_6m": -0.0312,
+       "median_excess_6m": 0.012214,
+       "p5_verdict_pass": false
+      },
+      "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+     },
+     "2": {
+      "score": 69.88,
+      "weight": 0.2,
+      "status": "tested",
+      "reads": {
+       "full_sharpe": 0.6624,
+       "oos_sharpe": 0.4089,
+       "skill_line_v2": 1.1626,
+       "i_line": 0.3521
+      },
+      "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+     },
+     "3": {
+      "score": 95.51,
+      "weight": 0.15,
+      "status": "tested",
+      "reads": {
+       "cost_x2_sharpe": 0.574,
+       "x3_full_recorded": 0.4833,
+       "vi_bar": 0.4004,
+       "x2_survive": true
+      },
+      "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+     },
+     "4": {
+      "score": 84.69,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "is2_sharpe": 0.4089,
+       "full_sharpe": 0.6624,
+       "worst_year": 0.0
+      },
+      "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+     },
+     "5": {
+      "score": 45.52,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "max_corr_others": 0.3724,
+       "portfolio_benefit_context": 0.3763,
+       "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+      },
+      "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+     },
+     "6": {
+      "score": 100.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "n_trades_full": 73,
+       "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+      },
+      "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+     },
+     "7": {
+      "score": 100.0,
+      "weight": 0.05,
+      "status": "tested",
+      "reads": {
+       "prereg_chain": true,
+       "declared_clean": true,
+       "batch_script": "g2_folk.py",
+       "null_margin_vs_skill_line": -0.5002,
+       "ledger_head_total": 182952
+      },
+      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+     },
+     "8": {
+      "score": 0.0,
+      "weight": 0.0,
+      "status": "untested",
+      "reads": {
+       "paper_months_tracked": 0
+      },
+      "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+     }
+    },
+    "honest_notes": [
+     "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+    ],
+    "level": "INTERN",
+    "name": "金针探底一号"
+   },
+   "VOLATILITY-CE-01": {
+    "grade": "S",
+    "total": 87.05,
+    "veto_clean": true,
+    "vetoes": {
+     "future_data": {
+      "pass": true,
+      "provenance": "no violation recorded in registration; engine causality guard = smoke 20/20 system-level + paper truncate-and-compare selftest"
+     },
+     "x2_not_survive": {
+      "pass": true,
+      "provenance": "firm/traders registration certificate backtest.cost_x2.survive"
+     },
+     "worst_start_dd_breach": {
+      "pass": true,
+      "provenance": "P-5/P-5B min_dd_6m vs -35% red line (O-1816/O-2345)"
+     },
+     "oos_blindspot": {
+      "pass": true,
+      "provenance": "registration carries evidence_cutoff + tracked OOS metrics"
+     },
+     "snooping_undeclared": {
+      "pass": true,
+      "provenance": "family-discount/honest flags recorded in registration notes = declared"
+     }
+    },
+    "dims": {
+     "1": {
+      "score": 85.96,
+      "weight": 0.3,
+      "status": "tested",
+      "reads": {
+       "beat_rate_6m": 0.62,
+       "min_dd_6m": -0.0354,
+       "median_excess_6m": 0.0260535,
+       "p5_verdict_pass": false
+      },
+      "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
+     },
+     "2": {
+      "score": 100.0,
+      "weight": 0.2,
+      "status": "tested",
+      "reads": {
+       "full_sharpe": 1.2578,
+       "oos_sharpe": 2.0568,
+       "skill_line_v2": 1.1626,
+       "i_line": 0.3521
+      },
+      "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
+     },
+     "3": {
+      "score": 76.17,
+      "weight": 0.15,
+      "status": "tested",
+      "reads": {
+       "cost_x2_sharpe": 0.5338,
+       "x3_full_recorded": null,
+       "vi_bar": 0.4004,
+       "x2_survive": true
+      },
+      "formula": "ratio=cost_x2_sharpe/vi_bar; x2=100*clip((ratio-0.80)/0.70,0,1); bonus=+5 if recorded x3 full sharpe >= vi_bar else 0; D3=min(100,x2+bonus)"
+     },
+     "4": {
+      "score": 97.54,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "is2_sharpe": 2.0568,
+       "full_sharpe": 1.2578,
+       "worst_year": -0.0123
+      },
+      "formula": "retention=100*min(1,is2_sharpe/full_sharpe); worst_year=100*clip((worst_year+0.20)/0.20,0,1) [None=untested,re-norm]; direction=100 if is2_sharpe>0 else 0; D4=0.4*retention+0.4*worst_year+0.2*direction"
+     },
+     "5": {
+      "score": 50.82,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "max_corr_others": 0.3459,
+       "portfolio_benefit_context": 0.3763,
+       "note": "benefit/DR contribution is portfolio-level in EW6 -> per-member untestable, context only"
+      },
+      "formula": "corr=100*clip((0.60-max_corr_others)/0.50,0,1) [portfolio benefit contribution = portfolio-level only, untestable per-member -> context]; D5=corr"
+     },
+     "6": {
+      "score": 100.0,
+      "weight": 0.1,
+      "status": "tested",
+      "reads": {
+       "n_trades_full": 522,
+       "note": "pool capacity + T+1 turnover load = no wired per-trader data -> untested, re-norm"
+      },
+      "formula": "trades=100 if 30<=n<=800 else below:100*clip((n-10)/20,0,1) / above:100*clip((1200-n)/400,0,1); [pool capacity + T+1 turnover load = no wired data -> untested, re-norm]; D6=trades"
+     },
+     "7": {
+      "score": 100.0,
+      "weight": 0.05,
+      "status": "tested",
+      "reads": {
+       "prereg_chain": true,
+       "declared_clean": true,
+       "batch_script": "combined_exit_screen.py",
+       "null_margin_vs_skill_line": 0.0952,
+       "ledger_head_total": 182952
+      },
+      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
+     },
+     "8": {
+      "score": 0.0,
+      "weight": 0.0,
+      "status": "untested",
+      "reads": {
+       "paper_months_tracked": 0
+      },
+      "formula": "check dimension, weight 0 until first paper month (framework s5); months_tracked==0 -> untested"
+     }
+    },
+    "honest_notes": [
+     "P-5/P-5B beat-line 0.70 verdict = FAIL (regime-premium discount stands; score is ranking-line not gate, framework s0)"
+    ],
+    "level": "INTERN",
+    "name": "组合软化一号"
+   }
+  }
+ },
+ "trader_cards": {
+  "COMPOSITE-CE-01": {
+   "trader": "COMPOSITE-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": 77.29,
+    "grade": "A",
+    "veto_clean": true,
+    "dims": {
+     "1": 85.08,
+     "2": 78.85,
+     "3": 72.24,
+     "4": 77.58,
+     "5": 24.0,
+     "6": 100.0,
+     "7": 100.0,
+     "8": 0.0
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "tested",
+    "months_tracked": 0,
+    "n_monthly_returns": 0,
+    "current_dd": -0.0007,
+    "capital": {
+     "initial_cash_cny": 1000000.0,
+     "equity_cny": 999284.79,
+     "positions_value_cny": 950523.67,
+     "cash_cny": 48761.12,
+     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+     "denomination": "CNY"
+    },
+    "paper_start": "2026-09-23",
+    "x2_watch": {
+     "state": null
+    },
+    "cost_x2_check": {
+     "status": "insufficient_data",
+     "bars": 2,
+     "min_bars": 20
+    }
+   },
+   "discipline": {
+    "state": "tested",
+    "violations": [],
+    "veto": false,
+    "note": "clean"
+   },
+   "progress": {
+    "state": "tested",
+    "g25_verdict": "fail",
+    "dsr": 0.042409,
+    "dsr_gate": 0.95,
+    "ci_pass": false,
+    "pbo_status": "pass",
+    "paper_months_hr_threshold": "hr.py authority (read-only)"
+   },
+   "profile": {
+    "state": "tested",
+    "corps": "attack",
+    "passing_segments": [
+     "bear",
+     "bull",
+     "chop"
+    ],
+    "segment_beat_rate_12m": {
+     "bull": 0.8191,
+     "bear": 0.5659,
+     "chop": 0.7356
+    },
+    "segment_evidence": null,
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "COMPOSITE-CE-02": {
+   "trader": "COMPOSITE-CE-02",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": 71.85,
+    "grade": "A",
+    "veto_clean": true,
+    "dims": {
+     "1": 83.93,
+     "2": 66.72,
+     "3": 39.52,
+     "4": 100.0,
+     "5": 24.0,
+     "6": 100.0,
+     "7": 100.0,
+     "8": 0.0
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "tested",
+    "months_tracked": 0,
+    "n_monthly_returns": 0,
+    "current_dd": -0.001,
+    "capital": {
+     "initial_cash_cny": 1000000.0,
+     "equity_cny": 999013.13,
+     "positions_value_cny": 949851.64,
+     "cash_cny": 49161.49,
+     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+     "denomination": "CNY"
+    },
+    "paper_start": "2026-09-23",
+    "x2_watch": {
+     "state": null
+    },
+    "cost_x2_check": {
+     "status": "insufficient_data",
+     "bars": 2,
+     "min_bars": 20
+    }
+   },
+   "discipline": {
+    "state": "tested",
+    "violations": [],
+    "veto": false,
+    "note": "clean"
+   },
+   "progress": {
+    "state": "tested",
+    "g25_verdict": "fail",
+    "dsr": 0.074987,
+    "dsr_gate": 0.95,
+    "ci_pass": false,
+    "pbo_status": "pass",
+    "paper_months_hr_threshold": "hr.py authority (read-only)"
+   },
+   "profile": {
+    "state": "tested",
+    "corps": "chop",
+    "passing_segments": [
+     "bear",
+     "bull",
+     "chop"
+    ],
+    "segment_beat_rate_12m": {
+     "bull": 0.634,
+     "bear": 0.6533,
+     "chop": 0.6667
+    },
+    "segment_evidence": null,
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "DROUGHT-CE-01": {
+   "trader": "DROUGHT-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": 86.5,
+    "grade": "S",
+    "veto_clean": true,
+    "dims": {
+     "1": 86.28,
+     "2": 73.59,
+     "3": 100.0,
+     "4": 97.28,
+     "5": 61.72,
+     "6": 100.0,
+     "7": 100.0,
+     "8": 0.0
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "tested",
+    "months_tracked": 0,
+    "n_monthly_returns": 0,
+    "current_dd": 0.0,
+    "capital": {
+     "initial_cash_cny": 1000000.0,
+     "equity_cny": 1000000.0,
+     "positions_value_cny": 0,
+     "cash_cny": 1000000.0,
+     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+     "denomination": "CNY"
+    },
+    "paper_start": "2026-09-23",
+    "x2_watch": {
+     "state": null
+    },
+    "cost_x2_check": {
+     "status": "insufficient_data",
+     "bars": 2,
+     "min_bars": 20
+    }
+   },
+   "discipline": {
+    "state": "tested",
+    "violations": [],
+    "veto": false,
+    "note": "clean"
+   },
+   "progress": {
+    "state": "tested",
+    "g25_verdict": "fail",
+    "dsr": 0.030128,
+    "dsr_gate": 0.95,
+    "ci_pass": false,
+    "pbo_status": "observe",
+    "paper_months_hr_threshold": "hr.py authority (read-only)"
+   },
+   "profile": {
+    "state": "tested",
+    "corps": "chop",
+    "passing_segments": [
+     "bear",
+     "bull",
+     "chop"
+    ],
+    "segment_beat_rate_12m": {
+     "bull": 0.5638,
+     "bear": 0.5616,
+     "chop": 0.6207
+    },
+    "segment_evidence": null,
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "ENGULF-CE-01": {
+   "trader": "ENGULF-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": 68.17,
+    "grade": "A",
+    "veto_clean": true,
+    "dims": {
+     "1": 82.68,
+     "2": 57.55,
+     "3": 29.14,
+     "4": 79.28,
+     "5": 45.52,
+     "6": 100.0,
+     "7": 100.0,
+     "8": 0.0
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "tested",
+    "months_tracked": 0,
+    "n_monthly_returns": 0,
+    "current_dd": 0.0,
+    "capital": {
+     "initial_cash_cny": 1000000.0,
+     "equity_cny": 1000000.0,
+     "positions_value_cny": 0,
+     "cash_cny": 1000000.0,
+     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+     "denomination": "CNY"
+    },
+    "paper_start": "2026-09-23",
+    "x2_watch": {
+     "state": null
+    },
+    "cost_x2_check": {
+     "status": "insufficient_data",
+     "bars": 2,
+     "min_bars": 20
+    }
+   },
+   "discipline": {
+    "state": "tested",
+    "violations": [],
+    "veto": false,
+    "note": "clean"
+   },
+   "progress": {
+    "state": "tested",
+    "g25_verdict": "fail",
+    "dsr": 0.018704,
+    "dsr_gate": 0.95,
+    "ci_pass": false,
+    "pbo_status": "pass",
+    "paper_months_hr_threshold": "hr.py authority (read-only)"
+   },
+   "profile": {
+    "state": "tested",
+    "corps": "chop",
+    "passing_segments": [
+     "bear",
+     "bull",
+     "chop"
+    ],
+    "segment_beat_rate_12m": {
+     "bull": 0.5426,
+     "bear": 0.563,
+     "chop": 0.6207
+    },
+    "segment_evidence": null,
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "NEEDLE-DE-01": {
+   "trader": "NEEDLE-DE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": 79.84,
+    "grade": "A",
+    "veto_clean": true,
+    "dims": {
+     "1": 78.38,
+     "2": 69.88,
+     "3": 95.51,
+     "4": 84.69,
+     "5": 45.52,
+     "6": 100.0,
+     "7": 100.0,
+     "8": 0.0
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "tested",
+    "months_tracked": 0,
+    "n_monthly_returns": 0,
+    "current_dd": 0.0,
+    "capital": {
+     "initial_cash_cny": 1000000.0,
+     "equity_cny": 1000000.0,
+     "positions_value_cny": 0,
+     "cash_cny": 1000000.0,
+     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+     "denomination": "CNY"
+    },
+    "paper_start": "2026-09-23",
+    "x2_watch": {
+     "state": null
+    },
+    "cost_x2_check": {
+     "status": "insufficient_data",
+     "bars": 2,
+     "min_bars": 20
+    }
+   },
+   "discipline": {
+    "state": "tested",
+    "violations": [],
+    "veto": false,
+    "note": "clean"
+   },
+   "progress": {
+    "state": "tested",
+    "g25_verdict": "fail",
+    "dsr": 0.044671,
+    "dsr_gate": 0.95,
+    "ci_pass": false,
+    "pbo_status": "fail",
+    "paper_months_hr_threshold": "hr.py authority (read-only)"
+   },
+   "profile": {
+    "state": "tested",
+    "corps": "chop",
+    "passing_segments": [
+     "bear",
+     "bull",
+     "chop"
+    ],
+    "segment_beat_rate_12m": {
+     "bull": 0.5596,
+     "bear": 0.5258,
+     "chop": 0.6207
+    },
+    "segment_evidence": null,
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "VOLATILITY-CE-01": {
+   "trader": "VOLATILITY-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": 87.05,
+    "grade": "S",
+    "veto_clean": true,
+    "dims": {
+     "1": 85.96,
+     "2": 100.0,
+     "3": 76.17,
+     "4": 97.54,
+     "5": 50.82,
+     "6": 100.0,
+     "7": 100.0,
+     "8": 0.0
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "tested",
+    "months_tracked": 0,
+    "n_monthly_returns": 0,
+    "current_dd": -0.0017,
+    "capital": {
+     "initial_cash_cny": 1000000.0,
+     "equity_cny": 998347.32,
+     "positions_value_cny": 498999.96,
+     "cash_cny": 499347.36,
+     "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+     "denomination": "CNY"
+    },
+    "paper_start": "2026-09-23",
+    "x2_watch": {
+     "state": null
+    },
+    "cost_x2_check": {
+     "status": "insufficient_data",
+     "bars": 2,
+     "min_bars": 20
+    }
+   },
+   "discipline": {
+    "state": "tested",
+    "violations": [],
+    "veto": false,
+    "note": "clean"
+   },
+   "progress": {
+    "state": "tested",
+    "g25_verdict": "fail",
+    "dsr": 0.348554,
+    "dsr_gate": 0.95,
+    "ci_pass": true,
+    "pbo_status": "observe",
+    "paper_months_hr_threshold": "hr.py authority (read-only)"
+   },
+   "profile": {
+    "state": "tested",
+    "corps": "chop",
+    "passing_segments": [
+     "bear",
+     "bull",
+     "chop"
+    ],
+    "segment_beat_rate_12m": {
+     "bull": 0.5702,
+     "bear": 0.5917,
+     "chop": 0.6207
+    },
+    "segment_evidence": null,
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-ANTS-01": {
+   "trader": "PROS-ANTS-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.6294,
+     "recorded_x2_full_sharpe": 0.0146,
+     "recorded_oos_trades": 66,
+     "recorded_max_dd": -0.0611,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0227
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "pending-classification",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-ANTS-CE-01": {
+   "trader": "PROS-ANTS-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.5221,
+     "recorded_x2_full_sharpe": -0.027,
+     "recorded_oos_trades": 60,
+     "recorded_max_dd": -0.0623,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0228
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "pending-classification",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-BBS-01": {
+   "trader": "PROS-BBS-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.5315,
+     "recorded_x2_full_sharpe": -0.118,
+     "recorded_oos_trades": 167,
+     "recorded_max_dd": -0.1342,
+     "g2_neighborhood_pass": true,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0497
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-BBS-CE-01": {
+   "trader": "PROS-BBS-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.6196,
+     "recorded_x2_full_sharpe": -0.0162,
+     "recorded_oos_trades": 131,
+     "recorded_max_dd": -0.1384,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0536
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-DOJI-01": {
+   "trader": "PROS-DOJI-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.3398,
+     "recorded_x2_full_sharpe": -0.034,
+     "recorded_oos_trades": 141,
+     "recorded_max_dd": -0.1913,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0601
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-DOJI-CE-01": {
+   "trader": "PROS-DOJI-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.4018,
+     "recorded_x2_full_sharpe": 0.0523,
+     "recorded_oos_trades": 105,
+     "recorded_max_dd": -0.1685,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0568
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-DUCK-01": {
+   "trader": "PROS-DUCK-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.8227,
+     "recorded_x2_full_sharpe": 0.2583,
+     "recorded_oos_trades": 264,
+     "recorded_max_dd": -0.077,
+     "g2_neighborhood_pass": true,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0242
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "attack",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-DUCK-CE-01": {
+   "trader": "PROS-DUCK-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.6059,
+     "recorded_x2_full_sharpe": 0.2097,
+     "recorded_oos_trades": 225,
+     "recorded_max_dd": -0.1165,
+     "g2_neighborhood_pass": true,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0695
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "attack",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-HAM-01": {
+   "trader": "PROS-HAM-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.1544,
+     "recorded_x2_full_sharpe": 0.0256,
+     "recorded_oos_trades": 124,
+     "recorded_max_dd": -0.1287,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0363
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-HAM-CE-01": {
+   "trader": "PROS-HAM-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.1283,
+     "recorded_x2_full_sharpe": 0.0447,
+     "recorded_oos_trades": 95,
+     "recorded_max_dd": -0.1229,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0393
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-IBB-01": {
+   "trader": "PROS-IBB-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 1.1122,
+     "recorded_x2_full_sharpe": -0.0697,
+     "recorded_oos_trades": 365,
+     "recorded_max_dd": -0.2466,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0937
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "attack",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-IBB-CE-01": {
+   "trader": "PROS-IBB-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 1.3755,
+     "recorded_x2_full_sharpe": 0.0416,
+     "recorded_oos_trades": 335,
+     "recorded_max_dd": -0.2279,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0879
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "attack",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-IMM-01": {
+   "trader": "PROS-IMM-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.432,
+     "recorded_x2_full_sharpe": -0.2358,
+     "recorded_oos_trades": 286,
+     "recorded_max_dd": -0.2123,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.1194
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "pending-classification",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-IMM-CE-01": {
+   "trader": "PROS-IMM-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.3595,
+     "recorded_x2_full_sharpe": -0.2234,
+     "recorded_oos_trades": 247,
+     "recorded_max_dd": -0.208,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.1183
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "pending-classification",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-MCB-01": {
+   "trader": "PROS-MCB-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.7651,
+     "recorded_x2_full_sharpe": -0.3731,
+     "recorded_oos_trades": 345,
+     "recorded_max_dd": -0.1132,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0588
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "pending-classification",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-MCB-CE-01": {
+   "trader": "PROS-MCB-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.9458,
+     "recorded_x2_full_sharpe": -0.2443,
+     "recorded_oos_trades": 303,
+     "recorded_max_dd": -0.1038,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0437
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "pending-classification",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-OVB-01": {
+   "trader": "PROS-OVB-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.4749,
+     "recorded_x2_full_sharpe": 0.1419,
+     "recorded_oos_trades": 41,
+     "recorded_max_dd": -0.0455,
+     "g2_neighborhood_pass": true,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0182
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-OVB-CE-01": {
+   "trader": "PROS-OVB-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.4749,
+     "recorded_x2_full_sharpe": 0.1513,
+     "recorded_oos_trades": 41,
+     "recorded_max_dd": -0.0455,
+     "g2_neighborhood_pass": true,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0176
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-RSRS-CE-01": {
+   "trader": "PROS-RSRS-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.8398,
+     "recorded_x2_full_sharpe": -0.1749,
+     "recorded_oos_trades": 237,
+     "recorded_max_dd": -0.236,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.09
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "pending-classification",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-TMU-01": {
+   "trader": "PROS-TMU-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.5381,
+     "recorded_x2_full_sharpe": 0.0023,
+     "recorded_oos_trades": 22,
+     "recorded_max_dd": -0.0403,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0199
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-TMU-CE-01": {
+   "trader": "PROS-TMU-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 0.5009,
+     "recorded_x2_full_sharpe": 0.0143,
+     "recorded_oos_trades": 18,
+     "recorded_max_dd": -0.0383,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0198
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "chop",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  },
+  "PROS-VOB-CE-01": {
+   "trader": "PROS-VOB-CE-01",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "inherited_strategy": {
+    "total": null,
+    "grade": null,
+    "veto_clean": null,
+    "dims": {
+     "recorded_oos_sharpe": 1.267,
+     "recorded_x2_full_sharpe": 0.2013,
+     "recorded_oos_trades": 215,
+     "recorded_max_dd": -0.117,
+     "g2_neighborhood_pass": false,
+     "g2_cost_x3_pass": false,
+     "g2_per_year_pass": true,
+     "g2_worst_year": -0.0389
+    },
+    "source": "results/scorecard_v1.json (scripts/scorecard.py v1.0)"
+   },
+   "live_paper": {
+    "state": "⬜ 未测",
+    "note": "no paper account (PROSPECT constructive)"
+   },
+   "discipline": {
+    "state": "⬜ 未测",
+    "violations": [],
+    "note": "paper discipline untracked pre-registration"
+   },
+   "progress": {
+    "state": "⬜ 未测",
+    "note": "no g25 evidence file"
+   },
+   "profile": {
+    "state": "⬜ 未测",
+    "corps": "attack",
+    "passing_segments": null,
+    "segment_beat_rate_12m": null,
+    "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
+    "no_blowup": true,
+    "source": "results/corps_roster.json (T-33 data-determined corps face)"
+   }
+  }
+ },
+ "portfolio_cards": {
+  "A_IV": {
+   "portfolio": "A_IV",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
+   "quality": {
+    "state": "tested",
+    "x1_full_sharpe": 0.7041,
+    "x1_annual": 0.0138,
+    "x1_max_dd": -0.0387,
+    "benefit": 0.3515,
+    "drawdown": -0.0387,
+    "eligible": null,
+    "yearly": {
+     "2020": 0.0368,
+     "2021": -0.0106,
+     "2022": -0.0058,
+     "2023": -0.0017,
+     "2024": 0.0238,
+     "2025": 0.0411,
+     "2026": 0.0039
+    },
+    "worst_year": -0.0106
+   },
+   "cost": {
+    "state": "tested",
+    "x2_full_sharpe": 0.1705,
+    "x2_margin": -0.2299,
+    "note": "x2 survival gate (SCIENCE cost v2); margin vs frozen vi_bar"
+   },
+   "segment_coverage": {
+    "state": "tested",
+    "yearly_face": {
+     "2020": 0.0368,
+     "2021": -0.0106,
+     "2022": -0.0058,
+     "2023": -0.0017,
+     "2024": 0.0238,
+     "2025": 0.0411,
+     "2026": 0.0039
+    },
+    "note": "O-2012 no-universal-blend: per-year + regime-segment disclosure mandatory; 2025+ face = IS2 forward-lockbox (d2_note in source file)"
+   },
+   "cross_period_j4": {
+    "state": "pointer",
+    "source": "results/spm_j4_attribution.json + results/current_market_stable_profit.json (T-28 J1-J4)",
+    "note": "portfolio-level J4 honest negative on record (stable-profit verdict NOT-DEMONSTRATED)"
+   },
+   "marginal": {
+    "state": "tested",
+    "max_abs_corr_vs_other_methods": 0.9995,
+    "n_members_weighted": 28
+   },
+   "statistical": {
+    "state": "tested",
+    "trials_ledger_total": 3205,
+    "batch_trials": 86
+   }
+  },
+  "B_MAXDIV": {
+   "portfolio": "B_MAXDIV",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
+   "quality": {
+    "state": "tested",
+    "x1_full_sharpe": 1.068,
+    "x1_annual": 0.014,
+    "x1_max_dd": -0.0163,
+    "benefit": 0.66,
+    "drawdown": -0.0163,
+    "eligible": null,
+    "yearly": {
+     "2020": 0.029,
+     "2021": 0.0,
+     "2022": 0.0012,
+     "2023": -0.0006,
+     "2024": 0.0171,
+     "2025": 0.0345,
+     "2026": 0.0076
+    },
+    "worst_year": -0.0006
+   },
+   "cost": {
+    "state": "tested",
+    "x2_full_sharpe": 0.6141,
+    "x2_margin": 0.2137,
+    "note": "x2 survival gate (SCIENCE cost v2); margin vs frozen vi_bar"
+   },
+   "segment_coverage": {
+    "state": "tested",
+    "yearly_face": {
+     "2020": 0.029,
+     "2021": 0.0,
+     "2022": 0.0012,
+     "2023": -0.0006,
+     "2024": 0.0171,
+     "2025": 0.0345,
+     "2026": 0.0076
+    },
+    "note": "O-2012 no-universal-blend: per-year + regime-segment disclosure mandatory; 2025+ face = IS2 forward-lockbox (d2_note in source file)"
+   },
+   "cross_period_j4": {
+    "state": "pointer",
+    "source": "results/spm_j4_attribution.json + results/current_market_stable_profit.json (T-28 J1-J4)",
+    "note": "portfolio-level J4 honest negative on record (stable-profit verdict NOT-DEMONSTRATED)"
+   },
+   "marginal": {
+    "state": "tested",
+    "max_abs_corr_vs_other_methods": 0.886,
+    "n_members_weighted": 28
+   },
+   "statistical": {
+    "state": "tested",
+    "trials_ledger_total": 3205,
+    "batch_trials": 86
+   }
+  },
+  "C_IVMOM": {
+   "portfolio": "C_IVMOM",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
+   "quality": {
+    "state": "tested",
+    "x1_full_sharpe": 0.7385,
+    "x1_annual": 0.0146,
+    "x1_max_dd": -0.0386,
+    "benefit": 0.3712,
+    "drawdown": -0.0386,
+    "eligible": null,
+    "yearly": {
+     "2020": 0.0381,
+     "2021": -0.01,
+     "2022": -0.0061,
+     "2023": -0.0008,
+     "2024": 0.0255,
+     "2025": 0.0417,
+     "2026": 0.0042
+    },
+    "worst_year": -0.01
+   },
+   "cost": {
+    "state": "tested",
+    "x2_full_sharpe": 0.1975,
+    "x2_margin": -0.2029,
+    "note": "x2 survival gate (SCIENCE cost v2); margin vs frozen vi_bar"
+   },
+   "segment_coverage": {
+    "state": "tested",
+    "yearly_face": {
+     "2020": 0.0381,
+     "2021": -0.01,
+     "2022": -0.0061,
+     "2023": -0.0008,
+     "2024": 0.0255,
+     "2025": 0.0417,
+     "2026": 0.0042
+    },
+    "note": "O-2012 no-universal-blend: per-year + regime-segment disclosure mandatory; 2025+ face = IS2 forward-lockbox (d2_note in source file)"
+   },
+   "cross_period_j4": {
+    "state": "pointer",
+    "source": "results/spm_j4_attribution.json + results/current_market_stable_profit.json (T-28 J1-J4)",
+    "note": "portfolio-level J4 honest negative on record (stable-profit verdict NOT-DEMONSTRATED)"
+   },
+   "marginal": {
+    "state": "tested",
+    "max_abs_corr_vs_other_methods": 0.9995,
+    "n_members_weighted": 28
+   },
+   "statistical": {
+    "state": "tested",
+    "trials_ledger_total": 3205,
+    "batch_trials": 86
+   }
+  },
+  "D_REGIME": {
+   "portfolio": "D_REGIME",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
+   "quality": {
+    "state": "tested",
+    "x1_full_sharpe": 1.0045,
+    "x1_annual": 0.0261,
+    "x1_max_dd": -0.0451,
+    "benefit": 0.4307,
+    "drawdown": -0.0451,
+    "eligible": null,
+    "yearly": {
+     "2020": 0.0599,
+     "2021": -0.0046,
+     "2022": -0.0216,
+     "2023": 0.0116,
+     "2024": 0.0541,
+     "2025": 0.058,
+     "2026": 0.0104
+    },
+    "worst_year": -0.0216
+   },
+   "cost": {
+    "state": "tested",
+    "x2_full_sharpe": 0.4231,
+    "x2_margin": 0.0227,
+    "note": "x2 survival gate (SCIENCE cost v2); margin vs frozen vi_bar"
+   },
+   "segment_coverage": {
+    "state": "tested",
+    "yearly_face": {
+     "2020": 0.0599,
+     "2021": -0.0046,
+     "2022": -0.0216,
+     "2023": 0.0116,
+     "2024": 0.0541,
+     "2025": 0.058,
+     "2026": 0.0104
+    },
+    "note": "O-2012 no-universal-blend: per-year + regime-segment disclosure mandatory; 2025+ face = IS2 forward-lockbox (d2_note in source file)"
+   },
+   "cross_period_j4": {
+    "state": "pointer",
+    "source": "results/spm_j4_attribution.json + results/current_market_stable_profit.json (T-28 J1-J4)",
+    "note": "portfolio-level J4 honest negative on record (stable-profit verdict NOT-DEMONSTRATED)"
+   },
+   "marginal": {
+    "state": "tested",
+    "max_abs_corr_vs_other_methods": 0.9436,
+    "n_members_weighted": 0
+   },
+   "statistical": {
+    "state": "tested",
+    "trials_ledger_total": 3205,
+    "batch_trials": 86
+   }
+  },
+  "E_EW": {
+   "portfolio": "E_EW",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
+   "quality": {
+    "state": "tested",
+    "x1_full_sharpe": 0.6192,
+    "x1_annual": 0.0197,
+    "x1_max_dd": -0.0747,
+    "benefit": 0.2506,
+    "drawdown": -0.0747,
+    "eligible": null,
+    "yearly": {
+     "2020": 0.0489,
+     "2021": -0.0234,
+     "2022": -0.0148,
+     "2023": -0.0029,
+     "2024": 0.0524,
+     "2025": 0.0583,
+     "2026": 0.0077
+    },
+    "worst_year": -0.0234
+   },
+   "cost": {
+    "state": "tested",
+    "x2_full_sharpe": 0.0985,
+    "x2_margin": -0.3019,
+    "note": "x2 survival gate (SCIENCE cost v2); margin vs frozen vi_bar"
+   },
+   "segment_coverage": {
+    "state": "tested",
+    "yearly_face": {
+     "2020": 0.0489,
+     "2021": -0.0234,
+     "2022": -0.0148,
+     "2023": -0.0029,
+     "2024": 0.0524,
+     "2025": 0.0583,
+     "2026": 0.0077
+    },
+    "note": "O-2012 no-universal-blend: per-year + regime-segment disclosure mandatory; 2025+ face = IS2 forward-lockbox (d2_note in source file)"
+   },
+   "cross_period_j4": {
+    "state": "pointer",
+    "source": "results/spm_j4_attribution.json + results/current_market_stable_profit.json (T-28 J1-J4)",
+    "note": "portfolio-level J4 honest negative on record (stable-profit verdict NOT-DEMONSTRATED)"
+   },
+   "marginal": {
+    "state": "tested",
+    "max_abs_corr_vs_other_methods": 0.9683,
+    "n_members_weighted": 28
+   },
+   "statistical": {
+    "state": "tested",
+    "trials_ledger_total": 3205,
+    "batch_trials": 86
+   }
+  },
+  "IV6": {
+   "portfolio": "IV6",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "source": "results/portfolio_iv6.json",
+   "quality": {
+    "state": "tested",
+    "x1_full_sharpe": 1.3702,
+    "x1_annual": 0.0279,
+    "x1_max_dd": -0.0242,
+    "head_to_head_vs_ew": {
+     "delta_full_sharpe": 0.2264,
+     "delta_annual": -0.0089,
+     "delta_max_dd": 0.0325,
+     "delta_worst_year": 0.0095,
+     "delta_benefit": 0.1907,
+     "delta_dr": 0.2154,
+     "delta_x2_full_sharpe": 0.1415,
+     "corr_iv6_ew6": 0.8882,
+     "carrier_note": "EW stays the validated carrier (prereg s4: no post-run switching; IV adoption = charter s5 T1)"
+    },
+    "void": false
+   },
+   "cost": {
+    "state": "tested",
+    "x2_full_sharpe": 0.8989,
+    "note": "x2 margin disclosure via corr_watch W5 (recorded config)"
+   },
+   "segment_coverage": {
+    "state": "pointer",
+    "note": "per-member yearly in source members face; 2025+ = IS2 forward-lockbox (d2_note)"
+   },
+   "cross_period_j4": {
+    "state": "pointer",
+    "source": "results/spm_j4_attribution.json (T-28 J4 口径)",
+    "note": "member-level 12m beat rates in spm file; portfolio-level stable-profit J4 = NOT-DEMONSTRATED (honest negative)"
+   },
+   "marginal": {
+    "state": "tested",
+    "max_abs_offdiag_member_corr": 0.48,
+    "weights": {
+     "COMPOSITE-CE-01": 0.090018,
+     "COMPOSITE-CE-02": 0.045075,
+     "DROUGHT-CE-01": 0.192833,
+     "ENGULF-CE-01": 0.183957,
+     "NEEDLE-DE-01": 0.252014,
+     "VOLATILITY-CE-01": 0.236103
+    }
+   },
+   "statistical": {
+    "state": "tested",
+    "trials_ledger_total": 2779,
+    "batch_trials": 14,
+    "prereg_sha256_at_run": "0f33111afd302001dc2189155a0adc8611fe073d78c2ba52063db480114b20d7"
+   }
+  },
+  "EW6": {
+   "portfolio": "EW6",
+   "readout_only": true,
+   "no_composite_total": "pre-calibration (sec 8.5)",
+   "source": "results/portfolio_ew6.json",
+   "quality": {
+    "state": "tested",
+    "x1_full_sharpe": 1.1438,
+    "x1_annual": 0.0368,
+    "x1_max_dd": -0.0567,
+    "head_to_head_vs_ew": null,
+    "void": false
+   },
+   "cost": {
+    "state": "tested",
+    "x2_full_sharpe": 0.7574,
+    "note": "x2 margin disclosure via corr_watch W5 (recorded config)"
+   },
+   "segment_coverage": {
+    "state": "pointer",
+    "note": "per-member yearly in source members face; 2025+ = IS2 forward-lockbox (d2_note)"
+   },
+   "cross_period_j4": {
+    "state": "pointer",
+    "source": "results/spm_j4_attribution.json (T-28 J4 口径)",
+    "note": "member-level 12m beat rates in spm file; portfolio-level stable-profit J4 = NOT-DEMONSTRATED (honest negative)"
+   },
+   "marginal": {
+    "state": "tested",
+    "max_abs_offdiag_member_corr": 0.48,
+    "weights": {
+     "COMPOSITE-CE-01": 0.166667,
+     "COMPOSITE-CE-02": 0.166667,
+     "DROUGHT-CE-01": 0.166667,
+     "ENGULF-CE-01": 0.166667,
+     "NEEDLE-DE-01": 0.166667,
+     "VOLATILITY-CE-01": 0.166667
+    }
+   },
+   "statistical": {
+    "state": "tested",
+    "trials_ledger_total": 2753,
+    "batch_trials": 26,
+    "prereg_sha256_at_run": "f842f7648f923467c2ad484ea20aa0aac2115383ff7087bec28a6f62e0aa3131"
+   }
+  }
+ },
+ "cross_period_shared": {
+  "spm_j4": {
+   "state": "pointer",
+   "batch": "SPM_J4_ATTRIBUTION",
+   "evidence_cutoff": "2026-09-23"
+  },
+  "stable_profit": {
+   "verdict": "NOT-DEMONSTRATED (honest negative, all faces disclosed)",
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true,
+    "J4_grid_beat_rate_12m": false,
+    "rule": "J1-J4 all pass = STABLE-PROFIT-DEMONSTRATED (prereg s4, honest negative otherwise)"
+   }
+  },
+  "pbo_cscv": {
+   "module": "screening/pbo.py",
+   "live_fire": {
+    "scope": "book-level CSCV across registered traders — PIPELINE VALIDATION DEMO",
+    "NOT": "this is NOT the G2.5 per-family retro (T-02 deliverable 4, due before the 2026-10-31 promotion gate) — G2.5 runs PBO per candidate family against its own prereg trial grid",
+    "validity_gate": "per trader: reproduced full-history curve seg-metrics match the registered backtest evidence at anchor tolerances -> the matrix IS the registered evidence (6 engine runs = anchor-gate reproductions, same as smoke/paper run each round; NOT new trials, trials ledger N unchanged)",
+    "traders": {
+     "COMPOSITE-CE-01": {
+      "cutoff": "2026-09-22",
+      "is_match": true,
+      "oos_match": true,
+      "full_sharpe": 0.8114
+     },
+     "COMPOSITE-CE-02": {
+      "cutoff": "2026-09-22",
+      "is_match": true,
+      "oos_match": true,
+      "full_sharpe": 0.6099
+     },
+     "DROUGHT-CE-01": {
+      "cutoff": "2026-09-22",
+      "is_match": true,
+      "oos_match": true,
+      "full_sharpe": 0.724
+     },
+     "ENGULF-CE-01": {
+      "cutoff": "2026-09-22",
+      "is_match": true,
+      "oos_match": true,
+      "full_sharpe": 0.5392
+     },
+     "NEEDLE-DE-01": {
+      "cutoff": "2026-09-22",
+      "is_match": true,
+      "oos_match": true,
+      "full_sharpe": 0.6624
+     },
+     "VOLATILITY-CE-01": {
+      "cutoff": "2026-09-22",
+      "is_match": true,
+      "oos_match": true,
+      "full_sharpe": 1.2578
+     }
+    },
+    "matrix": {
+     "T": 1630,
+     "N": 6,
+     "span": [
+      "2020-01-03",
+      "2026-09-22"
+     ],
+     "alignment": {
+      "t_common": 1630,
+      "per_trial_own_rows": {
+       "COMPOSITE-CE-01": 1630,
+       "COMPOSITE-CE-02": 1630,
+       "DROUGHT-CE-01": 1630,
+       "ENGULF-CE-01": 1630,
+       "NEEDLE-DE-01": 1630,
+       "VOLATILITY-CE-01": 1630
+      },
+      "per_trial_kept_fraction": {
+       "COMPOSITE-CE-01": 1.0,
+       "COMPOSITE-CE-02": 1.0,
+       "DROUGHT-CE-01": 1.0,
+       "ENGULF-CE-01": 1.0,
+       "NEEDLE-DE-01": 1.0,
+       "VOLATILITY-CE-01": 1.0
+      },
+      "max_truncation": 0.5
+     }
+    },
+    "cscv": {
+     "pbo": 0.3429,
+     "verdict": "observe",
+     "n_trials": 6,
+     "n_rows": 1630,
+     "n_combinations": 70,
+     "n_blocks": 8,
+     "block_bounds": [
+      0,
+      203,
+      407,
+      611,
+      815,
+      1018,
+      1222,
+      1426,
+      1630
+     ],
+     "omega_mean": 0.38,
+     "omega_median": 0.2,
+     "omega_p05": 0.0,
+     "omega_p95": 1.0,
+     "per_combination": [
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        3
+       ],
+       "is_best_trial": "ENGULF-CE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        4
+       ],
+       "is_best_trial": "NEEDLE-DE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        5
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        6
+       ],
+       "is_best_trial": "ENGULF-CE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        7
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 4.0,
+       "omega": 0.6
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        4
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        5
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        5
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        5,
+        7
+       ],
+       "is_best_trial": "COMPOSITE-CE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        4
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 4.0,
+       "omega": 0.6
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        5
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 5.0,
+       "omega": 0.8
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        6
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 4.0,
+       "omega": 0.6
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        7
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        5
+       ],
+       "is_best_trial": "NEEDLE-DE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        6
+       ],
+       "is_best_trial": "NEEDLE-DE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        7
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 5.0,
+       "omega": 0.8
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        5,
+        6
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 4.0,
+       "omega": 0.6
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        5,
+        7
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        6,
+        7
+       ],
+       "is_best_trial": "DROUGHT-CE-01",
+       "oos_rank": 5.0,
+       "omega": 0.8
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        4
+       ],
+       "is_best_trial": "NEEDLE-DE-01",
+       "oos_rank": 5.0,
+       "omega": 0.8
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        5
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        6
+       ],
+       "is_best_trial": "ENGULF-CE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        5
+       ],
+       "is_best_trial": "NEEDLE-DE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        6
+       ],
+       "is_best_trial": "NEEDLE-DE-01",
+       "oos_rank": 5.0,
+       "omega": 0.8
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        7
+       ],
+       "is_best_trial": "NEEDLE-DE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        5,
+        6
+       ],
+       "is_best_trial": "COMPOSITE-CE-01",
+       "oos_rank": 3.0,
+       "omega": 0.4
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        5,
+        7
+       ],
+       "is_best_trial": "COMPOSITE-CE-01",
+       "oos_rank": 4.0,
+       "omega": 0.6
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        6,
+        7
+       ],
+       "is_best_trial": "COMPOSITE-CE-01",
+       "oos_rank": 3.0,
+       "omega": 0.4
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 3.0,
+       "omega": 0.4
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "COMPOSITE-CE-01",
+       "oos_rank": 5.0,
+       "omega": 0.8
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 3.0,
+       "omega": 0.4
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "COMPOSITE-CE-02",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        1,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "COMPOSITE-CE-01",
+       "oos_rank": 6.0,
+       "omega": 1.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 3.0,
+       "omega": 0.4
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 3.0,
+       "omega": 0.4
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 3.0,
+       "omega": 0.4
+      },
+      {
+       "is_blocks": [
+        4,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "VOLATILITY-CE-01",
+       "oos_rank": 2.0,
+       "omega": 0.2
+      }
+     ],
+     "bands_frozen": {
+      "register_eligible": "pbo <= 0.25",
+      "observe": "0.25 < pbo <= 0.5",
+      "fail": "pbo > 0.5"
+     }
+    },
+    "interpretation": "book-level PBO reads the time-stability of the members' relative ranking under CSCV block rotations; P-5B already established regime dependence book-wide, so a high book PBO would be consistent evidence, not a surprise"
+   }
+  }
+ },
+ "discipline_veto_hits": {},
+ "summary": {
+  "n_strategy_cards": 6,
+  "n_trader_cards": 28,
+  "n_portfolio_cards": 7,
+  "trader_cohort": "6 registered + 22 PROSPECT (first-cohort per sec 8.5)",
+  "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
+ },
+ "audit": {
+  "elapsed_sec": 1.0,
+  "zero_new_backtests": true,
+  "zero_engine_runs": true,
+  "ledger_delta": 0,
+  "sources": [
+   "firm/traders/*.json (via scorecard.py)",
+   "results/corps_roster.json",
+   "results/paper/*_paper.json",
+   "results/g25/*.json",
+   "results/portfolio_blend_tournament.json",
+   "results/portfolio_iv6.json",
+   "results/portfolio_ew6.json",
+   "results/spm_j4_attribution.json",
+   "results/current_market_stable_profit.json",
+   "results/pbo_cscv_v1.json"
+  ],
+  "read_only_reuse": "CORR_WATCH/g25/t22/t27/t28/t33 readers per ticket anti-dup"
+ }
+}
