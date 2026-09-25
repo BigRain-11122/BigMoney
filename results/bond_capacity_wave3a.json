@@ -1,0 +1,1154 @@
+{
+ "probe": "T-68 WAVE-3A bonds R179 capacity-face gate",
+ "run_date": "2026-09-25",
+ "part_cap": 0.01,
+ "sample_n": 36,
+ "designs": [
+  {
+   "per_bond_cny": 20000,
+   "n_bonds": 20,
+   "sleeve_cny": 400000
+  },
+  {
+   "per_bond_cny": 10000,
+   "n_bonds": 20,
+   "sleeve_cny": 200000
+  },
+  {
+   "per_bond_cny": 10000,
+   "n_bonds": 40,
+   "sleeve_cny": 400000
+  }
+ ],
+ "spot": {
+  "rows": 800,
+  "cols": [
+   "代码",
+   "名称",
+   "最新价",
+   "涨跌额",
+   "涨跌幅",
+   "买入",
+   "卖出",
+   "昨收",
+   "今开",
+   "最高",
+   "最低",
+   "成交量",
+   "成交额"
+  ],
+  "head_repr": [
+   "{'代码': 'bj810011', '名称': '优机定转', '最新价': 0.0, '涨跌额': '0.000', '涨跌幅': '0.000', '买入': 0.0, '卖出': 0.0, '昨收': 99.8, '今开': 0.0, '最高': 0.0, '最低': 0.0, '成交量': 0, '成交额': 0}",
+   "{'代码': 'bj810013', '名称': '万通定转', '最新价': 0.0, '涨跌额': '0.000', '涨跌幅': '0.000', '买入': 0.0, '卖出': 0.0, '昨收': 100.0, '今开': 0.0, '最高': 0.0, '最低': 0.0, '成交量': 0, '成交额': 0}",
+   "{'代码': 'bj810014', '名称': '莱特定转', '最新价': 0.0, '涨跌额': '0.000', '涨跌幅': '0.000', '买入': 0.0, '卖出': 0.0, '昨收': 100.0, '今开': 0.0, '最高': 0.0, '最低': 0.0, '成交量': 0, '成交额': 0}"
+  ],
+  "tail_repr": [
+   "{'代码': 'sh020737', '名称': '25贴债38', '最新价': 99.687, '涨跌额': 0, '涨跌幅': 0, '买入': 0.0, '卖出': 0.0, '昨收': 99.687, '今开': 0.0, '最高': 0.0, '最低': 0.0, '成交量': 0, '成交额': 0}",
+   "{'代码': 'sh020738', '名称': '25贴债39', '最新价': 99.913, '涨跌额': 0, '涨跌幅': 0, '买入': 0.0, '卖出': 0.0, '昨收': 99.913, '今开': 0.0, '最高': 0.0, '最低': 0.0, '成交量': 0, '成交额': 0}"
+  ],
+  "sec": 13.8,
+  "bucket_dist": {
+   "other_bond": 464,
+   "treasury": 333,
+   "convertible": 3
+  },
+  "non_convertible_n": 797
+ },
+ "unit": {
+  "n": 91,
+  "k_median": 0.9999880636137256,
+  "k_p25": 0.9997597725473462,
+  "k_p75": 1.0,
+  "implied_daily_notional_formula": "volume * close * k_median",
+  "active_row_head_repr": [
+   "{'代码': 'sh019839', '名称': '26国债10', '最新价': 100.44, '涨跌额': 0.01, '涨跌幅': 0.01, '买入': 100.451, '卖出': 100.452, '昨收': 100.43, '今开': 100.475, '最高': 100.475, '最低': 100.426, '成交量': 331753720, '成交额': 33321699195, 'bucket': 'treasury'}",
+   "{'代码': 'sh019849', '名称': '26国债16', '最新价': 99.916, '涨跌额': 0.031, '涨跌幅': 0.031, '买入': 99.919, '卖出': 99.92, '昨收': 99.885, '今开': 99.902, '最高': 99.923, '最低': 99.873, '成交量': 195034240, '成交额': 19486150720, 'bucket': 'treasury'}"
+  ]
+ },
+ "sample": {
+  "method": "quantile-stratified by spot amount desc, deterministic",
+  "picked": [
+   {
+    "代码": "sh019839",
+    "名称": "26国债10",
+    "bucket": "treasury",
+    "spot_amount_cny": 33321699195.0
+   },
+   {
+    "代码": "sh019784",
+    "名称": "25特国05",
+    "bucket": "other_bond",
+    "spot_amount_cny": 741580208.0
+   },
+   {
+    "代码": "sh019696",
+    "名称": "23国债03",
+    "bucket": "treasury",
+    "spot_amount_cny": 31395218.0
+   },
+   {
+    "代码": "sh019780",
+    "名称": "25国债11",
+    "bucket": "treasury",
+    "spot_amount_cny": 806107.0
+   },
+   {
+    "代码": "sh010609",
+    "名称": "06国债⑼",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh018064",
+    "名称": "进出2103",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019102",
+    "名称": "11国债02",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019311",
+    "名称": "13国债11",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh010303",
+    "名称": "03国债⑶",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019551",
+    "名称": "16国债23",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019582",
+    "名称": "17国债27",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019609",
+    "名称": "18国债27",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019636",
+    "名称": "20特国02",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019659",
+    "名称": "21国债11",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019684",
+    "名称": "22国债19",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019725",
+    "名称": "23国债22",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019774",
+    "名称": "25注资特别国债01",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh019925",
+    "名称": "09国债25",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020351",
+    "名称": "20贴债18",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020374",
+    "名称": "20贴债41",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020397",
+    "名称": "20贴债64",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020420",
+    "名称": "21贴债23",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020442",
+    "名称": "21贴债45",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020465",
+    "名称": "22贴债04",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020488",
+    "名称": "22贴债27",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020511",
+    "名称": "22贴债50",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020533",
+    "名称": "22贴债72",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020556",
+    "名称": "23贴债18",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020579",
+    "名称": "23贴债41",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020602",
+    "名称": "23贴债64",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020624",
+    "名称": "24贴债03",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020647",
+    "名称": "24贴债26",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020670",
+    "名称": "24贴债49",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020693",
+    "名称": "24贴债72",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh020715",
+    "名称": "25贴债16",
+    "bucket": "other_bond",
+    "spot_amount_cny": 0.0
+   },
+   {
+    "代码": "sh010107",
+    "名称": "21国债⑺",
+    "bucket": "treasury",
+    "spot_amount_cny": 0.0
+   }
+  ]
+ },
+ "daily": {
+  "ok_measured": 19,
+  "no_face_404": 17,
+  "fail": 0,
+  "fails": [],
+  "no_face_codes": [
+   "sh010609",
+   "sh019102",
+   "sh019582",
+   "sh019925",
+   "sh020351",
+   "sh020397",
+   "sh020420",
+   "sh020488",
+   "sh020511",
+   "sh020533",
+   "sh020556",
+   "sh020579",
+   "sh020624",
+   "sh020647",
+   "sh020670",
+   "sh020693",
+   "sh020715"
+  ],
+  "sample_sleep_s": 2.5
+ },
+ "per_year_adv20": {
+  "2001": {
+   "n_bonds": 1,
+   "median_adv20_cny": 700370228.0,
+   "p25_cny": 700370228.0,
+   "p75_cny": 700370228.0,
+   "universe_cap1pct_est_cny": 155054186.5877778
+  },
+  "2002": {
+   "n_bonds": 1,
+   "median_adv20_cny": 185526305.0,
+   "p25_cny": 185526305.0,
+   "p75_cny": 185526305.0,
+   "universe_cap1pct_est_cny": 41073462.52361111
+  },
+  "2003": {
+   "n_bonds": 2,
+   "median_adv20_cny": 123525099.5,
+   "p25_cny": 93801863.25,
+   "p75_cny": 153248335.75,
+   "universe_cap1pct_est_cny": 54694169.05638889
+  },
+  "2004": {
+   "n_bonds": 2,
+   "median_adv20_cny": 24612121.0,
+   "p25_cny": 23099733.5,
+   "p75_cny": 26124508.5,
+   "universe_cap1pct_est_cny": 10897700.24277778
+  },
+  "2005": {
+   "n_bonds": 2,
+   "median_adv20_cny": 41172840.0,
+   "p25_cny": 33416077.5,
+   "p75_cny": 48929602.5,
+   "universe_cap1pct_est_cny": 18230418.6
+  },
+  "2006": {
+   "n_bonds": 2,
+   "median_adv20_cny": 9161628.5,
+   "p25_cny": 8832552.75,
+   "p75_cny": 9490704.25,
+   "universe_cap1pct_est_cny": 4056565.508055556
+  },
+  "2007": {
+   "n_bonds": 2,
+   "median_adv20_cny": 7871504.0,
+   "p25_cny": 6155711.0,
+   "p75_cny": 9587297.0,
+   "universe_cap1pct_est_cny": 3485327.048888889
+  },
+  "2008": {
+   "n_bonds": 2,
+   "median_adv20_cny": 50459923.5,
+   "p25_cny": 45185883.75,
+   "p75_cny": 55733963.25,
+   "universe_cap1pct_est_cny": 22342532.794166666
+  },
+  "2009": {
+   "n_bonds": 2,
+   "median_adv20_cny": 10124713.0,
+   "p25_cny": 10004836.5,
+   "p75_cny": 10244589.5,
+   "universe_cap1pct_est_cny": 4482997.9227777785
+  },
+  "2010": {
+   "n_bonds": 2,
+   "median_adv20_cny": 30951750.0,
+   "p25_cny": 24517167.5,
+   "p75_cny": 37386332.5,
+   "universe_cap1pct_est_cny": 13704747.083333332
+  },
+  "2011": {
+   "n_bonds": 2,
+   "median_adv20_cny": 26730098.0,
+   "p25_cny": 20250169.5,
+   "p75_cny": 33210026.5,
+   "universe_cap1pct_est_cny": 11835493.392222224
+  },
+  "2012": {
+   "n_bonds": 2,
+   "median_adv20_cny": 33073629.0,
+   "p25_cny": 23579817.0,
+   "p75_cny": 42567441.0,
+   "universe_cap1pct_est_cny": 14644267.951666668
+  },
+  "2013": {
+   "n_bonds": 3,
+   "median_adv20_cny": 4480274.0,
+   "p25_cny": 2241137.0,
+   "p75_cny": 22015963.0,
+   "universe_cap1pct_est_cny": 9748621.950555556
+  },
+  "2014": {
+   "n_bonds": 3,
+   "median_adv20_cny": 28707446.0,
+   "p25_cny": 14392098.5,
+   "p75_cny": 72386069.0,
+   "universe_cap1pct_est_cny": 32067934.5925
+  },
+  "2015": {
+   "n_bonds": 3,
+   "median_adv20_cny": 53764595.0,
+   "p25_cny": 31309089.0,
+   "p75_cny": 95639392.5,
+   "universe_cap1pct_est_cny": 44307082.58222222
+  },
+  "2016": {
+   "n_bonds": 3,
+   "median_adv20_cny": 81133424.0,
+   "p25_cny": 41265595.0,
+   "p75_cny": 135833376.5,
+   "universe_cap1pct_est_cny": 60453450.45638889
+  },
+  "2017": {
+   "n_bonds": 4,
+   "median_adv20_cny": 27024563.0,
+   "p25_cny": 7199046.75,
+   "p75_cny": 53542480.5,
+   "universe_cap1pct_est_cny": 29858245.00805556
+  },
+  "2018": {
+   "n_bonds": 4,
+   "median_adv20_cny": 19740632.5,
+   "p25_cny": 191428.5,
+   "p75_cny": 61972944.0,
+   "universe_cap1pct_est_cny": 37568578.64444445
+  },
+  "2019": {
+   "n_bonds": 5,
+   "median_adv20_cny": 948375.0,
+   "p25_cny": 407297.0,
+   "p75_cny": 41699367.0,
+   "universe_cap1pct_est_cny": 23626222.61527778
+  },
+  "2020": {
+   "n_bonds": 6,
+   "median_adv20_cny": 13976449.5,
+   "p25_cny": 507365.5,
+   "p75_cny": 37236254.0,
+   "universe_cap1pct_est_cny": 37290303.659166664
+  },
+  "2021": {
+   "n_bonds": 7,
+   "median_adv20_cny": 20824538.0,
+   "p25_cny": 132089.0,
+   "p75_cny": 111352013.5,
+   "universe_cap1pct_est_cny": 101873807.00861111
+  },
+  "2022": {
+   "n_bonds": 9,
+   "median_adv20_cny": 1105018.0,
+   "p25_cny": 448329.0,
+   "p75_cny": 7682700.0,
+   "universe_cap1pct_est_cny": 21528305.19638889
+  },
+  "2023": {
+   "n_bonds": 9,
+   "median_adv20_cny": 1904632.0,
+   "p25_cny": 656349.0,
+   "p75_cny": 16324530.0,
+   "universe_cap1pct_est_cny": 1397394329.9922223
+  },
+  "2024": {
+   "n_bonds": 9,
+   "median_adv20_cny": 2958913.0,
+   "p25_cny": 560145.0,
+   "p75_cny": 5720001.0,
+   "universe_cap1pct_est_cny": 8172488.476666667
+  },
+  "2025": {
+   "n_bonds": 10,
+   "median_adv20_cny": 2936822.0,
+   "p25_cny": 1653200.0,
+   "p75_cny": 8588957.25,
+   "universe_cap1pct_est_cny": 372843477.22444445
+  },
+  "2026": {
+   "n_bonds": 10,
+   "median_adv20_cny": 2752303.5,
+   "p25_cny": 500648.75,
+   "p75_cny": 7818864.5,
+   "universe_cap1pct_est_cny": 5629124262.268611
+  }
+ },
+ "capacity_verdict": {
+  "part_cap": 0.01,
+  "note": "tradable = per-bond notional <= 1% x ADV20 (R179); no-face 404 members counted untradable; top_third = most-liquid stratum of sample (sleeve-relevant)",
+  "measured_frac_of_sample": 0.528,
+  "designs": [
+   {
+    "per_bond_cny": 20000,
+    "n_bonds": 20,
+    "sleeve_cny": 400000,
+    "tradable_frac_by_year": {
+     "2001": 1.0,
+     "2002": 1.0,
+     "2003": 1.0,
+     "2004": 1.0,
+     "2005": 1.0,
+     "2006": 1.0,
+     "2007": 1.0,
+     "2008": 1.0,
+     "2009": 1.0,
+     "2010": 1.0,
+     "2011": 1.0,
+     "2012": 1.0,
+     "2013": 0.667,
+     "2014": 0.667,
+     "2015": 1.0,
+     "2016": 0.667,
+     "2017": 0.75,
+     "2018": 0.5,
+     "2019": 0.4,
+     "2020": 0.5,
+     "2021": 0.571,
+     "2022": 0.333,
+     "2023": 0.444,
+     "2024": 0.556,
+     "2025": 0.7,
+     "2026": 0.6
+    },
+    "tradable_frac_now_all": 0.389,
+    "tradable_frac_now_top_third": 0.417
+   },
+   {
+    "per_bond_cny": 10000,
+    "n_bonds": 20,
+    "sleeve_cny": 200000,
+    "tradable_frac_by_year": {
+     "2001": 1.0,
+     "2002": 1.0,
+     "2003": 1.0,
+     "2004": 1.0,
+     "2005": 1.0,
+     "2006": 1.0,
+     "2007": 1.0,
+     "2008": 1.0,
+     "2009": 1.0,
+     "2010": 1.0,
+     "2011": 1.0,
+     "2012": 1.0,
+     "2013": 0.667,
+     "2014": 0.667,
+     "2015": 1.0,
+     "2016": 1.0,
+     "2017": 1.0,
+     "2018": 0.5,
+     "2019": 0.4,
+     "2020": 0.5,
+     "2021": 0.571,
+     "2022": 0.556,
+     "2023": 0.667,
+     "2024": 0.667,
+     "2025": 0.8,
+     "2026": 0.7
+    },
+    "tradable_frac_now_all": 0.417,
+    "tradable_frac_now_top_third": 0.5
+   },
+   {
+    "per_bond_cny": 10000,
+    "n_bonds": 40,
+    "sleeve_cny": 400000,
+    "tradable_frac_by_year": {
+     "2001": 1.0,
+     "2002": 1.0,
+     "2003": 1.0,
+     "2004": 1.0,
+     "2005": 1.0,
+     "2006": 1.0,
+     "2007": 1.0,
+     "2008": 1.0,
+     "2009": 1.0,
+     "2010": 1.0,
+     "2011": 1.0,
+     "2012": 1.0,
+     "2013": 0.667,
+     "2014": 0.667,
+     "2015": 1.0,
+     "2016": 1.0,
+     "2017": 1.0,
+     "2018": 0.5,
+     "2019": 0.4,
+     "2020": 0.5,
+     "2021": 0.571,
+     "2022": 0.556,
+     "2023": 0.667,
+     "2024": 0.667,
+     "2025": 0.8,
+     "2026": 0.7
+    },
+    "tradable_frac_now_all": 0.417,
+    "tradable_frac_now_top_third": 0.5
+   }
+  ]
+ },
+ "evidence_cutoff": "2026-09-25",
+ "per_bond": [
+  {
+   "代码": "sh019839",
+   "名称": "26国债10",
+   "bucket": "treasury",
+   "spot_amount_cny": 33321699195.0,
+   "rows": 92,
+   "last_date": "2026-09-24",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 24783470638,
+   "adv20_by_year_cny": {
+    "2026": 24783470638
+   }
+  },
+  {
+   "代码": "sh019784",
+   "名称": "25特国05",
+   "bucket": "other_bond",
+   "spot_amount_cny": 741580208.0,
+   "rows": 292,
+   "last_date": "2026-09-24",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 621702166,
+   "adv20_by_year_cny": {
+    "2025": 109589021,
+    "2026": 621702166
+   }
+  },
+  {
+   "代码": "sh019696",
+   "名称": "23国债03",
+   "bucket": "treasury",
+   "spot_amount_cny": 31395218.0,
+   "rows": 357,
+   "last_date": "2026-02-13",
+   "zero_volume_frac": 0.0028,
+   "adv20_last20_cny": 5789010,
+   "adv20_by_year_cny": {
+    "2023": 16324530,
+    "2024": 5720001,
+    "2025": 2831418,
+    "2026": 5531453
+   }
+  },
+  {
+   "代码": "sh019780",
+   "名称": "25国债11",
+   "bucket": "treasury",
+   "spot_amount_cny": 806107.0,
+   "rows": 278,
+   "last_date": "2026-09-24",
+   "zero_volume_frac": 0.0036,
+   "adv20_last20_cny": 1395881,
+   "adv20_by_year_cny": {
+    "2025": 1550079958,
+    "2026": 1395881
+   }
+  },
+  {
+   "代码": "sh010609",
+   "名称": "06国债⑼",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh018064",
+   "名称": "进出2103",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "rows": 155,
+   "last_date": "2024-08-12",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 2958913,
+   "adv20_by_year_cny": {
+    "2021": 216352215,
+    "2022": 7682700,
+    "2023": 3595349,
+    "2024": 2958913
+   }
+  },
+  {
+   "代码": "sh019102",
+   "名称": "11国债02",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh019311",
+   "名称": "13国债11",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 1569,
+   "last_date": "2023-05-15",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 445803,
+   "adv20_by_year_cny": {
+    "2013": 2000,
+    "2014": 76751,
+    "2015": 8853583,
+    "2016": 1397766,
+    "2017": 1094517,
+    "2018": 247291,
+    "2019": 73214,
+    "2020": 27854,
+    "2021": 97624,
+    "2022": 448329,
+    "2023": 449724
+   }
+  },
+  {
+   "代码": "sh010303",
+   "名称": "03国债⑶",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 4821,
+   "last_date": "2023-04-14",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 41128511,
+   "adv20_by_year_cny": {
+    "2003": 182971572,
+    "2004": 27636896,
+    "2005": 56686365,
+    "2006": 8503477,
+    "2007": 11303090,
+    "2008": 39911844,
+    "2009": 9884960,
+    "2010": 18082585,
+    "2011": 13770241,
+    "2012": 14086005,
+    "2013": 4480274,
+    "2014": 28707446,
+    "2015": 53764595,
+    "2016": 81133424,
+    "2017": 44815236,
+    "2018": 39233974,
+    "2019": 41699367,
+    "2020": 27382682,
+    "2021": 20824538,
+    "2022": 18569498,
+    "2023": 41128511
+   }
+  },
+  {
+   "代码": "sh019551",
+   "名称": "16国债23",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 102,
+   "last_date": "2025-02-10",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 450678,
+   "adv20_by_year_cny": {
+    "2017": 9233890,
+    "2018": 23841,
+    "2019": 948375,
+    "2020": 486415,
+    "2021": 12765,
+    "2022": 521595,
+    "2024": 560145,
+    "2025": 3473082
+   }
+  },
+  {
+   "代码": "sh019582",
+   "名称": "17国债27",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh019609",
+   "名称": "18国债27",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 179,
+   "last_date": "2026-02-09",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 391963,
+   "adv20_by_year_cny": {
+    "2019": 407297,
+    "2020": 570217,
+    "2021": 166554,
+    "2022": 92523,
+    "2023": 4824,
+    "2024": 140007,
+    "2025": 3042226,
+    "2026": 17865
+   }
+  },
+  {
+   "代码": "sh019636",
+   "名称": "20特国02",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "rows": 15,
+   "last_date": "2026-06-15",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 435193,
+   "adv20_by_year_cny": {
+    "2022": 217176,
+    "2023": 1186421,
+    "2024": 21527,
+    "2025": 21249,
+    "2026": 2028
+   }
+  },
+  {
+   "代码": "sh019659",
+   "名称": "21国债11",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 33,
+   "last_date": "2026-05-14",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 4163734,
+   "adv20_by_year_cny": {
+    "2022": 1932187,
+    "2023": 1904632,
+    "2024": 7169618,
+    "2025": 1264028,
+    "2026": 202238
+   }
+  },
+  {
+   "代码": "sh019684",
+   "名称": "22国债19",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 361,
+   "last_date": "2026-08-04",
+   "zero_volume_frac": 0.0028,
+   "adv20_last20_cny": 5053367,
+   "adv20_by_year_cny": {
+    "2022": 1105018,
+    "2023": 656349,
+    "2024": 1805993,
+    "2025": 695117,
+    "2026": 8581335
+   }
+  },
+  {
+   "代码": "sh019725",
+   "名称": "23国债22",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 351,
+   "last_date": "2026-08-26",
+   "zero_volume_frac": 0.0028,
+   "adv20_last20_cny": 2380907,
+   "adv20_by_year_cny": {
+    "2023": 6246693936,
+    "2024": 3667171,
+    "2025": 2820716,
+    "2026": 2532936
+   }
+  },
+  {
+   "代码": "sh019774",
+   "名称": "25注资特别国债01",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 243,
+   "last_date": "2026-09-23",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 2971671,
+   "adv20_by_year_cny": {
+    "2025": 10294249,
+    "2026": 2971671
+   }
+  },
+  {
+   "代码": "sh019925",
+   "名称": "09国债25",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020351",
+   "名称": "20贴债18",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020374",
+   "名称": "20贴债41",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "rows": 4,
+   "last_date": "2020-11-04",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 99450063,
+   "adv20_by_year_cny": {
+    "2020": 99450063
+   }
+  },
+  {
+   "代码": "sh020397",
+   "名称": "20贴债64",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020420",
+   "名称": "21贴债23",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020442",
+   "名称": "21贴债45",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "rows": 3,
+   "last_date": "2021-09-30",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 129323790,
+   "adv20_by_year_cny": {
+    "2021": 129323790
+   }
+  },
+  {
+   "代码": "sh020465",
+   "名称": "22贴债04",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "rows": 9,
+   "last_date": "2022-07-12",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 66673005,
+   "adv20_by_year_cny": {
+    "2022": 66673005
+   }
+  },
+  {
+   "代码": "sh020488",
+   "名称": "22贴债27",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020511",
+   "名称": "22贴债50",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020533",
+   "名称": "22贴债72",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020556",
+   "名称": "23贴债18",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020579",
+   "名称": "23贴债41",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020602",
+   "名称": "23贴债64",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "rows": 7,
+   "last_date": "2024-04-10",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 14871253,
+   "adv20_by_year_cny": {
+    "2024": 14871253
+   }
+  },
+  {
+   "代码": "sh020624",
+   "名称": "24贴债03",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020647",
+   "名称": "24贴债26",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020670",
+   "名称": "24贴债49",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020693",
+   "名称": "24贴债72",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh020715",
+   "名称": "25贴债16",
+   "bucket": "other_bond",
+   "spot_amount_cny": 0.0,
+   "no_face": true,
+   "rows": 0,
+   "last_date": null,
+   "zero_volume_frac": null,
+   "adv20_last20_cny": 0,
+   "adv20_by_year_cny": {}
+  },
+  {
+   "代码": "sh010107",
+   "名称": "21国债⑺",
+   "bucket": "treasury",
+   "spot_amount_cny": 0.0,
+   "rows": 4806,
+   "last_date": "2021-07-30",
+   "zero_volume_frac": 0.0,
+   "adv20_last20_cny": 93380237,
+   "adv20_by_year_cny": {
+    "2001": 700370228,
+    "2002": 185526305,
+    "2003": 64078627,
+    "2004": 21587346,
+    "2005": 25659315,
+    "2006": 9819780,
+    "2007": 4439918,
+    "2008": 61008003,
+    "2009": 10364466,
+    "2010": 43820915,
+    "2011": 39689955,
+    "2012": 52061253,
+    "2013": 39551652,
+    "2014": 116064692,
+    "2015": 137514190,
+    "2016": 190533329,
+    "2017": 79724214,
+    "2018": 130189854,
+    "2019": 63589942,
+    "2020": 40520778,
+    "2021": 93380237
+   }
+  }
+ ],
+ "sec_total": 136.2
+}
