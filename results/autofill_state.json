@@ -552,10 +552,12 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-09-25 22:40:02",
-  "machine": "bm-a",
+  "ts": "2026-09-25 22:50:01",
+  "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "claim_lost_yield",
+  "entry": "BOND-PANEL-SHARD-0",
+  "shard": "bpanel-0of6"
  },
- "rebase_union_note": "r207 rebase union (bm-b): launches 50+50 -> 50 (cap 50 rolling); last_tick={'ts': '2026-09-25 22:20:02', 'machine': 'bm-a', 'py_cpu_pct': 2.0, 'verdict': 'pool_empty_or_busy'} (take-newer)"
+ "rebase_union_note": "r209 rebase union (bm-b): launches both sides identical 50=50; last_tick take-newer=2026-09-25 22:50:01 bm-b claim_lost_yield"
 }
