@@ -618,6 +618,7 @@ SEED_REGISTRY = {
     # above im_ic_pair 58_000 (p4_batch3_dca 56_500 spacing precedent);
     # registry+rg full-repo scan verified free 2026-09-25 08:0x before
     # MF_IC_P1 prereg freeze r159 bm-b, T-2026-09-25-46)
+    "mf_rot_s1": 59_000,                     # MF_ROT_S1 100 pooled random-Top3 nulls (daily 59000+i i<50, monthly 59050+i; band 59000..59099, next free band above 58550; rg full-repo scan verified free 2026-09-25 13:1x bm-b r179, prereg MF_ROT_S1_PREREG.md §3)
 }
 
 
