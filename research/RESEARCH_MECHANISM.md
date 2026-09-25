@@ -18,7 +18,7 @@
 - **代码**：GitHub 搜索式（`alpha`/`factor`/`pairs`/`backtest`/`quant strategy` 已实证有效）；qlib（Alpha158/360 因子集+22 模型 zoo+DDG-DA 漂移适应+**RD-Agent LLM 自动挖因子**）；已入库 `external/` 台账。
 - **中文研报/社区**：光大/国君/海通金工公开流传版；聚宽/JoinQuant 社区（AI 抓取受限时靠专项令人工补源）。
 - **数据能力**：akshare 接口变更（数据部协同，20s 超时纪律）。
-- **社区/数据站扩面**（O-20260924-1721·可达性归 T-30 源矩阵）：**集思录**（jisilu.cn·2026-09-24 17:16 GM 实测可达：ETF/LOF/封基/转债/AH/套利/REITs 公开面，部分付费层如实注记——ARB-1 折溢价线交叉验面直连）；**聚宽社区=登录墙**→替代路径=wzetf.cn 605 策略收集站/GitHub 镜像/CSDN 转述（已验通）；知乎 403/雪球 WAF=搜索摘要佐证纪律（波-1 先例）；待探=果仁/米筐/优矿/QuantConnect/SSRN 学术扫/WorldQuant BRAIN 论文面/Rob Carver/Alpha Architect/券商金工研报公开流传版。
+- **社区/数据站扩面**（O-20260924-1721·可达性归 T-30 源矩阵）：**集思录**（jisilu.cn·2026-09-24 17:16 GM 实测可达：ETF/LOF/封基/转债/AH/套利/REITs 公开面，部分付费层如实注记——ARB-1 折溢价线交叉验面直连；**套利类目常设排片面=`/feed/category-5.rss`**（R138 WeCenter 类目 feed 发现律·R141 首跑 DIGEST-20260925-jisilu-arb-feed：增量 ID 对照=常态 digest 直通道）；AH 公开表消费前必带新鲜度口径（延时 15min 疑【社区声称·未实证】·525500））；**聚宽社区=登录墙**→替代路径=wzetf.cn 605 策略收集站/GitHub 镜像/CSDN 转述（已验通）；知乎 403/雪球 WAF=搜索摘要佐证纪律（波-1 先例）；待探=果仁/米筐/优矿/QuantConnect/SSRN 学术扫/WorldQuant BRAIN 论文面/Rob Carver/Alpha Architect/券商金工研报公开流传版。
 - **借力律**（CEO 原话「说了不要闭门造车，也不要自我苦算，要学会借力」·2026-09-24）：研究供给外源优先——先扫外源证据面再自研；外源宣称一律=未验证假设；借力生想法、独立做验证（门禁链恒在）。
 
 ## 三、产出格式（调研纪要）
