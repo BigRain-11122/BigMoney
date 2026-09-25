@@ -90,3 +90,5 @@
 - [2026-09-25 10:5x] 坑律（bm-b r169·T-50 slice-3·社区站 href 丢失）：**「markdown 转换丢 href」=web_fetch 转换层 artifact 非 site 死面**——guorn 实弹：R149 按丢 href 判「帖子 URL 不可提取」+DDG CAPTCHA 后种子挂起，本片 raw-HTML requests 单取+regex 一发提取首页 11 post URL 全量（锚文本标题同步机读）；web-app 型站在「站内搜索 404+DDG CAPTCHA」两道死后的第三道=首页锚文本直取，社区面判死前必先试 raw-HTML 通道。指针=research/digests/DIGEST-20260925-wave7-slice3.md §〇
 
 - [2026-09-25 10:5x] 坑律（bm-b r170·R105 同窗收敛新例）：**共享 pending 清单的同窗首扫=结构性撞车**——T-50 面(f) 我方 slice-5 与 bm-a R152 同窗各取同候选（WorldQuant BRAIN+Wilmott，两机独立读同一 RESEARCH_MECHANISM 待试清单），bm-a 10:40:39 origin 在册先到；**未推认领 commit 的让路最廉价路径=git rebase --skip**（本地认领整段消解，origin 零痕=零 MSG 零正典触碰；对照 r169 yield=push 拒即弃未成 commit）。防撞先手：共享清单类面的认领锁 commit+push 必须赶在一切采集工作前，认领速度=唯一护城河。详录=round_reports.md r170 行
+
+- [2026-09-25 11:0x] 坑律（bm-b r171·跨语言语法混用假阴性近失）：**PS 里写 Python 原始字符串 `r'path'`=字面文件名（r'...'）→ Test-Path 恒 false → 已交付文件误判不存在**（实弹：FACTOR_BLEND_V2.md 已在 12.7KB 三轮迭代被误判 NOT EXIST，一步之遥按不存在重写=反重复违例近失；glob/os.path.exists 复核即翻案）；正解=文件存在性与内容判读一律 python os.path/getsize 或 PS 正确单引号形态，PS/Python 语法跨语言混用零豁免——与 r117 PS 重定向 UTF-16、r131 BOM 面同族（PS 陷阱面持续扩容）。
