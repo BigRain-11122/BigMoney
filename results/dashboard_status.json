@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-25T10:45:27"
+    "generated_at": "2026-09-25T10:45:09"
   },
   "health": {
     "smoke": {
       "pass": 23,
       "fail": 0,
-      "at": "2026-09-25T10:39:12",
+      "at": "2026-09-25T10:41:26",
       "ok": true
     },
     "network": {
-      "net_type": "UNKNOWN",
+      "net_type": "LAN",
       "hotspot": false,
-      "allow_heavy_sync": false,
-      "detected_at": null
+      "allow_heavy_sync": true,
+      "detected_at": "2026-09-25T02:12:36+00:00"
     }
   },
   "data": {
@@ -27,7 +27,7 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-25 10:45:01",
+      "last_run": "2026-09-25 10:44:23",
       "age_min": 0,
       "symbols": 48,
       "total_new_rows": 0,
@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: before 15:30:00 (post-close snapshot window)",
       "l1_snapshots": 2,
-      "l1_updated": "2026-09-25 10:45:09",
+      "l1_updated": "2026-09-25 10:44:35",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -55,7 +55,7 @@
       "present": true,
       "varieties": 9,
       "planned": 9,
-      "last_attempt": "2026-09-25T10:45:09",
+      "last_attempt": "2026-09-25T10:44:36",
       "age_min": 0,
       "cutoff": "2026-09-24",
       "errors": 0,
@@ -74,8 +74,8 @@
       "failures": 3,
       "conn_stopped": true,
       "mismatches": 0,
-      "last_attempt": "2026-09-25T10:45:13",
-      "age_min": 0,
+      "last_attempt": "2026-09-25T10:09:20",
+      "age_min": 35,
       "status": "warn",
       "text": "资金流源阻断停发 · 30min 自愈 · 已采 53/5222"
     },
@@ -93,17 +93,17 @@
     "watermark": {
       "present": true,
       "py_tail": [
-        0.2,
-        0.4,
-        0.1,
-        0.5,
-        0.8
+        0.6,
+        0.8,
+        0.6,
+        1.2,
+        1.0
       ],
-      "last_sample": "2026-09-25 10:44:30",
+      "last_sample": "2026-09-25 10:44:21",
       "red": false,
       "lane": "healthy",
       "zombies_killed": [],
-      "red_flags_recent": 37,
+      "red_flags_recent": 18,
       "next_pick": {
         "status": "claimed",
         "candidate": "moneyflow IC reference batch (collector delivered R63; panel parked source-blocked with 30-min self-heal; IC batch when panel completes)",
@@ -115,7 +115,7 @@
       "pool_ready": 0,
       "pool_waiting": 0,
       "ready_ids": [],
-      "last_tick": "2026-09-25 10:40:01",
+      "last_tick": "2026-09-25 10:40:02",
       "verdict": "pool_empty_or_busy",
       "py_cpu_pct": 0.0,
       "launches_total": 6,
@@ -255,7 +255,7 @@
       {
         "id": "bm-a",
         "last_seen": "2026-09-25 10:33",
-        "age_min": 11.6,
+        "age_min": 11.3,
         "health": "ok",
         "cpu_cores": 32,
         "idle_ram_gb": 54.3,
@@ -269,7 +269,7 @@
       {
         "id": "bm-b",
         "last_seen": "2026-09-25 10:29",
-        "age_min": 15.7,
+        "age_min": 15.4,
         "health": "ok",
         "cpu_cores": 16,
         "idle_ram_gb": 11.7,
@@ -283,7 +283,7 @@
       {
         "id": "bm-c",
         "last_seen": "2026-09-24 21:51:47",
-        "age_min": 773.7,
+        "age_min": 773.4,
         "health": "bad",
         "cpu_cores": 32,
         "idle_ram_gb": null,
@@ -643,31 +643,24 @@
         "id": "T-2026-09-25-50",
         "type": "external-mining-wave7",
         "priority": "P1",
-        "status": "done",
+        "status": "claimed",
         "claimed_by": "bm-b (OS iteration loop, round 169; SLICE-3: seed face (c) guorn rendering-face retry via ALTERNATE CHANNEL = raw-HTML requests parse (href extraction) instead of markdown-conversion channel that dropped hrefs (R149 record); slice-1 face (b) delivered r168; face (a) delivered by bm-a r150 after bm-b same-window yield (progress_r169); faces (d)/(e)/(f) OPEN for parallel single-writer slices by any healthy machine per this ticket shard protocol; zero whole-ticket lock asserted)"
-      },
-      {
-        "id": "T-2026-09-25-51",
-        "type": "external-mining-wave8",
-        "priority": "P1",
-        "status": "open",
-        "claimed_by": null
       }
     ],
-    "n_open": 1,
-    "n_claimed": 11,
-    "n_done": 39,
+    "n_open": 0,
+    "n_claimed": 12,
+    "n_done": 38,
     "audit": {
-      "ts": "2026-09-25 10:44:20",
+      "ts": "2026-09-25 10:44:15",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 23.0,
-      "py_cpu_pct": 0.7,
-      "cores": 32,
-      "py_procs": 9,
+      "cpu_total_pct": 7.0,
+      "py_cpu_pct": 2.4,
+      "cores": 16,
+      "py_procs": 12,
       "zombies": 0,
-      "gpu_util_pct": 96.0,
-      "gpu_mem_used_mb": 6679.0,
+      "gpu_util_pct": 7.0,
+      "gpu_mem_used_mb": 5585.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -709,12 +702,12 @@
           "pass": true
         }
       },
-      "gates_date": "2026-09-25 10:00"
+      "gates_date": "2026-09-25 10:30"
     },
     "lhb": {
       "verdict": "no-op: cutoff 2026-09-24 covers latest disclosure window (2026-09-24)",
       "cutoff": "2026-09-24",
-      "updated": "2026-09-25 10:45:08",
+      "updated": "2026-09-25 10:44:35",
       "new_rows": 0
     }
   },
@@ -1132,7 +1125,7 @@
         "n_drift": 0,
         "months_total": 0,
         "data_cutoff": "2026-09-24",
-        "generated": "2026-09-25T10:32:53+08:00",
+        "generated": "2026-09-25T10:45:02+08:00",
         "window_semantics": "guarded"
       },
       "promotion": {
@@ -1143,7 +1136,7 @@
           "g2_full": 0,
           "t22_beat_passive": 0
         },
-        "generated": "2026-09-25T10:32:58+08:00"
+        "generated": "2026-09-25T10:45:04+08:00"
       }
     },
     "paper_started": true,
@@ -1153,7 +1146,7 @@
       "months_tracked": 0,
       "trades": 0,
       "bars": 12,
-      "last_update": "2026-09-25 10:23:21",
+      "last_update": "2026-09-25 10:44:55",
       "paper_start": "2026-09-23",
       "first_check": "2026-10-31",
       "month_progress": 0.0526,
@@ -1226,7 +1219,7 @@
   },
   "events": [
     {
-      "time": "2026-09-25T10:39:12",
+      "time": "2026-09-25T10:41:26",
       "text": "自检 23项通过/0失败"
     },
     {
@@ -1234,11 +1227,11 @@
       "text": "交易员 COMPOSITE-CE-01/COMPOSITE-CE-02/DROUGHT-CE-01/ENGULF-CE-01/NEEDLE-DE-01/VOLATILITY-CE-01 过全 G2 门禁链持证上岗（INTERN）· paper 跟踪进行中，≥6 个月才可谈实盘"
     },
     {
-      "time": "2026-09-25 10:23:21",
+      "time": "2026-09-25 10:44:55",
       "text": "paper 跟踪进行中 · 6 员在册 · 累计 0 个月 · 窗口 0 笔（每日自动 accrue · 锚定门禁先行）"
     },
     {
-      "time": "2026-09-25 10:23:21",
+      "time": "2026-09-25 10:44:55",
       "text": "x2 看守 · 2 员薄垫看护（COMPOSITE-CE-02/ENGULF-CE-01）· margin<0.05 或不存活即 probation（T-04 F3 升级链）"
     },
     {
@@ -1250,19 +1243,19 @@
       "text": "门禁链定案（试验账本 N=61015）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-25 10:45:01",
+      "time": "2026-09-25 10:44:23",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-24"
     },
     {
-      "time": "2026-09-25 10:45:09",
+      "time": "2026-09-25 10:44:35",
       "text": "热度链 · L1 人气榜快照 2 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-25T10:45:09",
+      "time": "2026-09-25T10:44:36",
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-24 · 刚跑"
     },
     {
-      "time": "2026-09-25T10:45:13",
+      "time": "2026-09-25T10:09:20",
       "text": "数据链 · 资金流源阻断停发 · 30min 自愈 · 已采 53/5222（MF_COLLECTOR 前向 · bm-a R63）"
     },
     {
@@ -1270,8 +1263,8 @@
       "text": "本地化 · token 粗估 状态 2800 · 报告 240382 · 回合固定载入 14010（byte/3.5 代理口径 · O-2325）"
     },
     {
-      "time": "2026-09-25 10:44:30",
-      "text": "算力水位 · py 0.2→0.4→0.1→0.5→0.8% · 绿 · 近段红牌 37 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
+      "time": "2026-09-25 10:44:21",
+      "text": "算力水位 · py 0.6→0.8→0.6→1.2→1.0% · 绿 · 近段红牌 18 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
     },
     {
       "time": "2026-09-24T18:17:23",
@@ -1303,7 +1296,7 @@
     },
     {
       "time": "2026-09-25 10:33",
-      "text": "机队 · 3 节点 2 活 · 票据 done 39/claimed 11/open 1 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
+      "text": "机队 · 3 节点 2 活 · 票据 done 38/claimed 12/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
       "time": "-",
@@ -1317,9 +1310,27 @@
   "group": {
     "siblings": [
       {
-        "name": "Bigmoney · 回测节点（本机）",
+        "name": "Biggame · biu你一下",
         "last_active": "09-25 10:44",
-        "age_min": 0.5,
+        "age_min": 1.0,
+        "alive": true
+      },
+      {
+        "name": "Biggame · HomeWreck",
+        "last_active": "09-25 10:45",
+        "age_min": 0.1,
+        "alive": true
+      },
+      {
+        "name": "Biggame · PhantomEscapeGo",
+        "last_active": "09-25 10:45",
+        "age_min": 0.1,
+        "alive": true
+      },
+      {
+        "name": "Bigmoney · 回测节点（本机）",
+        "last_active": "09-25 10:45",
+        "age_min": 0.1,
         "alive": true
       }
     ]
