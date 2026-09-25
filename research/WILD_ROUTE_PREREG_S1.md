@@ -60,6 +60,12 @@ scripts/wild_route_lab.py（run/run-nulls/finalize/selftest/status）＋ results
 
 （占位纪律：一次定稿；工程修复重跑双跑留痕；确定性引擎产物写 bug 的合法重执行≠结果重跑）
 
+- **交付事实（2026-09-25 r204 bm-b finalize）**：1569/1569 cells 全量落地（SHARD-0..7 三方验证：ckpt 全键 done:true＋磁盘 cell 件逐一在场＋跨片零重叠；0of8=197、其余各 196）＋50 nulls（r198 45s，seed 61000）＝N_eff 1619 与本 prereg 一致；finalize 单发 exit 0，产物三件齐：wild_route_s1.json（顶层 evidence_cutoff="2026-09-22"＋science_gates.cutoff_meta 双键在位）＋wild_route_s1_primaries.csv（25 行）＋nulls 件。
+- **29 主格实况**：25 臂有交易（g1_prime_v2 评估域=25）；4 臂全窗零事件诚实 NULL（P05a_shouyin_gaokai／P05b_shouyin_fanbao／P08_bingdian_kawei／P11a_longzibei——首板/冰点/龙子辈事件面在冻结宇宙内无可成交样本）；家族矩阵=25 臂。
+- **工程修复重跑留痕（合法重执行≠结果重跑）**：finalize 首发在族 PBO 调用点崩（_family_series 产出 dict 直接喂 cscv_pbo；align_returns 已 import 未上调用点——r162/r188 族条件路径首次激活崩溃），修=cscv_pbo(align_returns(pbo_in), 8)（零判据改动：同 8 块同 29 臂矩阵语义），确定性重跑 exit 0；selftest 32/32 绿（F18 夹具未镜像生产 dict 入参形态——r157/r180 族新例，坑录见 CODELY r204）。
+- **判定数字（全量如档 wild_route_s1.json）**：family PBO=0.0（CSCV 8 块、25 臂、verdict=register_eligible 面）；nulls sharpe mean −1.1849／p95 −1.0533；**G1'v2＝0/25 全灭**；G2 域空（仅 G1 过线者评估）。主格最优=P09c_space_open 全窗 sharpe 0.2693／maxDD −0.5214，远低于 nulls p95 带上方存活所需；P01_daban9 主格全窗 −2.08／maxDD −20.6（十二民间模式在成本 x1 下的典型面貌）。
+- **批结论=诚实负结果**：12 民间涨停街模式 29 臂在冻结宇宙/窗/成本下无一过 G1'v2；无臂进入注册管线（幸存者注册腿零触发＝零 corr 检查面）；§8 批后复盘（预测对账/门禁损耗/funnel/逐 pattern verdict）另轮执行。
+
 ## §8 批后复盘【s4 · s7-T】
 
 - 预测对账（对/部分/错 七条逐一对账）＋门禁链损耗账（`results/gate_attrition.json` 追加行）＋skill_line 当批读数披露；

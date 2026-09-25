@@ -836,7 +836,7 @@ def finalize():
     # family PBO on the 29-arm primary full-window daily series (rebuilt
     # deterministically; series not persisted in cell JSONs to keep git light)
     pbo_in = _family_series(E, primaries)
-    pbo = cscv_pbo(pbo_in, 8) if pbo_in else None
+    pbo = cscv_pbo(align_returns(pbo_in), 8) if pbo_in else None
     dsr_vals = {}
     for arm, ser in pbo_in.items():
         if ser is not None and len(ser) > 20:

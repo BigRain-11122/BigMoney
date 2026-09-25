@@ -940,7 +940,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 18:35:09",
    "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
    "workers_plan": {
@@ -951,13 +951,15 @@
    "shards": [
     {
      "key": "wr-7of8",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "note": "cells idx%8==7 (~196 cells, est 5-25min, checkpoint resume)",
      "owner_since": "2026-09-25 21:07:53"
     }
    ],
-   "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull."
+   "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull.",
+   "done_at": "2026-09-25 21:16:00",
+   "done_note": "r204 bm-b flip: runner pid22596 launched 21:07:58 exited ~21:15, ckpt-7of8 196/196 unique all done:true, 196 cell files on disk, zero overlap shards 0-6; disk census 1569=prereg exact"
   },
   {
    "id": "CTA-WAVE1-RUN",
