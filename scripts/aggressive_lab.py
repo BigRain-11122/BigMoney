@@ -34,11 +34,18 @@ live paper panel truncated 2026-09-23 (o1600 caliber, T-28 precedent),
 ledger +0. Judgment cells = 5 variants x 20 = 100 aggregate cells ->
 append_ledger('T56-AGGRESSIVE-LAB', 100, ...).
 
+Slice-2 (ticket (d), prereg s6 frozen): `paper` subcommand -- 5 paper
+accounts AGGR-* in results/aggr_paper/ (each CNY 1,000,000 initial,
+shadow guard, experimental risk-budget fields, marks = daily blend
+accrual from the first bar after evidence_cutoff 2026-09-23, sleeve
+domain advancing with new bars; PROS-* whitelist lane paradigm -- NOT
+in t35/scorecard CEO faces; marks are not trials -> ledger +0).
+
 Pool-ready per O-2100/O-2130: --shard/--shards over the sleeve job set,
 workers_plan in the pool entry; first judgment run executed in-round per
 R41 <5min exemption (T-28 caliber 5.4s empirical).
 
-CLI: run [--shard S --shards N] | selftest
+CLI: run [--shard S --shards N] | paper | selftest
 """
 import argparse
 import hashlib
@@ -66,8 +73,16 @@ from t28_stable_profit import (TOURN_JSON, W_CUR_END, W_CUR_START, WINDOWS,
 PREREG = os.path.join(PATHS.root, "research", "AGGRESSIVE_LAB.md")
 OUT_JSON = os.path.join(PATHS.results_dir, "aggressive_lab.json")
 GA_PATH = os.path.join(PATHS.results_dir, "gate_attrition.json")
+AGGR_DIR = os.path.join(PATHS.results_dir, "aggr_paper")   # T-56 slice-2 lane
 N_CELLS = 100                     # prereg s0 (5 variants x 20 T-28 cells)
 SLEEVE_CUTOFF = W_CUR_END          # prereg s2 (bench comparability w/ T-28)
+# slice-2 paper lane (prereg s6 frozen): marks accrue on the first bar
+# STRICTLY AFTER the frozen judgment domain (evidence_cutoff 2026-09-23)
+PAPER_START = pd.Timestamp("2026-09-24")
+INITIAL_CNY = 1_000_000.0
+RISK_BUDGET = {                    # prereg s6: experimental, per-account
+    "AGGR-NOCASH": {"position_cap": 0.95, "cash_parking_leg": "disabled"},
+}
 CE6 = ("COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01", "ENGULF-CE-01",
        "NEEDLE-DE-01", "VOLATILITY-CE-01")
 OFFENSE_CORPS = ("COMPOSITE-CE-01", "PROS-DUCK-01", "PROS-DUCK-CE-01",
@@ -388,6 +403,173 @@ def run_batch(shard: int = 0, shards: int = 1) -> int:
     return 0
 
 
+# ------------------------------------------------- slice-2: paper marks
+def _accrue_marks(pr: pd.Series, start: pd.Timestamp, initial: float):
+    """Deterministic daily blend accrual from `start` (inclusive) over the
+    blend daily-return series. Internal equity stays unrounded; outputs
+    round for display only (r163 rounding-face law). Returns (marks, eq)."""
+    seg = pr[pr.index >= start]
+    eq, marks = initial, []
+    for d, r in seg.items():
+        eq *= 1.0 + float(r)
+        marks.append({"date": str(pd.Timestamp(d).date()),
+                     "daily_ret": round(float(r), 8),
+                     "equity_cny": round(eq, 2)})
+    return marks, eq
+
+
+def _marks_dd(marks: list, initial: float) -> float:
+    """Peak-to-trough drawdown over the marked equity path (initial point
+    included). 0.0 when no marks yet (honest zero, not None)."""
+    peak, eq = initial, initial
+    dd = 0.0
+    for m in marks:
+        eq = m["equity_cny"]
+        peak = max(peak, eq)
+        dd = min(dd, eq / peak - 1.0)
+    return round(dd, 6)
+
+
+def _variant_daily_rets(faces, sleeves, states):
+    """Blend daily-return series per variant over the ADVANCING sleeve
+    domain (slice-2: no truncation -- sleeve domain advances with new
+    bars, prereg s6). Static faces via _blend_daily_ret; REGIME via
+    _regime_blend (v3 raw states, causal shift(1))."""
+    rets = {}
+    for name in VARIANTS:
+        face = faces[name]
+        if "static" in face:
+            rets[name] = _blend_daily_ret(
+                {t: sleeves[t]["x1"] for t in ROSTER}, face["static"])
+        else:
+            rets[name], _ = _regime_blend(
+                sleeves, face["regime"]["offensive"],
+                face["regime"]["defensive"], states)
+    return rets
+
+
+def _paper_state_path(variant: str) -> str:
+    return os.path.join(AGGR_DIR, f"{variant}_paper.json")
+
+
+def cmd_paper() -> int:
+    """T-56 slice-2 (ticket deliverable (d), prereg s6 frozen): 5 paper
+    accounts AGGR-* -- initial CNY 1,000,000 each, shadow guard (record
+    only, zero interference, zero canon touch), experimental risk budget
+    fields declared per account, marks = daily blend accrual with the
+    sleeve domain advancing on new bars. PROS-* whitelist paradigm: own
+    lane results/aggr_paper/, NOT consumed by t35/scorecard CEO faces.
+    Marks are not trials -> ledger +0, SEED_REGISTRY +0."""
+    try:
+        faces, sha_checks, _ = build_weights()      # sha gates re-verified
+        prices_full = load_core()
+        cutoff = max(df.index.max() for df in prices_full.values())
+        if cutoff < PAPER_START:
+            print(f"aggr paper: no markable bar yet (panel cutoff "
+                  f"{cutoff.date()} < paper_start {PAPER_START.date()}) "
+                  f"-- no-op")
+            return 0
+        state_path = _paper_state_path(VARIANTS[0])
+        if os.path.exists(state_path):
+            prev = json.load(open(state_path, encoding="utf-8-sig"))
+            if prev.get("panel_cutoff") == str(cutoff.date()):
+                print(f"aggr paper: marks already at panel cutoff "
+                      f"{cutoff.date()} -- no-op (idempotent)")
+                return 0
+
+        jobs = [(tid, None, prices_full, cutoff) for tid in ROSTER]
+        res = run_cells_parallel(
+            [(f"{a[0]}|x1", _sleeve_worker, a) for a in jobs],
+            workers=min(worker_cap(), 25), desc="aggr-paper-sleeves")
+        sleeves = {}
+        for tid in ROSTER:
+            r = res[f"{tid}|x1"]
+            r["eq_s"] = pd.Series(r["eq"], index=pd.to_datetime(r["dates"]))
+            sleeves[tid] = {"x1": r}
+        states = v3_state_series()
+        rets = _variant_daily_rets(faces, sleeves, states)
+
+        os.makedirs(AGGR_DIR, exist_ok=True)
+        summary = {}
+        for name in VARIANTS:
+            marks, eq = _accrue_marks(rets[name], PAPER_START, INITIAL_CNY)
+            bud = RISK_BUDGET.get(name, {})
+            st = {
+                "schema": "t56_aggr_paper_v1",
+                "account": name, "variant": name,
+                "lane": "experimental-aggressive (T-56 slice-2, ticket "
+                        "(d), order O-20260925-1126)",
+                "whitelist_paradigm": "PROS-* precedent: own lane dir; "
+                    "excluded from t35 paper_export and daily_scorecard "
+                    "CEO faces by construction",
+                "guard": "shadow (record-only; zero interference; zero "
+                         "canon/production-account touch)",
+                "experimental": True,
+                "initial_cash_cny": INITIAL_CNY,
+                "denomination": "CNY",
+                "paper_start": str(PAPER_START.date()),
+                "paper_start_rationale": "first bar strictly after the "
+                    "frozen judgment domain evidence_cutoff 2026-09-23 "
+                    "(blind forward; prereg s2/s6)",
+                "evidence_cutoff": str(SLEEVE_CUTOFF.date()),
+                "weights_sha": (sha_checks.get(name) if name
+                                != "AGGR-REGIME" else {
+                                    "offensive": FROZEN_SHA[
+                                        "AGGR-REGIME-offensive"],
+                                    "defensive": FROZEN_SHA[
+                                        "AGGR-REGIME-defensive"]}),
+                "risk_budget": {
+                    "position_cap": bud.get("position_cap", 0.80),
+                    "position_cap_note": "0.80 production-aligned default;"
+                        " AGGR-NOCASH 0.95 per prereg s6",
+                    "cash_parking_leg": bud.get(
+                        "cash_parking_leg",
+                        "paper plane structurally no parking leg "
+                        "(T-09 unwired disclosure, live-side watch item)"),
+                    "experimental": True,
+                    "execution_layer_note": "marks are the blend-face "
+                        "measurement; cap/cash fields are declared budget "
+                        "parameters, not modeled in blend marks",
+                },
+                "cost_face": "x1 (13bp production-aligned; x2 is a "
+                             "judgment-batch stress face only)",
+                "marks": marks,
+                "marks_summary": {
+                    "bars": len(marks),
+                    "first_date": marks[0]["date"] if marks else None,
+                    "last_date": marks[-1]["date"] if marks else None,
+                    "cumulative_ret": round(
+                        eq / INITIAL_CNY - 1.0, 8),
+                    "current_dd": _marks_dd(marks, INITIAL_CNY),
+                },
+                "equity_cny": round(eq, 2),
+                "panel_cutoff": str(cutoff.date()),
+                "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
+                "audit": {"network": "zero", "ledger_trials_added": 0,
+                          "seed_registry_added": 0,
+                          "engine_runs": len(ROSTER),
+                          "adoption": "ZERO (dual-track supply face)"},
+            }
+            tmp = _paper_state_path(name) + ".tmp"
+            with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
+                json.dump(st, fh, ensure_ascii=False, indent=1)
+            os.replace(tmp, _paper_state_path(name))
+            s = st["marks_summary"]
+            summary[name] = s
+            print(f"aggr paper {name}: bars={s['bars']} "
+                  f"last={s['last_date']} cum={s['cumulative_ret']} "
+                  f"dd={s['current_dd']} equity={st['equity_cny']}")
+        print(f"aggr paper: {len(VARIANTS)} accounts marked through "
+              f"{cutoff.date()} -> {AGGR_DIR}")
+        return 0
+    except SystemExit as e:
+        print(f"aggr paper mechanism fault (gate): {e}")
+        return 2
+    except Exception as e:                       # noqa: BLE001
+        print(f"aggr paper mechanism fault: {e}")
+        return 2
+
+
 # ------------------------------------------------------------- selftest
 def cmd_selftest() -> int:
     ok = []
@@ -489,6 +671,49 @@ def cmd_selftest() -> int:
     finally:
         FROZEN_SHA = saved
 
+    # F7 slice-2 accrual math: equity product over synthetic returns
+    # (fixture values built at construction -- r139 CoW law)
+    idx7 = pd.bdate_range("2026-09-24", periods=3)
+    pr7 = pd.Series([0.01, -0.02, 0.03], index=idx7)
+    marks7, eq7 = _accrue_marks(pr7, PAPER_START, INITIAL_CNY)
+    want_eq = INITIAL_CNY * 1.01 * 0.98 * 1.03
+    check("F7 accrual equity product + unrounded chain",
+          abs(eq7 - want_eq) < 1e-6 and len(marks7) == 3
+          and abs(marks7[0]["equity_cny"]
+                  - round(INITIAL_CNY * 1.01, 2)) < 0.01)
+
+    # F8 accrual start gate: pre-paper_start rows never marked
+    idx8 = pd.bdate_range("2026-09-20", periods=6)
+    pr8 = pd.Series([0.01] * 6, index=idx8)
+    marks8, _ = _accrue_marks(pr8, PAPER_START, INITIAL_CNY)
+    check("F8 marks start strictly after evidence cutoff",
+          all(m["date"] >= str(PAPER_START.date()) for m in marks8)
+          and len(marks8) == len([d for d in idx8
+                                  if d >= PAPER_START]))
+
+    # F9 marks dd math: peak-to-trough over marked path
+    marks9 = [{"equity_cny": 1_010_000.0},
+              {"equity_cny": 980_000.0},
+              {"equity_cny": 1_005_000.0}]
+    check("F9 marks dd peak-to-trough",
+          abs(_marks_dd(marks9, INITIAL_CNY) - (980_000.0
+                                                 / 1_010_000.0 - 1.0))
+          < 1e-6 and _marks_dd([], INITIAL_CNY) == 0.0)
+
+    # F10 risk-budget fields per frozen design (NOCASH 0.95/disabled,
+    # others 0.80 production-aligned default)
+    check("F10 risk budget frozen fields",
+          RISK_BUDGET["AGGR-NOCASH"]["position_cap"] == 0.95
+          and RISK_BUDGET["AGGR-NOCASH"]["cash_parking_leg"] == "disabled"
+          and all(v not in RISK_BUDGET for v in VARIANTS
+                  if v != "AGGR-NOCASH"))
+
+    # F11 paper lane path + start-date gate constants
+    check("F11 paper lane constants",
+          AGGR_DIR.endswith("aggr_paper")
+          and PAPER_START == pd.Timestamp("2026-09-23") + pd.Timedelta(
+              days=1) and INITIAL_CNY == 1_000_000.0)
+
     n_fail = sum(1 for _, c in ok if not c)
     print(f"selftest: {len(ok) - n_fail}/{len(ok)} PASS")
     return 0 if n_fail == 0 else 1
@@ -496,12 +721,14 @@ def cmd_selftest() -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("cmd", choices=("run", "selftest"))
+    ap.add_argument("cmd", choices=("run", "paper", "selftest"))
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--shards", type=int, default=1)
     a = ap.parse_args()
     if a.cmd == "selftest":
         return cmd_selftest()
+    if a.cmd == "paper":
+        return cmd_paper()
     return run_batch(shard=a.shard, shards=a.shards)
 
 

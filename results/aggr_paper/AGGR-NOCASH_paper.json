@@ -1,0 +1,47 @@
+{
+ "schema": "t56_aggr_paper_v1",
+ "account": "AGGR-NOCASH",
+ "variant": "AGGR-NOCASH",
+ "lane": "experimental-aggressive (T-56 slice-2, ticket (d), order O-20260925-1126)",
+ "whitelist_paradigm": "PROS-* precedent: own lane dir; excluded from t35 paper_export and daily_scorecard CEO faces by construction",
+ "guard": "shadow (record-only; zero interference; zero canon/production-account touch)",
+ "experimental": true,
+ "initial_cash_cny": 1000000.0,
+ "denomination": "CNY",
+ "paper_start": "2026-09-24",
+ "paper_start_rationale": "first bar strictly after the frozen judgment domain evidence_cutoff 2026-09-23 (blind forward; prereg s2/s6)",
+ "evidence_cutoff": "2026-09-23",
+ "weights_sha": "9b112d51583aeeb7",
+ "risk_budget": {
+  "position_cap": 0.95,
+  "position_cap_note": "0.80 production-aligned default; AGGR-NOCASH 0.95 per prereg s6",
+  "cash_parking_leg": "disabled",
+  "experimental": true,
+  "execution_layer_note": "marks are the blend-face measurement; cap/cash fields are declared budget parameters, not modeled in blend marks"
+ },
+ "cost_face": "x1 (13bp production-aligned; x2 is a judgment-batch stress face only)",
+ "marks": [
+  {
+   "date": "2026-09-24",
+   "daily_ret": -0.00017676,
+   "equity_cny": 999823.24
+  }
+ ],
+ "marks_summary": {
+  "bars": 1,
+  "first_date": "2026-09-24",
+  "last_date": "2026-09-24",
+  "cumulative_ret": -0.00017676,
+  "current_dd": -0.000177
+ },
+ "equity_cny": 999823.24,
+ "panel_cutoff": "2026-09-24",
+ "updated": "2026-09-25 11:52:46",
+ "audit": {
+  "network": "zero",
+  "ledger_trials_added": 0,
+  "seed_registry_added": 0,
+  "engine_runs": 28,
+  "adoption": "ZERO (dual-track supply face)"
+ }
+}
