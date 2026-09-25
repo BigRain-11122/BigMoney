@@ -1,16 +1,18 @@
 {
- "round_no": 180,
+ "round_no": 181,
  "did": [
-  "C8 wedge dual-fix: T54-GRID-DB entry status ready->done (r179 owner-write missed entry-level flip) + autofill _pick done-shard gate + S11/S12 selftests 13/13; dry-tick verifies next pick=deep-dC (d88ae3be)",
-  "root cause chain: entry status=='ready' gate + no shard-done check -> dual-machine 10min no-op re-fires of completed deep-dB (4x) wedged dC/dD pre-claims since 12:56",
-  "S6 18 legs green + 2 conditional skips; orders 71/71 double-scan clean; 5x HANDOVER three-face check (ledger head 61,415 real-read aggressive_family.json)"
+  "MSG-1350 处置闭环: reply MSG-1354 + original archived processed; dD yield acked (bm-a 13:47:38 origin claim, takeover legal under then-live since_age-only gate; my 14:00 tick fresh-owner skip)",
+  "_hb_age_min ISO fix verified on bm-b env: autofill selftest 16/16 (S13/S13b/S13c pairing legs)",
+  "serial-claim-aging face + completion-to-flip-lag dual-burn face = watch rulings with live-fire triggers (reply MSG-1354; no code change)",
+  "T-57 s1 slice-2: pattern #2 二板确认接力/一进二 definition harvest -> DIGEST-20260925-t57-s1-slice2.md + ticket progress_r181 + probe csdn_probe_t57_s1_slice2.json (funnel 2 queries/1 partial-paywall deep-read/0 gate/0 family/0 adoption/0 engine)",
+  "S6 18 legs green + 2 conditional skips (no new bar, cutoff 09-24); rebase 1-UU autofill_state per r161 recipe (launches union 27, last_tick newer 13:50:02)"
  ],
- "verdict": "GREEN healthy: C8 supply wedge cleared (dC/dD/MF-ROT now takeable); S6 chain clean; T-54 deep grid serial lane resumed",
- "next": "13:40 tick fires dC (12w ~11.5min) -> dD -> MF-ROT-S1; 15:30+ first 09-25 bar full chain (daily->paper enforce v3 first run->t24 x2->aggr->t35 diff->scorecard) + ALLOC P5 510880 off-hours pull + rearm 7/7 finalize; T-46 panel gate legal wait; bm-c revival watch (PT-05 22:00 escalation line)",
+ "verdict": "GREEN healthy: fleet-coordination closure (dD race resolved + hb-fix verified + dual watch-rulings) + T-57 harvest lane advancing; S6 chain clean",
+ "next": "14:00 tick MF-ROT-S1 fire check (1-process 10-25min, harvest+ledger after) + dD bm-a fire收官回查; T-57 s1 continue (断板低吸 QTYX 137710223 + 首板终极心法 145881334 + 二板触发规则补齐源); 15:30+ 09-25 bar full chain (daily->live.paper enforce v3->t24 x2->aggr->t35 diff->scorecard) + ALLOC P5 510880 off-hours pull + pool rearm 7/7 finalize; T-46 panel gate legal wait; bm-c revival watch (PT-05 22:00 escalation line)",
  "last_round_ts": "2026-09-25 13:37:35",
  "last_result": "ok",
- "current_task": "r180 done: C8 wedge dual-fix (T54-GRID-DB entry status flip + _pick done-shard gate, S11/S12 13/13, d88ae3be; dry-tick verifies next pick=deep-dC); next: dC/dD serial burn + MF-ROT-S1 fire + 15:30 09-25 bar full chain",
- "last_tick": "2026-09-25 13:37",
- "updated_at": "2026-09-25 13:37:35",
- "last_seen": "2026-09-25 13:37:35"
+ "current_task": "r181 done: MSG-1350 closure + T-57 s1 slice-2 + S6 clean; next: MF-ROT-S1 fire check + T-57 continue + 15:30 bar chain",
+ "last_tick": "2026-09-25 13:57",
+ "updated_at": "2026-09-25 13:57:25",
+ "last_seen": "2026-09-25 13:57:25"
 }
