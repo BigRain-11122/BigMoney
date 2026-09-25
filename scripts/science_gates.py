@@ -619,6 +619,10 @@ SEED_REGISTRY = {
     # registry+rg full-repo scan verified free 2026-09-25 08:0x before
     # MF_IC_P1 prereg freeze r159 bm-b, T-2026-09-25-46)
     "mf_rot_s1": 59_000,                     # MF_ROT_S1 100 pooled random-Top3 nulls (daily 59000+i i<50, monthly 59050+i; band 59000..59099, next free band above 58550; rg full-repo scan verified free 2026-09-25 13:1x bm-b r179, prereg MF_ROT_S1_PREREG.md §3)
+    "div_lowvol_p1": 60_000,                 # DIV_LOWVOL_P1 K=32 random segment-mask
+    # nulls (60000+k, k=0..31; band 60000..60031, next free band above mf_rot_s1
+    # 59000+99; rg full-repo scan verified free 2026-09-25 17:4x before runner
+    # slice; prereg research/DIV_LOWVOL_P1.md §3 names this base, R178 freeze)
 }
 
 
@@ -882,6 +886,9 @@ def selftest() -> int:
        and all(v > 0 for v in SEED_REGISTRY.values() if isinstance(v, int)))
     ok("SEED_REGISTRY: t18_deep_axis base 54_000 registered (T-18 nulls lineage)",
        SEED_REGISTRY["t18_deep_axis"] == 54_000)
+    ok("SEED_REGISTRY: div_lowvol_p1 base 60_000 registered (band 60000..60031,"
+       " disjoint from mf_rot_s1 59000..59099)",
+       SEED_REGISTRY["div_lowvol_p1"] == 60_000)
 
     # T-18 deep-axis additive pool branch (additive; core48 path untouched)
     import tempfile as _tf
