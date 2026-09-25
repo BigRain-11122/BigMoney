@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25T20:55:00",
+ "updated_at": "2026-09-25 22:37:11",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -986,7 +986,211 @@
      "owner_since": "2026-09-25 21:20:04"
     }
    ]
+  },
+  {
+   "id": "BOND-PANEL-SHARD-0",
+   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "runner": "scripts/bond_panel_puller.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--of",
+    "6"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 22:37:11",
+   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+   "shards": [
+    {
+     "key": "bpanel-0of6",
+     "status": "ready",
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 22:40:04",
+     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_0of6.json (resolved:true = done evidence)",
+     "note": "56 members (positions 0-56 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+   },
+   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+  },
+  {
+   "id": "BOND-PANEL-SHARD-1",
+   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "runner": "scripts/bond_panel_puller.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--of",
+    "6"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 22:37:11",
+   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+   "shards": [
+    {
+     "key": "bpanel-1of6",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_1of6.json (resolved:true = done evidence)",
+     "note": "56 members (positions 56-112 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+   },
+   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+  },
+  {
+   "id": "BOND-PANEL-SHARD-2",
+   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "runner": "scripts/bond_panel_puller.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "6"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 22:37:11",
+   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+   "shards": [
+    {
+     "key": "bpanel-2of6",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_2of6.json (resolved:true = done evidence)",
+     "note": "56 members (positions 112-168 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+   },
+   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+  },
+  {
+   "id": "BOND-PANEL-SHARD-3",
+   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "runner": "scripts/bond_panel_puller.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "6"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 22:37:11",
+   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+   "shards": [
+    {
+     "key": "bpanel-3of6",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_3of6.json (resolved:true = done evidence)",
+     "note": "56 members (positions 168-224 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+   },
+   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+  },
+  {
+   "id": "BOND-PANEL-SHARD-4",
+   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "runner": "scripts/bond_panel_puller.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "6"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 22:37:11",
+   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+   "shards": [
+    {
+     "key": "bpanel-4of6",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_4of6.json (resolved:true = done evidence)",
+     "note": "56 members (positions 224-280 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+   },
+   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+  },
+  {
+   "id": "BOND-PANEL-SHARD-5",
+   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "runner": "scripts/bond_panel_puller.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "6"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 22:37:11",
+   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+   "shards": [
+    {
+     "key": "bpanel-5of6",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_5of6.json (resolved:true = done evidence)",
+     "note": "51 members (positions 280-331 of frozen 331-candidate manifest), est ~3.0min at 2.5s/member rate limit"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+   },
+   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
   }
  ],
- "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry"
+ "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates)"
 }
