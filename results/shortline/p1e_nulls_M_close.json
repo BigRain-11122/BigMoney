@@ -1,0 +1,48 @@
+{
+  "class": "M_close",
+  "mask": "close finite (terrified inputs: close-derived returns)",
+  "mask_cells": 17117855,
+  "mask_cell_share": 0.3728,
+  "n_nulls": 50,
+  "seed_band": [
+    67000,
+    67050
+  ],
+  "seed_base": 67000,
+  "noise": "white noise standard normal, masked by class mask",
+  "is_end": "2024-12-31",
+  "per_h": {
+    "h5": {
+      "p95_abs_ic": 0.0015,
+      "p50_abs_ic": 0.0007,
+      "p95_abs_ir": 0.017,
+      "n_nulls": 50
+    },
+    "h10": {
+      "p95_abs_ic": 0.0018,
+      "p50_abs_ic": 0.0006,
+      "p95_abs_ir": 0.0201,
+      "n_nulls": 50
+    },
+    "h20": {
+      "p95_abs_ic": 0.0018,
+      "p50_abs_ic": 0.0006,
+      "p95_abs_ir": 0.0195,
+      "n_nulls": 50
+    }
+  },
+  "meta": {
+    "elapsed_s": 1914.2,
+    "equivalence": {
+      "tag": "run-nulls/M_close",
+      "n_ref": 8709,
+      "n_fast": 8709,
+      "max_abs_diff": 2.220446049250313e-16,
+      "tol": 1e-06,
+      "pass": true,
+      "probe": "-mom60 real slice 600x60, fwd h20 (P-1c selftest form)"
+    },
+    "turnover": null,
+    "evidence_cutoff": "2026-09-22"
+  }
+}
