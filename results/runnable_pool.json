@@ -1201,7 +1201,7 @@
    "runner": "scripts/p1e_ic_batch.py",
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 03:06:50",
    "workers_plan": {
     "workers": 4,
@@ -1218,11 +1218,16 @@
    "shards": [
     {
      "key": "p1e-nulls-mclose",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-26 04:10:05",
      "checkpoint": "results/shortline/p1e_nulls_M_close.json (n_nulls==50, per-h p95/p50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
-     "note": "K=50 white-noise nulls, mask class M_close (close finite, terrified inputs), seeds 67000..67049; est ~6-7min (150 IC @ ~1.9s + panel load close-only)"
+     "note": "K=50 white-noise nulls, mask class M_close (close finite, terrified inputs), seeds 67000..67049; est ~6-7min (150 IC @ ~1.9s + panel load close-only)",
+     "done_flip": {
+      "ts": "2026-09-26 04:15",
+      "by": "bm-b r222",
+      "evidence": "artifact p1e_nulls_M_close.json landed 04:02:05 (n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 17117855 == r221 mask_probe bit-match, seed_band 67000-67050 per prereg continuous ledger)"
+     }
     }
    ]
   },
