@@ -1,0 +1,91 @@
+{
+ "ts": "2026-09-26 04:12:08",
+ "requests_consumed": 3,
+ "probes": {
+  "list_rank_face": {
+   "status": 200,
+   "ms": 304,
+   "bytes_head": 40,
+   "parse": "fail(None)",
+   "head": "{\"__ERROR\":1,\"__ERRORMSG\":\"Input error\"}"
+  },
+  "per_stock_filter": {
+   "status": 200,
+   "ms": 73,
+   "bytes_head": 1618,
+   "parse": "ok",
+   "rows": 5,
+   "fields": [
+    "changeratio",
+    "netamount",
+    "opendate",
+    "r0",
+    "r0_net",
+    "r1",
+    "r1_net",
+    "r2",
+    "r2_net",
+    "r3",
+    "r3_net",
+    "ratioamount",
+    "trade",
+    "turnover"
+   ],
+   "row0": {
+    "opendate": "2026-01-29",
+    "trade": "1437.8000",
+    "changeratio": "0.086206",
+    "turnover": "149.673",
+    "netamount": "6300406547.3600",
+    "ratioamount": "0.242293",
+    "r0": "25744545280.1600",
+    "r1": "254844431.6200",
+    "r2": "3975146.0000",
+    "r3": "0.0000",
+    "r0_net": "6333174648.9000",
+    "r1_net": "-32905597.5400",
+    "r2_net": "137496.0000",
+    "r3_net": "0.0000"
+   },
+   "symbols": [
+    null,
+    null,
+    null,
+    null,
+    null
+   ]
+  },
+  "num_ceiling_freshness": {
+   "status": 200,
+   "ms": 146,
+   "rows": 100,
+   "date_min": "2018-10-30",
+   "date_max": "2026-09-04",
+   "tier_sum_vs_netamount_worst_abs_diff": 4.76837158203125e-07,
+   "fresh_through_latest_bar_day": false,
+   "sample_fields": [
+    "changeratio",
+    "netamount",
+    "opendate",
+    "r0",
+    "r0_net",
+    "r1",
+    "r1_net",
+    "r2",
+    "r2_net",
+    "r3",
+    "r3_net",
+    "ratioamount",
+    "trade",
+    "turnover"
+   ]
+  }
+ },
+ "verdict": {
+  "liveness": "alive",
+  "decomposition_keys_observed": [],
+  "dimension": "unparsed_or_dead",
+  "measure_level_law": "aggregate-only = NOT 主力 decomposition; mapping onto 主力 semantics forbidden (R118 law)",
+  "economics_note": "list face num=5/page; full-universe 5222 est ~1045 pages/day at num=5 (vs clist 60 req/day) if per-stock absent; per-stock face economics measured at r2"
+ }
+}
