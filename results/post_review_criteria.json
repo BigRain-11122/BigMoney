@@ -303,10 +303,10 @@
     },
     {
       "id": "O-2045-MILLION-PAPER",
-      "claim": "O-2045 百万纸盘 d1：INITIAL_CASH 1,000,000 构造性满足（6 注册员）；d2 交易时段道/d3 导出面/d4 协调未动工",
-      "claim_source": "O-20260924-2045 + T-2026-09-24-35 (bm-a 认领)",
-      "status": "in_flight",
-      "waiting_on": "d2-d4 未动工（R92 让位 T-36/T-37 同窗 CEO 即时令，R93 起排）；实盘开闸恒 T0 CEO 专属",
+      "claim": "O-2045 百万纸盘四交付面全落地：d1 资本迁移（6 注册员各 1,000,000 CNY 构造性满足）+ d2 交易时段道（09:30 开盘成交验证器+盘中标记+15:00 结算链）+ d3 每日导出 results/paper_export/ + d4 T-29 协调（scorecard 大字版消费 paper_export）；真实成交日全弧证据随 S6 腿逐信号日累积（09-24 零 pending 日=零例 PASS 诚实）",
+      "claim_source": "O-20260924-2045 + T-2026-09-24-35 spec pre-frozen Verification line (capital assertion / execution-timestamp evidence / intraday-marking selftest / causality selftest / smoke) -- registry reconcile r223 bm-a (closure round, stale d2-d4 claim text from R92 era corrected to delivered state; checks encode the spec's own frozen list, zero invented)",
+      "status": "closed",
+      "waiting_on": "",
       "checks": [
         {
           "kind": "file_contains",
@@ -319,6 +319,50 @@
           "kind": "file_exists",
           "args": [
             "fleet/tasks/T-2026-09-24-35-P1.json"
+          ]
+        },
+        {
+          "kind": "file_exists",
+          "args": [
+            "results/t35_capital_assert.json"
+          ]
+        },
+        {
+          "kind": "file_exists",
+          "args": [
+            "scripts/t35_open_fill_verify.py"
+          ]
+        },
+        {
+          "kind": "file_exists",
+          "args": [
+            "results/t35_open_fill_verify.json"
+          ]
+        },
+        {
+          "kind": "file_exists",
+          "args": [
+            "scripts/update_intraday_marks.py"
+          ]
+        },
+        {
+          "kind": "file_contains",
+          "args": [
+            "smoke_test.py",
+            "causality"
+          ]
+        },
+        {
+          "kind": "file_exists",
+          "args": [
+            "results/paper_export/latest.json"
+          ]
+        },
+        {
+          "kind": "file_contains",
+          "args": [
+            "scripts/daily_scorecard.py",
+            "paper_export"
           ]
         }
       ]
@@ -412,5 +456,5 @@
       ]
     }
   ],
-  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18)"
+  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented)"
 }
