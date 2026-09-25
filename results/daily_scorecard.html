@@ -177,7 +177,7 @@
 <tr><td>T-29-SCORECARD</td><td class='pos'>✓</td><td>T-29 战绩直达面 v0.1：daily_scorecard.py 纸盘真账本驱动（大字版消费面由 O-2045 s3 增补）</td><td class='dim'>file_exists:exists</td></tr>
 <tr><td>T-33-CORPS-ROSTER</td><td class='dim'>🟡</td><td>O-2012 三军种制：军种路由正典 STYLE_CORPS v1.1 + T-33 corps_roster v1+prereg 已落（bm-c r68）；进攻军 0 员在册=最</td><td class='dim'>file_exists:exists; file_exists:exists; file_exists:exists</td></tr>
 <tr><td>O-2030-PRESIGNAL</td><td class='dim'>🟡</td><td>O-2030 前置+组合令：军种建设前置律+组合律入正典；前置快线 harness A/B 批未跑</td><td class='dim'>file_contains:contains; file_exists:exists</td></tr>
-<tr><td>O-2045-MILLION-PAPER</td><td class='dim'>🟡</td><td>O-2045 百万纸盘 d1：INITIAL_CASH 1,000,000 构造性满足（6 注册员）；d2 交易时段道/d3 导出面/d4 协调未动工</td><td class='dim'>file_contains:contains; file_exists:exists</td></tr>
+<tr><td>O-2045-MILLION-PAPER</td><td class='pos'>✓</td><td>O-2045 百万纸盘四交付面全落地：d1 资本迁移（6 注册员各 1,000,000 CNY 构造性满足）+ d2 交易时段道（09:30 开盘成交验证器+盘中标记+15:00 </td><td class='dim'>file_contains:contains; file_exists:exists; file_exists:exists; file_e</td></tr>
 <tr><td>O-2100-COMPUTE-DISPATCH</td><td class='dim'>🟡</td><td>O-2100 算力调度机制 d2 核心：runnable pool + autofill C8 + 10min schtasks + watchdog 自愈腿 + 真验收 laun</td><td class='dim'>file_exists:exists; file_exists:exists; json_field:launches.0.verdict=</td></tr>
 <tr><td>O-2115-POST-REVIEW</td><td class='dim'>🟡</td><td>O-2115 复审机制 d1：正典（GM 令 commit 预落）+确定性复审器 post_review.py（注入虚报样本必捕 selftest 7/7）+首批判据 regist</td><td class='dim'>git_log_file:git hit: 2115; file_exists:exists; file_exists:exists</td></tr>
 <tr><td>T-27-VETO-FIELD</td><td class='pos'>✓</td><td>T-27 产物时效字段：results/portfolio_blend_tournament.json 须带 verdict.veto_window_until（POST_REVI</td><td class='dim'>json_field:verdict.veto_window_until=2026-10-01</td></tr>
