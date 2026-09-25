@@ -1,0 +1,67 @@
+{
+  "meta": {
+    "batch": "T-68 WAVE-3B-2 southbound component re-probe window gate",
+    "ticket": "fleet/tasks/T-20260925-25-68-P1.json (id T-2026-09-25-68)",
+    "laws": "r186 symmetry / R167 head-repr / r62 clock / R99 prereg-after-gate",
+    "s0_block_ref": "results/instrument_census_probe.json probes.stock_hk_ggt_components_em (FAIL RemoteDisconnected)"
+  },
+  "history": [
+    {
+      "ts": "2026-09-26 00:35:00",
+      "machine": "bm-b",
+      "verdict": "BLOCKED",
+      "reason": "all arms failed (EM push2 domain window still blocked) -- no terminal verdict, window stays open",
+      "wrapper": {
+        "arm": "W:akshare_wrapper",
+        "alive": false,
+        "attempts": [
+          {
+            "n": 1,
+            "rc": "fail",
+            "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+            "sec": 6.6
+          },
+          {
+            "n": 2,
+            "rc": "fail",
+            "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+            "sec": 6.9
+          },
+          {
+            "n": 3,
+            "rc": "fail",
+            "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+            "sec": 6.6
+          }
+        ]
+      },
+      "raw": {
+        "arm": "R:direct_urllib",
+        "alive": false,
+        "attempts": [
+          {
+            "n": 1,
+            "rc": "fail",
+            "err": "RemoteDisconnected: Remote end closed connection without response",
+            "sec": 0.0
+          },
+          {
+            "n": 2,
+            "rc": "fail",
+            "err": "RemoteDisconnected: Remote end closed connection without response",
+            "sec": 0.1
+          },
+          {
+            "n": 3,
+            "rc": "fail",
+            "err": "RemoteDisconnected: Remote end closed connection without response",
+            "sec": 0.0
+          }
+        ]
+      },
+      "wrapper_evidence": {},
+      "raw_evidence": {},
+      "next_slice": "window stays open: re-run next round(s) until PASS or CEO ruling"
+    }
+  ]
+}

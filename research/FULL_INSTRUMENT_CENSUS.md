@@ -41,6 +41,7 @@
 - **过闸面**：交易所债现货 800 只+单券全史 4806 行；TS0 主连 1967 行（cut 2026-09-24 新鲜）；期权码面 11 合同+合同日线 7 行+到期 ('2026-10-28',33)；港股单券全史 5480 行
 - **阻断面**（EM 域 RemoteDisconnected·两窗两连败）：南向成分/北交所现货/REITs 实时/LOF 现货——R168 conn-fuse 族处置=30min 节流自愈复探窗，禁由阻断面立「不可得」终判（r186 样本面反例对称律：阻断面同样不立终判）
 - **R167 语义注**：bond_zh_hs_daily 尾 2021-07-30=单券到期自然止非源断；期权日线 7 行=新上市合同自然短史非缺史；探针全部含 head/tail repr 实数据行可复核
+- **复探窗（append-only）**：南向成分面 stock_hk_ggt_components_em 2026-09-26 00:35 bm-b 三度复探仍阻断（wrapper+raw 直连双臂×3 attempt 全 RemoteDisconnected，与 s0 同签名=EM push2 域窗仍闭；探针=scripts/southbound_reprobe.py→results/southbound_reprobe_w3b.json，r186 对称律维持：阻断面不立终判、窗口续开轮次复探；3B-2 南向 prereg 续等 PASS 窗；观察面 REITs/LOF/北交所同域推断续持阻但各自面未单独复探）
 
 ## 四、s1 排序输入（data-ready×去相关价值×百万可行三维排序·下一切片定稿）
 
