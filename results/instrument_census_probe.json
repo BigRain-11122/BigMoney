@@ -1,0 +1,127 @@
+{
+ "run_date": "2026-09-25",
+ "evidence_cutoff": "2026-09-25",
+ "ak_ver": "1.18.96",
+ "probes": {
+  "option_sse_list_sina": {
+   "status": "OK_LIST",
+   "items": 3,
+   "head_repr": [
+    "'202610'",
+    "'202612'",
+    "'202703'"
+   ],
+   "sec": 0.5
+  },
+  "option_sse_daily_sina": {
+   "status": "OK",
+   "rows": 7,
+   "cols": [
+    "日期",
+    "开盘",
+    "最高",
+    "最低",
+    "收盘",
+    "成交量"
+   ],
+   "head_repr": [
+    "{'日期': datetime.date(2026, 9, 16), '开盘': 0.2042, '最高': 0.23, '最低': 0.1935, '收盘': 0.2265, '成交量': 3887511}",
+    "{'日期': datetime.date(2026, 9, 17), '开盘': 0.2229, '最高': 0.2229, '最低': 0.2002, '收盘': 0.206, '成交量': 1753973}"
+   ],
+   "tail_repr": [
+    "{'日期': datetime.date(2026, 9, 24), '开盘': 0.2435, '最高': 0.2435, '最低': 0.21, '收盘': 0.2148, '成交量': 2766753}"
+   ],
+   "probe_contract": "10012427"
+  },
+  "option_sse_expire_day_sina": {
+   "status": "OK_TUPLE",
+   "repr": "('2026-10-28', 33)"
+  },
+  "bond_zh_hs_daily": {
+   "status": "OK",
+   "rows": 4806,
+   "cols": [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "head_repr": [
+    "{'date': datetime.date(2001, 8, 20), 'open': 101.255, 'high': 102.835, 'low': 101.255, 'close': 102.695, 'volume': 60765500}",
+    "{'date': datetime.date(2001, 8, 21), 'open': 102.743, 'high': 103.213, 'low': 102.683, 'close': 103.133, 'volume': 19927710}"
+   ],
+   "tail_repr": [
+    "{'date': datetime.date(2021, 7, 30), 'open': 100.0, 'high': 100.01, 'low': 99.99, 'close': 100.01, 'volume': 150850}"
+   ],
+   "last_date_observed": "2021-07-30",
+   "sec": 0.5,
+   "probe_symbol": "sh010107"
+  },
+  "stock_hk_ggt_components_em": {
+   "status": "FAIL",
+   "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "sec": 6.1
+  },
+  "stock_bj_a_spot_em": {
+   "status": "FAIL",
+   "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "sec": 6.7
+  },
+  "futures_zh_daily_sina_TS0": {
+   "status": "OK",
+   "rows": 1967,
+   "cols": [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "hold",
+    "settle"
+   ],
+   "head_repr": [
+    "{'date': '2018-08-17', 'open': 99.4, 'high': 99.405, 'low': 99.075, 'close': 99.16, 'volume': 8559, 'hold': 0, 'settle': 0.0}",
+    "{'date': '2018-08-20', 'open': 99.1, 'high': 99.26, 'low': 99.1, 'close': 99.215, 'volume': 1865, 'hold': 0, 'settle': 0.0}"
+   ],
+   "tail_repr": [
+    "{'date': '2026-09-24', 'open': 102.59, 'high': 102.598, 'low': 102.58, 'close': 102.594, 'volume': 44381, 'hold': 72983, 'settle': 0.0}"
+   ],
+   "last_date_observed": "2026-09-24",
+   "sec": 0.5,
+   "probe_symbol": "TS0"
+  },
+  "reits_realtime_em": {
+   "status": "FAIL",
+   "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "sec": 0.3
+  },
+  "fund_lof_spot_em": {
+   "status": "FAIL",
+   "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "sec": 6.7
+  },
+  "option_sse_codes_sina": {
+   "status": "OK",
+   "rows": 11,
+   "cols": [
+    "序号",
+    "期权代码"
+   ],
+   "head_repr": [
+    "{'序号': 1, '期权代码': '10012427'}",
+    "{'序号': 2, '期权代码': '10012309'}",
+    "{'序号': 3, '期权代码': '10012310'}"
+   ]
+  }
+ },
+ "summary": {
+  "probes_total": 10,
+  "ok": 6,
+  "fail": 4
+ },
+ "v2_run_date": "2026-09-25",
+ "v3_run_date": "2026-09-25"
+}
