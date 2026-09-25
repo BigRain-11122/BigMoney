@@ -1,0 +1,275 @@
+{
+ "meta": {
+  "batch": "ALLOC_LINE_S2 probe (prereg s1/s2 frozen-face facts)",
+  "ticket": "T-2026-09-25-59 s2",
+  "window": "2020-01-02..2026-09-22",
+  "evidence_cutoff": "2026-09-22",
+  "p2_note": "inverse-vol proxy = full-window vol, cap50% iterative; backtest uses frozen rolling-126d rule",
+  "cost_note": "probe = static buy-hold zero-cost descriptive; judgment face = s3 rebalanced net-of-cost four-metrics",
+  "cash_note": "CASH leg = repo_daily.csv rate/100/252 daily accrual (CASH_LEG carrier reuse, read-only)",
+  "p5_note": "ALLOC-P5 dividend face EXCLUDED here (510880 not yet pulled) -- pull leg = off-hours fund_etf_hist_em",
+  "probe_ts": "2026-09-25 12:1x (bm-b r176)"
+ },
+ "weights": {
+  "ALLOC-P1": {
+   "510300": 0.3,
+   "511010": 0.4,
+   "518880": 0.15,
+   "CASH": 0.15
+  },
+  "ALLOC-P2": {
+   "510300": 0.239,
+   "511010": 0.5,
+   "518880": 0.261
+  },
+  "ALLOC-P3": {
+   "510300": 0.6,
+   "511010": 0.4
+  },
+  "ALLOC-P3B": {
+   "510300": 0.6,
+   "511010": 0.4
+  },
+  "ALLOC-P4": {
+   "511010": 0.8,
+   "510300": 0.2
+  },
+  "ALLOC-P6": {
+   "CASH": 0.1,
+   "511010": 0.4,
+   "510300": 0.2,
+   "513100": 0.15,
+   "513500": 0.15
+  }
+ },
+ "bench": {
+  "BENCH-STOCK100": {
+   "510300": 1.0
+  },
+  "BENCH-BOND100": {
+   "511010": 1.0
+  },
+  "BENCH-6040-NOREBAL": {
+   "510300": 0.6,
+   "511010": 0.4
+  }
+ },
+ "data_completeness": {
+  "rows": 1631,
+  "missing_asset_days": {
+   "510300": 0,
+   "511010": 0,
+   "518880": 0,
+   "513100": 1,
+   "513500": 1
+  },
+  "completeness_gate": ">=95% non-null per asset (s2 panel audit)"
+ },
+ "corr_pairs": [
+  {
+   "pair": "ALLOC-P1|ALLOC-P2",
+   "corr": 0.9479
+  },
+  {
+   "pair": "ALLOC-P1|ALLOC-P3",
+   "corr": 0.912
+  },
+  {
+   "pair": "ALLOC-P1|ALLOC-P3B",
+   "corr": 0.912
+  },
+  {
+   "pair": "ALLOC-P1|ALLOC-P4",
+   "corr": 0.8883
+  },
+  {
+   "pair": "ALLOC-P1|ALLOC-P6",
+   "corr": 0.5463
+  },
+  {
+   "pair": "ALLOC-P1|BENCH-STOCK100",
+   "corr": 0.9024
+  },
+  {
+   "pair": "ALLOC-P1|BENCH-BOND100",
+   "corr": -0.0666
+  },
+  {
+   "pair": "ALLOC-P1|BENCH-6040-NOREBAL",
+   "corr": 0.912
+  },
+  {
+   "pair": "ALLOC-P2|ALLOC-P3",
+   "corr": 0.7338
+  },
+  {
+   "pair": "ALLOC-P2|ALLOC-P3B",
+   "corr": 0.7338
+  },
+  {
+   "pair": "ALLOC-P2|ALLOC-P4",
+   "corr": 0.7459
+  },
+  {
+   "pair": "ALLOC-P2|ALLOC-P6",
+   "corr": 0.4575
+  },
+  {
+   "pair": "ALLOC-P2|BENCH-STOCK100",
+   "corr": 0.7199
+  },
+  {
+   "pair": "ALLOC-P2|BENCH-BOND100",
+   "corr": 0.0315
+  },
+  {
+   "pair": "ALLOC-P2|BENCH-6040-NOREBAL",
+   "corr": 0.7338
+  },
+  {
+   "pair": "ALLOC-P3|ALLOC-P3B",
+   "corr": 1.0
+  },
+  {
+   "pair": "ALLOC-P3|ALLOC-P4",
+   "corr": 0.9329
+  },
+  {
+   "pair": "ALLOC-P3|ALLOC-P6",
+   "corr": 0.576
+  },
+  {
+   "pair": "ALLOC-P3|BENCH-STOCK100",
+   "corr": 0.9975
+  },
+  {
+   "pair": "ALLOC-P3|BENCH-BOND100",
+   "corr": -0.1852
+  },
+  {
+   "pair": "ALLOC-P3|BENCH-6040-NOREBAL",
+   "corr": 1.0
+  },
+  {
+   "pair": "ALLOC-P3B|ALLOC-P4",
+   "corr": 0.9329
+  },
+  {
+   "pair": "ALLOC-P3B|ALLOC-P6",
+   "corr": 0.576
+  },
+  {
+   "pair": "ALLOC-P3B|BENCH-STOCK100",
+   "corr": 0.9975
+  },
+  {
+   "pair": "ALLOC-P3B|BENCH-BOND100",
+   "corr": -0.1852
+  },
+  {
+   "pair": "ALLOC-P3B|BENCH-6040-NOREBAL",
+   "corr": 1.0
+  },
+  {
+   "pair": "ALLOC-P4|ALLOC-P6",
+   "corr": 0.5431
+  },
+  {
+   "pair": "ALLOC-P4|BENCH-STOCK100",
+   "corr": 0.9051
+  },
+  {
+   "pair": "ALLOC-P4|BENCH-BOND100",
+   "corr": 0.1811
+  },
+  {
+   "pair": "ALLOC-P4|BENCH-6040-NOREBAL",
+   "corr": 0.9329
+  },
+  {
+   "pair": "ALLOC-P6|BENCH-STOCK100",
+   "corr": 0.5734
+  },
+  {
+   "pair": "ALLOC-P6|BENCH-BOND100",
+   "corr": -0.0911
+  },
+  {
+   "pair": "ALLOC-P6|BENCH-6040-NOREBAL",
+   "corr": 0.576
+  },
+  {
+   "pair": "BENCH-STOCK100|BENCH-BOND100",
+   "corr": -0.2543
+  },
+  {
+   "pair": "BENCH-STOCK100|BENCH-6040-NOREBAL",
+   "corr": 0.9975
+  },
+  {
+   "pair": "BENCH-BOND100|BENCH-6040-NOREBAL",
+   "corr": -0.1852
+  }
+ ],
+ "d6_batch_max_abs_corr": {
+  "value": 1.0,
+  "pair": "ALLOC-P3B|ALLOC-P3",
+  "verdict_note": "P3B is the declared rebalance-method A/B twin of P3 (expected ~1.0, declared design-pair not duplication); vs-trader-sleeve corr = s3 pre-run leg (t35 series >=20 trading days)"
+ },
+ "probe_stats_static_buyhold": {
+  "ALLOC-P1": {
+   "ann_ret_probe": 0.0473,
+   "maxdd_probe": -0.0998,
+   "vol_probe": 0.0652,
+   "months_pos_probe": null
+  },
+  "ALLOC-P2": {
+   "ann_ret_probe": 0.0637,
+   "maxdd_probe": -0.0908,
+   "vol_probe": 0.0685,
+   "months_pos_probe": null
+  },
+  "ALLOC-P3": {
+   "ann_ret_probe": 0.025,
+   "maxdd_probe": -0.2663,
+   "vol_probe": 0.113,
+   "months_pos_probe": null
+  },
+  "ALLOC-P3B": {
+   "ann_ret_probe": 0.025,
+   "maxdd_probe": -0.2663,
+   "vol_probe": 0.113,
+   "months_pos_probe": null
+  },
+  "ALLOC-P4": {
+   "ann_ret_probe": 0.0271,
+   "maxdd_probe": -0.0479,
+   "vol_probe": 0.0376,
+   "months_pos_probe": null
+  },
+  "ALLOC-P6": {
+   "ann_ret_probe": 0.0439,
+   "maxdd_probe": -0.2716,
+   "vol_probe": 0.1007,
+   "months_pos_probe": null
+  },
+  "BENCH-STOCK100": {
+   "ann_ret_probe": 0.0165,
+   "maxdd_probe": -0.451,
+   "vol_probe": 0.1914,
+   "months_pos_probe": null
+  },
+  "BENCH-BOND100": {
+   "ann_ret_probe": 0.0257,
+   "maxdd_probe": -0.0492,
+   "vol_probe": 0.0207,
+   "months_pos_probe": null
+  },
+  "BENCH-6040-NOREBAL": {
+   "ann_ret_probe": 0.025,
+   "maxdd_probe": -0.2663,
+   "vol_probe": 0.113,
+   "months_pos_probe": null
+  }
+ }
+}
