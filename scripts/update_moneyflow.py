@@ -109,7 +109,21 @@ FLOW_COLS = ["收盘价", "涨跌幅", "主力净流入-净额", "主力净流�
              "中单净流入-净额", "中单净流入-净占比",
              "小单净流入-净额", "小单净流入-净占比"]
 PRIMARY = "主力净流入-净额"   # overlap verification field (yuan)
-PRIMARY_TOL = 1.0             # cent-level stability tolerance
+PRIMARY_TOL = 1.0             # cent-level stability tolerance (absolute floor)
+# R221 open-item-4 fix (prereg s5 amendment, scaled-tol option): local bytes are
+# %.10g projections, so |v|>=1e10 rows carry up to ~5 yuan write drift that an
+# absolute 1.0-yuan overlap tol would flag as false mismatch -> symbol frozen
+# on first re-pull. Effective overlap tol = max(PRIMARY_TOL, WRITTEN_LAW_TOL *
+# scale) -- same two-face law family as sina_mf_accept.py (source-face 1e-3
+# absolute booking gate unchanged; written-face 1e-8 x scale, %.10g single-
+# field bound 5e-10 x |v|, 20x headroom).
+WRITTEN_LAW_TOL = 1e-8
+
+
+def _overlap_tol(lv, sv, tol=PRIMARY_TOL):
+    """Scale-aware overlap tolerance: written-face %.10g drift is relative,
+    so the absolute floor binds only small-magnitude rows."""
+    return max(tol, WRITTEN_LAW_TOL * max(abs(float(lv)), abs(float(sv))))
 
 
 def _clear_proxy_env():
@@ -242,7 +256,9 @@ def validate_rows(rows):
 
 def merge_incremental(local_rows, source_rows, primary=PRIMARY, tol=PRIMARY_TOL):
     """Append-only merge; overlap compared on `primary` only (price cols are
-    provenance, source may re-adjust them). Mismatch -> merged=False."""
+    provenance, source may re-adjust them). Mismatch -> merged=False.
+    Two-face tol: local bytes are %.10g projections -- big-magnitude rows
+    carry relative write drift (see WRITTEN_LAW_TOL)."""
     local_by_date = {str(r["date"]): r for r in local_rows}
     mismatch, overlap = None, 0
     for r in source_rows:
@@ -254,7 +270,8 @@ def merge_incremental(local_rows, source_rows, primary=PRIMARY, tol=PRIMARY_TOL)
         lv, sv = loc.get(primary), r.get(primary)
         if lv is None and sv is None:
             continue
-        if lv is None or sv is None or abs(float(lv) - float(sv)) > tol:
+        if lv is None or sv is None or \
+                abs(float(lv) - float(sv)) > _overlap_tol(lv, sv, tol):
             mismatch = d
             break
     if mismatch:
@@ -634,7 +651,8 @@ def rank_merge_one(local_rows, stamp, mapped_row, primary=PRIMARY, tol=PRIMARY_T
             lv, sv = r.get(primary), mapped_row.get(primary)
             if lv is None and sv is None:
                 return "skip_same_day", "both_none"
-            if lv is None or sv is None or abs(float(lv) - float(sv)) > tol:
+            if lv is None or sv is None or \
+                    abs(float(lv) - float(sv)) > _overlap_tol(lv, sv, tol):
                 return "mismatch", f"{stamp}:{lv}!={sv}"
             return "skip_same_day", "overlap_match"
     if any(str(r.get("date")) > stamp for r in local_rows):
@@ -958,6 +976,26 @@ def _selftest():
     src_px = [dict(local[0]), dict(local[1])]
     src_px[0]["收盘价"] = 12.34
     assert merge_incremental(local, src_px)["merged"]
+    # S4b big-magnitude written-face: %.10g-written local vs fresh source at
+    # 1e10 scale merges (pre-fix false mismatch -> symbol freeze); real
+    # divergence far beyond the written-face bound still mismatches.
+    big_src = 12345678912.34
+    big_written = float(f"{big_src:.10g}")          # projection drift ~3.4 yuan
+    assert abs(big_written - big_src) > PRIMARY_TOL  # drift exceeds abs floor
+    local_big = [{"date": "2026-09-01", PRIMARY: big_written, "收盘价": 10.0}]
+    src_big = [{"date": "2026-09-01", PRIMARY: big_src, "收盘价": 10.0},
+               {"date": "2026-09-02", PRIMARY: -2222.0, "收盘价": 10.5}]
+    res_big = merge_incremental(local_big, src_big)
+    assert res_big["merged"] and res_big["appended"] == 1           # fixed face
+    src_div = [{"date": "2026-09-01", PRIMARY: big_src + 5.0e9, "收盘价": 10.0}]
+    assert not merge_incremental(local_big, src_div)["merged"]      # real revision caught
+    # S4c rank face same law: same-day re-pull on 1e10-scale row skips
+    a6, _ = rank_merge_one([{"date": "2026-09-23", PRIMARY: big_written}],
+                           "2026-09-23", {PRIMARY: big_src})
+    assert a6 == "skip_same_day"
+    a7, _ = rank_merge_one([{"date": "2026-09-23", PRIMARY: big_written}],
+                           "2026-09-23", {PRIMARY: big_src + 5.0e9})
+    assert a7 == "mismatch"
     # S5 csv roundtrip with Chinese columns (utf-8 no BOM)
     rr = [{"date": "2026-09-01", PRIMARY: -123456.789, "收盘价": 10.0}]
     text = rows_to_csv_text(rr)

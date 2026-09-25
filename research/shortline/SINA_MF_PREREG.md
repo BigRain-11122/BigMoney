@@ -68,6 +68,15 @@
   prereg 修正案（写盘全精度或 tol 按量纲定标）。验收器两律面已按此设计：源面 1e-3 绝对（入账门）
   + 写盘面 1e-8×scale（独立复核门，%.10g 理论上界 2.5e-9×scale 四倍余量）。证据
   =scripts/sina_mf_accept.py 头注 + 验收报告 worst_written_drift 字段（bm-a R221）。
+  **R222 修正案落地注记（open item ④ CLOSED·tol 按量纲定标路径）**：采集器两 overlap 面
+  （merge_incremental 日线面 + rank_merge_one rank 面）改有效容差=max(PRIMARY_TOL, 1e-8×scale)
+  （WRITTEN_LAW_TOL=1e-8 与验收器写盘律同族常量·单字段 %.10g 上界 5e-10×|v| 二十倍余量·
+  绝对 1.0 地板对小额行保留=分位稳定性语义不变）；**不采写盘全精度路径**（首拉在飞中途改写格式=
+  面板内两投影制并立，破坏 s2 同日重跑字节幂等判据）。修正不触判据面（冻结律外·缺陷修正）；
+  selftest 新增 S4b/S4c 实弹族（1e10 行 %.10g 写盘 vs 新源值合并通过〔旧码假冻结翻案〕+
+  超 1e8 相对真分歧仍 mismatch 拦截 + rank 面同律两例）20/20 全绿。写盘格式 %.10g 不变=
+  在飞首拉进程（已载入旧码）零影响、respawn 亦安全（新码只放宽假 mismatch 面）。证据
+  =scripts/update_moneyflow.py WRITTEN_LAW_TOL+_overlap_tol+selftest S4b/S4c（bm-a R222）。
 - 档位阈值官方文档（sina 页面 JS/帮助面）→ 外源扫描常态线下批收口（O-1721）；
   收口前消费面档位语义=UNDOCUMENTED 诚实标注。
 - 采集器实现票=另开 GM 署名单（P1 数据源扩容，O-1620 下放面；T-43 先例流程）。
