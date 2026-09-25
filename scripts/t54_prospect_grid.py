@@ -39,6 +39,9 @@ Usage:
   python scripts/t54_prospect_grid.py run --axis deep --shard dA \
       [--pos-from N --pos-to M] [--faces base,x2] [--workers N] [--limit K]
   python scripts/t54_prospect_grid.py status
+  python scripts/t54_prospect_grid.py finalize    (prereg s6 leg; honest
+                                    exit 2 while shards are split across
+                                    machines -- transfer ticket in flight)
   python scripts/t54_prospect_grid.py selftest          (offline, no engine)
 """
 import argparse
@@ -55,6 +58,16 @@ import t22_virtual_timepoints as t22
 OUT_DIR = os.path.join("results", "t54")
 TICKET = "T-2026-09-25-54"
 FACES = ("base", "x2")
+WINDOWS = ("6m", "12m", "24m")
+SUMMARY_NAME = "t54_grid_summary.json"
+EVIDENCE_CUTOFF = "2026-09-24"     # prereg s2 legacy panel cutoff (latest face)
+FROZEN_CENSUS = {"legacy": 1256, "deep": 1506}          # prereg s2
+SHARD_PLAN = {                                           # prereg s5 (frozen)
+    "legacy": {"lA": (0, 314), "lB": (314, 628),
+               "lC": (628, 942), "lD": (942, 1256)},
+    "deep": {"dA": (0, 377), "dB": (377, 754),
+             "dC": (754, 1131), "dD": (1131, 1506)},
+}
 
 
 def prospect_roster():
@@ -242,6 +255,180 @@ def cmd_status(_) -> int:
     return 0
 
 
+def _finalize(out_dir=OUT_DIR, shard_plan=None, census=None, faces=FACES,
+             windows=WINDOWS, results_dir="results",
+             summary_path=None, refinalize=False):
+    """Prereg s6 finalize leg: all-shard done-marker census gate + per-shard
+    row-count account vs the frozen shard ranges + per-member three-window
+    beat rates + summary JSON + trials-ledger append by ACTUAL cell count
+    (single-shot guard; T54_REFINALIZE=1 = only redo path, ledger re-derived
+    from the live chain head, no extra append). Zero judgment lines (s8):
+    negative beat rates ship as-is. Returns a process exit code."""
+    shard_plan = shard_plan or SHARD_PLAN
+    census = census or FROZEN_CENSUS
+    if summary_path is None:
+        summary_path = os.path.join(out_dir, SUMMARY_NAME)
+    if os.path.exists(summary_path) and not refinalize:
+        print("finalize refused: summary exists (single-shot guard; "
+              "T54_REFINALIZE=1 to redo)")
+        return 1
+    t0 = time.time()
+    markers = []
+    for axis, shards in shard_plan.items():
+        for sh in shards:
+            mp = os.path.join(out_dir, f"done_{axis}_{sh}.json")
+            if not os.path.exists(mp):
+                print(f"finalize abort: missing done marker {mp} "
+                      "(shards split across machines -- transfer pending)")
+                return 2
+            m = json.loads(open(mp, encoding="utf-8").read())
+            if int(m.get("n_eligible", -1)) != census[axis]:
+                print(f"finalize abort: census drift {axis}/{sh} "
+                      f"n_eligible={m.get('n_eligible')} != frozen "
+                      f"{census[axis]}")
+                return 2
+            markers.append((axis, sh, m))
+    rosters = {tuple(m.get("members", [])) for _, _, m in markers}
+    if len(rosters) != 1:
+        print(f"finalize abort: shard rosters diverge "
+              f"({len(rosters)} distinct)")
+        return 2
+    members = list(next(iter(rosters)))
+    excluded = sorted({e for _, _, m in markers
+                       for e in m.get("anchor_excluded", [])})
+    if not members:
+        print("finalize abort: empty roster")
+        return 2
+
+    rows_by = {}
+    for axis, shards in shard_plan.items():
+        for face in faces:
+            for sh in shards:
+                p = os.path.join(out_dir, f"cells_{axis}_{face}_{sh}.jsonl")
+                if not os.path.exists(p):
+                    print(f"finalize abort: missing cells file {p}")
+                    return 2
+                rows = []
+                with open(p, encoding="utf-8") as fh:
+                    for line in fh:
+                        line = line.strip()
+                        if line:
+                            rows.append(json.loads(line))
+                want = (shards[sh][1] - shards[sh][0]) * len(members)
+                if len(rows) != want:
+                    print(f"finalize abort: {axis}/{face}/{sh} rows="
+                          f"{len(rows)} != shard-plan expected {want} "
+                          f"(range {shards[sh]} x {len(members)} members)")
+                    return 2
+                rows_by[(axis, face, sh)] = rows
+
+    seen, dupes = set(), 0
+    for (axis, face, sh), rows in rows_by.items():
+        lo, hi = shard_plan[axis][sh]
+        for r in rows:
+            k = str(r.get("key", ""))
+            ak = (axis, face, k)   # uniqueness scope: both axes AND both
+            if ak in seen:          # cost faces legitimately hold the same
+                dupes += 1         # trader|pos key (prereg s3 dual-face
+                continue           # design); never twice within one face
+            seen.add(ak)
+            tid, _, pos = k.partition("|")
+            if tid not in members or not pos.isdigit() \
+                    or not (lo <= int(pos) < hi):
+                print(f"finalize abort: row key outside frozen shard "
+                      f"range/roster: {k}")
+                return 2
+    if dupes:
+        print(f"finalize abort: {dupes} duplicate keys across shards")
+        return 2
+    total = sum(len(r) for r in rows_by.values())
+    expected = sum(census[a] for a in shard_plan) * len(members) * len(faces)
+    if total != expected:
+        print(f"finalize abort: total cells {total} != census-expected "
+              f"{expected}")
+        return 2
+
+    # per-member three-window beat rates (J-1 summary convention extended
+    # to three windows; axis attributed from the filename namespace because
+    # t22-schema rows carry no axis field -- prereg s5)
+    acc = {}
+    for (axis, face, sh), rows in rows_by.items():
+        for r in rows:
+            a = (acc.setdefault(r["trader"], {})
+                     .setdefault(axis, {})
+                     .setdefault(face, {"n": 0, **{"beat_" + w: 0
+                                                   for w in windows}}))
+            a["n"] += 1
+            for w in windows:
+                a["beat_" + w] += int(bool(r.get("beat_" + w)))
+    per_member = {tid: {ax: {fc: {"n": a["n"],
+                                  **{f"beat_rate_{w}":
+                                     round(a["beat_" + w] / a["n"], 4)
+                                     for w in windows}}
+                             for fc, a in faces_d.items()}
+                         for ax, faces_d in axes_d.items()}
+                  for tid, axes_d in acc.items()}
+    pooled = {}
+    for tid, axes_d in acc.items():
+        n = sum(a["n"] for faces_d in axes_d.values()
+                for a in faces_d.values())
+        pooled[tid] = {"n": n,
+                      **{f"beat_rate_{w}":
+                         round(sum(a["beat_" + w]
+                                   for faces_d in axes_d.values()
+                                   for a in faces_d.values()) / n, 4)
+                         for w in windows}}
+
+    import science_gates as sg
+    led = sg.append_ledger(
+        "T54-PROSPECT-GRID", total,
+        file_name="results/t54/t54_grid_summary.json",
+        evidence_cutoff=EVIDENCE_CUTOFF,
+        note="measurement/evidence batch, zero judgments (prereg s8); "
+             "consumption: 10-31 J-line rerun W-GRID full-pool face + "
+             "T-54 slice-1 admission evidence",
+        results_dir=results_dir)
+    summary = {
+        **sg.cutoff_meta(EVIDENCE_CUTOFF),
+        "batch": "T54-PROSPECT-GRID",
+        "kind": "measurement",
+        "ticket": TICKET,
+        "prereg": "research/shortline/T54_PROSPECT_GRID.md",
+        "members": members,
+        "anchor_excluded": excluded,
+        "census": {a: census[a] for a in shard_plan},
+        "cells_total": total,
+        "cells_by_axis": {a: census[a] * len(members) * len(faces)
+                          for a in shard_plan},
+        "shard_markers": [{"axis": ax, "shard": sh,
+                           "n_eligible": m["n_eligible"],
+                           "cells_written": m["cells_written"],
+                           "finished_at": m["finished_at"]}
+                          for ax, sh, m in markers],
+        "per_member_beat_rates": per_member,
+        "per_member_pooled": pooled,
+        "trials_ledger": led,
+        "audit": {"elapsed_sec": round(time.time() - t0, 1),
+                  "finalize_at": time.strftime("%Y-%m-%d %H:%M:%S"),
+                  "refinalize": bool(refinalize)},
+        "notes": ("rows carry no axis field; axis attributed from the "
+                  "filename namespace (prereg s5). Negative beat rates "
+                  "ship as-is (s8: this batch produces no verdicts)"),
+    }
+    tmp = summary_path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(summary, fh, indent=1)
+    os.replace(tmp, summary_path)
+    print(f"finalize OK: {total} cells, {len(members)} members, "
+          f"summary -> {summary_path}, ledger total={led['total']}")
+    return 0
+
+
+def cmd_finalize(args) -> int:
+    return _finalize(
+        refinalize=os.environ.get("T54_REFINALIZE") == "1")
+
+
 # -------------------------------------------------------------- selftest
 def cmd_selftest() -> int:
     ok_n, fails = 0, 0
@@ -300,6 +487,117 @@ def cmd_selftest() -> int:
        [t["id"] for t in fixture if t.get("level") == "PROSPECT"] ==
        ["PROS-X"])
 
+    # 7) hermetic finalize leg (prereg s6; production-paired per R117 law:
+    # a complete mini-grid through the real _finalize, plus every honest
+    # abort face). Fixture plan mirrors the frozen shape: 2 axes x 2
+    # shards x 2 faces x 2 members; beat pattern hand-checkable.
+    import tempfile
+    import shutil
+    tmp = tempfile.mkdtemp(prefix="t54_fin_")
+    res_dir = tempfile.mkdtemp(prefix="t54_led_")
+    try:
+        plan = {"legacy": {"lA": (0, 2), "lB": (2, 4)},
+                "deep": {"dA": (0, 3), "dB": (3, 6)}}
+        cens = {"legacy": 4, "deep": 6}
+        mem = ["PROS-A", "PROS-B"]
+        fin_faces = ("base", "x2")
+        n_expect = (4 + 6) * len(mem) * len(fin_faces)
+
+        def _row(tid, pos, w6, w12):
+            return {"key": f"{tid}|{pos}", "trader": tid, "pos": pos,
+                    "beat_6m": w6, "beat_12m": w12, "beat_24m": False}
+
+        for axis, shards in plan.items():
+            for sh, (lo, hi) in shards.items():
+                with open(os.path.join(tmp, f"done_{axis}_{sh}.json"),
+                          "w", encoding="utf-8") as fh:
+                    json.dump({"shard": sh, "axis": axis,
+                               "faces": list(fin_faces),
+                               "cells_written": (hi - lo) * len(mem),
+                               "cells_total": (hi - lo) * len(mem),
+                               "n_eligible": cens[axis], "workers": 2,
+                               "members": mem, "anchor_excluded": [],
+                               "runtime_sec": 1.0,
+                               "finished_at": "2026-09-25 00:00:00",
+                               "ticket": TICKET}, fh, indent=1)
+                for face in fin_faces:
+                    rows = []
+                    for pos in range(lo, hi):
+                        for tid in mem:
+                            rows.append(_row(tid, pos, True,
+                                              pos % 2 == 0))
+                    with open(os.path.join(
+                            tmp, f"cells_{axis}_{face}_{sh}.jsonl"),
+                            "w", encoding="utf-8") as fh:
+                        for r in rows:
+                            fh.write(json.dumps(r) + "\n")
+        sp = os.path.join(tmp, SUMMARY_NAME)
+        rc = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
+                       faces=fin_faces, results_dir=res_dir,
+                       summary_path=sp)
+        s = json.loads(open(sp, encoding="utf-8").read()) \
+            if os.path.exists(sp) else {}
+        ok("finalize complete mini-grid",
+           rc == 0 and s.get("cells_total") == n_expect
+           and s["trials_ledger"]["total"] == n_expect
+           and s["trials_ledger"]["prev_total"] == 0
+           and s["evidence_cutoff"] == EVIDENCE_CUTOFF)
+        # hand-check: every 6m beat True -> pooled rate 1.0; 12m evens
+        # (legacy 0,2 + deep 0,2,4 of 4+6 positions) -> 0.5 per member
+        pm = s.get("per_member_pooled", {}).get("PROS-A", {})
+        ok("finalize beat-rate hand-check",
+           pm.get("n") == 20 and pm.get("beat_rate_6m") == 1.0
+           and pm.get("beat_rate_12m") == 0.5
+           and pm.get("beat_rate_24m") == 0.0)
+        ok("finalize per-axis-face breakdown",
+           s["per_member_beat_rates"]["PROS-A"]["legacy"]["base"]["n"] == 4
+           and s["per_member_beat_rates"]["PROS-A"]["deep"]["x2"]["n"] == 6)
+
+        # 8) single-shot guard: second run refused without T54_REFINALIZE
+        rc2 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
+                        faces=fin_faces, results_dir=res_dir,
+                        summary_path=sp)
+        ok("finalize single-shot guard", rc2 == 1)
+
+        # 9) missing-marker abort (shards split across machines face)
+        os.remove(os.path.join(tmp, "done_deep_dB.json"))
+        rc3 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
+                        faces=fin_faces, results_dir=res_dir,
+                        summary_path=sp, refinalize=True)
+        ok("finalize missing-marker abort", rc3 == 2)
+
+        # 10) census-drift abort (n_eligible != frozen census)
+        bad = json.loads(open(os.path.join(tmp, "done_deep_dA.json"),
+                              encoding="utf-8").read())
+        bad["n_eligible"] = 999
+        with open(os.path.join(tmp, "done_deep_dA.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump(bad, fh)
+        rc4 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
+                        faces=fin_faces, results_dir=res_dir,
+                        summary_path=sp, refinalize=True)
+        ok("finalize census-drift abort", rc4 == 2)
+        bad["n_eligible"] = 6
+        with open(os.path.join(tmp, "done_deep_dA.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump(bad, fh)
+
+        # 11) shard-range violation abort (row pos outside frozen range)
+        rogue = os.path.join(tmp, "cells_deep_base_dB.jsonl")
+        lines = open(rogue, encoding="utf-8").read().splitlines()
+        r0 = json.loads(lines[0])
+        r0["key"] = f"{r0['trader']}|999"
+        lines[0] = json.dumps(r0)
+        with open(rogue, "w", encoding="utf-8") as fh:
+            fh.write("\n".join(lines) + "\n")
+        rc5 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
+                        faces=fin_faces, results_dir=res_dir,
+                        summary_path=sp, refinalize=True)
+        ok("finalize shard-range abort", rc5 == 2)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+        shutil.rmtree(res_dir, ignore_errors=True)
+
     print(f"selftest: {ok_n - fails}/{ok_n} checks "
           f"{'ALL PASS' if not fails else 'FAIL'}")
     return 0 if not fails else 1
@@ -317,12 +615,15 @@ def main():
     r.add_argument("--workers", type=int, default=None)
     r.add_argument("--limit", type=int, default=0)
     sub.add_parser("status")
+    sub.add_parser("finalize")
     sub.add_parser("selftest")
     a = ap.parse_args()
     if a.cmd == "run":
         return cmd_run(a)
     if a.cmd == "status":
         return cmd_status(a)
+    if a.cmd == "finalize":
+        return cmd_finalize(a)
     return cmd_selftest()
 
 
