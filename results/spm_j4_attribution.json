@@ -1,0 +1,434 @@
+{
+ "batch": "SPM_J4_ATTRIBUTION",
+ "ticket": "T-2026-09-25-52",
+ "evidence_cutoff": "2026-09-23",
+ "grid_evidence_cutoff": "2026-09-22",
+ "frozen_source": "results\\current_market_stable_profit.json",
+ "zero_new_backtests": true,
+ "reproduction_gate": {
+  "legacy_12m_x1_x2_vs_frozen": "PASS bit-exact",
+  "per_member_rates_vs_frozen": "PASS"
+ },
+ "evidence_domain": {
+  "legacy_axis": "cell-level (P5C legL checkpoint, starts 2021-01-15..2026-03-23, verified bit-exact)",
+  "deep_axis": "frozen aggregates ONLY (cells machine-local on bm-a per MSG-0054; bm-b local cells_deep_*_2 files = different batch: x2 face returns HIGHER than base, 88/554 vs frozen 623/1380 -> excluded as non-authoritative)"
+ },
+ "weights": {
+  "method": "B_MAXDIV",
+  "six": [
+   "COMPOSITE-CE-01",
+   "COMPOSITE-CE-02",
+   "DROUGHT-CE-01",
+   "ENGULF-CE-01",
+   "NEEDLE-DE-01",
+   "VOLATILITY-CE-01"
+  ],
+  "w_ce_renorm": {
+   "COMPOSITE-CE-01": 0.09393812,
+   "COMPOSITE-CE-02": 0.04243953,
+   "DROUGHT-CE-01": 0.25687136,
+   "ENGULF-CE-01": 0.16528972,
+   "NEEDLE-DE-01": 0.2981543,
+   "VOLATILITY-CE-01": 0.14330697
+  },
+  "ce6_raw_weight_share_in_28_member_blend": 0.392535
+ },
+ "per_member_12m": {
+  "legacy_cell_level": {
+   "n_failing": 533,
+   "members": {
+    "COMPOSITE-CE-01": {
+     "beat_rate_12m_x1_legacy": 0.6362,
+     "mean_ret": 0.075361,
+     "mean_ret_vs_passive": 0.033096,
+     "drag_total_failing": -2.213333,
+     "drag_mean_failing": -0.004153,
+     "mean_ret_failing": 0.160431,
+     "share_of_negative_drag": 0.0258
+    },
+    "COMPOSITE-CE-02": {
+     "beat_rate_12m_x1_legacy": 0.6069,
+     "mean_ret": 0.092959,
+     "mean_ret_vs_passive": 0.050693,
+     "drag_total_failing": -0.937053,
+     "drag_mean_failing": -0.001758,
+     "mean_ret_failing": 0.163211,
+     "share_of_negative_drag": 0.0109
+    },
+    "DROUGHT-CE-01": {
+     "beat_rate_12m_x1_legacy": 0.5173,
+     "mean_ret": 0.016389,
+     "mean_ret_vs_passive": -0.025876,
+     "drag_total_failing": -24.099533,
+     "drag_mean_failing": -0.045215,
+     "mean_ret_failing": 0.028615,
+     "share_of_negative_drag": 0.2814
+    },
+    "ENGULF-CE-01": {
+     "beat_rate_12m_x1_legacy": 0.5146,
+     "mean_ret": 0.019102,
+     "mean_ret_vs_passive": -0.023164,
+     "drag_total_failing": -16.127582,
+     "drag_mean_failing": -0.030258,
+     "mean_ret_failing": 0.021575,
+     "share_of_negative_drag": 0.1883
+    },
+    "NEEDLE-DE-01": {
+     "beat_rate_12m_x1_legacy": 0.4942,
+     "mean_ret": 0.014174,
+     "mean_ret_vs_passive": -0.028092,
+     "drag_total_failing": -30.252304,
+     "drag_mean_failing": -0.056759,
+     "mean_ret_failing": 0.01427,
+     "share_of_negative_drag": 0.3532
+    },
+    "VOLATILITY-CE-01": {
+     "beat_rate_12m_x1_legacy": 0.5386,
+     "mean_ret": 0.030914,
+     "mean_ret_vs_passive": -0.011352,
+     "drag_total_failing": -12.011346,
+     "drag_mean_failing": -0.022535,
+     "mean_ret_failing": 0.047384,
+     "share_of_negative_drag": 0.1403
+    }
+   }
+  },
+  "pooled_axis_n_weighted_frozen": {
+   "COMPOSITE-CE-01": {
+    "legacy": 0.6362,
+    "deep": 0.6,
+    "pooled": 0.6163
+   },
+   "COMPOSITE-CE-02": {
+    "legacy": 0.6069,
+    "deep": 0.4928,
+    "pooled": 0.5441
+   },
+   "DROUGHT-CE-01": {
+    "legacy": 0.5173,
+    "deep": 0.4522,
+    "pooled": 0.4815
+   },
+   "ENGULF-CE-01": {
+    "legacy": 0.5146,
+    "deep": 0.4514,
+    "pooled": 0.4798
+   },
+   "NEEDLE-DE-01": {
+    "legacy": 0.4942,
+    "deep": 0.4355,
+    "pooled": 0.4619
+   },
+   "VOLATILITY-CE-01": {
+    "legacy": 0.5386,
+    "deep": 0.4623,
+    "pooled": 0.4966
+   }
+  }
+ },
+ "failure_modes_legacy_12m": {
+  "failing_windows": 533,
+  "loss_windows": {
+   "n": 0,
+   "share_of_fails": 0.0,
+   "mean_blend_ret": null,
+   "mean_passive": null
+  },
+  "underperform_positive": {
+   "n": 533,
+   "share_of_fails": 1.0,
+   "mean_blend_ret": 0.043959,
+   "mean_passive": 0.204637
+  },
+  "cost_razor_x1_pass_x2_fail": {
+   "n": 14,
+   "starts": [
+    "2022-03-21",
+    "2022-06-06",
+    "2022-06-13",
+    "2022-06-22",
+    "2022-07-15",
+    "2022-07-18",
+    "2022-07-20",
+    "2022-07-21",
+    "2022-07-26",
+    "2022-07-27",
+    "2022-09-23",
+    "2022-11-09",
+    "2025-08-18",
+    "2025-08-19"
+   ]
+  },
+  "cost_rescue_x1_fail_x2_pass": {
+   "n": 0,
+   "starts": []
+  }
+ },
+ "segment_cut_legacy_12m": {
+  "bull": {
+   "n": 455,
+   "beats": 288,
+   "beat_rate": 0.633,
+   "mean_passive": -0.013219,
+   "mean_blend": 0.02189
+  },
+  "chop": {
+   "n": 527,
+   "beats": 280,
+   "beat_rate": 0.5313,
+   "mean_passive": 0.072171,
+   "mean_blend": 0.029784
+  },
+  "bear": {
+   "n": 145,
+   "beats": 26,
+   "beat_rate": 0.1793,
+   "mean_passive": 0.107682,
+   "mean_blend": 0.033287
+  }
+ },
+ "cohort_by_start_year_legacy_12m": {
+  "2021": {
+   "n": 234,
+   "beats": 234,
+   "beat_rate": 1.0
+  },
+  "2022": {
+   "n": 242,
+   "beats": 174,
+   "beat_rate": 0.719
+  },
+  "2023": {
+   "n": 242,
+   "beats": 170,
+   "beat_rate": 0.7025
+  },
+  "2024": {
+   "n": 242,
+   "beats": 0,
+   "beat_rate": 0.0
+  },
+  "2025": {
+   "n": 167,
+   "beats": 16,
+   "beat_rate": 0.0958
+  }
+ },
+ "cohort_segment_crosstab_legacy_12m": {
+  "2021": {
+   "bull": 156,
+   "chop": 61,
+   "bear": 17
+  },
+  "2022": {
+   "bull": 33,
+   "chop": 146,
+   "bear": 63
+  },
+  "2023": {
+   "chop": 141,
+   "bull": 101
+  },
+  "2024": {
+   "bull": 62,
+   "chop": 137,
+   "bear": 43
+  },
+  "2025": {
+   "chop": 42,
+   "bull": 103,
+   "bear": 22
+  }
+ },
+ "regime_boundary_cohort_legacy_12m": {
+  "n_transitions": 111,
+  "boundary_cohort": {
+   "n": 910,
+   "beats": 491,
+   "beat_rate": 0.5396
+  },
+  "stable_cohort": {
+   "n": 217,
+   "beats": 103,
+   "beat_rate": 0.4747
+  }
+ },
+ "era_window_table_frozen": {
+  "legacy|6m|x1": {
+   "n": 1253,
+   "beats": 722,
+   "beat_rate": 0.5762
+  },
+  "legacy|6m|x2": {
+   "n": 1253,
+   "beats": 694,
+   "beat_rate": 0.5539
+  },
+  "legacy|12m|x1": {
+   "n": 1127,
+   "beats": 594,
+   "beat_rate": 0.5271
+  },
+  "legacy|12m|x2": {
+   "n": 1127,
+   "beats": 580,
+   "beat_rate": 0.5146
+  },
+  "legacy|24m|x1": {
+   "n": 875,
+   "beats": 437,
+   "beat_rate": 0.4994
+  },
+  "legacy|24m|x2": {
+   "n": 875,
+   "beats": 412,
+   "beat_rate": 0.4709
+  },
+  "deep|6m|x1": {
+   "n": 1506,
+   "beats": 725,
+   "beat_rate": 0.4814
+  },
+  "deep|6m|x2": {
+   "n": 1506,
+   "beats": 701,
+   "beat_rate": 0.4655
+  },
+  "deep|12m|x1": {
+   "n": 1380,
+   "beats": 623,
+   "beat_rate": 0.4514
+  },
+  "deep|12m|x2": {
+   "n": 1380,
+   "beats": 612,
+   "beat_rate": 0.4435
+  },
+  "deep|24m|x1": {
+   "n": 1128,
+   "beats": 636,
+   "beat_rate": 0.5638
+  },
+  "deep|24m|x2": {
+   "n": 1128,
+   "beats": 603,
+   "beat_rate": 0.5346
+  }
+ },
+ "pooled_frozen": {
+  "6m|x1": {
+   "n": 2759,
+   "beats": 1447,
+   "beat_rate": 0.5245
+  },
+  "6m|x2": {
+   "n": 2759,
+   "beats": 1395,
+   "beat_rate": 0.5056
+  },
+  "12m|x1": {
+   "n": 2507,
+   "beats": 1217,
+   "beat_rate": 0.4854
+  },
+  "12m|x2": {
+   "n": 2507,
+   "beats": 1192,
+   "beat_rate": 0.4755
+  },
+  "24m|x1": {
+   "n": 2003,
+   "beats": 1073,
+   "beat_rate": 0.5357
+  },
+  "24m|x2": {
+   "n": 2003,
+   "beats": 1015,
+   "beat_rate": 0.5067
+  }
+ },
+ "ew_ce6_counterfactual_legacy_12m": {
+  "n": 1127,
+  "beats": 645,
+  "beat_rate": 0.5723
+ },
+ "cost_face": {
+  "razor_legacy_n": 14,
+  "rescue_legacy_n": 0,
+  "pooled_beats_x1": 1217,
+  "pooled_beats_x2": 1192,
+  "pooled_delta_pp": 0.01
+ },
+ "hypotheses": {
+  "H1_alpha_decay": {
+   "verdict": "SUPPORTED",
+   "cohort_first_vs_last_pp": 0.9042,
+   "spearman_year_vs_rate": -0.9,
+   "axis": "legacy-only (deep aggregate-only)",
+   "evidence": {
+    "2021": 1.0,
+    "2022": 0.719,
+    "2023": 0.7025,
+    "2024": 0.0,
+    "2025": 0.0958
+   },
+   "interpretation_note": "cohort cut confounds calendar time with regime composition: 2024+ cohorts coincide with the 2024-2025 bull in which defensive members structurally trail passive EW48 (T-22 member-level bull collapse 0.471/0.266 cross-check, PROFIT_MODEL_MAP constraint-1); mechanical verdict per frozen rubric retained; discriminating evidence = bull-window grid faces post T-54 backfill / T-47 supply"
+  },
+  "H2_regime_dependence": {
+   "verdict": "REJECTED/REVERSED",
+   "bull_start_rate": 0.633,
+   "nonbull_start_rate": 0.4554,
+   "delta_pp": 0.1776,
+   "interpretation_note": "segment label = regime AT start (12m window spans mixed regimes -- coarse cut, disclosed); the start-label cut and the start-year cohort cut disagree in direction (see cohort_segment_crosstab) -- regime failure shows up as RECENT-bull-trail, not as low bull-start rate",
+   "cross_check": "T-22 bull collapse 0.471/0.266 (constraint-1 face, PROFIT_MODEL_MAP 二; member-level) -- pointer"
+  },
+  "H3_cost_drag": {
+   "verdict": "MINOR",
+   "pooled_x2_to_x1_pp": 0.01,
+   "razor_windows_legacy": 14,
+   "rescue_windows_legacy": 0,
+   "share_of_gap_pct": 4.66
+  },
+  "H4_assembly_ceiling": {
+   "verdict": "REJECTED",
+   "max_member_beat_rate_12m_pooled": 0.6163,
+   "blend_minus_max_member_pp": -0.1309,
+   "structural_conclusion": "even 100% concentration in the best member (0.6163) stays below the 0.70 line -> NO reweighting of the current CE-6 pool can close J4; orthogonal pool expansion (R3/T-54) is structurally required",
+   "note": "B_MAXDIV vs EW-CE6 quantified in gap_decomposition (assembly choice is a real second-order lever on J4's beat-consistency measure, traded against J1-J3 risk faces)"
+  },
+  "H5_pool_breadth": {
+   "verdict": "STRUCTURAL-SUPPORTED (restricted face; full scoring deferred to T-54 PROSPECT grid backfill)",
+   "ce6_raw_weight_share_in_28_member_blend": 0.392535,
+   "w_grid_face": "CE-6 restricted sub-portfolio (t28 disclosed)",
+   "true_engines_estimate": "~1.5 (P3; composite pair corr 0.87 anti-example)",
+   "note": "J4 measures 6 of 28 members; PROSPECT 22 lack grid evidence"
+  }
+ },
+ "gap_decomposition": {
+  "j4_pooled_12m_x1": {
+   "n": 2507,
+   "beats": 1217,
+   "beat_rate": 0.4854
+  },
+  "gap_to_line_pp": 21.46,
+  "beats_shortfall_to_line": 538,
+  "levers_upper_bounds_non_additive": {
+   "cost_elimination_x2_to_x1_pp": 1.0,
+   "era_parity_deep_at_legacy_rate_pp": 4.17,
+   "best_member_concentration_pp": 13.09,
+   "ew_ce6_vs_bmaxdiv_pp": 8.69,
+   "window_length_sensitivity_disclosure": {
+    "pooled_6m_x1": 0.5245,
+    "pooled_12m_x1": 0.4854,
+    "pooled_24m_x1": 0.5357,
+    "note": "U-shape; J4 line frozen at 12m primary face"
+   }
+  },
+  "notes": "era_parity/best_member are arithmetic bounds, NOT prescriptions; concentration violates the orthogonal-engine mandate (P3 corr 0.87 anti-example)"
+ },
+ "audit": {
+  "runtime_sec": 0.2,
+  "machine": "bm-b",
+  "ts": "2026-09-25 11:15:04"
+ }
+}
