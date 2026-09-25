@@ -188,6 +188,28 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
         # constant 0.0, frozen in the prereg; never borrows cta/core48
         # passives (no silent cross-pool reuse).
         return 0.0
+    if pool == "cta_wave1":
+        # CTA_WAVE1 additive pool (research/CTA_WAVE1_PREREG.md SS4): strict-max
+        # of THIS batch's own two passive long baselines (r20 / monthly) on the
+        # 10-variety deep panel (TS leg included, 2008-01-09 union start) --
+        # read from the product file; never borrows cta_futures (2017 panel) or
+        # cta_futures_noau (8-variety) passives: deep-panel passives are a
+        # different universe and must calibrate their own line.
+        path = os.path.join(results_dir, "shortline_cta_wave1.json")
+        if not os.path.exists(path):
+            raise KeyError(f"cta_wave1 passive not on file yet "
+                          f"({path}) — run CTA_WAVE1 phase-1 write first")
+        with open(path, encoding="utf-8") as fh:
+            pas = (json.load(fh).get("passive") or {})
+        cands = []
+        for name in ("passive_long_r20", "passive_long_monthly"):
+            sr = ((pas.get(name) or {}).get("full") or {}).get("sharpe")
+            if isinstance(sr, (int, float)) and math.isfinite(sr):
+                cands.append(float(sr))
+        if not cands:
+            raise KeyError("passive block missing/empty in "
+                          "shortline_cta_wave1.json — schema drift, fix batch writer")
+        return max(cands)  # strict = harder line
     if pool == "t18_deep_axis":
         # T18_DEEP_REVAL additive pool (research/DEEP_AXIS_REVALIDATION.md SS3):
         # strict-max of the deep axis's OWN two passives (EW48 monthly rebal +
@@ -628,6 +650,12 @@ SEED_REGISTRY = {
     # div_lowvol_p1 60031; rg full-repo scan 2026-09-25 18:5x: sole hits =
     # Money02 fold/data-file digit coincidences (non-RNG, t34 precedent);
     # registered before WILD_ROUTE_S1 prereg freeze, T-2026-09-25-57 s2)
+    "cta_wave1": 62_000,                     # CTA_WAVE1 K=50 random-signal nulls
+    # (62000+k, k<50; band 62000..62049, next free band above wild_route_s1
+    # 61049; registry+rg full-repo scan 2026-09-25 19:5x before CTA_WAVE1
+    # prereg freeze -- sole rg hits = data-file digit coincidences
+    # (AU.csv oi 262000 / IH.csv volume 62000 / eligibility tails, non-RNG,
+    # t34/wild_route precedent); T-2026-09-25-65-P1 s2 wave-1 futures revival)
 }
 
 
