@@ -400,7 +400,13 @@ def simulate_rotation(dates, open_px, close_px, adv, cash_ret, plan, capital,
         cash *= (1.0 + float(cash_ret[t]))
         po = {s: open_px[s][t] for s in syms}
         pc = {s: close_px[s][t] for s in syms}
-        equity = cash + sum(holdings[s] * po[s] for s in syms)
+        # r182: finite-only valuation -- pre-listing heads survive ffill and
+        # 0*NaN=NaN poisons equity through every downstream number; an
+        # unpriced symbol can be neither valued nor traded this day (never
+        # zero-filled, prereg s5.6(3) family). Listed-range internal gaps
+        # are gate-zero (r179), so held symbols always price.
+        equity = cash + sum(holdings[s] * po[s] for s in syms
+                            if np.isfinite(po[s]))
 
         st = plan.get(t)
         if st is not None:
@@ -418,11 +424,15 @@ def simulate_rotation(dates, open_px, close_px, adv, cash_ret, plan, capital,
                 reserve = 0.0
                 nom = {}
                 for s in syms:
+                    if not np.isfinite(po[s]):
+                        continue          # unpriced at the open: no leg cost
                     tv = weights.get(s, 0.0) * equity - holdings[s] * po[s]
                     nom[s] = tv
                     reserve += est_leg_cost(abs(tv))
                 equity_adj = equity - reserve
                 for s in syms:
+                    if not np.isfinite(po[s]):
+                        continue          # untradeable this exec day (r182)
                     target = weights.get(s, 0.0) * equity_adj
                     cur = holdings[s] * po[s]
                     delta = target - cur
@@ -457,11 +467,13 @@ def simulate_rotation(dates, open_px, close_px, adv, cash_ret, plan, capital,
                 for s in sorted(new_held):
                     if s not in clock:
                         clock[s] = t
-                equity = cash + sum(holdings[s] * po[s] for s in syms)
+                equity = cash + sum(holdings[s] * po[s] for s in syms
+                                    if np.isfinite(po[s]))
             holdings_track[t] = (sorted(s for s in syms if holdings[s] > 0),
                                  {s: holdings[s] for s in syms if holdings[s] > 0})
 
-        equity_path.append(cash + sum(holdings[s] * pc[s] for s in syms))
+        equity_path.append(cash + sum(holdings[s] * pc[s] for s in syms
+                                      if np.isfinite(pc[s])))
 
     eq = pd.Series(equity_path, index=pd.Index(dates[start_idx:]))
     return {"eq": eq, "n_trades": n_trades, "n_entries": n_entries,
@@ -1239,6 +1251,46 @@ def cmd_selftest(_):
     cc14 = cash_cum252(cs, win=2)
     check("F14-cash-cum", abs(cc14[1] - (1.01 * 1.02 - 1)) < 1e-12 and
           abs(cc14[3] - (1.03 * 1.04 - 1)) < 1e-12 and not np.isfinite(cc14[0]))
+
+    # F15 NaN-head production pairing (r182 live-fire: leading NaN heads
+    # survive ffill in production panels; 0*NaN=NaN poisoned equity and
+    # crashed the first rebalance at int(NaN) -- complete-data hermetic
+    # panels lied green, R117 hermetic-production pairing law). Fixture
+    # mirrors the live-fire shape: a late lister in the universe with a
+    # NaN price head, rebalance days both before and after its listing.
+    px_l = {s: list(px[s]) for s in px}
+    open_l = {s: list(open_px[s]) for s in px}
+    close_l = {s: list(close_px[s]) for s in px}
+    LATE, head15 = "S7", 12
+    px_l[LATE] = [float("nan")] * head15 + \
+        [round(70.0 * 1.001 ** i, 4) for i in range(35 - head15)]
+    open_l[LATE] = [float("nan")] * head15 + \
+        [round(v * 0.999, 4) for v in px_l[LATE][head15:]]
+    close_l[LATE] = list(px_l[LATE])
+    advz[LATE] = [float("nan")] * 35
+    plan15 = {}
+    for t in range(6, 35):
+        members = ["S1", "S4", "S6"] if t < 12 else ["S4", "S6", LATE]
+        plan15[t] = {"members": members,
+                     "weights": {s: 1.0 / 3 for s in members},
+                     "cash_weight": 0.0, "top3": members, "state": "t"}
+    try:
+        r15 = simulate_rotation(dts, open_l, close_l, advz, cret, plan15,
+                                1e6, cost_mult=1.0, start_idx=0, min_hold=0)
+        eq15_ok = bool(np.isfinite(r15["eq"]).all())
+        no_early_hold = all(
+            r15["holdings_track"][t][1].get(LATE, 0.0) == 0.0
+            for t in r15["holdings_track"] if t < head15)
+        late_entered = any(
+            r15["holdings_track"][t][1].get(LATE, 0.0) > 0.0
+            for t in r15["holdings_track"] if t >= head15)
+    except Exception as exc:            # live-fire face: unhandled NaN crash
+        eq15_ok = no_early_hold = late_entered = False
+        print(f"      F15 exception: {exc!r}")
+    check("F15-nanhead-pairing",
+          eq15_ok and no_early_hold and late_entered,
+          f"eq_finite={eq15_ok} unheld_pre_list={no_early_hold} "
+          f"entered_post_list={late_entered}")
 
     print(f"selftest: {'ALL PASS' if not fails else 'FAIL ' + str(fails)}")
     return 0 if not fails else 1
