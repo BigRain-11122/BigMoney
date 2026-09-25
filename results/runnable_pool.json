@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 13:01:28",
+ "updated_at": "2026-09-25 13:21:31",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -623,6 +623,35 @@
     "workers": 1,
     "priority": "BelowNormal",
     "note": "prereg sec.0 frozen pool routing (长活按池律禁轮内内联); engine O(days x assets) pure-python serial; est <5 min total; workers=1 deterministic (T33/GRID-P1 light-batch precedent)"
+   }
+  },
+  {
+   "id": "MF-ROT-S1",
+   "ticket_ref": "T-20260925-60 s3 (O-20260925-1152 matrix time-axis mid-freq gap first batch; O-20260925-0857 profit-model priority line)",
+   "prereg_ref": "research/midfreq/MF_ROT_S1_PREREG.md (frozen r178 pre-run R99; 4 cells zoo #81/#82/#83 new-written basis codes; G1'v2+G2 shared-library judgment, seed mf_rot_s1=59000 registered)",
+   "runner": "scripts/mf_rot_backtest.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 13:21:31",
+   "data_gates": "in-runner: completeness gate per prereg sec.2 listed-range semantics (48/48 zero internal gaps verified r179 plan-probe) + single-shot finalize guard (MF_ROT_S1_REFINALIZE=1 only redo) + determinism selftest 18/18 pre-burn",
+   "shards": [
+    {
+     "key": "mf-0of1",
+     "status": "ready",
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 13:21:31",
+     "checkpoint": "results/midfreq/mf_rot_s1_cells/<cell>.json + mf_rot_s1_nulls.json (config-sha keyed resume, T-33 law)",
+     "note": "single-process vector sim, est 10-25min per prereg sec.0; fire on first tick with py headroom (T54 deep serial lane dB/dC/dD coexists fine: 1-process BelowNormal); pre-claim r170 claim-first by bm-b r179; F-04 MSG-20260925-1321 declared BEFORE this pool entry (commit a115d176)"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "prereg sec.0 pool routing; pure-python serial sim O(days x members); deterministic idempotent, checkpoint-resumable"
    }
   }
  ],
