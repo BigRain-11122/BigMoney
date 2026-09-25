@@ -1,53 +1,53 @@
 {
-  "generated": "2026-09-25 08:42:09",
-  "order": "O-20260923-2325",
-  "method": {
-    "bpe_proxy": 3.5,
-    "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
+ "generated": "2026-09-25 08:42:40",
+ "order": "O-20260923-2325",
+ "method": {
+  "bpe_proxy": 3.5,
+  "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
+ },
+ "per_round_context": {
+  "mandate_read_tokens_est": 5402,
+  "codely_read_tokens_est": 12886,
+  "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
+ },
+ "machines": {
+  "-bm-a": {
+   "state_bytes": 0,
+   "state_tokens_est": 0,
+   "report_bytes": 320412,
+   "report_tokens_est": 91546
   },
-  "per_round_context": {
-    "mandate_read_tokens_est": 5402,
-    "codely_read_tokens_est": 12886,
-    "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
+  "-bm-c": {
+   "state_bytes": 0,
+   "state_tokens_est": 0,
+   "report_bytes": 132629,
+   "report_tokens_est": 37894
   },
-  "machines": {
-    "-bm-a": {
-      "state_bytes": 0,
-      "state_tokens_est": 0,
-      "report_bytes": 320613,
-      "report_tokens_est": 91603
-    },
-    "-bm-c": {
-      "state_bytes": 0,
-      "state_tokens_est": 0,
-      "report_bytes": 132725,
-      "report_tokens_est": 37921
-    },
-    "bm-a": {
-      "state_bytes": 3646,
-      "state_tokens_est": 1041,
-      "report_bytes": 0,
-      "report_tokens_est": 0
-    },
-    "bm-c": {
-      "state_bytes": 1768,
-      "state_tokens_est": 505,
-      "report_bytes": 0,
-      "report_tokens_est": 0
-    },
-    "default": {
-      "state_bytes": 11329,
-      "state_tokens_est": 3236,
-      "report_bytes": 332193,
-      "report_tokens_est": 94912
-    }
+  "bm-a": {
+   "state_bytes": 3646,
+   "state_tokens_est": 1041,
+   "report_bytes": 0,
+   "report_tokens_est": 0
   },
-  "total_state_tokens_est": 4782,
-  "total_report_tokens_est": 224436,
-  "delta_vs_prev": {
-    "prev_generated": "2026-09-25 08:31:58",
-    "state_tokens_growth": 337,
-    "report_tokens_growth": 2288,
-    "mandate_growth": 0
+  "bm-c": {
+   "state_bytes": 1768,
+   "state_tokens_est": 505,
+   "report_bytes": 0,
+   "report_tokens_est": 0
+  },
+  "default": {
+   "state_bytes": 11329,
+   "state_tokens_est": 3236,
+   "report_bytes": 332193,
+   "report_tokens_est": 94912
   }
+ },
+ "total_state_tokens_est": 4782,
+ "total_report_tokens_est": 224352,
+ "delta_vs_prev": {
+  "prev_generated": "2026-09-25 08:31:58",
+  "state_tokens_growth": 337,
+  "report_tokens_growth": 2204,
+  "mandate_growth": 0
+ }
 }
