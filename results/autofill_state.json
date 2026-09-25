@@ -1,22 +1,5 @@
 {
- "last_tick": {
-  "ts": "2026-09-26 08:00:01",
-  "machine": "bm-a",
-  "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
- },
  "launches": [
-  {
-   "entry": "T54-GRID-DD",
-   "fill_latency_min": 150.7,
-   "machine": "bm-a",
-   "pid": 54076,
-   "py_cpu_pct": 0.0,
-   "shard": "deep-dD",
-   "target_met": false,
-   "ts": "2026-09-25 13:50:02",
-   "verdict": "launched"
-  },
   {
    "entry": "MF-ROT-S1",
    "fill_latency_min": 38.5,
@@ -555,6 +538,23 @@
    "target_met": false,
    "ts": "2026-09-26 06:23:28",
    "verdict": "launched"
+  },
+  {
+   "ts": "2026-09-26 07:04:04",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.2,
+   "verdict": "launched",
+   "entry": "P1E-SYNTH",
+   "shard": "p1e-synth-0of1",
+   "pid": 17616,
+   "fill_latency_min": 8.8,
+   "target_met": true
   }
- ]
+ ],
+ "last_tick": {
+  "ts": "2026-09-26 08:00:01",
+  "machine": "bm-a",
+  "py_cpu_pct": 0.0,
+  "verdict": "pool_empty_or_busy"
+ }
 }
