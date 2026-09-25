@@ -1,0 +1,306 @@
+var moneyFlow = new function() {
+        var _mrDrawer;
+        var _flDrawer;
+        var pie2D;
+
+        function _getData() {
+            getScript('//vip.stock.finance.sina.com.cn/quotes_service/api/jsonp.php/var moneyFlowData=/MoneyFlow.ssi_ssfx_flzjtj?daima=' + papercode + '&gettime=1', _gotData);
+        }
+
+        function _gotData() {
+            _drawMR();
+            _drawFL();
+        }
+
+        function _drawMR() {
+            var data = moneyFlowData;
+            var cvs = data.curr_capital * data.trade * 10000;
+            var total = data.r0 - -data.r1 - -data.r2 - -data.r3;
+            var _data = {};
+            _data.mainIn = doNaN(data.r0_in - -data.r1_in);
+            _data.mainInP = doNaN(_data.mainIn / total * 100);
+            _data.mainOut = doNaN(data.r0_out - -data.r1_out);
+            _data.mainOutP = doNaN(_data.mainOut / total * 100);
+            _data.retailIn = doNaN(data.r3_in - -data.r2_in);
+            _data.retailInP = doNaN(_data.retailIn / total * 100);
+            _data.retailOut = doNaN(data.r3_out - -data.r2_out);
+            _data.retailOutP = doNaN(_data.retailOut / total * 100);
+
+            _mrDrawer.draw(_data);
+
+            var distance = h5Status==1?5:15;
+            var xmldata = '<chart smartLabelClearance="'+distance+'" slicingDistance="'+distance+'" showAboutMenuItem="0" showValues="0" chartLeftMargin="-10"  baseFontSize="13" paletteColors="BD1C00,638E00,FF8600,A5DB00" bgColor="FFFFFF" showShadow="0" showBorder="0" radius3D="100" pieRadius="70"><set label="主力买入" value="@mainIn@" toolText="主力买入：@mainInS@(@mainInP@)" /><set label="主力卖出" value="@mainOut@" toolText="主力卖出：@mainOutS@(@mainOutP@)" /><set label="散户买入" value="@retailIn@" toolText="散户买入：@retailInS@(@retailInP@)" /><set label="散户卖出" value="@retailOut@" toolText="散户卖出：@retailOutS@(@retailOutP@)" /></chart>';
+            xmldata = xmldata.replace('@mainIn@', (data.r0_in - -data.r1_in) || 0)
+                .replace('@mainInS@', dataFormat(_data.mainIn, {
+                    digit: 2,
+                    shift: -4,
+                    p: '$1万元'
+                }))
+                .replace('@mainInP@', dataFormat(_data.mainInP, {
+                    digit: 2,
+                    p: '$1%'
+                }))
+                .replace('@mainOut@', (data.r0_out - -data.r1_out) || 0)
+                .replace('@mainOutS@', dataFormat(_data.mainOut, {
+                    digit: 2,
+                    shift: -4,
+                    p: '$1万元'
+                }))
+                .replace('@mainOutP@', dataFormat(_data.mainOutP, {
+                    digit: 2,
+                    p: '$1%'
+                }))
+                .replace('@retailIn@', (data.r3_in - -data.r2_in) || 0)
+                .replace('@retailInS@', dataFormat(_data.retailIn, {
+                    digit: 2,
+                    shift: -4,
+                    p: '$1万元'
+                }))
+                .replace('@retailInP@', dataFormat(_data.retailInP, {
+                    digit: 2,
+                    p: '$1%'
+                }))
+                .replace('@retailOut@', (data.r3_out - -data.r2_out) || 0)
+                .replace('@retailOutS@', dataFormat(_data.retailOut, {
+                    digit: 2,
+                    shift: -4,
+                    p: '$1万元'
+                }))
+                .replace('@retailOutP@', dataFormat(_data.retailOutP, {
+                    digit: 2,
+                    p: '$1%'
+                }));
+
+            if(!pie2D)pie2D=h5Status==1?new FusionCharts('Pie2D','chartid01','390','218','0','1'):
+                new FusionCharts("//i0.sinaimg.cn/dy/fusioncharts/v3_2_2/o_swf/Pie2D.swf","chartid01","390","218","0","1");
+
+            pie2D.setTransparent(true);
+            pie2D.setXMLData(xmldata);
+            setTimeout(function() {
+                pie2D.render('chartdiv');
+            }, 2 * 1000);
+        }
+
+        function _drawFL() {
+            var data = moneyFlowData;
+            var cvs = data.curr_capital * data.trade * 10000;
+            var total = data.r0 - -data.r1 - -data.r2 - -data.r3;
+            var _data = {};
+            _data.r3_r_in = doNaN(data.r3_in - data.r3_out);
+            _data.r2_r_in = doNaN(data.r2_in - data.r2_out);
+            _data.r1_r_in = doNaN(data.r1_in - data.r1_out);
+            _data.r0_r_in = doNaN(data.r0_in - data.r0_out);
+
+            _data.r3_p_svs = doNaN(data.r3 / cvs * 100);
+            _data.r2_p_svs = doNaN(data.r2 / cvs * 100);
+            _data.r1_p_svs = doNaN(data.r1 / cvs * 100);
+            _data.r0_p_svs = doNaN(data.r0 / cvs * 100);
+
+            _data.r3_p_turnover = doNaN(data.r3 / total * 100);
+            _data.r2_p_turnover = doNaN(data.r2 / total * 100);
+            _data.r1_p_turnover = doNaN(data.r1 / total * 100);
+            _data.r0_p_turnover = doNaN(data.r0 / total * 100);
+
+            _flDrawer.draw(_data);
+
+            var _max = Math.max(Math.abs(_data.r3_r_in), Math.abs(_data.r2_r_in), Math.abs(_data.r1_r_in), Math.abs(_data.r0_r_in), 1);
+            var _flowMap = $('#flowMap');
+            var _bar;
+            for (var i = 0; i <= 3; i++) {
+                _bar = _flowMap.find('.flow_R_map_bar_' + i)[0];
+                _bar.className = 'flow_R_map_bar_' + i + ' ' + checkUD(undefined, _data['r' + (3 - i) + '_r_in']);
+                _bar.style.height = (85 * Math.abs(_data['r' + (3 - i) + '_r_in']) / _max || 0) + 'px';
+            }
+        }
+        this.init = function() {
+            var _cfgNum = {
+                digit: 2,
+                shift: -4
+            };
+            var _cfgP = {
+                digit: 2,
+                p: '$1%'
+            };
+            var _cfgMR = {};
+            _cfgMR.mainIn = _cfgMR.mainOut = _cfgMR.retailIn = _cfgMR.retailOut = _cfgNum;
+            _cfgMR.mainInP = _cfgMR.mainOutP = _cfgMR.retailInP = _cfgMR.retailOutP = _cfgP;
+
+            var _cfgFL = {};
+            _cfgFL.r3_r_in = _cfgFL.r2_r_in = _cfgFL.r1_r_in = _cfgFL.r0_r_in = _cfgNum;
+            _cfgFL.r3_p_svs = _cfgFL.r2_p_svs = _cfgFL.r1_p_svs = _cfgFL.r0_p_svs = _cfgP;
+            _cfgFL.r3_p_turnover = _cfgFL.r2_p_turnover = _cfgFL.r1_p_turnover = _cfgFL.r0_p_turnover = _cfgP;
+
+            _mrDrawer = new DataDrawer('MRFlow', _cfgMR);
+            _flDrawer = new DataDrawer('FLFlow', _cfgFL);
+            _getData();
+            setInterval(_getData, 60 * 2 * 1000);
+        };
+    }();
+
+    var mgzb = new function() {
+        this.init = function() {
+            new VSelect('select_mgzb');
+            $('#select_mgzb').change(drawAjaxCont.bindArg('select_mgzb', 'cont_mgzb')).change(new drawFusion('select_mgzb', 'rank_chart_l', 'tabs_rank_chart_l', 'rankSummary_l', '6A6DA9', 'A3CF62')).change();
+        };
+    }();
+
+    var cwbl = new function() {
+        this.init = function() {
+            new VSelect('select_cwbl');
+            $('#select_cwbl').change(drawAjaxCont.bindArg('select_cwbl', 'cont_cwbl')).change(new drawFusion('select_cwbl', 'rank_chart_r', 'tabs_rank_chart_r', 'rankSummary_r', 'AA2116', '2A5CAA')).change();
+        };
+    }();
+
+    function drawAjaxCont(selectID, contID) {
+        var _value = $('#' + selectID).val();
+        new Ajax('//finance.sina.com.cn/realstock/company/' + papercode + '/iframe/' + _value + '.html', {
+            onComplete: function(html) {
+                $('#' + contID).html(html);
+            }
+        }).request();
+    }
+
+    function drawFusion(selectID, contID, tabsID, summaryID, color1, color2) {
+        var _value, _contID = contID,
+            _summaryID = summaryID;
+        var _color1 = color1,
+            _color2 = color2;
+        var _type = 'xl';
+
+        function _getData() {
+            var _select = $id(selectID);
+            var _value = $(_select).val();
+            var _txt = $(_select).find('option')[_select.selectedIndex].innerHTML;
+            getScript('//stock.finance.sina.com.cn/stock/api/jsonp.php/var rankData_' + contID + '=/StockService.getRankBySymbol?symbol=' + papercode + '&sort=' + _value + '&type=' + _type, function() {
+                var _data = window['rankData_' + contID];
+                if(!_data || !_data.data) return;
+                var _id = ('fusion' + Math.random()).replace('.', '');
+                var _color = [],
+                    _sets = [];
+                var _max = 0;
+                for (var i = 0; i < _data.data.length; i++) {
+                    if (_data.data[i].full_symbol != papercode) {
+                        _color.push(_color1);
+                    } else {
+                        _color.push(_color2);
+                    }
+                    if (_data.data[i].value > _max) {
+                        _max = _data.data[i].value * 1;
+                    }
+                    _sets.push('<set label="' + _data.data[i].name + '" value="' + _data.data[i].value + '" link="n-' + pageURL.replace('$symbol', _data.data[i].full_symbol) + '"/>');
+                }
+                _max = _max * 1.1;
+                var myChart = h5Status==1?new FusionCharts("Column2D", _id, "380", "240", "0", "1"):
+                    new FusionCharts("//i3.sinaimg.cn/dy/fusioncharts/v3_2_2/o_swf/Column2D.swf", _id, "380", "240", "0", "1");
+                var xmldata = '<chart showBorder="0" baseFontSize="12" canvasLeftMargin="50" showAboutMenuItem="0" showValues="0" outCnvBaseFontColor="000000" baseFontColor="FF0000" canvasBorderColor="CCCCCC" canvasBorderThickness="1" labelDisplay="ROTATE" slantLabels="1" paletteColors="' + _color.join(',' + _color1 + ',') + '" bgColor="FFFFFF">' + _sets.join('<set label="" value=""/>') + '</chart>';
+                myChart.setXMLData(xmldata);
+                myChart.render(_contID);
+
+                $('#' + summaryID).html('<span style="float:right;" class="blue_l">' + _data.base.date + '</span>' + stockname + ' <span class="up">' + _txt + '</span> 行业排名为 <span class="up">第' + _data.base.pos + '(' + _data.base.total + '家)</span>');
+            });
+        }
+
+        $('#' + tabsID).find('.tab').click(function() {
+            _type = $(this).attr('type');
+            $(this).parent().find('.tab').removeClass('on');
+            $(this).addClass('on');
+            _getData();
+        });
+        return _getData;
+    }
+
+    var breakingNewsCtrl = new function() {
+        var _timer;
+        var _hovering = false;
+
+        function _get() {
+            getScript('//finance.sina.com.cn/js/stock/breakingnews.js?rn' + random(), _got);
+        }
+
+        function _got() {
+            if (_hovering) {
+                setTimeout(arguments.callee, 1000);
+                return;
+            }
+            var _container = $('#breakingNews');
+            _container.fadeOut(function() {
+                clearInterval(_timer);
+                _container.empty();
+                var _a, _span;
+                for (var i = 0; i < breaking_news.length; i++) {
+                    _a = $('<a>').attr('target', '_blank').attr('href', breaking_news[i].url).html(breaking_news[i].title).appendTo(_container);
+                    _span = $('<span>').html('(' + breaking_news[i].date.replace(/^\d{4}\-/, '') + ' ' + breaking_news[i].time + ')').appendTo(_container);
+                }
+                _container.show();
+                _start();
+            });
+        }
+
+        function _start() {
+            var _container = document.getElementById('breakingNews');
+            var _width = $('#breakingNews *:first').width();
+            var _left = 430;
+            _container.style.left = _left + 'px';
+            _timer = setInterval(function() {
+                if (_hovering) {
+                    return;
+                }
+                _left -= 2;
+                if (_left + _width < 0) {
+                    _container.style.left = '0px';
+                    $('#breakingNews *:first').appendTo('#breakingNews');
+                    _left += _width;
+                    _width = $('#breakingNews *:first').width();
+                }
+                _container.style.left = _left + 'px';
+            }, 30);
+        }
+        this.init = function() {
+            _get();
+            setInterval(_get, 60 * 2 * 1000);
+            $('#breakingNews').mouseenter(function() {
+                _hovering = true;
+            }).mouseleave(function() {
+                _hovering = false;
+            });
+        };
+    }();
+
+    var stockNews = new function() {
+        var papercode;
+
+        function _getData() {
+            getScript('//news.sinajs.cn/rn=$rn&maxcnt=20&scnt=20&list=$papercode,gg_$papercode,ntc_$papercode,blog_$papercode,tg_$papercode,lcs_$papercode'.replace('$rn', random()).replace(/\$papercode/g, papercode), _gotData);
+        }
+        /*截取时间*/
+
+        function _sub_time() {
+
+            $('#stockNews ul li span').each(function(index) {
+                var str = $(this).html();
+                str = str.substr(0, 6) + ')';
+                $(this).html(str);
+
+            });
+
+        }
+
+        function _gotData() {
+            if (!finance_news.length) {
+                return;
+            }
+            var _container = $('#stockNews').empty();
+            var _ul, _li, _a, _pdf, _span;
+            var _single;
+            var _max;
+            for (var i = 0; i < finance_news.length && i < 12; i++) {
+                _single = finance_news[i];
+                if (i % 6 == 0) {
+                    _ul = $('<ul>').appendTo(_container);
+                }
+                _li = $('<li>').appendTo(_ul);
+                _span = $('<span>').html('(' + _single[0].replace(/(^\d*?\-)|(\:\d*?$)/g, '') + ')').appendTo(_li);
+                if (/^ntc_/.test(_single[4])) {
+                    _li.append('[<a class="a_blue_d_all" target="_blank" href="http://vip.stock.finance.sina.com.cn/corp/view/vCB_AllMemordDetail.php?stockid=' + papercode.replace(/[^0-9]/g, '') + '">地雷</a>] ');
+                } else if (/^gg_/.test(_single[4])) {
+                    _li.append('[<a class="a_blue_d_all" target="_blank" href="http://vip.stock.finance.sina.com.cn/corp/go.php/vCB_AllBulletin/stockid/' +

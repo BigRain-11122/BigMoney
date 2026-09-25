@@ -87,4 +87,17 @@
   表格消费页未定位（xh1.php/兄弟页 404、精确串 SERP 无效已实证禁再烧），
   后续批换面不换串（帮助页/移动端 wap/历史 blog 面）。证据=results/_r224_bma_sina_tier_*
   五探针件（bm-a R224）+DIGEST-20260926-r224-t72-sina-tier-doc-probe.md。
+  **R225 wave-2 批腿注记（GROUPING-DOCUMENTED·零判据面触碰）**：官方行情页主 JS
+  （stock20180116.js）moneyFlow 块全抽出（R224 1200 字符截断窗补救）——饼图算术
+  **主力=r0+r1、散户=r2+r3**（mainIn=r0_in+r1_in / retailIn=r3_in+r2_in，官方面铁证），
+  修正 R224「r1/r2=中间档」判读为「两极各含两桶」；_drawFL 显示梯序 r3→r0（小→大）；
+  两份官方 JS 全文七词普查（大户/中户/超大/大单/中单/小单/机构）全 0 计数=r1/r2 单独
+  档名官方前端零浮现；flzjtj（当日快照族）直连载荃 r0..r3 各带 in/out/net 三元组与
+  lscjfb 同族。**消费面规则（s3 接线适用）**：呈现主力聚合须按官方配方 r0+r1（非 r0
+  单独）、散户=r2+r3；r1/r2 单独呈现=原始列名诚实禁猜档名；实现层「按单笔金额分桶」
+  假说获茅台 r3_in 恰零+r3_out 零股级自然实验数据支持=证据级推断**禁升格 DOCUMENTED**，
+  档位阈值维持 UNDOCUMENTED。移动端 gu.sina.cn=host 活路径族未定位（404 定性）；
+  站内搜索面=JS 壳脚本死面——候选面已尽脚本可达集，open item 转低频尾批。
+  证据=results/_r225_bma_sina_tier_wave2*（P1-P5 探针族·8/12 预算）+
+  DIGEST-20260926-r225-t72-sina-tier-grouping.md（bm-a R225）。
 - 采集器实现票=另开 GM 署名单（P1 数据源扩容，O-1620 下放面；T-43 先例流程）。

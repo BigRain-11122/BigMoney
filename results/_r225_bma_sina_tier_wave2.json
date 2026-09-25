@@ -1,0 +1,81 @@
+{
+ "ts_start": "2026-09-26 06:31:24",
+ "probes": [
+  {
+   "probe": "P1",
+   "purpose": "full moneyFlow block extraction (R224 truncation remediation)",
+   "status": 200,
+   "ms": 192,
+   "bytes": 161793,
+   "block_found": true,
+   "tier_sentences": [
+    "var pie2D",
+    "var total = data.r0 - -data.r1 - -data.r2 - -data.r3",
+    "var xmldata = '<chart smartLabelClearance=\"'+distance+'\" slicingDistance=\"'+distance+'\" showAboutMenuItem=\"0\" showValues=\"0\" chartLeftMargin=\"-10\"  baseFontSize=\"13\" paletteColors=\"BD1C00,638E00,FF8600,A5DB00\" bgColor=\"FFFFFF\" showShadow=\"0\" showBorder=\"0\" radius3D=\"100\" pieRadius=\"70\"><set label=\"主力买入\" value=\"@mainIn@\" toolText=\"主力买入：@mainInS@(@mainInP@)\" /><set label=\"主力卖出\" value=\"@mainOut@\" toolText=\"主力卖出：@mainOutS@(@mainOutP@)\" /><set label=\"散户买入\" value=\"@retailIn@\" toolText=\"散户买入：@retailInS@(@retailInP@)\" /><set label=\"散户卖出\" value=\"@retailOut@\" toolText=\"散户卖出：@retailOutS@(@retailOutP@)\" /></chart>'",
+    "if(!pie2D)pie2D=h5Status==1?new FusionCharts('Pie2D','chartid01','390','218','0','1'):",
+    "pie2D.setTransparent(true)",
+    "pie2D.setXMLData(xmldata)",
+    "pie2D.render('chartdiv')",
+    "var total = data.r0 - -data.r1 - -data.r2 - -data.r3",
+    "_data.r3_p_svs = doNaN(data.r3 / cvs * 100)",
+    "_data.r2_p_svs = doNaN(data.r2 / cvs * 100)",
+    "_data.r1_p_svs = doNaN(data.r1 / cvs * 100)",
+    "_data.r0_p_svs = doNaN(data.r0 / cvs * 100)",
+    "_data.r3_p_turnover = doNaN(data.r3 / total * 100)",
+    "_data.r2_p_turnover = doNaN(data.r2 / total * 100)",
+    "_data.r1_p_turnover = doNaN(data.r1 / total * 100)",
+    "_data.r0_p_turnover = doNaN(data.r0 / total * 100)"
+   ],
+   "block_chars": 14000
+  },
+  {
+   "probe": "P2",
+   "purpose": "flzjtj (pie source API) response field inventory",
+   "status": 200,
+   "ms": 101,
+   "bytes": 596,
+   "body_head": "/*<script>location.href='//sina.com';</script>*/\nvar moneyFlowData=({\"r0_in\":\"742234446.8400\",\"r0_out\":\"1397386379.8500\",\"r0\":\"2411602996.6900\",\"r1_in\":\"556754459.6500\",\"r1_out\":\"586354971.2900\",\"r1\":\"1342422303.1600\",\"r2_in\":\"36588193.0000\",\"r2_out\":\"24701808.6000\",\"r2\":\"85018853.6000\",\"r3_in\":\"0.0000\",\"r3_out\":\"29721.8400\",\"r3\":\"29721.8400\",\"curr_capital\":\"125008\",\"name\":\"\\u8d35\\u5dde\\u8305\\u53f0\",\"trade\":\"1238.0000\",\"changeratio\":\"-0.0105815\",\"volume\":\"3096272.0000\",\"turnover\":\"24.7686\",\"r0x_ratio\":\"-93.5426\",\"opendate\":\"2026-09-24\",\"ticktime\":\"14:59:59\",\"netamount\":\"-672895782.0900\"});"
+  },
+  {
+   "probe": "P3",
+   "purpose": "mobile wap quote face tier legend",
+   "tries": [
+    {
+     "url": "https://gu.sina.cn/stock/quotes/sh600519",
+     "status": "ERR",
+     "bytes": 0,
+     "kw_hits": ""
+    },
+    {
+     "url": "https://gu.sina.cn/hq/sh600519",
+     "status": "ERR",
+     "bytes": 0,
+     "kw_hits": ""
+    }
+   ]
+  },
+  {
+   "probe": "P4",
+   "purpose": "sina site-search face (legend terms; external SERP law does not apply to sina-own search)",
+   "tries": [
+    {
+     "query": "lscjfb",
+     "status": 200,
+     "bytes": 640,
+     "candidate_links": []
+    },
+    {
+     "query": "资金流向 大户 中户 散户",
+     "status": 200,
+     "bytes": 640,
+     "candidate_links": []
+    }
+   ]
+  }
+ ],
+ "ledger": {
+  "spent": 6,
+  "cap": 12
+ },
+ "ts_end": "2026-09-26 06:31:25"
+}
