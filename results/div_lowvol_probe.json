@@ -1,0 +1,382 @@
+{
+  "probe": "DIV_LOWVOL_P1 prefreeze data probe (facts only, no batch run)",
+  "ts": "2026-09-25 17:28:06",
+  "machine": "bm-a",
+  "window": {
+    "start": "2020-01-02",
+    "end": "2026-09-22"
+  },
+  "evidence_cutoff": "2026-09-22",
+  "instruments": {
+    "512890": {
+      "rows": 1862,
+      "start": "2019-01-18",
+      "end": "2026-09-22",
+      "covers_window_end": true,
+      "split_event": {
+        "first_post_split_bar": "2021-10-25",
+        "factor": 0.5,
+        "suspended_bars": [
+          "2021-10-22"
+        ],
+        "mechanical_evidence": {
+          "last_cum_close": 1.639,
+          "first_post_close": 0.801,
+          "ratio": 2.0449,
+          "overnight_raw_return": -0.5113
+        }
+      },
+      "breaks_gt_12pct_overnight": [
+        {
+          "date": "2021-10-25",
+          "raw_overnight_ret": -0.511287
+        }
+      ]
+    },
+    "510880": {
+      "rows": 4784,
+      "start": "2007-01-18",
+      "end": "2026-09-22",
+      "covers_window_end": true,
+      "split_event": null,
+      "breaks_gt_12pct_overnight": []
+    }
+  },
+  "completeness": {
+    "window_bench_trading_days": 1631,
+    "suspension_bars_whitelisted": [
+      "2021-10-22"
+    ],
+    "nan_close_days_raw": {
+      "512890": 1,
+      "510880": 0,
+      "510300": 0
+    },
+    "nan_close_days_excl_suspension": {
+      "512890": 0,
+      "510880": 0,
+      "510300": 0
+    },
+    "gate_all_legs_cover_end": true,
+    "gate_zero_nan_excl_suspension": true
+  },
+  "regime_reuse": {
+    "recorded_file": "results/regime_calibration.json",
+    "recorded_verdict": "FAIL",
+    "drift_gate": {
+      "recorded_window": {
+        "start": "2020-01-02",
+        "end": "2026-09-23"
+      },
+      "recomputed_state_counts_recorded_window": {
+        "GREEN": 428,
+        "YELLOW": 199,
+        "ORANGE": 568,
+        "RED": 437
+      },
+      "recorded_state_counts": {
+        "GREEN": 428,
+        "YELLOW": 199,
+        "ORANGE": 568,
+        "RED": 437
+      },
+      "recomputed_orange_episodes_recorded_window": 22,
+      "recorded_orange_episodes": 22,
+      "counts_match": true,
+      "sleeve_window_orange": {
+        "days": 567,
+        "episodes": 22
+      }
+    }
+  },
+  "prereg_face": "split-adjusted (batch-local, event list frozen here); price face (distributions NOT credited -> understates carry)",
+  "raw_face_discovery": {
+    "note": "unadjusted face kept as discovery evidence only; NOT the prereg face",
+    "pair_daily_returns": {
+      "n": 1629,
+      "median": 0.000161,
+      "std": 0.012401,
+      "p001_loss_tail": -0.082714,
+      "min": -0.265894,
+      "max": 0.068539,
+      "abs_r_ge_5pct_days": [
+        "2020-02-03",
+        "2020-07-06",
+        "2021-10-25",
+        "2022-03-15",
+        "2024-09-30",
+        "2024-10-09",
+        "2025-04-07"
+      ]
+    },
+    "raw_2021_10_25_pair_ret": -0.265894
+  },
+  "pair_daily_returns": {
+    "n": 1629,
+    "median": 0.000161,
+    "std": 0.010515,
+    "p001_loss_tail": -0.063699,
+    "min": -0.093827,
+    "max": 0.068539,
+    "abs_r_ge_5pct_days": [
+      "2020-02-03",
+      "2020-07-06",
+      "2022-03-15",
+      "2024-09-30",
+      "2024-10-09",
+      "2025-04-07"
+    ]
+  },
+  "pair_cumret_20d": {
+    "n": 1610,
+    "median": 0.004192,
+    "q001_cut_line_candidate": -0.1267,
+    "q01_context": -0.099208,
+    "min": -0.131874,
+    "min_date": "2021-10-29"
+  },
+  "pair_hwm_dd": {
+    "max_dd": -0.189122,
+    "max_dd_date": "2022-03-15",
+    "days_dd_le_minus_12pct": 214
+  },
+  "orange_segment_stats": {
+    "n_segments": 22,
+    "beat_count": 13,
+    "pair_orange_days_mean_daily": 0.000572,
+    "bench_orange_days_mean_daily": -0.000224,
+    "worst_seg_pair_dd": -0.17854,
+    "per_segment": [
+      {
+        "start": "2020-05-14",
+        "end": "2020-05-19",
+        "n_days": 4,
+        "pair_cumret": -0.007828,
+        "bench_cumret": -0.002782,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.002377
+      },
+      {
+        "start": "2020-05-21",
+        "end": "2020-06-01",
+        "n_days": 8,
+        "pair_cumret": 0.00678,
+        "bench_cumret": 0.010441,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.016046
+      },
+      {
+        "start": "2020-07-16",
+        "end": "2020-08-14",
+        "n_days": 22,
+        "pair_cumret": 0.035858,
+        "bench_cumret": -0.001254,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.047249
+      },
+      {
+        "start": "2020-09-16",
+        "end": "2020-10-09",
+        "n_days": 12,
+        "pair_cumret": -0.003507,
+        "bench_cumret": -0.001685,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.039408
+      },
+      {
+        "start": "2021-03-04",
+        "end": "2021-03-29",
+        "n_days": 18,
+        "pair_cumret": 0.010699,
+        "bench_cumret": -0.075358,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.030043
+      },
+      {
+        "start": "2021-04-12",
+        "end": "2021-04-19",
+        "n_days": 6,
+        "pair_cumret": 0.012105,
+        "bench_cumret": 0.010123,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.008569
+      },
+      {
+        "start": "2021-05-07",
+        "end": "2021-05-14",
+        "n_days": 6,
+        "pair_cumret": 0.01099,
+        "bench_cumret": 0.013041,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.009972
+      },
+      {
+        "start": "2021-07-02",
+        "end": "2021-07-05",
+        "n_days": 2,
+        "pair_cumret": -0.010916,
+        "bench_cumret": -0.025504,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.00077
+      },
+      {
+        "start": "2021-07-09",
+        "end": "2021-07-12",
+        "n_days": 2,
+        "pair_cumret": 0.005808,
+        "bench_cumret": 0.008567,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.001144
+      },
+      {
+        "start": "2021-07-26",
+        "end": "2021-12-09",
+        "n_days": 91,
+        "pair_cumret": 0.02936,
+        "bench_cumret": 0.000194,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.17854
+      },
+      {
+        "start": "2021-12-17",
+        "end": "2022-01-26",
+        "n_days": 28,
+        "pair_cumret": -0.007601,
+        "bench_cumret": -0.078339,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.05351
+      },
+      {
+        "start": "2023-02-17",
+        "end": "2023-02-20",
+        "n_days": 2,
+        "pair_cumret": 0.017579,
+        "bench_cumret": 0.0115,
+        "beat_bench": true,
+        "worst_in_seg_dd": 0.0
+      },
+      {
+        "start": "2023-02-24",
+        "end": "2023-03-01",
+        "n_days": 4,
+        "pair_cumret": 0.007068,
+        "bench_cumret": 0.005123,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.001419
+      },
+      {
+        "start": "2023-03-07",
+        "end": "2023-04-03",
+        "n_days": 20,
+        "pair_cumret": -0.001975,
+        "bench_cumret": -0.004635,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.019642
+      },
+      {
+        "start": "2023-04-21",
+        "end": "2023-07-25",
+        "n_days": 63,
+        "pair_cumret": 0.004862,
+        "bench_cumret": -0.028759,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.120794
+      },
+      {
+        "start": "2023-08-11",
+        "end": "2024-01-05",
+        "n_days": 99,
+        "pair_cumret": -0.003072,
+        "bench_cumret": -0.160445,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.060175
+      },
+      {
+        "start": "2024-05-24",
+        "end": "2024-07-16",
+        "n_days": 37,
+        "pair_cumret": -0.020071,
+        "bench_cumret": -0.025254,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.047892
+      },
+      {
+        "start": "2024-07-23",
+        "end": "2024-10-08",
+        "n_days": 49,
+        "pair_cumret": 0.09868,
+        "bench_cumret": 0.235508,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.094874
+      },
+      {
+        "start": "2025-06-19",
+        "end": "2025-06-24",
+        "n_days": 4,
+        "pair_cumret": 0.008116,
+        "bench_cumret": 0.008197,
+        "beat_bench": false,
+        "worst_in_seg_dd": 0.0
+      },
+      {
+        "start": "2025-11-28",
+        "end": "2025-12-05",
+        "n_days": 6,
+        "pair_cumret": -0.005604,
+        "bench_cumret": 0.016443,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.010366
+      },
+      {
+        "start": "2026-03-23",
+        "end": "2026-04-24",
+        "n_days": 24,
+        "pair_cumret": -0.001452,
+        "bench_cumret": 0.045017,
+        "beat_bench": false,
+        "worst_in_seg_dd": -0.01858
+      },
+      {
+        "start": "2026-07-02",
+        "end": "2026-09-22",
+        "n_days": 59,
+        "pair_cumret": 0.120604,
+        "bench_cumret": -0.077031,
+        "beat_bench": true,
+        "worst_in_seg_dd": -0.033917
+      }
+    ]
+  },
+  "recent_window_2021plus": {
+    "window": "2021-01-01..cutoff",
+    "pair_ann": 0.073024,
+    "bench_ann": -0.023705
+  },
+  "frozen_candidates_for_prereg": {
+    "crisis_log_abs_r": 0.05,
+    "max_dd_cap": -0.12,
+    "cut_line_p999_cum20": -0.1267,
+    "split_event_list": {
+      "512890": {
+        "first_post_split_bar": "2021-10-25",
+        "factor": 0.5,
+        "suspended_bars": [
+          "2021-10-22"
+        ],
+        "mechanical_evidence": {
+          "last_cum_close": 1.639,
+          "first_post_close": 0.801,
+          "ratio": 2.0449,
+          "overnight_raw_return": -0.5113
+        }
+      },
+      "510880": null
+    }
+  },
+  "notes": [
+    "hard-bound triad (D-20260925-01(1)): (a) detection primary = q0.001 of pair 20d cumret (distribution bound, in-sample-calibrated PROTECTIVE line, disclosed); (b) max hard cap = HWM DD <= -12% with crisis-day awareness (|r1|>=5% crisis log, cut is the protective action, no exemption protects the position); (c) extreme-day priors frozen in prereg s5.",
+    "S11 external tail anchors (index face, NOT this panel): CSI dividend TRI -71.6% (2007-10..2008-11) / -45.7% (2015-06..2016-01) -- systemic-crash non-defense of low-vol/dividend factors; the sleeve's hard bounds are the structural response (ORANGE->RED flip + in-ORANGE crisis cut).",
+    "episode count basis: recorded ETF-face v1 matrix; sleeve entries = episodes x 2 legs (pair form) predicted in prereg s5.",
+    "ex-div phantom drops: both legs distribute cash annually; price face shows sub-5% phantom negatives on ex-div days and never credits the distribution -> measured carry is a LOWER bound of the true carry (conservative, disclosed)."
+  ]
+}
