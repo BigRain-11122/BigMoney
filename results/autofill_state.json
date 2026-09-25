@@ -1,17 +1,6 @@
 {
  "launches": [
   {
-   "entry": "T54-GRID-LC",
-   "fill_latency_min": 60.7,
-   "machine": "bm-a",
-   "pid": 8632,
-   "py_cpu_pct": 0.0,
-   "shard": "legacy-lC",
-   "target_met": false,
-   "ts": "2026-09-25 12:20:01",
-   "verdict": "launched"
-  },
-  {
    "entry": "T54-GRID-LA",
    "fill_latency_min": 60.7,
    "machine": "bm-b",
@@ -549,8 +538,29 @@
    "pid": 10948,
    "fill_latency_min": 40.1,
    "target_met": false
+  },
+  {
+   "ts": "2026-09-25 22:40:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "BOND-PANEL-SHARD-0",
+   "shard": "bpanel-0of6",
+   "pid": 24472,
+   "fill_latency_min": 2.9,
+   "target_met": true
   }
  ],
- "last_tick": "{'ts': '2026-09-25 22:20:02', 'machine': 'bm-a', 'py_cpu_pct': 2.0, 'verdict': 'pool_empty_or_busy'}",
+ "last_tick": {
+  "ts": "2026-09-25 22:40:01",
+  "machine": "bm-b",
+  "py_cpu_pct": 0.0,
+  "verdict": "launched",
+  "entry": "BOND-PANEL-SHARD-0",
+  "shard": "bpanel-0of6",
+  "pid": 24472,
+  "fill_latency_min": 2.9,
+  "target_met": true
+ },
  "rebase_union_note": "r207 rebase union (bm-b): launches 50+50 -> 50 (cap 50 rolling); last_tick={'ts': '2026-09-25 22:20:02', 'machine': 'bm-a', 'py_cpu_pct': 2.0, 'verdict': 'pool_empty_or_busy'} (take-newer)"
 }
