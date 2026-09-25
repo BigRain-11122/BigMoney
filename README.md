@@ -117,3 +117,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1
 3. 补数据：北向资金、2015 年前历史
 4. Tailscale 组网 + 3 Worker 部署
 5. 模拟盘 2 周后切实盘
+
+## 技能面（集团动员令 P-2026-09-26-01 登记）
+
+源入司仓 `tools/skills/`（随 git 分发·安装副本 gitignored）；会话内置（codely-guide/skill-creator/tuanjie-cli）+跨司源（MiniGame tick-loop 先例）盘点在册。
+
+- **bigmoney-conflict-resolve**（2026-09-26 建）：跨机 git push/rebase 冲突正典解法——UU/AA 批量件按形态分类（rolling-ledger union/append-log/js-wrapper 保真/snapshot 取新/HANDOVER 锚前插增/CODELY 行级 union/digest 让号重编），配确定性分类器 `scripts/classify_conflicts.py`（selftest 16 例），覆盖 r161~r220 实弹坑律族。触发场景：push 被拒、rebase UU 状态面、同窗双机撞车批解冲突。
