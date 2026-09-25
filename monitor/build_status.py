@@ -417,6 +417,53 @@ def _autofill_state() -> dict:
     }
 
 
+def _saturation_state() -> dict:
+    """Fleet CPU saturation panel (T-55 / O-20260925-1137): pool ready count
+    + starvation flag state + this machine's py watermark series.
+
+    Per-machine py series lives in each machine's LOCAL watermark.jsonl
+    (gitignored by design, T-25) -- the dashboard built on each machine
+    shows that machine's own series honestly; pool/flag faces come from
+    git-synced shared mirrors (runnable_pool.json / compute_audit.json).
+    """
+    out = {"present": False, "py_tail": [], "py_last_sample": None,
+           "pool_ready": None, "pool_waiting": None, "ready_ids": [],
+           "load_state": None, "starvation_flag": False,
+           "starvation_candidate": False, "audit_ts": None,
+           "starvation_flags_recent": 0}
+    py_tail: list = []
+    try:
+        with open(os.path.join(PATHS.results_dir, "watermark.jsonl"),
+                  "r", encoding="utf-8") as f:
+            lines = f.readlines()[-12:]
+        for ln in lines:
+            s = json.loads(ln)
+            py_tail.append(round(float(s.get("py_cpu_pct", 0.0)), 1))
+            out["py_last_sample"] = s.get("ts")
+    except Exception:
+        py_tail = []
+    out["py_tail"] = py_tail
+    pool = _read_json(os.path.join(PATHS.results_dir, "runnable_pool.json")) or {}
+    entries = pool.get("entries") or []
+    ready = [e for e in entries if e.get("status") == "ready"]
+    waiting = [e for e in entries if e.get("status") == "waiting"]
+    out["pool_ready"] = len(ready)
+    out["pool_waiting"] = len(waiting)
+    out["ready_ids"] = [e.get("id") for e in ready]
+    au = _read_json(os.path.join(PATHS.results_dir, "compute_audit.json"))
+    if au:
+        la = au.get("latest") or {}
+        out["load_state"] = la.get("load_state")
+        out["starvation_flag"] = "pool_starvation" in (la.get("flags") or [])
+        out["starvation_candidate"] = bool(la.get("pool_starvation_candidate"))
+        out["audit_ts"] = la.get("ts")
+        out["starvation_flags_recent"] = sum(
+            1 for s in (au.get("history") or [])[-100:]
+            if "pool_starvation" in (s.get("flags") or []))
+    out["present"] = bool(py_tail) or bool(entries) or bool(au)
+    return out
+
+
 def _token_state() -> dict:
     """Local-first token metering (O-2325, T-04 F6) from
     results/token_usage.json. Byte/3.5 rough proxy, honestly labelled."""
@@ -1504,6 +1551,7 @@ def build() -> dict:
     data["token"] = _token_state()
     data["watermark"] = _watermark_state()
     data["autofill"] = _autofill_state()
+    data["saturation"] = _saturation_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()
@@ -1654,6 +1702,18 @@ def build() -> dict:
                     f" · 近段红牌 {wmz['red_flags_recent']} 次"
                     f" · 僵尸处置 {len(wmz['zombies_killed'])} 例"
                     f"（watchdog C7 · O-1626 判定即处置）"})
+    sat = data["saturation"]
+    if sat["present"]:
+        py_curve = "→".join(str(v) for v in sat["py_tail"]) or "—"
+        state_txt = sat["load_state"] or "—"
+        flag_txt = ("🚩池饿旗" if sat["starvation_flag"]
+                    else ("池饿候选" if sat["starvation_candidate"] else "无旗"))
+        tail_events.append({
+            "time": sat["audit_ts"] or sat["py_last_sample"] or "-",
+            "text": f"满载面 · 池 ready {sat['pool_ready']}/{(sat['pool_ready'] or 0) + (sat['pool_waiting'] or 0)}"
+                    f" · 本机 py {py_curve}% · 态 {state_txt} · {flag_txt}"
+                    f" · 近百采样旗 {sat['starvation_flags_recent']} 次"
+                    f"（第七旗池饿 · O-20260925-1137 · 旗=供给义务非烧数许可）"})
     sc = payload["trading"]["scorecard"]
     if sc["present"]:
         b = sc["best"] or {}

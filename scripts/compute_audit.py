@@ -1,10 +1,17 @@
 """Compute auditor (CEO order O-20260923-1810, charter research/COMPUTE_AUDIT.md).
 
 Samples CPU / python-process load / GPU / batch-output freshness / fleet open
-tasks each loop round (S6 tail). Flags: blind_burn, idle_with_work,
-cap_violation, gpu_unauthorized, zombie_process. Quiet exit 0 unless flags fire;
-history appended to results/compute_audit.json for two-source (sample+history)
-judgment.
+tasks / runnable-pool ready count each loop round (S6 tail). Flags:
+blind_burn, idle_with_work, cap_violation, gpu_unauthorized, zombie_process,
+single_core_hog, pool_starvation (seventh flag, COMPUTE_AUDIT v2.2 /
+O-20260925-1137: ready-batches==0 AND py<70% sustained ~30min -- closes the
+"empty pool = structurally green while CPUs idle" loophole). Quiet exit 0
+unless flags fire; history appended to results/compute_audit.json for
+two-source (sample+history) judgment.
+
+Subcommands:
+    (no args)  live sample
+    selftest   hermetic offline scenarios for the starvation flag (exit 0/1)
 """
 import glob
 import json
@@ -23,6 +30,9 @@ BLIND_BURN_STALE_MIN = 15.0
 IDLE_CPU = 20.0
 GPU_UTIL_TRIP = 10.0
 ZOMBIE_AGE_MIN = 45.0
+STARVATION_PY_CPU = 70.0     # O-20260925-1137 py line
+STARVATION_SUSTAIN_MIN = 25.0   # 30min intent; ~10min sample cadence tolerance
+STARVATION_MIN_SAMPLES = 3
 
 
 def cpu_total():
@@ -142,6 +152,68 @@ def fleet_open_tasks():
     return n
 
 
+def pool_ready_count():
+    """ready entries in results/runnable_pool.json; None = unreadable/missing.
+
+    None (unknown) is deliberately distinct from 0 (known-empty): the
+    starvation flag must not fire on a pool file we could not read.
+    """
+    try:
+        with open(os.path.join(ROOT, "results", "runnable_pool.json"),
+                  encoding="utf-8-sig") as f:
+            entries = (json.load(f) or {}).get("entries") or []
+        return sum(1 for e in entries if e.get("status") == "ready")
+    except Exception:
+        return None
+
+
+def load_state(py_cpu_pct, ready):
+    """Per-sample load taxonomy (COMPUTE_AUDIT v2.2, T-55): burning-healthy /
+    idle-starvation / pool-supply-gap / unknown."""
+    if ready is None or py_cpu_pct is None:
+        return "unknown"
+    if py_cpu_pct >= STARVATION_PY_CPU:
+        return "burning-healthy"
+    return "idle-starvation" if ready == 0 else "pool-supply-gap"
+
+
+def starvation_decision(hist, now_epoch, cur_py, cur_ready, cur_ts):
+    """Seventh-flag sustained-window decision (pure function, T-55).
+
+    Candidate = current sample in idle-starvation state. Full flag requires
+    the trailing run of qualifying samples (py<70 AND ready==0) to span
+    >= STARVATION_SUSTAIN_MIN with >= STARVATION_MIN_SAMPLES samples.
+    History samples missing pool_ready_count (pre-v2.2 legacy) cannot
+    credit the window -- the run stops there (honest insufficient history).
+    Returns (candidate, flag_fired, detail).
+    """
+    if cur_ready is None or cur_py is None:
+        return False, False, {"reason": "unknown_pool_or_py"}
+    candidate = cur_py < STARVATION_PY_CPU and cur_ready == 0
+    if not candidate:
+        return False, False, {"reason": load_state(cur_py, cur_ready)}
+    run = [cur_ts]
+    for s in reversed(hist):
+        py, rd = s.get("py_cpu_pct"), s.get("pool_ready_count")
+        if py is None or rd is None:
+            break
+        if py < STARVATION_PY_CPU and rd == 0:
+            run.append(s.get("ts"))
+        else:
+            break
+    span_min = None
+    if len(run) >= STARVATION_MIN_SAMPLES:
+        try:
+            oldest = time.mktime(time.strptime(run[-1], "%Y-%m-%d %H:%M:%S"))
+            span_min = (now_epoch - oldest) / 60.0
+        except Exception:
+            span_min = None
+        if span_min is not None and span_min >= STARVATION_SUSTAIN_MIN:
+            return True, True, {"run_samples": len(run),
+                                "span_min": round(span_min, 1)}
+    return True, False, {"run_samples": len(run), "span_min": span_min}
+
+
 def main():
     cores = core_count()
     p1 = {pid: (name, cpu_s, age) for pid, name, cpu_s, age in python_procs()}
@@ -163,6 +235,7 @@ def main():
     cpu_now = cpu_b if cpu_b is not None else cpu_a
     stale = newest_result_age_min()
     open_tasks = fleet_open_tasks()
+    ready = pool_ready_count()
     gpu = gpu_sample()
 
     # sixth flag candidate (O-20260924-2130 s1.3): single-core hog on a
@@ -217,6 +290,17 @@ def main():
         if prev_cand and prev_age_min is not None and prev_age_min >= 10:
             flags.append("single_core_hog")
 
+    # seventh flag (O-20260925-1137 / COMPUTE_AUDIT v2.2): pool starvation.
+    # Fires when ready==0 AND py<70% sustained ~30min -- the empty-pool
+    # loophole in the red-card condition ("has runnable batch AND py<70%")
+    # let idle CPUs audit green; this flag makes 池饿 a visible violation
+    # state. Response is SUPPLY (real batches), never fabricated burn.
+    starve_cand, starve_flag, starve_detail = starvation_decision(
+        hist, time.time(), py_cpu_pct, ready,
+        time.strftime("%Y-%m-%d %H:%M:%S"))
+    if starve_flag:
+        flags.append("pool_starvation")
+
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
         "cpu_total_pct": cpu_now,
@@ -225,6 +309,10 @@ def main():
         "py_procs": len(p2),
         "result_stale_min": None if stale is None else round(stale, 1),
         "fleet_open_tasks": open_tasks,
+        "pool_ready_count": ready,
+        "load_state": load_state(py_cpu_pct, ready),
+        "pool_starvation_candidate": starve_cand,
+        "pool_starvation_detail": starve_detail,
         "gpu": gpu,
         "zombies": zombies,
         "single_core_hog_candidate": hog_candidate,
@@ -243,5 +331,76 @@ def main():
     return 0
 
 
+def _selftest():
+    """Hermetic offline scenarios for the seventh flag (T-55 acceptance a/b).
+
+    Pure-function level: the production decision path
+    (starvation_decision/load_state) is exercised directly with synthetic
+    samples; no PS sampling, no writes, no network.
+    """
+    now = time.time()
+
+    def ts_ago(min_ago):
+        return time.strftime("%Y-%m-%d %H:%M:%S",
+                            time.localtime(now - min_ago * 60))
+
+    def sample(min_ago, py, ready):
+        return {"ts": ts_ago(min_ago), "py_cpu_pct": py,
+                "pool_ready_count": ready}
+
+    cases = []
+
+    def check(name, got, want):
+        cases.append((name, got == want, got, want))
+
+    # (a) injected starvation: ready=0 + synthetic py<70% series over ~30min
+    # -> candidate AND full flag fire
+    hist = [sample(30, 1.9, 0), sample(20, 3.1, 0), sample(10, 2.4, 0)]
+    cand, flag, det = starvation_decision(
+        hist, now, 1.9, 0, ts_ago(0))
+    check("starvation sustained -> flag", (cand, flag), (True, True))
+    # (b) healthy burning at the 95%-core-hour state -> no flag, no candidate
+    cand, flag, _ = starvation_decision(hist, now, 85.0, 0, ts_ago(0))
+    check("burning-healthy no flag", (cand, flag), (False, False))
+    # (b2) pool-fed idle: ready>0, py low -> supply-gap state, no starvation
+    hist_fed = [sample(30, 2.0, 3), sample(20, 2.0, 2), sample(10, 2.0, 1)]
+    cand, flag, _ = starvation_decision(hist_fed, now, 1.9, 2, ts_ago(0))
+    check("pool-fed no starvation flag", (cand, flag), (False, False))
+    check("pool-fed state", load_state(1.9, 2), "pool-supply-gap")
+    # (c) legacy history (pre-v2.2 samples lack pool_ready_count) cannot
+    # credit the window -> candidate only, honest no-flag
+    hist_legacy = [
+        {"ts": ts_ago(30), "py_cpu_pct": 2.0},
+        {"ts": ts_ago(20), "py_cpu_pct": 2.0},
+        {"ts": ts_ago(10), "py_cpu_pct": 2.0},
+    ]
+    cand, flag, _ = starvation_decision(hist_legacy, now, 1.9, 0, ts_ago(0))
+    check("legacy history -> candidate only", (cand, flag), (True, False))
+    # (d) insufficient span (2 samples, ~10min) -> candidate only
+    hist_short = [sample(10, 1.9, 0)]
+    cand, flag, _ = starvation_decision(hist_short, now, 1.9, 0, ts_ago(0))
+    check("short span -> candidate only", (cand, flag), (True, False))
+    # (e) pool unreadable -> unknown, never flags
+    cand, flag, _ = starvation_decision(hist, now, 1.9, None, ts_ago(0))
+    check("unreadable pool -> no candidate", (cand, flag), (False, False))
+    check("unreadable pool state", load_state(1.9, None), "unknown")
+    # (f) a fed sample inside the window breaks the trailing run -> no flag
+    hist_break = [sample(30, 1.9, 0), sample(20, 2.0, 4), sample(10, 1.9, 0)]
+    cand, flag, _ = starvation_decision(hist_break, now, 1.9, 0, ts_ago(0))
+    check("fed sample breaks run", (cand, flag), (True, False))
+    # taxonomy sanity
+    check("burning state", load_state(85.0, 0), "burning-healthy")
+    check("starvation state", load_state(1.9, 0), "idle-starvation")
+
+    n_pass = sum(1 for _, ok, _, _ in cases if ok)
+    print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")
+    for name, ok, got, want in cases:
+        if not ok:
+            print(f"  FAIL {name}: got={got} want={want}")
+    return 0 if n_pass == len(cases) else 1
+
+
 if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "selftest":
+        sys.exit(_selftest())
     sys.exit(main())
