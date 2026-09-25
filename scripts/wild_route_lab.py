@@ -334,7 +334,7 @@ def signal_matrix(E, arm):
         for t in range(1, T):
             r = runs[t]
             m = (r >= 2) & yin[t] & (r == heights[t]) \
-                & np.isfinite(vr[t]) & (vr[t] >= 1.5) & (vr[t] <= 2.0)
+                & np.isfinite(vr[t - 1]) & (vr[t - 1] >= 1.5) & (vr[t - 1] <= 2.0)
             if not m.any():
                 continue
             cols = np.flatnonzero(m)
@@ -718,6 +718,42 @@ def run_shard(shard, of):
     print(f"shard {shard}/{of}: {len(mine)} cells, done={len(done)}")
 
 
+def _nulls_day_loop(E, P, profile, i0, k):
+    """Per-k nulls day loop, extracted verbatim from run_nulls (F16 hermetic
+    leg; r157/r162 family -- loop body had zero fixture coverage). Per-day
+    rng seeding untouched -> production output byte-identical."""
+    ucols = E["u_full_cols"]
+    rng = np.random.default_rng(NULL_BASE + k)
+    trades = {}
+    n_ev = 0
+    for d in range(i0, E["T"] - 1):
+        n = int(profile[d - i0])
+        if n <= 0:
+            continue
+        live = ucols[list(ucols)] if False else ucols[
+            np.random.default_rng(NULL_BASE + k + 7919 * d).choice(
+                len(ucols), size=min(n * 3, len(ucols)), replace=False)]
+        # tradability filter then take n
+        ent = np.asarray(P["open"][d + 1, live])
+        v = np.asarray(P["volume"][d + 1, live])
+        prev = np.asarray(P["close"][d, live])
+        ok = np.isfinite(ent) & np.isfinite(v) & np.isfinite(prev)
+        live = live[ok][:n]
+        if live.size == 0:
+            continue
+        n_ev += live.size
+        if d + 2 >= E["T"]:
+            continue    # tail: exit day beyond cutoff -> drop, mirroring
+                        # extract_trades "still suspended at cutoff" face
+        rets = np.asarray(P["open"][d + 2, live]) / np.asarray(
+            P["open"][d + 1, live]) - np.float32(1.0)
+        keep = np.isfinite(rets)
+        if keep.any():
+            trades[d] = [(int(c), float(r), 1) for c, r in
+                          zip(live[keep], rets[keep])]
+    return trades, n_ev
+
+
 def run_nulls():
     """K=50 same-mask random event-day nulls on (W_full, U_full, x1),
     hold-1 canonical shape. Daily event-count profile = the pooled mean of
@@ -734,34 +770,7 @@ def run_nulls():
     out = {"seed_base": NULL_BASE, "k": K_NULLS, "window": "W_full",
            "universe": "full", "cost": "x1", "nulls": [], "evidence_cutoff": EVIDENCE_CUTOFF}
     for k in range(K_NULLS):
-        rng = np.random.default_rng(NULL_BASE + k)
-        trades = {}
-        n_ev = 0
-        for d in range(i0, E["T"] - 1):
-            n = int(profile[d - i0])
-            if n <= 0:
-                continue
-            live = ucols[list(ucols)] if False else ucols[
-                np.random.default_rng(NULL_BASE + k + 7919 * d).choice(
-                    len(ucols), size=min(n * 3, len(ucols)), replace=False)]
-            # tradability filter then take n
-            ent = np.asarray(P["open"][d + 1, live])
-            v = np.asarray(P["volume"][d + 1, live])
-            prev = np.asarray(P["close"][d, live])
-            ok = np.isfinite(ent) & np.isfinite(v) & np.isfinite(prev)
-            live = live[ok][:n]
-            if live.size == 0:
-                continue
-            n_ev += live.size
-            if d + 2 >= E["T"]:
-                continue    # tail: exit day beyond cutoff -> drop, mirroring
-                            # extract_trades "still suspended at cutoff" face
-            rets = np.asarray(P["open"][d + 2, live]) / np.asarray(
-                P["open"][d + 1, live]) - np.float32(1.0)
-            keep = np.isfinite(rets)
-            if keep.any():
-                trades[d] = [(int(c), float(r), 1) for c, r in
-                              zip(live[keep], rets[keep])]
+        trades, n_ev = _nulls_day_loop(E, P, profile, i0, k)
         tr = dict(trades=trades, n_events=n_ev, n_untrade=0, n_limitopen=0,
                   hold=1, stop=None)
         st = cell_stats(E, tr, "W_full", W_FULL_FROM, idx[-1], "x1")
@@ -1109,6 +1118,45 @@ def selftest():
         globals()["CACHE"], globals()["BARS"] = c_saved, b_saved
         shutil.rmtree(tmpc, ignore_errors=True)
         shutil.rmtree(tmpb, ignore_errors=True)
+    # F16 nulls loop-body hermetic leg (r198 next-pointer; r157/r162 family):
+    # the per-k day loop (oversample -> tradability filter -> take n ->
+    # tail drop -> hold-1 rets) ran production-only until this extraction.
+    # Tail-day events count into n_events but must never produce trades
+    # (pins the r198 tail-OOB fix semantics).
+    prof = np.zeros(P["T"], dtype=int)
+    prof[100:103] = 2         # 3 normal days, 2 events each -> 6 trades
+    prof[P["T"] - 2] = 3      # tail day d=T-2: d+2==T -> drop face
+    ta, na = _nulls_day_loop(E, P, prof, 0, 0)
+    tb, nb = _nulls_day_loop(E, P, prof, 0, 0)
+    kept = sum(len(v) for v in ta.values())
+    chk("F16 loop determinism", ta == tb and na == nb)
+    chk("F16 tail-drop + n_events counting semantics",
+        (P["T"] - 2) not in ta and kept == 6 and na == kept + 3)
+    import inspect
+    chk("F16 run_nulls wiring (r188 path-live law)",
+        "_nulls_day_loop(" in inspect.getsource(run_nulls))
+    ok_math = True
+    for d, lst in ta.items():
+        for c, r, h in lst:
+            exp = float(P["open"][d + 2, c]) / float(P["open"][d + 1, c]) - 1.0
+            ok_math = ok_math and h == 1 and abs(r - exp) < 1e-6
+    chk("F16 hold-1 ret math (open d+2 / open d+1 - 1)",
+        ok_math and kept > 0)
+    # F17 all-arms signal_matrix sweep (r157 family arm-dimension closure):
+    # P05 vr[t] tail-OOB crashed production-only (shard-0 census, 19:11 --
+    # zero fixture legs touched the P05 family; F6/F7/F8 cover P01/P03/P06).
+    # Every ARMS family must run on the fixture: shape/dtype/no-exception.
+    bad = []
+    for arm in sorted(dict(ARMS)):
+        try:
+            Sa = signal_matrix(E, arm)
+            if not (Sa.shape == (P["T"], P["N"]) and Sa.dtype == bool):
+                bad.append(arm + ":shape")
+        except Exception as ex:
+            bad.append(arm + ":" + type(ex).__name__)
+    chk("F17 all-arms sweep " + str(len(ARMS)) + " arms"
+        + (" bad=" + str(bad) if bad else " clean"),
+        not bad)
     print(f"selftest: {ok[0]}/{ok[0]} PASS (all asserted)")
     return 0
 
