@@ -13,6 +13,10 @@ new bar. exit 0 = normal/no-op; 2 = mechanical failure. selftest = hermetic.
 Data faces: in-repo data/daily + pinned P5_SLOT (510880) + Money0923 repo csv;
 repo file tail < forward days -> forward cash legs ffill last rate (engine
 load_repo convention, disclosed in output.data_quality).
+Lane: bm-b only (R31, MSG-20260925-2330-bm-a crash disclosure) -- non-owner
+machines stdout-only no-op exit 0 until the pinned P5 slot is distributed to
+all machines via fleet/TRANSFER.md (byte-identical pinned original, not fresh
+pull: mirror 1:1 discipline).
 """
 
 import os
@@ -26,6 +30,18 @@ import alloc_backtest as ab
 
 OUT_DIR = os.path.join("results", "alloc_paper")
 SCHEMA = "alloc_paper_v1"
+
+MACHINE_JSON = os.path.join("fleet", "machine.json")
+LANE_OWNER = "bm-b"   # T-66 claimed by bm-b -> lane owner per R31 (MSG-20260925-2330-bm-a)
+
+
+def _lane_owner_id(path=MACHINE_JSON) -> str:
+    """本机 machine_id；读不到=空串（按非 owner 处理，防御性降级）。"""
+    try:
+        with open(path, encoding="utf-8-sig") as f:      # BOM-tolerant (bm-c r6 law)
+            return str(json.load(f).get("machine_id") or "")
+    except Exception:
+        return ""
 
 # Mirrors cmd_run cells_spec exactly (mode/p2 wiring frozen with s2 batch).
 ARMS = [
@@ -142,7 +158,20 @@ def _stale_leg_days(sym, raw_series, dates, start_idx):
 
 def run_paper():
     sys.stdout.reconfigure(encoding="utf-8")
-    panel, adv, raw_panel = _load_panel_forward(SYMBOLS)
+    owner = _lane_owner_id()
+    if owner != LANE_OWNER:
+        # R31 lane guard (MSG-2330, fund_premium precedent): stdout-only, zero
+        # shared-state writes; non-owner machines must not hit the bm-b-local
+        # pinned P5 slot face at all.
+        print(f"no-op: alloc_paper lane owned by {LANE_OWNER}, not this machine ({owner or '?'})")
+        return 0
+    try:
+        panel, adv, raw_panel = _load_panel_forward(SYMBOLS)
+    except FileNotFoundError as e:
+        # fail-closed (MSG-2330 opt-3): declared exit-2 contract, not raw traceback
+        print(f"alloc_paper: mechanical failure, member csv missing: {e} "
+              f"(exit 2 honest; P5 slot distribution via TRANSFER.md pending)")
+        return 2
     dates = list(panel.index)
     start_idx = _forward_start(dates, ab.CUTOFF)
     if start_idx is None:
@@ -305,6 +334,33 @@ def selftest():
         re2 = daily.reindex(idx).ffill().fillna(0.0)
         check(abs(float(re2.iloc[-1]) - 1.475 / 100.0 / 252.0) < 1e-12,
               "S9b hermetic: forward day inherits tail rate via ffill")
+
+    # S16 lane guard helper (MSG-2330): owner read + defensive degradation
+    import tempfile
+    fd_tmp, tmp_path = tempfile.mkstemp(suffix=".json")
+    with os.fdopen(fd_tmp, "w", encoding="utf-8") as tf:
+        json.dump({"machine_id": "bm-b"}, tf)
+    check(_lane_owner_id(tmp_path) == "bm-b", "S16 lane owner read from machine.json face")
+    check(_lane_owner_id(tmp_path + ".missing") == "", "S16b unreadable path -> empty (non-owner)")
+    os.unlink(tmp_path)
+    # S17 fail-closed face: missing member csv raises (run_paper maps to exit 2)
+    try:
+        _load_panel_forward(["__no_such_symbol__"])
+        check(False, "S17 missing member csv raises FileNotFoundError")
+    except FileNotFoundError:
+        check(True, "S17 missing member csv raises FileNotFoundError")
+    # S18 fail-closed mapping at run_paper level (machine-independent: lane id pinned)
+    orig_load, orig_lane = _load_panel_forward, _lane_owner_id
+    def _boom(symbols):
+        raise FileNotFoundError("data/ext_slots/etf_daily/510880.csv (simulated)")
+    globals()["_load_panel_forward"] = _boom
+    globals()["_lane_owner_id"] = lambda path=None: LANE_OWNER
+    try:
+        rc_s18 = run_paper()
+    finally:
+        globals()["_load_panel_forward"] = orig_load
+        globals()["_lane_owner_id"] = orig_lane
+    check(rc_s18 == 2, "S18 run_paper maps missing-slot FileNotFoundError -> exit 2")
 
     print(f"selftest: {ok}/{total} PASS")
     return 0 if ok == total else 2
