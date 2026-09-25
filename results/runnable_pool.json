@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 12:12:14",
+ "updated_at": "2026-09-25 12:16:35",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -322,17 +322,17 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "running",
+   "status": "done",
    "entered_at": "2026-09-25 11:19:22",
    "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
    "shards": [
     {
      "key": "legacy-lB",
-     "status": "running",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-25 12:10:01",
      "checkpoint": "results/t54/cells_legacy_base_lB.jsonl + cells_legacy_x2_lB.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [314,628) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+     "note": "done 12:12:54 local (13816/13816 cells, 170.5s, 25 workers; done marker real ts)"
     }
    ],
    "workers_plan": {
