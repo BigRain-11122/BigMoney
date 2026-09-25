@@ -175,6 +175,10 @@ def _pick(pool, myid):
             _log(f"skip {e['id']}: runner already alive (no double-run)")
             continue
         for sh in e.get("shards", []):
+            if sh.get("status") == "done":
+                # done shards never re-fire (r180: entry left "ready" +
+                # done shard wedged the picker into no-op relaunches)
+                continue
             ow = sh.get("owner")
             if ow and ow != myid:
                 age = _owner_age_min(ow, sh)
@@ -369,6 +373,26 @@ def selftest():
         rc = tick(dry=True)
         ok("S10 both-stale takeover (dead-owner regression)",
            _load_state()["last_tick"]["verdict"] == "dry_launch")
+        # S11 done-shard guard (r180): ready entry + all shards done
+        # -> no re-fire even when unowned (wedge regression)
+        ent5 = dict(entry, shards=[{"key": "s0", "status": "done",
+                                    "owner": None}])
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [ent5]}, fh)
+        rc = tick(dry=True)
+        ok("S11 done-shard skip (no re-fire)",
+           _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+        # S12 mixed shards: done shard skipped, ready sibling picked
+        ent6 = dict(entry, shards=[{"key": "s0", "status": "done",
+                                    "owner": None},
+                                   {"key": "s1", "status": "ready",
+                                    "owner": None}])
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [ent6]}, fh)
+        rc = tick(dry=True)
+        st = _load_state()["last_tick"]
+        ok("S12 mixed shards -> picks ready sibling",
+           st["verdict"] == "dry_launch" and st["shard"] == "s1")
         # S8 O-2130 multi-core law: no workers_plan -> skip
         nowp = dict(entry, shards=[{"key": "s0", "status": "ready",
                                     "owner": None}])
