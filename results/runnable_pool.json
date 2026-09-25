@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-26 03:06:50",
+ "updated_at": "2026-09-26 04:57:00",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1237,7 +1237,7 @@
    "runner": "scripts/p1e_ic_batch.py",
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 03:06:50",
    "workers_plan": {
     "workers": 4,
@@ -1254,11 +1254,16 @@
    "shards": [
     {
      "key": "p1e-nulls-mclosetr",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-26 04:20:05",
      "checkpoint": "results/shortline/p1e_nulls_M_close_tr.json (n_nulls==50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
-     "note": "K=50 nulls, mask class M_close_tr (close & tr finite, stv+coin_team inputs), seeds 67050..67099; est ~6-7min (loads close+tr sidecar)"
+     "note": "K=50 nulls, mask class M_close_tr (close & tr finite, stv+coin_team inputs), seeds 67050..67099; est ~6-7min (loads close+tr sidecar)",
+     "done_flip": {
+      "ts": "2026-09-26 04:57",
+      "by": "bm-b r224",
+      "evidence": "artifact p1e_nulls_M_close_tr.json landed ~04:52 (pid24824 exited; n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 16638518 == r224 production-form mask probe bit-match (close+tr load, share 0.3624), seed_band 67050-67100 per prereg continuous ledger; elapsed 1902.8s ~= 32min/shard est)"
+     }
     }
    ]
   },
