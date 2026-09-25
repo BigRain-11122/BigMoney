@@ -12,19 +12,26 @@
     {
      "attempt": 1,
      "ok": false,
-     "latency_s": 6.47,
+     "latency_s": 5.99,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     },
     {
      "attempt": 2,
      "ok": false,
-     "latency_s": 7.25,
+     "latency_s": 6.54,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     }
    ],
-   "args": "EM push2 clist (post-close single shot, R108/R109 pacing law)"
+   "args": "EM push2 clist (post-close single shot, R108/R109 pacing law)",
+   "reprobe": {
+    "at": "2026-09-25T17:13:04",
+    "round": "r192",
+    "prior_ok": false,
+    "prior_attempts_n": 2,
+    "note": "off-hours reprobe per r186 continuation point"
+   }
   },
   "bond_cb_jsl": {
    "ok": true,
