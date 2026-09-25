@@ -1,11 +1,11 @@
 {
   "latest": {
-    "ts": "2026-09-26 07:40:05",
-    "cpu_total_pct": 23.0,
+    "ts": "2026-09-26 07:49:53",
+    "cpu_total_pct": 14.0,
     "py_cpu_pct": 0.1,
     "cores": 32,
     "py_procs": 5,
-    "result_stale_min": 0.0,
+    "result_stale_min": 8.7,
     "fleet_open_tasks": 0,
     "pool_ready_count": 1,
     "load_state": "pool-supply-gap",
@@ -15,7 +15,7 @@
     },
     "gpu": {
       "present": true,
-      "util_pct": 7.0,
+      "util_pct": 8.0,
       "mem_used_mb": 6591.0,
       "compute_apps_count": 32,
       "rogue_apps": []
@@ -27,27 +27,6 @@
     "verdict": "CLEAN"
   },
   "history": [
-    {
-      "cores": 16,
-      "cpu_total_pct": 2.0,
-      "flags": [],
-      "fleet_open_tasks": 0,
-      "gpu": {
-        "compute_apps_count": 22,
-        "mem_used_mb": 5566.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 1.0
-      },
-      "py_cpu_pct": 0.2,
-      "py_procs": 6,
-      "result_stale_min": 2.3,
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "ts": "2026-09-25 04:32:34",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "cores": 32,
       "cpu_total_pct": 93.0,
@@ -5236,6 +5215,33 @@
       "gpu": {
         "present": true,
         "util_pct": 7.0,
+        "mem_used_mb": 6591.0,
+        "compute_apps_count": 32,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [],
+      "verdict": "CLEAN"
+    },
+    {
+      "ts": "2026-09-26 07:49:53",
+      "cpu_total_pct": 14.0,
+      "py_cpu_pct": 0.1,
+      "cores": 32,
+      "py_procs": 5,
+      "result_stale_min": 8.7,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 1,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 8.0,
         "mem_used_mb": 6591.0,
         "compute_apps_count": 32,
         "rogue_apps": []
