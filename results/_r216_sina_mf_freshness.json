@@ -1,0 +1,68 @@
+{
+ "ts": "2026-09-26 04:20:09",
+ "probe": "T-71 freshness falsification (date-sorted query, R215 mask-trap remedy)",
+ "budget": 2,
+ "requests_consumed": 2,
+ "gate": {
+  "latest_bar_day": "2026-09-24",
+  "note": "2026-09-25 Mid-Autumn market holiday; panel cutoff 09-24 (R213/R214); next bar 09-28"
+ },
+ "probes": {
+  "r1_600519_date_desc": {
+   "status": 200,
+   "ms": 640,
+   "url_query": "?page=1&num=5&sort=opendate&asc=0&fenlei=1&daima=sh600519",
+   "parse": "ok",
+   "rows": 5,
+   "row0_opendate": "2026-09-24",
+   "date_min": "2026-09-18",
+   "date_max": "2026-09-24",
+   "date_desc_monotone": true,
+   "row0": {
+    "opendate": "2026-09-24",
+    "trade": "1238.0000",
+    "changeratio": "-0.0105815",
+    "turnover": "24.7686",
+    "netamount": "-672895782.0900",
+    "ratioamount": "-0.175549",
+    "r0": "2411602996.6900",
+    "r1": "1342422303.1600",
+    "r2": "85018853.6000",
+    "r3": "29721.8400",
+    "r0_net": "-655151933.0100",
+    "r1_net": "-29600511.6400",
+    "r2_net": "11886384.4000",
+    "r3_net": "-29721.8400"
+   }
+  },
+  "r2_601398_fresh_hardening": {
+   "status": 200,
+   "ms": 83,
+   "url_query": "?page=1&num=5&sort=opendate&asc=0&fenlei=1&daima=sh601398",
+   "parse": "ok",
+   "rows": 5,
+   "row0_opendate": "2026-09-24",
+   "date_min": "2026-09-18",
+   "date_max": "2026-09-24",
+   "date_desc_monotone": true,
+   "row0": {
+    "opendate": "2026-09-24",
+    "trade": "8.1300",
+    "changeratio": "0.00494438",
+    "turnover": "9.79828",
+    "netamount": "323002267.8800",
+    "ratioamount": "0.149876",
+    "r0": "1375866955.4400",
+    "r1": "563826156.3600",
+    "r2": "186277838.1000",
+    "r3": "30144629.0000",
+    "r0_net": "288489989.0400",
+    "r1_net": "27015605.9400",
+    "r2_net": "5697413.9000",
+    "r3_net": "1799259.0000"
+   }
+  }
+ },
+ "r2_rationale": "r1 fresh -> second-stock confirmation (endpoint-level freshness)",
+ "verdict": "FRESH: endpoint carries rows through latest bar day 2026-09-24 (two stocks, date-sorted unmasked reads) -> freshness gate PASSED, candidate remains QUALIFIED; next slice = prereg draft (MF_COLLECTOR section-8 family cross-source dual-face candidate)"
+}

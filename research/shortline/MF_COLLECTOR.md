@@ -136,3 +136,12 @@
 - **THS 聚合面登记为候选辅助面板**（新方向另开票另预注册：mf_ths_net 全单净额日频~105 请求/日，
   本 spec scope 外；金额列亿/万后缀须单位解析器）。T-41 收线=验收第二路径（诚实负结果+证据+升级件）。
 - **THS 辅助面板已开票落地**（T-2026-09-25-43，R120 预注册冻结 a30d2ee5→R121 采集器交付）：独立车道 scripts/update_ths_panel.py＋独立 spec research/shortline/THS_PANEL.md＋data/ths_ggzjl/ 前向锁盒（量纲隔离律：全单聚合≠主力分解，分件分库禁混读）；本节候选登记就此闭环，EM 分解面验收（T-39）独立在飞不受影响。
+- **§8 addendum（2026-09-26 R216·T-71 新鲜度证伪=TRUE）**：sina 分解候选收线三面全绿——
+  活性 ALIVE（六请求全 200）／量纲=个股四档分解 VERIFIED（自洽律 netamount=Σnets 浮点精确，
+  R215 百行+R216 当日两行双验；r3 档非死列）／**新鲜度 FRESH**（600519+601398 双股
+  `sort=opendate&asc=0` 日期序非掩膜读数均穿透至 2026-09-24=最新 bar 日；R215 掩膜下界 09-04
+  与真实新鲜度无关实证二连）。候选 QUALIFIED+fresh 未准入（prereg-first R99）；
+  prereg 草案=`research/shortline/SINA_MF_PREREG.md`（DRAFT，冻结时点=采集器票认领）；
+  采集器实现=另开 GM 署名单（T-43 先例）。§8「跨 provider 冗余对该量纲结构性不存在」裁定面
+  收窄为 EM 族内+THS 聚合面（sina=其后新证据，首真跨 provider 分解面）；
+  R118 律本身不变：sina 档位阈值与 EM 不同源，**禁映射 EM 主力语义**，独立量纲独立库。
