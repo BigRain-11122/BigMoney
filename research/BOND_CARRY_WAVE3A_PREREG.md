@@ -74,8 +74,18 @@
 
 ## §7 跑后实证【跑前占位·R179 回填·判据零改动】
 
-（占位纪律：跑前写数字即造假）
+（占位纪律：跑前写数字即造假；一次定稿 2026-09-26 r212 bm-b）
+
+- **交付事实（2026-09-26 00:07-00:08 r212 bm-b 单发确定性 run exit 0）**：面板 331 冻结候选→279 有面成员（52 no-face 404 登记在册），BOND-PANEL-SHARD-0..5 六分片全 done（G2 ok）；窗 2011-02-23（first_10x60_day，era_floor 2003-06-01 不绑定）→2026-09-24＝187 评估月；35 trials＝C1/C2/C3 袖 3＋K32 null 32（N_eff 口径如 §3 冻结）＝ledger 183100→183135；产物 `results/bond_carry_w3a.json`（evidence_cutoff=2026-09-24＋cutoff_meta 双键在位）；完整性链 G0/G1/G2/G3/G4 全 PASS（G1 blob 89973100 冻结一致）。
+- **工程修复留痕（披露回填≠结果重跑）**：D6 in_register 面自交付起整面 KeyError——全目录迭代把 schema-foreign 件（firm/traders/_template.json）直喂 ew6 member_run（hermetic selftest 未镜像真实目录形态——r157/r204 族生产首发激活）。修=helper `_inregister_corr` 诚实过滤（非成员 `'_'` 前缀/PROSPECT/FIRED/params.entry 缺席→skipped 披露）；selftest 19 族 ALL PASS（S19 夹具镜像生产目录形态）。**回填非重跑**（append-only ledger 重跑双计禁令）：确定性重算 C1 袖（byte 级锚 sharpe/n_entries/max_dd/n_resizes 与存档精确相等）＋仅补 d6.in_register 槽（provenance 块 r212_wiring_fix）＋判定面/ledger/gate_attrition 零触碰；回填件=scripts/bond_w3a_d6_backfill.py（自带锚校验+自证断言）。
+- **判决数字（全量如档 results/bond_carry_w3a.json）**：C1 折价收敛袖全窗 sharpe **0.1517**、年化 **+0.42%**、HWM 回撤 **-11.37%**、入场 213 段、月度再平衡 460 次调仓、硬界切仓 2 次、危机日 2 日、空窗月 22、零量/缺 bar 不可成交滑移 30 单（盯市携带面）；g1_prime_v2 line_ok=**False**（skill_line_v2=0.4657：passive_term 0.4657/null_term 0.3751/mu_null -0.1926/σ_null 0.1153，N_eff=183135）；bootstrap CI95 [-0.3485, +0.5985] 下界非正→**G1 判据不过**；g2_registration_v2 g1_pass=False→eligible_v2=False→**零注册**；D6 within_batch C2=0.5181、C3=**0.9759**（≥0.7 拒收线→**d6 verdict=reject**：去掉排名层的 C3 与 C1 高度同构＝流动性排名非 α 来源，折价门才是唯一作用面）＋K32 nulls max|corr|=0.2936＋in-register max|corr|=0.0739（6 在册员、22 PROSPECT＋1 模板件诚实跳过）。
 
 ## §8 批后复盘【必填·s7-T】
 
 （占位纪律：跑后一次定稿）
+
+- **预测对账（§5 六条逐一对账）**：①入场 60-300 段→213 **对**；候选月占比 55-85%→173/187=92.5% **错（高）**——折价纪元比预测更满（R167 族语义带宽新例）；≥30 F6 过线 **对**。②年化 +0.5%~+3.5%→**+0.42% 错（低）**；Sharpe 0.2-0.6→0.1517 **错（低）**＝主裁决面如实裁决**不过线**（§5 明言不预设立场）。③D6 在册 0.02-0.25→0.0739 **对**（远低于 0.7 拒收线）。④硬界 ≥2 次→2 次 **对**；危机日 0-3→2 日 **对**。⑤袖级 HWM 回撤 -10%~-16%→-11.37% **对**（带内）。⑥2016+ 半窗 -0.5%~+1.5%→half_late sharpe 0.3298（半窗窗界由引擎构造切分、ann 非单列字段——方向对、量级不可精确核，如实注记）。合计 **4 对＋1 部分对＋2 错**：错项集中于量级面（α 薄于预测），对项集中于结构面（入场/相关/硬界面预测力成立）。
+- **诚实负结果批结论（判据面完整判决）**：折价收敛袖 α 存在但太薄（年化 0.42%、skill 线 0.4657 不过）＋C3 归因同构 0.976（排名层无效）→**负结果零注册**；国债折价面入冻结观察档，券息表/公司债/政策债扩展=新数据面另票（§2 冻结边界不变）。
+- **R179 容量维度闭环注记**：递延计数 0＝500k 候选门下 1%×ADV20<2.5k 结构性不可达（§5.1 冻结残差守卫如实兑现，非漏检）；早年薄簿 ADV 参与帽以 min(10k, 1%×ADV20) 逐月生效。
+- **门禁链损耗账**：`results/gate_attrition.json` 追加行 kind=search·cells_ledger_delta 35·ledger_total_after 183135·gates{skill_line_v2 0.4657, g1_passers 0, g2_eligible 0}·eliminated 2。
+- **回执**：轮报告 r212 回执＋CODELY.md 坑律行（r157 族生产首发激活＋append-only 披露回填范式）＋T-68 progress_r212（WAVE-3A lane 闭合，票留 WAVE-3B 面）。

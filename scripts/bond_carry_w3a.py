@@ -815,6 +815,58 @@ def run_gates(panel: dict, missing: list, win: dict, scan: dict, include_g0: boo
 
 # ---------------------------------------------------------------- orchestration
 
+def _inregister_corr(c1s, *, member_run=None):
+    """D6 in-register disclosure face: C1 daily sleeve returns vs registered member
+    equity streams (prereg sec.1: the in-register roster; PROSPECT/FIRED are not
+    in-register). r212 wiring fix: the previous whole-dir iteration fed schema-
+    foreign files (firm/traders/_template.json -- level INTERN by example but no
+    params.entry) straight into ew6 member_run, KeyErroring the ENTIRE face on
+    every production run since delivery (hermetic selftest never mirrored the
+    real directory form -- r157/r204 family). Filters below skip non-member and
+    schema-foreign files honestly instead of all-or-nothing."""
+    import ew6_portfolio as E
+    from firm import hr as HR
+    if member_run is None:
+        E._init_worker()
+        member_run = E.member_run
+    member_rets, skipped, n_prospect, n_fired = {}, [], 0, 0
+    for fn in sorted(os.listdir(HR.TRADERS_DIR)):
+        if not fn.endswith(".json"):
+            continue
+        if fn.startswith("_"):
+            skipped.append({"file": fn, "reason": "non-member '_' prefix"})
+            continue
+        tid = fn[:-5]
+        t = HR.load_trader(tid)
+        lvl = t.get("level")
+        if lvl == "PROSPECT":
+            n_prospect += 1          # observation lane, not in-register (prereg sec.1)
+            continue
+        if lvl == "FIRED" or t.get("status") == "FIRE":
+            n_fired += 1
+            continue
+        if "entry" not in t.get("params", {}):
+            skipped.append({"id": tid, "reason": "params.entry absent (schema-foreign)"})
+            continue
+        mr = member_run(tid)
+        eq = pd.Series(mr["eq"], index=pd.to_datetime(mr["dates"]))
+        member_rets[tid] = eq.pct_change().dropna()
+    pairs = {}
+    for tid, mret in member_rets.items():
+        j = pd.concat([c1s, mret], axis=1, join="inner").dropna()
+        if len(j) > 60 and j.iloc[:, 1].std() > 0:
+            pairs[tid] = round(float(j.corr().iloc[0, 1]), 4)
+    out = {"max_abs_corr": round(max((abs(v) for v in pairs.values()), default=0.0), 4),
+           "pairs": pairs, "n_members": len(member_rets)}
+    if n_prospect:
+        out["skipped_prospect_n"] = n_prospect
+    if n_fired:
+        out["skipped_fired_n"] = n_fired
+    if skipped:
+        out["skipped"] = skipped
+    return out
+
+
 def do_run() -> int:
     t0 = time.time()
     print("[bond_carry_w3a] prereg integrity ...")
@@ -983,27 +1035,7 @@ def do_run() -> int:
     d6_within_null_max = max((abs(x) for x in d6_nulls), default=None)
     d6_inregister = {}
     try:
-        import ew6_portfolio as E
-        E._init_worker()
-        from firm.hr import TRADERS_DIR, load_trader
-        member_rets = {}
-        for fn in sorted(os.listdir(TRADERS_DIR)):
-            if not fn.endswith(".json"):
-                continue
-            tid = fn[:-5]
-            t = load_trader(tid)
-            if t.get("status") == "FIRE":
-                continue
-            mr = E.member_run(tid)
-            eq = pd.Series(mr["eq"], index=pd.to_datetime(mr["dates"]))
-            member_rets[tid] = eq.pct_change().dropna()
-        pairs = {}
-        for tid, mret in member_rets.items():
-            j = pd.concat([c1s, mret], axis=1, join="inner").dropna()
-            if len(j) > 60 and j.iloc[:, 1].std() > 0:
-                pairs[tid] = round(float(j.corr().iloc[0, 1]), 4)
-        d6_inregister = {"max_abs_corr": round(max((abs(v) for v in pairs.values()), default=0.0), 4),
-                         "pairs": pairs, "n_members": len(member_rets)}
+        d6_inregister = _inregister_corr(c1s)
     except Exception as exc:  # noqa: BLE001
         d6_inregister = {"error": f"in-register corr skipped: {exc}"}
     d6 = {"within_batch": within, "nulls_max_abs_corr": d6_within_null_max,
@@ -1404,6 +1436,49 @@ def do_selftest() -> int:
                 json.dump({"resolved": True}, fh)
         if shard_status(td)["n_resolved"] != 6:
             fails.append("6/6 resolved shards miscounted")
+
+    # ---- S19 d6 in-register face: production directory form (r212 wiring-fix
+    #      pairing leg -- the real TRADERS_DIR contains _template.json and 22
+    #      PROSPECT files; hermetic fixtures must mirror that form or the whole
+    #      face KeyErrors at the first schema-foreign file, as it did from
+    #      delivery through r212 -- r157/r204 family) ----
+    import tempfile as _tempfile
+    from pathlib import Path as _Path
+    from firm import hr as _HR
+    with _tempfile.TemporaryDirectory() as td:
+        bds = pd.bdate_range("2020-01-01", periods=120)
+        eq_walk = list(1 + 0.001 * np.sin(np.arange(120) / 7.0))
+        fake_member_run = lambda tid: {"eq": eq_walk, "dates": [str(d.date()) for d in bds]}  # noqa: E731
+        files = {
+            "_template.json": {"level": "INTERN", "params": {"entry_n": "x", "exit_n": "y"}},
+            "PROS-FAKE-01.json": {"level": "PROSPECT", "params": {"entry": "e"}},
+            "FIRED-OLD-01.json": {"level": "FIRED", "params": {"entry": "e"}},
+            "INTERN-OK-01.json": {"level": "INTERN", "params": {"entry": "e"}},
+            "INTERN-OK-02.json": {"level": "INTERN", "params": {"entry": "e"}},
+            "NOTJSON.txt": {"ignored": True},
+        }
+        for fn, payload in files.items():
+            with open(os.path.join(td, fn), "w", encoding="utf-8") as fh:
+                json.dump(payload, fh)
+        c1s_fx = pd.Series(0.5 * np.sin(np.arange(120) / 7.0), index=bds)
+        old_traders_dir = _HR.TRADERS_DIR
+        _HR.TRADERS_DIR = _Path(td)
+        try:
+            d6fx = _inregister_corr(c1s_fx, member_run=fake_member_run)
+        finally:
+            _HR.TRADERS_DIR = old_traders_dir
+        if d6fx.get("n_members") != 2:
+            fails.append(f"S19 n_members {d6fx.get('n_members')} != 2 (template/prospect/"
+                         "fired must be excluded, valid kept)")
+        if set(d6fx.get("pairs", {})) != {"INTERN-OK-01", "INTERN-OK-02"}:
+            fails.append(f"S19 pairs keys wrong: {sorted(d6fx.get('pairs', {}))}")
+        if d6fx.get("skipped_prospect_n") != 1 or d6fx.get("skipped_fired_n") != 1:
+            fails.append(f"S19 prospect/fired skip counts wrong: {d6fx}")
+        skip_files = [s.get("file") for s in d6fx.get("skipped", [])] + [s.get("id") for s in d6fx.get("skipped", [])]
+        if "_template.json" not in skip_files:
+            fails.append(f"S19 template file not honestly skipped: {d6fx.get('skipped')}")
+        if "NOTJSON.txt" in str(d6fx):
+            fails.append("S19 non-json file leaked into the face")
 
     print(f"[bond_carry_w3a selftest] {'ALL PASS' if not fails else 'FAIL: ' + str(fails)}")
     return 0 if not fails else 1

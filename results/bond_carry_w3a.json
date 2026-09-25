@@ -1,0 +1,5309 @@
+{
+ "batch": "BOND_CARRY_WAVE3A",
+ "evidence_cutoff": "2026-09-24",
+ "meta": {
+  "window": {
+   "start": "2011-02-23",
+   "end": "2026-09-24",
+   "era_floor": "2003-06-01",
+   "first_10x60_day": "2011-02-23",
+   "era_floor_binds": false
+  },
+  "n_members_panel": 279,
+  "eval_months": 187,
+  "cost": {
+   "basis": "V2 (ADV20 3-tier slippage + 1%-ADV cap), knowledge/rules.py",
+   "judgment_face": "fee x2 always on (CostPatch single-source semantics)",
+   "fees_per_side_x1": 0.0003041,
+   "disclosure_faces": "x1/x3 full-window Sharpe columns"
+  },
+  "accounting": {
+   "convention": "yuan-denominated deployed-capital return face; out-of-market days contribute 0.0 (sec.4 full-timeline basis)",
+   "start_cash_headroom": 10000000.0,
+   "note": "idle-cash headroom never enters r_t (NAV-diff denominator is the same-day risk capital); no lot granularity on the bond face"
+  },
+  "whitelist": {
+   "n_events": 10,
+   "events": [
+    {
+     "code": "sh010619",
+     "date": "2020-09-15",
+     "overnight_ret": 0.210731,
+     "daily_ret": 0.210731
+    },
+    {
+     "code": "sh019119",
+     "date": "2013-05-10",
+     "overnight_ret": 0.02451,
+     "daily_ret": 0.372549
+    },
+    {
+     "code": "sh019119",
+     "date": "2013-05-15",
+     "overnight_ret": -0.229778,
+     "daily_ret": -0.228963
+    },
+    {
+     "code": "sh019319",
+     "date": "2017-09-25",
+     "overnight_ret": -0.1635,
+     "daily_ret": -0.041337
+    },
+    {
+     "code": "sh019406",
+     "date": "2020-07-24",
+     "overnight_ret": -0.126479,
+     "daily_ret": -0.077343
+    },
+    {
+     "code": "sh019424",
+     "date": "2020-02-21",
+     "overnight_ret": 0.135991,
+     "daily_ret": 0.135991
+    },
+    {
+     "code": "sh019560",
+     "date": "2019-10-14",
+     "overnight_ret": -0.187717,
+     "daily_ret": -0.187717
+    },
+    {
+     "code": "sh019560",
+     "date": "2019-10-25",
+     "overnight_ret": 0.226341,
+     "daily_ret": 0.226341
+    },
+    {
+     "code": "sh019662",
+     "date": "2024-04-10",
+     "overnight_ret": 0.144467,
+     "daily_ret": 0.144467
+    },
+    {
+     "code": "sh019662",
+     "date": "2024-04-11",
+     "overnight_ret": 0.058523,
+     "daily_ret": 0.1419
+    }
+   ],
+   "handling": "in-batch: member excluded from selection at/after first event; open position force-exits at event-day close; corpus files untouched (R178 law)",
+   "in_span_holes_n": 340379
+  },
+  "monthly_faces": {
+   "c1_entry_months_with_candidates": 173,
+   "c1_deferrals_total": 0,
+   "deferral_note": "1%*ADV20 < 2.5k is structurally unreachable under the 500k candidacy floor (frozen residual guard, count disclosed per sec.5.1 honesty)"
+  },
+  "last_month_note": "final month composition freezes (eval rows need a next panel day to execute; disclosed)",
+  "prereg_blob_sha": "89973100924a3602786c27edf5c41047f89f703c",
+  "null_base_note": "null monthly draw count = C1 target count at the same eval (post-deferral, deterministic target-count face)"
+ },
+ "gates": {
+  "G0": {
+   "gate": "G0 smoke",
+   "ok": true,
+   "exit": 0,
+   "summary": "25/25 PASS, 0 FAIL"
+  },
+  "G1": {
+   "gate": "G1 prereg integrity",
+   "ok": true,
+   "sha": "89973100924a3602786c27edf5c41047f89f703c",
+   "frozen": "89973100924a3602786c27edf5c41047f89f703c"
+  },
+  "G2": {
+   "gate": "G2 panel complete",
+   "ok": true,
+   "problems": [],
+   "shards": {
+    "resolved": [
+     true,
+     true,
+     true,
+     true,
+     true,
+     true
+    ],
+    "n_resolved": 6
+   },
+   "panel_members": 279,
+   "manifest_missing_csv": 52,
+   "registered_no_face": 52
+  },
+  "G3": {
+   "gate": "G3 completeness + R178 scan + window",
+   "ok": true,
+   "problems": [],
+   "per_member_head": {
+    "sh010107": {
+     "bars": 4806,
+     "first": "2001-08-20",
+     "last": "2021-07-30"
+    },
+    "sh010303": {
+     "bars": 4821,
+     "first": "2003-04-25",
+     "last": "2023-04-14"
+    },
+    "sh010504": {
+     "bars": 4137,
+     "first": "2005-05-25",
+     "last": "2025-05-14"
+    },
+    "sh010512": {
+     "bars": 2696,
+     "first": "2005-11-24",
+     "last": "2020-11-13"
+    },
+    "sh010619": {
+     "bars": 750,
+     "first": "2009-01-21",
+     "last": "2021-11-12"
+    }
+   },
+   "n_members": 279,
+   "n_alive_at_cutoff": 47,
+   "tail_reconciliation": [
+    {
+     "code": "sh019218",
+     "tail_date": "2026-09-24"
+    },
+    {
+     "code": "sh019510",
+     "tail_date": "2026-09-24"
+    },
+    {
+     "code": "sh019536",
+     "tail_date": "2026-09-24"
+    },
+    {
+     "code": "sh019547",
+     "tail_date": "2026-09-24"
+    },
+    {
+     "code": "sh019569",
+     "tail_date": "2026-09-24"
+    }
+   ],
+   "breakpoints": {
+    "n_events": 10,
+    "events": [
+     {
+      "code": "sh010619",
+      "date": "2020-09-15",
+      "overnight_ret": 0.210731,
+      "daily_ret": 0.210731
+     },
+     {
+      "code": "sh019119",
+      "date": "2013-05-10",
+      "overnight_ret": 0.02451,
+      "daily_ret": 0.372549
+     },
+     {
+      "code": "sh019119",
+      "date": "2013-05-15",
+      "overnight_ret": -0.229778,
+      "daily_ret": -0.228963
+     },
+     {
+      "code": "sh019319",
+      "date": "2017-09-25",
+      "overnight_ret": -0.1635,
+      "daily_ret": -0.041337
+     },
+     {
+      "code": "sh019406",
+      "date": "2020-07-24",
+      "overnight_ret": -0.126479,
+      "daily_ret": -0.077343
+     },
+     {
+      "code": "sh019424",
+      "date": "2020-02-21",
+      "overnight_ret": 0.135991,
+      "daily_ret": 0.135991
+     },
+     {
+      "code": "sh019560",
+      "date": "2019-10-14",
+      "overnight_ret": -0.187717,
+      "daily_ret": -0.187717
+     },
+     {
+      "code": "sh019560",
+      "date": "2019-10-25",
+      "overnight_ret": 0.226341,
+      "daily_ret": 0.226341
+     },
+     {
+      "code": "sh019662",
+      "date": "2024-04-10",
+      "overnight_ret": 0.144467,
+      "daily_ret": 0.144467
+     },
+     {
+      "code": "sh019662",
+      "date": "2024-04-11",
+      "overnight_ret": 0.058523,
+      "daily_ret": 0.1419
+     }
+    ],
+    "in_span_holes_n": 340379
+   },
+   "window": {
+    "i0": 2269,
+    "i1": 6059,
+    "start": "2011-02-23",
+    "end": "2026-09-24",
+    "era_floor": "2003-06-01",
+    "first_10x60_day": "2011-02-23",
+    "era_floor_binds": false
+   }
+  },
+  "G4": {
+   "gate": "G4 frozen evidence",
+   "ok": true,
+   "problems": [],
+   "capacity_evidence": "bond_capacity_wave3a.json",
+   "semantics_evidence": "bond_price_semantics_w3a.json"
+  }
+ },
+ "cells": {
+  "C1": {
+   "label": "C1",
+   "full": {
+    "sharpe": 0.1517,
+    "annual_return": 0.0042,
+    "total_return": 0.0652,
+    "max_drawdown": -0.1137,
+    "n_days": 3791,
+    "n_entries": 213,
+    "n_exits": 213,
+    "n_resizes": 460,
+    "win_rate": 0.1362,
+    "turnover_gross_yuan": 4170139.6,
+    "open_positions_at_end": {},
+    "cancelled_orders": 30
+   },
+   "half_early": {
+    "sharpe": -0.0438,
+    "annual_return": -0.0017,
+    "bars": 1895
+   },
+   "half_late": {
+    "sharpe": 0.3298,
+    "annual_return": 0.0102,
+    "bars": 1896
+   },
+   "cuts": [
+    {
+     "date": "2014-01-06",
+     "trigger": "hwm_dd",
+     "cum20": -0.01788,
+     "hwm_dd": -0.10377,
+     "positions_cut": 2
+    },
+    {
+     "date": "2017-12-28",
+     "trigger": "hwm_dd",
+     "cum20": -0.00673,
+     "hwm_dd": -0.100056,
+     "positions_cut": 11
+    }
+   ],
+   "crisis_log": [
+    {
+     "date": "2022-09-29",
+     "r": -0.031113
+    },
+    {
+     "date": "2022-09-30",
+     "r": 0.032363
+    }
+   ],
+   "exit_log_sample": [
+    {
+     "code": "sh010303",
+     "date": "2012-07-11",
+     "reason": "tp",
+     "price": 99.91,
+     "basis": 10090.82
+    },
+    {
+     "code": "sh010303",
+     "date": "2014-01-07",
+     "reason": "cut",
+     "price": 89.45,
+     "basis": 9932.22
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-01-07",
+     "reason": "cut",
+     "price": 96.8,
+     "basis": 9944.55
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-02-25",
+     "reason": "tp",
+     "price": 100.0,
+     "basis": 10090.82
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-05-05",
+     "reason": "tp",
+     "price": 100.13,
+     "basis": 10067.26
+    },
+    {
+     "code": "sh019315",
+     "date": "2014-12-25",
+     "reason": "tp",
+     "price": 99.2,
+     "basis": 10610.08
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-01-06",
+     "reason": "rotation",
+     "price": 97.49,
+     "basis": 6044.55
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-01-19",
+     "reason": "tp",
+     "price": 100.1,
+     "basis": 5115.39
+    },
+    {
+     "code": "sh010303",
+     "date": "2015-02-12",
+     "reason": "tp",
+     "price": 100.13,
+     "basis": 10104.99
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-04-09",
+     "reason": "rotation",
+     "price": 98.99,
+     "basis": 9900.99
+    },
+    {
+     "code": "sh010303",
+     "date": "2015-04-21",
+     "reason": "tp",
+     "price": 100.3,
+     "basis": 10099.79
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-07-02",
+     "reason": "tp",
+     "price": 100.72,
+     "basis": 10015.02
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-09-02",
+     "reason": "tp",
+     "price": 100.14,
+     "basis": 10026.06
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-10-09",
+     "reason": "tp",
+     "price": 101.0,
+     "basis": 10120.12
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-08-05",
+     "reason": "tp",
+     "price": 99.91,
+     "basis": 10025.06
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-09-05",
+     "reason": "tp",
+     "price": 99.94,
+     "basis": 10008.01
+    },
+    {
+     "code": "sh019535",
+     "date": "2016-12-20",
+     "reason": "tp",
+     "price": 97.49,
+     "basis": 10071.51
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-02-03",
+     "reason": "rotation",
+     "price": 99.52,
+     "basis": 6526.54
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-02-20",
+     "reason": "tp",
+     "price": 99.9,
+     "basis": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-04-06",
+     "reason": "rotation",
+     "price": 96.01,
+     "basis": 9948.45
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-04-07",
+     "reason": "rotation",
+     "price": 97.23,
+     "basis": 10003.09
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-07-03",
+     "reason": "rotation",
+     "price": 95.76,
+     "basis": 10054.57
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-07-04",
+     "reason": "tp",
+     "price": 96.0,
+     "basis": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-07-20",
+     "reason": "tp",
+     "price": 98.79,
+     "basis": 10150.98
+    },
+    {
+     "code": "sh019517",
+     "date": "2017-08-01",
+     "reason": "rotation",
+     "price": 99.25,
+     "basis": 9979.9
+    },
+    {
+     "code": "sh019535",
+     "date": "2017-08-02",
+     "reason": "rotation",
+     "price": 96.5,
+     "basis": 9942.3
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-08-02",
+     "reason": "rotation",
+     "price": 98.67,
+     "basis": 7529.81
+    },
+    {
+     "code": "sh019519",
+     "date": "2017-08-23",
+     "reason": "tp",
+     "price": 104.0,
+     "basis": 8680.01
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-09-01",
+     "reason": "rotation",
+     "price": 91.79,
+     "basis": 6601.98
+    },
+    {
+     "code": "sh019528",
+     "date": "2017-09-01",
+     "reason": "rotation",
+     "price": 96.99,
+     "basis": 9925.64
+    },
+    {
+     "code": "sh019538",
+     "date": "2017-09-07",
+     "reason": "rotation",
+     "price": 93.49,
+     "basis": 10053.48
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-10-09",
+     "reason": "rotation",
+     "price": 95.22,
+     "basis": 10005.25
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-10-09",
+     "reason": "rotation",
+     "price": 98.55,
+     "basis": 7131.64
+    },
+    {
+     "code": "sh010512",
+     "date": "2017-12-01",
+     "reason": "rotation",
+     "price": 101.0,
+     "basis": 5924.72
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-12-05",
+     "reason": "rotation",
+     "price": 93.3,
+     "basis": 6415.48
+    },
+    {
+     "code": "sh019547",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 79.02,
+     "basis": 9690.49
+    },
+    {
+     "code": "sh019536",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 83.36,
+     "basis": 9733.44
+    },
+    {
+     "code": "sh019526",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 95.43,
+     "basis": 9946.03
+    },
+    {
+     "code": "sh010303",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 95.75,
+     "basis": 9967.73
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 97.32,
+     "basis": 10070.45
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 85.31,
+     "basis": 9857.36
+    },
+    {
+     "code": "sh019569",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 94.25,
+     "basis": 10011.65
+    },
+    {
+     "code": "sh019311",
+     "date": "2018-02-01",
+     "reason": "rotation",
+     "price": 97.55,
+     "basis": 9905.57
+    },
+    {
+     "code": "sh019541",
+     "date": "2018-02-01",
+     "reason": "rotation",
+     "price": 85.76,
+     "basis": 6836.05
+    },
+    {
+     "code": "sh019534",
+     "date": "2018-03-01",
+     "reason": "rotation",
+     "price": 95.18,
+     "basis": 10064.56
+    },
+    {
+     "code": "sh019031",
+     "date": "2018-03-19",
+     "reason": "face_term",
+     "price": 98.2,
+     "basis": 10000.0
+    },
+    {
+     "code": "sh019517",
+     "date": "2018-04-02",
+     "reason": "rotation",
+     "price": 95.08,
+     "basis": 10102.52
+    },
+    {
+     "code": "sh019569",
+     "date": "2018-04-02",
+     "reason": "rotation",
+     "price": 97.79,
+     "basis": 10165.28
+    },
+    {
+     "code": "sh019521",
+     "date": "2018-05-02",
+     "reason": "rotation",
+     "price": 96.86,
+     "basis": 8548.45
+    },
+    {
+     "code": "sh019424",
+     "date": "2018-05-04",
+     "reason": "tp",
+     "price": 101.5,
+     "basis": 5220.27
+    }
+   ],
+   "n_exits_logged": 213,
+   "entry_log_sample": [
+    {
+     "code": "sh010303",
+     "date": "2011-03-01",
+     "price": 93.93,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2012-09-03",
+     "price": 99.37,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-12-02",
+     "price": 99.38,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-02-07",
+     "price": 99.1,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2014-02-07",
+     "price": 91.52,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-04-01",
+     "price": 99.61,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019315",
+     "date": "2014-10-08",
+     "price": 95.96,
+     "target_yuan": 7418.87
+    },
+    {
+     "code": "sh019311",
+     "date": "2014-10-08",
+     "price": 95.0,
+     "target_yuan": 6533.78
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-01-05",
+     "price": 98.67,
+     "target_yuan": 5037.78
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-03-02",
+     "price": 99.99,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2015-04-01",
+     "price": 99.21,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-06-01",
+     "price": 99.02,
+     "target_yuan": 9685.91
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-06-02",
+     "price": 99.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-08-06",
+     "price": 99.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-08-01",
+     "price": 99.76,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-09-01",
+     "price": 99.93,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019547",
+     "date": "2016-12-01",
+     "price": 99.01,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019535",
+     "date": "2016-12-01",
+     "price": 99.29,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-12-01",
+     "price": 99.07,
+     "target_yuan": 7762.59
+    },
+    {
+     "code": "sh019536",
+     "date": "2017-01-03",
+     "price": 98.37,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-01-03",
+     "price": 98.6,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019535",
+     "date": "2017-01-03",
+     "price": 98.02,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-01-04",
+     "price": 98.5,
+     "target_yuan": 6549.15
+    },
+    {
+     "code": "sh019526",
+     "date": "2017-01-10",
+     "price": 99.65,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-01-10",
+     "price": 100.15,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-03-01",
+     "price": 97.0,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2017-04-05",
+     "price": 99.92,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019519",
+     "date": "2017-04-13",
+     "price": 99.7,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-06-02",
+     "price": 95.29,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-06-12",
+     "price": 97.01,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-07-03",
+     "price": 98.69,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019517",
+     "date": "2017-07-03",
+     "price": 99.5,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019538",
+     "date": "2017-07-03",
+     "price": 94.3,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-07-03",
+     "price": 98.41,
+     "target_yuan": 7522.93
+    },
+    {
+     "code": "sh019516",
+     "date": "2017-07-14",
+     "price": 99.6,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-08-01",
+     "price": 95.42,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019502",
+     "date": "2017-08-01",
+     "price": 98.89,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019528",
+     "date": "2017-08-01",
+     "price": 98.17,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-08-08",
+     "price": 98.61,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019031",
+     "date": "2017-08-08",
+     "price": 99.2,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-09-01",
+     "price": 98.99,
+     "target_yuan": 7091.52
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-10-09",
+     "price": 89.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-10-12",
+     "price": 94.5,
+     "target_yuan": 6516.43
+    },
+    {
+     "code": "sh019535",
+     "date": "2017-10-18",
+     "price": 96.5,
+     "target_yuan": 6822.27
+    },
+    {
+     "code": "sh019569",
+     "date": "2017-11-01",
+     "price": 94.74,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010512",
+     "date": "2017-11-02",
+     "price": 99.0,
+     "target_yuan": 5924.72
+    },
+    {
+     "code": "sh010303",
+     "date": "2018-01-02",
+     "price": 95.97,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019547",
+     "date": "2018-01-02",
+     "price": 79.08,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019536",
+     "date": "2018-01-02",
+     "price": 82.98,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2018-01-02",
+     "price": 94.27,
+     "target_yuan": 10000.0
+    }
+   ],
+   "n_entries_logged": 213,
+   "empty_months": [
+    "2011-02",
+    "2012-08",
+    "2015-05",
+    "2015-11",
+    "2015-12",
+    "2016-01",
+    "2016-02",
+    "2016-03",
+    "2016-04",
+    "2016-05",
+    "2016-06",
+    "2016-07",
+    "2016-10",
+    "2016-11",
+    "2022-02",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09",
+    "2024-10",
+    "2025-01",
+    "2025-02"
+   ],
+   "n_empty_months": 22,
+   "monthly_costs": {
+    "2011-03": 16.08,
+    "2011-04": 0.19,
+    "2011-05": 0.02,
+    "2011-06": 0.1,
+    "2011-07": 0.16,
+    "2011-08": 0.15,
+    "2011-09": 0.04,
+    "2011-10": 0.35,
+    "2011-11": 0.19,
+    "2011-12": 0.2,
+    "2012-01": 0.07,
+    "2012-02": 0.07,
+    "2012-03": 0.16,
+    "2012-04": 0.19,
+    "2012-05": 0.04,
+    "2012-06": 0.14,
+    "2012-07": 16.25,
+    "2012-09": 16.08,
+    "2012-10": 0.18,
+    "2012-11": 0.01,
+    "2012-12": 0.05,
+    "2013-01": 0.06,
+    "2013-02": 0.04,
+    "2013-03": 0.03,
+    "2013-04": 0.05,
+    "2013-05": 0.17,
+    "2013-06": 0.06,
+    "2013-07": 0.05,
+    "2013-08": 0.17,
+    "2013-09": 0.17,
+    "2013-10": 0.11,
+    "2013-11": 0.21,
+    "2013-12": 16.58,
+    "2014-01": 32.61,
+    "2014-02": 48.39,
+    "2014-03": 0.26,
+    "2014-04": 16.24,
+    "2014-05": 16.18,
+    "2014-06": 0.36,
+    "2014-07": 0.01,
+    "2014-08": 0.2,
+    "2014-09": 0.07,
+    "2014-10": 22.76,
+    "2014-11": 1.36,
+    "2014-12": 22.75,
+    "2015-01": 26.08,
+    "2015-02": 16.4,
+    "2015-03": 16.08,
+    "2015-04": 48.26,
+    "2015-06": 31.66,
+    "2015-07": 16.78,
+    "2015-08": 16.2,
+    "2015-09": 16.21,
+    "2015-10": 16.26,
+    "2016-08": 32.19,
+    "2016-09": 32.17,
+    "2016-12": 60.44,
+    "2017-01": 95.25,
+    "2017-02": 27.81,
+    "2017-03": 17.21,
+    "2017-04": 64.99,
+    "2017-05": 4.61,
+    "2017-06": 36.4,
+    "2017-07": 129.84,
+    "2017-08": 145.92,
+    "2017-09": 55.13,
+    "2017-10": 65.29,
+    "2017-11": 33.09,
+    "2017-12": 136.94,
+    "2018-01": 188.7,
+    "2018-02": 81.4,
+    "2018-03": 84.63,
+    "2018-04": 43.83,
+    "2018-05": 75.26,
+    "2018-06": 38.16,
+    "2018-07": 49.87,
+    "2018-08": 46.54,
+    "2018-09": 56.43,
+    "2018-10": 115.8,
+    "2018-11": 121.67,
+    "2018-12": 129.52,
+    "2019-01": 43.57,
+    "2019-02": 30.69,
+    "2019-03": 19.84,
+    "2019-04": 36.14,
+    "2019-05": 54.13,
+    "2019-06": 8.69,
+    "2019-07": 28.66,
+    "2019-08": 33.22,
+    "2019-09": 6.15,
+    "2019-10": 37.41,
+    "2019-11": 12.01,
+    "2019-12": 3.05,
+    "2020-01": 1.59,
+    "2020-02": 41.07,
+    "2020-03": 27.86,
+    "2020-04": 22.22,
+    "2020-05": 11.08,
+    "2020-06": 11.36,
+    "2020-07": 0.48,
+    "2020-08": 0.37,
+    "2020-09": 63.02,
+    "2020-10": 27.16,
+    "2020-11": 30.32,
+    "2020-12": 123.13,
+    "2021-01": 116.2,
+    "2021-02": 80.05,
+    "2021-03": 59.85,
+    "2021-04": 60.9,
+    "2021-05": 0.44,
+    "2021-06": 17.75,
+    "2021-07": 62.68,
+    "2021-08": 24.91,
+    "2021-09": 24.87,
+    "2021-10": 16.12,
+    "2021-11": 92.52,
+    "2021-12": 43.87,
+    "2022-01": 54.35,
+    "2022-03": 32.16,
+    "2022-04": 16.18,
+    "2022-05": 0.05,
+    "2022-06": 8.24,
+    "2022-07": 3.44,
+    "2022-08": 13.05,
+    "2022-09": 17.87,
+    "2022-10": 44.09,
+    "2022-11": 1.6,
+    "2022-12": 101.34,
+    "2023-01": 26.73,
+    "2023-02": 28.39,
+    "2023-03": 162.66,
+    "2023-04": 96.4,
+    "2023-05": 161.24,
+    "2023-06": 133.1,
+    "2023-07": 110.73,
+    "2023-08": 64.61,
+    "2023-09": 43.21,
+    "2023-10": 35.27,
+    "2023-11": 118.93,
+    "2023-12": 62.68,
+    "2024-01": 75.79,
+    "2024-02": 40.27,
+    "2024-03": 32.28,
+    "2024-04": 22.17,
+    "2024-05": 32.17,
+    "2024-11": 16.16,
+    "2024-12": 16.17,
+    "2025-03": 38.33,
+    "2025-04": 22.22,
+    "2025-05": 60.55,
+    "2025-06": 51.52,
+    "2025-07": 22.3,
+    "2025-08": 16.17,
+    "2025-09": 57.46,
+    "2025-10": 70.37,
+    "2025-11": 27.26,
+    "2025-12": 86.73,
+    "2026-01": 32.38,
+    "2026-02": 27.23,
+    "2026-03": 8.1,
+    "2026-04": 8.2,
+    "2026-05": 0.07,
+    "2026-06": 0.1,
+    "2026-07": 0.03,
+    "2026-08": 8.24,
+    "2026-09": 16.29
+   },
+   "yearly_costs": {
+    "2011": 17.48,
+    "2012": 33.24,
+    "2013": 17.7,
+    "2014": 161.19,
+    "2015": 203.93,
+    "2016": 124.8,
+    "2017": 812.48,
+    "2018": 1031.81,
+    "2019": 313.56,
+    "2020": 359.66,
+    "2021": 600.16,
+    "2022": 292.37,
+    "2023": 1043.95,
+    "2024": 235.01,
+    "2025": 452.91,
+    "2026": 100.64
+   },
+   "avg_deployed_yuan": 42353.61,
+   "x1_full_sharpe": 0.2215,
+   "x3_full_sharpe": 0.0989
+  },
+  "C2": {
+   "label": "C2",
+   "full": {
+    "sharpe": -0.5311,
+    "annual_return": -0.014,
+    "total_return": -0.1916,
+    "max_drawdown": -0.243,
+    "n_days": 3791,
+    "n_entries": 1109,
+    "n_exits": 1109,
+    "n_resizes": 470,
+    "win_rate": 0.1109,
+    "turnover_gross_yuan": 21852154.99,
+    "open_positions_at_end": {},
+    "cancelled_orders": 12
+   },
+   "half_early": {
+    "sharpe": -0.5618,
+    "annual_return": -0.0196,
+    "bars": 1895
+   },
+   "half_late": {
+    "sharpe": -0.6288,
+    "annual_return": -0.0084,
+    "bars": 1896
+   },
+   "cuts": [
+    {
+     "date": "2013-11-11",
+     "trigger": "hwm_dd",
+     "cum20": -0.029298,
+     "hwm_dd": -0.101294,
+     "positions_cut": 1
+    },
+    {
+     "date": "2017-05-10",
+     "trigger": "hwm_dd",
+     "cum20": -0.006401,
+     "hwm_dd": -0.101052,
+     "positions_cut": 16
+    },
+    {
+     "date": "2026-03-09",
+     "trigger": "hwm_dd",
+     "cum20": -0.009737,
+     "hwm_dd": -0.102477,
+     "positions_cut": 2
+    }
+   ],
+   "crisis_log": [
+    {
+     "date": "2016-05-13",
+     "r": 0.030352
+    }
+   ],
+   "exit_log_sample": [
+    {
+     "code": "sh010107",
+     "date": "2011-03-02",
+     "reason": "tp",
+     "price": 102.5,
+     "basis": 10017.59
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-03-02",
+     "reason": "tp",
+     "price": 100.69,
+     "basis": 5065.43
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-04-06",
+     "reason": "tp",
+     "price": 103.66,
+     "basis": 10027.04
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-05-04",
+     "reason": "tp",
+     "price": 103.5,
+     "basis": 9995.17
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-06-02",
+     "reason": "tp",
+     "price": 103.41,
+     "basis": 10001.93
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-07-04",
+     "reason": "tp",
+     "price": 102.98,
+     "basis": 10003.88
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-08-02",
+     "reason": "tp",
+     "price": 102.15,
+     "basis": 10001.96
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-09-02",
+     "reason": "tp",
+     "price": 102.3,
+     "basis": 10014.69
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-10-11",
+     "reason": "tp",
+     "price": 104.21,
+     "basis": 10105.31
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-10-11",
+     "reason": "tp",
+     "price": 102.11,
+     "basis": 5209.67
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-11-02",
+     "reason": "tp",
+     "price": 105.56,
+     "basis": 9995.26
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-11-02",
+     "reason": "tp",
+     "price": 102.44,
+     "basis": 7303.04
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-12-02",
+     "reason": "tp",
+     "price": 106.9,
+     "basis": 10028.14
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-01-05",
+     "reason": "tp",
+     "price": 107.2,
+     "basis": 10009.32
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-02-02",
+     "reason": "tp",
+     "price": 106.5,
+     "basis": 9992.5
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-03-02",
+     "reason": "tp",
+     "price": 105.91,
+     "basis": 10016.07
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-04-06",
+     "reason": "tp",
+     "price": 106.2,
+     "basis": 9984.96
+    },
+    {
+     "code": "sh010504",
+     "date": "2012-04-06",
+     "reason": "tp",
+     "price": 103.4,
+     "basis": 6001.02
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-05-03",
+     "reason": "tp",
+     "price": 106.03,
+     "basis": 10003.77
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-06-04",
+     "reason": "tp",
+     "price": 106.63,
+     "basis": 9977.53
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-07-03",
+     "reason": "tp",
+     "price": 106.8,
+     "basis": 9996.26
+    },
+    {
+     "code": "sh010303",
+     "date": "2012-07-11",
+     "reason": "tp",
+     "price": 99.91,
+     "basis": 10090.82
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-08-02",
+     "reason": "tp",
+     "price": 107.54,
+     "basis": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2012-08-02",
+     "reason": "tp",
+     "price": 100.08,
+     "basis": 10004.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-09-04",
+     "reason": "tp",
+     "price": 106.8,
+     "basis": 10004.69
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-10-09",
+     "reason": "tp",
+     "price": 106.2,
+     "basis": 9993.42
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-11-02",
+     "reason": "tp",
+     "price": 105.71,
+     "basis": 9996.22
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-12-04",
+     "reason": "tp",
+     "price": 105.28,
+     "basis": 10000.95
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-01-07",
+     "reason": "tp",
+     "price": 104.58,
+     "basis": 10006.7
+    },
+    {
+     "code": "sh010504",
+     "date": "2013-01-07",
+     "reason": "tp",
+     "price": 103.75,
+     "basis": 6037.2
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-02-04",
+     "reason": "tp",
+     "price": 104.35,
+     "basis": 9998.08
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-03-04",
+     "reason": "tp",
+     "price": 104.55,
+     "basis": 10002.87
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-04-02",
+     "reason": "tp",
+     "price": 105.28,
+     "basis": 10030.51
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-05-03",
+     "reason": "tp",
+     "price": 105.89,
+     "basis": 10008.51
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-06-04",
+     "reason": "tp",
+     "price": 105.84,
+     "basis": 9984.89
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-07-02",
+     "reason": "tp",
+     "price": 105.13,
+     "basis": 10014.29
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-08-02",
+     "reason": "tp",
+     "price": 104.36,
+     "basis": 10028.79
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-09-03",
+     "reason": "tp",
+     "price": 102.8,
+     "basis": 9985.44
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-10-09",
+     "reason": "tp",
+     "price": 102.7,
+     "basis": 9987.38
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-11-04",
+     "reason": "tp",
+     "price": 101.35,
+     "basis": 9997.04
+    },
+    {
+     "code": "sh010303",
+     "date": "2013-11-12",
+     "reason": "cut",
+     "price": 93.27,
+     "basis": 9843.8
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-02-25",
+     "reason": "tp",
+     "price": 100.0,
+     "basis": 10090.82
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-03-04",
+     "reason": "tp",
+     "price": 100.05,
+     "basis": 9992.01
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-05-06",
+     "reason": "tp",
+     "price": 100.24,
+     "basis": 10012.98
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-06-04",
+     "reason": "tp",
+     "price": 101.11,
+     "basis": 10008.9
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-07-02",
+     "reason": "tp",
+     "price": 100.4,
+     "basis": 9965.26
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-08-04",
+     "reason": "tp",
+     "price": 100.03,
+     "basis": 10013.99
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-09-02",
+     "reason": "tp",
+     "price": 100.59,
+     "basis": 10012.94
+    },
+    {
+     "code": "sh019319",
+     "date": "2014-09-03",
+     "reason": "tp",
+     "price": 101.0,
+     "basis": 9952.15
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-10-09",
+     "reason": "tp",
+     "price": 101.47,
+     "basis": 9982.3
+    }
+   ],
+   "n_exits_logged": 1109,
+   "entry_log_sample": [
+    {
+     "code": "sh010107",
+     "date": "2011-03-01",
+     "price": 102.33,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2011-03-01",
+     "price": 93.93,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-03-01",
+     "price": 100.67,
+     "target_yuan": 5061.91
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-04-01",
+     "price": 103.56,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-05-03",
+     "price": 103.55,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-06-01",
+     "price": 103.46,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-07-01",
+     "price": 103.0,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-08-01",
+     "price": 102.01,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-09-01",
+     "price": 102.1,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-10-10",
+     "price": 103.5,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-10-10",
+     "price": 101.39,
+     "target_yuan": 5167.88
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-11-01",
+     "price": 105.45,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-11-01",
+     "price": 102.01,
+     "target_yuan": 7273.09
+    },
+    {
+     "code": "sh010107",
+     "date": "2011-12-01",
+     "price": 106.6,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-01-04",
+     "price": 107.28,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-02-01",
+     "price": 106.6,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-03-01",
+     "price": 105.8,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-04-05",
+     "price": 106.36,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2012-04-05",
+     "price": 103.67,
+     "target_yuan": 6017.86
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-05-02",
+     "price": 106.11,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-06-01",
+     "price": 106.79,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-07-02",
+     "price": 106.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-08-01",
+     "price": 107.5,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2012-08-01",
+     "price": 99.96,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-09-03",
+     "price": 106.7,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2012-09-03",
+     "price": 99.37,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-10-08",
+     "price": 106.4,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-11-01",
+     "price": 105.82,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2012-12-03",
+     "price": 105.22,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-01-04",
+     "price": 104.51,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2013-01-04",
+     "price": 103.85,
+     "target_yuan": 6047.1
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-02-01",
+     "price": 104.4,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-03-01",
+     "price": 104.52,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-04-01",
+     "price": 104.89,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-05-02",
+     "price": 105.8,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-06-03",
+     "price": 105.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-07-01",
+     "price": 105.0,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-08-01",
+     "price": 104.2,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-09-02",
+     "price": 103.05,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-10-08",
+     "price": 102.98,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-11-01",
+     "price": 101.38,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-12-02",
+     "price": 99.38,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2013-12-02",
+     "price": 91.8,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-03-03",
+     "price": 100.18,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-04-01",
+     "price": 99.61,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-06-03",
+     "price": 101.09,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-07-01",
+     "price": 100.74,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-08-01",
+     "price": 100.05,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-09-01",
+     "price": 100.44,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019319",
+     "date": "2014-09-02",
+     "price": 104.5,
+     "target_yuan": 10000.0
+    }
+   ],
+   "n_entries_logged": 1109,
+   "empty_months": [
+    "2011-02"
+   ],
+   "n_empty_months": 1,
+   "monthly_costs": {
+    "2011-03": 64.56,
+    "2011-04": 32.37,
+    "2011-05": 32.17,
+    "2011-06": 32.26,
+    "2011-07": 32.32,
+    "2011-08": 32.34,
+    "2011-09": 32.23,
+    "2011-10": 49.31,
+    "2011-11": 55.81,
+    "2011-12": 32.41,
+    "2012-01": 32.23,
+    "2012-02": 32.21,
+    "2012-03": 32.34,
+    "2012-04": 51.66,
+    "2012-05": 32.2,
+    "2012-06": 22.29,
+    "2012-07": 38.4,
+    "2012-08": 64.35,
+    "2012-09": 38.26,
+    "2012-10": 32.32,
+    "2012-11": 32.16,
+    "2012-12": 32.22,
+    "2013-01": 51.68,
+    "2013-02": 27.2,
+    "2013-03": 32.2,
+    "2013-04": 32.27,
+    "2013-05": 22.34,
+    "2013-06": 32.22,
+    "2013-07": 22.23,
+    "2013-08": 32.36,
+    "2013-09": 32.3,
+    "2013-10": 32.23,
+    "2013-11": 48.2,
+    "2013-12": 32.16,
+    "2014-01": 0.64,
+    "2014-02": 16.78,
+    "2014-03": 32.4,
+    "2014-04": 16.24,
+    "2014-05": 16.2,
+    "2014-06": 32.53,
+    "2014-07": 32.12,
+    "2014-08": 32.36,
+    "2014-09": 63.88,
+    "2014-10": 44.9,
+    "2014-11": 82.65,
+    "2014-12": 79.56,
+    "2015-01": 112.51,
+    "2015-02": 57.5,
+    "2015-03": 120.35,
+    "2015-04": 137.14,
+    "2015-05": 70.69,
+    "2015-06": 137.84,
+    "2015-07": 129.49,
+    "2015-08": 127.29,
+    "2015-09": 102.83,
+    "2015-10": 165.37,
+    "2015-11": 173.74,
+    "2015-12": 183.22,
+    "2016-01": 338.34,
+    "2016-02": 458.47,
+    "2016-03": 445.13,
+    "2016-04": 386.74,
+    "2016-05": 377.27,
+    "2016-06": 350.68,
+    "2016-07": 343.9,
+    "2016-08": 421.92,
+    "2016-09": 393.06,
+    "2016-10": 507.82,
+    "2016-11": 553.2,
+    "2016-12": 487.57,
+    "2017-01": 328.15,
+    "2017-02": 232.41,
+    "2017-03": 295.98,
+    "2017-04": 129.13,
+    "2017-05": 208.15,
+    "2017-06": 178.34,
+    "2017-07": 211.03,
+    "2017-08": 200.55,
+    "2017-09": 120.81,
+    "2017-10": 135.76,
+    "2017-11": 97.1,
+    "2017-12": 51.62,
+    "2018-01": 149.12,
+    "2018-02": 153.02,
+    "2018-03": 96.78,
+    "2018-04": 113.69,
+    "2018-05": 144.4,
+    "2018-06": 81.51,
+    "2018-07": 84.07,
+    "2018-08": 98.77,
+    "2018-09": 62.49,
+    "2018-10": 133.26,
+    "2018-11": 159.79,
+    "2018-12": 341.53,
+    "2019-01": 197.62,
+    "2019-02": 185.91,
+    "2019-03": 183.0,
+    "2019-04": 124.62,
+    "2019-05": 143.79,
+    "2019-06": 111.89,
+    "2019-07": 125.59,
+    "2019-08": 169.19,
+    "2019-09": 132.94,
+    "2019-10": 159.23,
+    "2019-11": 190.09,
+    "2019-12": 238.27,
+    "2020-01": 204.9,
+    "2020-02": 239.74,
+    "2020-03": 332.74,
+    "2020-04": 297.67,
+    "2020-05": 273.53,
+    "2020-06": 198.41,
+    "2020-07": 215.74,
+    "2020-08": 190.88,
+    "2020-09": 297.73,
+    "2020-10": 152.82,
+    "2020-11": 183.15,
+    "2020-12": 216.53,
+    "2021-01": 266.9,
+    "2021-02": 241.51,
+    "2021-03": 225.89,
+    "2021-04": 216.25,
+    "2021-05": 178.42,
+    "2021-06": 140.92,
+    "2021-07": 189.91,
+    "2021-08": 286.15,
+    "2021-09": 227.51,
+    "2021-10": 157.02,
+    "2021-11": 325.71,
+    "2021-12": 324.38,
+    "2022-01": 348.02,
+    "2022-02": 249.57,
+    "2022-03": 249.59,
+    "2022-04": 233.8,
+    "2022-05": 227.36,
+    "2022-06": 233.66,
+    "2022-07": 297.72,
+    "2022-08": 262.04,
+    "2022-09": 256.7,
+    "2022-10": 271.66,
+    "2022-11": 212.61,
+    "2022-12": 204.29,
+    "2023-01": 187.34,
+    "2023-02": 171.09,
+    "2023-03": 149.05,
+    "2023-04": 205.04,
+    "2023-05": 162.35,
+    "2023-06": 165.52,
+    "2023-07": 143.38,
+    "2023-08": 161.67,
+    "2023-09": 167.46,
+    "2023-10": 186.64,
+    "2023-11": 133.1,
+    "2023-12": 89.01,
+    "2024-01": 140.57,
+    "2024-02": 137.41,
+    "2024-03": 183.62,
+    "2024-04": 173.74,
+    "2024-05": 135.41,
+    "2024-06": 145.51,
+    "2024-07": 145.25,
+    "2024-08": 151.61,
+    "2024-09": 145.53,
+    "2024-10": 135.68,
+    "2024-11": 135.56,
+    "2024-12": 151.53,
+    "2025-01": 122.23,
+    "2025-02": 135.26,
+    "2025-03": 87.8,
+    "2025-04": 82.66,
+    "2025-05": 109.96,
+    "2025-06": 83.86,
+    "2025-07": 67.79,
+    "2025-08": 64.67,
+    "2025-09": 111.06,
+    "2025-10": 108.08,
+    "2025-11": 113.16,
+    "2025-12": 124.28,
+    "2026-01": 113.18,
+    "2026-02": 161.62,
+    "2026-03": 129.25,
+    "2026-04": 137.4,
+    "2026-05": 116.21,
+    "2026-06": 129.44,
+    "2026-07": 129.31,
+    "2026-08": 121.38,
+    "2026-09": 164.74
+   },
+   "yearly_costs": {
+    "2011": 395.78,
+    "2012": 440.64,
+    "2013": 397.39,
+    "2014": 450.26,
+    "2015": 1517.97,
+    "2016": 5064.1,
+    "2017": 2189.03,
+    "2018": 1618.43,
+    "2019": 1962.14,
+    "2020": 2803.84,
+    "2021": 2780.57,
+    "2022": 3047.02,
+    "2023": 1921.65,
+    "2024": 1781.42,
+    "2025": 1210.81,
+    "2026": 1202.53
+   },
+   "avg_deployed_yuan": 59546.52,
+   "x1_full_sharpe": -0.3053,
+   "x3_full_sharpe": -0.7718
+  },
+  "C3": {
+   "label": "C3",
+   "full": {
+    "sharpe": 0.2075,
+    "annual_return": 0.0059,
+    "total_return": 0.0918,
+    "max_drawdown": -0.1137,
+    "n_days": 3791,
+    "n_entries": 241,
+    "n_exits": 241,
+    "n_resizes": 555,
+    "win_rate": 0.1245,
+    "turnover_gross_yuan": 4735083.07,
+    "open_positions_at_end": {},
+    "cancelled_orders": 36
+   },
+   "half_early": {
+    "sharpe": -0.0438,
+    "annual_return": -0.0017,
+    "bars": 1895
+   },
+   "half_late": {
+    "sharpe": 0.4431,
+    "annual_return": 0.0135,
+    "bars": 1896
+   },
+   "cuts": [
+    {
+     "date": "2014-01-06",
+     "trigger": "hwm_dd",
+     "cum20": -0.01788,
+     "hwm_dd": -0.10377,
+     "positions_cut": 2
+    },
+    {
+     "date": "2017-12-28",
+     "trigger": "hwm_dd",
+     "cum20": -0.00673,
+     "hwm_dd": -0.100056,
+     "positions_cut": 11
+    }
+   ],
+   "crisis_log": [
+    {
+     "date": "2022-09-29",
+     "r": -0.031113
+    },
+    {
+     "date": "2022-09-30",
+     "r": 0.032363
+    }
+   ],
+   "exit_log_sample": [
+    {
+     "code": "sh010303",
+     "date": "2012-07-11",
+     "reason": "tp",
+     "price": 99.91,
+     "basis": 10090.82
+    },
+    {
+     "code": "sh010303",
+     "date": "2014-01-07",
+     "reason": "cut",
+     "price": 89.45,
+     "basis": 9932.22
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-01-07",
+     "reason": "cut",
+     "price": 96.8,
+     "basis": 9944.55
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-02-25",
+     "reason": "tp",
+     "price": 100.0,
+     "basis": 10090.82
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-05-05",
+     "reason": "tp",
+     "price": 100.13,
+     "basis": 10067.26
+    },
+    {
+     "code": "sh019315",
+     "date": "2014-12-25",
+     "reason": "tp",
+     "price": 99.2,
+     "basis": 10610.08
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-01-06",
+     "reason": "rotation",
+     "price": 97.49,
+     "basis": 6044.55
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-01-19",
+     "reason": "tp",
+     "price": 100.1,
+     "basis": 5115.39
+    },
+    {
+     "code": "sh010303",
+     "date": "2015-02-12",
+     "reason": "tp",
+     "price": 100.13,
+     "basis": 10104.99
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-04-09",
+     "reason": "rotation",
+     "price": 98.99,
+     "basis": 9900.99
+    },
+    {
+     "code": "sh010303",
+     "date": "2015-04-21",
+     "reason": "tp",
+     "price": 100.3,
+     "basis": 10099.79
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-07-02",
+     "reason": "tp",
+     "price": 100.72,
+     "basis": 10015.02
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-09-02",
+     "reason": "tp",
+     "price": 100.14,
+     "basis": 10026.06
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-10-09",
+     "reason": "tp",
+     "price": 101.0,
+     "basis": 10120.12
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-08-05",
+     "reason": "tp",
+     "price": 99.91,
+     "basis": 10025.06
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-09-05",
+     "reason": "tp",
+     "price": 99.94,
+     "basis": 10008.01
+    },
+    {
+     "code": "sh019535",
+     "date": "2016-12-20",
+     "reason": "tp",
+     "price": 97.49,
+     "basis": 10071.51
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-02-03",
+     "reason": "rotation",
+     "price": 99.52,
+     "basis": 6526.54
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-02-20",
+     "reason": "tp",
+     "price": 99.9,
+     "basis": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-04-06",
+     "reason": "rotation",
+     "price": 96.01,
+     "basis": 9948.45
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-04-07",
+     "reason": "rotation",
+     "price": 97.23,
+     "basis": 10003.09
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-07-03",
+     "reason": "rotation",
+     "price": 95.76,
+     "basis": 10054.57
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-07-04",
+     "reason": "tp",
+     "price": 96.0,
+     "basis": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-07-20",
+     "reason": "tp",
+     "price": 98.79,
+     "basis": 10150.98
+    },
+    {
+     "code": "sh019517",
+     "date": "2017-08-01",
+     "reason": "rotation",
+     "price": 99.25,
+     "basis": 9979.9
+    },
+    {
+     "code": "sh019535",
+     "date": "2017-08-02",
+     "reason": "rotation",
+     "price": 96.5,
+     "basis": 9942.3
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-08-02",
+     "reason": "rotation",
+     "price": 98.67,
+     "basis": 7529.81
+    },
+    {
+     "code": "sh019519",
+     "date": "2017-08-23",
+     "reason": "tp",
+     "price": 104.0,
+     "basis": 8680.01
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-09-01",
+     "reason": "rotation",
+     "price": 91.79,
+     "basis": 6601.98
+    },
+    {
+     "code": "sh019528",
+     "date": "2017-09-01",
+     "reason": "rotation",
+     "price": 96.99,
+     "basis": 9925.64
+    },
+    {
+     "code": "sh019538",
+     "date": "2017-09-07",
+     "reason": "rotation",
+     "price": 93.49,
+     "basis": 10053.48
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-10-09",
+     "reason": "rotation",
+     "price": 95.22,
+     "basis": 10005.25
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-10-09",
+     "reason": "rotation",
+     "price": 98.55,
+     "basis": 7131.64
+    },
+    {
+     "code": "sh010512",
+     "date": "2017-12-01",
+     "reason": "rotation",
+     "price": 101.0,
+     "basis": 5924.72
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-12-05",
+     "reason": "rotation",
+     "price": 93.3,
+     "basis": 6415.48
+    },
+    {
+     "code": "sh019547",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 79.02,
+     "basis": 9690.49
+    },
+    {
+     "code": "sh019536",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 83.36,
+     "basis": 9733.44
+    },
+    {
+     "code": "sh019526",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 95.43,
+     "basis": 9946.03
+    },
+    {
+     "code": "sh010303",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 95.75,
+     "basis": 9967.73
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 97.32,
+     "basis": 10070.45
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 85.31,
+     "basis": 9857.36
+    },
+    {
+     "code": "sh019569",
+     "date": "2017-12-29",
+     "reason": "cut",
+     "price": 94.25,
+     "basis": 10011.65
+    },
+    {
+     "code": "sh019311",
+     "date": "2018-02-01",
+     "reason": "rotation",
+     "price": 97.55,
+     "basis": 9905.57
+    },
+    {
+     "code": "sh019541",
+     "date": "2018-02-01",
+     "reason": "rotation",
+     "price": 85.76,
+     "basis": 6836.05
+    },
+    {
+     "code": "sh019534",
+     "date": "2018-03-01",
+     "reason": "rotation",
+     "price": 95.18,
+     "basis": 10064.56
+    },
+    {
+     "code": "sh019031",
+     "date": "2018-03-19",
+     "reason": "face_term",
+     "price": 98.2,
+     "basis": 10000.0
+    },
+    {
+     "code": "sh019517",
+     "date": "2018-04-02",
+     "reason": "rotation",
+     "price": 95.08,
+     "basis": 10102.52
+    },
+    {
+     "code": "sh019569",
+     "date": "2018-04-02",
+     "reason": "rotation",
+     "price": 97.79,
+     "basis": 10165.28
+    },
+    {
+     "code": "sh019521",
+     "date": "2018-05-02",
+     "reason": "rotation",
+     "price": 96.86,
+     "basis": 8548.45
+    },
+    {
+     "code": "sh019424",
+     "date": "2018-05-04",
+     "reason": "tp",
+     "price": 101.5,
+     "basis": 5220.27
+    }
+   ],
+   "n_exits_logged": 241,
+   "entry_log_sample": [
+    {
+     "code": "sh010303",
+     "date": "2011-03-01",
+     "price": 93.93,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2012-09-03",
+     "price": 99.37,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2013-12-02",
+     "price": 99.38,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-02-07",
+     "price": 99.1,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2014-02-07",
+     "price": 91.52,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010107",
+     "date": "2014-04-01",
+     "price": 99.61,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2014-10-08",
+     "price": 95.0,
+     "target_yuan": 6533.78
+    },
+    {
+     "code": "sh019315",
+     "date": "2014-10-08",
+     "price": 95.96,
+     "target_yuan": 7418.87
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-01-05",
+     "price": 98.67,
+     "target_yuan": 5037.78
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-03-02",
+     "price": 99.99,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2015-04-01",
+     "price": 99.21,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-06-01",
+     "price": 99.02,
+     "target_yuan": 9685.91
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-06-02",
+     "price": 99.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-08-06",
+     "price": 99.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-08-01",
+     "price": 99.76,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-09-01",
+     "price": 99.93,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-12-01",
+     "price": 99.07,
+     "target_yuan": 7762.59
+    },
+    {
+     "code": "sh019535",
+     "date": "2016-12-01",
+     "price": 99.29,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019547",
+     "date": "2016-12-01",
+     "price": 99.01,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019535",
+     "date": "2017-01-03",
+     "price": 98.02,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019536",
+     "date": "2017-01-03",
+     "price": 98.37,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-01-03",
+     "price": 98.6,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-01-04",
+     "price": 98.5,
+     "target_yuan": 6549.15
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-01-10",
+     "price": 100.15,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019526",
+     "date": "2017-01-10",
+     "price": 99.65,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-03-01",
+     "price": 97.0,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2017-04-05",
+     "price": 99.92,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019519",
+     "date": "2017-04-13",
+     "price": 99.7,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-06-02",
+     "price": 95.29,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-06-12",
+     "price": 97.01,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-07-03",
+     "price": 98.69,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-07-03",
+     "price": 98.41,
+     "target_yuan": 7522.93
+    },
+    {
+     "code": "sh019517",
+     "date": "2017-07-03",
+     "price": 99.5,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019538",
+     "date": "2017-07-03",
+     "price": 94.3,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019516",
+     "date": "2017-07-14",
+     "price": 99.6,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019502",
+     "date": "2017-08-01",
+     "price": 98.89,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019528",
+     "date": "2017-08-01",
+     "price": 98.17,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-08-01",
+     "price": 95.42,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019031",
+     "date": "2017-08-08",
+     "price": 99.2,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019514",
+     "date": "2017-08-08",
+     "price": 98.61,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-09-01",
+     "price": 98.99,
+     "target_yuan": 7091.52
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-10-09",
+     "price": 89.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-10-12",
+     "price": 94.5,
+     "target_yuan": 6516.43
+    },
+    {
+     "code": "sh019535",
+     "date": "2017-10-18",
+     "price": 96.5,
+     "target_yuan": 6822.27
+    },
+    {
+     "code": "sh019569",
+     "date": "2017-11-01",
+     "price": 94.74,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010512",
+     "date": "2017-11-02",
+     "price": 99.0,
+     "target_yuan": 5924.72
+    },
+    {
+     "code": "sh010303",
+     "date": "2018-01-02",
+     "price": 95.97,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2018-01-02",
+     "price": 98.49,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019517",
+     "date": "2018-01-02",
+     "price": 90.66,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2018-01-02",
+     "price": 94.27,
+     "target_yuan": 10000.0
+    }
+   ],
+   "n_entries_logged": 241,
+   "empty_months": [
+    "2011-02",
+    "2012-08",
+    "2015-05",
+    "2015-11",
+    "2015-12",
+    "2016-01",
+    "2016-02",
+    "2016-03",
+    "2016-04",
+    "2016-05",
+    "2016-06",
+    "2016-07",
+    "2016-10",
+    "2016-11",
+    "2022-02",
+    "2024-06",
+    "2024-07",
+    "2024-08",
+    "2024-09",
+    "2024-10",
+    "2025-01",
+    "2025-02"
+   ],
+   "n_empty_months": 22,
+   "monthly_costs": {
+    "2011-03": 16.08,
+    "2011-04": 0.19,
+    "2011-05": 0.02,
+    "2011-06": 0.1,
+    "2011-07": 0.16,
+    "2011-08": 0.15,
+    "2011-09": 0.04,
+    "2011-10": 0.35,
+    "2011-11": 0.19,
+    "2011-12": 0.2,
+    "2012-01": 0.07,
+    "2012-02": 0.07,
+    "2012-03": 0.16,
+    "2012-04": 0.19,
+    "2012-05": 0.04,
+    "2012-06": 0.14,
+    "2012-07": 16.25,
+    "2012-09": 16.08,
+    "2012-10": 0.18,
+    "2012-11": 0.01,
+    "2012-12": 0.05,
+    "2013-01": 0.06,
+    "2013-02": 0.04,
+    "2013-03": 0.03,
+    "2013-04": 0.05,
+    "2013-05": 0.17,
+    "2013-06": 0.06,
+    "2013-07": 0.05,
+    "2013-08": 0.17,
+    "2013-09": 0.17,
+    "2013-10": 0.11,
+    "2013-11": 0.21,
+    "2013-12": 16.58,
+    "2014-01": 32.61,
+    "2014-02": 48.39,
+    "2014-03": 0.26,
+    "2014-04": 16.24,
+    "2014-05": 16.18,
+    "2014-06": 0.36,
+    "2014-07": 0.01,
+    "2014-08": 0.2,
+    "2014-09": 0.07,
+    "2014-10": 22.76,
+    "2014-11": 1.36,
+    "2014-12": 22.75,
+    "2015-01": 26.08,
+    "2015-02": 16.4,
+    "2015-03": 16.08,
+    "2015-04": 48.26,
+    "2015-06": 31.66,
+    "2015-07": 16.78,
+    "2015-08": 16.2,
+    "2015-09": 16.21,
+    "2015-10": 16.26,
+    "2016-08": 32.19,
+    "2016-09": 32.17,
+    "2016-12": 60.44,
+    "2017-01": 95.25,
+    "2017-02": 27.81,
+    "2017-03": 17.21,
+    "2017-04": 64.99,
+    "2017-05": 4.61,
+    "2017-06": 36.4,
+    "2017-07": 129.84,
+    "2017-08": 145.92,
+    "2017-09": 55.13,
+    "2017-10": 65.29,
+    "2017-11": 33.09,
+    "2017-12": 136.94,
+    "2018-01": 188.7,
+    "2018-02": 81.4,
+    "2018-03": 84.63,
+    "2018-04": 43.83,
+    "2018-05": 75.26,
+    "2018-06": 38.16,
+    "2018-07": 49.87,
+    "2018-08": 46.54,
+    "2018-09": 56.43,
+    "2018-10": 115.8,
+    "2018-11": 121.67,
+    "2018-12": 129.52,
+    "2019-01": 43.57,
+    "2019-02": 30.69,
+    "2019-03": 19.84,
+    "2019-04": 36.14,
+    "2019-05": 54.13,
+    "2019-06": 8.69,
+    "2019-07": 28.66,
+    "2019-08": 33.22,
+    "2019-09": 6.15,
+    "2019-10": 37.41,
+    "2019-11": 12.01,
+    "2019-12": 3.05,
+    "2020-01": 1.59,
+    "2020-02": 41.07,
+    "2020-03": 27.86,
+    "2020-04": 22.22,
+    "2020-05": 11.08,
+    "2020-06": 11.36,
+    "2020-07": 0.48,
+    "2020-08": 0.37,
+    "2020-09": 63.02,
+    "2020-10": 27.16,
+    "2020-11": 30.32,
+    "2020-12": 123.13,
+    "2021-01": 116.2,
+    "2021-02": 80.05,
+    "2021-03": 59.85,
+    "2021-04": 60.9,
+    "2021-05": 0.44,
+    "2021-06": 17.75,
+    "2021-07": 62.68,
+    "2021-08": 24.91,
+    "2021-09": 24.87,
+    "2021-10": 16.12,
+    "2021-11": 92.52,
+    "2021-12": 43.87,
+    "2022-01": 54.35,
+    "2022-03": 32.16,
+    "2022-04": 16.18,
+    "2022-05": 0.05,
+    "2022-06": 8.24,
+    "2022-07": 3.44,
+    "2022-08": 13.05,
+    "2022-09": 17.87,
+    "2022-10": 44.09,
+    "2022-11": 1.6,
+    "2022-12": 101.34,
+    "2023-01": 26.73,
+    "2023-02": 28.39,
+    "2023-03": 136.59,
+    "2023-04": 64.04,
+    "2023-05": 135.0,
+    "2023-06": 133.65,
+    "2023-07": 110.77,
+    "2023-08": 64.61,
+    "2023-09": 52.8,
+    "2023-10": 112.5,
+    "2023-11": 152.76,
+    "2023-12": 215.49,
+    "2024-01": 148.79,
+    "2024-02": 40.33,
+    "2024-03": 48.37,
+    "2024-04": 38.49,
+    "2024-05": 48.28,
+    "2024-11": 32.25,
+    "2024-12": 32.47,
+    "2025-03": 38.33,
+    "2025-04": 22.22,
+    "2025-05": 60.55,
+    "2025-06": 112.03,
+    "2025-07": 22.35,
+    "2025-08": 27.27,
+    "2025-09": 30.74,
+    "2025-10": 44.99,
+    "2025-11": 50.61,
+    "2025-12": 156.47,
+    "2026-01": 65.03,
+    "2026-02": 16.37,
+    "2026-03": 73.7,
+    "2026-04": 88.7,
+    "2026-05": 37.36,
+    "2026-06": 37.37,
+    "2026-07": 50.32,
+    "2026-08": 70.67,
+    "2026-09": 112.78
+   },
+   "yearly_costs": {
+    "2011": 17.48,
+    "2012": 33.24,
+    "2013": 17.7,
+    "2014": 161.19,
+    "2015": 203.93,
+    "2016": 124.8,
+    "2017": 812.48,
+    "2018": 1031.81,
+    "2019": 313.56,
+    "2020": 359.66,
+    "2021": 600.16,
+    "2022": 292.37,
+    "2023": 1233.33,
+    "2024": 388.98,
+    "2025": 565.56,
+    "2026": 552.3
+   },
+   "avg_deployed_yuan": 48686.89,
+   "x1_full_sharpe": 0.2756,
+   "x3_full_sharpe": 0.1567
+  }
+ },
+ "nulls": {
+  "summary": {
+   "n": 32,
+   "mu": -0.1926,
+   "sigma": 0.1153,
+   "p95": -0.0036,
+   "max": 0.0796,
+   "min": -0.4343
+  },
+  "cells": {
+   "null_0": {
+    "full": {
+     "sharpe": -0.0536,
+     "annual_return": -0.0021,
+     "total_return": -0.0314,
+     "max_drawdown": -0.1203,
+     "n_days": 3791,
+     "n_entries": 616,
+     "n_exits": 616,
+     "n_resizes": 308,
+     "win_rate": 0.2078,
+     "turnover_gross_yuan": 11598858.35,
+     "open_positions_at_end": {},
+     "cancelled_orders": 29
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.114714,
+      "positions_cut": 1
+     },
+     {
+      "date": "2026-05-20",
+      "trigger": "hwm_dd",
+      "cum20": -0.00359,
+      "hwm_dd": -0.100165,
+      "positions_cut": 10
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_1": {
+    "full": {
+     "sharpe": 0.0498,
+     "annual_return": 0.001,
+     "total_return": 0.0153,
+     "max_drawdown": -0.0947,
+     "n_days": 3791,
+     "n_entries": 618,
+     "n_exits": 618,
+     "n_resizes": 324,
+     "win_rate": 0.1942,
+     "turnover_gross_yuan": 11715780.55,
+     "open_positions_at_end": {},
+     "cancelled_orders": 38
+    },
+    "n_empty_months": 12,
+    "cuts": [],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-10-24",
+      "r": -0.031081
+     }
+    ]
+   },
+   "null_2": {
+    "full": {
+     "sharpe": -0.157,
+     "annual_return": -0.0049,
+     "total_return": -0.0717,
+     "max_drawdown": -0.1196,
+     "n_days": 3791,
+     "n_entries": 622,
+     "n_exits": 622,
+     "n_resizes": 318,
+     "win_rate": 0.209,
+     "turnover_gross_yuan": 11671586.33,
+     "open_positions_at_end": {},
+     "cancelled_orders": 32
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2025-12-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.006302,
+      "hwm_dd": -0.101867,
+      "positions_cut": 18
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_3": {
+    "full": {
+     "sharpe": -0.2596,
+     "annual_return": -0.0076,
+     "total_return": -0.108,
+     "max_drawdown": -0.137,
+     "n_days": 3791,
+     "n_entries": 651,
+     "n_exits": 651,
+     "n_resizes": 291,
+     "win_rate": 0.2012,
+     "turnover_gross_yuan": 12263892.98,
+     "open_positions_at_end": {},
+     "cancelled_orders": 34
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2018-01-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.003084,
+      "hwm_dd": -0.100546,
+      "positions_cut": 9
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-12-19",
+      "r": 0.036954
+     }
+    ]
+   },
+   "null_4": {
+    "full": {
+     "sharpe": -0.2069,
+     "annual_return": -0.0059,
+     "total_return": -0.0851,
+     "max_drawdown": -0.1328,
+     "n_days": 3791,
+     "n_entries": 623,
+     "n_exits": 623,
+     "n_resizes": 300,
+     "win_rate": 0.1958,
+     "turnover_gross_yuan": 11803060.91,
+     "open_positions_at_end": {},
+     "cancelled_orders": 37
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2023-10-19",
+      "trigger": "hwm_dd",
+      "cum20": -0.005653,
+      "hwm_dd": -0.100174,
+      "positions_cut": 13
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-10-24",
+      "r": -0.031081
+     }
+    ]
+   },
+   "null_5": {
+    "full": {
+     "sharpe": -0.2288,
+     "annual_return": -0.0066,
+     "total_return": -0.0947,
+     "max_drawdown": -0.1397,
+     "n_days": 3791,
+     "n_entries": 638,
+     "n_exits": 638,
+     "n_resizes": 304,
+     "win_rate": 0.2288,
+     "turnover_gross_yuan": 11920499.89,
+     "open_positions_at_end": {},
+     "cancelled_orders": 36
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.112253,
+      "positions_cut": 1
+     },
+     {
+      "date": "2025-12-04",
+      "trigger": "hwm_dd",
+      "cum20": -0.009787,
+      "hwm_dd": -0.1005,
+      "positions_cut": 15
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2015-06-09",
+      "r": -0.032664
+     }
+    ]
+   },
+   "null_6": {
+    "full": {
+     "sharpe": -0.1221,
+     "annual_return": -0.0039,
+     "total_return": -0.0576,
+     "max_drawdown": -0.1029,
+     "n_days": 3791,
+     "n_entries": 624,
+     "n_exits": 624,
+     "n_resizes": 315,
+     "win_rate": 0.2196,
+     "turnover_gross_yuan": 11689085.83,
+     "open_positions_at_end": {},
+     "cancelled_orders": 24
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2026-04-23",
+      "trigger": "hwm_dd",
+      "cum20": -0.00383,
+      "hwm_dd": -0.100122,
+      "positions_cut": 16
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-12-19",
+      "r": 0.052583
+     }
+    ]
+   },
+   "null_7": {
+    "full": {
+     "sharpe": -0.4343,
+     "annual_return": -0.0118,
+     "total_return": -0.1631,
+     "max_drawdown": -0.1865,
+     "n_days": 3791,
+     "n_entries": 642,
+     "n_exits": 642,
+     "n_resizes": 300,
+     "win_rate": 0.204,
+     "turnover_gross_yuan": 12083463.89,
+     "open_positions_at_end": {},
+     "cancelled_orders": 38
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2016-12-19",
+      "trigger": "hwm_dd",
+      "cum20": -0.072635,
+      "hwm_dd": -0.101258,
+      "positions_cut": 3
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_8": {
+    "full": {
+     "sharpe": -0.166,
+     "annual_return": -0.0048,
+     "total_return": -0.07,
+     "max_drawdown": -0.1098,
+     "n_days": 3791,
+     "n_entries": 619,
+     "n_exits": 619,
+     "n_resizes": 330,
+     "win_rate": 0.2036,
+     "turnover_gross_yuan": 11703584.4,
+     "open_positions_at_end": {},
+     "cancelled_orders": 25
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2026-04-16",
+      "trigger": "hwm_dd",
+      "cum20": -0.001754,
+      "hwm_dd": -0.100021,
+      "positions_cut": 17
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-10-24",
+      "r": -0.031081
+     }
+    ]
+   },
+   "null_9": {
+    "full": {
+     "sharpe": -0.111,
+     "annual_return": -0.0032,
+     "total_return": -0.0477,
+     "max_drawdown": -0.1186,
+     "n_days": 3791,
+     "n_entries": 607,
+     "n_exits": 607,
+     "n_resizes": 317,
+     "win_rate": 0.1944,
+     "turnover_gross_yuan": 11505592.63,
+     "open_positions_at_end": {},
+     "cancelled_orders": 39
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2025-11-24",
+      "trigger": "hwm_dd",
+      "cum20": -0.001888,
+      "hwm_dd": -0.10008,
+      "positions_cut": 15
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-10-24",
+      "r": -0.031081
+     }
+    ]
+   },
+   "null_10": {
+    "full": {
+     "sharpe": -0.0472,
+     "annual_return": -0.002,
+     "total_return": -0.0291,
+     "max_drawdown": -0.1179,
+     "n_days": 3791,
+     "n_entries": 624,
+     "n_exits": 624,
+     "n_resizes": 309,
+     "win_rate": 0.2228,
+     "turnover_gross_yuan": 11806436.88,
+     "open_positions_at_end": {},
+     "cancelled_orders": 39
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.112253,
+      "positions_cut": 1
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-10-24",
+      "r": -0.031081
+     }
+    ]
+   },
+   "null_11": {
+    "full": {
+     "sharpe": -0.0601,
+     "annual_return": -0.0019,
+     "total_return": -0.0286,
+     "max_drawdown": -0.1067,
+     "n_days": 3791,
+     "n_entries": 601,
+     "n_exits": 601,
+     "n_resizes": 313,
+     "win_rate": 0.203,
+     "turnover_gross_yuan": 11349502.46,
+     "open_positions_at_end": {},
+     "cancelled_orders": 0
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2026-09-01",
+      "trigger": "hwm_dd",
+      "cum20": -0.003621,
+      "hwm_dd": -0.100361,
+      "positions_cut": 12
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_12": {
+    "full": {
+     "sharpe": -0.2825,
+     "annual_return": -0.0092,
+     "total_return": -0.1299,
+     "max_drawdown": -0.1839,
+     "n_days": 3791,
+     "n_entries": 643,
+     "n_exits": 643,
+     "n_resizes": 298,
+     "win_rate": 0.21,
+     "turnover_gross_yuan": 12122165.77,
+     "open_positions_at_end": {},
+     "cancelled_orders": 36
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2016-12-15",
+      "trigger": "20d_cum",
+      "cum20": -0.10617,
+      "hwm_dd": -0.117275,
+      "positions_cut": 1
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-12-13",
+      "r": -0.031479
+     }
+    ]
+   },
+   "null_13": {
+    "full": {
+     "sharpe": 0.0796,
+     "annual_return": 0.0019,
+     "total_return": 0.0286,
+     "max_drawdown": -0.0972,
+     "n_days": 3791,
+     "n_entries": 624,
+     "n_exits": 624,
+     "n_resizes": 303,
+     "win_rate": 0.2099,
+     "turnover_gross_yuan": 11778686.58,
+     "open_positions_at_end": {},
+     "cancelled_orders": 38
+    },
+    "n_empty_months": 13,
+    "cuts": [],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_14": {
+    "full": {
+     "sharpe": -0.2028,
+     "annual_return": -0.0061,
+     "total_return": -0.0873,
+     "max_drawdown": -0.1383,
+     "n_days": 3791,
+     "n_entries": 616,
+     "n_exits": 616,
+     "n_resizes": 310,
+     "win_rate": 0.1851,
+     "turnover_gross_yuan": 11579242.26,
+     "open_positions_at_end": {},
+     "cancelled_orders": 36
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2025-09-10",
+      "trigger": "hwm_dd",
+      "cum20": -0.012434,
+      "hwm_dd": -0.101435,
+      "positions_cut": 14
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-10-24",
+      "r": -0.031081
+     }
+    ]
+   },
+   "null_15": {
+    "full": {
+     "sharpe": -0.2006,
+     "annual_return": -0.0062,
+     "total_return": -0.0892,
+     "max_drawdown": -0.1616,
+     "n_days": 3791,
+     "n_entries": 641,
+     "n_exits": 641,
+     "n_resizes": 313,
+     "win_rate": 0.2168,
+     "turnover_gross_yuan": 12061809.79,
+     "open_positions_at_end": {},
+     "cancelled_orders": 35
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2017-05-22",
+      "trigger": "hwm_dd",
+      "cum20": -0.014646,
+      "hwm_dd": -0.100653,
+      "positions_cut": 5
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2015-06-09",
+      "r": -0.032664
+     }
+    ]
+   },
+   "null_16": {
+    "full": {
+     "sharpe": -0.0475,
+     "annual_return": -0.0017,
+     "total_return": -0.0249,
+     "max_drawdown": -0.1058,
+     "n_days": 3791,
+     "n_entries": 625,
+     "n_exits": 625,
+     "n_resizes": 310,
+     "win_rate": 0.2096,
+     "turnover_gross_yuan": 11812182.74,
+     "open_positions_at_end": {},
+     "cancelled_orders": 25
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2026-04-10",
+      "trigger": "hwm_dd",
+      "cum20": -0.00431,
+      "hwm_dd": -0.100642,
+      "positions_cut": 21
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_17": {
+    "full": {
+     "sharpe": -0.2215,
+     "annual_return": -0.0069,
+     "total_return": -0.099,
+     "max_drawdown": -0.13,
+     "n_days": 3791,
+     "n_entries": 644,
+     "n_exits": 644,
+     "n_resizes": 296,
+     "win_rate": 0.2065,
+     "turnover_gross_yuan": 12132125.05,
+     "open_positions_at_end": {},
+     "cancelled_orders": 22
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.114714,
+      "positions_cut": 1
+     },
+     {
+      "date": "2026-06-10",
+      "trigger": "hwm_dd",
+      "cum20": -0.001807,
+      "hwm_dd": -0.101329,
+      "positions_cut": 12
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_18": {
+    "full": {
+     "sharpe": -0.2123,
+     "annual_return": -0.0063,
+     "total_return": -0.0912,
+     "max_drawdown": -0.1365,
+     "n_days": 3791,
+     "n_entries": 595,
+     "n_exits": 595,
+     "n_resizes": 326,
+     "win_rate": 0.2353,
+     "turnover_gross_yuan": 11285894.86,
+     "open_positions_at_end": {},
+     "cancelled_orders": 40
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.112253,
+      "positions_cut": 1
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2015-06-09",
+      "r": -0.032664
+     }
+    ]
+   },
+   "null_19": {
+    "full": {
+     "sharpe": -0.2178,
+     "annual_return": -0.0069,
+     "total_return": -0.0988,
+     "max_drawdown": -0.1432,
+     "n_days": 3791,
+     "n_entries": 632,
+     "n_exits": 632,
+     "n_resizes": 309,
+     "win_rate": 0.2215,
+     "turnover_gross_yuan": 11925255.11,
+     "open_positions_at_end": {},
+     "cancelled_orders": 41
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.112253,
+      "positions_cut": 1
+     },
+     {
+      "date": "2017-11-14",
+      "trigger": "hwm_dd",
+      "cum20": -0.006355,
+      "hwm_dd": -0.10097,
+      "positions_cut": 9
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-10-13",
+      "r": -0.03537
+     }
+    ]
+   },
+   "null_20": {
+    "full": {
+     "sharpe": -0.151,
+     "annual_return": -0.0043,
+     "total_return": -0.0626,
+     "max_drawdown": -0.1297,
+     "n_days": 3791,
+     "n_entries": 636,
+     "n_exits": 636,
+     "n_resizes": 314,
+     "win_rate": 0.2296,
+     "turnover_gross_yuan": 11994976.18,
+     "open_positions_at_end": {},
+     "cancelled_orders": 39
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2022-11-16",
+      "trigger": "hwm_dd",
+      "cum20": -0.010287,
+      "hwm_dd": -0.100392,
+      "positions_cut": 7
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_21": {
+    "full": {
+     "sharpe": -0.2573,
+     "annual_return": -0.0077,
+     "total_return": -0.1098,
+     "max_drawdown": -0.1691,
+     "n_days": 3791,
+     "n_entries": 615,
+     "n_exits": 615,
+     "n_resizes": 313,
+     "win_rate": 0.187,
+     "turnover_gross_yuan": 11589928.71,
+     "open_positions_at_end": {},
+     "cancelled_orders": 42
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2016-12-20",
+      "trigger": "hwm_dd",
+      "cum20": -0.026055,
+      "hwm_dd": -0.101246,
+      "positions_cut": 3
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_22": {
+    "full": {
+     "sharpe": -0.2962,
+     "annual_return": -0.0088,
+     "total_return": -0.1246,
+     "max_drawdown": -0.1836,
+     "n_days": 3791,
+     "n_entries": 625,
+     "n_exits": 625,
+     "n_resizes": 312,
+     "win_rate": 0.2048,
+     "turnover_gross_yuan": 11801932.76,
+     "open_positions_at_end": {},
+     "cancelled_orders": 37
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2016-12-15",
+      "trigger": "hwm_dd",
+      "cum20": -0.064185,
+      "hwm_dd": -0.106716,
+      "positions_cut": 3
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2015-06-09",
+      "r": -0.032664
+     }
+    ]
+   },
+   "null_23": {
+    "full": {
+     "sharpe": -0.1001,
+     "annual_return": -0.003,
+     "total_return": -0.0438,
+     "max_drawdown": -0.1173,
+     "n_days": 3791,
+     "n_entries": 604,
+     "n_exits": 604,
+     "n_resizes": 325,
+     "win_rate": 0.1921,
+     "turnover_gross_yuan": 11309661.04,
+     "open_positions_at_end": {},
+     "cancelled_orders": 37
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2022-08-01",
+      "trigger": "hwm_dd",
+      "cum20": -0.002991,
+      "hwm_dd": -0.100345,
+      "positions_cut": 6
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_24": {
+    "full": {
+     "sharpe": -0.3106,
+     "annual_return": -0.0093,
+     "total_return": -0.1311,
+     "max_drawdown": -0.1693,
+     "n_days": 3791,
+     "n_entries": 616,
+     "n_exits": 616,
+     "n_resizes": 313,
+     "win_rate": 0.2078,
+     "turnover_gross_yuan": 11634055.77,
+     "open_positions_at_end": {},
+     "cancelled_orders": 34
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.114714,
+      "positions_cut": 1
+     },
+     {
+      "date": "2025-12-04",
+      "trigger": "hwm_dd",
+      "cum20": -0.006668,
+      "hwm_dd": -0.100384,
+      "positions_cut": 17
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2015-06-09",
+      "r": -0.032664
+     }
+    ]
+   },
+   "null_25": {
+    "full": {
+     "sharpe": -0.2306,
+     "annual_return": -0.0057,
+     "total_return": -0.0818,
+     "max_drawdown": -0.1224,
+     "n_days": 3791,
+     "n_entries": 614,
+     "n_exits": 614,
+     "n_resizes": 313,
+     "win_rate": 0.2003,
+     "turnover_gross_yuan": 11586292.55,
+     "open_positions_at_end": {},
+     "cancelled_orders": 36
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.114714,
+      "positions_cut": 1
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_26": {
+    "full": {
+     "sharpe": -0.1916,
+     "annual_return": -0.0055,
+     "total_return": -0.0799,
+     "max_drawdown": -0.1347,
+     "n_days": 3791,
+     "n_entries": 621,
+     "n_exits": 621,
+     "n_resizes": 308,
+     "win_rate": 0.2335,
+     "turnover_gross_yuan": 11748379.26,
+     "open_positions_at_end": {},
+     "cancelled_orders": 35
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2018-01-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.003487,
+      "hwm_dd": -0.101017,
+      "positions_cut": 8
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-12-19",
+      "r": 0.03103
+     }
+    ]
+   },
+   "null_27": {
+    "full": {
+     "sharpe": -0.3146,
+     "annual_return": -0.0093,
+     "total_return": -0.1306,
+     "max_drawdown": -0.1742,
+     "n_days": 3791,
+     "n_entries": 629,
+     "n_exits": 629,
+     "n_resizes": 316,
+     "win_rate": 0.194,
+     "turnover_gross_yuan": 11915156.45,
+     "open_positions_at_end": {},
+     "cancelled_orders": 39
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.114714,
+      "positions_cut": 1
+     },
+     {
+      "date": "2020-02-20",
+      "trigger": "hwm_dd",
+      "cum20": -0.023792,
+      "hwm_dd": -0.102464,
+      "positions_cut": 5
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2015-06-09",
+      "r": -0.032664
+     }
+    ]
+   },
+   "null_28": {
+    "full": {
+     "sharpe": -0.3117,
+     "annual_return": -0.0088,
+     "total_return": -0.1246,
+     "max_drawdown": -0.1655,
+     "n_days": 3791,
+     "n_entries": 597,
+     "n_exits": 597,
+     "n_resizes": 300,
+     "win_rate": 0.2027,
+     "turnover_gross_yuan": 11301502.13,
+     "open_positions_at_end": {},
+     "cancelled_orders": 35
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.114714,
+      "positions_cut": 1
+     },
+     {
+      "date": "2026-03-16",
+      "trigger": "hwm_dd",
+      "cum20": -0.005978,
+      "hwm_dd": -0.100158,
+      "positions_cut": 18
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_29": {
+    "full": {
+     "sharpe": -0.2233,
+     "annual_return": -0.0075,
+     "total_return": -0.1071,
+     "max_drawdown": -0.1841,
+     "n_days": 3791,
+     "n_entries": 610,
+     "n_exits": 610,
+     "n_resizes": 323,
+     "win_rate": 0.223,
+     "turnover_gross_yuan": 11558607.31,
+     "open_positions_at_end": {},
+     "cancelled_orders": 34
+    },
+    "n_empty_months": 11,
+    "cuts": [
+     {
+      "date": "2016-12-15",
+      "trigger": "20d_cum",
+      "cum20": -0.10617,
+      "hwm_dd": -0.12167,
+      "positions_cut": 1
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-12-13",
+      "r": -0.031479
+     }
+    ]
+   },
+   "null_30": {
+    "full": {
+     "sharpe": -0.3376,
+     "annual_return": -0.0088,
+     "total_return": -0.1249,
+     "max_drawdown": -0.1653,
+     "n_days": 3791,
+     "n_entries": 605,
+     "n_exits": 605,
+     "n_resizes": 307,
+     "win_rate": 0.2017,
+     "turnover_gross_yuan": 11382588.03,
+     "open_positions_at_end": {},
+     "cancelled_orders": 38
+    },
+    "n_empty_months": 12,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.114714,
+      "positions_cut": 1
+     },
+     {
+      "date": "2022-11-18",
+      "trigger": "hwm_dd",
+      "cum20": -0.007871,
+      "hwm_dd": -0.100061,
+      "positions_cut": 10
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     }
+    ]
+   },
+   "null_31": {
+    "full": {
+     "sharpe": -0.3358,
+     "annual_return": -0.0101,
+     "total_return": -0.1411,
+     "max_drawdown": -0.1657,
+     "n_days": 3791,
+     "n_entries": 627,
+     "n_exits": 627,
+     "n_resizes": 282,
+     "win_rate": 0.2026,
+     "turnover_gross_yuan": 11883044.85,
+     "open_positions_at_end": {},
+     "cancelled_orders": 40
+    },
+    "n_empty_months": 13,
+    "cuts": [
+     {
+      "date": "2014-09-03",
+      "trigger": "hwm_dd",
+      "cum20": -0.029809,
+      "hwm_dd": -0.112253,
+      "positions_cut": 1
+     },
+     {
+      "date": "2022-12-14",
+      "trigger": "hwm_dd",
+      "cum20": -0.006763,
+      "hwm_dd": -0.100631,
+      "positions_cut": 9
+     }
+    ],
+    "crisis_log": [
+     {
+      "date": "2014-11-11",
+      "r": 0.036249
+     },
+     {
+      "date": "2016-12-19",
+      "r": 0.037236
+     }
+    ]
+   }
+  }
+ },
+ "passive": {
+  "passive_domain_ew": {
+   "label": "passive_domain_ew",
+   "full": {
+    "sharpe": 0.3657,
+    "annual_return": 0.0076,
+    "total_return": 0.1204,
+    "max_drawdown": -0.1064,
+    "n_days": 3791,
+    "n_entries": 372,
+    "n_exits": 372,
+    "n_resizes": 3205,
+    "win_rate": 0.2312,
+    "turnover_gross_yuan": 7360398.44,
+    "open_positions_at_end": {},
+    "cancelled_orders": 82
+   },
+   "half_early": {
+    "sharpe": 0.2354,
+    "annual_return": 0.0062,
+    "bars": 1895
+   },
+   "half_late": {
+    "sharpe": 0.7668,
+    "annual_return": 0.009,
+    "bars": 1896
+   },
+   "cuts": [],
+   "crisis_log": [],
+   "exit_log_sample": [
+    {
+     "code": "sh010504",
+     "date": "2011-04-01",
+     "reason": "rotation",
+     "price": 101.7,
+     "basis": 5109.17
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-12-01",
+     "reason": "rotation",
+     "price": 103.5,
+     "basis": 7407.13
+    },
+    {
+     "code": "sh010504",
+     "date": "2012-05-02",
+     "reason": "rotation",
+     "price": 103.45,
+     "basis": 6005.09
+    },
+    {
+     "code": "sh010504",
+     "date": "2013-02-01",
+     "reason": "rotation",
+     "price": 103.58,
+     "basis": 6030.8
+    },
+    {
+     "code": "sh019319",
+     "date": "2014-12-03",
+     "reason": "rotation",
+     "price": 111.0,
+     "basis": 10377.36
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-01-06",
+     "reason": "rotation",
+     "price": 97.49,
+     "basis": 6044.55
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-02-02",
+     "reason": "rotation",
+     "price": 99.48,
+     "basis": 9913.71
+    },
+    {
+     "code": "sh010504",
+     "date": "2015-02-02",
+     "reason": "rotation",
+     "price": 103.6,
+     "basis": 9999.04
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-02-06",
+     "reason": "rotation",
+     "price": 100.68,
+     "basis": 5111.3
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-04-09",
+     "reason": "rotation",
+     "price": 98.99,
+     "basis": 9900.99
+    },
+    {
+     "code": "sh019319",
+     "date": "2015-05-04",
+     "reason": "rotation",
+     "price": 112.01,
+     "basis": 6062.2
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-05-04",
+     "reason": "rotation",
+     "price": 100.93,
+     "basis": 6680.75
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-08-04",
+     "reason": "rotation",
+     "price": 101.59,
+     "basis": 5228.02
+    },
+    {
+     "code": "sh019319",
+     "date": "2015-08-06",
+     "reason": "rotation",
+     "price": 117.5,
+     "basis": 10264.32
+    },
+    {
+     "code": "sh010504",
+     "date": "2015-09-01",
+     "reason": "rotation",
+     "price": 105.81,
+     "basis": 7638.83
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-11-02",
+     "reason": "rotation",
+     "price": 102.93,
+     "basis": 5890.02
+    },
+    {
+     "code": "sh019508",
+     "date": "2015-12-01",
+     "reason": "rotation",
+     "price": 105.21,
+     "basis": 9940.58
+    },
+    {
+     "code": "sh019308",
+     "date": "2015-12-02",
+     "reason": "rotation",
+     "price": 101.0,
+     "basis": 6887.04
+    },
+    {
+     "code": "sh010504",
+     "date": "2016-02-01",
+     "reason": "rotation",
+     "price": 108.88,
+     "basis": 7097.67
+    },
+    {
+     "code": "sh019521",
+     "date": "2016-03-01",
+     "reason": "rotation",
+     "price": 104.45,
+     "basis": 5930.91
+    },
+    {
+     "code": "sh019308",
+     "date": "2016-03-01",
+     "reason": "rotation",
+     "price": 101.11,
+     "basis": 5277.89
+    },
+    {
+     "code": "sh019319",
+     "date": "2016-03-02",
+     "reason": "rotation",
+     "price": 120.0,
+     "basis": 6073.55
+    },
+    {
+     "code": "sh019315",
+     "date": "2016-04-01",
+     "reason": "rotation",
+     "price": 103.55,
+     "basis": 10117.6
+    },
+    {
+     "code": "sh019320",
+     "date": "2016-04-07",
+     "reason": "rotation",
+     "price": 107.0,
+     "basis": 10119.44
+    },
+    {
+     "code": "sh019403",
+     "date": "2016-05-03",
+     "reason": "rotation",
+     "price": 107.0,
+     "basis": 6880.78
+    },
+    {
+     "code": "sh019406",
+     "date": "2016-05-06",
+     "reason": "rotation",
+     "price": 107.0,
+     "basis": 8474.39
+    },
+    {
+     "code": "sh019508",
+     "date": "2016-06-01",
+     "reason": "rotation",
+     "price": 109.6,
+     "basis": 8928.24
+    },
+    {
+     "code": "sh019528",
+     "date": "2016-06-01",
+     "reason": "rotation",
+     "price": 109.0,
+     "basis": 8254.27
+    },
+    {
+     "code": "sh019521",
+     "date": "2016-06-01",
+     "reason": "rotation",
+     "price": 105.29,
+     "basis": 9148.09
+    },
+    {
+     "code": "sh019517",
+     "date": "2016-09-01",
+     "reason": "rotation",
+     "price": 111.64,
+     "basis": 10121.83
+    },
+    {
+     "code": "sh019528",
+     "date": "2016-10-10",
+     "reason": "rotation",
+     "price": 112.7,
+     "basis": 5398.04
+    },
+    {
+     "code": "sh019517",
+     "date": "2016-12-01",
+     "reason": "rotation",
+     "price": 108.01,
+     "basis": 9674.3
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-02-03",
+     "reason": "rotation",
+     "price": 99.52,
+     "basis": 6526.54
+    },
+    {
+     "code": "sh019517",
+     "date": "2017-02-03",
+     "reason": "rotation",
+     "price": 102.6,
+     "basis": 9850.42
+    },
+    {
+     "code": "sh010504",
+     "date": "2017-02-03",
+     "reason": "rotation",
+     "price": 104.99,
+     "basis": 5249.19
+    },
+    {
+     "code": "sh019521",
+     "date": "2017-02-20",
+     "reason": "rotation",
+     "price": 99.1,
+     "basis": 5482.59
+    },
+    {
+     "code": "sh010512",
+     "date": "2017-03-24",
+     "reason": "rotation",
+     "price": 104.87,
+     "basis": 9951.36
+    },
+    {
+     "code": "sh019508",
+     "date": "2017-04-06",
+     "reason": "rotation",
+     "price": 102.49,
+     "basis": 5580.31
+    },
+    {
+     "code": "sh019523",
+     "date": "2017-04-06",
+     "reason": "rotation",
+     "price": 96.01,
+     "basis": 9948.45
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-04-07",
+     "reason": "rotation",
+     "price": 97.23,
+     "basis": 10003.09
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-05-03",
+     "reason": "rotation",
+     "price": 99.76,
+     "basis": 9937.26
+    },
+    {
+     "code": "sh019517",
+     "date": "2017-06-01",
+     "reason": "rotation",
+     "price": 99.22,
+     "basis": 9882.41
+    },
+    {
+     "code": "sh019534",
+     "date": "2017-07-03",
+     "reason": "rotation",
+     "price": 95.76,
+     "basis": 10054.57
+    },
+    {
+     "code": "sh019311",
+     "date": "2017-08-01",
+     "reason": "rotation",
+     "price": 98.44,
+     "basis": 9997.97
+    },
+    {
+     "code": "sh019517",
+     "date": "2017-08-01",
+     "reason": "rotation",
+     "price": 99.25,
+     "basis": 9979.9
+    },
+    {
+     "code": "sh019508",
+     "date": "2017-08-01",
+     "reason": "rotation",
+     "price": 100.95,
+     "basis": 5350.28
+    },
+    {
+     "code": "sh019511",
+     "date": "2017-08-02",
+     "reason": "rotation",
+     "price": 98.67,
+     "basis": 7529.81
+    },
+    {
+     "code": "sh019535",
+     "date": "2017-08-02",
+     "reason": "rotation",
+     "price": 96.5,
+     "basis": 9942.3
+    },
+    {
+     "code": "sh019541",
+     "date": "2017-09-01",
+     "reason": "rotation",
+     "price": 91.79,
+     "basis": 6601.98
+    },
+    {
+     "code": "sh019528",
+     "date": "2017-09-01",
+     "reason": "rotation",
+     "price": 96.99,
+     "basis": 9925.64
+    }
+   ],
+   "n_exits_logged": 372,
+   "entry_log_sample": [
+    {
+     "code": "sh010107",
+     "date": "2011-03-01",
+     "price": 102.33,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010303",
+     "date": "2011-03-01",
+     "price": 93.93,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-03-01",
+     "price": 100.67,
+     "target_yuan": 5061.91
+    },
+    {
+     "code": "sh010504",
+     "date": "2011-10-10",
+     "price": 101.39,
+     "target_yuan": 5167.88
+    },
+    {
+     "code": "sh010504",
+     "date": "2012-04-05",
+     "price": 103.67,
+     "target_yuan": 6017.86
+    },
+    {
+     "code": "sh010504",
+     "date": "2013-01-04",
+     "price": 103.85,
+     "target_yuan": 6047.1
+    },
+    {
+     "code": "sh019319",
+     "date": "2014-09-02",
+     "price": 104.5,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019315",
+     "date": "2014-10-08",
+     "price": 95.96,
+     "target_yuan": 7418.87
+    },
+    {
+     "code": "sh019311",
+     "date": "2014-10-08",
+     "price": 95.0,
+     "target_yuan": 6533.78
+    },
+    {
+     "code": "sh010504",
+     "date": "2014-11-03",
+     "price": 101.45,
+     "target_yuan": 5517.2
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-01-05",
+     "price": 98.67,
+     "target_yuan": 5037.78
+    },
+    {
+     "code": "sh019319",
+     "date": "2015-02-02",
+     "price": 110.01,
+     "target_yuan": 5818.95
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-03-02",
+     "price": 99.99,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019315",
+     "date": "2015-03-03",
+     "price": 100.5,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-04-02",
+     "price": 99.73,
+     "target_yuan": 6593.48
+    },
+    {
+     "code": "sh019319",
+     "date": "2015-06-01",
+     "price": 112.3,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019311",
+     "date": "2015-06-01",
+     "price": 99.02,
+     "target_yuan": 9685.91
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-06-01",
+     "price": 100.62,
+     "target_yuan": 6090.53
+    },
+    {
+     "code": "sh019421",
+     "date": "2015-08-03",
+     "price": 104.88,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2015-08-03",
+     "price": 105.45,
+     "target_yuan": 7613.56
+    },
+    {
+     "code": "sh019308",
+     "date": "2015-10-08",
+     "price": 100.68,
+     "target_yuan": 8629.12
+    },
+    {
+     "code": "sh010512",
+     "date": "2015-10-13",
+     "price": 101.57,
+     "target_yuan": 5807.69
+    },
+    {
+     "code": "sh019508",
+     "date": "2015-11-03",
+     "price": 106.03,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019502",
+     "date": "2015-12-01",
+     "price": 100.29,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019517",
+     "date": "2015-12-01",
+     "price": 102.99,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019424",
+     "date": "2016-01-04",
+     "price": 104.01,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019320",
+     "date": "2016-01-04",
+     "price": 104.01,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019514",
+     "date": "2016-01-04",
+     "price": 102.06,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh010504",
+     "date": "2016-01-04",
+     "price": 108.9,
+     "target_yuan": 7091.16
+    },
+    {
+     "code": "sh019319",
+     "date": "2016-01-04",
+     "price": 117.0,
+     "target_yuan": 5894.22
+    },
+    {
+     "code": "sh019508",
+     "date": "2016-02-01",
+     "price": 107.1,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019521",
+     "date": "2016-02-01",
+     "price": 104.26,
+     "target_yuan": 5922.39
+    },
+    {
+     "code": "sh019413",
+     "date": "2016-02-02",
+     "price": 105.6,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019511",
+     "date": "2016-02-02",
+     "price": 101.41,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019308",
+     "date": "2016-02-04",
+     "price": 102.2,
+     "target_yuan": 5267.58
+    },
+    {
+     "code": "sh019528",
+     "date": "2016-03-01",
+     "price": 106.43,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019403",
+     "date": "2016-03-01",
+     "price": 108.1,
+     "target_yuan": 8609.76
+    },
+    {
+     "code": "sh019523",
+     "date": "2016-03-03",
+     "price": 100.75,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019406",
+     "date": "2016-04-01",
+     "price": 108.93,
+     "target_yuan": 8630.47
+    },
+    {
+     "code": "sh019521",
+     "date": "2016-05-03",
+     "price": 105.39,
+     "target_yuan": 9165.49
+    },
+    {
+     "code": "sh019526",
+     "date": "2016-06-02",
+     "price": 100.8,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019534",
+     "date": "2016-08-01",
+     "price": 99.76,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019528",
+     "date": "2016-08-01",
+     "price": 108.5,
+     "target_yuan": 6301.57
+    },
+    {
+     "code": "sh019521",
+     "date": "2016-08-03",
+     "price": 107.49,
+     "target_yuan": 7765.36
+    },
+    {
+     "code": "sh019536",
+     "date": "2016-09-01",
+     "price": 104.06,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019541",
+     "date": "2016-09-02",
+     "price": 106.3,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019429",
+     "date": "2016-09-05",
+     "price": 106.66,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019508",
+     "date": "2016-10-10",
+     "price": 113.9,
+     "target_yuan": 10000.0
+    },
+    {
+     "code": "sh019517",
+     "date": "2016-10-10",
+     "price": 112.95,
+     "target_yuan": 7225.37
+    },
+    {
+     "code": "sh019519",
+     "date": "2016-10-18",
+     "price": 102.5,
+     "target_yuan": 10000.0
+    }
+   ],
+   "n_entries_logged": 372,
+   "empty_months": [
+    "2011-02"
+   ],
+   "n_empty_months": 1,
+   "monthly_costs": {
+    "2011-03": 40.3,
+    "2011-04": 8.61,
+    "2011-05": 0.02,
+    "2011-06": 0.12,
+    "2011-07": 0.23,
+    "2011-08": 0.3,
+    "2011-09": 0.05,
+    "2011-10": 8.88,
+    "2011-11": 3.82,
+    "2011-12": 12.24,
+    "2012-01": 0.18,
+    "2012-02": 0.17,
+    "2012-03": 0.28,
+    "2012-04": 9.96,
+    "2012-05": 9.74,
+    "2012-06": 0.21,
+    "2012-07": 0.05,
+    "2012-08": 0.23,
+    "2012-09": 0.18,
+    "2012-10": 0.23,
+    "2012-11": 0.1,
+    "2012-12": 0.14,
+    "2013-01": 9.9,
+    "2013-02": 9.75,
+    "2013-03": 0.04,
+    "2013-04": 0.11,
+    "2013-05": 0.26,
+    "2013-06": 0.08,
+    "2013-07": 0.15,
+    "2013-08": 0.3,
+    "2013-09": 0.35,
+    "2013-10": 0.12,
+    "2013-11": 0.46,
+    "2013-12": 0.82,
+    "2014-01": 0.64,
+    "2014-02": 0.55,
+    "2014-03": 0.44,
+    "2014-04": 0.25,
+    "2014-05": 0.1,
+    "2014-06": 0.51,
+    "2014-07": 0.07,
+    "2014-08": 0.31,
+    "2014-09": 16.22,
+    "2014-10": 22.9,
+    "2014-11": 10.68,
+    "2014-12": 26.13,
+    "2015-01": 22.31,
+    "2015-02": 50.19,
+    "2015-03": 33.55,
+    "2015-04": 28.36,
+    "2015-05": 20.98,
+    "2015-06": 41.6,
+    "2015-07": 2.35,
+    "2015-08": 53.68,
+    "2015-09": 12.5,
+    "2015-10": 24.02,
+    "2015-11": 29.6,
+    "2015-12": 60.17,
+    "2016-01": 70.85,
+    "2016-02": 78.88,
+    "2016-03": 81.09,
+    "2016-04": 59.87,
+    "2016-05": 52.42,
+    "2016-06": 67.75,
+    "2016-07": 2.12,
+    "2016-08": 39.64,
+    "2016-09": 70.75,
+    "2016-10": 55.07,
+    "2016-11": 53.25,
+    "2016-12": 55.85,
+    "2017-01": 51.46,
+    "2017-02": 54.24,
+    "2017-03": 99.15,
+    "2017-04": 42.12,
+    "2017-05": 38.63,
+    "2017-06": 37.62,
+    "2017-07": 84.94,
+    "2017-08": 109.85,
+    "2017-09": 72.86,
+    "2017-10": 74.14,
+    "2017-11": 27.95,
+    "2017-12": 26.34,
+    "2018-01": 90.61,
+    "2018-02": 65.98,
+    "2018-03": 95.94,
+    "2018-04": 54.67,
+    "2018-05": 72.5,
+    "2018-06": 63.38,
+    "2018-07": 34.96,
+    "2018-08": 58.32,
+    "2018-09": 47.47,
+    "2018-10": 46.58,
+    "2018-11": 82.13,
+    "2018-12": 99.53,
+    "2019-01": 55.49,
+    "2019-02": 68.93,
+    "2019-03": 32.82,
+    "2019-04": 63.3,
+    "2019-05": 60.24,
+    "2019-06": 47.22,
+    "2019-07": 37.68,
+    "2019-08": 8.05,
+    "2019-09": 43.12,
+    "2019-10": 72.22,
+    "2019-11": 29.67,
+    "2019-12": 43.02,
+    "2020-01": 13.41,
+    "2020-02": 53.57,
+    "2020-03": 43.47,
+    "2020-04": 85.5,
+    "2020-05": 93.12,
+    "2020-06": 37.47,
+    "2020-07": 41.44,
+    "2020-08": 41.61,
+    "2020-09": 51.74,
+    "2020-10": 67.02,
+    "2020-11": 47.95,
+    "2020-12": 35.74,
+    "2021-01": 62.35,
+    "2021-02": 98.05,
+    "2021-03": 92.75,
+    "2021-04": 111.85,
+    "2021-05": 41.3,
+    "2021-06": 84.03,
+    "2021-07": 135.17,
+    "2021-08": 126.7,
+    "2021-09": 108.0,
+    "2021-10": 110.0,
+    "2021-11": 101.48,
+    "2021-12": 73.32,
+    "2022-01": 59.12,
+    "2022-02": 82.05,
+    "2022-03": 69.81,
+    "2022-04": 56.07,
+    "2022-05": 116.38,
+    "2022-06": 82.09,
+    "2022-07": 69.51,
+    "2022-08": 81.37,
+    "2022-09": 83.25,
+    "2022-10": 96.08,
+    "2022-11": 54.29,
+    "2022-12": 52.97,
+    "2023-01": 64.26,
+    "2023-02": 88.41,
+    "2023-03": 98.59,
+    "2023-04": 146.1,
+    "2023-05": 75.36,
+    "2023-06": 89.59,
+    "2023-07": 80.52,
+    "2023-08": 110.33,
+    "2023-09": 52.55,
+    "2023-10": 84.95,
+    "2023-11": 89.91,
+    "2023-12": 42.28,
+    "2024-01": 83.16,
+    "2024-02": 75.39,
+    "2024-03": 120.01,
+    "2024-04": 77.8,
+    "2024-05": 88.53,
+    "2024-06": 94.51,
+    "2024-07": 62.17,
+    "2024-08": 61.89,
+    "2024-09": 79.74,
+    "2024-10": 108.58,
+    "2024-11": 57.05,
+    "2024-12": 111.44,
+    "2025-01": 75.77,
+    "2025-02": 102.1,
+    "2025-03": 66.44,
+    "2025-04": 94.23,
+    "2025-05": 78.81,
+    "2025-06": 98.66,
+    "2025-07": 121.64,
+    "2025-08": 63.06,
+    "2025-09": 66.18,
+    "2025-10": 76.84,
+    "2025-11": 95.09,
+    "2025-12": 80.09,
+    "2026-01": 47.28,
+    "2026-02": 94.34,
+    "2026-03": 57.08,
+    "2026-04": 117.91,
+    "2026-05": 102.26,
+    "2026-06": 111.86,
+    "2026-07": 97.85,
+    "2026-08": 166.35,
+    "2026-09": 976.02
+   },
+   "yearly_costs": {
+    "2011": 74.57,
+    "2012": 21.47,
+    "2013": 22.34,
+    "2014": 78.8,
+    "2015": 379.31,
+    "2016": 687.54,
+    "2017": 719.3,
+    "2018": 812.07,
+    "2019": 561.76,
+    "2020": 612.04,
+    "2021": 1145.0,
+    "2022": 902.99,
+    "2023": 1022.85,
+    "2024": 1020.27,
+    "2025": 1018.91,
+    "2026": 1770.95
+   },
+   "avg_deployed_yuan": 225631.98
+  },
+  "passive_510300_buyhold": {
+   "label": "passive_510300_buyhold",
+   "window": {
+    "start": "2020-01-02",
+    "end": "2026-09-24",
+    "note": "ETF daily data face starts 2020-01-02; cross-asset anchor only"
+   },
+   "full": {
+    "sharpe": 0.1639,
+    "annual_return": 0.0131,
+    "max_drawdown": -0.451,
+    "bars": 1633
+   }
+  }
+ },
+ "null_pool": {
+  "values": [
+   -0.0536,
+   0.0498,
+   -0.157,
+   -0.2596,
+   -0.2069,
+   -0.2288,
+   -0.1221,
+   -0.4343,
+   -0.166,
+   -0.111,
+   -0.0472,
+   -0.0601,
+   -0.2825,
+   0.0796,
+   -0.2028,
+   -0.2006,
+   -0.0475,
+   -0.2215,
+   -0.2123,
+   -0.2178,
+   -0.151,
+   -0.2573,
+   -0.2962,
+   -0.1001,
+   -0.3106,
+   -0.2306,
+   -0.1916,
+   -0.3146,
+   -0.3117,
+   -0.2233,
+   -0.3376,
+   -0.3358
+  ],
+  "coverage": {
+   "n_values": 32,
+   "mu": -0.19258125,
+   "sigma": 0.11530819134795015,
+   "schemas_parsed": [
+    "bond_carry_w3a:nulls.summary (K=32 in-batch)"
+   ],
+   "known_unparsed": []
+  }
+ },
+ "skill_line": {
+  "n_eff": 183135,
+  "line": 0.4657,
+  "passive_term": 0.4657,
+  "null_term": 0.3751,
+  "mu_null": -0.1926,
+  "sigma_null": 0.1153,
+  "pool": "bond_w3a",
+  "ledger_head": {
+   "total": 183100,
+   "file": "options_wave2.json",
+   "note": "18 candidates (CC/PP/CSP x m{3,5,10}% x weekly/monthly) + 50 nulls (seed 63_000+k) + 2 passives; retention-window pilot 2026-01-29..2026-09-24, blend 50/50 across 510050/510300; pool options_wave2 own nulls+passives; prereg research/OPTIONS_WAVE2_PREREG.md sha a6998921"
+  }
+ },
+ "verdicts_g1": {
+  "C1": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": 0.1517,
+   "skill_line": {
+    "n_eff": 183135,
+    "line": 0.4657,
+    "passive_term": 0.4657,
+    "null_term": 0.3751,
+    "mu_null": -0.1926,
+    "sigma_null": 0.1153,
+    "pool": "bond_w3a",
+    "ledger_head": {
+     "total": 183100,
+     "file": "options_wave2.json",
+     "note": "18 candidates (CC/PP/CSP x m{3,5,10}% x weekly/monthly) + 50 nulls (seed 63_000+k) + 2 passives; retention-window pilot 2026-01-29..2026-09-24, blend 50/50 across 510050/510300; pool options_wave2 own nulls+passives; prereg research/OPTIONS_WAVE2_PREREG.md sha a6998921"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -0.3485,
+    "ci95_high": 0.5985,
+    "point": 0.1517,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 213,
+    "n_entries": 213,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": true,
+    "dd_ok": true,
+    "half_early": {
+     "sharpe": -0.0438,
+     "annual_return": -0.0017,
+     "bars": 1895
+    },
+    "half_late": {
+     "sharpe": 0.3298,
+     "annual_return": 0.0102,
+     "bars": 1896
+    },
+    "x1_full_sharpe": 0.2215,
+    "x3_full_sharpe": 0.0989,
+    "n_empty_months": 22,
+    "n_cuts": 2,
+    "crisis_days": 2
+   }
+  }
+ },
+ "verdicts_g2": {
+  "C1": {
+   "gate": "g2_registration_v2",
+   "g1_pass": false,
+   "dsr": 0.0,
+   "dsr_gate": 0.95,
+   "dsr_ok": false,
+   "family_pbo": 0.0,
+   "pbo_gate": 0.25,
+   "pbo_ok": true,
+   "missing_inputs": [
+    "g1_prime_v2"
+   ],
+   "eligible_v2": false
+  }
+ },
+ "d6": {
+  "within_batch": {
+   "C2": 0.5181,
+   "C3": 0.9759
+  },
+  "nulls_max_abs_corr": 0.2936,
+  "in_register": {
+   "max_abs_corr": 0.0739,
+   "pairs": {
+    "COMPOSITE-CE-01": -0.0129,
+    "COMPOSITE-CE-02": -0.0109,
+    "DROUGHT-CE-01": -0.0118,
+    "ENGULF-CE-01": -0.0411,
+    "NEEDLE-DE-01": -0.005,
+    "VOLATILITY-CE-01": 0.0739
+   },
+   "n_members": 6,
+   "skipped_prospect_n": 22,
+   "skipped": [
+    {
+     "file": "_template.json",
+     "reason": "non-member '_' prefix"
+    }
+   ],
+   "posthoc": {
+    "r212_wiring_fix": true,
+    "method": "post-hoc recomputation of the C1 daily sleeve (deterministic anchors exact vs stored judgment face); in-register corr via the same fixed _inregister_corr helper the runner now calls; judgment faces / trials_ledger / gate_attrition untouched (re-run of the batch is forbidden: append-only ledger would double-count)",
+    "error_at_run": "in-register corr skipped: 'entry'",
+    "backfill_ts": "2026-09-26 00:14:53"
+   }
+  },
+  "reject_line": 0.7,
+  "verdict": "reject"
+ },
+ "family_pbo": {
+  "family": "{C1,C2,C3}",
+  "n_blocks": 8,
+  "pbo": 0.0,
+  "verdict": "register_eligible",
+  "noise_note": "3-cell family PBO is noisy (prereg sec.4)"
+ },
+ "trials_ledger": {
+  "prev_total": 183100,
+  "batch_trials": 35,
+  "total": 183135,
+  "batch": "BOND_CARRY_WAVE3A",
+  "file": "results/bond_carry_w3a.json",
+  "note": "C1 discount-convergence + C2/C3 attribution + K32 random-member nulls (seed 66_000+k) + 2 passives; window max(2003-06-01, 10x60 rule)..2026-09-24; clean-price face (coupon invisible, carry lower bound); judgment cost face = fee x2; prereg frozen R207 blob 8997310; pool bond_w3a own nulls + domain passive skill line",
+  "evidence_cutoff": "2026-09-24"
+ },
+ "audit": {
+  "source": "results/compute_audit.json (in-batch run, latest)",
+  "verdict": "CLEAN",
+  "ts": "2026-09-26 00:08:14",
+  "cpu_pct": null,
+  "flags": []
+ }
+}
