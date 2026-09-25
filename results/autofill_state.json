@@ -2,17 +2,6 @@
  "launches": [
   {
    "entry": "T54-GRID-DB",
-   "fill_latency_min": 110.7,
-   "machine": "bm-b",
-   "pid": 16192,
-   "py_cpu_pct": 0.0,
-   "shard": "deep-dB",
-   "target_met": false,
-   "ts": "2026-09-25 13:10:02",
-   "verdict": "launched"
-  },
-  {
-   "entry": "T54-GRID-DB",
    "fill_latency_min": 130.7,
    "machine": "bm-a",
    "pid": 53416,
@@ -568,5 +557,5 @@
   "py_cpu_pct": 0.0,
   "verdict": "pool_empty_or_busy"
  },
- "rebase_union_note": "R210 rebase union: launches HEAD=50+mine=50->51 (union +1, full-repr dedupe); last_tick take head-tie-or-newer (ts head=2026-09-26 03:10:01 mine=2026-09-26 03:10:01)"
+ "rebase_union_note": "r221 rebase union (bm-b): base :2:results/autofill_state.json + incoming :3:results/autofill_state.json; launches union 51+50 -> 50 cap50; last_tick take-newer (base 2026-09-26 03:20:01 vs inc 2026-09-26 03:20:01 -> 2026-09-26 03:20:01); base key order preserved"
 }

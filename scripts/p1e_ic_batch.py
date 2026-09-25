@@ -156,11 +156,18 @@ def load_panels(need):
 
 
 def build_masks(panels):
+    """Per-class minimal load form: a mask is built only from panels
+    actually loaded (M_close runs close-only and must not touch
+    tr/vwap -- r221 first-fire KeyError fix, r198 mirror family)."""
     close = panels["close"]
     m_close = close.notna()
-    m_tr = m_close & panels["tr"].notna()
-    m_arc = m_tr & panels["vwap"].notna()
-    return {"M_close": m_close, "M_close_tr": m_tr, "M_arc": m_arc}
+    out = {"M_close": m_close}
+    if "tr" in panels:
+        m_tr = m_close & panels["tr"].notna()
+        out["M_close_tr"] = m_tr
+        if "vwap" in panels:
+            out["M_arc"] = m_tr & panels["vwap"].notna()
+    return out
 
 
 # ------------------------------------------------------- batch-pre gates
@@ -596,6 +603,11 @@ def selftest():
                       & pn['vwap'].notna())).all().all())
           and not bool(ma.iloc[10:15, 1].any())
           and not bool(ma.iloc[:5, 0].any()))
+    mk_prod = build_masks({"close": close})   # M_close production form
+    check("M_close production form: close-only panels, no KeyError, "
+          "single honest mask (r221)",
+          set(mk_prod.keys()) == {"M_close"}
+          and bool((mk_prod["M_close"] == close.notna()).all().all()))
 
     print("[5/9] V1/V2/V3 hand-computed legs (production gates_v123):",
           flush=True)
