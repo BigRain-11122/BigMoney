@@ -558,24 +558,26 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 11:19:22",
    "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
    "shards": [
     {
      "key": "deep-dD",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-25 13:47:38",
      "checkpoint": "results/t54/cells_deep_base_dD.jsonl + cells_deep_x2_dD.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [1131,1506) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min; pre-claim r170 claim-first by bm-b r178 @ 2026-09-25 12:56:56 (serial 12-worker lan | r163 bm-a claim-first pre-claim 2026-09-25 13:47:38 (r170 law; prior bm-b claim 12:56:56 stale >20min at next tick; fire=14:00 tick)"
+     "note": "DONE r163 bm-a owner-write: done_deep_dD.json marker real ts 13:52:32 (r62 artifact-mtime law): 16500/16500 cells (8250 base + 8250 x2, 375 positions [1131,1506) x 22 members x 2 faces); runner log DONE workers=25; claim-first pre-claim 13:47:38 (r170 law) -> 13:50:02 tick fire -> 13:52:32 done (165s); flip same round per r180 wedge law"
     }
    ],
    "workers_plan": {
     "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
     "priority": "BelowNormal",
     "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
+   },
+   "done_ts": "2026-09-25 13:52:32",
+   "done_evidence": "done_deep_dD.json marker 13:52:32 16500/16500 (bm-a tree)"
   },
   {
    "id": "T56-AGGRESSIVE-LAB",
