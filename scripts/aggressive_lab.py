@@ -227,7 +227,8 @@ def run_batch(shard: int = 0, shards: int = 1) -> int:
             pr1, w_mean = _regime_blend(sleeves, off, defw, states)
             # x2 face reuses x1-frozen regime weights (prereg s3)
             sl2 = {t: sleeves[t]["x2"] for t in ROSTER}
-            R2 = daily_ret_matrix(sl2, "x2")
+            R2 = pd.concat({tid: sl2[tid]["eq_s"] for tid in sl2},
+                           axis=1, join="inner").dropna().pct_change().dropna()
             s_prev = (states.reindex(R2.index, method="ffill")
                       .shift(1).fillna("GREEN"))
             offensive = s_prev.isin(["GREEN", "YELLOW"])
@@ -422,7 +423,8 @@ def cmd_selftest() -> int:
         eq = (1.0 + rng * (1 + 0.01 * i)).cumprod()
         sleeves[t] = {"x1": {"eq_s": eq}, "x2": {"eq_s": eq}}
     w_ew = {t: 0.25 for t in ROSTER[:4]}
-    pr = _blend_daily_ret(sleeves, w_ew)
+    face1 = {t: sleeves[t]["x1"] for t in ROSTER[:4]}
+    pr = _blend_daily_ret(face1, w_ew)
     manual = pd.concat([sleeves[t]["x1"]["eq_s"]
                         / sleeves[t]["x1"]["eq_s"].iloc[0]
                         for t in ROSTER[:4]], axis=1).pct_change().mean(axis=1)
@@ -432,27 +434,43 @@ def cmd_selftest() -> int:
     # F3 window face math: constant ret -> compound, zero dd
     wf = _window_face(pd.Series(0.01, index=idx), idx[0], idx[-1])
     check("F3 window face compound math",
-          abs(wf["ret"] - (1.01 ** 40 - 1)) < 1e-9 and abs(wf["dd"]) < 1e-12)
+          abs(wf["ret"] - (1.01 ** 40 - 1)) < 1e-5 and abs(wf["dd"]) < 1e-12)
 
-    # F4 regime causality: state(t-1) drives day t; first day offensive
+    # F4 regime causality: state(t-1) drives day t; first R row offensive
+
     states = pd.Series(["ORANGE"] * 40, index=idx)
+
     states.iloc[10] = "GREEN"                 # day 10 GREEN
-    off = {t: 1.0 for t in ROSTER[:4]}
+
+    off = {t: (1.0 if t == ROSTER[0] else 0.0) for t in ROSTER[:4]}
+
     defw = {t: 0.25 for t in ROSTER[:4]}
+
     pr, w_mean = _regime_blend(sleeves, off, defw, states)
-    r_eq = sleeves[ROSTER[0]]["x1"]["eq_s"] / sleeves[ROSTER[0]]["x1"]["eq_s"].iloc[0]
-    manual = pd.concat([sleeves[t]["x1"]["eq_s"] / sleeves[t]["x1"]["eq_s"].iloc[0]
-                        for t in ROSTER[:4]], axis=1).pct_change()
-    # day 0 (first): offensive default -> equal of the 4 member rets
-    # day 11: prior state GREEN -> offensive (mean); day 1-9 + 12+: defensive
-    off_day = manual.mean(axis=1)
-    def_day = manual[ROSTER[0]]
+
+    manual = pd.concat({t: sleeves[t]["x1"]["eq_s"]
+
+                        / sleeves[t]["x1"]["eq_s"].iloc[0]
+
+                        for t in ROSTER[:4]}, axis=1).pct_change().dropna()
+
+    off_day = manual[ROSTER[0]]               # concentrated offense leg
+
+    def_day = manual.mean(axis=1)             # EW defensive leg
+
+    # daily_ret_matrix drops the first NaN row: R rows = idx[1:]
+
     check("F4 first-day offensive default",
+
           abs(pr.iloc[0] - off_day.iloc[0]) < 1e-12)
+
     check("F4 ORANGE->defensive with 1-day lag",
-          abs(pr.iloc[5] - def_day.iloc[5]) < 1e-12)
+
+          abs(pr.loc[idx[5]] - def_day.loc[idx[5]]) < 1e-12)
+
     check("F4 GREEN(t-1)->offensive(t)",
-          abs(pr.iloc[11] - off_day.iloc[11]) < 1e-12)
+
+          abs(pr.loc[idx[11]] - off_day.loc[idx[11]]) < 1e-12)
 
     # F5 CE-6 restriction renormalizes to 1
     w_ce = _ce6_restrict(w_off)

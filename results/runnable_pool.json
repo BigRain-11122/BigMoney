@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 11:19:22",
+ "updated_at": "2026-09-25 11:37:40",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -574,6 +574,27 @@
     "priority": "BelowNormal",
     "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
    }
+  },
+  {
+   "id": "T56-AGGRESSIVE-LAB",
+   "ticket_ref": "T-2026-09-25-56 (O-20260925-1126 CEO direct)",
+   "prereg_ref": "research/AGGRESSIVE_LAB.md FROZEN pre-run (freeze commit 589b6cc1 precedes any run, R99 law; prereg sha at run 59ea4cc13045777c); judgments = T-28 J-line verbatim (J1/J2/J3 + W-GRID beat + J5 D7 disclosures)",
+   "runner": "scripts/aggressive_lab.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": "bm-a",
+   "priority": 1,
+   "status": "done",
+   "entered_at": "2026-09-25 11:37:40",
+   "data_gates": "in-runner: 6 weight-vector sha gates vs prereg s3 + 28-roster set equality + panel cutoff >= 2026-09-23 + corps partition 6/15/7 disjoint + CE-6 restriction renorm (all PASS run#2)",
+   "shards": [],
+   "workers_plan": {
+    "workers": 25,
+    "priority": "BelowNormal",
+    "note": "56 sleeve engine runs (T-27 machinery o1600 caliber) + 5 frames + 60 grid units arithmetic; T-28 caliber 5.4s empirical, actual 8.6s"
+   },
+   "note_done": "first judgment run executed in-round R157 per CEO immediate-law (R41 <5min exemption; selftest 11/11; run#2 sole productive run after run#1 engineering abort zero-ledger); 5 faces judged, 100 cells ledger 61015->61115; zero adoption zero wiring (dual-track supply face); month-boundary tournament re-runs re-enter via this entry spec"
   }
  ],
  "_stamp_note": "r173 bm-b: T-54 slice-2 first P0 carrier entered per O-1137 s2.1 (8 shards, 121,528 cells full face); entered_at corrected to real clock (r62 law; originally estimate-stamped)"

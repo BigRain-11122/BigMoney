@@ -67,10 +67,24 @@
 - pool 入口：results/runnable_pool.json 登记 T56-AGGR-LAB（workers_plan 实填；首次判决跑=轮内执行 R41 <5min 豁免，月界重跑走池）。
 - 纸盘接线（票 (d)·slice-2 续作，设计冻结）：5 账户 AGGR-*（各 ¥1,000,000 初始、shadow 守卫、实验风险预算逐账户申报：position_cap NOCASH=0.95 其余=0.80 生产对齐；现金腿=NOCASH 关闭声明——纸盘面结构性无停靠腿（T-09 未接线披露），live 面关注项）；marks=每日 blend 累计（sleeve 域随新 bar 推进）；s6 链消费面按 PROS-* 白名单范式加 AGGR-*。
 
-## §7 跑后实证【跑后回填——唯一产数跑】
+## §7 跑后实证【跑后回填——run#2 唯一产数跑·一次定稿】
 
-（待跑后回填）
+- **工程双跑留痕（r55 范式）**：run#1 中途崩（x2 政体腿夹具层级 KeyError，零账本零输出零产数）→ 修实现禁改判据（J18）→ **run#2 唯一产数跑**（2026-09-25 11:36:30–11:36:38，elapsed 8.6s，56 sleeve 7s×25 workers）。全 sha 门 PASS（6 向量）；面板 cutoff ≥2026-09-23 门 PASS；selftest 11/11。
+- 五面判决（W-CUR x1 净收益｜dd｜x2 净收益｜bull 类累计｜12m pooled beat｜J1/J2/J3）：
+  - **AGGR-CONC-TOP2**：+4.3774%｜−1.647%｜+2.9953%｜bull +16.68%｜0.5389(n=2,507)｜**✓✓✓**
+  - **AGGR-OFFENSE**：+3.2221%｜−1.947%｜+1.7319%｜bull +20.75%｜0.5664｜**✓✓✓**
+  - **AGGR-MOM**：+0.7034%｜−1.310%｜−0.1445%｜bull +7.14%｜0.4886｜✓**✗**✓（x2 破）
+  - **AGGR-NOCASH**：+0.9430%｜−0.959%｜+0.4840%｜bull +3.83%｜0.4854｜**✓✓✓**
+  - **AGGR-REGIME**：+3.8933%｜−2.105%｜+2.2797%｜bull +23.22%｜**0.5848**｜**✓✓✓**
+- **正典验证腿字节恒等 ✓**：NOCASH blend 面 W-CUR x1 +0.943%/−0.959%/x2 +0.484% 与 T-28 正典记录逐位一致；12m pooled 0.4854=正典记录；增量全在纸盘账户参数面（cap 0.95/现金腿关·slice-2 接线）。
+- **KPI 读数（票 verbatim=天花板+牛市增量非过闸数）**：天花板排序 CONC(+4.38%) > REGIME(+3.89%) > OFFENSE(+3.22%) > canon(+0.94%) > MOM(+0.70%)；bull 增量 REGIME +0.194 > OFFENSE +0.169 > CONC +0.129 > MOM +0.033 > NOCASH 0（vs canon bull +3.83%）。
+- **诚实边界读数**：①0.70 晋升线仍高栏——最好 pooled 0.5848（REGIME）< 0.70，零面过 J-1 线（非本批 KPI，如实报）；②x2/bear 危机面=激进代价可见——OFFENSE x2 bear −4.91% 距 −5% J3 界最近、REGIME −3.99%、CONC −2.22%（皆界内）；③五变体日收益两两 corr 0.72-0.99（与 canon 0.72-0.97，高共线如实披露，concentration 族内同 sleeve 基座使然）。
+- 账本：chain 61015→61115（+100 聚合判断格）；gate_attrition 追加 aggressive-lab 行；56 sleeve=o1600 口径复现 +0；SEED_REGISTRY +0（零搜索零随机族）。产物=results/aggressive_lab.json（evidence_cutoff=2026-09-23 顶层+C2 合法+prereg sha 59ea4cc13045777c 嵌入）。
+- **采纳状态：零接线零采纳**——月界（10-01）入 T-27 锦标赛池=常设激进候选（票 (e)）；纸盘 5 账户接线=slice-2 续作（设计 §6 冻结）。
 
-## §8 批后复盘【跑后回填】
+## §8 批后复盘【s7-T】
 
-（待跑后回填）
+- **预测对账（§5 六条）**：①CONC J2/J3 破——**未中**（三 J 全过，天花板 4.6×正典）；②OFFENSE J3 bear 破近必然——**未中**（J3 过，但 x2 bear −4.91% 为全场最贴界者，方向部分对）；③MOM J2 破——**中**（x2 −0.14%，唯一破面）；④NOCASH=canon 字节恒等——**中**（逐位一致）；⑤REGIME J3 存活 J2 不确定——**中**（J3✓J2✓ x2 +2.28%）；⑥grid ≤ canon 集中伤广度——**未中**（四激进面 pooled 全高于正典 0.4854：REGIME 0.5848 最高）。**3/6 命中**，两处「未中」均为激进面实测好于保守预测——按 CEO「实战出真知」元律如实记录，不调节律只记读数。
+- **诚实新发现**：集中度在该网格面**提升** 12m beat 率（与「集中伤广度」先验相反）——归因假设=CONC/OFFENSE/REGIME 三面重仓 COMPOSITE-CE-01（军种名册 bull 段 beat 0.819/n=470 全表最强段员）+REGIME 的 v3 择时腿把 bear 段暴露切给 A_IV 防御；归因待月界锦标赛深挖，本批不扩结论。
+- 反重复律兑现：五面全部=T-27/T-28 注册机件复用（sleeve worker/blend/frame/seg/grid 全 import 零重写）；registered-not-deleted 律兑现（C 复活=MOM、D 复活=REGIME-v3 化）。
+- 续作指针：slice-2=纸盘 5 账户接线（marks 日累+白名单+风险预算字段，§6 设计冻结）；月界=入锦标赛池常设候选；T-57（野路子面）=独立线独立票。
