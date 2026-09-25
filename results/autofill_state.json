@@ -1,17 +1,6 @@
 {
  "launches": [
   {
-   "entry": "T54-GRID-LD",
-   "fill_latency_min": 80.7,
-   "machine": "bm-a",
-   "pid": 42640,
-   "py_cpu_pct": 0.0,
-   "shard": "legacy-lD",
-   "target_met": false,
-   "ts": "2026-09-25 12:40:01",
-   "verdict": "launched"
-  },
-  {
    "entry": "T54-GRID-DB",
    "fill_latency_min": 110.7,
    "machine": "bm-b",
@@ -549,23 +538,29 @@
    "pid": 4460,
    "fill_latency_min": 82.9,
    "target_met": false
+  },
+  {
+   "ts": "2026-09-26 03:10:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 4.8,
+   "verdict": "launched",
+   "entry": "P1E-NULLS-MCLOSE",
+   "shard": "p1e-nulls-mclose",
+   "pid": 3096,
+   "fill_latency_min": 3.2,
+   "target_met": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 03:06:57",
+  "ts": "2026-09-26 03:10:01",
   "machine": "bm-b",
-  "py_cpu_pct": 0.0,
-  "verdict": "dry_launch",
+  "py_cpu_pct": 4.8,
+  "verdict": "launched",
   "entry": "P1E-NULLS-MCLOSE",
   "shard": "p1e-nulls-mclose",
-  "cmd": [
-   "C:\\Program Files\\Python311\\python.exe",
-   "C:\\Users\\Administrator\\Desktop\\Bigmoney\\scripts/p1e_ic_batch.py",
-   "run-nulls",
-   "--class",
-   "M_close"
-  ],
-  "fill_latency_min": 0.2
+  "pid": 3096,
+  "fill_latency_min": 3.2,
+  "target_met": true
  },
  "rebase_union_note": "r208 rebase union (bm-a): launches 50+50 -> 50 unique -> cap 50 rolling (oldest dropped); last_tick take-newer, same-second tie -> HEAD = head(tie-or-older-ours)"
 }
