@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 12:57:56",
+ "updated_at": "2026-09-25 13:01:28",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -606,7 +606,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 0,
-   "status": "ready",
+   "status": "waiting",
    "entered_at": "2026-09-25 12:32:26",
    "data_gates": "in-runner: panel completeness >=95% non-null per asset at cutoff 2026-09-22 (VOID exit 2) + determinism byte-identity (selftest 19/19 green r177) + P5 presence check data/ext_slots/etf_daily/510880.csv (absent/window-inadequate = honest 6-cell interim, no ledger)",
    "shards": [
@@ -616,7 +616,7 @@
      "owner": "bm-b",
      "owner_since": "2026-09-25 12:32:26",
      "checkpoint": "results/alloc_s2_cells/<cell>.json (per-cell config-sha keyed resume; finalize reads checkpoints never in-memory, T-33 law)",
-     "note": "pre-claim r170 claim-first by bm-b (12:32:26); priority bumped 1->0 by r178 bm-b (CEO-immediate O-1145 + 1-worker non-blocking: fires at first free tick ~13:20 and coexists with T54 deep 12-worker burns); single-writer; takeover=stale>20min; deterministic rerun byte-identical (idempotent interim overwrite until P5 lands)"
+     "note": "INTERIM DONE r178: fired 13:00:02 (priority-0 first fire proof) -> ~35s complete, 6-cell interim committed 7860b637 (evidence_cutoff 2026-09-22, P1 ann 4.78%/maxDD -10.17%/Calmar 0.47 sample face, V1 flat ~ V2 = monthly-rebalance cost face ~zero, cost_x2 survives); p5_status=pending_data_pull honest. ENTRY FLIPPED ready->waiting by r178 post-commit to stop idle re-fire loop until P5 lands (15:30+ off-hours 510880 pull leg, r159 resume-no-op-residual face pre-empted); REARM = the 15:30+ round flips status back to ready after the pull lands -> tick fires 7/7 finalize rerun -> ledger +7 + gate_attrition per prereg sec.8. Rearm pointers: state.json next + round_reports r178 addendum + this note"
     }
    ],
    "workers_plan": {
