@@ -98,17 +98,20 @@ def _init_worker_p54(axis, roster, log_path):
 
 
 def _anchor_filter(roster, log_path):
-    """Per-member anchor gate on load_core (P-5 caliber). Frozen rule:
-    FAIL -> member excluded with disclosure (not batch abort)."""
+    """Per-member anchor gate on load_core (P-5 caliber, PROSPECT evidence
+    schema: full/out_sample faces, t24_prospect_onboard repro caliber).
+    Frozen rule per prereg s4: FAIL -> member excluded with disclosure
+    (not batch abort)."""
     from firm.hr import load_trader
-    from live.paper import anchor_gate, load_core
+    from live.paper import prospect_anchor_gate, load_core
     prices = load_core()
     keep, excluded = [], []
     for tid in roster:
         t = load_trader(tid)
-        a = anchor_gate(t, prices)
+        a = prospect_anchor_gate(t, prices)
         with open(log_path, "a", encoding="utf-8") as fh:
-            fh.write(f"anchor {tid}: {'PASS' if a['ok'] else 'FAIL'}\n")
+            why = "" if a["ok"] else f" reason={a.get('error') or a.get('checks')}"
+            fh.write(f"anchor {tid}: {'PASS' if a['ok'] else 'FAIL'}{why}\n")
         (keep if a["ok"] else excluded).append(tid)
     return keep, excluded
 

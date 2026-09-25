@@ -317,6 +317,69 @@ def anchor_gate(t: dict, prices_full: dict) -> dict:
             "checks": checks}
 
 
+def _evidence_matches_frozen(got: dict, want: dict) -> bool:
+    """Face-aware comparison for evidence faces freezing only a subset of
+    metric fields (PROSPECT schema, t24_prospect_onboard repro caliber).
+    Compares exactly the frozen fields; sharpe must be present (a face
+    without a frozen sharpe anchors nothing). Tolerances = frozen house
+    ANCHOR_TOL + exact trade count -- no new thresholds."""
+    if "sharpe" not in want or "sharpe" not in got:
+        return False
+    ok = abs(got["sharpe"] - want["sharpe"]) < ANCHOR_TOL
+    if "trades" in want:
+        ok = ok and got.get("trades") == want["trades"]
+    dd = want.get("max_dd", want.get("max_drawdown"))
+    if dd is not None:
+        ok = ok and abs(got["max_drawdown"] - dd) < ANCHOR_TOL
+    ann = want.get("annual", want.get("annual_return"))
+    if ann is not None:
+        ok = ok and abs(got["annual_return"] - ann) < ANCHOR_TOL
+    return ok
+
+
+def prospect_anchor_gate(t: dict, prices_full: dict) -> dict:
+    """Reproduce a PROSPECT member's frozen evidence on load_core
+    (P-5 caliber, prereg T54_PROSPECT_GRID s4). PROSPECT members freeze
+    backtest faces {full, out_sample, cost_x2} (t24_prospect_onboard
+    anchor-repro admission) -- no in_sample face, unlike registered
+    members. Faces compared = faces the member actually froze; fields
+    compared = frozen fields only. Same engine path and frozen ANCHOR_TOL
+    house caliber as anchor_gate; FAIL -> caller excludes + discloses
+    (prereg s4), never a batch abort."""
+    entry_key = t["params"]["entry"]
+    builder = SIGNAL_BUILDERS.get(entry_key)
+    if builder is None:
+        return {"ok": False, "error": f"entry not in SIGNAL_BUILDERS: {entry_key!r}"}
+    want = t.get("backtest") or {}
+    if "full" not in want:
+        return {"ok": False, "error": "prospect evidence face missing: backtest.full"}
+    cutoff = evidence_cutoff(t, prices_full)
+    ps = pd.Timestamp(cutoff)
+    prices = {s: df[df.index <= ps] for s, df in prices_full.items()}
+    P = build_panels(prices)
+    idx = P["close"].index
+    entry = builder(P)
+    params = {k: v for k, v in t["params"].items() if k != "entry"}
+    with ExitPatch(t.get("exit_overrides")):
+        res = run_backtest(prices, params, entry_signal=entry,
+                           exit_signal=(entry <= 0))
+    eq = pd.Series(res["equity_curve"], index=idx[:len(res["equity_curve"])])
+    n_trades = res["metrics"]["num_trades"]
+    oos_trades = sum(1 for tr in res["trades"] if str(tr["date"]) >= OOS_START)
+    got = {"full": {**seg_metrics(eq), "trades": n_trades},
+           "out_sample": {**seg_metrics(eq, OOS_START), "trades": oos_trades}}
+    for seg_name in ("full", "out_sample"):
+        m = got[seg_name]
+        if m.get("status") == "insufficient_data":
+            return {"ok": False, "cutoff": cutoff,
+                    "error": (f"{seg_name} segment too short "
+                              f"({m['bars']} bars < 20)")}
+    checks = {name: _evidence_matches_frozen(got[name], want[name])
+              for name in ("full", "out_sample") if name in want}
+    ok = bool(checks) and all(checks.values())
+    return {"ok": ok, "cutoff": cutoff, "got": got, "checks": checks}
+
+
 def monthly_aggregate(equity: pd.Series | None, initial_cash: float,
                       paper_start: str) -> dict:
     """Calendar-month paper evidence.
