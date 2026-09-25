@@ -483,11 +483,16 @@ def _recent_ann(rets):
 
 def build_null_mask(durations, n_days, seed):
     """Random segment placement, duration multiset preserved, non-overlap
-    by rejection, deterministic per seed (prereg s3)."""
+    by rejection, deterministic per seed (prereg s3). Segments are placed
+    in DECREASING-duration order (bin-packing heuristic): the longest
+    episodes draw their random starts first so scattered small segments
+    can never fragment the free space into infeasibility; start positions
+    remain uniform random draws from the seeded rng."""
     rng = np.random.default_rng(seed)
     placed = []
-    for j in rng.permutation(len(durations)):
-        dur = int(durations[j])
+    order = sorted(range(len(durations)), key=lambda i: -int(durations[i]))
+    for ji in order:
+        dur = int(durations[ji])
         ok = False
         for _attempt in range(500):
             s = 1 if dur >= n_days - 1 else int(rng.integers(1, n_days - dur + 1))
