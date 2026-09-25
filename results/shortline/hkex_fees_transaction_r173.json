@@ -1,0 +1,24 @@
+{
+  "probe": "T-17 d5 rate-value face, R173 (bm-a)",
+  "source": "https://www.hkex.com.hk/Services/Rules-and-Forms-and-Fees/Fees/Securities-(Hong-Kong)/Trading/Transaction?sc_lang=en",
+  "source_type": "HKEX official fees page (exchange official, plain-HTML urllib read)",
+  "fetched_utc": "2026-09-25T08:2x:00Z (local 16:2x +08:00)",
+  "discovery_path": "parent-page href law (R171): /Services/Trading/Securities parent -> /Services/Rules-and-Forms-and-Fees/Fees/Overview -> Securities-(Hong-Kong)/Trading/Transaction (no URL guessing)",
+  "extracts": {
+    "sfc_transaction_levy": "Effective 1 November 2014, a SFC Transaction Levy of 0.0027% (rounded to the nearest cent) is charged per side of the consideration of a transaction, and the amount is collected for the SFC. There is no SFC Transaction Levy on Securities Market Maker (SMM) transactions.",
+    "investor_compensation_levy": "Effective 19 December 2005, the payment of Investor Compensation Levy (i.e. 0.002% per side of the consideration of a transaction, rounded to the nearest cent) has been suspended by the SFC.",
+    "afrc_transaction_levy": "Effective 1 January 2022, an AFRC Transaction Levy of 0.00015% (rounded to the nearest cent) is charged per side of the consideration of a transaction, and the amount is collected for the Accounting and Financial Reporting Council (AFRC). There is no AFRC Transaction Levy on Securities Market Maker (SMM) transactions.",
+    "trading_fee": "A Trading Fee of 0.00565% per side of the consideration of a transaction (rounded to the nearest cent) is payable to the Exchange. [cross-validates SEHK Rules Chap 8 p.8-2 literal from R172]",
+    "stamp_duty": "Unless stated otherwise, all securities listed on the Exchange are subject to a stamp duty at a rate of 0.1% (rounded up to the nearest dollar) on the value of the transaction, on both the buyer and the seller. [exemptions page: Securities-exempt-from-stamp-duty list cross-validates ListOfSecurities 'Subject to Stamp Duty' column from R172]",
+    "fx_note": "For transactions in non-Hong Kong dollar currencies, the Exchange adopts the same exchange rates as for stamp duty calculation purpose for calculating SFC/AFRC/ICL/Trading Fee if applicable."
+  },
+  "pending_domain_resolution": {
+    "domain_1_feilv": "all four sub-faces resolved (SFC rate / AFRC rate / ICL waiver current status / stamp duty rate value) from this single official page",
+    "domain_2_dividend_tax": "STILL PENDING - mainland official source (mof/chinatax/gov.cn) not yet reached",
+    "domain_3_intraday_roundtrip": "negative-claim face, stays as inference caution (not verifiable by positive official text)"
+  },
+  "dead_faces_this_round": {
+    "elegislation.gov.hk": "JS checkconfig gate (7562B shell, submitClientConfig.do redirect) - urllib/wget plain HTML dead; not bypassed per no-wall policy",
+    "ird.gov.hk": "unchanged from R172 (603B anti-crawl) - superseded by HKEX official rate literal which is sufficient for knowledge entry (both buyer+seller 0.1%)"
+  }
+}
