@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 13:21:31",
+ "updated_at": "2026-09-25 13:22:14",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -484,11 +484,11 @@
    "shards": [
     {
      "key": "deep-dB",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-25 12:44:19",
      "checkpoint": "results/t54/cells_deep_base_dB.jsonl + cells_deep_x2_dB.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [377,754) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min; pre-claim r170 claim-first by bm-b r178 @ 2026-09-25 12:44:19 (fire expected first tick after deep-dA completes on bm-b)"
+     "note": "DONE r179 bm-b owner-write: done_deep_dB.json marker real ts 13:21:31 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2 rows), 1506 eligible positions, 22 members, anchor_excluded=0, runtime 686.3s on 12 BelowNormal workers (fired 13:10:02 tick, claim-first pre-claim 12:44:19 held; next serial lane = dC at next tick, then dD, then MF-ROT-S1 (1-process, coexists))"
     }
    ],
    "workers_plan": {
