@@ -712,7 +712,14 @@ SEED_REGISTRY = {
     # 2026-09-26 03:0x before P1E prereg freeze -- sole full-repo hits =
     # Money* data-file digit coincidences (csv volumes / fold indices,
     # non-RNG, t34/wild_route precedent); registered bm-b r219; lane =
-    # ASTYLE_ZOO #85/#92/#93 consumption face, P-1c harness family)
+    # ASTYLE_ZOO #85/#92/#93 consumption face, P-1c harness family
+    "p1e_synth_null_b": 67_200,              # P1E_SYNTH K=2 white-noise pair
+    # nulls (draw i: seeds 67200+2i / 67200+2i+1, i<50; band 67200..67299,
+    # next free band above p1e_zoo_behavior 67149; rg scripts/+research/
+    # scan 2026-09-26 06:4x before P1E_SYNTH prereg freeze -- sole full-repo
+    # hits = results/*.json backtest digit coincidences (867200.91 etc,
+    # non-RNG, t34/wild_route precedent); registered bm-b r229; lane =
+    # P-1e survivors joint synth, PS2 K=2 precedent)
 }
 
 
