@@ -706,6 +706,13 @@ SEED_REGISTRY = {
     # options_wave2 63049 -- 64k/65k left clear for in-flight families;
     # registered 2026-09-25 22:2x bm-b r207 before BOND_CARRY_WAVE3A prereg
     # freeze; T-2026-09-25-68-P1 wave-3a exchange-bonds lane)
+    "p1e_zoo_behavior": 67_000,               # P-1e zoo behavior IC batch K=50
+    # nulls x3 mask classes (67000+k, k<150; band 67000..67149, next free
+    # band above bond_carry_w3a 66031; rg scripts/+research/ scan clean
+    # 2026-09-26 03:0x before P1E prereg freeze -- sole full-repo hits =
+    # Money* data-file digit coincidences (csv volumes / fold indices,
+    # non-RNG, t34/wild_route precedent); registered bm-b r219; lane =
+    # ASTYLE_ZOO #85/#92/#93 consumption face, P-1c harness family)
 }
 
 

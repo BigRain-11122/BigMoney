@@ -1,0 +1,214 @@
+{
+  "meta": {
+    "probe": "P-1e zoo behavior-factor IC batch face probe (prereg-input, IS-only corr/coverage, zero judgement)",
+    "run_at": "2026-09-26 02:28",
+    "panel": "Money02/data/cache/p1c_stock (T=8792, N=5222, ok 5130)",
+    "is_end": "2024-12-31",
+    "constructors": "scripts/p1e_factors.py selftest PASS (ARC brute-force worst 1.18e-15)",
+    "elapsed_s": 365.8
+  },
+  "facts": {
+    "turnover_source": {
+      "sidecar": "Money02/data/cache/p1c_stock/turnover_derived.npy",
+      "formula": "non-688/689: volume/osh; 688xxx/689xxx: (volume/100)/osh (TURNOVER_DERIVATION.md SS4 frozen)",
+      "generated": "2026-09-26 02:28:40",
+      "gates": true
+    },
+    "turnover_unit": {
+      "percentiles_1_25_50_75_99": [
+        0.0001,
+        0.0026,
+        0.0072,
+        0.0171,
+        0.126
+      ],
+      "convention": "already fraction",
+      "share_gt_1_raw": 0.0
+    },
+    "bars_pctchg_unit": {
+      "unit": "percent (p99 |value| ~ 9.99 = A-share limit cap)",
+      "n_overlap_cells": 16633388,
+      "share_agree_gt_1e_4_after_div100": 1.0,
+      "share_disagree_after_div100": 0.0,
+      "note": "residual disagreement = suspension-gap days where the ffilled close ratio spans multiple sessions (single-day pct_chg cannot match); close-based is the frozen convention, pct_chg not consumed by the batch"
+    },
+    "zoo93_nonfinite_arc_cells": 32617132,
+    "zoo93_estimate_recheck": {
+      "freeze_card_claim": "~7.5e8 simple ops, numpy vectorized minutes-level; naive upper bound qlib 200-300min",
+      "measured_wall_s": 14.1,
+      "T_x_N": [
+        8792,
+        5222
+      ],
+      "window_count_scale": 45911824,
+      "note": "cumsum-factorized O(T*N) per power j (5 powers + validity)"
+    },
+    "peak_ram_gb": null
+  },
+  "timing": {
+    "zoo85_terrified_s": 4.0,
+    "zoo85_stv_s": 12.8,
+    "zoo92_coin_team_s": 21.5,
+    "zoo93_arc_family_s": 14.1,
+    "alpha191_070_s": 2.9,
+    "alpha191_081_s": 0.8,
+    "alpha191_042_s": 12.2,
+    "gtja_stage_s": 22.4
+  },
+  "corr": {
+    "zoo85_terrified|zoo85_stv": {
+      "xs_spearman_mean": 0.3365,
+      "n_dates": 8011
+    },
+    "zoo85_terrified|zoo92_coin_team": {
+      "xs_spearman_mean": 0.3547,
+      "n_dates": 8350
+    },
+    "zoo85_terrified|zoo93_arc": {
+      "xs_spearman_mean": 0.3648,
+      "n_dates": 7849
+    },
+    "zoo85_stv|zoo92_coin_team": {
+      "xs_spearman_mean": 0.3116,
+      "n_dates": 8011
+    },
+    "zoo85_stv|zoo93_arc": {
+      "xs_spearman_mean": 0.1979,
+      "n_dates": 7849
+    },
+    "zoo92_coin_team|zoo93_arc": {
+      "xs_spearman_mean": 0.2855,
+      "n_dates": 7849
+    },
+    "zoo93_arc|zoo93_vrc": {
+      "xs_spearman_mean": -0.0564,
+      "n_dates": 7849
+    },
+    "zoo93_arc|zoo93_src": {
+      "xs_spearman_mean": 0.0966,
+      "n_dates": 7849
+    },
+    "zoo93_arc|zoo93_krc": {
+      "xs_spearman_mean": -0.0284,
+      "n_dates": 7849
+    },
+    "zoo85_terrified|alpha191_070": {
+      "xs_spearman_mean": 0.3421,
+      "n_dates": 8049
+    },
+    "zoo85_terrified|alpha191_081": {
+      "xs_spearman_mean": 0.2426,
+      "n_dates": 8292
+    },
+    "zoo85_terrified|alpha191_042": {
+      "xs_spearman_mean": -0.3049,
+      "n_dates": 8038
+    },
+    "zoo85_stv|alpha191_070": {
+      "xs_spearman_mean": 0.2408,
+      "n_dates": 8011
+    },
+    "zoo85_stv|alpha191_081": {
+      "xs_spearman_mean": 0.1988,
+      "n_dates": 8011
+    },
+    "zoo85_stv|alpha191_042": {
+      "xs_spearman_mean": -0.2082,
+      "n_dates": 8011
+    },
+    "zoo92_coin_team|alpha191_070": {
+      "xs_spearman_mean": 0.2584,
+      "n_dates": 8049
+    },
+    "zoo92_coin_team|alpha191_081": {
+      "xs_spearman_mean": 0.2028,
+      "n_dates": 8292
+    },
+    "zoo92_coin_team|alpha191_042": {
+      "xs_spearman_mean": -0.2581,
+      "n_dates": 8038
+    },
+    "zoo93_arc|alpha191_070": {
+      "xs_spearman_mean": 0.2187,
+      "n_dates": 7849
+    },
+    "zoo93_arc|alpha191_081": {
+      "xs_spearman_mean": 0.1369,
+      "n_dates": 7849
+    },
+    "zoo93_arc|alpha191_042": {
+      "xs_spearman_mean": -0.1523,
+      "n_dates": 7849
+    },
+    "ic10_series|zoo85_terrified|zoo85_stv": {
+      "pearson": 0.4384,
+      "n_common": 8011
+    },
+    "ic10_series|zoo85_terrified|zoo92_coin_team": {
+      "pearson": 0.2985,
+      "n_common": 8350
+    },
+    "ic10_series|zoo85_terrified|zoo93_arc": {
+      "pearson": 0.1673,
+      "n_common": 7849
+    },
+    "ic10_series|zoo85_stv|zoo92_coin_team": {
+      "pearson": 0.4911,
+      "n_common": 8011
+    },
+    "ic10_series|zoo85_stv|zoo93_arc": {
+      "pearson": 0.3158,
+      "n_common": 7849
+    },
+    "ic10_series|zoo92_coin_team|zoo93_arc": {
+      "pearson": 0.3645,
+      "n_common": 7849
+    }
+  },
+  "coverage": {
+    "zoo85_terrified": {
+      "is_valid_cells": 14871096,
+      "is_valid_cell_share": 0.3401,
+      "is_ic_periods": 8350
+    },
+    "zoo85_stv": {
+      "is_valid_cells": 13260444,
+      "is_valid_cell_share": 0.3033,
+      "is_ic_periods": 8011
+    },
+    "zoo92_coin_team": {
+      "is_valid_cells": 14871096,
+      "is_valid_cell_share": 0.3401,
+      "is_ic_periods": 8350
+    },
+    "zoo93_arc": {
+      "is_valid_cells": 11209561,
+      "is_valid_cell_share": 0.2564,
+      "is_ic_periods": 7849
+    },
+    "zoo93_vrc": {
+      "is_valid_cells": 11246426,
+      "is_valid_cell_share": 0.2572
+    },
+    "zoo93_src": {
+      "is_valid_cells": 11246426,
+      "is_valid_cell_share": 0.2572
+    },
+    "zoo93_krc": {
+      "is_valid_cells": 11246426,
+      "is_valid_cell_share": 0.2572
+    },
+    "alpha191_070": {
+      "is_valid_cells": 14153191,
+      "is_valid_cell_share": 0.3237
+    },
+    "alpha191_081": {
+      "is_valid_cells": 14496970,
+      "is_valid_cell_share": 0.3316
+    },
+    "alpha191_042": {
+      "is_valid_cells": 13888473,
+      "is_valid_cell_share": 0.3176
+    }
+  }
+}
