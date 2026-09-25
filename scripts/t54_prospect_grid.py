@@ -257,7 +257,7 @@ def cmd_status(_) -> int:
 
 def _finalize(out_dir=OUT_DIR, shard_plan=None, census=None, faces=FACES,
              windows=WINDOWS, results_dir="results",
-             summary_path=None, refinalize=False):
+             summary_path=None, refinalize=False, eligible_by_axis=None):
     """Prereg s6 finalize leg: all-shard done-marker census gate + per-shard
     row-count account vs the frozen shard ranges + per-member three-window
     beat rates + summary JSON + trials-ledger append by ACTUAL cell count
@@ -299,6 +299,28 @@ def _finalize(out_dir=OUT_DIR, shard_plan=None, census=None, faces=FACES,
     if not members:
         print("finalize abort: empty roster")
         return 2
+    # SHARD_PLAN bounds are census-index slices over the eligible absolute-
+    # position list (runner: shard = eligible[pos_from:pos_to]); rows carry
+    # absolute panel positions. Re-derive the same eligible list from the
+    # live panels (R117 pairing law) and gate it on the frozen census so a
+    # drifted panel cannot silently remap the shard windows (r105 law).
+    if eligible_by_axis is None:
+        from live.paper import build_panels
+        eligible_by_axis = {}
+        for axis in shard_plan:
+            P = build_panels(t22._load_axis_prices(axis))
+            close = P["close"]
+            listed = close.notna().sum(axis=1)
+            el = t22.enumerate_starts(len(close.index), listed)
+            if len(el) != census[axis]:
+                print(f"finalize abort: eligible re-derivation drift "
+                      f"{axis}: {len(el)} != frozen {census[axis]}")
+                return 2
+            eligible_by_axis[axis] = el
+    pos_win = {}
+    for axis, shards in shard_plan.items():
+        for sh, (lo, hi) in shards.items():
+            pos_win[(axis, sh)] = set(eligible_by_axis[axis][lo:hi])
 
     rows_by = {}
     for axis, shards in shard_plan.items():
@@ -324,7 +346,7 @@ def _finalize(out_dir=OUT_DIR, shard_plan=None, census=None, faces=FACES,
 
     seen, dupes = set(), 0
     for (axis, face, sh), rows in rows_by.items():
-        lo, hi = shard_plan[axis][sh]
+        win = pos_win[(axis, sh)]
         for r in rows:
             k = str(r.get("key", ""))
             ak = (axis, face, k)   # uniqueness scope: both axes AND both
@@ -334,7 +356,7 @@ def _finalize(out_dir=OUT_DIR, shard_plan=None, census=None, faces=FACES,
             seen.add(ak)
             tid, _, pos = k.partition("|")
             if tid not in members or not pos.isdigit() \
-                    or not (lo <= int(pos) < hi):
+                    or int(pos) not in win:
                 print(f"finalize abort: row key outside frozen shard "
                       f"range/roster: {k}")
                 return 2
@@ -500,6 +522,13 @@ def cmd_selftest() -> int:
                 "deep": {"dA": (0, 3), "dB": (3, 6)}}
         cens = {"legacy": 4, "deep": 6}
         mem = ["PROS-A", "PROS-B"]
+        # absolute panel positions deliberately != census indices
+        # (production shape: legacy eligible starts at 252, deep at 1599);
+        # pins the index-vs-absolute domain of the shard range check
+        # (R117 pairing law -- fixture must not let the two domains
+        # coincide, or the domain bug is invisible)
+        elig = {"legacy": [252, 253, 254, 255],
+                "deep": [1599, 1600, 1601, 1602, 1603, 1604]}
         fin_faces = ("base", "x2")
         n_expect = (4 + 6) * len(mem) * len(fin_faces)
 
@@ -522,7 +551,8 @@ def cmd_selftest() -> int:
                                "ticket": TICKET}, fh, indent=1)
                 for face in fin_faces:
                     rows = []
-                    for pos in range(lo, hi):
+                    for i in range(lo, hi):
+                        pos = elig[axis][i]
                         for tid in mem:
                             rows.append(_row(tid, pos, True,
                                               pos % 2 == 0))
@@ -534,7 +564,7 @@ def cmd_selftest() -> int:
         sp = os.path.join(tmp, SUMMARY_NAME)
         rc = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
                        faces=fin_faces, results_dir=res_dir,
-                       summary_path=sp)
+                       summary_path=sp, eligible_by_axis=elig)
         s = json.loads(open(sp, encoding="utf-8").read()) \
             if os.path.exists(sp) else {}
         ok("finalize complete mini-grid",
@@ -543,7 +573,8 @@ def cmd_selftest() -> int:
            and s["trials_ledger"]["prev_total"] == 0
            and s["evidence_cutoff"] == EVIDENCE_CUTOFF)
         # hand-check: every 6m beat True -> pooled rate 1.0; 12m evens
-        # (legacy 0,2 + deep 0,2,4 of 4+6 positions) -> 0.5 per member
+        # (legacy 252,254 + deep 1600,1602,1604 of 4+6 positions)
+        # -> 0.5 per member
         pm = s.get("per_member_pooled", {}).get("PROS-A", {})
         ok("finalize beat-rate hand-check",
            pm.get("n") == 20 and pm.get("beat_rate_6m") == 1.0
@@ -555,15 +586,16 @@ def cmd_selftest() -> int:
 
         # 8) single-shot guard: second run refused without T54_REFINALIZE
         rc2 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
-                        faces=fin_faces, results_dir=res_dir,
-                        summary_path=sp)
+                       faces=fin_faces, results_dir=res_dir,
+                       summary_path=sp, eligible_by_axis=elig)
         ok("finalize single-shot guard", rc2 == 1)
 
         # 9) missing-marker abort (shards split across machines face)
         os.remove(os.path.join(tmp, "done_deep_dB.json"))
         rc3 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
-                        faces=fin_faces, results_dir=res_dir,
-                        summary_path=sp, refinalize=True)
+                       faces=fin_faces, results_dir=res_dir,
+                       summary_path=sp, refinalize=True,
+                       eligible_by_axis=elig)
         ok("finalize missing-marker abort", rc3 == 2)
 
         # 10) census-drift abort (n_eligible != frozen census)
@@ -574,8 +606,9 @@ def cmd_selftest() -> int:
                   encoding="utf-8") as fh:
             json.dump(bad, fh)
         rc4 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
-                        faces=fin_faces, results_dir=res_dir,
-                        summary_path=sp, refinalize=True)
+                       faces=fin_faces, results_dir=res_dir,
+                       summary_path=sp, refinalize=True,
+                       eligible_by_axis=elig)
         ok("finalize census-drift abort", rc4 == 2)
         bad["n_eligible"] = 6
         with open(os.path.join(tmp, "done_deep_dA.json"), "w",
@@ -591,8 +624,9 @@ def cmd_selftest() -> int:
         with open(rogue, "w", encoding="utf-8") as fh:
             fh.write("\n".join(lines) + "\n")
         rc5 = _finalize(out_dir=tmp, shard_plan=plan, census=cens,
-                        faces=fin_faces, results_dir=res_dir,
-                        summary_path=sp, refinalize=True)
+                       faces=fin_faces, results_dir=res_dir,
+                       summary_path=sp, refinalize=True,
+                       eligible_by_axis=elig)
         ok("finalize shard-range abort", rc5 == 2)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
