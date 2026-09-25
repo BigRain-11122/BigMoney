@@ -1071,17 +1071,18 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 22:37:11",
    "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
    "shards": [
     {
      "key": "bpanel-2of6",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-25 23:20:04",
      "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_2of6.json (resolved:true = done evidence)",
-     "note": "56 members (positions 112-168 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit"
+     "note": "56 members (positions 112-168 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
+     "done_note": "resolved:true @ results/bond_w3a/shard_2of6.json (evidence commit b6e980f6, r210 session flip per r203; runner pid25396 tick 23:10 launch); 56 members: 0 exist + 46 pulled + 10 no_face, 0 fails; CSV count 132 = 37+49+46 exact"
     }
    ],
    "workers_plan": {
