@@ -1,6 +1,6 @@
-# SINA_MF_PANEL — sina 个股四档资金流前向采集候选 PREREG（DRAFT·未冻结）
+# SINA_MF_PANEL — sina 个股四档资金流前向采集候选 PREREG（FROZEN·T-2026-09-26-72）
 
-> 状态：**DRAFT**——冻结时点=采集器实现票认领时（T-43 THS 先例：票认领→prereg 冻结 commit→实现）。
+> 状态：**FROZEN**——冻结时点=采集器实现票 T-2026-09-26-72 认领（2026-09-26 04:33 bm-a R217，T-43 THS 先例：票认领→prereg 冻结 commit→实现）；冻结后判据/护栏/schema 禁看结果改线，open items（§5）按注记路径收口不改语义。
 > 注册链：R212 候选登记（clist 路径族阻断 27h+ 触发）→ R215 三面探针（活性/量纲/深度，
 > 新鲜度 UNDETERMINED）→ **R216 新鲜度证伪=FRESH**（双股日期序非掩膜读数穿透至 2026-09-24）。
 > 证据：DIGEST-20260926-r215-t71-sina-mf-probe.md + DIGEST-20260926-r216-t71-sina-mf-freshness.md
