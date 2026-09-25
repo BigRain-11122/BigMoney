@@ -1,12 +1,12 @@
 {
- "round_no": 191,
- "did": "R191: T-67 wave-2 options prereg FROZEN (research/OPTIONS_WAVE2_PREREG.md, 70 cells = 18 candidates CC/PP/CSP x m{3,5,10}% x {weekly,monthly} + K=50 null seed 63_000 registered + 2 passive; retention-window forced-tenor design frozen: nearest-available-maturity selection, tenure 1-6m disclosed; span<90d -> descriptive-only adaptive rule; G2 fee verification gate pre-batch; forward-collect = wave-2b separate ticket) + science_gates selftest 34/34 after additive seed edit + F-04 MSG-2215-ALL + ticket progress_r191 + S6 16 legs green (no new bar legal skip) + S0.5 73/73 zero unacked + P-32 decisions zero new rows",
+ "round_no": 192,
+ "did": "R192: T-67 s0 P0 panel enumeration probe CLOSED ALL GREEN (scripts/options_s0_panel_probe.py selftest 14/14, detached 333.5s): codes census 200 contracts 16 faces OK (510050 96 / 510300 104; PUT LEGS ALIVE both underlyings all months -> zero PP/CSP empty cells); per-contract greeks+daily 200/200 ok zero excluded; SIX GATES ALL PASS (contract set / first-row disclosure / calendar alignment 0-gap both directions / close>0 hygiene / strike face 100% 3-source / ladder continuity); SPAN=160 trading days (2026-01-29..2026-09-24, deeper than prereg §5.1 ~124d prediction, favorable drift disclosed) >= 90 -> registration_eligible NO degrade; weekly entries estimate 32 >= 30 = F6 structurally reachable; panel artifacts = data/options/daily/*.csv x200 + data/options/contracts.json registry + results/options_s0_panel_probe.json (evidence_cutoff 2026-09-24 + science_gates.cutoff_meta) + cells.jsonl x200 + codes.json; S6 16 legs green (no new bar legal skip; audit pool_starvation supply-gap flag; WM probe py_low_board_clear; AH/moneyflow spawn throttled re-arm next round); S0.5 73/73 acked zero unacked + P-32 decisions mtime 12:05 zero new lines + S4 one memory entry (budget scaling law + span aggregation law)",
  "verdict": "green",
- "next": "T-67 s0 P0 panel enumeration probe (both underlyings x all enumerable months x calls+puts -> span verdict) -> s1 engine/options_runner.py + G2 fee verification -> s2 batch run+harvest; wave-2b forward-collect ticket after pilot; mf-rank/AH spawn completion recheck; 09-25 bar publication -> full chain接力",
- "ts": "2026-09-25T22:05:30+08:00",
- "last_round_ts": "2026-09-25T22:05:30+08:00",
- "updated_at": "2026-09-25T22:05:30+08:00",
- "current_task": "R191 done: OPTIONS_WAVE2 prereg frozen (T-67); next = P0 panel probe -> runner -> batch",
- "last_run": "2026-09-25T22:05:30+08:00",
- "last_round_at": "R191"
+ "next": "T-67 s1: engine/options_runner.py additive + scripts/options_wave2.py gates/run/selftest (panel local-file fed) + G2 fee/constant exchange verification (R169) -> s2 batch run + harvest -> wave-2b forward-collect ticket; AH/moneyflow spawn re-arm completion recheck; 09-25 bar publication -> full chain rewire; T-63 10-31 month-boundary first check",
+ "ts": "2026-09-25T22:30:30+08:00",
+ "last_round_ts": "2026-09-25T22:30:30+08:00",
+ "updated_at": "2026-09-25T22:30:30+08:00",
+ "current_task": "R192 done: T-67 s0 options panel probe six gates PASS span 160d registration_eligible; next = s1 runner -> s2 batch",
+ "last_run": "2026-09-25T22:30:30+08:00",
+ "last_round_at": "R192"
 }
