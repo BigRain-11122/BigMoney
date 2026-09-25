@@ -610,17 +610,18 @@
    ],
    "lane_owner": "bm-b",
    "priority": 0,
-   "status": "waiting",
+   "status": "done",
+   "done_at": "2026-09-25 15:54",
    "entered_at": "2026-09-25 12:32:26",
    "data_gates": "in-runner: panel completeness >=95% non-null per asset at cutoff 2026-09-22 (VOID exit 2) + determinism byte-identity (selftest 19/19 green r177) + P5 presence check data/ext_slots/etf_daily/510880.csv (absent/window-inadequate = honest 6-cell interim, no ledger)",
    "shards": [
     {
      "key": "alloc-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-25 12:32:26",
      "checkpoint": "results/alloc_s2_cells/<cell>.json (per-cell config-sha keyed resume; finalize reads checkpoints never in-memory, T-33 law)",
-     "note": "INTERIM DONE r178: fired 13:00:02 (priority-0 first fire proof) -> ~35s complete, 6-cell interim committed 7860b637 (evidence_cutoff 2026-09-22, P1 ann 4.78%/maxDD -10.17%/Calmar 0.47 sample face, V1 flat ~ V2 = monthly-rebalance cost face ~zero, cost_x2 survives); p5_status=pending_data_pull honest. ENTRY FLIPPED ready->waiting by r178 post-commit to stop idle re-fire loop until P5 lands (15:30+ off-hours 510880 pull leg, r159 resume-no-op-residual face pre-empted); REARM = the 15:30+ round flips status back to ready after the pull lands -> tick fires 7/7 finalize rerun -> ledger +7 + gate_attrition per prereg sec.8. Rearm pointers: state.json next + round_reports r178 addendum + this note"
+     "note": "INTERIM DONE r178: fired 13:00:02 (priority-0 first fire proof) -> ~35s complete, 6-cell interim committed 7860b637 (evidence_cutoff 2026-09-22, P1 ann 4.78%/maxDD -10.17%/Calmar 0.47 sample face, V1 flat ~ V2 = monthly-rebalance cost face ~zero, cost_x2 survives); p5_status=pending_data_pull honest. ENTRY FLIPPED ready->waiting by r178 post-commit to stop idle re-fire loop until P5 lands (15:30+ off-hours 510880 pull leg, r159 resume-no-op-residual face pre-empted); REARM = the 15:30+ round flips status back to ready after the pull lands -> tick fires 7/7 finalize rerun -> ledger +7 + gate_attrition per prereg sec.8. Rearm pointers: state.json next + round_reports r178 addendum + this note. FINALIZE DONE r188 (15:54): off-hours pull leg landed 15:53 via scripts/pull_510880_slot.py (sina pool-canonical fallback arm sh510880, fund_etf_hist_em transport-blocked both arms RemoteDisconnected r40/46 family -- vendor deviation disclosed in prereg sec.2 + ALLOC_S2_P5_PULL.json, EM-unblocked re-pull byte-compare = deferred re-verify face); slot 4786 rows 2007-01-18..2026-09-24, window coverage 1631/1631 union days zero-missing, unit ratio 1.0 shares; runner P5 ext-slot wiring fix (load_panel routed to pinned P5_SLOT; interim never touched it); in-round finalize R41 <5min exemption (selftest ALL PASS then run ~40s): cells 7/7 p5=included finalized=True, ledger 182945->182952 (+7), gate_attrition +1 measurement row, prereg sec.2/sec.7/sec.8 backfilled; single-shot guard active (ALLOC_S2_REFINALIZE=1 only redo); entry+shard double-flipped done per r180 law"
     }
    ],
    "workers_plan": {

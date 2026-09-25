@@ -316,7 +316,12 @@ def load_symbol_csv(path):
 def load_panel(symbols):
     px, amt = {}, {}
     for sym in symbols:
-        df = load_symbol_csv(os.path.join(DATA, f"{sym}.csv"))
+        # P5 rides the pinned ext-slot path (prereg sec.2 / docstring);
+        # everything else from the pool dir. Wiring landed with the P5
+        # pull leg -- interim runs never touched it (p5_present False).
+        path = (P5_SLOT if sym == "510880" and os.path.exists(P5_SLOT)
+                else os.path.join(DATA, f"{sym}.csv"))
+        df = load_symbol_csv(path)
         px[sym] = df["close"]
         amt[sym] = df["amount"]
     panel = pd.DataFrame(px).sort_index()

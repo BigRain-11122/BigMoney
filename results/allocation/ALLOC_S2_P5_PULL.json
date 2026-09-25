@@ -1,0 +1,29 @@
+{
+ "schema": "alloc_s2_p5_pull_v1",
+ "leg": "ALLOC_LINE_S2 P5 510880 ext-slot",
+ "source_prereg_frozen": "ak.fund_etf_hist_em adjust='' (prereg sec.2)",
+ "basis": "raw/unadjusted (price-return; matches sina-raw pool panel)",
+ "evidence_cutoff": "2026-09-22",
+ "pulled_at": "2026-09-25 15:54:24",
+ "arm_used": "sina_pool_canonical_fallback",
+ "rows_total": 4786,
+ "earliest": "2007-01-18",
+ "latest": "2026-09-24",
+ "vendor_deviation_disclosure": "prereg-named fund_etf_hist_em transport-blocked (RemoteDisconnected both direct+envproxy arms, bm-b push2his r40/46 IP-block family); fell back to fund_etf_hist_sina = pool-canonical builder source (download_etf.py lineage, same API as every data/daily member) -> basis-identical to panel by construction; transport-level deviation only, raw exchange bars vendor-invariant; EM-unblocked re-pull byte-compare = deferred re-verify face",
+ "unit_ratio_median": 1.000641,
+ "parity_cross_vendor": {
+  "status": "em_transport_blocked",
+  "error": "ConnectionError(ProtocolError('Connection aborted.', RemoteDisconnected('Remote end closed connection without response')",
+  "control_vendor": "em(fund_etf_hist_em raw)",
+  "note": "primary=pool-canonical sina; cross-vendor parity defers to EM-unblocked re-verify face"
+ },
+ "window": {
+  "start": "2020-01-02",
+  "end": "2026-09-22",
+  "union_days": 1631,
+  "missing_days": [],
+  "covered": true
+ },
+ "slot_path": "data\\ext_slots\\etf_daily\\510880.csv",
+ "slot_rows": 4786
+}
