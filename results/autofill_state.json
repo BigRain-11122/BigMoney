@@ -552,10 +552,20 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 03:00:01",
-  "machine": "bm-a",
+  "ts": "2026-09-26 03:06:57",
+  "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "dry_launch",
+  "entry": "P1E-NULLS-MCLOSE",
+  "shard": "p1e-nulls-mclose",
+  "cmd": [
+   "C:\\Program Files\\Python311\\python.exe",
+   "C:\\Users\\Administrator\\Desktop\\Bigmoney\\scripts/p1e_ic_batch.py",
+   "run-nulls",
+   "--class",
+   "M_close"
+  ],
+  "fill_latency_min": 0.2
  },
  "rebase_union_note": "r208 rebase union (bm-a): launches 50+50 -> 50 unique -> cap 50 rolling (oldest dropped); last_tick take-newer, same-second tie -> HEAD = head(tie-or-older-ours)"
 }
