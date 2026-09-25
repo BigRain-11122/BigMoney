@@ -19,6 +19,14 @@ Contract:
     are guarded by the runner-side final compaction keep-last).
   * Lane guard (F-08/R31/R65): entry.lane_owner null/ANY = any machine;
     named = that machine only.
+  * Mid-rebase/mid-merge guard (r201): .git/rebase-merge|rebase-apply|
+    MERGE_HEAD present -> honest no-op, no state write, no launch
+    (live case: 20:00 tick fired on a conflicted tree, read the marker
+    file, fresh-fallback wiped 49 launches -> 1 and launched unclaimed
+    during the session-dead rebase window, r159/r199 face).
+  * Corrupt-state refusal (r201): an EXISTING autofill_state.json that
+    fails to parse aborts the tick (exit 2) instead of silently saving
+    a fresh {"launches": []} over it.
   * Silent law: logs to logs/autofill.log only.
 
 Exit codes: 0 = normal (incl. honest no-op), 2 = mechanism fault
@@ -39,6 +47,7 @@ STATE = os.path.join(ROOT, "results", "autofill_state.json")
 LOG = os.path.join(ROOT, "logs", "autofill.log")
 MACHINES = os.path.join(ROOT, "fleet", "machines")
 MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json")
+_GIT_DIR = os.path.join(ROOT, ".git")
 
 LOW_PY_LINE = 70.0        # O-1136: py CPU < 70% of machine capacity
 SAMPLE_S = 2.0            # instantaneous py-CPU sample window
@@ -151,13 +160,20 @@ def _runner_alive(runner_rel):
     return False
 
 
+class _CorruptState(Exception):
+    """Existing autofill_state.json fails to parse (r201: refuse, never wipe)."""
+
+
 def _load_state():
     if os.path.exists(STATE):
         try:
             with open(STATE, encoding="utf-8") as fh:
                 return json.load(fh)
-        except Exception:
-            pass
+        except Exception as ex:
+            # r201: a parse-failed EXISTING file must never fall back to a
+            # fresh state -- the next _save_state would wipe the launch
+            # history (live case: mid-rebase marker file, 49 launches -> 1).
+            raise _CorruptState(str(ex))
     return {"launches": []}
 
 
@@ -206,6 +222,12 @@ def _pick(pool, myid):
 
 
 def tick(dry=False):
+    for probe in ("rebase-merge", "rebase-apply", "MERGE_HEAD"):
+        if os.path.exists(os.path.join(_GIT_DIR, probe)):
+            _log(f"tick no-op: git mid-operation ({probe}) -- conflicted "
+                 f"tree, no state write, no launch")
+            print(f"no-op: git mid-operation ({probe})")
+            return 0
     rec = {"ts": _now(), "machine": _machine_id()}
     try:
         py = _py_cpu_pct()
@@ -213,7 +235,12 @@ def tick(dry=False):
         _log(f"tick ABORT sampler fault: {ex}")
         return 2
     rec["py_cpu_pct"] = py
-    state = _load_state()
+    try:
+        state = _load_state()
+    except _CorruptState as ex:
+        _log(f"tick ABORT corrupt autofill_state (refuse wipe, r201): {ex}")
+        print(f"ABORT corrupt autofill_state.json: {ex}")
+        return 2
     if py >= LOW_PY_LINE:
         rec["verdict"] = "py_loaded"
         state["last_tick"] = rec
@@ -282,14 +309,18 @@ def tick(dry=False):
 
 
 def status():
-    s = _load_state()
+    try:
+        s = _load_state()
+    except _CorruptState as ex:
+        print(f"corrupt autofill_state.json: {ex}")
+        sys.exit(2)
     print(json.dumps(s.get("last_tick", {}), ensure_ascii=False, indent=1))
     print(f"launches total: {len(s.get('launches', []))}")
 
 
 def selftest():
     import tempfile
-    global POOL, STATE, MACHINES, LOG, _py_cpu_pct, _runner_alive
+    global POOL, STATE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, _runner_alive
     ok_all = True
 
     def ok(name, cond):
@@ -435,6 +466,37 @@ def selftest():
                   encoding="utf-8") as fh:
             json.dump({"last_seen": "not-a-timestamp"}, fh)
         ok("S13c garbage heartbeat -> None", _hb_age_min("bm-z") is None)
+        # S14 mid-rebase guard (r201): conflicted tree -> honest no-op,
+        # no state write, no launch (live case: tick fired on a mid-rebase
+        # tree, fresh-fallback wiped the launches history, launched
+        # unclaimed during the session-dead rebase window)
+        _git_orig = _GIT_DIR
+        _GIT_DIR = os.path.join(tmp, "fake_git")
+        os.makedirs(os.path.join(_GIT_DIR, "rebase-merge"))
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(entry)]}, fh)
+        before = open(STATE, "rb").read()
+        rc = tick(dry=True)
+        after = open(STATE, "rb").read()
+        logtail = open(LOG, encoding="ascii", errors="replace").read()
+        ok("S14 mid-rebase guard no-op + zero state write",
+           rc == 0 and before == after and "mid-operation" in logtail)
+        os.rmdir(os.path.join(_GIT_DIR, "rebase-merge"))
+        _GIT_DIR = _git_orig
+        # S14b corrupt-state refusal (r201): marker-poisoned EXISTING
+        # state file -> tick exit 2 + file byte-identical (anti-wipe)
+        with open(STATE, "w", encoding="utf-8") as fh:
+            fh.write('{"launches": [{"x": 1}]\n<<<<<<< ours\n}')
+        before = open(STATE, "rb").read()
+        rc = tick(dry=True)
+        after = open(STATE, "rb").read()
+        ok("S14b corrupt state -> exit 2 + no wipe",
+           rc == 2 and before == after)
+        # S14c absent state still fresh-starts (first-run compat)
+        os.remove(STATE)
+        rc = tick(dry=True)
+        ok("S14c absent state -> fresh start (compat)",
+           rc == 0 and _load_state()["last_tick"]["verdict"] == "dry_launch")
         # S8 O-2130 multi-core law: no workers_plan -> skip
         nowp = dict(entry, shards=[{"key": "s0", "status": "ready",
                                     "owner": None}])
