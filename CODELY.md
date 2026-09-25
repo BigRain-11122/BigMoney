@@ -85,3 +85,6 @@
 - [2026-09-25 09:2x] 坑律（bm-b r163·T-48 批·E1 近失）：**jsonl checkpoint 行必须自带 key 字段**——_load_done 按 rec[key] 建索引，worker 返回体缺 key 会被 try/except 静默跳过=成员腿假缺失（finalize 拒绝时才显形，30 格真跑差点误判全废）；连带三修=run_cells_parallel 按 fn(*args) 散参调用（worker 签名须镜像 job 元组字段非单元组）、blend_score 遍历须按 W 自列限本军短名单（跨军 z 超集撞列 KeyError）、REFINALIZE 账本头须重建正典 dict schema+file 守卫防偷头。指针=round_reports.md r163 行+scripts/factor_blend.py 头注
 
 - [2026-09-25 09:3x] 坑律（bm-a R147·轮内时钟估算假警·E1 近失零外泄）：**轮内诊断禁以工具调用序/耗时感推墙钟——必实读 Get-Date/git %ci**：实弹：以「已过约 20min」的耗时感把健康 schtasks 触发面（Next Run 09:35=实距 24s 未到点）误诊「触发器楔死+任务死火」，距不必要 re-register 手术一步之遥；Get-Date 一读即翻案（三任务全健康：IntradayMarks 09:25 首火 exit 0+09:35:00 首根 in-gate tick 落地 sina 1685 行、Watchdog 09:20:01 result 0、Loop Running=自身实例 Next Run 冻结=长轮正常）。连带①wscript/python 残留进程判龄先读 CreationDate 实钟（7-8min 误读成 26min=悬挂假象）；②「Next Run 停在过去+Ready」真钟下可能=未到点，诊断第一步=Get-Date；③跨子公司 InvisibleRunner 残留进程=车道归属律进程面勿动；④自我感动检测面变体：把「差点做错事」如实记近失非记功。r62/R105「时间戳禁估算」的轮中诊断变体。
+
+
+- [2026-09-25 10:0x] 坑律（bm-a R148·rebase 11-UU S6 链同窗撞车第三次·dashboard 双真实键分歧 tie-break）：dashboard_status.json 双真实新鲜键同窗互斥实弹（meta.generated_at 我侧 09:53:37 新 vs data.update.last_run bm-b 侧 09:52:50 新，r125 用后者、r155 键清单含前者）——生成型工件取整件完成时间戳（generated_at·last-writer-wins）为 tie-break 正解；r148 孪生律照抄（.js 同侧）+生成时间戳在 .js 内互证。连带：11 件分级配方三度全解（r140 同秒 tie 又现取 HEAD·无新例）；How：撞 dashboard 冲突先探双键，分歧时按 generated_at 取整件，禁按单腿键裁整件。
