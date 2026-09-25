@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 12:16:35",
+ "updated_at": "2026-09-25 12:17:09",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -368,10 +368,10 @@
     {
      "key": "legacy-lC",
      "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-a",
+     "owner_since": "2026-09-25 12:17:09",
      "checkpoint": "results/t54/cells_legacy_base_lC.jsonl + cells_legacy_x2_lC.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [628,942) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+     "note": "pre-claim r170 claim-first (fire expected 12:20 tick); status stays ready until fire"
     }
    ],
    "workers_plan": {
