@@ -1,0 +1,63 @@
+{
+ "gate": "OPTIONS_WAVE2 G2 instrument constants exchange verification",
+ "verified_at": "2026-09-25T23:5x",
+ "prereg_ref": "research/OPTIONS_WAVE2_PREREG.md §3 G2 (R169 no-blind-guess; R171 parent-href law)",
+ "module_constants": {
+  "unit": 10000,
+  "fee_lot": 6.6,
+  "tick": 0.0001
+ },
+ "components": [
+  {
+   "item": "unit",
+   "value": 10000,
+   "status": "verified",
+   "literal": "合约类型 认购期权/认沽期权 合约单位 10000份",
+   "url": "http://www.sse.com.cn/assortment/options/contract/c/c_20230303_5717359.shtml",
+   "url_derivation": "sse.com.cn homepage href -> 股票期权专栏 -> 合约页 contract/ href -> 上证50ETF期权合约交易参数 (R171 two-hop parent-href law, zero blind guess)",
+   "cross_check": "300ETF params page c_20230303_5717360.shtml also carries 0.0001/unit literals (same family layout)"
+  },
+  {
+   "item": "tick",
+   "value": 0.0001,
+   "status": "verified",
+   "literal": "最小报价单位 0.0001元 申报单位 1张或其整数倍",
+   "url": "http://www.sse.com.cn/assortment/options/contract/c/c_20230303_5717359.shtml",
+   "url_derivation": "same parent-href chain as unit"
+  },
+  {
+   "item": "sse_jingshou_etf_yuan_per_contract",
+   "value": 1.3,
+   "status": "verified",
+   "literal": "期权 经手费 合约标的为股票的，每张3元；合约标的为交易所交易基金的，每张1.3元",
+   "url": "http://www.sse.com.cn/services/tradingservice/charge/ssecharge/",
+   "url_derivation": "sse.com.cn homepage href '收费标准' (single hop)",
+   "note": "SSE charge page additionally notes 暂免收取卖出开仓交易经手费 (sell-to-open handling fee currently waived) — batch conservatively charges both sides; overcharge direction, disclosed"
+  },
+  {
+   "item": "csdc_settlement_yuan_per_contract",
+   "value": 0.3,
+   "status": "pending_verification",
+   "url_attempts": [
+    "http://www.chinaclear.cn/zdjs/fbzyls/service_tlist.shtml — CSDC 收费标准 doc list renders body via JS/AJAX; static HTML = nav shell only (r187/r192 JS-shell family)",
+    "http://www.chinaclear.cn/zdjs/gpqq/law_flist.shtml — same JS-shell pattern",
+    "http://www.chinaclear.cn/zdjs/gpqqywfw/about_blist.shtml — service landing text only, no fee literal",
+    "SSE charge page carries no CSDC 代收 row for option settlement fee (grep 中国结算/登记结算/期权结算 = zero hits)"
+   ],
+   "next_leg": "CSDC fee-doc list AJAX endpoint discovery from the page's own JS (no blind URL guessing per R169), or CSDC 官方公告 face via its announcement list; verified literal must read 期权结算费 0.3元/张 or freeze whatever the official face states"
+  },
+  {
+   "item": "broker_commission_yuan_per_contract",
+   "value": 5.0,
+   "status": "declared_assumption",
+   "note": "broker-side commission is not an exchange-set constant; provisional by construction (prereg §3); not exchange-verifiable, carries no G2 deviation protocol"
+  }
+ ],
+ "fee_lot_decomposition": {
+  "module": 6.6,
+  "sum_check": "1.3 (SSE 经手费, verified) + 0.3 (CSDC 结算费, pending) + 5.0 (broker commission, declared) == 6.6",
+  "deviation_on_verified": "none (module component == official literal exactly)"
+ },
+ "gate_semantics": "G2 requires unit + tick + SSE 经手费 verified with <=30% deviation AND CSDC 结算费 status=verified; broker commission exempt (non-exchange constant). CSDC leg pending -> G2 red -> run blocked (honest).",
+ "probe_infra": "scripts/options_g2_probe.py (direct urllib + ProxyHandler({}) recipe, R171 href extraction)"
+}

@@ -210,6 +210,26 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
             raise KeyError("passive block missing/empty in "
                           "shortline_cta_wave1.json — schema drift, fix batch writer")
         return max(cands)  # strict = harder line
+    if pool == "options_wave2":
+        # OPTIONS_WAVE2 additive pool (research/OPTIONS_WAVE2_PREREG.md §3):
+        # strict-max of THIS batch's own two buy-hold passives (510050 /
+        # 510300), read from the product file — options domain never borrows
+        # core48 / futures / stock passives (no silent cross-pool reuse).
+        path = os.path.join(results_dir, "options_wave2.json")
+        if not os.path.exists(path):
+            raise KeyError(f"options_wave2 passive not on file yet "
+                           f"({path}) — run the options_wave2 batch first")
+        with open(path, encoding="utf-8") as fh:
+            pas = (json.load(fh).get("passive") or {})
+        cands = []
+        for name in ("passive_buy_hold_510050", "passive_buy_hold_510300"):
+            sr = ((pas.get(name) or {}).get("full") or {}).get("sharpe")
+            if isinstance(sr, (int, float)) and math.isfinite(sr):
+                cands.append(float(sr))
+        if not cands:
+            raise KeyError("passive block missing/empty in "
+                          "options_wave2.json — schema drift, fix batch writer")
+        return max(cands)  # strict = harder line
     if pool == "t18_deep_axis":
         # T18_DEEP_REVAL additive pool (research/DEEP_AXIS_REVALIDATION.md SS3):
         # strict-max of the deep axis's OWN two passives (EW48 monthly rebal +
