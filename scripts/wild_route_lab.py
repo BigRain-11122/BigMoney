@@ -106,7 +106,10 @@ def build_panels_from_cache():
             for p in sorted(glob.glob(os.path.join(BARS, "*.parquet")))]
     meta = json.load(open(os.path.join(CACHE, "meta.json"), encoding="utf-8"))
     idx = pd.to_datetime(np.load(os.path.join(CACHE, "dates.npy")), unit="us")
-    assert len(syms) == meta["shape"]["N"] == len(idx), "cache shape drift"
+    # gate semantics mirrors frozen probe wild_route_probe.py census_drift_gate
+    # (T and N asserted separately; T!=N structurally)
+    assert len(syms) == meta["shape"]["N"], "cache shape drift (N)"
+    assert len(idx) == meta["shape"]["T"], "cache shape drift (T)"
     P = {"idx": idx, "syms": syms, "T": len(idx), "N": len(syms)}
     for f in ("open", "high", "low", "close", "volume", "pct_chg"):
         P[f] = np.load(os.path.join(CACHE, f + ".npy"), mmap_mode="r")
@@ -1067,6 +1070,42 @@ def selftest():
     chk("F13 regime in {0,1,2}", set(np.unique(E["regime"]).tolist()) <= {0, 1, 2})
     # F14 domains separated (r183): fixture event positions != index ranges
     chk("F14 event pos domain", 199 != 0 and 203 != 3 and 250 != 2)
+    # F15 production cache-load path pairing leg (r157/r162/r188 family):
+    # synthetic cache with T != N (the production shape family, 8792x5222)
+    # must load, and a tampered meta must trip the drift gate. The wr-nulls
+    # first launch crashed on a false triple-equality N==len(idx) here --
+    # engine-fixture legs cannot see the production loader path.
+    import shutil
+    tmpc = tempfile.mkdtemp(prefix="wild_route_selftest_cache_")
+    tmpb = tempfile.mkdtemp(prefix="wild_route_selftest_bars_")
+    np.save(os.path.join(tmpc, "dates.npy"),
+            np.array([0, 86_400_000_000, 172_800_000_000, 259_200_000_000],
+                     dtype="int64"))                    # T=4 (us epochs)
+    for f in ("open", "high", "low", "close", "volume", "pct_chg"):
+        np.save(os.path.join(tmpc, f + ".npy"),
+                np.zeros((4, 2), dtype="float32"))      # (T, N) N=2
+    with open(os.path.join(tmpc, "meta.json"), "w", encoding="utf-8") as fh:
+        json.dump({"shape": {"T": 4, "N": 2, "dtype": "float32"},
+                   "generated": "2026-09-24 03:42:50"}, fh)
+    for s in ("600001", "600002"):
+        open(os.path.join(tmpb, s + ".parquet"), "wb").close()
+    c_saved, b_saved = CACHE, BARS
+    globals()["CACHE"], globals()["BARS"] = tmpc, tmpb
+    try:
+        Pp = build_panels_from_cache()
+        chk("F15 loader T!=N shape family", Pp["T"] == 4 and Pp["N"] == 2)
+        with open(os.path.join(tmpc, "meta.json"), "w", encoding="utf-8") as fh:
+            json.dump({"shape": {"T": 4, "N": 3, "dtype": "float32"},
+                       "generated": "2026-09-24 03:42:50"}, fh)
+        try:
+            build_panels_from_cache()
+            chk("F15 drift gate trips on tampered meta", False)
+        except AssertionError:
+            chk("F15 drift gate trips on tampered meta", True)
+    finally:
+        globals()["CACHE"], globals()["BARS"] = c_saved, b_saved
+        shutil.rmtree(tmpc, ignore_errors=True)
+        shutil.rmtree(tmpb, ignore_errors=True)
     print(f"selftest: {ok[0]}/{ok[0]} PASS (all asserted)")
     return 0
 
