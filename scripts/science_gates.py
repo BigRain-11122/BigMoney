@@ -662,6 +662,11 @@ SEED_REGISTRY = {
     # OPTIONS_WAVE2 prereg freeze -- sole rg hits = data-file digit
     # coincidences (league.json float / transfer sha256 / state id, non-RNG,
     # t34/wild_route precedent); T-2026-09-25-67-P1 wave-2 options pilot)
+    "bond_carry_w3a": 66_000,                 # BOND_CARRY_WAVE3A K=32 random-member
+    # nulls (66000+k, k<32; band 66000..66031, next free band above
+    # options_wave2 63049 -- 64k/65k left clear for in-flight families;
+    # registered 2026-09-25 22:2x bm-b r207 before BOND_CARRY_WAVE3A prereg
+    # freeze; T-2026-09-25-68-P1 wave-3a exchange-bonds lane)
 }
 
 
