@@ -1,0 +1,632 @@
+{
+ "census": "cb_face_probe",
+ "ticket": "T-2026-09-25-60",
+ "lane": "product-matrix s2 data-face audit (probe-first, zero trials)",
+ "ran_at": "2026-09-25T15:25:38",
+ "session_state": "post_close",
+ "akshare_version": "1.18.96",
+ "faces": {
+  "bond_cov_comparison": {
+   "ok": false,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": false,
+     "latency_s": 6.47,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    },
+    {
+     "attempt": 2,
+     "ok": false,
+     "latency_s": 7.25,
+     "error_class": "conn_level",
+     "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
+    }
+   ],
+   "args": "EM push2 clist (post-close single shot, R108/R109 pacing law)"
+  },
+  "bond_cb_jsl": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.85,
+     "rows": 30
+    }
+   ],
+   "args": "cookie=None -- login wall face, honest label expected",
+   "rows": 30,
+   "cols": [
+    "代码",
+    "转债名称",
+    "现价",
+    "涨跌幅",
+    "正股代码",
+    "正股名称",
+    "正股价",
+    "正股涨跌",
+    "正股PB",
+    "转股价",
+    "转股价值",
+    "转股溢价率",
+    "债券评级",
+    "回售触发价",
+    "强赎触发价",
+    "转债占比",
+    "到期时间",
+    "剩余年限",
+    "剩余规模",
+    "成交额"
+   ],
+   "value_probe": {
+    "col": "现价",
+    "non_null": 30,
+    "total": 30,
+    "non_null_rate": 1.0
+   },
+   "head_rows": [
+    {
+     "代码": "123285",
+     "转债名称": "润禾转02",
+     "现价": "100.0",
+     "涨跌幅": "0.0",
+     "正股代码": "300727",
+     "正股名称": "润禾材料",
+     "正股价": "34.78",
+     "正股涨跌": "-4.58",
+     "正股PB": "4.63",
+     "转股价": "31.1",
+     "转股价值": "111.83",
+     "转股溢价率": "-10.58",
+     "债券评级": "A+",
+     "回售触发价": "21.77"
+    },
+    {
+     "代码": "123287",
+     "转债名称": "满坤转债",
+     "现价": "100.0",
+     "涨跌幅": "0.0",
+     "正股代码": "301132",
+     "正股名称": "满坤科技",
+     "正股价": "70.37",
+     "正股涨跌": "-5.62",
+     "正股PB": "5.79",
+     "转股价": "66.97",
+     "转股价值": "105.08",
+     "转股溢价率": "-4.83",
+     "债券评级": "AA-",
+     "回售触发价": "46.879"
+    },
+    {
+     "代码": "127117",
+     "转债名称": "奥士转债",
+     "现价": "100.0",
+     "涨跌幅": "0.0",
+     "正股代码": "002913",
+     "正股名称": "奥士康",
+     "正股价": "86.8",
+     "正股涨跌": "-4.47",
+     "正股PB": "6.26",
+     "转股价": "83.96",
+     "转股价值": "103.38",
+     "转股溢价率": "-3.27",
+     "债券评级": "AA",
+     "回售触发价": "58.772"
+    }
+   ],
+   "last_date": "2027-07-28"
+  },
+  "bond_zh_hs_cov_daily": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.7,
+     "rows": 1436
+    }
+   ],
+   "args": "symbol=sh113527 (real CB, docstring example sh010107 stale)",
+   "rows": 1436,
+   "cols": [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume"
+   ],
+   "value_probe": {
+    "col": "open",
+    "non_null": 1436,
+    "total": 1436,
+    "non_null_rate": 1.0
+   },
+   "head_rows": [
+    {
+     "date": "2019-02-19",
+     "open": "106.3",
+     "high": "107.98",
+     "low": "105.08",
+     "close": "106.13",
+     "volume": "5595910"
+    },
+    {
+     "date": "2019-02-20",
+     "open": "105.86",
+     "high": "106.32",
+     "low": "105.01",
+     "close": "106.03",
+     "volume": "829560"
+    },
+    {
+     "date": "2019-02-21",
+     "open": "106.03",
+     "high": "106.8",
+     "low": "105.53",
+     "close": "106.03",
+     "volume": "764480"
+    }
+   ],
+   "last_date": "2025-01-20"
+  },
+  "bond_zh_cov": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 3.87,
+     "rows": 1059
+    }
+   ],
+   "args": "EM datacenter full issuance table (moneyflow same-family, R108 dual-face law)",
+   "rows": 1059,
+   "cols": [
+    "债券代码",
+    "债券简称",
+    "申购日期",
+    "申购代码",
+    "申购上限",
+    "正股代码",
+    "正股简称",
+    "正股价",
+    "转股价",
+    "转股价值",
+    "债现价",
+    "转股溢价率",
+    "原股东配售-股权登记日",
+    "原股东配售-每股配售额",
+    "发行规模",
+    "中签号发布日",
+    "中签率",
+    "上市时间",
+    "信用评级"
+   ],
+   "value_probe": {
+    "col": "申购上限",
+    "non_null": 1059,
+    "total": 1059,
+    "non_null_rate": 1.0
+   },
+   "head_rows": [
+    {
+     "债券代码": "118077",
+     "债券简称": "莱特转债",
+     "申购日期": "2026-09-29",
+     "申购代码": "718150",
+     "申购上限": "100",
+     "正股代码": "688150",
+     "正股简称": "莱特光电",
+     "正股价": "42.99",
+     "转股价": "44.82",
+     "转股价值": "95.917",
+     "债现价": "100.0",
+     "转股溢价率": "4.26",
+     "原股东配售-股权登记日": "2026-09-28",
+     "原股东配售-每股配售额": "1.313"
+    },
+    {
+     "债券代码": "123288",
+     "债券简称": "隆新转债",
+     "申购日期": "2026-09-29",
+     "申购代码": "371149",
+     "申购上限": "100",
+     "正股代码": "301149",
+     "正股简称": "隆华新材",
+     "正股价": "8.91",
+     "转股价": "9.16",
+     "转股价值": "97.2707",
+     "债现价": "100.0",
+     "转股溢价率": "2.81",
+     "原股东配售-股权登记日": "2026-09-28",
+     "原股东配售-每股配售额": "1.7173"
+    },
+    {
+     "债券代码": "113711",
+     "债券简称": "常青转债",
+     "申购日期": "2026-09-28",
+     "申购代码": "754125",
+     "申购上限": "100",
+     "正股代码": "603125",
+     "正股简称": "常青科技",
+     "正股价": "23.44",
+     "转股价": "24.01",
+     "转股价值": "97.626",
+     "债现价": "100.0",
+     "转股溢价率": "2.43",
+     "原股东配售-股权登记日": "2026-09-24",
+     "原股东配售-每股配售额": "1.976"
+    }
+   ],
+   "last_date": "2007-07-02"
+  },
+  "bond_zh_cov_info": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.65,
+     "rows": 1
+    }
+   ],
+   "args": "symbol=123121 indicator=基本信息",
+   "rows": 1,
+   "cols": [
+    "SECURITY_CODE",
+    "SECUCODE",
+    "TRADE_MARKET",
+    "SECURITY_NAME_ABBR",
+    "DELIST_DATE",
+    "LISTING_DATE",
+    "CONVERT_STOCK_CODE",
+    "BOND_EXPIRE",
+    "RATING",
+    "VALUE_DATE",
+    "ISSUE_YEAR",
+    "CEASE_DATE",
+    "EXPIRE_DATE",
+    "PAY_INTEREST_DAY",
+    "INTEREST_RATE_EXPLAIN",
+    "BOND_COMBINE_CODE",
+    "ACTUAL_ISSUE_SCALE",
+    "ISSUE_PRICE",
+    "REMARK",
+    "PAR_VALUE"
+   ],
+   "value_probe": {
+    "col": "ACTUAL_ISSUE_SCALE",
+    "non_null": 1,
+    "total": 1,
+    "non_null_rate": 1.0
+   },
+   "head_rows": [
+    {
+     "SECURITY_CODE": "123121",
+     "SECUCODE": "123121.SZ",
+     "TRADE_MARKET": "CNSESZ",
+     "SECURITY_NAME_ABBR": "帝尔转债",
+     "DELIST_DATE": "2026-06-11 00:00:00",
+     "LISTING_DATE": "2021-08-27 00:00:00",
+     "CONVERT_STOCK_CODE": "300776",
+     "BOND_EXPIRE": "4.8301",
+     "RATING": "AA-",
+     "VALUE_DATE": "2021-08-05 00:00:00",
+     "ISSUE_YEAR": "2021",
+     "CEASE_DATE": "2026-06-02 00:00:00",
+     "EXPIRE_DATE": "2026-06-03 00:00:00",
+     "PAY_INTEREST_DAY": "08-05"
+    }
+   ],
+   "last_date": "2026-06-11"
+  },
+  "bond_zh_cov_value_analysis": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.62,
+     "rows": 1457
+    }
+   ],
+   "args": "symbol=113527 per-bond premium analysis",
+   "rows": 1457,
+   "cols": [
+    "日期",
+    "收盘价",
+    "纯债价值",
+    "转股价值",
+    "纯债溢价率",
+    "转股溢价率"
+   ],
+   "value_probe": {
+    "col": "收盘价",
+    "non_null": 1444,
+    "total": 1457,
+    "non_null_rate": 0.9911
+   },
+   "head_rows": [
+    {
+     "日期": "2019-01-24",
+     "收盘价": null,
+     "纯债价值": "89.7223766891",
+     "转股价值": "98.1951871658",
+     "纯债溢价率": "11.45491648",
+     "转股溢价率": "1.8379850238"
+    },
+    {
+     "日期": "2019-01-25",
+     "收盘价": null,
+     "纯债价值": "89.7523059425",
+     "转股价值": "98.7299465241",
+     "纯债溢价率": "11.41775016",
+     "转股溢价率": "1.2863913338"
+    },
+    {
+     "日期": "2019-01-28",
+     "收盘价": null,
+     "纯债价值": "89.7417805019",
+     "转股价值": "97.5935828877",
+     "纯债溢价率": "11.43081789",
+     "转股溢价率": "2.4657534247"
+    }
+   ],
+   "last_date": "2025-01-24"
+  },
+  "bond_cb_redeem_jsl": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.73,
+     "rows": 321
+    }
+   ],
+   "args": "jsl public 强赎 face (feed channel validated R138/R141)",
+   "rows": 321,
+   "cols": [
+    "代码",
+    "名称",
+    "现价",
+    "正股代码",
+    "正股名称",
+    "规模",
+    "剩余规模",
+    "转股起始日",
+    "最后交易日",
+    "到期日",
+    "转股价",
+    "强赎触发比",
+    "强赎触发价",
+    "正股价",
+    "强赎价",
+    "强赎天计数",
+    "强赎条款",
+    "强赎状态"
+   ],
+   "value_probe": {
+    "col": "现价",
+    "non_null": 321,
+    "total": 321,
+    "non_null_rate": 1.0
+   },
+   "head_rows": [
+    {
+     "代码": "123258",
+     "名称": "胜蓝转02",
+     "现价": "224.081",
+     "正股代码": "300843",
+     "正股名称": "胜蓝股份",
+     "规模": "4.5",
+     "剩余规模": "2.081",
+     "转股起始日": "2026-03-03",
+     "最后交易日": "2026-09-29",
+     "到期日": "2031-08-28",
+     "转股价": "54.36",
+     "强赎触发比": "130",
+     "强赎触发价": "70.668",
+     "正股价": "122.91"
+    },
+    {
+     "代码": "113046",
+     "名称": "金田转债",
+     "现价": "116.174",
+     "正股代码": "601609",
+     "正股名称": "金田股份",
+     "规模": "15.0",
+     "剩余规模": "12.542",
+     "转股起始日": "2021-09-27",
+     "最后交易日": null,
+     "到期日": "2027-03-22",
+     "转股价": "10.18",
+     "强赎触发比": "130",
+     "强赎触发价": "13.234",
+     "正股价": "11.86"
+    },
+    {
+     "代码": "128134",
+     "名称": "鸿路转债",
+     "现价": "110.9",
+     "正股代码": "002541",
+     "正股名称": "鸿路钢构",
+     "规模": "18.8",
+     "剩余规模": "6.115",
+     "转股起始日": "2021-04-15",
+     "最后交易日": "2026-09-28",
+     "到期日": "2026-10-09",
+     "转股价": "17.49",
+     "强赎触发比": "130",
+     "强赎触发价": "22.737",
+     "正股价": "18.26"
+    }
+   ],
+   "last_date": "2021-06-29"
+  },
+  "bond_cb_adj_logs_jsl": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.65,
+     "rows": 3
+    }
+   ],
+   "args": "symbol=128013 下修记录 face",
+   "rows": 3,
+   "cols": [
+    "转债名称",
+    "股东大会日",
+    "下修前转股价",
+    "下修后转股价",
+    "新转股价生效日期",
+    "下修底价"
+   ],
+   "value_probe": {
+    "col": "下修前转股价",
+    "non_null": 3,
+    "total": 3,
+    "non_null_rate": 1.0
+   },
+   "head_rows": [
+    {
+     "转债名称": "洪涛转债",
+     "股东大会日": "2021-02-23",
+     "下修前转股价": "3.1",
+     "下修后转股价": "2.32",
+     "新转股价生效日期": "2021-02-24",
+     "下修底价": "2.32"
+    },
+    {
+     "转债名称": "洪涛转债",
+     "股东大会日": "2020-06-29",
+     "下修前转股价": "8.0",
+     "下修后转股价": "3.12",
+     "新转股价生效日期": "2020-06-30",
+     "下修底价": "3.12"
+    },
+    {
+     "转债名称": "洪涛转债",
+     "股东大会日": "2019-11-20",
+     "下修前转股价": "9.97",
+     "下修后转股价": "8.0",
+     "新转股价生效日期": "2019-11-21",
+     "下修底价": "3.1"
+    }
+   ],
+   "last_date": "2019-11-20"
+  },
+  "bond_cb_index_jsl": {
+   "ok": true,
+   "attempts": [
+    {
+     "attempt": 1,
+     "ok": true,
+     "latency_s": 0.98,
+     "rows": 250
+    }
+   ],
+   "args": "jsl public 等权指数 face (market baseline leg)",
+   "rows": 250,
+   "cols": [
+    "price_dt",
+    "price",
+    "amount",
+    "volume",
+    "count",
+    "increase_val",
+    "increase_rt",
+    "avg_price",
+    "mid_price",
+    "mid_convert_value",
+    "avg_dblow",
+    "avg_premium_rt",
+    "mid_premium_rt",
+    "avg_ytm_rt",
+    "temperature",
+    "turnover_rt",
+    "price_90",
+    "price_90_100",
+    "price_100_110",
+    "price_110_120"
+   ],
+   "value_probe": {
+    "col": "price",
+    "non_null": 250,
+    "total": 250,
+    "non_null_rate": 1.0
+   },
+   "head_rows": [
+    {
+     "price_dt": "2025-09-15",
+     "price": "2454.214",
+     "amount": "6062.62",
+     "volume": "797.18",
+     "count": "432",
+     "increase_val": "-20.241",
+     "increase_rt": "-0.82",
+     "avg_price": "148.129",
+     "mid_price": "131.689",
+     "mid_convert_value": "104.62",
+     "avg_dblow": "187.04",
+     "avg_premium_rt": "38.91",
+     "mid_premium_rt": "25.73",
+     "avg_ytm_rt": "-10.99"
+    },
+    {
+     "price_dt": "2025-09-16",
+     "price": "2458.558",
+     "amount": "6014.97",
+     "volume": "871.83",
+     "count": "431",
+     "increase_val": "4.344",
+     "increase_rt": "0.18",
+     "avg_price": "148.534",
+     "mid_price": "131.247",
+     "mid_convert_value": "105.3",
+     "avg_dblow": "186.4",
+     "avg_premium_rt": "37.87",
+     "mid_premium_rt": "25.81",
+     "avg_ytm_rt": "-10.92"
+    },
+    {
+     "price_dt": "2025-09-17",
+     "price": "2477.145",
+     "amount": "6005.75",
+     "volume": "890.36",
+     "count": "429",
+     "increase_val": "18.587",
+     "increase_rt": "0.76",
+     "avg_price": "149.822",
+     "mid_price": "131.579",
+     "mid_convert_value": "106.6",
+     "avg_dblow": "188.13",
+     "avg_premium_rt": "38.3",
+     "mid_premium_rt": "24.9",
+     "avg_ytm_rt": "-11.28"
+    }
+   ],
+   "last_date": "2026-09-24"
+  }
+ },
+ "verdict": "PARTIAL: jsl cookie-free face alive but walled sample (30 rows < 100, full spectrum needs cookie) + EM clist face dead this round -> cross-section leg NOT established; sample serves as format/semantic reference only",
+ "audit": {
+  "ledger_trials_added": 0,
+  "kind": "face probe (probe-first family, zero trials)",
+  "throttle_s": 2.5,
+  "backoff_s": 8,
+  "proxy_env_cleared": true,
+  "window_note": "post-close window per s1 digest 〇 clause (push2 clist intraday-forbidden)"
+ },
+ "evidence_cutoff": "2026-09-25",
+ "semantic_notes": [
+  "bond_cb_jsl cookie-free returns a walled sample (30 rows < 100): format/semantic reference only, NOT the double-low universe; full spectrum needs login cookie (s1 audit wall clause confirmed by probe)",
+  "bond_zh_hs_cov_daily probe symbol history ends 2025-01-20 (probe symbol may be redeemed/delisted -- 113527 redeemed 2025-01); puller must select currently-listed bonds (e.g. from issuance table or redeem face)",
+  "event/terms faces (redeem/adj_logs/issuance/info) carry maturity/issue date columns that are NOT observation dates -- excluded from evidence_cutoff by observation_dates() guard (R167 family: tolerant date extraction across event faces misreads maturity as freshness)"
+ ]
+}
