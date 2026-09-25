@@ -1,11 +1,11 @@
 {
   "latest": {
-    "ts": "2026-09-26 04:55:04",
-    "cpu_total_pct": 9.0,
-    "py_cpu_pct": 2.0,
-    "cores": 16,
-    "py_procs": 12,
-    "result_stale_min": 0.7,
+    "ts": "2026-09-26 05:03:09",
+    "cpu_total_pct": 79.0,
+    "py_cpu_pct": 0.7,
+    "cores": 32,
+    "py_procs": 8,
+    "result_stale_min": 3.1,
     "fleet_open_tasks": 0,
     "pool_ready_count": 2,
     "load_state": "pool-supply-gap",
@@ -15,9 +15,9 @@
     },
     "gpu": {
       "present": true,
-      "util_pct": 1.0,
-      "mem_used_mb": 5791.0,
-      "compute_apps_count": 21,
+      "util_pct": 7.0,
+      "mem_used_mb": 6614.0,
+      "compute_apps_count": 32,
       "rogue_apps": []
     },
     "zombies": [],
@@ -27,27 +27,6 @@
     "verdict": "CLEAN"
   },
   "history": [
-    {
-      "cores": 32,
-      "cpu_total_pct": 53.0,
-      "flags": [],
-      "fleet_open_tasks": 0,
-      "gpu": {
-        "compute_apps_count": 32,
-        "mem_used_mb": 7199.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 98.0
-      },
-      "py_cpu_pct": 0.6,
-      "py_procs": 6,
-      "result_stale_min": 3.8,
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "ts": "2026-09-25 02:09:44",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "cores": 16,
       "cpu_total_pct": 4.0,
@@ -5108,6 +5087,33 @@
         "util_pct": 1.0,
         "mem_used_mb": 5791.0,
         "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [],
+      "verdict": "CLEAN"
+    },
+    {
+      "ts": "2026-09-26 05:03:09",
+      "cpu_total_pct": 79.0,
+      "py_cpu_pct": 0.7,
+      "cores": 32,
+      "py_procs": 8,
+      "result_stale_min": 3.1,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 2,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 7.0,
+        "mem_used_mb": 6614.0,
+        "compute_apps_count": 32,
         "rogue_apps": []
       },
       "zombies": [],
