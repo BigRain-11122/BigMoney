@@ -1,0 +1,658 @@
+{
+ "ticket": "T-2026-09-25-63",
+ "batch": "SCORECARD_CALIB_P1",
+ "prereg": "research/STRATEGY_SCORECARD_CALIB.md (frozen; run-once law sec 0/6)",
+ "charter": "firm/STRATEGY_EVALUATION.md v2.0 sec 8.5",
+ "generated": "2026-09-25T18:23:37",
+ "evidence_cutoff": "2026-09-22",
+ "cutoff_sources": {
+  "results/corps_roster.json": "2026-09-23",
+  "results/portfolio_blend_tournament.json": "2026-09-22",
+  "results/portfolio_iv6.json": "2026-09-22",
+  "results/portfolio_ew6.json": "2026-09-22",
+  "results/spm_j4_attribution.json": "2026-09-23",
+  "results/current_market_stable_profit.json": "2026-09-23",
+  "results/paper\\COMPOSITE-CE-01_paper.json": "2026-09-24",
+  "results/paper\\COMPOSITE-CE-02_paper.json": "2026-09-24",
+  "results/paper\\DROUGHT-CE-01_paper.json": "2026-09-24",
+  "results/paper\\ENGULF-CE-01_paper.json": "2026-09-24",
+  "results/paper\\NEEDLE-DE-01_paper.json": "2026-09-24",
+  "results/paper\\VOLATILITY-CE-01_paper.json": "2026-09-24"
+ },
+ "cutoff_missing_sources": [
+  "firm/traders/*.json (via scorecard.py)",
+  "results/paper/*_paper.json",
+  "results/g25/*.json",
+  "results/pbo_cscv_v1.json",
+  "results/g25\\COMPOSITE-CE-01.json",
+  "results/g25\\COMPOSITE-CE-02.json",
+  "results/g25\\DROUGHT-CE-01.json",
+  "results/g25\\ENGULF-CE-01.json",
+  "results/g25\\NEEDLE-DE-01.json",
+  "results/g25\\VOLATILITY-CE-01.json"
+ ],
+ "cohorts": {
+  "traders": {
+   "n": 28
+  },
+  "portfolios": {
+   "n": 7
+  }
+ },
+ "face_score_anchors": {
+  "traders": {
+   "inherited": "registered: v1.0 total (0-100 direct); PROSPECT: 100*(0.50*mean(g2 neighborhood/cost_x3/per_year legs) + 0.25*lin(recorded_oos_sharpe,0,2) + 0.25*lin(recorded_x2_full_sharpe,0,2))",
+   "live_paper": "100*(0.50*min(1,months_tracked/6) + 0.30*clamp(1+2*current_dd,0,1) + 0.10*(x2_watch state=='ok') + 0.10*(cost_x2_check pass))",
+   "progress": "100*(0.60*(g25_verdict=='pass') + 0.20*(dsr>=dsr_gate) + 0.20*(ci_pass is True))",
+   "profile": "100*(0.30*(corps confirmed, non-pending) + 0.30*min(1,n_passing_segments/3) + 0.40*clamp(mean(segment_beat_rate_12m),0,1))",
+   "discipline": "GATE ONLY (sec 1.3-1 / 8.2): veto face carries no weight"
+  },
+  "portfolios": {
+   "quality": "100*(0.80*lin(x1_full_sharpe,0,2) + 0.20*lin(benefit or head_to_head.delta_full_sharpe,0,1))",
+   "cost": "100*(0.60*lin(x2_full_sharpe,0,2) + 0.40*lin(x2_margin,0,0.2); margin missing -> 0 credit (untested-zero sub-face)",
+   "segment_coverage": "100*min(1,n_yearly_years/6); pointer face -> 0",
+   "cross_period_j4": "0 for all (T-28 J4 NOT-DEMONSTRATED honest negative inherited, sec 2)",
+   "marginal": "100*clamp((0.6-max_abs_corr)/0.6,0,1)",
+   "statistical": "100*clamp(log10(max(trials_ledger_total,1))/4,0,1)"
+  }
+ },
+ "distributions": {
+  "traders": {
+   "inherited": {
+    "n": 28,
+    "tested_n": 28,
+    "availability": 1.0,
+    "min": 18.8,
+    "q25": 23.18,
+    "median": 29.55,
+    "q75": 44.33,
+    "max": 87.0
+   },
+   "live_paper": {
+    "n": 28,
+    "tested_n": 6,
+    "availability": 0.214,
+    "min": 29.9,
+    "q25": 29.92,
+    "median": 30.0,
+    "q75": 30.0,
+    "max": 30.0
+   },
+   "progress": {
+    "n": 28,
+    "tested_n": 6,
+    "availability": 0.214,
+    "min": 0.0,
+    "q25": 0.0,
+    "median": 0.0,
+    "q75": 0.0,
+    "max": 20.0
+   },
+   "profile": {
+    "n": 28,
+    "tested_n": 6,
+    "availability": 0.214,
+    "min": 82.7,
+    "q25": 83.08,
+    "median": 83.55,
+    "q75": 85.52,
+    "max": 88.3
+   }
+  },
+  "portfolios": {
+   "quality": {
+    "n": 7,
+    "tested_n": 7,
+    "availability": 1.0,
+    "min": 29.8,
+    "q25": 36.1,
+    "median": 45.8,
+    "q75": 52.35,
+    "max": 59.3
+   },
+   "cost": {
+    "n": 7,
+    "tested_n": 7,
+    "availability": 1.0,
+    "min": 3.0,
+    "q25": 5.5,
+    "median": 17.2,
+    "q75": 24.85,
+    "max": 58.4
+   },
+   "segment_coverage": {
+    "n": 7,
+    "tested_n": 5,
+    "availability": 0.714,
+    "min": 100.0,
+    "q25": 100.0,
+    "median": 100.0,
+    "q75": 100.0,
+    "max": 100.0
+   },
+   "cross_period_j4": {
+    "n": 7,
+    "tested_n": 7,
+    "availability": 1.0,
+    "min": 0.0,
+    "q25": 0.0,
+    "median": 0.0,
+    "q75": 0.0,
+    "max": 0.0
+   },
+   "marginal": {
+    "n": 7,
+    "tested_n": 7,
+    "availability": 1.0,
+    "min": 0.0,
+    "q25": 0.0,
+    "median": 0.0,
+    "q75": 10.0,
+    "max": 20.0
+   },
+   "statistical": {
+    "n": 7,
+    "tested_n": 7,
+    "availability": 1.0,
+    "min": 86.0,
+    "q25": 86.85,
+    "median": 87.6,
+    "q75": 87.6,
+    "max": 87.6
+   }
+  }
+ },
+ "spreads_q75_minus_q25": {
+  "traders": {
+   "inherited": 21.15,
+   "live_paper": 0.08,
+   "progress": 0.0,
+   "profile": 2.44
+  },
+  "portfolios": {
+   "quality": 16.25,
+   "cost": 19.35,
+   "segment_coverage": 0.0,
+   "cross_period_j4": 0.0,
+   "marginal": 10.0,
+   "statistical": 0.75
+  }
+ },
+ "weight_allocation_rule": "dominant=0.40 (35-45% band midpoint); remaining 0.60 by tested (q75-q25) spread share; zero-total-spread -> equal split; single-face cap 0.50 with one-pass proportional redistribution (frozen, sec 1.3)",
+ "weights": {
+  "traders": {
+   "inherited": 0.4,
+   "live_paper": 0.1,
+   "progress": 0.0,
+   "profile": 0.5
+  },
+  "portfolios": {
+   "quality": 0.4,
+   "cost": 0.3857,
+   "segment_coverage": 0.0,
+   "cross_period_j4": 0.0,
+   "marginal": 0.1993,
+   "statistical": 0.015
+  }
+ },
+ "grade_band_rule": "S>=p80, A>=p60, B>=p40, C rest; VETO overrides (sec 1.4/8.2)",
+ "grade_bands": {
+  "traders": {
+   "S": 50.6,
+   "A": 14.4,
+   "B": 10.4
+  },
+  "portfolios": {
+   "S": 38.0,
+   "A": 30.4,
+   "B": 22.0
+  }
+ },
+ "totals": {
+  "traders": {
+   "COMPOSITE-CE-01": {
+    "faces": {
+     "inherited": 77.3,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 88.3
+    },
+    "total": 78.1,
+    "grade": "S",
+    "discipline_veto": false
+   },
+   "COMPOSITE-CE-02": {
+    "faces": {
+     "inherited": 71.8,
+     "live_paper": 29.9,
+     "progress": 0.0,
+     "profile": 86.1
+    },
+    "total": 74.8,
+    "grade": "S",
+    "discipline_veto": false
+   },
+   "DROUGHT-CE-01": {
+    "faces": {
+     "inherited": 86.5,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 83.3
+    },
+    "total": 79.2,
+    "grade": "S",
+    "discipline_veto": false
+   },
+   "ENGULF-CE-01": {
+    "faces": {
+     "inherited": 68.2,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 83.0
+    },
+    "total": 71.8,
+    "grade": "S",
+    "discipline_veto": false
+   },
+   "NEEDLE-DE-01": {
+    "faces": {
+     "inherited": 79.8,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 82.7
+    },
+    "total": 76.3,
+    "grade": "S",
+    "discipline_veto": false
+   },
+   "PROS-ANTS-01": {
+    "faces": {
+     "inherited": 24.7,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 9.9,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-ANTS-CE-01": {
+    "faces": {
+     "inherited": 23.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 9.3,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-BBS-01": {
+    "faces": {
+     "inherited": 40.0,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 16.0,
+    "grade": "A",
+    "discipline_veto": false
+   },
+   "PROS-BBS-CE-01": {
+    "faces": {
+     "inherited": 24.4,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 9.8,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-DOJI-01": {
+    "faces": {
+     "inherited": 20.9,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 8.4,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-DOJI-CE-01": {
+    "faces": {
+     "inherited": 22.3,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 8.9,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-DUCK-01": {
+    "faces": {
+     "inherited": 46.8,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 18.7,
+    "grade": "A",
+    "discipline_veto": false
+   },
+   "PROS-DUCK-CE-01": {
+    "faces": {
+     "inherited": 43.5,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 17.4,
+    "grade": "A",
+    "discipline_veto": false
+   },
+   "PROS-HAM-01": {
+    "faces": {
+     "inherited": 18.9,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 7.6,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-HAM-CE-01": {
+    "faces": {
+     "inherited": 18.8,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 7.5,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-IBB-01": {
+    "faces": {
+     "inherited": 30.6,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 12.2,
+    "grade": "B",
+    "discipline_veto": false
+   },
+   "PROS-IBB-CE-01": {
+    "faces": {
+     "inherited": 34.4,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 13.8,
+    "grade": "B",
+    "discipline_veto": false
+   },
+   "PROS-IMM-01": {
+    "faces": {
+     "inherited": 22.1,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 8.8,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-IMM-CE-01": {
+    "faces": {
+     "inherited": 21.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 8.5,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-MCB-01": {
+    "faces": {
+     "inherited": 26.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 10.5,
+    "grade": "B",
+    "discipline_veto": false
+   },
+   "PROS-MCB-CE-01": {
+    "faces": {
+     "inherited": 28.5,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 11.4,
+    "grade": "B",
+    "discipline_veto": false
+   },
+   "PROS-OVB-01": {
+    "faces": {
+     "inherited": 41.0,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 16.4,
+    "grade": "A",
+    "discipline_veto": false
+   },
+   "PROS-OVB-CE-01": {
+    "faces": {
+     "inherited": 41.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 16.5,
+    "grade": "A",
+    "discipline_veto": false
+   },
+   "PROS-RSRS-CE-01": {
+    "faces": {
+     "inherited": 27.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 10.9,
+    "grade": "B",
+    "discipline_veto": false
+   },
+   "PROS-TMU-01": {
+    "faces": {
+     "inherited": 23.4,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 9.4,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-TMU-CE-01": {
+    "faces": {
+     "inherited": 23.1,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 9.2,
+    "grade": "C",
+    "discipline_veto": false
+   },
+   "PROS-VOB-CE-01": {
+    "faces": {
+     "inherited": 35.0,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "total": 14.0,
+    "grade": "B",
+    "discipline_veto": false
+   },
+   "VOLATILITY-CE-01": {
+    "faces": {
+     "inherited": 87.0,
+     "live_paper": 29.9,
+     "progress": 20.0,
+     "profile": 83.8
+    },
+    "total": 79.7,
+    "grade": "S",
+    "discipline_veto": false
+   }
+  },
+  "portfolios": {
+   "A_IV": {
+    "faces": {
+     "quality": 35.2,
+     "cost": 5.1,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "total": 17.4,
+    "grade": "C"
+   },
+   "B_MAXDIV": {
+    "faces": {
+     "quality": 55.9,
+     "cost": 58.4,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "total": 46.2,
+    "grade": "S"
+   },
+   "C_IVMOM": {
+    "faces": {
+     "quality": 37.0,
+     "cost": 5.9,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "total": 18.4,
+    "grade": "C"
+   },
+   "D_REGIME": {
+    "faces": {
+     "quality": 48.8,
+     "cost": 17.2,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "total": 27.5,
+    "grade": "B"
+   },
+   "EW6": {
+    "faces": {
+     "quality": 45.8,
+     "cost": 22.7,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 20.0,
+     "statistical": 86.0
+    },
+    "total": 32.4,
+    "grade": "A"
+   },
+   "E_EW": {
+    "faces": {
+     "quality": 29.8,
+     "cost": 3.0,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "total": 14.4,
+    "grade": "C"
+   },
+   "IV6": {
+    "faces": {
+     "quality": 59.3,
+     "cost": 27.0,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 20.0,
+     "statistical": 86.1
+    },
+    "total": 39.4,
+    "grade": "S"
+   }
+  }
+ },
+ "predictions_check": {
+  "p1_double_clump": {
+   "median_trader_total": 11.8,
+   "note": "median falls inside PROSPECT cluster",
+   "s_band": [
+    "COMPOSITE-CE-01",
+    "COMPOSITE-CE-02",
+    "DROUGHT-CE-01",
+    "ENGULF-CE-01",
+    "NEEDLE-DE-01",
+    "VOLATILITY-CE-01"
+   ],
+   "n_prospect_in_s_band": 0,
+   "anomaly_flag": false,
+   "prediction_holds": true
+  },
+  "p2_portfolio_differentiation": {
+   "top2_spread_faces": [
+    "cost",
+    "quality"
+   ],
+   "prediction_holds": true
+  },
+  "p3_s_band_registered_only": {
+   "prediction_holds": true
+  }
+ },
+ "audit": {
+  "input_generated": "2026-09-25T18:08:47",
+  "input_path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json",
+  "cohort_counts": {
+   "traders": 28,
+   "portfolios": 7
+  },
+  "expected_cohorts": {
+   "traders": 28,
+   "portfolios": 7
+  },
+  "untested_face_counts": {
+   "traders": 66,
+   "portfolios": 2
+  },
+  "discipline_veto_hits": [],
+  "elapsed_sec": 0.0,
+  "zero_new_backtests": true,
+  "zero_engine_runs": true,
+  "ledger_delta": 0,
+  "run_once_law": "band/weight values frozen at this batch's commit; recalibration = v2 prereg only (sec 2/6)"
+ }
+}

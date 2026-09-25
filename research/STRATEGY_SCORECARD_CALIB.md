@@ -51,3 +51,32 @@
 ## §7 跑后实证【跑前必须为空——写数字即造假】
 
 （校准批跑后一次回填：分布表+权重带数值+分级带数值+对账。）
+
+**SCORECARD_CALIB_P1 实跑回填（2026-09-25 bm-a R181·一次定稿）**——runner=scripts/strategy_scorecard.py `calibrate`；产物=results/strategy_scorecard_calib.json；input strategy_scorecard.json generated=2026-09-25T18:08:47；evidence_cutoff=**2026-09-22**（最旧源=portfolio_blend_tournament/iv6/ew6；前向锁盒 D2 登记）；elapsed 0.0s；零新回测零引擎 ledger+0。
+
+**分布（tested 面分位；availability=tested/队列）**：
+
+- 交易员 28 员（在册 6+PROSPECT 22）：
+  | 面 | tested-n | min | q25 | median | q75 | max | availability |
+  |---|---|---|---|---|---|---|---|
+  | inherited | 28 | 18.8 | 23.18 | 29.55 | 44.33 | 87.0 | 1.00 |
+  | live_paper | 6 | 29.9 | 29.92 | 30.0 | 30.0 | 30.0 | 0.214 |
+  | progress | 6 | 0.0 | 0.0 | 0.0 | 0.0 | 20.0 | 0.214 |
+  | profile | 6 | 82.7 | 83.08 | 83.55 | 85.52 | 88.3 | 0.214 |
+- 组合 7 员（IV6/EW6+锦标赛 5 法）：
+  | 面 | tested-n | min | q25 | median | q75 | max | availability |
+  |---|---|---|---|---|---|---|---|
+  | quality | 7 | 29.8 | 36.1 | 45.8 | 52.35 | 59.3 | 1.00 |
+  | cost | 7 | 3.0 | 5.5 | 17.2 | 24.85 | 58.4 | 1.00 |
+  | segment_coverage | 5 | 100 | 100 | 100 | 100 | 100 | 0.714 |
+  | cross_period_j4 | 7 | 0 | 0 | 0 | 0 | 0 | 1.00 |
+  | marginal | 7 | 0.0 | 0.0 | 0.0 | 10.0 | 20.0 | 1.00 |
+  | statistical | 7 | 86.0 | 86.85 | 87.6 | 87.6 | 87.6 | 1.00 |
+
+**权重带数值（冻结）**：交易员 inherited=0.40、profile=0.50、live_paper=0.10、progress=0.00（跨度分配：profile 2.44 拿满余量触 0.50 帽、超额按 live 跨度归 live；progress q75-q25=0 → 零权重如实）；组合 quality=0.40、cost=0.3857、marginal=0.1993、statistical=0.015、segment_coverage=0、cross_period_j4=0（后两面全队列恒 0=零区分度如实归零）。单维 ≤50% 帽全过；纪律面=否决门零权重（§8.2）。
+
+**分级带数值（p80/p60/p40 分位法·冻结）**：交易员 S≥50.6、A≥14.4、B≥10.4、C 余；组合 S≥38.0、A≥30.4、B≥22.0、C 余。首届落带：交易员 S=6（全部在册）/A=5（PROS-DUCK-01、DUCK-CE、OVB-01、OVB-CE、BBS-01）/B=6/C=11；组合 S=2（B_MAXDIV 46.2、IV6 39.4）/A=1（EW6）/B=1（D_REGIME）/C=3（C_IVMOM、A_IV、E_EW）。纪律否决命中=0。
+
+**§3 预测对账（3/3 成立·不翻案）**：①双团实证=median 总分 11.8 落 PROSPECT 团内、在册团 71.8-79.7 与 PROSPECT 团 7.5-18.7 完全分离，S 带 0 PROSPECT（无异常旗）；②组合区分度 top2 跨度面=cost 19.35+quality 16.25（预测 quality/x2 主贡献成立）；③S 带在册独占成立。诚实注记：progress 面零权重=首届在册 g25 全 fail 的结构性零区分度（非门禁松动，g25/hr 权威不变）；组合 j4 面全 0=T-28 NOT-DEMONSTRATED 诚实负结论继承（§2 禁美化实证）。
+
+**run-once 律**：本节数值随本次 commit 冻结；队列扩张不重算带（§2）；≥6 个月或队列翻倍才许 v2 校准预注册（§6）。启用门下一版=strategy_scorecard run() 读本批冻结权重/带输出总分分级。
