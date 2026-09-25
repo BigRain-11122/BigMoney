@@ -1347,7 +1347,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 06:10:30",
    "workers_plan": {
     "workers": 1,
@@ -1358,11 +1358,16 @@
    "shards": [
     {
      "key": "p1e-neighbor-corr",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-26 06:23:32",
      "checkpoint": "results/shortline/p1e_neighbor_corr.json (exists + self-consistent = landed marker) -- harvest round flips shard->done and books the STRATEGY_LIBRARY Zoo row per spec SS5 (pool-flip-is-round-work r203)",
-     "note": "8 pairs x 2 faces, IS-only; verdict face = 4 frozen named pairs; harvest round does library bookkeeping, runner does zero shelf writes"
+     "note": "8 pairs x 2 faces, IS-only; verdict face = 4 frozen named pairs; harvest round does library bookkeeping, runner does zero shelf writes",
+     "done_flip": {
+      "ts": "2026-09-26 06:33",
+      "by": "bm-b r228",
+      "evidence": "artifact p1e_neighbor_corr.json landed 06:27:21 (pid29000, elapsed 222.3s); verdict=pass max|corr|=0.4829 (zoo92_coin_team|lhb_count_20 f2, n_common 4373) < 0.7 reject line; judgment 4 pairs all <0.7 (stv|terrified .3365/.4384, coin|070 .2584/.3837, coin|081 .2028/.3459, coin|lhb20 .2302/.4829); advisory top stv|lhb_count_20 f2 0.519 disclosure-only; probe_anchor 6F1+2F2 all_ok=true abs_delta=0.0 vs r219 probe; STRATEGY_LIBRARY Zoo row booked SATISFIED same commit (spec SS5)"
+     }
     }
    ]
   }

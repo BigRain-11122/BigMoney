@@ -1,0 +1,240 @@
+{
+  "meta": {
+    "check": "P-1e survivor neighbor-corr check (synth-batch consumption precondition)",
+    "spec": "research/shortline/P1E_NEIGHBOR_CORR_CHECK.md (frozen r227 bm-b)",
+    "claim": "MSG-20260926-0610-bm-b (F-04, r227)",
+    "lane": "bm-b (machine-local p1c_stock cache + turnover sidecar + lhb_detail.parquet, r188 lane-pin)",
+    "class": "machinery-check: zero engine / zero ledger / zero gate writes / zero shelf flips",
+    "date": "2026-09-26 06:27",
+    "is_end": "2024-12-31",
+    "window": "IS-only (<= IS_END; OOS untouched, r219 probe precedent)",
+    "materials": [
+      "zoo85_stv",
+      "zoo92_coin_team"
+    ],
+    "verdict_pairs": [
+      "zoo85_stv|zoo85_terrified",
+      "zoo92_coin_team|alpha191_070",
+      "zoo92_coin_team|alpha191_081",
+      "zoo92_coin_team|lhb_count_20"
+    ],
+    "advisory_pairs": [
+      "zoo85_stv|alpha191_070",
+      "zoo85_stv|alpha191_081",
+      "zoo85_stv|lhb_count_20",
+      "zoo92_coin_team|zoo85_terrified"
+    ],
+    "constructors": "p1e_factors frozen (selftest-gated) + GTJA vendor bigpanel + PA2-verbatim LHB event grid (xstock_synth._lhb_event_grids, shift1 T+1)",
+    "equivalence": {
+      "tag": "run-nulls/M_close",
+      "n_ref": 8709,
+      "n_fast": 8709,
+      "max_abs_diff": 2.220446049250313e-16,
+      "tol": 1e-06,
+      "pass": true,
+      "probe": "-mom60 real slice 600x60, fwd h20 (P-1c selftest form)"
+    },
+    "turnover": {
+      "source": "turnover_derived.npy sidecar",
+      "sidecar_generated": "2026-09-26 02:28:40",
+      "convention": "already fraction"
+    },
+    "lhb_grid": {
+      "raw_rows": 266062,
+      "dedup_events": 227859,
+      "placed": 196701,
+      "T": 8792,
+      "n_cols": 5222
+    },
+    "elapsed_s": 222.3
+  },
+  "evidence_cutoff": "2026-09-22",
+  "science_gates": {
+    "cutoff_meta": "2026-09-22"
+  },
+  "verdict": {
+    "verdict": "pass",
+    "max_abs_corr": 0.4829,
+    "argmax_pair": "zoo92_coin_team|lhb_count_20",
+    "argmax_face": "f2",
+    "reject_line": 0.7,
+    "semantics": ">=0.7 over verdict-face pairs x {F1 xs_spearman_mean, F2 ic10 pearson} = REJECT (same-family duplicate; no independent column in joint synth batch)"
+  },
+  "probe_anchor": {
+    "tol": 0.0001,
+    "source": "results/shortline/p1e_probe.json (r219, IS-only)",
+    "all_ok": true,
+    "checks": [
+      {
+        "kind": "f1",
+        "pair": "zoo85_stv|zoo85_terrified",
+        "computed": 0.3365,
+        "recorded": 0.3365,
+        "abs_delta": 0.0,
+        "ok": true
+      },
+      {
+        "kind": "f1",
+        "pair": "zoo85_stv|alpha191_070",
+        "computed": 0.2408,
+        "recorded": 0.2408,
+        "abs_delta": 0.0,
+        "ok": true
+      },
+      {
+        "kind": "f1",
+        "pair": "zoo85_stv|alpha191_081",
+        "computed": 0.1988,
+        "recorded": 0.1988,
+        "abs_delta": 0.0,
+        "ok": true
+      },
+      {
+        "kind": "f1",
+        "pair": "zoo92_coin_team|zoo85_terrified",
+        "computed": 0.3547,
+        "recorded": 0.3547,
+        "abs_delta": 0.0,
+        "ok": true
+      },
+      {
+        "kind": "f1",
+        "pair": "zoo92_coin_team|alpha191_070",
+        "computed": 0.2584,
+        "recorded": 0.2584,
+        "abs_delta": 0.0,
+        "ok": true
+      },
+      {
+        "kind": "f1",
+        "pair": "zoo92_coin_team|alpha191_081",
+        "computed": 0.2028,
+        "recorded": 0.2028,
+        "abs_delta": 0.0,
+        "ok": true
+      },
+      {
+        "kind": "f2",
+        "pair": "zoo85_stv|zoo85_terrified",
+        "computed": 0.4384,
+        "recorded": 0.4384,
+        "abs_delta": 0.0,
+        "ok": true
+      },
+      {
+        "kind": "f2",
+        "pair": "zoo92_coin_team|zoo85_terrified",
+        "computed": 0.2985,
+        "recorded": 0.2985,
+        "abs_delta": 0.0,
+        "ok": true
+      }
+    ]
+  },
+  "coverage": {
+    "zoo85_terrified": {
+      "is_valid_cells": 14871096,
+      "is_valid_cell_share": 0.3401,
+      "is_ic10_periods": 8350
+    },
+    "zoo85_stv": {
+      "is_valid_cells": 13260444,
+      "is_valid_cell_share": 0.3033,
+      "is_ic10_periods": 8011
+    },
+    "zoo92_coin_team": {
+      "is_valid_cells": 14871096,
+      "is_valid_cell_share": 0.3401,
+      "is_ic10_periods": 8350
+    },
+    "alpha191_070": {
+      "is_valid_cells": 14153191,
+      "is_valid_cell_share": 0.3237,
+      "is_ic10_periods": 8049
+    },
+    "alpha191_081": {
+      "is_valid_cells": 14496970,
+      "is_valid_cell_share": 0.3316,
+      "is_ic10_periods": 8313
+    },
+    "lhb_count_20": {
+      "is_valid_cells": 43723806,
+      "is_valid_cell_share": 1.0,
+      "is_ic10_periods": 4373
+    }
+  },
+  "pairs": [
+    {
+      "a": "zoo85_stv",
+      "b": "zoo85_terrified",
+      "in_verdict_face": true,
+      "f1_xs_spearman_mean": 0.3365,
+      "f1_n_dates": 8011,
+      "f2_ic10_pearson": 0.4384,
+      "f2_n_common": 8011
+    },
+    {
+      "a": "zoo92_coin_team",
+      "b": "alpha191_070",
+      "in_verdict_face": true,
+      "f1_xs_spearman_mean": 0.2584,
+      "f1_n_dates": 8049,
+      "f2_ic10_pearson": 0.3837,
+      "f2_n_common": 8049
+    },
+    {
+      "a": "zoo92_coin_team",
+      "b": "alpha191_081",
+      "in_verdict_face": true,
+      "f1_xs_spearman_mean": 0.2028,
+      "f1_n_dates": 8292,
+      "f2_ic10_pearson": 0.3459,
+      "f2_n_common": 8298
+    },
+    {
+      "a": "zoo92_coin_team",
+      "b": "lhb_count_20",
+      "in_verdict_face": true,
+      "f1_xs_spearman_mean": 0.2302,
+      "f1_n_dates": 4373,
+      "f2_ic10_pearson": 0.4829,
+      "f2_n_common": 4373
+    },
+    {
+      "a": "zoo85_stv",
+      "b": "alpha191_070",
+      "in_verdict_face": false,
+      "f1_xs_spearman_mean": 0.2408,
+      "f1_n_dates": 8011,
+      "f2_ic10_pearson": 0.2985,
+      "f2_n_common": 8011
+    },
+    {
+      "a": "zoo85_stv",
+      "b": "alpha191_081",
+      "in_verdict_face": false,
+      "f1_xs_spearman_mean": 0.1988,
+      "f1_n_dates": 8011,
+      "f2_ic10_pearson": 0.2534,
+      "f2_n_common": 8011
+    },
+    {
+      "a": "zoo85_stv",
+      "b": "lhb_count_20",
+      "in_verdict_face": false,
+      "f1_xs_spearman_mean": 0.2243,
+      "f1_n_dates": 4373,
+      "f2_ic10_pearson": 0.519,
+      "f2_n_common": 4373
+    },
+    {
+      "a": "zoo92_coin_team",
+      "b": "zoo85_terrified",
+      "in_verdict_face": false,
+      "f1_xs_spearman_mean": 0.3547,
+      "f1_n_dates": 8350,
+      "f2_ic10_pearson": 0.2985,
+      "f2_n_common": 8350
+    }
+  ]
+}
