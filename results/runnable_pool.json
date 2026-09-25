@@ -1,1342 +1,1371 @@
 {
- "version": 1,
- "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
- "schema": {
-  "entries[].status": "ready=可跑 (prereg冻结+runner在+数据门绿) | waiting=等owner补 runner/shard 计划 | running=在飞 | done=收割",
-  "entries[].shards[]": "认领单位=分片 {key,status,owner,owner_since,checkpoint}; 单写者=分片文件; owner 心跳停滞>20min=他机可接管(checkpoint 续跑)",
-  "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
-  "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
-  "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
- },
- "updated_at": "2026-09-26 05:47:30",
- "entries": [
-  {
-   "id": "J1-PROSPECT-BEATRATE",
-   "ticket_ref": "T-2026-09-24-24 slice(c) + T-2026-09-24-26 J-1 first-job designation",
-   "prereg_ref": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md s2/s3 (grid frozen, census {1253,1127,875}) + P-5/P-5B beat caliber beat_rate_6m>=0.70 (t24_prospect_promotion.BEAT_RATE_MIN 冻结); 判据零新增——PROSPECT cells=晋升门腿3实证源(report-only)",
-   "runner": "scripts/t24_prospect_beatrate.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "0",
-    "--shards",
-    "1"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-24 20:54:15",
-   "data_gates": "in-runner: patch selftest + census drift gate (r105 坑律㊀) + passive 覆盖门; 面板=本地 core48 日线 CSV(零 Money02 争用, clone 即跑)",
-   "shards": [
+  "version": 1,
+  "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
+  "schema": {
+    "entries[].status": "ready=可跑 (prereg冻结+runner在+数据门绿) | waiting=等owner补 runner/shard 计划 | running=在飞 | done=收割",
+    "entries[].shards[]": "认领单位=分片 {key,status,owner,owner_since,checkpoint}; 单写者=分片文件; owner 心跳停滞>20min=他机可接管(checkpoint 续跑)",
+    "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
+    "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
+    "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
+  },
+  "updated_at": "2026-09-26 06:10:30",
+  "entries": [
     {
-     "key": "pros-0of1",
-     "status": "done",
-     "owner": "bm-a",
-     "owner_since": "2026-09-24 20:55:24",
-     "checkpoint": "results/t22/cells_prospect_base.jsonl + cells_prospect_x2.jsonl (resume=行级 done set; 完成时 compact 去重)",
-     "note": "22 PROSPECT x 1253 starts x x1/x2 = 55,132 cells; 4 cells 已实弹预验(R92 smoke, ledger +4); 单写者=本分片; 接管=stale>20min"
-    }
-   ],
-   "note_done": "completed R92 21:05: 55,132 cells 616s BelowNormal C8-launched (fill latency 1.2min); result 0/22 >= 0.70 honest; consumer=t24_prospect_promotion leg 3 (real rates now), summary=results/t22/prospect_beatrate.json",
-   "workers_plan": {
-    "workers": "runner worker_cap() pool (50 observed live)",
-    "priority": "BelowNormal",
-    "note": "multi-core by construction (ProcessPoolExecutor, O-2130 compliant)"
-   }
-  },
-  {
-   "id": "T33-CORPS-ROSTER",
-   "ticket_ref": "T-2026-09-24-33",
-   "prereg_ref": "bm-c r68 corps_roster v1 + prereg (frozen); runner/shard 计划由 owner(bm-c) 补齐后翻 ready",
-   "runner": "scripts/t33_router_validation.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": "bm-c",
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-24 20:54:15",
-   "data_gates": "in-runner: v3 counts bit-match {GREEN664/YELLOW772/ORANGE35/RED161} + roster counts + panel cutoff + calendar coverage >=98% (all PASS)",
-   "shards": [],
-   "note": "O-2100 s4 ③在制票算力腿回填——本行为占位登记非可跑批",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "d4 = deterministic aggregation + replay (18 member anchor reruns, elapsed ~70s) -- light batch, spec s0 in-round legal"
-   },
-   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)",
-   "note_done": "completed r71 bm-c 2026-09-24 21:49: in-round per spec s0 (light batch <10min); GATES_OK, verdict honest negative (V-R1 attack fail -9.13bp/d / V-R2 RED claim x1-x2 pass x3 marginal fail / V-R3 drag 6.53% > 1.5% line -> tenure-review flag per frozen s4); result=results/t33_router_validation.json; zero wiring zero registration zero ledger-N"
-  },
-  {
-   "id": "T34-PRESIGNAL-HALFSTEP",
-   "ticket_ref": "T-2026-09-24-34",
-   "prereg_ref": "O-20260924-2030 前置信号半档梯; prereg 在途(bm-b 车道)——harness 3,200 起点 A/B 批冻结后翻 ready",
-   "runner": null,
-   "runner_args": [],
-   "lane_owner": "bm-b",
-   "priority": 3,
-   "status": "done",
-   "entered_at": "2026-09-24 20:54:15",
-   "data_gates": "owner 侧冻结后填",
-   "shards": [],
-   "note": "O-2100 s4 ③在制票算力腿回填——占位登记非可跑批",
-   "workers_plan": null,
-   "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)",
-   "note_done": "completed r114-115 via own lane (not pool-executed): T-34 finalize one-shot PASS, half-step ladder A/B ENABLED candidate, zero activation until monthly boundary; pool entry closes as stale-waiting (prereg had frozen r114 before this entry flipped ready -- honest bookkeeping close r116 bm-b)",
-   "done_at": "2026-09-24 21:46:37"
-  },
-  {
-   "id": "T18-DEEP-NULLS",
-   "ticket_ref": "T-2026-09-24-18",
-   "prereg_ref": "research/DEEP_AXIS_REVALIDATION.md SS3 (frozen sha256 5cdea03e...; seeds 54_000+k per SEED_REGISTRY['t18_deep_axis']; K=50; p regimes {0.02, 0.05} p2 family-A machinery reuse)",
-   "runner": "scripts/t18_deep_axis.py",
-   "runner_args": [
-    "nulls"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-24 21:46:37",
-   "data_gates": "in-runner: GF hard gate (O-1310 s3, T-19 stage-3 delivered) + XSTOCK data-dir mutex (s0) + panel-cache manifest-sha freshness (r105 census-drift law)",
-   "shards": [
+      "id": "J1-PROSPECT-BEATRATE",
+      "ticket_ref": "T-2026-09-24-24 slice(c) + T-2026-09-24-26 J-1 first-job designation",
+      "prereg_ref": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md s2/s3 (grid frozen, census {1253,1127,875}) + P-5/P-5B beat caliber beat_rate_6m>=0.70 (t24_prospect_promotion.BEAT_RATE_MIN 冻结); 判据零新增——PROSPECT cells=晋升门腿3实证源(report-only)",
+      "runner": "scripts/t24_prospect_beatrate.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "0",
+        "--shards",
+        "1"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-24 20:54:15",
+      "data_gates": "in-runner: patch selftest + census drift gate (r105 坑律㊀) + passive 覆盖门; 面板=本地 core48 日线 CSV(零 Money02 争用, clone 即跑)",
+      "shards": [
+        {
+          "key": "pros-0of1",
+          "status": "done",
+          "owner": "bm-a",
+          "owner_since": "2026-09-24 20:55:24",
+          "checkpoint": "results/t22/cells_prospect_base.jsonl + cells_prospect_x2.jsonl (resume=行级 done set; 完成时 compact 去重)",
+          "note": "22 PROSPECT x 1253 starts x x1/x2 = 55,132 cells; 4 cells 已实弹预验(R92 smoke, ledger +4); 单写者=本分片; 接管=stale>20min"
+        }
+      ],
+      "note_done": "completed R92 21:05: 55,132 cells 616s BelowNormal C8-launched (fill latency 1.2min); result 0/22 >= 0.70 honest; consumer=t24_prospect_promotion leg 3 (real rates now), summary=results/t22/prospect_beatrate.json",
+      "workers_plan": {
+        "workers": "runner worker_cap() pool (50 observed live)",
+        "priority": "BelowNormal",
+        "note": "multi-core by construction (ProcessPoolExecutor, O-2130 compliant)"
+      }
+    },
     {
-     "key": "nulls-0of1",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-24 21:46:37",
-     "checkpoint": "results/shortline/t18_deep_nulls_runs.jsonl (manifest-sha keyed resume; 50 runs seed-deterministic)",
-     "note": "50 nulls + 2 passives, single-writer shard; r116 pre-flight 2.5s/run -> ETA ~2-5min on 12 workers; takeover = owner hb stale >20min, checkpoint resume"
-    }
-   ],
-   "workers_plan": {
-    "workers": 12,
-    "priority": "BelowNormal",
-    "note": "O-1136 pool; SS0 formula cores*0.8 RAM-guarded (in-runner enforced; BelowNormal also self-set in worker initializer)"
-   },
-   "note_done": "completed r116 bm-b in-round: 50/50 nulls (seeds 54_000+k, 21.6s elapsed on 12 BelowNormal workers) + 2 deep passives; mu=0.2124 sigma=0.1574; passive strict-max 0.478 (EW48 monthly); R53 dual-pool probe PASS (deep line 0.9506 vs core48 1.1064, faces disjoint); product=results/shortline/t18_deep_nulls.json + checkpoint jsonl; zero ledger (batch-level accounting at reval finalize per prereg SS3)",
-   "done_at": "2026-09-24 21:49:05"
-  },
-  {
-   "id": "DRILL-T36-STALE-TAKEOVER",
-   "status": "done",
-   "type": "acceptance-drill",
-   "prereg_ref": "fleet/tasks/T-2026-09-24-36-P1.json (d4 acceptance injection: stalled shard -> auto-released and taken over)",
-   "runner": "Tools/t36_drill_runner.py",
-   "runner_args": [],
-   "lane_owner": null,
-   "priority": 1,
-   "entered_at": "2026-09-24 22:01:41",
-   "workers_plan": {
-    "workers": 2,
-    "priority": "BelowNormal",
-    "note": "drill-scale burn 6s"
-   },
-   "shards": [
+      "id": "T33-CORPS-ROSTER",
+      "ticket_ref": "T-2026-09-24-33",
+      "prereg_ref": "bm-c r68 corps_roster v1 + prereg (frozen); runner/shard 计划由 owner(bm-c) 补齐后翻 ready",
+      "runner": "scripts/t33_router_validation.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-c",
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-24 20:54:15",
+      "data_gates": "in-runner: v3 counts bit-match {GREEN664/YELLOW772/ORANGE35/RED161} + roster counts + panel cutoff + calendar coverage >=98% (all PASS)",
+      "shards": [],
+      "note": "O-2100 s4 ③在制票算力腿回填——本行为占位登记非可跑批",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "d4 = deterministic aggregation + replay (18 member anchor reruns, elapsed ~70s) -- light batch, spec s0 in-round legal"
+      },
+      "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)",
+      "note_done": "completed r71 bm-c 2026-09-24 21:49: in-round per spec s0 (light batch <10min); GATES_OK, verdict honest negative (V-R1 attack fail -9.13bp/d / V-R2 RED claim x1-x2 pass x3 marginal fail / V-R3 drag 6.53% > 1.5% line -> tenure-review flag per frozen s4); result=results/t33_router_validation.json; zero wiring zero registration zero ledger-N"
+    },
     {
-     "key": "drill-0of1",
-     "status": "done",
-     "owner": "bm-a",
-     "owner_since": "2026-09-24 21:21:41",
-     "checkpoint": "results/t36_drill_checkpoint.jsonl"
-    }
-   ],
-   "result_ref": "results/t36_stale_takeover_drill.json (real-fire stale takeover, latency 0.1min target_met; drill artifact, no science claims)"
-  },
-  {
-   "id": "A158-TRUEGAP-IC",
-   "ticket_ref": "T-23 wave1 open-pool claim (MSG-20260924-2246-bm-b-claim-a158-truegap, r119)",
-   "prereg_ref": "research/shortline/A158_TRUEGAP_IC.md FROZEN r119 (freeze commit d958a1a; impl+burn=r120 = red-flag real-burn carrier)",
-   "runner": "scripts/a158_truegap_ic.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-24 23:10:41",
-   "data_gates": "in-runner: s2 gates re-check (P-1c census 8792/5222 r105 law + ok-universe 5129+/-1 + pct_chg agreement + high/low finite + cutoff lockbox 2026-09-22) + nulls-first refusal + per-factor checkpoints; panel=P-1c Stage-A cache",
-   "shards": [
+      "id": "T34-PRESIGNAL-HALFSTEP",
+      "ticket_ref": "T-2026-09-24-34",
+      "prereg_ref": "O-20260924-2030 前置信号半档梯; prereg 在途(bm-b 车道)——harness 3,200 起点 A/B 批冻结后翻 ready",
+      "runner": null,
+      "runner_args": [],
+      "lane_owner": "bm-b",
+      "priority": 3,
+      "status": "done",
+      "entered_at": "2026-09-24 20:54:15",
+      "data_gates": "owner 侧冻结后填",
+      "shards": [],
+      "note": "O-2100 s4 ③在制票算力腿回填——占位登记非可跑批",
+      "workers_plan": null,
+      "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)",
+      "note_done": "completed r114-115 via own lane (not pool-executed): T-34 finalize one-shot PASS, half-step ladder A/B ENABLED candidate, zero activation until monthly boundary; pool entry closes as stale-waiting (prereg had frozen r114 before this entry flipped ready -- honest bookkeeping close r116 bm-b)",
+      "done_at": "2026-09-24 21:46:37"
+    },
     {
-     "key": "a158-0of1",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-24 23:10:41",
-     "checkpoint": "results/shortline/a158_nulls.json + results/shortline/a158_partial/*.json (per-step resume; single-writer shard; takeover=hb stale>20min)"
-    }
-   ],
-   "workers_plan": {
-    "workers": 3,
-    "priority": "BelowNormal",
-    "note": "nulls leg ProcessPool RAM-clamped 1-3 workers (big-panel 367MB/field frames, ~5 transient copies inside shared _ic_series_fast; free-RAM <4GB refuses); factors leg vectorized single-proc; BelowNormal self-set in worker initializer (t18 precedent)"
-   },
-   "note": "r121 bm-b FINALIZE: verdict 0/5 primary FAIL -> Alpha158 gap-line CLOSED per prereg s0 multiplicity law (revival needs new prereg + mechanism argument); ledger +65=60547 (5 primary + 2 affine-clone disclosure + 50 nulls-once + 7 h5 + 1 h20 report cols); result_ref=results/shortline/a158_truegap_ic.json + research/shortline/a158_truegap_ic_cells.csv + prereg s7/s8 backfilled + gate_attrition row 24; mid-flight P0 disclosed in attrition note (r120 run killed pre-verdict on fwd-frame column-alignment bug, fixed+proven, deterministic rerun 7/7 ok) | ts-corrections: run finish 23:37:05 artifact-mtime, claim owner_since restored to r120 original (same lane bm-b throughout, mid-flight P0 fix disclosed)",
-   "finished_at": "2026-09-24 23:37:05"
-  },
-  {
-   "id": "GRID-P1",
-   "ticket_ref": "T-2026-09-25-40",
-   "prereg_ref": "research/GRID_P1.md FROZEN r136 (commit 1b4bffd2; slice-1 skeleton+prereg; slice-2 runner commit 9905d2d9 selftest 11/11 + SEED_REGISTRY grid_p1 55_500)",
-   "runner": "scripts/grid_p1_screen.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 03:06:31",
-   "data_gates": "in-runner: patch selftest + 48/48 panel >=cutoff lockbox 2026-09-24 (truncated, no reflow) + anchor repro 6/6 hard gate (any BROKEN = VOID exit 2) + finalize single-shot guard (GRID_P1_REFINALIZE=1 to redo)",
-   "shards": [
+      "id": "T18-DEEP-NULLS",
+      "ticket_ref": "T-2026-09-24-18",
+      "prereg_ref": "research/DEEP_AXIS_REVALIDATION.md SS3 (frozen sha256 5cdea03e...; seeds 54_000+k per SEED_REGISTRY['t18_deep_axis']; K=50; p regimes {0.02, 0.05} p2 family-A machinery reuse)",
+      "runner": "scripts/t18_deep_axis.py",
+      "runner_args": [
+        "nulls"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-24 21:46:37",
+      "data_gates": "in-runner: GF hard gate (O-1310 s3, T-19 stage-3 delivered) + XSTOCK data-dir mutex (s0) + panel-cache manifest-sha freshness (r105 census-drift law)",
+      "shards": [
+        {
+          "key": "nulls-0of1",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-24 21:46:37",
+          "checkpoint": "results/shortline/t18_deep_nulls_runs.jsonl (manifest-sha keyed resume; 50 runs seed-deterministic)",
+          "note": "50 nulls + 2 passives, single-writer shard; r116 pre-flight 2.5s/run -> ETA ~2-5min on 12 workers; takeover = owner hb stale >20min, checkpoint resume"
+        }
+      ],
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal",
+        "note": "O-1136 pool; SS0 formula cores*0.8 RAM-guarded (in-runner enforced; BelowNormal also self-set in worker initializer)"
+      },
+      "note_done": "completed r116 bm-b in-round: 50/50 nulls (seeds 54_000+k, 21.6s elapsed on 12 BelowNormal workers) + 2 deep passives; mu=0.2124 sigma=0.1574; passive strict-max 0.478 (EW48 monthly); R53 dual-pool probe PASS (deep line 0.9506 vs core48 1.1064, faces disjoint); product=results/shortline/t18_deep_nulls.json + checkpoint jsonl; zero ledger (batch-level accounting at reval finalize per prereg SS3)",
+      "done_at": "2026-09-24 21:49:05"
+    },
     {
-     "key": "gridp1-0of1",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 03:10:03",
-     "checkpoint": "results/grid_p1_cells.jsonl (row-level done-key resume, t22 law; truncated tail tolerated)",
-     "note": "112 trials = 4 cells (1 entry x 2 exit regimes x 2 cost faces) + 100 nulls (55_500+k/55_550+k, k<50) + 2 passive formula + 6 anchor reruns (1x, own cutoffs); est <10min serial; single-writer shard; takeover = owner hb stale >20min"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "prereg s0 frozen: est <10min serial single-process (NSP1-isomorphic); light-batch workers=1 precedent T33-CORPS-ROSTER; autofill sets BelowNormal on launch; runner is pure-serial by design (deterministic resume)"
-   },
-   "note": "slice-2 pool submission r137 bm-b; verdict face = x1 cost per prereg s4; D6 resolution note frozen in runner docstring pre-burn (r71 protocol)",
-   "note_done": "completed r137 bm-b via C8 autofill (launch 03:10:03 latency 3.5min -> finalize wiring bug crashed post-compute -> fix 55f9b8c9 J18 impl-only -> relaunch 03:20:03 checkpoint-resume deterministic -> finalize landed): all hard gates PASS (patch/panel 48/48 lockbox 09-24/anchor 6/6); verdict HONEST NEGATIVE 0 survivors (default s=-0.4091 / ce s=+0.0683 vs skill line 1.1068, CI lower <=0; D6 registered 0.3301/0.2419 < 0.70 no reject, pair 0.6608 < 0.70 no merge); ledger +112=60659; result=results/grid_p1.json + research/grid_p1_results.csv + prereg s7/s8 backfilled + gate_attrition row",
-   "done_at": "2026-09-25 03:21:24"
-  },
-  {
-   "id": "P4-B3-DCA",
-   "ticket_ref": "T-2026-09-25-44 (spec research/shortline/P4_BATCH3_DCA_SPEC.md s6 chain; engine staged_entry flag T-42 r139)",
-   "prereg_ref": "research/P4_BATCH3.md (frozen commit 7a94dbfa r140 pre-run R99; evidence_cutoff 2026-09-24; N_eff 125; seed band 56500 registered, disjoint union with ths_agg_p1 56000)",
-   "runner": "scripts/p4_batch3_dca.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 04:08:26",
-   "data_gates": "in-runner: patch selftest + 48/48 panel at cutoff + NAMED_SIX anchor 6/6 reproduction (prereg s2 hard gates, any FAIL = VOID exit 2); panels local core48 daily CSV (zero Money02 contention)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "prereg s0 frozen: est 3-8min serial single-process (GRID-P1 112-trial isomorphic precedent, this batch 125); light-batch workers=1 precedent T33/GRID-P1; autofill sets BelowNormal on launch; runner pure-serial by design (deterministic resume)"
-   },
-   "shards": [
+      "id": "DRILL-T36-STALE-TAKEOVER",
+      "status": "done",
+      "type": "acceptance-drill",
+      "prereg_ref": "fleet/tasks/T-2026-09-24-36-P1.json (d4 acceptance injection: stalled shard -> auto-released and taken over)",
+      "runner": "Tools/t36_drill_runner.py",
+      "runner_args": [],
+      "lane_owner": null,
+      "priority": 1,
+      "entered_at": "2026-09-24 22:01:41",
+      "workers_plan": {
+        "workers": 2,
+        "priority": "BelowNormal",
+        "note": "drill-scale burn 6s"
+      },
+      "shards": [
+        {
+          "key": "drill-0of1",
+          "status": "done",
+          "owner": "bm-a",
+          "owner_since": "2026-09-24 21:21:41",
+          "checkpoint": "results/t36_drill_checkpoint.jsonl"
+        }
+      ],
+      "result_ref": "results/t36_stale_takeover_drill.json (real-fire stale takeover, latency 0.1min target_met; drill artifact, no science claims)"
+    },
     {
-     "key": "p4b3-0of1",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 04:10:01",
-     "checkpoint": "results/p4_batch3_cells.jsonl (row-level resume t22 law; finalize single-shot guard OUT_JSON)"
-    }
-   ],
-   "completed_at": "2026-09-25 04:12:39",
-   "result_ref": "results/shortline_p4_batch3.json (VALID, void=false, 16/16 cells, anchors 6/6, honest 0 G1 candidates, ledger +125=60784; autofill C8 launch 04:10:01 pid 14208 fill_latency 1.6min target_met)"
-  },
-  {
-   "id": "XSTOCK-TILT",
-   "ticket_ref": "lane bm-b (F-04 claim MSG-20260925-0625-ALL-xstock-tilt-claim, r151 c5d0cd9d); prereg frozen r151 1261f058; runner+SS2.5 adjudication frozen r152 17ee8e17 (pre-run, R99 law)",
-   "prereg_ref": "research/shortline/XSTOCK_TILT.md - N_eff=44 (4 main h20/h10 x top5/top10 + 40 nulls seeds 57_000/57_100, K=10) + 8 cost-stress informational legs; passive NOT rerun (stock_b_layer registered baseline)",
-   "runner": "scripts/xstock_tilt.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 06:19:30",
-   "data_gates": "in-runner: frozen-members constants + primary composite reproduction (4dp, probe delta 0.0) + universe probe (median>=1000, first-effective-rebal>=500, SS2.5 adjudication frozen e8d79325) + causal truncate-and-compare; exit 2 = refuse batch, 3 = lock alive, 4 = RAM floor",
-   "workers_plan": {
-    "workers": 8,
-    "priority": "BelowNormal",
-    "note": "O-1738 bm-b <=12; EXT_TILT 47-cell workers=8 precedent; probe est 152s wall (52 engine cells / 8 workers)"
-   },
-   "shards": [
+      "id": "A158-TRUEGAP-IC",
+      "ticket_ref": "T-23 wave1 open-pool claim (MSG-20260924-2246-bm-b-claim-a158-truegap, r119)",
+      "prereg_ref": "research/shortline/A158_TRUEGAP_IC.md FROZEN r119 (freeze commit d958a1a; impl+burn=r120 = red-flag real-burn carrier)",
+      "runner": "scripts/a158_truegap_ic.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-24 23:10:41",
+      "data_gates": "in-runner: s2 gates re-check (P-1c census 8792/5222 r105 law + ok-universe 5129+/-1 + pct_chg agreement + high/low finite + cutoff lockbox 2026-09-22) + nulls-first refusal + per-factor checkpoints; panel=P-1c Stage-A cache",
+      "shards": [
+        {
+          "key": "a158-0of1",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-24 23:10:41",
+          "checkpoint": "results/shortline/a158_nulls.json + results/shortline/a158_partial/*.json (per-step resume; single-writer shard; takeover=hb stale>20min)"
+        }
+      ],
+      "workers_plan": {
+        "workers": 3,
+        "priority": "BelowNormal",
+        "note": "nulls leg ProcessPool RAM-clamped 1-3 workers (big-panel 367MB/field frames, ~5 transient copies inside shared _ic_series_fast; free-RAM <4GB refuses); factors leg vectorized single-proc; BelowNormal self-set in worker initializer (t18 precedent)"
+      },
+      "note": "r121 bm-b FINALIZE: verdict 0/5 primary FAIL -> Alpha158 gap-line CLOSED per prereg s0 multiplicity law (revival needs new prereg + mechanism argument); ledger +65=60547 (5 primary + 2 affine-clone disclosure + 50 nulls-once + 7 h5 + 1 h20 report cols); result_ref=results/shortline/a158_truegap_ic.json + research/shortline/a158_truegap_ic_cells.csv + prereg s7/s8 backfilled + gate_attrition row 24; mid-flight P0 disclosed in attrition note (r120 run killed pre-verdict on fwd-frame column-alignment bug, fixed+proven, deterministic rerun 7/7 ok) | ts-corrections: run finish 23:37:05 artifact-mtime, claim owner_since restored to r120 original (same lane bm-b throughout, mid-flight P0 fix disclosed)",
+      "finished_at": "2026-09-24 23:37:05"
+    },
     {
-     "key": "xstock-tilt-0of1",
-     "status": "done",
-     "owner": null,
-     "owner_since": null,
-     "checkpoint": "results/xstock_tilt_runs.jsonl (row-level resume; finalize single-shot guard OUT_JSON, XSTOCK_TILT_REFINALIZE=1 re-finalize reuses ledger head)"
-    }
-   ],
-   "result_ref": "results/shortline_xstock_tilt.json (0/4 verdict, closed; prereg s7/s8 backfilled r153)"
-  },
-  {
-   "id": "T54-GRID-LA",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "legacy",
-    "--shard",
-    "lA",
-    "--pos-from",
-    "0",
-    "--pos-to",
-    "314",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "GRID-P1",
+      "ticket_ref": "T-2026-09-25-40",
+      "prereg_ref": "research/GRID_P1.md FROZEN r136 (commit 1b4bffd2; slice-1 skeleton+prereg; slice-2 runner commit 9905d2d9 selftest 11/11 + SEED_REGISTRY grid_p1 55_500)",
+      "runner": "scripts/grid_p1_screen.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 03:06:31",
+      "data_gates": "in-runner: patch selftest + 48/48 panel >=cutoff lockbox 2026-09-24 (truncated, no reflow) + anchor repro 6/6 hard gate (any BROKEN = VOID exit 2) + finalize single-shot guard (GRID_P1_REFINALIZE=1 to redo)",
+      "shards": [
+        {
+          "key": "gridp1-0of1",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 03:10:03",
+          "checkpoint": "results/grid_p1_cells.jsonl (row-level done-key resume, t22 law; truncated tail tolerated)",
+          "note": "112 trials = 4 cells (1 entry x 2 exit regimes x 2 cost faces) + 100 nulls (55_500+k/55_550+k, k<50) + 2 passive formula + 6 anchor reruns (1x, own cutoffs); est <10min serial; single-writer shard; takeover = owner hb stale >20min"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "prereg s0 frozen: est <10min serial single-process (NSP1-isomorphic); light-batch workers=1 precedent T33-CORPS-ROSTER; autofill sets BelowNormal on launch; runner is pure-serial by design (deterministic resume)"
+      },
+      "note": "slice-2 pool submission r137 bm-b; verdict face = x1 cost per prereg s4; D6 resolution note frozen in runner docstring pre-burn (r71 protocol)",
+      "note_done": "completed r137 bm-b via C8 autofill (launch 03:10:03 latency 3.5min -> finalize wiring bug crashed post-compute -> fix 55f9b8c9 J18 impl-only -> relaunch 03:20:03 checkpoint-resume deterministic -> finalize landed): all hard gates PASS (patch/panel 48/48 lockbox 09-24/anchor 6/6); verdict HONEST NEGATIVE 0 survivors (default s=-0.4091 / ce s=+0.0683 vs skill line 1.1068, CI lower <=0; D6 registered 0.3301/0.2419 < 0.70 no reject, pair 0.6608 < 0.70 no merge); ledger +112=60659; result=results/grid_p1.json + research/grid_p1_results.csv + prereg s7/s8 backfilled + gate_attrition row",
+      "done_at": "2026-09-25 03:21:24"
+    },
     {
-     "key": "legacy-lA",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 11:51:57",
-     "checkpoint": "results/t54/cells_legacy_base_lA.jsonl + cells_legacy_x2_lA.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "done 12:09:49 local (13816/13816 cells verified r177 bm-b: 6908 base mtime 12:05:12 + 6908 x2 mtime 12:09:49, unique keys zero-dup; done marker = real artifact-mtime r62 law; 12:10/12:20 relaunches were resume no-ops before marker)"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
-  },
-  {
-   "id": "T54-GRID-LB",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "legacy",
-    "--shard",
-    "lB",
-    "--pos-from",
-    "314",
-    "--pos-to",
-    "628",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "P4-B3-DCA",
+      "ticket_ref": "T-2026-09-25-44 (spec research/shortline/P4_BATCH3_DCA_SPEC.md s6 chain; engine staged_entry flag T-42 r139)",
+      "prereg_ref": "research/P4_BATCH3.md (frozen commit 7a94dbfa r140 pre-run R99; evidence_cutoff 2026-09-24; N_eff 125; seed band 56500 registered, disjoint union with ths_agg_p1 56000)",
+      "runner": "scripts/p4_batch3_dca.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 04:08:26",
+      "data_gates": "in-runner: patch selftest + 48/48 panel at cutoff + NAMED_SIX anchor 6/6 reproduction (prereg s2 hard gates, any FAIL = VOID exit 2); panels local core48 daily CSV (zero Money02 contention)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "prereg s0 frozen: est 3-8min serial single-process (GRID-P1 112-trial isomorphic precedent, this batch 125); light-batch workers=1 precedent T33/GRID-P1; autofill sets BelowNormal on launch; runner pure-serial by design (deterministic resume)"
+      },
+      "shards": [
+        {
+          "key": "p4b3-0of1",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 04:10:01",
+          "checkpoint": "results/p4_batch3_cells.jsonl (row-level resume t22 law; finalize single-shot guard OUT_JSON)"
+        }
+      ],
+      "completed_at": "2026-09-25 04:12:39",
+      "result_ref": "results/shortline_p4_batch3.json (VALID, void=false, 16/16 cells, anchors 6/6, honest 0 G1 candidates, ledger +125=60784; autofill C8 launch 04:10:01 pid 14208 fill_latency 1.6min target_met)"
+    },
     {
-     "key": "legacy-lB",
-     "status": "done",
-     "owner": "bm-a",
-     "owner_since": "2026-09-25 12:10:01",
-     "checkpoint": "results/t54/cells_legacy_base_lB.jsonl + cells_legacy_x2_lB.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "done 12:12:54 local (13816/13816 cells, 170.5s, 25 workers; done marker real ts)"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
-  },
-  {
-   "id": "T54-GRID-LC",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "legacy",
-    "--shard",
-    "lC",
-    "--pos-from",
-    "628",
-    "--pos-to",
-    "942",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "XSTOCK-TILT",
+      "ticket_ref": "lane bm-b (F-04 claim MSG-20260925-0625-ALL-xstock-tilt-claim, r151 c5d0cd9d); prereg frozen r151 1261f058; runner+SS2.5 adjudication frozen r152 17ee8e17 (pre-run, R99 law)",
+      "prereg_ref": "research/shortline/XSTOCK_TILT.md - N_eff=44 (4 main h20/h10 x top5/top10 + 40 nulls seeds 57_000/57_100, K=10) + 8 cost-stress informational legs; passive NOT rerun (stock_b_layer registered baseline)",
+      "runner": "scripts/xstock_tilt.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 06:19:30",
+      "data_gates": "in-runner: frozen-members constants + primary composite reproduction (4dp, probe delta 0.0) + universe probe (median>=1000, first-effective-rebal>=500, SS2.5 adjudication frozen e8d79325) + causal truncate-and-compare; exit 2 = refuse batch, 3 = lock alive, 4 = RAM floor",
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "note": "O-1738 bm-b <=12; EXT_TILT 47-cell workers=8 precedent; probe est 152s wall (52 engine cells / 8 workers)"
+      },
+      "shards": [
+        {
+          "key": "xstock-tilt-0of1",
+          "status": "done",
+          "owner": null,
+          "owner_since": null,
+          "checkpoint": "results/xstock_tilt_runs.jsonl (row-level resume; finalize single-shot guard OUT_JSON, XSTOCK_TILT_REFINALIZE=1 re-finalize reuses ledger head)"
+        }
+      ],
+      "result_ref": "results/shortline_xstock_tilt.json (0/4 verdict, closed; prereg s7/s8 backfilled r153)"
+    },
     {
-     "key": "legacy-lC",
-     "status": "done",
-     "owner": "bm-a",
-     "owner_since": "2026-09-25 12:17:09",
-     "checkpoint": "results/t54/cells_legacy_base_lC.jsonl + cells_legacy_x2_lC.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "done 12:23:00 local (13816/13816 cells, 176.5s, 25 workers, done_legacy_lC.json runner marker; 12:30 tick re-fire = resume no-op observed)"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
-  },
-  {
-   "id": "T54-GRID-LD",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "legacy",
-    "--shard",
-    "lD",
-    "--pos-from",
-    "942",
-    "--pos-to",
-    "1256",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "T54-GRID-LA",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "legacy",
+        "--shard",
+        "lA",
+        "--pos-from",
+        "0",
+        "--pos-to",
+        "314",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "legacy-lA",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 11:51:57",
+          "checkpoint": "results/t54/cells_legacy_base_lA.jsonl + cells_legacy_x2_lA.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "done 12:09:49 local (13816/13816 cells verified r177 bm-b: 6908 base mtime 12:05:12 + 6908 x2 mtime 12:09:49, unique keys zero-dup; done marker = real artifact-mtime r62 law; 12:10/12:20 relaunches were resume no-ops before marker)"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      }
+    },
     {
-     "key": "legacy-lD",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 12:23:21",
-     "checkpoint": "results/t54/cells_legacy_base_lD.jsonl + cells_legacy_x2_lD.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "done 2026-09-25 12:36:13 local (13816/13816 cells verified r177 bm-b: 6908 base + 6908 x2 unique keys zero-dup; done marker = real artifact-mtime r62 law; fired 12:30:02 via claim-first pre-claim, ~6.5min burn)"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
-  },
-  {
-   "id": "T54-GRID-DA",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "deep",
-    "--shard",
-    "dA",
-    "--pos-from",
-    "0",
-    "--pos-to",
-    "377",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "T54-GRID-LB",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "legacy",
+        "--shard",
+        "lB",
+        "--pos-from",
+        "314",
+        "--pos-to",
+        "628",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "legacy-lB",
+          "status": "done",
+          "owner": "bm-a",
+          "owner_since": "2026-09-25 12:10:01",
+          "checkpoint": "results/t54/cells_legacy_base_lB.jsonl + cells_legacy_x2_lB.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "done 12:12:54 local (13816/13816 cells, 170.5s, 25 workers; done marker real ts)"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      }
+    },
     {
-     "key": "deep-dA",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 12:40:02",
-     "checkpoint": "results/t54/cells_deep_base_dA.jsonl + cells_deep_x2_dA.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "DONE r178 bm-b owner-write: done_deep_dA.json marker real ts 12:51:16 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2 rows verified), 1506 eligible positions, 22 members, anchor_excluded=0, runtime 671.4s on 12 BelowNormal workers (fired 12:40:02 via stale-owner takeover of bm-a pre-claim 12:31:05). Dual-fire window disclosed: bm-a local pool at its own 12:40 tick still showed owner=bm-a -> same-tick dual burn on bm-a possible (r159 residual 50/50 face); deterministic idempotent, zero scientific impact; autofill owner_since-freshness patch r178 closes the false-takeover class (S9/S10 selftest)"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
-  },
-  {
-   "id": "T54-GRID-DB",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "deep",
-    "--shard",
-    "dB",
-    "--pos-from",
-    "377",
-    "--pos-to",
-    "754",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "T54-GRID-LC",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "legacy",
+        "--shard",
+        "lC",
+        "--pos-from",
+        "628",
+        "--pos-to",
+        "942",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "legacy-lC",
+          "status": "done",
+          "owner": "bm-a",
+          "owner_since": "2026-09-25 12:17:09",
+          "checkpoint": "results/t54/cells_legacy_base_lC.jsonl + cells_legacy_x2_lC.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "done 12:23:00 local (13816/13816 cells, 176.5s, 25 workers, done_legacy_lC.json runner marker; 12:30 tick re-fire = resume no-op observed)"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      }
+    },
     {
-     "key": "deep-dB",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 12:44:19",
-     "checkpoint": "results/t54/cells_deep_base_dB.jsonl + cells_deep_x2_dB.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "DONE r179 bm-b owner-write: done_deep_dB.json marker real ts 13:21:31 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2 rows), 1506 eligible positions, 22 members, anchor_excluded=0, runtime 686.3s on 12 BelowNormal workers (fired 13:10:02 tick, claim-first pre-claim 12:44:19 held; next serial lane = dC at next tick, then dD, then MF-ROT-S1 (1-process, coexists))"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
-  },
-  {
-   "id": "T54-GRID-DC",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "deep",
-    "--shard",
-    "dC",
-    "--pos-from",
-    "754",
-    "--pos-to",
-    "1131",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "T54-GRID-LD",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "legacy",
+        "--shard",
+        "lD",
+        "--pos-from",
+        "942",
+        "--pos-to",
+        "1256",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "legacy-lD",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 12:23:21",
+          "checkpoint": "results/t54/cells_legacy_base_lD.jsonl + cells_legacy_x2_lD.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "done 2026-09-25 12:36:13 local (13816/13816 cells verified r177 bm-b: 6908 base + 6908 x2 unique keys zero-dup; done marker = real artifact-mtime r62 law; fired 12:30:02 via claim-first pre-claim, ~6.5min burn)"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      }
+    },
     {
-     "key": "deep-dC",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 12:56:56",
-     "checkpoint": "results/t54/cells_deep_base_dC.jsonl + cells_deep_x2_dC.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "DONE r163 bm-a owner-write: done_deep_dC.json marker real ts 12:53:27 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2, rows verified); run log deep_dC.log DONE 203.6s workers=25; original launch = bm-a 12:50 tick (launch record lost in autofill_state rebase union -- physical logs authoritative); dual-burn disclosure: bm-b 13:40:02 relaunch in-flight on its own tree (deterministic recompute, zero scientific divergence); 13:40:01 bm-a relaunch = resume no-op 16s; r179/r180 flip-wedge third occurrence, closed per r180 precedent"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   },
-   "done_ts": "2026-09-25 12:53:27",
-   "done_evidence": "done_deep_dC.json marker 12:53:27 16588/16588 (bm-a tree)"
-  },
-  {
-   "id": "T54-GRID-DD",
-   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
-   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
-   "runner": "scripts/t54_prospect_grid.py",
-   "runner_args": [
-    "run",
-    "--axis",
-    "deep",
-    "--shard",
-    "dD",
-    "--pos-from",
-    "1131",
-    "--pos-to",
-    "1506",
-    "--faces",
-    "base,x2"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:19:22",
-   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
-   "shards": [
+      "id": "T54-GRID-DA",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "deep",
+        "--shard",
+        "dA",
+        "--pos-from",
+        "0",
+        "--pos-to",
+        "377",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "deep-dA",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 12:40:02",
+          "checkpoint": "results/t54/cells_deep_base_dA.jsonl + cells_deep_x2_dA.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "DONE r178 bm-b owner-write: done_deep_dA.json marker real ts 12:51:16 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2 rows verified), 1506 eligible positions, 22 members, anchor_excluded=0, runtime 671.4s on 12 BelowNormal workers (fired 12:40:02 via stale-owner takeover of bm-a pre-claim 12:31:05). Dual-fire window disclosed: bm-a local pool at its own 12:40 tick still showed owner=bm-a -> same-tick dual burn on bm-a possible (r159 residual 50/50 face); deterministic idempotent, zero scientific impact; autofill owner_since-freshness patch r178 closes the false-takeover class (S9/S10 selftest)"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      }
+    },
     {
-     "key": "deep-dD",
-     "status": "done",
-     "owner": "bm-a",
-     "owner_since": "2026-09-25 13:47:38",
-     "checkpoint": "results/t54/cells_deep_base_dD.jsonl + cells_deep_x2_dD.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "DONE r163 bm-a owner-write: done_deep_dD.json marker real ts 13:52:32 (r62 artifact-mtime law): 16500/16500 cells (8250 base + 8250 x2, 375 positions [1131,1506) x 22 members x 2 faces); runner log DONE workers=25; claim-first pre-claim 13:47:38 (r170 law) -> 13:50:02 tick fire -> 13:52:32 done (165s); flip same round per r180 wedge law"
-    }
-   ],
-   "workers_plan": {
-    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
-    "priority": "BelowNormal",
-    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   },
-   "done_ts": "2026-09-25 13:52:32",
-   "done_evidence": "done_deep_dD.json marker 13:52:32 16500/16500 (bm-a tree)"
-  },
-  {
-   "id": "T56-AGGRESSIVE-LAB",
-   "ticket_ref": "T-2026-09-25-56 (O-20260925-1126 CEO direct)",
-   "prereg_ref": "research/AGGRESSIVE_LAB.md FROZEN pre-run (freeze commit 589b6cc1 precedes any run, R99 law; prereg sha at run 59ea4cc13045777c); judgments = T-28 J-line verbatim (J1/J2/J3 + W-GRID beat + J5 D7 disclosures)",
-   "runner": "scripts/aggressive_lab.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": "bm-a",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 11:37:40",
-   "data_gates": "in-runner: 6 weight-vector sha gates vs prereg s3 + 28-roster set equality + panel cutoff >= 2026-09-23 + corps partition 6/15/7 disjoint + CE-6 restriction renorm (all PASS run#2)",
-   "shards": [],
-   "workers_plan": {
-    "workers": 25,
-    "priority": "BelowNormal",
-    "note": "56 sleeve engine runs (T-27 machinery o1600 caliber) + 5 frames + 60 grid units arithmetic; T-28 caliber 5.4s empirical, actual 8.6s"
-   },
-   "note_done": "first judgment run executed in-round R157 per CEO immediate-law (R41 <5min exemption; selftest 11/11; run#2 sole productive run after run#1 engineering abort zero-ledger); 5 faces judged, 100 cells ledger 61015->61115; zero adoption zero wiring (dual-track supply face); month-boundary tournament re-runs re-enter via this entry spec"
-  },
-  {
-   "id": "ALLOC-LINE-S2",
-   "ticket_ref": "T-2026-09-25-59 slice-3 (O-20260925-1145 CEO direct; O-0857 profit-model priority line)",
-   "prereg_ref": "research/allocation/ALLOC_LINE_S2_PREREG.md (frozen r176 pre-run, R99; 7-cell four-metric CEO face O-1145 sec.1, NO G1/G2 by three-lines law; P5 pending off-hours 510880 pull -> honest 6-cell interim, ledger only at 7/7)",
-   "runner": "scripts/alloc_backtest.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 0,
-   "status": "done",
-   "done_at": "2026-09-25 15:54",
-   "entered_at": "2026-09-25 12:32:26",
-   "data_gates": "in-runner: panel completeness >=95% non-null per asset at cutoff 2026-09-22 (VOID exit 2) + determinism byte-identity (selftest 19/19 green r177) + P5 presence check data/ext_slots/etf_daily/510880.csv (absent/window-inadequate = honest 6-cell interim, no ledger)",
-   "shards": [
+      "id": "T54-GRID-DB",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "deep",
+        "--shard",
+        "dB",
+        "--pos-from",
+        "377",
+        "--pos-to",
+        "754",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "deep-dB",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 12:44:19",
+          "checkpoint": "results/t54/cells_deep_base_dB.jsonl + cells_deep_x2_dB.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "DONE r179 bm-b owner-write: done_deep_dB.json marker real ts 13:21:31 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2 rows), 1506 eligible positions, 22 members, anchor_excluded=0, runtime 686.3s on 12 BelowNormal workers (fired 13:10:02 tick, claim-first pre-claim 12:44:19 held; next serial lane = dC at next tick, then dD, then MF-ROT-S1 (1-process, coexists))"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      }
+    },
     {
-     "key": "alloc-0of1",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 12:32:26",
-     "checkpoint": "results/alloc_s2_cells/<cell>.json (per-cell config-sha keyed resume; finalize reads checkpoints never in-memory, T-33 law)",
-     "note": "INTERIM DONE r178: fired 13:00:02 (priority-0 first fire proof) -> ~35s complete, 6-cell interim committed 7860b637 (evidence_cutoff 2026-09-22, P1 ann 4.78%/maxDD -10.17%/Calmar 0.47 sample face, V1 flat ~ V2 = monthly-rebalance cost face ~zero, cost_x2 survives); p5_status=pending_data_pull honest. ENTRY FLIPPED ready->waiting by r178 post-commit to stop idle re-fire loop until P5 lands (15:30+ off-hours 510880 pull leg, r159 resume-no-op-residual face pre-empted); REARM = the 15:30+ round flips status back to ready after the pull lands -> tick fires 7/7 finalize rerun -> ledger +7 + gate_attrition per prereg sec.8. Rearm pointers: state.json next + round_reports r178 addendum + this note. FINALIZE DONE r188 (15:54): off-hours pull leg landed 15:53 via scripts/pull_510880_slot.py (sina pool-canonical fallback arm sh510880, fund_etf_hist_em transport-blocked both arms RemoteDisconnected r40/46 family -- vendor deviation disclosed in prereg sec.2 + ALLOC_S2_P5_PULL.json, EM-unblocked re-pull byte-compare = deferred re-verify face); slot 4786 rows 2007-01-18..2026-09-24, window coverage 1631/1631 union days zero-missing, unit ratio 1.0 shares; runner P5 ext-slot wiring fix (load_panel routed to pinned P5_SLOT; interim never touched it); in-round finalize R41 <5min exemption (selftest ALL PASS then run ~40s): cells 7/7 p5=included finalized=True, ledger 182945->182952 (+7), gate_attrition +1 measurement row, prereg sec.2/sec.7/sec.8 backfilled; single-shot guard active (ALLOC_S2_REFINALIZE=1 only redo); entry+shard double-flipped done per r180 law"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "prereg sec.0 frozen pool routing (长活按池律禁轮内内联); engine O(days x assets) pure-python serial; est <5 min total; workers=1 deterministic (T33/GRID-P1 light-batch precedent)"
-   }
-  },
-  {
-   "id": "MF-ROT-S1",
-   "ticket_ref": "T-20260925-60 s3 (O-20260925-1152 matrix time-axis mid-freq gap first batch; O-20260925-0857 profit-model priority line)",
-   "prereg_ref": "research/midfreq/MF_ROT_S1_PREREG.md (frozen r178 pre-run R99; 4 cells zoo #81/#82/#83 new-written basis codes; G1'v2+G2 shared-library judgment, seed mf_rot_s1=59000 registered)",
-   "runner": "scripts/mf_rot_backtest.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 13:21:31",
-   "data_gates": "in-runner: completeness gate per prereg sec.2 listed-range semantics (48/48 zero internal gaps verified r179 plan-probe) + single-shot finalize guard (MF_ROT_S1_REFINALIZE=1 only redo) + determinism selftest 18/18 pre-burn",
-   "shards": [
+      "id": "T54-GRID-DC",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "deep",
+        "--shard",
+        "dC",
+        "--pos-from",
+        "754",
+        "--pos-to",
+        "1131",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "deep-dC",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 12:56:56",
+          "checkpoint": "results/t54/cells_deep_base_dC.jsonl + cells_deep_x2_dC.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "DONE r163 bm-a owner-write: done_deep_dC.json marker real ts 12:53:27 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2, rows verified); run log deep_dC.log DONE 203.6s workers=25; original launch = bm-a 12:50 tick (launch record lost in autofill_state rebase union -- physical logs authoritative); dual-burn disclosure: bm-b 13:40:02 relaunch in-flight on its own tree (deterministic recompute, zero scientific divergence); 13:40:01 bm-a relaunch = resume no-op 16s; r179/r180 flip-wedge third occurrence, closed per r180 precedent"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      },
+      "done_ts": "2026-09-25 12:53:27",
+      "done_evidence": "done_deep_dC.json marker 12:53:27 16588/16588 (bm-a tree)"
+    },
     {
-     "key": "mf-0of1",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 14:09:53",
-     "checkpoint": "results/midfreq/mf_rot_s1_cells/<cell>.json + mf_rot_s1_nulls.json (config-sha keyed resume, T-33 law)",
-     "note": "single-process vector sim, est 10-25min per prereg sec.0; fire on first tick with py headroom (T54 deep serial lane dB/dC/dD coexists fine: 1-process BelowNormal); pre-claim r170 claim-first by bm-b r179; F-04 MSG-20260925-1321 declared BEFORE this pool entry (commit a115d176)",
-     "done_at": "2026-09-25 14:21:46"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "prereg sec.0 pool routing; pure-python serial sim O(days x members); deterministic idempotent, checkpoint-resumable"
-   },
-   "done_at": "2026-09-25 14:21:46",
-   "done_note": "r182 bm-b: runner complete 14:20:52 (3rd fire after 2 crash fixes: NaN-head poison 94526ba8 + run_nulls call-site b2c59437); HONEST NEGATIVE -- 4/4 cells FAIL G1'v2 (best Sharpe 0.099 vs skill line 2.949; DDs -49%..-87%); D6 merge -> N_eff=2; g2_registration empty; ledger 61415->61417; judged-negative dimension stays closed per house law (revival only via new prereg)"
-  },
-  {
-   "id": "WILD-S1-NULLS",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run-nulls"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "T54-GRID-DD",
+      "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+      "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+      "runner": "scripts/t54_prospect_grid.py",
+      "runner_args": [
+        "run",
+        "--axis",
+        "deep",
+        "--shard",
+        "dD",
+        "--pos-from",
+        "1131",
+        "--pos-to",
+        "1506",
+        "--faces",
+        "base,x2"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:19:22",
+      "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+      "shards": [
+        {
+          "key": "deep-dD",
+          "status": "done",
+          "owner": "bm-a",
+          "owner_since": "2026-09-25 13:47:38",
+          "checkpoint": "results/t54/cells_deep_base_dD.jsonl + cells_deep_x2_dD.jsonl (row-level done-key resume, t22 protocol)",
+          "note": "DONE r163 bm-a owner-write: done_deep_dD.json marker real ts 13:52:32 (r62 artifact-mtime law): 16500/16500 cells (8250 base + 8250 x2, 375 positions [1131,1506) x 22 members x 2 faces); runner log DONE workers=25; claim-first pre-claim 13:47:38 (r170 law) -> 13:50:02 tick fire -> 13:52:32 done (165s); flip same round per r180 wedge law"
+        }
+      ],
+      "workers_plan": {
+        "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+        "priority": "BelowNormal",
+        "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+      },
+      "done_ts": "2026-09-25 13:52:32",
+      "done_evidence": "done_deep_dD.json marker 13:52:32 16500/16500 (bm-a tree)"
+    },
     {
-     "key": "wr-nulls",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "K=50 same-mask nulls, est 1-4min total; MUST complete before finalize",
-     "owner_since": "2026-09-25 18:53:01"
-    }
-   ],
-   "owner": "bm-b",
-   "owner_since": "2026-09-25 18:48:28",
-   "done_note": "r198: 50/50 nulls completed 19:00:48 (45s, pid 26148, both crash fixes production-verified); NULLS_JSON results/wild_route/wild_route_s1_nulls.json"
-  },
-  {
-   "id": "WILD-S1-SHARD-0",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "0",
-    "--of",
-    "8"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "T56-AGGRESSIVE-LAB",
+      "ticket_ref": "T-2026-09-25-56 (O-20260925-1126 CEO direct)",
+      "prereg_ref": "research/AGGRESSIVE_LAB.md FROZEN pre-run (freeze commit 589b6cc1 precedes any run, R99 law; prereg sha at run 59ea4cc13045777c); judgments = T-28 J-line verbatim (J1/J2/J3 + W-GRID beat + J5 D7 disclosures)",
+      "runner": "scripts/aggressive_lab.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-a",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 11:37:40",
+      "data_gates": "in-runner: 6 weight-vector sha gates vs prereg s3 + 28-roster set equality + panel cutoff >= 2026-09-23 + corps partition 6/15/7 disjoint + CE-6 restriction renorm (all PASS run#2)",
+      "shards": [],
+      "workers_plan": {
+        "workers": 25,
+        "priority": "BelowNormal",
+        "note": "56 sleeve engine runs (T-27 machinery o1600 caliber) + 5 frames + 60 grid units arithmetic; T-28 caliber 5.4s empirical, actual 8.6s"
+      },
+      "note_done": "first judgment run executed in-round R157 per CEO immediate-law (R41 <5min exemption; selftest 11/11; run#2 sole productive run after run#1 engineering abort zero-ledger); 5 faces judged, 100 cells ledger 61015->61115; zero adoption zero wiring (dual-track supply face); month-boundary tournament re-runs re-enter via this entry spec"
+    },
     {
-     "key": "wr-0of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==0 (~196 cells, est 5-25min, checkpoint resume)",
-     "owner_since": "2026-09-25 19:20:01"
-    }
-   ],
-   "done_at": "2026-09-25 19:32:51",
-   "done_note": "197/197 cells complete: ckpt-0of8 197 unique keys all done:true, 197 cell files on disk match (three-way verified r200)"
-  },
-  {
-   "id": "WILD-S1-SHARD-1",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "1",
-    "--of",
-    "8"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "ALLOC-LINE-S2",
+      "ticket_ref": "T-2026-09-25-59 slice-3 (O-20260925-1145 CEO direct; O-0857 profit-model priority line)",
+      "prereg_ref": "research/allocation/ALLOC_LINE_S2_PREREG.md (frozen r176 pre-run, R99; 7-cell four-metric CEO face O-1145 sec.1, NO G1/G2 by three-lines law; P5 pending off-hours 510880 pull -> honest 6-cell interim, ledger only at 7/7)",
+      "runner": "scripts/alloc_backtest.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 0,
+      "status": "done",
+      "done_at": "2026-09-25 15:54",
+      "entered_at": "2026-09-25 12:32:26",
+      "data_gates": "in-runner: panel completeness >=95% non-null per asset at cutoff 2026-09-22 (VOID exit 2) + determinism byte-identity (selftest 19/19 green r177) + P5 presence check data/ext_slots/etf_daily/510880.csv (absent/window-inadequate = honest 6-cell interim, no ledger)",
+      "shards": [
+        {
+          "key": "alloc-0of1",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 12:32:26",
+          "checkpoint": "results/alloc_s2_cells/<cell>.json (per-cell config-sha keyed resume; finalize reads checkpoints never in-memory, T-33 law)",
+          "note": "INTERIM DONE r178: fired 13:00:02 (priority-0 first fire proof) -> ~35s complete, 6-cell interim committed 7860b637 (evidence_cutoff 2026-09-22, P1 ann 4.78%/maxDD -10.17%/Calmar 0.47 sample face, V1 flat ~ V2 = monthly-rebalance cost face ~zero, cost_x2 survives); p5_status=pending_data_pull honest. ENTRY FLIPPED ready->waiting by r178 post-commit to stop idle re-fire loop until P5 lands (15:30+ off-hours 510880 pull leg, r159 resume-no-op-residual face pre-empted); REARM = the 15:30+ round flips status back to ready after the pull lands -> tick fires 7/7 finalize rerun -> ledger +7 + gate_attrition per prereg sec.8. Rearm pointers: state.json next + round_reports r178 addendum + this note. FINALIZE DONE r188 (15:54): off-hours pull leg landed 15:53 via scripts/pull_510880_slot.py (sina pool-canonical fallback arm sh510880, fund_etf_hist_em transport-blocked both arms RemoteDisconnected r40/46 family -- vendor deviation disclosed in prereg sec.2 + ALLOC_S2_P5_PULL.json, EM-unblocked re-pull byte-compare = deferred re-verify face); slot 4786 rows 2007-01-18..2026-09-24, window coverage 1631/1631 union days zero-missing, unit ratio 1.0 shares; runner P5 ext-slot wiring fix (load_panel routed to pinned P5_SLOT; interim never touched it); in-round finalize R41 <5min exemption (selftest ALL PASS then run ~40s): cells 7/7 p5=included finalized=True, ledger 182945->182952 (+7), gate_attrition +1 measurement row, prereg sec.2/sec.7/sec.8 backfilled; single-shot guard active (ALLOC_S2_REFINALIZE=1 only redo); entry+shard double-flipped done per r180 law"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "prereg sec.0 frozen pool routing (长活按池律禁轮内内联); engine O(days x assets) pure-python serial; est <5 min total; workers=1 deterministic (T33/GRID-P1 light-batch precedent)"
+      }
+    },
     {
-     "key": "wr-1of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==1 (~196 cells, est 5-25min, checkpoint resume)",
-     "owner_since": "2026-09-25 19:21:11"
-    }
-   ],
-   "done_at": "2026-09-25 19:54:08",
-   "done_note": "196/196 cells complete: ckpt-1of8 196 unique keys all done:true, 196 cell files on disk (three-way verified r200); runner pid 20900 finished ~19:50:00, 19:50:01 tick pid 12044 = resume no-op same pattern as SHARD-0 r161 lag residual"
-  },
-  {
-   "id": "WILD-S1-SHARD-2",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "2",
-    "--of",
-    "8"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "MF-ROT-S1",
+      "ticket_ref": "T-20260925-60 s3 (O-20260925-1152 matrix time-axis mid-freq gap first batch; O-20260925-0857 profit-model priority line)",
+      "prereg_ref": "research/midfreq/MF_ROT_S1_PREREG.md (frozen r178 pre-run R99; 4 cells zoo #81/#82/#83 new-written basis codes; G1'v2+G2 shared-library judgment, seed mf_rot_s1=59000 registered)",
+      "runner": "scripts/mf_rot_backtest.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 13:21:31",
+      "data_gates": "in-runner: completeness gate per prereg sec.2 listed-range semantics (48/48 zero internal gaps verified r179 plan-probe) + single-shot finalize guard (MF_ROT_S1_REFINALIZE=1 only redo) + determinism selftest 18/18 pre-burn",
+      "shards": [
+        {
+          "key": "mf-0of1",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 14:09:53",
+          "checkpoint": "results/midfreq/mf_rot_s1_cells/<cell>.json + mf_rot_s1_nulls.json (config-sha keyed resume, T-33 law)",
+          "note": "single-process vector sim, est 10-25min per prereg sec.0; fire on first tick with py headroom (T54 deep serial lane dB/dC/dD coexists fine: 1-process BelowNormal); pre-claim r170 claim-first by bm-b r179; F-04 MSG-20260925-1321 declared BEFORE this pool entry (commit a115d176)",
+          "done_at": "2026-09-25 14:21:46"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "prereg sec.0 pool routing; pure-python serial sim O(days x members); deterministic idempotent, checkpoint-resumable"
+      },
+      "done_at": "2026-09-25 14:21:46",
+      "done_note": "r182 bm-b: runner complete 14:20:52 (3rd fire after 2 crash fixes: NaN-head poison 94526ba8 + run_nulls call-site b2c59437); HONEST NEGATIVE -- 4/4 cells FAIL G1'v2 (best Sharpe 0.099 vs skill line 2.949; DDs -49%..-87%); D6 merge -> N_eff=2; g2_registration empty; ledger 61415->61417; judged-negative dimension stays closed per house law (revival only via new prereg)"
+    },
     {
-     "key": "wr-2of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==2 (~196 cells, est 5-25min, checkpoint resume)",
-     "owner_since": "2026-09-25 20:04:08"
-    }
-   ],
-   "done_at": "2026-09-25 20:07:14",
-   "done_note": "196/196 cells complete: ckpt-2of8 196 unique keys all done:true, 196 cell files on disk (three-way verified r201); runner pid 14112 (tick 20:00:01 launch) exited by 20:09, ~8min burn; ckpt artifact mtime 2026-09-25 20:03:49 (r62 law); dual-burn disclosure: bm-a launched same shard 19:30:02/19:40:02 during my mid-rebase no-push window (r159 pull-lag face), deterministic recompute zero scientific impact"
-  },
-  {
-   "id": "WILD-S1-SHARD-3",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "3",
-    "--of",
-    "8"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "WILD-S1-NULLS",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run-nulls"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-nulls",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "K=50 same-mask nulls, est 1-4min total; MUST complete before finalize",
+          "owner_since": "2026-09-25 18:53:01"
+        }
+      ],
+      "owner": "bm-b",
+      "owner_since": "2026-09-25 18:48:28",
+      "done_note": "r198: 50/50 nulls completed 19:00:48 (45s, pid 26148, both crash fixes production-verified); NULLS_JSON results/wild_route/wild_route_s1_nulls.json"
+    },
     {
-     "key": "wr-3of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==3 (~196 cells, est 5-25min, checkpoint resume)",
-     "owner_since": "2026-09-25 20:11:15"
-    }
-   ]
-  },
-  {
-   "id": "WILD-S1-SHARD-4",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "4",
-    "--of",
-    "8"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "WILD-S1-SHARD-0",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "0",
+        "--of",
+        "8"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-0of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==0 (~196 cells, est 5-25min, checkpoint resume)",
+          "owner_since": "2026-09-25 19:20:01"
+        }
+      ],
+      "done_at": "2026-09-25 19:32:51",
+      "done_note": "197/197 cells complete: ckpt-0of8 197 unique keys all done:true, 197 cell files on disk match (three-way verified r200)"
+    },
     {
-     "key": "wr-4of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==4 (~196 cells, est 5-25min, checkpoint resume)",
-     "owner_since": "2026-09-25 20:32:52"
-    }
-   ]
-  },
-  {
-   "id": "WILD-S1-SHARD-5",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "5",
-    "--of",
-    "8"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "WILD-S1-SHARD-1",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "1",
+        "--of",
+        "8"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-1of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==1 (~196 cells, est 5-25min, checkpoint resume)",
+          "owner_since": "2026-09-25 19:21:11"
+        }
+      ],
+      "done_at": "2026-09-25 19:54:08",
+      "done_note": "196/196 cells complete: ckpt-1of8 196 unique keys all done:true, 196 cell files on disk (three-way verified r200); runner pid 20900 finished ~19:50:00, 19:50:01 tick pid 12044 = resume no-op same pattern as SHARD-0 r161 lag residual"
+    },
     {
-     "key": "wr-5of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==5 (~196 cells, est 5-25min, checkpoint resume); done flip r203 bm-b: runner pid19100 exited 20:44:00, checkpoint 196/196",
-     "owner_since": "2026-09-25 20:40:03"
-    }
-   ]
-  },
-  {
-   "id": "WILD-S1-SHARD-6",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "6",
-    "--of",
-    "8"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "WILD-S1-SHARD-2",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "2",
+        "--of",
+        "8"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-2of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==2 (~196 cells, est 5-25min, checkpoint resume)",
+          "owner_since": "2026-09-25 20:04:08"
+        }
+      ],
+      "done_at": "2026-09-25 20:07:14",
+      "done_note": "196/196 cells complete: ckpt-2of8 196 unique keys all done:true, 196 cell files on disk (three-way verified r201); runner pid 14112 (tick 20:00:01 launch) exited by 20:09, ~8min burn; ckpt artifact mtime 2026-09-25 20:03:49 (r62 law); dual-burn disclosure: bm-a launched same shard 19:30:02/19:40:02 during my mid-rebase no-push window (r159 pull-lag face), deterministic recompute zero scientific impact"
+    },
     {
-     "key": "wr-6of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==6 (~196 cells, est 5-25min, checkpoint resume)",
-     "owner_since": "2026-09-25 21:00:03"
-    }
-   ],
-   "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull.",
-   "done_at": "2026-09-25 21:09:00",
-   "done_note": "r204 bm-b flip: runner pid21756 exited 20:53:51, ckpt-6of8 196/196 unique keys all done:true, 196 cell files on disk, zero overlap with shards 0-5 (three-way verified r204)"
-  },
-  {
-   "id": "WILD-S1-SHARD-7",
-   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
-   "runner": "scripts/wild_route_lab.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "7",
-    "--of",
-    "8"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 18:35:09",
-   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
-   },
-   "shards": [
+      "id": "WILD-S1-SHARD-3",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "3",
+        "--of",
+        "8"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-3of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==3 (~196 cells, est 5-25min, checkpoint resume)",
+          "owner_since": "2026-09-25 20:11:15"
+        }
+      ]
+    },
     {
-     "key": "wr-7of8",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "cells idx%8==7 (~196 cells, est 5-25min, checkpoint resume)",
-     "owner_since": "2026-09-25 21:07:53"
-    }
-   ],
-   "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull."
-  },
-  {
-   "id": "CTA-WAVE1-RUN",
-   "ticket_ref": "T-2026-09-25-65-P1 s2 (CEO immediate ticket per O-20260924-1730; census s0/s1 R184/R185; prereg frozen R186 @commit f3f52633, git-blob sha b5bed148df2175c128acb183643d6b817f72dcce632eb5da44457bd921026ce9)",
-   "prereg_ref": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls seed cta_wave1=62000 + 2 passives; deep panel 2008-01-09..2026-09-24, 10 varieties incl TS)",
-   "runner": "scripts/cta_wave1.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "done",
-   "entered_at": "2026-09-25 20:40:00",
-   "data_gates": "in-runner G0-G4 (prereg gate list; G3 18-cell frozen exemption exact-match, probe-p2 semantics; G2 TS exchange-verified constants frozen incl tick=0.002 per >30% deviation protocol, evidence results/cta_wave1_g2_ts_check.json; G4 seed 62000 determinism); prereg sha integrity assert at run; abort exit 2 on any gate FAIL",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process deterministic batch (O-2130 note: vectorized per-variety loop; deep-window cost driver = LegB margin-cap shrink-largest-occupant lot-by-lot frozen semantics ~4.5M iters/cell; inline attempt killed at tool-timeout 5min R187, measured cell 0.57s low-turnover / LegB heavy; est 8-20min wall detached; no checkpoint needed = deterministic single shot, results written atomically at phase-1)"
-   },
-   "shards": [
+      "id": "WILD-S1-SHARD-4",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "4",
+        "--of",
+        "8"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-4of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==4 (~196 cells, est 5-25min, checkpoint resume)",
+          "owner_since": "2026-09-25 20:32:52"
+        }
+      ]
+    },
     {
-     "key": "cta-wave1-run",
-     "status": "done",
-     "owner": "bm-b",
-     "note": "batch completed 2026-09-25 21:14:31 (pid 47208 clean exit); results results/shortline_cta_wave1.json verified by owner round R189: G0-G4 green (G2 TS tick 0.002 exchange-verified frozen w/ deviation disclosure), g1_passers 0/26 honest negative (best ma_slope_200@daily 0.7462 vs skill_line 1.0565 @ n_eff 183,030), ledger 182,952->183,030 (+78); done-flip r180 law | UNION R189: bm-b tick takeover claim 21:20:04 (stale-owner r178 law, owner_since 20:56:38 >20min) launched duplicate runner pid 10948 on bm-b ~6min AFTER completion on bm-a -- redundant deterministic re-burn, same results expected; pool state=done stands per r180 dual-flip (results verified owner round R189).",
-     "owner_since": "2026-09-25 21:20:04"
-    }
-   ]
-  },
-  {
-   "id": "BOND-PANEL-SHARD-0",
-   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
-   "runner": "scripts/bond_panel_puller.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "0",
-    "--of",
-    "6"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 22:37:11",
-   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
-   "shards": [
+      "id": "WILD-S1-SHARD-5",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "5",
+        "--of",
+        "8"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-5of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==5 (~196 cells, est 5-25min, checkpoint resume); done flip r203 bm-b: runner pid19100 exited 20:44:00, checkpoint 196/196",
+          "owner_since": "2026-09-25 20:40:03"
+        }
+      ]
+    },
     {
-     "key": "bpanel-0of6",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 22:50:04",
-     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_0of6.json (resolved:true = done evidence)",
-     "note": "56 members (positions 0-56 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
-     "done_note": "resolved:true @ results/bond_w3a/shard_0of6.json (commit e68f6848, r209 session flip per r203 pool-flip-is-round-work law); 56 members: 2 exist + 35 pulled + 19 no_face, 0 fails"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
-   },
-   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
-  },
-  {
-   "id": "BOND-PANEL-SHARD-1",
-   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
-   "runner": "scripts/bond_panel_puller.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "1",
-    "--of",
-    "6"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 22:37:11",
-   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
-   "shards": [
+      "id": "WILD-S1-SHARD-6",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "6",
+        "--of",
+        "8"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-6of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==6 (~196 cells, est 5-25min, checkpoint resume)",
+          "owner_since": "2026-09-25 21:00:03"
+        }
+      ],
+      "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull.",
+      "done_at": "2026-09-25 21:09:00",
+      "done_note": "r204 bm-b flip: runner pid21756 exited 20:53:51, ckpt-6of8 196/196 unique keys all done:true, 196 cell files on disk, zero overlap with shards 0-5 (three-way verified r204)"
+    },
     {
-     "key": "bpanel-1of6",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 23:00:04",
-     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_1of6.json (resolved:true = done evidence)",
-     "note": "56 members (positions 56-112 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
-     "done_note": "resolved:true @ results/bond_w3a/shard_1of6.json (commit 7ee57b86, r209 session flip per r203); 56 members: 7 exist + 49 pulled + 7 no_face, 0 fails"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
-   },
-   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
-  },
-  {
-   "id": "BOND-PANEL-SHARD-2",
-   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
-   "runner": "scripts/bond_panel_puller.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "2",
-    "--of",
-    "6"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 22:37:11",
-   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
-   "shards": [
+      "id": "WILD-S1-SHARD-7",
+      "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+      "runner": "scripts/wild_route_lab.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "7",
+        "--of",
+        "8"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 18:35:09",
+      "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+      },
+      "shards": [
+        {
+          "key": "wr-7of8",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "cells idx%8==7 (~196 cells, est 5-25min, checkpoint resume)",
+          "owner_since": "2026-09-25 21:07:53"
+        }
+      ],
+      "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull."
+    },
     {
-     "key": "bpanel-2of6",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 23:20:04",
-     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_2of6.json (resolved:true = done evidence)",
-     "note": "56 members (positions 112-168 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
-     "done_note": "resolved:true @ results/bond_w3a/shard_2of6.json (evidence commit b6e980f6, r210 session flip per r203; runner pid25396 tick 23:10 launch); 56 members: 0 exist + 46 pulled + 10 no_face, 0 fails; CSV count 132 = 37+49+46 exact"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
-   },
-   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
-  },
-  {
-   "id": "BOND-PANEL-SHARD-3",
-   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
-   "runner": "scripts/bond_panel_puller.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "3",
-    "--of",
-    "6"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 22:37:11",
-   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
-   "shards": [
+      "id": "CTA-WAVE1-RUN",
+      "ticket_ref": "T-2026-09-25-65-P1 s2 (CEO immediate ticket per O-20260924-1730; census s0/s1 R184/R185; prereg frozen R186 @commit f3f52633, git-blob sha b5bed148df2175c128acb183643d6b817f72dcce632eb5da44457bd921026ce9)",
+      "prereg_ref": "research/CTA_WAVE1_PREREG.md frozen R186 (78 cells: LegA 16 + LegB 8 + LegC 2 + K=50 nulls seed cta_wave1=62000 + 2 passives; deep panel 2008-01-09..2026-09-24, 10 varieties incl TS)",
+      "runner": "scripts/cta_wave1.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "status": "done",
+      "entered_at": "2026-09-25 20:40:00",
+      "data_gates": "in-runner G0-G4 (prereg gate list; G3 18-cell frozen exemption exact-match, probe-p2 semantics; G2 TS exchange-verified constants frozen incl tick=0.002 per >30% deviation protocol, evidence results/cta_wave1_g2_ts_check.json; G4 seed 62000 determinism); prereg sha integrity assert at run; abort exit 2 on any gate FAIL",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-process deterministic batch (O-2130 note: vectorized per-variety loop; deep-window cost driver = LegB margin-cap shrink-largest-occupant lot-by-lot frozen semantics ~4.5M iters/cell; inline attempt killed at tool-timeout 5min R187, measured cell 0.57s low-turnover / LegB heavy; est 8-20min wall detached; no checkpoint needed = deterministic single shot, results written atomically at phase-1)"
+      },
+      "shards": [
+        {
+          "key": "cta-wave1-run",
+          "status": "done",
+          "owner": "bm-b",
+          "note": "batch completed 2026-09-25 21:14:31 (pid 47208 clean exit); results results/shortline_cta_wave1.json verified by owner round R189: G0-G4 green (G2 TS tick 0.002 exchange-verified frozen w/ deviation disclosure), g1_passers 0/26 honest negative (best ma_slope_200@daily 0.7462 vs skill_line 1.0565 @ n_eff 183,030), ledger 182,952->183,030 (+78); done-flip r180 law | UNION R189: bm-b tick takeover claim 21:20:04 (stale-owner r178 law, owner_since 20:56:38 >20min) launched duplicate runner pid 10948 on bm-b ~6min AFTER completion on bm-a -- redundant deterministic re-burn, same results expected; pool state=done stands per r180 dual-flip (results verified owner round R189).",
+          "owner_since": "2026-09-25 21:20:04"
+        }
+      ]
+    },
     {
-     "key": "bpanel-3of6",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 23:40:04",
-     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_3of6.json (resolved:true = done evidence)",
-     "note": "56 members (positions 168-224 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
-     "done_note": "resolved:true @ results/bond_w3a/shard_3of6.json (r211 session flip per r203 law, three-way verified: first fire tick 23:30:01 pid 8652 pulled 54 + no_face_new 2; 23:40:01 re-fire pid 21236 = 6s resume no-op rewrote summary existing=54/pulled=0 (r159 residual, zero re-burn); CSV count 186 = 132+54 exact reconcile; registry no_face 38 = 36+2; 0 fails; panel 4/6)"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
-   },
-   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
-  },
-  {
-   "id": "BOND-PANEL-SHARD-4",
-   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
-   "runner": "scripts/bond_panel_puller.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "4",
-    "--of",
-    "6"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 22:37:11",
-   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
-   "shards": [
+      "id": "BOND-PANEL-SHARD-0",
+      "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+      "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+      "runner": "scripts/bond_panel_puller.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "0",
+        "--of",
+        "6"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 22:37:11",
+      "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+      "shards": [
+        {
+          "key": "bpanel-0of6",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 22:50:04",
+          "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_0of6.json (resolved:true = done evidence)",
+          "note": "56 members (positions 0-56 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
+          "done_note": "resolved:true @ results/bond_w3a/shard_0of6.json (commit e68f6848, r209 session flip per r203 pool-flip-is-round-work law); 56 members: 2 exist + 35 pulled + 19 no_face, 0 fails"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+      },
+      "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+    },
     {
-     "key": "bpanel-4of6",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-25 23:50:04",
-     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_4of6.json (resolved:true = done evidence)",
-     "note": "done flip r212 bm-b (r180 dual-flip): runner pid25480 fired 23:50:09, summary shard_4of6.json resolved:true, 56 members = 0 existing + 52 pulled + 4 no_face_new, 0 fails; CSV 238=186+52 exact; registry no_face 42=38+4 exact"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
-   },
-   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
-  },
-  {
-   "id": "BOND-PANEL-SHARD-5",
-   "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
-   "runner": "scripts/bond_panel_puller.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "5",
-    "--of",
-    "6"
-   ],
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-25 22:37:11",
-   "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
-   "shards": [
+      "id": "BOND-PANEL-SHARD-1",
+      "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+      "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+      "runner": "scripts/bond_panel_puller.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "1",
+        "--of",
+        "6"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 22:37:11",
+      "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+      "shards": [
+        {
+          "key": "bpanel-1of6",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 23:00:04",
+          "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_1of6.json (resolved:true = done evidence)",
+          "note": "56 members (positions 56-112 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
+          "done_note": "resolved:true @ results/bond_w3a/shard_1of6.json (commit 7ee57b86, r209 session flip per r203); 56 members: 7 exist + 49 pulled + 7 no_face, 0 fails"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+      },
+      "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+    },
     {
-     "key": "bpanel-5of6",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-26 00:00:04",
-     "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_5of6.json (resolved:true = done evidence)",
-     "note": "done flip r212 bm-b (r180 dual-flip): runner pid4460 fired 00:00:10, summary shard_5of6.json resolved:true evidence"
-    }
-   ],
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
-   },
-   "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
-  },
-  {
-   "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
-   "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
-   "runner": "scripts/p1e_ic_batch.py",
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-26 03:06:50",
-   "workers_plan": {
-    "workers": 4,
-    "priority": "BelowNormal",
-    "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
-   },
-   "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
-   "id": "P1E-NULLS-MCLOSE",
-   "runner_args": [
-    "run-nulls",
-    "--class",
-    "M_close"
-   ],
-   "shards": [
+      "id": "BOND-PANEL-SHARD-2",
+      "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+      "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+      "runner": "scripts/bond_panel_puller.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "2",
+        "--of",
+        "6"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 22:37:11",
+      "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+      "shards": [
+        {
+          "key": "bpanel-2of6",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 23:20:04",
+          "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_2of6.json (resolved:true = done evidence)",
+          "note": "56 members (positions 112-168 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
+          "done_note": "resolved:true @ results/bond_w3a/shard_2of6.json (evidence commit b6e980f6, r210 session flip per r203; runner pid25396 tick 23:10 launch); 56 members: 0 exist + 46 pulled + 10 no_face, 0 fails; CSV count 132 = 37+49+46 exact"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+      },
+      "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+    },
     {
-     "key": "p1e-nulls-mclose",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-26 04:10:05",
-     "checkpoint": "results/shortline/p1e_nulls_M_close.json (n_nulls==50, per-h p95/p50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
-     "note": "K=50 white-noise nulls, mask class M_close (close finite, terrified inputs), seeds 67000..67049; est ~6-7min (150 IC @ ~1.9s + panel load close-only)",
-     "done_flip": {
-      "ts": "2026-09-26 04:15",
-      "by": "bm-b r222",
-      "evidence": "artifact p1e_nulls_M_close.json landed 04:02:05 (n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 17117855 == r221 mask_probe bit-match, seed_band 67000-67050 per prereg continuous ledger)"
-     }
-    }
-   ]
-  },
-  {
-   "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
-   "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
-   "runner": "scripts/p1e_ic_batch.py",
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-26 03:06:50",
-   "workers_plan": {
-    "workers": 4,
-    "priority": "BelowNormal",
-    "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
-   },
-   "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
-   "id": "P1E-NULLS-MCLOSETR",
-   "runner_args": [
-    "run-nulls",
-    "--class",
-    "M_close_tr"
-   ],
-   "shards": [
+      "id": "BOND-PANEL-SHARD-3",
+      "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+      "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+      "runner": "scripts/bond_panel_puller.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "3",
+        "--of",
+        "6"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 22:37:11",
+      "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+      "shards": [
+        {
+          "key": "bpanel-3of6",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 23:40:04",
+          "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_3of6.json (resolved:true = done evidence)",
+          "note": "56 members (positions 168-224 of frozen 331-candidate manifest), est ~3.3min at 2.5s/member rate limit",
+          "done_note": "resolved:true @ results/bond_w3a/shard_3of6.json (r211 session flip per r203 law, three-way verified: first fire tick 23:30:01 pid 8652 pulled 54 + no_face_new 2; 23:40:01 re-fire pid 21236 = 6s resume no-op rewrote summary existing=54/pulled=0 (r159 residual, zero re-burn); CSV count 186 = 132+54 exact reconcile; registry no_face 38 = 36+2; 0 fails; panel 4/6)"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+      },
+      "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+    },
     {
-     "key": "p1e-nulls-mclosetr",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-26 04:20:05",
-     "checkpoint": "results/shortline/p1e_nulls_M_close_tr.json (n_nulls==50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
-     "note": "K=50 nulls, mask class M_close_tr (close & tr finite, stv+coin_team inputs), seeds 67050..67099; est ~6-7min (loads close+tr sidecar)",
-     "done_flip": {
-      "ts": "2026-09-26 04:57",
-      "by": "bm-b r224",
-      "evidence": "artifact p1e_nulls_M_close_tr.json landed ~04:52 (pid24824 exited; n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 16638518 == r224 production-form mask probe bit-match (close+tr load, share 0.3624), seed_band 67050-67100 per prereg continuous ledger; elapsed 1902.8s ~= 32min/shard est)"
-     }
-    }
-   ]
-  },
-  {
-   "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
-   "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
-   "runner": "scripts/p1e_ic_batch.py",
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-26 03:06:50",
-   "workers_plan": {
-    "workers": 4,
-    "priority": "BelowNormal",
-    "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
-   },
-   "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
-   "id": "P1E-NULLS-MARC",
-   "runner_args": [
-    "run-nulls",
-    "--class",
-    "M_arc"
-   ],
-   "shards": [
+      "id": "BOND-PANEL-SHARD-4",
+      "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+      "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+      "runner": "scripts/bond_panel_puller.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "4",
+        "--of",
+        "6"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 22:37:11",
+      "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+      "shards": [
+        {
+          "key": "bpanel-4of6",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-25 23:50:04",
+          "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_4of6.json (resolved:true = done evidence)",
+          "note": "done flip r212 bm-b (r180 dual-flip): runner pid25480 fired 23:50:09, summary shard_4of6.json resolved:true, 56 members = 0 existing + 52 pulled + 4 no_face_new, 0 fails; CSV 238=186+52 exact; registry no_face 42=38+4 exact"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+      },
+      "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+    },
     {
-     "key": "p1e-nulls-marc",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-26 05:00:05",
-     "checkpoint": "results/shortline/p1e_nulls_M_arc.json (n_nulls==50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
-     "note": "K=50 nulls, mask class M_arc (close & tr & vwap finite, #93 family inputs), seeds 67100..67149; est ~6-7min (loads close+tr+vwap)",
-     "done_flip": {
-      "ts": "2026-09-26 05:35",
-      "by": "bm-b r225",
-      "evidence": "artifact p1e_nulls_M_arc.json landed ~05:32 (pid27452 launched 05:00:09; n_nulls=50, per_h 3-col, equivalence PASS, mask_cells 16638518 == r225 production-form mask probe bit-match (close+tr+vwap load, share 0.3624), seed_band 67100-67150 per prereg continuous ledger)"
-     }
-    }
-   ]
-  },
-  {
-   "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
-   "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
-   "runner": "scripts/p1e_ic_batch.py",
-   "lane_owner": "bm-b",
-   "priority": 1,
-   "status": "done",
-   "entered_at": "2026-09-26 03:06:50",
-   "workers_plan": {
-    "workers": 4,
-    "priority": "BelowNormal",
-    "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
-   },
-   "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
-   "id": "P1E-CELLS",
-   "runner_args": [
-    "run-cells"
-   ],
-   "shards": [
+      "id": "BOND-PANEL-SHARD-5",
+      "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
+      "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+      "runner": "scripts/bond_panel_puller.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "5",
+        "--of",
+        "6"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-25 22:37:11",
+      "data_gates": "in-runner: frozen manifest read (absent=exit 2) + CSV-presence checkpoint resume + conn-fuse 3 consecutive non-404 member failures -> 30min honest no-op cooldown + date monotonic/duplicate guard + no-face/guard_reject registry; source face = sina klc_kl.js full-history (r206 capacity probe live-verified, 47% no-face known); selftest 41/41 + 2-member live smoke r208",
+      "shards": [
+        {
+          "key": "bpanel-5of6",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-26 00:00:04",
+          "checkpoint": "data/bond_w3a/<code>.csv presence + results/bond_w3a/member_registry.json (no_face/guard_rejects resume-skip set); summary=results/bond_w3a/shard_5of6.json (resolved:true = done evidence)",
+          "note": "done flip r212 bm-b (r180 dual-flip): runner pid4460 fired 00:00:10, summary shard_5of6.json resolved:true evidence"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "network-bound 2.5s-throttled single source (sina klc): multi-core meaningless, parallel shards would multiply request rate vs house convention; workers=1 T33/GRID-P1 light-batch precedent; autofill sets BelowNormal on launch"
+      },
+      "lane_note": "lane pin bm-b per R188 precedent: data/bond_w3a corpus is gitignored local face -- all 6 shards must land on ONE machine (runner machine = bm-b per r207 next-slice plan); cross-machine parallel would also multiply the 2.5s sina rate"
+    },
     {
-     "key": "p1e-cells",
-     "status": "done",
-     "owner": "bm-b",
-     "owner_since": "2026-09-26 05:40:05",
-     "checkpoint": "results/shortline/p1e_partial/<factor>.json x7 (status==ok) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
-     "note": "7 members x 3 horizons (h5/h10/h20, h10 primary judgement) IC via _ic_series_fast on frozen p1e_factors constructors; est ~4-5min (constructors ~53s + 21 IC + close/open/tr/vwap load)",
-     "done_flip": {
-      "ts": "2026-09-26 05:47",
-      "by": "bm-b r226",
-      "evidence": "run-cells landed: 7/7 partials status==ok (runner pid1800 launched 05:40:09 via autofill 05:40 tick; 3-horizon IS/OOS fields present per member; h10 primary face (is_ic/is_ir): zoo85_terrified -0.0526/-0.274, zoo85_stv -0.0467/-0.440, zoo92_coin_team -0.0750/-0.492, zoo93_arc -0.0477/-0.232, zoo93_vrc -0.0442/-0.260, zoo93_src -0.0047/-0.035, zoo93_krc -0.0184/-0.152)"
-     }
+      "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
+      "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
+      "runner": "scripts/p1e_ic_batch.py",
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-26 03:06:50",
+      "workers_plan": {
+        "workers": 4,
+        "priority": "BelowNormal",
+        "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
+      },
+      "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
+      "id": "P1E-NULLS-MCLOSE",
+      "runner_args": [
+        "run-nulls",
+        "--class",
+        "M_close"
+      ],
+      "shards": [
+        {
+          "key": "p1e-nulls-mclose",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-26 04:10:05",
+          "checkpoint": "results/shortline/p1e_nulls_M_close.json (n_nulls==50, per-h p95/p50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
+          "note": "K=50 white-noise nulls, mask class M_close (close finite, terrified inputs), seeds 67000..67049; est ~6-7min (150 IC @ ~1.9s + panel load close-only)",
+          "done_flip": {
+            "ts": "2026-09-26 04:15",
+            "by": "bm-b r222",
+            "evidence": "artifact p1e_nulls_M_close.json landed 04:02:05 (n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 17117855 == r221 mask_probe bit-match, seed_band 67000-67050 per prereg continuous ledger)"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
+      "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
+      "runner": "scripts/p1e_ic_batch.py",
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-26 03:06:50",
+      "workers_plan": {
+        "workers": 4,
+        "priority": "BelowNormal",
+        "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
+      },
+      "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
+      "id": "P1E-NULLS-MCLOSETR",
+      "runner_args": [
+        "run-nulls",
+        "--class",
+        "M_close_tr"
+      ],
+      "shards": [
+        {
+          "key": "p1e-nulls-mclosetr",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-26 04:20:05",
+          "checkpoint": "results/shortline/p1e_nulls_M_close_tr.json (n_nulls==50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
+          "note": "K=50 nulls, mask class M_close_tr (close & tr finite, stv+coin_team inputs), seeds 67050..67099; est ~6-7min (loads close+tr sidecar)",
+          "done_flip": {
+            "ts": "2026-09-26 04:57",
+            "by": "bm-b r224",
+            "evidence": "artifact p1e_nulls_M_close_tr.json landed ~04:52 (pid24824 exited; n_nulls=50, per_h 3-col, equivalence 2.22e-16 PASS, mask_cells 16638518 == r224 production-form mask probe bit-match (close+tr load, share 0.3624), seed_band 67050-67100 per prereg continuous ledger; elapsed 1902.8s ~= 32min/shard est)"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
+      "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
+      "runner": "scripts/p1e_ic_batch.py",
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-26 03:06:50",
+      "workers_plan": {
+        "workers": 4,
+        "priority": "BelowNormal",
+        "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
+      },
+      "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
+      "id": "P1E-NULLS-MARC",
+      "runner_args": [
+        "run-nulls",
+        "--class",
+        "M_arc"
+      ],
+      "shards": [
+        {
+          "key": "p1e-nulls-marc",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-26 05:00:05",
+          "checkpoint": "results/shortline/p1e_nulls_M_arc.json (n_nulls==50) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
+          "note": "K=50 nulls, mask class M_arc (close & tr & vwap finite, #93 family inputs), seeds 67100..67149; est ~6-7min (loads close+tr+vwap)",
+          "done_flip": {
+            "ts": "2026-09-26 05:35",
+            "by": "bm-b r225",
+            "evidence": "artifact p1e_nulls_M_arc.json landed ~05:32 (pid27452 launched 05:00:09; n_nulls=50, per_h 3-col, equivalence PASS, mask_cells 16638518 == r225 production-form mask probe bit-match (close+tr+vwap load, share 0.3624), seed_band 67100-67150 per prereg continuous ledger)"
+          }
+        }
+      ]
+    },
+    {
+      "ticket_ref": "T-2026-09-25-64 slice-5 consumption face (ASTYLE_ZOO #85/#92/#93 rows) + F-04 claim MSG-20260926-0255-bm-b (r219, commit 48163b47)",
+      "prereg_ref": "research/shortline/P1E_ZOO_BEHAVIOR_IC.md (frozen r219): N_eff=157 (7 computed + 150 nulls), evidence_cutoff 2026-09-22, seeds 67000..67149 (SEED_REGISTRY p1e_zoo_behavior), recorded-v1 gates via p1c gates_v123",
+      "runner": "scripts/p1e_ic_batch.py",
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "done",
+      "entered_at": "2026-09-26 03:06:50",
+      "workers_plan": {
+        "workers": 4,
+        "priority": "BelowNormal",
+        "note": "4 independent entries = the parallelism (P-1d mask-class null legs x3 + cells); each shard single-process numpy-vectorized serial-deterministic (O-20260923-1738); autofill 1 shard/tick/machine, lane bm-b only; est 4-7min/shard per r219 probe timing (471 IC ~15-20min total split 4 ways); autofill sets BelowNormal on launch"
+      },
+      "data_gates": "in-runner: batch-pre equivalence gate (real-slice _ic_series_fast vs composite_ic.ic_series <=1e-6, abort exit 1) + turnover sidecar presence/shape/meta asserts (bars turnover col all-NaN never consumed) + idempotent checkpoints (exists=skip, kill/restart safe) + finalize fail-closed (missing/error part = exit 2 zero artifacts, r217) + selftest 9-leg/24-check PASS pre-pooling (r220); finalize itself is harvest-round science work, NOT in pool (pool-flip-is-round-work r203)",
+      "id": "P1E-CELLS",
+      "runner_args": [
+        "run-cells"
+      ],
+      "shards": [
+        {
+          "key": "p1e-cells",
+          "status": "done",
+          "owner": "bm-b",
+          "owner_since": "2026-09-26 05:40:05",
+          "checkpoint": "results/shortline/p1e_partial/<factor>.json x7 (status==ok) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
+          "note": "7 members x 3 horizons (h5/h10/h20, h10 primary judgement) IC via _ic_series_fast on frozen p1e_factors constructors; est ~4-5min (constructors ~53s + 21 IC + close/open/tr/vwap load)",
+          "done_flip": {
+            "ts": "2026-09-26 05:47",
+            "by": "bm-b r226",
+            "evidence": "run-cells landed: 7/7 partials status==ok (runner pid1800 launched 05:40:09 via autofill 05:40 tick; 3-horizon IS/OOS fields present per member; h10 primary face (is_ic/is_ir): zoo85_terrified -0.0526/-0.274, zoo85_stv -0.0467/-0.440, zoo92_coin_team -0.0750/-0.492, zoo93_arc -0.0477/-0.232, zoo93_vrc -0.0442/-0.260, zoo93_src -0.0047/-0.035, zoo93_krc -0.0184/-0.152)"
+          }
+        }
+      ]
+    },
+    {
+      "id": "P1E-NEIGHBOR-CORR",
+      "ticket_ref": "P1E_ZOO_BEHAVIOR_IC.md SS7 shelf precondition (r226) + STRATEGY_LIBRARY SS4 Zoo row + r226 state.next pointer-3 + F-04 claim MSG-20260926-0610-bm-b (r227)",
+      "prereg_ref": "research/shortline/P1E_NEIGHBOR_CORR_CHECK.md (frozen r227 bm-b): machinery-check consumption precondition; D6 max|corr|>=0.7 reject line; verdict pairs stv<->terrified + coin_team<->{alpha191_070, alpha191_081, lhb_count_20}; both faces (F1 xs_spearman_mean + F2 ic10 pearson) IS-only (OOS untouched); 4 cross pairs advisory-only; probe anchors 6xF1+2xF2 fail-closed",
+      "runner": "scripts/p1e_neighbor_corr.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-26 06:10:30",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "single-shard serial-deterministic machinery check; panel loads dominate (r219 probe 365.8s same shape) -> est 6-9min; autofill 1 shard/tick, lane bm-b only (machine-local p1c_stock cache + turnover sidecar + lhb_detail.parquet, r188 lane-pin)"
+      },
+      "data_gates": "in-runner: probe-anchor reproduction gate (6 F1 + 2 F2 vs results/shortline/p1e_probe.json r219, |delta|<=1e-4, drift=exit 1 zero artifacts, r157 pairing law) + equivalence checkpoint reuse (p1e_equiv.json write-once) + sidecar shape asserts + idempotent exists=skip + selftest 19/19 PASS pre-pooling (r227)",
+      "shards": [
+        {
+          "key": "p1e-neighbor-corr",
+          "status": "ready",
+          "owner": null,
+          "owner_since": null,
+          "checkpoint": "results/shortline/p1e_neighbor_corr.json (exists + self-consistent = landed marker) -- harvest round flips shard->done and books the STRATEGY_LIBRARY Zoo row per spec SS5 (pool-flip-is-round-work r203)",
+          "note": "8 pairs x 2 faces, IS-only; verdict face = 4 frozen named pairs; harvest round does library bookkeeping, runner does zero shelf writes"
+        }
+      ]
     }
-   ]
-  }
- ],
- "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates)"
+  ],
+  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates)"
 }
