@@ -31,7 +31,7 @@ import os
 import subprocess
 import sys
 import time
-from datetime import datetime
+from datetime import datetime, timedelta
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POOL = os.path.join(ROOT, "results", "runnable_pool.json")
@@ -86,15 +86,27 @@ def _py_cpu_pct(window=SAMPLE_S):
 
 
 def _hb_age_min(machine_id):
-    """Age (minutes) of a machine's heartbeat last_seen; None if absent."""
+    """Age (minutes) of a machine's heartbeat last_seen; None if absent.
+
+    r163 bm-a: production heartbeat files carry the ISO format with UTC
+    offset (T-04 F5 clock_read era, e.g. 2026-09-25T13:29:04+08:00); the
+    legacy strptime silently returned None for EVERY production read,
+    leaving the takeover gate heartbeat-blind (13:40:01 deep-dC live-fire:
+    owner_since 43min alone opened a "legal" takeover on a live owner).
+    Parse both formats; tz-aware values compared against aware-now."""
     path = os.path.join(MACHINES, machine_id + ".json")
     if not os.path.exists(path):
         return None
     try:
         with open(path, encoding="utf-8") as fh:
-            ls = json.load(fh).get("last_seen")
-        return (datetime.now() - datetime.strptime(
-            ls, "%Y-%m-%d %H:%M:%S")).total_seconds() / 60.0
+            ls = str(json.load(fh).get("last_seen"))
+        if "T" in ls:                # ISO w/ offset (production format)
+            dt = datetime.fromisoformat(ls)
+            now = datetime.now(dt.tzinfo) if dt.tzinfo else datetime.now()
+        else:                        # legacy "%Y-%m-%d %H:%M:%S"
+            dt = datetime.strptime(ls, "%Y-%m-%d %H:%M:%S")
+            now = datetime.now()
+        return (now - dt).total_seconds() / 60.0
     except Exception:
         return None
 
@@ -332,9 +344,13 @@ def selftest():
            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
         _runner_alive = _runner_alive_orig
         # S5 stale takeover: owner hb stale -> dry launch with latency
+        # (r163: production ISO format pairing -- fixtures must write
+        # what production writes, R117 hermetic-production law)
         with open(os.path.join(MACHINES, "bm-z.json"), "w",
                   encoding="utf-8") as fh:
-            json.dump({"last_seen": "2026-09-24 18:00:00"}, fh)
+            json.dump({"last_seen": (datetime.now() - timedelta(
+                minutes=30)).astimezone().isoformat(timespec="seconds")},
+                fh)
         ent2 = dict(entry, shards=[{"key": "s0", "status": "ready",
                                     "owner": "bm-z"}])
         with open(POOL, "w", encoding="utf-8") as fh:
@@ -344,18 +360,22 @@ def selftest():
         ok("S5 stale takeover dry-launch", rc == 0
            and st["verdict"] == "dry_launch" and st["entry"] == "E1"
            and st["fill_latency_min"] is not None)
-        # S6 fresh owner -> skip
+        # S6 fresh owner -> skip (r163: production ISO format pairing)
         with open(os.path.join(MACHINES, "bm-z.json"), "w",
                   encoding="utf-8") as fh:
-            json.dump({"last_seen": _now()}, fh)
+            json.dump({"last_seen": datetime.now().astimezone().isoformat(
+                timespec="seconds")}, fh)
         rc = tick(dry=True)
         ok("S6 fresh owner skip",
            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
         # S9 owner_since freshness (r178): hb stale but claim-stamp fresh
         # -> skip (no false takeover of a live long-round owner)
+        # (r163: production ISO format pairing)
         with open(os.path.join(MACHINES, "bm-z.json"), "w",
                   encoding="utf-8") as fh:
-            json.dump({"last_seen": "2026-09-24 18:00:00"}, fh)
+            json.dump({"last_seen": (datetime.now() - timedelta(
+                minutes=30)).astimezone().isoformat(timespec="seconds")},
+                fh)
         ent3 = dict(entry, shards=[{"key": "s0", "status": "ready",
                                     "owner": "bm-z",
                                     "owner_since": _now()}])
@@ -393,6 +413,28 @@ def selftest():
         st = _load_state()["last_tick"]
         ok("S12 mixed shards -> picks ready sibling",
            st["verdict"] == "dry_launch" and st["shard"] == "s1")
+        # S13 heartbeat format pairing (r163): production ISO last_seen
+        # parses to a real age (legacy strptime returned None for every
+        # production read = heartbeat-blind takeover gate); garbage ->
+        # None; legacy format still parses (backward compat)
+        with open(os.path.join(MACHINES, "bm-z.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"last_seen": (datetime.now() - timedelta(
+                minutes=30)).astimezone().isoformat(timespec="seconds")},
+                fh)
+        age13 = _hb_age_min("bm-z")
+        ok("S13 production ISO heartbeat parses (not None)",
+           age13 is not None and 29.0 < age13 < 32.0)
+        with open(os.path.join(MACHINES, "bm-z.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"last_seen": "2026-09-24 18:00:00"}, fh)
+        age13b = _hb_age_min("bm-z")
+        ok("S13b legacy heartbeat format still parses",
+           age13b is not None and age13b > 1000.0)
+        with open(os.path.join(MACHINES, "bm-z.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"last_seen": "not-a-timestamp"}, fh)
+        ok("S13c garbage heartbeat -> None", _hb_age_min("bm-z") is None)
         # S8 O-2130 multi-core law: no workers_plan -> skip
         nowp = dict(entry, shards=[{"key": "s0", "status": "ready",
                                     "owner": None}])
