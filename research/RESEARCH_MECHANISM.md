@@ -14,7 +14,7 @@
 
 ## 二、来源清单（实效优先，薄表）
 
-- **学术**：arXiv q-fin（坑：`/list/q-fin/recent` 单页低效，改用分类页 q-fin.PM/STR+关键词搜索）、SSRN、Wilmott。**arXiv API=`export.arxiv.org/api/query`=开放正道**（R153 wave-8 slice-1 实证：标题短语/作者+关键词查询精确命中、PDF 直下 463KB pypdf 干净抽取 0 替换符、http→https 301 照跟、零登录零墙——学术主源核验首选通道，Semantic Scholar 429 面的替代路径）。
+- **学术**：arXiv q-fin（坑：`/list/q-fin/recent` 单页低效，改用分类页 q-fin.PM/STR+关键词搜索）、SSRN、Wilmott。**arXiv API=`export.arxiv.org/api/query`=开放正道**（R153 wave-8 slice-1 实证：标题短语/作者+关键词查询精确命中、PDF 直下 463KB pypdf 干净抽取 0 替换符、http→https 301 照跟、零登录零墙——学术主源核验首选通道，Semantic Scholar 429 面的替代路径）。**CrossRef 期刊发现面=`api.crossref.org/journals?query=<刊名>`**（wave-9 slice-2 实证：ISSN/刊号未知时查询面一发命中真 ISSN+出版方实况（IJTAF=World Scientific 臆测 eISSN 404 即弃的翻案正道）；期刊 TOC registry 扫=`/journals/<ISSN>/works?rows=N&sort=published`——R169 禁盲猜律的 registry-API 维度）。
 - **代码**：GitHub 搜索式（`alpha`/`factor`/`pairs`/`backtest`/`quant strategy` 已实证有效）；qlib（Alpha158/360 因子集+22 模型 zoo+DDG-DA 漂移适应+**RD-Agent LLM 自动挖因子**）；已入库 `external/` 台账。
 - **中文研报/社区**：光大/国君/海通金工公开流传版；聚宽/JoinQuant 社区（AI 抓取受限时靠专项令人工补源）。
 - **数据能力**：akshare 接口变更（数据部协同，20s 超时纪律）。
