@@ -79,4 +79,12 @@
   =scripts/update_moneyflow.py WRITTEN_LAW_TOL+_overlap_tol+selftest S4b/S4c（bm-a R222）。
 - 档位阈值官方文档（sina 页面 JS/帮助面）→ 外源扫描常态线下批收口（O-1721）；
   收口前消费面档位语义=UNDOCUMENTED 诚实标注。
+  **R224 批腿注记（ADVANCED-PARTIAL·零判据面触碰）**：sina 官方行情页 JS
+  （utils-hq.js）实证 `r0_in`="主力净流入(元)"、`r3_in`="散户净流入(元)"
+  （与 lscjfb r0_net/r3_net 同名族）——档位语义标注收窄为「r0=主力/r3=散户
+  （sina 官方叙事·投资主体类）+r1/r2 档名与数值阈值 UNDOCUMENTED」；sina「主力」
+  与 EM「主力」（单量聚合）同名不同构=R118 禁映射律获直接证据升级；lscjfb
+  表格消费页未定位（xh1.php/兄弟页 404、精确串 SERP 无效已实证禁再烧），
+  后续批换面不换串（帮助页/移动端 wap/历史 blog 面）。证据=results/_r224_bma_sina_tier_*
+  五探针件（bm-a R224）+DIGEST-20260926-r224-t72-sina-tier-doc-probe.md。
 - 采集器实现票=另开 GM 署名单（P1 数据源扩容，O-1620 下放面；T-43 先例流程）。

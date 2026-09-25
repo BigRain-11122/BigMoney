@@ -1,0 +1,175 @@
+{
+ "ts": "2026-09-26 06:11:29",
+ "ticket": "T-2026-09-26-72",
+ "probe": "sina_tier_threshold_documentation",
+ "machine": "bm-a",
+ "requests": [
+  {
+   "url": "https://finance.sina.com.cn/realstock/company/sh600519/nc.shtml",
+   "status": 200,
+   "ms": 482,
+   "bytes": 157521,
+   "keyword_hits": {
+    "lscjfb": false,
+    "MoneyFlow": false,
+    "超大单": false,
+    "大单": false,
+    "中单": false,
+    "小单": false,
+    "r0_net": false,
+    "主力净": false
+   },
+   "contexts": [],
+   "script_srcs_n": 56
+  },
+  {
+   "url": "https://hq.sinajs.cn/list=sh600519",
+   "status": 200,
+   "ms": 82,
+   "bytes": 286,
+   "keyword_hits": {
+    "lscjfb": false,
+    "MoneyFlow": false,
+    "超大单": false,
+    "大单": false,
+    "中单": false,
+    "小单": false,
+    "r0_net": false,
+    "主力净": false
+   }
+  },
+  {
+   "url": "https://www.sinaimg.cn/cj/ddp/js/swfobject2.2.js",
+   "status": 200,
+   "ms": 308,
+   "bytes": 10223,
+   "keyword_hits": {
+    "lscjfb": false,
+    "MoneyFlow": false,
+    "超大单": false,
+    "大单": false,
+    "中单": false,
+    "小单": false,
+    "r0_net": false,
+    "主力净": false
+   }
+  },
+  {
+   "url": "https://news.sina.com.cn/268/2015/0112/jquery.newest.js",
+   "status": 200,
+   "ms": 431,
+   "bytes": 95933,
+   "keyword_hits": {
+    "lscjfb": false,
+    "MoneyFlow": false,
+    "超大单": false,
+    "大单": false,
+    "中单": false,
+    "小单": false,
+    "r0_net": false,
+    "主力净": false
+   }
+  },
+  {
+   "url": "https://finance.sina.com.cn/other/src/app/FinanceAppTextPic.js",
+   "status": 200,
+   "ms": 230,
+   "bytes": 5821,
+   "keyword_hits": {
+    "lscjfb": false,
+    "MoneyFlow": false,
+    "超大单": false,
+    "大单": false,
+    "中单": false,
+    "小单": false,
+    "r0_net": false,
+    "主力净": false
+   }
+  },
+  {
+   "url": "https://n.sinaimg.cn/finance/hq2018/utils-hq.js?ts=3.7",
+   "status": 200,
+   "ms": 165,
+   "bytes": 57970,
+   "keyword_hits": {
+    "lscjfb": false,
+    "MoneyFlow": false,
+    "超大单": false,
+    "大单": false,
+    "中单": false,
+    "小单": false,
+    "r0_net": true,
+    "主力净": true
+   },
+   "contexts": [
+    "(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0         },         r3_in: {             key: \"r3_in\",             title: \"散户净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0         },         r0_net_3: {             key: \"r0_net_3\",             title: \"3日净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0,             s: 1         },         r0_net_5: {             key: \"r0_net_5\",             title: \"5日净流入(元)\", ",
+    "          cfg: 16,             \"万/亿\": !0         },         r3_in: {             key: \"r3_in\",             title: \"散户净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0         },         r0_net_3: {             key: \"r0_net_3\",             title: \"3日净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0,             s: 1         },         r0_net_5: {             key: \"r0_net_5\",             title: \"5日净流入(元)\",             digit: 2,         ",
+    " 2,             cfg: 16,             \"万/亿\": !0         },         r0_net_3: {             key: \"r0_net_3\",             title: \"3日净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0,             s: 1         },         r0_net_5: {             key: \"r0_net_5\",             title: \"5日净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0,             s: 1         }     };     window.isKcb = window.stock_other_type == 'K' || window.stock_other_ty",
+    "       \"万/亿\": !0         },         r0_net_3: {             key: \"r0_net_3\",             title: \"3日净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0,             s: 1         },         r0_net_5: {             key: \"r0_net_5\",             title: \"5日净流入(元)\",             digit: 2,             cfg: 16,             \"万/亿\": !0,             s: 1         }     };     window.isKcb = window.stock_other_type == 'K' || window.stock_other_type == 'KC';     if(isKcb){    "
+   ]
+  }
+ ],
+ "verdict": {
+  "status": "UNDOCUMENTED",
+  "finding": "no tier label or threshold documentation found on probed sina surfaces",
+  "open_item": "stays OPEN (consumption-face semantics remain UNDOCUMENTED honest label)"
+ },
+ "script_srcs": [
+  "//hq.sinajs.cn/list=sh600519",
+  "//www.sinaimg.cn/cj/ddp/js/swfobject2.2.js",
+  "//news.sina.com.cn/268/2015/0112/jquery.newest.js",
+  "//finance.sina.com.cn/other/src/app/FinanceAppTextPic.js",
+  "//n.sinaimg.cn/finance/hq2018/utils-hq.js?ts=3.7",
+  "//i.sso.sina.com.cn/js/ssologin.js",
+  "//finance.sina.com.cn/sinafinancesdk/js/sf_sdk.js",
+  "//n.sinaimg.cn/finance/hq2018/js/stock20180116.js?ts=3.6",
+  "//n.sinaimg.cn/finance/hq2018/fixTotalShare.js",
+  "//n.sinaimg.cn/finance/realstock/company/src/js/fixTotalShare.js?v=1.0.6",
+  "//n.sinaimg.cn/finance/stock/hq/src/fixTotalShare.js?v=1.3.2",
+  "//n.sinaimg.cn/finance/c30320b4/20220429/aifsb.js",
+  "//d1.sina.com.cn/litong/zhitou/sspnew.js",
+  "//www.sinaimg.cn/unipro/pub/suda_m_v634.js",
+  "//news.sina.com.cn/js/pctianyi/sima.js",
+  "//n.sinaimg.cn/tech/66ceb6d9/20180314/sidebar.min.js?cn=1.8",
+  "//d0.sina.com.cn/litong/zhitou/sinaads/release/sinaads.js",
+  "//finance.sina.com.cn/otc/activity/astock_dongmi24.js",
+  "//n.sinaimg.cn/finance/2024jpdm/js/dongmi.js?v=1.0",
+  "//www.sinaimg.cn/unipro/pub/suda_s_v851c.js",
+  "//n.sinaimg.cn/finance/0e475300/20210612/md5.js",
+  "//n.sinaimg.cn/finance/article/most_read/qrcode.js",
+  "//n.sinaimg.cn/finance/article/most_read/qrcode_UTF8.js",
+  "//n.sinaimg.cn/finance/article/most_read/jquery-qrcode.js",
+  "//n.sinaimg.cn/finance/66ceb6d9/20230830/index.js",
+  "//i1.sinaimg.cn/dy/fusioncharts/v3_2_2/FusionCharts.js",
+  "//n.sinaimg.cn/finance/cn_bill/FusionCharts.HC.xiu.js",
+  "//n.sinaimg.cn/finance/66ceb6d9/20230830/bigvpoint.js",
+  "//finance.sina.com.cn/other/src/sff.js",
+  "//n.sinaimg.cn/finance/66ceb6d9/20200221/companyNumber.js",
+  "//n.sinaimg.cn/tech/66ceb6d9/20191213/tg.js",
+  "//finance.sina.com.cn/jiawei/js/require-min.js",
+  "//n.sinaimg.cn/finance/hq2018/js/tzyvote.js?ts=3.6",
+  "//n.sinaimg.cn/tech/66ceb6d9/20181126/wq.js",
+  "//n.sinaimg.cn/news/66ceb6d9/20200506/wq.js",
+  "//n.sinaimg.cn/finance/c30320b4/20230224/wq.js",
+  "//n.sinaimg.cn/finance/66ceb6d9/20250225/wq.js",
+  "//www.sinaimg.cn/unipro/pub/suda_s_v851c.js",
+  "//n.sinaimg.cn/finance/stock/hq/src/kwjc.js?ts=4.2",
+  "//n.sinaimg.cn/finance/hq2018/js/radar.js?ts=3.6",
+  "//n.sinaimg.cn/finance/article/most_read/qrcode.js",
+  "//n.sinaimg.cn/finance/article/most_read/qrcode_UTF8.js",
+  "//n.sinaimg.cn/finance/article/most_read/jquery-qrcode.js",
+  "//finance.sina.com.cn/other/src/hq_finapp_mostread.js",
+  "//n.sinaimg.cn/finance/hq2018/js/lcs_controll.20140922.js?ts=3.6",
+  "//n.sinaimg.cn/finance/market-break/market-break.js",
+  "//n.sinaimg.cn/finance/hq_SUDA20161010/hqindex_suda20161010.js?cn=1.1",
+  "//n.sinaimg.cn/finance/hq2018/js/hqZhuli0612.js?ts=3.6",
+  "//finance.sina.com.cn/other/src/app/FinanceAppPics.js",
+  "//n.sinaimg.cn/finance/66ceb6d9/20180905/tg.js",
+  "//finance.sina.com.cn/other/src/hq_app_sidebar.js",
+  "//n.sinaimg.cn/finance/qihuofarm/pc/src/js/index.js",
+  "//finance.sina.com.cn/other/src/stock_sidebar_left.js",
+  "//n.sinaimg.cn/finance/stock/hq/src/popuptoapp.js",
+  "//finance.sina.com.cn/other/src/app/SFANewVersionPop.js",
+  "//finance.sina.com.cn/other/src/adm.js"
+ ]
+}
