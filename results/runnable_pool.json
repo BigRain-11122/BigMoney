@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 12:17:09",
+ "updated_at": "2026-09-25 12:23:21",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -283,17 +283,17 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 11:19:22",
    "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
    "shards": [
     {
      "key": "legacy-lA",
-     "status": "running",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-25 11:51:57",
      "checkpoint": "results/t54/cells_legacy_base_lA.jsonl + cells_legacy_x2_lA.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [0,314) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+     "note": "done 12:09:49 local (13816/13816 cells verified r177 bm-b: 6908 base mtime 12:05:12 + 6908 x2 mtime 12:09:49, unique keys zero-dup; done marker = real artifact-mtime r62 law; 12:10/12:20 relaunches were resume no-ops before marker)"
     }
    ],
    "workers_plan": {
@@ -407,10 +407,10 @@
     {
      "key": "legacy-lD",
      "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 12:23:21",
      "checkpoint": "results/t54/cells_legacy_base_lD.jsonl + cells_legacy_x2_lD.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [942,1256) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+     "note": "pre-claim r170 claim-first (fire expected 12:30 tick); status stays ready until fire"
     }
    ],
    "workers_plan": {
