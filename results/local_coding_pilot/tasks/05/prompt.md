@@ -6,7 +6,7 @@
 验证命令：python scripts/inbox_aging.py selftest
 输入样例与输出契约：
 1. 扫描对象：inbox_dir（live 模式位置参数 1，缺省="fleet/inbox"，相对当前工作目录）顶层 MSG-*.md 文件（glob 前缀 MSG- 且后缀 .md；不递归子目录，processed/ 不扫）；活性面=machines_dir（位置参数 2，缺省="fleet/machines"）下全部 *.json 心跳件。
-2. 文件名契约（宽松消费，不匹配=name_fail 计数继续处理其余件不中断）：`MSG-<YYYYMMDD>-<HHMM>-<recipient>-<topic>.md`，正则 `^MSG-(\d{8})-(\d{6})-(ALL|bm-[a-z0-9]+)-(.+)\.md$`（大小写敏感）；不匹配该正则的 MSG-*.md 件=记 1 件 name_fail，无逐件行。
+2. 文件名契约（宽松消费，不匹配=name_fail 计数继续处理其余件不中断）：`MSG-<YYYYMMDD>-<HHMM>-<recipient>-<topic>.md`，正则 `^MSG-(\d{8})-(\d{4})-(ALL|bm-[a-z0-9]+)-(.+)\.md$`（大小写敏感）；不匹配该正则的 MSG-*.md 件=记 1 件 name_fail，无逐件行。
 3. 时间与活性：
    a. filed_at=文件名日期时间按 `%Y%m%d-%H%M` 解析、naive 按本机时区补齐（timezone-aware）；解析失败（如月 13/时 25）=age_h=-1.0；
    b. age_h=(now-filed_at) 小时数（float，输出 1 位小数）；now=本机当前时刻 timezone-aware；age_h<0（未来时间戳）=如实输出不计 stalled；
@@ -28,3 +28,6 @@
 
 ---
 arm placement protocol (不属于提示词，跑前注记): A 臂产物=results/local_coding_pilot/tasks/05/A/inbox_aging.py；B 臂产物=results/local_coding_pilot/tasks/05/B/inbox_aging.py；双臂验证=python <arm>/inbox_aging.py selftest（与冻结验证命令语义恒等）。
+
+---
+跑前勘误（pre-run erratum·2026-09-26 00:5x·A 臂 selftest 首跑自捕）：第 2 条正则原文 `\d{6}` 与同条正文文件名契约 `<HHMM>`（4 位）自相矛盾（live 实况=MSG-20260923-1430-* 全 4 位，6 位则全部件 name_fail 工具失能）；裁定=以正文 `<HHMM>` 为准，正则改 `\d{4}`。勘误时点=B 臂尚未消费本提示词（双臂信息面恒等保持），A 臂 selftest 首跑即崩=自捕零外泄；此为缺陷修正非判据调整（不影响 PASS/FAIL 方向），台账行如实披露。
