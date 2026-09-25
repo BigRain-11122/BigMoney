@@ -142,3 +142,59 @@ A 股 ETF 可实现风险平价/全天候形：社区实践存在（永久组合
 2. S2（arXiv 2201.06635）深读（PDF 全文抽取，pypdf/PyMuPDF 双探针律 r168）——面 c 学术构造补强。
 3. CAND 落地判定：面 a/e 证据是否催生 ORANGE 军底仓形 prereg 草案（从 PREREG_TEMPLATE.md 起草，§1 α 机制段+D6 同族 corr 门）——下轮 GM 判定。
 4. 面 f 月度序列：公开面已尽（四死面），闭口=许可 feed 面不可得；若 CEO/GM 有 SG feed 渠道再开。
+
+## 十一 slice-3 互补批（2026-09-25 16:4x-17:1x · **bm-b r191 · T-53 同窗互补贡献**）
+
+> **同窗双执行披露（fleet §4 让路实录）**：本轮 bm-a R175 与 bm-b r191 两实例同窗并行各自交付 slice-3（origin 在册 bm-a 16:49:39 先到=slice-3 主体=§九；bm-b 16:49:58 后到=本节=让路后以「互补批」面落地，不覆写任何 §九 内容）。巧合的是两批恰好互补零重复：bm-a 收面 a/e+面 f 留白（SG 四死面诚实闭口）；bm-b 补的恰是 bm-a 留白的面 f 数字（官方指数月度序列通道，非 SG feed）+ bm-a §十 续作指针 item 2（S2 深读）。反重复律成本=1 窗双烧如实记；票锁教训=跨机认领前必 git fetch 实时核 claim 面（本窗 bm-b 误认本机=bm-a 才双开，详见 bm-b r191 轮报告+CODELY 坑律）。
+
+### 通道记录（bm-b 批）
+
+| 探针 | 结果 |
+|---|---|
+| scribd SG-Trend（同 URL） | ✗ 预览壳（与 §九 结论一致，双机独立同判） |
+| wholesale.banking.societegenerale.com sitemap/markets/QIS 三跳父页 href 实读 | ✗ 现站结构无 Trend/Index 页=站改版移除（与 §九 web.archive 四死面互补：官方历史域+官方现站双双闭口） |
+| portal.barclayhedge.com（SG Prime Services 指数族入口） | ✗ **死域+劫持面**：cert ALTNAME invalid+本地代理通道返回博彩劫持壳（双域同 260,313 字节=拦截面实锤）→ 毒化面弃用不采信 |
+| www.wisdomtree.com WTMF 月度表 | ✗ TLS ALTNAME 死面 |
+| arxiv.org/pdf/2201.06635 直下 | ✅ 786,084B（python 默认 CA 缺中间证书→certifi 载入后通） |
+| **中证官方 stock_zh_index_hist_csindex（H30269 红利低波/H11001 中证全债）+sina 指数日线（sh000300/sh000905）** | ✅ **全史 2005-01 起四指数月度序列到手=面 f 通道翻案：无需 SG feed，官方可投指数月度序列即可做判线校准** |
+| jisilu.cn 父页/explore/search | ⚠ 父页活但 search/explore JS 壳（与 §九 DDG site: 绕行通道互证；bm-b 侧未深捕，面 a/e 收割归 bm-a §九） |
+
+### S2-a 深读逐字（§十 item-2 兑现·Valeyre 2022 arXiv 2201.06635·grade C 维持）
+
+- 宇宙=47 期货（24 股指/14 债指/9 FX），1985-05-08→2018-12-31，**不计交易成本**（verbatim："We do not take into account transactions cost"）
+- Sharpe：RP 1.32（"risk premia are significant and thus easier to capture as compared to trends"）/ ARP 0.75-0.76 / NM 0.51-0.52 / ToRP 1.19-1.24 / EW 1.13；最优组合含 RP Sharpe 1.37（ARP 19.5%/RP 51%/ToRP 30%）、不含 RP 1.18（ARP 28%/ToRP 72%）；实用折中 ARP 75%+ToRP 25%（Sharpe>1）
+- 相关性：ARP-RP 0.23 / ARP-ToRP 0.34 / RP-ToRP 0.59
+- 原文自打折扣 verbatim："If one allocates too much on the ToRP, it will reduce the capacity to manage big assets...the Sharpe ratio is expected to be smaller when including the market impact"
+- 面 c 采集结论：趋势跟随无成本期货宇宙 21.5 年 Sharpe 1.19-1.24（ToRP 形态）=防御/危机 α 理论又一学术支点；但成本自认+单作者+期货宇宙≠A 股 ETF 可直接移植——维持假设级不进判线校准
+
+### 面 f 判线校准实算（§九 留白的官方数据面补齐·grade A·CAND-3 校准证据到位）
+
+方法：官方指数月末收盘→月收益→滚动 6m/12m 复合窗；positive_rate=收益>0 窗占比；beat=跑赢 000300 窗占比；样本=2005-01→2026-08 完整 249 月（进行中月丢弃，evidence_cutoff=2026-09-24）；证据件=**scripts/spm_face_f_calibration.py+results/spm_face_f_calibration.json**（确定性自算可复现）
+
+| 指数 | 6m positive | 6m beat300 | 12m positive | 12m beat300 | 年化 | 波动 | 窗数(6m/12m) |
+|---|---|---|---|---|---|---|---|
+| 000300 沪深300 | 0.543 | 0.000* | 0.557 | 0.000* | 7.93% | 27.20% | 244/238 |
+| 000905 中证500 | 0.588 | 0.527 | 0.603 | 0.536 | 10.98% | 30.79% | 244/238 |
+| H30269 红利低波 | 0.601 | 0.564 | **0.709** | 0.608 | 12.26% | 26.37% | 244/238 |
+| H11001 中证全债 | 0.827 | 0.473 | 0.899 | 0.422 | 4.82% | 3.61% | 244/238 |
+
+*自比基准=结构性 0（严格 >0 判）=计算正确性 sanity 行
+
+**校准结论（只校准不翻线·O-1105 §二）**：
+1. A 股 β 现实=滚动 12m 窗仅 55.7% 为正（最差窗 -70.8%）——「12 个月不亏」在宽基本身=掷硬币水平
+2. 最好 Plain 可投防御指数（红利低波 21.5 年年化 12.26% 领先宽基 4.3pp）12m 正窗率 0.709 ≈ 恰在我方 0.70 线位；**beat300 仅 0.608**——我方 beat 类 0.70 线=高于外部可投现实前沿的高门槛，与 §九 S12（民间知名组合 10 年年化 4.6%/回撤 20%/跑不赢债基）+slice-2 机构数字（个位数年化+Sharpe<0.5）三角互证
+3. 真「稳」外部现实=债（12m 正窗 89.9%、波动 3.6%）但年化仅 4.82%——「稳」与「跑赢权益基准」在外部世界互斥，稳定盈利组合期望落在两者斜面上
+4. **与 §九 面 e 交叉互证**：本表 H30269 最差 12m 窗 -61.5% vs §九 S11「低波≠低回撤」尾部 -71.6%/-45.7% 同向同判（低波因子防御性在系统性回撤中证伪）；低波/红利底仓须搭配趋势/避险袖（面 c）=与 CAND-1 构成互补的独立第二证
+
+### 漏斗双列（bm-b 互补批）
+
+| 切片 | 采集（harvest） | 入册（gated/入候选册） |
+|---|---|---|
+| slice-3 互补批 | 7 探针（3 死面+1 劫持面与 §九 四死面互证 / 官方双源活 / arXiv 活 / jisilu JS 壳让面归 bm-a） | **面 f 校准证据入册**（grade A 官方数据·CAND-3「待数字」升级到位）；S2 深读逐字入册（grade C）；策略候选过闸仍 0（CAND-1/2 假设级，prereg 未起草——与 §九 判定一致） |
+
+## 十二 续作指针（slice-4+·两批合并版）
+
+1. ~~S2 深读~~（§十一 已兑现）；~~面 f 月度序列~~（官方指数面已闭口到手；SG feed 面维持 §九 判定不追）。
+2. 面 d carry 面（转债/逆回购）：S10 全天候实盘贴转债持仓=接线点（归 §九 bm-a 已开通道续）。
+3. CAND-1/CAND-2 prereg 起草判定：面 a/e/f 证据三面到位（社区实盘+官方校准+学术构造），下轮 GM 判定是否起草 ORANGE 军底仓形 prereg（PREREG_TEMPLATE §1 四选一+D6 同族 corr 门+A 股成本面 H3 显式入 prereg）。
+4. T-53 闭票评估：deliverable（digest 十二节+f≥2 候选+T-52 交叉核对+funnel 双列×4 切片）全在位——建议下轮提闭票评估。

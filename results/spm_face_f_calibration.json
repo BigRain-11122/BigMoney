@@ -1,0 +1,133 @@
+{
+ "schema": "spm_face_f_calibration_v1",
+ "purpose": "T-53 slice-3 face-(f) judgment-line calibration evidence (CALIBRATION ONLY, 0.70 lines frozen)",
+ "method": "official index month-end closes -> monthly simple returns -> rolling 6m/12m compound windows; positive_rate = windows with return>0; beat_rate = windows beating CSI300 total return; descriptive stats, no signal, no tuning",
+ "descriptive_calibration": true,
+ "sample": {
+  "first_month": "2005-01-31",
+  "last_complete_month": "2026-08-31",
+  "n_months_common": 249,
+  "last_daily_bar": "2026-09-24",
+  "partial_final_month_dropped": true
+ },
+ "evidence_cutoff": "2026-09-24",
+ "indices": {
+  "000300": {
+   "months": 248,
+   "annualized_return": 0.0793,
+   "annual_vol": 0.272,
+   "naive_sharpe_no_rf": 0.292,
+   "roll_6m": {
+    "n_windows": 243,
+    "positive_rate": 0.5432098765432098,
+    "mean_ret": 0.0691133270764472,
+    "worst_window": -0.5797903523485908,
+    "best_window": 1.4300270472722953
+   },
+   "beat_000300_roll_6m": {
+    "n_windows": 243,
+    "beat_rate": 0.0
+   },
+   "roll_12m": {
+    "n_windows": 237,
+    "positive_rate": 0.5569620253164557,
+    "mean_ret": 0.15511350577770372,
+    "worst_window": -0.7075419839491413,
+    "best_window": 2.977020021164925
+   },
+   "beat_000300_roll_12m": {
+    "n_windows": 237,
+    "beat_rate": 0.0
+   }
+  },
+  "000905": {
+   "months": 248,
+   "annualized_return": 0.1098,
+   "annual_vol": 0.3079,
+   "naive_sharpe_no_rf": 0.357,
+   "roll_6m": {
+    "n_windows": 243,
+    "positive_rate": 0.588477366255144,
+    "mean_ret": 0.0867161032995382,
+    "worst_window": -0.5998076439250272,
+    "best_window": 1.6282417466018315
+   },
+   "beat_000300_roll_6m": {
+    "n_windows": 243,
+    "beat_rate": 0.5267489711934157
+   },
+   "roll_12m": {
+    "n_windows": 237,
+    "positive_rate": 0.6033755274261603,
+    "mean_ret": 0.18505812994508378,
+    "worst_window": -0.6567122684955748,
+    "best_window": 2.419234727617513
+   },
+   "beat_000300_roll_12m": {
+    "n_windows": 237,
+    "beat_rate": 0.5358649789029536
+   }
+  },
+  "H30269": {
+   "months": 248,
+   "annualized_return": 0.1226,
+   "annual_vol": 0.2637,
+   "naive_sharpe_no_rf": 0.465,
+   "roll_6m": {
+    "n_windows": 243,
+    "positive_rate": 0.6008230452674898,
+    "mean_ret": 0.08471404205250328,
+    "worst_window": -0.5464745918964822,
+    "best_window": 1.699207725311024
+   },
+   "beat_000300_roll_6m": {
+    "n_windows": 243,
+    "beat_rate": 0.5637860082304527
+   },
+   "roll_12m": {
+    "n_windows": 237,
+    "positive_rate": 0.7088607594936709,
+    "mean_ret": 0.18920845848491707,
+    "worst_window": -0.6153076643994123,
+    "best_window": 3.1611059832772286
+   },
+   "beat_000300_roll_12m": {
+    "n_windows": 237,
+    "beat_rate": 0.6075949367088608
+   }
+  },
+  "H11001": {
+   "months": 248,
+   "annualized_return": 0.0482,
+   "annual_vol": 0.0361,
+   "naive_sharpe_no_rf": 1.336,
+   "roll_6m": {
+    "n_windows": 243,
+    "positive_rate": 0.8271604938271605,
+    "mean_ret": 0.021987220551117136,
+    "worst_window": -0.03509126422846387,
+    "best_window": 0.1226611226611225
+   },
+   "beat_000300_roll_6m": {
+    "n_windows": 243,
+    "beat_rate": 0.4732510288065844
+   },
+   "roll_12m": {
+    "n_windows": 237,
+    "positive_rate": 0.8987341772151899,
+    "mean_ret": 0.04443172378613996,
+    "worst_window": -0.026038491683357923,
+    "best_window": 0.1594202898550725
+   },
+   "beat_000300_roll_12m": {
+    "n_windows": 237,
+    "beat_rate": 0.4219409282700422
+   }
+  }
+ },
+ "windows": [
+  "6m",
+  "12m"
+ ],
+ "note": "indices are investable public beta/factor benchmarks, not managed-futures fund series; SG-Trend/Barclay portal monthly channels probed dead this round (see digest sec9)"
+}
