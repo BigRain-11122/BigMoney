@@ -656,6 +656,12 @@ SEED_REGISTRY = {
     # prereg freeze -- sole rg hits = data-file digit coincidences
     # (AU.csv oi 262000 / IH.csv volume 62000 / eligibility tails, non-RNG,
     # t34/wild_route precedent); T-2026-09-25-65-P1 s2 wave-1 futures revival)
+    "options_wave2": 63_000,                  # OPTIONS_WAVE2 K=50 weekly tri-state
+    # random nulls (63000+k, k<50; band 63000..63049, next free band above
+    # cta_wave1 62049; registry+rg full-repo scan 2026-09-25 22:0x before
+    # OPTIONS_WAVE2 prereg freeze -- sole rg hits = data-file digit
+    # coincidences (league.json float / transfer sha256 / state id, non-RNG,
+    # t34/wild_route precedent); T-2026-09-25-67-P1 wave-2 options pilot)
 }
 
 
