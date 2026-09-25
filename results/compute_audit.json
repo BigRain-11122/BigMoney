@@ -1,23 +1,23 @@
 {
   "latest": {
-    "ts": "2026-09-26 00:54:00",
+    "ts": "2026-09-26 01:04:41",
     "cpu_total_pct": 7.0,
-    "py_cpu_pct": 2.3,
+    "py_cpu_pct": 0.6,
     "cores": 16,
-    "py_procs": 10,
-    "result_stale_min": 0.7,
+    "py_procs": 12,
+    "result_stale_min": 4.0,
     "fleet_open_tasks": 0,
     "pool_ready_count": 0,
     "load_state": "idle-starvation",
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
-      "run_samples": 6,
-      "span_min": 45.8
+      "run_samples": 7,
+      "span_min": 56.5
     },
     "gpu": {
       "present": true,
       "util_pct": 1.0,
-      "mem_used_mb": 5785.0,
+      "mem_used_mb": 5794.0,
       "compute_apps_count": 22,
       "rogue_apps": []
     },
@@ -30,27 +30,6 @@
     "verdict": "FLAG:pool_starvation"
   },
   "history": [
-    {
-      "cores": 32,
-      "cpu_total_pct": 23.0,
-      "flags": [],
-      "fleet_open_tasks": 1,
-      "gpu": {
-        "compute_apps_count": 32,
-        "mem_used_mb": 8565.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 5.0
-      },
-      "py_cpu_pct": 1.1,
-      "py_procs": 8,
-      "result_stale_min": 1.5,
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "ts": "2026-09-24 22:21:37",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "cores": 32,
       "cpu_total_pct": 57.0,
@@ -4894,6 +4873,36 @@
         "present": true,
         "util_pct": 1.0,
         "mem_used_mb": 5785.0,
+        "compute_apps_count": 22,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [
+        "pool_starvation"
+      ],
+      "verdict": "FLAG:pool_starvation"
+    },
+    {
+      "ts": "2026-09-26 01:04:41",
+      "cpu_total_pct": 7.0,
+      "py_cpu_pct": 0.6,
+      "cores": 16,
+      "py_procs": 12,
+      "result_stale_min": 4.0,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 7,
+        "span_min": 56.5
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 5794.0,
         "compute_apps_count": 22,
         "rogue_apps": []
       },
