@@ -627,7 +627,7 @@ def run_cell(cell, dates, open_px, close_px, adv, cash_ret, plans):
     return out
 
 
-def run_nulls(dates, open_px, close_px, adv, cash_ret, elig):
+def run_nulls(dates, open_px, close_px, adv, cash_ret, elig, close_df):
     """100 pooled random-Top3 nulls, seeds 59000+i (daily i<50, monthly
     i>=50). Checkpoint whole family in one sha-keyed file."""
     os.makedirs(os.path.dirname(NULL_FILE), exist_ok=True)
@@ -646,7 +646,8 @@ def run_nulls(dates, open_px, close_px, adv, cash_ret, elig):
     per_draw = {}
     for i in range(2 * NULL_DRAWS_PER_FACE):
         cadence = "daily" if i < NULL_DRAWS_PER_FACE else "monthly"
-        plan = build_null_plan(close_px, elig, cadence, SEED_BASE + i, len(dates))
+        plan = build_null_plan(close_df, elig, cadence, SEED_BASE + i,
+                               len(dates))
         r = simulate_rotation(dates, open_px, close_px, adv, cash_ret, plan,
                               CAPITAL, cost_mult=1.0, start_idx=0, min_hold=0)
         sv = sharpe_ann(r["eq"])
@@ -865,7 +866,7 @@ def cmd_run(_):
                               plans[cell], CAPITAL, cost_mult=1.0, start_idx=0,
                               min_hold=(MIN_HOLD_TD if cell in ("MF-SR2", "MF-SR2W") else 0))
         cells_rets[cell] = r["eq"].pct_change().dropna()
-    nulls = run_nulls(dates, open_px, close_px, adv, cash_ret, elig)
+    nulls = run_nulls(dates, open_px, close_px, adv, cash_ret, elig, close_df)
     passives = run_passive(dates, open_px, close_px, adv, cash_ret, close_df)
 
     corr_pairs, components = batch_corr_and_merge(cells_rets)
@@ -1218,6 +1219,34 @@ def cmd_selftest(_):
           json.dumps(list(r11a["eq"]), sort_keys=True) ==
           json.dumps(list(r11b["eq"]), sort_keys=True)
           and r11a["n_trades"] == r11b["n_trades"])
+
+    # F16 nulls production-pairing leg (r182 second live-fire: run_nulls
+    # passed the dict close_px to build_null_plan, which eats a DataFrame
+    # -- pure-function F11 stayed green because it fed the callee's wanted
+    # type; the production call site was never exercised, R117 family).
+    # Rebinds NULL_FILE to a temp path so the hermetic call cannot touch
+    # the real checkpoint; exercises the exact production call path.
+    import tempfile as _tf
+    _old_null_global = globals()["NULL_FILE"]
+    _tfdir = _tf.mkdtemp(prefix="mfrot_nulls_f16_")
+    try:
+        globals()["NULL_FILE"] = os.path.join(_tfdir, "nulls.json")
+        n16 = run_nulls(dts, open_px, close_px, advz, cret, elig, close_df)
+        n16b = run_nulls(dts, open_px, close_px, advz, cret, elig, close_df)
+        check("F16-nulls-production-call",
+              n16.get("n_values") == 2 * NULL_DRAWS_PER_FACE
+              and n16b.get("n_values") == 2 * NULL_DRAWS_PER_FACE
+              and n16.get("config_sha") == n16b.get("config_sha")
+              and n16.get("values_rounded") == n16b.get("values_rounded")
+              and len(n16.get("per_draw") or {}) == 2 * NULL_DRAWS_PER_FACE,
+              f"n_values={n16.get('n_values')} "
+              f"draws={len(n16.get('per_draw') or {})}")
+    except Exception as exc:
+        check("F16-nulls-production-call", False, f"exception {exc!r}")
+    finally:
+        globals()["NULL_FILE"] = _old_null_global
+        import shutil as _sh
+        _sh.rmtree(_tfdir, ignore_errors=True)
 
     # F12 metrics hand-check: Sharpe + maxDD + turnover
     eq12 = pd.Series([100.0, 110.0, 104.5, 115.0, 109.25],
