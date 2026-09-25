@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 12:36:48",
+ "updated_at": "2026-09-25 12:44:19",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -439,17 +439,17 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "running",
    "entered_at": "2026-09-25 11:19:22",
    "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
    "shards": [
     {
      "key": "deep-dA",
-     "status": "ready",
-     "owner": "bm-a",
-     "owner_since": "2026-09-25 12:31:05",
+     "status": "running",
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 12:40:02",
      "checkpoint": "results/t54/cells_deep_base_dA.jsonl + cells_deep_x2_dA.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "pre-claim r170 claim-first by bm-a R160 @ 2026-09-25 12:31:05 (fire expected 12:40 tick); status stays ready until fire"
+     "note": "TAKEOVER r178 bm-b @ 12:40:02 tick per pool-schema stale-owner rule (bm-a hb 12:18:05 = 22min stale at tick; runner pid 3440 12 workers BelowNormal; original pre-claim bm-a R160 @12:31:05 preserved in history). Dual-fire window disclosed: bm-a local pool at its own 12:40 tick still showed owner=bm-a -> same-tick dual burn possible (r159 residual 50/50 push-race face); deterministic idempotent, zero scientific impact, waste as-found in autofill_state launches"
     }
    ],
    "workers_plan": {
@@ -485,10 +485,10 @@
     {
      "key": "deep-dB",
      "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 12:44:19",
      "checkpoint": "results/t54/cells_deep_base_dB.jsonl + cells_deep_x2_dB.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [377,754) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+     "note": "22 PROSPECT members x positions [377,754) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min; pre-claim r170 claim-first by bm-b r178 @ 2026-09-25 12:44:19 (fire expected first tick after deep-dA completes on bm-b)"
     }
    ],
    "workers_plan": {
