@@ -1,0 +1,14 @@
+{
+ "id": "T-2026-09-26-70",
+ "priority": "P0",
+ "type": "local-coding-pilot",
+ "immediate": true,
+ "order_ref": "O-20260925-2313-bm-c (CEO local-coding pilot, target machine bm-a, 2-week window to 2026-10-09)",
+ "spec": "bm-a local coding capability pilot: qwen3-coder:30b install (Q4_KM ~19GB, MoE 30B-A3B, hybrid GPU+CPU, NUM_PARALLEL=1, KV q8_0, ctx 32768) + pre-registered A/B on 10 real lane coding tasks (cloud baseline vs local coder, same frozen prompts, 4 criteria: functional pass rate / blind code-quality 4-dim non-inferiority >= cloud-0.5 / latency p50-p95 / resource face VRAM-RAM-tok/s-overflow). Prereg frozen at research/R-20260925-bma-local-coding-pilot.md (MUST be in git before any A/B run). Yield discipline: no load when RAM idle <30GB; keepwarm.pause / off-peak 03:00-07:00 on VRAM conflict. Continuous observation: 1 ledger row per task (token-economy per task), >=5 local tasks/week after calibration batch passes, mid-term verdict 2026-10-09 (pass -> P1 purchase card proposal 24GB dedicated coding machine; fail -> honest pitfall list). Per-round report line + heartbeat orders_ack receipt.",
+ "status": "claimed",
+ "claimed_by": "bm-a (OS iteration loop, round 195; CEO immediate ticket = claim-and-start same round; physical dependency = ~19GB model download in flight, pull spawned 2026-09-26 00:0x, log logs/qwen3coder_pull.log)",
+ "claimed_at": "2026-09-26T00:15:00+08:00",
+ "created_by": "bm-a per O-20260925-2313-bm-c (target machine bm-a; order received at S7 double-scan of R195 after bm-c patrol session filed it 23:13)",
+ "created_at": "2026-09-26T00:15:00+08:00",
+ "note": "Prereg research/R-20260925-bma-local-coding-pilot.md frozen BEFORE any A/B run (12-candidate FIFO-take-10 pool, cherry-proof). Upstream: HQ cph4/research/R-20260925-local-coding.md + P-08 fleet model-fit matrix (pilot data backfills its task-model-machine map). Anti-dup: J13 lane (qwen2.5:7b) = research-assist advisory only; this pilot = coding capability A/B, different instrument, no overlap."
+}
