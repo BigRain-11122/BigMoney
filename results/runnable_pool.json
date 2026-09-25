@@ -517,24 +517,26 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 11:19:22",
    "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
    "shards": [
     {
      "key": "deep-dC",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-25 12:56:56",
      "checkpoint": "results/t54/cells_deep_base_dC.jsonl + cells_deep_x2_dC.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [754,1131) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min; pre-claim r170 claim-first by bm-b r178 @ 2026-09-25 12:56:56 (serial lane after dB; fire expected 13:20 tick when py frees)"
+     "note": "DONE r163 bm-a owner-write: done_deep_dC.json marker real ts 12:53:27 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2, rows verified); run log deep_dC.log DONE 203.6s workers=25; original launch = bm-a 12:50 tick (launch record lost in autofill_state rebase union -- physical logs authoritative); dual-burn disclosure: bm-b 13:40:02 relaunch in-flight on its own tree (deterministic recompute, zero scientific divergence); 13:40:01 bm-a relaunch = resume no-op 16s; r179/r180 flip-wedge third occurrence, closed per r180 precedent"
     }
    ],
    "workers_plan": {
     "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
     "priority": "BelowNormal",
     "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
-   }
+   },
+   "done_ts": "2026-09-25 12:53:27",
+   "done_evidence": "done_deep_dC.json marker 12:53:27 16588/16588 (bm-a tree)"
   },
   {
    "id": "T54-GRID-DD",
