@@ -1,0 +1,86 @@
+{
+  "batch": "T48-factor-blend",
+  "date": "2026-09-25 09:23:15",
+  "evidence_cutoff": "2026-09-24",
+  "prereg_sha256_at_run": "8296551e719ae23ea2151c3ca8b58390af8d287b669a07dc162623319e75dd91",
+  "eligible_by_corps": {
+    "attack": [],
+    "defense": [
+      "defense|b_IC"
+    ],
+    "chop": []
+  },
+  "winners": {
+    "attack": null,
+    "defense": "defense|b_IC",
+    "chop": null
+  },
+  "d6_rejections": [
+    "attack|b_IC",
+    "attack|e_REGIME",
+    "chop|b_IC",
+    "chop|e_REGIME"
+  ],
+  "g2_by_corps": {
+    "attack": null,
+    "defense": {
+      "gate": "g2_registration_v2",
+      "g1_pass": true,
+      "dsr": 0.496655,
+      "dsr_gate": 0.95,
+      "dsr_ok": false,
+      "family_pbo": 0.0,
+      "pbo_gate": 0.25,
+      "pbo_ok": true,
+      "missing_inputs": [],
+      "eligible_v2": false
+    },
+    "chop": null
+  },
+  "corps_gate": {
+    "attack": {
+      "status": "no_winner",
+      "benched": false
+    },
+    "defense": {
+      "status": "candidate_fallback",
+      "benched": false,
+      "segment_stats": {
+        "bear": {
+          "n_days": 750,
+          "sharpe": 0.4691,
+          "ann_return": 0.0294
+        },
+        "chop": {
+          "n_days": 87,
+          "sharpe": 2.2154,
+          "ann_return": 0.0934
+        },
+        "bull": {
+          "n_days": 577,
+          "sharpe": 2.2762,
+          "ann_return": 0.0998
+        }
+      },
+      "blocker": "T-22 harness adaptation = winner onboarding as PROSPECT candidate (T-24 pipeline) = separate prereg line; frozen fallback face applies (full-window regime segment stats + disclosure); n_startpoints unavailable in-batch -> candidate NOT benched (T-33 candidate semantics)"
+    },
+    "chop": {
+      "status": "no_winner",
+      "benched": false
+    }
+  },
+  "verdict_text": "winners={'attack': None, 'defense': 'defense|b_IC', 'chop': None}; eligible {'attack': 0, 'defense': 1, 'chop': 0}/15 composite cells; D6 rejections 4; zero-winner corps = honest read (no gate lowered)",
+  "trials_ledger": {
+    "prev_total": 60880,
+    "batch_trials": 135,
+    "total": 61015,
+    "batch": "T48-factor-blend",
+    "file": "factor_blend_cells.json",
+    "evidence_cutoff": "2026-09-24",
+    "note": "refinalize reuses the chain head (no re-append)"
+  },
+  "refs": {
+    "cells": "results/factor_blend_cells.json",
+    "prereg": "research/FACTOR_BLEND.md"
+  }
+}

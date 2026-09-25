@@ -67,4 +67,19 @@ scripts/factor_blend.py（run/status/selftest 子命令，hermetic 夹具）＋ 
 
 ## §7 跑后实证【跑前为空——占位纪律：写数字即造假】
 
+批跑 2026-09-25 09:21（bm-b，scripts/factor_blend.py selftest 27/27 → 冻结 commit f5a73cd6 → 引擎 36 跑＝30 格 x1/x2＋6 D6 成员腿；账本 60,880→61,015 恰合冻结 135；evidence_cutoff=2026-09-24；run-time prereg sha256 记录于产物）。
+
+- **eligible 1/15（进攻 0／防空军 1／震荡 0）**：唯一过 G1' 主门＝**defense|b_IC**（IC 加权防空军格）：full S **1.3084**·ann 0.0744·dd −0.1335·IS 1.3502·IS2 1.1415·worst_year −0.0705·x2 full 0.8671（survive，margin +0.4667）·六条款全过·CI 下界>0·entries 过门；ADJ-1 面读数 benefit **1.008**／DR **4.36**（被动基线 0.3004）。
+- **G2 不入册（诚实负）**：defense winner DSR **0.4966**<0.95（PBO 0.0 过）→ g2_registration_v2 eligible_v2=**false**——**零注册零入席**；军种段专项=冻结回退面（T-22 接线=PROSPECT onboarding 另立预注册线；候选不入席，T-33 candidate 语义）。
+- **D6 拒收 4/15（全对 COMPOSITE-CE-02）**：attack|b_IC 0.7518·attack|e_REGIME 0.7562·chop|b_IC 0.8706·chop|e_REGIME 0.7070——结构冗余结论兑现但**载体错位**：§5 预测 1 猜 CE-01（动量面），实为 CE-02（复合 z-blend 同构面），且只打 IC/政体加权变体（EW 变体 0.32-0.39 全活）——「同构加权规则收敛」是新机理注记。
+- **EW 全军覆没（§5 预测 2 反向兑现）**：attack|a_EW 0.075·defense|a_EW −0.366·chop|a_EW −0.164——IS 段 IC 加权在本面板显著优于等权，「IC 估计噪声大」先验不成立（miss 披露）。
+- **§5 预测 3 miss**：defense|b_IC 分段=bear 0.4691（最弱）／chop 2.2154／bull 2.2762——反转+低波 blend 的边际不在承压段（T-33 在册 cohort bear 0.53-0.66 面未承接），在平稳段收割；段面与全期面背离形态成立但方向反。
+- **§5 预测 4 兑现**：14/15 倒在 G1'（≥6 预测线远超）；**预测 5 部分兑现**：15 格最深 dd −0.6083、worst_year 尾部含 −0.3471/−0.3101（crash 线 −0.30 翻红格存在）。
+- 全 15 格 full S 分布：defense|b_IC 1.308 一枝独秀，chop|b_IC 0.665 次之，其余 ≤0.34 或负。
+- 15×15 同批描述性 corr 矩阵已披露（产物键 batch_corr_matrix_descriptive，非门）。
+
 ## §8 批后复盘【跑后回填·s7-T】
+
+1. **ADJ-1/ADJ-2 跑前裁定生效**：benefit/DR 被动基线与 OOS locked-box 面均按裁定落地（产物 adjudications 键全披露，r71 双读法律族）；事后看裁定中性未偏置任何格。
+2. **实现坑（本轮三连修，零判据改动）**：blend_score 须按 W 自列遍历（跨军 z 超集撞列 KeyError）；run_cells_parallel 按散参调用 worker 签名须镜像元组字段；checkpoint 行必须带 "key" 字段（缺键行被 _load_done 静默跳过=成员腿假缺失）；REFINALIZE 账本头须重建正典 dict schema+防偷头守卫。
+3. **科学结论**：因子混合层在本面板产出 1 个 G1'-过线候选（防空军 IC 加权），但 DSR 不足→不注册；进攻/震荡两军零过线+D6 同构拒收=「进攻面已在册冗余」以 CE-02 载体兑现。复合格入列三军替补席的唯一路径=新预注册版本（DSR 缺口与段专项为下版必修面），本批按 SS4 语义收线不降门。

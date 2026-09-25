@@ -214,11 +214,14 @@ def weights_e_at(state_prev: str, w_b: dict, names) -> tuple:
 
 
 def blend_score(W: pd.DataFrame, zs: dict) -> pd.DataFrame:
-    """score(t) = sum_j W[t, j] * z_j(t)  (prereg s3 blend formula)."""
+    """score(t) = sum_j W[t, j] * z_j(t)  (prereg s3 blend formula).
+
+    Iterates W's OWN columns only: the caller passes the corps-scoped
+    weight timeline and a factor-z superset (union across corps) -- a
+    corps' blend never touches another corps' factors."""
     out = None
-    for f, z in zs.items():
-        w = W[f]
-        contrib = z.mul(w, axis=0)
+    for f in W.columns:
+        contrib = zs[f].mul(W[f], axis=0)
         out = contrib if out is None else out.add(contrib, fill_value=None)
     return out
 
@@ -281,10 +284,11 @@ def _cell_engine_run(held: pd.DataFrame, cost_mult) -> dict:
             "returns": [round(float(v), 8) for v in rets]}
 
 
-def _cell_task_impl(args):
-    """args = (key, corps, method, cost_mult, held_payload) where held_payload
-    = {"index": [...], "columns": [...], "data": [[0/1]*N]*T} (picklable)."""
-    key, corps, method, cost_mult, held_payload = args
+def _cell_task_impl(key, corps, method, cost_mult, held_payload):
+    """(key, corps, method, cost_mult, held_payload) -- run_cells_parallel
+    invokes fn(*args), so the signature mirrors the job-tuple fields;
+    held_payload = {"index": [...], "columns": [...], "data": [[0/1]*N]*T}
+    (picklable, x1-frozen membership)."""
     held = pd.DataFrame(held_payload["data"],
                         index=pd.to_datetime(held_payload["index"]),
                         columns=held_payload["columns"])
@@ -295,14 +299,16 @@ def _cell_task_impl(args):
 
 
 def _member_task(tid):
-    """D6 gate infrastructure: registered-member sleeve rerun (ew6 canon)."""
+    """D6 gate infrastructure: registered-member sleeve rerun (ew6 canon).
+    MUST return "key" -- _load_done keys every checkpoint row by rec["key"]
+    (a missing key = row silently skipped = r163 jsonl lesson)."""
     import ew6_portfolio as E
     global PRICES_FULL
     if E.PRICES_FULL is None:
         E.PRICES_FULL = PRICES_FULL
     r = E.member_run(tid)
     eq = pd.Series(r["eq"], index=pd.to_datetime(r["dates"]))
-    return {"tid": tid, "cutoff": r["cutoff"],
+    return {"key": f"member|{tid}", "tid": tid, "cutoff": r["cutoff"],
             "returns": [round(float(v), 8) for v in eq.pct_change().dropna()],
             "dates": [str(d.date()) for d in eq.index]}
 
@@ -560,7 +566,19 @@ def _finalize(elapsed, gates, weights_block, zdisc, cells, workers) -> bool:
 
     # interim single-shot guard FIRST (anti-double ledger append, xstock law)
     if os.environ.get("T48_FACTOR_BLEND_REFINALIZE") == "1":
-        ledger = SG.ledger_head(SG.RESULTS_DIR)
+        head = SG.ledger_head(SG.RESULTS_DIR)
+        if head.get("file") != os.path.basename(OUT_JSON):
+            print(f"finalize refused: ledger head is {head.get('file')} "
+                  f"(not this batch) -- refinalize would steal the chain")
+            return False
+        # canonical dict schema rebuilt from the chain head (r140 A158 law
+        # family: unified dict schema only; raw head lacks prev/batch keys)
+        ledger = {"prev_total": int(head["total"]) - BATCH_CELLS,
+                  "batch_trials": BATCH_CELLS,
+                  "total": int(head["total"]), "batch": BATCH,
+                  "file": os.path.basename(OUT_JSON),
+                  "evidence_cutoff": EVIDENCE_CUTOFF,
+                  "note": "refinalize reuses the chain head (no re-append)"}
     else:
         ledger = SG.append_ledger(
             BATCH, BATCH_CELLS, os.path.basename(OUT_JSON),
@@ -750,6 +768,18 @@ def _finalize(elapsed, gates, weights_block, zdisc, cells, workers) -> bool:
     prereg_sha = hashlib.sha256(
         open(PREREG, "rb").read().replace(b"\r\n", b"\n")).hexdigest()
 
+    # prereg s1 descriptive face: same-batch 15x15 pairwise corr of the
+    # cell x1 sleeves (NOT a gate -- method-family redundancy is carried by
+    # the s4 family PBO; frozen disclosure, zero judgment use)
+    sleeve_rets = {}
+    for k in cell_keys:
+        r1 = done[f"{k}|x1"]
+        sleeve_rets[k] = pd.Series(r1["returns"],
+                                   index=pd.to_datetime(r1["dates"][1:]))
+    intra = pd.DataFrame(sleeve_rets).corr().round(4)
+    batch_corr_matrix = {"classification": "descriptive_only_not_a_gate",
+                         "matrix": intra.to_dict()}
+
     out = {
         "meta": {"batch": BATCH, "dept": "research+trading",
                  "ticket": "T-2026-09-25-48",
@@ -785,6 +815,7 @@ def _finalize(elapsed, gates, weights_block, zdisc, cells, workers) -> bool:
                          "sigma_is": {k: round(v, 6) for k, v in
                                       zdisc["sigma_is"].items()}},
         "d6_correlation": d6,
+        "batch_corr_matrix_descriptive": batch_corr_matrix,
         "cells": per_cell,
         "ranking": ranking,
         "winners": winners,
@@ -796,6 +827,7 @@ def _finalize(elapsed, gates, weights_block, zdisc, cells, workers) -> bool:
             f"{c}|{m}": cells[(c, m)]["score_head"][:6]
             for (c, m) in cells},
     }
+    out.update(SG.cutoff_meta(EVIDENCE_CUTOFF))    # top-level C2 key (s2)
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2, ensure_ascii=False, default=str)
 
@@ -819,6 +851,7 @@ def _finalize(elapsed, gates, weights_block, zdisc, cells, workers) -> bool:
         "refs": {"cells": "results/factor_blend_cells.json",
                  "prereg": "research/FACTOR_BLEND.md"},
     }
+    verdict.update(SG.cutoff_meta(EVIDENCE_CUTOFF))  # top-level C2 key (s2)
     with open(VERDICT_JSON, "w", encoding="utf-8") as fh:
         json.dump(verdict, fh, indent=2, ensure_ascii=False)
 
@@ -873,7 +906,7 @@ def _finalize(elapsed, gates, weights_block, zdisc, cells, workers) -> bool:
         json.dump(attr, fh, indent=2, ensure_ascii=False)
 
     log(f"FINAL: winners={winners} eligible={n_elig}/15 "
-        f"ledger N={ledger['total']} (prev={ledger['prev_total']})")
+        f"ledger N={ledger.get('total')} (prev={ledger.get('prev_total')})")
     return True
 
 
@@ -1020,12 +1053,15 @@ def run_selftest() -> int:
     ok("held: mid-window score mutation cannot alter membership",
        score_to_held(poisoned).equals(my_held))
 
-    # 9) blend_score: weights timeline -> score = sum w_f z_f
+    # 9) blend_score: weights timeline -> score = sum w_f z_f; corps-scoped
+    #    (W columns only -- a corps' blend must not touch other corps'
+    #    factors when handed a z superset)
     W = pd.DataFrame({"p": 1.0, "q": 0.0}, index=days)
     zp = pd.DataFrame(1.5, index=days, columns=cols)
     zq = pd.DataFrame(9.0, index=days, columns=cols)
-    sc = blend_score(W, {"p": zp, "q": zq})
-    ok("blend_score: w-weighted sum identity",
+    zr = pd.DataFrame(99.0, index=days, columns=cols)
+    sc = blend_score(W, {"p": zp, "q": zq, "r": zr})
+    ok("blend_score: w-weighted sum identity, corps-scoped columns",
        bool((sc == 1.5).all().all()))
 
     # 10) D6 line: boundary

@@ -1,0 +1,5845 @@
+{
+  "meta": {
+    "batch": "T48-factor-blend",
+    "dept": "research+trading",
+    "ticket": "T-2026-09-25-48",
+    "prereg": "research/FACTOR_BLEND.md v1.0 (frozen 3d2258fb pre-evaluation)",
+    "date": "2026-09-25 09:23:15",
+    "prereg_sha256_at_run": "8296551e719ae23ea2151c3ca8b58390af8d287b669a07dc162623319e75dd91",
+    "evidence_cutoff": "2026-09-24",
+    "oos_start": "2025-01-01",
+    "construction": "shortlist signed z-blend -> top5/20d rotation -> CE exit machine (loss_time 16 + decay 25d/5% + trail 0.10) verbatim; cost V1 legacy x1/x2",
+    "audit": {
+      "elapsed_sec": 1.3,
+      "engine_cells": 30,
+      "member_gate_runs": 6,
+      "workers": 0,
+      "batch_cells_ledger": 135
+    }
+  },
+  "gates": {
+    "pass": true,
+    "fails": [],
+    "panel_last_bar": "2026-09-24",
+    "panel_symbols": 48,
+    "panel_rows": 1633,
+    "coverage_gap_td": 0,
+    "registry_counts": {
+      "engine_faces": 28,
+      "ic_families": 4,
+      "zoo_families": 6,
+      "registered_roster": 28,
+      "face_taxonomy": [
+        "momentum",
+        "trend",
+        "breakout",
+        "reversal",
+        "low_vol",
+        "volume",
+        "mean_reversion"
+      ]
+    }
+  },
+  "adjudications": {
+    "ADJ-1_benefit_dr_baseline": "passive EW48 buy-hold full Sharpe (frozen p2_calibration constant); T-27 member-mean baseline structurally unavailable at the factor layer without 23 unbudgeted single-factor cells; resolved pre-run (r71 law family)",
+    "ADJ-1_passive_sharpe": 0.3004,
+    "ADJ-2_window_faces": "IS/IS2 consumable; OOS = post-cutoff locked box, honest not-consumed marker; bear/chop/bull via regime_proxy same-day descriptive segments"
+  },
+  "weights": {
+    "attack|a_EW": {
+      "static": {
+        "weights": {
+          "adx_14": 0.1,
+          "extreme_freq": 0.1,
+          "gap_overnight": 0.1,
+          "ma_slope_20": 0.1,
+          "mom_12_1": 0.1,
+          "mom_20": 0.1,
+          "mom_60": 0.1,
+          "mom_accel": 0.1,
+          "price_position": 0.1,
+          "up_day_ratio": 0.1
+        },
+        "path": "ew"
+      },
+      "path_counts": {
+        "ew": 82
+      }
+    },
+    "attack|b_IC": {
+      "static": {
+        "weights": {
+          "adx_14": 0.050601,
+          "extreme_freq": -0.037564,
+          "gap_overnight": -0.078477,
+          "ma_slope_20": 0.074254,
+          "mom_12_1": 0.295264,
+          "mom_20": 0.02025,
+          "mom_60": 0.115753,
+          "mom_accel": -0.059649,
+          "price_position": 0.200843,
+          "up_day_ratio": 0.067346
+        },
+        "path": "ic_signed",
+        "sum_abs": 1.0,
+        "ic_is": {
+          "adx_14": 0.004211,
+          "extreme_freq": -0.003126,
+          "gap_overnight": -0.006531,
+          "ma_slope_20": 0.00618,
+          "mom_12_1": 0.024573,
+          "mom_20": 0.001685,
+          "mom_60": 0.009633,
+          "mom_accel": -0.004964,
+          "price_position": 0.016715,
+          "up_day_ratio": 0.005605
+        }
+      },
+      "path_counts": {
+        "ic_signed": 82
+      }
+    },
+    "attack|c_INVVOL": {
+      "static": {
+        "weights": {
+          "adx_14": 0.1,
+          "extreme_freq": 0.1,
+          "gap_overnight": 0.1,
+          "ma_slope_20": 0.1,
+          "mom_12_1": 0.1,
+          "mom_20": 0.1,
+          "mom_60": 0.1,
+          "mom_accel": 0.1,
+          "price_position": 0.1,
+          "up_day_ratio": 0.1
+        },
+        "path": "inverse_vol",
+        "sum_abs": 1.0,
+        "sigma_is": {
+          "adx_14": 1.000009,
+          "extreme_freq": 1.000009,
+          "gap_overnight": 1.000009,
+          "ma_slope_20": 1.000009,
+          "mom_12_1": 1.000011,
+          "mom_20": 1.000009,
+          "mom_60": 1.000009,
+          "mom_accel": 1.000009,
+          "price_position": 1.000009,
+          "up_day_ratio": 1.000009
+        }
+      },
+      "path_counts": {
+        "inverse_vol": 82
+      }
+    },
+    "attack|d_FACTMOM": {
+      "static": null,
+      "path_counts": {
+        "ew_fallback_incomplete_ic_window": 13,
+        "factormom_signed": 69
+      }
+    },
+    "attack|e_REGIME": {
+      "static": null,
+      "path_counts": {
+        "na->ew": 11,
+        "bull->ew": 31,
+        "bear->ic_is": 36,
+        "chop->ew": 4
+      }
+    },
+    "defense|a_EW": {
+      "static": {
+        "weights": {
+          "amt_20": 0.1,
+          "drawdown_60": 0.1,
+          "intraday_range": 0.1,
+          "ma_bias_20": 0.1,
+          "return_kurt": 0.1,
+          "return_skew": 0.1,
+          "rev_10": 0.1,
+          "rev_5": 0.1,
+          "vol_20": 0.1,
+          "vol_60": 0.1
+        },
+        "path": "ew"
+      },
+      "path_counts": {
+        "ew": 82
+      }
+    },
+    "defense|b_IC": {
+      "static": {
+        "weights": {
+          "amt_20": -0.192121,
+          "drawdown_60": 0.133678,
+          "intraday_range": -0.162883,
+          "ma_bias_20": 0.009811,
+          "return_kurt": -0.036577,
+          "return_skew": -0.108985,
+          "rev_10": -0.053049,
+          "rev_5": 0.054245,
+          "vol_20": -0.113209,
+          "vol_60": -0.135441
+        },
+        "path": "ic_signed",
+        "sum_abs": 1.0,
+        "ic_is": {
+          "amt_20": -0.017563,
+          "drawdown_60": 0.01222,
+          "intraday_range": -0.01489,
+          "ma_bias_20": 0.000897,
+          "return_kurt": -0.003344,
+          "return_skew": -0.009963,
+          "rev_10": -0.004849,
+          "rev_5": 0.004959,
+          "vol_20": -0.010349,
+          "vol_60": -0.012381
+        }
+      },
+      "path_counts": {
+        "ic_signed": 82
+      }
+    },
+    "defense|c_INVVOL": {
+      "static": {
+        "weights": {
+          "amt_20": 0.1,
+          "drawdown_60": 0.1,
+          "intraday_range": 0.1,
+          "ma_bias_20": 0.1,
+          "return_kurt": 0.1,
+          "return_skew": 0.1,
+          "rev_10": 0.1,
+          "rev_5": 0.1,
+          "vol_20": 0.1,
+          "vol_60": 0.1
+        },
+        "path": "inverse_vol",
+        "sum_abs": 1.0,
+        "sigma_is": {
+          "amt_20": 1.000009,
+          "drawdown_60": 1.000009,
+          "intraday_range": 1.000009,
+          "ma_bias_20": 1.000009,
+          "return_kurt": 1.000009,
+          "return_skew": 1.000009,
+          "rev_10": 1.000009,
+          "rev_5": 1.000009,
+          "vol_20": 1.000009,
+          "vol_60": 1.000009
+        }
+      },
+      "path_counts": {
+        "inverse_vol": 82
+      }
+    },
+    "defense|d_FACTMOM": {
+      "static": null,
+      "path_counts": {
+        "ew_fallback_incomplete_ic_window": 4,
+        "factormom_signed": 78
+      }
+    },
+    "defense|e_REGIME": {
+      "static": null,
+      "path_counts": {
+        "na->ew": 11,
+        "bull->ew": 31,
+        "bear->ic_is": 36,
+        "chop->ew": 4
+      }
+    },
+    "chop|a_EW": {
+      "static": {
+        "weights": {
+          "drawdown_60": 0.1111111111111111,
+          "extreme_freq": 0.1111111111111111,
+          "gap_overnight": 0.1111111111111111,
+          "intraday_range": 0.1111111111111111,
+          "ma_bias_20": 0.1111111111111111,
+          "ma_bias_60": 0.1111111111111111,
+          "price_position": 0.1111111111111111,
+          "vol_price_diverge": 0.1111111111111111,
+          "volume_trend": 0.1111111111111111
+        },
+        "path": "ew"
+      },
+      "path_counts": {
+        "ew": 82
+      }
+    },
+    "chop|b_IC": {
+      "static": {
+        "weights": {
+          "drawdown_60": 0.20833,
+          "extreme_freq": -0.053296,
+          "gap_overnight": -0.111344,
+          "intraday_range": -0.253844,
+          "ma_bias_20": 0.01529,
+          "ma_bias_60": 0.014984,
+          "price_position": 0.284958,
+          "vol_price_diverge": 0.042107,
+          "volume_trend": -0.015846
+        },
+        "path": "ic_signed",
+        "sum_abs": 1.0,
+        "ic_is": {
+          "drawdown_60": 0.01222,
+          "extreme_freq": -0.003126,
+          "gap_overnight": -0.006531,
+          "intraday_range": -0.01489,
+          "ma_bias_20": 0.000897,
+          "ma_bias_60": 0.000879,
+          "price_position": 0.016715,
+          "vol_price_diverge": 0.00247,
+          "volume_trend": -0.000929
+        }
+      },
+      "path_counts": {
+        "ic_signed": 82
+      }
+    },
+    "chop|c_INVVOL": {
+      "static": {
+        "weights": {
+          "drawdown_60": 0.111111,
+          "extreme_freq": 0.111111,
+          "gap_overnight": 0.111111,
+          "intraday_range": 0.111111,
+          "ma_bias_20": 0.111111,
+          "ma_bias_60": 0.111111,
+          "price_position": 0.111111,
+          "vol_price_diverge": 0.111111,
+          "volume_trend": 0.111111
+        },
+        "path": "inverse_vol",
+        "sum_abs": 1.0,
+        "sigma_is": {
+          "drawdown_60": 1.000009,
+          "extreme_freq": 1.000009,
+          "gap_overnight": 1.000009,
+          "intraday_range": 1.000009,
+          "ma_bias_20": 1.000009,
+          "ma_bias_60": 1.000009,
+          "price_position": 1.000009,
+          "vol_price_diverge": 1.000009,
+          "volume_trend": 1.000009
+        }
+      },
+      "path_counts": {
+        "inverse_vol": 82
+      }
+    },
+    "chop|d_FACTMOM": {
+      "static": null,
+      "path_counts": {
+        "ew_fallback_incomplete_ic_window": 3,
+        "factormom_signed": 76,
+        "ew_fallback_all_negative_ic": 3
+      }
+    },
+    "chop|e_REGIME": {
+      "static": null,
+      "path_counts": {
+        "na->ew": 11,
+        "bull->ew": 31,
+        "bear->ic_is": 36,
+        "chop->ew": 4
+      }
+    }
+  },
+  "factor_stats": {
+    "ic_is": {
+      "adx_14": 0.004211,
+      "amt_20": -0.017563,
+      "drawdown_60": 0.01222,
+      "extreme_freq": -0.003126,
+      "gap_overnight": -0.006531,
+      "intraday_range": -0.01489,
+      "ma_bias_20": 0.000897,
+      "ma_bias_60": 0.000879,
+      "ma_slope_20": 0.00618,
+      "mom_12_1": 0.024573,
+      "mom_20": 0.001685,
+      "mom_60": 0.009633,
+      "mom_accel": -0.004964,
+      "price_position": 0.016715,
+      "return_kurt": -0.003344,
+      "return_skew": -0.009963,
+      "rev_10": -0.004849,
+      "rev_5": 0.004959,
+      "up_day_ratio": 0.005605,
+      "vol_20": -0.010349,
+      "vol_60": -0.012381,
+      "vol_price_diverge": 0.00247,
+      "volume_trend": -0.000929
+    },
+    "sigma_is": {
+      "adx_14": 1.000009,
+      "amt_20": 1.000009,
+      "drawdown_60": 1.000009,
+      "extreme_freq": 1.000009,
+      "gap_overnight": 1.000009,
+      "intraday_range": 1.000009,
+      "ma_bias_20": 1.000009,
+      "ma_bias_60": 1.000009,
+      "ma_slope_20": 1.000009,
+      "mom_12_1": 1.000011,
+      "mom_20": 1.000009,
+      "mom_60": 1.000009,
+      "mom_accel": 1.000009,
+      "price_position": 1.000009,
+      "return_kurt": 1.000009,
+      "return_skew": 1.000009,
+      "rev_10": 1.000009,
+      "rev_5": 1.000009,
+      "up_day_ratio": 1.000009,
+      "vol_20": 1.000009,
+      "vol_60": 1.000009,
+      "vol_price_diverge": 1.000009,
+      "volume_trend": 1.000009
+    }
+  },
+  "d6_correlation": {
+    "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01",
+      "VOLATILITY-CE-01"
+    ],
+    "reject_line": 0.7,
+    "pairs": {
+      "attack|a_EW": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3645,
+          "COMPOSITE-CE-02": 0.3777,
+          "DROUGHT-CE-01": 0.1008,
+          "ENGULF-CE-01": 0.1165,
+          "NEEDLE-DE-01": 0.1595,
+          "VOLATILITY-CE-01": 0.1916
+        },
+        "max_abs": 0.3777,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "attack|b_IC": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3849,
+          "COMPOSITE-CE-02": 0.7518,
+          "DROUGHT-CE-01": 0.0943,
+          "ENGULF-CE-01": 0.109,
+          "NEEDLE-DE-01": 0.115,
+          "VOLATILITY-CE-01": 0.1694
+        },
+        "max_abs": 0.7518,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      },
+      "attack|c_INVVOL": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3645,
+          "COMPOSITE-CE-02": 0.3777,
+          "DROUGHT-CE-01": 0.1008,
+          "ENGULF-CE-01": 0.1165,
+          "NEEDLE-DE-01": 0.1595,
+          "VOLATILITY-CE-01": 0.1916
+        },
+        "max_abs": 0.3777,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "attack|d_FACTMOM": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3165,
+          "COMPOSITE-CE-02": 0.287,
+          "DROUGHT-CE-01": 0.1479,
+          "ENGULF-CE-01": 0.1415,
+          "NEEDLE-DE-01": 0.1557,
+          "VOLATILITY-CE-01": 0.1964
+        },
+        "max_abs": 0.3165,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "attack|e_REGIME": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3913,
+          "COMPOSITE-CE-02": 0.7562,
+          "DROUGHT-CE-01": 0.0806,
+          "ENGULF-CE-01": 0.1143,
+          "NEEDLE-DE-01": 0.1088,
+          "VOLATILITY-CE-01": 0.1688
+        },
+        "max_abs": 0.7562,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      },
+      "defense|a_EW": {
+        "all": {
+          "COMPOSITE-CE-01": 0.1738,
+          "COMPOSITE-CE-02": 0.1962,
+          "DROUGHT-CE-01": 0.2335,
+          "ENGULF-CE-01": 0.2955,
+          "NEEDLE-DE-01": 0.2465,
+          "VOLATILITY-CE-01": 0.2036
+        },
+        "max_abs": 0.2955,
+        "max_abs_member": "ENGULF-CE-01",
+        "d6_ok": true
+      },
+      "defense|b_IC": {
+        "all": {
+          "COMPOSITE-CE-01": 0.6908,
+          "COMPOSITE-CE-02": 0.3924,
+          "DROUGHT-CE-01": 0.0869,
+          "ENGULF-CE-01": 0.0572,
+          "NEEDLE-DE-01": 0.0171,
+          "VOLATILITY-CE-01": 0.4476
+        },
+        "max_abs": 0.6908,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "defense|c_INVVOL": {
+        "all": {
+          "COMPOSITE-CE-01": 0.1738,
+          "COMPOSITE-CE-02": 0.1962,
+          "DROUGHT-CE-01": 0.2335,
+          "ENGULF-CE-01": 0.2955,
+          "NEEDLE-DE-01": 0.2465,
+          "VOLATILITY-CE-01": 0.2036
+        },
+        "max_abs": 0.2955,
+        "max_abs_member": "ENGULF-CE-01",
+        "d6_ok": true
+      },
+      "defense|d_FACTMOM": {
+        "all": {
+          "COMPOSITE-CE-01": 0.285,
+          "COMPOSITE-CE-02": 0.2297,
+          "DROUGHT-CE-01": 0.1768,
+          "ENGULF-CE-01": 0.1483,
+          "NEEDLE-DE-01": 0.1506,
+          "VOLATILITY-CE-01": 0.2072
+        },
+        "max_abs": 0.285,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "defense|e_REGIME": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3858,
+          "COMPOSITE-CE-02": 0.2783,
+          "DROUGHT-CE-01": 0.2299,
+          "ENGULF-CE-01": 0.2088,
+          "NEEDLE-DE-01": 0.1205,
+          "VOLATILITY-CE-01": 0.2291
+        },
+        "max_abs": 0.3858,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "chop|a_EW": {
+        "all": {
+          "COMPOSITE-CE-01": 0.2722,
+          "COMPOSITE-CE-02": 0.2975,
+          "DROUGHT-CE-01": 0.1431,
+          "ENGULF-CE-01": 0.16,
+          "NEEDLE-DE-01": 0.1545,
+          "VOLATILITY-CE-01": 0.2092
+        },
+        "max_abs": 0.2975,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "chop|b_IC": {
+        "all": {
+          "COMPOSITE-CE-01": 0.4157,
+          "COMPOSITE-CE-02": 0.8706,
+          "DROUGHT-CE-01": 0.0625,
+          "ENGULF-CE-01": 0.0937,
+          "NEEDLE-DE-01": 0.0073,
+          "VOLATILITY-CE-01": 0.2406
+        },
+        "max_abs": 0.8706,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      },
+      "chop|c_INVVOL": {
+        "all": {
+          "COMPOSITE-CE-01": 0.2722,
+          "COMPOSITE-CE-02": 0.2975,
+          "DROUGHT-CE-01": 0.1431,
+          "ENGULF-CE-01": 0.16,
+          "NEEDLE-DE-01": 0.1545,
+          "VOLATILITY-CE-01": 0.2092
+        },
+        "max_abs": 0.2975,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "chop|d_FACTMOM": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3468,
+          "COMPOSITE-CE-02": 0.2979,
+          "DROUGHT-CE-01": 0.1607,
+          "ENGULF-CE-01": 0.18,
+          "NEEDLE-DE-01": 0.1457,
+          "VOLATILITY-CE-01": 0.2464
+        },
+        "max_abs": 0.3468,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "chop|e_REGIME": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3628,
+          "COMPOSITE-CE-02": 0.707,
+          "DROUGHT-CE-01": 0.1283,
+          "ENGULF-CE-01": 0.1586,
+          "NEEDLE-DE-01": 0.0612,
+          "VOLATILITY-CE-01": 0.1986
+        },
+        "max_abs": 0.707,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      }
+    }
+  },
+  "batch_corr_matrix_descriptive": {
+    "classification": "descriptive_only_not_a_gate",
+    "matrix": {
+      "attack|a_EW": {
+        "attack|a_EW": 1.0,
+        "attack|b_IC": 0.6342,
+        "attack|c_INVVOL": 1.0,
+        "attack|d_FACTMOM": 0.657,
+        "attack|e_REGIME": 0.6717,
+        "defense|a_EW": 0.5457,
+        "defense|b_IC": 0.2274,
+        "defense|c_INVVOL": 0.5457,
+        "defense|d_FACTMOM": 0.5152,
+        "defense|e_REGIME": 0.5137,
+        "chop|a_EW": 0.7884,
+        "chop|b_IC": 0.2267,
+        "chop|c_INVVOL": 0.7884,
+        "chop|d_FACTMOM": 0.5594,
+        "chop|e_REGIME": 0.5314
+      },
+      "attack|b_IC": {
+        "attack|a_EW": 0.6342,
+        "attack|b_IC": 1.0,
+        "attack|c_INVVOL": 0.6342,
+        "attack|d_FACTMOM": 0.5745,
+        "attack|e_REGIME": 0.9594,
+        "defense|a_EW": 0.4194,
+        "defense|b_IC": 0.2855,
+        "defense|c_INVVOL": 0.4194,
+        "defense|d_FACTMOM": 0.4833,
+        "defense|e_REGIME": 0.4132,
+        "chop|a_EW": 0.5528,
+        "chop|b_IC": 0.7431,
+        "chop|c_INVVOL": 0.5528,
+        "chop|d_FACTMOM": 0.5024,
+        "chop|e_REGIME": 0.811
+      },
+      "attack|c_INVVOL": {
+        "attack|a_EW": 1.0,
+        "attack|b_IC": 0.6342,
+        "attack|c_INVVOL": 1.0,
+        "attack|d_FACTMOM": 0.657,
+        "attack|e_REGIME": 0.6717,
+        "defense|a_EW": 0.5457,
+        "defense|b_IC": 0.2274,
+        "defense|c_INVVOL": 0.5457,
+        "defense|d_FACTMOM": 0.5152,
+        "defense|e_REGIME": 0.5137,
+        "chop|a_EW": 0.7884,
+        "chop|b_IC": 0.2267,
+        "chop|c_INVVOL": 0.7884,
+        "chop|d_FACTMOM": 0.5594,
+        "chop|e_REGIME": 0.5314
+      },
+      "attack|d_FACTMOM": {
+        "attack|a_EW": 0.657,
+        "attack|b_IC": 0.5745,
+        "attack|c_INVVOL": 0.657,
+        "attack|d_FACTMOM": 1.0,
+        "attack|e_REGIME": 0.5296,
+        "defense|a_EW": 0.5562,
+        "defense|b_IC": 0.2263,
+        "defense|c_INVVOL": 0.5562,
+        "defense|d_FACTMOM": 0.6505,
+        "defense|e_REGIME": 0.5425,
+        "chop|a_EW": 0.6028,
+        "chop|b_IC": 0.222,
+        "chop|c_INVVOL": 0.6028,
+        "chop|d_FACTMOM": 0.7037,
+        "chop|e_REGIME": 0.4361
+      },
+      "attack|e_REGIME": {
+        "attack|a_EW": 0.6717,
+        "attack|b_IC": 0.9594,
+        "attack|c_INVVOL": 0.6717,
+        "attack|d_FACTMOM": 0.5296,
+        "attack|e_REGIME": 1.0,
+        "defense|a_EW": 0.4117,
+        "defense|b_IC": 0.2852,
+        "defense|c_INVVOL": 0.4117,
+        "defense|d_FACTMOM": 0.4344,
+        "defense|e_REGIME": 0.4306,
+        "chop|a_EW": 0.5655,
+        "chop|b_IC": 0.7496,
+        "chop|c_INVVOL": 0.5655,
+        "chop|d_FACTMOM": 0.4853,
+        "chop|e_REGIME": 0.8429
+      },
+      "defense|a_EW": {
+        "attack|a_EW": 0.5457,
+        "attack|b_IC": 0.4194,
+        "attack|c_INVVOL": 0.5457,
+        "attack|d_FACTMOM": 0.5562,
+        "attack|e_REGIME": 0.4117,
+        "defense|a_EW": 1.0,
+        "defense|b_IC": 0.1845,
+        "defense|c_INVVOL": 1.0,
+        "defense|d_FACTMOM": 0.5347,
+        "defense|e_REGIME": 0.669,
+        "chop|a_EW": 0.6661,
+        "chop|b_IC": 0.1682,
+        "chop|c_INVVOL": 0.6661,
+        "chop|d_FACTMOM": 0.572,
+        "chop|e_REGIME": 0.4029
+      },
+      "defense|b_IC": {
+        "attack|a_EW": 0.2274,
+        "attack|b_IC": 0.2855,
+        "attack|c_INVVOL": 0.2274,
+        "attack|d_FACTMOM": 0.2263,
+        "attack|e_REGIME": 0.2852,
+        "defense|a_EW": 0.1845,
+        "defense|b_IC": 1.0,
+        "defense|c_INVVOL": 0.1845,
+        "defense|d_FACTMOM": 0.3331,
+        "defense|e_REGIME": 0.44,
+        "chop|a_EW": 0.2076,
+        "chop|b_IC": 0.4088,
+        "chop|c_INVVOL": 0.2076,
+        "chop|d_FACTMOM": 0.3719,
+        "chop|e_REGIME": 0.3277
+      },
+      "defense|c_INVVOL": {
+        "attack|a_EW": 0.5457,
+        "attack|b_IC": 0.4194,
+        "attack|c_INVVOL": 0.5457,
+        "attack|d_FACTMOM": 0.5562,
+        "attack|e_REGIME": 0.4117,
+        "defense|a_EW": 1.0,
+        "defense|b_IC": 0.1845,
+        "defense|c_INVVOL": 1.0,
+        "defense|d_FACTMOM": 0.5347,
+        "defense|e_REGIME": 0.669,
+        "chop|a_EW": 0.6661,
+        "chop|b_IC": 0.1682,
+        "chop|c_INVVOL": 0.6661,
+        "chop|d_FACTMOM": 0.572,
+        "chop|e_REGIME": 0.4029
+      },
+      "defense|d_FACTMOM": {
+        "attack|a_EW": 0.5152,
+        "attack|b_IC": 0.4833,
+        "attack|c_INVVOL": 0.5152,
+        "attack|d_FACTMOM": 0.6505,
+        "attack|e_REGIME": 0.4344,
+        "defense|a_EW": 0.5347,
+        "defense|b_IC": 0.3331,
+        "defense|c_INVVOL": 0.5347,
+        "defense|d_FACTMOM": 1.0,
+        "defense|e_REGIME": 0.5801,
+        "chop|a_EW": 0.6023,
+        "chop|b_IC": 0.2192,
+        "chop|c_INVVOL": 0.6023,
+        "chop|d_FACTMOM": 0.7763,
+        "chop|e_REGIME": 0.494
+      },
+      "defense|e_REGIME": {
+        "attack|a_EW": 0.5137,
+        "attack|b_IC": 0.4132,
+        "attack|c_INVVOL": 0.5137,
+        "attack|d_FACTMOM": 0.5425,
+        "attack|e_REGIME": 0.4306,
+        "defense|a_EW": 0.669,
+        "defense|b_IC": 0.44,
+        "defense|c_INVVOL": 0.669,
+        "defense|d_FACTMOM": 0.5801,
+        "defense|e_REGIME": 1.0,
+        "chop|a_EW": 0.5496,
+        "chop|b_IC": 0.261,
+        "chop|c_INVVOL": 0.5496,
+        "chop|d_FACTMOM": 0.5961,
+        "chop|e_REGIME": 0.5715
+      },
+      "chop|a_EW": {
+        "attack|a_EW": 0.7884,
+        "attack|b_IC": 0.5528,
+        "attack|c_INVVOL": 0.7884,
+        "attack|d_FACTMOM": 0.6028,
+        "attack|e_REGIME": 0.5655,
+        "defense|a_EW": 0.6661,
+        "defense|b_IC": 0.2076,
+        "defense|c_INVVOL": 0.6661,
+        "defense|d_FACTMOM": 0.6023,
+        "defense|e_REGIME": 0.5496,
+        "chop|a_EW": 1.0,
+        "chop|b_IC": 0.235,
+        "chop|c_INVVOL": 1.0,
+        "chop|d_FACTMOM": 0.592,
+        "chop|e_REGIME": 0.6146
+      },
+      "chop|b_IC": {
+        "attack|a_EW": 0.2267,
+        "attack|b_IC": 0.7431,
+        "attack|c_INVVOL": 0.2267,
+        "attack|d_FACTMOM": 0.222,
+        "attack|e_REGIME": 0.7496,
+        "defense|a_EW": 0.1682,
+        "defense|b_IC": 0.4088,
+        "defense|c_INVVOL": 0.1682,
+        "defense|d_FACTMOM": 0.2192,
+        "defense|e_REGIME": 0.261,
+        "chop|a_EW": 0.235,
+        "chop|b_IC": 1.0,
+        "chop|c_INVVOL": 0.235,
+        "chop|d_FACTMOM": 0.2895,
+        "chop|e_REGIME": 0.7751
+      },
+      "chop|c_INVVOL": {
+        "attack|a_EW": 0.7884,
+        "attack|b_IC": 0.5528,
+        "attack|c_INVVOL": 0.7884,
+        "attack|d_FACTMOM": 0.6028,
+        "attack|e_REGIME": 0.5655,
+        "defense|a_EW": 0.6661,
+        "defense|b_IC": 0.2076,
+        "defense|c_INVVOL": 0.6661,
+        "defense|d_FACTMOM": 0.6023,
+        "defense|e_REGIME": 0.5496,
+        "chop|a_EW": 1.0,
+        "chop|b_IC": 0.235,
+        "chop|c_INVVOL": 1.0,
+        "chop|d_FACTMOM": 0.592,
+        "chop|e_REGIME": 0.6146
+      },
+      "chop|d_FACTMOM": {
+        "attack|a_EW": 0.5594,
+        "attack|b_IC": 0.5024,
+        "attack|c_INVVOL": 0.5594,
+        "attack|d_FACTMOM": 0.7037,
+        "attack|e_REGIME": 0.4853,
+        "defense|a_EW": 0.572,
+        "defense|b_IC": 0.3719,
+        "defense|c_INVVOL": 0.572,
+        "defense|d_FACTMOM": 0.7763,
+        "defense|e_REGIME": 0.5961,
+        "chop|a_EW": 0.592,
+        "chop|b_IC": 0.2895,
+        "chop|c_INVVOL": 0.592,
+        "chop|d_FACTMOM": 1.0,
+        "chop|e_REGIME": 0.4898
+      },
+      "chop|e_REGIME": {
+        "attack|a_EW": 0.5314,
+        "attack|b_IC": 0.811,
+        "attack|c_INVVOL": 0.5314,
+        "attack|d_FACTMOM": 0.4361,
+        "attack|e_REGIME": 0.8429,
+        "defense|a_EW": 0.4029,
+        "defense|b_IC": 0.3277,
+        "defense|c_INVVOL": 0.4029,
+        "defense|d_FACTMOM": 0.494,
+        "defense|e_REGIME": 0.5715,
+        "chop|a_EW": 0.6146,
+        "chop|b_IC": 0.7751,
+        "chop|c_INVVOL": 0.6146,
+        "chop|d_FACTMOM": 0.4898,
+        "chop|e_REGIME": 1.0
+      }
+    }
+  },
+  "cells": {
+    "attack|a_EW": {
+      "corps": "attack",
+      "method": "a_EW",
+      "x1": {
+        "full": {
+          "annual_return": -0.0065,
+          "sharpe": 0.0746,
+          "max_drawdown": -0.4249,
+          "win_rate": 0.6671,
+          "profit_factor": 1.0382,
+          "num_trades": 775,
+          "avg_hold_days": 9.59,
+          "num_entries": 508
+        },
+        "is": {
+          "sharpe": -0.25,
+          "annual_return": -0.0594,
+          "max_drawdown": -0.4249
+        },
+        "is2": {
+          "sharpe": 0.6946,
+          "annual_return": 0.1647,
+          "max_drawdown": -0.2608
+        },
+        "n_trades": 775,
+        "n_entries": 508,
+        "oos_trades": 297,
+        "worst_year": -0.2053,
+        "yearly": {
+          "2020": 0.0461,
+          "2021": -0.0909,
+          "2022": -0.2053,
+          "2023": -0.0551,
+          "2024": -0.0023,
+          "2025": 0.3437,
+          "2026": -0.0582
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.0737,
+          "sharpe": -0.2564,
+          "max_drawdown": -0.5779,
+          "win_rate": 0.6217,
+          "profit_factor": 0.9308,
+          "num_trades": 653,
+          "avg_hold_days": 8.89,
+          "num_entries": 447
+        },
+        "is2": {
+          "sharpe": 0.4433,
+          "annual_return": 0.0882,
+          "max_drawdown": -0.2984
+        },
+        "n_trades": 653,
+        "n_entries": 447
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.0746,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.6739,
+          "ci95_high": 0.8754,
+          "point": 0.0746,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 775,
+          "n_entries": 508,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.2258,
+      "dr_passive_baseline": 0.2483,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3645,
+          "COMPOSITE-CE-02": 0.3777,
+          "DROUGHT-CE-01": 0.1008,
+          "ENGULF-CE-01": 0.1165,
+          "NEEDLE-DE-01": 0.1595,
+          "VOLATILITY-CE-01": 0.1916
+        },
+        "max_abs": 0.3777,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "attack|b_IC": {
+      "corps": "attack",
+      "method": "b_IC",
+      "x1": {
+        "full": {
+          "annual_return": 0.0097,
+          "sharpe": 0.1456,
+          "max_drawdown": -0.306,
+          "win_rate": 0.6352,
+          "profit_factor": 1.0692,
+          "num_trades": 784,
+          "avg_hold_days": 10.83,
+          "num_entries": 528
+        },
+        "is": {
+          "sharpe": 0.2698,
+          "annual_return": 0.0382,
+          "max_drawdown": -0.2508
+        },
+        "is2": {
+          "sharpe": -0.2038,
+          "annual_return": -0.0664,
+          "max_drawdown": -0.306
+        },
+        "n_trades": 784,
+        "n_entries": 528,
+        "oos_trades": 266,
+        "worst_year": -0.1939,
+        "yearly": {
+          "2020": 0.0355,
+          "2021": -0.0285,
+          "2022": 0.1962,
+          "2023": -0.0888,
+          "2024": 0.0489,
+          "2025": 0.0888,
+          "2026": -0.1939
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.0392,
+          "sharpe": -0.0378,
+          "max_drawdown": -0.3548,
+          "win_rate": 0.6324,
+          "profit_factor": 1.0084,
+          "num_trades": 748,
+          "avg_hold_days": 10.83,
+          "num_entries": 510
+        },
+        "is2": {
+          "sharpe": -0.4179,
+          "annual_return": -0.141,
+          "max_drawdown": -0.346
+        },
+        "n_trades": 748,
+        "n_entries": 510
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.1456,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.7252,
+          "ci95_high": 0.8026,
+          "point": 0.1456,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 784,
+          "n_entries": 528,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": false,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.1548,
+      "dr_passive_baseline": 0.4847,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": true,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3849,
+          "COMPOSITE-CE-02": 0.7518,
+          "DROUGHT-CE-01": 0.0943,
+          "ENGULF-CE-01": 0.109,
+          "NEEDLE-DE-01": 0.115,
+          "VOLATILITY-CE-01": 0.1694
+        },
+        "max_abs": 0.7518,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      },
+      "g1_pass": false
+    },
+    "attack|c_INVVOL": {
+      "corps": "attack",
+      "method": "c_INVVOL",
+      "x1": {
+        "full": {
+          "annual_return": -0.0065,
+          "sharpe": 0.0746,
+          "max_drawdown": -0.4249,
+          "win_rate": 0.6671,
+          "profit_factor": 1.0382,
+          "num_trades": 775,
+          "avg_hold_days": 9.59,
+          "num_entries": 508
+        },
+        "is": {
+          "sharpe": -0.25,
+          "annual_return": -0.0594,
+          "max_drawdown": -0.4249
+        },
+        "is2": {
+          "sharpe": 0.6946,
+          "annual_return": 0.1647,
+          "max_drawdown": -0.2608
+        },
+        "n_trades": 775,
+        "n_entries": 508,
+        "oos_trades": 297,
+        "worst_year": -0.2053,
+        "yearly": {
+          "2020": 0.0461,
+          "2021": -0.0909,
+          "2022": -0.2053,
+          "2023": -0.0551,
+          "2024": -0.0023,
+          "2025": 0.3437,
+          "2026": -0.0582
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.0737,
+          "sharpe": -0.2564,
+          "max_drawdown": -0.5779,
+          "win_rate": 0.6217,
+          "profit_factor": 0.9308,
+          "num_trades": 653,
+          "avg_hold_days": 8.89,
+          "num_entries": 447
+        },
+        "is2": {
+          "sharpe": 0.4433,
+          "annual_return": 0.0882,
+          "max_drawdown": -0.2984
+        },
+        "n_trades": 653,
+        "n_entries": 447
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.0746,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.6739,
+          "ci95_high": 0.8754,
+          "point": 0.0746,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 775,
+          "n_entries": 508,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.2258,
+      "dr_passive_baseline": 0.2483,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3645,
+          "COMPOSITE-CE-02": 0.3777,
+          "DROUGHT-CE-01": 0.1008,
+          "ENGULF-CE-01": 0.1165,
+          "NEEDLE-DE-01": 0.1595,
+          "VOLATILITY-CE-01": 0.1916
+        },
+        "max_abs": 0.3777,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "attack|d_FACTMOM": {
+      "corps": "attack",
+      "method": "d_FACTMOM",
+      "x1": {
+        "full": {
+          "annual_return": -0.0483,
+          "sharpe": -0.1793,
+          "max_drawdown": -0.429,
+          "win_rate": 0.5939,
+          "profit_factor": 0.933,
+          "num_trades": 660,
+          "avg_hold_days": 9.55,
+          "num_entries": 483
+        },
+        "is": {
+          "sharpe": -0.4016,
+          "annual_return": -0.0701,
+          "max_drawdown": -0.429
+        },
+        "is2": {
+          "sharpe": 0.2014,
+          "annual_return": 0.019,
+          "max_drawdown": -0.3021
+        },
+        "n_trades": 660,
+        "n_entries": 483,
+        "oos_trades": 222,
+        "worst_year": -0.1857,
+        "yearly": {
+          "2020": 0.0461,
+          "2021": -0.1857,
+          "2022": -0.124,
+          "2023": -0.049,
+          "2024": -0.0313,
+          "2025": 0.2088,
+          "2026": -0.1619
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.1239,
+          "sharpe": -0.6087,
+          "max_drawdown": -0.6331,
+          "win_rate": 0.5549,
+          "profit_factor": 0.8075,
+          "num_trades": 546,
+          "avg_hold_days": 8.87,
+          "num_entries": 420
+        },
+        "is2": {
+          "sharpe": -0.3431,
+          "annual_return": -0.1188,
+          "max_drawdown": -0.3159
+        },
+        "n_trades": 546,
+        "n_entries": 420
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.1793,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.964,
+          "ci95_high": 0.6115,
+          "point": -0.1793,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 660,
+          "n_entries": 483,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.4797,
+      "dr_passive_baseline": -0.5969,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3165,
+          "COMPOSITE-CE-02": 0.287,
+          "DROUGHT-CE-01": 0.1479,
+          "ENGULF-CE-01": 0.1415,
+          "NEEDLE-DE-01": 0.1557,
+          "VOLATILITY-CE-01": 0.1964
+        },
+        "max_abs": 0.3165,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "attack|e_REGIME": {
+      "corps": "attack",
+      "method": "e_REGIME",
+      "x1": {
+        "full": {
+          "annual_return": 0.0538,
+          "sharpe": 0.3395,
+          "max_drawdown": -0.2622,
+          "win_rate": 0.6544,
+          "profit_factor": 1.1984,
+          "num_trades": 842,
+          "avg_hold_days": 10.27,
+          "num_entries": 551
+        },
+        "is": {
+          "sharpe": 0.2309,
+          "annual_return": 0.0296,
+          "max_drawdown": -0.2622
+        },
+        "is2": {
+          "sharpe": 0.7048,
+          "annual_return": 0.128,
+          "max_drawdown": -0.1827
+        },
+        "n_trades": 842,
+        "n_entries": 551,
+        "oos_trades": 302,
+        "worst_year": -0.0751,
+        "yearly": {
+          "2020": 0.0461,
+          "2021": -0.0672,
+          "2022": 0.2026,
+          "2023": -0.0751,
+          "2024": 0.0098,
+          "2025": 0.2176,
+          "2026": -0.0095
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0253,
+          "sharpe": 0.2142,
+          "max_drawdown": -0.3003,
+          "win_rate": 0.6451,
+          "profit_factor": 1.1625,
+          "num_trades": 834,
+          "avg_hold_days": 10.24,
+          "num_entries": 544
+        },
+        "is2": {
+          "sharpe": 0.5185,
+          "annual_return": 0.0971,
+          "max_drawdown": -0.2165
+        },
+        "n_trades": 834,
+        "n_entries": 544
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.3395,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.4472,
+          "ci95_high": 0.9828,
+          "point": 0.3395,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 842,
+          "n_entries": 551,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": 0.0391,
+      "dr_passive_baseline": 1.1302,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": true,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3913,
+          "COMPOSITE-CE-02": 0.7562,
+          "DROUGHT-CE-01": 0.0806,
+          "ENGULF-CE-01": 0.1143,
+          "NEEDLE-DE-01": 0.1088,
+          "VOLATILITY-CE-01": 0.1688
+        },
+        "max_abs": 0.7562,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      },
+      "g1_pass": false
+    },
+    "defense|a_EW": {
+      "corps": "defense",
+      "method": "a_EW",
+      "x1": {
+        "full": {
+          "annual_return": -0.096,
+          "sharpe": -0.3658,
+          "max_drawdown": -0.5841,
+          "win_rate": 0.5764,
+          "profit_factor": 0.8833,
+          "num_trades": 798,
+          "avg_hold_days": 9.71,
+          "num_entries": 560
+        },
+        "is": {
+          "sharpe": -0.3144,
+          "annual_return": -0.0772,
+          "max_drawdown": -0.5081
+        },
+        "is2": {
+          "sharpe": -0.4201,
+          "annual_return": -0.1324,
+          "max_drawdown": -0.3446
+        },
+        "n_trades": 798,
+        "n_entries": 560,
+        "oos_trades": 194,
+        "worst_year": -0.2816,
+        "yearly": {
+          "2020": 0.1157,
+          "2021": -0.0909,
+          "2022": -0.0715,
+          "2023": -0.1855,
+          "2024": -0.1235,
+          "2025": 0.0736,
+          "2026": -0.2816
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.1357,
+          "sharpe": -0.5794,
+          "max_drawdown": -0.6752,
+          "win_rate": 0.5718,
+          "profit_factor": 0.8537,
+          "num_trades": 696,
+          "avg_hold_days": 9.51,
+          "num_entries": 495
+        },
+        "is2": {
+          "sharpe": -0.5644,
+          "annual_return": -0.1649,
+          "max_drawdown": -0.3537
+        },
+        "n_trades": 696,
+        "n_entries": 495
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.3658,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -1.1144,
+          "ci95_high": 0.3954,
+          "point": -0.3658,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 798,
+          "n_entries": 560,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": false,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.6662,
+      "dr_passive_baseline": -1.2177,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.1738,
+          "COMPOSITE-CE-02": 0.1962,
+          "DROUGHT-CE-01": 0.2335,
+          "ENGULF-CE-01": 0.2955,
+          "NEEDLE-DE-01": 0.2465,
+          "VOLATILITY-CE-01": 0.2036
+        },
+        "max_abs": 0.2955,
+        "max_abs_member": "ENGULF-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "defense|b_IC": {
+      "corps": "defense",
+      "method": "b_IC",
+      "x1": {
+        "full": {
+          "annual_return": 0.0744,
+          "sharpe": 1.3084,
+          "max_drawdown": -0.1335,
+          "win_rate": 0.6383,
+          "profit_factor": 1.9929,
+          "num_trades": 506,
+          "avg_hold_days": 16.79,
+          "num_entries": 419
+        },
+        "is": {
+          "sharpe": 1.3502,
+          "annual_return": 0.082,
+          "max_drawdown": -0.1335
+        },
+        "is2": {
+          "sharpe": 1.1415,
+          "annual_return": 0.0501,
+          "max_drawdown": -0.0429
+        },
+        "n_trades": 506,
+        "n_entries": 419,
+        "oos_trades": 138,
+        "worst_year": -0.0705,
+        "yearly": {
+          "2020": 0.1539,
+          "2021": 0.0799,
+          "2022": -0.0705,
+          "2023": 0.0677,
+          "2024": 0.1705,
+          "2025": 0.0794,
+          "2026": 0.0032
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0515,
+          "sharpe": 0.8671,
+          "max_drawdown": -0.1543,
+          "win_rate": 0.6146,
+          "profit_factor": 1.7921,
+          "num_trades": 506,
+          "avg_hold_days": 16.79,
+          "num_entries": 419
+        },
+        "is2": {
+          "sharpe": 0.6375,
+          "annual_return": 0.0309,
+          "max_drawdown": -0.05
+        },
+        "n_trades": 506,
+        "n_entries": 419
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 1.3084,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": true,
+        "bootstrap_ci": {
+          "ci95_low": 0.4267,
+          "ci95_high": 2.3721,
+          "point": 1.3084,
+          "ci_lower_bound_positive": true,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": true,
+        "pass_v2": true,
+        "trade_gate": {
+          "n_trades": 506,
+          "n_entries": 419,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": true
+      },
+      "benefit_passive_baseline": 1.008,
+      "dr_passive_baseline": 4.3555,
+      "x2_survive": true,
+      "robust": {
+        "is_sharpe_pos": true,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.6908,
+          "COMPOSITE-CE-02": 0.3924,
+          "DROUGHT-CE-01": 0.0869,
+          "ENGULF-CE-01": 0.0572,
+          "NEEDLE-DE-01": 0.0171,
+          "VOLATILITY-CE-01": 0.4476
+        },
+        "max_abs": 0.6908,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass": true
+    },
+    "defense|c_INVVOL": {
+      "corps": "defense",
+      "method": "c_INVVOL",
+      "x1": {
+        "full": {
+          "annual_return": -0.096,
+          "sharpe": -0.3658,
+          "max_drawdown": -0.5841,
+          "win_rate": 0.5764,
+          "profit_factor": 0.8833,
+          "num_trades": 798,
+          "avg_hold_days": 9.71,
+          "num_entries": 560
+        },
+        "is": {
+          "sharpe": -0.3144,
+          "annual_return": -0.0772,
+          "max_drawdown": -0.5081
+        },
+        "is2": {
+          "sharpe": -0.4201,
+          "annual_return": -0.1324,
+          "max_drawdown": -0.3446
+        },
+        "n_trades": 798,
+        "n_entries": 560,
+        "oos_trades": 194,
+        "worst_year": -0.2816,
+        "yearly": {
+          "2020": 0.1157,
+          "2021": -0.0909,
+          "2022": -0.0715,
+          "2023": -0.1855,
+          "2024": -0.1235,
+          "2025": 0.0736,
+          "2026": -0.2816
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.1357,
+          "sharpe": -0.5794,
+          "max_drawdown": -0.6752,
+          "win_rate": 0.5718,
+          "profit_factor": 0.8537,
+          "num_trades": 696,
+          "avg_hold_days": 9.51,
+          "num_entries": 495
+        },
+        "is2": {
+          "sharpe": -0.5644,
+          "annual_return": -0.1649,
+          "max_drawdown": -0.3537
+        },
+        "n_trades": 696,
+        "n_entries": 495
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.3658,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -1.1144,
+          "ci95_high": 0.3954,
+          "point": -0.3658,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 798,
+          "n_entries": 560,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": false,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.6662,
+      "dr_passive_baseline": -1.2177,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.1738,
+          "COMPOSITE-CE-02": 0.1962,
+          "DROUGHT-CE-01": 0.2335,
+          "ENGULF-CE-01": 0.2955,
+          "NEEDLE-DE-01": 0.2465,
+          "VOLATILITY-CE-01": 0.2036
+        },
+        "max_abs": 0.2955,
+        "max_abs_member": "ENGULF-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "defense|d_FACTMOM": {
+      "corps": "defense",
+      "method": "d_FACTMOM",
+      "x1": {
+        "full": {
+          "annual_return": -0.1149,
+          "sharpe": -0.5142,
+          "max_drawdown": -0.6083,
+          "win_rate": 0.5817,
+          "profit_factor": 0.8195,
+          "num_trades": 655,
+          "avg_hold_days": 9.86,
+          "num_entries": 499
+        },
+        "is": {
+          "sharpe": -0.351,
+          "annual_return": -0.0677,
+          "max_drawdown": -0.4318
+        },
+        "is2": {
+          "sharpe": -0.8113,
+          "annual_return": -0.2326,
+          "max_drawdown": -0.4309
+        },
+        "n_trades": 655,
+        "n_entries": 499,
+        "oos_trades": 180,
+        "worst_year": -0.3471,
+        "yearly": {
+          "2020": 0.0207,
+          "2021": -0.0101,
+          "2022": -0.3471,
+          "2023": -0.0377,
+          "2024": 0.0972,
+          "2025": -0.1189,
+          "2026": -0.2807
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.1452,
+          "sharpe": -0.6868,
+          "max_drawdown": -0.6925,
+          "win_rate": 0.5439,
+          "profit_factor": 0.7772,
+          "num_trades": 570,
+          "avg_hold_days": 8.88,
+          "num_entries": 449
+        },
+        "is2": {
+          "sharpe": -0.8383,
+          "annual_return": -0.2409,
+          "max_drawdown": -0.4218
+        },
+        "n_trades": 570,
+        "n_entries": 449
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.5142,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -1.2725,
+          "ci95_high": 0.2887,
+          "point": -0.5142,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 655,
+          "n_entries": 499,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": false,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.8146,
+      "dr_passive_baseline": -1.7117,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": false
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.285,
+          "COMPOSITE-CE-02": 0.2297,
+          "DROUGHT-CE-01": 0.1768,
+          "ENGULF-CE-01": 0.1483,
+          "NEEDLE-DE-01": 0.1506,
+          "VOLATILITY-CE-01": 0.2072
+        },
+        "max_abs": 0.285,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "defense|e_REGIME": {
+      "corps": "defense",
+      "method": "e_REGIME",
+      "x1": {
+        "full": {
+          "annual_return": 0.0086,
+          "sharpe": 0.1333,
+          "max_drawdown": -0.3016,
+          "win_rate": 0.6106,
+          "profit_factor": 1.0974,
+          "num_trades": 714,
+          "avg_hold_days": 12.17,
+          "num_entries": 528
+        },
+        "is": {
+          "sharpe": 0.0047,
+          "annual_return": -0.0078,
+          "max_drawdown": -0.2231
+        },
+        "is2": {
+          "sharpe": 0.4378,
+          "annual_return": 0.0747,
+          "max_drawdown": -0.1802
+        },
+        "n_trades": 714,
+        "n_entries": 528,
+        "oos_trades": 261,
+        "worst_year": -0.077,
+        "yearly": {
+          "2020": 0.1157,
+          "2021": -0.0225,
+          "2022": -0.077,
+          "2023": -0.0732,
+          "2024": -0.0022,
+          "2025": 0.1889,
+          "2026": -0.0658
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.0732,
+          "sharpe": -0.3806,
+          "max_drawdown": -0.4756,
+          "win_rate": 0.5746,
+          "profit_factor": 0.9194,
+          "num_trades": 623,
+          "avg_hold_days": 11.87,
+          "num_entries": 476
+        },
+        "is2": {
+          "sharpe": -0.3534,
+          "annual_return": -0.1033,
+          "max_drawdown": -0.2279
+        },
+        "n_trades": 623,
+        "n_entries": 476
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.1333,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.6167,
+          "ci95_high": 0.9155,
+          "point": 0.1333,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 714,
+          "n_entries": 528,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.1671,
+      "dr_passive_baseline": 0.4437,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": true,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3858,
+          "COMPOSITE-CE-02": 0.2783,
+          "DROUGHT-CE-01": 0.2299,
+          "ENGULF-CE-01": 0.2088,
+          "NEEDLE-DE-01": 0.1205,
+          "VOLATILITY-CE-01": 0.2291
+        },
+        "max_abs": 0.3858,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "chop|a_EW": {
+      "corps": "chop",
+      "method": "a_EW",
+      "x1": {
+        "full": {
+          "annual_return": -0.0647,
+          "sharpe": -0.1638,
+          "max_drawdown": -0.5016,
+          "win_rate": 0.6227,
+          "profit_factor": 0.9381,
+          "num_trades": 872,
+          "avg_hold_days": 8.94,
+          "num_entries": 592
+        },
+        "is": {
+          "sharpe": -0.2485,
+          "annual_return": -0.0729,
+          "max_drawdown": -0.5016
+        },
+        "is2": {
+          "sharpe": 0.0083,
+          "annual_return": -0.0405,
+          "max_drawdown": -0.3024
+        },
+        "n_trades": 872,
+        "n_entries": 592,
+        "oos_trades": 230,
+        "worst_year": -0.3101,
+        "yearly": {
+          "2020": 0.0851,
+          "2021": 0.0035,
+          "2022": -0.3101,
+          "2023": -0.0736,
+          "2024": -0.0502,
+          "2025": 0.0108,
+          "2026": -0.0961
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.0649,
+          "sharpe": -0.1761,
+          "max_drawdown": -0.5531,
+          "win_rate": 0.6037,
+          "profit_factor": 0.975,
+          "num_trades": 805,
+          "avg_hold_days": 8.7,
+          "num_entries": 555
+        },
+        "is2": {
+          "sharpe": 0.2318,
+          "annual_return": 0.0265,
+          "max_drawdown": -0.2284
+        },
+        "n_trades": 805,
+        "n_entries": 555
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.1638,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.8846,
+          "ci95_high": 0.6545,
+          "point": -0.1638,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 872,
+          "n_entries": 592,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": false,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.4642,
+      "dr_passive_baseline": -0.5453,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": false
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.2722,
+          "COMPOSITE-CE-02": 0.2975,
+          "DROUGHT-CE-01": 0.1431,
+          "ENGULF-CE-01": 0.16,
+          "NEEDLE-DE-01": 0.1545,
+          "VOLATILITY-CE-01": 0.2092
+        },
+        "max_abs": 0.2975,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "chop|b_IC": {
+      "corps": "chop",
+      "method": "b_IC",
+      "x1": {
+        "full": {
+          "annual_return": 0.0876,
+          "sharpe": 0.6653,
+          "max_drawdown": -0.1571,
+          "win_rate": 0.6125,
+          "profit_factor": 1.808,
+          "num_trades": 622,
+          "avg_hold_days": 13.83,
+          "num_entries": 504
+        },
+        "is": {
+          "sharpe": 0.5893,
+          "annual_return": 0.0844,
+          "max_drawdown": -0.1571
+        },
+        "is2": {
+          "sharpe": 1.2657,
+          "annual_return": 0.0945,
+          "max_drawdown": -0.0452
+        },
+        "n_trades": 622,
+        "n_entries": 504,
+        "oos_trades": 186,
+        "worst_year": -0.0026,
+        "yearly": {
+          "2020": 0.1584,
+          "2021": -0.0026,
+          "2022": 0.1583,
+          "2023": 0.043,
+          "2024": 0.0546,
+          "2025": 0.1542,
+          "2026": -0.0005
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0616,
+          "sharpe": 0.4594,
+          "max_drawdown": -0.1907,
+          "win_rate": 0.59,
+          "profit_factor": 1.6535,
+          "num_trades": 622,
+          "avg_hold_days": 13.83,
+          "num_entries": 504
+        },
+        "is2": {
+          "sharpe": 0.9253,
+          "annual_return": 0.0772,
+          "max_drawdown": -0.0598
+        },
+        "n_trades": 622,
+        "n_entries": 504
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.6653,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": 0.0085,
+          "ci95_high": 1.2706,
+          "point": 0.6653,
+          "ci_lower_bound_positive": true,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": true,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 622,
+          "n_entries": 504,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": true,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": true
+      },
+      "benefit_passive_baseline": 0.3649,
+      "dr_passive_baseline": 2.2147,
+      "x2_survive": true,
+      "robust": {
+        "is_sharpe_pos": true,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.4157,
+          "COMPOSITE-CE-02": 0.8706,
+          "DROUGHT-CE-01": 0.0625,
+          "ENGULF-CE-01": 0.0937,
+          "NEEDLE-DE-01": 0.0073,
+          "VOLATILITY-CE-01": 0.2406
+        },
+        "max_abs": 0.8706,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      },
+      "g1_pass": false
+    },
+    "chop|c_INVVOL": {
+      "corps": "chop",
+      "method": "c_INVVOL",
+      "x1": {
+        "full": {
+          "annual_return": -0.0647,
+          "sharpe": -0.1638,
+          "max_drawdown": -0.5016,
+          "win_rate": 0.6227,
+          "profit_factor": 0.9381,
+          "num_trades": 872,
+          "avg_hold_days": 8.94,
+          "num_entries": 592
+        },
+        "is": {
+          "sharpe": -0.2485,
+          "annual_return": -0.0729,
+          "max_drawdown": -0.5016
+        },
+        "is2": {
+          "sharpe": 0.0083,
+          "annual_return": -0.0405,
+          "max_drawdown": -0.3024
+        },
+        "n_trades": 872,
+        "n_entries": 592,
+        "oos_trades": 230,
+        "worst_year": -0.3101,
+        "yearly": {
+          "2020": 0.0851,
+          "2021": 0.0035,
+          "2022": -0.3101,
+          "2023": -0.0736,
+          "2024": -0.0502,
+          "2025": 0.0108,
+          "2026": -0.0961
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.0649,
+          "sharpe": -0.1761,
+          "max_drawdown": -0.5531,
+          "win_rate": 0.6037,
+          "profit_factor": 0.975,
+          "num_trades": 805,
+          "avg_hold_days": 8.7,
+          "num_entries": 555
+        },
+        "is2": {
+          "sharpe": 0.2318,
+          "annual_return": 0.0265,
+          "max_drawdown": -0.2284
+        },
+        "n_trades": 805,
+        "n_entries": 555
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.1638,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.8846,
+          "ci95_high": 0.6545,
+          "point": -0.1638,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 872,
+          "n_entries": 592,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": false,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.4642,
+      "dr_passive_baseline": -0.5453,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": false
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.2722,
+          "COMPOSITE-CE-02": 0.2975,
+          "DROUGHT-CE-01": 0.1431,
+          "ENGULF-CE-01": 0.16,
+          "NEEDLE-DE-01": 0.1545,
+          "VOLATILITY-CE-01": 0.2092
+        },
+        "max_abs": 0.2975,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "chop|d_FACTMOM": {
+      "corps": "chop",
+      "method": "d_FACTMOM",
+      "x1": {
+        "full": {
+          "annual_return": -0.089,
+          "sharpe": -0.4131,
+          "max_drawdown": -0.5732,
+          "win_rate": 0.5871,
+          "profit_factor": 0.8659,
+          "num_trades": 712,
+          "avg_hold_days": 9.82,
+          "num_entries": 540
+        },
+        "is": {
+          "sharpe": -0.4142,
+          "annual_return": -0.0771,
+          "max_drawdown": -0.4227
+        },
+        "is2": {
+          "sharpe": -0.4033,
+          "annual_return": -0.1166,
+          "max_drawdown": -0.3179
+        },
+        "n_trades": 712,
+        "n_entries": 540,
+        "oos_trades": 183,
+        "worst_year": -0.1544,
+        "yearly": {
+          "2020": 0.1068,
+          "2021": -0.1293,
+          "2022": -0.1511,
+          "2023": -0.0639,
+          "2024": -0.1301,
+          "2025": -0.0562,
+          "2026": -0.1544
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": -0.1106,
+          "sharpe": -0.591,
+          "max_drawdown": -0.6056,
+          "win_rate": 0.5557,
+          "profit_factor": 0.8678,
+          "num_trades": 664,
+          "avg_hold_days": 9.6,
+          "num_entries": 515
+        },
+        "is2": {
+          "sharpe": -0.662,
+          "annual_return": -0.1433,
+          "max_drawdown": -0.2736
+        },
+        "n_trades": 664,
+        "n_entries": 515
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.4131,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -1.1407,
+          "ci95_high": 0.4021,
+          "point": -0.4131,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 712,
+          "n_entries": 540,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": false,
+        "iii_dd_ok": false,
+        "iv_trades_ok": true,
+        "v_is2_ok": false,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.7135,
+      "dr_passive_baseline": -1.3752,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": false,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3468,
+          "COMPOSITE-CE-02": 0.2979,
+          "DROUGHT-CE-01": 0.1607,
+          "ENGULF-CE-01": 0.18,
+          "NEEDLE-DE-01": 0.1457,
+          "VOLATILITY-CE-01": 0.2464
+        },
+        "max_abs": 0.3468,
+        "max_abs_member": "COMPOSITE-CE-01",
+        "d6_ok": true
+      },
+      "g1_pass": false
+    },
+    "chop|e_REGIME": {
+      "corps": "chop",
+      "method": "e_REGIME",
+      "x1": {
+        "full": {
+          "annual_return": 0.0386,
+          "sharpe": 0.276,
+          "max_drawdown": -0.2155,
+          "win_rate": 0.6491,
+          "profit_factor": 1.1691,
+          "num_trades": 835,
+          "avg_hold_days": 11.05,
+          "num_entries": 588
+        },
+        "is": {
+          "sharpe": 0.2197,
+          "annual_return": 0.0266,
+          "max_drawdown": -0.2155
+        },
+        "is2": {
+          "sharpe": 0.4609,
+          "annual_return": 0.0756,
+          "max_drawdown": -0.1291
+        },
+        "n_trades": 835,
+        "n_entries": 588,
+        "oos_trades": 281,
+        "worst_year": -0.0777,
+        "yearly": {
+          "2020": 0.0851,
+          "2021": -0.0777,
+          "2022": 0.1593,
+          "2023": -0.0118,
+          "2024": -0.0454,
+          "2025": 0.1277,
+          "2026": -0.0174
+        }
+      },
+      "x2": {
+        "full": {
+          "annual_return": 0.0019,
+          "sharpe": 0.1212,
+          "max_drawdown": -0.2949,
+          "win_rate": 0.6329,
+          "profit_factor": 1.1181,
+          "num_trades": 828,
+          "avg_hold_days": 10.92,
+          "num_entries": 581
+        },
+        "is2": {
+          "sharpe": 0.2242,
+          "annual_return": 0.0249,
+          "max_drawdown": -0.1832
+        },
+        "n_trades": 828,
+        "n_entries": 581
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.276,
+        "skill_line": {
+          "n_eff": 61150,
+          "line": 1.1073,
+          "passive_term": 0.4792,
+          "null_term": 1.1073,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 61015,
+            "file": "factor_blend_cells.json",
+            "note": "refinalize reuses the chain head (no re-append)"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.5241,
+          "ci95_high": 0.9604,
+          "point": 0.276,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 835,
+          "n_entries": 588,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "clauses": {
+        "i_beats_rand_p95": false,
+        "ii_ann_pos": true,
+        "iii_dd_ok": true,
+        "iv_trades_ok": true,
+        "v_is2_ok": true,
+        "vi_beats_passive": false
+      },
+      "benefit_passive_baseline": -0.0244,
+      "dr_passive_baseline": 0.9188,
+      "x2_survive": false,
+      "robust": {
+        "is_sharpe_pos": true,
+        "worst_year_ok": true
+      },
+      "d6": {
+        "all": {
+          "COMPOSITE-CE-01": 0.3628,
+          "COMPOSITE-CE-02": 0.707,
+          "DROUGHT-CE-01": 0.1283,
+          "ENGULF-CE-01": 0.1586,
+          "NEEDLE-DE-01": 0.0612,
+          "VOLATILITY-CE-01": 0.1986
+        },
+        "max_abs": 0.707,
+        "max_abs_member": "COMPOSITE-CE-02",
+        "d6_ok": false
+      },
+      "g1_pass": false
+    }
+  },
+  "ranking": {
+    "attack": {
+      "eligible": [],
+      "faces": {},
+      "ranks": {},
+      "winner": null
+    },
+    "defense": {
+      "eligible": [
+        "defense|b_IC"
+      ],
+      "faces": {
+        "defense|b_IC": {
+          "benefit": 1.008,
+          "drawdown": -0.1335,
+          "x2_margin": 0.4667
+        }
+      },
+      "ranks": {
+        "benefit": {
+          "defense|b_IC": 0
+        },
+        "drawdown": {
+          "defense|b_IC": 0
+        },
+        "x2_margin": {
+          "defense|b_IC": 0
+        }
+      },
+      "winner": "defense|b_IC"
+    },
+    "chop": {
+      "eligible": [],
+      "faces": {},
+      "ranks": {},
+      "winner": null
+    }
+  },
+  "winners": {
+    "attack": null,
+    "defense": "defense|b_IC",
+    "chop": null
+  },
+  "g2_block": {
+    "attack": {
+      "family_pbo": {
+        "pbo": 0.3429,
+        "verdict": "observe",
+        "n_trials": 5,
+        "n_rows": 1632,
+        "n_combinations": 70,
+        "n_blocks": 8,
+        "block_bounds": [
+          0,
+          204,
+          408,
+          612,
+          816,
+          1020,
+          1224,
+          1428,
+          1632
+        ],
+        "omega_mean": 0.3625,
+        "omega_median": 0.25,
+        "omega_p05": 0.0,
+        "omega_p95": 1.0,
+        "per_combination": [
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 4.0,
+            "omega": 0.75
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 4.0,
+            "omega": 0.75
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 5.0,
+            "omega": 1.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 5.0,
+            "omega": 1.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              6
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              7
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 4.5,
+            "omega": 0.875
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              4
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 4.0,
+            "omega": 0.75
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 4.0,
+            "omega": 0.75
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              6
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 5.0,
+            "omega": 1.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              0,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 5.0,
+            "omega": 1.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 5.0,
+            "omega": 1.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 4.0,
+            "omega": 0.75
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              6
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 5.0,
+            "omega": 1.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 4.5,
+            "omega": 0.875
+          },
+          {
+            "is_blocks": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 5.0,
+            "omega": 1.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 3.0,
+            "omega": 0.5
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 4.0,
+            "omega": 0.75
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          },
+          {
+            "is_blocks": [
+              2,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              3,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              4,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "a_EW",
+            "oos_rank": 3.5,
+            "omega": 0.625
+          }
+        ],
+        "bands_frozen": {
+          "register_eligible": "pbo <= 0.25",
+          "observe": "0.25 < pbo <= 0.5",
+          "fail": "pbo > 0.5"
+        }
+      },
+      "g2_winner": null
+    },
+    "defense": {
+      "family_pbo": {
+        "pbo": 0.0,
+        "verdict": "register_eligible",
+        "n_trials": 5,
+        "n_rows": 1632,
+        "n_combinations": 70,
+        "n_blocks": 8,
+        "block_bounds": [
+          0,
+          204,
+          408,
+          612,
+          816,
+          1020,
+          1224,
+          1428,
+          1632
+        ],
+        "omega_mean": 0.0,
+        "omega_median": 0.0,
+        "omega_p05": 0.0,
+        "omega_p95": 0.0,
+        "per_combination": [
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              4,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          }
+        ],
+        "bands_frozen": {
+          "register_eligible": "pbo <= 0.25",
+          "observe": "0.25 < pbo <= 0.5",
+          "fail": "pbo > 0.5"
+        }
+      },
+      "g2_winner": {
+        "gate": "g2_registration_v2",
+        "g1_pass": true,
+        "dsr": 0.496655,
+        "dsr_gate": 0.95,
+        "dsr_ok": false,
+        "family_pbo": 0.0,
+        "pbo_gate": 0.25,
+        "pbo_ok": true,
+        "missing_inputs": [],
+        "eligible_v2": false
+      }
+    },
+    "chop": {
+      "family_pbo": {
+        "pbo": 0.0,
+        "verdict": "register_eligible",
+        "n_trials": 5,
+        "n_rows": 1632,
+        "n_combinations": 70,
+        "n_blocks": 8,
+        "block_bounds": [
+          0,
+          204,
+          408,
+          612,
+          816,
+          1020,
+          1224,
+          1428,
+          1632
+        ],
+        "omega_mean": 0.0071,
+        "omega_median": 0.0,
+        "omega_p05": 0.0,
+        "omega_p95": 0.0,
+        "per_combination": [
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              2,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              3,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              1,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              3,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              2,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              0,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              4
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              3,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              4,
+              7
+            ],
+            "is_best_trial": "e_REGIME",
+            "oos_rank": 2.0,
+            "omega": 0.25
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              2,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              1,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              5
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              4,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              3,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              2,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              5,
+              6
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              5,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              4,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              3,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          },
+          {
+            "is_blocks": [
+              4,
+              5,
+              6,
+              7
+            ],
+            "is_best_trial": "b_IC",
+            "oos_rank": 1.0,
+            "omega": 0.0
+          }
+        ],
+        "bands_frozen": {
+          "register_eligible": "pbo <= 0.25",
+          "observe": "0.25 < pbo <= 0.5",
+          "fail": "pbo > 0.5"
+        }
+      },
+      "g2_winner": null
+    }
+  },
+  "window_cells": {
+    "attack|a_EW": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.25,
+        "ann_return": -0.0595
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.6886,
+        "ann_return": 0.1631
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.2754,
+        "ann_return": -0.2379
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.2769,
+        "ann_return": 0.1728
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 1.3177,
+        "ann_return": 0.3643
+      }
+    },
+    "attack|b_IC": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": 0.2698,
+        "ann_return": 0.0382
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": -0.212,
+        "ann_return": -0.0681
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -0.1939,
+        "ann_return": -0.0786
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.8929,
+        "ann_return": 0.2412
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.59,
+        "ann_return": 0.1063
+      }
+    },
+    "attack|c_INVVOL": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.25,
+        "ann_return": -0.0595
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.6886,
+        "ann_return": 0.1631
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.2754,
+        "ann_return": -0.2379
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.2769,
+        "ann_return": 0.1728
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 1.3177,
+        "ann_return": 0.3643
+      }
+    },
+    "attack|d_FACTMOM": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.4016,
+        "ann_return": -0.0702
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.1954,
+        "ann_return": 0.0175
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.2655,
+        "ann_return": -0.1914
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.8926,
+        "ann_return": 0.3448
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.5023,
+        "ann_return": 0.0958
+      }
+    },
+    "attack|e_REGIME": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": 0.2309,
+        "ann_return": 0.0297
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.6968,
+        "ann_return": 0.1264
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -0.192,
+        "ann_return": -0.0777
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 2.1221,
+        "ann_return": 0.2864
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 1.1227,
+        "ann_return": 0.2403
+      }
+    },
+    "defense|a_EW": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.3144,
+        "ann_return": -0.0773
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": -0.4868,
+        "ann_return": -0.148
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.5383,
+        "ann_return": -0.2906
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.4195,
+        "ann_return": 0.4412
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.3866,
+        "ann_return": 0.0631
+      }
+    },
+    "defense|b_IC": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": 1.3502,
+        "ann_return": 0.0821
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 1.1938,
+        "ann_return": 0.0527
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": 0.4691,
+        "ann_return": 0.0294
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 2.2154,
+        "ann_return": 0.0934
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 2.2762,
+        "ann_return": 0.0998
+      }
+    },
+    "defense|c_INVVOL": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.3144,
+        "ann_return": -0.0773
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": -0.4868,
+        "ann_return": -0.148
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.5383,
+        "ann_return": -0.2906
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.4195,
+        "ann_return": 0.4412
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.3866,
+        "ann_return": 0.0631
+      }
+    },
+    "defense|d_FACTMOM": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.351,
+        "ann_return": -0.0678
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": -0.8351,
+        "ann_return": -0.2379
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.3936,
+        "ann_return": -0.2105
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 2.5633,
+        "ann_return": 0.2596
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": -0.1314,
+        "ann_return": -0.0634
+      }
+    },
+    "defense|e_REGIME": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": 0.0047,
+        "ann_return": -0.0078
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.3619,
+        "ann_return": 0.0572
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.22,
+        "ann_return": -0.1364
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 0.2587,
+        "ann_return": 0.0216
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.9185,
+        "ann_return": 0.1818
+      }
+    },
+    "chop|a_EW": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.2485,
+        "ann_return": -0.073
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.0074,
+        "ann_return": -0.0407
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.5131,
+        "ann_return": -0.2785
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 2.5422,
+        "ann_return": 0.8239
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.5522,
+        "ann_return": 0.123
+      }
+    },
+    "chop|b_IC": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": 0.5893,
+        "ann_return": 0.0845
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 1.2928,
+        "ann_return": 0.0968
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": 0.2755,
+        "ann_return": 0.0373
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.4483,
+        "ann_return": 0.0909
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 1.7795,
+        "ann_return": 0.1259
+      }
+    },
+    "chop|c_INVVOL": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.2485,
+        "ann_return": -0.073
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.0074,
+        "ann_return": -0.0407
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.5131,
+        "ann_return": -0.2785
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 2.5422,
+        "ann_return": 0.8239
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.5522,
+        "ann_return": 0.123
+      }
+    },
+    "chop|d_FACTMOM": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": -0.4142,
+        "ann_return": -0.0771
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": -0.4304,
+        "ann_return": -0.1224
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -1.2347,
+        "ann_return": -0.1946
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": -0.7534,
+        "ann_return": -0.0693
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.1899,
+        "ann_return": 0.0172
+      }
+    },
+    "chop|e_REGIME": {
+      "is": {
+        "n_days": 1211,
+        "sharpe": 0.2197,
+        "ann_return": 0.0266
+      },
+      "is2": {
+        "n_days": 421,
+        "sharpe": 0.4525,
+        "ann_return": 0.0739
+      },
+      "oos": {
+        "status": "locked_box_not_consumed",
+        "note": "post-cutoff forward box; paper accrual only (IV6 d2_note canon; prereg s2)"
+      },
+      "bear": {
+        "n_days": 750,
+        "sharpe": -0.1556,
+        "ann_return": -0.0561
+      },
+      "chop": {
+        "n_days": 87,
+        "sharpe": 1.0431,
+        "ann_return": 0.0929
+      },
+      "bull": {
+        "n_days": 577,
+        "sharpe": 0.7357,
+        "ann_return": 0.1508
+      }
+    }
+  },
+  "corps_gate": {
+    "attack": {
+      "status": "no_winner",
+      "benched": false
+    },
+    "defense": {
+      "status": "candidate_fallback",
+      "benched": false,
+      "segment_stats": {
+        "bear": {
+          "n_days": 750,
+          "sharpe": 0.4691,
+          "ann_return": 0.0294
+        },
+        "chop": {
+          "n_days": 87,
+          "sharpe": 2.2154,
+          "ann_return": 0.0934
+        },
+        "bull": {
+          "n_days": 577,
+          "sharpe": 2.2762,
+          "ann_return": 0.0998
+        }
+      },
+      "blocker": "T-22 harness adaptation = winner onboarding as PROSPECT candidate (T-24 pipeline) = separate prereg line; frozen fallback face applies (full-window regime segment stats + disclosure); n_startpoints unavailable in-batch -> candidate NOT benched (T-33 candidate semantics)"
+    },
+    "chop": {
+      "status": "no_winner",
+      "benched": false
+    }
+  },
+  "trials_ledger": {
+    "prev_total": 60880,
+    "batch_trials": 135,
+    "total": 61015,
+    "batch": "T48-factor-blend",
+    "file": "factor_blend_cells.json",
+    "evidence_cutoff": "2026-09-24",
+    "note": "refinalize reuses the chain head (no re-append)"
+  },
+  "score_head_disclosure": {
+    "attack|a_EW": [
+      0.606141,
+      0.651335,
+      0.280522,
+      0.287408,
+      0.18734,
+      -0.793407
+    ],
+    "attack|b_IC": [
+      0.678965,
+      0.656234,
+      0.344077,
+      -0.009871,
+      0.419693,
+      -0.811608
+    ],
+    "attack|c_INVVOL": [
+      0.606141,
+      0.651335,
+      0.280522,
+      0.287408,
+      0.18734,
+      -0.793407
+    ],
+    "attack|d_FACTMOM": [
+      0.768493,
+      0.688115,
+      0.077602,
+      -0.510515,
+      0.796578,
+      -0.898404
+    ],
+    "attack|e_REGIME": [
+      0.606141,
+      0.651335,
+      0.280522,
+      0.287408,
+      0.18734,
+      -0.793407
+    ],
+    "defense|a_EW": [
+      -0.142667,
+      0.059358,
+      -0.128831,
+      -0.073633,
+      -0.050095,
+      -0.594758
+    ],
+    "defense|b_IC": [
+      0.262687,
+      -0.051588,
+      0.27281,
+      0.4094,
+      -0.319151,
+      0.685005
+    ],
+    "defense|c_INVVOL": [
+      -0.142667,
+      0.059358,
+      -0.128831,
+      -0.073633,
+      -0.050095,
+      -0.594758
+    ],
+    "defense|d_FACTMOM": [
+      0.391389,
+      0.56811,
+      -0.007112,
+      -0.652288,
+      0.30502,
+      -0.752046
+    ],
+    "defense|e_REGIME": [
+      -0.142667,
+      0.059358,
+      -0.128831,
+      -0.073633,
+      -0.050095,
+      -0.594758
+    ],
+    "chop|a_EW": [
+      0.495282,
+      0.650883,
+      -0.038658,
+      0.058967,
+      -0.153376,
+      -0.639771
+    ],
+    "chop|b_IC": [
+      0.422274,
+      0.16494,
+      0.476288,
+      0.3058,
+      -0.342216,
+      0.06208
+    ],
+    "chop|c_INVVOL": [
+      0.495282,
+      0.650882,
+      -0.038658,
+      0.058967,
+      -0.153375,
+      -0.63977
+    ],
+    "chop|d_FACTMOM": [
+      0.736959,
+      0.80571,
+      -0.050177,
+      -0.278343,
+      0.185198,
+      -0.715698
+    ],
+    "chop|e_REGIME": [
+      0.495282,
+      0.650883,
+      -0.038658,
+      0.058967,
+      -0.153376,
+      -0.639771
+    ]
+  },
+  "evidence_cutoff": "2026-09-24"
+}
