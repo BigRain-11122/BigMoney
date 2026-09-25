@@ -613,6 +613,11 @@ SEED_REGISTRY = {
     "im_ic_pair": 58_000,                   # IM_IC_PAIR pair-direction random nulls (prereg frozen R139 bm-a)
     # top-K nulls (57_100+i, i<20; band 57_100..57_119, same scan; disjoint
     # from h20 band per p4_ext_tilt 49_000/49_100 split precedent)
+    "mf_ic_p1": 58_500,                      # MF_IC_P1 K=50 same-mask stock-pool
+    # white-noise nulls (58_500+i, i<50; band 58_500..58_549, next free band
+    # above im_ic_pair 58_000 (p4_batch3_dca 56_500 spacing precedent);
+    # registry+rg full-repo scan verified free 2026-09-25 08:0x before
+    # MF_IC_P1 prereg freeze r159 bm-b, T-2026-09-25-46)
 }
 
 
