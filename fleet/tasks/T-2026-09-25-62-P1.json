@@ -1,0 +1,13 @@
+{
+  "id": "T-2026-09-25-62",
+  "priority": "P1",
+  "type": "batch-execution",
+  "immediate": false,
+  "status": "claimed",
+  "created_by": "bm-a (OS iteration loop, round 179; chain-opened per research/DIV_LOWVOL_P1.md s0 and T-53 closeout R4 chain law)",
+  "created_at": "2026-09-25 17:50:53",
+  "claimed_by": "bm-a (OS iteration loop, round 179)",
+  "claimed_at": "2026-09-25 17:50:53",
+  "spec": "DIV_LOWVOL_P1 batch execution (prereg research/DIV_LOWVOL_P1.md frozen R178, verdicts final): python scripts/div_lowvol_backtest.py run -- C1 pair {512890,510880} 50/50 ORANGE-gate sleeve + hard-bound triad (cum20<=-0.1267 / HWM DD<=-12% / crisis log |r1|>=5%, episode-local HWM, lock-to-next-segment) + C2/C3 single-leg attribution + C4 no-gate ablation + K=32 random segment-mask nulls (seeds 60000+k, registered div_lowvol_p1; duration multiset = recorded-window ORANGE episodes); judge face = x2 whole-V2 doubled; N_eff=36; gates = g1_prime_v2 (skill line core48 + batch-own null_pool) + g2 (DSR>=0.95 + family CSCV PBO) + ORANGE segment gate (STYLE_CORPS s5) + D6 member reject face (max|corr|>=0.7 vs REG6). Products: results/div_lowvol_p1.json (top-level evidence_cutoff=2026-09-22) + ledger/attrition append at finalize + prereg s7 backfill (run-only). Exit contract: 0 normal, 2 = completeness/drift VOID or refinalize guard. Runner selftest 14/14 hermetic green R179 (fixtures: split-break/suspension/bounds/nulls/determinism).",
+  "note": "Prereg s0 compute budget: single pass <5min CPU = inline legal; >5min = runnable_pool route. This ticket = the batch run + s7 backfill only; any re-run requires DIV_LOWVOL_P1_REFINALIZE=1 and honest re-run accounting."
+}
