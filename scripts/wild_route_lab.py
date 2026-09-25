@@ -92,6 +92,16 @@ REGIME_RET_LIM, REGIME_RET_ZH, REGIME_RET_H = 30, 0.25, 3
 # ------------------------------------------------------------------ panels
 
 def build_panels_from_cache():
+    # fleet discipline: heavy engine needs ~3-4GB free; below 4GB = honest
+    # abort (exit 3), no corruption (checkpoints safe, next tick retries)
+    try:
+        import psutil
+        avail_gb = psutil.virtual_memory().available / (1024 ** 3)
+        if avail_gb < 4.0:
+            print(f"engine abort: free RAM {avail_gb:.1f}GB < 4GB fleet line")
+            sys.exit(3)
+    except ImportError:
+        pass
     syms = [os.path.basename(p)[:-8]
             for p in sorted(glob.glob(os.path.join(BARS, "*.parquet")))]
     meta = json.load(open(os.path.join(CACHE, "meta.json"), encoding="utf-8"))
@@ -635,11 +645,12 @@ def cell_stats(E, tr, wname, w0, w1, cost_side):
         n_trades += len(lst)
         net = (1.0 + rets) * (1.0 - cost) ** 2 - 1.0
         cohort = float(net.mean())
-        # book evenly across holding days from entry day (t+1)
+        # book evenly across holding days ENDING at exit day (t+1+H):
+        # hold-1 books at the exit day t+2 (prereg SS3 caliber)
         span = H if tr["stop"] is None else max(1, int(np.median(
             [h for _, _, h in lst])))
         for k in range(span):
-            d = t + 1 + k
+            d = t + 2 + k
             if i0 <= d < i1:
                 ser[d - i0] += cohort / span
     if n_entries == 0:
@@ -886,7 +897,7 @@ def _series_of(E, tr, w0, w1, cost):
         span = H if tr["stop"] is None else max(1, int(np.median(
             [h for _, _, h in lst])))
         for k in range(span):
-            d = t + 1 + k
+            d = t + 2 + k
             if i0 <= d < i1:
                 ser[d - i0] += cohort / span
     return ser if any_trade else None

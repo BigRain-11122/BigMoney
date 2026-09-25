@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 14:21:46",
+ "updated_at": "2026-09-25 18:35:09",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -661,7 +661,282 @@
    },
    "done_at": "2026-09-25 14:21:46",
    "done_note": "r182 bm-b: runner complete 14:20:52 (3rd fire after 2 crash fixes: NaN-head poison 94526ba8 + run_nulls call-site b2c59437); HONEST NEGATIVE -- 4/4 cells FAIL G1'v2 (best Sharpe 0.099 vs skill line 2.949; DDs -49%..-87%); D6 merge -> N_eff=2; g2_registration empty; ledger 61415->61417; judged-negative dimension stays closed per house law (revival only via new prereg)"
+  },
+  {
+   "id": "WILD-S1-NULLS",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run-nulls"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-nulls",
+     "status": "ready",
+     "owner": null,
+     "note": "K=50 same-mask nulls, est 1-4min total; MUST complete before finalize"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-0",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-0of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==0 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-1",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-1of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==1 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-2",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-2of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==2 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-3",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-3of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==3 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-4",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-4of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==4 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-5",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-5of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==5 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-6",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-6of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==6 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
+  },
+  {
+   "id": "WILD-S1-SHARD-7",
+   "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "prereg_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132); prereg research/WILD_ROUTE_PREREG_S1.md frozen r197 pre-run R99 @commit 7c8067ae (1569 cells + 50 nulls, N_eff 1619, seed wild_route_s1=61000)",
+   "runner": "scripts/wild_route_lab.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--of",
+    "8"
+   ],
+   "lane_owner": null,
+   "priority": 2,
+   "status": "ready",
+   "entered_at": "2026-09-25 18:35:09",
+   "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vector event sim per shard; engine build once ~1-2min, RAM peak ~3-4GB (guard exit3); _runner_alive path-match serializes wild shards per machine (cross-machine parallel legal, O-2100)"
+   },
+   "shards": [
+    {
+     "key": "wr-7of8",
+     "status": "ready",
+     "owner": null,
+     "note": "cells idx%8==7 (~196 cells, est 5-25min, checkpoint resume)"
+    }
+   ]
   }
  ],
- "_stamp_note": "r173 bm-b: T-54 slice-2 first P0 carrier entered per O-1137 s2.1 (8 shards, 121,528 cells full face); entered_at corrected to real clock (r62 law; originally estimate-stamped)"
+ "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry"
 }
