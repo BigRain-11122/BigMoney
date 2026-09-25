@@ -44,6 +44,8 @@ BATCH_TO_ARM = {  # frozen mapping; unknown batch -> unmapped bucket (never cras
     "P4_EXT_TILT": "stock-pool-tilt",
     "CTA_P1": "futures-cta",
     "CTA_P2_NOAU": "futures-cta",
+    "IM_IC_PAIR": "futures-cta",  # prereg SS0: im_ic_basis first-verification = futures-cta
+    # exploit-slot successor candidate (bm-a R140, mapped by lane owner)
 }
 
 TIER1_KEYS = ("validated", "g1_passers", "survivors_g1_prime_v2")  # any >=1/True -> 1.0
@@ -77,7 +79,9 @@ CANDIDATES = {  # frozen registry (prereg s4, statuses advisory-only, never bypa
                  "V2 0.30 wall killed 5/5, best WVMA20 IS IC 0.0254/IR -0.181; ledger "
                  "60482->60547; revival needs new prereg)", "status": "closed"},
         {"name": "moneyflow IC reference batch (collector delivered R63; panel parked "
-                 "source-blocked with 30-min self-heal; IC batch when panel completes)", "status": "open"},
+                 "source-blocked with 30-min self-heal; IC batch when panel completes)",
+         "status": "claimed", "by": "bm-b (T-46 MF_IC_P1, r159: prereg frozen seed 58_500; "
+                                  "run gated on panel completion, honest wait)"},
         {"name": "P-B sector heat (EM clist leg blocked >13h)", "status": "blocked-source"},
     ],
     "trend-timeseries": [

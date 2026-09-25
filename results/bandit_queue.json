@@ -1,17 +1,17 @@
 {
  "schema": "bandit-queue v1",
- "generated": "2026-09-25 07:09:17",
+ "generated": "2026-09-25 08:22:40",
  "source_ledger": "results/gate_attrition.json",
  "algorithm": {
   "name": "UCB1",
   "c": 1.4142135623730951,
-  "n_total_pulls": 6
+  "n_total_pulls": 7
  },
  "arms": {
   "portfolio-construction": {
    "n_pulls": 2,
    "mean_reward": 1.0,
-   "ucb1_score": 2.33856619904585,
+   "ucb1_score": 2.3949588341794583,
    "status": "exploit",
    "last_batch": "IV6-portfolio-riskbudget",
    "last_ts": "2026-09-24 03:03:01",
@@ -97,7 +97,8 @@
     },
     {
      "name": "moneyflow IC reference batch (collector delivered R63; panel parked source-blocked with 30-min self-heal; IC batch when panel completes)",
-     "status": "open"
+     "status": "claimed",
+     "by": "bm-b (T-46 MF_IC_P1, r159: prereg frozen seed 58_500; run gated on panel completion, honest wait)"
     },
     {
      "name": "P-B sector heat (EM clist leg blocked >13h)",
@@ -123,7 +124,7 @@
   "stock-pool-tilt": {
    "n_pulls": 1,
    "mean_reward": 0.0,
-   "ucb1_score": 1.8930184728248456,
+   "ucb1_score": 1.9727697022487514,
    "status": "exploit",
    "last_batch": "P4_EXT_TILT",
    "last_ts": "2026-09-24 06:34:36",
@@ -149,12 +150,12 @@
    ]
   },
   "futures-cta": {
-   "n_pulls": 2,
+   "n_pulls": 3,
    "mean_reward": 0.0,
-   "ucb1_score": 1.3385661990458504,
+   "ucb1_score": 1.1389791186424545,
    "status": "exploit",
-   "last_batch": "CTA_P2_NOAU",
-   "last_ts": "2026-09-24 07:34:35",
+   "last_batch": "IM_IC_PAIR",
+   "last_ts": "2026-09-25 08:17:37",
    "pulls": [
     {
      "batch": "CTA_P1",
@@ -171,6 +172,14 @@
      "reason": "eliminated",
      "cells_ledger_delta": 68,
      "kind": "search"
+    },
+    {
+     "batch": "IM_IC_PAIR",
+     "ts": "2026-09-25 08:17:37",
+     "reward": 0.0,
+     "reason": "eliminated",
+     "cells_ledger_delta": 52,
+     "kind": "search"
     }
    ],
    "candidates": [
@@ -183,7 +192,7 @@
   "pairs-cointegration": {
    "n_pulls": 1,
    "mean_reward": 0.0,
-   "ucb1_score": 1.8930184728248456,
+   "ucb1_score": 1.9727697022487514,
    "status": "exploit",
    "last_batch": "p4-pairs",
    "last_ts": "2026-09-24 05:31:00",
