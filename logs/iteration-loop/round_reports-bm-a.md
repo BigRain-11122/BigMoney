@@ -283,3 +283,5 @@ R178 | 2026-09-25 17:31 | bm-a (dept:研究) | 水位=绿: watermark_red red=fal
 | next: DIV_LOWVOL_P1 runner 切片 (scripts/div_lowvol_backtest.py+SEED_REGISTRY 60_000 登记+批执行票链式开票) > Tier-1 VOLATILITY-CE-01 军种归属判定面 > T-53 闭票评估 > 09-25 bar watch (上游第 10 轮未发布)
 
 
+  addendum@2026-09-25 17:35:09 (R178 close-rebase collision): push 拒 -> pull --rebase = bm-b r192 同窗 S6 链落地 -> 11-UU 全解 via 分级配方 (r135 族第 5 实例): step0 双侧 blob marker 扫 0+全 UU ls-files -u 实核; 7 状态件真实键 (updated/ts) 取新全 MINE (我方 S6 17:19-17:20 vs bm-b 17:18); compute_audit history union 202+201->203 (bm-b 独有记录保全) + latest 嵌套 ts 取新 MINE; autofill launches union 32+32->32 全同 + last_tick 非同秒取新 MINE 17:30:01 (bm-b 17:20:01); regime_state history asof-union 2+2->2 + updated 取新 MINE; dashboard 双件 generated_at 取新 MINE 17:20:15 + .js/.json 同侧互检 OK; token_usage generated 整件取新 MINE。moneyflow_update_status.json=非 UU 自动并入 (rebase 自动解, ls-files -u 空, 终扫零 marker 零外泄)。全件 json.loads 校验先于 add (r156)+rc 门控 continue (r119)+推前推后双终扫零 marker (r153)。commit 重放 f6cf4cd8->92e99bef (旧号 dangling, 票面/轮报零 sha 引用=r139 律核过), push 成功。
+
