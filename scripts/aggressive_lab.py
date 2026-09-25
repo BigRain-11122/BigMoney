@@ -162,6 +162,16 @@ FAM_FROZEN_SHA = {                 # probe-printed at freeze (R162)
     "AGGR-TOP2-MON-rule": "3317402382e496e0",
     "AGGR-TOP2-WK-rule": "80a6f61c235aed7b",
 }
+# T-58 s3 paper-lane extension (AGGR_FAMILY_PREREG.md §6 FROZEN): the
+# 20-account family = 5 T-56 + 15 family variants on ONE whitelist/ONE
+# mechanism. Family accounts position_cap=1.0 -- risk lives inside the
+# frozen weight vectors (C80/C95 cash cushion = blend-layer zero-return
+# leg, no second execution-layer cap); T-56 budgets byte-unchanged.
+FAM_CASH_CUSHION = {               # static-face cushions (prereg §3 sums)
+    "AGGR-TOP2-C80": 0.20,
+    "AGGR-TOP2-C95": 0.05,
+    "AGGR-FULLCE-C80": 0.20,
+}
 
 
 def log(msg: str) -> None:
@@ -675,6 +685,28 @@ def _variant_daily_rets(faces, sleeves, states):
     return rets
 
 
+def _family_daily_rets(fam_faces, sleeves, states, sharpe_map):
+    """T-58 s3: family blend daily-return series per variant on the
+    ADVANCING sleeve domain (x1 face only -- paper-lane cost caliber).
+    static via _blend_daily_ret; legs/rotation via the s2 frame
+    functions (causal state(t-1) gates / forward-locked re-selection,
+    both sha-gated by build_family_weights upstream)."""
+    rets = {}
+    sl1 = {t: sleeves[t]["x1"] for t in ROSTER}
+    for name in FAM_VARIANTS:
+        face = fam_faces[name]
+        if "static" in face:
+            rets[name] = _blend_daily_ret(sl1, face["static"])
+        elif "legs" in face:
+            rets[name], _, _ = _legs_blend(
+                sleeves, face["legs"], face["gate"], states)
+        else:
+            rets[name], _, _ = _rotation_blend(
+                sleeves, face["rotation"]["kind"],
+                face["rotation"]["lookback"], sharpe_map)
+    return rets
+
+
 def _paper_state_path(variant: str) -> str:
     return os.path.join(AGGR_DIR, f"{variant}_paper.json")
 
@@ -877,15 +909,18 @@ def run_family_batch() -> int:
 
 
 def cmd_paper() -> int:
-    """T-56 slice-2 (ticket deliverable (d), prereg s6 frozen): 5 paper
-    accounts AGGR-* -- initial CNY 1,000,000 each, shadow guard (record
-    only, zero interference, zero canon touch), experimental risk budget
-    fields declared per account, marks = daily blend accrual with the
-    sleeve domain advancing on new bars. PROS-* whitelist paradigm: own
-    lane results/aggr_paper/, NOT consumed by t35/scorecard CEO faces.
-    Marks are not trials -> ledger +0, SEED_REGISTRY +0."""
+    """T-56 slice-2 (ticket deliverable (d), prereg s6 frozen) + T-58 s3
+    family extension (AGGR_FAMILY_PREREG.md §6 frozen): 20 paper accounts
+    AGGR-* (5 T-56 variants + 15 family variants) -- initial CNY
+    1,000,000 each, shadow guard (record only, zero interference, zero
+    canon touch), experimental risk budget fields declared per account,
+    marks = daily blend accrual with the sleeve domain advancing on new
+    bars. PROS-* whitelist paradigm: own lane results/aggr_paper/, NOT
+    consumed by t35/scorecard CEO faces. Marks are not trials ->
+    ledger +0, SEED_REGISTRY +0."""
     try:
         faces, sha_checks, _ = build_weights()      # sha gates re-verified
+        fam_faces, fam_checks = build_family_weights()   # s3: s2 sha gates
         prices_full = load_core()
         cutoff = max(df.index.max() for df in prices_full.values())
         if cutoff < PAPER_START:
@@ -893,13 +928,20 @@ def cmd_paper() -> int:
                   f"{cutoff.date()} < paper_start {PAPER_START.date()}) "
                   f"-- no-op")
             return 0
-        state_path = _paper_state_path(VARIANTS[0])
-        if os.path.exists(state_path):
-            prev = json.load(open(state_path, encoding="utf-8-sig"))
-            if prev.get("panel_cutoff") == str(cutoff.date()):
-                print(f"aggr paper: marks already at panel cutoff "
-                      f"{cutoff.date()} -- no-op (idempotent)")
-                return 0
+        accounts = VARIANTS + FAM_VARIANTS          # s3: 20-account family
+        stale = []
+        for name in accounts:
+            sp = _paper_state_path(name)
+            if not os.path.exists(sp):
+                stale.append(name)
+                continue
+            prev = json.load(open(sp, encoding="utf-8-sig"))
+            if prev.get("panel_cutoff") != str(cutoff.date()):
+                stale.append(name)
+        if not stale:
+            print(f"aggr paper: marks already at panel cutoff "
+                  f"{cutoff.date()} -- no-op (idempotent)")
+            return 0
 
         jobs = [(tid, None, prices_full, cutoff) for tid in ROSTER]
         res = run_cells_parallel(
@@ -912,79 +954,163 @@ def cmd_paper() -> int:
             sleeves[tid] = {"x1": r}
         states = v3_state_series()
         rets = _variant_daily_rets(faces, sleeves, states)
+        fam_rets = _family_daily_rets(fam_faces, sleeves, states,
+                                      _oos_sharpe_map())
 
         os.makedirs(AGGR_DIR, exist_ok=True)
         summary = {}
-        for name in VARIANTS:
-            marks, eq = _accrue_marks(rets[name], PAPER_START, INITIAL_CNY)
-            bud = RISK_BUDGET.get(name, {})
-            st = {
-                "schema": "t56_aggr_paper_v1",
-                "account": name, "variant": name,
-                "lane": "experimental-aggressive (T-56 slice-2, ticket "
-                        "(d), order O-20260925-1126)",
-                "whitelist_paradigm": "PROS-* precedent: own lane dir; "
-                    "excluded from t35 paper_export and daily_scorecard "
-                    "CEO faces by construction",
-                "guard": "shadow (record-only; zero interference; zero "
-                         "canon/production-account touch)",
-                "experimental": True,
-                "initial_cash_cny": INITIAL_CNY,
-                "denomination": "CNY",
-                "paper_start": str(PAPER_START.date()),
-                "paper_start_rationale": "first bar strictly after the "
-                    "frozen judgment domain evidence_cutoff 2026-09-23 "
-                    "(blind forward; prereg s2/s6)",
-                "evidence_cutoff": str(SLEEVE_CUTOFF.date()),
-                "weights_sha": (sha_checks.get(name) if name
-                                != "AGGR-REGIME" else {
-                                    "offensive": FROZEN_SHA[
-                                        "AGGR-REGIME-offensive"],
-                                    "defensive": FROZEN_SHA[
-                                        "AGGR-REGIME-defensive"]}),
-                "risk_budget": {
-                    "position_cap": bud.get("position_cap", 0.80),
-                    "position_cap_note": "0.80 production-aligned default;"
-                        " AGGR-NOCASH 0.95 per prereg s6",
-                    "cash_parking_leg": bud.get(
-                        "cash_parking_leg",
-                        "paper plane structurally no parking leg "
-                        "(T-09 unwired disclosure, live-side watch item)"),
+        written = []
+        for name in accounts:
+            if name not in stale:      # fresh: state bytes stay untouched
+                continue
+            fam = name in FAM_VARIANTS
+            series = fam_rets[name] if fam else rets[name]
+            marks, eq = _accrue_marks(series, PAPER_START, INITIAL_CNY)
+            if fam:
+                face = fam_faces[name]
+                if "static" in face:
+                    w_sha_rec = fam_checks[name]
+                elif "legs" in face:
+                    w_sha_rec = {k: fam_checks[f"{name}-{k}"]
+                                 for k in face["legs"]}
+                else:
+                    w_sha_rec = fam_checks[f"{name}-rule"]
+                cushion = FAM_CASH_CUSHION.get(name)
+                st = {
+                    "schema": "t58_aggr_family_paper_v1",
+                    "account": name, "variant": name,
+                    "lane": "experimental-aggressive family (T-58 s3, "
+                            "ticket T-2026-09-25-58, order "
+                            "O-20260925-1138)",
+                    "whitelist_paradigm": "PROS-* precedent: own lane "
+                        "dir; excluded from t35 paper_export and "
+                        "daily_scorecard CEO faces by construction",
+                    "guard": "shadow (record-only; zero interference; "
+                             "zero canon/production-account touch)",
                     "experimental": True,
-                    "execution_layer_note": "marks are the blend-face "
-                        "measurement; cap/cash fields are declared budget "
-                        "parameters, not modeled in blend marks",
-                },
-                "cost_face": "x1 (13bp production-aligned; x2 is a "
-                             "judgment-batch stress face only)",
-                "marks": marks,
-                "marks_summary": {
-                    "bars": len(marks),
-                    "first_date": marks[0]["date"] if marks else None,
-                    "last_date": marks[-1]["date"] if marks else None,
-                    "cumulative_ret": round(
-                        eq / INITIAL_CNY - 1.0, 8),
-                    "current_dd": _marks_dd(marks, INITIAL_CNY),
-                },
-                "equity_cny": round(eq, 2),
-                "panel_cutoff": str(cutoff.date()),
-                "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
-                "audit": {"network": "zero", "ledger_trials_added": 0,
-                          "seed_registry_added": 0,
-                          "engine_runs": len(ROSTER),
-                          "adoption": "ZERO (dual-track supply face)"},
-            }
+                    "initial_cash_cny": INITIAL_CNY,
+                    "denomination": "CNY",
+                    "paper_start": str(PAPER_START.date()),
+                    "paper_start_rationale": "T-56 slice-2 mechanism "
+                        "extension (AGGR_FAMILY_PREREG §6): marks start "
+                        "at the first bar strictly after evidence_cutoff "
+                        "2026-09-23; family vectors designed on data "
+                        "<= 2026-09-23 (design truncation, §2), frozen "
+                        "2026-09-25 R162",
+                    "evidence_cutoff": str(SLEEVE_CUTOFF.date()),
+                    "weights_sha": w_sha_rec,
+                    "bench_ref": "results/aggressive_family.json (s2 "
+                                 "bench R162: J1/J2/J3 + KPI; rotation "
+                                 "faces = recorded negative signal, "
+                                 "paper = forward observation only)",
+                    "risk_budget": {
+                        "position_cap": 1.0,
+                        "position_cap_note": "family cap=1.0 per prereg "
+                            "§6 (risk inside the weight vectors: C80/C95 "
+                            "cash cushion = blend-layer zero-return leg, "
+                            "no second execution-layer cap); T-56 "
+                            "NOCASH 0.95 face unchanged",
+                        "cash_parking_leg": (
+                            f"in-blend zero-return cushion {cushion:.2f}"
+                            if cushion is not None
+                            else "none (fully deployed face)"),
+                        "experimental": True,
+                        "execution_layer_note": "marks are the blend-face "
+                            "measurement; cap/cash fields are declared "
+                            "budget parameters, not modeled in blend "
+                            "marks",
+                    },
+                    "cost_face": "x1 (13bp production-aligned; x2 is a "
+                                 "judgment-batch stress face only)",
+                    "marks": marks,
+                    "marks_summary": {
+                        "bars": len(marks),
+                        "first_date": marks[0]["date"] if marks else None,
+                        "last_date": marks[-1]["date"] if marks else None,
+                        "cumulative_ret": round(
+                            eq / INITIAL_CNY - 1.0, 8),
+                        "current_dd": _marks_dd(marks, INITIAL_CNY),
+                    },
+                    "equity_cny": round(eq, 2),
+                    "panel_cutoff": str(cutoff.date()),
+                    "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "audit": {"network": "zero",
+                              "ledger_trials_added": 0,
+                              "seed_registry_added": 0,
+                              "engine_runs": len(ROSTER),
+                              "adoption": "ZERO (dual-track supply "
+                                          "face)"},
+                }
+            else:
+                bud = RISK_BUDGET.get(name, {})
+                st = {
+                    "schema": "t56_aggr_paper_v1",
+                    "account": name, "variant": name,
+                    "lane": "experimental-aggressive (T-56 slice-2, ticket "
+                            "(d), order O-20260925-1126)",
+                    "whitelist_paradigm": "PROS-* precedent: own lane dir; "
+                        "excluded from t35 paper_export and daily_scorecard "
+                        "CEO faces by construction",
+                    "guard": "shadow (record-only; zero interference; zero "
+                             "canon/production-account touch)",
+                    "experimental": True,
+                    "initial_cash_cny": INITIAL_CNY,
+                    "denomination": "CNY",
+                    "paper_start": str(PAPER_START.date()),
+                    "paper_start_rationale": "first bar strictly after the "
+                        "frozen judgment domain evidence_cutoff 2026-09-23 "
+                        "(blind forward; prereg s2/s6)",
+                    "evidence_cutoff": str(SLEEVE_CUTOFF.date()),
+                    "weights_sha": (sha_checks.get(name) if name
+                                    != "AGGR-REGIME" else {
+                                        "offensive": FROZEN_SHA[
+                                            "AGGR-REGIME-offensive"],
+                                        "defensive": FROZEN_SHA[
+                                            "AGGR-REGIME-defensive"]}),
+                    "risk_budget": {
+                        "position_cap": bud.get("position_cap", 0.80),
+                        "position_cap_note": "0.80 production-aligned default;"
+                            " AGGR-NOCASH 0.95 per prereg s6",
+                        "cash_parking_leg": bud.get(
+                            "cash_parking_leg",
+                            "paper plane structurally no parking leg "
+                            "(T-09 unwired disclosure, live-side watch item)"),
+                        "experimental": True,
+                        "execution_layer_note": "marks are the blend-face "
+                            "measurement; cap/cash fields are declared budget "
+                            "parameters, not modeled in blend marks",
+                    },
+                    "cost_face": "x1 (13bp production-aligned; x2 is a "
+                                 "judgment-batch stress face only)",
+                    "marks": marks,
+                    "marks_summary": {
+                        "bars": len(marks),
+                        "first_date": marks[0]["date"] if marks else None,
+                        "last_date": marks[-1]["date"] if marks else None,
+                        "cumulative_ret": round(
+                            eq / INITIAL_CNY - 1.0, 8),
+                        "current_dd": _marks_dd(marks, INITIAL_CNY),
+                    },
+                    "equity_cny": round(eq, 2),
+                    "panel_cutoff": str(cutoff.date()),
+                    "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
+                    "audit": {"network": "zero", "ledger_trials_added": 0,
+                              "seed_registry_added": 0,
+                              "engine_runs": len(ROSTER),
+                              "adoption": "ZERO (dual-track supply face)"},
+                }
             tmp = _paper_state_path(name) + ".tmp"
             with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
                 json.dump(st, fh, ensure_ascii=False, indent=1)
             os.replace(tmp, _paper_state_path(name))
+            written.append(name)
             s = st["marks_summary"]
             summary[name] = s
             print(f"aggr paper {name}: bars={s['bars']} "
                   f"last={s['last_date']} cum={s['cumulative_ret']} "
                   f"dd={s['current_dd']} equity={st['equity_cny']}")
-        print(f"aggr paper: {len(VARIANTS)} accounts marked through "
-              f"{cutoff.date()} -> {AGGR_DIR}")
+        print(f"aggr paper: {len(written)}/{len(accounts)} accounts "
+              f"marked through {cutoff.date()} -> {AGGR_DIR}")
         return 0
     except SystemExit as e:
         print(f"aggr paper mechanism fault (gate): {e}")
@@ -1208,6 +1334,64 @@ def cmd_selftest() -> int:
           abs(late["DROUGHT-CE-01"] - 0.5) < 1e-12
           and abs(late["VOLATILITY-CE-01"] - 0.5) < 1e-12
           and late["COMPOSITE-CE-01"] < 1e-12)
+
+    # F16 T-58 s3 paper-lane extension: 20-account family constants
+    accounts = VARIANTS + FAM_VARIANTS
+    check("F16 paper family = 20 accounts, disjoint",
+          len(accounts) == 20 and len(set(accounts)) == 20
+          and not (set(VARIANTS) & set(FAM_VARIANTS)))
+    check("F16b family cash-cushion map matches frozen vector sums",
+          all(k in fam_faces and "static" in fam_faces[k]
+              and abs((1.0 - sum(fam_faces[k]["static"].values()))
+                      - v) < 1e-5      # 6dp rounding residual +-2e-6 (s3)
+              for k, v in FAM_CASH_CUSHION.items()))
+
+    # F17 family daily-rets wiring: ALL THREE face types on a
+    # full-roster synthetic panel (production pairing, r157/r162 law)
+    idx17 = pd.bdate_range("2026-01-05", periods=40)
+    r17 = pd.Series([0.001 * ((i % 7) - 3) for i in range(40)],
+                    index=idx17)
+    sl17 = {}
+    for i, t in enumerate(ROSTER):
+        eq = (1.0 + r17 * (1 + 0.01 * i)).cumprod()
+        sl17[t] = {"x1": {"eq_s": eq}, "x2": {"eq_s": eq}}
+    st17 = pd.Series(["ORANGE"] * 40, index=idx17)
+    sm17 = {t: 1.0 for t in ROSTER}
+    fr17 = _family_daily_rets(fam_faces, sl17, st17, sm17)
+    check("F17 family rets cover all 15 variants",
+          set(fr17) == set(FAM_VARIANTS))
+    pr17s = _blend_daily_ret({t: sl17[t]["x1"] for t in ROSTER},
+                              fam_faces["AGGR-TOP3"]["static"])
+    check("F17b static face wiring == direct blend",
+          float((fr17["AGGR-TOP3"] - pr17s).abs().max()) < 1e-12)
+    pr17l, _, _ = _legs_blend(sl17, fam_faces["AGGR-REG3"]["legs"],
+                              fam_faces["AGGR-REG3"]["gate"], st17)
+    check("F17c legs face wiring == direct legs blend",
+          float((fr17["AGGR-REG3"] - pr17l).abs().max()) < 1e-12)
+    pr17r, _, _ = _rotation_blend(sl17, "month", 63, sm17)
+    check("F17d rotation face wiring == direct rotation blend",
+          float((fr17["AGGR-TOP2-MON"] - pr17r).abs().max()) < 1e-12)
+
+    # F18 family marks production pairing: _family_daily_rets ->
+    # _accrue_marks chain; pre-PAPER_START rows never marked
+    idx18 = pd.bdate_range("2026-09-18", periods=6)   # .. 2026-09-25
+    r18 = pd.Series([0.004, -0.002, 0.003, 0.005, -0.001, 0.002],
+                    index=idx18)
+    sl18 = {}
+    for i, t in enumerate(ROSTER):
+        eq = (1.0 + r18 * (1 + 0.01 * i)).cumprod()
+        sl18[t] = {"x1": {"eq_s": eq}, "x2": {"eq_s": eq}}
+    st18 = pd.Series(["ORANGE"] * 6, index=idx18)
+    fr18 = _family_daily_rets(fam_faces, sl18, st18, sm17)
+    m18, eq18 = _accrue_marks(fr18["AGGR-REG3"], PAPER_START, INITIAL_CNY)
+    want18 = INITIAL_CNY
+    for d in idx18:
+        if d >= PAPER_START:
+            want18 *= 1.0 + float(fr18["AGGR-REG3"][d])
+    check("F18 family marks: start 2026-09-24, 2 bars, equity chain",
+          len(m18) == 2 and m18[0]["date"] == "2026-09-24"
+          and m18[-1]["date"] == "2026-09-25"
+          and abs(eq18 - want18) < 1e-6)
 
     n_fail = sum(1 for _, c in ok if not c)
     print(f"selftest: {len(ok) - n_fail}/{len(ok)} PASS")

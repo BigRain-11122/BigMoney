@@ -1,0 +1,48 @@
+{
+ "schema": "t58_aggr_family_paper_v1",
+ "account": "AGGR-TOP3-GRAD",
+ "variant": "AGGR-TOP3-GRAD",
+ "lane": "experimental-aggressive family (T-58 s3, ticket T-2026-09-25-58, order O-20260925-1138)",
+ "whitelist_paradigm": "PROS-* precedent: own lane dir; excluded from t35 paper_export and daily_scorecard CEO faces by construction",
+ "guard": "shadow (record-only; zero interference; zero canon/production-account touch)",
+ "experimental": true,
+ "initial_cash_cny": 1000000.0,
+ "denomination": "CNY",
+ "paper_start": "2026-09-24",
+ "paper_start_rationale": "T-56 slice-2 mechanism extension (AGGR_FAMILY_PREREG §6): marks start at the first bar strictly after evidence_cutoff 2026-09-23; family vectors designed on data <= 2026-09-23 (design truncation, §2), frozen 2026-09-25 R162",
+ "evidence_cutoff": "2026-09-23",
+ "weights_sha": "fa598198d684514f",
+ "bench_ref": "results/aggressive_family.json (s2 bench R162: J1/J2/J3 + KPI; rotation faces = recorded negative signal, paper = forward observation only)",
+ "risk_budget": {
+  "position_cap": 1.0,
+  "position_cap_note": "family cap=1.0 per prereg §6 (risk inside the weight vectors: C80/C95 cash cushion = blend-layer zero-return leg, no second execution-layer cap); T-56 NOCASH 0.95 face unchanged",
+  "cash_parking_leg": "none (fully deployed face)",
+  "experimental": true,
+  "execution_layer_note": "marks are the blend-face measurement; cap/cash fields are declared budget parameters, not modeled in blend marks"
+ },
+ "cost_face": "x1 (13bp production-aligned; x2 is a judgment-batch stress face only)",
+ "marks": [
+  {
+   "date": "2026-09-24",
+   "daily_ret": -0.00040774,
+   "equity_cny": 999592.26
+  }
+ ],
+ "marks_summary": {
+  "bars": 1,
+  "first_date": "2026-09-24",
+  "last_date": "2026-09-24",
+  "cumulative_ret": -0.00040774,
+  "current_dd": -0.000408
+ },
+ "equity_cny": 999592.26,
+ "panel_cutoff": "2026-09-24",
+ "updated": "2026-09-25 13:42:19",
+ "audit": {
+  "network": "zero",
+  "ledger_trials_added": 0,
+  "seed_registry_added": 0,
+  "engine_runs": 28,
+  "adoption": "ZERO (dual-track supply face)"
+ }
+}
