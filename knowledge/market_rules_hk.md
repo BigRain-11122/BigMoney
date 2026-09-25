@@ -2,7 +2,7 @@
 
 - 归属: T-2026-09-24-17 deliverable (5)（GM order O-20260924-1155 / CEO 方向: 基金/HK 套利研究线）
 - 纪律: RULES-AUDIT —— 每条事实带官源 URL；**无源禁推测**；未核验面一律标 `PENDING-VERIFY`（诚实失败可见），下轮以站点 sitemap/稳定锚点发现 URL 后补验。
-- 核验轮: bm-a R169 (2026-09-25 15:2x-15:4x) 首轮首落（两官源主面）; bm-a R171 (2026-09-25 16:0x) 父页 href 发现律补验三面（交易时段/恶劣天气/交收周期 T+2）, 余 3 面 PENDING。
+- 核验轮: bm-a R169 (2026-09-25 15:2x-15:4x) 首轮首落（两官源主面）; bm-a R171 (2026-09-25 16:0x) 父页 href 发现律补验三面（交易时段/恶劣天气/交收周期 T+2）; bm-a R172 (2026-09-25 16:0x) 二批四面（交易费率 Chap 8 字面/征费机制 Chap 11/CCASS 交收费/逐只 board lot 全表+印花适用列），余费率数值（SFC/AFRC/IRD）与红利税 PENDING 收窄。
 
 ## 一、已核验事实（官源在册）
 
@@ -25,7 +25,7 @@
 
 - OTP-C 支持公开交易类型含 **碎股买卖（Odd Lot Trade, 类型码 "D"）**: 少于一手之数量可经碎股交易操作于 OTP-C 撮合; 非经 OTP-C 成交时由卖方负责向交易所申报。
 - **特别大手买卖（Special Lot Trade）**: 数量大于一手且可非整手倍数。
-- 每只证券的手数（board lot size）由发行人定、逐只不同（逐手数表 `PENDING-VERIFY`——见 §三.4）。
+- 每只证券的手数（board lot size）由发行人定、逐只不同——**逐只全表官源实证（R172）**: List of Securities 官方 xlsx（ https://www.hkex.com.hk/eng/services/trading/securities/securitieslists/ListOfSecurities.xlsx , "Updated as at 25/09/2026" 实读, 17,587 只证券, Board Lot 列 17,587/17,587 全非空; 全列含 Stock Code/Name/Category/Sub-Category/Board Lot/ISIN/Expiry Date/**Subject to Stamp Duty**/Shortsell/CAS/VCM/POS Eligible/Spread Table/Trading Currency/RMB Counter; AH 名单抽查 15/15 全中——BYD ELECTRONIC 500、SINOPEC CORP 2,000、CNOOC 1,000、CCB 1,000、AIR CHINA 2,000 等; 证据=results/shortline/hkex_full_list_probe.json, URL=Trading Mechanism 父页 href 发现律在册）。
 
 ### 3. 清算与交收（CCASS）
 
@@ -63,6 +63,16 @@
 - 远端作业与线上服务为 SWT 日主推方式, 对公众开放的实体网点当日停服; 全体证券/衍生品 EP/CP 已申报 SWT 就绪（截至 2025-03-31 更新行）。
 - ⚠ 民间通行「八号风球=休市」为 2024-09 前旧识, 现行机制下禁再当事实引用。
 
+### 6. 交易费用（HKEX 侧官源字面, R172 实证）
+
+源: Rules of the Exchange Chap 8/Chap 11 官方 PDF（URL=SEHK Rules 父页 href 发现律在册, 2026-09-25 实读）+ Fees>Securities(Hong Kong)>Clearing and Settlement>Operational 页（Updated 22 Nov 2023, 2026-09-25 实读）; 证据=results/shortline/hkex_rules_pdf_probe.json + hkex_clearing_fee_probe.json + hkex_chap{8,11,13}*.txt。
+
+- **交易费（Trading Fee）: 0.00565% of the amount of the consideration**——每笔证券买卖各收（rounded to the nearest cent）（Rules of the Exchange Rule 802(12A), Chap_8_eng.pdf, 页 8-2 字面: "Trading Fee; 0.00565% of the amount of the consideration for: (a) each purchase or sale of securities admitted to trading..."）。
+- **交易征费机制（Chap 11）**: SFC Transaction Levy（费率=Securities and Futures (Levy) Order 不时规定）+ AFRC Transaction Levy（费率=AFRC Ordinance 不时规定）+ Investor Compensation Levy（费率=SFC (Investor Compensation – Levy) Rules; Rule 1103A=宽免公告生效期免征, 由 Board 以通函通知）——Rule 1103 字面「rate as specified from time to time」=**费率数值本体在 SFC/AFRC 域, HKEX Rules 只载机制, 数值 PENDING 见 §三.1**。买卖双方各付（Rule 1101/1101A）。
+- **CCASS 股票交收费（Stock Settlement Fee, 交收参与者面）**: 经由交易所买卖（broker-broker）=**0.0042% per side** of gross value（合资格 ETF 例外=0.002%）; broker-custodian/clearing agency 交易=0.002% of gross value; SI/ISI/组合调动按 HKSCC Operational Procedures §21 费率表; EFN/指定工具转移=0.002% nominal, min HK$2, max HK$100（Clearing-and-Settlement>Operational 页字面）。
+- **印花税适用面（逐只列）**: List of Securities xlsx「Subject to Stamp Duty」列——Equity 2,816 只中 **2,809 只 Y+7 只空**（空=AMGEN-T 等 6 只 Trading Only Securities 美国评论-only + CINDA 21USDPREF 1 只）; 股本权证 6 只全 Y; Debt/DW/CBBC/ETP/REITs 全空（全表 Y 合计 2,815=2,809+6）。**税率数值本体归 IRD 域 PENDING 见 §三.1**。
+- ⚠ 民间通行「佣金+印花税 0.1%」等费率数字未验部分一律禁当事实引用（本仓回测成本建模消费已验字面: 交易费 0.00565%+CCASS 0.0042%双边; 未验面以 engine 保守口径为准）。
+
 ## 二、与 A 股面差异速查（本研究线消费面）
 
 | 维度 | A 股（本仓 knowledge/market_rules.md 域） | 港股（本件 §一） |
@@ -74,12 +84,11 @@
 
 ## 三、PENDING-VERIFY（未核验面, 官源 URL 未落, 禁当事实引用）
 
-R171 迁出三项（原 1/3/6 → §一.4/§一.3/§一.5）。余三项:
+R171 迁出三项（原 1/3/6 → §一.4/§一.3/§一.5）; R172 迁出两项（原 1/2 → §一.6/§一.2, 费用面部分核验）。余:
 
-1. **费用/印花税**: 交易费率、SFC/AFRC 征费、CCASS 交收费、股票转让印花税率（民间通行数字一律未核验禁入）。R171 探针实录: Fees>Securities(Hong Kong)>Trading>Participantship 页（ https://www.hkex.com.hk/Services/Rules-and-Forms-and-Fees/Fees/Securities-(Hong-Kong)?sc_lang=en ）只载 participantship 费（交易权申请 $500,000/月费 $2,900/忠诚基金/印花税保证金 $5,000）, 页自注「not exhaustive→Chapter 8 of the Rules」——交易费率表在 Rules of the Exchange 第 8 章 PDF 或 Fees>Clearing and Settlement 子页; 印花税率本体归 IRD 域（禁盲猜 URL, 待 IRD 站内发现）。
-2. **逐只 board lot 数表与碎股卖出规则细节**: HKEX 证券资料/单手证券数目面（Trading Mechanism 页 nav 在册「Full List of Securities」, URL 未取）; 价位表（Second Schedule spreads）PDF 已在册 `/-/media/HKEX-Market/Services/Rules-and-Forms-and-Fees/Rules/SEHK/Securities/Rules/Sch_2_eng.pdf`（spreads 非 lot 数, 两面勿混）。
-3. **港股通红利税（内地个人投资者）**: 财税〔2014〕81号及其后续公告（财政部/税务总局/证监会官源 URL 未落; 属内地官源域, HKEX 站内无此件）。
-4. **盘中回转（当日买卖同股）无禁止之负面主张**: 已验 T+2 交收字面（§一.3）, 但「日内回转允许」系未见禁止条款的推论面, 未见正面官源字面, 禁当硬事实引用（回测 T+1 约束建模时以本仓 engine 保守口径为准）。
+1. **费率数值面（SFC/AFRC/IRD 三域）**: ①SFC Transaction Levy 现行费率（Securities and Futures (Levy) Order, SFC 域）②AFRC Transaction Levy 现行费率（AFRC Ordinance, AFRC 域）③Investor Compensation Levy 宽免公告现行状态（Rule 1103A 机制已验, 公告本体 SFC/HKEX 通函域）④**股票转让印花税率数值**（IRD 域——R172 实录: IRD 主站 urllib 直读仅 603B 疑反爬、盲猜 stamp_duty.htm 404 即律内失败; HKEX Chap 13「STAMP DUTY COLLECTION」PDF 已抓（只载收取机制无税率字面）; 下轮通道=IRD 站内导航发现或 elegislation.gov.hk 法例面）。
+2. **港股通红利税（内地个人投资者）**: 财税〔2014〕81号及其后续公告（财政部/税务总局/证监会官源 URL 未落; 属内地官源域, HKEX 站内无此件）。R172 实录: Bing 搜索通道返回非官源垃圾（pixelverse 噪音）=通道死, 下轮走 mof.gov.cn/chinatax.gov.cn 站内发现或政府网政策文件库检索面。
+3. **盘中回转（当日买卖同股）无禁止之负面主张**: 已验 T+2 交收字面（§一.3）, 但「日内回转允许」系未见禁止条款的推论面, 未见正面官源字面, 禁当硬事实引用（回测 T+1 约束建模时以本仓 engine 保守口径为准）。
 
 ## 四、维护律
 
