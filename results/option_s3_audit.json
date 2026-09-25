@@ -1,0 +1,798 @@
+{
+ "run_date": "2026-09-25",
+ "gate": "s3 options exercise-price + expiry full-spectrum",
+ "scope": {
+  "50ETF": "510050",
+  "300ETF": "510300"
+ },
+ "criteria": {
+  "G1_strike_coverage_all_contracts": "board chain face per month x underlying, calls+puts, zero missing strike",
+  "G2_strike_crossverify_2plus_sources": "board vs greeks vs trading-code parse agreement",
+  "G3_expiry_coverage_all_months": "expire face per month x underlying",
+  "G4_moneyness_sanity": "near-month strike range brackets underlying spot",
+  "G5_historical_feasibility": "past-month enumeration + historical contract daily depth",
+  "G6_evidence_hygiene": "head/tail real rows + observation cutoff <= run_date"
+ },
+ "probes": {
+  "list_50ETF": {
+   "status": "OK_SEQ",
+   "items": [
+    "202610",
+    "202612",
+    "202703"
+   ],
+   "repr": "['202610', '202612', '202703']",
+   "sec": 0.3
+  },
+  "list_300ETF": {
+   "status": "OK_SEQ",
+   "items": [
+    "202610",
+    "202612",
+    "202703"
+   ],
+   "repr": "['202610', '202612', '202703']",
+   "sec": 0.4
+  },
+  "board_50ETF_202610": {
+   "status": "OK",
+   "rows": 22,
+   "cols": [
+    "日期",
+    "合约交易代码",
+    "当前价",
+    "涨跌幅",
+    "前结价",
+    "行权价",
+    "数量"
+   ],
+   "head_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510050C2610M02800', '当前价': 0.1672, '涨跌幅': -17.59, '前结价': 0.2029, '行权价': 2.8, '数量': 22}",
+    "{'日期': '20260924162900', '合约交易代码': '510050C2610M02850', '当前价': 0.125, '涨跌幅': -20.84, '前结价': 0.1579, '行权价': 2.85, '数量': 22}"
+   ],
+   "tail_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510050P2610M02750', '当前价': 0.0043, '涨跌幅': 43.33, '前结价': 0.003, '行权价': 2.75, '数量': 22}"
+   ],
+   "sec": 0.1
+  },
+  "board_50ETF_202612": {
+   "status": "OK",
+   "rows": 24,
+   "cols": [
+    "日期",
+    "合约交易代码",
+    "当前价",
+    "涨跌幅",
+    "前结价",
+    "行权价",
+    "数量"
+   ],
+   "head_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510050C2612M02800', '当前价': 0.1769, '涨跌幅': -18.33, '前结价': 0.2166, '行权价': 2.8, '数量': 24}",
+    "{'日期': '20260924162900', '合约交易代码': '510050C2612M02850', '当前价': 0.1422, '涨跌幅': -20.2, '前结价': 0.1782, '行权价': 2.85, '数量': 24}"
+   ],
+   "tail_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510050P2612M02700', '当前价': 0.0198, '涨跌幅': 31.13, '前结价': 0.0151, '行权价': 2.7, '数量': 24}"
+   ],
+   "sec": 0.1
+  },
+  "board_50ETF_202703": {
+   "status": "OK",
+   "rows": 22,
+   "cols": [
+    "日期",
+    "合约交易代码",
+    "当前价",
+    "涨跌幅",
+    "前结价",
+    "行权价",
+    "数量"
+   ],
+   "head_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510050C2703M02850', '当前价': 0.1677, '涨跌幅': -16.32, '前结价': 0.2004, '行权价': 2.85, '数量': 22}",
+    "{'日期': '20260924162900', '合约交易代码': '510050C2703M02900', '当前价': 0.1412, '涨跌幅': -15.5, '前结价': 0.1671, '行权价': 2.9, '数量': 22}"
+   ],
+   "tail_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510050P2703M02750', '当前价': 0.0597, '涨跌幅': 16.6, '前结价': 0.0512, '行权价': 2.75, '数量': 22}"
+   ],
+   "sec": 0.1
+  },
+  "board_300ETF_202610": {
+   "status": "OK",
+   "rows": 22,
+   "cols": [
+    "日期",
+    "合约交易代码",
+    "当前价",
+    "涨跌幅",
+    "前结价",
+    "行权价",
+    "数量"
+   ],
+   "head_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510300C2610M04300', '当前价': 0.2348, '涨跌幅': -21.47, '前结价': 0.299, '行权价': 4.3, '数量': 22}",
+    "{'日期': '20260924162900', '合约交易代码': '510300C2610M04400', '当前价': 0.1538, '涨跌幅': -26.69, '前结价': 0.2098, '行权价': 4.4, '数量': 22}"
+   ],
+   "tail_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510300P2610M04100', '当前价': 0.0072, '涨跌幅': 60.0, '前结价': 0.0045, '行权价': 4.1, '数量': 22}"
+   ],
+   "sec": 0.1
+  },
+  "board_300ETF_202612": {
+   "status": "OK",
+   "rows": 28,
+   "cols": [
+    "日期",
+    "合约交易代码",
+    "当前价",
+    "涨跌幅",
+    "前结价",
+    "行权价",
+    "数量"
+   ],
+   "head_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510300C2612M04400', '当前价': 0.1981, '涨跌幅': -21.04, '前结价': 0.2509, '行权价': 4.4, '数量': 28}",
+    "{'日期': '20260924162900', '合约交易代码': '510300C2612M04500', '当前价': 0.148, '涨跌幅': -21.9, '前结价': 0.1895, '行权价': 4.5, '数量': 28}"
+   ],
+   "tail_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510300P2612M04100', '当前价': 0.0422, '涨跌幅': 32.29, '前结价': 0.0319, '行权价': 4.1, '数量': 28}"
+   ],
+   "sec": 0.1
+  },
+  "board_300ETF_202703": {
+   "status": "OK",
+   "rows": 24,
+   "cols": [
+    "日期",
+    "合约交易代码",
+    "当前价",
+    "涨跌幅",
+    "前结价",
+    "行权价",
+    "数量"
+   ],
+   "head_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510300C2703M04400', '当前价': 0.2339, '涨跌幅': -15.59, '前结价': 0.2771, '行权价': 4.4, '数量': 24}",
+    "{'日期': '20260924162900', '合约交易代码': '510300C2703M04500', '当前价': 0.1881, '涨跌幅': -16.4, '前结价': 0.225, '行权价': 4.5, '数量': 24}"
+   ],
+   "tail_repr": [
+    "{'日期': '20260924162900', '合约交易代码': '510300P2703M04100', '当前价': 0.098, '涨跌幅': 15.7, '前结价': 0.0847, '行权价': 4.1, '数量': 24}"
+   ],
+   "sec": 0.1
+  },
+  "expire_50ETF_202610": {
+   "status": "OK_SEQ",
+   "items": [
+    "2026-10-28",
+    33
+   ],
+   "repr": "('2026-10-28', 33)",
+   "sec": 0.4
+  },
+  "expire_50ETF_202612": {
+   "status": "OK_SEQ",
+   "items": [
+    "2026-12-23",
+    89
+   ],
+   "repr": "('2026-12-23', 89)",
+   "sec": 0.4
+  },
+  "expire_50ETF_202703": {
+   "status": "OK_SEQ",
+   "items": [
+    "2027-03-24",
+    180
+   ],
+   "repr": "('2027-03-24', 180)",
+   "sec": 0.4
+  },
+  "expire_300ETF_202610": {
+   "status": "OK_SEQ",
+   "items": [
+    "2026-10-28",
+    33
+   ],
+   "repr": "('2026-10-28', 33)",
+   "sec": 0.4
+  },
+  "expire_300ETF_202612": {
+   "status": "OK_SEQ",
+   "items": [
+    "2026-12-23",
+    89
+   ],
+   "repr": "('2026-12-23', 89)",
+   "sec": 0.4
+  },
+  "expire_300ETF_202703": {
+   "status": "OK_SEQ",
+   "items": [
+    "2027-03-24",
+    180
+   ],
+   "repr": "('2027-03-24', 180)",
+   "sec": 0.4
+  },
+  "spot_50ETF": {
+   "status": "OK",
+   "rows": 33,
+   "cols": [
+    "字段",
+    "值"
+   ],
+   "head_repr": [
+    "{'字段': '证券简称', '值': '上证50ETF华夏'}",
+    "{'字段': '今日开盘价', '值': '2.992'}"
+   ],
+   "tail_repr": [
+    "{'字段': '停牌状态', '值': '00'}"
+   ],
+   "sec": 0.4
+  },
+  "spot_300ETF": {
+   "status": "OK",
+   "rows": 33,
+   "cols": [
+    "字段",
+    "值"
+   ],
+   "head_repr": [
+    "{'字段': '证券简称', '值': '沪深300ETF华泰柏瑞'}",
+    "{'字段': '今日开盘价', '值': '4.578'}"
+   ],
+   "tail_repr": [
+    "{'字段': '停牌状态', '值': '00'}"
+   ],
+   "sec": 0.4
+  },
+  "codes_50ETF_call_near": {
+   "status": "OK",
+   "rows": 11,
+   "cols": [
+    "序号",
+    "期权代码"
+   ],
+   "head_repr": [
+    "{'序号': 1, '期权代码': '10012427'}",
+    "{'序号': 2, '期权代码': '10012309'}"
+   ],
+   "tail_repr": [
+    "{'序号': 11, '期权代码': '10012409'}"
+   ],
+   "sec": 0.4
+  },
+  "greeks_call_10012427": {
+   "status": "OK",
+   "rows": 13,
+   "cols": [
+    "字段",
+    "值"
+   ],
+   "head_repr": [
+    "{'字段': '期权合约简称', '值': '50ETF购10月2750'}",
+    "{'字段': '成交量', '值': '1071'}"
+   ],
+   "tail_repr": [
+    "{'字段': '理论价值', '值': '0.2222'}"
+   ],
+   "sec": 0.5
+  },
+  "codes_50ETF_put_near": {
+   "status": "OK",
+   "rows": 11,
+   "cols": [
+    "序号",
+    "期权代码"
+   ],
+   "head_repr": [
+    "{'序号': 1, '期权代码': '10012428'}",
+    "{'序号': 2, '期权代码': '10012318'}"
+   ],
+   "tail_repr": [
+    "{'序号': 11, '期权代码': '10012410'}"
+   ],
+   "sec": 0.4
+  },
+  "greeks_put_10012428": {
+   "status": "OK",
+   "rows": 13,
+   "cols": [
+    "字段",
+    "值"
+   ],
+   "head_repr": [
+    "{'字段': '期权合约简称', '值': '50ETF沽10月2750'}",
+    "{'字段': '成交量', '值': '9429'}"
+   ],
+   "tail_repr": [
+    "{'字段': '理论价值', '值': '0.0033'}"
+   ],
+   "sec": 0.4
+  },
+  "codes_50ETF_call_hist_202609": {
+   "status": "OK",
+   "rows": 14,
+   "cols": [
+    "序号",
+    "期权代码"
+   ],
+   "head_repr": [
+    "{'序号': 1, '期权代码': '10011255'}",
+    "{'序号': 2, '期权代码': '10011256'}"
+   ],
+   "tail_repr": [
+    "{'序号': 14, '期权代码': '10011061'}"
+   ],
+   "sec": 0.5
+  },
+  "daily_hist_10011255": {
+   "status": "OK",
+   "rows": 127,
+   "cols": [
+    "日期",
+    "开盘",
+    "最高",
+    "最低",
+    "收盘",
+    "成交量"
+   ],
+   "head_repr": [
+    "{'日期': datetime.date(2026, 3, 24), '开盘': 0.3081, '最高': 0.3166, '最低': 0.3024, '收盘': 0.314, '成交量': 42440}",
+    "{'日期': datetime.date(2026, 3, 25), '开盘': 0.3167, '最高': 0.3375, '最低': 0.3167, '收盘': 0.326, '成交量': 154953}"
+   ],
+   "tail_repr": [
+    "{'日期': datetime.date(2026, 9, 23), '开盘': 0.3665, '最高': 0.367, '最低': 0.345, '收盘': 0.346, '成交量': 517244}"
+   ],
+   "sec": 0.4
+  }
+ },
+ "verdicts": {
+  "G1_strike_coverage": {
+   "pass": true,
+   "detail": {
+    "50ETF_202610": {
+     "rows": 22,
+     "strike_min": 2.75,
+     "strike_max": 3.5,
+     "strike_missing": 0,
+     "code_parse_ok": 22,
+     "code_parse_fail_repr": [],
+     "directions": {
+      "call": 11,
+      "put": 11
+     },
+     "code_vs_board_strike": {
+      "agree": 22,
+      "mismatch": 0
+     }
+    },
+    "50ETF_202612": {
+     "rows": 24,
+     "strike_min": 2.7,
+     "strike_max": 3.5,
+     "strike_missing": 0,
+     "code_parse_ok": 24,
+     "code_parse_fail_repr": [],
+     "directions": {
+      "call": 12,
+      "put": 12
+     },
+     "code_vs_board_strike": {
+      "agree": 24,
+      "mismatch": 0
+     }
+    },
+    "50ETF_202703": {
+     "rows": 22,
+     "strike_min": 2.75,
+     "strike_max": 3.5,
+     "strike_missing": 0,
+     "code_parse_ok": 22,
+     "code_parse_fail_repr": [],
+     "directions": {
+      "call": 11,
+      "put": 11
+     },
+     "code_vs_board_strike": {
+      "agree": 22,
+      "mismatch": 0
+     }
+    },
+    "300ETF_202610": {
+     "rows": 22,
+     "strike_min": 4.1,
+     "strike_max": 5.25,
+     "strike_missing": 0,
+     "code_parse_ok": 22,
+     "code_parse_fail_repr": [],
+     "directions": {
+      "call": 11,
+      "put": 11
+     },
+     "code_vs_board_strike": {
+      "agree": 22,
+      "mismatch": 0
+     }
+    },
+    "300ETF_202612": {
+     "rows": 28,
+     "strike_min": 4.1,
+     "strike_max": 6.0,
+     "strike_missing": 0,
+     "code_parse_ok": 28,
+     "code_parse_fail_repr": [],
+     "directions": {
+      "call": 14,
+      "put": 14
+     },
+     "code_vs_board_strike": {
+      "agree": 28,
+      "mismatch": 0
+     }
+    },
+    "300ETF_202703": {
+     "rows": 24,
+     "strike_min": 4.1,
+     "strike_max": 5.5,
+     "strike_missing": 0,
+     "code_parse_ok": 24,
+     "code_parse_fail_repr": [],
+     "directions": {
+      "call": 12,
+      "put": 12
+     },
+     "code_vs_board_strike": {
+      "agree": 24,
+      "mismatch": 0
+     }
+    }
+   }
+  },
+  "G2_strike_crossverify": {
+   "pass": true,
+   "greeks_samples": 2,
+   "code_vs_board_all_months": true
+  },
+  "G3_expiry_coverage": {
+   "pass": true,
+   "expiry": {
+    "50ETF": {
+     "202610": [
+      "2026-10-28",
+      33
+     ],
+     "202612": [
+      "2026-12-23",
+      89
+     ],
+     "202703": [
+      "2027-03-24",
+      180
+     ]
+    },
+    "300ETF": {
+     "202610": [
+      "2026-10-28",
+      33
+     ],
+     "202612": [
+      "2026-12-23",
+      89
+     ],
+     "202703": [
+      "2027-03-24",
+      180
+     ]
+    }
+   }
+  },
+  "G4_moneyness_sanity": {
+   "pass": true,
+   "detail": {
+    "50ETF": {
+     "spot": 2.959,
+     "strike_min": 2.75,
+     "strike_max": 3.5,
+     "brackets": true
+    },
+    "300ETF": {
+     "spot": 4.515,
+     "strike_min": 4.1,
+     "strike_max": 5.25,
+     "brackets": true
+    }
+   }
+  },
+  "G5_historical_feasibility": {
+   "pass": true,
+   "detail": {
+    "hist_month_call_count": 14,
+    "hist_head": [
+     "10011255",
+     "10011256",
+     "10011233",
+     "10011215",
+     "10010971"
+    ],
+    "hist_daily_rows": 127,
+    "hist_daily_last_date": "{'日期': datetime.date(2026, 9, 23), '开盘': 0.3665, '最高': 0.367, '最低': 0.345, '收盘': 0.346, '成交量': 517244}"
+   }
+  },
+  "G6_evidence_hygiene": {
+   "pass": true,
+   "cutoff": "2026-09-24",
+   "future_dates_discarded": 0,
+   "fail_reprs": {}
+  }
+ },
+ "evidence_cutoff": "2026-09-24",
+ "months": {
+  "50ETF": [
+   "202610",
+   "202612",
+   "202703"
+  ],
+  "300ETF": [
+   "202610",
+   "202612",
+   "202703"
+  ]
+ },
+ "board_stats": {
+  "50ETF": {
+   "202610": {
+    "rows": 22,
+    "strike_min": 2.75,
+    "strike_max": 3.5,
+    "strike_missing": 0,
+    "code_parse_ok": 22,
+    "code_parse_fail_repr": [],
+    "directions": {
+     "call": 11,
+     "put": 11
+    },
+    "code_vs_board_strike": {
+     "agree": 22,
+     "mismatch": 0
+    }
+   },
+   "202612": {
+    "rows": 24,
+    "strike_min": 2.7,
+    "strike_max": 3.5,
+    "strike_missing": 0,
+    "code_parse_ok": 24,
+    "code_parse_fail_repr": [],
+    "directions": {
+     "call": 12,
+     "put": 12
+    },
+    "code_vs_board_strike": {
+     "agree": 24,
+     "mismatch": 0
+    }
+   },
+   "202703": {
+    "rows": 22,
+    "strike_min": 2.75,
+    "strike_max": 3.5,
+    "strike_missing": 0,
+    "code_parse_ok": 22,
+    "code_parse_fail_repr": [],
+    "directions": {
+     "call": 11,
+     "put": 11
+    },
+    "code_vs_board_strike": {
+     "agree": 22,
+     "mismatch": 0
+    }
+   }
+  },
+  "300ETF": {
+   "202610": {
+    "rows": 22,
+    "strike_min": 4.1,
+    "strike_max": 5.25,
+    "strike_missing": 0,
+    "code_parse_ok": 22,
+    "code_parse_fail_repr": [],
+    "directions": {
+     "call": 11,
+     "put": 11
+    },
+    "code_vs_board_strike": {
+     "agree": 22,
+     "mismatch": 0
+    }
+   },
+   "202612": {
+    "rows": 28,
+    "strike_min": 4.1,
+    "strike_max": 6.0,
+    "strike_missing": 0,
+    "code_parse_ok": 28,
+    "code_parse_fail_repr": [],
+    "directions": {
+     "call": 14,
+     "put": 14
+    },
+    "code_vs_board_strike": {
+     "agree": 28,
+     "mismatch": 0
+    }
+   },
+   "202703": {
+    "rows": 24,
+    "strike_min": 4.1,
+    "strike_max": 5.5,
+    "strike_missing": 0,
+    "code_parse_ok": 24,
+    "code_parse_fail_repr": [],
+    "directions": {
+     "call": 12,
+     "put": 12
+    },
+    "code_vs_board_strike": {
+     "agree": 24,
+     "mismatch": 0
+    }
+   }
+  }
+ },
+ "expiry": {
+  "50ETF": {
+   "202610": [
+    "2026-10-28",
+    33
+   ],
+   "202612": [
+    "2026-12-23",
+    89
+   ],
+   "202703": [
+    "2027-03-24",
+    180
+   ]
+  },
+  "300ETF": {
+   "202610": [
+    "2026-10-28",
+    33
+   ],
+   "202612": [
+    "2026-12-23",
+    89
+   ],
+   "202703": [
+    "2027-03-24",
+    180
+   ]
+  }
+ },
+ "underlying_spot_kv": {
+  "50ETF": {
+   "证券简称": "上证50ETF华夏",
+   "今日开盘价": "2.992",
+   "昨日收盘价": "3.000",
+   "最近成交价": "2.959",
+   "最高成交价": "2.992",
+   "最低成交价": "2.956",
+   "买入价": "2.959",
+   "卖出价": "2.960",
+   "成交数量": "668945100",
+   "成交金额": "1987877310.000",
+   "买数量一": "8200",
+   "买价位一": "2.959",
+   "买数量二": "1374100",
+   "买价位二": "2.958",
+   "买数量三": "582700",
+   "买价位三": "2.957",
+   "买数量四": "668000",
+   "买价位四": "2.956",
+   "买数量五": "1231300",
+   "买价位五": "2.955",
+   "卖数量一": "413900",
+   "卖价位一": "2.960",
+   "卖数量二": "45900",
+   "卖价位二": "2.961",
+   "卖数量三": "130800",
+   "卖价位三": "2.962",
+   "卖数量四": "32400",
+   "卖价位四": "2.963",
+   "卖数量五": "1047900",
+   "卖价位五": "2.964",
+   "行情日期": "2026-09-24",
+   "行情时间": "15:34:59",
+   "停牌状态": "00"
+  },
+  "300ETF": {
+   "证券简称": "沪深300ETF华泰柏瑞",
+   "今日开盘价": "4.578",
+   "昨日收盘价": "4.590",
+   "最近成交价": "4.515",
+   "最高成交价": "4.579",
+   "最低成交价": "4.512",
+   "买入价": "4.515",
+   "卖出价": "4.516",
+   "成交数量": "710251931",
+   "成交金额": "3220888135.000",
+   "买数量一": "733900",
+   "买价位一": "4.515",
+   "买数量二": "924400",
+   "买价位二": "4.514",
+   "买数量三": "922400",
+   "买价位三": "4.513",
+   "买数量四": "1847200",
+   "买价位四": "4.512",
+   "买数量五": "663500",
+   "买价位五": "4.511",
+   "卖数量一": "529300",
+   "卖价位一": "4.516",
+   "卖数量二": "934900",
+   "卖价位二": "4.517",
+   "卖数量三": "1687200",
+   "卖价位三": "4.518",
+   "卖数量四": "267200",
+   "卖价位四": "4.519",
+   "卖数量五": "283100",
+   "卖价位五": "4.520",
+   "行情日期": "2026-09-24",
+   "行情时间": "15:34:59",
+   "停牌状态": "00"
+  }
+ },
+ "strike_crossverify": [
+  {
+   "code8": "10012427",
+   "direction": "call",
+   "long_code": "510050C2610M02750",
+   "greeks_name": "50ETF购10月2750",
+   "greeks_strike": "2.7500",
+   "board_strike": 2.75,
+   "code_strike": 2.75
+  },
+  {
+   "code8": "10012428",
+   "direction": "put",
+   "long_code": "510050P2610M02750",
+   "greeks_name": "50ETF沽10月2750",
+   "greeks_strike": "2.7500",
+   "board_strike": 2.75,
+   "code_strike": 2.75
+  }
+ ],
+ "historical_feasibility": {
+  "hist_month_call_count": 14,
+  "hist_head": [
+   "10011255",
+   "10011256",
+   "10011233",
+   "10011215",
+   "10010971"
+  ],
+  "hist_daily_rows": 127,
+  "hist_daily_last_date": "{'日期': datetime.date(2026, 9, 23), '开盘': 0.3665, '最高': 0.367, '最低': 0.345, '收盘': 0.346, '成交量': 517244}"
+ },
+ "retention_boundary": {
+  "note": "deep-expired/never-listed months return empty payload (wrapper crash); historical chain enumeration = retention window only; wave-2 prereg must design backtest window accordingly (forward-collect or retention backfill)",
+  "faces": {
+   "202606": {
+    "status": "FAIL",
+    "err": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 2 elements",
+    "sec": 0.4
+   },
+   "202608": {
+    "status": "FAIL",
+    "err": "ValueError: Length mismatch: Expected axis has 1 elements, new values have 2 elements",
+    "sec": 0.5
+   }
+  }
+ },
+ "observation_dates": {
+  "count": 128,
+  "future_excluded": 0
+ },
+ "gate_pass": true
+}
