@@ -154,10 +154,18 @@ def main() -> int:
     # daily; 0 ok/2 source fail/3 history-rewrite flag for lhb) are
     # asserted case-by-case inside each sub-suite.
     import subprocess as _sp
-    for _name, _args in (("daily", ["--selftest"]), ("lhb", ["selftest"])):
+    # (label, script, args) -- offline selftest must exit 0 (no network);
+    # T-35 d2 pair: intraday marks lane + open-fill verifier (R166).
+    for _name, _script, _args in (
+            ("daily", "scripts/update_daily.py", ["--selftest"]),
+            ("lhb", "scripts/update_lhb.py", ["selftest"]),
+            ("intraday_marks", "scripts/update_intraday_marks.py",
+             ["--selftest"]),
+            ("open_fill_verify", "scripts/t35_open_fill_verify.py",
+             ["--selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:
-            _r = _sp.run([sys.executable, f"scripts/update_{_name}.py", *_args],
+            _r = _sp.run([sys.executable, _script, *_args],
                          capture_output=True, text=True, timeout=180)
             _tail = ((_r.stdout or _r.stderr).strip().splitlines() or ["no output"])[-1]
             check(_label, _r.returncode == 0, f"exit={_r.returncode} | {_tail[:80]}")

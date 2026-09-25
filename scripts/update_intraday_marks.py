@@ -159,6 +159,12 @@ def _load_states() -> dict:
             "positions": st.get("open_positions", []),
             "capital": st.get("capital", {}),
             "cutoff": st.get("cutoff"),
+            # T-35 d2-c (O-2045 s2.1): entries queued at the final close
+            # (fill at THIS session's 09:30 open) -- captured so the tick
+            # records the real session open for symbols not yet in state
+            # positions (the fill only lands in state after the evening
+            # engine run). Missing key on legacy states = empty list.
+            "pending": st.get("pending_entries", []),
         }
     return out
 
@@ -207,6 +213,19 @@ def _compose(states: dict, quotes: dict, now: dt.datetime, kind: str,
             "equity_mark_cny": round(cash + mv_total, 2),
             "state_cutoff": st["cutoff"],
         }
+        # T-35 d2-c (O-2045 s2.1): pending entries queued at the prior
+        # close fill at THIS session's 09:30 open; the position is not in
+        # state yet, so record the real session open per pending symbol
+        # (open-fill verification evidence). ADDITIVE per-trader key,
+        # emitted only when a pending symbol has a live open quote.
+        pw = {}
+        for pe in st.get("pending", []):
+            sym = pe.get("symbol")
+            q = quotes.get(sym)
+            if q and q.get("open") is not None:
+                pw[sym] = q["open"]
+        if pw:
+            traders_out[tid]["pending_watch"] = pw
     return {"ts": now.strftime("%Y-%m-%dT%H:%M:%S"),
             "date": now.strftime("%Y-%m-%d"),
             "kind": kind, "source": meta["source"],
@@ -281,6 +300,21 @@ def _selftest() -> bool:
                      "intraday", {"source": "x", "rows": 1})
     ok &= line2["traders"]["T-X"]["positions"][0]["marked"] is False
     ok &= line2["traders"]["T-X"]["equity_mark_cny"] == 0.0
+    # S6 (T-35 d2-c): pending_watch -- pending-entry symbols capture the
+    # session open even though the position is not in state yet; symbols
+    # without a live open quote are omitted (never fabricated); no
+    # pendings -> key absent (legacy byte-stability).
+    states3 = {"T-X": {"positions": [],
+               "capital": {"cash_cny": 1000000.0}, "cutoff": "2026-09-23",
+               "pending": [{"symbol": "510300", "queued_date": "2026-09-23"},
+                           {"symbol": "123456", "queued_date": "2026-09-23"}]}}
+    line3 = _compose(states3, quotes, dt.datetime(2026, 9, 24, 10, 0),
+                     "intraday", {"source": "x", "rows": 1})
+    tx3 = line3["traders"]["T-X"]
+    ok &= tx3.get("pending_watch") == {"510300": 4.1}
+    line3b = _compose(states2, quotes, dt.datetime(2026, 9, 24, 10, 0),
+                      "intraday", {"source": "x", "rows": 1})
+    ok &= "pending_watch" not in line3b["traders"]["T-X"]
     # S5: settle-once idempotency on temp file
     import tempfile
     tmp = tempfile.mkdtemp(prefix="marks_st_")

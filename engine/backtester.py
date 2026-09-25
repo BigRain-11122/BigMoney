@@ -773,6 +773,17 @@ def run_backtest(prices: dict, params: dict,
              "high_watermark": round(st.high_watermark, 4),
              "hold_days": int(st.hold_days)}
             for s, st in sorted(positions.items())]
+    if pending_entries:
+        # T-35 d2-c (O-2045 s2.1): entries queued at the final close that
+        # will fill at the NEXT session's 09:30 open. Export the set so
+        # the intraday marks lane can capture that session's real open
+        # price (pending_watch) for open-fill verification. ADDITIVE
+        # top-level key, emitted only when non-empty (same legacy-keyset
+        # discipline as open_positions above). Fill logic, exit priority
+        # and the cost model are untouched.
+        result["pending_entries"] = [
+            {"symbol": s, "queued_date": info["queued"]}
+            for s, info in sorted(pending_entries.items())]
     if stats_v2 is not None:
         result["cost_v2"] = stats_v2
     return result

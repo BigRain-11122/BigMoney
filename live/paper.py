@@ -474,7 +474,8 @@ def paper_run(t: dict, prices_full: dict, P: dict,
     eq = pd.Series(res["equity_curve"], index=widx)
     return {"bars": n_bars, "equity": eq, "metrics": res["metrics"],
             "trades": res["trades"],
-            "open_positions": res.get("open_positions", [])}
+            "open_positions": res.get("open_positions", []),
+            "pending_entries": res.get("pending_entries", [])}
 
 
 def load_vi_bar():
@@ -783,23 +784,32 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
             "note": "v3-enforced paper window (T-21); exits never forced; "
                     "RED new-cash parking is structurally inert in paper "
                     "(fixed INITIAL_CASH) -- live-gate concern, disclosed"}
-    return {"trader": t["id"], "anchor_ok": True, "anchor": anchor,
-            "paper_start": t["created"], "bars": agg["bars"],
-            "months_tracked": agg["months_tracked"],
-            "monthly_returns": agg["monthly_returns"],
-            "current_dd": agg["current_dd"], "months_detail": agg["months_detail"],
-            "window_metrics": run["metrics"], "cost_x2_check": x2,
-            "x2_watch": watch,
-            "cutoff": data_cutoff, "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "risk_regime": {"is_major_bear": regime["is_major_bear"],
-                            "position_cap": regime["position_cap"],
-                            "as_of": regime["as_of"]},
-            "regime_guard": guard_block,
-            "forward_guard": forward_guard,
-            "open_positions": pos_face,
-            "capital": capital_block,
-            "no_future_data": "closed bars only; signal T close -> T+1 open "
-                              "(engine contract)"}
+    state = {"trader": t["id"], "anchor_ok": True, "anchor": anchor,
+             "paper_start": t["created"], "bars": agg["bars"],
+             "months_tracked": agg["months_tracked"],
+             "monthly_returns": agg["monthly_returns"],
+             "current_dd": agg["current_dd"], "months_detail": agg["months_detail"],
+             "window_metrics": run["metrics"], "cost_x2_check": x2,
+             "x2_watch": watch,
+             "cutoff": data_cutoff, "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
+             "risk_regime": {"is_major_bear": regime["is_major_bear"],
+                             "position_cap": regime["position_cap"],
+                             "as_of": regime["as_of"]},
+             "regime_guard": guard_block,
+             "forward_guard": forward_guard,
+             "open_positions": pos_face,
+             "capital": capital_block,
+             "no_future_data": "closed bars only; signal T close -> T+1 open "
+                               "(engine contract)"}
+    # T-35 d2-c (O-2045 s2.1): entries queued at the final close, filling
+    # at the NEXT session's 09:30 open -- persist the set so the marks
+    # lane captures that session's real open (pending_watch) and the
+    # open-fill verifier can join fill price vs session open. ADDITIVE
+    # state key, only when non-empty (legacy states keep their keyset).
+    pend = run.get("pending_entries") or []
+    if pend:
+        state["pending_entries"] = pend
+    return state
 
 
 def _ramp_month(base: float, target: float, year: int, month: int) -> pd.Series:
