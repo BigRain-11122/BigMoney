@@ -1,0 +1,189 @@
+{
+ "_meta": {
+  "task": "T-70 mid-term dossier prep (deterministic evidence face)",
+  "verdict_date": "2026-10-09",
+  "note": "evidence prep only; the verdict itself is a 2026-10-09 GM judgment per prereg",
+  "prereg_gate_frozen": "①功能通过率 ≥ 云端−0 件 AND ②码质非劣 AND ③④如实呈报（无硬线，资源面=披露项）→ 过线；任一不满足→如实报坑清单",
+  "sources": [
+   "ledger.jsonl",
+   "blind_eval/verdict.json",
+   "FROZEN_CLASSIFICATION R198-R206"
+  ]
+ },
+ "aggregates": {
+  "n_tasks": 10,
+  "c1_gate_A_pass": 10,
+  "c1_gate_B_pass": 2,
+  "c1_gate_gap_items": 8,
+  "live_correct": [
+   "02",
+   "03",
+   "05",
+   "06",
+   "07"
+  ],
+  "live_correct_n": 5,
+  "impl_deficient": [
+   "01",
+   "04",
+   "08",
+   "09",
+   "10"
+  ],
+  "impl_deficient_n": 5,
+  "verif_defect_tasks": [
+   "05",
+   "06",
+   "07"
+  ],
+  "verif_defect_n": 3,
+  "families": {
+   "falsy-ternary+render-consistency": [
+    "09"
+   ],
+   "helper-confusion+output-contract-omission": [
+    "10"
+   ],
+   "impl-detection-gap": [
+    "01"
+   ],
+   "none-pass": [
+    "02",
+    "03"
+   ],
+   "selftest-expectation-arithmetic": [
+    "05",
+    "06",
+    "07"
+   ],
+   "spec-interpretation-tz": [
+    "04"
+   ],
+   "type-confused-count+contract-flattening": [
+    "08"
+   ]
+  },
+  "c2_A_cloud": 8.875,
+  "c2_B_local": 5.775,
+  "c2_margin": -3.1,
+  "c2_threshold": "B >= A - 0.5 = 8.375",
+  "per_dim": {
+   "readability": {
+    "A": 8.8,
+    "B": 6.2,
+    "diff_B_minus_A": -2.6
+   },
+   "idiomatic": {
+    "A": 8.6,
+    "B": 5.5,
+    "diff_B_minus_A": -3.1
+   },
+   "boundaries": {
+    "A": 8.9,
+    "B": 5.2,
+    "diff_B_minus_A": -3.7
+   },
+   "structure": {
+    "A": 8.8,
+    "B": 6.2,
+    "diff_B_minus_A": -2.6
+   }
+  },
+  "b_defect_family_clusters": [
+   "验证逻辑面（最重族）：selftest 不调生产函数（测副本/空转 json.dumps）、selftest 期望值算术错、VERDICT 输出行缺失致自家 IndexError——与判据-1 的 B 臂 8/10 FAIL 同根：实现理解强、自证验证弱",
+   "惯用法反模式族：`A and 0 or C` 伪三元、裸 except、str|dict 混返回型契约、split('-')[3] 索引取段",
+   "边界病族：空列表 []->1 计数、dup_codes 在原始行串上 count(code) 语义错+malformed 行裸崩、bool-is-int 陷阱漏防、收件人截断 'bm' 致定向消息恒 stranded",
+   "结构冗余族：ok 计算双写、测试例 3 倍填充重复、单函数 120 行混合职责"
+  ],
+  "convergence_note": "盲评缺陷判定与判据-1 功能面独立收敛：u-08 dup_codes / u-09 []->1 / u-10 VERDICT 缺失三处盲评所见缺陷与 B 臂已知失败族互证，评者全程未见臂标签与台账（映射揭示于分数 commit 之后）",
+  "token_total": 29161,
+  "token_min": 1172,
+  "token_max": 5143,
+  "lat_total_s": [
+   85.715,
+   93.547,
+   95.529,
+   96.655,
+   149.462,
+   140.991,
+   96.835,
+   182.192,
+   208.57,
+   133.73
+  ],
+  "lat_min_s": 85.715,
+  "lat_max_s": 208.57,
+  "gpu_peak_mb": 11630,
+  "oom": 0,
+  "ctx_overflow": 0,
+  "yield_events": 0,
+  "aux_14b": "not run (optional face, honest disclosure; RUBRIC §2.4 A-arm style-residual limitation stands)"
+ },
+ "classification": {
+  "01": {
+   "live_face": "deficient",
+   "family": "impl-detection-gap",
+   "note": "own validator misses case4 empty-field + case5 invalid-timestamp (product detection gap, not fixture math)",
+   "evidence": "tasks/01/B/rr_lint.py + ledger row 01"
+  },
+  "02": {
+   "live_face": "correct",
+   "family": "none-pass",
+   "note": "first B-arm functional pass",
+   "evidence": "ledger row 02"
+  },
+  "03": {
+   "live_face": "correct",
+   "family": "none-pass",
+   "note": "live digest byte-identical to A",
+   "evidence": "ledger row 03"
+  },
+  "04": {
+   "live_face": "deficient",
+   "family": "spec-interpretation-tz",
+   "note": "live digest naive-tz UTC skew vs spec-3b (+ own selftest crash)",
+   "evidence": "ledger row 04 + tasks/04/B"
+  },
+  "05": {
+   "live_face": "correct",
+   "family": "selftest-expectation-arithmetic",
+   "note": "live face correct; own fixture duplicated synthetic rows + hand-computed expectation mismatch",
+   "evidence": "ledger row 05 + prompt.md 勘误段"
+  },
+  "06": {
+   "live_face": "correct",
+   "family": "selftest-expectation-arithmetic",
+   "note": "live face correct; 2 embedded fixture-arithmetic expectations wrong",
+   "evidence": "ledger row 06"
+  },
+  "07": {
+   "live_face": "correct",
+   "family": "selftest-expectation-arithmetic",
+   "note": "live face byte-identical to A; fixture ts yield 23h vs expectations copied 49h/25h",
+   "evidence": "ledger row 07"
+  },
+  "08": {
+   "live_face": "deficient",
+   "family": "type-confused-count+contract-flattening",
+   "note": "dup_codes [raw lines].count(value) always-0 + panel-face flattening live MISMATCH fails=4",
+   "evidence": "ledger row 08 + blind finding u-08"
+  },
+  "09": {
+   "live_face": "deficient",
+   "family": "falsy-ternary+render-consistency",
+   "note": "len==0 and 0 or c+1 empty-branch bug ([]->1) + lowercase bool render, live done_mismatches=1 vs A 0",
+   "evidence": "ledger row 09 + blind finding u-09"
+  },
+  "10": {
+   "live_face": "deficient",
+   "family": "helper-confusion+output-contract-omission",
+   "note": "double-render valid-clock->bad + VERDICT line never appended (live 3/3 reproduced, IndexError)",
+   "evidence": "ledger row 10 + blind finding u-10"
+  }
+ },
+ "remediation_candidates": [
+  "（候选·未定）prompt 规格给出可复用 fixture 模式，压缩 B 臂心算期望面（task05/06/07 族根源）",
+  "（候选·未定）prompt 显式输出契约行清单（VERDICT/汇总行逐条点名，task10 族）",
+  "（候选·未定）prompt 注明类型面计数口径（禁 and/or 三元链式计数、bool 渲染大小写，task08/09 族）"
+ ]
+}
