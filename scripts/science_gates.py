@@ -623,6 +623,11 @@ SEED_REGISTRY = {
     # nulls (60000+k, k=0..31; band 60000..60031, next free band above mf_rot_s1
     # 59000+99; rg full-repo scan verified free 2026-09-25 17:4x before runner
     # slice; prereg research/DIV_LOWVOL_P1.md §3 names this base, R178 freeze)
+    "wild_route_s1": 61_000,                 # WILD_ROUTE_S1 K=50 same-mask random
+    # event-day nulls (61000+k, k<50; band 61000..61049, next free band above
+    # div_lowvol_p1 60031; rg full-repo scan 2026-09-25 18:5x: sole hits =
+    # Money02 fold/data-file digit coincidences (non-RNG, t34 precedent);
+    # registered before WILD_ROUTE_S1 prereg freeze, T-2026-09-25-57 s2)
 }
 
 

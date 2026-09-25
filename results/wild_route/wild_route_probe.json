@@ -1,0 +1,195 @@
+{
+ "probe": "T-57 s2 wild-route data-face probe",
+ "run_at": "2026-09-25 18:27:19",
+ "census": {
+  "generated": "2026-09-24 03:42:50",
+  "shape": [
+   8792,
+   5222
+  ],
+  "ok_universe_meta": 5130,
+  "date_range": [
+   "1990-12-19",
+   "2026-09-22"
+  ],
+  "census_drift_gate": true
+ },
+ "boards": {
+  "dist": {
+   "chinext": 1408,
+   "main": 3196,
+   "star": 618
+  },
+  "bse_absent": true
+ },
+ "turnover": {
+  "non_nan_frac": 0.00011145277085920176,
+  "verdict": "DEAD_FACE",
+  "encoding_law": "换手率阈值腿(#5 20-30%/#6>20%) 无数据面=缺席披露,量能腿一律用 vol/amount 面替代"
+ },
+ "cliff": {
+  "recent_main": {
+   "n_band": 34458,
+   "n_in": 34243,
+   "n_below_floor": 215,
+   "capture": 0.99376,
+   "hist": {
+    "0.0825": 13,
+    "0.0835": 10,
+    "0.0845": 8,
+    "0.0855": 12,
+    "0.0865": 9,
+    "0.0875": 13,
+    "0.0885": 13,
+    "0.0895": 5,
+    "0.0905": 10,
+    "0.0915": 9,
+    "0.0925": 17,
+    "0.0935": 17,
+    "0.0945": 12,
+    "0.0955": 18,
+    "0.0965": 49,
+    "0.0975": 199,
+    "0.0985": 2377,
+    "0.0995": 27597,
+    "0.1005": 3573,
+    "0.1015": 419,
+    "0.1025": 61,
+    "0.1035": 13
+   }
+  },
+  "recent_chinext": {
+   "n_band": 4031,
+   "n_in": 4004,
+   "n_below_floor": 27,
+   "capture": 0.9933,
+   "hist": {
+    "0.1835": 1,
+    "0.1845": 1,
+    "0.1855": 1,
+    "0.1865": 2,
+    "0.1875": 3,
+    "0.1885": 1,
+    "0.1895": 3,
+    "0.1905": 2,
+    "0.1915": 2,
+    "0.1925": 1,
+    "0.1935": 2,
+    "0.1955": 2,
+    "0.1965": 6,
+    "0.1975": 20,
+    "0.1985": 150,
+    "0.1995": 3659,
+    "0.2005": 154,
+    "0.2015": 18,
+    "0.2025": 2,
+    "0.2035": 1
+   }
+  },
+  "recent_star": {
+   "n_band": 1240,
+   "n_in": 1221,
+   "n_below_floor": 19,
+   "capture": 0.98468,
+   "hist": {
+    "0.1825": 1,
+    "0.1835": 2,
+    "0.1845": 2,
+    "0.1855": 1,
+    "0.1865": 1,
+    "0.1875": 1,
+    "0.1915": 1,
+    "0.1925": 3,
+    "0.1935": 3,
+    "0.1945": 1,
+    "0.1955": 3,
+    "0.1975": 5,
+    "0.1985": 5,
+    "0.1995": 1200,
+    "0.2005": 8,
+    "0.2015": 1,
+    "0.2025": 1,
+    "0.2045": 1
+   }
+  },
+  "deep_main_1995_2005": {
+   "n_band": 12494,
+   "n_in": 11972,
+   "n_below_floor": 522,
+   "capture": 0.95822,
+   "hist": {
+    "0.0825": 43,
+    "0.0835": 40,
+    "0.0845": 51,
+    "0.0855": 38,
+    "0.0865": 23,
+    "0.0875": 35,
+    "0.0885": 41,
+    "0.0895": 37,
+    "0.0905": 22,
+    "0.0915": 26,
+    "0.0925": 17,
+    "0.0935": 39,
+    "0.0945": 32,
+    "0.0955": 41,
+    "0.0965": 38,
+    "0.0975": 85,
+    "0.0985": 727,
+    "0.0995": 9703,
+    "0.1005": 1347,
+    "0.1015": 88,
+    "0.1025": 12,
+    "0.1035": 4
+   }
+  },
+  "frozen_thresholds": {
+   "main_floor": 0.0975,
+   "wide_floor": 0.1975,
+   "chinext_20cm_from": "2020-08-24",
+   "star_from": "2019-07-22",
+   "sealed_def": "close==high (float-exact) AND qfq ret >= floor(board,date)"
+  }
+ },
+ "sanity_daily_limitup": {
+  "recent_daily_mean": 70.11,
+  "recent_daily_median": 61.0,
+  "recent_daily_p90": 105.0,
+  "note": "public reality main+20cm boards: typical 30-150/day; probe sanity band"
+ },
+ "zhaban": {
+  "touched_not_sealed_def": "high/prev-1 >= floor AND NOT sealed",
+  "recent_main_daily_zhaban_mean": 35.48,
+  "recent_main_daily_limitup_mean": 60.83,
+  "zhaban_rate_recent_mean": 0.3684
+ },
+ "regime": {
+  "axes": [
+   "daily_limitup_count",
+   "zhaban_rate",
+   "market_max_height"
+  ],
+  "all_daily_computable": true,
+  "height_recent_median": 5,
+  "height_recent_p90": 9,
+  "frozen_gates_ref": "CARDS §一 hiquant emotion-cycle table (>80/<30涨停, <10/10-25/>25% 炸板率, >5/3-5/<3 高度)"
+ },
+ "listing": {
+  "ok_set_recomputed": 5130,
+  "matches_meta": true,
+  "short_history_excluded": 92,
+  "exclusion_law": "上市<365d proxy = bars>=250 (P-1c MIN_ROWS caliber)"
+ },
+ "eligibility": {
+  "rows": 11626,
+  "bars_syms_covered": "5222/5222",
+  "st_true_in_universe": 201,
+  "dragon_name_syms": 85,
+  "snapshot_mtime": "2026-09-24 12:50:33 (point-in-time ST caveat: historical ST transitions unavailable in-repo -> static approximation disclosed in prereg)"
+ },
+ "gaps": {
+  "internal_susp_rows": 0,
+  "listed_bar_rows": 16638518,
+  "susp_frac_of_listed": 0.0,
+  "law": "suspension day = close finite & volume NaN -> T+1 open entry on susp day untradeable (entry rejected); exit on susp day rolls to next tradable open (prereg §3)"
+ }
+}
