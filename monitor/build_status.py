@@ -57,6 +57,24 @@ def _smoke_health() -> dict:
 
 def _network() -> dict:
     st = _read_json(os.path.join(PATHS.logs_dir, "network_status.json")) or {}
+    # Nothing writes this file on cadence (network_detector only writes when
+    # run standalone; smoke only reads) -- without a refresh here the panel
+    # face sits at UNKNOWN forever on fresh clones. Reuse the detector's own
+    # detect/write_status when absent or >30min stale; local OS query only.
+    try:
+        age_min = None
+        ts = st.get("detected_at")
+        if ts:
+            try:
+                age_min = (dt.datetime.now(dt.timezone.utc)
+                           - dt.datetime.fromisoformat(ts)).total_seconds() / 60
+            except Exception:
+                age_min = None
+        if age_min is None or age_min > 30:
+            import network_detector
+            st = network_detector.write_status(network_detector.detect()) or st
+    except Exception:
+        pass
     return {"net_type": st.get("net_type", "UNKNOWN"),
             "hotspot": bool(st.get("hotspot", False)),
             "allow_heavy_sync": bool(st.get("allow_heavy_sync", False)),
