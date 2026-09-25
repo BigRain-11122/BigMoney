@@ -1,0 +1,39 @@
+{
+ "ts": "2026-09-26 05:11:15",
+ "ticket": "T-2026-09-26-72",
+ "probe": "num_ceiling_freeze",
+ "daima": "sh600519",
+ "sort_face": "opendate asc=0 (date-sorted, R216 law; masked sort forbidden)",
+ "requests_consumed": 2,
+ "ladder": {
+  "r1_num600": {
+   "num_param": 600,
+   "status": 200,
+   "ms": 206,
+   "bytes": 198099,
+   "rows": 600,
+   "date_max": "2026-09-24",
+   "date_min": "2024-04-09",
+   "collapse_worst_abs_diff": 4.76837158203125e-07,
+   "collapse_law": "exact"
+  },
+  "r2_num2500": {
+   "num_param": 2500,
+   "status": 200,
+   "ms": 344,
+   "bytes": 830328,
+   "rows": 2500,
+   "date_max": "2026-09-24",
+   "date_min": "2016-06-06",
+   "collapse_worst_abs_diff": 4.76837158203125e-07,
+   "collapse_law": "exact"
+  }
+ },
+ "verdict": {
+  "ceiling_exact": null,
+  "ceiling_lower_bound": 2500,
+  "finding": "num=2500 returns 2500 rows -- ceiling >=2500td (~10.3y), beyond any practical lookback need",
+  "freeze": "single-request lookback practically unbounded for design purposes; deep backfill re-pull = future prereg amendment option (5222 req budget note), current pull stays frozen num=100",
+  "status": "FROZEN-at-lower-bound"
+ }
+}
