@@ -8,7 +8,7 @@
     "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-09-25 18:48:28",
+  "updated_at": "2026-09-25 19:01:11",
   "entries": [
     {
       "id": "J1-PROSPECT-BEATRATE",
@@ -672,7 +672,7 @@
       ],
       "lane_owner": null,
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-25 18:35:09",
       "data_gates": "in-runner census gate (r105 cache drift refuse) + per-cell zero-event honest rows + untradeable/limit-open rejection counts + free-RAM<4GB exit-3 guard (fleet line) + per-cell JSON + per-shard jsonl rows-carry-key checkpoint resume (r163)",
       "workers_plan": {
@@ -683,14 +683,15 @@
       "shards": [
         {
           "key": "wr-nulls",
-          "status": "ready",
+          "status": "done",
           "owner": "bm-b",
           "note": "K=50 same-mask nulls, est 1-4min total; MUST complete before finalize",
           "owner_since": "2026-09-25 18:53:01"
         }
       ],
       "owner": "bm-b",
-      "owner_since": "2026-09-25 18:48:28"
+      "owner_since": "2026-09-25 18:48:28",
+      "done_note": "r198: 50/50 nulls completed 19:00:48 (45s, pid 26148, both crash fixes production-verified); NULLS_JSON results/wild_route/wild_route_s1_nulls.json"
     },
     {
       "id": "WILD-S1-SHARD-0",
