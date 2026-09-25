@@ -53,10 +53,18 @@
 - results：`results/ce_admission/CE_ADMISSION_B1.json`（顶层 evidence_cutoff+cutoff_meta 合法键；漏斗双列+逐员表+MW 读数+CORR 触发面+N_eff 描述面）。
 - 批报告：本文件 §7 回填 + `research/CE_ADMISSION_V1.md` §8 追加一行 + 轮报告回执。
 
-## §7 跑后实证【跑前必须为空——占位纪律】
+## §7 跑后实证【2026-09-25 15:06 跑后一次定稿回填】
 
-（跑后一次定稿回填）
+- **漏斗双列（进入｜过闸）**：considered 22｜22 → precheck 22｜22 → G1'v2 22｜3 → G2 3｜0 → MW 0｜0 → CORR 0｜0 → **admitted 0**。
+- **G1'v2 过线员 3**（recorded）：PROS-DUCK-01 / PROS-DUCK-CE-01 / PROS-VOB-CE-01；**G2 段清空**：DUCK-01 nbhd✓+per_year✓ 但 cost_x3 ✗（x3 full S=−0.161）；DUCK-CE-01/VOB-CE-01 同 cost_x3 ✗（VOB nbhd 5/8 red 亦 ✗）——0/22 G2 eligible 与 bm-a R88 t24-g2-pack 档读一致。
+- **MW 描述读（全 22 员 legacy base 面）**：max beat_6m=**0.5876**（PROS-DOJI-CE-01）<0.70 ⇒ **0/22 过 MW 线**；3 名 G1 过线员读数=DUCK-01 0.5462 / DUCK-CE-01 0.5533 / VOB-CE-01 0.5414（皆 <0.70——即使 G2 过线亦将 MW FAIL）；deep 轴与 x2 面全读数逐格披露于结果件（零门线）。
+- **CORR 腿**：untriggered（零 MW 过线员）——§3 测量协议未开跑，零新 pairwise；触发面=0 员如实记。
+- **N_eff 描述面**：ρ̄_avg=**0.2576**（15 对 rolling-60d last 读数均值）⇒ 等波动 N_eff=**2.6225**（M=6）——首读 <4 与 §7.3 预测一致；W2 ORANGE 0.8687 对在档。
+- **账本**：append_ledger 实际计数 **0**（判定批零新试验；T54 测量 121,528 cells 已在册 r183）→ ledger total 182,945 平持；gate_attrition +1 行（kind=judgment, eliminated 22, mw_pass 空）。
+- 产物：`results/ce_admission/CE_ADMISSION_B1.json`（顶层 evidence_cutoff=2026-09-24 + science_gates.cutoff_meta 合法键 C2 面）+ `scripts/ce_admission_intake.py`（selftest 6/6 离线夹具）。
 
-## §8 批后复盘【跑后】
+## §8 批后复盘【跑后回填】
 
-- 预测对账 + gate_attrition 追加 + 轮报告回执（占位·跑后回填）。
+- **预测对账**：①§5.1「MW 0/22 过线」=**对**（max 0.5876<0.70）；②§5.2「漏斗 G2 段清空、MW/CORR 触发面零员」=**对**（G2 0/3）；③§5.3「N_eff 首读 <4」=**对**（2.6225）；④极端日先验不适用面=如宣告。4/4 全对——损耗为主首读=规则 §7.1 预测态，非规则失效。
+- gate_attrition 追加一行；轮报告回执 r185；无新员注册 ⇒ 零注册管线动作、零 live/paper 接线、零 smoke 锚定门重跑（注册面未开）。
+- 诚实边界：本批零翻案零改线——0.70/0.50/0.50 与 0.50 帽纹丝不动；PROSPECT 池治理归 T-24 promotion 管线不变；10-31 J-line 重跑面不受本判定约束（本批只关 CE 准入）。
