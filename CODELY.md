@@ -88,3 +88,5 @@
 
 
 - [2026-09-25 10:0x] 坑律（bm-a R148·rebase 11-UU S6 链同窗撞车第三次·dashboard 双真实键分歧 tie-break）：dashboard_status.json 双真实新鲜键同窗互斥实弹（meta.generated_at 我侧 09:53:37 新 vs data.update.last_run bm-b 侧 09:52:50 新，r125 用后者、r155 键清单含前者）——生成型工件取整件完成时间戳（generated_at·last-writer-wins）为 tie-break 正解；r148 孪生律照抄（.js 同侧）+生成时间戳在 .js 内互证。连带：11 件分级配方三度全解（r140 同秒 tie 又现取 HEAD·无新例）；How：撞 dashboard 冲突先探双键，分歧时按 generated_at 取整件，禁按单腿键裁整件。
+
+- [2026-09-25 10:2x] 坑律（bm-a R149·R124 梯第五例）：**学术主源核验正道=DDG lite site:<域> 关键词 直搜+本地 requests/pypdf 抽取**——站内路径全 404/导航 JS 丢 href 时 site: 直搜一发命中（PBCSF 实弹：sitemap/robots/直猜 4 连 404、kyxm/lwfb 均非逐篇 PDF 面，site: 查 10 命中目标 PDF 全文）；web_fetch 对 PDF 二进制不可解析（本地单取+pypdf 落地）；同窗 Bing CJK 搅碎复现+DDG lite 连用触发 CAPTCHA（单窗勿连用）；主源 PDF 按大文件律不入 git（URL 公开可复现·抽取主张全文入 digest 即证据）。指针=DIGEST-20260925-wave6-slice8.md §〇/§一
