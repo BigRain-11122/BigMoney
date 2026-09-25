@@ -19,8 +19,8 @@ Exit codes: 0 ok | 1 transport/model error | 2 contract failure
 (serve down / model missing / no code block / empty generation).
 
 Usage:
-    python scripts/pilot_b_client.py <task_dir>          # run B arm
-    python scripts/pilot_b_client.py selftest            # offline assertions
+    python scripts/pilot_b_client.py <task_dir> <arm_dir>  # run B arm
+    python scripts/pilot_b_client.py selftest              # offline assertions
 """
 
 import io
@@ -43,6 +43,15 @@ STREAM_TIMEOUT = 1800  # 30b hybrid CPU/GPU can be slow; generous but finite
 _OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))
 
 CODE_BLOCK_RE = re.compile(r"```(?:python|py)?\s*\n(.*?)```", re.DOTALL)
+
+# Output filename comes from the frozen prompt's target-file line (single
+# source of truth, identical information face for both arms).
+TARGET_RE = re.compile(r"目标文件：scripts/([A-Za-z0-9_.\-]+\.py)")
+
+
+def extract_target_name(prompt_text):
+    m = TARGET_RE.search(prompt_text)
+    return m.group(1) if m else None
 
 
 def _post_stream(payload, timeout):
@@ -126,6 +135,11 @@ def main(argv):
     if not os.path.isfile(prompt_path):
         print(f"prompt.md missing under {task_dir}", file=sys.stderr)
         return 2
+    prompt_full = io.open(prompt_path, encoding="utf-8").read()
+    out_name = extract_target_name(prompt_full)
+    if not out_name:
+        print("no target-file name in frozen prompt", file=sys.stderr)
+        return 2
 
     # serve/model presence (honest preflight, never a silent fallback)
     try:
@@ -169,8 +183,8 @@ def main(argv):
         return 2
     # normalize exactly one trailing newline
     code = code.rstrip("\n") + "\n"
-    io.open(os.path.join(arm_dir, "rr_lint.py"), "w", encoding="utf-8").write(code)
-    print("B arm wrote rr_lint.py | " + json.dumps(metrics, ensure_ascii=False))
+    io.open(os.path.join(arm_dir, out_name), "w", encoding="utf-8").write(code)
+    print(f"B arm wrote {out_name} | " + json.dumps(metrics, ensure_ascii=False))
     return 0
 
 
@@ -189,6 +203,17 @@ def _selftest():
         ok += 1
     # no-block fallback triggers only on code-looking text
     assert CODE_BLOCK_RE.search("plain text only") is None
+    ok += 1
+    # target-name extraction family (production call form, r157/r180 pairing)
+    name_cases = [
+        ("任务：x\n目标文件：scripts/wm_red_lint.py（新建；仅此一件产物）",
+         "wm_red_lint.py"),
+        ("目标文件：scripts/rr_lint.py（新建", "rr_lint.py"),
+    ]
+    for src, want in name_cases:
+        assert extract_target_name(src) == want, f"target name failed: {src!r}"
+        ok += 1
+    assert extract_target_name("no target line here") is None
     ok += 1
     print(f"selftest: {ok} assertions ALL PASS")
     return 0
