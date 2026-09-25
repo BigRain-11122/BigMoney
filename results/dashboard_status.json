@@ -4,20 +4,20 @@
     "stage": "筹备期 · Pre-Seed",
     "capital": 1000000,
     "nav": 1.0,
-    "generated_at": "2026-09-26T07:21:14"
+    "generated_at": "2026-09-26T07:30:50"
   },
   "health": {
     "smoke": {
       "pass": 25,
       "fail": 0,
-      "at": "2026-09-26T07:18:54",
+      "at": "2026-09-26T07:28:40",
       "ok": true
     },
     "network": {
       "net_type": "LAN",
       "hotspot": false,
       "allow_heavy_sync": true,
-      "detected_at": "2026-09-25T22:54:09+00:00"
+      "detected_at": "2026-09-25T23:30:50+00:00"
     }
   },
   "data": {
@@ -27,8 +27,8 @@
     "fresh": true,
     "update": {
       "present": true,
-      "last_run": "2026-09-26 07:20:51",
-      "age_min": 0,
+      "last_run": "2026-09-26 07:29:46",
+      "age_min": 1,
       "symbols": 48,
       "total_new_rows": 0,
       "failures": 0,
@@ -41,7 +41,7 @@
       "present": true,
       "l1_verdict": "no-op: weekend (no trading-day snapshot)",
       "l1_snapshots": 3,
-      "l1_updated": "2026-09-26 07:20:53",
+      "l1_updated": "2026-09-26 07:29:48",
       "l2_updated": "2026-09-23 21:21:10",
       "l2_done": 97,
       "l2_target": 100,
@@ -55,7 +55,7 @@
       "present": true,
       "varieties": 9,
       "planned": 9,
-      "last_attempt": "2026-09-26T07:20:54",
+      "last_attempt": "2026-09-26T07:29:59",
       "age_min": 0,
       "cutoff": "2026-09-24",
       "errors": 0,
@@ -74,32 +74,32 @@
       "failures": 3,
       "conn_stopped": true,
       "mismatches": 0,
-      "last_attempt": "2026-09-26T06:53:47",
-      "age_min": 27,
+      "last_attempt": "2026-09-26T07:29:59",
+      "age_min": 0,
       "status": "warn",
       "text": "资金流源阻断停发 · 30min 自愈 · 已采 53/5222"
     },
     "token": {
       "present": true,
-      "generated": "2026-09-26 07:11:39",
+      "generated": "2026-09-26 07:21:15",
       "mandate_est": 6600,
       "codely_context_est": 9208,
       "state_est": 1945,
-      "report_est": 372975,
+      "report_est": 373423,
       "delta_state": 0,
-      "delta_report": 585,
-      "delta_prev": "2026-09-26 07:00:44"
+      "delta_report": 448,
+      "delta_prev": "2026-09-26 07:11:39"
     },
     "watermark": {
       "present": true,
       "py_tail": [
-        0.1,
         0.5,
         0.1,
         0.0,
-        0.3
+        0.3,
+        0.1
       ],
-      "last_sample": "2026-09-26 07:20:21",
+      "last_sample": "2026-09-26 07:29:33",
       "red": false,
       "lane": "healthy",
       "zombies_killed": [],
@@ -117,7 +117,7 @@
       "ready_ids": [
         "P1E-SYNTH"
       ],
-      "last_tick": "2026-09-26 07:20:01",
+      "last_tick": "2026-09-26 07:30:01",
       "verdict": "pool_empty_or_busy",
       "py_cpu_pct": 0.0,
       "launches_total": 50,
@@ -128,7 +128,6 @@
       "present": true,
       "py_tail": [
         0.4,
-        0.4,
         0.1,
         0.4,
         0.0,
@@ -138,9 +137,10 @@
         0.5,
         0.1,
         0.0,
-        0.3
+        0.3,
+        0.1
       ],
-      "py_last_sample": "2026-09-26 07:20:21",
+      "py_last_sample": "2026-09-26 07:29:33",
       "pool_ready": 1,
       "pool_waiting": 0,
       "ready_ids": [
@@ -149,8 +149,8 @@
       "load_state": "pool-supply-gap",
       "starvation_flag": false,
       "starvation_candidate": false,
-      "audit_ts": "2026-09-26 07:20:14",
-      "starvation_flags_recent": 33
+      "audit_ts": "2026-09-26 07:29:26",
+      "starvation_flags_recent": 32
     },
     "regime": {
       "present": true,
@@ -371,22 +371,22 @@
     "machines": [
       {
         "id": "bm-a",
-        "last_seen": "2026-09-26T07:13:53+08:00",
-        "age_min": 7.4,
+        "last_seen": "2026-09-26T07:22:18+08:00",
+        "age_min": 8.5,
         "health": "ok",
         "cpu_cores": 32,
-        "idle_ram_gb": 51.3,
+        "idle_ram_gb": 54.7,
         "gpu_idle_vram_mb": 5407,
-        "current_task": "r228 done: s2 pull supervised healthy (3506/5228@07:09, ETA ~08:25, zero failures); acceptance RUN at pull-completion round then s3 S6 wiring",
+        "current_task": "r229 done: s2 pull supervised healthy (3782/5228 @07:21, ETA ~08:26); acceptance RUN at pull-completion round",
         "verdict": "GREEN",
         "orders_ack": "O-20260923-1514-bm-a.md O-20260923-1533-bm-a.md O-20260923-1536-bm-a.md O-20260923-1538-bm-a.md O-20260923-1545-bm-a.md O-20260923-1620-bm-a.md O-20260923-1636-bm-a.md O-20260923-1653-bm-a.md O-20260923-1705-bm-a.md O-20260923-1738-bm-a.md O-20260923-1810-bm-a.md O-20260923-1816-bm-a.md O-20260923-1819-bm-a.md O-20260923-1820-bm-a.md O-20260923-1823-bm-a.md O-20260923-1828-bm-a.md O-20260923-1844-bm-a.md O-20260923-1850-bm-a.md O-20260923-2134-bm-a.md O-20260923-2205-bm-a.md O-20260923-2210-bm-a.md O-20260923-2215-bm-a.md O-20260923-2250-bm-a.md O-20260923-2310-bm-a.md O-20260923-2311-bm-a.md O-20260923-2315-bm-a.md O-20260923-2325-bm-a.md O-20260923-2345-bm-a.md O-20260924-0100-bm-c.md O-20260924-1045-bm-a.md O-20260924-1110-bm-a.md O-20260924-1120-bm-a.md O-20260924-1136-bm-a.md O-20260924-1141-bm-a.md O-20260924-1145-bm-a.md O-20260924-1155-bm-a.md O-20260924-1235-bm-a.md O-20260924-1255-bm-a.md O-20260924-1310-bm-a.md O-20260924-1320-bm-a.md O-20260924-1325-bm-a.md O-20260924-1402-cph4.md O-20260924-1532-bm-a.md O-20260924-1536-bm-a.md O-20260924-1542-bm-a.md O-20260924-1600-bm-a.md O-20260924-1612-bm-a.md O-20260924-1626-bm-a.md O-20260924-1655-bm-a.md O-20260924-1702-bm-a.md O-20260924-1712-bm-a.md O-20260924-1718-bm-a.md O-20260924-1721-bm-a.md O-20260924-1727-bm-a.md O-20260924-1730-bm-a.md O-20260924-2012-bm-a.md O-20260924-2030-bm-a.md O-20260924-2045-bm-a.md O-20260924-2100-bm-a.md O-20260924-2115-bm-a.md O-20260924-2130-bm-a.md O-20260925-0855-bm-a.md O-20260925-0857-bm-a.md O-20260925-1105-bm-a.md O-20260925-1126-bm-a.md O-20260925-1132-bm-a.md O-20260925-1137-bm-a.md O-20260925-1138-bm-a.md O-20260925-1145-bm-a.md O-20260925-1152-bm-a.md O-20260925-1153-bm-c.md O-20260925-1158-bm-a.md O-20260925-1755-bm-a.md O-20260925-2313-bm-c.md README.md",
-        "clock_read": "2026-09-26T07:13:53+08:00",
+        "clock_read": "2026-09-26T07:22:18+08:00",
         "round_no": 83
       },
       {
         "id": "bm-b",
         "last_seen": "2026-09-26T06:48:23+08:00",
-        "age_min": 32.9,
+        "age_min": 42.5,
         "health": "warn",
         "cpu_cores": 16,
         "idle_ram_gb": 12.6,
@@ -400,7 +400,7 @@
       {
         "id": "bm-c",
         "last_seen": "2026-09-24 21:51:47",
-        "age_min": 2009.5,
+        "age_min": 2019.1,
         "health": "bad",
         "cpu_cores": 32,
         "idle_ram_gb": null,
@@ -922,16 +922,16 @@
     "n_claimed": 22,
     "n_done": 50,
     "audit": {
-      "ts": "2026-09-26 07:20:14",
+      "ts": "2026-09-26 07:29:26",
       "verdict": "CLEAN",
       "flags": [],
-      "cpu_total_pct": 28.0,
-      "py_cpu_pct": 0.3,
+      "cpu_total_pct": 38.0,
+      "py_cpu_pct": 0.1,
       "cores": 32,
-      "py_procs": 6,
+      "py_procs": 5,
       "zombies": 0,
-      "gpu_util_pct": 3.0,
-      "gpu_mem_used_mb": 6601.0,
+      "gpu_util_pct": 7.0,
+      "gpu_mem_used_mb": 6596.0,
       "rogue_apps": []
     },
     "p1d": {
@@ -978,7 +978,7 @@
     "lhb": {
       "verdict": "no-op: <30min since last fetch attempt (min-interval guard)",
       "cutoff": "2026-09-24",
-      "updated": "2026-09-26 07:20:53",
+      "updated": "2026-09-26 07:29:48",
       "new_rows": 0
     }
   },
@@ -1500,7 +1500,7 @@
   },
   "events": [
     {
-      "time": "2026-09-26T07:18:54",
+      "time": "2026-09-26T07:28:40",
       "text": "自检 25项通过/0失败"
     },
     {
@@ -1524,32 +1524,32 @@
       "text": "门禁链定案（试验账本 N=184754）：432基线灭 → G1' 3员 → G2 0 → J14 0 → J15 1员 → J19 2员 → LFC 债金池 0员 → NSP1 新信号 2候选 → G2_NSP1 深化 0员 → SLEEVE_P3 袖并入收线 → P-4 动物园批一 0候选·袖2 → P-4 批二股票池 0员幸存（累计 6 员注册编制）"
     },
     {
-      "time": "2026-09-26 07:20:51",
+      "time": "2026-09-26 07:29:46",
       "text": "数据链 · 日线更新 48 符号 · 新增 0 行 · 失败 0 · cutoff 2026-09-24"
     },
     {
-      "time": "2026-09-26 07:20:53",
+      "time": "2026-09-26 07:29:48",
       "text": "热度链 · L1 人气榜快照 3 份 · L2 回填 97/100 件 · 拒 3（真短史） · era 2025-09-23→2026-09-23"
     },
     {
-      "time": "2026-09-26T07:20:54",
+      "time": "2026-09-26T07:29:59",
       "text": "期货链 · C 层 9 品种主力连续 · 23k 行 · cutoff 2026-09-24 · 刚跑"
     },
     {
-      "time": "2026-09-26T06:53:47",
+      "time": "2026-09-26T07:29:59",
       "text": "数据链 · 资金流源阻断停发 · 30min 自愈 · 已采 53/5222（MF_COLLECTOR 前向 · bm-a R63）"
     },
     {
-      "time": "2026-09-26 07:11:39",
-      "text": "本地化 · token 粗估 状态 1945 · 报告 372975 · 回合固定载入 9208（byte/3.5 代理口径 · O-2325）"
+      "time": "2026-09-26 07:21:15",
+      "text": "本地化 · token 粗估 状态 1945 · 报告 373423 · 回合固定载入 9208（byte/3.5 代理口径 · O-2325）"
     },
     {
-      "time": "2026-09-26 07:20:21",
-      "text": "算力水位 · py 0.1→0.5→0.1→0.0→0.3% · 绿 · 近段红牌 3 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
+      "time": "2026-09-26 07:29:33",
+      "text": "算力水位 · py 0.5→0.1→0.0→0.3→0.1% · 绿 · 近段红牌 3 次 · 僵尸处置 0 例（watchdog C7 · O-1626 判定即处置）"
     },
     {
-      "time": "2026-09-26 07:20:14",
-      "text": "满载面 · 池 ready 1/1 · 本机 py 0.4→0.4→0.1→0.4→0.0→0.0→0.3→0.1→0.5→0.1→0.0→0.3% · 态 pool-supply-gap · 无旗 · 近百采样旗 33 次（第七旗池饿 · O-20260925-1137 · 旗=供给义务非烧数许可）"
+      "time": "2026-09-26 07:29:26",
+      "text": "满载面 · 池 ready 1/1 · 本机 py 0.4→0.1→0.4→0.0→0.0→0.3→0.1→0.5→0.1→0.0→0.3→0.1% · 态 pool-supply-gap · 无旗 · 近百采样旗 32 次（第七旗池饿 · O-20260925-1137 · 旗=供给义务非烧数许可）"
     },
     {
       "time": "2026-09-25T18:24:57",
@@ -1580,7 +1580,7 @@
       "text": "队列排程 · UCB1 advisory · 下一 跨库合成（未试） · 正收益 组合构建 · 开放0 · P1门1 · 已试臂 4/10 · exploit 最优 组合构建（QUEUE_BANDIT v1 · O-1819 队列永不清空 · 只排序不发起批）"
     },
     {
-      "time": "2026-09-26T07:13:53+08:00",
+      "time": "2026-09-26T07:22:18+08:00",
       "text": "机队 · 3 节点 1 活 · 票据 done 50/claimed 22/open 0 · P-1d 三槽门 dzjy✓/gdhs✓/margin✓"
     },
     {
@@ -1596,8 +1596,8 @@
     "siblings": [
       {
         "name": "Bigmoney · 回测节点（本机）",
-        "last_active": "09-26 07:21",
-        "age_min": 0.1,
+        "last_active": "09-26 07:29",
+        "age_min": 1.2,
         "alive": true
       }
     ]
