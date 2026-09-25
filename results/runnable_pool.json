@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 06:41:00",
+ "updated_at": "2026-09-25 11:19:22",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -262,7 +262,319 @@
     }
    ],
    "result_ref": "results/shortline_xstock_tilt.json (0/4 verdict, closed; prereg s7/s8 backfilled r153)"
+  },
+  {
+   "id": "T54-GRID-LA",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "lA",
+    "--pos-from",
+    "0",
+    "--pos-to",
+    "314",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "legacy-lA",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_legacy_base_lA.jsonl + cells_legacy_x2_lA.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [0,314) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
+  },
+  {
+   "id": "T54-GRID-LB",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "lB",
+    "--pos-from",
+    "314",
+    "--pos-to",
+    "628",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "legacy-lB",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_legacy_base_lB.jsonl + cells_legacy_x2_lB.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [314,628) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
+  },
+  {
+   "id": "T54-GRID-LC",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "lC",
+    "--pos-from",
+    "628",
+    "--pos-to",
+    "942",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "legacy-lC",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_legacy_base_lC.jsonl + cells_legacy_x2_lC.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [628,942) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
+  },
+  {
+   "id": "T54-GRID-LD",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "lD",
+    "--pos-from",
+    "942",
+    "--pos-to",
+    "1256",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "legacy-lD",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_legacy_base_lD.jsonl + cells_legacy_x2_lD.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [942,1256) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
+  },
+  {
+   "id": "T54-GRID-DA",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "dA",
+    "--pos-from",
+    "0",
+    "--pos-to",
+    "377",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "deep-dA",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_deep_base_dA.jsonl + cells_deep_x2_dA.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [0,377) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
+  },
+  {
+   "id": "T54-GRID-DB",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "dB",
+    "--pos-from",
+    "377",
+    "--pos-to",
+    "754",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "deep-dB",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_deep_base_dB.jsonl + cells_deep_x2_dB.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [377,754) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
+  },
+  {
+   "id": "T54-GRID-DC",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "dC",
+    "--pos-from",
+    "754",
+    "--pos-to",
+    "1131",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "deep-dC",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_deep_base_dC.jsonl + cells_deep_x2_dC.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [754,1131) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
+  },
+  {
+   "id": "T54-GRID-DD",
+   "ticket_ref": "T-2026-09-25-54 slice-2 (O-1105 R3 + O-1137 s2.1 first P0 carrier)",
+   "prereg_ref": "research/shortline/T54_PROSPECT_GRID.md (frozen 71a0dd24; census legacy 1256/deep 1506 = deep canon bit-match; zero judgment lines, evidence-registration only)",
+   "runner": "scripts/t54_prospect_grid.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "dD",
+    "--pos-from",
+    "1131",
+    "--pos-to",
+    "1506",
+    "--faces",
+    "base,x2"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-25 11:19:22",
+   "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
+   "shards": [
+    {
+     "key": "deep-dD",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t54/cells_deep_base_dD.jsonl + cells_deep_x2_dD.jsonl (row-level done-key resume, t22 protocol)",
+     "note": "22 PROSPECT members x positions [1131,1506) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+    }
+   ],
+   "workers_plan": {
+    "workers": "runner worker_cap() (bm-b=12, bm-a=25 cap observed)",
+    "priority": "BelowNormal",
+    "note": "ProcessPoolExecutor multi-core, O-2130 compliant; ~13.8k-16.6k cells/shard"
+   }
   }
  ],
- "_stamp_note": "r92 stamp correction per r65 anti-estimation law: prior updated_at 21:26:00 was an estimated future-stamp, re-stamped from Get-Date real read"
+ "_stamp_note": "r173 bm-b: T-54 slice-2 first P0 carrier entered per O-1137 s2.1 (8 shards, 121,528 cells full face); entered_at corrected to real clock (r62 law; originally estimate-stamped)"
 }
