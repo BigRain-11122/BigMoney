@@ -1,0 +1,1302 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=1006" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>金融工程-慧博投研资讯</title>
+    <meta name="description" content="本栏目页全面提供专业的金融工程数据，看专业、准确、及时、公正的金融工程研报大数据就来慧博投研资讯！">
+    <meta name="keywords" content="金融工程">
+    <link rel="stylesheet" href="/newweb/res/css/layout.css?t=2026092518" type="text/css" />
+    <link rel="stylesheet" href="/newweb/res/css/huisou-index.css?t=20260925180239137" type="text/css" />
+    <script type="text/javascript" src="/newweb/res/js/jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="/newweb/Res/Js/stock-suggest.js"></script>
+    <script type="text/javascript" src="/newweb/Res/Js/huisou-index.js?t=20260925180239137"></script>
+    <script type="text/javascript" src="/newweb/res/js/layout.js?t=20260925180239137"></script>
+    
+    <!--[if IE 6]>
+    <style type="text/css">
+        .list_nav a {
+            background:url(/newweb/res/img/nav_listbg2.gif) no-repeat right;
+            float:left;
+            margin-right:10px;
+        }
+        .nav_div li a:hover{ color:#fff;}
+        .nav_div ul.nav-sle li a{ color:#fff;}
+        .nav_div ul.nav-sle li ul li a{ color:#444;]
+    </style>
+    <![endif]-->
+</head>
+<body>
+        <div class="head">
+            <div class="head_div w1000">
+                <iframe id="ilogin" frameborder="0" marginwidth="0" marginheight="0" scrolling="no" src="/top.html" class="top-login"></iframe>
+            </div>
+        </div>
+    <div class="logo" id="logo">
+        <div class="w1000">
+            <div class="logo_img">
+                <a href="/" target="_blank">
+                    <img src="/newweb/res/img/logo.gif" alt="慧博投研资讯" border="0" />
+                </a>
+            </div>
+            <div class="search-div">
+                <div class="search-tab">
+                    <ul>
+                        <li id="searchTab1" class="clicked">研究报告</li>
+                        <li id="searchTab2">定期财报</li>
+                        <li id="searchTab3">公司公告</li>
+                    </ul>
+                </div>
+                <div class="search-box">
+                    <!--正文搜索-->
+                    <div class="search">
+                        <form name="f" id="fs" action="/newweb/HuiSou/s" target="_blank" onsubmit="return submitSearchForm()">
+                            <input type="text" class="search-text" id="kw" name="gjc" maxlength="100" onfocus="hideHint('kw')" onkeydown="hideHint('kw')" autocomplete="off">
+                            <label class="placeholder" id="kw_ph" for="kw" style="visibility: hidden">搜索内容不能为空</label>
+                            <input type="submit" class="search-btn" value="搜索">
+                            <input type="hidden" id="fs_sslb" name="sslb" value="1" />
+                            <input type="hidden" id="fs_sjfw" name="sjfw" value="" />
+                            <input type="hidden" id="fs_cxzd" name="cxzd" value="" />
+                            <input type="hidden" id="fs_px" name="px" value="" />
+                            <input type="hidden" id="fs_bgys" name="bgys" value="" />
+                            <input type="hidden" id="fs_gs" name="gs" value="" />
+                            <input type="hidden" id="fs_sdhy" name="sdhy" value="" />
+                            <input type="hidden" id="fs_sdgs" name="sdgs" value="" />
+                            <input type="hidden" id="fs_sdhgcl" name="sdhgcl" value="" />
+                            <input type="hidden" id="fs_mhss" name="mhss" value="" />
+                            <input type="hidden" id="fs_hy" name="hy" value="" />
+                            <input type="hidden" id="fs_gp" name="gp" value="" />
+                        </form>
+                        <div class="clear"></div>
+                    </div>
+                    <!--热搜-->
+                    <div class="hot-search" id="reSou">
+                        <div class="hot-txt-title">热搜：</div>
+                        <div class="hot-txt-body">
+                                <span title="AI">AI</span>
+                                <span title="地产">地产</span>
+                                <span title="储能">储能</span>
+                                <span title="半导体">半导体</span>
+                                <span title="机器人">机器人</span>
+                                <span title="汽车">汽车</span>
+                                <span title="AIDC">AIDC</span>
+                                <span title="人工智能">人工智能</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--主导航-->
+    <div class="nav" id="nav">
+        <div class="nav_div w1000">
+            <ul id="nav-sle" class="nav-sle">
+                <li class="over"><a href="/" target="_blank">&nbsp;&nbsp;首 页&nbsp;&nbsp;</a></li>
+                <li class="list_nav">
+                    <a>报告分类</a>
+                    <ul>
+                        <li><a href="/microns_13.html" target="_blank">宏观经济</a></li>
+                        <li><a href="/microns_4.html" target="_blank">投资策略</a></li>
+                        <li><a href="/microns_2.html" target="_blank">行业分析</a></li>
+                        <li><a href="/microns_1.html" target="_blank">公司调研</a></li>
+                        <li><a href="/microns_16.html" target="_blank">债券研究</a></li>
+                        <li><a href="/microns_14.html" target="_blank">晨会早刊</a></li>
+                        <li><a href="/microns_5.html" target="_blank">机构资讯</a></li>
+                        <li><a href="/microns_21.html" target="_blank">新股研究</a></li>
+                        <li><a href="/microns_22.html" target="_blank">并购重组</a></li>
+                        <li><a href="/microns_9.html" target="_blank">港美研究</a></li>
+                        <li><a href="/microns_18.html" target="_blank">金融工程</a></li>
+                        <li><a href="/microns_19.html" target="_blank">投资组合</a></li>
+                        <li><a href="/microns_20.html" target="_blank">融资融券</a></li>
+                        <li><a href="/microns_8.html" target="_blank">期货研究</a></li>
+                        <li><a href="/microns_15.html" target="_blank">股指期货</a></li>
+                        <li><a></a></li>
+                        <li class="bor-btm"><a href="/microns_23.html" target="_blank">期权研究</a></li>
+                        <li class="bor-btm"><a href="/microns_6.html" target="_blank">基金频道</a></li>
+                        <li class="bor-btm"><a href="/microns_17.html" target="_blank">外汇研究</a></li>
+                        <li class="bor-btm"><a></a></li>
+                        <li class="bor-none"><a href="/freport_11_1.html" target="_blank">外文报告</a></li>
+                        <li class="bor-none"><a href="/anreport_12.html" target="_blank">公司公告</a></li>
+                        <li class="bor-none"><a href="/report.html" target="_blank">定期财报</a></li>
+                        <li class="bor-none"><a></a></li>
+                    </ul>
+                </li>
+                <li class="list_nav">
+                    <a>资讯分类</a>
+                    <ul class="ui-listyle">
+                        <li class="bor-none"><a href="/pictbg.html" target="_blank">图片研报</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="list_nav">
+                    <a>慧博终端</a>
+                    <ul class="ui-listylepc">
+                        <li><a href="/soft/download.html" target="_blank">慧博智能策略终端（PC版）</a></li>
+                        <li class="bor-none"><a href="/soft/sjb/index.html" target="_blank">慧博投资分析APP（移动版）</a></li>
+                    </ul>
+                </li>
+                <li><a href="/hytop.html" target="_blank"><span>热点研报</span></a></li>
+                <li><a href="/elitelist.html" target="_blank"><span>精选研报</span></a></li>
+                <li><a href="/author.html" target="_blank"><span>知名分析师</span></a></li>
+                <li><a href="/edbweb/edb/01.html" target="_blank">经济数据库</a></li>
+                <li class="list_nav">
+                    <a>个人中心</a>
+                    <ul class="ui-listyle">
+                        <li><a href="/mycenter/register.html" target="_blank">用户管理</a></li>
+                        <li><a href="/favorites.html" target="_blank">我的收藏</a></li>
+                        <li><a href="/docupload.html" target="_blank">我要上传</a></li>
+                        <li><a href="/docupload_mag.html" target="_blank">云文档管理</a></li>
+                        <li class="bor-none"><a href="/wnote.html" target="_blank">我的云笔记</a></li>
+                        
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="ban_div">
+        <a href="/soft/download.html" target="_blank"><img src="/newweb/res/img/banner_top.gif?v=20260925180239"></a>
+    </div>
+    
+<script type="text/javascript">
+  currentOperatePageName = '研报列表页';
+  function cookie(name, value, options) {
+    //Write
+    if (value !== undefined) {
+      options = options || {};
+      if (typeof options.expires === 'number') {
+        var days = options.expires, t = options.expires = new Date();
+        t.setTime(+t + days * 864e+5);
+      }
+      document.cookie = [
+				name, '=', String(value),
+				options.expires ? '; expires=' + options.expires.toUTCString() : '',
+				options.path ? '; path=' + options.path : '',
+				options.domain ? '; domain=' + options.domain : '',
+				options.secure ? '; secure' : ''
+      ].join('');
+      return;
+    }
+    //Read
+    var result = '';
+    cookies = document.cookie ? document.cookie.split('; ') : [];
+    for (var i = 0; i < cookies.length; i++) {
+      var parts = cookies[i].split('=');
+      var k = decodeURIComponent(parts.shift());
+      var v = parts.join('=');
+      if (k && k === name) {
+        if (v.indexOf('"') === 0) {
+          v = v.slice(1, -1).replace(/\\"/g, '"').replace(/\\\\/g, '\\');
+        }
+        result = v;
+        break;
+      }
+    }
+    return result;
+  }
+  function zhaiYao(a, value) {
+    a.className = "a-list-click";
+    id2 = a.id == "oldList" ? "newList" : "oldList";
+    document.getElementById(id2).className = "a-list";
+    if (a.id == "oldList") {
+      cookie("oldList", "true", { expires: 300 });
+    } else {
+      cookie("oldList", "", { expires: -1 });
+    }
+    var table = document.getElementById("tableList");
+    for (var i = 1; i < table.rows.length; i += 4) {
+      table.rows[i].cells[0].style.display = value;
+    }
+  }
+  function go() {
+      var pageIndex = $.trim($('#pageBox').val());
+      if (validatePageIndex(pageIndex)) {
+          $('#fmList').attr('action', '/microns_18_' + pageIndex + '.html');
+          return true;
+      } else {
+          return false;
+      }
+  }
+  function validatePageIndex(pageIndex) {
+      var patt = /^\+?[1-9][0-9]*$/;  //正整数
+      if (!patt.test(pageIndex)) {
+          alert("页数格式错误！");
+          return false;
+      }
+      return true;
+  }
+</script>
+<script type="text/javascript" src="/newweb/res/js/rightPage.js"></script>
+<link rel="stylesheet" type="text/css" href="/newweb/res/css/list.css" />
+<link rel="stylesheet" type="text/css" href="/newweb/res/css/rightPage.css" />
+
+<div class="main_div">
+  <div class="main_ltlt">
+    <div class="main_h3">
+      <span class="main_fl">位置：<a href="/" target="_blank">首页</a> &gt; 金融工程</span>
+      <span class="main_fr">
+        <a href="javascript:;" onclick="zhaiYao(this,'none')" id="oldList" class="a-list">旧版列表</a>
+        <a href="javascript:;" onclick="zhaiYao(this,'block')" id="newList" class="a-list-click">新版列表</a>
+      </span>
+    </div>
+    <div class="leftn2">
+      <table cellpadding="0" cellspacing="0" border="0" class="tab_ltnew" id="tableList">
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/8d5322311d588c13c54e5246baf1bbc7.html" target="_blank">太平洋证券-申万一级银行偏离修复模型（回调型浮动迫损）效果点评-260924</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　模型概述
+　　设计原理：本策略在原有偏离修复模型基础上引入回调型分档止损机制。模型假定标的价格走势相对参考标的存在反复的偏离-回归循环，通过统计历史回撤确定买入阈值。在触发买入...<a target="_blank" href="/data/8d5322311d588c13c54e5246baf1bbc7.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span style="color:#e20203">2026-09-25</span>
+              <span>分享者：勤**习</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e9%94%8b%ef%bc%8c%e5%ad%99%e5%bc%8b%e8%bd%a9" target="_blank">刘晓锋，孙弋轩</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：4 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/15f8776f0b599010c47d0e44c48335ba.html" target="_blank">太平洋证券-申万一级有色金属偏离修复模型（回调型浮动迫损）效果点评-260924</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　模型概述
+　　设计原理：本策略在原有偏离修复模型基础上引入回调型分档止损机制。模型假定标的价格走势相对参考标的存在反复的偏离-回归循环，通过统计历史回撤确定买入阈值。在触发买入...<a target="_blank" href="/data/15f8776f0b599010c47d0e44c48335ba.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span style="color:#e20203">2026-09-25</span>
+              <span>分享者：246****26</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e9%94%8b%ef%bc%8c%e5%ad%99%e5%bc%8b%e8%bd%a9" target="_blank">刘晓锋，孙弋轩</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：4 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/f380e9e95b0bc77b3fee93d1977d239c.html" target="_blank">财通证券-金融工程市场周报：市场冲高回落，公募指增超额持续走强-260925</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　核心观点
+　　本周市场指数表现：截至2026-09-24，本周上证指数下跌0.60%，深证成指下跌2.37%，沪深300下跌1.51%，市场冲高回落，小微盘、红利指数抗跌。
+　...<a target="_blank" href="/data/f380e9e95b0bc77b3fee93d1977d239c.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span style="color:#e20203">2026-09-25</span>
+              <span>分享者：Zz***d</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e7%bc%aa%e9%93%83%e5%87%af%ef%bc%8c%e9%9f%a9%e4%b9%be%ef%bc%8c%e5%a7%9a%e8%bf%9c%e8%b6%85" target="_blank">缪铃凯，韩乾，姚远超</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：13 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/73b019d37eadcc028162a3a1c2351156.html" target="_blank">国信证券-主动量化策略周报：微盘股领涨，优基增强及成长稳健组合年内排名主动股基前15%-260925</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　国信金工主动量化策略表现跟踪：
+　　本周，优秀基金业绩增强组合绝对收益-2.03%，相对偏股混合型基金指数超额收益-0.53%。本年，优秀基金业绩增强组合绝对收益26.79%，...<a target="_blank" href="/data/73b019d37eadcc028162a3a1c2351156.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span style="color:#e20203">2026-09-25</span>
+              <span>分享者：牡**雪</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%bc%a0%e6%ac%a3%e6%85%b0%ef%bc%8c%e5%bc%a0%e5%ae%87" target="_blank">张欣慰，张宇</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：17 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/a7f780d52ea069217adffedca614b147.html" target="_blank">国信证券-多因子选股周报：超额收益持续修复，中证1000增强组合年内超额21.62%-260925</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　国信金工指数增强组合表现跟踪
+　　沪深300指数增强组合本周超额收益-0.24%，本年超额收益11.74%。
+　　中证500指数增强组合本周超额收益0.53%，本年超额收益14...<a target="_blank" href="/data/a7f780d52ea069217adffedca614b147.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span style="color:#e20203">2026-09-25</span>
+              <span>分享者：pa***y</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%bc%a0%e6%ac%a3%e6%85%b0%ef%bc%8c%e5%bc%a0%e5%ae%87" target="_blank">张欣慰，张宇</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：18 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/baf838a8cc81c8213582f19ee10e4294.html" target="_blank">国信证券-金融工程日报：沪指缩量回调，红利风格韧性凸显、双创承压明显-260924</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　市场表现：20260924市场全线下跌，规模指数中上证50指数表现较好，板块指数中上证综指表现较好，风格指数中沪深300价值指数表现较好。纺织服装、煤炭、银行、家电、电力公用事...<a target="_blank" href="/data/baf838a8cc81c8213582f19ee10e4294.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-24</span>
+              <span>分享者：qiul******ing</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%bc%a0%e6%ac%a3%e6%85%b0%ef%bc%8c%e6%9d%8e%e5%ad%90%e9%9d%96" target="_blank">张欣慰，李子靖</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：16 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/5e7cae11eb3791d4404b314ae1b40802.html" target="_blank">国信证券-热点追踪周报：由创新高个股看市场投资热点（第262期）-260924</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　乘势而起：市场新高趋势追踪：截至2026年9月24日，上证指数、深证成指、沪深300、中证500、中证1000、中证2000、创业板指、科创50指数250日新高距离分别为8.3...<a target="_blank" href="/data/5e7cae11eb3791d4404b314ae1b40802.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-24</span>
+              <span>分享者：vm1****82</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%bc%a0%e6%ac%a3%e6%85%b0" target="_blank">张欣慰</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：12 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/75f18cb3439fc5259854231a781998bd.html" target="_blank">国金证券-行业轮动双周度跟踪：多主线分散配置-260922</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　截至2026/09/18，本期模型沿周期（煤炭、有色金属、公用事业)，金融地产《房地产、非银全融）与科技制造（电子）多主线均街配置。房地产升至第一，归内于一致预胡与动量，ETF...<a target="_blank" href="/data/75f18cb3439fc5259854231a781998bd.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-24</span>
+              <span>分享者：zxz****00</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e9%ab%98%e9%b9%a4%e6%96%87%ef%bc%8c%e5%86%af%e6%80%9d%e8%af%97" target="_blank">高鹤文，冯思诗</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：1 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/7d0c728c009f48a83b3a2a2728587993.html" target="_blank">太平洋证券-金融工程点评：申万一级综合偏离修复模型（回调型浮动迫损）效果点评-260923</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　模型概述
+　　设计原理：本策略在原有偏离修复模型基础上引入回调型分档止损机制。模型假定标的价格走势相对参考标的存在反复的偏离-回归循环，通过统计历史回撤确定买入阈值。在触发买入...<a target="_blank" href="/data/7d0c728c009f48a83b3a2a2728587993.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-24</span>
+              <span>分享者：郭**恒</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e9%94%8b%ef%bc%8c%e5%ad%99%e5%bc%8b%e8%bd%a9" target="_blank">刘晓锋，孙弋轩</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：4 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/2d7727f8897cc5eb884be74d7c590e9a.html" target="_blank">太平洋证券-申万一级煤炭偏离修复模型（回调型浮动迫损）效果点评-260923</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　模型概述
+　　设计原理：本策略在原有偏离修复模型基础上引入回调型分档止损机制。模型假定标的价格走势相对参考标的存在反复的偏离-回归循环，通过统计历史回撤确定买入阈值。在触发买入...<a target="_blank" href="/data/2d7727f8897cc5eb884be74d7c590e9a.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-24</span>
+              <span>分享者：7894******d权威</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e9%94%8b%ef%bc%8c%e5%ad%99%e5%bc%8b%e8%bd%a9" target="_blank">刘晓锋，孙弋轩</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：4 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/f7c047e38d3792a704105ba5bad89efe.html" target="_blank">江海证券-A股市场快照：宽基指数每日投资动态-260924</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　◆市场表现：2026年9月23日,各宽基指数（表1）除了中证2000（0.03%）外全部下跌，其中沪深300（-0.6%）和创业板指（-0.6%）跌幅最大。当年涨跌情况，创业板...<a target="_blank" href="/data/f7c047e38d3792a704105ba5bad89efe.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-24</span>
+              <span>分享者：sum****ou</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e6%9d%b0" target="_blank">刘晓杰</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：13 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/188986901c950e617975bd4b4d54e2f6.html" target="_blank">开源证券-金融工程定期：CRO板块的资金行为监测-260924</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　CRO指数2026年以来大幅上涨
+　　CRO是指通过合同形式为制药企业、医疗机构等，在基础医学和临床医学研发过程中提供专业化服务的机构。万得CRO指数（8841421.WI）追...<a target="_blank" href="/data/188986901c950e617975bd4b4d54e2f6.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-24</span>
+              <span>分享者：lit****do</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e9%ad%8f%e5%bb%ba%e6%a6%95%ef%bc%8c%e8%92%8b%e9%9f%ac%ef%bc%8c%e8%83%a1%e4%ba%ae%e5%8b%87" target="_blank">魏建榕，蒋韬，胡亮勇</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：10 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/7537be75d753ec00ed914ea5bfbdb485.html" target="_blank">国信证券-金融工程日报：沪指弱势整理，CRO、PCB概念逆市活跃-260923</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　市场表现：20260923规模指数中中证2000指数表现较好，板块指数中北证50指数表现较好，风格指数中中证500成长指数表现较好。基础化工、电子、医药、机械、房地产行业表现较...<a target="_blank" href="/data/7537be75d753ec00ed914ea5bfbdb485.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-23</span>
+              <span>分享者：Fran******ang</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%bc%a0%e6%ac%a3%e6%85%b0%ef%bc%8c%e6%9d%8e%e5%ad%90%e9%9d%96" target="_blank">张欣慰，李子靖</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：16 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/2819c372a2df3dbedb96af7efbc067fb.html" target="_blank">江海证券-A股市场快照，宽基指数每日投资动态-260923</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　投资要点：
+　　◆市场表现：2026年9月22日,各宽基指数（表1）涨跌各现，其中上证50（0.43%）和沪深300（0.11%）涨幅最大，而中证500（-0.27%）和中证1...<a target="_blank" href="/data/2819c372a2df3dbedb96af7efbc067fb.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-23</span>
+              <span>分享者：QQ63******676</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e6%9d%b0" target="_blank">刘晓杰</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：13 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/5c0b8085deae2229a7efe077f55b65c5.html" target="_blank">太平洋证券-金工ETF点评：行业主题ETF周净流出140.17亿元；非银、有色拥挤变幅较大-260922</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　内容摘要
+　　ETF市场概况：截至2026年9月18日，内地全部上市ETF共计1673只，规模4.96万亿。其中股票型ETF、债券型ETF、商品型ETF、货币型ETF、跨境ET...<a target="_blank" href="/data/5c0b8085deae2229a7efe077f55b65c5.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-22</span>
+              <span>分享者：p**s</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e9%94%8b%ef%bc%8c%e5%ad%99%e5%bc%8b%e8%bd%a9" target="_blank">刘晓锋，孙弋轩</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：16 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/972a08e7ff5c4397b571ba6f55fb7132.html" target="_blank">国信证券-金融工程日报：沪指三连涨，AI应用、算力芯片、生物医药概念表现活跃-260922</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　市场表现：20260922规模指数中上证50指数表现较好，板块指数中科创50指数表现较好，风格指数中沪深300成长指数表现较好。传媒、计算机、家电、煤炭、房地产行业表现较好，建...<a target="_blank" href="/data/972a08e7ff5c4397b571ba6f55fb7132.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-22</span>
+              <span>分享者：cass******849</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%bc%a0%e6%ac%a3%e6%85%b0%ef%bc%8c%e6%9d%8e%e5%ad%90%e9%9d%96" target="_blank">张欣慰，李子靖</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：16 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/0f48afd4e8cd2b9d31d8827339471772.html" target="_blank">江海证券-A股市场快照：宽基指数每日投资动态-260922</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　投资要点：
+　　◆市场表现：2026年9月21日,各宽基指数（表1）全部上涨，其中中证2000（2.02%）和中证1000（1.02%）涨幅最大。当年涨跌情况，创业板指（6.1...<a target="_blank" href="/data/0f48afd4e8cd2b9d31d8827339471772.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-22</span>
+              <span>分享者：JES****NI</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e6%9d%b0" target="_blank">刘晓杰</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：13 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/db1c9821bcce9000eeea5fadfa01a100.html" target="_blank">国信证券-金融工程日报：指高开高走，地产、医药板块爆发-260921</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　核心观点
+　　市场表现：20260921市场全线上涨，规模指数中中证2000指数表现较好，板块指数中北证50指数表现较好，风格指数中中证500价值指数表现较好。房地产、医药、建...<a target="_blank" href="/data/db1c9821bcce9000eeea5fadfa01a100.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-21</span>
+              <span>分享者：ter****wu</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%bc%a0%e6%ac%a3%e6%85%b0%ef%bc%8c%e6%9d%8e%e5%ad%90%e9%9d%96" target="_blank">张欣慰，李子靖</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：16 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/acea27b4a154f7d2db9dba82a3d2d528.html" target="_blank">财信证券-三维情绪模型跟踪周报：情绪修复迹象初现，全面企稳仍待确认-260921</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　总结论：本周市场情绪出现边际回暖迹象。尽管全市场情绪温度仍在下行，表明整体交易热度尚未企稳，但情绪预期已经回升，说明投资者对后续市场的悲观程度有所缓和，情绪运行开始呈现由单边走...<a target="_blank" href="/data/acea27b4a154f7d2db9dba82a3d2d528.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-21</span>
+              <span>分享者：duc****da</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e9%a3%9e%e5%bd%a4" target="_blank">刘飞彤</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：8 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+          <tr>
+            <td>
+              <span class="tab_ltimg"><img src="/newweb/res/img/file/pdf.gif" /></span>
+              <span class="tab_lta"><a href="/data/4c6da1f96c2d2b2682bb47fe91e39dc4.html" target="_blank">太平洋证券-金工ETF点评：跨境ETF周净流入41.73亿元；机械、计算机拥挤变幅较大-260917</a></span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_tdcolor">　　ETF市场概况：截至2026年9月11日，内地全部上市ETF共计1658只，规模4.87万亿。其中股票型ETF、债券型ETF、商品型ETF、货币型ETF、跨境ETF的数量分别为...<a target="_blank" href="/data/4c6da1f96c2d2b2682bb47fe91e39dc4.html">[详细]</a></td>
+          </tr>
+          <tr>
+            <td class="td_spantxt">
+              <span >2026-09-21</span>
+              <span>分享者：kjf****te</span>
+              
+              <span>作者：<a href="/newweb/web/search?f=3x&amp;index=1&amp;ybfl1=18&sjfw=3&ssfw=ybzz&gjz=%e5%88%98%e6%99%93%e9%94%8b%ef%bc%8c%e5%ad%99%e5%bc%8b%e8%bd%a9" target="_blank">刘晓锋，孙弋轩</a></span>
+              <span>评级：<label ></label></span>
+              <span>页数：16 页</span>
+            </td>
+          </tr>
+          <tr>
+            <td class="tab_trbg"></td>
+          </tr>
+      </table>
+      <table width="90%" border="0" align="center" cellpadding="3" cellspacing="1" class="fytab" >
+        <tr>
+          <td height="30" align="center">
+            <a href="/microns_18_1.html">首页</a>&emsp;&emsp;
+            <a href="/microns_18_0.html">上一页</a>&emsp;&emsp;
+            <a href="/microns_18_2.html">下一页</a>&emsp;&emsp;当前是第1页&emsp;&emsp;
+          </td>
+          <td style="width:260px">
+            <form method="post" action="/microns_18.html" id="fmList">
+              转到<input type="text" id="pageBox" name="page" onkeydown="validatePageInput(event)" style="width:35px;margin:0px 5px" />页
+              <input type="submit" value="Go" style="width:30px" onclick="return go();" />
+            </form>
+          </td>
+        </tr>
+      </table>
+    </div>
+      </div>
+    <div class="rightpage">
+        
+
+<!--下载、上传-->
+<div class="login">
+    <div class="banr-rt bart-down">
+        <a href="/soft/download.html" target="_blank">
+            <img src="/hiborweb/Res/Img/index_pc_down.gif" />
+        </a>
+        <a href="/soft/sjb/index.html" target="_blank">
+            <img src="/hiborweb/Res/Img/index_app_down.gif" />
+        </a>
+    </div>
+    <div class="clear"></div>
+    <div class="banr-rt bart-txt">
+        <div class="btn-style me-up">
+            <a href="/docupload.html" target="_blank">
+                <img src="/hiborweb/Res/Img/up_img.gif" />
+            </a>
+        </div>
+        <p>用户已上传<span>20570362</span>份投研文档</p>
+        <div class="btn-style">
+            <a href="/docupload_mag.html" target="_blank">
+                <img src="/hiborweb/Res/Img/yun_btn.gif" />
+            </a>
+        </div>
+    </div>
+</div>
+
+<!--主要行业-->
+<div class="main_hy rt-list-div ">
+    <h3>主要行业</h3>
+    <ul>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%BD%F0%C8%DA%B7%FE%CE%F1" target="_blank">金融服务</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%B7%BF%B5%D8%B2%FA" target="_blank">房地产</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%D3%D0%C9%AB%BD%F0%CA%F4" target="_blank">有色金属</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%D2%BD%D2%A9%C9%FA%CE%EF" target="_blank">医药生物</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%BB%AF%B9%A4" target="_blank">化工行业</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%BB%FA%D0%B5%C9%E8%B1%B8" target="_blank">机械设备</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%BD%BB%CD%A8%D4%CB%CA%E4" target="_blank">交通运输</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%C5%A9%C1%D6%C4%C1%D3%E6" target="_blank">农林牧渔</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%B5%E7%D7%D3" target="_blank">电子行业</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%D0%C2%C4%DC%D4%B4" target="_blank">新能源</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%BD%A8%D6%FE%BD%A8%B2%C4" target="_blank">建筑建材</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%D0%C5%CF%A2%B7%FE%CE%F1" target="_blank">信息服务</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%C6%FB%B3%B5" target="_blank">汽车行业</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%BA%DA%C9%AB%BD%F0%CA%F4" target="_blank">黑色金属</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%B2%C9%BE%F2" target="_blank">采掘行业</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%BC%D2%D3%C3%B5%E7%C6%F7" target="_blank">家用电器</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%B2%CD%D2%FB%C2%C3%D3%CE" target="_blank">餐饮旅游</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%B9%AB%D3%C3%CA%C2%D2%B5" target="_blank">公用事业</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%C9%CC%D2%B5%C3%B3%D2%D7" target="_blank">商业贸易</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%D0%C5%CF%A2%C9%E8%B1%B8" target="_blank">信息设备</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%CA%B3%C6%B7%D2%FB%C1%CF" target="_blank">食品饮料</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%C7%E1%B9%A4%D6%C6%D4%EC" target="_blank">轻工制造</a>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%B7%C4%D6%AF%B7%FE%D7%B0" target="_blank">纺织服装</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%D0%C2%C4%DC%D4%B4%C6%FB%B3%B5" target="_blank">新能源汽车</a>
+        </li>
+        <li>
+            <a class="a_bor" href="/newweb/web/hangye?f=3&hy1=%B8%DF%B6%CB%D7%B0%B1%B8%D6%C6%D4%EC" target="_blank">高端装备制造</a>
+            <a href="/newweb/web/hangye?f=3&hy1=%C6%E4%CB%FB" target="_blank">其他行业</a>
+            <span>&nbsp;</span>
+        </li>
+    </ul>
+    <div class="more">
+        以上行业显示为大行业分类，<br />
+        点击进入可选择细分行业
+    </div>
+</div>
+
+<!--今日、本周热门-->
+<div class="rt-list-div hot-list">
+    <div class="hot-rt">
+        <ul id="jr-hot1" class="tab">
+            <li class="over">今日热门</li>
+            <li>本周热门</li>
+            <li>本月热门</li>
+        </ul>
+    </div>
+    <div id="rt-content1">
+        <div>
+            <ul>
+                
+                        <li>
+                            <a target="_blank" href="/data/34db039d8ad6e35f05d052793c116141.html" title="国金证券-爱旭股份-600732-“曙光初现”系列（二）：BC时代启幕，龙头有望迎来戴维斯双击-260923">
+                            <span class="hot0">1.</span>国金证券-爱旭股份-600732-“曙光…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/64f4d434f4d4a66d52ae146714f0cb9a.html" title="开源证券-南方乳业-920196-北交所新股申购报告：贵州乳品龙头企业，入股光大乳业扩展省外市场-260924">
+                            <span class="hot1">2.</span>开源证券-南方乳业-920196-北交所…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/3cace1ade46619769530dd54a6df1b87.html" title="开源证券-医疗器械行业投资策略：医疗器械板块业绩复苏，行业拐点或已至-260924">
+                            <span class="hot2">3.</span>开源证券-医疗器械行业投资策略：…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/6105c498ce3f1c5042059714038b842d.html" title="东吴证券-北交所定期报告：中美举行第八轮经贸磋商达成多项共识，北证50下跌1.70%-260924">
+                            <span class="hot3">4.</span>东吴证券-北交所定期报告：中美举…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/b49bfd769ffcde3e7d71f004199644d9.html" title="东吴证券-保险Ⅱ行业点评报告：内地险资获准投资港股通ETF，利好险资灵活配置与两地市场互通-260924">
+                            <span class="hot4">5.</span>东吴证券-保险Ⅱ行业点评报告：内…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/02ccfdbf2c5c1b8a9e24854b593a02ef.html" title="华鑫证券-传媒行业动态研究报告：从Muse到千问再到豆包，传媒如何承接AI应用新红利？-260924">
+                            <span class="hot5">6.</span>华鑫证券-传媒行业动态研究报告：…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/36ef070a41c1c37453abcfc192cefc73.html" title="光大证券-高端制造行业海关总署出口月报（2026年1~8月）：消费品出口同比延续回暖，北美燃气轮机出口放量-260924">
+                            <span class="hot6">7.</span>光大证券-高端制造行业海关总署出…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/da27211de6dc13de5c584306159960a4.html" title="华鑫证券-计算机行业点评报告：Snowflake（SNOW.N），产品收入增长提速，AI应用扩展带动平台消费-260924">
+                            <span class="hot7">8.</span>华鑫证券-计算机行业点评报告：Sn…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/2299d279fcafdc35dc7fba7ab59cec14.html" title="华鑫证券-正泰电器-601877-公司动态研究报告：智慧电器深耕算力配电，海外储能拓展成长空间-260924">
+                            <span class="hot8">9.</span>华鑫证券-正泰电器-601877-公司动…</a>
+                        </li>
+                    
+            </ul>
+            <a class="more-rt-btm" target="_blank" href="/rightmore_0.html">更多 &gt;&gt;</a>
+        </div>
+        <div style="display: none;">
+            <ul>
+                
+                        <li>
+                            <a target="_blank" href="/data/3d2fefc2227e1e00b52b9cac8f44d1da.html" title="东吴证券-AI芯片行业：三次电源升级，AI芯片电感价值扩容-260920">
+                            <span class="hot0">1.</span>东吴证券-AI芯片行业：三次电源…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/cbf5faea6133b35ee2ae5dea186a65ee.html" title="东吴证券-探针卡行业深度：AI算力与存储升级驱动测试价值提升，国产替代进入加速期-260921">
+                            <span class="hot1">2.</span>东吴证券-探针卡行业深度：AI算…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/f50e7178377eeaa71a22f8af4c4a8452.html" title="东吴证券-半导体化学品行业专题：先进制程抬升材料价值量，半导体含氟材料加速国产化-260922">
+                            <span class="hot2">3.</span>东吴证券-半导体化学品行业专题：…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/722b5c6b08b30a7e771881e364b8eb29.html" title="光大证券-百年变局、AI革命与四季度宏观展望：新周期下的宏观范式重构-260920">
+                            <span class="hot3">4.</span>光大证券-百年变局、AI革命与四…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/9f52db69cc3618482dd425b3415d44de.html" title="西南证券-AI制药行业专题：全流程赋能制药未来，成药验证未来可期-260922">
+                            <span class="hot4">5.</span>西南证券-AI制药行业专题：全流…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/9fbf08b1ed9a1629aedefaf8565c70e9.html" title="国金证券-计算机行业专题研究报告：算力的高斜率细分-260920">
+                            <span class="hot5">6.</span>国金证券-计算机行业专题研究报告…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/9835e8981a5d9309de58e64b9c8d043e.html" title="西南证券-金刚石行业深度报告：AI散热驱动材料升级，产业化迎来拐点-260914">
+                            <span class="hot6">7.</span>西南证券-金刚石行业深度报告：A…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/aed91cebe37f9e113bf657775422826a.html" title="华福证券-激光行业深度系列报告：激光芯片系光通信价值核心，CW+硅光或成下一代主流-260922">
+                            <span class="hot7">8.</span>华福证券-激光行业深度系列报告：…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/d48b9ed288f94752a863a596a8d2d9b2.html" title="东吴证券-电力设备行业跟踪周报：锂电储能估值低位、AIDC及材料空间可期-260921">
+                            <span class="hot8">9.</span>东吴证券-电力设备行业跟踪周报：…</a>
+                        </li>
+                    
+            </ul>
+            <a class="more-rt-btm" target="_blank" href="/rightmore_1.html">更多 &gt;&gt;</a>
+        </div>
+        <div style="display: none;">
+            <ul>
+                
+                        <li>
+                            <a target="_blank" href="/data/0c5c0609969308d24db444a3b34a7647.html" title="东吴证券-电子行业深度报告：超节点方案重塑AI算力产业趋势，开启系统级算力新周期-260827">
+                            <span class="hot0">1.</span>东吴证券-电子行业深度报告：超节…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/88b7e042b409f3ef7842e18be97034b9.html" title="国金证券-电子行业深度研究：算力硬件景气度持续验证，看好AI~PCB与自主可控产业链-260901">
+                            <span class="hot1">2.</span>国金证券-电子行业深度研究：算力…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/a75e58aa96273366e06c68c54bee4547.html" title="东吴证券-光通信行业深度：AI互连需求升级，NPO/CPO拓成长空间-260917">
+                            <span class="hot2">3.</span>东吴证券-光通信行业深度：AI互…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/9eac561c650bda2e61cd1598f972a20d.html" title="国金证券-有色金属行业深度研究：钨，资源静待二浪，材料国产替代-260909">
+                            <span class="hot3">4.</span>国金证券-有色金属行业深度研究：…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/f2344a76cb485a5a966bbac49256ef00.html" title="国信证券-半导体设备行业专题：AI需求爆发叠加进口替代，国产设备厂商的黄金窗口-260907">
+                            <span class="hot4">5.</span>国信证券-半导体设备行业专题：A…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/1e8b952a5929a312b67be1b3e3feb6c1.html" title="国金证券-AIDC电源&amp;液冷行业板块2026中报业绩总结：供电散热架构升级打开空间，领先财务指标指向放量在即-260901">
+                            <span class="hot5">6.</span>国金证券-AIDC电源&液冷行业…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/4e4cd8183fe7435359867ab80c9162d9.html" title="东吴证券-计算机行业深度报告：国产芯片与超节点放量在即-260829">
+                            <span class="hot6">7.</span>东吴证券-计算机行业深度报告：国…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/d14d58f129e13bfd131326af180bcea5.html" title="国信证券-硅微粉填料行业专题：覆铜板与半导体封装快速迭代，硅微粉填料国产化空间巨大-260915">
+                            <span class="hot7">8.</span>国信证券-硅微粉填料行业专题：覆…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/ada5c4f86bce710bf537e4ed6a219507.html" title="国金证券-产业研究深度|科技行业：谁拿走了算力的利润？全国一体化算力网下的商业模式与企业出路-260903">
+                            <span class="hot8">9.</span>国金证券-产业研究深度|科技行业…</a>
+                        </li>
+                    
+            </ul>
+            <a class="more-rt-btm" target="_blank" href="/rightmore_6.html">更多 &gt;&gt;</a>
+        </div>
+    </div>
+</div>
+
+<!--热门行业-->
+<div class="rt-list-div hot-list list-flbg">
+    <h3>热门行业</h3>
+    <ul>
+        
+                <li>
+                    <a target="_blank" href="/data/3d2fefc2227e1e00b52b9cac8f44d1da.html" title="东吴证券-AI芯片行业：三次电源升级，AI芯片电感价值扩容-260920">
+                        东吴证券-AI芯片行业：三次电源…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/cbf5faea6133b35ee2ae5dea186a65ee.html" title="东吴证券-探针卡行业深度：AI算力与存储升级驱动测试价值提升，国产替代进入加速期-260921">
+                        东吴证券-探针卡行业深度：AI算…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/f50e7178377eeaa71a22f8af4c4a8452.html" title="东吴证券-半导体化学品行业专题：先进制程抬升材料价值量，半导体含氟材料加速国产化-260922">
+                        东吴证券-半导体化学品行业专题：…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/9f52db69cc3618482dd425b3415d44de.html" title="西南证券-AI制药行业专题：全流程赋能制药未来，成药验证未来可期-260922">
+                        西南证券-AI制药行业专题：全流…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/9fbf08b1ed9a1629aedefaf8565c70e9.html" title="国金证券-计算机行业专题研究报告：算力的高斜率细分-260920">
+                        国金证券-计算机行业专题研究报告…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/9835e8981a5d9309de58e64b9c8d043e.html" title="西南证券-金刚石行业深度报告：AI散热驱动材料升级，产业化迎来拐点-260914">
+                        西南证券-金刚石行业深度报告：A…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/aed91cebe37f9e113bf657775422826a.html" title="华福证券-激光行业深度系列报告：激光芯片系光通信价值核心，CW+硅光或成下一代主流-260922">
+                        华福证券-激光行业深度系列报告：…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/d48b9ed288f94752a863a596a8d2d9b2.html" title="东吴证券-电力设备行业跟踪周报：锂电储能估值低位、AIDC及材料空间可期-260921">
+                        东吴证券-电力设备行业跟踪周报：…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/84885790e7e13500f9fab69ed4914a3d.html" title="慧博智能投研-AI+游戏行业深度：市场分析、规模预测、产业链及相关公司深度梳理-260920">
+                        慧博智能投研-AI+游戏行业深度…</a>
+                </li>
+            
+    </ul>
+    <a class="more-rt-btm" target="_blank" href="/rightmore_2.html">更多 &gt;&gt;</a>
+</div>
+
+<!--最新推荐-->
+<div class="rt-list-div hot-list list-flbg">
+    <div class="rt-new">
+        <ul id="jr-hot2" class="tab">
+            <li class="over">最新推荐</li>
+            <li>最新买入</li>
+            <li>最新上调</li>
+        </ul>
+    </div>
+    <div id="rt-content2">
+        <div>
+            <ul>
+                
+                        <li>
+                            <a target="_blank" href="/data/da27211de6dc13de5c584306159960a4.html" title="华鑫证券-计算机行业点评报告：Snowflake（SNOW.N），产品收入增长提速，AI应用扩展带动平台消费-260924">
+                                华鑫证券-计算机行业点评报告：Sn…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/ea9dbcb7284a49fcf876a804767ab103.html" title="华鑫证券-计算机行业点评报告：Oracle（ORCL.N），算力交付带动OCI增长提速，AI订单支撑收入扩张-260924">
+                                华鑫证券-计算机行业点评报告：Or…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/19d6b027c808c60209b1122be2138d3e.html" title="华鑫证券-计算机行业点评报告：MongoDB（MDB.O），核心数据库业务增长提速，AI检索能力拓展企业应用-260924">
+                                华鑫证券-计算机行业点评报告：Mo…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/659af0bf9ce9b854e0c819bbe5bc8623.html" title="华鑫证券-计算机行业点评报告：慧与（HPE.N），云与网络业务共同增长，盈利与现金流指引上调-260922">
+                                华鑫证券-计算机行业点评报告：慧…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/02ccfdbf2c5c1b8a9e24854b593a02ef.html" title="华鑫证券-传媒行业动态研究报告：从Muse到千问再到豆包，传媒如何承接AI应用新红利？-260924">
+                                华鑫证券-传媒行业动态研究报告：…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/4a870f677b9d936b77eca40b05a2063d.html" title="华龙证券-食品饮料行业2026半年报综述：需求端弱复苏，子板块盈利分化加剧-260924">
+                                华龙证券-食品饮料行业2026半年报…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/5bb04c5f8475ed98b4ed9f276394ef69.html" title="华鑫证券-计算机行业点评报告：思科（CSCO.O），AI网络订单加速兑现，全年收入指引延续增长-260922">
+                                华鑫证券-计算机行业点评报告：思…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/86d6104b15344adc03909f813d87ad5b.html" title="华鑫证券-计算机行业点评报告：Tower Semiconductor（TSEM.O），硅光业务加速放量，扩产支撑盈利增长-260922">
+                                华鑫证券-计算机行业点评报告：To…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/c263fe65bf7ef069f9a0edef8f839e09.html" title="华鑫证券-计算机行业点评报告：Fabrinet（FN.N），数据中心制造需求高增，收入与利润创新高-260922">
+                                华鑫证券-计算机行业点评报告：Fa…</a>
+                        </li>
+                    
+            </ul>
+            <a class="more-rt-btm" target="_blank" href="/rightmore_3.html">更多 &gt;&gt;</a>
+        </div>
+        <div style="display: none;">
+            <ul>
+                
+                        <li>
+                            <a target="_blank" href="/data/8d84079ae1153f8421b54f77961df062.html" title="太平洋证券-宁波精达-603088-Q2迎来强修复，海外业务经营亮眼-260923">
+                                太平洋证券-宁波精达-603088-Q2迎…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/7f4f5f311ac8ac0246d97e775b697dc6.html" title="财通证券-博迁新材-605376-一技多金属，AI再进阶-260924">
+                                财通证券-博迁新材-605376-一技多…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/d85486f12a08ab972809e00aba690280.html" title="华鑫证券-盛弘股份-300693-公司动态研究报告：工业电源盈利提升，储能与算力需求驱动成长-260924">
+                                华鑫证券-盛弘股份-300693-公司动…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/944aaebf58fa4d700efeee33e43a9f4d.html" title="华鑫证券-科士达-002518-公司动态研究报告：数据中心业务稳步增长，海外光储打开增量空间-260924">
+                                华鑫证券-科士达-002518-公司动态…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/44e9052161ec69fc22487f07429702dc.html" title="光大证券-机械制造行业跟踪报告：川仪股份纳入国机集团，央企“总对总”战略合作成效渐显-260924">
+                                光大证券-机械制造行业跟踪报告：…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/de952f8ab75d834e75367fe8648f1cbd.html" title="华鑫证券-迈为股份-300751-公司动态研究报告：毛利率提升，半导体与显示业务加速拓展-260924">
+                                华鑫证券-迈为股份-300751-公司动…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/8e5683c12d986cfa59012e6761c3f473.html" title="太平洋证券-国机汽车-600335-2026年H1点评：利润增速同比超20%-260924">
+                                太平洋证券-国机汽车-600335-2026…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/2fb9698dab6e71c8ff0014c889dd1241.html" title="华鑫证券-阳光电源-300274-公司动态研究报告：产品结构优化，储能与算力供电打开成长空间-260924">
+                                华鑫证券-阳光电源-300274-公司动…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/2299d279fcafdc35dc7fba7ab59cec14.html" title="华鑫证券-正泰电器-601877-公司动态研究报告：智慧电器深耕算力配电，海外储能拓展成长空间-260924">
+                                华鑫证券-正泰电器-601877-公司动…</a>
+                        </li>
+                    
+            </ul>
+            <a class="more-rt-btm" target="_blank" href="/rightmore_4.html">更多 &gt;&gt;</a>
+        </div>
+        <div style="display: none;">
+            <ul>
+                
+                        <li>
+                            <a target="_blank" href="/data/a3d4652f65e38cb4216aa0a74a0e2c0d.html" title="中邮证券-东芯股份-688110-存算联，业绩增长新动能-260924">
+                                中邮证券-东芯股份-688110-存算联…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/095b34a504ec760ecd2fd1a7db105ecf.html" title="太平洋证券-新乳业-002946-坚定推进“鲜立方战略”，低温品类增长持续兑现-260907">
+                                太平洋证券-新乳业-002946-坚定推…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/c9c5a77a5bd8a67d0c499a5216e590e6.html" title="太平洋证券-长芯博创-300548-业绩大幅增长，全栈光互联加速产品放量-260915">
+                                太平洋证券-长芯博创-300548-业绩…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/3faf709d1754b3a4cb80018834e5b81c.html" title="东海证券-兆易创新-603986-公司简评报告：利基DRAM产能或增长，产品不断迭代增强长期竞争力-260910">
+                                东海证券-兆易创新-603986-公司简…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/f3e90202b87d9b3aac48fbd578850148.html" title="中邮证券-君实生物-688180-商业化加速，在研管线核心组合进入临床验证期-260909">
+                                中邮证券-君实生物-688180-商业化…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/b5b645e31ebec126ef49920d78b4b315.html" title="太平洋证券-重庆银行-601963-2026年中报点评：存款成本压降推动息差回升，投行区域领先-260831">
+                                太平洋证券-重庆银行-601963-2026…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/283f4303740a34a2163aa58d9281bead.html" title="财信证券-温氏股份-300498-2026年中报点评：猪价低迷拖累上半年业绩，肉鸡销量稳步增长-260831">
+                                财信证券-温氏股份-300498-2026年…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/e5e2ead080bd03dce150f415e22261d6.html" title="山西证券-万辰集团-300972-门店扩张叠加效率提升，盈利弹性持续释放-260903">
+                                山西证券-万辰集团-300972-门店扩…</a>
+                        </li>
+                    
+                        <li>
+                            <a target="_blank" href="/data/ca8baae6f30b4152496857c3103ea113.html" title="财通证券-中国重汽-000951-业绩符合预期，分红率提升-260901">
+                                财通证券-中国重汽-000951-业绩符…</a>
+                        </li>
+                    
+            </ul>
+            <a class="more-rt-btm" target="_blank" href="/rightmore_5.html">更多 &gt;&gt;</a>
+        </div>
+    </div>
+</div>
+
+<!--精选研报-->
+<div class="rt-list-div hot-list list-flbg">
+    <h3 class="jxyb">精选研报</h3>
+    <ul>
+        
+                <li>
+                    <a target="_blank" href="/data/4453e64bf8b4ca644e7ab5e5fba70e19.html" title="财通证券-家用电器行业38W2026周报：一文读懂Live Nation-260924">
+                        财通证券-家用电器行业38W2026周…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/8134c95e937fe689a2379d43879fca5f.html" title="国信证券-人工智能行业专题（23）：个人Agent时代来临，Meta Muse产品拆解-260925">
+                        国信证券-人工智能行业专题（23）…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/6105c498ce3f1c5042059714038b842d.html" title="东吴证券-北交所定期报告：中美举行第八轮经贸磋商达成多项共识，北证50下跌1.70%-260924">
+                        东吴证券-北交所定期报告：中美举…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/64f4d434f4d4a66d52ae146714f0cb9a.html" title="开源证券-南方乳业-920196-北交所新股申购报告：贵州乳品龙头企业，入股光大乳业扩展省外市场-260924">
+                        开源证券-南方乳业-920196-北交所…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/34db039d8ad6e35f05d052793c116141.html" title="国金证券-爱旭股份-600732-“曙光初现”系列（二）：BC时代启幕，龙头有望迎来戴维斯双击-260923">
+                        国金证券-爱旭股份-600732-“曙光…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/126733f8e8a09c73fdbfe66c2f1e3b5f.html" title="东吴证券-天华新能-300390-国内氢氧化锂龙头，加码锂资源打开成长空间-260924">
+                        东吴证券-天华新能-300390-国内氢…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/13f79165107a47d4d40ce7f249a53b50.html" title="东吴证券-北交所定期报告：美联储再释加息鹰派信号，北证50上涨2.60%-260923">
+                        东吴证券-北交所定期报告：美联储…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/6a6c0f3ba93ff8de3a367c948f94dec3.html" title="国信证券-中钨高新-000657-隶属五矿集团，钨产业链领军者-260923">
+                        国信证券-中钨高新-000657-隶属五…</a>
+                </li>
+            
+                <li>
+                    <a target="_blank" href="/data/4b8253b9fbe2fe774819264d06366850.html" title="国信证券-互联网&amp;海外科技行业2026年9月投资策略：AI投入导致短期盈利承压，关注AI办公等相关应用进展-260922">
+                        国信证券-互联网&海外科技行业202…</a>
+                </li>
+            
+    </ul>
+    <div class="more-ie6-jxyb">
+        <a target="_blank" href="/elitelist.html">更多 &gt;&gt;</a>
+    </div>
+</div>
+<div style="clear: both; height: 0; overflow: hidden; font-size: 0"></div>
+
+    </div>
+</div>
+
+    <div class="clear"></div>
+    <!--友情链接-->
+    
+    <div class="footer" id="footer">
+        <div class="footer_div">
+            <a href="javascript:void(0);" onclick="setHome(this,'http://www.hibor.com.cn');">设为首页</a> |
+            <a href="javascript:void(0);" onclick="addFavorite('慧博资讯',location.href)">加入收藏</a> |
+            <a href="/about.html#contactus" target="_blank">联系我们</a> |
+            
+            <a href="/suggestions.html" target="_blank">反馈建议</a> |
+            <a href="/zhaopin.html" target="_blank">招贤纳士</a> |
+            <a href="/about.html#team" target="_blank">合作加盟</a> |
+            <a href="/disclaimer.html" target="_blank">免责声明</a>
+        </div>
+    </div>
+    <div class="footer_txt">
+        <pre>客服电话：400-806-1866    客服QQ：1223022    客服Email：hbzixun@126.com</pre>
+        <pre>Copyright@2002-2026    Hibor.com.cn    备案序号：<a href="http://beian.miit.gov.cn/" target="_blank" class="beian">冀ICP备18028519号-7</a>    冀公网安备：13060202001081</pre>
+         <br />
+        本网站用于投资学习与研究用途，如果您的文章和报告不愿意在我们平台展示，请联系我们，谢谢！
+        <pre>不良信息举报电话：400-806-1866 举报邮箱：hbzixun@126.com</pre>
+        <a href="http://www.hbjbzx.gov.cn/" target="_blank"><img src="/newweb/res/img/jubao.png" style="margin-top: 10px;" /></a>
+    </div>
+    <div id="weixinama" class="go-erwei">
+        <span style="text-align:center;">扫一扫，慧博手机终端下载！<img onclick="closeWeiXin()" src="/newweb/res/img/close.gif" /></span>
+        <a href="/soft/sjb/index.html" target="_blank"><img src="/newweb/res/img/phone.jpg" border="0" width="120" height="120" /></a>
+    </div>
+    <script type="text/javascript" src="/newweb/res/js/baidushare.js"></script>
+    <script type="text/javascript" src="https://s8.cnzz.com/stat.php?id=1752123&web_id=1752123&show=pic1&async=1" async defer></script>
+    <script type="text/javascript">var _hmt = _hmt || [];</script>
+    <script type="text/javascript" src="https://hm.baidu.com/hm.js?d554f0f6d738d9e505c72769d450253d" async defer></script>
+    <script>
+        //百度收录
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+        //360收录
+        /*
+        (function () {
+            var src = (document.location.protocol == "http:") ? "http://js.passport.qihucdn.com/11.0.1.js?dc05890175008963b3cd0f4458b27200" : "https://jspassport.ssl.qhimg.com/11.0.1.js?dc05890175008963b3cd0f4458b27200";
+            document.write('<script src="' + src + '" id="sozz"><\/script>');
+        })();
+        */
+    </script>
+</body>
+</html>
