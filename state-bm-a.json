@@ -1,12 +1,12 @@
 {
- "round_no": 200,
- "did": "R200: D-20260925-01 回执收口 (四条全执行证据+HQ-FEEDBACK F-20260926-01+GC r155 首支 patch-id 验证删, 余 8 支待逐支验证) + T-70 task-05 双臂 A PASS/B FAIL honest (inbox_aging; 冻结提示词自相矛盾跑前勘误 d{6}->d{4} B 臂未消费=信息面恒等; A 18 断言+live total=0; B 149.5s 30.67 tok/s own selftest 期望摘要失配) + 5x HANDOVER R200 增量 + S0 prune 4 stale refs + S6 全链绿/合法 no-op (周末 0 新 bar), smoke 25/25, orders 74/74 双扫, decisions 09-26 批涉本仓 D-20260925-01⑦ 收口",
- "verdict": "GREEN",
- "next": "T-70 tasks 06+ A/B queue continuation (ledger 5/10, B arm 2P/3F); criteria-2 blind scoring (masked face 01-05); GC remaining 8 stale branches per-branch fold verification; mf/ah spawned lanes self-heal watch",
- "ts": "2026-09-26 00:57:30",
- "last_round_ts": "2026-09-26 00:57:30",
- "updated_at": "2026-09-26 00:57:30",
- "current_task": "T-70 local-coding pilot: tasks 01-05 done (5/10, B arm 2P/3F), blind-eval face masked to 05; D-20260925-01 receipt closed; S6 green",
+ "round_no": 201,
+ "did": "T-70 task06 token_breakdown: A PASS (10 assertions + live cross=true) / B FAIL (own selftest fixture-arithmetic, live face correct, same family as task05); pool 6/10; prompt frozen commit 6958d24a pre-run; blind_eval masked to 06; S6 chain green (no new bar, weekend no-ops; moneyflow rank pass + ah refresh spawned detached); autofill r140-tie union resolved (stash-pop conflict, last_tick same-second take-HEAD)",
+ "verdict": "green: smoke 25/25; watermark red=false py_low_board_clear; pilot B failure family=fixture-arithmetic 2 consecutive",
+ "next": "T-70 task07 leg_freshness (prereg s5 slot 07) next round; blind eval scoring batch after more tasks accumulate; moneyflow IC batch still blocked on panel (EM conn self-heal)",
+ "ts": "2026-09-26 01:16:43",
+ "last_round_ts": "2026-09-26 01:16:43",
+ "updated_at": "2026-09-26 01:16:43",
+ "current_task": "T-70 local-coding pilot (O-20260925-2313-bm-c)",
  "last_run": "2026-09-25T23:04:23+08:00",
  "last_round_at": "2026-09-26 00:36:01"
 }
