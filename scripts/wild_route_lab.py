@@ -753,6 +753,9 @@ def run_nulls():
             if live.size == 0:
                 continue
             n_ev += live.size
+            if d + 2 >= E["T"]:
+                continue    # tail: exit day beyond cutoff -> drop, mirroring
+                            # extract_trades "still suspended at cutoff" face
             rets = np.asarray(P["open"][d + 2, live]) / np.asarray(
                 P["open"][d + 1, live]) - np.float32(1.0)
             keep = np.isfinite(rets)

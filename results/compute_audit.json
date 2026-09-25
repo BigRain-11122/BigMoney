@@ -1,11 +1,11 @@
 {
   "latest": {
-    "ts": "2026-09-25 18:45:06",
-    "cpu_total_pct": 49.0,
-    "py_cpu_pct": 20.8,
-    "cores": 32,
-    "py_procs": 11,
-    "result_stale_min": 2.2,
+    "ts": "2026-09-25 18:49:37",
+    "cpu_total_pct": 15.0,
+    "py_cpu_pct": 1.5,
+    "cores": 16,
+    "py_procs": 10,
+    "result_stale_min": 1.2,
     "fleet_open_tasks": 0,
     "pool_ready_count": 9,
     "load_state": "pool-supply-gap",
@@ -15,9 +15,9 @@
     },
     "gpu": {
       "present": true,
-      "util_pct": 95.0,
-      "mem_used_mb": 6795.0,
-      "compute_apps_count": 34,
+      "util_pct": 1.0,
+      "mem_used_mb": 6023.0,
+      "compute_apps_count": 22,
       "rogue_apps": []
     },
     "zombies": [],
@@ -27,25 +27,6 @@
     "verdict": "CLEAN"
   },
   "history": [
-    {
-      "cores": 32,
-      "cpu_total_pct": 82.0,
-      "flags": [],
-      "fleet_open_tasks": 3,
-      "gpu": {
-        "compute_apps_count": 39,
-        "mem_used_mb": 8826.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 39.0
-      },
-      "py_cpu_pct": 2.4,
-      "py_procs": 14,
-      "result_stale_min": 1.9,
-      "ts": "2026-09-24 16:38:09",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "cores": 32,
       "cpu_total_pct": 65.0,
@@ -4619,6 +4600,33 @@
         "util_pct": 95.0,
         "mem_used_mb": 6795.0,
         "compute_apps_count": 34,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [],
+      "verdict": "CLEAN"
+    },
+    {
+      "ts": "2026-09-25 18:49:37",
+      "cpu_total_pct": 15.0,
+      "py_cpu_pct": 1.5,
+      "cores": 16,
+      "py_procs": 10,
+      "result_stale_min": 1.2,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 9,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 6023.0,
+        "compute_apps_count": 22,
         "rogue_apps": []
       },
       "zombies": [],
