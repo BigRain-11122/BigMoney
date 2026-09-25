@@ -1,9 +1,11 @@
 {
  "last_tick": {
-  "ts": "2026-09-26 07:00:01",
-  "machine": "bm-a",
+  "ts": "2026-09-26 07:00:55",
+  "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "claim_lost_yield",
+  "entry": "P1E-SYNTH",
+  "shard": "p1e-synth-0of1"
  },
  "launches": [
   {
@@ -556,6 +558,5 @@
    "ts": "2026-09-26 06:23:28",
    "verdict": "launched"
   }
- ],
- "rebase_union_note": "r225 union (bm-a R225 same-window push collision vs bm-b r228, 10th-yen): launches 50+50->51 identity-union -> cap50; last_tick inner-ts compare 2026-09-26 06:30:02 vs 2026-09-26 06:30:01 -> ours/bm-b whole-dict (r203); CRLF indent=1 producer mirror (r223)"
+ ]
 }
