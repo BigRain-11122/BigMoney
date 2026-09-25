@@ -1583,6 +1583,55 @@ def _queue_bandit_state() -> dict:
     }
 
 
+def _alloc_paper_state() -> dict:
+    """O-20260925-1145 v5 asset-allocation research line: ALLOC-* forward
+    paper accounts (results/alloc_paper/, T-66 s2 wiring). Read-only marks
+    lane mirroring frozen s2 cells 1:1 — observation only, never enters the
+    CEO scorecard/admission faces (three-line law: allocation face judgements
+    are never borrowed by trading J-line or AGGR faces)."""
+    out = {"present": False, "n_accounts": 0, "accounts": [],
+           "capital_initial_cny": None, "inception_date": None,
+           "cutoff_frozen": None, "latest_asof": None}
+    d = os.path.join(PATHS.results_dir, "alloc_paper")
+    if not os.path.isdir(d):
+        return out
+    first = None
+    for f in sorted(os.listdir(d)):
+        if not (f.startswith("ALLOC-") and f.endswith(".json")):
+            continue
+        j = _read_json(os.path.join(d, f))
+        if not j:
+            continue
+        if first is None:
+            first = j
+        nav = j.get("latest_nav_cny")
+        cap = j.get("capital_initial_cny")
+        series = j.get("nav_series") or []
+        asof = series[-1][0] if series else None
+        stale = (j.get("data_quality") or {}).get("stale_leg_days") or {}
+        out["accounts"].append({
+            "id": j.get("account", f[:-5]),
+            "latest_nav_cny": nav,
+            "ret_pct": (nav / cap - 1.0) if (nav and cap) else None,
+            "n_bars": j.get("n_bars"),
+            "n_trades": j.get("n_trades"),
+            "total_cost_cny": j.get("total_cost_cny"),
+            "mode": j.get("mode"),
+            "stale_leg_max": max(stale.values()) if stale else 0,
+            "asof": asof,
+        })
+        if asof and (out["latest_asof"] is None or asof > out["latest_asof"]):
+            out["latest_asof"] = asof
+    if out["accounts"]:
+        out["present"] = True
+        out["n_accounts"] = len(out["accounts"])
+        if first:
+            out["capital_initial_cny"] = first.get("capital_initial_cny")
+            out["inception_date"] = first.get("inception_date")
+            out["cutoff_frozen"] = first.get("cutoff_frozen")
+    return out
+
+
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
@@ -1599,6 +1648,7 @@ def build() -> dict:
     data["corr_watch"] = _corr_watch_state()
     data["governance"] = _governance_state()
     data["queue_bandit"] = _queue_bandit_state()
+    data["alloc_paper"] = _alloc_paper_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()

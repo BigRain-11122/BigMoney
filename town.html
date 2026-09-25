@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -220,6 +220,18 @@ function drawPortfolio(b) {                   // 组合调度中心 (portfolio &
   text(p.present ? 'EW6 报告制' : 'EW6 待产', x+13, y+34, ok ? '#5fd38a' : '#e8c15a', 7);
   rrect(x+33, y+40, 14, 8, '#161a22');        // door
   text('组合调度中心', x+8, y+62, '#7a8494');
+}
+function drawAlloc(b) {                       // 资产组合研究部 (v5 第八部门 · ALLOC-* 配置账户族)
+  const {x,y} = b, ap = (D.data && D.data.alloc_paper) || {};
+  const accs = ap.accounts || [];
+  rrect(x, y, 70, 34, '#262e3d'); rrect(x, y, 70, 4, '#5a9ab8');   // teal band = allocation line
+  rrect(x-3, y-5, 76, 5, '#3a4356');          // flat roof
+  for (let i=0; i<7; i++) {                  // 7 windows = ALLOC-P1..P6/P3B account family
+    const a = accs[i];
+    px(x+5+i*9, y+10, 7, 9, !a ? '#12151d' : (a.ret_pct >= 0 ? '#5fd38a' : '#e05a5a'));
+  }
+  rrect(x+28, y+22, 14, 12, '#161a22');       // door
+  text('资产组合研究部', x-4, y+46, '#7a8494');
 }
 function drawFlags() {                       // milestone flags bottom strip
   const g = D.gamification, n = g.milestones_total, x0 = 24, y = H-42;
@@ -391,6 +403,15 @@ const BUILDS = [
           });
           return rows.join(''); })()
       + '<div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
+  { id:'alloc', x:560, y:318, w:70, h:34, draw:drawAlloc, label:'资产组合研究部',
+    dept:'资产组合研究部 Asset Allocation Research', mandate:'百万级资产配置实测 · 买入持有+定期再平衡+防御倾斜 · 不做择时（org_chart v5 独立成行）',
+    info: () => { const ap = (D.data && D.data.alloc_paper) || {};
+      if (!ap.present) return '<div class="row dim">ALLOC-* 配置账户待产出（python scripts/alloc_paper.py run · T-66 s2 已接线）</div>';
+      const f2 = v => v==null ? '—' : (Number(v)*100).toFixed(2)+'%';
+      return '<div class="row">账户族 ALLOC-* ×'+ap.n_accounts+' · 初始 ¥'+(ap.capital_initial_cny/10000).toFixed(0)+'万 · inception '+ap.inception_date+' · 冻结 cutoff '+ap.cutoff_frozen+' · asof '+ap.latest_asof+'</div>'
+        + ap.accounts.map(a => '<div class="row">'+a.id+' <span class="'+((a.ret_pct??0)>=0?'green':'red')+'">'+f2(a.ret_pct)+'</span> · NAV ¥'+Math.round(a.latest_nav_cny).toLocaleString()+' · '+a.n_bars+' bars · '+a.n_trades+' 笔 · 费 ¥'+Math.round(a.total_cost_cny)+' · '+a.mode+(a.stale_leg_max?(' · stale腿 '+a.stale_leg_max+'日'):'')+'</div>').join('')
+        + '<div class="row dim">三线三判：配置面读数不挪用交易 J 线/激进面判据 · marks 观察账本不入 CEO 面</div>'
+        + '<div class="row dim">镜像冻结 s2 cells 1:1（engine import 零重实现）· P5 stale-leg 日披露（refresh 决策延至 s3 首月评审 2026-10）</div>'; } },
   { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
     dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同 · 传输 · 心跳 · 备份 · 周期任务轮值 · SLA 10min 单跳',
     info: () => ((D.group && D.group.siblings && D.group.siblings.length)
