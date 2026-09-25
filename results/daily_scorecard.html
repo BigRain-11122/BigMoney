@@ -179,11 +179,11 @@
 <tr><td>O-2030-PRESIGNAL</td><td class='dim'>🟡</td><td>O-2030 前置+组合令：军种建设前置律+组合律入正典；前置快线 harness A/B 批未跑</td><td class='dim'>file_contains:contains; file_exists:exists</td></tr>
 <tr><td>O-2045-MILLION-PAPER</td><td class='dim'>🟡</td><td>O-2045 百万纸盘 d1：INITIAL_CASH 1,000,000 构造性满足（6 注册员）；d2 交易时段道/d3 导出面/d4 协调未动工</td><td class='dim'>file_contains:contains; file_exists:exists</td></tr>
 <tr><td>O-2100-COMPUTE-DISPATCH</td><td class='dim'>🟡</td><td>O-2100 算力调度机制 d2 核心：runnable pool + autofill C8 + 10min schtasks + watchdog 自愈腿 + 真验收 laun</td><td class='dim'>file_exists:exists; file_exists:exists; json_field:launches.0.verdict=</td></tr>
-<tr><td>O-2115-POST-REVIEW</td><td class='dim'>🟡</td><td>O-2115 复审机制 d1：正典（GM 令 commit 预落）+确定性复审器 post_review.py（注入虚报样本必捕 selftest 7/7）+首批判据 regist</td><td class='dim'>git_log_file:git hit: 2115; file_exists:exists; file_exists:exists</td></tr>
-<tr><td>T-27-VETO-FIELD</td><td class='pos'>✓</td><td>T-27 产物时效字段：results/portfolio_blend_tournament.json 须带 verdict.veto_window_until（POST_REVI</td><td class='dim'>json_field:verdict.veto_window_until=2026-10-01</td></tr>
 <tr><td>T-24-SLICE-A</td><td class='pos'>✓</td><td>T-24 slice-a PROSPECT 纸面跟踪道 22 员态+锚零漂移（canon s6 行 2）</td><td class='dim'>file_exists:exists; json_field:n_pass=22 (want 22); json_field:n_drift</td></tr>
 <tr><td>T-24-SLICE-B</td><td class='pos'>✓</td><td>T-24 slice-b 晋升门评估器 0/22 eligible 诚实三腿（canon s6 行 3）</td><td class='dim'>file_exists:exists; json_field:n_eligible=0 (want 0); count_glob:count</td></tr>
 <tr><td>O-2012-T33-D2-ATTACK-WAVE</td><td class='pos'>✓</td><td>O-2012/T-33 d2 进攻招募波 G1' v2 0/20 诚实零（canon s6 行 10）</td><td class='dim'>file_exists:exists; json_field:summary.g1_prime_v2_pass=0 (want 0); js</td></tr>
+<tr><td>O-2115-POST-REVIEW</td><td class='dim'>🟡</td><td>O-2115 复审机制 d1：正典（GM 令 commit 预落）+确定性复审器 post_review.py（注入虚报样本必捕 selftest 7/7）+首批判据 regist</td><td class='dim'>git_log_file:git hit: 2115; file_exists:exists; file_exists:exists</td></tr>
+<tr><td>T-27-VETO-FIELD</td><td class='pos'>✓</td><td>T-27 产物时效字段：results/portfolio_blend_tournament.json 须带 verdict.veto_window_until（POST_REVI</td><td class='dim'>json_field:verdict.veto_window_until=2026-10-01</td></tr>
 </table>
 <div class='warn'><b>诚实边界</b>：残月不计入战绩（全员 months_tracked=0）；上表窗口成绩=研究计分口径（样本外 2026 窗·成本恒开）；不承诺未来收益；跑分幅度现阶段为稳健起步（年化 3% 级·回撤 −2.4%），「大幅」靠锦标赛与新因子线迭代爬坡，如实展示不夸大。</div>
 </body></html>

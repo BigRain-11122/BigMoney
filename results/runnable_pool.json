@@ -957,9 +957,7 @@
      "owner_since": "2026-09-25 21:07:53"
     }
    ],
-   "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull.",
-   "done_at": "2026-09-25 21:16:00",
-   "done_note": "r204 bm-b flip: runner pid22596 launched 21:07:58 exited ~21:15, ckpt-7of8 196/196 unique all done:true, 196 cell files on disk, zero overlap shards 0-6; disk census 1569=prereg exact"
+   "lane_note": "R188 bm-a control-plane lane pin (2026-09-25 20:5x): shard runner census gate freezes cache generated=2026-09-24 03:42:50 (r197 7c8067ae, bm-b local Money02 cache); bm-a local cache = original 2026-09-23 18:12:59 (same T=8792/N=5222, shape gates pass, stamp gate honest-crash). Evidence: logs/autofill_WILD-S1-SHARD-*.log bm-a 12x census-drash crash (SHARD-1/2/3/4/7, 19:50-20:52, mostly pre-r202 naked launches). bm-a wr-7of8 claim 20:51:57 released (owner->None) -- shard work belongs where the frozen census basis lives. Lane pinned to stop bm-a crash-launch loop; bm-b pickup = next tick after pull."
   },
   {
    "id": "CTA-WAVE1-RUN",
@@ -971,7 +969,7 @@
    ],
    "lane_owner": null,
    "priority": 2,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-25 20:40:00",
    "data_gates": "in-runner G0-G4 (prereg gate list; G3 18-cell frozen exemption exact-match, probe-p2 semantics; G2 TS exchange-verified constants frozen incl tick=0.002 per >30% deviation protocol, evidence results/cta_wave1_g2_ts_check.json; G4 seed 62000 determinism); prereg sha integrity assert at run; abort exit 2 on any gate FAIL",
    "workers_plan": {
@@ -982,9 +980,9 @@
    "shards": [
     {
      "key": "cta-wave1-run",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
-     "note": "full 78-cell batch single shard; writes results/shortline_cta_wave1.json + research/cta_wave1_results.csv + gate_attrition append + science_gates ledger; done-flip by owner round after results verify (r180 dual-flip)",
+     "note": "batch completed 2026-09-25 21:14:31 (pid 47208 clean exit); results results/shortline_cta_wave1.json verified by owner round R189: G0-G4 green (G2 TS tick 0.002 exchange-verified frozen w/ deviation disclosure), g1_passers 0/26 honest negative (best ma_slope_200@daily 0.7462 vs skill_line 1.0565 @ n_eff 183,030), ledger 182,952->183,030 (+78); done-flip r180 law | UNION R189: bm-b tick takeover claim 21:20:04 (stale-owner r178 law, owner_since 20:56:38 >20min) launched duplicate runner pid 10948 on bm-b ~6min AFTER completion on bm-a -- redundant deterministic re-burn, same results expected; pool state=done stands per r180 dual-flip (results verified owner round R189).",
      "owner_since": "2026-09-25 21:20:04"
     }
    ]
