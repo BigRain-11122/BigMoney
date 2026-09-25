@@ -61,6 +61,13 @@
   预算面=首拉实测测量请求，非日常窗 T-39 探针节流面）。证据=results/_r220_sina_mf_num_probe.py
   + results/_r220_sina_mf_num_probe.json（bm-a R220，date-sorted 读数 R216 律）。
 - `fenlei` 参语义未测（R215/R216 恒 fenlei=1 与 folklore 配方一致；保守沿用，禁擅自变更）。
+- **R221 缺陷披露注记（非判据面·open item ④）**：采集器写盘 `%.10g` 投影在大额行注入舍入漂移
+  （部分面板实测 worst scale-relative 8.5e-10；绝对 0.08 元于 -4.9e5 净额±1.4e8 档对消行），
+  而 overlap 复核 PRIMARY_TOL=1.0 元 ⇒ **|netamount|≥1e10 行月度复拉时可假 mismatch→该股本地冻结**
+  （首拉无 overlap 面不触发；面板 stale>20td 才复拉 ≈ 2026-10-27 首窗）。s3 接线/首复拉前须
+  prereg 修正案（写盘全精度或 tol 按量纲定标）。验收器两律面已按此设计：源面 1e-3 绝对（入账门）
+  + 写盘面 1e-8×scale（独立复核门，%.10g 理论上界 2.5e-9×scale 四倍余量）。证据
+  =scripts/sina_mf_accept.py 头注 + 验收报告 worst_written_drift 字段（bm-a R221）。
 - 档位阈值官方文档（sina 页面 JS/帮助面）→ 外源扫描常态线下批收口（O-1721）；
   收口前消费面档位语义=UNDOCUMENTED 诚实标注。
 - 采集器实现票=另开 GM 署名单（P1 数据源扩容，O-1620 下放面；T-43 先例流程）。
