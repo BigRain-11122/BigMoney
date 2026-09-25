@@ -1,4 +1,4 @@
-## Codely Structured Memories
+﻿## Codely Structured Memories
 
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
@@ -91,3 +91,4 @@
 
 - [2026-09-25 15:2x] 坑律/面语义（bm-a R168·T-17 AH 线 deliverable-2）：**AH A↔H 双码映射唯一权威面=EM push2 clist fs=b:DLMK0101**（f193 名/f12 H 码/f191 A 码/f186 A 现价 RMB/f188 溢价%/f189 比价，pz=100 分页）——腾讯双面（stock_zh_ah_spot/ah_name 同源 hk_rank.php board=A_H）**只给 H 码+名、永无 A 码**（raw 行 14 字段、第 14 字段=当日溢价率% 被 akshare 列裁剪丢弃=免费映射交叉验面），xueqiu profile=xq_a_token 墙，sina getHKAHData=Service not found；akshare stock_zh_ah_spot_em 包装死因=registry proxy（moneyflow T4 直连 urllib+ProxyHandler({}) 配方可活，但 push2 域整域间歇阻断=映射腿 conn-fuse 诚实 exit 2+gate 30min spawn 节流自愈，同域三面 15:13-15:16 实证 RemoteDisconnected/12:00-13:40 活）。宇宙计数以 EM total 为仲裁（腾讯普查 220@09-24 vs 200@15:2x 漂移在册）。产物=scripts/ah_panel_puller.py+research/shortline/AH_PANEL.md §2。
 - [2026-09-25 15:2x] 坑律（bm-b r186·T-60 s2 CB 探针·R167 族判定层双新例·E1 自捕零外泄）：**事件面日期列污染 evidence_cutoff=未来日**——宽容末行日期提取（扫全列式 extract_last_date）跨事件面（强赎/发行/条款）会捞到期日/发行日=非观测日，probe v1 cutoff=2027-07-28 未来日=禁未来数据律结构性违例（R167 探针语义族的 cutoff 维度：evidence_cutoff=C2 合法键不可带未来）；正解=observation_dates 卫（cutoff=max(≤run_date 日期, run_date 兜底)）+semantic_notes 注记面。连带=**cookie 墙面样本冒充全谱**——jsl cookie=None 回 30 行真数据样本，「面活」≠全谱面，双低宇宙腿禁由样本面立；正解=行数门槛（JSL_FULL_SPECTRUM_MIN=100）+verdict 降 PARTIAL 诚实标签+样本面降格格式参照。v1 selftest 全绿仍踩=夹具无事件面日期形态（hermetic-生产配对缺口同源）。指针=scripts/cb_face_probe.py observation_dates/semantic_notes+selftest S3b/S3c。
+- [2026-09-25 15:3x] 坑律（bm-a R169·T-17 d5 官源核验面）：**官源 URL 禁盲猜**——HKEX 新版站路径 4 连 404+IRD 两个猜测 index 全 404（T-17 d5 实弹），外源 URL 发现一律父页实读 href 清单或站点 sitemap，禁凭记忆拼路径；已核验面先落件+未核验面显式 PENDING-VERIFY=诚实首落非全闭（RULES-AUDIT 无源禁推测的正用：民间通行数字（印花税0.1%/T+2等）未核验禁入 knowledge 正典）。指针=knowledge/market_rules_hk.md §三+T-17 票 note R169 行。
