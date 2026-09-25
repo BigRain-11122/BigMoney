@@ -1,0 +1,152 @@
+{
+  "_meta": {
+    "task": "T-70 pilot criteria-2 blind code-quality scoring (primary evaluator face)",
+    "prereg": "research/R-20260925-bma-local-coding-pilot.md §3 判据2",
+    "rubric": "results/local_coding_pilot/blind_eval/RUBRIC.md (frozen pre-scoring)",
+    "evaluator": "cloud GM (primary, per RUBRIC §2.3); auxiliary qwen2.5:14b NOT performed this batch (optional face, honest disclosure)",
+    "protocol": "absolute-anchor integer scores 1-10 (not comparative); each file scored immediately on read, sibling of same task not compared during scoring; no code executed (criteria-1 functional face closed separately by frozen verify commands); mask map NOT read before or during scoring",
+    "pre_scoring_integrity": "20/20 masked file sha256 == MANIFEST entries (verified before scoring); .mask_map.json gitignored and untracked at scoring time",
+    "scored_at": "2026-09-26 bm-a R206",
+    "dims": ["readability", "idiomatic", "boundaries", "structure"]
+  },
+  "01": {
+    "u": {
+      "readability": [6, "命名自明+错误消息带行号，但零 docstring、selftest 六条重复填充例降低可读性"],
+      "idiomatic": [5, "re/sys/f-string 基本地道；split(\" | \") 手工解析脆；测试例复制粘贴反模式"],
+      "boundaries": [4, "FileNotFoundError→exit 2+BOM 处理好；但 selftest 无效例与有效例字符串逐字相同=无效例实际全部通过，测试边界裸奔"],
+      "structure": [6, "parse/validate/lint/selftest 职责分离清晰；selftest 内常量重复无抽取"]
+    },
+    "v": {
+      "readability": [8, "契约 docstring+helper docstring；candidate 门设计意图有注释锚"],
+      "idiomatic": [8, "模块级预编译 regex、generator yield、% 格式化一致；list(bad)[0] 取首键略绕"],
+      "boundaries": [7, "candidate 门跳过分隔行/表头防误报；缺尾管道行可漏过、无日历有效性校验（两小面漏）"],
+      "structure": [9, "小函数各司其职、生成器与文件读取分离、selftest 镜像 live 路径"]
+    }
+  },
+  "02": {
+    "u": {
+      "readability": [9, "模块 docstring 含 Why+契约；bool-int 陷阱处有 why 注释；helper 命名自明"],
+      "idiomatic": [9, "sorted(set 差集) 报未知键、dict(s1,...) 夹具变体、assert 化 selftest；io/os 函数内 import 位置略偏"],
+      "boundaries": [9, "bool-is-int 显式排除、空串、next_pick null/dict/异型三分、OSError 与 ValueError 分治、tempfile try/finally"],
+      "structure": [8, "validate 单函数略长但单一职责；_load_payload 分离；selftest 与生产逻辑分离"]
+    },
+    "v": {
+      "readability": [6, "每键校验器扁平统一可读，但零 docstring、无 why 注释"],
+      "idiomatic": [6, "set 全等键校验严格可用；selftest 用 json.dumps 测序列化=反模式；函数内 sys.exit 与 return 混用"],
+      "boundaries": [4, "selftest 从不调用任何校验器（ALL PASS 空转）=验证面缺失；bool-is-int 陷阱未处理（JSON true 混入 py_series_tail 判合法数）"],
+      "structure": [7, "校验器/lint/selftest/main 分层清楚、无死代码；但 selftest 结构名实不符"]
+    }
+  },
+  "03": {
+    "u": {
+      "readability": [9, "docstring 冻结判定序+exit 契约；helper 小而名实相符；selftest 具名 check"],
+      "idiomatic": [9, "except 分型精确、str.format 一致、or [] 兜 None；check 累积器闭包略偏门"],
+      "boundaries": [9, "universe/attempted 缺席打 -1 不塌缩 0、max_collected 空回退、非 dict 顶层、短路序断言"],
+      "structure": [8, "parse/summarize/verdict 分离；check() 失败时重复打印累积清单小癖"]
+    },
+    "v": {
+      "readability": [6, "流程可读但无 docstring；format_output 参数名 *_len 实为列表=误导"],
+      "idiomatic": [6, "digest_status 库函数内 sys.exit（selftest 被迫捕 SystemExit）=混关注点；get_or_default 包装层浅"],
+      "boundaries": [7, "panel 缺席/非 dict/结构坏三档 exit 2；cutoff 回退链；None→-1；非 list enum_fails 静默归 0 略糊"],
+      "structure": [7, "校验/判定/渲染分离；mode 读后未用=轻度死变量"]
+    }
+  },
+  "04": {
+    "u": {
+      "readability": [6, "命名清楚+类型注解加分；无任何 docstring"],
+      "idiomatic": [7, "fromisoformat+Z 替换、f-string、sorted lambda 皆地道；typing 旧式导入、broad except"],
+      "boundaries": [4, "selftest 断言 stalled48h==1 而双样本龄均 2 年+=期望数学错；tz-naive 近似补丁；age_h>48 and age_h>=0 冗余条件"],
+      "structure": [7, "parse/aggregate/format 三段分离清晰；单文件读败全程序 exit 2 略脆"]
+    },
+    "v": {
+      "readability": [8, "全函数 docstring+spec 锚注释；行内边界注释到位"],
+      "idiomatic": [8, "fromisoformat+astimezone、tuple 行、json.dumps 合成夹具；split 双调小疵"],
+      "boundaries": [8, "parse_fail/非 dict/BOM/缺 claimed_at(None 龄不入 stalled/max)/naive 补 tz/tie 排序/未知键忽略全接住"],
+      "structure": [9, "parse/digest/render/live/selftest 干净分离、零死代码、行渲染契约断言精确"]
+    }
+  },
+  "05": {
+    "u": {
+      "readability": [9, "契约 docstring+各函数 docstring；selftest 具名 check 可审计"],
+      "idiomatic": [9, "astimezone naive 修复、format(**{**d}) 密但正、glob/json 惯用"],
+      "boundaries": [10, "不可能日历 9999→name_fail 内分档、future ts→clock_anomaly 诚实负龄、ALL 取最新心跳、缺心跳/None/不可解析→stranded、零有效龄→-1"],
+      "structure": [9, "纯核 scan_entries 与 IO live 分离有明示；排序确定式；usage 输出双 print 拼行小癖"]
+    },
+    "v": {
+      "readability": [5, "无 docstring；150 行 selftest 模拟逻辑与生产难分辨；datetime|float 混型返回"],
+      "idiomatic": [4, "filename.split('-')[3] 取收件人而非 regex 捕获组——对连字符机 id(bm-abc) 截成 'bm'（生产级错）；类型混淆哨兵 -1.0；裸 except"],
+      "boundaries": [4, "split 索引错使定向消息永远查不到心跳→恒 stranded（live 全错）；心跳 ts 按 T 格式解析与本仓空格式不符；selftest 测副本非测本体故不抓"],
+      "structure": [4, "selftest 复制生产逻辑 80 行（测副本反模式）+测试例 3 倍重复填充；生产函数本身分离尚可"]
+    }
+  },
+  "06": {
+    "u": {
+      "readability": [6, "命名清楚部分注释；无 docstring；str|dict 混返回型契约使 main 分支绕"],
+      "idiomatic": [6, "half-up 整数法有注释；isinstance(result,dict) 分派反模式；sign() 格式化选择可用"],
+      "boundaries": [7, "缺键/坏机条目/零 grand/缺席 delta 均处理；但坏值静默吞为 0=掩蔽腐蚀"],
+      "structure": [5, "main 先置 helper 后置非常规；process_data 60 行验证+聚合+渲染预备混一；无死代码"]
+    },
+    "v": {
+      "readability": [9, "契约 docstring+helper docstring+银行家舍入 why 注释；结构自明"],
+      "idiomatic": [8, "walrus-in-lambda 密（#noqa 自认）；sorted/format/io.open 惯用；整体地道"],
+      "boundaries": [9, "bool 排除 int 文档化、bool/float 腿→0、malformed 计数、grand=0 份额 0、half-up pinning 31.3 断言、负 delta 渲染"],
+      "structure": [9, "validate/derive/render 纯分离；selftest 直测生产函数；main 薄"]
+    }
+  },
+  "07": {
+    "u": {
+      "readability": [6, "无 docstring；parse_ts 嵌套 try 三层绕；render 超长 f-string 行"],
+      "idiomatic": [6, "age_h 用字符串'-'与 int 混型哨兵=反模式；except Exception 多处宽捕；strptime 双格式循环"],
+      "boundaries": [7, "缺文件/非 dict/非 str ts/小数秒剥离/负龄 stale 卫；head legs=7 与实观测数分离语义自洽"],
+      "structure": [7, "LEGS 注册表/digest/selftest/main 分层合理；digest 单函数略长"]
+    },
+    "v": {
+      "readability": [9, "docstring+prompt-rule 锚注释全；STATUS_RANK 排序语义显式"],
+      "idiomatic": [8, "% 格式化一致、fixture 构造、except 分型精确；-(age or 0) 惯用略密"],
+      "boundaries": [9, "future ts→负龄诚实+stale=0、非 str ts→nonstr、60 字符截断、T/space 同龄断言、missing/bad_ts/absent 渲染分档"],
+      "structure": [9, "parse/digest/render/live/selftest 分离干净；_row 测试 helper DRY"]
+    }
+  },
+  "08": {
+    "u": {
+      "readability": [6, "中文注释助读、名字清楚；dup_codes 单行密集难读"],
+      "idiomatic": [4, "裸 except 两处；dup_codes 在推导式内重 parse 全行 O(n²)+对原始行串 count(code)=语义错且 malformed/空行上裸崩"],
+      "boundaries": [5, "字段类型契约+十组违规测试面优秀；但 dup_codes 实现错（selftest 断言 dup==1 与实现给 0 直接矛盾）"],
+      "structure": [6, "recon 单函数 120 行混解析/分类/对账/渲染预备；输出 dict 结构好"]
+    },
+    "v": {
+      "readability": [9, "docstring+行契约注释；render 行显式展开"],
+      "idiomatic": [9, "Counter 算 dup 正确、fixture 构造器、bool 排除 helper、except 分型"],
+      "boundaries": [9, "blank/malformed 分档、非 str 行守卫、bool-int 陷阱、panel 缺键→None/-1 渲染、单检隔离样本(5a/5b/5c)各证单 fail"],
+      "structure": [9, "recon/render/live/selftest 分离；checks dict 同源驱动判定+渲染=DRY"]
+    }
+  },
+  "09": {
+    "u": {
+      "readability": [7, "三 parser 形态可辨认；无 docstring；render 超长行"],
+      "idiomatic": [4, "`A and 0 or C` 伪三元反模式两处；sum 内联条件句笨拙"],
+      "boundaries": [5, "空列表经 and-or 链计为 1（selftest 断言 0 直接矛盾）=空集边界病；多 done last-wins/None 渲染余面尚可"],
+      "structure": [6, "ok 计算在 render_lanes 与 digest 主体双写=DRY 违例；三 parser 近复制可原谅"]
+    },
+    "v": {
+      "readability": [9, "docstring+模块级 regex 常量+具名 check 带细节"],
+      "idiomatic": [9, "预编译 regex、_last_match 高阶 helper、括号列表捕获 `\\[[^\\]]*\\]` 精确"],
+      "boundaries": [9, "_list_count 空表正确归 0、last-wins 显式、exit=3/complete=False/cutoff=None token、rank-pass vs rank-fail 前缀区分"],
+      "structure": [9, "fields 元组同源驱动 parse 初始化与 render=DRY；VERDICT 行在位；9 边缘组"]
+    }
+  },
+  "10": {
+    "u": {
+      "readability": [8, "lint docstring 契约；elif 类型梯可读；渲染行 f-string 拼接清楚"],
+      "idiomatic": [7, "bool-before-int 序正确；json.dumps 渲染 str；死 import OrderedDict 未用"],
+      "boundaries": [5, "类型族/BOM/巨 int/非 dict 面全；但 lint 从不输出 VERDICT 行而 selftest 期望之→result['lines'][3] IndexError 级缺陷"],
+      "structure": [7, "lint/selftest/main 分层尚清；缺 VERDICT 行=契约接线断"]
+    },
+    "v": {
+      "readability": [9, "Why-docstring 带 R170/R178 病灶族锚+bool-before-int 理由；face helper docstring 全"],
+      "idiomatic": [9, "纯 face 函数、bytes 读+decode(replace)、AssertionError→诚实 FAIL 出口"],
+      "boundaries": [10, "bool/str/float/None/missing 全类型族、负 int、空对象、BOM、插入序无关、空目录、VERDICT 行在位——11 边缘组无漏"],
+      "structure": [9, "face/lint/live/selftest/main 分离干净；per-machines dict+lines 双面输出"]
+    }
+  }
+}
