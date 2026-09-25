@@ -3,17 +3,6 @@
   {
    "entry": "T54-GRID-DB",
    "fill_latency_min": 130.7,
-   "machine": "bm-a",
-   "pid": 53416,
-   "py_cpu_pct": 0.0,
-   "shard": "deep-dB",
-   "target_met": false,
-   "ts": "2026-09-25 13:30:01",
-   "verdict": "launched"
-  },
-  {
-   "entry": "T54-GRID-DB",
-   "fill_latency_min": 130.7,
    "machine": "bm-b",
    "pid": 13492,
    "py_cpu_pct": 0.0,
@@ -549,12 +538,23 @@
    "pid": 24824,
    "fill_latency_min": 73.3,
    "target_met": false
+  },
+  {
+   "ts": "2026-09-26 05:00:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 6.2,
+   "verdict": "launched",
+   "entry": "P1E-NULLS-MARC",
+   "shard": "p1e-nulls-marc",
+   "pid": 27452,
+   "fill_latency_min": 113.3,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 05:20:01",
-  "machine": "bm-a",
-  "py_cpu_pct": 0.0,
+  "ts": "2026-09-26 05:30:02",
+  "machine": "bm-b",
+  "py_cpu_pct": 6.2,
   "verdict": "pool_empty_or_busy"
  },
  "rebase_union_note": "r219 rebase union (bm-a): base :2:results/autofill_state.json (bm-b r224 closeout) + incoming :3:results/autofill_state.json (bm-a autofill tick 04:50); launches union 50+50 -> 50 identical sets; last_tick same-second tie '2026-09-26 04:50:01' -> take HEAD/base (r140); CRLF producer mirror (r223); base key order preserved"

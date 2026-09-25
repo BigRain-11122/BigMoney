@@ -329,7 +329,7 @@ function drawScene(t) {
 
 const BUILDS = [
   { id:'lab',  x:16,  y:160, w:70,  h:55,  draw:drawLab,   label:'研究楼',
-    dept:'研究部 Research', mandate:'因子/信号挖掘 · IC/回测研究 · idea→候选池 · 外部调研',
+    dept:'研究部 Research', mandate:'因子/信号挖掘 · IC/回测研究 · idea→候选池 · 可学清单采纳评估 · 外部调研',
     info: () => { const fl = (D.research && D.research.factor_line) || {};
       const flRows = fl.present
         ? '<div class="row">研究线批次 · 因子账本 N='+(fl.total ?? '—')+'</div>'
@@ -339,7 +339,7 @@ const BUILDS = [
       + flRows
       + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('') } },
   { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
-    dept:'策略部 Strategy Factory', mandate:'策略工厂 · 门禁链 G1\'/G2 · 注册与退役',
+    dept:'策略部 Strategy Factory', mandate:'策略工厂 · 门禁链 G1\'/G2+判据科学层 v2 · 注册与退役',
     info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
       + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>' },
   { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
@@ -360,7 +360,7 @@ const BUILDS = [
       + ((D.trading.scorecard||{}).present ? '<div class="row">P-6 记分卡：最优 <span class="gold">'+D.trading.scorecard.best.id+' '+D.trading.scorecard.best.grade+' '+Number(D.trading.scorecard.best.total).toFixed(2)+'</span> · S×'+((D.trading.scorecard.grade_counts||{}).S||0)+' A×'+((D.trading.scorecard.grade_counts||{}).A||0)+' B×'+((D.trading.scorecard.grade_counts||{}).B||0)+' C×'+((D.trading.scorecard.grade_counts||{}).C||0)+'</div>' : '<div class="row dim">P-6 记分卡待产出（python scripts/scorecard.py）</div>')
       + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
   { id:'pf', x:176, y:236, w:80, h:48, draw:drawPortfolio, label:'组合调度中心',
-    dept:'组合与资金部 Portfolio & Capital', mandate:'组合构建 EW→IV · 相关性监控 · R-配3 帽应用层 · 现金腿（Phase 1）',
+    dept:'组合与资金部 Portfolio & Capital', mandate:'组合构建 EW→IV · 相关性监控 · R-配3 帽应用层 · 现金腿 · hr.py 资金阶梯执行面',
     info: () => {
       const p = (D.data && D.data.portfolio) || {};
       if (!p.present) return '<div class="row dim">组合批待产出（T-06 EW6 报告制）</div>';
@@ -392,7 +392,7 @@ const BUILDS = [
         + '<div class="row dim">读数政体折价（P-5B 6/6 FAIL 0.70 线）· 分配=章程 §五 T1 呈报</div>';
     } },
   { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
-    dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库/新鲜度 · 零污染',
+    dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库 · 数据纪元/校验 · 新鲜度 · 零污染',
     info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div>'
       + (() => { const rows = [];
           [['heat','热度链'],['futures','期货链'],['moneyflow','资金流']].forEach(([k,name]) => {
