@@ -10,7 +10,7 @@
 - 批名 / 批号：T48B-factor-blend-v2（T48-factor-blend v1 复活版；v1 链 60,880→61,015 +135 已在账）。
 - 认领：票 T-2026-09-25-49 claim 同轮开立（bm-b r167）；F-04 MSG=fleet/inbox/MSG-20260925-1010-bm-b-T49-claimed.md。
 - 部门归属：dept:研究+交易（T-48 血统延续）。
-- **原料依赖（如实挂）**：①T-47 wave-6 已交片变体卡（LeBaron vol-regime 条件化＝DIGEST-20260925-alphaarchitect L40；vol-targeting+回撤限位＝DIGEST-20260925-quantconnect L38；Lesmond 成本面准入＝DIGEST-20260925-ssrn L31）——v2 即其**设计消费队列**（登记不排批→本批排批，反重复闭环）；②T-46 MF_IC_P1 判定读数＝C3 条件格原料门；③T-47 收线剩余片（PBCSF/CJoE/券商研报 slug 等）＝冻结窗短名单先验面输入。
+- **原料依赖（如实挂）**：①T-47 wave-6 已交片变体卡（LeBaron vol-regime 条件化＝DIGEST-20260925-alphaarchitect L40；vol-targeting+回撤限位＝DIGEST-20260925-quantconnect L38；Lesmond 成本面准入＝DIGEST-20260925-ssrn L31）——v2 即其**设计消费队列**（登记不排批→本批排批，反重复闭环）；②T-46 MF_IC_P1 判定读数＝C3 条件格原料门；③T-47 收线剩余片（PBCSF/CJoE/券商研报 slug 等）＝冻结窗短名单先验面输入；④wave-7 slice-1 cfrc 因子动量证据卡（DIGEST-20260925-wave7-slice1·bm-b r168）＝C2 格冻结窗输入面（A 股「个股动量死+因子动量活」多层结构证据/多头端贡献 79% 纯多可投性/极端行情反增强 vs LeBaron 低波卡=§5 必写张力条/形成期 t-12..t-2 跳 t-1 细节候选；情绪条件化=数据面指针挂起零申请）——预注册前零跑批·J18。
 - 算力预算：≤3 复合格 × x1/x2 双面（≤5min 级；超则入 results\runnable_pool.json 后台化，O-20260924-2100 纪律）；workers=min(worker_cap(),8)；批报告必带 audit 段。
 - 复用面（反重复铁律）：scripts/factor_blend.py 范式逐字（blend_score/run_cells_parallel/checkpoint key 律）、T-27 runner 血统、results/factor_registry.json（v1 交付①）、T-33 军种表只读、T-22 分段机（t22_virtual_timepoints）段证据载体、composite_rotation 原语、science_gates 共享库（禁手抄判线）。
 
