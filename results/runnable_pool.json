@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-26 05:35:00",
+ "updated_at": "2026-09-26 05:47:30",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1309,7 +1309,7 @@
    "runner": "scripts/p1e_ic_batch.py",
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 03:06:50",
    "workers_plan": {
     "workers": 4,
@@ -1324,11 +1324,16 @@
    "shards": [
     {
      "key": "p1e-cells",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-26 05:40:05",
      "checkpoint": "results/shortline/p1e_partial/<factor>.json x7 (status==ok) -- session flips shard->done on harvest round (pool-flip-is-round-work r203)",
-     "note": "7 members x 3 horizons (h5/h10/h20, h10 primary judgement) IC via _ic_series_fast on frozen p1e_factors constructors; est ~4-5min (constructors ~53s + 21 IC + close/open/tr/vwap load)"
+     "note": "7 members x 3 horizons (h5/h10/h20, h10 primary judgement) IC via _ic_series_fast on frozen p1e_factors constructors; est ~4-5min (constructors ~53s + 21 IC + close/open/tr/vwap load)",
+     "done_flip": {
+      "ts": "2026-09-26 05:47",
+      "by": "bm-b r226",
+      "evidence": "run-cells landed: 7/7 partials status==ok (runner pid1800 launched 05:40:09 via autofill 05:40 tick; 3-horizon IS/OOS fields present per member; h10 primary face (is_ic/is_ir): zoo85_terrified -0.0526/-0.274, zoo85_stv -0.0467/-0.440, zoo92_coin_team -0.0750/-0.492, zoo93_arc -0.0477/-0.232, zoo93_vrc -0.0442/-0.260, zoo93_src -0.0047/-0.035, zoo93_krc -0.0184/-0.152)"
+     }
     }
    ]
   }
