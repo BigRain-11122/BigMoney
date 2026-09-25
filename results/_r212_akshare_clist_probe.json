@@ -1,0 +1,22 @@
+{
+ "ts": "2026-09-26 03:33:46",
+ "akshare_version": "1.18.96",
+ "rank_fn_found": true,
+ "rank_fn_urls": [
+  "https://data.eastmoney.com/zjlx/detail.html",
+  "https://push2.eastmoney.com/api/qt/clist/get"
+ ],
+ "rank_fn_param_lines": [
+  "params = {",
+  "\"fltt\": \"2\",",
+  "\"ut\": \"b2884a393a59ad64002292a3e90d46a5\",",
+  "r = requests.get(url, params=params)",
+  "params.update(",
+  "r = requests.get(url, params=params, timeout=15)"
+ ],
+ "live_call": {
+  "ok": false,
+  "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+  "ms": 368
+ }
+}
