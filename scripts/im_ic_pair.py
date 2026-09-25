@@ -89,6 +89,15 @@ def _sha256_file(path: str) -> str:
         return hashlib.sha256(fh.read()).hexdigest()
 
 
+def _sha256_file_normalized(path: str) -> str:
+    """LF-normalized content hash (git blob form): the frozen prereg sha was
+    computed on the committed LF content; a Windows CRLF checkout must not
+    read as a content drift (r156 delivery-rot false-red family)."""
+    with open(path, "rb") as fh:
+        raw = fh.read()
+    return hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()
+
+
 def _cfg_sha() -> str:
     payload = "|".join([
         RUNNER_VERSION, FROZEN_PREREG_SHA, WINDOW_START, CUTOFF,
@@ -327,7 +336,7 @@ def do_run() -> int:
     t0 = time.time()
     cfg = _cfg_sha()
     print("[im_ic_pair] prereg sha check ...")
-    prereg_sha = _sha256_file(PREREG_PATH)
+    prereg_sha = _sha256_file_normalized(PREREG_PATH)
     if prereg_sha != FROZEN_PREREG_SHA:
         print(f"[im_ic_pair] ABORT: prereg sha drifted post-freeze "
               f"({prereg_sha[:16]}... != {FROZEN_PREREG_SHA[:16]}...) — "
@@ -558,7 +567,7 @@ def finalize(panel: dict, cfg: str, gates: dict, leg_b_stats: dict, t0: float) -
                      "cpu_pct": latest.get("cpu_pct"), "flags": latest.get("flags")}
 
     # ---- results JSON
-    prereg_sha_now = _sha256_file(PREREG_PATH)
+    prereg_sha_now = _sha256_file_normalized(PREREG_PATH)
     meta = {
         "window": {"start": WINDOW_START, "end": CUTOFF, "n_days": int(len(panel["dates"]))},
         "varieties": VARIETIES,
@@ -707,9 +716,9 @@ def do_status() -> int:
     done = _resume(cfg)
     keys = _cell_keys()
     print(f"cfg_sha: {cfg}")
-    print(f"prereg sha: now={_sha256_file(PREREG_PATH)[:16]}... "
+    print(f"prereg sha: now={_sha256_file_normalized(PREREG_PATH)[:16]}... "
           f"frozen={FROZEN_PREREG_SHA[:16]}... "
-          f"{'MATCH' if _sha256_file(PREREG_PATH) == FROZEN_PREREG_SHA else 'DRIFTED'}")
+          f"{'MATCH' if _sha256_file_normalized(PREREG_PATH) == FROZEN_PREREG_SHA else 'DRIFTED'}")
     print(f"seed registry im_ic_pair: {sg.SEED_REGISTRY.get('im_ic_pair')} "
           f"(expect {SEED_BASE})")
     n_cand = sum(1 for k in done if k.startswith(("carry", "spread")))
