@@ -1,0 +1,12 @@
+{
+ "id": "T-2026-09-25-61",
+ "priority": "P1",
+ "type": "transfer",
+ "immediate": true,
+ "spec": "T-54 slice-2 finalize data-plane transfer (physical dependency, ticket-recorded per CEO immediate-law): bm-a -> bm-b, 9 files machine-local on bm-a under results/t54/ -- cells_legacy_base_lB.jsonl, cells_legacy_x2_lB.jsonl, cells_legacy_base_lC.jsonl, cells_legacy_x2_lC.jsonl, cells_deep_base_dD.jsonl, cells_deep_x2_dD.jsonl, done_legacy_lB.json, done_legacy_lC.json, done_deep_dD.json (~27.3MB total; 6 cells jsonl ~4.55MB each + 3 done markers). Scheme = A (git branch, per fleet/TRANSFER.md sec.2: batch <30MB << 500MB cap, single file <95MB): sender creates branch transfer/t54-lb-lc-dd-shards from main, git add -f the 9 files (results/t54/* is gitignored line 62), push branch, keep branch (do NOT merge to main). Receiver SOP (T-31 live-fire precedent): git fetch, git checkout transfer/t54-lb-lc-dd-shards -- results/t54/ (stages the files), then git restore --staged results/t54/ (gitignore hygiene, T-31 SOP), files land in working tree. Manifests per sec.0.3: sender Tools\\transfer_manifest.ps1 -Path <the 9 files' dir scope> -Out fleet\\transfers\\T-2026-09-25-61-sender.json -Hash (pre-push); receiver generates -receiver.json after landing + -Verify against sender json; BOTH committed via normal round flow; done = Verify pass + result_ref pointing at both manifests. Consumption face (the whole point): T-2026-09-25-54 slice-2 finalize leg -- after landing, bm-b runs python scripts\\t54_prospect_grid.py finalize (code landed commit 4770615e r182, hermetic selftest 13/13 incl all abort faces; production face currently honest-exit-2 on the 3 missing markers) -> results/t54/t54_grid_summary.json (committed via .gitignore line 63 negation) + trials-ledger append by actual cell count; acceptance = prereg T54_PROSPECT_GRID.md sec.9 items 2-3 (121,528-cell full face + finalize summary + ledger). All 8 shards done on the pool control plane; this ticket moves ONLY the data plane.",
+ "status": "open",
+ "created_by": "bm-b (OS iteration loop, round 182)",
+ "created_at": "2026-09-25 14:15:08",
+ "note": "T54 deep axis closed on bm-a R163 (dD done 13:52:32); legacy lB/lC ran on bm-a R159-R160; lA/lD/dA/dB/dC hold on bm-b. est runtime: sender ~3min (manifest+branch+push), receiver ~2min (checkout+verify). No croc/interactive channel needed.",
+ "ticket_lineage": "T-2026-09-25-54 slice-2 (finalize leg); CEO order O-20260925-1105"
+}
