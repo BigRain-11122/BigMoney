@@ -45,7 +45,7 @@ Pool-ready per O-2100/O-2130: --shard/--shards over the sleeve job set,
 workers_plan in the pool entry; first judgment run executed in-round per
 R41 <5min exemption (T-28 caliber 5.4s empirical).
 
-CLI: run [--shard S --shards N] | paper | selftest
+CLI: run [--shard S --shards N] | paper | family | selftest
 """
 import argparse
 import hashlib
@@ -107,6 +107,61 @@ FROZEN_SHA = {                    # prereg s3 (frozen pre-run)
     "AGGR-REGIME-defensive": "3868f2f55bae825e",
 }
 OFFENSE_BUDGET, AIRDEFENSE_BUDGET, OSC_BUDGET = 0.70, 0.15, 0.15
+
+# ---------------------------------------------------------------------------
+# T-58 s2 broad aggressive family (CEO order O-20260925-1138; ticket
+# T-2026-09-25-58; prereg research/AGGR_FAMILY_PREREG.md FROZEN pre-run).
+# 15 NEW variants on six axes + the five T-56 variants = 20-member family,
+# zero rebuild of T-56 faces. Selection basis for TOP-N faces = registered
+# OOS Sharpe (member registry firm/traders/*.json -- cherry face honestly
+# acknowledged, T-56 s3 precedent; purpose = ceiling test).
+# ---------------------------------------------------------------------------
+FAM_VARIANTS = ("AGGR-TOP3", "AGGR-FULLCE", "AGGR-OFFENSE-FULL",
+                "AGGR-TOP2-80", "AGGR-TOP2-60", "AGGR-GREEN-MAX",
+                "AGGR-REG3", "AGGR-TOP2-C80", "AGGR-TOP2-C95",
+                "AGGR-BARBELL", "AGGR-TOP2-MON", "AGGR-TOP2-WK",
+                "AGGR-GREEN-TOP2", "AGGR-TOP3-GRAD", "AGGR-FULLCE-C80")
+FAM_N_CELLS = 300                  # prereg s0 (15 variants x 20 cells)
+FAM_OUT_JSON = os.path.join(PATHS.results_dir, "aggressive_family.json")
+PREREG_FAMILY = os.path.join(PATHS.root, "research",
+                             "AGGR_FAMILY_PREREG.md")
+RULE_MON = ("boundary=first trading day of each calendar month in the x1 "
+            "sleeve inner-join index; at boundary b rank members by trailing "
+            "compounded x1 daily return over the last 63 trading days with "
+            "index strictly < b; top-2 equal 0.5/0.5; ties broken by "
+            "registered OOS Sharpe descending then member id ascending; "
+            "warmup (fewer than 63 rows before b) -> frozen static "
+            "TOP2-OOS-Sharpe face (VOLATILITY-CE-01 0.5 + COMPOSITE-CE-01 "
+            "0.5); x2 cost face reuses x1-selected weights")
+RULE_WK = ("boundary=first trading day of each ISO week in the x1 sleeve "
+           "inner-join index; at boundary b rank members by trailing "
+           "compounded x1 daily return over the last 21 trading days with "
+           "index strictly < b; top-2 equal 0.5/0.5; ties broken by "
+           "registered OOS Sharpe descending then member id ascending; "
+           "warmup (fewer than 21 rows before b) -> frozen static "
+           "TOP2-OOS-Sharpe face (VOLATILITY-CE-01 0.5 + COMPOSITE-CE-01 "
+           "0.5); x2 cost face reuses x1-selected weights")
+FAM_FROZEN_SHA = {                 # probe-printed at freeze (R162)
+    "AGGR-TOP3": "364f9b0b9f0236e7",
+    "AGGR-FULLCE": "b5868fe1e26690a8",
+    "AGGR-OFFENSE-FULL": "b95dab70673f5941",
+    "AGGR-TOP2-80": "12ec4a3a90bb3dfa",
+    "AGGR-TOP2-60": "465c3ea667a6b1d5",
+    "AGGR-TOP2-C80": "0481dc98d379748c",
+    "AGGR-TOP2-C95": "c7f512ab59c66da2",
+    "AGGR-BARBELL": "93deb766fe8bc552",
+    "AGGR-TOP3-GRAD": "fa598198d684514f",
+    "AGGR-FULLCE-C80": "1c74f4d052d19b86",
+    "AGGR-GREEN-MAX-off": "b95dab70673f5941",
+    "AGGR-GREEN-MAX-def": "3868f2f55bae825e",
+    "AGGR-REG3-off": "b95dab70673f5941",
+    "AGGR-REG3-osc": "b20b9b26dd5629e3",
+    "AGGR-REG3-def": "3868f2f55bae825e",
+    "AGGR-GREEN-TOP2-off": "9a9579482cc1851b",
+    "AGGR-GREEN-TOP2-def": "3868f2f55bae825e",
+    "AGGR-TOP2-MON-rule": "3317402382e496e0",
+    "AGGR-TOP2-WK-rule": "80a6f61c235aed7b",
+}
 
 
 def log(msg: str) -> None:
@@ -191,6 +246,178 @@ def _ce6_restrict(w: dict) -> dict:
     if sub_sum <= 0:
         raise SystemExit("CE6-RESTRICT GATE FAIL: zero CE-6 mass")
     return {t: round(w[t] / sub_sum, 8) for t in CE6}
+
+
+def _oos_sharpe_map() -> dict:
+    """Registered OOS Sharpe per roster member (firm/traders registry --
+    the same registry T-56 s3 verified against; frozen selection basis)."""
+    import glob
+    out = {}
+    for p in glob.glob(os.path.join(PATHS.root, "firm", "traders",
+                                    "*.json")):
+        with open(p, encoding="utf-8-sig") as fh:
+            d = json.load(fh)
+        tid = d.get("id")
+        if tid in ROSTER:
+            out[tid] = float(d["backtest"]["out_sample"]["sharpe"])
+    if set(out) != set(ROSTER):
+        raise SystemExit(f"SHARPE-MAP GATE FAIL: {sorted(set(ROSTER) ^ set(out))}")
+    return out
+
+
+def build_family_vectors() -> dict:
+    """T-58 s2 family construction (deterministic, zero search): 10 static
+    vectors + 3 leg-map faces + 2 rotation rules. Returns (faces, checks);
+    gate vs FAM_FROZEN_SHA happens in build_family_weights()."""
+    with open(TOURN_JSON, encoding="utf-8") as fh:
+        tour = json.load(fh)
+    w_def = dict(tour["weights"]["A_IV"]["weights"])
+
+    top2 = ("VOLATILITY-CE-01", "COMPOSITE-CE-01")       # OOS Sharpe #1/#2
+    top3 = top2 + ("COMPOSITE-CE-02",)                   # OOS Sharpe #3
+    fullce = ("COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01",
+              "ENGULF-CE-01", "NEEDLE-DE-01", "VOLATILITY-CE-01")
+
+    def filled(pairs) -> dict:
+        w = {t: 0.0 for t in ROSTER}
+        for t, v in pairs:
+            w[t] = v
+        return w
+
+    w_top3 = filled([(t, round(1.0 / 3, 6)) for t in top3])
+    w_fullce = filled([(t, round(1.0 / 6, 6)) for t in fullce])
+    w_offfull = filled([(t, round(1.0 / 6, 6)) for t in OFFENSE_CORPS])
+    w_t2_80 = filled([(top2[0], 0.8), (top2[1], 0.2)])
+    w_t2_60 = filled([(top2[0], 0.6), (top2[1], 0.4)])
+    w_t2_c80 = filled([(top2[0], 0.4), (top2[1], 0.4)])       # cash 0.2
+    w_t2_c95 = filled([(top2[0], 0.475), (top2[1], 0.475)])   # cash 0.05
+    w_t3_grad = filled([(top3[0], 0.5), (top3[1], 0.3), (top3[2], 0.2)])
+    w_fc_c80 = filled([(t, round(0.8 / 6, 6)) for t in fullce])
+    w_barbell = filled([(t, round(0.4 / 6, 6)) for t in OFFENSE_CORPS])
+    for t in ROSTER:
+        w_barbell[t] = round(w_barbell[t] + round(w_def[t] * 0.6, 6), 6)
+
+    w_osc15 = filled([(t, round(1.0 / 15, 6)) for t in OSCILLATION_CORPS])
+    w_top2 = filled([(top2[0], 0.5), (top2[1], 0.5)])
+
+    faces = {
+        "AGGR-TOP3": {"static": w_top3},
+        "AGGR-FULLCE": {"static": w_fullce},
+        "AGGR-OFFENSE-FULL": {"static": w_offfull},
+        "AGGR-TOP2-80": {"static": w_t2_80},
+        "AGGR-TOP2-60": {"static": w_t2_60},
+        "AGGR-TOP2-C80": {"static": w_t2_c80},
+        "AGGR-TOP2-C95": {"static": w_t2_c95},
+        "AGGR-BARBELL": {"static": w_barbell},
+        "AGGR-TOP3-GRAD": {"static": w_t3_grad},
+        "AGGR-FULLCE-C80": {"static": w_fc_c80},
+        "AGGR-GREEN-MAX": {"legs": {"off": w_offfull, "def": w_def},
+                           "gate": {"GREEN": "off", "YELLOW": "def",
+                                    "ORANGE": "def", "RED": "def"}},
+        "AGGR-REG3": {"legs": {"off": w_offfull, "osc": w_osc15,
+                               "def": w_def},
+                      "gate": {"GREEN": "off", "YELLOW": "off",
+                               "ORANGE": "osc", "RED": "def"}},
+        "AGGR-GREEN-TOP2": {"legs": {"off": w_top2, "def": w_def},
+                            "gate": {"GREEN": "off", "YELLOW": "def",
+                                     "ORANGE": "def", "RED": "def"}},
+        "AGGR-TOP2-MON": {"rotation": {"kind": "month", "lookback": 63}},
+        "AGGR-TOP2-WK": {"rotation": {"kind": "week", "lookback": 21}},
+    }
+    checks = {
+        "AGGR-TOP3": w_sha(w_top3), "AGGR-FULLCE": w_sha(w_fullce),
+        "AGGR-OFFENSE-FULL": w_sha(w_offfull),
+        "AGGR-TOP2-80": w_sha(w_t2_80), "AGGR-TOP2-60": w_sha(w_t2_60),
+        "AGGR-TOP2-C80": w_sha(w_t2_c80), "AGGR-TOP2-C95": w_sha(w_t2_c95),
+        "AGGR-BARBELL": w_sha(w_barbell),
+        "AGGR-TOP3-GRAD": w_sha(w_t3_grad),
+        "AGGR-FULLCE-C80": w_sha(w_fc_c80),
+        "AGGR-GREEN-MAX-off": w_sha(w_offfull),
+        "AGGR-GREEN-MAX-def": w_sha(w_def),
+        "AGGR-REG3-off": w_sha(w_offfull), "AGGR-REG3-osc": w_sha(w_osc15),
+        "AGGR-REG3-def": w_sha(w_def),
+        "AGGR-GREEN-TOP2-off": w_sha(w_top2),
+        "AGGR-GREEN-TOP2-def": w_sha(w_def),
+        "AGGR-TOP2-MON-rule": hashlib.sha256(
+            RULE_MON.encode()).hexdigest()[:16],
+        "AGGR-TOP2-WK-rule": hashlib.sha256(
+            RULE_WK.encode()).hexdigest()[:16],
+    }
+    return faces, checks
+
+
+def build_family_weights() -> dict:
+    """Family construction + sha gate vs prereg freeze (FAM_FROZEN_SHA)."""
+    faces, checks = build_family_vectors()
+    if not FAM_FROZEN_SHA:
+        raise SystemExit("FAM sha table empty -- freeze incomplete")
+    for key, got in checks.items():
+        want = FAM_FROZEN_SHA.get(key)
+        if want is None:
+            raise SystemExit(f"FAM-SHA GATE FAIL: unknown key {key}")
+        if got != want:
+            raise SystemExit(f"FAM-SHA GATE FAIL: {key} got {got} "
+                             f"want {want} (prereg frozen)")
+    return faces, checks
+
+
+def _legs_blend(sleeves: dict, legs: dict, gate: dict, states: pd.Series):
+    """Leg-map frame (2- or 3-leg generalization of _regime_blend):
+    state(t-1) -> leg via frozen gate map; first day defaults GREEN
+    (T-27 D precedent). Returns (port_ret, w_mean, W)."""
+    R = daily_ret_matrix(sleeves, "x1")
+    for leg, w in legs.items():
+        if set(w) != set(R.columns):
+            raise SystemExit(f"LEGS GATE FAIL: {leg} weight/column mismatch")
+    s_prev = (states.reindex(R.index, method="ffill")
+              .shift(1).fillna("GREEN"))
+    leg_of = s_prev.map(gate)
+    if leg_of.isna().any():
+        raise SystemExit("LEGS GATE FAIL: unmapped v3 state")
+    W = pd.DataFrame([legs[l] for l in leg_of],
+                     index=R.index, columns=list(R.columns))
+    port = (R * W).sum(axis=1)
+    w_mean = {t: round(float(x), 6) for t, x in W.mean().items()}
+    return port, w_mean, W
+
+
+def _rotation_blend(sleeves: dict, kind: str, lookback: int,
+                    sharpe_map: dict):
+    """Rotation frame (T-58 rotation-speed axis, rules frozen in prereg
+    s3): at each boundary re-rank members by trailing compounded x1
+    return over `lookback` rows strictly before the boundary day
+    (forward-locked), top-2 equal 0.5/0.5; warmup -> frozen static
+    TOP2-OOS-Sharpe face; ties by OOS Sharpe desc then id asc.
+    Returns (port_ret, w_mean, W)."""
+    R = daily_ret_matrix(sleeves, "x1")
+    if kind == "month":
+        keys = [str(p) for p in R.index.to_period("M")]
+    else:
+        iso = R.index.isocalendar()
+        keys = [f"{y}W{str(int(w)).zfill(2)}"
+                for y, w in zip(iso["year"], iso["week"])]
+    fallback = {t: 0.0 for t in ROSTER}
+    fallback["VOLATILITY-CE-01"] = 0.5
+    fallback["COMPOSITE-CE-01"] = 0.5
+    W = pd.DataFrame(0.0, index=R.index, columns=list(R.columns))
+    prev_key, cur = None, None
+    for i, d in enumerate(R.index):
+        if keys[i] != prev_key:
+            if i >= lookback:
+                hist = R.iloc[i - lookback:i]     # rows strictly < d
+                metric = (1.0 + hist).prod() - 1.0
+                top = sorted(
+                    R.columns,
+                    key=lambda t: (-float(metric[t]),
+                                   -sharpe_map.get(t, 0.0), t))[:2]
+                cur = {t: (0.5 if t in top else 0.0) for t in ROSTER}
+            else:
+                cur = dict(fallback)
+            prev_key = keys[i]
+        W.loc[d] = [cur[t] for t in W.columns]
+    port = (R * W).sum(axis=1)
+    w_mean = {t: round(float(x), 6) for t, x in W.mean().items()}
+    return port, w_mean, W
 
 
 def run_batch(shard: int = 0, shards: int = 1) -> int:
@@ -450,6 +677,203 @@ def _variant_daily_rets(faces, sleeves, states):
 
 def _paper_state_path(variant: str) -> str:
     return os.path.join(AGGR_DIR, f"{variant}_paper.json")
+
+
+def run_family_batch() -> int:
+    """T-58 s2/s4 family judgment bench: 15 variants x 20 T-28-caliber
+    cells (W-CUR 2 + W-SEG 6 + W-GRID 12) = 300 aggregate cells -> ledger.
+    Sleeve block duplicated from run_batch deliberately (keeps the frozen
+    T-56 path byte-stable for month-boundary reruns)."""
+    t0 = time.time()
+    log("=== T58-AGGR-FAMILY (prereg frozen pre-run, R162) ===")
+    faces, sha_checks = build_family_weights()
+    log(f"family weight sha gates PASS ({len(sha_checks)} entries)")
+
+    with open(TOURN_JSON, encoding="utf-8") as fh:
+        tour = json.load(fh)
+    w_canon = dict(tour["weights"]["B_MAXDIV"]["weights"])
+    if w_sha(w_canon) != FROZEN_SHA["AGGR-NOCASH"]:
+        raise SystemExit("CANON GATE FAIL: B_MAXDIV vector sha drift")
+
+    # -- sleeves: 28 members x {x1,x2} (T-56 caliber, ledger +0)
+    prices_full = load_core()
+    cutoff = max(df.index.max() for df in prices_full.values())
+    if cutoff < SLEEVE_CUTOFF:
+        raise SystemExit(f"PANEL GATE FAIL: cutoff {cutoff.date()} < "
+                         f"{SLEEVE_CUTOFF.date()}")
+    prices = {s: df[df.index <= SLEEVE_CUTOFF]
+              for s, df in prices_full.items()}
+    jobs = [(tid, mult, prices, SLEEVE_CUTOFF) for tid in ROSTER
+            for mult in (None, 2.0)]
+    res = run_cells_parallel(
+        [(f"{a[0]}|{a[1] or 'x1'}", _sleeve_worker, a) for a in jobs],
+        workers=min(worker_cap(), 25), desc="fam-sleeves")
+    sleeves = {}
+    for tid in ROSTER:
+        r1, r2 = res[f"{tid}|x1"], res[f"{tid}|2.0"]
+        for r in (r1, r2):
+            r["eq_s"] = pd.Series(r["eq"], index=pd.to_datetime(r["dates"]))
+        sleeves[tid] = {"x1": r1, "x2": r2}
+    log(f"sleeves: {len(sleeves)} members x 2 faces ({time.time()-t0:.0f}s)")
+
+    states = v3_state_series()
+    lt, lp = _load_legacy_grid()
+    dt, dp = _load_deep_grid()
+    sharpe_map = _oos_sharpe_map()
+
+    # canon B_MAXDIV re-derive verification leg (ledger +0, T-56 precedent)
+    canon_pr1 = _blend_daily_ret(
+        {t: sleeves[t]["x1"] for t in ROSTER}, w_canon)
+    canon_bull = _seg_classes(canon_pr1, states)["bull"]["cum_ret"]
+
+    out_variants, corr_inputs = {}, {"CANON-B_MAXDIV": canon_pr1}
+    for name in FAM_VARIANTS:
+        face = faces[name]
+        sl1 = {t: sleeves[t]["x1"] for t in ROSTER}
+        sl2 = {t: sleeves[t]["x2"] for t in ROSTER}
+        if "static" in face:
+            w = face["static"]
+            pr1 = _blend_daily_ret(sl1, w)
+            pr2 = _blend_daily_ret(sl2, w)
+            rep_w = dict(w)
+            w_src, legs_sha, w_sha_rec = "static", None, sha_checks[name]
+        elif "legs" in face:
+            pr1, rep_w, W = _legs_blend(sleeves, face["legs"],
+                                        face["gate"], states)
+            R2 = daily_ret_matrix(sl2, "x2")
+            if not R2.index.equals(W.index):
+                raise SystemExit("LEGS GATE FAIL: x2 index drift")
+            pr2 = (R2 * W).sum(axis=1)
+            w_src = "legs_v3"
+            legs_sha = {k: sha_checks[f"{name}-{k}"]
+                        for k in face["legs"]}
+            w_sha_rec = legs_sha["off"]
+        else:
+            pr1, rep_w, W = _rotation_blend(sleeves, face["rotation"]["kind"],
+                                            face["rotation"]["lookback"],
+                                            sharpe_map)
+            R2 = daily_ret_matrix(sl2, "x2")
+            if not R2.index.equals(W.index):
+                raise SystemExit("ROTATION GATE FAIL: x2 index drift")
+            pr2 = (R2 * W).sum(axis=1)
+            w_src = f"rotation_{face['rotation']['kind']}"
+            legs_sha = None
+            w_sha_rec = sha_checks[f"{name}-rule"]
+
+        wcur = {"x1": _window_face(pr1, W_CUR_START, W_CUR_END),
+                "x2": _window_face(pr2, W_CUR_START, W_CUR_END)}
+        wseg = {f: _seg_classes(pr, states) for f, pr in
+                (("x1", pr1), ("x2", pr2))}
+        j1 = bool(wcur["x1"]["ret"] > 0 and abs(wcur["x1"]["dd"]) <= 0.05)
+        j2 = bool(wcur["x2"]["ret"] > 0)
+        j3 = all((wseg[f][c]["cum_ret"] is not None
+                  and wseg[f][c]["cum_ret"] >= -0.05)
+                 for f in ("x1", "x2") for c in ("bull", "chop", "bear"))
+
+        w_ce = _ce6_restrict(rep_w)
+        grid = {}
+        for axis, tret, passive in (("legacy", lt, lp), ("deep", dt, dp)):
+            for window in WINDOWS:
+                for fce in ("x1", "x2"):
+                    grid[f"{axis}|{window}|{fce}"] = _grid_unit(
+                        tret, passive, w_ce, CE6, window, fce)
+        n12 = grid["legacy|12m|x1"]["n"] + grid["deep|12m|x1"]["n"]
+        k12 = grid["legacy|12m|x1"]["beats"] + grid["deep|12m|x1"]["beats"]
+
+        dr = {"median": round(float(pr1.median()), 6),
+              "p999": round(float(pr1.quantile(0.999)), 6)}
+        out_variants[name] = {
+            "weights_src": w_src, "weights_sha": w_sha_rec,
+            "legs_or_rule_sha": legs_sha,
+            "weights_representative": {k: v for k, v in rep_w.items()
+                                       if v > 0},
+            "grid_ce6_restricted": w_ce, "w_cur": wcur, "w_seg": wseg,
+            "judgments": {"J1_current_window_profit": j1,
+                          "J2_x2_survival": j2,
+                          "J3_regime_segment_stability": j3},
+            "daily_ret_faces_x1": dr, "w_grid": grid,
+            "grid_12m_pooled": {"n": n12, "beats": k12,
+                                "rate": round(k12 / n12, 4) if n12 else None},
+            "kpi": {"return_ceiling_w_cur_x1": wcur["x1"]["ret"],
+                    "bull_delta_vs_canon": round(
+                        wseg["x1"]["bull"]["cum_ret"] - canon_bull, 6),
+                    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV "
+                            "(ticket s4); promotion count NOT the KPI; "
+                            "expected J2/J3 breaches = honest outcomes"},
+        }
+        corr_inputs[name] = pr1
+        log(f"{name}: J1={j1} J2={j2} J3={j3} "
+            f"W-CUR x1 ret={wcur['x1']['ret']} dd={wcur['x1']['dd']} "
+            f"12m pooled={k12}/{n12}")
+
+    cdf = pd.DataFrame(corr_inputs).dropna()
+    corr = {a: {b: round(float(cdf[a].corr(cdf[b])), 4)
+               for b in cdf.columns} for a in cdf.columns}
+
+    head = ledger_head()
+    led = append_ledger("T58-AGGR-FAMILY", FAM_N_CELLS,
+                        os.path.basename(FAM_OUT_JSON),
+                        note="300 aggregate judgment cells (15 aggressive "
+                             "family variants x 20 T-28-caliber cells: "
+                             "W-CUR 2 + W-SEG 6 + W-GRID 12); W-GRID per-cell "
+                             "N follows P5C/t22 already-counted ledgers, no "
+                             "recount; 56 sleeves = T-27-machinery "
+                             "reproductions o1600 caliber, ledger +0; canon "
+                             "B_MAXDIV re-derive = verification leg +0; "
+                             "zero adoption zero wiring (dual-track)",
+                        evidence_cutoff=str(SLEEVE_CUTOFF.date()),
+                        prev_total=head["total"])
+    log(f"ledger: prev={head['total']} +{FAM_N_CELLS} -> {led['total']}")
+
+    with open(PREREG_FAMILY, "rb") as fh:
+        prereg_sha = hashlib.sha256(fh.read().replace(
+            b"\r\n", b"\n")).hexdigest()[:16]
+    out = cutoff_meta(str(SLEEVE_CUTOFF.date()))
+    out.update({
+        "batch": "T58-AGGR-FAMILY",
+        "order": "O-20260925-1138", "ticket": "T-2026-09-25-58",
+        "prereg": "research/AGGR_FAMILY_PREREG.md",
+        "prereg_sha256_lf": prereg_sha,
+        "roster": list(ROSTER),
+        "corps": {"offense": list(OFFENSE_CORPS),
+                  "oscillation": list(OSCILLATION_CORPS),
+                  "air_defense": [], "pending_zero_weight":
+                      list(PENDING_CORPS)},
+        "selection_basis": "registered OOS Sharpe (firm/traders registry), "
+                           "cherry face honestly acknowledged (T-56 s3 "
+                           "precedent; purpose = ceiling test)",
+        "variants": out_variants,
+        "canon_verification_face": "B_MAXDIV blend re-derived "
+            "(weights sha 9b112d51583aeeb7 verbatim; ledger +0)",
+        "variant_daily_ret_corr": corr,
+        "trials_ledger": led,
+        "adoption": "ZERO wiring this batch (dual-track supply face; "
+                    "month-boundary T-27 tournament entry per ticket s4)",
+        "audit": {"runtime_sec": round(time.time() - t0, 1),
+                  "machine": "bm-a",
+                  "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+                  "sleeve_cutoff": str(SLEEVE_CUTOFF.date()),
+                  "workers": min(worker_cap(), 25)},
+    })
+    with open(FAM_OUT_JSON, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(out, fh, ensure_ascii=False, indent=1, default=float)
+    log(f"outputs: {FAM_OUT_JSON}")
+
+    try:
+        ga = json.load(open(GA_PATH, encoding="utf-8"))
+        ga["entries"].append({
+            "batch": "T58-AGGR-FAMILY",
+            "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "kind": "aggressive-family (candidate supply, dual-track)",
+            "cells_ledger_delta": FAM_N_CELLS,
+            "ledger_total_after": led["total"],
+            "gates": {v: o["judgments"] for v, o in out_variants.items()},
+        })
+        with open(GA_PATH, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(ga, fh, ensure_ascii=False, indent=1)
+    except (OSError, KeyError, json.JSONDecodeError) as exc:
+        log(f"gate_attrition append skipped: {exc}")
+    return 0
 
 
 def cmd_paper() -> int:
@@ -714,6 +1138,77 @@ def cmd_selftest() -> int:
           and PAPER_START == pd.Timestamp("2026-09-23") + pd.Timedelta(
               days=1) and INITIAL_CNY == 1_000_000.0)
 
+    # F12 family vector sha gates vs prereg freeze (no data needed)
+    try:
+        fam_faces, fam_checks = build_family_weights()
+        check("F12 family sha gates (19 entries)", True)
+    except SystemExit as e:
+        check(f"F12 family sha gates -> {e}", False)
+        return 1
+    check("F12b family count 15 + six-axis coverage",
+          len(FAM_VARIANTS) == 15
+          and len(fam_faces) == 15 and len(fam_checks) == 19)
+
+    # F13 cash-leg no-renorm: sum<1 weights -> cash remainder stays
+    w_c80 = fam_faces["AGGR-TOP2-C80"]["static"]
+    r13 = pd.Series([0.01, -0.02, 0.03], index=pd.bdate_range(
+        "2026-01-05", periods=3))
+    sl13 = {t: {"x1": {"eq_s": (1.0 + r13 * (1 + 0.01 * i)).cumprod()},
+                "x2": {"eq_s": (1.0 + r13 * (1 + 0.01 * i)).cumprod()}}
+            for i, t in enumerate(ROSTER[:2])}
+    check("F13 cash-leg vector sums to 0.8",
+          abs(sum(w_c80.values()) - 0.8) < 1e-9)
+    pr13 = _blend_daily_ret({t: sl13[t]["x1"] for t in ROSTER[:2]},
+                            {t: w_c80[t] for t in ROSTER[:2]})
+    manual13 = sum(w_c80[t] * (sl13[t]["x1"]["eq_s"].pct_change()
+                               - 0.0) for t in ROSTER[:2])
+    check("F13b blend keeps cash remainder (no renorm)",
+          float((pr13 - manual13).abs().max()) < 1e-12)
+
+    # F14 legs-frame causality: 3-leg gate, state(t-1) drives day t
+    states14 = pd.Series(["ORANGE"] * 40, index=idx)
+    states14.iloc[10] = "GREEN"
+    legs14 = {"off": {t: (1.0 if t == ROSTER[0] else 0.0)
+                      for t in ROSTER[:4]},
+              "osc": {t: (0.5 if t == ROSTER[1] else 0.0)
+                      for t in ROSTER[:4]},
+              "def": {t: 0.25 for t in ROSTER[:4]}}
+    gate14 = {"GREEN": "off", "YELLOW": "off", "ORANGE": "osc", "RED": "def"}
+    pr14, w14m, _ = _legs_blend(sleeves, legs14, gate14, states14)
+    m14 = pd.concat({t: sleeves[t]["x1"]["eq_s"]
+                     / sleeves[t]["x1"]["eq_s"].iloc[0]
+                     for t in ROSTER[:4]}, axis=1).pct_change().dropna()
+    off14 = m14[ROSTER[0]]
+    osc14 = m14[ROSTER[1]] * 0.5
+    def14 = m14.mean(axis=1)
+    check("F14 3-leg gate: first-day GREEN default -> off leg",
+          abs(pr14.iloc[0] - off14.iloc[0]) < 1e-12)
+    check("F14b ORANGE(t-1)->osc leg(t)", abs(
+        pr14.loc[idx[5]] - osc14.loc[idx[5]]) < 1e-12)
+    check("F14c GREEN(t-1)->off leg(t)", abs(
+        pr14.loc[idx[11]] - off14.loc[idx[11]]) < 1e-12)
+
+    # F15 rotation warmup + forward lock (synthetic flat panel)
+    idx15 = pd.bdate_range("2026-01-05", periods=140)
+    flat = pd.Series(0.001, index=idx15)
+    fam3 = ("COMPOSITE-CE-01", "VOLATILITY-CE-01", "DROUGHT-CE-01")
+    sl15 = {}
+    for i, t in enumerate(fam3):
+        eq = (1.0 + flat * (1 + 0.05 * i)).cumprod()   # member 3 best
+        sl15[t] = {"x1": {"eq_s": eq}, "x2": {"eq_s": eq}}
+    pr15, w15m, W15 = _rotation_blend(sl15, "month", 63,
+                                      {t: 1.0 for t in fam3})
+    # warmup: first 63 rows -> frozen fallback names (both in fixture)
+    check("F15 warmup uses frozen fallback (0.5/0.5 top2-of-roster)",
+          abs(W15.iloc[0]["COMPOSITE-CE-01"] - 0.5) < 1e-12
+          and abs(W15.iloc[0]["VOLATILITY-CE-01"] - 0.5) < 1e-12)
+    # forward lock: after boundary >63 rows, top-by-trailing = members 2/3
+    late = W15.iloc[-1]
+    check("F15b post-warmup selection = best trailing member",
+          abs(late["DROUGHT-CE-01"] - 0.5) < 1e-12
+          and abs(late["VOLATILITY-CE-01"] - 0.5) < 1e-12
+          and late["COMPOSITE-CE-01"] < 1e-12)
+
     n_fail = sum(1 for _, c in ok if not c)
     print(f"selftest: {len(ok) - n_fail}/{len(ok)} PASS")
     return 0 if n_fail == 0 else 1
@@ -721,7 +1216,7 @@ def cmd_selftest() -> int:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument("cmd", choices=("run", "paper", "selftest"))
+    ap.add_argument("cmd", choices=("run", "paper", "family", "selftest"))
     ap.add_argument("--shard", type=int, default=0)
     ap.add_argument("--shards", type=int, default=1)
     a = ap.parse_args()
@@ -729,6 +1224,8 @@ def main() -> int:
         return cmd_selftest()
     if a.cmd == "paper":
         return cmd_paper()
+    if a.cmd == "family":
+        return run_family_batch()
     return run_batch(shard=a.shard, shards=a.shards)
 
 
