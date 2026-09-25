@@ -1,0 +1,64 @@
+{
+ "schema": "alloc_paper_probe_v1",
+ "ticket": "T-2026-09-25-66",
+ "probed_at": "2026-09-25T20:26:31",
+ "backtest_cutoff": "2026-09-22",
+ "forward_need": "bars > 2026-09-22 for daily accrual",
+ "p5_slot": {
+  "tail": "2026-09-24",
+  "rows": 4786,
+  "forward_bars": [
+   "2026-09-23",
+   "2026-09-24"
+  ]
+ },
+ "repo": {
+  "tail": "2026-09-21",
+  "rows": 3178,
+  "tail_rate": 1.475,
+  "ffill_forward_note": "forward days beyond repo tail inherit last rate (ffill in load_repo); disclosed"
+ },
+ "panel": {
+  "510300": {
+   "tail": "2026-09-24",
+   "rows": 1633,
+   "forward_bars": [
+    "2026-09-23",
+    "2026-09-24"
+   ]
+  },
+  "511010": {
+   "tail": "2026-09-24",
+   "rows": 1633,
+   "forward_bars": [
+    "2026-09-23",
+    "2026-09-24"
+   ]
+  },
+  "518880": {
+   "tail": "2026-09-24",
+   "rows": 1633,
+   "forward_bars": [
+    "2026-09-23",
+    "2026-09-24"
+   ]
+  },
+  "513100": {
+   "tail": "2026-09-24",
+   "rows": 1632,
+   "forward_bars": [
+    "2026-09-23",
+    "2026-09-24"
+   ]
+  },
+  "513500": {
+   "tail": "2026-09-24",
+   "rows": 1632,
+   "forward_bars": [
+    "2026-09-23",
+    "2026-09-24"
+   ]
+  }
+ },
+ "verdict": "forward_window_live"
+}

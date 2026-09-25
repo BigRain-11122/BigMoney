@@ -1,0 +1,14 @@
+{
+ "id": "T-2026-09-25-66",
+ "priority": "P1",
+ "type": "alloc-paper-wiring",
+ "immediate": false,
+ "spec": "ALLOC-* paper account forward-accrual wiring = r188 pointer (3) engineering face of T-2026-09-25-59 (O-20260925-1145 approved line; NOT a new direction, no new data feed). Slices: (s1) scripts/alloc_paper.py daily forward accrual leg beyond frozen s2 cutoff 2026-09-22 -- 7 accounts mirror frozen s2 cells 1:1 (P1/P2/P3/P3B/P4/P5/P6, P3B=threshold A/B twin disclosed), initial 1,000,000 CNY each (ALLOCATION_RESEARCH.md sec.4), engine reuse via import alloc_backtest (simulate/weights/rules verbatim, zero new judgment), canonical cost face = side_cost_v2 v2_main (identical to s2 cells judgment face), deterministic full-forward recompute, byte-idempotent no wall-clock fields, exit 0/2 contract, hermetic selftest; (s2) S6 chain wiring (iteration_prompt leg) + P5 slot recurring refresh decision (pull_510880_slot cadence -- core panel advances daily via update_daily but 510880 ext-slot has no in-chain refresh leg; stale-leg days disclosed per account meanwhile); (s3) s4 monthly review section in monthly briefing at first month close (2026-10).",
+ "status": "claimed",
+ "created_by": "bm-b OS iteration loop round 202 (GM-delegated per O-1620: wiring face of approved O-1145 line, non-major)",
+ "created_at": "2026-09-25 20:27:49",
+ "note": "Dept: 工程+资产组合研究部 joint (T-59 lineage). Lane: bm-b (T-59 owner continuity; independent lane file pattern results/alloc_paper/ per PROS-*/AGGR-* precedent, zero touch of aggressive_lab.py = T-58 bm-a lane boundary respected). Anti-dup: engine import reuse zero reimplementation; data faces = in-repo daily panel + pinned P5_SLOT + Money0923 repo_daily.csv. Probe facts (results/allocation/ALLOC_PAPER_PROBE.json): panel 5-sym tail 2026-09-24 forward bars 09-23/09-24 live; P5 slot tail 09-24; REPO tail 2026-09-21 rate 1.475 -> forward cash legs ffill last rate (engine load_repo convention, disclosed in output). Boundary: paper track = observational ledger (marks-style, no engine/admission touch, no G1/G2 face).",
+ "ticket_lineage": "T-2026-09-25-59 engineering follow-on (r188 next-pointer (3))",
+ "claimed_by": "bm-b",
+ "claimed_at": "2026-09-25 20:27:49"
+}
