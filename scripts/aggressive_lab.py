@@ -740,7 +740,7 @@ def run_family_batch() -> int:
         elif "legs" in face:
             pr1, rep_w, W = _legs_blend(sleeves, face["legs"],
                                         face["gate"], states)
-            R2 = daily_ret_matrix(sl2, "x2")
+            R2 = daily_ret_matrix(sleeves, "x2")
             if not R2.index.equals(W.index):
                 raise SystemExit("LEGS GATE FAIL: x2 index drift")
             pr2 = (R2 * W).sum(axis=1)
@@ -752,7 +752,7 @@ def run_family_batch() -> int:
             pr1, rep_w, W = _rotation_blend(sleeves, face["rotation"]["kind"],
                                             face["rotation"]["lookback"],
                                             sharpe_map)
-            R2 = daily_ret_matrix(sl2, "x2")
+            R2 = daily_ret_matrix(sleeves, "x2")
             if not R2.index.equals(W.index):
                 raise SystemExit("ROTATION GATE FAIL: x2 index drift")
             pr2 = (R2 * W).sum(axis=1)

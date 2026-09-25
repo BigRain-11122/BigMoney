@@ -1,0 +1,8243 @@
+{
+ "evidence_cutoff": "2026-09-23",
+ "batch": "T58-AGGR-FAMILY",
+ "order": "O-20260925-1138",
+ "ticket": "T-2026-09-25-58",
+ "prereg": "research/AGGR_FAMILY_PREREG.md",
+ "prereg_sha256_lf": "748e5082c8dddc93",
+ "roster": [
+  "COMPOSITE-CE-01",
+  "COMPOSITE-CE-02",
+  "DROUGHT-CE-01",
+  "ENGULF-CE-01",
+  "NEEDLE-DE-01",
+  "PROS-ANTS-01",
+  "PROS-ANTS-CE-01",
+  "PROS-BBS-01",
+  "PROS-BBS-CE-01",
+  "PROS-DOJI-01",
+  "PROS-DOJI-CE-01",
+  "PROS-DUCK-01",
+  "PROS-DUCK-CE-01",
+  "PROS-HAM-01",
+  "PROS-HAM-CE-01",
+  "PROS-IBB-01",
+  "PROS-IBB-CE-01",
+  "PROS-IMM-01",
+  "PROS-IMM-CE-01",
+  "PROS-MCB-01",
+  "PROS-MCB-CE-01",
+  "PROS-OVB-01",
+  "PROS-OVB-CE-01",
+  "PROS-RSRS-CE-01",
+  "PROS-TMU-01",
+  "PROS-TMU-CE-01",
+  "PROS-VOB-CE-01",
+  "VOLATILITY-CE-01"
+ ],
+ "corps": {
+  "offense": [
+   "COMPOSITE-CE-01",
+   "PROS-DUCK-01",
+   "PROS-DUCK-CE-01",
+   "PROS-IBB-01",
+   "PROS-IBB-CE-01",
+   "PROS-VOB-CE-01"
+  ],
+  "oscillation": [
+   "COMPOSITE-CE-02",
+   "DROUGHT-CE-01",
+   "ENGULF-CE-01",
+   "NEEDLE-DE-01",
+   "PROS-BBS-01",
+   "PROS-BBS-CE-01",
+   "PROS-DOJI-01",
+   "PROS-DOJI-CE-01",
+   "PROS-HAM-01",
+   "PROS-HAM-CE-01",
+   "PROS-OVB-01",
+   "PROS-OVB-CE-01",
+   "PROS-TMU-01",
+   "PROS-TMU-CE-01",
+   "VOLATILITY-CE-01"
+  ],
+  "air_defense": [],
+  "pending_zero_weight": [
+   "PROS-ANTS-01",
+   "PROS-ANTS-CE-01",
+   "PROS-IMM-01",
+   "PROS-IMM-CE-01",
+   "PROS-MCB-01",
+   "PROS-MCB-CE-01",
+   "PROS-RSRS-CE-01"
+  ]
+ },
+ "selection_basis": "registered OOS Sharpe (firm/traders registry), cherry face honestly acknowledged (T-56 s3 precedent; purpose = ceiling test)",
+ "variants": {
+  "AGGR-TOP3": {
+   "weights_src": "static",
+   "weights_sha": "364f9b0b9f0236e7",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.333333,
+    "COMPOSITE-CE-02": 0.333333,
+    "VOLATILITY-CE-01": 0.333333
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.33333333,
+    "COMPOSITE-CE-02": 0.33333333,
+    "DROUGHT-CE-01": 0.0,
+    "ENGULF-CE-01": 0.0,
+    "NEEDLE-DE-01": 0.0,
+    "VOLATILITY-CE-01": 0.33333333
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.046571,
+     "dd": -0.020427
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.031855,
+     "dd": -0.025588
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.220171
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.171529
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.018009
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.162332
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.10309
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.026374
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000199,
+    "p999": 0.015688
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 811,
+     "beat_rate": 0.6472,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0528,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 731,
+     "beat_rate": 0.5834,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0545,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 712,
+     "beat_rate": 0.6318,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0562,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 645,
+     "beat_rate": 0.5723,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0577,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 569,
+     "beat_rate": 0.6503,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0631,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 512,
+     "beat_rate": 0.5851,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0652,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 742,
+     "beat_rate": 0.4927,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 683,
+     "beat_rate": 0.4535,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0502,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 693,
+     "beat_rate": 0.5022,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 634,
+     "beat_rate": 0.4594,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0525,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 768,
+     "beat_rate": 0.6809,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0543,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 675,
+     "beat_rate": 0.5984,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0571,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1405,
+    "rate": 0.5604
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.046571,
+    "bull_delta_vs_canon": 0.181894,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-FULLCE": {
+   "weights_src": "static",
+   "weights_sha": "b5868fe1e26690a8",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.166667,
+    "COMPOSITE-CE-02": 0.166667,
+    "DROUGHT-CE-01": 0.166667,
+    "ENGULF-CE-01": 0.166667,
+    "NEEDLE-DE-01": 0.166667,
+    "VOLATILITY-CE-01": 0.166667
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.16666667,
+    "COMPOSITE-CE-02": 0.16666667,
+    "DROUGHT-CE-01": 0.16666667,
+    "ENGULF-CE-01": 0.16666667,
+    "NEEDLE-DE-01": 0.16666667,
+    "VOLATILITY-CE-01": 0.16666667
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.028065,
+     "dd": -0.017404
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.01875,
+     "dd": -0.020179
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.125466
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.112086
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.009468
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.094926
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.072695
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.003027
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000134,
+    "p999": 0.010538
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 769,
+     "beat_rate": 0.6137,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0538,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 737,
+     "beat_rate": 0.5882,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0544,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 645,
+     "beat_rate": 0.5723,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0577,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 608,
+     "beat_rate": 0.5395,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0581,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 487,
+     "beat_rate": 0.5566,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0657,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 439,
+     "beat_rate": 0.5017,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0661,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 733,
+     "beat_rate": 0.4867,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 698,
+     "beat_rate": 0.4635,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0503,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 632,
+     "beat_rate": 0.458,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0525,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 605,
+     "beat_rate": 0.4384,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0523,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 696,
+     "beat_rate": 0.617,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0566,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 650,
+     "beat_rate": 0.5762,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0576,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1277,
+    "rate": 0.5094
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.028065,
+    "bull_delta_vs_canon": 0.087189,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-OFFENSE-FULL": {
+   "weights_src": "static",
+   "weights_sha": "b95dab70673f5941",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.166667,
+    "PROS-DUCK-01": 0.166667,
+    "PROS-DUCK-CE-01": 0.166667,
+    "PROS-IBB-01": 0.166667,
+    "PROS-IBB-CE-01": 0.166667,
+    "PROS-VOB-CE-01": 0.166667
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 1.0,
+    "COMPOSITE-CE-02": 0.0,
+    "DROUGHT-CE-01": 0.0,
+    "ENGULF-CE-01": 0.0,
+    "NEEDLE-DE-01": 0.0,
+    "VOLATILITY-CE-01": 0.0
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.038933,
+     "dd": -0.021052
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.022797,
+     "dd": -0.031256
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.23958
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.070199
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.037649
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.160483
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.013416
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.059532
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": false
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000129,
+    "p999": 0.017954
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 763,
+     "beat_rate": 0.6089,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.054,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 689,
+     "beat_rate": 0.5499,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.055,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 717,
+     "beat_rate": 0.6362,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0561,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 610,
+     "beat_rate": 0.5413,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0581,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 645,
+     "beat_rate": 0.7371,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0582,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 496,
+     "beat_rate": 0.5669,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0655,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 818,
+     "beat_rate": 0.5432,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0503,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 735,
+     "beat_rate": 0.488,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 828,
+     "beat_rate": 0.6,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0516,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 724,
+     "beat_rate": 0.5246,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0526,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 889,
+     "beat_rate": 0.7881,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0477,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 750,
+     "beat_rate": 0.6649,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.055,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1545,
+    "rate": 0.6163
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.038933,
+    "bull_delta_vs_canon": 0.201303,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-TOP2-80": {
+   "weights_src": "static",
+   "weights_sha": "12ec4a3a90bb3dfa",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.2,
+    "VOLATILITY-CE-01": 0.8
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.2,
+    "COMPOSITE-CE-02": 0.0,
+    "DROUGHT-CE-01": 0.0,
+    "ENGULF-CE-01": 0.0,
+    "NEEDLE-DE-01": 0.0,
+    "VOLATILITY-CE-01": 0.8
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.034332,
+     "dd": -0.010612
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.022201,
+     "dd": -0.015374
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.129422
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.099153
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.014264
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.075415
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.042903
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.004007
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000184,
+    "p999": 0.006777
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 727,
+     "beat_rate": 0.5802,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0546,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 679,
+     "beat_rate": 0.5419,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0551,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 613,
+     "beat_rate": 0.5439,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0581,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 570,
+     "beat_rate": 0.5058,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0583,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 525,
+     "beat_rate": 0.6,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0648,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 446,
+     "beat_rate": 0.5097,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0661,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 742,
+     "beat_rate": 0.4927,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 699,
+     "beat_rate": 0.4641,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0503,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 659,
+     "beat_rate": 0.4775,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0526,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 614,
+     "beat_rate": 0.4449,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0524,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 715,
+     "beat_rate": 0.6339,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0561,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 647,
+     "beat_rate": 0.5736,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0576,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1272,
+    "rate": 0.5074
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.034332,
+    "bull_delta_vs_canon": 0.091145,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-TOP2-60": {
+   "weights_src": "static",
+   "weights_sha": "465c3ea667a6b1d5",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.4,
+    "VOLATILITY-CE-01": 0.6
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.4,
+    "COMPOSITE-CE-02": 0.0,
+    "DROUGHT-CE-01": 0.0,
+    "ENGULF-CE-01": 0.0,
+    "NEEDLE-DE-01": 0.0,
+    "VOLATILITY-CE-01": 0.6
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.040639,
+     "dd": -0.014522
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.02739,
+     "dd": -0.019475
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.154307
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.130822
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.001214
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.097664
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.073927
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.013417
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000185,
+    "p999": 0.00958
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 737,
+     "beat_rate": 0.5882,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0544,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 682,
+     "beat_rate": 0.5443,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0551,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 629,
+     "beat_rate": 0.5581,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0579,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 573,
+     "beat_rate": 0.5084,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0583,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 544,
+     "beat_rate": 0.6217,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0641,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 470,
+     "beat_rate": 0.5371,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0659,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 760,
+     "beat_rate": 0.5046,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 710,
+     "beat_rate": 0.4714,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 688,
+     "beat_rate": 0.4986,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 619,
+     "beat_rate": 0.4486,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0524,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 737,
+     "beat_rate": 0.6534,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0555,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 669,
+     "beat_rate": 0.5931,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0572,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1317,
+    "rate": 0.5253
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.040639,
+    "bull_delta_vs_canon": 0.11603,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-GREEN-MAX": {
+   "weights_src": "legs_v3",
+   "weights_sha": "b95dab70673f5941",
+   "legs_or_rule_sha": {
+    "off": "b95dab70673f5941",
+    "def": "3868f2f55bae825e"
+   },
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.079578,
+    "COMPOSITE-CE-02": 0.005923,
+    "DROUGHT-CE-01": 0.025337,
+    "ENGULF-CE-01": 0.02417,
+    "NEEDLE-DE-01": 0.033113,
+    "PROS-ANTS-01": 0.033524,
+    "PROS-ANTS-CE-01": 0.033776,
+    "PROS-BBS-01": 0.014432,
+    "PROS-BBS-CE-01": 0.014679,
+    "PROS-DOJI-01": 0.009903,
+    "PROS-DOJI-CE-01": 0.010179,
+    "PROS-DUCK-01": 0.08038,
+    "PROS-DUCK-CE-01": 0.079679,
+    "PROS-HAM-01": 0.013737,
+    "PROS-HAM-CE-01": 0.013655,
+    "PROS-IBB-01": 0.07434,
+    "PROS-IBB-CE-01": 0.074709,
+    "PROS-IMM-01": 0.009266,
+    "PROS-IMM-CE-01": 0.009633,
+    "PROS-MCB-01": 0.012367,
+    "PROS-MCB-CE-01": 0.013074,
+    "PROS-OVB-01": 0.03661,
+    "PROS-OVB-CE-01": 0.036771,
+    "PROS-RSRS-CE-01": 0.009188,
+    "PROS-TMU-01": 0.070266,
+    "PROS-TMU-CE-01": 0.072331,
+    "PROS-VOB-CE-01": 0.078361,
+    "VOLATILITY-CE-01": 0.031022
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.3996023,
+    "COMPOSITE-CE-02": 0.02974245,
+    "DROUGHT-CE-01": 0.12723018,
+    "ENGULF-CE-01": 0.12137007,
+    "NEEDLE-DE-01": 0.1662775,
+    "VOLATILITY-CE-01": 0.15577751
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.020998,
+     "dd": -0.029918
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.009482,
+     "dd": -0.039272
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.226306
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.071932
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.001667
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.156324
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.121555
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.009195
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": false
+   },
+   "daily_ret_faces_x1": {
+    "median": 4.6e-05,
+    "p999": 0.012863
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 735,
+     "beat_rate": 0.5866,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0545,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 688,
+     "beat_rate": 0.5491,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.055,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 623,
+     "beat_rate": 0.5528,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.058,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 589,
+     "beat_rate": 0.5226,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0582,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 516,
+     "beat_rate": 0.5897,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.065,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 455,
+     "beat_rate": 0.52,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0661,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 747,
+     "beat_rate": 0.496,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 711,
+     "beat_rate": 0.4721,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 665,
+     "beat_rate": 0.4819,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 616,
+     "beat_rate": 0.4464,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0524,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 730,
+     "beat_rate": 0.6472,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0557,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 674,
+     "beat_rate": 0.5975,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0571,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1288,
+    "rate": 0.5138
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.020998,
+    "bull_delta_vs_canon": 0.188029,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-REG3": {
+   "weights_src": "legs_v3",
+   "weights_sha": "b95dab70673f5941",
+   "legs_or_rule_sha": {
+    "off": "b95dab70673f5941",
+    "osc": "b20b9b26dd5629e3",
+    "def": "3868f2f55bae825e"
+   },
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.148606,
+    "COMPOSITE-CE-02": 0.002416,
+    "DROUGHT-CE-01": 0.005645,
+    "ENGULF-CE-01": 0.005451,
+    "NEEDLE-DE-01": 0.006938,
+    "PROS-ANTS-01": 0.005576,
+    "PROS-ANTS-CE-01": 0.005618,
+    "PROS-BBS-01": 0.003831,
+    "PROS-BBS-CE-01": 0.003872,
+    "PROS-DOJI-01": 0.003078,
+    "PROS-DOJI-CE-01": 0.003124,
+    "PROS-DUCK-01": 0.148739,
+    "PROS-DUCK-CE-01": 0.148622,
+    "PROS-HAM-01": 0.003715,
+    "PROS-HAM-CE-01": 0.003702,
+    "PROS-IBB-01": 0.147734,
+    "PROS-IBB-CE-01": 0.147796,
+    "PROS-IMM-01": 0.001541,
+    "PROS-IMM-CE-01": 0.001602,
+    "PROS-MCB-01": 0.002057,
+    "PROS-MCB-CE-01": 0.002175,
+    "PROS-OVB-01": 0.00752,
+    "PROS-OVB-CE-01": 0.007546,
+    "PROS-RSRS-CE-01": 0.001528,
+    "PROS-TMU-01": 0.013117,
+    "PROS-TMU-CE-01": 0.013461,
+    "PROS-VOB-CE-01": 0.148403,
+    "VOLATILITY-CE-01": 0.00659
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.84605399,
+    "COMPOSITE-CE-02": 0.01375494,
+    "DROUGHT-CE-01": 0.03213851,
+    "ENGULF-CE-01": 0.03103401,
+    "NEEDLE-DE-01": 0.0394999,
+    "VOLATILITY-CE-01": 0.03751865
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.038933,
+     "dd": -0.021052
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.022797,
+     "dd": -0.031256
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.230814
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.070199
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.034378
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.151237
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.013416
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.048947
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000113,
+    "p999": 0.017954
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 762,
+     "beat_rate": 0.6081,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.054,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 698,
+     "beat_rate": 0.5571,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0549,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 676,
+     "beat_rate": 0.5998,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0571,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 600,
+     "beat_rate": 0.5324,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0582,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 598,
+     "beat_rate": 0.6834,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0615,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 508,
+     "beat_rate": 0.5806,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0653,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 788,
+     "beat_rate": 0.5232,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 727,
+     "beat_rate": 0.4827,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 785,
+     "beat_rate": 0.5688,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0522,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 696,
+     "beat_rate": 0.5043,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 828,
+     "beat_rate": 0.734,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0515,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 733,
+     "beat_rate": 0.6498,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0556,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1461,
+    "rate": 0.5828
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.038933,
+    "bull_delta_vs_canon": 0.192537,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-TOP2-C80": {
+   "weights_src": "static",
+   "weights_sha": "0481dc98d379748c",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.4,
+    "VOLATILITY-CE-01": 0.4
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.5,
+    "COMPOSITE-CE-02": 0.0,
+    "DROUGHT-CE-01": 0.0,
+    "ENGULF-CE-01": 0.0,
+    "NEEDLE-DE-01": 0.0,
+    "VOLATILITY-CE-01": 0.5
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.03495,
+     "dd": -0.013191
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.023991,
+     "dd": -0.017535
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.131653
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.116256
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.006963
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.086453
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.071512
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.017502
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000178,
+    "p999": 0.009077
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 746,
+     "beat_rate": 0.5954,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0543,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 682,
+     "beat_rate": 0.5443,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0551,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 640,
+     "beat_rate": 0.5679,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0577,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 569,
+     "beat_rate": 0.5049,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0583,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 551,
+     "beat_rate": 0.6297,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0639,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 485,
+     "beat_rate": 0.5543,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0657,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 765,
+     "beat_rate": 0.508,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 715,
+     "beat_rate": 0.4748,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 711,
+     "beat_rate": 0.5152,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 629,
+     "beat_rate": 0.4558,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0525,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 755,
+     "beat_rate": 0.6693,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0548,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 688,
+     "beat_rate": 0.6099,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0568,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1351,
+    "rate": 0.5389
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.03495,
+    "bull_delta_vs_canon": 0.093376,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-TOP2-C95": {
+   "weights_src": "static",
+   "weights_sha": "c7f512ab59c66da2",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.475,
+    "VOLATILITY-CE-01": 0.475
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.5,
+    "COMPOSITE-CE-02": 0.0,
+    "DROUGHT-CE-01": 0.0,
+    "ENGULF-CE-01": 0.0,
+    "NEEDLE-DE-01": 0.0,
+    "VOLATILITY-CE-01": 0.5
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.041565,
+     "dd": -0.015654
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.028464,
+     "dd": -0.0208
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.15792
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.139115
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.00849
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.103172
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.085061
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.020999
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000211,
+    "p999": 0.010779
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 746,
+     "beat_rate": 0.5954,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0543,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 682,
+     "beat_rate": 0.5443,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0551,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 640,
+     "beat_rate": 0.5679,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0577,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 569,
+     "beat_rate": 0.5049,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0583,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 551,
+     "beat_rate": 0.6297,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0639,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 485,
+     "beat_rate": 0.5543,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0657,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 765,
+     "beat_rate": 0.508,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 715,
+     "beat_rate": 0.4748,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 711,
+     "beat_rate": 0.5152,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 629,
+     "beat_rate": 0.4558,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0525,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 755,
+     "beat_rate": 0.6693,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0548,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 688,
+     "beat_rate": 0.6099,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0568,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1351,
+    "rate": 0.5389
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.041565,
+    "bull_delta_vs_canon": 0.119643,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-BARBELL": {
+   "weights_src": "static",
+   "weights_sha": "93deb766fe8bc552",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.078624,
+    "COMPOSITE-CE-02": 0.005987,
+    "DROUGHT-CE-01": 0.025614,
+    "ENGULF-CE-01": 0.024435,
+    "NEEDLE-DE-01": 0.033475,
+    "PROS-ANTS-01": 0.033891,
+    "PROS-ANTS-CE-01": 0.034145,
+    "PROS-BBS-01": 0.01459,
+    "PROS-BBS-CE-01": 0.01484,
+    "PROS-DOJI-01": 0.010012,
+    "PROS-DOJI-CE-01": 0.010291,
+    "PROS-DUCK-01": 0.079435,
+    "PROS-DUCK-CE-01": 0.078726,
+    "PROS-HAM-01": 0.013888,
+    "PROS-HAM-CE-01": 0.013805,
+    "PROS-IBB-01": 0.073329,
+    "PROS-IBB-CE-01": 0.073703,
+    "PROS-IMM-01": 0.009367,
+    "PROS-IMM-CE-01": 0.009739,
+    "PROS-MCB-01": 0.012502,
+    "PROS-MCB-CE-01": 0.013217,
+    "PROS-OVB-01": 0.03701,
+    "PROS-OVB-CE-01": 0.037174,
+    "PROS-RSRS-CE-01": 0.009289,
+    "PROS-TMU-01": 0.071035,
+    "PROS-TMU-CE-01": 0.073123,
+    "PROS-VOB-CE-01": 0.077394,
+    "VOLATILITY-CE-01": 0.031362
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.39411119,
+    "COMPOSITE-CE-02": 0.03001048,
+    "DROUGHT-CE-01": 0.12839291,
+    "ENGULF-CE-01": 0.12248304,
+    "NEEDLE-DE-01": 0.16779701,
+    "VOLATILITY-CE-01": 0.15720537
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.01958,
+     "dd": -0.015936
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.008218,
+     "dd": -0.022324
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.134354
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.041292
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.014047
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.08987
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.011418
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.029405
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 6e-05,
+    "p999": 0.010665
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 736,
+     "beat_rate": 0.5874,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0544,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 688,
+     "beat_rate": 0.5491,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.055,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 621,
+     "beat_rate": 0.551,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.058,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 587,
+     "beat_rate": 0.5209,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0582,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 516,
+     "beat_rate": 0.5897,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.065,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 453,
+     "beat_rate": 0.5177,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0661,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 747,
+     "beat_rate": 0.496,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 710,
+     "beat_rate": 0.4714,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 665,
+     "beat_rate": 0.4819,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 615,
+     "beat_rate": 0.4457,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0524,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 729,
+     "beat_rate": 0.6463,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0557,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 673,
+     "beat_rate": 0.5966,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0572,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1286,
+    "rate": 0.513
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.01958,
+    "bull_delta_vs_canon": 0.096077,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-TOP2-MON": {
+   "weights_src": "rotation_month",
+   "weights_sha": "3317402382e496e0",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.18363,
+    "COMPOSITE-CE-02": 0.138565,
+    "DROUGHT-CE-01": 0.020233,
+    "ENGULF-CE-01": 0.019007,
+    "NEEDLE-DE-01": 0.041692,
+    "PROS-BBS-01": 0.023299,
+    "PROS-BBS-CE-01": 0.012262,
+    "PROS-DOJI-01": 0.048743,
+    "PROS-DOJI-CE-01": 0.048437,
+    "PROS-DUCK-01": 0.034641,
+    "PROS-DUCK-CE-01": 0.045371,
+    "PROS-HAM-01": 0.023605,
+    "PROS-HAM-CE-01": 0.031576,
+    "PROS-IBB-01": 0.043225,
+    "PROS-IBB-CE-01": 0.047823,
+    "PROS-IMM-01": 0.026977,
+    "PROS-IMM-CE-01": 0.013489,
+    "PROS-MCB-01": 0.012262,
+    "PROS-MCB-CE-01": 0.018394,
+    "PROS-OVB-01": 0.011649,
+    "PROS-OVB-CE-01": 0.005518,
+    "PROS-RSRS-CE-01": 0.057633,
+    "PROS-TMU-01": 0.007051,
+    "PROS-VOB-CE-01": 0.061006,
+    "VOLATILITY-CE-01": 0.023912
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.43000756,
+    "COMPOSITE-CE-02": 0.32447856,
+    "DROUGHT-CE-01": 0.04737975,
+    "ENGULF-CE-01": 0.04450882,
+    "NEEDLE-DE-01": 0.09763043,
+    "VOLATILITY-CE-01": 0.05599489
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": -0.055966,
+     "dd": -0.093422
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": -0.086336,
+     "dd": -0.121253
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.14542
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.097219
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.053665
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.090412
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.166806
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.077041
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": false,
+    "J2_x2_survival": false,
+    "J3_regime_segment_stability": false
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.0,
+    "p999": 0.018713
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 817,
+     "beat_rate": 0.652,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 736,
+     "beat_rate": 0.5874,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0544,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 705,
+     "beat_rate": 0.6256,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0564,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 645,
+     "beat_rate": 0.5723,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0577,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 561,
+     "beat_rate": 0.6411,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0634,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 513,
+     "beat_rate": 0.5863,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0651,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 749,
+     "beat_rate": 0.4973,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 687,
+     "beat_rate": 0.4562,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0502,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 705,
+     "beat_rate": 0.5109,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 643,
+     "beat_rate": 0.4659,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0526,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 788,
+     "beat_rate": 0.6986,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0535,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 698,
+     "beat_rate": 0.6188,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0566,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1410,
+    "rate": 0.5624
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": -0.055966,
+    "bull_delta_vs_canon": 0.107143,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-TOP2-WK": {
+   "weights_src": "rotation_week",
+   "weights_sha": "80a6f61c235aed7b",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.120172,
+    "COMPOSITE-CE-02": 0.090742,
+    "DROUGHT-CE-01": 0.02851,
+    "ENGULF-CE-01": 0.015941,
+    "NEEDLE-DE-01": 0.016248,
+    "PROS-ANTS-01": 0.007664,
+    "PROS-ANTS-CE-01": 0.006131,
+    "PROS-BBS-01": 0.026671,
+    "PROS-BBS-CE-01": 0.01962,
+    "PROS-DOJI-01": 0.055487,
+    "PROS-DOJI-CE-01": 0.048743,
+    "PROS-DUCK-01": 0.036481,
+    "PROS-DUCK-CE-01": 0.039546,
+    "PROS-HAM-01": 0.026058,
+    "PROS-HAM-CE-01": 0.034335,
+    "PROS-IBB-01": 0.042305,
+    "PROS-IBB-CE-01": 0.032802,
+    "PROS-IMM-01": 0.040159,
+    "PROS-IMM-CE-01": 0.023299,
+    "PROS-MCB-01": 0.036787,
+    "PROS-MCB-CE-01": 0.041386,
+    "PROS-OVB-01": 0.023912,
+    "PROS-OVB-CE-01": 0.015941,
+    "PROS-RSRS-CE-01": 0.079093,
+    "PROS-TMU-01": 0.002759,
+    "PROS-TMU-CE-01": 0.002759,
+    "PROS-VOB-CE-01": 0.052728,
+    "VOLATILITY-CE-01": 0.033722
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.39357427,
+    "COMPOSITE-CE-02": 0.29718833,
+    "DROUGHT-CE-01": 0.09337285,
+    "ENGULF-CE-01": 0.05220823,
+    "NEEDLE-DE-01": 0.05321368,
+    "VOLATILITY-CE-01": 0.11044263
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.019335,
+     "dd": -0.072712
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.004697,
+     "dd": -0.085302
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.276726
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.083975
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.082341
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.22111
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": -0.164644
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.108246
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": false,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": false
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.0,
+    "p999": 0.022551
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 815,
+     "beat_rate": 0.6504,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 742,
+     "beat_rate": 0.5922,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0543,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 693,
+     "beat_rate": 0.6149,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0567,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 639,
+     "beat_rate": 0.567,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0578,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 558,
+     "beat_rate": 0.6377,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0636,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 508,
+     "beat_rate": 0.5806,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0653,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 750,
+     "beat_rate": 0.498,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 693,
+     "beat_rate": 0.4602,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0503,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 696,
+     "beat_rate": 0.5043,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 633,
+     "beat_rate": 0.4587,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0525,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 774,
+     "beat_rate": 0.6862,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0541,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 694,
+     "beat_rate": 0.6152,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0567,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1389,
+    "rate": 0.554
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.019335,
+    "bull_delta_vs_canon": 0.238449,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-GREEN-TOP2": {
+   "weights_src": "legs_v3",
+   "weights_sha": "9a9579482cc1851b",
+   "legs_or_rule_sha": {
+    "off": "9a9579482cc1851b",
+    "def": "3868f2f55bae825e"
+   },
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.215077,
+    "COMPOSITE-CE-02": 0.005923,
+    "DROUGHT-CE-01": 0.025337,
+    "ENGULF-CE-01": 0.02417,
+    "NEEDLE-DE-01": 0.033113,
+    "PROS-ANTS-01": 0.033524,
+    "PROS-ANTS-CE-01": 0.033776,
+    "PROS-BBS-01": 0.014432,
+    "PROS-BBS-CE-01": 0.014679,
+    "PROS-DOJI-01": 0.009903,
+    "PROS-DOJI-CE-01": 0.010179,
+    "PROS-DUCK-01": 0.01263,
+    "PROS-DUCK-CE-01": 0.011929,
+    "PROS-HAM-01": 0.013737,
+    "PROS-HAM-CE-01": 0.013655,
+    "PROS-IBB-01": 0.00659,
+    "PROS-IBB-CE-01": 0.006959,
+    "PROS-IMM-01": 0.009266,
+    "PROS-IMM-CE-01": 0.009633,
+    "PROS-MCB-01": 0.012367,
+    "PROS-MCB-CE-01": 0.013074,
+    "PROS-OVB-01": 0.03661,
+    "PROS-OVB-CE-01": 0.036771,
+    "PROS-RSRS-CE-01": 0.009188,
+    "PROS-TMU-01": 0.070266,
+    "PROS-TMU-CE-01": 0.072331,
+    "PROS-VOB-CE-01": 0.010611,
+    "VOLATILITY-CE-01": 0.234272
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.39985164,
+    "COMPOSITE-CE-02": 0.0110115,
+    "DROUGHT-CE-01": 0.04710425,
+    "ENGULF-CE-01": 0.04493467,
+    "NEEDLE-DE-01": 0.06156069,
+    "VOLATILITY-CE-01": 0.43553725
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.022323,
+     "dd": -0.01354
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.013858,
+     "dd": -0.018104
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.142928
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.038326
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.001667
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.091936
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.002412
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.009195
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 7.7e-05,
+    "p999": 0.010495
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 736,
+     "beat_rate": 0.5874,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0544,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 686,
+     "beat_rate": 0.5475,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.055,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 629,
+     "beat_rate": 0.5581,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0579,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 580,
+     "beat_rate": 0.5146,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0583,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 536,
+     "beat_rate": 0.6126,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0644,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 463,
+     "beat_rate": 0.5291,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.066,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 754,
+     "beat_rate": 0.5007,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 711,
+     "beat_rate": 0.4721,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 680,
+     "beat_rate": 0.4928,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 615,
+     "beat_rate": 0.4457,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0524,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 736,
+     "beat_rate": 0.6525,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0555,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 665,
+     "beat_rate": 0.5895,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0573,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1309,
+    "rate": 0.5221
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.022323,
+    "bull_delta_vs_canon": 0.104651,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-TOP3-GRAD": {
+   "weights_src": "static",
+   "weights_sha": "fa598198d684514f",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.3,
+    "COMPOSITE-CE-02": 0.2,
+    "VOLATILITY-CE-01": 0.5
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.3,
+    "COMPOSITE-CE-02": 0.2,
+    "DROUGHT-CE-01": 0.0,
+    "ENGULF-CE-01": 0.0,
+    "NEEDLE-DE-01": 0.0,
+    "VOLATILITY-CE-01": 0.5
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.042348,
+     "dd": -0.014908
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.028573,
+     "dd": -0.019209
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.185797
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.146446
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.00659
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.129265
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.083026
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": -0.01588
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000163,
+    "p999": 0.011998
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 796,
+     "beat_rate": 0.6353,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0532,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 723,
+     "beat_rate": 0.577,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0546,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 662,
+     "beat_rate": 0.5874,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0574,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 623,
+     "beat_rate": 0.5528,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.058,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 558,
+     "beat_rate": 0.6377,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0636,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 488,
+     "beat_rate": 0.5577,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0657,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 742,
+     "beat_rate": 0.4927,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 689,
+     "beat_rate": 0.4575,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0503,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 677,
+     "beat_rate": 0.4906,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0527,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 613,
+     "beat_rate": 0.4442,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0524,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 743,
+     "beat_rate": 0.6587,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0553,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 670,
+     "beat_rate": 0.594,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0572,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1339,
+    "rate": 0.5341
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.042348,
+    "bull_delta_vs_canon": 0.14752,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  },
+  "AGGR-FULLCE-C80": {
+   "weights_src": "static",
+   "weights_sha": "1c74f4d052d19b86",
+   "legs_or_rule_sha": null,
+   "weights_representative": {
+    "COMPOSITE-CE-01": 0.133333,
+    "COMPOSITE-CE-02": 0.133333,
+    "DROUGHT-CE-01": 0.133333,
+    "ENGULF-CE-01": 0.133333,
+    "NEEDLE-DE-01": 0.133333,
+    "VOLATILITY-CE-01": 0.133333
+   },
+   "grid_ce6_restricted": {
+    "COMPOSITE-CE-01": 0.16666667,
+    "COMPOSITE-CE-02": 0.16666667,
+    "DROUGHT-CE-01": 0.16666667,
+    "ENGULF-CE-01": 0.16666667,
+    "NEEDLE-DE-01": 0.16666667,
+    "VOLATILITY-CE-01": 0.16666667
+   },
+   "w_cur": {
+    "x1": {
+     "n_days": 177,
+     "ret": 0.022457,
+     "dd": -0.013932
+    },
+    "x2": {
+     "n_days": 177,
+     "ret": 0.015049,
+     "dd": -0.016157
+    }
+   },
+   "w_seg": {
+    "x1": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.099279
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.089085
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.007671
+     }
+    },
+    "x2": {
+     "bull": {
+      "n_days": 663,
+      "cum_ret": 0.075362
+     },
+     "chop": {
+      "n_days": 772,
+      "cum_ret": 0.05815
+     },
+     "bear": {
+      "n_days": 196,
+      "cum_ret": 0.002533
+     }
+    }
+   },
+   "judgments": {
+    "J1_current_window_profit": true,
+    "J2_x2_survival": true,
+    "J3_regime_segment_stability": true
+   },
+   "daily_ret_faces_x1": {
+    "median": 0.000107,
+    "p999": 0.00843
+   },
+   "w_grid": {
+    "legacy|6m|x1": {
+     "n": 1253,
+     "beats": 769,
+     "beat_rate": 0.6137,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210266,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0538,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.6089
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.6377
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.565
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5507
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5307
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5714
+      }
+     }
+    },
+    "legacy|6m|x2": {
+     "n": 1253,
+     "beats": 737,
+     "beat_rate": 0.5882,
+     "member_cells_N": 7518,
+     "oos_trades_pooled": 210070,
+     "covered_years": 5.18,
+     "independent_regime_windows": 130,
+     "ci95_width": 0.0544,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5499
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1253,
+       "beat_rate": 0.5746
+      },
+      "DROUGHT-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5563
+      },
+      "ENGULF-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5387
+      },
+      "NEEDLE-DE-01": {
+       "n": 1253,
+       "beat_rate": 0.5267
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1253,
+       "beat_rate": 0.5379
+      }
+     }
+    },
+    "legacy|12m|x1": {
+     "n": 1127,
+     "beats": 645,
+     "beat_rate": 0.5723,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 382238,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0577,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.6362
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.6069
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4942
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5386
+      }
+     }
+    },
+    "legacy|12m|x2": {
+     "n": 1127,
+     "beats": 608,
+     "beat_rate": 0.5395,
+     "member_cells_N": 6762,
+     "oos_trades_pooled": 381270,
+     "covered_years": 4.65,
+     "independent_regime_windows": 112,
+     "ci95_width": 0.0581,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5413
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1127,
+       "beat_rate": 0.5359
+      },
+      "DROUGHT-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5146
+      },
+      "ENGULF-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5093
+      },
+      "NEEDLE-DE-01": {
+       "n": 1127,
+       "beat_rate": 0.4925
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1127,
+       "beat_rate": 0.5173
+      }
+     }
+    },
+    "legacy|24m|x1": {
+     "n": 875,
+     "beats": 487,
+     "beat_rate": 0.5566,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 583077,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0657,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.7371
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6926
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4606
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4537
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5474
+      }
+     }
+    },
+    "legacy|24m|x2": {
+     "n": 875,
+     "beats": 439,
+     "beat_rate": 0.5017,
+     "member_cells_N": 5250,
+     "oos_trades_pooled": 580426,
+     "covered_years": 3.6,
+     "independent_regime_windows": 90,
+     "ci95_width": 0.0661,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 875,
+       "beat_rate": 0.5669
+      },
+      "COMPOSITE-CE-02": {
+       "n": 875,
+       "beat_rate": 0.6206
+      },
+      "DROUGHT-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4514
+      },
+      "ENGULF-CE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "NEEDLE-DE-01": {
+       "n": 875,
+       "beat_rate": 0.4526
+      },
+      "VOLATILITY-CE-01": {
+       "n": 875,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x1": {
+     "n": 1506,
+     "beats": 733,
+     "beat_rate": 0.4867,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255702,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0504,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.5432
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4801
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4788
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4582
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4389
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      }
+     }
+    },
+    "deep|6m|x2": {
+     "n": 1506,
+     "beats": 698,
+     "beat_rate": 0.4635,
+     "member_cells_N": 9036,
+     "oos_trades_pooled": 255527,
+     "covered_years": 6.22,
+     "independent_regime_windows": 56,
+     "ci95_width": 0.0503,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.488
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1506,
+       "beat_rate": 0.4037
+      },
+      "DROUGHT-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4708
+      },
+      "ENGULF-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4442
+      },
+      "NEEDLE-DE-01": {
+       "n": 1506,
+       "beat_rate": 0.4343
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1506,
+       "beat_rate": 0.4548
+      }
+     }
+    },
+    "deep|12m|x1": {
+     "n": 1380,
+     "beats": 632,
+     "beat_rate": 0.458,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469968,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0525,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.6
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4928
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4522
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4514
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4355
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4623
+      }
+     }
+    },
+    "deep|12m|x2": {
+     "n": 1380,
+     "beats": 605,
+     "beat_rate": 0.4384,
+     "member_cells_N": 8280,
+     "oos_trades_pooled": 469078,
+     "covered_years": 5.69,
+     "independent_regime_windows": 55,
+     "ci95_width": 0.0523,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.5246
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1380,
+       "beat_rate": 0.4203
+      },
+      "DROUGHT-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4478
+      },
+      "ENGULF-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4471
+      },
+      "NEEDLE-DE-01": {
+       "n": 1380,
+       "beat_rate": 0.4348
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1380,
+       "beat_rate": 0.4362
+      }
+     }
+    },
+    "deep|24m|x1": {
+     "n": 1128,
+     "beats": 696,
+     "beat_rate": 0.617,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 758650,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0566,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.7881
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.6879
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5124
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4991
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5089
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6055
+      }
+     }
+    },
+    "deep|24m|x2": {
+     "n": 1128,
+     "beats": 650,
+     "beat_rate": 0.5762,
+     "member_cells_N": 6768,
+     "oos_trades_pooled": 755569,
+     "covered_years": 4.65,
+     "independent_regime_windows": 49,
+     "ci95_width": 0.0576,
+     "per_member_beat_rate": {
+      "COMPOSITE-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.6649
+      },
+      "COMPOSITE-CE-02": {
+       "n": 1128,
+       "beat_rate": 0.5035
+      },
+      "DROUGHT-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5018
+      },
+      "ENGULF-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.4902
+      },
+      "NEEDLE-DE-01": {
+       "n": 1128,
+       "beat_rate": 0.5027
+      },
+      "VOLATILITY-CE-01": {
+       "n": 1128,
+       "beat_rate": 0.5133
+      }
+     }
+    }
+   },
+   "grid_12m_pooled": {
+    "n": 2507,
+    "beats": 1277,
+    "rate": 0.5094
+   },
+   "kpi": {
+    "return_ceiling_w_cur_x1": 0.022457,
+    "bull_delta_vs_canon": 0.061002,
+    "note": "KPI = ceiling + bull delta vs canon B_MAXDIV (ticket s4); promotion count NOT the KPI; expected J2/J3 breaches = honest outcomes"
+   }
+  }
+ },
+ "canon_verification_face": "B_MAXDIV blend re-derived (weights sha 9b112d51583aeeb7 verbatim; ledger +0)",
+ "variant_daily_ret_corr": {
+  "CANON-B_MAXDIV": {
+   "CANON-B_MAXDIV": 1.0,
+   "AGGR-TOP3": 0.5243,
+   "AGGR-FULLCE": 0.6802,
+   "AGGR-OFFENSE-FULL": 0.58,
+   "AGGR-TOP2-80": 0.5121,
+   "AGGR-TOP2-60": 0.5225,
+   "AGGR-GREEN-MAX": 0.6717,
+   "AGGR-REG3": 0.5917,
+   "AGGR-TOP2-C80": 0.5137,
+   "AGGR-TOP2-C95": 0.5137,
+   "AGGR-BARBELL": 0.724,
+   "AGGR-TOP2-MON": 0.4986,
+   "AGGR-TOP2-WK": 0.5323,
+   "AGGR-GREEN-TOP2": 0.6985,
+   "AGGR-TOP3-GRAD": 0.5502,
+   "AGGR-FULLCE-C80": 0.6802
+  },
+  "AGGR-TOP3": {
+   "CANON-B_MAXDIV": 0.5243,
+   "AGGR-TOP3": 1.0,
+   "AGGR-FULLCE": 0.9425,
+   "AGGR-OFFENSE-FULL": 0.4315,
+   "AGGR-TOP2-80": 0.7161,
+   "AGGR-TOP2-60": 0.7961,
+   "AGGR-GREEN-MAX": 0.4335,
+   "AGGR-REG3": 0.4,
+   "AGGR-TOP2-C80": 0.804,
+   "AGGR-TOP2-C95": 0.804,
+   "AGGR-BARBELL": 0.461,
+   "AGGR-TOP2-MON": 0.4908,
+   "AGGR-TOP2-WK": 0.4083,
+   "AGGR-GREEN-TOP2": 0.5559,
+   "AGGR-TOP3-GRAD": 0.9845,
+   "AGGR-FULLCE-C80": 0.9425
+  },
+  "AGGR-FULLCE": {
+   "CANON-B_MAXDIV": 0.6802,
+   "AGGR-TOP3": 0.9425,
+   "AGGR-FULLCE": 1.0,
+   "AGGR-OFFENSE-FULL": 0.4286,
+   "AGGR-TOP2-80": 0.6936,
+   "AGGR-TOP2-60": 0.7547,
+   "AGGR-GREEN-MAX": 0.4769,
+   "AGGR-REG3": 0.4115,
+   "AGGR-TOP2-C80": 0.7573,
+   "AGGR-TOP2-C95": 0.7573,
+   "AGGR-BARBELL": 0.5003,
+   "AGGR-TOP2-MON": 0.5002,
+   "AGGR-TOP2-WK": 0.4268,
+   "AGGR-GREEN-TOP2": 0.6058,
+   "AGGR-TOP3-GRAD": 0.9317,
+   "AGGR-FULLCE-C80": 1.0
+  },
+  "AGGR-OFFENSE-FULL": {
+   "CANON-B_MAXDIV": 0.58,
+   "AGGR-TOP3": 0.4315,
+   "AGGR-FULLCE": 0.4286,
+   "AGGR-OFFENSE-FULL": 1.0,
+   "AGGR-TOP2-80": 0.4281,
+   "AGGR-TOP2-60": 0.4838,
+   "AGGR-GREEN-MAX": 0.7631,
+   "AGGR-REG3": 0.967,
+   "AGGR-TOP2-C80": 0.4909,
+   "AGGR-TOP2-C95": 0.4909,
+   "AGGR-BARBELL": 0.9715,
+   "AGGR-TOP2-MON": 0.6228,
+   "AGGR-TOP2-WK": 0.6923,
+   "AGGR-GREEN-TOP2": 0.6242,
+   "AGGR-TOP3-GRAD": 0.4584,
+   "AGGR-FULLCE-C80": 0.4286
+  },
+  "AGGR-TOP2-80": {
+   "CANON-B_MAXDIV": 0.5121,
+   "AGGR-TOP3": 0.7161,
+   "AGGR-FULLCE": 0.6936,
+   "AGGR-OFFENSE-FULL": 0.4281,
+   "AGGR-TOP2-80": 1.0,
+   "AGGR-TOP2-60": 0.9467,
+   "AGGR-GREEN-MAX": 0.4465,
+   "AGGR-REG3": 0.4067,
+   "AGGR-TOP2-C80": 0.9067,
+   "AGGR-TOP2-C95": 0.9067,
+   "AGGR-BARBELL": 0.4667,
+   "AGGR-TOP2-MON": 0.4838,
+   "AGGR-TOP2-WK": 0.4012,
+   "AGGR-GREEN-TOP2": 0.6297,
+   "AGGR-TOP3-GRAD": 0.8263,
+   "AGGR-FULLCE-C80": 0.6936
+  },
+  "AGGR-TOP2-60": {
+   "CANON-B_MAXDIV": 0.5225,
+   "AGGR-TOP3": 0.7961,
+   "AGGR-FULLCE": 0.7547,
+   "AGGR-OFFENSE-FULL": 0.4838,
+   "AGGR-TOP2-80": 0.9467,
+   "AGGR-TOP2-60": 1.0,
+   "AGGR-GREEN-MAX": 0.4798,
+   "AGGR-REG3": 0.4467,
+   "AGGR-TOP2-C80": 0.9942,
+   "AGGR-TOP2-C95": 0.9942,
+   "AGGR-BARBELL": 0.5051,
+   "AGGR-TOP2-MON": 0.5588,
+   "AGGR-TOP2-WK": 0.4495,
+   "AGGR-GREEN-TOP2": 0.6624,
+   "AGGR-TOP3-GRAD": 0.8836,
+   "AGGR-FULLCE-C80": 0.7547
+  },
+  "AGGR-GREEN-MAX": {
+   "CANON-B_MAXDIV": 0.6717,
+   "AGGR-TOP3": 0.4335,
+   "AGGR-FULLCE": 0.4769,
+   "AGGR-OFFENSE-FULL": 0.7631,
+   "AGGR-TOP2-80": 0.4465,
+   "AGGR-TOP2-60": 0.4798,
+   "AGGR-GREEN-MAX": 1.0,
+   "AGGR-REG3": 0.7806,
+   "AGGR-TOP2-C80": 0.4796,
+   "AGGR-TOP2-C95": 0.4796,
+   "AGGR-BARBELL": 0.8229,
+   "AGGR-TOP2-MON": 0.573,
+   "AGGR-TOP2-WK": 0.6395,
+   "AGGR-GREEN-TOP2": 0.7304,
+   "AGGR-TOP3-GRAD": 0.4631,
+   "AGGR-FULLCE-C80": 0.4769
+  },
+  "AGGR-REG3": {
+   "CANON-B_MAXDIV": 0.5917,
+   "AGGR-TOP3": 0.4,
+   "AGGR-FULLCE": 0.4115,
+   "AGGR-OFFENSE-FULL": 0.967,
+   "AGGR-TOP2-80": 0.4067,
+   "AGGR-TOP2-60": 0.4467,
+   "AGGR-GREEN-MAX": 0.7806,
+   "AGGR-REG3": 1.0,
+   "AGGR-TOP2-C80": 0.4495,
+   "AGGR-TOP2-C95": 0.4495,
+   "AGGR-BARBELL": 0.95,
+   "AGGR-TOP2-MON": 0.5856,
+   "AGGR-TOP2-WK": 0.6591,
+   "AGGR-GREEN-TOP2": 0.6327,
+   "AGGR-TOP3-GRAD": 0.4267,
+   "AGGR-FULLCE-C80": 0.4115
+  },
+  "AGGR-TOP2-C80": {
+   "CANON-B_MAXDIV": 0.5137,
+   "AGGR-TOP3": 0.804,
+   "AGGR-FULLCE": 0.7573,
+   "AGGR-OFFENSE-FULL": 0.4909,
+   "AGGR-TOP2-80": 0.9067,
+   "AGGR-TOP2-60": 0.9942,
+   "AGGR-GREEN-MAX": 0.4796,
+   "AGGR-REG3": 0.4495,
+   "AGGR-TOP2-C80": 1.0,
+   "AGGR-TOP2-C95": 1.0,
+   "AGGR-BARBELL": 0.5061,
+   "AGGR-TOP2-MON": 0.5707,
+   "AGGR-TOP2-WK": 0.4551,
+   "AGGR-GREEN-TOP2": 0.6578,
+   "AGGR-TOP3-GRAD": 0.8819,
+   "AGGR-FULLCE-C80": 0.7573
+  },
+  "AGGR-TOP2-C95": {
+   "CANON-B_MAXDIV": 0.5137,
+   "AGGR-TOP3": 0.804,
+   "AGGR-FULLCE": 0.7573,
+   "AGGR-OFFENSE-FULL": 0.4909,
+   "AGGR-TOP2-80": 0.9067,
+   "AGGR-TOP2-60": 0.9942,
+   "AGGR-GREEN-MAX": 0.4796,
+   "AGGR-REG3": 0.4495,
+   "AGGR-TOP2-C80": 1.0,
+   "AGGR-TOP2-C95": 1.0,
+   "AGGR-BARBELL": 0.5061,
+   "AGGR-TOP2-MON": 0.5707,
+   "AGGR-TOP2-WK": 0.4551,
+   "AGGR-GREEN-TOP2": 0.6578,
+   "AGGR-TOP3-GRAD": 0.8819,
+   "AGGR-FULLCE-C80": 0.7573
+  },
+  "AGGR-BARBELL": {
+   "CANON-B_MAXDIV": 0.724,
+   "AGGR-TOP3": 0.461,
+   "AGGR-FULLCE": 0.5003,
+   "AGGR-OFFENSE-FULL": 0.9715,
+   "AGGR-TOP2-80": 0.4667,
+   "AGGR-TOP2-60": 0.5051,
+   "AGGR-GREEN-MAX": 0.8229,
+   "AGGR-REG3": 0.95,
+   "AGGR-TOP2-C80": 0.5061,
+   "AGGR-TOP2-C95": 0.5061,
+   "AGGR-BARBELL": 1.0,
+   "AGGR-TOP2-MON": 0.6645,
+   "AGGR-TOP2-WK": 0.7422,
+   "AGGR-GREEN-TOP2": 0.6987,
+   "AGGR-TOP3-GRAD": 0.4905,
+   "AGGR-FULLCE-C80": 0.5003
+  },
+  "AGGR-TOP2-MON": {
+   "CANON-B_MAXDIV": 0.4986,
+   "AGGR-TOP3": 0.4908,
+   "AGGR-FULLCE": 0.5002,
+   "AGGR-OFFENSE-FULL": 0.6228,
+   "AGGR-TOP2-80": 0.4838,
+   "AGGR-TOP2-60": 0.5588,
+   "AGGR-GREEN-MAX": 0.573,
+   "AGGR-REG3": 0.5856,
+   "AGGR-TOP2-C80": 0.5707,
+   "AGGR-TOP2-C95": 0.5707,
+   "AGGR-BARBELL": 0.6645,
+   "AGGR-TOP2-MON": 1.0,
+   "AGGR-TOP2-WK": 0.6147,
+   "AGGR-GREEN-TOP2": 0.5786,
+   "AGGR-TOP3-GRAD": 0.5215,
+   "AGGR-FULLCE-C80": 0.5002
+  },
+  "AGGR-TOP2-WK": {
+   "CANON-B_MAXDIV": 0.5323,
+   "AGGR-TOP3": 0.4083,
+   "AGGR-FULLCE": 0.4268,
+   "AGGR-OFFENSE-FULL": 0.6923,
+   "AGGR-TOP2-80": 0.4012,
+   "AGGR-TOP2-60": 0.4495,
+   "AGGR-GREEN-MAX": 0.6395,
+   "AGGR-REG3": 0.6591,
+   "AGGR-TOP2-C80": 0.4551,
+   "AGGR-TOP2-C95": 0.4551,
+   "AGGR-BARBELL": 0.7422,
+   "AGGR-TOP2-MON": 0.6147,
+   "AGGR-TOP2-WK": 1.0,
+   "AGGR-GREEN-TOP2": 0.5565,
+   "AGGR-TOP3-GRAD": 0.4324,
+   "AGGR-FULLCE-C80": 0.4268
+  },
+  "AGGR-GREEN-TOP2": {
+   "CANON-B_MAXDIV": 0.6985,
+   "AGGR-TOP3": 0.5559,
+   "AGGR-FULLCE": 0.6058,
+   "AGGR-OFFENSE-FULL": 0.6242,
+   "AGGR-TOP2-80": 0.6297,
+   "AGGR-TOP2-60": 0.6624,
+   "AGGR-GREEN-MAX": 0.7304,
+   "AGGR-REG3": 0.6327,
+   "AGGR-TOP2-C80": 0.6578,
+   "AGGR-TOP2-C95": 0.6578,
+   "AGGR-BARBELL": 0.6987,
+   "AGGR-TOP2-MON": 0.5786,
+   "AGGR-TOP2-WK": 0.5565,
+   "AGGR-GREEN-TOP2": 1.0,
+   "AGGR-TOP3-GRAD": 0.6083,
+   "AGGR-FULLCE-C80": 0.6058
+  },
+  "AGGR-TOP3-GRAD": {
+   "CANON-B_MAXDIV": 0.5502,
+   "AGGR-TOP3": 0.9845,
+   "AGGR-FULLCE": 0.9317,
+   "AGGR-OFFENSE-FULL": 0.4584,
+   "AGGR-TOP2-80": 0.8263,
+   "AGGR-TOP2-60": 0.8836,
+   "AGGR-GREEN-MAX": 0.4631,
+   "AGGR-REG3": 0.4267,
+   "AGGR-TOP2-C80": 0.8819,
+   "AGGR-TOP2-C95": 0.8819,
+   "AGGR-BARBELL": 0.4905,
+   "AGGR-TOP2-MON": 0.5215,
+   "AGGR-TOP2-WK": 0.4324,
+   "AGGR-GREEN-TOP2": 0.6083,
+   "AGGR-TOP3-GRAD": 1.0,
+   "AGGR-FULLCE-C80": 0.9317
+  },
+  "AGGR-FULLCE-C80": {
+   "CANON-B_MAXDIV": 0.6802,
+   "AGGR-TOP3": 0.9425,
+   "AGGR-FULLCE": 1.0,
+   "AGGR-OFFENSE-FULL": 0.4286,
+   "AGGR-TOP2-80": 0.6936,
+   "AGGR-TOP2-60": 0.7547,
+   "AGGR-GREEN-MAX": 0.4769,
+   "AGGR-REG3": 0.4115,
+   "AGGR-TOP2-C80": 0.7573,
+   "AGGR-TOP2-C95": 0.7573,
+   "AGGR-BARBELL": 0.5003,
+   "AGGR-TOP2-MON": 0.5002,
+   "AGGR-TOP2-WK": 0.4268,
+   "AGGR-GREEN-TOP2": 0.6058,
+   "AGGR-TOP3-GRAD": 0.9317,
+   "AGGR-FULLCE-C80": 1.0
+  }
+ },
+ "trials_ledger": {
+  "prev_total": 61115,
+  "batch_trials": 300,
+  "total": 61415,
+  "batch": "T58-AGGR-FAMILY",
+  "file": "aggressive_family.json",
+  "note": "300 aggregate judgment cells (15 aggressive family variants x 20 T-28-caliber cells: W-CUR 2 + W-SEG 6 + W-GRID 12); W-GRID per-cell N follows P5C/t22 already-counted ledgers, no recount; 56 sleeves = T-27-machinery reproductions o1600 caliber, ledger +0; canon B_MAXDIV re-derive = verification leg +0; zero adoption zero wiring (dual-track)",
+  "evidence_cutoff": "2026-09-23"
+ },
+ "adoption": "ZERO wiring this batch (dual-track supply face; month-boundary T-27 tournament entry per ticket s4)",
+ "audit": {
+  "runtime_sec": 8.6,
+  "machine": "bm-a",
+  "ts": "2026-09-25 13:27:02",
+  "sleeve_cutoff": "2026-09-23",
+  "workers": 25
+ }
+}
