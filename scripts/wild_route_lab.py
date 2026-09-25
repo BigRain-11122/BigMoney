@@ -783,6 +783,35 @@ def run_nulls():
     print("nulls written:", NULLS_JSON)
 
 
+def _null_pool_of(null_vals):
+    """Batch-own null pool in the null_sharpes() schema (values+coverage).
+    g1_prime_v2 reads null_pool['coverage'] unconditionally -- a values-only
+    dict raises KeyError per arm (r217 wiring fix; bond_carry_w3a precedent)."""
+    mu = sum(null_vals) / len(null_vals)
+    sigma = math.sqrt(sum((x - mu) ** 2 for x in null_vals) / (len(null_vals) - 1))
+    return {"values": null_vals,
+            "coverage": {"n_values": len(null_vals), "mu": mu, "sigma": sigma,
+                         "schemas_parsed": [f"wild_route_s1_nulls (K={K_NULLS} in-batch, seed {NULL_BASE})"],
+                         "known_unparsed": []}}
+
+
+def _existing_ledger_block():
+    """Return the WILD_ROUTE_S1 trials-ledger block if it already exists in
+    any results JSON (recursive glob, ledger_head parity), else None. Makes
+    engineering re-finalizes idempotent (xstock_tilt REFINALIZE law)."""
+    for path in sorted(glob.glob(os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            "results", "**", "*.json"), recursive=True)):
+        try:
+            d = json.load(open(path, encoding="utf-8"))
+        except Exception:
+            continue
+        tl = d.get("trials_ledger") if isinstance(d, dict) else None
+        if isinstance(tl, dict) and tl.get("batch") == "WILD_ROUTE_S1":
+            return tl
+    return None
+
+
 def _finalize_census_gate(cells, rows):
     """Frozen-census completeness gate (prereg L8: 29x3x9x2+3 = 1569 cells,
     K=50 nulls -> N_eff 1619). Finalize must refuse a partial cell set
@@ -818,13 +847,18 @@ def finalize():
         os.path.exists(NULLS_JSON) else None
     assert nulls, "nulls file missing -- run run-nulls first"
     null_vals = [n["sharpe"] for n in nulls["nulls"] if n["sharpe"] is not None]
-    null_pool = {"values": null_vals, "schema": "wild_route_s1"}
+    null_pool = _null_pool_of(null_vals)
     N_eff = len(cells) + K_NULLS
+    # per-arm daily series rebuilt FIRST: the G1 bootstrap-CI leg consumes
+    # the same deterministic series the DSR/PBO legs use (r157 wiring law --
+    # every gate input must be a real series, never None)
+    pbo_in = _family_series(E, primaries)
     g1 = {}
     for r in primaries:
         try:
             v = SG.g1_prime_v2(sharpe_full=r["stats"]["sharpe_full"],
-                               returns=None, batch_cells=N_eff,
+                               returns=pbo_in.get(r["arm"]),
+                               batch_cells=N_eff,
                                pool="stock_b_layer",
                                n_trades=r["stats"]["n_trades"],
                                n_entries=r["stats"]["n_entries"],
@@ -833,9 +867,19 @@ def finalize():
         except Exception as exc:
             v = {"error": repr(exc)}
         g1[r["cell_id"]] = v
+    # fail-closed (r119/r204 family): a gate verdict that never evaluated is
+    # NOT a zero-pass -- per-arm exception swallowing must surface as an
+    # honest refusal, never as an all-error verdict dict that reads 0/25
+    g1_errs = {k: v["error"] for k, v in g1.items()
+               if isinstance(v, dict) and "error" in v}
+    if g1_errs:
+        first = next(iter(g1_errs.items()))
+        print(f"finalize FAIL-CLOSED: g1 verdict errored for {len(g1_errs)}/"
+              f"{len(g1)} arms (first: {first[0]} -> {first[1][:120]}) -- "
+              "no artifact written; fix gate wiring, redo finalize")
+        return 2
     # family PBO on the 29-arm primary full-window daily series (rebuilt
     # deterministically; series not persisted in cell JSONs to keep git light)
-    pbo_in = _family_series(E, primaries)
     pbo = cscv_pbo(align_returns(pbo_in), 8) if pbo_in else None
     dsr_vals = {}
     for arm, ser in pbo_in.items():
@@ -851,13 +895,22 @@ def finalize():
     for r in primaries:
         arm = r["arm"]
         g1v = g1.get(r["cell_id"], {})
-        if isinstance(g1v, dict) and g1v.get("g1_pass"):
+        if isinstance(g1v, dict) and g1v.get("pass_v2"):
             try:
                 g2[r["cell_id"]] = SG.g2_registration_v2(
                     g1_pass=True, dsr=dsr_vals.get(arm),
                     pbo=(pbo.get("pbo") if isinstance(pbo, dict) else None))
             except Exception as exc:
                 g2[r["cell_id"]] = {"error": repr(exc)}
+    # trials-ledger embed (r217 fix: r204 discarded the append_ledger return
+    # -- the 1619-trial block was never recorded anywhere). Idempotent per
+    # xstock_tilt REFINALIZE law: an existing WILD block re-embeds verbatim
+    # so engineering re-finalizes never double-count the chain.
+    ledger = _existing_ledger_block() or SG.append_ledger(
+        "WILD_ROUTE_S1", N_eff, os.path.basename(RESULT_JSON),
+        note="T-57 wild-route street-pattern lab, 12 patterns "
+             "29 arms x3U x9W x2C +3 regime extras +50 nulls",
+        evidence_cutoff=EVIDENCE_CUTOFF)
     out = {
         "batch": "WILD_ROUTE_S1",
         "ticket_ref": "T-2026-09-25-57 s2/s3 (CEO O-20260925-1132)",
@@ -871,6 +924,7 @@ def finalize():
         "g1_prime_v2": g1, "g2_registration_v2": g2,
         "family_pbo": pbo, "dsr": dsr_vals,
         "cells": [r for r in rows],
+        "trials_ledger": ledger,
         "meta": {"generated_at": time.strftime("%Y-%m-%d %H:%M:%S"),
                  "runner": os.path.abspath(__file__)},
     }
@@ -890,12 +944,8 @@ def finalize():
                         r["n_limitopen"], st.get("n_entries"),
                         st.get("sharpe_full"), st.get("ann_ret"),
                         st.get("maxdd"), st.get("oos_sharpe"),
-                        (g1.get(r["cell_id"]) or {}).get("g1_pass"),
-                        (g2.get(r["cell_id"]) or {}).get("g2_pass")])
-    SG.append_ledger("WILD_ROUTE_S1", N_eff, os.path.basename(RESULT_JSON),
-                     note="T-57 wild-route street-pattern lab, 12 patterns "
-                          "29 arms x3U x9W x2C +3 regime extras +50 nulls",
-                     evidence_cutoff=EVIDENCE_CUTOFF)
+                        (g1.get(r["cell_id"]) or {}).get("pass_v2"),
+                        (g2.get(r["cell_id"]) or {}).get("eligible_v2")])
     print("finalize written:", RESULT_JSON, "cells:", len(rows))
 
 
@@ -1185,6 +1235,47 @@ def selftest():
         _finalize_census_gate(list(range(10)), list(range(10))))
     chk("F18 finalize wiring (r188 path-live law)",
         "_finalize_census_gate(" in inspect.getsource(finalize))
+    # F19 finalize gate-input wiring (r217 fix; r157/r204 family): the G1 call
+    # must consume a coverage-carrying null pool (production helper) AND a real
+    # per-arm returns series -- the r204 run shipped 25/25 {'error':
+    # KeyError('coverage')} verdicts that read as a fake 0/25 pass-surface.
+    # Fixture mirrors the production call form exactly (helper + real series).
+    fake_nulls = [0.01 * ((k * 37) % 23 - 11) for k in range(50)]
+    pool = _null_pool_of(fake_nulls)
+    chk("F19 pool schema carries coverage",
+        "coverage" in pool and pool["coverage"]["n_values"] == 50
+        and pool["coverage"]["mu"] is not None
+        and pool["coverage"]["sigma"] > 0)
+    rets = [0.001 * ((k * 53) % 17 - 8) for k in range(200)]
+    v19 = SG.g1_prime_v2(sharpe_full=0.3, returns=rets, batch_cells=1619,
+                         pool="stock_b_layer", n_trades=99, n_entries=99,
+                         min_trades=30, ci_seed=NULL_BASE, null_pool=pool)
+    chk("F19 g1 verdict real (no error, full fields)",
+        "error" not in v19 and "pass_v2" in v19 and "line_ok" in v19
+        and "skill_line" in v19 and "bootstrap_ci" in v19)
+    try:
+        SG.g1_prime_v2(sharpe_full=0.3, returns=rets, batch_cells=1619,
+                       pool="stock_b_layer", null_pool={"values": fake_nulls})
+        chk("F19 values-only pool raises KeyError (regression proof)", False)
+    except KeyError:
+        chk("F19 values-only pool raises KeyError (regression proof)", True)
+    chk("F19 finalize consumes helper + series + fail-closed (path-live law)",
+        "_null_pool_of(" in inspect.getsource(finalize)
+        and "returns=pbo_in.get(" in inspect.getsource(finalize)
+        and "FAIL-CLOSED" in inspect.getsource(finalize))
+    # F19b ledger embed + g2 trigger wiring (r217 fix; r204 discarded the
+    # append_ledger return AND keyed the g2 loop on a nonexistent g1 field)
+    led = SG.append_ledger("F19-selftest-wild", 5, "selftest.json",
+                           note="synthetic selftest block, never committed")
+    chk("F19b ledger block schema", led["batch_trials"] == 5
+        and led["total"] == led["prev_total"] + 5)
+    chk("F19b finalize embeds trials_ledger + idempotent helper",
+        '"trials_ledger": ledger' in inspect.getsource(finalize)
+        and "_existing_ledger_block() or SG.append_ledger("
+        in inspect.getsource(finalize))
+    chk("F19b g2 loop keys on pass_v2 (r204 ghost-key fix)",
+        'g1v.get("pass_v2")' in inspect.getsource(finalize)
+        and 'g1v.get("g1_pass")' not in inspect.getsource(finalize))
     print(f"selftest: {ok[0]}/{ok[0]} PASS (all asserted)")
     return 0
 
