@@ -1,0 +1,211 @@
+{
+ "census": "ah_synth_validate",
+ "ticket": "T-2026-09-24-17",
+ "lane": "ARB-2 deliverable-2 slice-1 (single-pair synthesis validation, zero trials)",
+ "ran_at": "2026-09-25 14:56:08",
+ "legs": {
+  "L1_ah_daily": {
+   "ok": true,
+   "rows": 7412,
+   "cols": [
+    "日期",
+    "开盘",
+    "收盘",
+    "最高",
+    "最低",
+    "成交量"
+   ],
+   "first_date": "2004-06-24",
+   "last_date": "2019-12-31"
+  },
+  "L2_hk_daily": {
+   "ok": true,
+   "rows": 5485,
+   "cols": [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "amount"
+   ],
+   "first_date": "2004-06-24",
+   "last_date": "2026-09-24"
+  },
+  "L3_a_hist": {
+   "ok": false,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+   "label": "push2his family connection block risk (moneyflow evidence)"
+  },
+  "L3b_a_daily_sina": {
+   "ok": true,
+   "rows": 4694,
+   "cols": [
+    "date",
+    "open",
+    "high",
+    "low",
+    "close",
+    "volume",
+    "amount",
+    "outstanding_share"
+   ],
+   "first_date": "2007-03-01",
+   "last_date": "2026-09-24"
+  },
+  "L3c_bounded_window": {
+   "ok": true,
+   "rows": 426,
+   "first_date": "2025-01-02",
+   "last_date": "2026-09-24",
+   "finding": "full-window call truncates at 2019 -> puller MUST pass explicit windows"
+  },
+  "L6_fx_boc_sina": {
+   "ok": true,
+   "rows": 230,
+   "cols": [
+    "日期",
+    "中行汇买价",
+    "中行钞买价",
+    "中行钞卖价/汇卖价",
+    "央行中间价",
+    "中行折算价"
+   ],
+   "first_date": "2026-01-01",
+   "last_date": "2026-09-25",
+   "head": [
+    {
+     "日期": "2026-01-01",
+     "中行汇买价": 89.66,
+     "中行钞买价": 89.66,
+     "中行钞卖价/汇卖价": 90.02,
+     "央行中间价": NaN,
+     "中行折算价": 90.32
+    },
+    {
+     "日期": "2026-01-02",
+     "中行汇买价": 89.54,
+     "中行钞买价": 89.54,
+     "中行钞卖价/汇卖价": 89.9,
+     "央行中间价": NaN,
+     "中行折算价": 90.32
+    }
+   ]
+  },
+  "L6b_fx_boc_safe": {
+   "ok": true,
+   "rows": 8056,
+   "cols": [
+    "日期",
+    "美元",
+    "欧元",
+    "日元",
+    "港元",
+    "英镑",
+    "澳元",
+    "新西兰元",
+    "新加坡元",
+    "瑞士法郎"
+   ]
+  },
+  "L7_e2e_sample": {
+   "ok": true,
+   "rows": 5,
+   "sample": [
+    {
+     "date": "2026-09-18",
+     "close_A": 53.37,
+     "close_H": 53.2,
+     "fx_HKD_CNY": 0.8606199999999999,
+     "premium": 0.16566601836095418
+    },
+    {
+     "date": "2026-09-21",
+     "close_A": 53.98,
+     "close_H": 53.75,
+     "fx_HKD_CNY": 0.8602500000000001,
+     "premium": 0.16742699188310572
+    },
+    {
+     "date": "2026-09-22",
+     "close_A": 54.46,
+     "close_H": 53.9,
+     "fx_HKD_CNY": 0.8597400000000001,
+     "premium": 0.17522694115617554
+    },
+    {
+     "date": "2026-09-23",
+     "close_A": 53.87,
+     "close_H": 53.4,
+     "fx_HKD_CNY": 0.86015,
+     "premium": 0.17282043611851505
+    },
+    {
+     "date": "2026-09-24",
+     "close_A": 53.25,
+     "close_H": 53.25,
+     "fx_HKD_CNY": 0.86054,
+     "premium": 0.16206103144537165
+    }
+   ],
+   "note": "premium > 0 = A-share premium (frozen formula, fx basis = BOC official parity)"
+  },
+  "L4_inpanel": {
+   "schema_notes": "raw col heads carried for prereg design",
+   "head_rows": [
+    {
+     "日期": "2004-06-24",
+     "开盘": 10.5,
+     "收盘": 10.4,
+     "最高": 10.55,
+     "最低": 10.3,
+     "成交量": 192008269.0
+    },
+    {
+     "日期": "2004-06-25",
+     "开盘": 10.4,
+     "收盘": 10.3,
+     "最高": 10.45,
+     "最低": 10.3,
+     "成交量": 52813000.0
+    }
+   ],
+   "numeric_cols": {
+    "开盘": {
+     "min": 9.45,
+     "max": 124.0
+    },
+    "收盘": {
+     "min": 9.5,
+     "max": 122.5
+    },
+    "最高": {
+     "min": 9.65,
+     "max": 125.8
+    },
+    "最低": {
+     "min": 9.45,
+     "max": 121.1
+    },
+    "成交量": {
+     "min": 0.0,
+     "max": 1030057151.0
+    }
+   }
+  },
+  "L5_hsahp": {
+   "ok": true,
+   "rows": 55,
+   "last_date": "2026-09-24"
+  }
+ },
+ "verdict": {
+  "synthesis_path": "CONSTRUCTIBLE-PENDING-DESIGN",
+  "open_items": [
+   "FX history face selection (L6 legs audited this run; basis = official central parity family, closeness to chinamoney frozen basis to be checked in puller design)",
+   "A-leg source = stock_zh_a_daily sina (alive, L3b); EM push2his confirmed dead (L3)"
+  ]
+ },
+ "evidence_cutoff": "2026-09-24"
+}
