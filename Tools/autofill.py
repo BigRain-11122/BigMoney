@@ -221,6 +221,75 @@ def _pick(pool, myid):
     return None, None
 
 
+def _git(args):
+    """Central git runner (selftest stubs this for hermetic claim legs)."""
+    r = subprocess.run(["git", *args], cwd=ROOT, capture_output=True)
+    return r.returncode, r.stderr.decode(errors="replace")[:200]
+
+
+def _claim_shard(sh, myid):
+    """r199 launch-claim law (r202 live case: 20:30:01 tick fired SHARD-4
+    with no pool owner-write -> structural unclaimed window every cycle).
+
+    The LAUNCHER claims the shard before firing: fresh-read pool, rival
+    fresh claim -> lost (False); write owner+owner_since, atomic save,
+    git add+commit+push. Push lost after commit -> keep local commit
+    (session S0 rebase reconciles), return False (yield this cycle, next
+    tick re-claims own fresh claim and retries push). Pre-commit fault ->
+    restore pre-claim bytes, return False. True = claimed, caller fires."""
+    prev = None
+    committed = False
+    try:
+        with open(POOL, encoding="utf-8") as fh:
+            prev = fh.read()
+        pool = json.loads(prev)
+        hit = None
+        for e in pool.get("entries", []):
+            for s in e.get("shards", []):
+                if s.get("key") == sh.get("key"):
+                    hit = s
+                    break
+            if hit is not None:
+                break
+        if hit is None:
+            _log(f"claim miss: shard {sh.get('key')} not in pool")
+            return False
+        ow = hit.get("owner")
+        if ow and ow != myid:
+            age = _owner_age_min(ow, hit)
+            if age is not None and age < STALE_MIN:
+                _log(f"claim lost: {sh.get('key')} owner {ow} fresh "
+                     f"({age:.0f}min)")
+                return False
+        hit["owner"] = myid
+        hit["owner_since"] = _now()
+        tmp = POOL + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(pool, fh, ensure_ascii=False, indent=1)
+        os.replace(tmp, POOL)
+        for args in (("add", POOL),
+                     ("commit", "-m",
+                      f"autofill tick claim {sh.get('key')} owner={myid} "
+                      f"(r199 launch-claim) [via {myid}]"),
+                     ("push",)):
+            rc, err = _git(args)
+            if rc != 0:
+                if args[0] == "push":
+                    committed = True     # commit landed, push lost
+                raise RuntimeError(err)
+        _log(f"claim OK: {sh.get('key')} owner={myid} pushed")
+        return True
+    except Exception as ex:
+        if not committed and prev is not None:
+            try:
+                with open(POOL, "w", encoding="utf-8") as fh:
+                    fh.write(prev)       # restore pre-claim bytes
+            except Exception:
+                pass
+        _log(f"claim fault ({ex}) -> yield (committed={committed})")
+        return False
+
+
 def tick(dry=False):
     for probe in ("rebase-merge", "rebase-apply", "MERGE_HEAD"):
         if os.path.exists(os.path.join(_GIT_DIR, probe)):
@@ -280,6 +349,16 @@ def tick(dry=False):
                     "fill_latency_min": latency})
         state["last_tick"] = rec
         _save_state(state)
+        print(json.dumps(rec, ensure_ascii=False))
+        return 0
+    if not _claim_shard(sh, rec["machine"]):
+        rec["verdict"] = "claim_lost_yield"
+        rec["entry"] = e["id"]
+        rec["shard"] = sh.get("key")
+        state["last_tick"] = rec
+        _save_state(state)
+        _log(f"tick yield {e['id']}/{sh.get('key')}: claim lost "
+             f"(rival faster or git fault) -- no unclaimed launch")
         print(json.dumps(rec, ensure_ascii=False))
         return 0
     os.makedirs(os.path.join(ROOT, "logs"), exist_ok=True)
@@ -506,6 +585,69 @@ def selftest():
         rc = tick(dry=True)
         ok("S8 no workers_plan -> skip (O-2130)",
            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+        # S15 launch-claim law (r199/r202): the LAUNCHER claims the shard
+        # before firing. Live case: 20:30:01 tick fired SHARD-4 with no
+        # pool owner-write -> structural unclaimed window every cycle.
+        # Hermetic git stub (r117 hermetic-production pairing: no real
+        # git ops from selftest).
+        global _git
+        _git_real = _git
+        git_seq = []
+        fail_at = {"stage": None}
+
+        def _fake_git(args):
+            git_seq.append(args[0])
+            if fail_at["stage"] == args[0]:
+                return 1, "fake git fault"
+            return 0, ""
+
+        _git = _fake_git
+
+        def _pool_with(shard):
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [dict(entry, shards=[shard])]}, fh)
+
+        # S15a unclaimed -> claim True, owner+since written, add/commit/push
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        git_seq.clear()
+        r15 = _claim_shard({"key": "s0"}, "bm-b")
+        p15 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S15a unclaimed -> claimed (owner+since written, git 3-step)",
+           r15 is True and p15.get("owner") == "bm-b"
+           and bool(p15.get("owner_since"))
+           and git_seq == ["add", "commit", "push"])
+        # S15b rival FRESH claim -> lost, pool untouched
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-z",
+                    "owner_since": _now()})
+        r15b = _claim_shard({"key": "s0"}, "bm-b")
+        p15b = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S15b rival fresh claim -> yield, no overwrite",
+           r15b is False and p15b.get("owner") == "bm-z")
+        # S15c rival STALE claim -> takeover, owner rewritten
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-z",
+                    "owner_since": "2026-09-24 18:00:00"})
+        r15c = _claim_shard({"key": "s0"}, "bm-b")
+        p15c = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S15c rival stale claim -> takeover rewrites owner",
+           r15c is True and p15c.get("owner") == "bm-b")
+        # S15d pre-commit git fault -> False + pre-claim bytes restored
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_at["stage"] = "add"
+        r15d = _claim_shard({"key": "s0"}, "bm-b")
+        p15d = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        fail_at["stage"] = None
+        ok("S15d git add fault -> yield + pool restored (owner None)",
+           r15d is False and p15d.get("owner") is None)
+        # S15e push lost AFTER commit -> yield but claim bytes kept
+        # (local commit reconciled by session S0 rebase; next tick retries)
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_at["stage"] = "push"
+        r15e = _claim_shard({"key": "s0"}, "bm-b")
+        p15e = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        fail_at["stage"] = None
+        ok("S15e push lost post-commit -> yield, claim kept on disk",
+           r15e is False and p15e.get("owner") == "bm-b")
+        _git = _git_real
         _py_cpu_pct = orig
     # S7 sampler sanity on the real machine (pure read)
     py = _py_cpu_pct(window=0.5)
