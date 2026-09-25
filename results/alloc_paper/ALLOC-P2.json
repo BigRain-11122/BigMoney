@@ -1,0 +1,40 @@
+{
+ "schema": "alloc_paper_v1",
+ "account": "ALLOC-P2",
+ "frozen_ref": "ALLOC_LINE_S2_PREREG.md sec.3 (s2 cells 1:1)",
+ "engine_ref": "scripts/alloc_backtest.py simulate (import reuse)",
+ "cutoff_frozen": "2026-09-22",
+ "inception_date": "2026-09-23",
+ "capital_initial_cny": 1000000.0,
+ "cost_face": "v2_main (side_cost_v2, engine default = s2 canonical)",
+ "mode": "monthly",
+ "p2": true,
+ "weights_declared": "rolling-126d inverse-vol, cap 50% iter<=5, warmup=EW (frozen sec.5.6)",
+ "p2_inception_note": "EW warmup at inception per engine convention; first month-first applies rolling-126d inv-vol",
+ "nav_series": [
+  [
+   "2026-09-23",
+   999559.951641
+  ],
+  [
+   "2026-09-24",
+   990163.766807
+  ]
+ ],
+ "latest_nav_cny": 990163.766807,
+ "n_bars": 2,
+ "n_trades": 3,
+ "total_cost_cny": 498.580105,
+ "turnover_cny": 989050.0,
+ "commission_floor_hits": 0,
+ "fill_cap_refusals": 0,
+ "data_quality": {
+  "stale_leg_days": {
+   "510300": 0,
+   "511010": 0,
+   "518880": 0
+  },
+  "repo_tail_date": "2026-09-21",
+  "repo_ffill_forward_days": 2
+ }
+}
