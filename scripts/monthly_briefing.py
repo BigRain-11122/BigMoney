@@ -17,6 +17,7 @@ Subcommands:
 import json
 import sys
 import tempfile
+from collections import Counter
 from datetime import date, datetime
 from pathlib import Path
 
@@ -96,6 +97,22 @@ def gather(root=ROOT, month=None, asof=None):
     g["grades"] = {k: v for k, v in (sc or {}).get("per_trader", {}).items()} if isinstance(sc, dict) else {}
     g["scorecard_generated"] = (sc or {}).get("generated") if isinstance(sc, dict) else None
     g["skill_line"] = ((sc or {}).get("lines") or {}).get("skill_line_v2") if isinstance(sc, dict) else None
+
+    # T-63 three-card face (O-20260925-1755): trader/portfolio composite grades
+    # consumed only post-calibration (SCORECARD_CALIB_P1 frozen bands, sec 8.5).
+    three = _read_json(root / "results" / "strategy_scorecard.json")
+    tc3g = {"calibrated": bool(((three or {}) if isinstance(three, dict) else {}).get("audit", {}).get("calibration_consumed")),
+            "trader_grades": {}, "portfolio_grades": {}}
+    if isinstance(three, dict):
+        for oid, c in (three.get("trader_cards") or {}).items():
+            comp = (c or {}).get("composite") or {}
+            if comp:
+                tc3g["trader_grades"][oid] = comp.get("grade")
+        for oid, c in (three.get("portfolio_cards") or {}).items():
+            comp = (c or {}).get("composite") or {}
+            if comp:
+                tc3g["portfolio_grades"][oid] = comp.get("grade")
+    g["three_card"] = tc3g
 
     # Paper progress per trader.
     paper = {}
@@ -259,6 +276,16 @@ def render(g):
     if g.get("probation"):
         L.append(f"- ×2 看护 probation（剃刀线员自动盯防）：{', '.join(g['probation'])}")
     L.append(f"- 评级单源=results/scorecard_v1.json（生成于 {g.get('scorecard_generated') or '缺件'}，月度重算先于 hr 月检）")
+    tc3g = g.get("three_card") or {}
+    if tc3g.get("calibrated"):
+        tgc = sorted(Counter((tc3g.get("trader_grades") or {}).values()).items())
+        pgc = sorted(Counter((tc3g.get("portfolio_grades") or {}).values()).items())
+        L.append("- 三卡面（T-63·校准后总分分级=SCORECARD_CALIB_P1 冻结带）：交易员 "
+                 + "、".join(f"{k}×{v}" for k, v in tgc)
+                 + "；组合 " + "、".join(f"{k}×{v}" for k, v in pgc)
+                 + "；单源=results/strategy_scorecard.json（评价≠门禁，晋升恒走 hr.py 冻结判据）")
+    else:
+        L.append("- 三卡面（T-63）：校准前读数卡（总分分级未启用；SCORECARD_CALIB_P1 冻结带跑批后启用）")
     L.append("")
 
     # 2) Portfolio layer.
@@ -431,6 +458,20 @@ def cmd_selftest():
         (td / "results" / "regime_state.json").unlink()
         txt2 = render(gather(td, month="202609", asof="2026-10-01 04:00"))
         check("missing regime file -> honest 缺件, no crash", "缺件" in txt2)
+        # T-63 three-card face: pre-calibration honest line (no file consumed).
+        check("three-card pre-calibration honest line", "校准前读数卡" in txt2)
+        # T-63 three-card face: calibrated branch renders grade rollup (K-63a).
+        (td / "results" / "strategy_scorecard.json").write_text(json.dumps({
+            "audit": {"calibration_consumed": True},
+            "trader_cards": {"T-A": {"composite": {"grade": "S"}},
+                             "T-B": {"composite": {"grade": "A"}}},
+            "portfolio_cards": {"P1": {"composite": {"grade": "A"}}},
+        }), encoding="utf-8")
+        g3 = gather(td, month="202609", asof="2026-10-01 04:00")
+        txt3 = render(g3)
+        check("three-card calibrated rollup (traders A×1、S×1 + portfolio A×1)",
+              "三卡面" in txt3 and "A×1、S×1" in txt3 and "组合 A×1" in txt3
+              and "SCORECARD_CALIB_P1 冻结带" in txt3)
     print(f"selftest: {ok[1]}/{ok[0]} PASS")
     return 0 if ok[1] == ok[0] else 1
 

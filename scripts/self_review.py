@@ -168,6 +168,7 @@ def sr2_kpi(base):
     ew6 = _read_json(base / "results" / "portfolio_ew6.json") or {}
     iv6 = _read_json(base / "results" / "portfolio_iv6.json") or {}
     sc = _read_json(base / "results" / "scorecard_v1.json") or {}
+    three = _read_json(base / "results" / "strategy_scorecard.json") or {}
     return {
         "traders_n": len(traders),
         "traders_ids": [p.stem for p in traders],
@@ -177,6 +178,8 @@ def sr2_kpi(base):
         "portfolio_ew6_sharpe": (ew6.get("portfolios") or ew6).get("sharpe_full") if isinstance((ew6.get("portfolios") or ew6), dict) else None,
         "portfolio_iv6_sharpe": (iv6.get("portfolios_iv") or iv6.get("portfolios") or iv6).get("sharpe_full") if isinstance((iv6.get("portfolios_iv") or iv6.get("portfolios") or iv6), dict) else None,
         "scorecard_best": sc.get("best") or (sc.get("summary") or {}).get("best"),
+        "three_card_calibrated": bool((three.get("audit") or {}).get("calibration_consumed")),
+        "three_card_vetoes": len(three.get("discipline_veto_hits") or {}),
     }
 
 
@@ -444,6 +447,7 @@ def render(d):
     L.append(f"- 在册交易员 {s2['traders_n']}（{', '.join(s2['traders_ids']) or '-'}）· 引擎账本 N={_f(s2['engine_ledger']['total'], 0)}（{s2['engine_ledger']['file']}）· 因子账本 N={_f(s2['factor_ledger']['total'], 0)}（{s2['factor_ledger']['file']}）")
     if s2["scorecard_best"]:
         L.append(f"- 记分卡最优：{s2['scorecard_best']}")
+    L.append(f"- 三卡面（T-63）：{'校准后总分分级已启用（SCORECARD_CALIB_P1 冻结带）' if s2.get('three_card_calibrated') else '校准前读数卡（总分分级未启用）'}；纪律否决 {s2.get('three_card_vetoes')}")
     pp = ", ".join(f"{x['id']} {x['months']}月" for x in s2["paper"]) or "-"
     L.append(f"- paper：{pp} · EW6 Sharpe {_f(s2['portfolio_ew6_sharpe'], 4)} · IV6 Sharpe {_f(s2['portfolio_iv6_sharpe'], 4)}")
     L.append("")
