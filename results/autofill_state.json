@@ -1,6 +1,28 @@
 {
  "launches": [
   {
+   "entry": "T54-GRID-LD",
+   "fill_latency_min": 80.7,
+   "machine": "bm-a",
+   "pid": 42640,
+   "py_cpu_pct": 0.0,
+   "shard": "legacy-lD",
+   "target_met": false,
+   "ts": "2026-09-25 12:40:01",
+   "verdict": "launched"
+  },
+  {
+   "entry": "T54-GRID-DB",
+   "fill_latency_min": 110.7,
+   "machine": "bm-b",
+   "pid": 16192,
+   "py_cpu_pct": 0.0,
+   "shard": "deep-dB",
+   "target_met": false,
+   "ts": "2026-09-25 13:10:02",
+   "verdict": "launched"
+  },
+  {
    "entry": "T54-GRID-DB",
    "fill_latency_min": 130.7,
    "machine": "bm-a",
@@ -507,17 +529,6 @@
    "target_met": false
   },
   {
-   "entry": "T54-GRID-LD",
-   "fill_latency_min": 80.7,
-   "machine": "bm-a",
-   "pid": 42640,
-   "py_cpu_pct": 0.0,
-   "shard": "legacy-lD",
-   "target_met": false,
-   "ts": "2026-09-25 12:40:01",
-   "verdict": "launched"
-  },
-  {
    "ts": "2026-09-25 23:50:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -538,24 +549,8 @@
    "pid": 4460,
    "fill_latency_min": 82.9,
    "target_met": false
-  },
-  {
-   "entry": "T54-GRID-DB",
-   "fill_latency_min": 110.7,
-   "machine": "bm-b",
-   "pid": 16192,
-   "py_cpu_pct": 0.0,
-   "shard": "deep-dB",
-   "target_met": false,
-   "ts": "2026-09-25 13:10:02",
-   "verdict": "launched"
   }
  ],
- "last_tick": {
-  "ts": "2026-09-26 01:40:01",
-  "machine": "bm-b",
-  "py_cpu_pct": 6.3,
-  "verdict": "pool_empty_or_busy"
- },
+ "last_tick": "{'ts': '2026-09-26 01:40:01', 'machine': 'bm-b', 'py_cpu_pct': 6.3, 'verdict': 'pool_empty_or_busy'}",
  "rebase_union_note": "r209 rebase union (bm-b): launches 50+50 -> 51 unique -> cap 50 rolling (oldest dropped); last_tick take-newer=2026-09-25 23:00:02 bm-a pool_empty_or_busy"
 }
