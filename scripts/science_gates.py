@@ -230,6 +230,25 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
             raise KeyError("passive block missing/empty in "
                           "options_wave2.json — schema drift, fix batch writer")
         return max(cands)  # strict = harder line
+    if pool == "bond_w3a":
+        # BOND_CARRY_WAVE3A additive pool (research/BOND_CARRY_WAVE3A_PREREG.md
+        # §4 工程腿): the in-domain passive (all ADV20>=500k members, cap-
+        # bounded EW, monthly rebalance) is the skill-line anchor the prereg
+        # names ("债券域 skill line 锚"); the 510300 buy-hold is the cross-
+        # asset disclosure anchor and deliberately NOT a line candidate. Read
+        # from this batch's own product file, honest KeyError until it exists
+        # (cta_futures run-first-then-read precedent; never borrows core48).
+        path = os.path.join(results_dir, "bond_carry_w3a.json")
+        if not os.path.exists(path):
+            raise KeyError(f"bond_w3a passive not on file yet ({path}) "
+                           "— run scripts/bond_carry_w3a.py first")
+        with open(path, encoding="utf-8") as fh:
+            pas = (json.load(fh).get("passive") or {})
+        sr = ((pas.get("passive_domain_ew") or {}).get("full") or {}).get("sharpe")
+        if isinstance(sr, (int, float)) and math.isfinite(sr):
+            return float(sr)
+        raise KeyError("passive_domain_ew.full.sharpe missing/empty in "
+                       "bond_carry_w3a.json — schema drift, fix batch writer")
     if pool == "t18_deep_axis":
         # T18_DEEP_REVAL additive pool (research/DEEP_AXIS_REVALIDATION.md SS3):
         # strict-max of the deep axis's OWN two passives (EW48 monthly rebal +
