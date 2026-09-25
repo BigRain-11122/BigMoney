@@ -7,9 +7,6 @@
 
 ### Project
 
-- [2026-09-25 13:30] 执行 R162（bm-a OS 轮·dept:研究+组合与资金+工程）：T-58 s2 广泛激进族构建+首判决批全弧——15 新变体六轴预注册冻结（research/AGGR_FAMILY_PREREG.md·19 sha 门=17 向量+2 轮动规则·冻结 commit d860a4bc 先于跑批 R99·s1 六范式调研 R160/161 消费零重复）+runner family 子命令（build_family_weights/_legs_blend/_rotation_blend·selftest 25/25 含新 F12-F15）+首判决批（results/aggressive_family.json·8.6s·300 格 ledger 61115→61415）：13/15 J 线三过、REG3=集中面最优存活（三过+bull 增量 +19.3pp+12m 0.5828=三军种令族内镜像实证）、TOP3 天花板 +4.66% dd −2.0%、轮动轴=负信号（MON −5.60% 三线全破·dd 9.34% 破 8% 预估异常面如实报）→轮动两面禁入锦标赛池；12m pooled 0.507-0.616 高于正典 0.4854 记录线（CE-6 近似口径·预测✗如实记）；零采纳零接线（双轨制）。S0 三波 rebase 撞车分级配方三解+MSG-1321 bm-b 池提交已读归档+S6 20 腿全绿+S7 心跳 epoch 1790314144↔13:29:04 自洽。详录=round_reports-bm-a.md R162 行
-
-- [2026-09-25 2026-09-25 13:51] 执行 R163（bm-a OS 轮·dept:组合与资金+工程+舰队）：T-58 s3 纸盘接线 LIVE（CEO O-1138 s3）——20 账户 AGGR-* 族上线（5 T-56+15 family 一白名单一机制、fresh-skip 保 T-56 字节稳定、family cap=1.0 §6 冻结、三面型 _family_daily_rets、selftest 32/32 含 F16-F18 生产配对腿）+首日 marks 15 新件落盘至 2026-09-24（幂等验证、族内读数 -0.018%~-0.337%）；C8 治理三手术：deep-dC flip done（r180 先例·本机 12:50 tick 原始跑 marker 12:53:27 16588/16588·launches 记录 rebase 丢失 2 条如实报）+deep-dD claim-first 全弧闭环（预认领 13:47:38→13:50 tick 发射→13:52:32 done 16500/16500→当轮翻面=T54 deep 轴 4/4 全量完成 66264 cells）+P0 修复 _hb_age_min ISO 格式配对盲死（生产心跳=T-04 ISO vs legacy strptime=接管门心跳腿整体盲死、13:40:01 dC 接管窗根因；双格式解析+夹具生产 ISO 化+S13 三腿、autofill selftest 16/16、生产实证 bm-b 13.0min/bm-c 958.8min 掉线如实）+MSG-1350 bm-b；S6 20 腿全绿（regime ORANGE d2 shadow、盘前 no-op 面、t35/scorecard 幂等）；smoke 23/23；orders 双扫 71/71 零未回执；P-32 零新动作。详录=round_reports-bm-a.md R163 行
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
 
@@ -84,8 +81,6 @@
 - [2026-09-25 12:0x] 坑律（bm-b r176·rebase 自检断言面·r153/r131 行首锚定第三面）：**冲突解自检断言 `assert '<<<<<<<' not in 全文` 会被记忆条目内嵌的 marker 字面量（坑律引用正则的原文，如 r148/r133 条目）假阳拦截**——r153「marker 计数行首锚定」律同源适用于一切 marker 自检面（计数/断言/扫描）：一律行首锚定 startswith(('<<<<<<<','=======','>>>>>>> '))，禁全文子串断言。连带：pandas 3.0 CoW 下 .values 返回只读数组（np.fill_diagonal 直接报 ValueError），in-place 操作须 to_numpy()+mask 或显式副本（r139 CoW 族 .values 新变体）。
 
 - [2026-09-25 12:1x] 坑律（bm-a R159·r175 律传播窗残留·同窗双发三度实证）：**owner 写池在轮频（10min）而 autofill tick 在分频——修复后双机同秒各发同分片仍结构性复发**（12:00:01 bm-a vs 12:00:02 bm-b 双机各全量跑完 legacy-lA 13816 cells 181s/170s 级实证，确定性重算零科学影响、181s×25workers 算力浪费如实记）；bm-b 12:10:02 又自占重复点火 lA=池 done 标记滞后轮频的 resume no-op 残留。正解=r170 claim-first 前置到池分片面：**发射 tick 前预认领 owner+push（本机 12:17 lC 首例 fcb7df55），他机 _pick 见 fresh owner 让位直达下一分片**；残余=单周期 50/50 推送竞速窗（对方 S0 拉取先于我方推送则本周期仍撞），损失上限=1 分片/箱/周期。指针=round_reports-bm-a.md R159 行
-
-- [2026-09-25 12:18] 执行 R159（bm-a OS 轮·dept:工程+舰队）：T-54 池供给修复实证三连——lA 本机全量 13816/181.2s（修复 5e3f14fb 在 R158 树内 merge-base 实证）+lB 按律 owner 写池 f41eb07e→done f12931be（170.5s）+lC r170 claim-first 预认领 fcb7df55 备 12:20 tick；D-20260925-10 涉例回执（①P-49 装机=bm-c 14.3h 掉线跨机物理受阻 PT-05 归目标机执行体 ②主活保主不变 ④BG-B/C 池零动作）+D-08/09/11 不涉例零动作；S1 smoke 23/23+S6 18 腿全绿+orders 双扫 71/71。详录=round_reports-bm-a.md R159 行
 
 - [2026-09-25 12:37] 事实律（bm-b r177·P-32 决策审核步物理面）：**集团决策台账 decisions.md 在 bm-b 机不存在（..\..\docs Test-Path=False 实测；E:\Minigame 全树与 K: 面亦无）=bm-a 机本地面**——bm-b 每轮 P-32 步零直读面，正解=依同仓共享证据（bm-a 轮报告 D-* 回执行+orders/MSG 落地面）判涉例与零动作，禁伪造直读；固化本条=省每轮全盘搜索 ~8 探针（r177 实烧）。指针=round_reports.md r176/r177 行
 
