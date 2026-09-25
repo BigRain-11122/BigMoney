@@ -1,17 +1,17 @@
 {
- "round_no": 177,
+ "round_no": 178,
  "did": [
-  "T-54 pool lane triple: lA done owner-write (13816/13816 local verified, artifact-mtime 12:09:49; 12:10/12:20 relaunch root-cause closed) + lD pre-claim r170 claim-first (12:23:21) fired 12:30:02 live (dual-tick race face eliminated, bm-a r159 watch point answered) + lD done owner-write (13816/13816, ~6.5min, mtime 12:36:13)",
-  "T-59 s3 runner + pool: scripts/alloc_backtest.py selftest 19/19; pool ALLOC-LINE-S2 shard alloc-0of1 owner bm-b pre-claim; F-04 MSG-20260925-1232; P5 510880 off-hours pull leg pending (15:30+)",
-  "S0.5 orders double-scan 71/71 clean; P-32 decisions.md absent on bm-b -> D-08/09/11 zero-action + D-10 receipt via bm-a R159 shared evidence",
-  "S6 18 legs green (no new bar pre-15:30; lane guards honest no-ops; audit cap_violation = lD burn transient, self-cleared py 2.7% after)"
+  "pool triple surgery: deep-dA stale-owner takeover 12:40:02 -> done 12:51:16 (16588/16588 cells, 671.4s); dB/dC/dD claim-first pre-claims; ALLOC priority 0 bump (CEO-immediate 1-worker non-blocking)",
+  "autofill owner_since-freshness patch (selftest 11/11, new S9/S10): control-plane claim-stamp = proof of life, long-round heartbeat lag no longer misreads as dead",
+  "T-60 s3 delivered: research/midfreq/MF_ROT_S1_PREREG.md frozen (4 cells = zoo #81/#82/#83 base encodings, V2+turnover budget+O-1532 13 vstarts+G1'v2/G2; §9 anti-dup boundaries; universe probe facts in §2)",
+  "S6 18 legs green pre-15:30 (regime ORANGE d2 shadow); orders 71/71 double-scan clean; bm-a r160 branch = keep-alive item left for self-heal (r123 law)"
  ],
- "verdict": "GREEN loaded_ok (probe 12:35:55 avg_py 84.2% lD 12-worker BelowNormal burn; post-burn 2.7%); T54 legacy grid 4/4 shards done (lA/lB/lC/lD 55264 cells, dual-fire waste disclosed per bm-a R159)",
- "next": "12:40+ tick: ALLOC-LINE-S2 batch fire -> harvest interim 6-cell results; 15:30+ legs: 09-25 bar full chain (daily->paper enforce->t24x2->aggr->t35->scorecard) + P5 510880 off-hours pull leg -> alloc rerun finalize 7/7 + ledger; T-60 s2/s3 faces; T-54 deep shards dA(bm-a in-flight)+dB/dC/dD pre-claim sequence; bm-c revival watch",
- "last_round_ts": "2026-09-25 12:37:12",
+ "verdict": "GREEN loaded_ok: deep-dA done (takeover, dual-fire window disclosed); deep grid 3 shards pre-claimed serial; ALLOC priority-0 queued first free tick; MF_ROT_S1 prereg frozen = mid-freq line first batch ready for runner next round",
+ "next": "13:00 tick fires dB (12w ~12min); ALLOC ~13:20 interim 6-cell harvest; dC/dD serial; MF runner + SEED_REGISTRY 59_000 + F-04 MSG + pool entry; 15:30+ first 09-25 bar full chain + P5 510880 off-hours pull -> ALLOC rerun finalize 7/7 + ledger; T-60 s2 CB off-hours probes; bm-a r161 return watch (branch self-heal) + bm-c revival watch",
+ "last_round_ts": "2026-09-25 12:59:28",
  "last_result": "ok",
- "current_task": "r177 done: T-59 s3 runner+pool delivered (selftest 19/19); T-54 lA+lD done owner-writes; next: ALLOC harvest + P5 pull",
- "last_tick": "2026-09-25 12:37",
- "updated_at": "2026-09-25 12:37:12",
- "last_seen": "2026-09-25 12:37:12"
+ "current_task": "r178 done: dA takeover+done owner-write; dB/dC/dD pre-claims; ALLOC prio-0; autofill owner_since patch 11/11; MF_ROT_S1 prereg frozen (T-60 s3); next: MF runner + ALLOC harvest + deep serial burns",
+ "last_tick": "2026-09-25 12:59",
+ "updated_at": "2026-09-25 12:59:28",
+ "last_seen": "2026-09-25 12:59:28"
 }

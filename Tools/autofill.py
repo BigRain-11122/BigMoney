@@ -99,6 +99,31 @@ def _hb_age_min(machine_id):
         return None
 
 
+def _since_age_min(shard):
+    """Age (minutes) of a shard's owner_since claim-stamp; None if absent.
+
+    r178 bm-b: owner_since is a control-plane proof of life (the pre-claim
+    commit push). A machine mid-LONG-round only writes its heartbeat at
+    round end (S7), so heartbeat age alone misreads a live owner as
+    stale (12:40 deep-dA false-takeover live-fire) and causes same-tick
+    dual burns."""
+    s = shard.get("owner_since")
+    if not s:
+        return None
+    try:
+        return (datetime.now() - datetime.strptime(
+            s, "%Y-%m-%d %H:%M:%S")).total_seconds() / 60.0
+    except Exception:
+        return None
+
+
+def _owner_age_min(owner, shard):
+    """Effective owner freshness = freshest of heartbeat / claim-stamp."""
+    ages = [a for a in (_hb_age_min(owner), _since_age_min(shard))
+            if a is not None]
+    return min(ages) if ages else None
+
+
 def _runner_alive(runner_rel):
     """True if a python process is already running this entry's runner."""
     import psutil
@@ -152,7 +177,7 @@ def _pick(pool, myid):
         for sh in e.get("shards", []):
             ow = sh.get("owner")
             if ow and ow != myid:
-                age = _hb_age_min(ow)
+                age = _owner_age_min(ow, sh)
                 if age is not None and age < STALE_MIN:
                     _log(f"skip {e['id']}/{sh['key']}: owner {ow} "
                          f"fresh ({age:.0f}min)")
@@ -322,6 +347,28 @@ def selftest():
         rc = tick(dry=True)
         ok("S6 fresh owner skip",
            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+        # S9 owner_since freshness (r178): hb stale but claim-stamp fresh
+        # -> skip (no false takeover of a live long-round owner)
+        with open(os.path.join(MACHINES, "bm-z.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"last_seen": "2026-09-24 18:00:00"}, fh)
+        ent3 = dict(entry, shards=[{"key": "s0", "status": "ready",
+                                    "owner": "bm-z",
+                                    "owner_since": _now()}])
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [ent3]}, fh)
+        rc = tick(dry=True)
+        ok("S9 owner_since fresh -> skip (no false takeover)",
+           _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+        # S10 both stale -> takeover still legal (dead-owner regression)
+        ent4 = dict(entry, shards=[{"key": "s0", "status": "ready",
+                                    "owner": "bm-z",
+                                    "owner_since": "2026-09-24 18:00:00"}])
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [ent4]}, fh)
+        rc = tick(dry=True)
+        ok("S10 both-stale takeover (dead-owner regression)",
+           _load_state()["last_tick"]["verdict"] == "dry_launch")
         # S8 O-2130 multi-core law: no workers_plan -> skip
         nowp = dict(entry, shards=[{"key": "s0", "status": "ready",
                                     "owner": None}])

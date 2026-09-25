@@ -12,6 +12,8 @@
 - [2026-09-25 11:26] 执行 O-20260925-1137（CPU 满载重申令·T2）：T-55 done（本机·第七旗 pool_starvation+自检 11/11+COMPUTE_AUDIT v2.2 §八+dashboard 满载面）；实况池 ready=0+py<1%=idle-starvation 态已上 CEO 面；30min 水位回查=下轮验收面（T-54 入池翻 ready 即达标）；bm-c 掉线>13h 接管窗评估照旧。详录=round_reports-bm-a.md R156。
 - [2026-09-25 11:54] 执行 O-20260925-1145+O-20260925-1152（CEO 双令·资产组合研究部成立+多维产品矩阵正典 PRODUCT_MATRIX v1.0）：T-59+T-60 同轮认领锁（claim commit 873f9b94 origin 在册；撞车裁定=bm-a r157 %ci 11:42:56 先到但树实况只回执未认领、我方 11:43:35 claim 推 11:52 成功保双票）+s1 slice-1 双交付（research/allocation/ALLOCATION_RESEARCH.md 七范式+工具实读审计；research/digests/DIGEST-20260925-matrix-gap-dims-s1.md 转债 9 函数面审计+T-47 波-6 收敛消费=T-60 s3 物理依赖解除）。详录=round_reports.md r175 行。
 
+- [2026-09-25 12:59] 执行 r178（bm-b·dept:研究+工程+舰队）：T-60 s3 中线摆动首批轮动批预注册冻结（research/midfreq/MF_ROT_S1_PREREG.md·4 格=zoo #81/#82/#83 新写族基础编码 SR2/SR2W/DM/GEM·wave-1 采纳路径消费 V2 成本+换手预算条款+O-1532 13 虚拟起点+G1'v2/G2 共享库·§9 反重复边界）+池面三手术（deep-dA 12:40 stale-owner 接管→12:51:16 done 16588/16588 cells·同窗双烧窗如实披露；dB/dC/dD claim-first 预认领；ALLOC-LINE-S2 优先级 0 bump=CEO-immediate 1-worker 非阻塞）+autofill owner_since 活性补丁（selftest 11/11 含新 S9/S10）+S6 18 腿绿（regime ORANGE d2 shadow）+orders 71/71 双扫零未回执。详录=round_reports.md r178 行
+
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
 
@@ -92,3 +94,4 @@
 - [2026-09-25 12:37] 事实律（bm-b r177·P-32 决策审核步物理面）：**集团决策台账 decisions.md 在 bm-b 机不存在（..\..\docs Test-Path=False 实测；E:\Minigame 全树与 K: 面亦无）=bm-a 机本地面**——bm-b 每轮 P-32 步零直读面，正解=依同仓共享证据（bm-a 轮报告 D-* 回执行+orders/MSG 落地面）判涉例与零动作，禁伪造直读；固化本条=省每轮全盘搜索 ~8 探针（r177 实烧）。指针=round_reports.md r176/r177 行
 
 - [2026-09-25 12:37] 坑律（bm-b r177·S6 链调用面·r130 PS 族新例）：**PS 数组腿元素含空格（"scripts\py_watermark.py probe"）经 foreach 整元素传 python=单参 -> can't open file 假 rc=2**（watermark probe 被误报「采样失败」，实为调用层病非机制病）；正解=命令与参数分列（$l.Split(' ')）或逐腿显式调用；S6 批量跑腿 exit code 归因前先排除调用层假红。指针=round_reports.md r177 行
+- [2026-09-25 12:59] 坑律（bm-b r178·C8 接管面·r159/r175 族新例）：**认领机长轮心跳滞后≠死机——stale-owner 接管门必须以 owner_since（池控制面预认领时间戳）与心跳双源取新判活性**（12:40 实弹：bm-a 预认领 12:31:05 仅 9min 新但心跳 12:18:05=22min 旧→我机按 schema 合法接管 deep-dA→同窗双烧可能=r159 残余 50/50 面的活性误判根因版）；修=Tools/autofill.py `_owner_age_min=min(hb_age, since_age)`+selftest S9/S10（hb 旧+claim 新→skip 防假接管 / 双旧→接管仍合法防死机漏接管），11/11 绿。连带：接管发射机当轮必写池 owner/owner_since+push（r175 律正用闭环）；done 证据=runner done marker 真实 ts（r62 artifact-mtime 律）。

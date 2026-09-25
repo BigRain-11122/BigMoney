@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-25 12:44:19",
+ "updated_at": "2026-09-25 12:57:56",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -439,17 +439,17 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "running",
+   "status": "done",
    "entered_at": "2026-09-25 11:19:22",
    "data_gates": "in-runner: per-member anchor gate (FAIL=excluded+disclosed) + census re-derive vs prereg s2 + panel cutoff; deep=t18 sha-gated panel (1506 canon match); legacy=core48 local CSVs zero Money02 contention",
    "shards": [
     {
      "key": "deep-dA",
-     "status": "running",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-25 12:40:02",
      "checkpoint": "results/t54/cells_deep_base_dA.jsonl + cells_deep_x2_dA.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "TAKEOVER r178 bm-b @ 12:40:02 tick per pool-schema stale-owner rule (bm-a hb 12:18:05 = 22min stale at tick; runner pid 3440 12 workers BelowNormal; original pre-claim bm-a R160 @12:31:05 preserved in history). Dual-fire window disclosed: bm-a local pool at its own 12:40 tick still showed owner=bm-a -> same-tick dual burn possible (r159 residual 50/50 push-race face); deterministic idempotent, zero scientific impact, waste as-found in autofill_state launches"
+     "note": "DONE r178 bm-b owner-write: done_deep_dA.json marker real ts 12:51:16 (r62 artifact-mtime law): 16588/16588 cells (8294 base + 8294 x2 rows verified), 1506 eligible positions, 22 members, anchor_excluded=0, runtime 671.4s on 12 BelowNormal workers (fired 12:40:02 via stale-owner takeover of bm-a pre-claim 12:31:05). Dual-fire window disclosed: bm-a local pool at its own 12:40 tick still showed owner=bm-a -> same-tick dual burn on bm-a possible (r159 residual 50/50 face); deterministic idempotent, zero scientific impact; autofill owner_since-freshness patch r178 closes the false-takeover class (S9/S10 selftest)"
     }
    ],
    "workers_plan": {
@@ -524,10 +524,10 @@
     {
      "key": "deep-dC",
      "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 12:56:56",
      "checkpoint": "results/t54/cells_deep_base_dC.jsonl + cells_deep_x2_dC.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [754,1131) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+     "note": "22 PROSPECT members x positions [754,1131) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min; pre-claim r170 claim-first by bm-b r178 @ 2026-09-25 12:56:56 (serial lane after dB; fire expected 13:20 tick when py frees)"
     }
    ],
    "workers_plan": {
@@ -563,10 +563,10 @@
     {
      "key": "deep-dD",
      "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-b",
+     "owner_since": "2026-09-25 12:56:56",
      "checkpoint": "results/t54/cells_deep_base_dD.jsonl + cells_deep_x2_dD.jsonl (row-level done-key resume, t22 protocol)",
-     "note": "22 PROSPECT members x positions [1131,1506) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min"
+     "note": "22 PROSPECT members x positions [1131,1506) x {base,x2} x 3 windows; single-writer=this shard; takeover=stale>20min; pre-claim r170 claim-first by bm-b r178 @ 2026-09-25 12:56:56 (serial 12-worker lane after dC; ALLOC-LINE-S2 priority-bumped to 0 by r178 so the 1-worker CEO-immediate batch fires first and coexists with these burns without blocking them)"
     }
    ],
    "workers_plan": {
@@ -605,7 +605,7 @@
     "run"
    ],
    "lane_owner": "bm-b",
-   "priority": 1,
+   "priority": 0,
    "status": "ready",
    "entered_at": "2026-09-25 12:32:26",
    "data_gates": "in-runner: panel completeness >=95% non-null per asset at cutoff 2026-09-22 (VOID exit 2) + determinism byte-identity (selftest 19/19 green r177) + P5 presence check data/ext_slots/etf_daily/510880.csv (absent/window-inadequate = honest 6-cell interim, no ledger)",
@@ -616,7 +616,7 @@
      "owner": "bm-b",
      "owner_since": "2026-09-25 12:32:26",
      "checkpoint": "results/alloc_s2_cells/<cell>.json (per-cell config-sha keyed resume; finalize reads checkpoints never in-memory, T-33 law)",
-     "note": "pre-claim r170 claim-first (fire expected next tick after T54-lD completes); single-writer; takeover=stale>20min; deterministic rerun byte-identical (idempotent interim overwrite until P5 lands)"
+     "note": "pre-claim r170 claim-first by bm-b (12:32:26); priority bumped 1->0 by r178 bm-b (CEO-immediate O-1145 + 1-worker non-blocking: fires at first free tick ~13:20 and coexists with T54 deep 12-worker burns); single-writer; takeover=stale>20min; deterministic rerun byte-identical (idempotent interim overwrite until P5 lands)"
     }
    ],
    "workers_plan": {
