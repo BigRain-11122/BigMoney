@@ -77,6 +77,18 @@
   超 1e8 相对真分歧仍 mismatch 拦截 + rank 面同律两例）20/20 全绿。写盘格式 %.10g 不变=
   在飞首拉进程（已载入旧码）零影响、respawn 亦安全（新码只放宽假 mismatch 面）。证据
   =scripts/update_moneyflow.py WRITTEN_LAW_TOL+_overlap_tol+selftest S4b/S4c（bm-a R222）。
+  **R226 落点勘误注记（open item ④ 真收口·零判据面触碰）**：R222 注记的收口落点=EM 族
+  兄弟 update_moneyflow.py（merge_incremental+rank_merge_one+S4b/S4c），而本 open item
+  点名的病灶文件=sina 采集器 scripts/update_sina_mf.py（netamount/月度复拉/stale>20td
+  语义）——同族两文件缺陷同构，R222 只修前者，sina 本体 merge_incremental 绝对 tol=1.0
+  仍潜伏（首拉在飞无 overlap 面未触发；诚实收口错位，本轮勘误）。R226 移植同配方落
+  sina 本体：WRITTEN_LAW_TOL=1e-8+_overlap_tol 有效容差=max(PRIMARY_TOL, 1e-8×scale)，
+  写盘 %.10g 不变（在飞首拉进程已载旧码零影响、respawn 安全）；selftest 新增 S5b/S5c
+  （EM S4b/S4c 镜像：1e10 行 %.10g 写盘 vs 新源值合并通过〔旧码假冻结翻案〕+5e9 真分歧
+  仍拦+源面 1e-3 绝对记账门不随量纲放宽）全绿；直探实锤=旧绝对面在 2.34 元漂移上必假
+  mismatch、新界 123.46 元覆盖。教训=**修正案收口注记必须核验落点文件=病灶文件本体，
+  同族兄弟修复≠病灶收口**。证据=scripts/update_sina_mf.py
+  WRITTEN_LAW_TOL+_overlap_tol+selftest S5b/S5c（bm-a R226）。
 - 档位阈值官方文档（sina 页面 JS/帮助面）→ 外源扫描常态线下批收口（O-1721）；
   收口前消费面档位语义=UNDOCUMENTED 诚实标注。
   **R224 批腿注记（ADVANCED-PARTIAL·零判据面触碰）**：sina 官方行情页 JS

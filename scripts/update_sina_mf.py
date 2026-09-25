@@ -26,8 +26,9 @@ Semantics (update_futures / update_moneyflow family):
   COLLAPSE_TOL; violating rows are REJECTED (not booked) and counted honestly;
   rows with netamount but any missing tier_net cannot verify -> conservative
   rejection (no fabrication), counted separately as unverifiable
-- append-only; overlap verified on PRIMARY (netamount, tol 1.0 yuan); mismatch
-  -> that symbol's local file NOT touched, counted (final refresh exit 3 face)
+- append-only; overlap verified on PRIMARY (netamount, effective tol =
+  max(1.0, 1e-8 x scale) -- %.10g written-face law, see WRITTEN_LAW_TOL);
+  mismatch -> that symbol's local file NOT touched, counted (final refresh exit 3 face)
 - completeness guard: rows dated today only persist after 15:30 local
   (local ETF trading calendar primary via data/daily/510300.csv, weekday
   fallback -- update_lhb/update_futures precedent)
@@ -98,6 +99,24 @@ MAX_ROWS = 110                  # num=100 source window + slack
 MIN_SPAWN_S = 30 * 60           # spawn throttle (gate self-heal window)
 STALE_TD = 20                   # backfill trigger: panel age in trading days
 BODY_CAP = 400_000              # bytes read cap (100 rows ~ 20KB, generous)
+
+# R221 open-item-4 fix (prereg s5 amendment, scaled-tol option; ported to this
+# collector R226 -- the R222 landing closed the EM sibling update_moneyflow.py
+# first, this file is the sina collector named by the disclosure): local bytes
+# are %.10g projections, so |netamount|>=1e10 rows carry up to ~5 yuan write
+# drift that an absolute 1.0-yuan overlap tol would flag as false mismatch ->
+# symbol frozen on first re-pull (~2026-10-27). Effective overlap tol =
+# max(PRIMARY_TOL, WRITTEN_LAW_TOL * scale) -- same two-face law family as
+# sina_mf_accept.py (source-face 1e-3 absolute booking gate unchanged;
+# written-face 1e-8 x scale, %.10g single-field bound 5e-10 x |v|, 20x
+# headroom).
+WRITTEN_LAW_TOL = 1e-8
+
+
+def _overlap_tol(lv, sv, tol=PRIMARY_TOL):
+    """Scale-aware overlap tolerance: written-face %.10g drift is relative,
+    so the absolute floor binds only small-magnitude rows."""
+    return max(tol, WRITTEN_LAW_TOL * max(abs(float(lv)), abs(float(sv))))
 
 
 def _clear_proxy_env():
@@ -344,7 +363,9 @@ def validate_rows(rows):
 
 def merge_incremental(local_rows, source_rows, primary=PRIMARY, tol=PRIMARY_TOL):
     """Append-only merge; overlap compared on `primary` only (other cols are
-    provenance, source may re-adjust them). Mismatch -> merged=False."""
+    provenance, source may re-adjust them). Mismatch -> merged=False.
+    Two-face tol: local bytes are %.10g projections -- big-magnitude rows
+    carry relative write drift (see WRITTEN_LAW_TOL)."""
     local_by_date = {str(r[DATE_KEY]): r for r in local_rows}
     mismatch, overlap = None, 0
     for r in source_rows:
@@ -356,7 +377,8 @@ def merge_incremental(local_rows, source_rows, primary=PRIMARY, tol=PRIMARY_TOL)
         lv, sv = loc.get(primary), r.get(primary)
         if lv is None and sv is None:
             continue
-        if lv is None or sv is None or abs(float(lv) - float(sv)) > tol:
+        if lv is None or sv is None or \
+                abs(float(lv) - float(sv)) > _overlap_tol(lv, sv, tol):
             mismatch = d
             break
     if mismatch:
@@ -795,6 +817,35 @@ def _selftest():
     # S7 merge idempotency: rerun on merged output -> zero appended
     res3 = merge_incremental(res["merged_rows"], src)
     assert res3["merged"] and res3["appended"] == 0
+    # S5b big-magnitude written-face (R221 open-item-4 port, EM S4b mirror):
+    # %.10g-written local vs fresh source at 1e10 scale merges (pre-fix this
+    # was a false mismatch -> symbol frozen on first re-pull); real divergence
+    # far beyond the written-face bound still mismatches.
+    big_src = 12345678912.34
+    big_written = float(f"{big_src:.10g}")          # projection drift ~2.3 yuan
+    assert abs(big_written - big_src) > PRIMARY_TOL  # drift exceeds abs floor
+    local_big = [{DATE_KEY: "2026-09-01", PRIMARY: big_written, "trade": 10.0}]
+    src_big = [{DATE_KEY: "2026-09-01", PRIMARY: big_src, "trade": 10.0},
+               {DATE_KEY: "2026-09-02", PRIMARY: -2222.0, "trade": 10.5}]
+    res_big = merge_incremental(local_big, src_big)
+    assert res_big["merged"] and res_big["appended"] == 1           # fixed face
+    src_div = [{DATE_KEY: "2026-09-01", PRIMARY: big_src + 5.0e9, "trade": 10.0}]
+    assert not merge_incremental(local_big, src_div)["merged"]      # real revision caught
+    # S5c two-face separation: source-face booking gate (COLLAPSE_TOL 1e-3
+    # absolute) is NOT scale-relativized by the port -- a 1e10-scale row whose
+    # tiers miss netamount by 1 yuan is still rejected; a law-consistent big
+    # row books through unchanged at source face.
+    bad_big = {"opendate": "2026-09-22", "trade": "1", "changeratio": "0",
+               "turnover": "1", "netamount": f"{big_src:.4f}", "ratioamount": "0",
+               "r0": "1", "r1": "1", "r2": "1", "r3": "1",
+               "r0_net": f"{big_src + 1.0:.4f}", "r1_net": "0", "r2_net": "0",
+               "r3_net": "0"}
+    _, rej_big = rows_from_source([bad_big])
+    assert rej_big == 1             # 1-yuan tier miss at 1e10 scale still rejected
+    ok_big = dict(bad_big)
+    ok_big["r0_net"] = f"{big_src:.4f}"
+    clean_big, rej_big2 = rows_from_source([ok_big])
+    assert rej_big2 == 0 and abs(clean_big[0][PRIMARY] - big_src) < 1e-3
     # S8 csv roundtrip (raw-ASCII schema, utf-8 no BOM)
     text = rows_to_csv_text(local)
     assert text.splitlines()[0] == DATE_KEY + "," + ",".join(FLOW_COLS)
