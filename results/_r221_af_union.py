@@ -9,7 +9,8 @@ r185/r188/r208/r220 authoritative recipe:
 - launches: identity-dedupe union, keep last 50 (rolling cap design)
 - last_tick: newer ts wins, same-second tie -> base (r140); stays dict (r203)
 - base key order preserved (r209 producer-canonical: indent=1,
-  ensure_ascii=False, no foreign keys); scalar diffs disclosed
+  ensure_ascii=False, no foreign keys; line endings mirror base blob
+  -- CRLF watchdog-producer style preserved, r223 catch); scalar diffs disclosed
 - parse-validated BEFORE any git add (r185)
 """
 import json, subprocess, io, sys
@@ -19,9 +20,17 @@ def blob(spec):
                          capture_output=True, check=True).stdout
     return json.loads(raw.decode("utf-8"))
 
+def raw_blob(spec):
+    return subprocess.run(["git", "show", spec],
+                          capture_output=True, check=True).stdout
+
 base_spec, inc_spec = sys.argv[1], sys.argv[2]
 base = blob(base_spec)
 inc = blob(inc_spec)
+# r209 producer-format law: mirror the surviving base's line-ending style
+# (watchdog producer writes CRLF on Windows; LF write = whole-file format
+# flip on the next producer tick -- r223 catch)
+CRLF = b"\r\n" in raw_blob(base_spec)
 
 out = {}                      # base key order first (r209 origin key order)
 for k in base:
@@ -63,7 +72,7 @@ payload = json.dumps(out, ensure_ascii=False, indent=1)
 parsed = json.loads(payload)                       # parse-validate (r185)
 assert isinstance(parsed["last_tick"], dict), "last_tick must stay dict (r203)"
 with io.open("results/autofill_state.json", "w", encoding="utf-8",
-             newline="") as f:
+             newline=("\r\n" if CRLF else "")) as f:
     f.write(payload)
 print("union: launches", len(base.get("launches", [])), "+",
       len(inc.get("launches", [])), "->", len(out["launches"]),

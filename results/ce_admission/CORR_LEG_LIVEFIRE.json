@@ -1,0 +1,1014 @@
+{
+ "batch": "CORR-LEG-LIVEFIRE",
+ "class": "machinery-check (judgment layer only; zero engine, zero ledger, zero gates consumed; NOT an admission batch)",
+ "rule": "research/CE_ADMISSION_V1.md",
+ "ticket": "T-2026-09-25-54",
+ "generated": "2026-09-26T04:36:36+08:00",
+ "fixtures_face": "synthetic deterministic modular patterns (corr_watch selftest style); no real data face -- evidence_cutoff n/a for machinery-check class",
+ "machinery_note": "all corr math via ew6_portfolio.corr_block (corr-watch sec.2 verbatim); construction = normalize -> join inner -> pct_change -> per-face mask; IS2 = live.paper.OOS_START",
+ "production_first_trigger": "awaits first candidate clearing precheck+G1'v2+G2+MW (B1 max 0.5876 < 0.70); batch B2 wires pair_faces/batch_evaluate to real x1 sleeves under its own frozen prereg",
+ "fixture_verdicts": {
+  "candidates": {
+   "SYN-CAND-HIGH": {
+    "candidate": "SYN-CAND-HIGH",
+    "member_face": {
+     "verdict": "REJECT",
+     "max_abs_corr": 0.9768,
+     "argmax": {
+      "vs": "SYN-M1",
+      "face": "full_rw",
+      "corr": 0.9768
+     },
+     "short_legs": [],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.9768
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.9767
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0018
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0031
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0024
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0101
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0035
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0023
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0022
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0033
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0054
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0028
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "REJECT",
+    "reason": "member_face",
+    "dedup_loser": false
+   },
+   "SYN-CAND-LOW": {
+    "candidate": "SYN-CAND-LOW",
+    "member_face": {
+     "verdict": "PASS",
+     "max_abs_corr": 0.0196,
+     "argmax": {
+      "vs": "SYN-M5",
+      "face": "is2",
+      "corr": 0.0196
+     },
+     "short_legs": [],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.002
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0009
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0028
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0106
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.003
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0121
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0054
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0077
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0003
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0196
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0067
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0082
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "PASS",
+    "reason": "member_face",
+    "dedup_loser": false
+   },
+   "SYN-CAND-SHORT": {
+    "candidate": "SYN-CAND-SHORT",
+    "member_face": {
+     "verdict": "DEFERRED",
+     "max_abs_corr": 0.0174,
+     "argmax": {
+      "vs": "SYN-M6",
+      "face": "full_rw",
+      "corr": 0.0174
+     },
+     "short_legs": [
+      {
+       "vs": "SYN-M1",
+       "face": "is2",
+       "n_bars": 0
+      },
+      {
+       "vs": "SYN-M2",
+       "face": "is2",
+       "n_bars": 0
+      },
+      {
+       "vs": "SYN-M3",
+       "face": "is2",
+       "n_bars": 0
+      },
+      {
+       "vs": "SYN-M4",
+       "face": "is2",
+       "n_bars": 0
+      },
+      {
+       "vs": "SYN-M5",
+       "face": "is2",
+       "n_bars": 0
+      },
+      {
+       "vs": "SYN-M6",
+       "face": "is2",
+       "n_bars": 0
+      }
+     ],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 519,
+        "corr": -0.0075
+       },
+       "is2": {
+        "n_bars": 0,
+        "corr": null
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 519,
+        "corr": 0.0035
+       },
+       "is2": {
+        "n_bars": 0,
+        "corr": null
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 519,
+        "corr": 0.0009
+       },
+       "is2": {
+        "n_bars": 0,
+        "corr": null
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 519,
+        "corr": -0.0087
+       },
+       "is2": {
+        "n_bars": 0,
+        "corr": null
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 519,
+        "corr": -0.0088
+       },
+       "is2": {
+        "n_bars": 0,
+        "corr": null
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 519,
+        "corr": 0.0174
+       },
+       "is2": {
+        "n_bars": 0,
+        "corr": null
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "DEFERRED",
+    "reason": "short_member_leg",
+    "dedup_loser": false
+   },
+   "SYN-CAND-CONV": {
+    "candidate": "SYN-CAND-CONV",
+    "member_face": {
+     "verdict": "REJECT",
+     "max_abs_corr": 0.9812,
+     "argmax": {
+      "vs": "SYN-M2",
+      "face": "is2",
+      "corr": 0.9812
+     },
+     "short_legs": [],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 2799,
+        "corr": 0.0008
+       },
+       "is2": {
+        "n_bars": 453,
+        "corr": 0.0115
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 2799,
+        "corr": 0.0471
+       },
+       "is2": {
+        "n_bars": 453,
+        "corr": 0.9812
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 2799,
+        "corr": 0.0004
+       },
+       "is2": {
+        "n_bars": 453,
+        "corr": 0.017
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 2799,
+        "corr": 0.0033
+       },
+       "is2": {
+        "n_bars": 453,
+        "corr": 0.0044
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 2799,
+        "corr": 0.0203
+       },
+       "is2": {
+        "n_bars": 453,
+        "corr": -0.0182
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 2799,
+        "corr": 0.0031
+       },
+       "is2": {
+        "n_bars": 453,
+        "corr": 0.0161
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "REJECT",
+    "reason": "member_face",
+    "dedup_loser": false
+   },
+   "SYN-CAND-D1": {
+    "candidate": "SYN-CAND-D1",
+    "member_face": {
+     "verdict": "PASS",
+     "max_abs_corr": 0.024,
+     "argmax": {
+      "vs": "SYN-M1",
+      "face": "is2",
+      "corr": 0.024
+     },
+     "short_legs": [],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0014
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.024
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0037
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0006
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0028
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0189
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0125
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0032
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0192
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.02
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0087
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0137
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "PASS",
+    "reason": "member_face",
+    "dedup_loser": false
+   },
+   "SYN-CAND-D2": {
+    "candidate": "SYN-CAND-D2",
+    "member_face": {
+     "verdict": "PASS",
+     "max_abs_corr": 0.0254,
+     "argmax": {
+      "vs": "SYN-M1",
+      "face": "is2",
+      "corr": 0.0254
+     },
+     "short_legs": [],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0018
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0254
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0042
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0007
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0033
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.019
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0118
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0028
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0195
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0168
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0104
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0011
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "REJECT",
+    "reason": "batch_dedup",
+    "dedup_loser": true
+   },
+   "SYN-CAND-T1": {
+    "candidate": "SYN-CAND-T1",
+    "member_face": {
+     "verdict": "PASS",
+     "max_abs_corr": 0.0504,
+     "argmax": {
+      "vs": "SYN-M3",
+      "face": "is2",
+      "corr": 0.0504
+     },
+     "short_legs": [],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0069
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0006
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0036
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0242
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0126
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0504
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0003
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0287
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0253
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0326
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0041
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0235
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "PASS",
+    "reason": "member_face",
+    "dedup_loser": false
+   },
+   "SYN-CAND-T2": {
+    "candidate": "SYN-CAND-T2",
+    "member_face": {
+     "verdict": "PASS",
+     "max_abs_corr": 0.0503,
+     "argmax": {
+      "vs": "SYN-M3",
+      "face": "is2",
+      "corr": 0.0503
+     },
+     "short_legs": [],
+     "pairs": {
+      "SYN-M1": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": 0.0067
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0004
+       }
+      },
+      "SYN-M2": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0038
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0245
+       }
+      },
+      "SYN-M3": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0123
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": 0.0503
+       }
+      },
+      "SYN-M4": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0002
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.03
+       }
+      },
+      "SYN-M5": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0275
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0387
+       }
+      },
+      "SYN-M6": {
+       "full_rw": {
+        "n_bars": 899,
+        "corr": -0.0037
+       },
+       "is2": {
+        "n_bars": 378,
+        "corr": -0.0226
+       }
+      }
+     }
+    },
+    "ceiling": 0.5,
+    "final_verdict": "REJECT",
+    "reason": "batch_dedup",
+    "dedup_loser": true
+   }
+  },
+  "batch_internal": {
+   "SYN-CAND-CONV|SYN-CAND-D1": {
+    "max_abs_corr": 0.07,
+    "argmax": {
+     "vs": "SYN-CAND-D1",
+     "face": "is2",
+     "corr": -0.07
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-CONV|SYN-CAND-D2": {
+    "max_abs_corr": 0.0728,
+    "argmax": {
+     "vs": "SYN-CAND-D2",
+     "face": "is2",
+     "corr": -0.0728
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-CONV|SYN-CAND-HIGH": {
+    "max_abs_corr": 0.0043,
+    "argmax": {
+     "vs": "SYN-CAND-HIGH",
+     "face": "is2",
+     "corr": -0.0043
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-CONV|SYN-CAND-LOW": {
+    "max_abs_corr": 0.0441,
+    "argmax": {
+     "vs": "SYN-CAND-LOW",
+     "face": "full_rw",
+     "corr": -0.0441
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-CONV|SYN-CAND-SHORT": {
+    "max_abs_corr": 0.0578,
+    "argmax": {
+     "vs": "SYN-CAND-SHORT",
+     "face": "full_rw",
+     "corr": -0.0578
+    },
+    "short_legs": [
+     {
+      "vs": "SYN-CAND-SHORT",
+      "face": "is2",
+      "n_bars": 0
+     }
+    ],
+    "dedup": null
+   },
+   "SYN-CAND-CONV|SYN-CAND-T1": {
+    "max_abs_corr": 0.0254,
+    "argmax": {
+     "vs": "SYN-CAND-T1",
+     "face": "is2",
+     "corr": -0.0254
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-CONV|SYN-CAND-T2": {
+    "max_abs_corr": 0.0254,
+    "argmax": {
+     "vs": "SYN-CAND-T2",
+     "face": "is2",
+     "corr": -0.0254
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D1|SYN-CAND-D2": {
+    "max_abs_corr": 0.9984,
+    "argmax": {
+     "vs": "SYN-CAND-D2",
+     "face": "is2",
+     "corr": 0.9984
+    },
+    "short_legs": [],
+    "dedup": {
+     "winner": "SYN-CAND-D1",
+     "loser": "SYN-CAND-D2",
+     "rule": "beat_rate_6m desc, tie id asc"
+    }
+   },
+   "SYN-CAND-D1|SYN-CAND-HIGH": {
+    "max_abs_corr": 0.0069,
+    "argmax": {
+     "vs": "SYN-CAND-HIGH",
+     "face": "is2",
+     "corr": 0.0069
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D1|SYN-CAND-LOW": {
+    "max_abs_corr": 0.0103,
+    "argmax": {
+     "vs": "SYN-CAND-LOW",
+     "face": "is2",
+     "corr": 0.0103
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D1|SYN-CAND-SHORT": {
+    "max_abs_corr": 0.0012,
+    "argmax": {
+     "vs": "SYN-CAND-SHORT",
+     "face": "full_rw",
+     "corr": -0.0012
+    },
+    "short_legs": [
+     {
+      "vs": "SYN-CAND-SHORT",
+      "face": "is2",
+      "n_bars": 0
+     }
+    ],
+    "dedup": null
+   },
+   "SYN-CAND-D1|SYN-CAND-T1": {
+    "max_abs_corr": 0.0909,
+    "argmax": {
+     "vs": "SYN-CAND-T1",
+     "face": "is2",
+     "corr": -0.0909
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D1|SYN-CAND-T2": {
+    "max_abs_corr": 0.0981,
+    "argmax": {
+     "vs": "SYN-CAND-T2",
+     "face": "is2",
+     "corr": -0.0981
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D2|SYN-CAND-HIGH": {
+    "max_abs_corr": 0.008,
+    "argmax": {
+     "vs": "SYN-CAND-HIGH",
+     "face": "is2",
+     "corr": 0.008
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D2|SYN-CAND-LOW": {
+    "max_abs_corr": 0.0105,
+    "argmax": {
+     "vs": "SYN-CAND-LOW",
+     "face": "is2",
+     "corr": 0.0105
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D2|SYN-CAND-SHORT": {
+    "max_abs_corr": 0.0036,
+    "argmax": {
+     "vs": "SYN-CAND-SHORT",
+     "face": "full_rw",
+     "corr": 0.0036
+    },
+    "short_legs": [
+     {
+      "vs": "SYN-CAND-SHORT",
+      "face": "is2",
+      "n_bars": 0
+     }
+    ],
+    "dedup": null
+   },
+   "SYN-CAND-D2|SYN-CAND-T1": {
+    "max_abs_corr": 0.0929,
+    "argmax": {
+     "vs": "SYN-CAND-T1",
+     "face": "is2",
+     "corr": -0.0929
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-D2|SYN-CAND-T2": {
+    "max_abs_corr": 0.1006,
+    "argmax": {
+     "vs": "SYN-CAND-T2",
+     "face": "is2",
+     "corr": -0.1006
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-HIGH|SYN-CAND-LOW": {
+    "max_abs_corr": 0.0242,
+    "argmax": {
+     "vs": "SYN-CAND-LOW",
+     "face": "is2",
+     "corr": -0.0242
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-HIGH|SYN-CAND-SHORT": {
+    "max_abs_corr": 0.0087,
+    "argmax": {
+     "vs": "SYN-CAND-SHORT",
+     "face": "full_rw",
+     "corr": 0.0087
+    },
+    "short_legs": [
+     {
+      "vs": "SYN-CAND-SHORT",
+      "face": "is2",
+      "n_bars": 0
+     }
+    ],
+    "dedup": null
+   },
+   "SYN-CAND-HIGH|SYN-CAND-T1": {
+    "max_abs_corr": 0.0175,
+    "argmax": {
+     "vs": "SYN-CAND-T1",
+     "face": "is2",
+     "corr": 0.0175
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-HIGH|SYN-CAND-T2": {
+    "max_abs_corr": 0.0148,
+    "argmax": {
+     "vs": "SYN-CAND-T2",
+     "face": "is2",
+     "corr": 0.0148
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-LOW|SYN-CAND-SHORT": {
+    "max_abs_corr": 1.0,
+    "argmax": {
+     "vs": "SYN-CAND-SHORT",
+     "face": "full_rw",
+     "corr": 1.0
+    },
+    "short_legs": [
+     {
+      "vs": "SYN-CAND-SHORT",
+      "face": "is2",
+      "n_bars": 0
+     }
+    ],
+    "dedup": null
+   },
+   "SYN-CAND-LOW|SYN-CAND-T1": {
+    "max_abs_corr": 0.0141,
+    "argmax": {
+     "vs": "SYN-CAND-T1",
+     "face": "is2",
+     "corr": 0.0141
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-LOW|SYN-CAND-T2": {
+    "max_abs_corr": 0.0207,
+    "argmax": {
+     "vs": "SYN-CAND-T2",
+     "face": "is2",
+     "corr": 0.0207
+    },
+    "short_legs": [],
+    "dedup": null
+   },
+   "SYN-CAND-SHORT|SYN-CAND-T1": {
+    "max_abs_corr": 0.0304,
+    "argmax": {
+     "vs": "SYN-CAND-T1",
+     "face": "full_rw",
+     "corr": -0.0304
+    },
+    "short_legs": [
+     {
+      "vs": "SYN-CAND-T1",
+      "face": "is2",
+      "n_bars": 0
+     }
+    ],
+    "dedup": null
+   },
+   "SYN-CAND-SHORT|SYN-CAND-T2": {
+    "max_abs_corr": 0.0278,
+    "argmax": {
+     "vs": "SYN-CAND-T2",
+     "face": "full_rw",
+     "corr": -0.0278
+    },
+    "short_legs": [
+     {
+      "vs": "SYN-CAND-T2",
+      "face": "is2",
+      "n_bars": 0
+     }
+    ],
+    "dedup": null
+   },
+   "SYN-CAND-T1|SYN-CAND-T2": {
+    "max_abs_corr": 0.9983,
+    "argmax": {
+     "vs": "SYN-CAND-T2",
+     "face": "full_rw",
+     "corr": 0.9983
+    },
+    "short_legs": [],
+    "dedup": {
+     "winner": "SYN-CAND-T1",
+     "loser": "SYN-CAND-T2",
+     "rule": "beat_rate_6m desc, tie id asc"
+    }
+   }
+  }
+ },
+ "audit": {
+  "n_engine_runs": 0,
+  "ledger_trials_added": 0,
+  "elapsed_sec": 0.0
+ }
+}

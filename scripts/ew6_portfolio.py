@@ -58,7 +58,7 @@ from science_gates import append_ledger
 PREREG = os.path.join(PATHS.root, "research", "shortline", "EW6_PORTFOLIO.md")
 SCHEMES = ("EW",)                     # EW only this batch (prereg s2.2)
 CRASH_YEAR = -0.30
-CORR_BANDS = ((0.60, "low"), (0.80, "moderate"), (None, "high"))
+CORR_BANDS = ((0.60, "low"), (0.80, "moderate"), (float("inf"), "high"))
 MAX_WORKERS = 6                       # polite cap while P-1c chain runs
 
 # ---- worker globals (initializer pattern; NO closures over jobs) ----
