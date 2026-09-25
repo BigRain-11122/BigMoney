@@ -783,6 +783,16 @@ def run_nulls():
     print("nulls written:", NULLS_JSON)
 
 
+def _finalize_census_gate(cells, rows):
+    """Frozen-census completeness gate (prereg L8: 29x3x9x2+3 = 1569 cells,
+    K=50 nulls -> N_eff 1619). Finalize must refuse a partial cell set
+    BEFORE any artifact write: the single-shot guard (prereg L35) would
+    otherwise latch a partial-batch result computed against the full-census
+    N_eff. Code-face mirror of the 'finalize when 1569 cells land'
+    discipline (r179/r188 family: interim->finalize transition gated)."""
+    return len(rows) >= len(cells)
+
+
 def finalize():
     """Aggregate + G1'v2 on 29 primaries + G2 (DSR + family PBO) + ledger."""
     if os.path.exists(RESULT_JSON) and not os.environ.get("WILD_ROUTE_S1_REFINALIZE"):
@@ -797,6 +807,12 @@ def finalize():
         if not os.path.exists(path):
             continue
         rows.append(json.load(open(path, encoding="utf-8")))
+    if not _finalize_census_gate(cells, rows):
+        print(f"finalize census gate: {len(rows)}/{len(cells)} cells on disk "
+              f"({len(cells) - len(rows)} missing) -- premature finalize "
+              "refused, no artifact written; fill shards first "
+              "(status subcommand)")
+        return 2
     primaries = [r for r in rows if r.get("primary") and r.get("stats")]
     nulls = json.load(open(NULLS_JSON, encoding="utf-8")) if \
         os.path.exists(NULLS_JSON) else None
@@ -1157,6 +1173,18 @@ def selftest():
     chk("F17 all-arms sweep " + str(len(ARMS)) + " arms"
         + (" bad=" + str(bad) if bad else " clean"),
         not bad)
+    # F18 finalize census gate (r188 interim->finalize transition law):
+    # premature finalize on a partial cell set must hard-refuse BEFORE any
+    # artifact write -- the single-shot guard would latch a partial-batch
+    # result computed against the full-census N_eff. Gate-only hermetic
+    # leg; production call shape (cells, rows) mirrored per r180; the live
+    # red leg is the in-round premature-finalize dry-run (round report).
+    chk("F18 census gate trips on partial rows",
+        not _finalize_census_gate(list(range(10)), list(range(3))))
+    chk("F18 census gate passes at full census",
+        _finalize_census_gate(list(range(10)), list(range(10))))
+    chk("F18 finalize wiring (r188 path-live law)",
+        "_finalize_census_gate(" in inspect.getsource(finalize))
     print(f"selftest: {ok[0]}/{ok[0]} PASS (all asserted)")
     return 0
 
