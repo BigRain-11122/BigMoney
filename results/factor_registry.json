@@ -1,0 +1,491 @@
+{
+ "batch": "T48-FACTOR-BLEND-REGISTRY",
+ "order": "O-20260925-0855",
+ "ticket": "T-2026-09-25-48",
+ "generated_at": "2026-09-25 08:54:48",
+ "ledger_trials_added": 0,
+ "note": "registry documentation face (t33 aggregation precedent: no new trials)",
+ "engine_factor_faces": {
+  "adx_14": {
+   "face": "trend",
+   "sign_prior": "+",
+   "prior": "trend strength (directional movement)"
+  },
+  "amihud_illiq": {
+   "face": "volume",
+   "sign_prior": "-",
+   "prior": "Amihud illiquidity = stress-liquidity face"
+  },
+  "amt_20": {
+   "face": "volume",
+   "sign_prior": "-",
+   "prior": "20d amount level: drought floor prior (DROUGHT-CE-01 lineage)"
+  },
+  "drawdown_60": {
+   "face": "reversal",
+   "sign_prior": "-",
+   "prior": "deep 60d drawdown = reversal candidate pool (deep-water prior)"
+  },
+  "extreme_freq": {
+   "face": "breakout",
+   "sign_prior": "-",
+   "prior": "extreme-move frequency marks instability; orderly trends preferred"
+  },
+  "gap_overnight": {
+   "face": "breakout",
+   "sign_prior": "+",
+   "prior": "overnight gap = breakout confirmation (zoo s4 #25 high-open-confirm prior)"
+  },
+  "intraday_range": {
+   "face": "low_vol",
+   "sign_prior": "-",
+   "prior": "tight normalized range = stability (J6 composite lineage)"
+  },
+  "ma_bias_20": {
+   "face": "mean_reversion",
+   "sign_prior": "-",
+   "prior": "20d MA bias: overextension fades to mean"
+  },
+  "ma_bias_60": {
+   "face": "mean_reversion",
+   "sign_prior": "-",
+   "prior": "60d MA bias fade"
+  },
+  "ma_slope_20": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "trend direction slope of MA20"
+  },
+  "mom_120": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "long-horizon momentum"
+  },
+  "mom_12_1": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "academic 12-1 skip-month momentum (J6 composite lineage)"
+  },
+  "mom_20": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "short-horizon cross-sectional momentum persistence"
+  },
+  "mom_60": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "medium-horizon momentum (zoo s4 in-duty style)"
+  },
+  "mom_accel": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "momentum acceleration = trend freshness"
+  },
+  "overnight_minus_intraday": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "overnight-minus-intraday momentum style (docstring)"
+  },
+  "price_position": {
+   "face": "trend",
+   "sign_prior": "+",
+   "prior": "position in N-day range = breakout proximity (J6 lineage)"
+  },
+  "return_kurt": {
+   "face": "low_vol",
+   "sign_prior": "-",
+   "prior": "excess kurtosis = tail-risk face"
+  },
+  "return_skew": {
+   "face": "low_vol",
+   "sign_prior": "-",
+   "prior": "return skew: crash-prone tail profile avoided"
+  },
+  "rev_10": {
+   "face": "reversal",
+   "sign_prior": "+",
+   "prior": "10d short-term reversal premium"
+  },
+  "rev_5": {
+   "face": "reversal",
+   "sign_prior": "+",
+   "prior": "5d short-term reversal premium (overreaction bounce, zoo s2)"
+  },
+  "up_day_ratio": {
+   "face": "momentum",
+   "sign_prior": "+",
+   "prior": "advance persistence within window"
+  },
+  "vol_20": {
+   "face": "low_vol",
+   "sign_prior": "-",
+   "prior": "short-window low-vol anomaly (zoo s5)"
+  },
+  "vol_60": {
+   "face": "low_vol",
+   "sign_prior": "-",
+   "prior": "low-vol anomaly, VOLATILITY-CE-01 registered lineage"
+  },
+  "vol_price_corr": {
+   "face": "volume",
+   "sign_prior": "+",
+   "prior": "healthy trend has price-volume confirmation"
+  },
+  "vol_price_diverge": {
+   "face": "volume",
+   "sign_prior": "+",
+   "prior": "volume-confirmed moves vs divergence"
+  },
+  "vol_regime": {
+   "face": "trend",
+   "sign_prior": "-",
+   "prior": "short/long vol ratio: expansion = trend stress"
+  },
+  "volume_trend": {
+   "face": "volume",
+   "sign_prior": "-",
+   "prior": "volume expansion at range top = distribution"
+  }
+ },
+ "engine_face_meta": {
+  "n_registered": 28,
+  "unmapped": [],
+  "source": "engine/factors.py FACTORS"
+ },
+ "ic_evidence_families": {
+  "gtja191_etf": {
+   "panel": "core48 ETF daily panel",
+   "evidence": "research/shortline/gtja191_ic_results.csv + research/shortline/P1_GTJA191_IC.md",
+   "n_factors_total": 191,
+   "n_in_pool": 89,
+   "source_sha256_12": "e349d5acb8ac"
+  },
+  "wq101_etf": {
+   "panel": "core48 ETF daily panel",
+   "evidence": "research/shortline/wq101_ic_results.csv + research/shortline/P1_WQ101_IC.md",
+   "n_factors_total": 82,
+   "n_in_pool": 36,
+   "source_sha256_12": "03eac660c104"
+  },
+  "gtja191_stock": {
+   "panel": "stock cross-section panel (P1C)",
+   "evidence": "research/shortline/p1c_stock_ic_results.csv + research/shortline/P1C_STOCK_IC.md",
+   "n_factors_total": 273,
+   "n_in_pool": 32,
+   "source_sha256_12": "45543c539e6a"
+  },
+  "a158_truegap_stock": {
+   "panel": "stock panel (true-gap axis)",
+   "evidence": "research/shortline/a158_truegap_ic_cells.csv + research/shortline/A158_TRUEGAP_IC.md",
+   "n_factors_total": 7,
+   "n_in_pool": 0,
+   "family_breakdown": {
+    "aroon": 3,
+    "disclosure": 2,
+    "vol_volume": 1,
+    "vol_rsi": 1
+   },
+   "source_sha256_12": "1394ab0cf560"
+  }
+ },
+ "zoo_style_families": [
+  {
+   "family": "attack_sentiment",
+   "doc": "进攻·情绪系 (zoo s1: limitup/dragon/ban-open/limit-down-buy/mood/lhb/subnew)"
+  },
+  {
+   "family": "reversal_oversold",
+   "doc": "反转·超跌系 (zoo s2: oversold-bias/zscore-revert/rsi2/deep-water/double-bottom)"
+  },
+  {
+   "family": "hold_grid",
+   "doc": "死扛·长持系 (zoo s3: staged-DCA/grid/low-churn/regular-invest/repo-cash)"
+  },
+  {
+   "family": "trend_momentum",
+   "doc": "趋势·动量系 (zoo s4: MA-cross/donchian/PSAR/supertrend/TS-mom/12-1/accel/RSRS)"
+  },
+  {
+   "family": "volatility_risk",
+   "doc": "波动率·风险系 (zoo s5: low-vol anomaly/vol-targeting/regime-switch/vol-breakout)"
+  },
+  {
+   "family": "rotation_alloc",
+   "doc": "轮动·配置系 (zoo s6: 2-8 rotation/sector rotation/composite rotation/risk-parity)"
+  }
+ ],
+ "zoo_doc": "research/shortline/ASTYLE_ZOO.md (V1 2026-09-23, CEO order O-20260923-1705)",
+ "registered_strategy_exposure": {
+  "COMPOSITE-CE-01": {
+   "level": "INTERN",
+   "entry": "top_n_rotation(composite, n=5, rebal_days=20)",
+   "primary_face": "composite_blend",
+   "face_note": "J6 composite blend: vol_60(-)/intraday_range(-)/mom_12_1(+)/price_position(+)",
+   "school": "composite",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "attack"
+  },
+  "COMPOSITE-CE-02": {
+   "level": "INTERN",
+   "entry": "top_n_rotation(composite, n=8, rebal_days=20)",
+   "primary_face": "composite_blend",
+   "face_note": "J6 composite blend: vol_60(-)/intraday_range(-)/mom_12_1(+)/price_position(+)",
+   "school": "composite",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "DROUGHT-CE-01": {
+   "level": "INTERN",
+   "entry": "vol_drought_reversal(vol_floor=0.55, drop_th=-0.05)",
+   "primary_face": "volume_drought_reversal",
+   "face_note": "volume drought + deep-water reversal (folk)",
+   "school": "pattern",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "ENGULF-CE-01": {
+   "level": "INTERN",
+   "entry": "engulf_reversal(drop_th=-0.05)",
+   "primary_face": "reversal",
+   "face_note": "bullish engulfing pattern in deep water",
+   "school": "pattern",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "NEEDLE-DE-01": {
+   "level": "INTERN",
+   "entry": "needle_probe(drop_th=-0.05, shadow_pct=0.02)",
+   "primary_face": "reversal",
+   "face_note": "long-lower-shadow probe in deep water",
+   "school": "pattern",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-ANTS-01": {
+   "level": "PROSPECT",
+   "entry": "ants_climb()",
+   "primary_face": "momentum",
+   "face_note": "stepwise advance accumulation",
+   "school": "s11_folk",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "pending-classification"
+  },
+  "PROS-ANTS-CE-01": {
+   "level": "PROSPECT",
+   "entry": "ants_climb()",
+   "primary_face": "momentum",
+   "face_note": "stepwise advance accumulation",
+   "school": "s11_folk",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "pending-classification"
+  },
+  "PROS-BBS-01": {
+   "level": "PROSPECT",
+   "entry": "bb_squeeze_breakout()",
+   "primary_face": "breakout",
+   "face_note": "Bollinger squeeze breakout",
+   "school": "s9_ta_queue",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-BBS-CE-01": {
+   "level": "PROSPECT",
+   "entry": "bb_squeeze_breakout()",
+   "primary_face": "breakout",
+   "face_note": "Bollinger squeeze breakout",
+   "school": "s9_ta_queue",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-DOJI-01": {
+   "level": "PROSPECT",
+   "entry": "doji_at_low()",
+   "primary_face": "reversal",
+   "face_note": "doji at low pattern",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-DOJI-CE-01": {
+   "level": "PROSPECT",
+   "entry": "doji_at_low()",
+   "primary_face": "reversal",
+   "face_note": "doji at low pattern",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-DUCK-01": {
+   "level": "PROSPECT",
+   "entry": "duck_head()",
+   "primary_face": "breakout",
+   "face_note": "duck-head breakout pattern",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "attack"
+  },
+  "PROS-DUCK-CE-01": {
+   "level": "PROSPECT",
+   "entry": "duck_head()",
+   "primary_face": "breakout",
+   "face_note": "duck-head breakout pattern",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "attack"
+  },
+  "PROS-HAM-01": {
+   "level": "PROSPECT",
+   "entry": "hammer_reversal(classic, drop5, reclaim_ma20)",
+   "primary_face": "reversal",
+   "face_note": "hammer reversal pattern",
+   "school": "ta_hammer_reversal",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-HAM-CE-01": {
+   "level": "PROSPECT",
+   "entry": "hammer_reversal(classic, drop5, reclaim_ma20)",
+   "primary_face": "reversal",
+   "face_note": "hammer reversal pattern",
+   "school": "ta_hammer_reversal",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-IBB-01": {
+   "level": "PROSPECT",
+   "entry": "inside_bar_breakup()",
+   "primary_face": "breakout",
+   "face_note": "inside-bar breakout pattern",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "attack"
+  },
+  "PROS-IBB-CE-01": {
+   "level": "PROSPECT",
+   "entry": "inside_bar_breakup()",
+   "primary_face": "breakout",
+   "face_note": "inside-bar breakout pattern",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "attack"
+  },
+  "PROS-IMM-01": {
+   "level": "PROSPECT",
+   "entry": "immortal_guide()",
+   "primary_face": "trend",
+   "face_note": "guiding-star trend continuation",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "pending-classification"
+  },
+  "PROS-IMM-CE-01": {
+   "level": "PROSPECT",
+   "entry": "immortal_guide()",
+   "primary_face": "trend",
+   "face_note": "guiding-star trend continuation",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "pending-classification"
+  },
+  "PROS-MCB-01": {
+   "level": "PROSPECT",
+   "entry": "ma_converge_break()",
+   "primary_face": "breakout",
+   "face_note": "MA convergence breakout",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "pending-classification"
+  },
+  "PROS-MCB-CE-01": {
+   "level": "PROSPECT",
+   "entry": "ma_converge_break()",
+   "primary_face": "breakout",
+   "face_note": "MA convergence breakout",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "pending-classification"
+  },
+  "PROS-OVB-01": {
+   "level": "PROSPECT",
+   "entry": "oversold_bounce(lookback=20, drop=-15%, shrink=0.8)",
+   "primary_face": "reversal",
+   "face_note": "20d<-15% oversold bounce",
+   "school": "zoo9_oversold",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-OVB-CE-01": {
+   "level": "PROSPECT",
+   "entry": "oversold_bounce(lookback=20, drop=-15%, shrink=0.8)",
+   "primary_face": "reversal",
+   "face_note": "20d<-15% oversold bounce",
+   "school": "zoo9_oversold",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-RSRS-CE-01": {
+   "level": "PROSPECT",
+   "entry": "rsrs_timing(18/250/0.8/-0.8)",
+   "primary_face": "trend",
+   "face_note": "RSRS resistance-support timing",
+   "school": "ta_rsrs_timing",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "pending-classification"
+  },
+  "PROS-TMU-01": {
+   "level": "PROSPECT",
+   "entry": "three_methods_up()",
+   "primary_face": "trend",
+   "face_note": "three-white-soldiers continuation",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-TMU-CE-01": {
+   "level": "PROSPECT",
+   "entry": "three_methods_up()",
+   "primary_face": "trend",
+   "face_note": "three-white-soldiers continuation",
+   "school": "s10_patterns",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  },
+  "PROS-VOB-CE-01": {
+   "level": "PROSPECT",
+   "entry": "vol_breakout(20/1.5/20/10)",
+   "primary_face": "breakout",
+   "face_note": "volatility breakout pattern",
+   "school": "ta_vol_breakout",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "attack"
+  },
+  "VOLATILITY-CE-01": {
+   "level": "INTERN",
+   "entry": "low_vol_long(n=60, top_k=5, daily)",
+   "primary_face": "low_vol",
+   "face_note": "60d low-vol top-k rotation (volatility face)",
+   "school": "volatility",
+   "evidence_cutoff": "2026-09-22",
+   "corps": "chop"
+  }
+ },
+ "exposure_meta": {
+  "corps_cross_ref": "cross-refed 28 assignments from T-33 artifact",
+  "t33_artifact": "results/corps_roster.json (bm-c T-33 run#2 canon, read-only)"
+ },
+ "counts": {
+  "engine_faces": 28,
+  "ic_families": 4,
+  "zoo_families": 6,
+  "registered_roster": 28,
+  "face_taxonomy": [
+   "momentum",
+   "trend",
+   "breakout",
+   "reversal",
+   "low_vol",
+   "volume",
+   "mean_reversion"
+  ]
+ }
+}
