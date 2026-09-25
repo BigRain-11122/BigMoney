@@ -88,3 +88,7 @@
 - [2026-09-25 12:1x] 坑律（bm-a R159·r175 律传播窗残留·同窗双发三度实证）：**owner 写池在轮频（10min）而 autofill tick 在分频——修复后双机同秒各发同分片仍结构性复发**（12:00:01 bm-a vs 12:00:02 bm-b 双机各全量跑完 legacy-lA 13816 cells 181s/170s 级实证，确定性重算零科学影响、181s×25workers 算力浪费如实记）；bm-b 12:10:02 又自占重复点火 lA=池 done 标记滞后轮频的 resume no-op 残留。正解=r170 claim-first 前置到池分片面：**发射 tick 前预认领 owner+push（本机 12:17 lC 首例 fcb7df55），他机 _pick 见 fresh owner 让位直达下一分片**；残余=单周期 50/50 推送竞速窗（对方 S0 拉取先于我方推送则本周期仍撞），损失上限=1 分片/箱/周期。指针=round_reports-bm-a.md R159 行
 
 - [2026-09-25 12:18] 执行 R159（bm-a OS 轮·dept:工程+舰队）：T-54 池供给修复实证三连——lA 本机全量 13816/181.2s（修复 5e3f14fb 在 R158 树内 merge-base 实证）+lB 按律 owner 写池 f41eb07e→done f12931be（170.5s）+lC r170 claim-first 预认领 fcb7df55 备 12:20 tick；D-20260925-10 涉例回执（①P-49 装机=bm-c 14.3h 掉线跨机物理受阻 PT-05 归目标机执行体 ②主活保主不变 ④BG-B/C 池零动作）+D-08/09/11 不涉例零动作；S1 smoke 23/23+S6 18 腿全绿+orders 双扫 71/71。详录=round_reports-bm-a.md R159 行
+
+- [2026-09-25 12:37] 事实律（bm-b r177·P-32 决策审核步物理面）：**集团决策台账 decisions.md 在 bm-b 机不存在（..\..\docs Test-Path=False 实测；E:\Minigame 全树与 K: 面亦无）=bm-a 机本地面**——bm-b 每轮 P-32 步零直读面，正解=依同仓共享证据（bm-a 轮报告 D-* 回执行+orders/MSG 落地面）判涉例与零动作，禁伪造直读；固化本条=省每轮全盘搜索 ~8 探针（r177 实烧）。指针=round_reports.md r176/r177 行
+
+- [2026-09-25 12:37] 坑律（bm-b r177·S6 链调用面·r130 PS 族新例）：**PS 数组腿元素含空格（"scripts\py_watermark.py probe"）经 foreach 整元素传 python=单参 -> can't open file 假 rc=2**（watermark probe 被误报「采样失败」，实为调用层病非机制病）；正解=命令与参数分列（$l.Split(' ')）或逐腿显式调用；S6 批量跑腿 exit code 归因前先排除调用层假红。指针=round_reports.md r177 行
