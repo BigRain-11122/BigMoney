@@ -1,0 +1,4139 @@
+{
+ "batch": "options_wave2",
+ "meta": {
+  "window": {
+   "start": "2026-01-29",
+   "end": "2026-09-24",
+   "n_days": 160,
+   "retention_window_disclosure": "sina codes face keeps recent expiry months only (s3 retention_boundary); pilot backfill batch, wave-2b forward collector is the definitive path"
+  },
+  "underlyings": [
+   "510050",
+   "510300"
+  ],
+  "cell_composition": "18 candidates (3 families x 3 moneyness x {weekly judgement, monthly descriptive}) + 50 nulls (seed 63000+k) + 2 passives",
+  "blend_disclosure": "18-cell reading: each candidate = 50/50 blend across both underlyings (¥500k/sleeve), prereg §0 cell count 70 with no per-underlying axis",
+  "start_cash": 1000000.0,
+  "roll_semantics": "signal at T close (selection+sizing), T+1 open fills, roll-always; monthly regime = last panel day of month; expiry = intrinsic cash settle at underlying close (physical-delivery proxy, settle fee 0; ITM settle pays cash while shares persist -> transient negative cash possible, covered by shares, equity-solvency invariant asserted in selftest)",
+  "constants": {
+   "unit": 10000,
+   "fee_lot": 6.6,
+   "tick": 0.0001,
+   "slip": "max(2 ticks, 5% premium)/side",
+   "etf_leg": "knowledge.rules cost_v2_side_rate (ADV20 tiered) + 1% ADV fill cap"
+  },
+  "prereg_sha_frozen": "a6998921371ef4f867a448dd07f047e9288fdd47254f6c8a61fda4444396d0e6",
+  "prereg_sha_at_run": "a6998921371ef4f867a448dd07f047e9288fdd47254f6c8a61fda4444396d0e6",
+  "schedule": {
+   "weekly_rolls": 34,
+   "monthly_rolls": 8
+  }
+ },
+ "evidence_cutoff": "2026-09-24",
+ "gates": {
+  "panel_days": 160,
+  "G0": {
+   "gate": "G0 smoke",
+   "ok": true,
+   "exit": 0,
+   "summary": "25/25 PASS, 0 FAIL"
+  },
+  "G1": {
+   "gate": "G1 options engine selftest",
+   "ok": true,
+   "failures": []
+  },
+  "G2": {
+   "gate": "G2 exchange-verified constants",
+   "ok": true,
+   "problems": [],
+   "module_constants": {
+    "unit": 10000,
+    "fee_lot": 6.6,
+    "tick": 0.0001,
+    "slip": "max(2 ticks, 5% premium)/side (frozen)"
+   },
+   "component_statuses": {
+    "unit": "verified",
+    "tick": "verified",
+    "sse_jingshou_etf_yuan_per_contract": "verified",
+    "csdc_settlement_yuan_per_contract": "verified",
+    "broker_commission_yuan_per_contract": "declared_assumption"
+   },
+   "fee_bp_at_ref_premium_0.05": 132.0,
+   "evidence_path": "results/options_wave2_g2_check.json"
+  },
+  "G3": {
+   "gate": "G3 panel completeness",
+   "ok": true,
+   "problems": [],
+   "n_days": 160,
+   "span_registration_eligible": true,
+   "contracts_checked": 200,
+   "first_dates": {
+    "min": "2026-01-29",
+    "max_last": "2026-09-24"
+   },
+   "strike_ladder": [
+    {
+     "und": "510050",
+     "month": "202609",
+     "direction": "call",
+     "n": 14,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510050",
+     "month": "202609",
+     "direction": "put",
+     "n": 14,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510050",
+     "month": "202610",
+     "direction": "call",
+     "n": 11,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510050",
+     "month": "202610",
+     "direction": "put",
+     "n": 11,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510050",
+     "month": "202612",
+     "direction": "call",
+     "n": 12,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510050",
+     "month": "202612",
+     "direction": "put",
+     "n": 12,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510050",
+     "month": "202703",
+     "direction": "call",
+     "n": 11,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510050",
+     "month": "202703",
+     "direction": "put",
+     "n": 11,
+     "steps": [
+      0.05,
+      0.1
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202609",
+     "direction": "call",
+     "n": 15,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202609",
+     "direction": "put",
+     "n": 15,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202610",
+     "direction": "call",
+     "n": 11,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202610",
+     "direction": "put",
+     "n": 11,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202612",
+     "direction": "call",
+     "n": 14,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202612",
+     "direction": "put",
+     "n": 14,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202703",
+     "direction": "call",
+     "n": 12,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    },
+    {
+     "und": "510300",
+     "month": "202703",
+     "direction": "put",
+     "n": 12,
+     "steps": [
+      0.1,
+      0.25
+     ],
+     "note": "mixed-step exchange ladder, disclosure only"
+    }
+   ],
+   "distribution_face_r1": {
+    "n_obs": 16016,
+    "median": 0.065262,
+    "p999": 0.991873,
+    "max": 1.295302
+   },
+   "crisis_log_over_50pct": [
+    {
+     "code": "10010974",
+     "hits": [
+      [
+       "2026-09-16",
+       0.5702
+      ],
+      [
+       "2026-09-17",
+       0.5526
+      ],
+      [
+       "2026-09-23",
+       0.9899
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010975",
+     "hits": [
+      [
+       "2026-09-17",
+       0.5926
+      ],
+      [
+       "2026-09-23",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010976",
+     "hits": [
+      [
+       "2026-09-16",
+       0.6667
+      ],
+      [
+       "2026-09-22",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010977",
+     "hits": [
+      [
+       "2026-06-22",
+       0.5175
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010978",
+     "hits": [
+      [
+       "2026-06-22",
+       0.5816
+      ],
+      [
+       "2026-09-18",
+       0.6667
+      ],
+      [
+       "2026-09-21",
+       1.0
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010979",
+     "hits": [
+      [
+       "2026-06-22",
+       0.5442
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010980",
+     "hits": [
+      [
+       "2026-02-02",
+       0.6118
+      ],
+      [
+       "2026-03-23",
+       0.6114
+      ],
+      [
+       "2026-06-23",
+       0.6445
+      ],
+      [
+       "2026-08-19",
+       0.8523
+      ],
+      [
+       "2026-09-11",
+       0.8261
+      ],
+      [
+       "2026-09-18",
+       0.6471
+      ],
+      [
+       "2026-09-21",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010981",
+     "hits": [
+      [
+       "2026-02-02",
+       0.6081
+      ],
+      [
+       "2026-03-23",
+       0.5483
+      ],
+      [
+       "2026-06-23",
+       0.6071
+      ],
+      [
+       "2026-08-19",
+       0.8276
+      ],
+      [
+       "2026-09-11",
+       0.6923
+      ],
+      [
+       "2026-09-18",
+       0.64
+      ],
+      [
+       "2026-09-21",
+       0.9444
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010982",
+     "hits": [
+      [
+       "2026-02-02",
+       0.5166
+      ],
+      [
+       "2026-03-23",
+       0.5255
+      ],
+      [
+       "2026-06-23",
+       0.5781
+      ],
+      [
+       "2026-08-19",
+       0.748
+      ],
+      [
+       "2026-09-02",
+       0.5333
+      ],
+      [
+       "2026-09-11",
+       0.6667
+      ],
+      [
+       "2026-09-18",
+       0.568
+      ],
+      [
+       "2026-09-21",
+       0.7945
+      ],
+      [
+       "2026-09-22",
+       0.9333
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010983",
+     "hits": [
+      [
+       "2026-06-23",
+       0.5186
+      ],
+      [
+       "2026-08-19",
+       0.5812
+      ],
+      [
+       "2026-09-21",
+       0.602
+      ],
+      [
+       "2026-09-22",
+       0.7107
+      ],
+      [
+       "2026-09-23",
+       0.7143
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010991",
+     "hits": [
+      [
+       "2026-09-18",
+       0.5292
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010992",
+     "hits": [
+      [
+       "2026-09-18",
+       0.5074
+      ],
+      [
+       "2026-09-23",
+       0.996
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010993",
+     "hits": [
+      [
+       "2026-09-17",
+       0.6667
+      ],
+      [
+       "2026-09-21",
+       0.5263
+      ],
+      [
+       "2026-09-22",
+       0.6552
+      ],
+      [
+       "2026-09-23",
+       0.9
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010994",
+     "hits": [
+      [
+       "2026-09-02",
+       0.5074
+      ],
+      [
+       "2026-09-11",
+       0.5513
+      ],
+      [
+       "2026-09-14",
+       0.5429
+      ],
+      [
+       "2026-09-16",
+       0.7778
+      ],
+      [
+       "2026-09-17",
+       0.6875
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010995",
+     "hits": [
+      [
+       "2026-09-14",
+       0.5385
+      ],
+      [
+       "2026-09-17",
+       0.5714
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010996",
+     "hits": [
+      [
+       "2026-04-08",
+       0.513
+      ],
+      [
+       "2026-09-21",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010997",
+     "hits": [
+      [
+       "2026-04-08",
+       0.5772
+      ],
+      [
+       "2026-08-17",
+       0.5652
+      ],
+      [
+       "2026-09-17",
+       1.0
+      ],
+      [
+       "2026-09-18",
+       0.75
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010998",
+     "hits": [
+      [
+       "2026-02-02",
+       0.5222
+      ],
+      [
+       "2026-03-23",
+       0.5344
+      ],
+      [
+       "2026-06-26",
+       0.6827
+      ],
+      [
+       "2026-07-02",
+       0.587
+      ],
+      [
+       "2026-07-17",
+       0.8961
+      ],
+      [
+       "2026-07-28",
+       0.9919
+      ],
+      [
+       "2026-08-19",
+       1.2759
+      ],
+      [
+       "2026-09-02",
+       0.7333
+      ],
+      [
+       "2026-09-18",
+       0.8571
+      ],
+      [
+       "2026-09-21",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10010999",
+     "hits": [
+      [
+       "2026-02-02",
+       0.5251
+      ],
+      [
+       "2026-06-26",
+       0.6597
+      ],
+      [
+       "2026-07-17",
+       0.8807
+      ],
+      [
+       "2026-07-28",
+       0.8622
+      ],
+      [
+       "2026-08-19",
+       1.2245
+      ],
+      [
+       "2026-09-02",
+       0.7143
+      ],
+      [
+       "2026-09-18",
+       0.7258
+      ],
+      [
+       "2026-09-21",
+       0.8824
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011000",
+     "hits": [
+      [
+       "2026-06-26",
+       0.6564
+      ],
+      [
+       "2026-07-17",
+       0.7151
+      ],
+      [
+       "2026-07-28",
+       0.8271
+      ],
+      [
+       "2026-08-19",
+       1.2709
+      ],
+      [
+       "2026-09-02",
+       0.6707
+      ],
+      [
+       "2026-09-18",
+       0.6867
+      ],
+      [
+       "2026-09-21",
+       0.7949
+      ],
+      [
+       "2026-09-22",
+       0.8125
+      ],
+      [
+       "2026-09-23",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011001",
+     "hits": [
+      [
+       "2026-06-23",
+       0.5348
+      ],
+      [
+       "2026-06-26",
+       0.6431
+      ],
+      [
+       "2026-07-17",
+       0.6423
+      ],
+      [
+       "2026-07-28",
+       0.6966
+      ],
+      [
+       "2026-08-19",
+       1.1196
+      ],
+      [
+       "2026-09-02",
+       0.5747
+      ],
+      [
+       "2026-09-21",
+       0.5415
+      ],
+      [
+       "2026-09-22",
+       0.5319
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011002",
+     "hits": [
+      [
+       "2026-06-23",
+       0.5203
+      ],
+      [
+       "2026-06-26",
+       0.5902
+      ],
+      [
+       "2026-07-17",
+       0.5451
+      ],
+      [
+       "2026-07-28",
+       0.6097
+      ],
+      [
+       "2026-08-19",
+       0.8701
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011003",
+     "hits": [
+      [
+       "2026-06-23",
+       0.5168
+      ],
+      [
+       "2026-06-26",
+       0.5269
+      ],
+      [
+       "2026-07-17",
+       0.5157
+      ],
+      [
+       "2026-07-28",
+       0.5005
+      ],
+      [
+       "2026-08-19",
+       0.7173
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011004",
+     "hits": [
+      [
+       "2026-08-19",
+       0.5524
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011061",
+     "hits": [
+      [
+       "2026-06-22",
+       0.5169
+      ],
+      [
+       "2026-09-18",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011069",
+     "hits": [
+      [
+       "2026-04-08",
+       0.593
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011084",
+     "hits": [
+      [
+       "2026-03-23",
+       0.584
+      ],
+      [
+       "2026-06-26",
+       0.6798
+      ],
+      [
+       "2026-07-02",
+       0.5294
+      ],
+      [
+       "2026-07-17",
+       1.051
+      ],
+      [
+       "2026-07-28",
+       0.9461
+      ],
+      [
+       "2026-08-19",
+       1.193
+      ],
+      [
+       "2026-08-24",
+       0.5854
+      ],
+      [
+       "2026-09-11",
+       0.6667
+      ],
+      [
+       "2026-09-17",
+       0.7692
+      ],
+      [
+       "2026-09-18",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011216",
+     "hits": [
+      [
+       "2026-03-23",
+       0.686
+      ],
+      [
+       "2026-06-23",
+       0.6754
+      ],
+      [
+       "2026-07-17",
+       0.5529
+      ],
+      [
+       "2026-07-28",
+       0.5449
+      ],
+      [
+       "2026-08-19",
+       1.06
+      ],
+      [
+       "2026-09-02",
+       0.5556
+      ],
+      [
+       "2026-09-11",
+       0.6923
+      ],
+      [
+       "2026-09-16",
+       0.5625
+      ],
+      [
+       "2026-09-21",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011234",
+     "hits": [
+      [
+       "2026-06-23",
+       0.6851
+      ],
+      [
+       "2026-07-02",
+       0.5646
+      ],
+      [
+       "2026-07-17",
+       0.6062
+      ],
+      [
+       "2026-07-28",
+       0.6667
+      ],
+      [
+       "2026-08-19",
+       0.9412
+      ],
+      [
+       "2026-09-11",
+       0.625
+      ],
+      [
+       "2026-09-16",
+       0.6
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011257",
+     "hits": [
+      [
+       "2026-06-23",
+       0.6643
+      ],
+      [
+       "2026-06-26",
+       0.5143
+      ],
+      [
+       "2026-07-02",
+       0.5521
+      ],
+      [
+       "2026-07-17",
+       0.7471
+      ],
+      [
+       "2026-07-22",
+       0.525
+      ],
+      [
+       "2026-07-28",
+       0.6667
+      ],
+      [
+       "2026-08-14",
+       0.6923
+      ],
+      [
+       "2026-08-19",
+       1.0
+      ],
+      [
+       "2026-09-11",
+       0.6667
+      ],
+      [
+       "2026-09-18",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011258",
+     "hits": [
+      [
+       "2026-06-23",
+       0.7247
+      ],
+      [
+       "2026-07-02",
+       0.5302
+      ],
+      [
+       "2026-07-17",
+       0.6052
+      ],
+      [
+       "2026-07-28",
+       0.6901
+      ],
+      [
+       "2026-08-19",
+       0.875
+      ],
+      [
+       "2026-09-16",
+       0.5714
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011273",
+     "hits": [
+      [
+       "2026-06-26",
+       0.595
+      ],
+      [
+       "2026-07-17",
+       1.2953
+      ],
+      [
+       "2026-07-28",
+       1.0411
+      ],
+      [
+       "2026-08-19",
+       0.8148
+      ],
+      [
+       "2026-08-24",
+       0.625
+      ],
+      [
+       "2026-09-02",
+       0.6364
+      ],
+      [
+       "2026-09-14",
+       0.6667
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011274",
+     "hits": [
+      [
+       "2026-06-26",
+       0.625
+      ],
+      [
+       "2026-07-17",
+       1.0605
+      ],
+      [
+       "2026-07-28",
+       0.9099
+      ],
+      [
+       "2026-08-19",
+       1.1351
+      ],
+      [
+       "2026-08-24",
+       0.5577
+      ],
+      [
+       "2026-09-02",
+       0.65
+      ],
+      [
+       "2026-09-11",
+       0.7
+      ],
+      [
+       "2026-09-17",
+       0.5714
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011545",
+     "hits": [
+      [
+       "2026-06-22",
+       0.5081
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011589",
+     "hits": [
+      [
+       "2026-06-22",
+       0.5122
+      ],
+      [
+       "2026-09-21",
+       1.0
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10011806",
+     "hits": [
+      [
+       "2026-08-19",
+       0.5177
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012134",
+     "hits": [
+      [
+       "2026-08-19",
+       0.5392
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012314",
+     "hits": [
+      [
+       "2026-09-16",
+       0.5192
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012318",
+     "hits": [
+      [
+       "2026-09-24",
+       0.6591
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012319",
+     "hits": [
+      [
+       "2026-09-24",
+       0.7949
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012320",
+     "hits": [
+      [
+       "2026-09-24",
+       0.745
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012321",
+     "hits": [
+      [
+       "2026-09-24",
+       0.64
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012322",
+     "hits": [
+      [
+       "2026-09-24",
+       0.5115
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012333",
+     "hits": [
+      [
+       "2026-09-16",
+       0.5733
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012334",
+     "hits": [
+      [
+       "2026-09-16",
+       0.6364
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012335",
+     "hits": [
+      [
+       "2026-09-16",
+       0.6
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012336",
+     "hits": [
+      [
+       "2026-09-24",
+       0.7153
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012337",
+     "hits": [
+      [
+       "2026-09-24",
+       0.751
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012338",
+     "hits": [
+      [
+       "2026-09-24",
+       0.6653
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012339",
+     "hits": [
+      [
+       "2026-09-24",
+       0.5629
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012412",
+     "hits": [
+      [
+       "2026-09-24",
+       0.575
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    },
+    {
+     "code": "10012432",
+     "hits": [
+      [
+       "2026-09-24",
+       0.6
+      ]
+     ],
+     "prior": "prereg §5.8 extreme-day prior (premium jumps)"
+    }
+   ],
+   "put_alive_at_cutoff": {
+    "510050": 34,
+    "510300": 37
+   },
+   "semantics": "prereg §2 five conditions; hard-bound max face is crisis-logged single-point disclosure (三件套(b)), never auto-fail"
+  },
+  "G4": {
+   "gate": "G4 determinism",
+   "ok": true,
+   "null_cell_bitexact": true,
+   "passive_bitexact": true
+  }
+ },
+ "nulls": {
+  "summary": {
+   "n": 50,
+   "mu": -2.4195,
+   "sigma": 0.8205,
+   "p95": -1.3793,
+   "max": -0.0193,
+   "min": -4.2307
+  },
+  "cells": {
+   "null_0": {
+    "full": {
+     "sharpe": -1.328,
+     "annual_return": -0.111,
+     "max_drawdown": -0.0923,
+     "n_trades": 150,
+     "n_entries": 25,
+     "win_rate": 0.42,
+     "turnover": 26.0221,
+     "final_equity": 928001.5,
+     "n_cycles": 50
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 0,
+      "cash_end": 459815.27
+     },
+     "510300": {
+      "entries": 25,
+      "shares_end": 0,
+      "cash_end": 468186.22
+     }
+    }
+   },
+   "null_1": {
+    "full": {
+     "sharpe": -1.7629,
+     "annual_return": -0.1583,
+     "max_drawdown": -0.1255,
+     "n_trades": 140,
+     "n_entries": 23,
+     "win_rate": 0.4783,
+     "turnover": 25.0471,
+     "final_equity": 896354.07,
+     "n_cycles": 46
+    },
+    "per_und": {
+     "510050": {
+      "entries": 23,
+      "shares_end": 0,
+      "cash_end": 437057.05
+     },
+     "510300": {
+      "entries": 23,
+      "shares_end": 0,
+      "cash_end": 459297.02
+     }
+    }
+   },
+   "null_2": {
+    "full": {
+     "sharpe": -0.0193,
+     "annual_return": -0.0057,
+     "max_drawdown": -0.0446,
+     "n_trades": 148,
+     "n_entries": 25,
+     "win_rate": 0.4,
+     "turnover": 26.4695,
+     "final_equity": 996358.65,
+     "n_cycles": 50
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 150000,
+      "cash_end": 51177.69
+     },
+     "510300": {
+      "entries": 25,
+      "shares_end": 100000,
+      "cash_end": 49830.97
+     }
+    }
+   },
+   "null_3": {
+    "full": {
+     "sharpe": -3.3984,
+     "annual_return": -0.2822,
+     "max_drawdown": -0.1898,
+     "n_trades": 156,
+     "n_entries": 25,
+     "win_rate": 0.4,
+     "turnover": 28.5068,
+     "final_equity": 810166.78,
+     "n_cycles": 50
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 120000,
+      "cash_end": 52753.86
+     },
+     "510300": {
+      "entries": 25,
+      "shares_end": 80000,
+      "cash_end": 41132.92
+     }
+    }
+   },
+   "null_4": {
+    "full": {
+     "sharpe": -2.8971,
+     "annual_return": -0.2027,
+     "max_drawdown": -0.1372,
+     "n_trades": 153,
+     "n_entries": 26,
+     "win_rate": 0.3654,
+     "turnover": 26.9322,
+     "final_equity": 866065.04,
+     "n_cycles": 52
+    },
+    "per_und": {
+     "510050": {
+      "entries": 26,
+      "shares_end": 130000,
+      "cash_end": 40197.04
+     },
+     "510300": {
+      "entries": 26,
+      "shares_end": 80000,
+      "cash_end": 79998.0
+     }
+    }
+   },
+   "null_5": {
+    "full": {
+     "sharpe": -2.2603,
+     "annual_return": -0.1651,
+     "max_drawdown": -0.1129,
+     "n_trades": 137,
+     "n_entries": 22,
+     "win_rate": 0.3864,
+     "turnover": 31.0918,
+     "final_equity": 891781.47,
+     "n_cycles": 44
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 140000,
+      "cash_end": 25193.8
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 90000,
+      "cash_end": 45977.66
+     }
+    }
+   },
+   "null_6": {
+    "full": {
+     "sharpe": -3.0101,
+     "annual_return": -0.1921,
+     "max_drawdown": -0.1266,
+     "n_trades": 135,
+     "n_entries": 22,
+     "win_rate": 0.3409,
+     "turnover": 28.2546,
+     "final_equity": 873364.83,
+     "n_cycles": 44
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 130000,
+      "cash_end": 40087.36
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 90000,
+      "cash_end": 42257.46
+     }
+    }
+   },
+   "null_7": {
+    "full": {
+     "sharpe": -2.2848,
+     "annual_return": -0.1964,
+     "max_drawdown": -0.1296,
+     "n_trades": 143,
+     "n_entries": 22,
+     "win_rate": 0.4773,
+     "turnover": 34.42,
+     "final_equity": 870399.1,
+     "n_cycles": 44
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 130000,
+      "cash_end": 42452.03
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 90000,
+      "cash_end": 36927.07
+     }
+    }
+   },
+   "null_8": {
+    "full": {
+     "sharpe": -2.8766,
+     "annual_return": -0.1933,
+     "max_drawdown": -0.1298,
+     "n_trades": 149,
+     "n_entries": 25,
+     "win_rate": 0.3,
+     "turnover": 29.1106,
+     "final_equity": 872512.62,
+     "n_cycles": 50
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 130000,
+      "cash_end": 40415.35
+     },
+     "510300": {
+      "entries": 25,
+      "shares_end": 90000,
+      "cash_end": 41077.27
+     }
+    }
+   },
+   "null_9": {
+    "full": {
+     "sharpe": -2.0153,
+     "annual_return": -0.1595,
+     "max_drawdown": -0.1197,
+     "n_trades": 133,
+     "n_entries": 22,
+     "win_rate": 0.4186,
+     "turnover": 27.1143,
+     "final_equity": 895527.68,
+     "n_cycles": 43
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 0,
+      "cash_end": 441313.63
+     },
+     "510300": {
+      "entries": 21,
+      "shares_end": 0,
+      "cash_end": 454214.06
+     }
+    }
+   },
+   "null_10": {
+    "full": {
+     "sharpe": -3.7313,
+     "annual_return": -0.287,
+     "max_drawdown": -0.1932,
+     "n_trades": 146,
+     "n_entries": 25,
+     "win_rate": 0.4694,
+     "turnover": 29.7797,
+     "final_equity": 806752.98,
+     "n_cycles": 49
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 130000,
+      "cash_end": 14536.92
+     },
+     "510300": {
+      "entries": 24,
+      "shares_end": 80000,
+      "cash_end": 46346.06
+     }
+    }
+   },
+   "null_11": {
+    "full": {
+     "sharpe": -2.6091,
+     "annual_return": -0.2115,
+     "max_drawdown": -0.1401,
+     "n_trades": 143,
+     "n_entries": 26,
+     "win_rate": 0.3846,
+     "turnover": 22.7411,
+     "final_equity": 859947.41,
+     "n_cycles": 52
+    },
+    "per_und": {
+     "510050": {
+      "entries": 26,
+      "shares_end": 0,
+      "cash_end": 424199.88
+     },
+     "510300": {
+      "entries": 26,
+      "shares_end": 0,
+      "cash_end": 435747.54
+     }
+    }
+   },
+   "null_12": {
+    "full": {
+     "sharpe": -2.8183,
+     "annual_return": -0.2032,
+     "max_drawdown": -0.1343,
+     "n_trades": 137,
+     "n_entries": 23,
+     "win_rate": 0.4348,
+     "turnover": 25.1442,
+     "final_equity": 865697.04,
+     "n_cycles": 46
+    },
+    "per_und": {
+     "510050": {
+      "entries": 23,
+      "shares_end": 0,
+      "cash_end": 432427.43
+     },
+     "510300": {
+      "entries": 23,
+      "shares_end": 0,
+      "cash_end": 433269.61
+     }
+    }
+   },
+   "null_13": {
+    "full": {
+     "sharpe": -3.0474,
+     "annual_return": -0.254,
+     "max_drawdown": -0.17,
+     "n_trades": 148,
+     "n_entries": 27,
+     "win_rate": 0.4151,
+     "turnover": 18.1872,
+     "final_equity": 830215.5,
+     "n_cycles": 53
+    },
+    "per_und": {
+     "510050": {
+      "entries": 27,
+      "shares_end": 120000,
+      "cash_end": 60057.58
+     },
+     "510300": {
+      "entries": 26,
+      "shares_end": 80000,
+      "cash_end": 53877.92
+     }
+    }
+   },
+   "null_14": {
+    "full": {
+     "sharpe": -2.0297,
+     "annual_return": -0.1736,
+     "max_drawdown": -0.1161,
+     "n_trades": 143,
+     "n_entries": 26,
+     "win_rate": 0.2941,
+     "turnover": 22.7505,
+     "final_equity": 885992.63,
+     "n_cycles": 51
+    },
+    "per_und": {
+     "510050": {
+      "entries": 26,
+      "shares_end": 130000,
+      "cash_end": 55123.96
+     },
+     "510300": {
+      "entries": 25,
+      "shares_end": 90000,
+      "cash_end": 39848.67
+     }
+    }
+   },
+   "null_15": {
+    "full": {
+     "sharpe": -4.0408,
+     "annual_return": -0.2651,
+     "max_drawdown": -0.1776,
+     "n_trades": 125,
+     "n_entries": 20,
+     "win_rate": 0.55,
+     "turnover": 28.7966,
+     "final_equity": 822380.82,
+     "n_cycles": 40
+    },
+    "per_und": {
+     "510050": {
+      "entries": 20,
+      "shares_end": 140000,
+      "cash_end": 2763.94
+     },
+     "510300": {
+      "entries": 20,
+      "shares_end": 80000,
+      "cash_end": 44156.88
+     }
+    }
+   },
+   "null_16": {
+    "full": {
+     "sharpe": -1.8345,
+     "annual_return": -0.1708,
+     "max_drawdown": -0.1276,
+     "n_trades": 134,
+     "n_entries": 22,
+     "win_rate": 0.3864,
+     "turnover": 26.3887,
+     "final_equity": 887884.47,
+     "n_cycles": 44
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 140000,
+      "cash_end": 28716.44
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 90000,
+      "cash_end": 38558.03
+     }
+    }
+   },
+   "null_17": {
+    "full": {
+     "sharpe": -2.6313,
+     "annual_return": -0.1816,
+     "max_drawdown": -0.1227,
+     "n_trades": 139,
+     "n_entries": 25,
+     "win_rate": 0.42,
+     "turnover": 23.2025,
+     "final_equity": 880538.83,
+     "n_cycles": 50
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 140000,
+      "cash_end": 21695.13
+     },
+     "510300": {
+      "entries": 25,
+      "shares_end": 90000,
+      "cash_end": 38233.7
+     }
+    }
+   },
+   "null_18": {
+    "full": {
+     "sharpe": -2.3007,
+     "annual_return": -0.1882,
+     "max_drawdown": -0.124,
+     "n_trades": 131,
+     "n_entries": 22,
+     "win_rate": 0.3256,
+     "turnover": 26.3979,
+     "final_equity": 876036.72,
+     "n_cycles": 43
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 140000,
+      "cash_end": 23464.97
+     },
+     "510300": {
+      "entries": 21,
+      "shares_end": 90000,
+      "cash_end": 31961.76
+     }
+    }
+   },
+   "null_19": {
+    "full": {
+     "sharpe": -3.1364,
+     "annual_return": -0.2708,
+     "max_drawdown": -0.1817,
+     "n_trades": 158,
+     "n_entries": 27,
+     "win_rate": 0.463,
+     "turnover": 25.3885,
+     "final_equity": 818338.47,
+     "n_cycles": 54
+    },
+    "per_und": {
+     "510050": {
+      "entries": 27,
+      "shares_end": 130000,
+      "cash_end": 30212.2
+     },
+     "510300": {
+      "entries": 27,
+      "shares_end": 80000,
+      "cash_end": 42256.27
+     }
+    }
+   },
+   "null_20": {
+    "full": {
+     "sharpe": -1.9764,
+     "annual_return": -0.1763,
+     "max_drawdown": -0.1339,
+     "n_trades": 148,
+     "n_entries": 25,
+     "win_rate": 0.4286,
+     "turnover": 29.954,
+     "final_equity": 884135.4,
+     "n_cycles": 49
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 0,
+      "cash_end": 428955.49
+     },
+     "510300": {
+      "entries": 24,
+      "shares_end": 0,
+      "cash_end": 455179.91
+     }
+    }
+   },
+   "null_21": {
+    "full": {
+     "sharpe": -2.2432,
+     "annual_return": -0.1859,
+     "max_drawdown": -0.1277,
+     "n_trades": 110,
+     "n_entries": 19,
+     "win_rate": 0.3333,
+     "turnover": 24.0093,
+     "final_equity": 877601.71,
+     "n_cycles": 36
+    },
+    "per_und": {
+     "510050": {
+      "entries": 19,
+      "shares_end": 0,
+      "cash_end": 434286.07
+     },
+     "510300": {
+      "entries": 17,
+      "shares_end": 0,
+      "cash_end": 443315.64
+     }
+    }
+   },
+   "null_22": {
+    "full": {
+     "sharpe": -2.7116,
+     "annual_return": -0.201,
+     "max_drawdown": -0.1328,
+     "n_trades": 136,
+     "n_entries": 22,
+     "win_rate": 0.4318,
+     "turnover": 29.1252,
+     "final_equity": 867213.59,
+     "n_cycles": 44
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 130000,
+      "cash_end": 43474.27
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 90000,
+      "cash_end": 32719.32
+     }
+    }
+   },
+   "null_23": {
+    "full": {
+     "sharpe": -1.6883,
+     "annual_return": -0.1547,
+     "max_drawdown": -0.1223,
+     "n_trades": 143,
+     "n_entries": 26,
+     "win_rate": 0.4423,
+     "turnover": 21.5415,
+     "final_equity": 898795.88,
+     "n_cycles": 52
+    },
+    "per_und": {
+     "510050": {
+      "entries": 26,
+      "shares_end": 150000,
+      "cash_end": 7779.67
+     },
+     "510300": {
+      "entries": 26,
+      "shares_end": 90000,
+      "cash_end": 40816.22
+     }
+    }
+   },
+   "null_24": {
+    "full": {
+     "sharpe": -1.5105,
+     "annual_return": -0.1195,
+     "max_drawdown": -0.1069,
+     "n_trades": 131,
+     "n_entries": 20,
+     "win_rate": 0.4,
+     "turnover": 32.7179,
+     "final_equity": 922371.09,
+     "n_cycles": 40
+    },
+    "per_und": {
+     "510050": {
+      "entries": 20,
+      "shares_end": 0,
+      "cash_end": 460424.36
+     },
+     "510300": {
+      "entries": 20,
+      "shares_end": 0,
+      "cash_end": 461946.73
+     }
+    }
+   },
+   "null_25": {
+    "full": {
+     "sharpe": -2.1406,
+     "annual_return": -0.2069,
+     "max_drawdown": -0.1369,
+     "n_trades": 146,
+     "n_entries": 27,
+     "win_rate": 0.3519,
+     "turnover": 19.4082,
+     "final_equity": 863141.27,
+     "n_cycles": 54
+    },
+    "per_und": {
+     "510050": {
+      "entries": 27,
+      "shares_end": 0,
+      "cash_end": 434687.27
+     },
+     "510300": {
+      "entries": 27,
+      "shares_end": 0,
+      "cash_end": 428454.0
+     }
+    }
+   },
+   "null_26": {
+    "full": {
+     "sharpe": -1.9777,
+     "annual_return": -0.1398,
+     "max_drawdown": -0.0912,
+     "n_trades": 131,
+     "n_entries": 22,
+     "win_rate": 0.3182,
+     "turnover": 23.9208,
+     "final_equity": 908843.15,
+     "n_cycles": 44
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 150000,
+      "cash_end": 6685.67
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 100000,
+      "cash_end": 6807.48
+     }
+    }
+   },
+   "null_27": {
+    "full": {
+     "sharpe": -2.5244,
+     "annual_return": -0.1894,
+     "max_drawdown": -0.1248,
+     "n_trades": 144,
+     "n_entries": 24,
+     "win_rate": 0.4255,
+     "turnover": 28.7075,
+     "final_equity": 875192.6,
+     "n_cycles": 47
+    },
+    "per_und": {
+     "510050": {
+      "entries": 24,
+      "shares_end": 140000,
+      "cash_end": 20159.69
+     },
+     "510300": {
+      "entries": 23,
+      "shares_end": 90000,
+      "cash_end": 34422.9
+     }
+    }
+   },
+   "null_28": {
+    "full": {
+     "sharpe": -1.2729,
+     "annual_return": -0.1227,
+     "max_drawdown": -0.0903,
+     "n_trades": 150,
+     "n_entries": 27,
+     "win_rate": 0.4074,
+     "turnover": 20.7281,
+     "final_equity": 920247.67,
+     "n_cycles": 54
+    },
+    "per_und": {
+     "510050": {
+      "entries": 27,
+      "shares_end": 140000,
+      "cash_end": 35905.56
+     },
+     "510300": {
+      "entries": 27,
+      "shares_end": 100000,
+      "cash_end": 18582.11
+     }
+    }
+   },
+   "null_29": {
+    "full": {
+     "sharpe": -2.4208,
+     "annual_return": -0.2092,
+     "max_drawdown": -0.1414,
+     "n_trades": 139,
+     "n_entries": 24,
+     "win_rate": 0.3542,
+     "turnover": 24.8971,
+     "final_equity": 861553.89,
+     "n_cycles": 48
+    },
+    "per_und": {
+     "510050": {
+      "entries": 24,
+      "shares_end": 0,
+      "cash_end": 426237.62
+     },
+     "510300": {
+      "entries": 24,
+      "shares_end": 0,
+      "cash_end": 435316.27
+     }
+    }
+   },
+   "null_30": {
+    "full": {
+     "sharpe": -1.9222,
+     "annual_return": -0.1636,
+     "max_drawdown": -0.1257,
+     "n_trades": 155,
+     "n_entries": 25,
+     "win_rate": 0.34,
+     "turnover": 28.5093,
+     "final_equity": 892794.97,
+     "n_cycles": 50
+    },
+    "per_und": {
+     "510050": {
+      "entries": 25,
+      "shares_end": 0,
+      "cash_end": 453768.88
+     },
+     "510300": {
+      "entries": 25,
+      "shares_end": 0,
+      "cash_end": 439026.09
+     }
+    }
+   },
+   "null_31": {
+    "full": {
+     "sharpe": -2.2571,
+     "annual_return": -0.1925,
+     "max_drawdown": -0.127,
+     "n_trades": 151,
+     "n_entries": 24,
+     "win_rate": 0.3542,
+     "turnover": 29.6432,
+     "final_equity": 873030.96,
+     "n_cycles": 48
+    },
+    "per_und": {
+     "510050": {
+      "entries": 24,
+      "shares_end": 140000,
+      "cash_end": 29406.88
+     },
+     "510300": {
+      "entries": 24,
+      "shares_end": 90000,
+      "cash_end": 23014.09
+     }
+    }
+   },
+   "null_32": {
+    "full": {
+     "sharpe": -2.3753,
+     "annual_return": -0.2203,
+     "max_drawdown": -0.1498,
+     "n_trades": 158,
+     "n_entries": 26,
+     "win_rate": 0.5,
+     "turnover": 27.2438,
+     "final_equity": 853849.81,
+     "n_cycles": 52
+    },
+    "per_und": {
+     "510050": {
+      "entries": 26,
+      "shares_end": 120000,
+      "cash_end": 67487.7
+     },
+     "510300": {
+      "entries": 26,
+      "shares_end": 80000,
+      "cash_end": 70082.11
+     }
+    }
+   },
+   "null_33": {
+    "full": {
+     "sharpe": -4.1125,
+     "annual_return": -0.2558,
+     "max_drawdown": -0.1711,
+     "n_trades": 128,
+     "n_entries": 19,
+     "win_rate": 0.3684,
+     "turnover": 34.2877,
+     "final_equity": 828940.46,
+     "n_cycles": 38
+    },
+    "per_und": {
+     "510050": {
+      "entries": 19,
+      "shares_end": 130000,
+      "cash_end": 25429.71
+     },
+     "510300": {
+      "entries": 19,
+      "shares_end": 90000,
+      "cash_end": 12490.76
+     }
+    }
+   },
+   "null_34": {
+    "full": {
+     "sharpe": -1.4998,
+     "annual_return": -0.1209,
+     "max_drawdown": -0.0828,
+     "n_trades": 125,
+     "n_entries": 21,
+     "win_rate": 0.4762,
+     "turnover": 23.9302,
+     "final_equity": 921475.61,
+     "n_cycles": 42
+    },
+    "per_und": {
+     "510050": {
+      "entries": 21,
+      "shares_end": 0,
+      "cash_end": 463486.44
+     },
+     "510300": {
+      "entries": 21,
+      "shares_end": 0,
+      "cash_end": 457989.17
+     }
+    }
+   },
+   "null_35": {
+    "full": {
+     "sharpe": -4.2307,
+     "annual_return": -0.2614,
+     "max_drawdown": -0.175,
+     "n_trades": 130,
+     "n_entries": 23,
+     "win_rate": 0.5,
+     "turnover": 20.1122,
+     "final_equity": 824974.94,
+     "n_cycles": 46
+    },
+    "per_und": {
+     "510050": {
+      "entries": 23,
+      "shares_end": 130000,
+      "cash_end": 19912.61
+     },
+     "510300": {
+      "entries": 23,
+      "shares_end": 90000,
+      "cash_end": 14042.33
+     }
+    }
+   },
+   "null_36": {
+    "full": {
+     "sharpe": -2.2402,
+     "annual_return": -0.1895,
+     "max_drawdown": -0.1282,
+     "n_trades": 151,
+     "n_entries": 26,
+     "win_rate": 0.3462,
+     "turnover": 20.7339,
+     "final_equity": 875086.5,
+     "n_cycles": 52
+    },
+    "per_und": {
+     "510050": {
+      "entries": 26,
+      "shares_end": 130000,
+      "cash_end": 54518.3
+     },
+     "510300": {
+      "entries": 26,
+      "shares_end": 80000,
+      "cash_end": 74698.21
+     }
+    }
+   },
+   "null_37": {
+    "full": {
+     "sharpe": -3.4706,
+     "annual_return": -0.2648,
+     "max_drawdown": -0.1902,
+     "n_trades": 132,
+     "n_entries": 23,
+     "win_rate": 0.3696,
+     "turnover": 22.589,
+     "final_equity": 822607.29,
+     "n_cycles": 46
+    },
+    "per_und": {
+     "510050": {
+      "entries": 23,
+      "shares_end": 130000,
+      "cash_end": 28457.03
+     },
+     "510300": {
+      "entries": 23,
+      "shares_end": 90000,
+      "cash_end": 3130.26
+     }
+    }
+   },
+   "null_38": {
+    "full": {
+     "sharpe": -2.4482,
+     "annual_return": -0.1945,
+     "max_drawdown": -0.1283,
+     "n_trades": 156,
+     "n_entries": 26,
+     "win_rate": 0.3462,
+     "turnover": 24.8372,
+     "final_equity": 871665.77,
+     "n_cycles": 52
+    },
+    "per_und": {
+     "510050": {
+      "entries": 26,
+      "shares_end": 140000,
+      "cash_end": 18312.87
+     },
+     "510300": {
+      "entries": 26,
+      "shares_end": 90000,
+      "cash_end": 32742.9
+     }
+    }
+   },
+   "null_39": {
+    "full": {
+     "sharpe": -2.0019,
+     "annual_return": -0.1855,
+     "max_drawdown": -0.1239,
+     "n_trades": 140,
+     "n_entries": 24,
+     "win_rate": 0.3404,
+     "turnover": 30.6792,
+     "final_equity": 877884.78,
+     "n_cycles": 47
+    },
+    "per_und": {
+     "510050": {
+      "entries": 24,
+      "shares_end": 130000,
+      "cash_end": 55771.29
+     },
+     "510300": {
+      "entries": 23,
+      "shares_end": 90000,
+      "cash_end": 31093.49
+     }
+    }
+   },
+   "null_40": {
+    "full": {
+     "sharpe": -3.3633,
+     "annual_return": -0.2448,
+     "max_drawdown": -0.1716,
+     "n_trades": 114,
+     "n_entries": 19,
+     "win_rate": 0.3421,
+     "turnover": 21.7536,
+     "final_equity": 836730.44,
+     "n_cycles": 38
+    },
+    "per_und": {
+     "510050": {
+      "entries": 19,
+      "shares_end": 0,
+      "cash_end": 419437.89
+     },
+     "510300": {
+      "entries": 19,
+      "shares_end": 0,
+      "cash_end": 417292.54
+     }
+    }
+   },
+   "null_41": {
+    "full": {
+     "sharpe": -2.7238,
+     "annual_return": -0.2384,
+     "max_drawdown": -0.1596,
+     "n_trades": 134,
+     "n_entries": 21,
+     "win_rate": 0.4524,
+     "turnover": 34.5343,
+     "final_equity": 841180.32,
+     "n_cycles": 42
+    },
+    "per_und": {
+     "510050": {
+      "entries": 21,
+      "shares_end": 140000,
+      "cash_end": 7747.85
+     },
+     "510300": {
+      "entries": 21,
+      "shares_end": 90000,
+      "cash_end": 12822.46
+     }
+    }
+   },
+   "null_42": {
+    "full": {
+     "sharpe": -1.4732,
+     "annual_return": -0.1217,
+     "max_drawdown": -0.0981,
+     "n_trades": 140,
+     "n_entries": 22,
+     "win_rate": 0.3953,
+     "turnover": 33.5574,
+     "final_equity": 920908.55,
+     "n_cycles": 43
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 0,
+      "cash_end": 448108.23
+     },
+     "510300": {
+      "entries": 21,
+      "shares_end": 0,
+      "cash_end": 472800.32
+     }
+    }
+   },
+   "null_43": {
+    "full": {
+     "sharpe": -3.3288,
+     "annual_return": -0.1875,
+     "max_drawdown": -0.1377,
+     "n_trades": 137,
+     "n_entries": 22,
+     "win_rate": 0.2558,
+     "turnover": 30.5186,
+     "final_equity": 876466.39,
+     "n_cycles": 43
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 0,
+      "cash_end": 432187.0
+     },
+     "510300": {
+      "entries": 21,
+      "shares_end": 0,
+      "cash_end": 444279.4
+     }
+    }
+   },
+   "null_44": {
+    "full": {
+     "sharpe": -2.2801,
+     "annual_return": -0.1548,
+     "max_drawdown": -0.1012,
+     "n_trades": 136,
+     "n_entries": 22,
+     "win_rate": 0.3023,
+     "turnover": 31.9238,
+     "final_equity": 898750.82,
+     "n_cycles": 43
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 140000,
+      "cash_end": 34185.85
+     },
+     "510300": {
+      "entries": 21,
+      "shares_end": 90000,
+      "cash_end": 43954.96
+     }
+    }
+   },
+   "null_45": {
+    "full": {
+     "sharpe": -3.0331,
+     "annual_return": -0.2136,
+     "max_drawdown": -0.1415,
+     "n_trades": 139,
+     "n_entries": 23,
+     "win_rate": 0.3333,
+     "turnover": 29.191,
+     "final_equity": 858509.19,
+     "n_cycles": 45
+    },
+    "per_und": {
+     "510050": {
+      "entries": 23,
+      "shares_end": 140000,
+      "cash_end": 7045.79
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 90000,
+      "cash_end": 30853.4
+     }
+    }
+   },
+   "null_46": {
+    "full": {
+     "sharpe": -3.0596,
+     "annual_return": -0.2487,
+     "max_drawdown": -0.166,
+     "n_trades": 154,
+     "n_entries": 28,
+     "win_rate": 0.4107,
+     "turnover": 23.8449,
+     "final_equity": 834005.94,
+     "n_cycles": 56
+    },
+    "per_und": {
+     "510050": {
+      "entries": 28,
+      "shares_end": 130000,
+      "cash_end": 30325.08
+     },
+     "510300": {
+      "entries": 28,
+      "shares_end": 80000,
+      "cash_end": 57810.86
+     }
+    }
+   },
+   "null_47": {
+    "full": {
+     "sharpe": -1.6353,
+     "annual_return": -0.1532,
+     "max_drawdown": -0.1127,
+     "n_trades": 149,
+     "n_entries": 24,
+     "win_rate": 0.3958,
+     "turnover": 29.8656,
+     "final_equity": 899800.88,
+     "n_cycles": 48
+    },
+    "per_und": {
+     "510050": {
+      "entries": 24,
+      "shares_end": 140000,
+      "cash_end": 36768.16
+     },
+     "510300": {
+      "entries": 24,
+      "shares_end": 90000,
+      "cash_end": 42422.72
+     }
+    }
+   },
+   "null_48": {
+    "full": {
+     "sharpe": -1.4421,
+     "annual_return": -0.1216,
+     "max_drawdown": -0.0943,
+     "n_trades": 139,
+     "n_entries": 23,
+     "win_rate": 0.4348,
+     "turnover": 28.9028,
+     "final_equity": 921009.51,
+     "n_cycles": 46
+    },
+    "per_und": {
+     "510050": {
+      "entries": 23,
+      "shares_end": 150000,
+      "cash_end": 3867.51
+     },
+     "510300": {
+      "entries": 23,
+      "shares_end": 100000,
+      "cash_end": 21792.0
+     }
+    }
+   },
+   "null_49": {
+    "full": {
+     "sharpe": -1.5768,
+     "annual_return": -0.1184,
+     "max_drawdown": -0.0908,
+     "n_trades": 132,
+     "n_entries": 22,
+     "win_rate": 0.4773,
+     "turnover": 23.2254,
+     "final_equity": 923087.71,
+     "n_cycles": 44
+    },
+    "per_und": {
+     "510050": {
+      "entries": 22,
+      "shares_end": 0,
+      "cash_end": 452963.67
+     },
+     "510300": {
+      "entries": 22,
+      "shares_end": 0,
+      "cash_end": 470124.04
+     }
+    }
+   }
+  }
+ },
+ "passive": {
+  "passive_buy_hold_510050": {
+   "full": {
+    "sharpe": -0.6454,
+    "annual_return": -0.1143,
+    "max_drawdown": -0.1026,
+    "n_trades": 1,
+    "n_entries": 1,
+    "win_rate": 0.0,
+    "turnover": 0.0,
+    "final_equity": 931499.14
+   }
+  },
+  "passive_buy_hold_510300": {
+   "full": {
+    "sharpe": -0.3563,
+    "annual_return": -0.0823,
+    "max_drawdown": -0.1131,
+    "n_trades": 1,
+    "n_entries": 1,
+    "win_rate": 0.0,
+    "turnover": 0.0,
+    "final_equity": 952855.87
+   }
+  }
+ },
+ "null_pool": {
+  "values": [
+   -1.328,
+   -1.7629,
+   -0.0193,
+   -3.3984,
+   -2.8971,
+   -2.2603,
+   -3.0101,
+   -2.2848,
+   -2.8766,
+   -2.0153,
+   -3.7313,
+   -2.6091,
+   -2.8183,
+   -3.0474,
+   -2.0297,
+   -4.0408,
+   -1.8345,
+   -2.6313,
+   -2.3007,
+   -3.1364,
+   -1.9764,
+   -2.2432,
+   -2.7116,
+   -1.6883,
+   -1.5105,
+   -2.1406,
+   -1.9777,
+   -2.5244,
+   -1.2729,
+   -2.4208,
+   -1.9222,
+   -2.2571,
+   -2.3753,
+   -4.1125,
+   -1.4998,
+   -4.2307,
+   -2.2402,
+   -3.4706,
+   -2.4482,
+   -2.0019,
+   -3.3633,
+   -2.7238,
+   -1.4732,
+   -3.3288,
+   -2.2801,
+   -3.0331,
+   -3.0596,
+   -1.6353,
+   -1.4421,
+   -1.5768
+  ],
+  "coverage": {
+   "n_values": 50,
+   "mu": -2.419466,
+   "sigma": 0.8204607781071834,
+   "schemas_parsed": [
+    "options_wave2:nulls.summary (K=50 in-batch)"
+   ],
+   "known_unparsed": []
+  }
+ },
+ "skill_line": {
+  "n_eff": 183100,
+  "line": 1.6196,
+  "passive_term": -0.2563,
+  "null_term": 1.6196,
+  "mu_null": -2.4195,
+  "sigma_null": 0.8205,
+  "pool": "options_wave2",
+  "ledger_head": {
+   "total": 183030,
+   "file": "shortline_cta_wave1.json",
+   "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+  }
+ },
+ "verdicts_g1": {
+  "covered_call_m3@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -1.317,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -3.7476,
+    "ci95_high": 1.0938,
+    "point": -1.317,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 147,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -2.5976,
+    "x3_info_sharpe": -3.7203,
+    "worst_year": -0.0998
+   }
+  },
+  "covered_call_m3@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.2997,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -2.7098,
+    "ci95_high": 2.2662,
+    "point": -0.2997,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 37,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -0.6133,
+    "x3_info_sharpe": -0.8732,
+    "worst_year": -0.0289
+   }
+  },
+  "covered_call_m5@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -1.0384,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -3.4523,
+    "ci95_high": 1.4376,
+    "point": -1.0384,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 142,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -2.014,
+    "x3_info_sharpe": -2.9514,
+    "worst_year": -0.0883
+   }
+  },
+  "covered_call_m5@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.3171,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -2.7669,
+    "ci95_high": 2.2626,
+    "point": -0.3171,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 39,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -0.5815,
+    "x3_info_sharpe": -0.8151,
+    "worst_year": -0.0316
+   }
+  },
+  "covered_call_m10@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.7758,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -3.1827,
+    "ci95_high": 1.7257,
+    "point": -0.7758,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 140,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -1.3938,
+    "x3_info_sharpe": -1.9955,
+    "worst_year": -0.0751
+   }
+  },
+  "covered_call_m10@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.2503,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -2.7057,
+    "ci95_high": 2.3165,
+    "point": -0.2503,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 35,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -0.3904,
+    "x3_info_sharpe": -0.5362,
+    "worst_year": -0.0296
+   }
+  },
+  "protective_put_m3@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -5.6575,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -8.2898,
+    "ci95_high": -3.3229,
+    "point": -5.6575,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 143,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -7.5996,
+    "x3_info_sharpe": -8.1598,
+    "worst_year": -0.1983,
+    "insurance_face": {
+     "premium_paid": 1611399.0,
+     "premium_pct_of_start": 1.6114,
+     "dd_vs_naked_blend_delta": -0.0905,
+     "dd_reduction_bps_per_premium_pct": 561.31
+    }
+   }
+  },
+  "protective_put_m3@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -1.9228,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -4.59,
+    "ci95_high": 0.5068,
+    "point": -1.9228,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 40,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -2.7661,
+    "x3_info_sharpe": -3.1975,
+    "worst_year": -0.0718,
+    "insurance_face": {
+     "premium_paid": 434848.0,
+     "premium_pct_of_start": 0.4348,
+     "dd_vs_naked_blend_delta": 0.0343,
+     "dd_reduction_bps_per_premium_pct": -787.63
+    }
+   }
+  },
+  "protective_put_m5@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -6.7015,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -8.8987,
+    "ci95_high": -4.5459,
+    "point": -6.7015,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 144,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -8.0683,
+    "x3_info_sharpe": -8.3469,
+    "worst_year": -0.2409,
+    "insurance_face": {
+     "premium_paid": 1970108.0,
+     "premium_pct_of_start": 1.9701,
+     "dd_vs_naked_blend_delta": -0.1331,
+     "dd_reduction_bps_per_premium_pct": 675.34
+    }
+   }
+  },
+  "protective_put_m5@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -2.1258,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -4.5622,
+    "ci95_high": 0.371,
+    "point": -2.1258,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 38,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -2.9201,
+    "x3_info_sharpe": -3.2843,
+    "worst_year": -0.0767,
+    "insurance_face": {
+     "premium_paid": 514366.0,
+     "premium_pct_of_start": 0.5144,
+     "dd_vs_naked_blend_delta": 0.0277,
+     "dd_reduction_bps_per_premium_pct": -539.5
+    }
+   }
+  },
+  "protective_put_m10@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -7.097,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -9.0499,
+    "ci95_high": -4.9863,
+    "point": -7.097,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 145,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -8.0131,
+    "x3_info_sharpe": -8.153,
+    "worst_year": -0.308,
+    "insurance_face": {
+     "premium_paid": 2664559.0,
+     "premium_pct_of_start": 2.6646,
+     "dd_vs_naked_blend_delta": -0.2001,
+     "dd_reduction_bps_per_premium_pct": 751.16
+    }
+   }
+  },
+  "protective_put_m10@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -2.5348,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -4.8881,
+    "ci95_high": -0.1788,
+    "point": -2.5348,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 40,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -3.3146,
+    "x3_info_sharpe": -3.5723,
+    "worst_year": -0.0949,
+    "insurance_face": {
+     "premium_paid": 766518.0,
+     "premium_pct_of_start": 0.7665,
+     "dd_vs_naked_blend_delta": 0.0125,
+     "dd_reduction_bps_per_premium_pct": -162.42
+    }
+   }
+  },
+  "cash_secured_put_m3@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -2.8712,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -5.1363,
+    "ci95_high": -0.4545,
+    "point": -2.8712,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 136,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -4.9375,
+    "x3_info_sharpe": -6.2542,
+    "worst_year": -0.1948,
+    "cash_leg": {
+     "max_open_lots": 15,
+     "note": "collateral = strike*unit*lots frozen cash"
+    }
+   }
+  },
+  "cash_secured_put_m3@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.6752,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -3.0812,
+    "ci95_high": 1.9473,
+    "point": -0.6752,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 32,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -1.2155,
+    "x3_info_sharpe": -1.6466,
+    "worst_year": -0.0553,
+    "cash_leg": {
+     "max_open_lots": 15,
+     "note": "collateral = strike*unit*lots frozen cash"
+    }
+   }
+  },
+  "cash_secured_put_m5@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -2.9566,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -5.2462,
+    "ci95_high": -0.6905,
+    "point": -2.9566,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 134,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -5.0738,
+    "x3_info_sharpe": -6.3932,
+    "worst_year": -0.2155,
+    "cash_leg": {
+     "max_open_lots": 15,
+     "note": "collateral = strike*unit*lots frozen cash"
+    }
+   }
+  },
+  "cash_secured_put_m5@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.7739,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -3.2422,
+    "ci95_high": 1.7992,
+    "point": -0.7739,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 32,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -1.341,
+    "x3_info_sharpe": -1.841,
+    "worst_year": -0.0666,
+    "cash_leg": {
+     "max_open_lots": 15,
+     "note": "collateral = strike*unit*lots frozen cash"
+    }
+   }
+  },
+  "cash_secured_put_m10@weekly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -3.9247,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -6.2152,
+    "ci95_high": -1.7677,
+    "point": -3.9247,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 130,
+    "n_entries": 34,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -6.2717,
+    "x3_info_sharpe": -7.2791,
+    "worst_year": -0.2839,
+    "cash_leg": {
+     "max_open_lots": 14,
+     "note": "collateral = strike*unit*lots frozen cash"
+    }
+   }
+  },
+  "cash_secured_put_m10@monthly": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -1.0362,
+   "skill_line": {
+    "n_eff": 183100,
+    "line": 1.6196,
+    "passive_term": -0.2563,
+    "null_term": 1.6196,
+    "mu_null": -2.4195,
+    "sigma_null": 0.8205,
+    "pool": "options_wave2",
+    "ledger_head": {
+     "total": 183030,
+     "file": "shortline_cta_wave1.json",
+     "note": "26 candidates (LegA 8 new trend patterns x daily/r20 + LegB 4 bases x margin-cap 50/30 + LegC 2 basis-carry IF/IC vs ETF proxy) + 50 nulls (seed 62_000+k) + 2 passives; deep panel union 2008-01-09, 10 varieties incl. TS (G2 exchange-verified, tick frozen 0.002 per >30% deviation protocol); prereg research/CTA_WAVE1_PREREG.md frozen R186 sha b5bed148; pool cta_wave1 own nulls+deep passives"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -3.2932,
+    "ci95_high": 1.6254,
+    "point": -1.0362,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 32,
+    "n_entries": 8,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": false,
+    "dual_ok": false
+   },
+   "descriptive": {
+    "annual_positive": false,
+    "dd_ok": true,
+    "no_crash_year": true,
+    "x2_info_sharpe": -1.7832,
+    "x3_info_sharpe": -2.2756,
+    "worst_year": -0.0886,
+    "cash_leg": {
+     "max_open_lots": 14,
+     "note": "collateral = strike*unit*lots frozen cash"
+    }
+   }
+  }
+ },
+ "g1_passers": [],
+ "verdicts_g2": {},
+ "d6": {
+  "within_batch_max_abs_corr": {
+   "covered_call_m3@weekly": 0.9945,
+   "covered_call_m3@monthly": 0.9969,
+   "covered_call_m5@weekly": 0.9954,
+   "covered_call_m5@monthly": 0.9969,
+   "covered_call_m10@weekly": 0.9954,
+   "covered_call_m10@monthly": 0.9954,
+   "protective_put_m3@weekly": 0.8999,
+   "protective_put_m3@monthly": 0.93,
+   "protective_put_m5@weekly": 0.8999,
+   "protective_put_m5@monthly": 0.93,
+   "protective_put_m10@weekly": 0.8149,
+   "protective_put_m10@monthly": 0.782,
+   "cash_secured_put_m3@weekly": 0.9828,
+   "cash_secured_put_m3@monthly": 0.9848,
+   "cash_secured_put_m5@weekly": 0.9828,
+   "cash_secured_put_m5@monthly": 0.9848,
+   "cash_secured_put_m10@weekly": 0.9552,
+   "cash_secured_put_m10@monthly": 0.9534
+  },
+  "in_register": {},
+  "reject_line": 0.7,
+  "preannotation": "CC<->CSP twin corr >=0.7 band expected by design (prereg §1)"
+ },
+ "family_pbo": {
+  "covered_call": {
+   "pbo": null,
+   "status": "structurally_unavailable",
+   "reason": "align_returns/cscv refused: aligned matrix too thin (T=159) — insufficient overlap (T=159 < frozen CSCV minimum 160; pilot retention-window thin face, disclosed; G2 registration would fail on this leg for any passer — none exist this batch)"
+  },
+  "protective_put": {
+   "pbo": null,
+   "status": "structurally_unavailable",
+   "reason": "align_returns/cscv refused: aligned matrix too thin (T=159) — insufficient overlap (T=159 < frozen CSCV minimum 160; pilot retention-window thin face, disclosed; G2 registration would fail on this leg for any passer — none exist this batch)"
+  },
+  "cash_secured_put": {
+   "pbo": null,
+   "status": "structurally_unavailable",
+   "reason": "align_returns/cscv refused: aligned matrix too thin (T=159) — insufficient overlap (T=159 < frozen CSCV minimum 160; pilot retention-window thin face, disclosed; G2 registration would fail on this leg for any passer — none exist this batch)"
+  }
+ },
+ "trials_ledger": {
+  "prev_total": 183030,
+  "batch_trials": 70,
+  "total": 183100,
+  "batch": "options_wave2",
+  "file": "results/options_wave2.json",
+  "note": "18 candidates (CC/PP/CSP x m{3,5,10}% x weekly/monthly) + 50 nulls (seed 63_000+k) + 2 passives; retention-window pilot 2026-01-29..2026-09-24, blend 50/50 across 510050/510300; pool options_wave2 own nulls+passives; prereg research/OPTIONS_WAVE2_PREREG.md sha a6998921",
+  "evidence_cutoff": "2026-09-24"
+ },
+ "audit": {
+  "source": "results/compute_audit.json (in-batch run, latest)",
+  "verdict": "CLEAN",
+  "ts": "2026-09-25 22:59:47",
+  "cpu_pct": null,
+  "flags": []
+ },
+ "passive_sharpes": {
+  "passive_buy_hold_510050": -0.6454,
+  "passive_buy_hold_510300": -0.3563
+ },
+ "candidates": {
+  "covered_call_m3@weekly": {
+   "full": {
+    "sharpe": -1.317,
+    "annual_return": -0.1525,
+    "max_drawdown": -0.0998,
+    "n_trades": 147,
+    "n_entries": 34,
+    "win_rate": 0.5,
+    "turnover": 5.0582,
+    "final_equity": 900241.19,
+    "n_cycles": 68
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 150000,
+     "cash_end": 4466.67
+    },
+    "510300": {
+     "entries": 34,
+     "shares_end": 90000,
+     "cash_end": 45574.52
+    }
+   },
+   "x2_full_sharpe": -2.5976,
+   "x3_full_sharpe": -3.7203
+  },
+  "covered_call_m3@monthly": {
+   "full": {
+    "sharpe": -0.2997,
+    "annual_return": -0.0451,
+    "max_drawdown": -0.0589,
+    "n_trades": 37,
+    "n_entries": 8,
+    "win_rate": 0.6875,
+    "turnover": 2.354,
+    "final_equity": 971143.5,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 160000,
+     "cash_end": 12748.83
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 100000,
+     "cash_end": 33454.67
+    }
+   },
+   "x2_full_sharpe": -0.6133,
+   "x3_full_sharpe": -0.8732
+  },
+  "covered_call_m5@weekly": {
+   "full": {
+    "sharpe": -1.0384,
+    "annual_return": -0.1355,
+    "max_drawdown": -0.0883,
+    "n_trades": 142,
+    "n_entries": 34,
+    "win_rate": 0.4706,
+    "turnover": 4.0637,
+    "final_equity": 911683.36,
+    "n_cycles": 68
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 150000,
+     "cash_end": 6083.34
+    },
+    "510300": {
+     "entries": 34,
+     "shares_end": 100000,
+     "cash_end": 10250.02
+    }
+   },
+   "x2_full_sharpe": -2.014,
+   "x3_full_sharpe": -2.9514
+  },
+  "covered_call_m5@monthly": {
+   "full": {
+    "sharpe": -0.3171,
+    "annual_return": -0.0492,
+    "max_drawdown": -0.0584,
+    "n_trades": 39,
+    "n_entries": 8,
+    "win_rate": 0.6875,
+    "turnover": 2.3491,
+    "final_equity": 968448.89,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 160000,
+     "cash_end": 7473.72
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 100000,
+     "cash_end": 36035.17
+    }
+   },
+   "x2_full_sharpe": -0.5815,
+   "x3_full_sharpe": -0.8151
+  },
+  "covered_call_m10@weekly": {
+   "full": {
+    "sharpe": -0.7758,
+    "annual_return": -0.1157,
+    "max_drawdown": -0.0751,
+    "n_trades": 140,
+    "n_entries": 34,
+    "win_rate": 0.4559,
+    "turnover": 3.0278,
+    "final_equity": 924889.55,
+    "n_cycles": 68
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 150000,
+     "cash_end": 15932.79
+    },
+    "510300": {
+     "entries": 34,
+     "shares_end": 100000,
+     "cash_end": 13606.76
+    }
+   },
+   "x2_full_sharpe": -1.3938,
+   "x3_full_sharpe": -1.9955
+  },
+  "covered_call_m10@monthly": {
+   "full": {
+    "sharpe": -0.2503,
+    "annual_return": -0.0462,
+    "max_drawdown": -0.0643,
+    "n_trades": 35,
+    "n_entries": 8,
+    "win_rate": 0.6875,
+    "turnover": 1.844,
+    "final_equity": 970397.61,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 160000,
+     "cash_end": 10969.03
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 100000,
+     "cash_end": 34488.58
+    }
+   },
+   "x2_full_sharpe": -0.3904,
+   "x3_full_sharpe": -0.5362
+  },
+  "protective_put_m3@weekly": {
+   "full": {
+    "sharpe": -5.6575,
+    "annual_return": -0.2939,
+    "max_drawdown": -0.1983,
+    "n_trades": 143,
+    "n_entries": 34,
+    "win_rate": 0.3676,
+    "turnover": 7.5216,
+    "final_equity": 801725.08,
+    "n_cycles": 68
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 120000,
+     "cash_end": 40289.13
+    },
+    "510300": {
+     "entries": 34,
+     "shares_end": 80000,
+     "cash_end": 45155.95
+    }
+   },
+   "x2_full_sharpe": -7.5996,
+   "x3_full_sharpe": -8.1598
+  },
+  "protective_put_m3@monthly": {
+   "full": {
+    "sharpe": -1.9228,
+    "annual_return": -0.1107,
+    "max_drawdown": -0.0736,
+    "n_trades": 40,
+    "n_entries": 8,
+    "win_rate": 0.375,
+    "turnover": 3.1519,
+    "final_equity": 928234.21,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 140000,
+     "cash_end": 43095.65
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 90000,
+     "cash_end": 64528.56
+    }
+   },
+   "x2_full_sharpe": -2.7661,
+   "x3_full_sharpe": -3.1975
+  },
+  "protective_put_m5@weekly": {
+   "full": {
+    "sharpe": -6.7015,
+    "annual_return": -0.3522,
+    "max_drawdown": -0.2409,
+    "n_trades": 144,
+    "n_entries": 34,
+    "win_rate": 0.3134,
+    "turnover": 9.252,
+    "final_equity": 759062.65,
+    "n_cycles": 67
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 110000,
+     "cash_end": 53692.94
+    },
+    "510300": {
+     "entries": 33,
+     "shares_end": 80000,
+     "cash_end": 18679.71
+    }
+   },
+   "x2_full_sharpe": -8.0683,
+   "x3_full_sharpe": -8.3469
+  },
+  "protective_put_m5@monthly": {
+   "full": {
+    "sharpe": -2.1258,
+    "annual_return": -0.1181,
+    "max_drawdown": -0.0801,
+    "n_trades": 38,
+    "n_entries": 8,
+    "win_rate": 0.375,
+    "turnover": 3.277,
+    "final_equity": 923274.07,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 140000,
+     "cash_end": 47052.05
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 90000,
+     "cash_end": 55612.02
+    }
+   },
+   "x2_full_sharpe": -2.9201,
+   "x3_full_sharpe": -3.2843
+  },
+  "protective_put_m10@weekly": {
+   "full": {
+    "sharpe": -7.097,
+    "annual_return": -0.44,
+    "max_drawdown": -0.308,
+    "n_trades": 145,
+    "n_entries": 34,
+    "win_rate": 0.2615,
+    "turnover": 12.545,
+    "final_equity": 692039.26,
+    "n_cycles": 65
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 100000,
+     "cash_end": 43393.13
+    },
+    "510300": {
+     "entries": 31,
+     "shares_end": 70000,
+     "cash_end": 36696.13
+    }
+   },
+   "x2_full_sharpe": -8.0131,
+   "x3_full_sharpe": -8.153
+  },
+  "protective_put_m10@monthly": {
+   "full": {
+    "sharpe": -2.5348,
+    "annual_return": -0.1454,
+    "max_drawdown": -0.0954,
+    "n_trades": 40,
+    "n_entries": 8,
+    "win_rate": 0.375,
+    "turnover": 4.3384,
+    "final_equity": 905066.26,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 130000,
+     "cash_end": 65303.97
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 80000,
+     "cash_end": 93892.29
+    }
+   },
+   "x2_full_sharpe": -3.3146,
+   "x3_full_sharpe": -3.5723
+  },
+  "cash_secured_put_m3@weekly": {
+   "full": {
+    "sharpe": -2.8712,
+    "annual_return": -0.2891,
+    "max_drawdown": -0.2035,
+    "n_trades": 136,
+    "n_entries": 34,
+    "win_rate": 0.3824,
+    "turnover": 5.9747,
+    "final_equity": 805226.7,
+    "n_cycles": 68
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 0,
+     "cash_end": 402753.2
+    },
+    "510300": {
+     "entries": 34,
+     "shares_end": 0,
+     "cash_end": 402473.5
+    }
+   },
+   "x2_full_sharpe": -4.9375,
+   "x3_full_sharpe": -6.2542
+  },
+  "cash_secured_put_m3@monthly": {
+   "full": {
+    "sharpe": -0.6752,
+    "annual_return": -0.0856,
+    "max_drawdown": -0.0836,
+    "n_trades": 32,
+    "n_entries": 8,
+    "win_rate": 0.4375,
+    "turnover": 1.4873,
+    "final_equity": 944745.35,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 0,
+     "cash_end": 476184.15
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 0,
+     "cash_end": 468561.2
+    }
+   },
+   "x2_full_sharpe": -1.2155,
+   "x3_full_sharpe": -1.6466
+  },
+  "cash_secured_put_m5@weekly": {
+   "full": {
+    "sharpe": -2.9566,
+    "annual_return": -0.3177,
+    "max_drawdown": -0.2238,
+    "n_trades": 134,
+    "n_entries": 34,
+    "win_rate": 0.3881,
+    "turnover": 7.2476,
+    "final_equity": 784478.45,
+    "n_cycles": 67
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 0,
+     "cash_end": 387179.4
+    },
+    "510300": {
+     "entries": 33,
+     "shares_end": 0,
+     "cash_end": 397299.05
+    }
+   },
+   "x2_full_sharpe": -5.0738,
+   "x3_full_sharpe": -6.3932
+  },
+  "cash_secured_put_m5@monthly": {
+   "full": {
+    "sharpe": -0.7739,
+    "annual_return": -0.1029,
+    "max_drawdown": -0.0851,
+    "n_trades": 32,
+    "n_entries": 8,
+    "win_rate": 0.375,
+    "turnover": 1.774,
+    "final_equity": 933361.45,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 0,
+     "cash_end": 464291.85
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 0,
+     "cash_end": 469069.6
+    }
+   },
+   "x2_full_sharpe": -1.341,
+   "x3_full_sharpe": -1.841
+  },
+  "cash_secured_put_m10@weekly": {
+   "full": {
+    "sharpe": -3.9247,
+    "annual_return": -0.409,
+    "max_drawdown": -0.2873,
+    "n_trades": 130,
+    "n_entries": 34,
+    "win_rate": 0.3077,
+    "turnover": 10.2839,
+    "final_equity": 716123.9,
+    "n_cycles": 65
+   },
+   "per_und": {
+    "510050": {
+     "entries": 34,
+     "shares_end": 0,
+     "cash_end": 350865.3
+    },
+    "510300": {
+     "entries": 31,
+     "shares_end": 0,
+     "cash_end": 365258.6
+    }
+   },
+   "x2_full_sharpe": -6.2717,
+   "x3_full_sharpe": -7.2791
+  },
+  "cash_secured_put_m10@monthly": {
+   "full": {
+    "sharpe": -1.0362,
+    "annual_return": -0.136,
+    "max_drawdown": -0.1034,
+    "n_trades": 32,
+    "n_entries": 8,
+    "win_rate": 0.3125,
+    "turnover": 2.5907,
+    "final_equity": 911395.25,
+    "n_cycles": 16
+   },
+   "per_und": {
+    "510050": {
+     "entries": 8,
+     "shares_end": 0,
+     "cash_end": 453276.9
+    },
+    "510300": {
+     "entries": 8,
+     "shares_end": 0,
+     "cash_end": 458118.35
+    }
+   },
+   "x2_full_sharpe": -1.7832,
+   "x3_full_sharpe": -2.2756
+  }
+ }
+}

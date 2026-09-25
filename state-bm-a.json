@@ -1,12 +1,12 @@
 {
- "round_no": 193,
- "did": "R193: T-67 s1 CLOSED — engine/options_runner.py NEW ADDITIVE (CC/PP/CSP overlay engine: T-signal selection -> T+1 open fills, roll-always weekly/monthly, expiry intrinsic cash-settle proxy (physical-delivery approx, negative-cash artifact disclosed w/ equity-solvency invariant), limit guard, V2 ADV20 ETF-leg cost + 1%ADV cap, PP budget-decrement guard, off-flatten) + scripts/options_wave2.py gates/run/selftest (selftest 11 assertion families ALL PASS: lots math CC33/PP27-guard/CSP32, expiry settle exact, limit guard, look-ahead truncation bit-exact, determinism double-run, null seed 63000, off-flatten) + gates REAL-PANEL G0/G1/G3/G4 ALL PASS (G3 five conditions + hard-bound distribution face + selection-band-hole criterion on mixed-step exchange ladders + span 160d registration_eligible + put legs alive; G4 null/passive bit-exact) + science_gates.passive_baseline options_wave2 ADDITIVE branch + G2 EXCHANGE-VERIFIED 3/4: unit=10000份 VERIFIED + tick=0.0001元 VERIFIED (SSE 50ETF/300ETF contract-params pages, parent-href two-hop chain) + 经手费 1.3元/张 VERIFIED (SSE charge page; sell-to-open waiver disclosed= conservative direction); CSDC 结算费 0.3 PENDING (chinaclear fee-doc list = JS shell + early probe relative-link base-prefix trap fixed) -> evidence results/options_wave2_g2_check.json frozen w/ continuation pointer, G2 red = run honestly blocked until CSDC leg lands",
- "verdict": "green",
- "next": "T-67 G2 CSDC settlement-fee leg closure (chinaclear JS-shell AJAX endpoint or official-announcement face) -> gates all green -> s2 batch run+harvest (<60s single-process per prereg §0) -> §7 backfill + attrition; wave-2b forward-collector ticket; AH/moneyflow spawn completion recheck; next trading-day bar -> full chain rewire; T-63 10-31 month-boundary first check",
- "ts": "2026-09-25T22:44:39+08:00",
- "last_round_ts": "2026-09-25T22:44:39+08:00",
- "updated_at": "2026-09-25T22:44:39+08:00",
- "current_task": "R193 done: T-67 s1 options runner built+selftest ALL PASS+gates 4/5 (G2 CSDC leg pending); next = G2 closure -> s2 batch",
+ "round_no": 194,
+ "did": "T-67 s2 options batch harvested (G2 CSDC leg closed via iframe sub-page + PDF 0.3 yuan literal; gap-day crash fixed with atomic roll deferral + close_mark ffill; 70 cells 55.0s 0/18 honest fail; PP insurance face weekly-true 751/675/561 bps; prereg 7/8 backfilled; T-69 wave-2b forward collector opened)",
+ "verdict": "S3 closure complete; S6 16 legs green (holiday no-ops)",
+ "next": "T-69 claim/dev; AH spawn re-arm after throttle window; next trading day full chain + paper legs; T-63 Oct-31 first calibration",
+ "ts": "2026-09-25T23:04:23+08:00",
+ "last_round_ts": 1790348663,
+ "updated_at": "2026-09-25T23:04:23+08:00",
+ "current_task": "T-2026-09-25-67 s2 closed; T-2026-09-25-69 open (unclaimed)",
  "last_run": "2026-09-25T22:44:39+08:00",
- "last_round_at": "R193"
+ "last_round_at": "2026-09-25T23:04:23+08:00"
 }

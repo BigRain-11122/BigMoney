@@ -14,6 +14,11 @@ Execution semantics (frozen §3):
     month), roll-always (frozen entries estimate face).
   - daily close marking; expiry = intrinsic cash settlement at underlying
     close (physical-delivery proxy, disclosed); settlement fee 0 (proxy).
+  - zero-volume gap days (illiquid contracts skip no-trade days in the
+    sina daily face): marking carries the last observable contract close
+    (ffill close_mark face); fills only on days with a row — a roll landing
+    on a gap day is deferred whole (position carries to next roll/expiry,
+    R194 fix, disclosed; selection tradability still reads the raw face).
   - limit guard: ETF open beyond +/-10% vs prior ETF close -> no NEW opens
     that day (closes always allowed).
   - costs: option leg = per-lot fee + max(2 ticks, 5% premium)/share/side;
@@ -89,6 +94,10 @@ class UndPanel:
             by_dir[c["direction"]].append({
                 "code": c["code"], "month": c["month"], "direction": c["direction"],
                 "strike": float(c["strike"]), "open": oarr, "close": carr,
+                # marking face: forward-fill close through zero-volume gap days
+                # (illiquid deep-OTM contracts skip no-trade days in the sina
+                # daily face; fills stay raw-open, marking carries last close)
+                "close_mark": pd.Series(carr).ffill().to_numpy(dtype=float),
                 "first_idx": fd if fd is not None else n,  # n = never available
                 "expiry": expiry_map[(code, c["month"])],
             })
@@ -96,7 +105,9 @@ class UndPanel:
 
     @classmethod
     def from_components(cls, code, dates, open_, close, amount, by_dir):
-        """Synthetic-panel constructor (selftest/offline path; no files)."""
+        """Synthetic-panel constructor (selftest/offline path; no files).
+        Mirrors the production constructor's close_mark face (r157
+        fixture-production pairing law)."""
         obj = cls.__new__(cls)
         obj.code = code
         obj.dates = dates
@@ -104,6 +115,10 @@ class UndPanel:
         obj.close = np.asarray(close, dtype=float)
         adv = pd.Series(np.asarray(amount, dtype=float)).rolling(20, min_periods=1).mean()
         obj.adv20 = adv.to_numpy(dtype=float)
+        for contracts in by_dir.values():
+            for c in contracts:
+                c["close_mark"] = (pd.Series(np.asarray(c["close"], dtype=float))
+                                   .ffill().to_numpy(dtype=float))
         obj.by_dir = by_dir
         return obj
 
@@ -233,17 +248,23 @@ def _opt_trade(st: _SleeveState, pnl: UndPanel, i: int, contract: dict, lots: in
     return delta
 
 
-def _close_overlay(st: _SleeveState, pnl: UndPanel, i: int, cost_mult: float) -> None:
+def _close_overlay(st: _SleeveState, pnl: UndPanel, i: int, cost_mult: float) -> bool:
     """Buy back / sell the held option overlay at day-i open (roll close or
-    flatten; closes always allowed). Shares persist (handled separately)."""
+    flatten; closes always allowed). Returns False when the held contract has
+    no daily row at day i (zero-volume gap day: no observable price, no honest
+    fill) — caller defers the whole roll (position carries to the next roll or
+    expiry). R194 fix for the 2026-03-10 NaN-fill cash-poisoning crash."""
     p = st.pos
     if p is None:
-        return
+        return True
     contract = p["contract"]
+    if math.isnan(float(contract["open"][i])):
+        return False
     side = "buy" if p["family"] in ("covered_call", "cash_secured_put") else "sell"
     delta = _opt_trade(st, pnl, i, contract, p["lots"], side, "roll_close", cost_mult)
     st.cycles.append(delta + p["opt_open_delta"])
     st.pos = None
+    return True
 
 
 def _settle_expiry(st: _SleeveState, pnl: UndPanel, i: int) -> None:
@@ -317,8 +338,8 @@ def _open_position(st: _SleeveState, pnl: UndPanel, i: int, family: str,
 def _equity(st: _SleeveState, pnl: UndPanel, i: int) -> float:
     eq = st.cash + st.shares * pnl.close[i]
     if st.pos is not None:
-        cclose = st.pos["contract"]["close"][i]
-        if not math.isnan(cclose):  # rows exist through expiry by G3
+        cclose = st.pos["contract"]["close_mark"][i]
+        if not math.isnan(cclose):  # NaN only before first row (pos never held then)
             mult = OPT_UNIT * st.pos["lots"]
             if st.pos["family"] == "protective_put":
                 eq += mult * cclose           # long put asset
@@ -343,21 +364,27 @@ def run_und_sleeve(pnl: UndPanel, plan: list, sub_cash: float,
             sig_eq = equity[i - 1] if i > 0 else sub_cash  # T-close equity
             sig_close = pnl.close[i - 1] if i > 0 else pnl.close[0]
             adv = pnl.adv20[i - 1] if i > 0 else pnl.adv20[0]
+            roll_ok = True
             if st.pos is not None:
-                _close_overlay(st, pnl, i, cost_mult)
-            if fam is None:
-                if st.shares:  # flatten: off-state holds no ETF exposure
-                    _etf_trade(st, pnl, i, -st.shares, adv, cost_mult, "flatten")
-            elif c is not None:
-                if fam == "cash_secured_put":
-                    lots = int(sig_eq // (c["strike"] * OPT_UNIT))
-                else:
-                    lots = int(sig_eq // (sig_close * OPT_UNIT)) if sig_close > 0 else 0
-                while lots >= 1 and not _open_position(st, pnl, i, fam, c, lots,
-                                                       cost_mult, adv, sig_close):
-                    lots -= 1  # PP budget guard decrement (deterministic)
-                if st.pos is not None:
-                    st.entry_execs.append(i)
+                # atomic roll: a held overlay with no fillable price at day i
+                # (zero-volume gap day) defers the ENTIRE roll — no orphaned
+                # overlays (old leg dropped while new leg opens), no fabricated
+                # fills at stale prices; position carries to next roll/expiry
+                roll_ok = _close_overlay(st, pnl, i, cost_mult)
+            if roll_ok:
+                if fam is None:
+                    if st.shares:  # flatten: off-state holds no ETF exposure
+                        _etf_trade(st, pnl, i, -st.shares, adv, cost_mult, "flatten")
+                elif c is not None:
+                    if fam == "cash_secured_put":
+                        lots = int(sig_eq // (c["strike"] * OPT_UNIT))
+                    else:
+                        lots = int(sig_eq // (sig_close * OPT_UNIT)) if sig_close > 0 else 0
+                    while lots >= 1 and not _open_position(st, pnl, i, fam, c, lots,
+                                                           cost_mult, adv, sig_close):
+                        lots -= 1  # PP budget guard decrement (deterministic)
+                    if st.pos is not None:
+                        st.entry_execs.append(i)
         if st.pos is not None and st.pos["expiry_ts"] == day:
             _settle_expiry(st, pnl, i)
         equity[i] = _equity(st, pnl, i)

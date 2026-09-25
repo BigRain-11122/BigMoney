@@ -1,6 +1,7 @@
 {
  "gate": "OPTIONS_WAVE2 G2 instrument constants exchange verification",
- "verified_at": "2026-09-25T23:5x",
+ "verified_at": "2026-09-25T22:51:49+08:00",
+ "evidence_cutoff": "2026-09-25",
  "prereg_ref": "research/OPTIONS_WAVE2_PREREG.md §3 G2 (R169 no-blind-guess; R171 parent-href law)",
  "module_constants": {
   "unit": 10000,
@@ -37,14 +38,20 @@
   {
    "item": "csdc_settlement_yuan_per_contract",
    "value": 0.3,
-   "status": "pending_verification",
-   "url_attempts": [
-    "http://www.chinaclear.cn/zdjs/fbzyls/service_tlist.shtml — CSDC 收费标准 doc list renders body via JS/AJAX; static HTML = nav shell only (r187/r192 JS-shell family)",
-    "http://www.chinaclear.cn/zdjs/gpqq/law_flist.shtml — same JS-shell pattern",
-    "http://www.chinaclear.cn/zdjs/gpqqywfw/about_blist.shtml — service landing text only, no fee literal",
-    "SSE charge page carries no CSDC 代收 row for option settlement fee (grep 中国结算/登记结算/期权结算 = zero hits)"
-   ],
-   "next_leg": "CSDC fee-doc list AJAX endpoint discovery from the page's own JS (no blind URL guessing per R169), or CSDC 官方公告 face via its announcement list; verified literal must read 期权结算费 0.3元/张 or freeze whatever the official face states"
+   "status": "verified",
+   "literal": "ETF 期权交易：每张合约0.3 元。注：试点期间卖出开仓（含备兑开仓）交易结算费暂免。",
+   "url": "http://www.chinaclear.cn/zdjs/fbzyls/202512/922adc26c2ff4865930c7fb77688bb8a/files/上海市场证券登记结算业务收费暨征税一览表.pdf",
+   "url_derivation": "R171 raw-HTML chain, zero blind guess: service_tlist.shtml raw HTML -> iframe src=service_tlist/code_0.shtml (body = iframe sub-page, NOT an AJAX shell — corrects R193 JS-shell diagnosis) -> code_0.shtml href -> 上海市场收费表 PDF (percent-encoded CJK path; pypdf text extraction)",
+   "table_context": "结算参与人业务收费 > 收费项目=结算费 > 证券品种=ETF 期权交易、行权 row",
+   "secondary_literals_disclosed": "ETF 期权行权：每张合约0.6 元；股票期权交易：每张合约 0.45 元；股票期权行权：每张合约 0.9 元（non-ETF rows outside scope, disclosed）",
+   "note": "CSDC sell-to-open settlement fee waived during pilot period (same conservative direction as SSE 经手费 waiver) — batch charges both sides; overcharge direction, disclosed",
+   "local_evidence": "results/csdc_sh_fee_table.pdf (139671 bytes, 10 pages) + results/csdc_sh_fee_table.txt (pypdf extraction)",
+   "prior_attempts": [
+    "http://www.chinaclear.cn/zdjs/fbzyls/service_tlist.shtml — static HTML looked nav-shell-only in R193 because body renders inside iframe service_tlist/code_0.shtml; 'JS/AJAX shell' diagnosis corrected this round: iframe sub-page IS statically fetchable",
+    "http://www.chinaclear.cn/zdjs/gpqq/law_flist.shtml — rules doc list, not fee table face",
+    "http://www.chinaclear.cn/zdjs/gpqqywfw/about_blist.shtml — service landing text only",
+    "SSE charge page carries no CSDC 代收 row for option settlement fee"
+   ]
   },
   {
    "item": "broker_commission_yuan_per_contract",
@@ -55,9 +62,9 @@
  ],
  "fee_lot_decomposition": {
   "module": 6.6,
-  "sum_check": "1.3 (SSE 经手费, verified) + 0.3 (CSDC 结算费, pending) + 5.0 (broker commission, declared) == 6.6",
-  "deviation_on_verified": "none (module component == official literal exactly)"
+  "sum_check": "1.3 (SSE 经手费, verified) + 0.3 (CSDC 结算费, verified) + 5.0 (broker commission, declared) == 6.6",
+  "deviation_on_verified": "none (all exchange components == official literals exactly)"
  },
- "gate_semantics": "G2 requires unit + tick + SSE 经手费 verified with <=30% deviation AND CSDC 结算费 status=verified; broker commission exempt (non-exchange constant). CSDC leg pending -> G2 red -> run blocked (honest).",
+ "gate_semantics": "G2 requires unit + tick + SSE 经手费 verified with <=30% deviation AND CSDC 结算费 status=verified; broker commission exempt (non-exchange constant). All four legs verified 2026-09-25 22:51 (CSDC leg via iframe sub-page + PDF) -> G2 green -> run unblocked.",
  "probe_infra": "scripts/options_g2_probe.py (direct urllib + ProxyHandler({}) recipe, R171 href extraction)"
 }

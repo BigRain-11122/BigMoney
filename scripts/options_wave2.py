@@ -134,7 +134,8 @@ def _synth_panel(n_days: int = 40, put_premium: float = 0.04,
 def options_engine_selftest() -> dict:
     """G1: synthetic-panel unit assertions — determinism, look-ahead,
     lots/budget math, expiry settlement, limit guard, selection availability,
-    roll schedule, null determinism, off-flatten."""
+    roll schedule, null determinism, off-flatten, zero-volume gap-day roll
+    deferral (R194 production-crash mirror fixture)."""
     failures = []
 
     # (1) roll schedule: weekly = first day of each ISO week; monthly = last
@@ -276,6 +277,55 @@ def options_engine_selftest() -> dict:
                                1_000_000.0)
     if r_off["shares_end"] != 0:
         failures.append(f"off-flatten: shares_end {r_off['shares_end']} != 0")
+
+    # (12) zero-volume gap-day roll deferral (R194 production-crash mirror:
+    #      2026-03-10 roll_close fill on contract 10011005 NaN-open -> cash
+    #      poisoning -> int(NaN) crash). Fixture mirrors the production shape:
+    #      held contract missing a mid-life row exactly on a roll exec day.
+    pnl4, _ = _synth_panel()
+    wk4 = opr.roll_schedule(pnl4.dates, "weekly")
+    gap_exec = wk4[1][1]                       # second roll's exec day
+    by_dir4 = {d: [{**c} for c in cs] for d, cs in pnl4.by_dir.items()}
+    for contracts in by_dir4.values():
+        for c in contracts:
+            c["open"][gap_exec] = np.nan      # zero-volume gap on roll day
+            c["close"][gap_exec] = np.nan
+    pnl_gap = opr.UndPanel.from_components(
+        "TEST", pnl4.dates, pnl4.open, pnl4.close, np.full(len(pnl4.dates), 1e9), by_dir4)
+    plan5 = opr.build_plan({"TEST": pnl_gap}, wk4, "covered_call", 0.03)
+    try:
+        r_gap = opr.run_und_sleeve(
+            pnl_gap, [(s, e, f, per["TEST"]) for (s, e, f, mm, per) in plan5],
+            1_000_000.0)
+    except ValueError as exc:
+        failures.append(f"gap-day roll: crash reproduced (int(NaN) family): {exc}")
+        r_gap = None
+    if r_gap is not None:
+        gap_day = str(pnl_gap.dates[gap_exec].date())
+        closes_gap = [t for t in r_gap["trades"]
+                      if t["reason"] == "roll_close" and t["date"] == gap_day]
+        opens_gap = [t for t in r_gap["trades"]
+                     if t["reason"] == "open" and t["date"] == gap_day]
+        if closes_gap or opens_gap:
+            failures.append("gap-day roll: traded on a zero-volume day (must defer whole)")
+        if bool(np.isnan(r_gap["equity"].to_numpy()).any()):
+            failures.append("gap-day roll: NaN leaked into equity series")
+        # marking through the gap day must carry the last observable close
+        held_lot = [t for t in r_gap["trades"] if t["reason"] == "open"
+                    and t["date"] == str(pnl_gap.dates[wk4[0][1]].date())]
+        if held_lot:
+            eq_gap = float(r_gap["equity"].iloc[gap_exec])
+            eq_prev = float(r_gap["equity"].iloc[gap_exec - 1])
+            # flat ETF + ffill'd contract mark => gap-day equity within one
+            # day's ETF move of prior close (no leg vanishing from marking)
+            if not (-0.15 < eq_gap / eq_prev - 1.0 < 0.15):
+                failures.append(f"gap-day marking: equity jumped {eq_gap / eq_prev - 1.0:.4f} "
+                                "(option leg vanished instead of ffill carry)")
+        # next roll (post-gap) must close the carried position and reopen
+        nxt_exec = wk4[2][1]
+        nxt_day = str(pnl_gap.dates[nxt_exec].date())
+        if not [t for t in r_gap["trades"] if t["reason"] == "roll_close" and t["date"] == nxt_day]:
+            failures.append("gap-day roll: carried position never closed at next roll")
     return {"gate": "G1 options engine selftest", "ok": len(failures) == 0,
             "failures": failures}
 
@@ -294,7 +344,8 @@ def gate_g2() -> dict:
     """Instrument constants exchange-verification gate (prereg §3 G2, R169
     no-blind-guess law). Component-wise: unit/tick/SSE 经手费 must be verified
     vs official literals with <=30% deviation; CSDC 结算费 must reach
-    status=verified (JS-shell fee-list face pending); broker commission is a
+    status=verified (verified 2026-09-25 via iframe sub-page + PDF, see
+    evidence file); broker commission is a
     declared non-exchange assumption (exempt). Evidence file frozen at
     results/options_wave2_g2_check.json."""
     problems = []
@@ -657,7 +708,19 @@ def do_run() -> int:
     for fam in opr.FAMILIES:
         grid = {name: cells[name]["_returns"] for name in cells
                 if name.rsplit("_m", 1)[0] == fam}
-        family_pbo[fam] = cscv_pbo(align_returns(grid))
+        try:
+            family_pbo[fam] = cscv_pbo(align_returns(grid))
+        except ValueError as exc:
+            # pilot window is structurally one return-row short of the frozen
+            # CSCV minimum (160 trading days -> 159 return rows < 8 blocks x
+            # 20); threshold NOT relaxed (criteria-tamper red line) — the leg
+            # records structurally-unavailable instead of crashing the batch
+            family_pbo[fam] = {"pbo": None, "status": "structurally_unavailable",
+                               "reason": f"align_returns/cscv refused: {exc} "
+                                         "(T=159 < frozen CSCV minimum 160; pilot "
+                                         "retention-window thin face, disclosed; "
+                                         "G2 registration would fail on this leg "
+                                         "for any passer — none exist this batch)"}
     d6_inregister = {}
     verdicts_g2 = {}
     if passers:
