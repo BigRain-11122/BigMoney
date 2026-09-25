@@ -20,7 +20,7 @@
    - blank：strip 后为空串 → 计 blank，跳过；
    - malformed：JSON 解析失败 / 解析成功但非 dict / 行契约违例 → 计 malformed；
    - valid：其余全部（行契约=「code」为 str 且非空、「pass」为 str、「kind」为 str、「status」为 str；「appended」若在场必须为 int，缺席按 0 计入合计；任一违例=malformed）；
-   - 计数恒等式：lines = blank + malformed + valid（lines=非 blank 原始行数；文件总行数减去 blank 行）。
+   - 计数恒等式：lines = blank + malformed + valid（lines=原始总行数，含 blank 行）。
 4. 派生统计（仅基于 valid 行）：
    - codes_unique=distinct code 值个数；dup_codes=出现次数>1 的 code 个数；
    - kind_live=kind=="live" 行数；kind_extra=kind=="extra" 行数；kind_other=其余（仍 valid，计入 kind_other）；
@@ -60,6 +60,8 @@
    - live 模式 `opt_cells_recon.py [results_dir]`：results_dir 缺省="results"（相对当前工作目录）；results_dir 不存在或非目录=stderr 一行+exit 2；正常=头行+检查行+判读行；六检查全过 → exit 0，任一败 → exit 1（诚实警示位）。
 8. 输出纪律：所有 stdout/stderr 输出为 ASCII 可打印字符（pass 值等动态面若含非 ASCII 照原样打印但本试点输入面全 ASCII）；不写任何文件；零网络。
 9. 交付形态：输出=单个完整 Python 文件内容（唯一 ```python 代码块），文件之外无任何解说文本。
+
+跑前勘误段（2026-09-26，commit 另行留痕；B 臂尚未消费本提示词=双臂信息面恒等保持）：规则 3 括注原文「lines=非 blank 原始行数；文件总行数减去 blank 行」与同句恒等式「lines = blank + malformed + valid」互斥——裁定以恒等式为准（其列于先且为结构性契约），括注更正为「lines=原始总行数，含 blank 行」。缺陷修正不影响 PASS/FAIL 判向（task05 先例范式）。
 
 ---
 arm placement protocol (不属于提示词，跑前注记): A 臂产物=results/local_coding_pilot/tasks/08/A/opt_cells_recon.py；B 臂产物=results/local_coding_pilot/tasks/08/B/opt_cells_recon.py；双臂验证=python <arm>/opt_cells_recon.py selftest（与冻结验证命令语义恒等）。
