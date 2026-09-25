@@ -32,8 +32,9 @@ THREE_CARD = os.path.join(ROOT, "results", "strategy_scorecard.json")
 
 def _load_three_cards():
     """T-63 / O-20260925-1755 three-card face (strategy/trader/portfolio).
-    Read-only consumption; trader/portfolio cards are READOUT-only
-    pre-calibration (charter sec 8.5) -- no composite ranking rendered."""
+    Read-only consumption; composite totals/grades rendered ONLY when the
+    payload carries calibration_consumed=True (SCORECARD_CALIB_P1 frozen
+    bands per charter sec 8.5 -- pre-calibration payloads stay readout-only)."""
     if not os.path.exists(THREE_CARD):
         return None
     return json.load(io.open(THREE_CARD, encoding="utf-8"))
@@ -292,10 +293,17 @@ def build():
     A("<h2>三对象多维评价（v2 · 策略八维全卡 + 交易员/组合读数卡 · T-63）</h2>")
     if tc3:
         vet3 = tc3.get("discipline_veto_hits") or {}
-        A(f"<div class='sub'>统一评价律：≥2 维呈报·评价≠门禁·数据驱动·"
-          f"硬否决即刻生效；交易员/组合卡=校准前读数卡（无总分排名，"
-          f"校准预注册 research/STRATEGY_SCORECARD_CALIB.md 冻结后启用）·"
-          f"纪律否决命中 {len(vet3)}{'：' + ', '.join(sorted(vet3)) if vet3 else ''}</div>")
+        calibrated = bool((tc3.get("audit") or {}).get("calibration_consumed"))
+        if calibrated:
+            A(f"<div class='sub'>统一评价律：≥2 维呈报·评价≠门禁·数据驱动·硬否决即刻生效；"
+              f"交易员/组合卡=校准后总分分级（SCORECARD_CALIB_P1 冻结权重带 research/"
+              f"STRATEGY_SCORECARD_CALIB.md §7·评价≠门禁恒走 hr.py）·"
+              f"纪律否决命中 {len(vet3)}{'：' + ', '.join(sorted(vet3)) if vet3 else ''}</div>")
+        else:
+            A(f"<div class='sub'>统一评价律：≥2 维呈报·评价≠门禁·数据驱动·"
+              f"硬否决即刻生效；交易员/组合卡=校准前读数卡（无总分排名，"
+              f"校准预注册 research/STRATEGY_SCORECARD_CALIB.md 冻结后启用）·"
+              f"纪律否决命中 {len(vet3)}{'：' + ', '.join(sorted(vet3)) if vet3 else ''}</div>")
         sface = tc3.get("strategy_face") or {}
         A("<table><tr><th>策略（八维 v1.0 冻结）</th><th>级</th><th>总分</th>"
           "<th>实战</th><th>风险</th><th>成本</th><th>政体</th><th>分散</th>"
@@ -311,17 +319,23 @@ def build():
               f"{'清' if c.get('veto_clean') else '触发'}</td></tr>")
         A("</table>")
         ptc = tc3.get("portfolio_cards") or {}
-        A("<div class='sub'>组合卡（读数·无总分）：质量 Sharpe/成本 ×2/方法间 max|corr|/"
-          "选择批 N（统计面）</div>")
-        A("<table><tr><th>组合</th><th>x1 Sharpe</th><th>年化</th><th>回撤</th>"
-          "<th>×2 Sharpe</th><th>benefit</th><th>max|corr|</th><th>选择批 N</th></tr>")
-        for name, p in ptc.items():
+        A("<div class='sub'>组合卡：质量 Sharpe/成本 ×2/方法间 max|corr|/选择批 N（统计面）"
+          + ("·总分分级=SCORECARD_CALIB_P1 冻结带" if calibrated else "（读数·无总分）")
+          + "</div>")
+        A("<table><tr><th>组合</th><th>级</th><th>总分</th><th>x1 Sharpe</th><th>年化</th>"
+          "<th>回撤</th><th>×2 Sharpe</th><th>benefit</th><th>max|corr|</th><th>选择批 N</th></tr>")
+        for name, p in sorted(ptc.items(),
+                              key=lambda kv: -((kv[1].get("composite") or {}).get("total") or 0)):
             q, cost = p.get("quality") or {}, p.get("cost") or {}
             marg, stat = p.get("marginal") or {}, p.get("statistical") or {}
+            comp = p.get("composite") or {}
             mc = marg.get("max_abs_corr_vs_other_methods") \
                 or marg.get("max_abs_offdiag_member_corr")
             A(f"<tr><td>{name}</td>"
-              f"<td>{q.get('x1_full_sharpe') or '—'}</td>"
+              + (f"<td class='pos'>{comp.get('grade')}</td>"
+                 f"<td><b>{comp.get('total'):.1f}</b></td>" if comp
+                 else "<td>—</td><td>—</td>")
+              + f"<td>{q.get('x1_full_sharpe') or '—'}</td>"
               f"<td>{_pct(q.get('x1_annual'))}</td>"
               f"<td>{_pct(q.get('x1_max_dd'))}</td>"
               f"<td>{cost.get('x2_full_sharpe') or '—'}</td>"
@@ -333,8 +347,30 @@ def build():
         reg_n = sum(1 for c in trc.values()
                     if not str(c.get("trader", "")).startswith("PROS"))
         A(f"<div class='sub'>交易员卡 {len(trc)} 张（在册 {reg_n} + PROSPECT "
-          f"{len(trc) - reg_n}·读数卡）：继承策略分/纸盘实战/纪律/进度/军种画像"
+          f"{len(trc) - reg_n}）：继承策略分/纸盘实战/纪律/进度/军种画像"
           "——一切采纳晋升恒走 hr.py 冻结判据（评价≠门禁）</div>")
+        if calibrated:
+            A("<table><tr><th>交易员</th><th>级</th><th>总分</th><th>继承</th><th>实战</th>"
+              "<th>纪律</th><th>进度</th><th>画像</th></tr>")
+            for tid, c in sorted(trc.items(),
+                                 key=lambda kv: -((kv[1].get("composite") or {})
+                                                  .get("total") or 0)):
+                comp = c.get("composite") or {}
+                if not comp:
+                    continue
+                fsc = comp.get("face_scores") or {}
+                disc = c.get("discipline") or {}
+                veto = bool(comp.get("veto"))
+                A(f"<tr><td>{tid}</td>"
+                  f"<td class='{'neg' if veto else 'pos'}'>{comp.get('grade')}</td>"
+                  f"<td><b>{comp.get('total'):.1f}</b></td>"
+                  f"<td>{fsc.get('inherited', '—')}</td>"
+                  f"<td>{fsc.get('live_paper', '—')}</td>"
+                  f"<td class='{'neg' if veto else ('pos' if disc.get('state') == 'tested' else 'dim')}'>"
+                  f"{'否决' if veto else ('清' if disc.get('state') == 'tested' else '未测')}</td>"
+                  f"<td>{fsc.get('progress', '—')}</td>"
+                  f"<td>{fsc.get('profile', '—')}</td></tr>")
+            A("</table>")
     else:
         A("<div class='sub'>三卡面未产出（results/strategy_scorecard.json 缺件，如实标注）</div>")
 

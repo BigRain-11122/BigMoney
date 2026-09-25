@@ -2,9 +2,9 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-09-25T18:08:47",
+ "generated": "2026-09-25T18:24:57",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
- "calibration_state": "pre-calibration: trader/portfolio cards are READOUT-ONLY (sec 8.5); composite totals for these two faces require the first-cohort calibration prereg (research/STRATEGY_SCORECARD_CALIB.md) frozen THEN run. Strategy-face totals = v1.0 frozen.",
+ "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
   "sec8": ">=2-dimension decision basis; hard-veto faces universal; evaluation never overrides gates; data-driven; calibration-before-totals"
  },
@@ -775,8 +775,7 @@
  "trader_cards": {
   "COMPOSITE-CE-01": {
    "trader": "COMPOSITE-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": 77.29,
     "grade": "A",
@@ -847,12 +846,35 @@
     "segment_evidence": null,
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 78.1,
+    "grade": "S",
+    "face_scores": {
+     "inherited": 77.3,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 88.3
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "COMPOSITE-CE-02": {
    "trader": "COMPOSITE-CE-02",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": 71.85,
     "grade": "A",
@@ -923,12 +945,35 @@
     "segment_evidence": null,
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 74.8,
+    "grade": "S",
+    "face_scores": {
+     "inherited": 71.8,
+     "live_paper": 29.9,
+     "progress": 0.0,
+     "profile": 86.1
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "DROUGHT-CE-01": {
    "trader": "DROUGHT-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": 86.5,
     "grade": "S",
@@ -999,12 +1044,35 @@
     "segment_evidence": null,
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 79.2,
+    "grade": "S",
+    "face_scores": {
+     "inherited": 86.5,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 83.3
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "ENGULF-CE-01": {
    "trader": "ENGULF-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": 68.17,
     "grade": "A",
@@ -1075,12 +1143,35 @@
     "segment_evidence": null,
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 71.8,
+    "grade": "S",
+    "face_scores": {
+     "inherited": 68.2,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 83.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "NEEDLE-DE-01": {
    "trader": "NEEDLE-DE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": 79.84,
     "grade": "A",
@@ -1151,12 +1242,35 @@
     "segment_evidence": null,
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 76.3,
+    "grade": "S",
+    "face_scores": {
+     "inherited": 79.8,
+     "live_paper": 30.0,
+     "progress": 0.0,
+     "profile": 82.7
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "VOLATILITY-CE-01": {
    "trader": "VOLATILITY-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": 87.05,
     "grade": "S",
@@ -1227,12 +1341,35 @@
     "segment_evidence": null,
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 79.7,
+    "grade": "S",
+    "face_scores": {
+     "inherited": 87.0,
+     "live_paper": 29.9,
+     "progress": 20.0,
+     "profile": 83.8
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-ANTS-01": {
    "trader": "PROS-ANTS-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1270,12 +1407,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 9.9,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 24.7,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-ANTS-CE-01": {
    "trader": "PROS-ANTS-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1313,12 +1473,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 9.3,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 23.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-BBS-01": {
    "trader": "PROS-BBS-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1356,12 +1539,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 16.0,
+    "grade": "A",
+    "face_scores": {
+     "inherited": 40.0,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-BBS-CE-01": {
    "trader": "PROS-BBS-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1399,12 +1605,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 9.8,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 24.4,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-DOJI-01": {
    "trader": "PROS-DOJI-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1442,12 +1671,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 8.4,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 20.9,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-DOJI-CE-01": {
    "trader": "PROS-DOJI-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1485,12 +1737,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 8.9,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 22.3,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-DUCK-01": {
    "trader": "PROS-DUCK-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1528,12 +1803,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 18.7,
+    "grade": "A",
+    "face_scores": {
+     "inherited": 46.8,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-DUCK-CE-01": {
    "trader": "PROS-DUCK-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1571,12 +1869,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 17.4,
+    "grade": "A",
+    "face_scores": {
+     "inherited": 43.5,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-HAM-01": {
    "trader": "PROS-HAM-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1614,12 +1935,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 7.6,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 18.9,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-HAM-CE-01": {
    "trader": "PROS-HAM-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1657,12 +2001,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 7.5,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 18.8,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-IBB-01": {
    "trader": "PROS-IBB-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1700,12 +2067,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 12.2,
+    "grade": "B",
+    "face_scores": {
+     "inherited": 30.6,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-IBB-CE-01": {
    "trader": "PROS-IBB-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1743,12 +2133,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 13.8,
+    "grade": "B",
+    "face_scores": {
+     "inherited": 34.4,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-IMM-01": {
    "trader": "PROS-IMM-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1786,12 +2199,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 8.8,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 22.1,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-IMM-CE-01": {
    "trader": "PROS-IMM-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1829,12 +2265,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 8.5,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 21.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-MCB-01": {
    "trader": "PROS-MCB-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1872,12 +2331,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 10.5,
+    "grade": "B",
+    "face_scores": {
+     "inherited": 26.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-MCB-CE-01": {
    "trader": "PROS-MCB-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1915,12 +2397,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 11.4,
+    "grade": "B",
+    "face_scores": {
+     "inherited": 28.5,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-OVB-01": {
    "trader": "PROS-OVB-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -1958,12 +2463,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 16.4,
+    "grade": "A",
+    "face_scores": {
+     "inherited": 41.0,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-OVB-CE-01": {
    "trader": "PROS-OVB-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -2001,12 +2529,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 16.5,
+    "grade": "A",
+    "face_scores": {
+     "inherited": 41.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-RSRS-CE-01": {
    "trader": "PROS-RSRS-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -2044,12 +2595,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 10.9,
+    "grade": "B",
+    "face_scores": {
+     "inherited": 27.2,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-TMU-01": {
    "trader": "PROS-TMU-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -2087,12 +2661,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 9.4,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 23.4,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-TMU-CE-01": {
    "trader": "PROS-TMU-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -2130,12 +2727,35 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 9.2,
+    "grade": "C",
+    "face_scores": {
+     "inherited": 23.1,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "PROS-VOB-CE-01": {
    "trader": "PROS-VOB-CE-01",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "inherited_strategy": {
     "total": null,
     "grade": null,
@@ -2173,14 +2793,37 @@
     "segment_evidence": "absent (T-22 covered registered only; awaits d2 G1' wave + segment batches)",
     "no_blowup": true,
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
-   }
+   },
+   "composite": {
+    "total": 14.0,
+    "grade": "B",
+    "face_scores": {
+     "inherited": 35.0,
+     "live_paper": 0.0,
+     "progress": 0.0,
+     "profile": 0.0
+    },
+    "weights": {
+     "inherited": 0.4,
+     "live_paper": 0.1,
+     "progress": 0.0,
+     "profile": 0.5
+    },
+    "bands": {
+     "S": 50.6,
+     "A": 14.4,
+     "B": 10.4
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   }
  },
  "portfolio_cards": {
   "A_IV": {
    "portfolio": "A_IV",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
    "quality": {
     "state": "tested",
@@ -2234,12 +2877,39 @@
     "state": "tested",
     "trials_ledger_total": 3205,
     "batch_trials": 86
-   }
+   },
+   "composite": {
+    "total": 17.4,
+    "grade": "C",
+    "face_scores": {
+     "quality": 35.2,
+     "cost": 5.1,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "weights": {
+     "quality": 0.4,
+     "cost": 0.3857,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.1993,
+     "statistical": 0.015
+    },
+    "bands": {
+     "S": 38.0,
+     "A": 30.4,
+     "B": 22.0
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "B_MAXDIV": {
    "portfolio": "B_MAXDIV",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
    "quality": {
     "state": "tested",
@@ -2293,12 +2963,39 @@
     "state": "tested",
     "trials_ledger_total": 3205,
     "batch_trials": 86
-   }
+   },
+   "composite": {
+    "total": 46.2,
+    "grade": "S",
+    "face_scores": {
+     "quality": 55.9,
+     "cost": 58.4,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "weights": {
+     "quality": 0.4,
+     "cost": 0.3857,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.1993,
+     "statistical": 0.015
+    },
+    "bands": {
+     "S": 38.0,
+     "A": 30.4,
+     "B": 22.0
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "C_IVMOM": {
    "portfolio": "C_IVMOM",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
    "quality": {
     "state": "tested",
@@ -2352,12 +3049,39 @@
     "state": "tested",
     "trials_ledger_total": 3205,
     "batch_trials": 86
-   }
+   },
+   "composite": {
+    "total": 18.4,
+    "grade": "C",
+    "face_scores": {
+     "quality": 37.0,
+     "cost": 5.9,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "weights": {
+     "quality": 0.4,
+     "cost": 0.3857,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.1993,
+     "statistical": 0.015
+    },
+    "bands": {
+     "S": 38.0,
+     "A": 30.4,
+     "B": 22.0
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "D_REGIME": {
    "portfolio": "D_REGIME",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
    "quality": {
     "state": "tested",
@@ -2411,12 +3135,39 @@
     "state": "tested",
     "trials_ledger_total": 3205,
     "batch_trials": 86
-   }
+   },
+   "composite": {
+    "total": 27.5,
+    "grade": "B",
+    "face_scores": {
+     "quality": 48.8,
+     "cost": 17.2,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "weights": {
+     "quality": 0.4,
+     "cost": 0.3857,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.1993,
+     "statistical": 0.015
+    },
+    "bands": {
+     "S": 38.0,
+     "A": 30.4,
+     "B": 22.0
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "E_EW": {
    "portfolio": "E_EW",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "source": "results/portfolio_blend_tournament.json (T-27 v2 frozen roster)",
    "quality": {
     "state": "tested",
@@ -2470,12 +3221,39 @@
     "state": "tested",
     "trials_ledger_total": 3205,
     "batch_trials": 86
-   }
+   },
+   "composite": {
+    "total": 14.4,
+    "grade": "C",
+    "face_scores": {
+     "quality": 29.8,
+     "cost": 3.0,
+     "segment_coverage": 100.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.0,
+     "statistical": 87.6
+    },
+    "weights": {
+     "quality": 0.4,
+     "cost": 0.3857,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.1993,
+     "statistical": 0.015
+    },
+    "bands": {
+     "S": 38.0,
+     "A": 30.4,
+     "B": 22.0
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "IV6": {
    "portfolio": "IV6",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "source": "results/portfolio_iv6.json",
    "quality": {
     "state": "tested",
@@ -2526,12 +3304,39 @@
     "trials_ledger_total": 2779,
     "batch_trials": 14,
     "prereg_sha256_at_run": "0f33111afd302001dc2189155a0adc8611fe073d78c2ba52063db480114b20d7"
-   }
+   },
+   "composite": {
+    "total": 39.4,
+    "grade": "S",
+    "face_scores": {
+     "quality": 59.3,
+     "cost": 27.0,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 20.0,
+     "statistical": 86.1
+    },
+    "weights": {
+     "quality": 0.4,
+     "cost": 0.3857,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.1993,
+     "statistical": 0.015
+    },
+    "bands": {
+     "S": 38.0,
+     "A": 30.4,
+     "B": 22.0
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   },
   "EW6": {
    "portfolio": "EW6",
-   "readout_only": true,
-   "no_composite_total": "pre-calibration (sec 8.5)",
+   "readout_only": false,
    "source": "results/portfolio_ew6.json",
    "quality": {
     "state": "tested",
@@ -2572,7 +3377,35 @@
     "trials_ledger_total": 2753,
     "batch_trials": 26,
     "prereg_sha256_at_run": "f842f7648f923467c2ad484ea20aa0aac2115383ff7087bec28a6f62e0aa3131"
-   }
+   },
+   "composite": {
+    "total": 32.4,
+    "grade": "A",
+    "face_scores": {
+     "quality": 45.8,
+     "cost": 22.7,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 20.0,
+     "statistical": 86.0
+    },
+    "weights": {
+     "quality": 0.4,
+     "cost": 0.3857,
+     "segment_coverage": 0.0,
+     "cross_period_j4": 0.0,
+     "marginal": 0.1993,
+     "statistical": 0.015
+    },
+    "bands": {
+     "S": 38.0,
+     "A": 30.4,
+     "B": 22.0
+    },
+    "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+    "veto": false
+   },
+   "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   }
  },
  "cross_period_shared": {
@@ -3476,10 +4309,11 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 1.0,
+  "elapsed_sec": 1.4,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
+  "calibration_consumed": true,
   "sources": [
    "firm/traders/*.json (via scorecard.py)",
    "results/corps_roster.json",
@@ -3490,7 +4324,8 @@
    "results/portfolio_ew6.json",
    "results/spm_j4_attribution.json",
    "results/current_market_stable_profit.json",
-   "results/pbo_cscv_v1.json"
+   "results/pbo_cscv_v1.json",
+   "results/strategy_scorecard_calib.json (frozen bands)"
   ],
   "read_only_reuse": "CORR_WATCH/g25/t22/t27/t28/t33 readers per ticket anti-dup"
  }

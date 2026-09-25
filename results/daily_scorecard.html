@@ -114,7 +114,7 @@
 <tr><td>VOLATILITY-CE-01</td><td class='pos'>在位</td><td class='dim'>guarded</td><td class=''>0</td><td class=''>0</td><td>0</td><td class='dim'>—</td></tr>
 </table>
 <h2>三对象多维评价（v2 · 策略八维全卡 + 交易员/组合读数卡 · T-63）</h2>
-<div class='sub'>统一评价律：≥2 维呈报·评价≠门禁·数据驱动·硬否决即刻生效；交易员/组合卡=校准前读数卡（无总分排名，校准预注册 research/STRATEGY_SCORECARD_CALIB.md 冻结后启用）·纪律否决命中 0</div>
+<div class='sub'>统一评价律：≥2 维呈报·评价≠门禁·数据驱动·硬否决即刻生效；交易员/组合卡=校准后总分分级（SCORECARD_CALIB_P1 冻结权重带 research/STRATEGY_SCORECARD_CALIB.md §7·评价≠门禁恒走 hr.py）·纪律否决命中 0</div>
 <table><tr><th>策略（八维 v1.0 冻结）</th><th>级</th><th>总分</th><th>实战</th><th>风险</th><th>成本</th><th>政体</th><th>分散</th><th>交易</th><th>纯度</th><th>否决</th></tr>
 <tr><td>VOLATILITY-CE-01</td><td class='pos'>S</td><td><b>87.0</b></td><td>86</td><td>100</td><td>76</td><td>98</td><td>51</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 <tr><td>DROUGHT-CE-01</td><td class='pos'>S</td><td><b>86.5</b></td><td>86</td><td>74</td><td>100</td><td>97</td><td>62</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
@@ -123,17 +123,47 @@
 <tr><td>COMPOSITE-CE-02</td><td class='pos'>A</td><td><b>71.8</b></td><td>84</td><td>67</td><td>40</td><td>100</td><td>24</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 <tr><td>ENGULF-CE-01</td><td class='pos'>A</td><td><b>68.2</b></td><td>83</td><td>58</td><td>29</td><td>79</td><td>46</td><td>100</td><td>100</td><td class='pos'>清</td></tr>
 </table>
-<div class='sub'>组合卡（读数·无总分）：质量 Sharpe/成本 ×2/方法间 max|corr|/选择批 N（统计面）</div>
-<table><tr><th>组合</th><th>x1 Sharpe</th><th>年化</th><th>回撤</th><th>×2 Sharpe</th><th>benefit</th><th>max|corr|</th><th>选择批 N</th></tr>
-<tr><td>A_IV</td><td>0.7041</td><td>+1.38%</td><td>-3.87%</td><td>0.1705</td><td>0.3515</td><td>0.9995</td><td>3205</td></tr>
-<tr><td>B_MAXDIV</td><td>1.068</td><td>+1.40%</td><td>-1.63%</td><td>0.6141</td><td>0.66</td><td>0.886</td><td>3205</td></tr>
-<tr><td>C_IVMOM</td><td>0.7385</td><td>+1.46%</td><td>-3.86%</td><td>0.1975</td><td>0.3712</td><td>0.9995</td><td>3205</td></tr>
-<tr><td>D_REGIME</td><td>1.0045</td><td>+2.61%</td><td>-4.51%</td><td>0.4231</td><td>0.4307</td><td>0.9436</td><td>3205</td></tr>
-<tr><td>E_EW</td><td>0.6192</td><td>+1.97%</td><td>-7.47%</td><td>0.0985</td><td>0.2506</td><td>0.9683</td><td>3205</td></tr>
-<tr><td>IV6</td><td>1.3702</td><td>+2.79%</td><td>-2.42%</td><td>0.8989</td><td>—</td><td>0.48</td><td>2779</td></tr>
-<tr><td>EW6</td><td>1.1438</td><td>+3.68%</td><td>-5.67%</td><td>0.7574</td><td>—</td><td>0.48</td><td>2753</td></tr>
+<div class='sub'>组合卡：质量 Sharpe/成本 ×2/方法间 max|corr|/选择批 N（统计面）·总分分级=SCORECARD_CALIB_P1 冻结带</div>
+<table><tr><th>组合</th><th>级</th><th>总分</th><th>x1 Sharpe</th><th>年化</th><th>回撤</th><th>×2 Sharpe</th><th>benefit</th><th>max|corr|</th><th>选择批 N</th></tr>
+<tr><td>B_MAXDIV</td><td class='pos'>S</td><td><b>46.2</b></td><td>1.068</td><td>+1.40%</td><td>-1.63%</td><td>0.6141</td><td>0.66</td><td>0.886</td><td>3205</td></tr>
+<tr><td>IV6</td><td class='pos'>S</td><td><b>39.4</b></td><td>1.3702</td><td>+2.79%</td><td>-2.42%</td><td>0.8989</td><td>—</td><td>0.48</td><td>2779</td></tr>
+<tr><td>EW6</td><td class='pos'>A</td><td><b>32.4</b></td><td>1.1438</td><td>+3.68%</td><td>-5.67%</td><td>0.7574</td><td>—</td><td>0.48</td><td>2753</td></tr>
+<tr><td>D_REGIME</td><td class='pos'>B</td><td><b>27.5</b></td><td>1.0045</td><td>+2.61%</td><td>-4.51%</td><td>0.4231</td><td>0.4307</td><td>0.9436</td><td>3205</td></tr>
+<tr><td>C_IVMOM</td><td class='pos'>C</td><td><b>18.4</b></td><td>0.7385</td><td>+1.46%</td><td>-3.86%</td><td>0.1975</td><td>0.3712</td><td>0.9995</td><td>3205</td></tr>
+<tr><td>A_IV</td><td class='pos'>C</td><td><b>17.4</b></td><td>0.7041</td><td>+1.38%</td><td>-3.87%</td><td>0.1705</td><td>0.3515</td><td>0.9995</td><td>3205</td></tr>
+<tr><td>E_EW</td><td class='pos'>C</td><td><b>14.4</b></td><td>0.6192</td><td>+1.97%</td><td>-7.47%</td><td>0.0985</td><td>0.2506</td><td>0.9683</td><td>3205</td></tr>
 </table>
-<div class='sub'>交易员卡 28 张（在册 6 + PROSPECT 22·读数卡）：继承策略分/纸盘实战/纪律/进度/军种画像——一切采纳晋升恒走 hr.py 冻结判据（评价≠门禁）</div>
+<div class='sub'>交易员卡 28 张（在册 6 + PROSPECT 22）：继承策略分/纸盘实战/纪律/进度/军种画像——一切采纳晋升恒走 hr.py 冻结判据（评价≠门禁）</div>
+<table><tr><th>交易员</th><th>级</th><th>总分</th><th>继承</th><th>实战</th><th>纪律</th><th>进度</th><th>画像</th></tr>
+<tr><td>VOLATILITY-CE-01</td><td class='pos'>S</td><td><b>79.7</b></td><td>87.0</td><td>29.9</td><td class='pos'>清</td><td>20.0</td><td>83.8</td></tr>
+<tr><td>DROUGHT-CE-01</td><td class='pos'>S</td><td><b>79.2</b></td><td>86.5</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>83.3</td></tr>
+<tr><td>COMPOSITE-CE-01</td><td class='pos'>S</td><td><b>78.1</b></td><td>77.3</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>88.3</td></tr>
+<tr><td>NEEDLE-DE-01</td><td class='pos'>S</td><td><b>76.3</b></td><td>79.8</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>82.7</td></tr>
+<tr><td>COMPOSITE-CE-02</td><td class='pos'>S</td><td><b>74.8</b></td><td>71.8</td><td>29.9</td><td class='pos'>清</td><td>0.0</td><td>86.1</td></tr>
+<tr><td>ENGULF-CE-01</td><td class='pos'>S</td><td><b>71.8</b></td><td>68.2</td><td>30.0</td><td class='pos'>清</td><td>0.0</td><td>83.0</td></tr>
+<tr><td>PROS-DUCK-01</td><td class='pos'>A</td><td><b>18.7</b></td><td>46.8</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-DUCK-CE-01</td><td class='pos'>A</td><td><b>17.4</b></td><td>43.5</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-OVB-CE-01</td><td class='pos'>A</td><td><b>16.5</b></td><td>41.2</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-OVB-01</td><td class='pos'>A</td><td><b>16.4</b></td><td>41.0</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-BBS-01</td><td class='pos'>A</td><td><b>16.0</b></td><td>40.0</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-VOB-CE-01</td><td class='pos'>B</td><td><b>14.0</b></td><td>35.0</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-IBB-CE-01</td><td class='pos'>B</td><td><b>13.8</b></td><td>34.4</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-IBB-01</td><td class='pos'>B</td><td><b>12.2</b></td><td>30.6</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-MCB-CE-01</td><td class='pos'>B</td><td><b>11.4</b></td><td>28.5</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-RSRS-CE-01</td><td class='pos'>B</td><td><b>10.9</b></td><td>27.2</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-MCB-01</td><td class='pos'>B</td><td><b>10.5</b></td><td>26.2</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-ANTS-01</td><td class='pos'>C</td><td><b>9.9</b></td><td>24.7</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-BBS-CE-01</td><td class='pos'>C</td><td><b>9.8</b></td><td>24.4</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-TMU-01</td><td class='pos'>C</td><td><b>9.4</b></td><td>23.4</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-ANTS-CE-01</td><td class='pos'>C</td><td><b>9.3</b></td><td>23.2</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-TMU-CE-01</td><td class='pos'>C</td><td><b>9.2</b></td><td>23.1</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-DOJI-CE-01</td><td class='pos'>C</td><td><b>8.9</b></td><td>22.3</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-IMM-01</td><td class='pos'>C</td><td><b>8.8</b></td><td>22.1</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-IMM-CE-01</td><td class='pos'>C</td><td><b>8.5</b></td><td>21.2</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-DOJI-01</td><td class='pos'>C</td><td><b>8.4</b></td><td>20.9</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-HAM-01</td><td class='pos'>C</td><td><b>7.6</b></td><td>18.9</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+<tr><td>PROS-HAM-CE-01</td><td class='pos'>C</td><td><b>7.5</b></td><td>18.8</td><td>0.0</td><td class='dim'>未测</td><td>0.0</td><td>0.0</td></tr>
+</table>
 <h2>月度战绩（完整成绩单）</h2>
 <div class='sub'>完整战绩月自 2026-10-01 起算（IV6+REGIME_GUARD enforce 双切换）；首份完整月度成绩单=2026-10-31 首检；月度四件套自动并入。</div>
 <h2>宣称→复验（post-review 复审列 · T-37 d5 / O-2115 §五）</h2>

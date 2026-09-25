@@ -1109,7 +1109,8 @@ def _scorecard_state() -> dict:
     Missing file = honest 'pending'; no hard-coded trader names/counts.
     v2 three-card face (T-2026-09-25-63 / O-20260925-1755): also reads
     results/strategy_scorecard.json (strategy/trader/portfolio cards);
-    trader/portfolio = READOUT-only pre-calibration (charter sec 8.5);
+    trader/portfolio composites render only after SCORECARD_CALIB_P1 frozen
+    bands consumed (audit.calibration_consumed face, charter sec 8.5);
     discipline veto hits surface immediately.
     """
     out = {"present": False, "n_traders": None, "grade_counts": None,
@@ -1122,11 +1123,15 @@ def _scorecard_state() -> dict:
         "n_strategy_cards": tsum.get("n_strategy_cards"),
         "n_trader_cards": tsum.get("n_trader_cards"),
         "n_portfolio_cards": tsum.get("n_portfolio_cards"),
-        "calibration_state": "pre-calibration readout (sec 8.5)",
+        "calibration_state": ("calibrated (SCORECARD_CALIB_P1 frozen bands)"
+                              if (three.get("audit") or {}).get("calibration_consumed")
+                              else "pre-calibration readout (sec 8.5)"),
         "discipline_veto_hits": vetoes,
         "text": (f"三卡: 策略{tsum.get('n_strategy_cards')} "
                  f"交易员{tsum.get('n_trader_cards')} "
                  f"组合{tsum.get('n_portfolio_cards')}"
+                 + (" | 总分分级已启用(冻结带)"
+                    if (three.get("audit") or {}).get("calibration_consumed") else "")
                  + (f" | 纪律否决 {len(vetoes)}" if vetoes else " | 纪律否决 0")),
     }
     s = _read_json(os.path.join(PATHS.results_dir, "scorecard_v1.json"))

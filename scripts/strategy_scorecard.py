@@ -601,6 +601,41 @@ def calibrate(in_path=OUT_DEFAULT, out_path=CALIB_OUT_DEFAULT):
     return 0
 
 
+def _attach_composites(cards, weights, bands, face_scores_fn, faces):
+    """启用门（§1.5）：校准批冻结后，本函数把总分+分级接到每张卡上。
+    权重/带值只读自冻结件（SCORECARD_CALIB_P1），本函数零新阈值零调带；
+    新对象按冻结带绝对值落带（§2 带不重算）。纯函数卡面保持读数原样。"""
+    for oid, card in cards.items():
+        s = face_scores_fn(card)
+        total = round(sum(w * s[f] for f, w in weights.items() if f in s), 1)
+        card["composite"] = {
+            "total": total,
+            "grade": _grade_of(total, bands, s["_discipline_veto"]),
+            "face_scores": {f: s[f] for f in faces if f in s},
+            "weights": weights, "bands": bands,
+            "source": "results/strategy_scorecard_calib.json (SCORECARD_CALIB_P1 frozen)",
+            "veto": s["_discipline_veto"],
+        }
+        card["readout_only"] = False
+        card.pop("no_composite_total", None)
+        card["calibrated_total"] = "sec 8.5 gate passed: frozen bands consumed"
+
+
+def _load_calib_for_emission():
+    """读冻结校准件；缺件/结构不符 → None（维持校准前读数卡模式）。"""
+    calib = _load(CALIB_OUT_DEFAULT)
+    if not calib or calib.get("batch") != "SCORECARD_CALIB_P1":
+        return None
+    tw = ((calib.get("weights") or {}).get("traders") or {})
+    pw = ((calib.get("weights") or {}).get("portfolios") or {})
+    tb = ((calib.get("grade_bands") or {}).get("traders") or {})
+    pb = ((calib.get("grade_bands") or {}).get("portfolios") or {})
+    if not (tw and pw and tb and pb):
+        return None
+    return {"tw": tw, "pw": pw, "tb": tb, "pb": pb,
+            "cutoff": calib.get("evidence_cutoff")}
+
+
 # ———————————————— 装配 ————————————————
 
 def build(strategy_payload, corps, papers, g25s, pbt, iv6, ew6, spm_j4, stable, pbo):
@@ -693,6 +728,12 @@ def run(out_path=OUT_DEFAULT):
                   _load(os.path.join(RESULTS, "spm_j4_attribution.json")),
                   _load(os.path.join(RESULTS, "current_market_stable_profit.json")),
                   _load(os.path.join(RESULTS, "pbo_cscv_v1.json")))
+    calib = _load_calib_for_emission()
+    if calib:
+        _attach_composites(built["trader_cards"], calib["tw"], calib["tb"],
+                           trader_face_scores, TRADER_FACES)
+        _attach_composites(built["portfolio_cards"], calib["pw"], calib["pb"],
+                           portfolio_face_scores, PORTFOLIO_FACES)
     payload = {
         "ticket": "T-2026-09-25-63", "order": "O-20260925-1755",
         "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
@@ -702,10 +743,18 @@ def run(out_path=OUT_DEFAULT):
                                  "results/scorecard_v1.json (disclosed in that file). This v2 "
                                  "file IS the charter-named three-card artifact: strategy face "
                                  "= reused engine (zero rebuild), trader/portfolio cards = new.",
-        "calibration_state": "pre-calibration: trader/portfolio cards are READOUT-ONLY "
+        "calibration_state": ("calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff "
+                              + str((calib or {}).get("cutoff"))
+                              + "): trader/portfolio composite totals & grades emitted from "
+                              "frozen weight/band values (results/strategy_scorecard_calib."
+                              "json); strategy-face totals = v1.0 frozen; discipline veto "
+                              "faces gate the grade (sec 8.2). Evaluation never overrides "
+                              "gates (sec 8.3)."
+                              ) if calib else (
+                              "pre-calibration: trader/portfolio cards are READOUT-ONLY "
                               "(sec 8.5); composite totals for these two faces require the "
                               "first-cohort calibration prereg (research/STRATEGY_SCORECARD_"
-                              "CALIB.md) frozen THEN run. Strategy-face totals = v1.0 frozen.",
+                              "CALIB.md) frozen THEN run. Strategy-face totals = v1.0 frozen."),
         "unified_law": {"sec8": ">=2-dimension decision basis; hard-veto faces universal; "
                                 "evaluation never overrides gates; data-driven; "
                                 "calibration-before-totals"},
@@ -723,13 +772,15 @@ def run(out_path=OUT_DEFAULT):
                     "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"},
         "audit": {"elapsed_sec": round(time.time() - t0, 1), "zero_new_backtests": True,
                   "zero_engine_runs": True, "ledger_delta": 0,
+                  "calibration_consumed": bool(calib),
                   "sources": ["firm/traders/*.json (via scorecard.py)", "results/corps_roster.json",
                               "results/paper/*_paper.json", "results/g25/*.json",
                               "results/portfolio_blend_tournament.json",
                               "results/portfolio_iv6.json", "results/portfolio_ew6.json",
                               "results/spm_j4_attribution.json",
                               "results/current_market_stable_profit.json",
-                              "results/pbo_cscv_v1.json"],
+                              "results/pbo_cscv_v1.json"]
+                  + (["results/strategy_scorecard_calib.json (frozen bands)"] if calib else []),
                   "read_only_reuse": "CORR_WATCH/g25/t22/t27/t28/t33 readers per ticket anti-dup"},
     }
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
@@ -929,9 +980,51 @@ def selftest():
             json.dump(synth, f, ensure_ascii=False)
         rc2 = calibrate(in_path=pin, out_path=os.path.join(td, "out2.json"))
         assert rc2 == 2 and not os.path.exists(os.path.join(td, "out2.json"))
-    print("selftest: 6/6 core + 4/4 calibration PASS (registered/prospect/veto/tournament/"
+    # S11: 启用门面 — 冻结带消费输出总分/分级（r157 配对律：交易员+组合双腿都测）
+    fresh_reg = trader_card("T-A", {"total": 72.0, "grade": "A", "veto_clean": True,
+                                    "dims": {"1": {"score": 80}}}, corps_entry, paper, g25)
+    veto_card = trader_card(
+        "T-V", {"total": 90.0, "grade": "S", "veto_clean": False, "dims": {}}, None,
+        {"anchor_ok": False, "no_future_data": True, "months_tracked": 2,
+         "monthly_returns": [0.01, 0.02], "current_dd": -0.02, "x2_watch": {"state": "ok"},
+         "cost_x2_check": True, "capital": 1, "paper_start": "2026-08-01",
+         "regime_guard": {"breach": False}, "forward_guard": {"breach": False}}, None)
+    tw_fake = {"inherited": 0.40, "live_paper": 0.10, "progress": 0.20, "profile": 0.30}
+    tb_fake = {"S": 50.0, "A": 14.0, "B": 10.0}
+    cards11 = {"T-A": fresh_reg, "T-V": veto_card}
+    _attach_composites(cards11, tw_fake, tb_fake, trader_face_scores, TRADER_FACES)
+    fs11 = trader_face_scores(fresh_reg)   # S1 paper 夹具实值钉住
+    assert (fs11["inherited"], fs11["live_paper"], fs11["progress"],
+            fs11["profile"]) == (72.0, 66.1, 100.0, 83.6), fs11
+    assert not fs11["_discipline_veto"]
+    exp_t = round(sum(w * fs11[f] for f, w in tw_fake.items()), 1)
+    ca = cards11["T-A"]["composite"]
+    assert ca["total"] == exp_t and ca["grade"] == "S", (ca["total"], exp_t)
+    assert cards11["T-A"]["readout_only"] is False
+    assert "no_composite_total" not in cards11["T-A"]
+    assert cards11["T-V"]["composite"]["grade"] == "VETO"      # §8.2 否决覆盖分级
+    assert cards11["T-V"]["composite"]["veto"] is True
+    pc11 = portfolio_card_tournament("B_MAXDIV", cand, {"benefit": 0.66, "x2_margin": 0.21},
+                                    {"B_MAXDIV": 1.0, "E_EW": 0.79},
+                                    {"weights": {"M1": 0.5, "M2": 0.5}},
+                                    {"total": 3205, "batch_trials": 86})
+    pw_fake = {"quality": 0.40, "cost": 0.30, "segment_coverage": 0.10,
+               "cross_period_j4": 0.0, "marginal": 0.10, "statistical": 0.10}
+    pb_fake = {"S": 40.0, "A": 25.0, "B": 15.0}
+    pcards11 = {"B_MAXDIV": pc11}
+    _attach_composites(pcards11, pw_fake, pb_fake, portfolio_face_scores, PORTFOLIO_FACES)
+    pf = portfolio_face_scores(pc11)
+    exp_p = round(sum(w * pf[f] for f, w in pw_fake.items()), 1)
+    assert pcards11["B_MAXDIV"]["composite"]["total"] == exp_p
+    assert pcards11["B_MAXDIV"]["composite"]["grade"] == "S"
+    # 纯函数新建卡 = 仍读数态（启用门不改变纯函数契约，S5 律恒真）
+    pfx = trader_card("T-X", {"total": 50.0, "grade": "B", "veto_clean": True, "dims": {}},
+                      None, None, None)
+    assert pfx.get("readout_only") is True and "composite" not in pfx
+    print("selftest: 6/6 core + 5/5 calibration PASS (registered/prospect/veto/tournament/"
           "untested-propagation/iv6 production-shape fixtures; face formulas/weight-allocation/"
-          "band-quantiles/end-to-end-calibrate; readout-only law asserted on every card)")
+          "band-quantiles/end-to-end-calibrate/frozen-band-emission incl portfolio leg + veto "
+          "override; readout-only law asserted on every pure card)")
     return 0
 
 
