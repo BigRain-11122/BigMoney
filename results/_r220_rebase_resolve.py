@@ -1,12 +1,24 @@
-"""r220 conflict resolver: autofill_state.json rolling-ledger union (r161/r185/r188/r203 recipe).
+"""r220 conflict resolver v2: autofill_state.json rolling-ledger union.
 
-Both sides extracted via git show (authoritative blobs), union merge:
-- launches: full-blob identity union, ts-sorted, cap 50 rolling window
-- last_tick: dict type -- compare inner 'ts' field, assign WHOLE dict (r203 type law)
-- scalar counters: side-by-side disclosure, take newer-side context
-Verify-parse BEFORE write-back + git add (r185 order law).
+R209 law (bm-a, just landed on origin): reproduce the PRODUCER canonical
+format per file (Tools/autofill.py _save_state: json.dump ensure_ascii=False
+indent=1, key order preserved, NO foreign keys) -- v1 of this resolver
+injected a _r220_union_note key and reordered launches = whole-file rewrite
+diff (572/563 lines), never pushed (push rejected, caught here).
+
+Recipe (r161/r185/r188/r203 + R208 snapshot-vs-ledger + R209 format):
+- launches: full-blob identity union (json-dump identity, both sides),
+  ts-sorted, rolling cap 50 -- records from both machines are distinct
+  real events (entry/shard/pid differ)
+- last_tick: dict, take newer by inner ts, WHOLE-dict assign (r203 type law)
+- key order: HEAD(origin) side's key order verbatim, no added keys
+- write: producer-canonical json.dump(ensure_ascii=False, indent=1)
+- verify-parse BEFORE write-back + git add (r185 order law)
 """
-import json, subprocess, sys
+import json
+import subprocess
+import sys
+
 
 def blob(rev):
     out = subprocess.run(["git", "show", f"{rev}:results/autofill_state.json"],
@@ -15,54 +27,37 @@ def blob(rev):
         sys.exit(f"git show {rev} failed: {out.stderr}")
     return json.loads(out.stdout)
 
-ours = blob("HEAD")        # origin/main side (bm-a latest, incl. its own tick runs)
-mine = blob("REBASE_HEAD") # bm-b replayed commit (my pre-pull tick sync)
+
+ours = blob("HEAD")          # origin/main side (producer-canonical form)
+mine = blob("REBASE_HEAD")   # local replayed commit (v1 resolver output)
 
 ol, ml = ours.get("launches", []), mine.get("launches", [])
-def lid(x):
-    # launch record identity: prefer unique id-ish fields, else full record
-    return x.get("id") or x.get("ts") or json.dumps(x, sort_keys=True)
-
 seen, union = set(), []
-for rec in ol + ml:  # origin first (older history), then mine
-    k = lid(rec)
+for rec in ol + ml:                       # origin first, then mine
+    k = json.dumps(rec, sort_keys=True)   # full-record identity
     if k in seen:
         continue
     seen.add(k)
     union.append(rec)
-# sort by ts if present, newest last (append-only ledger convention)
-def ts_of(x):
-    t = x.get("ts") or x.get("launched_at") or ""
-    return str(t)
-union.sort(key=ts_of)
-cap = 50
-dropped = max(0, len(union) - cap)
-union = union[-cap:] if cap and len(union) > cap else union
+union.sort(key=lambda x: str(x.get("ts", "")))
+CAP = 50
+union = union[-CAP:] if len(union) > CAP else union
 
 ot, mt = ours.get("last_tick", {}), mine.get("last_tick", {})
-# last_tick: dict, take newer by inner ts; same-second tie -> HEAD/ours (bm-a R208 convention)
-def tick_ts(d):
-    return str(d.get("ts", ""))
-last_tick = ot if tick_ts(ot) >= tick_ts(mt) else mt
-assert isinstance(last_tick, dict), "r203 type law: last_tick must stay dict"
+last_tick = ot if str(ot.get("ts", "")) >= str(mt.get("ts", "")) else mt
+assert isinstance(last_tick, dict), "r203 type law: last_tick stays dict"
 
-merged = dict(ours)  # base = ours (has any new bm-a-side keys)
+merged = dict(ours)                        # origin key order verbatim
 merged["launches"] = union
-merged["last_tick"] = last_tick
-# counters that exist on both: keep ours (origin-newer context) but disclose
-merged["_r220_union_note"] = {
-    "ours_launches": len(ol), "mine_launches": len(ml),
-    "union_before_cap": len(union) + dropped, "dropped_over_cap": dropped,
-    "last_tick_from": "HEAD(ours)" if last_tick is ot else "REBASE_HEAD(mine)",
-    "ours_last_tick_ts": tick_ts(ot), "mine_last_tick_ts": tick_ts(mt),
-}
+merged["last_tick"] = last_tick            # no foreign keys added (R209)
 
-json.loads(json.dumps(merged))  # verify-parse before write (r185 order law)
+json.loads(json.dumps(merged))             # verify-parse before write
 with open("results/autofill_state.json", "w", encoding="utf-8") as f:
-    json.dump(merged, f, indent=1, ensure_ascii=False)
-reloaded = json.load(open("results/autofill_state.json", encoding="utf-8"))
-assert isinstance(reloaded.get("last_tick"), dict)
-assert len(reloaded["launches"]) == len(union)
-print("UNION OK: launches", len(ol), "+", len(ml), "->", len(union),
-      f"(cap-drop {dropped})", "| last_tick", tick_ts(last_tick), "| from",
-      merged["_r220_union_note"]["last_tick_from"])
+    json.dump(merged, f, ensure_ascii=False, indent=1)
+re = json.load(open("results/autofill_state.json", encoding="utf-8"))
+assert isinstance(re.get("last_tick"), dict)
+assert len(re["launches"]) == len(union)
+assert "_r220_union_note" not in re
+print(f"UNION v2 OK: launches {len(ol)}+{len(ml)} -> {len(union)} (cap {CAP}) "
+      f"| last_tick ts={last_tick.get('ts')} | origin keys order kept: "
+      f"{list(re.keys())}")
