@@ -1,11 +1,11 @@
 {
   "latest": {
-    "ts": "2026-09-25 19:16:29",
-    "cpu_total_pct": 6.0,
-    "py_cpu_pct": 1.0,
-    "cores": 16,
-    "py_procs": 10,
-    "result_stale_min": 3.1,
+    "ts": "2026-09-25 19:32:09",
+    "cpu_total_pct": 22.0,
+    "py_cpu_pct": 0.1,
+    "cores": 32,
+    "py_procs": 7,
+    "result_stale_min": 2.1,
     "fleet_open_tasks": 0,
     "pool_ready_count": 8,
     "load_state": "pool-supply-gap",
@@ -15,9 +15,9 @@
     },
     "gpu": {
       "present": true,
-      "util_pct": 1.0,
-      "mem_used_mb": 6029.0,
-      "compute_apps_count": 22,
+      "util_pct": 6.0,
+      "mem_used_mb": 6739.0,
+      "compute_apps_count": 33,
       "rogue_apps": []
     },
     "zombies": [],
@@ -27,46 +27,6 @@
     "verdict": "CLEAN"
   },
   "history": [
-    {
-      "cores": 32,
-      "cpu_total_pct": 13.0,
-      "flags": [
-        "idle_with_work"
-      ],
-      "fleet_open_tasks": 6,
-      "gpu": {
-        "compute_apps_count": 31,
-        "mem_used_mb": 9618.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 91.0
-      },
-      "py_cpu_pct": 0.6,
-      "py_procs": 8,
-      "result_stale_min": 14.3,
-      "ts": "2026-09-24 18:14:35",
-      "verdict": "FLAG:idle_with_work",
-      "zombies": []
-    },
-    {
-      "cores": 16,
-      "cpu_total_pct": 54.0,
-      "flags": [],
-      "fleet_open_tasks": 5,
-      "gpu": {
-        "compute_apps_count": 26,
-        "mem_used_mb": 5613.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 3.0
-      },
-      "py_cpu_pct": 90.6,
-      "py_procs": 19,
-      "result_stale_min": 3.5,
-      "ts": "2026-09-24 18:42:30",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "cores": 32,
       "cpu_total_pct": 35.0,
@@ -4670,6 +4630,33 @@
         "util_pct": 1.0,
         "mem_used_mb": 6029.0,
         "compute_apps_count": 22,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [],
+      "verdict": "CLEAN"
+    },
+    {
+      "ts": "2026-09-25 19:32:09",
+      "cpu_total_pct": 22.0,
+      "py_cpu_pct": 0.1,
+      "cores": 32,
+      "py_procs": 7,
+      "result_stale_min": 2.1,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 8,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 6.0,
+        "mem_used_mb": 6739.0,
+        "compute_apps_count": 33,
         "rogue_apps": []
       },
       "zombies": [],
