@@ -3,17 +3,6 @@
   {
    "entry": "T54-GRID-DB",
    "fill_latency_min": 130.7,
-   "machine": "bm-a",
-   "pid": 53416,
-   "py_cpu_pct": 0.0,
-   "shard": "deep-dB",
-   "target_met": false,
-   "ts": "2026-09-25 13:30:01",
-   "verdict": "launched"
-  },
-  {
-   "entry": "T54-GRID-DB",
-   "fill_latency_min": 130.7,
    "machine": "bm-b",
    "pid": 13492,
    "py_cpu_pct": 0.0,
@@ -549,13 +538,29 @@
    "target_met": false,
    "ts": "2026-09-25 12:40:01",
    "verdict": "launched"
+  },
+  {
+   "ts": "2026-09-26 03:30:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "P1E-NULLS-MCLOSE",
+   "shard": "p1e-nulls-mclose",
+   "pid": 5760,
+   "fill_latency_min": 23.2,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 03:20:01",
-  "machine": "bm-a",
+  "ts": "2026-09-26 03:30:01",
+  "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "launched",
+  "entry": "P1E-NULLS-MCLOSE",
+  "shard": "p1e-nulls-mclose",
+  "pid": 5760,
+  "fill_latency_min": 23.2,
+  "target_met": false
  },
  "rebase_union_note": "r221 rebase union (bm-b): base :2:results/autofill_state.json + incoming :3:results/autofill_state.json; launches union 51+50 -> 50 cap50; last_tick take-newer (base 2026-09-26 03:20:01 vs inc 2026-09-26 03:20:01 -> 2026-09-26 03:20:01); base key order preserved"
 }
