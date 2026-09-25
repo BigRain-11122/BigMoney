@@ -55,6 +55,14 @@ FUT_META: dict[str, dict] = {
     "RB": {"name": "螺纹钢", "margin": 0.09, "mult": 10.0, "fee_lot": 4.3, "tick": 1.0, "limit": 0.07, "group": "commodity"},
     "AU": {"name": "黄金", "margin": 0.08, "mult": 1000.0, "fee_lot": 10.1, "tick": 0.02, "limit": 0.08, "group": "commodity"},
     "SC": {"name": "原油", "margin": 0.10, "mult": 1000.0, "fee_lot": 20.0, "tick": 0.1, "limit": 0.13, "group": "commodity"},
+    # CTA_WAVE1 TS leg (additive, R187): all values exchange-verified 2026-09-25
+    # vs CFFEX official faces (R169/R173 discipline, evidence
+    # results/cta_wave1_g2_ts_check.json): /cn/2ts.html contract table
+    # (mult 20000 = 2,000,000 face / 100-yuan quote, margin 0.5%, limit +/-0.5%)
+    # + /sj/jscs/202609/21/20260921_1.csv (fee 3 yuan/lot). tick frozen at the
+    # VERIFIED 0.002 (prereg provisional was 0.005; 150% deviation > 30% ->
+    # freeze-verified protocol, prereg SS3 G2, disclosed in batch JSON).
+    "TS": {"name": "两年国债", "margin": 0.005, "mult": 20000.0, "fee_lot": 3.0, "tick": 0.002, "limit": 0.005, "group": "bond"},
 }
 
 FUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
@@ -100,9 +108,13 @@ class FutResult:
 
 
 def run(panel: dict, weights: pd.DataFrame, start_cash: float = 1_000_000.0,
-        cost_mult: float = 1.0, per_variety_cap: float = 0.20) -> FutResult:
+        cost_mult: float = 1.0, per_variety_cap: float = 0.20,
+        margin_cap: float = 1.0) -> FutResult:
     """CTA portfolio run. weights: dates x variety signed margin-share of
-    equity; NaN = carry (no rebalance); rebalance executes next-day open."""
+    equity; NaN = carry (no rebalance); rebalance executes next-day open.
+    margin_cap: total margin usage ceiling as a fraction of yesterday's
+    equity (CTA_WAVE1 Leg B 50/30 variants); default 1.0 = the original
+    M0923 full-budget semantics, bit-identical for all prior batches."""
     varieties = list(weights.columns)
     dates = panel["dates"]
     if not weights.index.equals(dates):
@@ -169,10 +181,12 @@ def run(panel: dict, weights: pd.DataFrame, start_cash: float = 1_000_000.0,
             lots_raw = margin_share / (mult[j] * o[j] * margin[j])
             want[j] = int(math.copysign(math.floor(lots_raw), tw))
 
-        # margin budget over TARGET state: shrink largest occupant (M0923)
+        # margin budget over TARGET state: shrink largest occupant (M0923);
+        # margin_cap < 1.0 = CTA_WAVE1 Leg B global-usage ceiling (shrink
+        # rule identical, only the budget line moves).
         usage = np.abs(want) * mult * np.nan_to_num(o) * margin
         guard = 0
-        while usage.sum() > eq_prev and (np.abs(want) > 0).any():
+        while usage.sum() > margin_cap * eq_prev and (np.abs(want) > 0).any():
             j = int(np.argmax(usage))
             want[j] += -1 if want[j] > 0 else 1
             usage = np.abs(want) * mult * np.nan_to_num(o) * margin
@@ -292,3 +306,30 @@ def yearly_returns(equity: pd.Series) -> dict:
         base = equity.iloc[0] if k == 0 else last_by_year[years[k - 1]]
         out[str(yr)] = round(float(last_by_year[yr] / base - 1.0), 4)
     return out
+
+
+def basis_carry_signal(fut_close: pd.Series, spot_close: pd.Series,
+                       window: int = 60, band: float = 0.002) -> pd.Series:
+    """Leg C dual-input signal interface (CTA_WAVE1 SS3, additive; ETF engine
+    untouched). r = F_close/S_close (scale-free premium ratio, ETF proxy of
+    the index -- proxy law disclosed in prereg SS2); m = window-day rolling
+    mean of r; dev = r/m - 1. dev < -band -> +1 (deep discount: long futures,
+    collect basis convergence / hedge-insurance premium); dev > +band -> -1;
+    dead zone -> 0 (explicit flat). Days without basis data (pre spot-window,
+    futures not listed, spot gap beyond ffill) -> NaN (no signal, carry).
+
+    Causality: spot is reindexed to the futures calendar with ffill (last
+    PRIOR spot close only); every statistic at T uses data up to and
+    including T; execution lag is the runner's own T+1 open shift.
+    """
+    if not isinstance(fut_close.index, pd.DatetimeIndex):
+        raise TypeError("fut_close must carry a DatetimeIndex")
+    spot = spot_close.reindex(fut_close.index).ffill()
+    r = fut_close / spot
+    m = r.rolling(window, min_periods=window).mean()
+    dev = r / m - 1.0
+    sig = pd.Series(0.0, index=fut_close.index)
+    sig[dev < -band] = 1.0
+    sig[dev > band] = -1.0
+    sig = sig.where(r.notna() & m.notna())     # no-basis days -> NaN (carry)
+    return sig

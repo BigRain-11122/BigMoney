@@ -1,0 +1,81 @@
+{
+ "gate": "CTA_WAVE1 G2 TS instrument-constants exchange verification",
+ "ts": "2026-09-25T20:40:00 (bm-a R187)",
+ "verifier_machine": "bm-a",
+ "round": "R187 (T-2026-09-25-65 s2 implementation slice)",
+ "sources": [
+  {
+   "face": "CFFEX TS product contract table (official)",
+   "url": "http://www.cffex.com.cn/cn/2ts.html",
+   "method": "urllib direct + GBK decode (R171 recipe; web_fetch md-strips hrefs)",
+   "readings": {
+    "合约标的": "面值为200万元人民币、票面利率为3%的名义中短期国债",
+    "报价方式": "百元净价报价",
+    "每日价格最大波动限制": "上一交易日结算价的±0.5%",
+    "最低交易保证金": "合约价值的0.5%",
+    "最小变动价位": "0.002元",
+    "交易代码": "TS",
+    "交易时间": "9:30-11:30, 13:00-15:15"
+   }
+  },
+  {
+   "face": "CFFEX settlement-parameters daily CSV (official, fee+margin cross-check)",
+   "url": "http://www.cffex.com.cn/sj/jscs/202609/21/20260921_1.csv",
+   "method": "direct download, GBK; columns=期货合约,合约多头保证金标准,合约空头保证金标准,交易手续费标准,交割手续费标准,平今仓收取率",
+   "readings": {
+    "TS2612": "0.500%, 0.500%, 3元/手, 2.5元/手, 0%",
+    "TS2703": "0.500%, 0.500%, 3元/手, 5元/手, 0%",
+    "TS2706": "0.500%, 0.500%, 3元/手, 5元/手, 0%"
+   }
+  }
+ ],
+ "provisional_vs_verified": [
+  {
+   "param": "mult",
+   "provisional": 20000.0,
+   "verified": 20000.0,
+   "deviation_pct": 0.0,
+   "action": "provisional stands"
+  },
+  {
+   "param": "margin",
+   "provisional": 0.005,
+   "verified": 0.005,
+   "deviation_pct": 0.0,
+   "action": "provisional stands"
+  },
+  {
+   "param": "limit",
+   "provisional": 0.005,
+   "verified": 0.005,
+   "deviation_pct": 0.0,
+   "action": "provisional stands"
+  },
+  {
+   "param": "fee_lot",
+   "provisional": 3.0,
+   "verified": 3.0,
+   "deviation_pct": 0.0,
+   "action": "provisional stands (交易手续费标准 3元/手, exchange minimum; 平今0% not modeled -- V1 per-lot conservative face unchanged)"
+  },
+  {
+   "param": "tick",
+   "provisional": 0.005,
+   "verified": 0.002,
+   "deviation_pct": 150.0,
+   "action": "FROZEN VERIFIED 0.002 per prereg SS3 G2 protocol (>30% deviation -> freeze exchange-verified value, disclose, don't abort)"
+  }
+ ],
+ "resolved_constants": {
+  "mult": 20000.0,
+  "margin": 0.005,
+  "fee_lot": 3.0,
+  "tick": 0.002,
+  "limit": 0.005
+ },
+ "note": "fee_lot=3.0 is the exchange-side transaction fee standard; broker commission not modeled (V1 legacy per-lot cost face, CTA_P1 same-face precedent). Tick-value slippage term now 0.002*20000=40 yuan/side (was 100 under provisional).",
+ "blocked_faces_disclosed": [
+  "/sj/jycs/<date>/index.xml AJAX endpoint returns HTML error page (dead face for direct fetch, no guessing further per R169)",
+  "fee schedule article /cn/zjssf/20260601/47965.html body = CMS AJAX widget (empty static shell); settlement CSV used as the canonical fee face instead"
+ ]
+}
