@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 00:50:27",
+ "updated_at": "2026-09-27 01:13:33",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1663,7 +1663,7 @@
    ],
    "lane_owner": "bm-a",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 00:31:00",
    "data_gates": "in-runner fail-closed exit 2: cache shape T==8792/N==5222 + dates[0]==1990-12-19 + dates[-1]==2026-09-22 (D2 lockbox) + sse coverage>=0.97 + mask rows 5222 + ok_static 3517 + bars symbol census + dual-face universe sentinel (full-grid median>=150 AND 2010+ median>=500); free-RAM<16GB exit 3; per-cell JSON+npy idempotent checkpoints; finalize single-shot (REV_OSC_STOCK_P1_REFINALIZE=1 = only redo); selftest 15/15 pre-pooling (r263 law); real-data gate probe PASSED 2026-09-27 00:2x (medians 194/1116, thin-1990s honest skip verified)",
    "workers_plan": {
@@ -1674,13 +1674,13 @@
    "shards": [
     {
      "key": "revosc-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 01:00:03",
      "checkpoint": "results/rev_osc/cells/<cell>_<face>.json (+.npy, gitignored t22 precedent) per-cell-face idempotent skip; landed marker = results/rev_osc/p1_results.json with ledger block; harvest = pool flip done by next round per r244 landed-marker law (batch does not flip itself)"
     }
    ],
-   "note": "lane pinned bm-a (r188 precedent): p1c_stock cache + b_layer mask + ew6 D6 member faces machine-local; data channel = p1c cache in-place (O-2330 s3 faster path -- akshare forward collector = bm-b r279 supply lane, zero collision: judged batch consumes frozen panel, forward/paper leg consumes the collector later)"
+   "note": "landed 2026-09-27 01:00-01:01 (48s wall; fill latency 29.1min vs O-2100 10min target -- claim push-reject starvation 00:30/00:40/00:50, root-fixed same round: autofill rebase-retry r282); judged-negative all 7 cells per prereg s4 (g1 line 13.5951 vs best sharpe ~0.38 x1, CI lower negative, DSR 0.012, family PBO 0.4) = slot closed + new-evidence reopen note (O-2325 s5); beat-rate face unit defect found+fixed+re-derived same round (pct percent-as-fractional, r282 disclosure block in p1_results.json; deep-bear beat 0.55-0.62 inside prereg s5 band 0.55-0.75, was 0.0 degenerate); refine variants route to REFINE_BENCH + out-of-window paper track per O-2335 (FY_BG_H10 best beat profile 0.4838); data channel: p1c cache in-place consumed, forward collector = bm-b T-87 supply lane"
   },
   {
    "id": "CN-TREND-ETF-P1",

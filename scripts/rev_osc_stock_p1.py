@@ -66,6 +66,23 @@ walk-forward + gates + ledger block) + cells_summary.csv; per-cell
 checkpoints results/rev_osc/cells/<cell>_<face>.json (idempotent skip);
 finalize single-shot (REV_OSC_STOCK_P1_REFINALIZE=1 = only redo path).
 
+AMENDMENT r282 (post-run defect fix, judged products already landed):
+  virtual_starts beat-rate face consumed cache pct_chg -- PERCENT units
+  (p01 -9.15 / p99 +10.0 limit-band face) -- as fractional returns, so the
+  eligible-EW passive proxy was inflated ~100x (ew mean 0.0177%/day read
+  as +1.77%/day -> every 126d window "EW" ~+800%) and beat_rate read 0.0 on
+  ALL 7 cells x 4 segments vs prereg s5 expected deep-bear 0.55-0.75.
+  Fix: /100.0 in the EW construction. Quantified artifact face: |pct|>30 =
+  772 rows total (no-limit 1990s era), only 1 in-elig (30.27%, 2010) --
+  elig gates filter the era, EW/INVVOL materially unaffected (INVVOL sd is
+  scale-invariant). Judged faces untouched (cell sims are price-based;
+  g1/g2/dsr/pbo verdicts unchanged), r258 law: defect numbers void +
+  re-derive + disclosure block in the product. Re-finalize single-count
+  guards: append_ledger prev_total + skill_line n_eff_override reuse the
+  OWN stored chain position (r259 prev-echo guard; r253 deterministic
+  re-execution = byte-stable faces), attrition own measurement row
+  replaced in place. Batch trials N=2014 counted ONCE either way.
+
 Usage: run | selftest   (exit 0 ok; 2 = fail-closed gate refusal; 3 = RAM floor)
 """
 import argparse
@@ -246,7 +263,12 @@ def load_panel():
         drop60 = close / prev60 - 1.0
 
     # -- passive proxy: eligible-EW daily return (beat-rate face, prereg s3)
-    pct = F["pct_chg"]
+    # r282 defect fix: cache pct_chg is PERCENT units (p01 -9.15 / p99 +10.0
+    # A-share limit band) -- consumed raw as fractional it inflated the EW
+    # proxy ~100x and beat_rate read 0.0 on every cell/segment (header
+    # AMENDMENT r282). Divide to fractional here; every other consumer of
+    # pct_chg in this runner (INVVOL sd weighting) is scale-invariant.
+    pct = F["pct_chg"] / 100.0
     with np.errstate(invalid="ignore"):
         ew_f = np.where(elig & np.isfinite(pct), pct, 0.0)
         n_e = (elig & np.isfinite(pct)).sum(axis=1)
@@ -614,10 +636,19 @@ def crisis_face(P, series_by_cell):
 # ------------------------------------------------------------- finalize
 def _attr_row(batch, delta, total, gates):
     d = json.load(open(ATT_JSON, encoding="utf-8"))
-    d["entries"].append({"batch": batch,
-                         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
-                         "kind": "measurement", "cells_ledger_delta": delta,
-                         "ledger_total_after": total, "gates": gates})
+    row = {"batch": batch,
+           "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+           "kind": "measurement", "cells_ledger_delta": delta,
+           "ledger_total_after": total, "gates": gates}
+    # r282 redo face: a re-finalize replaces this batch's own measurement
+    # row in place (single row per batch; first write appends). The redo
+    # is disclosed in the product's defect_disclosure block.
+    own = [i for i, e in enumerate(d["entries"])
+           if e.get("batch") == batch and e.get("kind") == "measurement"]
+    if own:
+        d["entries"][own[-1]] = row
+    else:
+        d["entries"].append(row)
     with open(ATT_JSON + ".tmp", "w", encoding="utf-8") as fh:
         json.dump(d, fh, ensure_ascii=False, indent=1)
     os.replace(ATT_JSON + ".tmp", ATT_JSON)
@@ -626,13 +657,29 @@ def _attr_row(batch, delta, total, gates):
 def finalize(panel_face, cells_out, nulls, d6, vstarts, robust, crisis):
     series_by_cell = {n: cells_out[n]["x1"]["series"] for n in cells_out}
     line_pool = {"values": nulls["values"], "coverage": nulls["coverage"]}
+    # r259 prev-echo guard (re-finalize single-count law): on redo the
+    # data-driven head already contains THIS batch's own append -- reuse
+    # the stored prev_total so the block keeps its original chain position
+    # and every ledger-dependent face stays byte-stable (r253 deterministic
+    # re-execution). First run (no own file) = data-driven head as before.
+    prev_total = None
+    if os.path.exists(OUT_JSON):
+        try:
+            with open(OUT_JSON, encoding="utf-8") as fh:
+                prev_total = int(
+                    json.load(fh)["trials_ledger"]["prev_total"])
+        except Exception:
+            prev_total = None
+    head_base = (prev_total if prev_total is not None
+                 else int(SG.ledger_head()["total"]))
     gates = {}
     for name, ser in series_by_cell.items():
         st = cells_out[name]["x1"]["stats"]
         g1 = SG.g1_prime_v2(st["sharpe_full"], ser, batch_cells=BATCH_CELLS,
                             pool="stock_b_layer", null_pool=line_pool,
                             n_trades=cells_out[name]["x1"]["trades"],
-                            n_entries=cells_out[name]["x1"]["entries"])
+                            n_entries=cells_out[name]["x1"]["entries"],
+                            n_eff_override=head_base + BATCH_CELLS)
         dsr = SG.deflated_sharpe_ratio(ser, n_trials=g1["skill_line"]["n_eff"])
         gates[name] = {"g1_prime_v2": g1, "dsr": dsr}
     mat = pd.DataFrame({n: np.asarray(s, dtype=np.float64)
@@ -650,7 +697,8 @@ def finalize(panel_face, cells_out, nulls, d6, vstarts, robust, crisis):
 
     ledger = SG.append_ledger(BATCH_NAME, BATCH_CELLS,
                               file_name="rev_osc_stock_p1",
-                              evidence_cutoff=EVIDENCE_CUTOFF)
+                              evidence_cutoff=EVIDENCE_CUTOFF,
+                              prev_total=prev_total)
     _attr_row(BATCH_NAME, BATCH_CELLS, int(ledger["total"]), {
         "g1_pass": {n: gates[n]["g1_prime_v2"]["pass_v2"] for n in gates},
         "g2_eligible": {n: gates[n]["g2"]["eligible_v2"] for n in gates},
@@ -674,6 +722,26 @@ def finalize(panel_face, cells_out, nulls, d6, vstarts, robust, crisis):
         "nulls": nulls, "d6": d6, "virtual_starts": vstarts,
         "robust": robust, "crisis_single_list": crisis,
         "family_pbo": pbo, "gates": gates, "trials_ledger": ledger,
+        "defect_disclosure": {
+            "r282_beat_face_unit": (
+                "virtual_starts beat-rate face consumed cache pct_chg "
+                "(PERCENT units, p01 -9.15 / p99 +10.0) as fractional -- "
+                "eligible-EW proxy inflated ~100x (ew mean 0.0177%/day "
+                "read as +1.77%/day) -> beat_rate 0.0 on all cells/"
+                "segments vs prereg s5 expected deep-bear 0.55-0.75; fixed "
+                "(/100.0) 2026-09-27 r282, face re-derived per r253 "
+                "single-count redo (append prev_total + skill_line "
+                "n_eff_override reuse own chain position, attrition own "
+                "row replaced in place)"),
+            "r282_artifact_face": (
+                "|pct|>30 rows: 772 total (no-limit 1990s era), 1 in-elig "
+                "(30.27%, 2010) -- elig gates filter the era; EW/INVVOL "
+                "materially unaffected (INVVOL sd scale-invariant to the "
+                "/100 fix); no sim face consumed those rows"),
+            "r282_judged_face_impact": (
+                "none: cell sims are price-based (open/high/low/close "
+                "fills), g1/g2/dsr/pbo verdicts byte-stable under redo"),
+        },
         "verdict_line": ("judged per prereg s4: G1'v2 x1 primary faces; "
                          "judged-negative = slot closed + new-evidence "
                          "reopen note (O-2325 s5)"),
@@ -755,7 +823,11 @@ def _mk_panel(tmp, T=420, N=12):
     high = np.maximum(open_, close) * (1 + abs(rng.normal(0, 0.004, (T, N))))
     low = np.minimum(open_, close) * (1 - abs(rng.normal(0, 0.004, (T, N))))
     amt = np.full((T, N), 6e7) + rng.random((T, N)) * 1e7
-    pct = np.vstack([np.full((1, N), np.nan), close[1:] / close[:-1] - 1])
+    # r117 hermetic-production pairing: the production cache carries
+    # pct_chg in PERCENT units -- the fixture must write the same face
+    # (r282 unit-defect law: fractional fixture masked the /100 bug).
+    pct = np.vstack([np.full((1, N), np.nan),
+                     (close[1:] / close[:-1] - 1.0) * 100.0])
     for f, m in (("open", open_), ("high", high), ("low", low),
                  ("close", close), ("pct_chg", pct), ("amount", amt)):
         np.save(os.path.join(cache, f + ".npy"), m.astype(np.float32))
@@ -800,15 +872,31 @@ def cmd_selftest():
 
     # hermetic stubs: shared-library state faces isolated from the real repo
     _ne, _pb, _al = SG.n_eff, SG.passive_baseline, SG.append_ledger
+    _lh = SG.ledger_head
     SG.n_eff = lambda bc, rd=None: int(bc)
     SG.passive_baseline = lambda pool, rd=None: 0.4606
     SG.append_ledger = lambda *a, **k: {"prev_total": 0, "total": 100,
                                         "batch": BATCH_NAME}
+    SG.ledger_head = lambda rd=None: {"total": 500, "file": None,
+                                      "note": None}
     cscv_pbo = lambda mat: {"pbo": 0.1}   # real fn returns the record dict
 
     try:
         P = load_panel()
         ok.append(("panel gates", P["elig"].shape == (T, N)))
+
+        # [1b] r282 EW unit-defect catcher: the passive proxy must equal the
+        # FRACTIONAL close-derived eligible-EW (raw percent consumption
+        # inflated it ~100x -> beat_rate 0.0 everywhere; header AMENDMENT).
+        cl = P["F"]["close"]
+        ret_f = cl[1:] / cl[:-1] - 1.0
+        m_e = P["elig"][1:] & np.isfinite(ret_f)
+        num_e = np.where(m_e, ret_f, 0.0).sum(axis=1)
+        den_e = m_e.sum(axis=1)
+        ew_expect = np.where(den_e > 0, num_e / np.maximum(den_e, 1), 0.0)
+        ok.append(("ew == fractional close-derived EW (r282 catcher)",
+                   bool(np.allclose(P["ew_ret"][1:], ew_expect,
+                                    atol=2e-6))))
 
         # [2] ranking: deepest drop first among eligible
         t = 100
@@ -938,6 +1026,7 @@ def cmd_selftest():
                    res["trials_ledger"]["total"] == 100))
     finally:
         SG.n_eff, SG.passive_baseline, SG.append_ledger = _ne, _pb, _al
+        SG.ledger_head = _lh
         shutil.rmtree(tmp, ignore_errors=True)
 
     n_ok = sum(1 for _, v in ok if v)

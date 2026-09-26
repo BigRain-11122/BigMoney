@@ -300,17 +300,24 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
 
 
 def skill_line_v2(batch_cells: int, pool: str = "core48", results_dir: str = RESULTS_DIR,
-                  null_pool: dict | None = None) -> dict:
+                  null_pool: dict | None = None,
+                  n_eff_override: int | None = None) -> dict:
     """D1: skill_line_v2 = max(passive+0.10, mu_null + sigma_null*sqrt(2*ln N_eff)).
 
     Returns the line plus every input so batch reports can disclose the whole computation.
+    n_eff_override (additive, r259 prev-echo guard face): a deterministic
+    re-execution of an ALREADY-APPENDED batch passes its own chain position
+    (stored prev_total + batch_cells) -- the live data-driven head would
+    otherwise include the batch's own echo and drift the line on redo
+    (r253 single-count law: redo faces must be byte-stable).
     """
     if null_pool is None:
         null_pool = null_sharpes(results_dir)
     cov = null_pool["coverage"]
     if cov["mu"] is None or cov["sigma"] is None or cov["n_values"] < 30:
         raise ValueError(f"null pool too thin ({cov['n_values']} values) — extend collector first")
-    n = n_eff(batch_cells, results_dir)
+    n = int(n_eff_override) if n_eff_override is not None \
+        else n_eff(batch_cells, results_dir)
     extreme = cov["sigma"] * math.sqrt(2.0 * math.log(max(n, 2)))
     null_term = cov["mu"] + extreme
     passive = passive_baseline(pool, results_dir)
@@ -812,7 +819,8 @@ def g1_prime_v2(sharpe_full, returns, batch_cells, pool: str = "core48",
                 n_trades: int | None = None, n_entries: int | None = None,
                 min_trades: int = 30, ci_seed: int = 20260923,
                 results_dir: str = RESULTS_DIR,
-                null_pool: dict | None = None) -> dict:
+                null_pool: dict | None = None,
+                n_eff_override: int | None = None) -> dict:
     """T-02 7/7: new-batch G1' verdict under v2 (BACKTEST_SCIENCE D1+D3).
 
     The two v2 clauses the ticket froze -- full-period Sharpe vs skill_line_v2
@@ -826,7 +834,8 @@ def g1_prime_v2(sharpe_full, returns, batch_cells, pool: str = "core48",
     default collector — stock-domain batches calibrate their own line.
     """
     line = skill_line_v2(batch_cells=batch_cells, pool=pool,
-                         results_dir=results_dir, null_pool=null_pool)
+                         results_dir=results_dir, null_pool=null_pool,
+                         n_eff_override=n_eff_override)
     ci = bootstrap_ci_sharpe(returns, seed=ci_seed)
     line_ok = bool(float(sharpe_full) > line["line"])
     ci_ok = bool(ci["ci_lower_bound_positive"])
@@ -949,12 +958,23 @@ def selftest() -> int:
     ok("skill_line_v2 line = max(passive_term, null_term)",
        abs(line50["line"] - max(line50["passive_term"], line50["null_term"])) < 1e-9)
     ok("skill_line_v2 passive core48 strict(>=0.379)+0.10", line50["passive_term"] >= 0.479)
+    # r259 prev-echo guard face: n_eff_override pins the chain position so a
+    # deterministic re-execution of an already-appended batch does not feed
+    # its own echo into the line (r253 single-count redo law).
+    line_ov = skill_line_v2(batch_cells=50, n_eff_override=1000)
+    ok("skill_line_v2 n_eff_override pins chain position",
+       line_ov["n_eff"] == 1000
+       and abs(line_ov["null_term"] - (line50["mu_null"] + line50["sigma_null"]
+                                       * math.sqrt(2.0 * math.log(1000)))) < 5e-4)
 
     # DSR: honest multiple-testing calibration. At N=2727 the 0.95 gate demands full-period
     # Sharpe ~2.1+ (6y) — a 1.6 edge must NOT clear it; a 2.5 edge must. Noise fails hard.
     good16 = _synth_returns(1512, 1.6, seed=11)
     good25 = _synth_returns(1512, 2.5, seed=13)
     noise = _synth_returns(1512, 0.0, seed=12)
+    g1_ov = g1_prime_v2(1.2, good25, batch_cells=10, n_eff_override=1234)
+    ok("g1_prime_v2 passes n_eff_override through (redo echo guard)",
+       g1_ov["skill_line"]["n_eff"] == 1234)
     dsr_good16 = deflated_sharpe_ratio(good16, n_trials=2727)
     dsr_good25 = deflated_sharpe_ratio(good25, n_trials=2727)
     dsr_noise = deflated_sharpe_ratio(noise, n_trials=2727)
