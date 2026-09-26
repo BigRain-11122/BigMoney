@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-26",
- "generated_at": "2026-09-26 18:37:14",
+ "generated_at": "2026-09-26 18:44:51",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -287,18 +287,20 @@
  },
  "rd": {
   "commits_24h": 471,
-  "result_jsons_landed_24h": 89,
-  "digests_landed_24h": 23,
+  "result_jsons_landed_24h": 86,
+  "digests_landed_24h": 22,
   "prereg_md_touched_24h": 26,
   "compute_audit_latest": {
-   "ts": "2026-09-26 18:36:14",
-   "py_cpu_pct": 0.8,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-09-26 18:43:51",
+   "py_cpu_pct": 5.1,
+   "flags": [
+    "idle_with_work"
+   ],
+   "verdict": "FLAG:idle_with_work"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -502,16 +504,23 @@
    "type": "applicability-domain-judgment",
    "immediate": true,
    "owner": "bm-b (OS iteration loop, round 252; clai"
+  },
+  {
+   "id": "T-2026-09-26-83",
+   "status": "open",
+   "type": "full-governance-audit-and-optimization",
+   "immediate": true,
+   "owner": ""
   }
  ],
  "token_line": {
-  "total_state_tokens_est": 2238,
-  "total_report_tokens_est": 440559,
+  "total_state_tokens_est": 2062,
+  "total_report_tokens_est": 441950,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-26 18:01:35",
-   "state_tokens_growth": 92,
-   "report_tokens_growth": 2549,
-   "mandate_growth": 173
+   "prev_generated": "2026-09-26 18:23:40",
+   "state_tokens_growth": -176,
+   "report_tokens_growth": 1391,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,

@@ -1602,13 +1602,13 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 18:18:13",
    "data_gates": "in-runner fail-closed exit 2: family panel gates (T==3333 2013-01-04..2026-09-22 + first==2013-01-04 + cutoff==2026-09-22 D2 lockbox + event set == frozen 3 + CORE 510880 zero events + first_active==2013-07-17) + dd-axis probe identity (DD10 6on/5off/34-of-51 first-on 2013-07-17; DD20 4on/4off/10-of-51 first-on 2014-01-21; drift = exit 2) + SEED_REGISTRY assert (cn_core_ddctl_p1=20261130) + R240 zero-rebalance-eval refusal + census gate before finalize; selftest 13-leg battery ALL PASS pre-burn",
    "shards": [
     {
      "key": "coreddctl-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-26 18:43:28",
      "checkpoint": "no mid-batch npz ckpt (single pass <5min); landed marker = results/cn_core_ddctl/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_CORE_DDCTL_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 law (批不自翻)"
@@ -1619,7 +1619,8 @@
     "note": "single finalize dependency chain (4 cells x3 faces + 100 nulls + 3 baselines = 115 units, est <2min single worker; queue-fill sim O(T) per unit, family 21.8s at 64 units)"
    },
    "note": "N=104 on the D1 bill (4 judged cells + 100 two-arm nulls); prereg s0/s6; family machinery reuse (CS panel + DRV engine + SRP guards + science_gates shared criteria); verdict face = x2 V2 cost always-on",
-   "updated_at": "2026-09-26 18:18:13"
+   "updated_at": "2026-09-26 18:46:08",
+   "harvest_note": "harvested bm-a R263 2026-09-26 18:5x: p1_results.json landed 18:43:56 (trials_ledger prev 187741 + 104 = 187845, canonical head re-derived 187845; evidence_cutoff 2026-09-22 D2; 2x2 cells differentiated CORE_DD10 0.1048 / CORE_DD20 0.3086 / SAT40_DD10 0.3796 / SAT40_DD20 0.4477; g1/g2 all-False honest negative); launch arc = 5 launches, first 4 died pre-finalize zero-ledger-pollution (naming bug x2, dead-condition bug, h4 prev-audit n-1 crash), 5th (pid 37364, runner c4161eec) landed 22.3s; harvest gate = results/_r263bma_coreddctl_harvest.py exit 0 (self-verifiable)"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
