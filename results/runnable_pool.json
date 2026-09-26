@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 03:39:00",
+ "updated_at": "2026-09-27 05:40:09",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1805,6 +1805,33 @@
    ],
    "done_at": "2026-09-27 04:32:15",
    "result_ref": "results/cn_kline_pattern/p1_results.json (judged 7/7 negative-honest per prereg s5-p1; ledger 200396 single-count; 353s burn)"
+  },
+  {
+   "id": "FUSION-GRID-P1",
+   "ticket_ref": "T-2026-09-26-85-P1 s2/s3 (CEO O-20260926-2320 24h-quench; claimed bm-a R277; F-04 MSG-20260927-0515-bm-a declared R295 before freeze commit; prereg frozen R295 7cf87f13, runner built+gated R296 same cadence)",
+   "prereg_ref": "research/FUSION_GRID_P1_PREREG.md FROZEN 7cf87f13 precedes runner build (R99) precedes ANY run; seed fusion_grid_p1=20275200 registered at freeze commit (R250 one-step); N bill 2045 = 45 judged cells + 2000 own-nulls; judged face x1 (fusion-layer cost 0 disclosed); RANDOM_LARGE_SAMPLE_LAW binding; selftest 22/22 hermetic + real-data gate PASS R296 (members 32 / bars 1631 / bench 09-24 / core48 ok / regime exact GREEN754 RED141 ORANGE22 YELLOW714, 0.3s)",
+   "runner": "scripts/fusion_grid_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 05:40:09",
+   "data_gates": "in-runner fail-closed SystemExit: navs 64 lines (x1/x2 32/32) + anchor_all_ok true + common grid 1631 bars to 2026-09-22 lockbox + bench >= cutoff + core48 >=20 bars since 2020-01; est 1-3min wall (nulls in-process vectorized + 45 cell jobs x 4 workers, pure-python bootstrap CI dominant); RAM floor trivial (NAV matrices 32x1631 x2); idempotent no-op if p1_results.json exists; FUSION_GRID_P1_REFINALIZE=1 only redo",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "run_cells_parallel 4 workers per prereg sec.0 plan (45 cell jobs: construction + stats + bootstrap CI + DSR in-worker; regime/subset-derivation/nulls in-process); O-2130 multi-core law"
+   },
+   "shards": [
+    {
+     "key": "run-0of1",
+     "status": "ready",
+     "checkpoint": "results/fusion_grid_p1/p1_results.json terminal + regime_series.json + nulls_summary.json + cells/*.json; idempotent no-op guard if p1_results.json exists",
+     "note": "single-vehicle full batch (45 cells + nulls + gates + ledger one-shot); takeover = stale owner >20min per fleet law"
+    }
+   ]
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
