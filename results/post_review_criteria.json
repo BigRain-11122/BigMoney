@@ -1784,6 +1784,89 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-83-S3-GM-DELIVERABLES",
+   "claim": "T-83 s3 GM-signed seven-deliverable batch, slice 1 of 3 (件①②④ landed this round; 件③ doc-hierarchy / 件⑤ orders index+supersession / 件⑥ s2-candidate adjudication (24 true dead links, 19 relocations, 6 mechanism amendments, local-coding pilot promotion) / 件⑦ product-line status single-source+zoo upgrade = follow-up GM slices, pointers in ticket progress_r269): 件① firm/JUDGMENT_MATRIX.md v1.0 judgment-system master map (9 judgment faces J-TRD/J-SPM/J-AGGR/J-ALLOC/J-CN/J-WILD/J-GRID/J-PAPER/J-DATA x product line x stage, sole-authority pointer per face, zero threshold restatement, three-lines-three-judgments rule codified, s2-D1 SINA_MF zero-reference adjudicated legal collection-lane face) -> 件② firm/ACCOUNT_LIFECYCLE.md v1.0 five-ring chain canonical doc (R1 judgment->R2 paper->R3 CEO approval->R4 live-sim->R5 real-money, per-ring carriers as pointers, 8 account families x ring coverage + reporting-attribution table, marks-are-not-trial-ledgers discipline) -> 件④ org_chart.md v6 KPI refresh (research dept KPI + orthogonal-member-supply + five-line coverage face per s1-L3 lag finding; GM-office KPI + daily battle report T-75 face per O-20260926-0940) — s1 L1/L5/L3 named targets closed; GM (quant 专管会话) personally executed per order lane note",
+   "claim_source": "fleet/orders/O-20260926-1355-bm-a.md §三 s3 seven deliverables (frozen at order 13:55) + ticket T-2026-09-26-83-P1.json spec s3 + inputs research/AUDIT-20260926-FULL.md (s1, L1/L3/L5 targets) + research/AUDIT-20260926-S2.md (s2, D1 adjudication input) + delivered artifacts firm/JUDGMENT_MATRIX.md + firm/ACCOUNT_LIFECYCLE.md + firm/org_chart.md v6 section",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "firm/JUDGMENT_MATRIX.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/JUDGMENT_MATRIX.md",
+      "三线三判律"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/JUDGMENT_MATRIX.md",
+      "零阈值复制"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/JUDGMENT_MATRIX.md",
+      "SINA_MF_PREREG"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/JUDGMENT_MATRIX.md",
+      "firm/ACCOUNT_LIFECYCLE.md"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "firm/ACCOUNT_LIFECYCLE.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/ACCOUNT_LIFECYCLE.md",
+      "R5 实盘"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/ACCOUNT_LIFECYCLE.md",
+      "marks 非试验账本"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/org_chart.md",
+      "v6 KPI 面刷新"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/org_chart.md",
+      "五线供给覆盖"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "firm/org_chart.md",
+      "每日战报按期"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened)"
