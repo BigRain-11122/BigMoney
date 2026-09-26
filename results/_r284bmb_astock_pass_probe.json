@@ -1,0 +1,60 @@
+{
+ "ts": "2026-09-27T00:43:43",
+ "round": "r284",
+ "machine": "bm-b",
+ "lane": "T-87 astock_daily supply (bm-b)",
+ "pass_state": {
+  "universe_n": 5228,
+  "per_files": 714,
+  "done_pct": 13.7,
+  "lock": {
+   "pid": 29440,
+   "ts": "2026-09-26T23:47:45"
+  },
+  "lock_alive": true,
+  "attempts_n": 3,
+  "attempts": {
+   "000019": 1,
+   "001235": 1,
+   "001246": 1
+  },
+  "quarantined": []
+ },
+ "rate_face": {
+  "n_new": 708,
+  "elapsed_min": 56.0,
+  "rate_per_min": 12.65,
+  "remaining": 4514,
+  "eta_ts": "2026-09-27T06:40:36"
+ },
+ "shape_face": {
+  "frozen_fields": [
+   "date",
+   "open",
+   "high",
+   "low",
+   "close",
+   "volume",
+   "amount",
+   "outstanding_share",
+   "turnover"
+  ],
+  "header_mismatch": [],
+  "tail_date_census_top": [
+   [
+    "2026-09-24",
+    713
+   ],
+   [
+    "2026-09-03",
+    1
+   ]
+  ],
+  "files_at_expected_cutoff": 713,
+  "ohlc_sanity_bad": []
+ },
+ "monday_deadline": "2026-09-28T09:15:00",
+ "eta_ok_before_deadline": true,
+ "verdict": "on_track",
+ "note": "first-pull mid-flight probe #4 (r283 next-pointer health watch; pass-completion re-probe stays queued for after ETA ~06:41); failed syms self-heal via file-derived todo on next gate spawn (family law); probe read-only; supersedes r284 ad-hoc rate probes a/b/c (ref_ts bug in 4b, mtime-rate 4c) -- lineage face = this frozen probe"
+}
