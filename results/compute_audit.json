@@ -1,33 +1,34 @@
 {
   "latest": {
-    "ts": "2026-09-26 09:22:46",
-    "cpu_total_pct": 26.0,
-    "py_cpu_pct": 0.3,
-    "cores": 32,
-    "py_procs": 7,
-    "result_stale_min": 0.4,
-    "fleet_open_tasks": 0,
+    "ts": "2026-09-26 09:26:08",
+    "cpu_total_pct": 14.0,
+    "py_cpu_pct": 2.0,
+    "cores": 16,
+    "py_procs": 10,
+    "result_stale_min": 5.6,
+    "fleet_open_tasks": 1,
     "pool_ready_count": 0,
     "load_state": "idle-starvation",
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
       "run_samples": 10,
-      "span_min": 72.8
+      "span_min": 76.2
     },
     "gpu": {
       "present": true,
-      "util_pct": 7.0,
-      "mem_used_mb": 6609.0,
-      "compute_apps_count": 32,
+      "util_pct": 1.0,
+      "mem_used_mb": 5753.0,
+      "compute_apps_count": 21,
       "rogue_apps": []
     },
     "zombies": [],
     "single_core_hog_candidate": false,
     "single_core_hog_detail": null,
     "flags": [
+      "idle_with_work",
       "pool_starvation"
     ],
-    "verdict": "FLAG:pool_starvation"
+    "verdict": "FLAG:idle_with_work,pool_starvation"
   },
   "history": [
     {
@@ -5351,6 +5352,37 @@
         "pool_starvation"
       ],
       "verdict": "FLAG:pool_starvation"
+    },
+    {
+      "ts": "2026-09-26 09:26:08",
+      "cpu_total_pct": 14.0,
+      "py_cpu_pct": 2.0,
+      "cores": 16,
+      "py_procs": 10,
+      "result_stale_min": 5.6,
+      "fleet_open_tasks": 1,
+      "pool_ready_count": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 10,
+        "span_min": 76.2
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 5753.0,
+        "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [
+        "idle_with_work",
+        "pool_starvation"
+      ],
+      "verdict": "FLAG:idle_with_work,pool_starvation"
     }
   ]
 }
