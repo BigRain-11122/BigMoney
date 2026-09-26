@@ -97,7 +97,7 @@ CEO Jason（唯一决策面：方向变更/P1署名/红线裁决/资源调配）
 
 | 部门 | mandate | 域（指针） | KPI | 自动化钩子 | 升级线 |
 |---|---|---|---|---|---|
-| 研究部 | 因子/信号挖掘、IC/回测研究、idea→候选池、可学清单采纳评估、**外部调研**（O-1636 常设职能） | `research/` · `screening/` · `knowledge/` | 新知识入库量 · idea 过闸率 · 外调轮执行率 · **正交成员供给数（相关性帽·v4 对齐）· 五线供给覆盖（交易/配置/激进/CN/野路子·v6 刷新）** | 周进化轮（PLAN §4.1）+**外调轮**（`research/RESEARCH_MECHANISM.md`） | P1 总经理署名制（O-1620） |
+| 研究部 | 因子/信号挖掘、IC/回测研究、idea→候选池、可学清单采纳评估、**外部调研**（O-1636 常设职能）、**BigMoney·调研部**（集团调研建制席位·复用正名 2026-09-27·章程=FluxGroup `docs/research-dept-charter.md`·O-20260927-0302） | `research/` · `screening/` · `knowledge/` | 新知识入库量 · idea 过闸率 · 外调轮执行率 · **正交成员供给数（相关性帽·v4 对齐）· 五线供给覆盖（交易/配置/激进/CN/野路子·v6 刷新）** | 周进化轮（PLAN §4.1）+**外调轮**（`research/RESEARCH_MECHANISM.md`·每日 digest+每周深挖=超配集团周轮扫描律） | P1 总经理署名制（O-1620） |
 | 策略部 | 策略工厂（**实况计数指针=`research/STRATEGY_LIBRARY.md` §一**·O-2250）、门禁链 G1'/G2+判据科学层 v2、注册与退役 | `strategies/` · `firm/review/` | 在册交易员质量 · 门禁通过率 | `firm/hr.py` 自动考核 | 红线变更=T0 |
 | 交易部 | 交易员实战（**在册名单指针=`research/STRATEGY_LIBRARY.md` §二**·O-2250 审计实况同步） | `firm/traders/` · `live/` | 模拟盘战绩（**唯一计分板**） | paper 锚定链+日结算 | 停盘/熔断 T1 上报 |
 | 风控部（含审计） | 铁律执行、熔断、零假设校准、防作弊审计 | `firm/risk/` · 门禁链 | 红线零违例 | iron_rules+熔断自动触发 | 熔断即自动处置+结果入台账（CEO 零动作·O-2205） |
