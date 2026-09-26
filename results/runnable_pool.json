@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 06:15:20",
+ "updated_at": "2026-09-27 07:01:17",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1837,6 +1837,25 @@
    "done_at": "2026-09-27 06:10:37",
    "result_ref": "results/fusion_grid_p1/p1_results.json",
    "harvest_note": "R298 bm-a harvest: relaunch 06:10:01 autofill pid 18524 new sha 0cce3192 (crash-fuse cleared by sha change per O-0947; first burn 05:50 crashed at first cell KeyError st['sharpe_full'], fix 64023a42 R297) -> landed 06:10:37 elapsed 28.8s workers 4 -> judged NEGATIVE 0/45 G1'v2 (best EW__DEDUP 0.5301 vs own-null line 1.7825, mu_null 0.4209; CI lower -0.3299) + 0/45 G2 (DSR 0.0, PBO 0.4857 observe) -> config-family no-increment verdict, slot closed no-reopen (new evidence = new prereg); prereg s7/s8 single-finalization + attrition row + post_review row registered same round; fill latency 29.9min > 10min target miss honest"
+  },
+  {
+   "id": "CN-SECTOR-LEADER-P1",
+   "ticket_ref": "T-20260926-87 s2 queue #4 sector-leader non-limit-up face (claimed bm-a; R99 order: prereg frozen b3d72924 R299 -> runner built+gated R300; F-04 MSG-20260927-0645-bm-a declared R299)",
+   "prereg_ref": "research/CN_SECTOR_LEADER_PREREG.md FROZEN b3d72924 precedes runner build (R99) precedes ANY run; seed cn_sector_leader_p1=20277200 registered at freeze commit (R250 one-step); N bill 2004 = 4 judged cells x1 + 2000 own-nulls; judged face x2 (side_cost_x2); RANDOM_LARGE_SAMPLE_LAW binding; selftest 34/34 hermetic + real-data gate PASS R300 (universe 3106 + census 17823 + limit_excl 2562 + days 7026 + first/last exact vs frozen probe, 19.3s; B7b contract leg mandatory per r297 kenglu)",
+   "runner": "scripts/cn_sector_leader_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 07:01:17",
+   "data_gates": "in-runner fail-closed exit 2: bars census 5222 + cache meta stamp == actual 2026-09-23 18:12:59 (r299 kenglu) + crosscheck _r299bma 0-mismatch in place + SW xls sha256 frozen + taxonomy coverage 100% + universe re-derive 3106 + skip ledger exact + trigger census re-derive 17823 + limit-face 2562; est 45-120min wall (vectorized numpy legs; judged cells 17,823 events x 2 faces per-event sim + 2 null tables ~15.5M pairs + 8000 null draws + Sobol 500 re-encode passes x1 face); RAM floor 16GB (peak ~2.6GB: close f64 367MB + members ~700MB + 2 null tables ~1.5GB); idempotent no-op if p1_results.json exists; CN_SECTOR_LEADER_P1_REFINALIZE=1 only redo; checkpoints: cells/*.json|npy per cell-face + nulls/<cell>_shard<k>.npy x8 + sobol/shard<k>.npy x10 (resume-safe across rounds)",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process vectorized numpy (prereg s0 workers=4 face carried by vectorization; no multiprocessing needed); autofill C8 watchdog owns the spawn"
+   }
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
