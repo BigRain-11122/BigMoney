@@ -1,0 +1,51 @@
+import io
+import json
+import time
+
+TS = time.strftime('%Y-%m-%d %H:%M:%S')
+ISO = time.strftime('%Y-%m-%dT%H:%M:%S') + '+08:00'
+d = {
+    "round_no": 258,
+    "did": ("R258: T-73 s2 slice-D SIZE/LOWVOL/DIVIDEND factor-history census "
+            "ONE ROUND (fourth s2 topic closed): NEW sidecar leg t73_mktcap_"
+            "sidecar.py mktcap_raw.npy via exchange-EXACT raw_close=preclose*"
+            "(1+pct/100) reconstruction (5-sym recon rel_dev<=4e-8, 19s) + "
+            "DATA-FACE DEFECT self-caught: bars osh=current-snapshot-ffilled-"
+            "back NOT historical -> SIZE=PROXY (OOS 2025+ near-true), meta "
+            "honesty_face+provenance gate added pre-commit, turnover_derived "
+            "cross-family note (slice-C no-reopen); main t73_s2_factor_history "
+            "selftest+batch 82.8s 9 IC faces -> LOWVOL law ALIVE ALL 6 ERAS "
+            "(first all-era-uniform s2 law, VOL60/h10 IS -0.0504/OOS -0.0479 "
+            "30x thr, 2017+ strengthened ir to -0.53), SIZE small-premium "
+            "NET-ALIVE but REGIME-DEPENDENT (era crown: 2015-2016 -0.1161/"
+            "-0.812 super-premium, 2017-2020 SIGN FLIP +0.0086 core-asset "
+            "era, 2025+ -0.0565 near-true alive), DIVIDEND defensive face "
+            "(510880 vs 510300 overlap: maxDD -22.0% vs -45.1% halved, CAGR "
+            "+2.21% vs +1.65%, price-face=conservative lower bound, 0 fund "
+            "events/4784 bars); v2 9/9 fail = plain-face IC!=tradable "
+            "(VOLATILITY-CE-01 composed precedent cross-cited); digest "
+            "sliceD-factors + artifact factor_history.json + ticket "
+            "progress_r258 (byte-probe 5-face 2+/1- pure field increment); "
+            "S6 all legs exit 0; post_review 20 YES/0 NO/5 WAIT"),
+    "verdict": ("GREEN low-vol all-era law + size regime-map closed (supply: "
+                "19s sidecar + 82.8s batch inline legal <5min, osh-provenance "
+                "defect caught at sidecar stage zero external leak, no "
+                "fabricated busywork O-1137)"),
+    "next": ("s2 last empirical slice-E style-rotation (2017/2021/2023/2024 "
+             "via ETF panels); T+1/limit topic converged-ref-T-57 closed "
+             "(slice-C ledger); transfer/t80-deep-bcd-basis arrival check "
+             "each S0.5 (armed); 09-28 Monday new-bar chain; 10-01 month "
+             "trio + REGIME_GUARD v3 date gate + 5x HANDOVER at R260; "
+             "T-70 verdict window 10-09"),
+    "ts": TS,
+    "last_round_ts": TS,
+    "updated_at": TS,
+    "current_task": "T-73 s2/s3 chain + T-82 deep-shard receiving window + fleet maintenance",
+    "last_run": "R258 " + ISO,
+    "last_round_at": "R258 " + ISO,
+    "last_round": time.strftime('%Y-%m-%dT%H:%M'),
+    "updated": time.strftime('%Y-%m-%d %H:%M'),
+}
+io.open(r'state-bm-a.json', 'w', encoding='utf-8', newline='\n').write(
+    json.dumps(d, ensure_ascii=False, indent=1))
+print('state written round 258')
