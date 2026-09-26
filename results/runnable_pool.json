@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-26 14:39:04",
+ "updated_at": "2026-09-26 14:42:33",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1499,7 +1499,8 @@
     "priority": "BelowNormal",
     "note": "autofill sets BelowNormal on launch; runner self-nices orchestrator; est <90s wall on bm-a class hardware"
    },
-   "lane_note": "R188 lane-pin precedent: full-pool deep axis requires canon CE deep cells (bm-a/bm-c local; bm-b = 680/1506 dprobe partial FORBIDDEN per t54 prereg s7-3); F-04 claim MSG-20260926-1400-bm-b declared BEFORE this entry with bm-a self-serve checklist (t54 shard re-run recipe incl.)"
+   "lane_note": "R188 lane-pin precedent: full-pool deep axis requires canon CE deep cells (bm-a/bm-c local; bm-b = 680/1506 dprobe partial FORBIDDEN per t54 prereg s7-3); F-04 claim MSG-20260926-1400-bm-b declared BEFORE this entry with bm-a self-serve checklist (t54 shard re-run recipe incl.)",
+   "note": "R251 bm-a lane status: 14:30 launch passed weight-sha/canon-census/grid-assembly/passive-agreement gates (R250 unblock verified live), sleeves computed 28x2 in 11s, then ANCHOR GATE REFUSED: AGGR-CONC-TOP2.w_cur != frozen aggressive_lab.json (got x1 ret 0.040724/dd -0.016575, want ret 0.043774/dd -0.016474; n_days 177==177) -- engineering drift, fail-closed zero products. 14:40 tick fuse_refused_crash_loop (same runner sha; no re-burn). Suspect face = machine-local re-derivations on bm-a (R250 assembled canon deep from d-a1+d-c1 + re-ran dA; byte-compare vs bm-b originals unavailable -- originals never pushed, R250 addendum). Next burner machines: expect the same refusal unless the evidence basis is byte-restored (TRANSFER the original dA shard + canon recipe hashes, or bm-c canon cross-check) or bm-b re-freezes the anchor against a reproducible basis. bm-b = T-80 owner for adjudication (MSG-20260926-1500-bm-a)."
   },
   {
    "id": "CN-DIV-LOWVOL-ROT-P1",

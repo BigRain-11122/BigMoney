@@ -557,13 +557,30 @@
    "pid": 62720,
    "runner_sha256": "de37d413d666876e",
    "fill_latency_min": 10.4,
+   "target_met": false,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-09-26 14:30:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "T80-AGGR-FULLPOOL-BATTERY",
+   "shard": "aggrfp-0of1",
+   "pid": 51340,
+   "runner_sha256": "de37d413d666876e",
+   "fill_latency_min": 30.4,
    "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 14:20:02",
+  "ts": "2026-09-26 14:40:01",
   "machine": "bm-a",
-  "py_cpu_pct": 76.7,
-  "verdict": "py_loaded"
+  "py_cpu_pct": 0.0,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "T80-AGGR-FULLPOOL-BATTERY",
+  "shard": "aggrfp-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 1
  }
 }
