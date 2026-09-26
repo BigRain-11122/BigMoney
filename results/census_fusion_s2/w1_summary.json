@@ -1,0 +1,142 @@
+{
+ "batch": "CENSUS_FUS_S2_W1",
+ "family_rule": "prereg sec.4: per ENGINE_FACES family, median x2 blend Sharpe of combos containing >=1 family face + coverage count; cross-family top-10 by x2 Sharpe; EXPLORATION ONLY (zero registration effect)",
+ "families": {
+  "breakout": {
+   "n_combos": 784,
+   "median_x2_sharpe": 0.0164
+  },
+  "low_vol": {
+   "n_combos": 2036,
+   "median_x2_sharpe": 0.1399
+  },
+  "mean_reversion": {
+   "n_combos": 784,
+   "median_x2_sharpe": 0.0126
+  },
+  "momentum": {
+   "n_combos": 2520,
+   "median_x2_sharpe": 0.0427
+  },
+  "reversal": {
+   "n_combos": 1135,
+   "median_x2_sharpe": -0.0096
+  },
+  "trend": {
+   "n_combos": 1135,
+   "median_x2_sharpe": 0.104
+  },
+  "volume": {
+   "n_combos": 1760,
+   "median_x2_sharpe": 0.0561
+  }
+ },
+ "cross_family_top10": [
+  {
+   "id": "T:extreme_freq|return_skew|lowamp20",
+   "faces": "extreme_freq|return_skew|lowamp20",
+   "signs": "---",
+   "x2_sharpe": 0.7249,
+   "x1_sharpe": 0.7581,
+   "ic_mean": 0.0294
+  },
+  {
+   "id": "T:mom_20|vol_20|vol_60",
+   "faces": "mom_20|vol_20|vol_60",
+   "signs": "+--",
+   "x2_sharpe": 0.7023,
+   "x1_sharpe": 0.7529,
+   "ic_mean": 0.0335
+  },
+  {
+   "id": "P:up_day_ratio|vol_60",
+   "faces": "up_day_ratio|vol_60",
+   "signs": "+-",
+   "x2_sharpe": 0.6987,
+   "x1_sharpe": 0.759,
+   "ic_mean": 0.0381
+  },
+  {
+   "id": "T:extreme_freq|intraday_range|return_skew",
+   "faces": "extreme_freq|intraday_range|return_skew",
+   "signs": "---",
+   "x2_sharpe": 0.6879,
+   "x1_sharpe": 0.7426,
+   "ic_mean": 0.0275
+  },
+  {
+   "id": "T:extreme_freq|ma_slope_20|lowamp20",
+   "faces": "extreme_freq|ma_slope_20|lowamp20",
+   "signs": "-+-",
+   "x2_sharpe": 0.6857,
+   "x1_sharpe": 0.7298,
+   "ic_mean": 0.0309
+  },
+  {
+   "id": "T:intraday_range|ma_slope_20|vol_20",
+   "faces": "intraday_range|ma_slope_20|vol_20",
+   "signs": "-+-",
+   "x2_sharpe": 0.6694,
+   "x1_sharpe": 0.7352,
+   "ic_mean": 0.0279
+  },
+  {
+   "id": "T:amt_20|price_position|lowamp20",
+   "faces": "amt_20|price_position|lowamp20",
+   "signs": "-+-",
+   "x2_sharpe": 0.6626,
+   "x1_sharpe": 0.7363,
+   "ic_mean": 0.0495
+  },
+  {
+   "id": "T:intraday_range|return_skew|lowamp20",
+   "faces": "intraday_range|return_skew|lowamp20",
+   "signs": "---",
+   "x2_sharpe": 0.6486,
+   "x1_sharpe": 0.6956,
+   "ic_mean": 0.033
+  },
+  {
+   "id": "T:intraday_range|mom_12_1|lowamp20",
+   "faces": "intraday_range|mom_12_1|lowamp20",
+   "signs": "-+-",
+   "x2_sharpe": 0.6475,
+   "x1_sharpe": 0.6879,
+   "ic_mean": 0.0507
+  },
+  {
+   "id": "T:extreme_freq|up_day_ratio|lowamp20",
+   "faces": "extreme_freq|up_day_ratio|lowamp20",
+   "signs": "-+-",
+   "x2_sharpe": 0.644,
+   "x1_sharpe": 0.6904,
+   "ic_mean": 0.0257
+  }
+ ],
+ "ew48_benchmark": {
+  "x1": {
+   "ann": 0.0266,
+   "vol": 0.1726,
+   "sharpe": 0.154,
+   "maxdd": -0.3649,
+   "monthly_win": 0.5,
+   "n_days": 1392,
+   "capped_entries": 0
+  },
+  "x2": {
+   "ann": 0.0264,
+   "vol": 0.1726,
+   "sharpe": 0.1532,
+   "maxdd": -0.365,
+   "monthly_win": 0.5,
+   "n_days": 1392,
+   "capped_entries": 0
+  }
+ },
+ "null_x2_sharpe": {
+  "n": 400,
+  "median": 0.0388,
+  "p95": 0.3467
+ },
+ "cand_x2_p95": 0.4146
+}

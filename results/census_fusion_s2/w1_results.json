@@ -1,0 +1,58 @@
+{
+ "evidence_cutoff": "2026-09-24",
+ "batch": "CENSUS_FUS_S2_W1",
+ "ticket": "T-2026-09-26-86-P1 s2 (CEO O-20260926-2320)",
+ "prereg_ref": "research/CENSUS_FUSION_S2_PREREG.md FROZEN e51e55e0 precedes runner build precedes ANY run (R99)",
+ "face": "EXPLORATION (zero judgment claims / zero paper eligibility)",
+ "n_candidates": 4060,
+ "n_controls": 58,
+ "n_nulls": 400,
+ "data_gate": {
+  "n_members": 48,
+  "gate_members": true,
+  "gate_columns": true,
+  "gate_min_rows": true,
+  "gate_end_date": true,
+  "gate_volume_mask": true,
+  "end_dates_unique": [
+   "2026-09-24"
+  ],
+  "ok": true
+ },
+ "bench_disclosure": {
+  "bench_end": "2026-09-22",
+  "note": "csi300.csv ends 2026-09-22; compute_all reindex+ffill convention (engine/factors.py source anchor) bridges to 2026-09-24; affects rs CONTROL faces only (2-bar stale tail, disclosed)"
+ },
+ "grid": {
+  "anchor_first_signal": "2020-12-29",
+  "n_signals": 279,
+  "n_execs": 279,
+  "cadence": "5 trading days",
+  "top_k": 16,
+  "panel_days": 1633,
+  "cutoff_real": "2026-09-24"
+ },
+ "products": [
+  "w1_cells.csv",
+  "w1_nulls.json",
+  "w1_top_matrices.json",
+  "w1_summary.json"
+ ],
+ "audit": {
+  "workers": 4,
+  "purpose": "exploration census (no selection gate)",
+  "ledger_trials_added": 4518,
+  "elapsed_sec": 126.5,
+  "null_seed_band": "20274500..20274899",
+  "checkpoint": "w1_checkpoint.jsonl (200-combo cadence)"
+ },
+ "trials_ledger": {
+  "prev_total": 191864,
+  "batch_trials": 4518,
+  "total": 196382,
+  "batch": "CENSUS_FUS_S2_W1",
+  "file": "census_fusion_s2/w1_results.json",
+  "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls",
+  "evidence_cutoff": "2026-09-24"
+ }
+}

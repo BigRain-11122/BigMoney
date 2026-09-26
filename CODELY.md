@@ -9,3 +9,6 @@
 
 - 坑律正典全量归档（2026-09-27 集团令 O-20260927-0230-bm-a·CODELY ≤10KB 整编）：全部坑律条目已外迁 research/memory-archive/202609.md『坑律归档 2026-09-27』节（行级零丢失·全量留 git·检索按条目内『指针=』字段定位）；新坑律仍先入本件，**≤10KB 硬线**——append 后超线=当窗即办热冷整编勿等月（水位律自 >50KB 重锚·集团令优先）。
 - 集团令台账：fleet/orders/O-20260927-0230-bm-a.md（集团 orders.md L45 承接·CODELY ≤10KB·已执行·判据=字节落线）；根 CODELY.md ≤20KB 为 @HQ 面。
+
+- [2026-09-27 02:4x] 坑律（bm-a R287·CENSUS_FUS_S2 runner 建造期·E1 selftest 期自捕零外泄）：**blend/基准 sizing 分母必须随实际 target 集——fixed_all 基准（EW48）沿用 TOP_K 常量分母=每员 1/16 权重、Σw=3.0 收益放大 3 倍（实弹：EW48 ann 0.4876 vs 真 ~0.169，无噪漂移夹具 [3a] 当场红）**；正律=want=NOTIONAL/len(target) 于 target 定后取；连带=「完美信号」夹具必须截面单调——时序单调列=常数截面被 ic_series 正确跳过=夹具自病非机器病（P-1 S6 无噪漂移范式是正解）。指针=scripts/census_fusion_s2.py blend_top16 want 行+selftest [2][3a] 修正史
+- [2026-09-27 02:4x] 纪律（bm-a R287·集团令扫描面新维·D-20260927-05② 自评采纳落地）：**集团 docs/orders.md 直令面可承载 @BigMoney dispatched 令而不落本司 fleet/orders/——实弹：L45「CODELY ≤10KB」令经 fleet/orders 差集=空漏接，集团台账全文件扫描面捕获（R287 承接执行 8a00f514）**；正律=每轮 S0.5 decisions.md 同位步加扫集团 orders.md 全文件 @BigMoney/quant 行（dispatched 未回执=落 O 件入册执行），本律入本件=轮读面自动携带。指针=fleet/orders/O-20260927-0230-bm-a.md+集团 orders.md L45
