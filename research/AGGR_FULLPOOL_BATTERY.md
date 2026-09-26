@@ -68,3 +68,11 @@
 ## §8 批后复盘【s7-T】
 
 （待烧机轮回填）
+
+## §A1 修正案【R99 零结果窗·判前修正——拒跑即判前，ckpt 0 行、账本零追加、零判读产物】
+
+- **时间**：2026-09-26 bm-b R256（T-80 owner）；触发=bm-a 14:30 烧机在 AGGR-CONC-TOP2 锚点门诚实拒跑（MSG-20260926-1500，got ret 0.040724 vs want 0.043774，同 177 交易日）。
+- **根因（实证链，非猜测）**：锚点 got{} 纯 sleeve 域（prices→run_backtest），canon/dA 网格件喂的是 W-GRID（锚点断言之后才算）——bm-a 消息的 canon/dA 字节漂移假设被构造性排除。bm-b 探针（results/_r256bmb_anchor_probe.py）在本机复现 0/20 且 got 与 bm-a 逐字节相同（bm-a 机面无罪）；git 考古=bm-a/bm-b 两机 sleeve 引擎路径（engine/live/t28）冻结后全部行为零（worktree@0389dee6 逐文件升级 bisect），真凶=注册表：T-56（0389dee6，11:38）与 T-58（47a8f6b4，13:27）两冻结跑的祖先线均**不含** r242 T-78 s4 接线 commit（d65f2d4a），而主线合并后工作树=C01 tp_ladder（params.take_profit_levels+exit_overrides.take_profit_fractions）/C02+ENGULF ov_full/dd_control+OOS sharpe 重derive（C01 1.6085→1.7479）——活注册表口径下锚点结构性不可复现（探针两模式：活口径 0/20 vs 快照口径 20/20 逐位恒等，面板经旧码探针 2/2 证明无罪）。
+- **修正（本批唯一改动面=sleeve 输入口径钉扎）**：①快照 results/t56_caliber_registry/（firm/traders 全 29 件，git 0389dee6 树字节直取+_manifest.json sha256 清单）；②runner sleeve 相位经 ProcessPool initializer 钉 t28.load_trader→快照（scripts/aggr_fullpool_battery.py `_caliber_init`）；③OOS sharpe map 改读快照（`_caliber_sharpe_map`，rotation 面与冻结选择基同口径）；④selftest 新增 F11=快照 manifest sha 全对+roster 覆盖+接线三员 wired 键缺席+C01 sharpe=1.6085 前derive 值（11/11）。判据/权重向量/面板/引擎/网格装配零改动。
+- **直证（修正后同机全量重derive）**：bm-b 探针 --t56-caliber 20/20 锚点逐位恒等（results/_r256bmb_anchor_probe-t56caliber.json，15.0s）。
+- **活面诚实边界**：本钉扎只作用于本批 sleeve 输入面（判读口径=与冻结判读件同基）；S6 marks 道/aggressive_lab paper 日累仍走活注册表（活面演进合法，与本批无关）。r242 接线自身另走 T-78 s4 自己的 prereg 复审链（post_review pending 已注册），本修正案不对其做任何判定。

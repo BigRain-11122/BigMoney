@@ -1,0 +1,66 @@
+{
+  "id": "PROS-RSRS-CE-01",
+  "name": "rsrs_timing PROSPECT (ce)",
+  "school": "ta_rsrs_timing",
+  "author": "t24-prospect-onboard",
+  "created": "2026-09-24",
+  "evidence_cutoff": "2026-09-22",
+  "level": "PROSPECT",
+  "params": {
+    "entry": "rsrs_timing(18/250/0.8/-0.8)",
+    "time_decay_period": 25,
+    "time_decay_threshold": 0.05,
+    "trailing_stop_activate": 0.1
+  },
+  "prospect": {
+    "source_batch": "research/shortline\\p4_batch2a",
+    "exit_regime": "ce",
+    "sleeve_tag": true,
+    "g1_pass": false,
+    "anchor_status": "repro-PASS (results/t24_prospect_onboard.json)",
+    "recorded_full_sharpe": 0.0334,
+    "recorded_oos_sharpe": 0.8398,
+    "recorded_x2_full_sharpe": -0.1749,
+    "recorded_n_trades": 657,
+    "recorded_oos_trades": 237,
+    "recorded_max_dd": -0.236
+  },
+  "backtest": {
+    "full": {
+      "sharpe": 0.0334,
+      "max_dd": -0.236,
+      "trades": 657
+    },
+    "out_sample": {
+      "sharpe": 0.8398,
+      "trades": 237
+    },
+    "cost_x2": {
+      "full_sharpe": -0.1749
+    }
+  },
+  "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-24",
+    "cutoff": "2026-09-24"
+  },
+  "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+  },
+  "status_history": [
+    {
+      "date": "2026-09-24",
+      "from": null,
+      "to": "PROSPECT",
+      "note": "T-24 first-batch PROSPECT onboarding (pool results/prospect_pool.json; anchor-repro PASS results/t24_prospect_onboard.json); allocation permanently 0; promotion INTERN needs full G2 + T-22 0.70 beat-passive (standards NOT relaxed)"
+    }
+  ],
+  "notes": "Everbright RSRS 18/250/0.8/-0.8, panel adaptation pre-reg",
+  "exit_overrides": {
+    "loss_time_days": 16
+  }
+}

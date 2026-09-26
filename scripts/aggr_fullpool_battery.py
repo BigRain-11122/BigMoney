@@ -18,9 +18,12 @@ full 28-member pool (CE-6 restriction cured). Grid evidence sources:
 Sleeve-domain faces (W-CUR/W-SEG/J1-J3) mirror the frozen runs verbatim and
 are HARD-ANCHORED against results/aggressive_lab.json (5) and
 results/aggressive_family.json (15) -- any drift = exit 2 (engineering
-disease, not a market reading). Canon B_MAXDIV full-pool grid re-derived as
-the re-anchor leg (ledger +0); AGGR-NOCASH (same sha vector) must match it
-byte-identically.
+disease, not a market reading). Sleeve-INPUT caliber pinned to the T-56/T-58
+freeze registry snapshot results/t56_caliber_registry/ (git 0389dee6; A1
+amendment -- the live registry drifted post-freeze via the r242 T-78 s4
+winner wiring, which is EXCLUDED from both frozen run lines). Canon B_MAXDIV
+full-pool grid re-derived as the re-anchor leg (ledger +0); AGGR-NOCASH
+(same sha vector) must match it byte-identically.
 
 Zero adoption, zero wiring, zero new signal functions, zero nulls
 (dual-track supply face, T-56 s0 law). Single-shot finalize guard:
@@ -83,6 +86,43 @@ CANON_CE_DEEP = {                # pinned manifest (t54 prereg s7-3 law)
 }
 ALL_VARIANTS = tuple(VARIANTS) + tuple(FAM_VARIANTS)
 RAM_FLOOR_GB = 4.0               # fleet line: heavy work needs free RAM
+T56_CALIBER_DIR = os.path.join(PATHS.results_dir, "t56_caliber_registry",
+                               "firm", "traders")
+
+
+def _caliber_init(flag: str = "1"):
+    """Worker-process patch (A1 caliber pin): serve trader specs from the
+    T-56-freeze-commit registry snapshot so the sleeve backtest runs at the
+    exact caliber the frozen T-56/T-58 anchors were computed with -- the
+    live registry evolved AFTER both frozen runs (r242 T-78 s4 winner
+    wiring: C01 tp_ladder params + take_profit_fractions + dd_control +
+    re-derived OOS sharpe), and a live-registry recompute can never
+    reproduce those anchors (bm-b probe 0/20 vs snapshot 20/20, 2026-09-26)."""
+    import json as _json
+    import t28_stable_profit as t28
+
+    def _snapshot_trader(tid):
+        with open(os.path.join(T56_CALIBER_DIR, f"{tid}.json"),
+                  encoding="utf-8") as fh:
+            return _json.load(fh)
+
+    t28.load_trader = _snapshot_trader
+
+
+def _caliber_sharpe_map() -> dict:
+    """OOS Sharpe per roster member from the A1 caliber snapshot (the
+    values the frozen T-56/T-58 selection/rotation faces consumed;
+    live registry re-derived C01 sharpe post-freeze = rotation drift)."""
+    import glob
+    out = {}
+    for p in glob.glob(os.path.join(T56_CALIBER_DIR, "*.json")):
+        with open(p, encoding="utf-8-sig") as fh:
+            d = json.load(fh)
+        if d.get("id") in ROSTER:
+            out[d["id"]] = float(d["backtest"]["out_sample"]["sharpe"])
+    if set(out) != set(ROSTER):
+        raise SystemExit(f"SHARPE-MAP GATE FAIL: {sorted(set(ROSTER) ^ set(out))}")
+    return out
 
 
 def log(msg: str) -> None:
@@ -455,7 +495,8 @@ def run(shard: int = 0, shards: int = 1) -> int:
             for mult in (None, 2.0)]
     res = run_cells_parallel(
         [(f"{a[0]}|{a[1] or 'x1'}", _sleeve_worker, a) for a in jobs],
-        workers=min(worker_cap(), 25), desc="aggrfp-sleeves")
+        workers=min(worker_cap(), 25), desc="aggrfp-sleeves",
+        initializer=_caliber_init, initargs=("1",))
     sleeves = {}
     for tid in ROSTER:
         r1, r2 = res[f"{tid}|x1"], res[f"{tid}|2.0"]
@@ -465,7 +506,7 @@ def run(shard: int = 0, shards: int = 1) -> int:
     log(f"sleeves: {len(sleeves)} members x 2 faces ({time.time()-t0:.0f}s)")
 
     states = v3_state_series()
-    sharpe_map = _oos_sharpe_map()
+    sharpe_map = _caliber_sharpe_map()
 
     # canon re-anchor leg (ticket verbatim; weights sha-gated vs frozen)
     with open(TOURN_JSON, encoding="utf-8") as fh:
@@ -849,6 +890,38 @@ def cmd_selftest() -> int:
         print(f"    [selftest] F10 LIVE: canon CE deep census PASS {stats}",
               flush=True)
     ck("F10 canon CE deep presence probe (SKIP-disclosure off-lane)", f10)
+
+    # [11] A1 caliber snapshot integrity (manifest sha + roster coverage +
+    # caliber definition: post-freeze wiring keys ABSENT from snapshot specs)
+    def f11():
+        import hashlib
+        man_path = os.path.join(os.path.dirname(os.path.dirname(
+            T56_CALIBER_DIR)), "_manifest.json")
+        with open(man_path, encoding="utf-8") as fh:
+            man = json.load(fh)
+        assert man["source_commit"] == "0389dee6"
+        for fname, sha in man["files"].items():
+            p = os.path.join(T56_CALIBER_DIR, fname)
+            assert os.path.exists(p), f"snapshot file absent {fname}"
+            got = hashlib.sha256(open(p, "rb").read()).hexdigest()
+            assert got == sha, f"snapshot sha drift {fname}"
+        sm = _caliber_sharpe_map()
+        assert set(sm) == set(ROSTER)
+        # caliber definition: the r242 wiring keys must NOT be in the
+        # snapshot specs for the three wired members
+        for tid in ("COMPOSITE-CE-01", "COMPOSITE-CE-02", "ENGULF-CE-01"):
+            with open(os.path.join(T56_CALIBER_DIR, f"{tid}.json"),
+                      encoding="utf-8") as fh:
+                t = json.load(fh)
+            assert "take_profit_levels" not in t["params"], tid
+            assert "take_profit_fractions" not in t.get(
+                "exit_overrides", {}), tid
+            assert "dd_control" not in t, tid
+        assert abs(sm["COMPOSITE-CE-01"] - 1.6085) < 1e-9  # pre-re-derive
+        print(f"    [selftest] F11: {len(man['files'])} snapshot files "
+              f"sha-verified, caliber keys clean", flush=True)
+    ck("F11 A1 caliber snapshot integrity (manifest+roster+wiring-absent)",
+       f11)
 
     n_pass = sum(checks)
     print(f"selftest: {n_pass}/{len(checks)} PASS"

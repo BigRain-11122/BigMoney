@@ -1,0 +1,71 @@
+{
+  "id": "NEEDLE-DE-01",
+  "name": "金针探底一号",
+  "school": "pattern",
+  "author": "g2-folk-batch",
+  "created": "2026-09-23",
+  "evidence_cutoff": "2026-09-22",
+  "level": "INTERN",
+  "params": {
+    "entry": "needle_probe(drop_th=-0.05, shadow_pct=0.02)"
+  },
+  "exit_overrides": {},
+  "repro": {
+    "script": "scripts/g2_folk.py",
+    "note": "G2_FOLK deepening PASS (rep regime default): center repro + neighborhood 0/8 all-green + x2 0.574 AND x3 0.4833 both above vi 0.4004 (thickest cost headroom in project history) + worst year 0.0. Evidence: results/shortline_g2_folk.json verdicts, research/shortline/g2_folk_results.csv"
+  },
+  "backtest": {
+    "in_sample": {
+      "sharpe": 0.7781,
+      "max_dd": -0.0254,
+      "annual": 0.0185,
+      "trades": 50
+    },
+    "out_sample": {
+      "sharpe": 0.4089,
+      "max_dd": -0.0282,
+      "annual": 0.0119,
+      "trades": 23
+    },
+    "cost_x2": {
+      "sharpe": 0.574,
+      "survive": true,
+      "note": "x3 0.4833 also above vi -- strongest cost headroom recorded"
+    }
+  },
+  "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-25",
+    "cutoff": "2026-09-24",
+    "x2_watch": {
+      "status": "ok",
+      "probation": false,
+      "margin": 0.1736,
+      "survive": true,
+      "source": "registration_x2_seed",
+      "as_of": "2026-09-25"
+    }
+  },
+  "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+  },
+  "status_history": [
+    {
+      "date": "2026-09-23",
+      "from": null,
+      "to": "INTERN",
+      "note": "G2_FOLK factory gate PASS (CEO order O-20260923-2210 chain): first folk-proverb trader (golden-needle probe with next-day reclaim confirmation). HONEST FLAG: OOS trades 23 < promotion clause 30 -- INTERN->TRAINEE promotion will stay blocked until OOS trade count accrues via paper extension (firm/hr.py reads backtest OOS trades; do not hand-edit)"
+    },
+    {
+      "date": "2026-09-24",
+      "from": "INTERN",
+      "to": "INTERN",
+      "note": "P-5B random-entry due diligence (O-2345, seed 20260924, K=50): beat_rate_6m 0.58 / min_dd_6m -3.12% -> FAIL 0.70 beat-line (dd clause PASS). Low-turnover structural drag predicted and confirmed (lowest beat rate); alpha quality adjudication stays with the paper channel; level/paper data untouched per prereg s5"
+    }
+  ],
+  "notes": "Long lower shadow (>=2% price, >=2x body, no upper shadow) in >=5% five-day-deep water, entry on next-day close above the needle high (confirmation construction); DEFAULT exit machine; exit reclaim MA20. Hammer-cousin same-family discount recorded (batch-2A hammer was sleeve-only)"
+}

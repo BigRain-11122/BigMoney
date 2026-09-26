@@ -1,0 +1,2283 @@
+{
+ "batch": "T80-ANCHOR-PROBE",
+ "machine": "bm-b",
+ "ts": "2026-09-26 14:54:01",
+ "probe_sha256_16": "8f0b4956d4c3eb10",
+ "sleeve_cutoff": "2026-09-23",
+ "panel_cutoff": "2026-09-24",
+ "anchors": {
+  "AGGR-CONC-TOP2": {
+   "pass": false,
+   "source": "aggressive_lab.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.040724,
+       "dd": -0.016575
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.026594,
+       "dd": -0.022101
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.043774,
+       "dd": -0.016474
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.029953,
+       "dd": -0.021886
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.168795
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.143597
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.013259
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.107366
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.08762
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.027287
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.16679
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.14681
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.009015
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.10878
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.089586
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.02218
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-OFFENSE": {
+   "pass": false,
+   "source": "aggressive_lab.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.03139,
+       "dd": -0.019306
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.016405,
+       "dd": -0.027754
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.032221,
+       "dd": -0.019469
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.017319,
+       "dd": -0.028473
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.208007
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.063446
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.030028
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.139176
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.011024
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.05018
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.207532
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.065527
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.029269
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.1399
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.009201
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.049066
+       }
+      }
+     }
+    },
+    "judgments": {
+     "got": {
+      "J1_current_window_profit": true,
+      "J2_x2_survival": true,
+      "J3_regime_segment_stability": false
+     },
+     "want": {
+      "J1_current_window_profit": true,
+      "J2_x2_survival": true,
+      "J3_regime_segment_stability": true
+     }
+    }
+   }
+  },
+  "AGGR-MOM": {
+   "pass": false,
+   "source": "aggressive_lab.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.007063,
+       "dd": -0.013093
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": -0.001442,
+       "dd": -0.01974
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.007034,
+       "dd": -0.013095
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": -0.001445,
+       "dd": -0.020023
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.071345
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.021605
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.00194
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.046239
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.012376
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.009113
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.071357
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.022822
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.001805
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.046626
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.011047
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.009077
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-NOCASH": {
+   "pass": false,
+   "source": "aggressive_lab.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.009461,
+       "dd": -0.009152
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.004829,
+       "dd": -0.011007
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.00943,
+       "dd": -0.009585
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.00484,
+       "dd": -0.011468
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.038284
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.041294
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.010111
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.023019
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.023962
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.003959
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.038277
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.04297
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.010016
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.023556
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.025813
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.00411
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-REGIME": {
+   "pass": false,
+   "source": "aggressive_lab.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.037918,
+       "dd": -0.020431
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.021683,
+       "dd": -0.030438
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.038933,
+       "dd": -0.021052
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.022797,
+       "dd": -0.031256
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.233013
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.0692
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.024755
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.152168
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.013994
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.039071
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.232225
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.070199
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.025504
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.152657
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.013416
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.03987
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP3": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.042741,
+       "dd": -0.021142
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.027963,
+       "dd": -0.027118
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.046571,
+       "dd": -0.020427
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.031855,
+       "dd": -0.025588
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.218834
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.131444
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.007978
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.151994
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.061536
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.020755
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.220171
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.171529
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.018009
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.162332
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.10309
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.026374
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-FULLCE": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.027053,
+       "dd": -0.016868
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.017634,
+       "dd": -0.020097
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.028065,
+       "dd": -0.017404
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.01875,
+       "dd": -0.020179
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.124762
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.093219
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.013903
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.08989
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.052383
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.005248
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.125466
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.112086
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.009468
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.094926
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.072695
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.003027
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-OFFENSE-FULL": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.037918,
+       "dd": -0.020431
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.021683,
+       "dd": -0.030438
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.038933,
+       "dd": -0.021052
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.022797,
+       "dd": -0.031256
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.240302
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.0692
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.039039
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.160007
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.013994
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.061185
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.23958
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.070199
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.037649
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.160483
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.013416
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.059532
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP2-80": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.033111,
+       "dd": -0.010652
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.020853,
+       "dd": -0.015524
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.034332,
+       "dd": -0.010612
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.022201,
+       "dd": -0.015374
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.130131
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.09787
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.012509
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.074787
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.042091
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.001889
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.129422
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.099153
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.014264
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.075415
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.042903
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.004007
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP2-60": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.038198,
+       "dd": -0.014602
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.0247,
+       "dd": -0.019647
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.040639,
+       "dd": -0.014522
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.02739,
+       "dd": -0.019475
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.155848
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.128252
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.004647
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.09649
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.072337
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.017553
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.154307
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.130822
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.001214
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.097664
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.073927
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.013417
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-GREEN-MAX": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.019421,
+       "dd": -0.030014
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.007723,
+       "dd": -0.039102
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.020998,
+       "dd": -0.029918
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.009482,
+       "dd": -0.039272
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.226955
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.073595
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.001737
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.155948
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.12343
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.009266
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.226306
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.071932
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.001667
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.156324
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.121555
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.009195
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-REG3": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.037918,
+       "dd": -0.020431
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.021683,
+       "dd": -0.030438
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.038933,
+       "dd": -0.021052
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.022797,
+       "dd": -0.031256
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.231675
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.0692
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.033504
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.150704
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.013994
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.048207
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.230814
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.070199
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.034378
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.151237
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.013416
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.048947
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP2-C80": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.032521,
+       "dd": -0.013272
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.021308,
+       "dd": -0.017707
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.03495,
+       "dd": -0.013191
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.023991,
+       "dd": -0.017535
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.133159
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.113712
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.010383
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.085283
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.069916
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.021624
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.131653
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.116256
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.006963
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.086453
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.071512
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.017502
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP2-C95": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.03867,
+       "dd": -0.01575
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.025274,
+       "dd": -0.021003
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.041565,
+       "dd": -0.015654
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.028464,
+       "dd": -0.0208
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.159795
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.136071
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.012529
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.101816
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.083186
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.025862
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.15792
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.139115
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.00849
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.103172
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.085061
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.020999
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-BARBELL": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.019204,
+       "dd": -0.015468
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.007784,
+       "dd": -0.02184
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.01958,
+       "dd": -0.015936
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.008218,
+       "dd": -0.022324
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.134602
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.040306
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.014576
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.089471
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.012295
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.03013
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.134354
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.041292
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.014047
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.08987
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.011418
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.029405
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP2-MON": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": -0.074613,
+       "dd": -0.104455
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": -0.105115,
+       "dd": -0.13254
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": -0.055966,
+       "dd": -0.093422
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": -0.086336,
+       "dd": -0.121253
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.164812
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.121995
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.062184
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.116583
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.18893
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.086536
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.14542
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.097219
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.053665
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.090412
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.166806
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.077041
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP2-WK": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.017693,
+       "dd": -0.072712
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.002804,
+       "dd": -0.085302
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.019335,
+       "dd": -0.072712
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.004697,
+       "dd": -0.085302
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.270658
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.048761
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.084226
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.208946
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.124675
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.110342
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.276726
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.083975
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.082341
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.22111
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.164644
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.108246
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-GREEN-TOP2": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.017255,
+       "dd": -0.013566
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.00824,
+       "dd": -0.01819
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.022323,
+       "dd": -0.01354
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.013858,
+       "dd": -0.018104
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.144654
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.035156
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.001737
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.090894
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": -0.001563
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.009266
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.142928
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.038326
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.001667
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.091936
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.002412
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.009195
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-TOP3-GRAD": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.039444,
+       "dd": -0.015362
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.025571,
+       "dd": -0.020178
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.042348,
+       "dd": -0.014908
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.028573,
+       "dd": -0.019209
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.185339
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.121448
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.001454
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.122837
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.057245
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.013596
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.185797
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.146446
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.00659
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.129265
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.083026
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": -0.01588
+       }
+      }
+     }
+    }
+   }
+  },
+  "AGGR-FULLCE-C80": {
+   "pass": false,
+   "source": "aggressive_family.json",
+   "delta": {
+    "w_cur": {
+     "got": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.021651,
+       "dd": -0.013501
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.01416,
+       "dd": -0.01609
+      }
+     },
+     "want": {
+      "x1": {
+       "n_days": 177,
+       "ret": 0.022457,
+       "dd": -0.013932
+      },
+      "x2": {
+       "n_days": 177,
+       "ret": 0.015049,
+       "dd": -0.016157
+      }
+     }
+    },
+    "w_seg": {
+     "got": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.098704
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.07415
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.011181
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.071371
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.041945
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.004279
+       }
+      }
+     },
+     "want": {
+      "x1": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.099279
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.089085
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.007671
+       }
+      },
+      "x2": {
+       "bull": {
+        "n_days": 663,
+        "cum_ret": 0.075362
+       },
+       "chop": {
+        "n_days": 772,
+        "cum_ret": 0.05815
+       },
+       "bear": {
+        "n_days": 196,
+        "cum_ret": 0.002533
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "n_pass": 0,
+ "n_total": 20,
+ "fails": [
+  "AGGR-CONC-TOP2",
+  "AGGR-OFFENSE",
+  "AGGR-MOM",
+  "AGGR-NOCASH",
+  "AGGR-REGIME",
+  "AGGR-TOP3",
+  "AGGR-FULLCE",
+  "AGGR-OFFENSE-FULL",
+  "AGGR-TOP2-80",
+  "AGGR-TOP2-60",
+  "AGGR-GREEN-MAX",
+  "AGGR-REG3",
+  "AGGR-TOP2-C80",
+  "AGGR-TOP2-C95",
+  "AGGR-BARBELL",
+  "AGGR-TOP2-MON",
+  "AGGR-TOP2-WK",
+  "AGGR-GREEN-TOP2",
+  "AGGR-TOP3-GRAD",
+  "AGGR-FULLCE-C80"
+ ],
+ "fingerprints": {
+  "python": "3.11.9",
+  "pandas": "3.0.6",
+  "numpy": "2.4.6",
+  "panel_symbols": 48,
+  "panel": {
+   "159901": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "7ff5abf4ef136a47"
+   },
+   "159915": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "0ee4dd15f7bff2f6"
+   },
+   "159919": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "5dad664cdb9a2c0b"
+   },
+   "159920": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "f3db43d9714aa09e"
+   },
+   "159928": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "91aa3d6942cb9095"
+   },
+   "159934": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "2e140fd1cc17b487"
+   },
+   "159949": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "4a850be46a040f1d"
+   },
+   "159980": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "98f612976d1cacd3"
+   },
+   "159985": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "c408ffbf9b9f836c"
+   },
+   "159992": {
+    "n": 1568,
+    "first": "2020-04-10",
+    "last": "2026-09-23",
+    "sha": "62121ad835373fd8"
+   },
+   "159995": {
+    "n": 1611,
+    "first": "2020-02-10",
+    "last": "2026-09-23",
+    "sha": "7ed864ef6fe619a6"
+   },
+   "159996": {
+    "n": 1586,
+    "first": "2020-03-16",
+    "last": "2026-09-23",
+    "sha": "0c0b2fa4db5ad7e1"
+   },
+   "510050": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "ab5115aac2873684"
+   },
+   "510300": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "033d59851943a35f"
+   },
+   "510310": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "1cc0bf8ad8eaa74d"
+   },
+   "510330": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "0b3ecb86693fd318"
+   },
+   "510500": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "0a292e6f8d36ed33"
+   },
+   "511010": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "87ef686f1da47464"
+   },
+   "511090": {
+    "n": 798,
+    "first": "2023-06-13",
+    "last": "2026-09-23",
+    "sha": "f0595d0ba242e20d"
+   },
+   "511260": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "63a226b1c662e25d"
+   },
+   "512000": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "42c8be26490af933"
+   },
+   "512010": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "81bd611cd7ee0620"
+   },
+   "512100": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "4cf3900332fc7e53"
+   },
+   "512170": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "a771095af69a6498"
+   },
+   "512200": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "3d69acb9740d2e31"
+   },
+   "512400": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "284d389c771a02a9"
+   },
+   "512480": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "d72bcdf979baefdd"
+   },
+   "512660": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "3d8b55748322d330"
+   },
+   "512690": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "d6f8a5f9b281e7f7"
+   },
+   "512710": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "1053fa7e07a7b3a1"
+   },
+   "512720": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "a01b6355e37a4eab"
+   },
+   "512800": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "52b5733555adcc62"
+   },
+   "512880": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "7ef6115e2656eb58"
+   },
+   "512980": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "edfa0aded892d896"
+   },
+   "513050": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "1254324b2c33d6be"
+   },
+   "513100": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "bfeecb5dd2820f1e"
+   },
+   "513180": {
+    "n": 1297,
+    "first": "2021-05-25",
+    "last": "2026-09-23",
+    "sha": "d2f3a741969f8a9c"
+   },
+   "513500": {
+    "n": 1631,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "0478b3067a71c20c"
+   },
+   "513520": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "a75264aaff879c04"
+   },
+   "515000": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "f7dff2438b291987"
+   },
+   "515030": {
+    "n": 1594,
+    "first": "2020-03-04",
+    "last": "2026-09-23",
+    "sha": "e14b3c84216baf61"
+   },
+   "515050": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "d36af03319a29dd3"
+   },
+   "515170": {
+    "n": 1382,
+    "first": "2021-01-13",
+    "last": "2026-09-23",
+    "sha": "1e84258689f407e8"
+   },
+   "515220": {
+    "n": 1596,
+    "first": "2020-03-02",
+    "last": "2026-09-23",
+    "sha": "ec5376fdc8bd5b7d"
+   },
+   "515790": {
+    "n": 1399,
+    "first": "2020-12-18",
+    "last": "2026-09-23",
+    "sha": "a9a8a3f4f81ff7a2"
+   },
+   "518880": {
+    "n": 1632,
+    "first": "2020-01-02",
+    "last": "2026-09-23",
+    "sha": "69a614af19e5498b"
+   },
+   "588000": {
+    "n": 1423,
+    "first": "2020-11-16",
+    "last": "2026-09-23",
+    "sha": "179ce70e71379fdb"
+   },
+   "588080": {
+    "n": 1423,
+    "first": "2020-11-16",
+    "last": "2026-09-23",
+    "sha": "88569a6c9d3ad070"
+   }
+  },
+  "member_eq": {
+   "COMPOSITE-CE-01|x1": "086ed02386fde509",
+   "COMPOSITE-CE-01|x2": "a7a252abc2d52fc2",
+   "COMPOSITE-CE-02|x1": "c5bd8f75ed66ed70",
+   "COMPOSITE-CE-02|x2": "7210117ac35ff8cd",
+   "DROUGHT-CE-01|x1": "ac78ebf72cd326f2",
+   "DROUGHT-CE-01|x2": "2602c7f6b4a2e041",
+   "ENGULF-CE-01|x1": "eade243fd22b6b2d",
+   "ENGULF-CE-01|x2": "cec66c10b0984fae",
+   "NEEDLE-DE-01|x1": "b6a87c6b0fefb9d8",
+   "NEEDLE-DE-01|x2": "96ecb6bae6ca8195",
+   "PROS-ANTS-01|x1": "bd83509508e9e5fc",
+   "PROS-ANTS-01|x2": "b903ad188888c58c",
+   "PROS-ANTS-CE-01|x1": "3b4f3424a59dbb67",
+   "PROS-ANTS-CE-01|x2": "9af20061382e26c2",
+   "PROS-BBS-01|x1": "1dbc811560a2f221",
+   "PROS-BBS-01|x2": "ade5340a9e528323",
+   "PROS-BBS-CE-01|x1": "44bd7d14740f026c",
+   "PROS-BBS-CE-01|x2": "12f2b9a1ad42514c",
+   "PROS-DOJI-01|x1": "48b770427a30c5fe",
+   "PROS-DOJI-01|x2": "71effe847225a533",
+   "PROS-DOJI-CE-01|x1": "df496f266acfe22b",
+   "PROS-DOJI-CE-01|x2": "a97fd75d3da20266",
+   "PROS-DUCK-01|x1": "72bf5761ae0e7125",
+   "PROS-DUCK-01|x2": "d6f6310f2bedf407",
+   "PROS-DUCK-CE-01|x1": "0ed382afa3d5b6be",
+   "PROS-DUCK-CE-01|x2": "df06bf215aa82312",
+   "PROS-HAM-01|x1": "0a5b4ce043514c1a",
+   "PROS-HAM-01|x2": "d155324ae3024b0a",
+   "PROS-HAM-CE-01|x1": "5ef47c4a8df40bc9",
+   "PROS-HAM-CE-01|x2": "ebd975921b80b3ac",
+   "PROS-IBB-01|x1": "8ecf5f08d49b1c1d",
+   "PROS-IBB-01|x2": "72d01dcd6365cfdf",
+   "PROS-IBB-CE-01|x1": "47a4b5bbfb0b2359",
+   "PROS-IBB-CE-01|x2": "d7cb4cdff0e14f2e",
+   "PROS-IMM-01|x1": "ae1cfe13a7bd915d",
+   "PROS-IMM-01|x2": "61f845f9155b1c23",
+   "PROS-IMM-CE-01|x1": "6f79bffd4ac279c0",
+   "PROS-IMM-CE-01|x2": "4fe6da13ae585c8d",
+   "PROS-MCB-01|x1": "a07f0fe98a55f8df",
+   "PROS-MCB-01|x2": "0ef0f0d0de841467",
+   "PROS-MCB-CE-01|x1": "474bb3d631598e7b",
+   "PROS-MCB-CE-01|x2": "d5708825e1bde5ca",
+   "PROS-OVB-01|x1": "d457c829fe94eece",
+   "PROS-OVB-01|x2": "0cc3dbfbd569c9ea",
+   "PROS-OVB-CE-01|x1": "ba96802845152fe6",
+   "PROS-OVB-CE-01|x2": "6f947117e9c8e744",
+   "PROS-RSRS-CE-01|x1": "d4aa37ad6c8b1fc0",
+   "PROS-RSRS-CE-01|x2": "3ff01941026d9cfb",
+   "PROS-TMU-01|x1": "fa7cdbc255874dac",
+   "PROS-TMU-01|x2": "5eb91c410c2f0e0b",
+   "PROS-TMU-CE-01|x1": "ed03826e28a945a8",
+   "PROS-TMU-CE-01|x2": "a74ee45e74647d21",
+   "PROS-VOB-CE-01|x1": "7f5bd22cd3d49373",
+   "PROS-VOB-CE-01|x2": "52053e1175bfd252",
+   "VOLATILITY-CE-01|x1": "7386a50ecdc9d9e2",
+   "VOLATILITY-CE-01|x2": "b1f6f74090d6f60c"
+  },
+  "states_sha": "6cbb8df7444c998e",
+  "sharpe_map_sha": "7916139e2c7c9113"
+ },
+ "runtime_s": 14.8
+}
