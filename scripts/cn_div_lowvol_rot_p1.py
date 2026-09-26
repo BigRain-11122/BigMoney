@@ -687,7 +687,7 @@ def run() -> int:
             and os.path.exists(OUT_JSON):
         try:
             j = json.load(open(OUT_JSON, encoding="utf-8"))
-            if j.get("ledger"):
+            if j.get("trials_ledger"):
                 print("idempotent fast path: results/cn_div_lowvol_rot/"
                       "p1_results.json already finalized (ledger block "
                       "present); CN_DIV_LOWVOL_ROT_P1_REFINALIZE=1 = only "
@@ -1040,7 +1040,7 @@ def run() -> int:
                                      "within one lot",
             },
         },
-        "ledger": led,
+        "trials_ledger": led,
     }
     json.loads(json.dumps(payload, default=str))     # validate before write
     tmp = OUT_JSON + ".tmp"

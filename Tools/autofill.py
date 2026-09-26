@@ -290,10 +290,15 @@ def _confirm_crashes(state, pool, myid, fuse):
     return dirty
 
 
-def _pick(pool, myid):
-    """Highest-priority ready, lane-legal, not-running entry + shard."""
+def _pick(pool, myid, skip=None):
+    """Highest-priority ready, lane-legal, not-running entry + shard.
+    skip (set of entry ids): candidates already refused by the caller
+    this tick (O-0947 fuse) -- excluded so a fused head entry cannot
+    starve later ready entries (r252 anti-starvation law)."""
+    skip = skip or set()
     entries = [e for e in pool.get("entries", [])
-               if e.get("status") == "ready" and e.get("runner")]
+               if e.get("status") == "ready" and e.get("runner")
+               and e.get("id") not in skip]
     entries.sort(key=lambda e: e.get("priority", 99))
     for e in entries:
         lo = e.get("lane_owner")
@@ -442,35 +447,64 @@ def tick(dry=False):
         return 2
     if _confirm_crashes(state, pool, rec["machine"], fuse):
         _save_fuse(fuse)
-    e, sh = _pick(pool, rec["machine"])
+    # O-0947 crash-loop token fuse: same runner+args+code-hash that has
+    # a confirmed crash -> REFUSE relaunch (fix-first; each crash-retry
+    # cycle burns loop-session API tokens, r175/r198 families). A code
+    # edit (hash change) auto-clears -- the fix IS the unflag.
+    # r252 anti-starvation: a fused HEAD entry must not block later
+    # ready entries (live: T80 anchor-refusal fused at pool head made
+    # every tick return without touching the next ready entry) --
+    # refuse-and-skip, keep picking down the pool.
+    skip, fuse_skipped, refused_head = set(), [], None
+    e = sh = cur = sig = reg = None
+    while True:
+        cand_e, cand_sh = _pick(pool, rec["machine"], skip=skip)
+        if not cand_e:
+            break
+        cur = _sha16(os.path.join(ROOT, cand_e["runner"]))
+        sig = _sig(cand_e)
+        reg = fuse.get("sigs", {}).get(sig)
+        if reg and reg.get("code_sha256") == cur:
+            reg["refusals"] = int(reg.get("refusals", 0)) + 1
+            reg["last_refusal_ts"] = _now()
+            _log(f"crash-fuse REFUSE relaunch {cand_e['id']}/"
+                 f"{cand_sh.get('key')} sig={sig} "
+                 f"crashes={reg.get('count')} "
+                 f"refusals={reg['refusals']} (O-0947 fix-first: edit "
+                 f"runner to clear) -> skip, try next entry")
+            if refused_head is None:
+                refused_head = {"entry": cand_e["id"],
+                                "shard": cand_sh.get("key"),
+                                "fuse_crashes": reg.get("count"),
+                                "fuse_refusals": reg["refusals"]}
+            fuse_skipped.append({"entry": cand_e["id"],
+                                  "shard": cand_sh.get("key"),
+                                  "sig": sig,
+                                  "fuse_refusals": reg["refusals"]})
+            skip.add(cand_e["id"])
+            continue
+        e, sh = cand_e, cand_sh
+        break
+    if fuse_skipped:
+        _save_fuse(fuse)
     if not e:
+        if refused_head:
+            rec["verdict"] = "fuse_refused_crash_loop"
+            rec.update(refused_head)
+            rec["fuse_skipped"] = fuse_skipped
+            state["last_tick"] = rec
+            _save_state(state)
+            print(json.dumps(rec, ensure_ascii=False))
+            return 0
         rec["verdict"] = "pool_empty_or_busy"
         state["last_tick"] = rec
         _save_state(state)
         _log(f"tick py={py}% pool has no takeable shard -> no-op")
         return 0
-    # O-0947 crash-loop token fuse: same runner+args+code-hash that has
-    # a confirmed crash -> REFUSE relaunch (fix-first; each crash-retry
-    # cycle burns loop-session API tokens, r175/r198 families). A code
-    # edit (hash change) auto-clears -- the fix IS the unflag.
-    cur = _sha16(os.path.join(ROOT, e["runner"]))
-    sig = _sig(e)
-    reg = fuse.get("sigs", {}).get(sig)
-    if reg and reg.get("code_sha256") == cur:
-        reg["refusals"] = int(reg.get("refusals", 0)) + 1
-        reg["last_refusal_ts"] = _now()
-        _save_fuse(fuse)
-        rec.update({"verdict": "fuse_refused_crash_loop", "entry": e["id"],
-                    "shard": sh.get("key"), "fuse_crashes":
-                    reg.get("count"), "fuse_refusals": reg["refusals"]})
-        state["last_tick"] = rec
-        _save_state(state)
-        _log(f"crash-fuse REFUSE relaunch {e['id']}/{sh.get('key')} "
-             f"sig={sig} crashes={reg.get('count')} "
-             f"refusals={reg['refusals']} (O-0947 fix-first: edit runner "
-             f"to clear)")
-        print(json.dumps(rec, ensure_ascii=False))
-        return 0
+    if refused_head:
+        # head refused but a later entry launches: keep the refusal
+        # trace visible on the tick record without polluting entry/shard
+        rec["fuse_skipped"] = fuse_skipped
     if reg:
         del fuse["sigs"][sig]
         _save_fuse(fuse)
@@ -852,6 +886,28 @@ def selftest():
         ok("S16c code-change fix -> fuse auto-cleared, launch proceeds",
            rc == 0 and st16c["verdict"] == "dry_launch"
            and "scripts/fake_runner.py|run" not in fu16c["sigs"])
+        # S16e r252 anti-starvation: a fused HEAD entry must not block a
+        # later ready entry -- head refusal counted + skipped, next entry
+        # picked instead (live: T80 fuse head starved the pool for every
+        # tick until the skip-loop fix), refusal trace visible on record.
+        pool16e = {"entries": [
+            dict(entry),
+            dict(entry, id="E2", runner="scripts/fake_runner2.py",
+                 shards=[{"key": "s0", "status": "ready",
+                           "owner": None}])]}
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump(pool16e, fh)
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {"scripts/fake_runner.py|run": {
+                "code_sha256": None, "count": 1, "refusals": 0}}}, fh)
+        rc = tick(dry=True)
+        st16e = _load_state()["last_tick"]
+        fu16e = json.load(open(FUSE, encoding="utf-8"))
+        ok("S16e fused head skipped -> next entry launches (no starvation)",
+           rc == 0 and st16e["verdict"] == "dry_launch"
+           and st16e["entry"] == "E2"
+           and fu16e["sigs"]["scripts/fake_runner.py|run"]["refusals"] == 1
+           and st16e.get("fuse_skipped", [{}])[0].get("entry") == "E1")
         # S16d corrupt existing fuse file -> refuse-wipe abort (r201 law
         # mirrored for the new shared state file).
         with open(FUSE, "w", encoding="utf-8") as fh:

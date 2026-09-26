@@ -638,7 +638,7 @@ def cmd_finalize(_) -> int:
                                   if not r["turnover_budget_ok"]],
         },
         "candidates": cand_rows,
-        "ledger": led,
+        "trials_ledger": led,
         "audit": {
             "machine": _machine_id(),
             "engine_runs": 40,

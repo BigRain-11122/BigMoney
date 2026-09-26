@@ -80,10 +80,46 @@
 
 ## §7 跑后实证【跑前为空——写数字即造假】
 
-- （占位：跑批时窗/池执行留痕/N_trials 入账/四格×三成本面读数/skill_line 读数/G1'/G2/D6 数值/门轴读数/fill_days 面/极端日法证——由 runner 收割轮回填）
+**池执行留痕**：入池 R251 2026-09-26 14:39:04（entry 46）→ autofill 发射 14:50:27（bm-a pid 43612；本 tick 因 r252 autofill 反饿死修复得以越过 T80 熔断头批）→ 落地 14:50:53（sim 墙钟 18.4s·workers 1·65 units fresh·0 resumed·双跑字节恒等由 selftest 锁）。**N_trials=54 入账**：ledger 185798+54=185852（runner `append_ledger` 自动）；attrition 行入 `entries`（第 44 行·r248 消费面可见证）。
+
+**四格×三成本面（x2=判决面）**：
+
+| cell | x1 | **x2** | x3 | x2 ann_ret | x2 maxDD | x2 n_trades |
+|---|---|---|---|---|---|---|
+| W63_bare | 0.4881 | **0.4596** | 0.4311 | 6.36% | −18.18% | 405 |
+| W252_bare | 0.7416 | **0.7371** | 0.7326 | 10.63% | −19.89% | 50 |
+| W63_gate | 0.2029 | **0.1699** | 0.1368 | 1.40% | −25.85% | 388 |
+| W252_gate | 0.2907 | **0.2716** | 0.2526 | 2.78% | −24.61% | 135 |
+
+**skill_line 读数**：n_eff=185802·line=0.9527·passive_term=0.4792·null_term=0.9527（μ_null=0.3862·σ_null=0.115·pool=core48·ledger head=grid_sleeve_p1.json）。
+
+**G1'/G2/D6 数值**：G1'v2 **0/4 过线**（W252_bare 0.7371 最强：CI95 [0.0139, 1.4851] 下沿为正但 line 0.9527 未达；W63_bare 0.4596 CI [−0.3084, 1.2146]；trade_gate 四格 dual_ok 全过：n_trades 405/50/388/135≥30、n_entries 274/47/230/72≥30）。DSR 四格全 0.0（sr_star=0.520325·T=1861·n_trials=185802）。G2 四格 ineligible（g1 未过·missing_inputs 如实披露）。family PBO=0.0（CSCV 8 块·70 组合·n_trials=4）。D6 vs 在册 6 员 max|corr|：W63_bare 0.2358/W252_bare 0.2583/W63_gate 0.2233/W252_gate 0.2289（argmax 均 VOLATILITY-CE-01·<0.7 无拒收）；同批族内相关 0.81-0.91（族面预期·由 family PBO 承载非 D6 面）。**null K50**：μ=0.3862·σ=0.1150（seeds 20260980+i·x2 face·W63-bare warmup）。**基线** EW pair 5050 x2 Sharpe 0.4972（ann 6.86%·maxDD −18.92%·192 trades）。
+
+**门轴读数**：market_v3_axis 逐年状态分布入档（2019-2025 GREEN/YELLOW/RED/ORANGE 计数面）；rotation_gate_axis 载明 MA200 门跳过日面；descriptive 四格 full_ann_positive/oos_dual_positive/max_dd_line_pass/no_crash_year（crash_year_line −0.3）全 true，x1/x3 年度符号稳定 W252_bare 8/8、8/8（W63_bare 8/8、7/8）。
+
+**fill_days 面**：W63_bare fill_days_max=17·mean=4.05（n_transitions 30·2020-2021 排队实证）；W252_bare fill_days_max=2·mean=1.25（首入场日 273=2020-03 后·n_transitions 6）；W63_gate fill_max 17·mean 2.92；W252_gate fill_max 11·mean 3.89。truncated 全 false（无强平截断）。
+
+**极端日法证**：三件套执行面=分布界 median/p99.9 主责+max 配危机豁免（crash_year_line −0.3 单列）+跑前先验三条（§5.6）在案；四格 no_crash_year=true=极端日未击穿分布界主判。
 
 ## §8 批后复盘【跑后必填·s7-T】
 
-- （占位：§5 逐条预测对账/skill_line_v2 当批判读/gate_attrition 追加留痕/判决行/收割留痕）
+**§5 逐条对账**：
+1. bare ∈ [0.3, 1.0]：**HIT**（0.4596 / 0.7371 双落带内）。
+2. MA200 门 maxDD 收窄≥25% + Sharpe 变化 ∈ [−0.2, +0.3]：**双 MISS**——maxDD 反向恶化（W63 −18.18%→−25.85% 恶化 42%；W252 −19.89%→−24.61% 恶化 24%），Sharpe delta −0.29/−0.47 双破下沿；双腿宇宙中 whipsaw 再入场成本 > 趋势破位保护收益（门格不是免费防御）。
+3. W252 > W63、W252_bare 四格最强：**HIT**（年窗少 whipsaw 实证）。
+4. ×1→×2 Sharpe 衰减 <15%：**HIT**（W63 −5.8%、W252 −0.6%；低换手 50 trades/7.7y≈6.5 次/年）。
+5. 2020-2021 512890 fill_days>0：**HIT**（W63_bare max 17；W252_bare 首入场已在 2020-03 后 max 仅 2）。
+6. 极端日三件套：**按冻结执行**（§7 法证行）。
+7. 判负先验：**应验**——0/4 过线照登；W252_bare vs EW pair +0.24（0.7371 vs 0.4972）=轮动增量存在但不达线，非「零增量」。
 
-—— bm-a 组合与资金部+研究部 R250（2026-09-26 14:2x · 跑前冻结 · 零结果零编数）
+**skill_line_v2 当批判读**：line 0.9527 全库唯一权威派生（ledger head 60 冻结面 + null 面），判负非线漂移所致——W252_bare 与线距 −0.216，诚实差距。
+
+**gate_attrition 留痕**：runner 已追加第 44 行（`entries` 列表·g1_prime_pass 四格 false·eliminated 54·refs 本 prereg+T-73）。
+
+**判决行**：**CN-DIV-LOWVOL-ROT 判负收线**（0/4 过 G1'v2·§6 过闸后续链不触发=不开纸盘账户不入判决台）。最接近面 W252_bare 0.7371（CI 下沿正、x1/x3 稳定 8/8、族内最强）留档为家族证据；**判负禁翻案律适用**——未来重开须新预注册+新证据面（老窗读数禁复用为过闸证据）。
+
+**收割留痕**：`results/_r252bma_rot_harvest.py` 确定性收割门 PASS（十面重derive：ledger 算术/panel_gates/seed 基/四格×三面/skill_line/D6/nulls50/EW 基线/attrition 消费面可见/发射证据）→ 池 entry+shard 翻 done + harvest_note（r244 律·批不自翻）。
+
+**R252 同轮链修复附录（工程修复·判定面零动）**：收割时发现本批 ledger 块被 runner 嵌在非正典键 `ledger` 下（链头扫描器唯一认 `trials_ledger`）——同病族共五件（t33/div_lowvol/cny_window/cn_rev_tilt/本批）+两处正确键谱系缺口（p1e_zoo 窄域扫描器 157、market_clock run1 并发窗跳过 exit_overlay 30）+t33 被 xstock_synth prev 跳过 40 → 记录头 185798 缺 394。修复=`results/_r252bma_ledger_chain_repair.py`（五件键正典化+真链重锚：本批 prev 185798→186138、total 185852→**186192**=真链头；六 runner 码点改写/续跑检查键正典化）。**判定面字节零动**：skill_line 4dp 不变（本批真 n_eff 186142→线 0.95273→0.9527 同值；CN-REV +4e-5→0.6147 同值），四格判负结论不受影响（裕度 ≥0.1）。§7 「185798+54=185852」为落地时记录事实照留；中间正确键批件（cta_wave1..grid_sleeve）记载数=被超越的历史推导（max-total 链头已真）；复审注册行 T-73-CN-DIV-LOWVOL-ROT-P1 + R252-BMA-LEDGER-CHAIN-REPAIR 同轮落册、复审器 run 全 YES。
+
+—— bm-a 组合与资金部+研究部 R252 收割轮回填（2026-09-26 14:5x · 跑后一次定稿 · 零编数）

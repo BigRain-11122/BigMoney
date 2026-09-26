@@ -147,14 +147,13 @@ def build_payload(probe: dict, arms: dict, nulls: list, cost_runs: dict,
         "g2_registration_v2": g2,
         "n_trials": N_TRIALS,
         "events_consumed": probe["n_events"],
-        "ledger": append_ledger("CNY_WINDOW_P1", N_TRIALS,
+        "trials_ledger": append_ledger("CNY_WINDOW_P1", N_TRIALS,
                                 os.path.basename(OUT),
                                 evidence_cutoff=CUTOFF,
                                 note="zoo sec.8 #38 evidence-upgrade; "
                                      "3 arms + 20 same-mask nulls"),
     }
     return payload
-
 
 def selftest() -> int:
     print("cny_window_p1 selftest:")
@@ -195,8 +194,9 @@ def selftest() -> int:
                       [], {}, {}, {}, {})
     ok("S4 evidence_cutoff top-level", p["evidence_cutoff"] == CUTOFF)
     ok("S4 ledger dict embedded with chain fields",
-       isinstance(p["ledger"], dict) and "prev_total" in p["ledger"]
-       and p["ledger"]["batch_trials"] == N_TRIALS)
+       isinstance(p["trials_ledger"], dict)
+       and "prev_total" in p["trials_ledger"]
+       and p["trials_ledger"]["batch_trials"] == N_TRIALS)
     # S5 known-CNY year coverage = 7 (probe face contract)
     ok("S5 KNOWN_CNY has 7 anchor years", len(KNOWN_CNY) == 7)
     print(f"  selftest {'PASS' if fails == 0 else 'FAIL'} ({fails} fail)")

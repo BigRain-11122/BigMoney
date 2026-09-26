@@ -502,7 +502,7 @@ def run() -> int:
             and os.path.exists(OUT_JSON):
         try:
             j = json.load(open(OUT_JSON, encoding="utf-8"))
-            if j.get("ledger"):
+            if j.get("trials_ledger"):
                 print("idempotent fast path: results/cn_rev_tilt/"
                       "p1_results.json already finalized (ledger block "
                       "present); CN_REV_TILT_P1_REFINALIZE=1 = only redo")
@@ -881,7 +881,7 @@ def run() -> int:
                                           "faces differ only in rate",
             },
         },
-        "ledger": led,
+        "trials_ledger": led,
     }
     json.loads(json.dumps(payload, default=str))     # validate before write
     tmp = OUT_JSON + ".tmp"

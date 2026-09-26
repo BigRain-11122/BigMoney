@@ -744,7 +744,7 @@ def cmd_run(_):
             and os.path.exists(OUT_JSON):
         try:
             j = json.load(open(OUT_JSON, encoding="utf-8"))
-            if j.get("ledger"):
+            if j.get("trials_ledger"):
                 print("REFINALIZE guard: results/div_lowvol_p1.json already "
                       "finalized (ledger block present). Set "
                       "DIV_LOWVOL_P1_REFINALIZE=1 for the only redo path.")
@@ -924,7 +924,7 @@ def cmd_run(_):
         "audit": {"elapsed_sec": round(time.time() - t0, 1),
                   "cells": len(cells), "nulls": K_NULLS,
                   "member_gate_runs": len(REG6), "workers": 1},
-        "ledger": led,
+        "trials_ledger": led,
     }
     json.loads(json.dumps(payload, default=str))     # validate before write
     tmp = OUT_JSON + ".tmp"

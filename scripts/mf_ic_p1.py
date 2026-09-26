@@ -444,7 +444,7 @@ def evaluate(cal, codes, grids, close, panel_status, cfg, out_json, out_csv,
                             batch_trials=len(FACTOR_SPECS),
                             file_name=os.path.relpath(out_json, ROOT),
                             evidence_cutoff=panel_cutoff)
-        out["ledger"] = led
+        out["trials_ledger"] = led
     os.makedirs(os.path.dirname(out_json), exist_ok=True)
     with open(out_json, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)

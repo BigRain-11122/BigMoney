@@ -1512,13 +1512,13 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 14:39:04",
    "data_gates": "in-runner fail-closed exit 2: intersection T==1862 (2019-01-18..2026-09-22) + A-only-within-window==['2021-10-22'] + B-only empty + zero NaN on timeline + cutoff==2026-09-22 (D2 lockbox) + SEED_REGISTRY assert (cn_div_lowvol_rot_p1=20260980, registered AT R250 freeze commit) + zero-rebalance-evaluation sanity (R240 law, warmup-aware) + finalize census gate (r188). Panel = in-repo corpus twins data/daily/sh{510880,512890}.csv zero network; prices = DLP._adjust_split post-event face (512890 factor 0.5); ADV20 = raw volume x close rolling-20. Judge face x2 (side_cost_x2 whole-V2 doubled); 1% ADV day-queued fills with fill_days counters; affordability loop (no negative cash); completion = sells done AND (buys within one lot OR cash cannot buy one lot).",
    "shards": [
     {
      "key": "divlowvolrot-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-26 14:50:29",
      "checkpoint": "results/cn_div_lowvol_rot/ckpt/*.npz per-unit (exact float64 resume, date-drift refusal); landed marker = results/cn_div_lowvol_rot/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_DIV_LOWVOL_ROT_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 landed-marker law"
@@ -1528,7 +1528,9 @@
     "workers": 1,
     "note": "single finalize dependency chain (4 cells x3 faces -> nulls -> baselines -> gates -> D6/regime columns); intersection panel is 2x1862 trivial; sims are O(T) daily loops; ~1-2 min single worker"
    },
-   "note": null
+   "note": null,
+   "harvest_note": "harvested bm-a r252 2026-09-26 ~14:5x: p1_results.json landed 14:50:53 (ledger 185798+54=185852; panel_gates all_ok T=1862; seeds cn_div_lowvol_rot_p1=20260980 registered at R250 freeze commit). Verdict 0/4 cells pass G1'v2 -- best W252_bare x2 sharpe 0.7371 < line 0.9527 (CI-low positive but line unmet); MA200-gate faces worse on both axes (whipsaw cost > trend protection in 2-leg universe); D6 max|corr| vs members 0.2583 < 0.7; family PBO 0.0; honest negative per prereg S5.7 prior; attrition row visible in `entries` (44th). Flip by deterministic harvest gate results/_r252bma_rot_harvest.py.",
+   "updated_at": "2026-09-26 14:55:00"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
