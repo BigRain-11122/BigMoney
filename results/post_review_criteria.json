@@ -1401,6 +1401,63 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-83-S1-NINE-LAYER-INVENTORY",
+   "claim": "T-83 s1 nine-layer full inventory delivered (O-20260926-1355 CEO governance audit, measurement-first zero-cut): deterministic enumerator scripts/governance_audit_s1.py (selftest 7/7, rerun byte-identical) -> snapshot results/governance_audit_20260926.json (as_of 2026-09-26; L9 orders 83, research md 103, pool 49, L4 matrix 17 rows, Tools 32, scripts py 216) -> hand-curated per-layer per-item inventory research/AUDIT-20260926-FULL.md (nine layers + ten s2 observations, zero canon edits); s3 GM seven deliverables reserved untouched per ticket lane note",
+   "claim_source": "fleet/orders/O-20260926-1355-bm-a.md sections 一/二 (nine-layer frame + discipline) + fleet/tasks/T-2026-09-26-83-P1.json spec s1 (frozen at b25f78fa pre-claim)",
+   "status": "claimed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/AUDIT-20260926-FULL.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/AUDIT-20260926-FULL.md",
+      "## L9 令面（83 令实测·索引缺）"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/AUDIT-20260926-FULL.md",
+      "## s2 输入汇总（十观察·未动刀·检测面待跑）"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/governance_audit_20260926.json"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/governance_audit_20260926.json",
+      "as_of",
+      "2026-09-26"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/governance_audit_20260926.json",
+      "L9_orders.n_orders",
+      "83"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "scripts/governance_audit_s1.py",
+      "Governance audit s1 -- nine-layer full inventory enumerator"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted"

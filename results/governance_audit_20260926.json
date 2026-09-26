@@ -1,0 +1,1285 @@
+{
+ "as_of": "2026-09-26",
+ "ticket": "T-2026-09-26-83 s1",
+ "order": "O-20260926-1355",
+ "L1_judgment": {
+  "carriers": [
+   {
+    "path": "research/BACKTEST_SCIENCE.md",
+    "bytes": 10558,
+    "title": "research/BACKTEST_SCIENCE.md — 回测科学判据 v2（方法论宪法）"
+   },
+   {
+    "path": "research/NULL_CALIBRATION.md",
+    "bytes": 7804,
+    "title": "P2 零假设校准评审（NULL CALIBRATION）v1.0"
+   },
+   {
+    "path": "research/PREREG_TEMPLATE.md",
+    "bytes": 6124,
+    "title": "预注册模板（新批必填）· T-02 6/7 · D6 机制门槛载体"
+   },
+   {
+    "path": "research/QUEUE_BANDIT.md",
+    "bytes": 10799,
+    "title": "QUEUE_BANDIT 预注册：批队列老虎机排程器 v1（UCB1 over gate_attrition，L1 确定性决策支持件）"
+   },
+   {
+    "path": "research/SAMPLE_SCIENCE_P1.md",
+    "bytes": 9359,
+    "title": "SAMPLE-SCIENCE-P1 预注册 · T-81 slice-3 状态内样本下限+四必报分层 · O-20260926-1342 §二/§四③"
+   },
+   {
+    "path": "research/SCIENCE_AUDIT_PREREG.md",
+    "bytes": 11599,
+    "title": "research/SCIENCE_AUDIT_PREREG.md — science_audit.py 月度科学审计·判据预注册（先写死后首跑）"
+   },
+   {
+    "path": "firm/RULES.md",
+    "bytes": 4958,
+    "title": "Bigmoney 顶层规则（v1.0 · 2026-09-23 CEO 建章立制令 O-20260923-1538）"
+   },
+   {
+    "path": "firm/SELF_REVIEW.md",
+    "bytes": 3717,
+    "title": "Bigmoney 周期性自审机制 SELF_REVIEW（v1.0 · 2026-09-24 · CEO 令 O-20260924-1110）"
+   },
+   {
+    "path": "firm/POST_REVIEW.md",
+    "bytes": 8422,
+    "title": "POST_REVIEW 事后复审机制正典 v1.0 · T-2026-09-24-37 · O-20260924-2115（CEO 直令）"
+   }
+  ],
+  "science_gates_functions": [
+   "_norm_cdf",
+   "_norm_ppf",
+   "_now",
+   "_pstdev",
+   "_synth_returns",
+   "append_ledger",
+   "bootstrap_ci_sharpe",
+   "cutoff_meta",
+   "deflated_sharpe_ratio",
+   "dsr_from_stats",
+   "dual_trade_gate",
+   "g1_prime_v2",
+   "g2_registration_v2",
+   "ledger_head",
+   "ledger_total",
+   "n_eff",
+   "null_sharpes",
+   "passive_baseline",
+   "passive_strict_max",
+   "recorded_lines",
+   "report",
+   "selftest",
+   "skill_line_v2"
+  ]
+ },
+ "L2_canon_docs": {
+  "carriers": [
+   {
+    "path": "README.md",
+    "bytes": 7901,
+    "title": "Bigmoney"
+   },
+   {
+    "path": "PLAN.md",
+    "bytes": 12469,
+    "title": "Bigmoney 开发计划 v1.0"
+   },
+   {
+    "path": "CODELY.md",
+    "bytes": 42973,
+    "title": "Codely Structured Memories"
+   },
+   {
+    "path": "firm/RULES.md",
+    "bytes": 4958,
+    "title": "Bigmoney 顶层规则（v1.0 · 2026-09-23 CEO 建章立制令 O-20260923-1538）"
+   },
+   {
+    "path": "firm/OPERATING_PLAN.md",
+    "bytes": 11770,
+    "title": "Bigmoney 运营总规划 OPERATING_PLAN（v1.0 · 2026-09-23 · CEO 全权委托令 O-20260923-2310）"
+   },
+   {
+    "path": "firm/org_chart.md",
+    "bytes": 14163,
+    "title": "Bigmoney 组织架构"
+   },
+   {
+    "path": "firm/SPM_REGISTER.md",
+    "bytes": 2617,
+    "title": "SPM 登记簿 SPM_REGISTER（append-only 版本台账 · O-20260925-1105 · 章程 firm/STABLE_PROFIT_MODEL.md §一）"
+   },
+   {
+    "path": "firm/STABLE_PROFIT_MODEL.md",
+    "bytes": 9421,
+    "title": "稳定盈利模型总纲 STABLE_PROFIT_MODEL（v1.0 · 2026-09-25 · CEO 直令 O-20260925-1105）"
+   },
+   {
+    "path": "firm/PRODUCT_MATRIX.md",
+    "bytes": 3117,
+    "title": "产品矩阵 PRODUCT MATRIX（v1.1 · 2026-09-25 · CEO 直令 O-20260925-1152 + O-20260925-1158 全品种升格）"
+   },
+   {
+    "path": "research/PROFIT_MODEL_MAP.md",
+    "bytes": 3448,
+    "title": "盈利模型作战图 PROFIT MODEL MAP v1.0（O-20260925-0857 总动员令随件 · GM 亲执）"
+   },
+   {
+    "path": "research/STRATEGY_LIBRARY.md",
+    "bytes": 21951,
+    "title": "Bigmoney 策略与因子总库 STRATEGY_LIBRARY（v1.0 · 2026-09-23 · CEO 令 O-20260923-2210「全面健全的库」）"
+   },
+   {
+    "path": "research/HANDOVER.md",
+    "bytes": 277620,
+    "title": "Bigmoney 交接与成果收割指南（HANDOVER）"
+   },
+   {
+    "path": "research/BACKTEST_SCIENCE.md",
+    "bytes": 10558,
+    "title": "research/BACKTEST_SCIENCE.md — 回测科学判据 v2（方法论宪法）"
+   },
+   {
+    "path": "research/BACKTEST_PLAN.md",
+    "bytes": 7853,
+    "title": "Bigmoney 回测作战计划 v1.0（算力使用规划）"
+   },
+   {
+    "path": "research/CEO_HANDBOOK.md",
+    "bytes": 4526,
+    "title": "BIGMONEY · CEO 手册"
+   },
+   {
+    "path": "research/RESEARCH_MECHANISM.md",
+    "bytes": 9027,
+    "title": "外部调研机制（研究部常设职能 · 2026-09-23 CEO 令 O-20260923-1636 · v1.1 2026-09-24 O-20260924-1721：常态双频+链式开票+扩面+融合链）"
+   },
+   {
+    "path": "research/SYSTEM_LOGIC.md",
+    "bytes": 13146,
+    "title": "research/SYSTEM_LOGIC.md — 量化系统完整运行逻辑"
+   },
+   {
+    "path": "research/COMPUTE_AUDIT.md",
+    "bytes": 10280,
+    "title": "算力审计与防瞎跑白跑机制（v2.0 · 2026-09-24 升版 · CEO 令 O-20260923-1810 立法 + O-1626 判定即处置 + O-20260924-2100 执行面分离）"
+   },
+   {
+    "path": "firm/DEV_AUTOMATION.md",
+    "bytes": 3255,
+    "title": "Bigmoney 自动化开发能力（v1.0 · O-20260923-1538）"
+   },
+   {
+    "path": "firm/TECH.md",
+    "bytes": 1679,
+    "title": "Bigmoney 底层技术栈（v1.0 · O-20260923-1538）"
+   },
+   {
+    "path": "firm/LOCAL_FIRST.md",
+    "bytes": 5370,
+    "title": "Bigmoney 本地化落地册 LOCAL-FIRST（v2.0 · 2026-09-26 · CEO 令 O-20260926-0947）"
+   }
+  ]
+ },
+ "L3_org": {
+  "org_chart_sections": [
+   "部门职责",
+   "研究部 (Research)",
+   "交易部 (Trading Desk)",
+   "风控部 (Risk)",
+   "技术部 (Tech)",
+   "交易员等级",
+   "晋升/淘汰规则",
+   "部门表（mandate / 域 / KPI / 自动化钩子 / 升级线）",
+   "AI 赋能原则",
+   "部门级扩建（两行已并入上表 v2）",
+   "团队表（11 团队·全挂既有 Phase 0/1 交付）",
+   "团队律"
+  ]
+ },
+ "L4_product_lines": {
+  "matrix_rows": [
+   "轴 档位 状态 承载线/票",
+   "时间 短线波段（3-15 天） ✅ 在产 交易线六员+PROSPECT 22；野路子股票短线=T-57",
+   "时间 中线摆动（周-月频） 🟡 半空白 T-47 波-6 动量族供给收敛点（T-60 s3）",
+   "时间 长线配置（月度再平衡） ✅ 新立 配置线 T-59（ALLOC-* 族）",
+   "资产 A 股股票 ✅ 新立 T-57 野路子（B 层冻结已解除）",
+   "资产 ETF ✅ 主战场 交易线 core48",
+   "资产 债券/黄金/QDII ✅ 新立 配置线 T-59",
+   "资产 REITs 🟡 配置 β 在册；择时/打新维度候选 配置线+T-60 缺口清单",
+   "资产 **转债** ⬜ 空白（首批开线） T-60 s1/s2（集思录面已验通）",
+   "资产 商品期货 🟡 CEO 授权复活批（O-1158·新预注册路径·旧判负×3 档案并排保留） T-65 s2",
+   "资产 金融期货（股指 IF/IC/IH/IM·国债 T/TF/TS） ⬜ 波-1 新批 T-65 s2",
+   "资产 期权（ETF/股指期权·日线族=备兑/保护认沽/现金担保卖权） ⬜ 波-2·数据审计门先行 T-65 s3 链",
+   "资产 港股通·北交所·债券现券 ⬜ 波-3 候选·数据审计+流动性评估 T-65 s3 链",
+   "风险 稳健/平衡/激进 ✅ 三线三判 配置线/SPM 正典/激进线（O-1145）",
+   "收益 择时 α ✅ 在产 交易线",
+   "收益 配置 β+再平衡 ✅ 新立 配置线",
+   "收益 事件驱动 🟡 部分 T-57 打板/情绪族；扩展候选=T-60 缺口清单",
+   "收益 套利 carry 🟡 半空白 集思录源已验通；P-A1 溢价子线判负不翻案；转债 carry 另册=T-60 s1"
+  ],
+  "carriers": [
+   {
+    "path": "firm/PRODUCT_MATRIX.md",
+    "bytes": 3117,
+    "title": "产品矩阵 PRODUCT MATRIX（v1.1 · 2026-09-25 · CEO 直令 O-20260925-1152 + O-20260925-1158 全品种升格）"
+   },
+   {
+    "path": "firm/STABLE_PROFIT_MODEL.md",
+    "bytes": 9421,
+    "title": "稳定盈利模型总纲 STABLE_PROFIT_MODEL（v1.0 · 2026-09-25 · CEO 直令 O-20260925-1105）"
+   },
+   {
+    "path": "research/PROFIT_MODEL_MAP.md",
+    "bytes": 3448,
+    "title": "盈利模型作战图 PROFIT MODEL MAP v1.0（O-20260925-0857 总动员令随件 · GM 亲执）"
+   }
+  ]
+ },
+ "L5_lifecycle": {
+  "carriers": [
+   {
+    "path": "research/CE_ADMISSION_INTAKE_B1_PREREG.md",
+    "bytes": 9305,
+    "title": "CE-ADMISSION-B1 预注册（CE_ADMISSION_V1 §6 首个准入判定批）· 跑前冻结"
+   },
+   {
+    "path": "research/CE_ADMISSION_V1.md",
+    "bytes": 9768,
+    "title": "CE_ADMISSION v1.0 — CE 正典层稳定优先准入规则（冻结件）"
+   },
+   {
+    "path": "research/L3_ACTIVATION_EVIDENCE.md",
+    "bytes": 7600,
+    "title": "L3-ACTIVATION-EVIDENCE 预注册 · T-81 slice-2 激活表证据化 · O-20260926-1342 §三（CEO 直令）"
+   },
+   {
+    "path": "research/LANDING_HOOKS_P1.md",
+    "bytes": 8162,
+    "title": "LANDING-HOOKS-P1 预注册 · T-81 slice-4 落地钩子（落地即画像）· O-20260926-1342 §四④"
+   },
+   {
+    "path": "research/PAPER_GUARD_DUAL_RAIL.md",
+    "bytes": 10905,
+    "title": "PAPER_GUARD_DUAL_RAIL 预注册 · T-2026-09-24-20 deliverable-1（跑前冻结）"
+   },
+   {
+    "path": "research/PROFILE_CARDS_P1.md",
+    "bytes": 10975,
+    "title": "PROFILE-CARDS-P1 预注册 · T-81 slice-1 适用域画像卡 · O-20260926-1342 CEO 直令"
+   },
+   {
+    "path": "research/RETRO_PAPER_2026_PREREG.md",
+    "bytes": 10330,
+    "title": "RETRO-PAPER-2026 预注册（年内回放纸盘批）· T-79 · O-20260926-1326 CEO 直令"
+   },
+   {
+    "path": "firm/hr.py",
+    "bytes": 8443,
+    "title": "\"\"\"HR system: evaluate traders, promote/fire automatically."
+   },
+   {
+    "path": "docs/CEO_APPROVALS.md",
+    "bytes": 1216,
+    "title": "CEO_APPROVALS · 实盘模拟盘准入认可台账（O-20260926-1326 立法·追加式）"
+   }
+  ],
+  "live_faces": [
+   "live/__init__.py",
+   "live/gateway.py",
+   "live/paper.py"
+  ]
+ },
+ "L6_account_families": {
+  "family_dirs": {
+   "aggr_capacity_face": {
+    "n_files": 1,
+    "sample": [
+     "p1_results.json"
+    ]
+   },
+   "aggr_paper": {
+    "n_files": 12,
+    "sample": [
+     "AGGR-BARBELL_paper.json",
+     "AGGR-CONC-TOP2_paper.json",
+     "AGGR-FULLCE-C80_paper.json",
+     "AGGR-FULLCE_paper.json",
+     "AGGR-GREEN-MAX_paper.json",
+     "AGGR-GREEN-TOP2_paper.json",
+     "AGGR-MOM_paper.json",
+     "AGGR-NOCASH_paper.json",
+     "AGGR-OFFENSE-FULL_paper.json",
+     "AGGR-OFFENSE_paper.json",
+     "AGGR-REG3_paper.json",
+     "AGGR-REGIME_paper.json"
+    ]
+   },
+   "alloc_paper": {
+    "n_files": 7,
+    "sample": [
+     "ALLOC-P1.json",
+     "ALLOC-P2.json",
+     "ALLOC-P3.json",
+     "ALLOC-P3B.json",
+     "ALLOC-P4.json",
+     "ALLOC-P5.json",
+     "ALLOC-P6.json"
+    ]
+   },
+   "alloc_s2_cells": {
+    "n_files": 7,
+    "sample": [
+     "ALLOC-P1.json",
+     "ALLOC-P2.json",
+     "ALLOC-P3.json",
+     "ALLOC-P3B.json",
+     "ALLOC-P4.json",
+     "ALLOC-P5.json",
+     "ALLOC-P6.json"
+    ]
+   },
+   "allocation": {
+    "n_files": 6,
+    "sample": [
+     "ALLOC_PAPER_PROBE.json",
+     "ALLOC_S2_BACKTEST.csv",
+     "ALLOC_S2_BACKTEST.json",
+     "ALLOC_S2_P5_PULL.json",
+     "ALLOC_S2_PROBE.json",
+     "alloc_backtest.log"
+    ]
+   },
+   "paper": {
+    "n_files": 6,
+    "sample": [
+     "COMPOSITE-CE-01_paper.json",
+     "COMPOSITE-CE-02_paper.json",
+     "DROUGHT-CE-01_paper.json",
+     "ENGULF-CE-01_paper.json",
+     "NEEDLE-DE-01_paper.json",
+     "VOLATILITY-CE-01_paper.json"
+    ]
+   },
+   "paper_export": {
+    "n_files": 3,
+    "sample": [
+     "README.md",
+     "export-2026-09-24.json",
+     "latest.json"
+    ]
+   },
+   "prospect_g2": {
+    "n_files": 12,
+    "sample": [
+     "PROS-ANTS-01.json",
+     "PROS-ANTS-CE-01.json",
+     "PROS-BBS-01.json",
+     "PROS-BBS-CE-01.json",
+     "PROS-DOJI-01.json",
+     "PROS-DOJI-CE-01.json",
+     "PROS-DUCK-01.json",
+     "PROS-DUCK-CE-01.json",
+     "PROS-HAM-01.json",
+     "PROS-HAM-CE-01.json",
+     "PROS-IBB-01.json",
+     "PROS-IBB-CE-01.json"
+    ]
+   },
+   "prospect_paper": {
+    "n_files": 12,
+    "sample": [
+     "PROS-ANTS-01.json",
+     "PROS-ANTS-CE-01.json",
+     "PROS-BBS-01.json",
+     "PROS-BBS-CE-01.json",
+     "PROS-DOJI-01.json",
+     "PROS-DOJI-CE-01.json",
+     "PROS-DUCK-01.json",
+     "PROS-DUCK-CE-01.json",
+     "PROS-HAM-01.json",
+     "PROS-HAM-CE-01.json",
+     "PROS-IBB-01.json",
+     "PROS-IBB-CE-01.json"
+    ]
+   },
+   "prospect_promotion": {
+    "n_files": 12,
+    "sample": [
+     "PROS-ANTS-01.json",
+     "PROS-ANTS-CE-01.json",
+     "PROS-BBS-01.json",
+     "PROS-BBS-CE-01.json",
+     "PROS-DOJI-01.json",
+     "PROS-DOJI-CE-01.json",
+     "PROS-DUCK-01.json",
+     "PROS-DUCK-CE-01.json",
+     "PROS-HAM-01.json",
+     "PROS-HAM-CE-01.json",
+     "PROS-IBB-01.json",
+     "PROS-IBB-CE-01.json"
+    ]
+   },
+   "retro_paper_2026": {
+    "n_files": 12,
+    "sample": [
+     "AGGR-CONC-TOP2_ledger.json",
+     "AGGR-OFFENSE_ledger.json",
+     "AGGR-REGIME_ledger.json",
+     "ALLOC-P1_ledger.json",
+     "ALLOC-P2_ledger.json",
+     "ALLOC-P3B_ledger.json",
+     "ALLOC-P3_ledger.json",
+     "ALLOC-P4_ledger.json",
+     "ALLOC-P5_ledger.json",
+     "ALLOC-P6_ledger.json",
+     "B_MAXDIV_ledger.json",
+     "COMPOSITE-CE-01_ledger.json"
+    ]
+   }
+  },
+  "carriers": [
+   {
+    "path": "research/AGGRESSIVE_LAB.md",
+    "bytes": 12725,
+    "title": "AGGRESSIVE_LAB — 激进组合试验线预注册（跑前冻结）"
+   },
+   {
+    "path": "research/AGGR_CAPACITY_FACE_P1.md",
+    "bytes": 12854,
+    "title": "AGGR_CAPACITY_FACE_P1 — 激进家族电池批容量面（披露腿）预注册【跑前冻结】"
+   },
+   {
+    "path": "research/AGGR_FAMILY_PREREG.md",
+    "bytes": 14271,
+    "title": "AGGR_FAMILY_PREREG — 广泛激进组合族·15 新变体预注册（跑前冻结）"
+   },
+   {
+    "path": "research/AGGR_FULLPOOL_BATTERY.md",
+    "bytes": 12329,
+    "title": "AGGR_FULLPOOL_BATTERY — 激进家族全池 W-GRID 电池批预注册（跑前冻结）"
+   },
+   {
+    "path": "research/GRID_P1.md",
+    "bytes": 8761,
+    "title": "GRID_P1 预注册（A 层网格收割迁移批）· QUANT_STYLE_ATLAS #8 · T-2026-09-25-40 slice-2"
+   },
+   {
+    "path": "research/GRID_SLEEVE_P1.md",
+    "bytes": 14343,
+    "title": "GRID_SLEEVE_P1 预注册（CN 网格引擎 sleeve·交易管理解锁 unlock-4）· T-2026-09-26-78 s5a · O-20260926-0958"
+   },
+   {
+    "path": "research/PROFILE_CARDS_P1.md",
+    "bytes": 10975,
+    "title": "PROFILE-CARDS-P1 预注册 · T-81 slice-1 适用域画像卡 · O-20260926-1342 CEO 直令"
+   }
+  ]
+ },
+ "L7_pipeline": {
+  "pool_entries": [
+   {
+    "id": "J1-PROSPECT-BEATRATE",
+    "status": "done"
+   },
+   {
+    "id": "T33-CORPS-ROSTER",
+    "status": "done"
+   },
+   {
+    "id": "T34-PRESIGNAL-HALFSTEP",
+    "status": "done"
+   },
+   {
+    "id": "T18-DEEP-NULLS",
+    "status": "done"
+   },
+   {
+    "id": "DRILL-T36-STALE-TAKEOVER",
+    "status": "done"
+   },
+   {
+    "id": "A158-TRUEGAP-IC",
+    "status": "done"
+   },
+   {
+    "id": "GRID-P1",
+    "status": "done"
+   },
+   {
+    "id": "P4-B3-DCA",
+    "status": "done"
+   },
+   {
+    "id": "XSTOCK-TILT",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-LA",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-LB",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-LC",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-LD",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-DA",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-DB",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-DC",
+    "status": "done"
+   },
+   {
+    "id": "T54-GRID-DD",
+    "status": "done"
+   },
+   {
+    "id": "T56-AGGRESSIVE-LAB",
+    "status": "done"
+   },
+   {
+    "id": "ALLOC-LINE-S2",
+    "status": "done"
+   },
+   {
+    "id": "MF-ROT-S1",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-NULLS",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-0",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-1",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-2",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-3",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-4",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-5",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-6",
+    "status": "done"
+   },
+   {
+    "id": "WILD-S1-SHARD-7",
+    "status": "done"
+   },
+   {
+    "id": "CTA-WAVE1-RUN",
+    "status": "done"
+   },
+   {
+    "id": "BOND-PANEL-SHARD-0",
+    "status": "done"
+   },
+   {
+    "id": "BOND-PANEL-SHARD-1",
+    "status": "done"
+   },
+   {
+    "id": "BOND-PANEL-SHARD-2",
+    "status": "done"
+   },
+   {
+    "id": "BOND-PANEL-SHARD-3",
+    "status": "done"
+   },
+   {
+    "id": "BOND-PANEL-SHARD-4",
+    "status": "done"
+   },
+   {
+    "id": "BOND-PANEL-SHARD-5",
+    "status": "done"
+   },
+   {
+    "id": "P1E-NULLS-MCLOSE",
+    "status": "done"
+   },
+   {
+    "id": "P1E-NULLS-MCLOSETR",
+    "status": "done"
+   },
+   {
+    "id": "P1E-NULLS-MARC",
+    "status": "done"
+   },
+   {
+    "id": "P1E-CELLS",
+    "status": "done"
+   },
+   {
+    "id": "P1E-NEIGHBOR-CORR",
+    "status": "done"
+   },
+   {
+    "id": "P1E-SYNTH",
+    "status": "done"
+   },
+   {
+    "id": "GPU-FACTOR-LANE-PROOF",
+    "status": "done"
+   },
+   {
+    "id": "CN-REV-TILT-P1",
+    "status": "done"
+   },
+   {
+    "id": "T80-AGGR-FULLPOOL-BATTERY",
+    "status": "done"
+   },
+   {
+    "id": "CN-DIV-LOWVOL-ROT-P1",
+    "status": "done"
+   },
+   {
+    "id": "CN-REGIME-POLICY-P1",
+    "status": "done"
+   },
+   {
+    "id": "CN-CORE-SATELLITE-P1",
+    "status": "done"
+   },
+   {
+    "id": "CN-CORE-DDCTL-P1",
+    "status": "ready"
+   }
+  ],
+  "prereg_docs": 14,
+  "bandit_queue_present": true,
+  "carriers": [
+   {
+    "path": "research/BACKTEST_PLAN.md",
+    "bytes": 7853,
+    "title": "Bigmoney 回测作战计划 v1.0（算力使用规划）"
+   },
+   {
+    "path": "research/QUEUE_BANDIT.md",
+    "bytes": 10799,
+    "title": "QUEUE_BANDIT 预注册：批队列老虎机排程器 v1（UCB1 over gate_attrition，L1 确定性决策支持件）"
+   },
+   {
+    "path": "research/POOL_AUDIT.md",
+    "bytes": 6473,
+    "title": "J9a 既有数据池审计（预注册 · 跑前写死 2026-09-23 11:52）"
+   },
+   {
+    "path": "research/COMPUTE_AUDIT.md",
+    "bytes": 10280,
+    "title": "算力审计与防瞎跑白跑机制（v2.0 · 2026-09-24 升版 · CEO 令 O-20260923-1810 立法 + O-1626 判定即处置 + O-20260924-2100 执行面分离）"
+   },
+   {
+    "path": "research/PREREG_TEMPLATE.md",
+    "bytes": 6124,
+    "title": "预注册模板（新批必填）· T-02 6/7 · D6 机制门槛载体"
+   },
+   {
+    "path": "research/RESEARCH_MECHANISM.md",
+    "bytes": 9027,
+    "title": "外部调研机制（研究部常设职能 · 2026-09-23 CEO 令 O-20260923-1636 · v1.1 2026-09-24 O-20260924-1721：常态双频+链式开票+扩面+融合链）"
+   }
+  ]
+ },
+ "L8_fleet": {
+  "tools_files": [
+   "_r190_af_union.py",
+   "_r190_wrap.py",
+   "_r193_rebase_resolve.py",
+   "_r195_rebase_resolve.py",
+   "_r200_af_union.py",
+   "_r200_shard1_flip.py",
+   "_r201_af_union.py",
+   "_r201_memory_reorg.py",
+   "_r201_owner_claim.py",
+   "_r201_shard2_flip.py",
+   "_r201_shard2_owner.py",
+   "_r201_wrap.py",
+   "_r206_ca_union.py",
+   "_r206_cap_view.py",
+   "autofill.py",
+   "bootstrap-machine.ps1",
+   "install_scorecard_shortcut.ps1",
+   "iteration_loop.ps1",
+   "iteration_prompt.DEV.txt",
+   "iteration_prompt.txt",
+   "loop_lock_selftest.ps1",
+   "orders_diff.py",
+   "post_review.py",
+   "register_autofill_task.ps1",
+   "register_intraday_marks_task.ps1",
+   "register_loop_task.ps1",
+   "register_watchdog_task.ps1",
+   "resolve_af_conflict_r210.py",
+   "t36_drill_runner.py",
+   "transfer_manifest.ps1",
+   "watchdog.ps1",
+   "watchdog_c7_selftest.ps1"
+  ],
+  "fleet_md": [
+   {
+    "path": "fleet/EXPANSION_ACCEPTANCE.md",
+    "bytes": 7279,
+    "title": "机队扩容验收包 v1.0（T-26）— BG-B/BG-C 接入 BigMoney 回测池"
+   },
+   {
+    "path": "fleet/FLEET-OPS.md",
+    "bytes": 5494,
+    "title": "FLEET-OPS.md — 机队治理总机制 v1.0"
+   },
+   {
+    "path": "fleet/README.md",
+    "bytes": 8660,
+    "title": "Bigmoney 机队协议 v1.0（fleet/）"
+   },
+   {
+    "path": "fleet/TRANSFER.md",
+    "bytes": 6919,
+    "title": "TRANSFER.md — 机队公网互传机制 v1.0"
+   }
+  ],
+  "machine_heartbeats": [
+   "fleet/machines/bm-a.json",
+   "fleet/machines/bm-b.json",
+   "fleet/machines/bm-c.json"
+  ],
+  "inbox_open_msgs": 0,
+  "scripts_py_count": 216
+ },
+ "L9_orders": {
+  "orders": [
+   {
+    "file": "O-20260923-1514-bm-a.md",
+    "bytes": 2023,
+    "title": "O-20260923-1514-bm-a · Money0923 资产盘点整合令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1533-bm-a.md",
+    "bytes": 961,
+    "title": "O-20260923-1533-bm-a · bars 交接通道裁决（O-20260923-1514 终报所呈待决项）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1536-bm-a.md",
+    "bytes": 1381,
+    "title": "O-20260923-1536-bm-a · 集团本地化算力战略（用户令 · 全公司适用）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1538-bm-a.md",
+    "bytes": 2158,
+    "title": "O-20260923-1538-bm-a · 建章立制令：顶层规则+底层技术+自动化开发能力+AI 赋能组织架构与公司部门",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1545-bm-a.md",
+    "bytes": 2087,
+    "title": "O-20260923-1545-bm-a · 短线能力建设令：全量策略/因子/指标/资料调研下载整合",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1620-bm-a.md",
+    "bytes": 1069,
+    "title": "O-20260923-1620-bm-a · 决策权下放令（治理修正）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1636-bm-a.md",
+    "bytes": 959,
+    "title": "O-20260923-1636-bm-a · 外调机制与全风格调研令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1653-bm-a.md",
+    "bytes": 1444,
+    "title": "O-20260923-1653-bm-a · 回测全要素就绪令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1705-bm-a.md",
+    "bytes": 1973,
+    "title": "O-20260923-1705-bm-a · 风格丰富度令：A 股日线全风格动物园",
+    "supersession_face": "让路"
+   },
+   {
+    "file": "O-20260923-1738-bm-a.md",
+    "bytes": 1554,
+    "title": "O-20260923-1738-bm-a · 算力动员令：全线开跑回测（80% 上限）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1810-bm-a.md",
+    "bytes": 862,
+    "title": "O-20260923-1810-bm-a · 算力审计令：防瞎跑白跑机制",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1816-bm-a.md",
+    "bytes": 2647,
+    "title": "O-20260923-1816 bm-a · CEO 令：随机起点实战检验=回测标准程序",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1819-bm-a.md",
+    "bytes": 1943,
+    "title": "O-20260923-1819-bm-a · 24 小时连续并行回测令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1820-bm-a.md",
+    "bytes": 2888,
+    "title": "O-20260923-1820-bm-a（CEO 顶层配置规则三红线 · T0 红线级 · 即日生效）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1823-bm-a.md",
+    "bytes": 1913,
+    "title": "O-20260923-1823 bm-a · CEO 令：多维度策略评价体系（顶层设计）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1828-bm-a.md",
+    "bytes": 3546,
+    "title": "O-20260923-1828 bm-a · CEO 令：搜技术分析/操作风格分析，建立 3-15 天短线策略族",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1844-bm-a.md",
+    "bytes": 2868,
+    "title": "O-20260923-1844-bm-a",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-1850-bm-a.md",
+    "bytes": 2378,
+    "title": "O-20260923-1850 CEO 令：策略因子加入热度/注意力族",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-2134-bm-a.md",
+    "bytes": 3842,
+    "title": "O-20260923-2134 bm-a · CEO 令：策略/流派极大丰富 + 梳理民间策略 + 大样本扩容",
+    "supersession_face": "收回"
+   },
+   {
+    "file": "O-20260923-2205-bm-a.md",
+    "bytes": 3219,
+    "title": "O-20260923-2205 bm-a · CEO 令：复盘全自动化修正 + 改进点盘点呈报",
+    "supersession_face": "废止"
+   },
+   {
+    "file": "O-20260923-2210-bm-a.md",
+    "bytes": 2768,
+    "title": "O-20260923-2210 bm-a · CEO 令：最大规模回测+全面健全库",
+    "supersession_face": "作废"
+   },
+   {
+    "file": "O-20260923-2215-bm-a.md",
+    "bytes": 2683,
+    "title": "O-20260923-2215 bm-a · CEO 令：回测科学决定+复盘+建机制",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-2250-bm-a.md",
+    "bytes": 2101,
+    "title": "O-20260923-2250 bm-a · CEO 令：全面审查+修复",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-2310-bm-a.md",
+    "bytes": 1272,
+    "title": "O-20260923-2310 bm-a · CEO 令：AI 量化短线投资公司全权运营规划委托",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-2311-bm-a.md",
+    "bytes": 3608,
+    "title": "O-20260923-2311 bm-a · CEO 令：金融子公司部门与团队扩建（想清楚后执行）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-2315-bm-a.md",
+    "bytes": 2309,
+    "title": "O-20260923-2315 bm-a · CEO 令：高风险行情防御顶层机制",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-2325-bm-a.md",
+    "bytes": 2245,
+    "title": "O-20260923-2325 bm-a · CEO 令：建立本地能力与机制，减少 token 使用",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260923-2345-bm-a.md",
+    "bytes": 1694,
+    "title": "O-20260923-2345 bm-a · CEO 令：调用好机群每台机器 CPU 算力",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-0100-bm-c.md",
+    "bytes": 1875,
+    "title": "O-20260924-0100 bm-c · CEO 令：QuantBull 资产并入 BigMoney + 本机单项目维护纪律",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1045-bm-a.md",
+    "bytes": 1553,
+    "title": "O-20260924-1045 bm-a · CEO 令：金融公司全盘梳理（团队配置/流程/资源三问）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1110-bm-a.md",
+    "bytes": 1765,
+    "title": "O-20260924-1110 bm-a · CEO 令：子公司建立周期性自我审查机制",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1120-bm-a.md",
+    "bytes": 6616,
+    "title": "O-20260924-1120-bm-a · 积压决策清裁令（CEO 委托代决）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1136-bm-a.md",
+    "bytes": 3357,
+    "title": "O-20260924-1136-bm-a · CPU 满载并行回测令（CEO 直令）",
+    "supersession_face": "取代"
+   },
+   {
+    "file": "O-20260924-1141-bm-a.md",
+    "bytes": 2491,
+    "title": "O-20260924-1141-bm-a · 样本最大化回测机制令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1145-bm-a.md",
+    "bytes": 2780,
+    "title": "O-20260924-1145-bm-a · 国内市场规则×策略/机制全面审查令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1155-bm-a.md",
+    "bytes": 2893,
+    "title": "O-20260924-1155-bm-a · 基金/港股套利研究建立令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1235-bm-a.md",
+    "bytes": 3639,
+    "title": "O-20260924-1235-bm-a · 策略系统 V3 提案评审与裁决令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1255-bm-a.md",
+    "bytes": 3719,
+    "title": "O-20260924-1255-bm-a · V3 更新二批（43 风格两域）评审裁决令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1310-bm-a.md",
+    "bytes": 3141,
+    "title": "O-20260924-1310-bm-a · T-14/T-15 交付验收与裁决令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1320-bm-a.md",
+    "bytes": 4089,
+    "title": "O-20260924-1320-bm-a · SYSTEM_LOGIC（V4 说明书）评审裁决令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1325-bm-a.md",
+    "bytes": 2746,
+    "title": "O-20260924-1325-bm-a · REGIME_GUARD v3 enforce 提案与 T-19 治理选项裁决令",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1402-cph4.md",
+    "bytes": 1665,
+    "title": "O-20260924-1402-cph4 — 巡检转办令（BigMoney 即行件）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1532-bm-a.md",
+    "bytes": 2356,
+    "title": "O-20260924-1532-bm-a · 虚拟时间点大规模检验令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1536-bm-a.md",
+    "bytes": 3551,
+    "title": "O-20260924-1536-bm-a · 策略极大丰富+外部调研学习令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1542-bm-a.md",
+    "bytes": 2539,
+    "title": "O-20260924-1542-bm-a · 试用期编制扩大令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1600-bm-a.md",
+    "bytes": 1858,
+    "title": "O-20260924-1600-bm-a · 当前市场适配测试令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1612-bm-a.md",
+    "bytes": 2161,
+    "title": "O-20260924-1612-bm-a · 满载解堵+豁免令（CEO 追问 CPU 未满载 · GM 处置）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1626-bm-a.md",
+    "bytes": 3118,
+    "title": "O-20260924-1626-bm-a · CPU 满载闭环机制令（CEO 直令 · 机制立法）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1655-bm-a.md",
+    "bytes": 1927,
+    "title": "O-20260924-1655-bm-a · 机队算力总动员令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1702-bm-a.md",
+    "bytes": 2934,
+    "title": "O-20260924-1702-bm-a · 策略混合与迭代机制令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1712-bm-a.md",
+    "bytes": 2833,
+    "title": "O-20260924-1712-bm-a · 研发总动员·现阶段市场稳定盈利总目标令（CEO 直令 · 北极星立法）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1718-bm-a.md",
+    "bytes": 2065,
+    "title": "O-20260924-1718-bm-a · 战绩直达面令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1721-bm-a.md",
+    "bytes": 5224,
+    "title": "O-20260924-1721-bm-a · 外源收割常态线+借力律令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1727-bm-a.md",
+    "bytes": 4551,
+    "title": "O-20260924-1727-bm-a · 规则理顺令+零合格质询（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-1730-bm-a.md",
+    "bytes": 3101,
+    "title": "O-20260924-1730-bm-a · CEO 令即时律（CEO 直令 · 机制立法）",
+    "supersession_face": "作废"
+   },
+   {
+    "file": "O-20260924-2012-bm-a.md",
+    "bytes": 4120,
+    "title": "O-20260924-2012-bm-a · 三军种制架构令（CEO 直令：行情分风格作战，禁万金油）",
+    "supersession_face": "作废"
+   },
+   {
+    "file": "O-20260924-2030-bm-a.md",
+    "bytes": 2247,
+    "title": "O-20260924-2030-bm-a · 前置军备+前置信号令（CEO 直令·O-2012 扩法）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-2045-bm-a.md",
+    "bytes": 3449,
+    "title": "O-20260924-2045-bm-a · 百万纸盘·实战时区·战绩直达令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-2100-bm-a.md",
+    "bytes": 3420,
+    "title": "O-20260924-2100-bm-a · 算力调度机制令（CEO 直令：任务分发+并行回测根治）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-2115-bm-a.md",
+    "bytes": 2938,
+    "title": "O-20260924-2115-bm-a · 事后复审机制令（CEO 直令：防自我感动与幻觉）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260924-2130-bm-a.md",
+    "bytes": 1783,
+    "title": "O-20260924-2130-bm-a · 多核满用令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-0855-bm-a.md",
+    "bytes": 2856,
+    "title": "O-20260925-0855-bm-a · 组合策略因子混合模型令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-0857-bm-a.md",
+    "bytes": 3940,
+    "title": "O-20260925-0857-bm-a · 盈利模型总动员令（CEO 直令 · 公司唯一优先级+集团配合面）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1105-bm-a.md",
+    "bytes": 2722,
+    "title": "O-20260925-1105-bm-a · 全面转向稳定盈利模型令（CEO 直令·公司北极星）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1126-bm-a.md",
+    "bytes": 3006,
+    "title": "O-20260925-1126-bm-a · 激进组合试验线令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1132-bm-a.md",
+    "bytes": 3541,
+    "title": "O-20260925-1132-bm-a · 游资野路子全面回测令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1137-bm-a.md",
+    "bytes": 2865,
+    "title": "O-20260925-1137-bm-a · 机队 CPU 满载重申令（CEO 直令·池饿修法）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1138-bm-a.md",
+    "bytes": 2430,
+    "title": "O-20260925-1138-bm-a · 广泛激进组合族令（CEO 直令·实测）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1145-bm-a.md",
+    "bytes": 3087,
+    "title": "O-20260925-1145-bm-a · 资产组合研究部成立令（CEO 直令·独立成行）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1152-bm-a.md",
+    "bytes": 2526,
+    "title": "O-20260925-1152-bm-a · 多维产品矩阵令（CEO 直令·公司级架构）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1153-bm-c.md",
+    "bytes": 3636,
+    "title": "O-20260925-1153-bm-c · 集团巡检整改派单：bm-c 节点执行体瘫痪（P0·PT-20260925-01）+ commit 身份纪律（P2·PT-20260925-05）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1158-bm-a.md",
+    "bytes": 2736,
+    "title": "O-20260925-1158-bm-a · 全品种回溯验证令（CEO 直令·不设限）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-1755-bm-a.md",
+    "bytes": 3505,
+    "title": "O-20260925-1755-bm-a · 多维评价体系 v2 令（CEO 直令 · 三对象统一：交易员/策略/组合）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260925-2313-bm-c.md",
+    "bytes": 3156,
+    "title": "O-20260925-2313 bm-c · CEO 令：bm-a 本地编码能力试点（R-20260925-local-coding P0 落地 · 受令机=bm-a）",
+    "supersession_face": "让路"
+   },
+   {
+    "file": "O-20260926-0926-bm-a.md",
+    "bytes": 3394,
+    "title": "O-20260926-0926-bm-a · 国内流派调研与原生组合模型令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-0932-bm-a.md",
+    "bytes": 2587,
+    "title": "O-20260926-0932-bm-a · 市场时钟组合策略令（CEO 直令·快速回测要结果）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-0940-bm-a.md",
+    "bytes": 2214,
+    "title": "O-20260926-0940-bm-a · 自主运营与战报令（CEO 直令·常态化）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-0947-bm-a.md",
+    "bytes": 2716,
+    "title": "O-20260926-0947-bm-a · 本地算力与 token 科学分治令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-0958-bm-a.md",
+    "bytes": 2043,
+    "title": "O-20260926-0958-bm-a · 交易管理解锁令（CEO 直令·止盈止损/网格等）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-1326-bm-a.md",
+    "bytes": 2215,
+    "title": "O-20260926-1326-bm-a · 年内回放纸盘与模拟盘准入令（CEO 直令）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-1332-bm-a.md",
+    "bytes": 1953,
+    "title": "O-2026-09-26-1332-bm-a · 回测研发满负荷重申令（CEO 直令·全样板门）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-1342-bm-a.md",
+    "bytes": 2506,
+    "title": "O-20260926-1342-bm-a · 适用域判决制令（CEO 直令·无万金油立法）",
+    "supersession_face": null
+   },
+   {
+    "file": "O-20260926-1355-bm-a.md",
+    "bytes": 3108,
+    "title": "O-2026-09-26-1355-bm-a · 全量机制梳理与优化令（CEO 直令·法熵大审视）",
+    "supersession_face": "取代"
+   }
+  ],
+  "n_orders": 83
+ }
+}
