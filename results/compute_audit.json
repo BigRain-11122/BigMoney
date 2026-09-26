@@ -1,62 +1,36 @@
 {
   "latest": {
-    "ts": "2026-09-27 05:24:10",
+    "ts": "2026-09-27 05:32:24",
     "audit_version": "v2.3",
-    "cpu_total_pct": 42.0,
-    "py_cpu_pct": 6.0,
+    "cpu_total_pct": 1.0,
+    "py_cpu_pct": 3.4,
     "cores": 16,
-    "py_procs": 12,
-    "result_stale_min": 0.3,
+    "py_procs": 6,
+    "result_stale_min": 0.4,
     "fleet_open_tasks": 0,
     "pool_ready_count": 0,
     "load_state": "idle-starvation",
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
-      "run_samples": 3,
-      "span_min": 23.616247797012328
+      "run_samples": 4,
+      "span_min": 31.8
     },
     "gpu": {
       "present": true,
       "util_pct": 1.0,
-      "mem_used_mb": 1084.0,
+      "mem_used_mb": 1050.0,
       "compute_apps_count": 21,
       "rogue_apps": []
     },
     "zombies": [],
     "single_core_hog_candidate": false,
     "single_core_hog_detail": null,
-    "flags": [],
-    "verdict": "CLEAN"
+    "flags": [
+      "pool_starvation"
+    ],
+    "verdict": "FLAG:pool_starvation"
   },
   "history": [
-    {
-      "cores": 32,
-      "cpu_total_pct": 34.0,
-      "flags": [],
-      "fleet_open_tasks": 1,
-      "gpu": {
-        "compute_apps_count": 32,
-        "mem_used_mb": 6715.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 7.0
-      },
-      "load_state": "idle-starvation",
-      "pool_ready_count": 0,
-      "pool_starvation_candidate": true,
-      "pool_starvation_detail": {
-        "run_samples": 2,
-        "span_min": null
-      },
-      "py_cpu_pct": 0.4,
-      "py_procs": 7,
-      "result_stale_min": 1.1,
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "ts": "2026-09-25 21:49:13",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "cores": 32,
       "cpu_total_pct": 35.0,
@@ -5762,6 +5736,37 @@
       "single_core_hog_detail": null,
       "flags": [],
       "verdict": "CLEAN"
+    },
+    {
+      "ts": "2026-09-27 05:32:24",
+      "audit_version": "v2.3",
+      "cpu_total_pct": 1.0,
+      "py_cpu_pct": 3.4,
+      "cores": 16,
+      "py_procs": 6,
+      "result_stale_min": 0.4,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 4,
+        "span_min": 31.8
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 1050.0,
+        "compute_apps_count": 21,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [
+        "pool_starvation"
+      ],
+      "verdict": "FLAG:pool_starvation"
     }
   ]
 }
