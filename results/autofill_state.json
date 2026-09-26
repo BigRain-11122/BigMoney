@@ -1,18 +1,6 @@
 {
  "launches": [
   {
-   "entry": "BOND-PANEL-SHARD-0",
-   "fill_latency_min": 2.9,
-   "machine": "bm-b",
-   "pid": 24472,
-   "py_cpu_pct": 0.0,
-   "shard": "bpanel-0of6",
-   "target_met": true,
-   "ts": "2026-09-25 22:40:01",
-   "verdict": "launched",
-   "crash_counted": true
-  },
-  {
    "entry": "BOND-PANEL-SHARD-1",
    "fill_latency_min": 22.9,
    "machine": "bm-b",
@@ -639,12 +627,30 @@
    "fill_latency_min": 5.4,
    "target_met": true,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-27 05:50:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "FUSION-GRID-P1",
+   "shard": "run-0of1",
+   "pid": 20952,
+   "runner_sha256": "3b49bab9bb036efd",
+   "fill_latency_min": 9.9,
+   "target_met": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-27 05:40:01",
+  "ts": "2026-09-27 05:50:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "launched",
+  "entry": "FUSION-GRID-P1",
+  "shard": "run-0of1",
+  "pid": 20952,
+  "runner_sha256": "3b49bab9bb036efd",
+  "fill_latency_min": 9.9,
+  "target_met": true
  }
 }

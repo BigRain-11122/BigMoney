@@ -1,0 +1,30 @@
+{
+ "batch": "FUSION_GRID_P1",
+ "K": 2000,
+ "seed": 20275200,
+ "rng_law": "np.random.default_rng([20275200, k, j]) per null k per redraw j; redraw every 25 rebalance points (j in 0/25/50)",
+ "size_law": "p=7/9 uniform{2..8}; p=1/9 DEDUP count at redraw point; p=2/9 all 32; members without-replacement uniform; weights Dirichlet(1..1) simplex-uniform",
+ "segments": [
+  [
+   252,
+   777
+  ],
+  [
+   777,
+   1302
+  ],
+  [
+   1302,
+   1631
+  ]
+ ],
+ "coverage": {
+  "n_values": 2000,
+  "mu": 0.42086765000000004,
+  "sigma": 0.2754486865424057,
+  "schemas_parsed": [
+   "FUSION_GRID_P1 own K=2000 random-portfolio nulls (rng [seed,k,j], redraw every 25 rebalance points)"
+  ],
+  "known_unparsed": []
+ }
+}

@@ -435,6 +435,7 @@ def cell_descriptive(r, dates, bench_trail):
     years = yearly_returns(r, dates)
     return {
         "n_days": int(len(r)),
+        "sharpe_full": _sharpe(r),
         "ann_ret": _ann(r), "max_dd": _max_dd(r),
         "oos_sharpe": _sharpe(oos), "oos_ann_ret": _ann(oos),
         "oos_dual_positive": bool((_sharpe(oos) or 0) > 0 and (_ann(oos) or 0) > 0),
@@ -993,6 +994,17 @@ def _selftest_constructive():
     check("B7 CORR_CLUSTER_RP sums 1, nonneg, zero outside subset",
           abs(w_cc.sum() - 1) < 1e-12 and w_cc.min() >= 0 and
           all(w_cc[i] == 0 for i in range(4) if i not in subs["ALL32"]))
+
+    # R297 E1 contract leg: every st[...] key subscripted downstream by
+    # _cell_job/summary must exist -- the 05:50 burn crashed all 45 cell jobs
+    # on a missing 'sharpe_full'; prior hermetic legs never subscripted it.
+    n = 300
+    rr = np.random.default_rng(7).normal(0.0005, 0.01, n)
+    dd = pd.date_range("2020-01-01", periods=n, freq="B")
+    stc = cell_descriptive(rr, dd, np.zeros(n))
+    check("B7b cell_descriptive downstream key contract (sharpe_full et al)",
+          {"sharpe_full", "ann_ret", "max_dd", "oos_dual_positive",
+           "yearly_returns"} <= set(stc) and stc["sharpe_full"] is not None)
 
     # warmup + drift math: hand-computed mini-grid (warmup=2)
     R2s = np.array([[1.0, 1.0, 2.0, 2.0, 2.0],
