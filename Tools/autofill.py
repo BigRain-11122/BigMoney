@@ -61,6 +61,10 @@ _GIT_DIR = os.path.join(ROOT, ".git")
 LOW_PY_LINE = 70.0        # O-1136: py CPU < 70% of machine capacity
 SAMPLE_S = 2.0            # instantaneous py-CPU sample window
 STALE_MIN = 20.0          # O-2100 s2.4: shard-owner heartbeat staleness
+KEEPALIVE_MIN = 10.0      # r288 claim-keepalive cadence (well under
+                          # STALE_MIN): refresh owner_since while the
+                          # local runner burns so remote takeover gates
+                          # never see a live owner as stale.
 FILL_TARGET_MIN = 10.0    # O-2100 s2.2 hard target
 FUSE_CONFIRM_MIN = 25.0   # O-0947: crash confirm window -- > one flip
                           # window (r224 landed->flip lag) + margin, so a
@@ -428,6 +432,79 @@ def _claim_shard(sh, myid):
         return False
 
 
+def _keepalive_claims(pool, myid):
+    """r288 claim-keepalive law: a locally-alive runner burning past
+    KEEPALIVE_MIN on a self-owned shard refreshes owner_since so remote
+    takeover gates (min(heartbeat, claim-stamp) freshness vs STALE_MIN)
+    never see a live owner as stale. Live-fire: CN-TREND 30min burn +
+    session push-fallback stranded the fresh heartbeat on the machine
+    branch -> bm-a tick read a stale heartbeat face, takeover gate
+    opened at STALE_MIN, duplicate launch = double burn. Rival-owned
+    shards are never touched (a completed takeover stays lost -- do not
+    fight it). Returns refreshed shard keys."""
+    prev = None
+    committed = False
+    keys = []
+    try:
+        with open(POOL, encoding="utf-8") as fh:
+            prev = fh.read()
+        for e in pool.get("entries", []):
+            if not _runner_alive(e.get("runner", "")):
+                continue
+            for sh in e.get("shards", []):
+                if sh.get("status") == "done" or sh.get("owner") != myid:
+                    continue
+                age = _since_age_min(sh)
+                if age is not None and age < KEEPALIVE_MIN:
+                    continue
+                sh["owner_since"] = _now()
+                keys.append(sh.get("key"))
+        if not keys:
+            return []
+        tmp = POOL + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(pool, fh, ensure_ascii=False, indent=1)
+        os.replace(tmp, POOL)
+        for args in (("add", POOL),
+                     ("commit", "-m",
+                      f"autofill tick keepalive "
+                      f"{' '.join(str(k) for k in keys)} owner={myid} "
+                      f"(r288 claim-refresh) [via {myid}]"),
+                     ("push",)):
+            rc, err = _git(args)
+            if rc == 0:
+                continue
+            if args[0] != "push":
+                raise RuntimeError(err)
+            committed = True     # refreshed face landed locally already
+            rc2, err2 = _git(("pull", "--rebase"))
+            if rc2 == 0:
+                rc3, err3 = _git(("push",))
+                if rc3 == 0:
+                    _log(f"keepalive OK: {keys} owner={myid} "
+                         f"pushed (rebase-retry r282)")
+                    return keys
+                err = err3
+            else:
+                _git(("rebase", "--abort"))
+                _log(f"keepalive rebase-retry refused/failed "
+                     f"({err2.strip()[-100:]}) -> local commit kept for "
+                     f"session S0 reconciliation")
+            raise RuntimeError(err)
+        _log(f"keepalive OK: {keys} owner={myid} pushed")
+        return keys
+    except Exception as ex:
+        if not committed and prev is not None:
+            try:
+                with open(POOL, "w", encoding="utf-8") as fh:
+                    fh.write(prev)       # restore pre-refresh bytes
+            except Exception:
+                pass
+        _log(f"keepalive fault ({ex}) -> refreshed={bool(committed)} "
+             f"keys={keys}")
+        return keys if committed else []
+
+
 def tick(dry=False):
     for probe in ("rebase-merge", "rebase-apply", "MERGE_HEAD"):
         if os.path.exists(os.path.join(_GIT_DIR, probe)):
@@ -474,6 +551,13 @@ def tick(dry=False):
         return 2
     if _confirm_crashes(state, pool, rec["machine"], fuse):
         _save_fuse(fuse)
+    if not dry:
+        # r288 claim-keepalive: refresh owner_since on self-owned shards
+        # whose runner burns locally (proof-of-life vs remote STALE_MIN
+        # takeover; live-fire: CN-TREND double-burn this round).
+        ka = _keepalive_claims(pool, rec["machine"])
+        if ka:
+            rec["keepalive"] = ka
     # O-0947 crash-loop token fuse: same runner+args+code-hash that has
     # a confirmed crash -> REFUSE relaunch (fix-first; each crash-retry
     # cycle burns loop-session API tokens, r175/r198 families). A code
@@ -887,6 +971,60 @@ def selftest():
         fail_next["q"] = []
         ok("S15h push retry lost -> yield, claim kept",
            r15h is False and p15h.get("owner") == "bm-b")
+        # S17 r288 claim-keepalive: a locally-alive runner on a
+        # self-owned shard with an aging claim-stamp refreshes
+        # owner_since (commit+push) so remote takeover gates never see
+        # a live owner as stale (live-fire: CN-TREND 30min burn +
+        # fallback-stranded heartbeat -> bm-a takeover + double launch).
+        _ka_runner = _runner_alive
+        _runner_alive = lambda r: True
+        # S17a alive runner + stale own claim -> refreshed, git 3-step
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        git_seq.clear()
+        ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                               "bm-b")
+        p17 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S17a alive runner + stale own claim -> keepalive refresh",
+           ka == ["s0"]
+           and p17.get("owner_since") != "2026-09-24 18:00:00"
+           and git_seq == ["add", "commit", "push"])
+        # S17b fresh stamp -> no refresh, no git (cadence guard)
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": _now()})
+        git_seq.clear()
+        ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                               "bm-b")
+        ok("S17b fresh stamp -> no-op (cadence guard)",
+           ka == [] and git_seq == [])
+        # S17c rival-owned shard OR dead runner -> never touched
+        # (a completed takeover stays lost -- do not fight it)
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-z",
+                    "owner_since": "2026-09-24 18:00:00"})
+        ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                               "bm-b")
+        _runner_alive = lambda r: False
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        ka2 = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                                "bm-b")
+        p17c = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S17c rival-owned / dead runner -> no touch (no fight)",
+           ka == [] and ka2 == []
+           and p17c.get("owner_since") == "2026-09-24 18:00:00")
+        # S17d push fault post-commit -> refreshed bytes kept on disk
+        _runner_alive = lambda r: True
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        fail_at["stage"] = "push"
+        ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                               "bm-b")
+        p17d = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        fail_at["stage"] = None
+        ok("S17d push lost post-commit -> refresh kept, keys reported",
+           ka == ["s0"]
+           and p17d.get("owner_since") != "2026-09-24 18:00:00")
+        _runner_alive = _ka_runner
         # S16 O-0947 crash-loop fuse: confirm pass -- own dead launch with
         # shard still un-landed past the confirm window counts ONCE into
         # the shared registry with its launch-time code hash; landed /
