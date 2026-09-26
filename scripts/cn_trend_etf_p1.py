@@ -104,6 +104,15 @@ cells_summary.csv. N_eff = 2007 (7 judged x1-face cells are disclosure
 columns, not on the D1 bill; family CN-DIV-LOWVOL-ROT precedent).
 
 Usage: run | selftest   (exit 0 ok; 2 = fail-closed gate/mechanism refusal)
+
+r286 AMENDMENT (bm-b, zero-judged window r253 law): real-data x2 launch
+01:10:01 crashed at the per-cell checkpoint dump -- transitions_head
+records carry 'leg': np.int64 (flatnonzero legs; collect=True on the
+judged face only, so x1 + synthetic selftest fixtures pass native ints
+and 21/21 green masked it, r259 selftest-contract family). Fix =
+_jsonable native-type coercion (p4_batch2_screen idiom) at all three
+payload dump sites (_attr_row / finalize OUT_JSON / per-cell checkpoint)
++ selftest leg [13].
 """
 import argparse
 import glob
@@ -897,6 +906,20 @@ def d6_face(P, series_by_cell):
 # ---------------------------------------------------------------- finalize
 
 
+def _jsonable(x):
+    if isinstance(x, dict):
+        return {k: _jsonable(v) for k, v in x.items()}
+    if isinstance(x, (list, tuple)):
+        return [_jsonable(v) for v in x]
+    if isinstance(x, np.bool_):
+        return bool(x)
+    if isinstance(x, (np.floating, np.integer)):
+        return x.item()
+    if isinstance(x, np.ndarray):
+        return [_jsonable(v) for v in x.tolist()]
+    return x
+
+
 def _attr_row(batch, delta, total, gates):
     d = json.load(open(ATT_JSON, encoding="utf-8"))
     d["entries"].append({"batch": batch,
@@ -904,7 +927,7 @@ def _attr_row(batch, delta, total, gates):
                          "kind": "measurement", "cells_ledger_delta": delta,
                          "ledger_total_after": total, "gates": gates})
     with open(ATT_JSON + ".tmp", "w", encoding="utf-8") as fh:
-        json.dump(d, fh, ensure_ascii=False, indent=1)
+        json.dump(_jsonable(d), fh, ensure_ascii=False, indent=1)
     os.replace(ATT_JSON + ".tmp", ATT_JSON)
 
 
@@ -1031,7 +1054,7 @@ def finalize(P, panel_face, cells_out, nulls, d6, vstarts, robust, t0):
     }
     os.makedirs(OUT_DIR, exist_ok=True)
     with open(OUT_JSON + ".tmp", "w", encoding="utf-8") as fh:
-        json.dump(result, fh, ensure_ascii=False, indent=1)
+        json.dump(_jsonable(result), fh, ensure_ascii=False, indent=1)
     os.replace(OUT_JSON + ".tmp", OUT_JSON)
     rows = []
     for n in cells_out:
@@ -1084,7 +1107,8 @@ def cmd_run():
                 np.save(ck.replace(".json", ".npy"), rec["returns"])
                 dump = {k: v for k, v in blob.items() if k != "series"}
                 with open(ck + ".tmp", "w", encoding="utf-8") as fh:
-                    json.dump(dump, fh, ensure_ascii=False, indent=1)
+                    json.dump(_jsonable(dump), fh, ensure_ascii=False,
+                              indent=1)
                 os.replace(ck + ".tmp", ck)
                 print(f"cell {name}/{face}: sharpe="
                       f"{blob['stats']['sharpe_full']} trades="
@@ -1395,6 +1419,23 @@ def cmd_selftest():
         check("[12b] attrition row in entries (r248)",
               len(att["entries"]) == 1
               and att["entries"][0]["batch"] == BATCH_NAME)
+
+        # [13] r286: dump payloads must be numpy-native-coerced (real-
+        #      data x2 crash face: transitions_head 'leg' np.int64)
+        tr = {"day": "2026-09-22", "leg": np.int64(7), "side": "buy",
+              "shares": int(300), "notional": np.float64(123.4),
+              "cost": np.float64(1.2)}
+        probe_dump = _jsonable(
+            {"stats": {"sharpe": np.float32(0.5)},
+             "transitions_head": [tr],
+             "flags": np.bool_(True),
+             "vec": np.array([1, 2])})
+        check("[13] _jsonable native coercion on dump payloads (r286)",
+              isinstance(probe_dump["transitions_head"][0]["leg"], int)
+              and isinstance(probe_dump["stats"]["sharpe"], float)
+              and probe_dump["flags"] is True
+              and probe_dump["vec"] == [1, 2]
+              and json.dumps(probe_dump) is not None)
     finally:
         SG.n_eff, SG.passive_baseline, SG.append_ledger = _ne, _pb, _al
         cscv_pbo = _cp
