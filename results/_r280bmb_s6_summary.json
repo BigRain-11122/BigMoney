@@ -1,0 +1,130 @@
+{
+ "round": 280,
+ "machine": "bm-b",
+ "ts_start": "2026-09-26 23:49:35",
+ "legs": {
+  "compute_audit": {
+   "rc": 0,
+   "sec": 7.8,
+   "tail": "{\"ts\": \"2026-09-26 23:49:43\", \"audit_version\": \"v2.3\", \"cpu_total_pct\": 14.0, \"py_cpu_pct\": 6.9, \"cores\": 16, \"py_procs\": 12, \"result_stale_min\": 0.5, \"fleet_open_tasks\": 0, \"pool_ready_count\": 1, \"lo"
+  },
+  "py_watermark": {
+   "rc": 0,
+   "sec": 6.2,
+   "tail": "{\"ts\": \"2026-09-26 23:49:49\", \"epoch\": 1790437784.0, \"machine\": \"bm-b\", \"cpu_total_pct\": 11.0, \"cores\": 16, \"py_cpu_pct\": 4.3, \"py_procs\": 12, \"top_proc_cores\": 0.53, \"local_batch_running\": true, \"ope"
+  },
+  "update_daily": {
+   "rc": 0,
+   "sec": 2.5,
+   "tail": "status -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\update_status.json"
+  },
+  "market_regime": {
+   "rc": 0,
+   "sec": 1.0,
+   "tail": "  trigger: breadth 0.77>=65%"
+  },
+  "strategy_scorecard": {
+   "rc": 0,
+   "sec": 13.9,
+   "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\strategy_scorecard.json (13.7s)"
+  },
+  "market_clock_call": {
+   "rc": 0,
+   "sec": 5.7,
+   "tail": "call written: C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\market_clock\\CALL-2026-09-24.md cell=ORANGE_COOL sleeves=4 activated=0"
+  },
+  "update_lhb": {
+   "rc": 0,
+   "sec": 10.1,
+   "tail": "100%|��������������������| 11/11 [00:08<00:00,  1.35it/s]"
+  },
+  "update_heat": {
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "no-op: weekend (no trading-day snapshot)"
+  },
+  "update_futures": {
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: local cutoff 2026-09-24 covers expected complete-bar date 2026-09-24 -> zero network"
+  },
+  "update_options": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: options lane owned by bm-a, not this machine (bm-b)"
+  },
+  "update_moneyflow": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: moneyflow lane owned by bm-a, not this machine (bm-b)"
+  },
+  "update_sina_mf": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: sina_mf lane owned by bm-a, not this machine (bm-b)"
+  },
+  "update_astock_daily": {
+   "rc": 0,
+   "sec": 1.2,
+   "tail": "throttle: last spawn 2026-09-26T23:47:43 (2.7min ago) < 30min -> no-op"
+  },
+  "update_ths_panel": {
+   "rc": 0,
+   "sec": 0.3,
+   "tail": "no-op: ths panel lane owned by bm-a, not this machine (bm-b)"
+  },
+  "ah_panel_puller": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: ah panel lane owned by bm-a, not this machine (bm-b)"
+  },
+  "update_fund_premium": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: fund_premium lane owned by bm-c, not this machine (bm-b)"
+  },
+  "update_fundamental": {
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "snapshot fresh (1.5h < 24h) -> skip"
+  },
+  "b_layer_filter": {
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "verdict -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\fundamental_b_layer_filter.json"
+  },
+  "daily_scorecard": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "scorecard written: C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6"
+  },
+  "daily_report": {
+   "rc": 0,
+   "sec": 0.3,
+   "tail": "daily report written: REPORT-2026-09-26.md/.json faces=4 token=1"
+  },
+  "monitor_build_status": {
+   "rc": 0,
+   "sec": 2.8,
+   "tail": "  factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
+  },
+  "token_meter": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "L2 local-LLM legs: 1 today / 1 total (~6135 tokens today, by_cmd={'retro': 1}); crash-fuse refusals=0 across 0 sigs"
+  }
+ },
+ "paper_family": {
+  "live.paper(REGIME_GUARD)": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)",
+  "t35_open_fill_verify": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)",
+  "t24_prospect_paper": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)",
+  "t24_prospect_promotion": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)",
+  "aggressive_lab paper": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)",
+  "alloc_paper": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)",
+  "grid_paper": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)",
+  "t35_paper_export": "skip: no new bar (Saturday, panel cutoff 2026-09-24 unchanged)"
+ },
+ "monthly_trio": "skip: not month-first round (next=2026-10-01)",
+ "quarterly_governance": "skip: Q4-2026 slot discharged 2026-09-26 per T-83 instance ledger",
+ "ts_end": "2026-09-26 23:50:30"
+}
