@@ -781,6 +781,15 @@ SEED_REGISTRY = {
     # 20261092) -- ZERO RNG-usage hits in any script (t34/wild_route
     # non-RNG precedent); lane = T-2026-09-26-73 s3 slice-5 (final CN-native
     # model), prereg research/CN_CORE_SATELLITE_PREREG.md s3.4
+    "cn_core_ddctl_p1": 20261130,           # CN-CORE-DDCTL-P1 K=100 nulls
+    # (2 arms x 50: DD10 arm = 20261130+k k<50, DD20 arm = 20261180+k k<50;
+    # band 20261130..20261229 sits exactly above cn_core_sat_p1 band top
+    # 20261129 = collision-free by construction; registered at prereg freeze
+    # BEFORE any runner burn, one-step R250 law; rg full-repo scan 2026-09-26
+    # 18:1x: hits in band = data-face digit coincidence only (stock_mood csv
+    # row 2010-11-12) -- ZERO RNG-usage hits in any script; lane =
+    # T-2026-09-26-73 s3 slice-6 (doctrine residual prereg), prereg
+    # research/CN_CORE_DDCTL_PREREG.md s3.4
 }
 
 

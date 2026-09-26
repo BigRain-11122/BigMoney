@@ -1,0 +1,97 @@
+{
+ "probe": "CN-CORE-DDCTL-P1 s2 pre-freeze (R263 bm-a)",
+ "family_faces_reasserted": {
+  "T": 3333,
+  "T_ok": true,
+  "first": "2013-01-04",
+  "cutoff": "2026-09-22",
+  "cutoff_ok": true,
+  "events": [
+   "510500@2015-04-15",
+   "510500@2022-08-29",
+   "512100@2022-09-05"
+  ],
+  "events_ok": true,
+  "core_zero_events": true,
+  "first_active": "2013-07-17",
+  "first_active_ok": true
+ },
+ "dd_axis": {
+  "window": 252,
+  "face": "core clean_value full-history trailing-252 max",
+  "hysteresis": "on: dd_r < -x/100; off: dd_r > -x/200",
+  "eval": "family quarterly grid (anchor 62 step 63) from first_active onward, state carried across periods",
+  "min_dd_at_active_rebals": -0.448243,
+  "min_dd_date": "2016-02-18",
+  "median_dd_at_active_rebals": -0.087584,
+  "core_clean_vs_raw_max_abs_diff": 1.3766765505351941e-14
+ },
+ "arms": {
+  "DD10": {
+   "x_pct": 10,
+   "on_transitions": 6,
+   "off_transitions": 5,
+   "gated_rebal_count": 34,
+   "active_rebal_count": 51,
+   "occupancy_frac": 0.6667,
+   "first_on_date": "2013-07-17",
+   "episodes": [
+    {
+     "from": "2013-07-17",
+     "to_exclusive": "2014-11-03"
+    },
+    {
+     "from": "2015-02-02",
+     "to_exclusive": "2015-05-11"
+    },
+    {
+     "from": "2015-08-07",
+     "to_exclusive": "2017-03-01"
+    },
+    {
+     "from": "2018-06-13",
+     "to_exclusive": "2021-07-22"
+    },
+    {
+     "from": "2021-10-28",
+     "to_exclusive": "2024-02-29"
+    },
+    {
+     "from": "2026-07-03"
+    }
+   ],
+   "dd_at_first_active": -0.190939
+  },
+  "DD20": {
+   "x_pct": 20,
+   "on_transitions": 4,
+   "off_transitions": 4,
+   "gated_rebal_count": 10,
+   "active_rebal_count": 51,
+   "occupancy_frac": 0.1961,
+   "first_on_date": "2014-01-21",
+   "episodes": [
+    {
+     "from": "2014-01-21",
+     "to_exclusive": "2014-07-29"
+    },
+    {
+     "from": "2015-08-07",
+     "to_exclusive": "2016-11-24"
+    },
+    {
+     "from": "2018-09-11",
+     "to_exclusive": "2019-03-25"
+    },
+    {
+     "from": "2020-04-07",
+     "to_exclusive": "2020-07-10"
+    }
+   ],
+   "dd_at_first_active": -0.190939
+  }
+ },
+ "candidate_seed_base": 20261130,
+ "seed_span": "20261130 + k, k<100 (50 per threshold arm; registry max = 20261080+50 = 20261130 -> collision-free)",
+ "all_ok": true
+}
