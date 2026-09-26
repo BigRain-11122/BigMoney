@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-09-26T18:50:08",
+ "generated": "2026-09-26T19:02:25",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -129,7 +129,7 @@
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
        "null_margin_vs_skill_line": -0.3525,
-       "ledger_head_total": 187741
+       "ledger_head_total": 187845
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -253,7 +253,7 @@
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
        "null_margin_vs_skill_line": -0.554,
-       "ledger_head_total": 187741
+       "ledger_head_total": 187845
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -377,7 +377,7 @@
        "declared_clean": true,
        "batch_script": "g2_folk.py",
        "null_margin_vs_skill_line": -0.4399,
-       "ledger_head_total": 187741
+       "ledger_head_total": 187845
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -501,7 +501,7 @@
        "declared_clean": true,
        "batch_script": "g2_folk.py",
        "null_margin_vs_skill_line": -0.6247,
-       "ledger_head_total": 187741
+       "ledger_head_total": 187845
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -626,7 +626,7 @@
        "declared_clean": true,
        "batch_script": "g2_folk.py",
        "null_margin_vs_skill_line": -0.5015,
-       "ledger_head_total": 187741
+       "ledger_head_total": 187845
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -750,7 +750,7 @@
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
        "null_margin_vs_skill_line": 0.0939,
-       "ledger_head_total": 187741
+       "ledger_head_total": 187845
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -3414,9 +3414,9 @@
   "ticket": "T-2026-09-26-81",
   "order": "O-20260926-1342",
   "prereg": "research/PROFILE_CARDS_P1.md",
-  "prereg_sha256_16": "67c48f8aab9708a0",
+  "prereg_sha256_16": "1d72d4b67ea07e34",
   "sample_science_prereg": "research/SAMPLE_SCIENCE_P1.md",
-  "sample_science_prereg_sha256_16": "0e8d03bb622ad908",
+  "sample_science_prereg_sha256_16": "d7ec6432cf40917d",
   "evidence_cutoff": "2026-09-24",
   "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
   "state_carrier": "AGGR-CONC-TOP2",
@@ -7326,7 +7326,7 @@
   "ticket": "T-2026-09-26-81",
   "order": "O-20260926-1342",
   "prereg": "research/LANDING_HOOKS_P1.md",
-  "prereg_sha256_16": "150ce7a7c54cbc19",
+  "prereg_sha256_16": "a68933c6f2d1c0e2",
   "evidence_cutoff": "2026-09-24",
   "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
   "philosophy": "landing = promotion-grade positive judgment per each family's own frozen prereg (verbatim consumption, zero new criteria); observation marks lane is NOT landing; landing != activation",
@@ -7334,6 +7334,11 @@
    "CN (T-73 s3 five-model chain)": {
     "judgment_face": "results/cn_*/p1_results.json (g1_prime_v2 pass bits) + grid face for CN-GRID-SLEEVE",
     "models": {
+     "CN-CORE-DDCTL": {
+      "state": "ok",
+      "n_cells": 4,
+      "n_pass": 0
+     },
      "CN-CORE-SATELLITE": {
       "state": "ok",
       "n_cells": 4,
@@ -8289,7 +8294,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 12.2,
+  "elapsed_sec": 8.7,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
