@@ -95,13 +95,12 @@ def free_ram_gb() -> float:
 COST_BASIS_MISSING = "absent"        # cost_v2 block absent -> unit gate fail
 
 
-def _cap_worker(args):
+def _cap_worker(tid, scale_cny, trader_dir, prices):
     """One (tid, scale) measurement unit. Trader spec served from the pinned
     caliber snapshot dir (A1 law); machinery mirrors t28._sleeve_worker
     verbatim plus the capacity kwargs (initial_cash, cost_v2) and the
     metrics-only report_num_entries flag (additive engine iron rule; the
     tier counters sum == num_entries identity is asserted in selftest)."""
-    tid, scale_cny, trader_dir, prices = args
     try:
         import psutil
         psutil.Process().nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
@@ -249,14 +248,16 @@ def cmd_run() -> int:
     if missing:
         raise SystemExit(f"UNIT GATE FAIL: {len(missing)} units missing "
                          f"(e.g. {missing[:3]}) -- fail-closed, no product")
-    log(f"units: {len(res)}/{len(jobs)} returned ({time.time()-t0:.0f}s)")
 
     urows = {}
     for k, r in res.items():
+        if k == "__workers__":
+            continue
         urows[k] = r
         if r["cost_basis"] == COST_BASIS_MISSING:
             raise SystemExit(f"UNIT GATE FAIL: {k} cost_v2 block absent "
                              "-- engine D5 face not engaged, abort")
+    log(f"units: {len(urows)}/{len(jobs)} returned ({time.time()-t0:.0f}s)")
 
     variants_out = {}
     for name in sorted(vmap):
@@ -329,8 +330,8 @@ def cmd_run() -> int:
                   "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
                   "sleeve_cutoff": str(SLEEVE_CUTOFF.date()),
                   "panel_file_cutoff": str(cutoff.date()),
-                  "workers": min(worker_cap(), 25),
-                  "n_units": len(res),
+                  "workers": int(res.get("__workers__", min(worker_cap(), 25))),
+                  "n_units": len(urows),
                   "ram_free_gb": round(free_ram_gb(), 1),
                   "adv_min_periods": ADV_MIN_PERIODS,
                   "refinalize": bool(os.environ.get("AGGR_CAP_REFINALIZE"))},
@@ -410,7 +411,7 @@ def cmd_selftest() -> int:
             """known-refusal matrix: every D5 face exercised at least once
             + the engine-contract identity sum(tiers) == num_entries
             (structural invariants, not magic numbers -- r242 gate law)."""
-            r = _cap_worker(("FX", 1e6, tdir, prices))
+            r = _cap_worker("FX", 1e6, tdir, prices)
             assert r["capped_entries"] >= 1, f"capped: {r}"
             assert r["dropped_zero_adv"] >= 1, f"zero-adv drop: {r}"
             assert r["missing_adv_executions"] >= 1, f"missing adv: {r}"
@@ -431,14 +432,14 @@ def cmd_selftest() -> int:
                 json.dump({"id": "FZ", "params": {
                     "entry": "low_vol_long(n=60, top_k=5, daily)",
                     "max_positions": 1, "position_size_pct": 1.0}}, fh)
-            r = _cap_worker(("FZ", 1e6, tdir, pz))
+            r = _cap_worker("FZ", 1e6, tdir, pz)
             assert r["dropped_zero_adv"] >= 1 and r["num_entries"] == 0, r
             assert abs(r["final_eq"] - 1e6) < 1e-9, r["final_eq"]
 
         def f3():
             """determinism: same unit twice -> identical payload."""
-            a = _cap_worker(("FX", 1e6, tdir, prices))
-            b = _cap_worker(("FX", 1e6, tdir, prices))
+            a = _cap_worker("FX", 1e6, tdir, prices)
+            b = _cap_worker("FX", 1e6, tdir, prices)
             assert json.dumps(a, sort_keys=True) == json.dumps(b,
                                                                sort_keys=True)
 
@@ -446,8 +447,8 @@ def cmd_selftest() -> int:
             """scale boundary: demand 100 (scale 1000, pct .10) vs cap 100
             -> uncapped; scale 1e6 -> capped (demand 1e5 >> 100)."""
             pt = {"THIN": prices["THIN"]}
-            r_small = _cap_worker(("FX", 1000.0, tdir, pt))
-            r_big = _cap_worker(("FX", 1e6, tdir, pt))
+            r_small = _cap_worker("FX", 1000.0, tdir, pt)
+            r_big = _cap_worker("FX", 1e6, tdir, pt)
             assert r_small["capped_entries"] == 0, r_small
             assert r_big["capped_entries"] >= 1, r_big
 
@@ -471,8 +472,8 @@ def cmd_selftest() -> int:
             prices_full = load_core()
             pc = {s: df[df.index <= SLEEVE_CUTOFF]
                   for s, df in prices_full.items()}
-            r = _cap_worker(("COMPOSITE-CE-01", 0.5 * SCALE_CNY,
-                             T56_CALIBER_DIR, pc))
+            r = _cap_worker("COMPOSITE-CE-01", 0.5 * SCALE_CNY,
+                             T56_CALIBER_DIR, pc)
             assert r["cost_basis"] == "v2-adv20-tiered", r
             assert r["num_entries"] > 0, r
             assert r["scale_cny"] == 0.5 * SCALE_CNY, r

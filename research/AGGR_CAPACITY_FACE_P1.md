@@ -59,10 +59,20 @@
 - 账本：+0；`results/gate_attrition.json` entries 追加一行（kind=capacity-disclosure, cells_ledger_delta=0）。
 - 本件 §7/§8 回填 + 票 progress_r259 + 轮报告回执。
 
-## §7 跑后实证【跑前为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑后回填·一次定稿】
 
-（待烧机轮回填）
+- **完成门**：267/267 测量单元返回（37.6s·12 workers·RAM 空闲 11.6GB·bm-b）；电池冻结件消费 census 291 对/267 单元全对；caliber manifest 29 件 sha 全对；V2 basis 全单元 `v2-adv20-tiered` 在位。
+- **标签分布**：**9 unconstrained / 11 constrained**（20 变体）。
+- **constrained 家族读数**（capped_entries/entries 率）：CONC-TOP2 24/881=2.72%、TOP2-60 24/881=2.72%、TOP2-80 22/879=2.50%、TOP2-C95 19/881=2.16%、TOP2-C80 17/881=1.93%、TOP3-GRAD 20/1508=1.33%、TOP3 18/1509=1.19%、GREEN-TOP2 6/12270=0.05%、OFFENSE-FULL 2/4309、FULLCE 2/1803、TOP2-MON 3/11940=0.03%。受限单元全部集中在高权 CE sleeve：COMPOSITE-CE-01（scale ¥166K-500K→需求 ¥31.7K-95K）与 VOLATILITY-CE-01（scale ¥400K-800K→需求 ¥40K-80K）。
+- **unconstrained 家族**：OFFENSE/MOM/GREEN-MAX/REGIME/REG3/BARBELL/NOCASH/TOP2-WK/FULLCE-C80（宽基权面最大单笔需求 ≈¥26K < 全窗帽下沿）。
+- **dropped_zero_adv=0（20/20 变体）**；**missing_adv_executions=0（20/20）**——core48 成员共享交易日历、联合索引无缺口，缺失面零触发。
+- **受限位置结构推断**（推断面如实标注，计数器无日期粒度）：全表唯一 cap1pct_median 低于 CE sleeve 最大需求（¥95K）的成员-年=**513520（日经ETF）2020/2021/2022：帽 ¥64.1K/¥61.0K/¥37.4K**（p25 帽 2022 低至 ¥32.1K）——受限入场大概率全部落在 513520 早窗；2023 起 513520 帽 ¥318K+、其余成员帽 ¥2.5M+，结构性不约束。
+- 产物：`results/aggr_capacity_face/p1_results.json`（evidence_cutoff=2026-09-24 顶层在位·prereg sha 嵌入·267 单元明细·分年 ADV 分布表）；gate_attrition entries 追加行（cells_ledger_delta=0·ledger_total_after=186592 不变）；账本 +0 如冻。
 
 ## §8 批后复盘【s7-T】
 
-（待烧机轮回填）
+- **§5 预测对账**：#1 ✓（集中变体 constrained 概率中高→实证 11 受限全为集中族）；#2 ✓（宽基 9 员全 unconstrained）；#3 ✓（2023+ 无结构约束面）；#4 **部分错**：dropped_zero_adv=0 ✓ 但 missing_adv_executions 预测>0 实际=0——预测假设了成员上市前/停牌联合索引缺口，实勘 core48 全员共享日历无缺口，预测错在面板形态假设非机制假设；#5 ✓ 无量能枯竭+高需求极端形态（V2 权益面正常）。
+- **判线 v2 当批读数**：N/A（零判读格——披露腿，电池批 400 格判读不动）。
+- **门禁链损耗账**：gate_attrition entries 行已落（kind=capacity-disclosure）；完成门 fail-closed 全过零损耗。
+- **消费面声明**：20 变体容量标签已测；六面正典容量面=本批产物 `six_face_capacity` 块为权威后继面（电池产物字节冻结未触碰）；canon B_MAXDIV 全池深轴成员容量=bm-a 单独面未开（车道律）。constrained 标签对电池候选资格的影响=GM/月界锦标赛裁定面（双轨律，本批零采纳零接线）。
+- 回执：轮报告 r259 + 票 T-80 progress_r259 + attrition 行在案。
