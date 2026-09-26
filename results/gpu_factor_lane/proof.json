@@ -1,0 +1,133 @@
+{
+  "lane": "GPU factor matrix (PLAN s1.3 GPU-delegated class)",
+  "order": "O-20260926-0947 s3 / T-77 slice-4 first batch",
+  "engineering_lane": true,
+  "no_gates_no_ledger_no_registration": true,
+  "device": "NVIDIA GeForce RTX 4070 SUPER",
+  "torch": "2.11.0+cu128",
+  "faces": [
+    "zoo85_terrified",
+    "zoo85_stv",
+    "zoo92_coin_team",
+    "zoo93_arc",
+    "zoo93_vrc",
+    "zoo93_src",
+    "zoo93_krc"
+  ],
+  "horizons": [
+    5,
+    10,
+    20
+  ],
+  "panel_shape": {
+    "T": 8792,
+    "N": 5222
+  },
+  "zoo93_nonfinite_arc_cells": 32617132,
+  "equiv_tol": 1e-06,
+  "equiv": {
+    "zoo85_terrified/h5": {
+      "max_abs_diff": 0.0,
+      "n_days": 8764
+    },
+    "zoo85_stv/h5": {
+      "max_abs_diff": 0.0,
+      "n_days": 8424
+    },
+    "zoo92_coin_team/h5": {
+      "max_abs_diff": 0.0,
+      "n_days": 8764
+    },
+    "zoo93_arc/h5": {
+      "max_abs_diff": 0.0,
+      "n_days": 8262
+    },
+    "zoo93_vrc/h5": {
+      "max_abs_diff": 0.0,
+      "n_days": 8263
+    },
+    "zoo93_src/h5": {
+      "max_abs_diff": 0.0,
+      "n_days": 8263
+    },
+    "zoo93_krc/h5": {
+      "max_abs_diff": 0.0,
+      "n_days": 8263
+    },
+    "zoo85_terrified/h10": {
+      "max_abs_diff": 0.0,
+      "n_days": 8759
+    },
+    "zoo85_stv/h10": {
+      "max_abs_diff": 0.0,
+      "n_days": 8420
+    },
+    "zoo92_coin_team/h10": {
+      "max_abs_diff": 0.0,
+      "n_days": 8759
+    },
+    "zoo93_arc/h10": {
+      "max_abs_diff": 0.0,
+      "n_days": 8258
+    },
+    "zoo93_vrc/h10": {
+      "max_abs_diff": 0.0,
+      "n_days": 8260
+    },
+    "zoo93_src/h10": {
+      "max_abs_diff": 0.0,
+      "n_days": 8260
+    },
+    "zoo93_krc/h10": {
+      "max_abs_diff": 0.0,
+      "n_days": 8260
+    },
+    "zoo85_terrified/h20": {
+      "max_abs_diff": 0.0,
+      "n_days": 8749
+    },
+    "zoo85_stv/h20": {
+      "max_abs_diff": 0.0,
+      "n_days": 8410
+    },
+    "zoo92_coin_team/h20": {
+      "max_abs_diff": 0.0,
+      "n_days": 8749
+    },
+    "zoo93_arc/h20": {
+      "max_abs_diff": 0.0,
+      "n_days": 8248
+    },
+    "zoo93_vrc/h20": {
+      "max_abs_diff": 0.0,
+      "n_days": 8250
+    },
+    "zoo93_src/h20": {
+      "max_abs_diff": 0.0,
+      "n_days": 8250
+    },
+    "zoo93_krc/h20": {
+      "max_abs_diff": 0.0,
+      "n_days": 8250
+    }
+  },
+  "timing": {
+    "h5": {
+      "gpu_batch_s": 40.456,
+      "cpu_reference_s": 46.128,
+      "zscore_spot_worst": 1.7763568394002505e-15
+    },
+    "h10": {
+      "gpu_batch_s": 36.155,
+      "cpu_reference_s": 45.375,
+      "zscore_spot_worst": 1.7763568394002505e-15
+    },
+    "h20": {
+      "gpu_batch_s": 34.488,
+      "cpu_reference_s": 45.84,
+      "zscore_spot_worst": 1.7763568394002505e-15
+    }
+  },
+  "elapsed_s": 284.2,
+  "note": "infrastructure proof only: batched masked z-score + average-tie rank-IC on GPU vs established CPU fast-IC; downstream science consumption requires its own prereg; >100-face production census batches ride this lane"
+}

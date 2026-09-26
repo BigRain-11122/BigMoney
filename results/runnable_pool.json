@@ -1415,17 +1415,18 @@
    ],
    "lane_owner": "bm-a",
    "priority": 5,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 09:52:00",
    "data_gates": "in-runner fail-closed: torch+CUDA absence -> exit 2 (bm-b verified torch-absent 2026-09-26 09:45, honest physical-dep); per-face equivalence vs shortline_p1_ic._ic_series_fast <=1e-6 with exact NaN-day pattern match + z-score spot <=1e-6, any fail = exit 2 zero artifacts; P1E census cache prerequisite (p1c CACHE_DIR meta/dates/field panels + turnover_derived sidecar, r188 machine-local lane-pin face) -- bm-a MUST build cache + pass selftest (torch leg PASS there) BEFORE flipping ready",
    "shards": [
     {
      "key": "gpu-proof-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "checkpoint": "results/gpu_factor_lane/proof.json (exists + equiv all pass = landed marker); harvest round flips entry+shard done",
      "note": "first batch = 7 frozen P1E faces x 3 horizons = 21 equivalence faces + batched masked z-score product; single-proc orchestrator, GPU-batched (K,T,N) tensors; est minutes-class on 4070S; selftest 6 legs green bm-b r238 (torch core leg honest SKIP there, L4 refusal contract PASS)",
-     "owner_since": "2026-09-26 11:50:03"
+     "owner_since": "2026-09-26 11:50:03",
+     "done_at": "2026-09-26"
     }
    ],
    "workers_plan": {
@@ -1433,7 +1434,9 @@
     "priority": "BelowNormal",
     "note": "GPU class per PLAN s1.3: parallelism lives on device (batched (K,T,N) torch tensors), CPU orchestrator single-proc by design -- O-2130 single-core-burn law does not apply to device-resident batches; autofill BelowNormal on launch"
    },
-   "note_flipped": "flipped waiting->ready bm-a r243 2026-09-26 11:45: (1) torch 2.11.0+cu128 + CUDA RTX 4070 SUPER green; (2) selftest ALL PASS 7/7 with torch legs L3/L3b live-exercised (bm-b r238 host could only SKIP); (3) census cache complete: turnover_derived sidecar materialized on bm-a (50s, gates green: 5-sym recon abs_dev<=5.05e-5, rows>1.05 zero, align 0 unmatched; panels 11 files, universe T=8792 N=5222); LIVE-FIRE FIX r243 (first torch-core exercise anywhere): (a) invalid entries consumed full-row sort positions -> rewritten to valid-subset ordinals (cum_before + (cnt_valid+1)/2), (b) missing gather(1,gidl) before scatter_ fed (T,G) group-axis tensor to (T,N) scatter index = CUDA silent garbage on tie rows -- both caught by frozen selftest L3, fixed, selftest 7/7 + probe worst|d|=0.0; autofill launches (lane_owner=bm-a only)"
+   "note_flipped": "flipped waiting->ready bm-a r243 2026-09-26 11:45: (1) torch 2.11.0+cu128 + CUDA RTX 4070 SUPER green; (2) selftest ALL PASS 7/7 with torch legs L3/L3b live-exercised (bm-b r238 host could only SKIP); (3) census cache complete: turnover_derived sidecar materialized on bm-a (50s, gates green: 5-sym recon abs_dev<=5.05e-5, rows>1.05 zero, align 0 unmatched; panels 11 files, universe T=8792 N=5222); LIVE-FIRE FIX r243 (first torch-core exercise anywhere): (a) invalid entries consumed full-row sort positions -> rewritten to valid-subset ordinals (cum_before + (cnt_valid+1)/2), (b) missing gather(1,gidl) before scatter_ fed (T,G) group-axis tensor to (T,N) scatter index = CUDA silent garbage on tie rows -- both caught by frozen selftest L3, fixed, selftest 7/7 + probe worst|d|=0.0; autofill launches (lane_owner=bm-a only)",
+   "harvest_note": "harvested bm-a r244 2026-09-26 ~11:5x: proof.json landed (equiv 21/21 faces max_abs_diff==0.0, panel T=8792 N=5222, torch 2.11.0+cu128 RTX4070S); determinism re-derived 5x via autofill relaunches 11:29/11:34/11:40/11:42/11:50 (pids 23276/56984/54736/55828/26952) each full recompute rewrote proof.json all-zero; harvest gate=results/_r244_gpu_harvest.py exit 0 (self-verifiable); engineering lane zero science as registered",
+   "harvested_at": "2026-09-26"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
