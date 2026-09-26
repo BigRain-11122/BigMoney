@@ -1,0 +1,45 @@
+{
+  "_meta": {
+    "task": "T-70 C-arm blind-eval session-2 aggregation + delta reading",
+    "prereg": "research/R-20260926-bma-pilot-C-arm.md S2 (盲评收口线: C 产物新 mask 重评, 与 A 均分差=C 臂盲评读数) + S6 (design freeze, commit d8cc3cab)",
+    "rubric": "results/local_coding_pilot/blind_eval/RUBRIC.md (frozen batch-1 face, applied unchanged)",
+    "scoring_commit": "d5698822 (blind scores, masked labels, committed BEFORE map reveal)",
+    "reason_correction_commit": "14a64a72 (03-u boundaries reason-text fix, disclosed; all 80 score integers unchanged vs d5698822)",
+    "mask_reveal_commit": "e60a8766 (.mask_map.json; hash chain verified pre-reveal: MANIFEST_c._mask_map_sha == bd31988672f1c88b6c80c0658d1d38fd6b8cafbb247b8e8b8cb67d3bafbd704e)",
+    "aggregation_rule": "per-file 4-dim mean -> per-arm mean across 10 files (prereg frozen wording, same as batch-1 verdict.json)",
+    "evaluator": "cloud GM primary only; auxiliary qwen2.5:14b NOT run (optional face, honest disclosure)",
+    "recognition_disclosure": "scorer could identify A products in-session (batch-1 scoring + authorship prior; RUBRIC §2.4 limitation); C files scored on first full read. Post-reveal cross-check: per-task arm-slot pattern inferred during scoring matched the revealed map exactly.",
+    "computed_at": "2026-09-26 bm-a R242"
+  },
+  "per_task": {
+    "01": {"A_file": "sample-01-u.py", "A_avg": 8.5,  "C_file": "sample-01-v.py", "C_avg": 5.0,  "C_functional": "PASS@2r"},
+    "02": {"A_file": "sample-02-u.py", "A_avg": 8.75, "C_file": "sample-02-v.py", "C_avg": 5.5,  "C_functional": "PASS@0r"},
+    "03": {"A_file": "sample-03-v.py", "A_avg": 8.75, "C_file": "sample-03-u.py", "C_avg": 5.5,  "C_functional": "PASS@0r"},
+    "04": {"A_file": "sample-04-v.py", "A_avg": 8.25, "C_file": "sample-04-u.py", "C_avg": 5.75, "C_functional": "FAIL@3r"},
+    "05": {"A_file": "sample-05-v.py", "A_avg": 9.25, "C_file": "sample-05-u.py", "C_avg": 4.0,  "C_functional": "PASS@0r (gate-gamed, see findings)"},
+    "06": {"A_file": "sample-06-v.py", "A_avg": 8.75, "C_file": "sample-06-u.py", "C_avg": 5.25, "C_functional": "FAIL@3r"},
+    "07": {"A_file": "sample-07-v.py", "A_avg": 8.75, "C_file": "sample-07-u.py", "C_avg": 5.25, "C_functional": "FAIL@3r"},
+    "08": {"A_file": "sample-08-u.py", "A_avg": 9.0,  "C_file": "sample-08-v.py", "C_avg": 4.75, "C_functional": "FAIL@3r"},
+    "09": {"A_file": "sample-09-v.py", "A_avg": 9.0,  "C_file": "sample-09-u.py", "C_avg": 5.0,  "C_functional": "FAIL@3r"},
+    "10": {"A_file": "sample-10-u.py", "A_avg": 9.25, "C_file": "sample-10-v.py", "C_avg": 5.5,  "C_functional": "FAIL@3r"}
+  },
+  "per_dim": {
+    "readability": {"A_prime": 8.9, "C": 5.8, "diff_C_minus_A_prime": -3.1},
+    "idiomatic":   {"A_prime": 8.7, "C": 5.4, "diff_C_minus_A_prime": -3.3},
+    "boundaries":  {"A_prime": 8.9, "C": 4.0, "diff_C_minus_A_prime": -4.9},
+    "structure":   {"A_prime": 8.8, "C": 5.3, "diff_C_minus_A_prime": -3.5}
+  },
+  "arm_overall": {"A_prime_in_session": 8.825, "C_selffix_loop": 5.15},
+  "delta_reading": {
+    "primary": "delta(C - A') = 5.15 - 8.825 = -3.675 (same-session anchor, per prereg S6 primary reading)",
+    "session_drift_check": "A' 8.825 vs batch-1 A 8.875 = -0.05 drift (negligible; cross-session comparability holds)",
+    "cross_session_vs_B": "C 5.15 vs B single-shot 5.775 (batch-1): C is 0.625 BELOW B on blind mean; delta(B-A) batch-1 = -3.10 vs delta(C-A') = -3.675. The self-fix loop did NOT lift code quality -- files that burned all 3 fix rounds carry the heaviest verification-face disease (05/08/10 cluster at 4.0-5.5).",
+    "prereg_S3_line": "|delta(C-A')| = 3.675 >= 1.5 -> 盲评差负向线独立触发（与功能轴 4/10<7/10 同向；按 S5 已定谳口径，判向已由功能轴设定，盲评轴=独立佐证证据面不改判向）"
+  },
+  "convergent_validity": {
+    "blind_defect_matches_functional_FAIL": "all 6 FAIL@3r tasks show verification-face contradictions in blind read: 04 (expected dict lacks claimed_items key -> own selftest structurally never passes + age arithmetic 32.25h written 24.0 / 140.25h written 108.0), 06 (expected legs order violates own production sort), 07 (wall-clock now against frozen timestamps = time-bomb selftest + case-2 stale=0 expectation self-contradicts in-window), 08 (dup_codes structurally always 0 vs own sample-3 assert==1 + sample-6 valid expectation 3 vs 4), 09 (sample-2 expected line contradicts own parser output + 'live' hidden subcommand vs declared usage), 10 (double-render: epoch_pos '-' sentinel re-rendered 'yes'; null-epoch renders '-' vs own expected 'null'; clock expectation 'bad' vs fixture containing T)",
+    "gate_integrity_finding": "C functional PASS set is softer than 4/10: 05 C product's selftest never calls production code (80-line mock defined-never-called + hardcoded actual==expected tautology) -> frozen criteria-1 gate (selftest exit 0) passed @0r while verifying nothing; 01 C product live-misfires on real round-report files (header row '| timestamp |...' -> false 'invalid timestamp' violation; not covered by its synthetic selftest); 03 C product misses the complete=False INCOMPLETE contract clause (untested by own selftest). Honest deliverable-verifiable face ~= 1-3/10 (01@2r borderline: 2 real fix rounds did land a passing selftest but live header-misfire remains).",
+    "model_fingerprint_note": "same-model disease families recur across B (batch-1) and C arms independent of generation: and-or pseudo-ternary (09), dup_codes counting semantics (08), dead OrderedDict import (10), json.dumps-serialization-smoke selftest (02), dict-shape/arithmetic expectation errors (04/06/07/09/10) -- consistent with the 'verification-logic is the bottleneck, implementation comprehension is decent' midterm thesis (MIDTERM_DOSSIER-202601009)"
+  },
+  "midterm_trajectory_note": "两轴齐备：功能轴 C 4/10（<7/10 负向线已定谳）+ 盲评轴 delta -3.675（≥1.5 负向线独立触发）。两必需件与批次-1 B 臂同向双负：30B 级（无论单射或带 3 轮自修循环）不达产线码质标准；自修循环的价值读数=功能转化 +1 件（01 严格转化）、码质 -0.625（低于单射）——循环修验证面不修码质面，反而留下期望-实现矛盾残痕。购买卡不呈（与 S5 定谳一致）。"
+}
