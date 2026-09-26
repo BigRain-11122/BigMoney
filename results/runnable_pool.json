@@ -1773,6 +1773,20 @@
    "result_ref": "results/census_fusion_s2/w1_results.json (EXPLORATION face; s7/s8 finalized R290; post_review T-86-S2 YES 16/16)",
    "done_at": "2026-09-27 03:39:00",
    "updated_at": "2026-09-27 03:39:00"
+  },
+  {
+   "id": "CN-KLINE-PATTERN-P1",
+   "ticket_ref": "T-2026-09-26-87-P1 s2 queue #3 (CEO O-20260926-0926 school-supply chain + O-20260926-2320/2325 24h-quench; claimed bm-a; F-04 MSG-20260927-0355-bm-a; prereg frozen R292 cbf6c93c, runner built+gated R293 same cadence)",
+   "prereg_ref": "research/CN_KLINE_PATTERN_PREREG.md FROZEN cbf6c93c precedes runner build (R99) precedes ANY run; seed cn_kline_pattern_p1=20275100 registered at freeze commit (band 20275100..20277100 clean); RANDOM_LARGE_SAMPLE_LAW v1.0 binding (K=2000 same-mask own-nulls per cell x 7 cells, N_eff 2007); judged face = x2 (V2 side_cost_x2 single source, x1 disclosure); selftest 23/23 hermetic + real-data gate PASS R293 (universe 3106 + census MS 1342/TWS 21518/DCC 35270/TBC 14 zero drift vs frozen probe, 36.4s)",
+   "runner": "scripts/cn_kline_pattern_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 04:19:37",
+   "data_gates": "in-runner fail-closed exit 2: bars census 5222 + universe re-derive 3106 + frozen probe reference (results/cn_kline_probe.json) skip-ledger/boards/census counts gate + per-file D2 truncation last==2026-09-22; bars panel extended past cutoff = honest gate refusal (lockbox face); est 30-90min wall (nulls 2000x7 vectorized dominant), RAM floor 16GB -> exit 3; per-cell x2 checkpoints + 8-shard null npy idempotent resume; CN_KLINE_PATTERN_P1_REFINALIZE=1 = only redo path"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
