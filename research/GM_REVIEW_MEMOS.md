@@ -2,7 +2,7 @@
 
 - 本件性质：研究侧提案的 GM（总经理）审阅staging 面——凡「提案涉及法件/判据面变更且 GM 审阅后定」的移交项，先落本队列，**签署前零法件触碰**（零 self-service 律）。
 - 纪律：harvested ≠ adopted；每提案=结论+指针（不复述叙述性框架）；decision 列只在 GM 签署/驳回后由执行司按回执翻面（引用 O 文件号或票面 gm_signature），禁删原文；新提案=行级追加新 M-YYYYMMDD-NN 节。
-- 头两条来源：wave-9 判定片移交项（DIGEST-20260926-t64-judgment.md §四）→ T-2026-09-26-73 face (b) 交付（bm-b r237）。
+- 头两条来源：wave-9 判定片移交项（DIGEST-20260926-t64-judgment.md §四）→ T-2026-09-26-76 face (b) (renumbered from local 73: same-window collision with bm-a CEO-order ticket T-73, yield per fleet/README s4) 交付（bm-b r237）。
 
 ## M-20260926-01 · folklore 质量门第七信号提案（复现失败自述）
 
