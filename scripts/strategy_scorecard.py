@@ -1729,12 +1729,15 @@ def selftest():
         assert "CN-GRID-SLEEVE" in h2["families"]["CN (T-73 s3 five-model chain)"]["landings"]
         assert h2["summary"]["n_landings"] == 3   # CN-TEST-MODEL + CN-GRID-SLEEVE + GRID 510300
         # P11d: 在位实腿（在位才跑）— §3 预测=三族全 ok 零落地 armed（五模型链 ALL-NEGATIVE）
+        #     超集断言非硬等集：glob 面天然吸收未来 cn_* 新批产物（slice-6+ 新 prereg
+        #     模型落 results/cn_*/p1_results.json 即自动入观察名单=钩子本义；R259 零产物
+        #     窗工程修正律——断言意图=五模型链齐读，非封死名单）
         if os.path.isdir(os.path.join(RESULTS, "cn_rev_tilt")):
             hl = landing_hooks()
             assert hl["summary"]["n_landings"] == 0, hl["summary"]
             assert hl["summary"]["hook_state"] == "armed"
             assert all(v["state"] == "ok" for v in hl["families"].values()), hl["families"]
-            assert set(hl["families"]["CN (T-73 s3 five-model chain)"]["models"]) == \
+            assert set(hl["families"]["CN (T-73 s3 five-model chain)"]["models"]) >= \
                 {"CN-REV-TILT", "CN-DIV-LOWVOL-ROT", "CN-REGIME-POLICY",
                  "CN-CORE-SATELLITE", "CN-GRID-SLEEVE"}
             assert hl["families"]["WILD (T-57 wild-route)"]["n_pass"] == 0
