@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-26",
- "generated_at": "2026-09-26 12:36:36",
+ "generated_at": "2026-09-26 12:46:29",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0007,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.001,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0017,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -284,15 +284,17 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 493,
+  "commits_24h": 492,
   "result_jsons_landed_24h": 88,
   "digests_landed_24h": 24,
   "prereg_md_touched_24h": 21,
   "compute_audit_latest": {
-   "ts": "2026-09-26 12:35:25",
+   "ts": "2026-09-26 12:44:38",
    "py_cpu_pct": 1.3,
-   "flags": [],
-   "verdict": "CLEAN"
+   "flags": [
+    "pool_starvation"
+   ],
+   "verdict": "FLAG:pool_starvation"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -489,13 +491,13 @@
   }
  ],
  "token_line": {
-  "total_state_tokens_est": 1877,
-  "total_report_tokens_est": 399549,
+  "total_state_tokens_est": 1912,
+  "total_report_tokens_est": 401152,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-26 11:58:21",
-   "state_tokens_growth": 9,
-   "report_tokens_growth": 1320,
-   "mandate_growth": 233
+   "prev_generated": "2026-09-26 12:17:49",
+   "state_tokens_growth": 35,
+   "report_tokens_growth": 1603,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
