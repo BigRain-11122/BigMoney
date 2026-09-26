@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-26 13:59:38",
+ "updated_at": "2026-09-26 14:39:04",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1500,6 +1500,34 @@
     "note": "autofill sets BelowNormal on launch; runner self-nices orchestrator; est <90s wall on bm-a class hardware"
    },
    "lane_note": "R188 lane-pin precedent: full-pool deep axis requires canon CE deep cells (bm-a/bm-c local; bm-b = 680/1506 dprobe partial FORBIDDEN per t54 prereg s7-3); F-04 claim MSG-20260926-1400-bm-b declared BEFORE this entry with bm-a self-serve checklist (t54 shard re-run recipe incl.)"
+  },
+  {
+   "id": "CN-DIV-LOWVOL-ROT-P1",
+   "ticket_ref": "T-2026-09-26-73 s3 slice-2 (CEO O-20260926-0926 CN-native combo models; bm-a lane)",
+   "prereg_ref": "research/CN_DIV_LOWVOL_ROT_PREREG.md (frozen R250 commit 83ecffbb; R251 zero-run amendment af368f8e: T_joint 1861->1862 probe-authoritative, mismatch day = 512890 fold-suspension bar, event-guard via DLP._adjust_split per r239 law; zero runs)",
+   "runner": "scripts/cn_div_lowvol_rot_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-26 14:39:04",
+   "data_gates": "in-runner fail-closed exit 2: intersection T==1862 (2019-01-18..2026-09-22) + A-only-within-window==['2021-10-22'] + B-only empty + zero NaN on timeline + cutoff==2026-09-22 (D2 lockbox) + SEED_REGISTRY assert (cn_div_lowvol_rot_p1=20260980, registered AT R250 freeze commit) + zero-rebalance-evaluation sanity (R240 law, warmup-aware) + finalize census gate (r188). Panel = in-repo corpus twins data/daily/sh{510880,512890}.csv zero network; prices = DLP._adjust_split post-event face (512890 factor 0.5); ADV20 = raw volume x close rolling-20. Judge face x2 (side_cost_x2 whole-V2 doubled); 1% ADV day-queued fills with fill_days counters; affordability loop (no negative cash); completion = sells done AND (buys within one lot OR cash cannot buy one lot).",
+   "shards": [
+    {
+     "key": "divlowvolrot-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/cn_div_lowvol_rot/ckpt/*.npz per-unit (exact float64 resume, date-drift refusal); landed marker = results/cn_div_lowvol_rot/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_DIV_LOWVOL_ROT_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 landed-marker law"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "note": "single finalize dependency chain (4 cells x3 faces -> nulls -> baselines -> gates -> D6/regime columns); intersection panel is 2x1862 trivial; sims are O(T) daily loops; ~1-2 min single worker"
+   },
+   "note": null
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
