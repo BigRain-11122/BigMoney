@@ -1982,6 +1982,116 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-87-REV-OSC-P1",
+   "claim": "T-87 s2 first-priority REV-OSC-STOCK-P1 full arc: prereg frozen commit a7761433 BEFORE runner build 0182a8cf BEFORE any run (R99 law) + dual-face sentinel zero-run amendment 4ac879f9 (r251 probe-authoritative) + runner selftest 15/15 + real-data gate probe (eligible medians 194 full / 1116 2010+) -> pool entry -> autofill twin launch crash 00:10/00:20 (d6_block unpack of load_member_rets tuple, zero judged products, engineering fix 64d1c15c legal per r253 deterministic-reexec law) -> relaunch 01:00:07 -> harvest r282 commit a0425122 (beat-face percent-unit defect found+fixed+re-derived single-count per r253; judged faces byte-stable) -> verdict NEGATIVE per frozen prereg s4: G1'v2 0/7 (best BASE x1 0.3831 vs line 13.5951, n_eff 189859; passive_term 0.5606 alone exceeds best cell = verdict robust to null-term scale; only BASE_BG bootstrap CI lower bound +0.002 > 0) + G2 0/7 (DSR 0-0.0125 vs 0.95 gate; family PBO 0.4 in observe band 0.25<pbo<=0.5) + drawdown descriptive line 7/7 breached -> REV-OSC-STOCK judged negative, slot closed (O-20260926-2335 s5 new-evidence-reopen law), no paper account; N_trials=2014 booked (ledger 187845+2014=189859, attrition row 50); CEO-presented +20.30%/59.8% claim does not reproduce under conservative T+1 open-entry proxy + full costs + 25y panel; deep-bear segment beat 0.5481-0.6220 (6/7 inside predicted band, all-segment highest) = segment-conditional descriptive premium only, full-history beat6m 0.44-0.48 ~ coin flip",
+   "claim_source": "research/REV_OSC_STOCK_PREREG.md (frozen a7761433 precedes runner build precedes any run; s7/s8 backfilled R285 single-finalization) + results/rev_osc/p1_results.json product + results/_r282bma_revosc_harvest.py (deterministic harvest, commit a0425122) + results/gate_attrition.json row 50 + logs/autofill.log execution trail",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/rev_osc_stock_p1.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/rev_osc/p1_results.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/_r282bma_revosc_harvest.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/REV_OSC_STOCK_PREREG.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "trials_ledger.total",
+      "189859"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "gates.BASE.g1_prime_v2.pass_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "gates.BASE.g1_prime_v2.sharpe_full",
+      "0.3831"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "gates.BASE_BG.g1_prime_v2.bootstrap_ci.ci95_low",
+      "0.002"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "family_pbo.pbo",
+      "0.4"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "nulls.coverage.n_values",
+      "2000"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/rev_osc/p1_results.json",
+      "virtual_starts.n_starts",
+      "8466"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/REV_OSC_STOCK_PREREG.md",
+      "REV_OSC-STOCK 判负收线"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/gate_attrition.json",
+      "REV_OSC_STOCK_P1"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened)"

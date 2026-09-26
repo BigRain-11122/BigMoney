@@ -70,8 +70,53 @@
 - results/rev_osc/p1_results.json（顶层 evidence_cutoff + cutoff_meta + 14 格全量 + nulls 双法 + D6 表 + 虚拟起点分段面 + walk-forward/split 一致性）+ cells_summary.csv
 - 本文件 §7/§8 跑后回填；ledger 单次 finalize（REV_OSC_STOCK_P1_REFINALIZE=1 唯一重跑门）
 
-## §7 跑后实证【占位——跑前必须为空】
+## §7 跑后实证【R282 收割·R285 回填·跑后一次定稿】
 
-## §8 批后复盘【占位】
+**池执行留痕**：入池→tick 发射 00:10:07（pid 4720）+00:20:08（pid 18108）双发同点崩（d6_block 未解包 `load_member_rets` 元组·零 judged 产物窗·crash-fuse 同版本拒发如实计数）→ 工程修 commit 64d1c15c（R281·判据零动·r253 确定性重执行律）→ fuse code-change 放行→01:00:07 再发射（pid 53908）→ finalize+**同轮收割**（harvest commit a0425122 01:13:33·`results/_r282bma_revosc_harvest.py`）→ **N_trials=2014 入账**：ledger 187845+2014=**189859**；attrition 第 50 行入 `entries`（ts 2026-09-27 01:11:58·delta 2014·r248 消费面可见证）。
 
-- 预测对账与 gate_attrition 行：跑后回填。
+**14 格全量（x1=判决面·x2=压测描述列）**：
+
+| cell | x1 Sharpe | x1 ann | x1 maxDD | x2 Sharpe | x2 ann | entries | DSR(x1) | G1'v2 | G2 |
+|---|---|---|---|---|---|---|---|---|---|
+| BASE | 0.3831 | +2.67% | −76.5% | −0.1523 | −1.44% | 10665 | 0.0122 | FAIL | ineligible |
+| BASE_BG | 0.3778 | +1.85% | −45.0% | +0.0536 | +0.14% | 4464 | 0.0125 | FAIL | ineligible |
+| FY_BG | −0.2777 | −1.52% | −71.0% | −0.6045 | −3.14% | 4417 | 0.0 | FAIL | ineligible |
+| FY_BG_TP8 | −0.2190 | −1.44% | −57.2% | −0.5050 | −3.05% | 4417 | 0.0 | FAIL | ineligible |
+| FY_BG_H10 | 0.2067 | +1.02% | −68.4% | −0.0865 | −0.65% | 4417 | 0.0005 | FAIL | ineligible |
+| DWR_BG_TP8 | −0.1687 | −1.17% | −49.4% | −0.4457 | −2.77% | 4377 | 0.0 | FAIL | ineligible |
+| FY_BG_INVVOL | −0.2645 | −1.42% | −72.3% | −0.5983 | −3.04% | 4417 | 0.0 | FAIL | ineligible |
+
+**G1'v2 面：0/7**——line=**13.5951**（μ_null 0.193+σ_null 2.7183×√(2·ln 189859)；n_eff=189859·ledger head=p1_results.json；null 族=2000 件合成 52-cohort 年化 Sharpe 抽样，稀疏事件年序列天然高散布→线位高于 CN 族先例一个量级=族构成不同非线松动）；**判负稳健性：passive_term 0.5606（stock_b_layer 0.4606+0.10）单独已高于本批最优 0.3831→结论不依赖 null 项刻度**。bootstrap CI：仅 BASE_BG 下界 +0.002>0（point 0.3778·CI[0.002,0.7267]），BASE CI[−0.0084,0.7454] 含零，其余 5 格全负含零；trade_gate 7/7 过（entries 4377-10665≥30 双口径）。DSR 7/7 远低于 0.95（0-0.0125·n_trials=189859）。
+
+**G2 面：7/7 ineligible**——g1 false ∧ DSR false ∧ family PBO=**0.4**（CSCV-8·70 组合·observe 带 0.25<pbo≤0.5：7 格选优面近半组合 OOS 排名劣于 IS=族内选优不稳定）。
+
+**D6 准入面**：vs 在册 6 CE 员逐对 max|corr| 0.1128-0.1909（BASE=ENGULF-CE-01 0.1192·FY_BG_TP8 最高 0.1909）全 <0.7 **零拒收**；批内格间相关照册。个体事件族 vs ETF 组合成员相关结构=族先验（CN-REV-TILT 0.2583）同量级低相关。
+
+**双法 nulls（§3 双报律·描述性并列）**：block bootstrap p_le_0——BASE 0.1795/BASE_BG 0.177（最优两格），首阳族 0.712-0.782；sign-flip p——BASE **0.0215**（唯一 <0.05·但单法不作注册判据）、BASE_BG 0.0305、H10 0.232、DWR 0.3125。两法对 BASE/BASE_BG 给「边缘显著」读数、对其余 5 格一致非显著——与 G1'v2 判负并存=描述面信号不足以越注册线。
+
+**虚拟起点 census（RANDOM_LARGE_SAMPLE_LAW §2.1）**：n_starts=**8466**（=T−126−200 ✓≥1000）；分段 bull 2415／bear 3170／deep_bear 717／chop 2164 **全 sufficient（≥500）**。逐格 beat6m：BASE 0.4421／BASE_BG 0.4629／FY_BG 0.4382／TP8 0.4363／H10 0.4838／DWR 0.4386／INVVOL 0.4382——**全史≈coin flip**；deep_bear 分段 beat **0.5481-0.6220**（H10 最高 0.622·INVVOL 0.5481 微出下沿 0.0019 照登）＝7 格同向最高分段。OOS halves：BASE +0.0199/+0.0069 双正·BASE_BG +0.0016/+0.0152 双正·H10 −0.0227/+0.0292·其余 4 格双负；walk-forward 5 折 Sharpe 逐格两正三负至全负混布（BASE [0.18,−1.67,1.53,0.36,−0.003]）；随机分窗 split_sign_agreement 7/7=100%。
+
+**描述条款（批级披露·不替代 v2 门）**：年化>0=3/7（x1）；OOS 双正=2/7；**回撤 −35% 线 7/7 全破**（−45.0%..−86.0%·BASE x2 −86.0% 最深）；x2 成本压测仅 BASE_BG +0.0536 一格转正边缘=成本敏感面如实。跳过/拒单披露：BASE thin_market=645（1990s 薄市哨兵门内诚实跳过）；BG 格 gate_closed=929（熊市闸外）+gate_undefined=28（MA200 窗内 fail-closed）+thin 334-346；unfillable（涨停开盘拒单=un-captured premium）BASE 82／BG 格 19-29；出场结构：纯时间格 100% 时间止，TP8 格 tp 1439/1593+sl 1020/1198（止损触发≈入场数 23-27%）。**极端日：15% 硬界零击穿**（crisis_single_list 全空·p999_abs_r≤3.95%——§5.5 预期危机窗击穿未发生：10 只分散+桶摊薄效应，豁免单列零记录如实）。
+
+**r282 单位病披露（defect_disclosure 摘要·产物在档全文）**：beat 面消费 cache pct_chg（百分比单位）当分数→EW 代理 ×100 膨胀→beat_rate 全格 0.0 退化（跑前 s5 带 0.55-0.75 当场露馅）；修 /100+面重 derive（r253 单计：append prev_total 复用自身链位+skill_line n_eff_override+attrition 本批行原位替换）；判定面 byte-stable（价格模拟 g1/g2/dsr/pbo 免疫）；量化伪影面 |pct|>30 共 772 行全在无涨跌幅限制 1990s 代、elig 门内仅 1 行（30.27%·2010）。
+
+## §8 批后复盘【R285·s7-T】
+
+**§5 逐条对账**：
+1. BASE 带 [−0.40,+0.10]：**MISS 上沿**（实际 +0.3831——个股池裸接比 ETF 代理毒丸预期强，但仍 3× 低于注册线；「最强格=裸 BASE」本身=预测结构反转）。
+2. 闸内格带 [+0.10,+0.65]：**2/6 带内**（BASE_BG 0.3778 HIT·H10 0.2067 HIT·其余 4 格 MISS）；「过 0.5606=边缘事件」**HIT**（0/7）；判负概率 55-75% **应验**。
+3. 首阳轴胜率增量 +10~+25pp：**大 MISS 方向反转**（FY_BG −0.2777 vs BASE_BG +0.3778=Sharpe 面负增量 −0.66；ETF 代理炉胜率第一杠杆在个股池失效反转——胜率面未单列产物如实注记，Sharpe 面即证伪）。
+4. TP8+SL10 ≈中性：**MISS 偏负**（TP8 −0.219 vs FY_BG −0.2778 微改善 +0.06 但绝对负；DWR −0.1687 同）。
+5. DWR+H10 代理炉最优组合预测：**MISS**（DWR_BG_TP8 −0.1687）。
+6. deep-bear 段 beat 最高 0.55-0.75：**HIT**（7 格 0.5481-0.6220·6/7 带内·全分段最高）；「bull 段最低」**MISS**（chop 最低 0.3701-0.5166；BASE bull 段 mean_win_ret +0.051 反为最大正贡献段——「牛市接刀毒段」在个股池不成立=预测 #4 后半反向）。
+7. 极端日击穿先验：**未发生**（零击穿·三件套 (b) 豁免单列零记录）。
+
+**skill_line_v2 当批判读**：line 13.5951 为本批 null 族（2000 合成年 Sharpe·μ0.193/σ2.7183）与 n_eff 189859 的唯一权威派生——稀疏事件年序列（52 cohort/年·半桶空闲）天然高散布，σ_null 2.72 Sharpe 单位 vs CN-REV-TILT 0.0591/REGIME-POLICY 月集族=族构成差异非线松动；**判负距线 −13.21 但被动项单独即判负（0.3831<0.5606）→双重稳健**。
+
+**gate_attrition 留痕**：runner 已追加第 50 行（`entries` 列表·g1_pass 7×false+g2_eligible 7×false+d6_reject 7×false+family_pbo 0.4+eliminated 2014）。
+
+**判决行**：**REV_OSC-STOCK 判负收线**（G1'v2 0/7+G2 0/7+回撤描述线 7/7 破）→ slot closed per O-2325 §5 禁翻案（新证据=新预注册）；不开纸盘账户不入判决台。**CEO 呈件面诚实呈报**：O-2330「20日跌幅Top10 持有7天 +20.30%·胜率59.8%·102笔」在保守 T+1 开盘代理+双向成本+25 年全史+闸门全景下**不复现**——呈件口径疑为窗口/选段敏感形态（深跌段=强反弹段同源）。**家族证据沉淀**：deep-bear 段反弹溢价**描述性存在**（7 格 beat 0.55-0.62 同向）但全史 beat6m 0.44-0.48≈随机＝分段条件效应不构成注册级 α；首阳轴=个股池毒药（与 ETF 代理炉方向相反）＝代理炉外推边界的独立实证。供给链状态注记：学校供给队列 #1 CN-TREND-ETF（bm-b 在飞）·#2 CN-SOE ready 待 tick——本批判负不阻塞队列（SCHOOL_SUPPLY_S1.md §2 序继续）。
+
+**复审三态**：立法=git 可验（freeze a7761433 先于 runner 建 0182a8cf 先于任何跑 ✓）／生效=判据跑通（14 face+2000 nulls+8466 vstarts+双法 p 值全落地 ✓）／验收=复审行本轮注册（T-87-REV-OSC-P1·json_field 锚稳定产物件）→ 复审器 run 判读。
+
+—— bm-a 策略部+研究部 R285 收割回填（2026-09-27 02:xx · 跑后一次定稿 · 零编数）
