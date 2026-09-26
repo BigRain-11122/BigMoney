@@ -3,6 +3,7 @@
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 ### Feedback
 ### Project
+- [2026-09-27 r290 坑律·自治体自脏自堵] 自动循环体（autofill tick）每跳写自家运行态件（autofill_state/crash_fuse）＝轮间树恒脏＝其自带的 r282 push-拒后 rebase 恢复路径恰在被需要时恒不可达（实证=r288 CN-TREND keepalive push 滞留→claim 滞留本地→远端 STALE_MIN takeover 门重开→双烧）。根因类：**自治写者的自有心跳脏会结构性堵死自己的恢复路——写者必须把自有脏并入同一 commit（自提交律），他者脏（会话在飞件）仍让路**。修法已编码 Tools/autofill.py `_tick_owned_dirt()`（claim/keepalive git 流 add POOL+STATE+FUSE·存在过滤·selftest S15i/S17e）。指针=archive 202609 r288/r289 条；同窗 S0 stash-pop 池冲突 take-upstream 解（零丢失：stashed 53⊂upstream 54）已留痕 results/_r290_resolve.py。
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
