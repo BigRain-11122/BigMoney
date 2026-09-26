@@ -817,6 +817,13 @@ SEED_REGISTRY = {
     # R250 law; rg full-repo scan 2026-09-27 01:2x: zero hits in band (t34/
     # wild_route precedent); lane = T-2026-09-26-87 s2 queue #2
     # (SCHOOL_SUPPLY_S1.md §二 中特估/国家队), prereg research/CN_SOE_ETF_PREREG.md
+    "census_fusion_s2": 20274500,        # CENSUS_FUS_S2_W1 K=400 combo nulls
+    # (200 random pairs + 200 random triples = 20274500+k, k<400); band
+    # 20274500..20274900 sits above cn_soe_etf_p1 band top 20274300 =
+    # collision-free; registered at prereg freeze BEFORE any runner burn,
+    # one-step R250 law; rg full-repo scan 2026-09-27 02:2x zero hits in
+    # band; lane = T-2026-09-26-86 s2 combinatorial census (O-20260926-2320),
+    # prereg research/CENSUS_FUSION_S2_PREREG.md
 }
 
 

@@ -37,7 +37,15 @@ mom_20, mom_60, mom_120, mom_12_1, rev_5, rev_10, vol_20, vol_60, amt_20, ma_bia
 
 factor_registry.py 内 bench 登记行（T-48 r162 同源·对照组非候选）
 
+## G. quick-strike 先验面（v1.1 修订·2026-09-27 R286 bm-a·append-only）
+
+| 面 | 构造 | 注记 |
+|---|---|---|
+| lowamp20 | 20 日 mean((high−low)/close)·低=溢价（sign prior −） | CEO 令票 spec 原文点名「formal census must cover lowamp/trend fusion families on core48 with x2 cost」；原始 GM scratch（23:05·.codely-cli/scratch/fusion_explore_p0/ gitignored）配方不可恢复=经济面重建披露：低振幅稳定族；与 A 行 intraday_range/vol_20/vol_60 同族但不同窗不同量纲（振幅均值非方差、非归一化 range）=非重复面；血统锚=票 spec 原文+本注记 |
+
 ## 记账
 
 - 总登记面: A28 + B(zoo85×2, zoo92, zoo93 家族) + C 三族 + D 四档 + E 两面 + F 2 —— s2 普查 N 以 prereg 冻结时的逐行可计算清单为准（本件为单源母面，prereg 引用行号枚举）
 - 修订律: append-only；新增面必须先入本登记簿再入普查（零发明律）；源码变动致口径变=frozen 面禁改、新面加行注记血统
+- **s2 wave-1 消费清单（2026-09-27 R286 冻结）**: 候选原子面 = A 行 28 + G 行 1（29 面）→ C(29,2)+C(29,3)=4,060 组合；F 行 2=对照组（基准序列，不入候选枚举，仅 58 对照 pair）；D/E/B 行=股票截面域不入 wave-1（core48 无此数据面）
+- **s2 wave-2 枚举规则（wide universe·T-87 面板完备门后）**: B4 + D 四档净额/占比 8 + E 2 + C 三族各 top-10（按 P-1/P-2 筛查在档产物 IC IR 排序·工件锚零发明）≈44 面 → 组合数按规则推导，精确 roster+组合数于 wave-2 追加节冻结后跑（R99 每 wave 一冻）
