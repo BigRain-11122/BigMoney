@@ -106,8 +106,14 @@ def _check(kind, args):
             ok = n >= int(args[1])
             return ok, f"count={n} (min {args[1]})"
         if kind == "git_log_file":
+            # args: [path, needle] or [path, needle, depth]. Default
+            # depth 5 kept for legacy rows; hot files that receive
+            # per-round appends rot a shallow window (r256 law:
+            # T-73 ticket pushed the R248 harvest commit out of -5),
+            # so reconciled rows pass an explicit durable depth.
+            depth = int(args[2]) if len(args) > 2 else 5
             out = subprocess.run(
-                ["git", "log", "--oneline", "-5", "--", args[0]],
+                ["git", "log", "--oneline", f"-{depth}", "--", args[0]],
                 cwd=ROOT, capture_output=True, text=True,
                 encoding="utf-8", errors="replace").stdout
             if args[1] == "*":
