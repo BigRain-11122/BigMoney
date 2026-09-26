@@ -25,7 +25,7 @@ python tools/skills/bigmoney-conflict-resolve/scripts/classify_conflicts.py
 |---|---|---|---|
 | rolling-ledger | compute_audit.json·regime_state.json 的 history/launches/transitions 键 | **双 blob union 零丢失**（union 后行数=\|A∪B\|），态字段另取新 | r188/R208 |
 | append-log | *.jsonl·watermark.jsonl | 行级 union 零丢失 | r188 |
-| mixed-dict+ledger | autofill_state.json | launches=**union 后按 ts 排序 cap 50**（滚动窗·R215 律）；last_tick=**按内部 ts 比较后整 dict 赋值，禁 str() 化比较**（同秒 tie→HEAD·r140 律）；写回后 `isinstance(last_tick, dict)` 断言；**行尾镜像工作树现行形态**（CRLF 生产者格式·bm-b r223 律） | r203/R208/r215/r220 |
+| mixed-dict+ledger | autofill_state.json | launches=**union→按 ts desc 排序 cap 50（cap 语义=保最新 50）→写回前必 re-sort ts 升序**（生产者=append 序，写回序属格式面：desc 直写=launches 整列翻面伪 diff 且被生产者 tick 继承固化·bm-b r245 律）；last_tick=**按内部 ts 比较后整 dict 赋值，禁 str() 化比较**（同秒 tie→HEAD·r140 律）；写回后 `isinstance(last_tick, dict)` 断言；**行尾+缩进镜像 base blob 探测并以 newline 翻译模式写回**（CRLF 生产者格式·r223/r234 律，探测≠写回） | r203/R208/r215/r220/r245 |
 | js-wrapper-snapshot | dashboard_status.js（`window.DASH_DATA = {...};`） | **禁 json.dumps 直写剥包装**——按生产者写出配方（monitor/build_status.py）逐字镜像，或 take-side 整字节 | R209 |
 | snapshot | *_status.json·state-*.json·watermark_red.json·fundamental_b_layer_filter.json·token_usage.json | 取新整面（最新态覆盖语义·按命名 ts 键取新）；单写者件（state-<id>/machines/<id>）取本机侧、禁改他机文件 | R208/R216 |
 | append-ledger-md | round_reports*.md | 两机新行按 ts 序 union（各机只追加自己的行） | R208 |
