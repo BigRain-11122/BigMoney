@@ -82,10 +82,44 @@
 
 ## §7 跑后实证【跑前为空——写数字即造假】
 
-（占位）
+**池执行留痕**：入池 R261 17:48:11（entry 48）→ autofill 发射 17:50:04（bm-a owner·首候选零熔断拒发=r252 反饿死修复正迹）→ 落地 17:50:31（21.8s·workers 1·64 units fresh·0 resumed·双跑字节恒等由 selftest 锁）。**N_trials=54 入账**：ledger 187687+54=**187741**（runner `append_ledger` 自动）；attrition 行入 `entries`（第 45 行·r248 消费面可见证）。
+
+**四格×三成本面（x2=判决面）**：
+
+| cell | x1 | **x2** | x3 | x2 ann_ret | x2 maxDD | x2 n_entries | fill_max |
+|---|---|---|---|---|---|---|---|
+| SAT20_bare | 0.4261 | **0.4234** | 0.4209 | 6.66% | −48.22% | 68 | 11 |
+| SAT20_gate | 0.4107 | **0.4084** | 0.4060 | 6.17% | −48.23% | 57 | 11 |
+| SAT40_bare | 0.4629 | **0.4586** | 0.4543 | 7.69% | −49.11% | 66 | 8 |
+| SAT40_gate | 0.4354 | **0.4315** | 0.4275 | 6.71% | −48.87% | 55 | 8 |
+
+**skill_line 读数**：n_eff=187691·line=**0.5664**·passive_term=0.4792·null_term=0.5664（μ_null=0.3908·σ_null=0.0356·pool=core48·ledger head=style_rotation.json 187687）——本批 null 袖分布紧（σ 0.036 vs 家族 DIV-LOWVOL 0.115）→ 线由 null 项主导。
+
+**G1'/G2/D6 数值**：G1'v2 **0/4 过线**（最强 SAT40_bare 0.4586 < 0.5664 且 bootstrap CI95 [−0.0843, 1.0278] 下沿为负；SAT20_bare 0.4234/SAT20_gate 0.4084/SAT40_gate 0.4315 同败；trade_gate 四格 entries 68/57/66/55 ≥30 全过）。DSR 四格全 0.0（sr_star=0.1613·T=3332·n_trials=187691·skew −0.56~−0.74 尾部重）。G2 四格 ineligible（missing_inputs=g1_prime_v2·DSR 0.0<0.95·PBO 0.5571>0.25 三面皆败）。D6 vs 在册 6 员 max|corr|：SAT20_bare 0.2486（argmax VOLATILITY-CE-01）/SAT20_gate 0.2442/SAT40_bare 0.2622（argmax ENGULF-CE-01）/SAT40_gate 0.2570（argmax COMPOSITE-CE-01）——全部 <0.7 无拒收。同批族内相关 0.95-0.99（同压舱构造预期·family PBO 承载）。H4：corr vs 510880 压舱腿=0.8582（SAT40_bare·构造性披露=ALLOC P5 slot 腿面）；vs DIV_LOWVOL 家族 C1=unavailable_in_artifact（预注带 0.6-0.9 照登）。**null K50**：μ=0.3908·σ=0.0356（seeds 20261080+i·x2 face·可用性掩码同判格）。
+
+**基线（披露）**：压舱-only buy-hold 510880 x2 Sharpe **0.3605**（ann 5.35%·maxDD −47.64%·OOS sharpe 0.1104）；静态 80/20（压舱+EW 可用卫星）0.3981。**增量读数**：SAT40_bare vs 压舱-only = **+0.098**；vs 静态 80/20 = +0.061（轮动选择面增量存在但不达线·家族 DIV-LOWVOL +0.24 同形）；OOS 面（≥2025-01-01）：SAT40 0.7271 vs 压舱-only 0.1104——2025+ 卫星风格腿（510050/159915）大幅跑赢红利压舱，全期被 2015-2018 熊市段稀释。
+
+**门轴读数**：gate 格 sat_to_cash 13 次/51 活跃再平衡（25%·2015-2018 卫星破 MA200 出场为主）；warmup=1（2013-04 格点）。卫星选择分布：510050 19 次+159915 17 次主导（2017-2020 核心资产+2013-15/2019-21 成长双段），563300 微盘 0 次（上市 2023-09 后暖机+动量从未领先）。market_v3_axis 逐年状态面入档。
+
+**描述性条款**：四格 full_ann_positive ✓/OOS 双正 ✓（SAT20 OOS ann 6.12%/SAT40 11.16%）/**max_dd_line ✗**（−48~−49% vs −35% 线·2015-2018 熊市由压舱腿承载=门不触核心的教义后果）/no_crash_year ✓（无 ≤−30% 崩年·逐年表 14 年）；x1/x3 年度符号稳定 14/14 ×4 全格。成本面：SAT20_bare 累计 ¥22,801/SAT40_bare ¥43,938（×1→×3 Sharpe 衰减 <1.1%·季度节律低换手）。fill_days：SAT20 max 11（早期窗 510500 ADV 7.3M 排队实证）/SAT40 max 8。极端日法证：五窗危机列表+分布界主责在案；maxDD 深但无崩年=分布界主责读数成立。
 
 ## §8 批后复盘【必填·s7-T】
 
-（占位）
+**§5 逐条对账**：
+1. SAT20_bare ∈ [0.30, 0.85]：**HIT**（0.4234 落带内）。
+2. SAT40 vs SAT20 ∈ [−0.15, +0.30]：**HIT**（全期 +0.0352·OOS 面 +0.2295——权重放大器在 OOS 段显性）。
+3. 门格 maxDD 收窄 5-25%：**MISS**（−48.22% vs −48.22% ≈ 零收窄——2015-2018 熊市回撤由**压舱腿**承载，门只触卫星=结构性无效；Sharpe delta −0.015/−0.027 ∈ 预测带内·whipsaw 代价方向负命中）；**家族教训入档：core-satellite 构型下回撤控制面必须在压舱腿（如压舱腿自身 MA200/政体门），卫星门只省卫星的钱不省压舱的钱**。
+4. vs 压舱-only：ann 高（7.69% vs 5.35%）✓、maxDD 略深（−49.1% vs −47.6%）✓、增量 +0.098 存在但不达线（预测方向命中·家族同形）。
+5. fill_days 3-10：**HIT**（SAT20 max 11 略越上沿·SAT40 max 8 带内）。
+6. 极端日三件套：**按冻结执行**（五窗危机表+分布界主责+无崩年）。
+7. 判负先验：**应验**——0/4 过线照登；卫星增量非零（+0.098·OOS 0.7271 强面）但全期被熊市段稀释到线下一 0.108 距离。
 
-—— bm-a 组合与资金部 R261 冻结（2026-09-26 17:4x · 跑前一次定稿）
+**skill_line_v2 当批判读**：line 0.5664 由本批 null 项主导（σ_null 0.0356 紧分布——季度节律+80% 压舱构造使随机袖收益方差异乎只来自卫星 20-40% 的小扰动）；最强格 SAT40_bare 距线 −0.108，诚实差距。
+
+**gate_attrition 留痕**：runner 已追加第 45 行（`entries` 列表·g1_prime_pass 四格 false·eliminated 54·refs 本 prereg+T-73）。
+
+**判决行**：**CN-CORE-SATELLITE 判负收线**（0/4 过 G1'v2·§6 过闸后续链不触发=不开纸盘账户不入判决台）。**s3 五模型族至此全负闭环**：REV-TILT 4/4 G1 败/DIV-LOWVOL-ROT 0/4/REGIME-POLICY 三面败/GRID-SLEEVE 独立线在飞（0/5 生存者诚实照登）/CORE-SATELLITE 0/4——CN 原生族诚实负结果链完整照登，判负禁翻案（新证据=新预注册）。**家族正向残值知识（非判据·照登）**：①卫星轮动增量 +0.098 存在（OOS 2025+ 0.727 vs 压舱 0.110=强段证据，被 2015-2018 压舱熊稀释）；②压舱腿回撤控制=core-satellite 构型的真正杠杆点（未来预注册候选面·无判决）；③压舱-only 510880 x2 0.3605/OOS 0.1104=红利价格面弱段实证（价格面不含派息的结构性低估面再证）。
+
+**收割留痕**：`results/_r261bma_coresat_harvest.py` 十面收割门 PASS（cutoff/ledger 187687+54=187741/四格三面 census/g1-g2 0-4/skill_line 重 derive 0.5664/nulls K50/基线双面/attrition entries 可见 r248/D6 四格/panel gates/audit 段）→ 池 entry+shard 翻 done + harvest_note（r244 律·批不自翻）；首跑收割夹具三处误读（cutoff 形态/passive_term 已含+0.10/events 字典序）当轮自修后重 derive 全过=夹具病非产物病零外泄。
+
+—— bm-a 组合与资金部 R261 收割同轮回填（2026-09-26 17:5x · 跑后一次定稿 · 零编数）
