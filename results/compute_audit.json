@@ -1,12 +1,12 @@
 {
   "latest": {
-    "ts": "2026-09-27 01:25:59",
+    "ts": "2026-09-27 01:33:50",
     "audit_version": "v2.3",
-    "cpu_total_pct": 12.0,
-    "py_cpu_pct": 0.5,
-    "cores": 32,
-    "py_procs": 10,
-    "result_stale_min": 0.6,
+    "cpu_total_pct": 4.0,
+    "py_cpu_pct": 3.9,
+    "cores": 16,
+    "py_procs": 8,
+    "result_stale_min": 2.8,
     "fleet_open_tasks": 0,
     "pool_ready_count": 1,
     "load_state": "pool-supply-gap",
@@ -16,9 +16,9 @@
     },
     "gpu": {
       "present": true,
-      "util_pct": 4.0,
-      "mem_used_mb": 6769.0,
-      "compute_apps_count": 34,
+      "util_pct": 1.0,
+      "mem_used_mb": 1063.0,
+      "compute_apps_count": 21,
       "rogue_apps": []
     },
     "zombies": [],
@@ -28,34 +28,6 @@
     "verdict": "CLEAN"
   },
   "history": [
-    {
-      "cores": 32,
-      "cpu_total_pct": 60.0,
-      "flags": [],
-      "fleet_open_tasks": 0,
-      "gpu": {
-        "compute_apps_count": 33,
-        "mem_used_mb": 7055.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 6.0
-      },
-      "load_state": "idle-starvation",
-      "pool_ready_count": 0,
-      "pool_starvation_candidate": true,
-      "pool_starvation_detail": {
-        "run_samples": 1,
-        "span_min": null
-      },
-      "py_cpu_pct": 0.7,
-      "py_procs": 6,
-      "result_stale_min": 4.0,
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "ts": "2026-09-25 17:09:22",
-      "verdict": "CLEAN",
-      "zombies": []
-    },
     {
       "cores": 16,
       "cpu_total_pct": 2.0,
@@ -5747,6 +5719,34 @@
         "util_pct": 4.0,
         "mem_used_mb": 6769.0,
         "compute_apps_count": 34,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [],
+      "verdict": "CLEAN"
+    },
+    {
+      "ts": "2026-09-27 01:33:50",
+      "audit_version": "v2.3",
+      "cpu_total_pct": 4.0,
+      "py_cpu_pct": 3.9,
+      "cores": 16,
+      "py_procs": 8,
+      "result_stale_min": 2.8,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 1,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 1.0,
+        "mem_used_mb": 1063.0,
+        "compute_apps_count": 21,
         "rogue_apps": []
       },
       "zombies": [],
