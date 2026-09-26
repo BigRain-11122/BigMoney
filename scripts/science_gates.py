@@ -720,6 +720,12 @@ SEED_REGISTRY = {
     # hits = results/*.json backtest digit coincidences (867200.91 etc,
     # non-RNG, t34/wild_route precedent); registered bm-b r229; lane =
     # P-1e survivors joint synth, PS2 K=2 precedent)
+    "cny_window_p1": 68_000,                 # CNY_WINDOW_P1 K=20 same-mask
+    # nulls (draw k: seed 68000+k, k<20; band 68000..68019, next free band
+    # above p1e_synth_null_b 67299; rg scripts/+research/ scan 2026-09-26
+    # 09:1x before CNY_WINDOW_P1 prereg freeze -- zero full-repo hits
+    # (t34/wild_route precedent); registered bm-b r235; lane = zoo sec.8
+    # #38 evidence-upgrade, spring-festival concrete-window batch)
 }
 
 

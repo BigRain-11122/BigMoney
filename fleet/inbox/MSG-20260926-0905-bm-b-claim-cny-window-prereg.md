@@ -1,0 +1,6 @@
+# MSG-20260926-0905-bm-b-claim-cny-window-prereg
+
+- bm-b claims the queued zoo §八 deliverable: 春节效应具体窗预注册底稿 (queued since DIGEST-20260924-source-matrix / ASTYLE_ZOO.md line 168, still unassigned after wave-3 closed without it) + its consumption batch CNY_WINDOW_P1 (prereg-first: freeze commit precedes any evaluation run).
+- Lane justification: bm-b = zoo deep-read/paramfreeze lineage (r216 judgment / r218 #92-94 / r222 #86); research-dept autonomous domain per O-20260923-1545 (zoo batch = already-authorized lane, no new data feed — calendar facts derive from in-repo panel, zero network).
+- Anti-dup: zero SPRING_FESTIVAL/CNY_WINDOW hits repo-wide (scripts/lof_census.py CNY_ = currency denomination, unrelated); task board has no open ticket for this; family #36-38 prior rows (month_end/weekday/holiday crude) all judged negative in P1 era — this is their concrete-window evidence-upgrade member (#38 假日效应), not a rebuild.
+- Deliverables this claim: (a) window-extraction probe scripts/cny_window_probe.py + results/cny_window_probe.json (§2 data-face facts, deterministic); (b) prereg research/shortline/CNY_WINDOW_PREREG.md frozen at commit; (c) one-shot batch run + verdict (honest negative expected per §5 pre-prediction).
