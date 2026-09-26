@@ -1,0 +1,72 @@
+{
+ "meta": {
+  "ticket": "T-2026-09-26-73",
+  "slice": "s3 slice-3 probe",
+  "probe": "scripts/cn_regime_policy_probe.py",
+  "evidence_cutoff": "2026-09-22",
+  "p4b_months": [
+   4,
+   7,
+   10,
+   12
+  ],
+  "ladder_canon": {
+   "GREEN": 0.8,
+   "ORANGE": 0.5,
+   "RED": 0.2,
+   "YELLOW": 0.65
+  },
+  "ladder_source": "market_clock_call.POSITION_LADDER (T-74 L5 frozen canon; HOT bonus excluded -- v3-only face)",
+  "regime_source": "regime_deep_replay.run_matrices v3 (imported frozen layer)"
+ },
+ "corpus": {
+  "file": "data/daily/sh510300.csv",
+  "rows": 3483,
+  "first": "2012-05-28",
+  "last": "2026-09-22",
+  "nan_counts": {
+   "open": 0,
+   "high": 0,
+   "low": 0,
+   "close": 0,
+   "volume": 0,
+   "amount": 0
+  },
+  "cutoff_equals_last": true
+ },
+ "v3_replay": {
+  "bench_rows": 5216,
+  "bench_first": "2005-04-08",
+  "bench_last": "2026-09-22",
+  "bench_cutoff_equals_last": true,
+  "window_states": 3483,
+  "window_state_share_of_states": 1.0,
+  "state_counts_window": {
+   "GREEN": 1674,
+   "YELLOW": 1238,
+   "RED": 528,
+   "ORANGE": 43
+  },
+  "state_changes_window": 268,
+  "corpus_only_dates": [],
+  "corpus_fully_covered": true,
+  "pre_era_states_only_count": 1733,
+  "pre_era_states_first": "2005-04-08",
+  "pre_era_states_last": "2012-05-25",
+  "pre_era_note": "bench index face starts 2005-04-08, ETF corpus starts 2012-05-28; pre-ETF-era bench days are expected residue, never a gap"
+ },
+ "capacity": {
+  "adv20_cny_min": 300663370.33000004,
+  "adv20_cny_median": 1672206949.298925,
+  "max_trade_notional_cny": 800000.0,
+  "adv_cap_rate": 0.01,
+  "cap_min_cny": 3006633.7033000006,
+  "non_binding_margin_x": 3.8
+ },
+ "policy_axis": {
+  "policy_month_bars_in_window": 1161,
+  "non_policy_month_bars": 2322,
+  "exhaustive_c12_4": 495
+ },
+ "elapsed_sec": 1.0
+}
