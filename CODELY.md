@@ -6,6 +6,8 @@
 - [2026-09-27 r298 bm-b] 坑律：冻结血统脚本逐轮复制禁手抄重打——r298 探针#11 手抄引入 os.path.SEEK_END（原文=os.SEEK_END）首跑即炸，两诊被误导向环境遮蔽假说（真因=转录 delta，difflib 全文件 diff 定谳）；正典=Copy-Item 整件复制+replace 仅轮号面+difflib 复核非预期 delta=0 再跑。指针=results/_r298bmb_astock_pass_probe.py+results/_r298bmb_s6_chain.log 前后语境。
 - [2026-09-27 05:0x] D-20260927-05③ 采纳（bm-a R294·commit 前置冲突标记检查钩子=轮次纪律）：每轮 commit 前 git diff --cached 全量 grep `<<<<<<<|>>>>>>>|=======` 冲突标记（含 rebase 中途 marker 中毒面），非零命中=禁 commit 先按 bigmoney-conflict-resolve 正典解（R293 fe251ac7 marker-poison 实证根因）；首执行 R294 PASS。指针=集团 docs/decisions.md D-20260927-05③+本行（自评采纳面·各司自评律）。
 
+- [2026-09-27 r296 bm-a] 坑律：PowerShell 面 git stash 引用必须单引号包裹——裸写 `git stash drop stash@{0}` 被 PS 当哈希表语法解析报 `error: unknown switch 'e'` 假故障（R296 实弹，命令未达 git）；正典=`'stash@{0}'`。与 `&` 后台符/`;` 链接符同族=PS 语法层坑。指针=results/_r296bma_resolve.py+本行。
+
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
 - 坑律正典全量归档（2026-09-27 集团令 O-20260927-0230-bm-a·CODELY ≤10KB 整编）：全部坑律条目已外迁 research/memory-archive/202609.md『坑律归档 2026-09-27』节（行级零丢失·全量留 git·检索按条目内『指针=』字段定位）；新坑律仍先入本件，**≤10KB 硬线**——append 后超线=当窗即办热冷整编勿等月（水位律自 >50KB 重锚·集团令优先）。
