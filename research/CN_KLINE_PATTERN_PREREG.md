@@ -77,8 +77,8 @@
 
 ## §7 跑后实证【跑前为空——占位纪律】
 
-（一次定稿；工程修复重跑双跑留痕；确定性引擎产物写 bug 的合法重执行≠结果重跑）
+（一次定稿 2026-09-27 R293 bm-a autofill burn pid 56364·elapsed 353s·`results/cn_kline_pattern/p1_results.json`：**7/7 cells 判负照报**——x2 判面全期 Sharpe MS-FIX −0.7145/MS-STOP −0.6385/TWS-FIX −0.3811/TWS-STOP −0.4363/MS-BEAR +0.1218/TWS-BEAR +0.4000/COMBO +0.2768；skill line（own-null 校准）1.9486（TWS 系）/2.6603（MS 系）/3.5701-4.0655（BEAR 系）全数 line_ok=False ∧ bootstrap CI 下界≤0；DSR 全 ≤0.015；family PBO 0.4429>0.25；批面 cells_ok 7/7 False（ann>0∧OOS>0∧maxDD≥−35% 三重挂：maxDD −97%~−100%）；entries 面 MS 系 ~1.3k/TWS 系 21,192/COMBO 22,532 filled（trade gate 过·事件面健康）；D6 max|corr| vs ew6 canon 全 ≤0.1295 无拒收（事件稀释+跨工具域如 §1 预判）；null 池 mu 0.4229（MS-H10）/0.8645（TWS-H10）/1.3527-2.0986（H20 系）——**A 股个股 35 年随机时点同持有面的漂移本底即 ~0.4-2.1 Sharpe，形态面判负=负期望+跑不赢随机本底双挂**。ledger 200,396=198,389+2,007 单计 ✓；attrition 行 entries 列表面 ✓。）
 
 ## §8 批后复盘【必填·s7-T】
 
-（跑后对账 §5 五预测 + 判线读数 + gate_attrition 行 + 回执面）
+（2026-09-27 R293 定稿。**§5 五预测对账**：①「MS 毛面优于 TWS+双落薄带+判负照报概率高」→ **命中**（MS 系 Sharpe −0.71/−0.64 优于 TWS 系 −0.38/−0.44 但全负；claim≠verify 实证：正典 4 形态在 T+1 开盘保守代理+x2 成本下零 α）；②「TWS 系 CI 更紧、trade gate 全过；MS n 小如实」→ **命中**（entries 门全过；MS 事件面 1,342 统计力弱如实注记）；③「STOP/BEAR 相对 FIX=maxDD 改善 10-30%、Sharpe ±20% 带内」→ **半中**（STOP 臂 Sharpe 变化 +10%/−15% 带内 ✓；但 maxDD 无改善（−97%~−100% 全线·负漂移 35 年复利下 DD 面由 ann 决定非出场修饰）、BEAR 臂 Sharpe 变化远超 ±20% 带（MS −0.71→+0.12、TWS −0.38→+0.40 符号翻转）=负面形态出场是本批最大修饰面、超出预测幅度如实记）；④「极端日/deep-bear insufficient-sample」→ deep_bear 分段 beat 0.2552 在册（census 分段起点数未触 <500 旗的主面·na 段如实）；⑤「x1≥x2」→ x1 面见 cells_summary.csv（成本减半不改变判读·judged=x2 冻结面）。**判线读数**：own-null 校准线 1.9-4.1 高企=随机本底含长持有漂移面，G1' 判负的语义=「形态时点择股不如随机时点」——判负不重开律生效：K 线形态面（canon 4 族·本编码·本执行域）**判负关槽**，新证据=新预注册（O-1132 域内变体/编码变体须另立 prereg 禁本批翻案）。**gate_attrition**：own 行在册（entries 列表面·r248 律）。**回执面**：T-87 s2 队列 #3 闭环（freeze cbf6c93c→runner f7efdec3→burn 353s→判负定稿全链 R99 序合规）；后续=①post_review criteria 注册（CN_KLINE_PATTERN_P1 判据锚 §7/§8 稳定产物件·下轮 P0 候选）②SCHOOL_SUPPLY_S1 队列下一候选按 R99 节律。）

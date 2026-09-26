@@ -1784,7 +1784,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 04:19:37",
    "data_gates": "in-runner fail-closed exit 2: bars census 5222 + universe re-derive 3106 + frozen probe reference (results/cn_kline_probe.json) skip-ledger/boards/census counts gate + per-file D2 truncation last==2026-09-22; bars panel extended past cutoff = honest gate refusal (lockbox face); est 30-90min wall (nulls 2000x7 vectorized dominant), RAM floor 16GB -> exit 3; per-cell x2 checkpoints + 8-shard null npy idempotent resume; CN_KLINE_PATTERN_P1_REFINALIZE=1 = only redo path",
    "workers_plan": {
@@ -1795,13 +1795,16 @@
    "shards": [
     {
      "key": "run-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 04:24:58",
      "checkpoint": "results/cn_kline_pattern/cells/*.json|npy (7 cells x x1/x2) + nulls/*_shard*.npy (8x7) + p1_results.json terminal; idempotent no-op guard if p1_results.json exists",
-     "note": "single-vehicle full batch (judged cells + nulls + census + gates + finalize one-shot); takeover = stale owner >20min per fleet law"
+     "note": "single-vehicle full batch (judged cells + nulls + census + gates + finalize one-shot); takeover = stale owner >20min per fleet law",
+     "done_at": "2026-09-27 04:32:15"
     }
-   ]
+   ],
+   "done_at": "2026-09-27 04:32:15",
+   "result_ref": "results/cn_kline_pattern/p1_results.json (judged 7/7 negative-honest per prereg s5-p1; ledger 200396 single-count; 353s burn)"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
