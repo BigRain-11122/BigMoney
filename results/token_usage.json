@@ -1,27 +1,27 @@
 {
-  "generated": "2026-09-27 03:01:53",
+  "generated": "2026-09-27 03:11:43",
   "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
   "method": {
     "bpe_proxy": 3.5,
     "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
   },
   "per_round_context": {
-    "mandate_read_tokens_est": 8000,
-    "codely_read_tokens_est": 1010,
+    "mandate_read_tokens_est": 7999,
+    "codely_read_tokens_est": 1256,
     "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
   },
   "machines": {
     "-bm-a": {
       "state_bytes": 0,
       "state_tokens_est": 0,
-      "report_bytes": 770937,
-      "report_tokens_est": 220267
+      "report_bytes": 772829,
+      "report_tokens_est": 220808
     },
     "-bm-c": {
       "state_bytes": 0,
       "state_tokens_est": 0,
-      "report_bytes": 132725,
-      "report_tokens_est": 37921
+      "report_bytes": 132629,
+      "report_tokens_est": 37894
     },
     "bm-a": {
       "state_bytes": 3646,
@@ -36,10 +36,10 @@
       "report_tokens_est": 0
     },
     "default": {
-      "state_bytes": 1064,
-      "state_tokens_est": 304,
-      "report_bytes": 772362,
-      "report_tokens_est": 220674
+      "state_bytes": 1172,
+      "state_tokens_est": 334,
+      "report_bytes": 775260,
+      "report_tokens_est": 221502
     }
   },
   "l2_local_llm": {
@@ -57,12 +57,12 @@
       "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
     }
   },
-  "total_state_tokens_est": 1850,
-  "total_report_tokens_est": 478862,
+  "total_state_tokens_est": 1880,
+  "total_report_tokens_est": 480204,
   "delta_vs_prev": {
-    "prev_generated": "2026-09-27 02:52:46",
-    "state_tokens_growth": 0,
-    "report_tokens_growth": 534,
-    "mandate_growth": 0
+    "prev_generated": "2026-09-27 03:01:53",
+    "state_tokens_growth": 30,
+    "report_tokens_growth": 1342,
+    "mandate_growth": -1
   }
 }
