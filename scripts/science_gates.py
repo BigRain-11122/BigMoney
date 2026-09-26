@@ -790,6 +790,14 @@ SEED_REGISTRY = {
     # row 2010-11-12) -- ZERO RNG-usage hits in any script; lane =
     # T-2026-09-26-73 s3 slice-6 (doctrine residual prereg), prereg
     # research/CN_CORE_DDCTL_PREREG.md s3.4
+    "rev_osc_stock_p1": 20261230,           # REV_OSC_STOCK_P1 K=2000 nulls
+    # (rev_osc nulls = 20261230+k k<2000); band 20261230..20261429 sits
+    # exactly above cn_core_ddctl_p1 band top 20261229 = collision-free by
+    # construction; registered at prereg freeze BEFORE any runner burn,
+    # one-step R250 law; rg full-repo scan 2026-09-26 23:4x clean; lane =
+    # T-2026-09-26-87 s2 first-priority slot (CEO O-2026-09-26-2330
+    # 超跌反弹呈件特选 + O-2026-09-26-2335 淬炼令), prereg
+    # research/REV_OSC_STOCK_PREREG.md
 }
 
 
