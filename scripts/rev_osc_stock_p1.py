@@ -639,9 +639,13 @@ def finalize(panel_face, cells_out, nulls, d6, vstarts, robust, crisis):
                         for n, s in series_by_cell.items()})
     pbo = cscv_pbo(mat)
     for name in gates:
+        # AMENDMENT r281 (pre-relaunch, zero-judged-product window): cscv_pbo
+        # returns the full record DICT; g2_registration_v2 takes the pbo
+        # FLOAT (cn_regime_policy proven call shape) -- passing the dict is
+        # float(dict) TypeError at finalize = guaranteed post-30min burn.
         gates[name]["g2"] = SG.g2_registration_v2(
             gates[name]["g1_prime_v2"]["pass_v2"],
-            gates[name]["dsr"], pbo)
+            gates[name]["dsr"], float(pbo["pbo"]))
         gates[name]["d6_reject"] = bool(d6["cells"][name]["reject"])
 
     ledger = SG.append_ledger(BATCH_NAME, BATCH_CELLS,
@@ -669,7 +673,7 @@ def finalize(panel_face, cells_out, nulls, d6, vstarts, robust, crisis):
                       for f in cells_out[n]} for n in cells_out},
         "nulls": nulls, "d6": d6, "virtual_starts": vstarts,
         "robust": robust, "crisis_single_list": crisis,
-        "family_pbo": pbo, "gates": gates, "ledger": ledger,
+        "family_pbo": pbo, "gates": gates, "trials_ledger": ledger,
         "verdict_line": ("judged per prereg s4: G1'v2 x1 primary faces; "
                          "judged-negative = slot closed + new-evidence "
                          "reopen note (O-2325 s5)"),
@@ -732,7 +736,7 @@ def cmd_run():
                   "sse_cover": round(P["sse_cover"], 4)}
     res = finalize(panel_face, cells_out, nulls, d6, vstarts, robust, crisis)
     print(f"finalize ok: cells={len(res['cells'])} "
-          f"ledger={res['ledger']['total']} elapsed={time.time() - t0:.0f}s")
+          f"ledger={res['trials_ledger']['total']} elapsed={time.time() - t0:.0f}s")
     return 0
 
 
@@ -800,7 +804,7 @@ def cmd_selftest():
     SG.passive_baseline = lambda pool, rd=None: 0.4606
     SG.append_ledger = lambda *a, **k: {"prev_total": 0, "total": 100,
                                         "batch": BATCH_NAME}
-    cscv_pbo = lambda mat: 0.1
+    cscv_pbo = lambda mat: {"pbo": 0.1}   # real fn returns the record dict
 
     try:
         P = load_panel()
@@ -931,7 +935,7 @@ def cmd_selftest():
                        {"n_starts": 1, "segments": {}, "cells": {}},
                        {"BASE": rb}, {"BASE": []})
         ok.append(("finalize product", os.path.exists(OUT_JSON) and
-                   res["ledger"]["total"] == 100))
+                   res["trials_ledger"]["total"] == 100))
     finally:
         SG.n_eff, SG.passive_baseline, SG.append_ledger = _ne, _pb, _al
         shutil.rmtree(tmp, ignore_errors=True)

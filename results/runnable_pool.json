@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 00:31:00",
+ "updated_at": "2026-09-27 00:50:27",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1681,6 +1681,34 @@
     }
    ],
    "note": "lane pinned bm-a (r188 precedent): p1c_stock cache + b_layer mask + ew6 D6 member faces machine-local; data channel = p1c cache in-place (O-2330 s3 faster path -- akshare forward collector = bm-b r279 supply lane, zero collision: judged batch consumes frozen panel, forward/paper leg consumes the collector later)"
+  },
+  {
+   "id": "CN-TREND-ETF-P1",
+   "ticket_ref": "T-2026-09-26-87 s2 queue #1 trend-following ETF face (SCHOOL_SUPPLY_S1.md sec.2 queue order, zero-invention; claimed bm-a R277; F-04 MSG declared R280)",
+   "prereg_ref": "research/CN_TREND_ETF_PREREG.md FROZEN feb36786 precedes runner build precedes ANY run (R99); seed cn_trend_etf_p1=20270201 registered at freeze commit; RANDOM_LARGE_SAMPLE_LAW v1.0 binding (7 judged x2 cells + 2000 same-mask weekly-Bernoulli nulls + full-census virtual starts + block-bootstrap/sign-flip dual nulls)",
+   "runner": "scripts/cn_trend_etf_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 00:50:27",
+   "data_gates": "in-runner fail-closed exit 2: universe re-derive==23 + probe symbol cross-check + truncated-face last==2026-09-22 zero-NaN + sse coverage>=0.95; per-cell JSON+npy idempotent checkpoints; finalize single-shot (CN_TREND_ETF_P1_REFINALIZE=1 = only redo); selftest 21/21 pre-pooling (r263 law); real-data gate probe PASSED 2026-09-27 00:5x bm-a (T=5248 N=23 sse_cover 0.9939, panel load 15s, MA_BASE x2 probe sharpe 0.4516 inside prereg s5 band 0.2-0.6)",
+   "workers_plan": {
+    "workers": 4,
+    "priority": "BelowNormal",
+    "note": "nulls via shared parallel_runner run_cells_parallel (4 procs, keyed consumption r259 law); judged 14 cell-face serial sims ~0.4s each; est wall 5-8min; RAM peak <1GB"
+   },
+   "shards": [
+    {
+     "key": "cntrend-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": null
+    }
+   ]
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"

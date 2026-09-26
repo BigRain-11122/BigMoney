@@ -1,29 +1,13 @@
 {
+ "last_tick": {
+  "ts": "2026-09-27 00:50:01",
+  "machine": "bm-a",
+  "py_cpu_pct": 0.0,
+  "verdict": "claim_lost_yield",
+  "entry": "REV-OSC-STOCK-P1",
+  "shard": "revosc-0of1"
+ },
  "launches": [
-  {
-   "entry": "WILD-S1-SHARD-3",
-   "fill_latency_min": 94.9,
-   "machine": "bm-b",
-   "pid": 28608,
-   "py_cpu_pct": 0.0,
-   "shard": "wr-3of8",
-   "target_met": false,
-   "ts": "2026-09-25 20:10:01",
-   "verdict": "launched",
-   "crash_counted": true
-  },
-  {
-   "entry": "WILD-S1-SHARD-1",
-   "fill_latency_min": 94.9,
-   "machine": "bm-a",
-   "pid": 44440,
-   "py_cpu_pct": 0.0,
-   "shard": "wr-1of8",
-   "target_met": false,
-   "ts": "2026-09-25 20:10:02",
-   "verdict": "launched",
-   "crash_counted": true
-  },
   {
    "entry": "WILD-S1-SHARD-3",
    "fill_latency_min": 104.9,
@@ -617,6 +601,19 @@
    "target_met": true
   },
   {
+   "ts": "2026-09-27 00:10:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 3.1,
+   "verdict": "launched",
+   "entry": "REV-OSC-STOCK-P1",
+   "shard": "revosc-0of1",
+   "pid": 4720,
+   "runner_sha256": "fdf258ff1b0ef85b",
+   "fill_latency_min": -20.9,
+   "target_met": true,
+   "crash_counted": true
+  },
+  {
    "ts": "2026-09-27 00:20:01",
    "machine": "bm-a",
    "py_cpu_pct": 3.1,
@@ -627,12 +624,19 @@
    "runner_sha256": "fdf258ff1b0ef85b",
    "fill_latency_min": -10.9,
    "target_met": true
+  },
+  {
+   "ts": "2026-09-27 00:20:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 3.1,
+   "verdict": "launched",
+   "entry": "REV-OSC-STOCK-P1",
+   "shard": "revosc-0of1",
+   "pid": 18108,
+   "runner_sha256": "fdf258ff1b0ef85b",
+   "fill_latency_min": -10.9,
+   "target_met": true,
+   "crash_counted": true
   }
- ],
- "last_tick": {
-  "ts": "2026-09-27 00:40:01",
-  "machine": "bm-b",
-  "py_cpu_pct": 0.1,
-  "verdict": "pool_empty_or_busy"
- }
+ ]
 }
