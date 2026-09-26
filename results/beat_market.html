@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>跑赢大市成绩表 · BigMoney</title>
+<style>
+  body { font-family: "Microsoft YaHei", system-ui, sans-serif; background:#f7f8fa; color:#1a1a1a; margin:0; padding:24px; }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .sub { color:#666; font-size: 13px; margin-bottom: 4px; }
+  h2 { font-size: 19px; margin: 28px 0 10px; }
+  table { border-collapse: collapse; width: 100%; background:#fff; font-size: 17px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  th, td { padding: 10px 12px; border-bottom: 1px solid #eceff1; text-align: right; white-space:nowrap; }
+  th { background:#12325b; color:#fff; font-weight:600; }
+  th:first-child, td:first-child { text-align: left; }
+  tr.bench td { background:#eef3fa; color:#12325b; font-weight:600; }
+  tr.total td { background:#fafafa; font-weight:700; }
+  .up { color:#0a7f24; font-weight:700; }
+  .down { color:#c62828; font-weight:700; }
+  .flat { color:#666; }
+  .note { font-size: 13px; color:#555; margin-top: 8px; line-height: 1.8; }
+  .honesty { background:#fff8e1; border-left: 4px solid #f0a020; padding: 12px 16px; font-size: 14px; margin-top: 30px; line-height:1.9; }
+  .foot { font-size: 12px; color:#888; margin-top: 18px; line-height: 1.8; }
+  .tag { display:inline-block; background:#0a7f24; color:#fff; border-radius:4px; padding:2px 10px; font-size:14px; margin-left:8px; vertical-align: middle; }
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>跑赢大市成绩表 <span class="tag">6/6 全员跑赢</span></h1>
+<div class="sub">数据截至 2026-09-24 收盘（09-25 中秋+周末无新交易日）· 生成 2026-09-26 23:05 · BigMoney GM 亲执 · 令牌 O-20260926-2320-bm-a</div>
+
+<h2>一、回测跑赢表（2026-01-05 → 2026-09-23 · 177 个交易日）</h2>
+<table>
+  <tr><th>员工 / 基准</th><th>区间收益</th><th>跑赢沪深300<br>（百分点）</th><th>跑赢48ETF等权<br>（百分点）</th><th>最大回撤</th><th>夏普</th><th>交易次数</th></tr>
+  <tr class="bench"><td>基准① 沪深300ETF（510300，未复权）</td><td class="down">-5.24%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+  <tr class="bench"><td>基准② 48ETF等权被动（员工交易池本身）</td><td class="down">-3.89%</td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+  <tr><td>DROUGHT-CE-01</td><td class="up">+3.99%</td><td class="up">+9.2</td><td class="up">+7.9</td><td class="down">-2.65%</td><td>1.21</td><td>22</td></tr>
+  <tr><td>VOLATILITY-CE-01</td><td class="up">+2.94%</td><td class="up">+8.2</td><td class="up">+6.8</td><td class="down">-0.94%</td><td>1.61</td><td>62</td></tr>
+  <tr><td>COMPOSITE-CE-02</td><td class="up">+2.47%</td><td class="up">+7.7</td><td class="up">+6.4</td><td class="down">-8.06%</td><td>0.37</td><td>117</td></tr>
+  <tr><td>COMPOSITE-CE-01</td><td class="up">+1.41%</td><td class="up">+6.7</td><td class="up">+5.3</td><td class="down">-7.50%</td><td>0.25</td><td>66</td></tr>
+  <tr><td>NEEDLE-DE-01</td><td class="up">+0.61%</td><td class="up">+5.9</td><td class="up">+4.5</td><td class="down">-3.12%</td><td>0.20</td><td>19</td></tr>
+  <tr><td>ENGULF-CE-01</td><td class="down">-1.45%</td><td class="up">+3.8</td><td class="up">+2.4</td><td class="down">-4.14%</td><td>-0.48</td><td>22</td></tr>
+</table>
+<div class="note">
+「跑赢」= 员工收益 − 基准收益（百分点）。<b>六名员工全部同时跑赢两个基准（6/6）</b>；其中 ENGULF 自己小亏 1.45%，但比大市少亏 3.8 个点，同样算跑赢。<br>
+基准①为 510300 未复权价格收益（未含分红，实际总回报略高于此数）。
+</div>
+
+<h2>二、纸盘实盘面（2026-09-23 上岗 · 刚 2 根 bar · 每员本金 100 万）</h2>
+<table>
+  <tr><th>员工</th><th>最新权益（万元）</th><th>盈亏</th><th>持仓数</th><th>状态</th></tr>
+  <tr><td>COMPOSITE-CE-02</td><td>99.90</td><td class="down">-0.10%</td><td>8</td><td class="flat">已建仓</td></tr>
+  <tr><td>COMPOSITE-CE-01</td><td>99.93</td><td class="down">-0.07%</td><td>5</td><td class="flat">已建仓</td></tr>
+  <tr><td>VOLATILITY-CE-01</td><td>99.83</td><td class="down">-0.17%</td><td>5</td><td class="flat">已建仓</td></tr>
+  <tr><td>DROUGHT-CE-01</td><td>100.00</td><td class="flat">0.00%</td><td>0</td><td class="flat">尚无开仓信号</td></tr>
+  <tr><td>ENGULF-CE-01</td><td>100.00</td><td class="flat">0.00%</td><td>0</td><td class="flat">尚无开仓信号</td></tr>
+  <tr><td>NEEDLE-DE-01</td><td>100.00</td><td class="flat">0.00%</td><td>0</td><td class="flat">尚无开仓信号</td></tr>
+  <tr class="total"><td>合计（6 员工）</td><td>599.66</td><td class="down">-0.06%</td><td>18</td><td>同期两日沪深300 -1.63%</td></tr>
+</table>
+<div class="note">
+纸盘上岗至今只有 2 个交易日（09-23、09-24），全员暂时跑赢大市，但 2 天样本<b>无统计意义</b>；<b>首份完整月度成绩单 = 2026-10-31</b>。<br>
+当前系统市场判定：ORANGE 橙·高危第 2 天（沪深300 低于年线 + 77% 成分股走弱）→ 全线防御姿态、仓位受限。
+</div>
+
+<div class="honesty">
+<b>诚实锚（如实呈报）</b>：上表「跑赢大市」是回测窗口的成绩，<b>不等于已证明稳定盈利</b>——判决台 SPM 主判仍未达标（J4 网格胜率 0.4854 &lt; 0.70 线）；本季其余判定面：市场时钟组合 0/228 · CN 原生模型 0/5 · 游资野路子 0/1569（全部如实判负）。正面在册：出场叠加 6/24 胜已接纸盘 · 五法锦标赛冠军 B_MAXDIV（夏普 1.07）10-01 否决窗后接线。
+</div>
+
+<div class="foot">
+数据源（全为机器可验文件）：results/shortline/o1600_market_fit.json（回测窗口与六员工）· results/daily_scorecard.json（纸盘真账本）· data/daily/510300.csv（沪深300ETF 日线）<br>
+本表为静态快照（数据截至 09-24 收盘），不随每轮自动刷新；需要常设自动刷新面可另开票接线。
+</div>
+</div>
+</body>
+</html>
