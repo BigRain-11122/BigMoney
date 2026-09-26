@@ -1531,6 +1531,223 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-81-PROFILE-CARDS",
+   "claim": "T-81 slice-1 profile cards delivered (O-20260926-1342 sec.3): prereg research/PROFILE_CARDS_P1.md v1.0.1 frozen pre-run + scripts/strategy_scorecard.py build_profile_cards extension + face results/strategy_scorecard.json profile_cards (17 cards, self-consistency gate PASS 17/17, conventions with_day1 x10 / without_day1 x7 disclosed, empty activation sets fail-closed x3); read-derived from T-79 retro ledgers, ledger +0 (read-only marks lane)",
+   "claim_source": "fleet/tasks/T-2026-09-26-81-P1.json spec slice-1 (frozen at claim r252) + research/PROFILE_CARDS_P1.md v1.0.1 prereg frozen pre-run (r254)",
+   "status": "claimed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/PROFILE_CARDS_P1.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/PROFILE_CARDS_P1.md",
+      "append_ledger('PROFILE-CARDS-P1', 0"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "scripts/strategy_scorecard.py",
+      "def build_profile_cards("
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "profile_cards.batch",
+      "PROFILE-CARDS-P1"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "profile_cards.ticket",
+      "T-2026-09-26-81"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "profile_cards.prereg",
+      "research/PROFILE_CARDS_P1.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "profile_cards.prereg_sha256_16",
+      "1d72d4b67ea07e34"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "profile_cards.summary.n_cards",
+      "17"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "T-81-L3-ACTIVATION-EVIDENCE",
+   "claim": "T-81 slice-2 L3 activation-table evidence-drive delivered: prereg research/L3_ACTIVATION_EVIDENCE.md frozen pre-run (sleeve->member mapping, evidence never adds routing) + market_clock_call.py L3 evidence faces wired to results/market_clock/call_latest.json l3_evidence (evidence_face = strategy_scorecard profile_cards); evidence upgrade of MARKET_CLOCK_COMBO s0 SLEEVE_TABLE per O-1342 sec.3",
+   "claim_source": "fleet/tasks/T-2026-09-26-81-P1.json spec slice-2 (frozen at claim r252) + research/L3_ACTIVATION_EVIDENCE.md prereg frozen pre-run (r255)",
+   "status": "claimed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/L3_ACTIVATION_EVIDENCE.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/L3_ACTIVATION_EVIDENCE.md",
+      "append_ledger('L3-ACTIVATION-EVIDENCE', 0"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/market_clock/call_latest.json",
+      "l3_evidence.prereg",
+      "research/L3_ACTIVATION_EVIDENCE.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/market_clock/call_latest.json",
+      "l3_evidence.prereg_sha256_16",
+      "3304f84f60826cd6"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/market_clock/call_latest.json",
+      "l3_evidence.evidence_face",
+      "results/strategy_scorecard.json profile_cards"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "T-81-SAMPLE-SCIENCE",
+   "claim": "T-81 slice-3 sample science delivered: prereg research/SAMPLE_SCIENCE_P1.md v1.0 frozen pre-run (four-must per state+heat cell = oos_trades / covered_years / independent_regime_windows / ci95 via science_gates bootstrap_ci_sharpe verbatim seed; ZERO verdict-line change, CI = pure disclosure face) + scripts/strategy_scorecard.py _four_must_cell/_sample_science_block + card-level sample_science blocks in results/strategy_scorecard.json (selftest 10/10)",
+   "claim_source": "fleet/tasks/T-2026-09-26-81-P1.json spec slice-3 (frozen at claim r252) + research/SAMPLE_SCIENCE_P1.md v1.0 prereg frozen pre-run (r257)",
+   "status": "claimed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/SAMPLE_SCIENCE_P1.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/SAMPLE_SCIENCE_P1.md",
+      "append_ledger('SAMPLE-SCIENCE-P1', 0"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "scripts/strategy_scorecard.py",
+      "def _four_must_cell("
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "profile_cards.sample_science_prereg",
+      "research/SAMPLE_SCIENCE_P1.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "profile_cards.sample_science_prereg_sha256_16",
+      "d7ec6432cf40917d"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "T-81-LANDING-HOOKS",
+   "claim": "T-81 slice-4 landing hooks delivered: prereg research/LANDING_HOOKS_P1.md v1.0 frozen pre-run commit 668cbd5e (freeze precedes run commit 8b392771, R99 order law; three-family landing watch CN/GRID/WILD, landing criteria = each family's own frozen-batch verdict faces verbatim, landing != activation) + landing_hooks() readout face in strategy_scorecard (hook armed, n_landings 0, re-derived every S6 refresh; L3 no-member sleeve structural labels cite this face)",
+   "claim_source": "fleet/tasks/T-2026-09-26-81-P1.json spec slice-4 (frozen at claim r252) + research/LANDING_HOOKS_P1.md v1.0 prereg frozen pre-run commit 668cbd5e (r265)",
+   "status": "claimed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/LANDING_HOOKS_P1.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/LANDING_HOOKS_P1.md",
+      "append_ledger('LANDING-HOOKS-P1', 0"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "scripts/strategy_scorecard.py",
+      "def landing_hooks("
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "landing_hooks.batch",
+      "LANDING-HOOKS-P1"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "landing_hooks.ticket",
+      "T-2026-09-26-81"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "landing_hooks.prereg",
+      "research/LANDING_HOOKS_P1.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/strategy_scorecard.json",
+      "landing_hooks.prereg_sha256_16",
+      "a68933c6f2d1c0e2"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted"
