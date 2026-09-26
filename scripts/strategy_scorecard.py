@@ -643,6 +643,7 @@ def _load_calib_for_emission():
 # 哲学律（O-1342 §一）：画像卡无总分，逐状态通过/失败=主判决，总分=派生索引视图非依据。
 
 PROFILE_PREREG = os.path.join(ROOT, "research", "PROFILE_CARDS_P1.md")
+SAMPLE_SCIENCE_PREREG = os.path.join(ROOT, "research", "SAMPLE_SCIENCE_P1.md")
 PROFILE_MIN_N_DAYS = 20     # §3 冻结线：州内证据日下限
 PROFILE_MIN_EPISODES = 2    # §3 冻结线：独立政体窗下限（单连续段=零复制）
 PROFILE_STATES = ("GREEN", "YELLOW", "ORANGE", "RED")
@@ -697,6 +698,76 @@ def _profile_verdict(n_days, episodes, cum, excess):
     if n_days < PROFILE_MIN_N_DAYS or episodes < PROFILE_MIN_EPISODES:
         return "NO_EVIDENCE"
     return "PASS" if (cum > 0.0 and excess >= 0.0) else "DEAD_ZONE"
+
+
+def _four_must_cell(rs, n_trades_cell, episodes):
+    """SAMPLE_SCIENCE_P1 §1 四必报单格（T-81 slice-3·披露面，零判定线触碰）。
+
+    oos_trades=A 组逐笔计数（int）/B-C 与缺面=null 诚实；covered_years=日集日历跨度
+    （p5c L675 / t22 L465 公式先例）；independent_regime_windows=slice-1 episodes 逐字；
+    ci95=science_gates.bootstrap_ci_sharpe 逐字（种子 20260923 家族冻结），n<20=机制
+    下限诚实拒算（None 三值，非编数）。
+    """
+    n = len(rs)
+    cov = None
+    if n:
+        ds = sorted(_d for _d, _r in rs)
+        try:
+            first = _dt.date.fromisoformat(ds[0])
+            last = _dt.date.fromisoformat(ds[-1])
+            cov = round((last - first).days / 365.25, 2)
+        except ValueError:
+            cov = None
+    ci = None
+    if n >= PROFILE_MIN_N_DAYS:
+        import science_gates as _sg
+        ci = _sg.bootstrap_ci_sharpe([r for _d, r in rs])
+    return {
+        "oos_trades": (int(n_trades_cell) if isinstance(n_trades_cell, int) else None),
+        "covered_years": cov,
+        "independent_regime_windows": int(episodes),
+        "ci95_lo": (ci["ci95_low"] if ci else None),
+        "ci95_hi": (ci["ci95_high"] if ci else None),
+        "ci95_width": (round(ci["ci95_high"] - ci["ci95_low"], 4) if ci else None),
+        "ci_lower_bound_positive": (ci["ci_lower_bound_positive"] if ci else None),
+    }
+
+
+def _sample_science_block(rets, states_by_date, state_seq, trades_total, states_face):
+    """SAMPLE_SCIENCE_P1 §2 卡级分样缩水披露块（CI 加宽照报·O-1342 §二）。
+
+    window_four_must=全窗四必报；per_state=州级对照；widest_state_ci=最宽州 CI
+    （O-1342 §一.3 最宽 CI 披露落法）；min_windows_gate=slice-1 冻结门逐字携带。
+    """
+    fm = _four_must_cell(rets, trades_total,
+                         sum(_profile_episodes(state_seq).values()))
+    per_state = {s: {"n_days": states_face[s]["n_days"],
+                     "ci95_width": states_face[s]["ci95_width"],
+                     "ci_lower_bound_positive": states_face[s]["ci_lower_bound_positive"]}
+                 for s in PROFILE_STATES}
+    widest = None
+    for s in PROFILE_STATES:
+        w = states_face[s]["ci95_width"]
+        if w is not None and (widest is None or w > widest[1]):
+            widest = (s, w)
+    return {
+        "window_four_must": fm,
+        "per_state": per_state,
+        "shrinkage_note": ("split-sample shrinkage disclosed: state n_days < window n_days; "
+                           "state CI width > window CI width expected (CI widened per "
+                           "O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver"),
+        "widest_state_ci": {"state": widest[0], "ci95_width": widest[1]} if widest else None,
+        "min_windows_gate": {"min_n_days": PROFILE_MIN_N_DAYS,
+                             "min_independent_regime_windows": PROFILE_MIN_EPISODES,
+                             "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim "
+                                       "-- carried, not changed"},
+        "ci_face": ("sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe "
+                    "verbatim, seed 20260923, block 10, 1000 resamples)"),
+        "decay_baseline_note": ("per-state four-must = decay-probe readout baseline for "
+                                "per-new-bar re-derivation (CI lower bound crossing below 0 / "
+                                "window-count shrinkage = OOS-decay evidence flag; disclosed, "
+                                "not auto-kill -- slice-1 sec-4 cost_fragile precedent)"),
+    }
 
 
 def _profile_heat_attr(day_seq):
@@ -799,6 +870,12 @@ def profile_card(account, ledger, states_by_date, state_seq, day_seq, heat_attr,
         for t in trades:
             s = states_by_date.get(t.get("date"), "UNKNOWN")
             trades_by_state[s] = trades_by_state.get(s, 0) + 1
+    trades_by_cell = {}   # T-81 slice-3：格面逐笔归属（州×前收市热档，同收益归属律）
+    if isinstance(trades, list):
+        for t in trades:
+            d = t.get("date")
+            key = (states_by_date.get(d, "UNKNOWN"), heat_attr.get(d))
+            trades_by_cell[key] = trades_by_cell.get(key, 0) + 1
     states = {}
     for s in PROFILE_STATES:
         rs = by_state.get(s) or []
@@ -814,6 +891,9 @@ def profile_card(account, ledger, states_by_date, state_seq, day_seq, heat_attr,
             "n_trades": (trades_by_state.get(s) if isinstance(trades, list)
                          else ("n/a (blend/alloc face: no dated trade list)" if s in states_by_date else None)),
             "verdict": _profile_verdict(len(rs), state_ep.get(s, 0), cum, excess)}
+        states[s].update(_four_must_cell(   # SAMPLE_SCIENCE_P1 §1 四必报（slice-3 披露面）
+            rs, trades_by_state.get(s) if isinstance(trades, list) else None,
+            state_ep.get(s, 0)))
     heat_cells = {}
     for (s, h), rs in sorted(by_cell.items()):
         cum = _cum_of(rs)
@@ -821,6 +901,9 @@ def profile_card(account, ledger, states_by_date, state_seq, day_seq, heat_attr,
             "n_days": len(rs), "episodes": cell_ep.get((s, h), 0),
             "cum_ret_x1": round(cum, 6),
             "verdict": _profile_verdict(len(rs), cell_ep.get((s, h), 0), cum, cum)}
+        heat_cells[f"{s}x{h}"].update(_four_must_cell(
+            rs, trades_by_cell.get((s, h)) if isinstance(trades, list) else None,
+            cell_ep.get((s, h), 0)))
     activation = [s for s in PROFILE_STATES if states[s]["verdict"] == "PASS"]
     dead = [s for s in PROFILE_STATES if states[s]["verdict"] == "DEAD_ZONE"]
     noev = [s for s in PROFILE_STATES if states[s]["verdict"] == "NO_EVIDENCE"]
@@ -838,6 +921,9 @@ def profile_card(account, ledger, states_by_date, state_seq, day_seq, heat_attr,
                             "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)"),
         "long_face_t22": _t22_long_face(corps_entry),
         "kill_conditions": _profile_kill_conditions(family, account),
+        "sample_science": _sample_science_block(
+            rets, states_by_date, state_seq,
+            len(trades) if isinstance(trades, list) else None, states),
         "cost_fragile_flag": bool(cost_fragile),
         "window_cum_x1": round(_cum_of(rets), 6),
         "window_cum_x2": (round(_cum_of(rets_x2), 6) if rets_x2 else None),
@@ -940,10 +1026,17 @@ def build_profile_cards():
             sha16 = hashlib.sha256(f.read()).hexdigest()[:16]
     except OSError:
         sha16 = None
+    try:
+        with open(SAMPLE_SCIENCE_PREREG, "rb") as f:
+            ss_sha16 = hashlib.sha256(f.read()).hexdigest()[:16]
+    except OSError:
+        ss_sha16 = None
     return {
         "state": "ok", "batch": "PROFILE-CARDS-P1", "ticket": "T-2026-09-26-81",
         "order": "O-20260926-1342",
         "prereg": "research/PROFILE_CARDS_P1.md", "prereg_sha256_16": sha16,
+        "sample_science_prereg": "research/SAMPLE_SCIENCE_P1.md",
+        "sample_science_prereg_sha256_16": ss_sha16,
         "evidence_cutoff": board.get("evidence_cutoff") or "2026-09-24",
         "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
         "state_carrier": carrier,
@@ -1420,7 +1513,33 @@ def selftest():
     assert t22["segments"]["bear"]["verdict"] == "NO_EVIDENCE"
     assert t22["segments"]["chop"]["verdict"] == "PASS"
     assert "NOT v3" in t22["taxonomy"]
-    # P7: 在位实腿（在位才跑）— 17 卡全出、自洽门 PASS、判据链恒等（缺件=诚实 SKIP）
+    # P8 (slice-3): 四必报单格 — covered_years 公式 / n<20 CI 诚实拒算 / 种子确定性
+    iso_days = ["2026-01-%02d" % (i + 1) for i in range(25)]
+    rs8 = [(d, (0.01 if i % 2 == 0 else -0.005)) for i, d in enumerate(iso_days)]
+    fm8 = _four_must_cell(rs8, 7, 3)
+    assert fm8["covered_years"] == round(24 / 365.25, 2), fm8["covered_years"]
+    assert fm8["oos_trades"] == 7 and fm8["independent_regime_windows"] == 3
+    assert fm8["ci95_lo"] is not None and fm8["ci95_width"] > 0
+    assert fm8["ci_lower_bound_positive"] is (fm8["ci95_lo"] > 0)
+    assert _four_must_cell(rs8, 7, 3) == fm8      # LCG 家族种子确定性（幂等律 §6）
+    short8 = _four_must_cell(rs8[:15], None, 1)
+    assert short8["ci95_lo"] is None and short8["ci95_width"] is None \
+        and short8["ci_lower_bound_positive"] is None and short8["oos_trades"] is None
+    assert short8["covered_years"] == round(14 / 365.25, 2)
+    # P9 (slice-3): 合成卡接线 — 州/格四必报 + sample_science 块（P4 夹具续用）
+    assert "sample_science" in card_p
+    g9 = card_p["states"]["GREEN"]
+    assert g9["oos_trades"] is None              # B 族合成台账无逐笔单=null 诚实
+    assert g9["covered_years"] is not None and g9["ci95_width"] is not None
+    assert g9["independent_regime_windows"] == 2
+    assert card_p["states"]["YELLOW"]["ci95_lo"] is None      # n=5<20 拒算
+    assert card_p["heat_cells"]["GREENxHOT"]["ci95_lo"] is None   # n=1<20 拒算
+    ss9 = card_p["sample_science"]
+    assert ss9["window_four_must"]["independent_regime_windows"] == 3
+    assert ss9["window_four_must"]["ci95_width"] is not None   # 全窗 n=29>=20
+    assert ss9["widest_state_ci"]["state"] == "GREEN"
+    assert ss9["min_windows_gate"]["min_independent_regime_windows"] == 2
+    # P10: 在位实腿（在位才跑）— 17 卡全出、自洽门 PASS、判据链恒等（缺件=诚实 SKIP）
     if os.path.isdir(os.path.join(RESULTS, "retro_paper_2026")):
         face_live = build_profile_cards()
         assert face_live.get("state") == "ok", face_live.get("state")
@@ -1429,15 +1548,33 @@ def selftest():
         assert "paper_month_loss" in face_live["cards"]["B_MAXDIV"]["kill_conditions"]["declared"]
         bmd = face_live["cards"]["B_MAXDIV"]["states"]
         assert abs(bmd["GREEN"]["excess_vs_canon"]) < 1e-9            # 正典自比=0
+        # P10b (slice-3): 17 卡四必报在位面 — ORANGE/RED 构造性 None；A 组逐笔恒等门
+        for acc10, c10 in face_live["cards"].items():
+            for s10 in ("GREEN", "YELLOW"):
+                cell10 = c10["states"][s10]
+                assert cell10["ci95_lo"] is not None and cell10["ci95_width"] > 0, (acc10, s10)
+                assert cell10["covered_years"] is not None and \
+                    cell10["independent_regime_windows"] == cell10["episodes"], (acc10, s10)
+            for s10 in ("ORANGE", "RED"):
+                assert c10["states"][s10]["ci95_lo"] is None, (acc10, s10)
+            assert c10["sample_science"]["widest_state_ci"] is not None, acc10
+            assert c10["sample_science"]["window_four_must"]["ci95_width"] > 0, acc10
+            if c10["family"] == "A":
+                tot10 = c10["sample_science"]["window_four_must"]["oos_trades"]
+                assert tot10 == sum(c10["states"][s10]["oos_trades"] or 0
+                                    for s10 in c10["states"]), acc10   # §4.5 恒等门
+        assert face_live.get("sample_science_prereg_sha256_16"), "slice-3 prereg sha missing"
     else:
         print("  [profile] live leg SKIP (retro ledgers absent) -- honest")
-    print("selftest: 6/6 core + 5/5 calibration + 7/7 profile PASS (registered/prospect/"
+    print("selftest: 6/6 core + 5/5 calibration + 10/10 profile PASS (registered/prospect/"
           "veto/tournament/untested-propagation/iv6 production-shape fixtures; face formulas/"
           "weight-allocation/band-quantiles/end-to-end-calibrate/frozen-band-emission incl "
           "portfolio leg + veto override; readout-only law asserted on every pure card; "
           "T-81 profile: return-series caliber/episode-fail-closed/double-line verdicts/"
           "heat-shift attribution/canon self-face/kill-declarations/t22 corps lines verbatim"
-          + (" + live 17-card leg" if os.path.isdir(os.path.join(RESULTS, "retro_paper_2026")) else "") + ")")
+          "; T-81 slice-3: four-must cell caliber/CI floor refusal/seed determinism/"
+          "synthetic-card wiring/sample-science block"
+          + (" + live 17-card leg incl slice-3 four-must faces" if os.path.isdir(os.path.join(RESULTS, "retro_paper_2026")) else "") + ")")
     return 0
 
 

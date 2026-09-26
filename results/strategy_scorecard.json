@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-09-26T14:17:57",
+ "generated": "2026-09-26T15:29:03",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -65,13 +65,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 78.82,
+      "score": 78.81,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.8114,
        "oos_sharpe": 1.7479,
-       "skill_line_v2": 1.1634,
+       "skill_line_v2": 1.1636,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -128,8 +128,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.352,
-       "ledger_head_total": 185798
+       "null_margin_vs_skill_line": -0.3522,
+       "ledger_head_total": 186592
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -189,13 +189,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 66.7,
+      "score": 66.69,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6099,
        "oos_sharpe": 1.6392,
-       "skill_line_v2": 1.1634,
+       "skill_line_v2": 1.1636,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -252,8 +252,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.5535,
-       "ledger_head_total": 185798
+       "null_margin_vs_skill_line": -0.5537,
+       "ledger_head_total": 186592
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -275,7 +275,7 @@
    },
    "DROUGHT-CE-01": {
     "grade": "S",
-    "total": 86.5,
+    "total": 86.49,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -313,13 +313,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 73.56,
+      "score": 73.55,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.724,
        "oos_sharpe": 1.213,
-       "skill_line_v2": 1.1634,
+       "skill_line_v2": 1.1636,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -376,8 +376,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4394,
-       "ledger_head_total": 185798
+       "null_margin_vs_skill_line": -0.4396,
+       "ledger_head_total": 186592
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -443,7 +443,7 @@
       "reads": {
        "full_sharpe": 0.5392,
        "oos_sharpe": 0.3835,
-       "skill_line_v2": 1.1634,
+       "skill_line_v2": 1.1636,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -500,8 +500,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.6242,
-       "ledger_head_total": 185798
+       "null_margin_vs_skill_line": -0.6244,
+       "ledger_head_total": 186592
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -562,13 +562,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 69.86,
+      "score": 69.85,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6624,
        "oos_sharpe": 0.4089,
-       "skill_line_v2": 1.1634,
+       "skill_line_v2": 1.1636,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -625,8 +625,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.501,
-       "ledger_head_total": 185798
+       "null_margin_vs_skill_line": -0.5012,
+       "ledger_head_total": 186592
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -692,7 +692,7 @@
       "reads": {
        "full_sharpe": 1.2578,
        "oos_sharpe": 2.0568,
-       "skill_line_v2": 1.1634,
+       "skill_line_v2": 1.1636,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -749,8 +749,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
-       "null_margin_vs_skill_line": 0.0944,
-       "ledger_head_total": 185798
+       "null_margin_vs_skill_line": 0.0942,
+       "ledger_head_total": 186592
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -782,7 +782,7 @@
     "veto_clean": true,
     "dims": {
      "1": 85.08,
-     "2": 78.82,
+     "2": 78.81,
      "3": 72.74,
      "4": 77.58,
      "5": 24.0,
@@ -881,7 +881,7 @@
     "veto_clean": true,
     "dims": {
      "1": 83.93,
-     "2": 66.7,
+     "2": 66.69,
      "3": 46.09,
      "4": 100.0,
      "5": 24.0,
@@ -975,12 +975,12 @@
    "trader": "DROUGHT-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 86.5,
+    "total": 86.49,
     "grade": "S",
     "veto_clean": true,
     "dims": {
      "1": 86.28,
-     "2": 73.56,
+     "2": 73.55,
      "3": 100.0,
      "4": 97.28,
      "5": 61.72,
@@ -1178,7 +1178,7 @@
     "veto_clean": true,
     "dims": {
      "1": 78.38,
-     "2": 69.86,
+     "2": 69.85,
      "3": 95.51,
      "4": 84.69,
      "5": 45.52,
@@ -3414,7 +3414,9 @@
   "ticket": "T-2026-09-26-81",
   "order": "O-20260926-1342",
   "prereg": "research/PROFILE_CARDS_P1.md",
-  "prereg_sha256_16": "e0738b6e70fa88a6",
+  "prereg_sha256_16": "67c48f8aab9708a0",
+  "sample_science_prereg": "research/SAMPLE_SCIENCE_P1.md",
+  "sample_science_prereg_sha256_16": "b28d207bfa1ebee0",
   "evidence_cutoff": "2026-09-24",
   "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
   "state_carrier": "AGGR-CONC-TOP2",
@@ -3473,7 +3475,14 @@
       "excess_vs_canon": 0.003399,
       "worst_day": -0.002161,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.2937,
+      "ci95_hi": 5.7951,
+      "ci95_width": 8.0888,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -3483,7 +3492,14 @@
       "excess_vs_canon": 0.027482,
       "worst_day": -0.007955,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -1.2405,
+      "ci95_hi": 4.4513,
+      "ci95_width": 5.6918,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -3493,7 +3509,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -3503,7 +3526,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -3511,25 +3541,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.016656,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": 0.6633,
+      "ci95_hi": 10.4435,
+      "ci95_width": 9.7802,
+      "ci_lower_bound_positive": true
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.01042,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -15.6385,
+      "ci95_hi": -0.1718,
+      "ci95_width": 15.4667,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.03604,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -0.4462,
+      "ci95_hi": 6.2152,
+      "ci95_width": 6.6614,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.005869,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -6.2854,
+      "ci95_hi": 4.2281,
+      "ci95_width": 10.5135,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -3556,6 +3614,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -0.7812,
+      "ci95_hi": 4.2057,
+      "ci95_width": 4.9869,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.0888,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.6918,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.0888
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.040451,
@@ -3577,7 +3680,14 @@
       "excess_vs_canon": 0.034771,
       "worst_day": -0.004982,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": 0.7002,
+      "ci95_hi": 8.6249,
+      "ci95_width": 7.9247,
+      "ci_lower_bound_positive": true
      },
      "YELLOW": {
       "n_days": 124,
@@ -3587,7 +3697,14 @@
       "excess_vs_canon": -0.015149,
       "worst_day": -0.009067,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.15,
+      "ci95_hi": 2.2885,
+      "ci95_width": 5.4385,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -3597,7 +3714,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -3607,7 +3731,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -3615,25 +3746,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.032115,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": 3.06,
+      "ci95_hi": 11.1229,
+      "ci95_width": 8.0629,
+      "ci_lower_bound_positive": true
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.002759,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -5.9368,
+      "ci95_hi": 7.5407,
+      "ci95_width": 13.4775,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.013109,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.2603,
+      "ci95_hi": 4.1676,
+      "ci95_width": 6.4279,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.025447,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -7.7971,
+      "ci95_hi": 2.0911,
+      "ci95_width": 9.8882,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -3661,6 +3820,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.238,
+      "ci95_hi": 3.4768,
+      "ci95_width": 4.7148,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 7.9247,
+       "ci_lower_bound_positive": true
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.4385,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 7.9247
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.02836,
@@ -3682,7 +3886,14 @@
       "excess_vs_canon": 0.042623,
       "worst_day": -0.005987,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": 0.7753,
+      "ci95_hi": 8.7201,
+      "ci95_width": 7.9448,
+      "ci_lower_bound_positive": true
      },
      "YELLOW": {
       "n_days": 124,
@@ -3692,7 +3903,14 @@
       "excess_vs_canon": -0.016767,
       "worst_day": -0.00965,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.268,
+      "ci95_hi": 2.3107,
+      "ci95_width": 5.5787,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -3702,7 +3920,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -3712,7 +3937,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -3720,25 +3952,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.037841,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": 3.1382,
+      "ci95_hi": 11.2469,
+      "ci95_width": 8.1087,
+      "ci_lower_bound_positive": true
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.003881,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -5.856,
+      "ci95_hi": 7.6217,
+      "ci95_width": 13.4777,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.015394,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.203,
+      "ci95_hi": 4.1984,
+      "ci95_width": 6.4014,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.029233,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -8.0278,
+      "ci95_hi": 2.0128,
+      "ci95_width": 10.0406,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -3766,6 +4026,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.1963,
+      "ci95_hi": 3.4784,
+      "ci95_width": 4.6747,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 7.9448,
+       "ci_lower_bound_positive": true
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.5787,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 7.9448
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.034415,
@@ -3787,7 +4092,14 @@
       "excess_vs_canon": 0.010437,
       "worst_day": -0.007338,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.9729,
+      "ci95_hi": 5.9023,
+      "ci95_width": 8.8752,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -3797,7 +4109,14 @@
       "excess_vs_canon": -0.042316,
       "worst_day": -0.023745,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.3412,
+      "ci95_hi": 2.1316,
+      "ci95_width": 5.4728,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -3807,7 +4126,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -3817,7 +4143,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -3825,25 +4158,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.019642,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -2.8596,
+      "ci95_hi": 8.3008,
+      "ci95_width": 11.1604,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.002008,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -6.9963,
+      "ci95_hi": 7.4032,
+      "ci95_width": 14.3995,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.019374,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.2669,
+      "ci95_hi": 4.0718,
+      "ci95_width": 6.3387,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.058087,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -8.6297,
+      "ci95_hi": 1.7209,
+      "ci95_width": 10.3506,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -3871,6 +4232,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -2.7199,
+      "ci95_hi": 2.1638,
+      "ci95_width": 4.8837,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.8752,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.4728,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.8752
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": -0.023301,
@@ -3892,7 +4298,14 @@
       "excess_vs_canon": 0.043706,
       "worst_day": -0.00795,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -0.925,
+      "ci95_hi": 7.1404,
+      "ci95_width": 8.0654,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -3902,7 +4315,14 @@
       "excess_vs_canon": -0.063215,
       "worst_day": -0.04435,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.2711,
+      "ci95_hi": 2.1403,
+      "ci95_width": 5.4114,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -3912,7 +4332,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -3922,7 +4349,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -3930,25 +4364,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.049218,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -0.6451,
+      "ci95_hi": 9.4561,
+      "ci95_width": 10.1012,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.001654,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -5.9327,
+      "ci95_hi": 8.0347,
+      "ci95_width": 13.9674,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.03631,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -1.9518,
+      "ci95_hi": 4.3278,
+      "ci95_width": 6.2796,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.093647,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -8.0669,
+      "ci95_hi": 1.0948,
+      "ci95_width": 9.1617,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -3976,6 +4438,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -2.2679,
+      "ci95_hi": 2.6519,
+      "ci95_width": 4.9198,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.0654,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.4114,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.0654
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": -0.013311,
@@ -3997,7 +4504,14 @@
       "excess_vs_canon": -0.000345,
       "worst_day": -0.01496,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.549,
+      "ci95_hi": 4.8953,
+      "ci95_width": 8.4443,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4007,7 +4521,14 @@
       "excess_vs_canon": -0.046066,
       "worst_day": -0.020213,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.478,
+      "ci95_hi": 2.1888,
+      "ci95_width": 5.6668,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4017,7 +4538,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4027,7 +4555,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4035,25 +4570,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.005447,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -4.0136,
+      "ci95_hi": 7.2171,
+      "ci95_width": 11.2307,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.001431,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -7.216,
+      "ci95_hi": 7.1261,
+      "ci95_width": 14.3421,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.010641,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.7975,
+      "ci95_hi": 3.7316,
+      "ci95_width": 6.5291,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.053658,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -7.6958,
+      "ci95_hi": 2.6111,
+      "ci95_width": 10.3069,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [],
@@ -4080,6 +4643,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -2.7392,
+      "ci95_hi": 2.0136,
+      "ci95_width": 4.7528,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.4443,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.6668,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.4443
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": -0.037427,
@@ -4101,7 +4709,14 @@
       "excess_vs_canon": -0.000658,
       "worst_day": -0.01496,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.5858,
+      "ci95_hi": 4.8737,
+      "ci95_width": 8.4595,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4111,7 +4726,14 @@
       "excess_vs_canon": -0.04729,
       "worst_day": -0.020413,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.532,
+      "ci95_hi": 2.1683,
+      "ci95_width": 5.7003,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4121,7 +4743,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4131,7 +4760,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4139,25 +4775,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.005308,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -4.0401,
+      "ci95_hi": 7.1696,
+      "ci95_width": 11.2097,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.001258,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -7.2154,
+      "ci95_hi": 7.0965,
+      "ci95_width": 14.3119,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.010099,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.7825,
+      "ci95_hi": 3.7261,
+      "ci95_width": 6.5086,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.054362,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -7.7018,
+      "ci95_hi": 2.6076,
+      "ci95_width": 10.3094,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [],
@@ -4185,6 +4849,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -2.7756,
+      "ci95_hi": 1.9924,
+      "ci95_width": 4.768,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.4595,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.7003,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.4595
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": false,
     "window_cum_x1": -0.038958,
     "window_cum_x2": null
@@ -4205,7 +4914,14 @@
       "excess_vs_canon": 0.00092,
       "worst_day": -0.005028,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.329,
+      "ci95_hi": 6.3692,
+      "ci95_width": 8.6982,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4215,7 +4931,14 @@
       "excess_vs_canon": -0.018737,
       "worst_day": -0.006576,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.5696,
+      "ci95_hi": 2.0993,
+      "ci95_width": 5.6689,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4225,7 +4948,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4235,7 +4965,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4243,25 +4980,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.003188,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -3.4431,
+      "ci95_hi": 8.4516,
+      "ci95_width": 11.8947,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.00495,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -5.0719,
+      "ci95_hi": 9.4426,
+      "ci95_width": 14.5145,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.006652,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.5998,
+      "ci95_hi": 3.936,
+      "ci95_width": 6.5358,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.022759,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -8.6418,
+      "ci95_hi": 1.9562,
+      "ci95_width": 10.598,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -4289,6 +5054,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -2.6074,
+      "ci95_hi": 2.1715,
+      "ci95_width": 4.7789,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.6982,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.6689,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.6982
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": -0.008678,
@@ -4310,7 +5120,14 @@
       "excess_vs_canon": 0.031271,
       "worst_day": -0.021761,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.1909,
+      "ci95_hi": 6.6026,
+      "ci95_width": 8.7935,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4320,7 +5137,14 @@
       "excess_vs_canon": -0.013322,
       "worst_day": -0.02666,
       "n_trades": null,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.0721,
+      "ci95_hi": 2.6327,
+      "ci95_width": 5.7048,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4330,7 +5154,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4340,7 +5171,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4348,25 +5186,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.045946,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -1.7935,
+      "ci95_hi": 11.2947,
+      "ci95_width": 13.0882,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.006956,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -11.1887,
+      "ci95_hi": 5.6636,
+      "ci95_width": 16.8523,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.052468,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -1.6488,
+      "ci95_hi": 4.8905,
+      "ci95_width": 6.5393,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.060156,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -9.2555,
+      "ci95_hi": 2.0934,
+      "ci95_width": 11.3489,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -4395,6 +5261,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.8841,
+      "ci95_hi": 2.8672,
+      "ci95_width": 4.7513,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.7935,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.7048,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.7935
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.0268,
     "window_cum_x2": null
@@ -4415,7 +5326,14 @@
       "excess_vs_canon": 0.012591,
       "worst_day": -0.007296,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.0318,
+      "ci95_hi": 5.5737,
+      "ci95_width": 8.6055,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4425,7 +5343,14 @@
       "excess_vs_canon": 0.011913,
       "worst_day": -0.018439,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.639,
+      "ci95_hi": 3.3038,
+      "ci95_width": 5.9428,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4435,7 +5360,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4445,7 +5377,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4453,25 +5392,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.020453,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -2.5762,
+      "ci95_hi": 7.9035,
+      "ci95_width": 10.4797,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.000574,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -7.573,
+      "ci95_hi": 6.6086,
+      "ci95_width": 14.1816,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.038239,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.1486,
+      "ci95_hi": 4.3421,
+      "ci95_width": 6.4907,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.02297,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -6.4088,
+      "ci95_hi": 4.067,
+      "ci95_width": 10.4758,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -4498,6 +5465,51 @@
       "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.7163,
+      "ci95_hi": 3.0446,
+      "ci95_width": 4.7609,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.6055,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.9428,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.6055
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.034047,
@@ -4519,7 +5531,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": -0.000793,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -0.3216,
+      "ci95_hi": 7.1242,
+      "ci95_width": 7.4458,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4529,7 +5548,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": -0.004052,
       "n_trades": null,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.5926,
+      "ci95_hi": 2.8336,
+      "ci95_width": 5.4262,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4539,7 +5565,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4549,7 +5582,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4557,25 +5597,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.005493,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": 0.8007,
+      "ci95_hi": 9.5335,
+      "ci95_width": 8.7328,
+      "ci_lower_bound_positive": true
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.000633,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -8.45,
+      "ci95_hi": 5.8693,
+      "ci95_width": 14.3193,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.003486,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": null,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -3.0724,
+      "ci95_hi": 3.3651,
+      "ci95_width": 6.4375,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.001004,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": null,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -6.1234,
+      "ci95_hi": 4.9384,
+      "ci95_width": 11.0618,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -4603,6 +5671,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": null,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.4688,
+      "ci95_hi": 3.0221,
+      "ci95_width": 4.4909,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 7.4458,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.4262,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 7.4458
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": true,
     "window_cum_x1": 0.009282,
     "window_cum_x2": 0.004618
@@ -4623,7 +5736,14 @@
       "excess_vs_canon": 0.006679,
       "worst_day": -0.003941,
       "n_trades": 12,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 12,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.848,
+      "ci95_hi": 5.5469,
+      "ci95_width": 8.3949,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4633,7 +5753,14 @@
       "excess_vs_canon": 0.040565,
       "worst_day": -0.016045,
       "n_trades": 54,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 54,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -1.7887,
+      "ci95_hi": 3.7458,
+      "ci95_width": 5.5345,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4643,7 +5770,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4653,7 +5787,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4661,25 +5802,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.030351,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 6,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": 0.9828,
+      "ci95_hi": 11.2299,
+      "ci95_width": 10.2471,
+      "ci_lower_bound_positive": true
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.016389,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 6,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -13.731,
+      "ci95_hi": 0.8065,
+      "ci95_width": 14.5375,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.068955,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 36,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -0.5878,
+      "ci95_hi": 5.4616,
+      "ci95_width": 6.0494,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.02424,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 18,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -7.044,
+      "ci95_hi": 3.3186,
+      "ci95_width": 10.3626,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -4755,6 +5924,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": 66,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.3459,
+      "ci95_hi": 3.499,
+      "ci95_width": 4.8449,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.3949,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.5345,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.3949
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.057088,
     "window_cum_x2": 0.028991
@@ -4775,7 +5989,14 @@
       "excess_vs_canon": 0.001874,
       "worst_day": -0.005159,
       "n_trades": 26,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 26,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.4717,
+      "ci95_hi": 4.88,
+      "ci95_width": 8.3517,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4785,7 +6006,14 @@
       "excess_vs_canon": 0.033197,
       "worst_day": -0.021092,
       "n_trades": 89,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 89,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -2.0674,
+      "ci95_hi": 3.5135,
+      "ci95_width": 5.5809,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4795,7 +6023,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4805,7 +6040,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4813,25 +6055,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.02357,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 14,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -1.3954,
+      "ci95_hi": 8.8406,
+      "ci95_width": 10.236,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.014566,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 12,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -11.9653,
+      "ci95_hi": 2.4066,
+      "ci95_width": 14.3719,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.074769,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 59,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -0.9429,
+      "ci95_hi": 5.4699,
+      "ci95_width": 6.4128,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.036374,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 30,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -7.3536,
+      "ci95_hi": 3.3984,
+      "ci95_width": 10.752,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -4910,6 +6180,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": 115,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.7449,
+      "ci95_hi": 3.1475,
+      "ci95_width": 4.8924,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.3517,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.5809,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.3517
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.044645,
     "window_cum_x2": 0.015457
@@ -4930,7 +6245,14 @@
       "excess_vs_canon": 0.002627,
       "worst_day": -0.001367,
       "n_trades": 4,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 4,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -0.0333,
+      "ci95_hi": 6.827,
+      "ci95_width": 6.8603,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -4940,7 +6262,14 @@
       "excess_vs_canon": 0.027761,
       "worst_day": -0.011561,
       "n_trades": 18,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 18,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -1.9394,
+      "ci95_hi": 3.3369,
+      "ci95_width": 5.2763,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -4950,7 +6279,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -4960,7 +6296,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -4968,25 +6311,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.005664,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 3,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -1.418,
+      "ci95_hi": 8.9712,
+      "ci95_width": 10.3892,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.003727,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 1,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": 0.0,
+      "ci95_hi": 6.3246,
+      "ci95_width": 6.3246,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.02521,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 16,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.561,
+      "ci95_hi": 3.6107,
+      "ci95_width": 6.1717,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": 0.004906,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 2,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -4.8652,
+      "ci95_hi": 4.8652,
+      "ci95_width": 9.7304,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -5062,6 +6433,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": 22,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -1.5478,
+      "ci95_hi": 3.1405,
+      "ci95_width": 4.6883,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 6.8603,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.2763,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 6.8603
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.039937,
     "window_cum_x2": 0.034139
@@ -5082,7 +6498,14 @@
       "excess_vs_canon": -0.00504,
       "worst_day": -0.00626,
       "n_trades": 6,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 6,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.5073,
+      "ci95_hi": 4.6788,
+      "ci95_width": 8.1861,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -5092,7 +6515,14 @@
       "excess_vs_canon": -0.012919,
       "worst_day": -0.007749,
       "n_trades": 19,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 19,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.3695,
+      "ci95_hi": 2.2922,
+      "ci95_width": 5.6617,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -5102,7 +6532,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -5112,7 +6549,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -5120,25 +6564,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.004063,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 3,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -3.8762,
+      "ci95_hi": 5.5755,
+      "ci95_width": 9.4517,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.002308,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 3,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -5.963,
+      "ci95_hi": 7.5496,
+      "ci95_width": 13.5126,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.014201,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 9,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -2.8227,
+      "ci95_hi": 3.5709,
+      "ci95_width": 6.3936,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": -0.024297,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 10,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -9.4206,
+      "ci95_hi": 2.3542,
+      "ci95_width": 11.7748,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [],
@@ -5217,6 +6689,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": 25,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -2.6625,
+      "ci95_hi": 2.116,
+      "ci95_width": 4.7785,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.1861,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.6617,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.1861
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": false,
     "window_cum_x1": -0.008713,
     "window_cum_x2": -0.013925
@@ -5237,7 +6754,14 @@
       "excess_vs_canon": 0.002735,
       "worst_day": -0.001759,
       "n_trades": 3,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 3,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -1.9349,
+      "ci95_hi": 5.2944,
+      "ci95_width": 7.2293,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -5247,7 +6771,14 @@
       "excess_vs_canon": -0.005861,
       "worst_day": -0.011044,
       "n_trades": 16,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 16,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -3.2908,
+      "ci95_hi": 2.2811,
+      "ci95_width": 5.5719,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -5257,7 +6788,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -5267,7 +6805,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -5275,25 +6820,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.006558,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 1,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -2.8062,
+      "ci95_hi": 6.5618,
+      "ci95_width": 9.368,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": 0.002943,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 2,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -4.85,
+      "ci95_hi": 6.7166,
+      "ci95_width": 11.5666,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": -0.005277,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 14,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -4.2836,
+      "ci95_hi": 2.4843,
+      "ci95_width": 6.7679,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": 0.001905,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 2,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -5.0289,
+      "ci95_hi": 5.4558,
+      "ci95_width": 10.4847,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -5370,6 +6943,51 @@
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
     },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": 19,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -2.3627,
+      "ci95_hi": 2.2612,
+      "ci95_width": 4.6239,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 7.2293,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.5719,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 7.2293
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
+    },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.006106,
     "window_cum_x2": 0.002181
@@ -5390,7 +7008,14 @@
       "excess_vs_canon": -0.009732,
       "worst_day": -0.002259,
       "n_trades": 15,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 15,
+      "covered_years": 0.71,
+      "independent_regime_windows": 10,
+      "ci95_lo": -4.7599,
+      "ci95_hi": 3.3641,
+      "ci95_width": 8.124,
+      "ci_lower_bound_positive": false
      },
      "YELLOW": {
       "n_days": 124,
@@ -5400,7 +7025,14 @@
       "excess_vs_canon": 0.029446,
       "worst_day": -0.00669,
       "n_trades": 47,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 47,
+      "covered_years": 0.65,
+      "independent_regime_windows": 10,
+      "ci95_lo": -0.3836,
+      "ci95_hi": 5.1376,
+      "ci95_width": 5.5212,
+      "ci_lower_bound_positive": false
      },
      "ORANGE": {
       "n_days": 0,
@@ -5410,7 +7042,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      },
      "RED": {
       "n_days": 0,
@@ -5420,7 +7059,14 @@
       "excess_vs_canon": 0.0,
       "worst_day": null,
       "n_trades": null,
-      "verdict": "NO_EVIDENCE"
+      "verdict": "NO_EVIDENCE",
+      "oos_trades": null,
+      "covered_years": null,
+      "independent_regime_windows": 0,
+      "ci95_lo": null,
+      "ci95_hi": null,
+      "ci95_width": null,
+      "ci_lower_bound_positive": null
      }
     },
     "heat_cells": {
@@ -5428,25 +7074,53 @@
       "n_days": 32,
       "episodes": 14,
       "cum_ret_x1": 0.004054,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 9,
+      "covered_years": 0.71,
+      "independent_regime_windows": 14,
+      "ci95_lo": -3.2635,
+      "ci95_hi": 8.0199,
+      "ci95_width": 11.2834,
+      "ci_lower_bound_positive": false
      },
      "GREENxHOT": {
       "n_days": 21,
       "episodes": 10,
       "cum_ret_x1": -0.006971,
-      "verdict": "DEAD_ZONE"
+      "verdict": "DEAD_ZONE",
+      "oos_trades": 6,
+      "covered_years": 0.41,
+      "independent_regime_windows": 10,
+      "ci95_lo": -12.645,
+      "ci95_hi": 2.6475,
+      "ci95_width": 15.2925,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxCOOL": {
       "n_days": 90,
       "episodes": 15,
       "cum_ret_x1": 0.025699,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 32,
+      "covered_years": 0.65,
+      "independent_regime_windows": 15,
+      "ci95_lo": -0.7469,
+      "ci95_hi": 6.5362,
+      "ci95_width": 7.2831,
+      "ci_lower_bound_positive": false
      },
      "YELLOWxHOT": {
       "n_days": 34,
       "episodes": 11,
       "cum_ret_x1": 0.006069,
-      "verdict": "PASS"
+      "verdict": "PASS",
+      "oos_trades": 15,
+      "covered_years": 0.47,
+      "independent_regime_windows": 11,
+      "ci95_lo": -4.4705,
+      "ci95_hi": 6.4828,
+      "ci95_width": 10.9533,
+      "ci_lower_bound_positive": false
      }
     },
     "activation_set": [
@@ -5522,6 +7196,51 @@
       "live.paper x2_watch/cost_x2_check (monthly auto)",
       "profile_cards re-derivation per new bar (this face, three-card run carrier)"
      ]
+    },
+    "sample_science": {
+     "window_four_must": {
+      "oos_trades": 62,
+      "covered_years": 0.72,
+      "independent_regime_windows": 20,
+      "ci95_lo": -0.6144,
+      "ci95_hi": 4.0211,
+      "ci95_width": 4.6355,
+      "ci_lower_bound_positive": false
+     },
+     "per_state": {
+      "GREEN": {
+       "n_days": 54,
+       "ci95_width": 8.124,
+       "ci_lower_bound_positive": false
+      },
+      "YELLOW": {
+       "n_days": 124,
+       "ci95_width": 5.5212,
+       "ci_lower_bound_positive": false
+      },
+      "ORANGE": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      },
+      "RED": {
+       "n_days": 0,
+       "ci95_width": null,
+       "ci_lower_bound_positive": null
+      }
+     },
+     "shrinkage_note": "split-sample shrinkage disclosed: state n_days < window n_days; state CI width > window CI width expected (CI widened per O-1342 sec-2); NO_EVIDENCE states reported as-is, no waiver",
+     "widest_state_ci": {
+      "state": "GREEN",
+      "ci95_width": 8.124
+     },
+     "min_windows_gate": {
+      "min_n_days": 20,
+      "min_independent_regime_windows": 2,
+      "source": "PROFILE_CARDS_P1 sec-3.1 frozen verbatim -- carried, not changed"
+     },
+     "ci_face": "sharpe_ci95 stationary bootstrap (science_gates.bootstrap_ci_sharpe verbatim, seed 20260923, block 10, 1000 resamples)",
+     "decay_baseline_note": "per-state four-must = decay-probe readout baseline for per-new-bar re-derivation (CI lower bound crossing below 0 / window-count shrinkage = OOS-decay evidence flag; disclosed, not auto-kill -- slice-1 sec-4 cost_fragile precedent)"
     },
     "cost_fragile_flag": false,
     "window_cum_x1": 0.028885,
@@ -6503,7 +8222,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 2.3,
+  "elapsed_sec": 12.2,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,

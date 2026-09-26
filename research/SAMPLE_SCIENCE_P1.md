@@ -58,7 +58,17 @@
 
 ## §7 跑后实证（跑后回填·一次定稿）
 
--（待跑后回填）
+- 发放：17 卡 ×（4 州面+热档格面）四必报全落 + 卡级 sample_science 块；selftest 10/10（P8 单格口径/CI 拒算/种子确定性 + P9 合成接线 + P10 在位 17 卡含 §4.5 逐笔恒等门）；生产刷 12.8s；幂等律=面内容跨跑恒等（唯一漂移=audit/envelope 两键 elapsed_sec/generated=既有运行时元数据，非面内容）。
+- 预测对账（§4 五条）：
+  1. ORANGE/RED 构造性 None/None/0-or-null=**对**（selftest 断言）。
+  2. GREEN/YELLOW 34 州格 CI 全可算 17/17、热档四格全可算=**对**。
+  3. CI 下界分化=**对且更锐**：34 州格仅 2 格 ci_lower_bound_positive=True（AGGR-OFFENSE GREEN lo=+0.7002、AGGR-REGIME GREEN lo=+0.7753）；薄余量预期 False 全中——**正典 B_MAXDIV GREEN（cum +0.68%）lo=−0.3216 亦 fragile**（54 日样本下连正典州面都不具 CI 稳健性=如实披露非缺陷）；DROUGHT-CE-01 GREEN lo=−0.0333 近稳健。
+  4. 分样缩水方向律=**对**：0/34 州格 CI 窄于全窗（AGGR-REGIME 全窗宽 4.6747 vs GREEN 7.9448/YELLOW 5.5787）。
+  5. A 组逐笔恒等门=**对**（P10 在位断言 6/6 过）。
+- **CEO 哲学锚的 CI 级量化**（附加读数）：AGGR-REGIME 全窗混合面 CI lo=−1.1963（不稳健）vs GREEN 纯态面 lo=+0.7753（稳健）——「状态条件化>永远在线」从逐州 cum 读数升格为 CI 级证据：永远在线混合面的 alpha 被 YELLOW 段稀释到统计不可分辨，GREEN 条件面才具 CI 稳健性。
+- 判据零翻案实证：state_verdict_counts 与 slice-1 §7 逐字恒等（GREEN 13 PASS/4 DEAD、YELLOW 7 PASS/10 DEAD、ORANGE/RED 17 NO_EVIDENCE）——CI=纯披露面（§0 判据纪律生效）。
+- 衰减基线：decay_baseline_note 随卡落盘；每新 bar 三卡再 derive 时同州 CI 下界跨 0 向下/独立窗缩水=OOS-decay 证据旗（披露非自动击杀，cost_fragile 先例）。
+- 11-01 呈报面：四必报面就位=届时路由切换呈报的逐状态披露载体；切换本体=月界任务另立（STYLE_CORPS §6 前置未齐：军种门禁+路由 spec 冻结+月报呈 CEO）。
 
 ## 变更记录
 
