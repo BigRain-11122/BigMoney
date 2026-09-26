@@ -749,6 +749,16 @@ SEED_REGISTRY = {
     # sole hit = update_fundamental.py report-period string constant
     # (non-RNG, t34/wild_route precedent); registered before runner burn,
     # lane = T-2026-09-26-73 s3, prereg research/CN_REV_TILT_PREREG.md s3.4
+    "cn_div_lowvol_rot_p1": 20260980,        # CN-DIV-LOWVOL-ROT-P1 K=50
+    # random-leg rotation sleeves (20260980+k, k<50; band 20260980..20261029,
+    # next free DATE-STYLE base above cn_rev_tilt_p1 20260979; registered at
+    # prereg freeze BEFORE any runner burn; rg full-repo scan 2026-09-26 14:1x:
+    # hits in band = Money0923 legacy CSV amount column (601919.csv
+    # 20260980.0 = data face), MIDTERM_DOSSIER-20261009 filename (doc face),
+    # sh511900.csv / sh516270.csv amount columns (data face) -- ZERO RNG-usage
+    # hits in any script (t34/wild_route non-RNG precedent);
+    # lane = T-2026-09-26-73 s3 slice-2, prereg
+    # research/CN_DIV_LOWVOL_ROT_PREREG.md s3.4
 }
 
 

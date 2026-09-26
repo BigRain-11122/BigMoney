@@ -1,0 +1,79 @@
+{
+ "legs": {
+  "510880": {
+   "rows": 4784,
+   "first_bar": "2007-01-18",
+   "last_bar": "2026-09-22"
+  },
+  "512890": {
+   "rows": 1862,
+   "first_bar": "2019-01-18",
+   "last_bar": "2026-09-22"
+  }
+ },
+ "date_alignment": {
+  "global_sets_identical": false,
+  "only_in_510880_global": 2922,
+  "mismatch_days_within_joint_window": [
+   "2021-10-22"
+  ],
+  "joint_bars": 1862,
+  "joint_first": "2019-01-18",
+  "joint_last": "2026-09-22",
+  "timeline_convention": "intersection timeline; both legs markable/tradeable every batch day"
+ },
+ "evidence_cutoff": "2026-09-22",
+ "adv20_median_cny_per_year": {
+  "510880": {
+   "2007": 150660001.0,
+   "2008": 147090502.0,
+   "2009": 326445870.0,
+   "2010": 51592658.0,
+   "2011": 12068808.0,
+   "2012": 7705471.0,
+   "2013": 8328996.0,
+   "2014": 7080701.0,
+   "2015": 35772076.0,
+   "2016": 3476820.0,
+   "2017": 15795426.0,
+   "2018": 18304486.0,
+   "2019": 24226716.0,
+   "2020": 72998355.0,
+   "2021": 280430030.0,
+   "2022": 269818236.0,
+   "2023": 230603041.0,
+   "2024": 404867854.0,
+   "2025": 470350686.0,
+   "2026": 598367956.0
+  },
+  "512890": {
+   "2019": 3275317.0,
+   "2020": 2446248.0,
+   "2021": 2083062.0,
+   "2022": 19255422.0,
+   "2023": 67286762.0,
+   "2024": 224840846.0,
+   "2025": 435039760.0,
+   "2026": 803340998.0
+  }
+ },
+ "thin_adv_window_carry": {
+  "510880": {
+   "2020": 72998355.0,
+   "2021": 280430030.0,
+   "2022": 269818236.0
+  },
+  "512890": {
+   "2020": 2446248.0,
+   "2021": 2083062.0,
+   "2022": 19255422.0
+  }
+ },
+ "completeness_gate_precheck": {
+  "legs_count": true,
+  "cutoff_is_2026_09_22": true,
+  "joint_bars_ge_1800": true,
+  "mismatch_days_frozen_disclosed": true
+ },
+ "probe_note": "deterministic data-completeness probe for prereg S2 freeze-by-reference; zero strategy/judgment computation; ADV=volume*close per DIV_LOWVOL_P1 probe verification (volume unit face); new bars after 2026-09-22 are lockbox-excluded (corpus twins end at cutoff; core48 no-prefix panel has 09-23/09-24 bars but 510880/512890 have no no-prefix twins)"
+}
