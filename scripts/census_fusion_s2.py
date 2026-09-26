@@ -35,7 +35,7 @@ coercion at every dump site + non-native injection selftest leg (r286 law).
 In-runner fail-closed data gates exit 2 (prereg sec.2). Checkpoint every 200
 combos (JSONL, cross-kill resume). Deterministic: byte-stable rerun (r253).
 
-Usage: python scripts/census_fusion_s2.py run | probe | selftest
+Usage: python scripts/census_fusion_s2.py run | unc | probe | selftest
 """
 import argparse
 import json
@@ -76,6 +76,17 @@ SEED_BASE = SEED_REGISTRY["census_fusion_s2"]
 LOWAMP_SIGN = -1.0                          # G-row prior: low amplitude = premium
 RS_SIGN = 1.0                               # bench rs convention (disclosed)
 BENCH_FACES = ["rs_20_csi300", "rs_60_csi300"]
+
+# --- s3 UNC face (prereg sec.3 s3 frozen rules + sec.9.1 seed freeze, R290) ---
+UNC_BATCH = "CENSUS_FUS_S2_W1-UNC"
+UNC_TICKET = "T-2026-09-26-86-P1 s3 (CEO O-20260926-2320)"
+UNC_PREREG = ("research/CENSUS_FUSION_S2_PREREG.md sec.3 s3 frozen rules + "
+              "sec.9.1 seed freeze commit precedes unc runner build (R99)")
+UNC_B = 200                                 # block bootstrap draws (frozen)
+UNC_BLOCK = 20                              # trading days per block (frozen)
+UNC_P = 200                                 # sign-flip permutations (frozen)
+UNC_SEED = SEED_REGISTRY["census_fusion_s2_unc"]
+UNC_CKPT = os.path.join(OUT_DIR, "unc_checkpoint.jsonl")
 
 
 # ---------------------------------------------------------------- face roster
@@ -190,13 +201,16 @@ def build_state(univ, bench):
 
 # ---------------------------------------------------------------- blend face
 
-def blend_top16(state, score_row_fn, x2=False, fixed_all=False):
+def blend_top16(state, score_row_fn, x2=False, fixed_all=False,
+                return_series=False):
     """Weekly-grid long-leg blend: top-16 equal weight, V2 costs, 1% ADV cap.
 
     score_row_fn(sig_i) -> (48,) combo score at signal date, or None.
     fixed_all=True -> EW48 benchmark (all members, constant membership).
     Exec day e carries old positions' final close-to-close return minus the
     transition cost; new positions accrue e+1 .. next exec day.
+    return_series=True -> (metrics, daily_net_series, first_exec) for the
+    s3 UNC face (sec.3 s3); default path unchanged (w1 byte-stable).
     """
     from alloc_backtest import side_cost_v2, side_cost_x2
     fn = side_cost_x2 if x2 else side_cost_v2
@@ -271,7 +285,10 @@ def blend_top16(state, score_row_fn, x2=False, fixed_all=False):
             daily[d] = r
             nav *= (1.0 + r)
     del nav
-    return _metrics(daily[first_exec:], state, first_exec, capped)
+    met = _metrics(daily[first_exec:], state, first_exec, capped)
+    if return_series:
+        return met, daily[first_exec:], first_exec
+    return met
 
 
 def _metrics(series, state, first_exec, capped):
@@ -665,6 +682,242 @@ def run(probe=False, workers=None):
     return 0
 
 
+# ------------------------------------------------- s3 UNC face (sec.3 s3/9.1)
+
+def _bs_sharpe_ci(series, rng):
+    """Circular block bootstrap on the daily net series: B=200 draws,
+    block=20 trading days (frozen sec.3 s3), Sharpe per draw ->
+    (ci_lo p2.5, ci_hi p97.5, bootstrap median)."""
+    sv = np.asarray(series, dtype=float)
+    n = len(sv)
+    if n < UNC_BLOCK:
+        return None, None, None
+    n_blocks = int(np.ceil(n / UNC_BLOCK))
+    starts = rng.integers(0, n, size=(UNC_B, n_blocks))
+    idx = (starts[:, :, None] + np.arange(UNC_BLOCK)[None, None, :]) % n
+    samples = sv[idx.reshape(UNC_B, -1)][:, :n]
+    mus = samples.mean(axis=1)
+    sds = samples.std(axis=1, ddof=1)
+    sh = np.where(sds > 0, mus * 252.0 / (sds * np.sqrt(252.0)), 0.0)
+    lo, hi = np.percentile(sh, [2.5, 97.5])
+    return round(float(lo), 4), round(float(hi), 4), round(float(np.median(sh)), 4)
+
+
+def _perm_ic_p(s_values, rng):
+    """Sign-flip permutation P=200 on the daily rank-IC series, two-sided:
+    p = (1 + #{|mu_perm| >= |mu_obs|}) / (P + 1)."""
+    sv = np.asarray(s_values, dtype=float)
+    mu = float(sv.mean())
+    signs = rng.choice([-1.0, 1.0], size=(UNC_P, len(sv)))
+    mu_p = (signs * sv[None, :]).mean(axis=1)
+    return round(float((1 + int((np.abs(mu_p) >= abs(mu)).sum()))
+                       / (UNC_P + 1)), 4)
+
+
+def unc_eval(state, i, spec):
+    """One candidate combo -> UNC row (frozen sec.3 s3 rules).
+
+    rng = default_rng([seed_base, combo_ordinal]) per sec.9.1; draw order
+    fixed: 1) bootstrap block starts, 2) permutation signs (sec.9.1)."""
+    S = _score_matrix(state, spec["faces"], spec["signs"])
+    met, series, _fe = blend_top16(state, lambda g: S[g], x2=True,
+                                  return_series=True)
+    rng = np.random.default_rng([int(UNC_SEED), int(i)])
+    ci_lo, ci_hi, bs_med = _bs_sharpe_ci(series, rng)
+    from p1_factor_screen import ic_series
+    Sf = pd.DataFrame(S, index=state["idx"], columns=state["syms"])
+    s = ic_series(Sf, state["fwd5"])
+    if len(s) >= 30:
+        ic_mean = round(float(s.mean()), 4)
+        ic_p = _perm_ic_p(s.values, rng)
+    else:
+        ic_mean = None
+        ic_p = None
+    return {
+        "i": int(i), "id": spec["id"], "kind": spec["kind"],
+        "faces": "|".join(spec["faces"]),
+        "x2_sharpe": met["sharpe"],
+        "bs_sharpe_median": bs_med,
+        "bs_ci_lo": ci_lo, "bs_ci_hi": ci_hi,
+        "bs_ci_pos": None if ci_lo is None else bool(ci_lo > 0.0),
+        "ic_mean": ic_mean, "ic_p_perm": ic_p,
+    }
+
+
+def unc_block_worker(start, end):
+    """Top-level picklable: UNC rows for candidate ordinals [start:end)."""
+    state = _G["state"]
+    return {i: unc_eval(state, i, spec)
+            for i, spec in state["cand_specs"][start:end]}
+
+
+def _load_unc_checkpoint():
+    done = set()
+    if os.path.exists(UNC_CKPT):
+        with open(UNC_CKPT, encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if line:
+                    try:
+                        done.add(json.loads(line)["i"])
+                    except (ValueError, KeyError):
+                        continue
+    return done
+
+
+def _append_unc_ckpt(rows):
+    os.makedirs(OUT_DIR, exist_ok=True)
+    with open(UNC_CKPT, "a", encoding="utf-8") as fh:
+        for i, row in rows.items():
+            fh.write(json.dumps({"i": int(i), "row": _jsonable(row)},
+                                ensure_ascii=False, separators=(",", ":")) + "\n")
+
+
+def run_unc(probe=False, workers=None):
+    """s3 UNC face: per-candidate block-bootstrap Sharpe CI + sign-flip IC
+    permutation p. Derivation face -- ledger +0 (frozen sec.3 s3)."""
+    t0 = time.time()
+    from parallel_runner import run_cells_parallel
+
+    univ = load_universe()
+    ok, rep = data_gate(univ)
+    print("[gate]", json.dumps(_jsonable(rep), ensure_ascii=False))
+    if not ok:
+        print("DATA GATE FAIL (fail-closed, exit 2)")
+        return 2
+
+    bench = _load_bench()
+    state = build_state(univ, bench)
+    if not state["grid_sig"]:
+        print("GRID INFEASIBLE -> exit 2")
+        return 2
+    state["specs"] = enumerate_specs(state)
+    # candidates in enumerate order (pairs then triples) -> ordinals 0..4059
+    state["cand_specs"] = [(n, s) for n, s in enumerate(
+        [x for x in state["specs"] if x["kind"] in ("pair", "triple")])]
+    n_total = len(state["cand_specs"])
+    n = min(n_total, 4) if probe else n_total
+    assert n_total == 4060, n_total
+
+    done = set() if probe else _load_unc_checkpoint()
+    jobs = []
+    for s in range(0, n, BLOCK):
+        e = min(s + BLOCK, n)
+        if all(i in done for i in range(s, e)):
+            continue
+        jobs.append((f"ublk{s // BLOCK:02d}", unc_block_worker, (s, e)))
+    print(f"[plan] cand={n} blocks_todo={len(jobs)} ckpt_done={len(done)}")
+
+    results = {}
+    if jobs:
+        res = run_cells_parallel(jobs, workers=workers, desc="census-unc",
+                                 initializer=_init_worker,
+                                 initargs=(state, None, None))
+        w = res.pop("__workers__", 1)
+        for _blk, rows in res.items():
+            results.update(rows)
+            if not probe:
+                _append_unc_ckpt(rows)
+    else:
+        w = 0
+        with open(UNC_CKPT, encoding="utf-8") as fh:
+            for line in fh:
+                if line.strip():
+                    d = json.loads(line)
+                    results[d["i"]] = d["row"]
+
+    if probe:
+        payload = _jsonable({"batch": UNC_BATCH, "mode": "probe",
+                             "gate": rep, "n_combos": n_total,
+                             "rows": list(results.values())})
+        s = json.dumps(payload, ensure_ascii=False)
+        json.loads(s)
+        os.makedirs(OUT_DIR, exist_ok=True)
+        with open(os.path.join(OUT_DIR, "unc_probe.json"), "w",
+                  encoding="utf-8") as fh:
+            fh.write(s)
+        print(f"[unc-probe] OK rows={len(results)}")
+        return 0
+
+    # ---- finalize ----
+    missing = [i for i in range(n_total) if i not in results]
+    if missing:
+        print(f"INCOMPLETE: {len(missing)} cand missing -> exit 2 "
+              f"(checkpoint retained)")
+        return 2
+    rows = [results[i] for i in range(n_total)]
+
+    # cross-anchor vs w1_cells.csv (same code path -> x2_sharpe must match)
+    w1_csv = os.path.join(OUT_DIR, "w1_cells.csv")
+    mism = 0
+    checked = 0
+    if os.path.exists(w1_csv):
+        import csv as _csv
+        w1 = {}
+        with open(w1_csv, encoding="utf-8") as fh:
+            for r in _csv.DictReader(fh):
+                if r["kind"] in ("pair", "triple"):
+                    w1[r["id"]] = r["x2_sharpe"]
+        for row in rows:
+            ref = w1.get(row["id"])
+            if ref is None or ref == "" or row["x2_sharpe"] is None:
+                continue
+            checked += 1
+            if abs(float(ref) - float(row["x2_sharpe"])) > 1e-9:
+                mism += 1
+        if mism:
+            print(f"CROSS-ANCHOR MISMATCH vs w1_cells.csv: {mism}/{checked} "
+                  f"-> exit 2 (no products written)")
+            return 2
+    print(f"[cross-anchor] checked={checked} mismatches={mism}")
+
+    ci_pos = sum(1 for r in rows if r["bs_ci_pos"] is True)
+    p_small = sum(1 for r in rows
+                  if r["ic_p_perm"] is not None and r["ic_p_perm"] <= 0.05)
+    both = sum(1 for r in rows if r["bs_ci_pos"] is True
+               and r["ic_p_perm"] is not None and r["ic_p_perm"] <= 0.05)
+    payload = _jsonable({
+        **cutoff_meta(CUTOFF),
+        "batch": UNC_BATCH, "ticket": UNC_TICKET, "prereg_ref": UNC_PREREG,
+        "face": ("DERIVATION (same-combo same-cell, ledger +0; NAV "
+                 "derivation-face precedent; uncertainty annotations only, "
+                 "zero registration effect)"),
+        "n_combos": n_total,
+        "unc": {"B": UNC_B, "block_days": UNC_BLOCK, "P": UNC_P,
+                "seed_family": "census_fusion_s2_unc",
+                "seed_base": int(UNC_SEED),
+                "derive_rule": "np.random.default_rng([seed_base, combo_ordinal])",
+                "rng_order": "1) bootstrap block starts 2) permutation signs (sec.9.1)"},
+        "data_gate": _jsonable(rep),
+        "uncert_summary": {"n_ci_pos": ci_pos, "n_ic_p_le_0.05": p_small,
+                           "n_ci_pos_and_p": both,
+                           "note": "exploratory uncertainty annotations for the "
+                                   "T-23 intake funnel; not gates"},
+        "cross_anchor": {"vs": "w1_cells.csv", "checked": checked,
+                         "mismatches": mism},
+        "products": ["w1_unc.json", "unc_checkpoint.jsonl"],
+        "audit": {"workers": int(w),
+                  "purpose": "uncertainty face derivation (no selection gate)",
+                  "ledger_trials_added": 0,
+                  "elapsed_sec": round(time.time() - t0, 1),
+                  "checkpoint": "unc_checkpoint.jsonl (200-combo cadence)"},
+        "trials_ledger": {"batch": UNC_BATCH, "added": 0,
+                          "note": "derivation face ledger +0 per prereg sec.3 "
+                                  "s3 (same combos as CENSUS_FUS_S2_W1, no new "
+                                  "trials)"},
+        "rows": rows,
+    })
+    out = os.path.join(OUT_DIR, "w1_unc.json")
+    s = json.dumps(payload, ensure_ascii=False, indent=1)
+    json.loads(s)
+    with open(out, "w", encoding="utf-8") as fh:
+        fh.write(s)
+    print(f"[done] unc rows={len(rows)} ci_pos={ci_pos} p<=.05={p_small} "
+          f"both={both} workers={w} "
+          f"elapsed={payload['audit']['elapsed_sec']}s")
+    return 0
+
+
 # ---------------------------------------------------------------- selftest
 
 def _synth_universe(seed=7, n_sym=48, n_day=320):
@@ -837,19 +1090,79 @@ def selftest():
       all(e == g + 1 for g, e in zip(st["grid_sig"], st["grid_exec"]))
       and all(e < st["n_days"] for e in st["grid_exec"]))
 
+    # [13] UNC determinism: same seed-sequence stream -> byte-identical row
+    spec0 = {"kind": "pair", "id": "P:x|y",
+             "faces": ["mom_20", "vol_20"], "signs": [1.0, -1.0]}
+    r1 = unc_eval(st, 0, spec0)
+    r2 = unc_eval(st, 0, spec0)
+    t("[13] unc_eval determinism (same ordinal -> identical row)", r1 == r2
+      and r1["i"] == 0 and json.dumps(r1) == json.dumps(r2))
+    r3 = unc_eval(st, 1, spec0)
+    t("[13b] unc_eval ordinal sensitivity (different ordinal -> different rng)",
+      r3["bs_ci_lo"] != r1["bs_ci_lo"] or r3["ic_p_perm"] != r1["ic_p_perm"])
+
+    # [14] bootstrap math on synthetic series: drift -> CI positive, contains
+    #      observed-scale Sharpe; noise -> CI straddles zero
+    dr = np.random.default_rng(41)
+    up = 0.0012 + dr.normal(0.0, 0.002, 400)   # positive drift + real variance
+    lo_c, hi_c, med_c = _bs_sharpe_ci(up, np.random.default_rng([int(UNC_SEED), 0]))
+    t("[14a] drift series bootstrap CI positive & ordered",
+      lo_c is not None and hi_c > lo_c and lo_c > 0.0)
+    noise = dr.normal(0.0, 0.01, 400)
+    lo_n, hi_n, _ = _bs_sharpe_ci(noise, np.random.default_rng([int(UNC_SEED), 1]))
+    t("[14b] noise series bootstrap CI straddles zero",
+      lo_n < 0.0 < hi_n)
+
+    # [15] permutation math: strong IC -> tiny p; noise IC -> p not tiny
+    ic_up = np.repeat(0.05, 120)
+    p_up = _perm_ic_p(ic_up, np.random.default_rng([int(UNC_SEED), 2]))
+    ic_nz = dr.normal(0.0, 0.05, 120)
+    p_nz = _perm_ic_p(ic_nz, np.random.default_rng([int(UNC_SEED), 3]))
+    t("[15] permutation p: strong IC tiny, noise IC not tiny",
+      p_up <= 0.05 and p_nz > 0.05)
+
+    # [16] unc row native types only (r286 law) + json round-trip
+    clean = _jsonable(r1)
+    json.loads(json.dumps(clean, ensure_ascii=False))
+    t("[16] unc row native types + round-trip",
+      isinstance(clean["x2_sharpe"], (float, int, type(None)))
+      and isinstance(clean["bs_ci_pos"], (bool, type(None)))
+      and isinstance(clean["i"], int))
+
+    # [17] return_series=True metrics == default-path metrics (same compute)
+    S = _score_matrix(st, ["mom_20", "vol_20"], [1.0, -1.0])
+    m_def = blend_top16(st, lambda g: S[g], x2=True)
+    m_ser, _ser, _fe = blend_top16(st, lambda g: S[g], x2=True,
+                                   return_series=True)
+    t("[17] return_series metrics == default metrics", m_def == m_ser
+      and len(_ser) == m_ser["n_days"])
+
+    # [18] unc worker glue on synthetic: candidate slice rows well-formed
+    st2 = _synth_state(seed=13)
+    st2["specs"] = enumerate_specs(st2)
+    st2["cand_specs"] = [(n, s) for n, s in enumerate(
+        [x for x in st2["specs"] if x["kind"] in ("pair", "triple")])]
+    _init_worker(st2, None, None)
+    urows = unc_block_worker(0, 3)
+    t("[18] unc worker glue slice (3 rows, ordinal keys 0..2)",
+      sorted(urows) == [0, 1, 2]
+      and all("bs_ci_lo" in r and "ic_p_perm" in r for r in urows.values()))
+
     print("selftest:", "ALL PASS" if ok else "FAIL")
     return 0 if ok else 2
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["run", "probe", "selftest"])
+    ap.add_argument("cmd", choices=["run", "unc", "probe", "selftest"])
     ap.add_argument("--workers", type=int, default=None)
     a = ap.parse_args()
     if a.cmd == "selftest":
         return selftest()
     if a.cmd == "probe":
         return run(probe=True, workers=a.workers or 4)
+    if a.cmd == "unc":
+        return run_unc(workers=a.workers or 4)
     return run(workers=a.workers or 4)
 
 

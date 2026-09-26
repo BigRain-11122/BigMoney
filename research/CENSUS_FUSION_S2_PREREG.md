@@ -90,3 +90,12 @@
 - 派生律：每候选组合 i（i=组合枚举序 0..4,059）确定性流 = `np.random.default_rng([20275000, i])`（PCG64 seed-sequence 双整数派生·零 band 占用·重跑字节恒等）。
 - 用途钉死：rng 流仅供 §3 s3 已冻规则的两个重采样面——①block bootstrap B=200（block=20 交易日·循环块·拼样截回 n 长度）×2 blend Sharpe 分布 → CI=[p2.5, p97.5]（观测 Sharpe 落带披露·ci_pos=ci_lo>0 旗）；②sign-flip 置换 P=200（逐日 IC 符号独立翻转·双侧）→ p=(1+Σ|μ_p|≥|μ|)/(P+1)。禁挪用他面。
 - 语义锚：同组合=同格 derivation 面→ledger +0（§3 原文）；跑全量候选 4,060（pairs+triples·对照/null 不入）；产物=results/census_fusion_s2/w1_unc.json+unc_checkpoint.jsonl（200 组合 cadence）。
+
+### §9.2 s3 不确定面（UNC）跑后定稿【R290 bm-a·一次定稿】
+
+- **执行路由如实披露**：§6 预declared 池第二入口实际未走池——runner 建成当轮实跑全量 **62.6s（<5min=O-2100 池路由阈值·in-round 合法）**，池第二入口由完成态自然 discharge（无虚设 ready 条目）；freeze（§9.1·commit 9x）先于 build 先于 run 链完整（R99）。
+- 全量 4,060 候选组合（pairs 406+triples 3,654·derivation 面 ledger +0·无 attrition 行=NAV 推导面先例）；B=200 循环块 block=20 交易日 bootstrap + P=200 sign-flip 置换；seed 派生 `[20275000, i]` 逐组合（§9.1）；4 workers。
+- **交叉锚验证**：unc 观测 ×2 Sharpe vs w1_cells.csv 同 id 全量比对 **4,060 checked / 0 mismatches**（同引擎路径·推导一致性机检过）。
+- **诚实读数**：bootstrap CI 下界>0（ci_pos）=**仅 1/4,060**（T:amt_20|price_position|lowamp20·x2 0.6626·CI[0.0317, 1.4564]·ic_p 0.005=双过面唯一员）；s4 跨族 top 组合 T:extreme_freq|return_skew|lowamp20（x2 0.7249）CI **[−0.05, 1.4686]=ci_pos 不成立**；sign-flip IC p≤0.05=**2,203/4,060（54.3%**=IC 置换面远宽于 blend 面）；ci_pos∧p 双过=1。
+- **funnel 注记（T-23 消费面）**：×2 成本面上 blend-bootstrap CI 是绑定性的不确定度滤面（IC 面单过=弱证据）；唯一双过员=lowamp 承载组合（与 §8 P1 家族富集同向）。逐组合注记全量序列化 w1_unc.json rows（零选择性披露）。
+- 回执：R290 轮报告 + post_review 行 T-86-S3-CENSUS-FUS-UNC（锚稳定产物件）。

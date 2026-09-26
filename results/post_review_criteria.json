@@ -2351,6 +2351,150 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-86-S3-CENSUS-FUS-UNC",
+   "claim": "T-86 s3 uncertainty face full arc: prereg sec.3 s3 rules frozen at e51e55e0 + sec.9.1 seed freeze census_fusion_s2_unc=20275000 committed BEFORE unc runner build (R99 chain) -> runner extended scripts/census_fusion_s2.py unc subcommand (selftest 22 legs ALL PASS incl. determinism/ordinal-sensitivity/bootstrap/permutation/native-type/return-series-parity/worker-glue legs) -> full run landed 2026-09-27 03:3x in-round 62.6s (below O-2100 5-min pool threshold; pre-declared pool second entry discharged by completion, honestly disclosed) -> 4,060 candidate combos derivation face ledger +0 (B=200 block-20td circular bootstrap x2 Sharpe CI + P=200 sign-flip two-sided IC permutation p, per-combo rng [20275000, i]) -> cross-anchor vs w1_cells.csv 4,060 checked 0 mismatches -> honest readings: ci_pos 1/4060 (T:amt_20|price_position|lowamp20 CI [0.0317, 1.4564]), top x2 combo CI [-0.05, 1.4686] = NOT ci_pos, ic_p<=0.05 2203/4060 (54.3%, IC face far more permissive than blend face), both=1; zero registration effect, per-row annotations serialized for T-23 intake funnel",
+   "claim_source": "research/CENSUS_FUSION_S2_PREREG.md sec.3 s3 (frozen at e51e55e0) + sec.9.1 seed freeze (R290 commit precedes build) + sec.9.2 one-time finalization + results/census_fusion_s2/w1_unc.json product + results/census_fusion_s2/unc_checkpoint.jsonl (4,060 rows, 200-combo cadence)",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/CENSUS_FUSION_S2_PREREG.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/CENSUS_FUSION_S2_PREREG.md",
+      "§9.2 s3 不确定面（UNC）跑后定稿"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/census_fusion_s2.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "batch",
+      "CENSUS_FUS_S2_W1-UNC"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "evidence_cutoff",
+      "2026-09-24"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "n_combos",
+      "4060"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "unc.B",
+      "200"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "unc.block_days",
+      "20"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "unc.P",
+      "200"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "unc.seed_base",
+      "20275000"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "cross_anchor.mismatches",
+      "0"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "cross_anchor.checked",
+      "4060"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "audit.ledger_trials_added",
+      "0"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "trials_ledger.added",
+      "0"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "uncert_summary.n_ci_pos",
+      "1"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "\"n_ic_p_le_0.05\": 2203"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/census_fusion_s2/w1_unc.json",
+      "uncert_summary.n_ci_pos_and_p",
+      "1"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened)"
