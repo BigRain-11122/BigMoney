@@ -644,6 +644,7 @@ def _load_calib_for_emission():
 
 PROFILE_PREREG = os.path.join(ROOT, "research", "PROFILE_CARDS_P1.md")
 SAMPLE_SCIENCE_PREREG = os.path.join(ROOT, "research", "SAMPLE_SCIENCE_P1.md")
+LANDING_HOOKS_PREREG = os.path.join(ROOT, "research", "LANDING_HOOKS_P1.md")
 PROFILE_MIN_N_DAYS = 20     # §3 冻结线：州内证据日下限
 PROFILE_MIN_EPISODES = 2    # §3 冻结线：独立政体窗下限（单连续段=零复制）
 PROFILE_STATES = ("GREEN", "YELLOW", "ORANGE", "RED")
@@ -1055,6 +1056,123 @@ def build_profile_cards():
     }
 
 
+# ———————————————— 落地钩子（T-81 slice-4 · O-20260926-1342 §四④ · LANDING_HOOKS_P1）————————————————
+# 预注册冻结: research/LANDING_HOOKS_P1.md（判线零改动=三族自家冻结判词面逐字消费）。
+# 落地=晋升级正面判定（CN/GRID/WILD 各自冻结判词位）；观察 marks 车道≠落地；
+# 落地≠激活（激活仍走 profile_cards 逐州证据门×L3 格证据门，O-1342 §一.4 fail-closed 镜像）。
+
+def landing_hooks(results_dir=None):
+    """T-81 slice-4：三族落地判定+落地后画像管线动作契约（读数派生面，零判定线）。
+    缺件=ABSENT 诚实态（fail-closed，禁默认落地）；hermetic 夹具经 results_dir 注入。"""
+    import glob as _glob
+    rd = results_dir or RESULTS
+    # — GRID 族（T-78）：grid_sleeve_p1.json 判词面（s5b verbatim：science survivor
+    #   =G1'v2 AND GATE-A；paper candidacy 另需 D6<0.70 注册面）；观察账户≠落地 —
+    grid = _load(os.path.join(rd, "grid_sleeve_p1.json"))
+    if isinstance(grid, dict) and "survivors_science" in grid:
+        surv = grid.get("survivors_science") or []
+        cand = grid.get("paper_candidates") or []
+        grid_rec = {
+            "state": "ok",
+            "judgment_face": "results/grid_sleeve_p1.json (T-78 s5b verdict verbatim)",
+            "n_survivors_science": len(surv),
+            "n_paper_candidates": len(cand),
+            "observation_lane_note": ("GRID-* paper marks accounts = observation lane, NOT "
+                                      "landing (O-20260926-0958 unlock-4 + PROFILE_CARDS_P1 sec.0)"),
+            "landings": [c.get("code") if isinstance(c, dict) else str(c) for c in cand],
+        }
+        if surv and not cand:
+            grid_rec["intermediate"] = "SURVIVORS_NO_CANDIDACY"
+    else:
+        grid_rec = {"state": "ABSENT",
+                    "note": "results/grid_sleeve_p1.json missing/unreadable -> fail-closed",
+                    "landings": []}
+    # — CN 族（T-73 s3 五模型链）：cn_*/p1_results.json g1'v2 pass 位（≥1 pass=最佳 cell
+    #   过线=该模型判正；CN-GRID-SLEEVE 与 GRID 族同件，经 grid 判词面共享读） —
+    cn = {"judgment_face": "results/cn_*/p1_results.json (g1_prime_v2 pass bits) + grid face "
+                           "for CN-GRID-SLEEVE",
+          "models": {}, "landings": []}
+    for p in sorted(_glob.glob(os.path.join(rd, "cn_*", "p1_results.json"))):
+        model = "CN-" + os.path.basename(os.path.dirname(p))[3:].upper().replace("_", "-")
+        g1 = (_load(p) or {}).get("g1_prime_v2")
+        if not isinstance(g1, dict) or not g1:
+            cn["models"][model] = {"state": "ABSENT",
+                                   "note": "product unreadable / no g1 face (fail-closed)"}
+            continue
+        n_pass = sum(1 for v in g1.values() if isinstance(v, dict) and v.get("pass"))
+        rec = {"state": "ok", "n_cells": len(g1), "n_pass": n_pass}
+        if n_pass:
+            rec["landing_cells"] = [k for k, v in g1.items()
+                                    if isinstance(v, dict) and v.get("pass")]
+            cn["landings"].append(model)
+        cn["models"][model] = rec
+    if grid_rec["state"] == "ok":
+        cn["models"]["CN-GRID-SLEEVE"] = {
+            "state": "ok",
+            "judgment_face": "results/grid_sleeve_p1.json (shared with GRID family)",
+            "n_survivors_science": grid_rec["n_survivors_science"],
+            "n_paper_candidates": grid_rec["n_paper_candidates"],
+        }
+        if grid_rec["landings"]:
+            cn["landings"].append("CN-GRID-SLEEVE")
+    else:
+        cn["models"]["CN-GRID-SLEEVE"] = {"state": "ABSENT",
+                                          "note": "grid face absent (shared with GRID family)"}
+    cn["state"] = "ok" if any(m.get("state") == "ok" for m in cn["models"].values()) else "ABSENT"
+    # — WILD 族（T-57）：wild_route_s1.json g1'v2 pass 位（幸存者=未来 satellite 袖供给面） —
+    w1 = (_load(os.path.join(rd, "wild_route", "wild_route_s1.json")) or {}).get("g1_prime_v2")
+    if isinstance(w1, dict) and w1:
+        n_pass = sum(1 for v in w1.values() if isinstance(v, dict) and v.get("pass"))
+        wrec = {"state": "ok",
+                "judgment_face": "results/wild_route/wild_route_s1.json",
+                "n_cells": len(w1), "n_pass": n_pass, "landings": []}
+        if n_pass:
+            wrec["landing_cells"] = [k for k, v in w1.items()
+                                     if isinstance(v, dict) and v.get("pass")]
+            wrec["landings"] = list(wrec["landing_cells"])
+    else:
+        wrec = {"state": "ABSENT",
+                "note": "results/wild_route/wild_route_s1.json missing/unreadable -> fail-closed",
+                "landings": []}
+    fam = {"CN (T-73 s3 five-model chain)": cn,
+           "GRID (T-78 grid sleeve)": grid_rec,
+           "WILD (T-57 wild-route)": wrec}
+    landed = [{"family": fname, "member": m}
+              for fname, rec in fam.items() for m in rec.get("landings", [])]
+    action_required = [{"action": "profile on landing (O-1342 sec.4 item-4)",
+                        "family": e["family"], "member": e["member"],
+                        "pipeline": "marks/paper ledger -> results/retro_paper_2026/"
+                                    "*_ledger.json -> build_profile_cards auto-inclusion "
+                                    "(no ledger yet = LANDED_AWAITING_LEDGER honest "
+                                    "intermediate, no fabricated card)",
+                        "activation_note": "landing != activation; activation still requires "
+                                           "per-state PASS evidence gate x L3 cell evidence "
+                                           "gate x design nomination (fail-closed)"}
+                       for e in landed]
+    board = _load(os.path.join(rd, "retro_paper_2026", "LEADERBOARD.json")) or {}
+    try:
+        with open(LANDING_HOOKS_PREREG, "rb") as f:
+            lh_sha16 = hashlib.sha256(f.read()).hexdigest()[:16]
+    except OSError:
+        lh_sha16 = None
+    return {
+        "batch": "LANDING-HOOKS-P1", "ticket": "T-2026-09-26-81", "order": "O-20260926-1342",
+        "prereg": "research/LANDING_HOOKS_P1.md", "prereg_sha256_16": lh_sha16,
+        "evidence_cutoff": board.get("evidence_cutoff") or "2026-09-24",
+        "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
+        "philosophy": "landing = promotion-grade positive judgment per each family's own "
+                      "frozen prereg (verbatim consumption, zero new criteria); observation "
+                      "marks lane is NOT landing; landing != activation",
+        "families": fam,
+        "landed": landed,
+        "action_required": action_required,
+        "summary": {"n_landings": len(landed),
+                    "hook_state": "armed" if not landed else "FIRED",
+                    "cadence": "re-derived on every strategy_scorecard refresh (S6 chain "
+                               "wiring); L3 no-member sleeve structural labels cite this face"},
+    }
+
+
 # ———————————————— 装配 ————————————————
 
 def build(strategy_payload, corps, papers, g25s, pbt, iv6, ew6, spm_j4, stable, pbo):
@@ -1154,6 +1272,7 @@ def run(out_path=OUT_DEFAULT):
         _attach_composites(built["portfolio_cards"], calib["pw"], calib["pb"],
                            portfolio_face_scores, PORTFOLIO_FACES)
     profile_face = build_profile_cards()
+    hooks_face = landing_hooks()
     payload = {
         "ticket": "T-2026-09-25-63", "order": "O-20260925-1755",
         "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
@@ -1184,6 +1303,7 @@ def run(out_path=OUT_DEFAULT):
         "trader_cards": built["trader_cards"],
         "portfolio_cards": built["portfolio_cards"],
         "profile_cards": profile_face,
+        "landing_hooks": hooks_face,
         "cross_period_shared": built["cross_period_shared"],
         "discipline_veto_hits": built["discipline_veto_hits"],
         "summary": {"n_strategy_cards": len(strategy_payload.get("per_trader") or {}),
@@ -1202,6 +1322,8 @@ def run(out_path=OUT_DEFAULT):
                               "results/current_market_stable_profit.json",
                               "results/pbo_cscv_v1.json",
                               "results/retro_paper_2026/*_ledger.json (profile_cards face, T-81)",
+                              "results/cn_*/p1_results.json + results/grid_sleeve_p1.json + "
+                              "results/wild_route/wild_route_s1.json (landing_hooks face, T-81 slice-4)",
                               "Money02/data/lhb/lhb_detail.parquet (heat via market_clock_backtest.build_heat)"]
                   + (["results/strategy_scorecard_calib.json (frozen bands)"] if calib else []),
                   "read_only_reuse": "CORR_WATCH/g25/t22/t27/t28/t33 readers per ticket anti-dup"},
@@ -1566,6 +1688,61 @@ def selftest():
         assert face_live.get("sample_science_prereg_sha256_16"), "slice-3 prereg sha missing"
     else:
         print("  [profile] live leg SKIP (retro ledgers absent) -- honest")
+    # P11 (slice-4): 落地钩子 — 三族 hermetic 合成夹具（r157/r162 生产形态律：喂序列化件
+    # 非内存对象）+缺件 fail-closed+GRID 中间态+CN-GRID-SLEEVE 共享读+在位零落地实腿
+    import tempfile
+    import shutil
+    td = tempfile.mkdtemp(prefix="lh_p11_")
+    try:
+        # P11a: 缺件 = 三族全 ABSENT、CN-GRID-SLEEVE 联动 ABSENT、零落地 armed
+        h0 = landing_hooks(td)
+        assert h0["summary"]["n_landings"] == 0 and h0["summary"]["hook_state"] == "armed"
+        assert all(v["state"] == "ABSENT" for v in h0["families"].values())
+        assert h0["families"]["CN (T-73 s3 five-model chain)"]["models"]["CN-GRID-SLEEVE"]["state"] == "ABSENT"
+        # P11b: CN 正例（1 pass cell=LANDED）+ GRID 中间态（survivor 无 candidacy）+ WILD 负例
+        os.makedirs(os.path.join(td, "cn_test_model"), exist_ok=True)
+        with open(os.path.join(td, "cn_test_model", "p1_results.json"), "w", encoding="utf-8") as f:
+            json.dump({"g1_prime_v2": {"A_bare": {"pass": True}, "A_gate": {"pass": False},
+                                        "B_bare": {"pass": False}, "B_gate": {"pass": False}}}, f)
+        with open(os.path.join(td, "grid_sleeve_p1.json"), "w", encoding="utf-8") as f:
+            json.dump({"survivors_science": [{"code": "510300"}], "paper_candidates": []}, f)
+        os.makedirs(os.path.join(td, "wild_route"), exist_ok=True)
+        with open(os.path.join(td, "wild_route", "wild_route_s1.json"), "w", encoding="utf-8") as f:
+            json.dump({"g1_prime_v2": {"P01|x1": {"pass": False}}}, f)
+        h1 = landing_hooks(td)
+        cnm = h1["families"]["CN (T-73 s3 five-model chain)"]["models"]
+        assert cnm["CN-TEST-MODEL"]["n_pass"] == 1 and cnm["CN-TEST-MODEL"]["landing_cells"] == ["A_bare"]
+        assert cnm["CN-GRID-SLEEVE"]["n_survivors_science"] == 1   # 与 GRID 族同件共享读
+        assert "CN-TEST-MODEL" in h1["families"]["CN (T-73 s3 five-model chain)"]["landings"]
+        g1f = h1["families"]["GRID (T-78 grid sleeve)"]
+        assert g1f["intermediate"] == "SURVIVORS_NO_CANDIDACY" and g1f["n_paper_candidates"] == 0
+        assert h1["families"]["WILD (T-57 wild-route)"]["n_pass"] == 0
+        assert h1["summary"]["n_landings"] == 1 and h1["summary"]["hook_state"] == "FIRED"
+        assert h1["action_required"][0]["member"] == "CN-TEST-MODEL"
+        assert "retro_paper_2026" in h1["action_required"][0]["pipeline"]  # 画像管线入口契约
+        # P11c: GRID 落地正例 — paper candidacy -> GRID 落地 + CN-GRID-SLEEVE 联动落地
+        with open(os.path.join(td, "grid_sleeve_p1.json"), "w", encoding="utf-8") as f:
+            json.dump({"survivors_science": [{"code": "510300"}],
+                       "paper_candidates": [{"code": "510300"}]}, f)
+        h2 = landing_hooks(td)
+        assert h2["families"]["GRID (T-78 grid sleeve)"]["landings"] == ["510300"]
+        assert "CN-GRID-SLEEVE" in h2["families"]["CN (T-73 s3 five-model chain)"]["landings"]
+        assert h2["summary"]["n_landings"] == 3   # CN-TEST-MODEL + CN-GRID-SLEEVE + GRID 510300
+        # P11d: 在位实腿（在位才跑）— §3 预测=三族全 ok 零落地 armed（五模型链 ALL-NEGATIVE）
+        if os.path.isdir(os.path.join(RESULTS, "cn_rev_tilt")):
+            hl = landing_hooks()
+            assert hl["summary"]["n_landings"] == 0, hl["summary"]
+            assert hl["summary"]["hook_state"] == "armed"
+            assert all(v["state"] == "ok" for v in hl["families"].values()), hl["families"]
+            assert set(hl["families"]["CN (T-73 s3 five-model chain)"]["models"]) == \
+                {"CN-REV-TILT", "CN-DIV-LOWVOL-ROT", "CN-REGIME-POLICY",
+                 "CN-CORE-SATELLITE", "CN-GRID-SLEEVE"}
+            assert hl["families"]["WILD (T-57 wild-route)"]["n_pass"] == 0
+            assert hl["families"]["GRID (T-78 grid sleeve)"]["n_paper_candidates"] == 0
+        else:
+            print("  [landing] live leg SKIP (cn products absent) -- honest")
+    finally:
+        shutil.rmtree(td, ignore_errors=True)
     print("selftest: 6/6 core + 5/5 calibration + 10/10 profile PASS (registered/prospect/"
           "veto/tournament/untested-propagation/iv6 production-shape fixtures; face formulas/"
           "weight-allocation/band-quantiles/end-to-end-calibrate/frozen-band-emission incl "
@@ -1574,6 +1751,9 @@ def selftest():
           "heat-shift attribution/canon self-face/kill-declarations/t22 corps lines verbatim"
           "; T-81 slice-3: four-must cell caliber/CI floor refusal/seed determinism/"
           "synthetic-card wiring/sample-science block"
+          "; T-81 slice-4 landing hooks: absent-fail-closed/CN pass-bit landing/GRID "
+          "survivors-no-candidacy intermediate/shared CN-GRID-SLEEVE read/paper-candidacy "
+          "dual-family firing"
           + (" + live 17-card leg incl slice-3 four-must faces" if os.path.isdir(os.path.join(RESULTS, "retro_paper_2026")) else "") + ")")
     return 0
 

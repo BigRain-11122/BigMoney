@@ -80,7 +80,7 @@ SLEEVE_REGISTRY = {
     "divlowvol": {
         "label": "dividend-lowvol base position",
         "members": [],
-        "structural": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)",
+        "structural": "JUDGED_NEGATIVE (CN-DIV-LOWVOL-ROT 0/4 G1'v2, bm-a R252; state face = results/strategy_scorecard.json landing_hooks, LANDING_HOOKS_P1 sec.2.2)",
     },
     "airdefense_cash": {
         "label": "air-defense cash leg",

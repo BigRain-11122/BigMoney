@@ -62,4 +62,5 @@
 
 ## 变更记录
 
+- v1.1 (2026-09-26 R265 bm-b)：divlowvol 结构标签状态刷新——IN_FLIGHT「runner pending」→JUDGED_NEGATIVE（CN-DIV-LOWVOL-ROT 0/4 G1'v2 判负 bm-a R252 实况）+状态面引用改指 strategy_scorecard.json landing_hooks（LANDING_HOOKS_P1 §2.2 契约首例）。**状态读数更新非判据变更**：§2 判线（证据门×提名交集×无成员袖全格不激活不因格证据翻转）零改动；§7 跑后实证中的 IN_FLIGHT 字样=当时历史实况留档不改。
 - v1.0 (2026-09-26 R255 bm-b)：跑前冻结（O-1342 §三激活表证据化；判线全冻结于跑前）。
