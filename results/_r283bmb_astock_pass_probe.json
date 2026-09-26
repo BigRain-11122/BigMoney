@@ -1,0 +1,60 @@
+{
+ "ts": "2026-09-27T00:34:08",
+ "round": "r283",
+ "machine": "bm-b",
+ "lane": "T-87 astock_daily supply (bm-b)",
+ "pass_state": {
+  "universe_n": 5228,
+  "per_files": 591,
+  "done_pct": 11.3,
+  "lock": {
+   "pid": 29440,
+   "ts": "2026-09-26T23:47:45"
+  },
+  "lock_alive": true,
+  "attempts_n": 3,
+  "attempts": {
+   "000019": 1,
+   "001235": 1,
+   "001246": 1
+  },
+  "quarantined": []
+ },
+ "rate_face": {
+  "n_new": 585,
+  "elapsed_min": 46.4,
+  "rate_per_min": 12.61,
+  "remaining": 4637,
+  "eta_ts": "2026-09-27T06:41:49"
+ },
+ "shape_face": {
+  "frozen_fields": [
+   "date",
+   "open",
+   "high",
+   "low",
+   "close",
+   "volume",
+   "amount",
+   "outstanding_share",
+   "turnover"
+  ],
+  "header_mismatch": [],
+  "tail_date_census_top": [
+   [
+    "2026-09-24",
+    590
+   ],
+   [
+    "2026-09-03",
+    1
+   ]
+  ],
+  "files_at_expected_cutoff": 590,
+  "ohlc_sanity_bad": []
+ },
+ "monday_deadline": "2026-09-28T09:15:00",
+ "eta_ok_before_deadline": true,
+ "verdict": "on_track",
+ "note": "first-pull mid-flight probe #3; failed syms self-heal via file-derived todo on next gate spawn (family law); probe read-only"
+}
