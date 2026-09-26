@@ -1,0 +1,12 @@
+exit=1
+Traceback (most recent call last):
+  File "C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\local_coding_pilot\tasks\08\C\opt_cells_recon.py", line 385, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\local_coding_pilot\tasks\08\C\opt_cells_recon.py", line 331, in main
+    run_selftest()
+    ~~~~~~~~~~~~^^
+  File "C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney\results\local_coding_pilot\tasks\08\C\opt_cells_recon.py", line 282, in run_selftest
+    assert result3["c2_ok"] == False and result3["dup_codes"] == 1 and result3["verdict"] == "MISMATCH fails=1", f"Sample 3 failed: {result3}"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Sample 3 failed: {'lines': 4, 'blank': 0, 'malformed': 0, 'valid': 4, 'codes_unique': 3, 'dup_codes': 0, 'kind_live': 1, 'kind_extra': 3, 'kind_other': 0, 'status_ok': 4, 'status_fail': 0, 'appended_sum': 0, 'pass': '2024-01-01', 'c0_malformed': 0, 'c1_count_valid': 4, 'c1_count_attempted': 4, 'c2_universe_codes_unique': 3, 'c2_universe_universe': 4, 'c3_pass_cells_pass': '2024-01-01', 'c3_pass_panel_pass': '2024-01-01', 'c4_appended_cells': 0, 'c4_appended_panel': 0, 'c5_status_cells_fail': 0, 'c5_status_panel_fails': 0, 'c5_status_panel_mismatches': 0, 'c0_ok': True, 'c1_ok': True, 'c2_ok': False, 'c3_ok': True, 'c4_ok': True, 'c5_ok': True, 'verdict': 'MISMATCH fails=1', 'fails': 1}

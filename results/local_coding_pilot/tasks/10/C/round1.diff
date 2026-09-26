@@ -1,0 +1,11 @@
+--- round0
++++ round1
+@@ -115,6 +115,8 @@
+                         epoch_pos == 'yes' and 
+                         clock == 'ok'):
+                         verdict = 'PASS'
++            except Exception:
++                state = 'bad_json'
+         else:
+             state = 'missing'
+             epoch_type = None

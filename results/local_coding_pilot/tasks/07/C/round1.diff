@@ -1,0 +1,34 @@
+--- round0
++++ round1
+@@ -47,7 +47,7 @@
+         ts_render = "absent"
+ 
+         if raw_text_or_None is None:
+-            pass  # missing already set
++            status = "missing"
+         else:
+             try:
+                 data = json.loads(raw_text_or_None)
+@@ -123,11 +123,11 @@
+ def selftest():
+     now = datetime.datetime.now()
+     test_cases = [
+-        # Case 1: All OK legs with different ages
++        # Case 1: All OK legs with different ages (49h, 25h, 1h, 0h, 0h)
+         {
+             "name": "all_ok",
+             "observations": [
+-                ("ah_panel", "ah_panel_status.json", '{"ts":"2026-09-25 01:00:00"}', "ts"),
++                ("ah_panel", "ah_panel_status.json", '{"ts":"2026-09-24 07:00:00"}', "ts"),
+                 ("daily", "update_status.json", '{"updated":"2026-09-25 01:00:00"}', "updated"),
+                 ("fundamental", "fundamental_status.json", '{"updated":"2026-09-26 01:00:00"}', "updated"),
+                 ("lhb", "lhb_update_status.json", '{"updated":"2026-09-26 01:00:00"}', "updated"),
+@@ -140,7 +140,7 @@
+                 "total_stale": 2
+             }
+         },
+-        # Case 2: Mixed status
++        # Case 2: Mixed status (1 ok + 1 bad_ts + 1 missing)
+         {
+             "name": "mixed_status",
+             "observations": [

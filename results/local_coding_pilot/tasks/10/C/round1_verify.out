@@ -1,0 +1,14 @@
+exit=1
+FAILED: all_pass - Line 0 mismatch
+  Expected: MACHINE bm-a state=ok epoch_type=int epoch=1790359975 epoch_pos=yes clock=ok verdict=PASS
+  Got:      MACHINE bm-a state=ok epoch_type=int epoch=1790359975 epoch_pos=yes clock=bad verdict=PASS
+FAILED: epoch_type_mismatch - Line 0 mismatch
+  Expected: MACHINE bm-a state=ok epoch_type=str epoch="1790359975" epoch_pos=- clock=ok verdict=FAIL
+  Got:      MACHINE bm-a state=ok epoch_type=str epoch="1790359975" epoch_pos=yes clock=bad verdict=FAIL
+FAILED: structural_issues - Line 0 mismatch
+  Expected: MACHINE bm-a state=missing epoch_type=- epoch=- epoch_pos=- clock=- verdict=FAIL
+  Got:      MACHINE bm-a state=missing epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL
+FAILED: clock_and_epoch_pos - Line 2 mismatch
+  Expected: MACHINE bm-c state=ok epoch_type=int epoch=0 epoch_pos=no clock=ok verdict=FAIL
+  Got:      MACHINE bm-c state=ok epoch_type=int epoch=0 epoch_pos=yes clock=bad verdict=FAIL
+FAILED: boundary_cases - Expected pass count 1, got 2

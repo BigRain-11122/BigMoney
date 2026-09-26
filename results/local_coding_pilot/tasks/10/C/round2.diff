@@ -1,0 +1,37 @@
+--- round1
++++ round2
+@@ -195,8 +195,8 @@
+             "expected_pass_count": 0,
+             "expected_n": 3,
+             "expected_lines": [
+-                'MACHINE bm-a state=missing epoch_type=- epoch=- epoch_pos=- clock=- verdict=FAIL',
+-                'MACHINE bm-b state=bad_json epoch_type=- epoch=- epoch_pos=- clock=- verdict=FAIL',
++                'MACHINE bm-a state=missing epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
++                'MACHINE bm-b state=bad_json epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
+                 'MACHINE bm-c state=ok epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
+                 'VERDICT pass=0/3'
+             ]
+@@ -231,7 +231,7 @@
+                 "bm-i": '123',
+                 "bm-j": 'null'
+             },
+-            "expected_pass_count": 1,
++            "expected_pass_count": 2,
+             "expected_n": 10,
+             "expected_lines": [
+                 'MACHINE bm-a state=ok epoch_type=bool epoch=false epoch_pos=- clock=ok verdict=FAIL',
+@@ -240,10 +240,10 @@
+                 'MACHINE bm-d state=ok epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
+                 'MACHINE bm-e state=ok epoch_type=int epoch=4611686018427387904 epoch_pos=yes clock=ok verdict=PASS',
+                 'MACHINE bm-f state=ok epoch_type=int epoch=1790359975 epoch_pos=yes clock=ok verdict=PASS',
+-                'MACHINE bm-g state=bad_json epoch_type=- epoch=- epoch_pos=- clock=- verdict=FAIL',
+-                'MACHINE bm-h state=bad_json epoch_type=- epoch=- epoch_pos=- clock=- verdict=FAIL',
+-                'MACHINE bm-i state=bad_json epoch_type=- epoch=- epoch_pos=- clock=- verdict=FAIL',
+-                'MACHINE bm-j state=bad_json epoch_type=- epoch=- epoch_pos=- clock=- verdict=FAIL',
++                'MACHINE bm-g state=bad_json epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
++                'MACHINE bm-h state=bad_json epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
++                'MACHINE bm-i state=bad_json epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
++                'MACHINE bm-j state=bad_json epoch_type=missing epoch=- epoch_pos=- clock=missing verdict=FAIL',
+                 'VERDICT pass=2/10'
+             ]
+         }

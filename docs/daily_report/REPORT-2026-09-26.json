@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-26",
- "generated_at": "2026-09-26 10:27:18",
+ "generated_at": "2026-09-26 10:49:18",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -284,20 +284,17 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 519,
-  "result_jsons_landed_24h": 91,
-  "digests_landed_24h": 33,
-  "prereg_md_touched_24h": 22,
+  "commits_24h": 521,
+  "result_jsons_landed_24h": 92,
+  "digests_landed_24h": 30,
+  "prereg_md_touched_24h": 23,
   "compute_audit_latest": {
-   "ts": "2026-09-26 10:26:07",
-   "py_cpu_pct": 1.4,
-   "flags": [
-    "cap_violation",
-    "pool_starvation"
-   ],
-   "verdict": "FLAG:cap_violation,pool_starvation"
+   "ts": "2026-09-26 10:47:46",
+   "py_cpu_pct": 0.3,
+   "flags": [],
+   "verdict": "CLEAN"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -482,16 +479,23 @@
    "type": "local-first-v2-token-routing",
    "immediate": true,
    "owner": "bm-b (OS iteration loop, round 238; CEO "
+  },
+  {
+   "id": "T-2026-09-26-78",
+   "status": "claimed",
+   "type": "trade-management-unlock",
+   "immediate": true,
+   "owner": "bm-b"
   }
  ],
  "token_line": {
-  "total_state_tokens_est": 1915,
-  "total_report_tokens_est": 390622,
+  "total_state_tokens_est": 1857,
+  "total_report_tokens_est": 394245,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-26 09:28:24",
-   "state_tokens_growth": -16,
-   "report_tokens_growth": 3827,
-   "mandate_growth": 185
+   "prev_generated": "2026-09-26 10:24:50",
+   "state_tokens_growth": -123,
+   "report_tokens_growth": 847,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,

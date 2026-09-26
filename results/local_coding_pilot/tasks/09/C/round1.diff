@@ -1,0 +1,36 @@
+--- round0
++++ round1
+@@ -44,8 +44,11 @@
+                 if m:
+                     done_pass = m.group(1) == 'True'
+                     done_appended = int(m.group(2))
+-                    done_mismatches = len(m.group(3).strip()) > 0 and len(m.group(3).split(',')) or 0
+-                    done_fails = len(m.group(4).strip()) > 0 and len(m.group(4).split(',')) or 0
++                    # 计算列表元素数
++                    mismatches_str = m.group(3).strip()
++                    done_mismatches = len(mismatches_str) > 0 and len(mismatches_str.split(',')) or 0
++                    fails_str = m.group(4).strip()
++                    done_fails = len(fails_str) > 0 and len(fails_str.split(',')) or 0
+                     last_pass = m.group(5)
+ 
+                 # fuse_events 行
+@@ -300,7 +303,9 @@
+     assert result['lanes']['options']['state'] == 'in_progress'
+     assert result['lanes']['options']['progress'] == "50/200"
+     assert result['lanes']['options']['done_pass'] is None
+-    assert result['lines'][0].startswith("LANE options state=in_progress progress=50/200 appended=- fuse=- pending=- fuse_events=0 done_pass=- done_appended=- done_mismatches=- done_fails=- last_pass=-")
++    # 修正：确保输出行格式正确
++    expected_line_0 = "LANE options state=in_progress progress=50/200 appended=- fuse=- pending=- fuse_events=0 done_pass=- done_appended=- done_mismatches=- done_fails=- last_pass=-"
++    assert result['lines'][0] == expected_line_0
+     assert result['lines'][3] == "VERDICT ok=2/3"
+ 
+     # 样例三：mf 受阻
+@@ -409,7 +414,7 @@
+     elif sys.argv[1] == 'selftest':
+         selftest()
+         sys.exit(0)
+-    elif sys.argv[1] == 'live':
++    elif len(sys.argv) > 1 and sys.argv[1] == 'live':
+         logs_dir = sys.argv[2] if len(sys.argv) > 2 else "logs"
+         if not os.path.isdir(logs_dir):
+             print(f"Error: {logs_dir} is not a directory", file=sys.stderr)
