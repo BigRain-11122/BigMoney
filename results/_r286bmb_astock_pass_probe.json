@@ -1,0 +1,60 @@
+{
+ "ts": "2026-09-27T01:18:47",
+ "round": "r286",
+ "machine": "bm-b",
+ "lane": "T-87 astock_daily supply (bm-b)",
+ "pass_state": {
+  "universe_n": 5228,
+  "per_files": 1170,
+  "done_pct": 22.4,
+  "lock": {
+   "pid": 29440,
+   "ts": "2026-09-26T23:47:45"
+  },
+  "lock_alive": true,
+  "attempts_n": 3,
+  "attempts": {
+   "000019": 1,
+   "001235": 1,
+   "001246": 1
+  },
+  "quarantined": []
+ },
+ "rate_face": {
+  "n_new": 1164,
+  "elapsed_min": 91.0,
+  "rate_per_min": 12.78,
+  "remaining": 4058,
+  "eta_ts": "2026-09-27T06:36:12"
+ },
+ "shape_face": {
+  "frozen_fields": [
+   "date",
+   "open",
+   "high",
+   "low",
+   "close",
+   "volume",
+   "amount",
+   "outstanding_share",
+   "turnover"
+  ],
+  "header_mismatch": [],
+  "tail_date_census_top": [
+   [
+    "2026-09-24",
+    1169
+   ],
+   [
+    "2026-09-03",
+    1
+   ]
+  ],
+  "files_at_expected_cutoff": 1169,
+  "ohlc_sanity_bad": []
+ },
+ "monday_deadline": "2026-09-28T09:15:00",
+ "eta_ok_before_deadline": true,
+ "verdict": "on_track",
+ "note": "first-pull mid-flight probe #6 (r285 next-pointer health watch; pass-completion re-probe stays queued for after ETA ~06:40); failed syms self-heal via file-derived todo on next gate spawn (family law); probe read-only; lineage face = r281-r285 frozen probe verbatim (ad-hoc rate probes a/b/c superseded at r284)"
+}

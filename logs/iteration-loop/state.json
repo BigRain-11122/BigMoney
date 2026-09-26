@@ -1,16 +1,16 @@
 {
- "round_no": 285,
- "did": "r285: T-87 astock first-pull mid-flight probe #5 on_track (828/5228=15.8%, 12.68/min lock-start face, ETA Sun 06:39:35 = 26.6h before Mon 09:15 live fire, 827/828 at cutoff 2026-09-24, zero shape defects, rate face stable probes 3->5 12.61/12.65/12.68); ticket progress_r285_bmb field-increment 2+/1-; watch faces: REV-OSC pool ready (lane_owner bm-a, bm-b autofill skip correct per 00:50 tick), CN_TREND_ETF_P1 pool face absent (bm-a runner pending), Optuna 6 validated < 8 stays gated; S6 22 legs rc=0 (WM probe verdict=py_low_with_work_cands legal-idle proven: only ready shard REV-OSC=bm-a lane, bandit next_pick=claimed/parked MF panel source-blocked, board 0 open; compute_audit CLEAN flags=[]; unified ledger 187,845 flat-read); HANDOVER 5x check delivered (r285 multiple of 5); orders 89/89 double-scan zero unacked",
+ "round_no": 286,
+ "did": "r286: CN-TREND-ETF-P1 pool first-fire DOUBLE crash root-fix (bug1 int64 dump: transitions_head 'leg'=flatnonzero np.int64, judged-face collect only -> _jsonable native coercion at 3 dump sites + selftest leg [13], 22/22, real-data crash-face probe PASS 6.4s, x2 sharpe 0.4516 == bm-a registered gate-probe value = cross-machine determinism evidence; bug2 assembly glue: blob never stored into cells_out[name][face] both branches -> KeyError 'x2' at judged zero-trades check, selftest [12] hand-builds cells_out = driver-glue blind seam, fixed, 22/22; zero-judged window r253 law, MA_BASE x1/x2 checkpoints committed for pool idempotent resume; 01:20 tick relaunched with fix1 sha e1ad5cb03d077019, fix2 landed 01:28 before 01:30 tick); T-87 astock probe #6 on_track (1170/5228=22.4%, 12.78/min, ETA 06:36:12 < Mon 09:15 deadline, 1169/1170 at cutoff 2026-09-24, zero shape defects); S0 rebase UU autofill_state resolved per skill union recipe (51 -> newest 50, same-second tie 01:10:01 -> HEAD per r140); S6 22 legs rc=0 (WM probe py_low_board_clear 01:19:35, compute_audit CLEAN flags=[], astock lock-alive no-op); orders 89/89 double-scan zero unacked; decisions.md not reachable at ..\\..\\docs (group layer) = zero action; CODELY 1 law line (both bugs, r259 family 2 new params), 48.9KB < 50KB watermark",
  "verdict": "green",
- "next": "r286: T-87 mid-flight probe #6 (frozen lineage continuation); pass-completion re-probe queued after ETA ~06:40; Mon 09-28 09:15 first daily-continuation live fire (stragglers gate self-heal); REV-OSC autofill launch watch (bm-a lane, pool ready since 00:31); CN_TREND_ETF_P1 runner/pool face watch (bm-a); migration window to 09-29 12:00 (v2.2 armed, editor-gated); 10-01 month-first trio (science_audit+monthly_briefing+self_review)",
- "last_round_ts": "2026-09-27T00:46:20",
+ "next": "r287: CN-TREND relaunch watch (01:30 tick face carries both fixes; p1_results.json lands -> harvest per r244 landed-marker law + prereg gates read); T-87 probe #7 (frozen lineage); pass-completion re-probe after ETA ~06:36; Mon 09-28 09:15 first daily-continuation live fire (stragglers gate self-heal); migration window to 09-29 12:00 (v2.2 armed, editor-gated); 10-01 month-first trio (science_audit+monthly_briefing+self_review)",
+ "last_round_ts": "2026-09-27T00:56:10",
  "last_result": "ok",
- "current_task": "T-87 supply lane: first-pull pass in flight (probe #5 on_track 828/5228, ETA Sun 06:40); S6 22 legs green; HANDOVER 5x; wrap r285",
- "last_tick": "00:56",
- "updated_at": "2026-09-27T00:56:10",
- "last_seen": "2026-09-27T00:56:10",
- "ts": "2026-09-27T00:56:10",
- "last_run": "R285 2026-09-27T00:56:10.546379",
- "last_round_at": "2026-09-27T00:56:10",
- "updated": "2026-09-27T00:56:10"
+ "current_task": "CN-TREND pool first-fire double crash-fix delivered (22/22 green, checkpoints committed); T-87 first-pull in flight (probe #6 on_track, ETA 06:36); S6 22 legs green; wrap r286",
+ "last_tick": "01:23",
+ "updated_at": "2026-09-27T01:23:38",
+ "last_seen": "2026-09-27T01:23:38",
+ "ts": "2026-09-27T01:23:38",
+ "last_run": "R286 2026-09-27T01:23:38.653800",
+ "last_round_at": "2026-09-27T01:23:38",
+ "updated": "2026-09-27T01:23:38"
 }
