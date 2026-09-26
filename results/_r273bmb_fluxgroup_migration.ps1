@@ -11,6 +11,18 @@
 # DryRun switch: Gate 0 validation only (build+parse all redefinition XMLs, log plan,
 # exit 0). No disable / no move / no registry write.
 #
+# r275 AMENDMENT (precheck-first + single-instance lock, bm-a v2.1 design adopted):
+# run-3 21:04->22:04 ABORT burned the whole disable-first Gate-2 budget on ONE
+# unbounded user face (leftover interactive shell / hung-codely parent, PID 4036)
+# with all 19 lanes frozen for the hour -- and with the Tuanjie editor open the MG
+# move was structurally doomed anyway (editor holds project handles no CWD probe
+# needs to see for the rename to fail). Fixes: (f) Gate 0.5 precheck loop waits for
+# UNBOUNDED user faces (editors by name; explorer windows / >2h-old root holders;
+# hung codely chains) with ZERO mutation -- lane loops keep producing while waiting,
+# freeze window starts only when the environment can actually clear; (g) single-
+# instance PID lock prevents a later round from double-arming a second executor;
+# (h) idempotence face: new roots already present -> exit 0 without freeze.
+#
 # r274 AMENDMENT (post-abort root-cause hardening): the 20:48 ABORT was caused by
 # CWD-class handle holders that the CommandLine quiesce scan is STRUCTURALLY blind to
 # (live probe results/_r274bmb_holder_probe.json: powershell.exe -NoLogo interactive
@@ -29,6 +41,7 @@ param([int]$MaxWaitMin = 60, [switch]$DryRun)
 $ErrorActionPreference = 'Continue'
 $Journal = 'C:\Users\Administrator\fluxgroup-migration-journal.log'
 $Marker   = 'C:\Users\Administrator\fluxgroup-migration-aborted.flag'
+$LockFile = 'C:\Users\Administrator\fluxgroup-migration-executor.lock'
 $PrepDir  = Join-Path $env:TEMP 'fg-redef-bmb'
 Set-Location $env:TEMP   # r274: executor must never hold a CWD on either old root (self-deadlock face)
 
@@ -125,12 +138,26 @@ function Abort($reason) {
     Log("ABORT: $reason - re-enabling all tasks, old trees untouched")
     foreach ($t in $Tasks) { schtasks /change /tn $t /enable *> $null; Log("re-enabled $t") }
     Set-Content -Path $Marker -Value $reason
+    Remove-Item $LockFile -Force -ErrorAction SilentlyContinue
     Log('ABORT complete - retry window open, deadline 2026-09-29 12:00')
     exit 2
 }
 
 Log('=== bm-b base unification migration START (O-20260926-2000-bm-c) ===')
 if (Test-Path $Marker) { Remove-Item $Marker -Force }
+
+# r275: single-instance lock (execute mode only) -- prevents a later round from
+# double-arming a second executor while one is alive (two movers = task/disable races).
+if (-not $DryRun) {
+    if (Test-Path $LockFile) {
+        $lp = 0; [void][int]::TryParse((Get-Content $LockFile -ErrorAction SilentlyContinue), [ref]$lp)
+        $lpc = Get-Process -Id $lp -ErrorAction SilentlyContinue
+        if ($lpc -and $lpc.ProcessName -match '(?i)powershell') { Log("single-instance lock: executor pid=$lp already ACTIVE - this instance exits (no mutation)"); exit 4 }
+        Log("stale lock discarded (pid=$lp not alive as powershell)")
+    }
+    Set-Content -Path $LockFile -Value $PID
+    Log("single-instance lock acquired: pid=$PID")
+}
 
 # -- Gate 0 (pre-move): build + validate all redefinition XMLs --------------------
 # bm-a r267 closeout-2 battle laws: cmd nested quotes wrote empty files -> no-quote
@@ -170,7 +197,65 @@ if ($LASTEXITCODE -ne 0) { Abort("throwaway round-trip QUERY failed") }
 schtasks /delete /tn $TestTN /f *> $null
 if ($LASTEXITCODE -ne 0) { Abort("throwaway round-trip DELETE failed") }
 Log("throwaway round-trip PASS (create+query+delete of $TestTN from redef XML write-back face)")
-if ($DryRun) { Log('DRYRUN complete - no mutation performed; execute mode = disable/quiesce/move/skeleton/apply/enable'); exit 0 }
+if ($DryRun) { Log('DRYRUN complete - no mutation performed; execute mode = precheck/disable/quiesce/move/skeleton/apply/enable'); exit 0 }
+
+# -- Gate 0.5 (r275): precheck-first interactive-face wait (ZERO mutation until clear) --
+# Unbounded user faces (editors by name, explorer windows on roots, >2h-old root
+# holders = leftover interactive shells / hung codely chains) outlive ANY Gate-2
+# budget; waiting for them AFTER the disable = frozen lanes + guaranteed ABORT
+# (run-3 lesson). Kill-list residue is NOT waited for (Gates 1.5/3.5 own it) and
+# young (<2h) lane rounds are NOT waited for (bounded; Gate 2 owns them once the
+# short freeze starts).
+$WindowDeadline = Get-Date '2026-09-29 12:00'
+$EditorPat  = '^(?i)(tuanjie(\.licensing\.client)?|unity( hub)?|blender|code)$'
+$ResiduePat = '(serve-warm|clash-keepalive|unity-insight-cli|blender-mcp|websockify|ollama|llama-server|plastic)'
+if ((Test-Path $NewMG) -or (Test-Path "$NewBM\.git")) {
+    Log('precheck: new roots already present (migration done?) - exiting 0 WITHOUT freeze')
+    Remove-Item $LockFile -Force -ErrorAction SilentlyContinue
+    exit 0
+}
+function PrecheckBlockers() {
+    $b = @()
+    foreach ($p in (Get-Process -ErrorAction SilentlyContinue)) {
+        if ($p.ProcessName -match $EditorPat) { $b += "editor:$($p.Id):$($p.ProcessName)" }
+    }
+    foreach ($root in @($OldMG, $OldBM)) {
+        foreach ($h in (CwdHolders $root)) {
+            if ($h.name -match $ResiduePat -or $h.cmdline -match $ResiduePat) { continue }
+            if ($h.name -match '(?i)explorer') { $b += "explorer-cwd:$($h.pid)@$($h.cwd)"; continue }
+            # r274 killable class: empty interactive shells (no script payload) -- Gate 3.5 owns them
+            if ($h.name -match '(?i)(powershell|cmd|wscript|conhost|windowsterminal)' -and [string]$h.cmdline -notmatch '(-File|-Command|-enc|-EncodedCommand|\.ps1|\.py|\.js)') { continue }
+            $age = $null; try { $age = ((Get-Date) - (Get-Process -Id $h.pid -ErrorAction Stop).StartTime).TotalHours } catch {}
+            if ($null -ne $age -and $age -lt 2.0) { continue }        # young = active lane round
+            $b += "cwd-holder(age>2h):$($h.pid):$($h.name)@$($h.cwd)"
+        }
+    }
+    foreach ($p in (Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)) {
+        $cl = $p.CommandLine
+        if (-not $cl) { continue }
+        if ($cl -match 'fluxgroup-migration') { continue }
+        if (-not (($cl -match [regex]::Escape($OldBM)) -or ($cl -match [regex]::Escape($OldMG)))) { continue }
+        if ($cl -match $ResiduePat) { continue }
+        if ([string]$p.Name -notmatch '(?i)(codely|powershell|cmd|wscript|node|python)') { continue }
+        $age = $null; try { $age = ((Get-Date) - (Get-Process -Id $p.ProcessId -ErrorAction Stop).StartTime).TotalHours } catch {}
+        if ($null -ne $age -and $age -lt 2.0) { continue }            # young = active lane round
+        $b += "cmd-holder(age>2h):$($p.ProcessId):$($p.Name)"
+    }
+    return $b
+}
+Log('precheck: waiting for unbounded user faces (zero mutation; loops keep running) - window deadline 2026-09-29 12:00')
+while ($true) {
+    $pb = PrecheckBlockers
+    if ($pb.Count -eq 0) { Log('precheck CLEAR: zero unbounded user faces - starting freeze window'); break }
+    Log("precheck waiting: [$($pb -join ', ')]")
+    if ((Get-Date) -gt $WindowDeadline) {
+        Set-Content -Path $Marker -Value 'precheck window deadline 2026-09-29 12:00 expired with unbounded user faces still present (zero mutation performed)'
+        Log('precheck: order window deadline reached - exiting WITHOUT any mutation; retry needs a new CEO order')
+        Remove-Item $LockFile -Force -ErrorAction SilentlyContinue
+        exit 3
+    }
+    Start-Sleep -Seconds 60
+}
 
 # -- Gate 1: disable all production tasks (running instances unaffected) -----------
 foreach ($t in $Tasks) { $r = schtasks /change /tn $t /disable; Log("disable $t -> $(@($r) -join ' ')") }
@@ -412,5 +497,6 @@ $receipt = @{
     note = 'five-receipt assembly (tree snapshot / task-list before-after / per-line ignition / git HEAD / root_path registration) = next bm-b round S0 work per order receipt criteria; delete old-root backup after ignition receipt'
 }
 Set-Content -Path "$NewBM\results\fluxgroup_migration_receipt_bmb.json" -Value ($receipt | ConvertTo-Json -Depth 3)
+Remove-Item $LockFile -Force -ErrorAction SilentlyContinue
 Log('=== MIGRATION COMPLETE - marker written for next round receipt assembly ===')
 exit 0
