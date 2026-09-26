@@ -1,5 +1,5 @@
 {
-  "generated": "2026-09-26 14:52:15",
+  "generated": "2026-09-26 15:09:33",
   "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
   "method": {
     "bpe_proxy": 3.5,
@@ -7,21 +7,21 @@
   },
   "per_round_context": {
     "mandate_read_tokens_est": 7315,
-    "codely_read_tokens_est": 7168,
+    "codely_read_tokens_est": 7655,
     "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
   },
   "machines": {
     "-bm-a": {
       "state_bytes": 0,
       "state_tokens_est": 0,
-      "report_bytes": 666606,
-      "report_tokens_est": 190458
+      "report_bytes": 668213,
+      "report_tokens_est": 190918
     },
     "-bm-c": {
       "state_bytes": 0,
       "state_tokens_est": 0,
-      "report_bytes": 132725,
-      "report_tokens_est": 37921
+      "report_bytes": 132629,
+      "report_tokens_est": 37894
     },
     "bm-a": {
       "state_bytes": 3646,
@@ -53,16 +53,16 @@
     "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 proxy; L3 cloud legs carry api_reason lines in round reports (per-use trail, not aggregated here)",
     "crash_fuse": {
       "sigs": 1,
-      "refusals": 3,
+      "refusals": 4,
       "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
     }
   },
   "total_state_tokens_est": 1969,
-  "total_report_tokens_est": 416930,
+  "total_report_tokens_est": 417363,
   "delta_vs_prev": {
-    "prev_generated": "2026-09-26 14:41:12",
-    "state_tokens_growth": 28,
-    "report_tokens_growth": 2694,
+    "prev_generated": "2026-09-26 14:52:15",
+    "state_tokens_growth": 0,
+    "report_tokens_growth": 433,
     "mandate_growth": 0
   }
 }
