@@ -55,28 +55,31 @@ foreach ($t in $Tasks) { $r = schtasks /change /tn $t /disable; Log("disable $t 
 schtasks /change /tn $Dead /disable *> $null; Log("disable dead task $Dead (absent target, adjudication pending)")
 
 # -- Gate 2: wait for all in-flight instances to finish naturally -----------------
+# Task-status alone is blind to DETACHED codely sessions (loop tasks spawn rounds
+# fire-and-forget; the 20:21 abort proved a live session bypassed this gate), so
+# also scan Win32_Process command lines for anything referencing the old root.
 $deadline = (Get-Date).AddMinutes($MaxWaitMin)
 while ($true) {
     $running = @()
     foreach ($t in $Tasks) { if ((TaskState $t) -eq 'Running') { $running += $t } }
-    if ($running.Count -eq 0) { Log('all company task instances quiescent'); break }
-    Log("waiting for in-flight: $($running -join ', ')")
-    if ((Get-Date) -gt $deadline) { Abort("in-flight instances still running after $MaxWaitMin min: $($running -join ', ')") }
+    $liveProcs = @(Get-CimInstance Win32_Process -Filter "Name != 'System Idle Process'" -ErrorAction SilentlyContinue |
+        Where-Object { $_.CommandLine -and $_.CommandLine -like "*$Old*" } |
+        ForEach-Object { "$($_.Name)/$($_.ProcessId)" })
+    if ($running.Count -eq 0 -and $liveProcs.Count -eq 0) { Log('all company task instances + tree-referencing processes quiescent'); break }
+    Log("waiting: tasks=[$($running -join ', ')] procs=[$($liveProcs -join ', ')]")
+    if ((Get-Date) -gt $deadline) { Abort("in-flight after $MaxWaitMin min: tasks=[$($running -join ', ')] procs=[$($liveProcs -join ', ')]") }
     Start-Sleep -Seconds 30
 }
 
-# -- Gate 3: zero-loss self-proof per repo (order step 2: stash + HEAD record) -----
+# -- Gate 3: zero-loss self-proof per repo (order step 2: HEAD + status record) ---
+# Record-only by design: a same-volume rename preserves ALL working-tree bytes
+# (tracked mods + untracked + dirty), so stashing is unnecessary and would disrupt
+# sibling companies' detached sessions (20:21 evidence: .codely-cli live-lock).
 foreach ($r in $Repos) {
     if (-not (Test-Path "$r\.git")) { Abort("missing git dir: $r") }
     $head = git -C $r rev-parse HEAD 2>$null
     $dirt  = @(git -C $r status --porcelain 2>$null)
-    Log("repo $r HEAD=$head dirt_lines=$($dirt.Count) dirt=$(($dirt -join ' | '))")
-    if ($dirt.Count -gt 0) {
-        $stash = git -C $r stash push -u -m "O-2000 migration zero-loss stash (bm-a $(Get-Date -Format 'yyyyMMdd-HHmmss'))" 2>$null
-        Log("repo $r stashed: $stash")
-        $after = @(git -C $r status --porcelain 2>$null)
-        if ($after.Count -gt 0) { Abort("stash failed to clean repo: $r -> $($after -join ' | ')") }
-    }
+    Log("zero-loss record repo $r HEAD=$head dirt_lines=$($dirt.Count) dirt=$(($dirt -join ' | '))")
 }
 
 # -- Gate 4: same-volume rename move (instant, C: -> C:) ---------------------------
