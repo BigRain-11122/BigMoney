@@ -855,8 +855,8 @@
     {
      "kind": "file_contains",
      "args": [
-      "results/runnable_pool.json",
-      "R248 bm-a deterministic harvest"
+      "research/CN_REV_TILT_PREREG.md",
+      "185798+54=185852"
      ]
     },
     {
@@ -936,8 +936,8 @@
     {
      "kind": "file_contains",
      "args": [
-      "results/runnable_pool.json",
-      "harvested bm-a r252 2026-09-26"
+      "research/CN_DIV_LOWVOL_ROT_PREREG.md",
+      "入池 R251 2026-09-26 14:39:04"
      ]
     },
     {
@@ -1159,8 +1159,8 @@
     {
      "kind": "file_contains",
      "args": [
-      "results/runnable_pool.json",
-      "R256 bm-a deterministic harvest"
+      "research/CN_REGIME_POLICY_PREREG.md",
+      "入池 R256 16:17:58"
      ]
     }
    ]
@@ -1396,8 +1396,8 @@
     {
      "kind": "file_contains",
      "args": [
-      "results/runnable_pool.json",
-      "harvested bm-a R261 same-round 2026-09-26 17:5x"
+      "research/CN_CORE_SATELLITE_PREREG.md",
+      "入池 R261 17:48:11"
      ]
     }
    ]
@@ -2339,8 +2339,8 @@
     {
      "kind": "file_contains",
      "args": [
-      "results/runnable_pool.json",
-      "R290 bm-a deterministic harvest"
+      "research/CENSUS_FUSION_S2_PREREG.md",
+      "R290 bm-a 对账"
      ]
     },
     {
@@ -2492,6 +2492,142 @@
       "results/census_fusion_s2/w1_unc.json",
       "uncert_summary.n_ci_pos_and_p",
       "1"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "T-87-CN-TREND-P1",
+   "claim": "T-87 s2 queue #1 CN_TREND_ETF_P1 (trend-following ETF sleeve, SCHOOL_SUPPLY_S1 sec.2 zero-invention order) full arc: prereg frozen commit feb36786 BEFORE runner build BEFORE any run (R99 law; sha256_lf_normalized b3d30b32 pinned in product meta) + runner selftest 21/21 (r263 law) + real-data gate probe PASSED 2026-09-27 00:5x bm-a (T=5248 N=23 sse_cover 0.9939, MA_BASE x2 probe sharpe 0.4516 inside prereg s5 band 0.2-0.6) -> pool entry 00:50:27 -> tick claim 02:10:03 owner=bm-a -> 4-worker BelowNormal burn -> finalize ok 03:27:59 (4670.9s, 2007 units = 7 judged cells + 2000 same-mask weekly-Bernoulli nulls seed base 20270201, ledger 205418+2007=207425, attrition row 53) -> verdict NEGATIVE per frozen s4: G1_prime_v2 5/7 line-pass (MA_DUAL 0.4858 / MA_INVVOL 0.5273 / DON20_10 0.4961 / DON55_20 0.5744 batch-max / MA_TRAIL 0.4870 vs line 0.4792 core48 passive-dominated; MA_BASE 0.4516 + MA_BG 0.3127 below-line; CI95 lower positive for all 5 passers, trade gate dual-pass all 7) + G2 0/7 registration (DSR 0.0 all cells under 207425-trial deflation, family PBO 0.7714 > 0.25 gate) + D6 max corr 0.3892 vs registered CE members no reject -> CN-TREND-ETF judged negative, slot closed, no paper account; maxDD disclosure: only MA_DUAL -34.27% clears -35% line (trend deep-drawdown face honest); cross-family open leg vs T-87-CN-SOE-P1 closed MOOT (zero registrations both sides, advisory numeric face uncomputed per frozen-runner boundary R291 s7); reopen = new-evidence new-prereg only",
+   "claim_source": "research/CN_TREND_ETF_PREREG.md (frozen feb36786, s7/s8 backfilled R291 single-finalization) + results/cn_trend_ETF/p1_results.json product + results/gate_attrition.json row 53 + logs/autofill_CN-TREND-ETF-P1.log finalize trail",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/cn_trend_etf_p1.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/CN_TREND_ETF_PREREG.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "trials_ledger.total",
+      "207425"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "n_trials",
+      "2007"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "gates.MA_DUAL.g1_prime_v2.line_ok",
+      "True"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "gates.MA_DUAL.g1_prime_v2.pass_v2",
+      "True"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "gates.DON55_20.g1_prime_v2.sharpe_full",
+      "0.5744"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "gates.MA_BASE.g1_prime_v2.pass_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "gates.MA_DUAL.g2.eligible_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "family_pbo.pbo",
+      "0.7714"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "nulls.coverage.n_values",
+      "2000"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "virtual_starts.n_starts",
+      "4922"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_trend_ETF/p1_results.json",
+      "panel_face.N",
+      "23"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/CN_TREND_ETF_PREREG.md",
+      "CN-TREND-ETF 判负收线"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/gate_attrition.json",
+      "CN_TREND_ETF_P1"
      ]
     }
    ]

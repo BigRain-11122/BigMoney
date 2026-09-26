@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 02:38:46",
+ "updated_at": "2026-09-27 03:39:00",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1692,7 +1692,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 00:50:27",
    "data_gates": "in-runner fail-closed exit 2: universe re-derive==23 + probe symbol cross-check + truncated-face last==2026-09-22 zero-NaN + sse coverage>=0.95; per-cell JSON+npy idempotent checkpoints; finalize single-shot (CN_TREND_ETF_P1_REFINALIZE=1 = only redo); selftest 21/21 pre-pooling (r263 law); real-data gate probe PASSED 2026-09-27 00:5x bm-a (T=5248 N=23 sse_cover 0.9939, panel load 15s, MA_BASE x2 probe sharpe 0.4516 inside prereg s5 band 0.2-0.6)",
    "workers_plan": {
@@ -1703,12 +1703,15 @@
    "shards": [
     {
      "key": "cntrend-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 02:10:03",
      "checkpoint": null
     }
-   ]
+   ],
+   "result_ref": "results/cn_trend_ETF/p1_results.json (judged-negative s7/s8 finalized R291; ledger 207425; attrition row 53)",
+   "done_at": "2026-09-27 03:39:00",
+   "updated_at": "2026-09-27 03:39:00"
   },
   {
    "id": "CN_SOE_ETF_P1",
@@ -1750,7 +1753,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 02:38:46",
    "data_gates": "in-runner fail-closed exit 2: 48 bare-code members + >=60 rows each + end==2026-09-24 + OHLCV+amount cols + volume>0 mask (prereg sec.2) + grid feasibility (all-29-faces >=16 valid) + incomplete finalize exit 2 checkpoint-retained; per-200-combo JSONL checkpoint cross-kill resume; bench disclosure: csi300.csv ends 2026-09-22, compute_all reindex+ffill bridges to 09-24 (rs control faces only, 2-bar stale tail disclosed in audit); selftest 14/14 pre-pooling (r263 law: incl r286 np-native injection leg + real worker-glue leg + gate fail-closed legs); real-data gate probe PASSED 2026-09-27 02:4x bm-a (gate 48/48 all-green, grid 279 signals first 2020-12-29, EW48 x1 sharpe 0.154 ann 0.0266, 4 rows real-assembly json round-trip)",
    "workers_plan": {
@@ -1761,12 +1764,15 @@
    "shards": [
     {
      "key": "censusfus-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 03:30:03",
      "checkpoint": null
     }
-   ]
+   ],
+   "result_ref": "results/census_fusion_s2/w1_results.json (EXPLORATION face; s7/s8 finalized R290; post_review T-86-S2 YES 16/16)",
+   "done_at": "2026-09-27 03:39:00",
+   "updated_at": "2026-09-27 03:39:00"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"

@@ -68,8 +68,37 @@
 
 ## §7 跑后实证【跑前为空——占位纪律】
 
-（跑后回填）
+（一次定稿；工程修复重跑双跑留痕；确定性引擎产物写 bug 的合法重执行≠结果重跑）
+
+**R291 bm-a 一次定稿（跑落地 2026-09-27 03:27:59·tick claim 02:10:03 owner=bm-a→4-worker BelowNormal 烧批·finalize ok·elapsed 4,670.9s）**：
+
+- N 账：judged 7 cells（×2 判面恒开）+ 2,000 same-mask 周频 Bernoulli nulls（seed base 20270201·带 20270201..20272200·K=2000）= n_trials **2,007**；trials ledger 205,418+2,007=**207,425**；数据门 universe 23 复 derive 一致·T=5,248·sse_cover 0.9939·末行 2026-09-22 零 NaN（in-runner 全过=finalize ok）。
+- skill_line（g1_prime_v2·pool core48·ledger head 205,418）：**0.4792**（null 面 mu −0.1134·σ 0.1036·n_eff 207,425）。
+- 判面 ×2 读数（sharpe_full｜line_ok｜CI95_lo｜trades/entries｜G1'v2）：
+  - MA_BASE 0.4516 ✗（−line）·CI lo +0.0101·9,220/757；
+  - MA_DUAL 0.4858 ✓·CI lo +0.0545·5,577/418；
+  - MA_BG 0.3127 ✗·CI lo −0.1154·4,974/419；
+  - MA_INVVOL 0.5273 ✓·CI lo +0.0794·9,246/756；
+  - DON20_10 0.4961 ✓·CI lo +0.0880·8,629/1,651；
+  - DON55_20 **0.5744（批内最高）**✓·CI lo +0.1643·6,469/751；
+  - MA_TRAIL 0.4870 ✓·CI lo +0.0548·9,081/757。
+  **G1'v2 = 5/7 line-pass**；trade gate（≥30 双口径）全员过；robust：sign-flip p 0.003–0.04·block-bootstrap p≤0 0.003–0.0645（过线五员 ≤0.0145·MA_BG 负例 0.1405 与其 CI 负一致）。
+- **G2 = 0/7 注册**：DSR 全员 **0.0**（sr* 0.4711·207,425-trial 强折减面）+ family PBO **0.7714**（8 blocks·70 combos·>0.25 门）→ eligible_v2 全 False → **CN-TREND-ETF 判负收线、slot closed、零纸盘**（verdict_line 原文执行；新证据=新预注册）。
+- 批面：7/7 ann>0 ∧ OOS 双正；**maxDD≥−35% 仅 MA_DUAL（−34.27%）**——趋势袖深回撤面如实（x2 maxDD −37.6%…−55.7%）；虚拟起点 4,922（bull 1,541/bear 1,914/deep_bear 327=insufficient-sample 诚实旗/chop 1,109/na 31）·beat_rate_6m 0.35–0.45。
+- D6：对 6 员在册 CE 成员 max corr **0.3892**（MA_BASE×COMPOSITE-CE-01）<0.7 → 全员零拒。
+- x1 披露轨：7/7 x1 sharpe > x2（churn 侵蚀 sharpe 8.7–19.7%·ann_ret 10–23%）。
+- cross-family 披露：本 runner 无 cross_family 面（§6 冻结产物清单未含·零发明律禁跑后加面）——T-87-CN-SOE-P1 挂起的「vs CN_TREND_ETF_P1 open leg」就 **registration 面收口为 moot**（两侧均零注册·无被保护对象；advisory 数值面保持未计算如实注记）。
 
 ## §8 批后复盘【必填·s7-T】
 
-（跑后回填）
+**R291 bm-a 对账（§5 五预测 vs 实测）**：
+
+1. **P1 MA 族 0.2–0.6 带+判负照报：CONFIRMED**——7 cells ×2 全落 0.3127–0.5744 带；判负兑现（G2 0/7）；诚实意外面：5/7 过 skill line 好于预测悲观度，但 line-pass≠注册（DSR/PBO 双杀），照登不翻案。
+2. **P2 DON 族胜率 30–45%+DON55_20 交易数≈1/3：SPLIT**——胜率面不可从冻结产物对账（cell 件无 win_rate 面·零发明律禁跑后补算=NOT-RECONCILABLE 如实注记）；可对账子面证伪：DON55_20 trades 6,469=MA_BASE 的 70%（非 1/3）·entries 751≈757（Donchian 中轨出场不缩频）→ **量级子预测 MISSED**。
+3. **P3 MA_BG 交易数 −30–50%：CONFIRMED**（4,974 vs 9,220=−46%）；MA_INVVOL 波动率 −10–20% 子面=冻结产物无 vol 列（NOT-RECONCILABLE 注记）。
+4. **P4 极端日先验+黄金腿披露：部分满足**——deep_bear 虚拟起点 327 触 insufficient-sample 旗（2015/2016/2024 极端窗样本薄如实）；黄金腿 518880/518800 在 universe 23 全程参与（逐日对冲贡献未单列——audit 面仅 elapsed/workers，如实注记）。
+5. **P5 x1 ≥ x2：CONFIRMED**——7/7 成立；sharpe 侵蚀 8.7–19.7%（DON20_10 −19.7% 最大）·ann_ret 10–23%，低于预测带 40% 上界。
+- **判线读数：judged-negative（G1'v2 5/7 过线 + G2 0/7 注册）→ CN-TREND-ETF 判负收线、slot closed、无纸盘账户**；reopen=新证据新预注册（如 DSR ledger 分层口径再论证·或 DON 族更长参数窗）。
+- 工程注记：wall 4,670.9s vs workers_plan 估 5–8min——2,000-nulls 串行相阶段主导（R289 已旗如实留档）；tick 03:30:03 对已 finalize-ok 批误计 crash×1（done-flip 即结构性治愈）。
+- 损耗账：results/gate_attrition.json row 53（runner 写入 03:27:59·cells_ledger_delta 2,007·ledger_total_after 207,425）。
+- 回执：bm-a R291 轮报告；post_review 行 T-87-CN-TREND-P1 注册（锚稳定产物件·R264 律）。
