@@ -120,6 +120,12 @@ THRESHOLDS = {"DD10": 10, "DD20": 20}      # percent (frozen two-caliber)
 W_DD = 252                                 # trailing window (family W252)
 JUDGED_CELLS = ("CORE_DD10", "CORE_DD20",
                 "SAT40_DD10", "SAT40_DD20")
+# composition contract (crash-1/kill-1 root-cause lock): the run()
+# struct prefixes MUST compose with the arm suffixes into exactly the
+# frozen JUDGED_CELLS ids, and the target wiring is branch-locked in
+# _target_factory (module-level assert = import-time drift guard)
+assert all(f"{s}_{a}" in JUDGED_CELLS
+           for s in ("CORE", "SAT40") for a in THRESHOLDS)
 JUDGED_FACE = CS.JUDGED_FACE               # "x2"
 FACES = CS.FACES                           # x1/x2/x3 single source
 MAXDD_LINE = CS.MAXDD_LINE                 # -0.35 descriptive
@@ -254,6 +260,17 @@ def make_null_target(sig, gate, seed):
     return tgt
 
 
+def _target_factory(struct, sig, gate):
+    """Branch-locked wiring (kill-1 root cause: a stale `struct ==
+    "CORE_DD"` condition made CORE_DD cells silently run the SAT40
+    target). Single seam, selftest-locked ([C6])."""
+    if struct == "CORE":
+        return make_core_dd_target(sig, gate)
+    if struct == "SAT40":
+        return make_sat40_dd_target(sig, gate)
+    raise ValueError(f"unknown struct prefix: {struct!r}")
+
+
 # module-level days face for probe-identity date strings (set in run())
 P_DAYS = None
 
@@ -372,16 +389,11 @@ def run() -> int:
         return DRV.simulate(P, target_fn, cost_fn)
 
     # -- judged cells x3 faces (s3.5: judge = x2, x1/x3 disclosure)
-    # struct prefixes compose with the arm suffix into the frozen
-    # JUDGED_CELLS ids: CORE_+DD10 = "CORE_DD10" (R263 crash-1 lesson:
-    # the composed id MUST equal JUDGED_CELLS members exactly)
     cell_recs = {}
     for struct in ("CORE", "SAT40"):
         for arm in THRESHOLDS:
             cell = f"{struct}_{arm}"
-            tf = (make_core_dd_target(SIG, GATES[arm])
-                  if struct == "CORE_DD"
-                  else make_sat40_dd_target(SIG, GATES[arm]))
+            tf = _target_factory(struct, SIG, GATES[arm])
             for face, cost_fn in FACES.items():
                 cell_recs[(cell, face)] = run_unit(tf, cost_fn)
             m = DRV.metrics(cell_recs[(cell, JUDGED_FACE)])
@@ -877,6 +889,16 @@ def selftest() -> int:
                                 for _ in [0]) and CORE in d1[2])
     ok("[C5b] null seed face", tn2.draws != tn1.draws)
 
+    # [C6] run()-face target wiring via the branch-locked factory
+    # (kill-1 lesson: CORE cell must carry the CORE target, never the
+    # SAT40 target; identical-metrics twin = the red signal)
+    ok("[C6] target factory wiring",
+       _target_factory("CORE", sig, gon)(2) == {CORE: 1.0}
+       and _target_factory("CORE", sig, gon)(0) == {}
+       and _target_factory("SAT40", sig, gon)(2)
+       == {CORE: 0.6, "510050": 0.4}
+       and _target_factory("SAT40", sig, gon)(0) == {"510050": 0.4})
+
     # [M2] engine on the family hermetic panel: SAT40_DD gate-OFF
     # anchor + T+1 + double-run identity (CS fixtures single source)
     P0 = CS._hermetic_panel()
@@ -944,7 +966,7 @@ def selftest() -> int:
     ok("[M10] gate recompute identity", st_a == st_b
        and sum(1 for v in st_a.values() if v) == 34)
 
-    print(f"cn_core_ddctl_p1 selftest: 13-leg battery, {len(fails)} FAIL")
+    print(f"cn_core_ddctl_p1 selftest: 14-leg battery, {len(fails)} FAIL")
     return 0 if not fails else 1
 
 
