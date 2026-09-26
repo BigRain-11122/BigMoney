@@ -112,7 +112,12 @@ judged face only, so x1 + synthetic selftest fixtures pass native ints
 and 21/21 green masked it, r259 selftest-contract family). Fix =
 _jsonable native-type coercion (p4_batch2_screen idiom) at all three
 payload dump sites (_attr_row / finalize OUT_JSON / per-cell checkpoint)
-+ selftest leg [13].
++ selftest leg [13]. r286 second crash, same launch chain (01:20
+relaunch unmasked it): cmd_run never stored blob into
+cells_out[name][face] (both branches) -> KeyError 'x2' at the judged
+zero-trades check; assembly line was cmd_run-only glue -- selftest [12]
+builds cells_out by hand and never exercises it. Fix = assignment in
+both branches (load + compute).
 """
 import argparse
 import glob
@@ -1086,6 +1091,7 @@ def cmd_run():
             if os.path.exists(ck):
                 blob = json.load(open(ck, encoding="utf-8"))
                 blob["series"] = np.load(ck.replace(".json", ".npy"))
+                cells_out[name][face] = blob
             else:
                 rec = run_portfolio(P, enter_ev, exit_ev,
                                    invvol=cell.get("invvol", False),
@@ -1104,6 +1110,7 @@ def cmd_run():
                         "min_adv_at_trade": rec["min_adv_at_trade"],
                         "final_held_n": rec["final_held_n"],
                         "transitions_head": rec["transitions_head"]}
+                cells_out[name][face] = blob
                 np.save(ck.replace(".json", ".npy"), rec["returns"])
                 dump = {k: v for k, v in blob.items() if k != "series"}
                 with open(ck + ".tmp", "w", encoding="utf-8") as fh:
