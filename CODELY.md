@@ -8,6 +8,7 @@
 - [2026-09-27 05:4x r301 bm-b] 坑律：**轮中钟面回拨（时统向后校正 ~16.5min·r300 收尾窗实弹）**——同轮轮报告行 ts(05:54:00) 晚于本轮 commit ts(05:37:41)=钟面回拨实证非会话异常非双执行体，正律=①跨文件时间戳倒序禁据此翻案/判双轮②跨回拨窗时长面虚胖≈回拨量（r301 compute_audit pool_starvation span 42.7min 实≈26min，判定时须扣除）③rate/ETA 监控面跨窗轻度失真（探针#13/#14 12.62/12.63/min 自洽）④科学判据零接触（数据 cutoff 全走交易日历非墙钟）⑤事件日志零记载（Kernel-General Id1/W32Time 3h 窗零命中）→校正源未定谳但回拨事实由 report/commit/state 三源交叉定谳。指针=round_reports.md r300 行 vs commit 7758c42d+results/compute_audit.json history@05:43:15+results/_r301bmb_astock_pass_probe.json。
 
 - [2026-09-27 r296 bm-a] 坑律：PowerShell 面 git stash 引用必须单引号包裹——裸写 `git stash drop stash@{0}` 被 PS 当哈希表语法解析报 `error: unknown switch 'e'` 假故障（R296 实弹，命令未达 git）；正典=`'stash@{0}'`。与 `&` 后台符/`;` 链接符同族=PS 语法层坑。指针=results/_r296bma_resolve.py+本行。
+- [2026-09-27 r297 bm-a] 坑律：hermetic selftest 腿永不触达判格 stats 的下游消费键=烧批首跑即全灭——R296 runner 双绿（selftest 22/22+真数据门「零判格值」）仍于 05:50 烧批首 cell job 即 KeyError st['sharpe_full']（cell_descriptive 未存全窗 Sharpe，45 job 同键同崩，崩-发 fuse 空转一周期）；正典=B7b 契约腿（下游下标键集 ⊆ stats 构造键集断言·synthetic 直调）已入 runner selftest，新 runner 入池前须带同型腿。指针=logs/autofill_FUSION-GRID-P1.log traceback+commit 64023a42。
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
