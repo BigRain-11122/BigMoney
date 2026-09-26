@@ -1162,6 +1162,117 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-73-STYLE-ROT-S1",
+   "claim": "T-73 s2 slice-E style-rotation full arc (last remaining s2 topic -> s2 COMPLETE): prereg freeze commit cb2e0e84 BEFORE first burn (runner header + SEED_REGISTRY t73_style_rot_s1 base 20261030 same-commit one-step R250; band rg-scan clean) -> selftest 10-leg PASS -> run T73-STYLE-ROT-S1 (2 judged faces STYLE-MOM-252-63 alive both sides THIN 1.04x/1.08x null-p95 margins, STYLE-MOM-63-21 frozen one-sided NOT alive, OOS -0.192 beyond null = quarter-reversal post-hoc hypothesis) + 100 within-month leg-permutation null draws -> ledger 187585+102=187687 single-count -> descriptive clean_value bridge face (narrative confirmed 2017 core/2024 dividend, partial 2021 growth, modest 2023 micro; 4 fund artifacts caught +248%/+176%/-51%/-12.7%) -> run1 raw-face-descriptive defect self-caught pre-digest, archived defective + ledger self-echo intermediate discarded in-round with prev-echo guard added -> digest DIGEST-20260926-t73-s2-sliceE-rotation.md",
+   "claim_source": "scripts/t73_s2_style_rotation.py frozen header (prereg, freeze commit cb2e0e84 precedes any run) + scripts/science_gates.py SEED_REGISTRY row (same freeze commit) + results/t73_s2/style_rotation.json product + run1 archive style_rotation_run1_descriptive_defective.json + digest research/digests/DIGEST-20260926-t73-s2-sliceE-rotation.md",
+   "status": "pending",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/t73_s2_style_rotation.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/t73_s2/style_rotation.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/t73_s2/style_rotation_run1_descriptive_defective.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/digests/DIGEST-20260926-t73-s2-sliceE-rotation.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "faces.STYLE-MOM-252-63.blocks.is.mean",
+      0.10038
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "faces.STYLE-MOM-252-63.blocks.oos.mean",
+      0.15126
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "faces.STYLE-MOM-63-21.blocks.oos.mean",
+      -0.19173
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "verdict.STYLE-MOM-252-63.alive_oos",
+      true
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "verdict.STYLE-MOM-63-21.alive_oos",
+      false
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "trials_ledger.total",
+      187687
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "trials_ledger.prev_total",
+      187585
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "trials_N.seed_base",
+      20261030
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/t73_s2/style_rotation.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "scripts/science_gates.py",
+      "t73_style_rot_s1"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path."

@@ -61,11 +61,25 @@ PRE-REGISTERED (frozen before first run; no threshold edits after results):
   VERDICTS (frozen): style_mom_<face>_alive_oos = oos mean IC >
   p95_abs_oos of its null; alive_is disclosed same shape; NO cost-adjusted
   portfolio claims (IC-face research verdict only, slice-D honesty).
-- DESCRIPTIVE (no verdicts): per-calendar-year leg CAGR table (raw price
-  face) + yearly best/worst leadership + winner-repeat count vs 1/K chance;
-  era table with slice-D ERAS for cross-slice comparability; suspected fund
-  events list; narrative cross-check (2017 core / 2021 growth / 2023 micro /
-  2024 dividend vs in-repo numbers, external narrative marked unverified).
+- DESCRIPTIVE (no verdicts): per-calendar-year leg CAGR table + yearly
+  best/worst leadership + winner-repeat count vs 1/K chance; era table with
+  slice-D ERAS for cross-slice comparability; suspected fund events list;
+  narrative cross-check (2017 core / 2021 growth / 2023 micro / 2024
+  dividend vs in-repo numbers, external narrative marked unverified).
+  DATA-FACE AMENDMENT (post-run1 self-catch, pre-digest, engineering fix
+  per r253 legal-re-execution law -- NO criteria/verdict changes): run1
+  descriptive quoted RAW closes; the three fund artifacts (510500 2015
+  +248.6%, 512100 2022-09-05 +176.3%, 512890 2021-10-25 -51.1%) poisoned
+  descriptive CAGR cells (csi500 2015 +454%, csi1000 2022 +124%,
+  div_lowvol 2021 -41% = artifacts, not market facts). Descriptive now
+  computes on the CLEAN VALUE face: V anchored at first valid close,
+  event/gap days bridged as 0-return (split-adjustment convention), fund
+  events still listed. Law faces already used strict-window clean rets
+  (unchanged, byte-identical on re-run); run1 archived as
+  style_rotation_run1_descriptive_defective.json with its ledger row
+  superseded by the canonical re-run single-count (same frozen hypothesis
+  set, r253: deterministic re-execution != new trials). Re-run ledger
+  self-echo guarded: prev = head-scan minus this file's own previous row.
 - trials_N = 2 judged law faces + 50 seeds x 2 faces null draws = 102
   (ledger-chained via science_gates.append_ledger, canonical key
   trials_ledger, r252 law).
@@ -256,7 +270,7 @@ def _spearman(a, b):
     return float(np.corrcoef(ra, rb)[0, 1])
 
 
-def null_thresholds(clean, w, h, which, n_nulls=N_NULLS):
+def null_thresholds(clean, w, h, n_nulls=N_NULLS):
     """Permutation nulls: permute signal labels within month; window means."""
     idx = clean.index
     me = pd.DatetimeIndex(month_ends(idx))
@@ -326,34 +340,41 @@ def _cagr(close):
             "max_dd": round(dd, 4)}
 
 
-def descriptive(close, events):
-    """Yearly leadership + era table + narrative cross-check (raw face)."""
+def clean_value(close, clean_ret, sym):
+    """Economic-value face: anchor at first valid close, event/gap days
+    bridged as 0-return (split-adjustment convention, r239 law family)."""
+    c = close[sym]
+    first = c.first_valid_index()
+    if first is None:
+        return pd.Series(np.nan, index=c.index)
+    r = clean_ret[sym].loc[first:].fillna(0.0)
+    v0 = float(c.loc[first])
+    return v0 * (1.0 + r).cumprod()
+
+
+def descriptive(close, clean, events):
+    """Yearly leadership + era table + narrative cross-check (clean V face)."""
     legs = [s for s, _, _, _, _ in LEGS]
     names = {s: n for s, _, n, _, _ in LEGS}
-    base = close[BASE_SYM]
-    years = sorted(set(close.index.year))
+    V = pd.DataFrame({s: clean_value(close, clean, s) for s in legs})
+    base = V[BASE_SYM]
+    years = sorted(set(V.index.year))
     yearly = {}
-    winners, nK = [], {}
+    nK = {}
     for y in years:
-        seg = close[close.index.year == y]
-        if len(seg) < 20:
-            continue
+        seg = V[V.index.year == y]
         row = {}
         for s in legs:
-            c = seg[s].dropna()
-            if len(c) < 20:
-                continue
-            row[s] = _cagr(c)
-        # best/worst by CAGR among present legs
+            v = seg[s].dropna()
+            if len(v) >= 20:
+                row[s] = _cagr(v)
         present = {s: v["cagr"] for s, v in row.items()
                    if np.isfinite(v["cagr"])}
         if len(present) >= 4:
-            best = max(present, key=present.get)
-            worst = min(present, key=present.get)
             yearly[y] = {"legs": {s: v["cagr"] for s, v in row.items()},
-                         "best": best, "worst": worst,
+                         "best": max(present, key=present.get),
+                         "worst": min(present, key=present.get),
                          "k_present": len(present)}
-            winners.append(best)
             nK[y] = len(present)
         else:
             yearly[y] = {"legs": {s: v["cagr"] for s, v in row.items()},
@@ -366,26 +387,29 @@ def descriptive(close, events):
             repeats += 1
     era_tab = {}
     for name, a, b in ERAS:
-        seg_c = _era_slice(close, a, b)
+        seg_v = _era_slice(V, a, b)
         row = {}
         for s in legs:
-            c = seg_c[s].dropna()
-            if len(c) >= 20:
-                row[s] = _cagr(c)
+            v = seg_v[s].dropna()
+            if len(v) >= 20:
+                row[s] = _cagr(v)
         bs = _era_slice(base, a, b).dropna()
         row["_rel_vs_base"] = {}
         for s in legs:
-            c = seg_c[s].dropna()
-            ov = c.index.intersection(bs.index)
+            v = seg_v[s].dropna()
+            ov = v.index.intersection(bs.index)
             if len(ov) >= 20:
-                rel = float((c[ov].iloc[-1] / c[ov].iloc[0])
+                rel = float((v[ov].iloc[-1] / v[ov].iloc[0])
                            / (bs[ov].iloc[-1] / bs[ov].iloc[0]))
                 row["_rel_vs_base"][s] = round(rel, 4)
         era_tab[name] = row
     return {"yearly": yearly, "winner_repeat_transitions": repeats,
             "n_year_transitions": max(0, len(nK) - 1),
             "era_table": era_tab, "suspected_fund_events": events,
-            "leg_names": names}
+            "leg_names": names,
+            "face": "clean_value (event/gap days bridged 0-return, "
+                    "split-adjustment convention; run1 raw-face descriptive "
+                    "defect amended, see header)"}
 
 
 def selftest() -> int:
@@ -448,9 +472,30 @@ def selftest() -> int:
     assert ("159915", "2024-09-30") not in flat   # 20%-limit real rally day
     assert ("588000", "2024-10-18") not in flat   # within 20% envelope
     assert len(flat) == 4, f"unexpected event set {flat}"
+    # clean-value bridge: artifact day NaN-ret -> V carries across (no
+    # phantom gain/loss in the economic face)
+    c_fake = pd.Series([100.0, 200.0, 202.0, 205.0],
+                       index=pd.date_range("2020-01-01", periods=4))
+    r_fake = c_fake.pct_change(fill_method=None)
+    r_fake.iloc[1] = np.nan                       # artifact day
+    cl = pd.DataFrame({"a": r_fake})
+    cs = pd.DataFrame({"a": c_fake})
+    v = clean_value(cs, cl, "a")
+    assert abs(v.iloc[1] - 100.0) < 1e-9          # bridged, NOT 200
+    expect_v3 = 100.0 * (202.0 / 200.0) * (205.0 / 202.0)
+    assert abs(v.iloc[3] - expect_v3) < 1e-9
+    # real-corpus artifact catch regression: 512100 2022 on clean V must not
+    # carry the +176% phantom (raw face shows +123.7% CAGR = artifact)
+    close_r, ret_r = load_panels()
+    ev_r = fund_events(ret_r)
+    clean_r, _ = clean_rets(ret_r, ev_r)
+    v1000 = clean_value(close_r, clean_r, "512100")
+    y22 = v1000[v1000.index.year == 2022]
+    cagr22 = _cagr(y22)
+    assert cagr22["cagr"] < 0.5, f"artifact leak: {cagr22}"
     print("t73_s2 slice-E selftest: envelope + strict-NaN + no-lookahead + "
           "forward-exact + month-end + perm-determinism + spearman + eras + "
-          "corpus + frozen-event-set PASS")
+          "corpus + frozen-event-set + clean-value-bridge PASS")
     return 0
 
 
@@ -541,15 +586,28 @@ def run() -> int:
                                  "portfolio/cost claim; external narrative "
                                  "unverified; applicability window in digest")
 
-    art["descriptive"] = descriptive(close, events)
+    art["descriptive"] = descriptive(close, clean, events)
 
     art["trials_N"] = {"law_faces_this_batch": len(FACES),
                        "null_draws": N_NULLS * len(FACES),
                        "seeds": N_NULLS,
                        "seed_base": int(_seed_base())}
+    # re-run ledger self-echo guard: the head scan must not count this
+    # batch's own previous row (run N would otherwise chain onto run N-1
+    # and inflate N by echo); data-driven subtract, never hand-copied
+    own_prev_trials = 0
+    if os.path.exists(OUT_JSON):
+        try:
+            old = json.load(io.open(OUT_JSON, encoding="utf-8-sig"))
+            own_prev_trials = int(
+                (old.get("trials_ledger") or {}).get("batch_trials", 0))
+        except (OSError, ValueError):
+            own_prev_trials = 0
+    prev_total = int(science_gates.ledger_head()["total"]) - own_prev_trials
     art["trials_ledger"] = science_gates.append_ledger(
         BATCH, len(FACES) + N_NULLS * len(FACES),
         file_name="style_rotation.json",
+        prev_total=prev_total,
         note="2 judged style-momentum persistence faces (pooled monthly "
              "spearman, trail-rel->fwd-rel vs 510300, strict-window clean "
              "face, envelope fund-event guard r239 family) + 100 "
