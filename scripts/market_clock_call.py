@@ -208,7 +208,8 @@ def _l3_evidence_table(cards_face):
         meta["source_face"] = "EVIDENCE_FACE_MISSING: " + str(cards_face.get("error"))
     try:
         with open(L3_PREREG, "rb") as f:
-            meta["prereg_sha256_16"] = hashlib.sha256(f.read()).hexdigest()[:16]
+            # EOL-normalize (git-blob canonical face) so the anchor is machine-independent
+            meta["prereg_sha256_16"] = hashlib.sha256(f.read().replace(b"\r\n", b"\n")).hexdigest()[:16]
     except Exception:
         meta["prereg_sha256_16"] = None
     return {"version": 1, "canon": "MARKET_CLOCK_COMBO s0 v1.2 L3 evidence-driven (O-20260926-1342 sec.3)",

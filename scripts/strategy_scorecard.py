@@ -1024,12 +1024,15 @@ def build_profile_cards():
             verdict_counts[s][v] = verdict_counts[s].get(v, 0) + 1
     try:
         with open(PROFILE_PREREG, "rb") as f:
-            sha16 = hashlib.sha256(f.read()).hexdigest()[:16]
+            # EOL-normalize before hashing: prereg_sha256_16 must equal the git-blob
+            # canonical (LF) face on every machine (autocrlf=true checkout = CRLF disk
+            # face would flip the value and break post_review anchors; R253 law family)
+            sha16 = hashlib.sha256(f.read().replace(b"\r\n", b"\n")).hexdigest()[:16]
     except OSError:
         sha16 = None
     try:
         with open(SAMPLE_SCIENCE_PREREG, "rb") as f:
-            ss_sha16 = hashlib.sha256(f.read()).hexdigest()[:16]
+            ss_sha16 = hashlib.sha256(f.read().replace(b"\r\n", b"\n")).hexdigest()[:16]
     except OSError:
         ss_sha16 = None
     return {
@@ -1152,7 +1155,7 @@ def landing_hooks(results_dir=None):
     board = _load(os.path.join(rd, "retro_paper_2026", "LEADERBOARD.json")) or {}
     try:
         with open(LANDING_HOOKS_PREREG, "rb") as f:
-            lh_sha16 = hashlib.sha256(f.read()).hexdigest()[:16]
+            lh_sha16 = hashlib.sha256(f.read().replace(b"\r\n", b"\n")).hexdigest()[:16]
     except OSError:
         lh_sha16 = None
     return {
