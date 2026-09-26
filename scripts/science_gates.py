@@ -844,6 +844,16 @@ SEED_REGISTRY = {
     # wild_route non-RNG precedent); lane = T-2026-09-26-87 s2 queue #3
     # (SCHOOL_SUPPLY_S1.md sec.2 K-line pattern face, folklore gate PASS
     # R289), prereg research/CN_KLINE_PATTERN_PREREG.md sec.3
+    "fusion_grid_p1": 20275200,        # FUSION_GRID_P1 K=2000 random-portfolio
+    # nulls (T-85 s2/s3 fusion grid): per-null-per-rebalance deterministic
+    # streams np.random.default_rng([20275200, k, j]) — null k, rebalance j;
+    # subset size mirror + members + Dirichlet(1) simplex weights all drawn
+    # from that stream (prereg sec.3 frozen); band 20275200..20275900 in-band
+    # below cn_kline_pattern_p1 band top 20277100 = collision-free by
+    # construction; registered at prereg freeze commit BEFORE runner build,
+    # one-step R250 law; rg scan 2026-09-27 05:1x: code/canon faces zero
+    # hits (data/*.csv digit coincidences excluded per kline precedent);
+    # lane = T-2026-09-26-85 s2/s3, prereg research/FUSION_GRID_P1_PREREG.md
 }
 
 
