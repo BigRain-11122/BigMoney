@@ -561,7 +561,12 @@ def robust_stats(series):
 def d6_block(P, series_by_cell):
     """s1 reject face vs REGISTERED members (cn_rev_tilt_p1 ew6 canon)."""
     from cn_rev_tilt_p1 import REG6, load_member_rets, _corr
-    member_rets = load_member_rets()
+    # AMENDMENT r280: load_member_rets() returns (out, cutoffs) tuple in the
+    # donor module -- unpack or .items() crashes ('tuple' has no .items',
+    # autofill logs/autofill_REV-OSC-STOCK-P1.log 00:10/00:20 twin crashes).
+    # Engineering fix in the zero-judged-product window (p1_results.json never
+    # produced); criteria/judged faces unchanged (r253 deterministic-reexec law).
+    member_rets, _member_cutoffs = load_member_rets()
     out = {"reject_line": D6_REJECT, "members": list(REG6), "cells": {}}
     mat = {}
     for name, series in series_by_cell.items():
