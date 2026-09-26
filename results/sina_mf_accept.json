@@ -1,0 +1,76 @@
+{
+  "expected_bar_date": "2026-09-24",
+  "counts": {
+    "universe_n": 5228,
+    "universe_skipped": 8,
+    "universe_skipped_buckets": {
+      "20": 38,
+      "40": 177,
+      "42": 14,
+      "43": 341,
+      "83": 2811,
+      "87": 2625,
+      "90": 41,
+      "92": 351
+    },
+    "files_n": 5228,
+    "rows_total": 520300,
+    "fresh_covered": 5222,
+    "stale_covered_suspended_face": 0,
+    "stale_files_head": [],
+    "empty_history_files": 6,
+    "empty_files_head": [
+      "001235",
+      "001246",
+      "301569",
+      "301660",
+      "301716",
+      "301718"
+    ],
+    "done_n": 5228,
+    "quarantined_n": 0,
+    "quarantined_head": [],
+    "attempts_open": {},
+    "files_not_in_universe": [],
+    "file_without_done": [],
+    "done_without_file": [],
+    "panel_cutoff": "2026-09-24",
+    "expected_bar_date": "2026-09-24"
+  },
+  "law": {
+    "law_violations_written_face": 0,
+    "unverifiable_rows": 0,
+    "worst_written_drift": 9.334715970343226e-10,
+    "written_law_tol": 1e-08,
+    "violations_head": []
+  },
+  "defects": {
+    "dup_date_files": 0,
+    "non_monotonic_files": 0,
+    "schema_violation_files": 0,
+    "defect_files_head": []
+  },
+  "request_account": {
+    "pull_requests_lb": 5228,
+    "num_probes_accounted_separately": 2,
+    "last_run_failures": 0,
+    "last_run_appended": 520300,
+    "last_run_law_rejected_source_face": 0,
+    "universe_n": 5228,
+    "runaway_line": 10456.0
+  },
+  "lines": {
+    "coverage(fresh>=5000)": true,
+    "law(written_face_zero_violations)": true,
+    "integrity(no_dup/no_mono/no_schema/files==done/no_mismatch/cutoff_covers_expected)": true,
+    "budget(no_runaway)": true,
+    "selftest(collector_offline_green)": true
+  },
+  "ts": "2026-09-26T08:27:05",
+  "machine": "bm-a",
+  "claim": "T-2026-09-26-72-bm-a-sina-mf-collector",
+  "prereg_ref": "research/shortline/SINA_MF_PREREG.md section-4",
+  "evidence_cutoff": "2026-09-24",
+  "verdict": "PASS",
+  "latent_repull_defect_note": "%.10g write rounding can exceed PRIMARY_TOL=1.0 on |netamount|>=1e10 rows at overlap re-verify -> prereg amendment required before s3 wiring / first monthly re-pull (see module header)"
+}

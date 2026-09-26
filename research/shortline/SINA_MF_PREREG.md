@@ -112,4 +112,19 @@
   站内搜索面=JS 壳脚本死面——候选面已尽脚本可达集，open item 转低频尾批。
   证据=results/_r225_bma_sina_tier_wave2*（P1-P5 探针族·8/12 预算）+
   DIGEST-20260926-r225-t72-sina-tier-grouping.md（bm-a R225）。
+- **R235 s2 验收收口注记（PASS·零判据面触碰）**：全宇宙首拉完成 04:33:37→08:25:30
+  （5228/5228、520300 行、quarantined=0、attempts=0）；验收器五线全过
+  （fresh 5222≥5000〔空史 6 新股诚实披露〕、自洽律 written 面零违例 worst 9.33e-10<1e-8、
+  完整性 dup/mono/schema/files==done/mismatch 零缺陷、预算 5228+2 探针<10456、selftest 绿）
+  =s2 生效；§4.3 同日重跑幂等 spot 实弹收口：8 股冻结样本（含 600519 大额行、301569 空史）
+  checkpoint 手术后重拉=sha256 8/8 字节恒等（%.10g 往返实测稳定）+0 行增长+mismatch=0
+  （+8 请求入账），全宇宙重跑面=todo 空 0 请求零增长 by construction。
+  **新发现两潜伏缺陷（s3 接线修正案前置项·2026-10-27 首复拉窗前必修）**：
+  ① 空 todo refresh 终态把 status mirror panel.cutoff 写 None → gate 判
+  「no local panel (first run)」永续 30min churn spawn（本轮镜像已按面板字节真值
+  恢复 2026-09-24=确定性 post-hoc 修复非重跑）；② 复拉面结构死码：stale>20td 触发时
+  done 集不清零 → todo 恒空 → 复拉永不发生（R221 open item ④ 修正案须并入
+  done-reset/复拉 todo 语义）。§4.3 overlap 边界行校验=首复拉窗才可实弹（当前无
+  新日期面，诚实标注非本批可验）。证据=results/sina_mf_accept.json+
+  results/_r235_bma_sina_idem_spot.{py,json}（bm-a R235）。
 - 采集器实现票=另开 GM 署名单（P1 数据源扩容，O-1620 下放面；T-43 先例流程）。
