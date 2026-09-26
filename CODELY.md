@@ -88,4 +88,6 @@
 
  - [2026-09-26 09:2x] 坑律（bm-b r235 addendum·重放毒化自检口径面·r231 家族新维·E1 自捕）：**毒化提交字节自检的标记扫描必须行首口径——子串 in 匹配会把轮报告正文里合法引用的 >>>>>>> 标记串（坑律描述文本·7860bf10 起全谱在册）误报成 POISONED 触发不必要的 abort/重做**；正律=三标记（<<<<<<< / ======= / >>>>>>>）一律 startswith 行首判定，行中引用串=合法内容零动作；扫描器口径错=工具病非数据病，修正口径复验后才许判毒。指针=results/_r235bmb_resolve.py 留痕+r235 addendum 行
 
+ - [2026-09-26 09:2x] 坑律（bm-b r236·O-2115 registry 行龄面·R223 配对律新维）：**接管型 registry 行的 claim 文本可在落笔时即已陈旧——异步多机窗里他机已落子件（C9 腿 bm-c r70 早于 bm-a R92 写行）被「d2 未动工」整面掩蔽两日**；正律=写行/接管时先对活交付面逐子件核销（watchdog.log 实跑/代码面证据），残项单列勿整面打包；O-2115 真残项=跨机 LLM 复核协议（✗/存疑行→轮值机裁决入台账·机制四件#3）未接线休眠（0 ✗ 行至今）。指针=results/post_review_criteria.json O-2115 行+_reconciled r236 bm-b 段+r236 轮报告
+
 - [2026-09-26 09:5x] 坑律/家族面（bm-a R237·T-39 moneyflow 修正案族移植·R235/R236 家族第三例）：**checkpoint 采集器 done 集重置语义=R235 缺陷家族的免疫判据——pass-scoped（update_options load_cells 按 pass_target 过滤=每新 bar 日天然重置）结构性免疫；first-pull-scoped（sina/moneyflow done 永续集）必有复拉死码+零符号轮 None 覆写双病**；修复=R236 四件配方移植（_is_repull/_todo_for/_panel_cutoff_from_bytes/_terminal_cutoff+refresh-repull 分流+spawn_mode 披露），但**移植前必实读目标采集器 done 集构造**（本轮假说「options+moneyflow 同病」实查=options 免疫——禁按同构外观盲拷）。moneyflow 特有触发链=rank 道只写 st.rank 节不写 panel.cutoff，rank 道健康也救不了 daykline 20td 门准时触发死码面（炸点 ~10-27 与 sina 复拉同窗；修正案在首拉完成前落地=引信拆除）。指针=scripts/update_moneyflow.py S21+MF_COLLECTOR.md §9+results/_r237a-d
