@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-26 11:45:30",
+ "updated_at": "2026-09-26 13:33:03",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1437,6 +1437,34 @@
    "note_flipped": "flipped waiting->ready bm-a r243 2026-09-26 11:45: (1) torch 2.11.0+cu128 + CUDA RTX 4070 SUPER green; (2) selftest ALL PASS 7/7 with torch legs L3/L3b live-exercised (bm-b r238 host could only SKIP); (3) census cache complete: turnover_derived sidecar materialized on bm-a (50s, gates green: 5-sym recon abs_dev<=5.05e-5, rows>1.05 zero, align 0 unmatched; panels 11 files, universe T=8792 N=5222); LIVE-FIRE FIX r243 (first torch-core exercise anywhere): (a) invalid entries consumed full-row sort positions -> rewritten to valid-subset ordinals (cum_before + (cnt_valid+1)/2), (b) missing gather(1,gidl) before scatter_ fed (T,G) group-axis tensor to (T,N) scatter index = CUDA silent garbage on tie rows -- both caught by frozen selftest L3, fixed, selftest 7/7 + probe worst|d|=0.0; autofill launches (lane_owner=bm-a only)",
    "harvest_note": "harvested bm-a r244 2026-09-26 ~11:5x: proof.json landed (equiv 21/21 faces max_abs_diff==0.0, panel T=8792 N=5222, torch 2.11.0+cu128 RTX4070S); determinism re-derived 5x via autofill relaunches 11:29/11:34/11:40/11:42/11:50 (pids 23276/56984/54736/55828/26952) each full recompute rewrote proof.json all-zero; harvest gate=results/_r244_gpu_harvest.py exit 0 (self-verifiable); engineering lane zero science as registered",
    "harvested_at": "2026-09-26"
+  },
+  {
+   "id": "CN-REV-TILT-P1",
+   "ticket_ref": "T-2026-09-26-73 s3 slice-1 (CEO O-20260926-0926 CN-native combo models; bm-a lane)",
+   "prereg_ref": "research/CN_REV_TILT_PREREG.md (frozen R245, ZERO runs; R246 pre-run amendments: seed cn_rev_tilt_p1=20260930 registered + s2 evidence_cutoff=2026-09-22 backfilled)",
+   "runner": "scripts/cn_rev_tilt_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-26 13:33:03",
+   "data_gates": "in-runner fail-closed exit 2: P1C cache cutoff==2026-09-22 + T>=8000 + N>=5000 (D2 forward lockbox; 09-23/24 bars excluded) + SEED_REGISTRY assert (cn_rev_tilt_p1=20260930) + never-invested all-cash sanity (R240 law) + finalize census gate (r188). Panel = Money02/data/cache/p1c_stock close.npy (machine-local, zero network, t73_s2 load_close single source). Close-only face -> V1 13.041bp/side flat cost (no ADV, prereg s3.2 honest).",
+   "shards": [
+    {
+     "key": "cnrev-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/cn_rev_tilt/ckpt/*.npz per-unit (exact float64 resume, date-drift refusal); landed marker = results/cn_rev_tilt/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_REV_TILT_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 landed-marker law"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "note": "single finalize dependency chain (bare cells -> 252d trail -> tilt cells -> gates); ~2GB panel+signal peak; sims are incremental-held O(20)/day; workers>1 would duplicate the 368MB panel load"
+   },
+   "note": null
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
