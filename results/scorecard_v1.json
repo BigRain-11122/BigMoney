@@ -3,17 +3,17 @@
  "framework": "firm/STRATEGY_EVALUATION.md v1.0 -- weights s2 + grade bands s3 frozen",
  "formula_version": "v1 (in-dimension sub-weights + linear anchors = implementation choice, frozen here; revision = new version + round report)",
  "naming_disclosure": "framework s4 names strategy_scorecard(.py/.json); ticket T-07 names scorecard.py + scorecard_v1.json -- implementation follows the claimed ticket; law-side rename belongs to GM",
- "generated": "2026-09-26T18:44:10",
+ "generated": "2026-09-26T18:49:58",
  "lines": {
   "skill_line_v2": 1.1639,
-  "skill_line_n_eff": 187845,
+  "skill_line_n_eff": 187741,
   "i_line": 0.3521,
   "vi_bar": 0.4004,
   "passive": 0.3792,
   "ledger_head": {
-   "total": 187845,
+   "total": 187741,
    "file": "p1_results.json",
-   "note": "4 judged cells {CORE_DD,SAT40_DD}x{DD10,DD20} core=510880 ballast with OWN trailing-252 drawdown hysteresis gate (ON dd<-X%, OFF dd>-X/2, quarterly family grid, state carried, R261 doctrine residual 'dd-control sits on the CORE leg'); satellite=7-leg style-momentum argmax law NEVER gated (family s5.3 MISS) + K=100 two-arm random-satellite nulls with same-arm gate (seeds 20261130/20261180 +i, registered cn_core_ddctl_p1 at the R263 freeze commit); V2 ADV20-tiered cost, judge face x2, 1%ADV queue-fill, clean_value bridge face; prereg research/CN_CORE_DDCTL_PREREG.md frozen R263; T-2026-09-26-73 s3 slice-6 (doctrine residual, no-reopen law respected)"
+   "note": "4 judged cells {SAT20,SAT40}x{bare,MA200-gate} core=510880 ballast + satellite=7-leg style-momentum rotation (quarterly 63d, W252 strict-window clean face) + K50 random-satellite nulls (seeds 20261080+i, registered cn_core_sat_p1 at the R261 freeze commit); V2 ADV20-tiered cost, judge face x2, 1%ADV queue-fill, clean_value bridge face; prereg research/CN_CORE_SATELLITE_PREREG.md frozen R261; T-2026-09-26-73 s3 slice-5 (final CN-native model)"
   },
   "source": "science_gates live reads (skill_line_v2 batch_cells=0, recorded_lines, passive_baseline)"
  },
@@ -151,7 +151,7 @@
       "declared_clean": true,
       "batch_script": "ce_transfer.py",
       "null_margin_vs_skill_line": -0.3525,
-      "ledger_head_total": 187845
+      "ledger_head_total": 187741
      },
      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
     },
@@ -275,7 +275,7 @@
       "declared_clean": true,
       "batch_script": "ce_transfer.py",
       "null_margin_vs_skill_line": -0.554,
-      "ledger_head_total": 187845
+      "ledger_head_total": 187741
      },
      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
     },
@@ -399,7 +399,7 @@
       "declared_clean": true,
       "batch_script": "g2_folk.py",
       "null_margin_vs_skill_line": -0.4399,
-      "ledger_head_total": 187845
+      "ledger_head_total": 187741
      },
      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
     },
@@ -523,7 +523,7 @@
       "declared_clean": true,
       "batch_script": "g2_folk.py",
       "null_margin_vs_skill_line": -0.6247,
-      "ledger_head_total": 187845
+      "ledger_head_total": 187741
      },
      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
     },
@@ -648,7 +648,7 @@
       "declared_clean": true,
       "batch_script": "g2_folk.py",
       "null_margin_vs_skill_line": -0.5015,
-      "ledger_head_total": 187845
+      "ledger_head_total": 187741
      },
      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
     },
@@ -772,7 +772,7 @@
       "declared_clean": true,
       "batch_script": "combined_exit_screen.py",
       "null_margin_vs_skill_line": 0.0939,
-      "ledger_head_total": 187845
+      "ledger_head_total": 187741
      },
      "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
     },
