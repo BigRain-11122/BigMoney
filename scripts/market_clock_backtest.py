@@ -131,6 +131,7 @@ def build_spectrum(bench, core48):
         if not os.path.exists(p):
             continue  # honest: member absent from deep cache -> never investable
         s = pd.read_parquet(p)["close"].astype(float).sort_index()
+        s.index = pd.to_datetime(s.index)  # cache stores str dates; bench is datetime64
         s = s[~s.index.duplicated(keep="last")]
         closes[code] = s.reindex(bench.index)
     close_df = pd.DataFrame(closes, index=bench.index).sort_index(axis=1)
@@ -661,6 +662,28 @@ def selftest():
     assert abs(combo["gross"].iloc[102]) < 1e-12
     # rand arms live too
     assert streams2["rand0"]["live_exposure"].iloc[102] > 0
+
+    # --- build_spectrum REAL load path (r157 mirror law: the production
+    # defect this leg guards = cache stores STR-date index, bench is
+    # datetime64 -> silent all-NaN reindex -> all sleeves cash. Fixture
+    # mirrors the real str-index shape via a synthetic parquet dir.)
+    global DEEP_ETF_DIR
+    with tempfile.TemporaryDirectory() as tmpd:
+        idx3 = pd.bdate_range("2024-01-01", periods=70)
+        members = [f"C{j}" for j in range(6)]
+        for j, code in enumerate(members):
+            fdf = pd.DataFrame({"close": 100.0 + j},
+                               index=[str(d.date()) for d in idx3])
+            fdf.to_parquet(os.path.join(tmpd, f"{code}.parquet"))
+        bench3 = pd.Series(1.0, index=idx3)
+        old_dir = DEEP_ETF_DIR
+        DEEP_ETF_DIR = tmpd
+        try:
+            cl3, inv3 = build_spectrum(bench3, members)
+        finally:
+            DEEP_ETF_DIR = old_dir
+        assert cl3.notna().sum().sum() == 6 * 70, cl3.notna().sum().sum()
+        assert bool(inv3.iloc[-1].all()), "investable after MIN_LISTED closes"
 
     # --- metrics: Calmar None on all-cash, symmetric exclusion, tie=FAIL
     net_flat = pd.Series(0.0, index=idx)
