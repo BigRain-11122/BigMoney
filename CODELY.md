@@ -13,6 +13,7 @@
 
 - [2026-09-27 r296 bm-a] 坑律：PowerShell 面 git stash 引用必须单引号包裹——裸写 `git stash drop stash@{0}` 被 PS 当哈希表语法解析报 `error: unknown switch 'e'` 假故障（R296 实弹，命令未达 git）；正典=`'stash@{0}'`。与 `&` 后台符/`;` 链接符同族=PS 语法层坑。指针=results/_r296bma_resolve.py+本行。
 - [2026-09-27 r297 bm-a] 坑律：hermetic selftest 腿永不触达判格 stats 的下游消费键=烧批首跑即全灭——R296 runner 双绿（selftest 22/22+真数据门「零判格值」）仍于 05:50 烧批首 cell job 即 KeyError st['sharpe_full']（cell_descriptive 未存全窗 Sharpe，45 job 同键同崩，崩-发 fuse 空转一周期）；正典=B7b 契约腿（下游下标键集 ⊆ stats 构造键集断言·synthetic 直调）已入 runner selftest，新 runner 入池前须带同型腿。指针=logs/autofill_FUSION-GRID-P1.log traceback+commit 64023a42。
+- [2026-09-27 07:53:18] 市场阶段适配统计令 O-20260927-0752（CEO「统计不同市场阶段策略表现·市场好要激进·告诉我现在市场属于什么/适用什么/以后好坏适用什么」）：①六员×政体段统计表从 results/t22_virtual_timepoints.json 实测提取（33,132 格非文档转述·6m base）——熊市段全员 0.595-0.691/震荡段 0.621-0.701/牛市段 0.383-0.615（深轴全员崩至 0.19-0.35=进攻缺口实测定谳）；CE-01=全天候核（24m 双轴唯一过线 0.799/0.725·牛市段 1.00/0.92）·CE-02=熊市主力；②当值三答：现=ORANGE（hs300 4.515<MA200 4.739·线下 4.7%·低波 0.65%·本态第 2 天 shadow·10-01 enforce）→震荡军当值+防空军主力（现役六员即两军专才·当前窗 6/6 跑赢被动实证）；GREEN→进攻军满档+半档预备梯（激进机制化·刹车 T0 不破）/RED→防空军+现金下限 20%；进攻军 0 员在册=第一优先组建（供给线在烧·龙头/野路子/融合网格判负·市场中性在跑）；③T-89 开票=PROSPECT 22 员分段统计批（T-22 harness 复用·预注册先行）+MARKET_STAGE_TABLE.md 常设件（对象×段 beat 率+当值建议·每批自动刷新）+进攻席位供给提速评估（重排呈 GM）。
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
