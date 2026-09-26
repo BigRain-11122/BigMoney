@@ -402,6 +402,8 @@ def build():
       "上表窗口成绩=研究计分口径（样本外 2026 窗·成本恒开）；"
       "不承诺未来收益；跑分幅度现阶段为稳健起步（年化 3% 级·回撤 −2.4%），"
       "「大幅」靠锦标赛与新因子线迭代爬坡，如实展示不夸大。</div>")
+    A("<div class='sub'>每日战报（T-75 · O-0940）：docs/daily_report/REPORT-YYYY-MM-DD.md"
+      " + json 孪生 · 工作日 15:45 后自动刷新 · 四面=战况/研发/决策/明日队列</div>")
     A("</body></html>")
     html = "\n".join(lines)
     io.open(OUT_HTML, "w", encoding="utf-8").write(html)

@@ -1,24 +1,24 @@
 {
  "latest": {
-  "ts": "2026-09-26 09:51:15",
-  "cpu_total_pct": 24.0,
-  "py_cpu_pct": 5.0,
-  "cores": 32,
-  "py_procs": 9,
-  "result_stale_min": 1.2,
+  "ts": "2026-09-26 10:07:35",
+  "cpu_total_pct": 8.0,
+  "py_cpu_pct": 1.0,
+  "cores": 16,
+  "py_procs": 10,
+  "result_stale_min": 1.8,
   "fleet_open_tasks": 0,
   "pool_ready_count": 0,
   "load_state": "idle-starvation",
   "pool_starvation_candidate": true,
   "pool_starvation_detail": {
-   "run_samples": 12,
-   "span_min": 101.3
+   "run_samples": 13,
+   "span_min": 117.7
   },
   "gpu": {
    "present": true,
-   "util_pct": 9.0,
-   "mem_used_mb": 5817.0,
-   "compute_apps_count": 33,
+   "util_pct": 1.0,
+   "mem_used_mb": 5781.0,
+   "compute_apps_count": 21,
    "rogue_apps": []
   },
   "zombies": [],
@@ -30,6 +30,27 @@
   "verdict": "FLAG:pool_starvation"
  },
  "history": [
+  {
+   "cores": 32,
+   "cpu_total_pct": 71.0,
+   "flags": [],
+   "fleet_open_tasks": 0,
+   "gpu": {
+    "compute_apps_count": 32,
+    "mem_used_mb": 7250.0,
+    "present": true,
+    "rogue_apps": [],
+    "util_pct": 93.0
+   },
+   "py_cpu_pct": 0.3,
+   "py_procs": 6,
+   "result_stale_min": 0.8,
+   "single_core_hog_candidate": false,
+   "single_core_hog_detail": null,
+   "ts": "2026-09-25 06:10:53",
+   "verdict": "CLEAN",
+   "zombies": []
+  },
   {
    "cores": 16,
    "cpu_total_pct": 4.0,
@@ -5350,6 +5371,36 @@
     "util_pct": 9.0,
     "mem_used_mb": 5817.0,
     "compute_apps_count": 33,
+    "rogue_apps": []
+   },
+   "zombies": [],
+   "single_core_hog_candidate": false,
+   "single_core_hog_detail": null,
+   "flags": [
+    "pool_starvation"
+   ],
+   "verdict": "FLAG:pool_starvation"
+  },
+  {
+   "ts": "2026-09-26 10:07:35",
+   "cpu_total_pct": 8.0,
+   "py_cpu_pct": 1.0,
+   "cores": 16,
+   "py_procs": 10,
+   "result_stale_min": 1.8,
+   "fleet_open_tasks": 0,
+   "pool_ready_count": 0,
+   "load_state": "idle-starvation",
+   "pool_starvation_candidate": true,
+   "pool_starvation_detail": {
+    "run_samples": 13,
+    "span_min": 117.7
+   },
+   "gpu": {
+    "present": true,
+    "util_pct": 1.0,
+    "mem_used_mb": 5781.0,
+    "compute_apps_count": 21,
     "rogue_apps": []
    },
    "zombies": [],
