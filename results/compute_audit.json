@@ -1,33 +1,34 @@
 {
   "latest": {
-    "ts": "2026-09-26 10:23:46",
-    "cpu_total_pct": 0.0,
-    "py_cpu_pct": 0.0,
-    "cores": 16,
-    "py_procs": 4,
-    "result_stale_min": 3.0,
+    "ts": "2026-09-26 10:26:07",
+    "cpu_total_pct": 97.0,
+    "py_cpu_pct": 1.4,
+    "cores": 32,
+    "py_procs": 10,
+    "result_stale_min": 1.0,
     "fleet_open_tasks": 0,
     "pool_ready_count": 0,
     "load_state": "idle-starvation",
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
-      "run_samples": 15,
-      "span_min": 133.8
+      "run_samples": 14,
+      "span_min": 136.2
     },
     "gpu": {
       "present": true,
-      "util_pct": 1.0,
-      "mem_used_mb": 5748.0,
-      "compute_apps_count": 21,
+      "util_pct": 32.0,
+      "mem_used_mb": 11557.0,
+      "compute_apps_count": 33,
       "rogue_apps": []
     },
     "zombies": [],
     "single_core_hog_candidate": false,
     "single_core_hog_detail": null,
     "flags": [
+      "cap_violation",
       "pool_starvation"
     ],
-    "verdict": "FLAG:pool_starvation"
+    "verdict": "FLAG:cap_violation,pool_starvation"
   },
   "history": [
     {
@@ -5398,6 +5399,58 @@
         "pool_starvation"
       ],
       "verdict": "FLAG:pool_starvation"
+    },
+    {
+      "cores": 16,
+      "cpu_total_pct": 4.0,
+      "flags": [],
+      "fleet_open_tasks": 0,
+      "gpu": {
+        "compute_apps_count": 22,
+        "mem_used_mb": 5573.0,
+        "present": true,
+        "rogue_apps": [],
+        "util_pct": 1.0
+      },
+      "py_cpu_pct": 0.4,
+      "py_procs": 8,
+      "result_stale_min": 0.2,
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "ts": "2026-09-25 06:17:43",
+      "verdict": "CLEAN",
+      "zombies": []
+    },
+    {
+      "ts": "2026-09-26 10:26:07",
+      "cpu_total_pct": 97.0,
+      "py_cpu_pct": 1.4,
+      "cores": 32,
+      "py_procs": 10,
+      "result_stale_min": 1.0,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 14,
+        "span_min": 136.2
+      },
+      "gpu": {
+        "present": true,
+        "util_pct": 32.0,
+        "mem_used_mb": 11557.0,
+        "compute_apps_count": 33,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [
+        "cap_violation",
+        "pool_starvation"
+      ],
+      "verdict": "FLAG:cap_violation,pool_starvation"
     }
   ]
 }
