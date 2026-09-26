@@ -727,11 +727,18 @@ SEED_REGISTRY = {
     # non-RNG, t34/wild_route precedent); registered bm-b r229; lane =
     # P-1e survivors joint synth, PS2 K=2 precedent)
     "cny_window_p1": 68_000,                 # CNY_WINDOW_P1 K=20 same-mask
-    # nulls (draw k: seed 68000+k, k<20; band 68000..68019, next free band
-    # above p1e_synth_null_b 67299; rg scripts/+research/ scan 2026-09-26
+    # nulls (draw k: seed 68000+k, k<20; band 68000..68019, next free
+    # band above p1e_synth_null_b 67299; rg scripts/+research/ scan 2026-09-26
     # 09:1x before CNY_WINDOW_P1 prereg freeze -- zero full-repo hits
     # (t34/wild_route precedent); registered bm-b r235; lane = zoo sec.8
     # #38 evidence-upgrade, spring-festival concrete-window batch)
+    "grid_sleeve_p1": 62_500,                # GRID-SLEEVE-P1 K=50 layout-
+    # sensitivity nulls (null i: seed 62500+i, i<50, draw = band-phase
+    # offset uniform(-1,+1) grids on the 5 live instruments, 10 each;
+    # band 62500..62549, next free band above cta_wave1 62049 -- sole
+    # full-repo rg hit = cta_wave1_probe.py's own upper-bound constant
+    # (non-RNG, t34 precedent); registered bm-b r244 before runner burn;
+    # lane = T-2026-09-26-78 s5b, prereg research/GRID_SLEEVE_P1.md sec.3
 }
 
 

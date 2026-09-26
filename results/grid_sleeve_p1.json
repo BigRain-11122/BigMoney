@@ -1,0 +1,3895 @@
+{
+  "batch": "GRID-SLEEVE-P1",
+  "ticket": "T-2026-09-26-78",
+  "prereg": "research\\GRID_SLEEVE_P1.md",
+  "prereg_sha256_16": "cd280e829b6e921f",
+  "generated": "2026-09-26 11:40:13",
+  "evidence_cutoff": "2026-09-24",
+  "void": false,
+  "universe": {
+    "frozen_six": [
+      "510300",
+      "510500",
+      "512880",
+      "159915",
+      "518880",
+      "511010"
+    ],
+    "live": [
+      "510300",
+      "159915",
+      "512880",
+      "518880",
+      "511010"
+    ],
+    "quarantined": [
+      "510500"
+    ],
+    "raw_ends": {
+      "510300": "2026-09-24",
+      "510500": "2026-09-24",
+      "512880": "2026-09-24",
+      "159915": "2026-09-24",
+      "518880": "2026-09-24",
+      "511010": "2026-09-24"
+    },
+    "history": "2020-01-02 .. 2026-09-24 (sec.2 lockbox)"
+  },
+  "hard_gates": {
+    "patch_selftest": true,
+    "live_5of5_readable": true,
+    "guard_face_reproduced": true
+  },
+  "guard_face": {
+    "510300": {
+      "limit": 0.105,
+      "event_days": [],
+      "quarantined": false
+    },
+    "510500": {
+      "limit": 0.105,
+      "event_days": [
+        "2022-08-29"
+      ],
+      "quarantined": true
+    },
+    "512880": {
+      "limit": 0.105,
+      "event_days": [],
+      "quarantined": false
+    },
+    "159915": {
+      "limit": 0.205,
+      "event_days": [],
+      "quarantined": false
+    },
+    "518880": {
+      "limit": 0.105,
+      "event_days": [],
+      "quarantined": false
+    },
+    "511010": {
+      "limit": 0.105,
+      "event_days": [],
+      "quarantined": false
+    }
+  },
+  "grid_params": {
+    "n_grids": 10,
+    "band_win": 250,
+    "nav0": 1000000.0
+  },
+  "segmenter": {
+    "seg_len": 60,
+    "chop_thresh": 0.1
+  },
+  "cost": "V1 legacy 13bp x1 primary + engine-native 26bp x2 stress",
+  "d6_wording_resolution": "registered face REJECTS (>=0.70); same-batch pairwise disclosed, resolved at registration (s5c) -- GRID_P1 r71 protocol, frozen in runner docstring pre-run",
+  "candidates": [
+    {
+      "code": "510300",
+      "sharpe_full": 0.00298550253317639,
+      "ann": -0.0010227611418276439,
+      "mdd": -0.1605636238508116,
+      "n_round_trips": 46,
+      "n_entries": 80,
+      "harvest_pnl": 213525.47251641328,
+      "whipsaw_pnl": -188354.1179811568,
+      "capture_rate_total": 0.025171,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.070947,
+          "n_windows": 20
+        },
+        "trend_up": {
+          "capture": 0.077137,
+          "n_windows": 4
+        },
+        "trend_down": {
+          "capture": -0.122913,
+          "n_windows": 4
+        }
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.003,
+        "skill_line": {
+          "n_eff": 185798,
+          "line": 1.1634,
+          "passive_term": 0.4792,
+          "null_term": 1.1634,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 185738,
+            "file": "batch.json",
+            "note": "T-74 s2 market-clock combo full-history replay; starts x {x1,x2}"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.7919,
+          "ci95_high": 0.8114,
+          "point": 0.003,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 46,
+          "n_entries": 80,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "g1_pass": false,
+      "gate_a": true,
+      "chop_face": {
+        "grid_cum": -0.027972057384480498,
+        "passive_cum": -0.08282075777091946,
+        "n": 20
+      },
+      "descriptive": {
+        "ann_positive": false,
+        "dd_ok": true,
+        "trend_up_opportunity_gap": 0.912261,
+        "trend_down_whipsaw_cost": 0.325231,
+        "skipped_buys": 0
+      },
+      "d6": {
+        "max_corr_vs_registered": 0.213,
+        "vs_registered_argmax": "DROUGHT-CE-01",
+        "registered_ok": true,
+        "same_batch_pairwise": {
+          "159915": 0.5712,
+          "512880": 0.5754,
+          "518880": 0.1173,
+          "511010": 0.0931
+        }
+      },
+      "x2_stress": {
+        "sharpe": -0.06044023519339514,
+        "ann": -0.00411488933021098,
+        "gate_a": true,
+        "chop_cum": {
+          "grid_cum": -0.04236756748575532,
+          "passive_cum": -0.08282075777091946,
+          "n": 20
+        }
+      },
+      "survivor_science": false,
+      "paper_candidate": false
+    },
+    {
+      "code": "159915",
+      "sharpe_full": 0.05330177064900118,
+      "ann": 0.001108395569432874,
+      "mdd": -0.2529840390353685,
+      "n_round_trips": 41,
+      "n_entries": 73,
+      "harvest_pnl": 325867.4831148356,
+      "whipsaw_pnl": -269696.97859163163,
+      "capture_rate_total": 0.056171,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.065559,
+          "n_windows": 18
+        },
+        "trend_up": {
+          "capture": 0.152063,
+          "n_windows": 6
+        },
+        "trend_down": {
+          "capture": -0.161451,
+          "n_windows": 4
+        }
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.0533,
+        "skill_line": {
+          "n_eff": 185798,
+          "line": 1.1634,
+          "passive_term": 0.4792,
+          "null_term": 1.1634,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 185738,
+            "file": "batch.json",
+            "note": "T-74 s2 market-clock combo full-history replay; starts x {x1,x2}"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.7229,
+          "ci95_high": 0.8005,
+          "point": 0.0533,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 41,
+          "n_entries": 73,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "g1_pass": false,
+      "gate_a": true,
+      "chop_face": {
+        "grid_cum": 0.04393277925431849,
+        "passive_cum": -0.18866414778434026,
+        "n": 18
+      },
+      "descriptive": {
+        "ann_positive": true,
+        "dd_ok": true,
+        "trend_up_opportunity_gap": 3.655621,
+        "trend_down_whipsaw_cost": 0.318706,
+        "skipped_buys": 0
+      },
+      "d6": {
+        "max_corr_vs_registered": 0.2384,
+        "vs_registered_argmax": "DROUGHT-CE-01",
+        "registered_ok": true,
+        "same_batch_pairwise": {
+          "510300": 0.5712,
+          "512880": 0.4553,
+          "518880": 0.05,
+          "511010": 0.09
+        }
+      },
+      "x2_stress": {
+        "sharpe": 0.017518423515046726,
+        "ann": -0.0017357522660003122,
+        "gate_a": true,
+        "chop_cum": {
+          "grid_cum": 0.03372550621383197,
+          "passive_cum": -0.18866414778434026,
+          "n": 18
+        }
+      },
+      "survivor_science": false,
+      "paper_candidate": false
+    },
+    {
+      "code": "512880",
+      "sharpe_full": -0.2162220791191043,
+      "ann": -0.021015415874281573,
+      "mdd": -0.20104677375403687,
+      "n_round_trips": 48,
+      "n_entries": 92,
+      "harvest_pnl": 306795.92338151886,
+      "whipsaw_pnl": -423499.5144718312,
+      "capture_rate_total": -0.116704,
+      "segment_capture": {
+        "chop": {
+          "capture": -0.101675,
+          "n_windows": 22
+        },
+        "trend_up": {
+          "capture": 0.075779,
+          "n_windows": 3
+        },
+        "trend_down": {
+          "capture": -0.090807,
+          "n_windows": 3
+        }
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": -0.2162,
+        "skill_line": {
+          "n_eff": 185798,
+          "line": 1.1634,
+          "passive_term": 0.4792,
+          "null_term": 1.1634,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 185738,
+            "file": "batch.json",
+            "note": "T-74 s2 market-clock combo full-history replay; starts x {x1,x2}"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.9997,
+          "ci95_high": 0.5771,
+          "point": -0.2162,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 48,
+          "n_entries": 92,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "g1_pass": false,
+      "gate_a": true,
+      "chop_face": {
+        "grid_cum": -0.11939524326265827,
+        "passive_cum": -0.36120987352208245,
+        "n": 22
+      },
+      "descriptive": {
+        "ann_positive": false,
+        "dd_ok": true,
+        "trend_up_opportunity_gap": 1.40362,
+        "trend_down_whipsaw_cost": 0.272059,
+        "skipped_buys": 0
+      },
+      "d6": {
+        "max_corr_vs_registered": 0.2532,
+        "vs_registered_argmax": "DROUGHT-CE-01",
+        "registered_ok": true,
+        "same_batch_pairwise": {
+          "510300": 0.5754,
+          "159915": 0.4553,
+          "518880": 0.1192,
+          "511010": 0.1011
+        }
+      },
+      "x2_stress": {
+        "sharpe": -0.2626369691284533,
+        "ann": -0.025080099794487554,
+        "gate_a": true,
+        "chop_cum": {
+          "grid_cum": -0.14034925954732347,
+          "passive_cum": -0.36120987352208245,
+          "n": 22
+        }
+      },
+      "survivor_science": false,
+      "paper_candidate": false
+    },
+    {
+      "code": "518880",
+      "sharpe_full": 0.42347052677063146,
+      "ann": 0.01700339497217107,
+      "mdd": -0.08591068036991228,
+      "n_round_trips": 56,
+      "n_entries": 63,
+      "harvest_pnl": 171673.30926701415,
+      "whipsaw_pnl": 0.0,
+      "capture_rate_total": 0.171673,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.119783,
+          "n_windows": 23
+        },
+        "trend_up": {
+          "capture": 0.045314,
+          "n_windows": 4
+        },
+        "trend_down": {
+          "capture": 0.008296,
+          "n_windows": 1
+        }
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.4235,
+        "skill_line": {
+          "n_eff": 185798,
+          "line": 1.1634,
+          "passive_term": 0.4792,
+          "null_term": 1.1634,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 185738,
+            "file": "batch.json",
+            "note": "T-74 s2 market-clock combo full-history replay; starts x {x1,x2}"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.3627,
+          "ci95_high": 1.2018,
+          "point": 0.4235,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 56,
+          "n_entries": 63,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "g1_pass": false,
+      "gate_a": false,
+      "chop_face": {
+        "grid_cum": 0.10888246506237143,
+        "passive_cum": 0.8398065930770089,
+        "n": 23
+      },
+      "descriptive": {
+        "ann_positive": true,
+        "dd_ok": true,
+        "trend_up_opportunity_gap": 0.644414,
+        "trend_down_whipsaw_cost": 0.123928,
+        "skipped_buys": 0
+      },
+      "d6": {
+        "max_corr_vs_registered": 0.3574,
+        "vs_registered_argmax": "VOLATILITY-CE-01",
+        "registered_ok": true,
+        "same_batch_pairwise": {
+          "510300": 0.1173,
+          "159915": 0.05,
+          "512880": 0.1192,
+          "511010": 0.0053
+        }
+      },
+      "x2_stress": {
+        "sharpe": 0.3678307587966293,
+        "ann": 0.01476385814040726,
+        "gate_a": false,
+        "chop_cum": {
+          "grid_cum": 0.0963772588802696,
+          "passive_cum": 0.8398065930770089,
+          "n": 23
+        }
+      },
+      "survivor_science": false,
+      "paper_candidate": false
+    },
+    {
+      "code": "511010",
+      "sharpe_full": 0.5223279473483666,
+      "ann": 0.001332268272254078,
+      "mdd": -0.005110210182263091,
+      "n_round_trips": 41,
+      "n_entries": 46,
+      "harvest_pnl": 9719.912464222783,
+      "whipsaw_pnl": 0.0,
+      "capture_rate_total": 0.00972,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.009846,
+          "n_windows": 28
+        },
+        "trend_up": {
+          "capture": 0.0,
+          "n_windows": 0
+        },
+        "trend_down": {
+          "capture": 0.0,
+          "n_windows": 0
+        }
+      },
+      "g1_prime_v2": {
+        "gate": "g1_prime_v2",
+        "sharpe_full": 0.5223,
+        "skill_line": {
+          "n_eff": 185798,
+          "line": 1.1634,
+          "passive_term": 0.4792,
+          "null_term": 1.1634,
+          "mu_null": -0.0332,
+          "sigma_null": 0.2429,
+          "pool": "core48",
+          "ledger_head": {
+            "total": 185738,
+            "file": "batch.json",
+            "note": "T-74 s2 market-clock combo full-history replay; starts x {x1,x2}"
+          }
+        },
+        "line_ok": false,
+        "bootstrap_ci": {
+          "ci95_low": -0.2308,
+          "ci95_high": 1.3167,
+          "point": 0.5223,
+          "ci_lower_bound_positive": false,
+          "n_resamples": 1000,
+          "block_days": 10.0,
+          "seed": 20260923
+        },
+        "ci_lower_bound_positive": false,
+        "pass_v2": false,
+        "trade_gate": {
+          "n_trades": 41,
+          "n_entries": 46,
+          "min": 30,
+          "trades_ok": true,
+          "entries_ok": true,
+          "dual_ok": true
+        }
+      },
+      "g1_pass": false,
+      "gate_a": false,
+      "chop_face": {
+        "grid_cum": 0.008664888729483788,
+        "passive_cum": 0.17874464930430456,
+        "n": 28
+      },
+      "descriptive": {
+        "ann_positive": true,
+        "dd_ok": true,
+        "trend_up_opportunity_gap": 0.0,
+        "trend_down_whipsaw_cost": 0.0,
+        "skipped_buys": 0
+      },
+      "d6": {
+        "max_corr_vs_registered": 0.0831,
+        "vs_registered_argmax": "VOLATILITY-CE-01",
+        "registered_ok": true,
+        "same_batch_pairwise": {
+          "510300": 0.0931,
+          "159915": 0.09,
+          "512880": 0.1011,
+          "518880": 0.0053
+        }
+      },
+      "x2_stress": {
+        "sharpe": -0.15001530969211546,
+        "ann": -0.00040993976716530156,
+        "gate_a": false,
+        "chop_cum": {
+          "grid_cum": -0.0026534926553863913,
+          "passive_cum": 0.17874464930430456,
+          "n": 28
+        }
+      },
+      "survivor_science": false,
+      "paper_candidate": false
+    }
+  ],
+  "cells_public": {
+    "510300": {
+      "params": {
+        "n_grids": 10,
+        "band_win": 250,
+        "cost_bp": 13.0,
+        "band_offset_grids": 0.0
+      },
+      "sharpe": 0.00298550253317639,
+      "mdd": -0.1605636238508116,
+      "ann": -0.0010227611418276439,
+      "n_round_trips": 46,
+      "n_entries": 80,
+      "n_trades": 152,
+      "skipped_buys": 0,
+      "harvest_pnl": 213525.47251641328,
+      "whipsaw_pnl": -188354.1179811568,
+      "capture_rate_total": 0.025171,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.070947,
+          "n_windows": 20
+        },
+        "trend_up": {
+          "capture": 0.077137,
+          "n_windows": 4
+        },
+        "trend_down": {
+          "capture": -0.122913,
+          "n_windows": 4
+        }
+      },
+      "segment_faces": {
+        "chop": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": -0.02821906354515047,
+              "start": 120,
+              "end": 180
+            },
+            {
+              "grid": -0.011984846159092344,
+              "passive": -0.012514665623777899,
+              "start": 240,
+              "end": 300
+            },
+            {
+              "grid": 0.022029300170465893,
+              "passive": 0.04079207920792083,
+              "start": 300,
+              "end": 360
+            },
+            {
+              "grid": -0.017601288172816476,
+              "passive": -0.061834094368340975,
+              "start": 360,
+              "end": 420
+            },
+            {
+              "grid": 0.013246913829715101,
+              "passive": 0.013384708983978921,
+              "start": 420,
+              "end": 480
+            },
+            {
+              "grid": -0.008312683951313682,
+              "passive": 0.08904440154440141,
+              "start": 540,
+              "end": 600
+            },
+            {
+              "grid": -0.020446945558419194,
+              "passive": -0.01716738197424894,
+              "start": 660,
+              "end": 720
+            },
+            {
+              "grid": 0.008511528642579647,
+              "passive": 0.03544824043154371,
+              "start": 720,
+              "end": 780
+            },
+            {
+              "grid": -0.0065107077056507645,
+              "passive": -0.03572314562143386,
+              "start": 780,
+              "end": 840
+            },
+            {
+              "grid": -0.0026583914941678,
+              "passive": -0.02572678157962438,
+              "start": 840,
+              "end": 900
+            },
+            {
+              "grid": -0.002994823188818385,
+              "passive": 0.0512065921130076,
+              "start": 960,
+              "end": 1020
+            },
+            {
+              "grid": 0.003500630953155115,
+              "passive": -0.01399776035834277,
+              "start": 1020,
+              "end": 1080
+            },
+            {
+              "grid": -0.025787299512211037,
+              "passive": -0.07921635434412266,
+              "start": 1080,
+              "end": 1140
+            },
+            {
+              "grid": 0.01303478047630402,
+              "passive": 0.028278278278278224,
+              "start": 1200,
+              "end": 1260
+            },
+            {
+              "grid": -0.0005325274940710667,
+              "passive": -0.049890484302750115,
+              "start": 1260,
+              "end": 1320
+            },
+            {
+              "grid": 0.007189371172402259,
+              "passive": 0.028646981048920273,
+              "start": 1380,
+              "end": 1440
+            },
+            {
+              "grid": 0.004917376696827125,
+              "passive": -0.0047129391602399595,
+              "start": 1440,
+              "end": 1500
+            },
+            {
+              "grid": 0.020553231163324526,
+              "passive": 0.05876022384847168,
+              "start": 1500,
+              "end": 1560
+            },
+            {
+              "grid": -0.005718473157092285,
+              "passive": -0.05997153893067697,
+              "start": 1560,
+              "end": 1620
+            },
+            {
+              "grid": -0.017099372847657612,
+              "passive": -0.023572664359861606,
+              "start": 1620,
+              "end": 1632
+            }
+          ],
+          "cum": {
+            "grid_cum": -0.027972057384480498,
+            "passive_cum": -0.08282075777091946,
+            "n": 20
+          }
+        },
+        "trend_up": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": 0.2940221801460643,
+              "start": 60,
+              "end": 120
+            },
+            {
+              "grid": 0.0,
+              "passive": 0.10002151000215087,
+              "start": 180,
+              "end": 240
+            },
+            {
+              "grid": 0.08373617213527007,
+              "passive": 0.2321924144310823,
+              "start": 1140,
+              "end": 1200
+            },
+            {
+              "grid": 0.03950163570007814,
+              "passive": 0.1623975409836067,
+              "start": 1320,
+              "end": 1380
+            }
+          ],
+          "cum": {
+            "grid_cum": 0.1265455236019546,
+            "passive_cum": 1.0388069780874445,
+            "n": 4
+          }
+        },
+        "trend_down": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": -0.10894191371414796,
+              "start": 0,
+              "end": 60
+            },
+            {
+              "grid": -0.036460539668451086,
+              "passive": -0.17070242145287173,
+              "start": 480,
+              "end": 540
+            },
+            {
+              "grid": -0.016119981030205066,
+              "passive": -0.12231331708397963,
+              "start": 600,
+              "end": 660
+            },
+            {
+              "grid": -0.043068102224529614,
+              "passive": -0.10271983100079218,
+              "start": 900,
+              "end": 960
+            }
+          ],
+          "cum": {
+            "grid_cum": -0.09282164945946614,
+            "passive_cum": -0.4180522527717935,
+            "n": 4
+          }
+        }
+      },
+      "gate_a": true
+    },
+    "159915": {
+      "params": {
+        "n_grids": 10,
+        "band_win": 250,
+        "cost_bp": 13.0,
+        "band_offset_grids": 0.0
+      },
+      "sharpe": 0.05330177064900118,
+      "mdd": -0.2529840390353685,
+      "ann": 0.001108395569432874,
+      "n_round_trips": 41,
+      "n_entries": 73,
+      "n_trades": 141,
+      "skipped_buys": 0,
+      "harvest_pnl": 325867.4831148356,
+      "whipsaw_pnl": -269696.97859163163,
+      "capture_rate_total": 0.056171,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.065559,
+          "n_windows": 18
+        },
+        "trend_up": {
+          "capture": 0.152063,
+          "n_windows": 6
+        },
+        "trend_down": {
+          "capture": -0.161451,
+          "n_windows": 4
+        }
+      },
+      "segment_faces": {
+        "chop": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": 0.039093484419263635,
+              "start": 0,
+              "end": 60
+            },
+            {
+              "grid": 0.0,
+              "passive": -0.0065306122448979265,
+              "start": 120,
+              "end": 180
+            },
+            {
+              "grid": -0.009647806156190875,
+              "passive": 0.0003680529996319404,
+              "start": 240,
+              "end": 300
+            },
+            {
+              "grid": 0.009889473280543903,
+              "passive": -0.06287425149700598,
+              "start": 360,
+              "end": 420
+            },
+            {
+              "grid": 0.01795288257968841,
+              "passive": 0.019169329073482455,
+              "start": 420,
+              "end": 480
+            },
+            {
+              "grid": -7.241081770448243e-05,
+              "passive": 0.06849860613301462,
+              "start": 540,
+              "end": 600
+            },
+            {
+              "grid": 0.01567833662735918,
+              "passive": -0.007548845470692678,
+              "start": 660,
+              "end": 720
+            },
+            {
+              "grid": 0.011492740238576937,
+              "passive": 0.02774049217002239,
+              "start": 720,
+              "end": 780
+            },
+            {
+              "grid": -0.026589191926941758,
+              "passive": -0.07139747496734883,
+              "start": 780,
+              "end": 840
+            },
+            {
+              "grid": -0.015198478199549115,
+              "passive": -0.07735583684950775,
+              "start": 840,
+              "end": 900
+            },
+            {
+              "grid": -0.011825989991820274,
+              "passive": -0.0950203252032521,
+              "start": 900,
+              "end": 960
+            },
+            {
+              "grid": 0.013694874537518942,
+              "passive": 0.03649635036496357,
+              "start": 960,
+              "end": 1020
+            },
+            {
+              "grid": -0.000581234457336155,
+              "passive": -0.06663055254604555,
+              "start": 1020,
+              "end": 1080
+            },
+            {
+              "grid": 0.02184788236313495,
+              "passive": -0.0004631773969430153,
+              "start": 1200,
+              "end": 1260
+            },
+            {
+              "grid": -0.008319553576009109,
+              "passive": -0.07089898053753474,
+              "start": 1260,
+              "end": 1320
+            },
+            {
+              "grid": 0.02536964943975928,
+              "passive": 0.04925619834710737,
+              "start": 1380,
+              "end": 1440
+            },
+            {
+              "grid": 0.009228554930061694,
+              "passive": 0.05166981726528053,
+              "start": 1440,
+              "end": 1500
+            },
+            {
+              "grid": -0.008180154915940707,
+              "passive": -0.018084790987251798,
+              "start": 1620,
+              "end": 1631
+            }
+          ],
+          "cum": {
+            "grid_cum": 0.04393277925431849,
+            "passive_cum": -0.18866414778434026,
+            "n": 18
+          }
+        },
+        "trend_up": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": 0.33587786259541996,
+              "start": 60,
+              "end": 120
+            },
+            {
+              "grid": 0.0,
+              "passive": 0.11626951520131468,
+              "start": 180,
+              "end": 240
+            },
+            {
+              "grid": 0.06169660427648038,
+              "passive": 0.22884473877851352,
+              "start": 300,
+              "end": 360
+            },
+            {
+              "grid": 0.00564334206213668,
+              "passive": 0.4307488402915838,
+              "start": 1140,
+              "end": 1200
+            },
+            {
+              "grid": 0.12943961950533933,
+              "passive": 0.5087281795511223,
+              "start": 1320,
+              "end": 1380
+            },
+            {
+              "grid": 0.008337110310182805,
+              "passive": 0.23157579388855587,
+              "start": 1500,
+              "end": 1560
+            }
+          ],
+          "cum": {
+            "grid_cum": 0.21594289739135974,
+            "passive_cum": 3.871563647172043,
+            "n": 6
+          }
+        },
+        "trend_down": {
+          "windows": [
+            {
+              "grid": -0.12254336772174246,
+              "passive": -0.2128526645768024,
+              "start": 480,
+              "end": 540
+            },
+            {
+              "grid": -0.026453390538312194,
+              "passive": -0.16064107342527023,
+              "start": 600,
+              "end": 660
+            },
+            {
+              "grid": -0.04243892878641442,
+              "passive": -0.1242019733023797,
+              "start": 1080,
+              "end": 1140
+            },
+            {
+              "grid": -0.029979055314759084,
+              "passive": -0.1795183653612259,
+              "start": 1560,
+              "end": 1620
+            }
+          ],
+          "cum": {
+            "grid_cum": -0.20653092852575683,
+            "passive_cum": -0.5252373231008384,
+            "n": 4
+          }
+        }
+      },
+      "gate_a": true
+    },
+    "512880": {
+      "params": {
+        "n_grids": 10,
+        "band_win": 250,
+        "cost_bp": 13.0,
+        "band_offset_grids": 0.0
+      },
+      "sharpe": -0.2162220791191043,
+      "mdd": -0.20104677375403687,
+      "ann": -0.021015415874281573,
+      "n_round_trips": 48,
+      "n_entries": 92,
+      "n_trades": 181,
+      "skipped_buys": 0,
+      "harvest_pnl": 306795.92338151886,
+      "whipsaw_pnl": -423499.5144718312,
+      "capture_rate_total": -0.116704,
+      "segment_capture": {
+        "chop": {
+          "capture": -0.101675,
+          "n_windows": 22
+        },
+        "trend_up": {
+          "capture": 0.075779,
+          "n_windows": 3
+        },
+        "trend_down": {
+          "capture": -0.090807,
+          "n_windows": 3
+        }
+      },
+      "segment_faces": {
+        "chop": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": -0.09622501850481113,
+              "start": 120,
+              "end": 180
+            },
+            {
+              "grid": 0.0,
+              "passive": -0.06060606060606066,
+              "start": 180,
+              "end": 240
+            },
+            {
+              "grid": -0.053148336036681676,
+              "passive": -0.09590235396687019,
+              "start": 240,
+              "end": 300
+            },
+            {
+              "grid": 0.046798942271570665,
+              "passive": 0.06943105110896819,
+              "start": 300,
+              "end": 360
+            },
+            {
+              "grid": 0.06632826035227302,
+              "passive": 0.07213706041478818,
+              "start": 360,
+              "end": 420
+            },
+            {
+              "grid": 0.0034240617142200502,
+              "passive": -0.026072329688814233,
+              "start": 420,
+              "end": 480
+            },
+            {
+              "grid": 0.008253292372367493,
+              "passive": 0.054487179487179516,
+              "start": 540,
+              "end": 600
+            },
+            {
+              "grid": -0.00747557408547328,
+              "passive": 0.0034883720930232176,
+              "start": 660,
+              "end": 720
+            },
+            {
+              "grid": 0.010719951713602072,
+              "passive": 0.05330243337195828,
+              "start": 720,
+              "end": 780
+            },
+            {
+              "grid": -0.010400298003684028,
+              "passive": -0.03300330033003307,
+              "start": 780,
+              "end": 840
+            },
+            {
+              "grid": 0.062210014807055014,
+              "passive": 0.0887372013651877,
+              "start": 840,
+              "end": 900
+            },
+            {
+              "grid": -0.018084735296150956,
+              "passive": -0.03866248693834895,
+              "start": 900,
+              "end": 960
+            },
+            {
+              "grid": -0.0656536249253693,
+              "passive": -0.019565217391304346,
+              "start": 960,
+              "end": 1020
+            },
+            {
+              "grid": -0.048228093019287877,
+              "passive": -0.09090909090909094,
+              "start": 1020,
+              "end": 1080
+            },
+            {
+              "grid": -0.004000650486213009,
+              "passive": -0.020731707317073078,
+              "start": 1080,
+              "end": 1140
+            },
+            {
+              "grid": -0.0013304890160004135,
+              "passive": -0.051623646960865965,
+              "start": 1200,
+              "end": 1260
+            },
+            {
+              "grid": -0.002696474314119013,
+              "passive": -0.05004389815627741,
+              "start": 1260,
+              "end": 1320
+            },
+            {
+              "grid": -0.004676568223225819,
+              "passive": -0.04417670682730934,
+              "start": 1380,
+              "end": 1440
+            },
+            {
+              "grid": -0.02111155846641244,
+              "passive": -0.060504201680672165,
+              "start": 1440,
+              "end": 1500
+            },
+            {
+              "grid": -0.07402369087161353,
+              "passive": -0.04114490161001794,
+              "start": 1500,
+              "end": 1560
+            },
+            {
+              "grid": 0.008363111213355534,
+              "passive": 0.012126865671641784,
+              "start": 1560,
+              "end": 1620
+            },
+            {
+              "grid": -0.008913675514768404,
+              "passive": -0.035944700460829426,
+              "start": 1620,
+              "end": 1632
+            }
+          ],
+          "cum": {
+            "grid_cum": -0.11939524326265827,
+            "passive_cum": -0.36120987352208245,
+            "n": 22
+          }
+        },
+        "trend_up": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": 0.4589632829373649,
+              "start": 60,
+              "end": 120
+            },
+            {
+              "grid": 0.03751344468479112,
+              "passive": 0.49564134495641343,
+              "start": 1140,
+              "end": 1200
+            },
+            {
+              "grid": 0.0671578872982117,
+              "passive": 0.15064695009242146,
+              "start": 1320,
+              "end": 1380
+            }
+          ],
+          "cum": {
+            "grid_cum": 0.10719065567331176,
+            "passive_cum": 1.5108103783589728,
+            "n": 3
+          }
+        },
+        "trend_down": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": -0.11725452812202086,
+              "start": 0,
+              "end": 60
+            },
+            {
+              "grid": -0.07965713927486506,
+              "passive": -0.1917098445595854,
+              "start": 480,
+              "end": 540
+            },
+            {
+              "grid": -0.028879823459938003,
+              "passive": -0.12867274569402232,
+              "start": 600,
+              "end": 660
+            }
+          ],
+          "cum": {
+            "grid_cum": -0.10623647861522123,
+            "passive_cum": -0.37829539187074623,
+            "n": 3
+          }
+        }
+      },
+      "gate_a": true
+    },
+    "518880": {
+      "params": {
+        "n_grids": 10,
+        "band_win": 250,
+        "cost_bp": 13.0,
+        "band_offset_grids": 0.0
+      },
+      "sharpe": 0.42347052677063146,
+      "mdd": -0.08591068036991228,
+      "ann": 0.01700339497217107,
+      "n_round_trips": 56,
+      "n_entries": 63,
+      "n_trades": 119,
+      "skipped_buys": 0,
+      "harvest_pnl": 171673.30926701415,
+      "whipsaw_pnl": 0.0,
+      "capture_rate_total": 0.171673,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.119783,
+          "n_windows": 23
+        },
+        "trend_up": {
+          "capture": 0.045314,
+          "n_windows": 4
+        },
+        "trend_down": {
+          "capture": 0.008296,
+          "n_windows": 1
+        }
+      },
+      "segment_faces": {
+        "chop": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": 0.060830860534124565,
+              "start": 0,
+              "end": 60
+            },
+            {
+              "grid": 0.0,
+              "passive": 0.09146853146853151,
+              "start": 60,
+              "end": 120
+            },
+            {
+              "grid": 0.0,
+              "passive": 0.004356740133264925,
+              "start": 120,
+              "end": 180
+            },
+            {
+              "grid": 0.0,
+              "passive": -0.020923705026792527,
+              "start": 180,
+              "end": 240
+            },
+            {
+              "grid": -0.01596910749617564,
+              "passive": -0.08913213448006252,
+              "start": 240,
+              "end": 300
+            },
+            {
+              "grid": 0.008110531820916922,
+              "passive": 0.02546494992846915,
+              "start": 300,
+              "end": 360
+            },
+            {
+              "grid": 0.0032036713717698007,
+              "passive": 0.0005580357142855874,
+              "start": 360,
+              "end": 420
+            },
+            {
+              "grid": 0.005031488975144827,
+              "passive": 0.013106525376464173,
+              "start": 420,
+              "end": 480
+            },
+            {
+              "grid": 0.03374382870959036,
+              "passive": 0.06578585191301944,
+              "start": 480,
+              "end": 540
+            },
+            {
+              "grid": -0.002016210673870922,
+              "passive": -0.010330578512396715,
+              "start": 540,
+              "end": 600
+            },
+            {
+              "grid": -0.0025977362132650894,
+              "passive": -0.01905010438413357,
+              "start": 600,
+              "end": 660
+            },
+            {
+              "grid": 0.026255005760416728,
+              "passive": 0.05905826017557869,
+              "start": 660,
+              "end": 720
+            },
+            {
+              "grid": 0.004973927295713221,
+              "passive": 0.06832454157246937,
+              "start": 720,
+              "end": 780
+            },
+            {
+              "grid": 0.003945321979105021,
+              "passive": 0.024218198918410483,
+              "start": 780,
+              "end": 840
+            },
+            {
+              "grid": 0.003786313869335034,
+              "passive": 0.0440771349862259,
+              "start": 840,
+              "end": 900
+            },
+            {
+              "grid": 0.007348114050596655,
+              "passive": 0.006156552330694787,
+              "start": 900,
+              "end": 960
+            },
+            {
+              "grid": 0.0018662010183492228,
+              "passive": 0.06643356643356646,
+              "start": 960,
+              "end": 1020
+            },
+            {
+              "grid": 0.006662179373151389,
+              "passive": 0.09651639344262297,
+              "start": 1020,
+              "end": 1080
+            },
+            {
+              "grid": 0.011887402836374239,
+              "passive": 0.03363857222948985,
+              "start": 1080,
+              "end": 1140
+            },
+            {
+              "grid": 0.004554281155841888,
+              "passive": 0.07521243898029306,
+              "start": 1140,
+              "end": 1200
+            },
+            {
+              "grid": 0.008616146070052677,
+              "passive": 0.05917632946821261,
+              "start": 1320,
+              "end": 1380
+            },
+            {
+              "grid": 0.010289015492519926,
+              "passive": 0.013328853046594924,
+              "start": 1560,
+              "end": 1620
+            },
+            {
+              "grid": -0.01489739277223745,
+              "passive": -0.028628274566154577,
+              "start": 1620,
+              "end": 1632
+            }
+          ],
+          "cum": {
+            "grid_cum": 0.10888246506237143,
+            "passive_cum": 0.8398065930770089,
+            "n": 23
+          }
+        },
+        "trend_up": {
+          "windows": [
+            {
+              "grid": 0.0034783844264587582,
+              "passive": 0.14343366403228508,
+              "start": 1200,
+              "end": 1260
+            },
+            {
+              "grid": 0.009538139931972056,
+              "passive": 0.10338235294117659,
+              "start": 1260,
+              "end": 1320
+            },
+            {
+              "grid": 0.0060407254990497705,
+              "passive": 0.14634453252799795,
+              "start": 1380,
+              "end": 1440
+            },
+            {
+              "grid": 0.024645805342982108,
+              "passive": 0.16761800219538991,
+              "start": 1440,
+              "end": 1500
+            }
+          ],
+          "cum": {
+            "grid_cum": 0.04428750395618941,
+            "passive_cum": 0.6887017528625041,
+            "n": 4
+          }
+        },
+        "trend_down": {
+          "windows": [
+            {
+              "grid": -0.03673732012322195,
+              "passive": -0.16066560120334672,
+              "start": 1500,
+              "end": 1560
+            }
+          ],
+          "cum": {
+            "grid_cum": -0.03673732012322195,
+            "passive_cum": -0.16066560120334672,
+            "n": 1
+          }
+        }
+      },
+      "gate_a": false
+    },
+    "511010": {
+      "params": {
+        "n_grids": 10,
+        "band_win": 250,
+        "cost_bp": 13.0,
+        "band_offset_grids": 0.0
+      },
+      "sharpe": 0.5223279473483666,
+      "mdd": -0.005110210182263091,
+      "ann": 0.001332268272254078,
+      "n_round_trips": 41,
+      "n_entries": 46,
+      "n_trades": 87,
+      "skipped_buys": 0,
+      "harvest_pnl": 9719.912464222783,
+      "whipsaw_pnl": 0.0,
+      "capture_rate_total": 0.00972,
+      "segment_capture": {
+        "chop": {
+          "capture": 0.009846,
+          "n_windows": 28
+        },
+        "trend_up": {
+          "capture": 0.0,
+          "n_windows": 0
+        },
+        "trend_down": {
+          "capture": 0.0,
+          "n_windows": 0
+        }
+      },
+      "segment_faces": {
+        "chop": {
+          "windows": [
+            {
+              "grid": 0.0,
+              "passive": 0.03213349305142521,
+              "start": 0,
+              "end": 60
+            },
+            {
+              "grid": 0.0,
+              "passive": -0.01458450001217404,
+              "start": 60,
+              "end": 120
+            },
+            {
+              "grid": 0.0,
+              "passive": -0.004628714502207254,
+              "start": 120,
+              "end": 180
+            },
+            {
+              "grid": 0.0,
+              "passive": 0.0028629586112167704,
+              "start": 180,
+              "end": 240
+            },
+            {
+              "grid": 0.0005239929250924202,
+              "passive": 0.0060561056105610245,
+              "start": 240,
+              "end": 300
+            },
+            {
+              "grid": 0.001357262522328151,
+              "passive": 0.013031640067577621,
+              "start": 300,
+              "end": 360
+            },
+            {
+              "grid": -3.165383883307893e-05,
+              "passive": 0.011754895849356073,
+              "start": 360,
+              "end": 420
+            },
+            {
+              "grid": 0.00020859434426157009,
+              "passive": 0.007001400280056025,
+              "start": 420,
+              "end": 480
+            },
+            {
+              "grid": -0.00016873626502234007,
+              "passive": 0.010448947159316768,
+              "start": 480,
+              "end": 540
+            },
+            {
+              "grid": 0.000370314692838436,
+              "passive": 0.00359375614359303,
+              "start": 540,
+              "end": 600
+            },
+            {
+              "grid": 0.0005993966183870381,
+              "passive": 0.013759383178448825,
+              "start": 600,
+              "end": 660
+            },
+            {
+              "grid": -0.0007376371576524043,
+              "passive": -0.006021116418556405,
+              "start": 660,
+              "end": 720
+            },
+            {
+              "grid": 0.0012212087545446781,
+              "passive": 0.006438619273866797,
+              "start": 720,
+              "end": 780
+            },
+            {
+              "grid": 0.00011767450827737669,
+              "passive": 0.01493505991794608,
+              "start": 780,
+              "end": 840
+            },
+            {
+              "grid": 2.2301516520606413e-05,
+              "passive": 0.004757917174177839,
+              "start": 840,
+              "end": 900
+            },
+            {
+              "grid": 0.0006903907010507027,
+              "passive": 0.00515210061749416,
+              "start": 900,
+              "end": 960
+            },
+            {
+              "grid": -0.00012465515816495465,
+              "passive": 0.01578411789092815,
+              "start": 960,
+              "end": 1020
+            },
+            {
+              "grid": 0.00041506082097519936,
+              "passive": 0.012963883673817733,
+              "start": 1020,
+              "end": 1080
+            },
+            {
+              "grid": 0.0005007617405625719,
+              "passive": 0.01571359500681302,
+              "start": 1080,
+              "end": 1140
+            },
+            {
+              "grid": 0.0012464468998849565,
+              "passive": 0.01811743153673606,
+              "start": 1140,
+              "end": 1200
+            },
+            {
+              "grid": -0.0012677963646274826,
+              "passive": -0.009712176703527198,
+              "start": 1200,
+              "end": 1260
+            },
+            {
+              "grid": 0.002870564792380126,
+              "passive": 0.0129263477166075,
+              "start": 1260,
+              "end": 1320
+            },
+            {
+              "grid": -0.00031222137028841246,
+              "passive": -0.003135615364515232,
+              "start": 1320,
+              "end": 1380
+            },
+            {
+              "grid": 0.0006317858674103061,
+              "passive": -0.0035067833232971246,
+              "start": 1380,
+              "end": 1440
+            },
+            {
+              "grid": 4.241586555098209e-06,
+              "passive": 0.0001421868334992027,
+              "start": 1440,
+              "end": 1500
+            },
+            {
+              "grid": 0.0012378901940837128,
+              "passive": 0.0036252487915837683,
+              "start": 1500,
+              "end": 1560
+            },
+            {
+              "grid": 0.00043504785104753196,
+              "passive": 0.00014165309157876393,
+              "start": 1560,
+              "end": 1620
+            },
+            {
+              "grid": -0.001172359320815275,
+              "passive": -0.0035054174633525337,
+              "start": 1620,
+              "end": 1632
+            }
+          ],
+          "cum": {
+            "grid_cum": 0.008664888729483788,
+            "passive_cum": 0.17874464930430456,
+            "n": 28
+          }
+        },
+        "trend_up": {
+          "windows": [],
+          "cum": {
+            "grid_cum": 0.0,
+            "passive_cum": 0.0,
+            "n": 0
+          }
+        },
+        "trend_down": {
+          "windows": [],
+          "cum": {
+            "grid_cum": 0.0,
+            "passive_cum": 0.0,
+            "n": 0
+          }
+        }
+      },
+      "gate_a": false
+    }
+  },
+  "cells_sells_log": {
+    "510300": [
+      {
+        "date": "2021-02-10",
+        "kind": "harvest",
+        "pnl": 4694.33
+      },
+      {
+        "date": "2021-04-30",
+        "kind": "harvest",
+        "pnl": 3949.9
+      },
+      {
+        "date": "2021-05-26",
+        "kind": "harvest",
+        "pnl": 6258.14
+      },
+      {
+        "date": "2021-08-11",
+        "kind": "harvest",
+        "pnl": 5866.38
+      },
+      {
+        "date": "2021-09-07",
+        "kind": "harvest",
+        "pnl": 2973.71
+      },
+      {
+        "date": "2021-12-09",
+        "kind": "harvest",
+        "pnl": 2402.23
+      },
+      {
+        "date": "2021-12-10",
+        "kind": "harvest",
+        "pnl": 4601.26
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -14360.39
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -11065.95
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -5740.76
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -6404.43
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -6732.77
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -3885.49
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -5833.5
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -3380.95
+      },
+      {
+        "date": "2022-01-17",
+        "kind": "whipsaw_exit",
+        "pnl": -2335.89
+      },
+      {
+        "date": "2022-04-26",
+        "kind": "whipsaw_exit",
+        "pnl": -10339.43
+      },
+      {
+        "date": "2022-04-26",
+        "kind": "whipsaw_exit",
+        "pnl": -7236.38
+      },
+      {
+        "date": "2022-06-07",
+        "kind": "harvest",
+        "pnl": 7018.96
+      },
+      {
+        "date": "2022-10-25",
+        "kind": "whipsaw_exit",
+        "pnl": -15444.01
+      },
+      {
+        "date": "2022-10-25",
+        "kind": "whipsaw_exit",
+        "pnl": -11903.99
+      },
+      {
+        "date": "2022-10-25",
+        "kind": "whipsaw_exit",
+        "pnl": -7801.37
+      },
+      {
+        "date": "2022-10-25",
+        "kind": "whipsaw_exit",
+        "pnl": -5820.63
+      },
+      {
+        "date": "2022-11-16",
+        "kind": "harvest",
+        "pnl": 5474.4
+      },
+      {
+        "date": "2022-12-12",
+        "kind": "harvest",
+        "pnl": 3928.3
+      },
+      {
+        "date": "2023-01-31",
+        "kind": "harvest",
+        "pnl": 4456.78
+      },
+      {
+        "date": "2023-04-06",
+        "kind": "harvest",
+        "pnl": 2862.73
+      },
+      {
+        "date": "2023-06-19",
+        "kind": "harvest",
+        "pnl": 3270.05
+      },
+      {
+        "date": "2023-07-14",
+        "kind": "harvest",
+        "pnl": 2803.68
+      },
+      {
+        "date": "2023-07-31",
+        "kind": "harvest",
+        "pnl": 3949.0
+      },
+      {
+        "date": "2023-08-30",
+        "kind": "harvest",
+        "pnl": 2091.83
+      },
+      {
+        "date": "2023-10-24",
+        "kind": "whipsaw_exit",
+        "pnl": -13249.1
+      },
+      {
+        "date": "2023-10-24",
+        "kind": "whipsaw_exit",
+        "pnl": -13944.29
+      },
+      {
+        "date": "2023-10-24",
+        "kind": "whipsaw_exit",
+        "pnl": -12693.42
+      },
+      {
+        "date": "2023-10-24",
+        "kind": "whipsaw_exit",
+        "pnl": -7182.45
+      },
+      {
+        "date": "2023-10-24",
+        "kind": "whipsaw_exit",
+        "pnl": -5145.23
+      },
+      {
+        "date": "2023-10-24",
+        "kind": "whipsaw_exit",
+        "pnl": -3175.57
+      },
+      {
+        "date": "2023-10-24",
+        "kind": "whipsaw_exit",
+        "pnl": -1094.78
+      },
+      {
+        "date": "2023-12-05",
+        "kind": "whipsaw_exit",
+        "pnl": -4075.91
+      },
+      {
+        "date": "2023-12-05",
+        "kind": "whipsaw_exit",
+        "pnl": -2612.03
+      },
+      {
+        "date": "2024-01-09",
+        "kind": "whipsaw_exit",
+        "pnl": -2896.61
+      },
+      {
+        "date": "2024-02-05",
+        "kind": "whipsaw_exit",
+        "pnl": -3998.79
+      },
+      {
+        "date": "2024-03-12",
+        "kind": "harvest",
+        "pnl": 4037.74
+      },
+      {
+        "date": "2024-04-30",
+        "kind": "harvest",
+        "pnl": 4028.08
+      },
+      {
+        "date": "2024-05-20",
+        "kind": "harvest",
+        "pnl": 3158.41
+      },
+      {
+        "date": "2024-07-17",
+        "kind": "harvest",
+        "pnl": 2572.72
+      },
+      {
+        "date": "2024-09-25",
+        "kind": "harvest",
+        "pnl": 4502.71
+      },
+      {
+        "date": "2024-09-25",
+        "kind": "harvest",
+        "pnl": 6648.49
+      },
+      {
+        "date": "2024-09-27",
+        "kind": "harvest",
+        "pnl": 6658.74
+      },
+      {
+        "date": "2024-09-30",
+        "kind": "harvest",
+        "pnl": 10403.19
+      },
+      {
+        "date": "2024-09-30",
+        "kind": "harvest",
+        "pnl": 12421.81
+      },
+      {
+        "date": "2024-10-24",
+        "kind": "harvest",
+        "pnl": 2481.29
+      },
+      {
+        "date": "2024-11-08",
+        "kind": "harvest",
+        "pnl": 4935.66
+      },
+      {
+        "date": "2025-02-24",
+        "kind": "harvest",
+        "pnl": 3848.34
+      },
+      {
+        "date": "2025-04-11",
+        "kind": "harvest",
+        "pnl": 2761.14
+      },
+      {
+        "date": "2025-05-09",
+        "kind": "harvest",
+        "pnl": 6429.25
+      },
+      {
+        "date": "2025-07-11",
+        "kind": "harvest",
+        "pnl": 9665.82
+      },
+      {
+        "date": "2025-07-23",
+        "kind": "harvest",
+        "pnl": 3789.2
+      },
+      {
+        "date": "2025-08-18",
+        "kind": "harvest",
+        "pnl": 5327.76
+      },
+      {
+        "date": "2025-08-25",
+        "kind": "harvest",
+        "pnl": 10302.52
+      },
+      {
+        "date": "2025-09-12",
+        "kind": "harvest",
+        "pnl": 4492.01
+      },
+      {
+        "date": "2025-10-28",
+        "kind": "harvest",
+        "pnl": 3257.3
+      },
+      {
+        "date": "2025-12-25",
+        "kind": "harvest",
+        "pnl": 3465.08
+      },
+      {
+        "date": "2026-01-07",
+        "kind": "harvest",
+        "pnl": 4587.05
+      },
+      {
+        "date": "2026-04-15",
+        "kind": "harvest",
+        "pnl": 5752.02
+      },
+      {
+        "date": "2026-04-23",
+        "kind": "harvest",
+        "pnl": 3609.57
+      },
+      {
+        "date": "2026-05-12",
+        "kind": "harvest",
+        "pnl": 4795.81
+      },
+      {
+        "date": "2026-06-16",
+        "kind": "harvest",
+        "pnl": 3006.39
+      },
+      {
+        "date": "2026-06-23",
+        "kind": "harvest",
+        "pnl": 4342.16
+      },
+      {
+        "date": "2026-07-22",
+        "kind": "harvest",
+        "pnl": 2325.4
+      },
+      {
+        "date": "2026-08-06",
+        "kind": "harvest",
+        "pnl": -89.17
+      },
+      {
+        "date": "2026-08-18",
+        "kind": "harvest",
+        "pnl": 3407.26
+      }
+    ],
+    "159915": [
+      {
+        "date": "2021-02-18",
+        "kind": "harvest",
+        "pnl": 8264.6
+      },
+      {
+        "date": "2021-04-23",
+        "kind": "harvest",
+        "pnl": 7588.51
+      },
+      {
+        "date": "2021-05-06",
+        "kind": "harvest",
+        "pnl": 3694.95
+      },
+      {
+        "date": "2021-05-21",
+        "kind": "harvest",
+        "pnl": 8052.03
+      },
+      {
+        "date": "2021-06-01",
+        "kind": "harvest",
+        "pnl": 8287.56
+      },
+      {
+        "date": "2021-06-23",
+        "kind": "harvest",
+        "pnl": 4887.37
+      },
+      {
+        "date": "2021-06-29",
+        "kind": "harvest",
+        "pnl": 10678.53
+      },
+      {
+        "date": "2021-07-13",
+        "kind": "harvest",
+        "pnl": 5682.05
+      },
+      {
+        "date": "2021-07-30",
+        "kind": "harvest",
+        "pnl": 7116.63
+      },
+      {
+        "date": "2021-09-08",
+        "kind": "harvest",
+        "pnl": 4376.34
+      },
+      {
+        "date": "2021-10-18",
+        "kind": "harvest",
+        "pnl": 4268.02
+      },
+      {
+        "date": "2021-11-01",
+        "kind": "harvest",
+        "pnl": 3272.94
+      },
+      {
+        "date": "2021-11-23",
+        "kind": "harvest",
+        "pnl": 5592.77
+      },
+      {
+        "date": "2021-12-13",
+        "kind": "harvest",
+        "pnl": 2672.08
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -23029.47
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -22266.21
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -20391.32
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -17565.91
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -16328.57
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -13291.76
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -11921.72
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -5269.28
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "whipsaw_exit",
+        "pnl": -1241.36
+      },
+      {
+        "date": "2022-03-16",
+        "kind": "whipsaw_exit",
+        "pnl": -56.53
+      },
+      {
+        "date": "2022-04-12",
+        "kind": "whipsaw_exit",
+        "pnl": -9133.09
+      },
+      {
+        "date": "2022-04-12",
+        "kind": "whipsaw_exit",
+        "pnl": -5450.76
+      },
+      {
+        "date": "2022-06-06",
+        "kind": "harvest",
+        "pnl": 9899.08
+      },
+      {
+        "date": "2022-10-17",
+        "kind": "harvest",
+        "pnl": 7324.81
+      },
+      {
+        "date": "2022-11-07",
+        "kind": "harvest",
+        "pnl": 9226.26
+      },
+      {
+        "date": "2023-01-20",
+        "kind": "harvest",
+        "pnl": 9009.4
+      },
+      {
+        "date": "2023-05-30",
+        "kind": "whipsaw_exit",
+        "pnl": -18818.65
+      },
+      {
+        "date": "2023-05-30",
+        "kind": "whipsaw_exit",
+        "pnl": -13485.57
+      },
+      {
+        "date": "2023-05-30",
+        "kind": "whipsaw_exit",
+        "pnl": -12312.13
+      },
+      {
+        "date": "2023-05-30",
+        "kind": "whipsaw_exit",
+        "pnl": -2448.75
+      },
+      {
+        "date": "2023-05-30",
+        "kind": "whipsaw_exit",
+        "pnl": -3551.27
+      },
+      {
+        "date": "2023-08-21",
+        "kind": "whipsaw_exit",
+        "pnl": -3626.42
+      },
+      {
+        "date": "2023-08-21",
+        "kind": "whipsaw_exit",
+        "pnl": -5833.79
+      },
+      {
+        "date": "2023-09-14",
+        "kind": "whipsaw_exit",
+        "pnl": -4573.02
+      },
+      {
+        "date": "2023-12-15",
+        "kind": "whipsaw_exit",
+        "pnl": -7619.64
+      },
+      {
+        "date": "2023-12-15",
+        "kind": "whipsaw_exit",
+        "pnl": -3133.72
+      },
+      {
+        "date": "2024-01-05",
+        "kind": "whipsaw_exit",
+        "pnl": -3082.5
+      },
+      {
+        "date": "2024-03-12",
+        "kind": "harvest",
+        "pnl": 8502.9
+      },
+      {
+        "date": "2024-03-19",
+        "kind": "harvest",
+        "pnl": 6885.06
+      },
+      {
+        "date": "2024-05-07",
+        "kind": "harvest",
+        "pnl": 6103.08
+      },
+      {
+        "date": "2024-08-28",
+        "kind": "whipsaw_exit",
+        "pnl": -18876.42
+      },
+      {
+        "date": "2024-08-28",
+        "kind": "whipsaw_exit",
+        "pnl": -11740.99
+      },
+      {
+        "date": "2024-08-28",
+        "kind": "whipsaw_exit",
+        "pnl": -8444.11
+      },
+      {
+        "date": "2024-08-28",
+        "kind": "whipsaw_exit",
+        "pnl": -6204.04
+      },
+      {
+        "date": "2024-11-06",
+        "kind": "harvest",
+        "pnl": 7948.04
+      },
+      {
+        "date": "2024-11-12",
+        "kind": "harvest",
+        "pnl": 10536.97
+      },
+      {
+        "date": "2025-02-10",
+        "kind": "harvest",
+        "pnl": 9122.86
+      },
+      {
+        "date": "2025-02-24",
+        "kind": "harvest",
+        "pnl": 10208.14
+      },
+      {
+        "date": "2025-05-09",
+        "kind": "harvest",
+        "pnl": 11317.34
+      },
+      {
+        "date": "2025-06-26",
+        "kind": "harvest",
+        "pnl": 17384.14
+      },
+      {
+        "date": "2025-07-16",
+        "kind": "harvest",
+        "pnl": 6978.39
+      },
+      {
+        "date": "2025-07-25",
+        "kind": "harvest",
+        "pnl": 5213.62
+      },
+      {
+        "date": "2025-08-14",
+        "kind": "harvest",
+        "pnl": 10065.98
+      },
+      {
+        "date": "2025-08-19",
+        "kind": "harvest",
+        "pnl": 14605.7
+      },
+      {
+        "date": "2025-08-26",
+        "kind": "harvest",
+        "pnl": 21370.77
+      },
+      {
+        "date": "2025-09-08",
+        "kind": "harvest",
+        "pnl": 6849.1
+      },
+      {
+        "date": "2025-10-27",
+        "kind": "harvest",
+        "pnl": 7549.31
+      },
+      {
+        "date": "2025-10-30",
+        "kind": "harvest",
+        "pnl": 6286.5
+      },
+      {
+        "date": "2025-12-09",
+        "kind": "harvest",
+        "pnl": 8026.46
+      },
+      {
+        "date": "2026-01-07",
+        "kind": "harvest",
+        "pnl": 7921.65
+      },
+      {
+        "date": "2026-04-13",
+        "kind": "harvest",
+        "pnl": 7920.93
+      },
+      {
+        "date": "2026-06-18",
+        "kind": "harvest",
+        "pnl": 7252.38
+      },
+      {
+        "date": "2026-08-06",
+        "kind": "harvest",
+        "pnl": 1481.51
+      },
+      {
+        "date": "2026-08-18",
+        "kind": "harvest",
+        "pnl": 6442.71
+      }
+    ],
+    "512880": [
+      {
+        "date": "2021-05-26",
+        "kind": "harvest",
+        "pnl": 9289.94
+      },
+      {
+        "date": "2021-05-31",
+        "kind": "harvest",
+        "pnl": 5956.71
+      },
+      {
+        "date": "2021-07-23",
+        "kind": "harvest",
+        "pnl": 5456.12
+      },
+      {
+        "date": "2021-08-03",
+        "kind": "harvest",
+        "pnl": 3146.11
+      },
+      {
+        "date": "2021-08-11",
+        "kind": "harvest",
+        "pnl": 4417.16
+      },
+      {
+        "date": "2021-08-19",
+        "kind": "harvest",
+        "pnl": 5210.56
+      },
+      {
+        "date": "2021-08-19",
+        "kind": "harvest",
+        "pnl": 7269.66
+      },
+      {
+        "date": "2021-09-02",
+        "kind": "harvest",
+        "pnl": 5894.91
+      },
+      {
+        "date": "2021-09-03",
+        "kind": "harvest",
+        "pnl": 11221.24
+      },
+      {
+        "date": "2021-09-08",
+        "kind": "harvest",
+        "pnl": 5442.22
+      },
+      {
+        "date": "2021-12-07",
+        "kind": "harvest",
+        "pnl": 5146.32
+      },
+      {
+        "date": "2021-12-09",
+        "kind": "harvest",
+        "pnl": 3822.24
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -21152.3
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -18671.99
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -15306.7
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -13896.38
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -10929.98
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -7141.56
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -5443.47
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "whipsaw_exit",
+        "pnl": -4524.56
+      },
+      {
+        "date": "2022-04-26",
+        "kind": "whipsaw_exit",
+        "pnl": -4455.86
+      },
+      {
+        "date": "2022-06-13",
+        "kind": "harvest",
+        "pnl": 8206.67
+      },
+      {
+        "date": "2022-08-12",
+        "kind": "harvest",
+        "pnl": 6260.06
+      },
+      {
+        "date": "2022-09-27",
+        "kind": "whipsaw_exit",
+        "pnl": -12623.31
+      },
+      {
+        "date": "2022-09-27",
+        "kind": "whipsaw_exit",
+        "pnl": -12804.96
+      },
+      {
+        "date": "2022-09-27",
+        "kind": "whipsaw_exit",
+        "pnl": -9512.81
+      },
+      {
+        "date": "2022-09-27",
+        "kind": "whipsaw_exit",
+        "pnl": -3250.72
+      },
+      {
+        "date": "2022-10-31",
+        "kind": "whipsaw_exit",
+        "pnl": -5577.57
+      },
+      {
+        "date": "2022-11-16",
+        "kind": "harvest",
+        "pnl": 7229.78
+      },
+      {
+        "date": "2022-12-06",
+        "kind": "harvest",
+        "pnl": 5715.57
+      },
+      {
+        "date": "2023-01-17",
+        "kind": "harvest",
+        "pnl": 8618.96
+      },
+      {
+        "date": "2023-01-20",
+        "kind": "harvest",
+        "pnl": 6849.02
+      },
+      {
+        "date": "2023-05-08",
+        "kind": "harvest",
+        "pnl": 4119.72
+      },
+      {
+        "date": "2023-05-10",
+        "kind": "harvest",
+        "pnl": 3351.81
+      },
+      {
+        "date": "2023-05-10",
+        "kind": "harvest",
+        "pnl": 3022.66
+      },
+      {
+        "date": "2023-07-04",
+        "kind": "harvest",
+        "pnl": 3219.65
+      },
+      {
+        "date": "2023-07-26",
+        "kind": "harvest",
+        "pnl": 6525.39
+      },
+      {
+        "date": "2023-07-31",
+        "kind": "harvest",
+        "pnl": 3891.97
+      },
+      {
+        "date": "2023-07-31",
+        "kind": "harvest",
+        "pnl": 6820.03
+      },
+      {
+        "date": "2023-07-31",
+        "kind": "harvest",
+        "pnl": 8749.83
+      },
+      {
+        "date": "2023-07-31",
+        "kind": "harvest",
+        "pnl": 10511.43
+      },
+      {
+        "date": "2023-08-29",
+        "kind": "harvest",
+        "pnl": 1959.03
+      },
+      {
+        "date": "2023-11-07",
+        "kind": "harvest",
+        "pnl": 3882.91
+      },
+      {
+        "date": "2023-12-29",
+        "kind": "harvest",
+        "pnl": 2590.06
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -15428.92
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -15847.17
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -13713.48
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -11652.64
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -11744.29
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -9104.16
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -8023.23
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -4298.64
+      },
+      {
+        "date": "2024-01-11",
+        "kind": "whipsaw_exit",
+        "pnl": -2544.66
+      },
+      {
+        "date": "2024-02-06",
+        "kind": "whipsaw_exit",
+        "pnl": -7261.0
+      },
+      {
+        "date": "2024-02-06",
+        "kind": "whipsaw_exit",
+        "pnl": -5410.57
+      },
+      {
+        "date": "2024-04-15",
+        "kind": "whipsaw_exit",
+        "pnl": -10875.04
+      },
+      {
+        "date": "2024-04-15",
+        "kind": "whipsaw_exit",
+        "pnl": -9673.36
+      },
+      {
+        "date": "2024-04-15",
+        "kind": "whipsaw_exit",
+        "pnl": -6955.19
+      },
+      {
+        "date": "2024-04-15",
+        "kind": "whipsaw_exit",
+        "pnl": -2438.46
+      },
+      {
+        "date": "2024-06-26",
+        "kind": "whipsaw_exit",
+        "pnl": -10075.74
+      },
+      {
+        "date": "2024-06-26",
+        "kind": "whipsaw_exit",
+        "pnl": -7887.54
+      },
+      {
+        "date": "2024-06-26",
+        "kind": "whipsaw_exit",
+        "pnl": -3993.9
+      },
+      {
+        "date": "2024-08-01",
+        "kind": "harvest",
+        "pnl": 7195.16
+      },
+      {
+        "date": "2024-09-25",
+        "kind": "harvest",
+        "pnl": 7393.98
+      },
+      {
+        "date": "2024-11-05",
+        "kind": "harvest",
+        "pnl": 9304.48
+      },
+      {
+        "date": "2024-11-06",
+        "kind": "harvest",
+        "pnl": 16136.01
+      },
+      {
+        "date": "2024-12-09",
+        "kind": "harvest",
+        "pnl": 5079.03
+      },
+      {
+        "date": "2025-02-10",
+        "kind": "harvest",
+        "pnl": 8075.99
+      },
+      {
+        "date": "2025-05-09",
+        "kind": "harvest",
+        "pnl": 7031.0
+      },
+      {
+        "date": "2025-06-26",
+        "kind": "harvest",
+        "pnl": 17359.44
+      },
+      {
+        "date": "2025-07-14",
+        "kind": "harvest",
+        "pnl": 6954.83
+      },
+      {
+        "date": "2025-07-30",
+        "kind": "harvest",
+        "pnl": 6258.19
+      },
+      {
+        "date": "2025-08-19",
+        "kind": "harvest",
+        "pnl": 7292.69
+      },
+      {
+        "date": "2025-10-30",
+        "kind": "harvest",
+        "pnl": 3270.97
+      },
+      {
+        "date": "2025-12-09",
+        "kind": "harvest",
+        "pnl": 3863.97
+      },
+      {
+        "date": "2026-01-07",
+        "kind": "harvest",
+        "pnl": 8969.28
+      },
+      {
+        "date": "2026-04-09",
+        "kind": "harvest",
+        "pnl": 2489.09
+      },
+      {
+        "date": "2026-05-07",
+        "kind": "harvest",
+        "pnl": 4989.83
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -21816.7
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -20127.94
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -19223.24
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -16938.37
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -13558.37
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -11253.26
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -6604.23
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -7297.98
+      },
+      {
+        "date": "2026-06-09",
+        "kind": "whipsaw_exit",
+        "pnl": -4459.26
+      },
+      {
+        "date": "2026-06-23",
+        "kind": "harvest",
+        "pnl": 7566.85
+      },
+      {
+        "date": "2026-09-02",
+        "kind": "harvest",
+        "pnl": 3767.41
+      }
+    ],
+    "518880": [
+      {
+        "date": "2021-05-10",
+        "kind": "harvest",
+        "pnl": 4511.26
+      },
+      {
+        "date": "2021-05-18",
+        "kind": "harvest",
+        "pnl": 3722.31
+      },
+      {
+        "date": "2021-05-25",
+        "kind": "harvest",
+        "pnl": 1946.03
+      },
+      {
+        "date": "2021-08-25",
+        "kind": "harvest",
+        "pnl": 2965.0
+      },
+      {
+        "date": "2022-02-21",
+        "kind": "harvest",
+        "pnl": 3823.76
+      },
+      {
+        "date": "2022-02-21",
+        "kind": "harvest",
+        "pnl": 1110.69
+      },
+      {
+        "date": "2022-02-23",
+        "kind": "harvest",
+        "pnl": 1648.09
+      },
+      {
+        "date": "2022-02-25",
+        "kind": "harvest",
+        "pnl": 828.22
+      },
+      {
+        "date": "2022-02-25",
+        "kind": "harvest",
+        "pnl": -128.25
+      },
+      {
+        "date": "2022-03-08",
+        "kind": "harvest",
+        "pnl": 3128.04
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "harvest",
+        "pnl": 6001.95
+      },
+      {
+        "date": "2022-03-09",
+        "kind": "harvest",
+        "pnl": 5503.11
+      },
+      {
+        "date": "2022-03-28",
+        "kind": "harvest",
+        "pnl": 1719.52
+      },
+      {
+        "date": "2022-04-13",
+        "kind": "harvest",
+        "pnl": 1398.36
+      },
+      {
+        "date": "2022-04-19",
+        "kind": "harvest",
+        "pnl": 2739.85
+      },
+      {
+        "date": "2022-05-30",
+        "kind": "harvest",
+        "pnl": 281.28
+      },
+      {
+        "date": "2022-06-14",
+        "kind": "harvest",
+        "pnl": -542.72
+      },
+      {
+        "date": "2022-08-01",
+        "kind": "harvest",
+        "pnl": 2139.12
+      },
+      {
+        "date": "2022-08-03",
+        "kind": "harvest",
+        "pnl": 1669.92
+      },
+      {
+        "date": "2022-10-11",
+        "kind": "harvest",
+        "pnl": 3101.15
+      },
+      {
+        "date": "2022-11-10",
+        "kind": "harvest",
+        "pnl": 2179.99
+      },
+      {
+        "date": "2022-11-10",
+        "kind": "harvest",
+        "pnl": 3499.66
+      },
+      {
+        "date": "2022-11-18",
+        "kind": "harvest",
+        "pnl": 554.34
+      },
+      {
+        "date": "2022-12-15",
+        "kind": "harvest",
+        "pnl": 840.04
+      },
+      {
+        "date": "2023-01-10",
+        "kind": "harvest",
+        "pnl": 1206.74
+      },
+      {
+        "date": "2023-01-18",
+        "kind": "harvest",
+        "pnl": 2900.68
+      },
+      {
+        "date": "2023-03-08",
+        "kind": "harvest",
+        "pnl": 287.54
+      },
+      {
+        "date": "2023-03-15",
+        "kind": "harvest",
+        "pnl": 2692.12
+      },
+      {
+        "date": "2023-04-07",
+        "kind": "harvest",
+        "pnl": 1262.55
+      },
+      {
+        "date": "2023-05-05",
+        "kind": "harvest",
+        "pnl": 2669.77
+      },
+      {
+        "date": "2023-07-19",
+        "kind": "harvest",
+        "pnl": 2307.77
+      },
+      {
+        "date": "2023-08-31",
+        "kind": "harvest",
+        "pnl": 1712.03
+      },
+      {
+        "date": "2023-10-19",
+        "kind": "harvest",
+        "pnl": 3117.91
+      },
+      {
+        "date": "2023-10-23",
+        "kind": "harvest",
+        "pnl": 3593.94
+      },
+      {
+        "date": "2023-12-05",
+        "kind": "harvest",
+        "pnl": 552.66
+      },
+      {
+        "date": "2023-12-27",
+        "kind": "harvest",
+        "pnl": 2089.49
+      },
+      {
+        "date": "2024-02-05",
+        "kind": "harvest",
+        "pnl": 517.03
+      },
+      {
+        "date": "2024-05-17",
+        "kind": "harvest",
+        "pnl": 2101.17
+      },
+      {
+        "date": "2024-05-21",
+        "kind": "harvest",
+        "pnl": 3935.99
+      },
+      {
+        "date": "2024-07-15",
+        "kind": "harvest",
+        "pnl": 1832.27
+      },
+      {
+        "date": "2024-07-18",
+        "kind": "harvest",
+        "pnl": 4796.21
+      },
+      {
+        "date": "2024-08-02",
+        "kind": "harvest",
+        "pnl": 2800.89
+      },
+      {
+        "date": "2024-08-14",
+        "kind": "harvest",
+        "pnl": 2860.16
+      },
+      {
+        "date": "2024-09-18",
+        "kind": "harvest",
+        "pnl": 3305.77
+      },
+      {
+        "date": "2024-11-25",
+        "kind": "harvest",
+        "pnl": 3245.42
+      },
+      {
+        "date": "2025-01-23",
+        "kind": "harvest",
+        "pnl": 4083.46
+      },
+      {
+        "date": "2025-04-11",
+        "kind": "harvest",
+        "pnl": 6439.96
+      },
+      {
+        "date": "2025-05-22",
+        "kind": "harvest",
+        "pnl": 3663.41
+      },
+      {
+        "date": "2025-09-04",
+        "kind": "harvest",
+        "pnl": 6635.02
+      },
+      {
+        "date": "2025-09-17",
+        "kind": "harvest",
+        "pnl": 4161.68
+      },
+      {
+        "date": "2025-12-15",
+        "kind": "harvest",
+        "pnl": 6841.67
+      },
+      {
+        "date": "2025-12-24",
+        "kind": "harvest",
+        "pnl": 7948.37
+      },
+      {
+        "date": "2026-02-05",
+        "kind": "harvest",
+        "pnl": 2196.52
+      },
+      {
+        "date": "2026-03-03",
+        "kind": "harvest",
+        "pnl": 9979.25
+      },
+      {
+        "date": "2026-04-02",
+        "kind": "harvest",
+        "pnl": 8295.7
+      },
+      {
+        "date": "2026-08-21",
+        "kind": "harvest",
+        "pnl": 6999.41
+      }
+    ],
+    "511010": [
+      {
+        "date": "2021-04-06",
+        "kind": "harvest",
+        "pnl": 255.45
+      },
+      {
+        "date": "2021-04-14",
+        "kind": "harvest",
+        "pnl": 404.4
+      },
+      {
+        "date": "2021-05-24",
+        "kind": "harvest",
+        "pnl": 362.2
+      },
+      {
+        "date": "2021-06-22",
+        "kind": "harvest",
+        "pnl": 141.1
+      },
+      {
+        "date": "2021-06-30",
+        "kind": "harvest",
+        "pnl": 113.69
+      },
+      {
+        "date": "2021-06-30",
+        "kind": "harvest",
+        "pnl": 11.96
+      },
+      {
+        "date": "2021-07-01",
+        "kind": "harvest",
+        "pnl": 241.25
+      },
+      {
+        "date": "2021-07-08",
+        "kind": "harvest",
+        "pnl": 161.52
+      },
+      {
+        "date": "2021-09-30",
+        "kind": "harvest",
+        "pnl": 217.37
+      },
+      {
+        "date": "2021-11-25",
+        "kind": "harvest",
+        "pnl": 150.3
+      },
+      {
+        "date": "2022-05-19",
+        "kind": "harvest",
+        "pnl": 425.58
+      },
+      {
+        "date": "2022-08-01",
+        "kind": "harvest",
+        "pnl": 331.4
+      },
+      {
+        "date": "2022-12-30",
+        "kind": "harvest",
+        "pnl": 194.12
+      },
+      {
+        "date": "2023-01-05",
+        "kind": "harvest",
+        "pnl": 213.16
+      },
+      {
+        "date": "2023-03-17",
+        "kind": "harvest",
+        "pnl": 38.89
+      },
+      {
+        "date": "2023-04-12",
+        "kind": "harvest",
+        "pnl": 195.98
+      },
+      {
+        "date": "2023-07-07",
+        "kind": "harvest",
+        "pnl": 185.12
+      },
+      {
+        "date": "2023-11-03",
+        "kind": "harvest",
+        "pnl": 178.4
+      },
+      {
+        "date": "2023-12-19",
+        "kind": "harvest",
+        "pnl": 232.16
+      },
+      {
+        "date": "2024-05-30",
+        "kind": "harvest",
+        "pnl": 416.74
+      },
+      {
+        "date": "2024-09-04",
+        "kind": "harvest",
+        "pnl": 503.0
+      },
+      {
+        "date": "2024-11-13",
+        "kind": "harvest",
+        "pnl": 1252.65
+      },
+      {
+        "date": "2025-04-07",
+        "kind": "harvest",
+        "pnl": 894.79
+      },
+      {
+        "date": "2025-04-08",
+        "kind": "harvest",
+        "pnl": 361.5
+      },
+      {
+        "date": "2025-10-20",
+        "kind": "harvest",
+        "pnl": 36.46
+      },
+      {
+        "date": "2025-10-31",
+        "kind": "harvest",
+        "pnl": 274.76
+      },
+      {
+        "date": "2025-12-24",
+        "kind": "harvest",
+        "pnl": -3.46
+      },
+      {
+        "date": "2026-01-15",
+        "kind": "harvest",
+        "pnl": -86.36
+      },
+      {
+        "date": "2026-01-21",
+        "kind": "harvest",
+        "pnl": -5.97
+      },
+      {
+        "date": "2026-02-04",
+        "kind": "harvest",
+        "pnl": 13.68
+      },
+      {
+        "date": "2026-02-12",
+        "kind": "harvest",
+        "pnl": 68.85
+      },
+      {
+        "date": "2026-03-05",
+        "kind": "harvest",
+        "pnl": 211.78
+      },
+      {
+        "date": "2026-04-16",
+        "kind": "harvest",
+        "pnl": 7.77
+      },
+      {
+        "date": "2026-04-23",
+        "kind": "harvest",
+        "pnl": 172.07
+      },
+      {
+        "date": "2026-05-13",
+        "kind": "harvest",
+        "pnl": 261.69
+      },
+      {
+        "date": "2026-05-14",
+        "kind": "harvest",
+        "pnl": 478.56
+      },
+      {
+        "date": "2026-05-20",
+        "kind": "harvest",
+        "pnl": -9.06
+      },
+      {
+        "date": "2026-05-29",
+        "kind": "harvest",
+        "pnl": 764.3
+      },
+      {
+        "date": "2026-06-22",
+        "kind": "harvest",
+        "pnl": -49.77
+      },
+      {
+        "date": "2026-08-03",
+        "kind": "harvest",
+        "pnl": -15.72
+      },
+      {
+        "date": "2026-08-17",
+        "kind": "harvest",
+        "pnl": 117.6
+      }
+    ]
+  },
+  "nulls": [
+    {
+      "code": "510300",
+      "seed": 62500,
+      "offset": 0.322504,
+      "sharpe": 0.03260602974752927,
+      "ann": 0.0003892062100465665,
+      "n_round_trips": 48
+    },
+    {
+      "code": "510300",
+      "seed": 62501,
+      "offset": -0.953323,
+      "sharpe": -0.13891566617147422,
+      "ann": -0.006984429998557973,
+      "n_round_trips": 39
+    },
+    {
+      "code": "510300",
+      "seed": 62502,
+      "offset": 0.600807,
+      "sharpe": 0.03775381004697784,
+      "ann": 0.0005946622716419547,
+      "n_round_trips": 51
+    },
+    {
+      "code": "510300",
+      "seed": 62503,
+      "offset": -0.229667,
+      "sharpe": -0.018606861186367864,
+      "ann": -0.0017653832988007157,
+      "n_round_trips": 44
+    },
+    {
+      "code": "510300",
+      "seed": 62504,
+      "offset": 0.457154,
+      "sharpe": 0.05267958179703306,
+      "ann": 0.0013869532774475335,
+      "n_round_trips": 52
+    },
+    {
+      "code": "510300",
+      "seed": 62505,
+      "offset": 0.262911,
+      "sharpe": 0.00930563383313672,
+      "ann": -0.0007426759776024694,
+      "n_round_trips": 48
+    },
+    {
+      "code": "510300",
+      "seed": 62506,
+      "offset": 0.048387,
+      "sharpe": -0.06722735564962762,
+      "ann": -0.0047248296430023595,
+      "n_round_trips": 46
+    },
+    {
+      "code": "510300",
+      "seed": 62507,
+      "offset": 0.185411,
+      "sharpe": 0.006547197436590627,
+      "ann": -0.0009606699338149394,
+      "n_round_trips": 48
+    },
+    {
+      "code": "510300",
+      "seed": 62508,
+      "offset": 0.988519,
+      "sharpe": -0.0023928434051696244,
+      "ann": -0.0017777653273862715,
+      "n_round_trips": 51
+    },
+    {
+      "code": "510300",
+      "seed": 62509,
+      "offset": -0.591879,
+      "sharpe": -0.036881982731179354,
+      "ann": -0.0025187496532123044,
+      "n_round_trips": 45
+    },
+    {
+      "code": "159915",
+      "seed": 62510,
+      "offset": -0.864656,
+      "sharpe": -0.025021422819715325,
+      "ann": -0.00374751271104945,
+      "n_round_trips": 37
+    },
+    {
+      "code": "159915",
+      "seed": 62511,
+      "offset": -0.068804,
+      "sharpe": 0.06072173794296024,
+      "ann": 0.0016729191521611675,
+      "n_round_trips": 42
+    },
+    {
+      "code": "159915",
+      "seed": 62512,
+      "offset": -0.603803,
+      "sharpe": -0.04992254957885293,
+      "ann": -0.006178493811498265,
+      "n_round_trips": 34
+    },
+    {
+      "code": "159915",
+      "seed": 62513,
+      "offset": -0.346274,
+      "sharpe": 0.05387179412931837,
+      "ann": 0.001254680301989053,
+      "n_round_trips": 40
+    },
+    {
+      "code": "159915",
+      "seed": 62514,
+      "offset": 0.981214,
+      "sharpe": 0.1143982638804944,
+      "ann": 0.006382433491110007,
+      "n_round_trips": 50
+    },
+    {
+      "code": "159915",
+      "seed": 62515,
+      "offset": 0.50279,
+      "sharpe": 0.0750306415389666,
+      "ann": 0.0027334459014216606,
+      "n_round_trips": 43
+    },
+    {
+      "code": "159915",
+      "seed": 62516,
+      "offset": 0.347736,
+      "sharpe": 0.06416095008085958,
+      "ann": 0.0018130929241593208,
+      "n_round_trips": 46
+    },
+    {
+      "code": "159915",
+      "seed": 62517,
+      "offset": -0.687593,
+      "sharpe": -0.05576223612314868,
+      "ann": -0.006382922120224732,
+      "n_round_trips": 34
+    },
+    {
+      "code": "159915",
+      "seed": 62518,
+      "offset": 0.027427,
+      "sharpe": 0.07472144901680051,
+      "ann": 0.00278319408994232,
+      "n_round_trips": 45
+    },
+    {
+      "code": "159915",
+      "seed": 62519,
+      "offset": -0.835996,
+      "sharpe": -0.05169430601586975,
+      "ann": -0.005622996470194597,
+      "n_round_trips": 36
+    },
+    {
+      "code": "512880",
+      "seed": 62520,
+      "offset": -0.730784,
+      "sharpe": -0.12662657859984988,
+      "ann": -0.012287009182792574,
+      "n_round_trips": 53
+    },
+    {
+      "code": "512880",
+      "seed": 62521,
+      "offset": 0.858389,
+      "sharpe": -0.258144219546315,
+      "ann": -0.026923231265298497,
+      "n_round_trips": 51
+    },
+    {
+      "code": "512880",
+      "seed": 62522,
+      "offset": -0.57726,
+      "sharpe": -0.11717998990370095,
+      "ann": -0.011239233849173136,
+      "n_round_trips": 54
+    },
+    {
+      "code": "512880",
+      "seed": 62523,
+      "offset": 0.363833,
+      "sharpe": -0.18856232606889872,
+      "ann": -0.019570840573246207,
+      "n_round_trips": 49
+    },
+    {
+      "code": "512880",
+      "seed": 62524,
+      "offset": -0.739776,
+      "sharpe": -0.12039164949402403,
+      "ann": -0.011794979363451419,
+      "n_round_trips": 53
+    },
+    {
+      "code": "512880",
+      "seed": 62525,
+      "offset": -0.913598,
+      "sharpe": -0.1254222401900608,
+      "ann": -0.012024960275725638,
+      "n_round_trips": 49
+    },
+    {
+      "code": "512880",
+      "seed": 62526,
+      "offset": 0.39357,
+      "sharpe": -0.181806385911936,
+      "ann": -0.01915936740917701,
+      "n_round_trips": 50
+    },
+    {
+      "code": "512880",
+      "seed": 62527,
+      "offset": -0.971059,
+      "sharpe": -0.17016966416724966,
+      "ann": -0.015355815437164688,
+      "n_round_trips": 48
+    },
+    {
+      "code": "512880",
+      "seed": 62528,
+      "offset": 0.483841,
+      "sharpe": -0.26467590937588653,
+      "ann": -0.025854572018544908,
+      "n_round_trips": 50
+    },
+    {
+      "code": "512880",
+      "seed": 62529,
+      "offset": -0.181159,
+      "sharpe": -0.2657909764428562,
+      "ann": -0.025086066910797622,
+      "n_round_trips": 51
+    },
+    {
+      "code": "518880",
+      "seed": 62530,
+      "offset": 0.685239,
+      "sharpe": 0.4760909178219768,
+      "ann": 0.020554233086249596,
+      "n_round_trips": 70
+    },
+    {
+      "code": "518880",
+      "seed": 62531,
+      "offset": -0.053578,
+      "sharpe": 0.3605658619270364,
+      "ann": 0.014349039894570037,
+      "n_round_trips": 49
+    },
+    {
+      "code": "518880",
+      "seed": 62532,
+      "offset": -0.304808,
+      "sharpe": 0.38944860495673067,
+      "ann": 0.014047637779124988,
+      "n_round_trips": 51
+    },
+    {
+      "code": "518880",
+      "seed": 62533,
+      "offset": 0.674631,
+      "sharpe": 0.49414580298841704,
+      "ann": 0.021243740568264613,
+      "n_round_trips": 71
+    },
+    {
+      "code": "518880",
+      "seed": 62534,
+      "offset": -0.126097,
+      "sharpe": 0.3855473418431273,
+      "ann": 0.01515918425063556,
+      "n_round_trips": 53
+    },
+    {
+      "code": "518880",
+      "seed": 62535,
+      "offset": -0.542474,
+      "sharpe": 0.43091906587794976,
+      "ann": 0.01542949563291307,
+      "n_round_trips": 42
+    },
+    {
+      "code": "518880",
+      "seed": 62536,
+      "offset": -0.426564,
+      "sharpe": 0.4549586940990635,
+      "ann": 0.016968603563055185,
+      "n_round_trips": 51
+    },
+    {
+      "code": "518880",
+      "seed": 62537,
+      "offset": 0.419462,
+      "sharpe": 0.4669324494845251,
+      "ann": 0.01971239002802383,
+      "n_round_trips": 61
+    },
+    {
+      "code": "518880",
+      "seed": 62538,
+      "offset": -0.267327,
+      "sharpe": 0.3689118041419143,
+      "ann": 0.01414832118386733,
+      "n_round_trips": 51
+    },
+    {
+      "code": "518880",
+      "seed": 62539,
+      "offset": 0.999165,
+      "sharpe": 0.541698999956607,
+      "ann": 0.025435366376300728,
+      "n_round_trips": 79
+    },
+    {
+      "code": "511010",
+      "seed": 62540,
+      "offset": 0.98128,
+      "sharpe": 0.6401348163297604,
+      "ann": 0.002231432854286508,
+      "n_round_trips": 65
+    },
+    {
+      "code": "511010",
+      "seed": 62541,
+      "offset": -0.220295,
+      "sharpe": 0.6456465145415988,
+      "ann": 0.0013250147228700548,
+      "n_round_trips": 36
+    },
+    {
+      "code": "511010",
+      "seed": 62542,
+      "offset": -0.319428,
+      "sharpe": 0.632968438314579,
+      "ann": 0.0013157271878625476,
+      "n_round_trips": 39
+    },
+    {
+      "code": "511010",
+      "seed": 62543,
+      "offset": -0.043312,
+      "sharpe": 0.516838416890089,
+      "ann": 0.0012327813316128644,
+      "n_round_trips": 39
+    },
+    {
+      "code": "511010",
+      "seed": 62544,
+      "offset": 0.218593,
+      "sharpe": 0.6232712894413385,
+      "ann": 0.0015977124832156075,
+      "n_round_trips": 46
+    },
+    {
+      "code": "511010",
+      "seed": 62545,
+      "offset": -0.12063,
+      "sharpe": 0.5722924223635116,
+      "ann": 0.0012664409382587838,
+      "n_round_trips": 38
+    },
+    {
+      "code": "511010",
+      "seed": 62546,
+      "offset": 0.147746,
+      "sharpe": 0.58176916677874,
+      "ann": 0.0015693781908392435,
+      "n_round_trips": 48
+    },
+    {
+      "code": "511010",
+      "seed": 62547,
+      "offset": 0.458967,
+      "sharpe": 0.6845899449708126,
+      "ann": 0.0018416302510062543,
+      "n_round_trips": 53
+    },
+    {
+      "code": "511010",
+      "seed": 62548,
+      "offset": 0.91531,
+      "sharpe": 0.6259795479489185,
+      "ann": 0.002103868702857614,
+      "n_round_trips": 62
+    },
+    {
+      "code": "511010",
+      "seed": 62549,
+      "offset": -0.685148,
+      "sharpe": 0.5797673367987275,
+      "ann": 0.000999867542671895,
+      "n_round_trips": 31
+    }
+  ],
+  "null_summary": {
+    "n": 50,
+    "mu": 0.1758,
+    "sigma": 0.3058,
+    "by_code": {
+      "510300": {
+        "mu": -0.0125,
+        "sigma": 0.0571,
+        "max": 0.0527,
+        "cell_beats_null_max": false
+      },
+      "159915": {
+        "mu": 0.0261,
+        "sigma": 0.0642,
+        "max": 0.1144,
+        "cell_beats_null_max": false
+      },
+      "512880": {
+        "mu": -0.1819,
+        "sigma": 0.0616,
+        "max": -0.1172,
+        "cell_beats_null_max": false
+      },
+      "518880": {
+        "mu": 0.4369,
+        "sigma": 0.06,
+        "max": 0.5417,
+        "cell_beats_null_max": false
+      },
+      "511010": {
+        "mu": 0.6103,
+        "sigma": 0.0477,
+        "max": 0.6846,
+        "cell_beats_null_max": false
+      }
+    },
+    "question": "band-placement information: random phase offsets uniform(-1,+1) grids; cell<=null band => placement carries no gain (descriptive, not a gate)"
+  },
+  "passive": {
+    "passive_bh_510300": {
+      "sharpe": 0.1639476902984862,
+      "total_return": 0.08679934924078081,
+      "note": "buy-hold, one-time 13bp entry cost (J8 precedent)"
+    },
+    "passive_bh_159915": {
+      "sharpe": 0.4645610816649226,
+      "total_return": 0.8740478186968839,
+      "note": "buy-hold, one-time 13bp entry cost (J8 precedent)"
+    },
+    "passive_bh_512880": {
+      "sharpe": 0.13955845412607085,
+      "total_return": -0.004156148713059915,
+      "note": "buy-hold, one-time 13bp entry cost (J8 precedent)"
+    },
+    "passive_bh_518880": {
+      "sharpe": 0.9327231885408352,
+      "total_return": 1.6043251038575672,
+      "note": "buy-hold, one-time 13bp entry cost (J8 precedent)"
+    },
+    "passive_bh_511010": {
+      "sharpe": 1.2384663316937004,
+      "total_return": 0.1772122812602095,
+      "note": "buy-hold, one-time 13bp entry cost (J8 precedent)"
+    }
+  },
+  "registered_members_d6_ref": {
+    "COMPOSITE-CE-01": {
+      "cutoff": "2026-09-22",
+      "full_sharpe": 0.8416
+    },
+    "COMPOSITE-CE-02": {
+      "cutoff": "2026-09-22",
+      "full_sharpe": 0.593
+    },
+    "DROUGHT-CE-01": {
+      "cutoff": "2026-09-22",
+      "full_sharpe": 0.724
+    },
+    "ENGULF-CE-01": {
+      "cutoff": "2026-09-22",
+      "full_sharpe": 0.5539
+    },
+    "NEEDLE-DE-01": {
+      "cutoff": "2026-09-22",
+      "full_sharpe": 0.6624
+    },
+    "VOLATILITY-CE-01": {
+      "cutoff": "2026-09-22",
+      "full_sharpe": 1.2578
+    }
+  },
+  "survivors_science": [],
+  "paper_candidates": [],
+  "verdict_note": "science survivor = G1'v2 AND GATE-A (sec.4); paper candidacy additionally requires D6 < 0.70 registered-face; FAIL != machinery discard -- GRID paper family wires as experimental observation accounts regardless (CEO O-0958)",
+  "trials_ledger": {
+    "prev_total": 185738,
+    "batch_trials": 60,
+    "total": 185798,
+    "batch": "GRID-SLEEVE-P1",
+    "file": "results/grid_sleeve_p1.json",
+    "note": "5 cells + 50 layout nulls + 5 passive (N_eff=60 frozen sec.0); x2 stress faces + 6 member_run D6 references disclosed in audit only (EXIT_OVERLAY precedent)",
+    "evidence_cutoff": "2026-09-24"
+  },
+  "audit": {
+    "elapsed_sec": 20.5,
+    "n_backtests": 66,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)",
+    "ledger_n_eff": 60,
+    "audit_note": "66 engine sims (5 cells x1 + 5 x2 + 50 nulls + 6 member_run D6 refs) + 5 passive formulas; ledger counts N_eff=60 only, x2/member faces audit-only"
+  }
+}
