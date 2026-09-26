@@ -64,18 +64,17 @@ while ($true) {
     Start-Sleep -Seconds 30
 }
 
-# -- Gate 3: zero-loss self-proof per repo -----------------------------------------
+# -- Gate 3: zero-loss self-proof per repo (order step 2: stash + HEAD record) -----
 foreach ($r in $Repos) {
     if (-not (Test-Path "$r\.git")) { Abort("missing git dir: $r") }
     $head = git -C $r rev-parse HEAD 2>$null
     $dirt  = @(git -C $r status --porcelain 2>$null)
     Log("repo $r HEAD=$head dirt_lines=$($dirt.Count) dirt=$(($dirt -join ' | '))")
-    if ($r -eq "$Old\quant\bigmoney") {
-        $extra = @($dirt | Where-Object { $_ -notmatch '^\s*M\s+results/autofill_state\.json$' })
-        if ($extra.Count -gt 0) { Abort("bigmoney tree dirty beyond autofill_state.json: $($extra -join ' | ')") }
-        if ($dirt.Count -gt 0) { git -C $r stash push -- results/autofill_state.json *> $null; Log('bigmoney autofill_state.json stashed (R245 snapshot-family, regenerable)') }
-    } else {
-        if ($dirt.Count -gt 0) { Abort("repo dirty at migration time: $r -> $($dirt -join ' | ')") }
+    if ($dirt.Count -gt 0) {
+        $stash = git -C $r stash push -u -m "O-2000 migration zero-loss stash (bm-a $(Get-Date -Format 'yyyyMMdd-HHmmss'))" 2>$null
+        Log("repo $r stashed: $stash")
+        $after = @(git -C $r status --porcelain 2>$null)
+        if ($after.Count -gt 0) { Abort("stash failed to clean repo: $r -> $($after -join ' | ')") }
     }
 }
 
