@@ -372,8 +372,11 @@ def run() -> int:
         return DRV.simulate(P, target_fn, cost_fn)
 
     # -- judged cells x3 faces (s3.5: judge = x2, x1/x3 disclosure)
+    # struct prefixes compose with the arm suffix into the frozen
+    # JUDGED_CELLS ids: CORE_+DD10 = "CORE_DD10" (R263 crash-1 lesson:
+    # the composed id MUST equal JUDGED_CELLS members exactly)
     cell_recs = {}
-    for struct in ("CORE_DD", "SAT40_DD"):
+    for struct in ("CORE", "SAT40"):
         for arm in THRESHOLDS:
             cell = f"{struct}_{arm}"
             tf = (make_core_dd_target(SIG, GATES[arm])
@@ -386,6 +389,14 @@ def run() -> int:
                  f"ann={m['ann_ret']} maxdd={m['max_dd']} "
                  f"entries={m['n_entries']} fill_max={m['fill_days_max']} "
                  f"superseded={m['n_superseded']}")
+
+    # -- composed-id contract guard (crash-1 root-cause class, fail-closed
+    # with a readable message instead of a downstream KeyError)
+    built_ids = {c for (c, _f) in cell_recs}
+    if built_ids != set(JUDGED_CELLS):
+        print(f"VOID: composed cell ids {sorted(built_ids)} != frozen "
+              f"JUDGED_CELLS {list(JUDGED_CELLS)} -- refusing verdict")
+        return 2
 
     # -- R240 zero-rebalance-evaluation refusal (warmup still counts)
     for cell in JUDGED_CELLS:
