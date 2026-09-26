@@ -865,6 +865,17 @@ SEED_REGISTRY = {
     # coincidences excluded per t34/wild_route precedent); lane =
     # T-2026-09-26-87 s2 queue #4 (SCHOOL_SUPPLY_S1.md sec.2 sector-leader
     # non-limit-up face), prereg research/CN_SECTOR_LEADER_PREREG.md sec.3
+    "cn_mkneutral_p1": 20279300,      # CN_MKTNEUTRAL_P1 K=2000 same-mask
+    # random-quintile-basket nulls (20279300+k, k<2000; band 20279300..20281300
+    # sits exactly above cn_sector_leader_p1 band top 20279200 =
+    # collision-free by construction; Sobol sensitivity leg scrambles via
+    # seed-sequence np.random.default_rng([20279300, 2000]) — no band
+    # occupation, SECTOR derive precedent; registered at prereg freeze BEFORE
+    # any runner build, one-step R250 law; rg full-repo scan (--type py,
+    # Money02/Money0923 excluded per t34/wild_route precedent) 2026-09-27
+    # 07:5x zero hits in band; lane = T-2026-09-26-87 s2 queue #5
+    # (SCHOOL_SUPPLY_S1.md sec.2 market-neutral face), prereg
+    # research/CN_MKTNEUTRAL_PREREG.md sec.3
 }
 
 
