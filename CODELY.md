@@ -3,6 +3,8 @@
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 ### Feedback
 ### Project
+- [2026-09-26 20:46] O-20260926-2000-bm-c 机队基地统一令 bm-a 收令执行（CEO 直令·bm-c 承令·ack 15min 判据=盘点快照）：目标根 C:\Fluxgroup（单卷无 K: 用主数据盘）·36 任务 XML 字面量重定义面·MiniGame 真身移产线区+junction 单份律·Unity Bee 三处必清·物理依赖票内留痕（停本循环→detached executor 以实例退出为门·本轮末启动·窗限 09-29 12:00）·回执五件=下轮 S0 组装。指针=fleet/ack/O-20260926-2000-bm-a-inventory.md+results/_r267bma_fluxgroup_migration.ps1
+
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
  - [2026-09-26 09:5x] 坑律（bm-b r238·T-77 slice-4·GPU 线 torch 核面·E1 写后自捕零外泄）：**torch 排名核的 NaN 哨兵律——+inf 哨兵会与数据内 +inf 组成同值平局组污染平均名次（pandas notna() 保留 inf 为可排名值），正解=不换哨兵直接 sort（torch NaN 恒排尾且 NaN!=NaN 使每个 NaN 自成一组=数据 inf 组不被混入）；z-score 核必须先 where(valid,x,0) 再算行统计（NaN*0=NaN 毒化整行 sum）；等价门必先断言 NaN 日模式恒等再比 max|d|（NaN>tol 恒 False=静默过关面）**；夹具腿同型陷阱=手算腿取行子集而参考函数算全行（子集均值≠全行均值假 FAIL）——手算腿与参考函数必须同域同集。指针=scripts/gpu_factor_matrix.py _t_core+selftest L1/L2 修正史
@@ -67,3 +69,4 @@
 - [2026-09-26 19:5x] 坑律（bm-b r271·T-76 研究面开工前反重复·E1 开工期自捕零外泄）：**digest/票面「下窗指针/遗留 open」段陈述可信度<产物在档事实——认领任何遗留/可选面之前必先按关键词全档 grep research/digests/ 验交付件在档与否**（实弹三连：r261/263/264 遗留段列的 QRS 复核位、referee deep-read 2609.27051、#95/#96 paramfreeze 本轮开工勘验时全部已闭（r263/r264/r222 分别交付在档），指针段原文未更新；按指针段直接开工=对 r264 纯重复交付）；连带=**外源单次 404≠库缺件**：r264 时 SignalMaker/qrs.py 双 404 如实披露「运行面缺失」，r271 同 gh-proxy 配方重取 200（12,122B）→裁定四主张全代码层坐实+404 披露面收口；正律=①开工前「关键词×digests」双验先行于认领②陈旧指针勘误以新补录卡为唯一有效载体（append-only 禁回改既有 digest）③外源 404 披露面后续轮有零成本重取收口义务。指针=research/digests/DIGEST-20260926-r271-qrs-impl-addendum.md §二+§一
 
 - [2026-09-26 20:13] 执行记录（bm-b r272·O-2026-09-26-2000-bm-c 回执）：S7 收尾双扫捕到随 rebase 拉入的 CEO 直令（机队基地统一·bm-b 受令·ack≤15min·迁移窗≤09-29 12:00），同轮 ack 交付=盘点快照 results/fleet_unification/bm-b-ack-20260926.json（盘符 C/D/E 无 K 盘·root_path 登记 E:\Fluxgroup·subst K: 门面仅 CEO 导航禁进任务定义〔重启不持久〕·23 机队任务三组清单+工作树 VCS 面〔三 Plastic 工程〕+E:\Minigame 近九件骨架映射+六迁移风险〔SSH 密钥根级在位/在飞循环停机窗/v2.0 正典同步〕）；orders_ack 83→84；迁移执行=窗口内专窗轮次（停旧→迁→改定义→点火四步·禁双根并行写）。指针=results/_r272bmb_unification_ack.py+bm-b-ack-20260926.json
+
