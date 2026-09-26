@@ -3,7 +3,6 @@
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 ### Feedback
 ### Project
-- [2026-09-26 20:46] O-20260926-2000-bm-c 机队基地统一令 bm-a 收令执行（CEO 直令·bm-c 承令·ack 15min 判据=盘点快照）：目标根 C:\Fluxgroup（单卷无 K: 用主数据盘）·36 任务 XML 字面量重定义面·MiniGame 真身移产线区+junction 单份律·Unity Bee 三处必清·物理依赖票内留痕（停本循环→detached executor 以实例退出为门·本轮末启动·窗限 09-29 12:00）·回执五件=下轮 S0 组装。指针=fleet/ack/O-20260926-2000-bm-a-inventory.md+results/_r267bma_fluxgroup_migration.ps1
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
@@ -70,3 +69,5 @@
 
 
 - [2026-09-26 20:4x] 坑律（bm-b r273·迁移执行器族·O-20260926-2000-bm-c 执行腿·E1 DryRun 自捕零外泄）：**复用他机执行器范式逐行照抄前必过 DryRun 门——bm-a r267 执行器 Join-Path 位置参病（$f = Join-Path $PrepDir ($t -replace ...) + '.xml' 的 + 号被绑进位置参=PS 参数绑定崩、$f 空→XML 空读→Abort）原样继承到本机，DryRun 首跑即红自捕；连带律①PS5.1 ANSI 解码律使 .ps1 内 CJK 正则字面量运行时变乱码（'Running|正在运行' 的中文恒不匹配=quiesce 门假就绪危险面），CJK 匹配串必须 [char] 码构造保源纯 ASCII；②schtasks /query CSV 任务名带 \ 前缀（startswith('\') 过滤=全空假清单，发现步白跑）；③重定义失败的任务禁再启用（旧路径已死=防旧根复活双写，fail-closed disable+下轮 register 配方修）。指针=results/_r273bmb_fluxgroup_migration.ps1 DryRun 修正史+results/_r273bmb_migration_discovery.py
+
+- [2026-09-26 21:0x] 坑律（bm-b r274·迁移执行器 20:48 ABORT 根因定谳面·E1 收养期自捕）：**Win32_Process CommandLine 静默扫描对进程 CWD 占柄结构性失明——powershell -NoLogo 交互壳/Tuanjie websockify/blender-mcp 残留 server 的命令行均不含旧根字面量=quiesce 门恒判静默而目录树 Move-Item 恒败（20:48 三连败主凶=交互壳 28124 CWD=E:.Minigame）**；正律=①目录树 rename 的静默判定必须加进程 CWD 面（PEB CurrentDirectory 探测配方=NtQueryInformationProcess 读 Peb+0x20→params+0x38 UNICODE_STRING）②MCP/tool-server 残留 kill 必须 post-quiesce CWD 感知（pre-quiesce 盲杀=毁在飞车道班的活 MCP 基础设施）③move 失败必须现场 dump 占柄三面快照禁盲败三连④编辑器/用户面进程（editor/unity/blender/explorer）禁杀→fail-closed Abort 交人工。指针=results/_r274bmb_holder_probe.ps1+json+_r273bmb_fluxgroup_migration.ps1 r274 AMENDMENT 段

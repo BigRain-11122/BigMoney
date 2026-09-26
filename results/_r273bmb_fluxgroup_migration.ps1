@@ -10,11 +10,27 @@
 # ENCODING RULE: pure ASCII (powershell 5.1 ANSI decode law).
 # DryRun switch: Gate 0 validation only (build+parse all redefinition XMLs, log plan,
 # exit 0). No disable / no move / no registry write.
+#
+# r274 AMENDMENT (post-abort root-cause hardening): the 20:48 ABORT was caused by
+# CWD-class handle holders that the CommandLine quiesce scan is STRUCTURALLY blind to
+# (live probe results/_r274bmb_holder_probe.json: powershell.exe -NoLogo interactive
+# shell parked at E:\Minigame, Tuanjie websockify node with CWD=MonsterInn, blender-mcp
+# MCP servers with CWD=project roots -- none of these command lines mention the old
+# root, so ProcHolders saw "quiescent" while the rename could never succeed).
+# Fixes: (a) executor moves its own CWD off the roots; (b) Gate 1.5 kill list extended
+# to blender-mcp + websockify; (c) NEW Gate 3.5 = CWD-aware sweep between record and
+# move: kills CWD holders under the old MG root (interactive -NoLogo shells are
+# killable -- empty shell, no preservable state; codely lane sessions route back to
+# the Gate-2 wait loop instead), navigates any parked explorer folder windows away,
+# fail-closed abort with the full holder roster if anything unkillable remains;
+# (d) move failures now dump a 3-face holder snapshot to the journal (no more blind
+# 3x-fail); (e) move retries 3 -> 6.
 param([int]$MaxWaitMin = 60, [switch]$DryRun)
 $ErrorActionPreference = 'Continue'
 $Journal = 'C:\Users\Administrator\fluxgroup-migration-journal.log'
 $Marker   = 'C:\Users\Administrator\fluxgroup-migration-aborted.flag'
 $PrepDir  = Join-Path $env:TEMP 'fg-redef-bmb'
+Set-Location $env:TEMP   # r274: executor must never hold a CWD on either old root (self-deadlock face)
 
 $Base   = 'E:\Fluxgroup'
 $OldBM  = 'C:\Users\Administrator\Desktop\Bigmoney'
@@ -34,6 +50,76 @@ $Tasks = $TasksBM + $TasksMG
 
 function Log($m) { Add-Content -Path $Journal -Value ("[{0}] {1}" -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $m) }
 function TaskState($n) { (schtasks /query /tn $n /fo LIST 2>$null | Select-String '^Status:' | ForEach-Object { $_.Line -replace 'Status:\s+','' }) }
+
+# r274: CWD probe (PEB CurrentDirectory via NtQueryInformationProcess) -- the handle
+# face the CommandLine scan cannot see. Validated live in results/_r274bmb_holder_probe.ps1.
+Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+public static class CwdProbe {
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PROCESS_BASIC_INFORMATION {
+        public IntPtr Reserved1;
+        public IntPtr PebBaseAddress;
+        public IntPtr Reserved2_0;
+        public IntPtr Reserved2_1;
+        public IntPtr UniqueProcessId;
+        public IntPtr Reserved3;
+    }
+    [DllImport("ntdll.dll")]
+    public static extern int NtQueryInformationProcess(IntPtr hProcess, int pic, ref PROCESS_BASIC_INFORMATION pbi, int cb, out int pSize);
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern IntPtr OpenProcess(int access, bool inherit, int pid);
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr baseAddress, byte[] buffer, int size, out IntPtr bytesRead);
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern bool CloseHandle(IntPtr hObject);
+    public static string GetCwd(int pid) {
+        IntPtr h = OpenProcess(0x0410, false, pid);
+        if (h == IntPtr.Zero) return null;
+        try {
+            PROCESS_BASIC_INFORMATION pbi = new PROCESS_BASIC_INFORMATION();
+            int sz;
+            int st = NtQueryInformationProcess(h, 0, ref pbi, Marshal.SizeOf(pbi), out sz);
+            if (st != 0 || pbi.PebBaseAddress == IntPtr.Zero) return null;
+            byte[] buf = new byte[8];
+            IntPtr br;
+            if (!ReadProcessMemory(h, (IntPtr)((long)pbi.PebBaseAddress + 0x20), buf, 8, out br)) return null;
+            long pp = BitConverter.ToInt64(buf, 0);
+            if (pp == 0) return null;
+            byte[] us = new byte[16];
+            if (!ReadProcessMemory(h, (IntPtr)(pp + 0x38), us, 16, out br)) return null;
+            int len = BitConverter.ToUInt16(us, 0);
+            if (len <= 0 || len > 52000) return null;
+            byte[] str = new byte[len];
+            long strAddr = BitConverter.ToInt64(us, 8);
+            if (strAddr == 0 || !ReadProcessMemory(h, (IntPtr)strAddr, str, len, out br)) return null;
+            return Encoding.Unicode.GetString(str, 0, len);
+        } finally { CloseHandle(h); }
+    }
+}
+"@
+function CwdHolders($root) {
+    $hits = @()
+    foreach ($p in (Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)) {
+        if ([int]$p.ProcessId -eq $PID) { continue }             # executor self (CWD=TEMP anyway)
+        $cwd = [CwdProbe]::GetCwd([int]$p.ProcessId)
+        if ($cwd -and $cwd.StartsWith($root, [System.StringComparison]::OrdinalIgnoreCase)) {
+            $hits += @{ pid = [int]$p.ProcessId; name = [string]$p.Name; cwd = $cwd; cmdline = [string]$p.CommandLine }
+        }
+    }
+    return $hits
+}
+function HolderSnapshot() {   # 3-face failure-forensics dump for the journal
+    $cw = CwdHolders $OldMG
+    $cl = @()
+    foreach ($p in (Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)) {
+        $c = $p.CommandLine
+        if ($c -and $c -notmatch 'fluxgroup-migration' -and (($c -match [regex]::Escape($OldBM)) -or ($c -match [regex]::Escape($OldMG)))) { $cl += "$($p.ProcessId):$($p.Name)" }
+    }
+    Log("holder snapshot: cwd_holders=[$(($cw | ForEach-Object { "$($_.pid):$($_.name)@$($_.cwd) cmd=$($_.cmdline)" }) -join ' || ')] cmdline_holders=[$($cl -join ', ')]")
+}
 
 function Abort($reason) {
     Log("ABORT: $reason - re-enabling all tasks, old trees untouched")
@@ -96,6 +182,9 @@ foreach ($t in $Tasks) { $r = schtasks /change /tn $t /disable; Log("disable $t 
 # (persistent, holds project-tree handles). All restartable: Ollama via
 # MiniGameOllamaServe task at re-enable, insight daemon respawns on demand from new path.
 $KillCl = @('serve-warm\.ps1', 'clash-keepalive', 'unity-insight-cli\.js.*--project E:.Minigame')
+# r274 NOTE: blender-mcp / websockify CWD holders are NOT pre-quiesce killed here --
+# they may be live MCP infrastructure of in-flight lane rounds (HomeWreck/BiuNiYiXia).
+# They are killed ONLY in Gate 3.5 (post-quiesce, CWD-aware) where they are residue.
 foreach ($p in (Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)) {
     $cl = $p.CommandLine
     if (-not $cl) { continue }
@@ -156,15 +245,59 @@ foreach ($repo in @($OldBM, "$OldMG\MiniGame")) {
 $BMPorcelainOld = (git -C $OldBM status --porcelain 2>$null) -join '|'
 Log('zero-loss record gate done (record-only, no mutation; copy-equality gates at Gate 5)')
 
+# -- Gate 3.5 (r274): CWD-aware sweep of old-MG-root handle holders -------------------
+# The CommandLine scan above cannot see CWD holders (20:48 ABORT root cause). Policy:
+#  - codely.exe lane sessions still alive -> route BACK to the Gate-2 wait loop (they
+#    own round state; never kill a live lane round);
+#  - empty interactive shells (powershell -NoLogo), blender-mcp, websockify, other
+#    service residue -> killable (no preservable state; journal records pid+cmdline);
+#  - explorer folder windows parked under the old root -> Navigate away to C:\ (no
+#    window closure, zero popups, silence law);
+#  - anything unkillable left -> fail-closed Abort with the full roster.
+foreach ($round3_5 in 1..30) {
+    $holders = CwdHolders $OldMG
+    if ($holders.Count -eq 0) { Log('Gate 3.5: zero CWD holders under old MG root'); break }
+    $laneBusy = $false
+    foreach ($h in $holders) {
+        if ($h.cmdline -match 'codely\.exe') { $laneBusy = $true; Log("Gate 3.5: lane session still alive, back to wait: pid=$($h.pid) cwd=$($h.cwd)"); continue }
+        if ($h.name -match '(?i)(editor|tuanjie|unity|blender|explorer)') { Abort("protected user-face process holds old-root CWD (manual intervention): pid=$($h.pid) name=$($h.name) cwd=$($h.cwd)") }
+        Log("Gate 3.5: killing CWD holder pid=$($h.pid) name=$($h.name) cwd=$($h.cwd) cmd=$($h.cmdline)")
+        taskkill /F /PID $h.pid *> $null
+    }
+    if ($laneBusy) { Log('Gate 3.5: waiting 60s for lane round(s) to finish, then re-sweep'); Start-Sleep -Seconds 60; continue }
+    Start-Sleep -Seconds 3
+    $again = CwdHolders $OldMG
+    if ($again.Count -gt 0) {
+        Log("Gate 3.5: after kill sweep, still held: $(($again | ForEach-Object { "$($_.pid):$($_.name)@$($_.cwd)" }) -join ' || ')")
+        if ($round3_5 -eq 30) { Abort("CWD holders unkillable after 30 sweeps: $(($again | ForEach-Object { "$($_.pid):$($_.name)" }) -join ', ')") }
+    } else { Log('Gate 3.5: zero CWD holders under old MG root (post-kill)'); break }
+}
+# explorer folder windows parked under the old root: navigate away (window preserved)
+try {
+    $sh = New-Object -ComObject Shell.Application
+    foreach ($w in $sh.Windows()) {
+        $loc = [string]$w.LocationURL
+        if ($loc -like ('file:///' + ($OldMG -replace '\\','/') + '*')) {
+            Log("Gate 3.5: navigating parked explorer window away: $loc")
+            $w.Navigate('file:///C:/') | Out-Null
+            Start-Sleep -Seconds 2
+        }
+    }
+} catch { Log("Gate 3.5: explorer window sweep skipped: $($_.Exception.Message)") }
+
 # -- Gate 4: same-volume rename move E:\Minigame -> E:\Fluxgroup\MiniGame (instant) ---
 if (Test-Path $NewMG) { Abort("$NewMG already exists (partial migration residue?)") }
 New-Item -ItemType Directory -Path $Base -Force | Out-Null
 $moved = $false
-foreach ($attempt in 1..3) {
+foreach ($attempt in 1..6) {
     try { Move-Item -Path $OldMG -Destination $NewMG -ErrorAction Stop; $moved = $true; break }
-    catch { Log("MG move attempt $attempt failed: $($_.Exception.Message)"); Start-Sleep -Seconds 15 }
+    catch {
+        Log("MG move attempt $attempt failed: $($_.Exception.Message)")
+        HolderSnapshot   # r274: no more blind failures -- 3-face forensics to journal
+        Start-Sleep -Seconds 15
+    }
 }
-if (-not $moved) { Abort('E:\Minigame tree move failed 3x (in-use handles)') }
+if (-not $moved) { Abort('E:\Minigame tree move failed 6x (in-use handles; snapshots above)') }
 if ((Test-Path $OldMG) -or -not (Test-Path "$NewMG\MiniGame\.git")) { Abort('MG move verification failed') }
 Log("production tree moved: $OldMG -> $NewMG (MiniGame repo verified at new root)")
 
