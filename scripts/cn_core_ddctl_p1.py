@@ -278,24 +278,27 @@ P_DAYS = None
 # ---------------------------------------------------------------- h4
 
 
-def h4_family_faces(judged_series, P):
+def h4_family_faces(judged_series, P, prev=None):
     """s1 H4-style disclosures (never admission): (1) corr vs 510880 leg
     face = CORE ballast leg (constructional); (2) corr vs family
     judged-negative predecessor CN-CORE-SATELLITE-P1 cells -- the
-    predecessor artifact DOES carry judged_x2_returns_6dp_audit, so the
-    prereg band 0.85-0.98 is verified with real numbers; (3) vs
-    DIV_LOWVOL_P1 C1: no series in artifact -> honest unavailable, band
-    0.6-0.9 declared."""
+    predecessor artifact DOES carry judged_x2_returns_6dp_audit
+    (length n-1, NaN head dropped at the producer, family iloc[1:]
+    convention), so the prereg band 0.85-0.98 is verified with real
+    numbers; (3) vs DIV_LOWVOL_P1 C1: no series in artifact -> honest
+    unavailable, band 0.6-0.9 declared. prev = injectable (selftest
+    [C7] hermetic face; crash-3 law: a DISCLOSURE face never crashes
+    the batch -- length mismatch = disclosed, not fatal)."""
     days = P["days"]
     cl = P["legs"][CORE]["close"]
     leg_core = pd.Series(np.append([np.nan],
                                    cl[1:] / cl[:-1] - 1.0), index=days)
-    prev = None
-    try:
-        with open(FAM_PREV_JSON, encoding="utf-8") as fh:
-            prev = json.load(fh).get("judged_x2_returns_6dp_audit")
-    except Exception:
-        prev = None
+    if prev is None:
+        try:
+            with open(FAM_PREV_JSON, encoding="utf-8") as fh:
+                prev = json.load(fh).get("judged_x2_returns_6dp_audit")
+        except Exception:
+            prev = None
     out = {}
     for cell, rets in judged_series.items():
         v510, ov = _corr(rets, leg_core)
@@ -308,14 +311,20 @@ def h4_family_faces(judged_series, P):
         }
         if prev:
             for pc, pr in prev.items():
-                v, o2 = _corr(rets, pd.Series(pr,
-                                              index=days).dropna())
-                row[f"corr_vs_family_prev_{pc}"] = {
-                    "corr": v, "overlap_days": o2,
-                    "note": "CN-CORE-SATELLITE-P1 judged-negative x2 "
-                            "cell (non-member); prereg s1 declared band "
-                            "0.85-0.98 constructional (same legs, gate "
-                            "modulates weights only)"}
+                if len(pr) == len(days) - 1:
+                    v, o2 = _corr(rets, pd.Series(pr,
+                                                  index=days[1:]))
+                    face = {"corr": v, "overlap_days": o2}
+                else:
+                    face = {"status": "length_mismatch_disclosed",
+                            "n_prev_values": len(pr),
+                            "n_days_minus_1": len(days) - 1}
+                face["note"] = ("CN-CORE-SATELLITE-P1 judged-negative "
+                                "x2 cell (non-member); prereg s1 "
+                                "declared band 0.85-0.98 "
+                                "constructional (same legs, gate "
+                                "modulates weights only)")
+                row[f"corr_vs_family_prev_{pc}"] = face
         row["corr_vs_div_lowvol_p1_c1_x2"] = {
             "status": "unavailable_in_artifact",
             "note": "family artifact carries per-face metrics only, no "
@@ -966,7 +975,30 @@ def selftest() -> int:
     ok("[M10] gate recompute identity", st_a == st_b
        and sum(1 for v in st_a.values() if v) == 34)
 
-    print(f"cn_core_ddctl_p1 selftest: 14-leg battery, {len(fails)} FAIL")
+    # [C7] h4 disclosure face hermetic (crash-3 law): prev-artifact
+    # audit series carry n-1 values (NaN head dropped) -> index days[1:]
+    # computes corr; any other length = disclosed mismatch, not a crash.
+    # 25 bdays so overlap 24 clears _corr min_overlap=20 (family default,
+    # production face 3332 days; 5-day hermetic draft returned None face)
+    d6 = pd.bdate_range("2020-01-01", periods=25)
+    Ph = {"days": d6, "legs": {CORE: {"close":
+                                      np.linspace(10.0, 13.0, 25)}}}
+    rets_h = pd.Series([0.01, -0.02, 0.03, -0.01] * 6,
+                       index=d6[1:])
+    prev_ok = {"SAT20_bare": [0.01, -0.02, 0.03, -0.01] * 6}
+    prev_bad = {"SAT20_bare": [0.01, -0.02, 0.03, -0.01] * 5}
+    h4_ok = h4_family_faces({"C": rets_h}, Ph, prev_ok)
+    h4_bad = h4_family_faces({"C": rets_h}, Ph, prev_bad)
+    ok("[C7] h4 prev-audit alignment",
+       "corr_vs_family_prev_SAT20_bare" in h4_ok["C"]
+       and abs(h4_ok["C"]["corr_vs_family_prev_SAT20_bare"]["corr"]
+               - 1.0) < 1e-9
+       and h4_bad["C"]["corr_vs_family_prev_SAT20_bare"]["status"]
+       == "length_mismatch_disclosed",
+       f"ok={h4_ok['C']['corr_vs_family_prev_SAT20_bare'].get('corr')} "
+       f"bad={h4_bad['C']['corr_vs_family_prev_SAT20_bare'].get('status')}")
+
+    print(f"cn_core_ddctl_p1 selftest: 15-leg battery, {len(fails)} FAIL")
     return 0 if not fails else 1
 
 

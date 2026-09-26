@@ -1,18 +1,6 @@
 {
  "launches": [
   {
-   "entry": "WILD-S1-SHARD-1",
-   "fill_latency_min": 64.9,
-   "machine": "bm-b",
-   "pid": 20900,
-   "py_cpu_pct": 0.0,
-   "shard": "wr-1of8",
-   "target_met": false,
-   "ts": "2026-09-25 19:40:01",
-   "verdict": "launched",
-   "crash_counted": true
-  },
-  {
    "entry": "WILD-S1-SHARD-2",
    "fill_latency_min": 64.9,
    "machine": "bm-a",
@@ -620,10 +608,22 @@
    "runner_sha256": "12fa8a49fbf431cc",
    "fill_latency_min": 5.6,
    "target_met": true
+  },
+  {
+   "ts": "2026-09-26 18:29:37",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "CN-CORE-DDCTL-P1",
+   "shard": "coreddctl-0of1",
+   "pid": 27192,
+   "runner_sha256": "22190b3cfd1c5e0d",
+   "fill_latency_min": 11.4,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 18:25:50",
+  "ts": "2026-09-26 18:40:02",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
   "verdict": "claim_lost_yield",
