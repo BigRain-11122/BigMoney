@@ -798,6 +798,11 @@ SEED_REGISTRY = {
     # T-2026-09-26-87 s2 first-priority slot (CEO O-2026-09-26-2330
     # 超跌反弹呈件特选 + O-2026-09-26-2335 淬炼令), prereg
     # research/REV_OSC_STOCK_PREREG.md
+    "cn_trend_etf_p1": 20270201,            # CN_TREND_ETF_P1 K=2000 nulls
+    # (cn_trend_etf nulls = 20270201+k k<2000); band 20270201..20272200 sits
+    # above max registered 20261230 = collision-free; full-repo scan
+    # 2026-09-27 00:3x zero hits; lane = T-2026-09-26-87 s2 queue #1
+    # (SCHOOL_SUPPLY_S1.md §二 趋势跟踪), prereg research/CN_TREND_ETF_PREREG.md
 }
 
 
