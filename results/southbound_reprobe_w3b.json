@@ -119,6 +119,63 @@
       "wrapper_evidence": {},
       "raw_evidence": {},
       "next_slice": "window stays open: re-run next round(s) until PASS or CEO ruling"
+    },
+    {
+      "ts": "2026-09-26 08:13:01",
+      "machine": "bm-b",
+      "verdict": "BLOCKED",
+      "reason": "all arms failed (EM push2 domain window still blocked) -- no terminal verdict, window stays open",
+      "wrapper": {
+        "arm": "W:akshare_wrapper",
+        "alive": false,
+        "attempts": [
+          {
+            "n": 1,
+            "rc": "fail",
+            "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+            "sec": 7.7
+          },
+          {
+            "n": 2,
+            "rc": "fail",
+            "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+            "sec": 6.7
+          },
+          {
+            "n": 3,
+            "rc": "fail",
+            "err": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))",
+            "sec": 6.5
+          }
+        ]
+      },
+      "raw": {
+        "arm": "R:direct_urllib",
+        "alive": false,
+        "attempts": [
+          {
+            "n": 1,
+            "rc": "fail",
+            "err": "RemoteDisconnected: Remote end closed connection without response",
+            "sec": 0.2
+          },
+          {
+            "n": 2,
+            "rc": "fail",
+            "err": "RemoteDisconnected: Remote end closed connection without response",
+            "sec": 0.2
+          },
+          {
+            "n": 3,
+            "rc": "fail",
+            "err": "RemoteDisconnected: Remote end closed connection without response",
+            "sec": 0.2
+          }
+        ]
+      },
+      "wrapper_evidence": {},
+      "raw_evidence": {},
+      "next_slice": "window stays open: re-run next round(s) until PASS or CEO ruling"
     }
   ]
 }
