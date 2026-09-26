@@ -1,0 +1,58 @@
+{
+ "ts": "2026-09-27T00:23:25",
+ "round": "r282",
+ "machine": "bm-b",
+ "lane": "T-87 astock_daily supply (bm-b)",
+ "pass_state": {
+  "universe_n": 5228,
+  "per_files": 450,
+  "done_pct": 8.6,
+  "lock": {
+   "pid": 29440,
+   "ts": "2026-09-26T23:47:45"
+  },
+  "lock_alive": true,
+  "attempts_n": 1,
+  "attempts": {
+   "000019": 1
+  },
+  "quarantined": []
+ },
+ "rate_face": {
+  "n_new": 444,
+  "elapsed_min": 35.7,
+  "rate_per_min": 12.45,
+  "remaining": 4778,
+  "eta_ts": "2026-09-27T06:47:19"
+ },
+ "shape_face": {
+  "frozen_fields": [
+   "date",
+   "open",
+   "high",
+   "low",
+   "close",
+   "volume",
+   "amount",
+   "outstanding_share",
+   "turnover"
+  ],
+  "header_mismatch": [],
+  "tail_date_census_top": [
+   [
+    "2026-09-24",
+    449
+   ],
+   [
+    "2026-09-03",
+    1
+   ]
+  ],
+  "files_at_expected_cutoff": 449,
+  "ohlc_sanity_bad": []
+ },
+ "monday_deadline": "2026-09-28T09:15:00",
+ "eta_ok_before_deadline": true,
+ "verdict": "on_track",
+ "note": "first-pull mid-flight; failed syms self-heal via file-derived todo on next gate spawn (family law); probe read-only"
+}
