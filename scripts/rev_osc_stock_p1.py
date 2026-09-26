@@ -122,7 +122,15 @@ LISTED_MIN = 20
 PRICE_MIN = 1.0
 FRESH_MAX = 250
 THIN_MARKET_MIN = 5
-UNIV_MEDIAN_MIN = 300
+# zero-run amendment (r251 probe-authoritative, 2026-09-27 ~00:2x): the
+# frozen single sentinel 300 is a modern-window scale (XSTOCK r68 median
+# 1524 was computed on its 2015+ window); the FULL history face gives
+# median 190 (p10=0 -- the 5000-wan amount20 gate is a modern liquidity
+# scale and honestly empties the thin 1990s; cohorts there skip as
+# thin_market). Dual sentinel: full-grid >= 150 AND 2010+ >= 500.
+UNIV_MEDIAN_FULL_MIN = 150
+UNIV_MEDIAN_2010_MIN = 500
+UNIV_ERA_FROM = np.datetime64("2010-01-01")
 WIN_DAYS = 126
 STARTS_FROM = 200
 SEG_MIN = 500
@@ -223,7 +231,11 @@ def load_panel():
             & np.isfinite(amt20) & (amt20 >= AMT20_MIN)
             & (listed >= LISTED_MIN) & fresh)
     med = float(np.median(elig.sum(axis=1)[GRID_FROM:]))
-    assert med >= UNIV_MEDIAN_MIN, f"eligible median {med} below sentinel"
+    i2010 = int(np.searchsorted(idx, UNIV_ERA_FROM))
+    med_2010 = float(np.median(elig.sum(axis=1)[max(i2010, GRID_FROM):]))
+    assert med >= UNIV_MEDIAN_FULL_MIN, f"eligible median {med} below floor"
+    assert med_2010 >= UNIV_MEDIAN_2010_MIN, \
+        f"eligible 2010+ median {med_2010} below floor"
 
     # -- signals
     prev20 = np.vstack([np.full((20, N_EXPECT), np.nan, np.float32), close[:-20]])
@@ -246,7 +258,8 @@ def load_panel():
     return {"idx": idx, "syms": syms, "board": board, "F": F, "col": col,
             "fl": fl, "elig": elig, "drop20": drop20, "drop60": drop60,
             "sse": sse_v, "ma200": ma200, "ew_ret": ew,
-            "elig_median": med, "sse_cover": cover}
+            "elig_median": med, "elig_median_2010": med_2010,
+            "sse_cover": cover}
 
 
 def signal_grid():
@@ -710,6 +723,7 @@ def cmd_run():
     panel_face = {"T": T_EXPECT, "N": N_EXPECT,
                   "universe_ok_static": OK_STATIC_EXPECT,
                   "eligible_median": P["elig_median"],
+                  "eligible_median_2010": P["elig_median_2010"],
                   "sse_cover": round(P["sse_cover"], 4)}
     res = finalize(panel_face, cells_out, nulls, d6, vstarts, robust, crisis)
     print(f"finalize ok: cells={len(res['cells'])} "
@@ -754,7 +768,8 @@ def _mk_panel(tmp, T=420, N=12):
 
 def cmd_selftest():
     global CACHE, MASK, SSE, BARS, T_EXPECT, N_EXPECT, OK_STATIC_EXPECT, \
-        UNIV_MEDIAN_MIN, SSE_COVER_MIN, OUT_DIR, CELL_DIR, OUT_JSON, OUT_CSV, \
+        UNIV_MEDIAN_FULL_MIN, UNIV_MEDIAN_2010_MIN, SSE_COVER_MIN, \
+        OUT_DIR, CELL_DIR, OUT_JSON, OUT_CSV, \
         SEED, K_NULLS, ATT_JSON, BATCH_CELLS, EXPECT_DATES, cscv_pbo
     tmp = tempfile.mkdtemp(prefix="rev_osc_selftest_")
     T, N = 420, 12
@@ -762,7 +777,8 @@ def cmd_selftest():
     CACHE, BARS = cache, bars
     MASK, SSE = os.path.join(tmp, "mask.csv"), os.path.join(tmp, "sse.parquet")
     T_EXPECT, N_EXPECT, OK_STATIC_EXPECT = T, N, N - 1
-    UNIV_MEDIAN_MIN, SSE_COVER_MIN = 1, 0.0
+    UNIV_MEDIAN_FULL_MIN, UNIV_MEDIAN_2010_MIN = 1, 1
+    SSE_COVER_MIN = 0.0
     EXPECT_DATES = (str(idx[0].date()), str(idx[-1].date()))
     OUT_DIR = os.path.join(tmp, "out")
     CELL_DIR = os.path.join(OUT_DIR, "cells")

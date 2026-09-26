@@ -18,9 +18,10 @@
 ## §2 数据与面板【跑前探针事实】
 
 - **面板=P1C-StageA 股票缓存**（Money02/data/cache/p1c_stock）：T=8792（1990-12-19..2026-09-22）×N=5222，float32，字段 open/high/low/close/vwap/volume/amount/pct_chg，qfq bars（event-day gate 已证）；**cutoff=2026-09-22（D2 前向锁盒）**；符号面=Money02/data/bars 5222 parquet（wild_route 同源对齐法）。幸存者偏差=cache 为在建市快照（A158/XSTOCK/P1E/CN-REV-TILT 同批先例披露）——历史退市股缺位，判读携带该面。
-- **宇宙（冻结）**：b_layer ok_static=3517（O-1820 件3b）∩ P4_BATCH2 §2 动态资格逐字（20日均额≥5000 万·上市≥20 bars·价格≥1 元·末 bar≤250td 新鲜度）＋ 板位排除 other（2 只北交所，30cm 限价机制无先例引擎面=诚实剔除披露）；ST/退市历史态=静态近似（eligibility 快照 as-of 面）如实注记。哨兵门：**逐信号日合格数中位 ≥300**（早期年代市场薄）；<5 只=该 cohort 跳过（thin-market skip 计数披露）。
+- **宇宙（冻结）**：b_layer ok_static=3517（O-1820 件3b）∩ P4_BATCH2 §2 动态资格逐字（20日均额≥5000 万·上市≥20 bars·价格≥1 元·末 bar≤250td 新鲜度）＋ 板位排除 other（2 只北交所，30cm 限价机制无先例引擎面=诚实剔除披露）；ST/退市历史态=静态近似（eligibility 快照 as-of 面）如实注记。哨兵门（**R278 零跑修正案：全史中位≥150 ∧ 2010+ 中位≥500 双面**，见数据完备门修正案注记）；<5 只=该 cohort 跳过（thin-market skip 计数披露）。
 - **regime 面**：sse.parquet 上证指数（1990-12-19..2026-09-22，8558 行）reindex 到 p1c 日历 **ffill 桥**（235 缺日全在 1991-01..1993-08 早域，覆盖 97.33%）；MA200 窗内有限值 <200=闸未定义→fail-closed 不入场。
 - **数据完备门（不过即拒批 exit 2）**：meta shape T==8792∧N==5222 ∧ dates[0]==1990-12-19∧dates[-1]==2026-09-22（cutoff 锁盒）∧ sse 覆盖率≥0.97 ∧ mask 行数==5222 ∧ ok_static==3517 ∧ bars 符号集==cache 符号集。
+- **【零跑修正案 R278·r251 探针权威】哨兵门单面 300→双面**：全史网格中位≥150 ∧ 2010+ 中位≥500。探针实证（2026-09-27 00:2x，零 judged 产物窗）：全史中位 190/p10=0（5000 万 amount20 闸=现代流动性尺度，1990s 薄市诚实清空→该年代 cohort 走 thin_market 跳过计数）·2010+ 中位 1114·2026 面 2961；XSTOCK 1524 中位=其 2015+ 窗口径非全史口径。跑前冻结后零跑修正合法（r251 先例），判据零改动。
 
 ## §3 方法学【冻结】
 
