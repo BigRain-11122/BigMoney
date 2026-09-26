@@ -1,6 +1,6 @@
 # MARKET_CLOCK_COMBO — 市场时钟组合策略正典 + 预注册（T-74 · O-20260926-0932）
 
-- 状态：**s0 冻结 v1.0**（2026-09-26 R239 落盘；判据节冻结后禁改——改=新版本号+CEO 判据线程序）
+- 状态：**s0 冻结 v1.1**（v1.0 2026-09-26 R239 判据节冻结；v1.1 R240 增 §2b 袖重放机制跑前冻结——判据线零改动；判据节冻结后禁改——改=新版本号+CEO 判据线程序）
 - 归属：dept:策略（树设计+回测）× dept:研究（热度/板块面）× dept:交易（袖门禁面）× dept:工程（runner/池）
 - 收敛声明（零重建）：L1=REGIME_GUARD v3（`scripts/market_regime.py`·阈值冻结于 firm/risk/REGIME_GUARD §1·四态机）；L3 三军名册=firm/STYLE_CORPS.md；仓位帽=position_cap 机制；选股面=T-57 野路子存活者/T-73 CN 组合/PROSPECT/红利低波既有门禁；热度面=Money02/data/lhb/lhb_detail.parquet（2007-01-04→2026-09-24，266,062 行）+ moneyflow/sina_mf/THS 前向采集面；板块面=core48 ETF 谱系（data/daily 新鲜 48 件）。
 
@@ -36,6 +36,25 @@ L5 仓位阶梯 = RED 20% → ORANGE 50% → GREEN 80% → GREEN×HOT 95%（posi
 - 数据窗诚实披露：热度复合回测面仅 LHB（2007 起）；moneyflow/THS/人气榜=前向面禁入回测；LHB 板面活动度≠涨停家数（代理披露）；板块面 2026-09-22 冻结（core48 除外）。
 - 同族去重：与 T-73 CN 组合模型族做相关性检查（max|corr|≥0.7 拒收单族合并披露——D6 门）。
 
+## §2b 袖重放机制冻结（v1.1 · 2026-09-26 R240 跑前冻结——判据节 §2 不变，本节冻结其可执行语义）
+
+- **载体再裁定**：实现期发现全局流性质——固定分额阶梯（L5 帽为状态函数、零组合价值反馈）⇒ 组合日收益流与起点无关、为全局序列；起点网格=同一全局流的切片。故实跑算力 <5min，按 O-20260924-2100 面分离律属轻活，**免池内联合法**（§2 原文「>5min 入池」为其时预估，实跑超 5min 则回落入池——以批 JSON `carrier` 字段如实记录）。
+- **v3 深面**：`scripts/regime_deep_replay.py` 既有链 import（load_index_bench→bench_dim_series→breadth_series 掩膜→raw_series(v3)→deep_state_replay），与录得批零语义差；bench=hs300 指数面 2005-04-08→2026-09-22；breadth 掩膜语义（n_valid<5 不触发宽度维）沿用录得面。
+- **热度面（与 s1 同律）**：H_act=当日 LHB 上榜行数、H_net=当日龙虎榜净买额合计；p80=严格因果尾 250 个 LHB 日（min 60 obs，不足=COOL）；HOT ⇔ H_act≥p80 且 H_net>0；LHB 面板=Money02/data/lhb/lhb_detail.parquet 全量。
+- **执行律（T+1 MOC）**：t 日收盘后信号 → t+1 收盘建仓 → 首笔收益计自 t+2；收益日 d 的权重=signal(d−2)。
+- **可投面**：core48 深面板 Money02/data/cache/t18_deep_panel/ohlcv/<code>.parquet（逐件按上市日起）；investable(t)=截至 t 有 ≥60 根收盘；**n_valid(t)<5 ⇒ 当日全部袖=现金**（deep-replay 宽度先例）；成员当日收益 NaN 记 0（现金化披露）。
+- **袖实现（L4 既有面直用，零新选股法）**：
+  - MOM（动量 TopK）：investable 且 r60>0 中 r60 前 3 等权（不足 3 缩 K，0=现金）；
+  - REV（低位反转代理）：investable 且 r60<0 中 r60 最负 3 只等权（空集=现金——牛市无低位员诚实披露）；
+  - EW48（基准）：investable 全体等权；
+  - 缺面=现金并披露：GRID 网格袖（T-73 CN-GRID 在飞、参数未冻结，禁代其编造）、SAT 卫星袖（T-57 存活者无历史）、DIVLV 红利低波底仓（510880∉core48、红利低波批在飞）、RED≤20% 风险腿（防空军熊市袖无历史）。
+- **格×阶梯×袖权（v1.1 数值冻结·绝对组合权口径）**：GREEN_COOL=MOM 0.80（独占帽）；GREEN_HOT=MOM 0.90+SAT 0.05→现金；YELLOW_*=REV 0.325+GRID 0.325→现金；ORANGE_COOL=REV 0.125+GRID 0.125→现金+DIVLV 0.25→现金；ORANGE_HOT=REV 0.45+SAT 0.05→现金；RED_*=0（≤20% 风险腿=缺面现金）。每行袖权和=该格帽（RED 行例外=0，缺面如实）；（YELLOW 帽 0.65 承 s1 交付面 market_clock_call.py POSITION_LADDER）。
+- **成本**：换手单边费率 ×|Δw|（漂移校正后），x1=COST_X2_RATE/2=0.0013041、x2=COST_X2_RATE=0.0026082（science_gates 唯一成本源）；建仓日全仓费照计。
+- **起点网格**：2007-01..2025-12 每月首交易日（bench 日历）=228 起点≥200；起点组合自 S+2 起计收益（前 2 日=建仓窗）；起点前数据仅作信号暖机（时钟/r60 需回看，禁未来数据不破）。
+- **随机基线**：每起点 3 固定种子随机 3 员（同阶梯同成本），中位 Calmar 披露列；试验总数 N 记 combo×2 面=456（基准/随机另列）。
+- **判据执行语义（§2 冻结线的可执行化，非改线）**：B_MAXDIV 成员深窗重放结构性缺席（P5C D-leg 检查点空、成员 2020 前无面）——按本预注册自身「禁编造历史」条款，逐起点基准 max 收敛为 EW-48（同窗同成本同 None 规则对称排除：任一流 maxDD<1e-12 ⇒ 该起点双方同除）；B_MAXDIV 以注册面读数（T-27/T-28 冻结数字+2020+ 窗）作披露行呈报、窗错配如实标注；x2 面同式复算作稳健列。平手即判负照报。
+- **D6 同族检查**：T-73 CN 组合族批在飞（物理依赖）——本批 finalize 时如实记 DEFERRED，族落地后补腿相关性行；禁以缺面为由跳过披露。
+
 ## §3 执行纪律
 
 - s1=当日判定一页（results/market_clock/CALL-*.md+JSON，随每个新 bar 日再生成）；
@@ -45,4 +64,5 @@ L5 仓位阶梯 = RED 20% → ORANGE 50% → GREEN 80% → GREEN×HOT 95%（posi
 
 ## 变更记录
 
+- v1.1 (2026-09-26 R240)：§2b 袖重放机制跑前冻结（全局流性质+缺面=现金披露+判据执行语义；§2 判据线零改动）。s2 runner=scripts/market_clock_backtest.py。
 - v1.0 (2026-09-26 R239)：s0 冻结（O-0932 收敛声明落地：六层既有件全复用，热度复合 v0=板面代理）。
