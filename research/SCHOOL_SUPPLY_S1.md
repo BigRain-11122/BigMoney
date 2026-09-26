@@ -40,3 +40,9 @@
 - 三态标注（立法/生效/验收）+ post_review 面照 O-2115。
 
 —— bm-a R277 开票即 s1 收口；s2 首两个 prereg（趋势跟踪/中特估）下一批落地，精确续作点=本文件 §二 队列。
+
+## 四、队列进度台账（append-only）
+
+- 2026-09-27 00:3x bm-a R281：#1 趋势跟踪 prereg 冻结（CN_TREND_ETF_PREREG.md @ feb36786）+ runner 建成入池（CN_TREND-ETF-P1 pooled ready）。
+- 2026-09-27 01:1x bm-b r286：#1 池批认领开跑（cntrend-0of1 owner=bm-b 01:10:04）；判读归认领机。
+- 2026-09-27 01:3x bm-a R283：#2 中特估/国家队 prereg 冻结（CN_SOE_ETF_PREREG.md · 宇宙 8 员薄袖闸 5e6 · seed cn_soe_etf_p1=20272301 同 commit 登记）；runner build=下轮精确续作点。

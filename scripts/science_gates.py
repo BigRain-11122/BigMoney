@@ -810,6 +810,13 @@ SEED_REGISTRY = {
     # above max registered 20261230 = collision-free; full-repo scan
     # 2026-09-27 00:3x zero hits; lane = T-2026-09-26-87 s2 queue #1
     # (SCHOOL_SUPPLY_S1.md §二 趋势跟踪), prereg research/CN_TREND_ETF_PREREG.md
+    "cn_soe_etf_p1": 20272301,              # CN_SOE_ETF_P1 K=2000 nulls
+    # (cn_soe_etf nulls = 20272301+k, k<2000); band 20272301..20274300 sits
+    # exactly above cn_trend_etf_p1 band top 20272200 = collision-free by
+    # construction; registered at prereg freeze BEFORE any runner burn, one-step
+    # R250 law; rg full-repo scan 2026-09-27 01:2x: zero hits in band (t34/
+    # wild_route precedent); lane = T-2026-09-26-87 s2 queue #2
+    # (SCHOOL_SUPPLY_S1.md §二 中特估/国家队), prereg research/CN_SOE_ETF_PREREG.md
 }
 
 
