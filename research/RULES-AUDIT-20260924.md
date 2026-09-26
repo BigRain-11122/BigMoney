@@ -34,7 +34,7 @@
 
 1. **T+1/T+0 引擎执行 ✓**：backtester.py L296 `if st.hold_days == 0 and not is_t0(sym)` — T+0 品种豁免正确；core48 池内 11 只 T+0 成员（跨境 513 系×6+黄金 518880/159934+债券 511×3）与 rules.T0_ETF_CODES 交集核对**全吻合**。
 2. **涨跌停/停牌建模=机制在码、ETF 域未接线**：引擎已有 T-03-F2（strict_fills+real_open_mask：停牌日 ffill 陈价不可成交→买单弃/卖单延迟）+P4-B2（fill_guard：一字封板买拒单/卖延迟账本 deferred_exits）；消费方=p4_batch2_screen/p4_ext_tilt（**股票池研究批**）。**live/paper.py 三处 run_backtest（锚复现 L247/窗口 L317/×2 压测 L354）均不传守卫**；ETF 域注册/评估走默认路径（fill_guard=None·strict_fills=False）。
-3. **月检机制=实装 ✓**（宣传=实际验证过）：scripts/check_rules_update.py 读 knowledge/rules.py RULES_VERSION→results/rules_check.json——market_rules.md 尾注「每月 1 日自动检查」非空头宣称。
+3. **月检机制=实装 ✓**（宣传=实际验证过）：scripts/check_rules_update.py 读 knowledge/rules.py RULES_VERSION→logs/rules_check.json——market_rules.md 尾注「每月 1 日自动检查」非空头宣称。
 4. **成本模型**：v1 单边 13.041bp（费+10bp 平滑滑点）冻结锚；v2 ADV(20d) 分档 2/5/10bp+1% ADV 成交帽（加性旗标）——两轨防锚漂移纪律在码。缺口：v2 费率合成路径无佣金 5 元起点（波段单笔金额下影响可忽略·披露级 F-D）。
 5. **收盘价语义**：2026-07-06 前后沪市基金收盘价形成机制不同（连续竞价→集合竞价）——我方 T 收盘信号→T+1 开盘执行不受直接影响；盘后固定价格交易=新可选执行窗口（登记备查·暂不开线）。
 6. **风控面**：熔断三级/MA200 停新仓/R-配3/REGIME_GUARD shadow 在册；**单日 ≤10 笔铁律（iron #3）无执行层设计点**——P4 风控闸门三件外无第四件（F-C）。

@@ -141,7 +141,7 @@ def run(params: dict) -> dict:
 1. 拉最新数据
 2. 对当前 Top10 策略跑样本外回测
 3. 若 Sharpe 衰减 >30% → 自动下线，从候选池补位
-4. LLM 读本周交易日志 + 因子 IC 变化 → 写新策略 idea 到 research/ideas.md
+4. LLM 读本周交易日志 + 因子 IC 变化 → 写新策略 idea 到 research/ideas.md（未建——idea 供给由 RESEARCH_MECHANISM 外源常态线承接·O-20260924-1721·R270 件⑥裁定⑩）
 5. 对 idea 自动生成代码 → 单测 → 回测 → 进入候选池
 6. 每周日生成周报到 research/weekly/
 ```

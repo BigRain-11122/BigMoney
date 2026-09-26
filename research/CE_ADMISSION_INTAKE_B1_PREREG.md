@@ -1,4 +1,5 @@
 # CE-ADMISSION-B1 预注册（CE_ADMISSION_V1 §6 首个准入判定批）· 跑前冻结
+> AMENDMENT(2026-09-26 R270 GM 件⑥裁定⑨)：§results/§产物 产物名指针修正 CE_ADMISSION_B1.json→CE-ADMISSION-B1.json（实落位名·r248 history→entries 修正同族）；判据节零触碰（冻结纪律不破坏）。
 
 > 批件身份：`research/CE_ADMISSION_INTAKE_B1_PREREG.md` v1.0。规则=**research/CE_ADMISSION_V1.md v1.0（冻结件 e1001da0）**——本批为其 §6 协议下首个准入批；本 prereg 与规则冲突时**规则从严者优先**。
 > 认领：F-04 先行——`fleet/inbox/MSG-20260925-1514-bm-b-ce-admission-b1-claim.md`（commit edffca5a，先于本件）。票：T-2026-09-25-54 slice-3。
@@ -50,7 +51,7 @@
 ## §6 产物
 
 - script：`scripts/ce_admission_intake.py`（判定跑——复读+漏斗装配+账本/损耗账追加；selftest 子命令=离线自检）。
-- results：`results/ce_admission/CE_ADMISSION_B1.json`（顶层 evidence_cutoff+cutoff_meta 合法键；漏斗双列+逐员表+MW 读数+CORR 触发面+N_eff 描述面）。
+- results：`results/ce_admission/CE-ADMISSION-B1.json`（顶层 evidence_cutoff+cutoff_meta 合法键；漏斗双列+逐员表+MW 读数+CORR 触发面+N_eff 描述面）。
 - 批报告：本文件 §7 回填 + `research/CE_ADMISSION_V1.md` §8 追加一行 + 轮报告回执。
 
 ## §7 跑后实证【2026-09-25 15:06 跑后一次定稿回填】
@@ -61,7 +62,7 @@
 - **CORR 腿**：untriggered（零 MW 过线员）——§3 测量协议未开跑，零新 pairwise；触发面=0 员如实记。
 - **N_eff 描述面**：ρ̄_avg=**0.2576**（15 对 rolling-60d last 读数均值）⇒ 等波动 N_eff=**2.6225**（M=6）——首读 <4 与 §7.3 预测一致；W2 ORANGE 0.8687 对在档。
 - **账本**：append_ledger 实际计数 **0**（判定批零新试验；T54 测量 121,528 cells 已在册 r183）→ ledger total 182,945 平持；gate_attrition +1 行（kind=judgment, eliminated 22, mw_pass 空）。
-- 产物：`results/ce_admission/CE_ADMISSION_B1.json`（顶层 evidence_cutoff=2026-09-24 + science_gates.cutoff_meta 合法键 C2 面）+ `scripts/ce_admission_intake.py`（selftest 6/6 离线夹具）。
+- 产物：`results/ce_admission/CE-ADMISSION-B1.json`（顶层 evidence_cutoff=2026-09-24 + science_gates.cutoff_meta 合法键 C2 面）+ `scripts/ce_admission_intake.py`（selftest 6/6 离线夹具）。
 
 ## §8 批后复盘【跑后回填】
 

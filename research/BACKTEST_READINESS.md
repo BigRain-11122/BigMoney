@@ -31,7 +31,7 @@
 
 - **内部 27 因子**：`engine/factors.py` FACTORS 注册表（宽面板 date×symbol 口径）；IC 工具 `scripts/factor_ic.py`+`scripts/composite_ic.py`（含 core/all 宇宙去重口径）。
 - **外部 GTJA191（191 因子）批测已毕，双件互证**：
-  - **canonical（§4 撞车裁定采此）**=bm-b OS轮-32：`research/shortline/P1_FACTOR_SCREEN.md`（跑前写死）+ `screening/p1_factor_screen.py` + 净室算子层 `screening/gtja191_ops.py`（9/9 selftest）→ **0/183 严门判负**（V1=max(0.02,null p95)/V2 IR≥0.30/V3 OOS 同号+衰减<50%），近失簇 081/100/097 带 snooping 折价记录；账本 **N=1312**。
+  - **canonical（§4 撞车裁定采此）**=bm-b OS轮-32：`research/shortline/P1_FACTOR_SCREEN.md`（跑前写死）+ `research/shortline/screening/p1_factor_screen.py` + 净室算子层 `research/shortline/screening/gtja191_ops.py`（9/9 selftest）→ **0/183 严门判负**（V1=max(0.02,null p95)/V2 IR≥0.30/V3 OOS 同号+衰减<50%），近失簇 081/100/097 带 snooping 折价记录；账本 **N=1312**。
   - 补充件=bm-a R9：`research/shortline/P1_GTJA191_IC.md` + `scripts/shortline_p1_ic.py`（IC 等价门禁 3.33e-16+shim 自检双门禁）→ 183 计算位/89 宽筛池/白噪声 null 局限注记（宽筛≠有效名单）。
   - 互证：计算位一致（183）、跳过集一致（030/143 unfinished、005 pandas3、turn 族缺字段、qlib 3 件降级）、头部簇一致（081/100/165/097 反转 DNA 负 IC）——两机独立实现同一库同一宇宙，结论同向。
 - **外部 WorldQuant101**：R11 已交付（P1_WQ101_IC.md：82/82 可算，h10 严口径 0/82——与 GTJA191 0/183 同判「单因子过墙无望、合成是唯一路径」双库实证；池 36/强档 32 留作宽筛合成素材）。

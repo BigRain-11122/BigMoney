@@ -122,6 +122,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1
 
 源入司仓 `tools/skills/`（随 git 分发·安装副本 gitignored）；会话内置（codely-guide/skill-creator/tuanjie-cli）+跨司源（MiniGame tick-loop 先例）盘点在册。
 
-- **bigmoney-conflict-resolve**（2026-09-26 建）：跨机 git push/rebase 冲突正典解法——UU/AA 批量件按形态分类（rolling-ledger union/append-log/js-wrapper 保真/snapshot 取新/HANDOVER 锚前插增/CODELY 行级 union/digest 让号重编），配确定性分类器 `scripts/classify_conflicts.py`（selftest 16 例），覆盖 r161~r220 实弹坑律族。触发场景：push 被拒、rebase UU 状态面、同窗双机撞车批解冲突。
+- **bigmoney-conflict-resolve**（2026-09-26 建）：跨机 git push/rebase 冲突正典解法——UU/AA 批量件按形态分类（rolling-ledger union/append-log/js-wrapper 保真/snapshot 取新/HANDOVER 锚前插增/CODELY 行级 union/digest 让号重编），配确定性分类器 `Tools/skills/bigmoney-conflict-resolve/scripts/classify_conflicts.py`（selftest 16 例），覆盖 r161~r220 实弹坑律族。触发场景：push 被拒、rebase UU 状态面、同窗双机撞车批解冲突。
 - **bigmoney-prereg-draft**（2026-09-26 建·P-2026-09-26-01）：批回测预注册起草正典——PREREG_TEMPLATE §0-§8 全链（F-04 MSG 认领先行/D6 α 机制四选一+同族 max|corr|≥0.7 拒收/evidence_cutoff+cutoff_meta 前向锁盒/g1_prime_v2+g2_registration_v2 共享库判据禁手抄/硬界三件套/§7 占位纪律/gate_attrition 损耗账）。触发场景：起草或审查任何新批预注册、D6 相关性准入、跑后回填与复盘。
 - **bigmoney-data-gate-wiring**（2026-09-26 建·P-2026-09-26-01）：S6 数据采集 gate 脚本接线范式——契约十律（零网络 no-op 门/分离后台刷新/overlap 行级校验/exit-code 0-2-3 契约/R31 车道归属护栏/原子写/conn-fuse/窗口守卫/selftest 子命令/S6 链登记）+参考实现分层索引+数据源勘察先行律。触发场景：新增或修改任何 update_*.py 拉取器、设计 no-op/刷新/熔断/校验机制、处理车道护栏。

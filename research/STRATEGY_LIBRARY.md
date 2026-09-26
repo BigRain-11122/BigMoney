@@ -3,6 +3,39 @@
 > 一册总目=全部策略/因子/门禁/判定律的索引与判定状态。数值唯一权威指针到各权威文件，禁双源漂移（RULES §5 薄法）。
 > 试验账本 N=**2521**（`results/shortline_p4_queue.json` 链头，零假设全记账）；账本史与批次链见 §八。
 
+## 〇、产品线状态单源表（v1.0 · R270 T-83 s3 件⑦ · L4/L7 单源化）
+
+> 本表=全公司产品线**状态唯一单源**（live 活／research 在研／negative 判负归档／data-lane 数据道／wired 已接线未首跑／blank 空白）。s2-D5 已证 MATRIX/MAP/LIBRARY/HANDOVER 四面零同 token 矛盾——自本版起线状态引用一律指本表，他件只做指针（firm/DOC_HIERARCHY.md §三.2）。
+> 判据面路由=`firm/JUDGMENT_MATRIX.md`（R269 件①·三线三判律）；状态翻面=批次判定/接线令落盘时随批更新本表。
+
+| 产品线 | 状态 | 判据面 | 实况载体/证据 |
+|---|---|---|---|
+| 交易线（ETF 波段） | live | J-TRD | core48·6 在册+22 PROSPECT 观察（paper/·anchor gates 每轮 smoke PASS） |
+| 配置线 ALLOC | live | J-ALLOC | 7 账户 mirror frozen s2 cells（results/alloc_paper/·T-66 s2·r202 接线） |
+| 激进线 AGGR | live（试验面·KPI=收益天花板） | J-AGGR | 5 账户 ×¥1M marks 日累（results/aggr_paper/·T-56 slice-2） |
+| GRID 网格线 | wired（marks 首窗=09-28 新 bar 链） | J-GRID | engine/grid_sleeve.py+scripts/grid_paper.py 接线（r245·grid_paper/ 未物化如实·0/5 生存者 0 晋升候选冻结批如实携带） |
+| 回放纸盘 | live（观察面） | J-PAPER | 17 台账（results/retro_paper_2026/·T-79·一页榜呈 CEO） |
+| 野路子 WILD | **negative（S1 0/1569 过闸）** | J-WILD | results/wild_route/wild_route_s1.json（g2 注册空·WILD-S1 wr-1..8 池批全 done；T-57 done） |
+| 期权 | data-lane | J-DATA | T-69 wave-2b 前向采集（≥12 个月史后准新 prereg·T-67 §2 冻结律） |
+| 债券 | data-lane | J-DATA | T-68 债券面板 done·BOND_CARRY_WAVE3A prereg 在册（bond_carry_w3a 账本在链） |
+| 转债 | blank（首批开线候选） | J-DATA | 集思录源已验（O-1152）·数据审计先行·未开票 |
+| REITs/港股通/现券/金融期货 | blank | — | 产品矩阵 ⬜ 面（缺口清单在册） |
+| 商品期货 | **negative×3** | J-CN | CTA 三连判负归档（O-1105 判负线禁翻案·O-1158 授权复活 gated on 新预注册） |
+| CN 原生线 | **negative（五家族 19 格全负）** | J-CN | research/CN_COMBO_VERDICTS.md v1.0（R264·REV-TILT/DIV-LOWVOL-ROT/REGIME-POLICY/CORE-SATELLITE/DDCTL·pass_v2 0/19） |
+
+### 判负线与死面库存（L7 zoo 升格·归档不删）
+
+| 判负/死面 | 归档指针 |
+|---|---|
+| 期货 CTA ×3／P-A1／T-48 复合格 | O-20260925-1105 判负线禁翻案律（新证据=新预注册） |
+| CN 五组合家族（19 格） | research/CN_COMBO_VERDICTS.md（R264 判决台账） |
+| 野路子 WILD-S1（1569 格） | results/wild_route/wild_route_s1.json（本表首判：g2 注册空） |
+| FACTOR_BLEND 族 | research/FACTOR_BLEND(_V2).md 判负线档案（R270 件⑥裁定④注记） |
+| T-28 SPM 首测 | research/T28_STABLE_PROFIT.md——NOT-DEMONSTRATED（J4 0.4854<0.70 唯一挂点·10-31 验收复跑窗） |
+| 微盘 2024 崩塌域 | O-20260926-0926 不可行域照登不建模 |
+
+—— §〇 v1.0 · bm-a R270 GM 会话 · 2026-09-26 · 复审锚=本表+post_review 行 T-83-S3-GM-SLICE2
+
 ## 一、策略工厂：**77 函数 / 12 模块**（11 流派 75 + 组合引擎 2·O-2250 审计实况计数）（`strategies/`）
 
 | # | 流派（模块） | 函数 | 判定状态（批次证据） |

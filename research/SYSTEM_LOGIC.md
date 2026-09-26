@@ -1,4 +1,5 @@
 # research/SYSTEM_LOGIC.md — 量化系统完整运行逻辑
+> GM 注记(2026-09-26 R270 GM 件⑥裁定③)：本件=遗留叙事文档——文中部分产物名（failed_daily.json 等 8 件）系愿景面从未落地；实况面以 firm/DOC_HIERARCHY.md H4 单源载体为准。
 
 > 本文件讲清楚整个系统每天/每周/每月到底在跑什么、数据怎么流、每一步怎么判断、错了怎么办。
 > 不写代码，只写逻辑规则。与STRATEGY_SYSTEM_V4_EVOLUTION.md配套。
@@ -58,7 +59,7 @@ ELSE:
     regime = "OFF"
 ```
 
-**输出**：`data/regime_state.json`，字段 `{date, regime, hs300_close, ma200, vol20}`
+**输出**：`results/regime_state.json`，字段 `{date, regime, hs300_close, ma200, vol20}`
 
 **这个regime状态是全局开关**：regime=OFF时，后面所有层都不产生买入信号。
 

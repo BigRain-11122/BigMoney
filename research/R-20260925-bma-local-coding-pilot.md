@@ -67,3 +67,10 @@
 - 结果文件持续累积（禁删除失败记录·失败如实记）
 
 —— bm-a 总经办 R195 收令即冻结（2026-09-26 00:1x · 落 git 即生效 · 跑后禁改）
+
+## GM 裁定补录(2026-09-26 R270 GM ·T-83 s3 件⑥裁定⑥)
+
+- **不晋升**：任务 01-10 十候选脚本（rr_lint/wm_red_lint/opt_lane_digest/board_aging/inbox_aging/token_breakdown/leg_freshness/opt_cells_recon/lane_log_digest/hb_epoch_lint）零车道消费面——**消费驱动晋升律**（有车道消费才晋 scripts/，否则晋升即死码）；试点件留 `results/local_coding_pilot/tasks/` 即档案（归档不删）。
+- **任务 11/12 未实现**：handover_delta / daily_gap_audit（tasks/ 目录 01-10 实证；未来若需按新票重开，本试点不再排期）。
+- 本件任务表「python scripts/xxx.py」列=晋级后设计面路径；实况=results/local_coding_pilot/tasks/<nn>/<臂>/。引用以实况为准。
+- L4 上游指针 `HQ cph4/research/R-20260925-local-coding.md`（commit 9fcce33）=集团仓合法跨仓指针（在位实证），仓内 Test-Path 检测=假阳。

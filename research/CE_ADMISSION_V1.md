@@ -69,7 +69,7 @@
 
 ## §8 占位纪律（冻结时为空·批后回填）
 
-- **CE-ADMISSION-B1（2026-09-25 15:06·T-54 s3·bm-b·判定批零新引擎）**：候选=PROSPECT 池 22 员（唯一持有 §2 全脸网格证据面·T54 测量件复读）。漏斗双列 considered 22→precheck 22→G1'v2 3（DUCK-01/DUCK-CE-01/VOB-CE-01）→G2 0（cost_x3 0/22 在档）→MW 0/0→CORR 0/0→**admitted 0**。MW 描述读：max legacy base 6m=0.5876 ⇒ 0/22 过线（§7.1 预测态）；CORR 腿未触发；N_eff 描述面=2.6225（ρ̄_avg 0.2576·M=6）。账本+0（判定批零新试验）；gate_attrition +1 行。prereg=`research/CE_ADMISSION_INTAKE_B1_PREREG.md`（113f9400 跑前冻结）+结果=`results/ce_admission/CE_ADMISSION_B1.json`+脚本=`scripts/ce_admission_intake.py`（selftest 6/6）。预测对账 4/4 对；零翻案零改线。
+- **CE-ADMISSION-B1（2026-09-25 15:06·T-54 s3·bm-b·判定批零新引擎）**：候选=PROSPECT 池 22 员（唯一持有 §2 全脸网格证据面·T54 测量件复读）。漏斗双列 considered 22→precheck 22→G1'v2 3（DUCK-01/DUCK-CE-01/VOB-CE-01）→G2 0（cost_x3 0/22 在档）→MW 0/0→CORR 0/0→**admitted 0**。MW 描述读：max legacy base 6m=0.5876 ⇒ 0/22 过线（§7.1 预测态）；CORR 腿未触发；N_eff 描述面=2.6225（ρ̄_avg 0.2576·M=6）。账本+0（判定批零新试验）；gate_attrition +1 行。prereg=`research/CE_ADMISSION_INTAKE_B1_PREREG.md`（113f9400 跑前冻结）+结果=`results/ce_admission/CE-ADMISSION-B1.json`+脚本=`scripts/ce_admission_intake.py`（selftest 6/6）。预测对账 4/4 对；零翻案零改线。
 
 ## §9 复盘钩子
 

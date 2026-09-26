@@ -1,7 +1,7 @@
 # 全品种普查 FULL INSTRUMENT CENSUS（T-65 s0 · CEO 直令 O-20260925-1158 · 2026-09-25）
 
 > **定位**：国内合法可投×百万资金现实可行的**全部品种类**普查表——五列制（合法性/门槛、百万流动性现实、数据面审计、可建模性、诚实边界）。纪律锚=O-1158 二（不设限≠无测量：五步制恒在·实盘=CEO 唯一门·不可回测域=建议面标注不硬造）。
-> **证据律**：数据面列分三档——✅ 在轨（仓内既有器械/面板，git 可验）、🟢 本日验通（探针实证 results/instrument_census_probe.py → results/instrument_census_probe.json，evidence_cutoff=2026-09-25）、⛔ 本窗阻断（EM 域 RemoteDisconnected 双窗两连失败·R168 conn-fuse 族·30min 节流自愈窗口待复探，禁由样本面立全谱 r186）。
+> **证据律**：数据面列分三档——✅ 在轨（仓内既有器械/面板，git 可验）、🟢 本日验通（探针实证 scripts/instrument_census_probe.py → results/instrument_census_probe.json，evidence_cutoff=2026-09-25）、⛔ 本窗阻断（EM 域 RemoteDisconnected 双窗两连失败·R168 conn-fuse 族·30min 节流自愈窗口待复探，禁由样本面立全谱 r186）。
 > **归属**：dept:研究+数据（联合票 note）；s1 建模路线图+分波排期=下一切片。
 
 ## 一、品种普查表（13 类·全覆盖）
