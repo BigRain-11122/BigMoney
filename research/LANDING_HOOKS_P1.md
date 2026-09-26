@@ -48,7 +48,7 @@
 
 ## §6 跑后实证（跑后回填·一次定稿）
 
-- 发放：landing_hooks 面随三卡载体落 results/strategy_scorecard.json 顶层键（prereg_sha16=6301f5c6f3a43d05，freeze commit 668cbd5e 先于生产跑=R99 律）；生产刷 14.8s；幂等复跑面内容字节恒等（唯一漂移=generated/elapsed_sec 运行时元数据，§5 先例口径）。
+- 发放：landing_hooks 面随三卡载体落 results/strategy_scorecard.json 顶层键（prereg_sha16=6301f5c6f3a43d05，freeze commit 668cbd5e 先于生产跑=R99 律；S7 push 窗 bm-a 同窗三 commit 撞车 rebase 复放后冻结 commit=174be4b8，R99 顺序律在复放链中保持：174be4b8 仍先于跑产物 commit 8b392771）；生产刷 14.8s；幂等复跑面内容字节恒等（唯一漂移=generated/elapsed_sec 运行时元数据，§5 先例口径）。
 - 预测对账（§3 四条全中）：
   1. CN 族五模型全负零落地=**对**：REV-TILT 0/4、DIV-LOWVOL-ROT 0/4、REGIME-POLICY 0/3、CORE-SATELLITE 0/4（四件 p1_results.json g1'v2 pass 位逐字读出）+CN-GRID-SLEEVE 0 生存者/0 晋升候选（grid 判词面共享读）——五模型链 ALL-NEGATIVE 实况与 R261 harvest note 恒等，零手抄。
   2. GRID 族零落地=**对**：survivors_science=[]+paper_candidates=[]；观察账户 marks 车道按 §1 如实注记非落地。
