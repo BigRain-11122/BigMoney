@@ -619,8 +619,8 @@ def _backtest_summary() -> dict:
         if base.startswith(("factor_ic", "dashboard_status")):
             continue
         d = _read_json(f)
-        if not d or d.get("status") != "ok":
-            continue
+        if not isinstance(d, dict) or d.get("status") != "ok":
+            continue  # probe/scratch products may be list-typed; backtest faces are dict-only
         n_ok += 1
         m = d["metrics"]
         sharpe.append(m["sharpe"])
