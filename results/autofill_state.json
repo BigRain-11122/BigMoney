@@ -2,30 +2,6 @@
  "launches": [
   {
    "entry": "WILD-S1-SHARD-0",
-   "fill_latency_min": 34.9,
-   "machine": "bm-b",
-   "pid": 24528,
-   "py_cpu_pct": 0.0,
-   "shard": "wr-0of8",
-   "target_met": false,
-   "ts": "2026-09-25 19:10:01",
-   "verdict": "launched",
-   "crash_counted": true
-  },
-  {
-   "entry": "WILD-S1-SHARD-0",
-   "fill_latency_min": 34.9,
-   "machine": "bm-a",
-   "pid": 43300,
-   "py_cpu_pct": 0.0,
-   "shard": "wr-0of8",
-   "target_met": false,
-   "ts": "2026-09-25 19:10:02",
-   "verdict": "launched",
-   "crash_counted": true
-  },
-  {
-   "entry": "WILD-S1-SHARD-0",
    "fill_latency_min": 44.9,
    "machine": "bm-b",
    "pid": 4492,
@@ -503,7 +479,8 @@
    "pid": 23276,
    "runner_sha256": "409a600747336f74",
    "fill_latency_min": 97.7,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-26 11:34:40",
@@ -528,7 +505,8 @@
    "pid": 56984,
    "runner_sha256": "af292e9414410e72",
    "fill_latency_min": 102.7,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-26 11:40:01",
@@ -553,7 +531,8 @@
    "pid": 54736,
    "runner_sha256": "af292e9414410e72",
    "fill_latency_min": 108.1,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-26 11:42:50",
@@ -578,7 +557,8 @@
    "pid": 55828,
    "runner_sha256": "d3b25ea6fe57e21e",
    "fill_latency_min": 110.9,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-26 11:50:01",
@@ -603,13 +583,44 @@
    "pid": 26952,
    "runner_sha256": "d3b25ea6fe57e21e",
    "fill_latency_min": 118.1,
+   "target_met": false,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-09-26 13:40:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "CN-REV-TILT-P1",
+   "shard": "cnrev-0of1",
+   "pid": 54472,
+   "runner_sha256": "527d7e46e86c894d",
+   "fill_latency_min": 7.0,
+   "target_met": true
+  },
+  {
+   "ts": "2026-09-26 13:50:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "CN-REV-TILT-P1",
+   "shard": "cnrev-0of1",
+   "pid": 49100,
+   "runner_sha256": "527d7e46e86c894d",
+   "fill_latency_min": 17.0,
    "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 13:30:01",
+  "ts": "2026-09-26 13:50:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "launched",
+  "entry": "CN-REV-TILT-P1",
+  "shard": "cnrev-0of1",
+  "pid": 49100,
+  "runner_sha256": "527d7e46e86c894d",
+  "fill_latency_min": 17.0,
+  "target_met": false
  }
 }

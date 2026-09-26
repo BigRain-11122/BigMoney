@@ -795,6 +795,78 @@
    ],
    "evidence_pointer": "scripts/grid_paper.py",
    "due": "delivered 2026-09-26 r245; marks window opens 2026-09-28 (forward observation, not a claimed result)"
+  },
+  {
+   "id": "T-73-CN-REV-TILT-P1",
+   "claim": "T-73 s3 slice-1 CN-REVERSAL-TILT full arc: prereg frozen pre-run (R245/R246 zero runs) -> runner scripts/cn_rev_tilt_p1.py (selftest 30/30) -> pool batch CN-REV-TILT-P1 landed 13:40:50 (T8792/N5222/cutoff 2026-09-22, N_trials 54, ledger 185798+54=185852) -> deterministic harvest (r244 law) flipped pool done + verdict NEGATIVE 4/4 G1'v2 (x1 Sharpe 0.1976/0.4757/0.0104/0.4217 all < skill line 0.6147) -> G2 not applicable -> model judged negative per prereg s4, no CN-* paper wiring (correct fail-closed closure); prereg s7/s8 backfilled with run numbers only; tilt axis falsified per s5.2 pre-registered honest possibility",
+   "claim_source": "research/CN_REV_TILT_PREREG.md (frozen R245/R246 pre-run; R99 law: post-run s7/s8 backfill only) + T-73 progress_r246 runner contract (frozen) + results/_r248bma_cnrev_harvest.py (deterministic harvest gate, exit 0) + runner.log finalize line + results/cn_rev_tilt/p1_results.json product",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/cn_rev_tilt_p1.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/cn_rev_tilt/p1_results.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/_r248bma_cnrev_harvest.py"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_rev_tilt/p1_results.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_rev_tilt/p1_results.json",
+      "ledger.total",
+      "185852"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_rev_tilt/p1_results.json",
+      "n_trials",
+      "54"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_rev_tilt/p1_results.json",
+      "g1_prime_v2.REV60_bare.pass_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/runnable_pool.json",
+      "R248 bm-a deterministic harvest"
+     ]
+    },
+    {
+     "kind": "git_log_file",
+     "args": [
+      "fleet/tasks/T-2026-09-26-73-P1.json",
+      "CN-REV-TILT"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)"

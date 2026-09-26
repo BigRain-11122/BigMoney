@@ -1448,16 +1448,17 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 13:33:03",
    "data_gates": "in-runner fail-closed exit 2: P1C cache cutoff==2026-09-22 + T>=8000 + N>=5000 (D2 forward lockbox; 09-23/24 bars excluded) + SEED_REGISTRY assert (cn_rev_tilt_p1=20260930) + never-invested all-cash sanity (R240 law) + finalize census gate (r188). Panel = Money02/data/cache/p1c_stock close.npy (machine-local, zero network, t73_s2 load_close single source). Close-only face -> V1 13.041bp/side flat cost (no ADV, prereg s3.2 honest).",
    "shards": [
     {
      "key": "cnrev-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-26 13:50:04",
-     "checkpoint": "results/cn_rev_tilt/ckpt/*.npz per-unit (exact float64 resume, date-drift refusal); landed marker = results/cn_rev_tilt/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_REV_TILT_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 landed-marker law"
+     "checkpoint": "results/cn_rev_tilt/ckpt/*.npz per-unit (exact float64 resume, date-drift refusal); landed marker = results/cn_rev_tilt/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_REV_TILT_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 landed-marker law",
+     "harvest_note": "R248 bm-a deterministic harvest: p1_results.json landed 13:40:50 (ledger 185798+54=185852, cutoff 2026-09-22, T8792/N5222); G1' v2 re-derived 4/4 FAIL (best REV60_bare sharpe 0.4757 < skill line 0.6147; REV60 tilt CI low 0.3083>0 but line fail) -> batch judged NEGATIVE per prereg s4 (判负照登, 新证据=新预注册); gate_attrition eliminated 54"
     }
    ],
    "workers_plan": {

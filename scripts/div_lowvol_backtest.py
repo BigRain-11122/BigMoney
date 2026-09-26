@@ -886,7 +886,7 @@ def cmd_run(_):
         "eliminated": BATCH_CELLS_NOMINAL - (1 if g2["eligible_v2"] else 0),
         "refs": {"prereg": "research/DIV_LOWVOL_P1.md", "ticket": TICKET},
     }
-    att["history"].append(att_row)
+    att["entries"].append(att_row)
 
     prereg_sha = None
     try:

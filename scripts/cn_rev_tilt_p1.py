@@ -801,7 +801,7 @@ def run() -> int:
     d6_rejects = ({c: ((d6.get(c) or {}).get("member_face", {})
                        .get("reject")) for c in JUDGED_CELLS}
                   if d6.get("status") != "pending_error" else None)
-    att["history"].append({
+    att["entries"].append({
         "batch": "CN-REV-TILT-P1",
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
         "kind": "measurement",

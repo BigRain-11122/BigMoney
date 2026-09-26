@@ -251,7 +251,7 @@ def append_attrition(result):
         "eliminated": sum(1 for r in result["per_member"]),
         "refs": {"results": OUT_PATH, "prereg": PREREG, "ticket": TICKET},
     }
-    d.setdefault("history", []).append(row)
+    d.setdefault("entries", []).append(row)
     with open(GATE_ATTRITION_PATH, "w", encoding="utf-8", newline="\n") as f:
         json.dump(d, f, ensure_ascii=False, indent=1)
         f.write("\n")
@@ -325,7 +325,7 @@ def main():
     row["ledger_total_after"] = ledger.get("total")
     with open(GATE_ATTRITION_PATH, encoding="utf-8-sig") as f:
         d = json.load(f)
-    d["history"][-1]["ledger_total_after"] = ledger.get("total")
+    d["entries"][-1]["ledger_total_after"] = ledger.get("total")
     with open(GATE_ATTRITION_PATH, "w", encoding="utf-8", newline="\n") as f:
         json.dump(d, f, ensure_ascii=False, indent=1)
         f.write("\n")
