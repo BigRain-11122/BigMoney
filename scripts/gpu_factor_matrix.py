@@ -193,13 +193,19 @@ def _t_core(torch):
     def zscore(x, valid):
         xs = torch.where(valid, x, torch.zeros_like(x))  # NaN must not
         vf = valid.to(xs.dtype)                          # propagate into
-        n = vf.sum(dim=1, keepdim=True)                  # row stats
-        mu = (xs * vf).sum(dim=1, keepdim=True) / n
-        d = (xs - mu) * vf
-        sd = d.pow(2).sum(dim=1, keepdim=True).div(
+        n = vf.sum(dim=-1, keepdim=True)                 # row stats
+        mu = (xs * vf).sum(dim=-1, keepdim=True) / n     # cross-sectional
+        d = (xs - mu) * vf                               # stats reduce over
+        sd = d.pow(2).sum(dim=-1, keepdim=True).div(     # the COLUMN axis
             torch.where(n > 0, n, torch.ones_like(n))).sqrt()
         z = torch.where(sd > 0, d / sd, torch.zeros_like(d))
         return z * vf
+        # dim=-1 keeps the core batch-agnostic: (T, N) input reduces over
+        # columns per row; (K, T, N) batched input reduces over columns per
+        # (face, row). The original dim=1 hardcoded the 2-D layout -- fed
+        # the 3-D batch stack it silently computed per-column TIME-series
+        # stats instead of cross-sectional z (4th live-fire catch r243:
+        # single-face probe equiv 1.78e-15 vs runner z_spot 2.44).
 
     return avg_ranks, rank_ic, zscore
 
