@@ -1,0 +1,118 @@
+{
+ "classified": [
+  {
+   "state": "UU",
+   "path": "CODELY.md",
+   "class": "memory-union",
+   "recipe": "line-level union of appended entries (both machines' new entries kept verbatim, dedupe identical lines); heat/cold archival rules unchanged",
+   "law": "R208/r212"
+  },
+  {
+   "state": "UU",
+   "path": "results/autofill_state.json",
+   "class": "mixed-dict+ledger",
+   "recipe": "launches=union both blobs -> sort by ts -> cap 50 (rolling window, R215 law); last_tick=compare inner ts then assign WHOLE dict (no str()); same-second tie -> HEAD/ours (r140); after write-back assert isinstance(last_tick, dict); mirror working-tree line endings (CRLF producer-format, bm-b r223 law)",
+   "law": "r203/R208/r215/r220"
+  },
+  {
+   "state": "UU",
+   "path": "results/compute_audit.json",
+   "class": "rolling-ledger",
+   "recipe": "union both blobs on history key (zero row loss; line-count = |A ∪ B|), then newest snapshot fields take-new",
+   "law": "r188/R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/dashboard_status.js",
+   "class": "js-wrapper-snapshot",
+   "recipe": "NOT plain JSON: producer format = `window.DASH_DATA = {...};` — resolve values then re-emit EXACT producer format (monitor/build_status.py writer), or take-side whole bytes; NEVER json.dumps direct-write (silently strips wrapper)",
+   "law": "R209"
+  },
+  {
+   "state": "UU",
+   "path": "results/dashboard_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc (latest-state semantics)",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/fundamental_b_layer_filter.json",
+   "class": "snapshot",
+   "recipe": "take-new by updated ts (per-run verdict snapshot, re-derived each round)",
+   "law": "R216"
+  },
+  {
+   "state": "UU",
+   "path": "results/futures_update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/heat_update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/lhb_update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/regime_state.json",
+   "class": "rolling-ledger",
+   "recipe": "union both blobs on history/transitions keys (zero row loss), then take-new state fields",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/token_usage.json",
+   "class": "snapshot",
+   "recipe": "take-new by generated ts (meter re-derives whole doc from files each round; newest measurement wins wholesale)",
+   "law": "R216"
+  },
+  {
+   "state": "UU",
+   "path": "results/update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts",
+   "law": "R208"
+  }
+ ],
+ "unknown": [
+  {
+   "state": "UU",
+   "path": "docs/daily_report/REPORT-2026-09-26.json"
+  },
+  {
+   "state": "UU",
+   "path": "docs/daily_report/REPORT-2026-09-26.md"
+  },
+  {
+   "state": "UU",
+   "path": "fleet/tasks/T-2026-09-26-73-P1.json"
+  },
+  {
+   "state": "AA",
+   "path": "results/_r258bma_ticket_probe.py"
+  },
+  {
+   "state": "AA",
+   "path": "results/_r258bma_ticket_update.py"
+  },
+  {
+   "state": "AA",
+   "path": "results/t73_s2/factor_history.json"
+  },
+  {
+   "state": "AA",
+   "path": "scripts/t73_s2_factor_history.py"
+  }
+ ]
+}
