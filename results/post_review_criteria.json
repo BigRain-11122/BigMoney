@@ -2631,6 +2631,187 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-87-CN-KLINE-PATTERN-P1",
+   "claim": "T-87 s2 queue #3 CN_KLINE_PATTERN_P1 (THS-formula K-line pattern families per SCHOOL_SUPPLY_S1 sec.4 queue ledger, folklore gate PASS R289) full arc: prereg frozen commit cbf6c93c BEFORE runner build BEFORE any run (R99 law; probe facts results/cn_kline_probe.json frozen same commit: universe 3106, census MS 1342 / TWS 21518 / DCC 35270 / TBC 14) + runner selftest 23/23 hermetic + real-data gate PASS census zero-drift vs frozen probe -> pool entry #55 -> autofill claim fill latency 5.4min (<= 10min O-2100 target) -> burn pid 56364 elapsed 353s -> 7/7 judged cells NEGATIVE per frozen s4: x2 Sharpe MS-FIX -0.7145 / MS-STOP -0.6385 / TWS-FIX -0.3811 / TWS-STOP -0.4363 / MS-BEAR +0.1218 / TWS-BEAR +0.4000 / COMBO +0.2768; own-null skill lines 1.9486 / 2.6603 / 3.5701-4.0655 ALL line_ok=False with bootstrap CI lower <= 0; DSR <= 0.015 all; family PBO 0.4429 > 0.25; batch cells_ok 7/7 False (maxDD -97 to -100pct triple-fail honest); D6 max|corr| 0.1295 vs ew6 canon zero reject; TBC 14 events insufficient-sample flag honest; ledger 200,396 = 198,389 + 2,007 single-count PASS; s7/s8 single-finalization with 5-prediction reconciliation (p1 CONFIRMED claim!=verify, p3 half-hit honest) -> K-line pattern face judged-negative slot closed, reopen = new-evidence new-prereg only",
+   "claim_source": "research/CN_KLINE_PATTERN_PREREG.md (frozen cbf6c93c, s7/s8 backfilled R293 single-finalization) + results/cn_kline_pattern/p1_results.json product + results/gate_attrition.json entries row CN_KLINE_PATTERN_P1 + pool done-flip R293 (autofill CN-KLINE finalize trail)",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/cn_kline_pattern_p1.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/cn_kline_pattern/cells_summary.csv"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/CN_KLINE_PATTERN_PREREG.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "batch",
+      "CN_KLINE_PATTERN_P1"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "trials_ledger.total",
+      "200396"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "trials_ledger.batch_trials",
+      "2007"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "panel.universe_n",
+      "3106"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "gates.MS-FIX10.g1_prime_v2.sharpe_full",
+      "-0.7145"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "gates.TWS-BEAR.g1_prime_v2.sharpe_full",
+      "0.4"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "gates.COMBO.g1_prime_v2.sharpe_full",
+      "0.2768"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "gates.MS-FIX10.g1_prime_v2.pass_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "gates.COMBO.g2.eligible_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "gates.TWS-BEAR.dsr.dsr",
+      "0.015014"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "family_pbo.pbo",
+      "0.4429"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "tbc_advisory.n_tbc",
+      "14"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "tbc_advisory.insufficient_sample",
+      "True"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "nulls.MS-FIX10.coverage.n_values",
+      "2000"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_kline_pattern/p1_results.json",
+      "virtual_starts.n_starts",
+      "8466"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/CN_KLINE_PATTERN_PREREG.md",
+      "7/7 cells 判负照报"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/CN_KLINE_PATTERN_PREREG.md",
+      "判负关槽"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/gate_attrition.json",
+      "CN_KLINE_PATTERN_P1"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened)"
