@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-26 16:22:53",
+ "updated_at": "2026-09-26 17:48:11",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1562,6 +1562,34 @@
    "note": "N=993 on the D1 bill (3 judged cells + 990 exhaustive C(12,4) month-set nulls, zero RNG zero seeds per slice-B exhaustive precedent); supply-line duty answer to pool_starvation flag (R255 disclosure: research landed -> prereg -> runner+pool same round R256)",
    "updated_at": "2026-09-26 16:22:53",
    "harvest_note": "harvested bm-a r256 same-round 2026-09-26 ~16:2x: p1_results.json landed (28.7s, 993 units, zero RNG exhaustive C(12,4)x2 nulls); R256 bm-a deterministic harvest gate PASS (10-face re-derive: ledger 186592+993=187585 arithmetic, cutoff lockbox 2026-09-22, panel gates, A-face 3-condition AND re-derived FALSE, B-face p=0.7798 re-derived no-signal, C-face 0/3 vs line 0.5691, N census 3+495+495, attrition row entries-visible); VERDICT CN-REGIME-POLICY judged NEGATIVE per frozen prereg (A/B/C all fail) -> no paper account, family slot closed, new-evidence-reopen law applies"
+  },
+  {
+   "id": "CN-CORE-SATELLITE-P1",
+   "ticket_ref": "T-2026-09-26-73 s3 slice-5 (FINAL CN-native model; CEO O-20260926-0926; bm-a lane; F-04 claim MSG-20260926-1745)",
+   "prereg_ref": "research/CN_CORE_SATELLITE_PREREG.md (frozen R261 commit cd708338 precedes ANY run; probe results/core_sat_probe.json frozen same commit; seed cn_core_sat_p1=20261080 registered AT freeze; runner committed d6c7975c zero runs)",
+   "runner": "scripts/cn_core_sat_p1.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-26 17:48:11",
+   "data_gates": "in-runner fail-closed exit 2: T==3333 (2013-01-04..2026-09-22 union) + first==2013-01-04 + cutoff==2026-09-22 (D2 lockbox) + event set == frozen 3 (510500 2015-04-15 + 510500 2022-08-29 + 512100 2022-09-05, slice-E envelope single source) + CORE 510880 zero events + first_active_rebal==2013-07-17 + SEED_REGISTRY assert (cn_core_sat_p1=20261080) + R240 zero-rebalance-eval refusal + never-invested-pre-listing + census gate before finalize; selftest 12-leg battery ALL PASS pre-burn",
+   "shards": [
+    {
+     "key": "coresat-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "note": "single finalize dependency chain (4 cells x3 faces + 50 nulls + 2 baselines = 64 units, est <2min single worker; queue-fill sim O(T) per unit)"
+   },
+   "note": "N=54 on the D1 bill (4 judged cells + 50 nulls); prereg s0/s6; family machinery reuse (DRV engine + SRP guards + science_gates shared criteria); verdict face = x2 V2 cost always-on",
+   "updated_at": "2026-09-26 17:48:11"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
