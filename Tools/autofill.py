@@ -35,6 +35,11 @@ Contract:
     cycle burns loop-session API tokens, r175/r198 families). Editing the
     runner (hash change) auto-clears the fuse; refusals are counted and
     visible. Corrupt existing fuse file = refuse-wipe abort (r201 law).
+  * Self-commit (r290): claim/keepalive git flows carry the tick's OWN
+    runtime dirt (autofill_state/crash_fuse) in the same commit, so the
+    r282 recovery rebase stays reachable in inter-round windows (r288
+    live: keepalive push lost to a tick-dirtied tree -> claim stranded
+    local -> remote takeover gate re-opened -> duplicate launch).
   * Silent law: logs to logs/autofill.log only.
 
 Exit codes: 0 = normal (incl. honest no-op), 2 = mechanism fault
@@ -221,6 +226,19 @@ def _save_fuse(f):
     os.replace(tmp, FUSE)
 
 
+def _tick_owned_dirt():
+    """r290 self-commit law: the tick's OWN runtime writes (autofill_
+    state.json last_tick/launches, crash_fuse.json) are the dirt that
+    makes every inter-round `pull --rebase` refuse -- so claim/keepalive
+    git flows must carry them in the same commit, keeping the r282
+    recovery rebase reachable in autonomous windows (live case: r288
+    CN-TREND keepalive push lost to a tick-dirtied tree, claim stranded
+    local, remote takeover gate re-opened -> double burn). Session-owned
+    dirt (non-tick files) still yields per r282. Existence-filtered:
+    absent files are never git-added."""
+    return [p for p in (STATE, FUSE) if os.path.exists(p)]
+
+
 def _sha16(path):
     """Launch-time code version stamp: sha256[:16] of the runner file
     bytes (None if absent). Same hash after a crash = same version =
@@ -359,9 +377,14 @@ def _claim_shard(sh, myid):
     00:30/00:40/00:50 revosc claims all lost to push-reject while py sat
     at 0-4% -- fill latency 29.1min vs O-2100 10min target; at 00:30 the
     tree was clean and the recovery rebase would have landed the claim
-    20min earlier. Fail-safe: dirty tree (session in flight) or rebase
-    conflict -> abort + yield, session S0 reconciles (r268 stash law:
-    no stash games from the tick)."""
+    20min earlier. Fail-safe: rebase conflict or session-owned dirt
+    (non-tick files in flight) -> abort + yield, session S0 reconciles
+    (r268 stash law: no stash games from the tick). r290 self-commit:
+    the tick's OWN dirt (autofill_state/crash_fuse) rides in the claim
+    commit itself -- an inter-round tree dirtied only by the tick keeps
+    the recovery rebase reachable (r288 live: keepalive push lost to a
+    tick-dirtied tree -> claim stranded -> takeover gate reopened ->
+    double burn)."""
     prev = None
     committed = False
     try:
@@ -392,10 +415,11 @@ def _claim_shard(sh, myid):
         with open(tmp, "w", encoding="utf-8") as fh:
             json.dump(pool, fh, ensure_ascii=False, indent=1)
         os.replace(tmp, POOL)
-        for args in (("add", POOL),
+        for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
                       f"autofill tick claim {sh.get('key')} owner={myid} "
-                      f"(r199 launch-claim) [via {myid}]"),
+                      f"(r199 launch-claim + r290 self-commit) "
+                      f"[via {myid}]"),
                      ("push",)):
             rc, err = _git(args)
             if rc == 0:
@@ -465,11 +489,12 @@ def _keepalive_claims(pool, myid):
         with open(tmp, "w", encoding="utf-8") as fh:
             json.dump(pool, fh, ensure_ascii=False, indent=1)
         os.replace(tmp, POOL)
-        for args in (("add", POOL),
+        for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
                       f"autofill tick keepalive "
                       f"{' '.join(str(k) for k in keys)} owner={myid} "
-                      f"(r288 claim-refresh) [via {myid}]"),
+                      f"(r288 claim-refresh + r290 self-commit) "
+                      f"[via {myid}]"),
                      ("push",)):
             rc, err = _git(args)
             if rc == 0:
@@ -881,11 +906,14 @@ def selftest():
         global _git
         _git_real = _git
         git_seq = []
+        add_args_all = []          # r290: full argv of every git add
         fail_at = {"stage": None}
         fail_next = {"q": []}     # r282: ordered one-shot stage faults
 
         def _fake_git(args):
             git_seq.append(args[0])
+            if args[0] == "add":
+                add_args_all.append(args[1:])
             if fail_next["q"] and fail_next["q"][0] == args[0]:
                 fail_next["q"].pop(0)
                 return 1, "fake git fault (queued)"
@@ -971,6 +999,27 @@ def selftest():
         fail_next["q"] = []
         ok("S15h push retry lost -> yield, claim kept",
            r15h is False and p15h.get("owner") == "bm-b")
+        # S15i r290 self-commit: the claim commit carries the tick's OWN
+        # dirt (autofill_state + crash_fuse) so the r282 recovery rebase
+        # stays reachable in inter-round tick-dirtied windows (r288
+        # live: keepalive push lost to tick dirt -> claim stranded ->
+        # takeover gate reopened -> double burn). Absent files are
+        # never git-added (existence filter).
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {}}, fh)
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        add_args_all.clear()
+        r15i = _claim_shard({"key": "s0"}, "bm-b")
+        ok("S15i claim add carries pool+state+fuse (r290 self-commit)",
+           r15i is True and add_args_all
+           and add_args_all[-1] == (POOL, STATE, FUSE))
+        os.remove(FUSE)
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        add_args_all.clear()
+        r15i2 = _claim_shard({"key": "s0"}, "bm-b")
+        ok("S15i absent fuse -> existence-filtered add (pool+state)",
+           r15i2 is True and add_args_all
+           and add_args_all[-1] == (POOL, STATE))
         # S17 r288 claim-keepalive: a locally-alive runner on a
         # self-owned shard with an aging claim-stamp refreshes
         # owner_since (commit+push) so remote takeover gates never see
@@ -1024,6 +1073,20 @@ def selftest():
         ok("S17d push lost post-commit -> refresh kept, keys reported",
            ka == ["s0"]
            and p17d.get("owner_since") != "2026-09-24 18:00:00")
+        # S17e r290: keepalive commit also self-commits tick-owned dirt
+        # -- the refresh push must survive inter-round tick dirt so the
+        # takeover gate keeps seeing a live owner (r288 root cause:
+        # refresh push unreachable while the tree was tick-dirtied).
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {}}, fh)
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        add_args_all.clear()
+        ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                               "bm-b")
+        ok("S17e keepalive add carries pool+state+fuse (r290)",
+           ka == ["s0"] and add_args_all
+           and add_args_all[-1] == (POOL, STATE, FUSE))
         _runner_alive = _ka_runner
         # S16 O-0947 crash-loop fuse: confirm pass -- own dead launch with
         # shard still un-landed past the confirm window counts ONCE into
