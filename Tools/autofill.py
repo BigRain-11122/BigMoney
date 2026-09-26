@@ -347,7 +347,17 @@ def _claim_shard(sh, myid):
     git add+commit+push. Push lost after commit -> keep local commit
     (session S0 rebase reconciles), return False (yield this cycle, next
     tick re-claims own fresh claim and retries push). Pre-commit fault ->
-    restore pre-claim bytes, return False. True = claimed, caller fires."""
+    restore pre-claim bytes, return False. True = claimed, caller fires.
+
+    r282 fill-starvation law: a push rejected because origin moved
+    (multi-machine round traffic) gets ONE pull --rebase + push-retry
+    before yielding (S7 discipline ported to the tick). Live case:
+    00:30/00:40/00:50 revosc claims all lost to push-reject while py sat
+    at 0-4% -- fill latency 29.1min vs O-2100 10min target; at 00:30 the
+    tree was clean and the recovery rebase would have landed the claim
+    20min earlier. Fail-safe: dirty tree (session in flight) or rebase
+    conflict -> abort + yield, session S0 reconciles (r268 stash law:
+    no stash games from the tick)."""
     prev = None
     committed = False
     try:
@@ -384,10 +394,27 @@ def _claim_shard(sh, myid):
                       f"(r199 launch-claim) [via {myid}]"),
                      ("push",)):
             rc, err = _git(args)
-            if rc != 0:
-                if args[0] == "push":
-                    committed = True     # commit landed, push lost
+            if rc == 0:
+                continue
+            if args[0] != "push":
                 raise RuntimeError(err)
+            # r282: push rejected -> one rebase-retry before yielding.
+            committed = True     # commit landed, push lost so far
+            rc2, err2 = _git(("pull", "--rebase"))
+            if rc2 == 0:
+                rc3, err3 = _git(("push",))
+                if rc3 == 0:
+                    _log(f"claim OK: {sh.get('key')} owner={myid} "
+                         f"pushed (rebase-retry r282)")
+                    return True
+                err = err3
+            else:
+                # blocked (dirty tree) or conflicted -> restore, keep
+                # the local claim commit for session S0 reconciliation
+                _git(("rebase", "--abort"))
+                _log(f"claim rebase-retry refused/failed "
+                     f"({err2.strip()[-100:]}) -> yield keeps claim commit")
+            raise RuntimeError(err)
         _log(f"claim OK: {sh.get('key')} owner={myid} pushed")
         return True
     except Exception as ex:
@@ -771,9 +798,13 @@ def selftest():
         _git_real = _git
         git_seq = []
         fail_at = {"stage": None}
+        fail_next = {"q": []}     # r282: ordered one-shot stage faults
 
         def _fake_git(args):
             git_seq.append(args[0])
+            if fail_next["q"] and fail_next["q"][0] == args[0]:
+                fail_next["q"].pop(0)
+                return 1, "fake git fault (queued)"
             if fail_at["stage"] == args[0]:
                 return 1, "fake git fault"
             return 0, ""
@@ -815,8 +846,8 @@ def selftest():
         fail_at["stage"] = None
         ok("S15d git add fault -> yield + pool restored (owner None)",
            r15d is False and p15d.get("owner") is None)
-        # S15e push lost AFTER commit -> yield but claim bytes kept
-        # (local commit reconciled by session S0 rebase; next tick retries)
+        # S15e push lost AFTER commit (recovery exhausted) -> yield but
+        # claim bytes kept (local commit reconciled by session S0 rebase)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_at["stage"] = "push"
         r15e = _claim_shard({"key": "s0"}, "bm-b")
@@ -824,6 +855,38 @@ def selftest():
         fail_at["stage"] = None
         ok("S15e push lost post-commit -> yield, claim kept on disk",
            r15e is False and p15e.get("owner") == "bm-b")
+        # S15f r282 rebase-retry recovery: push rejected once (origin
+        # moved), pull --rebase clean-tree ok, push retry ok -> claim
+        # True (live case: 00:30 revosc claim lost to a clean-tree push
+        # reject, 20min of avoidable fill starvation).
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_next["q"] = ["push"]
+        git_seq.clear()
+        r15f = _claim_shard({"key": "s0"}, "bm-b")
+        fail_next["q"] = []
+        ok("S15f push reject -> rebase-retry -> claimed",
+           r15f is True and git_seq == ["add", "commit", "push",
+                                         "pull", "push"])
+        # S15g r282 fail-safe: rebase blocked (dirty tree) or conflicted
+        # -> abort + yield, claim bytes kept for session reconciliation
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_next["q"] = ["push", "pull"]
+        git_seq.clear()
+        r15g = _claim_shard({"key": "s0"}, "bm-b")
+        p15g = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        fail_next["q"] = []
+        ok("S15g rebase refused -> abort + yield, claim kept",
+           r15g is False and p15g.get("owner") == "bm-b"
+           and git_seq[-1] == "rebase")
+        # S15h r282 recovery exhausted: rebase ok but push retry still
+        # rejected -> yield, claim bytes kept
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_next["q"] = ["push", "push"]
+        r15h = _claim_shard({"key": "s0"}, "bm-b")
+        p15h = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        fail_next["q"] = []
+        ok("S15h push retry lost -> yield, claim kept",
+           r15h is False and p15h.get("owner") == "bm-b")
         # S16 O-0947 crash-loop fuse: confirm pass -- own dead launch with
         # shard still un-landed past the confirm window counts ONCE into
         # the shared registry with its launch-time code hash; landed /
