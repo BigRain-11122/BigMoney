@@ -1,0 +1,341 @@
+{
+ "evidence_cutoff": "2026-09-24",
+ "batch": "CNY_WINDOW_P1",
+ "arms": {
+  "PRE-5": {
+   "name": "PRE-5",
+   "full": {
+    "annual_return": -0.0028,
+    "sharpe": -0.1137,
+    "max_drawdown": -0.0601,
+    "num_trades": 46
+   },
+   "oos": {
+    "sharpe": -1.017,
+    "annual_return": -0.0085,
+    "max_drawdown": -0.0159
+   },
+   "n_entries": 46
+  },
+  "POST-5": {
+   "name": "POST-5",
+   "full": {
+    "annual_return": -0.0014,
+    "sharpe": -0.0751,
+    "max_drawdown": -0.0645,
+    "num_trades": 44
+   },
+   "oos": {
+    "sharpe": 0.4379,
+    "annual_return": 0.0055,
+    "max_drawdown": -0.0134
+   },
+   "n_entries": 44
+  },
+  "PREPOST": {
+   "name": "PREPOST",
+   "full": {
+    "annual_return": -0.0019,
+    "sharpe": -0.0532,
+    "max_drawdown": -0.0618,
+    "num_trades": 76
+   },
+   "oos": {
+    "sharpe": -0.1681,
+    "annual_return": -0.0028,
+    "max_drawdown": -0.0214
+   },
+   "n_entries": 76
+  }
+ },
+ "null_family": {
+  "k": 20,
+  "seed_base": "cny_window_p1=68000",
+  "full_sharpes": [
+   -0.2606,
+   0.2379,
+   0.0209,
+   -0.4146,
+   0.8955,
+   -0.1138,
+   -0.2416,
+   0.5486,
+   0.2036,
+   -0.3685,
+   0.5822,
+   0.0887,
+   0.33,
+   -0.1129,
+   -0.1455,
+   0.1886,
+   -0.3603,
+   -0.5395,
+   -0.4327,
+   -0.7593
+  ],
+  "mean": -0.0327,
+  "sd": 0.4085,
+  "p95": 0.5979
+ },
+ "cost_stress": {
+  "PRE-5_x2": {
+   "full": {
+    "annual_return": -0.0043,
+    "sharpe": -0.1779,
+    "max_drawdown": -0.0614,
+    "num_trades": 46
+   },
+   "oos": {
+    "sharpe": -1.1517,
+    "annual_return": -0.0101,
+    "max_drawdown": -0.018
+   },
+   "n_entries": 46,
+   "survive_x2_clause": false
+  },
+  "PRE-5_x3": {
+   "full": {
+    "annual_return": -0.0058,
+    "sharpe": -0.2413,
+    "max_drawdown": -0.0627,
+    "num_trades": 46
+   },
+   "oos": {
+    "sharpe": -1.2619,
+    "annual_return": -0.0117,
+    "max_drawdown": -0.0201
+   },
+   "n_entries": 46,
+   "survive_x2_clause": false
+  },
+  "POST-5_x2": {
+   "full": {
+    "annual_return": -0.0029,
+    "sharpe": -0.1649,
+    "max_drawdown": -0.0686,
+    "num_trades": 44
+   },
+   "oos": {
+    "sharpe": 0.3056,
+    "annual_return": 0.0037,
+    "max_drawdown": -0.0142
+   },
+   "n_entries": 44,
+   "survive_x2_clause": false
+  },
+  "POST-5_x3": {
+   "full": {
+    "annual_return": -0.0044,
+    "sharpe": -0.2538,
+    "max_drawdown": -0.0727,
+    "num_trades": 44
+   },
+   "oos": {
+    "sharpe": 0.1664,
+    "annual_return": 0.002,
+    "max_drawdown": -0.015
+   },
+   "n_entries": 44,
+   "survive_x2_clause": false
+  },
+  "PREPOST_x2": {
+   "full": {
+    "annual_return": -0.0042,
+    "sharpe": -0.1349,
+    "max_drawdown": -0.0679,
+    "num_trades": 76
+   },
+   "oos": {
+    "sharpe": -0.3011,
+    "annual_return": -0.005,
+    "max_drawdown": -0.0237
+   },
+   "n_entries": 76,
+   "survive_x2_clause": false
+  },
+  "PREPOST_x3": {
+   "full": {
+    "annual_return": -0.0066,
+    "sharpe": -0.216,
+    "max_drawdown": -0.0743,
+    "num_trades": 76
+   },
+   "oos": {
+    "sharpe": -0.4262,
+    "annual_return": -0.0073,
+    "max_drawdown": -0.0261
+   },
+   "n_entries": 76,
+   "survive_x2_clause": false
+  }
+ },
+ "g1_prime_v2": {
+  "PRE-5": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.1137,
+   "skill_line": {
+    "n_eff": 184829,
+    "line": 1.1631,
+    "passive_term": 0.4792,
+    "null_term": 1.1631,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429,
+    "pool": "core48",
+    "ledger_head": {
+     "total": 184826,
+     "file": "p1e_synth.json",
+     "note": "factor-ledger accounting: 1 primary + 21 nullA (C(7,2) exhaustive, primary included = same bias same scale) + 50 nullB (K=2 noise, M_close_tr, seeds 67200..67299 own-IS-IC-sign oriented) +0 conditional h5/h20 report columns (V1-gated, snooping discount); delta-idempotent; engine ledger N untouched (zero engine runs)"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -0.7695,
+    "ci95_high": 0.7759,
+    "point": -0.1137,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 46,
+    "n_entries": 46,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "oos_sharpe": -1.017,
+   "oos_dual_positive": false
+  },
+  "POST-5": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.0751,
+   "skill_line": {
+    "n_eff": 184829,
+    "line": 1.1631,
+    "passive_term": 0.4792,
+    "null_term": 1.1631,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429,
+    "pool": "core48",
+    "ledger_head": {
+     "total": 184826,
+     "file": "p1e_synth.json",
+     "note": "factor-ledger accounting: 1 primary + 21 nullA (C(7,2) exhaustive, primary included = same bias same scale) + 50 nullB (K=2 noise, M_close_tr, seeds 67200..67299 own-IS-IC-sign oriented) +0 conditional h5/h20 report columns (V1-gated, snooping discount); delta-idempotent; engine ledger N untouched (zero engine runs)"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -0.8176,
+    "ci95_high": 0.6607,
+    "point": -0.0751,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 44,
+    "n_entries": 44,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "oos_sharpe": 0.4379,
+   "oos_dual_positive": true
+  },
+  "PREPOST": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": -0.0532,
+   "skill_line": {
+    "n_eff": 184829,
+    "line": 1.1631,
+    "passive_term": 0.4792,
+    "null_term": 1.1631,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429,
+    "pool": "core48",
+    "ledger_head": {
+     "total": 184826,
+     "file": "p1e_synth.json",
+     "note": "factor-ledger accounting: 1 primary + 21 nullA (C(7,2) exhaustive, primary included = same bias same scale) + 50 nullB (K=2 noise, M_close_tr, seeds 67200..67299 own-IS-IC-sign oriented) +0 conditional h5/h20 report columns (V1-gated, snooping discount); delta-idempotent; engine ledger N untouched (zero engine runs)"
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -0.7556,
+    "ci95_high": 0.8105,
+    "point": -0.0532,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 76,
+    "n_entries": 76,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   },
+   "oos_sharpe": -0.1681,
+   "oos_dual_positive": false
+  }
+ },
+ "dsr": {
+  "PRE-5": {
+   "dsr": 0.011838,
+   "sr_annualized": -0.1137,
+   "sr_star": 0.046693,
+   "sigma_sr": 0.023804,
+   "n_trials": 23,
+   "T": 1632,
+   "skew": -11.3362,
+   "kurtosis": 420.6377
+  },
+  "POST-5": {
+   "dsr": 0.015691,
+   "sr_annualized": -0.0751,
+   "sr_star": 0.048685,
+   "sigma_sr": 0.02482,
+   "n_trials": 23,
+   "T": 1632,
+   "skew": 0.8124,
+   "kurtosis": 159.0412
+  },
+  "PREPOST": {
+   "dsr": 0.017955,
+   "sr_annualized": -0.0532,
+   "sr_star": 0.048151,
+   "sigma_sr": 0.024548,
+   "n_trials": 23,
+   "T": 1632,
+   "skew": -5.2894,
+   "kurtosis": 193.023
+  }
+ },
+ "g2_registration_v2": {
+  "gate": "g2_registration_v2",
+  "note": "not evaluated -- G1' gate first (missing inputs refused honestly)"
+ },
+ "n_trials": 23,
+ "events_consumed": 7,
+ "ledger": {
+  "prev_total": 184826,
+  "batch_trials": 23,
+  "total": 184849,
+  "batch": "CNY_WINDOW_P1",
+  "file": "cny_window_p1.json",
+  "note": "zoo sec.8 #38 evidence-upgrade; 3 arms + 20 same-mask nulls",
+  "evidence_cutoff": "2026-09-24"
+ }
+}
