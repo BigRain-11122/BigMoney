@@ -27,10 +27,55 @@ from config import PATHS  # noqa: E402
 BPE_PROXY = 3.5          # bytes/token rough proxy for mixed CN/EN text
 OUT_PATH = os.path.join(PATHS.results_dir, "token_usage.json")
 LOOP_DIR = os.path.join(PATHS.root, "logs", "iteration-loop")
+L2_USAGE_PATH = os.path.join(PATHS.results_dir, "llm2_usage.jsonl")
+FUSE_PATH = os.path.join(PATHS.results_dir, "crash_fuse.json")
+TODAY = time.strftime("%Y-%m-%d")
 
 
 def _tokens(nbytes: int) -> int:
     return int(nbytes / BPE_PROXY)
+
+
+def _l2_block():
+    """O-20260926-0947 slice-3: L2 local-LLM consumption ledger (legs by
+    cmd, est-tokens, today vs total) -- the L2-share measurement face;
+    plus slice-2 crash-fuse refusal counters (saved API rounds)."""
+    legs_total, legs_today, tok_total, tok_today, by_cmd = 0, 0, 0, 0, {}
+    if os.path.exists(L2_USAGE_PATH):
+        try:
+            with open(L2_USAGE_PATH, encoding="utf-8") as fh:
+                for line in fh:
+                    try:
+                        rec = json.loads(line)
+                    except ValueError:
+                        continue
+                    legs_total += 1
+                    tok_total += int(rec.get("tokens_est", 0))
+                    by_cmd[rec.get("cmd", "?")] = \
+                        by_cmd.get(rec.get("cmd", "?"), 0) + 1
+                    if str(rec.get("ts", "")).startswith(TODAY):
+                        legs_today += 1
+                        tok_today += int(rec.get("tokens_est", 0))
+        except OSError:
+            pass
+    fuse_refusals, fuse_sigs = 0, 0
+    if os.path.exists(FUSE_PATH):
+        try:
+            with open(FUSE_PATH, encoding="utf-8") as fh:
+                for reg in json.load(fh).get("sigs", {}).values():
+                    fuse_sigs += 1
+                    fuse_refusals += int(reg.get("refusals", 0))
+        except (OSError, ValueError):
+            pass
+    return {"legs_total": legs_total, "legs_today": legs_today,
+            "tokens_est_total": tok_total, "tokens_est_today": tok_today,
+            "by_cmd": by_cmd,
+            "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 "
+                    "proxy; L3 cloud legs carry api_reason lines in round "
+                    "reports (per-use trail, not aggregated here)",
+            "crash_fuse": {"sigs": fuse_sigs, "refusals": fuse_refusals,
+                           "note": "O-0947 slice-2: same-version crash "
+                                   "relaunch refusals (API rounds saved)"}}
 
 
 def _fsize(path: str) -> int:
@@ -88,12 +133,13 @@ def main() -> int:
 
     out = {
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
-        "order": "O-20260923-2325",
+        "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
         "method": {"bpe_proxy": BPE_PROXY, "disclosure":
                    "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as "
                    "exact; exactness upgrade path = future CLI usage API"},
         "per_round_context": per_round_context,
         "machines": machines,
+        "l2_local_llm": _l2_block(),
         "total_state_tokens_est": sum(
             m["state_tokens_est"] for m in machines.values()),
         "total_report_tokens_est": sum(
@@ -122,12 +168,17 @@ def main() -> int:
 
     with open(OUT_PATH, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2, ensure_ascii=False)
+    l2 = out["l2_local_llm"]
     print(f"saved: {OUT_PATH}")
     print(f"per-round fixed context ~ {per_round_context['mandate_read_tokens_est']}"
           f" + {per_round_context['codely_read_tokens_est']} tokens (rough); "
           f"ledger cumulative ~ {out['total_state_tokens_est']} state + "
           f"{out['total_report_tokens_est']} report tokens; "
           f"delta={None if delta is None else delta['state_tokens_growth']}")
+    print(f"L2 local-LLM legs: {l2['legs_today']} today / "
+          f"{l2['legs_total']} total (~{l2['tokens_est_today']} tokens "
+          f"today, by_cmd={l2['by_cmd']}); crash-fuse refusals="
+          f"{l2['crash_fuse']['refusals']} across {l2['crash_fuse']['sigs']} sigs")
     return 0
 
 

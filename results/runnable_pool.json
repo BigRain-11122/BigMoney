@@ -1403,8 +1403,37 @@
     "workers": 1,
     "priority": "BelowNormal",
     "note": "single-process vectorized (O-20260923-1738); RAM peak ~5GB (7 z panels 367MB each + close/fwd10/masks); autofill sets BelowNormal on launch; lane bm-b only (machine-local p1c_stock cache + turnover sidecar, r188 lane-pin)"
-   }
-  }
- ],
- "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates)"
+      }
+     },
+    {
+     "id": "GPU-FACTOR-LANE-PROOF",
+     "ticket_ref": "T-2026-09-26-77 slice-4 (CEO order O-20260926-0947 s3 GPU line; claimed bm-b r238)",
+     "prereg_ref": "ENGINEERING LANE, zero science: no gates / no ledger append / no registration (proof.json = infrastructure artifact only); class authority = PLAN.md s1.3 GPU-delegated (>100-factor batch z-score/IC matrices); any downstream science consumption requires its own prereg",
+     "runner": "scripts/gpu_factor_matrix.py",
+     "runner_args": [
+      "run"
+     ],
+     "lane_owner": "bm-a",
+     "priority": 5,
+     "status": "waiting",
+     "entered_at": "2026-09-26 09:52:00",
+     "data_gates": "in-runner fail-closed: torch+CUDA absence -> exit 2 (bm-b verified torch-absent 2026-09-26 09:45, honest physical-dep); per-face equivalence vs shortline_p1_ic._ic_series_fast <=1e-6 with exact NaN-day pattern match + z-score spot <=1e-6, any fail = exit 2 zero artifacts; P1E census cache prerequisite (p1c CACHE_DIR meta/dates/field panels + turnover_derived sidecar, r188 machine-local lane-pin face) -- bm-a MUST build cache + pass selftest (torch leg PASS there) BEFORE flipping ready",
+     "shards": [
+      {
+       "key": "gpu-proof-0of1",
+       "status": "ready",
+       "owner": null,
+       "checkpoint": "results/gpu_factor_lane/proof.json (exists + equiv all pass = landed marker); harvest round flips entry+shard done",
+       "note": "first batch = 7 frozen P1E faces x 3 horizons = 21 equivalence faces + batched masked z-score product; single-proc orchestrator, GPU-batched (K,T,N) tensors; est minutes-class on 4070S; selftest 6 legs green bm-b r238 (torch core leg honest SKIP there, L4 refusal contract PASS)"
+      }
+     ],
+     "workers_plan": {
+      "workers": 1,
+      "priority": "BelowNormal",
+      "note": "GPU class per PLAN s1.3: parallelism lives on device (batched (K,T,N) torch tensors), CPU orchestrator single-proc by design -- O-2130 single-core-burn law does not apply to device-resident batches; autofill BelowNormal on launch"
+     },
+     "note_waiting_flip": "flip condition (bm-a-side, physical dep per T-77 slice-4): (1) python -c 'import torch; assert torch.cuda.is_available()' green on bm-a-box; (2) python scripts/gpu_factor_matrix.py selftest ALL PASS with torch legs exercised; (3) P1E census cache present/built; then status->ready, autofill launches (lane_owner=bm-a only)"
+    }
+   ],
+   "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
 }

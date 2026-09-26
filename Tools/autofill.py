@@ -27,6 +27,14 @@ Contract:
   * Corrupt-state refusal (r201): an EXISTING autofill_state.json that
     fails to parse aborts the tick (exit 2) instead of silently saving
     a fresh {"launches": []} over it.
+  * Crash-loop token fuse (O-20260926-0947 s2, T-77 slice-2): a runner
+    that died without landing its shard (own launch record, runner not
+    alive, shard still not done past FUSE_CONFIRM_MIN) is CONFIRMED into
+    results/crash_fuse.json keyed by runner+args+launch-time code hash;
+    relaunch of the SAME hash is REFUSED (fix-first -- each crash-relaunch
+    cycle burns loop-session API tokens, r175/r198 families). Editing the
+    runner (hash change) auto-clears the fuse; refusals are counted and
+    visible. Corrupt existing fuse file = refuse-wipe abort (r201 law).
   * Silent law: logs to logs/autofill.log only.
 
 Exit codes: 0 = normal (incl. honest no-op), 2 = mechanism fault
@@ -44,6 +52,7 @@ from datetime import datetime, timedelta
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POOL = os.path.join(ROOT, "results", "runnable_pool.json")
 STATE = os.path.join(ROOT, "results", "autofill_state.json")
+FUSE = os.path.join(ROOT, "results", "crash_fuse.json")
 LOG = os.path.join(ROOT, "logs", "autofill.log")
 MACHINES = os.path.join(ROOT, "fleet", "machines")
 MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json")
@@ -53,6 +62,9 @@ LOW_PY_LINE = 70.0        # O-1136: py CPU < 70% of machine capacity
 SAMPLE_S = 2.0            # instantaneous py-CPU sample window
 STALE_MIN = 20.0          # O-2100 s2.4: shard-owner heartbeat staleness
 FILL_TARGET_MIN = 10.0    # O-2100 s2.2 hard target
+FUSE_CONFIRM_MIN = 25.0   # O-0947: crash confirm window -- > one flip
+                          # window (r224 landed->flip lag) + margin, so a
+                          # SUCCESSFUL-but-unflipped run is never counted
 DETACHED = (0x00000008 | 0x00000200)   # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
 
 
@@ -182,6 +194,100 @@ def _save_state(s):
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(s, fh, ensure_ascii=False, indent=1)
     os.replace(tmp, STATE)
+
+
+class _CorruptFuse(Exception):
+    """Existing crash_fuse.json fails to parse (r201 law: refuse, no wipe)."""
+
+
+def _load_fuse():
+    if os.path.exists(FUSE):
+        try:
+            with open(FUSE, encoding="utf-8") as fh:
+                return json.load(fh)
+        except Exception as ex:
+            raise _CorruptFuse(str(ex))
+    return {"sigs": {}}
+
+
+def _save_fuse(f):
+    tmp = FUSE + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(f, fh, ensure_ascii=False, indent=1)
+    os.replace(tmp, FUSE)
+
+
+def _sha16(path):
+    """Launch-time code version stamp: sha256[:16] of the runner file
+    bytes (None if absent). Same hash after a crash = same version =
+    fix-first refusal; any edit auto-clears the fuse."""
+    import hashlib
+    try:
+        with open(path, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest()[:16]
+    except OSError:
+        return None
+
+
+def _sig(e):
+    """Crash-fuse signature: runner + args (ticket wording: same
+    runner+args+version)."""
+    return (e.get("runner", "") + "|"
+            + ",".join(str(a) for a in e.get("runner_args", [])))
+
+
+def _confirm_crashes(state, pool, myid, fuse):
+    """O-0947 slice-2: confirm own-machine launches whose runner died
+    without landing (shard still not done past FUSE_CONFIRM_MIN) into
+    the shared fuse registry. Only the launching machine can verify its
+    own runner liveness, so confirmation is per-machine; the registry
+    itself is shared (all machines respect it at the launch gate).
+    Returns True if the registry changed (caller saves)."""
+    dirty = False
+    sigs = fuse.setdefault("sigs", {})
+    for rec in state.get("launches", []):
+        if (rec.get("machine") != myid
+                or rec.get("verdict") != "launched"
+                or rec.get("crash_counted")):
+            continue
+        ent = shard = None
+        for en in pool.get("entries", []):
+            if en.get("id") == rec.get("entry"):
+                ent = en
+                for s in en.get("shards", []):
+                    if s.get("key") == rec.get("shard"):
+                        shard = s
+                        break
+                break
+        if ent is None:
+            continue                      # entry retired -> nothing to do
+        if shard is None or shard.get("status") == "done":
+            rec["crash_counted"] = True   # landed -> never a crash
+            continue
+        try:
+            age = (datetime.now() - datetime.strptime(
+                rec["ts"], "%Y-%m-%d %H:%M:%S")).total_seconds() / 60.0
+        except Exception:
+            continue
+        if age < FUSE_CONFIRM_MIN or _runner_alive(ent.get("runner", "")):
+            continue
+        sig = _sig(ent)
+        reg = sigs.get(sig)
+        if reg is None:
+            reg = {"count": 0, "refusals": 0}
+            sigs[sig] = reg
+        reg.update({"code_sha256": rec.get("runner_sha256"),
+                    "count": int(reg.get("count", 0)) + 1,
+                    "last_crash_ts": _now(),
+                    "entry": rec.get("entry"), "shard": rec.get("shard"),
+                    "machine": myid})
+        rec["crash_counted"] = True
+        dirty = True
+        _log(f"crash-fuse CONFIRM {sig} count={reg['count']} "
+             f"(entry {rec.get('entry')} shard {rec.get('shard')} "
+             f"launched {rec.get('ts')}: runner dead + shard not landed) "
+             f"-- same-version relaunch refused (O-0947 fix-first)")
+    return dirty
 
 
 def _pick(pool, myid):
@@ -328,6 +434,14 @@ def tick(dry=False):
     except Exception as ex:
         _log(f"tick ABORT pool unreadable: {ex}")
         return 2
+    try:
+        fuse = _load_fuse()
+    except _CorruptFuse as ex:
+        _log(f"tick ABORT corrupt crash_fuse (refuse wipe, r201 law): {ex}")
+        print(f"ABORT corrupt crash_fuse.json: {ex}")
+        return 2
+    if _confirm_crashes(state, pool, rec["machine"], fuse):
+        _save_fuse(fuse)
     e, sh = _pick(pool, rec["machine"])
     if not e:
         rec["verdict"] = "pool_empty_or_busy"
@@ -335,6 +449,33 @@ def tick(dry=False):
         _save_state(state)
         _log(f"tick py={py}% pool has no takeable shard -> no-op")
         return 0
+    # O-0947 crash-loop token fuse: same runner+args+code-hash that has
+    # a confirmed crash -> REFUSE relaunch (fix-first; each crash-retry
+    # cycle burns loop-session API tokens, r175/r198 families). A code
+    # edit (hash change) auto-clears -- the fix IS the unflag.
+    cur = _sha16(os.path.join(ROOT, e["runner"]))
+    sig = _sig(e)
+    reg = fuse.get("sigs", {}).get(sig)
+    if reg and reg.get("code_sha256") == cur:
+        reg["refusals"] = int(reg.get("refusals", 0)) + 1
+        reg["last_refusal_ts"] = _now()
+        _save_fuse(fuse)
+        rec.update({"verdict": "fuse_refused_crash_loop", "entry": e["id"],
+                    "shard": sh.get("key"), "fuse_crashes":
+                    reg.get("count"), "fuse_refusals": reg["refusals"]})
+        state["last_tick"] = rec
+        _save_state(state)
+        _log(f"crash-fuse REFUSE relaunch {e['id']}/{sh.get('key')} "
+             f"sig={sig} crashes={reg.get('count')} "
+             f"refusals={reg['refusals']} (O-0947 fix-first: edit runner "
+             f"to clear)")
+        print(json.dumps(rec, ensure_ascii=False))
+        return 0
+    if reg:
+        del fuse["sigs"][sig]
+        _save_fuse(fuse)
+        _log(f"crash-fuse CLEARED {sig}: code changed since crash "
+             f"(fix detected) -> launch allowed")
     cmd = [sys.executable, os.path.join(ROOT, e["runner"])] + \
         list(e.get("runner_args", []))
     try:
@@ -374,6 +515,7 @@ def tick(dry=False):
         pass
     rec.update({"verdict": "launched", "entry": e["id"],
                 "shard": sh.get("key"), "pid": p.pid,
+                "runner_sha256": cur,
                 "fill_latency_min": latency,
                 "target_met": (latency is None
                                or latency <= FILL_TARGET_MIN)})
@@ -399,7 +541,7 @@ def status():
 
 def selftest():
     import tempfile
-    global POOL, STATE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, _runner_alive
+    global POOL, STATE, FUSE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, _runner_alive
     ok_all = True
 
     def ok(name, cond):
@@ -411,6 +553,7 @@ def selftest():
     with tempfile.TemporaryDirectory() as tmp:
         POOL = os.path.join(tmp, "runnable_pool.json")
         STATE = os.path.join(tmp, "autofill_state.json")
+        FUSE = os.path.join(tmp, "crash_fuse.json")
         LOG = os.path.join(tmp, "autofill.log")
         MACHINES = os.path.join(tmp, "machines")
         os.makedirs(MACHINES)
@@ -647,6 +790,78 @@ def selftest():
         fail_at["stage"] = None
         ok("S15e push lost post-commit -> yield, claim kept on disk",
            r15e is False and p15e.get("owner") == "bm-b")
+        # S16 O-0947 crash-loop fuse: confirm pass -- own dead launch with
+        # shard still un-landed past the confirm window counts ONCE into
+        # the shared registry with its launch-time code hash; landed /
+        # fresh / other-machine records never count (r224 flip-window
+        # false-positive guard = FUSE_CONFIRM_MIN > one tick).
+        st16 = {"launches": [
+            {"ts": (datetime.now() - timedelta(minutes=30)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"},
+            {"ts": (datetime.now() - timedelta(minutes=30)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s1",
+             "runner_sha256": "abc123"},
+            {"ts": (datetime.now() - timedelta(minutes=3)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"},
+            {"ts": (datetime.now() - timedelta(minutes=30)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-z",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"}]}
+        pool16 = {"entries": [dict(entry, shards=[
+            {"key": "s0", "status": "ready", "owner": None},
+            {"key": "s1", "status": "done", "owner": None}])]}
+        fu16 = {"sigs": {}}
+        d16 = _confirm_crashes(st16, pool16, "bm-b", fu16)
+        reg16 = fu16["sigs"].get("scripts/fake_runner.py|run")
+        ok("S16 crash confirm: dead+unlanded counted once; landed marked; "
+           "fresh/other-machine skipped",
+           d16 and reg16 and reg16["count"] == 1
+           and reg16["code_sha256"] == "abc123"
+           and st16["launches"][0]["crash_counted"]
+           and st16["launches"][1]["crash_counted"]
+           and not st16["launches"][2].get("crash_counted")
+           and not st16["launches"][3].get("crash_counted"))
+        # S16b launch gate: same runner+args+version (hash) with a
+        # confirmed crash -> relaunch REFUSED, refusal counter visible.
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump(pool16, fh)
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {"scripts/fake_runner.py|run": {
+                "code_sha256": None, "count": 1, "refusals": 0}}}, fh)
+        rc = tick(dry=True)
+        st16b = _load_state()["last_tick"]
+        fu16b = json.load(open(FUSE, encoding="utf-8"))
+        ok("S16b same-version relaunch REFUSED (counter visible)",
+           rc == 0 and st16b["verdict"] == "fuse_refused_crash_loop"
+           and st16b.get("fuse_refusals") == 1
+           and fu16b["sigs"]["scripts/fake_runner.py|run"]["refusals"] == 1)
+        # S16c fix-first auto-clear: code hash differs from the crash
+        # record -> fuse cleared, launch proceeds (the fix IS the unflag).
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {"scripts/fake_runner.py|run": {
+                "code_sha256": "deadbeef0000", "count": 1,
+                "refusals": 2}}}, fh)
+        rc = tick(dry=True)
+        st16c = _load_state()["last_tick"]
+        fu16c = json.load(open(FUSE, encoding="utf-8"))
+        ok("S16c code-change fix -> fuse auto-cleared, launch proceeds",
+           rc == 0 and st16c["verdict"] == "dry_launch"
+           and "scripts/fake_runner.py|run" not in fu16c["sigs"])
+        # S16d corrupt existing fuse file -> refuse-wipe abort (r201 law
+        # mirrored for the new shared state file).
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            fh.write('{"sigs": {}\n<<<<<<< ours\n}')
+        before16d = open(FUSE, "rb").read()
+        rc = tick(dry=True)
+        after16d = open(FUSE, "rb").read()
+        ok("S16d corrupt fuse -> exit 2 + no wipe",
+           rc == 2 and before16d == after16d)
+        os.remove(FUSE)
         _git = _git_real
         _py_cpu_pct = orig
     # S7 sampler sanity on the real machine (pure read)

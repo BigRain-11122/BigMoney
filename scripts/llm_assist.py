@@ -103,9 +103,58 @@ def check_serve():
     return True, MODEL in names, names
 
 
-def chat(messages, temperature=0.4, num_predict=900):
+# --- L2 consumption ledger (O-20260926-0947 slice-3: every routine-doc
+# leg routed to the local LLM is accounted leg-by-leg so token_meter can
+# report the L2 share; est by the same bytes/3.5 proxy, honest rough).
+USAGE_PATH = os.path.join(PATHS.results_dir, "llm2_usage.jsonl")
+USAGE_KEEP = 500          # compact to last N legs (append-only + compaction)
+BPE_PROXY = 3.5
+
+
+def _machine_id():
+    try:
+        with open(os.path.join(PATHS.root, "fleet", "machine.json"),
+                  encoding="utf-8") as fh:
+            return json.load(fh).get("machine_id", "")
+    except Exception:
+        return ""
+
+
+def _log_usage(cmd, prompt_bytes, response_bytes, out_path=None):
+    """One ledger line per SUCCESSFUL L2 leg (skip/fail legs burn zero)."""
+    try:
+        rec = {"ts": dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+               "machine": _machine_id(), "cmd": cmd, "model": MODEL,
+               "prompt_bytes": int(prompt_bytes),
+               "response_bytes": int(response_bytes),
+               "tokens_est": int((prompt_bytes + response_bytes)
+                                  / BPE_PROXY)}
+        if out_path:
+            rec["out_path"] = out_path
+        os.makedirs(os.path.dirname(USAGE_PATH), exist_ok=True)
+        with open(USAGE_PATH, "a", encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+        # compaction (r225-family: shared append files must not grow
+        # unbounded; keep-last rewrite is deterministic)
+        try:
+            with open(USAGE_PATH, encoding="utf-8") as f:
+                lines = f.readlines()
+            if len(lines) > USAGE_KEEP:
+                tmp = USAGE_PATH + ".tmp"
+                with open(tmp, "w", encoding="utf-8", newline="\n") as f:
+                    f.writelines(lines[-USAGE_KEEP:])
+                os.replace(tmp, USAGE_PATH)
+        except OSError:
+            pass
+    except OSError:
+        pass               # ledger failure must never fail the leg itself
+
+
+def chat(messages, temperature=0.4, num_predict=900, usage_cmd=None):
     """One round-trip generation. Raises RuntimeError on API/model errors
-    (HTTP body surfaced -- API errors must never read as 'unreachable')."""
+    (HTTP body surfaced -- API errors must never read as 'unreachable').
+    usage_cmd: when set, a successful generation is ledgered as one L2
+    consumption leg (O-0947 slice-3)."""
     try:
         data = _post("/api/chat", {
             "model": MODEL,
@@ -124,6 +173,11 @@ def chat(messages, temperature=0.4, num_predict=900):
     content = (data.get("message") or {}).get("content")
     if not content:
         raise RuntimeError(f"empty generation: {json.dumps(data)[:200]}")
+    if usage_cmd:
+        _log_usage(usage_cmd,
+                   len(json.dumps(messages, ensure_ascii=False)
+                       .encode("utf-8")),
+                   len(content.encode("utf-8")))
     return content.strip()
 
 
@@ -175,7 +229,7 @@ def cmd_selftest():
         return 1
     reply = chat([{"role": "user",
                    "content": "自检：只回复四个字：自检通过"}],
-                 temperature=0.0, num_predict=12)
+                 temperature=0.0, num_predict=12, usage_cmd="selftest")
     guard = _research_path("auto", "guardtest.md")
     ok = guard.startswith(RESEARCH_DIR + os.sep)
     try:
@@ -190,7 +244,8 @@ def cmd_selftest():
 
 def cmd_ask(question):
     answer = chat([{"role": "system", "content": SYSTEM_PROMPT},
-                   {"role": "user", "content": question}], temperature=0.5)
+                   {"role": "user", "content": question}],
+                  temperature=0.5, usage_cmd="ask")
     print(answer)
     return 0
 
@@ -208,7 +263,8 @@ def cmd_review(target):
         f"\n\n文件：{os.path.basename(target)}\n```python\n{code}\n```"
     )
     body = chat([{"role": "system", "content": SYSTEM_PROMPT},
-                 {"role": "user", "content": prompt}], temperature=0.3)
+                 {"role": "user", "content": prompt}], temperature=0.3,
+                usage_cmd="review")
     stem = os.path.splitext(os.path.basename(target))[0]
     out = _research_path("auto", f"review-{stem}-{dt.date.today():%Y%m%d}.md")
     _write(out, _stamp(f"代码审查：{os.path.basename(target)}",
@@ -225,7 +281,8 @@ def cmd_retro():
         "标注优先级）。材料：\n\n" + ctx
     )
     body = chat([{"role": "system", "content": SYSTEM_PROMPT},
-                 {"role": "user", "content": prompt}], temperature=0.3)
+                 {"role": "user", "content": prompt}], temperature=0.3,
+                usage_cmd="retro")
     out = _research_path("auto", f"retro-{dt.date.today():%Y%m%d}.md")
     _write(out, _stamp(f"自动复盘 {dt.date.today().isoformat()}", body))
     print(f"[retro] saved {out}\n\n{body}")
@@ -240,7 +297,8 @@ def cmd_ideas(topic):
         "必须先过有效性门才许扫参数。"
     )
     body = chat([{"role": "system", "content": SYSTEM_PROMPT},
-                 {"role": "user", "content": prompt}], temperature=0.8)
+                 {"role": "user", "content": prompt}], temperature=0.8,
+                usage_cmd="ideas")
     section = _stamp(f"idea：{topic}", body)
     if os.path.exists(IDEAS_PATH):
         with open(IDEAS_PATH, encoding="utf-8") as f:
