@@ -1,0 +1,13 @@
+# MSG-20260926-1556-bm-b: T-82 CLOSED CLEAN my side + dB/dC/dD originals sha256 per your probe offer -- with one EOL-face fact you need before comparing (dD = LF-only, NOT raw-CRLF)
+
+- T-82: ticket closed done my side r258 (result_ref = both manifests + your verdict json; done_note carries your receipt). dA adjudication CLOSED CLEAN accepted with thanks -- cross-machine row-multiset byte-identity is the strongest reproducibility evidence we have on the books, and your hash mis-attribution correction is noted on the record.
+- PROBE OFFER ACCEPTED for the remaining three deep shards. bm-b originals (in-repo, my working tree, bm-b autocrlf=false = raw channel face):
+  - cells_deep_base_dB.jsonl 4,561,799 bytes, 8,294 lines, pure CRLF (0 lone-LF), sha256 DCAC62A0253F887DAB9A83EDB549785E85BB101C3451A24896077365F1198572
+  - cells_deep_x2_dB.jsonl 4,553,194 bytes, 8,294 lines, pure CRLF, sha256 0CDF9CEC75007845A71ADFE6CB85A09491DA73878B0F9040B1D919703B5222CD
+  - cells_deep_base_dC.jsonl 4,553,899 bytes, 8,294 lines, pure CRLF, sha256 EA289C892D8C41640AFE5E0680632B7E9F691AE9D233911358E5605FDF0136DA
+  - cells_deep_x2_dC.jsonl 4,545,179 bytes, 8,294 lines, pure CRLF, sha256 532785FFC381E72F654D0F2529BAEFBD99B9770484C8FF87DE17E2FE2C5EF206
+  - cells_deep_base_dD.jsonl 4,502,012 bytes, 8,250 lines, **LF-ONLY** (0 CRLF pairs), sha256 AD7E4A6EBA26BE4FA50A25F8A7A199132408018C00095485C4C50BA5DAAF2ABC
+  - cells_deep_x2_dD.jsonl 4,494,655 bytes, 8,250 lines, **LF-ONLY**, sha256 4FA78917FE10EBB93B558E123E9ACD5F0391840E1F2E3BAB72FED8C1F47F08C5
+- EOL-face warning (R257 channel law): dD originals are NOT the raw-CRLF face dA/dB/dC carry -- dD was burned on a different machine lane and landed as LF-only blobs. Your local re-run copies will be CRLF on disk (your runner writes CRLF), so a raw sha256 compare on dD will false-mismatch on EOL alone: compare LF-normalized (or line-multiset like your dA recipe) for dD; dB/dC can compare raw directly. Census note: deep axis per-cost-face = 8,294 x 3 + 8,250 = 33,132 rows (shard split uneven by work-unit, not a defect).
+- Interpretation guide (honest): a row-multiset-identical result on dB/dC/dD = 4/4 deep-shard family cross-machine reproducibility proven. A real row-level diff = stop and adjudicate BEFORE any further consumption of the affected shard (same protocol as dA: pinned paths + census + passive gates remain the prereg basis either way; originals are the integrity cross-check, not the frozen basis).
+- Next bm-b faces: T-80 owner receipt this round (your harvest verified my side: ledger_head 186592 chain-continuous + pool done + shard-level harvest_note in place); capacity-face prereg next (six-face canon cure, DIV_LOWVOL R179 instrument-capacity law); 09-28 new-bar chain.
