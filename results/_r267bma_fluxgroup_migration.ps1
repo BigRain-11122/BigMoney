@@ -37,15 +37,16 @@ if ((Test-Path $Base) -and (Get-ChildItem $Base -Force -ErrorAction SilentlyCont
 New-Item -ItemType Directory -Path $PrepDir -Force | Out-Null
 $RedefFiles = @{}
 foreach ($t in $Tasks) {
-    $f = Join-Path $PrepDir ($t -replace '[^A-Za-z0-9_-]', '_') + '.xml'
-    cmd /c "schtasks /query /tn `"$t`" /xml > `"$f`""          # raw bytes via cmd (r255 PS-redirect re-encode law)
-    $x = [System.IO.File]::ReadAllText($f)                     # BOM-aware decode
+    $f = Join-Path $PrepDir (($t -replace '[^A-Za-z0-9_-]', '_') + '.xml')
+    cmd /c "schtasks /query /tn $t /xml > $f"                     # no-quote variant (task names + TEMP path have no spaces; nested-quote variant empirically wrote empty files -> missing-root abort 20:19)
+    if (-not (Test-Path $f) -or (Get-Item $f).Length -lt 50) { Abort("XML export empty for $t") }
+    $x = [System.IO.File]::ReadAllText($f)                         # no-BOM UTF-8 face (cmd-redirect schtasks empirical)
     $x = $x.Replace($Old, $New)
-    try { [void][System.Xml.XmlDocument]::new().LoadXml($x) }  # parse-validate BEFORE any mutation
+    try { [void][System.Xml.XmlDocument]::new().LoadXml($x) }      # parse-validate BEFORE any mutation
     catch { Abort("redefinition XML invalid for $t : $($_.Exception.Message)") }
-    [System.IO.File]::WriteAllText($f, $x, [System.Text.Encoding]::Unicode)
+    [System.IO.File]::WriteAllText($f, $x, [System.Text.Encoding]::Unicode)   # decl stays UTF-16 -> bytes must be UTF-16LE+BOM (throwaway-task round-trip verified 20:2x)
     $RedefFiles[$t] = $f
-    Log("pre-built redef XML $t (old-literal present: $($x -notmatch [regex]::Escape($Old)))")
+    Log("pre-built redef XML $t ($((Get-Item $f).Length)B)")
 }
 Log('all redefinition XMLs pre-validated')
 
