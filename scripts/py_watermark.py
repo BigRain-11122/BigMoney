@@ -193,15 +193,19 @@ def probe():
         "bars_present": caps["bars_present"],
         "daily_panel": caps["daily_panel"],
     }
-    n_kept = _append_series(SERIES, record, now)
-    samples = _load_series(SERIES, now, span_min=RETENTION_MIN)
     work_cands = (len(ticket_ids) > 0 or bandit_open > 0
                   or samp["local_batch_running"])
+    # post-append trailing-sample view computed pre-write so the verdict is
+    # persisted IN the record (round reports / T-75 daily report consume the
+    # file, not stdout); sample set identical to the old load-after-append view.
+    samples = _load_series(SERIES, now, span_min=RETENTION_MIN)
+    samples.append((float(record["epoch"]), float(record["py_cpu_pct"])))
     verdict, facts = _window_verdict(samples, work_cands)
+    record["verdict"] = verdict
+    record["window"] = facts
+    n_kept = _append_series(SERIES, record, now)
     out = dict(record)
     out["series_kept"] = n_kept
-    out["window"] = facts
-    out["verdict"] = verdict
     print(json.dumps(out, ensure_ascii=False))
     return 0
 

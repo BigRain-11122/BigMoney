@@ -11,5 +11,5 @@
  "ticket_lineage": "none (first issuance; seq verified 75 free at 09:40)",
  "claimed_by": "bm-a (OS iteration loop, round 239; CEO immediate ticket per O-20260926-0932/0940/0947 -- claim-and-start same round per O-1730; C-arm T-70/T-73 batch runs in parallel on separate faces)",
  "claimed_at": "2026-09-26 09:47",
- "progress_r239": "r239: firm/DECISIONS.md canon + scripts/daily_report.py v1 + today first report + selftest; wiring (15:45 scheduled) = next slice"
+ "progress_r239": "r239 delivered: firm/DECISIONS.md canon (4 backfilled entries) + scripts/daily_report.py v1 (selftest PASS: 4 faces + token line; aggregation-only, honest face-state labels) + FIRST REPORT same-day (docs/daily_report/REPORT-2026-09-26.md+json: 6 traders + 27 account families + clock cell + 24h throughput 539 commits/88 result jsons/37 digests + decisions tail + queue 26 + token line) + WIRING: S6 chain leg inserted byte-precise after daily_scorecard (idempotent same-day regen; append-only across days) + py_watermark.py verdict persistence fix (was stdout-only; now in jsonl record; selftest 20/20) so the report reads the verdict from the file. NEXT: first live trading-day cycle (Mon 09-28) 15:45 report verification; T-29/dashboard surfacing citation check."
 }

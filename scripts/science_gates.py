@@ -43,7 +43,13 @@ def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
                                  recursive=True)):
         try:
             with open(path, encoding="utf-8") as fh:
-                tl = json.load(fh).get("trials_ledger")
+                d = json.load(fh)
+            # r239: results/ is a shared surface carrying non-dict top-level JSONs
+            # by design (e.g. local_coding_pilot C-arm metrics.json = list of
+            # per-round dicts). A non-dict file simply is not a ledger file ->
+            # skip, same as unparseable. .get on a list raised AttributeError
+            # and crashed every ledger_head consumer (aggressive_lab S6 leg).
+            tl = d.get("trials_ledger") if isinstance(d, dict) else None
         except (OSError, ValueError, UnicodeDecodeError):
             continue
         if isinstance(tl, dict) and isinstance(tl.get("total"), (int, float)):
@@ -950,6 +956,19 @@ def selftest() -> int:
            and ledger_head()["file"] == "sub_ledger.json")
     finally:
         os.unlink(sub_path)
+        os.rmdir(sub)
+
+    # r239: non-dict top-level JSONs (C-arm metrics.json list form) must be
+    # skipped without crashing the recursive scan (real-form mirror fixture)
+    os.makedirs(sub, exist_ok=True)
+    list_path = os.path.join(sub, "c_arm_metrics.json")
+    try:
+        with open(list_path, "w", encoding="utf-8") as fh:
+            json.dump([{"round": 1, "ok": True}], fh)
+        ok("ledger_head tolerates non-dict JSONs (r239 C-arm list form)",
+           isinstance(ledger_head()["total"], int))
+    finally:
+        os.unlink(list_path)
         os.rmdir(sub)
 
     # T-03 F6: dual-basis trade gate

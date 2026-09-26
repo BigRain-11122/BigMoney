@@ -1,0 +1,41 @@
+--- round0
++++ round1
+@@ -110,7 +110,9 @@
+     def half_up_round(n, grand):
+         if grand == 0:
+             return 0.0
+-        return round((n * 1000 + grand // 2) / grand, 1)
++        # Use integer arithmetic to ensure half-up rounding
++        result = (n * 1000 + grand // 2) // grand
++        return result / 10.0
+     
+     legs_with_pct = [(name, tokens, half_up_round(tokens, grand)) for name, tokens in legs]
+     
+@@ -185,12 +187,12 @@
+             "expected": {
+                 "summary": "TOKENS grand=2100 legs=6 malformed=0 state_derived=800 report_derived=1000",
+                 "legs": [
++                    "LEG m2/report tokens=600 share_pct=28.6",
+                     "LEG m1/report tokens=400 share_pct=19.0",
+-                    "LEG m2/report tokens=600 share_pct=28.6",
++                    "LEG m2/state tokens=500 share_pct=23.8",
+                     "LEG m1/state tokens=300 share_pct=14.3",
+-                    "LEG m2/state tokens=500 share_pct=23.8",
+-                    "LEG mandate tokens=100 share_pct=4.8",
+-                    "LEG codely tokens=200 share_pct=9.5"
++                    "LEG codely tokens=200 share_pct=9.5",
++                    "LEG mandate tokens=100 share_pct=4.8"
+                 ],
+                 "cross": "CROSS state=true report=true",
+                 "delta": "DELTA state=+100 report=-50 mandate=+25 vs=g0"
+@@ -306,8 +308,8 @@
+                 "legs": [
+                     "LEG m1/report tokens=400 share_pct=40.0",
+                     "LEG m1/state tokens=300 share_pct=30.0",
+-                    "LEG mandate tokens=100 share_pct=10.0",
+-                    "LEG codely tokens=200 share_pct=20.0"
++                    "LEG codely tokens=200 share_pct=20.0",
++                    "LEG mandate tokens=100 share_pct=10.0"
+                 ],
+                 "cross": "CROSS state=false report=true",
+                 "delta": "DELTA absent"

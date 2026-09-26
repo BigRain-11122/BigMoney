@@ -1,0 +1,46 @@
+--- round0
++++ round1
+@@ -1,13 +1,16 @@
+ import sys
+ import os
+ import json
+-import re
+ import datetime
+ from typing import List, Tuple, Dict, Any
+ 
+ def parse_iso8601(s: str) -> datetime.datetime:
+     try:
+-        return datetime.datetime.fromisoformat(s.replace('Z', '+00:00'))
++        dt = datetime.datetime.fromisoformat(s.replace('Z', '+00:00'))
++        if dt.tzinfo is None:
++            # Assume local timezone if no timezone info
++            return dt.replace(tzinfo=datetime.timezone.utc)
++        return dt
+     except ValueError:
+         return None
+ 
+@@ -58,7 +61,8 @@
+         return -1.0
+ 
+ def run_selftest():
+-    now = datetime.datetime.now(datetime.timezone.utc).replace(microsecond=0)
++    # Use fixed time for reproducible tests
++    now = datetime.datetime(2026, 9, 26, 0, 15, 0, tzinfo=datetime.timezone.utc)
+     
+     test_cases = [
+         # Test case 1: Mixed statuses with parse_fail
+@@ -129,9 +133,11 @@
+ 
+     for i, (filename, content, expected_age) in enumerate(boundary_cases):
+         result = process_files([(filename, content)], now)
+-        if result['parse_fail'] == 1 and 'parse_fail' in result:
+-            passed += 1
+-        elif expected_age is not None:
++        if expected_age is None:
++            # For invalid cases, we only check that parse_fail is incremented
++            if result['parse_fail'] == 1 and 'parse_fail' in result:
++                passed += 1
++        else:
+             # For age calculation tests, we need to check the claimed items manually
+             pass
+ 
