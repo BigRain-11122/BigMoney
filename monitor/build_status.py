@@ -1522,6 +1522,35 @@ def _governance_state() -> dict:
     return out
 
 
+def _daily_report_state() -> dict:
+    """T-75 daily battle report (O-20260926-0940 · 总经办 KPI v6 refresh):
+    newest docs/daily_report/REPORT-*.json twin; freshness by report_date.
+    Report-only face — absence honest, weekend age is legal disclosure."""
+    out = {"present": False}
+    try:
+        cands = sorted(glob.glob(os.path.join(
+            PATHS.root, "docs", "daily_report", "REPORT-*.json")))
+        if not cands:
+            return out
+        j = _read_json(cands[-1]) or {}
+        rd = str(j.get("report_date") or "")
+        ps = (j.get("combat") or {}).get("paper_summary") or {}
+        out.update({
+            "present": True,
+            "report_date": rd or None,
+            "generated_at": j.get("generated_at"),
+            "traders": ps.get("traders"),
+            "equity_cny": ps.get("total_equity_cny"),
+            "positions": ps.get("total_positions"),
+            "token_line": j.get("token_line"),
+        })
+        if rd:
+            out["age_days"] = (dt.date.today() - dt.date.fromisoformat(rd)).days
+    except Exception:
+        pass
+    return out
+
+
 _QUEUE_ARM_CN = {
     "portfolio-construction": "组合构建",
     "synthesis-crosslib": "跨库合成",
@@ -1649,6 +1678,7 @@ def build() -> dict:
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()
     data["governance"] = _governance_state()
+    data["daily_report"] = _daily_report_state()
     data["queue_bandit"] = _queue_bandit_state()
     data["alloc_paper"] = _alloc_paper_state()
     bt = _backtest_summary()

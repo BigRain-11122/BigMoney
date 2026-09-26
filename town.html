@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -418,9 +418,18 @@ const BUILDS = [
       ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
       : '<div class="row dim">本机无集团心跳源</div>') },
   { id:'office', x:520, y:128, w:64, h:40, draw:drawOffice, label:'总经办',
-    dept:'总经办 GM Office', mandate:'经营分析/月报+PK 赛制 · J13 L2 本地助理 · 月度自审包聚合',
+    dept:'总经办 GM Office', mandate:'经营分析/月报+PK 赛制 · 每日战报 · J13 L2 本地助理 · 月度自审包聚合',
     info: () => '<div class="row">公司阶段：'+D.meta.stage+'</div>'
       + '<div class="row">资金 ¥'+(D.meta.capital/10000).toFixed(0)+'万 · NAV '+D.meta.nav.toFixed(3)+'</div>'
+      + (() => { const dr=(D.data&&D.data.daily_report)||{};
+          if (!dr.present) return '<div class="row dim">每日战报待产出（python scripts/daily_report.py run · T-75）</div>';
+          const eq = dr.equity_cny==null ? '—' : '¥'+Math.round(dr.equity_cny).toLocaleString();
+          const fresh = (dr.age_days??0) <= 1;
+          return '<div class="row">每日战报 <span class="'+(fresh?'green':'gold')+'">'+(dr.report_date||'—')+'</span>（'+(dr.age_days??'—')+' 日龄）· 战况 '+(dr.traders??'—')+' 员 · 权益 '+eq+' · 持仓 '+(dr.positions??'—')+'</div>'
+            + (() => { const t=dr.token_line||{};
+                if (t.total_report_tokens_est==null) return '';
+                const g=(t.delta_vs_prev||{}).report_tokens_growth;
+                return '<div class="row dim">token：state '+(t.total_state_tokens_est??'—')+' · 报告 '+Math.round(t.total_report_tokens_est/1000)+'k est'+(g!=null?'（日增 '+g+'）':'')+' · byte/3.5 粗估口径</div>'; })(); })()
       + (() => { const g=(D.data&&D.data.governance)||{}, a=g.audit||{}, bf=g.briefing||{};
           const seg = g.present ? '审计 '+(a.ok||0)+'/'+(a.checks||0)+' OK · findings '+((a.findings!=null)?a.findings:'-')+' · 简报 '+(bf.month||'待产出') : '待产出';
           return '<div class="row">治理面：'+(g.status==='ok' ? '<span class="green">'+seg+'</span>' : seg)+'</div>'
