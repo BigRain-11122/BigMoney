@@ -40,7 +40,8 @@ def run_backtest(prices: dict, params: dict,
                  cost_v2=None,
                  cash_parking=None,
                  entry_size_scale=None,
-                 staged_entry=None) -> dict:
+                 staged_entry=None,
+                 dd_control=None) -> dict:
     """prices: dict[symbol] -> DataFrame with date index, cols open/close/high/low.
 
     J7 signal-injection adapter (BACKTEST_PLAN S2 contract):
@@ -167,6 +168,25 @@ def run_backtest(prices: dict, params: dict,
       num_adds_filled / num_adds_dropped / avg_cost_first / avg_cost_end /
       adds_per_entry. Queued adds orphaned by a full position close or by
       the window end count as drops (they never filled).
+
+    T-78 s2 DD_CONTROL additive flag (research/EXIT_OVERLAY_P1.md frozen
+    prereg; default None = legacy path byte-identical). dd_control dict:
+      {"dd_trigger": -0.10, "de_risk_to": 0.50, "re_up_at": -0.05}
+    Portfolio-level drawdown governor on the ENTRY-SIZE face only: exit
+    rules untouched, NO forced liquidation of existing positions (T-09
+    CASH_LEG precedent -- portfolio-layer enforcement stays out of the
+    exit domain). State machine updated at each day END from total NAV
+    (equity incl. parked balance, post-marks): running peak -> dd =
+    nav/peak - 1; dd <= dd_trigger flips to de_risked; while de_risked
+    every NEW entry's target_value is scaled by de_risk_to (the unsized
+    remainder stays in cash); dd >= re_up_at restores the full nominal
+    (hysteresis band). Causality: the state read at day E's open reflects
+    marks through close E-1 only (entry_size_scale contract). Staged-entry
+    adds inherit their tranche-0 nominal (staging pre-splits the budget;
+    dd scaling applies at the entry fill, before the cost-v2 ADV cap).
+    New metric keys ONLY when the flag is ON (G5 keyset discipline):
+    dd_control_days_de_risked / dd_control_scaled_entries /
+    dd_control_state_end / dd_control_min_dd.
     """
     cfg = ExitConfig(
         take_profit_levels=tuple(params.get("take_profit_levels", (0.05, 0.10, 0.20))),
@@ -206,6 +226,25 @@ def run_backtest(prices: dict, params: dict,
                 "(staged budget must not exceed the single-shot nominal)")
         if any(f <= 0.0 for f in stage_fracs):
             raise ValueError("staged_entry: every grid_frac must be > 0")
+
+    # T-78 s2 DD_CONTROL additive flag: None -> legacy path byte-identical
+    # (engine additive iron rule).
+    if dd_control is None:
+        ddc_state = None
+    else:
+        ddc_trigger = float(dd_control["dd_trigger"])
+        ddc_scale_to = float(dd_control["de_risk_to"])
+        ddc_re_up = float(dd_control["re_up_at"])
+        if not (0.0 < ddc_scale_to <= 1.0):
+            raise ValueError("dd_control: de_risk_to must be in (0, 1]")
+        if not (ddc_trigger < ddc_re_up <= 0.0):
+            raise ValueError(
+                f"dd_control: need dd_trigger ({ddc_trigger}) < re_up_at "
+                f"({ddc_re_up}) <= 0 (hysteresis band in drawdown space)")
+        ddc_state = {
+            "peak": float(initial_cash), "de_risked": False,
+            "days_de_risked": 0, "scaled_entries": 0, "min_dd": 0.0,
+        }
 
     # align all symbols on common trading calendar
     closes = pd.DataFrame({sym: df["close"] for sym, df in prices.items()}).sort_index()
@@ -399,6 +438,14 @@ def run_backtest(prices: dict, params: dict,
                 target_value *= float(scale_arr[i])
                 if scale_arr[i] < 1.0:
                     scaled_entries += 1
+            if ddc_state is not None and ddc_state["de_risked"]:
+                # T-78 s2 DD_CONTROL: de-risked entries carry the reduced
+                # nominal; the unsized remainder stays in cash. State was
+                # fixed at the prior day's close (no look-ahead). Same
+                # counting convention as scaled_entries (scale applied
+                # before ADV cap / cash sufficiency).
+                target_value *= ddc_scale_to
+                ddc_state["scaled_entries"] += 1
             if tier_v2 is None:
                 rate_buy = cost_rate   # legacy path (identical arithmetic)
             else:
@@ -676,6 +723,24 @@ def run_backtest(prices: dict, params: dict,
                 cash -= parked_bal
             else:
                 parked_bal = 0.0                    # non-bear day: full release
+        if ddc_state is not None:
+            # T-78 s2 DD_CONTROL: day-end state update from total NAV
+            # (post-marks, post-parking; equity_curve[-1] is final NAV
+            # incl. any parking interest). The state below is read by
+            # NEXT day's opens -- close E-1 information only, no look-ahead.
+            nav = equity_curve[-1]
+            if nav > ddc_state["peak"]:
+                ddc_state["peak"] = nav
+            dd_now = nav / ddc_state["peak"] - 1.0
+            if dd_now < ddc_state["min_dd"]:
+                ddc_state["min_dd"] = dd_now
+            if not ddc_state["de_risked"]:
+                if dd_now <= ddc_trigger:
+                    ddc_state["de_risked"] = True
+            elif dd_now >= ddc_re_up:
+                ddc_state["de_risked"] = False
+            if ddc_state["de_risked"]:
+                ddc_state["days_de_risked"] += 1
 
     equity = pd.Series(equity_curve, index=dates[:len(equity_curve)])
     # T-20 additive disclosure: episodes still open at window end happened --
@@ -714,6 +779,16 @@ def run_backtest(prices: dict, params: dict,
     if entry_size_scale is not None:
         # T-21: filled entries whose nominal was scaled below 1.0.
         metrics["scaled_entries"] = scaled_entries
+    if dd_control is not None:
+        # T-78 s2 DD_CONTROL: NEW metrics keys only (flag ON); legacy
+        # keyset untouched (G5 keyset discipline).
+        metrics.update({
+            "dd_control_days_de_risked": ddc_state["days_de_risked"],
+            "dd_control_scaled_entries": ddc_state["scaled_entries"],
+            "dd_control_state_end":
+                "de_risked" if ddc_state["de_risked"] else "normal",
+            "dd_control_min_dd": round(ddc_state["min_dd"], 4),
+        })
     if stage_fracs is not None:
         # P4-B3 STAGED_ENTRY: NEW metrics keys only (flag ON); the legacy
         # keyset is never touched (G5 keyset discipline).

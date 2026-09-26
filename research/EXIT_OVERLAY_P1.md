@@ -61,11 +61,30 @@
 
 ## §7 跑后实证【跑前必须为空——写数字即造假】
 
-（占位）
+r241（2026-09-26，bm-b；cutoff=2026-09-24 最新完整 bar；42 引擎跑：6 锚+6 OFF+24 判决+6 胜者×2 压测；inline 33s）：
+
+- **锚复现硬门：6/6 OK**（live.paper.anchor_gate 存档 cutoff 复现，双段 |Δ|<0.002 全过）；
+- **判决面：6 WIN / 18 REJECT**（冻结 §4 双面不受损律；CSV=research/exit_overlay_p1_results.csv，JSON=results/exit_overlay_p1.json，账本 184826→184856，N_eff=30 入链）；
+- **WIN 明细（6 格）**：
+  | 员 | cell | Δfull | ΔOOS | ΔmaxDD | ×2 full |
+  |---|---|---|---|---|---|
+  | COMPOSITE-CE-01 | ov_tp_ladder | +0.0301 | +0.1386 | +0.0041 | 0.5229 |
+  | COMPOSITE-CE-02 | ov_tp_ladder | +0.0172 | +0.1684 | +0.0078 | 0.4259 |
+  | COMPOSITE-CE-02 | ov_dd_control | +0.1391 | +0.0026 | +0.0527 | 0.4410 |
+  | COMPOSITE-CE-02 | ov_full | +0.1742 | +0.1517 | +0.0603 | 0.4452 |
+  | ENGULF-CE-01 | ov_trail_peak | +0.0160 | +0.0627 | −0.0029 | 0.4174 |
+  | ENGULF-CE-01 | ov_full | +0.0146 | +0.0889 | −0.0003 | 0.4144 |
+- **REJECT 面诚实披露**：ov_dd_control 在 DROUGHT/ENGULF/NEEDLE/VOLATILITY 四员 Δ 全恰零＝**触发器从未点亮**（四员组合 NAV 全史回撤未破 −10% 线）——零增益不接线（冻结律）；COMPOSITE-01 ov_dd_control 双面负（−0.0992/−0.0218）＝2024-09-24 型 V 反弹踏空实证；ov_trail_peak 在 COMPOSITE 双员与 NEEDLE 大负（−0.04~−0.13）＝紧跟踪滑点面先验兑现；
+- **压测描述面（×2 成本，非门）**：6 胜者格全数 ×2 full 0.41–0.52；Δ×2full（cell@×2 − cell@×1）全列于 JSON stress_x2 块；
+- **对照 §5 预测**：①tp_ladder 预测 2–4/6 负→实 4/6 负 ✓；②trail_peak 预测 ≤2/6 双面存活→实 1/6 ✓；③dd_control 预测半数 ΔOOS<0→实 1 WIN+2 负+3 零触发 ✓（零触发=预测未列的第三态，如实补记）；④ov_full 预测 ≤1/6 WIN→实 2/6（略超预测，COMPOSITE-02 合成面三旗标协同为超预期主因）⚠如实披露；⑤总体诚实负为主→18/24 REJECT ✓。
 
 ## §8 批后复盘【必填·s7-T】
 
-（占位）
+1. **参数面纪律实证**：止盈阶梯（P3 levels+fractions）与紧移动止损（P2 3%/5%）在换手族（COMPOSITE 低换手/ENGULF 反转）为正贡献面，在单点触发型高换手员（NEEDLE/DROUGHT/VOLATILITY）为负——出场紧化与员信号节奏的匹配度是主变量，非普适增益；CEO 例合成面（ov_full）只在多信号并行员成立。
+2. **dd_control 机械特性**：入场缩放面（无强平腿）意味着触发后敞口靠换货自然收敛——高换手员零触发全零 Δ 是本批最大意外面（四员 NAV dd 全史 <10%：−8% 硬止损+10% 仓位的组合结构性封顶回撤），该旗标在当前注册员池上的可作用面=COMPOSITE 族两员；未来池扩容（更大仓位/更松止损员）后重判。
+3. **零增益=REJECT 律的可审计价值**：3 员×ov_dd_control 全零 Δ 被冻结律诚实拦截（若按「非负即接线」将接入 3 个无效果 overlay＝纯复杂度负债）。
+4. **s4 接线清单（下轮执行面，独立 commit 纪律）**：6 WIN 格→成员注册件 exit_overrides/params 更新（ov_tp_ladder=levels+fractions 落 exit_overrides、ov_trail_peak=trailing 两参落 params、ov_dd_control 落独立 dd_control 注册键+纸盘引擎 kwarg 传递）→纸盘接线→smoke 锚定门期望值同轮再 derive→三态标注（立法=commit/生效=判据过/验收=复审✓）→AGGR 宿主经 sleeve 继承核销。
+5. **网格面（unlock④）**：CN-GRID-SLEEVE 预注册（§9）独立推进，与本批判决面无耦合。
 
 ## §9 网格引擎面（unlock④·CN-GRID-SLEEVE）——本节=s1 设计冻结，预注册=s2 交付
 

@@ -1,0 +1,832 @@
+{
+  "batch": "EXIT-OVERLAY-P1",
+  "generated": "2026-09-26 10:40:00",
+  "preregistered_doc": "research/EXIT_OVERLAY_P1.md (r240 frozen)",
+  "evidence_cutoff": "2026-09-24",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "n_syms": 48,
+    "history": "2020-01-02 .. 2026-09-24"
+  },
+  "oos_start": "2025-01-01",
+  "cells": {
+    "ov_tp_ladder": {
+      "params": {
+        "take_profit_levels": [
+          0.05,
+          0.08
+        ]
+      },
+      "patch": {
+        "take_profit_fractions": [
+          0.5,
+          0.5
+        ]
+      },
+      "engine_kw": {},
+      "unlocks": "1+5 (TP ladder = staged scale-out)"
+    },
+    "ov_trail_peak": {
+      "params": {
+        "trailing_stop_activate": 0.03,
+        "trailing_lock": 0.05
+      },
+      "patch": {},
+      "engine_kw": {},
+      "unlocks": "2 (trailing stop 3% activate / 5% peak lock)"
+    },
+    "ov_dd_control": {
+      "params": {},
+      "patch": {},
+      "engine_kw": {
+        "dd_control": {
+          "dd_trigger": -0.1,
+          "de_risk_to": 0.5,
+          "re_up_at": -0.05
+        }
+      },
+      "unlocks": "3 (portfolio drawdown governor, entry-size face)"
+    },
+    "ov_full": {
+      "params": {
+        "take_profit_levels": [
+          0.05,
+          0.08
+        ],
+        "trailing_stop_activate": 0.03,
+        "trailing_lock": 0.05
+      },
+      "patch": {
+        "take_profit_fractions": [
+          0.5,
+          0.5
+        ]
+      },
+      "engine_kw": {
+        "dd_control": {
+          "dd_trigger": -0.1,
+          "de_risk_to": 0.5,
+          "re_up_at": -0.05
+        }
+      },
+      "unlocks": "1+2+3+5 (CEO synthetic face)"
+    }
+  },
+  "anchor_ok": true,
+  "anchors": {
+    "COMPOSITE-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22",
+      "checks": {
+        "in_sample": true,
+        "out_sample": true
+      },
+      "error": null
+    },
+    "COMPOSITE-CE-02": {
+      "ok": true,
+      "cutoff": "2026-09-22",
+      "checks": {
+        "in_sample": true,
+        "out_sample": true
+      },
+      "error": null
+    },
+    "DROUGHT-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22",
+      "checks": {
+        "in_sample": true,
+        "out_sample": true
+      },
+      "error": null
+    },
+    "ENGULF-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22",
+      "checks": {
+        "in_sample": true,
+        "out_sample": true
+      },
+      "error": null
+    },
+    "NEEDLE-DE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22",
+      "checks": {
+        "in_sample": true,
+        "out_sample": true
+      },
+      "error": null
+    },
+    "VOLATILITY-CE-01": {
+      "ok": true,
+      "cutoff": "2026-09-22",
+      "checks": {
+        "in_sample": true,
+        "out_sample": true
+      },
+      "error": null
+    }
+  },
+  "pairs": {
+    "COMPOSITE-CE-01": {
+      "off": {
+        "full": {
+          "sharpe": 0.8101,
+          "annual_return": 0.0575,
+          "max_drawdown": -0.1633
+        },
+        "oos": {
+          "sharpe": 1.602,
+          "annual_return": 0.1431,
+          "max_drawdown": -0.0567
+        },
+        "n_trades": 474,
+        "dd_control": null
+      },
+      "worst_year_off": -0.1121,
+      "off_equity_end": 1436478.67,
+      "cells": {
+        "ov_tp_ladder": {
+          "full": {
+            "sharpe": 0.8402,
+            "annual_return": 0.0559,
+            "max_drawdown": -0.1592
+          },
+          "oos": {
+            "sharpe": 1.7406,
+            "annual_return": 0.1356,
+            "max_drawdown": -0.0434
+          },
+          "n_trades": 493,
+          "dd_control": null,
+          "worst_year": -0.1133,
+          "d_full": 0.0301,
+          "d_oos": 0.1386,
+          "win": true,
+          "unlocks": "1+5 (TP ladder = staged scale-out)"
+        },
+        "ov_trail_peak": {
+          "full": {
+            "sharpe": 0.752,
+            "annual_return": 0.0534,
+            "max_drawdown": -0.1674
+          },
+          "oos": {
+            "sharpe": 1.4887,
+            "annual_return": 0.135,
+            "max_drawdown": -0.0574
+          },
+          "n_trades": 470,
+          "dd_control": null,
+          "worst_year": -0.1237,
+          "d_full": -0.0581,
+          "d_oos": -0.1133,
+          "win": false,
+          "unlocks": "2 (trailing stop 3% activate / 5% peak lock)"
+        },
+        "ov_dd_control": {
+          "full": {
+            "sharpe": 0.7109,
+            "annual_return": 0.0471,
+            "max_drawdown": -0.147
+          },
+          "oos": {
+            "sharpe": 1.5802,
+            "annual_return": 0.1519,
+            "max_drawdown": -0.0611
+          },
+          "n_trades": 482,
+          "dd_control": {
+            "dd_control_days_de_risked": 668,
+            "dd_control_scaled_entries": 182,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.147
+          },
+          "worst_year": -0.1037,
+          "d_full": -0.0992,
+          "d_oos": -0.0218,
+          "win": false,
+          "unlocks": "3 (portfolio drawdown governor, entry-size face)"
+        },
+        "ov_full": {
+          "full": {
+            "sharpe": 0.7245,
+            "annual_return": 0.0442,
+            "max_drawdown": -0.1424
+          },
+          "oos": {
+            "sharpe": 1.7253,
+            "annual_return": 0.1416,
+            "max_drawdown": -0.047
+          },
+          "n_trades": 492,
+          "dd_control": {
+            "dd_control_days_de_risked": 668,
+            "dd_control_scaled_entries": 181,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.1424
+          },
+          "worst_year": -0.1042,
+          "d_full": -0.0856,
+          "d_oos": 0.1233,
+          "win": false,
+          "unlocks": "1+2+3+5 (CEO synthetic face)"
+        }
+      }
+    },
+    "COMPOSITE-CE-02": {
+      "off": {
+        "full": {
+          "sharpe": 0.6073,
+          "annual_return": 0.0687,
+          "max_drawdown": -0.2217
+        },
+        "oos": {
+          "sharpe": 1.4674,
+          "annual_return": 0.1073,
+          "max_drawdown": -0.0361
+        },
+        "n_trades": 795,
+        "dd_control": null
+      },
+      "worst_year_off": 0.0028,
+      "off_equity_end": 1538281.75,
+      "cells": {
+        "ov_tp_ladder": {
+          "full": {
+            "sharpe": 0.6245,
+            "annual_return": 0.0684,
+            "max_drawdown": -0.2139
+          },
+          "oos": {
+            "sharpe": 1.6358,
+            "annual_return": 0.1091,
+            "max_drawdown": -0.0362
+          },
+          "n_trades": 825,
+          "dd_control": null,
+          "worst_year": -0.0072,
+          "d_full": 0.0172,
+          "d_oos": 0.1684,
+          "win": true,
+          "unlocks": "1+5 (TP ladder = staged scale-out)"
+        },
+        "ov_trail_peak": {
+          "full": {
+            "sharpe": 0.5662,
+            "annual_return": 0.0627,
+            "max_drawdown": -0.2291
+          },
+          "oos": {
+            "sharpe": 1.2528,
+            "annual_return": 0.0939,
+            "max_drawdown": -0.0462
+          },
+          "n_trades": 793,
+          "dd_control": null,
+          "worst_year": -0.0185,
+          "d_full": -0.0411,
+          "d_oos": -0.2146,
+          "win": false,
+          "unlocks": "2 (trailing stop 3% activate / 5% peak lock)"
+        },
+        "ov_dd_control": {
+          "full": {
+            "sharpe": 0.7464,
+            "annual_return": 0.0593,
+            "max_drawdown": -0.169
+          },
+          "oos": {
+            "sharpe": 1.47,
+            "annual_return": 0.1146,
+            "max_drawdown": -0.0383
+          },
+          "n_trades": 799,
+          "dd_control": {
+            "dd_control_days_de_risked": 322,
+            "dd_control_scaled_entries": 141,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.169
+          },
+          "worst_year": -0.0548,
+          "d_full": 0.1391,
+          "d_oos": 0.0026,
+          "win": true,
+          "unlocks": "3 (portfolio drawdown governor, entry-size face)"
+        },
+        "ov_full": {
+          "full": {
+            "sharpe": 0.7815,
+            "annual_return": 0.0598,
+            "max_drawdown": -0.1614
+          },
+          "oos": {
+            "sharpe": 1.6191,
+            "annual_return": 0.1122,
+            "max_drawdown": -0.038
+          },
+          "n_trades": 822,
+          "dd_control": {
+            "dd_control_days_de_risked": 251,
+            "dd_control_scaled_entries": 113,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.1614
+          },
+          "worst_year": -0.0576,
+          "d_full": 0.1742,
+          "d_oos": 0.1517,
+          "win": true,
+          "unlocks": "1+2+3+5 (CEO synthetic face)"
+        }
+      }
+    },
+    "DROUGHT-CE-01": {
+      "off": {
+        "full": {
+          "sharpe": 0.7235,
+          "annual_return": 0.0227,
+          "max_drawdown": -0.0476
+        },
+        "oos": {
+          "sharpe": 1.2101,
+          "annual_return": 0.0406,
+          "max_drawdown": -0.0252
+        },
+        "n_trades": 120,
+        "dd_control": null
+      },
+      "worst_year_off": -0.0136,
+      "off_equity_end": 1156799.7,
+      "cells": {
+        "ov_tp_ladder": {
+          "full": {
+            "sharpe": 0.7201,
+            "annual_return": 0.0226,
+            "max_drawdown": -0.0477
+          },
+          "oos": {
+            "sharpe": 1.2036,
+            "annual_return": 0.0404,
+            "max_drawdown": -0.0253
+          },
+          "n_trades": 121,
+          "dd_control": null,
+          "worst_year": -0.0136,
+          "d_full": -0.0034,
+          "d_oos": -0.0065,
+          "win": false,
+          "unlocks": "1+5 (TP ladder = staged scale-out)"
+        },
+        "ov_trail_peak": {
+          "full": {
+            "sharpe": 0.7196,
+            "annual_return": 0.0226,
+            "max_drawdown": -0.0476
+          },
+          "oos": {
+            "sharpe": 1.2101,
+            "annual_return": 0.0406,
+            "max_drawdown": -0.0253
+          },
+          "n_trades": 119,
+          "dd_control": null,
+          "worst_year": -0.0144,
+          "d_full": -0.0039,
+          "d_oos": 0.0,
+          "win": false,
+          "unlocks": "2 (trailing stop 3% activate / 5% peak lock)"
+        },
+        "ov_dd_control": {
+          "full": {
+            "sharpe": 0.7235,
+            "annual_return": 0.0227,
+            "max_drawdown": -0.0476
+          },
+          "oos": {
+            "sharpe": 1.2101,
+            "annual_return": 0.0406,
+            "max_drawdown": -0.0252
+          },
+          "n_trades": 120,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0476
+          },
+          "worst_year": -0.0136,
+          "d_full": 0.0,
+          "d_oos": 0.0,
+          "win": false,
+          "unlocks": "3 (portfolio drawdown governor, entry-size face)"
+        },
+        "ov_full": {
+          "full": {
+            "sharpe": 0.715,
+            "annual_return": 0.0224,
+            "max_drawdown": -0.0477
+          },
+          "oos": {
+            "sharpe": 1.2036,
+            "annual_return": 0.0404,
+            "max_drawdown": -0.0253
+          },
+          "n_trades": 120,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0477
+          },
+          "worst_year": -0.0147,
+          "d_full": -0.0085,
+          "d_oos": -0.0065,
+          "win": false,
+          "unlocks": "1+2+3+5 (CEO synthetic face)"
+        }
+      }
+    },
+    "ENGULF-CE-01": {
+      "off": {
+        "full": {
+          "sharpe": 0.5389,
+          "annual_return": 0.0172,
+          "max_drawdown": -0.0423
+        },
+        "oos": {
+          "sharpe": 0.2937,
+          "annual_return": 0.0091,
+          "max_drawdown": -0.0366
+        },
+        "n_trades": 143,
+        "dd_control": null
+      },
+      "worst_year_off": -0.0128,
+      "off_equity_end": 1117007.16,
+      "cells": {
+        "ov_tp_ladder": {
+          "full": {
+            "sharpe": 0.5422,
+            "annual_return": 0.017,
+            "max_drawdown": -0.0403
+          },
+          "oos": {
+            "sharpe": 0.2926,
+            "annual_return": 0.009,
+            "max_drawdown": -0.0364
+          },
+          "n_trades": 146,
+          "dd_control": null,
+          "worst_year": -0.0118,
+          "d_full": 0.0033,
+          "d_oos": -0.0011,
+          "win": false,
+          "unlocks": "1+5 (TP ladder = staged scale-out)"
+        },
+        "ov_trail_peak": {
+          "full": {
+            "sharpe": 0.5549,
+            "annual_return": 0.018,
+            "max_drawdown": -0.0452
+          },
+          "oos": {
+            "sharpe": 0.3564,
+            "annual_return": 0.0111,
+            "max_drawdown": -0.0387
+          },
+          "n_trades": 146,
+          "dd_control": null,
+          "worst_year": -0.0103,
+          "d_full": 0.016,
+          "d_oos": 0.0627,
+          "win": true,
+          "unlocks": "2 (trailing stop 3% activate / 5% peak lock)"
+        },
+        "ov_dd_control": {
+          "full": {
+            "sharpe": 0.5389,
+            "annual_return": 0.0172,
+            "max_drawdown": -0.0423
+          },
+          "oos": {
+            "sharpe": 0.2937,
+            "annual_return": 0.0091,
+            "max_drawdown": -0.0366
+          },
+          "n_trades": 143,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0423
+          },
+          "worst_year": -0.0128,
+          "d_full": 0.0,
+          "d_oos": 0.0,
+          "win": false,
+          "unlocks": "3 (portfolio drawdown governor, entry-size face)"
+        },
+        "ov_full": {
+          "full": {
+            "sharpe": 0.5535,
+            "annual_return": 0.0177,
+            "max_drawdown": -0.0426
+          },
+          "oos": {
+            "sharpe": 0.3826,
+            "annual_return": 0.0119,
+            "max_drawdown": -0.0376
+          },
+          "n_trades": 150,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0426
+          },
+          "worst_year": -0.0103,
+          "d_full": 0.0146,
+          "d_oos": 0.0889,
+          "win": true,
+          "unlocks": "1+2+3+5 (CEO synthetic face)"
+        }
+      }
+    },
+    "NEEDLE-DE-01": {
+      "off": {
+        "full": {
+          "sharpe": 0.662,
+          "annual_return": 0.0167,
+          "max_drawdown": -0.0282
+        },
+        "oos": {
+          "sharpe": 0.4079,
+          "annual_return": 0.0118,
+          "max_drawdown": -0.0282
+        },
+        "n_trades": 73,
+        "dd_control": null
+      },
+      "worst_year_off": 0.0,
+      "off_equity_end": 1113625.26,
+      "cells": {
+        "ov_tp_ladder": {
+          "full": {
+            "sharpe": 0.6576,
+            "annual_return": 0.0166,
+            "max_drawdown": -0.0282
+          },
+          "oos": {
+            "sharpe": 0.4108,
+            "annual_return": 0.0119,
+            "max_drawdown": -0.0282
+          },
+          "n_trades": 73,
+          "dd_control": null,
+          "worst_year": 0.0,
+          "d_full": -0.0044,
+          "d_oos": 0.0029,
+          "win": false,
+          "unlocks": "1+5 (TP ladder = staged scale-out)"
+        },
+        "ov_trail_peak": {
+          "full": {
+            "sharpe": 0.5961,
+            "annual_return": 0.015,
+            "max_drawdown": -0.0283
+          },
+          "oos": {
+            "sharpe": 0.2738,
+            "annual_return": 0.0078,
+            "max_drawdown": -0.0283
+          },
+          "n_trades": 70,
+          "dd_control": null,
+          "worst_year": -0.0013,
+          "d_full": -0.0659,
+          "d_oos": -0.1341,
+          "win": false,
+          "unlocks": "2 (trailing stop 3% activate / 5% peak lock)"
+        },
+        "ov_dd_control": {
+          "full": {
+            "sharpe": 0.662,
+            "annual_return": 0.0167,
+            "max_drawdown": -0.0282
+          },
+          "oos": {
+            "sharpe": 0.4079,
+            "annual_return": 0.0118,
+            "max_drawdown": -0.0282
+          },
+          "n_trades": 73,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0282
+          },
+          "worst_year": 0.0,
+          "d_full": 0.0,
+          "d_oos": 0.0,
+          "win": false,
+          "unlocks": "3 (portfolio drawdown governor, entry-size face)"
+        },
+        "ov_full": {
+          "full": {
+            "sharpe": 0.5897,
+            "annual_return": 0.0148,
+            "max_drawdown": -0.0284
+          },
+          "oos": {
+            "sharpe": 0.2988,
+            "annual_return": 0.0085,
+            "max_drawdown": -0.0284
+          },
+          "n_trades": 71,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0284
+          },
+          "worst_year": -0.0001,
+          "d_full": -0.0723,
+          "d_oos": -0.1091,
+          "win": false,
+          "unlocks": "1+2+3+5 (CEO synthetic face)"
+        }
+      }
+    },
+    "VOLATILITY-CE-01": {
+      "off": {
+        "full": {
+          "sharpe": 1.2465,
+          "annual_return": 0.0304,
+          "max_drawdown": -0.0378
+        },
+        "oos": {
+          "sharpe": 2.0009,
+          "annual_return": 0.0412,
+          "max_drawdown": -0.009
+        },
+        "n_trades": 522,
+        "dd_control": null
+      },
+      "worst_year_off": -0.0123,
+      "off_equity_end": 1214087.08,
+      "cells": {
+        "ov_tp_ladder": {
+          "full": {
+            "sharpe": 1.2023,
+            "annual_return": 0.029,
+            "max_drawdown": -0.0394
+          },
+          "oos": {
+            "sharpe": 2.023,
+            "annual_return": 0.0407,
+            "max_drawdown": -0.009
+          },
+          "n_trades": 525,
+          "dd_control": null,
+          "worst_year": -0.0153,
+          "d_full": -0.0442,
+          "d_oos": 0.0221,
+          "win": false,
+          "unlocks": "1+5 (TP ladder = staged scale-out)"
+        },
+        "ov_trail_peak": {
+          "full": {
+            "sharpe": 1.2341,
+            "annual_return": 0.03,
+            "max_drawdown": -0.0423
+          },
+          "oos": {
+            "sharpe": 1.9838,
+            "annual_return": 0.041,
+            "max_drawdown": -0.009
+          },
+          "n_trades": 523,
+          "dd_control": null,
+          "worst_year": -0.0166,
+          "d_full": -0.0124,
+          "d_oos": -0.0171,
+          "win": false,
+          "unlocks": "2 (trailing stop 3% activate / 5% peak lock)"
+        },
+        "ov_dd_control": {
+          "full": {
+            "sharpe": 1.2465,
+            "annual_return": 0.0304,
+            "max_drawdown": -0.0378
+          },
+          "oos": {
+            "sharpe": 2.0009,
+            "annual_return": 0.0412,
+            "max_drawdown": -0.009
+          },
+          "n_trades": 522,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0378
+          },
+          "worst_year": -0.0123,
+          "d_full": 0.0,
+          "d_oos": 0.0,
+          "win": false,
+          "unlocks": "3 (portfolio drawdown governor, entry-size face)"
+        },
+        "ov_full": {
+          "full": {
+            "sharpe": 1.1927,
+            "annual_return": 0.0287,
+            "max_drawdown": -0.0439
+          },
+          "oos": {
+            "sharpe": 1.9998,
+            "annual_return": 0.0405,
+            "max_drawdown": -0.0091
+          },
+          "n_trades": 526,
+          "dd_control": {
+            "dd_control_days_de_risked": 0,
+            "dd_control_scaled_entries": 0,
+            "dd_control_state_end": "normal",
+            "dd_control_min_dd": -0.0439
+          },
+          "worst_year": -0.0195,
+          "d_full": -0.0538,
+          "d_oos": -0.0011,
+          "win": false,
+          "unlocks": "1+2+3+5 (CEO synthetic face)"
+        }
+      }
+    }
+  },
+  "stress_x2": {
+    "COMPOSITE-CE-01:ov_tp_ladder": {
+      "full_x2": 0.5229,
+      "oos_x2": 1.3567,
+      "d_full_x2": -0.3173
+    },
+    "COMPOSITE-CE-02:ov_tp_ladder": {
+      "full_x2": 0.4259,
+      "oos_x2": 1.2239,
+      "d_full_x2": -0.1986
+    },
+    "COMPOSITE-CE-02:ov_dd_control": {
+      "full_x2": 0.441,
+      "oos_x2": 1.0979,
+      "d_full_x2": -0.3054
+    },
+    "COMPOSITE-CE-02:ov_full": {
+      "full_x2": 0.4452,
+      "oos_x2": 1.2105,
+      "d_full_x2": -0.3363
+    },
+    "ENGULF-CE-01:ov_trail_peak": {
+      "full_x2": 0.4174,
+      "oos_x2": 0.1885,
+      "d_full_x2": -0.1375
+    },
+    "ENGULF-CE-01:ov_full": {
+      "full_x2": 0.4144,
+      "oos_x2": 0.2134,
+      "d_full_x2": -0.1391
+    }
+  },
+  "verdict": {
+    "void": false,
+    "n_win": 6,
+    "n_reject": 18,
+    "wins": [
+      "COMPOSITE-CE-01:ov_tp_ladder",
+      "COMPOSITE-CE-02:ov_tp_ladder",
+      "COMPOSITE-CE-02:ov_dd_control",
+      "COMPOSITE-CE-02:ov_full",
+      "ENGULF-CE-01:ov_trail_peak",
+      "ENGULF-CE-01:ov_full"
+    ],
+    "note": "WIN = dual-face non-hurt (frozen §4); winners -> s4 registration/wiring per §10, rejects -> §8 lessons"
+  },
+  "trials_ledger": {
+    "prev_total": 184826,
+    "batch_trials": 30,
+    "total": 184856,
+    "batch": "EXIT-OVERLAY-P1",
+    "file": "results/exit_overlay_p1.json",
+    "note": "T-78 s3 paired-judgment bench: 6 anchor repro + 24 overlay cells (N_eff=30 frozen §3); x2 stress + OFF baselines disclosed in audit only",
+    "evidence_cutoff": "2026-09-24"
+  },
+  "audit": {
+    "elapsed_sec": 33.2,
+    "n_backtests": 42,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)",
+    "ledger_n_eff": 30
+  }
+}
