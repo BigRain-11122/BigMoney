@@ -7,7 +7,7 @@
  "meta": {
   "ticket": "T-2026-09-26-87",
   "prereg": "research/CN_TREND_ETF_PREREG.md",
-  "prereg_sha256_lf_normalized": "c5b40adbd5547b9989ff215da77c83573ccce9da8939ad4131e36d2cc497ad1f",
+  "prereg_sha256_lf_normalized": "b3d30b32efb44f760a51d78ed8072a184268a6078e567fd930dac539b181c20e",
   "probe": "results/cn_trend_probe.json (frozen reference)",
   "judge_face": "x2 (whole-V2 doubled, CN-* family precedent, always on); x1 disclosure track",
   "seed": {
@@ -16,7 +16,7 @@
    "band": "20270201..20272200 (registry-declared)"
   },
   "accounting": "signal close t -> fills open t+1 (T+1 asserted per order); gates are ENTRY FILTERS (exit column verbatim: reverse-cross / Donchian breakdown); MA_TRAIL re-entry only on next MA rising edge; renorm every 5 bars offset=0, equal weight min(1/n,0.20) (MA_INVVOL prop 1/std20), capped excess to cash; off-grid entries buy the new leg only; buys lot-rounded with r251 afford loop, renorm targets lot-aligned down, sells lot-multiples exact; sells before buys (leg order asc); fill-day open/ADV NaN rolls forward; PBP=243 (ETF-board family constant)",
-  "machine": "bm-b"
+  "machine": "bm-a"
  },
  "panel_face": {
   "T": 5248,
@@ -5784,17 +5784,17 @@
   "workers": 4
  },
  "skill_line": {
-  "n_eff": 209432,
+  "n_eff": 207425,
   "line": 0.4792,
   "passive_term": 0.4792,
-  "null_term": 0.3994,
+  "null_term": 0.3992,
   "mu_null": -0.1134,
   "sigma_null": 0.1036,
   "pool": "core48",
   "ledger_head": {
-   "total": 207425,
-   "file": "p1_results.json",
-   "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+   "total": 205418,
+   "file": "w1_results.json",
+   "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
   }
  },
  "d6_correlation": {
@@ -6653,17 +6653,17 @@
     "gate": "g1_prime_v2",
     "sharpe_full": 0.4516,
     "skill_line": {
-     "n_eff": 209432,
+     "n_eff": 207425,
      "line": 0.4792,
      "passive_term": 0.4792,
-     "null_term": 0.3994,
+     "null_term": 0.3992,
      "mu_null": -0.1134,
      "sigma_null": 0.1036,
      "pool": "core48",
      "ledger_head": {
-      "total": 207425,
-      "file": "p1_results.json",
-      "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+      "total": 205418,
+      "file": "w1_results.json",
+      "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
      }
     },
     "line_ok": false,
@@ -6690,9 +6690,9 @@
    "dsr": {
     "dsr": 0.0,
     "sr_annualized": 0.4599,
-    "sr_star": 0.471279,
+    "sr_star": 0.471069,
     "sigma_sr": 0.013489,
-    "n_trials": 209432,
+    "n_trials": 207425,
     "T": 5247,
     "skew": 2.4687,
     "kurtosis": 125.0074
@@ -6723,17 +6723,17 @@
     "gate": "g1_prime_v2",
     "sharpe_full": 0.4858,
     "skill_line": {
-     "n_eff": 209432,
+     "n_eff": 207425,
      "line": 0.4792,
      "passive_term": 0.4792,
-     "null_term": 0.3994,
+     "null_term": 0.3992,
      "mu_null": -0.1134,
      "sigma_null": 0.1036,
      "pool": "core48",
      "ledger_head": {
-      "total": 207425,
-      "file": "p1_results.json",
-      "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+      "total": 205418,
+      "file": "w1_results.json",
+      "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
      }
     },
     "line_ok": true,
@@ -6760,9 +6760,9 @@
    "dsr": {
     "dsr": 0.0,
     "sr_annualized": 0.4947,
-    "sr_star": 0.471279,
+    "sr_star": 0.471069,
     "sigma_sr": 0.013193,
-    "n_trials": 209432,
+    "n_trials": 207425,
     "T": 5247,
     "skew": 4.128,
     "kurtosis": 172.8847
@@ -6791,17 +6791,17 @@
     "gate": "g1_prime_v2",
     "sharpe_full": 0.3127,
     "skill_line": {
-     "n_eff": 209432,
+     "n_eff": 207425,
      "line": 0.4792,
      "passive_term": 0.4792,
-     "null_term": 0.3994,
+     "null_term": 0.3992,
      "mu_null": -0.1134,
      "sigma_null": 0.1036,
      "pool": "core48",
      "ledger_head": {
-      "total": 207425,
-      "file": "p1_results.json",
-      "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+      "total": 205418,
+      "file": "w1_results.json",
+      "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
      }
     },
     "line_ok": false,
@@ -6828,9 +6828,9 @@
    "dsr": {
     "dsr": 0.0,
     "sr_annualized": 0.3185,
-    "sr_star": 0.471279,
+    "sr_star": 0.471069,
     "sigma_sr": 0.013971,
-    "n_trials": 209432,
+    "n_trials": 207425,
     "T": 5247,
     "skew": -1.0926,
     "kurtosis": 21.6462
@@ -6861,17 +6861,17 @@
     "gate": "g1_prime_v2",
     "sharpe_full": 0.5273,
     "skill_line": {
-     "n_eff": 209432,
+     "n_eff": 207425,
      "line": 0.4792,
      "passive_term": 0.4792,
-     "null_term": 0.3994,
+     "null_term": 0.3992,
      "mu_null": -0.1134,
      "sigma_null": 0.1036,
      "pool": "core48",
      "ledger_head": {
-      "total": 207425,
-      "file": "p1_results.json",
-      "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+      "total": 205418,
+      "file": "w1_results.json",
+      "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
      }
     },
     "line_ok": true,
@@ -6898,9 +6898,9 @@
    "dsr": {
     "dsr": 0.0,
     "sr_annualized": 0.537,
-    "sr_star": 0.471279,
+    "sr_star": 0.471069,
     "sigma_sr": 0.013661,
-    "n_trials": 209432,
+    "n_trials": 207425,
     "T": 5247,
     "skew": 1.6331,
     "kurtosis": 120.7273
@@ -6929,17 +6929,17 @@
     "gate": "g1_prime_v2",
     "sharpe_full": 0.4961,
     "skill_line": {
-     "n_eff": 209432,
+     "n_eff": 207425,
      "line": 0.4792,
      "passive_term": 0.4792,
-     "null_term": 0.3994,
+     "null_term": 0.3992,
      "mu_null": -0.1134,
      "sigma_null": 0.1036,
      "pool": "core48",
      "ledger_head": {
-      "total": 207425,
-      "file": "p1_results.json",
-      "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+      "total": 205418,
+      "file": "w1_results.json",
+      "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
      }
     },
     "line_ok": true,
@@ -6966,9 +6966,9 @@
    "dsr": {
     "dsr": 0.0,
     "sr_annualized": 0.5053,
-    "sr_star": 0.471279,
+    "sr_star": 0.471069,
     "sigma_sr": 0.013299,
-    "n_trials": 209432,
+    "n_trials": 207425,
     "T": 5247,
     "skew": 3.9538,
     "kurtosis": 212.8031
@@ -6997,17 +6997,17 @@
     "gate": "g1_prime_v2",
     "sharpe_full": 0.5744,
     "skill_line": {
-     "n_eff": 209432,
+     "n_eff": 207425,
      "line": 0.4792,
      "passive_term": 0.4792,
-     "null_term": 0.3994,
+     "null_term": 0.3992,
      "mu_null": -0.1134,
      "sigma_null": 0.1036,
      "pool": "core48",
      "ledger_head": {
-      "total": 207425,
-      "file": "p1_results.json",
-      "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+      "total": 205418,
+      "file": "w1_results.json",
+      "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
      }
     },
     "line_ok": true,
@@ -7034,9 +7034,9 @@
    "dsr": {
     "dsr": 0.0,
     "sr_annualized": 0.585,
-    "sr_star": 0.471279,
+    "sr_star": 0.471069,
     "sigma_sr": 0.013445,
-    "n_trials": 209432,
+    "n_trials": 207425,
     "T": 5247,
     "skew": 2.864,
     "kurtosis": 159.6086
@@ -7065,17 +7065,17 @@
     "gate": "g1_prime_v2",
     "sharpe_full": 0.487,
     "skill_line": {
-     "n_eff": 209432,
+     "n_eff": 207425,
      "line": 0.4792,
      "passive_term": 0.4792,
-     "null_term": 0.3994,
+     "null_term": 0.3992,
      "mu_null": -0.1134,
      "sigma_null": 0.1036,
      "pool": "core48",
      "ledger_head": {
-      "total": 207425,
-      "file": "p1_results.json",
-      "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87"
+      "total": 205418,
+      "file": "w1_results.json",
+      "note": "exploration face: 4060 fusion combos + 58 rs controls + 400 nulls"
      }
     },
     "line_ok": true,
@@ -7102,9 +7102,9 @@
    "dsr": {
     "dsr": 0.0,
     "sr_annualized": 0.4959,
-    "sr_star": 0.471279,
+    "sr_star": 0.471069,
     "sigma_sr": 0.01338,
-    "n_trials": 209432,
+    "n_trials": 207425,
     "T": 5247,
     "skew": 3.1783,
     "kurtosis": 158.7343
@@ -43877,15 +43877,15 @@
  "n_trials": 2007,
  "verdict_line": "judged per prereg s4: G1'v2 on x2 faces vs own-null skill line; judged-negative = slot closed + new-evidence reopen note",
  "audit": {
-  "elapsed_sec": 7360.8,
+  "elapsed_sec": 4670.9,
   "workers": 4,
   "units_expected": 2007,
   "deterministic_sim": "no wall-clock inside sim outputs; double-run identity via selftest"
  },
  "trials_ledger": {
-  "prev_total": 207425,
+  "prev_total": 196382,
   "batch_trials": 2007,
-  "total": 209432,
+  "total": 198389,
   "batch": "CN_TREND_ETF_P1",
   "file": "cn_trend_etf_p1",
   "note": "7 judged cells (MA_BASE/MA_DUAL/MA_BG/MA_INVVOL/DON20_10/DON55_20/MA_TRAIL) event-driven 23-ETF trend sleeves + 2000 same-mask weekly-Bernoulli nulls (x2 judged face, seed band 20270201+k); V2 ADV20-tiered cost, judged x2 always on; prereg research/CN_TREND_ETF_PREREG.md frozen feb36786; T-2026-09-26-87",
