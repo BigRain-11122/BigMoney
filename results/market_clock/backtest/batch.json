@@ -1,0 +1,111 @@
+{
+ "batch": "MARKET_CLOCK_COMBO_S2",
+ "task": "T-2026-09-26-74 s2",
+ "prereg": "research/MARKET_CLOCK_COMBO.md",
+ "prereg_version": "v1.1 (s2 criteria v1.0 verbatim + s2b mechanics frozen pre-run)",
+ "carrier": "inline (global-stream property -> light batch, measured wall sec below; O-20260924-2100 heavy-batch pool law not triggered)",
+ "window": {
+  "start": "2007-01-04",
+  "end": "2026-09-22",
+  "starts": 228
+ },
+ "faces": {
+  "v3_states": "regime_deep_replay chain import (recorded deep face)",
+  "heat": "LHB parquet Money02\\data\\lhb\\lhb_detail.parquet",
+  "spectrum": "t18_deep_panel/ohlcv core48 deep cache",
+  "face_gaps_cash": [
+   "DIVLV",
+   "GRID",
+   "RED_RISKY",
+   "SAT"
+  ],
+  "investable_floor": 5,
+  "pre2013_members": "2 ETFs by 2007 -> early starts thin-spectrum (per-start n_days + investable share disclosed in CSV)"
+ },
+ "judgment": {
+  "line": "median Calmar(combo x1) vs median Calmar(EW-48 x1), same-start symmetric exclusion (either maxDD<1e-12 -> pair excluded); tie = FAIL per s2",
+  "b_maxdiv": "NOT_COMPUTABLE per-start (member deep-window replays structurally absent -- P5C leg D checkpoint empty, members have no pre-2020 face); per s2b interpretive clause the per-start max converges to EW-48; registered reference quoted below with window mismatch disclosed",
+  "b_maxdiv_registered_ref": {},
+  "combo_median_calmar": -0.14134053148648573,
+  "ew48_median_calmar": 0.16301043244779756,
+  "beat_rate": 0.0,
+  "valid_pairs": 228,
+  "excluded_pairs": 0,
+  "subgrid_nvalid5": {
+   "combo_median": -0.17526726838369164,
+   "ew48_median": 0.1867849849367912,
+   "n": 160
+  },
+  "x2_robustness": {
+   "combo_median": -0.19887414139025045,
+   "ew48_median": 0.1518450536648815
+  },
+  "random_baseline_median_calmars": [
+   -0.4451118474829717,
+   -0.3938407416983889,
+   -0.41364396578638085
+  ],
+  "verdict": "FAIL"
+ },
+ "attribution_8cell": {
+  "GREEN_COOL": {
+   "day_share": 0.4209,
+   "contrib_sum": 0.9381,
+   "mean_live_exp": 0.5234
+  },
+  "GREEN_HOT": {
+   "day_share": 0.0547,
+   "contrib_sum": -0.2226,
+   "mean_live_exp": 0.587
+  },
+  "ORANGE_COOL": {
+   "day_share": 0.0115,
+   "contrib_sum": -0.0359,
+   "mean_live_exp": 0.0736
+  },
+  "ORANGE_HOT": {
+   "day_share": 0.0023,
+   "contrib_sum": -0.0312,
+   "mean_live_exp": 0.1568
+  },
+  "RED_COOL": {
+   "day_share": 0.1579,
+   "contrib_sum": -0.1102,
+   "mean_live_exp": 0.0065
+  },
+  "RED_HOT": {
+   "day_share": 0.0273,
+   "contrib_sum": -0.0062,
+   "mean_live_exp": 0.0183
+  },
+  "YELLOW_COOL": {
+   "day_share": 0.2762,
+   "contrib_sum": -0.5512,
+   "mean_live_exp": 0.3097
+  },
+  "YELLOW_HOT": {
+   "day_share": 0.0492,
+   "contrib_sum": -0.3401,
+   "mean_live_exp": 0.316
+  }
+ },
+ "d6_family_check": "DEFERRED (physical dependency: T-73 CN-combo C-arm batch in flight at finalize time; correlation row to be appended when the family lands -- s2b frozen clause, disclosed not skipped)",
+ "trials": {
+  "combo_cells": 456,
+  "ew48_cells": 456,
+  "random_cells": 684
+ },
+ "wall_seconds": 12.8,
+ "generated": "2026-09-26 10:21:16",
+ "evidence_cutoff": "2026-09-22",
+ "trials_ledger": {
+  "prev_total": 185282,
+  "batch_trials": 456,
+  "total": 185738,
+  "batch": "MARKET_CLOCK_COMBO_S2",
+  "file": "results/market_clock/backtest/batch.json",
+  "note": "T-74 s2 market-clock combo full-history replay; starts x {x1,x2}",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "re_run_disclosure": "run1 (same prereg, same round) produced all-cash zero streams via a silent str-index reindex defect (t18 cache stores str-date index vs bench datetime64 -> all-NaN spectrum); preserved verbatim at batch_run1_defective.json with its own 456-trial ledger entry (real compute, defective semantics); fix = index normalization in build_spectrum (commit precedes run2); run2 = this file. Both runs honestly counted in the chain."
+}
