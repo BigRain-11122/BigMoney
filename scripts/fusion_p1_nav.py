@@ -202,14 +202,33 @@ def member_job(tid: str) -> dict:
             "anchor": _member_anchor(t, r1, r2)}
 
 
+def _ov_recorded_basis() -> str:
+    """The overlay faces' RECORDED evidence basis = the exit_overlay_p1.json
+    artifact's own top-level evidence_cutoff (2026-09-24). ZERO-RUN
+    AMENDMENT (r251 law; anchor census refused, zero products on disk,
+    2026-09-27 ~00:4x): overlay_job originally truncated at the CARRIER's
+    evidence_cutoff (2026-09-22) -- but the recorded stress_x2 face was
+    produced at the overlay batch's own 2026-09-24 panel, so 2 bars
+    (09-23/09-24) systematically shifted the repro (+0.001-0.019 sharpe,
+    3/4 wired faces over ANCHOR_TOL). Anchor-to-source-of-truth (r261 law):
+    the recorded face reproduces at ITS OWN declared basis, read from the
+    artifact (never hardcoded); base member jobs keep their per-member
+    snapshot cutoffs untouched."""
+    with open(OV_REF, encoding="utf-8") as f:
+        v = json.load(f).get("evidence_cutoff")
+    if not v:
+        raise RuntimeError("exit_overlay_p1.json evidence_cutoff absent")
+    return str(v)
+
+
 def overlay_job(face: str, carrier: str) -> dict:
     """Worker fn: one T-78 overlay cell on its CE carrier, both cost faces.
     run_carrier semantics verbatim (params/patch merge, engine_kw additive),
-    truncated at the carrier's frozen evidence_cutoff."""
+    truncated at the overlay batch's RECORDED basis (see _ov_recorded_basis)."""
     t = _load_caliber_trader(carrier)
     spec = CELLS[face]
     pf = E.PRICES_FULL
-    cutoff = evidence_cutoff(t, pf)
+    cutoff = _ov_recorded_basis()
     ps = pd.Timestamp(cutoff)
     prices = {s: df[df.index <= ps] for s, df in pf.items()}
     P = build_panels(prices)
@@ -238,6 +257,7 @@ def overlay_job(face: str, carrier: str) -> dict:
                                       "provenance": {
                                           "spec": "results/t56_caliber_registry/firm/traders/%s.json + exit_overlay_p1.CELLS[%s]" % (carrier, face),
                                           "engine": "exit_overlay_p1.run_carrier semantics (engine.run_backtest, engine_kw additive)",
+                                          "basis": "RECORDED overlay-batch evidence_cutoff %s (exit_overlay_p1.json self-declared; r251 zero-run amendment, anchor-to-source-of-truth)" % cutoff,
                                           "cost": "x1=COST_X1_RATE" if cm is None else "x2=CostPatch(2)"}}))
     with open(OV_REF, encoding="utf-8") as f:
         want = (json.load(f).get("stress_x2") or {}).get(f"{carrier}:{face}") or {}
@@ -302,7 +322,10 @@ def run() -> int:
         "evidence_cutoff": EVIDENCE_CUTOFF,
         "cutoff_note": ("operative truncation = per-member frozen evidence_cutoff "
                         "(caliber r256 A1 pin law); ticket cites the 2026-09-24 panel "
-                        "availability face -- NAVs exclude post-09-22 bars by member law"),
+                        "availability face -- NAVs exclude post-09-22 bars by member law. "
+                        "OVERLAY faces: per-face RECORDED basis = exit_overlay_p1.json "
+                        "self-declared evidence_cutoff (r251 zero-run amendment, "
+                        "anchor-to-source-of-truth; lines disclose it in provenance.basis)"),
         "members_census": {"CE6": len(CE6), "PROSPECT": len(FROZEN_ROSTER) - len(CE6),
                            "OVERLAY_WIRED_CELLS": len(wired)},
         "wired_overlay_cells": [f"{c}:{f}" for f, c in wired],
@@ -355,6 +378,10 @@ def selftest() -> int:
         sx2 = json.load(f).get("stress_x2") or {}
     check("wired cells recorded in stress_x2",
           all(f"{c}:{f}" in sx2 for f, c in wired))
+    # [4b] recorded overlay basis parses (r251 amendment regression leg)
+    ov_basis = _ov_recorded_basis()
+    check("overlay recorded basis self-declared",
+          (bool(ov_basis), ov_basis), (True, "2026-09-24"))
     # [5] anchor faces resolvable on spec files (backtest or prospect)
     no_face = []
     for tid in FROZEN_ROSTER:
