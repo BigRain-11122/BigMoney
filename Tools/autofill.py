@@ -167,7 +167,14 @@ def _owner_age_min(owner, shard):
 
 
 def _runner_alive(runner_rel):
-    """True if a python process is already running this entry's runner."""
+    """True if a python process is already running this entry's runner.
+    Null/empty runner -> False (live 2026-09-27: T34-PRESIGNAL-HALFSTEP
+    pool entry carries explicit runner=null -- .get("runner", "") default
+    never fires on null -- so the keepalive scan crashed on
+    .replace() every tick 02:40-07:10, leaving the r288 claim-refresh
+    line dead while a local burn runs)."""
+    if not runner_rel:
+        return False
     import psutil
     needle = runner_rel.replace("/", "\\").lower()
     for p in psutil.process_iter(["name", "cmdline"]):
@@ -1088,6 +1095,29 @@ def selftest():
            ka == ["s0"] and add_args_all
            and add_args_all[-1] == (POOL, STATE, FUSE))
         _runner_alive = _ka_runner
+        # S18 null-runner entries (live 2026-09-27 02:40-07:10: keepalive
+        # scan AttributeError'd on an explicit runner=null pool entry --
+        # null guard + regression legs; S18c replays the exact live shape
+        # and asserts zero fault-log delta + zero refresh + file intact).
+        ok("S18a _runner_alive(None) -> False (null guard, no psutil)",
+           _runner_alive(None) is False)
+        ok("S18b _runner_alive('') -> False", _runner_alive("") is False)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(
+                entry, runner=None,
+                shards=[dict(entry["shards"][0], owner="bm-b",
+                             owner_since="2026-09-24 18:00:00")])]}, fh)
+        log18 = (open(LOG, encoding="utf-8", errors="replace").read()
+                 if os.path.exists(LOG) else "")
+        ka = _keepalive_claims(
+            json.load(open(POOL, encoding="utf-8")), "bm-b")
+        ok("S18c null-runner entry -> keepalive scan no fault, no refresh",
+           ka == []
+           and "keepalive fault" not in
+           open(LOG, encoding="utf-8", errors="replace").read()[len(log18):]
+           and json.load(open(POOL, encoding="utf-8"))
+           ["entries"][0]["shards"][0]["owner_since"]
+           == "2026-09-24 18:00:00")
         # S16 O-0947 crash-loop fuse: confirm pass -- own dead launch with
         # shard still un-landed past the confirm window counts ONCE into
         # the shared registry with its launch-time code hash; landed /
