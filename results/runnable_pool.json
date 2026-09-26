@@ -1632,7 +1632,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 23:18:20",
    "data_gates": "in-runner fail-closed exit 2: caliber manifest dual-gate hash verify (R253 raw+LF law, bare-name keys under firm/traders) + per-member hard anchors (CE backtest-block via p3.anchor_checks ANCHOR_TOL / PROSPECT prospect.recorded_* / overlay x2 vs frozen stress_x2 of results/exit_overlay_p1.json) + census gate (lines == 28x2 + wired_overlayx2, wired set = stress_x2 recorded combos zero-invention) + atomic tmp+rename + idempotent complete-census no-op (FUSION_P1_NAV_REFINALIZE=1 = only redo); selftest 15/15 pre-pooling (r263 law)",
    "workers_plan": {
@@ -1643,14 +1643,15 @@
    "shards": [
     {
      "key": "fusion-nav-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "checkpoint": "results/fusion_p1/navs.jsonl atomic complete census (64 lines) = landed marker; harvest round flips entry+shard done per r244 landed-marker law",
      "note": "single shard, internal ProcessPool parallelism; results/fusion_p1/navs_summary.json carries evidence_cutoff + anchors + audit.workers",
      "owner_since": "2026-09-27 00:00:03"
     }
    ],
-   "note": "R277 supply-line discharge of pool_starvation red card (v2.3 any-day law first live fire, span 251min): first real batch of the O-2320 three-ticket quenching line; s2 fusion grid + s3 gates owe their own frozen prereg BEFORE any judged run (R99); B_MAXDIV enters as benchmark only (T-27 veto window until 10-01 zero wiring)."
+   "note": "R277 supply-line discharge of pool_starvation red card (v2.3 any-day law first live fire, span 251min): first real batch of the O-2320 three-ticket quenching line; s2 fusion grid + s3 gates owe their own frozen prereg BEFORE any judged run (R99); B_MAXDIV enters as benchmark only (T-27 veto window until 10-01 zero wiring).",
+   "harvest_note": "landed 2026-09-26 23:52:59 bm-a (dead-R278 direct fire, R41 <5min exemption; adopted 57a6d9fe): 64-line census all faces, anchor_all_ok=true, 12 workers 5.0s, evidence_cutoff 2026-09-22 (per-member), overlay faces at RECORDED basis 09-24 (zero-run amendment, anchor-to-source-of-truth r261); products results/fusion_p1/{navs.jsonl,navs_summary.json,anchor_report.json}; claim race: bm-a 23:50:03 first+executor, bm-b 00:00:04 stale-read void per S4"
   },
   {
    "id": "REV-OSC-STOCK-P1",
