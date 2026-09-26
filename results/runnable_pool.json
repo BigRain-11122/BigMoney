@@ -1621,6 +1621,36 @@
    "note": "N=104 on the D1 bill (4 judged cells + 100 two-arm nulls); prereg s0/s6; family machinery reuse (CS panel + DRV engine + SRP guards + science_gates shared criteria); verdict face = x2 V2 cost always-on",
    "updated_at": "2026-09-26 18:46:08",
    "harvest_note": "harvested bm-a R263 2026-09-26 18:5x: p1_results.json landed 18:43:56 (trials_ledger prev 187741 + 104 = 187845, canonical head re-derived 187845; evidence_cutoff 2026-09-22 D2; 2x2 cells differentiated CORE_DD10 0.1048 / CORE_DD20 0.3086 / SAT40_DD10 0.3796 / SAT40_DD20 0.4477; g1/g2 all-False honest negative); launch arc = 5 launches, first 4 died pre-finalize zero-ledger-pollution (naming bug x2, dead-condition bug, h4 prev-audit n-1 crash), 5th (pid 37364, runner c4161eec) landed 22.3s; harvest gate = results/_r263bma_coreddctl_harvest.py exit 0 (self-verifiable)"
+  },
+  {
+   "id": "FUSION-P1-NAV",
+   "ticket_ref": "T-2026-09-26-85 s1 (CEO order O-20260926-2320 24h saturation; claimed bm-a R277 commit aea185e3)",
+   "prereg_ref": "s1 NAV harvest = derivation face, ledger +0 (anchor-replay t24 precedent); prereg freeze due BEFORE s2/s3 fusion-grid judged runs (R99 law); member specs pinned to results/t56_caliber_registry snapshot (r256 A1 law, manifest dual-gate verified)",
+   "runner": "scripts/fusion_p1_nav.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-26 23:18:20",
+   "data_gates": "in-runner fail-closed exit 2: caliber manifest dual-gate hash verify (R253 raw+LF law, bare-name keys under firm/traders) + per-member hard anchors (CE backtest-block via p3.anchor_checks ANCHOR_TOL / PROSPECT prospect.recorded_* / overlay x2 vs frozen stress_x2 of results/exit_overlay_p1.json) + census gate (lines == 28x2 + wired_overlayx2, wired set = stress_x2 recorded combos zero-invention) + atomic tmp+rename + idempotent complete-census no-op (FUSION_P1_NAV_REFINALIZE=1 = only redo); selftest 15/15 pre-pooling (r263 law)",
+   "workers_plan": {
+    "workers": "min(worker_cap(), 12) ProcessPool via parallel_runner.run_cells_parallel (O-2130 compliant)",
+    "priority": "BelowNormal",
+    "note": "autofill sets BelowNormal on launch; 32 jobs (28 base-member jobs x2 cost faces inside + 4 wired-overlay jobs x2 inside); est minutes-class wall (56-sleeve battery precedent ~9s on bm-a class); deterministic idempotent"
+   },
+   "shards": [
+    {
+     "key": "fusion-nav-0of1",
+     "status": "ready",
+     "owner": "bm-a",
+     "checkpoint": "results/fusion_p1/navs.jsonl atomic complete census (64 lines) = landed marker; harvest round flips entry+shard done per r244 landed-marker law",
+     "note": "single shard, internal ProcessPool parallelism; results/fusion_p1/navs_summary.json carries evidence_cutoff + anchors + audit.workers",
+     "owner_since": "2026-09-26 23:20:03"
+    }
+   ],
+   "note": "R277 supply-line discharge of pool_starvation red card (v2.3 any-day law first live fire, span 251min): first real batch of the O-2320 three-ticket quenching line; s2 fusion grid + s3 gates owe their own frozen prereg BEFORE any judged run (R99); B_MAXDIV enters as benchmark only (T-27 veto window until 10-01 zero wiring)."
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
