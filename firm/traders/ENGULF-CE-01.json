@@ -10,10 +10,19 @@
     "entry": "engulf_reversal(drop_th=-0.05)",
     "time_decay_period": 25,
     "time_decay_threshold": 0.05,
-    "trailing_stop_activate": 0.1
+    "trailing_stop_activate": 0.03,
+    "take_profit_levels": [
+      0.05,
+      0.08
+    ],
+    "trailing_lock": 0.05
   },
   "exit_overrides": {
-    "loss_time_days": 16
+    "loss_time_days": 16,
+    "take_profit_fractions": [
+      0.5,
+      0.5
+    ]
   },
   "repro": {
     "script": "scripts/g2_folk.py",
@@ -21,21 +30,21 @@
   },
   "backtest": {
     "in_sample": {
-      "sharpe": 0.6239,
-      "max_dd": -0.0423,
-      "annual": 0.0201,
-      "trades": 99
+      "sharpe": 0.6121,
+      "max_dd": -0.0426,
+      "annual": 0.0197,
+      "trades": 104
     },
     "out_sample": {
-      "sharpe": 0.2944,
-      "max_dd": -0.0366,
-      "annual": 0.0091,
-      "trades": 44
+      "sharpe": 0.3835,
+      "max_dd": -0.0376,
+      "annual": 0.012,
+      "trades": 46
     },
     "cost_x2": {
-      "sharpe": 0.402,
+      "sharpe": 0.4147,
       "survive": true,
-      "note": "recorded batch-2A info column; x3 0.2633 not required (J15 precedent)"
+      "note": "recorded batch-2A info column; x3 0.2633 not required (J15 precedent); re-derived 2026-09-26 with T-78 overlay (prereg s4 same-round expectation update)"
     }
   },
   "paper": {
@@ -47,7 +56,7 @@
     "x2_watch": {
       "status": "probation",
       "probation": true,
-      "margin": 0.0016,
+      "margin": 0.0143,
       "survive": true,
       "source": "registration_x2_seed",
       "as_of": "2026-09-26"
@@ -70,7 +79,18 @@
       "from": "INTERN",
       "to": "INTERN",
       "note": "P-5B random-entry due diligence (O-2345, seed 20260924, K=50): beat_rate_6m 0.60 / min_dd_6m -4.14% -> FAIL 0.70 beat-line (dd clause PASS). Regime-dependence disclosed book-wide (old cohort pooled 0.6467 same verdict); alpha quality adjudication stays with the paper channel; level/paper data untouched per prereg s5"
+    },
+    {
+      "date": "2026-09-26",
+      "from": "INTERN",
+      "to": "INTERN",
+      "note": "T-78 s4 EXIT-OVERLAY-P1 winner wiring: cell ov_full (params+=take_profit_levels,trailing_lock,trailing_stop_activate; exit_overrides+=take_profit_fractions; dd_control=on). WIN per frozen dual-face non-hurt gate; batch evidence results/exit_overlay_p1.json pairs/stress_x2 (d_full=0.0146, d_oos=0.0889). Anchor expectations re-derived same round per prereg s4; three-state: legislation=commit / effect=anchor re-derive PASS / review=post_review pending. Rejected cells not wired (lessons research/EXIT_OVERLAY_P1.md 8)."
     }
   ],
-  "notes": "Classic bullish engulfing + >=5% five-day drop context, exit reclaim MA20; CE exit machine (loss_time 16 + decay 25d/5% + trail 0.10). Cross-family ladder: confirmation > context > oscillator (batch-2A + folk-batch mechanism reading)"
+  "notes": "Classic bullish engulfing + >=5% five-day drop context, exit reclaim MA20; CE exit machine (loss_time 16 + decay 25d/5% + trail 0.10). Cross-family ladder: confirmation > context > oscillator (batch-2A + folk-batch mechanism reading)",
+  "dd_control": {
+    "dd_trigger": -0.1,
+    "de_risk_to": 0.5,
+    "re_up_at": -0.05
+  }
 }

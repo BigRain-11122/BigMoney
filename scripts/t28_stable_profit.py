@@ -85,7 +85,8 @@ def _sleeve_worker(tid, mult, prices, cutoff):
     cctx = CostPatch(mult) if mult else nullcontext()
     with cctx, ExitPatch(t.get("exit_overrides")):
         res = run_backtest(prices, params, entry_signal=entry,
-                           exit_signal=(entry <= 0))
+                           exit_signal=(entry <= 0),
+                           dd_control=t.get("dd_control"))
     eq = pd.Series(res["equity_curve"],
                    index=idx[:len(res["equity_curve"])])
     eq = eq[eq.index <= cutoff]

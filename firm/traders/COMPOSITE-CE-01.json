@@ -12,10 +12,18 @@
     "position_size_pct": 0.19,
     "time_decay_period": 25,
     "time_decay_threshold": 0.05,
-    "trailing_stop_activate": 0.1
+    "trailing_stop_activate": 0.1,
+    "take_profit_levels": [
+      0.05,
+      0.08
+    ]
   },
   "exit_overrides": {
-    "loss_time_days": 16
+    "loss_time_days": 16,
+    "take_profit_fractions": [
+      0.5,
+      0.5
+    ]
   },
   "repro": {
     "script": "scripts/ce_transfer.py",
@@ -23,22 +31,22 @@
   },
   "backtest": {
     "in_sample": {
-      "sharpe": 0.4514,
-      "max_dd": -0.1633,
-      "annual": 0.0283,
-      "trades": 302
+      "sharpe": 0.4696,
+      "max_dd": -0.1592,
+      "annual": 0.0286,
+      "trades": 312
     },
     "out_sample": {
-      "sharpe": 1.6085,
-      "max_dd": -0.0567,
-      "annual": 0.1441,
-      "trades": 172
+      "sharpe": 1.7479,
+      "max_dd": -0.0434,
+      "annual": 0.1366,
+      "trades": 181
     },
     "cost_x2": {
-      "sharpe": 0.5228,
-      "oos_sharpe": 1.2661,
+      "sharpe": 0.5242,
+      "oos_sharpe": 1.363,
       "survive": true,
-      "note": "J19 transfer gate x2 (26bp single-side); x3 recorded only. Evidence: results/ce_transfer.json cost_stress"
+      "note": "J19 transfer gate x2 (26bp single-side); x3 recorded only. Evidence: results/ce_transfer.json cost_stress; re-derived 2026-09-26 with T-78 overlay (prereg s4 same-round expectation update)"
     }
   },
   "paper": {
@@ -50,7 +58,7 @@
     "x2_watch": {
       "status": "ok",
       "probation": false,
-      "margin": 0.1224,
+      "margin": 0.1238,
       "survive": true,
       "source": "registration_x2_seed",
       "as_of": "2026-09-26"
@@ -67,6 +75,12 @@
       "from": null,
       "to": "INTERN",
       "note": "J19 CE-machine transfer one-shot pass: six G1' clauses + OOS>=0.7284 + cost x2 survive + no crash year. Evidence: research/CE_TRANSFER.md, research/ce_transfer_results.csv, ledger N=717"
+    },
+    {
+      "date": "2026-09-26",
+      "from": "INTERN",
+      "to": "INTERN",
+      "note": "T-78 s4 EXIT-OVERLAY-P1 winner wiring: cell ov_tp_ladder (params+=take_profit_levels; exit_overrides+=take_profit_fractions). WIN per frozen dual-face non-hurt gate; batch evidence results/exit_overlay_p1.json pairs/stress_x2 (d_full=0.0301, d_oos=0.1386). Anchor expectations re-derived same round per prereg s4; three-state: legislation=commit / effect=anchor re-derive PASS / review=post_review pending. Rejected cells not wired (lessons research/EXIT_OVERLAY_P1.md 8)."
     }
   ],
   "notes": "J15-registered CE exit machine (loss_time 16 + decay 25d/5% + trail 0.10) as-is port onto composite_top5 20d rotation; exit-rule priority untouched"

@@ -300,7 +300,8 @@ def anchor_gate(t: dict, prices_full: dict) -> dict:
     params = {k: v for k, v in t["params"].items() if k != "entry"}
     with ExitPatch(t.get("exit_overrides")):
         res = run_backtest(prices, params, entry_signal=entry,
-                           exit_signal=(entry <= 0))
+                           exit_signal=(entry <= 0),
+                           dd_control=t.get("dd_control"))
     eq = pd.Series(res["equity_curve"], index=idx[:len(res["equity_curve"])])
     n_trades = res["metrics"]["num_trades"]
     oos_trades = sum(1 for tr in res["trades"] if str(tr["date"]) >= OOS_START)
@@ -362,7 +363,8 @@ def prospect_anchor_gate(t: dict, prices_full: dict) -> dict:
     params = {k: v for k, v in t["params"].items() if k != "entry"}
     with ExitPatch(t.get("exit_overrides")):
         res = run_backtest(prices, params, entry_signal=entry,
-                           exit_signal=(entry <= 0))
+                           exit_signal=(entry <= 0),
+                           dd_control=t.get("dd_control"))
     eq = pd.Series(res["equity_curve"], index=idx[:len(res["equity_curve"])])
     n_trades = res["metrics"]["num_trades"]
     oos_trades = sum(1 for tr in res["trades"] if str(tr["date"]) >= OOS_START)
@@ -468,7 +470,8 @@ def paper_run(t: dict, prices_full: dict, P: dict,
     with ExitPatch(t.get("exit_overrides")):
         res = run_backtest(window, params, entry_signal=entry,
                            exit_signal=(entry <= 0),
-                           fill_guard=guard, entry_size_scale=scale)
+                           fill_guard=guard, entry_size_scale=scale,
+                           dd_control=t.get("dd_control"))
     idx = P["close"].index
     widx = idx[idx >= ps][:len(res["equity_curve"])]
     eq = pd.Series(res["equity_curve"], index=widx)
@@ -511,7 +514,8 @@ def cost_x2_check(t: dict, prices_full: dict, P: dict, vi_bar,
     params = {k: v for k, v in t["params"].items() if k != "entry"}
     with CostPatch(2), ExitPatch(t.get("exit_overrides")):
         res = run_backtest(window, params, entry_signal=entry,
-                           exit_signal=(entry <= 0), fill_guard=fill_guard)
+                           exit_signal=(entry <= 0), fill_guard=fill_guard,
+                           dd_control=t.get("dd_control"))
     s = res["metrics"]["sharpe"]
     return {"status": "ok", "paper_window_sharpe_x2": s,
             "skill_bar": vi_bar, "survive": bool(s > vi_bar),
