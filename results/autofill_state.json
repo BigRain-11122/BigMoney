@@ -2,30 +2,6 @@
  "launches": [
   {
    "entry": "MF-ROT-S1",
-   "fill_latency_min": 38.5,
-   "machine": "bm-a",
-   "pid": 6060,
-   "py_cpu_pct": 0.0,
-   "shard": "mf-0of1",
-   "target_met": false,
-   "ts": "2026-09-25 14:00:01",
-   "verdict": "launched",
-   "crash_counted": true
-  },
-  {
-   "entry": "MF-ROT-S1",
-   "fill_latency_min": 38.6,
-   "machine": "bm-b",
-   "pid": 29548,
-   "py_cpu_pct": 0.0,
-   "shard": "mf-0of1",
-   "target_met": false,
-   "ts": "2026-09-25 14:00:02",
-   "verdict": "launched",
-   "crash_counted": true
-  },
-  {
-   "entry": "MF-ROT-S1",
    "fill_latency_min": 48.6,
    "machine": "bm-b",
    "pid": 23664,
@@ -599,12 +575,42 @@
    "ts": "2026-09-26 07:04:04",
    "verdict": "launched",
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-26 11:29:38",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "GPU-FACTOR-LANE-PROOF",
+   "shard": "gpu-proof-0of1",
+   "pid": 23276,
+   "runner_sha256": "409a600747336f74",
+   "fill_latency_min": 97.7,
+   "target_met": false
+  },
+  {
+   "ts": "2026-09-26 11:34:40",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "GPU-FACTOR-LANE-PROOF",
+   "shard": "gpu-proof-0of1",
+   "pid": 56984,
+   "runner_sha256": "af292e9414410e72",
+   "fill_latency_min": 102.7,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 11:20:01",
-  "machine": "bm-b",
+  "ts": "2026-09-26 11:34:40",
+  "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "launched",
+  "entry": "GPU-FACTOR-LANE-PROOF",
+  "shard": "gpu-proof-0of1",
+  "pid": 56984,
+  "runner_sha256": "af292e9414410e72",
+  "fill_latency_min": 102.7,
+  "target_met": false
  }
 }
