@@ -32,13 +32,15 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import pandas as pd
+import numpy as np
 
 from config import PATHS
 import ew6_portfolio as E
 from iv6_portfolio import _init_worker
 from parallel_runner import run_cells_parallel, worker_cap
 from live import paper as lp
-from live.paper import OOS_START, evidence_cutoff, build_panels
+from live.paper import (OOS_START, evidence_cutoff, build_panels,
+                        seg_metrics, _evidence_matches)
 import p3_portfolio
 from p3_portfolio import member_run, anchor_checks
 from science_gates import CostPatch
@@ -117,17 +119,44 @@ def _close(a, b, tol=ANCHOR_TOL) -> bool:
 
 
 def _member_anchor(t: dict, r1: dict, r2: dict) -> dict:
-    """CE: p3.anchor_checks verbatim; PROSPECT: prospect.recorded_* face."""
+    """CE: p3.anchor_checks verbatim; PROSPECT: prospect.recorded_* face.
+
+    ZERO-RUN AMENDMENT (r251 law; navs census never landed, crash pre-product
+    2026-09-26 ~23:4x): 3 CE frozen specs (DROUGHT-CE-01 / ENGULF-CE-01 /
+    NEEDLE-DE-01) registered their x2 evidence block as full-sharpe-only --
+    cost_x2 = {sharpe, survive, note} with NO oos_sharpe key (live
+    anchor_gate consumes the same face). p3.anchor_checks reads
+    x2["oos_sharpe"] unconditionally (built for the oos-carrying specs) ->
+    KeyError on those 3 members. For them the anchor runs the SAME verbatim
+    legs (1x IS/OOS evidence match + x2 full-sharpe) with the x2 OOS leg an
+    honest skip (want=None disclosed). No fabricated keys, no loosened tol."""
     bt = t.get("backtest") or {}
     if isinstance(bt, dict) and bt.get("in_sample") and bt.get("cost_x2"):
-        ac = anchor_checks(t, r1, r2)
-        return {"face": "backtest-block", "ok": bool(ac["anchor_ok"] and ac["x2_ok"]),
-                "got_is": ac["got_is"].get("sharpe"),
+        x2 = bt["cost_x2"]
+        if "oos_sharpe" in x2:
+            ac = anchor_checks(t, r1, r2)
+            return {"face": "backtest-block", "ok": bool(ac["anchor_ok"] and ac["x2_ok"]),
+                    "got_is": ac["got_is"].get("sharpe"),
+                    "want_is": bt["in_sample"].get("sharpe"),
+                    "got_oos": ac["got_oos"].get("sharpe"),
+                    "want_oos": bt["out_sample"].get("sharpe"),
+                    "got_x2_full": ac["got_x2_full"], "want_x2_full": ac["want_x2_full"],
+                    "got_x2_oos": ac["got_x2_oos"], "want_x2_oos": ac["want_x2_oos"]}
+        got_is = {**seg_metrics(r1["eq"][r1["eq"].index < OOS_START]),
+                  "trades": r1["n_trades"] - r1["oos_trades"]}
+        got_oos = {**r1["oos"], "trades": r1["oos_trades"]}
+        a_ok = (_evidence_matches(got_is, bt["in_sample"])
+                and _evidence_matches(got_oos, bt["out_sample"]))
+        x_ok = abs(r2["full"]["sharpe"] - x2["sharpe"]) < ANCHOR_TOL
+        return {"face": "backtest-block-x2full-only", "ok": bool(a_ok and x_ok),
+                "got_is": got_is.get("sharpe"),
                 "want_is": bt["in_sample"].get("sharpe"),
-                "got_oos": ac["got_oos"].get("sharpe"),
+                "got_oos": got_oos.get("sharpe"),
                 "want_oos": bt["out_sample"].get("sharpe"),
-                "got_x2_full": ac["got_x2_full"], "want_x2_full": ac["want_x2_full"],
-                "got_x2_oos": ac["got_x2_oos"], "want_x2_oos": ac["want_x2_oos"]}
+                "got_x2_full": r2["full"]["sharpe"], "want_x2_full": x2["sharpe"],
+                "got_x2_oos": r2["oos"]["sharpe"], "want_x2_oos": None,
+                "x2_oos_leg": ("absent-in-frozen-spec: full-sharpe-only x2 "
+                               "registration, honest skip disclosed")}
     pr = t.get("prospect") or {}
     ok = (_close(r1["full"]["sharpe"], pr.get("recorded_full_sharpe"))
           and _close(r1["oos"]["sharpe"], pr.get("recorded_oos_sharpe"))
@@ -334,6 +363,39 @@ def selftest() -> int:
         if not (bt.get("in_sample") and bt.get("cost_x2")) and not pr.get("recorded_full_sharpe"):
             no_face.append(tid)
     check("every member has an anchor face", no_face, [])
+    # [5b] x2-key census truth (r278 crash regression leg, r261 law): the
+    # frozen specs split into oos-carrying vs full-sharpe-only x2 blocks;
+    # the full-only set is byte-stable under the manifest dual-gate [2].
+    full_only = sorted(
+        tid for tid in FROZEN_ROSTER[:6]
+        if isinstance((_load_caliber_trader(tid).get("backtest") or {})
+                      .get("cost_x2"), dict)
+        and "oos_sharpe" not in _load_caliber_trader(tid)["backtest"]["cost_x2"])
+    check("x2 full-sharpe-only set (frozen truth)",
+          full_only, ["DROUGHT-CE-01", "ENGULF-CE-01", "NEEDLE-DE-01"])
+    # [5c] amendment branch pure math (hermetic synthetic faces; seg_metrics
+    # needs >=20 bars and nonzero variance, live.paper F4 honesty law)
+    idx5 = pd.date_range("2020-01-01", periods=60, freq="D")
+    steps = 1.0 + np.linspace(0.001, 0.003, 60)
+    eq5 = pd.Series(np.cumprod(steps), index=idx5)
+    m_is = seg_metrics(eq5)
+    m_oss = seg_metrics(eq5)
+    r1s = {"eq": eq5, "cutoff": "2026-09-22", "n_trades": 40, "oos_trades": 10,
+           "full": {"sharpe": 0.55}, "oos": {**m_oss, "trades": 10}}
+    r2s = {"eq": eq5, "cutoff": "2026-09-22", "n_trades": 40, "oos_trades": 10,
+           "full": {"sharpe": 0.59}, "oos": {**m_oss, "trades": 10}}
+    bt5 = {"in_sample": {**m_is, "trades": 30},
+           "out_sample": {**m_oss, "trades": 10},
+           "cost_x2": {"sharpe": 0.59, "survive": True}}
+    am = _member_anchor({"backtest": bt5}, r1s, r2s)
+    check("amendment branch pass face",
+          (am["face"], am["ok"], am["want_x2_oos"]),
+          ("backtest-block-x2full-only", True, None))
+    bt5d = {"in_sample": {**m_is, "trades": 30},
+            "out_sample": {**m_oss, "trades": 10},
+            "cost_x2": {"sharpe": 0.80, "survive": True}}
+    amd = _member_anchor({"backtest": bt5d}, r1s, r2s)
+    check("amendment branch drift refusal", amd["ok"], False)
     # [6] schema round-trip + pure anchor math
     line = {"member": "X", "cost_face": "x1", "eq": [1.0, 1.1], "dates": ["2020-01-01"]}
     check("jsonl line round-trip",
