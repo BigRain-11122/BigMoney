@@ -1,0 +1,113 @@
+{
+ "round": 277,
+ "machine": "bm-a",
+ "ts_start": "2026-09-26 23:12:57",
+ "legs": {
+  "compute_audit": {
+   "rc": 0,
+   "sec": 7.7,
+   "tail": "{\"ts\": \"2026-09-26 23:13:05\", \"audit_version\": \"v2.3\", \"cpu_total_pct\": 37.0, \"py_cpu_pct\": 1.2, \"cores\": 32, \"py_procs\": 8, \"result_stale_min\": 0.6, \"fleet_open_tasks\": 1, \"pool_ready_count\": 0, \"loa"
+  },
+  "py_watermark": {
+   "rc": 0,
+   "sec": 6.3,
+   "tail": "{\"ts\": \"2026-09-26 23:13:11\", \"epoch\": 1790435585.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 61.0, \"cores\": 32, \"py_cpu_pct\": 0.1, \"py_procs\": 8, \"top_proc_cores\": 0.01, \"local_batch_running\": false, \"ope"
+  },
+  "update_daily": {
+   "rc": 0,
+   "sec": 1.8,
+   "tail": "status -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\update_status.json"
+  },
+  "market_regime": {
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "  trigger: breadth 0.77>=65%"
+  },
+  "strategy_scorecard": {
+   "rc": 0,
+   "sec": 8.3,
+   "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (8.2s)"
+  },
+  "market_clock_call": {
+   "rc": 0,
+   "sec": 3.8,
+   "tail": "call written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-24.md cell=ORANGE_COOL sleeves=4 activated=0"
+  },
+  "update_lhb": {
+   "rc": 0,
+   "sec": 7.5,
+   "tail": "100%|██████████| 11/11 [00:05<00:00,  1.94it/s]"
+  },
+  "update_heat": {
+   "rc": 0,
+   "sec": 0.6,
+   "tail": "no-op: weekend (no trading-day snapshot)"
+  },
+  "update_futures": {
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: local cutoff 2026-09-24 covers expected complete-bar date 2026-09-24 -> zero network"
+  },
+  "update_options": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: local cutoff 2026-09-24 covers expected complete-bar date 2026-09-24 -> zero network"
+  },
+  "update_moneyflow": {
+   "rc": 0,
+   "sec": 10.9,
+   "tail": "spawned detached rank pass: rank lane never fired"
+  },
+  "update_sina_mf": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: panel cutoff 2026-09-24 covers complete-bar date 2026-09-24 -> zero network"
+  },
+  "update_ths_panel": {
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: daily 2026-09-24.csv already collected (same-day idempotent) -> zero network"
+  },
+  "ah_panel_puller": {
+   "rc": 0,
+   "sec": 10.8,
+   "tail": "spawned detached refresh: panel not complete (first run or prior fuse-stop)"
+  },
+  "update_fund_premium": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: fund_premium lane owned by bm-c, not this machine (bm-a)"
+  },
+  "update_fundamental": {
+   "rc": 0,
+   "sec": 0.6,
+   "tail": "snapshot fresh (1.6h < 24h) -> skip"
+  },
+  "b_layer_filter": {
+   "rc": 0,
+   "sec": 0.6,
+   "tail": "verdict -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\fundamental_b_layer_filter.json"
+  },
+  "daily_scorecard": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "scorecard written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6"
+  },
+  "daily_report": {
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "daily report written: REPORT-2026-09-26.md/.json faces=4 token=1"
+  },
+  "monitor_build_status": {
+   "rc": 0,
+   "sec": 1.9,
+   "tail": "  factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
+  },
+  "token_meter": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "L2 local-LLM legs: 1 today / 1 total (~6135 tokens today, by_cmd={'retro': 1}); crash-fuse refusals=0 across 0 sigs"
+  }
+ },
+ "ts_end": "2026-09-26 23:13:59"
+}
