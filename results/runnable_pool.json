@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 07:01:17",
+ "updated_at": "2026-09-27T07:29:58+08:00",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1848,7 +1848,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 07:01:17",
    "data_gates": "in-runner fail-closed exit 2: bars census 5222 + cache meta stamp == actual 2026-09-23 18:12:59 (r299 kenglu) + crosscheck _r299bma 0-mismatch in place + SW xls sha256 frozen + taxonomy coverage 100% + universe re-derive 3106 + skip ledger exact + trigger census re-derive 17823 + limit-face 2562; est 45-120min wall (vectorized numpy legs; judged cells 17,823 events x 2 faces per-event sim + 2 null tables ~15.5M pairs + 8000 null draws + Sobol 500 re-encode passes x1 face); RAM floor 16GB (peak ~2.6GB: close f64 367MB + members ~700MB + 2 null tables ~1.5GB); idempotent no-op if p1_results.json exists; CN_SECTOR_LEADER_P1_REFINALIZE=1 only redo; checkpoints: cells/*.json|npy per cell-face + nulls/<cell>_shard<k>.npy x8 + sobol/shard<k>.npy x10 (resume-safe across rounds)",
    "workers_plan": {
@@ -1859,13 +1859,17 @@
    "shards": [
     {
      "key": "sectldr-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/cn_sector_leader/cells/* per cell-face (FIX10/FIX20/SECT10/STOP10 x x1/x2) + nulls/<cell>_shard*.npy x8 + sobol/shard*.npy x10; terminal marker = results/cn_sector_leader/p1_results.json (idempotent no-op if exists; CN_SECTOR_LEADER_P1_REFINALIZE=1 only redo); est 45-120min wall single-vehicle",
      "note": "single-vehicle full batch (4 judged cells + 2000 own-nulls + Sobol 500 x1 descriptive + census legs, one-shot runner); takeover = stale owner >20min per fleet law",
      "owner": "bm-a",
-     "owner_since": "2026-09-27 07:20:04"
+     "owner_since": "2026-09-27 07:20:04",
+     "finished_at": "2026-09-27T07:29:58+08:00"
     }
-   ]
+   ],
+   "done_at": "2026-09-27T07:29:58+08:00",
+   "result_ref": "results/cn_sector_leader/p1_results.json",
+   "note_done": "judged-negative 4/4 cells G1v2 fail (skill_line 2.04-3.54 high random floor; sharpe -1.39..+0.23; DSR<=0.0007; OOS ann>0 disclosure false); prereg s7/s8 backfill + SCHOOL q#4 closure same round"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"

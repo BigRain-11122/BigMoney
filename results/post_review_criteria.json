@@ -3039,6 +3039,187 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-87-CN-SECTOR-LEADER-P1",
+   "claim": "T-87 s2 queue #4 CN_SECTOR_LEADER_P1 (sector-leader non-limit face per SCHOOL_SUPPLY_S1 sec.4 queue ledger, post-WILD-S1 new-face candidate) full arc: prereg frozen commit b3d72924 BEFORE runner build BEFORE any run (R99 law; probe facts results/cn_sector_leader_probe.json frozen same commit: universe 3106, SW2021 L2 boards 131, census 17,823 trigger events, limit-face excluded 2,562) + runner selftest 15/15 hermetic + real-data gate PASS census zero-drift -> pool entry (shards contract defect fixed R301) -> autofill claim 07:20:16 latency 18.8min honest (starvation window reported R301) -> burn pid 64840 elapsed ~503s -> 4/4 judged cells NEGATIVE per frozen s4 on x2 faces: Sharpe LDR-FIX10 -0.5378 / LDR-FIX20 +0.2288 / LDR-SECT10 -1.3880 / LDR-STOP10 -1.0618 vs own-null skill lines 2.041 (H10, mu 0.8413) / 3.5375 (H20, mu 2.0495) ALL line_ok=False with bootstrap CI lower <= 0 all; DSR <= 0.0007; family PBO 0.0 but G1 fail -> G2 eligible_v2=False 4/4; batch cells_ok 4/4 False (ann -0.71..-0.83 < 0 and maxDD -1.0 < -35% double-fail honest; OOS 2025+ oos_sharpe 1.45-4.01 positive disclosed, single-window sign does not rescue the batch AND rule); entries 17,771/cell trade gate pass; D6 max|corr| vs ew6 canon <= 0.0375 zero reject, within-batch pairwise 0.508-0.873 as predicted; census 8,466 virtual starts beat_rate_6m 0.20-0.39 all < 0.5, four segments sufficient; robust sign-flip p 0.002/0.171/0.0/0.0; ledger 204,445 = 202,441 + 2,004 single-count PASS; s7/s8 single-finalization with 6-prediction reconciliation (p2 SECT10 whipsaw MISS honest, p5/p6 full hit) -> sector-leader monopoly-premium face judged-negative slot closed, SCHOOL row-3 leader-lore stream fully judged-closed with WILD-S1, reopen = new-evidence new-prereg only",
+   "claim_source": "research/CN_SECTOR_LEADER_PREREG.md (frozen b3d72924, s7/s8 backfilled R302 single-finalization) + results/cn_sector_leader/p1_results.json product + results/gate_attrition.json entries row ts 2026-09-27 07:28:39 + pool done-flip R302 with result_ref",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/cn_sector_leader_p1.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/cn_sector_leader/p1_results.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/cn_sector_leader/cells_summary.csv"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/CN_SECTOR_LEADER_PREREG.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "batch",
+      "CN_SECTOR_LEADER_P1"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "trials_ledger.total",
+      "204445"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "trials_ledger.batch_trials",
+      "2004"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "panel.universe_n",
+      "3106"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-FIX10.g1_prime_v2.sharpe_full",
+      "-0.5378"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-FIX20.g1_prime_v2.sharpe_full",
+      "0.2288"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-SECT10.g1_prime_v2.sharpe_full",
+      "-1.388"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-STOP10.g1_prime_v2.sharpe_full",
+      "-1.0618"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-FIX10.g1_prime_v2.pass_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-FIX20.g2.eligible_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-FIX20.dsr.dsr",
+      "0.000731"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "gates.LDR-FIX10.g1_prime_v2.skill_line.line",
+      "2.041"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "family_pbo.pbo",
+      "0.0"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "virtual_starts.n_starts",
+      "8466"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/cn_sector_leader/p1_results.json",
+      "d6.cells.LDR-STOP10.max_abs_corr",
+      "0.0574"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/CN_SECTOR_LEADER_PREREG.md",
+      "4/4 cells 判负照报"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/CN_SECTOR_LEADER_PREREG.md",
+      "判负关槽"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/gate_attrition.json",
+      "CN_SECTOR_LEADER_P1"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened)"
