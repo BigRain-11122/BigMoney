@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 05:40:09",
+ "updated_at": "2026-09-27 06:15:20",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1816,7 +1816,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 05:40:09",
    "data_gates": "in-runner fail-closed SystemExit: navs 64 lines (x1/x2 32/32) + anchor_all_ok true + common grid 1631 bars to 2026-09-22 lockbox + bench >= cutoff + core48 >=20 bars since 2020-01; est 1-3min wall (nulls in-process vectorized + 45 cell jobs x 4 workers, pure-python bootstrap CI dominant); RAM floor trivial (NAV matrices 32x1631 x2); idempotent no-op if p1_results.json exists; FUSION_GRID_P1_REFINALIZE=1 only redo",
    "workers_plan": {
@@ -1827,11 +1827,16 @@
    "shards": [
     {
      "key": "run-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/fusion_grid_p1/p1_results.json terminal + regime_series.json + nulls_summary.json + cells/*.json; idempotent no-op guard if p1_results.json exists",
-     "note": "single-vehicle full batch (45 cells + nulls + gates + ledger one-shot); takeover = stale owner >20min per fleet law"
+     "note": "single-vehicle full batch (45 cells + nulls + gates + ledger one-shot); takeover = stale owner >20min per fleet law",
+     "owner": "bm-a",
+     "owner_since": "2026-09-27 06:10:01"
     }
-   ]
+   ],
+   "done_at": "2026-09-27 06:10:37",
+   "result_ref": "results/fusion_grid_p1/p1_results.json",
+   "harvest_note": "R298 bm-a harvest: relaunch 06:10:01 autofill pid 18524 new sha 0cce3192 (crash-fuse cleared by sha change per O-0947; first burn 05:50 crashed at first cell KeyError st['sharpe_full'], fix 64023a42 R297) -> landed 06:10:37 elapsed 28.8s workers 4 -> judged NEGATIVE 0/45 G1'v2 (best EW__DEDUP 0.5301 vs own-null line 1.7825, mu_null 0.4209; CI lower -0.3299) + 0/45 G2 (DSR 0.0, PBO 0.4857 observe) -> config-family no-increment verdict, slot closed no-reopen (new evidence = new prereg); prereg s7/s8 single-finalization + attrition row + post_review row registered same round; fill latency 29.9min > 10min target miss honest"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"

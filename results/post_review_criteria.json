@@ -2812,6 +2812,233 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-85-FUSION-GRID-P1",
+   "claim": "T-85 s2/s3 FUSION_GRID_P1 (fusion-layer grid over 32 registered member NAVs, O-20260926-2320 24h-quench supply batch) full arc: prereg frozen commit 7cf87f13 R295 BEFORE runner build 95f4e95d R296 BEFORE any run (R99 law; seed fusion_grid_p1=20275200 registered at freeze, R250 one-step) -> first burn 05:50:01 pid 20952 crashed at first cell job (KeyError st['sharpe_full'], zero judged products, engineering bug) -> fix 64023a42 R297 (sharpe_full key per frozen sec.4 full-window face + B7b consumed-key contract selftest leg, 23/23) -> relaunch 06:10:01 autofill pid 18524 new sha 0cce3192 (crash-fuse cleared by sha change per O-0947 fix-first law) -> landed 06:10:37 elapsed 28.8s workers 4; fill latency 29.9min vs O-2100 10min target MISS honest (crash-diagnosis round consumed the window) -> JUDGED NEGATIVE per frozen sec.4: 0/45 G1'v2 (skill line 1.7825 = null-term dominated, own-null pool mu 0.4209 / sigma 0.2754 / K 2000; best cell EW__DEDUP 0.5301, bootstrap CI [-0.3299, 1.392] lower <= 0; all 45 line_ok=False) + 0/45 G2 (DSR best 0.0 vs sr_star 1.2511 @ n_trials 202441; family PBO 0.4857 observe band > 0.25 gate) -> verdict semantics = grid config-family shows NO increment over random same-mask portfolios (random-config baseline itself ~0.42 Sharpe), member-alpha existence NOT falsified (sec.1 pre-embedded); descriptive face all-pass 45/45 (OOS dual positive, maxDD line, zero crash years) disclosed as non-binding; x2 stress face all 45 <= +0.0454 honest; regime exact face G754/Y714/R141/O22 zero-drift vs R296 gate (probe F4 approx face superseded per prereg sec.2 runner-exact clause); dedup disclosure 6/990 pairs >= 0.999 (cross-family same-subset mechanical twins, survivor face empty so no collapse); ledger 200396 + 2045 = 202441 single-count; s7/s8 single-finalization with 5-prediction reconciliation (P1 MISS diversification arithmetic; P2 HIT; P3 magnitude MISS premise face = approx regime shares falsified by exact v3 face ORANGE+RED 10% not 61%; P4 HIT; P5 no contradiction) -> fusion grid slot closed, no-reopen law, new evidence = new prereg; zero STRATEGY_LIBRARY entries, zero FUSION-* paper account proposals (sec.4 survivor face naturally empty)",
+   "claim_source": "research/FUSION_GRID_P1_PREREG.md (frozen 7cf87f13, s7/s8 backfilled R298 single-finalization) + results/fusion_grid_p1/p1_results.json product + results/gate_attrition.json entries row FUSION_GRID_P1 + pool done-flip R298 (autofill relaunch trail 06:10:01) + ticket T-2026-09-26-85-P1 progress_r298",
+   "status": "closed",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "scripts/fusion_grid_p1.py"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/fusion_grid_p1/nulls_summary.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/fusion_grid_p1/regime_series.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/FUSION_GRID_P1_PREREG.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "batch",
+      "FUSION_GRID_P1"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "trials_ledger.prev_total",
+      "200396"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "trials_ledger.batch_trials",
+      "2045"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "trials_ledger.total",
+      "202441"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "skill_line.line",
+      "1.7825"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "skill_line.mu_null",
+      "0.4209"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "skill_line.sigma_null",
+      "0.2754"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "nulls.K",
+      "2000"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "nulls.coverage.n_values",
+      "2000"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "family_pbo.pbo",
+      "0.4857"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "cells.EW__DEDUP.sharpe_full",
+      "0.5301"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "cells.EW__DEDUP.g1_pass_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "cells.EW__DEDUP.eligible_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "cells.EW__ALL32.sharpe_full",
+      "0.5237"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "cells.EW__ALL32.g1_pass_v2",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "cells.INV_MDD__ALL32.sharpe_full",
+      "0.4753"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "cells.REGIME_COND__TOP2.sharpe_full",
+      "0.0419"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "audit.elapsed_sec",
+      "28.8"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "audit.workers",
+      "4"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/fusion_grid_p1/p1_results.json",
+      "baselines_descriptive.ew48_passive.sharpe",
+      "0.3792"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/FUSION_GRID_P1_PREREG.md",
+      "0/45 G1' 判负照报"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/FUSION_GRID_P1_PREREG.md",
+      "判负关槽"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/gate_attrition.json",
+      "FUSION_GRID_P1"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened)"
