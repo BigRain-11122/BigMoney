@@ -771,6 +771,16 @@ SEED_REGISTRY = {
     # precedent); lane = T-2026-09-26-73 s2 slice-E (style rotation),
     # prereg = scripts/t73_s2_style_rotation.py frozen header (s2 slice
     # family convention, slice-A/C/D precedent)
+    "cn_core_sat_p1": 20261080,             # CN-CORE-SATELLITE-P1 K=50
+    # random-satellite sleeves (20261080+k, k<50; band 20261080..20261129,
+    # next free DATE-STYLE base above t73_style_rot_s1 20261079; registered
+    # at prereg freeze BEFORE any runner burn, one-step R250 law;
+    # rg full-repo scan 2026-09-26 17:4x: hits in band = data-face digit
+    # coincidences only (eligibility.csv share counts 202611012.5, Money0923
+    # 600000/600519/600160 amount+volume columns, sz159547.csv amount
+    # 20261092) -- ZERO RNG-usage hits in any script (t34/wild_route
+    # non-RNG precedent); lane = T-2026-09-26-73 s3 slice-5 (final CN-native
+    # model), prereg research/CN_CORE_SATELLITE_PREREG.md s3.4
 }
 
 
