@@ -11,8 +11,13 @@
 #     by design: PopupWitness witness, ollama serve-warm, update_* refresh spawners).
 #   - Internal retry: drain timeout / interactive reappearing mid-drain / move failure
 #     -> re-enable tasks + back to precheck (soft unwind). Hard Abort only on: deadline
-#     exceeded, 3 consecutive same-holder drain timeouts, 3 total move failures, XML
-#     invalid, missing git dir, target already occupied.
+#     exceeded, 3 consecutive same-holder drain timeouts, 6 total move failures, XML
+#     invalid, missing git dir, target already occupied, protected CWD holder.
+# v2.1 (bm-b r274 absorption): PEB CwdProbe + Gate 3.5 CWD sweep (cmdline scan is
+# structurally blind to CWD holders; v2.0's own repo-root CWD would have failed its
+# move) + executor CWD relocated to TEMP + holder-snapshot forensics + move retries 6.
+#     On this box shells are protected-by-default (CEO desk): unclassified shell CWD
+#     holders -> fail-closed roster, NOT killed (stricter than bm-b Administrator box).
 # Single-instance: PID lockfile; stale lock (PID dead / not a migration proc) is taken over.
 # ENCODING RULE: pure ASCII (powershell 5.1 ANSI decode law).
 param([int]$DrainWaitMin = 15, [int]$PrecheckPollSec = 60)
@@ -25,9 +30,77 @@ $Marker   = 'C:\Users\sjs20\fluxgroup-migration-aborted.flag'
 $Lock     = 'C:\Users\sjs20\fluxgroup-migration.lock'
 $PrepDir  = Join-Path $env:TEMP 'fg-redef'
 $HardDeadline = Get-Date -Year 2026 -Month 9 -Day 29 -Hour 12 -Minute 0 -Second 0   # order window end
+Set-Location $env:TEMP   # bm-b r274 law: executor must never hold a CWD on the old root (self-deadlock face; v2.0 instance inherited repo-root CWD from launching shell and would fail its own move)
 
 function Log($m) { Add-Content -Path $Journal -Value ("[{0}] {1}" -f (Get-Date -Format 'yyyy-MM-dd HH:mm:ss'), $m) }
 function TaskState($n) { (schtasks /query /tn $n /fo LIST 2>$null | Select-String '^Status:' | ForEach-Object { $_.Line -replace 'Status:\s+','' }) }
+
+# bm-b r274 absorption: CWD probe (PEB CurrentDirectory via NtQueryInformationProcess) --
+# the handle face the CommandLine scan is STRUCTURALLY blind to (their 20:48 abort: 7
+# CWD holders, Move-Item could never succeed). Ported verbatim from their executor.
+Add-Type -TypeDefinition @"
+using System;
+using System.Runtime.InteropServices;
+using System.Text;
+public static class CwdProbe {
+    [StructLayout(LayoutKind.Sequential)]
+    public struct PROCESS_BASIC_INFORMATION {
+        public IntPtr Reserved1;
+        public IntPtr PebBaseAddress;
+        public IntPtr Reserved2_0;
+        public IntPtr Reserved2_1;
+        public IntPtr UniqueProcessId;
+        public IntPtr Reserved3;
+    }
+    [DllImport("ntdll.dll")]
+    public static extern int NtQueryInformationProcess(IntPtr hProcess, int pic, ref PROCESS_BASIC_INFORMATION pbi, int cb, out int pSize);
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern IntPtr OpenProcess(int access, bool inherit, int pid);
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern bool ReadProcessMemory(IntPtr hProcess, IntPtr baseAddress, byte[] buffer, int size, out IntPtr bytesRead);
+    [DllImport("kernel32.dll", SetLastError=true)]
+    public static extern bool CloseHandle(IntPtr hObject);
+    public static string GetCwd(int pid) {
+        IntPtr h = OpenProcess(0x0410, false, pid);
+        if (h == IntPtr.Zero) return null;
+        try {
+            PROCESS_BASIC_INFORMATION pbi = new PROCESS_BASIC_INFORMATION();
+            int sz;
+            int st = NtQueryInformationProcess(h, 0, ref pbi, Marshal.SizeOf(pbi), out sz);
+            if (st != 0 || pbi.PebBaseAddress == IntPtr.Zero) return null;
+            byte[] buf = new byte[8];
+            IntPtr br;
+            if (!ReadProcessMemory(h, (IntPtr)((long)pbi.PebBaseAddress + 0x20), buf, 8, out br)) return null;
+            long pp = BitConverter.ToInt64(buf, 0);
+            if (pp == 0) return null;
+            byte[] us = new byte[16];
+            if (!ReadProcessMemory(h, (IntPtr)(pp + 0x38), us, 16, out br)) return null;
+            int len = BitConverter.ToUInt16(us, 0);
+            if (len <= 0 || len > 52000) return null;
+            byte[] str = new byte[len];
+            long strAddr = BitConverter.ToInt64(us, 8);
+            if (strAddr == 0 || !ReadProcessMemory(h, (IntPtr)strAddr, str, len, out br)) return null;
+            return Encoding.Unicode.GetString(str, 0, len);
+        } finally { CloseHandle(h); }
+    }
+}
+"@
+function CwdHolders($root) {
+    $hits = @()
+    foreach ($p in (Get-CimInstance Win32_Process -ErrorAction SilentlyContinue)) {
+        if ([int]$p.ProcessId -eq $PID) { continue }             # executor self (CWD=TEMP now)
+        $cwd = [CwdProbe]::GetCwd([int]$p.ProcessId)
+        if ($cwd -and $cwd.StartsWith($root, [System.StringComparison]::OrdinalIgnoreCase)) {
+            $hits += @{ pid = [int]$p.ProcessId; name = [string]$p.Name; cwd = $cwd; cmdline = [string]$p.CommandLine }
+        }
+    }
+    return $hits
+}
+function HolderSnapshot() {   # 3-face forensic dump (bm-b r274: no more blind move-fail)
+    $cw = CwdHolders $Old
+    $cl = @(Scan-OldRootProcs | ForEach-Object { "$($_.ProcessId):$($_.Name)" })
+    Log("holder snapshot: cwd_holders=[$(($cw | ForEach-Object { "$($_.pid):$($_.name)@$($_.cwd) cmd=$($_.cmdline)" }) -join ' || ')] cmdline_holders=[$($cl -join ', ')]")
+}
 
 $Mini = @('MiniGameAuditTick','MiniGameBoardForge','MiniGameCockpitBeat','MiniGameDailyDigest','MiniGameEditorSentry','MiniGameEngineTick','MiniGameEvolutionTick','MiniGameGateTick','MiniGameHousekeeping','MiniGameOllamaKeepWarm','MiniGameOllamaServe','MiniGamePolicyTick','MiniGamePopupWitness','MiniGameRadarDeepTick','MiniGameRadarTick','MiniGameRedlineAudit','MiniGameResearchTick','MiniGame-SiliconWatchTick','MiniGameTickWatchdog','MiniGameTjcloudSync')
 $Tasks = @('Bigmoney-Autofill','Bigmoney-LoopWatchdog','Bigmoney-IterationLoop','Bigmoney-IntradayMarks','BigCompute-OSLoop','BigDomain-OSLoop','BigLife-OSLoop','BigStream-OSLoop','FluxBoardAuto','FluxGroup-DecisionRound','FluxGroup-EvolutionTick','FluxGroup-NightRound','FluxGroup-OrderSentinel','FluxVerse-DevLoop','FluxVerseTick','GimmeAll-AutoSentinel') + $Mini
@@ -38,7 +111,7 @@ $Repos = @($Old, "$Old\quant\bigmoney", "$Old\compute\BigCompute", "$Old\domain\
 # the precheck until the user closes them. Tuanjie/Unity appeared live in v1 evidence.
 $InteractiveNames = @('Code.exe','Tuanjie.exe','Unity.exe','Unity Hub.exe','Unity.Hub.exe','devenv.exe','notepad.exe','Notepad++.exe','winmergeu.exe','explorer.exe')
 # Killable persistent/respawnable faces (checkpoint or sentinel self-healing by design).
-$KillablePatterns = @('PopupWitness','ollama','llama-server','plastic','insight','update_moneyflow','update_sina_mf','update_options','update_ths_panel','update_fund_premium','ah_panel_puller','update_futures','update_heat','update_lhb')
+$KillablePatterns = @('PopupWitness','ollama','llama-server','plastic','insight','update_moneyflow','update_sina_mf','update_options','update_ths_panel','update_fund_premium','ah_panel_puller','update_futures','update_heat','update_lhb','blender-mcp','websockify')
 
 function HardAbort($reason) {
     Log("ABORT: $reason - re-enabling all tasks, old tree untouched")
@@ -156,18 +229,69 @@ while ($true) {
     }
     if (-not $gate3ok) { SoftUnwind('Gate-3 git-dir missing (recorded above, needs human look)'); Start-Sleep -Seconds 300; continue }
 
+    # Gate 3.5 (bm-b r274 law): CWD-aware sweep of old-root handle holders.
+    # The CommandLine drain scan is structurally blind to CWD faces. Policy on this box
+    # (STRICTER than bm-b: CEO sits at this desk -- interactive shells are NOT killed):
+    #   - codely/python/node lane or refresh processes with CWD under old root -> they
+    #     finish naturally; wait in place 60s and re-sweep (tasks disabled = no new ones);
+    #   - protected user faces (editor/tuanjie/unity/blender/explorer-name) or any
+    #     powershell/pwsh/cmd shell that is NOT kill-list-matched -> HardAbort roster
+    #     (manual intervention; never kill a possibly-CEO interactive shell here);
+    #   - explorer folder windows parked under old root -> navigate away (COM, silent);
+    #   - killable-pattern CWD holders -> kill (checkpoint self-healing by design).
+    $g35gaveup = $false
+    foreach ($round3_5 in 1..30) {
+        $holders = CwdHolders $Old
+        if ($holders.Count -eq 0) { Log('Gate 3.5: zero CWD holders under old root'); break }
+        $laneBusy = $false
+        foreach ($h in $holders) {
+            if ($h.cmdline -match 'fluxgroup_migration') { continue }
+            if ($h.name -match '(?i)^(codely|python|node|dotnet|java)') {
+                $laneBusy = $true; Log("Gate 3.5: lane/refresh process alive, wait-in-place: pid=$($h.pid) name=$($h.name) cwd=$($h.cwd)"); continue
+            }
+            if ($h.name -match '(?i)(editor|tuanjie|unity|blender|code|devenv|notepad|explorer)') {
+                Log("Gate 3.5: PROTECTED user-face CWD holder -> fail-closed: pid=$($h.pid) name=$($h.name) cwd=$($h.cwd)")
+                $g35gaveup = $true; break
+            }
+            $killHit = @($KillablePatterns | Where-Object { $h.cmdline -match $_ }).Count -gt 0
+            if ($killHit -or $h.name -match '(?i)websockify') {
+                Log("Gate 3.5: killing CWD holder pid=$($h.pid) name=$($h.name) cwd=$($h.cwd) cmd=$($h.cmdline)")
+                Stop-Process -Id $h.pid -Force -ErrorAction SilentlyContinue
+            } else {
+                Log("Gate 3.5: unclassified shell CWD holder (protected-by-default on CEO desk box): pid=$($h.pid) name=$($h.name) cwd=$($h.cwd) cmd=$($h.cmdline)")
+                $g35gaveup = $true; break
+            }
+        }
+        if ($g35gaveup) { break }
+        if ($laneBusy) { Start-Sleep -Seconds 60; continue }
+        Start-Sleep -Seconds 3
+        if ((CwdHolders $Old).Count -gt 0 -and $round3_5 -eq 30) { Log('Gate 3.5: CWD holders persist after 30 sweeps'); $g35gaveup = $true }
+    }
+    if ($g35gaveup) { HardAbort("protected/persistent CWD holder under old root (roster above; CEO closes it -> next attempt auto-proceeds)") }
+    try {
+        $sh = New-Object -ComObject Shell.Application
+        foreach ($w in $sh.Windows()) {
+            $loc = [string]$w.LocationURL
+            if ($loc -like ('file:///' + ($Old -replace '\\','/') + '*')) {
+                Log("Gate 3.5: navigating parked explorer window away: $loc")
+                $w.Navigate('file:///C:/') | Out-Null; Start-Sleep -Seconds 2
+            }
+        }
+    } catch { Log("Gate 3.5: explorer window sweep skipped: $($_.Exception.Message)") }
+
     # Gate 4: same-volume rename move (instant, C: -> C:)
     New-Item -ItemType Directory -Path $Base -Force | Out-Null
     $moved = $false
-    foreach ($try in 1..3) {
+    foreach ($try in 1..6) {
+        Log("move try $($try): pre-move holder snapshot follows")
+        HolderSnapshot
         try { Move-Item -Path $Old -Destination $New -ErrorAction Stop; $moved = $true; break }
         catch { Log("move try $try failed: $($_.Exception.Message)"); Start-Sleep -Seconds 15 }
     }
     if (-not $moved) {
         $moveFailsTotal++
-        $holders = (Scan-OldRootProcs | ForEach-Object { "$($_.Name)/$($_.ProcessId)" }) -join ', '
-        if ($moveFailsTotal -ge 3) { HardAbort("move failed 3x total (cwd-holder below or fs lock): [$holders]") }
-        SoftUnwind("move attempt set failed (total $moveFailsTotal) - likely invisible cwd holder: [$holders]")
+        if ($moveFailsTotal -ge 6) { HardAbort("move failed 6x total (holder snapshots above)") }
+        SoftUnwind("move attempt set failed (total $moveFailsTotal) - holder snapshot in journal")
         Start-Sleep -Seconds 120; continue
     }
     Log("group tree moved: $Old -> $New")
