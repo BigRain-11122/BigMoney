@@ -1481,17 +1481,18 @@
    ],
    "lane_owner": "bm-a",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 13:59:38",
    "data_gates": "in-runner fail-closed exit 2: weight sha 6+19 + roster/corps set gates; t54 census 121,528 (16 shards, per-face starts 1256/1506); p5c legL 15,036 rows; canon CE deep PINNED manifest (6 CE x 1506 x 2 = 18,072 rows; dprobe 680-partial signature refused; absent = exit 2, bm-b verified live refusal 2026-09-26 13:59); passive cross-source bit-identity gate (legacy 3,255 windows 0-mismatch bm-b probe); sleeve panel cutoff >= 2026-09-23; A1 caliber pin (r256): sleeve trader specs + OOS sharpe map pinned to results/t56_caliber_registry snapshot git 0389dee6 (r242 T-78 s4 wiring EXCLUDED from both frozen run lines; prereg SS-A1; probe 0/20 live vs 20/20 snapshot); frozen anchors byte-identity (T56/T58 w_cur/w_seg/judgments); AGGR-NOCASH grid == canon grid asserted; free-RAM floor 4GB; single-shot finalize guard (AGGR_FP_REFINALIZE=1 = only redo, never re-ledgers); selftest 11/11 pre-pooling (F11 snapshot manifest sha + wiring-absent)",
    "shards": [
     {
      "key": "aggrfp-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-26 15:10:04",
      "checkpoint": "results/aggr_fullpool_battery_ckpt_0of1.jsonl (per-variant done-key rows, t22 law); finalize fail-closed 20/20; landed marker = results/aggr_fullpool_battery.json complete; harvest round flips entry+shard done per r244 landed-marker law",
-     "note": "single shard: 56 sleeves ~9s + grid assembly (~134k rows parse) + 400-cell arithmetic -- minutes-class; multi-shard --shards>1 available for month-boundary reruns; burn lane pinned bm-a (canon CE deep cells live there; MSG-20260926-1400-bm-b checklist)"
+     "note": "single shard: 56 sleeves ~9s + grid assembly (~134k rows parse) + 400-cell arithmetic -- minutes-class; multi-shard --shards>1 available for month-boundary reruns; burn lane pinned bm-a (canon CE deep cells live there; MSG-20260926-1400-bm-b checklist)",
+     "harvest_note": "R253 bm-a deterministic harvest: landed 15:10:35 (autofill 15:10:02, runner sha 29de7acc = bm-b R256 A1 caliber pin; anchor gate PASSED into variant loop after adjudication). Ledger 186192+400=186592 chain-continuous with R252 repair head; sleeve anchors 20/20 re-verified vs frozen files; NOCASH==canon grid bit-identity holds; canon 12m pooled 0.4699 (n2507) = CE-6 face 0.4854 downgraded as prereg predicted; J1/J2/J3 = 18/18/16/20; top pooled12 AGGR-TOP3 0.5604, AGGR-CONC-TOP2 0.5389, AGGR-TOP3-GRAD 0.5341; ALL verdicts incomplete-face (capacity face missing, T-56 dual-track law); zero adoption zero wiring. dA basis add-on: bm-b originals hash MISMATCH confirmed on bm-a re-run files (934a7fb6/e839b78c raw; LF-norm f14b2e1c/ad3c044e != 79585a95/f09329f4) -- transfer requested from bm-b per its protocol; prereg basis = pinned paths + census + passive gates (passed live), not bm-b bytes"
     }
    ],
    "workers_plan": {

@@ -593,24 +593,30 @@
    "fill_latency_min": 11.4,
    "target_met": false,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-26 15:10:02",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "T80-AGGR-FULLPOOL-BATTERY",
+   "shard": "aggrfp-0of1",
+   "pid": 58924,
+   "runner_sha256": "29de7acc280053d0",
+   "fill_latency_min": 70.4,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-26 15:00:02",
+  "ts": "2026-09-26 15:10:02",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "fuse_refused_crash_loop",
+  "verdict": "launched",
   "entry": "T80-AGGR-FULLPOOL-BATTERY",
   "shard": "aggrfp-0of1",
-  "fuse_crashes": 2,
-  "fuse_refusals": 4,
-  "fuse_skipped": [
-   {
-    "entry": "T80-AGGR-FULLPOOL-BATTERY",
-    "shard": "aggrfp-0of1",
-    "sig": "scripts/aggr_fullpool_battery.py|run,--shard,0,--shards,1",
-    "fuse_refusals": 4
-   }
-  ]
+  "pid": 58924,
+  "runner_sha256": "29de7acc280053d0",
+  "fill_latency_min": 70.4,
+  "target_met": false
  }
 }

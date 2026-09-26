@@ -903,7 +903,16 @@ def cmd_selftest() -> int:
         for fname, sha in man["files"].items():
             p = os.path.join(T56_CALIBER_DIR, fname)
             assert os.path.exists(p), f"snapshot file absent {fname}"
-            got = hashlib.sha256(open(p, "rb").read()).hexdigest()
+            raw = open(p, "rb").read()
+            got = hashlib.sha256(raw).hexdigest()
+            if got != sha:
+                # git checkout EOL normalization is transport, not content:
+                # autocrlf re-materializes LF-only blobs as CRLF while the
+                # manifest hashes the blob bytes (28/29 snapshot blobs carry
+                # CRLF in-blob; _template.json is the LF-only one -> single-
+                # file pseudo-drift on checkout-converting machines). Accept
+                # content identical modulo \r; real edits fail both faces.
+                got = hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()
             assert got == sha, f"snapshot sha drift {fname}"
         sm = _caliber_sharpe_map()
         assert set(sm) == set(ROSTER)
