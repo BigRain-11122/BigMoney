@@ -261,11 +261,17 @@ def run():
         torch.cuda.synchronize()
         t_gpu = time.time() - tg
 
-        # z-score spot-check vs numpy reference on a real slice
+        # z-score spot-check vs numpy reference on a real slice.
+        # SAME-DOMAIN law (r238): the numpy reference must compute
+        # per-row stats over the SAME column domain as the batch
+        # product (full row width) -- a (rows, 60cols)-slice reference
+        # against full-row batch output compares different mu/sd
+        # domains (first live-fire r243 caught z_spot=4.03 false red);
+        # the reported window stays the 60-col spot slice.
         r0, c0 = max(T - SPOT_SLICE[0], 0), max(N - SPOT_SLICE[1], 0)
         ref_z = _masked_zscore_np(
-            stack[0, r0:, c0:].cpu().numpy(),
-            fvalid[0, r0:, c0:].cpu().numpy())
+            stack[0, r0:, :].cpu().numpy(),
+            fvalid[0, r0:, :].cpu().numpy())[:, c0:]
         got_z = zs[0, r0:, c0:].cpu().numpy()
         m = np.isfinite(ref_z)
         z_worst = float(np.abs(ref_z[m] - got_z[m]).max()) if m.any() else 0.0
