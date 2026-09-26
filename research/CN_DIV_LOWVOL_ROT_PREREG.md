@@ -4,12 +4,14 @@
 > 跑前冻结：本文件 commit 先于任何跑批（R99 律）；跑后只许回填 §7/§8，禁改判据禁重跑；工程修复合法重执行≠结果重跑须双跑留痕。冻结时点=2026-09-26 R250（bm-a）。
 > F-04 先行声明：fleet/inbox/MSG-20260926-1416-bm-a-claim-t73-s3-slice2-divlowvolrot.md（同轮 commit）。
 > 切片选择依据（诚实面）：三剩余模型中本轮唯一全仓内确定性可开面——CORE-SATELLITE 卫星腿供给缺位（T-57 野路子 0/25 幸存诚实负）；REGIME-POLICY 政策轴 s2 研究未做（先研后建模律）；本模型器械域 GM 已批+corpus 在仓零网络。
+>
+> **R251 零跑修正（R246 前例·零结果零跑批窗内·修正先于任何跑批）**：①§2 T_joint **1861→1862**——探针引用件 `results/div_lowvol_rot_probe.json` 自身 `joint_bars=1862` 为权威数；错位日 2021-10-22 是 510880-only 日（512890 无该 bar），本就**不在交集内**，冻结稿「1862−1=1861」为双重扣减 off-by-one（runner 实算交集=1862 实证复核在案）；②错位日叙事修正：2021-10-22 **=512890 份额拆分停牌 bar**（`div_lowvol_probe.SPLIT_EVENTS['512890']` 单源机械证据：last_cum_close 1.639 → first_post_close 0.801·ratio 2.0449·factor 0.5·suspended_bars=['2021-10-22']），非「数据面缺口」——排除处理不变（该日不在交集时间线内）；③**事件守卫腿（r239 坑律族承袭）**：RS/收益/MA200 全部在 `DLP._adjust_split(512890 factor 0.5, 510880 None)` 事后价面上计算（家族 DIV_LOWVOL_P1 同源装载），raw 面在拆分日含 −51% 假跳空禁入信号面；ADV20=raw volume×close 滚动 20（CNY 口径跨拆分连续，volume 不调整=保守偏严承袭家族注记）；④corpus=价格面（分红除权不在 twins 内），双腿同红利族 RS 相对面较稳、绝对收益面同步低估如实注记。判据零改动（§3/§4 门线数值全部不动）。
 
 ## §0 批件身份【跑前】
 
 - 批名：`CN-DIV-LOWVOL-ROT-P1`；判断格=**4 策略格**（{W63, W252} × {裸轮动, MA200 防御门}）+ K=50 nulls（成本压测不入 skill 格·J2 式披露）；per-cell N 计入 N_eff（54）。
 - 部门归属：组合与资金部（装配/判决）+研究部（机制/信号）+工程部（runner）joint；dept 标注=组合与资金部。
-- 算力预算：单遍 <5min CPU（2 腿×1861 bar 模拟+50 nulls+CSCV 全轻量）；**仍按 O-1137 真实载体供给律池提交**（池 ready=0 持续饥饿面+R247 CN-REV 41s 批照池提交同例）；池条目带 checkpoint 幂等+audit 段（elapsed/worker/瞎跑白跑旗自检）。
+- 算力预算：单遍 <5min CPU（2 腿×1862 bar 模拟+50 nulls+CSCV 全轻量·R251 修正①）；**仍按 O-1137 真实载体供给律池提交**（池 ready=0 持续饥饿面+R247 CN-REV 41s 批照池提交同例）；池条目带 checkpoint 幂等+audit 段（elapsed/worker/瞎跑白跑旗自检）。
 - 三线三判律声明：本批=交易线（G1'/G2 门）；配置面四指标判据不挪用；ALLOC 线 corr 只作披露不互判。
 
 ## §1 α 机制段【D6——四选一】
@@ -20,10 +22,10 @@
 
 ## §2 数据与面板【跑前探针事实·冻结引用件 `results/div_lowvol_rot_probe.json`】
 
-- 器械域：{510880, 512890}＝GM 批准的两器械域（DIV_LOWVOL_P1 §2「512890+510880 交叉验」承袭）；corpus twins `data/daily/sh510880.csv`（4784 行·2007-01-18→2026-09-22）+ `sh512890.csv`（1862 行·2019-01-18→2026-09-22）；零新拉取零网络。
-- **时间线口径=intersection**：联合时间线 T=**1861** bar（2019-01-18..2026-09-22）；错位日冻结清单=**['2021-10-22']**（512890 corpus 缺 bar 而 510880 有=数据面缺口非停牌叙事，单日排除如实披露）；runner 断言 mismatch_days==冻结清单，不等即 fail-closed exit 2 零产物（日期漂移拒跑律）。
+- 器械域：{510880, 512890}＝GM 批准的两器械域（DIV_LOWVOL_P1 §2「512890+510880 交叉验」承袭）；corpus twins `data/daily/sh510880.csv`（4784 行·2007-01-18→2026-09-22）+ `sh512890.csv`（1862 行·2019-01-18→2026-09-22）；零新拉取零网络。信号/估值价面=`DLP._adjust_split` 事后价（512890 factor 0.5·2021-10-25 起 post 面；R251 修正③）。
+- **时间线口径=intersection**：联合时间线 T=**1862** bar（2019-01-18..2026-09-22·R251 修正①：探针 joint_bars=1862 权威数，错位日 A-only 已不在交集内）；错位日冻结清单=**['2021-10-22']**（=512890 拆分停牌 bar·R251 修正②：DLP.SPLIT_EVENTS 单源机械证据 1.639→0.801 ratio 2.0449；该日不在交集时间线内如实披露）；runner 断言「A-only-within-window==冻结清单 ∧ B-only 空」，不等即 fail-closed exit 2 零产物（日期漂移拒跑律）。
 - **evidence_cutoff（D2 前向锁盒）＝2026-09-22**（双腿 corpus 末完整 bar=家族前批同 cutoff=比较性成立；core48 无前缀面板 09-23/09-24 有 bar 但 510880/512890 无无前缀孪生=锁盒排除面如实注记）；cutoff 后新 bar 不回流本批；结果 JSON 顶层必带 `science_gates.cutoff_meta('2026-09-22')`（缺字段=science_audit C2 VIOLATION）。
-- 数据完备门（不过不跑）：cutoff==2026-09-22 ∧ T_joint==1861 ∧ legs==2 ∧ mismatch_days==['2021-10-22']。
+- 数据完备门（不过不跑）：cutoff==2026-09-22 ∧ T_joint==1862 ∧ legs==2 ∧ A-only-错位日==['2021-10-22'] ∧ 双腿时间线内 open/close/volume 零 NaN（探针后实证复核）。
 - **ADV 容量面（探针实证·家族根因承重）**：ADV20 中位（CNY·volume×close 口径）：512890＝2020 **2.45M**/2021 **2.08M**/2022 19.3M/2024+ 225M+（薄窗→深水结构变迁）；510880 全窗 73M+。→ §3.5 参与帽排队面由此定标。
 
 ## §3 方法学【全冻结】
