@@ -20,7 +20,7 @@
 
 - 面板：`data/daily/*.csv` ETF 板（OHLCV 收盘面；total_files=1724）；**cutoff=2026-09-22（D2 前向锁盒·与家族前批同 cutoff=比较性成立）**；cutoff 后新 bar 不回流本批；结果 JSON 顶层必带 `science_gates.cutoff_meta('2026-09-22')`（缺字段=science_audit C2 VIOLATION）。
 - **宇宙（冻结过滤器·机械再derive 禁手抄名单）**：rows≥2600 ∧ first≤2016-06-30 ∧ last==cutoff ∧ OHLCV 零 NaN ∧ med(amount20)≥¥50M ∧ ann_std≥3%（现金/货基型趋势信号结构性无定义=诚实剔除，511010/511880/511990/159001/511810 五只）→ **universe_n=23**（探针实证 2026-09-27 00:2x；min med_amount20=¥56.8M；含宽基/行业/跨境/黄金/红利面，全名单在引用件）。
-- **数据完备门（不过即拒批 exit 2 零产物）**：universe re-derive==23 ∧ 逐件 last==2026-09-22 ∧ 逐件 OHLCV 零 NaN ∧ 引用件在位。
+- **数据完备门（不过即拒批 exit 2 零产物）**：universe re-derive==23 ∧ 逐件（**D2 截断至 cutoff 后**）末 bar==2026-09-22 ∧ 截断面 OHLCV 零 NaN ∧ 引用件在位。**【零跑修正案 R280·D2 锁盒语义】**：活面板由 S6 维护链持续前进（中秋 2026-09-25 休市后末完整 bar=2026-09-24，活文件必超 cutoff）——完备门与宇宙过滤器的「last==cutoff」一律作用于 **runner 装载后截断至 2026-09-22 的锁盒面**（禁止要求活文件末 bar 停在 cutoff=防维护链正常前进炸门）；冻结原文「逐件 last==2026-09-22」语义按此读，判据零改动（r251 零跑修正先例·REV_OSC R278 同型）。
 - 诚实披露：data/daily 为收盘价面（分红除息缺口照传如现——红利腿 510880 面该噪声明；家族先例 CN-REGIME-POLICY 同 corpus 同面）。
 
 ## §3 方法学【冻结】
