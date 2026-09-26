@@ -1720,7 +1720,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 01:50:09",
    "data_gates": "in-runner fail-closed exit 2: name-face universe re-derive==frozen 8 roster cross-check + truncated-face last==2026-09-22 zero-NaN + sse coverage>=0.95 + per-cell JSON+npy idempotent checkpoints + finalize single-shot (CN_SOE_ETF_P1_REFINALIZE=1 = only redo); selftest 34/34 pre-pooling (r263 law, incl r286 family legs: np-native coercion + _compute_cells assembly glue + div-cross dated reconstruction); real-data gate probe PASSED 2026-09-27 01:5x bm-a (T=2445 N=8 sse_cover 1.0, panel load 0.2s, SOE_HOLD x2 sharpe 0.3915 entries=8 structural, SOE_REPAIR 13 entries 3 episodes 2020-03/2022-04/2022-10 within prereg s5 band, LOWVOL3 30 entries, all dump sites json-clean)",
    "workers_plan": {
@@ -1731,13 +1731,14 @@
    "shards": [
     {
      "key": "cnsoe-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 02:00:03",
      "checkpoint": null
     }
    ],
-   "note_done": null
+   "note_done": null,
+   "harvest_note": "R285 bm-a same-round harvest: finalize ok 02:06:19 (elapsed 371.7s, workers 4, units 2005) -> judged-negative 0/5 G1'v2 (line 0.4792 core48-passive-dominated; SOE_REPAIR line_ok+CI pass but F6 entries 13<30 structural block) + G2 0/5 (DSR 0.0, family PBO 0.3714 observe) -> slot closed per O-20260926-0926 queue order, no paper account; prereg s7/s8 backfilled single-finalization same round; post_review row T-87-CN-SOE-P1 registered same round; cross-family leg vs CN_TREND_ETF_P1 stays open (in flight, bm-b lane)"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"

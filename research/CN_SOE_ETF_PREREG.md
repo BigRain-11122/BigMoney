@@ -72,10 +72,52 @@
 - `results/cn_soe_ETF/p1_results.json`（顶层 evidence_cutoff+science_gates.cutoff_meta+D6 表+judged 判读+N 计数）；`results/cn_soe_ETF/cells/*.json|npy` per-cell checkpoint；census+§2.3 分窗产物；`results/gate_attrition.json` 追加一行（**写 `entries` 列表**，r248 律）。
 - runner=scripts/cn_soe_etf_p1.py（冻结 commit 后建；selftest 子命令=离线自检；selftest 全绿才许入池，r263 律）。R99 律：prereg 冻结 commit 先于 runner build 先于任何 run。fail-closed 数据门（exit 2）：宇宙 re-derive==8+探针名册交叉+截断面 last==2026-09-22 零 NaN+sse 覆盖≥0.95。
 
-## §7 跑后实证【跑前为空——占位纪律】
+## §7 跑后实证【R285 收割同轮回填·跑后一次定稿】
 
-（跑后回填；含 D6 批后披露腿：vs CN-DIV-LOWVOL-ROT judged cells、vs CN_TREND_ETF_P1 judged cells 落判后交叉面）
+**池执行留痕**：入池 01:50:09（R284 建造+selftest 34/34+real-data probe 绿）→ 02:00:07 tick 认领 OK（owner=bm-a·latency 9.9min 达标）+LAUNCH pid=46672 → **finalize ok 02:06:19**（elapsed 371.7s·workers 4·units 2005·`audit.deterministic_sim` 双跑恒等面）→ 同轮收割 R285。**N_trials=2005 入账**：ledger 189859+2005=**191864**；attrition 第 51 行入 `entries`（ts 02:06:20·r248 消费面）。
 
-## §8 批后复盘【必填·s7-T】
+**5 格×双成本面（x2=判面恒开·x1=披露列）**：
 
-（跑后回填）
+| cell | x1 Sharpe | **x2 Sharpe** | x2 ann | x2 maxDD | trades/entries | x2 OOS Sharpe / ann | G1'v2 | G2 |
+|---|---|---|---|---|---|---|---|---|
+| SOE_HOLD | 0.3956 | **0.3915** | +4.39% | −23.2% | 474/8 | +0.2397 / +2.31% | FAIL（line 0.4792·entries 8<30） | ineligible |
+| SOE_HOLD_MA200 | 0.2069 | **0.1503** | +0.98% | −20.6% | 579/151 | −0.4350 / −5.06% | FAIL | ineligible |
+| SOE_LEGMA200 | 0.0876 | **0.0130** | −0.39% | −20.6% | 595/162 | −0.7508 / −9.53% | FAIL | ineligible |
+| SOE_REPAIR | 0.7289 | **0.7077** | +2.37% | −4.2% | 49/13 | None / 0（2025+ 零事件=零暴露诚实） | **FAIL（line_ok ✓+CI ✓，F6 entries 13<30 挡）** | ineligible |
+| SOE_LOWVOL3 | 0.2971 | **0.2782** | +2.10% | −17.0% | 277/30 | +0.4830 / +3.99% | FAIL（0.2782<0.4792） | ineligible |
+
+**G1'v2 面：0/5**——line=**0.4792**（core48 被动项主导：null term=μ−0.2233+σ0.0852×√(2·ln 191864)=0.1967<passive 0.4792→线=passive 面；own-null 族=2000 件周网格 Bernoulli 随机多/平袖年 Sharpe 抽样·随机 flat/long 袖均净负=成本+半仓机会成本面）；n_eff=191864。**SOE_REPAIR=唯一过线+CI 正格**（0.7077>0.4792·bootstrap CI[+0.1257,1.3029] 下界正）但 F6 双口径 entries 13<30 结构性挡=「样本量不足型判负」；SOE_HOLD 同为 F6 entries 8<30 挡（trades 474 ok·dual fail）；MA200 族/LowVOL3=线不达标型。DSR 5×0.0（n_trials 191864·sr_star 0.386）；**G2 0/5 ineligible**；family PBO=**0.3714**（CSCV-8·70 组合·observe 带 0.25-0.5）。
+
+**D6 准入面（vs 在册 6 CE 员）**：max|corr| 0.135-0.2755（SOE_HOLD argmax VOLATILITY-CE-01 0.2755）全 <0.7 **零拒收**——§1 预期 <0.4 应验。
+
+**批后披露腿① vs CN-DIV-LOWVOL-ROT**（dated_reconstruction_verified 交叉面·2019-01-18..2026-09-22 T=1862）：W63_bare vs **SOE_HOLD corr 0.7133**／SOE_LOWVOL3 0.6947（W252_bare vs SOE_HOLD 0.7010）——**>0.7 同向照登**：SOE 持有面与红利低波裸轮动共享红利/央企因子（两族皆判负零注册冲突，入档=风格重叠证据）；SOE_REPAIR 0.1857/0.1890=事件面独立低重叠。
+
+**批后披露腿② vs CN_TREND_ETF_P1**：在飞未落判（bm-b 车道）→ **交叉面 open 指针：落判后下轮回填本节附录**（queue 注记原文义务）。
+
+**虚拟起点 census**：n_starts=**2119**（T=2445 窗短如实）；分段 bull 583／bear 914／chop 599 sufficient，**deep_bear 23<500=insufficient-sample 禁算该分段 pass 照登**。beat6m vs 合格池 EW 代理：HOLD 0.3384（袖落后宽池=β-lag 面）／MA200 0.3591／LEGMA200 0.3200／REPAIR 0.4384（deep_bear 0.7391 n=23 insufficient 面）／LOWVOL3 0.4049。OOS halves 双正：HOLD +0.0233/+0.0294、MA200 +0.0054/+0.0079、REPAIR +0.0045/+0.0235、LOWVOL3 +0.0096/+0.0147、LEGMA200 前正后负（split_agree 97%）；walk-forward 5 折混布（REPAIR [null,0.576,1.100,0.985,null]=事件稀疏窗折叠 null 如实）。
+
+**双法 nulls（§3 双报）**：SOE_REPAIR block_bootstrap p_le_0=**0.0**+sign_flip **0.029**（双法边缘显著——与 F6 挡注册并存如实）；SOE_HOLD block 0.078；MA200/LEGMA200/LOWVOL3 非显著。
+
+**描述条款（§4 披露列）**：annualized>0=**4/5**（LEGMA200 −0.39% ✗）；OOS（≥2025-01-01 共享分割）双正=**2/5**（HOLD+LOWVOL3 ✓·MA200 族双负·REPAIR 零样本）；maxDD≥−35%=**5/5 全过**（−4.2%..−23.2%=袖整体浅回撤）。x1>x2 **5/5**（成本侵蚀 LEGMA200 0.0876→0.0130 最重=月频逐腿换手面）。
+
+## §8 批后复盘【R285·s7-T】
+
+**§5 逐条对账**：
+1. MA200 闸族 0.0-0.5 带：**HIT**（0.1503/0.0130 带内·判负照报应验）。
+2. SOE_HOLD entries≈8→F6 FAIL：**HIT**（entries=8·474 trades ok·dual fail）；maxDD −35% 触线预测：**MISS**（实际 −23.2% 未触——staggered 入袖+8 员混合比预测的央企创新 −35%± 深水浅）。
+3. SOE_REPAIR entries 2-8→F6 FAIL：**半 HIT**（实际 13>预测上沿 8——252d 滚动高回撤≥20% 触发频于「2-4 周期」估计；F6 FAIL 应验 13<30）。
+4. LOWVOL3 波动降 10-20%+与红利低波同向：**部分应验**（dd 面 −23.2%→−17.0%≈26% 降幅实证；Sharpe 0.2782<0.3915=防御倾斜非 α；vs CN-DIV W63_bare 0.6947 近 0.7 同向）。
+5. 极端日先验：2024-09-24 政策脉冲段 MA200 闸滞后成本方向与预测一致（MA200 族 OOS 双负读数=闸滞后面）；REPAIR whipsaw 风险实证=13 触发（预测 2-4 周期被超）。
+6. x1≥x2：**HIT 5/5**。
+
+**skill_line_v2 当批判读**：line 0.4792=core48 被动面主导（own-null 族净负 μ−0.2233——随机半仓袖被成本+机会成本压成负 Sharpe=本批 null 族构成面证据）；两型判负如实分列——**线不达标型**（HOLD 0.3915/MA200 0.1503/LEGMA200 0.0130/LOWVOL3 0.2782）与**样本量不足型**（REPAIR 0.7077 过线+CI 正但 13 events/10y）。
+
+**gate_attrition 留痕**：runner 已追加第 51 行（`entries` 列表·delta 2005·total 191864·g1_pass 5×false·g2_eligible 5×false·d6_reject 5×false·family_pbo 0.3714）。
+
+**判决行**：**CN_SOE-ETF 判负收线**（G1'v2 0/5+G2 0/5）→ slot closed 禁翻案（新证据=新预注册）；不开纸盘不入判决台。**家族证据沉淀**：①中特估袖=**β 非 α**——SOE_HOLD 描述面全绿（ann+4.39%·OOS 双正·浅 dd）但 Sharpe 0.3915<core48 被动线 0.4792 且 beat6m 0.3384 落后宽池=纯风格 β 无特异 α，与 vs CN-DIV ≥0.7 同向披露互证；②**SOE_REPAIR 深蹲修复=描述性最优格**（x2 0.7077·dd −4.2%·deep_bear beat 0.74·双法 nulls 显著）但 13 事件/10 年=结构性样本不足，F6 挡注册=**诚实判负非机制证伪**——正面前向指针：2023+ 纯中特估 cohort（20 只 IS 深度积累中）或事件数自然累积 ≥30 时按律开**新 prereg** 重审（禁本案翻案）；③MA200 逐腿/全袖闸在月频袖上=负加数（政策底守护 folklore 面证伪于本宇宙）。
+
+**vs CN_TREND_ETF_P1 交叉面**：open（落判后下轮 §7 附录回填）。
+
+**复审三态**：立法=git 可验（freeze ba54b43f 先于 runner 建·prereg_sha256_lf_normalized 57390c85… 钉于产物 meta）✓／生效=判据跑通（5 cell×2 面+2000 nulls+2119 vstarts+两腿披露全落地）✓／验收=复审行本轮注册（T-87-CN-SOE-P1·稳定产物锚）→ 复审器 run 判读。
+
+—— bm-a 研究部+策略部 R285 收割回填（2026-09-27 02:xx · 跑后一次定稿 · 零编数）
