@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-26",
- "generated_at": "2026-09-26 17:00:30",
+ "generated_at": "2026-09-26 17:18:59",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,17 +286,19 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 474,
-  "result_jsons_landed_24h": 91,
-  "digests_landed_24h": 23,
+  "commits_24h": 476,
+  "result_jsons_landed_24h": 89,
+  "digests_landed_24h": 24,
   "prereg_md_touched_24h": 26,
   "compute_audit_latest": {
-   "ts": "2026-09-26 16:59:00",
-   "py_cpu_pct": 0.4,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-09-26 17:18:09",
+   "py_cpu_pct": 0.2,
+   "flags": [
+    "pool_starvation"
+   ],
+   "verdict": "FLAG:pool_starvation"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -505,12 +507,12 @@
   }
  ],
  "token_line": {
-  "total_state_tokens_est": 1844,
-  "total_report_tokens_est": 425060,
+  "total_state_tokens_est": 1860,
+  "total_report_tokens_est": 428073,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-26 16:20:47",
-   "state_tokens_growth": 0,
-   "report_tokens_growth": 1202,
+   "prev_generated": "2026-09-26 16:37:08",
+   "state_tokens_growth": 16,
+   "report_tokens_growth": 3013,
    "mandate_growth": 0
   },
   "method": {
