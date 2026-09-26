@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-26 13:33:03",
+ "updated_at": "2026-09-26 13:59:38",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -1466,6 +1466,40 @@
     "note": "single finalize dependency chain (bare cells -> 252d trail -> tilt cells -> gates); ~2GB panel+signal peak; sims are incremental-held O(20)/day; workers>1 would duplicate the 368MB panel load"
    },
    "note": null
+  },
+  {
+   "id": "T80-AGGR-FULLPOOL-BATTERY",
+   "ticket_ref": "T-2026-09-26-80 slice-1 (CEO order O-20260926-1332; claimed bm-b r252, build+freeze+register r253)",
+   "prereg_ref": "research/AGGR_FULLPOOL_BATTERY.md (FROZEN pre-run R99, freeze=build commit; 400 aggregate judgment cells 20 variants x 20 T-28-caliber cells; J1/J2/J3 T-28 verbatim; sleeve-domain faces byte-anchored vs aggressive_lab.json/aggressive_family.json; canon B_MAXDIV full-pool grid re-anchor +0)",
+   "runner": "scripts/aggr_fullpool_battery.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": "bm-a",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-26 13:59:38",
+   "data_gates": "in-runner fail-closed exit 2: weight sha 6+19 + roster/corps set gates; t54 census 121,528 (16 shards, per-face starts 1256/1506); p5c legL 15,036 rows; canon CE deep PINNED manifest (6 CE x 1506 x 2 = 18,072 rows; dprobe 680-partial signature refused; absent = exit 2, bm-b verified live refusal 2026-09-26 13:59); passive cross-source bit-identity gate (legacy 3,255 windows 0-mismatch bm-b probe); sleeve panel cutoff >= 2026-09-23; frozen anchors byte-identity (T56/T58 w_cur/w_seg/judgments); AGGR-NOCASH grid == canon grid asserted; free-RAM floor 4GB; single-shot finalize guard (AGGR_FP_REFINALIZE=1 = only redo, never re-ledgers); selftest 10/10 pre-pooling",
+   "shards": [
+    {
+     "key": "aggrfp-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/aggr_fullpool_battery_ckpt_0of1.jsonl (per-variant done-key rows, t22 law); finalize fail-closed 20/20; landed marker = results/aggr_fullpool_battery.json complete; harvest round flips entry+shard done per r244 landed-marker law",
+     "note": "single shard: 56 sleeves ~9s + grid assembly (~134k rows parse) + 400-cell arithmetic -- minutes-class; multi-shard --shards>1 available for month-boundary reruns; burn lane pinned bm-a (canon CE deep cells live there; MSG-20260926-1400-bm-b checklist)"
+    }
+   ],
+   "workers_plan": {
+    "workers": "min(worker_cap(), 25) multi-core sleeve phase (ProcessPoolExecutor, O-2130 compliant)",
+    "priority": "BelowNormal",
+    "note": "autofill sets BelowNormal on launch; runner self-nices orchestrator; est <90s wall on bm-a class hardware"
+   },
+   "lane_note": "R188 lane-pin precedent: full-pool deep axis requires canon CE deep cells (bm-a/bm-c local; bm-b = 680/1506 dprobe partial FORBIDDEN per t54 prereg s7-3); F-04 claim MSG-20260926-1400-bm-b declared BEFORE this entry with bm-a self-serve checklist (t54 shard re-run recipe incl.)"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
