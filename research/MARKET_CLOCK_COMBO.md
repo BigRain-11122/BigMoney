@@ -1,6 +1,6 @@
 # MARKET_CLOCK_COMBO — 市场时钟组合策略正典 + 预注册（T-74 · O-20260926-0932）
 
-- 状态：**s0 冻结 v1.1**（v1.0 2026-09-26 R239 判据节冻结；v1.1 R240 增 §2b 袖重放机制跑前冻结——判据线零改动；判据节冻结后禁改——改=新版本号+CEO 判据线程序）
+- 状态：**s0 冻结 v1.2**（v1.0 2026-09-26 R239 判据节冻结；v1.1 R240 增 §2b 袖重放机制跑前冻结——判据线零改动；v1.2 R255 CEO 令 O-20260926-1342 §三 L3 激活表证据化——设计表保留为提名面，激活=提名∩画像证据（T-81 slice-2，prereg=research/L3_ACTIVATION_EVIDENCE.md）；判据节冻结后禁改——改=新版本号+CEO 判据线程序）
 - 归属：dept:策略（树设计+回测）× dept:研究（热度/板块面）× dept:交易（袖门禁面）× dept:工程（runner/池）
 - 收敛声明（零重建）：L1=REGIME_GUARD v3（`scripts/market_regime.py`·阈值冻结于 firm/risk/REGIME_GUARD §1·四态机）；L3 三军名册=firm/STYLE_CORPS.md；仓位帽=position_cap 机制；选股面=T-57 野路子存活者/T-73 CN 组合/PROSPECT/红利低波既有门禁；热度面=Money02/data/lhb/lhb_detail.parquet（2007-01-04→2026-09-24，266,062 行）+ moneyflow/sina_mf/THS 前向采集面；板块面=core48 ETF 谱系（data/daily 新鲜 48 件）。
 
@@ -16,7 +16,10 @@ L1 市场时钟（4×2=8 格）= v3 四态（GREEN/YELLOW/ORANGE/RED，收盘因
      moneyflow/THS/人气榜=前向采集无历史，仅 s1 当日判定消费，回测面禁用（禁编造历史）。
 L2 板块谱系 = core48 ETF 当日动量榜（r5/r20/r60）→ 强势板块榜（≥MA 侧如实列示）；申万映射=待办（P0 backlog），
    v0 以 ETF 谱系为板块面，映射升级=后续切片。
-L3 袖激活表（状态×热度 → 袖，三军名册直用）：
+L3 袖激活表（状态×热度 → 袖，三军名册直用；**v1.2 证据化（O-1342 §三）**：本表=设计提名面，
+   激活=提名 ∩ 画像证据门（T-81 画像卡 heat-cell PASS；无证状态=不激活 fail-closed；结构性袖
+   （现金腿/证伪/在飞）按结构标签如实；全表=results/market_clock/l3_activation_table.json，载体
+   =scripts/market_clock_call.py，判据=research/L3_ACTIVATION_EVIDENCE.md 冻结件）：
    GREEN×COOL  = 进攻军·趋势/动量袖（满配）+ 网格袖辅助
    GREEN×HOT   = 进攻军·动量袖 + 游资题材小卫星（小仓位，野路子存活者池）
    YELLOW×*    = 震荡军·网格袖 + 均值回归区间袖（半配）
@@ -64,5 +67,6 @@ L5 仓位阶梯 = RED 20% → ORANGE 50% → GREEN 80% → GREEN×HOT 95%（posi
 
 ## 变更记录
 
+- v1.2 (2026-09-26 R255 bm-b)：§1 L3 激活表证据化（CEO 令 O-20260926-1342 §三「激活表证据驱动（无证状态=不激活）」；判据=research/L3_ACTIVATION_EVIDENCE.md 跑前冻结；设计表保留为提名面；L1/L2/L5 零改动；载体 market_clock_call.py + l3_activation_table.json）。
 - v1.1 (2026-09-26 R240)：§2b 袖重放机制跑前冻结（全局流性质+缺面=现金披露+判据执行语义；§2 判据线零改动）。s2 runner=scripts/market_clock_backtest.py。
 - v1.0 (2026-09-26 R239)：s0 冻结（O-0932 收敛声明落地：六层既有件全复用，热度复合 v0=板面代理）。

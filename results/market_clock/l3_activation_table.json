@@ -1,0 +1,827 @@
+{
+ "version": 1,
+ "canon": "MARKET_CLOCK_COMBO s0 v1.2 L3 evidence-driven (O-20260926-1342 sec.3)",
+ "meta": {
+  "prereg": "research/L3_ACTIVATION_EVIDENCE.md",
+  "source_face": "results/strategy_scorecard.json profile_cards",
+  "batch": "PROFILE-CARDS-P1",
+  "ticket": "T-2026-09-26-81",
+  "evidence_cutoff": "2026-09-24",
+  "source_prereg_sha256_16": "e0738b6e70fa88a6",
+  "prereg_sha256_16": "6e881b693db95001"
+ },
+ "cells": {
+  "GREENxCOOL": {
+   "design_sleeves": [],
+   "nominated": [
+    "offense",
+    "grid"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": true,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "PASS",
+      "AGGR-CONC-TOP2": "PASS",
+      "AGGR-REGIME": "PASS"
+     },
+     "n_pass": 3,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": false,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "PASS"
+     },
+     "n_pass": 1,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": false,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": false,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "PASS",
+      "COMPOSITE-CE-02": "PASS",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "PASS",
+      "NEEDLE-DE-01": "PASS"
+     },
+     "n_pass": 5,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": false,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
+    }
+   },
+   "activated": [
+    "offense"
+   ]
+  },
+  "GREENxHOT": {
+   "design_sleeves": [],
+   "nominated": [
+    "offense",
+    "satellite"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": true,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "PASS",
+      "AGGR-CONC-TOP2": "DEAD_ZONE",
+      "AGGR-REGIME": "PASS"
+     },
+     "n_pass": 2,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": false,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "DEAD_ZONE"
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_DEAD",
+     "activated": false,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": false,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "DEAD_ZONE",
+      "COMPOSITE-CE-02": "DEAD_ZONE",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "DEAD_ZONE",
+      "NEEDLE-DE-01": "PASS"
+     },
+     "n_pass": 2,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": false,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
+    }
+   },
+   "activated": [
+    "offense"
+   ]
+  },
+  "YELLOWxCOOL": {
+   "design_sleeves": [],
+   "nominated": [
+    "mean_reversion",
+    "grid"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": false,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "PASS",
+      "AGGR-CONC-TOP2": "PASS",
+      "AGGR-REGIME": "PASS"
+     },
+     "n_pass": 3,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": false,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": true,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "PASS"
+     },
+     "n_pass": 1,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": false,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "PASS",
+      "COMPOSITE-CE-02": "PASS",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "PASS",
+      "NEEDLE-DE-01": "DEAD_ZONE"
+     },
+     "n_pass": 4,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": false,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
+    }
+   },
+   "activated": [
+    "mean_reversion"
+   ]
+  },
+  "YELLOWxHOT": {
+   "design_sleeves": [],
+   "nominated": [
+    "mean_reversion",
+    "grid"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": false,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": "DEAD_ZONE",
+      "AGGR-CONC-TOP2": "DEAD_ZONE",
+      "AGGR-REGIME": "DEAD_ZONE"
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_DEAD",
+     "activated": false,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": true,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": "PASS"
+     },
+     "n_pass": 1,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": true,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": false,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": "DEAD_ZONE",
+      "COMPOSITE-CE-02": "DEAD_ZONE",
+      "DROUGHT-CE-01": "PASS",
+      "ENGULF-CE-01": "DEAD_ZONE",
+      "NEEDLE-DE-01": "PASS"
+     },
+     "n_pass": 2,
+     "evidence_activated": true,
+     "status": "ACTIVATED",
+     "activated": false,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
+    }
+   },
+   "activated": [
+    "mean_reversion"
+   ]
+  },
+  "ORANGExCOOL": {
+   "design_sleeves": [],
+   "nominated": [
+    "grid",
+    "mean_reversion",
+    "divlowvol"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": false,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": true,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": false,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
+    }
+   },
+   "activated": []
+  },
+  "ORANGExHOT": {
+   "design_sleeves": [],
+   "nominated": [
+    "grid",
+    "mean_reversion",
+    "satellite"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": false,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": true,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": true,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": false,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg)"
+    }
+   },
+   "activated": []
+  },
+  "REDxCOOL": {
+   "design_sleeves": [],
+   "nominated": [
+    "airdefense_cash"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": false,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": false,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": true,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "STRUCTURAL_CASH",
+     "activated": true,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg); strategy risk-leg NOT activated: zero RED days in evidence window"
+    }
+   },
+   "activated": [
+    "airdefense_cash"
+   ]
+  },
+  "REDxHOT": {
+   "design_sleeves": [],
+   "nominated": [
+    "airdefense_cash"
+   ],
+   "sleeves": {
+    "offense": {
+     "label": "offense-corps trend/momentum sleeve",
+     "nominated": false,
+     "members": [
+      "AGGR-OFFENSE",
+      "AGGR-CONC-TOP2",
+      "AGGR-REGIME"
+     ],
+     "cell_verdicts": {
+      "AGGR-OFFENSE": null,
+      "AGGR-CONC-TOP2": null,
+      "AGGR-REGIME": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "grid": {
+     "label": "grid sleeve",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_FALSIFIED",
+     "activated": false,
+     "note": "FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative)"
+    },
+    "mean_reversion": {
+     "label": "mean-reversion range sleeve",
+     "nominated": false,
+     "members": [
+      "VOLATILITY-CE-01"
+     ],
+     "cell_verdicts": {
+      "VOLATILITY-CE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_EVIDENCE",
+     "activated": false,
+     "note": null
+    },
+    "satellite": {
+     "label": "wild-theme micro-satellite",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_NO_SURVIVORS",
+     "activated": false,
+     "note": "NO_SURVIVORS (T-57 wild-route 0 survivors)"
+    },
+    "divlowvol": {
+     "label": "dividend-lowvol base position",
+     "nominated": false,
+     "members": [],
+     "cell_verdicts": {},
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "NOT_ACTIVATED_IN_FLIGHT",
+     "activated": false,
+     "note": "IN_FLIGHT (CN-DIV-LOWVOL-ROT prereg frozen, runner pending)"
+    },
+    "airdefense_cash": {
+     "label": "air-defense cash leg",
+     "nominated": true,
+     "members": [
+      "COMPOSITE-CE-01",
+      "COMPOSITE-CE-02",
+      "DROUGHT-CE-01",
+      "ENGULF-CE-01",
+      "NEEDLE-DE-01"
+     ],
+     "cell_verdicts": {
+      "COMPOSITE-CE-01": null,
+      "COMPOSITE-CE-02": null,
+      "DROUGHT-CE-01": null,
+      "ENGULF-CE-01": null,
+      "NEEDLE-DE-01": null
+     },
+     "n_pass": 0,
+     "evidence_activated": false,
+     "status": "STRUCTURAL_CASH",
+     "activated": true,
+     "note": "CASH_LEG_STRUCTURAL (cash floor by construction in RED rows; member evidence gates only the <=20% strategy risk-leg); strategy risk-leg NOT activated: zero RED days in evidence window"
+    }
+   },
+   "activated": [
+    "airdefense_cash"
+   ]
+  }
+ }
+}
