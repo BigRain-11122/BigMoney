@@ -7,12 +7,11 @@
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
-
 - 坑律正典全量归档（2026-09-27 集团令 O-20260927-0230-bm-a·CODELY ≤10KB 整编）：全部坑律条目已外迁 research/memory-archive/202609.md『坑律归档 2026-09-27』节（行级零丢失·全量留 git·检索按条目内『指针=』字段定位）；新坑律仍先入本件，**≤10KB 硬线**——append 后超线=当窗即办热冷整编勿等月（水位律自 >50KB 重锚·集团令优先）。
 - 集团令台账：fleet/orders/O-20260927-0230-bm-a.md（集团 orders.md L45 承接·CODELY ≤10KB·已执行·判据=字节落线）；根 CODELY.md ≤20KB 为 @HQ 面。
-
 - [2026-09-27 02:4x] 坑律（bm-a R287·CENSUS_FUS_S2 runner 建造期·E1 selftest 期自捕零外泄）：**blend/基准 sizing 分母必须随实际 target 集——fixed_all 基准（EW48）沿用 TOP_K 常量分母=每员 1/16 权重、Σw=3.0 收益放大 3 倍（实弹：EW48 ann 0.4876 vs 真 ~0.169，无噪漂移夹具 [3a] 当场红）**；正律=want=NOTIONAL/len(target) 于 target 定后取；连带=「完美信号」夹具必须截面单调——时序单调列=常数截面被 ic_series 正确跳过=夹具自病非机器病（P-1 S6 无噪漂移范式是正解）。指针=scripts/census_fusion_s2.py blend_top16 want 行+selftest [2][3a] 修正史
 - [2026-09-27 02:4x] 纪律（bm-a R287·集团令扫描面新维·D-20260927-05② 自评采纳落地）：**集团 docs/orders.md 直令面可承载 @BigMoney dispatched 令而不落本司 fleet/orders/——实弹：L45「CODELY ≤10KB」令经 fleet/orders 差集=空漏接，集团台账全文件扫描面捕获（R287 承接执行 8a00f514）**；正律=每轮 S0.5 decisions.md 同位步加扫集团 orders.md 全文件 @BigMoney/quant 行（dispatched 未回执=落 O 件入册执行），本律入本件=轮读面自动携带。指针=fleet/orders/O-20260927-0230-bm-a.md+集团 orders.md L45
 - [2026-09-27 03:0x] 执行记录（bm-a R288·S0.5 扫描面二次实弹）：集团两令承接闭环——P-202609-26-04（U231 块面件·金融商业区块六必答）+P-20260926-18（九司调研部建制·BigMoney 复用正名）→O-20260927-0302-bm-a+`research/R-20260926-city-block-finance.md`+org_chart 研究部行席位注记；复用优先零新车道（RESEARCH_MECHANISM 双频=超配章程周轮律）。指针=同 O 件
 - [2026-09-27 03:1x] 坑律（bm-b R291·S0 两连 rebase 撞车窗实弹）：**git stash pop 产冲突时条目必保留——解完必须显式 git stash drop，否则下一次 pop 仍是同一条目（r291 实证：post_review 同 stash 双 pop=38 行重复注入 UU 面，靠 zone⊂merged-face 验证零丢失收口）**；正律=pop 冲突解后流程=add→drop→再 pop 下一条目。指针=results/_r291_resolve.py+r291 轮报告
 - [2026-09-27 03:1x] 事实（bm-b R291·S0.5 扫描面机器分工）：**bm-b 本机无集团仓本地 clone（集团仓在 bm-a 机面·本机 E:\Fluxgroup=迁移未落地空壳）——D-20260927-05② 集团 orders.md 直扫面在 bm-b 不可达，bm-b 赖 fleet/orders/ O-件镜面承接（bm-a 落册推送），每轮报告如实注记直扫面不可达、禁静默跳过**。指针=O-20260927-0230/0302-bm-a 镜面链
+- [2026-09-27 03:2x] 坑律（bm-a R290·UNC 面 post_review 注册期实弹）：**post_review criteria 的 json_field 检查禁用于键名含「.」的产物键——dotted-path 解析器把键名当路径拆（`uncert_summary.n_ic_p_le_0.05` 被拆成 `n_ic_p_le_0`+`05`=key absent 假红）**；正律=键名带点或值含路径元字符时改 file_contains 锚同文件同值（产物字节零改动·非判据改写）；修正=改 criteria 检查后重跑 reviewer=NO→YES 行序列合法（台账 append-only·旧 NO 行留史不删，T-81 先例范式）。指针=results/_r290bma_unc_pr_fix.py+Tools/post_review.py _json_path
