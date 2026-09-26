@@ -824,6 +824,15 @@ SEED_REGISTRY = {
     # one-step R250 law; rg full-repo scan 2026-09-27 02:2x zero hits in
     # band; lane = T-2026-09-26-86 s2 combinatorial census (O-20260926-2320),
     # prereg research/CENSUS_FUSION_S2_PREREG.md
+    "census_fusion_s2_unc": 20275000,    # CENSUS_FUS_S2_W1-UNC s3 uncertainty
+    # face (prereg sec.3 s3 frozen rules + sec.9.1 seed freeze R290 bm-a):
+    # per-combo deterministic streams np.random.default_rng([20275000, i])
+    # for block bootstrap B=200 (block=20td circular, x2 blend Sharpe CI
+    # p2.5/p97.5) + sign-flip permutation P=200 (two-sided IC p-value);
+    # derivation face ledger +0; no band occupation (seed-sequence derive);
+    # registered at sec.9.1 freeze commit BEFORE unc runner build, one-step
+    # R250 law; collision scan R290 03:2x zero hits; lane = T-2026-09-26-86
+    # s3, prereg research/CENSUS_FUSION_S2_PREREG.md sec.9.1
 }
 
 

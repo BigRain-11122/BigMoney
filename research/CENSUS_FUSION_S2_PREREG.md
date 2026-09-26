@@ -59,6 +59,34 @@
 
 （一次定稿；工程修复重跑双跑留痕；确定性引擎产物写 bug 的合法重执行≠结果重跑）
 
+**R290 bm-a 一次定稿（跑落地 2026-09-27 03:00:11·autofill launch-claim 1150732c→checkpoint 续跑→末段 elapsed 2.1s）**：
+
+- N=4,518 全格入账（候选 4,060+对照 58+null 400）；trials ledger 200,900+4,518=**205,418**；数据门 48/48 员·末行 2026-09-24 唯一·全 gate ok；网格首信号 2020-12-29·279 信号·top_k 16·面板 1,633 交易日。
+- EW48 锚（行内 delta 列反推·全行一致）：x1 年化 **0.0266**·×2 Sharpe **0.1532**。
+- 候选面 ×2 Sharpe：median 0.0583·p95 0.4164·max **0.7249**（T:extreme_freq|return_skew|lowamp20·×1 Sharpe 0.7581·IC 0.0294）。
+- null 面（400·seed band 20274500..20274899）：median **0.0388**·p95 0.3526·min −0.4662·max 0.5653；候选超 null p95=**363/4,060（8.9% vs 基率 5%）**。
+- §4 家族聚合（×2 Sharpe 中位数·n_combos）：low_vol 0.1399（2,036）> trend 0.1040（1,135）> volume 0.0561（1,760）> momentum 0.0427（2,520）> breakout 0.0164（784）> mean_reversion 0.0126（784）> reversal **−0.0096**（1,135）；跨族 top-10 前三=T:extreme_freq|return_skew|lowamp20 0.7249／T:mom_20|vol_20|vol_60 0.7023／P:up_day_ratio|vol_60 0.6987。
+- **批性声明照锚：EXPLORATION FACE——零注册主张零纸盘资格；唯一出口=§4 家族清单喂 T-23 intake funnel（judged 消费面独立 prereg）。**
+
 ## §8 批后复盘【必填·s7-T】
 
 （预测对账+门禁链损耗账 results/gate_attrition.json 追加一行+回执入轮报告；本批无判线读数=探索面注记 null）
+
+**R290 bm-a 对账（§5 四预测 vs 实测）**：
+
+1. **P1 lowamp×trend top 十分位+年化>EW48：CONFIRMED**——306 组中 74 组（**24.2% vs 基率 10%=2.4× 富集**）落 ×2 top 十分位且**全部 74 组同时 x1 年化>EW48 0.0266**（联合=单条件）；top 组合携带 lowamp 面（T:mom_20|vol_20|vol_60 0.7023·T:extreme_freq|ma_slope_20|lowamp20 0.6857）。
+2. **P2 null 近零小离散+候选 p95>null p95：CONFIRMED**——null median 0.0388（近零区·低于 EW48 0.1532）；null p95 0.3526 < 候选 p95 0.4164；超 null p95 者 363/4,060=8.9%（基率 5%）=**结构存在但温和**（探索先验不作注册证据）。
+3. **P3 rev×mom IC 负向互作：NOT-CONFIRMED**——208 rev×trend pair IC median **+0.0103**·负向占比 30%（无系统性负互作）；矩阵面 top-50 |IC| 序列化中含 rev 面仅 1 件——core48 面行为先验不成立，如实照登不翻案。
+4. **P4 极端日尾部披露面：满足**——全量 CSV 序列化（含 maxDD/月度胜率列）·本批无 max 硬门（§5.4 设计面）·尾部照登未判红。
+- **判线读数：无（EXPLORATION FACE）→ 注记 null**；G1'v2/G2/D6 全不适用（§4 探索面协议）。
+- 损耗账：results/gate_attrition.json 追加 CENSUS_FUS_S2_W1 行（kind=measurement·探索面零 judged 格·cells_ledger_delta 4,518·ledger_total_after 205,418）。
+- 回执：bm-a R290 轮报告；post_review 行 T-86-S2-CENSUS-FUS-W1 注册（锚稳定产物件·R264 律）。
+
+## §9 追加冻结节【append-only·跑前另行冻结面】
+
+### §9.1 s3 不确定面（UNC）种子冻结【R290 bm-a·跑前·先于 runner build commit】
+
+- 家族基：**`census_fusion_s2_unc = 20275000`**（science_gates.SEED_REGISTRY 本冻结 commit 同步登记·R250 一步律；全表无撞·20274500 null 带不重叠）。
+- 派生律：每候选组合 i（i=组合枚举序 0..4,059）确定性流 = `np.random.default_rng([20275000, i])`（PCG64 seed-sequence 双整数派生·零 band 占用·重跑字节恒等）。
+- 用途钉死：rng 流仅供 §3 s3 已冻规则的两个重采样面——①block bootstrap B=200（block=20 交易日·循环块·拼样截回 n 长度）×2 blend Sharpe 分布 → CI=[p2.5, p97.5]（观测 Sharpe 落带披露·ci_pos=ci_lo>0 旗）；②sign-flip 置换 P=200（逐日 IC 符号独立翻转·双侧）→ p=(1+Σ|μ_p|≥|μ|)/(P+1)。禁挪用他面。
+- 语义锚：同组合=同格 derivation 面→ledger +0（§3 原文）；跑全量候选 4,060（pairs+triples·对照/null 不入）；产物=results/census_fusion_s2/w1_unc.json+unc_checkpoint.jsonl（200 组合 cadence）。
