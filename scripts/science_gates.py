@@ -854,6 +854,17 @@ SEED_REGISTRY = {
     # one-step R250 law; rg scan 2026-09-27 05:1x: code/canon faces zero
     # hits (data/*.csv digit coincidences excluded per kline precedent);
     # lane = T-2026-09-26-85 s2/s3, prereg research/FUSION_GRID_P1_PREREG.md
+    "cn_sector_leader_p1": 20277200,   # CN_SECTOR_LEADER_P1 K=2000 same-mask
+    # random (leader,day) nulls (20277200+k, k<2000; band 20277200..20279200
+    # sits exactly above cn_kline_pattern_p1 band top 20277100 =
+    # collision-free by construction; Sobol sensitivity leg scrambles via
+    # seed-sequence np.random.default_rng([20277200, 2000]) — no band
+    # occupation, census_fusion_s2_unc derive precedent; registered at prereg
+    # freeze BEFORE any runner build, one-step R250 law; rg full-repo scan
+    # 2026-09-27 06:3x zero hits in band (Money02/Money0923 data-file digit
+    # coincidences excluded per t34/wild_route precedent); lane =
+    # T-2026-09-26-87 s2 queue #4 (SCHOOL_SUPPLY_S1.md sec.2 sector-leader
+    # non-limit-up face), prereg research/CN_SECTOR_LEADER_PREREG.md sec.3
 }
 
 
