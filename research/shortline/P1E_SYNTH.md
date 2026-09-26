@@ -80,6 +80,20 @@
 
 （收割轮一次定稿回填；工程修复重跑须双跑留痕如实记。）
 
+（2026-09-26 07:47 批跑（runner pid17616·autofill 07:04:04 发射·elapsed 2586.9s）/ r231 bm-b 收割 finalize exit 0 · 一次定稿 · recorded v1 常数口径）
+
+**主判 FAIL（V1 货架效应·§8 FAIL 分支收线）**：primary（zoo85_stv+zoo92_coin_team）IS IC **0.0700** / IR 0.552 / OOS 0.0816（同号·留存 **116.6%**）；V1 线=max(0.02, **nullA_p95 0.0762**, nullB_p95 0.0019)=**0.0762** → 0.0700<0.0762 差 0.0062 判负；**rank 5/21**（4 对在其上：terrified+coin_team 0.0822 / coin_team+vrc 0.0762 / terrified+vrc 0.0758 等——非 top-1·§5-7「PS2 rank 3/28 同形风险」应验）；V2 0.552≥0.30 ✓·V3 116.6%≥50% ✓·A3 IS n=8011≥500 ✓——**四门面 V1 单点死亡**（「若 FAIL 预计死于 V1」预判精确命中）。
+
+**硬门全过**：等价门 max|diff|=2.22e-16 ✓；确定性锚 7 员 IS/OOS IC 对母批 §7 记录 Δ=0.0（within 5e-5·VOID 级）✓；nullA 21 对全有限（band 0.0153–0.0822）✓；nullB 50 组全有限（p95 0.0019 / p50 0.0009·matched M_close_tr 白噪声带·母批同量级）✓；结果件顶层 evidence_cutoff=2026-09-22 + science_gates.cutoff_meta 双键在位（C2 合法键）✓。
+
+**FAIL 分支处置（§8 判前写死照执）**：「联合增益」主张收缩——批池顶部对（terrified+coin_team 0.0822）≠primary=**封闭线观察记录·禁直接采信**（PS2 §7 同款）；zoo 材料维持**单因子用法**（母批 §8 禁单独成策略条款照携）；未来消费面=跨库合成批素材库扩容（xstock 线·另开预注册）。
+
+**预测对账（§5 八条）**：①复现锚全过=对 ②primary IS|IC| 0.0700∈[0.055,0.080]=对 ③nullA p95 0.0762∈[0.058,0.095]=对 ④nullB p95 0.0019∈[0.0008,0.0030]=对 ⑤V2 IR 0.552∈[0.50,0.80] 且绑定约束=V1 非 V2=对 ⑥V3 留存 116.6%∈[90%,130%]=对 ⑦FAIL 死于 V1·非 top-1=对（货架效应命中）⑧极端日 IS 分年段稳定性=未在本批跑面·如实记留档不翻案（母批同款）。**7 对 + 1 如实记**。
+
+**账本**：184754 → 184826（**+72**·V1 fail→+0 条件报告列；引擎账本 N 零动·零引擎跑）；prev 读点=r231 修复后 canonical `ledger_head()`（窄面 `_chain_head_total` 183292 漏嵌套目录 results/wild_route/=链分叉 184754 真头·修复先于 finalize 落地·selftest 19 检全过含 2 新检）；损耗账 `results/gate_attrition.json` +1 行（kind=measurement·cells_ledger_delta=72·ledger_total_after=184826）。
+
+**audit**：elapsed 2586.9s（§0 预算 8-12min 的 ~4x·如实披露——179 IC 道×T8792 面实测率高于探针外推）；workers=1 单进程（O-20260923-1738）·RAM 守卫未触发（可用 11.3GB>6GB 线）·finalize 0.5s；audit 段已入结果件。
+
 ## §8 批后复盘【SR-7T 跑后填】· 分支处置判前写死
 
 - **PASS 分支**：zoo_pair_2 取得「策略级转化候补资格」注记——**零注册零授权**：策略级转化（G1' v2 共享库门+股票域成本模型 P4_BATCH2 先例+B 层 3517 宇宙过滤+T+1）**另开预注册**；STRATEGY_LIBRARY §四 Zoo 行收割轮更新（读数规格/结果双指针）。

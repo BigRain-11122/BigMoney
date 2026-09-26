@@ -11,8 +11,11 @@ oriented by its own IS IC sign = P-2 matched directional-bias).
 Reuse only, zero new science logic (prereg sec.3/sec.6):
   - p1e_ic_batch: load_panels / build_masks / equivalence_gate
     (write-once p1e_equiv.json) / MEMBERS frozen order
-  - p1c harness: fwd_rets / gates_v123 (recorded-v1 constants) /
-    _chain_head_total (r60 one-chain head)
+  - p1c harness: fwd_rets / gates_v123 (recorded-v1 constants)
+  - science_gates.ledger_head (r112 canonical recursive one-chain head;
+    r231 fix: the narrow top-level+shortline face of
+    p1c_stock_ic_batch._chain_head_total cannot see nested batch dirs
+    such as results/wild_route/ and forked the chain at r226)
   - p1e_factors frozen constructors (mother batch r219)
   - composite_ic: xs_zscore (z semantics, min 5 valid) / stats_block /
     IS_END
@@ -38,6 +41,7 @@ single-shot with end-of-run atomic checkpoint):
   status     checkpoint census
 """
 import argparse
+import inspect
 import itertools
 import json
 import os
@@ -56,7 +60,7 @@ import p1c_stock_ic_batch as P1C             # recorded-v1 gate constants
 import p1e_factors as F                      # frozen constructors (r219)
 from composite_ic import IS_END, stats_block, xs_zscore
 from shortline_p1_ic import _ic_series_fast
-from science_gates import SEED_REGISTRY, append_ledger
+from science_gates import SEED_REGISTRY, append_ledger, ledger_head
 
 OUT_DIR = B.OUT_DIR                          # results/shortline
 RES_DIR = os.path.join(ROOT, "research", "shortline")
@@ -453,7 +457,13 @@ def finalize():
                  "columns (V1-gated, snooping discount); delta-"
                  "idempotent; engine ledger N untouched (zero engine "
                  "runs)",
-            evidence_cutoff=CUTOFF, prev_total=P1C._chain_head_total())
+            evidence_cutoff=CUTOFF,
+            # r231: prev = canonical recursive chain head (r112 face).
+            # The narrow helper (top-level + shortline/ one level, no
+            # recursion) missed results/wild_route/ and produced a
+            # same-prev fork at r226 (P-1e block 183292 below the real
+            # head 184754) -- prereg sec.3 demands the live chain head.
+            prev_total=ledger_head()["total"])
     assert isinstance(ledger, dict) and "total" in ledger, "ledger embed"
 
     # ---- results JSON
@@ -726,6 +736,13 @@ def selftest():
           and ORIENT == -1.0 and CUTOFF == "2026-09-22")
     check("primary == mother pool pair (zoo_pair_2)",
           PRIMARY == ("zoo85_stv", "zoo92_coin_team"))
+    fin_src = inspect.getsource(finalize)
+    check("ledger prev = canonical recursive ledger_head (r112 face; "
+          "narrow _chain_head_total forked the chain r226/r231)",
+          "prev_total=ledger_head()" in fin_src
+          and "P1C._chain_head_total" not in fin_src)
+    check("r217 embed law: finalize writes trials_ledger: ledger",
+          '"trials_ledger": ledger' in fin_src)
 
     print("[9/9] data-face census (read-only):", flush=True)
     try:

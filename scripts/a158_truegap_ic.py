@@ -595,7 +595,12 @@ def assemble(rows, thr, gates_report, prereg_sha, elapsed_s, workers_note):
     if old is not None and not new_cells:
         ledger = (old or {}).get("trials_ledger") or science_gates.append_ledger(
             "a158_truegap_ic", 0, file_name=RESULT_JSON,
-            prev_total=P1C._chain_head_total(), evidence_cutoff=CUTOFF,
+            # r231 fix family: prev = canonical recursive chain head (r112
+            # face). The narrow P1C._chain_head_total (top-level +
+            # shortline/ one level, no recursion) misses nested batch dirs
+            # such as results/wild_route/ and forks the chain.
+            prev_total=science_gates.ledger_head()["total"],
+            evidence_cutoff=CUTOFF,
             note="zero-delta re-finalize keeps frozen ledger block (P-1c r61)")
     else:
         n_h20 = sum(1 for r in new_cells if r.get("h20_computed"))
@@ -605,7 +610,8 @@ def assemble(rows, thr, gates_report, prereg_sha, elapsed_s, workers_note):
                   + n_h20)                           # h20 report cols (V1 passers)
         ledger = science_gates.append_ledger(
             "a158_truegap_ic", trials, file_name=RESULT_JSON,
-            prev_total=P1C._chain_head_total(), evidence_cutoff=CUTOFF,
+            prev_total=science_gates.ledger_head()["total"],  # r231 fix family
+            evidence_cutoff=CUTOFF,
             note="s0 itemization: 5 primary + 2 affine-clone disclosure cells "
                  f"+ {N_NULLS} nulls (once) + {len(new_cells)} h5 report cols + "
                  f"{n_h20} h20 report cols (h10 V1 passers only, s3)")

@@ -1381,17 +1381,22 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-26 06:55:17",
    "data_gates": "in-runner: VOID-grade determinism anchor (7 members h10 IS/OOS IC vs mother records within 5e-5, fail=exit 2 zero artifacts) + batch-pre equivalence gate (write-once p1e_equiv.json, <=1e-6) + mother pool face assert (zoo_pair_2) + nullA 21-pair finite + nullB 50-draw finite (finalize fail-closed refuses non-finite) + free-RAM guard <6GB exit 3 honest (est peak ~5GB) + atomic end-of-run checkpoint (exists=resume-skip, deterministic single-shot); selftest 19 checks PASS pre-pooling (r230); finalize = harvest-round science work, NOT in pool (r203)",
    "shards": [
     {
      "key": "p1e-synth-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-26 07:50:05",
      "checkpoint": "results/shortline/p1e_synth_parts.json (exists + self-consistent = landed marker) -- harvest round flips shard->done then finalize fail-closed",
-     "note": "single-process serial-deterministic; 7-member panel rebuild + anchor + 21 nullA + 50 nullB (~180 IC passes ~1.9s each on T=8792xN=5222) + conditional h5/h20; est 8-12min per prereg SS0 budget"
+     "note": "single-process serial-deterministic; 7-member panel rebuild + anchor + 21 nullA + 50 nullB (~180 IC passes ~1.9s each on T=8792xN=5222) + conditional h5/h20; est 8-12min per prereg SS0 budget",
+     "done_flip": {
+      "ts": "2026-09-26 07:59",
+      "by": "bm-b r231",
+      "evidence": "artifact p1e_synth_parts.json landed 07:47:20 (runner pid17616 launched 07:04:04 via autofill tick claim, elapsed 2586.9s, 179 IC passes, single-proc); harvest-round finalize exit 0: verdict FAIL V1 (primary IS IC 0.0700 < thr 0.0762 = max(0.02, nullA_p95 0.0762, nullB_p95 0.0019), rank 5/21), V2 0.552 / V3 116.6% / A3 8011 all pass = V1 single-point death (shelf effect, prereg sec.5 pred-7 hit); ledger 184754->184826 (+72, prev_total = canonical ledger_head after r231 chain-fork fix, narrow _chain_head_total 183292 missed nested dirs); gate_attrition row auto-booked by finalize (kind=measurement delta=72); prereg sec.7 backfilled + STRATEGY_LIBRARY Zoo row FAIL disposition same commit; p1e_synth.json + p1e_synth_results.csv saved"
+     }
     }
    ],
    "workers_plan": {

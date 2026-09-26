@@ -63,7 +63,8 @@ import p1c_stock_ic_batch as P1C                    # established harness
 from composite_ic import IS_END, ic_series, stats_block   # methodology
 from shortline_p1_ic import _ic_series_fast         # gated fast IC path
 import p1e_factors as F                             # frozen constructors
-from science_gates import SEED_REGISTRY, append_ledger   # r217 pure fn
+from science_gates import (SEED_REGISTRY, append_ledger,  # r217 pure fn
+                           ledger_head)  # r231 fix family: canonical head
 
 CACHE_DIR = P1C.CACHE_DIR
 OUT_DIR = P1C.OUT_DIR                              # results/shortline
@@ -442,11 +443,13 @@ def finalize():
     old_factors = {r.get("factor") for r in (old or {}).get("rows", [])}
     new_cells = [nm for nm, _ in MEMBERS if nm not in old_factors]
     if old is not None and not new_cells:
+        _prev = ledger_head()["total"]     # r112 canonical (r231 fix family)
         ledger = old.get("trials_ledger") or {
-            "prev_total": P1C._chain_head_total(), "batch_trials": 0,
-            "total": P1C._chain_head_total()}
+            "prev_total": _prev, "batch_trials": 0, "total": _prev}
     else:
-        prev = P1C._chain_head_total()          # r60 one-chain head
+        prev = ledger_head()["total"]      # r112 canonical recursive head
+        # (r231 fix family: the narrow P1C._chain_head_total misses nested
+        # batch dirs such as results/wild_route/ and forks the chain)
         ledger = append_ledger(                  # pure fn -> EMBED (r217)
             "P-1e", BATCH_TRIALS,
             file_name="shortline/p1e_zoo_behavior.json",
