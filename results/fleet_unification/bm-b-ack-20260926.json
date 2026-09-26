@@ -1,0 +1,171 @@
+{
+ "order": "O-2026-09-26-2000-bm-c",
+ "machine": "bm-b",
+ "ack_ts": "2026-09-26T20:13:24+08:00",
+ "ack_deadline": "ack<=15min from S7-rebase receipt (~20:11) -> delivered in-round",
+ "canonical_face": {
+  "local": "E:\\Minigame\\MiniGame\\Design\\configs\\GLOBAL\\基地布局正典.md = v1.0 (U196)",
+  "remote_ref": "v2.0 per order (MiniGame repo commit 7d75a7e1); local checkout HEAD 6c7af2bf behind -- sync in migration window via MiniGame lane (order: skeleton inlined, work may start pre-fold)"
+ },
+ "root_path_registration": {
+  "registered_root_path": "E:\\Fluxgroup",
+  "rationale": "no physical K: on bm-b; E: = fleet work drive hosting 14/16 fleet trees (E:\\Minigame ecosystem); same-drive moves for Minigame content = rename-fast; K: facade OPTIONAL via subst K: E:\\Fluxgroup for CEO navigation only -- task definitions must pin PHYSICAL paths (subst does not survive reboot)",
+  "fallback": "D: (508GB free) if migration-window sizing shows E: (112.8GB free) insufficient for BigMoney data face"
+ },
+ "drives": [
+  {
+   "drive": "C:\\",
+   "free_gb": 727.1,
+   "size_gb": 1023.8
+  },
+  {
+   "drive": "D:\\",
+   "free_gb": 508.2,
+   "size_gb": 3000.6
+  },
+  {
+   "drive": "E:\\",
+   "free_gb": 112.8,
+   "size_gb": 249.6
+  }
+ ],
+ "current_bases": {
+  "bigmoney_os_repo": "C:\\Users\\Administrator\\Desktop\\Bigmoney (root-external vs unified skeleton)",
+  "minigame_ecosystem_root": "E:\\Minigame -- ALREADY near-skeleton: contains MiniGame(repo)/13 project folders/Tools/_归档/.codely-cli/CODELY.md; children redistribute into nine-item skeleton at migration",
+  "other_e_roots": "E:\\AGENT (plastic), E:\\AGENT_repo_restore, E:\\GPU, E:\\Graybox -- classification (archive/keep-in-place) at migration planning"
+ },
+ "os_tasks": {
+  "fleet_relevant": {
+   "BigMoney OS 循环三任务": [
+    "Bigmoney-IterationLoop",
+    "Bigmoney-LoopWatchdog",
+    "Bigmoney-Autofill"
+   ],
+   "游戏产线循环": [
+    "BiuNiYiXia-Autopilot",
+    "BiuNiYiXia-IterationLoop",
+    "HomeWreck-CruiseLoop",
+    "PhantomEscapeGo-ProducerLoop",
+    "ArtQueueWorker"
+   ],
+   "MiniGame tick 族": [
+    "MiniGameEngineTick",
+    "MiniGameAuditTick",
+    "MiniGameGateTick",
+    "MiniGameRadarTick",
+    "MiniGameRadarDeepTick",
+    "MiniGameRedlineAudit",
+    "MiniGameTickWatchdog",
+    "MiniGameCockpitBeat",
+    "MiniGameClashKeepAlive"
+   ],
+   "Ollama 常驻": [
+    "MiniGameOllamaServe",
+    "MiniGameOllamaKeepWarm"
+   ],
+   "禁用/死路径残骸": [
+    "HMI-ArtLoop (disabled, E:\\HMI tree removed per CEO order 2026-09-20)",
+    "MoneyQuantCryptoTick/Daily/Tick (disabled, E:\\Money tree absent)"
+   ]
+  },
+  "action_notes": {
+   "Bigmoney-*": "wscript InvisibleRunner.vbs -> Tools/{iteration_loop|watchdog|autofill}.py|ps1 @ C:\\Users\\Administrator\\Desktop\\Bigmoney (ROOT-EXTERNAL base -> must re-point at migration)",
+   "BiuNiYiXia/HomeWreck/PhantomEscapeGo/ArtQueueWorker": "InvisibleRunner.vbs @ E:\\Minigame\\MiniGame\\tools -> project Tools\\*.ps1 (E:\\Minigame base)",
+   "MiniGame*": "EngineTick/ModeTick/Cockpit/watchdogs @ E:\\Minigame\\MiniGame\\tools (产线根仓)",
+   "MiniGameOllama*/MiniGameClashKeepAlive": "E:\\Minigame\\Tools\\{Ollama,clash-keepalive.ps1} (工具面)"
+  },
+  "vendor_tasks_untouched": "EasyTune/GraphicsCardEngine/Adobe/NVIDIA/SIV = OS vendor apps, out of migration scope"
+ },
+ "working_trees": [
+  {
+   "path": "C:\\Users\\Administrator\\Desktop\\Bigmoney",
+   "exists": true,
+   "vcs": "git",
+   "head": "3fedf677 round 272: CODELY.md hot-cold recompile r272 batch per r271 pointer4 (5",
+   "dirty_files": 2
+  },
+  {
+   "path": "E:\\Minigame\\MiniGame",
+   "exists": true,
+   "vcs": "git",
+   "head": "6c7af2bf B728: merge手术attempt#1三态定谳——lazy-fetch挂死5min工具超时杀·树面零伤（净树chore 8b8cc89f",
+   "dirty_files": 4
+  },
+  {
+   "path": "E:\\Minigame\\BiuNiYiXia",
+   "exists": true,
+   "vcs": "plastic",
+   "head": "",
+   "dirty_files": -1
+  },
+  {
+   "path": "E:\\Minigame\\HomeWreck",
+   "exists": true,
+   "vcs": "plastic",
+   "head": "",
+   "dirty_files": -1
+  },
+  {
+   "path": "E:\\Minigame\\PhantomEscapeGo",
+   "exists": true,
+   "vcs": "plastic",
+   "head": "",
+   "dirty_files": -1
+  },
+  {
+   "path": "E:\\Minigame\\Tools",
+   "exists": true,
+   "vcs": "none",
+   "head": "",
+   "dirty_files": -1
+  },
+  {
+   "path": "E:\\AGENT",
+   "exists": true,
+   "vcs": "plastic",
+   "head": "",
+   "dirty_files": -1
+  }
+ ],
+ "e_minigame_children": [
+  ".codely-cli",
+  "BiuNiYiXia",
+  "CODELY.md",
+  "CrazyCampus",
+  "CrazyFarm",
+  "CrazyHospital",
+  "CrazyRestaurant",
+  "CrazyTrade",
+  "HomeWreck",
+  "MiniGame",
+  "MobTide",
+  "MonsterInn",
+  "PhantomEscapeGo",
+  "ReelRiot",
+  "ScrewOut",
+  "Tools",
+  "_归档",
+  "id_ed25519_bigmin",
+  "id_ed25519_bigmin.pub"
+ ],
+ "migration_risks": [
+  "SSH keypair id_ed25519_bigmin(.pub) sits at E:\\Minigame root -- move with base at migration, NEVER into any git repo",
+  "MiniGame repo dirty=4 + BiuNiYiXia-IterationLoop & HomeWreck-CruiseLoop RUNNING now -> migration MUST stop old tasks first (order §二.5 禁双根并行写); coordinated stop window required",
+  "BigMoney loop triple (this session inside IterationLoop) -> migrate BigMoney tree only after loop tasks stopped; ignition test = one full green round post-move",
+  "Unity Library\\Bee cache purge post-move (G15 坑族) for every Unity project",
+  "MiniGame canonical v2.0 sync before skeleton build (pull via MiniGame lane, not from this repo)",
+  "C:\\Users\\Administrator\\Desktop becomes empty of fleet trees after move -- desktop shortcut hygiene optional"
+ ],
+ "migration_window_plan": {
+  "deadline": "2026-09-29 12:00",
+  "sequence": [
+   "1 size probe (Bigmoney data face + Minigame trees) -> confirm E: vs D:",
+   "2 sync MiniGame repo -> read v2.0 canonical",
+   "3 build E:\\Fluxgroup nine-item skeleton (README/MiniGame/FluxGroup/projects/data/archive/.codely-cli/.tools/CODELY.md)",
+   "4 zero-loss proof per repo (commit-or-stash + HEAD record)",
+   "5 per-line stop->move->re-point task definitions (physical paths)->ignition test",
+   "6 Bee cache purge + root-level stray-file sweep + receipt five items (tree snapshot/tasks before-after/ignition evidence/HEAD self-proof/root_path registration)"
+  ],
+  "executor": "bm-b dedicated migration round(s) inside window; not mid-loop-session"
+ }
+}
