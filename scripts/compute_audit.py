@@ -5,7 +5,11 @@ tasks / runnable-pool ready count each loop round (S6 tail). Flags:
 blind_burn, idle_with_work, cap_violation, gpu_unauthorized, zombie_process,
 single_core_hog, pool_starvation (seventh flag, COMPUTE_AUDIT v2.2 /
 O-20260925-1137: ready-batches==0 AND py<70% sustained ~30min -- closes the
-"empty pool = structurally green while CPUs idle" loophole). Quiet exit 0
+"empty pool = structurally green while CPUs idle" loophole).
+v2.3 (O-20260926-2320, CEO 24h-saturation order): the starvation flag fires
+on ANY calendar day -- the weekend/legal-idle whitelist exemption is
+ABOLISHED; the only legal convergence is feeding the pool with real
+historical batches. Quiet exit 0
 unless flags fire; history appended to results/compute_audit.json for
 two-source (sample+history) judgment.
 
@@ -33,6 +37,7 @@ ZOMBIE_AGE_MIN = 45.0
 STARVATION_PY_CPU = 70.0     # O-20260925-1137 py line
 STARVATION_SUSTAIN_MIN = 25.0   # 30min intent; ~10min sample cadence tolerance
 STARVATION_MIN_SAMPLES = 3
+AUDIT_VERSION = "v2.3"       # O-20260926-2320: any-calendar-day starvation law
 
 
 def cpu_total():
@@ -303,6 +308,7 @@ def main():
 
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
+        "audit_version": AUDIT_VERSION,
         "cpu_total_pct": cpu_now,
         "py_cpu_pct": py_cpu_pct,
         "cores": cores,
@@ -388,6 +394,27 @@ def _selftest():
     hist_break = [sample(30, 1.9, 0), sample(20, 2.0, 4), sample(10, 1.9, 0)]
     cand, flag, _ = starvation_decision(hist_break, now, 1.9, 0, ts_ago(0))
     check("fed sample breaks run", (cand, flag), (True, False))
+    # (g) v2.3 any-calendar-day law (O-20260926-2320): Saturday timestamps
+    # (2026-09-26 is a Saturday) with a sustained starved window still fire
+    # the flag -- weekend exemption abolished; any future weekday branch
+    # added to the decision path must turn this case red first.
+    sat_now = time.mktime(time.strptime("2026-09-26 23:00:00",
+                                        "%Y-%m-%d %H:%M:%S"))
+    sat_hist = [
+        {"ts": "2026-09-26 22:20:00", "py_cpu_pct": 0.2,
+         "pool_ready_count": 0},
+        {"ts": "2026-09-26 22:40:00", "py_cpu_pct": 8.0,
+         "pool_ready_count": 0},
+        {"ts": "2026-09-26 22:50:00", "py_cpu_pct": 0.2,
+         "pool_ready_count": 0},
+    ]
+    import datetime as _dt
+    check("2026-09-26 is Saturday (fixture validity)",
+          _dt.date(2026, 9, 26).weekday(), 5)
+    cand, flag, det = starvation_decision(
+        sat_hist, sat_now, 0.2, 0, "2026-09-26 23:00:00")
+    check("saturday starvation -> flag (v2.3 anyday)",
+          (cand, flag), (True, True))
     # taxonomy sanity
     check("burning state", load_state(85.0, 0), "burning-healthy")
     check("starvation state", load_state(1.9, 0), "idle-starvation")
