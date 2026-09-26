@@ -19,7 +19,7 @@
 | 10 | 成长投资 | **data-gated PENDING**（同上，财报滞后面） | survey 行 10 |
 | 11 | 双低转债 | converged 在飞（T-60 转债线在飞批） | survey 行 11 仓内证据 |
 | 12 | 配置β/ETF 轮动 | **judged-closed**（CN-REGIME-POLICY R256 负 + CN-CORE-SATELLITE R261 负 + CN-CORE-DDCTL R263 负；T-59 ALLOC 前向观察线照飞） | CN_COMBO_VERDICTS |
-| 13 | K 线技术/波段 | **部分 consumed**：网格腿=GRID-SLEEVE-P1 判负不重开；**形态识别面=候选 #3**（社区共识五要素 folklore 门未过=先外源考后 prereg，RESEARCH_MECHANISM v1.1 律） | survey 行 13 |
+| 13 | K 线技术/波段 | **部分 consumed**：网格腿=GRID-SLEEVE-P1 判负不重开；**形态识别面=候选 #3·folklore 门已过（R289）**（正典 4 形态族 ①②③ 忠实核可编码；④出场/⑤仓位无社区共识=prereg 工程冻结参数显式披露；DIGEST-20260927-kline-folklore.md） | survey 行 13 |
 | 14 | 趋势跟踪 | **未建模=新 prereg 候选 #2**（survey 可建模性「高」；时序趋势≠行 6 截面动量=不同机制面；均线/突破跟随；ETF 日线面板直用） | survey 行 14 |
 | 15 | 多因子/指数增强 | **converged→T-86**（因子融合普查线即本面，禁双开：s2 prereg 不另立，消费 T-86 census 候选） | survey 行 15 |
 | 16 | 市场中性/微盘/T0 | 微盘=2024 崩塌判负禁翻案；T0=红线外；中性=**候选 #4**（股指期货 IC/IF/IH 在库+对冲腿数据面成立；「融券面依赖如实低」注记；期货 CTA 判负×3 禁翻案边界=本面非 CTA 趋势是股票多空对冲，需 prereg 内显式机制区分披露） | survey 行 16 |
@@ -28,7 +28,7 @@
 
 1. **#1 行 14 趋势跟踪**（时序趋势·均线/突破·ETF 面）——最高可建模性、机制面与全部判负族零重叠；T-47 是截面动量不同面。
 2. **#2 行 8 中特估/国家队**（央企 ETF/成分跟随）——高可建模性；与红利低波判负面做 D6 同族检查（红利低波袖同 ETF 域，须 max|corr| 披露）。
-3. **#3 行 13 K 线形态面**（网格腿除外）——folklore 门先行（外源社区共识考），过门再 prereg。
+3. **#3 行 13 K 线形态面**（网格腿除外）——folklore 门**已过（R289）**：正典 4 形态族五要素外源考=①定义强/②入场中/③止损中趋同，④出场⑤仓位无共识→prereg 工程冻结披露；负面形态 T+1 域仅 exit/skip 面；老鸭头族源未达不判（下波补源）。**下一棒=CN-KLINE-PATTERN-P1 prereg。**
 4. **#4 行 3 板块龙头非涨停面**——WILD-S1 涨停面判负披露+D6；板块相对强弱龙头定义冻结后方可入。
 5. **#5 行 16 市场中性**——工程量最重（期货保证金/移仓成本模型）；CTA 禁翻案边界机制披露。
 6. 行 9/10 价值/成长=数据审计先行批（估值/财报史面缺）后才入队列；行 4 题材概念=待事件数据面；行 5 合规禁永不入。
@@ -46,3 +46,4 @@
 - 2026-09-27 00:3x bm-a R281：#1 趋势跟踪 prereg 冻结（CN_TREND_ETF_PREREG.md @ feb36786）+ runner 建成入池（CN_TREND-ETF-P1 pooled ready）。
 - 2026-09-27 01:1x bm-b r286：#1 池批认领开跑（cntrend-0of1 owner=bm-b 01:10:04）；判读归认领机。
 - 2026-09-27 01:3x bm-a R283：#2 中特估/国家队 prereg 冻结（CN_SOE_ETF_PREREG.md · 宇宙 8 员薄袖闸 5e6 · seed cn_soe_etf_p1=20272301 同 commit 登记）；runner build=下轮精确续作点。
+- 2026-09-27 03:2x bm-a R289：#3 K线形态面 folklore 门=**PASS**（canonical 4 形态族五要素外源考·DIGEST-20260927-kline-folklore.md·fetch 8 成 4/死 4 如实记）；边界三披露=④出场/⑤仓位无共识禁称 folklore 出品（prereg 工程冻结参数）、负面形态（乌云盖顶/三只乌鸦）T+1 多头域仅 exit/skip 信号面禁做空宣称、终端内置形态=高拥挤面须过 RANDOM_LARGE_SAMPLE_LAW；老鸭头族源面被封（baidu 空返回/MBAlib 404）不判留待下波补源。**下轮精确续作点=CN-KLINE-PATTERN-P1 prereg 起草**（PREREG_TEMPLATE 起·α 机制段四选一·D6 同族检查 vs WILD-S1 打板族/T-47 动量族·判据节引 science_gates 共享库禁手抄·RANDOM_LARGE_SAMPLE_LAW 绑定）。
