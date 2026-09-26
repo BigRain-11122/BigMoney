@@ -1,0 +1,91 @@
+{
+ "swept_at": "2026-09-26 16:26:03",
+ "window": [
+  "2026-09-19",
+  "2026-09-26"
+ ],
+ "queries": [
+  {
+   "category": "q-fin.PM",
+   "totalResults": 4,
+   "returned": 4,
+   "in_window": 4
+  },
+  {
+   "category": "q-fin.STR",
+   "totalResults": 0,
+   "returned": 0,
+   "in_window": 0
+  }
+ ],
+ "entries": [
+  {
+   "id": "http://arxiv.org/abs/2609.26349v1",
+   "published": "2026-09-22T12:54:14Z",
+   "updated": "2026-09-22T12:54:14Z",
+   "title": "Optimal Investment and Consumption in Financial Markets with Integrated Variance Clocks",
+   "authors": [
+    "Eduardo Abi Jaber",
+    "Florian Gutekunst",
+    "Martin Herdegen",
+    "David Hobson"
+   ],
+   "categories": [
+    "q-fin.MF",
+    "math.OC",
+    "q-fin.PM"
+   ],
+   "abstract": "We study the infinite-horizon optimal investment and consumption problem in a general class of continuous financial markets, where uncertainty is driven by a continuous non-decreasing stochastic clock representing accumulated variance. This framework encompasses classical Markovian and non-Markovian stochastic volatility models as well as singular realized-variance models in which no spot volatility process exists. We characterize the value process and optimal investment and consumption strategies in terms of a non-linear infinite-horizon backward stochastic differential equation driven jointly by calendar time and the stochastic clock. We develop a general well-posedness theory for this new class of IVC-BSDEs based on the method of sub- and supersolutions, establishing existence, uniqueness, and stability under natural conditions that might be of independent interest beyond the financial application at hand. We are moreover able to identify the sign of the $Z$-component of the solution using Malliavin calculus. We then apply our results to Volterra Heston models with locally integrable kernels, covering both rough and hyper-rough regimes. Exploiting the affine structure of the model, we verify the optimality of the candidate strategies in incomplete markets and obtain an explicit representation of the solution in the complete market case. Owing to the generality of the framework and the weak assumptions imposed on the stochastic clock, our results unify and extend several existing results for optimal investment and consumption, including classical Markovian stochastic volatility models."
+  },
+  {
+   "id": "http://arxiv.org/abs/2609.27051v1",
+   "published": "2026-09-22T20:43:44Z",
+   "updated": "2026-09-22T20:43:44Z",
+   "title": "Propose, Don't Judge: An Anytime-Valid Referee for LLM Agents That Mine Investment Factors",
+   "authors": [
+    "Bo Qu",
+    "Mingguang Chen",
+    "Licheng Wang"
+   ],
+   "categories": [
+    "cs.AI",
+    "q-fin.PM",
+    "q-fin.ST"
+   ],
+   "abstract": "Language-model agents now run the whole of quantitative factor research: they propose investment factors, backtest them, select the survivors and retire them. We ask which of those jobs an agent should keep. Our answer is governed self-evolution: the agent may propose, and a frozen statistical referee that the agent cannot touch must judge. The referee scores each candidate only on market outcomes revealed after submission, by betting, so its false-discovery guarantee holds at every stopping time for any proposal policy. We cross three proposers (a script, a bandit and a language model) with this referee and with three deliberately leaky ones, in a synthetic world with planted truth, a probe-authoring environment and a ten-year walk-forward on the CSI 500. Who judges sets the number of false admissions: the frozen referee admits 5-11 times fewer sub-threshold factors than the leaky referees under a scripted proposer, and no proposer closes that gap. Who proposes sets the yield: the language model beats the script, matches the bandit, and adds the one capability a bandit lacks, writing its own diagnostic probes. The certificate's price is time: an admitted true factor waits about 500 trading days, and the certified portfolio's Sharpe ratio therefore trails an ungated one. Judging belongs to the procedure; proposing and instrument-making belong to the agent."
+  },
+  {
+   "id": "http://arxiv.org/abs/2609.27113v1",
+   "published": "2026-09-22T22:08:37Z",
+   "updated": "2026-09-22T22:08:37Z",
+   "title": "Active Portfolio Management in Concentrated Equity Markets",
+   "authors": [
+    "Brian Ceco",
+    "Xiaofei Shi",
+    "Ting-Kam Leonard Wong"
+   ],
+   "categories": [
+    "q-fin.PM",
+    "math.OC",
+    "q-fin.MF"
+   ],
+   "abstract": "The equal-weighted portfolio is a passive, rule-based strategy that has historically been difficult to outperform, delivering higher returns than the capitalization-weighted \"market\" benchmark across many markets and periods. Stochastic portfolio theory (SPT) reveals that this relative performance is regime dependent, with the equal-weighted portfolio underperforming during periods of increasing market concentration and high correlations, particularly market bubbles. These observations have motivated us to formulate and solve a stochastic control problem in which an investor actively allocates between the equal-weighted and market portfolios. The investor bases their allocation decisions on forecasts made under a flexible stochastic diversity--dispersion (SDD) model. Using a quadratic surrogate for implementation frictions, we characterize the optimal allocation through a linear forward--backward SDE and obtain an explicit \"aiming in front of a moving target'' representation of the optimal trading rate, in the spirit of Gârleanu and Pedersen. The penalty parameters are calibrated in sample to match the cumulative wealth effect of proportional transaction costs, while out-of-sample performance is evaluated with those costs deducted directly from portfolio wealth. Using historical S&P 500 data, we show that a mean-reverting SDD specification reproduces several empirical features of market diversity and dispersion. In out-of-sample backtests from 1995 to 2024, the resulting strategies deliver higher cumulative net returns than both the equal-weighted and market portfolios, and higher information ratios than the equal-weighted portfolio after 15-basis-point proportional transaction costs."
+  },
+  {
+   "id": "http://arxiv.org/abs/2609.29887v1",
+   "published": "2026-09-24T14:35:25Z",
+   "updated": "2026-09-24T14:35:25Z",
+   "title": "Cost-Sensitive Online Window Size Selection for Portfolio Management",
+   "authors": [
+    "Yi-Chen Liu",
+    "Chung-Han Hsieh"
+   ],
+   "categories": [
+    "math.OC",
+    "cs.LG",
+    "q-fin.PM"
+   ],
+   "abstract": "This paper investigates cost-sensitive online window size selection for portfolio management under changing market conditions. Specifically, we propose a two-level framework that constructs portfolios using candidate window sizes and dynamically aggregates them through online learning. By treating candidate window sizes as ``experts,'' we dynamically update their aggregation weights using turnover-inclusive losses. Moreover, we derive finite-horizon cost-sensitive tracking-regret bounds that account for turnover of the aggregated portfolio, with static regret as a special case. Under bounded losses and cost rates, suitably tuned Fixed Share achieves asymptotically no tracking regret for sublinear switching budgets, with Hedge covering the static case."
+  }
+ ]
+}
