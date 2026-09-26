@@ -833,6 +833,17 @@ SEED_REGISTRY = {
     # registered at sec.9.1 freeze commit BEFORE unc runner build, one-step
     # R250 law; collision scan R290 03:2x zero hits; lane = T-2026-09-26-86
     # s3, prereg research/CENSUS_FUSION_S2_PREREG.md sec.9.1
+    "cn_kline_pattern_p1": 20275100,     # CN_KLINE_PATTERN_P1 K=2000 same-mask
+    # random event-day nulls (20275100+k, k<2000; band 20275100..20277100
+    # sits above census_fusion_s2 band top 20274900 AND above
+    # census_fusion_s2_unc seed-sequence base 20275000 = collision-free by
+    # construction; registered at prereg freeze BEFORE any runner burn,
+    # one-step R250 law; rg full-repo scan 2026-09-27 03:5x: in-band hits =
+    # own claim files only (MSG-20260927-0355-bm-a + prereg itself), all
+    # other 20275x hits = census_fusion_s2_unc base refs below band (t34/
+    # wild_route non-RNG precedent); lane = T-2026-09-26-87 s2 queue #3
+    # (SCHOOL_SUPPLY_S1.md sec.2 K-line pattern face, folklore gate PASS
+    # R289), prereg research/CN_KLINE_PATTERN_PREREG.md sec.3
 }
 
 

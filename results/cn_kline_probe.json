@@ -1,0 +1,228 @@
+{
+ "batch": "CN_KLINE_PATTERN_P1",
+ "kind": "pre-freeze probe, FACTS ONLY (R99: zero strategy runs)",
+ "machine": "bm-a",
+ "generated": "2026-09-27 03:57:45",
+ "panel": {
+  "source": "Money02/data/bars (read-only, WILD-S1 precedent)",
+  "files": 5222,
+  "cutoff": "2026-09-22"
+ },
+ "universe_filter": {
+  "b_layer_ok_static": true,
+  "rows_ge": 500,
+  "last_eq_cutoff": true,
+  "med_amount20_last20_ge_cny": 30000000.0
+ },
+ "universe": {
+  "n": 3106,
+  "boards": {
+   "main": 2000,
+   "chinext": 758,
+   "other": 2,
+   "star": 346
+  },
+  "skipped": {
+   "not_ok": 1705,
+   "rows": 163,
+   "last": 5,
+   "liq": 243
+  }
+ },
+ "encodings": {
+  "EF_params": {
+   "head_top": 0.3,
+   "body_ratio": 2.0,
+   "rise_5d": 1.05,
+   "crow_top": 0.3,
+   "yang_body_frac": 0.5
+  },
+  "notes": [
+   "MS: doji-day a1/a2/a3 per THS builtin formula + gap-down + yin-before + recovery changyang (body>=50% range) on day d=e+1; signal at close[d]",
+   "TWS: 3 yang, opens+closes strictly rising, guangtou (EF 0.3), bodies dengchang (EF max/min<=2.0), prior-bar-yin bottom context (EF)",
+   "DCC: yang then open>prev-high yin closing below prior-body midpoint, shengshi context EF c[d-1]>=1.05*c[d-6]; volume-expansion factor NOT encoded (folklore strengthening note, not definition)",
+   "TBC: 3 yin, AA h[d-2]==HHV30, closes below prior lows, opens inside prior bodies, closes near day-low (EF 0.3); source A2 formula truncated on page (honest: not encoded)"
+  ]
+ },
+ "census": {
+  "MS": {
+   "n": 1342,
+   "per_year": {
+    "1994": 2,
+    "1995": 6,
+    "1996": 1,
+    "1997": 5,
+    "1998": 7,
+    "1999": 13,
+    "2000": 10,
+    "2001": 15,
+    "2002": 33,
+    "2003": 44,
+    "2004": 32,
+    "2005": 19,
+    "2006": 9,
+    "2007": 7,
+    "2008": 5,
+    "2009": 14,
+    "2010": 24,
+    "2011": 68,
+    "2012": 46,
+    "2013": 43,
+    "2014": 69,
+    "2015": 18,
+    "2016": 74,
+    "2017": 104,
+    "2018": 32,
+    "2019": 54,
+    "2020": 78,
+    "2021": 75,
+    "2022": 44,
+    "2023": 98,
+    "2024": 106,
+    "2025": 130,
+    "2026": 57
+   },
+   "max_day": 0,
+   "max_day_date": null,
+   "first": "1994-04-08",
+   "last": "2026-09-21",
+   "stocks_with_event": 963,
+   "cross_day": {
+    "distinct_days": 673,
+    "max_events_one_day": 21,
+    "max_day_date": "2016-05-20",
+    "p99_events_one_day": 1
+   }
+  },
+  "TWS": {
+   "n": 21518,
+   "per_year": {
+    "1992": 1,
+    "1993": 21,
+    "1994": 35,
+    "1995": 28,
+    "1996": 106,
+    "1997": 119,
+    "1998": 98,
+    "1999": 142,
+    "2000": 196,
+    "2001": 190,
+    "2002": 180,
+    "2003": 217,
+    "2004": 306,
+    "2005": 466,
+    "2006": 478,
+    "2007": 646,
+    "2008": 680,
+    "2009": 867,
+    "2010": 835,
+    "2011": 728,
+    "2012": 818,
+    "2013": 849,
+    "2014": 876,
+    "2015": 1201,
+    "2016": 793,
+    "2017": 603,
+    "2018": 814,
+    "2019": 1033,
+    "2020": 831,
+    "2021": 945,
+    "2022": 1132,
+    "2023": 1222,
+    "2024": 1643,
+    "2025": 1256,
+    "2026": 1163
+   },
+   "max_day": 0,
+   "max_day_date": null,
+   "first": "1992-04-01",
+   "last": "2026-09-22",
+   "stocks_with_event": 2943,
+   "cross_day": {
+    "distinct_days": 3682,
+    "max_events_one_day": 256,
+    "max_day_date": "2024-09-30",
+    "p99_events_one_day": 1
+   }
+  },
+  "DCC": {
+   "n": 35270,
+   "per_year": {
+    "1992": 26,
+    "1993": 152,
+    "1994": 342,
+    "1995": 109,
+    "1996": 485,
+    "1997": 549,
+    "1998": 459,
+    "1999": 704,
+    "2000": 744,
+    "2001": 276,
+    "2002": 337,
+    "2003": 370,
+    "2004": 754,
+    "2005": 584,
+    "2006": 601,
+    "2007": 1349,
+    "2008": 1070,
+    "2009": 1239,
+    "2010": 970,
+    "2011": 498,
+    "2012": 646,
+    "2013": 800,
+    "2014": 843,
+    "2015": 2184,
+    "2016": 1007,
+    "2017": 566,
+    "2018": 985,
+    "2019": 1641,
+    "2020": 2205,
+    "2021": 2113,
+    "2022": 1962,
+    "2023": 1279,
+    "2024": 3020,
+    "2025": 2395,
+    "2026": 2006
+   },
+   "max_day": 0,
+   "max_day_date": null,
+   "first": "1992-05-20",
+   "last": "2026-09-22",
+   "stocks_with_event": 3066,
+   "cross_day": {
+    "distinct_days": 5023,
+    "max_events_one_day": 754,
+    "max_day_date": "2024-02-28",
+    "p99_events_one_day": 1
+   }
+  },
+  "TBC": {
+   "n": 14,
+   "per_year": {
+    "1998": 1,
+    "2002": 1,
+    "2011": 1,
+    "2017": 1,
+    "2019": 1,
+    "2020": 4,
+    "2021": 1,
+    "2023": 1,
+    "2024": 1,
+    "2025": 1,
+    "2026": 1
+   },
+   "max_day": 0,
+   "max_day_date": null,
+   "first": "1998-11-25",
+   "last": "2026-07-06",
+   "stocks_with_event": 14,
+   "cross_day": {
+    "distinct_days": 14,
+    "max_events_one_day": 1,
+    "max_day_date": "1998-11-25",
+    "p99_events_one_day": 1
+   }
+  }
+ },
+ "elapsed_sec": 18.6
+}
