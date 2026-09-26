@@ -510,6 +510,61 @@ def _lock_alive():
     return False
 
 
+# ------------------- R236 amendment helpers (R235 s2 latent defects 1+2)
+
+def _is_repull(panel):
+    """True when the mirror shows a COMPLETE panel with a real cutoff -> any
+    refresh spawn is a re-pull (done-reset face); incomplete/first-run faces
+    keep first-pull todo semantics (not-done)."""
+    return bool(panel.get("complete")) and panel.get("cutoff") is not None
+
+
+def _todo_for(prog, codes, repull=False):
+    """Todo list under first-pull vs re-pull semantics. First pull: todo =
+    not-done (structurally EMPTY once the first pull completed -> the R235
+    defect-2 dead-code face a stale panel used to churn on). Re-pull resets
+    `done` (full-universe re-pull, prereg sec-3 monthly economics); `attempts`
+    stay cumulative so quarantined symbols remain excluded across windows."""
+    if repull:
+        prog["done"] = set()
+    quarantined = {c for c, n in prog["attempts"].items() if n >= QUARANTINE_AT}
+    return [c for c in codes if c not in prog["done"] and c not in quarantined]
+
+
+def _panel_cutoff_from_bytes(per_dir=None):
+    """Max last-row date across per-symbol panel files (tail read, no full
+    parse). Malformed tail / header-only / empty files are honestly skipped.
+    None only when no file carries a parseable date row."""
+    per_dir = per_dir or PER_DIR
+    best = None
+    for p in _glob.glob(os.path.join(per_dir, "*.csv")):
+        try:
+            with io.open(p, "rb") as f:
+                f.seek(0, 2)
+                size = f.tell()
+                f.seek(max(0, size - 512))
+                tail = f.read().decode("utf-8", errors="replace")
+            lines = [ln for ln in tail.strip().splitlines() if ln.strip()]
+            if not lines:
+                continue
+            d = lines[-1].split(",", 1)[0]
+            if re.match(r"^\d{4}-\d{2}-\d{2}$", d) and (best is None or d > best):
+                best = d
+        except Exception:
+            continue
+    return best
+
+
+def _terminal_cutoff(accumulated, per_dir=None):
+    """Terminal panel cutoff for the status mirror: this round's accumulated
+    value, or -- when the round processed zero symbols -- the panel-bytes max
+    (R235 defect-1: a zero-symbol round must never write cutoff=None over a
+    live panel; honest empty-universe face stays None)."""
+    if accumulated is not None:
+        return accumulated
+    return _panel_cutoff_from_bytes(per_dir)
+
+
 # ------------------------------------------------------------------ refresh
 
 
@@ -518,8 +573,13 @@ def _is_conn_error(ename, emsg=""):
     return any(m in ename or m in str(emsg)[:200] for m in CONN_MARKERS)
 
 
-def refresh(limit=None):
-    """Long-running full-universe pull. Checkpointed + fused; detached-safe."""
+def refresh(limit=None, repull=False):
+    """Long-running full-universe pull. Checkpointed + fused; detached-safe.
+
+    repull=True resets the checkpoint `done` set (R236 amendment): a stale
+    COMPLETE panel needs a full-universe re-pull, not the first-pull todo face
+    (not-done), which is structurally empty after the first pull -- the
+    dead-code churn face disclosed at R235."""
     codes, skipped, buckets = universe_codes()
     if len(codes) < 100:
         print(f"universe unavailable ({len(codes)} codes from {ELIG}) -- "
@@ -529,9 +589,8 @@ def refresh(limit=None):
     _write_lock()
     try:
         prog = load_progress()
+        todo = _todo_for(prog, codes, repull=repull)
         quarantined = {c for c, n in prog["attempts"].items() if n >= QUARANTINE_AT}
-        todo = [c for c in codes
-                if c not in prog["done"] and c not in quarantined]
         if limit is not None:
             todo = todo[:int(limit)]
         now0 = dt.datetime.now()
@@ -539,7 +598,8 @@ def refresh(limit=None):
         st.update({
             "ts": now0.isoformat(timespec="seconds"),
             "mode": (f"refresh in progress (todo={len(todo)}/{len(codes)}, "
-                     f"done={len(prog['done'])}, quarantined={len(quarantined)})"),
+                     f"done={len(prog['done'])}, quarantined={len(quarantined)}"
+                     + (", repull=done-reset" if repull else "") + ")"),
             "panel": dict(st.get("panel") or {},
                           complete=False, universe_n=len(codes)),
             "claim": "T-2026-09-26-72-bm-a-sina-mf-collector",
@@ -607,6 +667,7 @@ def refresh(limit=None):
                 time.sleep(SLEEP_S)
 
         n_symbols = len(_glob.glob(os.path.join(PER_DIR, "*.csv")))
+        panel_cutoff = _terminal_cutoff(panel_cutoff)
         fuse_stopped = consec_fail >= FUSE_LIMIT
         stopped_early = fuse_stopped or conn_stopped
         complete = ((not stopped_early)
@@ -722,12 +783,16 @@ def gate():
         print("refresh already in progress (lock alive) -> no-op")
         return 0
     _clear_lock()  # stale lock from a dead run
+    repull = _is_repull(panel)
     st["last_spawn_attempt"] = now.isoformat(timespec="seconds")
     st["mode"] = "spawn: detached refresh"
     st["spawn_reason"] = reason
+    st["spawn_mode"] = ("re-pull (done-reset)" if repull
+                        else "first-pull/continuation")
     write_status(st)
-    spawn_detached("refresh")
-    print(f"spawned detached refresh: {reason}")
+    spawn_detached("refresh-repull" if repull else "refresh")
+    print(f"spawned detached refresh: {reason} "
+          f"(mode={'re-pull' if repull else 'first-pull'})")
     return 0
 
 
@@ -888,6 +953,40 @@ def _selftest():
     assert needs              # older than the 20td boundary (09-05) -> stale
     needs, _ = stale_gate(None, dnow, dates=dcal)
     assert needs              # no panel -> first run
+    # S11 R236 amendment: re-pull semantics + terminal cutoff derivation
+    # (R235 latent defects 1+2). Defect-2 dead-code fixture: `done` covers
+    # the universe -> first-pull todo EMPTY (the stale-churn face), repull
+    # resets done -> full todo minus quarantined (attempts stay cumulative).
+    codes = ["000001", "300750", "600519"]
+    prog = {"done": set(codes), "attempts": {"300750": QUARANTINE_AT}}
+    assert _todo_for(prog, codes, repull=False) == []
+    assert _todo_for(prog, codes, repull=True) == ["000001", "600519"]
+    assert prog["done"] == set()          # done-reset actually happened
+    prog2 = {"done": {"000001"}, "attempts": {}}
+    assert _todo_for(prog2, codes, repull=False) == ["300750", "600519"]
+    # gate classification: complete panel with real cutoff -> re-pull face;
+    # incomplete or first-run mirror -> first-pull face
+    assert _is_repull({"complete": True, "cutoff": "2026-08-01"})
+    assert not _is_repull({"complete": True, "cutoff": None})
+    assert not _is_repull({"complete": False, "cutoff": "2026-08-01"})
+    # defect-1 fixture: zero-symbol round derives cutoff from panel bytes
+    # (files written by the production rows_to_csv_text/atomic_write pair;
+    # malformed tail + header-only + schema-foreign neighbors honestly
+    # skipped -- r157 fixture-mirrors-production-shape law)
+    with tempfile.TemporaryDirectory() as td:
+        rows_a = [{DATE_KEY: "2026-09-20", PRIMARY: 1.0},
+                  {DATE_KEY: "2026-09-24", PRIMARY: 2.0}]
+        rows_b = [{DATE_KEY: "2026-09-22", PRIMARY: 3.0}]
+        atomic_write(os.path.join(td, "600519.csv"), rows_to_csv_text(rows_a))
+        atomic_write(os.path.join(td, "000001.csv"), rows_to_csv_text(rows_b))
+        atomic_write(os.path.join(td, "badtail.csv"), "opendate,trade\njunk\n")
+        atomic_write(os.path.join(td, "headeronly.csv"), "opendate,trade\n")
+        io.open(os.path.join(td, "_progress.json"), "w",
+                encoding="utf-8").write("{}")   # schema-foreign neighbor
+        assert _panel_cutoff_from_bytes(td) == "2026-09-24"
+        assert _terminal_cutoff(None, td) == "2026-09-24"
+        assert _terminal_cutoff("2026-09-23", td) == "2026-09-23"
+        assert _panel_cutoff_from_bytes(os.path.join(td, "nowhere")) is None
     print("selftest: all guard cases PASS")
     return 0
 
@@ -899,6 +998,10 @@ def main(argv):
     if cmd == "refresh":
         limit = argv[2] if len(argv) > 2 else None
         return refresh(limit=limit)
+    if cmd == "refresh-repull":
+        # R236 amendment: gate-side re-pull face (stale complete panel ->
+        # done-reset full-universe re-pull, never the dead-code empty todo)
+        return refresh(limit=None, repull=True)
     if cmd == "status":
         return status_cmd()
     if cmd == "selftest":

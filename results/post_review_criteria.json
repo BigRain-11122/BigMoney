@@ -454,7 +454,51 @@
           ]
         }
       ]
+    },
+    {
+      "id": "T-72-SINA-MF-COLLECTOR",
+      "claim": "T-72 sina 四档资金流采集器三切片交付：s1 采集器+离线 selftest 绿；s2 全宇宙首拉验收五线 PASS（fresh 5222≥5000·写盘面零违例 worst 9.33e-10·完整性零缺陷·预算<10456·selftest 绿）+§4.3 同日幂等 spot 8/8 sha256 字节恒等；s3 S6 链接线（update_moneyflow 后 update_sina_mf gate 腿）+R236 修正案（refresh-repull done-reset 复拉语义+终态 cutoff 面板字节 derive）闭 R235 两潜伏缺陷",
+      "claim_source": "T-2026-09-26-72 spec (slices s1/s2/s3 + verification lines) + research/shortline/SINA_MF_PREREG.md sec4/sec5 (R221-R236)",
+      "status": "closed",
+      "checks": [
+        {
+          "kind": "file_exists",
+          "args": [
+            "scripts/update_sina_mf.py"
+          ]
+        },
+        {
+          "kind": "json_field",
+          "args": [
+            "results/sina_mf_accept.json",
+            "verdict",
+            "PASS"
+          ]
+        },
+        {
+          "kind": "json_gte",
+          "args": [
+            "results/sina_mf_accept.json",
+            "counts.fresh_covered",
+            "5000"
+          ]
+        },
+        {
+          "kind": "file_contains",
+          "args": [
+            "Tools/iteration_prompt.txt",
+            "update_sina_mf"
+          ]
+        },
+        {
+          "kind": "file_contains",
+          "args": [
+            "scripts/update_sina_mf.py",
+            "_panel_cutoff_from_bytes"
+          ]
+        }
+      ]
     }
   ],
-  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented)"
+  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented"
 }

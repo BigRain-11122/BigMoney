@@ -127,4 +127,16 @@
   done-reset/复拉 todo 语义）。§4.3 overlap 边界行校验=首复拉窗才可实弹（当前无
   新日期面，诚实标注非本批可验）。证据=results/sina_mf_accept.json+
   results/_r235_bma_sina_idem_spot.{py,json}（bm-a R235）。
+- **R236 s3 接线修正案（落地·零判据面触碰）**：R235 披露两潜伏缺陷修法入册并落码：
+  ① 复拉语义（缺陷-②）=gate 判 complete+真实 cutoff 落后 20td 时 spawn 新子命令
+  `refresh-repull`，refresh 侧 done-reset（全宇宙重拉=§3 月级复拉经济面，非增量）；
+  `attempts` 累计保留→隔离股跨窗仍隔离（诚实隔离律不随复拉放宽）。② 终态 cutoff
+  （缺陷-①）=本轮累计值 None 时从面板字节 derive（per/*.csv 尾读 512B 窗取 max 日期；
+  坏尾/纯表头/空件诚实跳过）——零符号轮禁把真值覆写 None（镜像破损根因），真空宇宙
+  首拉面维持 None 诚实。selftest S11 夹具镜像生产形态（done 全覆盖=死码面原样夹具+
+  坏尾/纯表头/schema-foreign 邻件+生产写出对 rows_to_csv_text/atomic_write）全绿；
+  gate 实弹探针 no-op 零网络镜像健康（cutoff 2026-09-24/5228 全宇宙）。s3 接线=
+  iteration_prompt.txt update_moneyflow 腿后插 update_sina_mf gate 腿。证据=
+  scripts/update_sina_mf.py `_is_repull/_todo_for/_panel_cutoff_from_bytes/
+  _terminal_cutoff`+selftest S11（bm-a R236）。
 - 采集器实现票=另开 GM 署名单（P1 数据源扩容，O-1620 下放面；T-43 先例流程）。
