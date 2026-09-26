@@ -739,6 +739,16 @@ SEED_REGISTRY = {
     # full-repo rg hit = cta_wave1_probe.py's own upper-bound constant
     # (non-RNG, t34 precedent); registered bm-b r244 before runner burn;
     # lane = T-2026-09-26-78 s5b, prereg research/GRID_SLEEVE_P1.md sec.3
+    "cn_rev_tilt_p1": 20260930,               # CN-REV-TILT-P1 K=50 same-mask
+    # random-signal 20-name sleeves (20260930+k, k<50; band 20260930..20260979,
+    # next free DATE-STYLE base above t11_negday_ic 20260929 -- prereg R245
+    # s3.4 wrote 20260926 = COLLISION with pa1e_premium_event (20260926+i,
+    # i<50) caught at the pre-run registration scan (xstock_synth 51_100-
+    # rejection precedent; ZERO runs before this amendment, prereg s3.4
+    # carries the in-place disclosure); rg full-repo scan 2026-09-26 12:2x:
+    # sole hit = update_fundamental.py report-period string constant
+    # (non-RNG, t34/wild_route precedent); registered before runner burn,
+    # lane = T-2026-09-26-73 s3, prereg research/CN_REV_TILT_PREREG.md s3.4
 }
 
 

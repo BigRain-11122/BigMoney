@@ -19,7 +19,7 @@
 ## §2 数据与面板【跑前探针事实·实现切片首步冻结具体值】
 
 - 宇宙：全 A census（N=5222·close ffill·P1C 缓存同源=scripts/t73_s2_reversal_momentum.py 同装载器，零新拉取零网络）。
-- **evidence_cutoff（D2 前向锁盒）**：实现切片首步用同源装载器实读面板末完整 bar 日并**回填本节具体数值后 commit 冻结**（预期=2026-09-24 或最近完整交易日）；runner 断言面板 cutoff==冻结值，不等即 fail-closed exit 2 零产物；cutoff 后新 bar 不回流本批。结果 JSON 顶层必带 `science_gates.cutoff_meta(cutoff)`。
+- **evidence_cutoff（D2 前向锁盒）＝2026-09-22**（2026-09-26 R246 实现切片首步同源装载器实读探针：T=8792·N=5222·P1C 缓存末完整 bar 日=2026-09-22，与 s2 切片A 同窗同源＝REV 实证地基比较性成立；R245 写作时预期 09-24 未验，实读 09-22 如实回填，09-23/09-24 两根新 bar 不在缓存＝锁盒排除面诚实注记）；runner 断言面板 cutoff==2026-09-22，不等即 fail-closed exit 2 零产物；cutoff 后新 bar 不回流本批。结果 JSON 顶层必带 `science_gates.cutoff_meta(cutoff)`。
 - 数据完备门：cutoff ≥ 2026-09-22 且 覆盖股票 ≥5000 且 T≥8000 交易日，缺一即不跑。
 
 ## §3 方法学【冻结】
@@ -40,7 +40,7 @@
 
 ### §3.4 null 与基线
 
-- null：K=50 同掩码随机信号组合（同宇宙同窗同再平衡节律）；**新 seed 基 `cn_rev_tilt_p1`=20260926**——跑前先登记 `science_gates.SEED_REGISTRY` 再跑（模板 §3 律）。
+- null：K=50 同掩码随机信号组合（同宇宙同窗同再平衡节律）；**新 seed 基 `cn_rev_tilt_p1`=20260930**——跑前登记修正：R245 冻结原文写 20260926，跑前登记扫描撞 `pa1e_premium_event` 在册基（20260926+i·i<50）→ 改登下一自由基 20260930（xstock_synth 51_100 拒用同例·**零跑前修正**·band 20260930+i·i<50·rg 全仓扫描唯一命中=fundamental 报告期字符串非 RNG·t34 先例）；跑前先登记 `science_gates.SEED_REGISTRY` 再跑（模板 §3 律）。
 - 被动基线：census 等权组合（全 N 等权·同再平衡节律）+ 随机信号基线同跑记录试验总数 N（BACKTEST_PLAN 铁律三）。
 
 ## §4 判据【跑前写死·共享库调用禁手抄判线】
