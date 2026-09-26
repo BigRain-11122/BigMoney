@@ -759,6 +759,18 @@ SEED_REGISTRY = {
     # hits in any script (t34/wild_route non-RNG precedent);
     # lane = T-2026-09-26-73 s3 slice-2, prereg
     # research/CN_DIV_LOWVOL_ROT_PREREG.md s3.4
+    "t73_style_rot_s1": 20261030,           # T73-STYLE-ROT-S1 K=50
+    # within-month leg-permutation nulls (20261030+k, k<50; band
+    # 20261030..20261079, next free DATE-STYLE base above
+    # cn_div_lowvol_rot_p1 20261029; registered at prereg freeze BEFORE any
+    # runner burn, one-step R250 law; rg full-repo scan 2026-09-26 17:1x:
+    # hits in band = data-face digit coincidences only (Money0923 600160.csv
+    # amount 20261035.0, sh513700/sh516220/sh563900.csv volume columns,
+    # T-2026-09-23-01 transfer sha256 substring 20261059, Money02 fold json
+    # digit) -- ZERO RNG-usage hits in any script (t34/wild_route non-RNG
+    # precedent); lane = T-2026-09-26-73 s2 slice-E (style rotation),
+    # prereg = scripts/t73_s2_style_rotation.py frozen header (s2 slice
+    # family convention, slice-A/C/D precedent)
 }
 
 
