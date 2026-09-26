@@ -113,21 +113,21 @@
   },
   "timing": {
     "h5": {
-      "gpu_batch_s": 40.456,
-      "cpu_reference_s": 46.128,
+      "gpu_batch_s": 6.539,
+      "cpu_reference_s": 47.353,
       "zscore_spot_worst": 1.7763568394002505e-15
     },
     "h10": {
-      "gpu_batch_s": 36.155,
-      "cpu_reference_s": 45.375,
+      "gpu_batch_s": 8.059,
+      "cpu_reference_s": 46.444,
       "zscore_spot_worst": 1.7763568394002505e-15
     },
     "h20": {
-      "gpu_batch_s": 34.488,
-      "cpu_reference_s": 45.84,
+      "gpu_batch_s": 78.153,
+      "cpu_reference_s": 61.448,
       "zscore_spot_worst": 1.7763568394002505e-15
     }
   },
-  "elapsed_s": 284.2,
+  "elapsed_s": 283.2,
   "note": "infrastructure proof only: batched masked z-score + average-tie rank-IC on GPU vs established CPU fast-IC; downstream science consumption requires its own prereg; >100-face production census batches ride this lane"
 }
