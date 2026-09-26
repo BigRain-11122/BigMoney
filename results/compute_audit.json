@@ -1,34 +1,4 @@
 {
- "latest": {
-  "ts": "2026-09-26 08:44:06",
-  "cpu_total_pct": 37.0,
-  "py_cpu_pct": 0.7,
-  "cores": 32,
-  "py_procs": 8,
-  "result_stale_min": 0.5,
-  "fleet_open_tasks": 0,
-  "pool_ready_count": 0,
-  "load_state": "idle-starvation",
-  "pool_starvation_candidate": true,
-  "pool_starvation_detail": {
-   "run_samples": 5,
-   "span_min": 34.2
-  },
-  "gpu": {
-   "present": true,
-   "util_pct": 93.0,
-   "mem_used_mb": 6617.0,
-   "compute_apps_count": 32,
-   "rogue_apps": []
-  },
-  "zombies": [],
-  "single_core_hog_candidate": false,
-  "single_core_hog_detail": null,
-  "flags": [
-   "pool_starvation"
-  ],
-  "verdict": "FLAG:pool_starvation"
- },
  "history": [
   {
    "cores": 32,
@@ -5399,6 +5369,66 @@
     "pool_starvation"
    ],
    "verdict": "FLAG:pool_starvation"
+  },
+  {
+   "ts": "2026-09-26 08:50:14",
+   "cpu_total_pct": 5.0,
+   "py_cpu_pct": 0.7,
+   "cores": 16,
+   "py_procs": 8,
+   "result_stale_min": 0.2,
+   "fleet_open_tasks": 0,
+   "pool_ready_count": 0,
+   "load_state": "idle-starvation",
+   "pool_starvation_candidate": true,
+   "pool_starvation_detail": {
+    "run_samples": 6,
+    "span_min": 40.3
+   },
+   "gpu": {
+    "present": true,
+    "util_pct": 1.0,
+    "mem_used_mb": 5731.0,
+    "compute_apps_count": 21,
+    "rogue_apps": []
+   },
+   "zombies": [],
+   "single_core_hog_candidate": false,
+   "single_core_hog_detail": null,
+   "flags": [
+    "pool_starvation"
+   ],
+   "verdict": "FLAG:pool_starvation"
   }
- ]
+ ],
+ "latest": {
+  "ts": "2026-09-26 08:50:14",
+  "cpu_total_pct": 5.0,
+  "py_cpu_pct": 0.7,
+  "cores": 16,
+  "py_procs": 8,
+  "result_stale_min": 0.2,
+  "fleet_open_tasks": 0,
+  "pool_ready_count": 0,
+  "load_state": "idle-starvation",
+  "pool_starvation_candidate": true,
+  "pool_starvation_detail": {
+   "run_samples": 6,
+   "span_min": 40.3
+  },
+  "gpu": {
+   "present": true,
+   "util_pct": 1.0,
+   "mem_used_mb": 5731.0,
+   "compute_apps_count": 21,
+   "rogue_apps": []
+  },
+  "zombies": [],
+  "single_core_hog_candidate": false,
+  "single_core_hog_detail": null,
+  "flags": [
+   "pool_starvation"
+  ],
+  "verdict": "FLAG:pool_starvation"
+ }
 }
