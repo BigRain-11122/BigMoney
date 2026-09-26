@@ -148,21 +148,30 @@ def _t_core(torch):
     def avg_ranks(xs, valid):
         T, N = xs.shape
         sv, si = torch.sort(xs, dim=1)          # NaN sorts last
-        pos = torch.arange(N, device=xs.device, dtype=xs.dtype) \
-            .unsqueeze(0).expand(T, N)
+        vs = valid.gather(1, si)                # valid mask in sorted order
         diff = torch.cat(
             [torch.ones(T, 1, device=xs.device, dtype=xs.dtype),
              (sv[:, 1:] != sv[:, :-1]).to(xs.dtype)], dim=1)
         gid = diff.cumsum(dim=1) - 1.0
         G = int(gid.max().item()) + 1
         gidl = gid.long()
-        cnt = torch.zeros(T, G, device=xs.device, dtype=xs.dtype) \
-            .scatter_add_(1, gidl, torch.ones_like(xs))
-        ssum = torch.zeros(T, G, device=xs.device, dtype=xs.dtype) \
-            .scatter_add_(1, gidl, pos)
-        avg_sorted = ssum.gather(1, gidl) / cnt.gather(1, gidl)
-        avg = torch.empty_like(avg_sorted)
-        avg.scatter_(1, si, avg_sorted)    # back to original column order
+        # ranks are ordinals WITHIN the valid subset (pandas rank
+        # method='average' over valid only): an invalid entry must
+        # neither consume an ordinal nor join a tie group. Full-row
+        # position averaging (first live-fire on bm-a, r243) let
+        # invalid entries shift valid ordinals -> rank-IC mismatch.
+        cnt_valid = torch.zeros(T, G, device=xs.device, dtype=xs.dtype) \
+            .scatter_add_(1, gidl, vs.to(xs.dtype))
+        cum_before = cnt_valid.cumsum(dim=1) - cnt_valid
+        avg_sorted = cum_before + (cnt_valid + 1.0) / 2.0   # 1-based ties
+        # avg_sorted is GROUP-axis (T, G): gather to sorted-position axis
+        # (T, N) via gidl BEFORE scattering to original columns -- feeding
+        # the (T, G) tensor straight into scatter_(1, si, ...) is a shape
+        # mismatch that CUDA executes as silent garbage (r243 live-fire:
+        # tie-group ranks read from adjacent group slots).
+        avg_col = avg_sorted.gather(1, gidl)
+        avg = torch.empty_like(avg_col)
+        avg.scatter_(1, si, avg_col)      # back to original column order
         return avg * valid.to(xs.dtype)     # invalid (incl. NaN) -> 0
 
     def rank_ic(x, y, valid):
