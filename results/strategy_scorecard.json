@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-09-25T18:24:57",
+ "generated": "2026-09-26T14:17:57",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -27,7 +27,7 @@
   "per_trader": {
    "COMPOSITE-CE-01": {
     "grade": "A",
-    "total": 77.29,
+    "total": 77.36,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -65,23 +65,23 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 78.85,
+      "score": 78.82,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.8114,
-       "oos_sharpe": 1.6085,
-       "skill_line_v2": 1.1626,
+       "oos_sharpe": 1.7479,
+       "skill_line_v2": 1.1634,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
      },
      "3": {
-      "score": 72.24,
+      "score": 72.74,
       "weight": 0.15,
       "status": "tested",
       "reads": {
-       "cost_x2_sharpe": 0.5228,
+       "cost_x2_sharpe": 0.5242,
        "x3_full_recorded": 0.2155,
        "vi_bar": 0.4004,
        "x2_survive": true
@@ -128,8 +128,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.3512,
-       "ledger_head_total": 182952
+       "null_margin_vs_skill_line": -0.352,
+       "ledger_head_total": 185798
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -151,7 +151,7 @@
    },
    "COMPOSITE-CE-02": {
     "grade": "A",
-    "total": 71.85,
+    "total": 72.83,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -189,23 +189,23 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 66.72,
+      "score": 66.7,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6099,
-       "oos_sharpe": 1.4853,
-       "skill_line_v2": 1.1626,
+       "oos_sharpe": 1.6392,
+       "skill_line_v2": 1.1634,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
      },
      "3": {
-      "score": 39.52,
+      "score": 46.09,
       "weight": 0.15,
       "status": "tested",
       "reads": {
-       "cost_x2_sharpe": 0.4311,
+       "cost_x2_sharpe": 0.4495,
        "x3_full_recorded": 0.2149,
        "vi_bar": 0.4004,
        "x2_survive": true
@@ -252,8 +252,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.5527,
-       "ledger_head_total": 182952
+       "null_margin_vs_skill_line": -0.5535,
+       "ledger_head_total": 185798
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -313,13 +313,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 73.59,
+      "score": 73.56,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.724,
        "oos_sharpe": 1.213,
-       "skill_line_v2": 1.1626,
+       "skill_line_v2": 1.1634,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -376,8 +376,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4386,
-       "ledger_head_total": 182952
+       "null_margin_vs_skill_line": -0.4394,
+       "ledger_head_total": 185798
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -399,7 +399,7 @@
    },
    "ENGULF-CE-01": {
     "grade": "A",
-    "total": 68.17,
+    "total": 69.82,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -437,23 +437,23 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 57.55,
+      "score": 62.44,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.5392,
-       "oos_sharpe": 0.2944,
-       "skill_line_v2": 1.1626,
+       "oos_sharpe": 0.3835,
+       "skill_line_v2": 1.1634,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
      },
      "3": {
-      "score": 29.14,
+      "score": 33.67,
       "weight": 0.15,
       "status": "tested",
       "reads": {
-       "cost_x2_sharpe": 0.402,
+       "cost_x2_sharpe": 0.4147,
        "x3_full_recorded": 0.2633,
        "vi_bar": 0.4004,
        "x2_survive": true
@@ -500,8 +500,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.6234,
-       "ledger_head_total": 182952
+       "null_margin_vs_skill_line": -0.6242,
+       "ledger_head_total": 185798
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -524,7 +524,7 @@
    },
    "NEEDLE-DE-01": {
     "grade": "A",
-    "total": 79.84,
+    "total": 79.83,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -562,13 +562,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 69.88,
+      "score": 69.86,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6624,
        "oos_sharpe": 0.4089,
-       "skill_line_v2": 1.1626,
+       "skill_line_v2": 1.1634,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -625,8 +625,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.5002,
-       "ledger_head_total": 182952
+       "null_margin_vs_skill_line": -0.501,
+       "ledger_head_total": 185798
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -692,7 +692,7 @@
       "reads": {
        "full_sharpe": 1.2578,
        "oos_sharpe": 2.0568,
-       "skill_line_v2": 1.1626,
+       "skill_line_v2": 1.1634,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -749,8 +749,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
-       "null_margin_vs_skill_line": 0.0952,
-       "ledger_head_total": 182952
+       "null_margin_vs_skill_line": 0.0944,
+       "ledger_head_total": 185798
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -777,13 +777,13 @@
    "trader": "COMPOSITE-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 77.29,
+    "total": 77.36,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 85.08,
-     "2": 78.85,
-     "3": 72.24,
+     "2": 78.82,
+     "3": 72.74,
      "4": 77.58,
      "5": 24.0,
      "6": 100.0,
@@ -851,7 +851,7 @@
     "total": 78.1,
     "grade": "S",
     "face_scores": {
-     "inherited": 77.3,
+     "inherited": 77.4,
      "live_paper": 30.0,
      "progress": 0.0,
      "profile": 88.3
@@ -876,13 +876,13 @@
    "trader": "COMPOSITE-CE-02",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 71.85,
+    "total": 72.83,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 83.93,
-     "2": 66.72,
-     "3": 39.52,
+     "2": 66.7,
+     "3": 46.09,
      "4": 100.0,
      "5": 24.0,
      "6": 100.0,
@@ -947,10 +947,10 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 74.8,
+    "total": 75.2,
     "grade": "S",
     "face_scores": {
-     "inherited": 71.8,
+     "inherited": 72.8,
      "live_paper": 29.9,
      "progress": 0.0,
      "profile": 86.1
@@ -980,7 +980,7 @@
     "veto_clean": true,
     "dims": {
      "1": 86.28,
-     "2": 73.59,
+     "2": 73.56,
      "3": 100.0,
      "4": 97.28,
      "5": 61.72,
@@ -1074,13 +1074,13 @@
    "trader": "ENGULF-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 68.17,
+    "total": 69.82,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 82.68,
-     "2": 57.55,
-     "3": 29.14,
+     "2": 62.44,
+     "3": 33.67,
      "4": 79.28,
      "5": 45.52,
      "6": 100.0,
@@ -1145,10 +1145,10 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 71.8,
+    "total": 72.4,
     "grade": "S",
     "face_scores": {
-     "inherited": 68.2,
+     "inherited": 69.8,
      "live_paper": 30.0,
      "progress": 0.0,
      "profile": 83.0
@@ -1173,12 +1173,12 @@
    "trader": "NEEDLE-DE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 79.84,
+    "total": 79.83,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 78.38,
-     "2": 69.88,
+     "2": 69.86,
      "3": 95.51,
      "4": 84.69,
      "5": 45.52,
@@ -3408,6 +3408,2200 @@
    "calibrated_total": "sec 8.5 gate passed: frozen bands consumed"
   }
  },
+ "profile_cards": {
+  "state": "ok",
+  "batch": "PROFILE-CARDS-P1",
+  "ticket": "T-2026-09-26-81",
+  "order": "O-20260926-1342",
+  "prereg": "research/PROFILE_CARDS_P1.md",
+  "prereg_sha256_16": "e0738b6e70fa88a6",
+  "evidence_cutoff": "2026-09-24",
+  "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
+  "state_carrier": "AGGR-CONC-TOP2",
+  "canon": "B_MAXDIV",
+  "lines": {
+   "min_n_days": 20,
+   "min_episodes": 2,
+   "pass_line": "cum_x1>0 AND excess_vs_canon>=0 (double line, frozen)",
+   "taxonomy": "v3 four-state (ledger shift(1) causal) x LHB heat v0 (shift(1) attribution)",
+   "ledger_policy": "append_ledger +0 (readout/derivation face, T-56 slice-2 paradigm)"
+  },
+  "absent_families": {
+   "GRID": "今晨判 0/5 生存者=未就绪（诚实缺席，就绪即并入）",
+   "CN": "T-73 模型未跑=未就绪（诚实缺席，落地即入六面样板）",
+   "AGGR-MOM": "no retro ledger (T-79 B-group = CEO-named top-3); marks since 09-24 = no state face -> NO_EVIDENCE by construction",
+   "AGGR-NOCASH": "no retro ledger (T-79 B-group = CEO-named top-3); marks since 09-24 = no state face -> NO_EVIDENCE by construction",
+   "CN (T-73)": "first batch CN-REV-TILT-P1 harvested NEGATIVE 4/4 G1v2 (bm-a r248); further CN models in flight -- landing-hook per O-1342 sec-4 item-4"
+  },
+  "self_consistency_gate": {
+   "mode": "assert (GREEN==bull, YELLOW==chop, tol 1e-9, day1-convention aware)",
+   "conventions": {
+    "AGGR-CONC-TOP2": "with_day1",
+    "AGGR-OFFENSE": "with_day1",
+    "AGGR-REGIME": "with_day1",
+    "ALLOC-P1": "without_day1",
+    "ALLOC-P2": "without_day1",
+    "ALLOC-P3": "without_day1",
+    "ALLOC-P3B": "without_day1",
+    "ALLOC-P4": "without_day1",
+    "ALLOC-P5": "without_day1",
+    "ALLOC-P6": "without_day1",
+    "B_MAXDIV": "with_day1",
+    "COMPOSITE-CE-01": "with_day1",
+    "COMPOSITE-CE-02": "with_day1",
+    "DROUGHT-CE-01": "with_day1",
+    "ENGULF-CE-01": "with_day1",
+    "NEEDLE-DE-01": "with_day1",
+    "VOLATILITY-CE-01": "with_day1"
+   },
+   "result": "PASS 17/17"
+  },
+  "cards": {
+   "AGGR-CONC-TOP2": {
+    "account": "AGGR-CONC-TOP2",
+    "family": "B",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.010185,
+      "cum_ret_x2": 0.006596,
+      "excess_vs_canon": 0.003399,
+      "worst_day": -0.002161,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": 0.02996,
+      "cum_ret_x2": 0.019566,
+      "excess_vs_canon": 0.027482,
+      "worst_day": -0.007955,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.016656,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.01042,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.03604,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.005869,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "dead_zones": [],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.040451,
+    "window_cum_x2": 0.026291
+   },
+   "AGGR-OFFENSE": {
+    "account": "AGGR-OFFENSE",
+    "family": "B",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.041557,
+      "cum_ret_x2": 0.043123,
+      "excess_vs_canon": 0.034771,
+      "worst_day": -0.004982,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.012671,
+      "cum_ret_x2": -0.029106,
+      "excess_vs_canon": -0.015149,
+      "worst_day": -0.009067,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.032115,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.002759,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.013109,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.025447,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN"
+    ],
+    "dead_zones": [
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.02836,
+    "window_cum_x2": 0.012762
+   },
+   "AGGR-REGIME": {
+    "account": "AGGR-REGIME",
+    "family": "B",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.049409,
+      "cum_ret_x2": 0.051538,
+      "excess_vs_canon": 0.042623,
+      "worst_day": -0.005987,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.014288,
+      "cum_ret_x2": -0.032413,
+      "excess_vs_canon": -0.016767,
+      "worst_day": -0.00965,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.037841,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.003881,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.015394,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.029233,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN"
+    ],
+    "dead_zones": [
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.034415,
+    "window_cum_x2": 0.017455
+   },
+   "ALLOC-P1": {
+    "account": "ALLOC-P1",
+    "family": "C",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.017224,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.010437,
+      "worst_day": -0.007338,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.039838,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.042316,
+      "worst_day": -0.023745,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.019642,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.002008,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.019374,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.058087,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN"
+    ],
+    "dead_zones": [
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": -0.023301,
+    "window_cum_x2": null
+   },
+   "ALLOC-P2": {
+    "account": "ALLOC-P2",
+    "family": "C",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.050492,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.043706,
+      "worst_day": -0.00795,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.060737,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.063215,
+      "worst_day": -0.04435,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.049218,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.001654,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.03631,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.093647,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN"
+    ],
+    "dead_zones": [
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": -0.013311,
+    "window_cum_x2": null
+   },
+   "ALLOC-P3": {
+    "account": "ALLOC-P3",
+    "family": "C",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.006441,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.000345,
+      "worst_day": -0.01496,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.043587,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.046066,
+      "worst_day": -0.020213,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.005447,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.001431,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.010641,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.053658,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [],
+    "dead_zones": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": -0.037427,
+    "window_cum_x2": null
+   },
+   "ALLOC-P3B": {
+    "account": "ALLOC-P3B",
+    "family": "C",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.006129,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.000658,
+      "worst_day": -0.01496,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.044812,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.04729,
+      "worst_day": -0.020413,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.005308,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.001258,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.010099,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.054362,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [],
+    "dead_zones": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": -0.038958,
+    "window_cum_x2": null
+   },
+   "ALLOC-P4": {
+    "account": "ALLOC-P4",
+    "family": "C",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.007706,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.00092,
+      "worst_day": -0.005028,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.016258,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.018737,
+      "worst_day": -0.006576,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.003188,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.00495,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.006652,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.022759,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN"
+    ],
+    "dead_zones": [
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": -0.008678,
+    "window_cum_x2": null
+   },
+   "ALLOC-P5": {
+    "account": "ALLOC-P5",
+    "family": "C",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.038057,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.031271,
+      "worst_day": -0.021761,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.010844,
+      "cum_ret_x2": null,
+      "excess_vs_canon": -0.013322,
+      "worst_day": -0.02666,
+      "n_trades": null,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.045946,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.006956,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.052468,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.060156,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN"
+    ],
+    "dead_zones": [
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.0268,
+    "window_cum_x2": null
+   },
+   "ALLOC-P6": {
+    "account": "ALLOC-P6",
+    "family": "C",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.019377,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.012591,
+      "worst_day": -0.007296,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": 0.014391,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.011913,
+      "worst_day": -0.018439,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": null,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.020453,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.000574,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.038239,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.02297,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "dead_zones": [],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.034047,
+    "window_cum_x2": null
+   },
+   "B_MAXDIV": {
+    "account": "B_MAXDIV",
+    "family": "B",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.006786,
+      "cum_ret_x2": 0.006169,
+      "excess_vs_canon": 0.0,
+      "worst_day": -0.000793,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": 0.002478,
+      "cum_ret_x2": -0.001542,
+      "excess_vs_canon": 0.0,
+      "worst_day": -0.004052,
+      "n_trades": null,
+      "verdict": "PASS"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.005493,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.000633,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.003486,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.001004,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "dead_zones": [],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "n/a",
+     "note": "no corps_roster registered entry (blend/alloc lane)"
+    },
+    "kill_conditions": {
+     "declared": {
+      "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+      "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+      "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"
+     },
+     "probe_carriers": [
+      "marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": true,
+    "window_cum_x1": 0.009282,
+    "window_cum_x2": 0.004618
+   },
+   "COMPOSITE-CE-01": {
+    "account": "COMPOSITE-CE-01",
+    "family": "A",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.013465,
+      "cum_ret_x2": 0.00723,
+      "excess_vs_canon": 0.006679,
+      "worst_day": -0.003941,
+      "n_trades": 12,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": 0.043044,
+      "cum_ret_x2": 0.021605,
+      "excess_vs_canon": 0.040565,
+      "worst_day": -0.016045,
+      "n_trades": 54,
+      "verdict": "PASS"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.030351,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.016389,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.068955,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.02424,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "dead_zones": [],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "tested",
+     "taxonomy": "t22 proxy (510300 x MA200) -- NOT v3, honest label",
+     "rule": {
+      "beat_rate_12m_line": 0.5,
+      "min_n": 30,
+      "blowup_line": -0.35,
+      "source": "results/corps_roster.json rule face (T-33 frozen lines verbatim)"
+     },
+     "passing_segments": [
+      "bear",
+      "bull",
+      "chop"
+     ],
+     "segments": {
+      "bull": {
+       "beat_rate_12m": 0.8191,
+       "n_startpoints": 470,
+       "beat_ci95_12m": [
+        0.7818,
+        0.8513
+       ],
+       "worst_dd_all_windows": -0.1724,
+       "verdict": "PASS"
+      },
+      "bear": {
+       "beat_rate_12m": 0.5659,
+       "n_startpoints": 698,
+       "beat_ci95_12m": [
+        0.5289,
+        0.6022
+       ],
+       "worst_dd_all_windows": -0.2091,
+       "verdict": "PASS"
+      },
+      "chop": {
+       "beat_rate_12m": 0.7356,
+       "n_startpoints": 87,
+       "beat_ci95_12m": [
+        0.6344,
+        0.8169
+       ],
+       "worst_dd_all_windows": -0.169,
+       "verdict": "PASS"
+      }
+     }
+    },
+    "kill_conditions": {
+     "declared": {
+      "hr_fire_faces": [
+       "paper_dd>20%",
+       "live_monthly_loss<-8% (single live/paper month)",
+       "ic_decay>50%",
+       "risk_violation"
+      ],
+      "cost_fragile_flag": "x2 window cum <= 0 while x1 > 0 (disclosed, not auto-kill)"
+     },
+     "probe_carriers": [
+      "firm/hr.py run_review (auto-fire, wired)",
+      "live.paper x2_watch/cost_x2_check (monthly auto)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.057088,
+    "window_cum_x2": 0.028991
+   },
+   "COMPOSITE-CE-02": {
+    "account": "COMPOSITE-CE-02",
+    "family": "A",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.008661,
+      "cum_ret_x2": 0.002064,
+      "excess_vs_canon": 0.001874,
+      "worst_day": -0.005159,
+      "n_trades": 26,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": 0.035675,
+      "cum_ret_x2": 0.013366,
+      "excess_vs_canon": 0.033197,
+      "worst_day": -0.021092,
+      "n_trades": 89,
+      "verdict": "PASS"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.02357,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.014566,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.074769,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.036374,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "dead_zones": [],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "tested",
+     "taxonomy": "t22 proxy (510300 x MA200) -- NOT v3, honest label",
+     "rule": {
+      "beat_rate_12m_line": 0.5,
+      "min_n": 30,
+      "blowup_line": -0.35,
+      "source": "results/corps_roster.json rule face (T-33 frozen lines verbatim)"
+     },
+     "passing_segments": [
+      "bear",
+      "bull",
+      "chop"
+     ],
+     "segments": {
+      "bull": {
+       "beat_rate_12m": 0.634,
+       "n_startpoints": 470,
+       "beat_ci95_12m": [
+        0.5896,
+        0.6763
+       ],
+       "worst_dd_all_windows": -0.2748,
+       "verdict": "PASS"
+      },
+      "bear": {
+       "beat_rate_12m": 0.6533,
+       "n_startpoints": 698,
+       "beat_ci95_12m": [
+        0.6172,
+        0.6877
+       ],
+       "worst_dd_all_windows": -0.2685,
+       "verdict": "PASS"
+      },
+      "chop": {
+       "beat_rate_12m": 0.6667,
+       "n_startpoints": 87,
+       "beat_ci95_12m": [
+        0.5624,
+        0.7568
+       ],
+       "worst_dd_all_windows": -0.243,
+       "verdict": "PASS"
+      }
+     }
+    },
+    "kill_conditions": {
+     "declared": {
+      "hr_fire_faces": [
+       "paper_dd>20%",
+       "live_monthly_loss<-8% (single live/paper month)",
+       "ic_decay>50%",
+       "risk_violation"
+      ],
+      "x2_margin_razor": {
+       "frozen_margin": 0.031,
+       "kill_reading": "x2 margin <= 0 (cost-razor; firm/OPERATING_PLAN sec-2)"
+      }
+     },
+     "probe_carriers": [
+      "firm/hr.py run_review (auto-fire, wired)",
+      "live.paper x2_watch/cost_x2_check (monthly auto)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.044645,
+    "window_cum_x2": 0.015457
+   },
+   "DROUGHT-CE-01": {
+    "account": "DROUGHT-CE-01",
+    "family": "A",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.009413,
+      "cum_ret_x2": 0.008388,
+      "excess_vs_canon": 0.002627,
+      "worst_day": -0.001367,
+      "n_trades": 4,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": 0.030239,
+      "cum_ret_x2": 0.025537,
+      "excess_vs_canon": 0.027761,
+      "worst_day": -0.011561,
+      "n_trades": 18,
+      "verdict": "PASS"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.005664,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.003727,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.02521,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": 0.004906,
+      "verdict": "PASS"
+     }
+    },
+    "activation_set": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "dead_zones": [],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "tested",
+     "taxonomy": "t22 proxy (510300 x MA200) -- NOT v3, honest label",
+     "rule": {
+      "beat_rate_12m_line": 0.5,
+      "min_n": 30,
+      "blowup_line": -0.35,
+      "source": "results/corps_roster.json rule face (T-33 frozen lines verbatim)"
+     },
+     "passing_segments": [
+      "bear",
+      "bull",
+      "chop"
+     ],
+     "segments": {
+      "bull": {
+       "beat_rate_12m": 0.5638,
+       "n_startpoints": 470,
+       "beat_ci95_12m": [
+        0.5187,
+        0.608
+       ],
+       "worst_dd_all_windows": -0.0516,
+       "verdict": "PASS"
+      },
+      "bear": {
+       "beat_rate_12m": 0.5616,
+       "n_startpoints": 698,
+       "beat_ci95_12m": [
+        0.5246,
+        0.598
+       ],
+       "worst_dd_all_windows": -0.0282,
+       "verdict": "PASS"
+      },
+      "chop": {
+       "beat_rate_12m": 0.6207,
+       "n_startpoints": 87,
+       "beat_ci95_12m": [
+        0.5157,
+        0.7155
+       ],
+       "worst_dd_all_windows": -0.0273,
+       "verdict": "PASS"
+      }
+     }
+    },
+    "kill_conditions": {
+     "declared": {
+      "hr_fire_faces": [
+       "paper_dd>20%",
+       "live_monthly_loss<-8% (single live/paper month)",
+       "ic_decay>50%",
+       "risk_violation"
+      ],
+      "cost_fragile_flag": "x2 window cum <= 0 while x1 > 0 (disclosed, not auto-kill)"
+     },
+     "probe_carriers": [
+      "firm/hr.py run_review (auto-fire, wired)",
+      "live.paper x2_watch/cost_x2_check (monthly auto)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.039937,
+    "window_cum_x2": 0.034139
+   },
+   "ENGULF-CE-01": {
+    "account": "ENGULF-CE-01",
+    "family": "A",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.001746,
+      "cum_ret_x2": 0.000774,
+      "excess_vs_canon": -0.00504,
+      "worst_day": -0.00626,
+      "n_trades": 6,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.010441,
+      "cum_ret_x2": -0.014687,
+      "excess_vs_canon": -0.012919,
+      "worst_day": -0.007749,
+      "n_trades": 19,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.004063,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.002308,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.014201,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": -0.024297,
+      "verdict": "DEAD_ZONE"
+     }
+    },
+    "activation_set": [],
+    "dead_zones": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "tested",
+     "taxonomy": "t22 proxy (510300 x MA200) -- NOT v3, honest label",
+     "rule": {
+      "beat_rate_12m_line": 0.5,
+      "min_n": 30,
+      "blowup_line": -0.35,
+      "source": "results/corps_roster.json rule face (T-33 frozen lines verbatim)"
+     },
+     "passing_segments": [
+      "bear",
+      "bull",
+      "chop"
+     ],
+     "segments": {
+      "bull": {
+       "beat_rate_12m": 0.5426,
+       "n_startpoints": 470,
+       "beat_ci95_12m": [
+        0.4973,
+        0.5871
+       ],
+       "worst_dd_all_windows": -0.0461,
+       "verdict": "PASS"
+      },
+      "bear": {
+       "beat_rate_12m": 0.563,
+       "n_startpoints": 698,
+       "beat_ci95_12m": [
+        0.526,
+        0.5994
+       ],
+       "worst_dd_all_windows": -0.0475,
+       "verdict": "PASS"
+      },
+      "chop": {
+       "beat_rate_12m": 0.6207,
+       "n_startpoints": 87,
+       "beat_ci95_12m": [
+        0.5157,
+        0.7155
+       ],
+       "worst_dd_all_windows": -0.0461,
+       "verdict": "PASS"
+      }
+     }
+    },
+    "kill_conditions": {
+     "declared": {
+      "hr_fire_faces": [
+       "paper_dd>20%",
+       "live_monthly_loss<-8% (single live/paper month)",
+       "ic_decay>50%",
+       "risk_violation"
+      ],
+      "x2_margin_razor": {
+       "frozen_margin": 0.002,
+       "kill_reading": "x2 margin <= 0 (cost-razor; firm/OPERATING_PLAN sec-2)"
+      }
+     },
+     "probe_carriers": [
+      "firm/hr.py run_review (auto-fire, wired)",
+      "live.paper x2_watch/cost_x2_check (monthly auto)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": -0.008713,
+    "window_cum_x2": -0.013925
+   },
+   "NEEDLE-DE-01": {
+    "account": "NEEDLE-DE-01",
+    "family": "A",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": 0.009521,
+      "cum_ret_x2": 0.009359,
+      "excess_vs_canon": 0.002735,
+      "worst_day": -0.001759,
+      "n_trades": 3,
+      "verdict": "PASS"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": -0.003382,
+      "cum_ret_x2": -0.007111,
+      "excess_vs_canon": -0.005861,
+      "worst_day": -0.011044,
+      "n_trades": 16,
+      "verdict": "DEAD_ZONE"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.006558,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": 0.002943,
+      "verdict": "PASS"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": -0.005277,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": 0.001905,
+      "verdict": "PASS"
+     }
+    },
+    "activation_set": [
+     "GREEN"
+    ],
+    "dead_zones": [
+     "YELLOW"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "tested",
+     "taxonomy": "t22 proxy (510300 x MA200) -- NOT v3, honest label",
+     "rule": {
+      "beat_rate_12m_line": 0.5,
+      "min_n": 30,
+      "blowup_line": -0.35,
+      "source": "results/corps_roster.json rule face (T-33 frozen lines verbatim)"
+     },
+     "passing_segments": [
+      "bear",
+      "bull",
+      "chop"
+     ],
+     "segments": {
+      "bull": {
+       "beat_rate_12m": 0.5596,
+       "n_startpoints": 470,
+       "beat_ci95_12m": [
+        0.5144,
+        0.6038
+       ],
+       "worst_dd_all_windows": -0.0323,
+       "verdict": "PASS"
+      },
+      "bear": {
+       "beat_rate_12m": 0.5258,
+       "n_startpoints": 698,
+       "beat_ci95_12m": [
+        0.4887,
+        0.5626
+       ],
+       "worst_dd_all_windows": -0.0312,
+       "verdict": "PASS"
+      },
+      "chop": {
+       "beat_rate_12m": 0.6207,
+       "n_startpoints": 87,
+       "beat_ci95_12m": [
+        0.5157,
+        0.7155
+       ],
+       "worst_dd_all_windows": -0.0306,
+       "verdict": "PASS"
+      }
+     }
+    },
+    "kill_conditions": {
+     "declared": {
+      "hr_fire_faces": [
+       "paper_dd>20%",
+       "live_monthly_loss<-8% (single live/paper month)",
+       "ic_decay>50%",
+       "risk_violation"
+      ],
+      "cost_fragile_flag": "x2 window cum <= 0 while x1 > 0 (disclosed, not auto-kill)"
+     },
+     "probe_carriers": [
+      "firm/hr.py run_review (auto-fire, wired)",
+      "live.paper x2_watch/cost_x2_check (monthly auto)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.006106,
+    "window_cum_x2": 0.002181
+   },
+   "VOLATILITY-CE-01": {
+    "account": "VOLATILITY-CE-01",
+    "family": "A",
+    "readout_only": true,
+    "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+    "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+    "x2_face": "V1 legacy x2 cost face",
+    "states": {
+     "GREEN": {
+      "n_days": 54,
+      "episodes": 10,
+      "cum_ret_x1": -0.002946,
+      "cum_ret_x2": -0.007354,
+      "excess_vs_canon": -0.009732,
+      "worst_day": -0.002259,
+      "n_trades": 15,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOW": {
+      "n_days": 124,
+      "episodes": 10,
+      "cum_ret_x1": 0.031925,
+      "cum_ret_x2": 0.020817,
+      "excess_vs_canon": 0.029446,
+      "worst_day": -0.00669,
+      "n_trades": 47,
+      "verdict": "PASS"
+     },
+     "ORANGE": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     },
+     "RED": {
+      "n_days": 0,
+      "episodes": 0,
+      "cum_ret_x1": 0.0,
+      "cum_ret_x2": 0.0,
+      "excess_vs_canon": 0.0,
+      "worst_day": null,
+      "n_trades": null,
+      "verdict": "NO_EVIDENCE"
+     }
+    },
+    "heat_cells": {
+     "GREENxCOOL": {
+      "n_days": 32,
+      "episodes": 14,
+      "cum_ret_x1": 0.004054,
+      "verdict": "PASS"
+     },
+     "GREENxHOT": {
+      "n_days": 21,
+      "episodes": 10,
+      "cum_ret_x1": -0.006971,
+      "verdict": "DEAD_ZONE"
+     },
+     "YELLOWxCOOL": {
+      "n_days": 90,
+      "episodes": 15,
+      "cum_ret_x1": 0.025699,
+      "verdict": "PASS"
+     },
+     "YELLOWxHOT": {
+      "n_days": 34,
+      "episodes": 11,
+      "cum_ret_x1": 0.006069,
+      "verdict": "PASS"
+     }
+    },
+    "activation_set": [
+     "YELLOW"
+    ],
+    "dead_zones": [
+     "GREEN"
+    ],
+    "no_evidence_states": [
+     "ORANGE",
+     "RED"
+    ],
+    "all_state_claim": "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)",
+    "long_face_t22": {
+     "state": "tested",
+     "taxonomy": "t22 proxy (510300 x MA200) -- NOT v3, honest label",
+     "rule": {
+      "beat_rate_12m_line": 0.5,
+      "min_n": 30,
+      "blowup_line": -0.35,
+      "source": "results/corps_roster.json rule face (T-33 frozen lines verbatim)"
+     },
+     "passing_segments": [
+      "bear",
+      "bull",
+      "chop"
+     ],
+     "segments": {
+      "bull": {
+       "beat_rate_12m": 0.5702,
+       "n_startpoints": 470,
+       "beat_ci95_12m": [
+        0.5251,
+        0.6142
+       ],
+       "worst_dd_all_windows": -0.0435,
+       "verdict": "PASS"
+      },
+      "bear": {
+       "beat_rate_12m": 0.5917,
+       "n_startpoints": 698,
+       "beat_ci95_12m": [
+        0.5548,
+        0.6276
+       ],
+       "worst_dd_all_windows": -0.0482,
+       "verdict": "PASS"
+      },
+      "chop": {
+       "beat_rate_12m": 0.6207,
+       "n_startpoints": 87,
+       "beat_ci95_12m": [
+        0.5157,
+        0.7155
+       ],
+       "worst_dd_all_windows": -0.0414,
+       "verdict": "PASS"
+      }
+     }
+    },
+    "kill_conditions": {
+     "declared": {
+      "hr_fire_faces": [
+       "paper_dd>20%",
+       "live_monthly_loss<-8% (single live/paper month)",
+       "ic_decay>50%",
+       "risk_violation"
+      ],
+      "cost_fragile_flag": "x2 window cum <= 0 while x1 > 0 (disclosed, not auto-kill)"
+     },
+     "probe_carriers": [
+      "firm/hr.py run_review (auto-fire, wired)",
+      "live.paper x2_watch/cost_x2_check (monthly auto)",
+      "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+     ]
+    },
+    "cost_fragile_flag": false,
+    "window_cum_x1": 0.028885,
+    "window_cum_x2": 0.01331
+   }
+  },
+  "summary": {
+   "n_cards": 17,
+   "n_with_activation": 14,
+   "activation_sets": {
+    "AGGR-CONC-TOP2": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "AGGR-OFFENSE": [
+     "GREEN"
+    ],
+    "AGGR-REGIME": [
+     "GREEN"
+    ],
+    "ALLOC-P1": [
+     "GREEN"
+    ],
+    "ALLOC-P2": [
+     "GREEN"
+    ],
+    "ALLOC-P3": [],
+    "ALLOC-P3B": [],
+    "ALLOC-P4": [
+     "GREEN"
+    ],
+    "ALLOC-P5": [
+     "GREEN"
+    ],
+    "ALLOC-P6": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "B_MAXDIV": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "COMPOSITE-CE-01": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "COMPOSITE-CE-02": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "DROUGHT-CE-01": [
+     "GREEN",
+     "YELLOW"
+    ],
+    "ENGULF-CE-01": [],
+    "NEEDLE-DE-01": [
+     "GREEN"
+    ],
+    "VOLATILITY-CE-01": [
+     "YELLOW"
+    ]
+   },
+   "state_verdict_counts": {
+    "GREEN": {
+     "PASS": 13,
+     "DEAD_ZONE": 4
+    },
+    "YELLOW": {
+     "PASS": 7,
+     "DEAD_ZONE": 10
+    },
+    "ORANGE": {
+     "NO_EVIDENCE": 17
+    },
+    "RED": {
+     "NO_EVIDENCE": 17
+    }
+   }
+  }
+ },
  "cross_period_shared": {
   "spm_j4": {
    "state": "pointer",
@@ -4309,7 +6503,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 1.4,
+  "elapsed_sec": 2.3,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
@@ -4325,6 +6519,8 @@
    "results/spm_j4_attribution.json",
    "results/current_market_stable_profit.json",
    "results/pbo_cscv_v1.json",
+   "results/retro_paper_2026/*_ledger.json (profile_cards face, T-81)",
+   "Money02/data/lhb/lhb_detail.parquet (heat via market_clock_backtest.build_heat)",
    "results/strategy_scorecard_calib.json (frozen bands)"
   ],
   "read_only_reuse": "CORR_WATCH/g25/t22/t27/t28/t33 readers per ticket anti-dup"

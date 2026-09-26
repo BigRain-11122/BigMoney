@@ -22,6 +22,7 @@
   python scripts/strategy_scorecard.py selftest   # 离线合成夹具自检（零网络零真实写）
 """
 import datetime as _dt
+import hashlib
 import json
 import math
 import os
@@ -636,6 +637,331 @@ def _load_calib_for_emission():
             "cutoff": calib.get("evidence_cutoff")}
 
 
+# ———————————————— 适用域画像卡（T-81 · O-20260926-1342 · PROFILE_CARDS_P1）————————————————
+# 预注册冻结: research/PROFILE_CARDS_P1.md（跑前冻结判线，跑后禁改）。
+# 语义=readout 派生面：对 T-79 既有 17 台账做逐状态战绩分解+死区+激活+击杀申报；
+# 哲学律（O-1342 §一）：画像卡无总分，逐状态通过/失败=主判决，总分=派生索引视图非依据。
+
+PROFILE_PREREG = os.path.join(ROOT, "research", "PROFILE_CARDS_P1.md")
+PROFILE_MIN_N_DAYS = 20     # §3 冻结线：州内证据日下限
+PROFILE_MIN_EPISODES = 2    # §3 冻结线：独立政体窗下限（单连续段=零复制）
+PROFILE_STATES = ("GREEN", "YELLOW", "ORANGE", "RED")
+COST_RAZOR_MARGINS = {"COMPOSITE-CE-02": 0.031,   # firm/OPERATING_PLAN §2 冻结数
+                      "ENGULF-CE-01": 0.002}
+
+
+def _profile_returns(dates, equity, initial):
+    """收益日序列（§2 冻结口径）：r0=eq[0]/initial−1（A 组 hire 日=0 收益日计入州面）；
+    ri=eq[i]/eq[i−1]−1。全窗逐日积=台账 cum_ret（自洽门 §3.4 消费）。"""
+    out = []
+    if not dates or not equity or not initial or initial <= 0:
+        return out
+    prev = float(initial)
+    for d, e in zip(dates, equity):
+        e = float(e)
+        if prev > 0:
+            out.append((d, e / prev - 1.0))
+        prev = e
+    return out
+
+
+def _profile_episodes(seq):
+    """{键: 连续段数}——独立政体窗计数（§3）。"""
+    counts, prev = {}, None
+    for k in seq:
+        if k != prev:
+            counts[k] = counts.get(k, 0) + 1
+            prev = k
+    return counts
+
+
+def _cum_of(rets):
+    c = 1.0
+    for _d, r in rets:
+        c *= (1.0 + r)
+    return c - 1.0
+
+
+def _state_cums(rets, states_by_date):
+    """{州: 累计}——缺州=0.0（该州无日=零收益）。"""
+    acc = {s: 1.0 for s in PROFILE_STATES}
+    for d, r in rets:
+        s = states_by_date.get(d)
+        if s in acc:
+            acc[s] *= (1.0 + r)
+    return {s: acc[s] - 1.0 for s in PROFILE_STATES}
+
+
+def _profile_verdict(n_days, episodes, cum, excess):
+    """§3 冻结判定：证据不足=NO_EVIDENCE（fail-closed）；充分且双线过=PASS；否则 DEAD_ZONE。"""
+    if n_days < PROFILE_MIN_N_DAYS or episodes < PROFILE_MIN_EPISODES:
+        return "NO_EVIDENCE"
+    return "PASS" if (cum > 0.0 and excess >= 0.0) else "DEAD_ZONE"
+
+
+def _profile_heat_attr(day_seq):
+    """热档归属=前收市档（shift(1)，§1 镜像州惯例）；build_heat=market_clock_backtest
+    s1 冻结法逐字复用（LHB H_act/H_net/p80 尾250），零重实现。窗首日无前收市=n/a。"""
+    import pandas as pd
+    import market_clock_backtest as _mcb
+    ts = pd.DatetimeIndex(pd.to_datetime(list(day_seq)))
+    heat = _mcb.build_heat(pd.DataFrame(index=ts))
+    by_date = {d.strftime("%Y-%m-%d"): v[3] for d, v in heat.items()}
+    attr, prev = {}, None
+    for d in day_seq:
+        attr[d] = by_date.get(prev)
+        prev = d
+    return attr
+
+
+def _t22_long_face(corps_entry):
+    """A 组长史面：t22 代理分类法（≠v3 如实标签），corps 冻结线逐字（零新线）。"""
+    if not corps_entry:
+        return {"state": "n/a",
+                "note": "no corps_roster registered entry (blend/alloc lane)"}
+    out = {}
+    for seg, ev in (corps_entry.get("segments") or {}).items():
+        br, n = ev.get("beat_rate_12m"), ev.get("n_startpoints") or 0
+        dd = ev.get("worst_dd_all_windows")
+        if br is None or n < 30:
+            v = "NO_EVIDENCE"
+        elif br < 0.5 or (dd is not None and dd <= -0.35):
+            v = "DEAD_ZONE"
+        else:
+            v = "PASS"
+        out[seg] = {"beat_rate_12m": br, "n_startpoints": n,
+                    "beat_ci95_12m": ev.get("beat_ci95_12m"),
+                    "worst_dd_all_windows": dd, "verdict": v}
+    return {"state": "tested",
+            "taxonomy": "t22 proxy (510300 x MA200) -- NOT v3, honest label",
+            "rule": {"beat_rate_12m_line": 0.5, "min_n": 30, "blowup_line": -0.35,
+                     "source": "results/corps_roster.json rule face (T-33 frozen lines verbatim)"},
+            "passing_segments": corps_entry.get("passing_segments"),
+            "segments": out}
+
+
+def _profile_kill_conditions(family, account):
+    """§4 击杀条件申报（预注册读数+衰减探针载体，全既有面零新监视器）。"""
+    hr_fire = ["paper_dd>20%", "live_monthly_loss<-8% (single live/paper month)",
+               "ic_decay>50%", "risk_violation"]
+    rederive = "profile_cards re-derivation per new bar (this face, three-card run carrier)"
+    if family == "A":
+        declared = {"hr_fire_faces": hr_fire}   # firm/hr.py FIRE_REASONS 逐字
+        if account in COST_RAZOR_MARGINS:
+            declared["x2_margin_razor"] = {
+                "frozen_margin": COST_RAZOR_MARGINS[account],
+                "kill_reading": "x2 margin <= 0 (cost-razor; firm/OPERATING_PLAN sec-2)"}
+        else:
+            declared["cost_fragile_flag"] = ("x2 window cum <= 0 while x1 > 0 "
+                                             "(disclosed, not auto-kill)")
+        return {"declared": declared,
+                "probe_carriers": ["firm/hr.py run_review (auto-fire, wired)",
+                                   "live.paper x2_watch/cost_x2_check (monthly auto)",
+                                   rederive]}
+    declared = {
+        "paper_month_loss": "single paper month < -8% (hr live_monthly_loss line mirrored at account level)",
+        "activation_set_empty": "all states NO_EVIDENCE/DEAD_ZONE on re-derivation -> not running anywhere (fail-closed)",
+        "state_mismatch_demotion": "slice-2 L3 activation-table wiring hook (declared here, wired in slice-2)"}
+    return {"declared": declared,
+            "probe_carriers": ["marks monthly re-derivation (aggressive_lab.py paper / alloc_paper.py lanes)",
+                               rederive]}
+
+
+def profile_card(account, ledger, states_by_date, state_seq, day_seq, heat_attr,
+                 canon_cums, corps_entry):
+    """单候选适用域画像卡（readout-only，无总分——O-1342 §一 万金油禁令）。"""
+    x1 = ledger.get("x1") or {}
+    family = ledger.get("family") or "?"
+    rets = _profile_returns(x1.get("dates"), x1.get("equity_cny"),
+                            ledger.get("initial_cash_cny"))
+    x2 = ledger.get("x2") if isinstance(ledger.get("x2"), dict) else None
+    rets_x2 = _profile_returns((x2 or {}).get("dates"), (x2 or {}).get("equity_cny"),
+                               ledger.get("initial_cash_cny")) if x2 else []
+    x2_label = None if x2 else "n/a (alloc v2 cost face carried in x1 by construction, retro prereg sec-3)"
+    by_state = {s: [] for s in PROFILE_STATES}
+    by_cell = {}
+    for d, r in rets:
+        s = states_by_date.get(d, "UNKNOWN")
+        by_state.setdefault(s, []).append((d, r))
+        h = heat_attr.get(d)
+        if h:
+            by_cell.setdefault((s, h), []).append((d, r))
+    by_state_x2 = {s: [] for s in PROFILE_STATES}
+    for d, r in rets_x2:
+        s = states_by_date.get(d, "UNKNOWN")
+        by_state_x2.setdefault(s, []).append((d, r))
+    state_ep = _profile_episodes(state_seq)
+    cell_ep = _profile_episodes([(states_by_date.get(d, "UNKNOWN"), heat_attr.get(d))
+                                 for d in day_seq])
+    trades = x1.get("trades")
+    trades_by_state = {}
+    if isinstance(trades, list):
+        for t in trades:
+            s = states_by_date.get(t.get("date"), "UNKNOWN")
+            trades_by_state[s] = trades_by_state.get(s, 0) + 1
+    states = {}
+    for s in PROFILE_STATES:
+        rs = by_state.get(s) or []
+        cum = _cum_of(rs)
+        excess = cum - (canon_cums.get(s) or 0.0)
+        states[s] = {
+            "n_days": len(rs), "episodes": state_ep.get(s, 0),
+            "cum_ret_x1": round(cum, 6),
+            "cum_ret_x2": (round(_cum_of(by_state_x2.get(s) or []), 6)
+                           if x2 else None),
+            "excess_vs_canon": round(excess, 6),
+            "worst_day": (round(min(r for _d, r in rs), 6) if rs else None),
+            "n_trades": (trades_by_state.get(s) if isinstance(trades, list)
+                         else ("n/a (blend/alloc face: no dated trade list)" if s in states_by_date else None)),
+            "verdict": _profile_verdict(len(rs), state_ep.get(s, 0), cum, excess)}
+    heat_cells = {}
+    for (s, h), rs in sorted(by_cell.items()):
+        cum = _cum_of(rs)
+        heat_cells[f"{s}x{h}"] = {
+            "n_days": len(rs), "episodes": cell_ep.get((s, h), 0),
+            "cum_ret_x1": round(cum, 6),
+            "verdict": _profile_verdict(len(rs), cell_ep.get((s, h), 0), cum, cum)}
+    activation = [s for s in PROFILE_STATES if states[s]["verdict"] == "PASS"]
+    dead = [s for s in PROFILE_STATES if states[s]["verdict"] == "DEAD_ZONE"]
+    noev = [s for s in PROFILE_STATES if states[s]["verdict"] == "NO_EVIDENCE"]
+    cost_fragile = any(states[s]["cum_ret_x1"] > 0 and states[s]["cum_ret_x2"] is not None
+                       and states[s]["cum_ret_x2"] <= 0 for s in PROFILE_STATES)
+    return {
+        "account": account, "family": family, "readout_only": True,
+        "no_composite_total": "O-1342 sec-1: overall = derived index view only (never deployment basis)",
+        "window_note": "2026-01-05..2026-09-24 replay window overlaps OOS dev window (retro prereg sec-4 annotation verbatim)",
+        "x2_face": x2_label or "V1 legacy x2 cost face",
+        "states": states, "heat_cells": heat_cells,
+        "activation_set": activation, "dead_zones": dead, "no_evidence_states": noev,
+        "all_state_claim": ("ALL-STATE-PASS: default-suspect (O-1342 sec-1.3) + widest-CI disclosure required"
+                            if len(activation) == 4 else
+                            "not claimed (activation set < 4 states; in-window ORANGE/RED zero-day = structurally impossible)"),
+        "long_face_t22": _t22_long_face(corps_entry),
+        "kill_conditions": _profile_kill_conditions(family, account),
+        "cost_fragile_flag": bool(cost_fragile),
+        "window_cum_x1": round(_cum_of(rets), 6),
+        "window_cum_x2": (round(_cum_of(rets_x2), 6) if rets_x2 else None),
+    }
+
+
+def build_profile_cards():
+    """T-81 slice-1：17 候选适用域画像卡（读数派生面，零新回测）。缺件/失配=诚实拒发。"""
+    import glob as _glob
+    retro_dir = os.path.join(RESULTS, "retro_paper_2026")
+    paths = sorted(_glob.glob(os.path.join(retro_dir, "*_ledger.json")))
+    if not paths:
+        return {"state": "absent", "note": "retro ledgers not delivered (T-79 face)"}
+    ledgers = {}
+    for p in paths:
+        acc = os.path.basename(p)[:-len("_ledger.json")]
+        d = _load(p)
+        if d and d.get("complete") and d.get("x1"):
+            ledgers[acc] = d
+    if "B_MAXDIV" not in ledgers:
+        return {"state": "absent", "note": "canon B_MAXDIV ledger missing"}
+    variants = {}
+    for acc, d in ledgers.items():   # 市场级 v3 序列恒等门（§1）
+        s = d.get("shadow_regime_states")
+        if s:
+            variants[acc] = json.dumps(s, sort_keys=True)
+    if not variants:
+        return {"state": "absent", "note": "no shadow_regime_states in any ledger"}
+    if len(set(variants.values())) != 1:
+        return {"state": "inconsistent",
+                "note": "market-level v3 series differ across ledgers (invariant broken)"}
+    carrier = sorted(variants)[0]
+    shadow = ledgers[carrier]["shadow_regime_states"]
+    day_seq = [row["date"] for row in shadow]
+    states_by_date = {row["date"]: row["state"] for row in shadow}
+    state_seq = [row["state"] for row in shadow]
+    for acc, d in ledgers.items():   # 日期集恒等门
+        if (d.get("x1") or {}).get("dates") != day_seq:
+            return {"state": "inconsistent",
+                    "note": "ledger date-set differs from shadow series: " + acc}
+    heat_attr = _profile_heat_attr(day_seq)
+    canon = ledgers["B_MAXDIV"]
+    canon_cums = _state_cums(_profile_returns(canon["x1"].get("dates"),
+                                              canon["x1"].get("equity_cny"),
+                                              canon.get("initial_cash_cny")),
+                             states_by_date)
+    corps = _load(os.path.join(RESULTS, "corps_roster.json")) or {}
+    registered = {m.get("member"): m for m in (corps.get("registered") or [])}
+    cards = {acc: profile_card(acc, ledgers[acc], states_by_date, state_seq, day_seq,
+                               heat_attr, canon_cums, registered.get(acc))
+             for acc in sorted(ledgers)}
+    # §3.4 自洽门（v1.0.1 判据感知式）：T-79 分段面对 day-1 收益存在家族异质惯例
+    # （A=engine 零收益日/B=marks 含 day-1/C=alloc 剔首日）→ 双惯例择一恒等+披露。
+    mixed = any(s in ("ORANGE", "RED") for s in state_seq)
+    gate = {"mode": "skip (mixed-state window: ORANGE/RED bull/chop mapping unverified)"
+            if mixed else "assert (GREEN==bull, YELLOW==chop, tol 1e-9, day1-convention aware)"}
+    if not mixed:
+        conventions = {}
+        for acc in sorted(cards):
+            segs = (ledgers[acc].get("x1") or {}).get("regime_segments") or {}
+            rets_all = _profile_returns((ledgers[acc].get("x1") or {}).get("dates"),
+                                        (ledgers[acc].get("x1") or {}).get("equity_cny"),
+                                        ledgers[acc].get("initial_cash_cny"))
+            bases = {"with_day1": _state_cums(rets_all, states_by_date),
+                     "without_day1": _state_cums(rets_all[1:], states_by_date)}
+            matched = None
+            for name, base in bases.items():
+                ok = True
+                for st_key, seg_key in (("GREEN", "bull"), ("YELLOW", "chop")):
+                    ref = (segs.get(seg_key) or {}).get("cum_ret")
+                    mine = round(base[st_key], 6)   # 台账分段面=6dp 舍入发布值，同基准比
+                    if ref is None or abs(ref - mine) > 2e-6:
+                        ok = False   # 2e-6=跨算术路径容差（逐日积 vs 台账内部累算，实测噪声 ~5e-7；
+                        break        # 真实错切差≥1e-4 量级=仍全被门捕获）
+                if ok:
+                    matched = name
+                    break
+            if matched is None:
+                return {"state": "consistency_failed",
+                        "note": "self-consistency gate: %s no day1-convention reproduces "
+                                "ledger bull/chop (both mismatch)" % acc}
+            conventions[acc] = matched
+        gate["conventions"] = conventions
+        gate["result"] = "PASS %d/%d" % (len(cards), len(cards))
+    board = _load(os.path.join(retro_dir, "LEADERBOARD.json")) or {}
+    absent = dict(board.get("absent_families") or {})
+    for member in ("AGGR-MOM", "AGGR-NOCASH"):
+        if member not in ledgers:
+            absent[member] = ("no retro ledger (T-79 B-group = CEO-named top-3); "
+                              "marks since 09-24 = no state face -> NO_EVIDENCE by construction")
+    absent["CN (T-73)"] = ("first batch CN-REV-TILT-P1 harvested NEGATIVE 4/4 G1v2 "
+                           "(bm-a r248); further CN models in flight -- landing-hook per O-1342 sec-4 item-4")
+    verdict_counts = {s: {} for s in PROFILE_STATES}
+    for c in cards.values():
+        for s in PROFILE_STATES:
+            v = c["states"][s]["verdict"]
+            verdict_counts[s][v] = verdict_counts[s].get(v, 0) + 1
+    try:
+        with open(PROFILE_PREREG, "rb") as f:
+            sha16 = hashlib.sha256(f.read()).hexdigest()[:16]
+    except OSError:
+        sha16 = None
+    return {
+        "state": "ok", "batch": "PROFILE-CARDS-P1", "ticket": "T-2026-09-26-81",
+        "order": "O-20260926-1342",
+        "prereg": "research/PROFILE_CARDS_P1.md", "prereg_sha256_16": sha16,
+        "evidence_cutoff": board.get("evidence_cutoff") or "2026-09-24",
+        "cutoff_source": "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)",
+        "state_carrier": carrier,
+        "canon": "B_MAXDIV",
+        "lines": {"min_n_days": PROFILE_MIN_N_DAYS, "min_episodes": PROFILE_MIN_EPISODES,
+                  "pass_line": "cum_x1>0 AND excess_vs_canon>=0 (double line, frozen)",
+                  "taxonomy": "v3 four-state (ledger shift(1) causal) x LHB heat v0 (shift(1) attribution)",
+                  "ledger_policy": "append_ledger +0 (readout/derivation face, T-56 slice-2 paradigm)"},
+        "absent_families": absent,
+        "self_consistency_gate": gate,
+        "cards": cards,
+        "summary": {"n_cards": len(cards),
+                    "n_with_activation": sum(1 for c in cards.values() if c["activation_set"]),
+                    "activation_sets": {a: c["activation_set"] for a, c in cards.items()},
+                    "state_verdict_counts": verdict_counts},
+    }
+
+
 # ———————————————— 装配 ————————————————
 
 def build(strategy_payload, corps, papers, g25s, pbt, iv6, ew6, spm_j4, stable, pbo):
@@ -734,6 +1060,7 @@ def run(out_path=OUT_DEFAULT):
                            trader_face_scores, TRADER_FACES)
         _attach_composites(built["portfolio_cards"], calib["pw"], calib["pb"],
                            portfolio_face_scores, PORTFOLIO_FACES)
+    profile_face = build_profile_cards()
     payload = {
         "ticket": "T-2026-09-25-63", "order": "O-20260925-1755",
         "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
@@ -763,6 +1090,7 @@ def run(out_path=OUT_DEFAULT):
                           "per_trader": strategy_payload.get("per_trader")},
         "trader_cards": built["trader_cards"],
         "portfolio_cards": built["portfolio_cards"],
+        "profile_cards": profile_face,
         "cross_period_shared": built["cross_period_shared"],
         "discipline_veto_hits": built["discipline_veto_hits"],
         "summary": {"n_strategy_cards": len(strategy_payload.get("per_trader") or {}),
@@ -779,7 +1107,9 @@ def run(out_path=OUT_DEFAULT):
                               "results/portfolio_iv6.json", "results/portfolio_ew6.json",
                               "results/spm_j4_attribution.json",
                               "results/current_market_stable_profit.json",
-                              "results/pbo_cscv_v1.json"]
+                              "results/pbo_cscv_v1.json",
+                              "results/retro_paper_2026/*_ledger.json (profile_cards face, T-81)",
+                              "Money02/data/lhb/lhb_detail.parquet (heat via market_clock_backtest.build_heat)"]
                   + (["results/strategy_scorecard_calib.json (frozen bands)"] if calib else []),
                   "read_only_reuse": "CORR_WATCH/g25/t22/t27/t28/t33 readers per ticket anti-dup"},
     }
@@ -1021,10 +1351,93 @@ def selftest():
     pfx = trader_card("T-X", {"total": 50.0, "grade": "B", "veto_clean": True, "dims": {}},
                       None, None, None)
     assert pfx.get("readout_only") is True and "composite" not in pfx
-    print("selftest: 6/6 core + 5/5 calibration PASS (registered/prospect/veto/tournament/"
-          "untested-propagation/iv6 production-shape fixtures; face formulas/weight-allocation/"
-          "band-quantiles/end-to-end-calibrate/frozen-band-emission incl portfolio leg + veto "
-          "override; readout-only law asserted on every pure card)")
+    # —————— T-81 画像卡腿（PROFILE_CARDS_P1 §3 冻结线合成夹具 + 在位实腿）——————
+    # P1: 收益日序列口径 — r0=eq[0]/initial−1（A 组 hire 日=0），逐日积=台账 cum
+    rets_p = _profile_returns(["d0", "d1", "d2"], [100.0, 110.0, 99.0], 100.0)
+    assert [round(r, 9) for _d, r in rets_p] == [0.0, 0.1, -0.1], rets_p
+    assert abs(_cum_of(rets_p) - (99.0 / 100.0 - 1.0)) < 1e-12
+    # P2: 独立政体窗计数 — [G,G,Y,G] -> G:2, Y:1
+    assert _profile_episodes(["G", "G", "Y", "G"]) == {"G": 2, "Y": 1}
+    # P3: 判定线 — 小样本/单段 fail-closed；双线过=PASS；亏钱或跑输正典=DEAD_ZONE
+    assert _profile_verdict(15, 2, 0.05, 0.03) == "NO_EVIDENCE"      # n<20
+    assert _profile_verdict(25, 1, 0.05, 0.03) == "NO_EVIDENCE"      # 单段=零复制
+    assert _profile_verdict(25, 2, 0.05, 0.03) == "PASS"
+    assert _profile_verdict(25, 2, -0.02, 0.03) == "DEAD_ZONE"       # 绝对线败
+    assert _profile_verdict(25, 2, 0.01, -0.01) == "DEAD_ZONE"       # 正典线败
+    # P4: 合成台账全链 — GREEN 24 日双段正收益+跑赢正典=PASS；YELLOW 5 日=NO_EVIDENCE
+    #     （n<20 fail-closed）；ORANGE/RED 零日=NO_EVIDENCE；热档 shift(1) 归属；万金油主张不成立
+    days_p = ["2026-01-%02d" % (i + 1) for i in range(29)]
+    states_seq_p = ["GREEN"] * 12 + ["YELLOW"] * 5 + ["GREEN"] * 2 + ["GREEN"] * 10
+    sbd_p = dict(zip(days_p, states_seq_p))
+    rets_by_day = [0.01] * 12 + [-0.01] * 5 + [0.01] * 12
+    eq_p, e = [], 100.0 * (1.0 + rets_by_day[0])
+    eq_p.append(e)
+    for r in rets_by_day[1:]:
+        e *= (1.0 + r)
+        eq_p.append(e)
+    heat_day_p = {days_p[3]}                     # d4 收市 HOT -> d5 归属 GREENxHOT
+    heat_attr_p = {days_p[i]: (("HOT" if days_p[i - 1] in heat_day_p else "COOL")
+                               if i else None) for i in range(len(days_p))}
+    ledger_p = {"family": "B", "initial_cash_cny": 100.0,
+                "x1": {"dates": days_p, "equity_cny": eq_p, "trades": None},
+                "x2": {"dates": days_p, "equity_cny": [v * 0.999 for v in eq_p]}}
+    canon_p = {"GREEN": 0.001, "YELLOW": 0.001}  # 正典同州 +0.1%（被跑赢）
+    card_p = profile_card("SYN-B", ledger_p, sbd_p, states_seq_p, days_p,
+                          heat_attr_p, canon_p, None)
+    assert card_p["states"]["GREEN"]["verdict"] == "PASS", card_p["states"]["GREEN"]
+    assert card_p["states"]["GREEN"]["n_days"] == 24
+    assert card_p["states"]["GREEN"]["episodes"] == 2
+    assert card_p["states"]["YELLOW"]["verdict"] == "NO_EVIDENCE"   # n<20 fail-closed
+    assert card_p["states"]["ORANGE"]["n_days"] == 0
+    assert card_p["states"]["ORANGE"]["verdict"] == "NO_EVIDENCE"
+    assert card_p["states"]["RED"]["verdict"] == "NO_EVIDENCE"
+    assert card_p["activation_set"] == ["GREEN"] and card_p["dead_zones"] == []
+    assert card_p["long_face_t22"]["state"] == "n/a"                # blend 车道无 corps 面
+    assert "not claimed" in card_p["all_state_claim"]                # 万金油禁令
+    assert card_p["window_cum_x2"] is not None and card_p["cost_fragile_flag"] is False
+    # 热档格：窗首日 n/a 不入格；d4 收市 HOT -> d5 归属（GREENxHOT 单日）
+    gh = card_p["heat_cells"].get("GREENxHOT")
+    assert gh is not None and gh["n_days"] == 1 and gh["verdict"] == "NO_EVIDENCE"
+    # P5: 正典自比 excess=0；击杀申报 — A 组 hr 开除面+剃刀余量冻结数；B/C 月亏线+fail-closed
+    canon_card_p = profile_card("B_MAXDIV", ledger_p, sbd_p, states_seq_p, days_p,
+                                heat_attr_p, {"GREEN": card_p["states"]["GREEN"]["cum_ret_x1"],
+                                              "YELLOW": -0.01, "ORANGE": 0.0, "RED": 0.0}, None)
+    assert abs(canon_card_p["states"]["GREEN"]["excess_vs_canon"]) < 1e-9
+    kc_a = _profile_kill_conditions("A", "COMPOSITE-CE-02")
+    assert kc_a["declared"]["x2_margin_razor"]["frozen_margin"] == 0.031
+    assert "ic_decay>50%" in kc_a["declared"]["hr_fire_faces"]
+    kc_b = _profile_kill_conditions("B", "AGGR-SYN")
+    assert "single paper month < -8%" in kc_b["declared"]["paper_month_loss"]
+    assert "slice-2" in kc_b["declared"]["state_mismatch_demotion"]
+    # P6: t22 长史面 — corps 冻结线逐字（beat<0.5 且 n≥30=DEAD_ZONE；n<30=NO_EVIDENCE）
+    corps_p = {"segments": {"bull": {"beat_rate_12m": 0.45, "n_startpoints": 100,
+                                     "worst_dd_all_windows": -0.1},
+                            "bear": {"beat_rate_12m": 0.6, "n_startpoints": 10},
+                            "chop": {"beat_rate_12m": 0.62, "n_startpoints": 87,
+                                     "worst_dd_all_windows": -0.169}}}
+    t22 = _t22_long_face(corps_p)
+    assert t22["segments"]["bull"]["verdict"] == "DEAD_ZONE"
+    assert t22["segments"]["bear"]["verdict"] == "NO_EVIDENCE"
+    assert t22["segments"]["chop"]["verdict"] == "PASS"
+    assert "NOT v3" in t22["taxonomy"]
+    # P7: 在位实腿（在位才跑）— 17 卡全出、自洽门 PASS、判据链恒等（缺件=诚实 SKIP）
+    if os.path.isdir(os.path.join(RESULTS, "retro_paper_2026")):
+        face_live = build_profile_cards()
+        assert face_live.get("state") == "ok", face_live.get("state")
+        assert face_live["summary"]["n_cards"] == 17
+        assert face_live["self_consistency_gate"]["result"].startswith("PASS 17/17")
+        assert "paper_month_loss" in face_live["cards"]["B_MAXDIV"]["kill_conditions"]["declared"]
+        bmd = face_live["cards"]["B_MAXDIV"]["states"]
+        assert abs(bmd["GREEN"]["excess_vs_canon"]) < 1e-9            # 正典自比=0
+    else:
+        print("  [profile] live leg SKIP (retro ledgers absent) -- honest")
+    print("selftest: 6/6 core + 5/5 calibration + 7/7 profile PASS (registered/prospect/"
+          "veto/tournament/untested-propagation/iv6 production-shape fixtures; face formulas/"
+          "weight-allocation/band-quantiles/end-to-end-calibrate/frozen-band-emission incl "
+          "portfolio leg + veto override; readout-only law asserted on every pure card; "
+          "T-81 profile: return-series caliber/episode-fail-closed/double-line verdicts/"
+          "heat-shift attribution/canon self-face/kill-declarations/t22 corps lines verbatim"
+          + (" + live 17-card leg" if os.path.isdir(os.path.join(RESULTS, "retro_paper_2026")) else "") + ")")
     return 0
 
 
