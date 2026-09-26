@@ -1,0 +1,79 @@
+{
+ "ts": "2026-09-27T06:32:40",
+ "round": "r305",
+ "machine": "bm-b",
+ "lane": "T-87 astock_daily supply (bm-b)",
+ "pass_state": {
+  "universe_n": 5228,
+  "per_files": 5144,
+  "done_pct": 98.4,
+  "lock": {
+   "pid": 29440,
+   "ts": "2026-09-26T23:47:45"
+  },
+  "lock_alive": true,
+  "attempts_n": 10,
+  "attempts": {
+   "000019": 1,
+   "001235": 1,
+   "001246": 1,
+   "301569": 1,
+   "301660": 1,
+   "301716": 1,
+   "301718": 1,
+   "688089": 1,
+   "688143": 1,
+   "688173": 1
+  },
+  "quarantined": []
+ },
+ "rate_face": {
+  "n_new": 5138,
+  "elapsed_min": 404.9,
+  "rate_per_min": 12.69,
+  "remaining": 84,
+  "eta_ts": "2026-09-27T06:39:17"
+ },
+ "shape_face": {
+  "frozen_fields": [
+   "date",
+   "open",
+   "high",
+   "low",
+   "close",
+   "volume",
+   "amount",
+   "outstanding_share",
+   "turnover"
+  ],
+  "header_mismatch": [],
+  "tail_date_census_top": [
+   [
+    "2026-09-24",
+    5132
+   ],
+   [
+    "2026-09-14",
+    3
+   ],
+   [
+    "2026-09-11",
+    2
+   ],
+   [
+    "2026-09-03",
+    1
+   ],
+   [
+    "2026-08-31",
+    1
+   ]
+  ],
+  "files_at_expected_cutoff": 5132,
+  "ohlc_sanity_bad": []
+ },
+ "monday_deadline": "2026-09-28T09:15:00",
+ "eta_ok_before_deadline": true,
+ "verdict": "on_track",
+ "note": "first-pull mid-flight probe #18 (r301 next-pointer health watch; pass-completion re-probe stays queued for after ETA window 06:40-09:30); failed syms self-heal via file-derived todo on next gate spawn (family law); probe read-only; lineage face = r281-r297 frozen probe verbatim (ad-hoc rate probes a/b/c superseded at r284)"
+}

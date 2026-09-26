@@ -8,7 +8,11 @@ Objective utilization time-series for the O-1136 violation criterion:
 
 This probe records FACTS ONLY (deterministic, zero judgment):
   - machine CPU total + py CPU share (two-snapshot delta, compute_audit idiom)
-  - hottest proc in CORE units -> local_batch_running (>=0.5 core sustained)
+  - hottest proc in CORE units -> local_batch_running (>=0.5 core sustained);
+    plus data-lane detached refresh locks (data/*/_refresh.lock with live pid):
+    network-throttled full-universe passes sit under the CPU face by
+    construction (2.5s/stock throttle -> ~0.3 core) and must still count as
+    local batch in flight (r305 false-negative fix, T-87 pass实证)
   - runnable-work inventory: open fleet tickets (ids), bandit open candidates,
     capability facts (Money02 bars present / core48 daily panel present)
 Verdict (frozen at first run, do not tune by results):
@@ -163,6 +167,42 @@ def _window_verdict(samples, work_cands, line=LOW_PY_LINE, span_min=SUSTAIN_MIN)
     return "py_low_board_clear", facts
 
 
+def _pid_alive(pid):
+    """Windows-only fleet (bm-a/bm-b/bm-c); ctypes guard mirrors the astock
+    probe lineage (_r281+ _pid_alive verbatim idiom)."""
+    try:
+        import ctypes
+        h = ctypes.windll.kernel32.OpenProcess(0x1000, False, int(pid))
+        if not h:
+            return False
+        ctypes.windll.kernel32.CloseHandle(h)
+        return True
+    except Exception:
+        return False
+
+
+def _refresh_locks_alive(data_dir=None):
+    """Lanes with a detached full-universe refresh pass currently running.
+
+    Family law (update_astock_daily / moneyflow / sina_mf / ths / ah): the
+    separated background pass holds data/<lane>/_refresh.lock {"pid", "ts"}
+    for its whole lifetime and removes it on exit. A network-throttled pass
+    is invisible to the CPU face (2.5s/stock -> <0.5 core), so the lock face
+    is the honest local_batch signal for supply passes (r305 fix).
+    Returns sorted lane names; corrupt/dead-pid locks are ignored."""
+    lanes = []
+    base = data_dir or os.path.join(ROOT, "data")
+    for p in sorted(glob.glob(os.path.join(base, "*", "_refresh.lock"))):
+        try:
+            with open(p, encoding="utf-8-sig") as f:
+                lock = json.load(f)
+            if lock and _pid_alive(int(lock.get("pid", 0))):
+                lanes.append(os.path.basename(os.path.dirname(p)))
+        except Exception:
+            pass
+    return lanes
+
+
 def probe():
     now = time.time()
     cores = core_count()
@@ -177,6 +217,8 @@ def probe():
     ticket_ids = _scan_tickets()
     bandit_open = _bandit_open()
     caps = _capability_facts()
+    lock_lanes = _refresh_locks_alive()
+    local_batch = bool(samp["local_batch_running"] or lock_lanes)
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
         "epoch": round(now, 0),
@@ -186,7 +228,8 @@ def probe():
         "py_cpu_pct": samp["py_cpu_pct"],
         "py_procs": samp["py_procs"],
         "top_proc_cores": samp["top_proc_cores"],
-        "local_batch_running": samp["local_batch_running"],
+        "local_batch_running": local_batch,
+        "refresh_lock_lanes": lock_lanes,
         "open_tickets": len(ticket_ids),
         "open_ticket_ids": ticket_ids,
         "bandit_open": bandit_open,
@@ -194,7 +237,7 @@ def probe():
         "daily_panel": caps["daily_panel"],
     }
     work_cands = (len(ticket_ids) > 0 or bandit_open > 0
-                  or samp["local_batch_running"])
+                  or local_batch)
     # post-append trailing-sample view computed pre-write so the verdict is
     # persisted IN the record (round reports / T-75 daily report consume the
     # file, not stdout); sample set identical to the old load-after-append view.
@@ -340,6 +383,29 @@ def selftest():
             os.path.join(tmpd, "nope.json")) == 0)
     finally:
         shutil.rmtree(tmpd, ignore_errors=True)
+
+    # 5) refresh-lock face (r305 fix): live-pid lock lane counts, dead/corrupt
+    #    ignored; network-throttled supply pass = honest local batch signal
+    tmpd3 = tempfile.mkdtemp()
+    try:
+        dd = os.path.join(tmpd3, "data")
+        for lane in ("astock_daily", "moneyflow", "ths_ggzjl"):
+            os.makedirs(os.path.join(dd, lane))
+        with open(os.path.join(dd, "astock_daily", "_refresh.lock"), "w",
+                  encoding="utf-8") as f:
+            json.dump({"pid": os.getpid(), "ts": "probe"}, f)
+        with open(os.path.join(dd, "moneyflow", "_refresh.lock"), "w",
+                  encoding="utf-8") as f:
+            json.dump({"pid": 0}, f)                     # dead pid face
+        with open(os.path.join(dd, "ths_ggzjl", "_refresh.lock"), "w",
+                  encoding="utf-8") as f:
+            f.write("{corrupt")                         # tolerated face
+        check("refresh lock live-pid lane only",
+              _refresh_locks_alive(dd) == ["astock_daily"])
+        check("refresh lock missing dir -> empty",
+              _refresh_locks_alive(os.path.join(tmpd3, "nope")) == [])
+    finally:
+        shutil.rmtree(tmpd3, ignore_errors=True)
 
     print("selftest:", "ALL PASS" if ok[0] else "FAIL")
     return 0 if ok[0] else 1

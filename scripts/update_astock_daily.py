@@ -43,6 +43,14 @@ Semantics (update_sina_mf / update_futures family):
 - throttle 2.5s/request; fuse = 5 consecutive fetch failures -> stop,
   checkpoint preserved; conn-level 3 consecutive -> source-block stop;
   symbol failing >= 3 cumulative refreshes quarantined
+- suspended-settle face (r305 law): fetch-SUCCESS-but-no-new-bar symbols
+  (suspended/halted: source returns rows but none at/after the expected
+  cutoff, so append=0 and the tail lags forever) settle after >=3
+  consecutive such cycles at the SAME expected cutoff -> leave continuation
+  todo (disclosed settled_n); attempts.pop on fetch-success means quarantine
+  can never catch them and complete was structurally unreachable; a NEW
+  expected cutoff (next bar day) re-arms every settled symbol -- a resumed
+  stock is fetched again (self-heal law preserved)
 - gate (daily-forward face): panel complete AND cutoff >= expected latest
   complete bar date -> zero-network no-op; incomplete/first-pull -> spawn
   detached full-universe refresh; complete but cutoff lagging > 20td ->
@@ -94,6 +102,7 @@ SLEEP_S = 2.5
 FUSE_LIMIT = 5
 CONN_STOP = 3
 QUARANTINE_AT = 3
+SETTLE_AT = 3                 # suspended-settle cycles at same expected cutoff
 MIN_SPAWN_S = 30 * 60
 STALE_TD = 20                 # structural-repull trigger (collector down long)
 MIN_UNIVERSE = 100
@@ -365,7 +374,14 @@ def load_progress():
         try:
             with io.open(PROGRESS, "r", encoding="utf-8") as f:
                 p = json.load(f)
-            return {"attempts": {k: int(v) for k, v in p.get("attempts", {}).items()}}
+            out = {"attempts": {k: int(v)
+                                for k, v in p.get("attempts", {}).items()}}
+            # settled_no_new is carried, not normalized: the settle counter
+            # must survive cycles (r305 bug: whitelist load reset n to 1
+            # every cycle, settle never reached SETTLE_AT)
+            if isinstance(p.get("settled_no_new"), dict):
+                out["settled_no_new"] = p["settled_no_new"]
+            return out
         except Exception:
             pass
     return {"attempts": {}}
@@ -442,17 +458,50 @@ def _is_conn_error(ename, emsg=""):
     return any(m in ename or m in str(emsg)[:200] for m in CONN_MARKERS)
 
 
-def _todo_for(codes, expected_cutoff, repull=False, quarantine=None):
+def _todo_for(codes, expected_cutoff, repull=False, quarantine=None,
+              settled=None):
     """File-derived todo (design note in header): repull -> all
     non-quarantined; continuation -> symbols whose tail date lags the
-    expected complete bar date (missing file counts as lagging)."""
+    expected complete bar date (missing file counts as lagging), minus
+    quarantined and settled faces."""
     quarantine = quarantine or set()
+    settled = settled or set()
     if repull:
         return [c for c in codes if c not in quarantine]
     if expected_cutoff is None:
         return [c for c in codes if c not in quarantine]
     return [c for c in codes
-            if c not in quarantine and (_local_last_date(c) or "") < expected_cutoff]
+            if c not in quarantine and c not in settled
+            and (_local_last_date(c) or "") < expected_cutoff]
+
+
+def _settled_valid(settled_no_new, expected_cutoff):
+    """Symbols settled at THIS expected cutoff (>=SETTLE_AT consecutive
+    fetch-success-but-no-new-bar cycles, header law). A different/newer
+    expected cutoff invalidates the settle: resumed stocks re-enter todo."""
+    out = set()
+    for c, rec in (settled_no_new or {}).items():
+        if (isinstance(rec, dict) and rec.get("exp") == expected_cutoff
+                and int(rec.get("n", 0)) >= SETTLE_AT):
+            out.add(c)
+    return out
+
+
+def _settle_bookkeep(prog, code, expected, progressed, last):
+    """In-place settle counter for one fetch-success (header law).
+
+    progressed = corporate-action readjust or appended>0 (data moved);
+    no-progress + tail still lagging = suspension face -> count; anything
+    else (progress, or tail reached the expected cutoff) -> pop."""
+    s = prog.setdefault("settled_no_new", {})
+    if not progressed and (last or "") < expected:
+        rec = s.get(code)
+        if not isinstance(rec, dict) or rec.get("exp") != expected:
+            rec = {"exp": expected, "n": 0}
+        rec["n"] = int(rec.get("n", 0)) + 1
+        s[code] = rec
+    else:
+        s.pop(code, None)
 
 
 # ------------------------------------------------------------------ refresh
@@ -467,9 +516,12 @@ def refresh(limit=None, repull=False):
     _write_lock()
     try:
         prog = load_progress()
+        prog.setdefault("settled_no_new", {})
         quarantine = {c for c, n in prog["attempts"].items() if n >= QUARANTINE_AT}
         expected = expected_latest_bar_date(dt.datetime.now())
-        todo = _todo_for(codes, expected, repull=repull, quarantine=quarantine)
+        settled_valid = _settled_valid(prog.get("settled_no_new"), expected)
+        todo = _todo_for(codes, expected, repull=repull, quarantine=quarantine,
+                         settled=settled_valid)
         if limit is not None:
             todo = todo[:int(limit)]
         now0 = dt.datetime.now()
@@ -477,7 +529,7 @@ def refresh(limit=None, repull=False):
         st.update({
             "ts": now0.isoformat(timespec="seconds"),
             "mode": (f"refresh in progress (todo={len(todo)}/{len(codes)}, "
-                     f"quarantined={len(quarantine)}"
+                     f"quarantined={len(quarantine)}, settled={len(settled_valid)}"
                      + (", repull=all-symbols" if repull else "") + ")"),
             "panel": dict(st.get("panel") or {}, complete=False,
                           universe_n=len(codes)),
@@ -526,6 +578,8 @@ def refresh(limit=None, repull=False):
                             if res["merged_rows"] else None)
                 if last and (panel_cutoff is None or last > panel_cutoff):
                     panel_cutoff = last
+                progressed = (not res["merged"]) or res["appended"] > 0
+                _settle_bookkeep(prog, code, expected, progressed, last)
                 prog["attempts"].pop(code, None)
                 consec_fail = 0
                 consec_conn = 0
@@ -558,12 +612,17 @@ def refresh(limit=None, repull=False):
 
         save_progress(prog)
         quarantine = {c for c, n in prog["attempts"].items() if n >= QUARANTINE_AT}
+        settled_valid = _settled_valid(prog.get("settled_no_new"), expected)
         remaining = _todo_for(codes, expected, repull=False,
-                              quarantine=quarantine)
+                              quarantine=quarantine, settled=settled_valid)
         complete = (not conn_stopped and not remaining
                     and not [f for f in failures if ":conn:" not in f]) \
             if not repull else (not conn_stopped and not remaining)
-        cutoff = panel_cutoff or _panel_cutoff_from_bytes()
+        # bytes derive is the authoritative panel cutoff (max tail across
+        # ALL files); the cycle-scope fetch max is only a fallback -- a
+        # settle-cycle that fetched only suspended short-tails would else
+        # stamp a lagging cutoff and keep the gate spawning forever (r305)
+        cutoff = _panel_cutoff_from_bytes() or panel_cutoff
         st.update({
             "ts": dt.datetime.now().isoformat(timespec="seconds"),
             "mode": ("refresh complete" if complete
@@ -583,11 +642,14 @@ def refresh(limit=None, repull=False):
                                                  else None),
                              "repull": bool(repull)},
             "quarantined_n": len(quarantine),
+            "settled_n": len(settled_valid),
+            "settled": sorted(settled_valid),
         })
         write_status(st)
         print(f"refresh done: todo={len(todo)} fetched={fetched_n} "
               f"appended={appended_total} readjusted={readjusted_n} "
               f"failures={len(failures)} complete={complete} "
+              f"quarantined={len(quarantine)} settled={len(settled_valid)} "
               f"cutoff={cutoff}")
         return 0 if complete else 2
     finally:
@@ -781,6 +843,34 @@ def _selftest():
             assert todo == ["600519", "000001"]
             todo = _todo_for(["600519"], None)
             assert todo == ["600519"]
+            # settled face (r305 law): excluded from continuation, INCLUDED
+            # in repull; settle only valid at the SAME expected cutoff
+            todo = _todo_for(["600519", "000001", "300750"], "2026-09-24",
+                             settled={"000001"})
+            assert todo == ["300750"], todo
+            todo = _todo_for(["600519", "000001"], "2026-09-24", repull=True,
+                             settled={"000001"})
+            assert todo == ["600519", "000001"], todo
+            sv = _settled_valid({"000001": {"exp": "2026-09-24", "n": 3},
+                                 "000002": {"exp": "2026-09-24", "n": 2},
+                                 "600519": {"exp": "2026-09-23", "n": 9}},
+                                "2026-09-24")
+            assert sv == {"000001"}, sv
+            # settle bookkeeping: no-progress lags count; progress/caught-up
+            # pops; new expected cutoff restarts the count (resume re-arms)
+            prog = {"attempts": {}}
+            _settle_bookkeep(prog, "000019", "2026-09-24", False, "2026-09-03")
+            _settle_bookkeep(prog, "000019", "2026-09-24", False, "2026-09-03")
+            _settle_bookkeep(prog, "000019", "2026-09-24", False, "2026-09-03")
+            assert prog["settled_no_new"]["000019"] == {"exp": "2026-09-24",
+                                                       "n": 3}
+            _settle_bookkeep(prog, "000019", "2026-09-28", False, "2026-09-03")
+            assert prog["settled_no_new"]["000019"] == {"exp": "2026-09-28",
+                                                       "n": 1}
+            _settle_bookkeep(prog, "000019", "2026-09-28", True, "2026-09-28")
+            assert "000019" not in prog["settled_no_new"]
+            _settle_bookkeep(prog, "300750", "2026-09-28", False, "2026-09-27")
+            assert prog["settled_no_new"]["300750"]["n"] == 1
         finally:
             PER_DIR = orig
     # progress roundtrip
@@ -791,6 +881,12 @@ def _selftest():
         try:
             save_progress({"attempts": {"300750": 2}})
             assert load_progress() == {"attempts": {"300750": 2}}
+            # settled_no_new survives the load whitelist (r305 settle law)
+            save_progress({"attempts": {"300750": 2},
+                           "settled_no_new": {"000019": {"exp": "2026-09-24",
+                                                         "n": 3}}})
+            assert load_progress()["settled_no_new"] == {
+                "000019": {"exp": "2026-09-24", "n": 3}}
         finally:
             PROGRESS = orig
     print("selftest: all guard cases PASS")

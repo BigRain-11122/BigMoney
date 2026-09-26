@@ -1,0 +1,45 @@
+{
+ "ts": "2026-09-27T06:52:38",
+ "round": "r305",
+ "machine": "bm-b",
+ "lane": "T-87 astock_daily supply (bm-b)",
+ "verdict": "pass_complete",
+ "pass_state": {
+  "universe_n": 5228,
+  "per_files": 5217,
+  "done_pct": 99.8,
+  "lock": null,
+  "lock_alive": false,
+  "todo_n": null,
+  "attempts_n": 11,
+  "quarantined": [
+   "000019",
+   "001235",
+   "001246",
+   "301569",
+   "301660",
+   "301716",
+   "301718",
+   "688089",
+   "688143",
+   "688173",
+   "689009"
+  ],
+  "quarantined_n": 11
+ },
+ "panel_face": {
+  "status_panel_complete": true,
+  "status_panel_cutoff": "2026-09-24",
+  "status_panel_per_files": 5217
+ },
+ "shape_face": {
+  "header_bad": [],
+  "header_bad_n_total_capped": 0,
+  "files_at_expected_cutoff": 5205,
+  "spot_tail_dates": {
+   "2026-09-24": 3
+  }
+ },
+ "monday_deadline": "2026-09-28T09:15:00",
+ "note": "completion re-probe face (new, queued r301/r304 next-pointers); mid-flight face stays with frozen probe lineage #18 (_r305bmb_astock_pass_probe.py); self-heal law: todo remnants re-fetch via file-derived todo on next gate spawn"
+}
