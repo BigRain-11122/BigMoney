@@ -42,7 +42,7 @@
     "u": {
       "readability": [6, "无 docstring；分段注释稀；main 巨块内嵌 selftest；complete/mode 双死变量在眼皮下降可读性"],
       "idiomatic": [6, "get_or_default 包装层浅；digest_status 库函数内 sys.exit（selftest 被迫捕 SystemExit）"],
-      "boundaries": [5, "complete 非法型静默强转 False 后永不使用=契约面死码；enum_fails=None 时 main len(None) 崩；未测 complete=False 路径"],
+      "boundaries": [5, "契约缺口：冻结判定序 INCOMPLETE=complete 非 true 或 universe≠attempted，本实现 complete 提取+强转后成死变量、只走 universe≠attempted 一臂（complete=False+计数相等→误 OK）；selftest 无 complete=False 例=门内不可见；enum_fails 显式 null 时 main len(None) 崩"],
       "structure": [5, "selftest 嵌在 main 150 行块内；main 重复提取 digest_status 已提取的字段=双解析 DRY 违例"]
     },
     "v": {
