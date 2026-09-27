@@ -747,6 +747,11 @@ SEED_REGISTRY = {
     # 09:1x before CNY_WINDOW_P1 prereg freeze -- zero full-repo hits
     # (t34/wild_route precedent); registered bm-b r235; lane = zoo sec.8
     # #38 evidence-upgrade, spring-festival concrete-window batch)
+    "t19_phantom_p1": 68_500,                # T19-PHANTOM-P1 stage-2c K=50
+    # placebo tranche-family nulls (draw k: seed 68500+k, k<50, band
+    # 68500..68549; rg full-repo scan zero operational hits 2026-09-27
+    # 10:2x bm-c r74 prereg research/T19_PHANTOM_P1.md sec.3 -- Money02
+    # legacy numeric coincidences excluded; lane = T-19 GM decision pack)
     "grid_sleeve_p1": 62_500,                # GRID-SLEEVE-P1 K=50 layout-
     # sensitivity nulls (null i: seed 62500+i, i<50, draw = band-phase
     # offset uniform(-1,+1) grids on the 5 live instruments, 10 each;
