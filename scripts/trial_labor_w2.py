@@ -20,8 +20,10 @@ Engineering mapping disclosure (pre-run, zero cells burned, MSG-20260928-0440):
   overnight gap borne); the open-vs-close intraday price of D+1 is the single
   disclosed deviation, carried in every stop cell's audit record.
 
-Slice plan (this file lands slice-1: grammar + overlay + selftest + grammar
-serialization; generate/screen/judge/intake land next slices per prereg sec.6):
+Slice plan (slice-1 landed r358: grammar + overlay + selftest + grammar
+serialization; slice-2 landed r359: generate (Sobol draws + four-source
+exclusion + effective-face dedup + ledger row + D6 disclosure column);
+screen/judge/intake land next slices per prereg sec.6):
   - build_grammar_w2(): tl1.build_grammar() extended with the initial-stop
     axis (8 faces -> 3584 axis combos), W2 seed block, W2 per-family counts,
     stop-level formula table; new grammar sha16 (new-syntax face, prereg
@@ -39,6 +41,7 @@ import hashlib
 import json
 import os
 import sys
+import time
 
 import numpy as np
 import pandas as pd
@@ -59,7 +62,9 @@ N_B = 4500         # family B raw draws (76 fns round-robin)
 K_NULLS = 200      # screen null family size (sec.3)
 RES_DIR = os.path.join(tl1.PATHS.results_dir, "trial_labor_w2")
 GRAMMAR_FILE = os.path.join(RES_DIR, "w2_grammar.json")
+CANDIDATES_FILE = os.path.join(RES_DIR, "w2_candidates.json")
 GRAMMAR_LEDGER = tl1.GRAMMAR_LEDGER
+FROZEN_SHA16 = "1dd3d95792395cec"   # r358 serialized face (MSG-0440 disclosed)
 
 # initial-stop axis (prereg sec.3 expansion face a; frozen levels)
 AXIS_STOP = ["none", "p3", "p5", "p8", "p12", "a15", "a20", "a25"]
@@ -292,6 +297,365 @@ def draw_candidate_sobol(grammar, family, slot, n_draws):
                            AXIS_STOP[st_]], "family": family}
 
 
+# ------------------------------------------------------- generate slice (s2)
+def _ram_gate_gb(threshold=4.0):
+    """Three-sample free-RAM gate (r354 law; dual-company shared-machine
+    discipline). Returns (min_gb, ok); missing psutil -> gate skipped with
+    disclosure value None (fleet machines all carry psutil)."""
+    try:
+        import psutil
+    except ImportError:
+        return None, True
+    vals = []
+    for _ in range(3):
+        vals.append(psutil.virtual_memory().available / (1 << 30))
+        time.sleep(1.0)
+    return round(min(vals), 2), min(vals) >= threshold
+
+
+def _load_exclusion_rows(grammar):
+    """Four-source exclusion (prereg sec.1). Sources 1-2 = frozen serialized
+    grammar stop-none face; source 3 = W1 screen survivors consumed at
+    generate time; source 4 (W1/MASS judged products) declared-unavailable
+    at generate time (both judge batches pool-waiting) -> zero rows, honest
+    disclosure, no fabrication."""
+    rows = list(grammar["exclusion"]["stop_none_face"])
+    disc = {"grammar_stop_none_rows": len(rows)}
+    sp = os.path.join(tl1.RES_DIR, "w1_screen.json")
+    cp = os.path.join(tl1.RES_DIR, "w1_candidates.json")
+    if os.path.exists(sp) and os.path.exists(cp):
+        scr = json.load(open(sp, encoding="utf-8"))
+        cands = {c["candidate_id"]: c for c in
+                 json.load(open(cp, encoding="utf-8"))["candidates"]}
+        n = 0
+        for cid in sorted(scr.get("survivors", [])):
+            c = cands[cid]
+            rows.append({"module": c["module"], "fn": c["fn"],
+                         "sig_params": c["sig_params"],
+                         "axis": list(c["axis"]) + ["none"],
+                         "face": "w1_screen_survivor:stop-none",
+                         "candidate_id": cid})
+            n += 1
+        disc["w1_screen_survivors"] = n
+    else:
+        disc["w1_screen_survivors"] = "declared-unavailable (w1_screen.json " \
+                                      "absent)"
+    disc["w1_judge_products"] = ("declared-unavailable at generate time: "
+                                 "results/trial_labor_w1/w1_judge.json absent "
+                                 "(TRIAL_LAB_W1_JUDGE pool-waiting); zero rows")
+    disc["mass_judge_products"] = ("declared-unavailable at generate time: "
+                                   "MASS_TRIAL_W1_JUDGE shards 0-3 "
+                                   "pool-waiting; zero rows")
+    return rows, disc
+
+
+def _excluded_w2(cand, rows):
+    """Exact already-judged cell test, stop=none face only (prereg sec.1:
+    all W1-lineage judged cells implicitly initial_stop=none; stop!=none
+    face = new-syntax legal cells). Returns the exclusion face or None."""
+    if cand["axis"][4] != "none":
+        return None
+    for e in rows:
+        if (cand["module"], cand["fn"]) == (e["module"], e["fn"]) \
+                and cand["sig_params"] == e["sig_params"] \
+                and cand["axis"] == e["axis"]:
+            return e.get("face", "excluded")
+    return None
+
+
+def _effective_signal_mask(mask, prices, stop_key, atr20):
+    """Dedup-face holdings proxy with the initial-stop overlay applied at
+    the signal-face caliber (prereg sec.3 dedup legs; zero engine burn).
+
+    Mirrors stop_exit_overlay (slice-1, MSG-0440 E1 mapping): arm on 0->1
+    at day a -> entry a+1 open; first holding-day low<=level triggers ->
+    exit fill at T+1 close -> flat until the NEXT fresh 0->1 episode (no
+    re-entry inside the same signal run); stop=none = W1 identity."""
+    if stop_key == "none":
+        return mask
+    f = STOP_FORMULA[stop_key]
+    n = len(mask.index)
+    arr = np.array(mask)          # writable copy (to_numpy may be read-only)
+    atr = (atr20.reindex(columns=mask.columns).to_numpy()
+           if f["kind"] == "atr" else None)
+    for col, sym in enumerate(mask.columns):
+        sig = mask[sym].values
+        if not sig.any():
+            continue
+        on = (sig > 0).astype(int)
+        d = np.diff(on)
+        starts = ([0] if on[0] else []) + list(np.nonzero(d == 1)[0] + 1)
+        ends = list(np.nonzero(d == -1)[0] + 1)
+        if on[-1]:
+            ends.append(n)
+        op = prices[sym]["open"].values
+        lo = prices[sym]["low"].values
+        for a, o in zip(starts, ends):
+            e = a + 1
+            if e >= o:
+                continue       # one-day signal: stop cannot precede the exit
+            eo = op[e]
+            if not np.isfinite(eo):
+                continue
+            if f["kind"] == "pct":
+                level = eo * (1.0 - f["stop"])
+            else:
+                av = atr[a, col]
+                if not np.isfinite(av):
+                    continue   # ATR warmup: degenerate arm, no protection
+                level = eo - f["mult"] * av
+                if not (np.isfinite(level) and level < eo):
+                    continue
+            hits = np.nonzero(lo[e:o] <= level)[0]
+            if len(hits) == 0:
+                continue
+            t = e + int(hits[0])
+            if t + 1 >= o:
+                continue       # exit-fill at/after signal-off day: no-op
+            arr[t + 1:o, col] = 0   # flat until the next fresh 0->1 episode
+    return pd.DataFrame(arr, index=mask.index, columns=mask.columns)
+
+
+def _registered_naive_series(P, grammar):
+    """Registered six members' naive-face daily return series (default
+    axis, stop=none) for the per-candidate max|corr| disclosure column
+    (prereg sec.1 dedup-byproduct caliber; the D6 BINDING gate at s4 intake
+    recomputes at the engine-face caliber per W1 intake precedent)."""
+    out = {}
+    close = P["close"]
+    for t in tl1.A_TEMPLATES:
+        mk = f"{t['module']}.{t['fn']}"
+        mask = tl1._signal_frame({"module": t["module"], "fn": t["fn"],
+                                  "sig_params": t["sig_params"]}, P,
+                                 grammar["faces"][mk])
+        mask = mask.reindex(index=close.index,
+                            columns=close.columns).fillna(0)
+        out[t["trader_id"]] = tl1._naive_returns(mask, close).values
+    return out
+
+
+def cmd_generate() -> int:
+    t0 = time.time()
+    print(f"=== {WAVE} generate (prereg FROZEN {PREREG}) ===")
+    if os.path.exists(CANDIDATES_FILE):
+        print("GENERATE-GATE: w2_candidates.json exists -- same-grammar "
+              "rerun FORBIDDEN (TRIAL_LABOR_LAW sec.4); refusing")
+        return 2
+    if not os.path.exists(GRAMMAR_FILE):
+        print("GENERATE-GATE: w2_grammar.json absent -- run `grammar` first")
+        return 2
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    if _grammar_sha16(grammar) != grammar["grammar_sha256"] \
+            or grammar["grammar_sha256"] != FROZEN_SHA16:
+        print(f"GENERATE-GATE: grammar sha drift -- frozen anchor "
+              f"{FROZEN_SHA16} != file {grammar['grammar_sha256']}; refusing")
+        return 2
+    ram_min, ram_ok = _ram_gate_gb()
+    if not ram_ok:
+        print(f"GENERATE-GATE: free RAM {ram_min}GB < 4GB (three-sample "
+              f"r354 law, dual-company discipline) -- honest refuse, pool "
+              f"retries when RAM frees")
+        return 2
+    tl1.GRAMMAR = grammar           # tl1._signal_face reads tl1's global
+    prices = tl1.load_core()
+    cut = pd.Timestamp(CUTOFF)
+    prices = {s: df[df.index <= cut] for s, df in prices.items()}
+    P = tl1.build_panels(prices)
+    close = P["close"]
+    try:
+        bl = pd.read_csv(tl1.B_LAYER_MASK)
+        ok_codes = set(bl.loc[bl["ok_static"] == True, "code"].astype(str))
+        overlap = sorted(s for s in close.columns if s in ok_codes)
+    except Exception as e:
+        overlap = []
+        print(f"  [warn] b_layer_mask load error: {str(e)[:120]}")
+    if overlap:
+        fundamental_ok = pd.DataFrame(False, index=close.index,
+                                      columns=close.columns)
+        for s in overlap:
+            fundamental_ok[s] = True
+    else:
+        fundamental_ok = None
+    atr20 = atr20_series(prices)
+    excl_rows, excl_disc = _load_exclusion_rows(grammar)
+    neg_fns = {(e["module"], e["fn"])
+               for e in grammar["exclusion"]["stop_none_face"]
+               if str(e.get("face", "")).startswith("negative")}
+
+    # ---- draws: per-slot Sobol streams consumed in global round-robin
+    candidates, excluded_log = [], []
+    excl_hits = {"A": 0, "B": 0}
+    for family, n_draws in (("A", N_A), ("B", N_B)):
+        slots = grammar["families"][family]
+        n_slots = len(slots)
+        streams = {s: draw_candidate_sobol(
+                       grammar, family, s,
+                       (n_draws - s + n_slots - 1) // n_slots)
+                   for s in range(n_slots)}
+        for i in range(n_draws):
+            slot = i % n_slots
+            _, cand = next(streams[slot])
+            cand["candidate_id"] = f"W2-{family}-{i:04d}"
+            cand["provenance"] = {"seed": SEED_GEN,
+                                  "family_idx": (slot if family == "A"
+                                                 else 6 + slot),
+                                  "stream_draw_idx": i // n_slots,
+                                  "global_draw_idx": i}
+            if family == "A":
+                cand["template_trader"] = slots[slot]["trader_id"]
+                cand["negative_prior"] = False
+            else:
+                cand["negative_prior"] = \
+                    (cand["module"], cand["fn"]) in neg_fns
+            hit = _excluded_w2(cand, excl_rows)
+            if hit:
+                excl_hits[family] += 1
+                excluded_log.append({"candidate_id": cand["candidate_id"],
+                                     "module": cand["module"],
+                                     "fn": cand["fn"],
+                                     "axis": cand["axis"], "face": hit})
+                continue
+            candidates.append(cand)
+        print(f"  raw draws {family}={n_draws}, exclusion hits "
+              f"{excl_hits[family]}")
+
+    # ---- dedup gate (T-84 s3) on the effective signal face (streaming)
+    fps, series = [], []
+    for j, cand in enumerate(candidates):
+        mk = f"{cand['module']}.{cand['fn']}"
+        mask = tl1._signal_frame(cand, P, grammar["faces"][mk])
+        mask = mask.reindex(index=close.index,
+                            columns=close.columns).fillna(0)
+        mask = tl1.apply_filter(mask, cand["axis"][0], P, fundamental_ok)
+        mask = tl1.apply_timing(mask, cand["axis"][3])
+        S = _effective_signal_mask(mask, prices, cand["axis"][4], atr20)
+        fps.append(tl1._fingerprint(S))
+        series.append(tl1._naive_returns(S, close).values)
+        del mask, S
+        if (j + 1) % 250 == 0:
+            print(f"  [dedup face] {j + 1}/{len(candidates)}", flush=True)
+
+    fp_groups = {}
+    for i, fp in enumerate(fps):
+        fp_groups.setdefault(fp, []).append(i)
+    keep, fp_collapsed = set(), []
+    for fp, members in fp_groups.items():
+        members.sort(key=lambda k: candidates[k]["candidate_id"])
+        keep.add(members[0])
+        fp_collapsed.append({"kept": candidates[members[0]]["candidate_id"],
+                             "eliminated": [candidates[m]["candidate_id"]
+                                            for m in members[1:]]})
+    idx_keep = sorted(keep)
+    mat = np.vstack([series[i] for i in idx_keep])
+    sd = mat.std(axis=1)
+    live_rows = [j for j in range(len(idx_keep)) if sd[j] > 1e-12]
+    corr_elim, dead = [], set()
+    if len(live_rows) >= 2:
+        sub = mat[live_rows]
+        corr = np.corrcoef(sub)
+        for a_ in range(len(live_rows)):
+            for b_ in range(a_ + 1, len(live_rows)):
+                if abs(corr[a_, b_]) >= 0.999:
+                    ia, ib = idx_keep[live_rows[a_]], idx_keep[live_rows[b_]]
+                    ka = candidates[ia]["candidate_id"]
+                    kb = candidates[ib]["candidate_id"]
+                    dead.add(ib if ka < kb else ia)
+                    corr_elim.append({"pair": sorted([ka, kb]),
+                                     "corr": round(float(corr[a_, b_]), 6),
+                                     "eliminated": candidates[
+                                         ib if ka < kb else ia]
+                                     ["candidate_id"]})
+    final_keep = [i for i in idx_keep if i not in dead]
+    distinct = [candidates[i] for i in final_keep]
+
+    # D6 disclosure column (naive face; prereg sec.1 逐格 max|corr|)
+    reg_series = _registered_naive_series(P, grammar)
+    reg_names = sorted(reg_series)
+    R = np.vstack([reg_series[nm] for nm in reg_names]) \
+        if reg_names else np.zeros((0, len(close.index)))
+    Rc = R - R.mean(axis=1, keepdims=True)
+    rn = np.linalg.norm(Rc, axis=1)
+    if final_keep:
+        F = np.vstack([series[i] for i in final_keep])
+        Fc = F - F.mean(axis=1, keepdims=True)
+        fn = np.linalg.norm(Fc, axis=1)
+        cm = (Fc @ Rc.T) / np.outer(np.where(fn > 1e-12, fn, 1.0),
+                                    np.where(rn > 1e-12, rn, 1.0))
+    else:
+        cm = np.zeros((0, len(reg_names)))
+    for row, i in enumerate(final_keep):
+        v = cm[row]
+        finite = v[np.isfinite(v)]
+        candidates[i]["max_corr_vs_registered_naive"] = (
+            round(float(np.max(np.abs(finite))), 4)
+            if len(finite) else None)
+
+    payload = {"wave": WAVE, "stage": "generate", "prereg": PREREG,
+               "evidence_cutoff": CUTOFF, **tl1.cutoff_meta(CUTOFF),
+               "grammar_sha256": grammar["grammar_sha256"],
+               "n": len(distinct), "candidates": distinct,
+               "exclusion": {"hits": excl_hits,
+                             "excluded_log": excluded_log,
+                             "sources": excl_disc,
+                             "note": "cell key=(template, params, "
+                                     "axis_config, initial_stop); "
+                                     "stop=none face only (sec.1); "
+                                     "stop!=none = new-syntax legal cells"},
+               "dedup": {"raw": len(candidates), "distinct": len(distinct),
+                         "fingerprint_collapse_groups": fp_collapsed,
+                         "corr_collapses": corr_elim,
+                         "note": "dedup legs on the generate-stage "
+                                 "effective signal face (stop overlay "
+                                 "applied, E1 mapping mirrored; naive-hold "
+                                 "returns, zero engine burn); engine faces "
+                                 "run at screen (W1 precedent)"},
+               "d6_disclosure": {
+                   "max_corr_vs_registered_naive": "per-cell column; "
+                   "naive-face caliber (dedup byproduct); D6 binding gate "
+                   "at s4 intake recomputes at the engine face"},
+               "audit": {"ram_gate_gb": ram_min,
+                         "negative_prior_derivation": "derived from the "
+                         "frozen grammar's negative_default_axis:stop-none "
+                         "exclusion faces (the serialized negative_priors "
+                         "field is None -- face derivation is mechanical)",
+                         "note": "Sobol per-slot streams in global "
+                                 "round-robin; deterministic pre-burn "
+                                 "stage; same-grammar rerun still FORBIDDEN "
+                                 "post-consume"},
+               "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(CANDIDATES_FILE, payload)
+
+    # grammar consumption ledger row (append-only; prereg sec.4/sec.6)
+    ser_ts = time.strftime("%Y-%m-%d %H:%M",
+                           time.localtime(os.path.getmtime(GRAMMAR_FILE)))
+    raw_total = len(candidates) + sum(excl_hits.values())
+    row = (f"| {WAVE} | {grammar['grammar_sha256'][:16]} | "
+           f"raw {raw_total} (A{N_A}/B{N_B}, excl hits "
+           f"{sum(excl_hits.values())}) | dedup -> {len(distinct)} | "
+           f"seeds gen={SEED_GEN} null={SEED_NULL} unc={SEED_UNC} | "
+           f"serialized {ser_ts} (r358) + consumed "
+           f"{time.strftime('%Y-%m-%d %H:%M:%S')} (pool "
+           f"TRIAL-LABOR-W2-GENERATE, T-96 owner bm-b) | same-grammar "
+           f"rerun FORBIDDEN (TRIAL_LABOR_LAW sec.4) |\n")
+    os.makedirs(os.path.dirname(GRAMMAR_LEDGER), exist_ok=True)
+    if not os.path.exists(GRAMMAR_LEDGER):
+        with open(GRAMMAR_LEDGER, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("# TRIAL_GRAMMAR_LEDGER (append-only; TRIAL_LABOR_LAW "
+                     "sec.4 same-grammar-rerun ban)\n\n"
+                     "| wave | grammar_sha16 | raw | dedup | seeds | "
+                     "consumed | law |\n|---|---|---|---|---|---|---|\n")
+    with open(GRAMMAR_LEDGER, "a", encoding="utf-8", newline="\n") as fh:
+        fh.write(row)
+    print(f"generate done: raw {raw_total} -> exclusion hits "
+          f"{sum(excl_hits.values())} -> dedup distinct {len(distinct)} "
+          f"(fp-collapses {len(fp_collapsed)}, corr-collapses "
+          f"{len(corr_elim)})")
+    print(f"products: w2_candidates.json + ledger row "
+          f"(sha16 {grammar['grammar_sha256'][:16]})")
+    print(f"elapsed {time.time() - t0:.1f}s (zero engine cells burned)")
+    return 0
+
+
 # ------------------------------------------------------------------ selftest
 def cmd_selftest() -> int:
     print(f"=== {WAVE} selftest (hermetic, slice-1) ===")
@@ -378,6 +742,96 @@ def cmd_selftest() -> int:
     tot = sum(1 for _ in draw_candidate_sobol(g, "B", 0, 64))
     ok("B-family stream yields declared count", tot == 64)
 
+    # [4] W2 exclusion law (prereg sec.1): stop=none face only
+    excl_rows = [
+        {"module": "ta", "fn": "engulf_reversal",
+         "sig_params": {"drop_th": -0.05},
+         "axis": ["none", "template_default", "equal_weight",
+                   "daily_signal", "none"],
+         "face": "registered_default_axis:stop-none"},
+        {"module": "patterns", "fn": "needle_probe",
+         "sig_params": {"drop_th": -0.025, "shadow_pct": 0.03},
+         "axis": ["liquidity", "profit_ladder", "regime_delever",
+                  "daily_signal", "none"],
+         "face": "w1_screen_survivor:stop-none"}]
+    c_reg = {"module": "ta", "fn": "engulf_reversal",
+             "sig_params": {"drop_th": -0.05},
+             "axis": ["none", "template_default", "equal_weight",
+                      "daily_signal", "none"]}
+    ok("exclusion: registered default stop-none cell rejected",
+       _excluded_w2(c_reg, excl_rows) is not None)
+    ok("exclusion: same cell stop!=none NOT excluded (new-syntax face)",
+       _excluded_w2(dict(c_reg, axis=[*c_reg["axis"][:4], "p3"]),
+                    excl_rows) is None)
+    c_surv = {"module": "patterns", "fn": "needle_probe",
+              "sig_params": {"drop_th": -0.025, "shadow_pct": 0.03},
+              "axis": ["liquidity", "profit_ladder", "regime_delever",
+                       "daily_signal", "none"]}
+    ok("exclusion: W1 screen survivor cell rejected on stop-none face",
+       _excluded_w2(c_surv, excl_rows) is not None)
+    ok("exclusion: survivor cell stop!=none NOT excluded",
+       _excluded_w2(dict(c_surv, axis=[*c_surv["axis"][:4], "a20"]),
+                    excl_rows) is None)
+
+    # [5] effective-face overlay legs (synthetic, hermetic)
+    idx = pd.bdate_range("2024-01-02", periods=40)
+    flat = pd.DataFrame({"open": 100.0, "high": 101.0, "low": 99.0,
+                         "close": 100.0, "volume": 1000.0,
+                         "amount": 1e5}, index=idx)
+    dip = flat.copy()
+    dip.loc[idx[20], "low"] = 90.0        # pierces p3 level 97 on day 20
+    mask = pd.DataFrame(0, index=idx, columns=["A", "B"], dtype=int)
+    mask.iloc[5:35, 0] = 1
+    mask.iloc[5:35, 1] = 1
+    S = _effective_signal_mask(mask, {"A": dip, "B": flat}, "p3", None)
+    ok("effective face: p3 trigger zeroes post-exit signal days (sym A)",
+       int(S["A"].iloc[21:35].sum()) == 0
+       and int(S["A"].iloc[6:21].sum()) == 15)
+    ok("effective face: no-trigger symbol unchanged",
+       (S["B"] == mask["B"]).all())
+    ok("effective face: stop=none is the identity",
+       _effective_signal_mask(mask, {"A": dip}, "none",
+                              None).equals(mask))
+    ok("effective face deterministic (double-run byte-equal)",
+       _effective_signal_mask(mask, {"A": dip, "B": flat}, "p3",
+                              None).equals(S))
+    mask1 = pd.DataFrame(0, index=idx, columns=["A"], dtype=int)
+    mask1.iloc[10, 0] = 1
+    ok("effective face: one-day signal episode unaffected",
+       _effective_signal_mask(mask1, {"A": dip}, "p3", None).equals(mask1))
+    _, ev = stop_exit_overlay(mask, {"A": dip, "B": flat}, "p3")
+    fired = [e for e in ev if "trigger_date" in e and "exit_date" in e]
+    ok("cross-check vs slice-1 overlay: S zeroed exactly from exit_date",
+       bool(fired) and int(S["A"].loc[pd.Timestamp(fired[0]["exit_date"])]) == 0
+       and int(mask["A"].loc[pd.Timestamp(fired[0]["exit_date"])]) == 1
+       and int(S["A"].iloc[6:20].sum()) == 14)
+
+    # [6] round-robin stream consumption == per-slot sequential streams
+    # (axis rng batches interleave by n_draws -- the identity leg must use
+    # the SAME per-slot stream sizes as the round-robin consumption)
+    n_slots_a = len(g["families"]["A"])
+    n_rr = 18
+    streams = {s: draw_candidate_sobol(
+                   g, "A", s, (n_rr - s + n_slots_a - 1) // n_slots_a)
+               for s in range(n_slots_a)}
+    rr = [next(streams[i % n_slots_a]) for i in range(n_rr)]
+    seq = {s: [c for _, c in draw_candidate_sobol(
+                   g, "A", s, (n_rr - s + n_slots_a - 1) // n_slots_a)]
+           for s in range(n_slots_a)}
+    reassembled = [seq[i % n_slots_a][i // n_slots_a] for i in range(n_rr)]
+    ok("round-robin consumption == per-slot sequential (identity)",
+       json.dumps([c for _, c in rr], sort_keys=True, default=str)
+       == json.dumps(reassembled, sort_keys=True, default=str))
+
+    # [7] registered-six naive face builds (zero-variance tolerated)
+    tl1.GRAMMAR = g
+    frames2 = tl1._synth_prices(n_days=120, n_syms=3, seed=17)
+    P2 = tl1.build_panels(frames2)
+    reg = _registered_naive_series(P2, g)
+    ok("registered-six naive series built (6 members, panel-length)",
+       len(reg) == 6 and all(len(v) == len(P2["close"].index)
+                             for v in reg.values()))
+
     print(f"selftest: {ok_n - fails[0]}/{ok_n} PASS, "
           f"{fails[0]} FAIL")
     return 1 if fails[0] else 0
@@ -391,8 +845,9 @@ def cmd_status() -> int:
               "w2_intake.json"):
         p = os.path.join(RES_DIR, f)
         print(f"  {f}: {'EXISTS' if os.path.exists(p) else '-'}")
-    print("pool: TRIAL_LAB_W2_SCREEN / _JUDGE entries: not yet entered "
-          "(generate slice pending; prereg sec.6 pool routing)")
+    print("pool: TRIAL_LAB_W2_GENERATE entered r359 (status=waiting, RAM "
+          "flip gate r354); SCREEN / JUDGE entries not yet entered (screen "
+          "slice pending; prereg sec.6 pool routing)")
     print("W1 judge batches: still pool-waiting (RAM serialize, r357 defer)")
     return 0
 
@@ -419,9 +874,10 @@ def main(argv=None):
     sub.add_parser("selftest")
     sub.add_parser("status")
     sub.add_parser("grammar")
+    sub.add_parser("generate")
     a = ap.parse_args(argv)
     return {"selftest": cmd_selftest, "status": cmd_status,
-            "grammar": cmd_grammar}[a.cmd]()
+            "grammar": cmd_grammar, "generate": cmd_generate}[a.cmd]()
 
 
 if __name__ == "__main__":
