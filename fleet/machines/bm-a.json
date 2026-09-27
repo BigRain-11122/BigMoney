@@ -1,11 +1,11 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T06:49:00+08:00",
- "current_task": "r388 closed: D-03(1) pool shared-write retirement landed (claim/keepalive lane-primary strict + shared->sync_face union writeback + two-sided rollback + degraded fallback; selftest ALL PASS + reconcile 14 zero-drift) + MSG-0715 out; next = W2-SCREEN fuse confirm pending tick (bm-b Bug1 fix unblocks via r357 auto-clear), UU face 26-><=3 replay next normal rounds",
+ "last_seen": "2026-09-28T07:06:25+08:00",
+ "current_task": "r389 closed: W2-SCREEN finalized (survivors 404/2924, null p95 0.5116, bands all PASS) + pool done-flip + judge handoff to bm-b (MSG-0712); next = D-03(2) UU replay + T-91 s3 09:15 watch",
  "cpu_cores": 32,
- "cpu_pct": 2.2,
- "free_ram_gb": 53.1,
- "gpu_free_vram_gb": 5.25,
+ "cpu_pct": 3.3,
+ "free_ram_gb": 52.0,
+ "gpu_free_vram_gb": 5.6,
  "verdict": "CLEAN",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -108,8 +108,8 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790549340,
- "clock_read": "2026-09-28T06:49:00+08:00",
+ "heartbeat_epoch_utc": 1790550385,
+ "clock_read": "2026-09-28T07:06:25+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5379,
  "gpu_idle_vram_gb": 5.53,
@@ -120,12 +120,12 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 388,
+ "round_no": 389,
  "gpu_idle_vram_mb": 5366,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 53.1,
+ "idle_ram_gb": 52.0,
  "gpu0_free_vram_gb": 5.53,
- "cpu_util_pct": 2.2,
+ "cpu_util_pct": 3.3,
  "total_ram_gb": 100.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-27 09:3x, 6631MiB in use)",
  "prod_lanes": [
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 388,
- "loop_round": 384
+ "round": 389,
+ "loop_round": 389
 }
