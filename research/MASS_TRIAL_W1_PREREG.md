@@ -54,13 +54,21 @@
 - `results/mass_trial/w1_roster.json`（75 族冻结 roster·sha 96269ebe766c3fc2）+ `w1_candidates.json`（975 员·sha 907e44d56999b0ab）+ `w1_generate_summary.json`（损耗账）+ `grammar_registry.jsonl`（消耗登记簿首行）。
 - `screen_checkpoint.jsonl`（逐行 checkpoint·跨机跨 kill 续跑=跳已记 id）+ `w1_screen_summary.json`（**顶层 evidence_cutoff+trials_ledger**·§7 回填面）。
 
-## §7 跑后实证（占位纪律：跑前必须为空——写数字即造假）
+## §7 跑后实证（2026-09-27 23:1x bm-a·一次定稿·freeze c638f8cf 后 41s 短批烧毕）
 
-（待 screen run 后回填：存活数、null p50/p95、R 轴效应实测、族谱分布、损耗账全量。）
+- **975 候选全筛 → 166 存活（17.0%）**；2 行 signal_error（DEF-26/27=month 必填位默认对照行，候选面零误差）；账本 286551→287526（+975）。
+- **null 面**：p50=0.45·p95=0.533·max=0.55——全数 < 0.60 初筛线 ✓，但**裕量薄（线-null max=0.05）**如实披露：随机入场在熊窗占比高的样本上靠现金态可刷近线 beat-rate——初筛线只做漏斗非判决，s3 全量判决才是真门。
+- **R 轴效应实测（预测#2 ✓）**：bear 门行存活 119/324=36.7% vs none 29/322=9.0% vs bull 18/329=5.5%——熊市闸=第一杠杆（REFINE-BENCH 首炉定谳千人面复现）；S=delever（22% vs 12%）与 T=weekly（21.6% vs 12.4%）同为正轴。
+- **存活族谱**：seasonal 28% / patterns 21% / ta 20% / folk 18% / event 18% / mean_reversion 15% / volatility 13% / sentiment 11% / macro 10% / trend 8% / momentum 8%——反转/形态/日历类族支配（bear 门 × 低频现金友好面），趋势/动量族弱。
+- **对照面**：75 默认行 8 过线=low_vol_long/engulf_reversal/hammer/duck_head/vol_drought_reversal/ants_climb/island/needle_probe——**注册员四底座（VOLATILITY/ENGULF/NEEDLE/DROUGHT）默认参数全过初筛**（筛面健康证：不杀已证族）；composite 双员不在 wave-1 语法（预注册口径）。
+- **诚实注记**：beat-rate 面对高现金占用候选有系统性友好（熊窗被动为负、空仓≈0 即胜）——166 存活者中相当部分是「低频+熊门」面而非真α主张；这正是 stage-1 只当漏斗、s3 逐虚拟起点+Sharpe/DSR 全量判决必须跟上的原因。
+- top 读数仅披露不采信：最高 beat 0.6667（ta.bb_squeeze_breakout·bear·t10·weekly·Sharpe 0.69/dd −3.4%）。
 
-## §8 批后复盘（s7-T·跑后必填）
+## §8 批后复盘（s7-T）
 
-（预测对账 + gate_attrition 追加 + 判线当批读数 + 回执入轮报告。）
+- **预测对账**：①存活率 5-15% 预测→实测 17.0% **部分错**（上限低估 1.2 个点，系熊门轴效应强于预估）；②R 轴最强 **对**；③null p50 0.3-0.5/p95<0.60 **对**（0.45/0.533）；④垃圾参数大量死 **对**（探针行 dd−74% 同型）；⑤默认对照复现 P1 族谱 **对**。
+- 损耗账：gate_attrition.json 追加行（delta 975·eliminated 809）；判线当批读数=screen 线三条款（0.60/30/−0.35）全批恒定未调。
+- 复跑纪律：checkpoint 逐行留存（screen_checkpoint.jsonl 1070 行）；重跑=跳已记 id 幂等空转；§9 s3 段冻结前禁烧存活者。
 
 ## §9 s3 全量判决面段冻结位（跑前追加 commit 后才许烧）
 
