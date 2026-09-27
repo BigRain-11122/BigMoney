@@ -195,6 +195,22 @@ C_SINGLE_WRITER_HOSTS = {
     "results/daily_scorecard.html": "bm-a",
     "results/strategy_scorecard.json": "bm-a",
     "results/scorecard_v1.json": "bm-a",
+    # --- D-20260928-03(1) batch-3 slice-2: paper family (LANE_MIGRATION_S1
+    # sec.7 census C-family -- deterministic idempotent re-derives, byte-
+    # identical add/add, bar-gated low-frequency writers). Family tokens
+    # (trailing /*) gate the whole writer run (multi-file faces: PROS-*,
+    # export-<D>.json, marks jsonl); exact paths gate single files. Host
+    # =bm-a: IntradayMarks schtask armed on bm-a (T-91 s3), t35_paper_export
+    # R94 bm-a wiring, slice-1 precedent. t24_prospect_paper cells jsonl
+    # (results/t24_prospect_paper_cells.jsonl) rides the same writer-run
+    # gate. market_clock_call l3_activation_table only -- call_latest/
+    # CALL-*.md stay B-family per-machine lanes (r375 batch-2).
+    "results/paper/*": "bm-a",
+    "results/prospect_paper/*": "bm-a",
+    "results/prospect_promotion/*": "bm-a",
+    "results/paper_export/*": "bm-a",
+    "results/t35_open_fill_verify.json": "bm-a",
+    "results/market_clock/l3_activation_table.json": "bm-a",
 }
 C_HOST_STALE_MIN = 20.0   # O-2100 s2.4 / autofill STALE_MIN precedent
 
@@ -309,6 +325,22 @@ def _selftest():
         legs.append(("boundary-equal-takeover",
                      li.shared_derive_write_allowed(face,
                                                     verbose=False) is True))
+        # L8 slice-2 structure: paper-family faces registered host=bm-a
+        # (family tokens + exact paths; guards against accidental map
+        # regression -- D-20260928-03(1) batch-3 slice-2)
+        slice2 = ("results/paper/*", "results/prospect_paper/*",
+                  "results/prospect_promotion/*", "results/paper_export/*",
+                  "results/t35_open_fill_verify.json",
+                  "results/market_clock/l3_activation_table.json")
+        legs.append(("slice2-map-registered",
+                     all(faces.get(f) == "bm-a" for f in slice2)))
+        # L9 family token behavior: trailing-/* key gates identically
+        li.C_SINGLE_WRITER_HOSTS = {"results/__fam/*": "bm-z"}
+        state["age"] = 3.0
+        legs.append(("family-token-nonhost-skip",
+                     li.shared_derive_write_allowed(
+                         "results/__fam/*", verbose=False) is False))
+        li.C_SINGLE_WRITER_HOSTS = {face: "bm-z"}
         ok = sum(1 for _, r in legs if r)
         for name, r in legs:
             print(f"  [{'PASS' if r else 'FAIL'}] {name}")

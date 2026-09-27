@@ -41,6 +41,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # p3 imports
 
 from config import PATHS
+from config.lane_io import shared_derive_write_allowed
 
 PROSPECT_LEVELS = ("PROSPECT",)   # T-24 slice (a): observation lane --
 # deliberately NOT added to live.paper.PAPER_LEVELS (composition-free).
@@ -266,6 +267,12 @@ def _lane_context(lp, prices_full: dict):
 
 
 def cmd_run() -> int:
+    # D-20260928-03(1) batch-3 slice-2 C-family single-writer guard:
+    # results/prospect_paper/* (PROS-* marks + _summary) and the cells
+    # jsonl are deterministic idempotent re-derives -- non-host honest
+    # no-op exit 0, host derives, stale-host takeover per lane_io law.
+    if not shared_derive_write_allowed("results/prospect_paper/*"):
+        return 0
     try:
         import psutil
         pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)

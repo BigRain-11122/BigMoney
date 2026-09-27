@@ -37,6 +37,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PATHS
+from config.lane_io import shared_derive_write_allowed
 
 PAPER_DIR = os.path.join(PATHS.results_dir, "paper")
 MARKS_DIR = os.path.join(PAPER_DIR, "marks")
@@ -142,6 +143,12 @@ def verify(states: dict, marks_pw: dict | None) -> dict:
 
 
 def run() -> int:
+    # D-20260928-03(1) batch-3 slice-2 C-family single-writer guard:
+    # results/t35_open_fill_verify.json is a deterministic idempotent
+    # re-derive -- non-host honest no-op exit 0, host derives,
+    # stale-host takeover per lane_io law.
+    if not shared_derive_write_allowed("results/t35_open_fill_verify.json"):
+        return 0
     states = _load_states()
     if not states:
         print("open_fill_verify: no paper states (nothing to verify, exit 1)")

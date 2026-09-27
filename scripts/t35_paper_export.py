@@ -42,6 +42,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PATHS
+from config.lane_io import shared_derive_write_allowed
 
 PAPER_DIR = os.path.join(PATHS.results_dir, "paper")
 MARKS_DIR = os.path.join(PAPER_DIR, "marks")
@@ -263,6 +264,12 @@ def build_export(paper_dir, marks_dir, export_dir):
 
 
 def run() -> int:
+    # D-20260928-03(1) batch-3 slice-2 C-family single-writer guard:
+    # results/paper_export/* (export-<D>.json + latest.json) is a
+    # deterministic idempotent re-derive -- non-host honest no-op
+    # exit 0, host derives, stale-host takeover per lane_io law.
+    if not shared_derive_write_allowed("results/paper_export/*"):
+        return 0
     try:
         out = build_export(PAPER_DIR, MARKS_DIR, EXPORT_DIR)
     except (FileNotFoundError, ValueError, json.JSONDecodeError,

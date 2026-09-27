@@ -75,17 +75,46 @@ CUTOFF = "2026-09-24"          # evidence_cutoff (roster gates.sina_mf_panel)
 COLLAPSE_TOL = 1e-3            # |netamount - sum(rX_net)| absolute gate
 
 TIER_NETS = ["r0_net", "r1_net", "r2_net", "r3_net"]
-# roster w2b.faces ctor mapping (zero invention: name -> (col, kind))
+# roster w2b.faces ctor mapping (zero invention: name -> (col, kind)).
+# r357 name-law (bm-b MSG-0420 owner review): the FROZEN R344 roster is the
+# single source of truth for face names (R99 freeze precedes the build);
+# the r345 build hand-hashed three ratio faces as *_net_ratio -- the runner
+# now carries an idempotent load-time alias for the already-transferred
+# artifact, and this exporter emits roster-native names so the alias no-ops
+# on every future export; the export-time assertion below fail-closes the
+# drift vector at build time.
 FACE_SPECS = [
     ("sina_mf_eltra_large_net", "r0_net", "net"),
     ("sina_mf_eltra_large_ratio", "r0_net", "ratio"),
     ("sina_mf_large_net", "r1_net", "net"),
-    ("sina_mf_large_net_ratio", "r1_net", "ratio"),
+    ("sina_mf_large_ratio", "r1_net", "ratio"),
     ("sina_mf_mid_net", "r2_net", "net"),
-    ("sina_mf_mid_net_ratio", "r2_net", "ratio"),
+    ("sina_mf_mid_ratio", "r2_net", "ratio"),
     ("sina_mf_small_net", "r3_net", "net"),
-    ("sina_mf_small_net_ratio", "r3_net", "ratio"),
+    ("sina_mf_small_ratio", "r3_net", "ratio"),
 ]
+ROSTER_JSON = os.path.join(ROOT, "results", "census_fusion_s2",
+                           "w2b_roster.json")
+
+
+def roster_face_names(path=ROSTER_JSON):
+    """Frozen roster w2b.faces name list (single source of truth, r357).
+    Fail-closed: unreadable/short roster -> None (caller exits 2 -- never
+    guess past the freeze)."""
+    try:
+        with open(path, encoding="utf-8") as fh:
+            r = json.load(fh)
+        return [f["face"] for f in r["w2b"]["faces"]]
+    except Exception:
+        return None
+
+
+def assert_roster_names(exported_names, roster_names):
+    """True iff the exporter's face-name set is exactly the frozen roster's
+    (order-free: ctor order is a build concern, identity is the gate)."""
+    if roster_names is None or len(roster_names) != len(exported_names):
+        return False
+    return sorted(roster_names) == sorted(exported_names)
 
 
 def sha256_of(path):
@@ -192,6 +221,17 @@ def build_face_matrices(univ):
 
 def export(per_dir=PER_DIR):
     t0 = time.time()
+    # r357 name-law gate: face names are roster-owned (frozen R344 precedes
+    # the build); any drift between FACE_SPECS and the frozen roster fails
+    # the build BEFORE the panel load (the r345 drift family dies here).
+    emitted = [n for n, _, _ in FACE_SPECS]
+    roster_names = roster_face_names()
+    if not assert_roster_names(emitted, roster_names):
+        print("ROSTER NAME GATE FAIL (fail-closed, exit 2): FACE_SPECS "
+              "names != frozen roster w2b.faces "
+              f"(exporter={sorted(emitted)} roster="
+              f"{sorted(roster_names or [])})")
+        return 2
     univ, rep = load_panel_rows(per_dir=per_dir)
     if univ is None or not rep["ok"]:
         print("DATA GATE FAIL (fail-closed, exit 2):", rep.get("fail"))
@@ -357,6 +397,16 @@ def selftest():
     univ2, rep2 = load_panel_rows(per_dir=os.path.join("Z:", "nope"))
     t("[9] absent panel -> ok=False (lane=bm-a honest exit 2)",
       univ2 is None and not rep2["ok"])
+    # [10] r357 name-law: FACE_SPECS == frozen roster w2b.faces (the r345
+    # *_net_ratio drift family fails here forever; reads the real frozen
+    # roster = deterministic in-repo artifact, zero network, r263-safe)
+    emitted = [n for n, _, _ in FACE_SPECS]
+    t("[10] roster name gate: exporter names == frozen roster faces",
+      assert_roster_names(emitted, roster_face_names()))
+    t("[11] drift detector: a drifted name set fails the gate",
+      not assert_roster_names(
+          [n.replace("_ratio", "_net_ratio") if "ratio" in n else n
+           for n in emitted], roster_face_names()))
     print("selftest:", "ALL PASS" if ok else "FAIL")
     return 0 if ok else 2
 

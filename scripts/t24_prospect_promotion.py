@@ -42,6 +42,7 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PATHS
+from config.lane_io import shared_derive_write_allowed
 
 OUT_DIR = os.path.join(PATHS.results_dir, "prospect_promotion")
 G2_DIR = os.path.join(PATHS.results_dir, "prospect_g2")
@@ -205,6 +206,12 @@ def _run_eval(members: list, traders_dir: str, t22_dir: str, g2_dir: str,
 
 
 def cmd_run() -> int:
+    # D-20260928-03(1) batch-3 slice-2 C-family single-writer guard:
+    # results/prospect_promotion/* (PROS-* evals + _summary) is a
+    # deterministic idempotent re-derive -- non-host honest no-op
+    # exit 0, host derives, stale-host takeover per lane_io law.
+    if not shared_derive_write_allowed("results/prospect_promotion/*"):
+        return 0
     from firm.hr import TRADERS_DIR, THRESHOLDS
     members = _load_prospects(TRADERS_DIR)
     if not members:

@@ -50,6 +50,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 
 from config import PATHS
+from config.lane_io import shared_derive_write_allowed
 import engine.backtester as _eb
 from engine import run_backtest
 from engine.metrics import annual_return, max_drawdown, sharpe
@@ -1085,6 +1086,14 @@ def main(argv=None) -> int:
     argv = sys.argv[1:] if argv is None else argv
     if "--selftest" in argv:
         return 0 if selftest() else 1
+
+    # D-20260928-03(1) batch-3 slice-2 C-family single-writer guard:
+    # results/paper/* (per-account states + marks jsonl) is a
+    # deterministic idempotent re-derive shared face -- non-host
+    # machines honest-skip (zero writes, legal no-op exit 0); host
+    # always derives; a >20min-stale host opens stale-takeover.
+    if not shared_derive_write_allowed("results/paper/*"):
+        return 0
 
     print(f"=== Bigmoney paper tracking {time.strftime('%Y-%m-%d %H:%M:%S')} ===")
     if not self_test_patches():

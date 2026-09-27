@@ -33,7 +33,7 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "results", "market_clock")
 sys.path.insert(0, ROOT)
-from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin
+from config.lane_io import write_lane, shared_derive_write_allowed  # noqa: E402 -- after ROOT pin
 LHB_PATH = os.path.join(ROOT, "Money02", "data", "lhb", "lhb_detail.parquet")
 SCORECARD_PATH = os.path.join(ROOT, "results", "strategy_scorecard.json")
 L3_PREREG = os.path.join(ROOT, "research", "L3_ACTIVATION_EVIDENCE.md")
@@ -400,8 +400,19 @@ def run():
     # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror
     # (asof-probe freshness at the reader); fail-soft never breaks the call.
     write_lane("market_clock/call_latest", call)
-    with open(L3_TABLE_PATH, "w", encoding="utf-8", newline="\n") as f:
-        json.dump(ev_table, f, ensure_ascii=False, indent=1, default=str)
+    # D-20260928-03(1) batch-3 slice-2 C-family single-writer guard for
+    # the l3_activation_table face ONLY (deterministic idempotent
+    # re-derive, census B/C dual-tagged C side): non-host honest-skip
+    # leaves the stale table for the host's same-day derive; call_latest
+    # / CALL-*.md above stay B-family per-machine lanes (r375 batch-2).
+    if shared_derive_write_allowed(
+            "results/market_clock/l3_activation_table.json", verbose=False):
+        with open(L3_TABLE_PATH, "w", encoding="utf-8", newline="\n") as f:
+            json.dump(ev_table, f, ensure_ascii=False, indent=1, default=str)
+    else:
+        print("lane_io single-writer guard: "
+              "results/market_clock/l3_activation_table.json host=bm-a "
+              "-> skip C-face derive this cycle (D-20260928-03 slice-2)")
     print(f"call written: {md_path} cell={call['clock_cell']} sleeves={len(call['active_sleeves'])} "
           f"activated={len(call['l3_evidence']['activated'])}")
     return 0
