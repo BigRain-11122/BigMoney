@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-09-28T00:28:43+08:00",
-  "current_task": "R366 closed: D-20260928-02(1) autofill pre-add mid-op guard (S15j/S17h, 54/54) + D-20260928-03(1) loop-phase pin bm-a=8/bm-b=2/bm-c=5 drift self-heal (live-fire no-op verified) + prompt S7 every-round wiring; next: Mon 09:15 T-91 s3 auto-fire",
+  "last_seen": "2026-09-28T00:45:06+08:00",
+  "current_task": "R367 closed: council C-20260927-02 seat-3 opinion ISSUED (F-20260928-01 approve+2 hardening notes) + MSG-0030 archived; next: Mon 09:15 T-91 s3 auto-fire, T-94 s3 shard claim on owner declare",
   "cpu_cores": 32,
-  "cpu_pct": 8.2,
-  "free_ram_gb": 49.7,
+  "cpu_pct": 9.7,
+  "free_ram_gb": 46.5,
   "gpu_free_vram_gb": 5.2,
-  "verdict": "healthy r366 group-decision double landing (T-91 s3 armed 09:15; T-94 wave-1b owner bm-b; T-95 owner bm-c adopted R365 prereg)",
+  "verdict": "healthy r367 council-seat3-opinion-issued green-maintenance (T-91 armed 09:15; T-94 s3 shard gate pending owner declare; T-95 owner bm-c)",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -108,22 +108,22 @@
     "O-2026-09-27-2250-bm-a.md",
     "O-2026-09-27-2255-bm-a.md"
   ],
-  "heartbeat_epoch_utc": 1790526523,
-  "clock_read": "2026-09-28T00:28:43+08:00",
+  "heartbeat_epoch_utc": 1790527507,
+  "clock_read": "2026-09-28T00:45:06+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 5379,
   "gpu_idle_vram_gb": 5.5,
   "task": "idle-round-done",
-  "free_ram_mb": 50870,
+  "free_ram_mb": 47648,
   "gpu": {
     "present": true,
     "idle_vram_free_gb": 5.5,
     "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
   },
-  "round_no": 366,
+  "round_no": 367,
   "gpu_idle_vram_mb": 5663,
   "gpu_total_vram_mb": 12282,
-  "idle_ram_gb": 50.2,
+  "idle_ram_gb": 46.5,
   "gpu0_free_vram_gb": 5.25,
   "cpu_util_pct": 8.2,
   "total_ram_gb": 93.6,
@@ -135,6 +135,6 @@
     "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
   ],
   "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
-  "round": 360,
-  "loop_round": 360
+  "round": 367,
+  "loop_round": 367
 }
