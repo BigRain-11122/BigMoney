@@ -1319,6 +1319,138 @@
    }
   },
   {
+   "id": "MASS-TRIAL-W1-JUDGE-SHARD-0",
+   "ticket_ref": "T-2026-09-27-94 s3 full-judgment batch (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; ticket claimed bm-b r346; s3 face FROZEN r350 commit fe55fc6d prereg sec.9.1; runner judge subcommand built bm-b r351, selftest 24/24, judge-prep landed N_judge=166 same round)",
+   "prereg_ref": "research/MASS_TRIAL_W1_PREREG.md sec.9.1 FROZEN (166 stage-1 survivors -> |corr|>=0.999 dedup 0 collapses -> N_judge=166; grid = p5c FROZEN_CENSUS dual-leg L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1, CostPatch(2.0)} x regime segs bear/bull/chop+na x dual nulls B=2000/P=2000 seed [20285000,i]; G1v2/G2 via science_gates shared lib; family PBO CSCV 11 modules; seed mass_trial_w1_judge=20285000 registered R250)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "4"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 01:06:26",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
+    "priority": "BelowNormal",
+    "note": "~42 judged cells/shard x ~10s/cell measured real-fire r351 (dual-leg dual-cost full curves + sliced window grids + dual nulls) ~ 7min serial/shard, ~1-3min on 12 workers; worker RAM ~500-700MB (ctx_L+ctx_D panels); FLIP GATE waiting->ready: ONLY when (a) CENSUS-FUS-S2-W2A + W2B both done AND TRIAL-LABOR-W1-SCREEN done (frozen sec.9.1 CPU ordering = behind W2A/W2B + wave-1b SCREEN, entered_at order) AND (b) machine free RAM >= 4GB (dual-company discipline; W2-A burn holds ~15.5GB no-kill; autofill has no RAM gate so waiting status is the ONLY protection). Flip = round work per r203 law."
+   },
+   "data_gates": "in-runner fail-closed exit 2: judge_state.json required (committed), candidates sha anchor 907e44d56999b0ab, dual-leg census == p5c FROZEN_CENSUS abort, t18 manifest PASS, per-cell jsonl checkpoint cross-kill resume; finalize single-shot ledger guard + MASS_TRIAL_W1_JUDGE_REFINALIZE byte-stable redo overrides (r259)",
+   "shards": [
+    {
+     "key": "judge-0of4",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/mass_trial/judge_shard_0of4.jsonl (row-level cell_id done-set resume)",
+     "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
+    }
+   ]
+  },
+  {
+   "id": "MASS-TRIAL-W1-JUDGE-SHARD-1",
+   "ticket_ref": "T-2026-09-27-94 s3 full-judgment batch (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; ticket claimed bm-b r346; s3 face FROZEN r350 commit fe55fc6d prereg sec.9.1; runner judge subcommand built bm-b r351, selftest 24/24, judge-prep landed N_judge=166 same round)",
+   "prereg_ref": "research/MASS_TRIAL_W1_PREREG.md sec.9.1 FROZEN (166 stage-1 survivors -> |corr|>=0.999 dedup 0 collapses -> N_judge=166; grid = p5c FROZEN_CENSUS dual-leg L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1, CostPatch(2.0)} x regime segs bear/bull/chop+na x dual nulls B=2000/P=2000 seed [20285000,i]; G1v2/G2 via science_gates shared lib; family PBO CSCV 11 modules; seed mass_trial_w1_judge=20285000 registered R250)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "1",
+    "--shards",
+    "4"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 01:06:26",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
+    "priority": "BelowNormal",
+    "note": "~42 judged cells/shard x ~10s/cell measured real-fire r351 (dual-leg dual-cost full curves + sliced window grids + dual nulls) ~ 7min serial/shard, ~1-3min on 12 workers; worker RAM ~500-700MB (ctx_L+ctx_D panels); FLIP GATE waiting->ready: ONLY when (a) CENSUS-FUS-S2-W2A + W2B both done AND TRIAL-LABOR-W1-SCREEN done (frozen sec.9.1 CPU ordering = behind W2A/W2B + wave-1b SCREEN, entered_at order) AND (b) machine free RAM >= 4GB (dual-company discipline; W2-A burn holds ~15.5GB no-kill; autofill has no RAM gate so waiting status is the ONLY protection). Flip = round work per r203 law."
+   },
+   "data_gates": "in-runner fail-closed exit 2: judge_state.json required (committed), candidates sha anchor 907e44d56999b0ab, dual-leg census == p5c FROZEN_CENSUS abort, t18 manifest PASS, per-cell jsonl checkpoint cross-kill resume; finalize single-shot ledger guard + MASS_TRIAL_W1_JUDGE_REFINALIZE byte-stable redo overrides (r259)",
+   "shards": [
+    {
+     "key": "judge-1of4",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/mass_trial/judge_shard_1of4.jsonl (row-level cell_id done-set resume)",
+     "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
+    }
+   ]
+  },
+  {
+   "id": "MASS-TRIAL-W1-JUDGE-SHARD-2",
+   "ticket_ref": "T-2026-09-27-94 s3 full-judgment batch (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; ticket claimed bm-b r346; s3 face FROZEN r350 commit fe55fc6d prereg sec.9.1; runner judge subcommand built bm-b r351, selftest 24/24, judge-prep landed N_judge=166 same round)",
+   "prereg_ref": "research/MASS_TRIAL_W1_PREREG.md sec.9.1 FROZEN (166 stage-1 survivors -> |corr|>=0.999 dedup 0 collapses -> N_judge=166; grid = p5c FROZEN_CENSUS dual-leg L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1, CostPatch(2.0)} x regime segs bear/bull/chop+na x dual nulls B=2000/P=2000 seed [20285000,i]; G1v2/G2 via science_gates shared lib; family PBO CSCV 11 modules; seed mass_trial_w1_judge=20285000 registered R250)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "2",
+    "--shards",
+    "4"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 01:06:26",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
+    "priority": "BelowNormal",
+    "note": "~42 judged cells/shard x ~10s/cell measured real-fire r351 (dual-leg dual-cost full curves + sliced window grids + dual nulls) ~ 7min serial/shard, ~1-3min on 12 workers; worker RAM ~500-700MB (ctx_L+ctx_D panels); FLIP GATE waiting->ready: ONLY when (a) CENSUS-FUS-S2-W2A + W2B both done AND TRIAL-LABOR-W1-SCREEN done (frozen sec.9.1 CPU ordering = behind W2A/W2B + wave-1b SCREEN, entered_at order) AND (b) machine free RAM >= 4GB (dual-company discipline; W2-A burn holds ~15.5GB no-kill; autofill has no RAM gate so waiting status is the ONLY protection). Flip = round work per r203 law."
+   },
+   "data_gates": "in-runner fail-closed exit 2: judge_state.json required (committed), candidates sha anchor 907e44d56999b0ab, dual-leg census == p5c FROZEN_CENSUS abort, t18 manifest PASS, per-cell jsonl checkpoint cross-kill resume; finalize single-shot ledger guard + MASS_TRIAL_W1_JUDGE_REFINALIZE byte-stable redo overrides (r259)",
+   "shards": [
+    {
+     "key": "judge-2of4",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/mass_trial/judge_shard_2of4.jsonl (row-level cell_id done-set resume)",
+     "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
+    }
+   ]
+  },
+  {
+   "id": "MASS-TRIAL-W1-JUDGE-SHARD-3",
+   "ticket_ref": "T-2026-09-27-94 s3 full-judgment batch (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; ticket claimed bm-b r346; s3 face FROZEN r350 commit fe55fc6d prereg sec.9.1; runner judge subcommand built bm-b r351, selftest 24/24, judge-prep landed N_judge=166 same round)",
+   "prereg_ref": "research/MASS_TRIAL_W1_PREREG.md sec.9.1 FROZEN (166 stage-1 survivors -> |corr|>=0.999 dedup 0 collapses -> N_judge=166; grid = p5c FROZEN_CENSUS dual-leg L 1253/1127/875 + D 3104/2978/2726 x windows {126,252,504} x cost {x1, CostPatch(2.0)} x regime segs bear/bull/chop+na x dual nulls B=2000/P=2000 seed [20285000,i]; G1v2/G2 via science_gates shared lib; family PBO CSCV 11 modules; seed mass_trial_w1_judge=20285000 registered R250)",
+   "runner": "scripts/mass_trial_w1.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "3",
+    "--shards",
+    "4"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 01:06:26",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
+    "priority": "BelowNormal",
+    "note": "~42 judged cells/shard x ~10s/cell measured real-fire r351 (dual-leg dual-cost full curves + sliced window grids + dual nulls) ~ 7min serial/shard, ~1-3min on 12 workers; worker RAM ~500-700MB (ctx_L+ctx_D panels); FLIP GATE waiting->ready: ONLY when (a) CENSUS-FUS-S2-W2A + W2B both done AND TRIAL-LABOR-W1-SCREEN done (frozen sec.9.1 CPU ordering = behind W2A/W2B + wave-1b SCREEN, entered_at order) AND (b) machine free RAM >= 4GB (dual-company discipline; W2-A burn holds ~15.5GB no-kill; autofill has no RAM gate so waiting status is the ONLY protection). Flip = round work per r203 law."
+   },
+   "data_gates": "in-runner fail-closed exit 2: judge_state.json required (committed), candidates sha anchor 907e44d56999b0ab, dual-leg census == p5c FROZEN_CENSUS abort, t18 manifest PASS, per-cell jsonl checkpoint cross-kill resume; finalize single-shot ledger guard + MASS_TRIAL_W1_JUDGE_REFINALIZE byte-stable redo overrides (r259)",
+   "shards": [
+    {
+     "key": "judge-3of4",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/mass_trial/judge_shard_3of4.jsonl (row-level cell_id done-set resume)",
+     "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
+    }
+   ]
+  },
+  {
    "id": "MF-ROT-S1",
    "ticket_ref": "T-20260925-60 s3 (O-20260925-1152 matrix time-axis mid-freq gap first batch; O-20260925-0857 profit-model priority line)",
    "prereg_ref": "research/midfreq/MF_ROT_S1_PREREG.md (frozen r178 pre-run R99; 4 cells zoo #81/#82/#83 new-written basis codes; G1'v2+G2 shared-library judgment, seed mf_rot_s1=59000 registered)",
