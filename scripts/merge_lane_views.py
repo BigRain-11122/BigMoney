@@ -78,6 +78,12 @@ def load_sources(face):
                 raise SystemExit(
                     f"merge_lane_views: lane_machine={signed!r} contradicts "
                     f"filename {p!r} -- fail-closed (r98 identity law)")
+            # lane_machine is a signature, not face data: strip it on
+            # load so the merged view stays comparable with the shared
+            # file (reconcile would false-red on the extra key as soon
+            # as real lane files exist).
+            if isinstance(data, dict):
+                data = {k: v for k, v in data.items() if k != "lane_machine"}
             sources.append((machine, data))
     return sources
 
@@ -457,6 +463,19 @@ def _selftest():
     p1 = next(i for i in m["items"] if i["id"] == "P-1")
     check("postreview:id-union+newer-wins", len(m["items"]) == 2
           and p1["status"] == "NEW")
+
+    # 7b. lane source strips lane_machine on load -> merged == shared
+    # (reconcile must stay zero-drift the moment real lanes exist;
+    # writer dual-track D-20260928-03(1) batch-1).
+    a = {"latest": {"ts": "01:00:00", "py_cpu_pct": 1.0},
+         "history": [{"ts": "01:00:00"}]}
+    lane = dict(a, lane_machine="bm-a")
+    m, _ = merge_compute_audit([("legacy", a), ("bm-a", lane)])
+    check("audit:lane-strip-zero-drift", m == a)
+    mr, _ = merge_regime_state([("legacy", shared["regime_state"]),
+                                ("bm-a", dict(shared["regime_state"],
+                                              lane_machine="bm-a"))])
+    check("regime:lane-strip-zero-drift", mr == shared["regime_state"])
 
     # 8. lane_machine self-signature fail-closed
     try:

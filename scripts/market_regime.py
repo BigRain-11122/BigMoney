@@ -43,6 +43,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 
 from config import PATHS
+from config.lane_io import write_lane  # D-03(1) batch-1 dual-track
 
 STATE_PATH = os.path.join(PATHS.results_dir, "regime_state.json")
 BENCH = "510300"
@@ -444,6 +445,10 @@ def probe(write: bool = True) -> dict:
         with open(tmp, "w", encoding="utf-8") as f:
             json.dump(out, f, ensure_ascii=False, indent=2, default=str)
         os.replace(tmp, STATE_PATH)
+        # D-20260928-03(1) batch-1 writer dual-track: own lane file
+        # alongside the shared face (compat window; failure disclosed
+        # on stderr, never changes the probe exit contract).
+        write_lane("regime_state", out, indent=2)
     return out
 
 

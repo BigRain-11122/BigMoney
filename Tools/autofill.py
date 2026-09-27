@@ -274,6 +274,8 @@ def _save_state(s):
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(s, fh, ensure_ascii=False, indent=1)
     os.replace(tmp, STATE)
+    # D-20260928-03(1) batch-1: own lane alongside the shared state.
+    _write_lane_file(STATE, s)
 
 
 class _CorruptFuse(Exception):
@@ -297,6 +299,48 @@ def _save_fuse(f):
     os.replace(tmp, FUSE)
 
 
+def _lane_path_for(shared_path):
+    """D-20260928-03(1) batch-1 writer dual-track: this machine's lane
+    file results/<face>.<machine>.json, derived from the writer's OWN
+    path constant so selftest tmp redirections stay hermetic (r117
+    law) and the name matches what scripts/merge_lane_views.py reads.
+    None when identity is unreadable (r98: never guess)."""
+    mid = _machine_id()
+    if not mid or not shared_path.endswith(".json"):
+        return None
+    return shared_path[:-len(".json")] + f".{mid}.json"
+
+
+def _write_lane_file(shared_path, data):
+    """Own lane alongside the shared face (D-03(1) compat window: the
+    shared file stays authoritative; a lane fault logs, never breaks
+    the tick flow or its exit contract)."""
+    lp = _lane_path_for(shared_path)
+    if lp is None or not isinstance(data, dict):
+        return
+    payload = dict(data)
+    payload["lane_machine"] = _machine_id()
+    try:
+        tmp = lp + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(payload, fh, ensure_ascii=False, indent=1)
+        os.replace(tmp, lp)
+    except Exception as ex:
+        _log(f"lane write fault {os.path.basename(lp)}: {ex} "
+             f"(shared face stays authoritative)")
+
+
+def _pool_lane_sync():
+    """Re-mirror the pool lane from CURRENT shared bytes -- every
+    byte-restore site must call this so the lane never holds a claim
+    the shared file just rolled back (phantom-owner prevention)."""
+    try:
+        with open(POOL, encoding="utf-8") as fh:
+            _write_lane_file(POOL, json.load(fh))
+    except Exception as ex:
+        _log(f"pool lane sync fault: {ex}")
+
+
 def _tick_owned_dirt():
     """r290 self-commit law: the tick's OWN runtime writes (autofill_
     state.json last_tick/launches, crash_fuse.json) are the dirt that
@@ -306,8 +350,18 @@ def _tick_owned_dirt():
     CN-TREND keepalive push lost to a tick-dirtied tree, claim stranded
     local, remote takeover gate re-opened -> double burn). Session-owned
     dirt (non-tick files) still yields per r282. Existence-filtered:
-    absent files are never git-added."""
-    return [p for p in (STATE, FUSE) if os.path.exists(p)]
+    absent files are never git-added.
+
+    D-20260928-03(1) batch-1: the two LANE files (autofill_state /
+    runnable_pool own-lane mirrors) are tick-owned dirt too -- they
+    ride the same commit or every inter-round pull --rebase would
+    refuse on them exactly the way the r290 live case refused on
+    STATE."""
+    dirt = [STATE, FUSE]
+    for lp in (_lane_path_for(STATE), _lane_path_for(POOL)):
+        if lp is not None:
+            dirt.append(lp)
+    return [p for p in dirt if os.path.exists(p)]
 
 
 def _sha16(path):
@@ -499,6 +553,7 @@ def _claim_shard(sh, myid):
         if mid is not None:
             with open(POOL, "w", encoding="utf-8") as fh:
                 fh.write(prev)
+            _pool_lane_sync()
             _log(f"claim deferred: git mid-operation ({mid}) appeared "
                  f"mid-tick -> yield git write to session, next tick "
                  f"re-claims (D-20260928-02)")
@@ -506,9 +561,14 @@ def _claim_shard(sh, myid):
         if _pool_origin_stale():
             with open(POOL, "w", encoding="utf-8") as fh:
                 fh.write(prev)
+            _pool_lane_sync()
             _log("claim deferred: origin moved the pool past HEAD "
                  "(r351) -> yield to session pull, next tick re-claims")
             return False
+        # D-20260928-03(1) batch-1: mirror the pool lane from the exact
+        # bytes about to be committed -- the lane records this
+        # machine's last committed write (anti-swallow record).
+        _write_lane_file(POOL, pool)
         for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
                       f"autofill tick claim {sh.get('key')} owner={myid} "
@@ -563,6 +623,7 @@ def _claim_shard(sh, myid):
             try:
                 with open(POOL, "w", encoding="utf-8") as fh:
                     fh.write(prev)       # restore pre-claim bytes
+                _pool_lane_sync()
             except Exception:
                 pass
         _log(f"claim fault ({ex}) -> yield (committed={committed})")
@@ -610,6 +671,7 @@ def _keepalive_claims(pool, myid):
         if mid is not None:
             with open(POOL, "w", encoding="utf-8") as fh:
                 fh.write(prev)
+            _pool_lane_sync()
             _log(f"keepalive deferred: git mid-operation ({mid}) "
                  f"appeared mid-tick -> yield git write to session "
                  f"(D-20260928-02)")
@@ -617,10 +679,14 @@ def _keepalive_claims(pool, myid):
         if _pool_origin_stale():
             with open(POOL, "w", encoding="utf-8") as fh:
                 fh.write(prev)
+            _pool_lane_sync()
             _log("keepalive deferred: origin moved the pool past HEAD "
                  "(r351) -> yield to session pull, next tick "
                  "re-refreshes (idempotent under the age gate)")
             return []
+        # D-20260928-03(1) batch-1: pool lane mirrors the committed
+        # bytes (same law as the claim leg).
+        _write_lane_file(POOL, pool)
         for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
                       f"autofill tick keepalive "
@@ -668,6 +734,7 @@ def _keepalive_claims(pool, myid):
             try:
                 with open(POOL, "w", encoding="utf-8") as fh:
                     fh.write(prev)       # restore pre-refresh bytes
+                _pool_lane_sync()
             except Exception:
                 pass
         _log(f"keepalive fault ({ex}) -> refreshed={bool(committed)} "
@@ -917,6 +984,9 @@ def submit(a):
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(pool, fh, indent=1)
     os.replace(tmp, POOL)
+    # D-20260928-03(1) batch-1: submit also lands in this machine's pool
+    # lane (session commit carries both files at round close).
+    _write_lane_file(POOL, pool)
     _log(f"submit OK {a_id} runner={runner} shards={len(keys)} "
          f"workers={a.workers} (contract trio asserted, r301+r305)")
     print(json.dumps({"submitted": a_id, "shards": keys,
@@ -1341,16 +1411,53 @@ def selftest():
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         add_args_all.clear()
         r15i = _claim_shard({"key": "s0"}, "bm-b")
-        ok("S15i claim add carries pool+state+fuse (r290 self-commit)",
+        _lane_st = _lane_path_for(STATE)
+        _lane_pl = _lane_path_for(POOL)
+        ok("S15i claim add carries pool+state+fuse+lanes "
+           "(r290 self-commit + D-03(1) batch-1)",
            r15i is True and add_args_all
-           and add_args_all[-1] == (POOL, STATE, FUSE))
+           and add_args_all[-1] == (POOL, STATE, FUSE, _lane_st,
+                                    _lane_pl))
         os.remove(FUSE)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         add_args_all.clear()
         r15i2 = _claim_shard({"key": "s0"}, "bm-b")
-        ok("S15i absent fuse -> existence-filtered add (pool+state)",
+        ok("S15i absent fuse -> existence-filtered add "
+           "(pool+state+lanes)",
            r15i2 is True and add_args_all
-           and add_args_all[-1] == (POOL, STATE))
+           and add_args_all[-1] == (POOL, STATE, _lane_st, _lane_pl))
+        # S15l D-20260928-03(1) batch-1: a successful claim also writes
+        # this machine's pool lane -- payload parity + lane_machine
+        # signature (anti-swallow record of the committed bytes).
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        r15l = _claim_shard({"key": "s0"}, "bm-b")
+        lane15l = json.load(open(_lane_pl, encoding="utf-8"))
+        p15l = json.load(open(POOL, encoding="utf-8"))
+        ok("S15l claim writes own pool lane (signed, owner carried)",
+           r15l is True and lane15l.get("lane_machine") == _machine_id()
+           and lane15l["entries"][0]["shards"][0]["owner"] == "bm-b"
+           and p15l["entries"][0]["shards"][0]["owner"] == "bm-b")
+        # S15m D-03(1): deferred claim -> lane re-synced to the rolled-
+        # back shared bytes (never a phantom owner in the lane).
+        _gd_orig = _GIT_DIR
+        _GIT_DIR = os.path.join(tmp, "fake_git")
+        os.makedirs(_GIT_DIR, exist_ok=True)
+        os.makedirs(os.path.join(_GIT_DIR, "rebase-merge"), exist_ok=True)
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        r15m = _claim_shard({"key": "s0"}, "bm-b")
+        lane15m = json.load(open(_lane_pl, encoding="utf-8"))
+        os.rmdir(os.path.join(_GIT_DIR, "rebase-merge"))
+        _GIT_DIR = _gd_orig
+        ok("S15m claim defer -> lane re-synced (no phantom owner)",
+           r15m is False
+           and lane15m["entries"][0]["shards"][0].get("owner") is None)
+        # S18d D-03(1): _save_state writes the state lane too.
+        _save_state({"last_tick": {"ts": "2026-09-28 02:00:01",
+                                    "machine": "bm-a"}, "launches": []})
+        lane18 = json.load(open(_lane_st, encoding="utf-8"))
+        ok("S18d state lane written with lane_machine signature",
+           lane18.get("lane_machine") == _machine_id()
+           and lane18["last_tick"]["ts"] == "2026-09-28 02:00:01")
         # S15j D-20260928-02(1) pre-add mid-op guard (r331 race): a
         # session rebase/merge starting INSIDE the sampling+scan window
         # (after the r201 entry guard, before add) -> claim git write
@@ -1436,9 +1543,10 @@ def selftest():
         add_args_all.clear()
         ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
                                "bm-b")
-        ok("S17e keepalive add carries pool+state+fuse (r290)",
+        ok("S17e keepalive add carries pool+state+fuse+lanes (r290)",
            ka == ["s0"] and add_args_all
-           and add_args_all[-1] == (POOL, STATE, FUSE))
+           and add_args_all[-1] == (POOL, STATE, FUSE, _lane_st,
+                                    _lane_pl))
         # S17f/g r344 abort-ownership (keepalive leg): mirror of the
         # claim-leg ownership law -- foreign rebase survives, ours gets
         # aborted
@@ -1679,6 +1787,11 @@ def selftest():
             ok("S17f submitted entry takeable by tick (end-to-end)",
                rc == 0 and st17["verdict"] == "dry_launch"
                and st17.get("entry") == "E17")
+            lane17 = json.load(open(_lane_pl, encoding="utf-8"))
+            ok("S17g submit lands in pool lane (id union face)",
+               any(e.get("id") == "E17"
+                   for e in lane17.get("entries", []))
+               and lane17.get("lane_machine") == _machine_id())
         finally:
             _py_cpu_pct = _py17
         _git = _git_real

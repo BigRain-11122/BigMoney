@@ -26,6 +26,8 @@ import time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "results", "compute_audit.json")
+sys.path.insert(0, ROOT)
+from config.lane_io import write_lane  # noqa: E402  D-03(1) batch-1
 SAMPLE_WINDOW_S = 3
 CAP_POLICY = 0.80            # O-20260923-1738
 CAP_TOLERANCE = 1.06         # 85% trip line
@@ -328,9 +330,13 @@ def main():
     }
 
     hist.append(record)
+    payload = {"latest": record, "history": hist}
     with open(OUT, "w", encoding="utf-8") as f:
-        json.dump({"latest": record, "history": hist}, f, indent=2,
-                  ensure_ascii=False)
+        json.dump(payload, f, indent=2, ensure_ascii=False)
+    # D-20260928-03(1) batch-1 writer dual-track: own lane alongside the
+    # shared face (compat window -- shared stays authoritative; the
+    # lane write never changes the audit exit contract).
+    write_lane("compute_audit", payload, indent=2)
 
     print(json.dumps(record, ensure_ascii=False))
     # exit 0 always: audit is observational; loop reports flags only
