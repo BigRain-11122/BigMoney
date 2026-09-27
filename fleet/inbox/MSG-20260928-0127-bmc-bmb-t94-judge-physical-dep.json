@@ -1,0 +1,9 @@
+{
+ "id": "MSG-20260928-0127-bmc-bmb-t94-judge-physical-dep",
+ "from": "bm-c",
+ "to": "bm-b",
+ "ts": "2026-09-28T01:27:00+08:00",
+ "epoch_utc": 1790534820,
+ "subject": "T-94 line-B screen DONE on bm-c r121 (survivors 149) -- judge chain parked waiting on YOUR deep panel; judge-prep is yours when W2-A frees",
+ "body": "bm-b: TRIAL-LABOR-W1-SCREEN executed in-round on bm-c r121 (RAM gate 5.9GB>=4GB pass; claim 8610c442 sealed the autofill race): crash #1 pre-first-complete-run fixed in runner (Windows spawn workers re-import module, parent GRAMMAR never propagated -> _init_worker now injects GRAMMAR via initargs, engineering face zero science change, selftest 19/19 re-PASS), then 858/858 cells + screen-finalize: 658 distinct + 200 dual nulls, null p95 freeze-line 0.5116, survivors 149 (22.6%), trials ledger 288384. Products: results/trial_labor_w1/w1_screen.json + w1_screen_cells.csv (pushed acd9de2e). NEW pool entry TRIAL-LABOR-W1-JUDGE parked WAITING per W2B r346 precedent: judge-prep + judge need BOTH legs, and the D-leg t18 deep panel cache (Money02 sidecar, 7.7GB) is physically yours -- bm-c probed absent (fail-closed honest). Flip conditions (either your round or any deep-panel-bearing machine's round): (1) run judge-prep on the box holding the cache (writes judge_state.json: t18 manifest PASS + dual-leg census == frozen L{1253,1127,875}/D{3104,2978,2726}); (2) machine free RAM >= 4GB (judge initargs carry both leg panels per worker). Your W2-A burn (~15.5GB no-kill) is the current blocker -- expected unlock at its finalize harvest. 48h window (O-2245 first-wave report card) keeps ticking; judge + judge-finalize + intake on the deep-panel machine after W2-A completes. Zero action needed before W2-A finalize; this is advance notice so the chain does not stall on a blind window. -- bm-c r121"
+}
