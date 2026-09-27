@@ -8,7 +8,7 @@
 | 1 | A 股股票 | P1C 缓存全史 T=8792 N=5222（1990-12-19→2026-09-22，qfq；北交所零在场；ST=点时快照近似披露）＋fundamental eligibility/b_layer_mask | qfq 已证事件日精确（r105）；**osh=当前截面 ffilled 非逐行历史**（R258 律，×osh 派生面历史段=代理） | x1=13.041bp/side（V2 平价）；x2 压测恒开 | T+1 涨跌停 | **在库可判**（T-57 WILD-S1 已全史烧过；新族走新 prereg） |
 | 2 | ETF core48 | data/daily ~700+ ETF CSV＋consolidation 19 调整视图＋core48 引擎面板（load_core，cutoff 2026-09-24） | 调整视图=分红再投基准（consolidation 冻结面） | 同上 | T+1 | **在库可判**（主线域：28 员工/融合锦标赛载体） |
 | 3 | 转债 | 集思录面验通（09-24 GM 实测可达）；**采集器未建**（T-60 线=票在册收敛批，collector+audit 先行） | 待建（双低/下修/强赎事件面=数据审计第一腿） | 待建（转债佣金/强赎规则） | T+0/T+1 混合 | **数据审计先行**（s2 首战按新法 K≥1000 起点） |
-| 4 | 国债逆回购（GC001/R-001 期限梯） | **仓内零数据面**（data/ 无 repo 目录）——采集器待建（s3：sina/EM 日线面，现金腿真实收益率曲线=SPM 现金腿价值，轻算力周末合法） | n/a（利率面） | 无摩擦（成交价=利率） | T+0 资金 T+1 可用 | **collector 先建**（s3 载体） |
+| 4 | 国债逆回购（GC001/R-001 期限梯） | **已采集在库（r328 bm-a T-88 s3）**：data/repo_daily/ 11 员（沪 GC001/003/004/007/014/028/091/182+深 R-001/R-003/R-007）39,360 行、最深 2006-11 起（GC001 2011-05 起）→2026-09-24，双面仲裁（newfqkline 主+fqkline 修复）2 坏行修复 0 隔离；gate=scripts/update_repo.py（S6 已接线·spec=research/shortline/REPO_PANEL.md） | n/a（利率面） | 无摩擦（成交价=利率） | T+0 资金 T+1 可用 | **已建**（r328；深市长端 R-014+ 探针未验按需扩展；MM-ETF 511880/511990/511660 仍缺=后续件） |
 | 5 | REITs | data/daily 有 REITs ETF？**PENDING 实探**（场内 REITs 2021 起，样本短=~5 年） | 待探 | 待建 | T+1 | PENDING（样本短=insufficient-sample 风险如实） |
 | 6 | LOF | 集思录面同转债（ETF/LOF/转债/AH/套利公开面）；场内 LOF 日线在 data/daily？**PENDING 实探** | 待探 | 同 ETF | T+1 | PENDING |
 | 7 | 场内 QDII | data/daily 恒生/纳指/标普类 QDII ETF 在库（如 513130/513500 族）——**PENDING 逐只实探** | QDII 溢价面（折溢价套利=ARB 面） | 同 ETF＋申赎摩擦 | T+1（QDII 溢价=事件面） | PENDING |
