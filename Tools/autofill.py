@@ -573,7 +573,7 @@ def _git(args):
     return r.returncode, r.stderr.decode(errors="replace")[:200]
 
 
-def _claim_shard(sh, myid):
+def _claim_shard(sh, myid, entry_id):
     """r199 launch-claim law (r202 live case: 20:30:01 tick fired SHARD-4
     with no pool owner-write -> structural unclaimed window every cycle).
 
@@ -610,6 +610,14 @@ def _claim_shard(sh, myid):
         pool = json.loads(prev)
         hit = None
         for e in pool.get("entries", []):
+            # r141 double-key law: shard keys are unique only WITHIN
+            # an entry -- the fresh-read re-find is anchored by the
+            # picker's entry id. Key-only match hit the W1 same-key
+            # done shard first in pool order and the claim wrote the
+            # WRONG entry, leaving the true W2 shard unclaimed. A None
+            # anchor matches nothing (fail-closed miss, no write).
+            if e.get("id") != entry_id:
+                continue
             for s in e.get("shards", []):
                 if s.get("key") == sh.get("key"):
                     hit = s
@@ -617,7 +625,7 @@ def _claim_shard(sh, myid):
             if hit is not None:
                 break
         if hit is None:
-            _log(f"claim miss: shard {sh.get('key')} not in pool")
+            _log(f"claim miss: {entry_id}/{sh.get('key')} not in pool")
             return False
         ow = hit.get("owner")
         if ow and ow != myid:
@@ -962,7 +970,7 @@ def tick(dry=False):
         _save_state(state)
         print(json.dumps(rec, ensure_ascii=False))
         return 0
-    if not _claim_shard(sh, rec["machine"]):
+    if not _claim_shard(sh, rec["machine"], e.get("id")):
         rec["verdict"] = "claim_lost_yield"
         rec["entry"] = e["id"]
         rec["shard"] = sh.get("key")
@@ -1360,7 +1368,7 @@ def selftest():
         # S15a unclaimed -> claim True, owner+since written, add/commit/push
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         git_seq.clear()
-        r15 = _claim_shard({"key": "s0"}, "bm-b")
+        r15 = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         ok("S15a unclaimed -> claimed (owner+since written, git 3-step)",
            r15 is True and p15.get("owner") == "bm-b"
@@ -1369,21 +1377,21 @@ def selftest():
         # S15b rival FRESH claim -> lost, pool untouched
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-z",
                     "owner_since": _now()})
-        r15b = _claim_shard({"key": "s0"}, "bm-b")
+        r15b = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15b = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         ok("S15b rival fresh claim -> yield, no overwrite",
            r15b is False and p15b.get("owner") == "bm-z")
         # S15c rival STALE claim -> takeover, owner rewritten
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-z",
                     "owner_since": "2026-09-24 18:00:00"})
-        r15c = _claim_shard({"key": "s0"}, "bm-b")
+        r15c = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15c = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         ok("S15c rival stale claim -> takeover rewrites owner",
            r15c is True and p15c.get("owner") == "bm-b")
         # S15d pre-commit git fault -> False + pre-claim bytes restored
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_at["stage"] = "add"
-        r15d = _claim_shard({"key": "s0"}, "bm-b")
+        r15d = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15d = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         fail_at["stage"] = None
         ok("S15d git add fault -> yield + pool restored (owner None)",
@@ -1392,7 +1400,7 @@ def selftest():
         # claim bytes kept (local commit reconciled by session S0 rebase)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_at["stage"] = "push"
-        r15e = _claim_shard({"key": "s0"}, "bm-b")
+        r15e = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15e = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         fail_at["stage"] = None
         ok("S15e push lost post-commit -> yield, claim kept on disk",
@@ -1404,7 +1412,7 @@ def selftest():
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_next["q"] = ["push"]
         git_seq.clear()
-        r15f = _claim_shard({"key": "s0"}, "bm-b")
+        r15f = _claim_shard({"key": "s0"}, "bm-b", "E1")
         fail_next["q"] = []
         ok("S15f push reject -> rebase-retry -> claimed",
            r15f is True and git_seq == ["add", "commit", "push",
@@ -1415,7 +1423,7 @@ def selftest():
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_next["q"] = ["push", "pull"]
         git_seq.clear()
-        r15g = _claim_shard({"key": "s0"}, "bm-b")
+        r15g = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15g = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         fail_next["q"] = []
         ok("S15g clean refusal (dirty tree) -> no abort + yield, claim "
@@ -1438,7 +1446,7 @@ def selftest():
         fail_next["q"] = ["push"]
         push_sim["mid_appears"] = True
         git_seq.clear()
-        r15g2 = _claim_shard({"key": "s0"}, "bm-b")
+        r15g2 = _claim_shard({"key": "s0"}, "bm-b", "E1")
         marker_g2 = os.path.isdir(_mid)
         os.rmdir(_mid)
         push_sim["mid_appears"] = False
@@ -1456,7 +1464,7 @@ def selftest():
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         behind_sim["on"] = True
         git_seq.clear()
-        r15k = _claim_shard({"key": "s0"}, "bm-b")
+        r15k = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15k = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         behind_sim["on"] = False
         logtail = open(LOG, encoding="ascii", errors="replace").read()
@@ -1469,7 +1477,7 @@ def selftest():
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_at["stage"] = "fetch"
         git_seq.clear()
-        r15k2 = _claim_shard({"key": "s0"}, "bm-b")
+        r15k2 = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15k2 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         fail_at["stage"] = None
         ok("S15k2 probe fault -> fail-open, legacy claim proceeds",
@@ -1481,7 +1489,7 @@ def selftest():
         fail_next["q"] = ["push"]
         pull_sim["mode"] = "ours_conflict"
         git_seq.clear()
-        r15g3 = _claim_shard({"key": "s0"}, "bm-b")
+        r15g3 = _claim_shard({"key": "s0"}, "bm-b", "E1")
         marker_g3 = not os.path.exists(_mid)
         pull_sim["mode"] = None
         fail_next["q"] = []
@@ -1497,7 +1505,7 @@ def selftest():
         fail_next["q"] = ["push"]
         pull_sim["mode"] = "foreign_refusal"
         git_seq.clear()
-        r15g4 = _claim_shard({"key": "s0"}, "bm-b")
+        r15g4 = _claim_shard({"key": "s0"}, "bm-b", "E1")
         marker_g4 = os.path.isdir(_mid)
         os.rmdir(_mid)
         pull_sim["mode"] = None
@@ -1512,7 +1520,7 @@ def selftest():
         # rejected -> yield, claim bytes kept
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_next["q"] = ["push", "push"]
-        r15h = _claim_shard({"key": "s0"}, "bm-b")
+        r15h = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15h = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         fail_next["q"] = []
         ok("S15h push retry lost -> yield, claim kept",
@@ -1527,7 +1535,7 @@ def selftest():
             json.dump({"sigs": {}}, fh)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         add_args_all.clear()
-        r15i = _claim_shard({"key": "s0"}, "bm-b")
+        r15i = _claim_shard({"key": "s0"}, "bm-b", "E1")
         _lane_pl = _lane_path_for(POOL)
         ok("S15i claim add carries pool+fuse+lanes "
            "(r290 self-commit; state dirt = its lane, r381)",
@@ -1537,7 +1545,7 @@ def selftest():
         os.remove(FUSE)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         add_args_all.clear()
-        r15i2 = _claim_shard({"key": "s0"}, "bm-b")
+        r15i2 = _claim_shard({"key": "s0"}, "bm-b", "E1")
         ok("S15i absent fuse -> existence-filtered add (pool+lanes)",
            r15i2 is True and add_args_all
            and add_args_all[-1] == (POOL, _lane_st, _lane_pl))
@@ -1545,7 +1553,7 @@ def selftest():
         # this machine's pool lane -- payload parity + lane_machine
         # signature (anti-swallow record of the committed bytes).
         _pool_with({"key": "s0", "status": "ready", "owner": None})
-        r15l = _claim_shard({"key": "s0"}, "bm-b")
+        r15l = _claim_shard({"key": "s0"}, "bm-b", "E1")
         lane15l = json.load(open(_lane_pl, encoding="utf-8"))
         p15l = json.load(open(POOL, encoding="utf-8"))
         ok("S15l claim writes own pool lane (signed, owner carried)",
@@ -1559,7 +1567,7 @@ def selftest():
         os.makedirs(_GIT_DIR, exist_ok=True)
         os.makedirs(os.path.join(_GIT_DIR, "rebase-merge"), exist_ok=True)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
-        r15m = _claim_shard({"key": "s0"}, "bm-b")
+        r15m = _claim_shard({"key": "s0"}, "bm-b", "E1")
         lane15m = json.load(open(_lane_pl, encoding="utf-8"))
         os.rmdir(os.path.join(_GIT_DIR, "rebase-merge"))
         _GIT_DIR = _gd_orig
@@ -1598,7 +1606,7 @@ def selftest():
         os.makedirs(_mid, exist_ok=True)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         git_seq.clear()
-        r15j = _claim_shard({"key": "s0"}, "bm-b")
+        r15j = _claim_shard({"key": "s0"}, "bm-b", "E1")
         p15j = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         marker_j = os.path.isdir(_mid)
         os.rmdir(_mid)
@@ -1607,6 +1615,40 @@ def selftest():
            "pool restored, marker survives",
            r15j is False and p15j.get("owner") is None
            and git_seq == [] and marker_j)
+        # S15n r141 cross-entry key-collision law: shard keys are
+        # unique only WITHIN an entry. Live case (W2-SCREEN first
+        # burn, MSG-20260928-0655): key-only fresh-read re-find hit
+        # the W1 same-key DONE shard first in pool order -> claim
+        # wrote owner onto the wrong entry, true W2 shard stayed
+        # unclaimed. Double key (entry.id, shard.key) claims the
+        # true shard, done sibling untouched.
+        w1 = dict(entry, id="E1",
+                  shards=[{"key": "s0", "status": "done",
+                           "owner": None, "owner_since": None}])
+        w2 = dict(entry, id="E2",
+                  shards=[{"key": "s0", "status": "ready",
+                           "owner": None, "owner_since": None}])
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [w1, w2]}, fh)
+        git_seq.clear()
+        r15n = _claim_shard({"key": "s0"}, "bm-b", "E2")
+        p15n = json.load(open(POOL, encoding="utf-8"))
+        ok("S15n cross-entry same-key -> double-key claims true "
+           "shard (done sibling untouched)",
+           r15n is True
+           and p15n["entries"][0]["shards"][0].get("owner") is None
+           and p15n["entries"][1]["shards"][0].get("owner") == "bm-b"
+           and git_seq == ["add", "commit", "push"])
+        # S15o fail-closed anchor: no entry matches the anchor id
+        # (or the caller passed None) -> claim miss, zero writes.
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        before_o = open(POOL, "rb").read()
+        r15o = _claim_shard({"key": "s0"}, "bm-b", "E9")
+        r15o2 = _claim_shard({"key": "s0"}, "bm-b", None)
+        ok("S15o anchor miss / None anchor -> fail-closed claim "
+           "miss, pool byte-identical",
+           r15o is False and r15o2 is False
+           and open(POOL, "rb").read() == before_o)
         # S17 r288 claim-keepalive: a locally-alive runner on a
         # self-owned shard with an aging claim-stamp refreshes
         # owner_since (commit+push) so remote takeover gates never see
