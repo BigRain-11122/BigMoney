@@ -7,6 +7,7 @@
 
 
 - [2026-09-27 12:4x r322 bm-a] 坑律：**union 撞键须内容恒等验证——同 key 双侧 content-diff>0=单键不足换复合键（r319 补面）**——r322 S0 主重落实弹（三机同窗 S6 镜像三撞：bm-b r322 12:34:29/bm-a r321 12:34:56/bm-c r80 12:37:21→28 UU）：compute_audit history union 202+205 撞键 200 个，ts 单键 HEAD 取侧若遇同秒异机样本=静默吞一侧测量记录；验证法=撞键集逐对 content 比较（本例 content-diff=0=共同祖先面恒等合法）；content-diff>0 ⇒ 升复合键（如 (ts,machine)）再 union。同轮实证=28 件全可既有配方解（25 测量面 take-origin ts 深扫+3 账本 union 零丢失断言），主重落范式（push 拒→backup 分支→next-round S0 rebase 重落）全链零 abort 零强推。指针=results/_r322bma_probe.py+_r322bma_resolve.py+commit r322。
+- [2026-09-27 12:5x r323 bm-a] 坑律：**rebase 重落（re-land）的 backup 分支禁用 reachability 验 fold——merge-base --is-ancestor 恒 False（重落=新 hash 非快进），fold 验证正典=git cherry patch-id 打头阵+'+'行逐个内容锚点核**——r323 实弹（GC 四条 bm-a 陈旧 backup 分支 per D-20260925-01④ fold 后 GC）：r272/r287 cherry 1/1 全 '-'=patch 已在 main 直接剪；r241 3+1、r321 2+1 的 '+' 行均系 rebase 换基致 patch-id 变——验证法=实体产物逐文件 byte-compare 重落孪生 commit（r321 vs 4546952c：分类器/SKILL 双副本/轮报告行/探针脚本全 byte-identical，30 个差异文件全为 runtime-ts 测量面+union 已解账本=r322 take-origin/union 正典产物非丢失）+内容锚点 grep（r241 wrap：R240 报告行/HANDOVER 在 main、CODELY 坑律行已 12 批整编入 202609.md L661、state 被 r322 天然超越）；零丢失断言过闸才剪。车道律=只剪本机分支，bm-b×5/bm-c×1 backup 分支归各 owner 自决。指针=round_reports-bm-a.md R323 行+origin 分支删除 77828236 后。
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
