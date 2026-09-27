@@ -18,6 +18,9 @@ import sys
 
 # --- canonical catalog: (path regex, class, recipe, law anchor) -----------------
 CATALOG = [
+    (r"^results/runnable_pool\.json$", "pool-entry-done-union",
+     "per entry id union both sides; done ABSORBS (either side done -> done, shard fields from the done side = completing machine's record); both same status -> shard-level union (done absorbs); one-side-only entry -> keep; entry owner fields are transient autofill claims (non-authoritative), the flip evidence gate is the authority; verify done-absorb assertion + json.loads before write-back (r312 live fire: both machines burned same shards in same window, union converged 76/76 done zero loss)",
+     "r312"),
     (r"^results/autofill_state\.json$", "mixed-dict+ledger",
      "launches=union both blobs -> sort by ts -> cap 50 (rolling window, R215 law); last_tick=compare inner ts then assign WHOLE dict (no str()); same-second tie -> HEAD/ours (r140); after write-back assert isinstance(last_tick, dict); mirror working-tree line endings (CRLF producer-format, bm-b r223 law)",
      "r203/R208/r215/r220"),
@@ -95,6 +98,7 @@ def main():
     if "--selftest" in sys.argv:
         cases = [
             ("UU results/autofill_state.json", "mixed-dict+ledger"),
+            ("UU results/runnable_pool.json", "pool-entry-done-union"),
             ("UU results/compute_audit.json", "rolling-ledger"),
             ("UU results/regime_state.json", "rolling-ledger"),
             ("UU results/dashboard_status.js", "js-wrapper-snapshot"),
