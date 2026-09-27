@@ -5,7 +5,8 @@
   "results/paper",
   "results/shortline/o1600_market_fit.json",
   "results/paper_export/latest.json",
-  "results/strategy_scorecard.json (T-63 three-card face)"
+  "results/strategy_scorecard.json (T-63 three-card face)",
+  "results/system_v1_paper (T-91 decision-chain live face)"
  ],
  "traders": [
   {
@@ -363,6 +364,97 @@
     "sharpe": 1.605
    }
   ]
+ },
+ "system_v1_face": {
+  "ticket": "T-2026-09-27-91 s4",
+  "accounts": [
+   {
+    "account": "REV-OSC-STD",
+    "face": "standalone sleeve face (same engine replay, no route overlay): ret = series",
+    "equity_cny": 1000000.0,
+    "initial_cash_cny": 1000000.0,
+    "marks_summary": {
+     "bars": 0,
+     "first_date": null,
+     "last_date": null,
+     "cumulative_ret": 0.0,
+     "current_dd": 0.0,
+     "active_days": 0,
+     "fail_closed_route_days": 0
+    },
+    "entries": 0,
+    "exits": {
+     "time": 0,
+     "tp": 0,
+     "tp_gap": 0,
+     "sl": 0
+    },
+    "skips": {
+     "awaiting_signal": 0,
+     "gate_closed": 0,
+     "thin_market": 0,
+     "empty_fill": 0
+    },
+    "pending_cohorts": 1,
+    "open_positions": 0,
+    "l1_state": {},
+    "route_row": null,
+    "anchor_grid": "2026-09-24",
+    "panel_cutoff": "2026-09-24",
+    "updated": "2026-09-27 09:55:31"
+   },
+   {
+    "account": "SYSTEM-V1",
+    "face": "decision-chain LIVE face: L1 clock state -> L2 route -> deployed sleeve = rev_osc only (v1.0 stubs); allocation semantics (w_eff x series; no mid-hold forced liquidation; glide law + transition cost)",
+    "equity_cny": 1000000.0,
+    "initial_cash_cny": 1000000.0,
+    "marks_summary": {
+     "bars": 0,
+     "first_date": null,
+     "last_date": null,
+     "cumulative_ret": 0.0,
+     "current_dd": 0.0,
+     "active_days": 0,
+     "fail_closed_route_days": 0
+    },
+    "entries": 0,
+    "exits": {
+     "time": 0,
+     "tp": 0,
+     "tp_gap": 0,
+     "sl": 0
+    },
+    "skips": {
+     "awaiting_signal": 0,
+     "gate_closed": 0,
+     "thin_market": 0,
+     "empty_fill": 0
+    },
+    "pending_cohorts": 1,
+    "open_positions": 0,
+    "l1_state": {
+     "asof": "2026-09-24",
+     "state": "ORANGE",
+     "clock_cell": "ORANGE_COOL",
+     "cap_ladder": 0.5
+    },
+    "route_row": {
+     "rev_osc": 0.3,
+     "trend": 0.1,
+     "lowvol": 0.1,
+     "cap": 0.5
+    },
+    "anchor_grid": "2026-09-24",
+    "panel_cutoff": "2026-09-24",
+    "updated": "2026-09-27 10:01:17"
+   }
+  ],
+  "bench_2026_10_31": {
+   "caliber": "SPM J1-J4 (three-lines-three-judgments, trading-line live face)",
+   "first_window": "2026-10-31",
+   "runner": "month-boundary J-line runner (T-52 face); this face observes only, never judges",
+   "measurable": false
+  }
  },
  "post_review_latest": [
   {

@@ -28,6 +28,7 @@ OUT_JSON = os.path.join(ROOT, "results", "daily_scorecard.json")
 POST_REVIEW_LEDGER = os.path.join(ROOT, "results", "post_review.jsonl")
 PAPER_EXPORT = os.path.join(ROOT, "results", "paper_export", "latest.json")
 THREE_CARD = os.path.join(ROOT, "results", "strategy_scorecard.json")
+SYSTEM_V1_DIR = os.path.join(ROOT, "results", "system_v1_paper")
 
 
 def _load_three_cards():
@@ -82,6 +83,47 @@ def _load_paper_export():
     if not os.path.exists(PAPER_EXPORT):
         return None
     return json.load(io.open(PAPER_EXPORT, encoding="utf-8"))
+
+
+def _load_system_v1():
+    """T-91 s4 decision-chain LIVE face (O-20260926-2340): SYSTEM-V1
+    (L1 clock -> L2 route -> rev_osc sleeve deployed) + REV-OSC-STD
+    standalone sleeve control. Read-only consumption of the s1/s2 harness
+    output (results/system_v1_paper/); sleeve attribution + skip taxonomy
+    straight from the lane files, zero handwriting. Marks start at the
+    first trading day after anchor grid 2026-09-24 (out-of-sample by
+    construction); judgment caliber = SPM J1-J4 month-boundary rows
+    (three-lines-three-judgments: trading-line live face only)."""
+    if not os.path.isdir(SYSTEM_V1_DIR):
+        return None
+    rows = []
+    for fn in sorted(os.listdir(SYSTEM_V1_DIR)):
+        if not fn.endswith("_paper.json"):
+            continue
+        d = json.load(io.open(os.path.join(SYSTEM_V1_DIR, fn), encoding="utf-8"))
+        ms = d.get("marks_summary") or {}
+        ec = d.get("engine_counters") or {}
+        hist = d.get("state_hist") or []
+        l1 = hist[-1] if hist else {}
+        route_rows = (d.get("route_table_v1_0") or {}).get("rows") or {}
+        rows.append({
+            "account": d.get("account"),
+            "face": d.get("account_face"),
+            "equity_cny": d.get("equity_cny"),
+            "initial_cash_cny": d.get("initial_cash_cny"),
+            "marks_summary": ms,
+            "entries": ec.get("entries"),
+            "exits": ec.get("exits") or {},
+            "skips": ec.get("skips") or {},
+            "pending_cohorts": ec.get("pending_cohorts"),
+            "open_positions": len(d.get("open_positions") or []),
+            "l1_state": l1,
+            "route_row": route_rows.get(l1.get("state")) or None,
+            "anchor_grid": d.get("anchor_grid"),
+            "panel_cutoff": d.get("panel_cutoff"),
+            "updated": d.get("updated"),
+        })
+    return rows or None
 
 
 def _cny(x):
@@ -252,6 +294,85 @@ def build():
     A("<div class='sub'>操作台账：实盘舱大字版（上节）逐日自 results/paper_export 差分链派生；"
       "纸盘尚在首月（起跑 2026-09-23），fill_guard 计数随每 bar 更新（禁买弃单/禁卖递延如实记）。</div>")
 
+    # T-91 s4 (O-20260926-2340): decision-chain LIVE face — SYSTEM-V1 route
+    # account + REV-OSC-STD sleeve control, sleeve attribution as-is from
+    # the harness lane files; 2026-10-31 month-boundary bench rows staged in
+    # SPM J1-J4 caliber (three-lines-three-judgments: trading-line only).
+    sv_rows = _load_system_v1()
+    A("<h2>决策链系统活面（SYSTEM-V1 + REV-OSC-STD 纸盘 · T-91）</h2>")
+    if sv_rows:
+        first = sv_rows[0]
+        A(f"<div class='sub'>数据取自 results/system_v1_paper（s1/s2 harness · S6 轮确定性"
+          f" replay 幂等零手写）· 锚网格 {first.get('anchor_grid')} · 面板 cutoff "
+          f"{first.get('panel_cutoff')} · 样本外由构造保证（锚网格后首个交易日起 mark）· "
+          "三线三判律：本面=交易线活面，月界判据=SPM J1-J4 口径（首检 2026-10-31），"
+          "与配置面/激进面判据互不挪用。</div>")
+        A("<table><tr><th>账户</th><th>总资产 CNY</th><th>累计收益</th><th>bars</th>"
+          "<th>当前回撤</th><th>入场/出场</th><th>跳过(信缺/门关/薄/空)</th>"
+          "<th>持仓</th><th>L1 状态</th><th>承重袖（路由归因）</th></tr>")
+        for r in sv_rows:
+            ms, ex, sk = r["marks_summary"], r["exits"], r["skips"]
+            l1 = r["l1_state"] or {}
+            rr = r["route_row"]
+            if rr:
+                sleeve = (f"rev_osc {rr.get('rev_osc', 0):.2f} 承重 · trend "
+                          f"{rr.get('trend', 0):.2f}（存根0承重） · lowvol "
+                          f"{rr.get('lowvol', 0):.2f}（存根0承重） · cap "
+                          f"{rr.get('cap', 0):.2f} · 现金腿 0% fail-closed")
+            else:
+                sleeve = "纯袖面（无路由叠加 · 对照账户）"
+            exits_n = sum(v or 0 for v in ex.values()) if ex else 0
+            ret = ms.get("cumulative_ret")
+            A(f"<tr><td>{r['account']}</td><td>{_cny(r['equity_cny'])}</td>"
+              f"<td class='{'pos' if (ret or 0) >= 0 else 'neg'}'>{_pct(ret)}</td>"
+              f"<td>{ms.get('bars')}</td><td>{_pct(ms.get('current_dd'))}</td>"
+              f"<td>{r['entries']}/{exits_n}</td>"
+              f"<td class='dim'>{sk.get('awaiting_signal', 0)}/"
+              f"{sk.get('gate_closed', 0)}/{sk.get('thin_market', 0)}/"
+              f"{sk.get('empty_fill', 0)}</td>"
+              f"<td>{r['open_positions']}</td>"
+              f"<td class='dim'>{l1.get('state', '—')}"
+              f"{'（asof ' + str(l1.get('asof')) + '）' if l1.get('asof') else ''}</td>"
+              f"<td class='dim'>{sleeve}</td></tr>")
+        A("</table>")
+        v1 = next((r for r in sv_rows if r["account"] == "SYSTEM-V1"), None)
+        if v1 and (v1["marks_summary"].get("bars") or 0) == 0:
+            A(f"<div class='sub'>armed-pending 姿态（诚实）：marks=0 · L1 已种入 "
+              f"{(v1['l1_state'] or {}).get('state', '—')} · "
+              f"待入队列组 {v1['pending_cohorts']} · 首个 mark 日=锚网格后首个交易日"
+              "（SIG/BARS 到位即 S6 腿确定性 replay，无人工动作）。</div>")
+        A("<h2>2026-10-31 月度判决台预排面（SPM J1-J4 口径 · 交易线）</h2>")
+        A("<div class='sub'>预排面=冻结口径+当前读数如实披露；判据行随月界 runner 落数"
+          "（T-52 判决台机器 · 零假设账本 · 负判定照交），本面不代跑不手写读数。</div>")
+        A("<table><tr><th>判据</th><th>冻结口径</th><th>活面观察值</th><th>判决状态</th></tr>")
+        ms_v1 = (v1 or {}).get("marks_summary") or {}
+        measurable = bool(v1) and (ms_v1.get("bars") or 0) > 0
+
+        def _bench_reading(jid):
+            if not measurable:
+                return "—"
+            if jid == "J1":
+                return (f"净收益 {_pct(ms_v1.get('cumulative_ret'))} · "
+                        f"maxDD {_pct(ms_v1.get('current_dd'))}")
+            return "—"  # J2/J3/J4 = month-runner faces, never hand-derived here
+
+        bench = [
+            ("J1 当前窗盈利", "当前政体窗净收益&gt;0 且 |maxDD|≤5%", "J1"),
+            ("J2 成本存活", "×2 成本面净收益&gt;0", "J2"),
+            ("J3 政体段稳定", "bull/chop/bear 段净贡献≥−5%", "J3"),
+            ("J4 时点稳健", "12 月池化 beat-passive 率 ≥0.70（冻结线）", "J4"),
+        ]
+        for name, caliber, jid in bench:
+            state = ("⬜ 待测（首窗 2026-10-31）" if not measurable
+                     else "月界 runner 落数（本面只观察不判决）")
+            A(f"<tr><td>{name}</td><td class='dim'>{caliber}</td>"
+              f"<td>{_bench_reading(jid)}</td>"
+              f"<td class='dim'>{state}</td></tr>")
+        A("</table>")
+    else:
+        A("<div class='sub'>活面缺件（results/system_v1_paper 未产出，如实标注；"
+          "harness 落地后本节自动出现）</div>")
+
     # T-20 disclosure block: dual-rail fill_guard face (reporting-only wiring).
     fg_rows = [r for r in rows if r.get("forward_guard")]
     A("<h2>双轨护栏披露（T-20 · fill_guard 逐员披露面）</h2>")
@@ -412,7 +533,8 @@ def build():
         "evidence_cutoff": cutoff,
         "generated_from": ["results/paper", "results/shortline/o1600_market_fit.json",
                            "results/paper_export/latest.json",
-                           "results/strategy_scorecard.json (T-63 three-card face)"],
+                           "results/strategy_scorecard.json (T-63 three-card face)",
+                           "results/system_v1_paper (T-91 decision-chain live face)"],
         "traders": rows,
         "paper_export_face": None if not pe else {
             "export_date": pe.get("export_date"),
@@ -427,6 +549,20 @@ def build():
         },
         "o1600_first_screen": {"passive_ew48_ret_pct": passive_pct,
                                "traders": o1600_rows},
+        "system_v1_face": {
+            "ticket": "T-2026-09-27-91 s4",
+            "accounts": sv_rows,
+            "bench_2026_10_31": {
+                "caliber": "SPM J1-J4 (three-lines-three-judgments, "
+                           "trading-line live face)",
+                "first_window": "2026-10-31",
+                "runner": "month-boundary J-line runner (T-52 face); "
+                          "this face observes only, never judges",
+                "measurable": bool(sv_rows) and any(
+                    (r["marks_summary"].get("bars") or 0) > 0
+                    for r in (sv_rows or [])),
+            },
+        },
         "post_review_latest": pr_rows,
         "post_review_source": "results/post_review.jsonl (append-only, per-id last sweep; T-37 d5)",
         "honesty": "months_tracked=0 partial-month not counted; first full month 2026-10; "

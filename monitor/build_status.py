@@ -1663,6 +1663,60 @@ def _alloc_paper_state() -> dict:
     return out
 
 
+def _system_v1_paper_state() -> dict:
+    """T-91 s4 (O-20260926-2340 complete-system order): decision-chain LIVE
+    paper face — SYSTEM-V1 (L1 clock -> L2 route -> rev_osc sleeve deployed,
+    v1.0 stubs weight-bearing-0) + REV-OSC-STD standalone sleeve control.
+    Read-only consumption of results/system_v1_paper/ (s1/s2 harness, S6-leg
+    deterministic replay); marks start at the first trading day after anchor
+    grid 2026-09-24 (out-of-sample by construction). Town GM-office rows +
+    daily_scorecard lines are the report consumers (three-lines-three-
+    judgments: trading-line live face only)."""
+    out = {"present": False, "n_accounts": 0, "accounts": [],
+           "anchor_grid": None, "panel_cutoff": None,
+           "awaiting_lane_data": None}
+    d = os.path.join(PATHS.results_dir, "system_v1_paper")
+    if not os.path.isdir(d):
+        return out
+    for f in sorted(os.listdir(d)):
+        if not f.endswith("_paper.json"):
+            continue
+        j = _read_json(os.path.join(d, f))
+        if not j:
+            continue
+        ms = j.get("marks_summary") or {}
+        ec = j.get("engine_counters") or {}
+        hist = j.get("state_hist") or []
+        l1 = hist[-1] if hist else {}
+        route_rows = (j.get("route_table_v1_0") or {}).get("rows") or {}
+        acc = {
+            "id": j.get("account", f[:-11]),
+            "face": j.get("account_face"),
+            "equity_cny": j.get("equity_cny"),
+            "cumulative_ret": ms.get("cumulative_ret"),
+            "current_dd": ms.get("current_dd"),
+            "bars": ms.get("bars"),
+            "first_mark": ms.get("first_date"),
+            "last_mark": ms.get("last_date"),
+            "entries": ec.get("entries"),
+            "exits_total": sum(v or 0 for v in (ec.get("exits") or {}).values()),
+            "skips": ec.get("skips") or {},
+            "pending_cohorts": ec.get("pending_cohorts"),
+            "open_positions": len(j.get("open_positions") or []),
+            "l1_state": l1 or None,
+            "route_row": route_rows.get(l1.get("state")) if l1 else None,
+            "updated": j.get("updated"),
+        }
+        out["accounts"].append(acc)
+        out["anchor_grid"] = out["anchor_grid"] or j.get("anchor_grid")
+        out["panel_cutoff"] = out["panel_cutoff"] or j.get("panel_cutoff")
+        out["awaiting_lane_data"] = j.get("awaiting_lane_data")
+    if out["accounts"]:
+        out["present"] = True
+        out["n_accounts"] = len(out["accounts"])
+    return out
+
+
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
@@ -1681,6 +1735,7 @@ def build() -> dict:
     data["daily_report"] = _daily_report_state()
     data["queue_bandit"] = _queue_bandit_state()
     data["alloc_paper"] = _alloc_paper_state()
+    data["system_v1_paper"] = _system_v1_paper_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()

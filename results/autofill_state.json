@@ -1,6 +1,30 @@
 {
  "launches": [
   {
+   "entry": "BOND-PANEL-SHARD-5",
+   "fill_latency_min": 82.9,
+   "machine": "bm-b",
+   "pid": 4460,
+   "py_cpu_pct": 0.0,
+   "shard": "bpanel-5of6",
+   "target_met": false,
+   "ts": "2026-09-26 00:00:01",
+   "verdict": "launched",
+   "crash_counted": true
+  },
+  {
+   "entry": "P1E-NULLS-MCLOSE",
+   "fill_latency_min": 3.2,
+   "machine": "bm-b",
+   "pid": 3096,
+   "py_cpu_pct": 4.8,
+   "shard": "p1e-nulls-mclose",
+   "target_met": true,
+   "ts": "2026-09-26 03:10:01",
+   "verdict": "launched",
+   "crash_counted": true
+  },
+  {
    "entry": "P1E-NULLS-MCLOSE",
    "fill_latency_min": 23.2,
    "machine": "bm-b",
@@ -558,32 +582,8 @@
    "pid": 60348,
    "runner_sha256": "4b57bdba6466706b",
    "fill_latency_min": 21.6,
-   "target_met": false
-  },
-  {
-   "ts": "2026-09-27 09:20:01",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "DECISION-CHAIN-E2E-X2-LA",
-   "shard": "dce2-legacy-la",
-   "pid": 60348,
-   "runner_sha256": "4b57bdba6466706b",
-   "fill_latency_min": 21.6,
    "target_met": false,
    "crash_counted": true
-  },
-  {
-   "ts": "2026-09-27 09:30:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "DECISION-CHAIN-E2E-X2-LB",
-   "shard": "dce2-legacy-lb",
-   "pid": 29432,
-   "runner_sha256": "ac9c499bdcb85879",
-   "fill_latency_min": 34.2,
-   "target_met": false
   },
   {
    "ts": "2026-09-27 09:30:01",
@@ -608,7 +608,8 @@
    "pid": 27308,
    "runner_sha256": "ac9c499bdcb85879",
    "fill_latency_min": 44.2,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-27 09:40:01",
@@ -623,19 +624,6 @@
    "target_met": false
   },
   {
-   "ts": "2026-09-27 09:40:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "DECISION-CHAIN-E2E-X2-LB",
-   "shard": "dce2-legacy-lb",
-   "pid": 27308,
-   "runner_sha256": "ac9c499bdcb85879",
-   "fill_latency_min": 44.2,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-27 09:50:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -646,22 +634,30 @@
    "runner_sha256": "ac9c499bdcb85879",
    "fill_latency_min": 54.2,
    "target_met": false
+  },
+  {
+   "ts": "2026-09-27 10:00:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "DECISION-CHAIN-E2E-X2-LD",
+   "shard": "dce2-legacy-ld",
+   "pid": 66092,
+   "runner_sha256": "4b57bdba6466706b",
+   "fill_latency_min": 61.6,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-27 09:50:01",
+  "ts": "2026-09-27 10:00:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "fuse_skipped": [
-   {
-    "entry": "DECISION-CHAIN-E2E-X2-LA",
-    "shard": "dce2-legacy-la",
-    "sig": "scripts/decision_chain_e2e.py|run,--face,x2,--axis,legacy,--shard,LA,--pos-from,0,--pos-to,314",
-    "fuse_refusals": 1
-   }
-  ],
-  "verdict": "claim_lost_yield",
-  "entry": "DECISION-CHAIN-E2E-X2-LC",
-  "shard": "dce2-legacy-lc"
+  "verdict": "launched",
+  "entry": "DECISION-CHAIN-E2E-X2-LD",
+  "shard": "dce2-legacy-ld",
+  "pid": 66092,
+  "runner_sha256": "4b57bdba6466706b",
+  "fill_latency_min": 61.6,
+  "target_met": false
  }
 }

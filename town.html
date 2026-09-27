@@ -438,6 +438,17 @@ const BUILDS = [
           if (!q.present) return '<div class="row dim">队列排程待产出</div>';
           return '<div class="row">队列排程：UCB1 · 下一 '+q.next_lane_cn+' · 正收益 '+(q.positive_arms_cn||'无')+'</div>'
             + '<div class="row dim">advisory only · 排程不发起批 · 每批照旧预注册+认领（bm-a R62 数据件）</div>'; })()
+      + (() => { const sv=(D.data&&D.data.system_v1_paper)||{};
+          if (!sv.present) return '<div class="row dim">决策链活面待产出（T-91 s1/s2 harness · S6 轮确定性 replay）</div>';
+          const accs=(sv.accounts||[]).map(a=>{
+            const ret=((a.cumulative_ret??0)*100).toFixed(2);
+            return a.id+' ¥'+Math.round(a.equity_cny||0).toLocaleString()+' · '+ret+'% · '+(a.bars||0)+'bars · 持仓 '+(a.open_positions||0);
+          }).join(' ｜ ');
+          const v1=(sv.accounts||[]).find(x=>x.id==='SYSTEM-V1')||{};
+          const l1=v1.l1_state||{}, rr=v1.route_row||{};
+          let row='<div class="row">决策链活面（T-91 完整系统·CEO 令）：'+accs+'</div>';
+          if (v1.id) row+='<div class="row dim">L1 '+(l1.state||'—')+'（asof '+(l1.asof||'—')+'）· 路由 rev_osc '+(rr.rev_osc!=null?rr.rev_osc:'—')+' 承重 · trend/lowvol 存根 0 · cap '+(rr.cap!=null?rr.cap:'—')+' · 判据=SPM J1-J4 月界口径（首检 2026-10-31 · 三线三判律）</div>';
+          return row; })()
       + '<div class="row">J13 LLM 助理 <span class="green">v0.1 已交付</span>：ask/review/retro/ideas/selftest · Ollama qwen2.5:7b 本地常驻</div>'
       + '<div class="row dim">总经理=quant 专管 AI 会话 · CEO 只见决策项（RULES §4）</div>'
       + '<div class="row dim">LLM 产物=主张非指令 · 未经人工审计不采信</div>' },

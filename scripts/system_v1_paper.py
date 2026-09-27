@@ -514,10 +514,11 @@ def build_account_states(cal, rep, hist, bars_cutoff, lane_files):
                         "ladder pending T-88 s3 collectors)",
             "fail_closed": True,
         },
-        "report_wiring": "s4 pending (daily_scorecard SYSTEM-V1 + REV-OSC "
-                         "lines with sleeve attribution + town GM-office "
-                         "rows + 2026-10-31 bench) -- wires after harness "
-                         "green per T-91 spec",
+        "report_wiring": "s4 WIRED (R310 bm-a): daily_scorecard SYSTEM-V1 + "
+                         "REV-OSC lines with sleeve attribution + town "
+                         "GM-office rows + 2026-10-31 bench rows (SPM J1-J4 "
+                         "caliber, three-lines-three-judgments); consumers "
+                         "read this lane read-only, zero handwriting",
         "state_hist": hist,
         "marks": v1_marks,
         "marks_summary": _marks_summary(v1_marks, v1_eq, v1_fc),
