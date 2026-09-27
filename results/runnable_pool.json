@@ -3032,7 +3032,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 04:39:34",
    "workers_plan": {
     "workers": 1,
@@ -3044,12 +3044,14 @@
     {
      "key": "generate-0of1",
      "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-c",
+     "owner_since": "2026-09-28T05:08:00+08:00",
      "checkpoint": "results/trial_labor_w2/w2_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
      "note": "single shard minutes-scale; products = w2_candidates.json + TRIAL_GRAMMAR_LEDGER wave-2 row (consume point); SCREEN pool entry lands next slice after the runner screen subcommand exists (anti-dup: no pool entry pointing at a not-yet-built subcommand)"
     }
-   ]
+   ],
+   "flipped_at": "2026-09-28T05:08:00+08:00",
+   "flip_by": "bm-c r137 round work (r203 law any machine): local free-RAM three-sample 5.72/5.78/5.74GB @05:06-05:07 >= 4GB (r354 law 3x/30s); bm-b lane RAM-held by W2B burn per r359; shard pre-claimed bm-c to keep bm-b autofill churn off the RAM-refuse path"
   }
  ],
  "version": 1,
