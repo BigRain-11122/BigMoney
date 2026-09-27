@@ -718,6 +718,21 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
         forward_guard["note"] = ("composition: buy_rejected_n may include "
                                   "T-21 regime-matrix drops (guard faces "
                                   "ANDed on the buy leg)")
+    # T-19 stage-2a: boundary-inclusive consolidation crossing disclosure
+    # (s5 correction rides along; reporting-only -- marks/ledger/criteria
+    # untouched; honest degradation never blocks the paper plane).
+    try:
+        from scripts.t19_paper_guard import crossing_rows
+        _idx = P["close"].index
+        _widx = _idx[_idx >= pd.Timestamp(t["created"])][
+            :len(run["equity"])] if run["equity"] is not None else _widx
+        forward_guard["consolidation"] = crossing_rows(
+            run.get("open_positions", []), _widx,
+            trades=run.get("trades", []))
+    except Exception as exc:
+        forward_guard["consolidation"] = {"enabled": False,
+                                          "error": f"t19_paper_guard "
+                                          f"unavailable: {exc}"}
     # T-35 (O-2045 s1.4/s2): CNY capital + open-positions faces, additive
     # to the state JSON (consumed by the intraday marking lane, the daily
     # export and T-29); marks use the last CLOSE bar -- intraday re-marks
@@ -1115,6 +1130,17 @@ def main(argv=None) -> int:
     print(f"forward_guard: {GUARD_SOURCE_LABEL} wired (board-seal up="
           f"{gtot['buy_blocked']} dn={gtot['sell_blocked']} "
           f"susp={gtot['susp']})")
+    # T-19 stage-2a: consolidation no-trade mask composed into the buy
+    # leg (O-1325 art.2 option-a; sell face untouched; prereg C4 single
+    # composition point -- research/T19_STAGE2A_PAPER_FPGUARD.md).
+    from scripts.t19_paper_guard import compose_fill_guard
+    fill_guard, consol_diag = compose_fill_guard((fill_guard, guard_diag),
+                                                 prices_full)
+    print(f"forward_guard: +T-19 consolidation mask (events="
+          f"{consol_diag['events_total']} in-universe="
+          f"{consol_diag['events_in_universe']} blocked-days="
+          f"{consol_diag['buy_blocked_days']} skipped-non-panel="
+          f"{consol_diag['skipped_non_panel']})")
     print(f"regime: major_bear={regime['is_major_bear']} "
           f"cap={regime['position_cap']} (close<MA250={regime['below_ma250']}, "
           f"dd={regime['dd_from_250d_high']})")
