@@ -22,10 +22,15 @@ Engineering mapping disclosure (pre-run, zero cells burned, MSG-20260928-0440):
 
 Slice plan (slice-1 landed r358: grammar + overlay + selftest + grammar
 serialization; slice-2 landed r359: generate (Sobol draws + four-source
-exclusion + effective-face dedup + ledger row + D6 disclosure column);
+exclusion + effective-face dedup + ledger row + D6 disclosure column));
 slice-3 landed r360: screen (prep fail-closed gates + sharded cell burn
-with K=200 nulls + finalize survival line); judge/intake land next slices
-per prereg sec.6):
+with K=200 nulls + finalize survival line); slice-4 landed r362: judge
+(judge-prep dual-leg census/manifest gates + judged cells = dual-leg base
+x1 AND x2 CostPatch(2) curves + window-grid beat vs passive + regime
+segments + dual nulls on the W2 seed 20286500 + descriptive-clause columns
++ MSG-0450 annex-1 stop trigger/fill-day D+1 open-vs-close deviation
+disclosure + prereg sec.5 crisis/stop-day counts + finalize G1'v2/DSR/
+family-PBO/G2/E[FP]); intake lands the next slice per prereg sec.6):
   - build_grammar_w2(): tl1.build_grammar() extended with the initial-stop
     axis (8 faces -> 3584 axis combos), W2 seed block, W2 per-family counts,
     stop-level formula table; new grammar sha16 (new-syntax face, prereg
@@ -52,7 +57,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import trial_labor_w1 as tl1  # import-face reuse law (prereg sec.6)
-from science_gates import SEED_REGISTRY  # noqa: E402
+from science_gates import CostPatch, SEED_REGISTRY  # noqa: E402
 
 # ------------------------------------------------------------ frozen (prereg)
 WAVE = "TRIAL_LABOR_W2"
@@ -72,6 +77,8 @@ FROZEN_SHA16 = "1dd3d95792395cec"   # r358 serialized face (MSG-0440 disclosed)
 PREP_FILE = os.path.join(RES_DIR, "prep_state.json")
 SCREEN_FILE = os.path.join(RES_DIR, "w2_screen.json")
 SCREEN_CSV = os.path.join(RES_DIR, "w2_screen_cells.csv")
+JUDGE_STATE_FILE = os.path.join(RES_DIR, "judge_state.json")
+JUDGE_FILE = os.path.join(RES_DIR, "w2_judge.json")
 CKPT_DIR = os.path.join(RES_DIR, "checkpoint")
 SCREEN_BATCH = "TRIAL_LAB_W2_SCREEN"   # prereg sec.3 ledger literal
 JUDGE_BATCH = "TRIAL_LAB_W2_JUDGE"     # prereg sec.3 ledger literal
@@ -1081,9 +1088,566 @@ def cmd_screen_finalize() -> int:
     return 0
 
 
+# ------------------------------------------------------ judge slice (s3/s4)
+def _dual_nulls_w2(returns, cell_idx, seed=None):
+    """Dual nulls on the cell's mean daily return (prereg sec.3 s3):
+    B=2000 block-20 circular bootstrap + P=2000 sign-flip, two-sided;
+    W2 seed binding [20286500, cell_idx].  tl1._dual_nulls math mirrored
+    verbatim -- the seed constant is the only differing face (import law
+    kept by the selftest cross-check at the W1 seed)."""
+    rng = np.random.default_rng([SEED_UNC if seed is None else seed,
+                                 cell_idx])
+    r = np.asarray(returns, dtype=float)
+    n = len(r)
+    mu = float(r.mean())
+    B, block = 2000, 20
+    n_blocks = int(math.ceil(n / block))
+    idx0 = rng.integers(0, max(1, n), size=(B, n_blocks))
+    offs = np.arange(block)[None, None, :]
+    gather = (idx0[:, :, None] + offs) % n           # circular blocks
+    boots = r[gather].reshape(B, -1)[:, :n].mean(axis=1)
+    lo, hi = np.percentile(boots, [2.5, 97.5])
+    P = 2000
+    signs = rng.choice([-1.0, 1.0], size=(P, n))
+    perms = (r[None, :] * signs).mean(axis=1)
+    p_two = float((np.abs(perms) >= abs(mu)).mean())
+    return {"bootstrap_ci": [round(float(lo), 8), round(float(hi), 8)],
+            "ci_lower_positive": bool(lo > 0),
+            "signflip_p": round(p_two, 6),
+            "B": B, "P": P, "block": block}
+
+
+def _yearly_returns(eq):
+    """Calendar-year compounded returns from the equity curve (pure
+    descriptive-clause face, prereg sec.3 descriptive bullet)."""
+    if len(eq) < 2 or float(eq.iloc[0]) <= 0:
+        return {}
+    out = {}
+    for y in sorted({d.year for d in eq.index}):
+        end_v = float(eq[eq.index.year <= y].iloc[-1])
+        prior = eq[eq.index.year < y]
+        base = float(prior.iloc[-1]) if len(prior) else float(eq.iloc[0])
+        out[str(y)] = round(end_v / base - 1.0, 6)
+    return out
+
+
+def _descriptive_face(eq, eq_x2):
+    """Prereg sec.3 descriptive-clause columns (disclosure-only, ZERO gate
+    weight; the gates are G1'v2/G2/DSR/PBO per sec.4): annualized>0,
+    OOS(2025+ blind) sharpe+annualized both positive, max drawdown >= -35%,
+    no calendar year <= -35% (crash-year caliber mirrors the dd line; the
+    only threshold face, no invented lines), x2 face yearly stability via
+    the same crash-year caliber with the full yearly tables disclosed."""
+    def _ann(s):
+        if len(s) < 2 or float(s.iloc[0]) <= 0:
+            return None
+        return float((float(s.iloc[-1]) / float(s.iloc[0]))
+                     ** (252.0 / len(s)) - 1.0)
+
+    if len(eq) < 2 or float(eq.iloc[0]) <= 0:
+        return {"degenerate": True}
+    oos = eq[eq.index >= tl1.OOS_START]
+    yearly = _yearly_returns(eq)
+    yearly_x2 = _yearly_returns(eq_x2) if len(eq_x2) else {}
+    dd = float(tl1.max_drawdown(eq))
+    oos_sh = float(tl1.sharpe(oos)) if len(oos) >= 2 else None
+    oos_ann = _ann(oos)
+    ann = _ann(eq)
+    return {"degenerate": False,
+            "ann_ret_full": round(ann, 6) if ann is not None else None,
+            "oos_sharpe": round(oos_sh, 4) if oos_sh is not None else None,
+            "oos_ann_ret": round(oos_ann, 6) if oos_ann is not None else None,
+            "dd_full": round(dd, 4),
+            "yearly_returns": yearly,
+            "yearly_returns_x2": yearly_x2,
+            "clause_ann_pos": bool(ann is not None and ann > 0),
+            "clause_oos_dual_pos": bool(oos_sh is not None and oos_sh > 0
+                                        and oos_ann is not None
+                                        and oos_ann > 0),
+            "clause_dd_ok": bool(dd >= -0.35),
+            "crash_years": [y for y, v in yearly.items() if v <= -0.35],
+            "clause_no_crash_year": bool(all(v > -0.35
+                                             for v in yearly.values())),
+            "clause_x2_no_crash_year": (bool(all(v > -0.35
+                                                 for v in
+                                                 yearly_x2.values()))
+                                        if yearly_x2 else None)}
+
+
+def _stop_dev_summary(events, prices, mask_index):
+    """MSG-0450 annex (1) summary math: trigger/fill-day counts + the D+1
+    open-vs-close deviation distribution. One-way check face =
+    frac_close_below_open = share of fill days where the engine-native
+    close fill is WORSE than the prereg-literal open fill (close < open on
+    the exit day = conservative direction of the disclosed E1 mapping).
+    Disclosure-only, zero criteria weight."""
+    fired = [e for e in events if "trigger_date" in e and "exit_date" in e]
+    out = {"n_trigger_events": len(fired), "n_trigger_days": 0,
+           "dev_mean": None, "dev_median": None,
+           "frac_close_below_open": None, "dev_min": None,
+           "dev_max": None}
+    devs, days = [], set()
+    for e in fired:
+        d = pd.Timestamp(e["exit_date"])
+        sym = e["sym"]
+        if sym not in prices:
+            continue
+        row = prices[sym].reindex(mask_index)
+        o = row["open"].get(d, np.nan)
+        c = row["close"].get(d, np.nan)
+        if pd.isna(o) or pd.isna(c) or o == 0:
+            continue
+        devs.append(float(c / o - 1.0))
+        days.add(str(e["trigger_date"]))
+    out["n_trigger_days"] = len(days)
+    if devs:
+        arr = np.asarray(devs, dtype=float)
+        out.update({"dev_mean": round(float(arr.mean()), 6),
+                    "dev_median": round(float(np.median(arr)), 6),
+                    "frac_close_below_open": round(float((arr < 0).mean()),
+                                                   4),
+                    "dev_min": round(float(arr.min()), 6),
+                    "dev_max": round(float(arr.max()), 6)})
+    return out
+
+
+def _overlay_stop_disclosure(cand, prices, P, atr20, fundamental_ok):
+    """Per-cell stop trigger/fill-day disclosure on the leg-L signal face
+    (the same protection-floor overlay the engine face consumes; MSG-0440
+    E1 mapping + MSG-0450 annex 1)."""
+    stop_key = cand["axis"][4]
+    if stop_key == "none":
+        s = _stop_dev_summary([], prices, P["close"].index)
+        s["stop_face"] = "none"
+        return s
+    mk = f"{cand['module']}.{cand['fn']}"
+    mask = tl1._signal_frame(cand, P, tl1.GRAMMAR["faces"][mk])
+    mask = mask.reindex(index=P["close"].index,
+                        columns=P["close"].columns).fillna(0)
+    mask = tl1.apply_filter(mask, cand["axis"][0], P, fundamental_ok)
+    mask = tl1.apply_timing(mask, cand["axis"][3])
+    _, ev = stop_exit_overlay(mask, prices, stop_key, atr20)
+    s = _stop_dev_summary(ev, prices, mask.index)
+    s["stop_face"] = stop_key
+    return s
+
+
+def _judge_cell_w2(cell):
+    """One survivor judged cell (prereg sec.3 s3 frozen face, pool worker):
+    dual-leg (P-5C grid) x cost {base x1, x2=CostPatch(2)} full curves +
+    window-grid beat vs passive + regime segments + dual nulls (W2 seed)
+    + descriptive clauses + crisis/stop disclosure columns.  Gates face =
+    leg-L base (W1 judged-cell caliber); x2 + descriptive = disclosure."""
+    st = tl1._ST
+    cand, template = cell["cand"], cell.get("template")
+    out = {"cell_id": cell["cell_id"], "candidate_id": cand["candidate_id"],
+           "family": cand["family"], "module": cand["module"],
+           "fn": cand["fn"], "stop_face": cand["axis"][4]}
+    legs = {}
+    for leg in ("L", "D"):
+        prices, P, idx = (st[f"prices_{leg}"], st[f"P_{leg}"],
+                          st[f"idx_{leg}"])
+        fok = st[f"fundamental_ok_{leg}"]
+        eq, trades, metrics, params, patch, fired = run_candidate_curve_w2(
+            cand, template, prices, P, st["states"], st[f"atr20_{leg}"],
+            fundamental_ok=fok)
+        with CostPatch(2):
+            eq2, _, m2, _, _, fired2 = run_candidate_curve_w2(
+                cand, template, prices, P, st["states"], st[f"atr20_{leg}"],
+                fundamental_ok=fok)
+        if len(eq) < 30 or float(eq.iloc[0]) <= 0:
+            legs[leg] = {"beat": {}, "beat_x2": {}, "sharpe_full": None,
+                         "sharpe_full_x2": None, "n_trades": 0,
+                         "n_entries": 0, "stop_fired": 0,
+                         "stop_fired_x2": 0,
+                         "regime_start_windows": {"bear": 0, "bull": 0,
+                                                  "chop": 0, "na": 0},
+                         "degenerate": True}
+            continue
+        daily = eq.pct_change().fillna(0.0)
+        segs = {"bear": 0, "bull": 0, "chop": 0, "na": 0}
+        s_series = st["states"].reindex(idx)
+        beat, beat_x2 = {}, {}
+        for wname, w in tl1.WINDOWS.items():
+            starts = st["starts"][leg][wname]
+            k = tot = k2 = 0
+            for p in starts:
+                if p + w - 1 >= len(eq):
+                    continue
+                tot += 1
+                pret = st["passive"][leg][wname][str(p)]
+                if float(eq.iloc[p + w - 1] / eq.iloc[p] - 1.0) > pret:
+                    k += 1
+                if float(eq2.iloc[p + w - 1] / eq2.iloc[p] - 1.0) > pret:
+                    k2 += 1
+                d = s_series.iloc[p] if p < len(s_series) else None
+                st_ = tl1.REGIME_MAP.get(d, "na") if d == d else "na"
+                segs[st_] += 1
+            beat[wname] = {"k": k, "n": tot,
+                          "rate": round(k / tot, 6) if tot else 0.0}
+            beat_x2[wname] = {"k": k2, "n": tot,
+                              "rate": round(k2 / tot, 6) if tot else 0.0}
+        legs[leg] = {"beat": beat, "beat_x2": beat_x2,
+                     "regime_start_windows": segs,
+                     "sharpe_full": round(float(tl1.sharpe(eq)), 4),
+                     "sharpe_full_x2": round(float(tl1.sharpe(eq2)), 4),
+                     "n_trades": int(metrics.get("num_trades", 0)),
+                     "n_entries": int(metrics.get("num_entries", 0)),
+                     "stop_fired": int(fired),
+                     "stop_fired_x2": int(fired2)}
+        if leg == "L":
+            out["legL_daily_returns"] = [round(float(x), 8)
+                                         for x in daily.values]
+            out["legL_sharpe_full"] = legs[leg]["sharpe_full"]
+            out["legL_n_trades"] = legs[leg]["n_trades"]
+            out["legL_n_entries"] = legs[leg]["n_entries"]
+            out["descriptive"] = _descriptive_face(eq, eq2)
+            out["crisis_days_gt8pct"] = int(
+                (np.abs(np.asarray(daily.values, dtype=float))
+                 > 0.08).sum())
+            out["stop_disclosure"] = _overlay_stop_disclosure(
+                cand, prices, P, st["atr20_L"], fok)
+    out["legs"] = legs
+    if "legL_daily_returns" not in out:
+        out["legL_daily_returns"] = []
+        out["legL_sharpe_full"] = None
+        out["legL_n_trades"] = 0
+        out["legL_n_entries"] = 0
+    r = np.asarray(out["legL_daily_returns"], dtype=float)
+    ci = _dual_nulls_w2(r if len(r) else np.zeros(30), cell["i"])
+    out["dual_nulls"] = ci
+    n_eff = sum(legs[lg]["regime_start_windows"][s]
+                for lg in legs for s in ("bear", "bull", "chop"))
+    out["n_eff_start_windows"] = n_eff
+    out["sample_sufficient"] = bool(
+        n_eff >= 500 and all(legs[lg]["regime_start_windows"][s] >= 100
+                             for lg in legs
+                             for s in ("bear", "bull", "chop")))
+    return out
+
+
+def cmd_judge_prep() -> int:
+    """Dual-leg census gates + manifest gate + passive per (leg, window)
+    (prereg sec.2/3; W1 cmd_judge_prep caliber on the W2 grammar face)."""
+    print(f"=== {WAVE} judge-prep ===")
+    if not os.path.exists(SCREEN_FILE):
+        print("JUDGE-PREP-GATE: screen not finalized (w2_screen.json "
+              "absent)")
+        return 2
+    screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
+    if str(screen.get("grammar_sha256", ""))[:16] != FROZEN_SHA16:
+        print("JUDGE-PREP-GATE FAIL: screen grammar sha != frozen anchor "
+              f"{FROZEN_SHA16}")
+        return 1
+    man = json.load(open(tl1.T18_MANIFEST, encoding="utf-8"))
+    gm = {"verdict": man.get("verdict"),
+          "manifest_members": len(man.get("members", {})),
+          "pass": bool(man.get("verdict") == "PASS")}
+    if not gm["pass"]:
+        print("JUDGE-PREP-GATE FAIL: t18 manifest verdict != PASS")
+        return 1
+    starts, passive = {}, {}
+    for leg in ("L", "D"):
+        prices, P, idx, listed, cen = tl1._load_leg(leg)
+        if cen != tl1.FROZEN_CENSUS[leg]:
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} census drift {cen} "
+                  f"!= {tl1.FROZEN_CENSUS[leg]}")
+            return 1
+        close = P["close"]
+        n = len(idx)
+        starts[leg] = {}
+        for wname, w in tl1.WINDOWS.items():
+            st = [p for p in range(n)
+                  if idx[p] >= (tl1.LEG_L_FLOOR if leg == "L"
+                                else tl1.LEG_D_FLOOR)
+                  and p >= tl1.WARMUP_TD and p <= n - 1 - w
+                  and (listed.iloc[p] >= tl1.MIN_LISTED
+                       if leg == "L" else True)]
+            if len(st) != tl1.FROZEN_CENSUS[leg][wname]:
+                print(f"JUDGE-PREP-GATE FAIL: leg-{leg} {wname} starts "
+                      f"{len(st)} != {tl1.FROZEN_CENSUS[leg][wname]}")
+                return 1
+            starts[leg][wname] = st
+    if not screen.get("survivors"):
+        out = {"wave": WAVE, **tl1.cutoff_meta(CUTOFF),
+               "grammar_sha256": FROZEN_SHA16, "n_survivors": 0,
+               "g_manifest": gm, "starts": starts, "passive": {},
+               "census_frozen": tl1.FROZEN_CENSUS, "vacuous": True,
+               "note": "zero screen survivors: lawful modal-zero face "
+                       "(prereg sec.5 pred.3); judge burn vacuous; "
+                       "judge-finalize writes the zero product + ledger 0",
+               "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+        tl1._dump(JUDGE_STATE_FILE, out)
+        print("judge-prep PASS (vacuous): zero survivors -- judge burn "
+              "skipped, judge-finalize writes the lawful zero product")
+        return 0
+    passive = {}
+    for leg in ("L", "D"):
+        prices, P, idx, listed, cen = tl1._load_leg(leg)
+        close = P["close"]
+        passive[leg] = {}
+        for wname, w in tl1.WINDOWS.items():
+            passive[leg][wname] = {}
+            for p in starts[leg][wname]:
+                sdate = idx[p]
+                edate = idx[p + w - 1]
+                syms = close.columns[close.loc[sdate].notna()]
+                rel = tl1.passive_rel(close, syms, sdate, edate)
+                passive[leg][wname][str(p)] = round(
+                    float(rel.iloc[-1] - 1.0), 6)
+    out = {"wave": WAVE, **tl1.cutoff_meta(CUTOFF),
+           "grammar_sha256": FROZEN_SHA16,
+           "n_survivors": len(screen["survivors"]),
+           "g_manifest": gm,
+           "starts": starts, "passive": passive,
+           "census_frozen": tl1.FROZEN_CENSUS,
+           "manifest_note": "P-5C frozen census reproduces only on the "
+                            "48-member twin cache (W1 sec.9.3 precedent; "
+                            "member count disclosed, mechanical import "
+                            "wins)",
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(JUDGE_STATE_FILE, out)
+    print(f"judge-prep PASS: manifest {gm['verdict']} "
+          f"({gm['manifest_members']} members), census L/D == frozen, "
+          f"survivors {len(screen['survivors'])}")
+    return 0
+
+
+def cmd_judge(shard: int, shards: int, workers) -> int:
+    print(f"=== {WAVE} judge shard {shard}of{shards} ===")
+    for p, what in ((JUDGE_STATE_FILE, "judge_state.json"),
+                    (SCREEN_FILE, "w2_screen.json")):
+        if not os.path.exists(p):
+            print(f"JUDGE-GATE: {what} absent -- judge-prep + "
+                  "screen-finalize required first")
+            return 2
+    jstate = json.load(open(JUDGE_STATE_FILE, encoding="utf-8"))
+    if jstate.get("vacuous"):
+        print("JUDGE-GATE: vacuous face (zero survivors) -- zero cells, "
+              "proceed to judge-finalize")
+        return 0
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    if _grammar_sha16(grammar) != FROZEN_SHA16:
+        print(f"JUDGE-GATE: grammar sha drift != frozen {FROZEN_SHA16}")
+        return 2
+    tl1.GRAMMAR = grammar
+    screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
+    cands = {c["candidate_id"]: c for c in json.load(
+        open(CANDIDATES_FILE, encoding="utf-8"))["candidates"]}
+    a_by_trader = {t["trader_id"]: t for t in tl1.A_TEMPLATES}
+    cells = []
+    for i, cid in enumerate(sorted(screen["survivors"])):
+        c = cands[cid]
+        template = (a_by_trader.get(c.get("template_trader"))
+                    if c["family"] == "A" else None)
+        cells.append({"cell_id": f"JUDGE|{cid}", "candidate_id": cid,
+                      "i": i, "cand": c, "template": template})
+    mine = [c for i, c in enumerate(cells) if i % shards == shard]
+
+    state = {}
+    for leg in ("L", "D"):
+        prices, P, idx, listed, cen = tl1._load_leg(leg)
+        if cen != tl1.FROZEN_CENSUS[leg]:
+            print(f"JUDGE-GATE: leg-{leg} census drift {cen} -- refuse")
+            return 2
+        state[f"prices_{leg}"] = prices
+        state[f"P_{leg}"] = P
+        state[f"idx_{leg}"] = idx
+        state[f"atr20_{leg}"] = atr20_series(prices)
+        try:
+            bl = pd.read_csv(tl1.B_LAYER_MASK)
+            ok_codes = set(bl.loc[bl["ok_static"] == True, "code"]
+                           .astype(str))
+            overlap = sorted(s for s in P["close"].columns
+                             if s in ok_codes)
+        except Exception:
+            overlap = []
+        # keep-ok face = identical derivation to the screen-stage face
+        # (consistency law); applied per-leg to that leg's own columns
+        if overlap:
+            fok = pd.DataFrame(False, index=P["close"].index,
+                               columns=P["close"].columns)
+            for s in overlap:
+                fok[s] = True
+        else:
+            fok = None
+        state[f"fundamental_ok_{leg}"] = fok
+    state["starts"] = jstate["starts"]
+    state["passive"] = jstate["passive"]
+    state["states"] = tl1.v3_state_series()
+    state["grammar"] = grammar
+
+    ck = os.path.join(CKPT_DIR, f"judge_shard_{shard}of{shards}.jsonl")
+    os.makedirs(CKPT_DIR, exist_ok=True)
+    done = set()
+    if os.path.exists(ck):
+        with open(ck, encoding="utf-8") as fh:
+            for ln in fh:
+                try:
+                    done.add(json.loads(ln)["cell_id"])
+                except Exception:
+                    pass
+    todo = [c for c in mine if c["cell_id"] not in done]
+    print(f"judge shard cells {len(mine)}, done {len(done)}, "
+          f"todo {len(todo)}")
+
+    def on_result(key, payload):
+        with open(ck, "a", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(tl1._j(payload), ensure_ascii=False,
+                                default=float) + "\n")
+
+    if todo:
+        jobs = [(c["cell_id"], _judge_cell_w2, (c,)) for c in todo]
+        tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),
+                               desc="judge cells",
+                               initializer=tl1._init_worker,
+                               initargs=(state,), on_result=on_result)
+    print(f"judge shard {shard}of{shards} complete -> {ck}")
+    return 0
+
+
+def cmd_judge_finalize() -> int:
+    print(f"=== {WAVE} judge-finalize ===")
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
+    survivors = list(screen.get("survivors", []))
+    rows = []
+    for f in sorted(os.listdir(CKPT_DIR)):
+        if f.startswith("judge_shard_") and f.endswith(".jsonl"):
+            with open(os.path.join(CKPT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    if ln.strip():
+                        rows.append(json.loads(ln))
+    by_id = {r["cell_id"]: r for r in rows}
+    missing = [f"JUDGE|{cid}" for cid in survivors
+               if f"JUDGE|{cid}" not in by_id]
+    if missing:
+        print(f"FINALIZE-GATE: {len(missing)} judged cells incomplete; "
+              f"refused (checkpoint retained); first: {missing[:3]}")
+        return 2
+    judged = [by_id[f"JUDGE|{cid}"] for cid in sorted(survivors)]
+
+    # G1'v2 + DSR per cell (n_trials = live chain head AFTER the screen
+    # append; prereg sec.4 cumulative-N, cross-wave no reset)
+    n_trials = tl1.ledger_head()["total"]
+    batch_cells = screen["batch_cells"]
+    for r in judged:
+        rets = r.get("legL_daily_returns") or []
+        if r.get("legL_sharpe_full") is None or not rets:
+            r["g1_prime_v2"] = None
+            r["dsr"] = None
+            r["g1_pass"] = False
+            r["verdict"] = "fail-degenerate"
+            continue
+        g1 = tl1.g1_prime_v2(r["legL_sharpe_full"], rets, batch_cells,
+                             pool="core48", n_trades=r["legL_n_trades"],
+                             n_entries=r["legL_n_entries"])
+        dsr = tl1.deflated_sharpe_ratio(rets, n_trials=n_trials)
+        r["g1_prime_v2"] = g1
+        r["dsr"] = {"dsr": round(float(dsr["dsr"]), 6),
+                    "n_trials": n_trials}
+        r["g1_pass"] = g1["pass_v2"]
+        r["verdict"] = ("pass" if (g1["pass_v2"] and r["sample_sufficient"])
+                        else "insufficient-sample" if not r[
+                            "sample_sufficient"] else "fail")
+    # family PBO (CSCV 8 blocks; family = strategy module; <8 cells -> n/a)
+    fam_map = {}
+    for r in judged:
+        fam_map.setdefault(r.get("module"), []).append(r)
+    pbos = {}
+    for fam, rs in fam_map.items():
+        series = {r["candidate_id"]: pd.Series(r["legL_daily_returns"])
+                  for r in rs if r.get("legL_daily_returns")}
+        if len(rs) < 8 or len(series) < 8:
+            pbos[fam] = {"pbo": None, "n_cells": len(rs),
+                         "note": "insufficient (<8) -- G2 cannot pass"}
+            for r in rs:
+                r["family_pbo"] = None
+            continue
+        mat = tl1.align_returns(series)
+        pbo = tl1.cscv_pbo(mat)
+        pbos[fam] = {"pbo": round(float(pbo["pbo"]), 4) if isinstance(
+            pbo, dict) else round(float(pbo), 4), "n_cells": len(rs)}
+        for r in rs:
+            r["family_pbo"] = pbos[fam]["pbo"]
+    # G2 registration columns
+    for r in judged:
+        if r.get("g1_prime_v2") is None:
+            r["g2_registration_v2"] = None
+            continue
+        g2 = tl1.g2_registration_v2(r["g1_pass"], r["dsr"],
+                                   r.get("family_pbo"))
+        r["g2_registration_v2"] = g2
+    n_judged = len(judged)
+    e_fp = round(0.05 * n_judged, 2)
+    eligible = [r["candidate_id"] for r in judged
+                if (r.get("g2_registration_v2") or {}).get("eligible_v2")]
+    ledger = tl1.append_ledger(JUDGE_BATCH, n_judged,
+                               "results/trial_labor_w2/w2_judge.json",
+                               evidence_cutoff=CUTOFF)
+    # descriptive clause batch summary (disclosure-only, zero gate weight)
+    cl_keys = [("clause_ann_pos", "annualized > 0"),
+               ("clause_oos_dual_pos",
+                "OOS(2025+ blind) sharpe + annualized both > 0"),
+               ("clause_dd_ok", "max drawdown >= -35%"),
+               ("clause_no_crash_year", "no calendar year <= -35%"),
+               ("clause_x2_no_crash_year",
+                "x2 face: no calendar year <= -35%")]
+    clauses = {}
+    for k, label in cl_keys:
+        vals = [r.get("descriptive", {}).get(k) for r in judged]
+        clauses[k] = {"label": label,
+                      "n_true": sum(1 for v in vals if v is True),
+                      "n_evaluable": sum(1 for v in vals
+                                         if v is not None)}
+    out = {"wave": WAVE, "stage": "judge", "prereg": PREREG,
+           **tl1.cutoff_meta(CUTOFF), "grammar_sha256": grammar[
+               "grammar_sha256"],
+           "n_judged_cells": n_judged,
+           "n_wave_disclosure": {"screen_cells": batch_cells,
+                                 "judged_cells": n_judged,
+                                 "E_FP_nominal_5pct": e_fp,
+                                 "note": "DSR>=0.95 gate IS the multiple-"
+                                         "testing correction (cumulative-N "
+                                         "deflation); E[FP] disclosed at "
+                                         "the nominal 5% caliber"},
+           "family_pbo": pbos,
+           "descriptive_summary": {"n_cells": n_judged,
+                                   "clauses": clauses,
+                                   "note": "descriptive clauses are "
+                                           "batch-level disclosure per "
+                                           "prereg sec.3 -- zero gate "
+                                           "weight; gates = G1'v2/G2/DSR/"
+                                           "PBO per sec.4"},
+           "eligible_g2": eligible, "n_eligible_g2": len(eligible),
+           "trials_ledger": ledger,
+           "cells": [{k: v for k, v in r.items()
+                      if k != "legL_daily_returns"} for r in judged],
+           "audit": {"note": "judged face = dual-leg (P-5C grid) x "
+                             "{6m,12m,24m} x base/x2 curves + regime "
+                             "segments + dual nulls (B=2000 block-20 + "
+                             "P=2000 sign-flip, seed [20286500, cell]); "
+                             "gates on the leg-L base face (W1 judged-cell "
+                             "caliber); x2 + descriptive clauses = "
+                             "disclosure-only zero criteria weight; "
+                             "crisis-day count = |daily|>8% leg-L base "
+                             "(sec.5.6); stop trigger/fill-day D+1 "
+                             "open-vs-close deviation = MSG-0450 annex-1 "
+                             "disclosure on the protection-floor signal "
+                             "face; fundamental keep-ok face = screen "
+                             "consistency law; beat operator = strict > "
+                             "(W1 judged-cell caliber; screen >= was the "
+                             "sec.3 s2 literal)"},
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(JUDGE_FILE, out)
+    print(f"judge finalize: {n_judged} judged cells, E[FP]={e_fp}, "
+          f"G2 eligible {len(eligible)} -> {eligible[:10]}")
+    return 0
+
+
 # ------------------------------------------------------------------ selftest
 def cmd_selftest() -> int:
-    print(f"=== {WAVE} selftest (hermetic, slices 1-3) ===")
+    print(f"=== {WAVE} selftest (hermetic, slices 1-4) ===")
     ok_n = 0
     fails = [0]
 
@@ -1359,6 +1923,147 @@ def cmd_selftest() -> int:
     ok("B7b contract: screen-csv consumer keys subset of constructor keys",
        set(csv_cols_screen_w2) <= constructor_keys)
 
+    # [14] dual nulls W2 (prereg sec.3 s3; seed 20286500 binding)
+    rng14 = np.random.default_rng(11)
+    r14 = rng14.normal(0.0005, 0.01, 500)
+    dn = _dual_nulls_w2(r14, 7)
+    dn_b = _dual_nulls_w2(r14, 7)
+    ok("dual nulls w2 deterministic (seed [20286500, cell])",
+       dn == dn_b and dn["B"] == 2000 and dn["P"] == 2000
+       and dn["block"] == 20)
+    dn0 = _dual_nulls_w2(np.zeros(100), 3)
+    ok("dual nulls w2 degenerate zero face (CI [0,0], p=1)",
+       dn0["bootstrap_ci"] == [0.0, 0.0] and dn0["signflip_p"] == 1.0
+       and dn0["ci_lower_positive"] is False)
+    ok("dual nulls w2 math mirror == tl1 face at the W1 seed",
+       _dual_nulls_w2(r14, 7, seed=tl1.SEED_UNC)
+       == tl1._dual_nulls(r14, 7))
+
+    # [15] descriptive-clause helpers (pure; sec.3 descriptive bullet)
+    idx15 = pd.bdate_range("2024-01-02", periods=300)
+    up = pd.Series(np.linspace(1.0, 1.5, 300), index=idx15)
+    d15 = _descriptive_face(up, up)
+    ok("descriptive: rising curve -> ann>0, dd_ok, no crash year, "
+       "x2 mirrors",
+       d15["clause_ann_pos"] is True and d15["clause_dd_ok"] is True
+       and d15["clause_no_crash_year"] is True
+       and d15["clause_x2_no_crash_year"] is True
+       and d15["yearly_returns"])
+    crash = pd.Series(np.concatenate([np.linspace(1.0, 1.05, 150),
+                                      np.linspace(1.05, 0.5, 111),
+                                      np.full(39, 0.5)]),
+                      index=idx15)     # -52% crash INSIDE calendar 2024
+    dcr = _descriptive_face(crash, crash)
+    ok("descriptive: -52% single-calendar-year crash flagged on both "
+       "cost faces",
+       dcr["clause_no_crash_year"] is False
+       and len(dcr["crash_years"]) == 1
+       and dcr["clause_x2_no_crash_year"] is False)
+    n_oos = int((idx15 >= tl1.OOS_START).sum())
+    oos_eq = pd.Series(1.0, index=idx15)
+    oos_eq[idx15 >= tl1.OOS_START] = np.linspace(1.0, 1.0 + 0.3,
+                                                 n_oos)
+    doo = _descriptive_face(oos_eq, oos_eq)
+    ok("descriptive: OOS(2025+) dual-positive leg wired",
+       n_oos > 0 and doo["clause_oos_dual_pos"] is True
+       and doo["oos_sharpe"] > 0 and doo["oos_ann_ret"] > 0)
+    ok("descriptive: degenerate face flagged (empty curve)",
+       _descriptive_face(pd.Series([], index=pd.DatetimeIndex([])),
+                         pd.Series([], index=pd.DatetimeIndex([]))
+                         ).get("degenerate") is True)
+
+    # [16] judge cell machinery in-process (synthetic dual-leg state)
+    framesJ = tl1._synth_prices(n_days=300, n_syms=4, seed=29)
+    PJ = tl1.build_panels(framesJ)
+    stJ = pd.Series("GREEN", index=PJ["close"].index)
+    nJ = len(PJ["close"].index)
+    startsJ = {leg: {wname: [p for p in range(20, nJ - w, 25)]
+                     for wname, w in tl1.WINDOWS.items()}
+               for leg in ("L", "D")}
+    passiveJ = {leg: {wname: {str(p): 0.05 for p in startsJ[leg][wname]}
+                     for wname in tl1.WINDOWS} for leg in ("L", "D")}
+    tl1._ST = {"prices_L": framesJ, "P_L": PJ,
+               "idx_L": PJ["close"].index,
+               "atr20_L": atr20_series(framesJ),
+               "fundamental_ok_L": None,
+               "prices_D": framesJ, "P_D": PJ,
+               "idx_D": PJ["close"].index,
+               "atr20_D": atr20_series(framesJ),
+               "fundamental_ok_D": None,
+               "starts": startsJ, "passive": passiveJ, "states": stJ,
+               "grammar": g}
+    cellJ = {"cell_id": "JUDGE|ST-B-0000", "candidate_id": "ST-B-0000",
+             "i": 3, "cand": base, "template": None}
+    rowJ = _judge_cell_w2(cellJ)
+    rowJ2 = _judge_cell_w2(cellJ)
+    ok("judge cell: legs L/D present + determinism (double-run equal)",
+       set(rowJ["legs"]) == {"L", "D"}
+       and json.dumps(rowJ, sort_keys=True, default=str)
+       == json.dumps(rowJ2, sort_keys=True, default=str))
+    ok("judge cell: window grid beat + x2 faces per leg",
+       all(set(rowJ["legs"][lg]["beat"]) == set(tl1.WINDOWS)
+           and set(rowJ["legs"][lg]["beat_x2"]) == set(tl1.WINDOWS)
+           and "sharpe_full_x2" in rowJ["legs"][lg]
+           and "stop_fired_x2" in rowJ["legs"][lg]
+           for lg in ("L", "D")))
+    segsJ = rowJ["legs"]["L"]["regime_start_windows"]
+    n_starts_J = sum(len(startsJ["L"][w]) for w in tl1.WINDOWS)
+    ok("judge cell: regime segments partition the complete windows "
+       "(GREEN->bull)",
+       sum(segsJ.values()) == n_starts_J
+       and segsJ["bull"] == n_starts_J)
+    ok("judge cell: dual nulls seed law [20286500, i]",
+       rowJ["dual_nulls"] == _dual_nulls_w2(rowJ["legL_daily_returns"], 3))
+    segL = rowJ["legs"]["L"]["regime_start_windows"]
+    segD = rowJ["legs"]["D"]["regime_start_windows"]
+    ok("judge cell: n_eff == bear+bull+chop sum across BOTH legs; "
+       "sufficiency consistent",
+       rowJ["n_eff_start_windows"]
+       == (segL["bull"] + segL["bear"] + segL["chop"]
+           + segD["bull"] + segD["bear"] + segD["chop"])
+       and rowJ["sample_sufficient"] is False)
+    ok("judge cell: descriptive + crisis column wired",
+       "descriptive" in rowJ and "crisis_days_gt8pct" in rowJ
+       and rowJ["crisis_days_gt8pct"] >= 0
+       and "clause_ann_pos" in rowJ["descriptive"]
+       and rowJ["stop_face"] == "none")
+    ok("judge cell: stop=none disclosure = zero-face",
+       rowJ["stop_disclosure"]["stop_face"] == "none"
+       and rowJ["stop_disclosure"]["n_trigger_events"] == 0)
+    candS = dict(base, axis=[*base["axis"][:4], "p3"])
+    cellS = {"cell_id": "JUDGE|ST-B-0001", "candidate_id": "ST-B-0001",
+             "i": 4, "cand": candS, "template": None}
+    rowS = _judge_cell_w2(cellS)
+    sdS = rowS["stop_disclosure"]
+    ok("judge cell: p3 face disclosure structurally complete",
+       sdS["stop_face"] == "p3" and sdS["n_trigger_events"] >= 0
+       and (sdS["dev_mean"] is None
+            or isinstance(sdS["dev_mean"], float))
+       and rowS["legs"]["L"]["stop_fired"] >= 0)
+
+    # [17] stop disclosure summary math (MSG-0450 annex 1; dip face)
+    gap = flat.copy()
+    gap.loc[idx[21], "close"] = 98.0   # exit-day close below open: -2% dev
+    ev17 = [{"sym": "A", "trigger_date": str(idx[20]),
+             "exit_date": str(idx[21]), "level": 97.0},
+            {"sym": "B", "trigger_date": str(idx[22]),
+             "exit_date": str(idx[23]), "level": 97.0}]
+    sd17 = _stop_dev_summary(ev17, {"A": gap, "B": flat}, idx)
+    devA = float(gap["close"].iloc[21] / gap["open"].iloc[21] - 1.0)
+    devB = float(flat["close"].iloc[23] / flat["open"].iloc[23] - 1.0)
+    ok("stop disclosure: deviation math = exit-day close/open-1 "
+       "(mean+median)",
+       sd17["n_trigger_events"] == 2 and sd17["n_trigger_days"] == 2
+       and abs(sd17["dev_mean"]
+               - round((devA + devB) / 2, 6)) < 1e-12
+       and abs(sd17["dev_median"]
+               - round(float(np.median([devA, devB])), 6)) < 1e-12)
+    ok("stop disclosure: one-way face frac_close_below_open (devA<0, "
+       "devB==0 -> 0.5)",
+       abs(sd17["frac_close_below_open"] - 0.5) < 1e-9
+       and abs(sd17["dev_min"] - devA) < 1e-9
+       and abs(sd17["dev_max"] - devB) < 1e-9)
+
     print(f"selftest: {ok_n - fails[0]}/{ok_n} PASS, "
           f"{fails[0]} FAIL")
     return 1 if fails[0] else 0
@@ -1378,9 +2083,11 @@ def cmd_status() -> int:
                 n = sum(1 for _ in open(os.path.join(CKPT_DIR, f),
                                         encoding="utf-8"))
                 print(f"  checkpoint/{f}: {n} rows")
-    print("pool: TRIAL-LABOR-W2-GENERATE waiting (RAM flip gate r354); "
-          "TRIAL-LABOR-W2-SCREEN waiting (flip = generate done + "
-          "screen-prep + RAM gate; slice built r360)")
+    print("pool: TRIAL-LABOR-W2-GENERATE (bm-a launch-claim 05:40, "
+          "single-shot); TRIAL-LABOR-W2-SCREEN waiting (flip = generate "
+          "done + screen-prep + RAM gate); TRIAL-LABOR-W2-JUDGE waiting "
+          "(flip = screen-finalize + judge-prep + RAM gate; slice built "
+          "r362)")
     print("W1 judge batches: still pool-waiting (RAM serialize, r357 defer)")
     return 0
 
@@ -1414,11 +2121,19 @@ def main(argv=None):
     p.add_argument("--shards", type=int, default=1)
     p.add_argument("--workers", type=int, default=None)
     sub.add_parser("screen-finalize")
+    sub.add_parser("judge-prep")
+    p = sub.add_parser("judge")
+    p.add_argument("--shard", type=int, default=0)
+    p.add_argument("--shards", type=int, default=1)
+    p.add_argument("--workers", type=int, default=None)
+    sub.add_parser("judge-finalize")
     a = ap.parse_args(argv)
     return {"selftest": cmd_selftest, "status": cmd_status,
             "grammar": cmd_grammar, "generate": cmd_generate,
             "screen-prep": cmd_screen_prep, "screen": cmd_screen,
-            "screen-finalize": cmd_screen_finalize}[a.cmd]()
+            "screen-finalize": cmd_screen_finalize,
+            "judge-prep": cmd_judge_prep, "judge": cmd_judge,
+            "judge-finalize": cmd_judge_finalize}[a.cmd]()
 
 
 if __name__ == "__main__":

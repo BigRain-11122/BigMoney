@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T05:34:59+08:00",
- "heartbeat_epoch_utc": 1790544899,
- "clock_read": "2026-09-28T05:34:59+08:00",
- "current_task": "r361 closed: storm-resolve inherited rebase completed + MSG-0520 owner-review ACCEPT (MSG-0531 sent) + S6 rc=0 family; W2B census burn in flight (lane bm-b); T-96 screen flip waiting generate",
+ "last_seen": "2026-09-28T05:54:42+08:00",
+ "heartbeat_epoch_utc": 1790546082,
+ "clock_read": "2026-09-28T05:54:42+08:00",
+ "current_task": "r362 closed: T-96 judge slice landed (selftest 58/58, zero judged cells) + pool TRIAL-LABOR-W2-JUDGE waiting + MSG-0550 disclosures; generate in flight (bm-a); W2B census burn continuing; next = screen chain then judge-prep+flip",
  "cpu_cores": 16,
- "free_ram_gb": 0.3,
+ "free_ram_gb": 3.1,
  "gpu_free_vram_gb": 6.9,
  "total_ram_gb": 23.9,
- "cpu_util_pct": 41.2,
- "round_no": 360,
- "verdict": "healthy: burn in flight i=799+, boards closed, smoke 25/25",
+ "cpu_util_pct": 43.1,
+ "round_no": 362,
+ "verdict": "healthy: smoke 25/25, judge slice landed, S6 rc=0 family, pool lanes all dep/RAM-gated legal",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -115,15 +115,15 @@
   "O-2026-09-27-2255-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 2.8,
+ "idle_ram_gb": 3.1,
  "gpu_free_vram_mb": 7064,
- "idle_ram_mb": 2867,
+ "idle_ram_mb": 3195,
  "gpu_idle_vram_mb": 7064,
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.9,
- "cpu_pct": 41.2,
- "round": 360,
- "free_ram_mb": 2867,
+ "cpu_pct": 43.1,
+ "round": 362,
+ "free_ram_mb": 3195,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 360
+ "loop_round": 362
 }
