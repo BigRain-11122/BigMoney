@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T02:30:32+08:00",
- "heartbeat_epoch_utc": 1790533832,
- "clock_read": "2026-09-28T02:30:32+08:00",
- "current_task": "r354 governance closure landed: V2-P1 claim face closed both sides (MSG-0220 archived + MSG-0232 receipt) + JUDGE/TRIAL-JUDGE/W2B/V2-P1-launch RAM gate honestly closed (3-sample 4.59/3.08/1.48GB decay evidence) + W2-A 11h+ no-kill sole legal occupant; next r355 = W2-A finalize harvest window + stable-RAM>=4GB JUDGE flip + Monday 09:15 T-91 s3 / 15:30 T-87 new-bar chain; CEO 48h clock 09-29 22:45 owner bm-b",
+ "last_seen": "2026-09-28T02:51:17+08:00",
+ "heartbeat_epoch_utc": 1790535077,
+ "clock_read": "2026-09-28T02:51:17+08:00",
+ "current_task": "r355 landed: S0 stash-pop 2-UU canon resolve (autofill_state producer-authority + compute_audit ts-union, 8633afce pushed tip-verified) + RAM 3-sample 5.76/2.08/3.94 unstable = JUDGE flip honest-defer + W2-A census no-kill 13.7h continuing (finalize not due, zero 200-block ckpt yet); next r356 = W2-A finalize watch + stable-RAM JUDGE flip + Mon 15:30 T-87 new-bar chain; CEO 48h clock 09-29 22:45 owner bm-b",
  "cpu_cores": 16,
- "free_ram_gb": 1.22,
+ "free_ram_gb": 0.83,
  "gpu_free_vram_gb": 6.9,
  "total_ram_gb": 23.9,
- "cpu_util_pct": 41.1,
- "round_no": 354,
- "verdict": "green: W2-A 4-worker no-kill sole legal occupant (11.2h, CEO census O-2320); RAM gate honest-closed for JUDGE/W2B/V2-P1-heavy faces (3-sample decay evidence, single-read crossing rejected); judges queued behind gate",
+ "cpu_util_pct": 40.0,
+ "round_no": 355,
+ "verdict": "green: S0 2-UU canon-resolved landed (8633afce); W2-A census 4-worker no-kill sole legal occupant (13.7h); RAM gate honest-closed 3-sample 5.76/2.08/3.94 unstable; JUDGE x4 + TRIAL-JUDGE + W2B waiting; py_low_with_work_cands = RAM-gate legal whitelist (r353 adjudication carried, fresh evidence)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -115,15 +115,15 @@
   "O-2026-09-27-2255-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 1.22,
+ "idle_ram_gb": 0.83,
  "gpu_free_vram_mb": 6900,
- "idle_ram_mb": 1249,
+ "idle_ram_mb": 849,
  "gpu_idle_vram_mb": 6900,
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.9,
- "cpu_pct": 41.1,
- "round": 354,
- "free_ram_mb": 1249,
+ "cpu_pct": 40.0,
+ "round": 355,
+ "free_ram_mb": 849,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1115MiB used @2026-09-27T18:47:49+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 354
+ "loop_round": 355
 }
