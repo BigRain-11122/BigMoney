@@ -1,0 +1,31 @@
+{
+ "task": "T-2026-09-27-92 s3 (audio work-order intake regularization)",
+ "lane": "bm-b standing production lane (CEO order O-20260927-0913-bm-c sec.3)",
+ "delivered": "2026-09-27 r320",
+ "intake_face": {
+  "queue_dir": "E:/Minigame/Tools/audio-queue (incoming/done/failed + worker.lock + worker.log, art-queue precedent mirror)",
+  "work_order_schema": "id/project/out_dir/style(class target sfx|bgm|amb|voice)/n_seeds + jobs[{name, kind: voice|master, text?|input_file?, voice?, style?, n_seeds?}]",
+  "convention_doc": "E:/Minigame/Tools/audio-queue/README.md (copy: results/t92_s3/intake_convention_README.md)",
+  "runner": "audio_render_order.py (X989 14-hao L0 chain verbatim from r316 proven recipe; audit copy results/_r320bmb_t92_s3_render.py)",
+  "worker": "audio_queue_worker.ps1 (pure ASCII PS5.1, lock 30min, done/failed move, run_<id>.log; audit copy results/_r320bmb_t92_s3_worker.ps1)",
+  "consumption": "idle-window invocation per fleet envelope law (RAM<4GB no new heavy jobs, full silent, CPU-only)"
+ },
+ "golden_live_fire": {
+  "order": "t92s3-golden (voice x2 takes + master remaster of r316 raw_golden)",
+  "results": [
+   {"file": "sfx_t92s3_golden_seed1.wav", "class": "sfx", "target": -16.0, "measured_lufs": -17.0, "measured_tp": -3.0, "sr": 44100, "ch": 1, "iters": 1, "verdict": "PASS"},
+   {"file": "sfx_t92s3_golden_seed2.wav", "class": "sfx", "target": -16.0, "measured_lufs": -16.8, "measured_tp": -3.0, "sr": 44100, "ch": 1, "iters": 1, "verdict": "PASS"},
+   {"file": "bgm_t92s3_remaster.wav", "class": "bgm", "target": -18.0, "measured_lufs": -18.4, "measured_tp": -3.0, "sr": 44100, "ch": 1, "iters": 1, "verdict": "PASS"}
+  ],
+  "queue_transitions": "incoming empty after run; done/t92s3-golden.json; worker.log '2026-09-27T12:04:21 OK t92s3-golden.json'; worker exit 0",
+  "audio_gate_check": "[PASS] sfx/sfx_t92s3_golden_seed1 dur=4.507s LUFS=-17 TP=-3 (14-hao authority tool, checked=1 fail=0 unproven=0)",
+  "manifest": "results/t92_s3/golden_manifest.json (per-take tool/LUFS/TP/bytes/MD5/iter trace, L0-8)",
+  "all_pass": true
+ },
+ "slice_ledger": {
+  "s1_engine": "done r315 (piper + zh voice bring-up, smoke render RTF 0.059)",
+  "s2_spec_chain": "done r316 (X989 mastered law verbatim, 3 class targets in-spec + golden path + two-case loop law)",
+  "s3_intake": "done r320 (this delivery: queue dirs + JSON work-order convention + worker + runner + README + golden live-fire 3/3 PASS + AudioGateCheck PASS)"
+ },
+ "scope_honesty": "standing lane persists via heartbeat prod_lanes (tts-audio-batch) + future work orders arrive as queue JSONs consumed in idle windows; primary lane (BigMoney rounds) always takes priority per order sec.3"
+}

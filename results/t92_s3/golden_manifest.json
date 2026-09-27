@@ -1,0 +1,90 @@
+{
+ "order_id": "t92s3-golden",
+ "project": "T-92 s3 intake lane golden selftest (voice x2 takes + master remaster, art-queue precedent)",
+ "order_file": "t92s3-golden.json",
+ "date": null,
+ "law": "X989 mastered-audio (14-hao L0-1/-2/-4/-8 verbatim): sfx=-16 bgm=-18 amb=-20 voice=-16 LUFS tol+-1.0, TP in [-14,-3], 44100Hz mono s16",
+ "chain": "piper TTS (voice jobs) / source file (master jobs) -> ffmpeg mono-first (kenglu #212) + loudnorm two-pass linear (I=<class target> TP=-3 LRA=11) -> -ar 44100 -sample_fmt s16; crest-conflict re-normalization loop <=3 iters",
+ "jobs": [
+  {
+   "job": "sfx_t92s3_golden",
+   "take": 1,
+   "kind": "voice",
+   "class": "sfx",
+   "target_lufs": -16.0,
+   "measured_lufs": -17.0,
+   "measured_tp": -3.0,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.507,
+   "bytes": 397622,
+   "md5": "7ea7d6dbe91ad4acbd68aff3740797a9",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -17.29,
+     "in_tp": 0.0,
+     "out_i": -17.0,
+     "out_tp": -3.0,
+     "ok": true
+    }
+   ],
+   "file": "E:\\Minigame\\Tools\\audio-queue\\qc-preview\\t92s3-golden\\sfx_t92s3_golden_seed1.wav",
+   "verdict": "PASS"
+  },
+  {
+   "job": "sfx_t92s3_golden",
+   "take": 2,
+   "kind": "voice",
+   "class": "sfx",
+   "target_lufs": -16.0,
+   "measured_lufs": -16.8,
+   "measured_tp": -3.0,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.612,
+   "bytes": 406838,
+   "md5": "00e87da55edde639a51f55f2a479af43",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -16.13,
+     "in_tp": 0.02,
+     "out_i": -16.8,
+     "out_tp": -3.0,
+     "ok": true
+    }
+   ],
+   "file": "E:\\Minigame\\Tools\\audio-queue\\qc-preview\\t92s3-golden\\sfx_t92s3_golden_seed2.wav",
+   "verdict": "PASS"
+  },
+  {
+   "job": "bgm_t92s3_remaster",
+   "kind": "master",
+   "class": "bgm",
+   "source": "C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\t92_s2\\raw_golden_r316.wav",
+   "source_md5": "3386b172ee156d2d856a2a07033428cb",
+   "target_lufs": -18.0,
+   "measured_lufs": -18.4,
+   "measured_tp": -3.0,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.658,
+   "bytes": 410934,
+   "md5": "00f3acddcfea72d7a227a1a873e934d1",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -16.71,
+     "in_tp": 0.11,
+     "out_i": -18.4,
+     "out_tp": -3.0,
+     "ok": true
+    }
+   ],
+   "file": "E:\\Minigame\\Tools\\audio-queue\\qc-preview\\t92s3-golden\\bgm_t92s3_remaster.wav",
+   "verdict": "PASS"
+  }
+ ],
+ "all_pass": true
+}
