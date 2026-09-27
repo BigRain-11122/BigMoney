@@ -926,6 +926,7 @@ SEED_REGISTRY = {
     # downscope, zero cells burned), freeze = CENSUS_FUSION_S2_PREREG.md
     # sec.9.4 + results/census_fusion_s2/w2b_roster.json
     # (scripts/census_w2b_roster.py deterministic derivation)
+
     "trial_labor_w1_gen": 20283500,  # TRIAL_LABOR_W1 mass-candidate-trial
     # wave-1 generation draws N=500/family (A registered-six 500 + B school
     # factory 500 = raw 1000, ceiling-not-quota per O-20260927-2245);
@@ -951,6 +952,18 @@ SEED_REGISTRY = {
     # = default_rng([20284500, cell_idx]) with rng stream pinned to the two
     # resampling faces only (census sec.9.1 purpose-pinning precedent); rg
     # scan clean r347; registered same commit as wave-1 prereg freeze (R250 law)
+    "mass_trial_w1": 20283000,  # T-2026-09-27-94 mass candidate trial wave-1
+    # (CEO O-2026-09-27-2245). ALREADY-BURNED face (975-cell stage-1 screen,
+    # side-branch yielded to bm-b TRIAL_LABOR_W1 lane per sec.4 commit-time
+    # 22:49 < 22:57; trials stay counted). Same-window blind double-reg
+    # disclosure: originally declared band 20283000..20283899 covered
+    # bm-b r347 trial_labor_w1_gen 20283500 (invisible locally at reg
+    # time); actual used = Sobol seeds 20283000..20283074 (75 families)
+    # + null rngs 20283100..20283119 -- disjoint from bm-b seeds by
+    # both range and derivation protocol (scalar Sobol seed vs multi-int
+    # seed-sequence), zero stream collision; kept for reproducibility of
+    # the counted cells
+
 }
 
 
