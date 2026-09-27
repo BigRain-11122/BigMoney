@@ -2702,7 +2702,7 @@
    ],
    "lane_owner": "bm-a",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 16:35:37",
    "workers_plan": {
     "workers": 1,
@@ -2713,13 +2713,15 @@
    "shards": [
     {
      "key": "sinac-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 16:50:05",
      "checkpoint": null,
      "note": "single shard whole-batch; no intra-run checkpoint by design (C8 whole-run restart semantics prereg sec.6); finalize -> results/shortline/sina_construct_p1.json + research/shortline/sina_construct_p1_results.csv; pool flip to done = round work per r312 law"
     }
-   ]
+   ],
+   "done_at": "2026-09-27 16:54:50",
+   "note_done": "census burn complete + judgment face closed r338 bm-a: first run 16:40:09 pid 41360 (fill latency 4.5min target_met=True) + 16:50:02 pid 44968 pre-flip blind-window duplicate (r312 keep-last convergence, T19 r80 precedent, deterministic identical output, trials chain single-counted 286551); ALL 5 constructs REJECT (V1 |IS IC|<0.02 floor / V2 |IS IR|<0.30 / V3 only TIER_r2 / D6 EM-mf cross-family rejects TIER_r2,TIER_r3,MAIN); prereg sec.7/sec.8 backfilled same round; result_ref=results/shortline/sina_construct_p1.json + research/shortline/sina_construct_p1_results.csv; gate_attrition row appended; T-46 progress_r338"
   }
  ],
  "version": 1,

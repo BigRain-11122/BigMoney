@@ -68,13 +68,35 @@
 - 产物面（跑后回填 §7）：results/shortline/sina_construct_p1.json（顶层 evidence_cutoff=C2 合法键）+ research/shortline/sina_construct_p1_results.csv 行级 IC 面。
 - **工程注记（跑前最终化窗内落定）**：§0「跨轮 checkpoint」按池 C8 语义收口=单程确定性 L1（预估 10-20min）池监督下预占即整跑重启（C8 自动续批），**无中途状态面**——<20min 单程的 checkpoint 状态面风险>预占风险，工程判定留痕；批报告 audit 段必带（runtime/machine/process_model/rows_scanned/accept_ts/latent_repull_defect_note 披露）。
 
-## §7 跑后实证（占位——写数字即造假）
+## §7 跑后实证（一次定稿·r338 bm-a 回填）
 
-（一次定稿；确定性引擎产物写 bug 的合法重执行口径≠结果重跑；工程修复重跑双跑留痕如实记账）
+- 实跑记录：2026-09-27 16:40:09 C8 autofill 首燃（pid 41360·fill latency 4.5min·target_met=True）+ 16:50:02 tick 二次发射（pid 44968·**pre-flip blind window 双跑**，T19-PHANTOM-P1 r80 同象先例=r312 keep-last 收敛）——确定性 L1 单程 22.5s×2 产物同构（末次字节=最终态）；trials 链 data-driven 头设计下同文件覆盖=链恒等不膨胀（ledger_head 实读=**286,551 单计**）。
+- 面板实况：5,228 files → 3,498 kept codes（off_eligibility 1,706 / off_mask 5 / short_history 19 / schema_foreign 0）；254 历日窗 2025-09-05→2026-09-22；资格信号日 243 ≥150 门 PASS；IS **156** / OOS **81**（positional 2/3-1/3 分割实况）；中位横截面 3,465；入批自洽律 0 law-rejected（n_rows_scanned=869,141）。
+- **三门口径判定（h10 主口径·全表）**：
 
-## §8 批后复盘（占位·s7-T）
+| 构造 | IS IC | IS IR | OOS IC | OOS IR | V1 | V2 | V3 | 判定 |
+|---|---|---|---|---|---|---|---|---|
+| TIER_r0 | +0.0066 | +0.094 | −0.0236 | −0.231 | ✗ | ✗ | ✗ | **REJECT** |
+| TIER_r1 | +0.0051 | +0.063 | −0.0020 | −0.013 | ✗ | ✗ | ✗ | **REJECT** |
+| TIER_r2 | −0.0033 | −0.051 | −0.0098 | −0.073 | ✗ | ✗ | ✓ | **REJECT** |
+| TIER_r3 | −0.0038 | −0.073 | −0.0017 | −0.013 | ✗ | ✗ | ✗ | **REJECT** |
+| MAIN | +0.0078 | +0.091 | −0.0172 | −0.118 | ✗ | ✗ | ✗ | **REJECT** |
 
-（预测对账（对/部分/错）+门禁链损耗账 results/gate_attrition.json 追加一行+判线当批读数+回执入轮报告+CODELY 行级追加；若构造晋升注册：注册件带 evidence_cutoff+SIGNAL_BUILDERS 接线+smoke 锚定门复跑）
+- **全族判负 5/5 REJECT**：V1（|IS IC|>max(0.02, null p95)）全不过（实测 |IS IC| 0.0033–0.0078，runner v1_thr=0.02 地板生效）；V2（|IS IC_IR|≥0.30）全不过（实测 0.051–0.094）；V3 仅 TIER_r2 过（OOS 同号+量级留存）；r0/r1/MAIN OOS 翻负=方向不稳。
+- **D6 跨族（准入面）**：lhb_count_20 全 ok（|corr| 0.133–0.215，days 237）；ths 两构造=weak_check_insufficient_coverage（重叠 0 日·UNAVAILABLE 诚实标注 per §1）；EM mf 族 **3/5 拒收**：TIER_r2（mf_main_net_pct_10=0.720 + mf_xl_net_pct_20=0.738）、TIER_r3（mf_xl_net_pct_10=0.7016）、MAIN（mf_xl_net_pct_10=0.7278 + mf_xl_net_pct_20=0.7055）；TIER_r0/r1 ok（最高 0.6939<0.7，em_overlap_symbols=27）。同批 sleeve-tag 披露面照 §1（TIER_r0|MAIN=0.8636 等 family_by_construction 非准入面）。
+- null 基线：K=100 同掩码日内置换 per-construct p95|IR|=0.1485–0.1662；被动零因子基线 by construction 披露不占门。
+- 极端日分布界（三件套 (a)·median/p99.9 主责）：n_days=237；|IC| median 0.042–0.062 / p99.9 0.347–0.488 / max 0.349–0.494；顶部日族聚=2026-07-29/07-30/08-03/06-30/07-15（七月末高波段窗），日覆盖 3,428–3,497 稳定无骤变=结构性非腐坏面，零单点删除。
+- audit：runtime 22.5s / machine Dasheng / single-process deterministic L1（C8 整跑重启语义 per §6）/ accept_ts=2026-09-27T15:06:09 / latent_repull_defect_note 如实携带（收口态见 §8）。
+- trials 账本：append_ledger(batch_trials=5) 链 286,546→**286,551**；engine trials ledger N 不动（因子参考批 +0）。
+- 产物：results/shortline/sina_construct_p1.json（顶层 evidence_cutoff=2026-09-24=C2 合法键）+ research/shortline/sina_construct_p1_results.csv 行级 IC 面（8,239B）。
+
+## §8 批后复盘（r338 bm-a 回填）
+
+- **§5 预测对账**：①MAIN 方向+量级=**对**（IS +0.0078 ∈ 预测 [0.005, 0.04]），显著性+OOS 留存=**错**（IR 0.091≪0.30·OOS −0.0172 翻负）⇒ 部分对；②TIER_r3 负/近零=**对**（IS −0.0038 近零负）；③档位梯度 r0>r1>r2（|IS IC| 0.0066>0.0051>0.0033）=**对**；④null p95 落 0.015–0.03 预测带=**对**（V1 阈落 0.02 地板）。**总评=方向先验大体兑现但效应量远低于三门门槛，批级判负非先验证伪**。
+- **判定**：N_eff=5 全 REJECT，零构造合格候选，零晋升面（注册面不触发）；sina 四档分解构造族在 254 日窗内不构成可用因子供给。**判负线禁翻案（新证据=新预注册）**。
+- **门禁链损耗账**：results/gate_attrition.json `entries` 追加一行（batch=SINA_CONSTRUCT_P1·kind=measurement·cells_ledger_delta=0·ledger_total_after=286,551·V1/V2/V3/D6 当批读数全列）。
+- **latent_repull_defect_note 收口态**：%.10g 写面舍入 |netamount|≥1e10 行 overlap re-verify 风险=SINA_MF_PREREG **R222 修正案已收口**（采集器两 overlap 面有效容差=max(PRIMARY_TOL, 1e-8×scale)·WRITTEN_LAW_TOL·scripts/update_sina_mf.py 头注同律）；本批 audit 携带=验收件常设披露面回声，首复拉窗 ~2026-10-27 前无新增待办修正案（§4.3 overlap 边界行校验=首复拉窗才可实弹=既有诚实标注）。
+- **回执链**：轮报告 r338 + T-46 progress_r338 + 池条目 done 翻面（r312 flip-law·result_ref=results/shortline/sina_construct_p1.json）+ CODELY 行级（坑律面：无新坑——pre-flip 双跑=T19 r80 既有坑律族已覆盖）。
 
 ## §9 与在册面的关系声明（防重复铁律）
 

@@ -1,0 +1,6 @@
+raw = open('results/gate_attrition.json', encoding='utf-8').read()
+print(repr(raw[:300]))
+i = raw.find('"entries"')
+print('---')
+print(repr(raw[i:i + 280]))
+print('--- total bytes:', len(raw.encode('utf-8')))

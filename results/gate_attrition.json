@@ -7412,6 +7412,56 @@
     "decision_pack": "research/CONSOLIDATION_GOVERNANCE.md"
    },
    "note": "phantom contribution quantification batch (stage-2c) = O-1325 option-a/b adjudication evidence; zero registration claims per prereg §4; dSharpe IS/OOS: CE-01 +0.3050/+0.6243, CE-02 +0.3115/+0.1628, DROUGHT +0.5767/-0.0001; 10-row attribution: d0 gap component dominates (official true-return components ~0); GM adjudication recorded in decision pack"
+  },
+  {
+   "batch": "SINA_CONSTRUCT_P1",
+   "ts": "2026-09-27 16:54:50",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 286551,
+   "gates": {
+    "v1_is_ic_floor": {
+     "TIER_r0": false,
+     "TIER_r1": false,
+     "TIER_r2": false,
+     "TIER_r3": false,
+     "MAIN": false
+    },
+    "v2_is_ir_030": {
+     "TIER_r0": false,
+     "TIER_r1": false,
+     "TIER_r2": false,
+     "TIER_r3": false,
+     "MAIN": false
+    },
+    "v3_oos_retention": {
+     "TIER_r0": false,
+     "TIER_r1": false,
+     "TIER_r2": true,
+     "TIER_r3": false,
+     "MAIN": false
+    },
+    "d6_cross_family": {
+     "TIER_r0": "ok",
+     "TIER_r1": "ok",
+     "TIER_r2": "reject",
+     "TIER_r3": "reject",
+     "MAIN": "reject"
+    },
+    "period_gate": "PASS 243 eligible signal days >= 150; IS 156 / OOS 81 positional 2/3-1/3",
+    "null_band": "K=100 same-mask within-day permutation; per-construct p95|IR| 0.1485-0.1662; v1_thr=0.02 floor held",
+    "run_face": "two deterministic L1 runs (16:40:09 pid 41360 target_met=True + 16:50:02 pid 44968 pre-flip blind-window duplicate; r312 keep-last, T19 r80 precedent); trials chain single-counted 286546->286551"
+   },
+   "eliminated": 5,
+   "refs": {
+    "results": "results/shortline/sina_construct_p1.json",
+    "csv": "research/shortline/sina_construct_p1_results.csv",
+    "prereg": "research/SINA_CONSTRUCT_P1.md",
+    "ticket": "fleet/tasks/T-2026-09-25-46-P1.json",
+    "pool": "results/runnable_pool.json#SINA-CONSTRUCT-P1"
+   },
+   "note": "sina four-tier moneyflow construct family IC census (factor-reference batch, engine cells ledger +0); ALL 5 constructs REJECT: V1 |IS IC| 0.0033-0.0078 < 0.02 floor, V2 |IS IR| 0.051-0.094 << 0.30, V3 only TIER_r2 retains; D6 cross-family EM mf rejects TIER_r2/TIER_r3/MAIN (max|corr| 0.7016-0.738 >= 0.7); OOS IC negative across family; negative verdict final, zero promotion face"
   }
  ],
  "history": [

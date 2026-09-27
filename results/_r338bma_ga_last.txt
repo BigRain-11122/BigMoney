@@ -1,0 +1,83 @@
+{
+ "batch": "T19_PHANTOM_P1",
+ "ts": "2026-09-27 12:32:41",
+ "kind": "measurement",
+ "retro_fill": false,
+ "cells_ledger_delta": 0,
+ "ledger_total_after": 286541,
+ "gates": {
+  "g_repro": "PASS 6/6 bit-exact vs frozen T-14 pin face (src commit 4a5754a3)",
+  "g_set_v2": "PASS family-window suppression exact (3 actual + 150 placebo closures); downstream identity drift = disclosed face per v1.1 (CE-01 38/46, CE-02 96/103, DROUGHT 2/2)",
+  "null_band": {
+   "COMPOSITE-CE-01": "IS p100 beyond / OOS p100 beyond",
+   "COMPOSITE-CE-02": "IS p100 beyond / OOS p100 beyond",
+   "DROUGHT-CE-01": "IS p100 beyond / OOS p18 within"
+  },
+  "engine_crash_repair_reruns": "crashes #1-#4 all pre-first-complete-run; single complete run 12:10:02->12:18:49; zero completed-run reruns"
+ },
+ "eliminated": null,
+ "refs": {
+  "results": "results/t19_phantom_contribution.json",
+  "csv": "results/t19_phantom_contribution.csv",
+  "prereg": "research/T19_PHANTOM_P1.md",
+  "ticket": "fleet/tasks/T-2026-09-24-19-P1.json",
+  "decision_pack": "research/CONSOLIDATION_GOVERNANCE.md"
+ },
+ "note": "phantom contribution quantification batch (stage-2c) = O-1325 option-a/b adjudication evidence; zero registration claims per prereg §4; dSharpe IS/OOS: CE-01 +0.3050/+0.6243, CE-02 +0.3115/+0.1628, DROUGHT +0.5767/-0.0001; 10-row attribution: d0 gap component dominates (official true-return components ~0); GM adjudication recorded in decision pack"
+}
+== history tail:
+[
+ {
+  "batch": "DIV_LOWVOL_P1",
+  "ts": "2026-09-25 17:52:03",
+  "kind": "measurement",
+  "cells_ledger_delta": 36,
+  "ledger_total_after": 182988,
+  "gates": {
+   "completeness_pass": true,
+   "drift_match": true,
+   "g1_prime_pass": false,
+   "g2_eligible": false,
+   "orange_gate_primary": false,
+   "d6_reject": false
+  },
+  "eliminated": 36,
+  "refs": {
+   "prereg": "research/DIV_LOWVOL_P1.md",
+   "ticket": "T-2026-09-25-53"
+  }
+ },
+ {
+  "batch": "CN-REV-TILT-P1",
+  "ts": "2026-09-26 13:40:50",
+  "kind": "measurement",
+  "cells_ledger_delta": 54,
+  "ledger_total_after": 185852,
+  "gates": {
+   "panel_pass": true,
+   "g1_prime_pass": {
+    "REV20_bare": false,
+    "REV60_bare": false,
+    "REV20_tilt": false,
+    "REV60_tilt": false
+   },
+   "g2_eligible": {
+    "REV20_bare": false,
+    "REV60_bare": false,
+    "REV20_tilt": false,
+    "REV60_tilt": false
+   },
+   "d6_reject": {
+    "REV20_bare": false,
+    "REV60_bare": false,
+    "REV20_tilt": false,
+    "REV60_tilt": false
+   }
+  },
+  "eliminated": 54,
+  "refs": {
+   "prereg": "research/CN_REV_TILT_PREREG.md",
+   "ticket": "T-2026-09-26-73"
+  }
+ }
+]

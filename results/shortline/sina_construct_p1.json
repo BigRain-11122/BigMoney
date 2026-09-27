@@ -1,0 +1,800 @@
+{
+ "batch": "sina_construct_p1",
+ "lane": "bm-a data-host local census burn (MSG-20260927-1615 pick (a)); science script authored bm-b, prereg research/SINA_CONSTRUCT_P1.md",
+ "evidence_cutoff": "2026-09-24",
+ "window": {
+  "n_days": 254,
+  "start": "2025-09-05",
+  "end": "2026-09-22",
+  "is_oos_split": "positional 2/3 of eligible signal days (prereg §2, A1 修正案 lineage)",
+  "is_end_date": "2026-05-14",
+  "h_lag_law": "signal day T = panel row T (sina lscjfb day-T close face); forward strictly T+1 (fwd_h[T]=close[T+1+h]/close[T+1]-1)"
+ },
+ "universe": {
+  "n_status_symbols": 5228,
+  "day_eligibility": "helper floor n>=5 (no width gate; coverage disclosed)",
+  "min_panel_rows": 50,
+  "panel_counts": {
+   "files": 5228,
+   "off_eligibility": 1706,
+   "off_mask": 5,
+   "short_history": 19,
+   "schema_foreign": 0,
+   "kept": 3498,
+   "rows": 869141,
+   "rows_off_cal": 7034,
+   "collapse_rejected": 90031,
+   "unverifiable_rows": 0
+  },
+  "median_cross_section": 3465
+ },
+ "gates": {
+  "h_gate": 10,
+  "v1_floor": 0.02,
+  "v2_ir_min": 0.3,
+  "v3_retain_min": 0.5,
+  "min_periods_is": 100,
+  "min_periods_oos": 30,
+  "null_n": 100,
+  "seed_key": "sina_construct_p1"
+ },
+ "d6_law": {
+  "max_abs_corr_reject": 0.7,
+  "min_overlap_days": 30,
+  "intra_batch": "sleeve-tag disclosure, not admission"
+ },
+ "intra_batch_pairs": [
+  {
+   "pair": "TIER_r0|TIER_r1",
+   "max_abs_corr": 0.4877,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r0|TIER_r2",
+   "max_abs_corr": 0.3674,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r0|TIER_r3",
+   "max_abs_corr": 0.3479,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r0|MAIN",
+   "max_abs_corr": 0.8636,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r1|TIER_r2",
+   "max_abs_corr": 0.5996,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r1|TIER_r3",
+   "max_abs_corr": 0.4753,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r1|MAIN",
+   "max_abs_corr": 0.8222,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r2|TIER_r3",
+   "max_abs_corr": 0.6741,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r2|MAIN",
+   "max_abs_corr": 0.5471,
+   "days": 237,
+   "tag": "family_by_construction"
+  },
+  {
+   "pair": "TIER_r3|MAIN",
+   "max_abs_corr": 0.4818,
+   "days": 237,
+   "tag": "family_by_construction"
+  }
+ ],
+ "intra_batch_note": "family_by_construction sleeve-tag (prereg §1 sleeve-tag precedent): intra-batch pairs are by-construction correlated family members (MAIN is the official r0+r1 aggregate of its own components, R225) — disclosure face, NOT an admission reject; cross-family D6 pairs (EM/ths/lhb) carry the >=0.7 admission verdicts. Correlation-source argument pre-declared: four-tier decomposition vs single-column aggregation = dimension dis-parity (R118) + official aggregate (R225).",
+ "rows": [
+  {
+   "factor": "TIER_r0",
+   "is_n_periods": 156,
+   "oos_n_periods": 81,
+   "h10_is_ic_mean": 0.0066,
+   "h10_is_ic_ir": 0.094,
+   "h10_is_n_periods": 156,
+   "h10_oos_ic_mean": -0.0236,
+   "h10_oos_ic_ir": -0.231,
+   "h10_oos_n_periods": 81,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "period_gate": true,
+   "pass": false,
+   "nulls": {
+    "k": 100,
+    "v1_thr": 0.02,
+    "p95_abs_ir": 0.15,
+    "n_ok": 100,
+    "seed_base": 58550,
+    "design": "within-day same-mask factor-rank permutation"
+   },
+   "ic_five_num": [
+    -0.3489,
+    -0.044,
+    -0.0009,
+    0.0475,
+    0.2014
+   ],
+   "extreme_day_face": {
+    "n_days": 237,
+    "abs_ic_median": 0.0474,
+    "abs_ic_p99_9": 0.3474,
+    "abs_ic_max": 0.3489,
+    "coverage_median": 3465,
+    "coverage_min": 3428,
+    "top_days": [
+     {
+      "date": "2026-07-30",
+      "ic": -0.3489,
+      "n": 3497
+     },
+     {
+      "date": "2026-07-29",
+      "ic": -0.3425,
+      "n": 3496
+     },
+     {
+      "date": "2026-06-30",
+      "ic": -0.2655,
+      "n": 3488
+     },
+     {
+      "date": "2026-07-07",
+      "ic": -0.2632,
+      "n": 3491
+     },
+     {
+      "date": "2026-02-05",
+      "ic": -0.2281,
+      "n": 3457
+     }
+    ]
+   },
+   "d6_lhb_count_20": {
+    "max_abs_corr": 0.1327,
+    "days": 237,
+    "verdict": "ok"
+   },
+   "d6_ths_net_ratio": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_ths_net_ratio_ma5": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_mf_main_net_pct_5": {
+    "max_abs_corr": 0.6326,
+    "days": 103,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_10": {
+    "max_abs_corr": 0.5343,
+    "days": 98,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_20": {
+    "max_abs_corr": 0.5169,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_10": {
+    "max_abs_corr": 0.5483,
+    "days": 98,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_20": {
+    "max_abs_corr": 0.6719,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_em_overlap_symbols": 27,
+   "d6_verdict": "ok",
+   "intra_batch": [
+    {
+     "pair": "TIER_r0|TIER_r1",
+     "max_abs_corr": 0.4877,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r0|TIER_r2",
+     "max_abs_corr": 0.3674,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r0|TIER_r3",
+     "max_abs_corr": 0.3479,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r0|MAIN",
+     "max_abs_corr": 0.8636,
+     "days": 237,
+     "tag": "family_by_construction"
+    }
+   ]
+  },
+  {
+   "factor": "TIER_r1",
+   "is_n_periods": 156,
+   "oos_n_periods": 81,
+   "h10_is_ic_mean": 0.0051,
+   "h10_is_ic_ir": 0.063,
+   "h10_is_n_periods": 156,
+   "h10_oos_ic_mean": -0.002,
+   "h10_oos_ic_ir": -0.013,
+   "h10_oos_n_periods": 81,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "period_gate": true,
+   "pass": false,
+   "nulls": {
+    "k": 100,
+    "v1_thr": 0.02,
+    "p95_abs_ir": 0.1662,
+    "n_ok": 100,
+    "seed_base": 58550,
+    "design": "within-day same-mask factor-rank permutation"
+   },
+   "ic_five_num": [
+    -0.4635,
+    -0.0555,
+    0.0033,
+    0.066,
+    0.3247
+   ],
+   "extreme_day_face": {
+    "n_days": 237,
+    "abs_ic_median": 0.0619,
+    "abs_ic_p99_9": 0.4603,
+    "abs_ic_max": 0.4635,
+    "coverage_median": 3465,
+    "coverage_min": 3428,
+    "top_days": [
+     {
+      "date": "2026-07-30",
+      "ic": -0.4635,
+      "n": 3497
+     },
+     {
+      "date": "2026-07-29",
+      "ic": -0.4501,
+      "n": 3496
+     },
+     {
+      "date": "2026-07-01",
+      "ic": 0.3247,
+      "n": 3489
+     },
+     {
+      "date": "2026-08-03",
+      "ic": -0.3186,
+      "n": 3494
+     },
+     {
+      "date": "2026-07-15",
+      "ic": 0.3105,
+      "n": 3495
+     }
+    ]
+   },
+   "d6_lhb_count_20": {
+    "max_abs_corr": 0.2147,
+    "days": 237,
+    "verdict": "ok"
+   },
+   "d6_ths_net_ratio": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_ths_net_ratio_ma5": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_mf_main_net_pct_5": {
+    "max_abs_corr": 0.5988,
+    "days": 103,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_10": {
+    "max_abs_corr": 0.5652,
+    "days": 98,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_20": {
+    "max_abs_corr": 0.6574,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_10": {
+    "max_abs_corr": 0.6018,
+    "days": 98,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_20": {
+    "max_abs_corr": 0.6939,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_em_overlap_symbols": 27,
+   "d6_verdict": "ok",
+   "intra_batch": [
+    {
+     "pair": "TIER_r0|TIER_r1",
+     "max_abs_corr": 0.4877,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r1|TIER_r2",
+     "max_abs_corr": 0.5996,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r1|TIER_r3",
+     "max_abs_corr": 0.4753,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r1|MAIN",
+     "max_abs_corr": 0.8222,
+     "days": 237,
+     "tag": "family_by_construction"
+    }
+   ]
+  },
+  {
+   "factor": "TIER_r2",
+   "is_n_periods": 156,
+   "oos_n_periods": 81,
+   "h10_is_ic_mean": -0.0033,
+   "h10_is_ic_ir": -0.051,
+   "h10_is_n_periods": 156,
+   "h10_oos_ic_mean": -0.0098,
+   "h10_oos_ic_ir": -0.073,
+   "h10_oos_n_periods": 81,
+   "v1": false,
+   "v2": false,
+   "v3": true,
+   "period_gate": true,
+   "pass": false,
+   "nulls": {
+    "k": 100,
+    "v1_thr": 0.02,
+    "p95_abs_ir": 0.15,
+    "n_ok": 100,
+    "seed_base": 58550,
+    "design": "within-day same-mask factor-rank permutation"
+   },
+   "ic_five_num": [
+    -0.4101,
+    -0.0539,
+    -0.0045,
+    0.0437,
+    0.3245
+   ],
+   "extreme_day_face": {
+    "n_days": 237,
+    "abs_ic_median": 0.0487,
+    "abs_ic_p99_9": 0.3903,
+    "abs_ic_max": 0.4101,
+    "coverage_median": 3465,
+    "coverage_min": 3428,
+    "top_days": [
+     {
+      "date": "2026-07-29",
+      "ic": -0.4101,
+      "n": 3496
+     },
+     {
+      "date": "2026-07-30",
+      "ic": -0.326,
+      "n": 3497
+     },
+     {
+      "date": "2026-07-16",
+      "ic": 0.3245,
+      "n": 3495
+     },
+     {
+      "date": "2026-07-02",
+      "ic": 0.2818,
+      "n": 3490
+     },
+     {
+      "date": "2026-06-30",
+      "ic": -0.2755,
+      "n": 3488
+     }
+    ]
+   },
+   "d6_lhb_count_20": {
+    "max_abs_corr": 0.187,
+    "days": 237,
+    "verdict": "ok"
+   },
+   "d6_ths_net_ratio": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_ths_net_ratio_ma5": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_mf_main_net_pct_5": {
+    "max_abs_corr": 0.5974,
+    "days": 103,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_10": {
+    "max_abs_corr": 0.72,
+    "days": 98,
+    "verdict": "reject"
+   },
+   "d6_mf_main_net_pct_20": {
+    "max_abs_corr": 0.6558,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_10": {
+    "max_abs_corr": 0.6601,
+    "days": 98,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_20": {
+    "max_abs_corr": 0.738,
+    "days": 88,
+    "verdict": "reject"
+   },
+   "d6_em_overlap_symbols": 27,
+   "d6_verdict": "reject",
+   "intra_batch": [
+    {
+     "pair": "TIER_r0|TIER_r2",
+     "max_abs_corr": 0.3674,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r1|TIER_r2",
+     "max_abs_corr": 0.5996,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r2|TIER_r3",
+     "max_abs_corr": 0.6741,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r2|MAIN",
+     "max_abs_corr": 0.5471,
+     "days": 237,
+     "tag": "family_by_construction"
+    }
+   ]
+  },
+  {
+   "factor": "TIER_r3",
+   "is_n_periods": 156,
+   "oos_n_periods": 81,
+   "h10_is_ic_mean": -0.0038,
+   "h10_is_ic_ir": -0.073,
+   "h10_is_n_periods": 156,
+   "h10_oos_ic_mean": -0.0017,
+   "h10_oos_ic_ir": -0.013,
+   "h10_oos_n_periods": 81,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "period_gate": true,
+   "pass": false,
+   "nulls": {
+    "k": 100,
+    "v1_thr": 0.02,
+    "p95_abs_ir": 0.1485,
+    "n_ok": 100,
+    "seed_base": 58550,
+    "design": "within-day same-mask factor-rank permutation"
+   },
+   "ic_five_num": [
+    -0.4397,
+    -0.0483,
+    -0.0025,
+    0.0344,
+    0.374
+   ],
+   "extreme_day_face": {
+    "n_days": 237,
+    "abs_ic_median": 0.0422,
+    "abs_ic_p99_9": 0.4242,
+    "abs_ic_max": 0.4397,
+    "coverage_median": 3465,
+    "coverage_min": 3428,
+    "top_days": [
+     {
+      "date": "2026-07-29",
+      "ic": -0.4397,
+      "n": 3496
+     },
+     {
+      "date": "2026-07-02",
+      "ic": 0.374,
+      "n": 3490
+     },
+     {
+      "date": "2026-07-16",
+      "ic": 0.3723,
+      "n": 3495
+     },
+     {
+      "date": "2026-07-14",
+      "ic": 0.3061,
+      "n": 3495
+     },
+     {
+      "date": "2026-07-06",
+      "ic": 0.2767,
+      "n": 3491
+     }
+    ]
+   },
+   "d6_lhb_count_20": {
+    "max_abs_corr": 0.1885,
+    "days": 237,
+    "verdict": "ok"
+   },
+   "d6_ths_net_ratio": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_ths_net_ratio_ma5": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_mf_main_net_pct_5": {
+    "max_abs_corr": 0.6096,
+    "days": 103,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_10": {
+    "max_abs_corr": 0.6669,
+    "days": 98,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_20": {
+    "max_abs_corr": 0.5896,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_10": {
+    "max_abs_corr": 0.7016,
+    "days": 98,
+    "verdict": "reject"
+   },
+   "d6_mf_xl_net_pct_20": {
+    "max_abs_corr": 0.6039,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_em_overlap_symbols": 27,
+   "d6_verdict": "reject",
+   "intra_batch": [
+    {
+     "pair": "TIER_r0|TIER_r3",
+     "max_abs_corr": 0.3479,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r1|TIER_r3",
+     "max_abs_corr": 0.4753,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r2|TIER_r3",
+     "max_abs_corr": 0.6741,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r3|MAIN",
+     "max_abs_corr": 0.4818,
+     "days": 237,
+     "tag": "family_by_construction"
+    }
+   ]
+  },
+  {
+   "factor": "MAIN",
+   "is_n_periods": 156,
+   "oos_n_periods": 81,
+   "h10_is_ic_mean": 0.0078,
+   "h10_is_ic_ir": 0.091,
+   "h10_is_n_periods": 156,
+   "h10_oos_ic_mean": -0.0172,
+   "h10_oos_ic_ir": -0.118,
+   "h10_oos_n_periods": 81,
+   "v1": false,
+   "v2": false,
+   "v3": false,
+   "period_gate": true,
+   "pass": false,
+   "nulls": {
+    "k": 100,
+    "v1_thr": 0.02,
+    "p95_abs_ir": 0.1613,
+    "n_ok": 100,
+    "seed_base": 58550,
+    "design": "within-day same-mask factor-rank permutation"
+   },
+   "ic_five_num": [
+    -0.4944,
+    -0.0625,
+    0.0026,
+    0.058,
+    0.3213
+   ],
+   "extreme_day_face": {
+    "n_days": 237,
+    "abs_ic_median": 0.0622,
+    "abs_ic_p99_9": 0.4881,
+    "abs_ic_max": 0.4944,
+    "coverage_median": 3465,
+    "coverage_min": 3428,
+    "top_days": [
+     {
+      "date": "2026-07-30",
+      "ic": -0.4944,
+      "n": 3497
+     },
+     {
+      "date": "2026-07-29",
+      "ic": -0.4677,
+      "n": 3496
+     },
+     {
+      "date": "2026-08-03",
+      "ic": -0.3435,
+      "n": 3494
+     },
+     {
+      "date": "2026-06-30",
+      "ic": -0.3392,
+      "n": 3488
+     },
+     {
+      "date": "2026-07-15",
+      "ic": 0.3213,
+      "n": 3495
+     }
+    ]
+   },
+   "d6_lhb_count_20": {
+    "max_abs_corr": 0.2109,
+    "days": 237,
+    "verdict": "ok"
+   },
+   "d6_ths_net_ratio": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_ths_net_ratio_ma5": {
+    "max_abs_corr": "",
+    "days": 0,
+    "verdict": "weak_check_insufficient_coverage"
+   },
+   "d6_mf_main_net_pct_5": {
+    "max_abs_corr": 0.5226,
+    "days": 103,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_10": {
+    "max_abs_corr": 0.615,
+    "days": 98,
+    "verdict": "ok"
+   },
+   "d6_mf_main_net_pct_20": {
+    "max_abs_corr": 0.6035,
+    "days": 88,
+    "verdict": "ok"
+   },
+   "d6_mf_xl_net_pct_10": {
+    "max_abs_corr": 0.7278,
+    "days": 98,
+    "verdict": "reject"
+   },
+   "d6_mf_xl_net_pct_20": {
+    "max_abs_corr": 0.7055,
+    "days": 88,
+    "verdict": "reject"
+   },
+   "d6_em_overlap_symbols": 27,
+   "d6_verdict": "reject",
+   "intra_batch": [
+    {
+     "pair": "TIER_r0|MAIN",
+     "max_abs_corr": 0.8636,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r1|MAIN",
+     "max_abs_corr": 0.8222,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r2|MAIN",
+     "max_abs_corr": 0.5471,
+     "days": 237,
+     "tag": "family_by_construction"
+    },
+    {
+     "pair": "TIER_r3|MAIN",
+     "max_abs_corr": 0.4818,
+     "days": 237,
+     "tag": "family_by_construction"
+    }
+   ]
+  }
+ ],
+ "audit": {
+  "runtime_s": 22.5,
+  "machine": "Dasheng",
+  "process_model": "single-process deterministic L1 (pool-supervised; C8 preemption -> whole-run restart, no intra-run state face — prereg §6 engineering note)",
+  "n_rows_scanned": 869141,
+  "accept_ts": "2026-09-27T15:06:09",
+  "latent_repull_defect_note": "%.10g write rounding can exceed PRIMARY_TOL=1.0 on |netamount|>=1e10 rows at overlap re-verify -> prereg amendment required before s3 wiring / first monthly re-pull (see module header)"
+ },
+ "ledger_note": "factor-reference batch: append_ledger(batch_trials=5) at run time; IC counts 5+100 per construct in factor audit; engine trials ledger N untouched",
+ "prereg": "research/SINA_CONSTRUCT_P1.md (freeze commit precedes run, R99 law)",
+ "runtime_s": 22.5,
+ "trials_ledger": {
+  "prev_total": 286546,
+  "batch_trials": 5,
+  "total": 286551,
+  "batch": "sina_construct_p1",
+  "file": "results\\shortline\\sina_construct_p1.json",
+  "evidence_cutoff": "2026-09-24"
+ }
+}
