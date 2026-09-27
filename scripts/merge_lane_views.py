@@ -11,8 +11,11 @@ non-null-first r370 pit-law, post_review id-union with newer-reconcile wins).
 
 Source order is FIXED (legacy shared file first, then lane files bm-a/bm-b/
 bm-c) so every machine derives the byte-identical merged view from the same
-inputs -- no new shared writable face is created (merge prints, never writes
-repo files; consumers import this as a library at switch time).
+inputs -- no new shared writable face is created (merge/reconcile/resolve
+print, never write repo files).  ONE exception landed with debt-③ slice-5
+(r385): sync_face() is the switch-time library write path for the pool face
+-- it settles shared AND the calling machine's lane to the merged view
+(churn-free by parsed compare); the S6 audit leg imports it.
 
 Faces (A-family, LANE_MIGRATION_S1 census):
   compute_audit | regime_state | autofill_state | runnable_pool
@@ -41,6 +44,7 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PATHS  # noqa: E402
+from config.lane_io import machine_id as _own_machine_id  # noqa: E402
 
 A_FACES = ("compute_audit", "regime_state", "autofill_state",
            "runnable_pool", "gate_attrition", "post_review_criteria")
@@ -571,6 +575,120 @@ def face_view(face, results_dir=None):
         return {}
     merged, _notes = merge_face(face, sources)
     return merged
+
+
+def sync_face(face, results_dir=None, machine=None):
+    """Debt-③ (r381 audit) slice-5: merger-recipe TWO-WAY settle for the
+    pool face (runnable_pool) -- the ONE shared-coordination face with
+    BOTH a tick dual-track writer (claim/keepalive/done write shared +
+    own lane together, D-20260928-03 batch-1) and free-form session
+    writers (defer/flip one-off scripts touch ONLY the shared file,
+    r378 catch #4).  The old S6 leg was a one-way byte mirror
+    (mirror_shared_if_changed, shared -> lane): it healed session-side
+    shared edits into the lane with a one-tick lag, but the byte-restore
+    shape is the r381 audit-③ hazard in waiting -- the day the tick goes
+    lane-primary a stale shared blob rolls the lane back and swallows a
+    lane-only keepalive (r288 double-burn family).  This sync derives
+    the SAME merged view consumers read (marker law, done-absorption,
+    id-union) and settles BOTH sides to it, parsed-compare churn-free:
+
+      shared < merged (semantic compare)  -> atomic shared write
+      own lane < merged (sans signature) -> atomic lane write
+
+    Session edit on shared, tick edit on the lane, or both inside one
+    window all converge losslessly to the union.
+
+    Guards: RETIRED faces fail closed (merged != frozen shared on every
+    call would resurrect the write treadmill the r381 retirement
+    killed); corrupt/unreadable sources (mid push-storm) and identity
+    contradictions (r98) = honest "unreadable"/fail-closed return,
+    NEITHER side is written from a half-loaded union (recovery paths
+    stay git history + the resolve subcommand).  Returns a status dict
+    {status, wrote_shared, wrote_lane, notes}; never raises into the
+    calling S6 leg (exit contracts frozen)."""
+    if face in RETIRED_SHARED_PROBES:
+        return {"status": "refused", "wrote_shared": False,
+                "wrote_lane": False,
+                "notes": [f"retired face {face!r}: shared write retired, "
+                          "sync refused (fail-closed)"]}
+    try:
+        sources = load_sources(face, results_dir)
+    except (Exception, SystemExit) as ex:
+        return {"status": "unreadable", "wrote_shared": False,
+                "wrote_lane": False,
+                "notes": [f"source load fault: {ex} -- neither side "
+                          "written (resolve is the recovery path)"]}
+    if not sources:
+        return {"status": "no_sources", "wrote_shared": False,
+                "wrote_lane": False, "notes": []}
+    try:
+        merged, notes = merge_face(face, sources)
+    except (Exception, SystemExit) as ex:
+        return {"status": "unreadable", "wrote_shared": False,
+                "wrote_lane": False,
+                "notes": [f"merge fault: {ex} -- neither side written"]}
+    res = {"status": "unchanged", "wrote_shared": False,
+           "wrote_lane": False, "notes": list(notes)}
+    shared = _shared_path(face, results_dir)
+    try:
+        with open(shared, encoding="utf-8") as fh:
+            cur_shared = json.load(fh)
+    except FileNotFoundError:
+        cur_shared = None
+    except Exception as ex:
+        res["status"] = "unreadable"
+        res["notes"].append(f"shared face unreadable: {ex} -- neither "
+                            "side written")
+        return res
+    if cur_shared != merged:
+        tmp = shared + ".sync.tmp"
+        try:
+            with open(tmp, "w", encoding="utf-8") as fh:
+                json.dump(merged, fh, ensure_ascii=False, indent=2,
+                          default=str)
+            os.replace(tmp, shared)
+            res["wrote_shared"] = True
+            res["status"] = "settled"
+        except Exception as ex:
+            res["notes"].append(f"shared settle fault: {ex}")
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+    mid = machine if machine is not None else _own_machine_id()
+    if not mid:
+        res["notes"].append("machine_id unreadable (r98) -- lane side "
+                            "skipped, shared side unaffected")
+        return res
+    lane = _lane_path(face, mid, results_dir)
+    try:
+        with open(lane, encoding="utf-8") as fh:
+            cur_lane = json.load(fh)
+        if isinstance(cur_lane, dict):
+            cur_lane.pop("lane_machine", None)
+    except FileNotFoundError:
+        cur_lane = None
+    except Exception:
+        cur_lane = None  # corrupt lane -> rewrite from merged (lane is
+        #                  non-authoritative, union is a superset)
+    if cur_lane != merged:
+        payload = dict(merged)
+        payload["lane_machine"] = mid
+        tmp = lane + ".sync.tmp"
+        try:
+            with open(tmp, "w", encoding="utf-8") as fh:
+                json.dump(payload, fh, ensure_ascii=False, indent=2,
+                          default=str)
+            os.replace(tmp, lane)
+            res["wrote_lane"] = True
+            res["status"] = "settled"
+        except Exception as ex:
+            res["notes"].append(f"lane settle fault: {ex}")
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+    return res
 
 
 # ---------------------------------------------------------------------------
@@ -1198,6 +1316,99 @@ def _selftest():
         sources = load_sources("regime_state", results_dir=td)
         m2, _n = merge_face("regime_state", sources)
         check("faceview:production-path-equivalence", v == m2)
+    finally:
+        import shutil
+        shutil.rmtree(td, ignore_errors=True)
+
+    # sync_face (debt-③ slice-5, r385): two-way settle for the pool
+    # face.  r378 live shape = session defer lands ONLY on shared
+    # (bare-ready there, marked-waiting on a lane) -- marker law must
+    # settle BOTH sides; corrupt sources must write NEITHER side.
+    import tempfile
+    td = tempfile.mkdtemp(prefix="mvl_sync_")
+    try:
+        check("sync:no-sources-noop",
+              sync_face("runnable_pool", results_dir=td)["status"]
+              == "no_sources")
+        check("sync:retired-refused",
+              sync_face("autofill_state", results_dir=td)["status"]
+              == "refused")
+        with open(os.path.join(td, "runnable_pool.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"updated_at": "2026-09-28 03:43:08",
+                      "entries": [{"id": "V2P1", "status": "waiting",
+                                   "defer_note": "panel source-blocked"}]},
+                      fh)
+        with open(os.path.join(td, "runnable_pool.bm-b.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"lane_machine": "bm-b",
+                      "updated_at": "2026-09-28 03:43:08",
+                      "entries": [{"id": "V2P1", "status": "ready"}]},
+                      fh)
+        r = sync_face("runnable_pool", results_dir=td, machine="bm-b")
+        shared_after = json.load(open(os.path.join(
+            td, "runnable_pool.json"), encoding="utf-8"))
+        lane_after = json.load(open(os.path.join(
+            td, "runnable_pool.bm-b.json"), encoding="utf-8"))
+        e = lane_after["entries"][0]
+        check("sync:session-defer-marker-law-settles-both",
+              r["status"] == "settled" and r["wrote_lane"]
+              and not r["wrote_shared"]   # shared already == merged
+              and e.get("status") == "waiting"       # defer NOT swallowed
+              and e.get("defer_note") == "panel source-blocked"
+              and lane_after.get("entries") == shared_after["entries"])
+        r2 = sync_face("runnable_pool", results_dir=td, machine="bm-b")
+        check("sync:churn-free-second-pass-unchanged",
+              r2["status"] == "unchanged" and not r2["wrote_shared"]
+              and not r2["wrote_lane"])
+        # tick-advances-shared shape: lane lags -> lane absorbs the
+        # union, shared already == merged (no shared rewrite).
+        with open(os.path.join(td, "runnable_pool.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"updated_at": "2026-09-28 03:50:01",
+                      "entries": [{"id": "V2P1", "status": "waiting",
+                                   "defer_note": "panel source-blocked"},
+                                  {"id": "GEN1", "status": "running",
+                                   "owner": "bm-a"}]},
+                      fh)
+        r3 = sync_face("runnable_pool", results_dir=td, machine="bm-b")
+        lane_after3 = json.load(open(os.path.join(
+            td, "runnable_pool.bm-b.json"), encoding="utf-8"))
+        check("sync:shared-only-advance-lane-absorbs",
+              r3["wrote_lane"] and not r3["wrote_shared"]
+              and lane_after3.get("updated_at") == "2026-09-28 03:50:01"
+              and {x["id"] for x in lane_after3["entries"]}
+              == {"V2P1", "GEN1"})
+        # corrupt shared = neither side written (recovery = resolve).
+        with open(os.path.join(td, "runnable_pool.json"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("{corrupt json")
+        lane_bytes = open(os.path.join(td, "runnable_pool.bm-b.json"),
+                          "rb").read()
+        r4 = sync_face("runnable_pool", results_dir=td, machine="bm-b")
+        check("sync:corrupt-shared-neither-side-written",
+              r4["status"] == "unreadable" and not r4["wrote_shared"]
+              and not r4["wrote_lane"]
+              and open(os.path.join(td, "runnable_pool.bm-b.json"),
+                      "rb").read() == lane_bytes)
+        # identity contradiction (r98) = fail-closed, no writes.
+        with open(os.path.join(td, "runnable_pool.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"updated_at": "2026-09-28 04:00:00",
+                      "entries": [{"id": "Z", "status": "ready"}]}, fh)
+        with open(os.path.join(td, "runnable_pool.bm-a.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"lane_machine": "bm-c",  # contradicts filename
+                      "updated_at": "2026-09-28 04:00:00",
+                      "entries": [{"id": "Z", "status": "ready"}]}, fh)
+        shared_bytes = open(os.path.join(td, "runnable_pool.json"),
+                            "rb").read()
+        r5 = sync_face("runnable_pool", results_dir=td, machine="bm-a")
+        check("sync:identity-contradiction-fail-closed",
+              r5["status"] == "unreadable" and not r5["wrote_shared"]
+              and not r5["wrote_lane"]
+              and open(os.path.join(td, "runnable_pool.json"),
+                      "rb").read() == shared_bytes)
     finally:
         import shutil
         shutil.rmtree(td, ignore_errors=True)

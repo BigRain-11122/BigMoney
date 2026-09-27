@@ -344,13 +344,34 @@ def main():
     # wiring decays structurally -- this every-round audit leg maintains
     # both lanes via churn-free mirrors instead (any snapshot ever
     # captured is lossless under merger union semantics).
-    # runnable_pool joined this family at r378 (catch #4): session-side
-    # pool edits (defer/flip one-off scripts) commit the shared face
-    # without a lane refresh -- ticks write their own lane at commit,
-    # sessions do not, so the lane lagged a session defer by one tick
-    # cycle and reconcile read a stale pre-defer mirror.
-    for _face in ("gate_attrition", "post_review_criteria", "runnable_pool"):
+    for _face in ("gate_attrition", "post_review_criteria"):
         mirror_shared_if_changed(_face)
+    # runnable_pool leaves the one-way mirror family (debt-③ slice-5,
+    # r385): the pool is the ONE face with BOTH a tick dual-track writer
+    # (claim/keepalive/done write shared + own lane) and free-form
+    # session writers (defer/flip one-off scripts touch ONLY the shared
+    # file, r378 catch #4), so a shared->lane byte mirror is the r381
+    # audit-③ stale-shared rollback shape in waiting -- the day the
+    # tick goes lane-primary it would swallow a lane-only keepalive
+    # (r288 double-burn family).  Merged-sync settles BOTH sides to
+    # the same marker-law union consumers read, churn-free.
+    try:
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from merge_lane_views import sync_face
+        _sync = sync_face("runnable_pool")
+        if _sync.get("status") not in ("settled", "unchanged"):
+            print(f"compute_audit: runnable_pool merged-sync "
+                  f"{_sync.get('status')} -- neither side written "
+                  f"({_sync.get('notes')})", file=sys.stderr)
+        elif _sync.get("status") == "settled":
+            print("compute_audit: runnable_pool merged-sync settled "
+                  + json.dumps({k: _sync.get(k) for k in
+                                ("wrote_shared", "wrote_lane")},
+                               ensure_ascii=False), file=sys.stderr)
+    except (Exception, SystemExit) as _ex:
+        print(f"compute_audit: runnable_pool merged-sync fault: {_ex} "
+              "(fail-soft, mirrors stay authoritative)",
+              file=sys.stderr)
 
     print(json.dumps(record, ensure_ascii=False))
     # exit 0 always: audit is observational; loop reports flags only
