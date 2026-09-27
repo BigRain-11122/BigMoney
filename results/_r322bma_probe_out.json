@@ -1,0 +1,1411 @@
+{
+ "docs/daily_report/REPORT-2026-09-27.json": {
+  "sizes": [
+   14874,
+   14874
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "report_date",
+    "2026-09-27"
+   ],
+   [
+    "generated_at",
+    "2026-09-27 12:34:44"
+   ],
+   [
+    "combat.paper_summary.exits_today",
+    0
+   ],
+   [
+    "combat.paper_summary.exits_not_derivable_first_snapshot",
+    true
+   ],
+   [
+    "combat.market_clock.asof",
+    "2026-09-24"
+   ],
+   [
+    "combat.marks_asof",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "report_date",
+    "2026-09-27"
+   ],
+   [
+    "generated_at",
+    "2026-09-27 12:32:18"
+   ],
+   [
+    "combat.paper_summary.exits_today",
+    0
+   ],
+   [
+    "combat.paper_summary.exits_not_derivable_first_snapshot",
+    true
+   ],
+   [
+    "combat.market_clock.asof",
+    "2026-09-24"
+   ],
+   [
+    "combat.marks_asof",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 7,
+  "diffs_head": [
+   "generated_at: '2026-09-27 12:34:44' != '2026-09-27 12:32:18'",
+   "rd.commits_24h: 464 != 462",
+   "rd.compute_audit_latest.py_cpu_pct: 4.8 != 0.3",
+   "rd.compute_audit_latest.ts: '2026-09-27 12:33:14' != '2026-09-27 12:31:14'",
+   "rd.digests_landed_24h: 14 != 13",
+   "rd.prereg_md_touched_24h: 57 != 56",
+   "rd.result_jsons_landed_24h: 109 != 106"
+  ]
+ },
+ "docs/daily_report/REPORT-2026-09-27.md": {
+  "sizes": [
+   8128,
+   8128
+  ],
+  "identical": false,
+  "md_equal": false,
+  "md_diff_head": [
+   "--- r321",
+   "+++ origin",
+   "@@ -1,6 +1,6 @@",
+   " # 每日战报 — 2026-09-27",
+   " ",
+   "-> 生成 2026-09-27 12:32:18 · 聚合面零新判据 · 缺面如实标注",
+   "+> 生成 2026-09-27 12:34:44 · 聚合面零新判据 · 缺面如实标注",
+   " ",
+   " ## 一、实战面",
+   " - **市场时钟**：`ORANGE_COOL`（asof 2026-09-24）· 仓位阶梯帽 0.5",
+   "@@ -39,8 +39,8 @@",
+   "   - [ALLOC] ALLOC-P3B: equity N/A(面未产出) · daily-threshold",
+   " ",
+   " ## 二、研发面（24h）",
+   "-- 提交 462 · 判定/结果件落地 106 · 调研 digest 13 · 预注册/正典触碰 56",
+   "-- 在飞批：是 · 水位判定 `py_low_with_work_cands` · 算力审计 `{\"ts\": \"2026-09-27 12:31:14\", \"py_cpu_pct\": 0.3, \"flags\": [], \"verdict\": \"CLEAN\"}`"
+  ]
+ },
+ "results/autofill_state.json": {
+  "sizes": [
+   17585,
+   16297
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "launches[0].ts",
+    "2026-09-26 04:20:01"
+   ],
+   [
+    "launches[1].ts",
+    "2026-09-26 05:00:01"
+   ],
+   [
+    "launches[2].ts",
+    "2026-09-26 05:40:01"
+   ],
+   [
+    "last_tick.ts",
+    "2026-09-27 12:30:02"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "launches[0].ts",
+    "2026-09-26 11:34:40"
+   ],
+   [
+    "launches[1].ts",
+    "2026-09-26 11:40:01"
+   ],
+   [
+    "launches[2].ts",
+    "2026-09-26 11:42:50"
+   ],
+   [
+    "last_tick.ts",
+    "2026-09-27 12:30:01"
+   ]
+  ],
+  "diff_count": 362,
+  "diffs_head": [
+   "last_tick.machine: 'bm-b' != 'bm-a'",
+   "last_tick.ts: '2026-09-27 12:30:02' != '2026-09-27 12:30:01'",
+   "launches: len 57(origin) vs 50(r321)",
+   "launches[0].entry: 'P1E-NULLS-MCLOSETR' != 'GPU-FACTOR-LANE-PROOF'",
+   "launches[0].fill_latency_min: 73.3 != 102.7",
+   "launches[0].machine: 'bm-b' != 'bm-a'",
+   "launches[0].pid: 24824 != 56984",
+   "launches[0].runner_sha256: only-in-OURS(origin)",
+   "launches[0].shard: 'p1e-nulls-mclosetr' != 'gpu-proof-0of1'",
+   "launches[0].ts: '2026-09-26 04:20:01' != '2026-09-26 11:34:40'",
+   "launches[1].entry: 'P1E-NULLS-MARC' != 'GPU-FACTOR-LANE-PROOF'",
+   "launches[1].fill_latency_min: 113.3 != 108.1"
+  ]
+ },
+ "results/compute_audit.json": {
+  "sizes": [
+   155139,
+   138702
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "latest.ts",
+    "2026-09-27 12:33:14"
+   ],
+   [
+    "latest.pool_starvation_candidate",
+    true
+   ],
+   [
+    "latest.single_core_hog_candidate",
+    false
+   ],
+   [
+    "history[0].pool_starvation_candidate",
+    true
+   ],
+   [
+    "history[0].single_core_hog_candidate",
+    false
+   ],
+   [
+    "history[0].ts",
+    "2026-09-26 05:47:11"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "latest.ts",
+    "2026-09-27 12:31:14"
+   ],
+   [
+    "latest.pool_starvation_candidate",
+    false
+   ],
+   [
+    "latest.single_core_hog_candidate",
+    false
+   ],
+   [
+    "history[0].pool_starvation_candidate",
+    false
+   ],
+   [
+    "history[0].single_core_hog_candidate",
+    false
+   ],
+   [
+    "history[0].ts",
+    "2026-09-26 05:11:54"
+   ]
+  ],
+  "diff_count": 2190,
+  "diffs_head": [
+   "history: len 202(origin) vs 205(r321)",
+   "history[0].cores: 16 != 32",
+   "history[0].cpu_total_pct: 4.0 != 27.0",
+   "history[0].gpu.compute_apps_count: 21 != 32",
+   "history[0].gpu.mem_used_mb: 5772.0 != 6588.0",
+   "history[0].gpu.util_pct: 1.0 != 6.0",
+   "history[0].load_state: 'idle-starvation' != 'pool-supply-gap'",
+   "history[0].pool_ready_count: 0 != 2",
+   "history[0].pool_starvation_candidate: True != False",
+   "history[0].pool_starvation_detail.reason: only-in-OURS(origin)",
+   "history[0].pool_starvation_detail.run_samples: only-in-THEIRS(r321)",
+   "history[0].pool_starvation_detail.span_min: only-in-THEIRS(r321)"
+  ]
+ },
+ "results/daily_scorecard.json": {
+  "sizes": [
+   78150,
+   78150
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].forward_guard.sell_deferred_events_n",
+    0
+   ],
+   [
+    "traders[1].cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[1].forward_guard.sell_deferred_events_n",
+    0
+   ],
+   [
+    "traders[2].cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].forward_guard.sell_deferred_events_n",
+    0
+   ],
+   [
+    "traders[1].cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[1].forward_guard.sell_deferred_events_n",
+    0
+   ],
+   [
+    "traders[2].cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 6,
+  "diffs_head": [
+   "traders[0].forward_guard.as_of: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "traders[1].forward_guard.as_of: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "traders[2].forward_guard.as_of: '2026-09-27 12:33:05' != '2026-09-27 12:32:06'",
+   "traders[3].forward_guard.as_of: '2026-09-27 12:33:07' != '2026-09-27 12:32:06'",
+   "traders[4].forward_guard.as_of: '2026-09-27 12:33:08' != '2026-09-27 12:32:07'",
+   "traders[5].forward_guard.as_of: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'"
+  ]
+ },
+ "results/dashboard_status.js": {
+  "sizes": [
+   56017,
+   56086
+  ],
+  "identical": false,
+  "parse_error": "JSONDecodeError('Expecting value: line 1 column 1 (char 0)')"
+ },
+ "results/dashboard_status.json": {
+  "sizes": [
+   74666,
+   74798
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "meta.generated_at",
+    "2026-09-27T12:34:45"
+   ],
+   [
+    "health.network.hotspot",
+    false
+   ],
+   [
+    "data.update.last_run",
+    "2026-09-27 12:33:32"
+   ],
+   [
+    "data.update.data_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "data.heat.l1_snapshots",
+    0
+   ],
+   [
+    "data.heat.l1_updated",
+    "2026-09-27 12:34:13"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "meta.generated_at",
+    "2026-09-27T12:32:20"
+   ],
+   [
+    "health.network.hotspot",
+    false
+   ],
+   [
+    "data.update.last_run",
+    "2026-09-27 12:31:22"
+   ],
+   [
+    "data.update.data_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "data.heat.l1_snapshots",
+    3
+   ],
+   [
+    "data.heat.l1_updated",
+    "2026-09-27 12:31:38"
+   ]
+  ],
+  "diff_count": 70,
+  "diffs_head": [
+   "data.autofill.fill_latency_last: 98.1 != 68.1",
+   "data.autofill.last_tick: '2026-09-27 12:30:02' != '2026-09-27 12:30:01'",
+   "data.autofill.launches_total: 50 != 55",
+   "data.autofill.pool_ready: 0 != 1",
+   "data.autofill.ready_ids: len 0(origin) vs 1(r321)",
+   "data.autofill.verdict: 'launched' != 'pool_empty_or_busy'",
+   "data.daily_report.generated_at: '2026-09-27 12:34:44' != '2026-09-27 12:32:18'",
+   "data.futures.last_attempt: '2026-09-27T12:34:13' != '2026-09-27T12:31:38'",
+   "data.heat.l1_snapshots: 0 != 3",
+   "data.heat.l1_updated: '2026-09-27 12:34:13' != '2026-09-27 12:31:38'",
+   "data.heat.text: '热度链活 · L1 0份 · L2 97/100件' != '热度链活 · L1 3份 · L2 97/100件'",
+   "data.moneyflow.age_min: 43 != 0"
+  ]
+ },
+ "results/fundamental_b_layer_filter.json": {
+  "sizes": [
+   1704,
+   1704
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "updated",
+    "2026-09-27 12:34:29"
+   ],
+   [
+    "inputs.eligibility_asof",
+    "2026-09-27 09:29:15"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "updated",
+    "2026-09-27 12:32:03"
+   ],
+   [
+    "inputs.eligibility_asof",
+    "2026-09-27 09:29:15"
+   ]
+  ],
+  "diff_count": 1,
+  "diffs_head": [
+   "updated: '2026-09-27 12:34:29' != '2026-09-27 12:32:03'"
+  ]
+ },
+ "results/futures_update_status.json": {
+  "sizes": [
+   3198,
+   3198
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "ts",
+    "2026-09-27T12:34:13"
+   ],
+   [
+    "summary.data_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "expected_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "data_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "ts",
+    "2026-09-27T12:31:38"
+   ],
+   [
+    "summary.data_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "expected_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "data_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "last_attempt: '2026-09-27T12:34:13' != '2026-09-27T12:31:38'",
+   "ts: '2026-09-27T12:34:13' != '2026-09-27T12:31:38'"
+  ]
+ },
+ "results/heat_update_status.json": {
+  "sizes": [
+   166,
+   166
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "snapshots",
+    0
+   ],
+   [
+    "updated",
+    "2026-09-27 12:34:13"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "snapshots",
+    3
+   ],
+   [
+    "updated",
+    "2026-09-27 12:31:38"
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "snapshots: 0 != 3",
+   "updated: '2026-09-27 12:34:13' != '2026-09-27 12:31:38'"
+  ]
+ },
+ "results/lhb_update_status.json": {
+  "sizes": [
+   211,
+   211
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:34:12"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:31:38"
+   ]
+  ],
+  "diff_count": 1,
+  "diffs_head": [
+   "updated: '2026-09-27 12:34:12' != '2026-09-27 12:31:38'"
+  ]
+ },
+ "results/paper/COMPOSITE-CE-01_paper.json": {
+  "sizes": [
+   3919,
+   3919
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:33:04"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "ts_r321": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:32:05"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "forward_guard.as_of: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "updated: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'"
+  ]
+ },
+ "results/paper/COMPOSITE-CE-02_paper.json": {
+  "sizes": [
+   4829,
+   4829
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:33:04"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "ts_r321": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:32:05"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "forward_guard.as_of: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "updated: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'"
+  ]
+ },
+ "results/paper/DROUGHT-CE-01_paper.json": {
+  "sizes": [
+   2597,
+   2597
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:33:05"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "ts_r321": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:32:06"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "forward_guard.as_of: '2026-09-27 12:33:05' != '2026-09-27 12:32:06'",
+   "updated: '2026-09-27 12:33:05' != '2026-09-27 12:32:06'"
+  ]
+ },
+ "results/paper/ENGULF-CE-01_paper.json": {
+  "sizes": [
+   2747,
+   2747
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:33:07"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "ts_r321": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:32:06"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "forward_guard.as_of: '2026-09-27 12:33:07' != '2026-09-27 12:32:06'",
+   "updated: '2026-09-27 12:33:07' != '2026-09-27 12:32:06'"
+  ]
+ },
+ "results/paper/NEEDLE-DE-01_paper.json": {
+  "sizes": [
+   2597,
+   2597
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:33:08"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "ts_r321": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:32:07"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "forward_guard.as_of: '2026-09-27 12:33:08' != '2026-09-27 12:32:07'",
+   "updated: '2026-09-27 12:33:08' != '2026-09-27 12:32:07'"
+  ]
+ },
+ "results/paper/VOLATILITY-CE-01_paper.json": {
+  "sizes": [
+   3917,
+   3917
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:33:09"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "ts_r321": [
+   [
+    "anchor.cutoff",
+    "2026-09-22"
+   ],
+   [
+    "window_metrics.fill_guard_sell_deferred_events",
+    0
+   ],
+   [
+    "cutoff",
+    "2026-09-24"
+   ],
+   [
+    "updated",
+    "2026-09-27 12:32:07"
+   ],
+   [
+    "regime_guard.asof",
+    "2026-09-24"
+   ],
+   [
+    "forward_guard.sell_deferred_events_n",
+    0
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "forward_guard.as_of: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'",
+   "updated: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'"
+  ]
+ },
+ "results/paper_export/export-2026-09-24.json": {
+  "sizes": [
+   11275,
+   11275
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "export_date",
+    "2026-09-24"
+   ],
+   [
+    "evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "generated_from_state_updated",
+    "2026-09-27 12:33:09"
+   ],
+   [
+    "traders[0].state_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].state_updated",
+    "2026-09-27 12:33:04"
+   ],
+   [
+    "traders[1].state_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "export_date",
+    "2026-09-24"
+   ],
+   [
+    "evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "generated_from_state_updated",
+    "2026-09-27 12:32:07"
+   ],
+   [
+    "traders[0].state_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].state_updated",
+    "2026-09-27 12:32:05"
+   ],
+   [
+    "traders[1].state_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 7,
+  "diffs_head": [
+   "generated_from_state_updated: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'",
+   "traders[0].state_updated: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "traders[1].state_updated: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "traders[2].state_updated: '2026-09-27 12:33:05' != '2026-09-27 12:32:06'",
+   "traders[3].state_updated: '2026-09-27 12:33:07' != '2026-09-27 12:32:06'",
+   "traders[4].state_updated: '2026-09-27 12:33:08' != '2026-09-27 12:32:07'",
+   "traders[5].state_updated: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'"
+  ]
+ },
+ "results/paper_export/latest.json": {
+  "sizes": [
+   11275,
+   11275
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "export_date",
+    "2026-09-24"
+   ],
+   [
+    "evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "generated_from_state_updated",
+    "2026-09-27 12:33:09"
+   ],
+   [
+    "traders[0].state_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].state_updated",
+    "2026-09-27 12:33:04"
+   ],
+   [
+    "traders[1].state_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "export_date",
+    "2026-09-24"
+   ],
+   [
+    "evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "generated_from_state_updated",
+    "2026-09-27 12:32:07"
+   ],
+   [
+    "traders[0].state_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "traders[0].state_updated",
+    "2026-09-27 12:32:05"
+   ],
+   [
+    "traders[1].state_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 7,
+  "diffs_head": [
+   "generated_from_state_updated: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'",
+   "traders[0].state_updated: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "traders[1].state_updated: '2026-09-27 12:33:04' != '2026-09-27 12:32:05'",
+   "traders[2].state_updated: '2026-09-27 12:33:05' != '2026-09-27 12:32:06'",
+   "traders[3].state_updated: '2026-09-27 12:33:07' != '2026-09-27 12:32:06'",
+   "traders[4].state_updated: '2026-09-27 12:33:08' != '2026-09-27 12:32:07'",
+   "traders[5].state_updated: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'"
+  ]
+ },
+ "results/prospect_paper/_summary.json": {
+  "sizes": [
+   829,
+   829
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "generated",
+    "2026-09-27T12:33:10+08:00"
+   ],
+   [
+    "data_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "generated",
+    "2026-09-27T12:32:08+08:00"
+   ],
+   [
+    "data_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 1,
+  "diffs_head": [
+   "generated: '2026-09-27T12:33:10+08:00' != '2026-09-27T12:32:08+08:00'"
+  ]
+ },
+ "results/prospect_promotion/_summary.json": {
+  "sizes": [
+   858,
+   858
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "generated",
+    "2026-09-27T12:34:35+08:00"
+   ],
+   [
+    "evidence_cutoff",
+    "2026-09-22"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "generated",
+    "2026-09-27T12:32:15+08:00"
+   ],
+   [
+    "evidence_cutoff",
+    "2026-09-22"
+   ]
+  ],
+  "diff_count": 1,
+  "diffs_head": [
+   "generated: '2026-09-27T12:34:35+08:00' != '2026-09-27T12:32:15+08:00'"
+  ]
+ },
+ "results/regime_state.json": {
+  "sizes": [
+   1859,
+   1859
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "updated",
+    "2026-09-27 12:33:33"
+   ],
+   [
+    "asof",
+    "2026-09-24"
+   ],
+   [
+    "dims.bench.asof",
+    "2026-09-24"
+   ],
+   [
+    "history[0].asof",
+    "2026-09-23"
+   ],
+   [
+    "history[1].asof",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "updated",
+    "2026-09-27 12:31:23"
+   ],
+   [
+    "asof",
+    "2026-09-24"
+   ],
+   [
+    "dims.bench.asof",
+    "2026-09-24"
+   ],
+   [
+    "history[0].asof",
+    "2026-09-23"
+   ],
+   [
+    "history[1].asof",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 1,
+  "diffs_head": [
+   "updated: '2026-09-27 12:33:33' != '2026-09-27 12:31:23'"
+  ]
+ },
+ "results/scorecard_v1.json": {
+  "sizes": [
+   27836,
+   27836
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "generated",
+    "2026-09-27T12:33:43"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "generated",
+    "2026-09-27T12:31:26"
+   ]
+  ],
+  "diff_count": 1,
+  "diffs_head": [
+   "generated: '2026-09-27T12:33:43' != '2026-09-27T12:31:26'"
+  ]
+ },
+ "results/strategy_scorecard.json": {
+  "sizes": [
+   238112,
+   238111
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "generated",
+    "2026-09-27T12:33:59"
+   ],
+   [
+    "profile_cards.evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "profile_cards.cutoff_source",
+    "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)"
+   ],
+   [
+    "profile_cards.cards.COMPOSITE-CE-01.long_face_t22.segments.bull.n_startpoints",
+    470
+   ],
+   [
+    "profile_cards.cards.COMPOSITE-CE-01.long_face_t22.segments.bear.n_startpoints",
+    698
+   ],
+   [
+    "profile_cards.cards.COMPOSITE-CE-01.long_face_t22.segments.chop.n_startpoints",
+    87
+   ]
+  ],
+  "ts_r321": [
+   [
+    "generated",
+    "2026-09-27T12:31:32"
+   ],
+   [
+    "profile_cards.evidence_cutoff",
+    "2026-09-24"
+   ],
+   [
+    "profile_cards.cutoff_source",
+    "results/retro_paper_2026/LEADERBOARD.json (T-79 frozen batch face)"
+   ],
+   [
+    "profile_cards.cards.COMPOSITE-CE-01.long_face_t22.segments.bull.n_startpoints",
+    470
+   ],
+   [
+    "profile_cards.cards.COMPOSITE-CE-01.long_face_t22.segments.bear.n_startpoints",
+    698
+   ],
+   [
+    "profile_cards.cards.COMPOSITE-CE-01.long_face_t22.segments.chop.n_startpoints",
+    87
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "audit.elapsed_sec: 18.3 != 9.0",
+   "generated: '2026-09-27T12:33:59' != '2026-09-27T12:31:32'"
+  ]
+ },
+ "results/t35_open_fill_verify.json": {
+  "sizes": [
+   869,
+   869
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "per_trader.COMPOSITE-CE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.COMPOSITE-CE-02.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.DROUGHT-CE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.ENGULF-CE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.NEEDLE-DE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.VOLATILITY-CE-01.cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "per_trader.COMPOSITE-CE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.COMPOSITE-CE-02.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.DROUGHT-CE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.ENGULF-CE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.NEEDLE-DE-01.cutoff",
+    "2026-09-24"
+   ],
+   [
+    "per_trader.VOLATILITY-CE-01.cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 1,
+  "diffs_head": [
+   "ts: '2026-09-27 12:33:09' != '2026-09-27 12:32:07'"
+  ]
+ },
+ "results/token_usage.json": {
+  "sizes": [
+   1991,
+   1991
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "generated",
+    "2026-09-27 12:34:46"
+   ],
+   [
+    "per_round_context.mandate_read_tokens_est",
+    8500
+   ],
+   [
+    "delta_vs_prev.prev_generated",
+    "2026-09-27 12:23:58"
+   ],
+   [
+    "delta_vs_prev.mandate_growth",
+    0
+   ]
+  ],
+  "ts_r321": [
+   [
+    "generated",
+    "2026-09-27 12:32:21"
+   ],
+   [
+    "per_round_context.mandate_read_tokens_est",
+    8500
+   ],
+   [
+    "delta_vs_prev.prev_generated",
+    "2026-09-27 12:23:58"
+   ],
+   [
+    "delta_vs_prev.mandate_growth",
+    0
+   ]
+  ],
+  "diff_count": 3,
+  "diffs_head": [
+   "generated: '2026-09-27 12:34:46' != '2026-09-27 12:32:21'",
+   "machines.-bm-a.report_bytes: 900019 != 900018",
+   "per_round_context.codely_read_tokens_est: 2745 != 2381"
+  ]
+ },
+ "results/update_status.json": {
+  "sizes": [
+   7842,
+   7842
+  ],
+  "identical": false,
+  "ts_origin": [
+   [
+    "updated",
+    "2026-09-27 12:33:32"
+   ],
+   [
+    "close_accept_time",
+    "15:30:00"
+   ],
+   [
+    "data_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "ts_r321": [
+   [
+    "updated",
+    "2026-09-27 12:31:22"
+   ],
+   [
+    "close_accept_time",
+    "15:30:00"
+   ],
+   [
+    "data_cutoff",
+    "2026-09-24"
+   ]
+  ],
+  "diff_count": 2,
+  "diffs_head": [
+   "now: '2026-09-27 12:33:30.459979' != '2026-09-27 12:31:21.726516'",
+   "updated: '2026-09-27 12:33:32' != '2026-09-27 12:31:22'"
+  ]
+ },
+ "results/x2_watch_log.jsonl": {
+  "sizes": [
+   124050,
+   124050
+  ],
+  "identical": false,
+  "lines_origin": 648,
+  "lines_r321": 648,
+  "lines_union": 654,
+  "only_origin": 6,
+  "only_r321": 6
+ }
+}
