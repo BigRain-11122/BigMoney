@@ -1,0 +1,80 @@
+total lines: 1854
+L39:     alive, shard still not done past FUSE_CONFIRM_MIN) is CONFIRMED into
+L41:     relaunch of the SAME hash is REFUSED (fix-first -- each crash-relaunch
+L83: POOL = os.path.join(ROOT, "results", "runnable_pool.json")
+L84: STATE = os.path.join(ROOT, "results", "autofill_state.json")
+L85: FUSE = os.path.join(ROOT, "results", "crash_fuse.json")
+L99: FUSE_CONFIRM_MIN = 25.0   # O-0947: crash confirm window -- > one flip
+L266:             # fresh state -- the next _save_state would wipe the launch
+L272: def _save_state(s):
+L278:     _write_lane_file(STATE, s)
+L286:     if os.path.exists(FUSE):
+L288:             with open(FUSE, encoding="utf-8") as fh:
+L295: def _save_fuse(f):
+L296:     tmp = FUSE + ".tmp"
+L299:     os.replace(tmp, FUSE)
+L301:     # fuse face (same dual-track as _save_state; 7/8 -> 8/8 wired).
+L302:     _write_lane_file(FUSE, f)
+L317: def _write_lane_file(shared_path, data):
+L336: def _pool_lane_sync():
+L342:             _write_lane_file(POOL, json.load(fh))
+L347: def _tick_owned_dirt():
+L363:     dirt = [STATE, FUSE]
+L365:                _lane_path_for(FUSE)):
+L392:     without landing (shard still not done past FUSE_CONFIRM_MIN) into
+L423:         if age < FUSE_CONFIRM_MIN or _runner_alive(ent.get("runner", "")):
+L560:             _pool_lane_sync()
+L568:             _pool_lane_sync()
+L575:         _write_lane_file(POOL, pool)
+L576:         for args in (("add", POOL, *_tick_owned_dirt()),
+L630:                 _pool_lane_sync()
+L678:             _pool_lane_sync()
+L686:             _pool_lane_sync()
+L693:         _write_lane_file(POOL, pool)
+L694:         for args in (("add", POOL, *_tick_owned_dirt()),
+L741:                 _pool_lane_sync()
+L772:         _save_state(state)
+L781:         _save_state(state)
+L794:         _save_fuse(fuse)
+L803:     # a confirmed crash -> REFUSE relaunch (fix-first; each crash-retry
+L822:             _log(f"crash-fuse REFUSE relaunch {cand_e['id']}/"
+L841:         _save_fuse(fuse)
+L848:             _save_state(state)
+L853:         _save_state(state)
+L862:         _save_fuse(fuse)
+L878:         _save_state(state)
+L886:         _save_state(state)
+L911:     _save_state(state)
+L962:             print(f"REFUSED: {b}")
+L963:         _log(f"submit REFUSED {a_id or '<empty>'}: " + "; ".join(bad))
+L993:     _write_lane_file(POOL, pool)
+L1003:     global POOL, STATE, FUSE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, _runner_alive
+L1013:         POOL = os.path.join(tmp, "runnable_pool.json")
+L1014:         STATE = os.path.join(tmp, "autofill_state.json")
+L1015:         FUSE = os.path.join(tmp, "crash_fuse.json")
+L1413:         with open(FUSE, "w", encoding="utf-8") as fh:
+L1423:            and add_args_all[-1] == (POOL, STATE, FUSE, _lane_st,
+L1425:         os.remove(FUSE)
+L1458:         # S18d D-03(1): _save_state writes the state lane too.
+L1459:         _save_state({"last_tick": {"ts": "2026-09-28 02:00:01",
+L1465:         # S18e D-03(1) batch-2 closeout: _save_fuse writes the fuse lane
+L1467:         _save_fuse({"sigs": {"scripts/x.py|run": {"count": 1}}})
+L1468:         _lane_fu = _lane_path_for(FUSE)
+L1469:         lane18e = json.load(open(_lane_fu, encoding="utf-8"))
+L1470:         fuse18e = json.load(open(FUSE, encoding="utf-8"))
+L1553:         with open(FUSE, "w", encoding="utf-8") as fh:
+L1562:            and add_args_all[-1] == (POOL, STATE, FUSE, _lane_st,
+L1563:                                     _lane_pl, _lane_fu))
+L1663:         # false-positive guard = FUSE_CONFIRM_MIN > one tick).
+L1696:         # confirmed crash -> relaunch REFUSED, refusal counter visible.
+L1699:         with open(FUSE, "w", encoding="utf-8") as fh:
+L1704:         fu16b = json.load(open(FUSE, encoding="utf-8"))
+L1705:         ok("S16b same-version relaunch REFUSED (counter visible)",
+L1711:         with open(FUSE, "w", encoding="utf-8") as fh:
+L1717:         fu16c = json.load(open(FUSE, encoding="utf-8"))
+L1732:         with open(FUSE, "w", encoding="utf-8") as fh:
+L1737:         fu16e = json.load(open(FUSE, encoding="utf-8"))
+L1745:         with open(FUSE, "w", encoding="utf-8") as fh:
+L1747:         before16d = open(FUSE, "rb").read()
+L1749:         after16d = open(FUSE, "rb").read()
+L1752:         os.remove(FUSE)

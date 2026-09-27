@@ -513,6 +513,37 @@ MERGERS.update({
 
 ALL_FACES = A_FACES + B_FACES
 
+# D-20260928-03(1) batch-1 writer retirement (r381): faces whose shared
+# write is RETIRED -- the owning machine's writer is lane-primary and the
+# shared file is the FROZEN legacy base (still merger source #0, so
+# scattered/forensic rewrites of it stay absorbed).  Reconcile cannot
+# demand merged == shared any more (the live lane legitimately advances
+# past the frozen base every tick); for these faces the equality
+# instrument is retired WITH the shared write and reconcile emits an
+# honest RETIRED-SHARED status line instead (liveness is carried by the
+# writer's strict lane save + the C8 watchdog, not by this instrument).
+# Probe keys (deep ts path) exist purely for the status line.
+RETIRED_SHARED_PROBES = {
+    "autofill_state": ("last_tick", "ts"),
+}
+
+
+def _retired_status(face, sources):
+    """RETIRED-SHARED status line for a lane-primary face (r381)."""
+    if face not in RETIRED_SHARED_PROBES:
+        raise SystemExit(f"merge_lane_views: {face!r} is not a "
+                         "retired-shared face -- fail-closed")
+    merged, _notes = merge_face(face, sources)
+    shared = next(d for lbl, d in sources if lbl == "legacy")
+    probe = "/".join(RETIRED_SHARED_PROBES[face])
+    base_ts = _deep_ts(shared, *RETIRED_SHARED_PROBES[face])
+    merged_ts = _deep_ts(merged, *RETIRED_SHARED_PROBES[face])
+    return (f"[{face}] RETIRED-SHARED (lane-primary r381): frozen base "
+            f"{probe}={base_ts!r}; merged view {probe}={merged_ts!r}; "
+            f"sources={[s[0] for s in sources]} -- equality instrument "
+            f"retired with the shared write (strict lane write + C8 "
+            f"watchdog carry liveness)")
+
 
 def merge_face(face, sources):
     if face not in MERGERS:
@@ -699,6 +730,9 @@ def _cmd_reconcile(faces):
             print(f"[{face}] SKIP: no legacy shared file to reconcile "
                   f"against (lane-only face)")
             continue
+        if face in RETIRED_SHARED_PROBES:
+            print(_retired_status(face, sources))
+            continue
         merged, _notes = merge_face(face, sources)
         shared = dict(next(d for lbl, d in sources if lbl == "legacy"))
         if merged == shared:
@@ -812,6 +846,31 @@ def _selftest():
     except SystemExit:
         ok = True
     check("autofill:composite-divergence-fail-closed", ok)
+
+    # 4z. r381 writer retirement: a retired-shared face reconciles by
+    # honest status line, not equality -- the live lane legitimately
+    # advances past the frozen legacy base every tick; non-retired
+    # faces on the helper fail closed.
+    base = {"last_tick": {"ts": "2026-09-28 04:40:01",
+                          "machine": "bm-a"},
+            "launches": [{"ts": "2026-09-28 04:40:01"}]}
+    lane_fresh = {"last_tick": {"ts": "2026-09-28 05:00:01",
+                                "machine": "bm-a"},
+                  "launches": base["launches"]}
+    line = _retired_status(
+        "autofill_state",
+        [("legacy", json.loads(json.dumps(base))),
+         ("bm-a", json.loads(json.dumps(lane_fresh)))])
+    check("retired:status-line-fresh-lane",
+          "RETIRED-SHARED" in line and "04:40:01" in line
+          and "05:00:01" in line and "legacy" in line
+          and "bm-a" in line)
+    try:
+        _retired_status("regime_state", [("legacy", {})])
+        okz = False
+    except SystemExit:
+        okz = True
+    check("retired:non-retired-face-fail-closed", okz)
 
     # 5. runnable_pool: done-absorption + governance non-null-first (r370)
     a = {"updated_at": "01:00:00", "entries": [

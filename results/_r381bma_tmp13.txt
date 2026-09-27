@@ -1,0 +1,49 @@
+=== Tools\watchdog.ps1 (24551) ===
+L8: #   C4  margin/ext-slots pull chain dead + gates FAIL  -> relaunch backfill_ext_slots.py all (checkpoint resume, LANE OWNER ONLY)
+L9: #   C5  P-1c stock IC batch chain dead + unfinished    -> relaunch phase chain (checkpoint resume, LANE OWNER ONLY)
+L20: #   dashboards + round-report P0 first line, queue-lane diagnosis. -C7Only runs
+L34: [string[]]$ZombieLanes = @()
+L51: #   (1) known checkpoint-able batch lane only (whitelist below; unknown lanes
+L54: #       are exempt even if they also match a batch lane;
+L56: # Resume routing: killed lanes are revived by their OWN existing healers
+L70: [string[]]$ZombieLanesIn = @()
+L90: $lane = 'insufficient_history'
+L113: $lane = 'runnable-work-idle-low-cpu (escalate: round-report P0 + dashboard red; GM waiver per O-1612)'
+L115: $lane = 'healthy'
+L137: $nextPick = @{ lane = [string]$pk; candidate = [string]$cand.name; status = [string]$cand.status }
+L153: $zombieLanes = @('backfill_ext_slots','p1c_stock_ic_batch','t18_deep_axis','update_moneyflow','lof_census','nav_backfill','c7_zombie_test')
+L154: if ($ZombieLanesIn.Count -gt 0) { $zombieLanes = $ZombieLanesIn }   # test lane narrowing (injection safety)
+L169: $knownLane = $null
+L170: foreach ($zl in $zombieLanes) { if ($cmd -like ('*' + $zl + '*')) { $knownLane = $zl } }
+L176: if (-not $knownLane) { continue }           # check 1: whitelist only
+L183: Log7 ('C7 ZOMBIE KILL pid=' + $pidStr + ' lane=' + $knownLane + (' age={0:N0}min cpu_delta={1:N2}s (3-check passed)' -f $ageNowMin, ($cpu - $prevCpu)) + ' resum
+L186: $killed += ('pid=' + $pidStr + ' lane=' + $knownLane)
+L197: lane    = $lane
+L205: Log7 ('C7 WATERMARK RED lane=' + $lane + ' py_tail=' + ($pySeries -join ','))
+L207: Log7 ('C7 watermark ' + $lane + ' py_tail=' + ($pySeries -join ','))
+L215: -WmFileIn $WmFile -RedFileIn $RedFile -PyStateIn $PyStateFile -LogDirIn $LogDir -AgeMin $ZombieAgeMin -CpuDeltaSec $ZombieCpuDeltaSec -MinSamples $MinRedSamples
+L300: # ---- lane ownership guard (C4/C5) ----
+L301: # C4 ext-slots pull + C5 P-1c batch chains are bm-b lanes (MSG-2155 claim lock;
+L306: # Non-owners log and skip both. If a lane ever migrates, update $BatchLaneOwner
+L307: # in the same commit that moves the lane.
+L313: $BatchLaneOwner = 'bm-b'
+L314: $OwnBatchLanes = ($MyId -eq $BatchLaneOwner)
+L316: # ---- C4: margin/ext-slots pull chain (lane owner only) ----
+L317: if (-not $OwnBatchLanes) {
+L318: Log ('C4 skipped on ' + $MyId + ': ext-slots pull lane owned by ' + $BatchLaneOwner)
+L345: # ---- C5: P-1c stock IC batch chain (lane owner only) ----
+L346: if (-not $OwnBatchLanes) {
+L347: Log ('C5 skipped on ' + $MyId + ': P-1c batch lane owned by ' + $BatchLaneOwner)
+git grep Tools/: Tools/_r190_af_union.py
+Tools/_r193_rebase_resolve.py
+Tools/_r195_rebase_resolve.py
+Tools/_r200_af_union.py
+Tools/_r201_af_union.py
+Tools/_r201_wrap.py
+Tools/autofill.py
+Tools/resolve_af_conflict_r210.py
+Tools/skills/bigmoney-conflict-resolve/SKILL.md
+Tools/skills/bigmoney-conflict-resolve/scripts/classify_conflicts.py
+
+ps1 refs:
+

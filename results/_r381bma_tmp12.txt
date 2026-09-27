@@ -1,0 +1,22 @@
+total lines: 1124
+L45: A_FACES = ("compute_audit", "regime_state", "autofill_state",
+L116: def load_sources(face):
+L439: B_FACES = ("update_status", "heat_update_status", "lhb_update_status",
+L514: ALL_FACES = A_FACES + B_FACES
+L517: def merge_face(face, sources):
+L520:                          f"(ALL_FACES={ALL_FACES}) -- fail-closed")
+L534: # consumer merger uses.  Lane files and non-ALL_FACES paths fail closed:
+L546:                          f"live only for ALL_FACES)")
+L557:     if stem not in ALL_FACES:
+L560:             f"recipes exist only for ALL_FACES={ALL_FACES}; snapshot/twin "
+L575:     if face not in ALL_FACES:
+L577:                          f"-- fail-closed (ALL_FACES={ALL_FACES})")
+L718: def _selftest():
+L751:     for face in A_FACES:
+L979:     for face in B_FACES:
+L1101: def main(argv):
+L1110:     faces = ALL_FACES
+L1113:         faces = tuple(argv[i + 1:i + 2]) or ALL_FACES
+L1115:             if f not in ALL_FACES:
+L1116:                 print(f"unknown face {f!r}; ALL_FACES={ALL_FACES}")
+L1124:     sys.exit(main(sys.argv))

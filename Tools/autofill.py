@@ -8,8 +8,10 @@ human in the loop (O-2100: fill latency ready->running <= 10 min).
 
 Contract:
   * NEVER edits the pool (single-writer = round control plane). Running
-    state lives in results/autofill_state.json + the runner's own
-    checkpoint files.
+    state lives in this machine's lane file
+    results/autofill_state.<mid>.json (r381 lane-primary; the shared
+    results/autofill_state.json is the frozen legacy base) + the
+    runner's own checkpoint files.
   * No double-run: skips any entry whose runner is already alive
     (process scan by runner path), and any shard owned by another
     machine with a fresh heartbeat.
@@ -83,6 +85,16 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 POOL = os.path.join(ROOT, "results", "runnable_pool.json")
 STATE = os.path.join(ROOT, "results", "autofill_state.json")
 FUSE = os.path.join(ROOT, "results", "crash_fuse.json")
+# D-20260928-03(1) batch-1 writer retirement (r381): autofill_state is
+# LANE-PRIMARY -- this machine's lane file (results/autofill_state.
+# <mid>.json) is the sole live read+write surface and the shared file
+# stays the FROZEN legacy base the merger (scripts/merge_lane_views.py)
+# still reads as source #0.  Retires the last per-tick shared rewrite
+# (the 608-write treadmill face; D-03 sec.3 replay metric).  POOL and
+# FUSE keep the compat dual-track (pool: session edit scripts + mirror
+# direction; fuse: cross-machine refusal registry needs a shared write
+# surface until the merged-read launch gate lands).
+_STATE_LANE_PRIMARY = True
 LOG = os.path.join(ROOT, "logs", "autofill.log")
 MACHINES = os.path.join(ROOT, "fleet", "machines")
 MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json")
@@ -257,19 +269,51 @@ class _CorruptState(Exception):
 
 
 def _load_state():
-    if os.path.exists(STATE):
-        try:
-            with open(STATE, encoding="utf-8") as fh:
-                return json.load(fh)
-        except Exception as ex:
-            # r201: a parse-failed EXISTING file must never fall back to a
-            # fresh state -- the next _save_state would wipe the launch
-            # history (live case: mid-rebase marker file, 49 launches -> 1).
-            raise _CorruptState(str(ex))
+    # D-20260928-03(1) batch-1 writer retirement (r381): lane-first --
+    # the owning machine's lane is the authoritative live state; the
+    # shared face is the frozen legacy base, kept only as the transition
+    # fallback for a machine whose lane is absent (fresh clone / first
+    # post-retirement tick); the next save persists back to the lane.
+    lp = _lane_path_for(STATE) if _STATE_LANE_PRIMARY else None
+    if _STATE_LANE_PRIMARY and lp is None:
+        # r98: identity unreadable -> refuse the tick outright; a silent
+        # shared-base read would strand a claim mid-tick when the strict
+        # lane save hits the same missing identity.
+        raise RuntimeError("state lane path unavailable: machine id "
+                           "unreadable (r98) -- refuse tick")
+    for path in ([lp] if lp is not None else []) + [STATE]:
+        if os.path.exists(path):
+            try:
+                with open(path, encoding="utf-8") as fh:
+                    return json.load(fh)
+            except Exception as ex:
+                # r201: a parse-failed EXISTING file must never fall back
+                # to a fresh state -- the next _save_state would wipe the
+                # launch history (live case: mid-rebase marker file,
+                # 49 launches -> 1).
+                raise _CorruptState(str(ex))
     return {"launches": []}
 
 
 def _save_state(s):
+    if _STATE_LANE_PRIMARY:
+        # r381 retirement: the lane is the sole write surface (the
+        # shared base stays frozen).  Native-strict on purpose: unlike
+        # the dual-track lane mirror (_write_lane_file, fail-soft while
+        # shared stayed authoritative), a lost AUTHORITATIVE save must
+        # abort the tick (r201/r290 data-loss family), and the C8
+        # watchdog makes the failure visible.
+        lp = _lane_path_for(STATE)
+        if lp is None:
+            raise RuntimeError("state lane path unavailable: machine id "
+                               "unreadable (r98) -- refuse state save")
+        payload = dict(s)
+        payload["lane_machine"] = _machine_id()
+        tmp = lp + ".tmp"
+        with open(tmp, "w", encoding="utf-8") as fh:
+            json.dump(payload, fh, ensure_ascii=False, indent=1)
+        os.replace(tmp, lp)
+        return
     tmp = STATE + ".tmp"
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(s, fh, ensure_ascii=False, indent=1)
@@ -355,11 +399,11 @@ def _tick_owned_dirt():
     dirt (non-tick files) still yields per r282. Existence-filtered:
     absent files are never git-added.
 
-    D-20260928-03(1) batch-1: the two LANE files (autofill_state /
-    runnable_pool own-lane mirrors) are tick-owned dirt too -- they
-    ride the same commit or every inter-round pull --rebase would
-    refuse on them exactly the way the r290 live case refused on
-    STATE."""
+    D-20260928-03(1) batch-1: the LANE files are tick-owned dirt too --
+    the state lane is the PRIMARY surface post-r381 retirement, the
+    pool/fuse lanes are dual-track mirrors -- they ride the same commit
+    or every inter-round pull --rebase would refuse on them exactly the
+    way the r290 live case refused on STATE."""
     dirt = [STATE, FUSE]
     for lp in (_lane_path_for(STATE), _lane_path_for(POOL),
                _lane_path_for(FUSE)):
@@ -1013,6 +1057,11 @@ def selftest():
         POOL = os.path.join(tmp, "runnable_pool.json")
         STATE = os.path.join(tmp, "autofill_state.json")
         FUSE = os.path.join(tmp, "crash_fuse.json")
+        # r381 lane-primary: the state's LIVE surface is the lane file
+        # (hermetic under the tmp redirect, r117 law) -- S14/S18 legs
+        # target it; the shared path only exists as a transition-fallback
+        # fixture when a leg plants one.
+        _lane_st = _lane_path_for(STATE)
         LOG = os.path.join(tmp, "autofill.log")
         MACHINES = os.path.join(tmp, "machines")
         os.makedirs(MACHINES)
@@ -1156,28 +1205,51 @@ def selftest():
         os.makedirs(os.path.join(_GIT_DIR, "rebase-merge"))
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump({"entries": [dict(entry)]}, fh)
-        before = open(STATE, "rb").read()
+        before = open(_lane_st, "rb").read()
         rc = tick(dry=True)
-        after = open(STATE, "rb").read()
+        after = open(_lane_st, "rb").read()
         logtail = open(LOG, encoding="ascii", errors="replace").read()
-        ok("S14 mid-rebase guard no-op + zero state write",
+        ok("S14 mid-rebase guard no-op + zero state write "
+           "(r381 lane-primary surface)",
            rc == 0 and before == after and "mid-operation" in logtail)
         os.rmdir(os.path.join(_GIT_DIR, "rebase-merge"))
         _GIT_DIR = _git_orig
         # S14b corrupt-state refusal (r201): marker-poisoned EXISTING
-        # state file -> tick exit 2 + file byte-identical (anti-wipe)
-        with open(STATE, "w", encoding="utf-8") as fh:
+        # state surface -> tick exit 2 + byte-identical (anti-wipe).
+        # r381: the AUTHORITATIVE surface is the lane -- a corrupt lane
+        # must refuse even with a readable legacy base (never a silent
+        # fallback past the live surface).
+        with open(_lane_st, "w", encoding="utf-8") as fh:
             fh.write('{"launches": [{"x": 1}]\n<<<<<<< ours\n}')
-        before = open(STATE, "rb").read()
+        before = open(_lane_st, "rb").read()
         rc = tick(dry=True)
-        after = open(STATE, "rb").read()
-        ok("S14b corrupt state -> exit 2 + no wipe",
+        after = open(_lane_st, "rb").read()
+        ok("S14b corrupt state lane -> exit 2 + no wipe (no fallback)",
            rc == 2 and before == after)
-        # S14c absent state still fresh-starts (first-run compat)
-        os.remove(STATE)
+        # S14c absent lane + absent base -> fresh start (first-run compat)
+        os.remove(_lane_st)
         rc = tick(dry=True)
-        ok("S14c absent state -> fresh start (compat)",
+        ok("S14c absent lane/base -> fresh start (compat)",
            rc == 0 and _load_state()["last_tick"]["verdict"] == "dry_launch")
+        # S14d r381 transition fallback: lane absent + frozen legacy
+        # base present -> tick boots from the base, and the save
+        # PERSISTS to the lane (bootstrap); the base itself is never
+        # rewritten.  Fixture removed afterwards so the existence-filter
+        # tuple legs below stay honest.
+        os.remove(_lane_st)
+        with open(STATE, "w", encoding="utf-8") as fh:
+            json.dump({"last_tick": {"ts": "2026-09-27 00:00:01",
+                                     "machine": "legacy"},
+                       "launches": [{"ts": "2026-09-27 00:00:01",
+                                     "machine": "bm-z"}]}, fh)
+        rc = tick(dry=True)
+        lane14d = json.load(open(_lane_st, encoding="utf-8"))
+        ok("S14d lane absent -> boot from frozen base, persist to lane",
+           rc == 0 and lane14d.get("lane_machine") == _machine_id()
+           and lane14d.get("last_tick", {}).get("verdict") == "dry_launch"
+           and {"ts": "2026-09-27 00:00:01",
+                "machine": "bm-z"} in lane14d.get("launches", []))
+        os.remove(STATE)
         # S8 O-2130 multi-core law: no workers_plan -> skip
         nowp = dict(entry, shards=[{"key": "s0", "status": "ready",
                                     "owner": None}])
@@ -1415,21 +1487,19 @@ def selftest():
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         add_args_all.clear()
         r15i = _claim_shard({"key": "s0"}, "bm-b")
-        _lane_st = _lane_path_for(STATE)
         _lane_pl = _lane_path_for(POOL)
-        ok("S15i claim add carries pool+state+fuse+lanes "
-           "(r290 self-commit + D-03(1) batch-1)",
+        ok("S15i claim add carries pool+fuse+lanes "
+           "(r290 self-commit; state dirt = its lane, r381)",
            r15i is True and add_args_all
-           and add_args_all[-1] == (POOL, STATE, FUSE, _lane_st,
+           and add_args_all[-1] == (POOL, FUSE, _lane_st,
                                     _lane_pl))
         os.remove(FUSE)
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         add_args_all.clear()
         r15i2 = _claim_shard({"key": "s0"}, "bm-b")
-        ok("S15i absent fuse -> existence-filtered add "
-           "(pool+state+lanes)",
+        ok("S15i absent fuse -> existence-filtered add (pool+lanes)",
            r15i2 is True and add_args_all
-           and add_args_all[-1] == (POOL, STATE, _lane_st, _lane_pl))
+           and add_args_all[-1] == (POOL, _lane_st, _lane_pl))
         # S15l D-20260928-03(1) batch-1: a successful claim also writes
         # this machine's pool lane -- payload parity + lane_machine
         # signature (anti-swallow record of the committed bytes).
@@ -1455,13 +1525,16 @@ def selftest():
         ok("S15m claim defer -> lane re-synced (no phantom owner)",
            r15m is False
            and lane15m["entries"][0]["shards"][0].get("owner") is None)
-        # S18d D-03(1): _save_state writes the state lane too.
+        # S18d D-03(1) r381 retirement: _save_state writes ONLY the state
+        # lane (lane-primary); the shared face must stay untouched
+        # (frozen legacy base law).
         _save_state({"last_tick": {"ts": "2026-09-28 02:00:01",
                                     "machine": "bm-a"}, "launches": []})
         lane18 = json.load(open(_lane_st, encoding="utf-8"))
-        ok("S18d state lane written with lane_machine signature",
+        ok("S18d state lane written (signed); shared face untouched",
            lane18.get("lane_machine") == _machine_id()
-           and lane18["last_tick"]["ts"] == "2026-09-28 02:00:01")
+           and lane18["last_tick"]["ts"] == "2026-09-28 02:00:01"
+           and not os.path.exists(STATE))
         # S18e D-03(1) batch-2 closeout: _save_fuse writes the fuse lane
         # too (8/8 B-faces wired; same dual-track law as state/pool).
         _save_fuse({"sigs": {"scripts/x.py|run": {"count": 1}}})
@@ -1557,9 +1630,10 @@ def selftest():
         add_args_all.clear()
         ka = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
                                "bm-b")
-        ok("S17e keepalive add carries pool+state+fuse+lanes (r290)",
+        ok("S17e keepalive add carries pool+fuse+lanes "
+           "(r290; state dirt = its lane, r381)",
            ka == ["s0"] and add_args_all
-           and add_args_all[-1] == (POOL, STATE, FUSE, _lane_st,
+           and add_args_all[-1] == (POOL, FUSE, _lane_st,
                                     _lane_pl, _lane_fu))
         # S17f/g r344 abort-ownership (keepalive leg): mirror of the
         # claim-leg ownership law -- foreign rebase survives, ours gets

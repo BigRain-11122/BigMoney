@@ -1,0 +1,26 @@
+L1034:         st = _load_state()["last_tick"]
+L1042:            and _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+L1048:            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+L1056:            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+L1071:         st = _load_state()["last_tick"]
+L1082:            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+L1098:            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+L1107:            _load_state()["last_tick"]["verdict"] == "dry_launch")
+L1116:            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+L1125:         st = _load_state()["last_tick"]
+L1159:         before = open(STATE, "rb").read()
+L1161:         after = open(STATE, "rb").read()
+L1167:         # S14b corrupt-state refusal (r201): marker-poisoned EXISTING
+L1169:         with open(STATE, "w", encoding="utf-8") as fh:
+L1170:             fh.write('{"launches": [{"x": 1}]\n<<<<<<< ours\n}')
+L1171:         before = open(STATE, "rb").read()
+L1173:         after = open(STATE, "rb").read()
+L1174:         ok("S14b corrupt state -> exit 2 + no wipe",
+L1180:            rc == 0 and _load_state()["last_tick"]["verdict"] == "dry_launch")
+L1189:            _load_state()["last_tick"]["verdict"] == "pool_empty_or_busy")
+L1703:         st16b = _load_state()["last_tick"]
+L1716:         st16c = _load_state()["last_tick"]
+L1736:         st16e = _load_state()["last_tick"]
+L1743:         # S16d corrupt existing fuse file -> refuse-wipe abort (r201 law
+L1750:         ok("S16d corrupt fuse -> exit 2 + no wipe",
+L1800:             st17 = _load_state()["last_tick"]
