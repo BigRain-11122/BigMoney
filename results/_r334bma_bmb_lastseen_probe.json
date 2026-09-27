@@ -1,0 +1,27 @@
+{
+ "id": "_r334bma_bmb_lastseen_probe",
+ "ts": "2026-09-27T15:52:00+08:00",
+ "machine": "bm-a",
+ "round": 334,
+ "purpose": "R334 S3 closure evidence: bm-b heartbeat last_seen ISO-parse defect readout (feeding MSG-20260927-1552-bma-bmb-lastseen-iso)",
+ "probe": {
+  "file": "fleet/machines/bm-b.json",
+  "last_seen_raw": "2026-09-27T14:5x+08:00",
+  "fromisoformat_result": "ValueError (unparseable: literal 'x' in minutes field)",
+  "age_min_computed": -1.0,
+  "age_semantics": "UNKNOWN (neither fresh nor stale on health-watch face)",
+  "heartbeat_epoch_utc": 1790492300,
+  "epoch_is_int": true,
+  "epoch_derived_iso": "2026-09-27T14:58:20+08:00",
+  "clock_read_raw": "2026-09-27T14:58:20+08:00",
+  "clock_read_parseable": true
+ },
+ "cross_machine_consumers_degraded": [
+  "staleness age computation (age=-1.0 fallback = unknown)",
+  ">20min health-takeover law input face (age unknown -> takeover decision degrades)",
+  "heartbeat freshness ordering in fleet health scans"
+ ],
+ "non_degraded_fallback": "heartbeat_epoch_utc (int) remains parseable; consumers that fall back to epoch face unaffected -- severity degradation-not-outage",
+ "action_taken": "MSG-20260927-1552-bma-bmb-lastseen-iso dropped to fleet/inbox (bm-b lane fix at their next S7; one-machine-one-heartbeat-file law = bm-a does not write bm-b's file)",
+ "fix_recipe_for_bm_b": "last_seen = datetime.now().astimezone().isoformat() (same derivation as clock_read), assert fromisoformat(last_seen) before write"
+}
