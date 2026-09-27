@@ -86,10 +86,12 @@ def load_disposal_set() -> dict:
     assert len(fams) == CENSUS_FAMILIES, \
         f"disposal census drift: {len(fams)} families"
     n_k = {}
-    for (tid, _sym, _e), legs in fams.items():
-        for sub, n in N_K_BY_SUBSTR.items():
-            if sub in tid:
-                n_k[tid] = n_k.get(tid, 0)
+    for (tid, _sym, _e), _legs in fams.items():
+        subs = [s for s in N_K_BY_SUBSTR if s in tid]
+        assert subs, f"trader outside census substr map: {tid}"
+        # longest substrate wins so DROUGHT-CE-01 maps to DROUGHT (n=1)
+        # instead of its CE-01 substring, independent of dict order
+        n_k[tid] = N_K_BY_SUBSTR[max(subs, key=len)]
     # exact per-trader family-count gate (5/2/1 frozen)
     by_trader = Counter(f[0] for f in fams)
     for tid, n in n_k.items():
@@ -522,6 +524,40 @@ def selftest() -> bool:
     finally:
         AUDIT_PATH = orig
         os.unlink(tmp)
+    # S6b happy path: census-shaped fixture (10 rows / 8 families / 5-2-1)
+    # must load and yield the frozen n_k map (regression for assignment bug
+    # r76: n_k was never assigned n, gate failed on correct real data)
+    ce02 = [{"sym": "S1", "entry_date": "2026-01-05",
+             "exit_date": f"2026-01-1{d}", "phantom_accrued": True}
+            for d in (2, 3, 4)]
+    ce02 += [{"sym": f"S{k}", "entry_date": "2026-01-05",
+              "exit_date": "2026-01-20", "phantom_accrued": True}
+             for k in (2, 3, 4, 5)]
+    fake_ok = {"traders": [
+        {"trader": "COMPOSITE-CE-02", "break_detail": ce02,
+         "boundary_detail": []},
+        {"trader": "COMPOSITE-CE-01", "break_detail": [
+            {"sym": "S6", "entry_date": "2026-01-05",
+             "exit_date": "2026-01-20", "phantom_accrued": True},
+            {"sym": "S7", "entry_date": "2026-01-05",
+             "exit_date": "2026-01-20", "phantom_accrued": True}],
+         "boundary_detail": []},
+        {"trader": "DROUGHT-CE-01", "break_detail": [], "boundary_detail": [
+            {"sym": "S8", "entry_date": "2026-01-05",
+             "exit_date": "2026-01-20", "phantom_accrued": True}]}]}
+    with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False,
+                                     encoding="utf-8") as fh:
+        json.dump(fake_ok, fh)
+        tmp_ok = fh.name
+    orig, AUDIT_PATH = AUDIT_PATH, tmp_ok
+    try:
+        d = load_disposal_set()
+        _chk("census happy path yields frozen n_k 5/2/1",
+             d["n_k"] == {"COMPOSITE-CE-02": 5, "COMPOSITE-CE-01": 2,
+                          "DROUGHT-CE-01": 1})
+    finally:
+        AUDIT_PATH = orig
+        os.unlink(tmp_ok)
     print(f"  [t19c] selftest {'PASS' if ok else 'FAIL'}")
     return ok
 
