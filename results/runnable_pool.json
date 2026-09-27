@@ -322,7 +322,7 @@
      "key": "censusw2a-0of1",
      "status": "ready",
      "owner": "bm-b",
-     "owner_since": "2026-09-28 01:12:44",
+     "owner_since": "2026-09-28 01:40:26",
      "checkpoint": "results/census_fusion_s2/w2a_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2a_results.json (ledger N=5,920 declared at run finalize, r252 embed key; products w2a_cells.csv/w2a_nulls.json/w2a_top_matrices.json/w2a_summary.json); pool flip = round work per r203 law"
     }
@@ -1082,7 +1082,7 @@
    "runner_args": [
     "run"
    ],
-   "lane_owner": "bm-b",
+   "lane_owner": null,
    "priority": 2,
    "status": "ready",
    "entered_at": "2026-09-28 00:41:57",
@@ -1096,12 +1096,11 @@
     {
      "key": "v2-0of1",
      "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-a",
+     "owner_since": "2026-09-28 01:20:05",
      "checkpoint": null
     }
-   ],
-   "lane_note": "a2 canonical (bm-c r118 adoption): execution lane = checkpoint-bearing machines; proven-complete set per own data_gates = bm-b (t34 base curves both axes + x2 curve union complete + deep panel, v1 finalize r318); bm-a artifact-gate exit-2 relaunch loop 01:10/01:20 tick log evidence; T-93 sender/receiver hash parity 30/30"
+   ]
   },
   {
    "id": "DECISION-CHAIN-V2-SLEEVE-EXPORT",
