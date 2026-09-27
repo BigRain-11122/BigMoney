@@ -168,7 +168,11 @@ def gather(root=ROOT, month=None, asof=None):
     g["ledger_total"] = n_total
 
     # Risk flags: regime (shadow) + corr-watch + x2 probation rollup.
-    reg = _read_json(root / "results" / "regime_state.json") or {}
+    # D-20260928-03 batch-1 slice-2: lane-merged regime read (shared+lanes
+    # union); results_dir override keeps the td-fixture selftest hermetic
+    # (synthetic dir = sole legacy source); empty view = {} as before.
+    from merge_lane_views import face_view
+    reg = face_view("regime_state", results_dir=str(root / "results"))
     g["regime"] = {
         "state": reg.get("state"), "mode": reg.get("mode"),
         "days": reg.get("days_in_state"), "asof": reg.get("asof"),

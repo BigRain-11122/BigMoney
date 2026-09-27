@@ -311,7 +311,11 @@ def check_regime_guard(fp_expected: str | None = None) -> dict:
                                    "a new prereg"})
 
     # (b) state-series continuity
-    st = _load(os.path.join(RESULTS_DIR, "regime_state.json"))
+    # D-20260928-03 batch-1 slice-2: lane-merged read (shared+lanes union);
+    # RESULTS_DIR flows through as the scan base so the hermetic selftest
+    # tmp-dir fixture keeps working; empty view = absent (MISSING face).
+    import scripts.merge_lane_views as lane_views
+    st = lane_views.face_view("regime_state", results_dir=RESULTS_DIR) or None
     if st is None:
         out["verdict"] = "MISSING"
         out["note"] = "regime_state.json absent -- probe never ran on this node"

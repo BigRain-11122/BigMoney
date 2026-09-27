@@ -303,8 +303,16 @@ def _momentum_board(asof):
 
 
 def _regime_face():
+    # D-20260928-03 batch-1 slice-2: lane-merged read (legacy shared +
+    # per-machine lane files, conflict-resolver recipes on the read side);
+    # no sources at all = honest FACE_ERROR (same as the old missing-file
+    # face); identity contradictions fail closed (r98, SystemExit carries).
     try:
-        d = json.load(open(os.path.join(ROOT, "results", "regime_state.json"), encoding="utf-8"))
+        import merge_lane_views as lane_views
+        d = lane_views.face_view("regime_state")
+        if not d:
+            return {"state": "FACE_ERROR",
+                    "error": "no regime_state sources (shared+lanes) on this node"}
         return {"state": d.get("state"), "asof": d.get("asof"), "days_in_state": d.get("days_in_state"),
                 "triggers": d.get("triggers", [])}
     except Exception as e:

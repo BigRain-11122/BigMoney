@@ -56,8 +56,9 @@ def _row_id(x):
     return json.dumps(x, sort_keys=True, ensure_ascii=False)
 
 
-def _lane_path(face, machine):
-    return os.path.join(PATHS.results_dir, f"{face}.{machine}.json")
+def _lane_path(face, machine, results_dir=None):
+    base = results_dir if results_dir is not None else PATHS.results_dir
+    return os.path.join(base, f"{face}.{machine}.json")
 
 
 def _merge_shard_same_key(a, b):
@@ -109,23 +110,27 @@ def _union_shard_rows(ra, rb):
     return out
 
 
-def _shared_path(face):
-    return os.path.join(PATHS.results_dir, f"{face}.json")
+def _shared_path(face, results_dir=None):
+    base = results_dir if results_dir is not None else PATHS.results_dir
+    return os.path.join(base, f"{face}.json")
 
 
-def load_sources(face):
+def load_sources(face, results_dir=None):
     """Fixed-order sources: legacy shared blob first, then lane files.
 
     Each lane file may self-sign with a top-level ``lane_machine`` field;
     a signature contradicting the filename is fail-closed (r98 identity
-    lesson: never guess machine identity from stale content)."""
+    lesson: never guess machine identity from stale content).
+    ``results_dir`` overrides the scan base ONLY for hermetic selftests
+    that swap the results dir (D-20260928-03 batch-1 slice-2); production
+    callers leave it None = PATHS truth."""
     sources = []
-    shared = _shared_path(face)
+    shared = _shared_path(face, results_dir)
     if os.path.exists(shared):
         with open(shared, encoding="utf-8") as fh:
             sources.append(("legacy", json.load(fh)))
     for machine in MACHINES:
-        p = _lane_path(face, machine)
+        p = _lane_path(face, machine, results_dir)
         if os.path.exists(p):
             with open(p, encoding="utf-8") as fh:
                 data = json.load(fh)
@@ -552,6 +557,20 @@ def merge_face(face, sources):
     if not sources:
         raise SystemExit(f"merge_lane_views: face {face!r} has no sources")
     return MERGERS[face](sources)
+
+
+def face_view(face, results_dir=None):
+    """Consumer-side one-shot lane-merged view (D-20260928-03 batch-1
+    slice-2): legacy shared blob + per-machine lane files merged under the
+    same conflict-resolver recipes the resolve subcommand uses. No sources
+    at all = {} (honest not-yet semantics for read-points that previously
+    treated a missing shared file as empty); identity contradictions and
+    shape surprises fail closed (r98 / R209 zero-silent-degradation)."""
+    sources = load_sources(face, results_dir)
+    if not sources:
+        return {}
+    merged, _notes = merge_face(face, sources)
+    return merged
 
 
 # ---------------------------------------------------------------------------
@@ -1151,6 +1170,37 @@ def _selftest():
     except SystemExit:
         ok = True
     check("resolve:no-stages-fail-closed", ok)
+
+    # face_view (batch-1 slice-2): results_dir override keeps hermetic
+    # selftest fixtures working; no sources = honest {}; production-path
+    # equivalence with load_sources+merge_face.
+    import tempfile
+    td = tempfile.mkdtemp(prefix="mvl_view_")
+    try:
+        check("faceview:no-sources-empty-dict",
+              face_view("regime_state", results_dir=td) == {})
+        with open(os.path.join(td, "regime_state.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"updated": "2026-09-28 04:00:00", "state": "ORANGE",
+                       "history": [{"asof": "2026-09-27", "state": "ORANGE"}]},
+                      fh)
+        with open(os.path.join(td, "regime_state.bm-a.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"lane_machine": "bm-a", "updated": "2026-09-28 04:10:00",
+                       "state": "RED",
+                       "history": [{"asof": "2026-09-28", "state": "RED"}]},
+                      fh)
+        v = face_view("regime_state", results_dir=td)
+        check("faceview:tmp-dir-fixture-override",
+              v.get("state") == "RED"  # updated take-new -> lane side
+              and "lane_machine" not in v  # signature stripped on load
+              and len(v.get("history", [])) == 2)  # whole-row union
+        sources = load_sources("regime_state", results_dir=td)
+        m2, _n = merge_face("regime_state", sources)
+        check("faceview:production-path-equivalence", v == m2)
+    finally:
+        import shutil
+        shutil.rmtree(td, ignore_errors=True)
 
     print(f"selftest: {len(fails)} FAIL" + ("s" if fails else "")
           + (f" -> {fails}" if fails else " (all PASS)"))

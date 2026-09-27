@@ -435,8 +435,13 @@ def _gate_v3_leg2():
     probe triggers carry 'hs300<MA200 (#10 collected)' = v1 matrix).
     Amended: freshness + alphabet + both readings disclosed."""
     from live.paper import v3_state_series
-    rs = json.load(open(os.path.join(ROOT, "results", "regime_state.json"),
-                        encoding="utf-8-sig"))
+    # D-20260928-03 batch-1 slice-2: lane-merged read (shared+lanes union,
+    # conflict-resolver recipes on the read side) replaces the shared-file
+    # direct read; per-prereg both readings stay disclosed, never asserted
+    # equal (s9.3). Fail-closed identity contradictions carry (r98).
+    import merge_lane_views as lane_views
+    rs = lane_views.face_view("regime_state",
+                              results_dir=os.path.join(ROOT, "results"))
     st = v3_state_series()
     if len(st) == 0:
         return {"ok": False, "error": "empty v3 replay series"}

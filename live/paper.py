@@ -652,13 +652,19 @@ def regime_guard_context(mode: str | None = None) -> dict:
                 "note": "v3 response matrix wired (T-21); per-date semantics "
                         "governed by the date gate -- pre-active_from window "
                         "dates stay legacy"}
-    st = {}
-    if os.path.exists(REGIME_GUARD_STATE):
-        try:
-            with open(REGIME_GUARD_STATE, encoding="utf-8") as fh:
-                st = json.load(fh)
-        except (OSError, ValueError):
-            st = {}
+    # D-20260928-03 batch-1 slice-2: lane-merged read (legacy shared +
+    # per-machine lane files, conflict-resolver recipes on the read side).
+    # The scan base derives from REGIME_GUARD_STATE so the path-swap
+    # selftest keeps its hermetic tmp fixture (tmp dir = sole legacy
+    # source); no sources = {} (state None, same as the old absent-file
+    # face). Identity contradictions fail closed (r98, SystemExit carries
+    # -- zero silent degradation, R209 family).
+    from scripts import merge_lane_views as lane_views
+    try:
+        st = lane_views.face_view(
+            "regime_state", results_dir=os.path.dirname(REGIME_GUARD_STATE))
+    except (OSError, ValueError):
+        st = {}
     return {"mode": "shadow", "state": st.get("state"),
             "state_cn": st.get("state_cn"), "asof": st.get("asof"),
             "raw_level": st.get("raw_level"),
