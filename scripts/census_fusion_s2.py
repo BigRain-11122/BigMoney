@@ -814,14 +814,28 @@ def run_unc(probe=False, workers=None):
 
     results = {}
     if jobs:
-        res = run_cells_parallel(jobs, workers=workers, desc="census-unc",
-                                 initializer=_init_worker,
-                                 initargs=(state, None, None))
-        w = res.pop("__workers__", 1)
-        for _blk, rows in res.items():
+        flushed = set()
+
+        def _flush(blk, rows):
+            # r340 pitlaw fix mirrored (MSG-2010 item 5): incremental UNC
+            # checkpoint -- _append_unc_ckpt fires per COMPLETED block via
+            # on_result, so a mid-run kill retains finished blocks instead
+            # of re-burning the whole UNC face (collect-only-tail miss).
+            flushed.add(blk)
             results.update(rows)
             if not probe:
                 _append_unc_ckpt(rows)
+
+        res = run_cells_parallel(jobs, workers=workers, desc="census-unc",
+                                 initializer=_init_worker,
+                                 initargs=(state, None, None),
+                                 on_result=_flush)
+        w = res.pop("__workers__", 1)
+        for _blk, rows in res.items():
+            if _blk not in flushed:  # safety net if on_result path skipped
+                results.update(rows)
+                if not probe:
+                    _append_unc_ckpt(rows)
     else:
         w = 0
         with open(UNC_CKPT, encoding="utf-8") as fh:

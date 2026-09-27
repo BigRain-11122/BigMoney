@@ -544,16 +544,30 @@ def run(probe=False, workers=None):
 
     results = {}
     if jobs:
+        flushed = set()
+
+        def _flush(blk, rows):
+            # r340 pitlaw fix mirrored (MSG-2010 W2-B requirement): incremental
+            # checkpoint -- _append_ckpt fires per COMPLETED block via on_result,
+            # so a mid-run kill retains finished blocks instead of re-burning
+            # the whole batch (collect-only-tail = zero-ckpt live miss).
+            flushed.add(blk)
+            results.update(rows)
+            if not probe:
+                _append_ckpt(rows)
+
         res = run_cells_parallel(
             jobs, workers=workers or 4, desc="census-w2b",
             initializer=_init_worker,
             initargs=(SIDE_DIR_A, SIDE_DIR_D, meta["ew_univ"]["x1"],
-                      meta["ew_univ"]["x2"], specs, meta))
+                      meta["ew_univ"]["x2"], specs, meta),
+            on_result=_flush)
         w = res.pop("__workers__", 1)
         for _blk, rows in res.items():
-            results.update(rows)
-            if not probe:
-                _append_ckpt(rows)
+            if _blk not in flushed:  # safety net if on_result path skipped
+                results.update(rows)
+                if not probe:
+                    _append_ckpt(rows)
     else:
         w = 0
         with open(CKPT, encoding="utf-8") as fh:
