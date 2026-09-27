@@ -1,0 +1,31 @@
+f"margin{'✓' if gs['margin']['pass'] else '✗'}")
+        tail_events.append({
+            "time": fl["machines"][0]["last_seen"] if fl["machines"] else "-",
+            "text": f"机队 · {len(fl['machines'])} 节点 {m_alive} 活 · 票据 "
+                    f"done {fl['n_done']}/claimed {fl['n_claimed']}/"
+                    f"open {fl['n_open']}{p1d_txt}"})
+    payload["events"] += tail_events + [
+        {"time": "-", "text": f"复合因子方案已立项：{COMPOSITE_PLAN}"},
+        {"time": "-", "text": "Money02 前代系统已并入资产库，旧自动化停用"},
+    ]
+    return payload
+
+
+def main() -> int:
+    payload = build()
+    js = "window.DASH_DATA = " + json.dumps(payload, ensure_ascii=False) + ";\n"
+    out_js = os.path.join(PATHS.results_dir, "dashboard_status.js")
+    out_json = os.path.join(PATHS.results_dir, "dashboard_status.json")
+    with open(out_js, "w", encoding="utf-8") as f:
+        f.write(js)
+    with open(out_json, "w", encoding="utf-8") as f:
+        json.dump(payload, f, ensure_ascii=False, indent=2)
+    print(f"dashboard status -> {out_js}")
+    print(f"  factors={len(payload['research']['factor_top'])} "
+          f"backtest={payload['strategy']['n_combos']}combos/{payload['strategy']['n_pass']}pass "
+          f"traders={len(payload['trading']['traders'])} "
+          f"milestones={payload['gamification']['milestones_done']}/{payload['gamification']['milestones_total']}")
+    return 0
+
+
+if __name__ == 

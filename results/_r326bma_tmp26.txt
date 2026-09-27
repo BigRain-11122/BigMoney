@@ -1,0 +1,28 @@
+"""Aggregate real system state into dashboard data files.
+
+Writes:
+    results/dashboard_status.js   -> window.DASH_DATA = {...}  (for file:// HTML)
+    results/dashboard_status.json -> same payload, plain JSON for other consumers
+
+Run:
+    python -m monitor.build_status
+
+The 10-minute loop refreshes this every tick; bigmoney.html reads it on open.
+All numbers come from real files only — no mock data.
+"""
+import csv
+import glob
+import json
+import os
+import sys
+import statistics
+import datetime as dt
+
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from config import PATHS, SCREEN
+from engine.exit_rules import ExitConfig
+
+COMPOSITE_PLAN = "0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2×price_position"
+
+
