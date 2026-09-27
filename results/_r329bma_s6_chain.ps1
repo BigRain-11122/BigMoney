@@ -1,6 +1,6 @@
 ﻿# r329 bm-a S6 maintenance chain (sequential, per-leg rc capture; r326 lineage, header-only delta per r298; 32-leg resident form per r329 pitlaw canon: conditional legs self-judge no-op rc=0)
 $ErrorActionPreference = 'Continue'
-Set-Location 'C:\Users\sjs20\Desktop\FluxGroup\quant\bigmoney'
+Set-Location (Join-Path $PSScriptRoot '..')
 $legs = @(
   @{n='compute_audit';       c={python scripts\compute_audit.py}},
   @{n='py_watermark';        c={python scripts\py_watermark.py probe}},
