@@ -91,3 +91,10 @@
 ### §9.2 C 族 append-confirm【跑前另行冻结·占位】
 
 （W2 finalize+C 族 roster 导出后由当值机起草冻结：精确腿清单+参数值域+已判格排除集+D8/热面边界披露·R99 每 sub-wave 一冻）
+
+### §9.3 零跑修正案：census 口径绑定 P-5C 冻结栅格（bm-b r347 · 虚假前提实证 · 零格已烧合法窗）
+
+- **触发**（起草面事实·非结果驱动）：§2 原文以 T-22 记录 {legacy: 1,255, deep: 1,506} 为 census 门——该记录是 **09-23 栅格**口径（t22 文件 legacy cutoff=2026-09-23）；本波 binding cutoff=**2026-09-22** 恰为 **P-5C 冻结栅格**（`scripts/p5c_virtual_timepoint.py` `EVIDENCE_CENSUS_GRID=EVIDENCE_CUTOFF_GRID="2026-09-22"`·两腿共用·`FROZEN_CENSUS`（p5c_grid_probe.json r105）=L {6m: **1253**, 12m: 1127, 24m: 875}+D {6m: 3104, 12m: 2978, 24m: 2726}），在 09-22 栅格上重枚举「逐位==1255」=构造性假红（G-V3 leg-2 虚假前提同族·DECISION_CHAIN §9.3 先例）。
+- **修正**：本波**整体绑定 P-5C 冻结栅格机械**（import 禁重实现·反重复铁律）：①初筛面=leg-L 6m 面，census 门==`FROZEN_CENSUS["L"]["6m"]`=**1,253**（模块自带 in-runner census abort 门逐字复用）；②判决面=双腿窗口 {6m,12m,24m} 全网格，census 门逐面==FROZEN_CENSUS 对应腿窗值（L 1253/1127/875·D 3104/2978/2726）；③被动=模块 `passive_rel`/passive-cell 机械（起点日已上市成员 EW buy&hold·零再平衡·语义与 §3 原文同）；④leg-L 宇宙口径=模块 `MIN_LISTED=24`（census caliber never binds·模块原文注记）；⑤深腿=Money02 t18_deep_panel cache 只读（WILD-S1/KLINE 只读先例·禁写）。RANDOM_LARGE_SAMPLE_LAW §2.1 K≥1000 判定不受影响（初筛 1,253 ✓）。
+- **G-ANCHOR 一致性注记**：live.paper 锚定门常数 cutoff=2026-09-22（smoke 实测「cutoff 2026-09-22」）与本波 binding 同栅=锚门复放语义自洽，§2 G-ANCHOR 原文零改动。
+- **反 dredging 合规**：修正时点=零格已烧（runner 未建、generate 未跑、池零入口）——非结果驱动；§2/§3 原文不删留档（append-only）；判据语义（G1'v2/G2/DSR/PBO/E[FP]/去重门/初筛 null-p95 线）零触碰。
