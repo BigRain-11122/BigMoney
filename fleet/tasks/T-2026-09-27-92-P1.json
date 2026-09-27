@@ -1,0 +1,17 @@
+{
+ "id": "T-2026-09-27-92",
+ "priority": "P1",
+ "type": "production-lane-charter-tts-audio-bmb",
+ "immediate": false,
+ "spec": "CEO direct order O-20260927-0913-bm-c sec.3 (fleet-wide production mobilization; addressed machine bm-b): bm-b standing production lane = (1) TTS/audio batch-processing main force: TTS rendering (kokoro/piper engines, X989 mastered-audio law) + ffmpeg post chain (-16LUFS integrated loudness / TP-3 true-peak / mono spec chain) + regularization of the existing audio work-order lane as a standing lane; (2) GPU light post-processing: rmbg transparent-cut / 4x upscale / crop (8GB card sufficient; 7b serve stays resident per P-19 Phase-1 09-28 hard window). Common obligations per sec.4: heartbeat prod_lanes + gpu_model fields (P-33), self-claim entry = fleet/tasks open tickets -> borrowed-pool work orders (cph4/fleet-protocol.md sec.3.2 five fields), GREEN-IDLE windows must take one; envelope discipline: RAM<4GB no new heavy jobs / keepwarm.pause release valve / full-silent zero-popup (fleet sec.10); cloud launches stay bm-c-only antenna (U218).",
+ "status": "claimed",
+ "created_by": "bm-b (r313) per CEO order O-20260927-0913-bm-c sec.3 -- lane charter ticket = the order's receipt item-3 'new-lane first work order'",
+ "created_at": "2026-09-27T09:35:00+08:00",
+ "note": "PRIMARY-LANE LAW (order sec.3): BigMoney backtest/data-node rounds always take priority (Money02 host untouched); new production lane occupies idle windows only. THIS ROUND ignition deferred honestly: primary lane fully consumed by r312 crash-salvage (2x rebase UU canon-resolved, push landed) + T-89 slice-1b runner delivery (9 shards pooled) -- TTS ignition = next GREEN-IDLE window per the order's idle-window clause. First work orders (s1-s3 below) are the lane's standing backlog.",
+ "claimed_by": "bm-b (standing lane charter per CEO order -- lane assigned to bm-b by the order itself; claim = lane-ownership record, idle-window-gated execution)",
+ "claimed_at": "2026-09-27T09:35:00+08:00",
+ "s1_engine_install": "TTS engine bring-up: kokoro/piper install via hf-mirror chunked-resume direct download (machine-direct law U187/U240: no git, no cross-machine transfer) + engine smoke render (one sentence in + wav out, spec-chain ready)",
+ "s2_spec_chain": "ffmpeg post-processing spec chain validation: -16LUFS integrated loudness + TP-3 true peak + mono, X989 mastered-audio law face (source spec located + applied verbatim); a golden-path render end-to-end through the full chain",
+ "s3_lane_regularization": "audio work-order intake regularization: existing audio line named/standing per order ('audio work-order existing line regularization'), intake = JSON work order convention per E:\\Minigame\\Tools\\art-queue precedent (kind/n_seeds/out_dir/style fields adapted to audio), consumed by idle-window workers",
+ "progress_r313_bmb": "r313: charter ticket opened (order receipt item-3) + heartbeat prod_lanes/gpu_model first values landed (receipt item-2) + ack both unacked orders (receipt item-1: O-20260927-0913-bm-c + O-2026-09-26-2340-bm-a). Engine install NOT started this round (primary-lane law, honest idle-window deferral). Next GREEN-IDLE window: s1 engine install first."
+}
