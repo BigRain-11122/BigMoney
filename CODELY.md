@@ -41,3 +41,11 @@
 - [2026-09-27 16:2x r335 bm-a] 坑律（二十一批外迁·指针）：PowerShell ConvertFrom-Json 假红/权威解析一律 python——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十一』节。
 - [2026-09-27 16:3x r333 bm-b] 坑律（二十一批外迁·指针）：tick git 危险窗扩至 :X3 后（post-commit fetch+push 对账尾）——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十一』节。
 - [2026-09-27 17:3x r334 bm-b] 坑律：**rolling-ledger union 的 dedup 键族必含面实时间键（r87 bmc 键探律再犯实弹）——resolver 键元组 ts-only 在 asof 键件上全 None 塌缩丢行**——r334 实弹：regime history 2+2→union=1（asof 行 4 条同键全塌缩，正确=2），union 行数 vs |A∪B| 目视核对当场拦下未落地；正典=①resolver dedup 键=逐面实探字段并集（ts/asof/...）写进配方②每 ledger union 必印 |ours|+|theirs|→union 并核对并集数③写回前 python 三方 blob 复验（_r334bmb_verify_regime.py 范式）。指针=results/_r333bmb_push_resolve.py+results/_r334bmb_verify_regime.py+round_reports r334。
+- 十六批外迁（r330 bm-b）：九条坑律行级外迁=归档十六批节；索引行外迁=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
+- 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
+- 十六批外迁（r86 bm-c）：三条目 FULL=归档十六批节；索引行外迁=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
+- 十七批外迁（r88 bm-c）：两条目 FULL+连带超集去重注=归档十七批节；索引行外迁=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
+- 十九批外迁（r89 bm-c）：五条目 FULL=归档十九批节；索引行外迁=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
+- [2026-09-27 17:2x r91 bm-c] 坑律（二十三批外迁·指针）：S0 stash→pop 共享滚动台账必 UU+定侧源 HEAD:/stash 直读+解完赶 tick 窗 add——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十三批』节。指针=results/_r91bmc_resolve_autofill.py。
+- [2026-09-27 17:3x r334 bm-b] 坑律（二十三批外迁·指针）：rolling-ledger union dedup 键族必含面实时间键（asof 键 ts-only 塌缩 2+2→1 实弹；正典=逐面键探+union 数对账+写回前三方 blob 复验）——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十三批』节。指针=results/_r333bmb_push_resolve.py+_r334bmb_verify_regime.py。
+- [2026-09-27 17:5x r335 bm-b] 坑律：**tick git 集成的 add/stash 腿不受 r201 mid-rebase 护栏管辖（护栏只闸 commit/push 腿）——rebase UU 停点窗内 tick 照打 blind-add 标记件入 index+stash-pop 造新 UU+毁 :2:/:3: stage**——r335 实弹三连击（17:13 add 标记件→pre-commit claw 拦 commit 幸免；~17:27 stash-pop 造 autofill UU+blind-add 灭 daily_scorecard stages；~17:30 再 add）；正典=①resolver 禁冻 UU 集快照=动态逐件从 :2:/:3:（灭失则 HEAD:/REBASE_HEAD: 直读·r331 stage-loss 律）正典重建+add→continue→push 原子单窗压缩②终验标记扫必行锚定（归档散文标记假报=1656bdb0 先例）③危险窗内 git 动作后必 reflog+ls-files -u 定谳。指针=results/_r335bmb_resolve.py+_r335bmb_probe_race.py+round_reports r335。
