@@ -1016,6 +1016,29 @@ SEED_REGISTRY = {
     # clean gap above mass_trial_w1_judge (20285000..20285199) and
     # trial_labor_w2_scrnull (20286000); registered same commit as wave-2
     # prereg freeze (R250 law)
+    "trial_labor_w3_gen": 20287500,  # TRIAL_LABOR_W3 candidate generation
+    # (wave-3 regime-gate deepening wave; Sobol scalar seed = 20287500 +
+    # family_idx, A-family idx 0-5 / B-family idx 6-81 -> band
+    # 20287500..20287581); six-tuple axis-combo RNG stream (R/X/S/T/STOP/GATE)
+    # = default_rng([20287500 + family_idx, 7919]); clean gap above
+    # trial_labor_w2_unc (20286500..20286519); band 20287500..20287599
+    # rg --type py full-repo scan r391 zero hits; registered same commit as
+    # wave-3 prereg freeze (R250 law)
+    "trial_labor_w3_scrnull": 20288000,  # TRIAL_LAB_W3_SCREEN null family
+    # K=200 same-structure random-signal candidates (template leg -> random
+    # signal-day generator; axis legs + initial-stop leg + gate leg drawn
+    # from same grids/param spaces, same engine/cost/panel); derivation =
+    # default_rng([20288000, i]); band 20288000..20288019 rg --type py scan
+    # r391 zero hits; registered same commit as wave-3 prereg freeze (R250
+    # law)
+    "trial_labor_w3_unc": 20288500,  # TRIAL_LAB_W3_JUDGE dual-nulls
+    # resampling face per survivor cell: block bootstrap B=2000 (block=20td
+    # circular) + sign-flip permutation P=2000 (two-sided) per
+    # RANDOM_LARGE_SAMPLE_LAW sec.3; derivation = default_rng([20288500,
+    # cell_idx]) rng stream pinned to the two resampling faces only
+    # (purpose-pinning precedent); band 20288500..20288519 rg --type py scan
+    # r391 zero hits; clean gap above trial_labor_w3_scrnull (20288000);
+    # registered same commit as wave-3 prereg freeze (R250 law)
 
 }
 
