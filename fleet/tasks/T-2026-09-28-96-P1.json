@@ -1,0 +1,19 @@
+{
+ "id": "T-2026-09-28-96",
+ "priority": "P1",
+ "type": "trial-labor-wave2-prereg",
+ "immediate": false,
+ "standing_law": "TRIAL_LABOR_LAW v1.0 sec.1 常供律（CEO O-2026-09-27-2250 原话「以后不要我提醒」=等提醒即违令；候选面常设生产线，本票=生产线例行供给步非新方向，无需 GM 另署名）",
+ "spec": "WAVE-2 千人试用期波级 prereg 起草与冻结（R99 跑前冻结）。模板=research/PREREG_TEMPLATE.md（§1-§8 全节）；结构镜像=research/TRIAL_LABOR_W1_PREREG.md；判据=science_gates g1_prime_v2/g2_registration_v2 共享库引用禁手抄（T-02 6/7+7/7）。扩容面（W1 prereg 已声明的 wave-2 语法面，逐项）：(a)『再止损』逐候选初始止损参数轴=入场武装初始止损叠加层（出场引擎接管前；参数空间起草时定稿；W1 原文「本波如实不编」）；(b) Sobol 升级 declare（W1 声明『Sobol=wave-2 可选升级另declare』，均匀 vs Sobol 二选一 declare 后冻结）；(c) C 族=census 存活因子腿=§9 式 when-ready append-confirm 子波（gated on CENSUS-FUS-S2-W2A/W2B finalize+存活腿 roster 导出+append-confirm 冻结，禁入主冻结节——W1 §9.1 骨格同构）；(d) W1 JUDGE 存活者变体供给=§5 存活变体面（judged 结果喂 W2 语法权重：出场族/时机族存活分布→扩容方向加权，如实基于 judged 事实非预感）。",
+ "sequencing_gates": "物理依赖票内留痕：(1) W1 JUDGE 两批（MASS_TRIAL_W1_JUDGE x4 shards + TRIAL_LAB_W1_JUDGE，池 waiting RAM 门禁 r354 三采样律+census 排队 CPU 物理依赖）完成→(d) 存活变体供给才可写死；判读=若起草时 JUDGE 仍未完，(d) 面如实 declare 不可得并降权为基线网格（禁编造）。(2) census finalize→(c) C 族 append-confirm。(3) prereg 起草本体=纸面活无门禁任意轮可开；冻结=各面 declare 齐 or 如实 declared-unavailable。",
+ "dedup_law": "T-84 s3 指纹去重门 vs TRIAL_GRAMMAR_LEDGER.md 全部已消费语法行（MASS_TRIAL_W1 sha16=96269ebe766c3fc2 + TRIAL_LABOR_W1 sha16=a2fa15f4b06b3c40），同语法禁重跑（TRIAL_LABOR_LAW §4 防疏浚）；ledger 落 wave-2 行=append-only。",
+ "seeds_plan": "冻结 commit 同步登记 SEED_REGISTRY（R250 一步例）：trial_labor_w2_gen / trial_labor_w2_scrnull / trial_labor_w2_unc 三键；空闲带位=20285500 起（20283500-20284500=W1 三键已占·20285000=mass_trial_w1_judge 已占）；同 commit 登记禁分步。",
+ "n_eff_law": "跨波累计不重置（TRIAL_LABOR_LAW §4）：冻结时实读 trials_ledger 累计总数（r356 实读=287,526，含 MASS_TRIAL_W1 screen 975）+W2 SCREEN 核并入后折减；禁 dsr_from_stats 充数。",
+ "evidence_cutoff_law": "T-18 深轴 manifest PASS 实读为准（W1 先例=2026-09-22 binding·双轴同截断）；冻结时实读禁手抄。",
+ "pool_routing": "W2 SCREEN/JUDGE 批 >5min 入 results/runnable_pool.json（O-2100 执行面分离），lane_owner=null（core48+T-18 in-repo 双机可跑），RAM 门禁 r354 三采样律；workers_plan 镜像 W1 prereg §6。",
+ "claimed_by": "bm-b",
+ "claimed_at": "2026-09-28 03:2x",
+ "status": "claimed",
+ "result_ref": null,
+ "progress": "r356 bm-b groundwork done: TRIAL_GRAMMAR_LEDGER 双波行实读；SEED_REGISTRY 75 键枚举带位确认；供给源 census=T-86 存活腿 gated（W2A 烧烧中 no-kill 11.7h 零 ckpt）/REFINE_BENCH 轴已在 W1 语法/外源 digest 无件/T-88 战法面=现金腿域白名单待 declare/淬炼台无件；strategies/ AST census=86 函数/14 模块（W1 时点 81/13），止损面=参数叠加轴非函数名轴（AST 名义止损函数仅 macro.drawdown_filter）；W1 双判读面=MASS 166+TRIAL 149=315 幸存者判决批全在池 waiting（RAM 门禁合法 defer 票内留痕）。续作点=起草 research/TRIAL_LABOR_W2_PREREG.md 全节→冻结 commit（含三种子键同 commit 登记）→TRIAL_GRAMMAR_LEDGER append wave-2 行→生成/初筛按池路由。"
+}
