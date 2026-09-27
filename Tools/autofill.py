@@ -40,6 +40,13 @@ Contract:
     r282 recovery rebase stays reachable in inter-round windows (r288
     live: keepalive push lost to a tick-dirtied tree -> claim stranded
     local -> remote takeover gate re-opened -> duplicate launch).
+  * Abort-ownership (r344): the claim/keepalive rebase-retry NEVER
+    aborts a rebase the tick did not start. Foreign rebase in flight ->
+    skip pull+abort entirely and yield (live-fire 21:48:48: a 21:40
+    tick's blind `rebase --abort` killed the session fold's in-flight
+    rebase); a pull refused with "already a rebase" or a clean dirty-
+    tree refusal aborts nothing; only a rebase OUR pull started and
+    conflicted gets aborted (r282 semantics preserved for that case).
   * Silent law: logs to logs/autofill.log only.
 
     * submit (r301+r305 law family): control-plane helper asserting the
@@ -104,6 +111,17 @@ def _machine_id():
             return json.load(fh).get("machine_id", "")
     except Exception:
         return ""
+
+
+def _mid_op():
+    """r201 marker probe factored (r344 abort-ownership law): first
+    mid-rebase/mid-merge marker present in .git, or None. The tick
+    entry guard and the claim/keepalive abort-ownership checks share
+    one truth -- never probe the marker triple in two places."""
+    for probe in ("rebase-merge", "rebase-apply", "MERGE_HEAD"):
+        if os.path.exists(os.path.join(_GIT_DIR, probe)):
+            return probe
+    return None
 
 
 def _py_cpu_pct(window=SAMPLE_S):
@@ -395,9 +413,13 @@ def _claim_shard(sh, myid):
     00:30/00:40/00:50 revosc claims all lost to push-reject while py sat
     at 0-4% -- fill latency 29.1min vs O-2100 10min target; at 00:30 the
     tree was clean and the recovery rebase would have landed the claim
-    20min earlier. Fail-safe: rebase conflict or session-owned dirt
-    (non-tick files in flight) -> abort + yield, session S0 reconciles
-    (r268 stash law: no stash games from the tick). r290 self-commit:
+    20min earlier. Fail-safe (r344 abort-ownership): a rebase OUR pull
+    started and conflicted -> abort ours + yield; a FOREIGN rebase
+    already in flight, a pull refused with "already a rebase", or a
+    clean dirty-tree refusal -> NO abort (live-fire 21:48:48: the
+    blind abort killed the session fold's in-flight rebase), session
+    S0 reconciles (r268 stash law: no stash games from the tick).
+    r290 self-commit:
     the tick's OWN dirt (autofill_state/crash_fuse) rides in the claim
     commit itself -- an inter-round tree dirtied only by the tick keeps
     the recovery rebase reachable (r288 live: keepalive push lost to a
@@ -446,6 +468,16 @@ def _claim_shard(sh, myid):
                 raise RuntimeError(err)
             # r282: push rejected -> one rebase-retry before yielding.
             committed = True     # commit landed, push lost so far
+            # r344 abort-ownership: never abort a rebase we did not
+            # start. A foreign rebase in flight (session fold) -> skip
+            # the pull entirely; git would refuse it anyway and the
+            # old blind abort below killed the session's rebase
+            # (21:48:48 live-fire).
+            foreign = _mid_op()
+            if foreign is not None:
+                _log(f"claim rebase-retry skipped: foreign rebase in "
+                     f"flight ({foreign}) -> yield keeps claim commit")
+                raise RuntimeError(err)
             rc2, err2 = _git(("pull", "--rebase"))
             if rc2 == 0:
                 rc3, err3 = _git(("push",))
@@ -455,11 +487,20 @@ def _claim_shard(sh, myid):
                     return True
                 err = err3
             else:
-                # blocked (dirty tree) or conflicted -> restore, keep
-                # the local claim commit for session S0 reconciliation
-                _git(("rebase", "--abort"))
-                _log(f"claim rebase-retry refused/failed "
-                     f"({err2.strip()[-100:]}) -> yield keeps claim commit")
+                refused_foreign = "already a rebase" in (err2 or "")
+                if _mid_op() is not None and not refused_foreign:
+                    # OUR pull started this rebase and it conflicted --
+                    # ours to abort; claim commit kept for session S0
+                    _git(("rebase", "--abort"))
+                    _log(f"claim rebase-retry conflicted (ours) -> "
+                         f"aborted, yield keeps claim commit")
+                else:
+                    # refused without starting one (dirty tree) or a
+                    # session rebase appeared mid-window ("already a
+                    # rebase") -> nothing of ours to abort
+                    _log(f"claim rebase-retry refused "
+                         f"({(err2 or '').strip()[-100:]}) -> yield "
+                         f"keeps claim commit")
             raise RuntimeError(err)
         _log(f"claim OK: {sh.get('key')} owner={myid} pushed")
         return True
@@ -520,6 +561,14 @@ def _keepalive_claims(pool, myid):
             if args[0] != "push":
                 raise RuntimeError(err)
             committed = True     # refreshed face landed locally already
+            # r344 abort-ownership (keepalive leg): mirror the claim
+            # leg -- never abort a rebase the tick did not start.
+            foreign = _mid_op()
+            if foreign is not None:
+                _log(f"keepalive rebase-retry skipped: foreign rebase "
+                     f"in flight ({foreign}) -> local commit kept for "
+                     f"session S0 reconciliation")
+                raise RuntimeError(err)
             rc2, err2 = _git(("pull", "--rebase"))
             if rc2 == 0:
                 rc3, err3 = _git(("push",))
@@ -529,10 +578,15 @@ def _keepalive_claims(pool, myid):
                     return keys
                 err = err3
             else:
-                _git(("rebase", "--abort"))
-                _log(f"keepalive rebase-retry refused/failed "
-                     f"({err2.strip()[-100:]}) -> local commit kept for "
-                     f"session S0 reconciliation")
+                refused_foreign = "already a rebase" in (err2 or "")
+                if _mid_op() is not None and not refused_foreign:
+                    _git(("rebase", "--abort"))
+                    _log(f"keepalive rebase-retry conflicted (ours) -> "
+                         f"aborted, local commit kept for session S0")
+                else:
+                    _log(f"keepalive rebase-retry refused "
+                         f"({(err2 or '').strip()[-100:]}) -> local "
+                         f"commit kept for session S0 reconciliation")
             raise RuntimeError(err)
         _log(f"keepalive OK: {keys} owner={myid} pushed")
         return keys
@@ -549,12 +603,12 @@ def _keepalive_claims(pool, myid):
 
 
 def tick(dry=False):
-    for probe in ("rebase-merge", "rebase-apply", "MERGE_HEAD"):
-        if os.path.exists(os.path.join(_GIT_DIR, probe)):
-            _log(f"tick no-op: git mid-operation ({probe}) -- conflicted "
-                 f"tree, no state write, no launch")
-            print(f"no-op: git mid-operation ({probe})")
-            return 0
+    probe = _mid_op()
+    if probe is not None:
+        _log(f"tick no-op: git mid-operation ({probe}) -- conflicted "
+             f"tree, no state write, no launch")
+        print(f"no-op: git mid-operation ({probe})")
+        return 0
     rec = {"ts": _now(), "machine": _machine_id()}
     try:
         py = _py_cpu_pct()
@@ -997,11 +1051,25 @@ def selftest():
         add_args_all = []          # r290: full argv of every git add
         fail_at = {"stage": None}
         fail_next = {"q": []}     # r282: ordered one-shot stage faults
+        pull_sim = {"mode": None}  # r344: "ours_conflict"|"foreign_refusal"
 
         def _fake_git(args):
             git_seq.append(args[0])
             if args[0] == "add":
                 add_args_all.append(args[1:])
+            if args[0] == "pull" and pull_sim["mode"]:
+                mid = os.path.join(_GIT_DIR, "rebase-merge")
+                os.makedirs(mid, exist_ok=True)
+                if pull_sim["mode"] == "ours_conflict":
+                    return 1, "fake pull: CONFLICT (content): ours"
+                return 1, ("It seems that there is already a "
+                           "rebase-merge directory, and I wonder if "
+                           "you are in the middle of another rebase")
+            if args[0] == "rebase":
+                mid = os.path.join(_GIT_DIR, "rebase-merge")
+                if os.path.isdir(mid):
+                    os.rmdir(mid)
+                return 0, ""
             if fail_next["q"] and fail_next["q"][0] == args[0]:
                 fail_next["q"].pop(0)
                 return 1, "fake git fault (queued)"
@@ -1067,17 +1135,76 @@ def selftest():
         ok("S15f push reject -> rebase-retry -> claimed",
            r15f is True and git_seq == ["add", "commit", "push",
                                          "pull", "push"])
-        # S15g r282 fail-safe: rebase blocked (dirty tree) or conflicted
-        # -> abort + yield, claim bytes kept for session reconciliation
+        # S15g r282 fail-safe (r344 semantics): rebase refused WITHOUT
+        # starting one (dirty tree; no marker before or after) -> NO
+        # abort (nothing of ours to abort), yield, claim bytes kept
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_next["q"] = ["push", "pull"]
         git_seq.clear()
         r15g = _claim_shard({"key": "s0"}, "bm-b")
         p15g = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         fail_next["q"] = []
-        ok("S15g rebase refused -> abort + yield, claim kept",
+        ok("S15g clean refusal (dirty tree) -> no abort + yield, claim "
+           "kept",
            r15g is False and p15g.get("owner") == "bm-b"
-           and git_seq[-1] == "rebase")
+           and git_seq[-1] == "pull" and "rebase" not in git_seq)
+        # r344 abort-ownership legs: swap _GIT_DIR to the hermetic
+        # fake_git dir (S14 precedent) so marker probes never touch
+        # the real .git
+        _gd_orig = _GIT_DIR
+        _GIT_DIR = os.path.join(tmp, "fake_git")
+        os.makedirs(_GIT_DIR, exist_ok=True)
+        _mid = os.path.join(_GIT_DIR, "rebase-merge")
+        # S15g2 foreign rebase in flight (the 21:48:48 live-fire shape:
+        # session fold mid-rebase when the tick claim push rejects) ->
+        # NO pull, NO abort, marker SURVIVES, claim kept
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_next["q"] = ["push"]
+        os.makedirs(_mid, exist_ok=True)
+        git_seq.clear()
+        r15g2 = _claim_shard({"key": "s0"}, "bm-b")
+        marker_g2 = os.path.isdir(_mid)
+        os.rmdir(_mid)
+        p15g2 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        fail_next["q"] = []
+        ok("S15g2 foreign rebase in flight -> no pull/abort, marker "
+           "survives, claim kept",
+           r15g2 is False and marker_g2
+           and git_seq == ["add", "commit", "push"]
+           and p15g2.get("owner") == "bm-b")
+        # S15g3 OUR pull started a rebase and it conflicted -> abort
+        # OURS (marker cleared), yield keeps claim
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_next["q"] = ["push"]
+        pull_sim["mode"] = "ours_conflict"
+        git_seq.clear()
+        r15g3 = _claim_shard({"key": "s0"}, "bm-b")
+        marker_g3 = not os.path.exists(_mid)
+        pull_sim["mode"] = None
+        fail_next["q"] = []
+        ok("S15g3 our pull conflicted -> abort ours (marker cleared), "
+           "claim kept",
+           r15g3 is False and marker_g3
+           and git_seq[-2:] == ["pull", "rebase"])
+        # S15g4 residual race: session rebase started INSIDE the claim
+        # window (marker absent at the pre-pull check) -> git refuses
+        # with "already a rebase" -> NO abort despite marker present
+        # (ownership via refusal signature), marker survives
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_next["q"] = ["push"]
+        pull_sim["mode"] = "foreign_refusal"
+        git_seq.clear()
+        r15g4 = _claim_shard({"key": "s0"}, "bm-b")
+        marker_g4 = os.path.isdir(_mid)
+        os.rmdir(_mid)
+        pull_sim["mode"] = None
+        fail_next["q"] = []
+        ok("S15g4 mid-window foreign rebase (already-a-rebase refusal) "
+           "-> no abort, marker survives, claim kept",
+           r15g4 is False and marker_g4
+           and git_seq == ["add", "commit", "push", "pull"]
+           and "rebase" not in git_seq)
+        _GIT_DIR = _gd_orig
         # S15h r282 recovery exhausted: rebase ok but push retry still
         # rejected -> yield, claim bytes kept
         _pool_with({"key": "s0", "status": "ready", "owner": None})
@@ -1175,6 +1302,42 @@ def selftest():
         ok("S17e keepalive add carries pool+state+fuse (r290)",
            ka == ["s0"] and add_args_all
            and add_args_all[-1] == (POOL, STATE, FUSE))
+        # S17f/g r344 abort-ownership (keepalive leg): mirror of the
+        # claim-leg ownership law -- foreign rebase survives, ours gets
+        # aborted
+        _gd_orig = _GIT_DIR
+        _GIT_DIR = os.path.join(tmp, "fake_git")
+        os.makedirs(_GIT_DIR, exist_ok=True)
+        _mid = os.path.join(_GIT_DIR, "rebase-merge")
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        fail_next["q"] = ["push"]
+        os.makedirs(_mid, exist_ok=True)
+        git_seq.clear()
+        ka_f = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                                 "bm-b")
+        marker_kf = os.path.isdir(_mid)
+        os.rmdir(_mid)
+        fail_next["q"] = []
+        ok("S17f foreign rebase -> keepalive no pull/abort, marker "
+           "survives, refresh kept",
+           ka_f == ["s0"] and marker_kf
+           and git_seq == ["add", "commit", "push"])
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        fail_next["q"] = ["push"]
+        pull_sim["mode"] = "ours_conflict"
+        git_seq.clear()
+        ka_g = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                                 "bm-b")
+        marker_kg = not os.path.exists(_mid)
+        pull_sim["mode"] = None
+        fail_next["q"] = []
+        ok("S17g our pull conflicted -> keepalive aborts ours, refresh "
+           "kept",
+           ka_g == ["s0"] and marker_kg
+           and git_seq[-2:] == ["pull", "rebase"])
+        _GIT_DIR = _gd_orig
         _runner_alive = _ka_runner
         # S18 null-runner entries (live 2026-09-27 02:40-07:10: keepalive
         # scan AttributeError'd on an explicit runner=null pool entry --

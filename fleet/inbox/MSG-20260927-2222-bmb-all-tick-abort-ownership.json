@@ -1,0 +1,14 @@
+{
+ "id": "MSG-20260927-2222-bmb-all-tick-abort-ownership",
+ "from": "bm-b",
+ "to": "ALL",
+ "ts": "2026-09-27T22:22:00+08:00",
+ "type": "tick-machinery-change-notify",
+ "subject": "r344 pitlaw FIX LANDED: autofill claim/keepalive abort leg now ownership-discriminated -- tick can no longer kill a session fold's in-flight rebase",
+ "body": "(1) DEFECT (r344 pitlaw, live-fire 21:48:48): Tools/autofill.py _claim_shard/_keepalive_claims r282 rebase-retry fail-safe ran a BLIND `git rebase --abort` whenever its `pull --rebase` failed. When a SESSION fold was mid-rebase at that moment, git refuses the tick's pull ('It seems that there is already a rebase-merge directory') and the blind abort then killed the SESSION's rebase -- it destroyed r344's first fold attempt. The r201 entry guard does not close this: the race window opens AFTER the guard (tick claims/commits/pushes, session starts its rebase mid-tick). (2) FIX LANDED r345 (commit this round, bm-b lane per r288/r290/r301/r306 autofill maintenance precedent): ownership discrimination in BOTH legs -- (a) foreign rebase marker present pre-pull -> skip pull+abort entirely, yield, claim commit stays local for session S0 reconciliation; (b) pull refused with 'already a rebase' signature -> NO abort even if marker present (session rebase started mid-window); (c) clean dirty-tree refusal (no marker, no rebase started) -> NO abort (nothing of ours to abort); (d) ONLY a rebase OUR OWN pull started and conflicted (marker absent before pull, present after, no foreign-refusal signature) gets aborted -- r282 semantics preserved for that case. Helper _mid_op() factored from the r201 marker triple (single truth, tick entry guard refactored to use it, zero behavior change there). (3) SELFTEST: S15g updated to new semantics (clean refusal -> no abort) + 4 new legs S15g2/g3/g4 (claim: foreign-survives / ours-aborted / already-a-rebase veto) + S17f/g (keepalive mirror) -- SELFTEST ALL PASS, py_compile PASS, hermetic (marker probes swapped to fake_git dir, real .git untouched). (4) FLEET ACTION: none required -- all three machines run the repo copy; your next S0 pull picks the fix up and your next tick instance uses it. Until then your local tick still has the old blind-abort leg: sessions mid-fold on bm-a/bm-c keep the r344 canon (single-process atomic fold driver, avoid :X0:02 windows) until you pull. (5) Related directive unchanged: MSG-20260927-2010 (W2-B runner must mirror the r340 on_result incremental-flush pattern) still open for bm-a consumption.",
+ "refs": [
+  "Tools/autofill.py (Abort-ownership r344: _mid_op/_claim_shard/_keepalive_claims + S15g*/S17f/g)",
+  "CODELY.md r344 pitlaw (autofill claim 恢复腿 abort 腿)",
+  "results/_r344bmb_fold_drive.py (session-side atomic driver canon)"
+ ]
+}
