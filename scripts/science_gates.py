@@ -974,6 +974,18 @@ SEED_REGISTRY = {
     # TRIAL_LABOR_W1 s2); 20261002..20261030 = t11_negday_ic nulls data pollution;
     # rg --no-ignore whole-repo zero-hit verified 2026-09-28 00:1x; registered
     # same commit as prereg freeze (R250 law)
+    "mass_trial_w1_judge": 20285000,  # MASS_TRIAL_W1_JUDGE dual-nulls
+    # resampling face per survivor cell (T-2026-09-27-94 s3 wave-1a judgment
+    # freeze = research/MASS_TRIAL_W1_PREREG.md sec.9.1, owner bm-b r350):
+    # block bootstrap B=2000 (block=20td circular) + sign-flip permutation
+    # P=2000 (two-sided) per RANDOM_LARGE_SAMPLE_LAW sec.3; derivation =
+    # default_rng([20285000, cell_idx]) with rng stream pinned to the two
+    # resampling faces only (trial_labor_w1_unc 20284500 purpose-pinning
+    # precedent); declared band 20285000..20285199 sits with clean gap above
+    # trial_labor_w1_unc (20284500+i, i<~170 tops below 20284700) and above
+    # decision_chain_v2 20284110; rg --type py repo scan + registry band scan
+    # 2026-09-28 00:4x zero hits; registered same commit as sec.9.1 freeze
+    # (one-step R250 law)
 
 }
 

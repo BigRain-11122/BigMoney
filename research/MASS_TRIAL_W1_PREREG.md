@@ -74,6 +74,24 @@
 
 存活者全量判决=TRIAL_LABOR_LAW §2 第二段：T-22 caliber 逐虚拟起点引擎重跑 × {6m,12m,24m} × x2 成本面 × bear/bull/chop 分段 × 双 nulls≥2000；**波级多重校正强制**：DSR 按累计波试验数 N_eff 折减、PBO 波级报告、预期假阳性数如实披露；判据调 `science_gates.g1_prime_v2/g2_registration_v2` 共享库禁手抄。**本节为占位——具体判线/种子/分片在 s3 跑前以追加节 commit 冻结。**
 
+### §9.1 s3 全量判决面段冻结【2026-09-28 00:4x bm-b r350 起草·本 commit 后才许烧·append-only·占位节留档】
+
+- **触发与身份**：r349 owner adjudication（MSG-20260928-0030）采纳双波结构后本节=§9 占位的具体化（owner face·跑前 commit 冻结）；对应批件=**MASS_TRIAL_W1_JUDGE**（第二段判决批·judged cells 入账本）；CEO 48h 呈报钟不变（2026-09-29 22:45 前·O-2245）。
+- **判决对象与入场去重门（§1 承诺门）**：166 stage-1 存活者（冻结清单=`results/mass_trial/w1_screen_summary.json` survivor_ids·同 §6 产物 sha 锚定）→ 入场前**逐对 |corr|≥0.999 日收益序列塌缩**（保留代表=确定性最低 candidate_id·坍缩/保留清单如实披露·audit 段全量保留原始变体）→ **N_judge=塌缩后格数**（跑前零宣称）。
+- **判决网格（全 import 禁重实现禁手抄）**：虚拟起点=**P-5C 冻结栅格** `scripts/p5c_virtual_timepoint.py` `FROZEN_CENSUS` 双腿全网格（L 6m/12m/24m=1253/1127/875·D=3104/2978/2726·`EVIDENCE_CUTOFF_GRID`=2026-09-22 与本批 binding 同栅——wave-1b §9.3 同源口径）× 窗 {126,252,504} × 成本 {x1=13bp 引擎默认·x2=CostPatch(2.0)（t22 Erratum-1 multiplier 律·禁直引常数）} × 政体分段 bear/bull/chop+na（T-22 §3 冻结 3-way proxy 逐字）× 双 nulls：block bootstrap **B=2000**（block=20 交易日循环块·拼样截回 n 长）+ sign-flip 置换 **P=2000**（逐日符号独立·双侧）。
+- **候选重放口径**：每格=存活者冻结配置（family fn+params+axes·`w1_candidates.json` sha 907e44d56999b0ab 实读禁手抄）经判决机械全网格重放；被动基准=起点日已上市成员 EW buy&hold 零再平衡（p5c `passive_rel` 机械·wave-1b §9.3 同款）；引擎面=T+1 开盘保守代理（O-1132）·退出优先级冻结禁改。
+- **判据（共享库引用零手抄）**：
+  - **G1' v2=`science_gates.g1_prime_v2(sharpe_full, returns, batch_cells, pool="core48", n_trades, n_entries)`**：全期 Sharpe>skill_line_v2（数据驱动线·N_eff=活链头+本批格）∧ 平稳 bootstrap CI 下界>0 ∧ entries≥30（F6 entries_ok 为准）。
+  - **G2 注册资格 v2=`science_gates.g2_registration_v2(g1_pass, dsr, pbo)`**：G1' 过线 ∧ DSR≥0.95（原始收益跑·**n_trials=累计账本总试验数活链头实读·跨波不重置**——链头 287,526（2026-09-28 实读·跑时以活值为准）已含本波 SCREEN +975）∧ 家族 PBO≤0.25（`screening/pbo.py` CSCV 8 块·**家族=策略模块 11**（ta/patterns/seasonal/folk/mean_reversion/volatility/sentiment/event/momentum/macro/trend·同族波内候选 base 面 Sharpe 向量=g25_retro 先例；<8 格族=insufficient 如实 n/a→G2 不可过））；缺输入=诚实拒收（missing_inputs 机制）。
+  - **样本充足律（RANDOM_LARGE_SAMPLE_LAW §3）**：n_eff≥500 起点 ∧ bear/bull/chop 三段各≥100 起点窗（na 桶披露）——不足→verdict=insufficient-sample 禁算 pass。
+- **种子**：`mass_trial_w1_judge`=**20285000**（band 20285000..20285199·派生 `default_rng([20285000, cell_idx])`·rng 流仅限双 nulls 重采样面禁挪用·census §9.1 用途钉死先例；rg --type py 全仓扫描+SEED_REGISTRY 撞带扫描 2026-09-28 00:4x 零命中；**本 commit 同步登记 SEED_REGISTRY**·R250 一步律）。
+- **波级多重校正（TRIAL_LABOR_LAW §4 强制）**：①N_wave=SCREEN 975+JUDGE N_judge 逐批披露；②**E[FP]=0.05×N_judge**（判决面名义 α=5% 口径）如实披露——DSR≥0.95 门即按累计 N 折减后的校正门·通过者=校正后存活非名义面；③波级 PBO 聚合读数另列（跨族）；④双波（wave-1a+wave-1b）N_eff 合并呈报面。
+- **描述条款（批级披露不替代 v2 门）**：年化>0·OOS(2025+ 恒盲)双正·回撤≥−35%·无崩年·x2 面逐年稳定。
+- **执行面**：runner=`scripts/mass_trial_w1.py` 追加 `judge` 子命令（**本冻结 commit 后建**·selftest 强制 hermetic·byte-stable 复跑·import-face 复用 p5c/T-22 机械禁重写）；池批 id=**MASS-TRIAL-W1-JUDGE**·shards=4（~N_judge/4 格/片·多机分片合法）·workers ≤floor(核×0.8) BelowNormal·lane_owner=null；**CPU 物理排序=排 W2A/W2B census 燃批+wave-1b SCREEN 之后**（池 entered_at 序·票内留痕合法排序）；bm-a 分片要约已受（r349·MSG-2335）。
+- **账本**：`science_gates.append_ledger("MASS_TRIAL_W1_JUDGE", N_judge, file, evidence_cutoff="2026-09-22")`（prev=活链头实读禁手抄）。
+- **跑前预测（写死于跑前）**：①corr-dedup 塌缩 ∈[0,15] 格（生成端 hash 去重已跑·族内近孪生轴/参数变体少量预期）；②G1'v2 过线 ∈[0,20]（筛面 60 窗近似 vs 判决面 T-22 caliber 更严·大量筛面存活者应死——§4 诚实注记的兑现面）；③**G2 eligible ∈[0,3]·模态=零**（DSR 按 N≈287.5k+ 累计折减=极重校正·T-87 五批判负同门先例·零存活=合法产出照报不翻案）；④族富集延续筛面方向（反转/形态/日历/民间族支配·趋势/动量族弱）——方向错=诚实读数不翻案。
+- **极端日先验（整窗路径内化·无豁免路径需求）**：2015-07 救市/2016-01 熔断/2024-02 微盘崩/2024-09-24/09-30 政策脉冲/2025-04-07 外生缺口/2026-01-19 极端溢价日——候选曲线尾部 |日收益|>8% 属市场真值非腐坏·危机日计数列随格披露。
+
 ## §10 消费面
 
 存活者 → s3 全量判决 → 终存活者 → STRATEGY_LIBRARY 注册 + TRIAL-<family>-<NN> 纸盘上岗（O-2045 机器复用）→ **48h 内呈 CEO**（O-2245 时钟：2026-09-29 22:45 前）；语法供给面（TRIAL_LABOR_LAW §5）：T-86 census W2A/W2B 存活腿到位后并入 wave-2 语法；wave-2=5000 人扩容（水位持续吃得下+语法非空即开）。
