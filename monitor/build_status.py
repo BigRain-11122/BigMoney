@@ -1717,6 +1717,70 @@ def _system_v1_paper_state() -> dict:
     return out
 
 
+def _trial_labor_state() -> dict:
+    """TRIAL_LABOR_LAW v1.0 (O-2026-09-27-2250) standing trial-labor
+    production line (CEO law: never idle, no CEO reminder): candidate
+    funnel state -- generate -> cheap screen -> full judge -> TRIAL-*
+    paper intake. Read-only consumption of results/mass_trial/ (wave-1a
+    MASS_TRIAL_W1, bm-b lineage) + results/trial_labor_w1/ (wave-1b
+    TRIAL_LABOR_W1, bm-c lineage) + TRIAL*/MASS* runnable-pool entries;
+    town strategy-factory rows are the display consumer. Funnel rows are
+    honest harvest-vs-pass counts (funnel dual-column law), never
+    judgment claims -- TRIAL intake face: zero judgment claims pre-
+    funnel."""
+    out = {"present": False, "law": "firm/TRIAL_LABOR_LAW.md v1.0",
+           "waves": [], "pool_entries": []}
+    # wave-1a: MASS_TRIAL_W1 (bm-b lineage)
+    d1 = os.path.join(PATHS.results_dir, "mass_trial")
+    gen = scr = jst = None
+    if os.path.isdir(d1):
+        gen = _read_json(os.path.join(d1, "w1_generate_summary.json"))
+        scr = _read_json(os.path.join(d1, "w1_screen_summary.json"))
+        jst = _read_json(os.path.join(d1, "judge_state.json"))
+    if gen or scr:
+        w = {"wave": "MASS_TRIAL_W1",
+             "screen_done": bool((scr or {}).get("complete")),
+             "candidates": ((scr or {}).get("n_candidates_checkpointed")
+                            or (gen or {}).get("enrolled")),
+             "families": (gen or {}).get("families"),
+             "survivors_stage1": (scr or {}).get("n_stage1_survivors"),
+             "null_p95": (scr or {}).get("null_beat_rate_p95"),
+             "evidence_cutoff": (scr or {}).get("evidence_cutoff"),
+             "judge_prep": None}
+        if jst:
+            w["judge_prep"] = {"n_judge_cells": jst.get("n_judge_cells"),
+                               "seed": jst.get("seed_judge")}
+        out["waves"].append(w)
+        out["present"] = True
+    # wave-1b: TRIAL_LABOR_W1 (bm-c lineage)
+    d2 = os.path.join(PATHS.results_dir, "trial_labor_w1")
+    s2 = _read_json(os.path.join(d2, "w1_screen.json")) \
+        if os.path.isdir(d2) else None
+    if s2:
+        nf = s2.get("null_family") or {}
+        out["waves"].append({
+            "wave": "TRIAL_LABOR_W1",
+            "screen_done": True,
+            "candidates": s2.get("batch_cells"),
+            "n_distinct": s2.get("n_distinct"),
+            "k_nulls": s2.get("k_nulls"),
+            "survivors_stage1": s2.get("n_survivors"),
+            "null_p95": nf.get("p95_line"),
+            "evidence_cutoff": s2.get("evidence_cutoff"),
+            "judge_prep": None,
+            "ledger_total": (s2.get("trials_ledger") or {}).get("total"),
+        })
+        out["present"] = True
+    # pool face (dynamic across future waves)
+    pool = _read_json(os.path.join(PATHS.results_dir, "runnable_pool.json")) or {}
+    for e in (pool.get("entries") or []):
+        eid = e.get("id") or ""
+        if "TRIAL" in eid or "MASS" in eid:
+            out["pool_entries"].append({"id": eid, "status": e.get("status"),
+                                        "lane_owner": e.get("lane_owner")})
+    return out
+
+
 def build() -> dict:
     smoke = _smoke_health()
     data = _data_freshness()
@@ -1736,6 +1800,7 @@ def build() -> dict:
     data["queue_bandit"] = _queue_bandit_state()
     data["alloc_paper"] = _alloc_paper_state()
     data["system_v1_paper"] = _system_v1_paper_state()
+    data["trial_labor"] = _trial_labor_state()
     bt = _backtest_summary()
     chain = _gate_chain(bt)
     paper = _paper_state()

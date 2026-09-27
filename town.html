@@ -342,7 +342,12 @@ const BUILDS = [
   { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
     dept:'策略部 Strategy Factory', mandate:'策略工厂 · 门禁链 G1\'/G2+判据科学层 v2 · 注册与退役',
     info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
-      + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>' },
+    + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>'
+    + (() => { const tl=(D.data&&D.data.trial_labor)||{};
+        if (!tl.present) return '<div class="row dim">试用劳动力常设线待产出（TRIAL_LABOR_LAW · 千人试用期首波 T-94 在飞）</div>';
+        const wrows = (tl.waves||[]).map(w => '<div class="row">'+w.wave+' 初筛'+(w.screen_done?'<span class="green">✔</span>':'…')+' · 候选 '+(w.candidates??'—')+(w.n_distinct!=null?'（去重 '+w.n_distinct+'+null '+w.k_nulls+'）':'')+' · 幸存 <span class="gold">'+(w.survivors_stage1??'—')+'</span>'+(w.null_p95!=null?' · 零假设p95线 '+Number(w.null_p95).toFixed(4):'')+(w.judge_prep?' · 判决格 '+(w.judge_prep.n_judge_cells??'—'):'')+'</div>').join('');
+        const pe = (tl.pool_entries||[]).map(e => e.id+':'+e.status).join(' · ');
+        return wrows + (pe?'<div class="row dim">池面：'+pe+'</div>':'') + '<div class="row dim">常设律（'+tl.law+'）：板空/池饿=默认续波 · 采集≠入册 · 上岗=TRIAL-* 纸盘月考</div>'; })() },
   { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
     dept:'风控部 Risk & Audit', mandate:'铁律执行 · 熔断 · 零假设校准 · 防作弊审计',
     info: () => { const rg = (D.data && D.data.regime) || {};
