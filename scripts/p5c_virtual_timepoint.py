@@ -148,6 +148,12 @@ def _load_leg(leg):
         for q in sorted(pathlib.Path(LEG_D_CACHE).glob("*.parquet")):
             df = pd.read_parquet(q)
             df.index = pd.to_datetime(df.index)
+            # t18 cache parquets carry OHLCV only; build_panels requires
+            # the 6-col contract (open/amount imputation = load_core rules)
+            if "open" not in df.columns:
+                df["open"] = df["close"]
+            if "amount" not in df.columns:
+                df["amount"] = df["volume"] * df["close"]
             frames[q.stem] = df
         if not frames:
             raise SystemExit("P5C-GATE: deep-panel cache empty/absent "

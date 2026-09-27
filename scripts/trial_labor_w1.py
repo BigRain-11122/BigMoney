@@ -1448,7 +1448,7 @@ def cmd_judge_finalize() -> int:
                          n_entries=r["legL_n_entries"])
         dsr = deflated_sharpe_ratio(rets, n_trials=n_trials)
         r["g1_prime_v2"] = g1
-        r["dsr"] = {"dsr": round(float(dsr), 6), "n_trials": n_trials}
+        r["dsr"] = {"dsr": round(float(dsr["dsr"]), 6), "n_trials": n_trials}
         r["g1_pass"] = g1["pass_v2"]
         r["verdict"] = ("pass" if (g1["pass_v2"] and r["sample_sufficient"])
                         else "insufficient-sample" if not r[
