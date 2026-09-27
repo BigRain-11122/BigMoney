@@ -1,0 +1,1640 @@
+{
+ "batch": "MASS_TRIAL_W1",
+ "roster": [
+  {
+   "idx": 0,
+   "family": "trend.donchian_breakout",
+   "module": "trend",
+   "fn": "donchian_breakout",
+   "kind": "sym",
+   "ranges": {
+    "entry_n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "exit_n": {
+     "default": 10,
+     "low": 5,
+     "high": 20,
+     "int": true
+    }
+   },
+   "src_sha256": "70ff2889a674f402",
+   "needs_bench": false
+  },
+  {
+   "idx": 1,
+   "family": "trend.dual_ma_cross",
+   "module": "trend",
+   "fn": "dual_ma_cross",
+   "kind": "sym",
+   "ranges": {
+    "fast": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    },
+    "slow": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    }
+   },
+   "src_sha256": "7d3f3ab8ca868c9d",
+   "needs_bench": false
+  },
+  {
+   "idx": 2,
+   "family": "trend.parabolic_sar",
+   "module": "trend",
+   "fn": "parabolic_sar",
+   "kind": "sym",
+   "ranges": {
+    "af_start": {
+     "default": 0.02,
+     "low": 0.01,
+     "high": 0.04,
+     "int": false
+    },
+    "af_inc": {
+     "default": 0.02,
+     "low": 0.01,
+     "high": 0.04,
+     "int": false
+    },
+    "af_max": {
+     "default": 0.2,
+     "low": 0.1,
+     "high": 0.4,
+     "int": false
+    }
+   },
+   "src_sha256": "15d1b1a87cea593e",
+   "needs_bench": false
+  },
+  {
+   "idx": 3,
+   "family": "trend.supertrend",
+   "module": "trend",
+   "fn": "supertrend",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 10,
+     "low": 5,
+     "high": 20,
+     "int": true
+    },
+    "mult": {
+     "default": 3.0,
+     "low": 1.5,
+     "high": 6.0,
+     "int": false
+    }
+   },
+   "src_sha256": "ae90ea68a3804f89",
+   "needs_bench": false
+  },
+  {
+   "idx": 4,
+   "family": "trend.triple_ma",
+   "module": "trend",
+   "fn": "triple_ma",
+   "kind": "sym",
+   "ranges": {
+    "n1": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    },
+    "n2": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "n3": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    }
+   },
+   "src_sha256": "ab42d42cb8cd8a98",
+   "needs_bench": false
+  },
+  {
+   "idx": 5,
+   "family": "mean_reversion.bollinger_breakout",
+   "module": "mean_reversion",
+   "fn": "bollinger_breakout",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "k": {
+     "default": 2.0,
+     "low": 1.0,
+     "high": 4.0,
+     "int": false
+    }
+   },
+   "src_sha256": "fbf12cb96a9d4460",
+   "needs_bench": false
+  },
+  {
+   "idx": 6,
+   "family": "mean_reversion.pullback_bounce",
+   "module": "mean_reversion",
+   "fn": "pullback_bounce",
+   "kind": "sym",
+   "ranges": {
+    "trend_n": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    },
+    "pullback_n": {
+     "default": 10,
+     "low": 5,
+     "high": 20,
+     "int": true
+    }
+   },
+   "src_sha256": "e41bb8225fb4cabd",
+   "needs_bench": false
+  },
+  {
+   "idx": 7,
+   "family": "mean_reversion.rsi2",
+   "module": "mean_reversion",
+   "fn": "rsi2",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 2,
+     "low": 2,
+     "high": 4,
+     "int": true
+    }
+   },
+   "src_sha256": "37c3be59657a6cfc",
+   "needs_bench": false
+  },
+  {
+   "idx": 8,
+   "family": "mean_reversion.rsi_revert",
+   "module": "mean_reversion",
+   "fn": "rsi_revert",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 14,
+     "low": 7,
+     "high": 28,
+     "int": true
+    },
+    "oversold": {
+     "default": 30,
+     "low": 15,
+     "high": 40,
+     "int": true
+    },
+    "overbought": {
+     "default": 70,
+     "low": 60,
+     "high": 85,
+     "int": true
+    }
+   },
+   "src_sha256": "511251525692b8bc",
+   "needs_bench": false
+  },
+  {
+   "idx": 9,
+   "family": "mean_reversion.zscore_revert",
+   "module": "mean_reversion",
+   "fn": "zscore_revert",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "entry": {
+     "default": -2.0,
+     "low": -4.0,
+     "high": -1.0,
+     "int": false
+    }
+   },
+   "src_sha256": "c63817ec9489ec45",
+   "needs_bench": false
+  },
+  {
+   "idx": 10,
+   "family": "momentum.cross_sectional_momentum",
+   "module": "momentum",
+   "fn": "cross_sectional_momentum",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 120,
+     "low": 60,
+     "high": 240,
+     "int": true
+    },
+    "skip": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "top_k": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    }
+   },
+   "src_sha256": "f2136cbbc7235b6f",
+   "needs_bench": false
+  },
+  {
+   "idx": 11,
+   "family": "momentum.dual_momentum",
+   "module": "momentum",
+   "fn": "dual_momentum",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 120,
+     "low": 60,
+     "high": 240,
+     "int": true
+    },
+    "top_k": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    }
+   },
+   "src_sha256": "b86cce1b07073358",
+   "needs_bench": true
+  },
+  {
+   "idx": 12,
+   "family": "momentum.momentum_acceleration",
+   "module": "momentum",
+   "fn": "momentum_acceleration",
+   "kind": "panel",
+   "ranges": {
+    "fast": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "slow": {
+     "default": 120,
+     "low": 60,
+     "high": 240,
+     "int": true
+    }
+   },
+   "src_sha256": "e5e98e2ead99b5b4",
+   "needs_bench": false
+  },
+  {
+   "idx": 13,
+   "family": "momentum.relative_strength_rotation",
+   "module": "momentum",
+   "fn": "relative_strength_rotation",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "top_k": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    }
+   },
+   "src_sha256": "b02dd331956d9dd2",
+   "needs_bench": true
+  },
+  {
+   "idx": 14,
+   "family": "momentum.time_series_momentum",
+   "module": "momentum",
+   "fn": "time_series_momentum",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 200,
+     "low": 100,
+     "high": 400,
+     "int": true
+    }
+   },
+   "src_sha256": "a2eb4aa1a8c9c017",
+   "needs_bench": false
+  },
+  {
+   "idx": 15,
+   "family": "volatility.low_vol_long",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    },
+    "top_k": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    },
+    "rebal_days": {
+     "held_none": true,
+     "default": null
+    }
+   },
+   "src_sha256": "f286ddad0580d542",
+   "needs_bench": false
+  },
+  {
+   "idx": 16,
+   "family": "volatility.vol_breakout",
+   "module": "volatility",
+   "fn": "vol_breakout",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    }
+   },
+   "src_sha256": "67ac0550cbcdb62c",
+   "needs_bench": false
+  },
+  {
+   "idx": 17,
+   "family": "volatility.vol_regime_switch",
+   "module": "volatility",
+   "fn": "vol_regime_switch",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "ma_n": {
+     "default": 200,
+     "low": 100,
+     "high": 400,
+     "int": true
+    }
+   },
+   "src_sha256": "89682a5aa111d170",
+   "needs_bench": false
+  },
+  {
+   "idx": 18,
+   "family": "volatility.vol_target",
+   "module": "volatility",
+   "fn": "vol_target",
+   "kind": "sym",
+   "ranges": {
+    "target_vol": {
+     "default": 0.15,
+     "low": 0.075,
+     "high": 0.3,
+     "int": false
+    },
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    }
+   },
+   "src_sha256": "06f704bd91f94d22",
+   "needs_bench": false
+  },
+  {
+   "idx": 19,
+   "family": "sentiment.amount_rank",
+   "module": "sentiment",
+   "fn": "amount_rank",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "top_k": {
+     "default": 10,
+     "low": 5,
+     "high": 20,
+     "int": true
+    }
+   },
+   "src_sha256": "3b382c00f72e779f",
+   "needs_bench": false
+  },
+  {
+   "idx": 20,
+   "family": "sentiment.intraday_momentum",
+   "module": "sentiment",
+   "fn": "intraday_momentum",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 10,
+     "low": 5,
+     "high": 20,
+     "int": true
+    }
+   },
+   "src_sha256": "a1ba423def769191",
+   "needs_bench": false
+  },
+  {
+   "idx": 21,
+   "family": "sentiment.overnight_drift",
+   "module": "sentiment",
+   "fn": "overnight_drift",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 10,
+     "low": 5,
+     "high": 20,
+     "int": true
+    }
+   },
+   "src_sha256": "f1d34d9aff9d7115",
+   "needs_bench": false
+  },
+  {
+   "idx": 22,
+   "family": "sentiment.price_volume_trend",
+   "module": "sentiment",
+   "fn": "price_volume_trend",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    }
+   },
+   "src_sha256": "30102b2e0c9ecefe",
+   "needs_bench": false
+  },
+  {
+   "idx": 23,
+   "family": "sentiment.turnover_surge",
+   "module": "sentiment",
+   "fn": "turnover_surge",
+   "kind": "panel",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "threshold": {
+     "default": 2.0,
+     "low": 1.0,
+     "high": 4.0,
+     "int": false
+    }
+   },
+   "src_sha256": "2ca2be250db05cec",
+   "needs_bench": false
+  },
+  {
+   "idx": 24,
+   "family": "seasonal.holiday_effect",
+   "module": "seasonal",
+   "fn": "holiday_effect",
+   "kind": "sym",
+   "ranges": {
+    "pre_days": {
+     "default": 3,
+     "low": 2,
+     "high": 6,
+     "int": true
+    }
+   },
+   "src_sha256": "c1d6c8ebc4fc9f81",
+   "needs_bench": false
+  },
+  {
+   "idx": 25,
+   "family": "seasonal.month_end_effect",
+   "module": "seasonal",
+   "fn": "month_end_effect",
+   "kind": "mask",
+   "ranges": {
+    "window": {
+     "default": 3,
+     "low": 2,
+     "high": 6,
+     "int": true
+    }
+   },
+   "src_sha256": "75b2b8f276aec078",
+   "needs_bench": false
+  },
+  {
+   "idx": 26,
+   "family": "seasonal.month_seasonality",
+   "module": "seasonal",
+   "fn": "month_seasonality",
+   "kind": "mask",
+   "ranges": {
+    "month": {
+     "default": null,
+     "low": 1,
+     "high": 12,
+     "int": true
+    }
+   },
+   "src_sha256": "a5a096106803206c",
+   "needs_bench": false
+  },
+  {
+   "idx": 27,
+   "family": "seasonal.trend_by_season",
+   "module": "seasonal",
+   "fn": "trend_by_season",
+   "kind": "sym",
+   "ranges": {
+    "month": {
+     "default": null,
+     "low": 1,
+     "high": 12,
+     "int": true
+    },
+    "ma_n": {
+     "default": 200,
+     "low": 100,
+     "high": 400,
+     "int": true
+    }
+   },
+   "src_sha256": "a1e8ed7e32c5b65a",
+   "needs_bench": false
+  },
+  {
+   "idx": 28,
+   "family": "seasonal.weekday_effect",
+   "module": "seasonal",
+   "fn": "weekday_effect",
+   "kind": "mask",
+   "ranges": {
+    "weekday": {
+     "default": 4,
+     "low": 0,
+     "high": 4,
+     "int": true
+    }
+   },
+   "src_sha256": "b97c5193f223d0fc",
+   "needs_bench": false
+  },
+  {
+   "idx": 29,
+   "family": "event.breakout_confirm",
+   "module": "event",
+   "fn": "breakout_confirm",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "vol_mult": {
+     "default": 1.5,
+     "low": 0.75,
+     "high": 3.0,
+     "int": false
+    }
+   },
+   "src_sha256": "17e89bdcb5791b21",
+   "needs_bench": false
+  },
+  {
+   "idx": 30,
+   "family": "event.double_bottom",
+   "module": "event",
+   "fn": "double_bottom",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "tolerance": {
+     "default": 0.03,
+     "low": 0.015,
+     "high": 0.06,
+     "int": false
+    }
+   },
+   "src_sha256": "a24e6e2bd852227a",
+   "needs_bench": false
+  },
+  {
+   "idx": 31,
+   "family": "event.gap_fill",
+   "module": "event",
+   "fn": "gap_fill",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    }
+   },
+   "src_sha256": "a97bff109eee9a60",
+   "needs_bench": false
+  },
+  {
+   "idx": 32,
+   "family": "macro.csi300_momentum_filter",
+   "module": "macro",
+   "fn": "csi300_momentum_filter",
+   "kind": "macro",
+   "ranges": {
+    "n": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    }
+   },
+   "src_sha256": "84630d2f78c95e0d",
+   "needs_bench": true
+  },
+  {
+   "idx": 33,
+   "family": "macro.csi300_trend_filter",
+   "module": "macro",
+   "fn": "csi300_trend_filter",
+   "kind": "macro",
+   "ranges": {
+    "ma_n": {
+     "default": 200,
+     "low": 100,
+     "high": 400,
+     "int": true
+    }
+   },
+   "src_sha256": "33d5f8e07562c243",
+   "needs_bench": true
+  },
+  {
+   "idx": 34,
+   "family": "macro.drawdown_filter",
+   "module": "macro",
+   "fn": "drawdown_filter",
+   "kind": "macro",
+   "ranges": {
+    "max_dd": {
+     "default": -0.15,
+     "low": -0.3,
+     "high": -0.075,
+     "int": false
+    }
+   },
+   "src_sha256": "7f720846bcef6dc1",
+   "needs_bench": true
+  },
+  {
+   "idx": 35,
+   "family": "macro.volatility_regime_filter",
+   "module": "macro",
+   "fn": "volatility_regime_filter",
+   "kind": "macro",
+   "ranges": {
+    "n": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    }
+   },
+   "src_sha256": "5cae61d829436c54",
+   "needs_bench": true
+  },
+  {
+   "idx": 36,
+   "family": "ta.bb_squeeze_breakout",
+   "module": "ta",
+   "fn": "bb_squeeze_breakout",
+   "kind": "sym",
+   "ranges": {
+    "bb_n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "k": {
+     "default": 2.0,
+     "low": 1.0,
+     "high": 4.0,
+     "int": false
+    },
+    "width_n": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    }
+   },
+   "src_sha256": "73c4013c65e98502",
+   "needs_bench": false
+  },
+  {
+   "idx": 37,
+   "family": "ta.cci_revert",
+   "module": "ta",
+   "fn": "cci_revert",
+   "kind": "sym",
+   "ranges": {
+    "cci_n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "entry_th": {
+     "default": -100.0,
+     "low": -200.0,
+     "high": -50.0,
+     "int": false
+    },
+    "exit_th": {
+     "default": 100.0,
+     "low": 50.0,
+     "high": 200.0,
+     "int": false
+    },
+    "trend_ma": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    }
+   },
+   "src_sha256": "7b2585c032667430",
+   "needs_bench": false
+  },
+  {
+   "idx": 38,
+   "family": "ta.engulf_reversal",
+   "module": "ta",
+   "fn": "engulf_reversal",
+   "kind": "sym",
+   "ranges": {
+    "drop_th": {
+     "default": -0.05,
+     "low": -0.1,
+     "high": -0.025,
+     "int": false
+    }
+   },
+   "src_sha256": "d16924c477530044",
+   "needs_bench": false
+  },
+  {
+   "idx": 39,
+   "family": "ta.hammer_reversal",
+   "module": "ta",
+   "fn": "hammer_reversal",
+   "kind": "sym",
+   "ranges": {
+    "body_max": {
+     "default": 0.35,
+     "low": 0.175,
+     "high": 0.7,
+     "int": false
+    },
+    "shadow_mult": {
+     "default": 2.0,
+     "low": 1.0,
+     "high": 4.0,
+     "int": false
+    },
+    "drop_th": {
+     "default": -0.05,
+     "low": -0.1,
+     "high": -0.025,
+     "int": false
+    }
+   },
+   "src_sha256": "dbb64491ed3409de",
+   "needs_bench": false
+  },
+  {
+   "idx": 40,
+   "family": "ta.kdj_reversal",
+   "module": "ta",
+   "fn": "kdj_reversal",
+   "kind": "sym",
+   "ranges": {
+    "kdj_n": {
+     "default": 9,
+     "low": 5,
+     "high": 18,
+     "int": true
+    },
+    "entry_j": {
+     "default": 0.0,
+     "low": 15,
+     "high": 35,
+     "int": true
+    },
+    "exit_j": {
+     "default": 80.0,
+     "low": 65,
+     "high": 85,
+     "int": true
+    },
+    "trend_ma": {
+     "default": 60,
+     "low": 30,
+     "high": 120,
+     "int": true
+    }
+   },
+   "src_sha256": "06d8094b0cdf055d",
+   "needs_bench": false
+  },
+  {
+   "idx": 41,
+   "family": "ta.macd_trend",
+   "module": "ta",
+   "fn": "macd_trend",
+   "kind": "sym",
+   "ranges": {
+    "fast": {
+     "default": 12,
+     "low": 6,
+     "high": 24,
+     "int": true
+    },
+    "slow": {
+     "default": 26,
+     "low": 13,
+     "high": 52,
+     "int": true
+    },
+    "signal": {
+     "default": 9,
+     "low": 5,
+     "high": 18,
+     "int": true
+    }
+   },
+   "src_sha256": "a4b9589446cfee9f",
+   "needs_bench": false
+  },
+  {
+   "idx": 42,
+   "family": "ta.nr7_breakout",
+   "module": "ta",
+   "fn": "nr7_breakout",
+   "kind": "sym",
+   "ranges": {
+    "nr_n": {
+     "default": 7,
+     "low": 4,
+     "high": 14,
+     "int": true
+    },
+    "hold_n": {
+     "default": 5,
+     "low": 3,
+     "high": 10,
+     "int": true
+    }
+   },
+   "src_sha256": "3f0c4e88c5ec0ff8",
+   "needs_bench": false
+  },
+  {
+   "idx": 43,
+   "family": "ta.rsi_divergence",
+   "module": "ta",
+   "fn": "rsi_divergence",
+   "kind": "sym",
+   "ranges": {
+    "look": {
+     "default": 30,
+     "low": 15,
+     "high": 60,
+     "int": true
+    },
+    "n": {
+     "default": 14,
+     "low": 7,
+     "high": 28,
+     "int": true
+    }
+   },
+   "src_sha256": "0ae7bffc163741aa",
+   "needs_bench": false
+  },
+  {
+   "idx": 44,
+   "family": "ta.rsrs_timing",
+   "module": "ta",
+   "fn": "rsrs_timing",
+   "kind": "sym",
+   "ranges": {
+    "window": {
+     "default": 18,
+     "low": 9,
+     "high": 36,
+     "int": true
+    },
+    "z_win": {
+     "default": 250,
+     "low": 125,
+     "high": 500,
+     "int": true
+    },
+    "buy_z": {
+     "default": 0.8,
+     "low": 0.4,
+     "high": 1.6,
+     "int": false
+    },
+    "exit_z": {
+     "default": -0.8,
+     "low": -1.6,
+     "high": -0.4,
+     "int": false
+    }
+   },
+   "src_sha256": "17a18c68ed8ceff3",
+   "needs_bench": false
+  },
+  {
+   "idx": 45,
+   "family": "ta.streak_up",
+   "module": "ta",
+   "fn": "streak_up",
+   "kind": "sym",
+   "ranges": {
+    "streak_n": {
+     "default": 3,
+     "low": 2,
+     "high": 6,
+     "int": true
+    },
+    "min_up": {
+     "default": 0.0,
+     "low": 0.0,
+     "high": 0.0,
+     "int": false
+    }
+   },
+   "src_sha256": "7fc13260ddf23f61",
+   "needs_bench": false
+  },
+  {
+   "idx": 46,
+   "family": "ta.strong_close",
+   "module": "ta",
+   "fn": "strong_close",
+   "kind": "sym",
+   "ranges": {
+    "pos_th": {
+     "default": 0.85,
+     "low": 0.425,
+     "high": 1.7,
+     "int": false
+    },
+    "vol_mult": {
+     "default": 1.5,
+     "low": 0.75,
+     "high": 3.0,
+     "int": false
+    },
+    "vol_len": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    }
+   },
+   "src_sha256": "a4c7b9da00b609e4",
+   "needs_bench": false
+  },
+  {
+   "idx": 47,
+   "family": "ta.vol_breakout",
+   "module": "ta",
+   "fn": "vol_breakout",
+   "kind": "sym",
+   "ranges": {
+    "brk_len": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "vol_mult": {
+     "default": 1.5,
+     "low": 0.75,
+     "high": 3.0,
+     "int": false
+    },
+    "vol_avg_len": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    },
+    "exit_len": {
+     "default": 10,
+     "low": 5,
+     "high": 20,
+     "int": true
+    }
+   },
+   "src_sha256": "f3520808bef7798f",
+   "needs_bench": false
+  },
+  {
+   "idx": 48,
+   "family": "ta.williams_reversal",
+   "module": "ta",
+   "fn": "williams_reversal",
+   "kind": "sym",
+   "ranges": {
+    "wr_n": {
+     "default": 14,
+     "low": 7,
+     "high": 28,
+     "int": true
+    },
+    "entry_th": {
+     "default": -80.0,
+     "low": -160.0,
+     "high": -40.0,
+     "int": false
+    },
+    "exit_th": {
+     "default": -20.0,
+     "low": -40.0,
+     "high": -10.0,
+     "int": false
+    }
+   },
+   "src_sha256": "04ac50b190096f41",
+   "needs_bench": false
+  },
+  {
+   "idx": 49,
+   "family": "patterns.big_yin_shakeout",
+   "module": "patterns",
+   "fn": "big_yin_shakeout",
+   "kind": "sym",
+   "ranges": {
+    "big_yin": {
+     "default": -0.035,
+     "low": -0.07,
+     "high": -0.0175,
+     "int": false
+    }
+   },
+   "src_sha256": "26be0136779a6fe5",
+   "needs_bench": false
+  },
+  {
+   "idx": 50,
+   "family": "patterns.box_breakout",
+   "module": "patterns",
+   "fn": "box_breakout",
+   "kind": "sym",
+   "ranges": {
+    "box_th": {
+     "default": 0.08,
+     "low": 0.04,
+     "high": 0.16,
+     "int": false
+    },
+    "vol_mult": {
+     "default": 1.3,
+     "low": 0.65,
+     "high": 2.6,
+     "int": false
+    },
+    "box_n": {
+     "default": 20,
+     "low": 10,
+     "high": 40,
+     "int": true
+    }
+   },
+   "src_sha256": "a67febcc78386675",
+   "needs_bench": false
+  },
+  {
+   "idx": 51,
+   "family": "patterns.doji_at_low",
+   "module": "patterns",
+   "fn": "doji_at_low",
+   "kind": "sym",
+   "ranges": {
+    "drop_th": {
+     "default": -0.05,
+     "low": -0.1,
+     "high": -0.025,
+     "int": false
+    }
+   },
+   "src_sha256": "b606f0b4ead512e4",
+   "needs_bench": false
+  },
+  {
+   "idx": 52,
+   "family": "patterns.duck_head",
+   "module": "patterns",
+   "fn": "duck_head",
+   "kind": "sym",
+   "ranges": {
+    "neck": {
+     "default": 8,
+     "low": 4,
+     "high": 16,
+     "int": true
+    }
+   },
+   "src_sha256": "8396dcb3d28cb9cf",
+   "needs_bench": false
+  },
+  {
+   "idx": 53,
+   "family": "patterns.immortal_guide",
+   "module": "patterns",
+   "fn": "immortal_guide",
+   "kind": "sym",
+   "ranges": {
+    "shadow_pct": {
+     "default": 0.015,
+     "low": 0.0075,
+     "high": 0.03,
+     "int": false
+    }
+   },
+   "src_sha256": "ac8a533a268410fc",
+   "needs_bench": false
+  },
+  {
+   "idx": 54,
+   "family": "patterns.inside_bar_breakup",
+   "module": "patterns",
+   "fn": "inside_bar_breakup",
+   "kind": "sym",
+   "ranges": {},
+   "src_sha256": "ef2f8b21c4df39e3",
+   "needs_bench": false
+  },
+  {
+   "idx": 55,
+   "family": "patterns.island_reversal",
+   "module": "patterns",
+   "fn": "island_reversal",
+   "kind": "sym",
+   "ranges": {
+    "gap": {
+     "default": 0.01,
+     "low": 0.005,
+     "high": 0.02,
+     "int": false
+    }
+   },
+   "src_sha256": "e51e39550155a2f0",
+   "needs_bench": false
+  },
+  {
+   "idx": 56,
+   "family": "patterns.ma_converge_break",
+   "module": "patterns",
+   "fn": "ma_converge_break",
+   "kind": "sym",
+   "ranges": {
+    "spread": {
+     "default": 0.015,
+     "low": 0.0075,
+     "high": 0.03,
+     "int": false
+    }
+   },
+   "src_sha256": "4347a66cb6721f96",
+   "needs_bench": false
+  },
+  {
+   "idx": 57,
+   "family": "patterns.macd_divergence",
+   "module": "patterns",
+   "fn": "macd_divergence",
+   "kind": "sym",
+   "ranges": {
+    "look": {
+     "default": 30,
+     "low": 15,
+     "high": 60,
+     "int": true
+    }
+   },
+   "src_sha256": "4a9a71122f8cb162",
+   "needs_bench": false
+  },
+  {
+   "idx": 58,
+   "family": "patterns.morning_star",
+   "module": "patterns",
+   "fn": "morning_star",
+   "kind": "sym",
+   "ranges": {
+    "big_red": {
+     "default": -0.03,
+     "low": -0.06,
+     "high": -0.015,
+     "int": false
+    },
+    "small_body": {
+     "default": 0.01,
+     "low": 0.005,
+     "high": 0.02,
+     "int": false
+    }
+   },
+   "src_sha256": "49bd7c9894e70be4",
+   "needs_bench": false
+  },
+  {
+   "idx": 59,
+   "family": "patterns.n_shape",
+   "module": "patterns",
+   "fn": "n_shape",
+   "kind": "sym",
+   "ranges": {
+    "leg_up": {
+     "default": 0.04,
+     "low": 0.02,
+     "high": 0.08,
+     "int": false
+    }
+   },
+   "src_sha256": "34a967e3d0fa8544",
+   "needs_bench": false
+  },
+  {
+   "idx": 60,
+   "family": "patterns.needle_probe",
+   "module": "patterns",
+   "fn": "needle_probe",
+   "kind": "sym",
+   "ranges": {
+    "drop_th": {
+     "default": -0.05,
+     "low": -0.1,
+     "high": -0.025,
+     "int": false
+    },
+    "shadow_pct": {
+     "default": 0.02,
+     "low": 0.01,
+     "high": 0.04,
+     "int": false
+    }
+   },
+   "src_sha256": "66478f3c7d1ba84e",
+   "needs_bench": false
+  },
+  {
+   "idx": 61,
+   "family": "patterns.obv_divergence",
+   "module": "patterns",
+   "fn": "obv_divergence",
+   "kind": "sym",
+   "ranges": {
+    "look": {
+     "default": 30,
+     "low": 15,
+     "high": 60,
+     "int": true
+    }
+   },
+   "src_sha256": "1a50be0d2a4d5fa2",
+   "needs_bench": false
+  },
+  {
+   "idx": 62,
+   "family": "patterns.piercing_line",
+   "module": "patterns",
+   "fn": "piercing_line",
+   "kind": "sym",
+   "ranges": {
+    "big_red": {
+     "default": -0.02,
+     "low": -0.04,
+     "high": -0.01,
+     "int": false
+    }
+   },
+   "src_sha256": "a34384031a950268",
+   "needs_bench": false
+  },
+  {
+   "idx": 63,
+   "family": "patterns.three_methods_up",
+   "module": "patterns",
+   "fn": "three_methods_up",
+   "kind": "sym",
+   "ranges": {
+    "big_yang": {
+     "default": 0.03,
+     "low": 0.015,
+     "high": 0.06,
+     "int": false
+    }
+   },
+   "src_sha256": "1d4d577d7048fa0c",
+   "needs_bench": false
+  },
+  {
+   "idx": 64,
+   "family": "patterns.three_soldiers",
+   "module": "patterns",
+   "fn": "three_soldiers",
+   "kind": "sym",
+   "ranges": {
+    "min_body": {
+     "default": 0.004,
+     "low": 0.002,
+     "high": 0.008,
+     "int": false
+    }
+   },
+   "src_sha256": "25c018e8447c1d4d",
+   "needs_bench": false
+  },
+  {
+   "idx": 65,
+   "family": "patterns.vol_drought_reversal",
+   "module": "patterns",
+   "fn": "vol_drought_reversal",
+   "kind": "sym",
+   "ranges": {
+    "vol_floor": {
+     "default": 0.55,
+     "low": 0.275,
+     "high": 1.1,
+     "int": false
+    },
+    "drop_th": {
+     "default": -0.05,
+     "low": -0.1,
+     "high": -0.025,
+     "int": false
+    }
+   },
+   "src_sha256": "719821de99e55962",
+   "needs_bench": false
+  },
+  {
+   "idx": 66,
+   "family": "patterns.yang_break_3ma",
+   "module": "patterns",
+   "fn": "yang_break_3ma",
+   "kind": "sym",
+   "ranges": {
+    "spread": {
+     "default": 0.015,
+     "low": 0.0075,
+     "high": 0.03,
+     "int": false
+    }
+   },
+   "src_sha256": "ec7af47992becec8",
+   "needs_bench": false
+  },
+  {
+   "idx": 67,
+   "family": "folk.ants_climb",
+   "module": "folk",
+   "fn": "ants_climb",
+   "kind": "sym",
+   "ranges": {
+    "max_day": {
+     "default": 0.012,
+     "low": 0.006,
+     "high": 0.024,
+     "int": false
+    }
+   },
+   "src_sha256": "b709ebd5dbd930eb",
+   "needs_bench": false
+  },
+  {
+   "idx": 68,
+   "family": "folk.false_break_back",
+   "module": "folk",
+   "fn": "false_break_back",
+   "kind": "sym",
+   "ranges": {
+    "n_back": {
+     "default": 3,
+     "low": 2,
+     "high": 6,
+     "int": true
+    }
+   },
+   "src_sha256": "d996f794c350ba8e",
+   "needs_bench": false
+  },
+  {
+   "idx": 69,
+   "family": "folk.gap_up_hold",
+   "module": "folk",
+   "fn": "gap_up_hold",
+   "kind": "sym",
+   "ranges": {
+    "gap_th": {
+     "default": 0.01,
+     "low": 0.005,
+     "high": 0.02,
+     "int": false
+    }
+   },
+   "src_sha256": "ec53a7bd4d6c6b51",
+   "needs_bench": false
+  },
+  {
+   "idx": 70,
+   "family": "folk.lian_yin_first_yang",
+   "module": "folk",
+   "fn": "lian_yin_first_yang",
+   "kind": "sym",
+   "ranges": {
+    "n_down": {
+     "default": 3,
+     "low": 2,
+     "high": 6,
+     "int": true
+    }
+   },
+   "src_sha256": "1d42a94f374757ac",
+   "needs_bench": false
+  },
+  {
+   "idx": 71,
+   "family": "folk.low_suction",
+   "module": "folk",
+   "fn": "low_suction",
+   "kind": "sym",
+   "ranges": {
+    "shrink": {
+     "default": 0.8,
+     "low": 0.4,
+     "high": 1.6,
+     "int": false
+    }
+   },
+   "src_sha256": "da63e4ea0d85eb41",
+   "needs_bench": false
+  },
+  {
+   "idx": 72,
+   "family": "folk.rsi_low_flat",
+   "module": "folk",
+   "fn": "rsi_low_flat",
+   "kind": "sym",
+   "ranges": {
+    "n": {
+     "default": 14,
+     "low": 7,
+     "high": 28,
+     "int": true
+    },
+    "low_th": {
+     "default": 25,
+     "low": 13,
+     "high": 50,
+     "int": true
+    }
+   },
+   "src_sha256": "ea15b9018f3820a1",
+   "needs_bench": false
+  },
+  {
+   "idx": 73,
+   "family": "folk.second_wave",
+   "module": "folk",
+   "fn": "second_wave",
+   "kind": "sym",
+   "ranges": {
+    "retest": {
+     "default": 0.05,
+     "low": 0.025,
+     "high": 0.1,
+     "int": false
+    }
+   },
+   "src_sha256": "b14dda157f618780",
+   "needs_bench": false
+  },
+  {
+   "idx": 74,
+   "family": "folk.volume_mound",
+   "module": "folk",
+   "fn": "volume_mound",
+   "kind": "sym",
+   "ranges": {
+    "mound": {
+     "default": 1.3,
+     "low": 0.65,
+     "high": 2.6,
+     "int": false
+    }
+   },
+   "src_sha256": "038f0c48ffc4e3c1",
+   "needs_bench": false
+  }
+ ],
+ "excluded": [],
+ "cutoff": "2026-09-22",
+ "seed_base": 20283000,
+ "quota_per_family": 13,
+ "n_draws": 512,
+ "axes": {
+  "R": [
+   "none",
+   "bull",
+   "bear"
+  ],
+  "X": [
+   "own",
+   "t5",
+   "t7",
+   "t10",
+   "t20"
+  ],
+  "S": [
+   "full",
+   "delever"
+  ],
+  "T": [
+   "daily",
+   "weekly"
+  ]
+ }
+}
