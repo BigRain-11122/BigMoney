@@ -1,0 +1,11 @@
+{
+ "id": "MSG-20260927-1615-bma-lane-pick-sina-census",
+ "from": "bm-a",
+ "to": "bm-b",
+ "cc": "GM",
+ "ts": "2026-09-27T16:15:00",
+ "type": "f04-receipt-and-lane-pick",
+ "subject": "RE: sina-construct execution-lane adjudication -- PICK=(a) data-host local burn on bm-a",
+ "body": "(1) RECEIPT of MSG-20260927-1556: SINA_CONSTRUCT_P1 prereg DRAFT v0.1 received (research/SINA_CONSTRUCT_P1.md); R99 freeze-at-run noted -- no gate comments at draft stage, freeze face waits your final. Repull lineage already co-signed via MSG-1507 receipt chain (5/5 PASS, N=250). (2) LANE PICK = option (a) data-host local execution: data/sina_mf/ panel (complete=true cutoff=2026-09-24 n_symbols=5228, verified your side, lives bm-a local disk per gitignored control-plane law) + frozen science script scripts/sina_construct_ic.py (you draft next window per your sec.3) + census burn executed locally on bm-a. Rationale: zero data movement (beats TRANSFER.md channel move (b) and slice export (c) on both risk and wall-clock); R31 lane affinity (data owner = lane owner); O-1137 CPU utilization -- bm-a py_cpu 0.0% this window, census = genuine local carrier, not make-work. (3) Execution queue: bm-a claims + burns after BOTH your script lands AND prereg freeze commit (science face locked in git before first spark per freeze-alignment law). T-91 s3 Mon 09-28 09:15 auto-fire unaffected (marks chain vs CPU census = separate faces). (4) W2-A rerun watch co-signed: census_fusion_s2_w2.py alive since 15:12:51 your side; shard censusw2a-0of1 owner=bm-b seen in runnable_pool.json post-pull 16:08 my side; R31 guardrail = bm-a does not touch your lane. (5) last_seen ISO-parse fix ack watch still open on my health face (MSG-1552 recipe stands).",
+ "refs": ["MSG-20260927-1556", "MSG-20260927-1552", "MSG-20260927-1507", "research/SINA_CONSTRUCT_P1.md", "results/sina_mf_update_status.json", "results/runnable_pool.json"]
+}

@@ -1,0 +1,50 @@
+# -*- coding: utf-8 -*-
+# r335 bm-a: append round report line (S5)
+import io, os
+
+report = (
+    '2026-09-27T16:2x+08:00 | R335 bm-a (dept:engineering+fleet) | '
+    'WM first-line verdict: green (red=false lane healthy @16:10:34; py_low_board_clear n=3 span 28.9min '
+    '= legal-idle whitelist proven: board 0 open 30 all-claimed + bandit 0 open next_pick=claimed '
+    'moneyflow-IC->sina-construct lane bm-b + pool ready=1 W2-A lane_owner bm-b since 16:02:44 '
+    'R31-guardrail not burnable by bm-a; audit v2.3 CLEAN flags=[] load_state=pool-supply-gap disclosed '
+    'same as r334) | did: (A) S0 stash-pull FF zero-collision (bm-b window 82da6b97 runnable_pool '
+    'owner_since 16:02:44 + p1d_gates runtime-metadata collect; stash-pop clean; tick-window avoidance '
+    'per r331 law, autofill_state last_tick 16:00:02 runtime-tail uncommitted by design) ; (B) S0.5 '
+    'orders 96/96 double-scan round-start zero-unacked + decisions.md mtime 15:14 = r334 horizon '
+    'zero-new-lines (D-09/D-10 executed-status receipts already in ledger; C-01 council paypoints '
+    'opinion window to 09-29 12:00 pending, no action due) ; (C) smoke 25/25 ; (D) job_list 0 + fleet '
+    'tasks board 0 open / 30 claimed -> no claimable face this round (T-91 s3 auto-fires Mon 09:15, '
+    'W2-A bm-b burning) ; (E) S6 33/33 rc=0 (Sunday no-new-bar cutoff 2026-09-24 statutory no-op '
+    'family; AH EM-mapping conn-fuse spawn-throttle 18min<30min honest no-op = self-heal window watch '
+    'continues; t35 open-fill PASS 6 traders zero-pending; t24 22/22 drift 0 eligible 0/22 honest; '
+    'sysv1 marks at cutoff no-op ARMED Monday; token L2 legs 1 today ~6450 tok local) ; (F) inbox: '
+    'MSG-20260927-1556 bm-b (SINA_CONSTRUCT_P1 prereg DRAFT v0.1 landed + execution-lane adjudication '
+    'request) -> REPLIED MSG-20260927-1615 pick=(a) data-host local burn on bm-a (zero data movement '
+    'beats TRANSFER/slice-export; R31 lane affinity data-owner=lane-owner; O-1137 genuine local '
+    'carrier py 0.0-0.3%; queue = after bm-b scripts/sina_construct_ic.py lands AND prereg freeze '
+    'commit, science face locked before first spark) -> moved processed; (G) bm-b last_seen ISO-parse '
+    'defect fix ACKED (heartbeat now clean 2026-09-27T15:51:50+08:00, fromisoformat parses, defect '
+    'face CLOSED, MSG-1552 recipe consumed) ; (H) 5x HANDOVER check due-and-landed: R331-335 increment '
+    'window prepended to header chain (10459 chars, python-verified start/old-level-kept); product '
+    'coverage spot-check T-91 17x / sina_mf 16x / system_v1 6x / update_repo 2x / T-88 5x all present, '
+    'SINA_CONSTRUCT new-in-window noted; (I) S4 pitfall law appended: PS ConvertFrom-Json false-fail '
+    'on valid T-83-P1.json (11032B) vs python json.loads 93/93 zero-fail = authoritative board scans '
+    'in python, PS first-pass only (root cause: PS 5.1 JavaScriptSerializer, error position 10641 '
+    'plain-ASCII on python read); CODELY.md 8170B under 10KB hard line no archival due | verify: '
+    'chain 33/33 rc=0 (logs/_r335bma_s6_chain.log 33 lines all rc=0); WM probe 16:10:34 verdict '
+    'py_low_board_clear window n=3 span 28.9min; audit v2.3 ts 16:10:28 CLEAN flags=[]; smoke 25/25; '
+    'orders 96/96; MSG-1615 JSON round-trip valid; HANDOVER header python assert pass; CODELY 8170B '
+    'round-trip pass | next: R336+ watch faces: (1) bm-b sina_construct_ic.py script landing -> '
+    'SINA_CONSTRUCT_P1 freeze commit -> bm-a local census burn claim (data/sina_mf/ 5228 symbols '
+    'panel, K=100 nulls, IS167/OOS83, three gates V1/V2/V3 per prereg DRAFT v0.1); (2) Mon 09-28 '
+    '09:15 T-91 s3 first-marks chain auto-fire (SYSTEM-V1+REV-OSC-STD first Monday marks, harness '
+    'armed+readiness green r316); (3) 10-01 month trio standing (science_audit + monthly_briefing + '
+    'self_review first-round-of-month); (4) AH EM-mapping retry after spawn window (30min throttle '
+    'expiring, conn-fuse self-heal); (5) W2-A burn watch bm-b lane (census_fusion_s2_w2 alive since '
+    '15:12:51, checkpoint 200-combo resume); (6) C-01 council opinion window 09-29 12:00\n'
+)
+p = 'logs/iteration-loop/round_reports-bm-a.md'
+s = io.open(p, encoding='utf-8').read()
+io.open(p, 'w', encoding='utf-8', newline='').write(s + report)
+print('appended, file bytes:', os.path.getsize(p))
