@@ -590,13 +590,26 @@
    "pid": 7796,
    "runner_sha256": "d61dda08c6e4086b",
    "fill_latency_min": 39.9,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-27 14:40:02",
-  "machine": "bm-a",
+  "ts": "2026-09-27 14:50:02",
+  "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "CENSUS-FUS-S2-W2A",
+  "shard": "censusw2a-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 1,
+  "fuse_skipped": [
+   {
+    "entry": "CENSUS-FUS-S2-W2A",
+    "shard": "censusw2a-0of1",
+    "sig": "scripts/census_fusion_s2_w2.py|run",
+    "fuse_refusals": 1
+   }
+  ]
  }
 }

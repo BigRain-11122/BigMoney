@@ -251,7 +251,10 @@ def build_faces(panels, idx, syms, roster_faces, rep):
     faces["zoo85_stv"] = ZF.build_zoo85_stv(rets, tr)
     faces["zoo85_terrified"] = ZF.build_zoo85_terrified(rets)
     faces["zoo92_coin_team"] = ZF.build_zoo92_coin_team(close, panels["open"], tr)
-    faces["zoo93_arc"] = ZF.build_zoo93_arc_family(tr, panels["vwap"], close)
+    # family ctor returns (dict of 4 zoo93 faces, n_bad); W2A roster consumes
+    # only the zoo93_arc member (vrc/src/krc not rostered) -- r330 crash fix
+    _zoo93, rep["zoo93_n_bad"] = ZF.build_zoo93_arc_family(tr, panels["vwap"], close)
+    faces["zoo93_arc"] = _zoo93["zoo93_arc"]
     rep["zoo_s"] = round(time.time() - t0, 1)
 
     t0 = time.time()
