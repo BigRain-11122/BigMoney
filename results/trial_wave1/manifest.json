@@ -1,0 +1,32 @@
+{
+ "batch": "TRIAL-WAVE1-1000",
+ "ticket_ref": "T-2026-09-27-94 s1",
+ "prereg_ref": "research/TRIAL_WAVE1_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "grammar_sha256": "e4e6d269ec2755f5f085611bec0a52e29c52bfe5c14a98ce6879f1f2f2cb8124",
+ "vocabulary_size": 18,
+ "n_candidates": 1000,
+ "n_target": 1000,
+ "families": [
+  {
+   "family": "FAM-REV",
+   "entry": "oversold_bounce(lookback=20, drop=-15%, shrink=0.8)",
+   "seed_base": 20920000,
+   "drawn": 500,
+   "tries": 500,
+   "collisions": 0,
+   "shortfall": 0
+  },
+  {
+   "family": "FAM-ROT",
+   "entry": "top_n_rotation(composite, n=5, rebal_days=20)",
+   "seed_base": 20920001,
+   "drawn": 500,
+   "tries": 500,
+   "collisions": 0,
+   "shortfall": 0
+  }
+ ],
+ "dedup_law": "structural sha256 (gen face) + |corr|>=0.999 collapse (report face, T-84 s3)",
+ "note": "ceiling not quota: shortfalls honest; same-grammar no-rerun (TRIAL_GRAMMAR_REGISTRY)"
+}

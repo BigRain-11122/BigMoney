@@ -69,4 +69,4 @@
 
 ## §7 跑后实证（跑前必须为空——占位纪律：写数字即造假）
 
-（待 s1 生成实跑后回填；§8 批后复盘跑后回填。）
+**s1 生成面**（2026-09-27 R113 bm-c 一次定稿）：gen 实弹=FAM-REV 500/500（500 试·0 撞纹·0 短缺）+FAM-ROT 500/500（同左）=**1000/1000 结构互异候选**（selftest 3/3 PASS=fp 序列确定性复现+零重复指纹+schema 全过）；grammar_sha256=e4e6d269ec2755f5f085611bec0a52e29c52bfe5c14a98ce6879f1f2f2cb8124 入册 TRIAL_GRAMMAR_REGISTRY（WAVE-1 行）；产物=results/trial_wave1/{candidates.jsonl, manifest.json}；词表门=18 注册串过验（零未知串）。s2/s3/s4 面待跑后追加。
