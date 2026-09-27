@@ -2,8 +2,8 @@
  "census": "lof_census",
  "ticket": "T-2026-09-24-16",
  "lane": "ARB-1 deliverable-4 (P-A2 gate inputs + P-A3 keep-or-drop)",
- "ran_at": "2026-09-24T20:13:27",
- "session_state": "post_close",
+ "ran_at": "2026-09-27T09:23:46",
+ "session_state": "weekend",
  "faces": {
   "fund_lof_spot_em": {
    "ok": false,
@@ -11,21 +11,21 @@
     {
      "attempt": 1,
      "ok": false,
-     "latency_s": 4.87,
+     "latency_s": 5.58,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     },
     {
      "attempt": 2,
      "ok": false,
-     "latency_s": 5.26,
+     "latency_s": 4.8,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     },
     {
      "attempt": 3,
      "ok": false,
-     "latency_s": 4.83,
+     "latency_s": 4.42,
      "error_class": "conn_level",
      "error": "requests.exceptions.ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))\n"
     }
@@ -38,8 +38,8 @@
     {
      "attempt": 1,
      "ok": true,
-     "latency_s": 37.08,
-     "rows": 24110
+     "latency_s": 16.55,
+     "rows": 24135
     }
    ],
    "cols": [
@@ -55,23 +55,23 @@
     "赎回状态",
     "手续费"
    ],
-   "rows": 24110,
+   "rows": 24135,
    "value_probe": {
     "col": null,
     "non_null": 0,
-    "total": 24110,
+    "total": 24135,
     "non_null_rate": 0.0
    }
   }
  },
  "inventory": null,
  "nav_census": {
-  "rows_total": 24110,
+  "rows_total": 24135,
   "lof_named_n": 640,
   "universe_proxy": "name-contains-LOF (face has no fund-type column)",
   "nav_col": "2026-09-24-单位净值",
   "nav_date": "2026-09-24",
-  "lof_nav_nonnull_n": 505
+  "lof_nav_nonnull_n": 591
  },
  "discount": null,
  "pa3": {
@@ -84,7 +84,7 @@
   },
   "scale_face": {
    "ok": true,
-   "rows": 192,
+   "rows": 193,
    "cols": [
     "序号",
     "基金代码",
@@ -98,13 +98,13 @@
    ],
    "value_probe": {
     "col": "序号",
-    "non_null": 192,
-    "total": 192,
+    "non_null": 193,
+    "total": 193,
     "non_null_rate": 1.0
    },
-   "latency_s": 0.93
+   "latency_s": 3.62
   },
-  "recommendation": "DROP from ARB-1 v0.1 auto-lane: akshare 1.18.96 carries no closed-end quote/NAV face, discount panorama NOT constructible (scale census only, universe_n=192); shares shrinking per playbook (P-A3 low priority). Revisit only on akshare face addition or a signed P1 direction change. Scale face may seed a manual census if CEO wants the panorama via web lane."
+  "recommendation": "DROP from ARB-1 v0.1 auto-lane: akshare 1.18.96 carries no closed-end quote/NAV face, discount panorama NOT constructible (scale census only, universe_n=193); shares shrinking per playbook (P-A3 low priority). Revisit only on akshare face addition or a signed P1 direction change. Scale face may seed a manual census if CEO wants the panorama via web lane."
  },
  "spot_csv": null,
  "audit": {
@@ -118,5 +118,5 @@
   },
   "proxy_env_cleared": true
  },
- "evidence_cutoff": "2026-09-24"
+ "evidence_cutoff": "2026-09-27"
 }
