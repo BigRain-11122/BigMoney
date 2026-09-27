@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-26 16:20:02",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "CN-REGIME-POLICY-P1",
-   "shard": "regimepolicy-0of1",
-   "pid": 57036,
-   "runner_sha256": "6198a7d6919dd55a",
-   "fill_latency_min": 2.1,
-   "target_met": true,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-26 17:50:02",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -650,13 +637,27 @@
    "runner_sha256": "822aaa29c33fc07f",
    "fill_latency_min": 522.6,
    "target_met": false
+  },
+  {
+   "ts": "2026-09-28 05:40:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W2-GENERATE",
+   "shard": "generate-0of1",
+   "pid": 49764,
+   "runner_sha256": "6fee34345efef6e2",
+   "fill_latency_min": 60.5,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-28 05:30:01",
+  "ts": "2026-09-28 05:50:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "claim_lost_yield",
+  "entry": "TRIAL-LABOR-W2-GENERATE",
+  "shard": "generate-0of1"
  },
  "lane_machine": "bm-a"
 }
