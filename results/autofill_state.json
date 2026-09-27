@@ -1,27 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-26 14:50:27",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "fuse_skipped": [
-    {
-     "entry": "T80-AGGR-FULLPOOL-BATTERY",
-     "shard": "aggrfp-0of1",
-     "sig": "scripts/aggr_fullpool_battery.py|run,--shard,0,--shards,1",
-     "fuse_refusals": 3
-    }
-   ],
-   "verdict": "launched",
-   "entry": "CN-DIV-LOWVOL-ROT-P1",
-   "shard": "divlowvolrot-0of1",
-   "pid": 43612,
-   "runner_sha256": "59b649a797fa3541",
-   "fill_latency_min": 11.4,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-26 15:10:02",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -577,7 +556,8 @@
    "pid": 13148,
    "runner_sha256": "8d6a8e5fff2dc147",
    "fill_latency_min": 89.9,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-27 16:40:02",
@@ -659,14 +639,30 @@
    "fill_latency_min": 111.4,
    "target_met": false,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-28 03:40:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "CENSUS-FUS-S2-W2B",
+   "shard": "censusw2b-0of1",
+   "pid": 26612,
+   "runner_sha256": "c31e709749d93c95",
+   "fill_latency_min": 512.6,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-28 03:30:02",
+  "ts": "2026-09-28 03:40:01",
   "machine": "bm-b",
-  "py_cpu_pct": 2.5,
-  "verdict": "claim_lost_yield",
-  "entry": "CENSUS-FUS-S2-W2A",
-  "shard": "censusw2a-0of1"
+  "py_cpu_pct": 0.0,
+  "verdict": "launched",
+  "entry": "CENSUS-FUS-S2-W2B",
+  "shard": "censusw2b-0of1",
+  "pid": 26612,
+  "runner_sha256": "c31e709749d93c95",
+  "fill_latency_min": 512.6,
+  "target_met": false
  }
 }

@@ -1086,7 +1086,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "ready",
+   "status": "waiting",
    "entered_at": "2026-09-28 00:41:57",
    "workers_plan": {
     "workers": 1,
@@ -1103,7 +1103,8 @@
      "checkpoint": null
     }
    ],
-   "lane_note": "a2 canonical (bm-c r118 adoption): execution lane = checkpoint-bearing machines; proven-complete set per own data_gates = bm-b (t34 base curves both axes + x2 curve union complete + deep panel, v1 finalize r318); bm-a artifact-gate exit-2 relaunch loop 01:10/01:20 tick log evidence; T-93 sender/receiver hash parity 30/30; 3rd re-pin r370 02:2x: 1st pin e8d63eb4 swallowed by r351 resolver union (re-adopt 208c487d), 2nd swallow = bm-c tick 01:50:04 tree-blind whole-file write (pre-defer old code) which also claimed v2-0of1 as bm-c (dead claim: no t34 curves on bm-c per data_gates) -- cleared; post-defer ticks (autofill r351+) defer git writes when origin moved pool"
+   "lane_note": "a2 canonical (bm-c r118 adoption): execution lane = checkpoint-bearing machines; proven-complete set per own data_gates = bm-b (t34 base curves both axes + x2 curve union complete + deep panel, v1 finalize r318); bm-a artifact-gate exit-2 relaunch loop 01:10/01:20 tick log evidence; T-93 sender/receiver hash parity 30/30; 3rd re-pin r370 02:2x: 1st pin e8d63eb4 swallowed by r351 resolver union (re-adopt 208c487d), 2nd swallow = bm-c tick 01:50:04 tree-blind whole-file write (pre-defer old code) which also claimed v2-0of1 as bm-c (dead claim: no t34 curves on bm-c per data_gates) -- cleared; post-defer ticks (autofill r351+) defer git writes when origin moved pool",
+   "defer_note": "r357 bm-b defer ready->waiting (bm-c MSG-0355 receipt action): T-95 fix verified (runner sha 6b850e168fad4e46 != fused 880297a0fb0854bf -> S16c fix-is-the-unflag auto-clear at next pick, sig self-deletes). Physical RAM sequencing: W2B census burn (priority 1, trial-labor CEO 48h clock critical path, ~12.4GB no-kill precedent) fires first; V2-P1 4GB peak into that burn = dual-4GB squeeze (MSG-0345 co-signed face). Relaunch window = post-W2B-landing stable RAM (>=4GB x 3 samples >=30s per r354), flip executor = bm-b round. Deadline slack: 48h clock 09-29 22:45 vs 15min run."
   },
   {
    "id": "DECISION-CHAIN-V2-SLEEVE-EXPORT",
