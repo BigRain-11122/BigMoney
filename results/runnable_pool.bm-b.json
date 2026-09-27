@@ -309,7 +309,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 13:42:50",
    "workers_plan": {
     "workers": 4,
@@ -320,13 +320,14 @@
    "shards": [
     {
      "key": "censusw2a-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-28 03:20:28",
      "checkpoint": "results/census_fusion_s2/w2a_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2a_results.json (ledger N=5,920 declared at run finalize, r252 embed key; products w2a_cells.csv/w2a_nulls.json/w2a_top_matrices.json/w2a_summary.json); pool flip = round work per r203 law"
     }
-   ]
+   ],
+   "result_ref": "results/census_fusion_s2/w2a_results.json (EXPLORATION face sec.9.3; N=5,920 = 5,456 cand + 64 rs + 400 nulls; ledger 294,304; clean exit elapsed 44,308s; finalize+flip r357 bm-b; post_review pending)"
   },
   {
    "id": "CENSUS-FUS-S2-W2B",
@@ -338,7 +339,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-27 19:10:30",
    "workers_plan": {
     "workers": 4,
@@ -350,8 +351,8 @@
     {
      "key": "censusw2b-0of1",
      "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-b",
+     "owner_since": "2026-09-28 03:43:04",
      "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
     }
@@ -361,7 +362,8 @@
     "received_ts": "2026-09-27 22:03:42",
     "sha256_verified_vs_git_manifest": true,
     "note": "r344 fold take-new(updated_at) ts-face dropped this remote-added entry (local tick churn fresher ts); restored from 9b62a4c9 + entries-ID audit 79vs80 single-loss; MSG-1912 prose sha = hand-transcription error, git-tracked manifest byte-equal PASS; dep(2) W2-A finalize still pending -> status stays waiting"
-   }
+   },
+   "flip_note": "r357 bm-b flip waiting->ready: D8 npz on-disk sha[:16]=9febb7b4b5fab260 == manifest; W2-A finalize done r357 (clean exit, sidecars stable). In-runner gates stay fail-closed (roster sha12 + D8 sha + join>=5000)."
   },
   {
    "id": "CN-CORE-DDCTL-P1",
@@ -1091,7 +1093,7 @@
     "priority": "BelowNormal",
     "note": "single-process finalize chain: gates+audit ~3min + sleeve (replay minutes on cache-bearing machine / artifact seconds) + vectorized 4-arm envelopes x 2 axes x 2 faces (v1 finalize benchmark 99.9s) + verdict/CSV/attrition/prereg-backfill/ledger-flip writes; RAM peak ~4GB; est 5-15min wall total"
    },
-   "data_gates": "in-runner fail-closed exit 2 artifact gate (a2/a4 physical faces, honest listing): t34 base curves both axes + x2 curve union complete per axis + deep panel cache (t18) + p1c_stock cache OR the frozen sleeve-export artifact + GC001 csv (git) + v1 verdict records (git); proven-complete sets: bm-b = curves + deep panel (v1 finalize r318), bm-a = p1c_stock (r282); G-REPRO-REV = sleeve stats/counters bit-level vs p1_results frozen; G-REPRO-v1 = B/D aggregates bit-level vs decision_chain_e2e.json both axes x faces x windows; heat face failure = honest degradation (GREEN flat 0.80 per prereg s2) census disclosed, never a gate; audit not CLEAN = ledger skipped per prereg s0; selftest 26/26 bm-c r119",
+   "data_gates": "in-runner fail-closed exit 2 artifact gate (a2/a4 physical faces, honest listing): t34 base curves both axes + x2 curve union complete per axis + deep panel cache (t18) + p1c_stock cache OR the frozen sleeve-export artifact + GC001 csv (git) + v1 verdict records (git); proven-complete sets: bm-b = curves + deep panel (v1 finalize r318), bm-a = p1c_stock (r282); G-REPRO-REV = sleeve stats/counters bit-level vs p1_results frozen; G-REPRO-v1 = B/D aggregates bit-level vs decision_chain_e2e.json both axes x faces x windows; heat face failure = honest degradation (GREEN flat 0.80 per prereg s2) census disclosed, never a gate; audit not CLEAN = ledger skipped per prereg s0; selftest 26/26 bm-c r119 + OWNER PREFLIGHT ADD r128 (bm-c, r354 three-sample law per bmb MSG-0345 note): launch gate free-RAM >= 4GB sampled >=3 times across >=30s on the burning machine before relaunch (co-tenant census no-kill ~12.4GB + Blender make sub-4GB windows the norm on bm-b; single-read over-line = defer to next round with evidence)",
    "shards": [
     {
      "key": "v2-0of1",
@@ -2653,7 +2655,8 @@
     "priority": "BelowNormal",
     "note": "flip executor = deep-panel machine round post judge-prep + RAM gate; judge-finalize + intake follow on completion (funnel sec: TRIAL intake face zero judgment claims pre-funnel)"
    },
-   "note": "r121 bm-c entry post-screen-finalize (149 survivors); parked waiting NOT ready: bm-b currently W2-A burn 15.5GB no-kill (free 2.0GB) -- ready would race autofill into OOM; judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family"
+   "note": "r121 bm-c entry post-screen-finalize (149 survivors); parked waiting NOT ready: bm-b currently W2-A burn 15.5GB no-kill (free 2.0GB) -- ready would race autofill into OOM; judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family",
+   "defer_note": "r357 bm-b: gate(1) judge-prep VERIFIED (judge_state.json t18 PASS 48-member + census_frozen L1253/1127/875 D3104/2978/2726 exact); gate(2) RAM 3-sample 12.74/13.29/13.36GB >=4GB MET at flip-check; flip DEFERRED to post-W2B-landing window: physical RAM dependency (W2B burn ~15.5GB no-kill precedent + judge ~7-8GB pickled panels stacked = OOM risk on 23.9GB dual-company box; MASS sec.9.1 frozen ordering puts judge family behind W2B). Auto-flip candidate next bm-b round post-W2B with same 3-sample gate."
   },
   {
    "id": "TRIAL-LABOR-W1-SCREEN",
