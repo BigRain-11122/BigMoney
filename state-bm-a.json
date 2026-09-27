@@ -1,5 +1,5 @@
 {
- "round_no": 383,
+ "round_no": 384,
  "did": "R381 S3 D-03(1) 批1末步 writer撤面 slice-1 (autofill_state lane-primary): 门槛达标 (全机队消费码拉齐 R380 zero-UU replay + r375-r380 六轮 reconcile 零漂移) + 消费读点审计零漏读 (_r381bma_read_audit.py) -> Tools/autofill.py _STATE_LANE_PRIMARY=True (_save_state native-strict 车道唯一写面 + _load_state lane-first r201/过渡fallback/r98) + merge_lane_views RETIRED_SHARED_PROBES (reconcile retired 面=诚实状态行, 等值仪器随共享写面同退, 活性=strict 写+C8) + 撤面债表入档 LANE_MIGRATION_S1 §五 (fuse 跨机面/regime 5 直读点/pool mirror 方向/compute_audit ~15 读点) + 委员会 C-02 席3 防漏收指针 F-20260928-02",
  "verify": "smoke 25/25 + autofill selftest 全 PASS (S14 系改靶+S14d 新腿+元组+S18d 零触碰) + merge selftest 全 PASS (+retired 两腿) + 实弹 04:50 tick lane-only 写证 (共享冻结 04:40:05·车道 04:50:01) + reconcile RETIRED-SHARED 行 + S6 33 腿全 rc=0 零掩盖 + S7 自愈三件全绿",
  "next": "撤面后续 slices 按债表序: regime 5 读点切换先行 -> compute_audit ~15 读点 -> fuse launch 门合并读设计 -> pool 会话写+mirror 反向同批改; bm-b/bm-c 拉齐后过渡窗闭 (§三 UU 复测); T-91 s3 今 09:15 自动点火守望; council C-01/C-02 记票窗 09-29 守望; 下轮 5x=R385 HANDOVER",

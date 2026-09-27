@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T05:17:43+08:00",
- "current_task": "r383 closed: slice-3 compute_audit read-point switch landed f11e7d88 (storm 9-UU resolved, reconcile zero-drift); next=crash_fuse launch-gate merged-read design + runnable_pool mirror reverse (debt-table order)",
+ "last_seen": "2026-09-28T05:35:39+08:00",
+ "current_task": "r384 closed: D-03(1) debt-table(1) crash_fuse launch-gate merged-read landed (autofill _load_fuse_gate + S16f/g selftest legs + leg-isolation fix, reconcile zero-drift); next=debt-table(3) runnable_pool mirror-reverse (session write-path + mirror same-batch, r378(4) lane-lag root-fix)",
  "cpu_cores": 32,
  "cpu_pct": 8.0,
  "free_ram_gb": 49.9,
  "gpu_free_vram_gb": 5.25,
- "verdict": "green (red=false lane healthy; audit v2.3 05:12 CLEAN flags=[] py 0.2% load_state pool-supply-gap starvation=false; board 0 open/bandit 0/pool non-done all bm-b-lane-or-gated)",
+ "verdict": "green (red=false lane healthy; audit v2.3 05:33 CLEAN flags=[] py 0.3% load_state pool-supply-gap starvation=false; board 0 open/bandit 0/pool non-done all bm-b/bm-c-lane-or-gated)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,8 +108,8 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790543863,
- "clock_read": "2026-09-28T05:17:43+08:00",
+ "heartbeat_epoch_utc": 1790544939,
+ "clock_read": "2026-09-28T05:35:39+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5379,
  "gpu_idle_vram_gb": 5.53,
@@ -120,7 +120,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 383,
+ "round_no": 384,
  "gpu_idle_vram_mb": 5662,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 49.8,
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 383,
- "loop_round": 383
+ "round": 384,
+ "loop_round": 384
 }

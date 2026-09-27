@@ -92,8 +92,9 @@ FUSE = os.path.join(ROOT, "results", "crash_fuse.json")
 # still reads as source #0.  Retires the last per-tick shared rewrite
 # (the 608-write treadmill face; D-03 sec.3 replay metric).  POOL and
 # FUSE keep the compat dual-track (pool: session edit scripts + mirror
-# direction; fuse: cross-machine refusal registry needs a shared write
-# surface until the merged-read launch gate lands).
+# direction; fuse: the launch gate reads the lane-MERGED registry since
+# r384 debt-table (1), the shared write stays for machines that have
+# not pulled the merged gate yet -- withdrawal is its own slice).
 _STATE_LANE_PRIMARY = True
 LOG = os.path.join(ROOT, "logs", "autofill.log")
 MACHINES = os.path.join(ROOT, "fleet", "machines")
@@ -344,6 +345,45 @@ def _save_fuse(f):
     # D-20260928-03(1) batch-2 closeout: own lane alongside the shared
     # fuse face (same dual-track as _save_state; 7/8 -> 8/8 wired).
     _write_lane_file(FUSE, f)
+
+
+def _fuse_gate_view():
+    """Merged lane view of the refusal registry for the launch gate
+    (D-03(1) debt-table (1), r381 audit).  Factored out so selftests can
+    simulate merge-path faults (S16g) without touching the fallback."""
+    scripts_dir = os.path.join(ROOT, "scripts")
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    import merge_lane_views as _mlv
+    return _mlv.face_view("crash_fuse",
+                          results_dir=os.path.dirname(FUSE))
+
+
+def _load_fuse_gate():
+    """Launch-gate + crash-confirm read of the refusal registry.
+
+    The registry is CROSS-MACHINE: a crash confirmed on another machine
+    may live only in that machine's lane file (the shared row can be
+    lost to a push-storm resolve, r376 family), and a bare shared read
+    would relaunch the same crashed version -- the exact revival the
+    fuse exists to prevent.  So the gate reads the lane-merged view
+    (r375 merge_crash_fuse: sigs key-union, same-key newer-event-wins).
+    Corrupt SHARED file keeps the r201 refuse-tick abort (bare load
+    first); any other merge-path fault degrades to the bare shared
+    gate with an honest log -- pre-slice semantics, so the fleet's own
+    heartbeat never widens its fault surface.  Single-source trees
+    (selftest tmp, r117 law) merge == bare, existing legs unaffected.
+    Saves stay dual-track: the union written back to the shared file
+    absorbs lane-only sigs, which also protects machines that have not
+    pulled this batch yet."""
+    shared = _load_fuse()          # r201 corrupt -> _CorruptFuse -> abort
+    try:
+        merged = _fuse_gate_view()
+    except Exception as ex:
+        _log(f"crash-fuse merged-read unavailable -> bare shared gate "
+             f"(pre-slice semantics, honest log): {ex}")
+        return shared
+    return merged if merged else shared
 
 
 def _lane_path_for(shared_path):
@@ -829,7 +869,7 @@ def tick(dry=False):
         _log(f"tick ABORT pool unreadable: {ex}")
         return 2
     try:
-        fuse = _load_fuse()
+        fuse = _load_fuse_gate()
     except _CorruptFuse as ex:
         _log(f"tick ABORT corrupt crash_fuse (refuse wipe, r201 law): {ex}")
         print(f"ABORT corrupt crash_fuse.json: {ex}")
@@ -1044,7 +1084,8 @@ def submit(a):
 
 def selftest():
     import tempfile
-    global POOL, STATE, FUSE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, _runner_alive
+    global POOL, STATE, FUSE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, \
+        _runner_alive, _fuse_gate_view
     ok_all = True
 
     def ok(name, cond):
@@ -1780,6 +1821,12 @@ def selftest():
            rc == 0 and st16b["verdict"] == "fuse_refused_crash_loop"
            and st16b.get("fuse_refusals") == 1
            and fu16b["sigs"]["scripts/fake_runner.py|run"]["refusals"] == 1)
+        # leg isolation (r117 hermetic law): _save_fuse dual-tracks the
+        # own lane, so every replant of the shared fixture must also
+        # clear the lane or the merged gate reads the prior leg's rows.
+        lane_a = os.path.join(os.path.dirname(FUSE), "crash_fuse.bm-a.json")
+        if os.path.exists(lane_a):
+            os.remove(lane_a)
         # S16c fix-first auto-clear: code hash differs from the crash
         # record -> fuse cleared, launch proceeds (the fix IS the unflag).
         with open(FUSE, "w", encoding="utf-8") as fh:
@@ -1792,6 +1839,8 @@ def selftest():
         ok("S16c code-change fix -> fuse auto-cleared, launch proceeds",
            rc == 0 and st16c["verdict"] == "dry_launch"
            and "scripts/fake_runner.py|run" not in fu16c["sigs"])
+        if os.path.exists(lane_a):
+            os.remove(lane_a)
         # S16e r252 anti-starvation: a fused HEAD entry must not block a
         # later ready entry -- head refusal counted + skipped, next entry
         # picked instead (live: T80 fuse head starved the pool for every
@@ -1824,6 +1873,46 @@ def selftest():
         ok("S16d corrupt fuse -> exit 2 + no wipe",
            rc == 2 and before16d == after16d)
         os.remove(FUSE)
+        if os.path.exists(lane_a):
+            os.remove(lane_a)
+        # S16f D-03(1) debt-table (1) merged-read gate: a crash confirmed
+        # on ANOTHER machine that lives only in its lane file (shared row
+        # lost to a push-storm resolve, r376 family) must refuse relaunch
+        # here too -- the registry is cross-machine; and the union write
+        # absorbs the lane-only row into the shared file (protects
+        # machines that have not pulled this batch yet).
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {}}, fh)
+        lane_b = os.path.join(os.path.dirname(FUSE), "crash_fuse.bm-b.json")
+        with open(lane_b, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {"scripts/fake_runner.py|run": {
+                "code_sha256": None, "count": 1, "refusals": 0}},
+                "lane_machine": "bm-b"}, fh)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump(pool16, fh)
+        rc = tick(dry=True)
+        st16f = _load_state()["last_tick"]
+        fu16f = json.load(open(FUSE, encoding="utf-8"))
+        ok("S16f lane-only sig (bm-b lane) refuses relaunch via merged "
+           "gate; union write absorbs it into shared",
+           rc == 0 and st16f["verdict"] == "fuse_refused_crash_loop"
+           and st16f.get("fuse_refusals") == 1
+           and fu16f["sigs"]["scripts/fake_runner.py|run"]["refusals"] == 1)
+        os.remove(lane_b)
+        # S16g merge-path fault -> bare shared gate (degraded pre-slice
+        # semantics, honest log): the refusal registry still enforced.
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {"scripts/fake_runner.py|run": {
+                "code_sha256": None, "count": 1, "refusals": 0}}}, fh)
+        _gate_orig = _fuse_gate_view
+        _fuse_gate_view = lambda: (_ for _ in ()).throw(
+            RuntimeError("simulated merge-path fault"))
+        rc = tick(dry=True)
+        _fuse_gate_view = _gate_orig
+        st16g = _load_state()["last_tick"]
+        ok("S16g merge-path fault -> bare shared gate still refuses",
+           rc == 0 and st16g["verdict"] == "fuse_refused_crash_loop"
+           and st16g.get("fuse_refusals") == 1)
         # S17 submit contract gate (r301+r305 family: hand-submit field
         # omissions starve _pick silently -- assert trio at entry point).
         # fixture runner lives in the tempdir: a repo-real path would
