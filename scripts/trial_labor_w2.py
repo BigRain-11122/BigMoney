@@ -30,7 +30,10 @@ x1 AND x2 CostPatch(2) curves + window-grid beat vs passive + regime
 segments + dual nulls on the W2 seed 20286500 + descriptive-clause columns
 + MSG-0450 annex-1 stop trigger/fill-day D+1 open-vs-close deviation
 disclosure + prereg sec.5 crisis/stop-day counts + finalize G1'v2/DSR/
-family-PBO/G2/E[FP]); intake lands the next slice per prereg sec.6):
+family-PBO/G2/E[FP]); slice-5 landed r366: intake (s4 D6 binding gate:
+registered-six engine recompute + judge-checkpoint daily-return faces +
+>=0.7 registered reject + survivor-cluster collapse keep highest DSR /
+tie lowest id + TRIAL-<FAMILY>-<NN> rows + lawful-zero face):
   - build_grammar_w2(): tl1.build_grammar() extended with the initial-stop
     axis (8 faces -> 3584 axis combos), W2 seed block, W2 per-family counts,
     stop-level formula table; new grammar sha16 (new-syntax face, prereg
@@ -79,6 +82,7 @@ SCREEN_FILE = os.path.join(RES_DIR, "w2_screen.json")
 SCREEN_CSV = os.path.join(RES_DIR, "w2_screen_cells.csv")
 JUDGE_STATE_FILE = os.path.join(RES_DIR, "judge_state.json")
 JUDGE_FILE = os.path.join(RES_DIR, "w2_judge.json")
+INTAKE_FILE = os.path.join(RES_DIR, "w2_intake.json")
 CKPT_DIR = os.path.join(RES_DIR, "checkpoint")
 SCREEN_BATCH = "TRIAL_LAB_W2_SCREEN"   # prereg sec.3 ledger literal
 JUDGE_BATCH = "TRIAL_LAB_W2_JUDGE"     # prereg sec.3 ledger literal
@@ -1652,6 +1656,177 @@ def cmd_judge_finalize() -> int:
     return 0
 
 
+# ------------------------------------------------------- intake slice (s4)
+D6_CEILING = 0.7          # prereg sec.4 binding gate (>=0.7 reject)
+
+
+def _d6_admit_core(eligible, cand_ret, reg_ret, dsr_by_id):
+    """s4 D6 binding gate core (prereg sec.4; W1 cmd_intake precedent,
+    engine-face daily-return caliber): per-candidate max|corr| vs the
+    registered roster (>=0.7 reject) + survivor-cluster collapse (>=0.7
+    pairs keep highest DSR, tie -> lowest candidate_id). Pure function
+    (hermetic selftest face); returns (admitted, rejected, d6)."""
+    all_series = {**reg_ret, **{c: cand_ret[c] for c in eligible}}
+    names = sorted(all_series)
+    mat = pd.concat([all_series[n] for n in names], axis=1).fillna(0.0)
+    corr = np.corrcoef(mat.values.T)
+    d6 = {}
+    for cid in eligible:
+        mx, clash = 0.0, None
+        for rn in reg_ret:
+            v = abs(float(corr[names.index(cid), names.index(rn)]))
+            if v > mx:
+                mx, clash = v, rn
+        d6[cid] = {"max_corr_vs_registered": round(mx, 4), "clash": clash}
+    eliminated = []
+    # registered-corr >= ceiling -> outright reject (prereg sec.4 binding
+    # gate; W1-lineage bug caught by the [18] hermetic leg r366: the
+    # original precedence only cluster-eliminated, so a registered clone
+    # could sail into admitted -- the prereg literal is REJECT)
+    for cid in eligible:
+        if d6[cid]["max_corr_vs_registered"] >= D6_CEILING:
+            eliminated.append(cid)
+    for a in eligible:
+        if a in eliminated:
+            continue
+        for b in eligible:
+            if b <= a or b in eliminated:
+                continue
+            c = abs(float(corr[names.index(a), names.index(b)]))
+            if c >= D6_CEILING:
+                # keep higher DSR; tie -> lower candidate_id wins
+                loser = b if (dsr_by_id[a], b) > (dsr_by_id[b], a) else a
+                eliminated.append(loser)
+    admitted = [c for c in eligible if c not in eliminated]
+    rejected = [{"candidate_id": c,
+                 "reason": "registered-corr" if d6[c][
+                     "max_corr_vs_registered"] >= D6_CEILING
+                     else "survivor-cluster",
+                 "d6": d6[c]} for c in eligible if c not in admitted]
+    return admitted, rejected, d6
+
+
+def _trial_intake_rows(admitted, cands):
+    """Registration-face rows for admitted survivors (prereg sec.4):
+    STRATEGY_LIBRARY row note + TRIAL-<FAMILY>-<NN> paper onboarding.
+    FAMILY = strategy module (prereg sec.4 PBO family definition; W1
+    intake precedent module.upper()); per-module NN counter in admitted
+    (sorted) order = deterministic."""
+    rows, nn = [], {}
+    for cid in admitted:
+        c = cands[cid]
+        fam = c["module"].upper()
+        nn[fam] = nn.get(fam, 0) + 1
+        ps = ", ".join(f"{k}={v}" for k, v in c["sig_params"].items())
+        rows.append({
+            "candidate_id": cid, "module": c["module"], "fn": c["fn"],
+            "sig_params": c["sig_params"], "axis": c["axis"],
+            "initial_stop": c["axis"][4], "family": c["family"],
+            "signal_builder_expression": f"{c['fn']}({ps})",
+            "evidence_cutoff": CUTOFF,
+            "registration_row": "STRATEGY_LIBRARY row emitted; hr write + "
+                                "smoke anchor re-run belongs to the "
+                                "registration pipeline (prereg sec.4)",
+            "paper_onboarding": f"TRIAL-{fam}-{nn[fam]:02d} PROSPECT-"
+                                "machine observation lane (O-2045 reuse)"})
+    return rows
+
+
+def cmd_intake() -> int:
+    print(f"=== {WAVE} intake (s4 D6 binding gate) ===")
+    if not os.path.exists(JUDGE_FILE):
+        print("INTAKE-GATE: judge not finalized (w2_judge.json absent)")
+        return 2
+    judge = json.load(open(JUDGE_FILE, encoding="utf-8"))
+    if str(judge.get("grammar_sha256", ""))[:16] != FROZEN_SHA16:
+        print(f"INTAKE-GATE FAIL: judge grammar sha != frozen anchor "
+              f"{FROZEN_SHA16}")
+        return 1
+    eligible = list(judge["eligible_g2"])
+    audit_note = ("intake = judgment face, zero ledger rows; candidate "
+                  "daily returns = judge checkpoint engine face (stop "
+                  "overlay included); registered six = engine recompute "
+                  "at the registered config, cutoff-truncated FIRST "
+                  "(r363 law); D6 ceiling 0.7 prereg sec.4; cluster "
+                  "keep = highest DSR, tie lowest id; TRIAL-<FAMILY>-"
+                  "<NN>: family = strategy module per sec.4 PBO "
+                  "definition, per-module NN counter; hr/STRATEGY_"
+                  "LIBRARY writes + smoke anchor re-run = registration "
+                  "pipeline face (prereg sec.4)")
+    if not eligible:
+        out = {"wave": WAVE, "stage": "intake", "prereg": PREREG,
+               **tl1.cutoff_meta(CUTOFF), "grammar_sha256": FROZEN_SHA16,
+               "n_eligible": 0, "admitted": [], "rejected": [],
+               "d6_binding": {}, "intake": [],
+               "note": "zero G2-eligible survivors = lawful outcome, "
+                       "reported as-is (prereg sec.5 pred.3 modal zero)",
+               "audit": {"n_engine_runs": 0, "ledger_trials_added": 0,
+                         "note": audit_note},
+               "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+        tl1._dump(INTAKE_FILE, out)
+        print("intake: zero eligible survivors -- lawful zero, product "
+              "written")
+        return 0
+    cands = {c["candidate_id"]: c for c in json.load(
+        open(CANDIDATES_FILE, encoding="utf-8"))["candidates"]}
+    cells = {r["candidate_id"]: r for r in judge["cells"]}
+    dsr_by_id = {cid: (cells[cid].get("dsr") or {}).get("dsr")
+                 for cid in eligible}
+    # candidate engine-face daily returns: judge checkpoint rows (W1
+    # intake precedent; w2_judge.json cells are stripped by design)
+    cand_ret = {}
+    for f in sorted(os.listdir(CKPT_DIR)):
+        if f.startswith("judge_shard_") and f.endswith(".jsonl"):
+            with open(os.path.join(CKPT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    r = json.loads(ln)
+                    if r.get("candidate_id") in eligible:
+                        cand_ret[r["candidate_id"]] = r.get(
+                            "legL_daily_returns") or []
+    missing = [c for c in eligible if not len(cand_ret.get(c, []))]
+    if missing:
+        print(f"INTAKE-GATE FAIL: eligible rows missing legL daily "
+              f"returns in checkpoints: {missing[:3]}")
+        return 2
+    # registered six: engine-face recompute at the registered config
+    # (W1 intake precedent; truncate to cutoff before any engine face)
+    from live.paper import SIGNAL_BUILDERS      # W1 cmd_intake precedent
+    prices = tl1.load_core()
+    cut = pd.Timestamp(CUTOFF)
+    pcut = {s: df[df.index <= cut] for s, df in prices.items()}
+    P = tl1.build_panels(pcut)
+    reg_ret = {}
+    for t in tl1.A_TEMPLATES:
+        trader = tl1.load_trader(t["trader_id"])
+        entry = trader["params"]["entry"]
+        sig = SIGNAL_BUILDERS[entry](P)
+        params = {k: v for k, v in trader["params"].items()
+                  if k != "entry"}
+        with tl1.ExitPatch(trader.get("exit_overrides")):
+            res = tl1.run_backtest(pcut, params, entry_signal=sig,
+                                   exit_signal=(sig <= 0))
+        eq = pd.Series(res["equity_curve"],
+                       index=P["close"].index[:len(res["equity_curve"])])
+        reg_ret[t["trader_id"]] = eq.pct_change().fillna(0.0)
+    cand_ret_s = {cid: pd.Series(v, index=P["close"].index[:len(v)])
+                  for cid, v in cand_ret.items()}
+    admitted, rejected, d6 = _d6_admit_core(eligible, cand_ret_s,
+                                            reg_ret, dsr_by_id)
+    intake_rows = _trial_intake_rows(admitted, cands)
+    out = {"wave": WAVE, "stage": "intake", "prereg": PREREG,
+           **tl1.cutoff_meta(CUTOFF), "grammar_sha256": FROZEN_SHA16,
+           "n_eligible": len(eligible), "admitted": admitted,
+           "rejected": rejected, "d6_binding": d6, "intake": intake_rows,
+           "ceo_report_due": "48h from intake (prereg sec.4)",
+           "audit": {"n_engine_runs": len(reg_ret),
+                     "ledger_trials_added": 0, "note": audit_note},
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(INTAKE_FILE, out)
+    print(f"intake: eligible {len(eligible)} -> admitted {len(admitted)} "
+          f"(D6 rejects {len(rejected)})")
+    return 0
+
+
 # ------------------------------------------------------------------ selftest
 def cmd_selftest() -> int:
     print(f"=== {WAVE} selftest (hermetic, slices 1-4) ===")
@@ -2071,6 +2246,59 @@ def cmd_selftest() -> int:
        and abs(sd17["dev_min"] - devA) < 1e-9
        and abs(sd17["dev_max"] - devB) < 1e-9)
 
+    # [18] intake machinery (s4 D6 binding gate; hermetic synthetic series)
+    idxI = pd.bdate_range("2024-01-02", periods=400)
+
+    def sawI(mod, ph):
+        i = pd.Series(range(len(idxI)), index=idxI)
+        return ((i + ph) % mod - (mod - 1) / 2.0) * 0.01
+
+    regI = {"REG-A": sawI(7, 0), "REG-B": sawI(11, 3)}
+    candI = {"CAND-TWIN": 0.95 * sawI(7, 0) + 0.05 * sawI(29, 9),
+             "CAND-INDEP": sawI(17, 5),
+             "CAND-TWIN2": 0.95 * sawI(17, 5) + 0.05 * sawI(31, 2)}
+    dsrI = {"CAND-TWIN": 0.90, "CAND-INDEP": 0.97, "CAND-TWIN2": 0.93}
+    elI = sorted(candI)
+    adm1, rej1, d61 = _d6_admit_core(elI, candI, regI, dsrI)
+    adm2, rej2, d62 = _d6_admit_core(elI, candI, regI, dsrI)
+    ok("intake D6: determinism (double-run equal)",
+       json.dumps([adm1, rej1, d61], sort_keys=True, default=str)
+       == json.dumps([adm2, rej2, d62], sort_keys=True, default=str))
+    ok("intake D6: registered-clone rejected (>=0.7 vs REG-A, clash "
+       "disclosed)",
+       "CAND-TWIN" not in adm1
+       and any(r["candidate_id"] == "CAND-TWIN"
+               and r["reason"] == "registered-corr" for r in rej1)
+       and d61["CAND-TWIN"]["max_corr_vs_registered"] >= 0.7
+       and d61["CAND-TWIN"]["clash"] == "REG-A")
+    ok("intake D6: survivor-cluster collapse keeps highest DSR "
+       "(INDEP 0.97 > TWIN2 0.93)",
+       "CAND-INDEP" in adm1 and "CAND-TWIN2" not in adm1
+       and any(r["candidate_id"] == "CAND-TWIN2"
+               and r["reason"] == "survivor-cluster" for r in rej1))
+    sT = 0.95 * sawI(13, 4) + 0.05 * sawI(37, 1)
+    candT = {"C-1": sT, "C-2": 0.95 * sT + 0.05 * sawI(41, 7)}
+    admT, rejT, _ = _d6_admit_core(sorted(candT), candT, {},
+                                   {"C-1": 0.96, "C-2": 0.96})
+    ok("intake D6: DSR tie -> lowest candidate_id kept (C-1)",
+       admT == ["C-1"] and rejT[0]["candidate_id"] == "C-2"
+       and rejT[0]["reason"] == "survivor-cluster")
+    candsI = {"C-9": {"module": "ta", "fn": "g", "sig_params": {},
+                      "axis": ["none", "template_default", "equal_weight",
+                               "daily_signal", "none"], "family": "B"},
+              "CAND-INDEP": {"module": "ta", "fn": "f", "sig_params": {},
+                             "axis": ["none", "template_default",
+                                      "equal_weight", "daily_signal",
+                                      "p5"], "family": "A"}}
+    rowsI = _trial_intake_rows(sorted(candsI), candsI)
+    ok("intake rows: TRIAL-<FAMILY>-<NN> per-module counter + 5-tuple "
+       "axis carried + stop face disclosed",
+       [r["paper_onboarding"].split()[0] for r in rowsI]
+       == ["TRIAL-TA-01", "TRIAL-TA-02"]
+       and rowsI[0]["initial_stop"] == "none"
+       and rowsI[1]["initial_stop"] == "p5"
+       and rowsI[0]["evidence_cutoff"] == CUTOFF)
+
     print(f"selftest: {ok_n - fails[0]}/{ok_n} PASS, "
           f"{fails[0]} FAIL")
     return 1 if fails[0] else 0
@@ -2134,6 +2362,7 @@ def main(argv=None):
     p.add_argument("--shards", type=int, default=1)
     p.add_argument("--workers", type=int, default=None)
     sub.add_parser("judge-finalize")
+    sub.add_parser("intake")
     a = ap.parse_args(argv)
     # r141 crash-lane fix: the dict dispatch called every command with
     # zero args, so screen/judge (3-positional signatures) died with
@@ -2152,7 +2381,8 @@ def main(argv=None):
             "screen-prep": cmd_screen_prep,
             "screen-finalize": cmd_screen_finalize,
             "judge-prep": cmd_judge_prep,
-            "judge-finalize": cmd_judge_finalize}[a.cmd]()
+            "judge-finalize": cmd_judge_finalize,
+            "intake": cmd_intake}[a.cmd]()
 
 
 if __name__ == "__main__":

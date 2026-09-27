@@ -1591,8 +1591,16 @@ def cmd_intake() -> int:
             if mx_r > mx:
                 mx, clash = mx_r, rn
         d6[cid] = {"max_corr_vs_registered": round(mx, 4), "clash": clash}
-    # survivor-cluster collapse (>=0.7 keep highest DSR, tie lowest id)
+    # survivor-cluster collapse (>=0.7 keep highest DSR, tie lowest id);
+    # registered-corr >=0.7 -> outright reject FIRST (prereg sec.1 binding
+    # literal ">=0.7 reject"; r366 bm-b fix: the original precedence only
+    # cluster-eliminated, so a registered clone could sail into admitted --
+    # caught by the W2 hermetic intake leg, mirrored here pre-run, zero
+    # W1 cells consumed by the buggy path: W1 judge still pool-waiting)
     eliminated = []
+    for cid in eligible:
+        if d6[cid]["max_corr_vs_registered"] >= 0.7:
+            eliminated.append(cid)
     for a in eligible:
         if a in eliminated:
             continue
