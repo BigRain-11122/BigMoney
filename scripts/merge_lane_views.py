@@ -48,7 +48,7 @@ MACHINES = ("bm-a", "bm-b", "bm-c")
 # r370 pit-law: resolver/union may swallow the OTHER machine's in-tree fixes
 # for governance fields -- non-empty-first with annotation, never blind-pick.
 GOVERNANCE_FIELDS = ("lane_owner", "lane_note", "claimed_by", "claimed_at",
-                     "claim_note", "yield_note")
+                     "claim_note", "yield_note", "defer_note")
 _RECON_TS = re.compile(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})")
 
 
@@ -294,13 +294,48 @@ def _merge_pool_entry(a, b, notes, label_a, label_b):
             if k not in out or (out[k] in (None, "") and v not in (None, "")):
                 out[k] = v
         return out
-    # differing non-done statuses: keep the further-along side (done already
-    # handled; ready/waiting mix -> prefer ready), annotate the divergence
-    rank = {"ready": 2, "waiting": 1}
-    out = dict(a if rank.get(a.get("status"), 0) >=
-               rank.get(b.get("status"), 0) else b)
-    notes.append(f"entry {a.get('id')}: status {a.get('status')!r} vs "
-                 f"{b.get('status')!r} -> kept {out.get('status')!r}")
+    # differing non-done statuses. r378 observation-window catch #4: a
+    # deliberate session defer (status waiting + non-empty defer_note)
+    # was resurrected to ready by a stale pre-defer lane mirror -- no
+    # per-entry ts exists, so the note IS the deliberate-act marker.
+    # Marker law (risk-asymmetric): marked-waiting beats bare-ready (a
+    # swallowed defer = autofill relaunches a deliberately-held batch =
+    # double burn); the un-defer convention clears defer_note on
+    # flip-back, and a swallowed un-defer only delays a fill by <= one
+    # round (mirror heals the lane) = low harm. Both sides marked (or
+    # neither) -> legacy rank. This branch also merges governance and
+    # shards across sides regardless of the winning side (the old
+    # take-one-side-wholesale dropped the losing side's annotations).
+    a_note, b_note = bool(a.get("defer_note")), bool(b.get("defer_note"))
+    a_mw = a.get("status") == "waiting" and a_note
+    b_mw = b.get("status") == "waiting" and b_note
+    bare_ready = ((a.get("status") == "ready" and not a_note)
+                  or (b.get("status") == "ready" and not b_note))
+    if (a_mw or b_mw) and bare_ready:
+        win, lose = (a, b) if a_mw else (b, a)
+        notes.append(f"entry {a.get('id')}: deliberate defer marker "
+                     f"(waiting+defer_note, r378 catch #4 law) beats "
+                     f"bare ready from a stale mirror")
+    else:
+        rank = {"ready": 2, "waiting": 1}
+        win = a if rank.get(a.get("status"), 0) >= \
+            rank.get(b.get("status"), 0) else b
+        lose = b if win is a else a
+        notes.append(f"entry {a.get('id')}: status {a.get('status')!r} vs "
+                     f"{b.get('status')!r} -> kept {win.get('status')!r}")
+    out = dict(win)
+    for f in GOVERNANCE_FIELDS:
+        if not out.get(f) and lose.get(f):
+            out[f] = lose[f]
+            notes.append(f"entry {a.get('id')}: governance {f} "
+                         f"non-null-first across status conflict "
+                         f"(r378 gap fix)")
+    sa, sb = win.get("shards"), lose.get("shards")
+    if isinstance(sa, list) or isinstance(sb, list):
+        rows = _union_shard_rows(sa or [], sb or [])
+        out["shards"] = rows
+        notes.append(f"entry {a.get('id')}: shards key-union "
+                     f"-> {len(rows)}")
     return out
 
 
@@ -828,6 +863,36 @@ def _selftest():
     s = next(e for e in m["entries"] if e["id"] == "S")
     check("pool:shard-swallow-recover", s["shards"][0]["owner_since"]
           == "2026-09-28 02:33:18")
+
+    # 5c. runnable_pool deliberate-defer marker law (r378 catch #4): a
+    # session defer (waiting + defer_note) must not be resurrected to
+    # ready by a stale pre-defer lane mirror; governance fields survive
+    # the status conflict from BOTH sides; both-marked falls to rank.
+    deferred = {"updated_at": "03:00:00", "entries": [
+        {"id": "V2", "status": "waiting", "defer_note": "r357 defer",
+         "lane_owner": "bm-b", "shards": [
+            {"key": "v2-0of1", "status": "ready", "owner": "bm-b",
+             "owner_since": "2026-09-28 03:43:45"}]}]}
+    stale_lane = {"updated_at": "02:00:00", "entries": [
+        {"id": "V2", "status": "ready", "yield_note": "prior yield",
+         "shards": [
+            {"key": "v2-0of1", "status": "ready", "owner": "bm-b",
+             "owner_since": "2026-09-28 03:43:08"}]}]}
+    m, _ = merge_runnable_pool([("legacy", deferred), ("bm-a", stale_lane)])
+    v2 = next(e for e in m["entries"] if e["id"] == "V2")
+    check("pool:defer-marker-beats-stale-ready",
+          v2["status"] == "waiting" and v2["defer_note"] == "r357 defer")
+    check("pool:defer-conflict-gov-union",
+          v2.get("yield_note") == "prior yield"
+          and v2.get("lane_owner") == "bm-b"
+          and v2["shards"][0]["owner_since"] == "2026-09-28 03:43:45")
+    both = merge_runnable_pool([
+        ("legacy", {"updated_at": "03:00:00", "entries": [
+            {"id": "W", "status": "waiting", "defer_note": "old defer"}]}),
+        ("bm-a", {"updated_at": "02:00:00", "entries": [
+            {"id": "W", "status": "ready", "defer_note": "undefer?"}]})])
+    w = next(e for e in both[0]["entries"] if e["id"] == "W")
+    check("pool:both-marked-rank-fallback", w["status"] == "ready")
 
     # 6. gate_attrition full-volume union (47 consumers need every row)
     a = {"schema": "v1", "entries": [{"batch": "B", "ts": "01"}],

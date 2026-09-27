@@ -344,7 +344,12 @@ def main():
     # wiring decays structurally -- this every-round audit leg maintains
     # both lanes via churn-free mirrors instead (any snapshot ever
     # captured is lossless under merger union semantics).
-    for _face in ("gate_attrition", "post_review_criteria"):
+    # runnable_pool joined this family at r378 (catch #4): session-side
+    # pool edits (defer/flip one-off scripts) commit the shared face
+    # without a lane refresh -- ticks write their own lane at commit,
+    # sessions do not, so the lane lagged a session defer by one tick
+    # cycle and reconcile read a stale pre-defer mirror.
+    for _face in ("gate_attrition", "post_review_criteria", "runnable_pool"):
         mirror_shared_if_changed(_face)
 
     print(json.dumps(record, ensure_ascii=False))

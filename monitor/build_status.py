@@ -23,6 +23,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
     os.path.abspath(__file__))), "scripts"))
 
 from config import PATHS, SCREEN
+from config.lane_io import shared_derive_write_allowed
 from engine.exit_rules import ExitConfig
 import merge_lane_views as lane_views
 
@@ -2066,6 +2067,12 @@ def build() -> dict:
 
 
 def main() -> int:
+    # D-20260928-03(1) batch-3 C-family single-writer guard: this
+    # derive is byte-identical on every machine (wall-clock envelope
+    # aside); the designated host writes, non-hosts skip honestly
+    # (stale-takeover keeps the face fresh if the host is down).
+    if not shared_derive_write_allowed("results/dashboard_status.json"):
+        return 0
     payload = build()
     js = "window.DASH_DATA = " + json.dumps(payload, ensure_ascii=False) + ";\n"
     out_js = os.path.join(PATHS.results_dir, "dashboard_status.js")

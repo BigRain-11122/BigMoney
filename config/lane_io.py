@@ -25,8 +25,12 @@ Laws carried:
 import json
 import os
 import sys
+import time
+import datetime as _dt
 
 from .settings import PATHS
+
+_REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 _KNOWN_FACES = ("compute_audit", "regime_state", "autofill_state",
                 "runnable_pool", "gate_attrition", "post_review_criteria",
@@ -166,3 +170,158 @@ def mirror_shared_if_changed(face, machine=None):
         except Exception:
             pass  # corrupt lane -> rewrite from shared below
     return write_lane(face, data, machine=machine)
+
+
+# --- D-20260928-03(1) batch-3 C-family: single-writer host guard -----
+#
+# Census (r370, results/_r370bma_lane_census.py): C-family faces are
+# deterministic idempotent re-derives -- byte-identical across machines
+# modulo wall-clock envelope fields (generated_at/age_min), so per-
+# machine lane files for them are pure churn and the census-sanctioned
+# C treatment is 单机执笔 single-writer ("消费面合并读 or 单机执笔",
+# LANE_MIGRATION_S1 §二).  Static-HTML consumers (dashboard_status.js
+# <- bigmoney/dashboard/town.html file:// loads) cannot merge-read,
+# which rules the lane pattern out for the top-treadmill faces anyway.
+# Non-host machines skip the shared derive entirely (honest stdout
+# no-op, R31 lane-guard precedent); a health-machine stale-takeover
+# keeps the CEO face fresh when the host is down (O-2100 s2.4
+# STALE_MIN law -- the derive is idempotent, so a rare takeover race
+# is a trivial near-identical add/add, never a swallow risk).
+
+C_SINGLE_WRITER_HOSTS = {
+    "results/dashboard_status.json": "bm-a",
+    "results/dashboard_status.js": "bm-a",
+    "results/daily_scorecard.json": "bm-a",
+    "results/daily_scorecard.html": "bm-a",
+    "results/strategy_scorecard.json": "bm-a",
+    "results/scorecard_v1.json": "bm-a",
+}
+C_HOST_STALE_MIN = 20.0   # O-2100 s2.4 / autofill STALE_MIN precedent
+
+
+def _host_heartbeat_age_min(host):
+    """Age in minutes of the host's latest heartbeat signal
+    (heartbeat_epoch_utc int preferred per smoke-F7, else last_seen
+    ISO).  Returns None when the heartbeat file is missing/unreadable
+    or carries no parseable signal -- callers treat None as
+    dead-host (takeover face)."""
+    path = os.path.join(_REPO_ROOT, "fleet", "machines", f"{host}.json")
+    try:
+        with open(path, encoding="utf-8") as fh:
+            hb = json.load(fh)
+    except Exception:
+        return None
+    epoch = hb.get("heartbeat_epoch_utc")
+    if isinstance(epoch, int) and not isinstance(epoch, bool):
+        return max(0.0, (time.time() - epoch) / 60.0)
+    last_seen = hb.get("last_seen")
+    if isinstance(last_seen, str):
+        try:
+            ts = _dt.datetime.fromisoformat(last_seen)
+            # naive timestamps read as local (fleet clocks share +08:00);
+            # .timestamp() handles both naive-local and aware forms
+            return max(0.0, (time.time() - ts.timestamp()) / 60.0)
+        except ValueError:
+            return None
+    return None
+
+
+def shared_derive_write_allowed(face_rel, verbose=True):
+    """Single-writer admission for a deterministic idempotent re-derive
+    shared face (D-03(1) batch-3 C-family).  True = this machine should
+    derive+write this cycle: the designated host always; a non-host
+    only as stale-takeover (host heartbeat older than C_HOST_STALE_MIN,
+    or host heartbeat unreadable = dead-host).  Fail-open legs: a face
+    absent from the map keeps legacy write behavior (explicit opt-in
+    per face), and an unreadable machine id cannot prove non-host so
+    it writes as before (r98: never guess identity)."""
+    host = C_SINGLE_WRITER_HOSTS.get(face_rel)
+    if host is None:
+        return True
+    mid = machine_id()
+    if not mid or mid == host:
+        return True
+    age = _host_heartbeat_age_min(host)
+    if age is not None and age < C_HOST_STALE_MIN:
+        if verbose:
+            print(f"lane_io single-writer guard: {face_rel} host={host} "
+                  f"heartbeat fresh ({age:.0f}min) -> skip derive this "
+                  f"cycle (D-20260928-03 batch-3 C-family)")
+        return False
+    if verbose:
+        basis = (f"heartbeat stale {age:.0f}min" if age is not None
+                 else "heartbeat unreadable")
+        print(f"lane_io single-writer guard: {face_rel} host={host} "
+              f"{basis} -> stale-takeover derive by {mid} "
+              f"(O-2100 s2.4 STALE_MIN law)")
+    return True
+
+
+def _selftest():
+    """Offline hermetic legs for the batch-3 single-writer guard
+    (zero fleet reads via monkeypatch, zero disk writes)."""
+    import config.lane_io as li
+    saved_mid, saved_age = li.machine_id, li._host_heartbeat_age_min
+    faces = dict(li.C_SINGLE_WRITER_HOSTS)
+    face = "results/__selftest_face.json"
+    try:
+        li.C_SINGLE_WRITER_HOSTS = {face: "bm-z"}
+        state = {"age": None}
+
+        def age(host):
+            return state["age"]
+
+        li._host_heartbeat_age_min = age
+        legs = []
+
+        # L1 host machine -> always allowed (even with stale heartbeat)
+        li.machine_id = lambda: "bm-z"
+        state["age"] = 99.0
+        legs.append(("host-always", li.shared_derive_write_allowed(face)
+                     is True and li.shared_derive_write_allowed(face,
+                                                                verbose=False)
+                     is True))
+        # L2 non-host + host fresh -> skip
+        li.machine_id = lambda: "bm-x"
+        state["age"] = 3.0
+        legs.append(("nonhost-fresh-skip",
+                     li.shared_derive_write_allowed(face) is False))
+        # L3 non-host + host stale -> takeover
+        state["age"] = 25.0
+        legs.append(("nonhost-stale-takeover",
+                     li.shared_derive_write_allowed(face) is True))
+        # L4 non-host + heartbeat unreadable -> takeover
+        state["age"] = None
+        legs.append(("nonhost-deadhost-takeover",
+                     li.shared_derive_write_allowed(face) is True))
+        # L5 face absent from map -> legacy write (fail-open)
+        legs.append(("unknown-face-fail-open",
+                     li.shared_derive_write_allowed(
+                         "results/__unmapped.json") is True))
+        # L6 machine id unreadable -> legacy write (r98 no-guess)
+        li.machine_id = lambda: ""
+        state["age"] = 3.0
+        legs.append(("unknown-mid-fail-open",
+                     li.shared_derive_write_allowed(face) is True))
+        # L7 boundary: age == C_HOST_STALE_MIN is NOT < STALE_MIN -> takeover
+        li.machine_id = lambda: "bm-x"
+        state["age"] = li.C_HOST_STALE_MIN
+        legs.append(("boundary-equal-takeover",
+                     li.shared_derive_write_allowed(face,
+                                                    verbose=False) is True))
+        ok = sum(1 for _, r in legs if r)
+        for name, r in legs:
+            print(f"  [{'PASS' if r else 'FAIL'}] {name}")
+        print(f"lane_io batch-3 guard selftest: {ok}/{len(legs)} PASS")
+        return 0 if ok == len(legs) else 1
+    finally:
+        li.machine_id = saved_mid
+        li._host_heartbeat_age_min = saved_age
+        li.C_SINGLE_WRITER_HOSTS = faces
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1 and sys.argv[1] == "selftest":
+        sys.exit(_selftest())
+    print("usage: python -m config.lane_io selftest")
+    sys.exit(0)

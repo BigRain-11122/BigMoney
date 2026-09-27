@@ -576,4 +576,10 @@ def build():
 
 
 if __name__ == "__main__":
+    # D-20260928-03(1) batch-3 C-family single-writer guard: idempotent
+    # re-derive face -- designated host writes, non-hosts honest no-op.
+    sys.path.insert(0, ROOT)
+    from config.lane_io import shared_derive_write_allowed
+    if not shared_derive_write_allowed("results/daily_scorecard.json"):
+        sys.exit(0)
     sys.exit(build())

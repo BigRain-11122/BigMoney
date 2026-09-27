@@ -1770,6 +1770,13 @@ def main():
         sys.exit(selftest())
     if cmd == "calibrate":
         sys.exit(calibrate())
+    # D-20260928-03(1) batch-3 C-family single-writer guard: this run
+    # refreshes strategy_scorecard.json + scorecard_v1.json (via the
+    # reused v1 engine) -- idempotent re-derives, designated host only.
+    sys.path.insert(0, ROOT)
+    from config.lane_io import shared_derive_write_allowed
+    if not shared_derive_write_allowed("results/strategy_scorecard.json"):
+        sys.exit(0)
     sys.exit(0 if run() else 1)
 
 
