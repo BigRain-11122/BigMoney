@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T02:30:40+08:00",
- "current_task": "r372 done: lane-migration batch-1 writer dual-track wiring (4 faces dual-write + merger strip + reconcile 6/6 zero-drift round-1)",
+ "last_seen": "2026-09-28T02:47:32+08:00",
+ "current_task": "r373 done: lane-migration batch-1 closeout (scattered-writer faces via maintenance-mirror + shards key-union merger fix, drift-catch round-2 resolved)",
  "cpu_cores": 32,
- "cpu_pct": 3.8,
- "free_ram_gb": 50.0,
- "gpu_free_vram_gb": 5.2,
- "verdict": "py_low_board_clear legal-idle round-closed (board 0 open / bandit 0 / pool 2-ready both bm-b lanes R31 no-touch + V2-P1 bm-b active claim 02:13; lane-migration writer dual-track landed this round, remaining GA/postreview writer sites = next slice)",
+ "cpu_pct": 1.9,
+ "free_ram_gb": 47.6,
+ "gpu_free_vram_gb": 5.25,
+ "verdict": "py_low_board_clear legal-idle round-closed (board 0 open / bandit 0 / pool 2-ready both bm-b lanes R31 no-touch; batch-1 A-family 6/6 dual-source zero-drift round-2 post-fix; consumer switch = next slice on >=2 full-topology readings)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,24 +108,24 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790533840,
- "clock_read": "2026-09-28T02:30:40+08:00",
+ "heartbeat_epoch_utc": 1790534852,
+ "clock_read": "2026-09-28T02:47:32+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5379,
  "gpu_idle_vram_gb": 5.5,
  "task": "idle-round-done",
- "free_ram_mb": 47648,
+ "free_ram_mb": 48711,
  "gpu": {
   "present": true,
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 372,
+ "round_no": 373,
  "gpu_idle_vram_mb": 5663,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 50.0,
+ "idle_ram_gb": 47.6,
  "gpu0_free_vram_gb": 5.25,
- "cpu_util_pct": 3.8,
+ "cpu_util_pct": 1.9,
  "total_ram_gb": 93.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-27 09:3x, 6631MiB in use)",
  "prod_lanes": [
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 372,
- "loop_round": 372
+ "round": 373,
+ "loop_round": 373
 }

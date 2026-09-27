@@ -108,3 +108,51 @@ def mirror_shared(face, indent=1, machine=None):
               f"(never mirror from a corrupt source)", file=sys.stderr)
         return False
     return write_lane(face, data, indent=indent, machine=machine)
+
+
+def mirror_shared_if_changed(face, machine=None):
+    """Every-round maintenance mirror for scattered-writer faces
+    (gate_attrition / post_review_criteria): refresh the own-machine
+    lane from the shared face ONLY when the semantic payload actually
+    changed -- parsed-payload compare is formatting-agnostic, so the
+    mixed indent conventions across the many one-off runner writers
+    never cause phantom churn.  A shared face mid-swallow simply
+    mirrors the stale state (union semantics keep every earlier
+    captured snapshot lossless for the reader; the victim's own lane
+    and git history stay the recovery paths).  Returns True when the
+    lane is up-to-date after the call (an unchanged skip counts as
+    up-to-date).  Fail-soft to stderr, never raises into the calling
+    S6 leg; a missing shared face is a quiet no-op, not a fault."""
+    if face not in _KNOWN_FACES:
+        print(f"lane_io: unknown face {face!r} -- refuse (fail-closed)",
+              file=sys.stderr)
+        return False
+    shared = os.path.join(PATHS.results_dir, f"{face}.json")
+    try:
+        with open(shared, encoding="utf-8") as fh:
+            data = json.load(fh)
+    except FileNotFoundError:
+        return False
+    except Exception as ex:
+        print(f"lane_io: shared face {face!r} unreadable: {ex} "
+              "(mirror skipped, shared stays authoritative)",
+              file=sys.stderr)
+        return False
+    if not isinstance(data, dict):
+        print(f"lane_io: shared face {face!r} is "
+              f"{type(data).__name__}, dict required -- skip",
+              file=sys.stderr)
+        return False
+    mid = machine if machine is not None else machine_id()
+    lane = lane_path(face, mid) if mid else None
+    if lane and os.path.exists(lane):
+        try:
+            with open(lane, encoding="utf-8") as fh:
+                prev = json.load(fh)
+            if isinstance(prev, dict):
+                prev.pop("lane_machine", None)
+                if prev == data:
+                    return True  # unchanged -- churn-free skip
+        except Exception:
+            pass  # corrupt lane -> rewrite from shared below
+    return write_lane(face, data, machine=machine)

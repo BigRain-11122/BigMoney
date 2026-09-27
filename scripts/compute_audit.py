@@ -27,7 +27,8 @@ import time
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "results", "compute_audit.json")
 sys.path.insert(0, ROOT)
-from config.lane_io import write_lane  # noqa: E402  D-03(1) batch-1
+from config.lane_io import (mirror_shared_if_changed,  # noqa: E402
+                           write_lane)  # D-03(1) batch-1
 SAMPLE_WINDOW_S = 3
 CAP_POLICY = 0.80            # O-20260923-1738
 CAP_TOLERANCE = 1.06         # 85% trip line
@@ -337,6 +338,14 @@ def main():
     # shared face (compat window -- shared stays authoritative; the
     # lane write never changes the audit exit contract).
     write_lane("compute_audit", payload, indent=2)
+    # D-03(1) batch-1 scattered-writer faces: gate_attrition /
+    # post_review_criteria writers are one-off batch runners (~40 live
+    # sites and new ones appear with every prereg wave), so per-site
+    # wiring decays structurally -- this every-round audit leg maintains
+    # both lanes via churn-free mirrors instead (any snapshot ever
+    # captured is lossless under merger union semantics).
+    for _face in ("gate_attrition", "post_review_criteria"):
+        mirror_shared_if_changed(_face)
 
     print(json.dumps(record, ensure_ascii=False))
     # exit 0 always: audit is observational; loop reports flags only

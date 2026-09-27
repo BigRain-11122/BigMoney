@@ -53,6 +53,55 @@ def _lane_path(face, machine):
     return os.path.join(PATHS.results_dir, f"{face}.{machine}.json")
 
 
+def _merge_shard_same_key(a, b):
+    """Same-key shard rows: the row with the newer ``owner_since`` is
+    the base (r311 latest.ts deep-probe law); fields missing on the
+    base fill from the other side (r370 non-null-first family; ts ties
+    resolve deterministically to the first side)."""
+    ta, tb = str(a.get("owner_since", "")), str(b.get("owner_since", ""))
+    base, other = (a, b) if ta >= tb else (b, a)
+    out = dict(base)
+    for k, v in other.items():
+        if out.get(k) in (None, "") and v not in (None, ""):
+            out[k] = v
+    return out
+
+
+def _union_shard_rows(ra, rb):
+    """Shard rows unioned by shard ``key`` (identity), not whole-row.
+
+    A stale lane snapshot and the living shared face legitimately
+    differ on time-varying shard fields (owner_since/checkpoint) --
+    whole-row union turned that lag into duplicate rows (r373
+    reconcile drift catch on DECISION-CHAIN-V2-P1 / CENSUS-FUS-S2-W2A).
+    Same-key rows merge via _merge_shard_same_key; keyless rows keep
+    the whole-row append-log union (no identity -> no merge key);
+    same-key duplicates within one side self-heal into the first
+    occurrence.  Base order preserved (append-log law)."""
+    out = list(ra)
+    have = {}
+    for i, row in enumerate(out):
+        k = row.get("key")
+        if k is not None and k not in have:
+            have[k] = i
+    seen_keyless = {_row_id(x) for x in out if x.get("key") is None}
+    for row in rb:
+        k = row.get("key")
+        if k is None:
+            rid = _row_id(row)
+            if rid not in seen_keyless:
+                seen_keyless.add(rid)
+                out.append(row)
+            continue
+        if k in have:
+            i = have[k]
+            out[i] = _merge_shard_same_key(out[i], row)
+        else:
+            have[k] = len(out)
+            out.append(row)
+    return out
+
+
 def _shared_path(face):
     return os.path.join(PATHS.results_dir, f"{face}.json")
 
@@ -205,9 +254,9 @@ def _merge_pool_entry(a, b, notes, label_a, label_b):
                              f"non-null-first from {label_b}")
         sa, sb = a.get("shards"), b.get("shards")
         if isinstance(sa, list) or isinstance(sb, list):
-            rows = _union_rows(sa or [], sb or [])
+            rows = _union_shard_rows(sa or [], sb or [])
             out["shards"] = rows
-            notes.append(f"entry {a.get('id')}: same-status shards union "
+            notes.append(f"entry {a.get('id')}: shards key-union "
                          f"-> {len(rows)}")
         for k, v in b.items():
             if k not in out or (out[k] in (None, "") and v not in (None, "")):
@@ -442,6 +491,35 @@ def _selftest():
           and p2["shards"] == [{"s": 1}])
     check("pool:single-side-keep", p3["status"] == "waiting")
     check("pool:meta-newer", m["updated_at"] == "02:00:00")
+
+    # 5b. runnable_pool shards key-union (r373 drift fix): stale lane
+    # lag on owner_since must absorb into the newer shared row (zero
+    # drift), a swallowed shared row must recover from the lane, and
+    # keyless rows keep the whole-row append-log union.
+    fresh = {"updated_at": "03:00:00", "entries": [
+        {"id": "S", "status": "ready", "shards": [
+            {"key": "v2-0of1", "status": "ready", "owner": "bm-b",
+             "owner_since": "2026-09-28 02:33:18", "checkpoint": None},
+            {"note": "keyless-extra"}]}]}
+    stale_lane = {"updated_at": "02:00:00", "entries": [
+        {"id": "S", "status": "ready", "shards": [
+            {"key": "v2-0of1", "status": "ready", "owner": "bm-b",
+             "owner_since": "2026-09-28 02:13:19",
+             "checkpoint": "results/cp.json"}]}]}
+    m, _ = merge_runnable_pool([("legacy", fresh), ("bm-a", stale_lane)])
+    s = next(e for e in m["entries"] if e["id"] == "S")
+    check("pool:shard-lag-absorbs", s["shards"][0]["owner_since"]
+          == "2026-09-28 02:33:18"
+          and s["shards"][0]["checkpoint"] == "results/cp.json"
+          and len([r for r in s["shards"] if r.get("key") == "v2-0of1"]) == 1)
+    check("pool:shard-keyless-union", {"note": "keyless-extra"}
+          in s["shards"])
+    # swallow direction: shared reverted to the old fork, lane holds the
+    # newer keepalive -> merged must recover the newer truth.
+    m, _ = merge_runnable_pool([("legacy", stale_lane), ("bm-a", fresh)])
+    s = next(e for e in m["entries"] if e["id"] == "S")
+    check("pool:shard-swallow-recover", s["shards"][0]["owner_since"]
+          == "2026-09-28 02:33:18")
 
     # 6. gate_attrition full-volume union (47 consumers need every row)
     a = {"schema": "v1", "entries": [{"batch": "B", "ts": "01"}],
