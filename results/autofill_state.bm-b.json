@@ -1,47 +1,13 @@
 {
  "last_tick": {
-  "ts": "2026-09-28 03:10:01",
+  "ts": "2026-09-28 03:30:02",
   "machine": "bm-b",
-  "py_cpu_pct": 16.0,
-  "keepalive": [
-   "censusw2a-0of1"
-  ],
-  "verdict": "fuse_refused_crash_loop",
-  "entry": "DECISION-CHAIN-V2-P1",
-  "shard": "v2-0of1",
-  "fuse_crashes": 2,
-  "fuse_refusals": 2,
-  "fuse_skipped": [
-   {
-    "entry": "DECISION-CHAIN-V2-P1",
-    "shard": "v2-0of1",
-    "sig": "scripts/decision_chain_v2.py|run",
-    "fuse_refusals": 2
-   }
-  ]
+  "py_cpu_pct": 2.5,
+  "verdict": "claim_lost_yield",
+  "entry": "CENSUS-FUS-S2-W2A",
+  "shard": "censusw2a-0of1"
  },
  "launches": [
-  {
-   "ts": "2026-09-26 14:50:27",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "fuse_skipped": [
-    {
-     "entry": "T80-AGGR-FULLPOOL-BATTERY",
-     "shard": "aggrfp-0of1",
-     "sig": "scripts/aggr_fullpool_battery.py|run,--shard,0,--shards,1",
-     "fuse_refusals": 3
-    }
-   ],
-   "verdict": "launched",
-   "entry": "CN-DIV-LOWVOL-ROT-P1",
-   "shard": "divlowvolrot-0of1",
-   "pid": 43612,
-   "runner_sha256": "59b649a797fa3541",
-   "fill_latency_min": 11.4,
-   "target_met": false,
-   "crash_counted": true
-  },
   {
    "ts": "2026-09-26 15:10:02",
    "machine": "bm-a",
@@ -662,6 +628,22 @@
    "pid": 53756,
    "runner_sha256": "0249a0a0886b0784",
    "fill_latency_min": 38.1,
+   "target_met": false,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-09-28 02:30:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 24.8,
+   "keepalive": [
+    "censusw2a-0of1"
+   ],
+   "verdict": "launched",
+   "entry": "DECISION-CHAIN-V2-P1",
+   "shard": "v2-0of1",
+   "pid": 24976,
+   "runner_sha256": "880297a0fb0854bf",
+   "fill_latency_min": 111.4,
    "target_met": false,
    "crash_counted": true
   },

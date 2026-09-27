@@ -1,0 +1,74 @@
+{
+ "evidence_cutoff": "2026-09-24",
+ "batch": "CENSUS_FUS_S2_W2A",
+ "ticket": "T-2026-09-26-86-P1 s2 wave-2 W2-A (CEO O-20260926-2320)",
+ "prereg_ref": "research/CENSUS_FUSION_S2_PREREG.md sec.9.3 + w2_roster.json FROZEN commit 38c7dc96 precedes runner build precedes ANY run (R99)",
+ "face": "EXPLORATION (zero judgment claims / zero paper eligibility)",
+ "n_candidates": 5456,
+ "n_controls": 64,
+ "n_nulls": 400,
+ "data_gate": {
+  "panel_files": 5217,
+  "join_members": 5217,
+  "ok_static_true_in_join": 3514,
+  "ok_static_false_in_join": 1703,
+  "mask_rows": 5222,
+  "min_rows_median": 2503,
+  "pct_end_at_cutoff": 0.9977,
+  "rows_dropped_post_cutoff": 0,
+  "gate_join_min_5000": true,
+  "universe_reading": "panel x mask CODE set (frozen >=5,000 gate; ok_static subset DISCLOSED not gated -- ok_static-only join would be ~3,517 < 5,000 and cannot satisfy the frozen gate; zero-run amendment window record: ticket progress_r326_bma + fleet/inbox MSG)",
+  "ok": true
+ },
+ "lhb_events": {
+  "raw": 266062,
+  "dedup_events": 227859,
+  "placed": 196714,
+  "drop_no_col": 31145,
+  "drop_no_date": 0
+ },
+ "bench_disclosure": {
+  "bench_end": "2026-09-22",
+  "note": "csi300.csv ends 2026-09-22; rs_vs reindex+ffill convention (engine/factors.py source anchor) bridges to 2026-09-24; affects rs CONTROL faces only (disclosed)"
+ },
+ "grid": {
+  "anchor_first_signal": "2007-01-05",
+  "n_signals": 959,
+  "n_execs": 959,
+  "cadence": "5 trading days",
+  "top_k": 50,
+  "panel_days": 8734,
+  "cutoff_real": "2026-09-24",
+  "n_syms": 5217
+ },
+ "products": [
+  "w2a_cells.csv",
+  "w2a_nulls.json",
+  "w2a_top_matrices.json",
+  "w2a_summary.json"
+ ],
+ "audit": {
+  "workers": 4,
+  "purpose": "exploration census (no selection gate)",
+  "ledger_trials_added": 5920,
+  "elapsed_sec": 44308.0,
+  "null_seed_band": "20281500..20281899",
+  "checkpoint": "w2a_checkpoint.jsonl (200-combo cadence)",
+  "sidecars": "C:\\Users\\Administrator\\Desktop\\Bigmoney\\Money02\\data\\cache\\census_w2 (gitignored state; rebuildable)",
+  "methodology_divergences": [
+   "top-50 blend leg (sec.9.3; wave-1 was top-tercile 16/48)",
+   "adv20 from RAW amount (no ffill): suspension -> NaN -> entry no-fill (conservative; wave-1 dense-panel ffill convention disclosed)",
+   "EW-universe all-members benchmark replaces EW48 (delta cols _vs_ew_univ)",
+   "universe = panel x mask CODE set with frozen >=5,000 gate; ok_static subset disclosed not gated (gate report)"
+  ]
+ },
+ "trials_ledger": {
+  "prev_total": 288384,
+  "batch_trials": 5920,
+  "total": 294304,
+  "batch": "CENSUS_FUS_S2_W2A",
+  "file": "census_fusion_s2/w2a_results.json",
+  "note": "exploration face: 5,456 fusion combos + 64 rs controls + 400 nulls (sec.9.3 frozen N=5,920)",
+  "evidence_cutoff": "2026-09-24"
+ }
+}

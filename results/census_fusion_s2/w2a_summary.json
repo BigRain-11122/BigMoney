@@ -1,0 +1,134 @@
+{
+ "batch": "CENSUS_FUS_S2_W2A",
+ "family_rule": "sec.9.3: per roster family, median x2 blend Sharpe of combos containing >=1 family face + coverage count; cross-family top-10 by x2 Sharpe; EXPLORATION ONLY (zero registration effect)",
+ "families": {
+  "B_zoo": {
+   "n_combos": 1802,
+   "median_x2_sharpe": 0.6828
+  },
+  "C_a158_truegap": {
+   "n_combos": 2856,
+   "median_x2_sharpe": 0.5919
+  },
+  "C_gtja191": {
+   "n_combos": 3685,
+   "median_x2_sharpe": 0.6433
+  },
+  "C_wq101": {
+   "n_combos": 3685,
+   "median_x2_sharpe": 0.6486
+  },
+  "E_lhb": {
+   "n_combos": 496,
+   "median_x2_sharpe": 0.6321
+  }
+ },
+ "cross_family_top10": [
+  {
+   "id": "T:alpha191_070|alpha191_095|wq101_alpha042",
+   "faces": "alpha191_070|alpha191_095|wq101_alpha042",
+   "signs": "--+",
+   "x2_sharpe": 1.3779,
+   "x1_sharpe": 1.4216,
+   "ic_mean": 0.0768
+  },
+  {
+   "id": "P:alpha191_070|wq101_alpha042",
+   "faces": "alpha191_070|wq101_alpha042",
+   "signs": "-+",
+   "x2_sharpe": 1.3479,
+   "x1_sharpe": 1.3883,
+   "ic_mean": 0.0771
+  },
+  {
+   "id": "P:alpha191_070|alpha191_095",
+   "faces": "alpha191_070|alpha191_095",
+   "signs": "--",
+   "x2_sharpe": 1.3476,
+   "x1_sharpe": 1.458,
+   "ic_mean": 0.0754
+  },
+  {
+   "id": "T:zoo92_coin_team|alpha191_095|wq101_alpha042",
+   "faces": "zoo92_coin_team|alpha191_095|wq101_alpha042",
+   "signs": "--+",
+   "x2_sharpe": 1.3413,
+   "x1_sharpe": 1.425,
+   "ic_mean": 0.0735
+  },
+  {
+   "id": "T:zoo92_coin_team|alpha191_070|wq101_alpha042",
+   "faces": "zoo92_coin_team|alpha191_070|wq101_alpha042",
+   "signs": "--+",
+   "x2_sharpe": 1.337,
+   "x1_sharpe": 1.4203,
+   "ic_mean": 0.0764
+  },
+  {
+   "id": "P:alpha191_095|lhb_count_20",
+   "faces": "alpha191_095|lhb_count_20",
+   "signs": "--",
+   "x2_sharpe": 1.3359,
+   "x1_sharpe": 1.4222,
+   "ic_mean": 0.0866
+  },
+  {
+   "id": "T:alpha191_070|alpha191_095|lhb_count_20",
+   "faces": "alpha191_070|alpha191_095|lhb_count_20",
+   "signs": "---",
+   "x2_sharpe": 1.3327,
+   "x1_sharpe": 1.4425,
+   "ic_mean": 0.0927
+  },
+  {
+   "id": "T:alpha191_070|wq101_alpha042|lhb_count_20",
+   "faces": "alpha191_070|wq101_alpha042|lhb_count_20",
+   "signs": "-+-",
+   "x2_sharpe": 1.3196,
+   "x1_sharpe": 1.3613,
+   "ic_mean": 0.092
+  },
+  {
+   "id": "T:zoo85_terrified|zoo92_coin_team|wq101_alpha042",
+   "faces": "zoo85_terrified|zoo92_coin_team|wq101_alpha042",
+   "signs": "--+",
+   "x2_sharpe": 1.3119,
+   "x1_sharpe": 1.3857,
+   "ic_mean": 0.0703
+  },
+  {
+   "id": "T:alpha191_099|alpha191_070|wq101_alpha042",
+   "faces": "alpha191_099|alpha191_070|wq101_alpha042",
+   "signs": "+-+",
+   "x2_sharpe": 1.31,
+   "x1_sharpe": 1.4168,
+   "ic_mean": 0.0719
+  }
+ ],
+ "ew_univ_benchmark": {
+  "x1": {
+   "ann": 0.0859,
+   "vol": 0.1624,
+   "sharpe": 0.5287,
+   "maxdd": -0.3798,
+   "monthly_win": 0.5485,
+   "n_days": 4794,
+   "capped_entries": 0
+  },
+  "x2": {
+   "ann": 0.0849,
+   "vol": 0.1624,
+   "sharpe": 0.5231,
+   "maxdd": -0.3811,
+   "monthly_win": 0.5485,
+   "n_days": 4794,
+   "capped_entries": 0
+  }
+ },
+ "null_x2_sharpe": {
+  "n": 400,
+  "median": -0.3382,
+  "p95": 0.7783
+ },
+ "cand_x2_p95": 0.9827
+}
