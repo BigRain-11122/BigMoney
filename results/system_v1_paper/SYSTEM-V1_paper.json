@@ -1,0 +1,122 @@
+{
+ "schema": "system_v1_paper_v1",
+ "ticket": "T-2026-09-27-91",
+ "order": "O-20260926-2340",
+ "lane": "system-v1 live paper (results/system_v1_paper/, independent lane)",
+ "lane_guard": "bm-a-only-writes (R31 family); every other machine = stdout-only honest no-op",
+ "guard": "shadow record-only (zero interference, zero canon/production-account touch)",
+ "experimental": true,
+ "initial_cash_cny": 1000000.0,
+ "denomination": "CNY",
+ "anchor_grid": "2026-09-24",
+ "evidence_cutoff": "2026-09-24",
+ "paper_start": "first mark day = first trading day strictly after the anchor grid 2026-09-24 (out-of-sample by construction; O-2045 daily-marks semantics)",
+ "machinery": {
+  "engine": "per-name daily-mark-to-market MIRROR of rev_osc_stock_p1.sim_stock (constants imported, zero re-implementation; selftest leg-1 path product == _net within 1e-9)",
+  "cell": "FY_BG_TP8 live face (O-2335 three-piece): first-bullish + bear-gate (SIG gate.open, 510300<MA200 proxy per SIG disclosure) + TP +8%, hold H=7",
+  "grid": "every 5th td from anchor 2026-09-24 on the 510300 ETF calendar (frozen)",
+  "buckets": "2 capital buckets, cohort k%2 over the FULL grid sequence (skips included, judged mirror); max concurrent 2 (H=7 < 2*grid step)",
+  "name_weight": 0.1,
+  "name_weight_note": "frozen equal weight 1/10 per name (idle slots = cash); judged eq face = 1/min(10, qualified) -- picks<10 divergence disclosed",
+  "cost_face": "x1 0.0013041/side (13.041bp, V1 stock schedule, P4_BATCH2 s3.2 anchor, COST_X1 import)",
+  "entry_law": "T+1 open conservative proxy (O-1132): unfillable = open NaN or near-limit-up open (open/prev_close-1 >= floor-0.002)",
+  "bars_exhausted_law": "status open, no fake tail exit (live-ops law; judged tail face not applicable forward)",
+  "signal_face": "results/rev_osc_live SIG-<date>/BARS-<date> consumed; missing SIG = awaiting_signal skip (counted); BARS merge = latest-wins (qfq truth); git = transfer channel (fleet/TRANSFER.md)"
+ },
+ "engine_counters": {
+  "grid_days": 0,
+  "live_cohorts": 0,
+  "pending_cohorts": 0,
+  "skips": {
+   "awaiting_signal": 0,
+   "gate_closed": 0,
+   "thin_market": 0,
+   "empty_fill": 0
+  },
+  "entries": 0,
+  "unfillable": 0,
+  "exits": {
+   "time": 0,
+   "tp": 0,
+   "tp_gap": 0,
+   "sl": 0
+  },
+  "cohort_buckets": []
+ },
+ "open_positions": [],
+ "lane_files": {
+  "sig": 0,
+  "bars": 0
+ },
+ "panel_cutoff": null,
+ "etf_calendar_last": "2026-09-24",
+ "awaiting_lane_data": true,
+ "audit": {
+  "network": "zero",
+  "ledger_trials_added": 0,
+  "seed_registry_added": 0,
+  "adoption": "ZERO (live paper observation lane)"
+ },
+ "account": "SYSTEM-V1",
+ "account_face": "decision-chain LIVE face: L1 clock state -> L2 route -> deployed sleeve = rev_osc only (v1.0 stubs); allocation semantics (w_eff x series; no mid-hold forced liquidation; glide law + transition cost)",
+ "l1_source": "harness-accumulated state_hist from results/market_clock/call_latest.json (append-when-advances, never truncate; state_for_day = latest asof STRICTLY < day)",
+ "route_table_v1_0": {
+  "rows": {
+   "GREEN": {
+    "rev_osc": 0.0,
+    "trend": 0.6,
+    "lowvol": 0.2,
+    "cap": 0.8
+   },
+   "CHOP": {
+    "rev_osc": 0.0,
+    "trend": 0.15,
+    "lowvol": 0.15,
+    "cap": 0.4
+   },
+   "ORANGE": {
+    "rev_osc": 0.3,
+    "trend": 0.1,
+    "lowvol": 0.1,
+    "cap": 0.5
+   },
+   "RED": {
+    "rev_osc": 0.05,
+    "trend": 0.0,
+    "lowvol": 0.15,
+    "cap": 0.2
+   }
+  },
+  "yellow_maps_to": "CHOP",
+  "instantiation": "harness-frozen numeric instantiation of SYSTEM_V1_PREREG L2 qualitative rows",
+  "amendment_window": "until first mark 2026-09-28 (frozen spec R308; after that = law)",
+  "l5_note": "call_latest position_cap_ladder carried in state_hist entries (informational; route caps are the frozen table rows)"
+ },
+ "stubs_v1_0": {
+  "trend_sleeve": "weight-bearing-0 (member classification + T-86 lowamp pending)",
+  "lowvol_sleeve": "weight-bearing-0 (same)",
+  "cash_leg": "residual idles in cash at 0% accrual (repo ladder pending T-88 s3 collectors)",
+  "fail_closed": true
+ },
+ "report_wiring": "s4 pending (daily_scorecard SYSTEM-V1 + REV-OSC lines with sleeve attribution + town GM-office rows + 2026-10-31 bench) -- wires after harness green per T-91 spec",
+ "state_hist": [
+  {
+   "asof": "2026-09-24",
+   "state": "ORANGE",
+   "clock_cell": "ORANGE_COOL",
+   "cap_ladder": 0.5
+  }
+ ],
+ "marks": [],
+ "marks_summary": {
+  "bars": 0,
+  "first_date": null,
+  "last_date": null,
+  "cumulative_ret": 0.0,
+  "current_dd": 0.0,
+  "active_days": 0,
+  "fail_closed_route_days": 0
+ },
+ "equity_cny": 1000000.0,
+ "updated": "2026-09-27 09:47:15"
+}
