@@ -1084,10 +1084,18 @@ def tick(dry=False):
         # trace visible on the tick record without polluting entry/shard
         rec["fuse_skipped"] = fuse_skipped
     if reg:
+        # D-03(2) cleared-tombstone: record the clear so the lane-union
+        # cannot resurrect this sig from another machine's stale lane
+        # (r389 drift family).  A newer crash on the NEW code carries a
+        # fresh last_crash_ts and beats the tombstone at the merge.
+        fuse.setdefault("cleared", {})[sig] = {
+            "cleared_ts": _now(), "cleared_by": rec["machine"],
+            "reason": "code_changed", "crashes": int(reg.get("count", 0)),
+            "old_code_sha256": reg.get("code_sha256")}
         del fuse["sigs"][sig]
         _save_fuse(fuse)
         _log(f"crash-fuse CLEARED {sig}: code changed since crash "
-             f"(fix detected) -> launch allowed")
+             f"(fix detected) -> launch allowed (tombstone recorded)")
     cmd = [sys.executable, os.path.join(ROOT, e["runner"])] + \
         list(e.get("runner_args", []))
     try:
@@ -2166,6 +2174,50 @@ def selftest():
         ok("S16g merge-path fault -> bare shared gate still refuses",
            rc == 0 and st16g["verdict"] == "fuse_refused_crash_loop"
            and st16g.get("fuse_refusals") == 1)
+        # S16h D-03(2) cleared-tombstone: r389 drift shape live replay --
+        # own code-change clear records a tombstone (shared + own lane);
+        # a FOREIGN lane still carrying the stale sig cannot resurrect
+        # it through the merged gate (suppressed -> launch proceeds) and
+        # reconcile converges (merged == shared, permanent zero-drift).
+        _clear_fuse_lanes()
+        mid16h = _machine_id()
+        sig16h = "scripts/fake_runner.py|run"
+        with open(FUSE, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {sig16h: {
+                "code_sha256": "deadbeef0000", "count": 1,
+                "refusals": 0,
+                "last_crash_ts": "2026-09-28 06:20:04"}}}, fh)
+        lane_c = os.path.join(os.path.dirname(FUSE), "crash_fuse.bm-c.json")
+        with open(lane_c, "w", encoding="utf-8") as fh:
+            json.dump({"sigs": {sig16h: {
+                "code_sha256": "deadbeef0000", "count": 1,
+                "refusals": 0,
+                "last_crash_ts": "2026-09-28 06:20:04"}},
+                "lane_machine": "bm-c"}, fh)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump(pool16, fh)
+        rc = tick(dry=True)          # fix detected -> clear + tombstone
+        fu16h = json.load(open(FUSE, encoding="utf-8"))
+        lane_own = os.path.join(os.path.dirname(FUSE),
+                                f"crash_fuse.{mid16h}.json")
+        lane_own_16h = json.load(open(lane_own, encoding="utf-8"))
+        ok("S16h clear records tombstone on shared + own lane",
+           rc == 0 and sig16h not in fu16h["sigs"]
+           and fu16h["cleared"][sig16h]["reason"] == "code_changed"
+           and fu16h["cleared"][sig16h]["cleared_by"] == mid16h
+           and sig16h not in lane_own_16h["sigs"]
+           and lane_own_16h["cleared"][sig16h]["reason"] == "code_changed")
+        rc = tick(dry=True)          # foreign lane resurrect -> suppressed
+        st16h = _load_state()["last_tick"]
+        fu16h2 = json.load(open(FUSE, encoding="utf-8"))
+        gate16h = _load_fuse_gate()
+        ok("S16h foreign-lane resurrect suppressed by tombstone "
+           "(gate view sig-free, launch proceeds)",
+           rc == 0 and st16h["verdict"] == "dry_launch"
+           and sig16h not in gate16h.get("sigs", {})
+           and sig16h not in fu16h2["sigs"])
+        os.remove(lane_c)
+        _clear_fuse_lanes()
         # S17 submit contract gate (r301+r305 family: hand-submit field
         # omissions starve _pick silently -- assert trio at entry point).
         # fixture runner lives in the tempdir: a repo-real path would

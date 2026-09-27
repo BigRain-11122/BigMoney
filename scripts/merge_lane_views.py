@@ -442,7 +442,9 @@ MERGERS = {
 #     from the host's machine-local data/heat face (gitignored), so a
 #     fresher non-host no-op write is NOT authoritative (ts新 != 数据权威新).
 #   * crash_fuse: per-runner sig key union with newer-event-wins (the fuse
-#     is an append/monotone-counter face, never a last-writer blob).
+#     is an append/monotone-counter face, never a last-writer blob);
+#     D-03(2) cleared-tombstones ("cleared" dict, cleared_ts key-union
+#     newer-wins) suppress lane-resurrected older events (r389 family).
 # ---------------------------------------------------------------------------
 
 B_FACES = ("update_status", "heat_update_status", "lhb_update_status",
@@ -491,10 +493,22 @@ def merge_crash_fuse(sources):
             best = max(best, _sig_ts(sig))
         return best
 
+    def _tomb_ts(tomb):
+        if not isinstance(tomb, dict):
+            return ""
+        return str(tomb.get("cleared_ts", ""))
+
     win = _flat_winner(sources, _max_sig_ts)
     out = dict(sources[win][1])
     sigs = {}
+    cleared = {}
     for label, data in sources:
+        for key, tomb in (data.get("cleared") or {}).items():
+            if not isinstance(tomb, dict):
+                continue
+            if (key not in cleared
+                    or _tomb_ts(tomb) > _tomb_ts(cleared[key])):
+                cleared[key] = tomb
         for key, sig in data.get("sigs", {}).items():
             if key not in sigs:
                 sigs[key] = sig
@@ -502,9 +516,22 @@ def merge_crash_fuse(sources):
             if _sig_ts(sig) > _sig_ts(sigs[key]):
                 sigs[key] = sig
                 notes.append(f"sig {key!r}: newer event from {label}")
+    # D-03(2) cleared-tombstone (r389 drift family): a deliberate clear
+    # (code-change fix) recorded by ANY machine suppresses the same sig
+    # resurrected from another machine's stale lane; a NEWER event
+    # (re-crash on the new code) beats the tombstone and survives.
+    for key in list(sigs):
+        tomb = cleared.get(key)
+        if tomb and _tomb_ts(tomb) > _sig_ts(sigs[key]):
+            del sigs[key]
+            notes.append(f"sig {key!r}: cleared-tombstone "
+                         f"{_tomb_ts(tomb)} > last event -> suppressed")
     out["sigs"] = sigs
+    if cleared:
+        out["cleared"] = cleared
     notes.append(f"sigs key-union -> {len(sigs)} runner sig(s), same-key "
-                 f"newer-event-wins; flat from {sources[win][0]}")
+                 f"newer-event-wins (+{len(cleared)} tombstone(s)), flat "
+                 f"from {sources[win][0]}")
     return out, notes
 
 
@@ -1212,6 +1239,57 @@ def _selftest():
           and m["sigs"]["r|run"]["count"] == 2
           and m["sigs"]["r|run"]["last_crash_ts"] == "2026-09-28 03:00:08"
           and m["sigs"]["r2|run"]["count"] == 1)
+
+    # 12b. D-03(2) cleared-tombstone: r389 drift shape live replay --
+    # shared post-clear lacks the sig, a foreign lane still carries it,
+    # the clearing machine's lane carries the tombstone -> merged
+    # suppresses the resurrection and CONVERGES to shared (zero-drift).
+    fs = {"sigs": {"cn_trend|run": {"count": 2, "refusals": 0,
+                                    "last_crash_ts": "2026-09-27 06:50:03"},
+                   "v2|run": {"count": 1, "refusals": 0,
+                              "last_crash_ts": "2026-09-27 02:30:01"}}}
+    f_stale_lane = {"sigs": {"trial_w2|run": {"count": 1, "refusals": 1,
+                             "last_crash_ts": "2026-09-28 06:20:04",
+                             "last_refusal_ts": "2026-09-28 06:20:04"}}}
+    f_clear_lane = {"sigs": {"cn_trend|run": {"count": 2, "refusals": 0,
+                             "last_crash_ts": "2026-09-27 06:50:03"}},
+                    "cleared": {"trial_w2|run": {
+                        "cleared_ts": "2026-09-28 07:00:01",
+                        "cleared_by": "bm-a", "reason": "code_changed"}}}
+    m, _ = merge_face("crash_fuse", [("legacy", fs),
+                                     ("bm-c", f_stale_lane),
+                                     ("bm-a", f_clear_lane)])
+    check("b-crashfuse-tombstone-suppress",
+          "trial_w2|run" not in m["sigs"]
+          and set(m["sigs"]) == {"cn_trend|run", "v2|run"}
+          and m["cleared"]["trial_w2|run"]["cleared_by"] == "bm-a"
+          and m == {"sigs": fs["sigs"],
+                    "cleared": f_clear_lane["cleared"]})
+    # 12c. a NEWER event (re-crash on the new code) beats the tombstone
+    f_rec = {"sigs": {"trial_w2|run": {"count": 1, "refusals": 0,
+                                      "last_crash_ts": "2026-09-28 09:10:00"}}}
+    m, _ = merge_face("crash_fuse", [("legacy", {"sigs": {}}),
+                                     ("bm-b", f_rec),
+                                     ("bm-a", f_clear_lane)])
+    check("b-crashfuse-tombstone-recrash-survives",
+          "trial_w2|run" in m["sigs"]
+          and m["sigs"]["trial_w2|run"]["last_crash_ts"]
+          == "2026-09-28 09:10:00")
+    # 12d. tombstone key-union: same key from two sources, newer wins
+    f_clear2 = {"cleared": {"trial_w2|run": {
+        "cleared_ts": "2026-09-28 08:00:00",
+        "cleared_by": "bm-c", "reason": "code_changed"}}}
+    m, _ = merge_face("crash_fuse", [("legacy", {"sigs": {}}),
+                                     ("bm-a", f_clear_lane),
+                                     ("bm-c", f_clear2)])
+    check("b-crashfuse-tombstone-union-newer",
+          m["cleared"]["trial_w2|run"]["cleared_ts"]
+          == "2026-09-28 08:00:00"
+          and m["cleared"]["trial_w2|run"]["cleared_by"] == "bm-c")
+    # 12e. no tombstones anywhere -> NO "cleared" key attached
+    # (additive-key drift vs shared faces is structurally impossible)
+    m, _ = merge_face("crash_fuse", [("legacy", fa), ("bm-b", fb)])
+    check("b-crashfuse-no-tombstone-no-key", "cleared" not in m)
 
     # 13. call_latest: asof-probe take-new (deterministic same-day regen
     # -> byte-identical sides; a fresher panel cutoff wins the view)
