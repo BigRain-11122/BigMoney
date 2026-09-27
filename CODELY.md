@@ -15,6 +15,7 @@
 
 - [2026-09-27 08:12 r310 bm-b] 坑律：同窗双机 10min 循环对同一 CEO 即时票=结构性撞认领发生器（r309/r310 窗三连实弹：T-89 撞认领 07:55:54 vs 08:01:09·T-90 撞认领 08:04:41 vs 08:06:01——双方各 pull 于对方 push 前=盲窗结构性必在）；正典=①认领 commit 秒级微推+F-04 MSG 先行②§4 commit 时间序裁定稳定可复用但每撞=一整轮 resolve 成本③根治候选=GM 开票即在票面写 owner 机（认领制→派定制）呈 GM 议。指针=round_reports r310 行+commits 49a88722/94fca911/6185164f/a9ed12ff。
 - [2026-09-27 08:2x r304 bm-a] 坑律：**Sobol/网格参数解包禁整列 int()**——cn_mkneutral run_sobol 原型 `W_, BW_, CAP_ = int(p[0]), int(p[1]), int(p[2])` 把浮点格值 cap 1.25/1.5 截断成 1（自检阵捕获：4/6 行 cap=1.0 不在冻结格）；正典=混合类型网格按列各自解包（int 列才 int()、float 列原值 float()），自检「全部格值 ∈ 冻结格」断言为必带腿。指针=scripts/cn_mkneutral_p1.py run_sobol 解包行+本行。
+- [2026-09-27 08:3x r305 bm-a] 坑律：池注册契约第二例——会话手写入池漏 `workers_plan`（O-2130 多核律必带），autofill `_pick` 前置过滤整条静默剔除（08:30:04 tick 实弹 skip「no workers_plan」）；与 r301 shards 律同族=手写控制面提交字段完整性无自检。正典=入池自检断言三件套：runner 非空+shards 非空+workers_plan 存在（_pick 三前置）。修复=控制面补字段 220be63b，08:40 tick 认领。指针=commit 220be63b+logs/autofill.log 08:30:04 行。
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
