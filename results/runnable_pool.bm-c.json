@@ -352,7 +352,7 @@
      "key": "censusw2b-0of1",
      "status": "waiting",
      "owner": "bm-b",
-     "owner_since": "2026-09-28 04:30:31",
+     "owner_since": "2026-09-28 04:50:30",
      "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
     }
@@ -3021,6 +3021,35 @@
     }
    ],
    "result_ref": "results/shortline_xstock_tilt.json (0/4 verdict, closed; prereg s7/s8 backfilled r153)"
+  },
+  {
+   "id": "TRIAL-LABOR-W2-GENERATE",
+   "ticket_ref": "T-2026-09-28-96 WAVE-2 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r357, grammar face frozen r358 sha16=1dd3d95792395cec; runner generate subcommand built bm-b r359 selftest 29/29 hermetic; bm-c MSG-20260928-0450 zero-objection receipt on the MSG-0440 dual disclosures)",
+   "prereg_ref": "research/TRIAL_LABOR_W2_PREREG.md FROZEN (sec.3 Sobol raw 5000 = A500/B4500 five-tuple axis incl. initial-stop face; sec.1 four-source exclusion law -- w1_screen.json survivors 149 consumed generate-time, w1_judge + MASS judged declared-unavailable zero rows no fabrication; dedup T-84 s3 fingerprint + |corr|>=0.999 on the effective signal face; D6 max|corr| disclosure column naive caliber; seeds trial_labor_w2_gen/scrnull/unc=20285500/20286000/20286500 R250; TRIAL_GRAMMAR_LEDGER wave-2 row appended at consume point)",
+   "runner": "scripts/trial_labor_w2.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 04:39:34",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "LIGHT minutes-scale per prereg sec.0 (~10-20min: 5000 signal builds + vectorized stop-overlay dedup face + 5000x5000 naive-corr); single-process streaming, masks dropped per-candidate (W1 r348 RAM law); peak ~1.5-2GB (series 110MB + corr 200MB + core48 panel). FLIP GATE waiting->ready = machine free RAM >= 4GB three-sample (r354 law; autofill has no RAM gate so waiting status is the ONLY protection; W2B census burn holds ~12.4GB until finalize). Flip = round work per r203 law, any machine."
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) w2_candidates.json exists -> refuse (same-grammar rerun ban, single-shot); (b) grammar sha anchor != 1dd3d95792395cec -> refuse; (c) free RAM three-sample < 4GB -> honest refuse. deps all green in-repo git: core48 panel + w2_grammar.json (r358) + w1_screen.json survivors 149; w1_judge + MASS judged exclusion sources declared-unavailable at generate time (pool-waiting, zero rows, disclosed in product audit)",
+   "shards": [
+    {
+     "key": "generate-0of1",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/trial_labor_w2/w2_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
+     "note": "single shard minutes-scale; products = w2_candidates.json + TRIAL_GRAMMAR_LEDGER wave-2 row (consume point); SCREEN pool entry lands next slice after the runner screen subcommand exists (anti-dup: no pool entry pointing at a not-yet-built subcommand)"
+    }
+   ]
   }
  ],
  "version": 1,
@@ -3032,7 +3061,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-28 00:41:57",
+ "updated_at": "2026-09-28 04:39:34",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry)",
  "lane_machine": "bm-c"
 }
