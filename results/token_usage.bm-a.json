@@ -1,5 +1,5 @@
 {
- "generated": "2026-09-28 03:15:13",
+ "generated": "2026-09-28 03:34:15",
  "order": "O-20260923-2325 + O-20260926-0947 (L2 share + fuse)",
  "method": {
   "bpe_proxy": 3.5,
@@ -7,21 +7,21 @@
  },
  "per_round_context": {
   "mandate_read_tokens_est": 9155,
-  "codely_read_tokens_est": 2838,
+  "codely_read_tokens_est": 1663,
   "note": "per-round fixed context load (rough proxy bytes/3.5); CLI exact usage API unavailable -- honest rough estimate"
  },
  "machines": {
   "-bm-a": {
    "state_bytes": 0,
    "state_tokens_est": 0,
-   "report_bytes": 1100558,
-   "report_tokens_est": 314445
+   "report_bytes": 1104946,
+   "report_tokens_est": 315698
   },
   "-bm-c": {
    "state_bytes": 0,
    "state_tokens_est": 0,
-   "report_bytes": 323459,
-   "report_tokens_est": 92416
+   "report_bytes": 332291,
+   "report_tokens_est": 94940
   },
   "bm-a": {
    "state_bytes": 3646,
@@ -30,16 +30,16 @@
    "report_tokens_est": 0
   },
   "bm-c": {
-   "state_bytes": 1768,
-   "state_tokens_est": 505,
+   "state_bytes": 1961,
+   "state_tokens_est": 560,
    "report_bytes": 0,
    "report_tokens_est": 0
   },
   "default": {
    "state_bytes": 1570,
    "state_tokens_est": 448,
-   "report_bytes": 982027,
-   "report_tokens_est": 280579
+   "report_bytes": 989616,
+   "report_tokens_est": 282747
   }
  },
  "l2_local_llm": {
@@ -53,16 +53,16 @@
   "note": "per-leg L2 (local Ollama) consumption, bytes/3.5 proxy; L3 cloud legs carry api_reason lines in round reports (per-use trail, not aggregated here)",
   "crash_fuse": {
    "sigs": 2,
-   "refusals": 1,
+   "refusals": 3,
    "note": "O-0947 slice-2: same-version crash relaunch refusals (API rounds saved)"
   }
  },
- "total_state_tokens_est": 1994,
- "total_report_tokens_est": 687440,
+ "total_state_tokens_est": 2049,
+ "total_report_tokens_est": 693385,
  "delta_vs_prev": {
-  "prev_generated": "2026-09-28 03:03:58",
+  "prev_generated": "2026-09-28 03:18:10",
   "state_tokens_growth": 0,
-  "report_tokens_growth": 1088,
+  "report_tokens_growth": 5135,
   "mandate_growth": 0
  },
  "lane_machine": "bm-a"

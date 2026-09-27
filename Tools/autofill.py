@@ -297,6 +297,9 @@ def _save_fuse(f):
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(f, fh, ensure_ascii=False, indent=1)
     os.replace(tmp, FUSE)
+    # D-20260928-03(1) batch-2 closeout: own lane alongside the shared
+    # fuse face (same dual-track as _save_state; 7/8 -> 8/8 wired).
+    _write_lane_file(FUSE, f)
 
 
 def _lane_path_for(shared_path):
@@ -358,7 +361,8 @@ def _tick_owned_dirt():
     refuse on them exactly the way the r290 live case refused on
     STATE."""
     dirt = [STATE, FUSE]
-    for lp in (_lane_path_for(STATE), _lane_path_for(POOL)):
+    for lp in (_lane_path_for(STATE), _lane_path_for(POOL),
+               _lane_path_for(FUSE)):
         if lp is not None:
             dirt.append(lp)
     return [p for p in dirt if os.path.exists(p)]
@@ -1458,6 +1462,16 @@ def selftest():
         ok("S18d state lane written with lane_machine signature",
            lane18.get("lane_machine") == _machine_id()
            and lane18["last_tick"]["ts"] == "2026-09-28 02:00:01")
+        # S18e D-03(1) batch-2 closeout: _save_fuse writes the fuse lane
+        # too (8/8 B-faces wired; same dual-track law as state/pool).
+        _save_fuse({"sigs": {"scripts/x.py|run": {"count": 1}}})
+        _lane_fu = _lane_path_for(FUSE)
+        lane18e = json.load(open(_lane_fu, encoding="utf-8"))
+        fuse18e = json.load(open(FUSE, encoding="utf-8"))
+        ok("S18e fuse lane written (signed, sigs byte-parity)",
+           lane18e.get("lane_machine") == _machine_id()
+           and lane18e["sigs"] == fuse18e["sigs"]
+           and lane18e["sigs"]["scripts/x.py|run"]["count"] == 1)
         # S15j D-20260928-02(1) pre-add mid-op guard (r331 race): a
         # session rebase/merge starting INSIDE the sampling+scan window
         # (after the r201 entry guard, before add) -> claim git write
@@ -1546,7 +1560,7 @@ def selftest():
         ok("S17e keepalive add carries pool+state+fuse+lanes (r290)",
            ka == ["s0"] and add_args_all
            and add_args_all[-1] == (POOL, STATE, FUSE, _lane_st,
-                                    _lane_pl))
+                                    _lane_pl, _lane_fu))
         # S17f/g r344 abort-ownership (keepalive leg): mirror of the
         # claim-leg ownership law -- foreign rebase survives, ours gets
         # aborted

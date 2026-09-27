@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T03:24:04+08:00",
- "current_task": "r375 done: lane-migration batch-2 B-family slice-1 landed (merger B_FACES 8-face recipes + writer dual-track 7/8 + 6 lane files live + reconcile 14/14; observation-window catch#2 merger autofill r322 composite-key fix; push-storm 2 waves canon-resolved PUSHED)",
+ "last_seen": "2026-09-28T03:57:00+08:00",
+ "current_task": "r376 done: lane-migration batch-2 CLOSEOUT (crash_fuse writer wiring 8/8 via _save_fuse dual-track + S18e selftest leg 62/62 + r290 three-lane dirt) + obs-window catch#3 (shared face lost crash_counted enriched field via r375 resolve whole-row tie->HEAD; restored shared+own lane, MSG-0350 to bmb, pitlaw: resolve scripts must import merger recipes + same-window reconcile)",
  "cpu_cores": 32,
- "cpu_pct": 5.7,
- "free_ram_gb": 52.7,
+ "cpu_pct": 8.0,
+ "free_ram_gb": 52.5,
  "gpu_free_vram_gb": 5.53,
- "verdict": "py_low_board_clear legal-idle round-closed (board 0 open / bandit 0 / pool 2-ready bm-b lanes R31 no-touch + waiting 6 bm-b physical-dep; batch-2 slice-1 landed reconcile 14/14; crash_fuse writer wiring = batch-2 closeout next round; 09:15 T-91 s3 first-marks armed this lane)",
+ "verdict": "py_low_board_clear legal-idle round-closed (board 0 open / bandit 0 / pool 2-ready bm-b lanes R31 no-touch; batch-2 fully closed 8/8 faces wired; next = batch-3 C-family + resolve-recipe-unification debt; 09:15 T-91 s3 first-marks armed this lane)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,8 +108,8 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790537044,
- "clock_read": "2026-09-28T03:24:04+08:00",
+ "heartbeat_epoch_utc": 1790537723,
+ "clock_read": "2026-09-28T03:57:00+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5379,
  "gpu_idle_vram_gb": 5.53,
@@ -120,7 +120,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 375,
+ "round_no": 376,
  "gpu_idle_vram_mb": 5662,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 52.7,
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 375,
- "loop_round": 375
+ "round": 376,
+ "loop_round": 376
 }
