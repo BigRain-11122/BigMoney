@@ -29,10 +29,16 @@ s4 hard gate "bit-exact vs frozen T-14 A faces") requires the freeze-face
 config; pinning restores it. Implementation fix only -- zero judgment
 touch (J18 law).
 
-Honest disclosure (prereg s3): equity_fraction sizing means suppressed legs
-shift the equity path -> retained trades may differ in qty/pnl while their
-(symbol, date, hold_days) identity is invariant -- G-SET keys on identity and
-the size-drift face is disclosed per trader, never silently swallowed.
+Honest disclosure (prereg s3, amended v1.1 r79): equity_fraction sizing
+means suppressed legs shift the equity path -> retained trades may differ
+in qty/pnl AND, as the first real run proved (crash #4, 2026-09-27
+12:00:12), in entry dates / hold_days (position-slot + cash-affordability
+dynamics propagate the suppression across every downstream trade of the
+account). (symbol, date, hold_days) identity is therefore NOT invariant
+under re-simulation. G-SET v2 gates the mask faces that are invariant by
+construction -- family-window entry suppression exactness + blocked-surface
+purity -- and discloses the realized downstream identity drift per trader,
+never silently swallowing it.
 """
 from __future__ import annotations
 
@@ -193,16 +199,45 @@ def _legs_of(rail: dict, trader_fams: list) -> list[dict]:
     return legs
 
 
-def g_set_check(base_rail: dict, cf_rail: dict, removed_legs: list[dict]) -> dict:
-    """Hard gate: counterfactual trade LIST == baseline LIST - family closure
-    (multiset on identity keys, no extra, no missing)."""
+def g_set_check(base_rail: dict, cf_rail: dict, removed_legs: list[dict],
+                sym_windows: dict, mask: dict) -> dict:
+    """Hard gate v2 (prereg v1.1 amendment, real-fire crash #4 2026-09-27):
+    the guard must suppress exactly the family windows -- (a) no
+    counterfactual trade may have a derived entry inside any family window
+    (under-suppression / guard-honour catcher), (b) the mask's blocked
+    (sym, date) surface must equal the window-union surface (stray-block /
+    keying catcher). Realized-list identity drift downstream of the
+    suppression -- entry dates, hold_days, qty of retained and re-entry
+    trades -- is path-dependent under equity_fraction re-simulation and is
+    DISCLOSED, never a gate input: v1's list-multiset identity law assumed
+    (symbol, date, hold_days) invariance, which the first real run
+    falsified (40+ drift rows 2022-04..2025-07 across the whole account,
+    all downstream of the earliest disposal family)."""
+    # (a) family-window suppression exactness
+    ent_cf = _entry_dates(cf_rail)
+    leaks = []
+    for tr in cf_rail["trades"]:
+        e = ent_cf[_trade_key(tr)]
+        for lo, hi in sym_windows.get(tr["symbol"], []):
+            if lo <= e < hi:
+                leaks.append((tr["symbol"], e, lo, hi))
+    # (b) mask surface purity: blocked set == window-derived set
+    idx = mask["buy"].index
+    actual = {(str(d.date()), s) for s in mask["buy"].columns
+               for d in idx if not bool(mask["buy"].at[d, s])}
+    expected = set()
+    for sym, windows in sym_windows.items():
+        for lo, hi in windows:
+            for d in idx[(idx >= pd.Timestamp(lo)) & (idx < pd.Timestamp(hi))]:
+                expected.add((str(d.date()), sym))
+    surface_ok = actual == expected
+    ok = (not leaks) and surface_ok
+    # disclosure faces: identity drift beyond family closure + size drift
     cb = Counter(_trade_key(t) for t in base_rail["trades"])
     cc = Counter(_trade_key(t) for t in cf_rail["trades"])
     expect = Counter(_trade_key(t) for t in removed_legs)
-    diff, extra = cb - cc, cc - cb
-    ok = (diff == expect) and not extra
-    # size-drift face (equity_fraction compounding): retained trades whose
-    # qty/pnl differ while identity matches -- disclosed, never a gate input
+    gone, extra = cb - cc, cc - cb
+    dgone, dextra = gone - expect, extra
     bmap = {}
     for t in base_rail["trades"]:
         bmap.setdefault(_trade_key(t), []).append(t)
@@ -212,8 +247,15 @@ def g_set_check(base_rail: dict, cf_rail: dict, removed_legs: list[dict]) -> dic
     drift = sum(1 for k, ts in bmap.items()
                 for a, b in zip(ts, cmap.get(k, []))
                 if a.get("qty") != b.get("qty") or a.get("pnl") != b.get("pnl"))
-    return {"ok": ok, "missing_beyond_expected": list(diff - expect)
-            if ok is False else [], "extra": list(extra),
+    return {"ok": ok,
+            "family_entry_leaks": leaks[:5], "leak_count": len(leaks),
+            "surface_ok": surface_ok,
+            "surface_stray": sorted(actual - expected)[:5],
+            "surface_holes": sorted(expected - actual)[:5],
+            "downstream_gone_count": sum(dgone.values()),
+            "downstream_extra_count": sum(dextra.values()),
+            "downstream_gone_sample": sorted(dgone.elements())[:5],
+            "downstream_extra_sample": sorted(dextra.elements())[:5],
             "size_drift_rows": drift}
 
 
@@ -297,18 +339,22 @@ def run() -> int:
             trader_fams = [k for k in disposal["families"] if k[0] == tid]
             fam_keys = [(sym, entry) for (_t, sym, entry) in trader_fams]
             legs = _legs_of(rail, fam_keys)
-            mask = buy_drop_mask(base["prices"],
-                                 family_windows(rail, disposal["families"],
-                                                tid))
+            sym_w = family_windows(rail, disposal["families"], tid)
+            mask = buy_drop_mask(base["prices"], sym_w)
             cf = run_rail(t, base["prices"], base["P"], guard=mask)
             rails += 1
-            gs = g_set_check(rail, cf, legs)
+            gs = g_set_check(rail, cf, legs, sym_w, mask)
             assert gs["ok"], f"G-SET FAIL {tid}: {gs}"
             block["families_disposed"] = len(trader_fams)
             block["counterfactual"] = {"in_sample": cf["got"]["in_sample"],
                                        "out_sample": cf["got"]["out_sample"]}
             block["delta"] = _delta(rail["got"], cf["got"])
             block["size_drift_rows"] = gs["size_drift_rows"]
+            block["downstream_drift"] = {
+                "gone_count": gs["downstream_gone_count"],
+                "extra_count": gs["downstream_extra_count"],
+                "gone_sample": gs["downstream_gone_sample"],
+                "extra_sample": gs["downstream_extra_sample"]}
 
             # placebo: family-unit uniform sampling from non-disposal
             # families of this trader's reproduced trade list (prereg s3)
@@ -333,7 +379,8 @@ def run() -> int:
                 mask_p = buy_drop_mask(base["prices"], sym_w)
                 cf_p = run_rail(t, base["prices"], base["P"], guard=mask_p)
                 rails += 1
-                gsp = g_set_check(rail, cf_p, _legs_of(rail, sampled))
+                gsp = g_set_check(rail, cf_p, _legs_of(rail, sampled),
+                                  sym_w, mask_p)
                 assert gsp["ok"], f"G-SET FAIL placebo {tid}: {gsp}"
                 d = _delta(rail["got"], cf_p["got"])
                 pl_is.append(d["in_sample"]["d_sharpe"])
@@ -504,36 +551,49 @@ def selftest() -> bool:
     _chk("window union over legs",
          blocked2 == {"2026-01-05", "2026-01-06", "2026-01-07",
                       "2026-01-08"})
-    # S3 G-SET closure: counterfactual == baseline - family legs
+    # S3 G-SET v2 (prereg v1.1): suppression + surface hard faces,
+    # downstream identity drift disclosed (crash #4 mode permanent leg)
     rail_b = {"idx": days, "trades": [
-        {"symbol": "AAA", "date": "2026-01-07", "hold_days": 2, "qty": 1.0,
-         "pnl": 1.0},
-        {"symbol": "AAA", "date": "2026-01-08", "hold_days": 3, "qty": 1.0,
-         "pnl": 2.0},
-        {"symbol": "BBB", "date": "2026-01-08", "hold_days": 1, "qty": 1.0,
-         "pnl": 0.5}]}
+        {"symbol": "AAA", "date": "2026-01-06", "hold_days": 2, "qty": 1.0,
+         "pnl": 1.0},   # family leg: derived entry 01-02, exit 01-06
+        {"symbol": "BBB", "date": "2026-01-09", "hold_days": 3, "qty": 1.0,
+         "pnl": 0.5},   # downstream trade: derived entry 01-06
+        {"symbol": "AAA", "date": "2026-01-12", "hold_days": 2, "qty": 1.0,
+         "pnl": 2.0}]}  # retained trade: derived entry 01-08 (post-window)
+    win = {"AAA": [("2026-01-02", "2026-01-06")]}
+    m3 = buy_drop_mask(px, win)
     rail_c = {"idx": days, "trades": [
-        {"symbol": "AAA", "date": "2026-01-08", "hold_days": 3, "qty": 1.0,
-         "pnl": 2.0},
-        {"symbol": "BBB", "date": "2026-01-08", "hold_days": 1, "qty": 1.0,
-         "pnl": 0.5}]}
-    gs = g_set_check(rail_b, rail_c, [rail_b["trades"][0]])
-    _chk("G-SET passes exact closure", gs["ok"])
-    gs_bad = g_set_check(rail_b, rail_c, [])
-    _chk("G-SET catches unexplained removal", not gs_bad["ok"])
-    gs_extra = g_set_check(rail_b, {"idx": days, "trades":
-                                    rail_c["trades"]
-                                    + [{"symbol": "CCC", "date": "2026-01-08",
-                                        "hold_days": 1, "qty": 1, "pnl": 0}]},
-                            [rail_b["trades"][0]])
-    _chk("G-SET catches extra trades", not gs_extra["ok"])
-    _chk("size drift counted, not gated",
-         g_set_check(rail_b, {"idx": days, "trades": [
-             {"symbol": "AAA", "date": "2026-01-08", "hold_days": 3,
-              "qty": 9.0, "pnl": 9.0},
-             {"symbol": "BBB", "date": "2026-01-08", "hold_days": 1,
-              "qty": 1.0, "pnl": 0.5}]},
-             [rail_b["trades"][0]])["ok"])
+        {"symbol": "BBB", "date": "2026-01-08", "hold_days": 2, "qty": 1.0,
+         "pnl": 0.4},   # downstream identity drift (same entry, shifted exit)
+        {"symbol": "AAA", "date": "2026-01-12", "hold_days": 2, "qty": 9.0,
+         "pnl": 9.0},   # retained, qty drift
+        {"symbol": "AAA", "date": "2026-01-12", "hold_days": 3, "qty": 1.0,
+         "pnl": 0.2}]}  # new re-entry: derived entry 01-07 (window end day)
+    gs = g_set_check(rail_b, rail_c, [rail_b["trades"][0]], win, m3)
+    _chk("G-SET v2 passes with downstream drift", gs["ok"])
+    _chk("downstream drift disclosed, not gated",
+         gs["downstream_gone_count"] == 1
+         and gs["downstream_extra_count"] == 2
+         and gs["size_drift_rows"] == 1)
+    gs_exact = g_set_check(
+        rail_b, {"idx": days, "trades": [rail_b["trades"][1],
+                                         rail_b["trades"][2]]},
+        [rail_b["trades"][0]], win, m3)
+    _chk("G-SET v2 passes exact suppression", gs_exact["ok"]
+         and gs_exact["downstream_gone_count"] == 0
+         and gs_exact["downstream_extra_count"] == 0)
+    gs_leak = g_set_check(rail_b, {"idx": days, "trades":
+                                   list(rail_b["trades"])},
+                          [rail_b["trades"][0]], win, m3)
+    _chk("G-SET v2 catches family-window entry leak", not gs_leak["ok"]
+         and gs_leak["leak_count"] == 1)
+    m_stray = buy_drop_mask(px, {"AAA": [("2026-01-02", "2026-01-06")],
+                                 "BBB": [("2026-01-01", "2026-01-02")]})
+    gs_stray = g_set_check(rail_b, rail_c, [rail_b["trades"][0]], win,
+                           m_stray)
+    _chk("G-SET v2 catches stray mask surface", not gs_stray["ok"]
+         and not gs_stray["surface_ok"]
+         and gs_stray["leak_count"] == 0)
     # S4 placebo determinism: same seed -> same draws; disposal excluded
     rng = np.random.default_rng(np.random.SeedSequence(68500).spawn(1)[0])
     pool = [("A", "e1"), ("B", "e2"), ("C", "e3"), ("D", "e4"), ("E", "e5")]
@@ -547,8 +607,8 @@ def selftest() -> bool:
          all(len(set(d)) == 2 for d in d1))
     # S5 derived-entry semantics mirrors audit (exit_pos - hold_days)
     ent = _entry_dates(rail_b)
-    _chk("entry derivation: hold 2 exit 01-07 -> 01-05",
-         ent[("AAA", "2026-01-07", 2)] == "2026-01-05")
+    _chk("entry derivation: hold 2 exit 01-06 -> 01-02",
+         ent[("AAA", "2026-01-06", 2)] == "2026-01-02")
     # S6 disposal census gate fires on drift (synthetic audit)
     import tempfile
     fake = {"traders": [{"trader": "X-CE-02", "break_detail": [
