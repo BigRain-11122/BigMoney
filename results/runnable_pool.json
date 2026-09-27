@@ -309,7 +309,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 13:42:50",
    "workers_plan": {
     "workers": 4,
@@ -320,13 +320,14 @@
    "shards": [
     {
      "key": "censusw2a-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-28 03:20:28",
      "checkpoint": "results/census_fusion_s2/w2a_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2a_results.json (ledger N=5,920 declared at run finalize, r252 embed key; products w2a_cells.csv/w2a_nulls.json/w2a_top_matrices.json/w2a_summary.json); pool flip = round work per r203 law"
     }
-   ]
+   ],
+   "result_ref": "results/census_fusion_s2/w2a_results.json (EXPLORATION face sec.9.3; N=5,920 = 5,456 cand + 64 rs + 400 nulls; ledger 294,304; clean exit elapsed 44,308s; finalize+flip r357 bm-b; post_review pending)"
   },
   {
    "id": "CENSUS-FUS-S2-W2B",
