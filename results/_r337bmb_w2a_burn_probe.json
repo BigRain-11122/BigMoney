@@ -1,0 +1,41 @@
+{
+  "meta": {
+    "round": "r337 bm-b",
+    "ts": "2026-09-27 18:08 +08:00",
+    "faces": "A=W2-A census burn health probe (read-only); B=Monday 09-28 new-bar full-chain pre-flight selftests",
+    "evidence_cutoff": "2026-09-22",
+    "lane": "engineering compute-node monitoring, zero science face (no ledger/judgment/registration touched)"
+  },
+  "w2a_burn_health": {
+    "parent_pid": 13148,
+    "parent_cmd": "scripts/census_fusion_s2_w2.py",
+    "parent_started": "2026-09-27T15:12:51",
+    "workers": [
+      {"pid": 22524, "started": "15:40:20", "cpu_s": 8192.9},
+      {"pid": 25660, "started": "15:40:22", "cpu_s": 8111.6},
+      {"pid": 2172, "started": "15:40:23", "cpu_s": 8149.8},
+      {"pid": 9664, "started": "15:40:24", "cpu_s": 8153.0}
+    ],
+    "worker_cpu_util_pct_each": 94.0,
+    "total_core_hours_burned": 9.1,
+    "checkpoint_file": "ABSENT (first 200-combo block not yet flushed, per r332 observation window)",
+    "log_tail": "RuntimeWarning NaN-benign only (r332 law), last write 15:36:14, size 4668B",
+    "r330_crash_point": "passed 5x (27min crash point vs 148min alive)",
+    "eta_per_r334_estimate": "18:40-21:40 (0of1 keepalive 17:40, 3-6h est from 15:40)",
+    "verdict": "healthy_burning, not harvestable this round; done-flip per r312 law on finalize"
+  },
+  "monday_preflight_2026_09_28": {
+    "trigger_context": "Mon 09:15 T-91 s3 auto-fire (SIG/BARS-2026-09-28 replay) + 15:30 T-87 astock first increment + new-bar full-chain relay (first REGIME_GUARD v3 chain run with env set, date gate honest shadow until 10-01)",
+    "legs": [
+      {"leg": "rev_osc_signal_export selftest", "rc": 0, "note": "B7b SIG keys contract PASS"},
+      {"leg": "system_v1_paper selftest", "rc": 0, "note": "ALL LEGS PASS, consumer schema subset PASS"},
+      {"leg": "t24_prospect_paper selftest", "rc": 0, "note": "ALL PASS (lane e2e + checkpoint rc=2/2 skip=1)"},
+      {"leg": "t24_prospect_promotion selftest", "rc": 0, "note": "ALL PASS (S8 partial-G2 blocking leg)"},
+      {"leg": "aggressive_lab selftest", "rc": 0, "note": "32/32 PASS (invocation=selftest subcommand, not paper --selftest; first attempt rc=2 usage error, corrected)"},
+      {"leg": "alloc_paper selftest", "rc": 0, "note": "15/15 PASS"},
+      {"leg": "grid_paper selftest", "rc": 0, "note": "ALL LEGS PASS (batch honest faces intact)"},
+      {"leg": "update_astock_daily selftest", "rc": 0, "note": "all guard cases PASS"}
+    ],
+    "verdict": "8/8 legs PASS, Monday auto-fire chain pre-flight GREEN"
+  }
+}
