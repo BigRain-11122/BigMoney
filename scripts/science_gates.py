@@ -673,6 +673,10 @@ SEED_REGISTRY = {
     # date-style one-step 20261001 (20260930=cn_rev_tilt_p1 occupied), order
     # law (rg-zero-hit-then-register) honored at runner-build time, zero cells
     # burned at amendment time)
+    # decision_chain_v2 seed: single entry 20284110 registered by bm-a R365
+    # (band-avoidance verified); bm-c r118 owner ruling amendment a3 deduped
+    # the duplicate 20261002 entry this commit originally added -- duplicate
+    # dict keys silently last-win in python, deduped pre-rebase-continue
     "grid_p1": 55_500,                      # GRID_P1 grid-harvest K=100
     "ths_agg_p1": 56_000,                   # THS-AGG-P1 all-size aggregate flow IC null K=50 (T-2026-09-25-43; band 56_000..56_049, rg-scan pre-register 2026-09-25 R120)
     # random-signal nulls (55_500+k default / 55_550+k ce, k<50; band verified

@@ -79,3 +79,11 @@
 ## §8 批后复盘【必填·s7-T】
 
 （一次定稿；预测对账；门禁链损耗账 results/gate_attrition.json 追加一行；回执入轮报告+CODELY.md 行级追加；链赢/链不赢+四环复定位定案呈 GM/CEO）
+
+## §9 零跑修正案（owner bm-c r118 采纳裁决窗 · 2026-09-28 00:2x · 零格已烧合法窗 · r251/r280 先例）
+
+- **裁决依据**：本预注册=bm-a R365 s1 侧支证据（claim 竞速 §4 后到让路）·owner bm-c 按 MSG-2261/T-94 先例裁决 **采纳为本批正典底本**（采纳理由：①袖面 judged-negative 诚实锚+行政通道入链注记优于 owner 自拟稿的乐观先验框架②G-REPRO-REV 袖 stats 位级门优于工件在位门③袖=judged 引擎在机确定性重放=零跨机工件依赖④RED 态激活占帽全额=O-2255「熊态激活」逐字⑤checkpoint 血统执行面保 G-REPRO-v1 位级）。owner 自拟稿 research/DECISION_CHAIN_V2_P1.md=被取代存档（头注指针·归档不删）。
+- **a1 阶梯 YELLOW 档修正（operative）**：§3 ② 原文「YELLOW 0.50」→ **生效值 YELLOW=0.65**——正典逐字依据：scripts/market_clock_call.py L53 `POSITION_LADDER = {"RED": 0.20, "ORANGE": 0.50, "YELLOW": 0.65, "GREEN": 0.80}` + research/MARKET_CLOCK_COMBO.md L54 明文「（YELLOW 帽 0.65 承 s1 交付面 market_clock_call.py POSITION_LADDER）」；票面「RED20/ORANGE50/GREEN80->95, clock L5 law」引法=法本体即 POSITION_LADDER 常量（CEO 序文三档简写未列 YELLOW≠授权改值）；§3 原文不删留起草面事实（v1.1 §9.2 同式）。deep 轴 proxy 混同面：bull→0.80/chop→0.50（保守·如实披露）/bear→0.20 维持 bm-a 原文。
+- **a2 执行车道正典面**：Stage-A/B 执行正典=checkpoint 承载机（bm-a/bm-b·曲线档同源保 G-REPRO-v1 位级）；bm-c 实测零本地曲线档（09-28 全树检索实证）·其全量重派生面带 T-78 出场叠加血统分歧（max|d| 0.0003 量级·r242 探针）=如实披露的非正典面·不得用于位级门锚。owner bm-c 承 s2 runner 建+selftest；finalize 执行归 checkpoint 机（多机分片合法·票锁只锁科学面）。
+- **a3 种子归一**：SEED_REGISTRY["decision_chain_v2"] **单条目=20284110**（bm-a 带回避已证）；bm-c 重复登记 20261002 已在本窗撤销（python dict 重复键静默 last-win 风险·去重留痕）。
+- **反 dredging 合规**：修正时点=零格已烧（runner 未建·零曲线·零包络·零判读）——非结果驱动；判线语义零触碰（J-C1..C4/J-TARGET 原文零改动）；本节 append-only 留痕。
