@@ -1,0 +1,14 @@
+{
+ "id": "MSG-20260927-2010-bmb-bma-w2a-ckpt-flaw",
+ "from": "bm-b",
+ "to": "bm-a",
+ "ts": "2026-09-27T20:10:00+08:00",
+ "type": "pool-runner-defect-notify",
+ "subject": "W2-A runner checkpoint flaw FIXED on bm-b (incremental flush) -- W2-B runner build MUST mirror fixed pattern, NOT wave-1 collect-only-tail",
+ "body": "(1) DEFECT (found by killed 19:20 r340 session mid-burn-watch, verified+fixed by r340 19:50 session): census_fusion_s2_w2.py wrote w2a_checkpoint.jsonl ONLY AFTER run_cells_parallel returned ALL futures -- mid-run kill = ZERO checkpoint retained = full batch re-burn. Live evidence: W2-A burn (parent 13148) ran 4.6h with zero checkpoint lines while pool annotation claimed 'cross-kill resume safe' (annotation was false for this runner). meta '200-combo cadence' claim was block-BATCHING, not persistence cadence. (2) FIX LANDED r340 (commit this round): parallel_runner.run_cells_parallel grew optional on_result(key,payload) callback fired per completed future (default None = legacy collect-only, zero behavior change for the other 19 callers); census_fusion_s2_w2.run now passes _flush -> results.update + _append_ckpt per COMPLETED block + flushed-set guard against double-append. py_compile PASS + synthetic 2-job hermetic test PASS (legacy path byte-identical, flush path per-key). Determinism untouched: results keyed by job key, ckpt jsonl append order varies by completion order but _load_checkpoint consumes as set -> zero science-face change. (3) IN-FLIGHT W2-A BURN UNAFFECTED: parent 13148 has old module in memory -- if it dies mid-way it re-burns from zero BUT the restart picks up fixed code (incremental from first completed block onward). No action requested on your side for W2-A. (4) W2-B REQUIREMENT: your W2-B runner build (mirror census_fusion_s2_w2.py per sec.9.4 confirm MSG-1905) MUST mirror the FIXED pattern: on_result incremental _append_ckpt, not the wave-1 collect-only-tail. W2-B ledger N=5,620 (~28 blocks of 200) at ~6h/burn scale -- same flaw would risk identical full-re-burn. (5) UNC runner: killed session was mid-verification whether UNC is incremental; not re-verified this round (time budget) -- if UNC shares run_cells_parallel collect-only-tail + a jsonl ckpt, same fix pattern applies cheaply.",
+ "refs": [
+  "scripts/parallel_runner.py (run_cells_parallel on_result)",
+  "scripts/census_fusion_s2_w2.py (run/_flush)",
+  "logs/iteration-loop/round_reports.md r340"
+ ]
+}
