@@ -1,0 +1,460 @@
+{
+ "provenance": {
+  "source_commit": "4a5754a3",
+  "source_commit_line": "2026-09-24 12:35:26 +0800 T-14 DONE (bm-c r47): ETF rules-fidelity dual-rail batch -- guard reproduces frozen scan (24/42/10), A 6/6, B2 159985 T0 = do_not_land (3/6 non-identical, same-day exit mechanism -> GM), B1 max dIS +0.305 (slot recycling), break_x 0/6, N=3065, s11.5 row #6",
+  "pinned_face": "T-14 freeze registration blobs (INTERN 6)",
+  "pin_reason": "r242 T-78 s4 EXIT-OVERLAY-P1 winner wiring (2026-09-26 10:58) evolved live registrations for COMPOSITE-CE-01 (tp_ladder) / COMPOSITE-CE-02+ENGULF-CE-01 (ov_full) after the T-14 freeze; T-19 stage-2c mirrors the stage-1/T-14 audited face (prereg s2 same-mirror law), so rails pin to the frozen-commit blobs, not the live dir (r78 implementation fix, zero judgment touch)",
+  "files_sha256": {
+   "COMPOSITE-CE-01": "f295357901e365d35e7933419f9577a54784202f590d7e35ed8783df36bae79e",
+   "COMPOSITE-CE-02": "48bd0f7352ea8924fd51c5943c4d2bda638d5597ff512497ef9e9498b530b363",
+   "DROUGHT-CE-01": "77c7d1aac331f7b82148d6abfb71fb8dfb0ca3169f6232291feb56302a11e272",
+   "ENGULF-CE-01": "468c5a17d6aa0c124f41d5d320c53a7b555a3e4fd35ad5384f69eb485cb2c603",
+   "NEEDLE-DE-01": "88a30f282920caa45fc7c4ec2b415cc3781f6c7acc45f8c54df039995acb9e45",
+   "VOLATILITY-CE-01": "0d478dbc188ef48dc8d0a0f3530ec569d15b88e59d7ab22cdd04c0580a4231ad"
+  }
+ },
+ "traders": [
+  {
+   "id": "COMPOSITE-CE-01",
+   "name": "复合软化一号",
+   "school": "composite",
+   "author": "researcher-j19",
+   "created": "2026-09-23",
+   "evidence_cutoff": "2026-09-22",
+   "level": "INTERN",
+   "params": {
+    "entry": "top_n_rotation(composite, n=5, rebal_days=20)",
+    "max_positions": 5,
+    "position_size_pct": 0.19,
+    "time_decay_period": 25,
+    "time_decay_threshold": 0.05,
+    "trailing_stop_activate": 0.1
+   },
+   "exit_overrides": {
+    "loss_time_days": 16
+   },
+   "repro": {
+    "script": "scripts/ce_transfer.py",
+    "note": "non-bridged exit field (loss_time_days) requires the runtime ExitConfig factory patch; engine files untouched; params-bridge kwargs take precedence; anchor run truncated to evidence_cutoff reproduces registered evidence"
+   },
+   "backtest": {
+    "in_sample": {
+     "sharpe": 0.4514,
+     "max_dd": -0.1633,
+     "annual": 0.0283,
+     "trades": 302
+    },
+    "out_sample": {
+     "sharpe": 1.6085,
+     "max_dd": -0.0567,
+     "annual": 0.1441,
+     "trades": 172
+    },
+    "cost_x2": {
+     "sharpe": 0.5228,
+     "oos_sharpe": 1.2661,
+     "survive": true,
+     "note": "J19 transfer gate x2 (26bp single-side); x3 recorded only. Evidence: results/ce_transfer.json cost_stress"
+    }
+   },
+   "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-24",
+    "cutoff": "2026-09-23",
+    "x2_watch": {
+     "status": "ok",
+     "probation": false,
+     "margin": 0.1224,
+     "survive": true,
+     "source": "registration_x2_seed",
+     "as_of": "2026-09-24"
+    }
+   },
+   "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+   },
+   "status_history": [
+    {
+     "date": "2026-09-23",
+     "from": null,
+     "to": "INTERN",
+     "note": "J19 CE-machine transfer one-shot pass: six G1' clauses + OOS>=0.7284 + cost x2 survive + no crash year. Evidence: research/CE_TRANSFER.md, research/ce_transfer_results.csv, ledger N=717"
+    }
+   ],
+   "notes": "J15-registered CE exit machine (loss_time 16 + decay 25d/5% + trail 0.10) as-is port onto composite_top5 20d rotation; exit-rule priority untouched"
+  },
+  {
+   "id": "COMPOSITE-CE-02",
+   "name": "复合软化二号",
+   "school": "composite",
+   "author": "researcher-j19",
+   "created": "2026-09-23",
+   "evidence_cutoff": "2026-09-22",
+   "level": "INTERN",
+   "params": {
+    "entry": "top_n_rotation(composite, n=8, rebal_days=20)",
+    "max_positions": 8,
+    "position_size_pct": 0.1187,
+    "time_decay_period": 25,
+    "time_decay_threshold": 0.05,
+    "trailing_stop_activate": 0.1
+   },
+   "exit_overrides": {
+    "loss_time_days": 16
+   },
+   "repro": {
+    "script": "scripts/ce_transfer.py",
+    "note": "non-bridged exit field (loss_time_days) requires the runtime ExitConfig factory patch; engine files untouched; params-bridge kwargs take precedence; anchor run truncated to evidence_cutoff reproduces registered evidence"
+   },
+   "backtest": {
+    "in_sample": {
+     "sharpe": 0.4585,
+     "max_dd": -0.2217,
+     "annual": 0.0544,
+     "trades": 520
+    },
+    "out_sample": {
+     "sharpe": 1.4853,
+     "max_dd": -0.0361,
+     "annual": 0.1089,
+     "trades": 275
+    },
+    "cost_x2": {
+     "sharpe": 0.4311,
+     "oos_sharpe": 1.1075,
+     "survive": true,
+     "note": "J19 transfer gate x2 (26bp single-side); x3 recorded only. Evidence: results/ce_transfer.json cost_stress"
+    }
+   },
+   "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-24",
+    "cutoff": "2026-09-23",
+    "x2_watch": {
+     "status": "probation",
+     "probation": true,
+     "margin": 0.0307,
+     "survive": true,
+     "source": "registration_x2_seed",
+     "as_of": "2026-09-24"
+    }
+   },
+   "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+   },
+   "status_history": [
+    {
+     "date": "2026-09-23",
+     "from": null,
+     "to": "INTERN",
+     "note": "J19 CE-machine transfer one-shot pass: six G1' clauses + OOS>=0.7284 + cost x2 survive + no crash year. Evidence: research/CE_TRANSFER.md, research/ce_transfer_results.csv, ledger N=717"
+    }
+   ],
+   "notes": "J15-registered CE exit machine (loss_time 16 + decay 25d/5% + trail 0.10) as-is port onto composite_top8 20d rotation; exit-rule priority untouched"
+  },
+  {
+   "id": "DROUGHT-CE-01",
+   "name": "地量反转一号",
+   "school": "pattern",
+   "author": "g2-folk-batch",
+   "created": "2026-09-23",
+   "evidence_cutoff": "2026-09-22",
+   "level": "INTERN",
+   "params": {
+    "entry": "vol_drought_reversal(vol_floor=0.55, drop_th=-0.05)",
+    "time_decay_period": 25,
+    "time_decay_threshold": 0.05,
+    "trailing_stop_activate": 0.1
+   },
+   "exit_overrides": {
+    "loss_time_days": 16
+   },
+   "repro": {
+    "script": "scripts/g2_folk.py",
+    "note": "G2_FOLK deepening PASS (rep regime ce): center repro + neighborhood 3/8 red (below half) + x2 0.590 AND x3 0.4542 both above vi 0.4004 + worst year -1.36% no crash + OOS 1.213 (best OOS among new registrants). Evidence: results/shortline_g2_folk.json verdicts, research/shortline/g2_folk_results.csv"
+   },
+   "backtest": {
+    "in_sample": {
+     "sharpe": 0.5538,
+     "max_dd": -0.0476,
+     "annual": 0.0169,
+     "trades": 76
+    },
+    "out_sample": {
+     "sharpe": 1.213,
+     "max_dd": -0.0252,
+     "annual": 0.0408,
+     "trades": 44
+    },
+    "cost_x2": {
+     "sharpe": 0.59,
+     "survive": true,
+     "note": "x3 0.4542 also above vi; folk saying 'di liang chu di jia' (volume drought marks the floor) validated through the factory gate"
+    }
+   },
+   "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-24",
+    "cutoff": "2026-09-23",
+    "x2_watch": {
+     "status": "ok",
+     "probation": false,
+     "margin": 0.1896,
+     "survive": true,
+     "source": "registration_x2_seed",
+     "as_of": "2026-09-24"
+    }
+   },
+   "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+   },
+   "status_history": [
+    {
+     "date": "2026-09-23",
+     "from": null,
+     "to": "INTERN",
+     "note": "G2_FOLK factory gate PASS (CEO order O-20260923-2210 chain): first volume-drought folk trader. OOS trades 44 >= 30 promotion clause OK"
+    },
+    {
+     "date": "2026-09-24",
+     "from": "INTERN",
+     "to": "INTERN",
+     "note": "P-5B random-entry due diligence (O-2345, seed 20260924, K=50): beat_rate_6m 0.64 / min_dd_6m -5.12% -> FAIL 0.70 beat-line (dd clause PASS). Best beat rate of the new cohort but OOS 1.213 read with regime-bonus discount; alpha quality adjudication stays with the paper channel; level/paper data untouched per prereg s5"
+    }
+   ],
+   "notes": "Volume shrink below 0.55x 60d mean in >=5% five-day-deep water + first green day (confirmation construction); CE exit machine; exit reclaim MA20"
+  },
+  {
+   "id": "ENGULF-CE-01",
+   "name": "阳包阴一号",
+   "school": "pattern",
+   "author": "g2-folk-batch",
+   "created": "2026-09-23",
+   "evidence_cutoff": "2026-09-22",
+   "level": "INTERN",
+   "params": {
+    "entry": "engulf_reversal(drop_th=-0.05)",
+    "time_decay_period": 25,
+    "time_decay_threshold": 0.05,
+    "trailing_stop_activate": 0.1
+   },
+   "exit_overrides": {
+    "loss_time_days": 16
+   },
+   "repro": {
+    "script": "scripts/g2_folk.py",
+    "note": "G2_FOLK deepening PASS (rep regime ce): center repro + neighborhood 2/4 red (below half) + x2 0.402 survive (vi 0.4004, razor margin -- paper-period x2 watchdog mandatory) + worst year -1.28% no crash. Evidence: results/shortline_g2_folk.json verdicts, research/shortline/g2_folk_results.csv"
+   },
+   "backtest": {
+    "in_sample": {
+     "sharpe": 0.6239,
+     "max_dd": -0.0423,
+     "annual": 0.0201,
+     "trades": 99
+    },
+    "out_sample": {
+     "sharpe": 0.2944,
+     "max_dd": -0.0366,
+     "annual": 0.0091,
+     "trades": 44
+    },
+    "cost_x2": {
+     "sharpe": 0.402,
+     "survive": true,
+     "note": "recorded batch-2A info column; x3 0.2633 not required (J15 precedent)"
+    }
+   },
+   "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-24",
+    "cutoff": "2026-09-23",
+    "x2_watch": {
+     "status": "probation",
+     "probation": true,
+     "margin": 0.0016,
+     "survive": true,
+     "source": "registration_x2_seed",
+     "as_of": "2026-09-24"
+    }
+   },
+   "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+   },
+   "status_history": [
+    {
+     "date": "2026-09-23",
+     "from": null,
+     "to": "INTERN",
+     "note": "G2_FOLK factory gate PASS (CEO order O-20260923-2210 chain): first K-line-pattern trader registered. OOS trades 44 >= 30 promotion clause OK; x2 margin +0.002 razor thin -- thin-margin watchdog mandatory during paper"
+    },
+    {
+     "date": "2026-09-24",
+     "from": "INTERN",
+     "to": "INTERN",
+     "note": "P-5B random-entry due diligence (O-2345, seed 20260924, K=50): beat_rate_6m 0.60 / min_dd_6m -4.14% -> FAIL 0.70 beat-line (dd clause PASS). Regime-dependence disclosed book-wide (old cohort pooled 0.6467 same verdict); alpha quality adjudication stays with the paper channel; level/paper data untouched per prereg s5"
+    }
+   ],
+   "notes": "Classic bullish engulfing + >=5% five-day drop context, exit reclaim MA20; CE exit machine (loss_time 16 + decay 25d/5% + trail 0.10). Cross-family ladder: confirmation > context > oscillator (batch-2A + folk-batch mechanism reading)"
+  },
+  {
+   "id": "NEEDLE-DE-01",
+   "name": "金针探底一号",
+   "school": "pattern",
+   "author": "g2-folk-batch",
+   "created": "2026-09-23",
+   "evidence_cutoff": "2026-09-22",
+   "level": "INTERN",
+   "params": {
+    "entry": "needle_probe(drop_th=-0.05, shadow_pct=0.02)"
+   },
+   "exit_overrides": {},
+   "repro": {
+    "script": "scripts/g2_folk.py",
+    "note": "G2_FOLK deepening PASS (rep regime default): center repro + neighborhood 0/8 all-green + x2 0.574 AND x3 0.4833 both above vi 0.4004 (thickest cost headroom in project history) + worst year 0.0. Evidence: results/shortline_g2_folk.json verdicts, research/shortline/g2_folk_results.csv"
+   },
+   "backtest": {
+    "in_sample": {
+     "sharpe": 0.7781,
+     "max_dd": -0.0254,
+     "annual": 0.0185,
+     "trades": 50
+    },
+    "out_sample": {
+     "sharpe": 0.4089,
+     "max_dd": -0.0282,
+     "annual": 0.0119,
+     "trades": 23
+    },
+    "cost_x2": {
+     "sharpe": 0.574,
+     "survive": true,
+     "note": "x3 0.4833 also above vi -- strongest cost headroom recorded"
+    }
+   },
+   "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-24",
+    "cutoff": "2026-09-23",
+    "x2_watch": {
+     "status": "ok",
+     "probation": false,
+     "margin": 0.1736,
+     "survive": true,
+     "source": "registration_x2_seed",
+     "as_of": "2026-09-24"
+    }
+   },
+   "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+   },
+   "status_history": [
+    {
+     "date": "2026-09-23",
+     "from": null,
+     "to": "INTERN",
+     "note": "G2_FOLK factory gate PASS (CEO order O-20260923-2210 chain): first folk-proverb trader (golden-needle probe with next-day reclaim confirmation). HONEST FLAG: OOS trades 23 < promotion clause 30 -- INTERN->TRAINEE promotion will stay blocked until OOS trade count accrues via paper extension (firm/hr.py reads backtest OOS trades; do not hand-edit)"
+    },
+    {
+     "date": "2026-09-24",
+     "from": "INTERN",
+     "to": "INTERN",
+     "note": "P-5B random-entry due diligence (O-2345, seed 20260924, K=50): beat_rate_6m 0.58 / min_dd_6m -3.12% -> FAIL 0.70 beat-line (dd clause PASS). Low-turnover structural drag predicted and confirmed (lowest beat rate); alpha quality adjudication stays with the paper channel; level/paper data untouched per prereg s5"
+    }
+   ],
+   "notes": "Long lower shadow (>=2% price, >=2x body, no upper shadow) in >=5% five-day-deep water, entry on next-day close above the needle high (confirmation construction); DEFAULT exit machine; exit reclaim MA20. Hammer-cousin same-family discount recorded (batch-2A hammer was sleeve-only)"
+  },
+  {
+   "id": "VOLATILITY-CE-01",
+   "name": "组合软化一号",
+   "school": "volatility",
+   "author": "researcher-j15",
+   "created": "2026-09-23",
+   "evidence_cutoff": "2026-09-22",
+   "level": "INTERN",
+   "params": {
+    "entry": "low_vol_long(n=60, top_k=5, daily)",
+    "max_positions": 5,
+    "position_size_pct": 0.1,
+    "time_decay_period": 25,
+    "time_decay_threshold": 0.05,
+    "trailing_stop_activate": 0.1
+   },
+   "exit_overrides": {
+    "loss_time_days": 16
+   },
+   "repro": {
+    "script": "scripts/combined_exit_screen.py",
+    "note": "non-bridged exit fields (loss_time_days / take_profit_fractions) require the runtime ExitConfig factory patch; engine files untouched; params-bridge kwargs take precedence"
+   },
+   "backtest": {
+    "in_sample": {
+     "sharpe": 1.0275,
+     "max_dd": -0.0378,
+     "annual": 0.0262,
+     "trades": 375
+    },
+    "out_sample": {
+     "sharpe": 2.0568,
+     "max_dd": -0.009,
+     "annual": 0.0424,
+     "trades": 147
+    },
+    "cost_x2": {
+     "sharpe": 0.5338,
+     "oos_sharpe": 1.1659,
+     "survive": true,
+     "note": "G2 cost stress x2 (26bp single-side); x3 -0.1903 not surviving = thickness ceiling 2x. Evidence: results/combined_exit.json cost_stress.rep_x2"
+    }
+   },
+   "paper": {
+    "months_tracked": 0,
+    "monthly_returns": [],
+    "current_dd": 0.0,
+    "as_of": "2026-09-24",
+    "cutoff": "2026-09-23",
+    "x2_watch": {
+     "status": "ok",
+     "probation": false,
+     "margin": 0.1334,
+     "survive": true,
+     "source": "registration_x2_seed",
+     "as_of": "2026-09-24"
+    }
+   },
+   "live": {
+    "months_tracked": 0,
+    "allocation_pct": 0,
+    "pnl": 0
+   },
+   "status_history": [
+    {
+     "date": "2026-09-23",
+     "from": null,
+     "to": "INTERN",
+     "note": "J15 combined-exit one-shot G2 pass: G1' six clauses on all 10 gate points + 3 anchors reproduced + cost x2 survive + no crash year. Evidence: research/COMBINED_EXIT_SOFTENING.md, research/combined_exit_results.csv, ledger N=708"
+    }
+   ],
+   "notes": "combined exit softening (loss_time_days 16 + decay 25d/5%) on low_vol(60,5) daily rotation; exit-rule priority untouched"
+  }
+ ]
+}

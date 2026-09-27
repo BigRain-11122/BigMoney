@@ -15,7 +15,19 @@ zero new members, zero ledger trials (stage-1 audit law).
               (PnL + d0 gap + official-ratio true-return + h10 forward).
   selftest -> offline synthetic checks (mask construction / family-window
               union / G-SET closure / placebo determinism / disposal census
-              gate) -- all green before any real run (prereg s6 law).
+              gate / anchor-face pin) -- all green before any real run
+              (prereg s6 law).
+
+Baseline-face pin (r78): rails load trader configs from the committed
+snapshot data/consolidation/t14_anchor_face.json (blobs of commit 4a5754a3,
+the T-14 freeze), NOT the live registration directory. The live dir
+legitimately evolved post-freeze (r242 T-78 s4 EXIT-OVERLAY-P1 winner
+wiring 2026-09-26: C01 tp_ladder / C02+ENGULF ov_full), which made
+G-REPRO correctly refuse on 2026-09-27 11:30 (C01 IS 0.4696 != frozen
+0.4514). The prereg's frozen intent (s2 "same-mirror as stage-1 audit" +
+s4 hard gate "bit-exact vs frozen T-14 A faces") requires the freeze-face
+config; pinning restores it. Implementation fix only -- zero judgment
+touch (J18 law).
 
 Honest disclosure (prereg s3): equity_fraction sizing means suppressed legs
 shift the equity path -> retained trades may differ in qty/pnl while their
@@ -37,7 +49,7 @@ if _REPO not in sys.path:
     sys.path.insert(0, _REPO)
 
 from scripts.science_gates import SEED_REGISTRY, cutoff_meta
-from scripts.t14_rules_fidelity import _load_traders, _seg_clean, run_rail
+from scripts.t14_rules_fidelity import _seg_clean, run_rail
 import live.paper as LP
 
 CUTOFF = "2026-09-23"
@@ -45,6 +57,9 @@ T14_BATCH = os.path.join(_REPO, "results", "rules_fidelity_t14.json")
 AUDIT_PATH = os.path.join(_REPO, "results", "t19_exposure_audit.json")
 REGISTRY_PATH = os.path.join(_REPO, "data", "consolidation", "registry.json")
 PROBE_PATH = os.path.join(_REPO, "results", "t19_official_ratio_probe.json")
+ANCHOR_FACE_PATH = os.path.join(_REPO, "data", "consolidation",
+                                "t14_anchor_face.json")
+PINNED_SRC_COMMIT = "4a5754a3"      # T-14 DONE freeze (r78 pin law)
 OUT_JSON = os.path.join(_REPO, "results", "t19_phantom_contribution.json")
 OUT_CSV = os.path.join(_REPO, "results", "t19_phantom_contribution.csv")
 
@@ -98,6 +113,30 @@ def load_disposal_set() -> dict:
         assert by_trader[tid] == n, \
             f"family-count drift {tid}: {by_trader[tid]} != {n}"
     return {"rows": rows, "families": fams, "n_k": n_k}
+
+
+# ------------------------------------------------- pinned baseline face
+
+def load_traders_t14_face() -> list[dict]:
+    """Trader configs pinned to the T-14 freeze (r78 pin law).
+
+    The live registration dir evolved post-freeze (r242 overlay wiring),
+    so the stage-1/T-14 same-mirror face loads from the committed snapshot
+    instead; provenance + id set are hard-asserted against the frozen
+    T-14 batch so a wrong-commit snapshot can never pass silently.
+    """
+    face = json.load(open(ANCHOR_FACE_PATH, encoding="utf-8-sig"))
+    prov = face["provenance"]
+    assert prov["source_commit"] == PINNED_SRC_COMMIT, \
+        f"anchor-face pin drift: {prov['source_commit']}"
+    batch = json.load(open(T14_BATCH, encoding="utf-8-sig"))
+    frozen_ids = sorted(r["trader"] for r in batch["traders"])
+    pinned_ids = sorted(t["id"] for t in face["traders"])
+    assert pinned_ids == frozen_ids, \
+        f"anchor-face id set drift: {pinned_ids} != {frozen_ids}"
+    for t in face["traders"]:
+        assert t.get("level") == "INTERN", f"{t['id']} not INTERN in pin"
+    return sorted(face["traders"], key=lambda t: t["id"])
 
 
 # ------------------------------------------------------- mask / family faces
@@ -242,7 +281,7 @@ def run() -> int:
     out_traders, out_rows, rails = [], [], 0
     ss = np.random.SeedSequence(seed)
 
-    for t in _load_traders():
+    for t in load_traders_t14_face():
         tid = t["id"]
         base = _baseline(t, prices_full, rows_f)
         rail = base["rail"]
@@ -376,6 +415,14 @@ def run() -> int:
         "disposal_set": {"rows": CENSUS_ROWS, "families": CENSUS_FAMILIES,
                          "per_trader_families": disposal["n_k"]},
         "cost_face": "V1 legacy 13bp x2 (registered-anchor repro law)",
+        "baseline_face": {
+            "pin": "data/consolidation/t14_anchor_face.json",
+            "source_commit": PINNED_SRC_COMMIT,
+            "law": ("rails pinned to T-14-freeze registration blobs (r78); "
+                    "live registrations evolved post-freeze via r242 "
+                    "T-78 s4 winner wiring -- overlay face is a LIVE-lane "
+                    "fact, never mixed into this audited-face batch"),
+        },
         "counterfactual_semantics": (
             "option-a operationalized as engine-native buy-guard entry "
             "suppression over family-window unions (fill_guard face, zero "
@@ -558,6 +605,32 @@ def selftest() -> bool:
     finally:
         AUDIT_PATH = orig
         os.unlink(tmp_ok)
+    # S7 anchor-face pin gate (r78): rails must load the T-14-freeze blobs,
+    # never the live dir (r242 overlay wiring drifted live vs frozen face)
+    try:
+        pinned = load_traders_t14_face()
+        pin_ok = len(pinned) == 6
+    except AssertionError:
+        pinned, pin_ok = [], False
+    _chk("anchor-face pin loads 6 frozen traders", pin_ok)
+    batch = json.load(open(T14_BATCH, encoding="utf-8-sig"))
+    frozen_by_id = {r["trader"]: r for r in batch["traders"]}
+    face_match, overlay_free = True, True
+    for t in pinned:
+        rec, fr = t["backtest"], frozen_by_id[t["id"]]["A"]
+        for reg_key, face_key in (("sharpe", "sharpe"),
+                                  ("max_dd", "max_drawdown"),
+                                  ("annual", "annual_return"),
+                                  ("trades", "trades")):
+            if (rec["in_sample"][reg_key] != fr["is"][face_key]
+                    or rec["out_sample"][reg_key] != fr["oos"][face_key]):
+                face_match = False
+        if ("take_profit_levels" in t.get("params", {})
+                or "take_profit_fractions" in t.get("exit_overrides", {})):
+            overlay_free = False
+    _chk("pinned registration faces == frozen T-14 A faces", face_match)
+    _chk("pinned face overlay-free (pre-r242 freeze invariant)",
+         overlay_free)
     print(f"  [t19c] selftest {'PASS' if ok else 'FAIL'}")
     return ok
 

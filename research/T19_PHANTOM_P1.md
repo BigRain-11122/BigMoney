@@ -20,6 +20,7 @@
 ## §2 数据与面板【跑前探针事实】
 
 - 宇宙/池：注册 6 员记录格复现面（T-14 A-rail：`_load_traders()`；prices=`LP.load_core()` 按 `LP.evidence_cutoff(t,·)` 逐员截断——与 stage-1 审计**逐位同镜**，r48 先例）。
+  - **跑前勘误（2026-09-27 r78 bm-c·零判据触碰）**：上条机制指针 `_load_traders()` 读活注册目录——r242（T-78 s4 EXIT-OVERLAY-P1 winner wiring·2026-09-26·合法活面演进）后活目录 C01/C02/ENGULF 已非 T-14 冻结面，11:30 首磨 G-REPRO 正确拒绝（C01 IS 0.4696≠冻结 0.4514）。本条「逐位同镜」冻结意图的正确实现=**rail 输入钉 T-14 冻结 commit 4a5754a3 注册 blob 快照**（消费件：`data/consolidation/t14_anchor_face.json`·来源 sha+逐件 sha256 内嵌·runner `load_traders_t14_face()` 硬门自证）；§4 G-REPRO 硬门判据逐字不动。
 - evidence_cutoff（D2 前向锁盒）：顶层 **2026-09-23**（=stage-1 审计件同锚；各员复现窗=注册窗冻结，cutoff 后新 bar 不回流本批）；结果 JSON 顶层必带 `science_gates.cutoff_meta("2026-09-23")`。
 - 数据完备门（不过门禁出数）：G-REPRO——基线复现逐位等于 T-14 冻结 A 面（`_seg_clean` 位级、`a_face_matches_frozen` stage-1 同门）。
 - 消费件（全只读）：data/consolidation/registry.json（21 事件）＋ results/t19_exposure_audit.json（处置集来源）＋ data/consolidation/adjust_factors.json ＋ results/t19_official_ratio_probe.json（官方比例+残差披露，stage-2b 21/21）。
