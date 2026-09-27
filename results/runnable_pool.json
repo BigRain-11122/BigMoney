@@ -2048,7 +2048,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 08:58:30",
    "data_gates": "in-runner fail-closed: SEED_REGISTRY assert (decision_chain_e2e=20261001, s9.2) + G-ANCHOR 6/6 (exit 3) + G-CENSUS vs t22 finalize record live-read (exit 3) + CostPatch(2.0) multiplier law (t22 Erratum-1, never COST_X2_RATE) + per-shard row-level checkpoint resume (t22 law, truncated-tail tolerated). r312 real-data probe: 36/36 cells 10.3s on 11 workers + direction gate 36/36 (x2 ret_12m < base on every cell, r82 inverted-face trap absent) + G-REPRO 12/12 bit-equal vs t34 verdict (legacy 0.4296/0.4659 deep 0.3942/0.4304 dd switches all equal)",
    "workers_plan": {
@@ -2059,13 +2059,16 @@
    "shards": [
     {
      "key": "dce2-legacy-ld",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 10:00:05",
      "checkpoint": "results/decision_chain/curves_x2_legacy_ld.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
-     "note": "6 members x 313 starts = 1878 cells"
+     "note": "6 members x 313 starts = 1878 cells",
+     "result_ref": "results/decision_chain/done_x2_legacy_LD.json"
     }
-   ]
+   ],
+   "result_ref": "results/decision_chain/done_x2_legacy_LD.json",
+   "note_done": "r314 bm-b flip: full-completion marker 1878/1878 cells (finished 2026-09-27 10:00:31), T-2026-09-27-90 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "DECISION-CHAIN-E2E-X2-DA",
@@ -2099,8 +2102,8 @@
     {
      "key": "dce2-deep-da",
      "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-a",
+     "owner_since": "2026-09-27 10:10:05",
      "checkpoint": "results/decision_chain/curves_x2_deep_da.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
      "note": "6 members x 301 starts = 1806 cells"
     }
