@@ -8,7 +8,7 @@
     "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-09-28 05:55:34",
+  "updated_at": "2026-09-28 07:00:56",
   "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry)",
   "entries": [
     {
@@ -363,7 +363,7 @@
           "key": "censusw2b-0of1",
           "status": "waiting",
           "owner": "bm-b",
-          "owner_since": "2026-09-28 06:00:31",
+          "owner_since": "2026-09-28 06:20:31",
           "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
           "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
         }
@@ -3082,7 +3082,7 @@
       ],
       "lane_owner": null,
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-28 04:59:54",
       "workers_plan": {
         "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed)",
@@ -3093,15 +3093,19 @@
       "shards": [
         {
           "key": "screen-0of1",
-          "status": "waiting",
+          "status": "done",
           "owner": "bm-a",
-          "owner_since": "2026-09-28 06:50:05",
+          "owner_since": "2026-09-28 07:00:05",
           "checkpoint": "results/trial_labor_w2/checkpoint/screen_shard_0of1.jsonl (row-level done-set resume)",
-          "note": "single shard W1-SCREEN precedent (multi-shard i%%shards split legal per shard law on partial claim); pool ordering per prereg sec.6: entered_at order behind census W2B burn = legal CPU queueing, ticket-logged"
+          "note": "single shard W1-SCREEN precedent (multi-shard i%%shards split legal per shard law on partial claim); pool ordering per prereg sec.6: entered_at order behind census W2B burn = legal CPU queueing, ticket-logged",
+          "done_at": "2026-09-28 07:00:56"
         }
       ],
       "entered_by": "bm-b r360",
-      "note": " | r386 bm-a first live-fire prep 06:15: G-PANEL structural FAIL (shared panel advanced past cutoff: 48/48 tail=2026-09-24 vs ==2026-09-22 gate; zero-leak truncation verified in _load_leg [floor,cut] + G-ANCHOR pcut; r348-era code had NO fail branch per git show 2621c875 archaeology); batch stays waiting = physical dep owner bm-b verdict -> MSG-20260928-0615 | r386 bm-a FLIP waiting->ready 06:26: gates ALL observed: (1) GENERATE done bm-c 05:30; (2) prep_state 4/4 PASS (G-PANEL 48/48 post-truncation-fix bm-b r363 + G-ANCHOR 6/6 faithful + G-CENSUS 1253 frozen + G-EXCLUDE disclosed; generated 06:08:50); (3) RAM 3-sample [51.07,51.49,51.48]GB >=4GB across 30s PASS (r354; record results/trial_labor_w2/ram_gate_r386_bma.json; first RAM-pass round per MSG-0635 flip rule); executor=bm-a per MSG-0635 flip=first-round-observing-RAM-pass; autofill tick may claim+launch"
+      "note": " | r386 bm-a first live-fire prep 06:15: G-PANEL structural FAIL (shared panel advanced past cutoff: 48/48 tail=2026-09-24 vs ==2026-09-22 gate; zero-leak truncation verified in _load_leg [floor,cut] + G-ANCHOR pcut; r348-era code had NO fail branch per git show 2621c875 archaeology); batch stays waiting = physical dep owner bm-b verdict -> MSG-20260928-0615 | r386 bm-a FLIP waiting->ready 06:26: gates ALL observed: (1) GENERATE done bm-c 05:30; (2) prep_state 4/4 PASS (G-PANEL 48/48 post-truncation-fix bm-b r363 + G-ANCHOR 6/6 faithful + G-CENSUS 1253 frozen + G-EXCLUDE disclosed; generated 06:08:50); (3) RAM 3-sample [51.07,51.49,51.48]GB >=4GB across 30s PASS (r354; record results/trial_labor_w2/ram_gate_r386_bma.json; first RAM-pass round per MSG-0635 flip rule); executor=bm-a per MSG-0635 flip=first-round-observing-RAM-pass; autofill tick may claim+launch",
+      "done_at": "2026-09-28 07:00:56",
+      "result_ref": "results/trial_labor_w2/w2_screen.json (+ w2_screen_cells.csv)",
+      "note_done": "r389 bm-a finalize: burn 06:50:59-06:52:41 bm-a (fixed dispatch r141-fix e463fe9b in-tree pre-launch via r282 rebase chain; 06:40 old-code crash zero cells burned); all 3,124 cells complete (2,924 distinct + 200 nulls); finalize: null p95 0.5116 (prereg band [0.42,0.62] PASS), survivors 404/2,924 = 13.8% (band [2%,15%] PASS, [100,750] PASS); ledger TRIAL_LAB_W2_SCREEN +3,124 chain total 297,428; survivors feed TRIAL-LABOR-W2-JUDGE (judge-prep+judge = deep-panel machine bm-b domain per W1 r346 precedent)"
     },
     {
       "id": "TRIAL-LABOR-W2-JUDGE",
