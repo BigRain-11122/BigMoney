@@ -1,10 +1,9 @@
 {
- "round_no": 356,
- "did": "R356: green maintenance round: orders 96/96 double-scan zero-unacked + decisions zero-new (council seat-3 opinion F-20260927-02 already issued r326, zero re-issue) + smoke 25/25 + post_review zero-unresolved + S6 30/30 rc=0 Sunday no-op family zero-masked (cutoff 09-24 Mid-Autumn-Fri closed) + T-91 stays ARMED (sysv1 idempotent no-op marks@cutoff; IntradayMarks Mon 09:25) + watch: W2-A bmb burning ETA passed heartbeat 95min stale busy-not-dead r341 (physical burn, no cross-box takeover), W2-B waiting double-dep, MF/AH EM-block self-heal throttled",
- "verify": "smoke 25/25 + S6 30/30 rc=0 zero-masked + orders 96/96 both scans + schtasks 4/4 + claw IDENTICAL",
- "next": "Mon 09-28 09:15 T-91 s3 auto-fire (IntradayMarks 09:25; first bar ~15:30 -> live.paper enforce + t35 verify + exports; sysv1 marks via bm-b BARS evening); bm-b W2-A finalize + W2-B sequence watch; MF/AH self-heal watch; council vote window 09-29 12:00; next 5x=R360 HANDOVER",
- "last_round_at": "2026-09-27T21:45:00+08:00",
- "current_task": "r356 closed: green maintenance (T-91 armed for Mon launch)",
- "updated": "2026-09-27T21:45:00+08:00",
- "last_round_ts": "2026-09-27T21:45:00+08:00"
+ "round_no": 357,
+ "did": "R357: green maintenance round: orders 96/96 double-scan zero-unacked + decisions zero-new-actionable (council seat-3 already issued r326, window to 09-29 12:00) + smoke 25/25 + post_review 3094 rows zero-unresolved + S6 30/30 rc=0 Sunday no-op family zero-masked (daily 0-new cutoff 09-24; no new bar -> live.paper/t35_open_fill/t24_prospect_paper correctly skipped) + fundamental 24h-due full refresh with honest fallback chain (ST vendor EM fail -> direct UA fail -> sina_name_markers success, snapshot 11626 rows eligible 7264) + b_layer mask regenerated all 5 gates pass + T-91 stays ARMED zero-drift (sysv1 no-op marks@cutoff; IntradayMarks Mon 09:25 Ready verified schtasks) + W2-A watch UNCHANGED (MSG-2010 owner states in-flight burn parent 13148 old-code-in-memory 'no action requested your side' + no finalize commit + heartbeat 98min stale = inline-burn-normal per r341 busy-not-dead dual-evidence, no cross-box takeover) + W2-B waiting double-dep unchanged + MF rank-pass 30min-throttle self-heal in flight + AH spawn throttled same EM family",
+ "verify": "smoke 25/25 + S6 30/30 rc=0 zero-masked + orders 96/96 both scans + schtasks 4/4 (Loop Running/Watchdog+Autofill 21:50/IntradayMarks Mon 09:25) + claw IDENTICAL + post_review 0 unresolved",
+ "next": "Mon 09-28 09:15 T-91 s3 auto-fire (IntradayMarks 09:25 armed; first bar ~15:30 -> live.paper enforce + t35 verify + exports; sysv1 marks via bm-b BARS evening); bm-b W2-A finalize commit re-check + W2-B sequence (D8 receive -> probe once -> run); MF/AH EM self-heal watch; council vote-record window close 09-29 12:00; next 5x=R360 HANDOVER",
+ "last_round_at": "2026-09-27T21:55:00+08:00",
+ "current_task": "r357 closed: green maintenance (T-91 armed, Mon launch)",
+ "updated": "2026-09-27T21:55:00+08:00"
 }
