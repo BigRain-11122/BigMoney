@@ -367,7 +367,10 @@ def sr5_resources(base, prev_entry, now=None):
         codely_bytes = (base / "CODELY.md").stat().st_size
     except OSError:
         pass
-    ca = _read_json(base / "results" / "compute_audit.json") or {}
+    # D-20260928-03(1) slice-3 (r383): lane-merged audit read (sec.7);
+    # sr5 keeps its own tmp-dir fixture path via results_dir (hermetic).
+    from merge_lane_views import face_view
+    ca = face_view("compute_audit", results_dir=str(base / "results")) or {}
     latest = ca.get("latest") or {}
     flags = latest.get("flags") or []
     blocked = []

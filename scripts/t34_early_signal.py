@@ -455,9 +455,13 @@ def cmd_finalize(_) -> int:
         subprocess.run([sys.executable, os.path.join(
             ROOT, "scripts", "compute_audit.py")],
             capture_output=True, text=True, timeout=180)
-        aj = json.load(open(os.path.join(ROOT, "results",
-                                         "compute_audit.json"),
-                            encoding="utf-8-sig"))
+        # D-20260928-03(1) slice-3 (r383): lane-merged audit read (sec.7);
+        # empty view falls through to the honest "unavailable" except branch.
+        import merge_lane_views as lane_views
+        aj = lane_views.face_view(
+            "compute_audit", results_dir=os.path.join(ROOT, "results"))
+        if not aj:
+            raise RuntimeError("compute_audit lane-merged view empty")
         latest = aj.get("history", aj)
         if isinstance(latest, list) and latest:
             latest = latest[-1]

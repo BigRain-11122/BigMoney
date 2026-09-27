@@ -473,12 +473,13 @@ def main():
                        cwd=ROOT, capture_output=True, text=True, timeout=120)
     except Exception as exc:  # noqa: BLE001
         print(f"[pa1e] compute_audit in-batch run failed: {exc}", flush=True)
-    apath = os.path.join(ROOT, "results", "compute_audit.json")
-    if os.path.exists(apath):
-        with open(apath, encoding="utf-8") as fh:
-            aj = json.load(fh)
+    # D-20260928-03(1) slice-3 (r383): lane-merged audit read (sec.7).
+    import merge_lane_views as lane_views
+    aj = lane_views.face_view(
+        "compute_audit", results_dir=os.path.join(ROOT, "results"))
+    if aj:
         latest = aj.get("history", [{}])[-1] if aj.get("history") else aj
-        audit_seg = {"source": "results/compute_audit.json (in-batch run)",
+        audit_seg = {"source": "compute_audit lane-merged view (in-batch run)",
                      "verdict": latest.get("verdict"), "ts": latest.get("ts"),
                      "cpu_pct": latest.get("cpu_pct"),
                      "flags": latest.get("flags")}

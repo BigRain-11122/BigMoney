@@ -735,10 +735,12 @@ def _finalize(elapsed):
 
     # audit block (compute_audit latest sample)
     audit = {"workers": WORKERS, "policy": "O-1738 bm-b <= 12"}
-    ap = os.path.join(ROOT, "results", "compute_audit.json")
-    if os.path.exists(ap):
-        with open(ap, encoding="utf-8-sig") as fh:
-            latest = (json.load(fh).get("latest") or {})
+    # D-20260928-03(1) slice-3 (r383): lane-merged audit read (sec.7).
+    import merge_lane_views as lane_views
+    aj = lane_views.face_view(
+        "compute_audit", results_dir=os.path.join(ROOT, "results"))
+    if aj:
+        latest = (aj.get("latest") or {})
         audit["sampled"] = {k: latest.get(k) for k in
                             ("cpu_total_pct", "verdict", "flags", "ts")}
 
