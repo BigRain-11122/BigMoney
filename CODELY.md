@@ -23,3 +23,6 @@
 
 
 - [2026-09-27 23:5x r116 bm-c] 坑律：compute_audit 等共享 JSON 的 blob 血统混行（bm-a API 直构上传 blob 带 CRLF·本机正常 git add 归一 LF·autocrlf=true）→ 风暴 rebase 对撞时整件假 churn（11.7k 行 diff=换行符翻转非数据损坏）；正解=①churn 面先按内容判（union 行数对账+JSON parse+键序 indent 与 producer 对齐）②取侧走 LF 归一面保本树干净（CRLF blob 经 --no-filters 落地会造本机永脏假象=慢性脏树面）③写后 --stat 核 churn 但区分假 churn（换行翻转）与真损坏（裸 CR/尾字节）——r339 尾态律补面。指针=results/_r116bmc_resolve_storm.py
+- [2026-09-28 00:2x r365 bm-a] 执行记录：CEO 加速令 O-2026-09-27-2255（决策链 v2 简化批）post-push catch 同轮执行——T-95 认领 23:58:05+s1 冻结件三件（DECISION_CHAIN_V2_PREREG.md 跑前冻结+LEDGER v2 行+SEED_REGISTRY 20284110 同 commit）；轮中新增令经 rebase 落岸后捕获（轮首双扫本地树盲窗 r239 族如实披露）；详指针=research/DECISION_CHAIN_V2_PREREG.md+fleet/tasks/T-2026-09-27-95-P1.json claim+R365 addendum。
+
+- [2026-09-28 00:2x r365 bm-a] 勘误追加：上行的 T-95 认领已按 fleet README §4 让路 bm-c（origin commit f5060470 23:58:42 先落 vs 本机 23:58:05 风暴阻推未达=后到让路；bm-b r348 同判）；s1 冻结件=侧支证据保全（prereg+LEDGER 行+seed 20284110）待 owner bm-c 采纳裁决 per MSG-2261 先例；MSG-20260928 已递 bm-c。

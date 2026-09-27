@@ -963,6 +963,13 @@ SEED_REGISTRY = {
     # both range and derivation protocol (scalar Sobol seed vs multi-int
     # seed-sequence), zero stream collision; kept for reproducibility of
     # the counted cells
+    "decision_chain_v2": 20284110,  # T-2026-09-27-95 decision-chain v2 simplification
+    # batch (CEO O-2026-09-27-2255). Binomial bootstrap B=2000 CI seed only
+    # (v1 decision_chain_e2e protocol). Band avoidance disclosure: 20283000..20283899
+    # = mass_trial_w1 declared band; 20284000 = trial_labor_w1_scrnull (bm-b
+    # TRIAL_LABOR_W1 s2); 20261002..20261030 = t11_negday_ic nulls data pollution;
+    # rg --no-ignore whole-repo zero-hit verified 2026-09-28 00:1x; registered
+    # same commit as prereg freeze (R250 law)
 
 }
 
