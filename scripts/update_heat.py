@@ -158,6 +158,19 @@ def write_snapshot(path, rows, now):
 
 
 def main():
+    # R31 host-guard (r378 obs-window catch #5): heat snapshots and their
+    # status face derive from the HOST's machine-local data/heat
+    # directory -- a non-host run must not fetch, snapshot, or advance
+    # the shared envelope (ts新 != 数据权威新; an envelope-only no-op
+    # write from a non-host advanced shared freshness past the
+    # authoritative host lane and forced reconcile drift, live-fire
+    # bm-c r130 vs bm-a r378 same-window). Non-host = stdout-only
+    # honest no-op, zero writes (update_astock_daily precedent).
+    if machine_id() != HEAT_LANE_HOST:
+        print(f"no-op: heat lane host {HEAT_LANE_HOST} authority, this "
+              f"machine ({machine_id() or 'unknown-id'}) stdout-only "
+              f"(R31 lane-guard, r378 catch #5)", flush=True)
+        return 0
     now = pd.Timestamp.now()
     today_file = os.path.join(
         HEAT_DIR, f"{now.strftime('%Y%m%d')}.json")
