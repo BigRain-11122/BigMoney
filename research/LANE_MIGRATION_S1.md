@@ -44,3 +44,11 @@
 ## 四、下轮指针
 
 批 1 执行件起草：每件车道文件 schema（保留原 face 全字段+写手机器自署）+ 读端合并器 `scripts/merge_lane_views.py`（或复用各消费面内嵌合并）+ 双跑对账 harness（车道视图 vs 现单文件 diff 为零漂移证据）。
+
+## 五、批 1 执行件已起草（bm-a r371·2026-09-28）
+
+- **读端合并器**：`scripts/merge_lane_views.py`（library+CLI，L1 确定性零网络零引擎）。子命令：`merge`（合并视图摘要，不写仓件=零新增共享写面）/ `reconcile`（合并视图 vs 现单文件对账，exit 0=零漂移/1=漂移）/ `selftest`（离线合成件 18 腿全 PASS）。
+- **车道文件 schema**：`results/<face>.<machine>.json` = 原 face 全字段原样 + 顶层 `lane_machine` 自署（与文件名矛盾=fail-closed，r98 身份律）；合并器固定源序=legacy 共享件打底→bm-a/bm-b/bm-c 车道件，全机同序同输出（确定性）。
+- **配方=冲突解 SKILL 实弹律逐条复用为读端**：compute_audit=history ts 键并集+latest 嵌套深探取新（r311/D-09）；regime_state=整行 identity union（triggers/transitions/history）+flat 按 updated 取新；autofill_state=launches 整行去重→desc cap50→asc 写回（r245）+last_tick 内 ts dict 比较（r140）；runnable_pool=entry id union+done 吸收（r312）+**治理字段非空优先带注记（r370 坑律·lane_owner/lane_note/claimed_*）**；gate_attrition=整行 union 全量语义（47 消费面零丢失）；post_review_criteria=items id union+撞 id 归新 _reconciled ts 侧（r264 实弹先例）。
+- **引导窗实弹证据（r371）**：`reconcile` 对真仓 6 面=6/6 ZERO-DRIFT（单源恒等引导证明=合并器恒等面成立，切换前基线锚）。
+- **下一步（批 1 落地轮）**：writer 双轨接线——每机 S6 腿改写自家 `results/<face>.<machine>.json`（共享件照写=兼容窗双轨），跑 ≥2 轮后 `reconcile` 恒零漂移→消费面（build_status/daily_report）改 import 合并器读合并视图→再撤共享写面；批 2=B 族、批 3=C 族照本节协议推进。回访判据不变（§三）。

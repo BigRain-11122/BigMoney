@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T01:52:58+08:00",
- "current_task": "r370 done: V2-P1 lane pin re-adopt (r348-family 3rd swallow case) + D-20260928-03(1) S1 lane-migration census + hot-cold archive 25th batch",
+ "last_seen": "2026-09-28T02:05:06+08:00",
+ "current_task": "r371 done: lane-migration batch-1 execution pieces (merge_lane_views.py merger+selftest 18/18+reconcile 6/6 zero-drift, LANE_MIGRATION_S1 sec.5)",
  "cpu_cores": 32,
- "cpu_pct": 9.7,
+ "cpu_pct": 9.0,
  "free_ram_gb": 46.5,
  "gpu_free_vram_gb": 5.2,
- "verdict": "py_low_board_clear (legal idle: local board closed, bandit empty, pool 2-ready both pinned bm-b lanes)",
+ "verdict": "py_low_board_clear (legal idle: local board closed, bandit empty, pool 2-ready both pinned bm-b lanes, judge shards waiting deep-panel machine)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,8 +108,8 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790531578,
- "clock_read": "2026-09-28T01:52:58+08:00",
+ "heartbeat_epoch_utc": 1790532306,
+ "clock_read": "2026-09-28T02:05:06+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5379,
  "gpu_idle_vram_gb": 5.5,
@@ -120,12 +120,12 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 367,
+ "round_no": 371,
  "gpu_idle_vram_mb": 5663,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 51.9,
  "gpu0_free_vram_gb": 5.25,
- "cpu_util_pct": 8.2,
+ "cpu_util_pct": 9.0,
  "total_ram_gb": 93.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-27 09:3x, 6631MiB in use)",
  "prod_lanes": [
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 367,
- "loop_round": 367
+ "round": 371,
+ "loop_round": 371
 }
