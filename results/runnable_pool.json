@@ -2772,15 +2772,15 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "running",
    "entered_at": "2026-09-28 00:11:00",
    "data_gates": "in-runner fail-closed: prep gates already PASS 6/6 (G-PANEL/G-CENSUS census==P-5C FROZEN grid leg-L 1253 via p5c import / G-ANCHOR registered-six live.paper replay faithful / G-EXCLUDE armed); cells = 658 distinct candidates + K=200 dual nulls; per-shard jsonl checkpoint cross-kill resume; runner-internal RAM guard armed (r348-A build); selftest 19/19 re-verified r348 second session",
    "shards": [
     {
      "key": "screen-0of1",
-     "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "status": "running",
+     "owner": "bm-c",
+     "owner_since": "2026-09-28T01:16:57+08:00",
      "checkpoint": "results/trial_labor_w1/checkpoint/screen_shard_0of1.jsonl (row-level done-set resume)",
      "note": "single shard; measured 1.2s/cell x 858 cells / 12 workers ~ 2min BelowNormal light batch; B7b consumer keys contract verified in selftest"
     }
