@@ -2691,6 +2691,35 @@
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2a_results.json (ledger N=5,920 declared at run finalize, r252 embed key; products w2a_cells.csv/w2a_nulls.json/w2a_top_matrices.json/w2a_summary.json); pool flip = round work per r203 law"
     }
    ]
+  },
+  {
+   "id": "SINA-CONSTRUCT-P1",
+   "ticket_ref": "T-2026-09-25-46-P1 sina-construct leg (sibling of parked EM face MF_IC_P1; lane pick (a) data-host local burn MSG-20260927-1615 bm-a; both two-conditions met r333 bm-b: runner commit 6c9fb92f + prereg FROZEN commit f5acd8fa; F-04 MSG-20260927-1642 burn-unblock receipt to bm-a)",
+   "prereg_ref": "research/SINA_CONSTRUCT_P1.md FROZEN v1.0 commit f5acd8fa (R99 independent freeze, zero cells burned, sec.7/sec.8 empty placeholders); seeds sina_construct_p1=58_550 band 58_550..58_649 registered inside freeze commit (rg full-repo scan clean r333); N_eff=5 constructs + per-construct K=100 same-mask within-day permutation nulls; IC 3-gate V1/V2/V3 h10 sole gating horizon (h5/h20 report-only), IS>=100/OOS>=30 positional 2/3 split, cross-section n>=1000 per signal day",
+   "runner": "scripts/sina_construct_ic.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": "bm-a",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 16:35:37",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process L1 per runner CLI (run|selftest only, no worker fan-out); prereg sec.0 cap worker<=12 informational; est 10-20min; C8 semantics preemption->whole-run restart, no intra-run state face (prereg sec.6 engineering note); selftest 9/9 PASS cross-verified on bm-a box r336 (bm-b hermetic 9/9 r333); products results/shortline/sina_construct_p1.json (top-level evidence_cutoff=C2 legal key) + research/shortline/sina_construct_p1_results.csv row-level IC face"
+   },
+   "data_gates": "in-runner fail-closed exit 2 (prereg sec.2 completeness gate): sina_mf_accept verdict PASS + panel complete + n_symbols>=5000 + eligible signal days>=150; current box face verified r336: accept PASS ts=2026-09-27T15:06:09 + panel cutoff 2026-09-24 complete=true n_symbols=5228 (rows_total 1,294,199); latent_repull_defect_note echoed in audit block (collector face only, first monthly re-pull window ~2026-10-27); D6 real cross-family verdicts compute on bm-a (ths+lhb+EM panels in-place; EM overlap thin 53/5222 -> honest weak_check_insufficient_coverage if overlap<30d per MSG-1642 sec.5)",
+   "shards": [
+    {
+     "key": "sinac-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": null,
+     "note": "single shard whole-batch; no intra-run checkpoint by design (C8 whole-run restart semantics prereg sec.6); finalize -> results/shortline/sina_construct_p1.json + research/shortline/sina_construct_p1_results.csv; pool flip to done = round work per r312 law"
+    }
+   ]
   }
  ],
  "version": 1,
@@ -2702,6 +2731,6 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 13:42:50",
- "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
+ "updated_at": "2026-09-27 16:35:37",
+ "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry)"
 }
