@@ -1,0 +1,121 @@
+{
+ "batch": "CENSUS_FUS_S2_W2B-ROSTER",
+ "ticket": "T-2026-09-26-86-P1 s2 wave-2 W2-B (CEO O-20260926-2320)",
+ "face": "EXPLORATION roster freeze doc (sec.9.4 append-confirm; deterministic derivation from judged/archived artifacts; zero judgment claims; R99 freeze precedes W2-B runner build/run)",
+ "generated_at": "2026-09-27 18:46:03",
+ "rules_ref": "research/CENSUS_FUSION_S2_PREREG.md sec.9.4 (this freeze) + sec.9.3 wave-2 instantiation + FACTOR_CENSUS_REGISTRY.md sec.s2 wave-2 rules",
+ "artifact_anchors": {
+  "w2_roster.json": {
+   "sha256_12": "797ff916fe97",
+   "note": "A32 cross-face identity (R325 frozen)"
+  },
+  "sina_construct_p1.json": {
+   "sha256_12": "513f96deae8f",
+   "note": "D8 sign evidence (R338 judged)"
+  },
+  "SINA_MF_PREREG.md": {
+   "sha256_12": "11d0610e3136"
+  },
+  "HEAT_ATTENTION_SPEC.md": {
+   "sha256_12": "47eec1ffe490"
+  }
+ },
+ "gates": {
+  "sina_mf_panel": {
+   "state": "OPEN",
+   "complete": true,
+   "cutoff": "2026-09-24",
+   "n_symbols": 5228,
+   "universe_n": 5228,
+   "source": "results/sina_mf_update_status.json"
+  },
+  "e_heat": {
+   "state": "CENSUS-INFEASIBLE -> OUT (sec.9.4 downscope)",
+   "evidence": "popularity snapshots 3 (2026-09-23/24/25) + rank_history pilot 97/5228 members; HEAT_ATTENTION_SPEC sec.3.2 P-C no-IS law",
+   "future_path": "paper-forward accumulation continues; full-universe rank_history backfill amendment option -> potential W2-C"
+  }
+ },
+ "w2b": {
+  "lane": "bm-b (astock panel + A sidecars locality; D-face input via bm-a small-artifact export + TRANSFER channel, sha gate in-runner fail-closed)",
+  "n_faces": 8,
+  "faces": [
+   {
+    "face": "sina_mf_eltra_large_net",
+    "row": "D",
+    "sign": 1,
+    "sign_anchor": "sina_construct_p1.json TIER_r0 h10_is_ic_mean +0.0066 (same-tier normalized-sibling derived prior; raw face size-tilt disclosed sec.9.4)",
+    "ctor": "sina panel raw column (SINA_MF_PREREG sec.1 frozen schema); daily cross-sectional z-score"
+   },
+   {
+    "face": "sina_mf_eltra_large_ratio",
+    "row": "D",
+    "sign": 1,
+    "sign_anchor": "sina_construct_p1.json TIER_r0 h10_is_ic_mean +0.0066 (judged direct: same TIER_rX formula)",
+    "ctor": "rX_net/turnover = SINA_CONSTRUCT_P1 sec.3 TIER_r0 literal formula (judged-artifact convention)"
+   },
+   {
+    "face": "sina_mf_large_net",
+    "row": "D",
+    "sign": 1,
+    "sign_anchor": "sina_construct_p1.json TIER_r1 h10_is_ic_mean +0.0051 (same-tier normalized-sibling derived prior; raw face size-tilt disclosed sec.9.4)",
+    "ctor": "sina panel raw column (SINA_MF_PREREG sec.1 frozen schema); daily cross-sectional z-score"
+   },
+   {
+    "face": "sina_mf_large_ratio",
+    "row": "D",
+    "sign": 1,
+    "sign_anchor": "sina_construct_p1.json TIER_r1 h10_is_ic_mean +0.0051 (judged direct: same TIER_rX formula)",
+    "ctor": "rX_net/turnover = SINA_CONSTRUCT_P1 sec.3 TIER_r1 literal formula (judged-artifact convention)"
+   },
+   {
+    "face": "sina_mf_mid_net",
+    "row": "D",
+    "sign": -1,
+    "sign_anchor": "sina_construct_p1.json TIER_r2 h10_is_ic_mean -0.0033 (same-tier normalized-sibling derived prior; raw face size-tilt disclosed sec.9.4)",
+    "ctor": "sina panel raw column (SINA_MF_PREREG sec.1 frozen schema); daily cross-sectional z-score"
+   },
+   {
+    "face": "sina_mf_mid_ratio",
+    "row": "D",
+    "sign": -1,
+    "sign_anchor": "sina_construct_p1.json TIER_r2 h10_is_ic_mean -0.0033 (judged direct: same TIER_rX formula)",
+    "ctor": "rX_net/turnover = SINA_CONSTRUCT_P1 sec.3 TIER_r2 literal formula (judged-artifact convention)"
+   },
+   {
+    "face": "sina_mf_small_net",
+    "row": "D",
+    "sign": -1,
+    "sign_anchor": "sina_construct_p1.json TIER_r3 h10_is_ic_mean -0.0038 (same-tier normalized-sibling derived prior; raw face size-tilt disclosed sec.9.4)",
+    "ctor": "sina panel raw column (SINA_MF_PREREG sec.1 frozen schema); daily cross-sectional z-score"
+   },
+   {
+    "face": "sina_mf_small_ratio",
+    "row": "D",
+    "sign": -1,
+    "sign_anchor": "sina_construct_p1.json TIER_r3 h10_is_ic_mean -0.0038 (judged direct: same TIER_rX formula)",
+    "ctor": "rX_net/turnover = SINA_CONSTRUCT_P1 sec.3 TIER_r3 literal formula (judged-artifact convention)"
+   }
+  ],
+  "enumeration": {
+   "pairs": 284,
+   "triples": 4920,
+   "candidates": 5204,
+   "controls_rs_pairs": 16,
+   "nulls": 400,
+   "ledger_N": 5620
+  },
+  "nulls_design": "200 random pairs + 200 random triples, each forced >=1 D face (same-structure same-coverage-window baseline; divergence from W2-A unconditional draw disclosed sec.9.4); random +/- sign assignment; same-mask same-machine same-cost (RANDOM_LARGE_SAMPLE_LAW)",
+  "seeds": {
+   "null_base": 20282500,
+   "null_band": "20282500..20282899"
+  },
+  "coverage_window_disclosure": "sina panel = num=100 frozen collector ~250 rows/symbol (~2025-09..2026-09-24; sina_construct_p1 same window IS156+OOS81=237 signal days) -> D-combo stats run on the D-covered window (~1y, weekly REB ~47) vs W2-A full-window; deep-history re-pull (num=2500) = future amendment option (SINA_MF_PREREG sec.5-1)",
+  "honest_notes": [
+   "sec.9.3 predeclare 9 faces / 6024 combos superseded by this sec.9.4 confirm (E-heat out, structural data availability, zero cells burned, non-result-driven)",
+   "D-family standalone REJECT (R338 V1/V2) + OOS IC negative disclosed with the batch -- exploration face, no admission gate, T-23 intake consumers carry their own gates",
+   "intra-D corr pre-evidence from judged census: TIER_r0|TIER_r1 0.4877, TIER_r0|MAIN 0.8636 (family_by_construction)"
+  ]
+ },
+ "ledger_trials_added": 0,
+ "note": "doc face (roster freeze); W2-B runner build + bm-a sina export artifact + pool entry = follow-up slices; batch N enters the ledger at run finalize (declared ledger_N=5620)"
+}

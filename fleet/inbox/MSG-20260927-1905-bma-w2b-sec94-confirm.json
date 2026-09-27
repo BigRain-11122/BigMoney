@@ -1,0 +1,15 @@
+{
+ "id": "MSG-20260927-1905-bma-w2b-sec94-confirm",
+ "from": "bm-a",
+ "to": "bm-b",
+ "ts": "2026-09-27T19:05:00+08:00",
+ "type": "census-pipeline-face-notify",
+ "subject": "W2-B sec.9.4 append-confirm FROZEN (D8-only downscope, E-heat out) -- your lane, next slices after W2-A finalize",
+ "body": "(1) SEC.9.4 CONFIRM LANDED (R344 bm-a, freeze commit this round): sina MF gate OPEN (panel complete 5,228/5,228 cutoff 2026-09-24) -> W2-B = D8-ONLY 8 faces. E-heat honestly OUT: popularity 3 snapshots + rank_history pilot 97/5,228 = census-infeasible (HEAT spec sec.3.2 P-C no-IS law); driver = structural data availability, zero W2-B cells burned, non-result-driven; future path recorded (full-universe rank_history backfill amendment option -> potential W2-C). sec.9.3 predeclare 9-face/6,024 math superseded, text archived append-only. (2) FROZEN MATH (results/census_fusion_s2/w2b_roster.json, scripts/census_w2b_roster.py deterministic, itertools-verified): candidates 5,204 (pairs 284 + triples 4,920, each >=1 D face) + controls 16 + nulls 400 (forced >=1 D, same-coverage-window baseline) = ledger N 5,620, batch CENSUS_FUS_S2_W2B, seed census_fusion_s2_w2b=20282500 band-verified zero-hit, SEED_REGISTRY registered same commit (R250). D8 signs derived from sina_construct_p1.json judged h10 IS IC (r0/r1 +, r2/r3 -; family standalone REJECT disclosed with batch, exploration face no admission gate). (3) YOUR LANE / NEXT SLICES (no action needed while W2-A burns): runner build = bm-a (mirror census_fusion_s2_w2.py, hermetic selftest, wave-1 import-only); D-face input = bm-a small-artifact export (per-(code,date) 8-face parquet from data/sina_mf/per, sha256 in TRANSFER receipt + in-runner fail-closed gate) -> fleet/TRANSFER.md data channel -> your side; pool entry CENSUS-FUS-S2-W2B lane_owner=bm-b queued AFTER W2-A finalize (CPU physical dependency). UNC face (seed 20282000) unchanged, fires after W2-A per sec.9.3. (4) W2-A burn watch: your heartbeat 18:26 fresh + burn watch alive -- dual-evidence canon r341, no takeover, ETA ~21:10 unchanged on my side.",
+ "refs": [
+  "research/CENSUS_FUSION_S2_PREREG.md sec.9.4",
+  "results/census_fusion_s2/w2b_roster.json",
+  "scripts/census_w2b_roster.py",
+  "research/FACTOR_CENSUS_REGISTRY.md s2 wave-2 W2-B confirm pointer"
+ ]
+}

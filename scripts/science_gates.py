@@ -913,6 +913,19 @@ SEED_REGISTRY = {
     # double-int derivation = no band occupation, wave-1 census_fusion_s2_unc
     # (20275000) same-protocol precedent; registered same commit as the
     # wave-2 freeze (one-step R250 law); lane = T-2026-09-26-86 s3 wave-2
+    "census_fusion_s2_w2b": 20282500,  # CENSUS_FUS_S2_W2B nulls K=400 (200
+    # pairs + 200 triples, each forced >=1 D face -- same-structure
+    # same-coverage-window baseline, divergence from W2-A's unconditional
+    # draw disclosed in prereg sec.9.4; band 20282500..20282899 sits exactly
+    # above census_fusion_s2_w2_unc base 20282000 = collision-free by
+    # construction; rg full-repo scan (--type py, Money02/Money0923 excluded
+    # per t34/wild_route precedent) 2026-09-27 R344 zero hits in band;
+    # registered at the W2-B sec.9.4 append-confirm freeze BEFORE any W2-B
+    # runner build, one-step R250 law; lane = T-2026-09-26-86 s2 wave-2
+    # W2-B D8-only sub-wave (E-heat deferred, structural data-availability
+    # downscope, zero cells burned), freeze = CENSUS_FUSION_S2_PREREG.md
+    # sec.9.4 + results/census_fusion_s2/w2b_roster.json
+    # (scripts/census_w2b_roster.py deterministic derivation)
 }
 
 
