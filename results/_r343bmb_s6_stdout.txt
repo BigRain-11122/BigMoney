@@ -1,0 +1,33 @@
+r343 bm-b S6 chain start 2026-09-27 21:29:20
+gated-skip (no new bar, Sunday): live.paper, t35_open_fill_verify, t24_prospect_paper
+[compute_audit] rc=0 8.6s | {"ts": "2026-09-27 21:29:28", "audit_version": "v2.3", "cpu_total_pct": 54.0, "py_cpu_pct": 39.5, "cores": 16, "py_procs": 16, "result_stale_min": 2.3, "fleet_open_tasks": 0, "pool_ready_count": 1, "load_state": "pool-su
+[py_watermark_probe] rc=0 7.0s | {"ts": "2026-09-27 21:29:35", "epoch": 1790515769.0, "machine": "bm-b", "cpu_total_pct": 50.0, "cores": 16, "py_cpu_pct": 30.1, "py_procs": 16, "top_proc_cores": 1.12, "local_batch_running": true, "refresh_lock_lanes": [
+[update_daily] rc=0 3.9s | status -> C:\Users\Administrator\Desktop\Bigmoney\results\update_status.json
+[market_regime] rc=0 1.4s |   trigger: breadth 0.77>=65%
+[strategy_scorecard] rc=0 16.5s | strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\Users\Administrator\Desktop\Bigmoney\results\strategy_scorecard.json (16.1s)
+[market_clock_call] rc=0 11.3s | call written: C:\Users\Administrator\Desktop\Bigmoney\results\market_clock\CALL-2026-09-24.md cell=ORANGE_COOL sleeves=4 activated=0
+[update_lhb] rc=0 1.9s | no-op: <30min since last fetch attempt (min-interval guard)
+[update_heat] rc=0 1.2s | no-op: weekend (no trading-day snapshot)
+[update_futures] rc=0 0.3s | no-op: local cutoff 2026-09-24 covers expected complete-bar date 2026-09-24 -> zero network
+[update_repo] rc=0 0.2s | no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+[update_options] rc=0 0.2s | no-op: options lane owned by bm-a, not this machine (bm-b)
+[update_moneyflow] rc=0 0.2s | no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+[update_sina_mf] rc=0 0.2s | no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+[update_astock_daily] rc=0 2.0s | no-op: panel fresh (cutoff 2026-09-24 >= expected 2026-09-24) -> zero network
+[rev_osc_signal_export] rc=0 2.3s | rev_osc_signal_export: SIG/BARS already at cutoff 2026-09-24 & panel bytes unchanged -- no-op (idempotent)
+[update_ths_panel] rc=0 0.3s | no-op: ths panel lane owned by bm-a, not this machine (bm-b)
+[ah_panel_puller] rc=0 0.2s | no-op: ah panel lane owned by bm-a, not this machine (bm-b)
+[update_fund_premium] rc=0 0.1s | no-op: fund_premium lane owned by bm-c, not this machine (bm-b)
+[update_fundamental] rc=0 1.0s | snapshot fresh (23.2h < 24h) -> skip
+[b_layer_filter] rc=0 1.1s | verdict -> C:\Users\Administrator\Desktop\Bigmoney\results\fundamental_b_layer_filter.json
+[t24_prospect_promotion] rc=0 1.8s | promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22
+[aggressive_lab_paper] rc=0 2.8s | aggr paper: marks already at panel cutoff 2026-09-24 -- no-op (idempotent)
+[alloc_paper] rc=0 0.8s | alloc_paper done: 0 file(s) updated, window 2026-09-23..2026-09-24
+[grid_paper] rc=0 0.8s | grid paper: no markable bar yet (panel cutoff 2026-09-24 <= evidence_cutoff 2026-09-24) -- no-op
+[system_v1_paper] rc=0 1.0s | system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op
+[t35_paper_export] rc=0 0.1s | -> C:\Users\Administrator\Desktop\Bigmoney\results\paper_export\export-2026-09-24.json + latest.json
+[daily_scorecard] rc=0 0.1s | scorecard written: C:\Users\Administrator\Desktop\Bigmoney\results\daily_scorecard.html traders: 6 o1600 rows: 6
+[daily_report] rc=0 0.7s | daily report written: REPORT-2026-09-27.md/.json faces=4 token=1
+[build_status] rc=0 5.3s |   factors=10 backtest=432combos/0pass traders=6 milestones=5/7
+[token_meter] rc=0 0.1s | L2 local-LLM legs: 1 today / 2 total (~6450 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=1 across 1 sigs
+r343 S6 chain done: 30 legs, 0 nonzero (all rc=0) + 3 new-bar-gated legal skips, elapsed 73.4s
