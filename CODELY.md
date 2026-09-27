@@ -14,6 +14,7 @@
 - [2026-09-27 07:5x r303 bm-a] 坑律：PowerShell 嵌套单元素数组被静默展平——`@(@('n','p.py'),@('n2','p2.py'))` foreach 迭代时 $c=字符串非数组，`& python $c` 把表名当文件路径逐字拆散（R303 实弹：11 采集器循环全报 can't open file 'lhb'·全 exit 2 零产物）；正典=循环执行命令表禁用 PS 嵌套数组，一律平铺 `;` 链显式逐条+EXIT 回显（或 [object[]] 显式构造）。与 'stash@{0}' 引号律/`&` 后台符同族=PS 语法层坑第三例。指针=本行（R303 S6 组2 首跑全灭·平铺重跑全 rc=0 留痕轮报告）。
 
 - [2026-09-27 08:12 r310 bm-b] 坑律：同窗双机 10min 循环对同一 CEO 即时票=结构性撞认领发生器（r309/r310 窗三连实弹：T-89 撞认领 07:55:54 vs 08:01:09·T-90 撞认领 08:04:41 vs 08:06:01——双方各 pull 于对方 push 前=盲窗结构性必在）；正典=①认领 commit 秒级微推+F-04 MSG 先行②§4 commit 时间序裁定稳定可复用但每撞=一整轮 resolve 成本③根治候选=GM 开票即在票面写 owner 机（认领制→派定制）呈 GM 议。指针=round_reports r310 行+commits 49a88722/94fca911/6185164f/a9ed12ff。
+- [2026-09-27 08:2x r304 bm-a] 坑律：**Sobol/网格参数解包禁整列 int()**——cn_mkneutral run_sobol 原型 `W_, BW_, CAP_ = int(p[0]), int(p[1]), int(p[2])` 把浮点格值 cap 1.25/1.5 截断成 1（自检阵捕获：4/6 行 cap=1.0 不在冻结格）；正典=混合类型网格按列各自解包（int 列才 int()、float 列原值 float()），自检「全部格值 ∈ 冻结格」断言为必带腿。指针=scripts/cn_mkneutral_p1.py run_sobol 解包行+本行。
 
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
