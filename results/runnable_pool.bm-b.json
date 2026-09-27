@@ -352,7 +352,7 @@
      "key": "censusw2b-0of1",
      "status": "waiting",
      "owner": "bm-b",
-     "owner_since": "2026-09-28 04:50:30",
+     "owner_since": "2026-09-28 05:00:31",
      "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
     }
@@ -3050,6 +3050,40 @@
      "note": "single shard minutes-scale; products = w2_candidates.json + TRIAL_GRAMMAR_LEDGER wave-2 row (consume point); SCREEN pool entry lands next slice after the runner screen subcommand exists (anti-dup: no pool entry pointing at a not-yet-built subcommand)"
     }
    ]
+  },
+  {
+   "id": "TRIAL-LABOR-W2-SCREEN",
+   "ticket_ref": "T-2026-09-28-96 WAVE-2 screen slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r357; grammar face frozen r358 sha16=1dd3d95792395cec; generate slice landed r359 selftest 29/29; screen slice built bm-b r360 selftest 41/41 hermetic, double-run stdout byte-identical rc=0)",
+   "prereg_ref": "research/TRIAL_LABOR_W2_PREREG.md FROZEN sec.3 s2 (each distinct candidate = legacy-axis leg-L 6m full-history backtest, V1 13bp base, T+1, initial-stop face carried per cell via effective-signal zeroing = MSG-0440 E1 mapping engine face; K=200 same-structure nulls seed trial_labor_w2_scrnull=20286000 [20286000,i] p_on->R/X/S/T/STOP->matrix frozen order; survival line = beat6m > null p95 frozen; beat6m operator >= per frozen sec.3 text; ledger batch name TRIAL_LAB_W2_SCREEN = distinct + 200 literal per sec.3)",
+   "runner": "scripts/trial_labor_w2.py",
+   "runner_args": [
+    "screen",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 04:59:54",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed)",
+    "priority": "BelowNormal",
+    "note": "W1-SCREEN measured 1.2s/cell x 858 cells ~2min on 12 workers; W2 face <=5,000 distinct + 200 nulls (dedup outcome unknown until generate lands) same cell weight + vectorized stop overlay -> est ~10-25min on 12 workers; prereg sec.0 worst-case anchor 12-20h stands as ceiling; per-cell jsonl checkpoint cross-kill resume (W1 law)"
+   },
+   "data_gates": "WAITING DEPS (flip to ready upon ALL, W1-JUDGE r346 precedent): (1) TRIAL-LABOR-W2-GENERATE done (w2_candidates.json = single-shot completion marker); (2) screen-prep run by any machine -> prep_state.json gates PASS (G-PANEL 48/48 + G-ANCHOR registered-six replay faithful on the W2 five-tuple identity face + G-CENSUS leg-L == P-5C FROZEN 1253 + G-EXCLUDE hits disclosed); (3) machine free RAM >= 4GB three-sample (r354 law; autofill has no RAM gate so waiting status is the ONLY protection). IN-RUNNER fail-closed exit 2: prep/candidates/grammar absent, grammar sha != 1dd3d95792395cec. After all shards: screen-finalize = separate round work (ledger TRIAL_LAB_W2_SCREEN + w2_screen.json + w2_screen_cells.csv; survivors feed the judge face next slice)",
+   "shards": [
+    {
+     "key": "screen-0of1",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/trial_labor_w2/checkpoint/screen_shard_0of1.jsonl (row-level done-set resume)",
+     "note": "single shard W1-SCREEN precedent (multi-shard i%%shards split legal per shard law on partial claim); pool ordering per prereg sec.6: entered_at order behind census W2B burn = legal CPU queueing, ticket-logged"
+    }
+   ],
+   "entered_by": "bm-b r360"
   }
  ],
  "version": 1,
@@ -3061,7 +3095,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-28 04:39:34",
+ "updated_at": "2026-09-28 04:59:54",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry)",
  "lane_machine": "bm-b"
 }
