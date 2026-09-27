@@ -19,9 +19,12 @@ import statistics
 import datetime as dt
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(
+    os.path.abspath(__file__))), "scripts"))
 
 from config import PATHS, SCREEN
 from engine.exit_rules import ExitConfig
+import merge_lane_views as lane_views
 
 COMPOSITE_PLAN = "0.3×(-vol_60) + 0.3×(-intraday_range) + 0.2×mom_12_1 + 0.2×price_position"
 
@@ -34,6 +37,19 @@ def _read_json(path):
             return json.load(f)
     except Exception:
         return None
+
+
+def _lane_view(face):
+    """A-family lane-merged view (D-20260928-03 batch-1 consumer switch):
+    deterministic union of per-machine lane files + the legacy shared file
+    (conflict-resolver laws on the read side, scripts/merge_lane_views.py).
+    No sources at all = {} (honest not-yet); lane identity contradictions
+    fail closed (r98)."""
+    sources = lane_views.load_sources(face)
+    if not sources:
+        return {}
+    merged, _notes = lane_views.merge_face(face, sources)
+    return merged
 
 
 def _smoke_health() -> dict:
@@ -250,7 +266,7 @@ def _moneyflow_state() -> dict:
 def _regime_state() -> dict:
     """Market regime guard shadow state (REGIME_GUARD v1.0, T-05) from
     results/regime_state.json. Missing file = honest not-yet-probed."""
-    st = _read_json(os.path.join(PATHS.results_dir, "regime_state.json")) or {}
+    st = _lane_view("regime_state") or {}
     state = st.get("state")
     bad = state in ("ORANGE", "RED")
     out = {
@@ -411,11 +427,11 @@ def _autofill_state() -> dict:
     """C8 auto-fill display (T-36 / O-20260924-2100 §2): runnable-pool
     ready count + last autofill tick verdict + fill latency vs the
     ready->running <=10min hard target (from results/autofill_state.json)."""
-    pool = _read_json(os.path.join(PATHS.results_dir, "runnable_pool.json")) or {}
+    pool = _lane_view("runnable_pool") or {}
     entries = pool.get("entries") or []
     ready = [e for e in entries if e.get("status") == "ready"]
     waiting = [e for e in entries if e.get("status") == "waiting"]
-    st = _read_json(os.path.join(PATHS.results_dir, "autofill_state.json")) or {}
+    st = _lane_view("autofill_state") or {}
     tick = st.get("last_tick") or {}
     launches = st.get("launches") or []
     lat = [l.get("fill_latency_min") for l in launches
@@ -461,14 +477,14 @@ def _saturation_state() -> dict:
     except Exception:
         py_tail = []
     out["py_tail"] = py_tail
-    pool = _read_json(os.path.join(PATHS.results_dir, "runnable_pool.json")) or {}
+    pool = _lane_view("runnable_pool") or {}
     entries = pool.get("entries") or []
     ready = [e for e in entries if e.get("status") == "ready"]
     waiting = [e for e in entries if e.get("status") == "waiting"]
     out["pool_ready"] = len(ready)
     out["pool_waiting"] = len(waiting)
     out["ready_ids"] = [e.get("id") for e in ready]
-    au = _read_json(os.path.join(PATHS.results_dir, "compute_audit.json"))
+    au = _lane_view("compute_audit")
     if au:
         la = au.get("latest") or {}
         out["load_state"] = la.get("load_state")
@@ -1286,7 +1302,7 @@ def _fleet_state() -> dict:
                 "status": status,
                 "claimed_by": t.get("claimed_by"),
             })
-    au = _read_json(os.path.join(PATHS.results_dir, "compute_audit.json"))
+    au = _lane_view("compute_audit")
     if au and au.get("latest"):
         la = au["latest"]
         g = la.get("gpu") or {}
@@ -1772,7 +1788,7 @@ def _trial_labor_state() -> dict:
         })
         out["present"] = True
     # pool face (dynamic across future waves)
-    pool = _read_json(os.path.join(PATHS.results_dir, "runnable_pool.json")) or {}
+    pool = _lane_view("runnable_pool") or {}
     for e in (pool.get("entries") or []):
         eid = e.get("id") or ""
         if "TRIAL" in eid or "MASS" in eid:

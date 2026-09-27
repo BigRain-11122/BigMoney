@@ -32,6 +32,21 @@ from datetime import datetime, timedelta
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "docs", "daily_report")
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import merge_lane_views as lane_views
+
+
+def _lane_view(face):
+    """A-family lane-merged view (D-20260928-03 batch-1 consumer switch):
+    deterministic union of per-machine lane files + the legacy shared file
+    (conflict-resolver laws on the read side, scripts/merge_lane_views.py).
+    No sources at all = {} (honest not-yet); identity contradictions fail
+    closed (r98)."""
+    sources = lane_views.load_sources(face)
+    if not sources:
+        return {}
+    merged, _notes = lane_views.merge_face(face, sources)
+    return merged
 
 
 def _read_json(path):
@@ -92,7 +107,7 @@ def _rd_face(now):
     verdicts = _mtime_recent(os.path.join(ROOT, "results", "*.json"))
     digests = _mtime_recent(os.path.join(ROOT, "research", "digests", "*.md"))
     preregs = _mtime_recent(os.path.join(ROOT, "research", "*.md"))
-    audit = _read_json(os.path.join(ROOT, "results", "compute_audit.json")) or {}
+    audit = _lane_view("compute_audit") or {}
     latest_audit = audit.get("latest") or {}
     wm = None
     try:
@@ -102,7 +117,7 @@ def _rd_face(now):
             wm = json.loads(lines[-1])
     except Exception:
         pass
-    pool = _read_json(os.path.join(ROOT, "results", "runnable_pool.json")) or {}
+    pool = _lane_view("runnable_pool") or {}
     return {
         "commits_24h": n_commits,
         "result_jsons_landed_24h": len(verdicts),

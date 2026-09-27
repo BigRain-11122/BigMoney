@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T02:47:32+08:00",
- "current_task": "r373 done: lane-migration batch-1 closeout (scattered-writer faces via maintenance-mirror + shards key-union merger fix, drift-catch round-2 resolved)",
+ "last_seen": "2026-09-28T03:04:30+08:00",
+ "current_task": "r374 done: lane-migration batch-1 CONSUMER SWITCH landed (build_status 7 read-sites + daily_report 2 read-sites on merged views, FACE-EQ 6/6 + pre/post baseline zero-drift; shared-write face still dual-track, writer retirement = batch-1 last step)",
  "cpu_cores": 32,
- "cpu_pct": 1.9,
- "free_ram_gb": 47.6,
+ "cpu_pct": 4.8,
+ "free_ram_gb": 50.6,
  "gpu_free_vram_gb": 5.25,
- "verdict": "py_low_board_clear legal-idle round-closed (board 0 open / bandit 0 / pool 2-ready both bm-b lanes R31 no-touch; batch-1 A-family 6/6 dual-source zero-drift round-2 post-fix; consumer switch = next slice on >=2 full-topology readings)",
+ "verdict": "py_low_board_clear legal-idle round-closed (board 0 open / bandit 0 / pool 2-ready both bm-b lanes R31 no-touch; consumer switch LANDED r374 reading#2 6/6 zero-drift 4-source topology; writer-face retirement = next slice on fleet pull-alignment)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,8 +108,8 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790534852,
- "clock_read": "2026-09-28T02:47:32+08:00",
+ "heartbeat_epoch_utc": 1790535870,
+ "clock_read": "2026-09-28T03:04:30+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5379,
  "gpu_idle_vram_gb": 5.5,
