@@ -29,9 +29,10 @@ python tools/skills/bigmoney-conflict-resolve/scripts/classify_conflicts.py
 | pool-entry-done-union | runnable_pool.json | per entry id union 双侧；**done 吸收律**（任一侧 done→done，分片字段取 done 侧=完成机记录）；双侧同态→分片级 union（done 吸收）；单侧独有 entry→保留；entry owner 字段=autofill 瞬态认领非权威，翻池证据门=权威；写回前 done-吸收断言+json.loads 验证（r312 实弹：同窗双机重复烧同批分片，union 收敛 76/76 done 零丢失；配套律=轮内烧片前先 `git show origin/main:results/runnable_pool.json` 读对岸翻面） | r312 |
 | js-wrapper-snapshot | dashboard_status.js（`window.DASH_DATA = {...};`） | **禁 json.dumps 直写剥包装**——按生产者写出配方（monitor/build_status.py）逐字镜像，或 take-side 整字节 | R209 |
 | snapshot | *_status.json·state-*.json·watermark_red.json·fundamental_b_layer_filter.json·token_usage.json | 取新整面（最新态覆盖语义·按命名 ts 键取新）；单写者件（state-<id>/machines/<id>）取本机侧、禁改他机文件 | R208/R216 |
+| twin-regen-md | docs/daily_report/REPORT-*.json+.md 孪生（同日可再生报告对） | **twin-side coupling**：json 面先按 generated_at 深探取新定侧（同日再生对=ts-diffpick 整字节）；**md 面从同侧 blob 字节直拷**——md 孪生非 JSON，take_newer_json 直接 json.loads 当场崩（r329 实弹）；禁两侧各取一面成杂交孪生 | r327/r329 |
 | append-ledger-md | round_reports*.md | 两机新行按 ts 序 union（各机只追加自己的行） | R208 |
 | anchor-insert | HANDOVER.md『最近核对』行 | origin 先落者保位；后到者把自家增量**插至『上一次核对』锚前**，禁整行覆盖禁抢号 | R210 |
-| memory-union | CODELY.md | **merge-base 前缀恒等断言→两侧 append 后缀直拼**（新面=base+A 后缀+B 后缀，条目逐字保留；**禁行级去重**=union 去重坍塌结构坑 61+61→52 行实弹 r311；字节账 base 39,270+597+700=40,567B 零丢失；前缀断言失败=原地段非追加→手工审；heat/cold archival 规则不变） | R208/r212/D-20260927-09 |
+| memory-union | CODELY.md | **merge-base 前缀恒等断言→两侧 append 后缀直拼**（新面=base+A 后缀+B 后缀，条目逐字保留；**禁行级去重**=union 去重坍塌结构坑 61+61→52 行实弹 r311；字节账 base 39,270+597+700=40,567B 零丢失；**前缀断言在对侧原地改指针行/内嵌编辑时必失败≠放弃**——正解=条目级双向覆盖核验替代字节直拼（两侧每条 entry 行∈tree∪archive·tree 每行有 blob 源=零幻影零丢失 r327 律·指针行双批注并含·r328 继承会话+r329 坑律实弹）；heat/cold archival 规则不变） | R208/r212/D-20260927-09/r327/r329 |
 | renumber-append | digests/DIGEST-*.md | 同窗撞头=后到者让号重编自家新节 | r176 |
 | single-writer-heartbeat | fleet/machines/*.json | orders_ack token=**全文件名含 .md 后缀**（repr 印原始 ack 串再比对） | r220 |
 
