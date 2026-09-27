@@ -1,14 +1,4 @@
 {
- "version": 1,
- "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
- "schema": {
-  "entries[].status": "ready=可跑 (prereg冻结+runner在+数据门绿) | waiting=等owner补 runner/shard 计划 | running=在飞 | done=收割",
-  "entries[].shards[]": "认领单位=分片 {key,status,owner,owner_since,checkpoint}; 单写者=分片文件; owner 心跳停滞>20min=他机可接管(checkpoint 续跑)",
-  "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
-  "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
-  "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
- },
- "updated_at": "2026-09-27 09:25:56",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -2090,7 +2080,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 08:58:30",
    "data_gates": "in-runner fail-closed: SEED_REGISTRY assert (decision_chain_e2e=20261001, s9.2) + G-ANCHOR 6/6 (exit 3) + G-CENSUS vs t22 finalize record live-read (exit 3) + CostPatch(2.0) multiplier law (t22 Erratum-1, never COST_X2_RATE) + per-shard row-level checkpoint resume (t22 law, truncated-tail tolerated). r312 real-data probe: 36/36 cells 10.3s on 11 workers + direction gate 36/36 (x2 ret_12m < base on every cell, r82 inverted-face trap absent) + G-REPRO 12/12 bit-equal vs t34 verdict (legacy 0.4296/0.4659 deep 0.3942/0.4304 dd switches all equal)",
    "workers_plan": {
@@ -2101,13 +2091,16 @@
    "shards": [
     {
      "key": "dce2-deep-da",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-27 10:20:05",
      "checkpoint": "results/decision_chain/curves_x2_deep_da.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
-     "note": "6 members x 301 starts = 1806 cells"
+     "note": "6 members x 301 starts = 1806 cells",
+     "result_ref": "results/decision_chain/done_x2_deep_DA.json"
     }
-   ]
+   ],
+   "result_ref": "results/decision_chain/done_x2_deep_DA.json",
+   "note_done": "r314 bm-b flip: full-completion marker 1806/1806 cells (finished 2026-09-27 10:10:42), T-2026-09-27-90 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "DECISION-CHAIN-E2E-X2-DB",
@@ -2129,7 +2122,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 08:58:30",
    "data_gates": "in-runner fail-closed: SEED_REGISTRY assert (decision_chain_e2e=20261001, s9.2) + G-ANCHOR 6/6 (exit 3) + G-CENSUS vs t22 finalize record live-read (exit 3) + CostPatch(2.0) multiplier law (t22 Erratum-1, never COST_X2_RATE) + per-shard row-level checkpoint resume (t22 law, truncated-tail tolerated). r312 real-data probe: 36/36 cells 10.3s on 11 workers + direction gate 36/36 (x2 ret_12m < base on every cell, r82 inverted-face trap absent) + G-REPRO 12/12 bit-equal vs t34 verdict (legacy 0.4296/0.4659 deep 0.3942/0.4304 dd switches all equal)",
    "workers_plan": {
@@ -2140,13 +2133,16 @@
    "shards": [
     {
      "key": "dce2-deep-db",
-     "status": "ready",
-     "owner": "bm-b",
-     "owner_since": "2026-09-27 10:22:42",
+     "status": "done",
+     "owner": null,
+     "owner_since": null,
      "checkpoint": "results/decision_chain/curves_x2_deep_db.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
-     "note": "6 members x 301 starts = 1806 cells"
+     "note": "6 members x 301 starts = 1806 cells",
+     "result_ref": "results/decision_chain/done_x2_deep_DB.json"
     }
-   ]
+   ],
+   "result_ref": "results/decision_chain/done_x2_deep_DB.json",
+   "note_done": "r314 bm-b flip: full-completion marker 1806/1806 cells (finished 2026-09-27 10:22:07), T-2026-09-27-90 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "DECISION-CHAIN-E2E-X2-DC",
@@ -2168,7 +2164,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 08:58:30",
    "data_gates": "in-runner fail-closed: SEED_REGISTRY assert (decision_chain_e2e=20261001, s9.2) + G-ANCHOR 6/6 (exit 3) + G-CENSUS vs t22 finalize record live-read (exit 3) + CostPatch(2.0) multiplier law (t22 Erratum-1, never COST_X2_RATE) + per-shard row-level checkpoint resume (t22 law, truncated-tail tolerated). r312 real-data probe: 36/36 cells 10.3s on 11 workers + direction gate 36/36 (x2 ret_12m < base on every cell, r82 inverted-face trap absent) + G-REPRO 12/12 bit-equal vs t34 verdict (legacy 0.4296/0.4659 deep 0.3942/0.4304 dd switches all equal)",
    "workers_plan": {
@@ -2179,13 +2175,16 @@
    "shards": [
     {
      "key": "dce2-deep-dc",
-     "status": "ready",
-     "owner": "bm-c",
-     "owner_since": "2026-09-27 10:30:06",
+     "status": "done",
+     "owner": null,
+     "owner_since": null,
      "checkpoint": "results/decision_chain/curves_x2_deep_dc.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
-     "note": "6 members x 302 starts = 1812 cells"
+     "note": "6 members x 302 starts = 1812 cells",
+     "result_ref": "results/decision_chain/done_x2_deep_DC.json"
     }
-   ]
+   ],
+   "result_ref": "results/decision_chain/done_x2_deep_DC.json",
+   "note_done": "r314 bm-b flip: full-completion marker 1812/1812 cells (finished 2026-09-27 10:22:42), T-2026-09-27-90 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "DECISION-CHAIN-E2E-X2-DD",
@@ -2207,7 +2206,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 08:58:30",
    "data_gates": "in-runner fail-closed: SEED_REGISTRY assert (decision_chain_e2e=20261001, s9.2) + G-ANCHOR 6/6 (exit 3) + G-CENSUS vs t22 finalize record live-read (exit 3) + CostPatch(2.0) multiplier law (t22 Erratum-1, never COST_X2_RATE) + per-shard row-level checkpoint resume (t22 law, truncated-tail tolerated). r312 real-data probe: 36/36 cells 10.3s on 11 workers + direction gate 36/36 (x2 ret_12m < base on every cell, r82 inverted-face trap absent) + G-REPRO 12/12 bit-equal vs t34 verdict (legacy 0.4296/0.4659 deep 0.3942/0.4304 dd switches all equal)",
    "workers_plan": {
@@ -2218,13 +2217,16 @@
    "shards": [
     {
      "key": "dce2-deep-dd",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/decision_chain/curves_x2_deep_dd.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
-     "note": "6 members x 301 starts = 1806 cells"
+     "note": "6 members x 301 starts = 1806 cells",
+     "result_ref": "results/decision_chain/done_x2_deep_DD.json"
     }
-   ]
+   ],
+   "result_ref": "results/decision_chain/done_x2_deep_DD.json",
+   "note_done": "r314 bm-b flip: full-completion marker 1806/1806 cells (finished 2026-09-27 10:23:09), T-2026-09-27-90 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "DECISION-CHAIN-E2E-X2-DE",
@@ -2246,7 +2248,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 08:58:30",
    "data_gates": "in-runner fail-closed: SEED_REGISTRY assert (decision_chain_e2e=20261001, s9.2) + G-ANCHOR 6/6 (exit 3) + G-CENSUS vs t22 finalize record live-read (exit 3) + CostPatch(2.0) multiplier law (t22 Erratum-1, never COST_X2_RATE) + per-shard row-level checkpoint resume (t22 law, truncated-tail tolerated). r312 real-data probe: 36/36 cells 10.3s on 11 workers + direction gate 36/36 (x2 ret_12m < base on every cell, r82 inverted-face trap absent) + G-REPRO 12/12 bit-equal vs t34 verdict (legacy 0.4296/0.4659 deep 0.3942/0.4304 dd switches all equal)",
    "workers_plan": {
@@ -2257,13 +2259,16 @@
    "shards": [
     {
      "key": "dce2-deep-de",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/decision_chain/curves_x2_deep_de.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
-     "note": "6 members x 301 starts = 1806 cells"
+     "note": "6 members x 301 starts = 1806 cells",
+     "result_ref": "results/decision_chain/done_x2_deep_DE.json"
     }
-   ]
+   ],
+   "result_ref": "results/decision_chain/done_x2_deep_DE.json",
+   "note_done": "r314 bm-b flip: full-completion marker 1806/1806 cells (finished 2026-09-27 10:23:28), T-2026-09-27-90 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-LA",
@@ -2283,7 +2288,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2294,13 +2299,16 @@
    "shards": [
     {
      "key": "prs-legacy-la",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_legacy_LA.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 314 starts = 6908 cells; 22 probe cells already checkpointed (r313 real-fire, resume-skipped)"
+     "note": "22 members x 314 starts = 6908 cells; 22 probe cells already checkpointed (r313 real-fire, resume-skipped)",
+     "result_ref": "results/pros_segs/done_legacy_LA.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_legacy_LA.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6908/6908 cells (finished 2026-09-27 10:24:53), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-LB",
@@ -2320,7 +2328,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2331,13 +2339,16 @@
    "shards": [
     {
      "key": "prs-legacy-lb",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_legacy_LB.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 314 starts = 6908 cells"
+     "note": "22 members x 314 starts = 6908 cells",
+     "result_ref": "results/pros_segs/done_legacy_LB.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_legacy_LB.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6908/6908 cells (finished 2026-09-27 10:26:12), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-LC",
@@ -2357,7 +2368,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2368,13 +2379,16 @@
    "shards": [
     {
      "key": "prs-legacy-lc",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_legacy_LC.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 314 starts = 6908 cells"
+     "note": "22 members x 314 starts = 6908 cells",
+     "result_ref": "results/pros_segs/done_legacy_LC.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_legacy_LC.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6908/6908 cells (finished 2026-09-27 10:27:59), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-LD",
@@ -2394,7 +2408,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2405,13 +2419,16 @@
    "shards": [
     {
      "key": "prs-legacy-ld",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_legacy_LD.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 314 starts = 6908 cells"
+     "note": "22 members x 314 starts = 6908 cells",
+     "result_ref": "results/pros_segs/done_legacy_LD.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_legacy_LD.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6908/6908 cells (finished 2026-09-27 10:28:51), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-DA",
@@ -2431,7 +2448,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2442,13 +2459,16 @@
    "shards": [
     {
      "key": "prs-deep-da",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_deep_DA.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 301 starts = 6622 cells"
+     "note": "22 members x 301 starts = 6622 cells",
+     "result_ref": "results/pros_segs/done_deep_DA.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_deep_DA.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6622/6622 cells (finished 2026-09-27 10:30:19), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-DB",
@@ -2468,7 +2488,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2479,13 +2499,16 @@
    "shards": [
     {
      "key": "prs-deep-db",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_deep_DB.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 301 starts = 6622 cells"
+     "note": "22 members x 301 starts = 6622 cells",
+     "result_ref": "results/pros_segs/done_deep_DB.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_deep_DB.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6622/6622 cells (finished 2026-09-27 10:31:36), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-DC",
@@ -2505,7 +2528,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2516,13 +2539,16 @@
    "shards": [
     {
      "key": "prs-deep-dc",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_deep_DC.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 302 starts = 6644 cells"
+     "note": "22 members x 302 starts = 6644 cells",
+     "result_ref": "results/pros_segs/done_deep_DC.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_deep_DC.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6644/6644 cells (finished 2026-09-27 10:32:53), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-DD",
@@ -2542,7 +2568,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2553,13 +2579,16 @@
    "shards": [
     {
      "key": "prs-deep-dd",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_deep_DD.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 301 starts = 6622 cells"
+     "note": "22 members x 301 starts = 6622 cells",
+     "result_ref": "results/pros_segs/done_deep_DD.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_deep_DD.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6622/6622 cells (finished 2026-09-27 10:34:13), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   },
   {
    "id": "PROSPECT-REGIME-SEGMENTS-DE",
@@ -2579,7 +2608,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 09:24:21",
    "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
    "workers_plan": {
@@ -2590,14 +2619,27 @@
    "shards": [
     {
      "key": "prs-deep-de",
-     "status": "ready",
+     "status": "done",
      "owner": null,
      "owner_since": null,
      "checkpoint": "results/pros_segs/cells_deep_DE.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
-     "note": "22 members x 301 starts = 6622 cells"
+     "note": "22 members x 301 starts = 6622 cells",
+     "result_ref": "results/pros_segs/done_deep_DE.json"
     }
-   ]
+   ],
+   "result_ref": "results/pros_segs/done_deep_DE.json",
+   "note_done": "r314 bm-b flip: full-completion marker 6622/6622 cells (finished 2026-09-27 10:35:02), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
   }
  ],
+ "version": 1,
+ "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
+ "schema": {
+  "entries[].status": "ready=可跑 (prereg冻结+runner在+数据门绿) | waiting=等owner补 runner/shard 计划 | running=在飞 | done=收割",
+  "entries[].shards[]": "认领单位=分片 {key,status,owner,owner_since,checkpoint}; 单写者=分片文件; owner 心跳停滞>20min=他机可接管(checkpoint 续跑)",
+  "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
+  "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
+  "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
+ },
+ "updated_at": "2026-09-27 09:25:56",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
 }
