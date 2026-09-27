@@ -3408,6 +3408,263 @@
      ]
     }
    ]
+  },
+  {
+   "id": "T-89-S1-PROSPECT-SEGMENTS-FINALIZE",
+   "claim": "T-89 slice-1 PROS_REGIME_SEGMENTS_P1 finalize PASS (bm-b r318, after T-93 30-shard receive dual-manifest verify): G-ANCHOR 22/22 byte-reconciled + G-CENSUS legacy n=1256/deep n=1506; pooled 6m base member-caliber legacy 0.5134 (n=27,632) / deep 0.4122 (n=33,132) both below 0.70 promotion line; segment pools legacy bear 0.6005/bull 0.3686/chop 0.5967; attack-corps candidates 0/22 both axes (top legacy bull DUCK-CE 0.4809); roles bear/chop dual-type only, zero bull-type; batch trials 60,764+2,762 passive = 63,526 (ledger total 269,975 single-count); MARKET_STAGE_TABLE 22x2 PROSPECT rows + change-log appended",
+   "claim_source": "research/PROS_REGIME_SEGMENTS_P1.md (frozen prereg, s5 caliber) + results/prospect_regime_segments.json product + research/shortline/prospect_regime_segments_results.csv (528 rows) + ticket T-2026-09-26-89 progress_r318_bmb",
+   "status": "open",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/prospect_regime_segments.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/shortline/prospect_regime_segments_results.csv"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/PROS_REGIME_SEGMENTS_P1.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/prospect_regime_segments.json",
+      "evidence_cutoff",
+      "2026-09-22"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/prospect_regime_segments.json",
+      "axes.legacy.pooled_member_caliber_base_6m.beat_rate",
+      "0.5134"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/prospect_regime_segments.json",
+      "axes.legacy.pooled_member_caliber_base_6m.n",
+      "27632"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/prospect_regime_segments.json",
+      "axes.deep.pooled_member_caliber_base_6m.beat_rate",
+      "0.4122"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/prospect_regime_segments.json",
+      "axes.legacy.segments_pooled_base_6m.bull.beat_rate",
+      "0.3686"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/prospect_regime_segments.json",
+      "trials_ledger.batch_trials",
+      "63526"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/prospect_regime_segments.json",
+      "audit.verdict",
+      "CLEAN"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/MARKET_STAGE_TABLE.md",
+      "0/22"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "T-90-V1-E2E-FINALIZE",
+   "claim": "T-90 DECISION_CHAIN_E2E_P1 v1.1 verdict LANDED (bm-b r318): chain_win=False (base/x2 both faces, J-C1..C3 all fail, J-C4 dd line pass), J-TARGET 0/12 cells pass (worst legacy x2 24m A1 0.0228 vs B 0.5758, min_dd -0.3194), J-L half-ladder PASS both faces (base uplift 0.0363/0.0362, x2 0.0656/0.0312, dd within line); four-ring localization: ring1 temperature day-disagreement 0.7304 (1,032 days, disagreement starts -0.0203 vs agreement -0.0164 = version choice no rescue) + ring2 routing negative ALL regimes (base bear -0.0613/bull -0.0528/chop -0.0795, x2 all ~-0.12) + ring3 friction -0.0665pp base / -0.1266pp x2 (A1' zero-fee counterfactual still loses) + ring4 seat vacancy (attack corps 0 live, GREEN starts -0.0847 vs other -0.0987); batch N=16,566 envelope cells; version ledger v1.1 verdict LANDED (r319 record-flip, criteria untouched)",
+   "claim_source": "research/DECISION_CHAIN_E2E_P1.md (v1.1 frozen, s9/s10 caliber) + results/decision_chain_e2e.json verdict face + research/DECISION_CHAIN_LEDGER.md v1.1 row + ticket T-2026-09-27-90 progress_r318_bmb",
+   "status": "open",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/decision_chain_e2e.json"
+     ]
+    },
+    {
+     "kind": "file_exists",
+     "args": [
+      "research/DECISION_CHAIN_LEDGER.md"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/decision_chain_e2e.json",
+      "verdict.chain_win",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/decision_chain_e2e.json",
+      "verdict.j_target_pass",
+      "False"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/decision_chain_e2e.json",
+      "verdict.ladder_pass",
+      "True"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/decision_chain_e2e.json",
+      "verdict.j_target.legacy.x2.24m.a1_beat_rate",
+      "0.0228"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/decision_chain_e2e.json",
+      "verdict.ring_table.base.ring2_routing.bull.mean_a1_minus_d_12m",
+      "-0.0528"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/decision_chain_e2e.json",
+      "seat_vacancy.attack_corps_live_count",
+      "0"
+     ]
+    },
+    {
+     "kind": "json_field",
+     "args": [
+      "results/decision_chain_e2e.json",
+      "trials_ledger.batch_trials",
+      "16566"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/DECISION_CHAIN_LEDGER.md",
+      "LANDED 2026-09-27 r318 finalize"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "T-89-S3-ATTACK-SUPPLY-MEMO",
+   "claim": "T-89 slice-3 attack-corps supply acceleration review memo delivered to GM queue (bm-b r319): M-20260927-01 in research/GM_REVIEW_MEMOS.md status PENDING; proposal = bull-specialist supply lanes to queue front (wave-1 momentum trio #81/#82/#83 prereg first, 35-library trend schools next); evidence = PROSPECT 0/22 attack candidates (T-89 finalize) + T-90 ring2 routing negative all regimes + ring4 seat vacancy + SCHOOL_SUPPLY_S1 queue #1-#5 all judged-negative (zero in-flight candidates = zero exclusion cost); queue re-order authority = GM face per O-20260927-0752 sec.2, zero law-touch before signature",
+   "claim_source": "research/GM_REVIEW_MEMOS.md M-20260927-01 section + O-20260927-0752 sec.2 + ticket T-2026-09-26-89 spec item (3)",
+   "status": "open",
+   "checks": [
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/GM_REVIEW_MEMOS.md",
+      "M-20260927-01 · 进攻军供给提速提案"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/GM_REVIEW_MEMOS.md",
+      "PENDING（待 GM 审阅）"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/GM_REVIEW_MEMOS.md",
+      "0/22 进攻军候选"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "research/GM_REVIEW_MEMOS.md",
+      "queue #1-#5 已全判负收线"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "T-90-D4-CHAIN-HEALTH-WIRING",
+   "claim": "T-90 deliverable-4 monthly four-piece chain-health section wired (bm-b r319): scripts/monthly_briefing.py new section 六 (①当值态 + ②换军事件 + ③断环扫描 + ④偏好面进度) consuming results/decision_chain_e2e.json (verdict/ring_table/seat_vacancy/trials_ledger) + research/DECISION_CHAIN_LEDGER.md version rows + preference prereg glob (honest 缺件/缺口 branches on every input); selftest 19/19 incl. five new chain-health legs (four-piece render, verdict numbers, ledger version parse, preference honest gap, missing-file honesty); live-fire BRIEF-202609.md mid-month idempotent regeneration carries the section with real v1.1 numbers",
+   "claim_source": "scripts/monthly_briefing.py (gather chain_health block + render section 六 + selftest legs) + results/briefings/BRIEF-202609.md + prereg DECISION_CHAIN_E2E_P1.md s7 downstream clause",
+   "status": "open",
+   "checks": [
+    {
+     "kind": "file_exists",
+     "args": [
+      "results/briefings/BRIEF-202609.md"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/briefings/BRIEF-202609.md",
+      "六、链条健康"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/briefings/BRIEF-202609.md",
+      "①当值态"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/briefings/BRIEF-202609.md",
+      "④偏好面进度"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "results/briefings/BRIEF-202609.md",
+      "45.57"
+     ]
+    },
+    {
+     "kind": "file_contains",
+     "args": [
+      "scripts/monthly_briefing.py",
+      "chain_health"
+     ]
+    }
+   ]
   }
  ],
  "_reconciled": "2026-09-24 21:43:10 r71 bm-c: registry rows now mirror canon s6 14-row face (T-24 split into rows 2/3 with frozen value checks restored; s6 row 10 T-33 d2 encoded) + T-27-VETO-FIELD extra; criteria all pre-frozen in s6, zero invented (J18) | 2026-09-26 06:0x r223 bm-a: O-2045-MILLION-PAPER row reconciled to closure state (T-35 ticket done same round; claim text was stale R92-era 'd2-d4 未动工'; added checks all encode the T-35 spec's pre-frozen Verification line + deliverable artifacts, zero invented) | 2026-09-26 09:1x r236 bm-a: T-72-SINA-MF-COLLECTOR row added at ticket closure (s3 wired same round per CEO immediate-law; ticket flipped done same round); checks encode spec-frozen verification lines only (s2 accept verdict=PASS, sec4 fresh coverage >=5000, s1 collector script, s3 prompt leg, R236 amendment helper pre-frozen in sec5 R235 note), zero invented | 2026-09-26 09:1x r236 bm-b: O-2115 row reconciled to d2 truth (R92-era stale claim text unmasked 3 delivered sub-items: C9 leg live since bm-c r70 watchdog.log C9 post-review sweep; T-29 review column live in daily_scorecard.py; round-mandate in practice) — remaining genuine gap = cross-machine LLM re-review protocol (mechanism piece #3, dormant: zero x-rows to date); status stays in_flight/WAIT honest; text-only reconcile, zero checks invented (R223 pairing law)\n - 2026-09-26 16:22 r256 bm-a: T-73-CN-REV-TILT-P1 git_log_file check reconciled to depth 30 (optional-depth arg added to Tools/post_review.py git_log_file, legacy default 5 kept, selftest ALL PASS). Root cause = check-rot: sliding -5 window on a hot ticket file receiving per-round progress appends (R250/251/252/255/256 appends pushed the R248 harvest commit d8be0cb8 out of window). Fact verified true pre-reconciliation (d8be0cb8 in file history); zero criteria invented, same pre-frozen fact re-encoded durably. Reviewer re-run same round = the re-derive-to-green path. | 2026-09-26 17:5x r264 bm-b: two T-73 git_log_file checks re-anchored from hot ticket face (depth-30 window pushed out by per-round dual-machine progress appends, second R256 strike) to stable one-commit harvest scripts (_r248bma_cnrev_harvest.py=d8be0cb8, _r252bma_rot_harvest.py=e43bc613; facts git-verified pre-edit); same frozen delivery-commit fact, checks preserved not deleted | 2026-09-26 19:3x r270 bm-b: T-81 sha anchors re-encoded from CRLF working-tree face to EOL-normalized git-blob face (producers strategy_scorecard.py x3 + market_clock_call.py now hash LF-normalized bytes; oscillating YES/NO by regenerating machine was the defect -- r269 YES x4 derived against bm-a-face scorecard pre-19:26:46 regen, NO x3 post-regen on bm-b LF face; fact-proof: sha256(CRLF face of each prereg) == old anchor value byte-exact, same file modulo \\r; R253/R256 family: same frozen fact, canonical face, zero check deleted/weakened)"

@@ -230,6 +230,52 @@ def gather(root=ROOT, month=None, asof=None):
             if isinstance(d, dict) and d.get("status") == "open":
                 open_tickets.append(p.stem)
     g["open_tickets"] = open_tickets
+
+    # T-90 deliverable-4: monthly four-piece chain-health inputs
+    # (single sources: results/decision_chain_e2e.json verdict face +
+    # research/DECISION_CHAIN_LEDGER.md version rows + preference prereg glob).
+    ch = {"present": False}
+    dc = _read_json(root / "results" / "decision_chain_e2e.json")
+    if isinstance(dc, dict) and isinstance(dc.get("verdict"), dict):
+        v = dc["verdict"]
+        jt_cells = []
+        for axis in ("legacy", "deep"):
+            for face in ("base", "x2"):
+                for cell in ((v.get("j_target", {}).get(axis, {})
+                              .get(face, {}) or {}).values()):
+                    jt_cells.append(bool(cell.get("pass")))
+        ch = {
+            "present": True,
+            "evidence_cutoff": dc.get("evidence_cutoff"),
+            "chain_win": v.get("chain_win"),
+            "j_target_pass": v.get("j_target_pass"),
+            "j_target_pass_n": sum(1 for c in jt_cells if c),
+            "j_target_n": len(jt_cells),
+            "ladder_pass": v.get("ladder_pass"),
+            "j_l": v.get("j_l") or {},
+            "disposition": v.get("disposition"),
+            "seat_live": (dc.get("seat_vacancy") or {}).get(
+                "attack_corps_live_count"),
+            "ring_table": dc.get("ring_table") or {},
+            "trials_batch": ((dc.get("trials_ledger") or {}).get(
+                "batch_trials")),
+        }
+    versions = []
+    try:
+        for ln in (root / "research" / "DECISION_CHAIN_LEDGER.md").read_text(
+                encoding="utf-8").splitlines():
+            s = ln.strip()
+            if s.startswith("| v"):
+                cell0 = s.strip("|").split("|")[0].strip()
+                if cell0:
+                    versions.append(cell0.split()[0])
+    except (OSError, UnicodeDecodeError):
+        pass
+    ch["ledger_versions"] = versions
+    rdir = root / "research"
+    ch["preference_prereg"] = (sorted(p.name for p in rdir.glob("*PREFER*"))
+                               if rdir.is_dir() else [])
+    g["chain_health"] = ch
     return g
 
 
@@ -352,6 +398,59 @@ def render(g):
     L.append("- P1 级待署名（总经理/CEO 一句话即开工）：现金腿 Phase 1 预注册、日线源双腿门票、Optuna 骨架、负面事件库消费、REGIME_GUARD enforce（校准过门前永不启用）")
     L.append("- 长线里程碑：2026-10-31 六员首月晋升检查（G2.5 三检已判=全员 HOLD 预期，禁手工改数）")
     L.append("")
+
+    # 6) Chain health (T-90 deliverable-4 monthly four-piece;
+    #    sources: results/decision_chain_e2e.json + DECISION_CHAIN_LEDGER.md).
+    L.append("## 六、链条健康（月度四件套 · T-90 deliverable-4 · 判定面单源=results/decision_chain_e2e.json）")
+    L.append("")
+    ch = g.get("chain_health") or {}
+    if not ch.get("present"):
+        L.append("- 链条健康：缺件（results/decision_chain_e2e.json 无或 verdict 面缺——T-90 基线批未 finalize，如实标注）")
+    else:
+        reg = g.get("regime") or {}
+        vers = ch.get("ledger_versions") or []
+        ver_line = (f"版本台账 {len(vers)} 版（最新 {vers[-1]}·research/DECISION_CHAIN_LEDGER.md）"
+                    if vers else "版本台账缺件（DECISION_CHAIN_LEDGER.md 无 v 行）")
+        cw = "过" if ch.get("chain_win") else "否"
+        jtp = "过" if ch.get("j_target_pass") else "否"
+        lp = "过" if ch.get("ladder_pass") else "否"
+        seat_live = ch.get("seat_live")
+        seat_line = ("进攻军在册 0 席（GREEN 面=历史单席重放·空位诚实标注）"
+                     if seat_live == 0 else f"进攻军在册 {seat_live if seat_live is not None else '-'} 席")
+        L.append(f"- **①当值态**：行情 {reg.get('state') or '缺件'}（在态 {reg.get('days','-')} 日·asof {reg.get('asof') or '-'}）；"
+                 f"链条基线判定=chain_win {cw}（base/×2 双面）·J-TARGET {jtp}"
+                 f"（{ch.get('j_target_pass_n', 0)}/{ch.get('j_target_n', 0)} 格过）·半档梯 J-L {lp}"
+                 f"（evidence_cutoff {ch.get('evidence_cutoff') or '-'}·批内 N={ch.get('trials_batch') or '-'}）；{ver_line}；{seat_line}")
+        rt = ch.get("ring_table") or {}
+        rb = rt.get("base") or {}
+        rx = rt.get("x2") or {}
+        fr_b = rb.get("ring3_friction") or {}
+        fr_x = rx.get("ring3_friction") or {}
+        if fr_b:
+            L.append(f"- **②换军事件**：E2E 基线批内换防统计=平均 {_f(fr_b.get('switches_mean'), 2)} 次/窗（12m），"
+                     f"摩擦 {_f(fr_b.get('mean_friction_pp_12m'), 4)}pp（×2 {_f(fr_x.get('mean_friction_pp_12m'), 4)}pp）、"
+                     f"毛收益占比 {_pct(fr_b.get('friction_share_of_gross') and fr_b['friction_share_of_gross'] / 100, 2)}"
+                     f"（A1' 零费反事实仍负=摩擦非唯一断环）；现网实盘换军=未接线（链路由未上实盘，零事件面如实）")
+        else:
+            L.append("- **②换军事件**：缺件（ring_table.ring3_friction 缺）")
+        r1 = rb.get("ring1_temperature") or {}
+        r2 = rb.get("ring2_routing") or {}
+        r4 = rb.get("ring4_seat") or {}
+        if r1 and r2 and r4:
+            L.append(f"- **③断环扫描（四环定位·基线实测）**：环①温度计日分歧率 {_f(r1.get('day_disagreement_rate'), 4)}"
+                     f"（{_f(r1.get('disagreement_days'), 0)} 日·分歧起点 {_f(r1.get('a1_mean_ret_12m_disagreement_starts'), 4)}"
+                     f" vs 一致 {_f(r1.get('a1_mean_ret_12m_agreement_starts'), 4)}=版本选择无救援）；"
+                     f"环②路由全政体为负（bear {_f((r2.get('bear') or {}).get('mean_a1_minus_d_12m'), 4)}"
+                     f"/bull {_f((r2.get('bull') or {}).get('mean_a1_minus_d_12m'), 4)}"
+                     f"/chop {_f((r2.get('chop') or {}).get('mean_a1_minus_d_12m'), 4)}·×2 面全负）；"
+                     f"环③摩擦（见②）；环④席位空位（进攻军 0 员·GREEN 起点 A1-B={_f(r4.get('green_start_a1_minus_b_12m'), 4)}"
+                     f" vs 其余 {_f(r4.get('other_start_a1_minus_b_12m'), 4)}·GREEN 日占比 {_pct(r4.get('attack_day_share'))}）")
+        else:
+            L.append("- **③断环扫描**：缺件（ring_table 环面缺）")
+        pref = ch.get("preference_prereg") or []
+        L.append(f"- **④偏好面进度**：{'预注册在案 ' + ', '.join(pref) if pref else '缺口待建'}"
+                 f"（环②偏好面=v4 评估项·单源=DECISION_CHAIN.md §一 诚实标注；建前路由只用环①温度计）")
+    L.append("")
     L.append("---")
     L.append(f"诚实声明：{PROV_NOTE}")
     return "\n".join(L) + "\n"
@@ -428,6 +527,43 @@ def cmd_selftest():
                                           "x2": {"full": {"sharpe": 0.75}}},
             "verdict": {"ew_benefit": 0.376},
         }), encoding="utf-8")
+        # T-90 deliverable-4 chain-health fixtures (verdict face + ledger).
+        _jt_cell = {"a1_beat_rate": 0.4, "b_beat_rate": 0.6, "pass": False}
+        (td / "results" / "decision_chain_e2e.json").write_text(json.dumps({
+            "evidence_cutoff": "2026-09-22",
+            "trials_ledger": {"batch_trials": 16566},
+            "seat_vacancy": {"attack_corps_live_count": 0},
+            "ring_table": {
+                "base": {
+                    "ring1_temperature": {"day_disagreement_rate": 0.7304,
+                                           "disagreement_days": 1032,
+                                           "a1_mean_ret_12m_disagreement_starts": -0.0203,
+                                           "a1_mean_ret_12m_agreement_starts": -0.0164},
+                    "ring2_routing": {"bear": {"mean_a1_minus_d_12m": -0.0613},
+                                      "bull": {"mean_a1_minus_d_12m": -0.0528},
+                                      "chop": {"mean_a1_minus_d_12m": -0.0795}},
+                    "ring3_friction": {"switches_mean": 45.57,
+                                       "mean_friction_pp_12m": -0.0665,
+                                       "friction_share_of_gross": -1.2985},
+                    "ring4_seat": {"attack_day_share": 0.4069,
+                                   "green_start_a1_minus_b_12m": -0.0847,
+                                   "other_start_a1_minus_b_12m": -0.0987},
+                },
+                "x2": {"ring3_friction": {"mean_friction_pp_12m": -0.1266,
+                                           "friction_share_of_gross": -3.1177}},
+            },
+            "verdict": {
+                "chain_win": False, "j_target_pass": False, "ladder_pass": True,
+                "j_target": {"legacy": {"base": {"6m": _jt_cell, "12m": _jt_cell, "24m": _jt_cell},
+                                        "x2": {"6m": _jt_cell, "12m": _jt_cell, "24m": _jt_cell}},
+                             "deep": {"base": {"6m": _jt_cell, "12m": _jt_cell, "24m": _jt_cell},
+                                      "x2": {"6m": _jt_cell, "12m": _jt_cell, "24m": _jt_cell}}},
+            },
+        }), encoding="utf-8")
+        (td / "research").mkdir()
+        (td / "research" / "DECISION_CHAIN_LEDGER.md").write_text(
+            "# ledger\n\n| v1 基线版 | a | b | c | d | PENDING |\n"
+            "| v1.1 重冻结版 | a | b | c | d | PENDING |\n", encoding="utf-8")
 
         g1 = gather(td, month="202609", asof="2026-10-01 04:00")
         txt1 = render(g1)
@@ -445,6 +581,22 @@ def cmd_selftest():
         check("determinism: two renders identical", txt1 == render(gather(td, month="202609", asof="2026-10-01 04:00")))
         check("month rollover: 2026-10-01 -> 202609", _prev_month(date(2026, 10, 1)) == "202609")
         check("month rollover: 2026-01-05 -> 202512", _prev_month(date(2026, 1, 5)) == "202512")
+        # T-90 deliverable-4 chain-health legs (four-piece + verdict + ledger parse).
+        chc = g1["chain_health"]
+        check("chain-health four-piece section renders",
+              "六、链条健康" in txt1 and all(m in txt1 for m in
+              ["①当值态", "②换军事件", "③断环扫描", "④偏好面进度"]))
+        check("chain-health verdict numbers surface",
+              "chain_win 否" in txt1 and "45.57" in txt1 and "0/12 格过" in txt1
+              and "进攻军在册 0 席" in txt1)
+        check("chain-health ledger version parse (v1, v1.1)",
+              chc["ledger_versions"] == ["v1", "v1.1"] and "版本台账 2 版（最新 v1.1" in txt1)
+        check("chain-health preference honest gap (no prereg file)",
+              "缺口待建" in txt1)
+        (td / "results" / "decision_chain_e2e.json").unlink()
+        txt_nc = render(gather(td, month="202609", asof="2026-10-01 04:00"))
+        check("chain-health missing verdict file -> honest 缺件",
+              "链条健康：缺件" in txt_nc)
         # BOM'd board-ticket visibility (PS-redirect writers emit utf-8 BOM;
         # reader must tolerate, self_review.py _read_json precedent).
         (td / "fleet" / "tasks" / "T-BOM-01.json").write_bytes(
