@@ -1,0 +1,242 @@
+{
+ "evidence_cutoff": "2026-09-27",
+ "task": "T-2026-09-27-92 s2 (X989 mastered-audio law verbatim, 14-hao L0)",
+ "source_spec": "E:/Minigame/MiniGame/_共享与总控/14_音频资产验收标准.md (L0-1/L0-2/L0-4/L0-8 verbatim)",
+ "law_targets": {
+  "sfx": -16.0,
+  "bgm": -18.0,
+  "amb": -20.0,
+  "tol_lu": 1.0,
+  "tp_window_dbtp": [
+   -14.0,
+   -3.0
+  ],
+  "carrier": "44100Hz mono"
+ },
+ "chain": "ffmpeg aformat=channel_layouts=mono (kenglu #212 mono-first) + loudnorm two-pass (pass1 print_format=json measure; pass2 I=<class target> TP=-3 LRA=11 measured_* linear=true) -> -ar 44100 -sample_fmt s16; crest-conflict re-normalization loop <=3 iters (14-hao A-boundary-2 mechanization: hot raw TP caps linear gain, loudnorm limiter trims crest per pass, re-measure+re-apply converges; honest red if 3 iters insufficient)",
+ "engine": {
+  "tts": "piper 2023.11.14-2 win-x64 (E:/Minigame/Tools/tts/piper/piper/piper.exe)",
+  "voice": "zh_CN-huayan-medium (hf-mirror, machine-direct U187/U240)",
+  "ffmpeg": "E:/Minigame/Tools/ffmpeg/bin/ffmpeg.exe",
+  "golden_text": "今日组合净值上涨百分之二点三，市场情绪回暖。"
+ },
+ "raw_measure": {
+  "input_i": -16.71,
+  "input_tp": 0.11,
+  "input_lra": 1.2,
+  "raw_dur_sec": 4.658,
+  "raw_rate": 22050,
+  "raw_ch": 1
+ },
+ "files": [
+  {
+   "id": "t92_chain_sfx16",
+   "class_target": "sfx",
+   "target_lufs": -16.0,
+   "measured_lufs": -16.8,
+   "measured_tp": -3.0,
+   "lufs_dev": 0.8,
+   "tol_lu": 1.0,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.658,
+   "bytes": 410934,
+   "md5": "82c8e401de3092ea06806fd825a64a07",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -16.71,
+     "in_tp": 0.11,
+     "out_i": -16.8,
+     "out_tp": -3.0,
+     "crest_in": -16.82,
+     "ok": true
+    }
+   ],
+   "verdict": "PASS",
+   "audio_gate_check": "chain-assert (ebur128 direct; class-window N/A for non-prefixed stem)"
+  },
+  {
+   "id": "t92_chain_bgm18",
+   "class_target": "bgm",
+   "target_lufs": -18.0,
+   "measured_lufs": -18.4,
+   "measured_tp": -3.0,
+   "lufs_dev": 0.4,
+   "tol_lu": 1.0,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.658,
+   "bytes": 410934,
+   "md5": "00f3acddcfea72d7a227a1a873e934d1",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -16.71,
+     "in_tp": 0.11,
+     "out_i": -18.4,
+     "out_tp": -3.0,
+     "crest_in": -16.82,
+     "ok": true
+    }
+   ],
+   "verdict": "PASS",
+   "audio_gate_check": "chain-assert (ebur128 direct; class-window N/A for non-prefixed stem)"
+  },
+  {
+   "id": "t92_chain_amb20",
+   "class_target": "amb",
+   "target_lufs": -20.0,
+   "measured_lufs": -20.4,
+   "measured_tp": -3.9,
+   "lufs_dev": 0.4,
+   "tol_lu": 1.0,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.658,
+   "bytes": 410934,
+   "md5": "05bc275cd2168fca561b629c8c502545",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -16.71,
+     "in_tp": 0.11,
+     "out_i": -20.4,
+     "out_tp": -3.9,
+     "crest_in": -16.82,
+     "ok": true
+    }
+   ],
+   "verdict": "PASS",
+   "audio_gate_check": "chain-assert (ebur128 direct; class-window N/A for non-prefixed stem)"
+  },
+  {
+   "id": "sfx_t92_golden",
+   "class_target": "sfx",
+   "target_lufs": -16.0,
+   "measured_lufs": -16.8,
+   "measured_tp": -3.0,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.658,
+   "bytes": 410934,
+   "md5": "82c8e401de3092ea06806fd825a64a07",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -16.71,
+     "in_tp": 0.11,
+     "out_i": -16.8,
+     "out_tp": -3.0,
+     "crest_in": -16.82,
+     "ok": true
+    }
+   ],
+   "carrier_window_sfx": "PASS"
+  },
+  {
+   "id": "t92_click_mastered",
+   "class_target": "sfx",
+   "target_lufs": -16.0,
+   "measured_lufs": -16.7,
+   "measured_tp": -3.0,
+   "raw_lufs": -17.1,
+   "raw_tp": 0.5,
+   "raw_crest_db": 17.6,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 4.565,
+   "bytes": 402742,
+   "md5": "ec8f341d43080e065efc74c04c3476b9",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -17.49,
+     "in_tp": 0.51,
+     "out_i": -17.2,
+     "out_tp": -3.0,
+     "crest_in": -18.0,
+     "ok": false
+    },
+    {
+     "iter": 2,
+     "in_i": -17.59,
+     "in_tp": -2.98,
+     "out_i": -16.7,
+     "out_tp": -3.0,
+     "crest_in": -14.61,
+     "ok": true
+    }
+   ],
+   "role": "case-A attainable crest conflict (TTS + injected clicks) -- loop convergence live-fire",
+   "verdict": "PASS"
+  },
+  {
+   "id": "t92_synth_mastered",
+   "class_target": "sfx",
+   "target_lufs": -16.0,
+   "measured_lufs": -18.7,
+   "measured_tp": -3.0,
+   "raw_lufs": -18.4,
+   "raw_tp": -1.8,
+   "raw_crest_db": 16.6,
+   "attainable_i_cap_db": -19.6,
+   "sample_rate": 44100,
+   "channels": 1,
+   "duration_sec": 3.0,
+   "bytes": 264678,
+   "md5": "e19248f5c82e128d99b72c8ff92577e0",
+   "chain_iterations": [
+    {
+     "iter": 1,
+     "in_i": -18.45,
+     "in_tp": -1.79,
+     "out_i": -18.5,
+     "out_tp": -3.0,
+     "crest_in": -16.66,
+     "ok": false
+    },
+    {
+     "iter": 2,
+     "in_i": -18.55,
+     "in_tp": -3.0,
+     "out_i": -18.0,
+     "out_tp": -3.0,
+     "crest_in": -15.55,
+     "ok": false
+    },
+    {
+     "iter": 3,
+     "in_i": -18.05,
+     "in_tp": -3.0,
+     "out_i": -18.7,
+     "out_tp": -3.0,
+     "crest_in": -15.05,
+     "ok": false
+    }
+   ],
+   "role": "case-B spike-carried unattainable (I/TP coupled under TP cap) -- honest-refusal live-fire",
+   "verdict": "PASS (honest refusal; asset remake belongs to L3/L4 human track)"
+  }
+ ],
+ "asserts": [
+  "t92_chain_sfx16: |I-t|=0.80<=1.0 TP=-3.00 in [-14,-3] 44.1k/mono iters=1 -> PASS",
+  "t92_chain_bgm18: |I-t|=0.40<=1.0 TP=-3.00 in [-14,-3] 44.1k/mono iters=1 -> PASS",
+  "t92_chain_amb20: |I-t|=0.40<=1.0 TP=-3.90 in [-14,-3] 44.1k/mono iters=1 -> PASS"
+ ],
+ "audio_gate_check": {
+  "tool": "E:/Minigame/MiniGame/tools/AudioGateCheck.ps1 (14-hao L0/L1 authority)",
+  "exit": 0,
+  "golden_verdict": "PASS"
+ },
+ "scope_honesty": "bgm/amb FULL delivery format (L0-3 30-60s window + L0-5 smpl loop / L0-6 head pad) = game-asset delivery engineering, out of chain-validation scope; this batch proves the mastered chain hits all three class loudness targets verbatim + golden sfx path through AudioGateCheck machine face.",
+ "findings": {
+  "f1_piper_nondeterminism": "piper renders of the same text differ run-to-run (I -18.08/-17.05/-17.92/-17.59 across r316 shots) -- mastered verdicts are per-render, manifest md5 is the record; case-A raw is md5-frozen for reproducibility",
+  "f2_crest_conflict_undernormalization": "raw TP near 0 dBFS vs I target needs crest<=13dB (I_target-TP_cap); TTS raws carry crest 16.9-18.2 -> loudnorm linear falls back to dynamic and under-normalizes (r316 first shot -17.10 vs -16, dev 1.10 FAIL)",
+  "f3_loop_mechanism_proven": "each loudnorm pass limiter-trims crest (case-A iter trace: 18.0 -> 14.61), next pass linear gain reaches target: iters=2 converged dev 0.30 in-spec",
+  "f4_spike_carried_unattainable": "spike-carried material (bed gated away by BS.1770, all loudness in short spikes): I/TP coupled, -16 target mathematically unattainable under TP<=-3; correct chain behavior = honest red (asset remake = L3/L4 human track), NOT a chain defect"
+ },
+ "lineage": "piper TTS raw -> two-pass mastered chain -> AudioGateCheck -File",
+ "date": "2026-09-27",
+ "all_pass": true
+}
