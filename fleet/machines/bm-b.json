@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T07:08:29+08:00",
- "heartbeat_epoch_utc": 1790550510,
- "clock_read": "2026-09-28T07:08:29+08:00",
- "current_task": "r365 closed: fleet divergence resolved two-wave rebase push LANDED cbe4792f..a442d9a9 (Bug1 dup yielded to origin canonical; x2_watch truncation incident self-recovered from dangling blob); S16c/e P0 discharged via bm-c r142 enabler-2 (bm-b 2nd-machine selftest ALL PASS); next = W2B done-flip single-item push ETA ~10:30 + screen-finalize -> judge-prep (bm-b dep) -> W2-JUDGE",
+ "last_seen": "2026-09-28T07:38:52+08:00",
+ "heartbeat_epoch_utc": 1790552332,
+ "clock_read": "2026-09-28T07:38:52+08:00",
+ "current_task": "r366: T-96 slice-5 intake landed + W1 D6 dead-path bug dual-wave pre-run fix (hermetic-leg catch); census W2B honest ETA ~16:20 (block cadence, MSG-0725 correction); next = census finalize watch -> RAM window -> W1-JUDGE/MASS x4/W2-JUDGE flips (bm-b = flip executor) -> intake live fire",
  "cpu_cores": 16,
  "free_ram_gb": 3.5,
  "gpu_free_vram_gb": 6.8,
  "total_ram_gb": 23.9,
  "cpu_util_pct": 37.1,
- "round_no": 365,
- "verdict": "healthy: S0 divergence closed push LANDED, S16c/e green via bm-c enabler (2nd-machine verify), smoke 25/25, autofill selftest ALL PASS, S6 24 legs rc=0, census W2B 1600/5620 alive",
+ "round_no": 366,
+ "verdict": "healthy: smoke 25/25, W2 selftest 63/63 + W1 19/19, S6 26 legs rc=0, intake CLI gate honest rc=2, census W2B 1600/5620 burning (4 workers ~95% CPU), free RAM 1.17GB (all flips RAM-gated lawful)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -122,7 +122,7 @@
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.8,
  "cpu_pct": 37.1,
- "round": 365,
+ "round": 366,
  "free_ram_mb": 3584,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 365
+ "loop_round": 366
 }
