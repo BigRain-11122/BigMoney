@@ -1,0 +1,113 @@
+# -*- coding: utf-8 -*-
+"""r325 bm-a rebase resolver -- 15-UU same-window S6 mirror (bm-b r324 pair vs
+bm-a r325). Recipes per bigmoney-conflict-resolve skill + probe (_r325bma_probe.py):
+
+  13 snapshot/js-wrapper files : stage3 (bm-a 13:14-15) newer on frozen ts paths
+                                 -> git checkout --theirs (whole bytes, zero rewrite)
+  results/compute_audit.json   : history union by (ts, machine) composite key with
+                                 content-identity verification on collisions
+                                 (r319/r322 union-key law); latest take-new S3
+                                 (13:14:03 > 13:04:41)
+  results/regime_state.json    : history union by asof key + content check;
+                                 state fields take-new S3 (13:14:12 > 13:04:50)
+"""
+import json
+import subprocess
+import sys
+
+
+def stage_bytes(path, n):
+    return subprocess.run(['git', 'show', ':%d:%s' % (n, path)],
+                           capture_output=True).stdout
+
+
+def write_json(path, doc):
+    s = json.dumps(doc, ensure_ascii=False, indent=1)
+    json.loads(s)                       # round-trip validation (r185 law)
+    with open(path, 'w', encoding='utf-8', newline='') as fh:
+        fh.write(s)
+    # byte-identical re-read assertion
+    assert open(path, 'rb').read().decode('utf-8') == s
+
+
+TAKE_NEW = [
+    'results/dashboard_status.js',
+    'results/dashboard_status.json',
+    'results/fundamental_b_layer_filter.json',
+    'results/futures_update_status.json',
+    'results/heat_update_status.json',
+    'results/lhb_update_status.json',
+    'results/update_status.json',
+    'results/token_usage.json',
+    'docs/daily_report/REPORT-2026-09-27.json',
+    'docs/daily_report/REPORT-2026-09-27.md',
+    'results/prospect_promotion/_summary.json',
+    'results/scorecard_v1.json',
+    'results/strategy_scorecard.json',
+]
+
+
+def resolve_compute_audit():
+    p = 'results/compute_audit.json'
+    d2 = json.loads(stage_bytes(p, 2))
+    d3 = json.loads(stage_bytes(p, 3))
+    h2, h3 = d2['history'], d3['history']
+    union = {}
+    collisions = 0
+    for entry in h2 + h3:
+        key = (entry.get('ts'), entry.get('machine'))
+        if key in union:
+            collisions += 1
+            assert json.dumps(union[key], sort_keys=True) == json.dumps(entry, sort_keys=True), \
+                'content-diff on collision key %r -- composite-key escalation required (r322 law)' % (key,)
+        else:
+            union[key] = entry
+    merged = sorted(union.values(), key=lambda e: e.get('ts') or '')
+    assert len(merged) == len(h2) + len(h3) - collisions
+    doc = dict(d3)                      # latest snapshot fields take-new (13:14:03)
+    doc['history'] = merged
+    write_json(p, doc)
+    return ('compute_audit', 'union %d+%d -> %d (collisions %d all content-identical), '
+            'latest take S3 13:14:03' % (len(h2), len(h3), len(merged), collisions))
+
+
+def resolve_regime_state():
+    p = 'results/regime_state.json'
+    d2 = json.loads(stage_bytes(p, 2))
+    d3 = json.loads(stage_bytes(p, 3))
+    h2, h3 = d2.get('history') or [], d3.get('history') or []
+    union = {}
+    for entry in h2 + h3:
+        key = entry.get('asof')
+        if key in union:
+            assert json.dumps(union[key], sort_keys=True) == json.dumps(entry, sort_keys=True), \
+                'content-diff on asof key %r' % (key,)
+        else:
+            union[key] = entry
+    merged = sorted(union.values(), key=lambda e: e.get('asof') or '')
+    doc = dict(d3)                      # state fields take-new (13:14:12)
+    if merged:
+        doc['history'] = merged
+    write_json(p, doc)
+    return ('regime_state', 'history union %d+%d -> %d (dedup by asof, content-identical), '
+            'state take S3 13:14:12' % (len(h2), len(h3), len(merged)))
+
+
+def main():
+    report = []
+    report.append(resolve_compute_audit())
+    report.append(resolve_regime_state())
+    for p in TAKE_NEW:
+        r = subprocess.run(['git', 'checkout', '--theirs', p], capture_output=True)
+        if r.returncode != 0:
+            print('CHECKOUT FAIL', p, r.stderr.decode('utf-8', 'replace'))
+            return 2
+        report.append((p, 'take-theirs (stage3 newer on frozen ts path, whole bytes)'))
+    for name, note in report:
+        print('%-46s %s' % (name, note))
+    print('resolver: ALL PASS (13 take-new + 2 union zero-loss)')
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

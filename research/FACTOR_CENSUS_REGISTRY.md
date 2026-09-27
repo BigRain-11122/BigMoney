@@ -49,3 +49,4 @@ factor_registry.py 内 bench 登记行（T-48 r162 同源·对照组非候选）
 - 修订律: append-only；新增面必须先入本登记簿再入普查（零发明律）；源码变动致口径变=frozen 面禁改、新面加行注记血统
 - **s2 wave-1 消费清单（2026-09-27 R286 冻结）**: 候选原子面 = A 行 28 + G 行 1（29 面）→ C(29,2)+C(29,3)=4,060 组合；F 行 2=对照组（基准序列，不入候选枚举，仅 58 对照 pair）；D/E/B 行=股票截面域不入 wave-1（core48 无此数据面）
 - **s2 wave-2 枚举规则（wide universe·T-87 面板完备门后）**: B4 + D 四档净额/占比 8 + E 2 + C 三族各 top-10（按 P-1/P-2 筛查在档产物 IC IR 排序·工件锚零发明）≈44 面 → 组合数按规则推导，精确 roster+组合数于 wave-2 追加节冻结后跑（R99 每 wave 一冻）
+- **s2 wave-2 冻结指针（2026-09-27 R325 bm-a·append-only）**: T-87 门开（面板 complete 2026-09-24·5,228 员·bm-b 本地）→ 精确 roster 冻结=CENSUS_FUSION_S2_PREREG.md §9.3+results/census_fusion_s2/w2_roster.json（scripts/census_w2_roster.py 确定性导出·p1c/a158 工件 sha 锚）——W2-A 32 面（B4+C-GTJA191 10+C-WQ101 10+C-A158 全 7 诚实欠额+E-LHB 1·候选 5,456+对照 64+null 400=N 5,920·seed census_fusion_s2_w2=20281500·lane=bm-b）；W2-B 9 面（D8+E-heat）门未开预declare（sina MF 2775/5222+heat 局域性·跑前须 §9.4 confirm）；A158 在档仅 7 格<top-10 规则=诚实欠额照登

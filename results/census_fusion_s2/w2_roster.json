@@ -1,0 +1,405 @@
+{
+ "batch": "CENSUS_FUS_S2_W2-ROSTER",
+ "ticket": "T-2026-09-26-86-P1 s2 wave-2 (CEO O-20260926-2320)",
+ "face": "EXPLORATION roster freeze doc (deterministic derivation from archived artifacts; zero judgment claims; R99 freeze precedes wave-2 runner build/run)",
+ "generated_at": "2026-09-27 13:13:06",
+ "rules_ref": "research/FACTOR_CENSUS_REGISTRY.md sec.s2 wave-2 rules (frozen R286) + CENSUS_FUSION_S2_PREREG.md sec.2.2",
+ "artifact_anchors": {
+  "p1c_stock_ic_results.csv": {
+   "sha256_12": "45543c539e6a",
+   "rows": 273
+  },
+  "a158_truegap_ic_cells.csv": {
+   "sha256_12": "1394ab0cf560",
+   "rows": 7
+  }
+ },
+ "universe": {
+  "panel": "data/astock_daily/per/*.csv qfq (T-87 bm-b collector, bm-b-local gitignored)",
+  "panel_state": "complete=true, cutoff=2026-09-24, universe_n=5228, per_files=5217 (results/astock_daily_update_status.json)",
+  "mask": "data/fundamental/b_layer_mask.csv (B-layer filter law)",
+  "evidence_cutoff": "2026-09-24"
+ },
+ "w2a": {
+  "lane": "bm-b (panel data locality; pool entry lane_owner=bm-b)",
+  "n_faces": 32,
+  "faces": [
+   {
+    "face": "zoo85_stv",
+    "ctor": "scripts/p1e_factors.py build_zoo85_stv",
+    "sign": -1,
+    "sign_anchor": "P1E_ZOO_BEHAVIOR_IC.md sec.5 L68 all-negative",
+    "row": "B"
+   },
+   {
+    "face": "zoo85_terrified",
+    "ctor": "scripts/p1e_factors.py build_zoo85_terrified",
+    "sign": -1,
+    "sign_anchor": "P1E_ZOO_BEHAVIOR_IC.md sec.5 L68 all-negative",
+    "row": "B"
+   },
+   {
+    "face": "zoo92_coin_team",
+    "ctor": "scripts/p1e_factors.py build_zoo92_coin_team",
+    "sign": -1,
+    "sign_anchor": "P1E_ZOO_BEHAVIOR_IC.md sec.5 L68 all-negative",
+    "row": "B"
+   },
+   {
+    "face": "zoo93_arc",
+    "ctor": "scripts/p1e_factors.py build_zoo93_arc_family",
+    "sign": -1,
+    "sign_anchor": "P1E_ZOO_BEHAVIOR_IC.md sec.5 L68 all-negative",
+    "row": "B"
+   },
+   {
+    "face": "alpha191_099",
+    "arch_h5_full_ic": 0.0518,
+    "arch_h5_full_ir": 0.532,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_083",
+    "arch_h5_full_ic": 0.0505,
+    "arch_h5_full_ir": 0.52,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_070",
+    "arch_h5_full_ic": -0.0781,
+    "arch_h5_full_ir": -0.493,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_064",
+    "arch_h5_full_ic": -0.04,
+    "arch_h5_full_ir": -0.448,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_032",
+    "arch_h5_full_ic": 0.0366,
+    "arch_h5_full_ir": 0.44,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_176",
+    "arch_h5_full_ic": -0.0368,
+    "arch_h5_full_ir": -0.431,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_042",
+    "arch_h5_full_ic": 0.0605,
+    "arch_h5_full_ir": 0.43,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_095",
+    "arch_h5_full_ic": -0.0695,
+    "arch_h5_full_ir": -0.43,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_001",
+    "arch_h5_full_ic": 0.037,
+    "arch_h5_full_ir": 0.401,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "alpha191_036",
+    "arch_h5_full_ic": -0.0376,
+    "arch_h5_full_ir": -0.386,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-gtja191"
+   },
+   {
+    "face": "wq101_alpha013",
+    "arch_h5_full_ic": 0.0513,
+    "arch_h5_full_ir": 0.55,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha016",
+    "arch_h5_full_ic": 0.05,
+    "arch_h5_full_ir": 0.538,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha040",
+    "arch_h5_full_ic": 0.0605,
+    "arch_h5_full_ir": 0.43,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha015",
+    "arch_h5_full_ic": 0.0359,
+    "arch_h5_full_ir": 0.419,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha050",
+    "arch_h5_full_ic": 0.0369,
+    "arch_h5_full_ir": 0.414,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha088",
+    "arch_h5_full_ic": 0.063,
+    "arch_h5_full_ir": 0.413,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha055",
+    "arch_h5_full_ic": 0.0367,
+    "arch_h5_full_ir": 0.407,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha044",
+    "arch_h5_full_ic": 0.0458,
+    "arch_h5_full_ir": 0.395,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha027",
+    "arch_h5_full_ic": 0.0313,
+    "arch_h5_full_ir": 0.367,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "wq101_alpha042",
+    "arch_h5_full_ic": 0.057,
+    "arch_h5_full_ir": 0.36,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-wq101"
+   },
+   {
+    "face": "VSUMD20",
+    "arch_h5_full_ic": -0.0252,
+    "arch_h5_full_ir": -0.167,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-a158"
+   },
+   {
+    "face": "VSUMN20",
+    "arch_h5_full_ic": 0.0252,
+    "arch_h5_full_ir": 0.167,
+    "sign": 1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-a158"
+   },
+   {
+    "face": "VSUMP20",
+    "arch_h5_full_ic": -0.0252,
+    "arch_h5_full_ir": -0.167,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-a158"
+   },
+   {
+    "face": "WVMA20",
+    "arch_h5_full_ic": -0.0234,
+    "arch_h5_full_ir": -0.167,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-a158"
+   },
+   {
+    "face": "IMAX20",
+    "arch_h5_full_ic": -0.0071,
+    "arch_h5_full_ir": -0.04,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-a158"
+   },
+   {
+    "face": "IMXD20",
+    "arch_h5_full_ic": -0.0037,
+    "arch_h5_full_ir": -0.019,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-a158"
+   },
+   {
+    "face": "IMIN20",
+    "arch_h5_full_ic": -0.0029,
+    "arch_h5_full_ir": -0.017,
+    "sign": -1,
+    "sign_anchor": "sign(archived h5_full_ic) artifact rule",
+    "ctor": "GTJA191/WQ101 expression family (p1c stock-face machinery)",
+    "row": "C-a158"
+   },
+   {
+    "face": "lhb_count_20",
+    "ctor": "scripts/pa_lhb_ic.py rank_rows (P-A literal; Money02/data/lhb/lhb_detail.parquet, dedup max-amount row, shift1)",
+    "sign": -1,
+    "sign_anchor": "PA_LHB_IC.md IS IC -0.0642 / IR -0.84 (h10 reversal)",
+    "row": "E-lhb"
+   }
+  ],
+  "counts": {
+   "B_zoo": 4,
+   "C_gtja191": 10,
+   "C_wq101": 10,
+   "C_a158_truegap": 7,
+   "E_lhb": 1
+  },
+  "enumeration": {
+   "pairs": 496,
+   "triples": 4960,
+   "candidates": 5456,
+   "controls_rs_pairs": 64,
+   "nulls": 400,
+   "ledger_N": 5920
+  },
+  "seeds": {
+   "null_base": 20281500,
+   "null_band": "20281500..20281899",
+   "unc": 20282000,
+   "unc_derive": "np.random.default_rng([census_fusion_s2_w2_unc, i])"
+  },
+  "honest_notes": [
+   "A158-truegap archived cells = 7 < top-10 rule -> all 7 taken (honest undercount)",
+   "GTJA191/WQ101 ranking anchored to the archived STOCK face (p1c csv) = wide-universe aligned; ETF-face csvs disclosed as lineage, not the rank key",
+   "D6 not an admission gate (exploration face); zoo x LHB neighbor-corr pre-evidence r228 bm-b max|corr| 0.4829 < 0.7 disclosed"
+  ]
+ },
+ "w2b": {
+  "state": "GATED (roster pre-declared; runs only after gates open + sec.9.4 append-confirm per R99)",
+  "gates": [
+   "sina MF panel complete (bm-a lane; 2775/5222 at freeze time)",
+   "heat data locality resolution (bm-a-local; TRANSFER channel or small-artifact export decision)"
+  ],
+  "n_faces": 9,
+  "faces": [
+   {
+    "face": "sina_mf_eltra_large_net",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "research/shortline/SINA_MF_PREREG.md (超大单净额)"
+   },
+   {
+    "face": "sina_mf_large_net",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "SINA_MF_PREREG.md (大单净额)"
+   },
+   {
+    "face": "sina_mf_mid_net",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "SINA_MF_PREREG.md (中单净额)"
+   },
+   {
+    "face": "sina_mf_small_net",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "SINA_MF_PREREG.md (小单净额)"
+   },
+   {
+    "face": "sina_mf_eltra_large_ratio",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "SINA_MF_PREREG.md (超大单占比)"
+   },
+   {
+    "face": "sina_mf_large_ratio",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "SINA_MF_PREREG.md (大单占比)"
+   },
+   {
+    "face": "sina_mf_mid_ratio",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "SINA_MF_PREREG.md (中单占比)"
+   },
+   {
+    "face": "sina_mf_small_ratio",
+    "row": "D",
+    "sign": "gate-open declare",
+    "anchor": "SINA_MF_PREREG.md (小单占比)"
+   },
+   {
+    "face": "heat_attention",
+    "row": "E",
+    "sign": "gate-open declare",
+    "anchor": "research/shortline/HEAT_ATTENTION_SPEC.md (人气榜面·bm-a-local data)"
+   }
+  ],
+  "cross_candidate_math": {
+   "total_faces": 41,
+   "total_candidates": 11480,
+   "w2a_candidates": 5456,
+   "w2b_cross_and_internal": 6024
+  }
+ },
+ "ledger_trials_added": 0,
+ "note": "doc face (roster freeze); wave-2 runner build + pool entry = follow-up slice; batch N enters the ledger at run finalize (declared ledger_N=5920 for W2-A)"
+}

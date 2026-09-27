@@ -889,6 +889,20 @@ SEED_REGISTRY = {
     # 07:5x zero hits in band; lane = T-2026-09-26-87 s2 queue #5
     # (SCHOOL_SUPPLY_S1.md sec.2 market-neutral face), prereg
     # research/CN_MKTNEUTRAL_PREREG.md sec.3
+    "census_fusion_s2_w2": 20281500,  # CENSUS_FUS_S2_W2-A nulls K=400 (200
+    # pairs + 200 triples; band 20281500..20281899 sits exactly above
+    # cn_mkneutral_p1 band top 20281300 = collision-free by construction; rg
+    # full-repo scan (--type py, Money02/Money0923 excluded per t34/wild_route
+    # precedent) 2026-09-27 r325 zero hits in band; registered at wave-2 roster
+    # freeze BEFORE any wave-2 runner build, one-step R250 law; lane =
+    # T-2026-09-26-86 s2 wave-2 W2-A wide-universe fusion census, freeze =
+    # CENSUS_FUSION_S2_PREREG.md sec.9.3 + results/census_fusion_s2/
+    # w2_roster.json (scripts/census_w2_roster.py deterministic derivation)
+    "census_fusion_s2_w2_unc": 20282000,  # CENSUS_FUS_S2_W2-UNC wave-2
+    # uncertainty face: np.random.default_rng([20282000, i]) seed-sequence
+    # double-int derivation = no band occupation, wave-1 census_fusion_s2_unc
+    # (20275000) same-protocol precedent; registered same commit as the
+    # wave-2 freeze (one-step R250 law); lane = T-2026-09-26-86 s3 wave-2
 }
 
 

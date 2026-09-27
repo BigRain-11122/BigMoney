@@ -99,3 +99,15 @@
 - **诚实读数**：bootstrap CI 下界>0（ci_pos）=**仅 1/4,060**（T:amt_20|price_position|lowamp20·x2 0.6626·CI[0.0317, 1.4564]·ic_p 0.005=双过面唯一员）；s4 跨族 top 组合 T:extreme_freq|return_skew|lowamp20（x2 0.7249）CI **[−0.05, 1.4686]=ci_pos 不成立**；sign-flip IC p≤0.05=**2,203/4,060（54.3%**=IC 置换面远宽于 blend 面）；ci_pos∧p 双过=1。
 - **funnel 注记（T-23 消费面）**：×2 成本面上 blend-bootstrap CI 是绑定性的不确定度滤面（IC 面单过=弱证据）；唯一双过员=lowamp 承载组合（与 §8 P1 家族富集同向）。逐组合注记全量序列化 w1_unc.json rows（零选择性披露）。
 - 回执：R290 轮报告 + post_review 行 T-86-S3-CENSUS-FUS-UNC（锚稳定产物件）。
+
+### §9.3 wave-2 宽宇宙 roster 冻结【R325 bm-a·跑前·先于 wave-2 runner build（R99 每 wave 一冻）】
+
+- **门态**：T-87 A 股日线面板 complete=true·cutoff 2026-09-24·universe_n 5,228·per_files 5,217（results/astock_daily_update_status.json·bm-b 采集器·面板 bm-b-local gitignored）→ §2.2 wave-2 门**开**；B-layer mask=data/fundamental/b_layer_mask.csv 在位。
+- **数据面局域性如实披露**：astock 面板=bm-b 本地；sina MF 面板=bm-a 本地（2775/5222 不完备·刷新在途）；heat 人气面=bm-a 本地；LHB parquet（Money02/data/lhb/lhb_detail.parquet）双机在册 → **W2 拆分**：W2-A（门开·lane=bm-b 池烧）+ W2-B（门未开·roster 预declare）。
+- **W2-A roster（32 面·冻结）**：B4 zoo（zoo85_stv/zoo85_terrified/zoo92_coin_team/zoo93_arc·构造器 scripts/p1e_factors.py frozen r218·符号先验全 −=P1E_ZOO_BEHAVIOR_IC.md §5 冻结预测 7/7 中）+ C-GTJA191 top-10 + C-WQ101 top-10（均按在档股票面筛查产物 p1c_stock_ic_results.csv **|h5_full_ir| 排序·工件锚 sha256_12=45543c539e6a·273 行**·sign=sign(archived h5_full_ic) 工件律）+ C-A158 全 7 面（a158_truegap_ic_cells.csv 仅 7 格<top-10 规则=诚实欠额·sha256_12=1394ab0cf560）+ E-LHB 1 面（lhb_count_20·sign −=PA_LHB_IC.md IS IC −0.0642/IR −0.84·P-A 逐字口径）——精确逐面清单+数值=results/census_fusion_s2/w2_roster.json（scripts/census_w2_roster.py 确定性导出·本冻结 commit 落盘）。
+- **W2-A 枚举（冻结）**：pairs C(32,2)=496 + triples C(32,3)=4,960=**候选 5,456**；对照=每面×rs_20_csi300/rs_60_csi300=64；null=**400**（200 随机 pair+200 随机 triple·seed=**census_fusion_s2_w2=20281500**·band 20281500..20281899·SEED_REGISTRY 本 commit 同步登记 R250 一步律）；**ledger N=5,920**（批名 CENSUS_FUS_S2_W2A·跑时 append_ledger）。
+- **方法学实例化（wave-2 冻结版·与 wave-1 §3 的差异如实声明）**：宇宙=astock qfq 面板×B-layer mask（≥5,000 掩码员门·fail-closed）；blend 多头腿=组合分 **top-50**（非 wave-1 的 top 三分位——5,228 员宇宙上三分位≈1,700 员不可交易，**方法学分歧如实披露**·等权·周频 5 交易日网格·信号 t 次日收盘保守 T+1 代理·V2 成本+×2 压测·1%ADV 帽同 wave-1）；IC 面=fwd 5 日 rank-IC（ic_series 同锚）；dual-sort=三分位矩阵同 wave-1；evidence_cutoff=**2026-09-24**（cutoff_meta 顶层）。
+- **W2-B 预declare（门未开·禁跑）**：D8（sina MF 四档净额/占比·spec=research/shortline/SINA_MF_PREREG.md）+ E-heat 1 面（HEAT_ATTENTION_SPEC.md）=9 面；跨组合数数学=全 41 面格 11,480 − W2-A 5,456=**6,024**（含 D/E 内部与跨 A 格）；门=sina MF 面板 complete+heat 数据面局域性解法（TRANSFER 通道或小工件导出·T-91 SIG/BARS 先例）；**W2-B 跑前须 §9.4 append-confirm**（门态+符号先验逐面 declare·R99 每 sub-wave 一冻精神）。
+- **批性照锚**：EXPLORATION FACE——零注册主张零纸盘资格；D6 拒收门不入本批（相关性结构=产出面）；zoo×LHB 近邻 corr 预证据 r228 bm-b 实测 max|corr| 0.4829<0.7（披露非门）；top-M 序列化规则同 wave-1 §4。
+- **路由**：W2-A 批>5min 入池（O-2100 执行面分离）——池入口 lane_owner=**bm-b**（面板局域性·R31 判例族）；runner 由 bm-a 建（hermetic selftest 合成面·零面板依赖·镜像 wave-1 机器件零重实现）；UNC 面=W2-A 完成后另批（seed=census_fusion_s2_w2_unc=20282000·派生律 `[20282000, i]` 同 §9.1 协议·本 commit 登记）。
+- 回执：R325 轮报告；post_review 行 T-86-S2-W2-ROSTER（锚 w2_roster.json+本节）。
