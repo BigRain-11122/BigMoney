@@ -419,7 +419,7 @@ const BUILDS = [
       ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
       : '<div class="row dim">本机无集团心跳源</div>') },
   { id:'office', x:520, y:128, w:64, h:40, draw:drawOffice, label:'总经办',
-    dept:'总经办 GM Office', mandate:'经营分析/月报+PK 赛制 · 每日战报 · J13 L2 本地助理 · 月度自审包聚合',
+    dept:'总经办 GM Office', mandate:'经营分析/月报+PK 赛制 · 每日战报 · J13 L2 本地助理 · 月度自审包聚合 · 集团委员会第3席·财务资源席（成本收益/资源代价/资金视角 · cph4/council.md v1.0 · org_chart v7）',
     info: () => '<div class="row">公司阶段：'+D.meta.stage+'</div>'
       + '<div class="row">资金 ¥'+(D.meta.capital/10000).toFixed(0)+'万 · NAV '+D.meta.nav.toFixed(3)+'</div>'
       + (() => { const dr=(D.data&&D.data.daily_report)||{};
