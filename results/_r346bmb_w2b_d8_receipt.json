@@ -1,0 +1,37 @@
+{
+  "id": "r346bmb-w2b-d8-receive-receipt",
+  "batch": "CENSUS_FUS_S2_W2B-D8-RECEIPT",
+  "ticket_ref": "T-2026-09-26-86-P1 s2 W2-B (CEO O-20260926-2320); MSG-20260927-1912-bma-w2b-d8-transfer sequence step (a)",
+  "evidence_cutoff": "2026-09-24",
+  "machine": "bm-b",
+  "round": 346,
+  "verdict": "receive_complete",
+  "ts": "2026-09-27T22:40:00+08:00",
+  "artifact": "data/census_w2b/w2b_d8_faces.npz",
+  "checks": {
+    "sha256_local": "9febb7b4b5fab2601ee9742e00b35edb4282a62683c1758cc4f63c11ab75fab7",
+    "sha256_manifest": "9febb7b4b5fab2601ee9742e00b35edb4282a62683c1758cc4f63c11ab75fab7",
+    "sha_match": true,
+    "bytes_local": 60418563,
+    "bytes_manifest": 60418563,
+    "bytes_match": true,
+    "git_tracked_in_main": false,
+    "git_staged": false,
+    "gitignored": true,
+    "manifest_in_main": "results/census_fusion_s2/w2b_d8_manifest.json (bm-a df611f0c)",
+    "transfer_branch": "transfer/w2b-d8 (origin synced, tip 6de8cc4c)"
+  },
+  "w2b_flip_state": {
+    "pool_entry": "CENSUS-FUS-S2-W2B status=waiting (bm-a r359 restore verbatim 2a687a81 per MSG-2215)",
+    "dep_d8_receive": "SATISFIED this round (this receipt)",
+    "dep_w2a_finalize": "OPEN -- W2-A burn alive 2026-09-27 22:35 (parent 13148 + 4 spawn workers, cpu_delta ~5-6s/6s each, rss sum ~10.9GB, wall ~7h, old-module collect-only-tail = zero ckpt till finalize; no-kill discipline held)",
+    "ram_gate_gb": "available 6.83GB at receipt (flip requires >=12GB per r345 closeout discipline)",
+    "next": "W2-A finalize -> w2a_results.json lands -> SAME-round: pool W2A done-flip + T-86 bm-a receipt + W2B probe ONCE + run + pool waiting->ready flip (MSG-1912 sequence b, r203 law)"
+  },
+  "refs": [
+    "fleet/inbox/MSG-20260927-1912-bma-w2b-d8-transfer.json (SOP)",
+    "fleet/inbox/MSG-20260927-2055-bma-bmb-w2b-mirror-landed.json",
+    "fleet/inbox/MSG-20260927-2215-bma-bmb-w2b-pool-restore.json",
+    "results/census_fusion_s2/w2b_d8_manifest.json"
+  ]
+}

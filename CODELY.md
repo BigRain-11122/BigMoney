@@ -32,3 +32,4 @@
 - 三十一批外迁（r359 bm-a·2026-09-27·同窗撞批号让号重编 r176 律·行级零丢失）：本机同窗独立整编批（原三十批号让 origin r110 bm-c 批）——r109bmc/r342bmb/r359bma 三行 verbatim 入三十一批节（r342 与三十批双记=双记先例）；十条 union 再 materialize 行与 r110 批同动作收敛（verbatim 二十九批节在位）。
 - [2026-09-27 22:3x r360 bm-a] 坑律：rolling-ledger union 解方禁自造 cap 截留（r360 实弹：resolver 发明 cap=max(len) 把 201+201 截成 201 静默丢最老行 vs 正典 |A∪B|=202——r85 生产者滚动窗律=反假丢旗 adjudication 非截留许可、r344 先例 236 全留；修正窗=推前 amend 补行+resolver 去 cap；滚动窗归生产者写回面非 resolver）——指针=results/_r360bma_resolve.py。
 - 三十三批外迁（r112 bm-c·2026-09-27·超线 10,254B>10,000B 当窗整编·行级零丢失·同窗撞批号让号 r176 律：三十二批号让 origin d60676fb bm-a r360 批）：r344 bm-b 两行 verbatim=archive 202609.md『坑律归档 2026-09-27 三十三批』节；保留=User 元律+法行+批指针行族+r360 律。
+- [2026-09-27 22:5x r346 bm-b] 坑律（三十四批外迁·指针）：进程活体判定必 psutil 同源探针复现+cpu_delta 双证定谭，禁 Get-Process 表面定生死（r346 实弹：format-merge 空行假象险把全活 W2-A burn 判死并触发违法补救）——全文 verbatim=archive 202609.md『坑归档 2026-09-27 三十四批』节。指针=logs/iteration-loop/round_reports.md r346。
