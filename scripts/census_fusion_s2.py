@@ -202,16 +202,20 @@ def build_state(univ, bench):
 # ---------------------------------------------------------------- blend face
 
 def blend_top16(state, score_row_fn, x2=False, fixed_all=False,
-                return_series=False):
+                return_series=False, top_k=None):
     """Weekly-grid long-leg blend: top-16 equal weight, V2 costs, 1% ADV cap.
 
     score_row_fn(sig_i) -> (48,) combo score at signal date, or None.
     fixed_all=True -> EW48 benchmark (all members, constant membership).
+    top_k=None -> TOP_K (wave-1 default path byte-stable); int override for
+    wave-2 wide-universe instantiation (prereg sec.9.3 top-50, disclosed
+    divergence from wave-1 top-tercile).
     Exec day e carries old positions' final close-to-close return minus the
     transition cost; new positions accrue e+1 .. next exec day.
     return_series=True -> (metrics, daily_net_series, first_exec) for the
     s3 UNC face (sec.3 s3); default path unchanged (w1 byte-stable).
     """
+    k = TOP_K if top_k is None else int(top_k)
     from alloc_backtest import side_cost_v2, side_cost_x2
     fn = side_cost_x2 if x2 else side_cost_v2
     rets = np.asarray(state["rets"], dtype=float)
@@ -245,7 +249,7 @@ def blend_top16(state, score_row_fn, x2=False, fixed_all=False,
                 target = []
             else:
                 valid = np.where(np.isfinite(row))[0]
-                target = [] if len(valid) < TOP_K else list(valid[np.argsort(-row[valid])[:TOP_K]])
+                target = [] if len(valid) < k else list(valid[np.argsort(-row[valid])[:k]])
         tset = set(target)
         want = NOTIONAL / len(target) if target else 0.0
         buys = []
