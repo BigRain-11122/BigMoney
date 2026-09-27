@@ -2629,6 +2629,35 @@
    ],
    "result_ref": "results/pros_segs/done_deep_DE.json",
    "note_done": "r314 bm-b flip: full-completion marker 6622/6622 cells (finished 2026-09-27 10:35:02), T-2026-09-26-89 verdict face = batch harvest pending remaining shards; flip law r302"
+  },
+  {
+   "id": "T19-PHANTOM-P1",
+   "ticket_ref": "T-2026-09-24-19 (GM adjudication ticket, bm-c lane since r48; stage-2c measurement batch for option-a/b adjudication per O-1325; F-04 claim MSG-20260927-1025)",
+   "prereg_ref": "research/T19_PHANTOM_P1.md v1.0 FROZEN r74a commit 79e8b1a7 (s7 empty pre-run; seed base 68_500 SEED_REGISTRY-registered same commit; selftest 12/12 PASS r75 pre-registration)",
+   "runner": "scripts/t19_phantom_contribution.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 10:52:00",
+   "data_gates": "in-runner fail-closed: G-REPRO 6/6 bit-exact vs frozen T-14 A faces (assert) + disposal census 10 rows / 8 families (5/2/1 per trader) + G-SET closure exact (actual 3 + placebo 150) + SEED_REGISTRY int assert + V1 legacy cost face (anchor repro law, no x2) + top-level cutoff_meta 2026-09-23 (science_gates C2)",
+   "workers_plan": {
+    "workers": "single-process full-window rail replays (~159 rails x 6y deterministic replay; prereg s0 budget est 8-15min)",
+    "priority": "BelowNormal",
+    "note": "single shard, zero shared state; autofill C8 owns the spawn; V1 legacy costs; equity_fraction size-drift disclosed per trader (prereg s3)"
+   },
+   "shards": [
+    {
+     "key": "t19-phantom-p1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/t19_phantom_contribution.json (+ .csv twin) = whole-batch output; single 8-15min shard, no intermediate checkpoint; done-flip by control round on results landing (r314 flip-law family)",
+     "note": "6 baseline A-rail repros + 3 counterfactual buy-guard rails + 150 placebo rails (K=50 x 3 affected traders) + 10-row attribution face"
+    }
+   ]
   }
  ],
  "version": 1,
