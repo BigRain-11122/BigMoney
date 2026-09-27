@@ -1,0 +1,29 @@
+{
+ "id": "DECISION-CHAIN-V2-P1",
+ "ticket_ref": "T-2026-09-27-95 s2 (CEO O-2026-09-27-2255 acceleration line; science face claimed bm-c r118/c119; s9-a4 sleeve two-path gate amendment, zero cells burned)",
+ "prereg_ref": "research/DECISION_CHAIN_V2_PREREG.md FROZEN (bm-a R365 canonical base + owner bm-c r118 adoption a1/a2/a3 + r119 a4 two-path sleeve gate; seed 20284110 single entry; N_eff=5522 A-v2 only)",
+ "runner": "scripts/decision_chain_v2.py",
+ "runner_args": [
+  "run"
+ ],
+ "lane_owner": "bm-b",
+ "priority": 2,
+ "status": "ready",
+ "entered_at": "2026-09-28 00:41:57",
+ "workers_plan": {
+  "workers": 1,
+  "priority": "BelowNormal",
+  "note": "single-process finalize chain: gates+audit ~3min + sleeve (replay minutes on cache-bearing machine / artifact seconds) + vectorized 4-arm envelopes x 2 axes x 2 faces (v1 finalize benchmark 99.9s) + verdict/CSV/attrition/prereg-backfill/ledger-flip writes; RAM peak ~4GB; est 5-15min wall total"
+ },
+ "data_gates": "in-runner fail-closed exit 2 artifact gate (a2/a4 physical faces, honest listing): t34 base curves both axes + x2 curve union complete per axis + deep panel cache (t18) + p1c_stock cache OR the frozen sleeve-export artifact + GC001 csv (git) + v1 verdict records (git); proven-complete sets: bm-b = curves + deep panel (v1 finalize r318), bm-a = p1c_stock (r282); G-REPRO-REV = sleeve stats/counters bit-level vs p1_results frozen; G-REPRO-v1 = B/D aggregates bit-level vs decision_chain_e2e.json both axes x faces x windows; heat face failure = honest degradation (GREEN flat 0.80 per prereg s2) census disclosed, never a gate; audit not CLEAN = ledger skipped per prereg s0; selftest 26/26 bm-c r119",
+ "shards": [
+  {
+   "key": "v2-0of1",
+   "status": "ready",
+   "owner": null,
+   "owner_since": null,
+   "checkpoint": null
+  }
+ ],
+ "lane_note": "a2 canonical (bm-c r118 adoption): execution lane = checkpoint-bearing machines; proven-complete set per own data_gates = bm-b (t34 base curves both axes + x2 curve union complete + deep panel, v1 finalize r318); bm-a artifact-gate exit-2 relaunch loop 01:10/01:20 tick log evidence; T-93 sender/receiver hash parity 30/30"
+}
