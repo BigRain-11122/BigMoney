@@ -11,6 +11,7 @@ $legs = @(
   @{n='update_lhb';          c={python scripts\update_lhb.py}},
   @{n='update_heat';         c={python scripts\update_heat.py}},
   @{n='update_futures';      c={python scripts\update_futures.py}},
+  @{n='update_repo';          c={python scripts\update_repo.py}},
   @{n='update_options';      c={python scripts\update_options.py}},
   @{n='update_moneyflow';    c={python scripts\update_moneyflow.py}},
   @{n='update_sina_mf';      c={python scripts\update_sina_mf.py}},

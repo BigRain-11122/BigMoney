@@ -140,7 +140,7 @@ if p in uu:
     kept_mine, swapped_fulls, dup_ptrs = [], [], []
     for l in mine_new:
         hdr = (l.split("坑律")[0] + "坑律") if "坑律" in l else None
-        if hdr and "十九批外迁·指针" in l:
+        if hdr and "批外迁·指针" in l:  # r90 generic: any batch-exile pointer family (十七/十八/十九/二十/...)
             ol_ptr = [x for x in final_l if x.startswith(hdr + "（")]
             if ol_ptr:
                 dup_ptrs.append(l)
@@ -180,6 +180,33 @@ if p in uu:
     nl = nb_of(b).decode("utf-8")
     final = nl.join(final_l) + nl
     size = len(final.encode("utf-8"))
+    # r90 in-stage 20th-batch EXTENSION (hard-line relief, r88 in-stage precedent):
+    # if union still over the line, move oldest surviving bm-c full-text pitlaw
+    # (r89-bmc stub-drop) verbatim to archive 二十批节 + pointer swap in final.
+    ext_archived = 0
+    if size >= 10240:
+        arch_p = "research/memory-archive/202609.md"
+        arch_txt = io.open(arch_p, encoding="utf-8", newline="").read()
+        anl = "\r\n" if "\r\n" in arch_txt[:2000] else "\n"
+        _r89full = [x for x in final_l if x.startswith("- [2026-09-27 16:1x r89 bm-c] 坑律：**stub-drop")]
+        assert _r89full, "hard-line relief candidate r89-bmc full not found"
+        for x in _r89full:
+            assert x not in arch_txt or arch_txt.count(x) == 0, "r89-bmc full already archived (dup append risk)"
+        # append verbatim to end of archive (二十批 section = current file tail)
+        if not arch_txt.endswith((anl, "\n")):
+            arch_txt += anl
+        arch_txt += _r89full[0] + anl
+        io.open(arch_p, "w", encoding="utf-8", newline="").write(arch_txt)
+        # swap full -> pointer in final_l
+        ptr89 = "- [2026-09-27 16:1x r89 bm-c] 坑律（二十批外迁·指针）：stub-drop 配方锚全文形态防指针误伤+面积口径 encode 字节数——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十批』节。"
+        final_l = [ptr89 if x == _r89full[0] else x for x in final_l]
+        ext_archived = len(_r89full)
+        final = nl.join(final_l) + nl
+        size = len(final.encode("utf-8"))
+        back = io.open(arch_p, encoding="utf-8").read()
+        assert _r89full[0] in back, "extension full not verbatim in archive after append"
+        assert back.count("二十批") >= 1
+        print(f"  CODELY in-stage 20th-batch EXTENSION: r89-bmc full x{ext_archived} -> archive + pointer; archive now {len(back.encode('utf-8'))}B")
     assert size < 10240, f"CODELY {size}B over 10KB hard line"
     with io.open(p, "w", encoding="utf-8", newline="") as f:
         f.write(final)
