@@ -1,0 +1,75 @@
+{
+ "probe": "_r86bmc_fund_premium_data_loss",
+ "round": "r86",
+ "machine": "bm-c",
+ "lane": "fund_premium (T-16, lane_owner=bm-c)",
+ "incident": {
+  "type": "machine-local data-face loss on root migration",
+  "cause": "bm-c rebuilt 2026-09-27 into unified root; old tree K:\\金钱牛马 deleted; gitignored data/fund_premium/ not migrated, not in git",
+  "lost_assets": [
+   "nav history 48/48 full-history (e.g. 159901 4991 rows 2006-03-24..2026-09-23, r52 evidence)",
+   "dividends 48/48 (r53, incl. 17 zero-div findings)",
+   "panel 76,025 rows x 48 members 2020-01-02..2026-09-23 (r53, retained asset for P-A2/P-B1)",
+   "snapshots bulk face (recreated automatically by S6 snapshot leg on next weekday)"
+  ],
+  "status_mirror_divergence": {
+   "nav_block_claims": "done 48/48 coverage 1.0 (stale checkpoint record, written in old tree)",
+   "disk_facts_live": "nav_files=0 snapshots=0",
+   "verdict": "mirror stale vs disk; gate subcommand reads disk -> honest fail-closed, no silent corruption risk"
+  }
+ },
+ "evidence": {
+  "old_root_gone": true,
+  "old_tree_gone": true,
+  "data_dir_inventory": [
+   "basic",
+   "consolidation",
+   "daily",
+   "fund_premium",
+   "fundamental",
+   "futures_daily",
+   "options"
+  ],
+  "machine_local_face_presence": {
+   "heat": false,
+   "ext_slots": false,
+   "moneyflow": false,
+   "sina_mf": false,
+   "astock_daily": false,
+   "fund_premium": true,
+   "ths_ggzjl": false,
+   "ah_panel": false,
+   "bond_w3a": false
+  },
+  "fund_premium_face": {
+   "exists": true,
+   "file_count": 0
+  },
+  "status_ts": "2026-09-27T14:31:19",
+  "status_mode": "no-op: weekend"
+ },
+ "recovery": {
+  "action": "backfill-nav detached (r52 precedent), checkpoint per-symbol resume-safe, 2.5s throttle, 5-conn fuse",
+  "started": "2026-09-27T14:54:08+08:00",
+  "pid": 12828,
+  "log": "results/_r86bmc_backfill_nav.log",
+  "eta_min": 25,
+  "follow_ups": [
+   "harvest backfill-nav (48/48 target, fuse check)",
+   "backfill-dividends leg (48 symbols, sina face)",
+   "panel rebuild via scripts/build_premium_panel.py (pure-local, zero network, selftest 26/26)",
+   "gate re-check: NAV coverage >=95% restored",
+   "status mirror nav block re-derived from disk after recovery"
+  ]
+ },
+ "ledger_trials_added": 0,
+ "evidence_cutoff": "2026-09-24",
+ "recovery_result": {
+  "completed": "2026-09-27T15:12+08:00",
+  "backfill_nav": "48/48 coverage 100.0% failures=0 fused=False, fresh to 2026-09-24 (log: results/_r86bmc_backfill_nav.log)",
+  "backfill_dividends": "48/48 coverage 100.0% zero-div funds=17 (r53 consistency match) failures=0 fused=False (log: results/_r86bmc_backfill_div.log)",
+  "panel_rebuild": "76,073 rows x 48 members span 2020-01-02..2026-09-24 (1633 td), pre-loss 76,025/1632 +48 rows = exactly the 2026-09-24 bar x 48, ex_div events 86, guard 48/48, lag med 1td, gates PASS",
+  "gate": "nav 48/48 (100.0%) RESTORED; snapshot newest=None expected>=2026-09-24 FAIL = weekend-legal absence, self-heals via S6 snapshot leg Monday 09-28 >=15:30 (bulk face one request), follow-up not a red",
+  "status_mirror": "nav done 48/48 now genuinely disk-derived; mirror-disk divergence resolved"
+ }
+}
