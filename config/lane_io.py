@@ -1,4 +1,4 @@
-"""Per-machine lane-file io (D-20260928-03(1) batch-1 writer dual-track).
+"""Per-machine lane-file io (D-20260928-03(1) writer dual-track).
 
 Group decision D-20260928-03 lane migration: each machine additionally
 writes its OWN lane file ``results/<face>.<machine>.json`` -- same
@@ -8,6 +8,10 @@ compat dual-track window; the deterministic reader
 (``scripts/merge_lane_views.py``) unions lane files with the legacy
 blob using the conflict-resolver laws, so a swallowed shared write is
 always recoverable from the owning machine's lane.
+
+Batch-1 (A-family rolling ledgers) + batch-2 (B-family gate/meter
+status snapshots; host-guarded writers for machine-local-derived faces
+-- heat_update_status writes its lane on the R31 host only).
 
 Laws carried:
   * r98 identity: machine id comes from ``fleet/machine.json`` ONLY --
@@ -25,7 +29,13 @@ import sys
 from .settings import PATHS
 
 _KNOWN_FACES = ("compute_audit", "regime_state", "autofill_state",
-                "runnable_pool", "gate_attrition", "post_review_criteria")
+                "runnable_pool", "gate_attrition", "post_review_criteria",
+                # batch-2 B-family (D-20260928-03(1), LANE_MIGRATION_S1
+                # census): per-machine gate/meter status snapshots.
+                "update_status", "heat_update_status",
+                "lhb_update_status", "futures_update_status",
+                "fundamental_status", "token_usage", "crash_fuse",
+                "market_clock/call_latest")
 _MID_CACHE = {"v": None}
 
 

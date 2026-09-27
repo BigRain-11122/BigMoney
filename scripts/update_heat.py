@@ -40,6 +40,12 @@ import pandas as pd
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HEAT_DIR = os.path.join(ROOT, "data", "heat", "popularity")
 STATUS = os.path.join(ROOT, "results", "heat_update_status.json")
+sys.path.insert(0, ROOT)
+from config.lane_io import machine_id, write_lane  # noqa: E402
+
+HEAT_LANE_HOST = "bm-a"   # R19 wiring / R31 lane-ownership precedent:
+#   heat snapshots derive from the HOST's machine-local data/heat face
+#   (gitignored) -- non-host runs must not author a lane (ts新 != 数据权威新).
 
 CLOSE_ACCEPT_TIME = dt.time(15, 30)   # post-close snapshot convention
 MIN_ATTEMPT_INTERVAL = 30 * 60        # min seconds between network attempts
@@ -55,6 +61,10 @@ def save_status(payload):
     payload["updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
     with open(STATUS, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2, default=str)
+    # Lane dual-track (D-20260928-03 batch-2), host-guarded: only the
+    # R31 host authors the heat lane; fail-soft never breaks the run.
+    if machine_id() == HEAT_LANE_HOST:
+        write_lane("heat_update_status", payload)
 
 
 def load_status():

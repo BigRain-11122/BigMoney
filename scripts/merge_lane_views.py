@@ -17,6 +17,10 @@ repo files; consumers import this as a library at switch time).
 Faces (A-family, LANE_MIGRATION_S1 census):
   compute_audit | regime_state | autofill_state | runnable_pool
   gate_attrition | post_review_criteria
+Faces (B-family, batch-2 census):
+  update_status | heat_update_status | lhb_update_status
+  futures_update_status | fundamental_status | token_usage
+  crash_fuse | market_clock/call_latest
 
 Usage:
   python scripts/merge_lane_views.py merge [--face F]     # merged-view summary
@@ -358,10 +362,99 @@ MERGERS = {
 }
 
 
+# ---------------------------------------------------------------------------
+# B-family (batch-2, LANE_MIGRATION_S1 census): per-machine gate / meter
+# status snapshots.  Census-frozen merge semantics = max-cutoff freshness,
+# with two lawful exceptions:
+#   * heat_update_status: R31 lane-ownership precedent -- snapshots derive
+#     from the host's machine-local data/heat face (gitignored), so a
+#     fresher non-host no-op write is NOT authoritative (ts新 != 数据权威新).
+#   * crash_fuse: per-runner sig key union with newer-event-wins (the fuse
+#     is an append/monotone-counter face, never a last-writer blob).
+# ---------------------------------------------------------------------------
+
+B_FACES = ("update_status", "heat_update_status", "lhb_update_status",
+           "futures_update_status", "fundamental_status", "token_usage",
+           "crash_fuse", "market_clock/call_latest")
+
+_HEAT_HOST = "bm-a"   # R19 wiring / R31 resolver verdict lineage
+
+
+def _make_take_new(face, probe):
+    """Max-cutoff whole-dict take (census B recipe): the source whose
+    ``probe`` ts is newest wins wholesale; ties -> first-seen (= legacy
+    at bootstrap, so single-source reconcile stays zero-drift even when
+    the probe key is absent)."""
+    def _merge(sources):
+        win = _flat_winner(sources, lambda d: str(d.get(probe, "")))
+        return (dict(sources[win][1]),
+                [f"max-cutoff take by {probe!r} from {sources[win][0]} "
+                 f"({len(sources)} source(s))"])
+    return _merge
+
+
+def merge_heat_update_status(sources):
+    """Host-lane priority (R31): the heat host's lane IS the authority;
+    max-cutoff only before the host lane exists (pre-wiring rounds)."""
+    for label, data in sources:
+        if label == _HEAT_HOST:
+            return (dict(data),
+                    [f"host-lane priority from {_HEAT_HOST} (R31 authority "
+                     f"law); {len(sources)} source(s) scanned"])
+    return _make_take_new("heat_update_status", "updated")(sources)
+
+
+def merge_crash_fuse(sources):
+    notes = []
+
+    def _sig_ts(sig):
+        if not isinstance(sig, dict):
+            return ""
+        return max(str(sig.get("last_crash_ts", "")),
+                   str(sig.get("last_refusal_ts", "")))
+
+    def _max_sig_ts(d):
+        best = ""
+        for sig in d.get("sigs", {}).values():
+            best = max(best, _sig_ts(sig))
+        return best
+
+    win = _flat_winner(sources, _max_sig_ts)
+    out = dict(sources[win][1])
+    sigs = {}
+    for label, data in sources:
+        for key, sig in data.get("sigs", {}).items():
+            if key not in sigs:
+                sigs[key] = sig
+                continue
+            if _sig_ts(sig) > _sig_ts(sigs[key]):
+                sigs[key] = sig
+                notes.append(f"sig {key!r}: newer event from {label}")
+    out["sigs"] = sigs
+    notes.append(f"sigs key-union -> {len(sigs)} runner sig(s), same-key "
+                 f"newer-event-wins; flat from {sources[win][0]}")
+    return out, notes
+
+
+MERGERS.update({
+    "update_status": _make_take_new("update_status", "updated"),
+    "lhb_update_status": _make_take_new("lhb_update_status", "updated"),
+    "futures_update_status": _make_take_new("futures_update_status", "ts"),
+    "fundamental_status": _make_take_new("fundamental_status", "updated"),
+    "token_usage": _make_take_new("token_usage", "generated"),
+    "market_clock/call_latest": _make_take_new("market_clock/call_latest",
+                                               "asof"),
+    "heat_update_status": merge_heat_update_status,
+    "crash_fuse": merge_crash_fuse,
+})
+
+ALL_FACES = A_FACES + B_FACES
+
+
 def merge_face(face, sources):
     if face not in MERGERS:
         raise SystemExit(f"merge_lane_views: unknown face {face!r} "
-                         f"(A_FACES={A_FACES}) -- fail-closed")
+                         f"(ALL_FACES={ALL_FACES}) -- fail-closed")
     if not sources:
         raise SystemExit(f"merge_lane_views: face {face!r} has no sources")
     return MERGERS[face](sources)
@@ -579,6 +672,79 @@ def _selftest():
     except OSError:
         check("lane_machine-fail-closed", False)
 
+    # 9. B-family bootstrap identity: single legacy source -> unchanged
+    # (all eight census B faces; reconcile zero-drift baseline law).
+    b_shared = {
+        "update_status": {"updated": "2026-09-28 03:02:47",
+                          "data_cutoff": "2026-09-24",
+                          "total_new_rows": 48},
+        "heat_update_status": {"updated": "2026-09-28 03:03:11",
+                               "snapshots": 3, "verdict": "no-op"},
+        "lhb_update_status": {"updated": "2026-09-28 03:03:10",
+                             "cutoff": "2026-09-24", "new_rows": 0},
+        "futures_update_status": {"ts": "2026-09-28T03:03:11",
+                                  "mode": "no-op",
+                                  "data_cutoff": "2026-09-24"},
+        "fundamental_status": {"updated": "2026-09-27 22:39:37",
+                              "ok": True},
+        "token_usage": {"generated": "2026-09-28 03:03:58",
+                        "machines": {"bm-a": 1}},
+        "crash_fuse": {"sigs": {"scripts/x.py|run": {
+            "count": 1, "refusals": 1,
+            "last_crash_ts": "2026-09-27 03:30:03",
+            "last_refusal_ts": "2026-09-27 03:30:03"}}},
+        "market_clock/call_latest": {"asof": "2026-09-24",
+                                     "clock_cell": "C7"},
+    }
+    for face in B_FACES:
+        merged, _ = merge_face(face, [("legacy", b_shared[face])])
+        check(f"b-bootstrap-identity:{face}", merged == b_shared[face])
+
+    # 10. B max-cutoff (census recipe): freshest probe wins wholesale
+    a = {"updated": "2026-09-28 03:00:00", "data_cutoff": "2026-09-23"}
+    b = {"updated": "2026-09-28 03:10:00", "data_cutoff": "2026-09-24"}
+    m, _ = merge_face("update_status", [("legacy", a), ("bm-a", b)])
+    check("b-take-new-freshness", m == b)
+
+    # 11. heat host-lane priority (R31 authority law): a fresher clobbered
+    # legacy (non-host no-op, snapshots=0) must LOSE to the host lane.
+    clobber = {"updated": "2026-09-28 03:30:00", "snapshots": 0,
+               "verdict": "no-op: non-host local dir absent"}
+    host_lane = {"updated": "2026-09-28 03:03:11", "snapshots": 3,
+                 "verdict": "no-op: before 15:30:00"}
+    m, _ = merge_face("heat_update_status",
+                      [("legacy", clobber), ("bm-a", host_lane)])
+    check("b-heat-host-priority", m == host_lane)
+    # fallback: no host lane in sources -> plain max-cutoff (pre-wiring
+    # rounds keep today's last-writer semantics, disclosed honestly)
+    other = {"updated": "2026-09-28 02:00:00", "snapshots": 3}
+    m, _ = merge_face("heat_update_status",
+                      [("legacy", clobber), ("bm-b", other)])
+    check("b-heat-fallback-take-new", m == clobber)
+
+    # 12. crash_fuse: sig key union + same-key newer-event-wins
+    fa = {"sigs": {"r|run": {"count": 1, "refusals": 1,
+                             "last_crash_ts": "2026-09-27 03:30:03",
+                             "last_refusal_ts": "2026-09-27 03:30:03"}}}
+    fb = {"sigs": {"r|run": {"count": 2, "refusals": 0,
+                             "last_crash_ts": "2026-09-28 03:00:08"},
+                   "r2|run": {"count": 1, "refusals": 0,
+                              "last_crash_ts": "2026-09-26 01:00:00"}}}
+    m, _ = merge_face("crash_fuse", [("legacy", fa), ("bm-b", fb)])
+    check("b-crashfuse-union+newer-event",
+          set(m["sigs"]) == {"r|run", "r2|run"}
+          and m["sigs"]["r|run"]["count"] == 2
+          and m["sigs"]["r|run"]["last_crash_ts"] == "2026-09-28 03:00:08"
+          and m["sigs"]["r2|run"]["count"] == 1)
+
+    # 13. call_latest: asof-probe take-new (deterministic same-day regen
+    # -> byte-identical sides; a fresher panel cutoff wins the view)
+    ca = {"asof": "2026-09-23", "clock_cell": "C7"}
+    cb = {"asof": "2026-09-24", "clock_cell": "C7"}
+    m, _ = merge_face("market_clock/call_latest",
+                      [("legacy", ca), ("bm-b", cb)])
+    check("b-calllatest-asof-take-new", m == cb)
+
     print(f"selftest: {len(fails)} FAIL" + ("s" if fails else "")
           + (f" -> {fails}" if fails else " (all PASS)"))
     return 1 if fails else 0
@@ -590,13 +756,13 @@ def main(argv):
         return 2
     if argv[1] == "selftest":
         return _selftest()
-    faces = A_FACES
+    faces = ALL_FACES
     if "--face" in argv:
         i = argv.index("--face")
-        faces = tuple(argv[i + 1:i + 2]) or A_FACES
+        faces = tuple(argv[i + 1:i + 2]) or ALL_FACES
         for f in faces:
-            if f not in A_FACES:
-                print(f"unknown face {f!r}; A_FACES={A_FACES}")
+            if f not in ALL_FACES:
+                print(f"unknown face {f!r}; ALL_FACES={ALL_FACES}")
                 return 2
     if argv[1] == "merge":
         return _cmd_merge(faces)

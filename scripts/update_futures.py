@@ -42,6 +42,8 @@ import urllib.request
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DATA_DIR = os.path.join(ROOT, "data", "futures_daily")
 STATUS = os.path.join(ROOT, "results", "futures_update_status.json")
+sys.path.insert(0, ROOT)
+from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin
 
 VARIETIES = ["IF", "IC", "IM", "IH", "T", "TF", "RB", "AU", "SC"]
 COLS = ["date", "open", "high", "low", "close", "volume", "oi", "settle"]
@@ -270,6 +272,9 @@ def load_status():
 
 def write_status(payload):
     atomic_write(STATUS, json.dumps(payload, ensure_ascii=False, indent=2))
+    # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror,
+    # fail-soft never breaks the run.
+    write_lane("futures_update_status", payload)
 
 
 # ---------------------------------------------------------------------- fetches

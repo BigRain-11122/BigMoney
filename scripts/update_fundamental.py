@@ -70,6 +70,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 
 from config import PATHS
+from config.lane_io import write_lane
 
 SNAPSHOT_DIR = PATHS.fundamental_dir
 SNAPSHOT_CSV = os.path.join(SNAPSHOT_DIR, "eligibility.csv")
@@ -364,6 +365,10 @@ def _atomic_write_json(obj: dict, path: str):
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(obj, fh, indent=2, ensure_ascii=False)
     os.replace(tmp, path)
+    if path == STATUS_PATH:
+        # Lane dual-track (D-20260928-03 batch-2): own-machine lane
+        # mirror; fail-soft never breaks the run.
+        write_lane("fundamental_status", obj)
 
 
 # ---------------------------------------------------------------- run paths

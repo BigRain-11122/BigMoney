@@ -62,6 +62,8 @@ LHB_DIR = os.path.join(ROOT, "Money02", "data", "lhb")
 PARQUET = os.path.join(LHB_DIR, "lhb_detail.parquet")
 CHUNKS = os.path.join(LHB_DIR, "chunks")
 STATUS = os.path.join(ROOT, "results", "lhb_update_status.json")
+sys.path.insert(0, ROOT)
+from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin
 DAILY_DIR = os.path.join(ROOT, "data", "daily")
 CORE_CALENDAR_FILE = os.path.join(DAILY_DIR, "510300.csv")
 TOL = 1e-6
@@ -74,6 +76,9 @@ def save_status(payload):
     payload["updated"] = time.strftime("%Y-%m-%d %H:%M:%S")
     with open(STATUS, "w", encoding="utf-8") as f:
         json.dump(payload, f, ensure_ascii=False, indent=2, default=str)
+    # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror,
+    # fail-soft never breaks the run.
+    write_lane("lhb_update_status", payload)
 
 
 def load_status():

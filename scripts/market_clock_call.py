@@ -32,6 +32,8 @@ import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT_DIR = os.path.join(ROOT, "results", "market_clock")
+sys.path.insert(0, ROOT)
+from config.lane_io import write_lane  # noqa: E402 -- after ROOT pin
 LHB_PATH = os.path.join(ROOT, "Money02", "data", "lhb", "lhb_detail.parquet")
 SCORECARD_PATH = os.path.join(ROOT, "results", "strategy_scorecard.json")
 L3_PREREG = os.path.join(ROOT, "research", "L3_ACTIVATION_EVIDENCE.md")
@@ -395,6 +397,9 @@ def run():
     latest = os.path.join(OUT_DIR, "call_latest.json")
     with open(latest, "w", encoding="utf-8", newline="\n") as f:
         json.dump(call, f, ensure_ascii=False, indent=1, default=str)
+    # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror
+    # (asof-probe freshness at the reader); fail-soft never breaks the call.
+    write_lane("market_clock/call_latest", call)
     with open(L3_TABLE_PATH, "w", encoding="utf-8", newline="\n") as f:
         json.dump(ev_table, f, ensure_ascii=False, indent=1, default=str)
     print(f"call written: {md_path} cell={call['clock_cell']} sleeves={len(call['active_sleeves'])} "

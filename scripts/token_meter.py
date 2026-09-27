@@ -23,6 +23,7 @@ import time
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from config import PATHS  # noqa: E402
+from config.lane_io import write_lane  # noqa: E402
 
 BPE_PROXY = 3.5          # bytes/token rough proxy for mixed CN/EN text
 OUT_PATH = os.path.join(PATHS.results_dir, "token_usage.json")
@@ -168,6 +169,9 @@ def main() -> int:
 
     with open(OUT_PATH, "w", encoding="utf-8") as fh:
         json.dump(out, fh, indent=2, ensure_ascii=False)
+    # Lane dual-track (D-20260928-03 batch-2): own-machine lane mirror,
+    # fail-soft never breaks the meter run.
+    write_lane("token_usage", out)
     l2 = out["l2_local_llm"]
     print(f"saved: {OUT_PATH}")
     print(f"per-round fixed context ~ {per_round_context['mandate_read_tokens_est']}"

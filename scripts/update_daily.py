@@ -80,6 +80,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 
 from config import PATHS
+from config.lane_io import write_lane
 
 COLUMNS = ["date", "open", "high", "low", "close", "volume", "amount"]
 CLOSE_ACCEPT_TIME = dt.time(15, 30)      # today's bar only after market close
@@ -165,6 +166,10 @@ def _write_status_atomic(summary: dict, path: str | None = None) -> None:
     with open(tmp, "w", encoding="utf-8") as fh:
         json.dump(summary, fh, indent=2, ensure_ascii=False)
     os.replace(tmp, path)
+    if path == STATUS_PATH:
+        # Lane dual-track (D-20260928-03 batch-2): mirror this machine's
+        # own snapshot to its lane file; fail-soft, never breaks the run.
+        write_lane("update_status", summary)
 
 
 def _pool_cutoff(files: list) -> tuple:

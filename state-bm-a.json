@@ -1,5 +1,5 @@
 {
- "round_no": 374,
+ "round_no": 375,
  "did": "R374 S3 车道迁移批1消费面切换 (D-20260928-03(1)): 门槛达标 (r373 reading#1 六面双源零漂移 + r374 reading#2 零漂移且三核心面 4 源 legacy+三车道) -> 两消费面 A 族读点全切合并视图: monitor/build_status.py 4 面 7 读点 (compute_audit x2/regime_state/runnable_pool x3/autofill_state, _lane_view helper) + scripts/daily_report.py 2 面 2 读点; 验证环=消费面自身导入路径 FACE-EQ 6/6 (merged==shared) + 预后基线语义 diff (dashboard 11 行全墙钟派生字段零结构漂移 + 日报 JSON 孪生 diff=generated_at 唯一行 + md 仅生成行) + fail-closed 保留 (lane_machine 矛盾 SystemExit 直传/无源诚实 {}); 共享写面仍双轨在写 (撤面=批1 末步, 前置全机队消费代码拉齐+读数稳定); S0 stash-pop 1-UU 正典解 (autofill_state last_tick 同秒 tie 02:50:01 -> HEAD bm-c r140 + launches 50/50 identity-union, resolver results/_r374bma_resolve.py)",
  "verify": "smoke 25/25 + FACE-EQ 6/6 + merger selftest 22/22 + daily_report selftest PASS + S6 31 腿全 rc=0 零掩盖 (盘前 no-op 族+车道护栏诚实 no-op+bar-gated 合法跳) + reconcile 预/链后双跑 6/6 ZERO-DRIFT (消费切换在链写下面稳定)",
  "next": "writer 面撤销 slice (批1 末步): 全机队消费切换代码拉齐检查 (bm-b/bm-c 拉取后其 build_status/daily_report 自动走合并视图) + 稳定读数计轮; T-91 s3 今 09:15 自动点火 (IntradayMarks 09:25; 首 bar ~15:30 -> live.paper enforce+t35 verify+exports; sysv1 首 SIG via bm-b BARS 晚间); V2-P1 finalize 守望 (bm-b 活跃); W2A census 燃烧+TRIAL-LABOR judge RAM 门 (bm-b 三采样律); MF/AH EM 自愈守望; council C-01 窗 09-29 12:00/C-02 窗 09-29 ~10:0x; 下轮 5x=R375 HANDOVER",
