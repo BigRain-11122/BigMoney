@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T01:56:26+08:00",
- "heartbeat_epoch_utc": 1790531786,
- "clock_read": "2026-09-28T01:56:26+08:00",
- "current_task": "r351 closure landed: inherited S7 3-wave rebase storm canon-resolved (main 578abed1) + autofill r351 pool-behind-origin defer (b5be80cd tree-blind forensics closed per bm-c MSG-0105, selftest +3 legs ALL PASS) + CODELY hot-cold archive 24th batch 9873B; next r352 = W2A harvest + W2B RAM gate + JUDGE 4 shards waiting; CEO 48h clock 09-29 22:45",
+ "last_seen": "2026-09-28T02:13:32+08:00",
+ "heartbeat_epoch_utc": 1790532812,
+ "clock_read": "2026-09-28T02:13:32+08:00",
+ "current_task": "r353 maintenance closure landed: V2-P1 fuse false-positive adjudicated (CRLF-checkout bytes 0249 vs canonical 8802 -> bm-b tick auto-clears S16c; lane pin = real fix) + W2-A census burn 10.5h no-kill continuing (finalize pending) + S6 30/30; next r354 = W2-A finalize harvest + V2-P1 tick claim receipt + Monday 09:15/15:30 queues; CEO 48h clock 09-29 22:45",
  "cpu_cores": 16,
- "free_ram_gb": 5.6,
+ "free_ram_gb": 0.57,
  "gpu_free_vram_gb": null,
  "total_ram_gb": 25.7,
- "cpu_util_pct": 44.6,
- "round_no": 351,
- "verdict": "green: W2-A census burn in-flight 4-worker no-kill (sole legal occupant), judge-prep landed, JUDGE flip pending RAM>=4GB",
+ "cpu_util_pct": 43.2,
+ "round_no": 353,
+ "verdict": "green: W2-A 4-worker no-kill sole legal occupant (RAM gate honest-closed for JUDGE/W2B/V2-P1-heavy faces), fuse adjudicated, tick claim expected next window",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -115,15 +115,15 @@
   "O-2026-09-27-2255-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 5.78,
+ "idle_ram_gb": 0.57,
  "gpu_free_vram_mb": 7075,
- "idle_ram_mb": 3420,
+ "idle_ram_mb": 582,
  "gpu_idle_vram_mb": 7075,
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.91,
- "cpu_pct": 34.8,
- "round": 351,
- "free_ram_mb": 2822,
+ "cpu_pct": 43.2,
+ "round": 353,
+ "free_ram_mb": 582,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1115MiB used @2026-09-27T18:47:49+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 351
+ "loop_round": 353
 }
