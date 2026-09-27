@@ -24,6 +24,13 @@ Contract:
     (live case: 20:00 tick fired on a conflicted tree, read the marker
     file, fresh-fallback wiped 49 launches -> 1 and launched unclaimed
     during the session-dead rebase window, r159/r199 face).
+  * Pool-behind-origin defer (r351): fetch + three-dot pool diff shows
+    origin moved results/runnable_pool.json past HEAD -> claim/keepalive
+    git write defers to the post-pull tick. A fresh disk read can still
+    be TREE-blind (live: b5be80cd 00:52:51 keepalive committed a
+    pre-fork pool model that never held bm-c's 00:41:57 entries ->
+    session S7 paid a 3-wave replay tax + local blind-pool window);
+    probe fault -> fail-open legacy flow.
   * Corrupt-state refusal (r201): an EXISTING autofill_state.json that
     fails to parse aborts the tick (exit 2) instead of silently saving
     a fresh {"launches": []} over it.
@@ -121,6 +128,34 @@ def _mid_op():
     for probe in ("rebase-merge", "rebase-apply", "MERGE_HEAD"):
         if os.path.exists(os.path.join(_GIT_DIR, probe)):
             return probe
+    return None
+
+
+def _pool_origin_stale():
+    """r351 pool-behind-origin probe (b5be80cd live-fire 00:52:51: the
+    keepalive committed a pool model from a tree forked BEFORE bm-c's
+    00:41:57 entries landed on origin -- the local face never held
+    them, so the fresh read was still blind; the write was structurally
+    incapable of carrying them, session S7 paid a 3-wave replay tax,
+    and the local pool sat blind until reconciliation). Exit-code-only
+    face rides the _git stub surface (hermetic selftest). Three-dot
+    diff = origin's pool changes since the fork point, so local-ahead
+    unpushed tick commits (r290 stranding face) do NOT trip the defer.
+    True = origin moved the pool past HEAD -> claim/keepalive defer
+    (both refreshes idempotent under their age gates; the fire gate
+    stays push-success = origin-visible claim, r199 unchanged).
+    False = pool even (other-file origin traffic replays clean, r282
+    fill-latency intent preserved). None = probe fault -> fail-open
+    legacy flow."""
+    rc_f, _ = _git(("fetch", "-q", "origin", "main"))
+    if rc_f != 0:
+        return None
+    rc, _ = _git(("diff", "--quiet", "HEAD...origin/main", "--",
+                  os.path.relpath(POOL, ROOT)))
+    if rc == 1:
+        return True
+    if rc == 0:
+        return False
     return None
 
 
@@ -468,6 +503,12 @@ def _claim_shard(sh, myid):
                  f"mid-tick -> yield git write to session, next tick "
                  f"re-claims (D-20260928-02)")
             return False
+        if _pool_origin_stale():
+            with open(POOL, "w", encoding="utf-8") as fh:
+                fh.write(prev)
+            _log("claim deferred: origin moved the pool past HEAD "
+                 "(r351) -> yield to session pull, next tick re-claims")
+            return False
         for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
                       f"autofill tick claim {sh.get('key')} owner={myid} "
@@ -572,6 +613,13 @@ def _keepalive_claims(pool, myid):
             _log(f"keepalive deferred: git mid-operation ({mid}) "
                  f"appeared mid-tick -> yield git write to session "
                  f"(D-20260928-02)")
+            return []
+        if _pool_origin_stale():
+            with open(POOL, "w", encoding="utf-8") as fh:
+                fh.write(prev)
+            _log("keepalive deferred: origin moved the pool past HEAD "
+                 "(r351) -> yield to session pull, next tick "
+                 "re-refreshes (idempotent under the age gate)")
             return []
         for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
@@ -1081,9 +1129,16 @@ def selftest():
         #                                       appears AT push stage (the
         #                                       r344 live-fire ordering:
         #                                       marker absent at add)
+        behind_sim = {"on": False}   # r351: origin moved the pool past
+        #                                  HEAD (probe returns "stale")
 
         def _fake_git(args):
-            git_seq.append(args[0])
+            if args[0] in ("add", "commit", "push", "pull", "rebase"):
+                git_seq.append(args[0])   # write stages only -- r351
+                #                            fetch/diff probes stay off
+                #                            the sequence assertions
+            if args[0] == "diff" and behind_sim["on"]:
+                return 1, ""               # r351 pool-behind-origin face
             if args[0] == "add":
                 add_args_all.append(args[1:])
             if args[0] == "push" and push_sim["mid_appears"]:
@@ -1207,6 +1262,32 @@ def selftest():
            r15g2 is False and marker_g2
            and git_seq == ["add", "commit", "push"]
            and p15g2.get("owner") == "bm-b")
+        # S15k r351 pool-behind-origin defer (b5be80cd live-fire): the
+        # tree forked before origin's pool entries landed -> claim YIELDS
+        # without any git write (no doomed-to-rebase commit, no blind
+        # local pool face); bytes restored, next post-pull tick re-claims.
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        behind_sim["on"] = True
+        git_seq.clear()
+        r15k = _claim_shard({"key": "s0"}, "bm-b")
+        p15k = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        behind_sim["on"] = False
+        logtail = open(LOG, encoding="ascii", errors="replace").read()
+        ok("S15k pool behind origin -> defer, zero git write, bytes kept",
+           r15k is False and p15k.get("owner") is None
+           and git_seq == [] and "r351" in logtail)
+        # S15k2 probe fault fail-open: fetch unavailable -> None ->
+        # legacy claim flow unchanged (push-rejection path still owns
+        # the moved-origin case).
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        fail_at["stage"] = "fetch"
+        git_seq.clear()
+        r15k2 = _claim_shard({"key": "s0"}, "bm-b")
+        p15k2 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        fail_at["stage"] = None
+        ok("S15k2 probe fault -> fail-open, legacy claim proceeds",
+           r15k2 is True and p15k2.get("owner") == "bm-b"
+           and git_seq == ["add", "commit", "push"])
         # S15g3 OUR pull started a rebase and it conflicted -> abort
         # OURS (marker cleared), yield keeps claim
         _pool_with({"key": "s0", "status": "ready", "owner": None})
@@ -1412,6 +1493,22 @@ def selftest():
            ka_h == [] and git_seq == []
            and p17h.get("owner_since") == "2026-09-24 18:00:00"
            and marker_kh)
+        # S17i r351 pool-behind-origin defer (keepalive leg): the
+        # b5be80cd live-fire face -- origin moved the pool past HEAD ->
+        # refresh YIELDS with zero git ops and pre-refresh bytes
+        # restored; next post-pull tick re-refreshes (idempotent).
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        behind_sim["on"] = True
+        git_seq.clear()
+        ka_i = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                                 "bm-b")
+        p17i = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        behind_sim["on"] = False
+        ok("S17i pool behind origin -> keepalive deferred, zero git "
+           "ops, bytes restored",
+           ka_i == [] and git_seq == []
+           and p17i.get("owner_since") == "2026-09-24 18:00:00")
         _GIT_DIR = _gd_orig
         _runner_alive = _ka_runner
         # S18 null-runner entries (live 2026-09-27 02:40-07:10: keepalive
