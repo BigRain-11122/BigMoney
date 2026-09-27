@@ -30,12 +30,65 @@
 
 样本面诚实注记：legacy 震荡段 n=87/deep 震荡段 n=94 窗（小样本面如实）；deep 牛市段全员 0.19-0.35=**进攻军缺口实测定谳（非猜测·O-0752 原文）**。
 
-## 二、观察员/候选面（分段统计待测=诚实占位）
+## 二、观察员/候选面（T-89 slice ① 政体分段批已判·PROS_REGIME_SEGMENTS_P1·2026-09-27 finalize·evidence_cutoff 2026-09-22/面板 legacy 09-24·G-ANCHOR 22/22 + G-CENSUS 22×1256/22×1506 全 PASS）
 
-| 对象 | 熊市段 | 震荡段 | 牛市段 | 状态 |
+### PROSPECT 22 员 · legacy 轴（1,256 起点/员·6m base·段口径=T-22 冻结面）
+
+| 观察员 | 熊市段 | 震荡段 | 牛市段 | 角色定谳 |
 |---|---|---|---|---|
-| PROSPECT 22 员（ANTS/BBS/DOJI/DUCK/HAM/IBB/IMM/MCB/OVB/RSRS/TMU/VOB × CE/DE 面） | 未测 | 未测 | 未测 | **T-89 slice ① 政体分段批=在票开动**（T-22 harness 复用·6m/12m·两轴·prereg 先行·replay-only） |
-| 进攻军席位（趋势/动量/突破族 GREEN 专才） | — | — | — | **现 0 员在册=第一优先组建中**（供给线：CN-TREND/WILD-S1/融合网格/板块龙头已判负、市场中性 prereg 已冻结 R303、wave 动量族在管线·O-0752 §二.3） |
+| PROS-ANTS-01 | 0.6166 | 0.4713 | 0.3468 | bear |
+| PROS-ANTS-CE-01 | 0.6152 | 0.4713 | 0.3404 | bear |
+| PROS-BBS-01 | 0.5522 | 0.6667 | 0.2915 | chop |
+| PROS-BBS-CE-01 | 0.5551 | 0.6782 | 0.2745 | chop |
+| PROS-DOJI-01 | 0.6695 | 0.6897 | 0.4021 | chop |
+| PROS-DOJI-CE-01 | 0.6581 | 0.6897 | 0.4638 | chop |
+| PROS-DUCK-01 | 0.5851 | 0.6552 | 0.4681 | chop |
+| PROS-DUCK-CE-01 | 0.5908 | 0.6437 | 0.4809 | chop |
+| PROS-HAM-01 | 0.6767 | 0.6552 | 0.3809 | bear |
+| PROS-HAM-CE-01 | 0.6638 | 0.6667 | 0.3702 | chop |
+| PROS-IBB-01 | 0.5236 | 0.4713 | 0.3957 | bear |
+| PROS-IBB-CE-01 | 0.5465 | 0.5287 | 0.3787 | bear |
+| PROS-IMM-01 | 0.6338 | 0.3563 | 0.2213 | bear |
+| PROS-IMM-CE-01 | 0.6323 | 0.3678 | 0.1894 | bear |
+| PROS-MCB-01 | 0.5794 | 0.6437 | 0.4043 | chop |
+| PROS-MCB-CE-01 | 0.5908 | 0.6322 | 0.4043 | chop |
+| PROS-OVB-01 | 0.5851 | 0.6782 | 0.3851 | chop |
+| PROS-OVB-CE-01 | 0.5851 | 0.6782 | 0.3851 | chop |
+| PROS-RSRS-CE-01 | 0.5665 | 0.5862 | 0.3638 | chop |
+| PROS-TMU-01 | 0.6023 | 0.6322 | 0.3468 | chop |
+| PROS-TMU-CE-01 | 0.6037 | 0.6322 | 0.3447 | chop |
+| PROS-VOB-CE-01 | 0.5780 | 0.6322 | 0.4702 | chop |
+
+### PROSPECT 22 员 · deep 轴（1,506 起点/员·6m base）
+
+| 观察员 | 熊市段 | 震荡段 | 牛市段 | 角色定谳 |
+|---|---|---|---|---|
+| PROS-ANTS-01 | 0.6430 | 0.4362 | 0.1687 | bear |
+| PROS-ANTS-CE-01 | 0.6404 | 0.4362 | 0.1657 | bear |
+| PROS-BBS-01 | 0.5307 | 0.6170 | 0.1340 | chop |
+| PROS-BBS-CE-01 | 0.5508 | 0.6277 | 0.1295 | chop |
+| PROS-DOJI-01 | 0.5963 | 0.6170 | 0.1883 | chop |
+| PROS-DOJI-CE-01 | 0.5762 | 0.6170 | 0.2380 | chop |
+| PROS-DUCK-01 | 0.5949 | 0.6064 | 0.1807 | chop |
+| PROS-DUCK-CE-01 | 0.6096 | 0.5957 | 0.1913 | bear |
+| PROS-HAM-01 | 0.6925 | 0.6170 | 0.1867 | bear |
+| PROS-HAM-CE-01 | 0.6912 | 0.6277 | 0.1852 | bear |
+| PROS-IBB-01 | 0.4987 | 0.3511 | 0.2334 | bear |
+| PROS-IBB-CE-01 | 0.5080 | 0.3511 | 0.2139 | bear |
+| PROS-IMM-01 | 0.6230 | 0.3298 | 0.1657 | bear |
+| PROS-IMM-CE-01 | 0.6297 | 0.3404 | 0.1386 | bear |
+| PROS-MCB-01 | 0.5642 | 0.5957 | 0.1792 | chop |
+| PROS-MCB-CE-01 | 0.5896 | 0.5851 | 0.1777 | bear |
+| PROS-OVB-01 | 0.6016 | 0.6277 | 0.2184 | chop |
+| PROS-OVB-CE-01 | 0.6016 | 0.6277 | 0.2184 | chop |
+| PROS-RSRS-CE-01 | 0.5909 | 0.5426 | 0.1596 | bear |
+| PROS-TMU-01 | 0.6096 | 0.5851 | 0.1762 | bear |
+| PROS-TMU-CE-01 | 0.6123 | 0.5851 | 0.1747 | bear |
+| PROS-VOB-CE-01 | 0.6096 | 0.5851 | 0.2289 | bear |
+
+**PROSPECT 池实测定谳（6m base·prereg s5 口径）**：池面 beat 率 legacy 0.5134（n=27,632·族口径 0.5133）/ deep 0.4122（n=33,132·族口径 0.4116），双轴均低于 0.70 晋升线；段池面 legacy 熊 0.6005/震 0.5967/牛 0.3686，deep 熊 0.5984/震 0.5411/牛 0.1842；**进攻军候选 0/22 员（两轴牛市段无一达 0.70·最高=legacy DUCK-CE 0.4809）=观察池无牛市专才实测定谳**，进攻军缺口仍待外部供给线（O-0752 §二.3 管线）；角色分布=bear/chop 双型（无 bull 型）。全行提取面=research/shortline/prospect_regime_segments_results.csv（528 行）。
+
+| 进攻军席位（趋势/动量/突破族 GREEN 专才） | — | — | — | **现 0 员在册=第一优先组建中**（供给线：CN-TREND/WILD-S1/融合网格/板块龙头已判负、市场中性 prereg 已冻结 R303、wave 动量族在管线·O-0752 §二.3；**PROSPECT 池 0/22 候选已判=不构成供给**） |
 
 ## 三、当值面（机器每日自动判定·本节随 market_regime/market_clock 每轮刷新）
 
@@ -47,3 +100,4 @@
 ## 四、变更日志（append-only）
 
 - 2026-09-27 bm-a R303：v1.0 建立——在册六员两轴×三段实测行（T-22 提取）+PROSPECT 占位+当值面 ORANGE+刷新律入册（T-89 slice ② 交付）。
+- 2026-09-27 bm-b R318：PROSPECT 22 员两轴×三段实测行落表（T-89 slice ① finalize：T-93 收 30 件分片全量后 G-ANCHOR 22/22 + G-CENSUS 22×1256/22×1506 PASS，60,764 cells + 2,762 passive = 63,526 trials；判据=prereg PROS_REGIME_SEGMENTS_P1 冻结面）——池面 0.5134/0.4122 双轴低于晋升线、进攻军候选 0/22、角色=bear/chop 双型；数据源 results/prospect_regime_segments.json + shortline CSV 528 行。
