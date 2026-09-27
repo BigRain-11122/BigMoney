@@ -42,6 +42,17 @@ Contract:
     local -> remote takeover gate re-opened -> duplicate launch).
   * Silent law: logs to logs/autofill.log only.
 
+    * submit (r301+r305 law family): control-plane helper asserting the
+      registration contract TRIO at the entry point -- runner non-empty +
+      on-disk, shards non-empty, workers_plan explicit (O-2130) -- because
+      hand-submitted field omissions are silently dropped by _pick and
+      starve the pool (r301 CN-SECTOR-LEADER missing shards, r305
+      CN-MKTNEUTRAL missing workers_plan: two live strikes). Duplicate id
+      refused; atomic append via os.replace; NO git ops -- the calling
+      session commits (single-writer = round control plane); run between
+      ticks (a same-second claim-write race is possible but the window is
+      seconds and self-commit r290 keeps tick dirt recoverable).
+
 Exit codes: 0 = normal (incl. honest no-op), 2 = mechanism fault
 (pool unreadable / sampler failure) -- report honestly, never mask.
 selftest = offline decision matrix, no real launches.
@@ -716,6 +727,76 @@ def status():
     print(f"launches total: {len(s.get('launches', []))}")
 
 
+def submit(a):
+    """Contract-gated pool entry append (r301+r305 law: hand-submitted
+    field omissions -- missing shards, missing workers_plan, null runner
+    -- are silently dropped by _pick and starve the pool; assert the trio
+    at the entry point instead of post-hoc tick forensics)."""
+    bad = []
+    a_id = (a.id or "").strip()
+    if not a_id:
+        bad.append("id empty")
+    try:
+        with open(POOL, encoding="utf-8") as fh:
+            pool = json.load(fh)
+    except FileNotFoundError:
+        pool = {"entries": []}
+    except Exception as ex:
+        print(f"ABORT pool unreadable: {ex}")
+        return 2
+    if any(e.get("id") == a_id for e in pool.get("entries", [])):
+        bad.append(f"duplicate id {a_id} (edit the existing entry instead)")
+    runner = (a.runner or "").strip().replace("\\", "/")
+    if not runner:
+        bad.append("runner empty (r301 family: null runner killed the "
+                   "keepalive scan for 27 ticks)")
+    elif not os.path.isfile(os.path.join(ROOT, runner)):
+        bad.append(f"runner not on disk: {runner}")
+    keys = [k.strip() for k in (a.shards or "").split(",") if k.strip()]
+    if not keys:
+        bad.append("shards empty (r301 law: a ready entry without shards "
+                   "starves the picker)")
+    if not a.workers or a.workers <= 0:
+        bad.append("workers_plan missing: pass --workers N explicitly "
+                   "(O-2130 multi-core law, r305 law)")
+    if bad:
+        for b in bad:
+            print(f"REFUSED: {b}")
+        _log(f"submit REFUSED {a_id or '<empty>'}: " + "; ".join(bad))
+        return 2
+    wp = {"workers": a.workers, "priority": a.wp_priority or "BelowNormal"}
+    if a.wp_note:
+        wp["note"] = a.wp_note
+    entry = {
+        "id": a_id,
+        "ticket_ref": a.ticket_ref or "",
+        "prereg_ref": a.prereg_ref or "",
+        "runner": runner,
+        "runner_args": (a.runner_args or "run").split(),
+        "lane_owner": a.lane_owner or None,
+        "priority": a.priority,
+        "status": "ready",
+        "entered_at": _now(),
+        "data_gates": a.data_gates or "",
+        "shards": [{"key": k, "status": "ready",
+                    "checkpoint": a.shard_checkpoint or "",
+                    "note": a.shard_note or "", "owner": None}
+                   for k in keys],
+        "workers_plan": wp,
+    }
+    pool.setdefault("entries", []).append(entry)
+    pool["updated_at"] = _now()
+    tmp = POOL + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as fh:
+        json.dump(pool, fh, indent=1)
+    os.replace(tmp, POOL)
+    _log(f"submit OK {a_id} runner={runner} shards={len(keys)} "
+         f"workers={a.workers} (contract trio asserted, r301+r305)")
+    print(json.dumps({"submitted": a_id, "shards": keys,
+                      "workers_plan": wp}, ensure_ascii=False))
+    return 0
+
+
 def selftest():
     import tempfile
     global POOL, STATE, FUSE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, _runner_alive
@@ -1212,6 +1293,59 @@ def selftest():
         ok("S16d corrupt fuse -> exit 2 + no wipe",
            rc == 2 and before16d == after16d)
         os.remove(FUSE)
+        # S17 submit contract gate (r301+r305 family: hand-submit field
+        # omissions starve _pick silently -- assert trio at entry point).
+        # fixture runner lives in the tempdir: a repo-real path would
+        # make _runner_alive match THIS selftest process and wedge _pick.
+        runner17 = os.path.join(tmp, "fake_runner17.py")
+        with open(runner17, "w", encoding="utf-8") as fh:
+            fh.write("# hermetic fixture\n")
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": []}, fh)
+
+        def _sa(**kw):
+            d = dict(id="E17", runner=runner17, shards="s0",
+                     runner_args="run", priority=1, lane_owner=None,
+                     workers=4, wp_priority="BelowNormal", wp_note=None,
+                     ticket_ref=None, prereg_ref=None, data_gates=None,
+                     shard_checkpoint=None, shard_note=None)
+            d.update(kw)
+            return argparse.Namespace(**d)
+
+        rc = submit(_sa())
+        p17 = json.load(open(POOL, encoding="utf-8"))["entries"]
+        ok("S17a valid submit lands with contract trio",
+           rc == 0 and len(p17) == 1 and p17[0]["id"] == "E17"
+           and p17[0]["runner"] == runner17.replace("\\", "/")
+           and p17[0]["shards"][0]["key"] == "s0"
+           and p17[0]["shards"][0]["owner"] is None
+           and p17[0]["workers_plan"]["workers"] == 4)
+        rc = submit(_sa(id="E17b", workers=0))
+        ok("S17b no workers_plan -> refuse (r305 law)",
+           rc == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                           ["entries"]) == 1)
+        rc = submit(_sa(id="E17c", shards=" , "))
+        ok("S17c no shards -> refuse (r301 law)",
+           rc == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                           ["entries"]) == 1)
+        rc = submit(_sa(id="E17d", runner="scripts/nope.py"))
+        ok("S17d runner not on disk -> refuse",
+           rc == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                           ["entries"]) == 1)
+        rc = submit(_sa(id="E17"))
+        ok("S17e duplicate id -> refuse",
+           rc == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                           ["entries"]) == 1)
+        _py17 = _py_cpu_pct
+        _py_cpu_pct = lambda w=SAMPLE_S: 5.0
+        try:
+            rc = tick(dry=True)
+            st17 = _load_state()["last_tick"]
+            ok("S17f submitted entry takeable by tick (end-to-end)",
+               rc == 0 and st17["verdict"] == "dry_launch"
+               and st17.get("entry") == "E17")
+        finally:
+            _py_cpu_pct = _py17
         _git = _git_real
         _py_cpu_pct = orig
     # S7 sampler sanity on the real machine (pure read)
@@ -1224,14 +1358,33 @@ def selftest():
 def main():
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("cmd", nargs="?", default="tick",
-                    choices=["tick", "status", "selftest"])
+                    choices=["tick", "status", "selftest", "submit"])
     ap.add_argument("--dry", action="store_true")
+    ap.add_argument("--id")
+    ap.add_argument("--runner")
+    ap.add_argument("--shards",
+                    help="comma-separated shard keys, e.g. s0,s1")
+    ap.add_argument("--runner-args", default="run")
+    ap.add_argument("--priority", type=int, default=1)
+    ap.add_argument("--lane-owner", dest="lane_owner")
+    ap.add_argument("--workers", type=int, default=0,
+                    help="O-2130 multi-core plan size (required)")
+    ap.add_argument("--wp-priority", dest="wp_priority",
+                    default="BelowNormal")
+    ap.add_argument("--wp-note", dest="wp_note")
+    ap.add_argument("--ticket-ref", dest="ticket_ref")
+    ap.add_argument("--prereg-ref", dest="prereg_ref")
+    ap.add_argument("--data-gates", dest="data_gates")
+    ap.add_argument("--shard-checkpoint", dest="shard_checkpoint")
+    ap.add_argument("--shard-note", dest="shard_note")
     a = ap.parse_args()
     if a.cmd == "tick":
         sys.exit(tick(dry=a.dry))
     if a.cmd == "status":
         status()
         sys.exit(0)
+    if a.cmd == "submit":
+        sys.exit(submit(a))
     sys.exit(selftest())
 
 

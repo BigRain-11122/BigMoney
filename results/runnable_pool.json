@@ -1,19 +1,19 @@
 {
  "version": 1,
- "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 §七 (执行/算力分离)",
+ "law_ref": "O-20260924-2100 s2 + research/COMPUTE_AUDIT.md v2.0 \u00a7\u4e03 (\u6267\u884c/\u7b97\u529b\u5206\u79bb)",
  "schema": {
-  "entries[].status": "ready=可跑 (prereg冻结+runner在+数据门绿) | waiting=等owner补 runner/shard 计划 | running=在飞 | done=收割",
-  "entries[].shards[]": "认领单位=分片 {key,status,owner,owner_since,checkpoint}; 单写者=分片文件; owner 心跳停滞>20min=他机可接管(checkpoint 续跑)",
-  "single_writer": "本文件只由轮(控制面)写; Tools/autofill.py 只读(运行态在 results/autofill_state.json + runner 自身 checkpoint)",
-  "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
-  "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
+  "entries[].status": "ready=\u53ef\u8dd1 (prereg\u51bb\u7ed3+runner\u5728+\u6570\u636e\u95e8\u7eff) | waiting=\u7b49owner\u8865 runner/shard \u8ba1\u5212 | running=\u5728\u98de | done=\u6536\u5272",
+  "entries[].shards[]": "\u8ba4\u9886\u5355\u4f4d=\u5206\u7247 {key,status,owner,owner_since,checkpoint}; \u5355\u5199\u8005=\u5206\u7247\u6587\u4ef6; owner \u5fc3\u8df3\u505c\u6ede>20min=\u4ed6\u673a\u53ef\u63a5\u7ba1(checkpoint \u7eed\u8dd1)",
+  "single_writer": "\u672c\u6587\u4ef6\u53ea\u7531\u8f6e(\u63a7\u5236\u9762)\u5199; Tools/autofill.py \u53ea\u8bfb(\u8fd0\u884c\u6001\u5728 results/autofill_state.json + runner \u81ea\u8eab checkpoint)",
+  "lane_guard": "lane_owner=null/ANY=\u4efb\u4f55\u5408\u6cd5\u673a\u53ef\u5403; \u6307\u540d=\u4ec5\u8be5\u673a(R31/R65 \u5224\u4f8b)",
+  "workers_plan": "O-20260924-2130 s1.1: ready \u6279\u6ce8\u518c\u5fc5\u5e26 workers_plan\uff08\u591a\u6838\u8ba1\u5212\uff0c\u5982 {\"workers\": 12, \"priority\": \"BelowNormal\"}\uff09\uff1b\u65e0\u591a\u6838\u8ba1\u5212\u4e0d\u5165\u6c60 (autofill C8 read-side \u5f3a\u5236\u95e8)"
  },
- "updated_at": "2026-09-27 08:21:13",
+ "updated_at": "2026-09-27 08:48:00",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
    "ticket_ref": "T-2026-09-24-24 slice(c) + T-2026-09-24-26 J-1 first-job designation",
-   "prereg_ref": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md s2/s3 (grid frozen, census {1253,1127,875}) + P-5/P-5B beat caliber beat_rate_6m>=0.70 (t24_prospect_promotion.BEAT_RATE_MIN 冻结); 判据零新增——PROSPECT cells=晋升门腿3实证源(report-only)",
+   "prereg_ref": "research/shortline/P5C_VIRTUAL_TIMEPOINT.md s2/s3 (grid frozen, census {1253,1127,875}) + P-5/P-5B beat caliber beat_rate_6m>=0.70 (t24_prospect_promotion.BEAT_RATE_MIN \u51bb\u7ed3); \u5224\u636e\u96f6\u65b0\u589e\u2014\u2014PROSPECT cells=\u664b\u5347\u95e8\u817f3\u5b9e\u8bc1\u6e90(report-only)",
    "runner": "scripts/t24_prospect_beatrate.py",
    "runner_args": [
     "run",
@@ -26,15 +26,15 @@
    "priority": 1,
    "status": "done",
    "entered_at": "2026-09-24 20:54:15",
-   "data_gates": "in-runner: patch selftest + census drift gate (r105 坑律㊀) + passive 覆盖门; 面板=本地 core48 日线 CSV(零 Money02 争用, clone 即跑)",
+   "data_gates": "in-runner: patch selftest + census drift gate (r105 \u5751\u5f8b\u3280) + passive \u8986\u76d6\u95e8; \u9762\u677f=\u672c\u5730 core48 \u65e5\u7ebf CSV(\u96f6 Money02 \u4e89\u7528, clone \u5373\u8dd1)",
    "shards": [
     {
      "key": "pros-0of1",
      "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-24 20:55:24",
-     "checkpoint": "results/t22/cells_prospect_base.jsonl + cells_prospect_x2.jsonl (resume=行级 done set; 完成时 compact 去重)",
-     "note": "22 PROSPECT x 1253 starts x x1/x2 = 55,132 cells; 4 cells 已实弹预验(R92 smoke, ledger +4); 单写者=本分片; 接管=stale>20min"
+     "checkpoint": "results/t22/cells_prospect_base.jsonl + cells_prospect_x2.jsonl (resume=\u884c\u7ea7 done set; \u5b8c\u6210\u65f6 compact \u53bb\u91cd)",
+     "note": "22 PROSPECT x 1253 starts x x1/x2 = 55,132 cells; 4 cells \u5df2\u5b9e\u5f39\u9884\u9a8c(R92 smoke, ledger +4); \u5355\u5199\u8005=\u672c\u5206\u7247; \u63a5\u7ba1=stale>20min"
     }
    ],
    "note_done": "completed R92 21:05: 55,132 cells 616s BelowNormal C8-launched (fill latency 1.2min); result 0/22 >= 0.70 honest; consumer=t24_prospect_promotion leg 3 (real rates now), summary=results/t22/prospect_beatrate.json",
@@ -47,7 +47,7 @@
   {
    "id": "T33-CORPS-ROSTER",
    "ticket_ref": "T-2026-09-24-33",
-   "prereg_ref": "bm-c r68 corps_roster v1 + prereg (frozen); runner/shard 计划由 owner(bm-c) 补齐后翻 ready",
+   "prereg_ref": "bm-c r68 corps_roster v1 + prereg (frozen); runner/shard \u8ba1\u5212\u7531 owner(bm-c) \u8865\u9f50\u540e\u7ffb ready",
    "runner": "scripts/t33_router_validation.py",
    "runner_args": [
     "run"
@@ -58,7 +58,7 @@
    "entered_at": "2026-09-24 20:54:15",
    "data_gates": "in-runner: v3 counts bit-match {GREEN664/YELLOW772/ORANGE35/RED161} + roster counts + panel cutoff + calendar coverage >=98% (all PASS)",
    "shards": [],
-   "note": "O-2100 s4 ③在制票算力腿回填——本行为占位登记非可跑批",
+   "note": "O-2100 s4 \u2462\u5728\u5236\u7968\u7b97\u529b\u817f\u56de\u586b\u2014\u2014\u672c\u884c\u4e3a\u5360\u4f4d\u767b\u8bb0\u975e\u53ef\u8dd1\u6279",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal",
@@ -70,16 +70,16 @@
   {
    "id": "T34-PRESIGNAL-HALFSTEP",
    "ticket_ref": "T-2026-09-24-34",
-   "prereg_ref": "O-20260924-2030 前置信号半档梯; prereg 在途(bm-b 车道)——harness 3,200 起点 A/B 批冻结后翻 ready",
+   "prereg_ref": "O-20260924-2030 \u524d\u7f6e\u4fe1\u53f7\u534a\u6863\u68af; prereg \u5728\u9014(bm-b \u8f66\u9053)\u2014\u2014harness 3,200 \u8d77\u70b9 A/B \u6279\u51bb\u7ed3\u540e\u7ffb ready",
    "runner": null,
    "runner_args": [],
    "lane_owner": "bm-b",
    "priority": 3,
    "status": "done",
    "entered_at": "2026-09-24 20:54:15",
-   "data_gates": "owner 侧冻结后填",
+   "data_gates": "owner \u4fa7\u51bb\u7ed3\u540e\u586b",
    "shards": [],
-   "note": "O-2100 s4 ③在制票算力腿回填——占位登记非可跑批",
+   "note": "O-2100 s4 \u2462\u5728\u5236\u7968\u7b97\u529b\u817f\u56de\u586b\u2014\u2014\u5360\u4f4d\u767b\u8bb0\u975e\u53ef\u8dd1\u6279",
    "workers_plan": null,
    "workers_plan_note": "owner must fill before flipping ready (O-2130 s1.1)",
    "note_done": "completed r114-115 via own lane (not pool-executed): T-34 finalize one-shot PASS, half-step ladder A/B ENABLED candidate, zero activation until monthly boundary; pool entry closes as stale-waiting (prereg had frozen r114 before this entry flipped ready -- honest bookkeeping close r116 bm-b)",
@@ -627,7 +627,7 @@
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal",
-    "note": "prereg sec.0 frozen pool routing (长活按池律禁轮内内联); engine O(days x assets) pure-python serial; est <5 min total; workers=1 deterministic (T33/GRID-P1 light-batch precedent)"
+    "note": "prereg sec.0 frozen pool routing (\u957f\u6d3b\u6309\u6c60\u5f8b\u7981\u8f6e\u5185\u5185\u8054); engine O(days x assets) pure-python serial; est <5 min total; workers=1 deterministic (T33/GRID-P1 light-batch precedent)"
    }
   },
   {
@@ -990,7 +990,7 @@
   {
    "id": "BOND-PANEL-SHARD-0",
    "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 \u9762\u677f\u62c9\u53d6\u6279 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
    "runner": "scripts/bond_panel_puller.py",
    "runner_args": [
     "run",
@@ -1025,7 +1025,7 @@
   {
    "id": "BOND-PANEL-SHARD-1",
    "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 \u9762\u677f\u62c9\u53d6\u6279 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
    "runner": "scripts/bond_panel_puller.py",
    "runner_args": [
     "run",
@@ -1060,7 +1060,7 @@
   {
    "id": "BOND-PANEL-SHARD-2",
    "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 \u9762\u677f\u62c9\u53d6\u6279 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
    "runner": "scripts/bond_panel_puller.py",
    "runner_args": [
     "run",
@@ -1095,7 +1095,7 @@
   {
    "id": "BOND-PANEL-SHARD-3",
    "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 \u9762\u677f\u62c9\u53d6\u6279 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
    "runner": "scripts/bond_panel_puller.py",
    "runner_args": [
     "run",
@@ -1130,7 +1130,7 @@
   {
    "id": "BOND-PANEL-SHARD-4",
    "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 \u9762\u677f\u62c9\u53d6\u6279 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
    "runner": "scripts/bond_panel_puller.py",
    "runner_args": [
     "run",
@@ -1164,7 +1164,7 @@
   {
    "id": "BOND-PANEL-SHARD-5",
    "ticket_ref": "T-2026-09-25-68 (bm-b WAVE-3A slice; CEO immediate chain O-20260925-1158; F-04 lane declaration MSG-20260925-2225-bm-b precedes this entry)",
-   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 面板拉取批 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
+   "prereg_ref": "research/BOND_CARRY_WAVE3A_PREREG.md sec.0 leg-1 \u9762\u677f\u62c9\u53d6\u6279 + sec.6 puller spec (frozen pre-run R99, blob sha 89973100924a3602786c27edf5c41047f89f703c; universe frozen = results/bond_w3a/candidates.json 331 candidates @ r208 commit)",
    "runner": "scripts/bond_panel_puller.py",
    "runner_args": [
     "run",
@@ -1458,7 +1458,7 @@
      "owner": "bm-a",
      "owner_since": "2026-09-26 13:50:04",
      "checkpoint": "results/cn_rev_tilt/ckpt/*.npz per-unit (exact float64 resume, date-drift refusal); landed marker = results/cn_rev_tilt/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_REV_TILT_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 landed-marker law",
-     "harvest_note": "R248 bm-a deterministic harvest: p1_results.json landed 13:40:50 (ledger 185798+54=185852, cutoff 2026-09-22, T8792/N5222); G1' v2 re-derived 4/4 FAIL (best REV60_bare sharpe 0.4757 < skill line 0.6147; REV60 tilt CI low 0.3083>0 but line fail) -> batch judged NEGATIVE per prereg s4 (判负照登, 新证据=新预注册); gate_attrition eliminated 54"
+     "harvest_note": "R248 bm-a deterministic harvest: p1_results.json landed 13:40:50 (ledger 185798+54=185852, cutoff 2026-09-22, T8792/N5222); G1' v2 re-derived 4/4 FAIL (best REV60_bare sharpe 0.4757 < skill line 0.6147; REV60 tilt CI low 0.3083>0 but line fail) -> batch judged NEGATIVE per prereg s4 (\u5224\u8d1f\u7167\u767b, \u65b0\u8bc1\u636e=\u65b0\u9884\u6ce8\u518c); gate_attrition eliminated 54"
     }
    ],
    "workers_plan": {
@@ -1611,7 +1611,7 @@
      "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-26 18:43:28",
-     "checkpoint": "no mid-batch npz ckpt (single pass <5min); landed marker = results/cn_core_ddctl/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_CORE_DDCTL_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 law (批不自翻)"
+     "checkpoint": "no mid-batch npz ckpt (single pass <5min); landed marker = results/cn_core_ddctl/p1_results.json with ledger block; idempotent fast path exit 0 after finalize (CN_CORE_DDCTL_P1_REFINALIZE=1 = only redo); harvest = pool flip done by next round per r244 law (\u6279\u4e0d\u81ea\u7ffb)"
     }
    ],
    "workers_plan": {
@@ -1881,24 +1881,26 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 08:21:13",
    "data_gates": "in-runner fail-closed exit 2: bars census 5222 + cache meta stamp == actual 2026-09-23 18:12:59 (r299 kenglu) + crosscheck _r299bma 0-mismatch in place + universe re-derive 3106 + skip ledger == frozen sector probe (identical formula+inputs) + IC rows 2353 + IC first/last bar {2017-01-17, 2026-09-24} + cutoff truncation + joint window end bars present; est 30-120min wall (vectorized numpy: panel load ~29s + 4 cells x2 faces sim + 8000 own-null draws (beta-OLS random baskets) + Sobol 500 x1 + census/vstarts/robust legs); RAM floor 16GB (peak ~1GB: close_u f64 ~61MB + amt slice + adv/slip 118x3106); idempotent no-op if results/cn_mkneutral/p1_results.json exists (CN_MKTNEUTRAL_P1_REFINALIZE=1 only redo) | R305 fix: workers_plan was omitted at R304 submit (autofill _pick filter would skip entry = starvation defect, r301 contract family) -- added via control-plane round write",
    "shards": [
     {
      "key": "mkneutral-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/cn_mkneutral/cells/<cell>_<face>.json|npy (4 cells x x1/x2) + nulls/<cell>_shard*.npy x8 per cell + sobol/shard*.npy x10; terminal marker = results/cn_mkneutral/p1_results.json (idempotent no-op if exists); est 30-120min wall single-vehicle",
      "note": "single-vehicle full batch (4 judged cells + 2000 own-nulls + Sobol 500 x1 descriptive + census legs, one-shot runner); takeover = stale owner >20min per fleet law",
      "owner": "bm-a",
-     "owner_since": "2026-09-27 08:40:04"
+     "owner_since": "2026-09-27 08:40:04",
+     "result_ref": "results/cn_mkneutral/p1_results.json"
     }
    ],
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal",
     "note": "single-process vectorized numpy (multi-core face carried by vector width; 4 judged cells + 2000 own-null draws + Sobol 500, per-cell checkpoints make it safely interruptible); O-2130 law; autofill C8 watchdog owns the spawn"
-   }
+   },
+   "result_ref": "results/cn_mkneutral/p1_results.json"
   }
  ],
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law)"
