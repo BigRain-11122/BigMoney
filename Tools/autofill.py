@@ -455,6 +455,19 @@ def _claim_shard(sh, myid):
         with open(tmp, "w", encoding="utf-8") as fh:
             json.dump(pool, fh, ensure_ascii=False, indent=1)
         os.replace(tmp, POOL)
+        # D-20260928-02(1) pre-add mid-op guard (r331 live-fire): the
+        # r201 entry guard closes only the tick-START face; a session
+        # rebase/merge can start inside the sampling+scan window. The
+        # git write right belongs to the loop session -> defer (restore
+        # pre-claim bytes, next tick re-claims).
+        mid = _mid_op()
+        if mid is not None:
+            with open(POOL, "w", encoding="utf-8") as fh:
+                fh.write(prev)
+            _log(f"claim deferred: git mid-operation ({mid}) appeared "
+                 f"mid-tick -> yield git write to session, next tick "
+                 f"re-claims (D-20260928-02)")
+            return False
         for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
                       f"autofill tick claim {sh.get('key')} owner={myid} "
@@ -548,6 +561,18 @@ def _keepalive_claims(pool, myid):
         with open(tmp, "w", encoding="utf-8") as fh:
             json.dump(pool, fh, ensure_ascii=False, indent=1)
         os.replace(tmp, POOL)
+        # D-20260928-02(1) pre-add mid-op guard (r331): keepalive git
+        # write yields to a session rebase/merge that appeared mid-tick;
+        # pre-refresh bytes restored, next tick re-refreshes (refresh
+        # is idempotent under the age gate).
+        mid = _mid_op()
+        if mid is not None:
+            with open(POOL, "w", encoding="utf-8") as fh:
+                fh.write(prev)
+            _log(f"keepalive deferred: git mid-operation ({mid}) "
+                 f"appeared mid-tick -> yield git write to session "
+                 f"(D-20260928-02)")
+            return []
         for args in (("add", POOL, *_tick_owned_dirt()),
                      ("commit", "-m",
                       f"autofill tick keepalive "
@@ -1052,11 +1077,18 @@ def selftest():
         fail_at = {"stage": None}
         fail_next = {"q": []}     # r282: ordered one-shot stage faults
         pull_sim = {"mode": None}  # r344: "ours_conflict"|"foreign_refusal"
+        push_sim = {"mid_appears": False}  # D-20260928-02: session rebase
+        #                                       appears AT push stage (the
+        #                                       r344 live-fire ordering:
+        #                                       marker absent at add)
 
         def _fake_git(args):
             git_seq.append(args[0])
             if args[0] == "add":
                 add_args_all.append(args[1:])
+            if args[0] == "push" and push_sim["mid_appears"]:
+                mid = os.path.join(_GIT_DIR, "rebase-merge")
+                os.makedirs(mid, exist_ok=True)
             if args[0] == "pull" and pull_sim["mode"]:
                 mid = os.path.join(_GIT_DIR, "rebase-merge")
                 os.makedirs(mid, exist_ok=True)
@@ -1157,14 +1189,17 @@ def selftest():
         _mid = os.path.join(_GIT_DIR, "rebase-merge")
         # S15g2 foreign rebase in flight (the 21:48:48 live-fire shape:
         # session fold mid-rebase when the tick claim push rejects) ->
-        # NO pull, NO abort, marker SURVIVES, claim kept
+        # NO pull, NO abort, marker SURVIVES, claim kept. The rebase
+        # starts AT push stage (push_sim), not pre-add -- the pre-add
+        # guard (S15j) owns the earlier window now.
         _pool_with({"key": "s0", "status": "ready", "owner": None})
         fail_next["q"] = ["push"]
-        os.makedirs(_mid, exist_ok=True)
+        push_sim["mid_appears"] = True
         git_seq.clear()
         r15g2 = _claim_shard({"key": "s0"}, "bm-b")
         marker_g2 = os.path.isdir(_mid)
         os.rmdir(_mid)
+        push_sim["mid_appears"] = False
         p15g2 = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         fail_next["q"] = []
         ok("S15g2 foreign rebase in flight -> no pull/abort, marker "
@@ -1235,6 +1270,27 @@ def selftest():
         ok("S15i absent fuse -> existence-filtered add (pool+state)",
            r15i2 is True and add_args_all
            and add_args_all[-1] == (POOL, STATE))
+        # S15j D-20260928-02(1) pre-add mid-op guard (r331 race): a
+        # session rebase/merge starting INSIDE the sampling+scan window
+        # (after the r201 entry guard, before add) -> claim git write
+        # DEFERRED: zero git ops, pre-claim pool bytes restored, marker
+        # survives (git write right belongs to the loop session).
+        _gd_orig = _GIT_DIR
+        _GIT_DIR = os.path.join(tmp, "fake_git")
+        os.makedirs(_GIT_DIR, exist_ok=True)
+        _mid = os.path.join(_GIT_DIR, "rebase-merge")
+        os.makedirs(_mid, exist_ok=True)
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        git_seq.clear()
+        r15j = _claim_shard({"key": "s0"}, "bm-b")
+        p15j = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        marker_j = os.path.isdir(_mid)
+        os.rmdir(_mid)
+        _GIT_DIR = _gd_orig
+        ok("S15j mid-op mid-tick -> claim deferred, zero git ops, "
+           "pool restored, marker survives",
+           r15j is False and p15j.get("owner") is None
+           and git_seq == [] and marker_j)
         # S17 r288 claim-keepalive: a locally-alive runner on a
         # self-owned shard with an aging claim-stamp refreshes
         # owner_since (commit+push) so remote takeover gates never see
@@ -1312,12 +1368,13 @@ def selftest():
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
                     "owner_since": "2026-09-24 18:00:00"})
         fail_next["q"] = ["push"]
-        os.makedirs(_mid, exist_ok=True)
+        push_sim["mid_appears"] = True   # session rebase starts AT push
         git_seq.clear()
         ka_f = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
                                  "bm-b")
         marker_kf = os.path.isdir(_mid)
         os.rmdir(_mid)
+        push_sim["mid_appears"] = False
         fail_next["q"] = []
         ok("S17f foreign rebase -> keepalive no pull/abort, marker "
            "survives, refresh kept",
@@ -1337,6 +1394,24 @@ def selftest():
            "kept",
            ka_g == ["s0"] and marker_kg
            and git_seq[-2:] == ["pull", "rebase"])
+        # S17h D-20260928-02(1) pre-add mid-op guard (keepalive leg):
+        # session rebase/merge appearing mid-tick -> refresh git write
+        # DEFERRED (zero git ops, pre-refresh bytes restored, marker
+        # survives); next tick re-refreshes under the age gate.
+        os.makedirs(_mid, exist_ok=True)
+        _pool_with({"key": "s0", "status": "ready", "owner": "bm-b",
+                    "owner_since": "2026-09-24 18:00:00"})
+        git_seq.clear()
+        ka_h = _keepalive_claims(json.load(open(POOL, encoding="utf-8")),
+                                 "bm-b")
+        p17h = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        marker_kh = os.path.isdir(_mid)
+        os.rmdir(_mid)
+        ok("S17h mid-op mid-tick -> keepalive deferred, zero git ops, "
+           "bytes restored, marker survives",
+           ka_h == [] and git_seq == []
+           and p17h.get("owner_since") == "2026-09-24 18:00:00"
+           and marker_kh)
         _GIT_DIR = _gd_orig
         _runner_alive = _ka_runner
         # S18 null-runner entries (live 2026-09-27 02:40-07:10: keepalive
