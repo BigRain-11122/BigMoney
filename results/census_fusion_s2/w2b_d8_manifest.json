@@ -1,0 +1,53 @@
+{
+ "batch": "CENSUS_FUS_S2_W2B-D8-EXPORT",
+ "ticket": "T-2026-09-26-86-P1 s2 wave-2 W2-B (CEO O-20260926-2320)",
+ "roster_ref": "results/census_fusion_s2/w2b_roster.json sec.9.4 (FROZEN R344)",
+ "artifact": "data/census_w2b/w2b_d8_faces.npz",
+ "sha256": "9febb7b4b5fab2601ee9742e00b35edb4282a62683c1758cc4f63c11ab75fab7",
+ "bytes": 60418563,
+ "n_dates": 250,
+ "n_syms": 5228,
+ "date_start": "2025-09-15",
+ "date_end": "2026-09-24",
+ "faces": [
+  "sina_mf_eltra_large_net",
+  "sina_mf_eltra_large_ratio",
+  "sina_mf_large_net",
+  "sina_mf_large_net_ratio",
+  "sina_mf_mid_net",
+  "sina_mf_mid_net_ratio",
+  "sina_mf_small_net",
+  "sina_mf_small_net_ratio"
+ ],
+ "face_ctor": "RAW values: 4 net = r0_net..r3_net verbatim; 4 ratio = rX_net/turnover with the judged turnover>0 guard (SINA_CONSTRUCT_P1 sec.3 TIER literal formula); z-scoring happens IN-RUNNER (W1._zscore wave-1 convention) -- do NOT pre-z-score",
+ "law_lineage": "row laws mirrored from sina_construct_ic.load_sina_panel (judged batch): dtype=str read + to_numeric coerce; self-collapse |netamount - sum(rX_net)| > 1e-3 rejected+counted (the %.10g write-rounding latent defect lands ~9-10% of rows at |netamount|>=1e9 -- known, disclosed, non-blocking); netamount finite + tier missing -> unverifiable rejection; duplicate-date keep-last; cutoff lockbox 2026-09-24; NO calendar/mask filter at export (runner-side alignment drops non-panel dates)",
+ "panel_report": {
+  "ok": true,
+  "panel_files": 5228,
+  "n_symbols": 5228,
+  "rows_dropped_post_cutoff": 0,
+  "collapse_rejected": 116259,
+  "unverifiable_rows": 0,
+  "duplicate_date_rows_dropped": 0,
+  "schema_foreign_files": 0,
+  "collapse_tol": 0.001,
+  "min_rows": 0,
+  "median_rows": 244,
+  "symbols_below_50_rows": 51,
+  "cutoff": "2026-09-24"
+ },
+ "panel_status_echo": {
+  "cutoff": "2026-09-24",
+  "complete": true,
+  "n_symbols": 5228,
+  "universe_n": 5228
+ },
+ "transfer": {
+  "channel": "git plan-A transfer branch (fleet/TRANSFER.md sec.2)",
+  "branch_hint": "transfer/w2b-d8",
+  "note": "zip container timestamps are NOT byte-stable across reruns; regenerate manifest with every export; the runner gate binds this manifest sha to the exact transferred npz (fail-closed)"
+ },
+ "generated_at": "2026-09-27 19:07:07",
+ "generated_at_epoch_utc": 1790507227,
+ "elapsed_sec": 32.7
+}
