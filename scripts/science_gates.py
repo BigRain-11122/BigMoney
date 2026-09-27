@@ -926,6 +926,12 @@ SEED_REGISTRY = {
     # downscope, zero cells burned), freeze = CENSUS_FUSION_S2_PREREG.md
     # sec.9.4 + results/census_fusion_s2/w2b_roster.json
     # (scripts/census_w2b_roster.py deterministic derivation)
+    "trial_wave1": 20_920_000,             # TRIAL-WAVE1-1000 (T-94 s1,
+    # O-2026-09-27-2245) family draw bases: FAM-REV=20_920_000,
+    # FAM-ROT=20_920_001 (band 20_920_000..20_920_999 reserved for
+    # trial-labor waves; rg --type py scan zero hits 2026-09-27 R113 bm-c
+    # pre-registration; freeze = research/TRIAL_WAVE1_PREREG.md sec.3;
+    # one-step R250 law: registered BEFORE trial_wave_gen.py runner build)
 }
 
 
