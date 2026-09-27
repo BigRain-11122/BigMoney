@@ -1,78 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-<meta charset="UTF-8">
-<title>BIGMONEY · 公司小镇</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: #0f1115; color: #c8d0dc; font-family: 'Courier New', monospace;
-         font-size: 12px; line-height: 1.45; padding: 10px; }
-  .gold { color: #e8c15a; } .green { color: #5fd38a; } .red { color: #e05a5a; }
-  .cyan { color: #5a9ab8; } .dim { color: #7a8494; }
 
-  header { display: flex; gap: 10px; align-items: center; justify-content: space-between;
-           border: 2px solid #2a3140; background: #161a22; padding: 6px 12px; margin-bottom: 8px; }
-  .logo { font-size: 18px; font-weight: bold; color: #e8c15a; letter-spacing: 2px;
-          text-shadow: 2px 2px 0 #000; }
-  .logo small { display: block; font-size: 10px; color: #7a8494; letter-spacing: 0; }
-  .badges { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
-  .badge { border: 1px solid #2a3140; background: #1d222c; padding: 3px 8px; }
-  .badge b { color: #5fd38a; } .badge b.warn { color: #e05a5a; }
-  button { background: #1d222c; color: #e8c15a; border: 1px solid #2a3140;
-           padding: 3px 10px; cursor: pointer; font-family: inherit; }
-
-  .kpirow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-bottom: 8px; }
-  .kpi { border: 2px solid #2a3140; background: #161a22; padding: 5px; text-align: center; }
-  .kpi b { display: block; font-size: 15px; color: #e8c15a; }
-  .kpi span { font-size: 10px; color: #7a8494; }
-
-  #wrap { position: relative; border: 2px solid #2a3140; background: #0b0d12; }
-  canvas { width: 100%; display: block; image-rendering: pixelated; }
-  #info { position: absolute; top: 8px; right: 8px; width: 300px; max-height: 92%;
-          overflow-y: auto; border: 2px solid #e8c15a; background: rgba(13,15,20,.96);
-          padding: 10px; display: none; font-size: 11px; }
-  #info h4 { color: #e8c15a; font-size: 12px; margin-bottom: 6px; letter-spacing: 1px; }
-  #info .row { padding: 2px 0; border-bottom: 1px dashed #1d222c; }
-  #info .close { float: right; cursor: pointer; color: #7a8494; }
-
-  footer { text-align: center; color: #7a8494; font-size: 10px; margin-top: 8px; }
-  #nodata { position: fixed; inset: 0; background: #0f1115; color: #e8c15a;
-            display: none; place-items: center; z-index: 99; text-align: center; }
-</style>
-</head>
-<body>
-<div id="nodata"><div>NO DATA<br><br>先运行：python -m monitor.build_status</div></div>
-
-<header>
-  <div class="logo">BIGMONEY 公司小镇<small id="stage">—</small></div>
-  <div class="dim" style="text-align:center">像素小镇 · 每栋楼都是真实数据 · <span class="gold">点击建筑查看详情</span></div>
-  <div class="badges">
-    <div class="badge">自检 <b id="b-smoke">—</b></div>
-    <div class="badge">数据 <b id="b-data">—</b></div>
-    <div class="badge">paper <b id="b-paper">—</b></div>
-    <button onclick="location.href='bigmoney.html'">↩ 总控 v1</button>
-  </div>
-</header>
-
-<div class="kpirow">
-  <div class="kpi"><b id="k-capital">—</b><span>公司资金</span></div>
-  <div class="kpi"><b id="k-nav">—</b><span>净值</span></div>
-  <div class="kpi"><b id="k-pass">—</b><span>在册交易员</span></div>
-  <div class="kpi"><b id="k-mile">—</b><span>里程碑</span></div>
-  <div class="kpi"><b id="k-trials">—</b><span>试验账本 N</span></div>
-  <div class="kpi"><b id="k-data">—</b><span>行情数据至</span></div>
-</div>
-
-<div id="wrap">
-  <canvas id="town" width="1280" height="760"></canvas>
-  <div id="info"><span class="close" onclick="this.parentElement.style.display='none'">[关闭]</span>
-    <h4 id="i-title"></h4><div id="i-body"></div></div>
-</div>
-
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）</footer>
-
-<script src="results/dashboard_status.js"></script>
-<script>
 const SPRITE = { slime:'monitor/assets/slime.png', robot:'monitor/assets/robot.png',
                  ghost:'monitor/assets/ghost.png', dragon:'monitor/assets/dragon.png',
                  star:'monitor/assets/star.png', coin:'monitor/assets/coin.png',
@@ -506,6 +432,3 @@ let loaded = 0; const keys = Object.keys(SPRITE);
 keys.forEach(k => { const im = new Image(); im.src = SPRITE[k];
   im.onload = im.onerror = () => { if (++loaded === keys.length) render(); }; SPR[k] = im; });
 if (!window.DASH_DATA) $('nodata').style.display = 'grid';
-</script>
-</body>
-</html>
