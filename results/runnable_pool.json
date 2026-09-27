@@ -3043,7 +3043,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-28 04:39:34",
    "workers_plan": {
     "workers": 1,
@@ -3054,15 +3054,19 @@
    "shards": [
     {
      "key": "generate-0of1",
-     "status": "waiting",
-     "owner": "bm-a",
-     "owner_since": "2026-09-28 05:40:05",
+     "status": "done",
+     "owner": "bm-c",
+     "owner_since": "2026-09-28 05:20:04",
      "checkpoint": "results/trial_labor_w2/w2_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
-     "note": "single shard minutes-scale; products = w2_candidates.json + TRIAL_GRAMMAR_LEDGER wave-2 row (consume point); SCREEN pool entry lands next slice after the runner screen subcommand exists (anti-dup: no pool entry pointing at a not-yet-built subcommand)"
+     "note": "DONE r138 bm-c harvest (r244 landed-marker law): fixed runner sha b5837e13 real-fire clean -- raw 5000 (A500/B4500, excl hits 0) -> dedup distinct 2924 (fp-collapses 3055 + corr-collapses 145), zero engine cells burned, elapsed 635.4s single-process; products w2_candidates.json (n=2924, grammar sha 1dd3d95792395cec anchored, evidence_cutoff 2026-09-22, w1_screen survivors 149 consumed + judge products declared-unavailable zero rows honest) + TRIAL_GRAMMAR_LEDGER wave-2 row appended at consume 05:30:58 (runner-written); crash fix 3ca73ab2 production-validated through the exact real-data crash face (511090 797-vs-1631 reindex law, r137); next slice = bm-b screen subcommand build + SCREEN pool entry (T-96 progress_r359 next-step (b))",
+     "done_at": "2026-09-28 05:31:40"
     }
    ],
    "flipped_at": "2026-09-28T05:08:00+08:00",
-   "flip_by": "bm-c r137 round work (r203 law any machine): local free-RAM three-sample 5.72/5.78/5.74GB @05:06-05:07 >= 4GB (r354 law 3x/30s); bm-b lane RAM-held by W2B burn per r359; shard pre-claimed bm-c to keep bm-b autofill churn off the RAM-refuse path"
+   "flip_by": "bm-c r137 round work (r203 law any machine): local free-RAM three-sample 5.72/5.78/5.74GB @05:06-05:07 >= 4GB (r354 law 3x/30s); bm-b lane RAM-held by W2B burn per r359; shard pre-claimed bm-c to keep bm-b autofill churn off the RAM-refuse path",
+   "done_at": "2026-09-28 05:31:40",
+   "result_ref": "results/trial_labor_w2/w2_candidates.json",
+   "done_note": "r138 bm-c: same-window crash->fix->relaunch->land closed loop (crash 05:10 idx1083-vs-797 zero burn -> fix 3ca73ab2 -> autofill fixed-hash relaunch 05:20 pid10276 -> land 05:30:58 clean exit, log tail generate done); MSG-0520 owner-review evidence complete for bm-b"
   },
   {
    "id": "TRIAL-LABOR-W2-SCREEN",
