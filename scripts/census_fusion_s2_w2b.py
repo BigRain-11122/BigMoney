@@ -138,9 +138,23 @@ def load_roster_w2b():
             raise FileNotFoundError(f"roster anchor absent: {rel} -> {p}")
         got = _sha256_12(p)
         if got != spec["sha256_12"]:
-            raise AssertionError(
-                f"roster anchor drift: {rel} sha12 {got} != "
-                f"frozen {spec['sha256_12']}")
+            # r357 caliber-union fix (bmb): the roster anchor specs were
+            # hashed on the build machine's CRLF working-tree checkout, so
+            # LF calibre trees fail-closed spuriously (G-REPRO-REV cross-
+            # machine line-ending drift family; live crash 03:43 pid 26612).
+            # LF<->CRLF is content-identity; any real content drift changes
+            # BOTH calibers -> the gate stays fail-closed.
+            with open(p, "rb") as fh:
+                raw = fh.read()
+            calibers = {
+                hashlib.sha256(raw).hexdigest()[:12],
+                hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()[:12],
+                hashlib.sha256(raw.replace(b"\n", b"\r\n")).hexdigest()[:12],
+            }
+            if spec["sha256_12"] not in calibers:
+                raise AssertionError(
+                    f"roster anchor drift: {rel} sha12 {got} != "
+                    f"frozen {spec['sha256_12']}")
     enum = r["w2b"]["enumeration"]
     assert (enum["pairs"], enum["triples"], enum["candidates"],
             enum["controls_rs_pairs"], enum["nulls"],
@@ -191,6 +205,17 @@ def load_d8_artifact():
         syms = [str(s) for s in z["syms"]]
         faces = {k: np.asarray(z[k], dtype=np.float64)
                  for k in z.files if k not in ("dates_iso", "syms")}
+    # r357 name-drift alias (bmb): the R345 exporter emitted the three tier
+    # ratio faces as *_net_ratio; the R344 frozen roster is the name-bearer
+    # (R99 freeze precedes runner/artifact build). Same rX_net/turnover
+    # definition per prereg sec.9.4 (verbatim judged SINA_CONSTRUCT_P1
+    # TIER_rX caliber) -> content-identical alias; zero cells burned before
+    # this fix (both crashes were launch-instant, checkpoint empty).
+    for _tier in ("large", "mid", "small"):
+        _drifted = f"sina_mf_{_tier}_net_ratio"
+        _roster = f"sina_mf_{_tier}_ratio"
+        if _roster not in faces and _drifted in faces:
+            faces[_roster] = faces[_drifted]
     roster, _, _ = load_roster_w2b()
     want = [f["face"] for f in roster["w2b"]["faces"]]
     missing = [w for w in want if w not in faces]
