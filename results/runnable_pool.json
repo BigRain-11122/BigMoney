@@ -2686,7 +2686,7 @@
      "key": "censusw2a-0of1",
      "status": "ready",
      "owner": "bm-b",
-     "owner_since": "2026-09-28 00:32:44",
+     "owner_since": "2026-09-28 00:52:44",
      "checkpoint": "results/census_fusion_s2/w2a_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2a_results.json (ledger N=5,920 declared at run finalize, r252 embed key; products w2a_cells.csv/w2a_nulls.json/w2a_top_matrices.json/w2a_summary.json); pool flip = round work per r203 law"
     }
@@ -2791,62 +2791,6 @@
     "note": "FLIP GATE waiting->ready: ONLY when machine free RAM >= 4GB (dual-company discipline; r348 probe: autofill.py has NO RAM gate so waiting status is the ONLY protection; W2-A census burn holds ~15.5GB no-kill, free RAM 2.0GB at entry time). Expected unlock: W2-A finalize harvest (pool CENSUS-FUS-S2-W2A done-flip window) frees worker RSS. Flip executor: any round post-unlock, one-line status edit, honest note in round report"
    },
    "note": "r348 queue: waiting not ready per W2B precedent r346 (pool zero-write avoids tick claim race under RAM squeeze); autofill tick 10-min cadence would grab ready entry immediately -- DO NOT flip under <4GB"
-  },
-  {
-   "id": "DECISION-CHAIN-V2-SLEEVE-EXPORT",
-   "ticket_ref": "T-2026-09-27-95 s2 (CEO O-2026-09-27-2255 acceleration line; science face claimed bm-c r118/c119; s9-a4 sleeve two-path gate amendment, zero cells burned)",
-   "prereg_ref": "research/DECISION_CHAIN_V2_PREREG.md FROZEN (bm-a R365 canonical base + owner bm-c r118 adoption a1/a2/a3 + r119 a4 two-path sleeve gate; seed 20284110 single entry; N_eff=5522 A-v2 only)",
-   "runner": "scripts/decision_chain_v2.py",
-   "runner_args": [
-    "sleeve-export"
-   ],
-   "lane_owner": null,
-   "priority": 1,
-   "status": "ready",
-   "entered_at": "2026-09-28 00:41:57",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "two serial single-cell sims (x1/x2 faces, FY_BG_TP8 judged frozen config) on the p1c_stock panel; deterministic zero-rng; est 10-40min wall, RAM ~3GB (float32 panels); artifact = small json (~350KB, git-able); rerun = byte-identical deterministic"
-   },
-   "data_gates": "in-runner fail-closed exit 2: p1c_stock cache present (proven bm-a r282 REV-OSC-STOCK-P1) + G-REPRO-REV stats/counters bit-level vs results/rev_osc/p1_results.json frozen readings per face; machines without the cache exit 2 honestly in seconds (s9-a4: this entry unblocks the artifact fallback path for the main run on curve-bearing machines lacking p1c_stock); selftest 26/26 bm-c r119",
-   "shards": [
-    {
-     "key": "sleeve-0of1",
-     "status": "ready",
-     "owner": "bm-a",
-     "owner_since": "2026-09-28 00:50:05",
-     "checkpoint": null
-    }
-   ]
-  },
-  {
-   "id": "DECISION-CHAIN-V2-P1",
-   "ticket_ref": "T-2026-09-27-95 s2 (CEO O-2026-09-27-2255 acceleration line; science face claimed bm-c r118/c119; s9-a4 sleeve two-path gate amendment, zero cells burned)",
-   "prereg_ref": "research/DECISION_CHAIN_V2_PREREG.md FROZEN (bm-a R365 canonical base + owner bm-c r118 adoption a1/a2/a3 + r119 a4 two-path sleeve gate; seed 20284110 single entry; N_eff=5522 A-v2 only)",
-   "runner": "scripts/decision_chain_v2.py",
-   "runner_args": [
-    "run"
-   ],
-   "lane_owner": null,
-   "priority": 2,
-   "status": "ready",
-   "entered_at": "2026-09-28 00:41:57",
-   "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal",
-    "note": "single-process finalize chain: gates+audit ~3min + sleeve (replay minutes on cache-bearing machine / artifact seconds) + vectorized 4-arm envelopes x 2 axes x 2 faces (v1 finalize benchmark 99.9s) + verdict/CSV/attrition/prereg-backfill/ledger-flip writes; RAM peak ~4GB; est 5-15min wall total"
-   },
-   "data_gates": "in-runner fail-closed exit 2 artifact gate (a2/a4 physical faces, honest listing): t34 base curves both axes + x2 curve union complete per axis + deep panel cache (t18) + p1c_stock cache OR the frozen sleeve-export artifact + GC001 csv (git) + v1 verdict records (git); proven-complete sets: bm-b = curves + deep panel (v1 finalize r318), bm-a = p1c_stock (r282); G-REPRO-REV = sleeve stats/counters bit-level vs p1_results frozen; G-REPRO-v1 = B/D aggregates bit-level vs decision_chain_e2e.json both axes x faces x windows; heat face failure = honest degradation (GREEN flat 0.80 per prereg s2) census disclosed, never a gate; audit not CLEAN = ledger skipped per prereg s0; selftest 26/26 bm-c r119",
-   "shards": [
-    {
-     "key": "v2-0of1",
-     "status": "ready",
-     "owner": null,
-     "owner_since": null,
-     "checkpoint": null
-    }
-   ]
   }
  ],
  "version": 1,
@@ -2858,6 +2802,6 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-28 00:41:57",
+ "updated_at": "2026-09-27 22:03:42",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry)"
 }
