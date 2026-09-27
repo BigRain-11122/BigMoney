@@ -1,38 +1,12 @@
 {
-<<<<<<< HEAD
- "updated": "2026-09-28 01:26:52",
- "asof": "2026-09-24",
- "mode": "shadow",
- "state": "ORANGE",
- "state_cn": "橙·高危",
- "raw_level": "ORANGE",
- "green_streak": 0,
- "days_in_state": 2,
- "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
- "dims": {
-  "bench": {
-   "asof": "2026-09-24",
-   "close": 4.515,
-   "crash_10d": -0.022092267706302904,
-   "panic_1d": -0.016339869281045805,
-   "vol20": 0.006539,
-   "vol_p95": 0.0173,
-   "vol_p80": 0.011901,
-   "vol_status": "ok",
-   "ma200": 4.739,
-   "below_ma200": true,
-   "event_fomc": false,
-   "event_pre_holiday": null,
-   "event_note": "pre-holiday leg bars-gap-derived (replay-capable, live needs frozen official calendar via prereg)"
-||||||| parent of a6ca921c (round 122: trial-labor standing-line display wiring (build_status _trial_labor_state block + town fac rows, both waves honest 975/166+858/149, pool face, fallback; node-check 0 + assertions 5/5 + smoke 25/25) + MSG-0147 lane-note receipt (V2-P1 pin bm-b ack) + orders 100/100 dual-scan + S6 33/33 rc=0 + state/heartbeat r122 [via bm-c])
-  "updated": "2026-09-28 01:26:52",
+  "updated": "2026-09-28 01:50:38",
   "asof": "2026-09-24",
   "mode": "shadow",
   "state": "ORANGE",
   "state_cn": "橙·高危",
   "raw_level": "ORANGE",
   "green_streak": 0,
-  "days_in_state": 2,
+  "days_in_state": 1,
   "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
   "dims": {
     "bench": {
@@ -70,99 +44,7 @@
       "position_cap": 0.8,
       "cash_floor": 0.2
     }
-=======
-  "updated": "2026-09-28 01:41:44",
-  "asof": "2026-09-24",
-  "mode": "shadow",
-  "state": "ORANGE",
-  "state_cn": "橙·高危",
-  "raw_level": "ORANGE",
-  "green_streak": 0,
-  "days_in_state": 2,
-  "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
-  "dims": {
-    "bench": {
-      "asof": "2026-09-24",
-      "close": 4.515,
-      "crash_10d": -0.022092267706302904,
-      "panic_1d": -0.016339869281045805,
-      "vol20": 0.006539,
-      "vol_p95": 0.0173,
-      "vol_p80": 0.011901,
-      "vol_status": "ok",
-      "ma200": 4.739,
-      "below_ma200": true,
-      "event_fomc": false,
-      "event_pre_holiday": null,
-      "event_note": "pre-holiday leg bars-gap-derived (replay-capable, live needs frozen official calendar via prereg)"
-    },
-    "breadth": {
-      "share_below_ma20": 0.7708,
-      "share_slope_5d": -0.0208,
-      "share_5d_ago": 0.7917,
-      "status": "ok",
-      "n_symbols": 48,
-      "interpretation": "slope = share_now - share_5d_ago (literal s1)"
-    },
-    "bear_r_pei3": {
-      "status": "ok",
-      "as_of": "2026-09-24",
-      "close": 4.515,
-      "ma250": 4.7317,
-      "dd_from_250d_high": -0.1131,
-      "below_ma250": true,
-      "dd_triggered": false,
-      "is_major_bear": false,
-      "position_cap": 0.8,
-      "cash_floor": 0.2
-    }
->>>>>>> a6ca921c (round 122: trial-labor standing-line display wiring (build_status _trial_labor_state block + town fac rows, both waves honest 975/166+858/149, pool face, fallback; node-check 0 + assertions 5/5 + smoke 25/25) + MSG-0147 lane-note receipt (V2-P1 pin bm-b ack) + orders 100/100 dual-scan + S6 33/33 rc=0 + state/heartbeat r122 [via bm-c])
   },
-<<<<<<< HEAD
-  "breadth": {
-   "share_below_ma20": 0.7708,
-   "share_slope_5d": -0.0208,
-   "share_5d_ago": 0.7917,
-   "status": "ok",
-   "n_symbols": 48,
-   "interpretation": "slope = share_now - share_5d_ago (literal s1)"
-  },
-  "bear_r_pei3": {
-   "status": "ok",
-   "as_of": "2026-09-24",
-   "close": 4.515,
-   "ma250": 4.7317,
-   "dd_from_250d_high": -0.1131,
-   "below_ma250": true,
-   "dd_triggered": false,
-   "is_major_bear": false,
-   "position_cap": 0.8,
-   "cash_floor": 0.2
-  }
- },
- "triggers": [
-  "hs300<MA200 (#10 collected)",
-  "breadth 0.77>=65%"
- ],
- "transitions": [],
- "history": [
-  {
-   "asof": "2026-09-23",
-   "days_in_state": 1,
-   "green_streak": 0,
-   "raw": "ORANGE",
-   "state": "ORANGE"
-  },
-  {
-   "asof": "2026-09-24",
-   "raw": "ORANGE",
-   "state": "ORANGE",
-   "green_streak": 0,
-   "days_in_state": 2
-  }
- ],
- "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)"
-||||||| parent of a6ca921c (round 122: trial-labor standing-line display wiring (build_status _trial_labor_state block + town fac rows, both waves honest 975/166+858/149, pool face, fallback; node-check 0 + assertions 5/5 + smoke 25/25) + MSG-0147 lane-note receipt (V2-P1 pin bm-b ack) + orders 100/100 dual-scan + S6 33/33 rc=0 + state/heartbeat r122 [via bm-c])
   "triggers": [
     "hs300<MA200 (#10 collected)",
     "breadth 0.77>=65%"
@@ -170,44 +52,12 @@
   "transitions": [],
   "history": [
     {
-      "asof": "2026-09-23",
-      "days_in_state": 1,
-      "green_streak": 0,
-      "raw": "ORANGE",
-      "state": "ORANGE"
-    },
-    {
       "asof": "2026-09-24",
       "raw": "ORANGE",
       "state": "ORANGE",
       "green_streak": 0,
-      "days_in_state": 2
+      "days_in_state": 1
     }
   ],
   "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)"
-}
-=======
-  "triggers": [
-    "hs300<MA200 (#10 collected)",
-    "breadth 0.77>=65%"
-  ],
-  "transitions": [],
-  "history": [
-    {
-      "asof": "2026-09-23",
-      "days_in_state": 1,
-      "green_streak": 0,
-      "raw": "ORANGE",
-      "state": "ORANGE"
-    },
-    {
-      "asof": "2026-09-24",
-      "raw": "ORANGE",
-      "state": "ORANGE",
-      "green_streak": 0,
-      "days_in_state": 2
-    }
-  ],
-  "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)"
->>>>>>> a6ca921c (round 122: trial-labor standing-line display wiring (build_status _trial_labor_state block + town fac rows, both waves honest 975/166+858/149, pool face, fallback; node-check 0 + assertions 5/5 + smoke 25/25) + MSG-0147 lane-note receipt (V2-P1 pin bm-b ack) + orders 100/100 dual-scan + S6 33/33 rc=0 + state/heartbeat r122 [via bm-c])
 }

@@ -1,5 +1,5 @@
 {
- "round_no": 369,
+ "round_no": 370,
  "did": "R369 S0.5 P-32双决策核验（D-20260928-02①/D-03② r366已双落回执在册）+S3 T-95 s2供给面闭环：V2-P1池条目lane_owner=null登记遗漏诊断（他机tick 10min认领→runner诚实exit-2非崩溃→熔断不触发=跑步机，01:10/01:20两连发实弹）→外科修lane_owner=bm-b钉死（a2正典=checkpoint机执行；条目自身data_gates已载明proven-complete=bm-b）+清本机死认领→origin落地e8d63eb4（3轮push风暴2次rebase冲突正典解：autofill_state混合union r140/r322/r245+池条目union r312零丢失88条含bm-c新4 MASS-TRIAL分片）→bm-b/bm-c双MSG通报消费面",
  "verify": "smoke 25/25 + S6 35腿rc=0（盘前周一no-op家族；options/sinamf/astock首跑rc=2=本机PS切片自伤重跑全绿）+ watermark red=false lane=healthy 01:20 + tick本地日志确认01:20后无V2-P1再抢面 + MASS-TRIAL 4分片waiting态零跑步机风险（tick只取ready）+ orders 99/99 + schtasks 4/4（loop pin=8 no-op·watchdog 01:40·claw装）+ T-93双侧manifest哈希对账30/30",
  "next": "bm-b tick消费V2-P1 finalize（5-15min单进程；期待下一轮见done-flip+verdict落地）；MASS-TRIAL 4分片waiting→bm-b深面板腿后翻ready（lane_owner届时须钉防同型）；T-91 s3今09:15自动点火",
