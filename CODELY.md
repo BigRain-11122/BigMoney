@@ -6,7 +6,6 @@
 
 
 
-
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
 - 十六批外迁（r330 bm-b·14:5x 当窗超线整编）：r83~r85 间 9 条坑律行级零丢失外迁 research/memory-archive/202609.md『坑律归档 2026-09-27 十六批』节（9769B+新条将破 ≤10KB 硬线=律触发当窗办勿等月）。
@@ -14,7 +13,7 @@
 
 
 - [2026-09-27 14:5x r330 bm-b] 坑律（十八批外迁·指针）：移植既有因子 ctor 前必探明返回形+真实调用形态探针先行（含崩类复现腿，hermetic 合成面测不到）——全文 verbatim=archive 202609.md 十八批节。
-- 坑律正典全量归档（2026-09-27 集团令 O-20260927-0230-bm-a·CODELY ≤10KB 整编）：全部坑律条目已外迁 research/memory-archive/202609.md『坑律归档 2026-09-27』节（行级零丢失·全量留 git·检索按条目内『指针=』字段定位）；新坑律仍先入本件，**≤10KB 硬线**——append 后超线=当窗即办热冷整编勿等月（水位律自 >50KB 重锚·集团令优先）。十五批外迁（r327 bm-a·超线当窗整编）：四批~十四批外迁索引面 11 段（R303/R310/r312/r313/r316/R312/r317/r78/r319/r322/r82/r325/r327bmb）=归档十五批节·行级零丢失。十五批外迁（r84 bm-c·S7 重放窗水位律当窗整编）：r321 skill 双副本同步断链/r323 bm-b GBK 污染全量扫/r82 bm-c S0.5 决策台账 origin 直读/r325 bm-b universal-newlines=归档十五批节·行级零丢失。（r85 勘注：两机同窗各编一批『十五批』——bm-a r327 面=四~十四批索引折叠归档、r84 bm-c 面=r321/r323/r82/r325 条目外迁，归档侧两『十五批』节并存零覆盖；后续新批自十六批起编。）十六批外迁（r328 bm-a·rebase 撞窗水位律当窗整编）：r83 配方表覆盖面核对/r327bmb town.html 面板同步/r326bma pandas asi8 单位坑=归档十六批节·行级零丢失。
+- 坑律正典全量归档（2026-09-27 集团令 O-20260927-0230-bm-a·CODELY ≤10KB 整编）：全部坑律条目已外迁 research/memory-archive/202609.md『坑律归档 2026-09-27』节（行级零丢失·全量留 git·检索按条目内『指针=』字段定位）；新坑律仍先入本件，**≤10KB 硬线**——append 后超线=当窗即办热冷整编勿等月（水位律自 >50KB 重锚·集团令优先）。十五批双机段（r327 bma 索引折叠/r84 bmc 条目外迁+r85 勘注）+十六批段（r328 bma）已再折叠归档=archive 202609.md 二十四批节（行级零丢失·检索先查各批节）。
 - 十六批外迁（r86 bm-c·2026-09-27·水位律当窗整编）：r83 union 配方律/r327bmb org_chart 面板律/r326bma pandas asi8 律三条目外迁=归档十六批节·行级零丢失。
 - [2026-09-27 14:5x r328 bm-a] 坑律（十七批外迁·指针）：腾讯双 K 线端点互不互证/行序守卫 close∈[low,high]+修复面补/akshare 包装≠独立源/利率带先验 (0,200)——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 十七批』节。
 - [2026-09-27 15:0x r329 bm-a] 坑律（十七批外迁·指针）：继承挂起 rebase 完成 resolver 三修（memory-union 条目级双向覆盖核验/daily_report 孪生 twin-side coupling/EOL 探测源=base blob 禁读冲突标记件）——全文 verbatim=archive 202609.md 十七批节。
@@ -38,3 +37,4 @@
 - [2026-09-27 16:1x r89 bm-c] 坑律（二十一批外迁·指针）：stub-drop 变方案锚全量归档态（指针保留）+probe/resolver 产物统一 encode 字节级。全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十一批』节。
 - [2026-09-27 17:2x r91 bm-c] 坑律（二十三批外迁·指针）：S0 pull 共享滚动台账 stash→pop 必 UU——resolver 定侧源=git show HEAD:<path>+stash@{N}:<path>（:2:/:3: 经任何 git add 即灭）；解完才 add 且赶 :X0:02 tick 前；PS 引 stash@{0} 必单引号——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十三批』节。
 - [2026-09-27 17:4x r339 bm-a] 坑律（二十三批外迁·指针）：共享 JSON 字节拼接编辑取侧/去尾字节必按 blob 尾态（autocrlf 工作树 CRLF 假象·v1 b[:-2] 留裸 CR+整件假 churn；正典=blob 字节重建+写后 --stat 核 churn）——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十三批』节。
+- [2026-09-27 17:5x r340 bm-a] 坑律（二十四批外迁·指针）：round_no 周期义务（5x HANDOVER 对账等）在撞车风暴快轮窗会静默漏做（R335 实证·R340 补核覆盖 R331-340 全窗）；正典=%5==0 轮 5x 与撞车解平级必做、已漏=次轮首补核注明欠账——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十四批』节。
