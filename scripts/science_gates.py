@@ -986,6 +986,36 @@ SEED_REGISTRY = {
     # decision_chain_v2 20284110; rg --type py repo scan + registry band scan
     # 2026-09-28 00:4x zero hits; registered same commit as sec.9.1 freeze
     # (one-step R250 law)
+    "trial_labor_w2_gen": 20285500,  # TRIAL_LABOR_W2 candidate generation
+    # (T-20260928-96 wave-2 prereg freeze = research/TRIAL_LABOR_W2_PREREG.md,
+    # owner bm-b r357). Sobol low-discrepancy sampling (wave-2 declared
+    # upgrade face (b); scipy.stats.qmc.Sobol scramble=True per-family frames,
+    # mass_trial_w1 sample_draws protocol imported not rewritten): Sobol seed
+    # = 20285500 + family_idx (A-family idx 0-5, B-family idx 6-81 -> band
+    # 20285500..20285581); axis-combo RNG stream (R/X/S/T/STOP quintuple) =
+    # default_rng([20285500 + family_idx, 7919]) -- scalar-seed Sobol and
+    # two-int seed-sequence derivation protocols are disjoint from all
+    # neighboring bands; band 20285500..20285599 rg --type py full-repo scan
+    # 2026-09-28 r357 zero hits (Money02/Money0923 excluded per precedent);
+    # registered same commit as the wave-2 prereg freeze (one-step R250 law)
+    "trial_labor_w2_scrnull": 20286000,  # TRIAL_LAB_W2_SCREEN null family
+    # K=200 same-structure random-signal candidates (template leg randomized,
+    # axis legs + initial-stop leg drawn from same grids/spaces, same
+    # engine/cost/panel -- BACKTEST_PLAN iron law "every backtest batch runs
+    # random-signal baseline alongside"); screen floor = null p95 of beat6m,
+    # procedure-frozen zero hand-tuning; derivation = default_rng([20286000,
+    # i]); band 20286000..20286019 rg --type py scan r357 zero hits;
+    # registered same commit as wave-2 prereg freeze (R250 law)
+    "trial_labor_w2_unc": 20286500,  # TRIAL_LAB_W2_JUDGE dual-nulls
+    # resampling face per survivor cell: block bootstrap B=2000 (block=20td
+    # circular) + sign-flip permutation P=2000 (two-sided) per
+    # RANDOM_LARGE_SAMPLE_LAW sec.3 nulls>=2000 double-method; derivation =
+    # default_rng([20286500, cell_idx]) with rng stream pinned to the two
+    # resampling faces only (trial_labor_w1_unc 20284500 purpose-pinning
+    # precedent); band 20286500..20286519 rg --type py scan r357 zero hits;
+    # clean gap above mass_trial_w1_judge (20285000..20285199) and
+    # trial_labor_w2_scrnull (20286000); registered same commit as wave-2
+    # prereg freeze (R250 law)
 
 }
 
