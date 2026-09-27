@@ -36,3 +36,4 @@
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
 - [2026-09-27 17:3x r334 bm-b] 坑律（二十三批外迁·指针）：rolling-ledger union dedup 键族必含面实时间键（asof 键 ts-only 塌缩 2+2→1 实弹；正典=逐面键探+union 数对账+写回前三方 blob 复验）——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十三批』节。指针=results/_r333bmb_push_resolve.py+_r334bmb_verify_regime.py。
 - [2026-09-27 17:5x r335 bm-b] 坑律（二十五批外迁·指针）：tick add/stash 腿不受 r201 mid-rebase 护栏管辖（r335 三连击实弹；正典=动态 sides 正典重建+原子 add-continue-push+行锚定终验+危险窗后 reflog 定谳）——全文 verbatim=research/memory-archive/202609.md『坑律归档 2026-09-27 二十五批』节。指针=results/_r335bmb_resolve.py+_r335bmb_probe_race.py。
+- [r93 bm-c] 坑律（二十五批指针）：S0 stash-pop union 身份键/indent/stash-drop——全文=archive 202609.md。

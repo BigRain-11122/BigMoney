@@ -1,0 +1,34 @@
+{
+  "ts": "2026-09-27T18:0x bm-c r93",
+  "task": "r90-deferred stale-branch dedicated verify + GC (machine/bm-c-r72 & r84)",
+  "verdict": "FULLY_ABSORBED_ZERO_LOSS -> GC executed",
+  "branches": {
+    "machine/bm-c-r72": {
+      "unique_commits": 3,
+      "merge_base": "1bbe7dff",
+      "files_changed_vs_base": 19,
+      "persistent_faces": ["CODELY.md", "results/fund_premium_status.json", "results/shortline/lof_census.json"],
+      "absorption_evidence": "CODELY 8 absent lines = 7 verbatim in archive 202609.md + 1 pointer line prefix-of-evolved-main-line; fund_premium_status 3 lines = superseded rolling ts/last_run; lof_census byte-present; 16 rolling faces superseded-by-design",
+      "truly_lost": 0,
+      "deleted": true
+    },
+    "machine/bm-c-r84": {
+      "unique_commits": 1,
+      "merge_base": "ef92ff78",
+      "files_changed_vs_base": 44,
+      "persistent_faces": ["CODELY.md", "firm/org_chart.md", "fleet/inbox/MSG-20260927-1407-bmc-autofill-cc-strip.md", "research/memory-archive/202609.md", "results/_r84bmc_*.py x6 + ps1", "results/fund_premium_status.json"],
+      "absorption_evidence": "CODELY 11 absent = 10 archive-verbatim + 1 pointer-prefix; MSG-1407 present at fleet/inbox/processed/; all _r84bmc_* scripts line-present; org_chart+archive absorbed; fps 3 lines superseded rolling; 32 rolling faces by-design",
+      "truly_lost": 0,
+      "deleted": true
+    }
+  },
+  "method_pitfalls_encountered": [
+    "full-entry-JSON-key union on CODELY/autofill treats field-completeness variants as new events - identity-key (ts+machine+entry+shard for launches; line-prefix-containment for CODELY) required",
+    "GBK console decode of UTF-8 branch blobs produces false-absent inflation (8->10) - verify with python -X utf8 + stdout reconfigure",
+    "rolling-ledger faces must be excluded from byte-parity absorption test - supersession by design"
+  ],
+  "followup": {
+    "machine/bm-c-base": "4 graph-unique commits @2026-09-24 01:12-15 (T-04 F1/F5/F6/F8 + QuantBull decommission) - out of r90-named scope, content strongly indicates absorbed (T-04 fields live in smoke F7/token_meter today) but needs own dedicated verify pass via results/_r93bmc_branch_verify.py before GC",
+    "next_pointer": "r94+ candidate: base-branch verify+GC reusing _r93bmc_branch_verify.py"
+  }
+}
