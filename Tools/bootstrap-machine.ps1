@@ -4,7 +4,8 @@
 #   1. python bootstrap.py            (deps + Tsinghua mirror fallback + smoke + dashboard data)
 #   2. Tools\register_loop_task.ps1    (Bigmoney-IterationLoop, idempotent -Force)
 #   3. Tools\register_watchdog_task.ps1 (Bigmoney-LoopWatchdog, idempotent -Force)
-#   4. identity guidance              (dual-role template copy ONLY if fleet\machine.json missing)
+#   4. Tools\register_precommit_claw.ps1 (conflict-marker claw, D-20260927-05 item-iii)
+#   5. identity guidance              (dual-role template copy ONLY if fleet\machine.json missing)
 # PATH-AGNOSTIC. Pure ASCII. Zero-token. Existing machines are safe: identity file
 # is never touched when present, register scripts are -Force idempotent.
 param(
@@ -22,16 +23,17 @@ if ($null -ne (Get-Command python -ErrorAction SilentlyContinue)) { } else {
     exit 1
 }
 $steps = @(
-    @{ name = "[1/4] bootstrap.py (deps+mirror fallback+smoke+dashboard)"; cmd = $py;        arg = "bootstrap.py" },
-    @{ name = "[2/4] register iteration loop task";                       cmd = "powershell"; arg = "-NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1" },
-    @{ name = "[3/4] register watchdog task (30min)";                     cmd = "powershell"; arg = "-NoProfile -ExecutionPolicy Bypass -File Tools\register_watchdog_task.ps1" },
-    @{ name = "[4/4] identity guidance (template copy only if missing)";  cmd = "";           arg = "" }
+    @{ name = "[1/5] bootstrap.py (deps+mirror fallback+smoke+dashboard)"; cmd = $py;        arg = "bootstrap.py" },
+    @{ name = "[2/5] register iteration loop task";                       cmd = "powershell"; arg = "-NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1" },
+    @{ name = "[3/5] register watchdog task (30min)";                     cmd = "powershell"; arg = "-NoProfile -ExecutionPolicy Bypass -File Tools\register_watchdog_task.ps1" },
+    @{ name = "[4/5] register pre-commit conflict-marker claw (D-20260927-05-iii)"; cmd = "powershell"; arg = "-NoProfile -ExecutionPolicy Bypass -File Tools\register_precommit_claw.ps1" },
+    @{ name = "[5/5] identity guidance (template copy only if missing)";  cmd = "";           arg = "" }
 )
 $rc = 0
 foreach ($s in $steps) {
     Write-Output $s.name
     if ($DryRun) { continue }
-    if ($s.name.StartsWith("[4/4]")) {
+    if ($s.name.StartsWith("[5/5]")) {
         $idFile = Join-Path $Project "fleet\machine.json"
         $tplDual = Join-Path $Project "fleet\_machine.dual-role.template"
         $tplSingle = Join-Path $Project "fleet\_machine.json.template"

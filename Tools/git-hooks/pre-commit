@@ -1,0 +1,19 @@
+#!/bin/sh
+# BigMoney pre-commit claw: BLOCK commits that stage unresolved conflict markers.
+# Adoption of group decision D-20260927-05 item (iii). Multi-machine push-collision
+# lineage r161..r331: markers that slip into a commit become history (the 20:4x
+# event); this claw makes "resolve before commit" mechanical, at the single
+# write-side gate (r329: reading marker-laden worktree files is contamination).
+# Scope: only git's "leftover conflict marker" findings block. Whitespace notes
+# pass through. Rebase replays are not affected (rebase does not run this hook).
+# Escape hatch for canon-doc edits that legitimately quote marker lines:
+#   git commit --no-verify   (state the reason in the round report)
+# Install/refresh: powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_precommit_claw.ps1
+out=$(git diff --cached --check 2>/dev/null | grep 'leftover conflict marker')
+if [ -n "$out" ]; then
+    echo "PRE-COMMIT CLAW: unresolved conflict markers staged (D-20260927-05 item-iii)."
+    echo "Resolve per .codely-cli/skills/bigmoney-conflict-resolve/SKILL.md, then re-commit."
+    echo "$out"
+    exit 1
+fi
+exit 0
