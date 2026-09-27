@@ -96,3 +96,17 @@
 - **两处刻度修正已落正文**：①§3 成本面 x2 入全网格（v1.0 排除条款作废）+§0 N_eff 重定 16,566 新包络格+x2 成员曲线缺件重派生预算如实入算力段；②§4 序列级主判据 J-TARGET 入册（O-0809 §二逐字：主判据框架+beat 率=跑赢同窗被动比例 0.70 线口径同源+迭代目标+两级读数分开披露+v1 不达预期注记）+§5 预测第 7 条入正文。
 - **版本台账**：research/DECISION_CHAIN_LEDGER.md v1.1 行 append-only 落册（v1.0 行留册不删）；J-C1..C4/J-L1/L2 判线语义零改动；G-REPRO 维持 base 面（x2 面 t34 无冻结对照=免除如实注记，G-CENSUS+G-ANCHOR 门全适用）。
 - **节奏**：重冻结完成=runner 续建合法（base 面实现可复用·R99 冻结→runner→池节奏不变·重冻结前零 runnable_pool 写入已守）。
+
+## §9.2 零跑修正案：bootstrap seed 基 20260929→20261001（bm-b r312 · 顺序律裁决 · 零格已烧合法窗）
+
+- **触发**：runner 建批第一步执行 §3 顺序律「rg 全 repo 零命中证」——20260929 已被 `t11_negday_ic` 占用（SEED_REGISTRY L664，2026-09-24 22:4x 注册先于本 prereg v1.0 冻结约 9 小时；v1.0/v1.1 起草窗漏扫该基=起草面事实如实披露）。§3 明文「runner 跑前 rg 全 repo 零命中证+登记 SEED_REGISTRY 再跑，顺序律」=冻结件自载程序，rg 失败即该程序裁决换净基。
+- **修正**：seed 基=**20261001**（下一净位 one-step：20260930=`cn_rev_tilt_p1` 已占；rg 全 repo 零命中证 r312；已登记 `SEED_REGISTRY["decision_chain_e2e"]=20261001`）。**修正只动机械确定性旋钮（bootstrap 抽样种子），判据语义零触碰**（J-C1..C4/J-L1..L2/J-TARGET 判线原文零改动；seed 只影响 CI 抖动不影响任何判线语义）。
+- **反 dredging 合规**：修正时点=零格已烧（runner 未建、x2 面零曲线、包络零格）——零结果存在=非结果驱动（§9.1 同窗律）；B=2000/方法（二项 percentile 95% CI）不变。
+- **本节为 §3 seed 行的合法修正记录，append-only 留痕；§3 原文不删（「20260929」原字样留作起草面事实）。**
+
+## §9.3 零跑修正案：G-V3 leg-2 语义修正（bm-b r312 · 虚假前提实证 · 零格已烧合法窗）
+
+- **触发**：runner 建成后实弹跑 G-V3 leg-2 即红——replay(2026-09-24)=YELLOW vs results/regime_state.json=ORANGE。根因实证（r312 探针）：**两源是两代政体机，按律并存**——`market_regime.py probe()`=**v1 矩阵在役面**（rule=firm/risk/REGIME_GUARD.md v1.0·O-20260923-2315；v1 采集 #10 below_ma200→ORANGE，triggers 实证 `hs300<MA200 (#10 collected)`+`breadth 0.77>=65%`；`raw_level_v3` 文档原文「Live probe() keeps the v1 matrix until law amendment (PASS+GM approval+veto window); this function is the calibration-layer v3 decision source only」）；`live.paper v3_state_series()`=**v3 校准层重放**（T-21/T-34 血统，#10 已去采集 per v2 ruling；leg-1 校准窗计数位级过=本批路由面的正典实现）。两 bench 序列逐位一致（尾 8 日 close 全等）、同函数族不同矩阵——**v1.1 leg-2「replay=regime_state 断言双源一致」=虚假前提**（起草窗 08:08 读到 ORANGE 未辨 v1/v3 两面）。
+- **修正**：leg-2 语义改为「**新鲜度+字母表+双读数披露**」——①results/regime_state.json asof 必须= replay 末日 bar 日（防线面未滞后）；②replay 末日态 ∈ {GREEN,YELLOW,ORANGE,RED}；③两面读数与分歧根因（v1 在役 vs v3 校准层）如实入产物 gates 面。**等值断言废除**（两代机永不可断言相等）；判据语义零触碰（J-C/J-L/J-TARGET 原文零改动；G-V3 leg-1 校准窗位级门维持不变）。
+- **衍生披露（呈 GM 面，非本批动作）**：v1 在役面 2026-09-24=ORANGE vs v3 校准层=YELLOW 的当值分歧=防线 v1→v3 升级案的实证输入（升级走律定窗 PASS+GM 批准+否决窗，本批不推动零接线）。
+- **反 dredging 合规**：修正时点=零格已烧（x2 面零曲线、包络零格、finalize 零跑）——非结果驱动；本节为 §2 G-V3 leg-2 行的合法修正记录，append-only 留痕，§2 原文不删。

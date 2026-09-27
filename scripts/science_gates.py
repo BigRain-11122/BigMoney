@@ -665,6 +665,14 @@ SEED_REGISTRY = {
     # nulls (20260929+i, i<100; H: i<50, W: 50+i; date-style base, registry+rg
     # repo-scan verified free 2026-09-24 22:4x before T-11 prereg freeze r99;
     # cross-window union with a158_truegap_ic 55_000 -- bases disjoint, both valid)
+    "decision_chain_e2e": 20261001,        # DECISION_CHAIN_E2E_P1 four-arm envelope
+    # binomial bootstrap CIs (single rng base, B=2000, no +i family; date-style
+    # base, rg repo-scan verified free 2026-09-27 r312 -- prereg v1.1 s3 named
+    # 20260929 but that base was already taken by t11_negday_ic (registered
+    # 2026-09-24 22:4x, pre-freeze); zero-run amendment s9.2 to next clean
+    # date-style one-step 20261001 (20260930=cn_rev_tilt_p1 occupied), order
+    # law (rg-zero-hit-then-register) honored at runner-build time, zero cells
+    # burned at amendment time)
     "grid_p1": 55_500,                      # GRID_P1 grid-harvest K=100
     "ths_agg_p1": 56_000,                   # THS-AGG-P1 all-size aggregate flow IC null K=50 (T-2026-09-25-43; band 56_000..56_049, rg-scan pre-register 2026-09-25 R120)
     # random-signal nulls (55_500+k default / 55_550+k ce, k<50; band verified
