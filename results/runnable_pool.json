@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-27 09:04:41",
+ "updated_at": "2026-09-27 09:25:56",
  "entries": [
   {
    "id": "J1-PROSPECT-BEATRATE",
@@ -2250,6 +2250,339 @@
      "owner_since": null,
      "checkpoint": "results/decision_chain/curves_x2_deep_de.jsonl (row-level done-key resume, t22 law) + done_x2 marker json",
      "note": "6 members x 301 starts = 1806 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-LA",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "LA",
+    "--pos-from",
+    "0",
+    "--pos-to",
+    "314"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-legacy-la",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_legacy_LA.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 314 starts = 6908 cells; 22 probe cells already checkpointed (r313 real-fire, resume-skipped)"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-LB",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "LB",
+    "--pos-from",
+    "314",
+    "--pos-to",
+    "628"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-legacy-lb",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_legacy_LB.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 314 starts = 6908 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-LC",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "LC",
+    "--pos-from",
+    "628",
+    "--pos-to",
+    "942"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-legacy-lc",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_legacy_LC.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 314 starts = 6908 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-LD",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "legacy",
+    "--shard",
+    "LD",
+    "--pos-from",
+    "942",
+    "--pos-to",
+    "1256"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-legacy-ld",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_legacy_LD.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 314 starts = 6908 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-DA",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "DA",
+    "--pos-from",
+    "0",
+    "--pos-to",
+    "301"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-deep-da",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_deep_DA.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 301 starts = 6622 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-DB",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "DB",
+    "--pos-from",
+    "301",
+    "--pos-to",
+    "602"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-deep-db",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_deep_DB.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 301 starts = 6622 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-DC",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "DC",
+    "--pos-from",
+    "602",
+    "--pos-to",
+    "904"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-deep-dc",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_deep_DC.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 302 starts = 6644 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-DD",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "DD",
+    "--pos-from",
+    "904",
+    "--pos-to",
+    "1205"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-deep-dd",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_deep_DD.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 301 starts = 6622 cells"
+    }
+   ]
+  },
+  {
+   "id": "PROSPECT-REGIME-SEGMENTS-DE",
+   "ticket_ref": "T-2026-09-26-89 (CEO O-20260927-0752 market-stage statistics; claimed bm-b r309 07:55:54, bm-a yielded sec.4; slice-1 prereg frozen r309; slice-1b runner built+gated r313; F-04 MSG-20260927-0757)",
+   "prereg_ref": "research/PROS_REGIME_SEGMENTS_P1.md frozen e33984e4 r309 + s9 zero-run amendment r313 (legacy census gate 1255->1256 probe-adjudicated: 09-23->09-24 panel +1 start, results/_r313bmb_prospect_probe.json; cells legacy 27,632 + deep 33,132 + passive 2,762 = ~63,525)",
+   "runner": "scripts/prospect_regime_segments.py",
+   "runner_args": [
+    "run",
+    "--axis",
+    "deep",
+    "--shard",
+    "DE",
+    "--pos-from",
+    "1205",
+    "--pos-to",
+    "1506"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-27 09:24:21",
+   "data_gates": "in-runner fail-closed: G-ANCHOR 22/22 anchor_ok + constructive byte-reconcile vs member registration + uniform cutoff 2026-09-22 (exit 3) + G-PANEL cutoff-frozen truncation (legacy 2026-09-24, deep manifest 2026-09-22, Monday-bar-proof, exit 3) + G-CENSUS 1256/1506 == t22 record +{1,0} cross-check (exit 3) + row-contract first-row validation + per-cell checkpoint resume (t22 law, truncated-tail tolerated). r313 real-fire probe: 22/22 cells 6.3s on 12 workers, all gates PASS, ~3.5 cells/s",
+   "workers_plan": {
+    "workers": "runner worker_cap() ProcessPool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "~6.6-6.9k cells/shard @ ~3.5 cells/s on 12 workers -> est ~30min/shard; O-1136 compliant; autofill C8 owns the spawn"
+   },
+   "shards": [
+    {
+     "key": "prs-deep-de",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/pros_segs/cells_deep_DE.jsonl (row-level done-key resume, t22 law) + done marker json (gitignored lane, prereg s6)",
+     "note": "22 members x 301 starts = 6622 cells"
     }
    ]
   }
