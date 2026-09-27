@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-27",
- "generated_at": "2026-09-27 11:06:33",
+ "generated_at": "2026-09-27 11:08:12",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,19 +286,21 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 451,
+  "commits_24h": 454,
   "result_jsons_landed_24h": 101,
   "digests_landed_24h": 14,
   "prereg_md_touched_24h": 57,
   "compute_audit_latest": {
-   "ts": "2026-09-27 11:05:23",
-   "py_cpu_pct": 0.8,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-09-27 11:07:03",
+   "py_cpu_pct": 0.5,
+   "flags": [
+    "idle_with_work"
+   ],
+   "verdict": "FLAG:idle_with_work"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -530,6 +532,13 @@
    "type": "production-lane-charter-tts-audio-bmb",
    "immediate": false,
    "owner": "bm-b (standing lane charter per CEO orde"
+  },
+  {
+   "id": "T-2026-09-27-93",
+   "status": "open",
+   "type": "transfer",
+   "immediate": false,
+   "owner": ""
   }
  ],
  "token_line": {
