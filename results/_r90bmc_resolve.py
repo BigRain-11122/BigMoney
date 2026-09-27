@@ -96,12 +96,28 @@ if p in uu:
     b, o, t = blobs(p)
     bl, ol, tl = b.decode("utf-8").splitlines(), o.decode("utf-8").splitlines(), t.decode("utf-8").splitlines()
     bs, os_, ms = set(bl), set(ol), set(tl)
-    oa_text = blobs("research/memory-archive/202609.md")[1].decode("utf-8")
-    ta_text = blobs("research/memory-archive/202609.md")[2].decode("utf-8")
+    # r90 fix: auto-merged archive face has NO :2:/:3: stages (result lands at stage 0) --
+    # empty blob = fall back to worktree merged file (contains both sides' content, so
+    # accounting against it stays zero-loss valid).
+    _ab = blobs("research/memory-archive/202609.md")
+    _oa_b, _ta_b = _ab[1], _ab[2]
+    if _oa_b.strip():
+        oa_text = _oa_b.decode("utf-8")
+        ta_text = _ta_b.decode("utf-8") if _ta_b.strip() else oa_text
+    else:
+        oa_text = ta_text = io.open("research/memory-archive/202609.md", encoding="utf-8").read()
     mine_new = [l for l in tl if l not in bs and l not in os_ and l not in oa_text]
     orig_new = [l for l in ol if l not in bs and l not in ms]
+    # r90 delta: accept pitlaw entries AND batch-exile navigation pointer family
+    # (r89 pointer-retention discipline); anything else = garbage guard.
+    def _ok_mine(l):
+        if l.startswith("- [") and "坑律" in l:
+            return True  # pitlaw entry family
+        if l.startswith("- 十") and "批外迁" in l:
+            return True  # batch-exile navigation pointer family (r89 retention discipline)
+        return False
     for l in mine_new:
-        assert l.startswith("- [") and "坑律" in l, f"unexpected mine_new: {l[:80]}"
+        assert _ok_mine(l), f"unexpected mine_new: {l[:80]}"
     print(f"  CODELY: mine_new x{len(mine_new)} orig_new x{len(orig_new)}")
     canons = [l for l in ol if l.startswith("- 坑律正典全量归档")]
     drop_canon = None
@@ -116,6 +132,31 @@ if p in uu:
         if drop_canon is not None and l == drop_canon:
             continue  # strict-subset canon dedup, superset retained
         final_l.append(l)
+    # r90 pick-5 delta: pointer/full swap union -- my pointer line whose entry-header
+    # matches an existing ol FULL-text line = my archival intent applied to the union
+    # side (drop full, verbatim must be in ta_text; <=10KB hard line requires it).
+    # My pointer whose entry-header matches an existing ol POINTER line = duplicate
+    # (origin archived the same entry) -> drop mine, origin's pointer retained.
+    kept_mine, swapped_fulls, dup_ptrs = [], [], []
+    for l in mine_new:
+        hdr = (l.split("坑律")[0] + "坑律") if "坑律" in l else None
+        if hdr and "十九批外迁·指针" in l:
+            ol_ptr = [x for x in final_l if x.startswith(hdr + "（")]
+            if ol_ptr:
+                dup_ptrs.append(l)
+                continue
+            ol_full = [x for x in final_l if x.startswith(hdr + "：**")]
+            if ol_full:
+                for x in ol_full:
+                    assert x in ta_text, f"swap-archival full not verbatim in my archive: {x[:60]}"
+                    final_l = [y for y in final_l if y != x]
+                    swapped_fulls.append(x)
+                kept_mine.append(l)
+                continue
+        kept_mine.append(l)
+    mine_new = kept_mine
+    if swapped_fulls or dup_ptrs:
+        print(f"  CODELY swap-union: archived-fulls x{len(swapped_fulls)} -> pointers; dup-pointers dropped x{len(dup_ptrs)} (origin's retained)")
     final_l = final_l + mine_new
     fs = set(final_l)
     miss3 = [l for l in tl if l.strip() and l not in fs]
