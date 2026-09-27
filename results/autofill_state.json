@@ -1,6 +1,30 @@
 {
  "launches": [
   {
+   "entry": "P1E-NULLS-MCLOSETR",
+   "fill_latency_min": 73.3,
+   "machine": "bm-b",
+   "pid": 24824,
+   "py_cpu_pct": 0.0,
+   "shard": "p1e-nulls-mclosetr",
+   "target_met": false,
+   "ts": "2026-09-26 04:20:01",
+   "verdict": "launched",
+   "crash_counted": true
+  },
+  {
+   "entry": "P1E-NULLS-MARC",
+   "fill_latency_min": 113.3,
+   "machine": "bm-b",
+   "pid": 27452,
+   "py_cpu_pct": 6.2,
+   "shard": "p1e-nulls-marc",
+   "target_met": false,
+   "ts": "2026-09-26 05:00:01",
+   "verdict": "launched",
+   "crash_counted": true
+  },
+  {
    "entry": "P1E-CELLS",
    "fill_latency_min": 153.3,
    "machine": "bm-b",
@@ -615,34 +639,28 @@
    "target_met": true
   },
   {
-   "entry": "P1E-NULLS-MCLOSETR",
-   "fill_latency_min": 73.3,
-   "machine": "bm-b",
-   "pid": 24824,
+   "ts": "2026-09-27 11:30:02",
+   "machine": "bm-c",
    "py_cpu_pct": 0.0,
-   "shard": "p1e-nulls-mclosetr",
-   "target_met": false,
-   "ts": "2026-09-26 04:20:01",
    "verdict": "launched",
-   "crash_counted": true
-  },
-  {
-   "entry": "P1E-NULLS-MARC",
-   "fill_latency_min": 113.3,
-   "machine": "bm-b",
-   "pid": 27452,
-   "py_cpu_pct": 6.2,
-   "shard": "p1e-nulls-marc",
-   "target_met": false,
-   "ts": "2026-09-26 05:00:01",
-   "verdict": "launched",
-   "crash_counted": true
+   "entry": "T19-PHANTOM-P1",
+   "shard": "t19-phantom-p1",
+   "pid": 15404,
+   "runner_sha256": "6dfc32ebfc4da6e6",
+   "fill_latency_min": 38.1,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-27 11:30:01",
-  "machine": "bm-a",
+  "ts": "2026-09-27 11:30:02",
+  "machine": "bm-c",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "verdict": "launched",
+  "entry": "T19-PHANTOM-P1",
+  "shard": "t19-phantom-p1",
+  "pid": 15404,
+  "runner_sha256": "6dfc32ebfc4da6e6",
+  "fill_latency_min": 38.1,
+  "target_met": false
  }
 }
