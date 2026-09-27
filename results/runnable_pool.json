@@ -2640,7 +2640,7 @@
    ],
    "lane_owner": "bm-c",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 10:52:00",
    "data_gates": "in-runner fail-closed: G-REPRO 6/6 bit-exact vs frozen T-14 A faces (assert) + disposal census 10 rows / 8 families (5/2/1 per trader) + G-SET v2 = family-window entry suppression exact (actual 3 + placebo 150) + mask buy-surface purity; downstream identity drift disclosed per trader (downstream_drift field), never a gate input (v1.1 r79 amendment; v1 list-multiset law structurally unsatisfiable under re-simulation, crash #4 evidence) + SEED_REGISTRY int assert + V1 legacy cost face (anchor repro law, no x2) + top-level cutoff_meta 2026-09-23 (science_gates C2)",
    "workers_plan": {
@@ -2651,13 +2651,17 @@
    "shards": [
     {
      "key": "t19-phantom-p1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-c",
      "owner_since": "2026-09-27 12:30:07",
      "checkpoint": "results/t19_phantom_contribution.json (+ .csv twin) = whole-batch output; single 8-15min shard, no intermediate checkpoint; done-flip by control round on results landing (r314 flip-law family)",
-     "note": "6 baseline A-rail repros + 3 counterfactual buy-guard rails + 150 placebo rails (K=50 x 3 affected traders) + 10-row attribution face"
+     "note": "6 baseline A-rail repros + 3 counterfactual buy-guard rails + 150 placebo rails (K=50 x 3 affected traders) + 10-row attribution face",
+     "done_at": "2026-09-27 12:32:41",
+     "result_ref": "results/t19_phantom_contribution.json (+ .csv twin), landed 2026-09-27 12:18:49 (single deterministic shard, seed 68_500)"
     }
-   ]
+   ],
+   "done_at": "2026-09-27 12:32:41",
+   "note_done": "completed r80 bm-c control-round harvest: first complete run (12:10:02 autofill launch -> 12:18:49 landing) after crash-fix chain #1-#4 (all pre-first-complete-run, zero-run discipline held); G-REPRO 6/6 bit-exact vs T-14 pin face (t14_anchor_face.json src 4a5754a3) + G-SET v2 exact (3 actual + 150 placebo closures); zero ledger trials (measurement face per prereg); 12:30:13 tick duplicate relaunch (pid 22408, pre-flip blind window) converges per r312 keep-last, deterministic identical output, zero data loss"
   }
  ],
  "version": 1,

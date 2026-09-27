@@ -29,7 +29,7 @@
 | stage-1 | 登记册 + 六员暴露审计 + 决策包骨架（本件） | **DONE（r48）** |
 | stage-2a | paper 前向保护件（deliverable 5，**live-gate 前置必需**）：live/paper.py 加性默认关 flag 消费登记册做断点日 no-trade/剔除标记 | **HOLD（O-1325 显式 T-20 接力时序；bm-a MSG-1608 车道在飞 live/paper.py）**——其 G6 生产切换后落地 |
 | stage-2b | 官方公告证据核验（数据面探针，逐事件来源 URL，marginal 级改判如实记） | 未开工（ratios 现为 price-implied 披露态） |
-| stage-2c | 幻影贡献量化批（预注册反事实面：暴露行剔除 vs 基线的 ΔSharpe/Δ年化 per trader，两选项 a 的实测证据） | **PREREG FROZEN（r74 bm-c）**：research/T19_PHANTOM_P1.md v1.0 跑前冻结——处置集=10 幻影行/8 tranche 族、option-a 操作化=fill_guard buy-drop 族窗重模拟、placebo K=50/受染员 null 带、seed 68_500 已登记 SEED_REGISTRY、G-REPRO+G-SET 双硬门、零 ledger trials；runner→池批→出数后 GM 裁 a/b（O-1325） |
+| stage-2c | 幻影贡献量化批（预注册反事实面：暴露行剔除 vs 基线的 ΔSharpe/Δ年化 per trader，两选项 a 的实测证据） | **DONE（r80 bm-c）**：research/T19_PHANTOM_P1.md §7/§8 回填——G-REPRO 6/6 逐位（T-14 钉面 4a5754a3）+G-SET v2 exact（3 actual+150 placebo）；ΔSharpe IS/OOS：CE-01 +0.3050/+0.6243、CE-02 +0.3115/+0.1628、DROUGHT +0.5767/−0.0001（p100 带外 5/6 窗·DROUGHT OOS p18 带内=零 OOS 处置行）；10 行归因 d0_gap 绝对主导（512100 三腿 +44,373/+88,746/+66,560 vs 官方真收益 −27/−54/−41 元）；产物 results/t19_phantom_contribution.json+csv（12:18:49 落地·seed 68_500·零 ledger）；**GM 裁决（O-1620 P1 自决面）见 §五** |
 | stage-3 | 调整因子序列+调整视图面板（选项 b 落地面） | **DONE（r59 bm-c·O-1612 今日必交）**：adjust_factors.json + adjusted_view/×19 parquet + 六门全 PASS（scripts/t19_adjust_view.py）；因子=price-implied 回调整（断点日真收益吸收为 0·待 stage-2b 官方比例）；选项 b **消费**裁决仍缓议（O-1325：stage-2c 出数后裁），本件为加性落地资产；GF 硬门（O-1310 s3）据此放行深轴清洁版重跑 |
 
 ### stage-3 交付语义（r59 落地·O-1612）
@@ -44,3 +44,16 @@
 - 注册证据/引擎/raw bars/live.paper 现行语义：零触碰（stage-2a 才动 paper.py，加性默认关）。
 - 与 T-08（bm-a 双腿验证在制）同族不同文件零接触；bm-b XSTOCK 在飞零接触。
 - 每阶段开工前 MSG 认领声明（F-04）；量化批走 PREREG_TEMPLATE（v2 判据经 science_gates 共享库）。
+
+## 五、GM 裁决（O-1325 选项 a/b·2026-09-27 r80 bm-c·O-1620 P1 自决面·本票循环车道署名）
+
+**证据基（stage-2c 实测·全部机器可复核于 results/t19_phantom_contribution.json）**：
+1. 幻影失真**实质且超噪声**——处置族剔除的 ΔSharpe 在 5/6 受染窗落 placebo 带外 p100（CE-01 IS/OOS、CE-02 IS/OOS、DROUGHT IS；DROUGHT OOS p18 带内=其 OOS 段零处置行的近零暴露效应）。
+2. 剔除后风险调整指标 **5/6 窗改善**（CE-01 +0.3050/+0.6243、CE-02 +0.3115/+0.1628、DROUGHT IS +0.5767）——raw 评估面系统性承压于幻影拖累（行级 d0_gap 绝对主导：512100 +176% 三腿横财与 513100 −80% 等 6 损失腿并存=双向失真实证）。
+3. 官方真收益成分 ~0（−1,062..+1,632 元级 vs d0_gap 万级）——幻影=纯记账事件非市场信息，与 stage-2b 21/21 官方双腿证据闭环。
+
+**裁决四条**：
+- ①**选项 a 维持**＝评估/纸盘默认消费面（O-1325 既批面经实测证据确认其必要性与有效性）。
+- ②**选项 b＝清洁重跑资产面维持**（O-1612 深轴消费）——默认评估面**不切**双面板：幻影已被 a 守卫有效剔除，双口径治理成本无证据支撑。
+- ③**stage-2a** paper 前向保护件 **HOLD 维持**（T-20 G6 接力时序不变，bm-a 车道）。
+- ④本裁决=O-1620 P1 非重大自决面（消费面维持现状·零实盘/红线/使命/资源触碰）；GM 会话一句话可翻面（保留面）。

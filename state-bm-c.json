@@ -1,7 +1,7 @@
 {
  "machine_id": "bm-c",
- "round_no": 78,
- "updated": "2026-09-27 11:46:34",
- "note": "r78: T19-PHANTOM-P1 crash#2 (G-REPRO drift C01) root-caused = stale anchor face (r242 T-78 s4 overlay wiring evolved live registrations post-T-14-freeze; gate correctly refused) -> pin fix (t14_anchor_face.json src 4a5754a3 + runner load_traders_t14_face + selftest 16/16 + prereg s2 dated amendment + probe 6/6 bit-exact, commit 20fab4f0); 11:40:20 pre-pin relaunch = one structural idle cycle (harmless); autofill relaunches with fixed sha from 11:50 tick; S6 29 lanes rc=0; flip 0/0/0",
- "last_round_ts": "2026-09-27 11:46:34"
+ "round_no": 80,
+ "updated": "2026-09-27 12:35:12",
+ "note": "r79 (dead mid-round, posthumously closed by r80): T19 G-SET v1 falsified by crash#4 12:00:12 -> v1.1 zero-run amendment e21bc4f6 pushed + CODELY pitlaw appended (uncommitted) + 12:10:02 tick relaunch -> first complete run landed 12:18:49; died before S5/S7 (state stayed 78). | r80: T19 stage-2c harvest full arc (product+gates 6/6+G-SET v2 exact -> prereg 7/8 backfill + gate_attrition 59 + pool done-flip + ticket progress + CONSOLIDATION_GOVERNANCE stage-2c DONE + GM adjudication O-1325 a/b per O-1620 P1) + S0 15-UU canon resolve (probe-direction _r80bmc_resolve.py) + S6 32 lanes rc=0 Sunday no-op faces + smoke 25/25",
+ "last_round_ts": "2026-09-27T12:35:12+08:00"
 }

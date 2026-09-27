@@ -7385,6 +7385,33 @@
     "ticket": "fleet/tasks/T-2026-09-27-90-P1.json"
    },
    "note": "four-arm chain E2E envelope cells; curves/anchors = T-22/T-34 lineage re-derivation, not re-counted"
+  },
+  {
+   "batch": "T19_PHANTOM_P1",
+   "ts": "2026-09-27 12:32:41",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 286541,
+   "gates": {
+    "g_repro": "PASS 6/6 bit-exact vs frozen T-14 pin face (src commit 4a5754a3)",
+    "g_set_v2": "PASS family-window suppression exact (3 actual + 150 placebo closures); downstream identity drift = disclosed face per v1.1 (CE-01 38/46, CE-02 96/103, DROUGHT 2/2)",
+    "null_band": {
+     "COMPOSITE-CE-01": "IS p100 beyond / OOS p100 beyond",
+     "COMPOSITE-CE-02": "IS p100 beyond / OOS p100 beyond",
+     "DROUGHT-CE-01": "IS p100 beyond / OOS p18 within"
+    },
+    "engine_crash_repair_reruns": "crashes #1-#4 all pre-first-complete-run; single complete run 12:10:02->12:18:49; zero completed-run reruns"
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/t19_phantom_contribution.json",
+    "csv": "results/t19_phantom_contribution.csv",
+    "prereg": "research/T19_PHANTOM_P1.md",
+    "ticket": "fleet/tasks/T-2026-09-24-19-P1.json",
+    "decision_pack": "research/CONSOLIDATION_GOVERNANCE.md"
+   },
+   "note": "phantom contribution quantification batch (stage-2c) = O-1325 option-a/b adjudication evidence; zero registration claims per prereg §4; dSharpe IS/OOS: CE-01 +0.3050/+0.6243, CE-02 +0.3115/+0.1628, DROUGHT +0.5767/-0.0001; 10-row attribution: d0 gap component dominates (official true-return components ~0); GM adjudication recorded in decision pack"
   }
  ],
  "history": [

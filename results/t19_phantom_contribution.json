@@ -1,0 +1,690 @@
+{
+ "evidence_cutoff": "2026-09-23",
+ "batch": "t19_phantom_contribution",
+ "prereg": "research/T19_PHANTOM_P1.md v1.0 (frozen r74a 79e8b1a7)",
+ "ticket": "T-2026-09-24-19",
+ "stage": "2c",
+ "seed": {
+  "base": 68500,
+  "registry_key": "t19_phantom_p1",
+  "law": "SEED_REGISTRY same-commit registration (s3)"
+ },
+ "disposal_set": {
+  "rows": 10,
+  "families": 8,
+  "per_trader_families": {
+   "COMPOSITE-CE-01": 2,
+   "COMPOSITE-CE-02": 5,
+   "DROUGHT-CE-01": 1
+  }
+ },
+ "cost_face": "V1 legacy 13bp x2 (registered-anchor repro law)",
+ "baseline_face": {
+  "pin": "data/consolidation/t14_anchor_face.json",
+  "source_commit": "4a5754a3",
+  "law": "rails pinned to T-14-freeze registration blobs (r78); live registrations evolved post-freeze via r242 T-78 s4 winner wiring -- overlay face is a LIVE-lane fact, never mixed into this audited-face batch"
+ },
+ "counterfactual_semantics": "option-a operationalized as engine-native buy-guard entry suppression over family-window unions (fill_guard face, zero engine edits); NOT ledger row surgery -- equity_fraction compounding makes post-hoc row removal ill-defined (s3)",
+ "gates": {
+  "G_REPRO": "PASS 6/6 (bit-exact frozen T-14 A faces)",
+  "G_SET": "PASS (actual 3 + placebo 150 closures exact)",
+  "null_band_readout": "descriptive two-state, no pass/fail strategy narrative"
+ },
+ "traders": [
+  {
+   "trader": "COMPOSITE-CE-01",
+   "cutoff": "2026-09-22",
+   "baseline": {
+    "in_sample": {
+     "sharpe": 0.4514,
+     "annual_return": 0.0283,
+     "max_drawdown": -0.1633,
+     "trades": 302
+    },
+    "out_sample": {
+     "sharpe": 1.6085,
+     "annual_return": 0.1441,
+     "max_drawdown": -0.0567,
+     "trades": 172
+    }
+   },
+   "g_repro": "PASS (bit-exact vs frozen T-14 A face)",
+   "families_disposed": 2,
+   "counterfactual": {
+    "in_sample": {
+     "sharpe": 0.7564,
+     "annual_return": 0.0406,
+     "max_drawdown": -0.1069,
+     "trades": 309
+    },
+    "out_sample": {
+     "sharpe": 2.2328,
+     "annual_return": 0.1622,
+     "max_drawdown": -0.0315,
+     "trades": 170
+    }
+   },
+   "delta": {
+    "in_sample": {
+     "d_sharpe": 0.305,
+     "d_annual_return": 0.0123,
+     "d_max_drawdown": 0.0564,
+     "d_trades": 7
+    },
+    "out_sample": {
+     "d_sharpe": 0.6243,
+     "d_annual_return": 0.0181,
+     "d_max_drawdown": 0.0252,
+     "d_trades": -2
+    }
+   },
+   "placebo": {
+    "k": 50,
+    "n_k": 2,
+    "pool_families": 385,
+    "is_sharpe": {
+     "mu": -0.0036,
+     "sigma": 0.0214,
+     "p5": -0.0382,
+     "p95": 0.0349,
+     "actual_percentile": 100.0,
+     "readout": "phantom_beyond_family_removal_noise"
+    },
+    "oos_sharpe": {
+     "mu": -0.0133,
+     "sigma": 0.0372,
+     "p5": -0.0969,
+     "p95": 0.0172,
+     "actual_percentile": 100.0,
+     "readout": "phantom_beyond_family_removal_noise"
+    },
+    "asymmetry_note": "placebo families are mostly single-leg; the real disposal set contains a 3-leg family -> placebo row count <= actual (conservative face, prereg s3)"
+   },
+   "size_drift_rows": 0,
+   "downstream_drift": {
+    "gone_count": 38,
+    "extra_count": 46,
+    "gone_sample": [
+     [
+      "159934",
+      "2022-09-26",
+      16
+     ],
+     [
+      "159934",
+      "2022-11-08",
+      25
+     ],
+     [
+      "159934",
+      "2022-12-06",
+      19
+     ],
+     [
+      "159934",
+      "2023-01-12",
+      25
+     ],
+     [
+      "159934",
+      "2023-02-13",
+      16
+     ]
+    ],
+    "extra_sample": [
+     [
+      "159934",
+      "2022-09-21",
+      16
+     ],
+     [
+      "159934",
+      "2022-11-03",
+      25
+     ],
+     [
+      "159934",
+      "2022-12-09",
+      25
+     ],
+     [
+      "159934",
+      "2023-01-17",
+      25
+     ],
+     [
+      "159934",
+      "2023-02-16",
+      16
+     ]
+    ]
+   }
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "cutoff": "2026-09-22",
+   "baseline": {
+    "in_sample": {
+     "sharpe": 0.4585,
+     "annual_return": 0.0544,
+     "max_drawdown": -0.2217,
+     "trades": 520
+    },
+    "out_sample": {
+     "sharpe": 1.4853,
+     "annual_return": 0.1089,
+     "max_drawdown": -0.0361,
+     "trades": 275
+    }
+   },
+   "g_repro": "PASS (bit-exact vs frozen T-14 A face)",
+   "families_disposed": 5,
+   "counterfactual": {
+    "in_sample": {
+     "sharpe": 0.77,
+     "annual_return": 0.0785,
+     "max_drawdown": -0.0917,
+     "trades": 521
+    },
+    "out_sample": {
+     "sharpe": 1.6481,
+     "annual_return": 0.1056,
+     "max_drawdown": -0.0325,
+     "trades": 272
+    }
+   },
+   "delta": {
+    "in_sample": {
+     "d_sharpe": 0.3115,
+     "d_annual_return": 0.0241,
+     "d_max_drawdown": 0.13,
+     "d_trades": 1
+    },
+    "out_sample": {
+     "d_sharpe": 0.1628,
+     "d_annual_return": -0.0033,
+     "d_max_drawdown": 0.0036,
+     "d_trades": -3
+    }
+   },
+   "placebo": {
+    "k": 50,
+    "n_k": 5,
+    "pool_families": 613,
+    "is_sharpe": {
+     "mu": -0.007,
+     "sigma": 0.0137,
+     "p5": -0.034,
+     "p95": 0.0159,
+     "actual_percentile": 100.0,
+     "readout": "phantom_beyond_family_removal_noise"
+    },
+    "oos_sharpe": {
+     "mu": 0.0028,
+     "sigma": 0.0545,
+     "p5": -0.0755,
+     "p95": 0.1085,
+     "actual_percentile": 100.0,
+     "readout": "phantom_beyond_family_removal_noise"
+    },
+    "asymmetry_note": "placebo families are mostly single-leg; the real disposal set contains a 3-leg family -> placebo row count <= actual (conservative face, prereg s3)"
+   },
+   "size_drift_rows": 0,
+   "downstream_drift": {
+    "gone_count": 96,
+    "extra_count": 103,
+    "gone_sample": [
+     [
+      "159928",
+      "2022-07-26",
+      1
+     ],
+     [
+      "159934",
+      "2022-07-28",
+      16
+     ],
+     [
+      "159934",
+      "2022-09-01",
+      23
+     ],
+     [
+      "159934",
+      "2022-10-19",
+      25
+     ],
+     [
+      "159934",
+      "2022-11-24",
+      25
+     ]
+    ],
+    "extra_sample": [
+     [
+      "159928",
+      "2022-07-26",
+      2
+     ],
+     [
+      "159934",
+      "2022-07-25",
+      16
+     ],
+     [
+      "159934",
+      "2022-08-30",
+      25
+     ],
+     [
+      "159934",
+      "2022-09-26",
+      17
+     ],
+     [
+      "159934",
+      "2022-11-08",
+      25
+     ]
+    ]
+   }
+  },
+  {
+   "trader": "DROUGHT-CE-01",
+   "cutoff": "2026-09-22",
+   "baseline": {
+    "in_sample": {
+     "sharpe": 0.5538,
+     "annual_return": 0.0169,
+     "max_drawdown": -0.0476,
+     "trades": 76
+    },
+    "out_sample": {
+     "sharpe": 1.213,
+     "annual_return": 0.0408,
+     "max_drawdown": -0.0252,
+     "trades": 44
+    }
+   },
+   "g_repro": "PASS (bit-exact vs frozen T-14 A face)",
+   "families_disposed": 1,
+   "counterfactual": {
+    "in_sample": {
+     "sharpe": 1.1305,
+     "annual_return": 0.0267,
+     "max_drawdown": -0.0177,
+     "trades": 75
+    },
+    "out_sample": {
+     "sharpe": 1.2129,
+     "annual_return": 0.039,
+     "max_drawdown": -0.0242,
+     "trades": 44
+    }
+   },
+   "delta": {
+    "in_sample": {
+     "d_sharpe": 0.5767,
+     "d_annual_return": 0.0098,
+     "d_max_drawdown": 0.0299,
+     "d_trades": -1
+    },
+    "out_sample": {
+     "d_sharpe": -0.0001,
+     "d_annual_return": -0.0018,
+     "d_max_drawdown": 0.001,
+     "d_trades": 0
+    }
+   },
+   "placebo": {
+    "k": 50,
+    "n_k": 1,
+    "pool_families": 115,
+    "is_sharpe": {
+     "mu": -0.0019,
+     "sigma": 0.0204,
+     "p5": -0.0347,
+     "p95": 0.0417,
+     "actual_percentile": 100.0,
+     "readout": "phantom_beyond_family_removal_noise"
+    },
+    "oos_sharpe": {
+     "mu": 0.0024,
+     "sigma": 0.0342,
+     "p5": -0.0449,
+     "p95": 0.0531,
+     "actual_percentile": 18.0,
+     "readout": "within_family_removal_noise"
+    },
+    "asymmetry_note": "placebo families are mostly single-leg; the real disposal set contains a 3-leg family -> placebo row count <= actual (conservative face, prereg s3)"
+   },
+   "size_drift_rows": 0,
+   "downstream_drift": {
+    "gone_count": 2,
+    "extra_count": 2,
+    "gone_sample": [
+     [
+      "159901",
+      "2021-03-31",
+      1
+     ],
+     [
+      "515030",
+      "2021-04-02",
+      1
+     ]
+    ],
+    "extra_sample": [
+     [
+      "159901",
+      "2021-03-30",
+      1
+     ],
+     [
+      "515030",
+      "2021-04-01",
+      1
+     ]
+    ]
+   }
+  },
+  {
+   "trader": "ENGULF-CE-01",
+   "cutoff": "2026-09-22",
+   "baseline": {
+    "in_sample": {
+     "sharpe": 0.6239,
+     "annual_return": 0.0201,
+     "max_drawdown": -0.0423,
+     "trades": 99
+    },
+    "out_sample": {
+     "sharpe": 0.2944,
+     "annual_return": 0.0091,
+     "max_drawdown": -0.0366,
+     "trades": 44
+    }
+   },
+   "g_repro": "PASS (bit-exact vs frozen T-14 A face) | structural-zero delta (zero exposure)",
+   "families_disposed": 0,
+   "counterfactual": null,
+   "delta": {
+    "in_sample": {
+     "d_sharpe": 0.0,
+     "d_annual_return": 0.0,
+     "d_max_drawdown": 0.0,
+     "d_trades": 0
+    },
+    "out_sample": {
+     "d_sharpe": 0.0,
+     "d_annual_return": 0.0,
+     "d_max_drawdown": 0.0,
+     "d_trades": 0
+    }
+   },
+   "placebo": null,
+   "size_drift_rows": null
+  },
+  {
+   "trader": "NEEDLE-DE-01",
+   "cutoff": "2026-09-22",
+   "baseline": {
+    "in_sample": {
+     "sharpe": 0.7781,
+     "annual_return": 0.0185,
+     "max_drawdown": -0.0254,
+     "trades": 50
+    },
+    "out_sample": {
+     "sharpe": 0.4089,
+     "annual_return": 0.0119,
+     "max_drawdown": -0.0282,
+     "trades": 23
+    }
+   },
+   "g_repro": "PASS (bit-exact vs frozen T-14 A face) | structural-zero delta (zero exposure)",
+   "families_disposed": 0,
+   "counterfactual": null,
+   "delta": {
+    "in_sample": {
+     "d_sharpe": 0.0,
+     "d_annual_return": 0.0,
+     "d_max_drawdown": 0.0,
+     "d_trades": 0
+    },
+    "out_sample": {
+     "d_sharpe": 0.0,
+     "d_annual_return": 0.0,
+     "d_max_drawdown": 0.0,
+     "d_trades": 0
+    }
+   },
+   "placebo": null,
+   "size_drift_rows": null
+  },
+  {
+   "trader": "VOLATILITY-CE-01",
+   "cutoff": "2026-09-22",
+   "baseline": {
+    "in_sample": {
+     "sharpe": 1.0275,
+     "annual_return": 0.0262,
+     "max_drawdown": -0.0378,
+     "trades": 375
+    },
+    "out_sample": {
+     "sharpe": 2.0568,
+     "annual_return": 0.0424,
+     "max_drawdown": -0.009,
+     "trades": 147
+    }
+   },
+   "g_repro": "PASS (bit-exact vs frozen T-14 A face) | structural-zero delta (zero exposure)",
+   "families_disposed": 0,
+   "counterfactual": null,
+   "delta": {
+    "in_sample": {
+     "d_sharpe": 0.0,
+     "d_annual_return": 0.0,
+     "d_max_drawdown": 0.0,
+     "d_trades": 0
+    },
+    "out_sample": {
+     "d_sharpe": 0.0,
+     "d_annual_return": 0.0,
+     "d_max_drawdown": 0.0,
+     "d_trades": 0
+    }
+   },
+   "placebo": null,
+   "size_drift_rows": null
+  }
+ ],
+ "rows": [
+  {
+   "trader": "COMPOSITE-CE-01",
+   "sym": "513500",
+   "face": "boundary",
+   "entry_date": "2022-03-29",
+   "exit_date": "2022-03-30",
+   "break_date": "2022-03-30",
+   "leg_pnl": -93350.83,
+   "leg_pnl_rate": -0.4907,
+   "leg_qty": 69622.57,
+   "raw_d0_pct": -0.491773,
+   "d0_gap_component_yuan": -93642.3,
+   "official_true_d0_ret": -0.005581,
+   "true_return_component_yuan": -1062.72,
+   "reconciliation_ratio_space": 0.011044,
+   "official_verdict": "consolidation_confirmed_dual_leg",
+   "h10_forward_ret_raw": -0.040288
+  },
+  {
+   "trader": "COMPOSITE-CE-01",
+   "sym": "512800",
+   "face": "boundary",
+   "entry_date": "2025-06-19",
+   "exit_date": "2025-07-07",
+   "break_date": "2025-07-07",
+   "leg_pnl": -59349.81,
+   "leg_pnl_rate": -0.4679,
+   "leg_qty": 75396.83,
+   "raw_d0_pct": -0.496905,
+   "d0_gap_component_yuan": -66575.41,
+   "official_true_d0_ret": 0.012181,
+   "true_return_component_yuan": 1632.01,
+   "reconciliation_ratio_space": 0.023921,
+   "official_verdict": "consolidation_confirmed_dual_leg",
+   "h10_forward_ret_raw": -0.01566
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "sym": "512100",
+   "face": "frozen",
+   "entry_date": "2022-08-25",
+   "exit_date": "2022-09-06",
+   "break_date": "2022-09-05",
+   "leg_pnl": 44434.45,
+   "leg_pnl_rate": 1.688,
+   "leg_qty": 25634.38,
+   "raw_d0_pct": 1.762729,
+   "d0_gap_component_yuan": 44373.11,
+   "official_true_d0_ret": -0.001079,
+   "true_return_component_yuan": -27.16,
+   "reconciliation_ratio_space": 0.000391,
+   "official_verdict": "consolidation_confirmed_nav_signature",
+   "h10_forward_ret_raw": -0.045337
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "sym": "512100",
+   "face": "frozen",
+   "entry_date": "2022-08-25",
+   "exit_date": "2022-09-07",
+   "break_date": "2022-09-05",
+   "leg_pnl": 89739.34,
+   "leg_pnl_rate": 1.7046,
+   "leg_qty": 51268.76,
+   "raw_d0_pct": 1.762729,
+   "d0_gap_component_yuan": 88746.22,
+   "official_true_d0_ret": -0.001079,
+   "true_return_component_yuan": -54.32,
+   "reconciliation_ratio_space": 0.000391,
+   "official_verdict": "consolidation_confirmed_nav_signature",
+   "h10_forward_ret_raw": -0.045337
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "sym": "513100",
+   "face": "boundary",
+   "entry_date": "2022-01-10",
+   "exit_date": "2022-01-14",
+   "break_date": "2022-01-14",
+   "leg_pnl": -95153.35,
+   "leg_pnl_rate": -0.8014,
+   "leg_qty": 23228.96,
+   "raw_d0_pct": -0.804507,
+   "d0_gap_component_yuan": -97027.37,
+   "official_true_d0_ret": -0.005336,
+   "true_return_component_yuan": -643.55,
+   "reconciliation_ratio_space": 0.027445,
+   "official_verdict": "consolidation_confirmed_dual_leg",
+   "h10_forward_ret_raw": -0.094581
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "sym": "513500",
+   "face": "boundary",
+   "entry_date": "2022-03-29",
+   "exit_date": "2022-03-30",
+   "break_date": "2022-03-30",
+   "leg_pnl": -58319.7,
+   "leg_pnl_rate": -0.4907,
+   "leg_qty": 43495.79,
+   "raw_d0_pct": -0.491773,
+   "d0_gap_component_yuan": -58501.8,
+   "official_true_d0_ret": -0.005581,
+   "true_return_component_yuan": -663.92,
+   "reconciliation_ratio_space": 0.011044,
+   "official_verdict": "consolidation_confirmed_dual_leg",
+   "h10_forward_ret_raw": -0.040288
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "sym": "510500",
+   "face": "boundary",
+   "entry_date": "2022-08-24",
+   "exit_date": "2022-08-29",
+   "break_date": "2022-08-29",
+   "leg_pnl": -17898.98,
+   "leg_pnl_rate": -0.1497,
+   "leg_qty": 16021.06,
+   "raw_d0_pct": -0.127424,
+   "d0_gap_component_yuan": -14739.4,
+   "official_true_d0_ret": null,
+   "true_return_component_yuan": null,
+   "reconciliation_ratio_space": null,
+   "official_verdict": "consolidation_confirmed_announcement",
+   "h10_forward_ret_raw": -0.000159
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "sym": "512100",
+   "face": "boundary",
+   "entry_date": "2022-08-25",
+   "exit_date": "2022-09-05",
+   "break_date": "2022-09-05",
+   "leg_pnl": 64616.4,
+   "leg_pnl_rate": 1.6365,
+   "leg_qty": 38451.57,
+   "raw_d0_pct": 1.762729,
+   "d0_gap_component_yuan": 66559.66,
+   "official_true_d0_ret": -0.001079,
+   "true_return_component_yuan": -40.74,
+   "reconciliation_ratio_space": 0.000391,
+   "official_verdict": "consolidation_confirmed_nav_signature",
+   "h10_forward_ret_raw": -0.045337
+  },
+  {
+   "trader": "COMPOSITE-CE-02",
+   "sym": "512800",
+   "face": "boundary",
+   "entry_date": "2025-05-29",
+   "exit_date": "2025-07-07",
+   "break_date": "2025-07-07",
+   "leg_pnl": -23408.54,
+   "leg_pnl_rate": -0.443,
+   "leg_qty": 32869.51,
+   "raw_d0_pct": -0.496905,
+   "d0_gap_component_yuan": -29023.78,
+   "official_true_d0_ret": 0.012181,
+   "true_return_component_yuan": 711.48,
+   "reconciliation_ratio_space": 0.023921,
+   "official_verdict": "consolidation_confirmed_dual_leg",
+   "h10_forward_ret_raw": -0.01566
+  },
+  {
+   "trader": "DROUGHT-CE-01",
+   "sym": "512480",
+   "face": "boundary",
+   "entry_date": "2021-03-12",
+   "exit_date": "2021-03-29",
+   "break_date": "2021-03-29",
+   "leg_pnl": -52376.5,
+   "leg_pnl_rate": -0.5231,
+   "leg_qty": 53821.31,
+   "raw_d0_pct": -0.489043,
+   "d0_gap_component_yuan": -45640.5,
+   "official_true_d0_ret": -0.00494,
+   "true_return_component_yuan": -461.03,
+   "reconciliation_ratio_space": 0.009718,
+   "official_verdict": "consolidation_confirmed_dual_leg",
+   "h10_forward_ret_raw": 0.073363
+  }
+ ],
+ "audit": {
+  "ledger_trials_added": 0,
+  "rails_run": 159,
+  "k_placebo": 50
+ }
+}

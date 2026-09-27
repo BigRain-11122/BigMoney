@@ -60,15 +60,20 @@
 - results/t19_phantom_contribution.csv（孪生）。
 - 本件 §7 回填＋research/CONSOLIDATION_GOVERNANCE.md stage-2c 行刷新＋GM 决策包刷新（O-1325）。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】（r80 bm-c 回填·首个完整跑 12:10:02→12:18:49 落地）
 
-- G-REPRO（6 员）：
-- G-SET（处置 8 族/placebo 抽样）：
-- ΔSharpe/Δ年化 per trader（IS/OOS）：
-- null 带与分位：
-- 行级归因（10 行）：
-- 预测对账 (a)-(e)：
+- G-REPRO（6 员）：**PASS 6/6**——逐位==T-14 冻结 A 面（钉面 `t14_anchor_face.json` 源 commit 4a5754a3；r78 钉面后漂移归零：C01 IS 0.4514/OOS 1.6085、C02 0.4585/1.4853、ENGULF 0.6239/0.2944 全对）。
+- G-SET（处置 8 族/placebo 抽样）：**G-SET v2 PASS**——硬门 A 族窗抑制精确（反事实零笔派生入场落于任一处置/抽样族窗）＋硬门 B mask 面纯度（buy=False 面==族窗并集）；闭包面=actual 3（CE-01/CE-02/DROUGHT 各一）＋placebo 150（K=50×3 受染员）全部精确；下游 identity 漂移=披露面（CE-01 gone38/extra46、CE-02 gone96/extra103、DROUGHT gone2/extra2、size_drift_rows 逐员在件）非门输入——v1.1 修正生效、崩#4 形态未复现=门改对了。
+- ΔSharpe/Δ年化 per trader（IS/OOS）：**CE-01 +0.3050/+0.6243**（Δ年化 +1.23pp/+1.81pp）；**CE-02 +0.3115/+0.1628**（+2.41pp/−0.33pp）；**DROUGHT +0.5767/−0.0001**（+0.98pp/−0.18pp）；零暴露三员（ENGULF/NEEDLE/VOLATILITY）=结构性零 delta（families_disposed=0）。
+- null 带与分位：CE-01 IS p100 带外/OOS p100 带外；CE-02 IS p100 带外/OOS p100 带外；DROUGHT IS p100 带外/**OOS p18 带内**（μ=+0.0024 σ=0.0342——单族员 OOS 段零处置行=近零暴露效应）；placebo |Δ| 数量级（σ 0.0137-0.0545）≪实测 |Δ|（0.16-0.62）与 (c) 先验吻合。
+- 行级归因（10 行）：d0 跳空成分绝对主导——CE-02 512100 三分批腿 d0_gap +44,373/+88,746/+66,560 元（raw_d0 +176.27%）vs 官方真收益成分 −27/−54/−41 元；损失腿 d0_gap：513100 −97,027／513500 −93,642（CE-01）·−58,502（CE-02）／512480 −45,641／512800 −66,575（CE-01）·−29,024（CE-02）／510500 −14,739（marginal 级）；reconciliation_ratio_space 全行 ≤0.027（残差=真收益+比例舍入，stage-2b 律）。
+- 预测对账 (a)-(e)：**(a) 部分证伪**——CE-02 IS 年化预测「显著下移」、实测 **+2.41pp 上移**（−80%/−49% IS 幻影损失在复合路径上的拖累＞+176% 横财贡献：路径依赖重模拟非行删，方向由复合路径净效应决定）；OOS sharpe 方向对、OOS 年化异向（−0.33pp·(e) 覆盖）；**(b) 全对**——CE-01 IS/OOS 上移、DROUGHT IS 上移（幅度超「小幅」预期）；**(c) 全对**；(d) CE-02 带外对、DROUGHT 边际对（IS 带外/OOS 带内）、**CE-01 证伪**（预测带内~边际、实测双窗 p100 带外）；**(e) 实证**——CE-02 OOS sharpe↑年化↓异向、DROUGHT OOS 同构。两处方向证伪如实记档，零翻案面。
 
-## §8 批后复盘【占位】
+## §8 批后复盘【r80 bm-c 回填】
 
-- 预测对账＋gate_attrition.json 追加一行＋轮报告回执＋CODELY.md 行级追加。
+- 预测对账：(a) CE-02 IS 年化方向、(d) CE-01 带位两处证伪（见 §7 末行）；(b)(c)(e) 全对。跑前写死律保持——证伪只记档不改判。
+- gate_attrition.json 追加一行：T19_PHANTOM_P1 measurement 行（cells_ledger_delta=0·ledger_total_after=286541 不变）r80 落（entries 58→59）。
+- 轮报告回执：r80 bm-c（本轮）。
+- CODELY.md 行级追加：本批唯一新坑律=r79 G-SET v2 恒等门面（已入册·本轮回填 commit）；收割面=既有律执行（记忆入口四问门过滤·零新增 append）。
+- 工程重跑留痕（skill 正典「确定性引擎产物写 bug 的合法重执行≠结果重跑」）：崩 #1-#4 全部先于首个完整跑（12:10:02 发射→12:18:49 落地=唯一完整跑）——零跑纪律全程保持（每次修复先上链再重跑：e21bc4f6 修正先于完整跑）；12:30:13 tick 重复发射（pid 22408·pool flip 前盲窗）按 r312 keep-last 收敛·确定性产物字节恒等·零数据损。
+- **GM 裁决（O-1325 选项 a/b·O-1620 P1 自决面·本票 bm-c 循环车道署名）**：①选项 a **维持**=评估/纸盘默认消费面（stage-2c 证据=幻影失真实质且 5/6 窗超族剔除噪声 p100，守卫剔除后风险调整指标 5/6 窗改善）；②选项 b=**清洁重跑资产面维持**（O-1612 深轴消费）·默认评估面不切双面板（双口径治理成本无证据支撑）；③stage-2a paper 前向保护件 HOLD 维持（T-20 接力时序不变）；④裁决面+证据入 research/CONSOLIDATION_GOVERNANCE.md，GM 会话一句话可翻面（保留面）。
