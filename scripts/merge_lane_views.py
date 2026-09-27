@@ -25,6 +25,8 @@ Faces (B-family, batch-2 census):
 Usage:
   python scripts/merge_lane_views.py merge [--face F]     # merged-view summary
   python scripts/merge_lane_views.py reconcile [--face F] # vs shared file
+  python scripts/merge_lane_views.py resolve <path> [--stage1 F --stage2 F
+      --stage3 F --out F --dry-run]  # push-storm UU resolve, same recipes
   python scripts/merge_lane_views.py selftest             # offline fixtures
 
 Exit codes: 0 ok / 1 reconcile drift (or selftest fail) / 2 mechanism fault.
@@ -33,6 +35,7 @@ Zero network, zero engine, L1 deterministic; fail-closed on shape surprises.
 import json
 import os
 import re
+import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -485,6 +488,164 @@ def merge_face(face, sources):
     return MERGERS[face](sources)
 
 
+# ---------------------------------------------------------------------------
+# resolve subcommand (r377, r376 pit-law engineering debt): push-storm
+# resolvers get ONE canonical entry point instead of hand-rolled unions.
+# The r376 live catch proved a hand-rolled whole-row tie->HEAD take drops
+# enriched field faces (crash_counted) the other machine's lane carries --
+# canon: resolve scripts IMPORT the merger recipes.  This subcommand reads
+# the rebase conflict stages straight from the git index (or --stageN
+# files for forensic replay) and applies the SAME merge_face recipe the
+# consumer merger uses.  Lane files and non-ALL_FACES paths fail closed:
+# per-machine lanes resolve per R31 machine authority (take the owner's
+# side, never a union) and snapshot/twin classes keep the
+# bigmoney-conflict-resolve skill recipes (deep-ts probe take-new).
+# ---------------------------------------------------------------------------
+
+def detect_face(path):
+    """Repo path -> face name; fail-closed on lane files / unknown faces."""
+    rel = path.replace("\\", "/")
+    if not rel.startswith("results/"):
+        raise SystemExit(f"merge_lane_views resolve: {path!r} is not a "
+                         f"results/ face -- fail-closed (union recipes "
+                         f"live only for ALL_FACES)")
+    stem = rel[len("results/"):]
+    if stem.endswith(".json"):
+        stem = stem[:-len(".json")]
+    for m in MACHINES:
+        if stem.endswith("." + m):
+            raise SystemExit(
+                f"merge_lane_views resolve: {path!r} is a per-machine "
+                f"lane file -- lanes resolve per R31 machine authority "
+                f"(take the owner machine's side), never a union; "
+                f"fail-closed")
+    if stem not in ALL_FACES:
+        raise SystemExit(
+            f"merge_lane_views resolve: unknown face {stem!r} -- union "
+            f"recipes exist only for ALL_FACES={ALL_FACES}; snapshot/twin "
+            f"classes follow the bigmoney-conflict-resolve skill (deep-ts "
+            f"probe take-new); fail-closed (r376 pit-law)")
+    return stem
+
+
+def resolve_face_from_blobs(face, blobs):
+    """Resolve one conflicted face from rebase stage blobs.
+
+    Orientation per r351 stage-mapping law: during ``git pull --rebase``
+    stage :2: is the NEW base = the ORIGIN side and :3: is the replayed
+    commit = the LOCAL side.  Sources order = [:2:, :3:, :1:] -- a
+    same-second take-new tie resolves to :2: = origin (r140 canon) and
+    the merge-base can only win a take-new race by being strictly
+    fresher than both descendants (normally never)."""
+    if face not in ALL_FACES:
+        raise SystemExit(f"merge_lane_views resolve: unknown face {face!r} "
+                         f"-- fail-closed (ALL_FACES={ALL_FACES})")
+    sources = []
+    if blobs.get("base_side") is not None:
+        sources.append((":2: base-side", blobs["base_side"]))
+    if blobs.get("replay_side") is not None:
+        sources.append((":3: replay-side", blobs["replay_side"]))
+    if blobs.get("base") is not None:
+        sources.append((":1: merge-base", blobs["base"]))
+    if not sources:
+        raise SystemExit("merge_lane_views resolve: no stage blobs "
+                         "supplied -- fail-closed")
+    return merge_face(face, sources)
+
+
+def _read_stage(stage, rel):
+    r = subprocess.run(["git", "show", f":{stage}:{rel}"],
+                       capture_output=True)
+    if r.returncode != 0:
+        return None, None
+    raw = r.stdout
+    return json.loads(raw.decode("utf-8")), (b"\r\n" in raw)
+
+
+def _cmd_resolve(argv):
+    path = None
+    opts = {"--stage1": None, "--stage2": None, "--stage3": None,
+            "--out": None, "--dry-run": False}
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a in ("--stage1", "--stage2", "--stage3", "--out"):
+            if i + 1 >= len(argv):
+                print(f"resolve: {a} needs a value")
+                return 2
+            opts[a] = argv[i + 1]
+            i += 2
+        elif a == "--dry-run":
+            opts[a] = True
+            i += 1
+        elif path is None:
+            path = a
+            i += 1
+        else:
+            print(f"resolve: unexpected arg {a!r}")
+            return 2
+    if not path:
+        print("resolve: usage: merge_lane_views.py resolve "
+              "<results/path.json> [--stage1 F --stage2 F --stage3 F "
+              "--out F --dry-run]")
+        return 2
+    face = detect_face(path)
+    rel = path.replace("\\", "/")
+    crlf = None
+    blobs = {}
+
+    def _load_file(p):
+        nonlocal crlf
+        raw = open(p, "rb").read()
+        if crlf is None and b"\r\n" in raw:
+            crlf = True
+        return json.loads(raw.decode("utf-8"))
+
+    if opts["--stage1"] or opts["--stage2"] or opts["--stage3"]:
+        # forensic / replay mode: explicit stage files, no git index read
+        if opts["--stage1"]:
+            blobs["base"] = _load_file(opts["--stage1"])
+        if opts["--stage2"]:
+            blobs["base_side"] = _load_file(opts["--stage2"])
+        if opts["--stage3"]:
+            blobs["replay_side"] = _load_file(opts["--stage3"])
+    else:
+        for stage, key in ((2, "base_side"), (3, "replay_side"),
+                           (1, "base")):
+            data, c = _read_stage(stage, rel)
+            if data is not None:
+                blobs[key] = data
+                if crlf is None:
+                    crlf = c
+    if "base_side" not in blobs and "replay_side" not in blobs:
+        print(f"resolve: no conflict stages for {rel!r} -- is a "
+              f"rebase/merge active for this path? (or pass explicit "
+              f"--stage2/--stage3 files)")
+        return 2
+    merged, notes = resolve_face_from_blobs(face, blobs)
+    print(f"[resolve:{face}] stage blobs present={sorted(blobs)}")
+    for n in notes:
+        print(f"  - {n}")
+    payload = json.dumps(merged, ensure_ascii=False, indent=1)
+    if crlf:
+        payload = payload.replace("\n", "\r\n")
+    out_path = opts["--out"] or path
+    if opts["--dry-run"]:
+        print(f"[resolve:{face}] DRY-RUN: would write {out_path} "
+              f"({len(payload)}B)")
+    else:
+        with open(out_path, "w", encoding="utf-8", newline="") as fh:
+            fh.write(payload + ("\r\n" if crlf else "\n"))
+        back = json.load(open(out_path, encoding="utf-8"))
+        assert back == merged, "parse-verify failed (r185 law)"
+        print(f"[resolve:{face}] wrote {out_path} (parse-verified)")
+        print("next: git add <path> -> $env:GIT_EDITOR='true' + "
+              "git rebase --continue (PS env law r356) -> python "
+              "scripts/merge_lane_views.py reconcile --face "
+              f"<{face}> (same-window law r376)")
+    return 0
+
+
 def _cmd_merge(faces):
     for face in faces:
         sources = load_sources(face)
@@ -799,17 +960,88 @@ def _selftest():
                       [("legacy", ca), ("bm-b", cb)])
     check("b-calllatest-asof-take-new", m == cb)
 
+    # 14. resolve subcommand (r377, r376 pit-law debt): canonical
+    # push-storm entry point.  Stage orientation per r351: :2: =
+    # base-side (origin during rebase), :3: = replay-side (local).
+    check("resolve:detect-faces",
+          detect_face("results/autofill_state.json") == "autofill_state"
+          and detect_face("results\\market_clock\\call_latest.json")
+          == "market_clock/call_latest")
+    try:
+        detect_face("results/autofill_state.bm-a.json")
+        ok = False
+    except SystemExit:
+        ok = True
+    check("resolve:detect-lane-fail-closed", ok)
+    try:
+        detect_face("results/dashboard_status.json")
+        ok = False
+    except SystemExit:
+        ok = True
+    check("resolve:detect-unknown-fail-closed", ok)
+    # r376 live shape: base-side double-stores the V2-P1 key (stale row
+    # missing crash_counted + enriched row); replay-side holds the fixed
+    # single row -> resolved = ONE enriched row (launcher authority),
+    # last_tick by inner-ts max.
+    rich = {"ts": "2026-09-28 02:30:01", "machine": "bm-b", "pid": 24976,
+            "runner_sha256": "8802", "entry": "DECISION-CHAIN-V2-P1",
+            "shard": "v2-0of1", "verdict": "launched",
+            "crash_counted": True}
+    stale = {k: v for k, v in rich.items() if k != "crash_counted"}
+    side2 = {"last_tick": {"ts": "2026-09-28 03:30:02", "machine": "bm-b"},
+             "launches": [dict(stale), dict(rich),
+                          {"ts": "2026-09-28 03:10:01", "machine": "bm-a",
+                           "pid": 1, "runner_sha256": "x", "entry": "E",
+                           "shard": "s"}]}
+    side3 = {"last_tick": {"ts": "2026-09-28 03:20:01", "machine": "bm-a"},
+             "launches": [dict(rich)]}
+    m, _ = resolve_face_from_blobs("autofill_state",
+                                   {"base_side": side2,
+                                    "replay_side": side3})
+    v2 = [r for r in m["launches"]
+          if r.get("entry") == "DECISION-CHAIN-V2-P1"]
+    check("resolve:autofill-double-store-collapse",
+          len(m["launches"]) == 2 and len(v2) == 1
+          and v2[0].get("crash_counted") is True
+          and m["last_tick"]["ts"] == "2026-09-28 03:30:02")
+    # pool governance pin survives a null-field replay side (r370 law)
+    p2 = {"updated_at": "03:00:00", "entries": [
+        {"id": "P1", "status": "ready", "lane_owner": "bm-b",
+         "lane_note": "pinned"}]}
+    p3 = {"updated_at": "02:00:00", "entries": [
+        {"id": "P1", "status": "ready", "lane_owner": None}]}
+    m, _ = resolve_face_from_blobs("runnable_pool",
+                                   {"base_side": p2, "replay_side": p3})
+    check("resolve:pool-gov-pinned",
+          m["entries"][0]["lane_owner"] == "bm-b"
+          and m["entries"][0]["lane_note"] == "pinned")
+    # take-new same-second tie -> :2: base-side (origin) first-seen win
+    ta = {"updated": "2026-09-28 03:30:00", "who": "origin"}
+    tb = {"updated": "2026-09-28 03:30:00", "who": "mine"}
+    m, _ = resolve_face_from_blobs("update_status",
+                                   {"base_side": ta, "replay_side": tb})
+    check("resolve:take-new-tie-origin", m["who"] == "origin")
+    try:
+        resolve_face_from_blobs("autofill_state", {})
+        ok = False
+    except SystemExit:
+        ok = True
+    check("resolve:no-stages-fail-closed", ok)
+
     print(f"selftest: {len(fails)} FAIL" + ("s" if fails else "")
           + (f" -> {fails}" if fails else " (all PASS)"))
     return 1 if fails else 0
 
 
 def main(argv):
-    if len(argv) < 2 or argv[1] not in ("merge", "reconcile", "selftest"):
+    if len(argv) < 2 or argv[1] not in ("merge", "reconcile", "selftest",
+                                        "resolve"):
         print(__doc__)
         return 2
     if argv[1] == "selftest":
         return _selftest()
+    if argv[1] == "resolve":
+        return _cmd_resolve(argv[2:])
     faces = ALL_FACES
     if "--face" in argv:
         i = argv.index("--face")

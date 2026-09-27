@@ -13,6 +13,8 @@ python tools/skills/bigmoney-conflict-resolve/scripts/classify_conflicts.py
 
 输出逐件分类+推荐配方（exit 2=有 UNKNOWN 件=禁盲解、逐件手工定性）。分类器零网络零 LLM 确定性；selftest 子命令=离线自检 19 例。
 
+**ALL_FACES 一行收口（r377·r376 坑律落地）**：A/B 族 union/take-new 面（14 面=compute_audit/regime_state/autofill_state/runnable_pool/gate_attrition/post_review_criteria/update_status/heat/lhb/futures/fundamental_status/token_usage/crash_fuse/market_clock·call_latest）撞 UU 时优先 `python scripts/merge_lane_views.py resolve <path>`——直读 rebase 三 stage（:2:=origin 侧/:3:=本地侧·r351 定向律）→merge_face 配方 union→落盘+parse-verify，**禁手写 union**（r376 实弹：手写整行 tie→HEAD 取侧丢 enriched 字段面）；车道文件/非 ALL_FACES fail-closed 照下表配方；解后同窗跑 `merge_lane_views.py reconcile` 才算收口。
+
 ## 一、触发与红线（先读）
 
 1. **触发面**：S7 push 被拒（non-fast-forward）→ `git pull --rebase` 后 UU/AA 批量；或 rebase 中途重放撞车。轮首 S0 的 pull --rebase 冲突=按 OS 轮令转只读维护退避，**禁解**（例外=push-rejection 时的撞车批，多轮正典实践允许按下述配方解）。
