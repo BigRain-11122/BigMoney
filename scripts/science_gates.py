@@ -926,6 +926,31 @@ SEED_REGISTRY = {
     # downscope, zero cells burned), freeze = CENSUS_FUSION_S2_PREREG.md
     # sec.9.4 + results/census_fusion_s2/w2b_roster.json
     # (scripts/census_w2b_roster.py deterministic derivation)
+    "trial_labor_w1_gen": 20283500,  # TRIAL_LABOR_W1 mass-candidate-trial
+    # wave-1 generation draws N=500/family (A registered-six 500 + B school
+    # factory 500 = raw 1000, ceiling-not-quota per O-20260927-2245);
+    # derivation = np.random.default_rng([20283500, family_idx, draw_idx])
+    # seed-sequence multi-int = no band occupation, census_fusion_s2_unc
+    # (20275000) same-protocol precedent; band head sits exactly above
+    # census_fusion_s2_w2b band top 20282899 = collision-free by
+    # construction; rg full-repo scan (--type py, Money02/Money0923 excluded
+    # per t34/wild_route precedent) 2026-09-27 r347 zero hits in band;
+    # registered same commit as the wave-1 prereg freeze (one-step R250 law);
+    # lane = T-2026-09-27-94 s1, freeze = research/TRIAL_LABOR_W1_PREREG.md
+    "trial_labor_w1_scrnull": 20284000,  # TRIAL_LABOR_W1_SCREEN null family
+    # K=200 same-structure random-signal candidates (template leg randomized,
+    # axis legs drawn from same grids/spaces, same engine/cost/panel --
+    # BACKTEST_PLAN iron law "every backtest batch runs random-signal
+    # baseline alongside"; screen floor = null p95 of beat6m, procedure-frozen
+    # zero hand-tuning); derivation = default_rng([20284000, i]); rg scan
+    # clean r347; registered same commit as wave-1 prereg freeze (R250 law)
+    "trial_labor_w1_unc": 20284500,  # TRIAL_LABOR_W1_JUDGE dual-nulls
+    # resampling face per survivor cell: block bootstrap B=2000 (block=20td
+    # circular) + sign-flip permutation P=2000 (daily independent, two-sided)
+    # per RANDOM_LARGE_SAMPLE_LAW sec.3 nulls>=2000 double-method; derivation
+    # = default_rng([20284500, cell_idx]) with rng stream pinned to the two
+    # resampling faces only (census sec.9.1 purpose-pinning precedent); rg
+    # scan clean r347; registered same commit as wave-1 prereg freeze (R250 law)
 }
 
 
@@ -1067,9 +1092,15 @@ def selftest() -> int:
 
     # skill line: monotone in N_eff, both terms present, data-driven
     line50 = skill_line_v2(batch_cells=50)
-    line500 = skill_line_v2(batch_cells=500)
+    line500 = skill_line_v2(batch_cells=50_000)
     ok("skill_line_v2 n_eff = live chain head + cells (data-driven, no frozen count)",
        line50["n_eff"] == ledger_head()["total"] + 50)
+    # r347 bm-b: probe gap widened 500 -> 50_000. At chain-head scale (~287k)
+    # the raw null_term gap for +50 vs +500 cells (~7.6e-5) falls below the
+    # 4-decimal rounding resolution of the returned dict, so the rounded
+    # values compared equal and the check false-failed while the underlying
+    # function stays strictly monotone. Wider gap keeps the check's intent
+    # (data-driven monotonicity in N_eff) robust at any ledger scale.
     ok("skill_line_v2 monotone in N_eff", line500["null_term"] > line50["null_term"])
     ok("skill_line_v2 line = max(passive_term, null_term)",
        abs(line50["line"] - max(line50["passive_term"], line50["null_term"])) < 1e-9)
