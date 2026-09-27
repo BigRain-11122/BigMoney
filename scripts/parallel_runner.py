@@ -40,7 +40,7 @@ def worker_cap() -> int:
 
 
 def run_cells_parallel(jobs, workers=None, desc="cells", initializer=None,
-                       initargs=()):
+                       initargs=(), on_result=None):
     """jobs: list of (key, fn, args) -- fn must be a TOP-LEVEL picklable
     callable (NO closures: ProcessPool pickles the fn); invoked as
     fn(*args) inside the worker. Shared state (panels/prices) must be
@@ -49,6 +49,11 @@ def run_cells_parallel(jobs, workers=None, desc="cells", initializer=None,
     "__workers__" (int) for the audit section.
 
     Deterministic: results keyed by job key, independent of scheduling.
+    on_result: optional callback(key, payload) fired as EACH future
+    completes -- incremental persistence lane (r340 pitlaw: W2-A
+    checkpoint was collect-only-tail = mid-kill full re-burn, 4.6h
+    zero-checkpoint live evidence). Default None = legacy collect-only,
+    zero behavior change for existing callers.
     """
     n = workers or worker_cap()
     out = {}
@@ -62,6 +67,8 @@ def run_cells_parallel(jobs, workers=None, desc="cells", initializer=None,
             key = futures[fut]
             out[key] = fut.result()
             done += 1
+            if on_result is not None:
+                on_result(key, out[key])
             if desc and done % 20 == 0:
                 print(f"  [pool] {done}/{len(jobs)} {desc}")
     out["__workers__"] = n

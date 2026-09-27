@@ -601,14 +601,28 @@ def run(probe=False, workers=None):
 
     results = {}
     if jobs:
-        res = run_cells_parallel(jobs, workers=workers or 4, desc="census-w2a",
-                                 initializer=_init_worker,
-                                 initargs=(side_dir, ew_x1, ew_x2, specs))
-        w = res.pop("__workers__", 1)
-        for _blk, rows in res.items():
+        flushed = set()
+
+        def _flush(blk, rows):
+            # r340 pitlaw fix: incremental checkpoint -- _append_ckpt fires
+            # per COMPLETED block (via parallel_runner on_result), so a
+            # mid-run kill retains finished blocks instead of re-burning
+            # the whole batch (collect-only-tail = 4.6h zero-ckpt live miss).
+            flushed.add(blk)
             results.update(rows)
             if not probe:
                 _append_ckpt(rows)
+
+        res = run_cells_parallel(jobs, workers=workers or 4, desc="census-w2a",
+                                 initializer=_init_worker,
+                                 initargs=(side_dir, ew_x1, ew_x2, specs),
+                                 on_result=_flush)
+        w = res.pop("__workers__", 1)
+        for _blk, rows in res.items():
+            if _blk not in flushed:  # safety net if on_result path skipped
+                results.update(rows)
+                if not probe:
+                    _append_ckpt(rows)
     else:
         w = 0
         with open(CKPT, encoding="utf-8") as fh:
