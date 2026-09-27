@@ -68,7 +68,7 @@
     "source": "registration_x2_seed"
   },
   "cutoff": "2026-09-24",
-  "updated": "2026-09-28 03:03:37",
+  "updated": "2026-09-28 04:07:37",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
@@ -91,7 +91,20 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-09-28 03:03:37"
+    "as_of": "2026-09-28 04:07:37",
+    "consolidation": {
+      "enabled": true,
+      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
+      "events_total": 21,
+      "events_in_universe_n": 3,
+      "crossing_rows_n": 0,
+      "crossing_rows": [],
+      "open_position_hits": 0,
+      "closed_trade_hits": 0,
+      "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
+      "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
+      "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
+    }
   },
   "open_positions": [
     {
