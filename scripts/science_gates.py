@@ -700,6 +700,16 @@ SEED_REGISTRY = {
     # above im_ic_pair 58_000 (p4_batch3_dca 56_500 spacing precedent);
     # registry+rg full-repo scan verified free 2026-09-25 08:0x before
     # MF_IC_P1 prereg freeze r159 bm-b, T-2026-09-25-46)
+    "sina_construct_p1": 58_550,             # SINA_CONSTRUCT_P1 K=100 same-mask
+    # within-day factor-rank permutation nulls (58_550+k, k<100; band
+    # 58_550..58_649, next free band above mf_ic_p1 58_500..58_549 with the
+    # mf_rot_s1 59_000 spacing precedent intact); rg full-repo scan (--type
+    # py, Money02/Money0923 excluded per t34/wild_route precedent) 2026-09-27
+    # r333 zero RNG hits in band (sole hits = worldquant101 formula constant
+    # 7.58555 + mf_rot_s1's own 'next free band above 58550' comment);
+    # registered at prereg freeze BEFORE any burn, one-step R250 law; lane =
+    # T-2026-09-25-46 sibling SINA_CONSTRUCT_P1 (claim MSG-20260927-1556 +
+    # lane pick MSG-20260927-1615 (a)), prereg research/SINA_CONSTRUCT_P1.md §3
     "mf_rot_s1": 59_000,                     # MF_ROT_S1 100 pooled random-Top3 nulls (daily 59000+i i<50, monthly 59050+i; band 59000..59099, next free band above 58550; rg full-repo scan verified free 2026-09-25 13:1x bm-b r179, prereg MF_ROT_S1_PREREG.md §3)
     "div_lowvol_p1": 60_000,                 # DIV_LOWVOL_P1 K=32 random segment-mask
     # nulls (60000+k, k=0..31; band 60000..60031, next free band above mf_rot_s1
