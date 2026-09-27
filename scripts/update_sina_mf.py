@@ -7,7 +7,8 @@ four-tier decomposition self-consistency law exact (worst 4.77e-07), freshness
 FRESH through 2026-09-24 via date-sorted unmasked dual-stock reads.
 
 Positioning (prereg section-3): BACKFILL / gap-repair face for cross-source
-redundancy -- NOT a daily forward face. Rolling <=100td source window per stock;
+redundancy -- NOT a daily forward face. Rolling <=250td source window per stock
+(A1 amendment R314: num 100->250, prereg sec-6);
 the refresh gate fires when the panel cutoff lags the latest complete bar date
 by more than STALE_TD (20) trading days or the first pull never completed.
 Monthly-level full-universe re-pull 5222 x 2.5s ~= 3.6h (not daily).
@@ -75,7 +76,7 @@ ELIG = os.path.join(ROOT, "data", "fundamental", "eligibility.csv")
 LANE_OWNER = "bm-a"          # R31 lane-ownership precedent
 BASE_URL = ("https://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/"
             "MoneyFlow.ssl_qsfx_lscjfb")
-QUERY = "page=1&num=100&sort=opendate&asc=0&fenlei=1&daima={daima}"
+QUERY = "page=1&num=250&sort=opendate&asc=0&fenlei=1&daima={daima}"
 HEADERS = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
            "Referer": "https://finance.sina.com.cn/"}
 
@@ -95,10 +96,10 @@ CONN_MARKERS = ("ConnectionError", "Timeout", "RemoteDisconnected",
                 "ChunkedEncodingError", "ProtocolError", "MaxRetryError",
                 "URLError", "HTTPError")
 QUARANTINE_AT = 3               # cumulative refresh failures -> skip forever
-MAX_ROWS = 110                  # num=100 source window + slack
+MAX_ROWS = 260                  # num=250 source window + slack (A1 R314)
 MIN_SPAWN_S = 30 * 60           # spawn throttle (gate self-heal window)
 STALE_TD = 20                   # backfill trigger: panel age in trading days
-BODY_CAP = 400_000              # bytes read cap (100 rows ~ 20KB, generous)
+BODY_CAP = 400_000              # bytes read cap (250 rows ~ 50KB, generous)
 
 # R221 open-item-4 fix (prereg s5 amendment, scaled-tol option; ported to this
 # collector R226 -- the R222 landing closed the EM sibling update_moneyflow.py
@@ -207,7 +208,7 @@ def stale_gate(panel_cutoff, now, dates=None, max_age_td=STALE_TD):
                     - dt.timedelta(days=28)).isoformat()  # degenerate approx
     if str(panel_cutoff) >= required:
         return False, (f"panel cutoff {panel_cutoff} within {max_age_td} trading "
-                       f"days of {expected} (rolling 100td window keeps it gapless)")
+                       f"days of {expected} (rolling 250td window keeps it gapless)")
     return True, f"panel cutoff {panel_cutoff} older than {required} (stale)"
 
 
@@ -325,7 +326,7 @@ def rows_from_source(rows_raw):
 
 
 def fetch_one(code, market):
-    """Rolling-<=100td rows for one stock (direct urllib, probe recipe)."""
+    """Rolling-<=250td rows for one stock (direct urllib, probe recipe; A1 R314)."""
     url = BASE_URL + "?" + QUERY.format(daima=market + code)
     req = urllib.request.Request(url, headers=HEADERS)
     with _no_proxy_opener().open(req, timeout=15) as resp:
@@ -859,7 +860,10 @@ def _selftest():
                           for d in range(1, 29)]) is None           # 28 rows ok
     assert validate_rows([{DATE_KEY: f"2026-{m:02d}-{d:02d}", PRIMARY: 1.0}
                           for m in range(1, 6) for d in range(1, 29)]
-                         ) is not None                               # >110 -> cap
+                         ) is None           # 140 rows ok within A1 cap 260
+    assert validate_rows([{DATE_KEY: f"2026-{m:02d}-{d:02d}", PRIMARY: 1.0}
+                          for m in range(1, 11) for d in range(1, 29)]
+                         ) is not None                               # >260 -> cap
     # S5 merge: clean append (overlap compared on PRIMARY only)
     local = [{DATE_KEY: "2026-09-01", PRIMARY: -123456.78, "trade": 10.0},
              {DATE_KEY: "2026-09-02", PRIMARY: 987654.32, "trade": 10.5}]

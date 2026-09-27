@@ -140,3 +140,32 @@
   scripts/update_sina_mf.py `_is_repull/_todo_for/_panel_cutoff_from_bytes/
   _terminal_cutoff`+selftest S11（bm-a R236）。
 - 采集器实现票=另开 GM 署名单（P1 数据源扩容，O-1620 下放面；T-43 先例流程）。
+
+## §6 修正案 A1（R314 bm-a·深史扩窗 num 100→250td·零跑窗）
+
+> 性质：**零跑窗修正案**——本面板零消费批在飞（纯采集面·零回测零引擎·T-72 同律），
+> 修正案冻结 commit 先于扩窗复拉任何面板命令（R99 跑前冻结律）。判据面零触碰。
+> 时点：2026-09-27 11:1x bm-a R314；车道=§3 既有「仅 bm-a 动作」（R31）不变。
+
+- **变更面（全量枚举）**：①`QUERY num=100→250`；②`MAX_ROWS 110→260`（num=250 窗+slack）；
+  ③`stale_gate` reason 文案 rolling 100td→250td（纯披露面）；④头注/fetch_one docstring 同步；
+  ⑤selftest S5 cap 夹具同步（140 行 in-cap 改过例+280 行 out-cap 拒收例，A1 新窗语义）。
+  schema（14 列）/自洽律/护栏/刷新门（STALE_TD=20 月级复拉不变）/退出码契约**零触碰**。
+- **理由链**：§5① 预授权兑现（「深史重拉=num=2500 级未来 prereg 修正案选项」→ 本轮温和档 250）
+  ＋EM 双面持续死（daykline 冻结死 digest DIGEST-20260925 + clist rank 面 R212 阻断 27h+ 起续
+  ＋R314 直连探针 push2 clist RemoteDisconnected 复证）⇒ MF_IC_P1 §2「资格信号日 N≥150」门
+  在 EM 面不可达；sina 面=在册唯一活资金流面，100td 不达 N≥150 → 250td 达标留裕量
+  （N=250→2/3 分割 IS 167/OOS 83）。
+- **档位经济**：250 非 2500=响应体 ~50KB«BODY_CAP 400KB、月级复拉请求数同 5228 带宽经济不变、
+  R220 num≥2500td 上限证据在册（深史可再扩零新证需求）。
+- **请求预算**：一次性全宇宙复拉 **5228 请求**（=§3 月级复拉同计；周日空闲窗执行零市场压力）；
+  后续维护仍走 20td stale 门月级复拉，窗宽 250 下 gapless≥230td。
+- **触发方式披露**：面板 fresh（gate 正典 staleness 面不触发）⇒ 修正案执行=lane owner
+  `spawn_detached('refresh-repull')` 一次性驱动（results/_r314bma_sina_deep_repull.py）；
+  镜像/锁/checkpoint/conn-fuse/量纲容差（R226 律）机器面原样生效，复拉后 gate 回归正典。
+- **首复拉窗实弹注记**：R235 §4.3「overlap 边界行校验=首复拉窗才可实弹」——本窗即首复拉窗：
+  既有 100 行×新 250 行响应 overlap 首次实弹校验（PRIMARY 面 R226 有效容差），
+  结果如实入 last_refresh.mismatches 披露。
+- **消费面边界声明**：本修正案只为数据供给面；sina-construct 因子批（若有）=**新 prereg 事务**
+  （R224/R225 档位语义证据链：主力=r0+r1 官方配方 vs 档名/阈值 UNDOCUMENTED），
+  与 MF_IC_P1（EM 构造）的关系裁定归持票机 bm-b＋GM 科学面，非本件面。
