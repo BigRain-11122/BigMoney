@@ -1,11 +1,21 @@
 {
  "last_tick": {
-  "ts": "2026-09-28 02:50:01",
+  "ts": "2026-09-28 03:00:02",
   "machine": "bm-b",
-  "py_cpu_pct": 30.7,
-  "verdict": "claim_lost_yield",
+  "py_cpu_pct": 24.7,
+  "verdict": "fuse_refused_crash_loop",
   "entry": "DECISION-CHAIN-V2-P1",
-  "shard": "v2-0of1"
+  "shard": "v2-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 1,
+  "fuse_skipped": [
+   {
+    "entry": "DECISION-CHAIN-V2-P1",
+    "shard": "v2-0of1",
+    "sig": "scripts/decision_chain_v2.py|run",
+    "fuse_refusals": 1
+   }
+  ]
  },
  "launches": [
   {
@@ -665,7 +675,8 @@
    "pid": 24976,
    "runner_sha256": "880297a0fb0854bf",
    "fill_latency_min": 111.4,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   }
  ],
  "lane_machine": "bm-b"
