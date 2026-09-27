@@ -201,7 +201,11 @@ def stop_exit_overlay(mask: pd.DataFrame, prices: dict, stop_key: str,
     for sym in m.columns:
         sig = m[sym].values
         idx = m.index
-        op, lo = prices[sym]["open"].values, prices[sym]["low"].values
+        # alignment law (r137 crash fix): i/day are mask-space; per-symbol
+        # price arrays must be reindexed to m.index or short-history
+        # members misread dates then overflow (same face as the mirror fn)
+        op, lo = (prices[sym]["open"].reindex(m.index).values,
+                  prices[sym]["low"].reindex(m.index).values)
         n = len(sig)
         in_pos = armed = False
         level = entry_day = trigger_pending = None
@@ -376,7 +380,12 @@ def _effective_signal_mask(mask, prices, stop_key, atr20):
     f = STOP_FORMULA[stop_key]
     n = len(mask.index)
     arr = np.array(mask)          # writable copy (to_numpy may be read-only)
-    atr = (atr20.reindex(columns=mask.columns).to_numpy()
+    # alignment law (r137 crash fix): starts/ends/e/o are MASK-space
+    # positionals, so every per-symbol array must be date-label reindexed
+    # to mask.index first -- raw .values is per-symbol space (short-history
+    # members misread dates then overflow; atr20 index order also differs
+    # from panel order). Missing dates -> NaN -> existing guards no-op.
+    atr = (atr20.reindex(index=mask.index, columns=mask.columns).to_numpy()
            if f["kind"] == "atr" else None)
     for col, sym in enumerate(mask.columns):
         sig = mask[sym].values
@@ -388,8 +397,8 @@ def _effective_signal_mask(mask, prices, stop_key, atr20):
         ends = list(np.nonzero(d == -1)[0] + 1)
         if on[-1]:
             ends.append(n)
-        op = prices[sym]["open"].values
-        lo = prices[sym]["low"].values
+        op = prices[sym]["open"].reindex(mask.index).values
+        lo = prices[sym]["low"].reindex(mask.index).values
         for a, o in zip(starts, ends):
             e = a + 1
             if e >= o:
