@@ -1,13 +1,6 @@
 {
-  "updated": "2026-09-27 21:49:34",
   "asof": "2026-09-24",
-  "mode": "shadow",
-  "state": "ORANGE",
-  "state_cn": "橙·高危",
-  "raw_level": "ORANGE",
-  "green_streak": 0,
   "days_in_state": 2,
-  "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
   "dims": {
     "bench": {
       "asof": "2026-09-24",
@@ -45,11 +38,7 @@
       "cash_floor": 0.2
     }
   },
-  "triggers": [
-    "hs300<MA200 (#10 collected)",
-    "breadth 0.77>=65%"
-  ],
-  "transitions": [],
+  "green_streak": 0,
   "history": [
     {
       "asof": "2026-09-23",
@@ -66,5 +55,16 @@
       "days_in_state": 2
     }
   ],
-  "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)"
+  "mode": "shadow",
+  "raw_level": "ORANGE",
+  "rule": "firm/risk/REGIME_GUARD.md v1.0 s1 (O-20260923-2315)",
+  "state": "ORANGE",
+  "state_cn": "橙·高危",
+  "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+  "transitions": [],
+  "triggers": [
+    "hs300<MA200 (#10 collected)",
+    "breadth 0.77>=65%"
+  ],
+  "updated": "2026-09-27 21:49:34"
 }
