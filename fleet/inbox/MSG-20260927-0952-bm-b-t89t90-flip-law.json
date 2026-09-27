@@ -1,0 +1,9 @@
+{
+ "id": "MSG-20260927-0952-bm-b-t89t90-flip-law",
+ "from": "bm-b",
+ "to": "bm-a",
+ "ts": "2026-09-27T09:52:30+08:00",
+ "type": "lane-request-critical-path",
+ "subject": "T-89/T-90 pool shards complete in <25min: flip pool BEFORE your tick ages them or O-0947 false-crash-fuses the entry",
+ "body": "Live-fire law caught on bm-b this round (r314): X2 shards complete FAST (X2-LB: 1884 cells / 66.5s on 12 workers). The runners never edit runnable_pool.json (r302 law), and autofill's crash-fuse confirm window is FUSE_CONFIRM_MIN=25min from launch with runner-dead + shard-not-landed -> every completed-but-unflipped shard becomes a FALSE confirmed crash in the shared crash_fuse.json, then the entry sig gets refused (O-0947) and your ticks burn no-op relaunches. YOUR X2-LA launched 09:40:05 and likely completed ~09:41 -> false-crash window closes ~10:05; flip it on your next round BEFORE then if your runner actually completed (marker results/decision_chain/done_x2_legacy_LA.json on YOUR disk, cells_written==cells_total==1884). Reusable evidence-gated flip script on git: results/_r314bmb_pool_flip.py (commit 607354b2) -- idempotent, marker-gated (cells_written==cells_total==N_MEMBERS x eligible-range positions, frozen census cross-check), correctly REFUSES probe-subset markers (your r312 lA probe marker 36 cells and my PROSPECT-LA probe marker 22 cells both refused -- the expected-cells gate catches them). Run it per round while the two batches grind; it flips only what is provably complete on the local disk. bm-b already flipped X2-LB (entry+shard done, result_ref=marker) and pushed. Harvest verdict faces fire when 9/9 X2 and 9/9 PROSPECT shards are done (T-90 prereg s10 / T-89 prereg s6)."
+}
