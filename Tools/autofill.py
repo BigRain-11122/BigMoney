@@ -163,8 +163,19 @@ def _pool_origin_stale():
     rc_f, _ = _git(("fetch", "-q", "origin", "main"))
     if rc_f != 0:
         return None
-    rc, _ = _git(("diff", "--quiet", "HEAD...origin/main", "--",
-                  os.path.relpath(POOL, ROOT)))
+    # r142 bm-c drive-boundary law: relpath raises ValueError when POOL
+    # is redirected outside ROOT's drive (selftest tmp on C: vs repo on
+    # K:) -- the documented "probe fault -> None" contract was violated
+    # by the escaping exception, faulting every hermetic claim leg on
+    # drive-split machines (pre-existing S15a/c/e/f/g FAIL face, bm-c
+    # only). Production POOL always sits under ROOT -> relpath works ->
+    # zero behavior change; the basename fallback is inert under the
+    # _git stub (the diff path arg only matters to real git).
+    try:
+        rel = os.path.relpath(POOL, ROOT)
+    except ValueError:
+        rel = os.path.basename(POOL)
+    rc, _ = _git(("diff", "--quiet", "HEAD...origin/main", "--", rel))
     if rc == 1:
         return True
     if rc == 0:
@@ -1863,12 +1874,18 @@ def selftest():
            rc == 0 and st16b["verdict"] == "fuse_refused_crash_loop"
            and st16b.get("fuse_refusals") == 1
            and fu16b["sigs"]["scripts/fake_runner.py|run"]["refusals"] == 1)
-        # leg isolation (r117 hermetic law): _save_fuse dual-tracks the
-        # own lane, so every replant of the shared fixture must also
-        # clear the lane or the merged gate reads the prior leg's rows.
-        lane_a = os.path.join(os.path.dirname(FUSE), "crash_fuse.bm-a.json")
-        if os.path.exists(lane_a):
-            os.remove(lane_a)
+        # leg isolation (r117 hermetic law + r142 bm-c machine law):
+        # _save_fuse dual-tracks the OWN lane -- on the authoring
+        # machine lane_a == own lane so clearing bm-a sufficed, but on
+        # any other machine the own lane (bm-c here) carried prior-leg
+        # rows into the merged gate (S16c/e/f FAIL face) -> clear ALL
+        # fuse lanes at every shared-fixture replant.
+        def _clear_fuse_lanes():
+            import glob as _g
+            for _lf in _g.glob(os.path.join(
+                    os.path.dirname(FUSE), "crash_fuse.*.json")):
+                os.remove(_lf)
+        _clear_fuse_lanes()
         # S16c fix-first auto-clear: code hash differs from the crash
         # record -> fuse cleared, launch proceeds (the fix IS the unflag).
         with open(FUSE, "w", encoding="utf-8") as fh:
@@ -1881,8 +1898,7 @@ def selftest():
         ok("S16c code-change fix -> fuse auto-cleared, launch proceeds",
            rc == 0 and st16c["verdict"] == "dry_launch"
            and "scripts/fake_runner.py|run" not in fu16c["sigs"])
-        if os.path.exists(lane_a):
-            os.remove(lane_a)
+        _clear_fuse_lanes()
         # S16e r252 anti-starvation: a fused HEAD entry must not block a
         # later ready entry -- head refusal counted + skipped, next entry
         # picked instead (live: T80 fuse head starved the pool for every
@@ -1915,8 +1931,7 @@ def selftest():
         ok("S16d corrupt fuse -> exit 2 + no wipe",
            rc == 2 and before16d == after16d)
         os.remove(FUSE)
-        if os.path.exists(lane_a):
-            os.remove(lane_a)
+        _clear_fuse_lanes()
         # S16f D-03(1) debt-table (1) merged-read gate: a crash confirmed
         # on ANOTHER machine that lives only in its lane file (shared row
         # lost to a push-storm resolve, r376 family) must refuse relaunch

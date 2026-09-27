@@ -2135,11 +2135,23 @@ def main(argv=None):
     p.add_argument("--workers", type=int, default=None)
     sub.add_parser("judge-finalize")
     a = ap.parse_args(argv)
+    # r141 crash-lane fix: the dict dispatch called every command with
+    # zero args, so screen/judge (3-positional signatures) died with
+    # TypeError before the first line of work -- argparse parsed
+    # --shard/--shards/--workers but never forwarded them (CLI-only
+    # face: selftest calls cmd_* directly and cannot see this). W1
+    # precedent (trial_labor_w1.py main) = explicit per-command
+    # forwarding; forbidden fix: signature defaults (parsed args
+    # silently ignored = wrong-shard burn trap, r141 law 4).
+    if a.cmd == "screen":
+        return cmd_screen(a.shard, a.shards, a.workers)
+    if a.cmd == "judge":
+        return cmd_judge(a.shard, a.shards, a.workers)
     return {"selftest": cmd_selftest, "status": cmd_status,
             "grammar": cmd_grammar, "generate": cmd_generate,
-            "screen-prep": cmd_screen_prep, "screen": cmd_screen,
+            "screen-prep": cmd_screen_prep,
             "screen-finalize": cmd_screen_finalize,
-            "judge-prep": cmd_judge_prep, "judge": cmd_judge,
+            "judge-prep": cmd_judge_prep,
             "judge-finalize": cmd_judge_finalize}[a.cmd]()
 
 
