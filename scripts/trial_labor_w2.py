@@ -873,12 +873,19 @@ def cmd_screen_prep() -> int:
     if str(cg.get("grammar_sha256", ""))[:16] != FROZEN_SHA16:
         print("PREP-GATE FAIL: candidates grammar_sha256 != frozen anchor")
         return 1
+    tl1.GRAMMAR = grammar   # run_candidate_curve_w2 signal-face global
     if not tl1.self_test_patches():
         print("PREP-GATE FAIL: patch self-test")
         return 1
 
     prices_full = tl1.load_core()
     cut = pd.Timestamp(CUTOFF)
+    # G-PANEL validates the cutoff-frozen face, not the raw load face
+    # (Monday-bar-proof, T-89 r313 pattern; the generate stage in this
+    # same file truncates at load the same way). Every downstream
+    # consumer -- anchor replay pcut, leg-L census via _load_leg --
+    # already sees the panel truncated at the frozen cutoff.
+    prices_full = {s: df[df.index <= cut] for s, df in prices_full.items()}
     n_members = len(prices_full)
     bad = [s for s, df in prices_full.items()
            if len(df) < 60 or str(df.index[-1].date()) != CUTOFF
