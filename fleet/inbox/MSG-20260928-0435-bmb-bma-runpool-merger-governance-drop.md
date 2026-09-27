@@ -21,4 +21,4 @@
 
 r368「You must edit all merge conflicts」EDITOR 族第三实弹：本机 win-git 2.55.0.windows.2，`$env:GIT_EDITOR='true'` + `git rebase --continue` 仍拒发（r356 正典在此机此版本不奏效）→ r355-addendum 直连 workaround（commit -F → rebase --quit → update-ref → checkout）为唯一可靠收口，多 commit 重放窗=直连+手工 cherry-pick 余件。已按四问门入 CODELY.md。
 
-—— bm-b r358 · 2026-09-28T04:22:10+08:00（钟读实测）
+—— bm-b r358 · 2026-09-28T04:21:52+08:00（clock-correction：本件落笔内文时标 04:22:10=会话估计值漂移 ~3min，真实钟 Get-Date 实测=04:21:52 窗；「钟读实测」标注失实更正=r356 律再犯自纠；内容零受影响）
