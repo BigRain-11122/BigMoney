@@ -1,0 +1,5453 @@
+{
+ "wave": "TRIAL_LABOR_W1",
+ "prereg": "research/TRIAL_LABOR_W1_PREREG.md",
+ "evidence_cutoff": "2026-09-22",
+ "seeds": {
+  "trial_labor_w1_gen": 20283500,
+  "trial_labor_w1_scrnull": 20284000,
+  "trial_labor_w1_unc": 20284500,
+  "derivation": "np.random.default_rng([base, family_idx, draw_idx]) PCG64 (prereg sec.3)"
+ },
+ "n_per_family": 500,
+ "k_nulls": 200,
+ "families": {
+  "A": [
+   {
+    "module": "volatility",
+    "fn": "low_vol_long",
+    "trader_id": "VOLATILITY-CE-01",
+    "sig_params": {
+     "n": 60,
+     "top_k": 5,
+     "rebal_days": null
+    },
+    "registered_params": {
+     "max_positions": 5,
+     "position_size_pct": 0.1,
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "registered_ovr": {
+     "loss_time_days": 16
+    }
+   },
+   {
+    "module": "composite_rotation",
+    "fn": "top_n_rotation",
+    "trader_id": "COMPOSITE-CE-01",
+    "sig_params": {
+     "top_n": 5,
+     "rebal_days": 20
+    },
+    "registered_params": {
+     "max_positions": 5,
+     "position_size_pct": 0.19,
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ]
+    },
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    }
+   },
+   {
+    "module": "composite_rotation",
+    "fn": "top_n_rotation",
+    "trader_id": "COMPOSITE-CE-02",
+    "sig_params": {
+     "top_n": 8,
+     "rebal_days": 20
+    },
+    "registered_params": {
+     "max_positions": 8,
+     "position_size_pct": 0.1187,
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.03,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "trailing_lock": 0.05
+    },
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    }
+   },
+   {
+    "module": "ta",
+    "fn": "engulf_reversal",
+    "trader_id": "ENGULF-CE-01",
+    "sig_params": {
+     "drop_th": -0.05
+    },
+    "registered_params": {
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.03,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "trailing_lock": 0.05
+    },
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    }
+   },
+   {
+    "module": "patterns",
+    "fn": "needle_probe",
+    "trader_id": "NEEDLE-DE-01",
+    "sig_params": {
+     "drop_th": -0.05,
+     "shadow_pct": 0.02
+    },
+    "registered_params": {},
+    "registered_ovr": {}
+   },
+   {
+    "module": "patterns",
+    "fn": "vol_drought_reversal",
+    "trader_id": "DROUGHT-CE-01",
+    "sig_params": {
+     "vol_floor": 0.55,
+     "drop_th": -0.05
+    },
+    "registered_params": {
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "registered_ovr": {
+     "loss_time_days": 16
+    }
+   }
+  ],
+  "B": [
+   {
+    "module": "composite_rotation",
+    "fn": "composite_score"
+   },
+   {
+    "module": "event",
+    "fn": "breakout_confirm"
+   },
+   {
+    "module": "event",
+    "fn": "double_bottom"
+   },
+   {
+    "module": "event",
+    "fn": "gap_fill"
+   },
+   {
+    "module": "folk",
+    "fn": "ants_climb"
+   },
+   {
+    "module": "folk",
+    "fn": "false_break_back"
+   },
+   {
+    "module": "folk",
+    "fn": "gap_up_hold"
+   },
+   {
+    "module": "folk",
+    "fn": "lian_yin_first_yang"
+   },
+   {
+    "module": "folk",
+    "fn": "low_suction"
+   },
+   {
+    "module": "folk",
+    "fn": "rsi_low_flat"
+   },
+   {
+    "module": "folk",
+    "fn": "second_wave"
+   },
+   {
+    "module": "folk",
+    "fn": "volume_mound"
+   },
+   {
+    "module": "macro",
+    "fn": "csi300_momentum_filter"
+   },
+   {
+    "module": "macro",
+    "fn": "csi300_trend_filter"
+   },
+   {
+    "module": "macro",
+    "fn": "drawdown_filter"
+   },
+   {
+    "module": "macro",
+    "fn": "volatility_regime_filter"
+   },
+   {
+    "module": "mean_reversion",
+    "fn": "bollinger_breakout"
+   },
+   {
+    "module": "mean_reversion",
+    "fn": "pullback_bounce"
+   },
+   {
+    "module": "mean_reversion",
+    "fn": "rsi2"
+   },
+   {
+    "module": "mean_reversion",
+    "fn": "rsi_revert"
+   },
+   {
+    "module": "mean_reversion",
+    "fn": "zscore_revert"
+   },
+   {
+    "module": "momentum",
+    "fn": "cross_sectional_momentum"
+   },
+   {
+    "module": "momentum",
+    "fn": "dual_momentum"
+   },
+   {
+    "module": "momentum",
+    "fn": "momentum_acceleration"
+   },
+   {
+    "module": "momentum",
+    "fn": "relative_strength_rotation"
+   },
+   {
+    "module": "momentum",
+    "fn": "time_series_momentum"
+   },
+   {
+    "module": "patterns",
+    "fn": "big_yin_shakeout"
+   },
+   {
+    "module": "patterns",
+    "fn": "box_breakout"
+   },
+   {
+    "module": "patterns",
+    "fn": "doji_at_low"
+   },
+   {
+    "module": "patterns",
+    "fn": "duck_head"
+   },
+   {
+    "module": "patterns",
+    "fn": "immortal_guide"
+   },
+   {
+    "module": "patterns",
+    "fn": "inside_bar_breakup"
+   },
+   {
+    "module": "patterns",
+    "fn": "island_reversal"
+   },
+   {
+    "module": "patterns",
+    "fn": "ma_converge_break"
+   },
+   {
+    "module": "patterns",
+    "fn": "macd_divergence"
+   },
+   {
+    "module": "patterns",
+    "fn": "morning_star"
+   },
+   {
+    "module": "patterns",
+    "fn": "n_shape"
+   },
+   {
+    "module": "patterns",
+    "fn": "obv_divergence"
+   },
+   {
+    "module": "patterns",
+    "fn": "piercing_line"
+   },
+   {
+    "module": "patterns",
+    "fn": "three_methods_up"
+   },
+   {
+    "module": "patterns",
+    "fn": "three_soldiers"
+   },
+   {
+    "module": "patterns",
+    "fn": "yang_break_3ma"
+   },
+   {
+    "module": "seasonal",
+    "fn": "holiday_effect"
+   },
+   {
+    "module": "seasonal",
+    "fn": "month_end_effect"
+   },
+   {
+    "module": "seasonal",
+    "fn": "month_seasonality"
+   },
+   {
+    "module": "seasonal",
+    "fn": "trend_by_season"
+   },
+   {
+    "module": "seasonal",
+    "fn": "weekday_effect"
+   },
+   {
+    "module": "sentiment",
+    "fn": "amount_rank"
+   },
+   {
+    "module": "sentiment",
+    "fn": "intraday_momentum"
+   },
+   {
+    "module": "sentiment",
+    "fn": "overnight_drift"
+   },
+   {
+    "module": "sentiment",
+    "fn": "price_volume_trend"
+   },
+   {
+    "module": "sentiment",
+    "fn": "turnover_surge"
+   },
+   {
+    "module": "ta",
+    "fn": "bb_squeeze_breakout"
+   },
+   {
+    "module": "ta",
+    "fn": "cci_revert"
+   },
+   {
+    "module": "ta",
+    "fn": "hammer_reversal"
+   },
+   {
+    "module": "ta",
+    "fn": "kdj_reversal"
+   },
+   {
+    "module": "ta",
+    "fn": "macd_trend"
+   },
+   {
+    "module": "ta",
+    "fn": "nr7_breakout"
+   },
+   {
+    "module": "ta",
+    "fn": "rsi_divergence"
+   },
+   {
+    "module": "ta",
+    "fn": "rsrs_timing"
+   },
+   {
+    "module": "ta",
+    "fn": "streak_up"
+   },
+   {
+    "module": "ta",
+    "fn": "strong_close"
+   },
+   {
+    "module": "ta",
+    "fn": "vol_breakout"
+   },
+   {
+    "module": "ta",
+    "fn": "williams_reversal"
+   },
+   {
+    "module": "trend",
+    "fn": "donchian_breakout"
+   },
+   {
+    "module": "trend",
+    "fn": "dual_ma_cross"
+   },
+   {
+    "module": "trend",
+    "fn": "parabolic_sar"
+   },
+   {
+    "module": "trend",
+    "fn": "supertrend"
+   },
+   {
+    "module": "trend",
+    "fn": "triple_ma"
+   },
+   {
+    "module": "volatility",
+    "fn": "vol_breakout"
+   },
+   {
+    "module": "volatility",
+    "fn": "vol_regime_switch"
+   },
+   {
+    "module": "volatility",
+    "fn": "vol_target"
+   }
+  ]
+ },
+ "value_domains": {
+  "composite_rotation.composite_score": {},
+  "composite_rotation.top_n_rotation": {
+   "top_n": [
+    3,
+    5,
+    8
+   ],
+   "rebal_days": [
+    10,
+    20,
+    40
+   ]
+  },
+  "event.breakout_confirm": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ]
+  },
+  "event.double_bottom": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "tolerance": [
+    0.015,
+    0.03,
+    0.045
+   ]
+  },
+  "event.gap_fill": {
+   "n": [
+    2,
+    5,
+    10
+   ]
+  },
+  "folk.ants_climb": {
+   "max_day": [
+    0.006,
+    0.012,
+    0.018
+   ]
+  },
+  "folk.false_break_back": {
+   "n_back": [
+    2,
+    3,
+    6
+   ]
+  },
+  "folk.gap_up_hold": {
+   "gap_th": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "folk.lian_yin_first_yang": {
+   "n_down": [
+    2,
+    3,
+    6
+   ]
+  },
+  "folk.low_suction": {
+   "shrink": [
+    0.4,
+    0.8,
+    1.2
+   ]
+  },
+  "folk.rsi_low_flat": {
+   "n": [
+    7,
+    14,
+    28
+   ],
+   "low_th": [
+    12,
+    25,
+    50
+   ]
+  },
+  "folk.second_wave": {
+   "retest": [
+    0.025,
+    0.05,
+    0.075
+   ]
+  },
+  "folk.volume_mound": {
+   "mound": [
+    0.65,
+    1.3,
+    1.95
+   ]
+  },
+  "macro.csi300_momentum_filter": {
+   "n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "macro.csi300_trend_filter": {
+   "ma_n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "macro.drawdown_filter": {
+   "max_dd": [
+    -0.225,
+    -0.15,
+    -0.075
+   ]
+  },
+  "macro.volatility_regime_filter": {
+   "n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "mean_reversion.bollinger_breakout": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "k": [
+    1.0,
+    2.0,
+    3.0
+   ]
+  },
+  "mean_reversion.pullback_bounce": {
+   "trend_n": [
+    30,
+    60,
+    120
+   ],
+   "pullback_n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "mean_reversion.rsi2": {
+   "n": [
+    2,
+    4
+   ]
+  },
+  "mean_reversion.rsi_revert": {
+   "n": [
+    7,
+    14,
+    28
+   ],
+   "oversold": [
+    15,
+    30,
+    60
+   ],
+   "overbought": [
+    35,
+    70,
+    140
+   ]
+  },
+  "mean_reversion.zscore_revert": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "entry": [
+    -3.0,
+    -2.0,
+    -1.0
+   ]
+  },
+  "momentum.cross_sectional_momentum": {
+   "n": [
+    60,
+    120,
+    240
+   ],
+   "skip": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.dual_momentum": {
+   "n": [
+    60,
+    120,
+    240
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.momentum_acceleration": {
+   "fast": [
+    10,
+    20,
+    40
+   ],
+   "slow": [
+    60,
+    120,
+    240
+   ]
+  },
+  "momentum.relative_strength_rotation": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.time_series_momentum": {
+   "n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "patterns.big_yin_shakeout": {
+   "big_yin": [
+    -0.0525,
+    -0.035,
+    -0.0175
+   ]
+  },
+  "patterns.box_breakout": {
+   "box_th": [
+    0.04,
+    0.08,
+    0.12
+   ],
+   "vol_mult": [
+    0.65,
+    1.3,
+    1.95
+   ],
+   "box_n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "patterns.doji_at_low": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "patterns.duck_head": {
+   "neck": [
+    4,
+    8,
+    16
+   ]
+  },
+  "patterns.immortal_guide": {
+   "shadow_pct": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "patterns.inside_bar_breakup": {},
+  "patterns.island_reversal": {
+   "gap": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "patterns.ma_converge_break": {
+   "spread": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "patterns.macd_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ]
+  },
+  "patterns.morning_star": {
+   "big_red": [
+    -0.045,
+    -0.03,
+    -0.015
+   ],
+   "small_body": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "patterns.n_shape": {
+   "leg_up": [
+    0.02,
+    0.04,
+    0.06
+   ]
+  },
+  "patterns.needle_probe": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ],
+   "shadow_pct": [
+    0.01,
+    0.02,
+    0.03
+   ]
+  },
+  "patterns.obv_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ]
+  },
+  "patterns.piercing_line": {
+   "big_red": [
+    -0.03,
+    -0.02,
+    -0.01
+   ]
+  },
+  "patterns.three_methods_up": {
+   "big_yang": [
+    0.015,
+    0.03,
+    0.045
+   ]
+  },
+  "patterns.three_soldiers": {
+   "min_body": [
+    0.002,
+    0.004,
+    0.006
+   ]
+  },
+  "patterns.vol_drought_reversal": {
+   "vol_floor": [
+    0.275,
+    0.55,
+    0.825
+   ],
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "patterns.yang_break_3ma": {
+   "spread": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "seasonal.holiday_effect": {
+   "pre_days": [
+    1,
+    3,
+    5
+   ]
+  },
+  "seasonal.month_end_effect": {
+   "window": [
+    2,
+    3,
+    5
+   ]
+  },
+  "seasonal.month_seasonality": {
+   "month": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  "seasonal.trend_by_season": {
+   "month": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ],
+   "ma_n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "seasonal.weekday_effect": {
+   "weekday": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "sentiment.amount_rank": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "sentiment.intraday_momentum": {
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "sentiment.overnight_drift": {
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "sentiment.price_volume_trend": {
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "sentiment.turnover_surge": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "threshold": [
+    1.0,
+    2.0,
+    3.0
+   ]
+  },
+  "ta.bb_squeeze_breakout": {
+   "bb_n": [
+    10,
+    20,
+    40
+   ],
+   "k": [
+    1.0,
+    2.0,
+    3.0
+   ],
+   "width_n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.cci_revert": {
+   "cci_n": [
+    10,
+    20,
+    40
+   ],
+   "entry_th": [
+    -150.0,
+    -100.0,
+    -50.0
+   ],
+   "exit_th": [
+    50.0,
+    100.0,
+    150.0
+   ],
+   "trend_ma": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.engulf_reversal": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "ta.hammer_reversal": {
+   "body_max": [
+    0.175,
+    0.35,
+    0.525
+   ],
+   "shadow_mult": [
+    1.0,
+    2.0,
+    3.0
+   ],
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "ta.kdj_reversal": {
+   "kdj_n": [
+    4,
+    9,
+    18
+   ],
+   "entry_j": [
+    0.0
+   ],
+   "exit_j": [
+    40.0,
+    80.0,
+    120.0
+   ],
+   "trend_ma": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.macd_trend": {
+   "fast": [
+    6,
+    12,
+    24
+   ],
+   "slow": [
+    13,
+    26,
+    52
+   ],
+   "signal": [
+    4,
+    9,
+    18
+   ]
+  },
+  "ta.nr7_breakout": {
+   "nr_n": [
+    3,
+    7,
+    14
+   ],
+   "hold_n": [
+    2,
+    5,
+    10
+   ]
+  },
+  "ta.rsi_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ],
+   "n": [
+    7,
+    14,
+    28
+   ]
+  },
+  "ta.rsrs_timing": {
+   "window": [
+    9,
+    18,
+    36
+   ],
+   "z_win": [
+    125,
+    250,
+    500
+   ],
+   "buy_z": [
+    0.4,
+    0.8,
+    1.2
+   ],
+   "exit_z": [
+    -1.2,
+    -0.8,
+    -0.4
+   ]
+  },
+  "ta.streak_up": {
+   "streak_n": [
+    2,
+    3,
+    6
+   ],
+   "min_up": [
+    0.0
+   ]
+  },
+  "ta.strong_close": {
+   "pos_th": [
+    0.425,
+    0.85,
+    1.275
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ],
+   "vol_len": [
+    10,
+    20,
+    40
+   ]
+  },
+  "ta.vol_breakout": {
+   "brk_len": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ],
+   "vol_avg_len": [
+    10,
+    20,
+    40
+   ],
+   "exit_len": [
+    5,
+    10,
+    20
+   ]
+  },
+  "ta.williams_reversal": {
+   "wr_n": [
+    7,
+    14,
+    28
+   ],
+   "entry_th": [
+    -120.0,
+    -80.0,
+    -40.0
+   ],
+   "exit_th": [
+    -30.0,
+    -20.0,
+    -10.0
+   ]
+  },
+  "trend.donchian_breakout": {
+   "entry_n": [
+    10,
+    20,
+    40
+   ],
+   "exit_n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "trend.dual_ma_cross": {
+   "fast": [
+    2,
+    5,
+    10
+   ],
+   "slow": [
+    10,
+    20,
+    40
+   ]
+  },
+  "trend.parabolic_sar": {
+   "af_start": [
+    0.01,
+    0.02,
+    0.03
+   ],
+   "af_inc": [
+    0.01,
+    0.02,
+    0.03
+   ],
+   "af_max": [
+    0.1,
+    0.2,
+    0.3
+   ]
+  },
+  "trend.supertrend": {
+   "n": [
+    5,
+    10,
+    20
+   ],
+   "mult": [
+    1.5,
+    3.0,
+    4.5
+   ]
+  },
+  "trend.triple_ma": {
+   "n1": [
+    2,
+    5,
+    10
+   ],
+   "n2": [
+    10,
+    20,
+    40
+   ],
+   "n3": [
+    30,
+    60,
+    120
+   ]
+  },
+  "volatility.low_vol_long": {
+   "n": [
+    30,
+    60,
+    120
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ],
+   "rebal_days": [
+    null,
+    10,
+    20
+   ]
+  },
+  "volatility.vol_breakout": {
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "volatility.vol_regime_switch": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "ma_n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "volatility.vol_target": {
+   "target_vol": [
+    0.1,
+    0.15,
+    0.2
+   ],
+   "n": [
+    10,
+    20,
+    40
+   ]
+  }
+ },
+ "faces": {
+  "composite_rotation.composite_score": "panel",
+  "composite_rotation.top_n_rotation": "panel",
+  "event.breakout_confirm": "persym",
+  "event.double_bottom": "persym",
+  "event.gap_fill": "persym",
+  "folk.ants_climb": "persym",
+  "folk.false_break_back": "persym",
+  "folk.gap_up_hold": "persym",
+  "folk.lian_yin_first_yang": "persym",
+  "folk.low_suction": "persym",
+  "folk.rsi_low_flat": "persym",
+  "folk.second_wave": "persym",
+  "folk.volume_mound": "persym",
+  "macro.csi300_momentum_filter": "persym",
+  "macro.csi300_trend_filter": "persym",
+  "macro.drawdown_filter": "persym",
+  "macro.volatility_regime_filter": "persym",
+  "mean_reversion.bollinger_breakout": "persym",
+  "mean_reversion.pullback_bounce": "persym",
+  "mean_reversion.rsi2": "persym",
+  "mean_reversion.rsi_revert": "persym",
+  "mean_reversion.zscore_revert": "persym",
+  "momentum.cross_sectional_momentum": "panel",
+  "momentum.dual_momentum": "panel",
+  "momentum.momentum_acceleration": "panel",
+  "momentum.relative_strength_rotation": "panel",
+  "momentum.time_series_momentum": "persym",
+  "patterns.big_yin_shakeout": "persym",
+  "patterns.box_breakout": "persym",
+  "patterns.doji_at_low": "persym",
+  "patterns.duck_head": "persym",
+  "patterns.immortal_guide": "persym",
+  "patterns.inside_bar_breakup": "persym",
+  "patterns.island_reversal": "persym",
+  "patterns.ma_converge_break": "persym",
+  "patterns.macd_divergence": "persym",
+  "patterns.morning_star": "persym",
+  "patterns.n_shape": "persym",
+  "patterns.needle_probe": "persym",
+  "patterns.obv_divergence": "persym",
+  "patterns.piercing_line": "persym",
+  "patterns.three_methods_up": "persym",
+  "patterns.three_soldiers": "persym",
+  "patterns.vol_drought_reversal": "persym",
+  "patterns.yang_break_3ma": "persym",
+  "seasonal.holiday_effect": "persym",
+  "seasonal.month_end_effect": "calendar",
+  "seasonal.month_seasonality": "calendar",
+  "seasonal.trend_by_season": "persym",
+  "seasonal.weekday_effect": "calendar",
+  "sentiment.amount_rank": "panel",
+  "sentiment.intraday_momentum": "panel",
+  "sentiment.overnight_drift": "panel",
+  "sentiment.price_volume_trend": "panel",
+  "sentiment.turnover_surge": "panel",
+  "ta.bb_squeeze_breakout": "persym",
+  "ta.cci_revert": "persym",
+  "ta.engulf_reversal": "persym",
+  "ta.hammer_reversal": "persym",
+  "ta.kdj_reversal": "persym",
+  "ta.macd_trend": "persym",
+  "ta.nr7_breakout": "persym",
+  "ta.rsi_divergence": "persym",
+  "ta.rsrs_timing": "persym",
+  "ta.streak_up": "persym",
+  "ta.strong_close": "persym",
+  "ta.vol_breakout": "persym",
+  "ta.williams_reversal": "persym",
+  "trend.donchian_breakout": "persym",
+  "trend.dual_ma_cross": "persym",
+  "trend.parabolic_sar": "persym",
+  "trend.supertrend": "persym",
+  "trend.triple_ma": "persym",
+  "volatility.low_vol_long": "panel",
+  "volatility.vol_breakout": "persym",
+  "volatility.vol_regime_switch": "persym",
+  "volatility.vol_target": "persym"
+ },
+ "axis": {
+  "entry_filters": [
+   "none",
+   "depth_thresh",
+   "amplitude",
+   "liquidity",
+   "trend_slope",
+   "dual_window",
+   "fundamental_mask"
+  ],
+  "exits": [
+   "template_default",
+   "ce_machine",
+   "time_stop_5d",
+   "time_stop_7d",
+   "time_stop_10d",
+   "time_stop_20d",
+   "trailing_stop",
+   "profit_ladder"
+  ],
+  "sizing": [
+   "equal_weight",
+   "inverse_vol",
+   "cap20",
+   "regime_delever"
+  ],
+  "timing": [
+   "daily_signal",
+   "weekly_grid"
+  ],
+  "exit_machines": {
+   "ce_machine": {
+    "bridged": {
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.03,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "trailing_lock": 0.05
+    },
+    "patch": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    },
+    "provenance": "CE-registered machine (ENGULF/COMPOSITE-02 frozen face)"
+   },
+   "time_stop_5d": {
+    "bridged": {
+     "time_decay_period": 5,
+     "time_decay_threshold": 10.0,
+     "initial_stop": -1.0,
+     "take_profit_levels": [
+      10.0
+     ],
+     "trailing_stop_activate": 10.0,
+     "trailing_lock": 10.0
+    },
+    "patch": {
+     "loss_time_days": 1000,
+     "take_profit_fractions": [
+      1.0
+     ]
+    },
+    "provenance": "pure holding-period exit (TRIAL_LABOR_LAW sec.3)"
+   },
+   "time_stop_7d": {
+    "bridged": {
+     "time_decay_period": 7,
+     "time_decay_threshold": 10.0,
+     "initial_stop": -1.0,
+     "take_profit_levels": [
+      10.0
+     ],
+     "trailing_stop_activate": 10.0,
+     "trailing_lock": 10.0
+    },
+    "patch": {
+     "loss_time_days": 1000,
+     "take_profit_fractions": [
+      1.0
+     ]
+    },
+    "provenance": "pure holding-period exit (TRIAL_LABOR_LAW sec.3)"
+   },
+   "time_stop_10d": {
+    "bridged": {
+     "time_decay_period": 10,
+     "time_decay_threshold": 10.0,
+     "initial_stop": -1.0,
+     "take_profit_levels": [
+      10.0
+     ],
+     "trailing_stop_activate": 10.0,
+     "trailing_lock": 10.0
+    },
+    "patch": {
+     "loss_time_days": 1000,
+     "take_profit_fractions": [
+      1.0
+     ]
+    },
+    "provenance": "pure holding-period exit (TRIAL_LABOR_LAW sec.3)"
+   },
+   "time_stop_20d": {
+    "bridged": {
+     "time_decay_period": 20,
+     "time_decay_threshold": 10.0,
+     "initial_stop": -1.0,
+     "take_profit_levels": [
+      10.0
+     ],
+     "trailing_stop_activate": 10.0,
+     "trailing_lock": 10.0
+    },
+    "patch": {
+     "loss_time_days": 1000,
+     "take_profit_fractions": [
+      1.0
+     ]
+    },
+    "provenance": "pure holding-period exit (TRIAL_LABOR_LAW sec.3)"
+   },
+   "trailing_stop": {
+    "bridged": {
+     "trailing_stop_activate": 0.03,
+     "trailing_lock": 0.03,
+     "initial_stop": -0.05,
+     "take_profit_levels": [
+      10.0
+     ],
+     "time_decay_period": 1000,
+     "time_decay_threshold": 0.02
+    },
+    "patch": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      1.0
+     ]
+    },
+    "provenance": "trailing-dominant machine (REFINE_BENCH sec.2)"
+   },
+   "profit_ladder": {
+    "bridged": {
+     "take_profit_levels": [
+      0.03,
+      0.06,
+      0.1
+     ],
+     "trailing_stop_activate": 0.1,
+     "trailing_lock": 0.01,
+     "initial_stop": -0.08,
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.02
+    },
+    "patch": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.3333333333333333,
+      0.3333333333333333,
+      1.0
+     ]
+    },
+    "provenance": "ladder-dominant machine (REFINE_BENCH sec.2)"
+   }
+  },
+  "default_axis": [
+   "none",
+   "template_default",
+   "equal_weight",
+   "daily_signal"
+  ],
+  "filter_defs": {
+   "none": "no entry filter",
+   "depth_thresh": "sym drawdown vs 60d high > -0.10 (no deep-crash catching)",
+   "amplitude": "20d return std <= cross-sectional median on signal day",
+   "liquidity": "20d mean amount >= cross-sectional median",
+   "trend_slope": "close > MA5 AND close > prior close (first-yang confirmation)",
+   "dual_window": "MA5 > MA20 (dual-window resonance)",
+   "fundamental_mask": "b_layer_mask ok_static hard filter (keep-ok codes only; core48 overlap disclosed at generate)"
+  },
+  "sizing_defs": {
+   "equal_weight": "engine default nominal (template/params)",
+   "inverse_vol": "entry_size_scale = clip(0.15 / vol20ann(510300), max 1.0)",
+   "cap20": "sizing_mode=equity_fraction + position_size_pct=0.20 (single-name cap)",
+   "regime_delever": "entry_size_scale = 0.5 on bear-state days (REGIME_MAP), else 1.0"
+  }
+ },
+ "negative_prior_functions": [
+  "ants_climb",
+  "bb_squeeze_breakout",
+  "big_yin_shakeout",
+  "box_breakout",
+  "cci_revert",
+  "doji_at_low",
+  "false_break_back",
+  "gap_up_hold",
+  "hammer_reversal",
+  "immortal_guide",
+  "inside_bar_breakup",
+  "island_reversal",
+  "kdj_reversal",
+  "lian_yin_first_yang",
+  "low_suction",
+  "ma_converge_break",
+  "macd_divergence",
+  "macd_trend",
+  "morning_star",
+  "n_shape",
+  "nr7_breakout",
+  "obv_divergence",
+  "piercing_line",
+  "rsi_divergence",
+  "rsi_low_flat",
+  "rsrs_timing",
+  "second_wave",
+  "streak_up",
+  "strong_close",
+  "three_methods_up",
+  "three_soldiers",
+  "vol_breakout",
+  "volume_mound",
+  "williams_reversal",
+  "yang_break_3ma"
+ ],
+ "negative_prior_default_cells": {
+  "folk.ants_climb": {
+   "max_day": 0.012
+  },
+  "folk.false_break_back": {
+   "n_back": 3
+  },
+  "folk.gap_up_hold": {
+   "gap_th": 0.01
+  },
+  "folk.lian_yin_first_yang": {
+   "n_down": 3
+  },
+  "folk.low_suction": {
+   "shrink": 0.8
+  },
+  "folk.rsi_low_flat": {
+   "n": 14,
+   "low_th": 25
+  },
+  "folk.second_wave": {
+   "retest": 0.05
+  },
+  "folk.volume_mound": {
+   "mound": 1.3
+  },
+  "patterns.big_yin_shakeout": {
+   "big_yin": -0.035
+  },
+  "patterns.box_breakout": {
+   "box_th": 0.08,
+   "vol_mult": 1.3,
+   "box_n": 20
+  },
+  "patterns.doji_at_low": {
+   "drop_th": -0.05
+  },
+  "patterns.immortal_guide": {
+   "shadow_pct": 0.015
+  },
+  "patterns.inside_bar_breakup": {},
+  "patterns.island_reversal": {
+   "gap": 0.01
+  },
+  "patterns.ma_converge_break": {
+   "spread": 0.015
+  },
+  "patterns.macd_divergence": {
+   "look": 30
+  },
+  "patterns.morning_star": {
+   "big_red": -0.03,
+   "small_body": 0.01
+  },
+  "patterns.n_shape": {
+   "leg_up": 0.04
+  },
+  "patterns.obv_divergence": {
+   "look": 30
+  },
+  "patterns.piercing_line": {
+   "big_red": -0.02
+  },
+  "patterns.three_methods_up": {
+   "big_yang": 0.03
+  },
+  "patterns.three_soldiers": {
+   "min_body": 0.004
+  },
+  "patterns.yang_break_3ma": {
+   "spread": 0.015
+  },
+  "ta.bb_squeeze_breakout": {
+   "bb_n": 20,
+   "k": 2.0,
+   "width_n": 60
+  },
+  "ta.cci_revert": {
+   "cci_n": 20,
+   "entry_th": -100.0,
+   "exit_th": 100.0,
+   "trend_ma": 60
+  },
+  "ta.hammer_reversal": {
+   "body_max": 0.35,
+   "shadow_mult": 2.0,
+   "drop_th": -0.05
+  },
+  "ta.kdj_reversal": {
+   "kdj_n": 9,
+   "entry_j": 0.0,
+   "exit_j": 80.0,
+   "trend_ma": 60
+  },
+  "ta.macd_trend": {
+   "fast": 12,
+   "slow": 26,
+   "signal": 9
+  },
+  "ta.nr7_breakout": {
+   "nr_n": 7,
+   "hold_n": 5
+  },
+  "ta.rsi_divergence": {
+   "look": 30,
+   "n": 14
+  },
+  "ta.rsrs_timing": {
+   "window": 18,
+   "z_win": 250,
+   "buy_z": 0.8,
+   "exit_z": -0.8
+  },
+  "ta.streak_up": {
+   "streak_n": 3,
+   "min_up": 0.0
+  },
+  "ta.strong_close": {
+   "pos_th": 0.85,
+   "vol_mult": 1.5,
+   "vol_len": 20
+  },
+  "ta.vol_breakout": {
+   "brk_len": 20,
+   "vol_mult": 1.5,
+   "vol_avg_len": 20,
+   "exit_len": 10
+  },
+  "ta.williams_reversal": {
+   "wr_n": 14,
+   "entry_th": -80.0,
+   "exit_th": -20.0
+  },
+  "volatility.vol_breakout": {
+   "n": 20
+  }
+ },
+ "exclusion": {
+  "registered_default_axis": [
+   {
+    "module": "volatility",
+    "fn": "low_vol_long",
+    "sig_params": {
+     "n": 60,
+     "top_k": 5,
+     "rebal_days": null
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "composite_rotation",
+    "fn": "top_n_rotation",
+    "sig_params": {
+     "top_n": 5,
+     "rebal_days": 20
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "composite_rotation",
+    "fn": "top_n_rotation",
+    "sig_params": {
+     "top_n": 8,
+     "rebal_days": 20
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "engulf_reversal",
+    "sig_params": {
+     "drop_th": -0.05
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "needle_probe",
+    "sig_params": {
+     "drop_th": -0.05,
+     "shadow_pct": 0.02
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "vol_drought_reversal",
+    "sig_params": {
+     "vol_floor": 0.55,
+     "drop_th": -0.05
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   }
+  ],
+  "negative_default_axis": [
+   {
+    "module": "folk",
+    "fn": "ants_climb",
+    "sig_params": {
+     "max_day": 0.012
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "folk",
+    "fn": "false_break_back",
+    "sig_params": {
+     "n_back": 3
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "folk",
+    "fn": "gap_up_hold",
+    "sig_params": {
+     "gap_th": 0.01
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "folk",
+    "fn": "lian_yin_first_yang",
+    "sig_params": {
+     "n_down": 3
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "folk",
+    "fn": "low_suction",
+    "sig_params": {
+     "shrink": 0.8
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "folk",
+    "fn": "rsi_low_flat",
+    "sig_params": {
+     "n": 14,
+     "low_th": 25
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "folk",
+    "fn": "second_wave",
+    "sig_params": {
+     "retest": 0.05
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "folk",
+    "fn": "volume_mound",
+    "sig_params": {
+     "mound": 1.3
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "big_yin_shakeout",
+    "sig_params": {
+     "big_yin": -0.035
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "box_breakout",
+    "sig_params": {
+     "box_th": 0.08,
+     "vol_mult": 1.3,
+     "box_n": 20
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "doji_at_low",
+    "sig_params": {
+     "drop_th": -0.05
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "immortal_guide",
+    "sig_params": {
+     "shadow_pct": 0.015
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "inside_bar_breakup",
+    "sig_params": {},
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "island_reversal",
+    "sig_params": {
+     "gap": 0.01
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "ma_converge_break",
+    "sig_params": {
+     "spread": 0.015
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "macd_divergence",
+    "sig_params": {
+     "look": 30
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "morning_star",
+    "sig_params": {
+     "big_red": -0.03,
+     "small_body": 0.01
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "n_shape",
+    "sig_params": {
+     "leg_up": 0.04
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "obv_divergence",
+    "sig_params": {
+     "look": 30
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "piercing_line",
+    "sig_params": {
+     "big_red": -0.02
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "three_methods_up",
+    "sig_params": {
+     "big_yang": 0.03
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "three_soldiers",
+    "sig_params": {
+     "min_body": 0.004
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "patterns",
+    "fn": "yang_break_3ma",
+    "sig_params": {
+     "spread": 0.015
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "bb_squeeze_breakout",
+    "sig_params": {
+     "bb_n": 20,
+     "k": 2.0,
+     "width_n": 60
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "cci_revert",
+    "sig_params": {
+     "cci_n": 20,
+     "entry_th": -100.0,
+     "exit_th": 100.0,
+     "trend_ma": 60
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "hammer_reversal",
+    "sig_params": {
+     "body_max": 0.35,
+     "shadow_mult": 2.0,
+     "drop_th": -0.05
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "kdj_reversal",
+    "sig_params": {
+     "kdj_n": 9,
+     "entry_j": 0.0,
+     "exit_j": 80.0,
+     "trend_ma": 60
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "macd_trend",
+    "sig_params": {
+     "fast": 12,
+     "slow": 26,
+     "signal": 9
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "nr7_breakout",
+    "sig_params": {
+     "nr_n": 7,
+     "hold_n": 5
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "rsi_divergence",
+    "sig_params": {
+     "look": 30,
+     "n": 14
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "rsrs_timing",
+    "sig_params": {
+     "window": 18,
+     "z_win": 250,
+     "buy_z": 0.8,
+     "exit_z": -0.8
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "streak_up",
+    "sig_params": {
+     "streak_n": 3,
+     "min_up": 0.0
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "strong_close",
+    "sig_params": {
+     "pos_th": 0.85,
+     "vol_mult": 1.5,
+     "vol_len": 20
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "vol_breakout",
+    "sig_params": {
+     "brk_len": 20,
+     "vol_mult": 1.5,
+     "vol_avg_len": 20,
+     "exit_len": 10
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "ta",
+    "fn": "williams_reversal",
+    "sig_params": {
+     "wr_n": 14,
+     "entry_th": -80.0,
+     "exit_th": -20.0
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   },
+   {
+    "module": "volatility",
+    "fn": "vol_breakout",
+    "sig_params": {
+     "n": 20
+    },
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal"
+    ]
+   }
+  ],
+  "sources": [
+   "p4_batch1_results.csv",
+   "p4_batch2a_results.csv",
+   "p4_folk_results.csv",
+   "p4_queue_results.csv",
+   "p4_batch2_results.csv"
+  ]
+ },
+ "grid_module_excluded": "strategies/grid (4 fns; GRID line has its own judgment lane GRID-SLEEVE-P1, prereg sec.3)",
+ "audit": {
+  "provenance": "value domains rule-frozen from signature defaults at grammar build (prereg sec.3); faces from signature annotations + seasonal calendar set",
+  "b_family_count_note": "B=72 = 77 non-grid fns - 5 distinct A functions; prereg sec.3 prose said 71 (81-6-4 counts top_n_rotation's two A slots as two); mechanical inventory wins, raw N=500/family unchanged",
+  "fundamental_mask_overlap_core48": [],
+  "exclusion_hits": {
+   "A": 0,
+   "B": 0
+  }
+ },
+ "grammar_sha256": "a2fa15f4b06b3c40b0f3da2acbd5104879ca103cec55772e097d59234dff3a18",
+ "dedup": {
+  "raw": 1000,
+  "fingerprint_collapse_groups": [
+   {
+    "kept": "W1-A-0000",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0001",
+    "eliminated": [
+     "W1-A-0458",
+     "W1-A-0488"
+    ]
+   },
+   {
+    "kept": "W1-A-0002",
+    "eliminated": [
+     "W1-A-0085",
+     "W1-A-0152",
+     "W1-A-0271"
+    ]
+   },
+   {
+    "kept": "W1-A-0003",
+    "eliminated": [
+     "W1-A-0261"
+    ]
+   },
+   {
+    "kept": "W1-A-0004",
+    "eliminated": [
+     "W1-A-0442"
+    ]
+   },
+   {
+    "kept": "W1-A-0005",
+    "eliminated": [
+     "W1-A-0006",
+     "W1-A-0009",
+     "W1-A-0016",
+     "W1-A-0017",
+     "W1-A-0035",
+     "W1-A-0041",
+     "W1-A-0053",
+     "W1-A-0057",
+     "W1-A-0064",
+     "W1-A-0070",
+     "W1-A-0074",
+     "W1-A-0078",
+     "W1-A-0079",
+     "W1-A-0080",
+     "W1-A-0094",
+     "W1-A-0097",
+     "W1-A-0100",
+     "W1-A-0111",
+     "W1-A-0113",
+     "W1-A-0125",
+     "W1-A-0129",
+     "W1-A-0130",
+     "W1-A-0145",
+     "W1-A-0149",
+     "W1-A-0151",
+     "W1-A-0158",
+     "W1-A-0162",
+     "W1-A-0163",
+     "W1-A-0164",
+     "W1-A-0167",
+     "W1-A-0177",
+     "W1-A-0180",
+     "W1-A-0182",
+     "W1-A-0202",
+     "W1-A-0203",
+     "W1-A-0205",
+     "W1-A-0209",
+     "W1-A-0213",
+     "W1-A-0217",
+     "W1-A-0220",
+     "W1-A-0227",
+     "W1-A-0232",
+     "W1-A-0255",
+     "W1-A-0256",
+     "W1-A-0258",
+     "W1-A-0260",
+     "W1-A-0263",
+     "W1-A-0274",
+     "W1-A-0275",
+     "W1-A-0279",
+     "W1-A-0294",
+     "W1-A-0297",
+     "W1-A-0305",
+     "W1-A-0306",
+     "W1-A-0316",
+     "W1-A-0317",
+     "W1-A-0318",
+     "W1-A-0322",
+     "W1-A-0323",
+     "W1-A-0324",
+     "W1-A-0331",
+     "W1-A-0341",
+     "W1-A-0352",
+     "W1-A-0359",
+     "W1-A-0365",
+     "W1-A-0385",
+     "W1-A-0387",
+     "W1-A-0388",
+     "W1-A-0389",
+     "W1-A-0403",
+     "W1-A-0410",
+     "W1-A-0419",
+     "W1-A-0443",
+     "W1-A-0446",
+     "W1-A-0449",
+     "W1-A-0451",
+     "W1-A-0454",
+     "W1-A-0457",
+     "W1-A-0465",
+     "W1-A-0480",
+     "W1-A-0487",
+     "W1-A-0498",
+     "W1-B-0010",
+     "W1-B-0025",
+     "W1-B-0032",
+     "W1-B-0041",
+     "W1-B-0042",
+     "W1-B-0049",
+     "W1-B-0053",
+     "W1-B-0058",
+     "W1-B-0062",
+     "W1-B-0064",
+     "W1-B-0094",
+     "W1-B-0095",
+     "W1-B-0097",
+     "W1-B-0114",
+     "W1-B-0117",
+     "W1-B-0123",
+     "W1-B-0124",
+     "W1-B-0133",
+     "W1-B-0137",
+     "W1-B-0140",
+     "W1-B-0145",
+     "W1-B-0150",
+     "W1-B-0152",
+     "W1-B-0153",
+     "W1-B-0161",
+     "W1-B-0186",
+     "W1-B-0207",
+     "W1-B-0216",
+     "W1-B-0217",
+     "W1-B-0230",
+     "W1-B-0235",
+     "W1-B-0236",
+     "W1-B-0237",
+     "W1-B-0248",
+     "W1-B-0258",
+     "W1-B-0275",
+     "W1-B-0276",
+     "W1-B-0277",
+     "W1-B-0290",
+     "W1-B-0310",
+     "W1-B-0311",
+     "W1-B-0317",
+     "W1-B-0319",
+     "W1-B-0325",
+     "W1-B-0327",
+     "W1-B-0330",
+     "W1-B-0333",
+     "W1-B-0334",
+     "W1-B-0346",
+     "W1-B-0349",
+     "W1-B-0352",
+     "W1-B-0355",
+     "W1-B-0360",
+     "W1-B-0373",
+     "W1-B-0374",
+     "W1-B-0376",
+     "W1-B-0380",
+     "W1-B-0381",
+     "W1-B-0382",
+     "W1-B-0386",
+     "W1-B-0394",
+     "W1-B-0402",
+     "W1-B-0403",
+     "W1-B-0404",
+     "W1-B-0407",
+     "W1-B-0412",
+     "W1-B-0414",
+     "W1-B-0417",
+     "W1-B-0421",
+     "W1-B-0423",
+     "W1-B-0428",
+     "W1-B-0429",
+     "W1-B-0433",
+     "W1-B-0450",
+     "W1-B-0470",
+     "W1-B-0472",
+     "W1-B-0474",
+     "W1-B-0479",
+     "W1-B-0482",
+     "W1-B-0484",
+     "W1-B-0492",
+     "W1-B-0493",
+     "W1-B-0494",
+     "W1-B-0496",
+     "W1-B-0497"
+    ]
+   },
+   {
+    "kept": "W1-A-0007",
+    "eliminated": [
+     "W1-A-0296"
+    ]
+   },
+   {
+    "kept": "W1-A-0008",
+    "eliminated": [
+     "W1-A-0068",
+     "W1-A-0295",
+     "W1-A-0398",
+     "W1-A-0421"
+    ]
+   },
+   {
+    "kept": "W1-A-0010",
+    "eliminated": [
+     "W1-A-0376"
+    ]
+   },
+   {
+    "kept": "W1-A-0011",
+    "eliminated": [
+     "W1-A-0047",
+     "W1-A-0293"
+    ]
+   },
+   {
+    "kept": "W1-A-0012",
+    "eliminated": [
+     "W1-A-0030"
+    ]
+   },
+   {
+    "kept": "W1-A-0013",
+    "eliminated": [
+     "W1-A-0476"
+    ]
+   },
+   {
+    "kept": "W1-A-0014",
+    "eliminated": [
+     "W1-A-0422",
+     "W1-A-0499"
+    ]
+   },
+   {
+    "kept": "W1-A-0015",
+    "eliminated": [
+     "W1-A-0117",
+     "W1-A-0393"
+    ]
+   },
+   {
+    "kept": "W1-A-0018",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0019",
+    "eliminated": [
+     "W1-A-0242",
+     "W1-A-0320"
+    ]
+   },
+   {
+    "kept": "W1-A-0020",
+    "eliminated": [
+     "W1-A-0121",
+     "W1-A-0301"
+    ]
+   },
+   {
+    "kept": "W1-A-0021",
+    "eliminated": [
+     "W1-A-0033"
+    ]
+   },
+   {
+    "kept": "W1-A-0022",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0023",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0024",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0025",
+    "eliminated": [
+     "W1-A-0206",
+     "W1-A-0463"
+    ]
+   },
+   {
+    "kept": "W1-A-0026",
+    "eliminated": [
+     "W1-A-0032",
+     "W1-A-0254",
+     "W1-A-0493"
+    ]
+   },
+   {
+    "kept": "W1-A-0027",
+    "eliminated": [
+     "W1-A-0165"
+    ]
+   },
+   {
+    "kept": "W1-A-0028",
+    "eliminated": [
+     "W1-A-0106"
+    ]
+   },
+   {
+    "kept": "W1-A-0029",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0031",
+    "eliminated": [
+     "W1-A-0037"
+    ]
+   },
+   {
+    "kept": "W1-A-0034",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0036",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0038",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0039",
+    "eliminated": [
+     "W1-A-0087",
+     "W1-A-0141",
+     "W1-A-0315",
+     "W1-A-0339"
+    ]
+   },
+   {
+    "kept": "W1-A-0040",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0042",
+    "eliminated": [
+     "W1-A-0378"
+    ]
+   },
+   {
+    "kept": "W1-A-0043",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0044",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0045",
+    "eliminated": [
+     "W1-A-0147"
+    ]
+   },
+   {
+    "kept": "W1-A-0046",
+    "eliminated": [
+     "W1-A-0304"
+    ]
+   },
+   {
+    "kept": "W1-A-0048",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0049",
+    "eliminated": [
+     "W1-A-0284",
+     "W1-A-0361",
+     "W1-A-0409"
+    ]
+   },
+   {
+    "kept": "W1-A-0050",
+    "eliminated": [
+     "W1-A-0494"
+    ]
+   },
+   {
+    "kept": "W1-A-0051",
+    "eliminated": [
+     "W1-A-0099",
+     "W1-A-0195",
+     "W1-A-0321",
+     "W1-A-0477"
+    ]
+   },
+   {
+    "kept": "W1-A-0052",
+    "eliminated": [
+     "W1-A-0166",
+     "W1-A-0226"
+    ]
+   },
+   {
+    "kept": "W1-A-0054",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0055",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0056",
+    "eliminated": [
+     "W1-A-0350"
+    ]
+   },
+   {
+    "kept": "W1-A-0058",
+    "eliminated": [
+     "W1-A-0460"
+    ]
+   },
+   {
+    "kept": "W1-A-0059",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0060",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0061",
+    "eliminated": [
+     "W1-A-0139"
+    ]
+   },
+   {
+    "kept": "W1-A-0062",
+    "eliminated": [
+     "W1-A-0464"
+    ]
+   },
+   {
+    "kept": "W1-A-0063",
+    "eliminated": [
+     "W1-A-0159",
+     "W1-A-0447"
+    ]
+   },
+   {
+    "kept": "W1-A-0065",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0066",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0067",
+    "eliminated": [
+     "W1-A-0146",
+     "W1-A-0272"
+    ]
+   },
+   {
+    "kept": "W1-A-0069",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0071",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0072",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0073",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0075",
+    "eliminated": [
+     "W1-A-0273"
+    ]
+   },
+   {
+    "kept": "W1-A-0076",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0077",
+    "eliminated": [
+     "W1-A-0329"
+    ]
+   },
+   {
+    "kept": "W1-A-0081",
+    "eliminated": [
+     "W1-A-0417",
+     "W1-A-0423",
+     "W1-A-0453"
+    ]
+   },
+   {
+    "kept": "W1-A-0082",
+    "eliminated": [
+     "W1-A-0286"
+    ]
+   },
+   {
+    "kept": "W1-A-0083",
+    "eliminated": [
+     "W1-A-0257",
+     "W1-A-0299"
+    ]
+   },
+   {
+    "kept": "W1-A-0084",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0086",
+    "eliminated": [
+     "W1-A-0368"
+    ]
+   },
+   {
+    "kept": "W1-A-0088",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0089",
+    "eliminated": [
+     "W1-A-0437",
+     "W1-A-0461"
+    ]
+   },
+   {
+    "kept": "W1-A-0090",
+    "eliminated": [
+     "W1-A-0372"
+    ]
+   },
+   {
+    "kept": "W1-A-0091",
+    "eliminated": [
+     "W1-A-0140",
+     "W1-A-0230",
+     "W1-A-0326",
+     "W1-A-0392"
+    ]
+   },
+   {
+    "kept": "W1-A-0092",
+    "eliminated": [
+     "W1-A-0314"
+    ]
+   },
+   {
+    "kept": "W1-A-0093",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0095",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0096",
+    "eliminated": [
+     "W1-A-0330"
+    ]
+   },
+   {
+    "kept": "W1-A-0098",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0101",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0102",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0103",
+    "eliminated": [
+     "W1-A-0439"
+    ]
+   },
+   {
+    "kept": "W1-A-0104",
+    "eliminated": [
+     "W1-A-0170",
+     "W1-A-0481"
+    ]
+   },
+   {
+    "kept": "W1-A-0105",
+    "eliminated": [
+     "W1-A-0369",
+     "W1-A-0381",
+     "W1-A-0489"
+    ]
+   },
+   {
+    "kept": "W1-A-0107",
+    "eliminated": [
+     "W1-A-0215"
+    ]
+   },
+   {
+    "kept": "W1-A-0108",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0109",
+    "eliminated": [
+     "W1-A-0169",
+     "W1-A-0470"
+    ]
+   },
+   {
+    "kept": "W1-A-0110",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0112",
+    "eliminated": [
+     "W1-A-0358",
+     "W1-A-0418"
+    ]
+   },
+   {
+    "kept": "W1-A-0114",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0115",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0116",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0118",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0119",
+    "eliminated": [
+     "W1-A-0161"
+    ]
+   },
+   {
+    "kept": "W1-A-0120",
+    "eliminated": [
+     "W1-A-0282"
+    ]
+   },
+   {
+    "kept": "W1-A-0122",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0123",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0124",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0126",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0127",
+    "eliminated": [
+     "W1-A-0434"
+    ]
+   },
+   {
+    "kept": "W1-A-0128",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0131",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0132",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0133",
+    "eliminated": [
+     "W1-A-0325",
+     "W1-A-0349"
+    ]
+   },
+   {
+    "kept": "W1-A-0134",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0135",
+    "eliminated": [
+     "W1-A-0231",
+     "W1-A-0267",
+     "W1-A-0441"
+    ]
+   },
+   {
+    "kept": "W1-A-0136",
+    "eliminated": [
+     "W1-A-0346"
+    ]
+   },
+   {
+    "kept": "W1-A-0137",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0138",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0142",
+    "eliminated": [
+     "W1-A-0250"
+    ]
+   },
+   {
+    "kept": "W1-A-0143",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0144",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0148",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0150",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0153",
+    "eliminated": [
+     "W1-A-0429"
+    ]
+   },
+   {
+    "kept": "W1-A-0154",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0155",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0156",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0157",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0160",
+    "eliminated": [
+     "W1-A-0496"
+    ]
+   },
+   {
+    "kept": "W1-A-0168",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0171",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0172",
+    "eliminated": [
+     "W1-A-0190",
+     "W1-A-0406"
+    ]
+   },
+   {
+    "kept": "W1-A-0173",
+    "eliminated": [
+     "W1-A-0497"
+    ]
+   },
+   {
+    "kept": "W1-A-0174",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0175",
+    "eliminated": [
+     "W1-A-0332",
+     "W1-A-0482"
+    ]
+   },
+   {
+    "kept": "W1-A-0176",
+    "eliminated": [
+     "W1-A-0355"
+    ]
+   },
+   {
+    "kept": "W1-A-0178",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0179",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0181",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0183",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0184",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0185",
+    "eliminated": [
+     "W1-A-0371",
+     "W1-A-0377",
+     "W1-A-0383"
+    ]
+   },
+   {
+    "kept": "W1-A-0186",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0187",
+    "eliminated": [
+     "W1-A-0277"
+    ]
+   },
+   {
+    "kept": "W1-A-0188",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0189",
+    "eliminated": [
+     "W1-A-0237"
+    ]
+   },
+   {
+    "kept": "W1-A-0191",
+    "eliminated": [
+     "W1-A-0233",
+     "W1-A-0287"
+    ]
+   },
+   {
+    "kept": "W1-A-0192",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0193",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0194",
+    "eliminated": [
+     "W1-A-0283"
+    ]
+   },
+   {
+    "kept": "W1-A-0196",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0197",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0198",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0199",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0200",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0201",
+    "eliminated": [
+     "W1-A-0351",
+     "W1-A-0357"
+    ]
+   },
+   {
+    "kept": "W1-A-0204",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0207",
+    "eliminated": [
+     "W1-A-0291",
+     "W1-A-0327",
+     "W1-A-0399",
+     "W1-A-0411",
+     "W1-A-0483"
+    ]
+   },
+   {
+    "kept": "W1-A-0208",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0210",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0211",
+    "eliminated": [
+     "W1-A-0289"
+    ]
+   },
+   {
+    "kept": "W1-A-0212",
+    "eliminated": [
+     "W1-A-0416"
+    ]
+   },
+   {
+    "kept": "W1-A-0214",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0216",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0218",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0219",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0221",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0222",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0223",
+    "eliminated": [
+     "W1-A-0278"
+    ]
+   },
+   {
+    "kept": "W1-A-0224",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0225",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0228",
+    "eliminated": [
+     "W1-A-0240"
+    ]
+   },
+   {
+    "kept": "W1-A-0229",
+    "eliminated": [
+     "W1-A-0452"
+    ]
+   },
+   {
+    "kept": "W1-A-0234",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0235",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0236",
+    "eliminated": [
+     "W1-A-0356"
+    ]
+   },
+   {
+    "kept": "W1-A-0238",
+    "eliminated": [
+     "W1-A-0328"
+    ]
+   },
+   {
+    "kept": "W1-A-0239",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0241",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0243",
+    "eliminated": [
+     "W1-A-0363"
+    ]
+   },
+   {
+    "kept": "W1-A-0244",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0245",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0246",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0247",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0248",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0249",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0251",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0252",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0253",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0259",
+    "eliminated": [
+     "W1-A-0475"
+    ]
+   },
+   {
+    "kept": "W1-A-0262",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0264",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0265",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0266",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0268",
+    "eliminated": [
+     "W1-A-0310"
+    ]
+   },
+   {
+    "kept": "W1-A-0269",
+    "eliminated": [
+     "W1-A-0431"
+    ]
+   },
+   {
+    "kept": "W1-A-0270",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0276",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0280",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0281",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0285",
+    "eliminated": [
+     "W1-A-0375",
+     "W1-A-0405"
+    ]
+   },
+   {
+    "kept": "W1-A-0288",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0290",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0292",
+    "eliminated": [
+     "W1-A-0412"
+    ]
+   },
+   {
+    "kept": "W1-A-0298",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0300",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0302",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0303",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0307",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0308",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0309",
+    "eliminated": [
+     "W1-A-0435"
+    ]
+   },
+   {
+    "kept": "W1-A-0311",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0312",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0313",
+    "eliminated": [
+     "W1-A-0415"
+    ]
+   },
+   {
+    "kept": "W1-A-0319",
+    "eliminated": [
+     "W1-A-0373",
+     "W1-A-0374"
+    ]
+   },
+   {
+    "kept": "W1-A-0333",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0334",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0335",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0336",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0337",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0338",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0340",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0342",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0343",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0344",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0345",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0347",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0348",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0353",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0354",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0360",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0362",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0364",
+    "eliminated": [
+     "W1-A-0370"
+    ]
+   },
+   {
+    "kept": "W1-A-0366",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0367",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0379",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0380",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0382",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0384",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0386",
+    "eliminated": [
+     "W1-A-0427"
+    ]
+   },
+   {
+    "kept": "W1-A-0390",
+    "eliminated": [
+     "W1-A-0402"
+    ]
+   },
+   {
+    "kept": "W1-A-0391",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0394",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0395",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0396",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0397",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0400",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0401",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0404",
+    "eliminated": [
+     "W1-A-0428"
+    ]
+   },
+   {
+    "kept": "W1-A-0407",
+    "eliminated": [
+     "W1-A-0455"
+    ]
+   },
+   {
+    "kept": "W1-A-0408",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0413",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0414",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0420",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0424",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0425",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0426",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0430",
+    "eliminated": [
+     "W1-A-0436"
+    ]
+   },
+   {
+    "kept": "W1-A-0432",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0433",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0438",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0440",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0444",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0445",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0448",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0450",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0456",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0459",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0462",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0466",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0467",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0468",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0469",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0471",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0472",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0473",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0474",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0478",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0479",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0484",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0485",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0486",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0490",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0491",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0492",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-A-0495",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0000",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0001",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0002",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0003",
+    "eliminated": [
+     "W1-B-0435"
+    ]
+   },
+   {
+    "kept": "W1-B-0004",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0005",
+    "eliminated": [
+     "W1-B-0221"
+    ]
+   },
+   {
+    "kept": "W1-B-0006",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0007",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0008",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0009",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0011",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0012",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0013",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0014",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0015",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0016",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0017",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0018",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0019",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0020",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0021",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0022",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0023",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0024",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0026",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0027",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0028",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0029",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0030",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0031",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0033",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0034",
+    "eliminated": [
+     "W1-B-0250"
+    ]
+   },
+   {
+    "kept": "W1-B-0035",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0036",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0037",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0038",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0039",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0040",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0043",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0044",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0045",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0046",
+    "eliminated": [
+     "W1-B-0262"
+    ]
+   },
+   {
+    "kept": "W1-B-0047",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0048",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0050",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0051",
+    "eliminated": [
+     "W1-B-0483"
+    ]
+   },
+   {
+    "kept": "W1-B-0052",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0054",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0055",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0056",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0057",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0059",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0060",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0061",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0063",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0065",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0066",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0067",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0068",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0069",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0070",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0071",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0072",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0073",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0074",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0075",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0076",
+    "eliminated": [
+     "W1-B-0364"
+    ]
+   },
+   {
+    "kept": "W1-B-0077",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0078",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0079",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0080",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0081",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0082",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0083",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0084",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0085",
+    "eliminated": [
+     "W1-B-0157"
+    ]
+   },
+   {
+    "kept": "W1-B-0086",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0087",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0088",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0089",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0090",
+    "eliminated": [
+     "W1-B-0378"
+    ]
+   },
+   {
+    "kept": "W1-B-0091",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0092",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0093",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0096",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0098",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0099",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0100",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0101",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0102",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0103",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0104",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0105",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0106",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0107",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0108",
+    "eliminated": [
+     "W1-B-0180"
+    ]
+   },
+   {
+    "kept": "W1-B-0109",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0110",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0111",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0112",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0113",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0115",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0116",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0118",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0119",
+    "eliminated": [
+     "W1-B-0263"
+    ]
+   },
+   {
+    "kept": "W1-B-0120",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0121",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0122",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0125",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0126",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0127",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0128",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0129",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0130",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0131",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0132",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0134",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0135",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0136",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0138",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0139",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0141",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0142",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0143",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0144",
+    "eliminated": [
+     "W1-B-0288"
+    ]
+   },
+   {
+    "kept": "W1-B-0146",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0147",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0148",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0149",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0151",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0154",
+    "eliminated": [
+     "W1-B-0442"
+    ]
+   },
+   {
+    "kept": "W1-B-0155",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0156",
+    "eliminated": [
+     "W1-B-0300"
+    ]
+   },
+   {
+    "kept": "W1-B-0158",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0159",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0160",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0162",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0163",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0164",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0165",
+    "eliminated": [
+     "W1-B-0309"
+    ]
+   },
+   {
+    "kept": "W1-B-0166",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0167",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0168",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0169",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0170",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0171",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0172",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0173",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0174",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0175",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0176",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0177",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0178",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0179",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0181",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0182",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0183",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0184",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0185",
+    "eliminated": [
+     "W1-B-0257"
+    ]
+   },
+   {
+    "kept": "W1-B-0187",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0188",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0189",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0190",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0191",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0192",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0193",
+    "eliminated": [
+     "W1-B-0265",
+     "W1-B-0481"
+    ]
+   },
+   {
+    "kept": "W1-B-0194",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0195",
+    "eliminated": [
+     "W1-B-0411"
+    ]
+   },
+   {
+    "kept": "W1-B-0196",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0197",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0198",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0199",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0200",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0201",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0202",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0203",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0204",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0205",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0206",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0208",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0209",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0210",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0211",
+    "eliminated": [
+     "W1-B-0499"
+    ]
+   },
+   {
+    "kept": "W1-B-0212",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0213",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0214",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0215",
+    "eliminated": [
+     "W1-B-0353"
+    ]
+   },
+   {
+    "kept": "W1-B-0218",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0219",
+    "eliminated": [
+     "W1-B-0291"
+    ]
+   },
+   {
+    "kept": "W1-B-0220",
+    "eliminated": [
+     "W1-B-0436"
+    ]
+   },
+   {
+    "kept": "W1-B-0222",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0223",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0224",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0225",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0226",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0227",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0228",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0229",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0231",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0232",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0233",
+    "eliminated": [
+     "W1-B-0449"
+    ]
+   },
+   {
+    "kept": "W1-B-0234",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0238",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0239",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0240",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0241",
+    "eliminated": [
+     "W1-B-0313"
+    ]
+   },
+   {
+    "kept": "W1-B-0242",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0243",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0244",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0245",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0246",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0247",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0249",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0251",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0252",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0253",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0254",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0255",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0256",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0259",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0260",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0261",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0264",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0266",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0267",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0268",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0269",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0270",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0271",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0272",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0273",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0274",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0278",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0279",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0280",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0281",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0282",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0283",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0284",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0285",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0286",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0287",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0289",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0292",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0293",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0294",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0295",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0296",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0297",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0298",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0299",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0301",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0302",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0303",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0304",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0305",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0306",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0307",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0308",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0312",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0314",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0315",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0316",
+    "eliminated": [
+     "W1-B-0388"
+    ]
+   },
+   {
+    "kept": "W1-B-0318",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0320",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0321",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0322",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0323",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0324",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0326",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0328",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0329",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0331",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0332",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0335",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0336",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0337",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0338",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0339",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0340",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0341",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0342",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0343",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0344",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0345",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0347",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0348",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0350",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0351",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0354",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0356",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0357",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0358",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0359",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0361",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0362",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0363",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0365",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0366",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0367",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0368",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0369",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0370",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0371",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0372",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0375",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0377",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0379",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0383",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0384",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0385",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0387",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0389",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0390",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0391",
+    "eliminated": [
+     "W1-B-0463"
+    ]
+   },
+   {
+    "kept": "W1-B-0392",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0393",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0395",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0396",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0397",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0398",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0399",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0400",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0401",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0405",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0406",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0408",
+    "eliminated": [
+     "W1-B-0480"
+    ]
+   },
+   {
+    "kept": "W1-B-0409",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0410",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0413",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0415",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0416",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0418",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0419",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0420",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0422",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0424",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0425",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0426",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0427",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0430",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0431",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0432",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0434",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0437",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0438",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0439",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0440",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0441",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0443",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0444",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0445",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0446",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0447",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0448",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0451",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0452",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0453",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0454",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0455",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0456",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0457",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0458",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0459",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0460",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0461",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0462",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0464",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0465",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0466",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0467",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0468",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0469",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0471",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0473",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0475",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0476",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0477",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0478",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0485",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0486",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0487",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0488",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0489",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0490",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0491",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0495",
+    "eliminated": []
+   },
+   {
+    "kept": "W1-B-0498",
+    "eliminated": []
+   }
+  ],
+  "corr_collapses": [
+   {
+    "pair": [
+     "W1-A-0172",
+     "W1-A-0472"
+    ],
+    "corr": 1.0,
+    "eliminated": "W1-A-0472"
+   },
+   {
+    "pair": [
+     "W1-A-0174",
+     "W1-A-0204"
+    ],
+    "corr": 0.999969,
+    "eliminated": "W1-A-0204"
+   },
+   {
+    "pair": [
+     "W1-B-0019",
+     "W1-B-0071"
+    ],
+    "corr": 0.999944,
+    "eliminated": "W1-B-0071"
+   }
+  ],
+  "distinct": 658,
+  "note": "dedup legs operate on the generate-stage signal face (fingerprint = rebalance-day weights sha256; corr = naive-hold daily return series, no engine burn); engine faces run at screen"
+ }
+}
