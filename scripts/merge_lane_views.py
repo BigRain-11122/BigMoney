@@ -210,9 +210,34 @@ def merge_regime_state(sources):
 
 def merge_autofill_state(sources):
     notes = []
-    rows = []
+    # launches: composite-key dedup FIRST (r322 law -- live catch r375: the
+    # V2-P1 crash launch row carried crash_counted=true on the enriched
+    # faces and not on the stale lane copies; whole-row identity union
+    # silently double-stored the same key -> union 51 -> cap50 evicted a
+    # row the shared file still held = reconcile DRIFT).  Same-key rows
+    # merge by ADDITIVE field-union (field-set difference only -> union
+    # fields, keep one row); a true value conflict on a common field is a
+    # flag-upgrade face -- fail-closed here (R209 zero-silent-degradation),
+    # never silently double-stored.
+    key_fields = ("ts", "machine", "pid", "runner_sha256", "entry", "shard")
+    by_key, order = {}, []
     for _label, data in sources:
-        rows = _union_rows(rows, data.get("launches", []))
+        for row in data.get("launches", []):
+            k = tuple(str(row.get(f, "")) for f in key_fields)
+            if k not in by_key:
+                by_key[k] = dict(row)
+                order.append(k)
+                continue
+            base = by_key[k]
+            for f, v in row.items():
+                if f not in base:
+                    base[f] = v          # additive field-union
+                elif base[f] != v:
+                    raise SystemExit(
+                        f"merge_lane_views: autofill launches key {k} true "
+                        f"divergence on field {f!r} ({base[f]!r} vs {v!r}) "
+                        f"-- flag upgrade, fail-closed (r322 law)")
+    rows = [by_key[k] for k in order]
     rows.sort(key=lambda x: str(x.get("ts", "")), reverse=True)
     dropped = max(0, len(rows) - 50)
     rows = rows[:50]
@@ -231,9 +256,9 @@ def merge_autofill_state(sources):
         out["last_tick"] = best
     assert isinstance(out.get("last_tick", {}), dict), \
         "last_tick must stay dict (r140 law)"
-    notes.append(f"launches identity-union -> {len(rows)} kept "
-                 f"({dropped} beyond cap50 dropped as newest-50 semantics); "
-                 f"last_tick ts={best_ts!r}")
+    notes.append(f"launches composite-key dedup+field-union -> {len(rows)} "
+                 f"kept ({dropped} beyond cap50 dropped as newest-50 "
+                 f"semantics); last_tick ts={best_ts!r}")
     return out, notes
 
 
@@ -562,6 +587,35 @@ def _selftest():
           and m["launches"] == sorted(m["launches"],
                                       key=lambda x: x["ts"]))
     check("autofill:last_tick-max", m["last_tick"]["ts"] == "2026-09-28 02:00:02")
+
+    # 4b. autofill composite-key dedup + additive field-union (r322 law,
+    # r375 live catch: V2-P1 crash launch row carried crash_counted=true on
+    # the enriched faces, absent on stale lane copies -> whole-row union
+    # double-stored the key and cap50 evicted a live shared row).  Same-key
+    # faces merge to ONE row carrying the enriched field; a true value
+    # conflict on a common field fails closed (flag upgrade, r322).
+    rich = {"ts": "2026-09-28 02:30:01", "machine": "bm-b", "pid": 24976,
+            "runner_sha256": "8802", "entry": "V2", "shard": "v2-0of1",
+            "verdict": "launched", "crash_counted": True}
+    stale = {k: v for k, v in rich.items() if k != "crash_counted"}
+    other = {"ts": "2026-09-28 01:00:02", "machine": "bm-a", "pid": 1,
+             "runner_sha256": "x", "entry": "E", "shard": "s"}
+    m, _ = merge_autofill_state(
+        [("legacy", {"launches": [dict(rich), dict(other)]}),
+         ("bm-a", {"launches": [dict(stale)]})])
+    check("autofill:composite-dedup+field-union",
+          len(m["launches"]) == 2
+          and m["launches"][1].get("crash_counted") is True
+          and m["launches"][0].get("entry") == "E")
+    try:
+        bad = dict(stale)
+        bad["verdict"] = "conflicting-value"
+        merge_autofill_state([("legacy", {"launches": [dict(rich)]}),
+                              ("bm-a", {"launches": [bad]})])
+        ok = False
+    except SystemExit:
+        ok = True
+    check("autofill:composite-divergence-fail-closed", ok)
 
     # 5. runnable_pool: done-absorption + governance non-null-first (r370)
     a = {"updated_at": "01:00:00", "entries": [
