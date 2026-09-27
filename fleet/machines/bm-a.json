@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-27T15:37:15+08:00",
- "current_task": "R332 done: D-20260927-05-iii pre-commit claw landed (hook+installer+bootstrap+prompt wiring, neg/pos tests live-fired); S6 33/33 rc=0",
+ "last_seen": "2026-09-27T15:44:21+08:00",
+ "current_task": "R333 done: T-91 Monday pre-flight green (selftest 12/12, dual-account clean, SIG-09-24 live) + post_review 44 YES/0 NO sweep + S6 33/33 rc=0",
  "cpu_cores": 32,
- "cpu_pct": 8.6,
- "free_ram_gb": 47.78,
+ "cpu_pct": 25.0,
+ "free_ram_gb": 50.15,
  "gpu_free_vram_gb": 5.26,
- "verdict": "green: audit CLEAN flags=[]; wm insufficient_history (n=2); claw armed; orders 96/96; S6 33/33 rc=0; smoke 25/25",
+ "verdict": "green: audit CLEAN flags=[]; wm py_low_board_clear legal-idle (board 0 open, pool W2-A bm-b lane); orders 96/96 double-scan; S6 33/33 rc=0; smoke 25/25; T-91 Monday chain pre-flight green",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -105,8 +105,8 @@
   "O-20260927-0809-bm-a.md",
   "O-20260927-0913-bm-c.md"
  ],
- "heartbeat_epoch_utc": 1790494635,
- "clock_read": "2026-09-27T15:37:15+08:00",
+ "heartbeat_epoch_utc": 1790495061,
+ "clock_read": "2026-09-27T15:44:21+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5381,
  "gpu_idle_vram_gb": 5.55,
@@ -117,7 +117,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 332,
+ "round_no": 333,
  "gpu_idle_vram_mb": 5393.0,
  "gpu_total_vram_mb": 12282.0,
  "idle_ram_gb": 51.6,
