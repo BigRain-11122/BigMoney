@@ -2,16 +2,16 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-27T20:02:43+08:00",
- "heartbeat_epoch_utc": 1790510563,
- "clock_read": "2026-09-27T20:02:43+08:00",
- "current_task": "r340 closed: W2-A ckpt incremental-flush fix landed + MSG-2010 to bm-a (W2-B mirror requirement)",
+ "last_seen": "2026-09-27T20:50:52+08:00",
+ "heartbeat_epoch_utc": 1790513452,
+ "clock_read": "2026-09-27T20:50:52+08:00",
+ "current_task": "r341 closed: r341-A legacy adoption (UNC mirror fix 3/3 PASS) + S6 30/30 adopted + network-dead local mode, local-ahead for r342 fold",
  "cpu_cores": 16,
- "free_ram_gb": 3.4,
- "gpu_free_vram_gb": 6.9,
+ "free_ram_gb": 2.6,
+ "gpu_free_vram_gb": 6.74,
  "total_ram_gb": 23.9,
- "cpu_util_pct": 39.9,
- "round_no": 340,
+ "cpu_util_pct": 29.2,
+ "round_no": 341,
  "verdict": "healthy",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -112,15 +112,15 @@
   "O-20260927-0913-bm-c.md"
  ],
  "cores": 16,
- "idle_ram_gb": 3.4,
+ "idle_ram_gb": 2.6,
  "gpu_free_vram_mb": 6904,
- "idle_ram_mb": 4208,
+ "idle_ram_mb": 2662,
  "gpu_idle_vram_mb": 6904,
  "n_orders_ack": 96,
  "gpu_idle_vram_gb": 6.89,
- "cpu_pct": 39.9,
- "round": 340,
- "free_ram_mb": 4208,
+ "cpu_pct": 29.2,
+ "round": 341,
+ "free_ram_mb": 2662,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1115MiB used @2026-09-27T18:47:49+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -128,5 +128,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 340
+ "loop_round": 341
 }
