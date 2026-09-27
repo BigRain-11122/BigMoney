@@ -978,8 +978,15 @@ _ST = None       # per-worker shared state (initializer)
 
 
 def _init_worker(state):
-    global _ST
+    global _ST, GRAMMAR
     _ST = state
+    # Windows spawn workers re-import the module: runtime globals set by the
+    # parent cmd_* never propagate. GRAMMAR rides initargs (87KB, cheap) --
+    # without it run_candidate_curve L672 GRAMMAR["faces"][mk] is NoneType
+    # (r121 bm-c crash #1, zero cells burned, checkpoint empty).
+    g = state.get("grammar")
+    if g is not None:
+        GRAMMAR = g
     try:
         import psutil
         psutil.Process().nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
@@ -1090,7 +1097,8 @@ def cmd_screen(shard: int, shards: int, workers: int | None) -> int:
              "passive_6m": {int(k): v for k, v in
                             prep["passive_6m_ret"].items()},
              "fundamental_ok": fundamental_ok,
-             "fundamental_overlap": overlap}
+             "fundamental_overlap": overlap,
+             "grammar": grammar}
 
     ck = os.path.join(CKPT_DIR, f"screen_shard_{shard}of{shards}.jsonl")
     os.makedirs(CKPT_DIR, exist_ok=True)
@@ -1325,7 +1333,8 @@ def cmd_judge(shard: int, shards: int, workers: int | None) -> int:
              "idx_D": legD[2], "listed_D": legD[3],
              "starts": jstate["starts"], "passive": jstate["passive"],
              "states": v3_state_series(),
-             "fundamental_ok": fundamental_ok}
+             "fundamental_ok": fundamental_ok,
+             "grammar": grammar}
     state["bench_absent_D"] = (BENCH_SYM not in legD[1]["close"].columns)
 
     ck = os.path.join(CKPT_DIR, f"judge_shard_{shard}of{shards}.jsonl")

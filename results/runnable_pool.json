@@ -2772,15 +2772,18 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "running",
+   "status": "done",
    "entered_at": "2026-09-28 00:11:00",
+   "done_at": "2026-09-28 01:24:41",
+   "result_ref": "results/trial_labor_w1/w1_screen.json (+ w1_screen_cells.csv)",
    "data_gates": "in-runner fail-closed: prep gates already PASS 6/6 (G-PANEL/G-CENSUS census==P-5C FROZEN grid leg-L 1253 via p5c import / G-ANCHOR registered-six live.paper replay faithful / G-EXCLUDE armed); cells = 658 distinct candidates + K=200 dual nulls; per-shard jsonl checkpoint cross-kill resume; runner-internal RAM guard armed (r348-A build); selftest 19/19 re-verified r348 second session",
    "shards": [
     {
      "key": "screen-0of1",
-     "status": "running",
+     "status": "done",
      "owner": "bm-c",
      "owner_since": "2026-09-28 01:20:04",
+     "done_at": "2026-09-28 01:24:41",
      "checkpoint": "results/trial_labor_w1/checkpoint/screen_shard_0of1.jsonl (row-level done-set resume)",
      "note": "single shard; measured 1.2s/cell x 858 cells / 12 workers ~ 2min BelowNormal light batch; B7b consumer keys contract verified in selftest"
     }
@@ -2790,7 +2793,41 @@
     "priority": "BelowNormal",
     "note": "FLIP GATE waiting->ready: ONLY when machine free RAM >= 4GB (dual-company discipline; r348 probe: autofill.py has NO RAM gate so waiting status is the ONLY protection; W2-A census burn holds ~15.5GB no-kill, free RAM 2.0GB at entry time). Expected unlock: W2-A finalize harvest (pool CENSUS-FUS-S2-W2A done-flip window) frees worker RSS. Flip executor: any round post-unlock, one-line status edit, honest note in round report"
    },
-   "note": "r348 queue: waiting not ready per W2B precedent r346 (pool zero-write avoids tick claim race under RAM squeeze); autofill tick 10-min cadence would grab ready entry immediately -- DO NOT flip under <4GB"
+   "note_done": "r121 bm-c in-round execution (RAM gate 5.9GB>=4GB pass, autofill race sealed by same-window claim 8610c442): crash #1 pre-first-complete-run = Windows spawn workers re-import module, parent cmd_screen GRAMMAR=grammar never propagates -> run_candidate_curve L672 GRAMMAR['faces'][mk] NoneType TypeError, zero cells burned, checkpoint empty; fix = _init_worker GRAMMAR injection via initargs state (87KB, screen+judge state dicts carry grammar key, engineering face zero science change) + selftest 19/19 re-PASS + rerun 858/858 cells complete exit 0 + screen-finalize: 658 distinct + 200 nulls, null p95 freeze-line 0.5116, survivors 149 (22.6%), trials ledger total 288384 (TRIAL_LABOR_W1_SCREEN batch appended); judge face = dual-leg physical dep (D-leg t18 deep panel = bm-b), follow-up pool entry TRIAL-LABOR-W1-JUDGE parked waiting per W2B r346 precedent"
+  },
+  {
+   "id": "TRIAL-LABOR-W1-JUDGE",
+   "ticket_ref": "T-2026-09-24-94 s3 judge slice (CEO O-20260927-2245 funnel: screen done r121 bm-c -> survivors 149 -> full judgment; science face bm-b r346, batch execution face open per shard law)",
+   "prereg_ref": "research/TRIAL_LABOR_W1_PREREG.md FROZEN R99 (G1'v2/G2 funnel cumulative-N DSR, seeds 20283500/20284000/20284500 R250) + sec.9.3 amendment f92993e5; screen products results/trial_labor_w1/w1_screen.json (survivors 149, null p95 0.5116, ledger 288384)",
+   "runner": "scripts/trial_labor_w1.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 01:26:30",
+   "data_gates": "WAITING DEPS (flip to ready by the deep-panel machine round upon BOTH, W2B r346 precedent): (1) judge-prep run on the machine holding the D-leg t18 deep panel cache (physical = bm-b, 7.7GB Money02 sidecar family; bm-c probed absent 01:2x r121) -> judge_state.json present with t18 manifest verdict PASS + dual-leg census == frozen L{1253,1127,875}/D{3104,2978,2726}; (2) machine free RAM >= 4GB (judge state carries both legs' panels per worker initargs). IN-RUNNER fail-closed: cmd_judge refuses absent judge_state.json (exit 2 honest seconds on cache-less machines); judge cells = 149 survivors x dual-leg full curves + window grid + regime segments + G1'/DSR inputs",
+   "shards": [
+    {
+     "key": "judge-0of1",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/trial_labor_w1/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume)",
+     "note": "single shard; est 149 cells x dual-leg engine ~6-10x screen cell weight -> ~20-45min on 12 workers BelowNormal; GRAMMAR worker-injection fix r121 already in runner (judge state dict carries grammar key)"
+    }
+   ],
+   "workers_plan": {
+    "workers": "worker_cap() pool (judge initargs carry BOTH leg panels -- heavier per worker than screen; worker_cap RAM guard formula applies)",
+    "priority": "BelowNormal",
+    "note": "flip executor = deep-panel machine round post judge-prep + RAM gate; judge-finalize + intake follow on completion (funnel sec: TRIAL intake face zero judgment claims pre-funnel)"
+   },
+   "note": "r121 bm-c entry post-screen-finalize (149 survivors); parked waiting NOT ready: bm-b currently W2-A burn 15.5GB no-kill (free 2.0GB) -- ready would race autofill into OOM; judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family"
   },
   {
    "id": "DECISION-CHAIN-V2-P1",
