@@ -1,0 +1,24 @@
+import json, time
+
+p = 'state-bm-a.json'
+d = json.load(open(p, encoding='utf-8'))
+d['round_no'] = 362
+d['did'] = ("R362: T-94 CEO thousand-trader order execution round: orders 98/98 (O-2245 mass-trial + O-2250 standing law both acked+executed) "
+            "+ smoke 25/25 + s1 FREEZE (MASS_TRIAL_W1 prereg R99 commit c638f8cf, seed 20283000 registered, 75-family zero-invention grammar "
+            "roster sha-anchored, engine selftest 11/11 byte-stable, 975 candidates enrolled ceiling-not-quota) "
+            "+ s2 stage-1 screen DONE post-freeze (41s 25-workers, 975->166 survivors 17.0%, null p50 0.45/p95 0.533<0.60 thin-margin disclosed, "
+            "bear-gate axis 36.7% vs 9.0% none = REFINE-BENCH first-lever mass-reproduced, 4/6 registered bases pass at defaults = screen sanity, "
+            "ledger 286551->287526 +975, gate_attrition row, prereg sec.7/8 one-shot backfill) "
+            "+ S6 18/18 rc=0 zero-masked (Sunday no-op family + lane-guard honest no-ops + MF rank-lane self-heal spawn + AH refresh spawn, no new bar) "
+            "+ watermark py_low_board_clear (T-94 s3 pending per-stage freeze = next-round supply, not idle-by-choice) "
+            "+ W2-B D8 receipt MSG-2240 processed + ack MSG-2312 (W2-A bm-b burn alive no-kill no-takeover, flip=W2A finalize+RAM12GB bm-b-owned)")
+d['verify'] = "smoke 25/25 + selftest 11/11 + byte-stable rerun + screen 1070/1070 rows checkpointed complete=true + orders 98/98 + S6 rc=0 x18 + schtasks 3/3 + claw identical + epoch int verified"
+d['next'] = ("NEXT-ROUND P0: T-94 s3 full-judgment per-stage freeze (prereg sec.9 append: 166 survivors -> return-corr>=0.999 dedup -> T-22-caliber "
+             "virtual-startpoint x {6m,12m,24m} x x2-cost x segments x dual nulls>=2000, wave-level DSR by cumulative N + PBO + expected-false-positive) "
+             "THEN pool-shard burn (long batch); s4 intake + 48h CEO report due 2026-09-29 22:45; Mon 09-28 09:15 T-91 s3 auto-fire (IntradayMarks); "
+             "bm-b W2-A finalize watch + W2-B flip; MF/AH self-heal watch; next 5x=R365 HANDOVER")
+d['current_task'] = "T-94 wave-1 s1+s2 delivered; s3 per-stage freeze = next round P0"
+d['last_round_at'] = time.strftime('%Y-%m-%dT%H:%M:%S+08:00')
+d['updated'] = d['last_round_at']
+json.dump(d, open(p, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+print('state round_no ->', d['round_no'])
