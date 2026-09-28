@@ -42,8 +42,11 @@ Engineering mapping disclosures (pre-run, zero cells burned):
   open-state split calm 1,523 / wild 1,441.  Structural law on every
   panel face: na_window == 519 bars + first_valid_bar_idx == 519 +
   calm+wild+na == n_bars (series-structure invariants); probe anchors
-  {1523, 1441} asserted only on the leg-L/core48 face where the probe
-  ran (twin-cache divergence would fail-closed honestly).
+  {1523, 1441} asserted only on the raw full-history face where the
+  probe ran (data/daily/sh510300.csv, r396 basis); the W1-floored
+  load_core/leg-L pool faces carry only the structural invariants --
+  their calm/wild counts differ by construction (r381 live refusal
+  root cause; fix = raw-face loader, MSG-20260928-1215).
 
   Exclusion law (prereg sec.1, SEVEN sources, exact already-judged key,
   vol=none face only): W4 cell key=(template, params, axis_config,
@@ -160,7 +163,7 @@ VOL_SPEC = {
 }
 
 # G-VOL probe anchors (prereg sec.2 frozen facts, fail-closed on the
-# core48/leg-L face where the probe ran)
+# raw full-history face where the probe ran: data/daily/sh510300.csv)
 VOL_ANCHOR_FIRST_VALID_BAR = 519
 VOL_ANCHOR_CALM_DAYS = 1523
 VOL_ANCHOR_WILD_DAYS = 1441
@@ -296,6 +299,43 @@ def vol_state_series(prices: dict):
             "flips_wild_face": int((wild.values[1:]
                                     != wild.values[:-1]).sum())}
     return calm, wild, meta
+
+
+def _vol_face_full():
+    """Frozen sec.2 VOL-series face (r396 probe basis verbatim): the
+    git-tracked raw full-history member file data/daily/sh510300.csv,
+    truncated at the evidence cutoff.  NOT the W1-floored load_core
+    pool face (2020-01-02 start): med500 needs the full 2012 history
+    so gate states exist for every trial signal day.  Returns the
+    member prices dict, or None when absent / tail != cutoff."""
+    path = os.path.join("data", "daily", f"sh{VOL_MEMBER}.csv")
+    try:
+        df = pd.read_csv(path)
+        df.columns = [c.strip() for c in df.columns]
+        close = df["close"].astype(float)
+        close.index = pd.to_datetime(df["date"])
+        close = close.sort_index()
+        close = close[close.index <= pd.Timestamp(CUTOFF)]
+        if not len(close) or str(close.index[-1].date()) != CUTOFF:
+            return None
+        return {VOL_MEMBER: pd.DataFrame({"close": close})}
+    except Exception:
+        return None
+
+
+def _vol_state_full():
+    """Canonical full-face vol_state with the frozen probe anchors
+    asserted (prereg sec.2 G-VOL fail-closed).  Returns (vol_state,
+    err); err is a one-line honest refusal reason when not None."""
+    face = _vol_face_full()
+    if face is None:
+        return None, (f"raw member face data/daily/sh{VOL_MEMBER}.csv "
+                      f"absent or truncated tail != cutoff {CUTOFF}")
+    vs = vol_state_series(face)
+    if not _vol_anchor_pass(vs[2]):
+        return None, (f"G-VOL full-face anchors {vs[2]} "
+                      "!= probe {519, 1523, 1441}")
+    return vs, None
 
 
 def vol_zero_mask(mask: pd.DataFrame, vol_key: str, vol_state):
@@ -673,10 +713,10 @@ def cmd_generate() -> int:
         fundamental_ok = None
     atr20 = tl2.atr20_series(prices)
     gate_state = tl3.gate_state_series(prices)
-    vol_state = vol_state_series(prices)
-    if not _vol_anchor_pass(vol_state[2]):
-        print(f"GENERATE-GATE: G-VOL probe anchors FAILED on the core48 "
-              f"face ({vol_state[2]}) -- refuse (prereg sec.2 fail-closed)")
+    vol_state, vol_err = _vol_state_full()
+    if vol_err:
+        print(f"GENERATE-GATE: {vol_err} (prereg sec.2 fail-closed) "
+              "-- refuse")
         return 2
     excl_rows, excl_disc = _load_exclusion_rows_w4(grammar)
     neg_fns = {(e["module"], e["fn"])
@@ -1034,12 +1074,13 @@ def cmd_screen_prep() -> int:
         print(f"PREP-GATE FAIL: G-PANEL {gp}")
         return 1
 
-    # G-VOL on the core48 face (prereg sec.2 probe anchors, fail-closed)
-    _, _, vol_meta_core = vol_state_series(prices_full)
-    if not _vol_anchor_pass(vol_meta_core):
-        print(f"PREP-GATE FAIL: G-VOL core48 anchors {vol_meta_core} "
-              "!= probe {519, 1523, 1441}")
+    # G-VOL on the raw full-history face (prereg sec.2 probe basis =
+    # data/daily/sh510300.csv; NOT the W1-floored load_core pool face)
+    vol_state_full, vol_err = _vol_state_full()
+    if vol_err:
+        print(f"PREP-GATE FAIL: G-VOL {vol_err}")
         return 1
+    vol_meta_core = vol_state_full[2]
 
     # G-ANCHOR: registered six replayed through the W4 grammar
     # default-axis identity face (template_default+EW+daily+
@@ -1086,13 +1127,13 @@ def cmd_screen_prep() -> int:
         return 1
     gc_ = {"pass": True, "census": cen, "frozen": tl1.FROZEN_CENSUS["L"]}
     # panel-level gate + vol meta on the leg-L face (prereg sec.2
-    # disclosure; G-VOL probe anchors asserted on this same-series face)
+    # disclosure; structural invariants only -- the {1523, 1441} probe
+    # anchors hold only on the raw full-history face, asserted above)
     _, _, gate_meta = tl3.gate_state_series(prices)
     _, _, vol_meta = vol_state_series(prices)
-    if not _vol_anchor_pass(vol_meta):
-        print(f"PREP-GATE FAIL: G-VOL leg-L anchors {vol_meta} "
-              "!= probe {519, 1523, 1441} (twin-cache divergence -- "
-              "honest refuse)")
+    if not _vol_structure_pass(vol_meta):
+        print(f"PREP-GATE FAIL: G-VOL leg-L structural invariants "
+              f"broken {vol_meta} -- honest refuse")
         return 1
     close = P["close"]
     n = len(idx)
@@ -1177,6 +1218,11 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
             fundamental_ok[s] = True
     else:
         fundamental_ok = None
+    vol_state, vol_err = _vol_state_full()
+    if vol_err:
+        print(f"SCREEN-GATE: {vol_err} (prereg sec.2 fail-closed) "
+              "-- refuse")
+        return 2
     state = {"P": P, "prices": prices, "states": states,
              "starts": prep["starts"],
              "passive_6m": {int(k): v for k, v in
@@ -1184,7 +1230,7 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
              "fundamental_ok": fundamental_ok,
              "grammar": grammar, "atr20": tl2.atr20_series(prices),
              "gate_state": tl3.gate_state_series(prices),
-             "vol_state": vol_state_series(prices)}
+             "vol_state": vol_state}
 
     ck = os.path.join(CKPT_DIR, f"screen_shard_{shard}of{shards}.jsonl")
     os.makedirs(CKPT_DIR, exist_ok=True)
@@ -1477,7 +1523,8 @@ def cmd_judge_prep() -> int:
     """Screen-finalize gate + grammar anchor + t18 manifest + dual-leg
     census gates + starts + passive per (leg, window) + per-leg gate +
     vol meta (prereg sec.2/3; W3 cmd_judge_prep caliber on the W4
-    grammar face; G-VOL structural per leg + probe anchors on leg-L)."""
+    grammar face; G-VOL structural per leg + probe anchors on the raw
+    full-history face)."""
     print(f"=== {WAVE} judge-prep ===")
     if not os.path.exists(SCREEN_FILE):
         print("JUDGE-PREP-GATE: screen not finalized (w4_screen.json "
@@ -1494,6 +1541,10 @@ def cmd_judge_prep() -> int:
           "pass": bool(man.get("verdict") == "PASS")}
     if not gm["pass"]:
         print("JUDGE-PREP-GATE FAIL: t18 manifest verdict != PASS")
+        return 1
+    vol_state_full, vol_err = _vol_state_full()
+    if vol_err:
+        print(f"JUDGE-PREP-GATE FAIL: G-VOL {vol_err}")
         return 1
     starts, gate_meta, vol_meta = {}, {}, {}
     for leg in ("L", "D"):
@@ -1517,11 +1568,6 @@ def cmd_judge_prep() -> int:
             print(f"JUDGE-PREP-GATE FAIL: leg-{leg} G-VOL structural "
                   f"invariants broken {vmeta} -- honest refuse")
             return 1
-        if leg == "L" and not _vol_anchor_pass(vmeta):
-            print(f"JUDGE-PREP-GATE FAIL: leg-L G-VOL probe anchors "
-                  f"{vmeta} != {{519, 1523, 1441}} (twin-cache "
-                  "divergence -- honest refuse)")
-            return 1
         vol_meta[leg] = vmeta
         n = len(idx)
         starts[leg] = {}
@@ -1537,6 +1583,7 @@ def cmd_judge_prep() -> int:
                       f"{len(st)} != {tl1.FROZEN_CENSUS[leg][wname]}")
                 return 1
             starts[leg][wname] = st
+    vol_meta["full_raw_face"] = vol_state_full[2]
     if not screen.get("survivors"):
         out = {"wave": WAVE, **tl1.cutoff_meta(CUTOFF),
                "grammar_sha256": FROZEN_SHA16, "n_survivors": 0,
@@ -1622,6 +1669,11 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
                       "i": i, "cand": c, "template": template})
     mine = [c for i, c in enumerate(cells) if i % shards == shard]
 
+    vol_state_full, vol_err = _vol_state_full()
+    if vol_err:
+        print(f"JUDGE-GATE: {vol_err} (prereg sec.2 fail-closed) "
+              "-- refuse")
+        return 2
     state = {}
     for leg in ("L", "D"):
         prices, P, idx, listed, cen = tl1._load_leg(leg)
@@ -1653,9 +1705,8 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
         gs = tl3.gate_state_series(prices)
         state[f"gate_state_{leg}"] = gs
         state[f"gate_meta_{leg}"] = gs[2]
-        vs = vol_state_series(prices)
-        state[f"vol_state_{leg}"] = vs
-        state[f"vol_meta_{leg}"] = vs[2]
+        state[f"vol_state_{leg}"] = vol_state_full
+        state[f"vol_meta_{leg}"] = vol_state_full[2]
     state["starts"] = jstate["starts"]
     state["passive"] = jstate["passive"]
     state["states"] = tl1.v3_state_series()
