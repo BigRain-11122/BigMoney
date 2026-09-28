@@ -80,19 +80,18 @@
 </table>
 <div class='sub'>操作台账：实盘舱大字版（上节）逐日自 results/paper_export 差分链派生；纸盘尚在首月（起跑 2026-09-23），fill_guard 计数随每 bar 更新（禁买弃单/禁卖递延如实记）。</div>
 <h2>决策链系统活面（SYSTEM-V1 + REV-OSC-STD 纸盘 · T-91）</h2>
-<div class='sub'>数据取自 results/system_v1_paper（s1/s2 harness · S6 轮确定性 replay 幂等零手写）· 锚网格 2026-09-24 · 面板 cutoff 2026-09-24 · 样本外由构造保证（锚网格后首个交易日起 mark）· 三线三判律：本面=交易线活面，月界判据=SPM J1-J4 口径（首检 2026-10-31），与配置面/激进面判据互不挪用。</div>
+<div class='sub'>数据取自 results/system_v1_paper（s1/s2 harness · S6 轮确定性 replay 幂等零手写）· 锚网格 2026-09-24 · 面板 cutoff 2026-09-28 · 样本外由构造保证（锚网格后首个交易日起 mark）· 三线三判律：本面=交易线活面，月界判据=SPM J1-J4 口径（首检 2026-10-31），与配置面/激进面判据互不挪用。</div>
 <table><tr><th>账户</th><th>总资产 CNY</th><th>累计收益</th><th>bars</th><th>当前回撤</th><th>入场/出场</th><th>跳过(信缺/门关/薄/空)</th><th>持仓</th><th>L1 状态</th><th>承重袖（路由归因）</th></tr>
-<tr><td>REV-OSC-STD</td><td>1,000,000</td><td class='pos'>+0.00%</td><td>0</td><td>+0.00%</td><td>0/0</td><td class='dim'>0/0/0/0</td><td>0</td><td class='dim'>—</td><td class='dim'>纯袖面（无路由叠加 · 对照账户）</td></tr>
-<tr><td>SYSTEM-V1</td><td>1,000,000</td><td class='pos'>+0.00%</td><td>0</td><td>+0.00%</td><td>0/0</td><td class='dim'>0/0/0/0</td><td>0</td><td class='dim'>ORANGE（asof 2026-09-28）</td><td class='dim'>rev_osc 0.30 承重 · trend 0.10（存根0承重） · lowvol 0.10（存根0承重） · cap 0.50 · 现金腿 0% fail-closed</td></tr>
+<tr><td>REV-OSC-STD</td><td>988,358</td><td class='neg'>-1.16%</td><td>1</td><td>-1.16%</td><td>10/0</td><td class='dim'>0/0/0/0</td><td>10</td><td class='dim'>—</td><td class='dim'>纯袖面（无路由叠加 · 对照账户）</td></tr>
+<tr><td>SYSTEM-V1</td><td>996,116</td><td class='neg'>-0.39%</td><td>1</td><td>-0.39%</td><td>10/0</td><td class='dim'>0/0/0/0</td><td>10</td><td class='dim'>ORANGE（asof 2026-09-28）</td><td class='dim'>rev_osc 0.30 承重 · trend 0.10（存根0承重） · lowvol 0.10（存根0承重） · cap 0.50 · 现金腿 0% fail-closed</td></tr>
 </table>
-<div class='sub'>armed-pending 姿态（诚实）：marks=0 · L1 已种入 ORANGE · 待入队列组 1 · 首个 mark 日=锚网格后首个交易日（SIG/BARS 到位即 S6 腿确定性 replay，无人工动作）。</div>
 <h2>2026-10-31 月度判决台预排面（SPM J1-J4 口径 · 交易线）</h2>
 <div class='sub'>预排面=冻结口径+当前读数如实披露；判据行随月界 runner 落数（T-52 判决台机器 · 零假设账本 · 负判定照交），本面不代跑不手写读数。</div>
 <table><tr><th>判据</th><th>冻结口径</th><th>活面观察值</th><th>判决状态</th></tr>
-<tr><td>J1 当前窗盈利</td><td class='dim'>当前政体窗净收益&gt;0 且 |maxDD|≤5%</td><td>—</td><td class='dim'>⬜ 待测（首窗 2026-10-31）</td></tr>
-<tr><td>J2 成本存活</td><td class='dim'>×2 成本面净收益&gt;0</td><td>—</td><td class='dim'>⬜ 待测（首窗 2026-10-31）</td></tr>
-<tr><td>J3 政体段稳定</td><td class='dim'>bull/chop/bear 段净贡献≥−5%</td><td>—</td><td class='dim'>⬜ 待测（首窗 2026-10-31）</td></tr>
-<tr><td>J4 时点稳健</td><td class='dim'>12 月池化 beat-passive 率 ≥0.70（冻结线）</td><td>—</td><td class='dim'>⬜ 待测（首窗 2026-10-31）</td></tr>
+<tr><td>J1 当前窗盈利</td><td class='dim'>当前政体窗净收益&gt;0 且 |maxDD|≤5%</td><td>净收益 -0.39% · maxDD -0.39%</td><td class='dim'>月界 runner 落数（本面只观察不判决）</td></tr>
+<tr><td>J2 成本存活</td><td class='dim'>×2 成本面净收益&gt;0</td><td>—</td><td class='dim'>月界 runner 落数（本面只观察不判决）</td></tr>
+<tr><td>J3 政体段稳定</td><td class='dim'>bull/chop/bear 段净贡献≥−5%</td><td>—</td><td class='dim'>月界 runner 落数（本面只观察不判决）</td></tr>
+<tr><td>J4 时点稳健</td><td class='dim'>12 月池化 beat-passive 率 ≥0.70（冻结线）</td><td>—</td><td class='dim'>月界 runner 落数（本面只观察不判决）</td></tr>
 </table>
 <h2>双轨护栏披露（T-20 · fill_guard 逐员披露面）</h2>
 <div class='sub'>护栏=A 轨规则保真（t14_rules_fidelity.build_guard 逐字复用）+ B 轨纸盘执行面；窗口守卫事件全零（护栏在位·零拦截）（O-1820 · T-20）</div>
