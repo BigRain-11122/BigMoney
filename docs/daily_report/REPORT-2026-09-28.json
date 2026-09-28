@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-28",
- "generated_at": "2026-09-28 15:42:04",
+ "generated_at": "2026-09-28 16:12:48",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,15 +286,17 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 626,
-  "result_jsons_landed_24h": 96,
+  "commits_24h": 633,
+  "result_jsons_landed_24h": 94,
   "digests_landed_24h": 2,
   "prereg_md_touched_24h": 21,
   "compute_audit_latest": {
-   "ts": "2026-09-28 15:40:57",
-   "py_cpu_pct": 11.6,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-09-28 16:10:01",
+   "py_cpu_pct": 0.4,
+   "flags": [
+    "idle_with_work"
+   ],
+   "verdict": "FLAG:idle_with_work"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
@@ -554,10 +556,10 @@
   },
   {
    "id": "T-2026-09-28-103",
-   "status": "open",
+   "status": "claimed",
    "type": "etf-ops-chain-group-first-mandate",
    "immediate": false,
-   "owner": ""
+   "owner": "bm-b (OS iteration loop, round 391; uncl"
   },
   {
    "id": "T-2026-09-28-104",
@@ -568,10 +570,17 @@
   },
   {
    "id": "T-2026-09-28-105",
-   "status": "open",
+   "status": "claimed",
    "type": "ceo-live-usage-face-v1",
    "immediate": false,
-   "owner": ""
+   "owner": "bm-b (OS iteration loop, round 390; P0 C"
+  },
+  {
+   "id": "T-2026-09-28-106",
+   "status": "claimed",
+   "type": "national-team-face-info-and-review",
+   "immediate": false,
+   "owner": "bm-c (OS iteration loop, round 172; CEO "
   },
   {
    "id": "T-2026-09-28-97",
@@ -590,12 +599,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 803579,
+  "total_report_tokens_est": 805961,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-28 15:02:16",
+   "prev_generated": "2026-09-28 15:23:20",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 650,
-   "mandate_growth": 0
+   "report_tokens_growth": 2382,
+   "mandate_growth": 247
   },
   "method": {
    "bpe_proxy": 3.5,

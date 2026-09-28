@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-09-28T15:41:24",
+ "generated": "2026-09-28T16:11:27",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -65,13 +65,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 77.79,
+      "score": 77.78,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.8114,
        "oos_sharpe": 1.7479,
-       "skill_line_v2": 1.1886,
+       "skill_line_v2": 1.1887,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -128,8 +128,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.3772,
-       "ledger_head_total": 311363
+       "null_margin_vs_skill_line": -0.3773,
+       "ledger_head_total": 311876
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -195,7 +195,7 @@
       "reads": {
        "full_sharpe": 0.6099,
        "oos_sharpe": 1.6392,
-       "skill_line_v2": 1.1886,
+       "skill_line_v2": 1.1887,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -252,8 +252,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.5787,
-       "ledger_head_total": 311363
+       "null_margin_vs_skill_line": -0.5788,
+       "ledger_head_total": 311876
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -313,13 +313,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 72.64,
+      "score": 72.63,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.724,
        "oos_sharpe": 1.213,
-       "skill_line_v2": 1.1886,
+       "skill_line_v2": 1.1887,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -376,8 +376,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4646,
-       "ledger_head_total": 311363
+       "null_margin_vs_skill_line": -0.4647,
+       "ledger_head_total": 311876
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -399,7 +399,7 @@
    },
    "ENGULF-CE-01": {
     "grade": "A",
-    "total": 69.69,
+    "total": 69.68,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -437,13 +437,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 61.76,
+      "score": 61.75,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.5392,
        "oos_sharpe": 0.3835,
-       "skill_line_v2": 1.1886,
+       "skill_line_v2": 1.1887,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -500,8 +500,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.6494,
-       "ledger_head_total": 311363
+       "null_margin_vs_skill_line": -0.6495,
+       "ledger_head_total": 311876
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -568,7 +568,7 @@
       "reads": {
        "full_sharpe": 0.6624,
        "oos_sharpe": 0.4089,
-       "skill_line_v2": 1.1886,
+       "skill_line_v2": 1.1887,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -625,8 +625,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.5262,
-       "ledger_head_total": 311363
+       "null_margin_vs_skill_line": -0.5263,
+       "ledger_head_total": 311876
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -692,7 +692,7 @@
       "reads": {
        "full_sharpe": 1.2578,
        "oos_sharpe": 2.0568,
-       "skill_line_v2": 1.1886,
+       "skill_line_v2": 1.1887,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -749,8 +749,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
-       "null_margin_vs_skill_line": 0.0692,
-       "ledger_head_total": 311363
+       "null_margin_vs_skill_line": 0.0691,
+       "ledger_head_total": 311876
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -782,7 +782,7 @@
     "veto_clean": true,
     "dims": {
      "1": 85.08,
-     "2": 77.79,
+     "2": 77.78,
      "3": 72.74,
      "4": 77.58,
      "5": 24.0,
@@ -980,7 +980,7 @@
     "veto_clean": true,
     "dims": {
      "1": 86.28,
-     "2": 72.64,
+     "2": 72.63,
      "3": 100.0,
      "4": 97.28,
      "5": 61.72,
@@ -1074,12 +1074,12 @@
    "trader": "ENGULF-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 69.69,
+    "total": 69.68,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 82.68,
-     "2": 61.76,
+     "2": 61.75,
      "3": 33.67,
      "4": 79.28,
      "5": 45.52,
@@ -8314,7 +8314,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 17.0,
+  "elapsed_sec": 13.1,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
