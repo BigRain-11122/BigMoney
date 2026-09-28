@@ -14,3 +14,4 @@
 
 同族高相关披露：P2 格与 P1 在册 3 eligible 格同族（袖内塌缩语义·入册并入同一现金腿袖候选池·非独立成员主张·D6 对 CE 6 员 <0.7 拒收线照旧·族内 corr 披露不拒收）。
 认领冲突即让路（commit 时间序后到让路律）。
+- 回执（同窗落地）：SLOT-2 prereg+SEED 20298500+梯目录条目=commit f26c0acc（rebase 后新号·原 e265828a）已 push main；梯实跑验证 prereg_frozen 门 PASS+runner_exists 诚实 blocked（下轮 runner 建成自臂）；同窗 bm-b grid_dualface_p1=20295500 种子键并集共存（pair-derivation 零撞·science_gates 双键加载自证）。本件归档。
