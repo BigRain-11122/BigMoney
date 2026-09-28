@@ -48,6 +48,10 @@ network, exit 0.
 Usage:
   python scripts/national_team_face.py audit    # probe all faces, receipt
   python scripts/national_team_face.py collect  # land s1 dataset
+  python scripts/national_team_face.py collect_pdf_holder
+                                               # s2 leg: periodic-report
+                                               # PDF top-10 holders +
+                                               # national-team matching
   python scripts/national_team_face.py selftest # offline parse checks
 """
 
@@ -451,6 +455,654 @@ class _Resp:
         self.status_code = 200
 
 
+# ------------------------------------------------- s2 PDF holder chapter
+# (r185 bm-c, T-106 s2 physical-dep leg per progress_r184 exact
+# continuation. Channel probes this round, receipts
+# .codely-cli/scratch/r185bmc_probe_*.json: JJGG type=3 periodic-report
+# list API live 200 (announcement ids + titles + dates); PDF direct
+# link pdf.dfcfw.com/pdf/H2_<ID>_1.pdf live 200 (%PDF-1.7, 510300
+# interim 2.3MB/67pp, annual 83pp); pypdf 6.19 text extraction
+# clean-CJK live-verified. Annual reports carry the top-10 holder NAME
+# face (sec 9.2, feeder-fund-excluded note) + anonymous >=20% table
+# (sec 12.1); interim reports carry structure (sec 8.1) + >=20% note
+# (sec 11.1) and NO top-10 table -- the honest face map, disclosed.)
+JJGG_API = "https://api.fund.eastmoney.com/f10/JJGG"
+PDF_URL_TMPL = "http://pdf.dfcfw.com/pdf/H2_{ann_id}_1.pdf"
+PDF_HEADERS = {"Referer": "https://fund.eastmoney.com/", "User-Agent": UA}
+REPORT_KINDS = (("interim", "中期报告"), ("annual", "年度报告"))
+# NATIONAL-TEAM frozen definition (ticket spec): 中央汇金(incl. 汇金资管) /
+# 中证金融(证金) / 社保基金 / 外管局旗下投资平台 / 国家级大基金.
+# Conservative keyword matching -- zero-false-positive posture; the
+# NationalBigFund class only auto-matches explicit fund names.
+NT_PATTERNS = [
+    ("HuiJin", ("汇金",)),
+    ("Zhengjin", ("中证金融", "证金公司", "证券金融")),
+    ("SocialSecurity", ("社保",)),
+    ("SAFE_platform", ("外管局", "梧桐树")),
+    ("NationalBigFund", ("国家集成电路", "国家制造业", "国家大基金")),
+]
+PDF_FACE_JSON = os.path.join(OUT_DIR, "pdf_holder_face.json")
+PDF_CKPT_JSON = os.path.join(OUT_DIR, "pdf_holder_checkpoint.json")
+PDF_RECEIPT_JSON = os.path.join(OUT_DIR, "pdf_holder_receipt.json")
+
+_TOP10_TAIL_ONLY = re.compile(
+    r"^((?:\d{1,3}(?:,\d{3})+|\d+)\.\d{2})\s+(\d{1,3}(?:\.\d{1,2})?)%?$")
+_TOP10_FRAG_TAIL = re.compile(
+    r"^(.+?)\s+((?:\d{1,3}(?:,\d{3})+|\d+)\.\d{2})\s+"
+    r"(\d{1,3}(?:\.\d{1,2})?)%?$")
+_TOP10_RANK_LINE = re.compile(r"^(\d{1,2})\s+(\S.*)$")
+# rank domain guard 1-12: wrapped-digit tails ("...41.0\n0", "...202512\n31")
+# must never be mistaken for a rank-alone row head (r187 live find)
+_TOP10_RANK_ALONE = re.compile(r"^([1-9]|1[0-2])$")
+_GE20_ROW_HEAD = re.compile(r"^([1-9]|1[0-2])\s*20\d{6}-?\s*$")
+_GE20_CLASS_RANK = re.compile(r"^[\u4e00-\u9fff]{0,4}\s*([1-9]|1[0-2])\s*$")
+_GE20_RANK_ALONE = re.compile(r"^([1-9]|1[0-2])$")
+_GE20_CLASS_YEAR = re.compile(
+    r"^[\u4e00-\u9fff]{0,4}\s*([1-9]|1[0-2])\s*20\d{2}年")
+_GE20_STRIP_HEAD = re.compile(
+    r"^(?:[\u4e00-\u9fff]{0,4})?(\d{1,2})(20\d{6}-20\d{6};?)")
+_GE20_STRIP_TAIL = re.compile(
+    r"((?:\d{1,3}(?:,\d{3})+|\d+)\.\d{2})(\d{1,3}\.\d{1,2})$")
+
+
+def _jjgg_headers(code):
+    return {"Referer": "https://fundf10.eastmoney.com/jjgg_%s_2.html" % code,
+            "User-Agent": UA}
+
+
+def fetch_jjgg_periodic(code):
+    """Periodic-report announcement list (JJGG type=3). Returns
+    (items, None) or (None, error)."""
+    r = _get(JJGG_API, {"fundcode": code, "pageIndex": 1, "pageSize": 20,
+                        "type": 3}, _jjgg_headers(code))
+    if r is None:
+        return None, "http_fail"
+    try:
+        items = r.json().get("Data") or []
+    except ValueError:
+        return None, "json_fail"
+    if not items:
+        return None, "empty"
+    return items, None
+
+
+def pick_report(items, keyword, exclude=("摘要",)):
+    """Latest announcement whose title contains keyword (report-摘要
+    summaries excluded -- they lack the full holder chapters)."""
+    best = None
+    for it in items:
+        t = it.get("TITLE") or ""
+        if keyword in t and not any(x in t for x in exclude):
+            d = it.get("PUBLISHDATE") or ""
+            if best is None or d > best[0]:
+                best = (d, it)
+    return best[1] if best else None
+
+
+def fetch_pdf_pages(ann_id):
+    """Download the announcement PDF, extract per-page text.
+    Returns (dict, None) or (None, error)."""
+    url = PDF_URL_TMPL.format(ann_id=ann_id)
+    r = _get(url, {}, PDF_HEADERS, timeout=60)
+    if r is None:
+        return None, "http_fail"
+    if not r.content.startswith(b"%PDF"):
+        return None, "not_pdf"
+    import hashlib
+    from pypdf import PdfReader
+    try:
+        rd = PdfReader(io.BytesIO(r.content))
+    except Exception:
+        return None, "pdf_parse_fail"
+    texts = []
+    for pg in rd.pages:
+        try:
+            texts.append(pg.extract_text() or "")
+        except Exception:
+            texts.append("")
+    return {"pdf_url": url, "sha256": hashlib.sha256(r.content).hexdigest(),
+            "bytes": len(r.content), "pages": len(texts), "texts": texts}, None
+
+
+def _holder_block(full_text, marker_re, end_markers, max_chars=3600):
+    """Window from marker to the first end marker (or max_chars).
+    The LAST match wins -- fund-report TOC pages carry the same section
+    titles with dot leaders, and the body section always follows the
+    TOC (probe-verified r185)."""
+    matches = list(marker_re.finditer(full_text))
+    if not matches:
+        return None
+    m = matches[-1]
+    seg = full_text[m.start():m.start() + max_chars]
+    cut = len(seg)
+    for em in end_markers:
+        k = seg.find(em, len(m.group(0)))
+        if 0 <= k < cut:
+            cut = k
+    return seg[:cut]
+
+
+def parse_top10(block):
+    """Top-10 holder table (annual sec 9.2). Chinese names wrap
+    mid-word across pdf lines -- fragments glue WITHOUT separator;
+    a record completes when a line carries the shares+pct tail.
+    Single-line rows (name+shares+pct on one line -- the 易方达/
+    南方/华夏 pdf layouts) complete in place at the rank line.
+    Returns list of {rank, name, shares, pct}."""
+    recs = []
+    rank = None
+    frags = []
+    for raw in (block or "").splitlines():
+        ln = raw.strip()
+        if not ln:
+            continue
+        if rank is None:
+            m = _TOP10_RANK_LINE.match(ln)
+            if m:
+                t = _TOP10_FRAG_TAIL.match(m.group(2))
+                if t and not _TOP10_RANK_LINE.match(m.group(2)):
+                    recs.append({"rank": int(m.group(1)),
+                                 "name": t.group(1),
+                                 "shares": float(t.group(2).replace(",", "")),
+                                 "pct": float(t.group(3))})
+                    continue
+                rank = int(m.group(1))
+                frags = [m.group(2)]
+                continue
+            m = _TOP10_RANK_ALONE.match(ln)
+            if m:
+                rank = int(m.group(1))
+                frags = []
+                continue
+            continue  # header/note lines before the first rank row
+        m = _TOP10_FRAG_TAIL.match(ln)
+        if m and not _TOP10_RANK_LINE.match(ln):
+            frags.append(m.group(1))
+            recs.append({"rank": rank, "name": "".join(frags),
+                         "shares": float(m.group(2).replace(",", "")),
+                         "pct": float(m.group(3))})
+            rank, frags = None, []
+            continue
+        m = _TOP10_TAIL_ONLY.match(ln)
+        if m:
+            recs.append({"rank": rank, "name": "".join(frags),
+                         "shares": float(m.group(1).replace(",", "")),
+                         "pct": float(m.group(2))})
+            rank, frags = None, []
+            continue
+        frags.append(ln)
+    return [r for r in recs if 1 <= r["rank"] <= 12]
+
+
+def parse_ge20(block):
+    """>=20% single-investor table (interim sec 11.1 / annual sec 12.1).
+    Rows are anonymous (no holder names -- disclosure privacy face);
+    the 期初/申购/赎回 numerics wrap mid-digit and stay raw-archived;
+    the tail (持有份额+占比) is comma-anchored and parsed exactly.
+    Returns dict(n_rows, rows=[{rank, interval, shares, pct}],
+    raw) or None when the block is absent."""
+    if not block:
+        return None
+    if "无需要披露" in block or "无需要说明" in block:
+        return {"n_rows": 0, "rows": [], "raw": block[:800]}
+    lines = block.splitlines()
+    rows = []
+    blob = []
+    in_row = False
+
+    def _flush():
+        if not blob:
+            return
+        stripped = re.sub(r"[\s%]+", "", "".join(blob))
+        head = _GE20_STRIP_HEAD.match(stripped)
+        tail = _GE20_STRIP_TAIL.search(stripped)
+        row = {"raw": " ".join(blob)[:400]}
+        if head:
+            row["rank"] = int(head.group(1))
+            row["interval"] = head.group(2)
+        if tail:
+            row["shares"] = float(tail.group(1).replace(",", ""))
+            row["pct"] = float(tail.group(2))
+        if len(row) > 1:
+            rows.append(row)
+        del blob[:]
+
+    for raw in lines:
+        ln = raw.strip()
+        if not ln:
+            continue
+        if (_GE20_ROW_HEAD.match(ln) or _GE20_CLASS_RANK.match(ln)
+                or _GE20_RANK_ALONE.match(ln) or _GE20_CLASS_YEAR.match(ln)):
+            _flush()
+            in_row = True
+            blob.append(ln)
+        elif "产品特有风险" in ln:
+            _flush()
+            in_row = False
+        elif in_row and not re.match(r"^\d{1,2}\.\d{1,2}\s*[\u4e00-\u9fff]", ln):
+            # section-heading guard: "12.2 影响投资者决策..." stops the
+            # blob; all-numeric wrapped tails like "4.00 42.62" pass
+            blob.append(ln)
+    _flush()
+    return {"n_rows": len(rows), "rows": rows, "raw": block[:800]}
+
+
+def national_team_match(name):
+    """Frozen-definition category tags for a holder name."""
+    return [cat for cat, kws in NT_PATTERNS
+            if any(k in (name or "") for k in kws)]
+
+
+_TOP10_MARKER = re.compile(r"期末上市基金前十名持有人")
+_GE20_MARKER = re.compile(r"单一投资者持有基金份额比例达到或超过\s*20%")
+_STRUCT_MARKER = re.compile(r"期末基金份额持有人户数及持有人结构")
+
+
+def _pdf_faces(texts, kind):
+    full = "\n".join(texts)
+    faces = {"structure_raw": None, "top10": None, "ge20": None}
+    b = _holder_block(full, _STRUCT_MARKER,
+                     ["§", "份额变动", "重大事件揭示"])
+    if b:
+        faces["structure_raw"] = b[:1600]
+    if kind == "annual":
+        b = _holder_block(full, _TOP10_MARKER,
+                          ["注：前十名持有人", "期末基金管理人的从业人员",
+                           "§", "份额变动"])
+        if b:
+            faces["top10"] = parse_top10(b)
+    b = _holder_block(full, _GE20_MARKER,
+                     ["影响投资者决策的其他重要信息", "备查文件目录", "§"])
+    if b:
+        faces["ge20"] = parse_ge20(b)
+    return faces
+
+
+def cmd_collect_pdf_holder():
+    """T-106 s2 leg: per-ETF periodic-report PDF holder-chapter face
+    (top-10 names + national-team matching + >=20% trajectory).
+    Checkpoint-resumable; throttle 1.2s; conn-fuse 3 family law."""
+    t0 = time.time()
+    os.makedirs(OUT_DIR, exist_ok=True)
+    ckpt = {}
+    if os.path.exists(PDF_CKPT_JSON):
+        try:
+            ckpt = json.load(open(PDF_CKPT_JSON, encoding="utf-8"))
+        except (OSError, ValueError):
+            ckpt = {}
+    requests_done = 0
+    failures = []
+    for code, nm, _ex in SIX:
+        items, err = fetch_jjgg_periodic(code)
+        requests_done += 1
+        time.sleep(THROTTLE)
+        if items is None:
+            failures.append((code, "jjgg_list", err))
+            continue
+        for kind, kw in REPORT_KINDS:
+            key = code + "_" + kind
+            if key in ckpt:
+                continue                      # checkpoint resume
+            ann = pick_report(items, kw)
+            if ann is None:
+                failures.append((code, kind, "no_report"))
+                continue
+            pdf, err = fetch_pdf_pages(ann["ID"])
+            requests_done += 1
+            time.sleep(THROTTLE)
+            if pdf is None:
+                failures.append((code, kind, err))
+                continue
+            faces = _pdf_faces(pdf["texts"], kind)
+            rec = {"code": code, "fund_name": nm, "kind": kind,
+                   "ann_id": ann["ID"], "title": ann.get("TITLE"),
+                   "publish_date": ann.get("PUBLISHDATEDesc"),
+                   "pdf_url": pdf["pdf_url"], "pdf_sha256": pdf["sha256"],
+                   "pdf_bytes": pdf["bytes"], "pdf_pages": pdf["pages"],
+                   "faces": faces}
+            ckpt[key] = rec
+            _atomic_write_json(PDF_CKPT_JSON, ckpt)
+            print("collected %s %s (%d pp, top10 rows %s)"
+                  % (code, kind, pdf["pages"],
+                     len(faces["top10"]) if faces["top10"] else 0),
+                  flush=True)
+    product = {"six": {}, "national_team": {}}
+    for code, nm, _ex in SIX:
+        per = {}
+        for kind, _kw in REPORT_KINDS:
+            r = ckpt.get(code + "_" + kind)
+            if r:
+                per[kind] = r
+        product["six"][code] = per
+    for code in SIX_CODES:
+        hits = []
+        annual = product["six"][code].get("annual")
+        if annual and annual["faces"].get("top10"):
+            for row in annual["faces"]["top10"]:
+                tags = national_team_match(row["name"])
+                if tags:
+                    hits.append({"report": "annual", "rank": row["rank"],
+                                 "name": row["name"], "categories": tags,
+                                 "shares": row["shares"], "pct": row["pct"]})
+        product["national_team"][code] = {
+            "hit": bool(hits), "hits": hits,
+            "combined_pct": round(sum(h["pct"] for h in hits), 2)}
+    _atomic_write_json(PDF_FACE_JSON, product)
+    receipt = {"elapsed_sec": round(time.time() - t0, 1),
+               "requests": requests_done, "failures": failures,
+               "ckpt_keys": sorted(ckpt.keys()),
+               "verdict": "ok" if not failures else "partial"}
+    _atomic_write_json(PDF_RECEIPT_JSON, receipt)
+    print("pdf_holder collect %s: %d requests, %d keys, failures=%s"
+          % (receipt["verdict"], requests_done, len(ckpt), failures))
+    return 0 if not failures else 2
+
+
+TOP10_BLOCK_FIXTURE = (
+    "9.2 期末上市基金前十名持有人 \n"
+    "序号  持有人名称  持有份额（份）  占上市总份额比例（%）  \n"
+    "1 中央汇金资产管理有\n"
+    "限责任公司 37,858,474,974.00 42.62  \n"
+    "2 中央汇金投资有限责\n"
+    "任公司 35,654,598,859.00 40.14  \n"
+    "3 太平人寿保险有限公\n"
+    "司 272,999,551.00 0.31  \n"
+    "7 \n"
+    "北京诚旸投资有限公\n"
+    "司－诚旸灵活配置私\n"
+    "募证券投资基金 \n"
+    "179,399,890.00 0.20  \n"
+    "11 \n"
+    "华泰柏瑞沪深300交\n"
+    "易型开放式指数证券\n"
+    "投资基金联接基金 \n"
+    "665,052,468.00 0.75  \n"
+    "注：前十名持有人为除本基金的联接基金之外的前十名持有人。"
+)
+
+GE20_BLOCK_FIXTURE = (
+    "12.1 报告期内单一投资者持有基金份额比例达到或超过 20%的情况 \n"
+    "机构 \n"
+    "1  20250101-\n"
+    "20251231;  \n"
+    "26,621,32\n"
+    "8,344.00  \n"
+    "11,237,\n"
+    "146,630\n"
+    ".00  \n"
+    "0.00  37,858,474,97\n"
+    "4.00  42.62  \n"
+    "2  20250101-\n"
+    "20251231;  \n"
+    "35,654,59\n"
+    "8,859.00 0.00 0.00  35,654,598,85\n"
+    "9.00 40.14  \n"
+    "产品特有风险 \n"
+    "本基金报告期内有单一持有人持有基金份额超过20%的情形。"
+)
+
+GE20_NONE_FIXTURE = (
+    "11.1 报告期内单一投资者持有基金份额比例达到或超过 20%的情况 \n"
+    "注：本基金本报告期内无需要披露的单一投资者持有基金份额比例"
+    "达到或超过20%的情况。"
+)
+
+JJGG_ITEMS_FIXTURE = [
+    {"TITLE": "华泰柏瑞沪深300ETF2026年中期报告", "ID": "AN1",
+     "PUBLISHDATE": "2026-08-29T00:00:00", "PUBLISHDATEDesc": "2026-08-29"},
+    {"TITLE": "华泰柏瑞沪深300ETF2026年中期报告摘要", "ID": "AN0",
+     "PUBLISHDATE": "2026-08-29T00:00:00", "PUBLISHDATEDesc": "2026-08-29"},
+    {"TITLE": "华泰柏瑞沪深300ETF2025年年度报告", "ID": "AN2",
+     "PUBLISHDATE": "2026-03-31T00:00:00", "PUBLISHDATEDesc": "2026-03-31"},
+    {"TITLE": "华泰柏瑞沪深300ETF2025年年度报告摘要", "ID": "AN3",
+     "PUBLISHDATE": "2026-03-31T00:00:00", "PUBLISHDATEDesc": "2026-03-31"},
+    {"TITLE": "华泰柏瑞沪深300ETF2026年第2季度报告", "ID": "AN4",
+     "PUBLISHDATE": "2026-07-21T00:00:00", "PUBLISHDATEDesc": "2026-07-21"},
+]
+
+# ---- r186/r187 real-layout variants (live PDF text shapes, six-fund
+# census): single-line top-10 rows carry a trailing % on the pct; the
+# >=20% tables wrap digits mid-group ("202512\n31", "62,941.0\n0").
+TOP10_SINGLELINE_FIXTURE = (
+    "9.2  期末上市基金前十名持有人 \n"
+    "序号 持有人名称 持有份额（份） 占上市总份额比例 \n"
+    "1 中央汇金投资有限责任公司 11,362,962,941.00 36.07% \n"
+    "2 中央汇金资产管理有限责任公司 5,656,821,265.00 17.96% \n"
+    "3 中国人寿保险股份有限公司 834,431,450.00 2.65% \n"
+)
+
+GE20_SOUTH_FIXTURE = (
+    "单一投资者持有基金份额比例达到或超过20%的情况\n"
+    "机构 1\n"
+    "20250408-\n"
+    "20251231\n"
+    "2,615,889,75\n"
+    "5.00\n"
+    "3,366,087,76\n"
+    "3.00 - 5,981,977,51\n"
+    "8.00\n"
+    "31.3\n"
+    "8%\n"
+    "产品特有风险\n"
+)
+
+GE20_RANK_ALONE_FIXTURE = (
+    "单一投资者持有基金份额比例达到或超过 20%的情况 \n"
+    "机构\n"
+    "1\n"
+    "2025-\n"
+    "01-01\n"
+    "至\n"
+    "2025-\n"
+    "12-31 28,791,513,899.00 - - 28,791,513,899.00 50.81%\n"
+    "产品特有风险 \n"
+)
+
+GE20_CLASS_YEAR_FIXTURE = (
+    "单一投资者持有基金份额比例达到或超过20%的情况 \n"
+    "机构 1 2025年 01月 01日\n"
+    "~2025年 12月 31日\n"
+    "11,362,9\n"
+    "62,941.0\n"
+    "0 0.00 0.00\n"
+    "11,362,9\n"
+    "62,941.0\n"
+    "0\n"
+    "36.06\n"
+    "%\n"
+    "产品特有风险\n"
+)
+
+# synthetic mini-ckpt (parser output shape; values canned to exercise
+# every claim-support branch -- NOT the live disclosure numbers)
+VERDICT_CKPT_FIXTURE = {
+    "510300_annual": {"code": "510300", "fund_name": "沪深300ETF",
+                      "ann_id": "ANV1", "publish_date": "2026-03-31",
+                      "pdf_sha256": "aa01",
+                      "faces": {"top10": [
+                          {"rank": 1, "name": "中央汇金资产管理有限责任公司",
+                           "shares": 37858474974.0, "pct": 42.62},
+                          {"rank": 2, "name": "中央汇金投资有限责任公司",
+                           "shares": 35654598859.0, "pct": 40.14},
+                          {"rank": 3, "name": "太平人寿保险有限公司",
+                           "shares": 272999551.0, "pct": 0.31}],
+                          "ge20": {"n_rows": 2, "rows": [
+                              {"rank": 1, "interval": "20250101-20251231;",
+                               "shares": 37858474974.0, "pct": 42.62},
+                              {"rank": 2, "interval": "20250101-20251231;",
+                               "shares": 35654598859.0, "pct": 40.14}]}}},
+    "510500_annual": {"code": "510500", "fund_name": "中证500ETF",
+                      "ann_id": "ANV2", "publish_date": "2026-03-31",
+                      "pdf_sha256": "bb02",
+                      "faces": {"top10": [
+                          {"rank": 1, "name": "中央汇金投资有限责任公司",
+                           "shares": 8235101633.0, "pct": 43.20},
+                          {"rank": 2, "name": "华泰证券股份有限公司",
+                           "shares": 244841519.0, "pct": 1.28}],
+                          "ge20": {"n_rows": 1, "rows": [
+                              {"rank": 1, "interval": "20250408-20251231",
+                               "shares": 5981977518.0, "pct": 31.38}]}}},
+    "510050_annual": {"code": "510050", "fund_name": "上证50ETF",
+                      "ann_id": "ANV3", "publish_date": "2026-03-31",
+                      "pdf_sha256": "cc03",
+                      "faces": {"top10": [
+                          {"rank": 1, "name": "中信建投证券股份有限公司",
+                           "shares": 355124763.0, "pct": 0.63}],
+                          "ge20": {"n_rows": 0, "rows": []}}},
+    "159915_annual": {"code": "159915", "fund_name": "创业板ETF",
+                      "ann_id": "ANV4", "publish_date": "2026-03-31",
+                      "pdf_sha256": "dd04",
+                      "faces": {"top10": [],
+                                "ge20": {"n_rows": 0, "rows": []}}},
+    "588000_annual": {"code": "588000", "fund_name": "科创50ETF",
+                      "ann_id": "ANV5", "publish_date": "2026-03-31",
+                      "pdf_sha256": "ee05",
+                      "faces": {"top10": [
+                          {"rank": 1, "name": "中国人寿保险股份有限公司",
+                           "shares": 1673812745.0, "pct": 3.12}],
+                          "ge20": {"n_rows": 0, "rows": []}}},
+    "512100_annual": {"code": "512100", "fund_name": "中证1000ETF",
+                      "ann_id": "ANV6", "publish_date": "2026-03-31",
+                      "pdf_sha256": "ff06",
+                      "faces": {"top10": [
+                          {"rank": 1, "name": "中央汇金资产管理有限责任公司",
+                           "shares": 13212186794.0, "pct": 51.51},
+                          {"rank": 2, "name": "中央汇金投资有限责任公司",
+                           "shares": 8956692256.0, "pct": 34.92}],
+                          "ge20": {"n_rows": 0, "rows": []}}},
+}
+
+
+# ------------------------------------------------- s2 selection verdict
+# (r186 bm-c, T-106 s2 slice-3 per progress_r184 continuation item 2:
+# six -> national-team subset, evidence-hard, feeding the T-105
+# annotation row. O-1555 CEO two-tier words = the hypothesis UNDER
+# VERIFICATION -- verification-not-question posture, numbers only.)
+S2_VERDICT_JSON = os.path.join(OUT_DIR, "s2_selection_verdict.json")
+CEO_TIER_CLAIM = {
+    "510050": 1, "510300": 1,          # 被汇金高度控盘
+    "510500": 2, "512100": 2, "588000": 2,   # 其次
+    "159915": 0,                        # T-106 six, not CEO-named
+}
+KONGPAN_BANDS = ((80.0, "extreme"), (50.0, "heavy"), (20.0, "present"))
+
+
+def _kongpan_band(pct):
+    for edge, label in KONGPAN_BANDS:
+        if pct >= edge:
+            return label
+    return "absent"
+
+
+def _claim_support(tier, band):
+    if tier == 0:
+        return "n/a_per_data"
+    if tier == 1:
+        return "supported" if band in ("extreme", "heavy") else "not_supported"
+    # tier-2 claim "其次": present-but-second. Equal-or-tier-1-level
+    # control = claim UNDERSTATED; zero presence = not supported.
+    if band in ("extreme", "heavy"):
+        return "understated"
+    return "supported" if band == "present" else "not_supported"
+
+
+def _ge20_max(ge20):
+    rows = (ge20 or {}).get("rows") or []
+    return max((r["pct"] for r in rows if "pct" in r), default=None)
+
+
+def _derive_verdict(ckpt):
+    """Pure derivation: ckpt -> s2 verdict product (deterministic,
+    zero network, no wall-clock fields -- byte-identical on rerun)."""
+    per = {}
+    for code, name, _ex in SIX:
+        a = ckpt.get(code + "_annual") or {}
+        i = ckpt.get(code + "_interim") or {}
+        top10 = (a.get("faces") or {}).get("top10") or []
+        nt_rows = [{"rank": r["rank"], "name": r["name"], "pct": r["pct"],
+                    "classes": national_team_match(r["name"])}
+                   for r in top10 if national_team_match(r.get("name"))]
+        nt_combined = round(sum(r["pct"] for r in nt_rows), 2)
+        band = _kongpan_band(nt_combined) if nt_rows else "absent"
+        ge20_a = (a.get("faces") or {}).get("ge20") or {}
+        ge20_i = (i.get("faces") or {}).get("ge20") or {}
+        corrob = sorted({g["pct"] for g in (ge20_a.get("rows") or [])
+                         if "pct" in g
+                         and any(abs(g["pct"] - r["pct"]) <= 0.02
+                                 for r in nt_rows)})
+        per[code] = {
+            "fund_name": a.get("fund_name") or i.get("fund_name") or name,
+            "receipt": {
+                "annual": {"ann_id": a.get("ann_id"),
+                           "publish_date": a.get("publish_date"),
+                           "pdf_sha256": a.get("pdf_sha256")},
+                "interim": {"ann_id": i.get("ann_id"),
+                            "publish_date": i.get("publish_date"),
+                            "pdf_sha256": i.get("pdf_sha256")},
+            },
+            "nt_top10_rows": nt_rows,
+            "nt_combined_pct": nt_combined,
+            "kongpan_band": band,
+            "ceo_tier_claim": CEO_TIER_CLAIM[code],
+            "claim_support": _claim_support(CEO_TIER_CLAIM[code], band),
+            "ge20": {
+                "annual_n_rows": ge20_a.get("n_rows"),
+                "annual_max_pct": _ge20_max(ge20_a),
+                "interim_n_rows": ge20_i.get("n_rows"),
+                "interim_max_pct": _ge20_max(ge20_i),
+                "corroborated_nt_pcts": corrob,
+            },
+        }
+    # subset = claim-SUPPORTED members (r186 selftest contract: a fund
+    # may hold NT rows yet stay excluded when its CEO tier-claim reads
+    # understated -- e.g. tier-2 "其次" claim vs extreme-band data)
+    subset = [c for c in SIX_CODES
+              if per[c]["claim_support"] == "supported"]
+    excluded = [c for c in SIX_CODES
+                if per[c]["claim_support"] != "supported"]
+    dates = [per[c]["receipt"][k]["publish_date"]
+             for c in SIX_CODES for k in ("annual", "interim")
+             if per[c]["receipt"][k]["publish_date"]]
+    return {
+        "batch": "NATIONAL_TEAM_S2_VERDICT",
+        "spec": "T-2026-09-28-106 s2 (O-20260928-1540) + O-20260928-1555 CEO two-tier hypothesis verification",
+        "evidence_cutoff": max(dates) if dates else None,
+        "universe": SIX_CODES,
+        "subset": subset,
+        "excluded": excluded,
+        "per_etf": per,
+        "honest_face_map": {
+            "interim_top10": "interim reports disclose holder STRUCTURE + >=20% note only -- NO top-10 table (annual-only face, per-report-layout fact)",
+            "ge20_anonymity": ">=20% rows are anonymous; NT attribution ONLY via name-matched annual top-10; pct-coincidence rows listed as corroboration, never as independent NT evidence",
+            "verdict_basis": "nt_top10_rows presence in LATEST ANNUAL report disclosures (name-matched, frozen NT definition) + O-1555 CEO two-tier claim-support gate; subset = supported claims, full NT evidence stays in per_etf",
+        },
+        "divergence_note": "O-1555 CEO five-member grid universe {510050,510300,512100,510500,588000} stays FROZEN for T-104 grid (separate consumer); this NT subset is the T-103/T-105 annotation face -- spec 'list subject to data' honored",
+    }
+
+
+def cmd_verdict():
+    """T-106 s2 slice-3: selection verdict product (deterministic
+    derivation over the collected PDF faces; zero network)."""
+    if not os.path.exists(PDF_CKPT_JSON):
+        print("verdict: pdf_holder_checkpoint.json absent -- "
+              "run collect_pdf_holder first (honest exit 2)")
+        return 2
+    with open(PDF_CKPT_JSON, encoding="utf-8") as fh:
+        ckpt = json.load(fh)
+    v = _derive_verdict(ckpt)
+    _atomic_write_json(S2_VERDICT_JSON, v)
+    for code in SIX_CODES:
+        p = v["per_etf"][code]
+        print("%s %-8s nt_combined=%6.2f%% band=%-7s tier_claim=%s "
+              "support=%s" % (code, p["fund_name"], p["nt_combined_pct"],
+                              p["kongpan_band"], p["ceo_tier_claim"],
+                              p["claim_support"]))
+    print("verdict: subset=%s excluded=%s evidence_cutoff=%s -> %s"
+          % (v["subset"], v["excluded"], v["evidence_cutoff"],
+             S2_VERDICT_JSON))
+    return 0
+
+
 def cmd_selftest():
     checks = []
 
@@ -482,6 +1134,108 @@ def cmd_selftest():
     check("six_codes_unique", len(set(SIX_CODES)) == 6)
     check("sse_five_szse_one", sum(1 for _, _, ex in SIX if ex == "SSE") == 5)
 
+    # ---- s2 PDF holder-chapter leg (r185): canned-block parsers
+    top10 = parse_top10(TOP10_BLOCK_FIXTURE)
+    check("top10 rows parsed", len(top10) == 5)
+    r1 = top10[0]
+    check("top10 wrapped-name glue",
+          r1["name"] == "中央汇金资产管理有限责任公司"
+          and r1["shares"] == 37858474974.00 and r1["pct"] == 42.62)
+    r7 = [r for r in top10 if r["rank"] == 7][0]
+    check("top10 multi-wrap + tail-only line",
+          r7["name"] == "北京诚旸投资有限公司－诚旸灵活配置私募证券投资基金"
+          and r7["shares"] == 179399890.00 and r7["pct"] == 0.20)
+    r11 = [r for r in top10 if r["rank"] == 11][0]
+    check("top10 feeder row 11",
+          r11["name"] == "华泰柏瑞沪深300交易型开放式指数证券投资基金联接基金"
+          and r11["pct"] == 0.75)
+
+    ge20 = parse_ge20(GE20_BLOCK_FIXTURE)
+    check("ge20 two rows", ge20["n_rows"] == 2)
+    g1 = ge20["rows"][0]
+    check("ge20 row1 interval+tail (comma-anchor vs wrapped digits)",
+          g1["interval"] == "20250101-20251231;"
+          and g1["shares"] == 37858474974.00 and g1["pct"] == 42.62)
+    g2 = ge20["rows"][1]
+    check("ge20 row2 tail", g2["shares"] == 35654598859.00
+          and g2["pct"] == 40.14)
+    ge20n = parse_ge20(GE20_NONE_FIXTURE)
+    check("ge20 none-note zero rows", ge20n["n_rows"] == 0)
+
+    check("nt match HuiJin",
+          national_team_match("中央汇金投资有限责任公司") == ["HuiJin"])
+    check("nt match Zhengjin",
+          national_team_match("中国证券金融股份有限公司") == ["Zhengjin"])
+    check("nt match SocialSecurity",
+          national_team_match("全国社保基金一一二组合") == ["SocialSecurity"])
+    check("nt match SAFE_platform",
+          national_team_match("梧桐树投资平台有限责任公司")
+          == ["SAFE_platform"])
+    check("nt no-false-positive insurer",
+          national_team_match("太平人寿保险有限公司") == [])
+
+    ann_i = pick_report(JJGG_ITEMS_FIXTURE, "中期报告")
+    ann_a = pick_report(JJGG_ITEMS_FIXTURE, "年度报告")
+    check("pick_report interim (摘要 excluded)",
+          ann_i["ID"] == "AN1" and ann_a["ID"] == "AN2")
+
+    faces_interim = _pdf_faces(
+        ["x\n" + GE20_NONE_FIXTURE + "\n§12 备查文件目录"], "interim")
+    check("_pdf_faces interim (no top10 face, ge20 none)",
+          faces_interim["top10"] is None
+          and faces_interim["ge20"]["n_rows"] == 0)
+
+    # ---- r186: single-line top10 rows (易方达/南方/华夏 layouts)
+    top10s = parse_top10(TOP10_SINGLELINE_FIXTURE)
+    check("top10 single-line 3 rows", len(top10s) == 3)
+    s1 = top10s[0]
+    check("top10 single-line row1 complete",
+          s1["rank"] == 1 and s1["name"] == "中央汇金投资有限责任公司"
+          and s1["shares"] == 11362962941.00 and s1["pct"] == 36.07)
+    s3 = top10s[2]
+    check("top10 single-line row3 no-NT insurer",
+          s3["name"] == "中国人寿保险股份有限公司" and s3["pct"] == 2.65)
+
+    ge20s = parse_ge20(GE20_SOUTH_FIXTURE)
+    check("ge20 south-layout one row", ge20s["n_rows"] == 1)
+    gs1 = ge20s["rows"][0]
+    check("ge20 south interval+tail (% stripped, wrapped digits)",
+          gs1["interval"] == "20250408-20251231"
+          and gs1["shares"] == 5981977518.00 and gs1["pct"] == 31.38)
+
+    ge20r = parse_ge20(GE20_RANK_ALONE_FIXTURE)
+    check("ge20 rank-alone layout one row", ge20r["n_rows"] == 1)
+    gr1 = ge20r["rows"][0]
+    check("ge20 rank-alone tail (shares+pct, interval raw-retained)",
+          gr1["shares"] == 28791513899.00 and gr1["pct"] == 50.81
+          and "interval" not in gr1)
+
+    ge20y = parse_ge20(GE20_CLASS_YEAR_FIXTURE)
+    check("ge20 class+year layout one row", ge20y["n_rows"] == 1)
+    gy1 = ge20y["rows"][0]
+    check("ge20 class+year tail (易方达 wrapped shares)",
+          gy1["shares"] == 11362962941.00 and gy1["pct"] == 36.06)
+
+    # ---- r186: _derive_verdict on canned mini-ckpt
+    v = _derive_verdict(VERDICT_CKPT_FIXTURE)
+    check("verdict subset two-of-six",
+          v["subset"] == ["510300", "510500"]
+          and v["excluded"] == ["510050", "159915", "588000", "512100"])
+    h = v["per_etf"]["510300"]
+    check("verdict huijin combined + tier1 supported",
+          h["nt_combined_pct"] == 82.76 and h["kongpan_band"] == "extreme"
+          and h["claim_support"] == "supported"
+          and h["ge20"]["corroborated_nt_pcts"] == [40.14, 42.62])
+    n = v["per_etf"]["588000"]
+    check("verdict absent band + tier2 not_supported",
+          n["nt_combined_pct"] == 0 and n["kongpan_band"] == "absent"
+          and n["claim_support"] == "not_supported")
+    u = v["per_etf"]["512100"]
+    check("verdict tier2 understated at extreme band",
+          u["claim_support"] == "understated")
+    check("verdict deterministic (pure derive rerun equal)",
+          _derive_verdict(VERDICT_CKPT_FIXTURE) == v)
+
     failed = [n for n, ok in checks if not ok]
     for n, ok in checks:
         print(("PASS " if ok else "FAIL ") + n)
@@ -490,13 +1244,18 @@ def cmd_selftest():
 
 
 def main():
-    p = argparse.ArgumentParser(description="T-106 national-team face s1 collector")
-    p.add_argument("cmd", choices=["audit", "collect", "selftest"])
+    p = argparse.ArgumentParser(description="T-106 national-team face collector")
+    p.add_argument("cmd", choices=["audit", "collect", "collect_pdf_holder",
+                                   "verdict", "selftest"])
     args = p.parse_args()
     if args.cmd == "audit":
         return cmd_audit()
     if args.cmd == "collect":
         return cmd_collect()
+    if args.cmd == "collect_pdf_holder":
+        return cmd_collect_pdf_holder()
+    if args.cmd == "verdict":
+        return cmd_verdict()
     return cmd_selftest()
 
 

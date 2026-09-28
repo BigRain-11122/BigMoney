@@ -3619,11 +3619,11 @@
    },
    "data_gates": "runner fail-closed if prereg absent or anchor counts mismatch (rows 3735/3689/3376, window masks 368/192/454/145 and 362/192/448/281, outside-cal=0, rate band (0,200), last-row==cutoff; exit 2 honest face-mismatch refusal)",
    "note": "ladder (d) slot-2: judged-negative GC007 stays closed (RANDOM_LARGE_SAMPLE_LAW s5 -- new prereg + new instrument face = lawful reopen channel, NOT a same-method rerun); if eligible, intake joins the SAME cash-leg sleeve candidate pool (within-family sleeve-collapsing semantics, no independent member claim, family corr disclosed not rejected); fee-after recheck = frozen intake precondition (T-112 precedent, b*>=1bp line)",
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "main",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "",
      "note": "ladder default shard (single-face batch, r301 family)",
      "owner": "bm-c",
@@ -3631,7 +3631,9 @@
     }
    ],
    "entered_at": "2026-09-28 22:05:31",
-   "entered_by": "bm-c fill_ladder T-107 slice-2"
+   "entered_by": "bm-c fill_ladder T-107 slice-2",
+   "done_at": "2026-09-28T22:58:00+08:00",
+   "result_ref": "results/innovation_quota/REPO-CALENDAR-P2.json (r186 flip main-file; r187 completed dual-file flip per r200/r201 2/2 assertion law -- lane file left ready caused 22:59:02 relaunch + crash churn; judged-negative BOTH cells, family closed per law s5, zero G2 zero intake)"
   }
  ],
  "lane_machine": "bm-c"
