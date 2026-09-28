@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28 16:44:52",
- "current_task": "R398 done: T-102 claimed+started (digest#1 lane3 landed, seed B8/B9 verified) + MASS-W1-JUDGE 4/4 shards burned 166/166 cells + judge-finalize detached pid 67792 + MSG-1622 W4 closure reconciled (fix already closed by bm-c r381/r382/r165, zero re-burn) + S6 33 legs rc=0 + 15 orders acked",
+ "last_seen": "2026-09-28 17:15:00",
+ "current_task": "T-109 s1 face assembly (national-team chain prereg -> s2 freeze pending bm-b sentiment face + bm-c s1d tone face); O-1712 template leg landed this round; ack note=GM commit 6cc504fb incident+law, W4 leg=bm-c r381/382 closed, monthly self-review aggregation=T-75 lane pending",
  "cpu_cores": 32,
  "cpu_pct": 13.3,
  "free_ram_gb": 49.8,
  "gpu_free_vram_gb": 5.5,
- "verdict": "py_low_with_work_cands named per O-1614 sec-4: pool burns exhausted in 77s/shard (fast kernels not idle-by-choice); claimable work = T-107/T-108/T-109 P0 engineering tickets unclaimed (r399 first action); structural fix = T-108 D4 supply catalog + D2 resident dispatcher; judge-finalize in flight pid 67792 single-core",
+ "verdict": "supply_gap+supply_floor flags honest: W4-JUDGE waiting on bm-b judge-prep leg (F-04 MSG-20260928-1712 dispatched 17:12); py low structural until prep lands; T-109 chain drafting face = no CPU carrier this round (honest no-burn window, batch carrier = chain prereg burn after s2 freeze)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -121,10 +121,11 @@
   "O-20260928-1625-bm-a.md",
   "O-20260928-1630-bm-a.md",
   "O-20260928-1640-bm-a.md",
-  "O-20260928-1655-bm-a.md"
+  "O-20260928-1655-bm-a.md",
+  "O-20260928-1712-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790585093,
- "clock_read": "2026-09-28T16:44:52",
+ "heartbeat_epoch_utc": 1790586613,
+ "clock_read": "2026-09-28T17:10:13+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 5.5,
@@ -135,7 +136,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 398,
+ "round_no": 399,
  "gpu_idle_vram_mb": 5629,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 57.8,
@@ -150,6 +151,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 398,
- "loop_round": 397
+ "round": 399,
+ "loop_round": 399
 }
