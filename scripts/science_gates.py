@@ -1087,11 +1087,32 @@ SEED_REGISTRY = {
     # prereg doc claims 20291500/20292000/20292500 unregistered (parked;
     # must re-pick on unfreeze -- national_team collision); rg --type py
     # full-repo scan zero hits 2026-09-28 19:5x before prereg freeze;
-    # registered same commit as prereg freeze (R250 law; prereg =
-    # research/etf_ops/ETF_OPS_BP1_PREREG.md; F-04 MSG-20260928-2000)
+        # registered same commit as prereg freeze (R250 law; prereg =
+        # research/etf_ops/ETF_OPS_BP1_PREREG.md; F-04 MSG-20260928-2000)
+        "member_reinforce_p1_null": 20294500,
+        # MEMBER_REINFORCE_P1 seed-stability face, seed #1 base: K=200
+        # same-mask random nulls per member (default_rng([20294500, k]),
+        # k<200); bands 20294500/600/700 are three independent null
+        # re-derivations for the 3-seed G1' verdict-stability check (T-107
+        # sec.4(b)); band 20294500..20294700+199 clean gap above
+        # etf_ops_bp1 (20294000..20294029); rg --type py full-repo scan
+        # zero hits 2026-09-28 20:3x before prereg freeze; registered same
+        # commit as prereg freeze (R250 law; prereg =
+        # research/MEMBER_REINFORCE_P1_PREREG.md; F-04 MSG-20260928-2035)
+        "member_reinforce_p1_seedstab2": 20294600,
+        "member_reinforce_p1_seedstab3": 20294700,
+        "innovation_quota_w1_repo": 20295000,
+        # INNOVATION_QUOTA_W1 / REPO_CALENDAR_P1 calendar term-switch family:
+        # K=2000 random-calendar-placement nulls (rng([20295000,k]), k<2000)
+        # + K=1000 virtual startpoints (k in [2000,3000)) + 100 random
+        # split windows (k in [3000,3100)) per RANDOM_LARGE_SAMPLE_LAW
+        # (T-107 sec.4(d)); usage band 20295000..20298099 clean gap above
+        # member_reinforce_p1 block; rg --type py full-repo scan zero hits
+        # 2026-09-28 20:3x before prereg freeze; registered same commit as
+        # prereg freeze (R250 law; prereg =
+        # research/INNOVATION_QUOTA_W1_PREREG.md; F-04 MSG-20260928-2035)
 
-
-}
+    }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
 

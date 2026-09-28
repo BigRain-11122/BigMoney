@@ -1,0 +1,180 @@
+{
+ "probe": "r180bmc_supply_prereg_probe",
+ "cutoff": "2026-09-22",
+ "roster_face": {
+  "members": [
+   {
+    "id": "COMPOSITE-CE-01",
+    "level": "INTERN",
+    "entry": "top_n_rotation(composite, n=5, rebal_days=20)",
+    "evidence_cutoff": "2026-09-22",
+    "anchor_is_sharpe": 0.4696,
+    "anchor_oos_sharpe": 1.7479
+   },
+   {
+    "id": "COMPOSITE-CE-02",
+    "level": "INTERN",
+    "entry": "top_n_rotation(composite, n=8, rebal_days=20)",
+    "evidence_cutoff": "2026-09-22",
+    "anchor_is_sharpe": 0.5346,
+    "anchor_oos_sharpe": 1.6392
+   },
+   {
+    "id": "DROUGHT-CE-01",
+    "level": "INTERN",
+    "entry": "vol_drought_reversal(vol_floor=0.55, drop_th=-0.05)",
+    "evidence_cutoff": "2026-09-22",
+    "anchor_is_sharpe": 0.5538,
+    "anchor_oos_sharpe": 1.213
+   },
+   {
+    "id": "ENGULF-CE-01",
+    "level": "INTERN",
+    "entry": "engulf_reversal(drop_th=-0.05)",
+    "evidence_cutoff": "2026-09-22",
+    "anchor_is_sharpe": 0.6121,
+    "anchor_oos_sharpe": 0.3835
+   },
+   {
+    "id": "NEEDLE-DE-01",
+    "level": "INTERN",
+    "entry": "needle_probe(drop_th=-0.05, shadow_pct=0.02)",
+    "evidence_cutoff": "2026-09-22",
+    "anchor_is_sharpe": 0.7781,
+    "anchor_oos_sharpe": 0.4089
+   },
+   {
+    "id": "VOLATILITY-CE-01",
+    "level": "INTERN",
+    "entry": "low_vol_long(n=60, top_k=5, daily)",
+    "evidence_cutoff": "2026-09-22",
+    "anchor_is_sharpe": 1.0275,
+    "anchor_oos_sharpe": 2.0568
+   }
+  ],
+  "n_members": 6,
+  "file_face": "firm/traders/*.json + json.load raw (non-PROS filter) + full-history + per-member warmup per engine face"
+ },
+ "repo_face": {
+  "panel_meta": {
+   "GC001": {
+    "rows": 3735,
+    "first": "2011-05-13",
+    "last": "2026-09-22",
+    "close_min": 0.005,
+    "close_max": 53.44,
+    "close_median": 2.155
+   },
+   "GC003": {
+    "rows": 3735,
+    "first": "2011-05-13",
+    "last": "2026-09-22",
+    "close_min": 0.005,
+    "close_max": 22.275,
+    "close_median": 2.185
+   },
+   "GC004": {
+    "rows": 3735,
+    "first": "2011-05-13",
+    "last": "2026-09-22",
+    "close_min": 0.005,
+    "close_max": 17.5,
+    "close_median": 2.185
+   },
+   "GC007": {
+    "rows": 3735,
+    "first": "2011-05-13",
+    "last": "2026-09-22",
+    "close_min": 0.01,
+    "close_max": 14.65,
+    "close_median": 2.5
+   },
+   "GC014": {
+    "rows": 3735,
+    "first": "2011-05-13",
+    "last": "2026-09-22",
+    "close_min": 0.37,
+    "close_max": 11.1,
+    "close_median": 2.6
+   },
+   "GC028": {
+    "rows": 3735,
+    "first": "2011-05-10",
+    "last": "2026-09-22",
+    "close_min": 0.315,
+    "close_max": 7.0,
+    "close_median": 2.695
+   },
+   "GC091": {
+    "rows": 3689,
+    "first": "2006-11-01",
+    "last": "2026-09-22",
+    "close_min": 0.515,
+    "close_max": 5.95,
+    "close_median": 2.695
+   },
+   "GC182": {
+    "rows": 3376,
+    "first": "2009-01-13",
+    "last": "2026-09-22",
+    "close_min": 0.025,
+    "close_max": 5.8,
+    "close_median": 2.6
+   },
+   "R-001": {
+    "rows": 3304,
+    "first": "2012-12-10",
+    "last": "2026-09-22",
+    "close_min": 0.002,
+    "close_max": 29.998,
+    "close_median": 1.87
+   },
+   "R-003": {
+    "rows": 3240,
+    "first": "2012-12-10",
+    "last": "2026-09-22",
+    "close_min": 0.001,
+    "close_max": 13.3,
+    "close_median": 1.9
+   },
+   "R-007": {
+    "rows": 3319,
+    "first": "2012-12-10",
+    "last": "2026-09-22",
+    "close_min": 0.018,
+    "close_max": 10.0,
+    "close_median": 2.214
+   }
+  },
+  "calendar_windows": {
+   "month_end_last2": {
+    "n_days": 370,
+    "gc001_close_mean": 4.0099459459459466,
+    "gc001_close_median": 2.6375,
+    "gc001_close_p95": 11.897750000000006
+   },
+   "quarter_end_last5": {
+    "n_days": 310,
+    "gc001_close_mean": 4.357645161290323,
+    "gc001_close_median": 2.96,
+    "gc001_close_p95": 16.076500000000014
+   },
+   "pre_longholiday_last2": {
+    "n_days": 194,
+    "gc001_close_mean": 4.077319587628866,
+    "gc001_close_median": 2.4800000000000004,
+    "gc001_close_p95": 15.110749999999998
+   },
+   "non_monthend": {
+    "n_days": 3365,
+    "gc001_close_mean": 2.4606731054977713,
+    "gc001_close_median": 2.115
+   }
+  },
+  "spread_gc007_minus_gc001": {
+   "month_end_last2_mean": -1.0897432432432435,
+   "non_monthend_mean": 0.274520059435364,
+   "all_median": 0.15500000000000025
+  }
+ }
+}
