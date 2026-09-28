@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-26 18:23:48",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "CN-CORE-DDCTL-P1",
-   "shard": "coreddctl-0of1",
-   "pid": 44648,
-   "runner_sha256": "12fa8a49fbf431cc",
-   "fill_latency_min": 5.6,
-   "target_met": true,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-26 18:29:37",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -644,7 +631,8 @@
    "pid": 29232,
    "runner_sha256": "44bf81ffa87535dc",
    "fill_latency_min": 118.4,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-28 12:00:01",
@@ -660,21 +648,36 @@
    "runner_sha256": "44bf81ffa87535dc",
    "fill_latency_min": 138.4,
    "target_met": false
+  },
+  {
+   "ts": "2026-09-28 12:10:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 24.5,
+   "keepalive": [
+    "censusw2b-0of1"
+   ],
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W4-GENERATE",
+   "shard": "generate-0of1",
+   "pid": 9896,
+   "runner_sha256": "f09090cbdecb8d43",
+   "fill_latency_min": 148.5,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-28 12:00:01",
+  "ts": "2026-09-28 12:10:01",
   "machine": "bm-b",
-  "py_cpu_pct": 25.0,
+  "py_cpu_pct": 24.5,
   "keepalive": [
    "censusw2b-0of1"
   ],
   "verdict": "launched",
   "entry": "TRIAL-LABOR-W4-GENERATE",
   "shard": "generate-0of1",
-  "pid": 15652,
-  "runner_sha256": "44bf81ffa87535dc",
-  "fill_latency_min": 138.4,
+  "pid": 9896,
+  "runner_sha256": "f09090cbdecb8d43",
+  "fill_latency_min": 148.5,
   "target_met": false
  },
  "lane_machine": "bm-b"
