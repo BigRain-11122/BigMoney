@@ -1,0 +1,196 @@
+{
+ "started": "2026-09-28T15:35:37+0800",
+ "legs": {
+  "compute_audit": {
+   "rc": 0,
+   "sec": 7.8,
+   "tail": "p\"}, \"gpu\": {\"present\": true, \"util_pct\": 0.0, \"mem_used_mb\": 6021.0, \"compute_apps_count\": 19, \"rogue_apps\": []}, \"zombies\": [], \"single_core_hog_candidate\": false, \"single_core_hog_detail\": null, \"flags\": [\"idle_with_work\"], \"verdict\": \"FLAG:idle_with_work\"}",
+   "err_tail": "compute_audit: runnable_pool merged-sync settled {\"wrote_shared\": true, \"wrote_lane\": true}"
+  },
+  "py_watermark_probe": {
+   "rc": 0,
+   "sec": 6.2,
+   "tail": ", \"refresh_lock_lanes\": [], \"open_tickets\": 2, \"open_ticket_ids\": [\"T-2026-09-28-102\", \"T-2026-09-28-103\"], \"bandit_open\": 0, \"bars_present\": false, \"daily_panel\": true, \"verdict\": \"insufficient_history\", \"window\": {\"n\": 1, \"span_min\": 0.0}, \"series_kept\": 88}",
+   "err_tail": ""
+  },
+  "update_daily": {
+   "rc": 0,
+   "sec": 2.0,
+   "tail": "=== Bigmoney daily update 2026-09-28 15:35:52 ===\ncore pool: 48 CSVs | today-bar guard: >= 15:30:00\nnew rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-24\nstatus -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\update_status.json",
+   "err_tail": ""
+  },
+  "market_regime": {
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "regime state -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\regime_state.json\n  asof=2026-09-24 state=ORANGE (�ȡ���Σ) raw=ORANGE days_in_state=1 mode=shadow\n  trigger: hs300<MA200 (#10 collected)\n  trigger: breadth 0.77>=65%",
+   "err_tail": ""
+  },
+  "strategy_scorecard": {
+   "rc": 0,
+   "sec": 12.3,
+   "tail": "=100 d7=100  veto=clean\n  ENGULF-CE-01       A  total= 69.7  d1=83 d2=62 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean\nstrategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (12.1s)",
+   "err_tail": ""
+  },
+  "market_clock_call": {
+   "rc": 0,
+   "sec": 6.1,
+   "tail": "call written: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-24.md cell=ORANGE_COOL sleeves=4 activated=0",
+   "err_tail": ""
+  },
+  "update_lhb": {
+   "rc": 0,
+   "sec": 4.1,
+   "tail": "cutoff=2026-09-24 quarter=2026Q3 today=2026-09-28\nfetch: cutoff 2026-09-24 behind expected disclosure 2026-09-25\nrefetched quarter rows=5209 new_beyond_cutoff=0\nno events beyond cutoff yet - no-op",
+   "err_tail": "8/11 [00:01<00:00,  4.94it/s]\n 82%|������������������ | 9/11 [00:01<00:00,  4.18it/s]\n 91%|������������������ | 10/11 [00:02<00:00,  4.74it/s]\n100%|��������������������| 11/11 [00:02<00:00,  5.35it/s]"
+  },
+  "update_heat": {
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)",
+   "err_tail": ""
+  },
+  "update_futures": {
+   "rc": 0,
+   "sec": 0.3,
+   "tail": "no-op: local cutoff 2026-09-24 covers expected complete-bar date 2026-09-24 -> zero network",
+   "err_tail": ""
+  },
+  "update_repo": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: repo rates lane owned by bm-a, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "update_options": {
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: options lane owned by bm-a, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "update_moneyflow": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: moneyflow lane owned by bm-a, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "update_sina_mf": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: sina_mf lane owned by bm-a, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "update_astock_daily": {
+   "rc": 0,
+   "sec": 1.5,
+   "tail": "no-op: astock_daily lane owned by bm-b, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "rev_osc_signal_export": {
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op",
+   "err_tail": ""
+  },
+  "update_ths_panel": {
+   "rc": 0,
+   "sec": 0.5,
+   "tail": "no-op: ths panel lane owned by bm-a, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "ah_panel_puller": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: ah panel lane owned by bm-a, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "update_fund_premium_snapshot": {
+   "rc": 0,
+   "sec": 2.1,
+   "tail": "snapshot stored: 2026-09-24 rows=1669 (0.8s fetch+write)",
+   "err_tail": ""
+  },
+  "update_fundamental": {
+   "rc": 0,
+   "sec": 0.6,
+   "tail": "snapshot fresh (5.9h < 24h) -> skip",
+   "err_tail": ""
+  },
+  "b_layer_filter": {
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "xcluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}\nmask -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\fundamental\\b_layer_mask.csv\nverdict -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\fundamental_b_layer_filter.json",
+   "err_tail": ""
+  },
+  "t24_prospect_promotion": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "PROS-TMU-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)\nPROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)\npromotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22",
+   "err_tail": ""
+  },
+  "aggressive_lab_paper": {
+   "rc": 0,
+   "sec": 1.8,
+   "tail": "aggr paper: marks already at panel cutoff 2026-09-24 -- no-op (idempotent)",
+   "err_tail": ""
+  },
+  "alloc_paper": {
+   "rc": 0,
+   "sec": 0.6,
+   "tail": "no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)",
+   "err_tail": ""
+  },
+  "grid_paper": {
+   "rc": 0,
+   "sec": 0.6,
+   "tail": "grid paper: no markable bar yet (panel cutoff 2026-09-24 <= evidence_cutoff 2026-09-24) -- no-op",
+   "err_tail": ""
+  },
+  "system_v1_paper": {
+   "rc": 0,
+   "sec": 0.6,
+   "tail": "system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op",
+   "err_tail": ""
+  },
+  "t35_paper_export": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": " -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)\nexport 2026-09-24: traders=6 positions=18 equity=5996645 ops(entry/exit)=18/0 source=first-snapshot\n-> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\paper_export\\export-2026-09-24.json + latest.json",
+   "err_tail": ""
+  },
+  "daily_scorecard": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "ne_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 336min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)\nscorecard written: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6",
+   "err_tail": ""
+  },
+  "daily_report": {
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "daily report written: REPORT-2026-09-28.md/.json faces=4 token=1",
+   "err_tail": ""
+  },
+  "build_status": {
+   "rc": 0,
+   "sec": 1.9,
+   "tail": "board_status.json host=bm-a heartbeat stale 336min -> stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law)\ndashboard status -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\dashboard_status.js\n  factors=10 backtest=432combos/0pass traders=6 milestones=5/7",
+   "err_tail": ""
+  },
+  "token_meter": {
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "money\\results\\token_usage.json\nper-round fixed context ~ 9309 + 2746 tokens (rough); ledger cumulative ~ 2049 state + 806227 report tokens; delta=0\nL2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=6 across 4 sigs",
+   "err_tail": ""
+  }
+ },
+ "today": "2026-09-28",
+ "data_cutoff": "2026-09-24",
+ "new_bar": false,
+ "skipped": [
+  "live.paper (no new bar; REGIME_GUARD anchor gate)",
+  "t35_open_fill_verify (no new bar)",
+  "t24_prospect_paper (no new bar)"
+ ],
+ "finished": "2026-09-28T15:36:31+0800",
+ "fails": [],
+ "total": 30
+}
