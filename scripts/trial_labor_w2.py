@@ -324,19 +324,42 @@ def draw_candidate_sobol(grammar, family, slot, n_draws):
 
 
 # ------------------------------------------------------- generate slice (s2)
-def _ram_gate_gb(threshold=4.0):
+def _ram_gate_gb(threshold=4.0, wait_min=40):
     """Three-sample free-RAM gate (r354 law; dual-company shared-machine
     discipline). Returns (min_gb, ok); missing psutil -> gate skipped with
-    disclosure value None (fleet machines all carry psutil)."""
+    disclosure value None (fleet machines all carry psutil).
+    r379 bm-b wait-law (O-0947 fuse vs honest-refuse fix): pool-launched
+    runners used to exit-2 on a failing window; the fuse confirms ANY
+    dead runner with an unlanded shard (exit codes invisible to it), so
+    each honest refuse burned a crash count and same-hash relaunch got
+    refused while RAM was the only blocker (live: W4-GENERATE fused
+    11:00/11:20 with RAM 3.14/0.5GB). Bounded in-place wait keeps the
+    process alive so the shard lands when the RAM window opens; on cap
+    exhaustion the honest exit-2 refuse path is unchanged."""
     try:
         import psutil
     except ImportError:
         return None, True
-    vals = []
-    for _ in range(3):
-        vals.append(psutil.virtual_memory().available / (1 << 30))
-        time.sleep(1.0)
-    return round(min(vals), 2), min(vals) >= threshold
+    deadline = time.time() + max(0.0, wait_min) * 60.0
+    attempt = 0
+    while True:
+        vals = []
+        for _ in range(3):
+            vals.append(psutil.virtual_memory().available / (1 << 30))
+            time.sleep(1.0)
+        if min(vals) >= threshold:
+            if attempt:
+                print(f"RAM-GATE: window opened (min sample "
+                      f"{round(min(vals), 2)}GB) after {attempt} "
+                      f"wait cycle(s)")
+            return round(min(vals), 2), True
+        attempt += 1
+        if time.time() >= deadline:
+            return round(min(vals), 2), False
+        print(f"RAM-GATE: min free RAM {round(min(vals), 2)}GB < "
+              f"{threshold}GB -- in-place wait for RAM window "
+              f"(cycle {attempt}, cap {wait_min}min, r379 wait-law)")
+        time.sleep(60.0)
 
 
 def _load_exclusion_rows(grammar):

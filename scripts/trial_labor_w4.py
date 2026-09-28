@@ -644,11 +644,12 @@ def cmd_generate() -> int:
               f"{FROZEN_SHA16} != file {grammar['grammar_sha256']}; "
               "refusing")
         return 2
-    ram_min, ram_ok = tl2._ram_gate_gb()
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
     if not ram_ok:
-        print(f"GENERATE-GATE: free RAM {ram_min}GB < 4GB (three-sample "
-              f"r354 law, dual-company discipline) -- honest refuse, pool "
-              f"retries when RAM frees")
+        print(f"GENERATE-GATE: free RAM {ram_min}GB < 4GB after bounded "
+              f"wait (three-sample r354 law, dual-company discipline; "
+              f"r379 wait-law) -- honest refuse, pool retries when RAM "
+              f"frees")
         return 2
     tl1.GRAMMAR = grammar           # tl1._signal_frame reads tl1's global
     prices = tl1.load_core()
@@ -1151,10 +1152,11 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
     if _grammar_sha16(grammar) != FROZEN_SHA16:
         print(f"SCREEN-GATE: grammar sha drift != frozen {FROZEN_SHA16}")
         return 2
-    ram_min, ram_ok = tl2._ram_gate_gb()
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
     if not ram_ok:
-        print(f"SCREEN-GATE: free RAM {ram_min}GB < 4GB (three-sample "
-              f"r354 law) -- honest refuse, pool retries when RAM frees")
+        print(f"SCREEN-GATE: free RAM {ram_min}GB < 4GB after bounded "
+              f"wait (three-sample r354 law; r379 wait-law) -- honest "
+              f"refuse, pool retries when RAM frees")
         return 2
     tl1.GRAMMAR = grammar
     mine = [c for i, c in enumerate(cells) if i % shards == shard]
