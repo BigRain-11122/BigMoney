@@ -1,4 +1,4 @@
-﻿## Codely Structured Memories
+## Codely Structured Memories
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 ### Feedback
@@ -29,5 +29,6 @@
 冷层指针：坑律正典 2026-09-28 四十批（r394 bm-a 窗·水位律当窗整编：r394 新坑律 append 后超 ≤10KB 硬线）：r392 认领幽灵 staged-only 阻 rebase / r369 stash-pop 撞活写进程比进度尾行判序 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十批』节（行级零丢失校验）。
 冷层指针：坑律正典 2026-09-28 四十二批（r396 bm-a 窗·水位律当窗整编：新坑律 append 后超 ≤10KB 硬线）：r394 MSG 声明盲窗同窗双实现撞车 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十二批』节（行级零丢失校验）。（四十一批=bm-c r127 窗在 quant 镜像 CODELY 面在册·本仓 archive 未见其节——本批取四十二批避撞）
 冷层指针：坑律正典 2026-09-28 四十三批（r373 bm-b 窗·水位律当窗整编：CODELY.md append 后超 ≤10KB 硬线）：r150 池文件全幅 UU 冲突界切顶层闭括号 / r396 跨机 inbox ALL 归档竞态 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十三批』节（行级零丢失校验）。
-- [2026-09-28 09:5x r373 bm-b] 坑律补充（冲突分类定性库）：**docs/daily_report/REPORT-YYYYMMDD.json/.md 双件在 push-storm 冲突分类器=UNKNOWN fail-closed，正确定性=snapshot 类 take-new by generated ts**（daily_report.py T-75 契约=当日重复运行原地再生幂等·他日永不动；r373 探针实证两侧差异纯 generated_at/token_line/rd 运行时元数据，内容其余恒等）。How to apply：同窗双跑撞头时无需重探针，直接按 snapshot 配方 take 新（resolver SNAPSHOTS 列表加入该两件）；.md 文本孪生同法 whole-bytes take-side。指针=results/_r373bmb_resolve.py（r371 resolver 复用范式）。
-- [2026-09-28 09:5x r397 bm-a] 坑律：**pandas DataFrame 与 Series 裸位运算按列对齐坑——\df & series\ 把 series 索引对齐到 df 的列（非行），索引不匹配不报错而产出错位空面，测试断言静默假判**（r397 实弹：W4 runner selftest 双门交集腿 \(gv>0) & (bull_s==0)\，bull_s=日期索引 Series 被按列对齐→blocked/交集计数恒 0 假 FAIL；同窗第二 FAIL=dip 刺破日落在 calm 闭窗外=夹具设计缺陷非机制坑）。How to apply：DataFrame×Series 行级断言一律显式 \.mul(series, axis=0)\/\.eq(series, axis=0)\ 禁裸 \&\/\|\；夹具断言先验非恒真——断言值须随夹具参数变化（恒 0/恒等=对齐面已坏）。指针=scripts/trial_labor_w4.py selftest leg[4]+leg[7]。
+冷层指针：坑律正典 2026-09-28 四十四批（r154 bm-c 窗·水位律当窗整编：push-storm union 10,839B 复超 ≤10KB 硬线）：r373 REPORT 双件分类正定 snapshot take-new / r397 pandas 列对齐裸位运算断言假判 两条件全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十四批』节（行级零丢失校验）。
+
+- [2026-09-28 10:0x r154 bm-c] 坑律：**共享 md 台账追加禁用行首片段作 replace 锚**——append-only 台账（HQ-FEEDBACK/CODELY 等）replace 的 old_string 若只匹配某行行首片段而 new_string 不含该行全文，会把该行后续内容静默截断（r154 实弹：HQ-FEEDBACK.md 追加前误取 F-20260928-03 行首作锚，替换后该行中段被删，git diff 当场暴露立即整行恢复零丢失）。How to apply：追加一律锚最后一行完整结尾段（含状态尾）或文件尾写入（python open a 模式/Add-Content 前核编码）；old_string 必须覆盖整行；写后 git diff 自证零他人行变动。
