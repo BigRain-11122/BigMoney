@@ -3520,7 +3520,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-28 15:18:33",
    "workers_plan": {
     "workers": 1,
@@ -3531,7 +3531,7 @@
    "shards": [
     {
      "key": "v3-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-29 06:00:04",
      "checkpoint": null
@@ -3544,7 +3544,10 @@
    "worker_class": "bm-hosted",
    "ready_at": "2026-09-29T05:08:00+08:00",
    "ready_flipped_by": "bm-c r199",
-   "flip_note": "ready-flip bm-c r199 per prereg s6 zero-dead-round law; burn host pinned bm-b (lane_owner honored); RAM r354 three-sample law applies at launch; negative results reported honestly per O-20260927-2255 (results reported as soon as they land)."
+   "flip_note": "ready-flip bm-c r199 per prereg s6 zero-dead-round law; burn host pinned bm-b (lane_owner honored); RAM r354 three-sample law applies at launch; negative results reported honestly per O-20260927-2255 (results reported as soon as they land).",
+   "done_at": "2026-09-29T06:22:42+08:00",
+   "result_ref": "results/decision_chain_v3_tournament.json",
+   "done_note": "r413 bm-b harvest: verdict landed (predecessor r412 closeout commit + harvest push f452727d8 = landed-marker per r244 law; relayed by my r413 harvest push 45d0f31db). Honest negative: chain_win A-H1/A-H2S/A-H3 all False on faces {base, x2}, J-TARGET 0/3, winners [], N_eff=16,566 (3 arms x 5,522); trials ledger NOT counted per prereg s0 (audit FLAG:supply_gap,supply_floor -> not-counted law, total null honest); executed_by bm-b, evidence_cutoff 2026-09-22. Relaunch pid21584 06:00:15 (autofill saw unflipped shard face) re-ran deterministic finalize 202.1s -> byte-identical verdict rewrite 06:22:42 = reproducibility re-verify free-of-charge; crash-fuse CONFIRM 06:30:03 count=1 loop cleared by this flip (shard status done -> never a crash, autofill _confirm_crashes landing check). v4 self-paper tray wiring = 10-01 month-bound face per O-1506 s4, untouched this round."
   },
   {
    "id": "SENTIMENT-AXES-FULLHIST-P1",
@@ -3904,13 +3907,13 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-29 06:00:54",
    "data_gates": "screen-prep PASS bm-b r412 2026-09-29 06:00:54: panel 48/48, anchors 6/6 faithful, census 6m 1253/12m 1127/24m 875, starts 1253, passive precomputed, gate na-window 199 bars, G-VOL 594calm/518wild first-valid 519, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19; TRIAL-LABOR-W6-GENERATE done 05:46:27 w6_candidates.json n=3952 single-shot completion marker in-repo (refuse-if-exists guard)",
    "shards": [
     {
      "key": "screen-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-29 06:30:04",
      "checkpoint": "results/trial_labor_w6/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law)"
@@ -3922,6 +3925,43 @@
     "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W4-SCREEN live precedent 12 workers bm-c)",
     "priority": "BelowNormal",
     "note": "W5-SCREEN 3,926+200 cells 28min bm-c 12 workers; W6 3,952+200 cells bm-b 16-core"
+   },
+   "done_at": "2026-09-29T06:49:00+08:00",
+   "result_ref": "results/trial_labor_w6/w6_screen.json",
+   "done_note": "r413 bm-b harvest: screen burn pid3984 complete 06:40:05 (worker log 'shard 0of1 complete', 4152/4152 cells checkpoint append-per-cell, normal exit -- no crash; screen-finalize = separate subcommand per runner design); screen-finalize executed in-round by lane owner bm-b (W5 bm-a r409 precedent): 3952 distinct + 200 nulls, null p95 0.5196, survivors 293 (survival rule beat6m_rate > null_p95 frozen), vconf segmented survival surge 0.0878 > none 0.0727 > dry 0.0611; trials_ledger TRIAL_LAB_W6_SCREEN prev 328987 + 4152 = 333139 cross-wave linear no-reset; grammar sha16 2d395f5f8e7d16cb anchor; evidence_cutoff 2026-09-22 lockbox. JUDGE physical dep now satisfied; judge-prep + W6-JUDGE pool entry = same-round wiring (RAM r354 3-sample gate + serial-position face at flip per prereg sec.0)."
+  },
+  {
+   "id": "TRIAL-LABOR-W6-JUDGE",
+   "ticket_ref": "T-2026-09-29-117 WAVE-6 judge slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-c r198 commit ead43f0d2 healthy-takeover; SEED berths 20303500/20304000/20304500 same-commit R250; runner full-slice built bm-b r410 selftest 80/80 hermetic + fix-first 0006c24f9 production-validated; SCREEN-finalize LANDED bm-b r413 06:49: 3952+200 cells, null p95 0.5196 (json 6dp 0.519553), survivors 293 -- judge physical dep satisfied; judge-prep PASS bm-b r413)",
+   "prereg_ref": "research/TRIAL_LABOR_W6_PREREG.md FROZEN sec.0 TRIAL_LAB_W6_JUDGE (s3 full judgment batch: batch_trials = survivors 293 judged cells; dual nulls B/P resampling = not ledger +0 per prereg sec.0) + sec.0 W6-JUDGE physical-order gate (RAM r354 three-sample gate + serial-position confirm at entry; W5-JUDGE + all other judge faces done = queue face confirmed at entry; 48h CEO report clock starts at judge-finalize) + sec.4 (g1_prime_v2/g2_registration_v2 shared lib zero hand-copy; DSR n_trials = live chain head cross-wave no-reset, run-time live read governs = 333139 post-SCREEN; E[FP]=0.05*N_judged; family PBO CSCV 8 blocks family=strategy-module) + sec.9 pool routing (lane_owner=null per frozen law; judge face cache-less machines in-runner exit 2 honest W1-W5 precedent)",
+   "consumer_plan": "TRIAL-LABOR-W6-JUDGE -> judged verdict face (w6_judge.json) -> s4 intake -> STRATEGY_LIBRARY + TRIAL-* paper accounts -> 48h CEO report + scorecard CEO face; screen null p95 -> next-wave prereg reference band (W1-W5 0.5116/0.5164 lineage)",
+   "runner": "scripts/trial_labor_w6.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-29 06:55:07",
+   "data_gates": "READY (all three entry-time deps MET r413 bm-b): (1) serial-position face: pool drained 109/109 done at entry (V3-TOURNAMENT + W6-SCREEN done-flips same round r413), zero in-flight verdict faces ahead; (2) judge-prep PASS bm-b r413: manifest PASS 48 members, census L/D == frozen, survivors 293, gate meta L/D na-window 199/199, vol 519/519 (leg-L anchors 594calm/518wild), yang zero-warmup 819yang/812red, vconf 19-bar warmup 784surge/828dry -> results/trial_labor_w6/judge_state.json; (3) RAM r354 three-sample PASS 10.38/10.58/12.71 GB across 31s (>=4GB law). In-runner fail-closed: judge_state/w6_screen absent exit 2; grammar sha16 != 2d395f5f8e7d16cb refuse; zero-survivor vacuous face n/a (293 survivors). Judge dual-null rng trial_labor_w6_unc=20304500 [20304500, cell_idx] per prereg sec.3 s3; G2 n_trials live-head read = 333139 post-SCREEN cross-wave. After shards: judge-finalize = separate round work (ledger TRIAL_LAB_W6_JUDGE batch_trials=293 literal + w6_judge.json G1'/G2/DSR/PBO/E[FP] + gate x vol x yang x vconf segmented disclosure; intake slice next per prereg sec.6; 48h CEO report clock starts at judge-finalize)",
+   "shards": [
+    {
+     "key": "judge-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w6/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law)",
+     "note": "judge-0of1 single shard (W1-W5 judge single-shard precedent); workers BelowNormal; dual nulls B=2000 block bootstrap + P=2000 sign-flip in-shard per prereg sec.3 s3",
+     "owner": "bm-b",
+     "owner_since": "2026-09-29 07:20:04"
+    }
+   ],
+   "workers_plan": {
+    "workers": 20,
+    "priority": "BelowNormal",
+    "note": "worker_cap() RAM-guard governs at runtime (runner self-caps, --workers omitted from runner_args per W5-JUDGE same-machinery precedent); plan size 20 = floor(16 cores/0.8) per prereg sec.9 lower-bound; judge initargs carry BOTH leg panels + per-leg ATR20 + per-leg gate/vol/yang/vconf state faces = heaviest per-worker state in the fleet; dual-leg x {6m,12m,24m} x cost {base x1, x2=CostPatch(2)} engine curves per judged cell WITH gate+vol+yang+vconf+stop overlays + dual nulls B/P resampling ~4-6x screen-cell weight; W2/W3/W4/W5 judge same-machinery precedent"
    }
   }
  ],

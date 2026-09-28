@@ -190,19 +190,39 @@ def fleet_open_tasks():
     return n
 
 
+def _merged_pool(rdir):
+    """T-116 s3 wave-1 flip (D-20260928-03(1) structural end-state): the
+    audit's pool samples read the lane-merged view (shared + per-machine
+    lanes, same merger recipes the S6 settle writes) -- dual-run zero-
+    drift evidence 3/3/8 all-green 2026-09-29. Returns (view, None) or
+    (None, reason) on read faults (fail-closed r98: corrupt source /
+    identity contradiction -> unknown, never a silent bare read)."""
+    try:
+        sdir = os.path.join(ROOT, "scripts")
+        if sdir not in sys.path:
+            sys.path.insert(0, sdir)
+        import merge_lane_views as _mlv
+        shared = os.path.join(rdir, "runnable_pool.json")
+        lanes = [os.path.join(rdir, "runnable_pool.%s.json" % m)
+                 for m in _mlv.MACHINES]
+        if not any(os.path.exists(p) for p in [shared] + lanes):
+            return None, "missing everywhere (pre-flip missing-shared parity)"
+        view = _mlv.face_view("runnable_pool", results_dir=rdir)
+        return (view or {}).get("entries") or [], None
+    except (Exception, SystemExit) as ex:
+        return None, str(ex)
+
+
 def pool_ready_count():
-    """ready entries in results/runnable_pool.json; None = unreadable/missing.
+    """ready entries across the lane-merged pool view; None = unreadable.
 
     None (unknown) is deliberately distinct from 0 (known-empty): the
-    starvation flag must not fire on a pool file we could not read.
+    starvation flag must not fire on a pool we could not read.
     """
-    try:
-        with open(os.path.join(ROOT, "results", "runnable_pool.json"),
-                  encoding="utf-8-sig") as f:
-            entries = (json.load(f) or {}).get("entries") or []
-        return sum(1 for e in entries if e.get("status") == "ready")
-    except Exception:
+    entries, _why = _merged_pool(os.path.join(ROOT, "results"))
+    if entries is None:
         return None
+    return sum(1 for e in entries if e.get("status") == "ready")
 
 
 def load_state(py_cpu_pct, ready):
@@ -292,12 +312,10 @@ def pool_ready_entries():
     """[(id, ready_since, claimed)] for status==ready entries; None =
     unreadable pool (r98 unknown-law: None != empty, never flag on None).
     ready_since = armed_at (r391 arming precedent) else entered_at;
-    claimed = any shard carries a non-null owner (ignition in progress)."""
-    try:
-        with open(os.path.join(ROOT, "results", "runnable_pool.json"),
-                  encoding="utf-8-sig") as f:
-            entries = (json.load(f) or {}).get("entries") or []
-    except Exception:
+    claimed = any shard carries a non-null owner (ignition in progress).
+    T-116 s3 wave-1: reads the lane-merged view (see _merged_pool)."""
+    entries, _why = _merged_pool(os.path.join(ROOT, "results"))
+    if entries is None:
         return None
     out = []
     for e in entries:

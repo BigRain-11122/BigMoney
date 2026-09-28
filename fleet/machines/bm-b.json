@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-29T06:41:30+08:00",
- "heartbeat_epoch_utc": 1790634690,
- "clock_read": "2026-09-29T06:41:30+08:00",
- "current_task": "round 412 closed: dead-session harvest + V3 tournament verdict LANDED (honest negative, all arms fail, zero winners) + push-unlock trio (autofill 06:30:01 LAUNCHED W6-SCREEN screen-0of1 pid 3984) + T-105 v1.4 intraday slice (minute-feed consumer, 24/24 selftest) -- next: screen burn supervise + V3 pool done-flip + v1.4 intraday face 09:15 first-live check",
+ "last_seen": "2026-09-29T07:06:27+08:00",
+ "heartbeat_epoch_utc": 1790636787,
+ "clock_read": "2026-09-29T07:06:27+08:00",
+ "current_task": "round 413 closed: W6-SCREEN chain (burn 4152/4152 + finalize survivors 293 ledger 333139) + W6-JUDGE pool entry submitted (bm-c claimed judge-0of1 fleet-legal) + V3 pool done-flip (fuse cleared) -- next: W6-JUDGE burn observation, 09:15 T-105 intraday first-live, MSG-0705 format-collision in bm-c hands",
  "cpu_cores": 16,
- "free_ram_gb": 10.4,
+ "free_ram_gb": 12.7,
  "gpu_free_vram_gb": 2.6,
- "total_ram_gb": 25.69,
- "cpu_util_pct": 12.0,
- "round_no": 412,
- "verdict": "healthy: smoke 26/26; r412 dead-session successor closeout (harvest-first + 22-UU dual-wave canonical rebase + push f452727d8 = V3 verdict landed-marker + claim_lost_yield loop broken + W6-SCREEN lane ignited 06:30:01); T-105 v1.4 intraday slice landed (24/24); S6 37 legs rc=0; orders 122/122 double-scan; MSG-0630 receipted+archived; audit supply_gap/supply_floor standing-honest (JUDGE queued behind RAM gate)",
+ "total_ram_gb": 23.92,
+ "cpu_util_pct": 5.0,
+ "round_no": 413,
+ "verdict": "healthy: smoke 26/26; r413 W6-SCREEN chain closed (finalize survivors 293, ledger 333139 linear) + W6-JUDGE submitted canonical (bm-c claimed fleet-legal lane_owner=null) + V3 pool done-flip (crash-fuse cleared) + dualrun DRIFT format-collision honest streak 3->0 (MSG-0705 disclosed, zero content drift) + T-116 flip landed by bm-c same-window + CODELY reorg 9149B; orders 122/122 double-scan zero-diff; S6 37 legs rc=0",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -138,10 +138,10 @@
   "O-2026-09-28-2210-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 10.4,
+ "idle_ram_gb": 12.7,
  "gpu_idle_vram_gb": 2.6,
  "n_orders_ack": 122,
- "round": 412,
+ "round": 413,
  "gpu_model": "NVIDIA GeForce RTX 3070",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -149,5 +149,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 412
+ "loop_round": 413
 }

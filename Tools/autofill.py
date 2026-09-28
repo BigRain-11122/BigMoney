@@ -192,7 +192,17 @@ def _pool_origin_stale():
         rel = os.path.relpath(POOL, ROOT)
     except ValueError:
         rel = os.path.basename(POOL)
-    rc, _ = _git(("diff", "--quiet", "HEAD...origin/main", "--", rel))
+    # F6 (T-116 s3 wave-1, SAME-COMMIT law with the read-point flip):
+    # post-flip the decision data also derives from the three lane
+    # relpaths -> the probe must diff all four in one shot; defer-yield
+    # semantics and idempotent re-claim laws unchanged.
+    stem = rel[:-len(".json")] if rel.endswith(".json") else rel
+    scripts_dir = os.path.join(ROOT, "scripts")
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    import merge_lane_views as _mlv
+    rels = [rel] + ["%s.%s.json" % (stem, m) for m in _mlv.MACHINES]
+    rc, _ = _git(("diff", "--quiet", "HEAD...origin/main", "--", *rels))
     if rc == 1:
         return True
     if rc == 0:
@@ -538,6 +548,26 @@ def _write_lane_file_strict(shared_path, data):
     os.replace(tmp, lp)
 
 
+def _pool_merged_view():
+    """T-116 s3 wave-1 flip (D-20260928-03(1) structural end-state): the
+    DECISION-DATA base for the pool read points (tick scan / claim
+    fresh-read / submit duplicate check) is the lane-merged view
+    (scripts/merge_lane_views.face_view) -- the same merger recipes the
+    settle already writes, so in every settled state merged == shared
+    (F1 fixed-point law; dual-run zero-drift evidence 3/3/8 all-green
+    2026-09-29). prev/rollback bytes stay FILE bytes (F5/F7: the view
+    is a derived quantity, byte-restore auto-restores the view's source).
+    {} = no sources at all (honest not-yet). Identity contradictions
+    raise (r98 fail-closed) -- callers yield/abort, never act on a
+    half-known pool."""
+    scripts_dir = os.path.join(ROOT, "scripts")
+    if scripts_dir not in sys.path:
+        sys.path.insert(0, scripts_dir)
+    import merge_lane_views as _mlv
+    return _mlv.face_view("runnable_pool",
+                          results_dir=os.path.dirname(POOL))
+
+
 def _pool_settle():
     """D-20260928-03(1) pool retirement: settle BOTH sides to the
     merger-recipe union (scripts/merge_lane_views.sync_face) -- shared
@@ -846,7 +876,14 @@ def _claim_shard(sh, myid, entry_id):
         with open(POOL, encoding="utf-8") as fh:
             prev = fh.read()
         prev_lane = _read_pool_lane_bytes()
-        pool = json.loads(prev)
+        # T-116 s3 wave-1: mutation base = lane-merged view (F1); the
+        # prev/prev_lane FILE bytes stay the rollback law (F5/F7).
+        try:
+            pool = _pool_merged_view()
+        except (Exception, SystemExit) as ex:
+            _log(f"claim yield: pool merged view unavailable ({ex}) "
+                 f"-- fail-closed, next tick retries")
+            return False
         hit = None
         for e in pool.get("entries", []):
             # r141 double-key law: shard keys are unique only WITHIN
@@ -1121,18 +1158,21 @@ def tick(dry=False):
         _save_state(state)
         _log(f"tick py={py}% >= {LOW_PY_LINE} -> loaded, no fill")
         return 0
+    # T-116 s3 wave-1: tick decision base = lane-merged view (F1);
+    # {} = no sources anywhere (pre-flip FileNotFoundError parity);
+    # corrupt source / identity contradiction = ABORT rc 2 (r201
+    # refuse-act-on-unknown, widened to every source face honestly).
     try:
-        with open(POOL, encoding="utf-8") as fh:
-            pool = json.load(fh)
-    except FileNotFoundError:
+        pool = _pool_merged_view()
+    except (Exception, SystemExit) as ex:
+        _log(f"tick ABORT pool unreadable (merged view): {ex}")
+        return 2
+    if not pool:
         rec["verdict"] = "pool_absent"
         state["last_tick"] = rec
         _save_state(state)
         _log("tick pool absent -> honest no-op")
         return 0
-    except Exception as ex:
-        _log(f"tick ABORT pool unreadable: {ex}")
-        return 2
     try:
         fuse = _load_fuse_gate()
     except _CorruptFuse as ex:
@@ -1346,13 +1386,15 @@ def submit(a):
     a_id = (a.id or "").strip()
     if not a_id:
         bad.append("id empty")
+    # T-116 s3 wave-1: duplicate-id check reads the lane-merged view --
+    # a lane-only entry (shared row lost to a push-storm resolve) now
+    # correctly refuses a same-id submit instead of double-adding.
     try:
-        with open(POOL, encoding="utf-8") as fh:
-            pool = json.load(fh)
-    except FileNotFoundError:
-        pool = {"entries": []}
-    except Exception as ex:
-        print(f"ABORT pool unreadable: {ex}")
+        pool = _pool_merged_view()
+        if not pool:
+            pool = {"entries": []}
+    except (Exception, SystemExit) as ex:
+        print(f"ABORT pool unreadable (merged view): {ex}")
         return 2
     if any(e.get("id") == a_id for e in pool.get("entries", [])):
         bad.append(f"duplicate id {a_id} (edit the existing entry instead)")
@@ -1704,9 +1746,19 @@ def selftest():
 
         _git = _fake_git
 
+        def _pool_lane_clear():
+            # T-116 s3 wave-1 fixture hygiene: legs plant the DECISION
+            # state on the shared face only -- drop a stale pool lane
+            # left by a prior leg so the merged read == the bare planted
+            # shared (merge laws carry their own selftest elsewhere).
+            lp = _lane_path_for(POOL)
+            if lp and os.path.exists(lp):
+                os.remove(lp)
+
         def _pool_with(shard):
             with open(POOL, "w", encoding="utf-8") as fh:
                 json.dump({"entries": [dict(entry, shards=[shard])]}, fh)
+            _pool_lane_clear()
 
         # S15a unclaimed -> claim True, owner+since written, add/commit/push
         _pool_with({"key": "s0", "status": "ready", "owner": None})
@@ -1982,6 +2034,7 @@ def selftest():
                            "owner": None, "owner_since": None}])
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump({"entries": [w1, w2]}, fh)
+        _pool_lane_clear()
         git_seq.clear()
         r15n = _claim_shard({"key": "s0"}, "bm-b", "E2")
         p15n = json.load(open(POOL, encoding="utf-8"))
@@ -2218,6 +2271,7 @@ def selftest():
                 entry, runner=None,
                 shards=[dict(entry["shards"][0], owner="bm-b",
                              owner_since="2026-09-24 18:00:00")])]}, fh)
+        _pool_lane_clear()
         log18 = (open(LOG, encoding="utf-8", errors="replace").read()
                  if os.path.exists(LOG) else "")
         ka = _keepalive_claims(
@@ -2312,6 +2366,7 @@ def selftest():
         # confirmed crash -> relaunch REFUSED, refusal counter visible.
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump(pool16, fh)
+        _pool_lane_clear()
         with open(FUSE, "w", encoding="utf-8") as fh:
             json.dump({"sigs": {"scripts/fake_runner.py|run": {
                 "code_sha256": None, "count": 1, "refusals": 0}}}, fh)
@@ -2358,6 +2413,7 @@ def selftest():
                            "owner": None}])]}
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump(pool16e, fh)
+        _pool_lane_clear()
         with open(FUSE, "w", encoding="utf-8") as fh:
             json.dump({"sigs": {"scripts/fake_runner.py|run": {
                 "code_sha256": None, "count": 1, "refusals": 0}}}, fh)
@@ -2395,6 +2451,7 @@ def selftest():
                 "lane_machine": "bm-b"}, fh)
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump(pool16, fh)
+        _pool_lane_clear()
         rc = tick(dry=True)
         st16f = _load_state()["last_tick"]
         fu16f = json.load(open(FUSE, encoding="utf-8"))
@@ -2440,6 +2497,7 @@ def selftest():
                 "lane_machine": "bm-c"}, fh)
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump(pool16, fh)
+        _pool_lane_clear()
         rc = tick(dry=True)          # fix detected -> clear + tombstone
         fu16h = json.load(open(FUSE, encoding="utf-8"))
         lane_own = os.path.join(os.path.dirname(FUSE),
@@ -2471,6 +2529,7 @@ def selftest():
             fh.write("# hermetic fixture\n")
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump({"entries": []}, fh)
+        _pool_lane_clear()
 
         def _sa(**kw):
             d = dict(id="E17", runner=runner17, shards="s0",
@@ -2549,6 +2608,7 @@ def selftest():
             # S19a same-version dead runner 3 min old -> paced no-op
             with open(POOL, "w", encoding="utf-8") as fh:
                 json.dump({"entries": [dict(entry)]}, fh)
+            _pool_lane_clear()
             st19 = _load_state()
             st19["launches"] = [{
                 "ts": (datetime.now() - timedelta(minutes=3)).strftime(
