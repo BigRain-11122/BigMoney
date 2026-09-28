@@ -136,6 +136,21 @@ def _gate_pass(gate, machine_id, pool, cand_runner=None):
     return True, ""
 
 
+def _ensure_shards(entry):
+    """r301 law family: a ready entry without shards starves the autofill
+    picker (submit-contract trio). First live fire r179: NATIONAL-TEAM-S3
+    entered shard-less and sat unclaimable. Single-face ladder batches get
+    the default shard synthesized; multi-shard batches must declare shards
+    explicitly in the catalog entry (explicit shards are preserved)."""
+    if not entry.get("shards"):
+        entry["shards"] = [{"key": "main", "status": "ready",
+                            "checkpoint": "",
+                            "note": "ladder default shard "
+                                    "(single-face batch, r301 family)",
+                            "owner": None}]
+    return entry
+
+
 def run(dry_run=False, floor=FLOOR_DEFAULT):
     machine_id = _machine_id()
     shared_path, lane_path = _pool_paths(machine_id)
@@ -163,6 +178,7 @@ def run(dry_run=False, floor=FLOOR_DEFAULT):
             continue
         entry = {k: v for k, v in cand.items() if k != "enqueue_gates"}
         entry["status"] = "ready"
+        _ensure_shards(entry)
         entry["entered_at"] = _now()
         entry["entered_by"] = "%s fill_ladder T-107 slice-2" % machine_id
         entries.append(entry)
@@ -230,8 +246,19 @@ def selftest():
         # idempotency surface: _gate_pass unknown req refused
         ok3, why3 = _gate_pass(["bogus_req"], "bm-c", {"entries": []})
         assert not ok3 and "unknown gate" in why3
+        # r179 shard-synthesis law: shard-less entry gets the default
+        # single shard; explicit multi-shard declarations preserved
+        e_bare = _ensure_shards({"id": "L1", "status": "ready"})
+        assert (len(e_bare["shards"]) == 1
+                and e_bare["shards"][0]["key"] == "main"
+                and e_bare["shards"][0]["status"] == "ready"
+                and e_bare["shards"][0]["owner"] is None), "shard synthesis"
+        e_multi = _ensure_shards({"id": "L2", "shards": [
+            {"key": "s0", "status": "ready", "owner": None},
+            {"key": "s1", "status": "ready", "owner": None}]})
+        assert [s["key"] for s in e_multi["shards"]] == ["s0", "s1"], "explicit shards preserved"
         print("selftest: all assertions PASS (double-file law / lane guard / "
-              "ready count / gate refusal matrix)")
+              "ready count / gate refusal matrix / shard synthesis)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

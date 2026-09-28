@@ -20,9 +20,11 @@ SATURATION MECHANISM law): supply-family legs --
   * starvation sustained window tightened 30min -> 15min (O-1614 sec.5).
   * supply_floor (sec.1): pool ready below floor 3 while NOT burning.
   * ignition_sla (sec.2): a ready entry unclaimed (no shard owner) past
-    10min = SLA breach (enforcement = any-machine force-claim; D2 resident
-    dispatcher, T-108, will tighten the line to <=60s together with this
-    threshold when it lands).
+    60s = SLA breach (enforcement = any-machine force-claim). Line
+    tightened 10min -> 1min in T-107 slice-3 (r179 bm-c): the D2
+    resident dispatcher landed r175 (30s detect + 15s spacing + ~15s
+    tick) and the r179 ladder-adoption slice closed the supply loop;
+    the autofill C8 10-min tick remains as the backstop lane only.
   * supply_family_streak_min: escalation metadata (flag family unconverged
     15min -> auto-escalate to GM dispatch face).
 O-20260928-1630/O-1640 architecture layer (T-108 D1-D7) complements this
@@ -57,11 +59,18 @@ STARVATION_PY_CPU = 70.0     # O-20260925-1137 py line
 STARVATION_SUSTAIN_MIN = 15.0   # v2.4: 30->15min tightened per O-1614 sec.5
 STARVATION_MIN_SAMPLES = 3
 SUPPLY_FLOOR_READY = 3        # O-20260928-1614 sec.1 supply floor
-IGNITION_SLA_MIN = 10.0       # O-20260928-1614 sec.2 (D2/T-108 -> 60s later)
+IGNITION_SLA_MIN = 1.0        # O-20260928-1614 sec.2 acceptance line:
+                              # <=60s ignition once D2 went live (T-108
+                              # r175) and the r179 ladder-adoption slice
+                              # closed the supply loop; the autofill C8
+                              # 10-min tick stays as the backstop lane
 SUPPLY_GAP_SUSTAIN_MIN = 15.0  # O-20260928-1614 sec.5 P0 window
 SUPPLY_FAMILY_FLAGS = ("supply_gap", "pool_starvation", "supply_floor",
                        "ignition_sla")
-AUDIT_VERSION = "v2.4"       # O-20260928-1614: standing saturation mechanism
+AUDIT_VERSION = "v2.4.1"     # v2.4 standing saturation mechanism;
+                              # v2.4.1 r179 bm-c: ignition_sla 10min -> 60s
+                              # acceptance line (D2 live r175 + ladder
+                              # adoption slice r179; charter synced)
 
 
 def cpu_total():
@@ -626,13 +635,15 @@ def _selftest():
     def _ts(min_ago):
         return time.strftime("%Y-%m-%d %H:%M:%S",
                              time.localtime(now - min_ago * 60))
-    check("v2.4 sla unclaimed 12min -> breach",
+    check("v2.4.1 sla unclaimed 12min -> breach",
           ignition_sla_breaches([("E-X", _ts(12), False)], now), ["E-X"])
-    check("v2.4 sla claimed -> no breach",
+    check("v2.4.1 sla claimed -> no breach",
           ignition_sla_breaches([("E-X", _ts(12), True)], now), [])
-    check("v2.4 sla fresh 5min -> no breach",
-          ignition_sla_breaches([("E-X", _ts(5), False)], now), [])
-    check("v2.4 sla unreadable pool -> never breach",
+    check("v2.4.1 sla fresh 30s -> no breach",
+          ignition_sla_breaches([("E-X", _ts(0.5), False)], now), [])
+    check("v2.4.1 sla 5min unclaimed -> breach (line 60s, r179)",
+          ignition_sla_breaches([("E-X", _ts(5), False)], now), ["E-X"])
+    check("v2.4.1 sla unreadable pool -> never breach",
           ignition_sla_breaches(None, now), [])
     # (j) supply floor: below 3 while NOT burning = flag condition
     check("v2.4 floor breach recorded (ready 2 < 3)", (2 < SUPPLY_FLOOR_READY),

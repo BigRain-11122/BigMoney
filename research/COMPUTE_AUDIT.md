@@ -53,7 +53,7 @@ v1.0（2026-09-23 O-1810 立法）→ v1.1（2026-09-24 O-1626：五旗双列+C7
 | 件 | 机制 | 硬指标 |
 |---|---|---|
 | **Runnable Pool** | `results/runnable_pool.json`＝唯一算力待办面：ready 批（预注册冻结＋runner 在＋数据门绿）由轮写入池；bandit 队列并入 | ready 可见性＝commit 即全机可见 |
-| **Auto-Fill** | `Tools/autofill.py`（watchdog **C8 腿**·10min tick·确定性零 LLM）：py<70% 且池非空→直接启动池顶批（BelowNormal·checkpoint 续跑·车道归属守卫 F-08·静默律·池单写者锁） | **入池→开跑 ≤10min** |
+| **Auto-Fill** | `Tools/autofill.py`（watchdog **C8 腿**·10min tick·确定性零 LLM）：py<70% 且池非空→直接启动池顶批（BelowNormal·checkpoint 续跑·车道归属守卫 F-08·静默律·池单写者锁）；点火快道=常驻调度器（T-108 D2 r175·30s 预检+梯采纳片 r179） | **入池→开跑 ≤60s**（D2 快道·v2.4.1）·C8 10min=兜底 |
 | **Shard Claims** | 票 schema 增 `shards` 数组（分片键/状态/owner/checkpoint/租约）；认领单位＝分片——多机多分片并行合法；票锁只锁科学面（预注册/判定） | CPU 批默认多机分片 |
 | **Stale Takeover** | 分片 owner 心跳停滞 >20min → 分片自动回池（checkpoint 续跑），健康机即取 | 接管零 MSG 零人工 |
 | **Inline Ban** | 轮内内联计算 >5min 一律入池提交后返回，轮只监控不代跑（bm-b 34min 挂轮＝反面教材） | 轮会话不再被长批劫持 |
@@ -96,8 +96,8 @@ v1.0（2026-09-23 O-1810 立法）→ v1.1（2026-09-24 O-1626：五旗双列+C7
 | **supply_gap**（第八旗） | py<70% 且 ready>0 持续 ≥15min（≥3 采样）＝有可认领活而CPU闲置 | 点火面（autofill 强制认领/T-108 D2 常驻调度器） |
 | **pool_starvation** | 窗口 30min→**15min** 收紧（§八/八.3 语义不变） | 供给面（填充阶梯） |
 | **supply_floor** | ready<3 且未在烧（py<70）＝供给底线破线记录+旗 | 填充生成器（T-107 slice-2/T-108 D4 目录） |
-| **ignition_sla** | ready 态批无 shard owner 超 **10min**＝点火 SLA 违例 | 任一健康机强制认领；D2 落地后线收紧至 ≤60s 同步修 |
+| **ignition_sla** | ready 态批无 shard owner 超 **60s**（v2.4.1 收紧 r179 bm-c·T-107 slice-3：D2 常驻调度器 r175 落地+r179 梯采纳片闭环=验收线 ≤60s 生效·C8 10min tick 降为兜底道）＝点火 SLA 违例 | 任一健康机强制认领 |
 
 - **升级元数据** `supply_family_streak_min`：供给族旗连续未收敛分钟数——≥15min 自动升级 GM 派单面（O-1614 §一.5）。
-- selftest 钉法：25 例（新增 v2.4 十例：gap 持续/短窗/满烧/ready=0 归属、SLA 未认领/已认领/新鲜/池不可读、底线 2<3、族龄断链）——未来任何放宽=selftest 红。
+- selftest 钉法：26 例（新增 v2.4 十例：gap 持续/短窗/满烧/ready=0 归属、SLA 未认领/已认领/新鲜/池不可读、底线 2<3、族龄断链；v2.4.1 r179 SLA 线收紧加一例 5min=违例）——未来任何放宽=selftest 红。
 - **架构层分工指针**：O-20260928-1630（SATURATION_DESIGN v1.0·T-108 D1-D6 执行层 v2）与 O-20260928-1640（CPU 主权·D7 清道夫级反转）为「不能为」面的架构正典，本审计=「不作为」面机制层；利用率 CEO 可见面=日报§五（T-107 面，两池主权分面待 D7 落地并入）；验收线合成=点火≤60s（D2）+三机 py≥70%×连续 3 工作日（全案）。

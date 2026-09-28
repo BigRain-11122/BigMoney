@@ -28,6 +28,11 @@ Design (recorded in-ticket r174, v0.1):
     new work unlocks immediately (face-change = ignition path), a fused
     or busy-but-unchanged pool does not spin the tick. py_loaded holds
     retry every PY_RETRY_S (load recovery re-check).
+  * Ladder adoption slice (r179): a takeable-less cycle with the lane
+    ready count below the supply floor dispatches the EXISTING
+    Tools/fill_ladder.py generator (T-107 slice-2 machinery) so the
+    starvation face heals itself with zero round-session dependency;
+    spacing-locked at LADDER_MIN_S; all ladder laws stay ladder-owned.
   * Host: schtasks 1-min repetition (register_dispatcher_task.ps1,
     IgnoreNew single-instance) -> this process runs 2 inner cycles
     ~30s apart then exits; no daemon lifecycle to babysit.
@@ -53,6 +58,7 @@ TOOLS = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(TOOLS)
 sys.path.insert(0, TOOLS)
 import autofill as af            # REUSE law: engine machinery, not rewritten
+import fill_ladder as flx        # REUSE law: supply-floor counter + floor
 
 POOL = af.POOL                   # results/runnable_pool.json (single pool face)
 LOG = os.path.join(ROOT, "results", "dispatcher_log.jsonl")
@@ -62,6 +68,9 @@ CYCLE_S = 30.0                   # 2 inner cycles per 1-min task fire
 ABS_SPACING_S = 15.0             # min age of the last tick (any host) before
                                  # the dispatcher may stack another one
 PY_RETRY_S = 300.0               # py_loaded hold: re-check window
+LADDER_MIN_S = 300.0             # r179 adoption slice: ladder spacing -- a
+                                 # fully gated-out floor breach still re-probes
+                                 # at 5-min cadence, never every cycle
 NOOP_LOCK_FAMILY = {             # churn gate: lock until a face changes
     "pool_empty_or_busy", "pool_absent", "fuse_refused_crash_loop",
     "claim_lost_yield", "unreadable",
@@ -236,6 +245,28 @@ def _invoke_tick():
     return rc, _read_tick_verdict()
 
 
+def _ready_below_floor(pool, myid):
+    """Supply-floor probe (O-1614 sec.1): lane-compatible ready count
+    below the ladder floor -- REUSE law: fill_ladder's pure counter,
+    never re-implemented here."""
+    return flx._compatible_ready_count(pool, myid) < flx.FLOOR_DEFAULT
+
+
+def _invoke_ladder():
+    """r179 adoption slice: fire the EXISTING fill_ladder generator
+    (subprocess, synchronous). Every ladder-owned law stays put: enqueue
+    gates, honest no-op (zero writes when floor is satisfied or every
+    gate refuses), double-file pool writes, idempotent append-only."""
+    try:
+        p = subprocess.run(
+            [sys.executable, os.path.join(TOOLS, "fill_ladder.py")],
+            cwd=ROOT, capture_output=True, timeout=120)
+        return p.returncode
+    except Exception as ex:
+        _log(f"ladder invocation fault: {ex}")
+        return 2
+
+
 def _ts_age_s(ts):
     try:
         return (datetime.now()
@@ -293,6 +324,24 @@ def cycle():
             cand = _takeable(opool, myid)
             origin_only = cand is not None
     if cand is None:
+        # r179 adoption slice (T-108 D2 x T-107 slice-2 wiring): the
+        # supply side closes its own loop -- no takeable candidate AND
+        # the lane-compatible ready count below the floor (O-1614
+        # sec.1) -> dispatch the fill ladder. Spacing-locked via the
+        # tracked state face so a fully gated-out breach (all catalog
+        # entries refused) re-probes at LADDER_MIN_S cadence instead
+        # of spawning a subprocess every cycle. Pool-absent stays a
+        # plain idle (the ladder reads the same absent face itself).
+        if _ready_below_floor(pool, myid):
+            st = _load_disp_state()
+            age = _ts_age_s(st.get("ladder_last_ts") or "")
+            if age is None or age > LADDER_MIN_S:
+                st["ladder_last_ts"] = _now()
+                _save_disp_state(st)
+                rc = _invoke_ladder()
+                _event("ladder", exit_code=rc)
+                _log(f"fill ladder invoked rc={rc}")
+                return "ladder"
         return "idle"
     st = _load_disp_state()
     act = _eligible(st.get("last_event"), pool_mtime, origin_sha)
@@ -356,6 +405,7 @@ def selftest():
         verdict_q = []
         gate_q = {"af_age": None}
         origin_q = {"face": (None, None)}
+        ladder_calls = []
 
         def _fake_invoke():
             invocations.append(dict(gate_q.get("cand") or {}))
@@ -367,9 +417,14 @@ def selftest():
         def _fake_origin():
             return origin_q["face"]
 
-        global _invoke_tick, _af_last_tick_age_s, _origin_face
+        def _fake_ladder():
+            ladder_calls.append(1)
+            return 0
+
+        global _invoke_tick, _af_last_tick_age_s, _origin_face, _invoke_ladder
         _invoke_tick, _af_last_tick_age_s, _origin_face = \
             _fake_invoke, _fake_af_age, _fake_origin
+        _invoke_ladder = _fake_ladder
         _sp = _state_path()
 
         def _pool_write(entries):
@@ -382,13 +437,17 @@ def selftest():
                  "shards": [{"key": "s0", "status": "ready",
                              "owner": None}]}
 
-        # D1 idle: empty pool -> zero invocations, ZERO writes
+        # D1 idle: empty pool -> ZERO tick invocations; r179 adoption
+        # slice: starved pool dispatches the ladder instead (the old
+        # zero-write idle contract moves to D15e's floor-satisfied face)
         invocations.clear()
         _pool_write([])
         act = cycle()
-        ok("D1 idle empty pool -> no invoke, zero state write",
-           act == "idle" and not invocations
-           and not os.path.exists(_sp) and not os.path.exists(LOG))
+        st = _load_disp_state()
+        ok("D1 starved empty pool -> no tick invoke, ladder dispatched",
+           act == "ladder" and not invocations and len(ladder_calls) == 1
+           and st["last_event"]["kind"] == "ladder"
+           and st.get("ladder_last_ts") and os.path.exists(LOG))
         # D2 takeable candidate -> invoke + event faces written
         invocations.clear()
         _pool_write([dict(entry)])
@@ -529,6 +588,61 @@ def selftest():
         t1 = _takeable(json.load(open(POOL, encoding="utf-8")), "bm-c")
         t2 = _takeable(json.load(open(POOL, encoding="utf-8")), "bm-c")
         ok("D14 takeable deterministic", t1 == t2 and t1["entry"] == "E2")
+        # D15 ladder adoption slice (r179): spacing + floor-satisfied laws
+        # D15a empty pool -> ladder dispatched, ts recorded (D1 pair;
+        # ts reset here simulates a fresh-boot state -- D1's dispatch
+        # above left a fresh spacing lock)
+        ladder_calls.clear()
+        st = _load_disp_state()
+        st["ladder_last_ts"] = None
+        _save_disp_state(st)
+        _pool_write([])
+        act = cycle()
+        st = _load_disp_state()
+        ok("D15a starved pool -> ladder dispatch + ts record",
+           act == "ladder" and len(ladder_calls) == 1
+           and st.get("ladder_last_ts"))
+        # D15b fresh ladder ts -> spacing lock (no re-spawn every cycle)
+        act = cycle()
+        ok("D15b fresh ladder ts -> spacing lock",
+           act == "idle" and len(ladder_calls) == 1)
+        # D15c aged ladder ts -> re-dispatch past LADDER_MIN_S
+        st = _load_disp_state()
+        st["ladder_last_ts"] = (datetime.now()
+                               - timedelta(seconds=LADDER_MIN_S + 100)
+                               ).strftime("%Y-%m-%d %H:%M:%S")
+        _save_disp_state(st)
+        act = cycle()
+        ok("D15c ladder ts aged -> re-dispatch",
+           act == "ladder" and len(ladder_calls) == 2)
+        # D15d floor satisfied + takeable -> tick path, never the ladder
+        ladder_calls.clear()
+        invocations.clear()
+        _pool_write([dict(entry, id="R%d" % i) for i in range(3)])
+        act = cycle()
+        ok("D15d floor satisfied + takeable -> tick path, no ladder",
+           act == "invoked" and len(invocations) == 1 and not ladder_calls)
+        # D15e floor satisfied (3 ready, shards done = unclaimable) ->
+        # plain idle, ZERO writes (the D1 zero-write contract lives here)
+        _sp_existed = os.path.exists(_sp)
+        ladder_calls.clear()
+        _pool_write([dict(entry, id="R%d" % i,
+                           shards=[{"key": "s0", "status": "done",
+                                    "owner": None}]) for i in range(3)])
+        act = cycle()
+        ok("D15e floor satisfied -> idle, no ladder, no writes",
+           act == "idle" and not ladder_calls)
+        # D15f rival-lane ready entries do not count toward MY floor
+        # (ts reset = fresh-boot breed again)
+        ladder_calls.clear()
+        st = _load_disp_state()
+        st["ladder_last_ts"] = None
+        _save_disp_state(st)
+        _pool_write([dict(entry, id="V%d" % i, lane_owner="bm-z")
+                     for i in range(3)])
+        act = cycle()
+        ok("D15f rival-lane ready-only pool -> floor breach -> ladder",
+           act == "ladder" and len(ladder_calls) == 1)
     print("dispatcher selftest:", "PASS" if ok_all else "FAIL")
     return 0 if ok_all else 1
 
