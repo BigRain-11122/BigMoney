@@ -3723,7 +3723,7 @@
       },
       "data_gates": "runner fail-closed if prereg absent or anchor counts mismatch (rows 3735/3689/3376, window masks 368/192/454/145 and 362/192/448/281, outside-cal=0, rate band (0,200), last-row==cutoff; exit 2 honest face-mismatch refusal)",
       "note": "ladder (d) slot-2: judged-negative GC007 stays closed (RANDOM_LARGE_SAMPLE_LAW s5 -- new prereg + new instrument face = lawful reopen channel, NOT a same-method rerun); if eligible, intake joins the SAME cash-leg sleeve candidate pool (within-family sleeve-collapsing semantics, no independent member claim, family corr disclosed not rejected); fee-after recheck = frozen intake precondition (T-112 precedent, b*>=1bp line)",
-      "status": "ready",
+      "status": "done",
       "shards": [
         {
           "key": "main",
@@ -3736,7 +3736,8 @@
       ],
       "entered_at": "2026-09-28 22:05:31",
       "entered_by": "bm-c fill_ladder T-107 slice-2",
-      "worker_class": "self-contained"
+      "done_at": "2026-09-28T22:58:00+08:00",
+      "result_ref": "results/innovation_quota/REPO-CALENDAR-P2.json (r186 bm-c flip per r200/r201 precedent; autofill no-op relaunch churn 22:41-22:52 stopped by this flip; judged-negative BOTH cells: GC091 sharpe 41.89 vs mu_null 41.78 line 46.21 FAIL / GC182 45.29 vs 44.49 line 50.96 FAIL -- calendar-switch alpha does NOT extend to 91d/182d terms, edge concentrated in GC014/GC028 (W1); family slot closed per law s5, zero G2 zero intake zero fee-recheck owed; attrition line entries-face 22:40:59 ledger 324489; nulls_p2 16 shards complete; prereg s7/s8 backfill same commit)"
     }
   ],
   "lane_machine": "bm-a"

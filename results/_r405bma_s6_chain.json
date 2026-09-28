@@ -1,52 +1,52 @@
 {
- "started": "2026-09-29 00:03:43",
+ "started": "2026-09-29 00:23:51",
  "legs": [
   {
    "leg": "compute_audit",
    "rc": 0,
-   "sec": 9.1,
-   "tail": "{\"ts\": \"2026-09-29 00:03:52\", \"audit_version\": \"v2.4.1\", \"cpu_total_pct\": 70.0, \"py_cpu_pct\": 13.5, \"cores\": 32, \"py_procs\": 67, \"result_stale_min\": 3.1, \"fleet_open_tasks\": 0, \"pool_ready_count\": 0, \"pool_ready_unclaime"
+   "sec": 9.2,
+   "tail": "{\"ts\": \"2026-09-29 00:24:00\", \"audit_version\": \"v2.4.1\", \"cpu_total_pct\": 83.0, \"py_cpu_pct\": 7.4, \"cores\": 32, \"py_procs\": 47, \"result_stale_min\": 2.0, \"fleet_open_tasks\": 0, \"pool_ready_count\": 0, \"pool_ready_unclaimed"
   },
   {
    "leg": "py_watermark_probe",
    "rc": 0,
-   "sec": 7.9,
-   "tail": "{\"ts\": \"2026-09-29 00:04:00\", \"epoch\": 1790611432.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 92.0, \"cores\": 32, \"py_cpu_pct\": 26.2, \"py_procs\": 73, \"top_proc_cores\": 6.46, \"local_batch_running\": true, \"refresh_lock_lanes\": ["
+   "sec": 7.2,
+   "tail": "{\"ts\": \"2026-09-29 00:24:07\", \"epoch\": 1790612641.0, \"machine\": \"bm-a\", \"cpu_total_pct\": 58.0, \"cores\": 32, \"py_cpu_pct\": 4.8, \"py_procs\": 38, \"top_proc_cores\": 0.56, \"local_batch_running\": true, \"refresh_lock_lanes\": []"
   },
   {
    "leg": "update_daily",
    "rc": 0,
-   "sec": 2.6,
+   "sec": 3.2,
    "tail": "status -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\update_status.json"
   },
   {
    "leg": "market_regime",
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.2,
    "tail": "  trigger: breadth 0.83>=65%"
   },
   {
    "leg": "strategy_scorecard",
    "rc": 0,
-   "sec": 15.6,
-   "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (15.3s)"
+   "sec": 16.3,
+   "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (16.0s)"
   },
   {
    "leg": "market_clock_call",
    "rc": 0,
-   "sec": 6.5,
+   "sec": 7.4,
    "tail": "call written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-28.md cell=ORANGE_COOL sleeves=4 activated=0"
   },
   {
    "leg": "update_lhb",
    "rc": 0,
-   "sec": 1.0,
+   "sec": 1.2,
    "tail": "no-op: cutoff 2026-09-28 covers latest disclosure window (2026-09-28)"
   },
   {
    "leg": "update_heat",
    "rc": 0,
-   "sec": 1.0,
+   "sec": 1.1,
    "tail": "no-op: before 15:30:00 (post-close snapshot window)"
   },
   {
@@ -58,20 +58,20 @@
   {
    "leg": "update_repo",
    "rc": 0,
-   "sec": 0.4,
+   "sec": 0.3,
    "tail": "no-op: local cutoff 2026-09-28 covers expected complete-bar date 2026-09-28 -> zero network"
   },
   {
    "leg": "update_options",
    "rc": 0,
-   "sec": 0.4,
+   "sec": 0.3,
    "tail": "no-op: local cutoff 2026-09-28 covers expected complete-bar date 2026-09-28 -> zero network"
   },
   {
    "leg": "update_moneyflow",
    "rc": 0,
-   "sec": 0.2,
-   "tail": "throttle: rank spawn 2026-09-28T23:37:15 (27.2min ago) < 30min -> no-op"
+   "sec": 10.7,
+   "tail": "spawned detached rank pass: rank lane never fired"
   },
   {
    "leg": "update_sina_mf",
@@ -82,19 +82,19 @@
   {
    "leg": "update_astock_daily",
    "rc": 0,
-   "sec": 1.8,
+   "sec": 1.9,
    "tail": "no-op: astock_daily lane owned by bm-b, not this machine (bm-a)"
   },
   {
    "leg": "update_etf_daily",
    "rc": 0,
-   "sec": 0.7,
+   "sec": 0.1,
    "tail": "no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-a)"
   },
   {
    "leg": "rev_osc_signal_export",
    "rc": 0,
-   "sec": 1.2,
+   "sec": 1.0,
    "tail": "rev_osc_signal_export: lane guard (owner=bm-b, this=bm-a) -- stdout-only honest no-op"
   },
   {
@@ -106,26 +106,26 @@
   {
    "leg": "update_ths_panel",
    "rc": 0,
-   "sec": 0.5,
+   "sec": 0.4,
    "tail": "no-op: daily 2026-09-28.csv already collected (same-day idempotent) -> zero network"
   },
   {
    "leg": "ah_panel_puller",
    "rc": 0,
-   "sec": 0.2,
-   "tail": "spawn throttled (27min < 30min): panel not complete (first run or prior fuse-stop)"
+   "sec": 10.5,
+   "tail": "spawned detached refresh: panel not complete (first run or prior fuse-stop)"
   },
   {
    "leg": "update_fund_premium",
    "rc": 0,
-   "sec": 0.1,
+   "sec": 0.2,
    "tail": "no-op: fund_premium lane owned by bm-c, not this machine (bm-a)"
   },
   {
    "leg": "update_fundamental",
    "rc": 0,
    "sec": 1.1,
-   "tail": "snapshot fresh (14.2h < 24h) -> skip"
+   "tail": "snapshot fresh (14.5h < 24h) -> skip"
   },
   {
    "leg": "b_layer_filter",
@@ -136,7 +136,7 @@
   {
    "leg": "live_paper",
    "rc": 0,
-   "sec": 6.5,
+   "sec": 5.9,
    "tail": "paper tracking: OK"
   },
   {
@@ -148,37 +148,37 @@
   {
    "leg": "t24_prospect_paper",
    "rc": 0,
-   "sec": 1.7,
+   "sec": 1.3,
    "tail": "prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-28"
   },
   {
    "leg": "t24_prospect_promotion",
    "rc": 0,
-   "sec": 10.3,
+   "sec": 9.8,
    "tail": "promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22"
   },
   {
    "leg": "aggressive_lab_paper",
    "rc": 0,
-   "sec": 3.6,
+   "sec": 3.3,
    "tail": "aggr paper: marks already at panel cutoff 2026-09-28 -- no-op (idempotent)"
   },
   {
    "leg": "alloc_paper",
    "rc": 0,
-   "sec": 0.7,
+   "sec": 1.0,
    "tail": "no-op: alloc_paper lane owned by bm-b, not this machine (bm-a)"
   },
   {
    "leg": "grid_paper",
    "rc": 0,
-   "sec": 0.8,
+   "sec": 1.1,
    "tail": "grid paper: marks already at panel cutoff 2026-09-28 -- no-op (idempotent)"
   },
   {
    "leg": "system_v1_paper",
    "rc": 0,
-   "sec": 0.9,
+   "sec": 1.0,
    "tail": "system_v1_paper: marks already at lane cutoff 2026-09-24 -- no-op (idempotent)"
   },
   {
@@ -190,7 +190,7 @@
   {
    "leg": "daily_scorecard",
    "rc": 0,
-   "sec": 0.2,
+   "sec": 0.1,
    "tail": "scorecard written: C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6"
   },
   {
@@ -208,7 +208,7 @@
   {
    "leg": "build_status",
    "rc": 0,
-   "sec": 4.1,
+   "sec": 4.3,
    "tail": "  factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
   },
   {
@@ -218,6 +218,6 @@
    "tail": "L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=10 across 7 sigs"
   }
  ],
- "finished": "2026-09-29 00:05:06",
+ "finished": "2026-09-29 00:25:37",
  "nonzero_legs": []
 }

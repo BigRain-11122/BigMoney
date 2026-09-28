@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-29T00:04:46+08:00",
- "current_task": "round-closed r404-cont (R404 dead-window salvage + O-2210 item-3 worker read-face fix + T-113 done); active lanes T-102/T-109; next = W5 prereg standing line",
+ "last_seen": "2026-09-29T00:28:51+08:00",
+ "current_task": "r405 closed: TRIAL_LABOR_W5 prereg FROZEN + seeds 20302000/20302500/20303000 registered same-commit + wave ticket T-114 claimed + F-04 MSG-20260929-0015 + HANDOVER 5x (unified ledger 324,489) + S6 36/36 rc=0; next = W5 runner build (selftest-first, W4 84/84 lineage + YANG gate leg) + T-109 s2 NT detector watch (bm-c lane)",
  "cpu_cores": 32,
- "cpu_pct": 62.8,
- "free_ram_gb": 44.8,
+ "cpu_pct": 75.1,
+ "free_ram_gb": 45.4,
  "gpu_free_vram_gb": 3.0,
- "verdict": "r404-cont salvage round: dead R404 closeout complete (T-113 provider delivered+pushed, item-3 read-face fix 15/15, ticket done, O-2210 acked); py_low_with_work_cands legal-idle (board 0/bandit 0/pool no-takeable/local batch running); next = W5 prereg standing line + T-109 s2 real prereg",
+ "verdict": "r405: W5 wave prereg FROZEN (standing-line supply step; freeze trigger satisfied = W4 chain consumed + zero in-flight verdict batch); seed re-pick disclosure: draft parked bases 20291500/20292000/20292500 collided with national_team_s3_perm band per T-103 note -> re-picked 20302000/20302500/20303000 via three-step law, 20299000/20299500 left free for NT-CHAIN-P1; science_gates selftest 37/37; py_low_with_work_cands legal (board 0/bandit 0/pool no takeable shard - 2 waiting on other lanes + local S6 chain running); next = W5 runner build + T-109 s2 detector watch",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -131,24 +131,24 @@
   "O-20260928-1925-bm-c.md",
   "O-20260928-1930-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790611486,
- "clock_read": "2026-09-29T00:04:46+08:00",
+ "heartbeat_epoch_utc": 1790612931,
+ "clock_read": "2026-09-29T00:28:51+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 3.0,
  "task": "round-closed",
- "free_ram_mb": 59139,
+ "free_ram_mb": 762063296,
  "gpu": {
   "present": true,
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 404,
+ "round_no": 405,
  "gpu_idle_vram_mb": 3103,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 44.8,
+ "idle_ram_gb": 45.4,
  "gpu0_free_vram_gb": 3.0,
- "cpu_util_pct": 62.8,
+ "cpu_util_pct": 75.1,
  "total_ram_gb": 100.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-27 09:3x, 6631MiB in use)",
  "prod_lanes": [
@@ -158,6 +158,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 404,
- "loop_round": 404
+ "round": 405,
+ "loop_round": 405
 }
