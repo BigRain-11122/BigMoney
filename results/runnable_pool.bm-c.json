@@ -8,7 +8,7 @@
     "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-09-28 14:14:14",
+  "updated_at": "2026-09-28 14:38:28",
   "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
   "entries": [
     {
@@ -2660,10 +2660,13 @@
         {
           "key": "judge-0of1",
           "status": "ready",
-          "owner": null,
-          "owner_since": null,
+          "owner": "bm-b",
+          "owner_since": "2026-09-28 14:33:33",
           "checkpoint": "results/trial_labor_w1/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume)",
-          "note": "single shard; est 149 cells x dual-leg engine ~6-10x screen cell weight -> ~20-45min on 12 workers BelowNormal; GRAMMAR worker-injection fix r121 already in runner (judge state dict carries grammar key)"
+          "note": "single shard; est 149 cells x dual-leg engine ~6-10x screen cell weight -> ~20-45min on 12 workers BelowNormal; GRAMMAR worker-injection fix r121 already in runner (judge state dict carries grammar key)",
+          "done_at": "2026-09-28 14:27:53",
+          "result_ref": "results/trial_labor_w1/checkpoint/judge_shard_0of1.jsonl (149/149 cells, autofill log autofill_TRIAL-LABOR-W1-JUDGE.log shard complete 14:25:22, claim 14:23:34 pid 18172 12-worker pool)",
+          "storm_repair": "r387 storm-repair: autofill 14:33:33 stale claim-refresh reverted status done->waiting (dict-merge kept done_at/result_ref); re-asserted done same round, checkpoint 149/149 re-verified"
         }
       ],
       "workers_plan": {
@@ -2671,7 +2674,7 @@
         "priority": "BelowNormal",
         "note": "flip executor = deep-panel machine round post judge-prep + RAM gate; judge-finalize + intake follow on completion (funnel sec: TRIAL intake face zero judgment claims pre-funnel)"
       },
-      "note": "r121 bm-c entry post-screen-finalize (149 survivors); parked waiting NOT ready: bm-b currently W2-A burn 15.5GB no-kill (free 2.0GB) -- ready would race autofill into OOM; judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family",
+      "note": "r387 bm-b: burn complete 149/149 @14:25:22 (shard done-flip this round); judge-finalize QUEUED behind W2 finalize in-flight pid 23800 (14:13:55): DSR n_trials start-snapshot + per-cell g1 internal ledger scans -> sequential finalize required for cross-wave cumulative-N (TRIAL_LABOR_LAW sec.4). W1 finalize detach fires on w2_judge.json receipt. Entry done-flip deferred to w1_judge.json receipt (r386 precedent).",
       "defer_note": "r357 bm-b: gate(1) judge-prep VERIFIED (judge_state.json t18 PASS 48-member + census_frozen L1253/1127/875 D3104/2978/2726 exact); gate(2) RAM 3-sample 12.74/13.29/13.36GB >=4GB MET at flip-check; flip DEFERRED to post-W2B-landing window: physical RAM dependency (W2B burn ~15.5GB no-kill precedent + judge ~7-8GB pickled panels stacked = OOM risk on 23.9GB dual-company box; MASS sec.9.1 frozen ordering puts judge family behind W2B). Auto-flip candidate next bm-b round post-W2B with same 3-sample gate.",
       "ready_at": "2026-09-28 14:14:14",
       "ready_note": "r386-cont bm-b flip, gates discharged fresh: (1) judge-prep PASS results/trial_labor_w1/judge_state.json (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726}; r357 verified, re-verified at flip); (2) screen-finalize survivors=149 non-empty; (3) RAM 3-sample 12.6/12.72/12.66 GB >=4GB across >30s r354 law (samples 14:14:14/14:14:31/14:14:47; census W2B finalized 13:43 + W2-JUDGE burn complete 14:01:54 = RAM released). Auto-flip candidate per r357 defer note 'next bm-b round post-W2B'. Sibling ordering: MASS x4/V2-P1/W3/W4-JUDGE stay waiting (single-burn no-stack law, anti-OOM 23.9GB box)."
@@ -3140,11 +3143,12 @@
           "key": "judge-0of1",
           "status": "waiting",
           "owner": "bm-b",
-          "owner_since": "2026-09-28 14:13:24",
+          "owner_since": "2026-09-28 14:33:10",
           "checkpoint": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
           "note": "single shard W1-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell",
           "done_at": "2026-09-28 14:14:14",
-          "result_ref": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (404/404 cells, log judge-shard complete 14:01:54, autofill claim 53cc84ab)"
+          "result_ref": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (404/404 cells, log judge-shard complete 14:01:54, autofill claim 53cc84ab)",
+          "storm_repair": "r387 storm-repair: same 14:33:10 stale claim-refresh revert; re-asserted done same round, checkpoint >=404 rows re-verified (r386-cont original flip evidence retained in done_at/result_ref)"
         }
       ],
       "entered_by": "bm-b r362",
