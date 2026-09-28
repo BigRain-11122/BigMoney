@@ -291,10 +291,16 @@ def render_md(p: dict) -> str:
              + ("（熔断线之下）" if (m['bench_close'] or 0)
                 < (m['bench_ma200'] or 0) else "（熔断线之上）"))
     nt = p["national_team"]
+    # 3.11-safe: precompute the nominal join (bm-c r190 v1.2 nested
+    # same-quote f-string was PEP 701 3.12-only = syntax death on the
+    # fleet's 3.11.9 interpreters; output bytes unchanged)
+    _nominal = '、'.join(
+        "{}={}%".format(c, nt['nominal_pct'][c])
+        for c in nt['supported_subset'])
     L.append(f"- **国家队状态：{nt['status']}** · 依据：{nt['basis']}")
     L.append(f"  - 宇宙面注记（T-106 s4）：已验证高控两员="
              f"{'、'.join(nt['supported_subset'])}"
-             f"（名义 {('、'.join(f'{c}={nt['nominal_pct'][c]}%' for c in nt['supported_subset']))}）；"
+             f"（名义 {_nominal}）；"
              f"{nt['understated_note']}")
     L.append(f"  - 跟队信号面：{nt['signal_face']['verdict']}——"
              f"{nt['signal_face']['basis']}")
