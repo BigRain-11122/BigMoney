@@ -3826,7 +3826,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-29 02:43:00",
       "workers_plan": {
         "workers": "worker_cap() pool BelowNormal",
@@ -3837,18 +3837,23 @@
       "shards": [
         {
           "key": "judge-0of1",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/trial_labor_w5/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
           "note": "single shard W1/W2/W3/W4-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts)",
           "owner": "bm-b",
-          "owner_since": "2026-09-29 03:00:04"
+          "owner_since": "2026-09-29 03:00:04",
+          "done_at": "2026-09-29 03:13:57",
+          "result_ref": "results/trial_labor_w5/checkpoint/judge_shard_0of1.jsonl (372/372 cells, unique cell_id 372 == w5_screen survivors 372 verified r406; autofill claim 03:00:01 pid 1276 runner_sha 5a7173738d272eb6, last-write 03:13:57 clean exit; autofill 03:20 tick relaunch_cooldown = flip-lag window closed by this flip)"
         }
       ],
       "entered_by": "bm-a r409",
       "worker_class": "bm-hosted",
       "ready_at": "2026-09-29T02:53:00+08:00",
       "flip_by": "bm-b r404",
-      "flip_evidence": "(1) serial-position re-confirm PASS: W2/W3/W4-JUDGE + MASS-W1-JUDGE all done (pool census 107: only non-done = V3-TOURNAMENT entered 09-28 15:18 own-physical-dep blocked (bm-c runner unbuilt) = not newly-entered in-flight face, RAM serial gate auto-orders (prereg L6); GRID-S3 done; (2) judge-prep PASS on deep-panel machine bm-b (t18 sidecar family): manifest PASS 48 members, census L/D == frozen, survivors 372, gate meta L/D na-window 199/199, vol meta 519/519 (leg-L anchors 594calm/518wild), yang meta zero-warmup 819yang/812red, exit 0; (3) RAM r354 three-sample PASS: [13.79, 13.77, 13.45] GB free across 30s window, all >= 4GB"
+      "flip_evidence": "(1) serial-position re-confirm PASS: W2/W3/W4-JUDGE + MASS-W1-JUDGE all done (pool census 107: only non-done = V3-TOURNAMENT entered 09-28 15:18 own-physical-dep blocked (bm-c runner unbuilt) = not newly-entered in-flight face, RAM serial gate auto-orders (prereg L6); GRID-S3 done; (2) judge-prep PASS on deep-panel machine bm-b (t18 sidecar family): manifest PASS 48 members, census L/D == frozen, survivors 372, gate meta L/D na-window 199/199, vol meta 519/519 (leg-L anchors 594calm/518wild), yang meta zero-warmup 819yang/812red, exit 0; (3) RAM r354 three-sample PASS: [13.79, 13.77, 13.45] GB free across 30s window, all >= 4GB",
+      "done_at": "2026-09-29T03:48:39+08:00",
+      "result_ref": "results/trial_labor_w5/w5_judge.json",
+      "done_note": "r407 bm-b harvest: judge-finalize detached pid3108 (r406 detach 03:26:33, r386 law) landed 03:48:39 -> w5_judge.json: 372 judged cells (== w5_screen survivors 372), E[FP]=18.6, G2 eligible 0 -> [] (single G1 pass at gate=none|vol=none|yang=none 1/109 did not clear G2), family PBO 11 modules (momentum 0.9143, sentiment 0.9286, composite_rotation 0.8571, patterns 0.1714 lowest), dual nulls B/P resampling not ledger +0 per prereg sec.0; trials_ledger TRIAL_LAB_W5_JUDGE prev 328615 + 372 = 328987 cross-wave linear no-reset verified; evidence_cutoff 2026-09-22 lockbox; wave-5 funnel honest zero-registration. Intake zero-face landed same round: results/trial_labor_w5/w5_intake.json (prereg sec.6 s4 actual-count clause, W3 precedent shape; zero eligible = D6/library/paper-desk all zero-surface). 48h CEO report clock running (deadline 2026-10-01 03:48)."
     }
   ],
   "lane_machine": "bm-a"
