@@ -1198,6 +1198,29 @@ SEED_REGISTRY = {
         "trial_labor_w5_unc": 20303000,
         # W5 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20303000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "trial_labor_w6_gen": 20303500,
+        # TRIAL_LABOR_W6 (T-117 wave-6 volume-confirmation VCONF-gate trial):
+        # Sobol(., scramble=True, seed=20303500+family_idx) param-box draws
+        # + axis-stream rng([20303500+family_idx, 7919]) (W6 prereg sec.3).
+        # Draft berths 20303500/20304000/20304500 (bm-a r410 parked bases)
+        # re-verified at freeze per three-step take-number law (r183 69th):
+        # 95-key int inventory zero exact/key collision + first8 distinct
+        # vs all existing bases + rg full-repo zero seed-face hits
+        # 2026-09-29 04:2x (HANDOVER/round-report berth-declaration doc
+        # mentions are not seed faces; W5 20291500 re-pick precedent NOT
+        # triggered -- berths held). Freeze takeover receipt: draft author
+        # bm-a heartbeat stalled since 03:19:43 (>20min), healthy-machine
+        # takeover per O-20260924-1730; trigger MET = W5-JUDGE ledger head
+        # 328,987 (w5_judge.json) + zero in-flight judge faces (pool
+        # non-done = V3-TOURNAMENT waiting only). Registered same commit
+        # as prereg freeze (R250 law; prereg =
+        # research/TRIAL_LABOR_W6_PREREG.md; F-04 MSG-20260929-0425)
+        "trial_labor_w6_scrnull": 20304000,
+        # W6 screen K=200 same-grammar random-signal nulls
+        # (rng([20304000, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        "trial_labor_w6_unc": 20304500,
+        # W6 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20304500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
     }
 
