@@ -1,0 +1,97 @@
+{
+ "ts_start": "2026-09-28T14:57:09",
+ "machine": "bm-b",
+ "task": "T-2026-09-28-99",
+ "spec": "cph4/research/R-20260928-bonsai-fleet-trial.md",
+ "byte_check": {
+  "model": {
+   "bytes": 5946648928,
+   "anchor": 5946648928,
+   "match": true
+  },
+  "llama-bin.zip": {
+   "bytes": 257322810,
+   "anchor": 257322810,
+   "match": true
+  },
+  "cudart.zip": {
+   "bytes": 391443627,
+   "anchor": 391443627,
+   "match": true
+  }
+ },
+ "bench": {
+  "cmd": "C:\\Users\\Administrator\\Desktop\\Bigmoney\\labbench\\bonsai\\runtime\\llama-bench.exe -m C:\\Users\\Administrator\\Desktop\\Bigmoney\\labbench\\bonsai\\Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -p 512 -n 128 -r 3",
+  "wall_sec": 19.1,
+  "stdout_tail": "| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |\n| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |\n| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | CUDA       |  99 |   1 |           pp512 |       914.41 卤 18.71 |\n| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | CUDA       |  99 |   1 |           tg128 |         40.75 卤 0.30 |\n\nbuild: adfffbe41 (10743)\n",
+  "raw_row": "| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | CUDA       |  99 |   1 |           pp512 |       914.41 卤 18.71 |"
+ },
+ "server": {
+  "port": 8079,
+  "health_ok_sec": 5.6
+ },
+ "probes": [
+  {
+   "id": "P1-numeric-summary",
+   "lane": "BigMoney deep-QA / research summary (numbers must survive)",
+   "wall_sec": 1.5,
+   "completion_tokens": 45,
+   "tok_s": 29.86,
+   "expected_keys": [
+    "ORANGE_COOL",
+    "4",
+    "0",
+    "MA200",
+    "10",
+    "0.77",
+    "65%"
+   ],
+   "hit_keys": [
+    "ORANGE_COOL",
+    "4",
+    "0",
+    "MA200",
+    "10",
+    "0.77",
+    "65%"
+   ],
+   "grade_pass": true,
+   "text": "市场政体ORANGE_COOL，袖面4个激活0个。沪深300收低于MA200（第10次），市场宽度0.77，阈值65%。"
+  },
+  {
+   "id": "P2-first-review-lookahead",
+   "lane": "BigMoney complex first-review doc (advisory, T-70 boundary: not production coding)",
+   "wall_sec": 1.2,
+   "completion_tokens": 34,
+   "tok_s": 27.23,
+   "expected_keys": [
+    "shift(-1)",
+    "未来"
+   ],
+   "hit_keys": [
+    "shift(-1)",
+    "未来"
+   ],
+   "grade_pass": true,
+   "text": "有。第2行 `shift(-1)` 引入未来数据。修复：删除 `.shift(-1)`，直接使用 `rolling(5).mean()`。"
+  },
+  {
+   "id": "P3-t1-cost-arithmetic",
+   "lane": "BigMoney risk/cost model arithmetic",
+   "wall_sec": 2.7,
+   "completion_tokens": 84,
+   "tok_s": 31.11,
+   "expected_keys": [
+    "周二",
+    "26.082"
+   ],
+   "hit_keys": [
+    "周二",
+    "26.082"
+   ],
+   "grade_pass": true,
+   "text": "① 周二；② 26.082 bp。\n理由：T+1 制度下买入当日不可卖出，故最早次日（周二）可卖；单边成本 13.041 bp，一次完整交易包含买入与卖出两次，故双边合计为 13.041 × 2 = 26.082 bp。"
+  }
+ ],
+ "ts_end": "2026-09-28T14:58:00"
+}
