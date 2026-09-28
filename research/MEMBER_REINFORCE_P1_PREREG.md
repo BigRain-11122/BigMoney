@@ -63,6 +63,15 @@
 
 （一次定稿；工程修复重跑须双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑。）
 
+- **烧录回执**（r182 bm-c 收口·2026-09-28 21:06:58 runner 完成·回执 `results/member_reinforce/MEMBER-REINFORCE-P1.json`·账本 +624→320487·损耗账行 `results/gate_attrition.json` runner 自写 ts 21:04:28）：6 员×四面全烧（cutoff 2026-09-22·skill_line 0.4792 恒定）。
+- **F1 x1**：3/6 g1-pass——COMPOSITE-CE-01 s=0.8416✓／COMPOSITE-CE-02 s=0.7854✓／VOLATILITY-CE-01 s=1.2578✓；三败员 DROUGHT 0.724／ENGULF 0.5539／NEEDLE 0.6624 点估计超线但 **CI95 下界负**（-0.0801／-0.2363／-0.1230）=不可证面（trades 73-150 全过 min 30）。
+- **F1 x2**：0/6 g1-pass（0.4147~0.5902 vs line 0.4792·CI 门全败）——**双倍成本下全员 cost-fragile**＝x2 面最重诚实读数；符号面 6/6 Sharpe≥0（预测1 的字面判据成立）。
+- **F2 种子稳定**：6/6 员 3 种子判定全一致（seed_stable=true 全表）。
+- **F3 CSCV**：PBO(8)=0.3714（observe）+PBO(16)=0.5269（fail）·|ΔPBO|=0.1555>0.15＝**fold-unstable 旗如实**（6 员族对折块选择脆弱）。
+- **F4 分段**：反转族三员 **bull>bear**（ENGULF 0.5842>0.5724／NEEDLE 0.5901>0.4690／DROUGHT 0.6198>0.5310）＝与预测反向；COMPOSITE-CE-01 bear 段 beat_rate 0.3724 segment_red_flag=true（本批唯一红旗·与 O-2330 regime 面一致）。
+- **§5 预测对账**：预测1 x2 符号 6/6≥0——**对**（但 g1 门 0/6 为预测未覆盖的更强读数）；预测2 ≥1 员种子不稳定——**错**（全稳定）；预测3 PBO≤0.25+|Δ|≤0.15——**错**（0.3714/0.5269/0.1555 全破线）；预测4 反转族 bear>bull——**错**（反向）；预测5 极端日=回执单列承载如实。
+- **消费面注记**：零注册主张（s4 冻结）；robustness dims → scorecard 消费接线=另行 slice（s6 冻结条款）；在册资格不受本批影响（本批=robustness 证据面非 admission 面）。
+
 ## §8 批后复盘。【必填·s7-T。】
 
 - 预测对账（对/部分/错）＋门禁链损耗账（`results/gate_attrition.json` 追加一行）＋判线 v2 当批读数（skill_line_v2 数字逐种子）；回执入轮报告＋CODELY.md 行级追加。

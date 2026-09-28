@@ -3544,7 +3544,7 @@
    "runner_args": [
     "run"
    ],
-   "lane_owner": null,
+   "lane_owner": "bm-c",
    "priority": 2,
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal",
@@ -3553,19 +3553,21 @@
    },
    "data_gates": "runner fail-closed if member roster / judged faces absent (exit 2 honest); reinforcement results append to member evidence faces, ledger +0 until judged per prereg",
    "note": "ladder (b): registered-member reinforcement -- the four faces enumerated in T-107 sec.4(b), one prereg covers the batch; consumption = scorecard robustness dims + promotion gates",
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "main",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "",
      "note": "ladder default shard (single-face batch, r301 family)",
      "owner": "bm-c",
-     "owner_since": "2026-09-28 21:12:49"
+     "owner_since": "2026-09-28 21:13:47"
     }
    ],
    "entered_at": "2026-09-28 20:58:31",
-   "entered_by": "bm-c fill_ladder T-107 slice-2"
+   "entered_by": "bm-c fill_ladder T-107 slice-2",
+   "done_at": "2026-09-28 21:13:47",
+   "result_ref": "r182 bm-c flip (r200/r201 precedent; runner pid 30676 dead + receipt complete 21:06:58, attrition line in gate_attrition.json ts 21:04:28): 6-member robustness batch 624 cells, ledger 320487 -- x1 3/6 pass (COMPOSITE-CE-01 0.8416 / COMPOSITE-CE-02 0.7854 / VOLATILITY-CE-01 1.2578 vs line 0.4792), x2 0/6 g1-pass (cost-fragile face: sign survives 6/6 but CI gate fails all), F2 seed-stable 6/6, F3 PBO(8) 0.3714 observe + PBO(16) 0.5269 fail (fold-unstable flag), F4 reversal trio bull>bear opposite to prediction; zero registration claims by design (robustness evidence batch, consumption = scorecard robustness dims)"
   },
   {
    "id": "INNOVATION-QUOTA-SLOT-1",
@@ -3575,7 +3577,7 @@
    "runner_args": [
     "run"
    ],
-   "lane_owner": null,
+   "lane_owner": "bm-c",
    "priority": 3,
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal",
@@ -3584,19 +3586,21 @@
    },
    "data_gates": "runner fail-closed if family prereg absent (exit 2 honest); claims-are-not-verified law: external-origin family = hypothesis until independent verification chain passes",
    "note": "ladder (d): slot-1 = first innovation-quota family; family identity frozen at prereg time, slot-2+ = later catalog tranche (D4 target >=100 templates fleet-wide)",
-   "status": "ready",
+   "status": "done",
    "shards": [
     {
      "key": "main",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "",
      "note": "ladder default shard (single-face batch, r301 family)",
      "owner": "bm-c",
-     "owner_since": "2026-09-28 20:59:51"
+     "owner_since": "2026-09-28 21:13:47"
     }
    ],
    "entered_at": "2026-09-28 20:58:31",
-   "entered_by": "bm-c fill_ladder T-107 slice-2"
+   "entered_by": "bm-c fill_ladder T-107 slice-2",
+   "done_at": "2026-09-28 21:13:47",
+   "result_ref": "r182 bm-c flip (r200/r201 precedent; runner pid 19160 dead + receipt complete 21:06:58, attrition line in gate_attrition.json): REPO_CALENDAR_P1 4 cells + passive, ledger +2004 -> 319863 -- G1 v2 line 25.006 (passive 11.90 / mu_null 22.3153 / sigma 0.5344 / N_eff 319863): CAL-SWITCH-GC007 19.35 FAIL (below mu_null: weekly-term calendar switch indistinguishable from random-calendar nulls, judged-negative close-out), GC014 29.20 / QW5-GC014 26.56 / GC028 34.83 PASS with DSR 1.0 + PBO 0.0 + 1000 virtual starts beat 1.0 all windows + 100 splits same-sign 1.0 = 3/4 G2-eligible (STRATEGY_LIBRARY cash-leg sleeve candidates, intake ticket opened per prereg sec.8)"
   }
  ],
  "lane_machine": "bm-c"

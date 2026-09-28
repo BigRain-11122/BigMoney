@@ -64,6 +64,13 @@
 
 （一次定稿；工程修复重跑须双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑。）
 
+- **烧录回执**（r182 bm-c 收口·2026-09-28 21:06:58 runner 完成·回执 `results/innovation_quota/REPO-CALENDAR-P1.json`·账本 +2004→319863·损耗账行 `results/gate_attrition.json` runner 自写）：四格+passive 全烧，K=2000 nulls + K=1000 虚拟起点（6m/12m/24m）+ 100 随机分窗全跑。
+- **G1' v2 判线读数**：skill_line_v2=**25.006**（passive_term 11.8962／μ_null 22.3153／σ_null 0.5344／N_eff 319863）。
+- **逐格**：CAL-SWITCH-GC007 s=19.3526 **FAIL**（< μ_null 22.3153＝周期限日历摆动不可与随机日历 null 区分→**judged-negative 关单**·重开唯一通道=新 prereg+新证据 RANDOM_LARGE_SAMPLE_LAW §5）；CAL-SWITCH-GC014 s=29.1961 **PASS**；QW5-SWITCH-GC014 s=26.5594 **PASS**；CAL-SWITCH-GC028 s=34.8303 **PASS**。年化 8.23%／11.23%／10.79%／12.73% vs passive 4.63%（费前口径如实）。
+- **G2 注册资格**：3/4 eligible（DSR=1.0≥0.95／族 PBO=0.0≤0.25／虚拟起点 beat_rate=1.0 三窗全格／分窗同号率 1.0（100 窗）全格 segment-stable／D6 对 6 员 max|corr|<0.7）→ **STRATEGY_LIBRARY 现金腿袖 intake 开票 T-2026-09-28-112**（CE admission 面另行走）。
+- **§5 预测对账**：预测1 GC007 pickup [+10,+50]bp——实测 +360bp（8.23-4.63）**量级严重低估=错**（但 g1 判线仍负：pickup 真但不可与随机日历区分）；预测2 GC007≥null p95——**错**（19.35<μ_null，日历结构在周期限不可检）；预测3 极端日正尾——回执 extreme_day_tail 单列承载=如实；预测4 GC014/GC028 segment-unstable 风险——**未兑现**（同号率 1.0≥0.80，结构跨 regime 稳定主张成立）。
+- **诚实披露**：①费前口径（§3 冻结）——入册前费后复核由 intake 票承载；②null 面=随机日历摆动（同窗日数保摆动强度）——周期限格败于此面而长期限格过线＝「锁定期溢价须够长才可检」为批内新事实。
+
 ## §8 批后复盘。【必填·s7-T。】
 
 - 预测对账（对/部分/错）＋门禁链损耗账（`results/gate_attrition.json` 追加一行）＋判线 v2 当批读数（skill_line_v2 数字）；judged-negative 族=关单+重开注记；回执入轮报告＋CODELY.md 行级追加；若 G2 过格=STRATEGY_LIBRARY 现金腿袖 intake 面另行开票。
