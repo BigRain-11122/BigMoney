@@ -160,6 +160,49 @@ def _token_face():
             ("total_state_tokens_est", "total_report_tokens_est", "delta_vs_prev", "method")}
 
 
+# ---------------------------------------------------- utilization face (T-107)
+def _utilization_face(now):
+    """O-20260928-1614 sec.6 CEO-visible utilization section (T-107 face,
+    SATURATION_DESIGN D6 baseline): per-machine py series + supply-floor
+    compliance + ignition-SLA violation counts + latest audit verdict,
+    aggregated from the per-machine compute_audit lane files (D-03(1)
+    machine-suffixed lanes, single-writer per machine). Aggregation only,
+    zero new metrics; missing samples = honest labels. Fill-ladder ledger
+    direction = T-107/T-108 pending slices, never fabricated."""
+    machines = {}
+    for mid in ("bm-a", "bm-b", "bm-c"):
+        d = _read_json(os.path.join(ROOT, "results",
+                                    f"compute_audit.{mid}.json"))
+        hist = (d or {}).get("history") or []
+        latest = (d or {}).get("latest") or (hist[-1] if hist else {})
+        series = [(str(s.get("ts", ""))[11:16], s.get("py_cpu_pct"))
+                  for s in hist[-12:] if s.get("ts")]
+        today = now.strftime("%Y-%m-%d")
+        th = [s for s in hist if str(s.get("ts", "")).startswith(today)]
+        floor_ok = sum(1 for s in th
+                       if (s.get("supply_floor") or {}).get("breach") is False)
+        sla_n = sum(1 for s in th if "ignition_sla" in (s.get("flags") or []))
+        gap_n = sum(1 for s in th if "supply_gap" in (s.get("flags") or []))
+        machines[mid] = {
+            "latest_ts": latest.get("ts"),
+            "py_pct": latest.get("py_cpu_pct"),
+            "cpu_pct": latest.get("cpu_total_pct"),
+            "ready": latest.get("pool_ready_count"),
+            "streak_min": latest.get("supply_family_streak_min"),
+            "verdict": latest.get("verdict"),
+            "py_series_tail": series,
+            "today_samples": len(th),
+            "today_floor_ok": floor_ok,
+            "today_sla_flags": sla_n,
+            "today_supply_gap_flags": gap_n,
+        }
+    return {"machines": machines,
+            "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) "
+                           "pending -- honest label",
+            "canon": "O-20260928-1614 sec.6 + O-20260928-1630 D6 "
+                     "(two-pool sovereignty face merges when D7 lands)"}
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -169,8 +212,10 @@ def build_report(now):
         "decisions_tail": _decision_face(),
         "tomorrow_queue": _queue_face(),
         "token_line": _token_face(),
+        "utilization": _utilization_face(now),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
-                       "results/market_clock/call_latest.json", "results/token_usage.json"],
+                       "results/market_clock/call_latest.json", "results/token_usage.json",
+                       "O-20260928-1614 sec.6 utilization face (T-107)"],
     }
 
 
@@ -211,6 +256,19 @@ def render_md(rep):
         imm = " [immediate]" if q.get("immediate") else ""
         L.append(f"- {q['id']}({q['status']}{imm}) {q.get('type')} ← {q.get('owner') or '无人认领'}")
     L.append("")
+    L.append("## 五、算力利用率（O-1614 满载机制 · T-107 面）")
+    u = rep.get("utilization") or {}
+    for mid, m in (u.get("machines") or {}).items():
+        series = " ".join(f"{t}={p}%" for t, p in (m.get("py_series_tail") or [])
+                          if p is not None)
+        L.append(f"- **{mid}**：py {m.get('py_pct')}%（总机 {m.get('cpu_pct')}% · {m.get('latest_ts')}）"
+                 f"· 池 ready {m.get('ready')} · 今日底线合规 {m.get('today_floor_ok')}/{m.get('today_samples')}"
+                 f"· SLA 旗 {m.get('today_sla_flags')} · 供给缺口旗 {m.get('today_supply_gap_flags')}"
+                 f"· 家族旗龄 {m.get('streak_min')}min · `{m.get('verdict')}`")
+        if series:
+            L.append(f"  - py 序列（近 {len(m.get('py_series_tail') or [])} 采样）：{series}")
+    L.append(f"- 填充台账：{u.get('fill_ledger')}")
+    L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
     L.append(f"- 状态面估计 {t.get('total_state_tokens_est')} · 报告面估计 {t.get('total_report_tokens_est')} · "
@@ -236,6 +294,7 @@ def run():
 def selftest():
     """Hermetic: synthetic faces -> page renders with all four faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
+    global _utilization_face
     _combat_face = lambda: {
         "paper_summary": {"traders": 1, "total_equity_cny": 100, "total_positions": 2,
                           "entries_today": 2, "exits_today": 0},
@@ -252,9 +311,19 @@ def selftest():
     _queue_face = lambda: [{"id": "T-X", "status": "open", "type": "t", "immediate": True, "owner": ""}]
     _token_face = lambda: {"total_state_tokens_est": 1000, "total_report_tokens_est": 500,
                            "delta_vs_prev": {}, "method": "bytes/3.5 est"}
+    _utilization_face = lambda now: {
+        "machines": {"bm-c": {"latest_ts": "2026-09-26 10:00:00",
+                              "py_pct": 4.2, "cpu_pct": 23.0, "ready": 2,
+                              "streak_min": None, "verdict": "FLAG:supply_floor",
+                              "py_series_tail": [("10:00", 4.2), ("09:50", 3.1)],
+                              "today_samples": 2, "today_floor_ok": 0,
+                              "today_sla_flags": 0, "today_supply_gap_flags": 0}},
+        "fill_ledger": "T-107 slice-2 pending -- honest label",
+        "canon": "O-20260928-1614 sec.6"}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
-    for marker in ("一、实战面", "二、研发面", "三、决策面", "四、明日队列", "Token 行", "ORANGE_COOL"):
+    for marker in ("一、实战面", "二、研发面", "三、决策面", "四、明日队列", "Token 行", "ORANGE_COOL",
+                   "五、算力利用率", "T-107 slice-2 pending", "FLAG:supply_floor"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"

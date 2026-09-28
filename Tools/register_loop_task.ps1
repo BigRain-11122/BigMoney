@@ -45,8 +45,22 @@ if ($pin -ge 0) {
 # phase verify: schtasks stays the EXISTENCE canon (R49); CIM reads the
 # trigger StartBoundary for metadata only. Any CIM fault falls through
 # to a harmless idempotent re-register.
+# Disabled-state heal (MSG-20260928-1622 root cause, T-107 scope): a
+# 15-min-style time-limit kill can leave the task DISABLED -- that is a
+# ROUND-level event, never a task-level verdict, so the self-heal check
+# re-registers (re-enables + refreshes settings incl. the 35-min limit)
+# instead of leaving the loop dead until a human notices.
 $exists = schtasks /query /tn 'Bigmoney-IterationLoop' 2>$null
-if ($exists -and $pin -ge 0) {
+$disabledHeal = $false
+if ($exists) {
+    try {
+        if ((Get-ScheduledTask -TaskName 'Bigmoney-IterationLoop' -ErrorAction Stop).State -eq 'Disabled') {
+            $disabledHeal = $true
+            Write-Output "disabled-state heal: task left Disabled (time-limit kill family, MSG-20260928-1622) -> re-register re-enables + refreshes settings"
+        }
+    } catch {}
+}
+if ($exists -and -not $disabledHeal -and $pin -ge 0) {
     try {
         $sb = (Get-ScheduledTask -TaskName 'Bigmoney-IterationLoop' `
               -ErrorAction Stop).Triggers[0].StartBoundary

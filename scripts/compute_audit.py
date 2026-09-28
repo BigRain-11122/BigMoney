@@ -12,6 +12,22 @@ ABOLISHED; the only legal convergence is feeding the pool with real
 historical batches. Quiet exit 0
 unless flags fire; history appended to results/compute_audit.json for
 two-source (sample+history) judgment.
+v2.4 (O-20260928-1614 sec.5 + O-20260928-1625 P0 correction, standing
+SATURATION MECHANISM law): supply-family legs --
+  * supply_gap (eighth flag, the O-1625 miss-face): py<70% WITH claimable
+    pool work (ready>0) sustained >=15min = flagged state; the 15:40 live
+    case (py 11.6%, ready=1, verdict CLEAN) is the named leak this closes.
+  * starvation sustained window tightened 30min -> 15min (O-1614 sec.5).
+  * supply_floor (sec.1): pool ready below floor 3 while NOT burning.
+  * ignition_sla (sec.2): a ready entry unclaimed (no shard owner) past
+    10min = SLA breach (enforcement = any-machine force-claim; D2 resident
+    dispatcher, T-108, will tighten the line to <=60s together with this
+    threshold when it lands).
+  * supply_family_streak_min: escalation metadata (flag family unconverged
+    15min -> auto-escalate to GM dispatch face).
+O-20260928-1630/O-1640 architecture layer (T-108 D1-D7) complements this
+mechanism layer; the two-pool sovereignty face (quant HIGH vs scavenger)
+reports through the T-107 utilization face (daily_report).
 
 Subcommands:
     (no args)  live sample
@@ -38,9 +54,14 @@ IDLE_CPU = 20.0
 GPU_UTIL_TRIP = 10.0
 ZOMBIE_AGE_MIN = 45.0
 STARVATION_PY_CPU = 70.0     # O-20260925-1137 py line
-STARVATION_SUSTAIN_MIN = 25.0   # 30min intent; ~10min sample cadence tolerance
+STARVATION_SUSTAIN_MIN = 15.0   # v2.4: 30->15min tightened per O-1614 sec.5
 STARVATION_MIN_SAMPLES = 3
-AUDIT_VERSION = "v2.3"       # O-20260926-2320: any-calendar-day starvation law
+SUPPLY_FLOOR_READY = 3        # O-20260928-1614 sec.1 supply floor
+IGNITION_SLA_MIN = 10.0       # O-20260928-1614 sec.2 (D2/T-108 -> 60s later)
+SUPPLY_GAP_SUSTAIN_MIN = 15.0  # O-20260928-1614 sec.5 P0 window
+SUPPLY_FAMILY_FLAGS = ("supply_gap", "pool_starvation", "supply_floor",
+                       "ignition_sla")
+AUDIT_VERSION = "v2.4"       # O-20260928-1614: standing saturation mechanism
 
 
 def cpu_total():
@@ -222,6 +243,103 @@ def starvation_decision(hist, now_epoch, cur_py, cur_ready, cur_ts):
     return True, False, {"run_samples": len(run), "span_min": span_min}
 
 
+def supply_gap_decision(hist, now_epoch, cur_py, cur_ready, cur_ts):
+    """v2.4 eighth flag (O-20260928-1614 sec.5 / O-20260928-1625 miss-face).
+
+    Candidate = current sample py<70% WITH claimable pool work (ready>0).
+    Full flag requires the trailing run of qualifying samples to span
+    >= SUPPLY_GAP_SUSTAIN_MIN with >= STARVATION_MIN_SAMPLES samples --
+    the pool-supply-gap load_state that previously audited verdict CLEAN
+    (live case 2026-09-28 15:40: py 11.6%, ready=1, CLEAN = named leak).
+    Returns (candidate, flag_fired, detail)."""
+    if cur_ready is None or cur_py is None:
+        return False, False, {"reason": "unknown_pool_or_py"}
+    candidate = cur_py < STARVATION_PY_CPU and cur_ready > 0
+    if not candidate:
+        return False, False, {"reason": load_state(cur_py, cur_ready)}
+    run = [cur_ts]
+    for s in reversed(hist):
+        py, rd = s.get("py_cpu_pct"), s.get("pool_ready_count")
+        if py is None or rd is None:
+            break
+        if py < STARVATION_PY_CPU and rd > 0:
+            run.append(s.get("ts"))
+        else:
+            break
+    span_min = None
+    if len(run) >= STARVATION_MIN_SAMPLES:
+        try:
+            oldest = time.mktime(time.strptime(run[-1], "%Y-%m-%d %H:%M:%S"))
+            span_min = (now_epoch - oldest) / 60.0
+        except Exception:
+            span_min = None
+        if span_min is not None and span_min >= SUPPLY_GAP_SUSTAIN_MIN:
+            return True, True, {"run_samples": len(run),
+                                "span_min": round(span_min, 1)}
+    return True, False, {"run_samples": len(run), "span_min": span_min}
+
+
+def pool_ready_entries():
+    """[(id, ready_since, claimed)] for status==ready entries; None =
+    unreadable pool (r98 unknown-law: None != empty, never flag on None).
+    ready_since = armed_at (r391 arming precedent) else entered_at;
+    claimed = any shard carries a non-null owner (ignition in progress)."""
+    try:
+        with open(os.path.join(ROOT, "results", "runnable_pool.json"),
+                  encoding="utf-8-sig") as f:
+            entries = (json.load(f) or {}).get("entries") or []
+    except Exception:
+        return None
+    out = []
+    for e in entries:
+        if e.get("status") != "ready":
+            continue
+        since = e.get("armed_at") or e.get("entered_at")
+        claimed = any(s.get("owner") for s in (e.get("shards") or []))
+        out.append((e.get("id"), since, claimed))
+    return out
+
+
+def ignition_sla_breaches(ready_entries, now_epoch):
+    """v2.4 (O-20260928-1614 sec.2): a ready entry with no shard owner past
+    IGNITION_SLA_MIN from ready-since = SLA breach. Unreadable pool (None)
+    or missing timestamps never breach (honest unknown)."""
+    if not ready_entries:
+        return []
+    out = []
+    for eid, since, claimed in ready_entries:
+        if claimed or not since:
+            continue
+        try:
+            age_min = (now_epoch - time.mktime(time.strptime(
+                since, "%Y-%m-%d %H:%M:%S"))) / 60.0
+        except Exception:
+            continue
+        if age_min > IGNITION_SLA_MIN:
+            out.append(eid)
+    return out
+
+
+def supply_family_streak_min(hist, cur_flags, now_epoch):
+    """v2.4 escalation metadata (O-20260928-1614 sec.5): minutes the
+    supply-family flags have fired in one continuous trailing run; the
+    15min-unconverged auto-escalation to GM dispatch reads this face."""
+    if not any(f in cur_flags for f in SUPPLY_FAMILY_FLAGS):
+        return None
+    run_ts = [time.strftime("%Y-%m-%d %H:%M:%S")]
+    for s in reversed(hist):
+        sflags = s.get("flags") or []
+        if any(f in sflags for f in SUPPLY_FAMILY_FLAGS) and s.get("ts"):
+            run_ts.append(s.get("ts"))
+        else:
+            break
+    try:
+        oldest = time.mktime(time.strptime(run_ts[-1], "%Y-%m-%d %H:%M:%S"))
+        return round((now_epoch - oldest) / 60.0, 1)
+    except Exception:
+        return None
+
+
 def main():
     cores = core_count()
     p1 = {pid: (name, cpu_s, age) for pid, name, cpu_s, age in python_procs()}
@@ -309,6 +427,23 @@ def main():
     if starve_flag:
         flags.append("pool_starvation")
 
+    # eighth flag + v2.4 supply-family legs (O-20260928-1614 sec.1/2/5):
+    # supply_gap never-CLEAN family, supply floor, ignition SLA.
+    gap_cand, gap_flag, gap_detail = supply_gap_decision(
+        hist, time.time(), py_cpu_pct, ready,
+        time.strftime("%Y-%m-%d %H:%M:%S"))
+    if gap_flag:
+        flags.append("supply_gap")
+    ready_entries = pool_ready_entries()
+    sla_ids = ignition_sla_breaches(ready_entries, time.time())
+    if sla_ids:
+        flags.append("ignition_sla")
+    floor_breach = ready is not None and ready < SUPPLY_FLOOR_READY
+    if floor_breach and py_cpu_pct is not None \
+            and py_cpu_pct < STARVATION_PY_CPU:
+        flags.append("supply_floor")
+    streak_min = supply_family_streak_min(hist, flags, time.time())
+
     record = {
         "ts": time.strftime("%Y-%m-%d %H:%M:%S"),
         "audit_version": AUDIT_VERSION,
@@ -319,9 +454,17 @@ def main():
         "result_stale_min": None if stale is None else round(stale, 1),
         "fleet_open_tasks": open_tasks,
         "pool_ready_count": ready,
+        "pool_ready_unclaimed": (None if ready_entries is None else
+                                 sum(1 for _, _, c in ready_entries if not c)),
         "load_state": load_state(py_cpu_pct, ready),
         "pool_starvation_candidate": starve_cand,
         "pool_starvation_detail": starve_detail,
+        "supply_gap_candidate": gap_cand,
+        "supply_gap_detail": gap_detail,
+        "supply_floor": {"ready": ready, "floor": SUPPLY_FLOOR_READY,
+                         "breach": floor_breach},
+        "ignition_sla_breach_ids": sla_ids,
+        "supply_family_streak_min": streak_min,
         "gpu": gpu,
         "zombies": zombies,
         "single_core_hog_candidate": hog_candidate,
@@ -459,6 +602,50 @@ def _selftest():
     # taxonomy sanity
     check("burning state", load_state(85.0, 0), "burning-healthy")
     check("starvation state", load_state(1.9, 0), "idle-starvation")
+
+    # ---- v2.4 legs (O-20260928-1614 sec.1/2/5) ----
+    # (h) supply_gap sustained: py<70 + ready>0 over ~30min -> candidate+flag
+    hist_gap = [sample(30, 11.6, 1), sample(20, 9.0, 1), sample(10, 11.0, 1)]
+    cand, flag, det = supply_gap_decision(
+        hist_gap, now, 11.6, 1, ts_ago(0))
+    check("v2.4 supply_gap sustained -> flag (15:40 miss-face closed)",
+          (cand, flag), (True, True))
+    # (h2) short span -> candidate only (SLA/fill window still open)
+    cand, flag, _ = supply_gap_decision(
+        [sample(10, 11.6, 1)], now, 11.6, 1, ts_ago(0))
+    check("v2.4 supply_gap short span -> candidate only",
+          (cand, flag), (True, False))
+    # (h3) burning -> no candidate (healthy saturation)
+    cand, flag, _ = supply_gap_decision(hist_gap, now, 85.0, 1, ts_ago(0))
+    check("v2.4 supply_gap burning -> none", (cand, flag), (False, False))
+    # (h4) ready==0 falls to starvation family, not gap
+    cand, flag, _ = supply_gap_decision(hist, now, 1.9, 0, ts_ago(0))
+    check("v2.4 ready==0 -> not gap (starvation owns)", (cand, flag),
+          (False, False))
+    # (i) ignition SLA: unclaimed past 10min = breach; claimed/fresh = none
+    def _ts(min_ago):
+        return time.strftime("%Y-%m-%d %H:%M:%S",
+                             time.localtime(now - min_ago * 60))
+    check("v2.4 sla unclaimed 12min -> breach",
+          ignition_sla_breaches([("E-X", _ts(12), False)], now), ["E-X"])
+    check("v2.4 sla claimed -> no breach",
+          ignition_sla_breaches([("E-X", _ts(12), True)], now), [])
+    check("v2.4 sla fresh 5min -> no breach",
+          ignition_sla_breaches([("E-X", _ts(5), False)], now), [])
+    check("v2.4 sla unreadable pool -> never breach",
+          ignition_sla_breaches(None, now), [])
+    # (j) supply floor: below 3 while NOT burning = flag condition
+    check("v2.4 floor breach recorded (ready 2 < 3)", (2 < SUPPLY_FLOOR_READY),
+          True)
+    check("v2.4 floor ok at 3", (3 < SUPPLY_FLOOR_READY), False)
+    # (k) escalation streak: trailing family run spans from oldest carry
+    streak = supply_family_streak_min(
+        [{"ts": ts_ago(20), "flags": ["supply_gap"]},
+         {"ts": ts_ago(10), "flags": ["supply_gap"]}], ["supply_gap"], now)
+    check("v2.4 streak >= 20min from trailing run", streak is not None
+          and streak >= 20.0, True)
+    check("v2.4 no family flags -> streak None",
+          supply_family_streak_min([], ["zombie_process"], now), None)
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")
