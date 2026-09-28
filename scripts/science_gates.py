@@ -1069,9 +1069,18 @@ SEED_REGISTRY = {
     # 2026-09-28 15:2x; occupied band ends 20290500 = trial_labor_w4_unc);
     # registered same commit as prereg freeze (R250 law; prereg =
     # research/DECISION_CHAIN_V3_TOURNAMENT_PREREG.md)
+    "national_team_s3_perm": 20291500,
+    # NATIONAL-TEAM-S3-EVENT-REVIEW K=2000 same-regime random-day
+    # permutation nulls (T-20260928-106 s3 event-window review;
+    # derivation = default_rng([20291500, i]), i<2000; band
+    # 20291500..20293499 clean gap above decision_chain_v3_tournament
+    # (20291000..20291019), far below trial_wave1 20920000; rg --type py
+    # full-repo scan zero hits 2026-09-28 18:2x before prereg freeze;
+    # registered same commit as prereg freeze (R250 law; prereg =
+    # research/NATIONAL_TEAM_S3_REVIEW_PREREG.md; F-04 MSG-20260928-1825)
+
 
 }
-
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
 
