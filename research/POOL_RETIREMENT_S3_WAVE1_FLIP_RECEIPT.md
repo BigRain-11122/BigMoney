@@ -38,5 +38,5 @@ Selftest 夹具卫生（hermetic 完整性）：`_pool_lane_clear()` 帮手+8 �
 ## 四、回退与遗留
 
 - 回退=单 commit revert（§三.3：读点类改动无状态迁移无数据改写）；零漂移证据 jsonl 保留作审计轨迹。
-- **s4 仍 OPEN**：共享面处置（derived-view-only 再生 vs 废除+消费面切 merge-on-read）+fleet/README.md pool 节一行法注——输入齐（普查 §四+F7/F8），另轮执行。
+- **s4 已拍板 CLOSED（bm-c r204·2026-09-29）**：共享面处置=**option (a) derived-view-only 保留**——依据=`POOL_RETIREMENT_S1_CENSUS.md` §四.3（(a) 保 pool_worker 单 blob origin 读协议〔F8〕+dispatcher churn gate 锚〔F7〕+三机 git 传输契约；(b) 三面全破且代价集中跨公司工人端）+flip 后 dualrun streak 9 GREEN 零漂移实证 merged==shared（F1 定点律）=保留零成本；手写白名单=fill_ladder double-file 写侧（律定不动）+会话一次性 defer/flip 脚本+未来批 runner 注册件，此外共享面零手写；法注已落 `fleet/README.md` §4（v1.2）。
 - flip 后观察相：三机 dualrun 链腿继续逐轮采样（链序律：排 compute_audit 之前不变）；任何 drift 行=观察相数据如实照录。
