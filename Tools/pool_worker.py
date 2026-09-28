@@ -23,7 +23,10 @@ via PID lock):
          results/pool_claims/<entry>/<shard>.<machine>.json)
        - no fresh pool-side owner (fleet autofill claim -- the pool's
          owner field is transient but a FRESH one is respected)
-  4. claim-by-file: write OUR claim file + git push it. Workers NEVER
+  4. claim-by-file: write OUR claim file + git push it. Pre-claim, the
+     ORIGIN claims face is read (T-115): a rival's fresh/closed claim on
+     origin that our fetch-stale local dir missed = honest skip (r406
+     grid-0of1 duplicate-burn fix). Workers NEVER
      write runnable_pool.json (pool single-writer law untouched).
   5. run entry.runner as a subprocess at BelowNormal priority, with a
      background heartbeat thread refreshing the claim file every 5 min
@@ -204,6 +207,78 @@ def _shard_claim_age_min(entry_id, shard_key):
         except Exception:
             continue
     return best
+
+
+def _origin_claims_verdict(entry_id, shard_key, myid, root=None,
+                           ref="origin/main"):
+    """T-115 (r406 grid-0of1 duplicate-burn): read the ORIGIN claims
+    face for this shard BEFORE claiming. The local claims dir can be
+    fetch-stale (bm-a 01:07 re-claim vs bm-c 01:02 claim+close already
+    on origin); rival declarations live in git, so origin is the truth
+    face. Returns (verdict, detail), verdict in:
+      occupied-fresh   rival claim heartbeat < STALE_MIN -> yield
+      occupied-closed  rival closed-ok -> yield (tick flips the pool)
+      takeover         every rival claim stale > STALE_MIN -> allowed
+      free             no rival claim sighted (absent dir is not a
+                       fault); gate fault degrades to free with the
+                       fault in detail (claim-by-file push still locks)
+    Classification mirrors _shard_claim_age_min local law exactly
+    (failed frees; closed-ok occupies; heartbeat freshness decides) --
+    a semantic split between the two faces would re-create the
+    duplicate-burn through the back door."""
+    try:
+        r = subprocess.run(
+            ["git", "ls-tree", ref,
+             f"results/pool_claims/{str(entry_id).replace('/', '_')}/",
+             "--name-only"],
+            cwd=root or ROOT, capture_output=True)
+        if r.returncode != 0:
+            return "free", f"ls-tree fault ({ref}) -- degraded"
+        pref = str(shard_key).replace("/", "_") + "."
+        rivals = []
+        for line in r.stdout.decode(errors="replace").splitlines():
+            base = os.path.basename(line.strip())
+            if not (base.startswith(pref) and base.endswith(".json")):
+                continue
+            if base[len(pref):-5].strip().lower() == str(myid).lower():
+                continue  # own claim file never blocks own (re-own law)
+            s = subprocess.run(
+                ["git", "show",
+                 f"{ref}:results/pool_claims/"
+                 f"{str(entry_id).replace('/', '_')}/{base}"],
+                cwd=root or ROOT, capture_output=True)
+            if s.returncode != 0:
+                continue
+            try:
+                rivals.append(json.loads(s.stdout.decode(errors="replace")))
+            except ValueError:
+                continue
+        if not rivals:
+            return "free", "no rival claim files on origin face"
+        for c in rivals:
+            if c.get("state") == "closed" and c.get("outcome") == "ok":
+                return ("occupied-closed",
+                        f"rival {c.get('machine_id')} closed-ok -- "
+                        f"awaiting pool harvest flip")
+        live = []
+        for c in rivals:
+            if c.get("state") == "failed":
+                continue  # honest fail frees the shard (local law parity)
+            age = _age_min(c.get("heartbeat") or c.get("closed_at"))
+            if age is None:
+                continue
+            live.append((age, str(c.get("machine_id"))))
+        if not live:
+            return "free", "rival files all failed/unparseable"
+        age, who = min(live)
+        if age < STALE_MIN:
+            return ("occupied-fresh",
+                    f"rival {who} claim fresh ({age:.1f}min)")
+        return ("takeover",
+                f"rival {who} claim stale ({age:.1f}min > "
+                f"{STALE_MIN:.0f}min)")
+    except Exception as ex:
+        return "free", f"origin-claims gate fault {ex}"
 
 
 def _claim_age_min_local(entry_id, shard_key, machine):
@@ -390,6 +465,20 @@ def run_pass(dry=False):
         return 0
     if "guard-fault" in gdetail:
         _log(f"inbox-guard degrade on {entry_id}: {gdetail}")
+    # T-115: pre-claim ORIGIN claims-face read (the pass fetched origin
+    # above, so this reads the post-fetch face). Fresh rival claim ->
+    # skip pass; closed-ok -> skip (tick flips the pool); stale rival ->
+    # honest takeover; gate fault -> degrade (claim-by-file push locks).
+    cverdict, cdetail = _origin_claims_verdict(entry_id, shard_key, myid)
+    if cverdict.startswith("occupied"):
+        _log(f"origin claims face: {entry_id}/{shard_key} {cverdict} "
+             f"({cdetail}) -> skip pass (T-115 law)")
+        return 0
+    if cverdict == "takeover":
+        _log(f"origin claims face: {entry_id}/{shard_key} TAKEOVER "
+             f"({cdetail})")
+    elif "gate fault" in cdetail or "ls-tree fault" in cdetail:
+        _log(f"origin-claims degrade on {entry_id}: {cdetail}")
     if dry:
         _log(f"DRY: would claim {entry_id}/{shard_key}")
         return 0
@@ -540,6 +629,70 @@ def selftest():
             fh.write("x")
         ok("S19 index.lock detected (live git op -> defer)",
            _mid_git_op(fake) == "index.lock")
+        # S20 T-115: pre-claim ORIGIN claims-face gate, hermetic via a
+        # throwaway offline git repo read at ref=HEAD (inbox_guard S7
+        # pattern): fresh-active blocks / closed-ok blocks / stale ->
+        # takeover / failed -> free / own file ignored / absent dir free.
+        crepo = os.path.join(tmp, "claims_repo")
+        os.makedirs(os.path.join(crepo, "results", "pool_claims", "G"))
+        cdir = os.path.join(crepo, "results", "pool_claims", "G")
+
+        def _cw(fn, obj):
+            with open(os.path.join(cdir, fn), "w", encoding="utf-8") as fh:
+                json.dump(obj, fh)
+
+        def _cc():
+            subprocess.run(["git", "add", "-A"], cwd=crepo,
+                           capture_output=True)
+            subprocess.run(["git", "-c", "user.email=st@t", "-c",
+                            "user.name=st", "commit", "-qm", "st"],
+                           cwd=crepo, capture_output=True)
+
+        r = subprocess.run(["git", "init", "-q"], cwd=crepo,
+                           capture_output=True)
+        ok("S20a tmp git init", r.returncode == 0)
+        if r.returncode == 0:
+            from datetime import timedelta
+            _cw("grid-0of1.bm-c.json",
+                {"machine_id": "bm-c", "state": "claimed",
+                 "heartbeat": _now_iso()})
+            _cc()
+            v, det = _origin_claims_verdict("G", "grid-0of1", "bm-a",
+                                            root=crepo, ref="HEAD")
+            ok("S20b rival fresh claim -> occupied-fresh",
+               v == "occupied-fresh")
+            _cw("grid-0of1.bm-c.json",
+                {"machine_id": "bm-c", "state": "closed", "outcome": "ok",
+                 "closed_at": _now_iso(), "heartbeat": _now_iso()})
+            _cc()
+            v, det = _origin_claims_verdict("G", "grid-0of1", "bm-a",
+                                            root=crepo, ref="HEAD")
+            ok("S20c rival closed-ok -> occupied-closed",
+               v == "occupied-closed")
+            stale_ts = (datetime.now().astimezone()
+                        - timedelta(minutes=25)).isoformat(timespec="seconds")
+            _cw("grid-0of1.bm-c.json",
+                {"machine_id": "bm-c", "state": "running",
+                 "heartbeat": stale_ts})
+            _cc()
+            v, det = _origin_claims_verdict("G", "grid-0of1", "bm-a",
+                                            root=crepo, ref="HEAD")
+            ok("S20d stale rival -> takeover allowed", v == "takeover")
+            _cw("grid-0of1.bm-c.json",
+                {"machine_id": "bm-c", "state": "failed",
+                 "heartbeat": _now_iso()})
+            _cw("grid-0of1.bm-a.json",
+                {"machine_id": "bm-a", "state": "running",
+                 "heartbeat": _now_iso()})
+            _cc()
+            v, det = _origin_claims_verdict("G", "grid-0of1", "bm-a",
+                                            root=crepo, ref="HEAD")
+            ok("S20e failed rival + own file -> free",
+               v == "free" and "failed" in det)
+            v, det = _origin_claims_verdict("NOPE", "x0", "bm-a",
+                                            root=crepo, ref="HEAD")
+            ok("S20f absent claims dir -> free (not a fault)",
+               v == "free" and "no rival" in det)
         CLAIMS = real_claims
         LEDGER = real_ledger
         allp = failc[0] == 0
