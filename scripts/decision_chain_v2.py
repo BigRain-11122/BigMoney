@@ -609,11 +609,26 @@ def judge_axis_face(pack):
             "j_target": j_target}
 
 
+REPRO_EXCLUDED = ("ci95", "ci95_width")   # s9-a6: seed-determined decoration
+
+
+def _repro_reading_equal(mine, ref):
+    """s9-a6: reading-fields bit-level equality. ci95/ci95_width are pure
+    functions of (k, n, seed) with k/n compared directly, and carry the
+    batch CI seed (prereg s3 + s9-a3) vs the v1 registry seed inside the
+    frozen records -- excluded as seed decoration, zero integrity loss."""
+    mkeys = {k for k in mine if k not in REPRO_EXCLUDED}
+    rkeys = {k for k in ref if k not in REPRO_EXCLUDED}
+    return mkeys == rkeys and all(mine[k] == ref[k] for k in rkeys)
+
+
 def repro_v1_checks(judge_all, v1_payload):
-    """G-REPRO-v1: recomputed B/D aggregates bit-level equal the v1 frozen
-    records, both axes x both faces x all windows (pipeline integrity gate;
-    C has no v1 table - its integrity rides on the same curve rows via the
-    B/D beat columns, disclosed)."""
+    """G-REPRO-v1: recomputed B/D aggregate readings bit-level equal the
+    v1 frozen records, both axes x both faces x all windows (pipeline
+    integrity gate; C has no v1 table - its integrity rides on the same
+    curve rows via the B/D beat columns, disclosed). s9-a6: ci95/ci95_width
+    excluded -- seed-determined CI decoration; full-dict equality across
+    the two registry seeds is unsatisfiable by construction."""
     checks = {}
     for axis in ("legacy", "deep"):
         for face in FACES:
@@ -622,7 +637,8 @@ def repro_v1_checks(judge_all, v1_payload):
                     mine = judge_all[axis][face]["tables"][w][arm]
                     ref = v1_payload["axes"][axis]["judge"][face][
                         "tables"][w][arm]
-                    checks[f"{axis}.{face}.{w}.{arm}"] = (mine == ref)
+                    checks[f"{axis}.{face}.{w}.{arm}"] = \
+                        _repro_reading_equal(mine, ref)
     return checks
 
 
@@ -822,7 +838,7 @@ def backfill_prereg(payload, ring_note):
     ]
     # compact per-face table lines
     for face in FACES:
-        t12 = payload["axes"]["legacy"][face]["tables"]["12m"]
+        t12 = payload["axes"]["legacy"]["tables"][face]["12m"]
         s7.append(
             f"  - {face} legacy 12m：" + "；".join(
                 f"{arm} n={t12[arm]['n']} beat_rate={t12[arm]['beat_rate']}"
@@ -918,8 +934,8 @@ def flip_ledger(payload):
 def prediction_reconciliation(payload):
     """§5 prediction vs measured - mechanical band membership flags
     (bands are the frozen prereg text; outcome numbers live-read)."""
-    t12b = payload["axes"]["legacy"]["base"]["tables"]["12m"]
-    t12x = payload["axes"]["legacy"]["x2"]["tables"]["12m"]
+    t12b = payload["axes"]["legacy"]["tables"]["base"]["12m"]
+    t12x = payload["axes"]["legacy"]["tables"]["x2"]["12m"]
     pw = payload["pairwise"]["legacy"]["base"]["12m"]
     ring1 = payload["ring_table"]["base"]["ring1_hysteresis"]
     ring3 = payload["ring_table"]["base"]["ring3_friction"]
@@ -1175,7 +1191,12 @@ def cmd_run(_) -> int:
                   "G_ANCHOR": "6/6 PASS (re-run at finalize)",
                   "G_MANIFEST": g_manifest,
                   "G_REPRO_v1": {"ok": repro_ok, "n_checks": n_repro,
-                                 "checks": repro_checks},
+                                 "checks": repro_checks,
+                                 "excluded": list(REPRO_EXCLUDED),
+                                 "excluded_note": (
+                                     "s9-a6: seed-determined CI decoration "
+                                     "(k/n compared directly; prereg s3 "
+                                     "batch seed vs v1 registry seed)")},
                   "G_REPRO_REV": {"ok": True,
                                   "faces": {f: {
                                       "path": sleeve_gated[f]["path"],
@@ -1644,6 +1665,16 @@ def cmd_selftest(_) -> int:
     miss = artifact_gate(lambda m: None)
     t("S26 artifact gate enumerates honestly (this machine)",
       isinstance(miss, list))
+
+    # S27: s9-a6 repro carve-out - seed-decorated CI drift passes,
+    #      1e-4 reading drift and key-set drift still fail
+    ref27 = {**mine, "ci95": [0.5833, 0.6375], "ci95_width": 0.0542}
+    mine27 = {**mine, "ci95": [0.5833, 0.6367], "ci95_width": 0.0534}
+    t("S27 repro s9-a6: seed-decorated CI excluded, reading drift caught",
+      _repro_reading_equal(mine27, ref27)
+      and not _repro_reading_equal({**mine27, "beat_rate": 0.4297}, ref27)
+      and not _repro_reading_equal({k: v for k, v in mine27.items()
+                                    if k != "min_dd"}, ref27))
 
     print(f"\nselftest: "
           f"{'ALL PASS' if not fails else 'FAIL x' + str(len(fails))} "

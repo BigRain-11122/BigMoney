@@ -74,11 +74,28 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（finalize 于收割轮回填：G 门读数+四臂全表+J 判读+四环复定位+袖/现金腿归因+预测对账+账本行）
+## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+
+- finalize 2026-09-28 16:38:09 via bm-b（车道=a2 checkpoint 正典面）。
+- G 门读数：G-V3 leg1/leg2=PASS/PASS·G-CENSUS {'legacy': 1255, 'deep': 1506}·G-ANCHOR 6/6 PASS (re-run at finalize)·G-MANIFEST PASS·G-REPRO-v1 PASS（24 检查）·G-REPRO-REV PASS（双面 stats+counters 位级）·G-HEAT census={'state': 'OK', 'computable_days': 1632, 'total_days': 1632, 'coverage': 1.0}。
+- 四臂全表（legacy 12m 完整窗·逐面）：
+  - base legacy 12m：A-v2 n=1129 beat_rate=0.5465 ci95=[0.5182, 0.5758] min_dd=-0.0308；B n=1129 beat_rate=0.6368 ci95=[0.6094, 0.6643] min_dd=-0.2091；C n=1129 beat_rate=0.0 ci95=[0.0, 0.0] min_dd=-1.0；D n=1129 beat_rate=0.5695 ci95=[0.5421, 0.5988] min_dd=-0.0685
+    pairwise：A-v2 vs B rate=0.3038 ci95=[0.2772, 0.3304]；A-v2 vs D rate=0.2276 ci95=[0.2028, 0.2516]；A-v2 vs C rate=0.5465 ci95=[0.5182, 0.5758]
+  - x2 legacy 12m：A-v2 n=1129 beat_rate=0.5182 ci95=[0.4898, 0.5474] min_dd=-0.0464；B n=1129 beat_rate=0.5421 ci95=[0.5137, 0.5713] min_dd=-0.2327；C n=1129 beat_rate=0.0 ci95=[0.0, 0.0] min_dd=-1.0；D n=1129 beat_rate=0.5359 ci95=[0.5075, 0.566] min_dd=-0.0796
+    pairwise：A-v2 vs B rate=0.3162 ci95=[0.2888, 0.3428]；A-v2 vs D rate=0.2214 ci95=[0.1966, 0.2453]；A-v2 vs C rate=0.5182 ci95=[0.4898, 0.5474]
+- J 判读：J-C1=False/False·J-C2=False/False·J-C3=True/False·J-C4=False/False（base/x2）→ chain_win=False；J-TARGET 逐轴×窗×面 pass=False。
+- 四环复定位：环①滞回救援 switches 37.39/12m（rescue_ratio=0.8205 vs v1 45.57）；环②纯阶梯价值逐段 {"bear": {"n": 698, "mean_av2_minus_d_12m": -0.0148}, "bull": {"n": 470, "mean_av2_minus_d_12m": -0.0205}, "chop": {"n": 87, "mean_av2_minus_d_12m": -0.0249}}；环③摩擦 -0.0105pp/份额 -0.2964；环④GREEN 份额 0.4142·席位 0 员如实
+- 袖/现金腿归因（legacy·完整 12m 窗均值·逐面）：{"base": {"core": 0.028043, "sleeve": -0.000624, "cash": 0.006622, "fee": -0.010165, "n": 1129, "sleeve_active_cells": 314, "sleeve_mean_contrib_active_cells": -0.002243}, "x2": {"core": 0.018277, "sleeve": -0.00135, "cash": 0.006622, "fee": -0.02033, "n": 1129, "sleeve_active_cells": 314, "sleeve_mean_contrib_active_cells": -0.004853}}
+- 账本行：append_ledger batch_trials=5522（audit CLEAN）——判定面 results/decision_chain_v2.json。
 
 ## §8 批后复盘【必填·s7-T】
 
-（一次定稿；预测对账；门禁链损耗账 results/gate_attrition.json 追加一行；回执入轮报告+CODELY.md 行级追加；链赢/链不赢+四环复定位定案呈 GM/CEO）
+## §8 批后复盘【必填·s7-T】
+
+- 一次定稿（finalize 2026-09-28 16:38:09 via bm-b·机制面=预注册 §3 冻结零调参·判据零触碰·非结果驱动改版=v2 版本面封版 per 版本台账律）。
+- 预测对账（§5 逐条）：{'p1_hysteresis_rescue': {'predicted': '有效切换 ≈1/5 量级（每 12m 窗 ~10 次级 vs v1 48 换防）', 'measured_a2v_switches_mean_12m': 37.39, 'v1_ref': 45.57, 'rescue_ratio': 0.8205}, 'p2_av2_vs_d': {'predicted': 'beat-lift [+0.02,+0.06]·CI 下界 [0.45,0.55]', 'measured_pairwise_rate': 0.2276, 'measured_ci95_lo': 0.2028, 'beat_lift_vs_50': -0.2724}, 'p3_av2_vs_b': {'predicted': '点估计 [+0.03,+0.10]·CI 下界 [0.46,0.56]', 'measured_pairwise_rate': 0.3038, 'measured_ci95_lo': 0.2772}, 'p4_worst_dd': {'predicted': 'v1 −0.3194 → [−0.22,−0.12]·J-TARGET −0.10 线大概率不达（PASS 概率 [10%,35%]）', 'measured_min_dd_12m': -0.0464, 'j_target_pass': False}, 'p5_sleeve_contrib': {'predicted': 'RED 段袖贡献预期小负/近零（行政通道）', 'measured_sleeve_mean_contrib': -0.002243}, 'p6_friction_share': {'predicted': '摩擦份额 [0.5%,3%]', 'measured': -0.2964}, 'p7_repro_family': {'predicted': 'B/C/D 位级=v1 冻结读数；REV-OSC 袖 stats 位级=judged 冻结读数（确定性）', 'g_repro_v1_ok': True, 'g_repro_rev_ok': True}}
+- 门禁链损耗账：results/gate_attrition.json 已追加 DECISION_CHAIN_V2_P1 行（kind=measurement）。
+- 回执入轮报告+CODELY.md 行级追加+链赢/链不赢+四环复定位定案呈 GM/CEO=收割轮会话面（本文件由 runner 机械回填·叙述定案归会话 per v1.1 先例）。
 
 ## §9 零跑修正案（owner bm-c r118 采纳裁决窗 · 2026-09-28 00:2x · 零格已烧合法窗 · r251/r280 先例）
 
@@ -89,3 +106,5 @@
 - **反 dredging 合规**：修正时点=零格已烧（runner 未建·零曲线·零包络·零判读）——非结果驱动；判线语义零触碰（J-C1..C4/J-TARGET 原文零改动）；本节 append-only 留痕。
 - **a4 袖重放双路门（operative·owner bm-c r119 零跑窗·物理依赖实况）**：G-REPRO-REV 正典路径=在机 judged 引擎确定性重放（p1c_stock 缓存承载机·引擎零 rng=两路逐字同源）；**物理依赖回退路径**=`sleeve-export` 子命令冻结袖序列工件（results/rev_osc/daily_series_FY_BG_TP8.json·逐面 series+stats+counters+sha256+血统注记·小件入 git）——消费侧门=工件 stats/counters 位级等于 p1_results 冻结读数+series sha256 自洽=门等价成立；路径选择由在机工件在位性事实决定（cache 在=重放优先；cache 缺+工件在=消费工件；双缺=exit 2 诚实物理依赖披露）。依据=a2 执行车道正典=checkpoint 承载机未指定单机，而实证在位集分属两机（完整曲线并集+deep 面板=bm-b〔v1 finalize r318 实证〕·p1c_stock=bm-a〔REV-OSC-STOCK-P1 r282 实证〕）=O-1730 物理依赖事由族唯一合法暂缓/解耦通道；runner r119 已建+selftest 26/26=零格已烧合法修正窗（r251/r280 先例）；判据零触碰；本节 append-only 留痕。
 - **a5 袖重放漂移回退（operative·owner bm-c r128 采纳 bm-b r356 取证修正案·证据驱动非结果驱动·判据零触碰）**：实证链=MSG-20260928-0345（02:30 会话逐字日志 11 行：G-REPRO-REV FAIL [base] 诚实 exit 2·非 OOM·零 traceback；sharpe -0.2193 vs -0.219〔4 位小数〕+ann_ret -0.014376 vs -0.014384〔6 位小数〕漂移·max_dd/n_days/median_abs_r/p999_abs_r 全等=良性跨机浮点累积面·非数据腐坏）+MSG-20260928-0340（结构性根因=a4「cache 在=重放优先」字面使 r368 位级验证工件处于 elif 回退位=cache 承载机漂移时结构性不可达；bm-b cache 实况非 proven face〔p1c_stock proven=bm-a r282·池 data_gates 已列〕却劫持路径偏好）。修法=sleeve_gate() 重放分支位级不等冻结读数且工件在位→回退工件路径（path='artifact-drift-fallback'）+对冻结读数复检——fail-closed 保持（工件亦漂=诚实 G_REPRO_REV_FAIL）；门等价性保持=下游袖源二选一恒为「位级等重放」或「r368 位级验证工件」+复检再验。验证=selftest 26/26 回归+双腿探针实弹（重放漂移→回退 PASS·工件再漂→FAIL fail-closed）+本机工件-stats==冻结-位级前提证；hash 变更=S16c fix-is-the-unflag（fuse 自清·bm-b 检出面=canonical 同步自清）；本节 append-only 留痕。
+- **a6 G-REPRO-v1 比对面种子装饰位剔除（operative·bm-b r391 emergency-fix per CEO O-20260928-1614 T1 点火 SLA·证据驱动非结果驱动·判线零触碰·owner bm-c 追认窗）**：实证链=16:18:52 首次真实触达 G-REPRO-v1 即 2/24（22 失配·坏例头 6=legacy.base.{6m,12m,24m}×{B,D}）+曲线件 r318 冻结时点（09-27 11:25）后零 mtime 变动=数据面干净+决定性种子探针（k=765,n=1255 实弹）：seed 20261001（SEED_REGISTRY['decision_chain_e2e']=v1 注册）→ ci95 [0.5833,0.6375]=v1 冻结读数逐位等；seed 20284110（本批 s3+s9-a3 注册）→ [0.5833,0.6367]=hi 必漂。根因=runner repro_v1_checks 全 dict 等把本批 CI caliber（L40 种子律）装饰位 ci95/ci95_width 混入「位级复现 v1 冻结读数」（L9/L24 实读复用零重计）比对面=两冻结条款在实现面互斥的构造性假红·非管线漂移。修法=比对面剔除 ci95/ci95_width 二字段（key 集全等+其余读数字段逐位等保持 fail-closed）——完整性零损可证：ci95/ci95_width=(k,n,seed) 纯函数·k/n 已在比对集内·剔除仅去种子自由度；任何真漂移（曲线/臂构造/任何读数字段含 1e-4 级/key 集漂移）照旧逐位触发 VOID——若修后实弹读数面仍漂=诚实 VOID 上报 fail-closed 不软化。验证=selftest 27/27 回归（S27 用例=种子装饰位漂移不误伤+读数 1e-4 漂移照抓+key 集缺失照抓）+实弹 relaunch 复检；hash 变更=S16c fix-is-the-unflag 同 a5 面律；判线（J-C1..C4/J-TARGET/L29 门族清单）零改动；本节 append-only 留痕。
+- **a6-补 载荷路径笔误族修正（同 a6 实弹弧·bm-b r391·工程面零科学触碰）**：a6 修后 G-REPRO-v1 **24/24 PASS** 首次放行至 §7/§8 对账段，即刻揭出同族三处从未被执行过的载荷路径笔误（prediction_reconciliation 两行+backfill_prereg 一行：`axes.legacy.<face>.tables.12m` → 实构 `axes.legacy.tables.<face>.12m`·faces 嵌套于 tables 键下·同文件 payload 构造面 L1159 自证）=KeyError 'base' 诚实崩溃零产物。修法=三行路径对齐实构（读数零改动·判据零触碰·全 repo `payload["axes"]` 访问点穷扫=仅此三处·L638 v1_payload 路径正确不动）。附记=该段与 G-REPRO-v1 门同属史上首次真实执行族=同弧双 bug 同根（门后死代码从未被实弹覆盖·r119/r128 建+selftest 期 repro 门从未真实通过故其后代码零覆盖）；selftest 27/27 回归后重点火。
