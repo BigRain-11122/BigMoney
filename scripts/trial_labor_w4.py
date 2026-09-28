@@ -1643,8 +1643,14 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
     for p, what in ((JUDGE_STATE_FILE, "judge_state.json"),
                     (SCREEN_FILE, "w4_screen.json")):
         if not os.path.exists(p):
+            # O-1712 sec.1.2 diagnostic-soundness: the refusal self-locates
+            # the expected face (abs path + machine) so absence vs path
+            # mismatch vs wrong-machine face reads off the refusal line
+            # itself (R398 anchor-face lesson applied to the judge gate).
             print(f"JUDGE-GATE: {what} absent -- judge-prep + "
-                  "screen-finalize required first")
+                  f"screen-finalize required first; expected face: "
+                  f"{os.path.abspath(p)} (this machine: "
+                  f"{os.environ.get('COMPUTERNAME', '?')})")
             return 2
     jstate = json.load(open(JUDGE_STATE_FILE, encoding="utf-8"))
     if jstate.get("vacuous"):
