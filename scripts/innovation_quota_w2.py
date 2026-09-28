@@ -550,18 +550,23 @@ def _default_mr_loader():
 def _default_p1_family_loader():
     """Deterministic re-derivation of the P1 registered 3 eligible cell
     series (cash-leg sleeve candidate pool, same-family corr face) by
-    reusing the W1 runner module -- zero reimplementation."""
+    reusing the W1 runner module -- zero reimplementation. W1 runner
+    cell name is QW5-SWITCH-GC014; the P1 product/ledger display id is
+    QW5-GC014 (r185 crash fix: name-form mismatch left 2 of 3)."""
     import innovation_quota_w1 as W1
     P1, err = W1.load_repo_panel()
     if err:
         raise RuntimeError(f"W1 panel reload refused: {err}")
     out = {}
     for cell in W1.CELLS:
-        if cell["name"] not in ("CAL-SWITCH-GC014", "QW5-GC014",
-                                "CAL-SWITCH-GC028"):
+        if cell["name"] == "QW5-SWITCH-GC014":
+            key = "QW5-GC014"
+        elif cell["name"] in ("CAL-SWITCH-GC014", "CAL-SWITCH-GC028"):
+            key = cell["name"]
+        else:
             continue
         ser, _eps, _win = W1.run_cell(P1, cell)
-        out[cell["name"]] = ser_to_dated(ser, P1["cal"])
+        out[key] = ser_to_dated(ser, P1["cal"])
     if len(out) != 3:
         raise RuntimeError(f"P1 family re-derivation got {len(out)} != 3")
     return out
