@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28 10:00:06",
- "current_task": "R397 done: TRIAL_LABOR_W4 runner built+pushed (T-98 slice-1+1b; selftest 84/84 hermetic; grammar d498e9343ee57460; pool TRIAL-LABOR-W4-GENERATE ready claimed by tick 09:50, generate burn next) + S6 33 legs rc=0 + 11-face push-storm canon resolve + CODELY r397 pitlaw (batch-43 yielded to bmb r373)",
+ "last_seen": "2026-09-28 16:44:52",
+ "current_task": "R398 done: T-102 claimed+started (digest#1 lane3 landed, seed B8/B9 verified) + MASS-W1-JUDGE 4/4 shards burned 166/166 cells + judge-finalize detached pid 67792 + MSG-1622 W4 closure reconciled (fix already closed by bm-c r381/r382/r165, zero re-burn) + S6 33 legs rc=0 + 15 orders acked",
  "cpu_cores": 32,
- "cpu_pct": 15.9,
- "free_ram_gb": 57.8,
+ "cpu_pct": 13.3,
+ "free_ram_gb": 49.8,
  "gpu_free_vram_gb": 5.5,
- "verdict": "py_low_board_clear legal idle (board 0 open; pool 2 ready: censusw2b bm-b lane + W4-GENERATE just entered = autofill fill face; W4-JUDGE queued behind RAM r354 sequencing gate per prereg sec.0; generate burn ~5min = real CPU payload arriving via tick 10:00)",
+ "verdict": "py_low_with_work_cands named per O-1614 sec-4: pool burns exhausted in 77s/shard (fast kernels not idle-by-choice); claimable work = T-107/T-108/T-109 P0 engineering tickets unclaimed (r399 first action); structural fix = T-108 D4 supply catalog + D2 resident dispatcher; judge-finalize in flight pid 67792 single-core",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -106,10 +106,25 @@
   "O-20260927-0913-bm-c.md",
   "O-2026-09-27-2245-bm-a.md",
   "O-2026-09-27-2250-bm-a.md",
-  "O-2026-09-27-2255-bm-a.md"
+  "O-2026-09-27-2255-bm-a.md",
+  "O-20260928-1506-bm-a.md",
+  "O-20260928-1515-bm-a.md",
+  "O-20260928-1518-bm-a.md",
+  "O-20260928-1522-bm-a.md",
+  "O-20260928-1524-bm-a.md",
+  "O-20260928-1531-bm-a.md",
+  "O-20260928-1533-bm-a.md",
+  "O-20260928-1540-bm-a.md",
+  "O-20260928-1555-bm-a.md",
+  "O-20260928-1605-bm-a.md",
+  "O-20260928-1614-bm-a.md",
+  "O-20260928-1625-bm-a.md",
+  "O-20260928-1630-bm-a.md",
+  "O-20260928-1640-bm-a.md",
+  "O-20260928-1655-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790560806,
- "clock_read": "2026-09-28T10:00:06+08:00",
+ "heartbeat_epoch_utc": 1790585093,
+ "clock_read": "2026-09-28T16:44:52",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 5.5,
@@ -120,7 +135,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 397,
+ "round_no": 398,
  "gpu_idle_vram_mb": 5629,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 57.8,
@@ -135,6 +150,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 397,
+ "round": 398,
  "loop_round": 397
 }
