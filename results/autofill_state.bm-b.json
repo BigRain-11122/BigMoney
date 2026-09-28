@@ -681,14 +681,25 @@
    "pid": 19944,
    "runner_sha256": "b3992c7ead76d457",
    "fill_latency_min": 2.0,
-   "target_met": true
+   "target_met": true,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-29 05:10:01",
+  "ts": "2026-09-29 05:20:01",
   "machine": "bm-b",
-  "py_cpu_pct": 6.2,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 5.7,
+  "fuse_skipped": [
+   {
+    "entry": "TRIAL-LABOR-W6-GENERATE",
+    "shard": "generate-0of1",
+    "sig": "scripts/trial_labor_w6.py|generate",
+    "fuse_refusals": 1
+   }
+  ],
+  "verdict": "claim_lost_yield",
+  "entry": "DECISION-CHAIN-V3-TOURNAMENT",
+  "shard": "v3-0of1"
  },
  "lane_machine": "bm-b"
 }

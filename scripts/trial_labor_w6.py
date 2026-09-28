@@ -989,7 +989,7 @@ def cmd_generate() -> int:
     # four-gate interaction (prereg sec.5.4 four-gate column)
     gate_counts, stop_counts = {}, {}
     vol_counts, yang_counts, vconf_counts = {}, {}, {}
-    gvvy_counts = {}, {}
+    gvvy_counts = {}
     for c in distinct:
         gate_counts[c["axis"][5]] = gate_counts.get(c["axis"][5], 0) + 1
         stop_counts[c["axis"][4]] = stop_counts.get(c["axis"][4], 0) + 1

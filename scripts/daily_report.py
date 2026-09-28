@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
-"""Daily battle report -- T-75 (O-20260926-0940): ONE page + JSON twin, four faces + token line.
+"""Daily battle report -- T-75 (O-20260926-0940): ONE page + JSON twin, five faces + token line.
 
 Faces (aggregation ONLY, zero new metrics/judgments invented; missing faces get honest labels):
   (a) COMBAT: paper-account scoreboard across families (6 in-register traders via
       results/paper_export/latest.json; AGGR-* via results/aggr_paper/*_paper.json;
       ALLOC-* via results/alloc_paper/*.json; CN-* when live) + market-clock current call
       (results/market_clock/call_latest.json) + guard face (per-trader regime_guard).
+  (a2) CEO LIVE (T-105 v1.3): embedded live-usage section -- reads today's
+      docs/live_usage/LIVE-<day>.json twin (sibling ceo_live_usage.py leg),
+      renders state/rung/cap/heat/clock row + direct link; missing twin = honest label.
   (b) R&D: 24h throughput (commits, verdict/result JSONs landed, research digests, prereg files)
       + in-flight batch watermark (results/watermark.jsonl tail, local file) + compute audit
       latest (results/compute_audit.json).
@@ -160,6 +163,33 @@ def _token_face():
             ("total_state_tokens_est", "total_report_tokens_est", "delta_vs_prev", "method")}
 
 
+# ---------------------------------------------------------------- live face (T-105)
+def _live_face(day):
+    """CEO live-usage embedded section (T-105 v1.3 wiring): reads today's
+    docs/live_usage/LIVE-<day>.json twin (same-day, produced by the sibling
+    ceo_live_usage.py leg in the same S6 chain).  Aggregation-only linkout;
+    missing twin -> honest label, never fabricated."""
+    d = _read_json(os.path.join(ROOT, "docs", "live_usage",
+                                f"LIVE-{day}.json"))
+    if not d:
+        return {"status": "missing",
+                "note": "LIVE-{}.json 未生成（ceo_live_usage.py 腿未跑或"
+                        "机制故障）——如实标注，禁编数".format(day)}
+    m = d.get("market") or {}
+    ldr = d.get("ladder") or {}
+    return {
+        "status": "ok",
+        "day": d.get("day"),
+        "state": m.get("state"),
+        "rung": ldr.get("current_state"),
+        "cap": ldr.get("current_cap"),
+        "heat": m.get("heat"),
+        "clock_cell": m.get("clock_cell"),
+        "members": len(d.get("members") or []),
+        "md_link": f"../live_usage/LIVE-{day}.md",
+    }
+
+
 # ---------------------------------------------------- utilization face (T-107)
 def _utilization_face(now):
     """O-20260928-1614 sec.6 CEO-visible utilization section (T-107 face,
@@ -208,6 +238,7 @@ def build_report(now):
         "report_date": now.strftime("%Y-%m-%d"),
         "generated_at": now.strftime("%Y-%m-%d %H:%M:%S"),
         "combat": _combat_face(),
+        "live_usage": _live_face(now.strftime("%Y-%m-%d")),
         "rd": _rd_face(now),
         "decisions_tail": _decision_face(),
         "tomorrow_queue": _queue_face(),
@@ -215,6 +246,7 @@ def build_report(now):
         "utilization": _utilization_face(now),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
+                       "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
                        "O-20260928-1614 sec.6 utilization face (T-107)"],
     }
 
@@ -240,23 +272,35 @@ def render_md(rep):
     if not fams:
         L.append("  - （无在飞账户族，如实标注）")
     L.append("")
-    L.append("## 二、研发面（24h）")
+    L.append("## 二、CEO 实盘使用面（T-105 直达）")
+    lv = rep.get("live_usage") or {}
+    if lv.get("status") == "ok":
+        L.append(f"- **[实盘一页纸直达]({lv.get('md_link')})**（"
+                 f"LIVE-{lv.get('day')}）：政体态 **{lv.get('state')}** · "
+                 f"有效档位 **{lv.get('rung')}** → 股票敞口总帽 "
+                 f"{lv.get('cap'):.0%} · 温度计 {lv.get('heat')} · "
+                 f"市场时钟 `{lv.get('clock_cell')}` · 六员 "
+                 f"{lv.get('members')} 员持仓见一页纸")
+    else:
+        L.append(f"- {lv.get('note')}")
+    L.append("")
+    L.append("## 三、研发面（24h）")
     r = rep["rd"]
     L.append(f"- 提交 {r.get('commits_24h')} · 判定/结果件落地 {r.get('result_jsons_landed_24h')} · "
              f"调研 digest {r.get('digests_landed_24h')} · 预注册/正典触碰 {r.get('prereg_md_touched_24h')}")
     L.append(f"- 在飞批：{'是' if r.get('batch_in_flight') else '否'} · 水位判定 `{r.get('watermark_verdict')}` · "
              f"算力审计 `{json.dumps(r.get('compute_audit_latest'), ensure_ascii=False)[:160]}`")
     L.append("")
-    L.append("## 三、决策面（今日 GM 自主决策日志尾）")
+    L.append("## 四、决策面（今日 GM 自主决策日志尾）")
     for ln in rep.get("decisions_tail", []):
         L.append(f"- {ln[2:]}")
     L.append("")
-    L.append("## 四、明日队列（公司自排优先级）")
+    L.append("## 五、明日队列（公司自排优先级）")
     for q in rep.get("tomorrow_queue", [])[:12]:
         imm = " [immediate]" if q.get("immediate") else ""
         L.append(f"- {q['id']}({q['status']}{imm}) {q.get('type')} ← {q.get('owner') or '无人认领'}")
     L.append("")
-    L.append("## 五、算力利用率（O-1614 满载机制 · T-107 面）")
+    L.append("## 六、算力利用率（O-1614 满载机制 · T-107 面）")
     u = rep.get("utilization") or {}
     for mid, m in (u.get("machines") or {}).items():
         series = " ".join(f"{t}={p}%" for t, p in (m.get("py_series_tail") or [])
@@ -287,14 +331,14 @@ def run():
         json.dump(rep, f, ensure_ascii=False, indent=1, default=str)
     with open(os.path.join(OUT_DIR, f"REPORT-{day}.md"), "w", encoding="utf-8", newline="\n") as f:
         f.write(render_md(rep))
-    print(f"daily report written: REPORT-{day}.md/.json faces=4 token=1")
+    print(f"daily report written: REPORT-{day}.md/.json faces=5 token=1")
     return 0
 
 
 def selftest():
-    """Hermetic: synthetic faces -> page renders with all four faces + token line."""
+    """Hermetic: synthetic faces -> page renders with all five faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
-    global _utilization_face
+    global _utilization_face, _live_face
     _combat_face = lambda: {
         "paper_summary": {"traders": 1, "total_equity_cny": 100, "total_positions": 2,
                           "entries_today": 2, "exits_today": 0},
@@ -320,14 +364,22 @@ def selftest():
                               "today_sla_flags": 0, "today_supply_gap_flags": 0}},
         "fill_ledger": "T-107 slice-2 pending -- honest label",
         "canon": "O-20260928-1614 sec.6"}
+    _live_face = lambda day: {
+        "status": "ok", "day": "2026-09-26", "state": "ORANGE",
+        "rung": "ORANGE", "cap": 0.5, "heat": "COOL",
+        "clock_cell": "ORANGE_COOL", "members": 6,
+        "md_link": f"../live_usage/LIVE-2026-09-26.md"}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
-    for marker in ("一、实战面", "二、研发面", "三、决策面", "四、明日队列", "Token 行", "ORANGE_COOL",
-                   "五、算力利用率", "T-107 slice-2 pending", "FLAG:supply_floor"):
+    for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
+                   "四、决策面", "五、明日队列", "Token 行", "ORANGE_COOL",
+                   "六、算力利用率", "T-107 slice-2 pending", "FLAG:supply_floor",
+                   "实盘一页纸直达"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
-    print("daily_report selftest: PASS (4 faces + token line + clock cell render)")
+    assert rep["live_usage"]["status"] == "ok"
+    print("daily_report selftest: PASS (5 faces + token line + clock cell render)")
     return 0
 
 

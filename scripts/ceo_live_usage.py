@@ -22,6 +22,16 @@ v1.2 (r190 bm-c, T-106 s4 universe-face wiring -- the promised hook):
     unverifiable in dead external window, segment return_cells=0,
     N_eff=0) -> NO tournament v4+ arm; universe-face annotation only.
 
+v1.3 (r411 bm-b, T-105 next slices per progress_r390):
+  - GREENxHOT clock face wired: consumes results/market_clock/
+    call_latest.json (T-74 MARKET_CLOCK_COMBO -- existing calibrated face,
+    runs earlier in the same S6 chain).  Effective ladder rung = regime
+    state, upgraded to GREENxHOT (cap 95%) only when regime=GREEN AND
+    thermometer heat=HOT.  Pure projection of the frozen v2 ladder rule,
+    zero new judgment.
+  - LIVE-latest.md/.json stable rolling pointer twins (copy of today's
+    page) for dashboard/daily_report direct links.
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -47,6 +57,7 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 REGIME_JSON = os.path.join(ROOT, "results", "regime_state.json")
+CLOCK_JSON = os.path.join(ROOT, "results", "market_clock", "call_latest.json")
 PAPER_LATEST = os.path.join(ROOT, "results", "paper_export", "latest.json")
 BLEND_JSON = os.path.join(ROOT, "results",
                           "portfolio_blend_tournament.json")
@@ -84,6 +95,16 @@ BOND_PREFIX = "511"
 def _read_json(path):
     with open(path, encoding="utf-8-sig") as fh:
         return json.load(fh)
+
+
+def _effective_rung(regime_state: str, heat: str) -> str:
+    """Frozen v2 ladder rule (pure): GREEN regime + HOT thermometer ->
+    GREENxHOT rung (cap 95%); anything else maps to its own rung.
+    Aggregation-only projection, zero new judgment (v1.3 wiring of the
+    placeholder reserved in v1.1)."""
+    if regime_state == "GREEN" and heat == "HOT":
+        return "GREEN×HOT"
+    return regime_state
 
 
 def _classify(code: str) -> str:
@@ -184,18 +205,19 @@ def _fmt_cny(x) -> str:
 
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
+    clock = _read_json(CLOCK_JSON)
     paper = _read_json(PAPER_LATEST)
     blend = _read_json(BLEND_JSON)
 
     state = regime.get("state", "?")
-    caps = {name: cap for name, cap, _ in LADDER}
-    cur_cap = caps.get(state.split("×")[0] if state == "GREEN×HOT" else state,
-                      None)
-    if state == "GREEN" and regime.get("hot"):
-        cur_cap = caps["GREEN×HOT"]          # reserved for v1.1 clock face
-    cap_row = next((r for r in LADDER if r[0] == state), None)
+    heat = (clock.get("heat_composite") or {}).get("heat")
+    if not heat:                       # clock face shape drift -> honest fault
+        raise RuntimeError("market_clock call_latest.json: heat_composite"
+                           ".heat missing (run market_clock_call.py first)")
+    rung = _effective_rung(state, heat)
+    cap_row = next((r for r in LADDER if r[0] == rung), None)
     if cap_row is None:                      # unknown state -> honest fault
-        raise RuntimeError(f"regime state {state!r} not in frozen ladder")
+        raise RuntimeError(f"effective rung {rung!r} not in frozen ladder")
 
     weights = (blend.get("weights", {}).get("B_MAXDIV", {})
                .get("weights", {}))
@@ -226,7 +248,7 @@ def build_payload(day: str) -> dict:
         })
 
     return {
-        "schema": "ceo_live_usage_v1_2",
+        "schema": "ceo_live_usage_v1_3",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -240,12 +262,22 @@ def build_payload(day: str) -> dict:
                            .get("close"),
             "bench_ma200": regime.get("dims", {}).get("bench", {})
                             .get("ma200"),
+            "clock_cell": clock.get("clock_cell"),
+            "clock_asof": clock.get("asof"),
+            "heat": heat,
+            "heat_basis": (
+                f"LHB 当日 {hc.get('rows_last_day')} 行 · 净买 "
+                f"{hc.get('net_buy_sum_yuan', 0) / 1e8:.2f} 亿 vs 250日"
+                f" p80={hc.get('rolling250_p80_rows')} 行（温度计="
+                f"{heat}）"
+                if (hc := clock.get("heat_composite") or {}) else ""),
         },
         "national_team": _national_team_face(),
         "ladder": {
             "rungs": [{"state": n, "cap": c, "note": d}
                       for n, c, d in LADDER],
-            "current_state": state,
+            "regime_state": state,
+            "current_state": rung,
             "current_cap": cap_row[1],
         },
         "corps_note": ("ORANGE 态当值军种=震荡+防御（MARKET_STAGE_TABLE）；"
@@ -290,6 +322,12 @@ def render_md(p: dict) -> str:
              f"{m['bench_ma200']}"
              + ("（熔断线之下）" if (m['bench_close'] or 0)
                 < (m['bench_ma200'] or 0) else "（熔断线之上）"))
+    L.append(f"- **市场时钟**：`{m['clock_cell']}`（asof {m['clock_asof']}）· "
+             f"温度计 {m['heat_basis'] or m['heat']}")
+    L.append(f"- 满热档判定（v1.3 已接线）：政体态 {m['state']}"
+             + (" + 温度计 HOT → **GREEN×HOT 满热档生效（95%）**"
+                if p['ladder']['current_state'] == "GREEN×HOT"
+                else f" + 温度计 {m['heat']} → 满热档未触发（需 GREEN+HOT）"))
     nt = p["national_team"]
     # 3.11-safe: precompute the nominal join (bm-c r190 v1.2 nested
     # same-quote f-string was PEP 701 3.12-only = syntax death on the
@@ -316,7 +354,8 @@ def render_md(p: dict) -> str:
     L.append("- 状态切换触发器（REGIME_GUARD v3 冻结面）："
              "十日累计≤−8% / 20日波动>3年滚动p95 / 广度崩塌"
              "（core48 价<MA20 占比≥80% 且 5 日斜率为负）/ 沪深300<MA200 "
-             "熔断线；GREEN×HOT 满热档=温度计 HOT 复合（v1.1 接线）。")
+             "熔断线；GREEN×HOT 满热档=GREEN 政体态+温度计 HOT 复合"
+             "（v1.3 已接线 results/market_clock/call_latest.json）。")
     L.append("")
     L.append("## ③ 六员分配与当前持仓")
     L.append("")
@@ -363,7 +402,12 @@ def run() -> int:
     md_path = os.path.join(OUT_DIR, f"LIVE-{day}.md")
     js_path = os.path.join(OUT_DIR, f"LIVE-{day}.json")
     md = render_md(payload)
-    for path, data in ((md_path, md), (js_path, None)):
+    # v1.3: stable rolling pointer twins (copy of today's page) for
+    # dashboard / daily_report direct links (dated pages stay append-only).
+    ptr = [(md_path, md), (js_path, None),
+           (os.path.join(OUT_DIR, "LIVE-latest.md"), md),
+           (os.path.join(OUT_DIR, "LIVE-latest.json"), None)]
+    for path, data in ptr:
         tmp = path + ".tmp"
         with open(tmp, "w", encoding="utf-8", newline="\n") as fh:
             if data is not None:
@@ -372,9 +416,11 @@ def run() -> int:
                 json.dump(payload, fh, indent=1, ensure_ascii=False)
                 fh.write("\n")
         os.replace(tmp, path)
-    print(f"ceo_live_usage: {md_path} (+ .json twin) written "
-          f"(state={payload['market']['state']}, "
+    print(f"ceo_live_usage: {md_path} (+ .json twin + LIVE-latest pointers) "
+          f"written (state={payload['market']['state']}, "
+          f"rung={payload['ladder']['current_state']}, "
           f"cap={payload['ladder']['current_cap']:.0%}, "
+          f"heat={payload['market']['heat']}, "
           f"{len(payload['members'])} members, "
           f"{len(payload['chain_versions'])} version rows)")
     return 0
@@ -414,7 +460,21 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.2", p1["schema"] == "ceo_live_usage_v1_2")
+    check("schema v1.3", p1["schema"] == "ceo_live_usage_v1_3")
+    check("clock face consumed (v1.3)",
+          bool(p1["market"]["clock_cell"]) and bool(p1["market"]["clock_asof"])
+          and p1["market"]["heat"] in ("HOT", "COOL", "WARM", "COLD"))
+    check("effective-rung law: GREEN+HOT -> GREENxHOT 95%",
+          _effective_rung("GREEN", "HOT") == "GREEN×HOT"
+          and _effective_rung("GREEN", "COOL") == "GREEN"
+          and _effective_rung("ORANGE", "HOT") == "ORANGE"
+          and _effective_rung("RED", "COOL") == "RED")
+    check("ladder rung = frozen-law projection of faces",
+          p1["ladder"]["current_state"]
+          == _effective_rung(p1["market"]["state"], p1["market"]["heat"])
+          and p1["ladder"]["current_cap"]
+          == dict((n, c) for n, c, _ in LADDER)[
+              p1["ladder"]["current_state"]])
     tier_faces = {"宽基·第一层（汇金高度控盘·O-1555）",
                   "宽基·第二层（O-1555）"}
     seen = {pos["category"] for m in p1["members"] for pos in m["positions"]}
@@ -454,6 +514,10 @@ def selftest() -> int:
     check("national-team row rendered in md",
           "国家队状态" in md1 and "T-106" in md1
           and "宇宙面注记" in md1 and "跟队信号面" in md1)
+    check("clock + full-heat-tier rows rendered in md",
+          "市场时钟" in md1 and "满热档判定" in md1
+          and ("GREEN×HOT 满热档生效" in md1
+               or "满热档未触发" in md1))
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 
