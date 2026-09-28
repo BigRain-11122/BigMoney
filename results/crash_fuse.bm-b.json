@@ -48,6 +48,35 @@
    "shard": "judge-0of1",
    "machine": "bm-b",
    "last_refusal_ts": "2026-09-28 19:23:31"
+  },
+  "scripts/national_team_s3_review.py|run": {
+   "count": 1,
+   "refusals": 3,
+   "code_sha256": "c74ec79aeb2ef298",
+   "last_crash_ts": "2026-09-28 20:32:50",
+   "entry": "NATIONAL-TEAM-S3-EVENT-REVIEW",
+   "shard": "main",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-09-28 20:50:05"
+  },
+  "scripts/innovation_quota_w2.py|run": {
+   "count": 23,
+   "refusals": 0,
+   "code_sha256": "9862863f3b13f206",
+   "last_crash_ts": "2026-09-28 23:28:03",
+   "entry": "INNOVATION-QUOTA-SLOT-2",
+   "shard": "main",
+   "machine": "bm-c"
+  },
+  "scripts/trial_labor_w6.py|generate": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "b3992c7ead76d457",
+   "last_crash_ts": "2026-09-29 05:20:03",
+   "entry": "TRIAL-LABOR-W6-GENERATE",
+   "shard": "generate-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-09-29 05:20:04"
   }
  },
  "cleared": {
@@ -71,6 +100,13 @@
    "reason": "code_changed",
    "crashes": 2,
    "old_code_sha256": "c6a5b0373854aa95"
+  },
+  "scripts/innovation_quota_w2.py|run": {
+   "cleared_ts": "2026-09-28 22:56:06",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 2,
+   "old_code_sha256": "ff78b55cc7a7d12d"
   }
  },
  "lane_machine": "bm-b"
