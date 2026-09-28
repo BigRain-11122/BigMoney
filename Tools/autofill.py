@@ -669,6 +669,25 @@ def _ckpt_no_progress_since(sh, ts):
     return mtime < launched
 
 
+def _last_launch_of(state, entry_id, shard_key):
+    """Newest launch record for this entry+shard (None if never).
+
+    O-2325(1) relaunch-cooldown gate input: the record carries the
+    launch-time code stamp, so a same-version dead runner inside the
+    crash-confirm window can be paced at one attempt per window
+    (live 2026-09-28 22:06-22:59: 50+ same-sig relaunches of
+    INNOVATION-QUOTA-SLOT-2 across 4 code versions while both the
+    25-min confirm and the 5-min checkpoint fast-confirm were out of
+    reach -- that shard carried no checkpoint face, so the fast
+    discriminator's conservative False left the whole 25-min window
+    open to per-tick respawns)."""
+    for rec in reversed(state.get("launches", [])):
+        if (rec.get("entry") == entry_id
+                and rec.get("shard") == shard_key):
+            return rec
+    return None
+
+
 def _confirm_crashes(state, pool, myid, fuse):
     """O-0947 slice-2: confirm own-machine launches whose runner died
     without landing (shard still not done past FUSE_CONFIRM_MIN) into
@@ -1135,6 +1154,7 @@ def tick(dry=False):
     # every tick return without touching the next ready entry) --
     # refuse-and-skip, keep picking down the pool.
     skip, fuse_skipped, refused_head = set(), [], None
+    cooldown_head = None
     e = sh = cur = sig = reg = None
     while True:
         cand_e, cand_sh = _pick(pool, rec["machine"], skip=skip)
@@ -1162,6 +1182,36 @@ def tick(dry=False):
                                   "fuse_refusals": reg["refusals"]})
             skip.add(cand_e["id"])
             continue
+        # O-2325(1) churn-kill: same-version relaunch cooldown. Between
+        # a launch and its crash confirmation (FUSE_CONFIRM_MIN; the
+        # shorter FAST_CONFIRM_MIN only applies WITH a checkpoint face)
+        # a dead runner used to relaunch EVERY tick -- live 2026-09-28
+        # 22:06-22:59: 50+ launches of one entry across 4 code versions,
+        # ~1/min, each spawn+claim-churn. Pacing law: one same-version
+        # attempt per confirm window per entry+shard. A code edit (sha
+        # change) stays exempt -- O-0947 fix-first IS the unflag -- and
+        # at window end _confirm_crashes (which runs before the pick in
+        # this same tick) hands the entry to the registry refusal.
+        cd = _last_launch_of(state, cand_e["id"], cand_sh.get("key"))
+        if cd is not None and cd.get("runner_sha256") == cur:
+            try:
+                cd_age = (datetime.now() - datetime.strptime(
+                    cd["ts"], "%Y-%m-%d %H:%M:%S")
+                ).total_seconds() / 60.0
+            except Exception:
+                cd_age = None
+            if cd_age is not None and cd_age < FUSE_CONFIRM_MIN:
+                _log(f"relaunch-cooldown SKIP {cand_e['id']}/"
+                     f"{cand_sh.get('key')}: same-version launch "
+                     f"{cd_age:.1f}min ago < {FUSE_CONFIRM_MIN:.0f}min "
+                     f"confirm window (O-2325 churn-kill; crash "
+                     f"confirm or code edit clears)")
+                if cooldown_head is None:
+                    cooldown_head = {"entry": cand_e["id"],
+                                     "shard": cand_sh.get("key"),
+                                     "last_launch_min": round(cd_age, 1)}
+                skip.add(cand_e["id"])
+                continue
         e, sh = cand_e, cand_sh
         break
     if fuse_skipped:
@@ -1175,6 +1225,20 @@ def tick(dry=False):
             _save_state(state)
             print(json.dumps(rec, ensure_ascii=False))
             return 0
+        if cooldown_head:
+            # O-2325(1): the only takeable candidates are same-version
+            # dead runners inside their confirm window -> pace, don't
+            # churn (distinct verdict so the audit face can tell a
+            # paced window from an empty pool).
+            rec["verdict"] = "relaunch_cooldown"
+            rec.update(cooldown_head)
+            state["last_tick"] = rec
+            _save_state(state)
+            _log(f"tick py={py}% relaunch-cooldown window "
+                 f"({cooldown_head['entry']}/"
+                 f"{cooldown_head.get('shard')}) -> no-op")
+            print(json.dumps(rec, ensure_ascii=False))
+            return 0
         rec["verdict"] = "pool_empty_or_busy"
         state["last_tick"] = rec
         _save_state(state)
@@ -1184,6 +1248,10 @@ def tick(dry=False):
         # head refused but a later entry launches: keep the refusal
         # trace visible on the tick record without polluting entry/shard
         rec["fuse_skipped"] = fuse_skipped
+    if cooldown_head:
+        # same: head paced by the churn-kill cooldown while a later
+        # entry launches (anti-starvation law kept the loop moving)
+        rec["cooldown_skipped"] = cooldown_head
     if reg:
         # D-03(2) cleared-tombstone: record the clear so the lane-union
         # cannot resurrect this sig from another machine's stale lane
@@ -2422,6 +2490,65 @@ def selftest():
             _py_cpu_pct = _py17
         _git = _git_real
         _py_cpu_pct = orig
+        # S19 O-2325(1) churn-kill relaunch cooldown (r191 bm-c): a
+        # same-version launch that died inside the crash-confirm window
+        # paces at ONE attempt per window instead of respawning every
+        # tick (live 2026-09-28 22:06-22:59: 50+ launches of one entry
+        # across 4 code versions, ~1/min; that shard carried no
+        # checkpoint face, so the r177 fast-confirm conservative False
+        # left the whole 25-min window open). Code-change exemption =
+        # O-0947 fix-first; window-end handoff = registry refusal.
+        _py19 = _py_cpu_pct
+        _py_cpu_pct = lambda w=SAMPLE_S: 5.0
+        try:
+            with open(FUSE, "w", encoding="utf-8") as fh:
+                json.dump({"sigs": {}}, fh)
+            _lane_fu = _lane_path_for(FUSE)
+            if _lane_fu and os.path.exists(_lane_fu):
+                os.remove(_lane_fu)
+            mid19 = _machine_id()
+            # S19a same-version dead runner 3 min old -> paced no-op
+            with open(POOL, "w", encoding="utf-8") as fh:
+                json.dump({"entries": [dict(entry)]}, fh)
+            st19 = _load_state()
+            st19["launches"] = [{
+                "ts": (datetime.now() - timedelta(minutes=3)).strftime(
+                    "%Y-%m-%d %H:%M:%S"), "machine": mid19,
+                "verdict": "launched", "entry": "E1", "shard": "s0",
+                "runner_sha256": None}]
+            _save_state(st19)
+            rc = tick(dry=True)
+            st19a = _load_state()["last_tick"]
+            ok("S19a same-version <window -> relaunch_cooldown no-op",
+               rc == 0 and st19a["verdict"] == "relaunch_cooldown"
+               and st19a["entry"] == "E1"
+               and 0 < st19a["last_launch_min"] < FUSE_CONFIRM_MIN)
+            # S19b code changed since last launch (fix-first) -> exempt
+            st19b = _load_state()
+            st19b["launches"] = [dict(st19b["launches"][-1],
+                                      runner_sha256="deadbeef00000000")]
+            _save_state(st19b)
+            rc = tick(dry=True)
+            ok("S19b code-change fix-first exempt -> dry_launch",
+               rc == 0 and _load_state()["last_tick"]["verdict"]
+               == "dry_launch")
+            # S19c window expired -> crash confirm (pre-pick) hands the
+            # entry to the registry refusal; cooldown never races fuse
+            st19c = _load_state()
+            st19c["launches"] = [{
+                "ts": (datetime.now() - timedelta(minutes=30)).strftime(
+                    "%Y-%m-%d %H:%M:%S"), "machine": mid19,
+                "verdict": "launched", "entry": "E1", "shard": "s0",
+                "runner_sha256": None}]
+            _save_state(st19c)
+            rc = tick(dry=True)
+            st19c_out = _load_state()["last_tick"]
+            ok("S19c window end -> fuse_refused_crash_loop handoff",
+               rc == 0 and st19c_out["verdict"]
+               == "fuse_refused_crash_loop"
+               and st19c_out.get("fuse_crashes") == 1)
+        finally:
+            _py_cpu_pct = _py19
     # S7 sampler sanity on the real machine (pure read)
     py = _py_cpu_pct(window=0.5)
     ok("S7 live py sample in [0,100]", 0.0 <= py <= 100.0)
