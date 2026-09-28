@@ -39,25 +39,31 @@ Engineering mapping disclosures (pre-run, zero cells burned):
   scale on the csi300 bench) are machinery-different faces -> not
   translatable, counted + disclosed, never excluded.
 
-Slice plan (W2 r358/r359 precedent; slice-1 + generate land this commit):
+Slice plan (W2 r358/r359 precedent; slice-1 + generate landed r392 bma):
   - slice-1: build_grammar_w3 (tl1 grammar extended with the initial-stop
     axis [imported from tl2] + the regime-gate axis -> 10752 axis combos,
     new grammar sha16 != W1 a2fa15f4b06b3c40 != MASS 96269ebe766c3fc2 !=
-    W2 1dd3d95792395cec) + gate overlay layer + selftest (hermetic:
-    gate causality / NaN-window / gate=none parity legs) + grammar
-    serialization;
-  - slice-1b (same commit): generate (Sobol six-tuple draws + six-source
-    exclusion with the declared MASS translation + effective-face dedup +
-    ledger row + D6 disclosure column);
-  - NEXT slices (physical dep: generate product; separate commits with
-    MSG declarations per W2 r360/r362 precedent): screen (prep gates +
-    K=200 nulls + survival line) / judge (dual-leg + dual nulls on seed
-    20288500) / intake.
+    W2 1dd3d95792395cec, same-grammar-rerun ban lawful) + gate overlay
+    layer + selftest (hermetic: gate causality / NaN-window / gate=none
+    parity legs) + grammar serialization;
+  - slice-1b (landed r392 bma): generate (Sobol six-tuple draws +
+    six-source exclusion with the declared MASS translation +
+    effective-face dedup + ledger row + D6 disclosure column);
+  - slice-2 (landed r150 bmc; MSG-20260928-0839 single-writer claim):
+    screen (prep fail-closed gates G-PANEL/G-ANCHOR/G-CENSUS/G-EXCLUDE +
+    K=200 nulls with the gate leg + sharded cell burn with per-cell
+    checkpoint + finalize survival line via tl2._finalize_math import +
+    GATE-face segmented survival statistics per prereg sec.6);
+  - NEXT slices (physical dep: screen survivors; separate commits with
+    MSG declarations per W2 r360/r362 precedent): judge (dual-leg + dual
+    nulls on seed 20288500) / intake.
 """
 from __future__ import annotations
 import argparse
+import csv
 import hashlib
 import json
+import math
 import os
 import sys
 import time
@@ -779,6 +785,384 @@ def cmd_generate() -> int:
     return 0
 
 
+# ------------------------------------------------------ screen slice (s2)
+csv_cols_screen_w3 = ["cell_id", "candidate_id", "family", "module", "fn",
+                      "no_entries", "beat6m_k", "beat6m_n", "beat6m_rate",
+                      "binom_z", "binom_p", "sharpe_full", "dd_full",
+                      "n_trades", "n_entries", "stop_face", "stop_fired",
+                      "gate_face", "gate_zeroed", "survives_screen"]
+
+# pure survival-line math imported from tl2 (W2 identical frozen law:
+# survive iff beat6m_rate > null-family p95 -- program-frozen, zero
+# hand-picked thresholds; import-face law, zero re-implementation)
+_finalize_math = tl2._finalize_math
+
+
+def _screen_cell_w3(cell):
+    """One W3 screen cell: full leg-L backtest with the gate overlay +
+    initial-stop overlay carried per-cell (prereg sec.3 face a) ->
+    beat6m row (pool worker; W2 _screen_cell caliber + gate columns)."""
+    st = tl1._ST
+    kind, cand, template = cell["kind"], cell["cand"], cell.get("template")
+    P, prices, states = st["P"], st["prices"], st["states"]
+    starts, passive = st["starts"], st["passive_6m"]
+    close = P["close"]
+    if kind == "null":
+        p_on, ax, rng = _null_axis_draw_w3(cell["i"])
+        cand = {"module": "null", "fn": "random_signal",
+                "sig_params": {"p_on": p_on}, "axis": ax,
+                "candidate_id": f"W3-NULL-{cell['i']:04d}",
+                "family": "NULL"}
+        mat = rng.random((len(close.index), len(close.columns)))
+        eq, trades, metrics, params, patch, fired, gz = run_candidate_curve_w3(
+            cand, None, prices, P, states, st["atr20"],
+            rng_matrix=mat, p_on=p_on, gate_state=st.get("gate_state"))
+    else:
+        eq, trades, metrics, params, patch, fired, gz = run_candidate_curve_w3(
+            cand, template, prices, P, states, st["atr20"],
+            fundamental_ok=st["fundamental_ok"],
+            gate_state=st.get("gate_state"))
+    row = {"cell_id": cell["cell_id"], "candidate_id": cand["candidate_id"],
+           "family": cand["family"], "stop_face": cand["axis"][4],
+           "stop_fired": int(fired), "gate_face": cand["axis"][5],
+           "gate_zeroed": int(gz)}
+    if len(eq) < 30 or float(eq.iloc[0]) <= 0:
+        row.update({"no_entries": True, "beat6m_k": 0,
+                    "beat6m_n": len(starts), "beat6m_rate": 0.0,
+                    "sharpe_full": None,
+                    "n_trades": int(metrics.get("num_trades", 0)),
+                    "n_entries": int(metrics.get("num_entries", 0))})
+        return row
+    k = n_win = 0
+    for p in starts:
+        if p + W6M - 1 >= len(eq):
+            continue
+        n_win += 1
+        cret = float(eq.iloc[p + W6M - 1] / eq.iloc[p] - 1.0)
+        if cret >= passive[p]:        # prereg sec.3 literal ">="
+            k += 1
+    rate = k / n_win if n_win else 0.0
+    n = len(starts)
+    z = (k - 0.5 * n) / math.sqrt(0.25 * n) if n else 0.0
+    pval = 2 * (1 - tl1._norm_cdf(abs(z)))
+    row.update({"no_entries": False, "module": cand.get("module"),
+                "fn": cand.get("fn"), "beat6m_k": k, "beat6m_n": n_win,
+                "beat6m_rate": round(rate, 6), "binom_z": round(z, 4),
+                "binom_p": round(pval, 6),
+                "sharpe_full": round(float(tl1.sharpe(eq)), 4),
+                "dd_full": round(float(tl1.max_drawdown(eq)), 4),
+                "n_trades": int(metrics.get("num_trades", 0)),
+                "n_entries": int(metrics.get("num_entries", 0))})
+    return row
+
+
+def _cell_list_w3():
+    """Distinct candidate cells + K null cells (deterministic order;
+    shard-split by index; W1/W2 precedent)."""
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    cands = json.load(open(CANDIDATES_FILE, encoding="utf-8"))["candidates"]
+    a_by_trader = {t["trader_id"]: t for t in tl1.A_TEMPLATES}
+    cells = []
+    for c in cands:
+        template = (a_by_trader.get(c.get("template_trader"))
+                    if c["family"] == "A" else None)
+        cells.append({"cell_id": f"SCREEN|{c['candidate_id']}",
+                      "kind": "cand", "cand": c, "template": template})
+    for i in range(K_NULLS):
+        cells.append({"cell_id": f"SCREEN|NULL-{i:04d}", "kind": "null",
+                      "i": i, "cand": None})
+    return grammar, cells
+
+
+def _load_screen_rows():
+    rows = []
+    for f in sorted(os.listdir(CKPT_DIR)):
+        if f.startswith("screen_shard_") and f.endswith(".jsonl"):
+            with open(os.path.join(CKPT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    ln = ln.strip()
+                    if ln:
+                        rows.append(json.loads(ln))
+    return rows
+
+
+def cmd_screen_prep() -> int:
+    """G-PANEL / G-ANCHOR / G-CENSUS / G-EXCLUDE fail-closed gates + the
+    shared passive 6m precompute (prereg sec.2; W2 cmd_screen_prep
+    caliber on the W3 grammar face + panel gate-meta disclosure)."""
+    print(f"=== {WAVE} screen-prep (fail-closed gates) ===")
+    for p, what in ((GRAMMAR_FILE, "w3_grammar.json"),
+                    (CANDIDATES_FILE, "w3_candidates.json")):
+        if not os.path.exists(p):
+            print(f"PREP-GATE FAIL: {what} absent -- generate pending")
+            return 2
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    if _grammar_sha16(grammar) != FROZEN_SHA16:
+        print(f"PREP-GATE FAIL: grammar sha drift "
+              f"{grammar['grammar_sha256'][:16]} != frozen {FROZEN_SHA16}")
+        return 1
+    cg = json.load(open(CANDIDATES_FILE, encoding="utf-8"))
+    if str(cg.get("grammar_sha256", ""))[:16] != FROZEN_SHA16:
+        print("PREP-GATE FAIL: candidates grammar_sha256 != frozen anchor")
+        return 1
+    tl1.GRAMMAR = grammar   # tl1._signal_frame reads tl1's global
+    if not tl1.self_test_patches():
+        print("PREP-GATE FAIL: patch self-test")
+        return 1
+
+    prices_full = tl1.load_core()
+    cut = pd.Timestamp(CUTOFF)
+    # G-PANEL validates the cutoff-frozen face, not the raw load face
+    # (Monday-bar-proof, T-89 r313 pattern; the generate stage in this
+    # same file truncates at load the same way).  Every downstream
+    # consumer -- anchor replay pcut, leg-L census via _load_leg --
+    # already sees the panel truncated at the frozen cutoff.
+    prices_full = {s: df[df.index <= cut] for s, df in prices_full.items()}
+    n_members = len(prices_full)
+    bad = [s for s, df in prices_full.items()
+           if len(df) < 60 or str(df.index[-1].date()) != CUTOFF
+           or not {"open", "high", "low", "close", "volume"} <= set(df.columns)]
+    gp = {"members": n_members, "bad": bad,
+          "pass": bool(n_members == 48 and not bad)}
+    if not gp["pass"]:
+        print(f"PREP-GATE FAIL: G-PANEL {gp}")
+        return 1
+
+    # G-ANCHOR: registered six replayed through the W3 grammar
+    # default-axis identity face (template_default+EW+daily+
+    # initial_stop=none+gate=none -> tl1 engine identity; run_candidate_
+    # curve_w3 parity law selftest-pinned on the gate=none face)
+    pcut = {s: df[df.index <= cut] for s, df in prices_full.items()}
+    Pfull = tl1.build_panels(pcut)
+    anchors = {}
+    for t in tl1.A_TEMPLATES:
+        trader = tl1.load_trader(t["trader_id"])
+        a = tl1.anchor_gate(trader, prices_full)
+        if not a["ok"]:
+            print(f"PREP-GATE FAIL: live anchor drift {t['trader_id']}")
+            return 1
+        cand = {"module": t["module"], "fn": t["fn"],
+                "sig_params": t["sig_params"],
+                "axis": list(tl1.DEFAULT_AXIS) + ["none", "none"]}
+        eq, *_ = run_candidate_curve_w3(cand, t, pcut, Pfull,
+                                        tl1.v3_state_series())
+        got_is = tl1.sharpe(eq[eq.index < tl1.OOS_START])
+        got_oos = tl1.sharpe(eq[eq.index >= tl1.OOS_START])
+        mine_ok = (abs(round(float(got_is), 4)
+                       - a["got"]["in_sample"]["sharpe"]) < 1e-9
+                   and abs(round(float(got_oos), 4)
+                           - a["got"]["out_sample"]["sharpe"]) < 1e-9)
+        anchors[t["trader_id"]] = {
+            "live_ok": True, "grammar_replay_is": round(float(got_is), 4),
+            "grammar_replay_oos": round(float(got_oos), 4),
+            "grammar_face_faithful": bool(mine_ok)}
+        if not mine_ok:
+            print(f"PREP-GATE FAIL: grammar replay != live anchor "
+                  f"{t['trader_id']} (is {got_is:.4f} vs "
+                  f"{a['got']['in_sample']['sharpe']}, oos {got_oos:.4f} vs "
+                  f"{a['got']['out_sample']['sharpe']})")
+            return 1
+    ga = {"pass": True, "anchors": anchors}
+
+    # leg-L panel + G-CENSUS (P-5C frozen grid, sec.2 wholesale binding)
+    prices, P, idx, listed, cen = tl1._load_leg("L")
+    if cen != tl1.FROZEN_CENSUS["L"]:
+        print(f"PREP-GATE FAIL: leg-L census drift {cen} != "
+              f"{tl1.FROZEN_CENSUS['L']}")
+        return 1
+    gc_ = {"pass": True, "census": cen, "frozen": tl1.FROZEN_CENSUS["L"]}
+    # panel-level gate meta on the leg-L face (prereg sec.2 disclosure)
+    _, _, gate_meta = gate_state_series(prices)
+    close = P["close"]
+    n = len(idx)
+    starts = [p for p in range(n)
+              if idx[p] >= tl1.LEG_L_FLOOR and p >= tl1.WARMUP_TD
+              and p <= n - 1 - W6M and listed.iloc[p] >= tl1.MIN_LISTED]
+    if len(starts) != tl1.FROZEN_CENSUS["L"]["6m"]:
+        print(f"PREP-GATE FAIL: 6m starts {len(starts)} != "
+              f"{tl1.FROZEN_CENSUS['L']['6m']}")
+        return 1
+    passive_6m = {}
+    for p in starts:
+        sdate = idx[p]
+        edate = idx[p + W6M - 1]
+        syms = close.columns[close.loc[sdate].notna()]
+        rel = tl1.passive_rel(close, syms, sdate, edate)
+        passive_6m[int(p)] = round(float(rel.iloc[-1] - 1.0), 6)
+
+    prep = {"wave": WAVE, "evidence_cutoff": CUTOFF,
+            **tl1.cutoff_meta(CUTOFF),
+            "grammar_sha256": grammar["grammar_sha256"],
+            "gates": {"G-PANEL": gp, "G-ANCHOR": ga, "G-CENSUS": gc_,
+                      "G-EXCLUDE": {"pass": True,
+                                    "hits": cg["exclusion"]["hits"],
+                                    "sources": cg["exclusion"]["sources"]}},
+            "gate_meta": gate_meta,
+            "n_distinct": cg["n"], "n_starts_6m": len(starts),
+            "starts": starts, "passive_6m_ret": passive_6m,
+            "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(PREP_FILE, prep)
+    print(f"prep PASS: panel {gp['members']}/48, anchors 6/6 faithful, "
+          f"census {cen}, starts {len(starts)}, passive precomputed, "
+          f"gate na-window {gate_meta['na_window_bars']} bars")
+    return 0
+
+
+def cmd_screen(shard: int, shards: int, workers) -> int:
+    print(f"=== {WAVE} screen shard {shard}of{shards} ===")
+    for p, what in ((PREP_FILE, "prep_state.json"),
+                    (CANDIDATES_FILE, "w3_candidates.json")):
+        if not os.path.exists(p):
+            print(f"SCREEN-GATE: {what} absent -- run screen-prep first")
+            return 2
+    prep = json.load(open(PREP_FILE, encoding="utf-8"))
+    grammar, cells = _cell_list_w3()
+    if _grammar_sha16(grammar) != FROZEN_SHA16:
+        print(f"SCREEN-GATE: grammar sha drift != frozen {FROZEN_SHA16}")
+        return 2
+    ram_min, ram_ok = tl2._ram_gate_gb()
+    if not ram_ok:
+        print(f"SCREEN-GATE: free RAM {ram_min}GB < 4GB (three-sample "
+              f"r354 law) -- honest refuse, pool retries when RAM frees")
+        return 2
+    tl1.GRAMMAR = grammar
+    mine = [c for i, c in enumerate(cells) if i % shards == shard]
+    prices, P, idx, listed, cen = tl1._load_leg("L")
+    states = tl1.v3_state_series()
+    try:
+        bl = pd.read_csv(tl1.B_LAYER_MASK)
+        ok_codes = set(bl.loc[bl["ok_static"] == True, "code"].astype(str))
+        overlap = sorted(s for s in P["close"].columns if s in ok_codes)
+    except Exception:
+        overlap = []
+    # keep-ok face = the serialized grammar filter_def ("keep-ok codes only")
+    # -- identical to the generate-stage dedup face (consistency law)
+    if overlap:
+        fundamental_ok = pd.DataFrame(False, index=P["close"].index,
+                                      columns=P["close"].columns)
+        for s in overlap:
+            fundamental_ok[s] = True
+    else:
+        fundamental_ok = None
+    state = {"P": P, "prices": prices, "states": states,
+             "starts": prep["starts"],
+             "passive_6m": {int(k): v for k, v in
+                            prep["passive_6m_ret"].items()},
+             "fundamental_ok": fundamental_ok,
+             "grammar": grammar, "atr20": tl2.atr20_series(prices),
+             "gate_state": gate_state_series(prices)}
+
+    ck = os.path.join(CKPT_DIR, f"screen_shard_{shard}of{shards}.jsonl")
+    os.makedirs(CKPT_DIR, exist_ok=True)
+    done = set()
+    if os.path.exists(ck):
+        with open(ck, encoding="utf-8") as fh:
+            for ln in fh:
+                try:
+                    done.add(json.loads(ln)["cell_id"])
+                except Exception:
+                    pass
+    todo = [c for c in mine if c["cell_id"] not in done]
+    print(f"shard cells {len(mine)}, done {len(done)}, todo {len(todo)}")
+
+    def on_result(key, payload):
+        with open(ck, "a", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(tl1._j(payload), ensure_ascii=False,
+                                default=float) + "\n")
+
+    if todo:
+        jobs = [(c["cell_id"], _screen_cell_w3, (c,)) for c in todo]
+        tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),
+                              desc="screen cells", initializer=tl1._init_worker,
+                              initargs=(state,), on_result=on_result)
+    print(f"shard {shard}of{shards} complete -> {ck}")
+    return 0
+
+
+def cmd_screen_finalize() -> int:
+    print(f"=== {WAVE} screen-finalize ===")
+    grammar, cells = _cell_list_w3()
+    rows = _load_screen_rows()
+    by_id = {r["cell_id"]: r for r in rows}
+    missing = [c["cell_id"] for c in cells if c["cell_id"] not in by_id]
+    if missing:
+        print(f"FINALIZE-GATE: {len(missing)} cells incomplete -- finalize "
+              f"refused (checkpoint retained); first missing: "
+              f"{missing[:3]}")
+        return 2
+    null_rows = [by_id[f"SCREEN|NULL-{i:04d}"] for i in range(K_NULLS)]
+    cand_rows = [by_id[c["cell_id"]] for c in cells if c["kind"] == "cand"]
+    p95, survivors = _finalize_math(cand_rows, null_rows)
+    null_rates = [r["beat6m_rate"] for r in null_rows]
+    stop_counts, gate_counts, gate_seg = {}, {}, {}
+    for r in cand_rows:
+        stop_counts[r["stop_face"]] = stop_counts.get(r["stop_face"], 0) + 1
+        gf = r["gate_face"]
+        gate_counts[gf] = gate_counts.get(gf, 0) + 1
+        seg = gate_seg.setdefault(gf, {"n_cells": 0, "n_survivors": 0})
+        seg["n_cells"] += 1
+        seg["n_survivors"] += int(bool(r["survives_screen"]))
+    for gf, seg in gate_seg.items():
+        seg["survival_rate"] = round(
+            seg["n_survivors"] / seg["n_cells"], 6) if seg["n_cells"] else 0.0
+    prep = (json.load(open(PREP_FILE, encoding="utf-8"))
+            if os.path.exists(PREP_FILE) else {})
+    gate_meta = prep.get("gate_meta")
+    n_distinct = len(cand_rows)
+    batch_trials = n_distinct + K_NULLS
+    ledger = tl1.append_ledger(SCREEN_BATCH, batch_trials,
+                               "results/trial_labor_w3/w3_screen.json",
+                               evidence_cutoff=CUTOFF)
+    out = {"wave": WAVE, "stage": "screen", "prereg": PREREG,
+           **tl1.cutoff_meta(CUTOFF), "grammar_sha256": grammar["grammar_sha256"],
+           "n_distinct": n_distinct, "k_nulls": K_NULLS,
+           "null_family": {"rates": [round(x, 4) for x in null_rates],
+                           "median": round(float(np.median(null_rates)), 4),
+                           "p95_line": round(p95, 6),
+                           "p_regimes": list(tl1.NULL_P_REGIMES),
+                           "seed": SEED_NULL,
+                           "draw_order": "p_on regime -> six-tuple axis "
+                                         "R/X/S/T/STOP/GATE -> signal "
+                                         "matrix (frozen runner face, "
+                                         "gate leg included)"},
+           "survival_rule": "beat6m_rate > null_p95 (prereg sec.3, frozen)",
+           "survivors": survivors, "n_survivors": len(survivors),
+           "stop_face_counts": stop_counts,
+           "gate_face_counts": gate_counts,
+           "gate_segmented_survival": gate_seg,
+           "gate_na_window_bars": (gate_meta["na_window_bars"]
+                                   if gate_meta else None),
+           "batch_cells": batch_trials, "trials_ledger": ledger,
+           "audit": {"note": "one full leg-L backtest per cell (prereg "
+                             "sec.3 all-history caliber, V1 13bp base, T+1); "
+                             "gate overlay + initial-stop overlay at the "
+                             "engine face = effective-signal zeroing "
+                             "(MSG-0440 E1 mapping, dedup-face consistency, "
+                             "frozen composition order signal -> filter -> "
+                             "timing -> GATE -> initial-stop); MA200 NaN "
+                             "window gate-closed on BOTH faces (panel-level "
+                             "count in gate_na_window_bars); workers "
+                             "BelowNormal; checkpoint append-per-cell; "
+                             "beat6m comparison operator = >= per frozen "
+                             "prereg sec.3 text; survival math imported "
+                             "from tl2._finalize_math (W2 identical law)"},
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(SCREEN_FILE, out)
+    with open(SCREEN_CSV, "w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=csv_cols_screen_w3,
+                           extrasaction="ignore")
+        w.writeheader()
+        for r in cand_rows:
+            w.writerow(r)
+    print(f"screen finalize: distinct {n_distinct} + nulls {K_NULLS}, "
+          f"null p95 {p95:.4f}, survivors {len(survivors)}")
+    print(f"gate segmented survival: "
+          f"{json.dumps(gate_seg, sort_keys=True)}")
+    print(f"products: w3_screen.json + w3_screen_cells.csv "
+          f"(ledger total {ledger['total']})")
+    return 0
+
+
 # ------------------------------------------------------------ status / grammar
 def cmd_status() -> int:
     print(f"=== {WAVE} status ===")
@@ -797,11 +1181,13 @@ def cmd_status() -> int:
     print("slice map (W2 r358/r359/r360/r362 precedent): slice-1 grammar "
           "+ gate overlay + selftest + serialization LANDED r392; "
           "slice-1b generate LANDED r392 (pool TRIAL-LABOR-W3-GENERATE "
-          "ready); NEXT slices: screen (prep + K=200 nulls + survival "
-          "line; physical dep = w3_candidates.json) -> judge (dual-leg + "
-          "dual nulls seed 20288500) -> intake -- separate commits with "
-          "MSG declarations; parallel claim legal per T-50/T-64 slice "
-          "precedent after MSG-declare")
+          "done, n=3552); slice-2 screen LANDED r150 bmc (MSG-0839 "
+          "single-writer claim; prep gates + K=200 nulls with gate leg + "
+          "sharded burn + finalize survival line + gate segmented stats); "
+          "NEXT slices: judge (dual-leg + dual nulls seed 20288500; "
+          "physical dep = screen survivors) -> intake -- separate commits "
+          "with MSG declarations; parallel claim legal per T-50/T-64 "
+          "slice precedent after MSG-declare")
     return 0
 
 
@@ -831,7 +1217,7 @@ def cmd_grammar() -> int:
 
 # ------------------------------------------------------------------ selftest
 def cmd_selftest() -> int:
-    print(f"=== {WAVE} selftest (hermetic, slice-1 + generate face) ===")
+    print(f"=== {WAVE} selftest (hermetic, slice-1 + generate + screen) ===")
     ok_n = 0
     fails = [0]
 
@@ -1209,6 +1595,86 @@ def cmd_selftest() -> int:
     finally:
         os.unlink(tmp_path)
 
+    # [13] screen cell machinery in-process (synthetic worker state; W2
+    # [10] caliber + gate columns; leg [9] fixtures reused)
+    starts3 = [10, 60, 110, 150]     # all complete 126-td windows (len 320)
+    tl1._ST = {"P": P3, "prices": frames3, "states": st3,
+               "starts": starts3, "passive_6m": {10: 0.05, 60: 0.05,
+                                                  110: 0.05, 150: 0.05},
+               "fundamental_ok": None, "grammar": g,
+               "atr20": tl2.atr20_series(frames3), "gate_state": gs3}
+    row_null = _screen_cell_w3({"cell_id": "SCREEN|NULL-0003",
+                               "kind": "null", "i": 3, "cand": None})
+    ok("screen null cell row: id/family/stop+gate faces wired + complete "
+       "windows (gate leg included)",
+       row_null["candidate_id"] == "W3-NULL-0003"
+       and row_null["family"] == "NULL"
+       and row_null["stop_face"] in AXIS_STOP
+       and row_null["gate_face"] in AXIS_GATE
+       and row_null["beat6m_n"] == 4)
+    gate_c = dict(base, candidate_id="ST-B-0001",
+                  axis=[*base["axis"][:4], "p3", "bull"])
+    row_g1 = _screen_cell_w3({"cell_id": "SCREEN|ST-B-0001",
+                              "kind": "cand", "cand": gate_c,
+                              "template": None})
+    row_g2 = _screen_cell_w3({"cell_id": "SCREEN|ST-B-0001",
+                              "kind": "cand", "cand": gate_c,
+                              "template": None})
+    ok("screen cand cell row: gate+stop faces carried + deterministic "
+       "(double-run byte-equal)",
+       row_g1["stop_face"] == "p3" and row_g1["gate_face"] == "bull"
+       and row_g1["gate_zeroed"] >= 0 and row_g1["stop_fired"] >= 0
+       and json.dumps(row_g1, sort_keys=True)
+       == json.dumps(row_g2, sort_keys=True))
+    if row_g1.get("no_entries"):
+        ok("screen cand cell row: degenerate face honest (beat6m zeros, "
+           "no binom columns)",
+           row_g1["beat6m_k"] == 0 and row_g1["beat6m_rate"] == 0.0
+           and "binom_z" not in row_g1)
+    else:
+        k_c, n_c = row_g1["beat6m_k"], row_g1["beat6m_n"]
+        z_c = (k_c - 0.5 * 4) / math.sqrt(0.25 * 4)
+        ok("screen cand cell row: binom math consistent (n=4 starts)",
+           row_g1["beat6m_rate"] == round(k_c / n_c, 6)
+           and row_g1["binom_z"] == round(z_c, 4)
+           and row_g1["binom_p"] == round(
+               2 * (1 - tl1._norm_cdf(abs(z_c))), 6))
+    row_none = _screen_cell_w3({"cell_id": "SCREEN|ST-B-0000",
+                                "kind": "cand", "cand": base,
+                                "template": None})
+    ok("screen cand cell row: gate=none+stop=none faces carry zero "
+       "counters (identity face)",
+       row_none["stop_face"] == "none" and row_none["gate_face"] == "none"
+       and row_none["stop_fired"] == 0 and row_none["gate_zeroed"] == 0)
+
+    # [14] finalize math (pure): p95 line + strict survivor rule --
+    # imported tl2 face (W2 identical frozen law, zero re-implementation)
+    ok("finalize math import: W3 alias == tl2._finalize_math",
+       _finalize_math is tl2._finalize_math)
+    null_rows_t = [{"beat6m_rate": (i % 40) / 100.0} for i in range(20)]
+    cand_rows_t = [{"candidate_id": f"C{i:03d}",
+                    "beat6m_rate": r}
+                   for i, r in enumerate([0.10, 0.31, 0.39, 0.40, 0.45])]
+    p95_t, surv_t = _finalize_math(cand_rows_t, null_rows_t)
+    ok("finalize math: p95 == numpy percentile of null rates",
+       abs(p95_t - float(np.percentile(
+           [r["beat6m_rate"] for r in null_rows_t], 95))) < 1e-12)
+    ok("finalize math: survivors = rate > p95 (strict, flag column set)",
+       surv_t == [c["candidate_id"] for c in cand_rows_t
+                  if c["beat6m_rate"] > p95_t]
+       and all(c["survives_screen"] == (c["beat6m_rate"] > p95_t)
+               for c in cand_rows_t))
+
+    # [15] B7b contract: csv consumer keys subset of cell constructor keys
+    constructor_keys = {"cell_id", "candidate_id", "family", "module",
+                        "fn", "no_entries", "beat6m_k", "beat6m_n",
+                        "beat6m_rate", "binom_z", "binom_p", "sharpe_full",
+                        "dd_full", "n_trades", "n_entries", "stop_face",
+                        "stop_fired", "gate_face", "gate_zeroed",
+                        "survives_screen"}
+    ok("B7b contract: screen-csv consumer keys subset of constructor keys",
+       set(csv_cols_screen_w3) <= constructor_keys)
+
     print(f"selftest: {ok_n - fails[0]}/{ok_n} PASS, "
           f"{fails[0]} FAIL")
     return 1 if fails[0] else 0
@@ -1221,12 +1687,22 @@ def main(argv=None):
     sub.add_parser("status")
     sub.add_parser("grammar")
     sub.add_parser("generate")
+    sub.add_parser("screen-prep")
+    p = sub.add_parser("screen")
+    p.add_argument("--shard", type=int, default=0)
+    p.add_argument("--shards", type=int, default=1)
+    p.add_argument("--workers", type=int, default=None)
+    sub.add_parser("screen-finalize")
     a = ap.parse_args(argv)
     # r141 crash-lane law: explicit per-command forwarding; no zero-arg
-    # dict dispatch; subcommands not yet built (screen/judge/intake) are
-    # NOT registered here (half-built dispatch = forbidden face)
+    # dict dispatch; subcommands not yet built (judge/intake) are NOT
+    # registered here (half-built dispatch = forbidden face)
+    if a.cmd == "screen":
+        return cmd_screen(a.shard, a.shards, a.workers)
     return {"selftest": cmd_selftest, "status": cmd_status,
-            "grammar": cmd_grammar, "generate": cmd_generate}[a.cmd]()
+            "grammar": cmd_grammar, "generate": cmd_generate,
+            "screen-prep": cmd_screen_prep,
+            "screen-finalize": cmd_screen_finalize}[a.cmd]()
 
 
 if __name__ == "__main__":
