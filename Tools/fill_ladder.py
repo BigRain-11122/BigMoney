@@ -31,6 +31,7 @@ USAGE:
 """
 import json
 import os
+import re
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -95,8 +96,12 @@ def _gate_pass(gate, machine_id, pool, cand_runner=None):
 
     Supported requirement forms (extensible, D4 will add):
       prereg_frozen:<repo-relative path>   -- file must exist in-tree AND its
-                                              head (first 12 lines) must NOT
-                                              carry a draft-pending marker
+                                              head (first 12 lines) must not
+                                              carry a live draft state:
+                                              explicit 【状态：FROZEN】 wins
+                                              (r189 status-line authority);
+                                              with no status field the head
+                                              must be free of draft markers
                                               (非冻结/冻结挂起/禁按本稿/起草中/
                                               草稿面) -- W5 draft-head
                                               convention, r176 calibration
@@ -118,9 +123,21 @@ def _gate_pass(gate, machine_id, pool, cand_runner=None):
                 return False, "prereg absent: %s" % p
             with open(full, encoding="utf-8", errors="replace") as f:
                 head = "".join(f.readline() for _ in range(12))
-            for marker in ("非冻结", "冻结挂起", "禁按本稿", "起草中", "草稿面"):
-                if marker in head:
-                    return False, "prereg draft-pending (%s): %s" % (marker, p)
+            # r189 status-line authority: an explicit 【状态：...】 field is the
+            # authoritative freeze state; narrative draft-era words in a FROZEN
+            # head are history, not a live draft marker (live-fire case: W5
+            # head carries 冻结挂起 inside its r162 lineage narrative while the
+            # status field says FROZEN -- naive substring scan false-refused the
+            # frozen prereg and starved the supply floor).
+            m = re.search(r"【状态[:：]([^】]*)】", head)
+            if m:
+                if "FROZEN" not in m.group(1).upper():
+                    return False, "prereg not frozen (status=%s): %s" % (
+                        m.group(1)[:40], p)
+            else:
+                for marker in ("非冻结", "冻结挂起", "禁按本稿", "起草中", "草稿面"):
+                    if marker in head:
+                        return False, "prereg draft-pending (%s): %s" % (marker, p)
         elif req == "runner_exists":
             r = cand_runner
             if not r or not os.path.exists(os.path.join(ROOT, r)):
@@ -228,9 +245,27 @@ def selftest():
         # gate check: existing file without draft markers passes
         ok2, _ = _gate_pass(["prereg_frozen:Tools/fill_ladder.py"], "bm-c", {"entries": []})
         assert ok2
-        # gate check: W5 draft head (draft-pending marker) must be refused
-        okw, whyw = _gate_pass(["prereg_frozen:research/TRIAL_LABOR_W5_PREREG.md"], "bm-c", {"entries": []})
-        assert not okw and "draft-pending" in whyw
+        # r189 gate regression fixtures (hermetic, no live-file dependence;
+        # absolute paths pass through os.path.join verbatim):
+        # (a) draft status field -> refused as not frozen
+        fa = os.path.join(tmp, "a_prereg.md")
+        with open(fa, "w", encoding="utf-8") as f:
+            f.write("# t\n> 【状态：DRAFT-PENDING——冻结挂起】\nbody\n")
+        oka, whya = _gate_pass(["prereg_frozen:" + os.path.abspath(fa)], "bm-c", {"entries": []})
+        assert not oka and "not frozen" in whya, whya
+        # (b) FROZEN status + draft-era words in narrative -> PASSES
+        #     (the live-fire false-negative case this fix kills)
+        fb = os.path.join(tmp, "b_prereg.md")
+        with open(fb, "w", encoding="utf-8") as f:
+            f.write("# t\n> 【状态：FROZEN——跑前 commit 冻结】本件前史=起草完成·冻结挂起；历史叙述非现态\n")
+        okb, whyb = _gate_pass(["prereg_frozen:" + os.path.abspath(fb)], "bm-c", {"entries": []})
+        assert okb, whyb
+        # (c) no status field + narrative draft marker -> refused (fallback scan)
+        fc = os.path.join(tmp, "c_prereg.md")
+        with open(fc, "w", encoding="utf-8") as f:
+            f.write("# t\n> 本件为草稿面，尚未冻结\n")
+        okc, whyc = _gate_pass(["prereg_frozen:" + os.path.abspath(fc)], "bm-c", {"entries": []})
+        assert not okc and "draft-pending" in whyc, whyc
         # gate check: runner_exists on unbuilt runner refused, built runner passes
         okr, whyr = _gate_pass(["runner_exists"], "bm-c", {"entries": []}, "scripts/__nope__.py")
         assert not okr and "runner not built" in whyr
