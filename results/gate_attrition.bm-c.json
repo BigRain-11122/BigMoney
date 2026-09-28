@@ -7614,6 +7614,52 @@
     "prereg": "research/MASS_TRIAL_W1_PREREG.md",
     "ticket": "T-2026-09-27-94"
    }
+  },
+  {
+   "batch": "TRIAL_LAB_W3_SCREEN",
+   "ts": "2026-09-28 09:03:55",
+   "kind": "measurement",
+   "cells_ledger_delta": 3752,
+   "ledger_total_after": 301180,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 3552,
+     "n_survivors": 513,
+     "line": "beat6m_rate > null_p95 strictly-greater (null_p95=0.511572, prereg sec.3 frozen)"
+    },
+    "null_face": {
+     "p50": 0.4757,
+     "p95": 0.511572,
+     "n": 200,
+     "note": "K=200 six-tuple axis nulls with gate leg, seed 20288000; screen survival line = program-frozen null p95 (tl2._finalize_math, W2 identical law)"
+    },
+    "gate_face": {
+     "segmented_survival": {
+      "bear": {
+       "n_cells": 1150,
+       "n_survivors": 218,
+       "survival_rate": 0.189565
+      },
+      "bull": {
+       "n_cells": 1182,
+       "n_survivors": 132,
+       "survival_rate": 0.111675
+      },
+      "none": {
+       "n_cells": 1220,
+       "n_survivors": 163,
+       "survival_rate": 0.133607
+      }
+     },
+     "na_window_bars": 199,
+     "note": "GATE in {none,bull,bear} x2 survival cost visible: bear 18.96% vs bull 11.17% vs none 13.36% -- regime gate halves survival in bull regime, disclosed"
+    }
+   },
+   "eliminated": 3039,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W3_PREREG.md",
+    "ticket": "T-2026-09-28-97"
+   }
   }
  ],
  "lane_machine": "bm-c"

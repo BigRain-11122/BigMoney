@@ -1741,7 +1741,9 @@ def _trial_labor_state() -> dict:
     paper intake. Read-only consumption of results/mass_trial/ (wave-1a
     MASS_TRIAL_W1, bm-b lineage) + results/trial_labor_w1/ (wave-1b
     TRIAL_LABOR_W1, bm-c lineage) + results/trial_labor_w2/ (wave-2
-    TRIAL_LABOR_W2, T-94 second wave) + TRIAL*/MASS* runnable-pool
+    TRIAL_LABOR_W2, T-94 second wave) + results/trial_labor_w3/ (wave-3
+    TRIAL_LABOR_W3, T-97 third wave, screen landed 09-28 bma finalize
+    per MSG-0915) + TRIAL*/MASS* runnable-pool
     entries;
     town strategy-factory rows are the display consumer. Funnel rows are
     honest harvest-vs-pass counts (funnel dual-column law), never
@@ -1812,6 +1814,29 @@ def _trial_labor_state() -> dict:
         if jst3:
             w3["judge_prep"] = {"n_judge_cells": jst3.get("n_survivors")}
         out["waves"].append(w3)
+        out["present"] = True
+    # wave-3: TRIAL_LABOR_W3 (T-97 third wave; generate+screen landed
+    # 09-28, judge claimed bmb MSG-0905 RAM-gated -- judge_state
+    # presence is prep face only, never a judgment claim)
+    d4 = os.path.join(PATHS.results_dir, "trial_labor_w3")
+    s4 = _read_json(os.path.join(d4, "w3_screen.json")) \
+        if os.path.isdir(d4) else None
+    if s4:
+        nf4 = s4.get("null_family") or {}
+        jst4 = _read_json(os.path.join(d4, "judge_state.json"))
+        w4 = {"wave": s4.get("wave") or "TRIAL_LABOR_W3",
+              "screen_done": s4.get("stage") == "screen",
+              "candidates": s4.get("batch_cells"),
+              "n_distinct": s4.get("n_distinct"),
+              "k_nulls": s4.get("k_nulls"),
+              "survivors_stage1": s4.get("n_survivors"),
+              "null_p95": nf4.get("p95_line"),
+              "evidence_cutoff": s4.get("evidence_cutoff"),
+              "judge_prep": None,
+              "ledger_total": (s4.get("trials_ledger") or {}).get("total")}
+        if jst4:
+            w4["judge_prep"] = {"n_judge_cells": jst4.get("n_survivors")}
+        out["waves"].append(w4)
         out["present"] = True
     # pool face (dynamic across future waves)
     pool = _lane_view("runnable_pool") or {}
