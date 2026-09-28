@@ -3740,6 +3740,35 @@
    "entered_by": "bm-c fill_ladder T-107 slice-2",
    "done_at": "2026-09-28T22:58:00+08:00",
    "result_ref": "results/innovation_quota/REPO-CALENDAR-P2.json (r186 bm-c flip per r200/r201 precedent; autofill no-op relaunch churn 22:41-22:52 stopped by this flip; judged-negative BOTH cells: GC091 sharpe 41.89 vs mu_null 41.78 line 46.21 FAIL / GC182 45.29 vs 44.49 line 50.96 FAIL -- calendar-switch alpha does NOT extend to 91d/182d terms, edge concentrated in GC014/GC028 (W1); family slot closed per law s5, zero G2 zero intake zero fee-recheck owed; attrition line entries-face 22:40:59 ledger 324489; nulls_p2 16 shards complete; prereg s7/s8 backfill same commit)"
+  },
+  {
+   "id": "TRIAL-LABOR-W5-GENERATE",
+   "ticket_ref": "T-2026-09-29-114 WAVE-5 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r405 commit 26bab31b + seeds R250 same-commit re-picked 20302000/20302500/20303000 per three-step law [draft berths band-collided national_team_s3_perm]; runner slice-1 built bm-a r406 selftest 73/73 hermetic; grammar face frozen r406 sha16=29720178c39425de axis_combos=64512; MSG-20260929-0015 F-04 freeze window covers prereg+seeds+ticket; W5-JUDGE sequencing gate per prereg sec.0 [behind W2/W3/W4-JUDGE + live judge faces + RAM r354]; generate = CPU pool face lawful now)",
+   "prereg_ref": "research/TRIAL_LABOR_W5_PREREG.md FROZEN (sec.3 Sobol raw 5000 = A500/B4500 eight-tuple axis R/X/S/T/STOP/GATE/VOL/YANG incl. NEW single-K-line yang-confirmation face {none,first_yang} = 64,512 axis combos; sec.1 SEVEN-source exclusion yang=none face only -- w1 149 + w2 404 + MASS 166 + w3 513 + w4_screen survivors generate-time real-read + judged products FIVE sources re-declare window; yang=first_yang any-combo = new-syntax legal; dedup T-84 s3 fingerprint + |corr|>=0.999 on the effective signal face, frozen composition filter->timing->GATE->VOL->YANG->STOP; G-YANG raw-face law data/daily/sh510300.csv open+close yang 1751/50.27% zero-warmup cross-lower-bounds yang-and-bull>=962 red-and-bear>=914 probe r162)",
+   "runner": "scripts/trial_labor_w5.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-29 01:01:04",
+   "data_gates": "in-runner fail-closed exit 2: (a) w5_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 29720178c39425de -> refuse; (c) G-VOL raw face + G-YANG raw face anchors -> refuse; (d) RAM gate three-sample >=4GB in-runner r354 law",
+   "shards": [
+    {
+     "key": "generate-0of1",
+     "status": "ready",
+     "checkpoint": "",
+     "note": "",
+     "owner": "bm-a",
+     "owner_since": "2026-09-29 01:10:10"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE measured ~2min n=3810 bm-b 12:27 pool-burned; W3 ~5min): 5000 signal builds + gate+vol+yang overlays (vectorized row-mask mul) + stop-overlay dedup face + ~5000x5000 naive-corr; single-process streaming masks dropped per-candidate (W1 r348 RAM law); peak ~1.5-2GB; RAM gate in-runner exit 2 = the protection; py<70% fill face = autofill tick claims within ~10min"
+   }
   }
  ]
 }
