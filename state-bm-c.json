@@ -1,9 +1,9 @@
 {
  "machine_id": "bm-c",
- "round_no": 177,
+ "round_no": 178,
  "updated": "2026-09-28T19:31:10+08:00",
  "note": "r177-cont: dead-session salvage landed (autofill FAST_CONFIRM fc27e0ef selftest ALL PASS + T-110 bm-c slice closed/handback venv 5/5 re-verified + provenance script committed) + runtime dirt r290 commit + rebase 13 UU --ours origin-keep + 3 CEO orders same-round (O-1716 ack via T-110, O-1750 ack standing, O-1755 FULL EXECUTE: toolchain 7/7 yq v4.53.6 filled + MCP 3 servers merged + skills 33/33 verified, receipt O-20260928-1925-bm-c) + W4-JUDGE lane routing fix lane_owner=bm-b (37-crash storm root cause, double-file law) + MSG-1825 processed (prereg FROZEN + seed 20291500 verified on-chain; runner + s1c event_ledger = r178) + S6 all-green + D-02 guard re-verified",
- "last_round_ts": "2026-09-28T19:31:10+08:00",
+ "last_round_ts": "2026-09-28T19:47:28",
  "did": "S0-1 anchor -> S0 salvage+rebase+push -> S0.5 3 orders (O-1755 install 3 legs) + decisions audit (D-04~06 non-BigMoney zero-action) -> S1 smoke 25/25 -> S2 boards (T-110 open handback) -> S3 salvage + lane fix + stale-takeover verification -> S6 chain green -> S7 closeout",
  "verify": "autofill selftest ALL PASS (S16i/S16i2 new); venv import 5/5 re-run; prereg FROZEN head-3 verified; seed row 20291500 in-tree; lane_owner flip double-file verified round-trip; smoke 25/25; S6 all legs rc=0; orders_ack 119; schtasks loop/watchdog/dispatcher all alive",
  "next": "r178 = T-106 s3 runner build (scripts/national_team_s3_review.py, selftest-first per MSG-1825 plan) + s1c event_ledger.json (anchor 4 precondition, dual-source citations R176 contamination gate) -> ladder tranche-1(c) runner_exists gate auto-arms + bar-landing retry when 09-29 bar lands (09-28 holiday confirmed) + dispatcher fill_ladder adoption slice + SLA 60s tighten",
