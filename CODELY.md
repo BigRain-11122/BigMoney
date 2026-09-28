@@ -33,3 +33,4 @@
 - [2026-09-28 14:3 r169 bm-c] 坑律：**PS 批量链运行器禁用 `Invoke-Expression $cmd '2>&1'` 双位参写法——第二位置参触发 ParameterBinding 异常，try/catch 全腿吞成 rc=99 假红（r169 S6 链首跑 20/20 全 99 实录）**；多腿命令+exit code 采集正解=`cmd /c "$cmd > `"$tmp`" 2>&1"` 逐腿重定向后读 $LASTEXITCODE。诊断签名=全腿同码 99/零 stdout=运行器面非腿面故障。How to apply：S6 链/任何逐腿 rc 记录脚本一律 cmd /c 范式（r169bmc_s6_chain_a/b.json 证据件）。
 冷层指针：坑律正典 2026-09-28 五十四批（r387 bm-b 窗·水位律当窗整编：push-storm 并集后 10,519B 复超 ≤10KB 硬线）：r387 judge-finalize 同链串行律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十四批』节（行级零丢失校验）。
 冷层指针：坑律正典 2026-09-28 五十四批（续）：r387 资源快照换算复用律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十四批』节（行级零丢失校验）。
+冷层指针：坑律正典 2026-09-28 五十五批（r387 bm-b 窗·水位律当窗整编：storm 条 append 后 10,575B 复超 ≤10KB 硬线）：r387 池修复双面同步律（shared+lane）+轮尾 add -A 前 reload 断言 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十五批』节（行级零丢失校验）。
