@@ -647,7 +647,8 @@
    "pid": 15652,
    "runner_sha256": "44bf81ffa87535dc",
    "fill_latency_min": 138.4,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-28 12:10:01",
@@ -666,10 +667,15 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-09-28 12:20:01",
+  "ts": "2026-09-28 12:30:01",
   "machine": "bm-b",
-  "py_cpu_pct": 30.8,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 24.8,
+  "keepalive": [
+   "censusw2b-0of1"
+  ],
+  "verdict": "claim_lost_yield",
+  "entry": "TRIAL-LABOR-W4-GENERATE",
+  "shard": "generate-0of1"
  },
  "lane_machine": "bm-b"
 }
