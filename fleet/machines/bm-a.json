@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28 09:30:18",
- "current_task": "R396 done: TRIAL_LABOR_W4 prereg FROZEN+pushed (T-98 claim-and-start; VOL axis seven-tuple 32,256 combos; bm-b r369 ruling disposition = W4-JUDGE sequenced behind RAM r354 in-flight judge faces) + IntradayMarks 09:25 first-fire PASS (pre-open legal no-op) + S6 33 legs rc=0 + CODELY recompile batch-42 10,238B<=10KB",
+ "last_seen": "2026-09-28 10:00:06",
+ "current_task": "R397 done: TRIAL_LABOR_W4 runner built+pushed (T-98 slice-1+1b; selftest 84/84 hermetic; grammar d498e9343ee57460; pool TRIAL-LABOR-W4-GENERATE ready claimed by tick 09:50, generate burn next) + S6 33 legs rc=0 + 11-face push-storm canon resolve + CODELY r397 pitlaw (batch-43 yielded to bmb r373)",
  "cpu_cores": 32,
- "cpu_pct": 8.0,
- "free_ram_gb": 42.9,
+ "cpu_pct": 15.9,
+ "free_ram_gb": 57.8,
  "gpu_free_vram_gb": 5.5,
- "verdict": "py_low_board_clear legal idle (board closed 0 open; W4 prereg frozen = next-wave prep zero-latency for RAM window; pool 1 ready W2B census bm-b lane guard; judge faces waiting = bmb flip executor serial + RAM r354; IntradayMarks armed 09:25 first-fire PASS, marks capture from 09:35 tick)",
+ "verdict": "py_low_board_clear legal idle (board 0 open; pool 2 ready: censusw2b bm-b lane + W4-GENERATE just entered = autofill fill face; W4-JUDGE queued behind RAM r354 sequencing gate per prereg sec.0; generate burn ~5min = real CPU payload arriving via tick 10:00)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,24 +108,24 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790559018,
- "clock_read": "2026-09-28T09:30:18+08:00",
+ "heartbeat_epoch_utc": 1790560806,
+ "clock_read": "2026-09-28T10:00:06+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 5.5,
  "task": "round-closed",
- "free_ram_mb": 42900,
+ "free_ram_mb": 59139,
  "gpu": {
   "present": true,
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 396,
+ "round_no": 397,
  "gpu_idle_vram_mb": 5629,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 42.9,
+ "idle_ram_gb": 57.8,
  "gpu0_free_vram_gb": 5.5,
- "cpu_util_pct": 36.0,
+ "cpu_util_pct": 15.9,
  "total_ram_gb": 100.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-27 09:3x, 6631MiB in use)",
  "prod_lanes": [
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 396,
- "loop_round": 396
+ "round": 397,
+ "loop_round": 397
 }
