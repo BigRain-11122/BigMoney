@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-26 18:43:26",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "CN-CORE-DDCTL-P1",
-   "shard": "coreddctl-0of1",
-   "pid": 37364,
-   "runner_sha256": "c4161eecb0689b48",
-   "fill_latency_min": 25.3,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-26 23:40:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -674,13 +661,47 @@
    "runner_sha256": "f9a5aab06d0e4829",
    "fill_latency_min": 477.9,
    "target_met": false
+  },
+  {
+   "ts": "2026-09-28 14:10:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 6.2,
+   "fuse_skipped": [
+    {
+     "entry": "CENSUS-FUS-S2-W2B",
+     "shard": "censusw2b-0of1",
+     "sig": "scripts/census_fusion_s2_w2b.py|run",
+     "fuse_refusals": 2
+    }
+   ],
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W2-JUDGE",
+   "shard": "judge-0of1",
+   "pid": 18172,
+   "runner_sha256": "f9a5aab06d0e4829",
+   "fill_latency_min": 497.8,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-28 14:00:01",
+  "ts": "2026-09-28 14:10:01",
   "machine": "bm-b",
-  "py_cpu_pct": 74.5,
-  "verdict": "py_loaded"
+  "py_cpu_pct": 6.2,
+  "fuse_skipped": [
+   {
+    "entry": "CENSUS-FUS-S2-W2B",
+    "shard": "censusw2b-0of1",
+    "sig": "scripts/census_fusion_s2_w2b.py|run",
+    "fuse_refusals": 2
+   }
+  ],
+  "verdict": "launched",
+  "entry": "TRIAL-LABOR-W2-JUDGE",
+  "shard": "judge-0of1",
+  "pid": 18172,
+  "runner_sha256": "f9a5aab06d0e4829",
+  "fill_latency_min": 497.8,
+  "target_met": false
  },
  "lane_machine": "bm-b"
 }
