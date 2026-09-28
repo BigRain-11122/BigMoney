@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-27 01:00:01",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "REV-OSC-STOCK-P1",
-   "shard": "revosc-0of1",
-   "pid": 53908,
-   "runner_sha256": "fde852fe7bf8fd7a",
-   "fill_latency_min": 29.1,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-27 01:10:01",
    "machine": "bm-b",
    "py_cpu_pct": 3.2,
@@ -650,15 +637,31 @@
    "fill_latency_min": 234.0,
    "target_met": false,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-29 01:40:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 1.1,
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W5-GENERATE",
+   "shard": "generate-0of1",
+   "pid": 88880,
+   "runner_sha256": "88edee32d296e8b1",
+   "fill_latency_min": 39.1,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-29 01:20:01",
+  "ts": "2026-09-29 01:40:01",
   "machine": "bm-a",
   "py_cpu_pct": 1.1,
-  "verdict": "claim_lost_yield",
+  "verdict": "launched",
   "entry": "TRIAL-LABOR-W5-GENERATE",
-  "shard": "generate-0of1"
+  "shard": "generate-0of1",
+  "pid": 88880,
+  "runner_sha256": "88edee32d296e8b1",
+  "fill_latency_min": 39.1,
+  "target_met": false
  },
  "lane_machine": "bm-a"
 }
