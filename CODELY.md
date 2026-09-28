@@ -4,6 +4,7 @@
 ### Feedback
 ### Project
 - [2026-09-29 r407 bm-b] 坑律八十一批（收割回执路径必须源码常量解析律·静默长活死亡推断禁律）：W5-JUDGE finalize 收割时以直觉路径 results\w5_judge.json Test-Path 探活→「pid3108 死亡无回执」假诊断，险致误重启双 finalize（真路径=results\trial_labor_w5\w5_judge.json，JUDGE_FILE 常量在 scripts/trial_labor_w5.py:118）；实况=分离 finalize 03:26:33→03:48:39 正常 22min 静默烧（W2/W4 同构 25-27min，静默段零日志写+mtime 停更≠死亡），err 空非崩溃证据。姊妹面：PS `git show >` 重定向=UTF-16 转码，git blob 字节级取证必须 python subprocess 直取（本轮 indent 假差异两连坑皆直觉路径+转码所致）。How to apply：分离长活收割判据=先 rg runner 源码定产物路径常量再探活；重启前必先读代码序（_dump 先于 print=日志 print 齐≠未落盘）。
+- [2026-09-29 04:1x] 坑律·自开票认领字段面（r197 bm-c 实录·T-116）：开票同轮自认领必须落 claimed_by/claimed_at 两字段——认领事实只写进 note/created_by 散文=他机「他人 claimed 禁碰」守卫读字段时看到 None=碰撞风险面（T-116 r193 开票漏字段·r197 补登时 origin 零竞争认领实证）；范式=票面 JSON 字段即法，散文注记非法源。How to apply：任何机器开票+自认领，同 commit 必带两字段；缺字段票=发现即补登+验证 origin 无竞争。
 ### Reference
 冷层指针：坑律正典 2026-09-28 六十七/六十八批+r403 bm-a 执行记录+r187 判定回执+六十九批（共 5 条·r189 bm-c 窗水位律当窗整编·行级零丢失校验）全文 verbatim=archive 202609.md『坑律归档 2026-09-29 r189 bm-c 窗批』节。
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。

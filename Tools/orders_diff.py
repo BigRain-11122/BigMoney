@@ -12,13 +12,16 @@ Usage (from repo root):
     python Tools/orders_diff.py --strict   # exit 1 if any unacked
 
 Ack format contract (see fleet/machines/*.json orders_ack):
-    "FULL ENUMERATION N/N (...: O-<HHMM>/<HHMM>/... + O-<yyyymmdd>-<HHMM>)"
-An order file O-<yyyymmdd>-<HHMM>-<machine>.md is ACKED if any of:
+    v2 LIST (current, since ack enumeration outgrew the token string): a JSON
+    list of full order FILENAMES, e.g. ["O-20260924-0100-bm-c.md", ...].
+    An order file is ACKED if its stem ("O-...-<machine>") is a member.
+    v1 legacy STRING: "FULL ENUMERATION N/N (...: O-<HHMM>/<HHMM>/... + O-<yyyymmdd>-<HHMM>)"
     "O-<HHMM>"            in ack   (first-entry form)
     "/<HHMM>"             in ack   (slash-list form)
     "O-<yyyymmdd>-<HHMM>" in ack   (date-form token, e.g. cross-day orders)
-If multiple orders ever share one HHMM token on different dates, the
-date-form check disambiguates -- keep both tokens in the ack string.
+    (r197 bm-c: heartbeat format moved to the v2 list while this helper kept
+    the v1 string logic -> list `in` is element-membership not substring ->
+    122/122 false-UNACKED; both formats now supported, scan stays canonical.)
 """
 import json
 import os
@@ -45,6 +48,14 @@ def unacked_orders(machine_file: str = MACHINE_FILE) -> list:
     except (OSError, ValueError):
         ack = ""
     missing = []
+    if isinstance(ack, list):
+        # v2 list-of-filenames format: element membership on stems.
+        acked = {e[:-3] if isinstance(e, str) and e.endswith(".md") else e
+                 for e in ack if isinstance(e, str)}
+        for name in files:
+            if name[:-3] not in acked:
+                missing.append(name)
+        return missing
     for name in files:
         stem = name[:-3]                      # strip .md
         parts = stem.split("-")              # O / yyyymmdd / HHMM / machine
