@@ -121,6 +121,14 @@ FILL_TARGET_MIN = 10.0    # O-2100 s2.2 hard target
 FUSE_CONFIRM_MIN = 25.0   # O-0947: crash confirm window -- > one flip
                           # window (r224 landed->flip lag) + margin, so a
                           # SUCCESSFUL-but-unflipped run is never counted
+FAST_CONFIRM_MIN = 5.0    # r177bm-c instant-exit fast-confirm window:
+                          # runner dead + shard checkpoint face untouched
+                          # since spawn = deterministic gate refusal
+                          # (live-fire 18:22-18:31 W4-JUDGE P5C deep-panel
+                          # absence on non-data hosts: one claim+launch+
+                          # commit per minute for 25min before the fuse
+                          # bit). Progress-bearing deaths keep the slow
+                          # window (flip-lag false-positive guard intact).
 DETACHED = (0x00000008 | 0x00000200)   # DETACHED_PROCESS | CREATE_NEW_PROCESS_GROUP
 
 
@@ -585,6 +593,35 @@ def _sig(e):
             + ",".join(str(a) for a in e.get("runner_args", [])))
 
 
+def _ckpt_no_progress_since(sh, ts):
+    """r177bm-c fast-confirm discriminator: True when the shard's
+    checkpoint face shows ZERO progress since the given launch ts --
+    checkpoint field absent from the shard dict (conservative False:
+    keep the slow window), or the checkpoint file does not exist / was
+    not touched after the launch. An instant deterministic exit
+    (host-ineligible data gate) leaves the face exactly like this;
+    a runner that burned cells before dying always touches it."""
+    ck = sh.get("checkpoint")
+    if not isinstance(ck, str):
+        return False
+    path = ck.split(" (")[0].strip()
+    if not path:
+        return False
+    anchor = os.path.dirname(POOL)
+    if path.startswith("results/") or path.startswith("results\\"):
+        fp = os.path.join(anchor, path[len("results/"):])
+    else:
+        fp = os.path.join(ROOT, path)
+    if not os.path.exists(fp):
+        return True
+    try:
+        mtime = datetime.fromtimestamp(os.path.getmtime(fp))
+        launched = datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return False
+    return mtime < launched
+
+
 def _confirm_crashes(state, pool, myid, fuse):
     """O-0947 slice-2: confirm own-machine launches whose runner died
     without landing (shard still not done past FUSE_CONFIRM_MIN) into
@@ -618,7 +655,15 @@ def _confirm_crashes(state, pool, myid, fuse):
                 rec["ts"], "%Y-%m-%d %H:%M:%S")).total_seconds() / 60.0
         except Exception:
             continue
-        if age < FUSE_CONFIRM_MIN or _runner_alive(ent.get("runner", "")):
+        if _runner_alive(ent.get("runner", "")):
+            continue
+        # r177bm-c fast-confirm: runner dead + checkpoint face untouched
+        # since spawn + age >= FAST_CONFIRM_MIN -> instant deterministic
+        # exit; count the crash NOW instead of feeding a claim+launch+
+        # commit churn loop for the rest of the FUSE_CONFIRM_MIN window.
+        fast = (age >= FAST_CONFIRM_MIN
+                and _ckpt_no_progress_since(shard, rec.get("ts")))
+        if age < FUSE_CONFIRM_MIN and not fast:
             continue
         sig = _sig(ent)
         reg = sigs.get(sig)
@@ -2064,6 +2109,49 @@ def selftest():
            and st16["launches"][1]["crash_counted"]
            and not st16["launches"][2].get("crash_counted")
            and not st16["launches"][3].get("crash_counted"))
+        # S16i r177bm-c fast-confirm: an instant-exit launch (runner
+        # dead, checkpoint face untouched since spawn, age past
+        # FAST_CONFIRM_MIN but well under FUSE_CONFIRM_MIN) counts NOW
+        # -- the 25-min window must not feed a claim+launch+commit
+        # churn loop on host-ineligible gates (live-fire 18:22-18:31
+        # W4-JUDGE P5C deep-panel absence on non-data hosts).
+        st16i = {"launches": [
+            {"ts": (datetime.now() - timedelta(minutes=6)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"}]}
+        pool16i = {"entries": [dict(entry, shards=[
+            {"key": "s0", "status": "ready", "owner": None,
+             "checkpoint": "results/fake_ns_ckpt/judge.jsonl (row "
+                          "resume)"}])]}
+        fu16i = {"sigs": {}}
+        d16i = _confirm_crashes(st16i, pool16i, "bm-b", fu16i)
+        ok("S16i fast-confirm: dead+zero-progress+age>FAST counts now",
+           d16i and fu16i["sigs"].get("scripts/fake_runner.py|run",
+                                      {}).get("count") == 1
+           and st16i["launches"][0]["crash_counted"])
+        # S16i2 negative: checkpoint touched after spawn -> real burn
+        # died mid-flight; the slow flip-lag window still governs (a
+        # successful-but-unflipped run must never fast-count).
+        os.makedirs(os.path.join(os.path.dirname(POOL), "fake_ns_ckpt"),
+                    exist_ok=True)
+        _f16i = os.path.join(os.path.dirname(POOL), "fake_ns_ckpt",
+                             "judge.jsonl")
+        with open(_f16i, "w", encoding="utf-8") as fh:
+            fh.write("{}")
+        st16i2 = {"launches": [
+            {"ts": (datetime.now() - timedelta(minutes=6)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"}]}
+        fu16i2 = {"sigs": {}}
+        _confirm_crashes(st16i2, pool16i, "bm-b", fu16i2)
+        ok("S16i2 fast-confirm negative: post-spawn checkpoint touch "
+           "-> slow window holds (not counted)",
+           not fu16i2["sigs"]
+           and not st16i2["launches"][0].get("crash_counted"))
+        os.remove(_f16i)
+        os.rmdir(os.path.join(os.path.dirname(POOL), "fake_ns_ckpt"))
         # S16b launch gate: same runner+args+version (hash) with a
         # confirmed crash -> relaunch REFUSED, refusal counter visible.
         with open(POOL, "w", encoding="utf-8") as fh:
