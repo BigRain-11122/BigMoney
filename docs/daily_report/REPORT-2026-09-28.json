@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-28",
- "generated_at": "2026-09-28 20:57:54",
+ "generated_at": "2026-09-28 21:17:45",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,20 +286,20 @@
   "marks_asof": "2026-09-28"
  },
  "rd": {
-  "commits_24h": 658,
-  "result_jsons_landed_24h": 99,
+  "commits_24h": 668,
+  "result_jsons_landed_24h": 97,
   "digests_landed_24h": 4,
   "prereg_md_touched_24h": 26,
   "compute_audit_latest": {
-   "ts": "2026-09-28 20:53:14",
-   "py_cpu_pct": 2.0,
+   "ts": "2026-09-28 21:15:37",
+   "py_cpu_pct": 0.0,
    "flags": [
-    "supply_gap",
+    "idle_with_work",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_gap,supply_floor"
+   "verdict": "FLAG:idle_with_work,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -605,6 +605,13 @@
    "owner": "bm-a (OS iteration loop r399; P0 CEO imm"
   },
   {
+   "id": "T-2026-09-28-112",
+   "status": "open",
+   "type": "cash-leg-sleeve-intake",
+   "immediate": false,
+   "owner": ""
+  },
+  {
    "id": "T-2026-09-28-97",
    "status": "claimed",
    "type": "trial-labor-wave3-prereg",
@@ -621,12 +628,12 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 827231,
+  "total_report_tokens_est": 828670,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-28 20:10:15",
+   "prev_generated": "2026-09-28 20:29:49",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 732,
-   "mandate_growth": 0
+   "report_tokens_growth": 1439,
+   "mandate_growth": 295
   },
   "method": {
    "bpe_proxy": 3.5,
@@ -760,25 +767,13 @@
     "today_supply_gap_flags": 18
    },
    "bm-c": {
-    "latest_ts": "2026-09-28 20:26:48",
+    "latest_ts": "2026-09-28 21:15:37",
     "py_pct": 0.0,
-    "cpu_pct": 40.0,
-    "ready": 1,
-    "streak_min": 225.8,
-    "verdict": "FLAG:supply_gap,supply_floor",
+    "cpu_pct": 5.0,
+    "ready": 0,
+    "streak_min": 274.6,
+    "verdict": "FLAG:idle_with_work,supply_floor",
     "py_series_tail": [
-     [
-      "17:07",
-      0.8
-     ],
-     [
-      "17:20",
-      2.7
-     ],
-     [
-      "17:33",
-      1.4
-     ],
      [
       "17:48",
       0.2
@@ -814,12 +809,24 @@
      [
       "20:26",
       0.0
+     ],
+     [
+      "20:28",
+      0.2
+     ],
+     [
+      "20:53",
+      2.0
+     ],
+     [
+      "21:15",
+      0.0
      ]
     ],
-    "today_samples": 138,
+    "today_samples": 141,
     "today_floor_ok": 2,
     "today_sla_flags": 2,
-    "today_supply_gap_flags": 16
+    "today_supply_gap_flags": 18
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
