@@ -1,19 +1,19 @@
 {
   "latest": {
-    "ts": "2026-09-28 21:15:37",
+    "ts": "2026-09-28 21:38:35",
     "audit_version": "v2.4.1",
-    "cpu_total_pct": 5.0,
+    "cpu_total_pct": 9.0,
     "py_cpu_pct": 0.0,
     "cores": 32,
-    "py_procs": 5,
-    "result_stale_min": 0.1,
-    "fleet_open_tasks": 1,
+    "py_procs": 4,
+    "result_stale_min": 3.1,
+    "fleet_open_tasks": 0,
     "pool_ready_count": 0,
     "pool_ready_unclaimed": 0,
     "load_state": "idle-starvation",
     "pool_starvation_candidate": true,
     "pool_starvation_detail": {
-      "run_samples": 1,
+      "run_samples": 2,
       "span_min": null
     },
     "supply_gap_candidate": false,
@@ -26,11 +26,11 @@
       "breach": true
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 274.6,
+    "supply_family_streak_min": 297.6,
     "gpu": {
       "present": true,
       "util_pct": 0.0,
-      "mem_used_mb": 6172.0,
+      "mem_used_mb": 6041.0,
       "compute_apps_count": 19,
       "rogue_apps": []
     },
@@ -38,10 +38,9 @@
     "single_core_hog_candidate": false,
     "single_core_hog_detail": null,
     "flags": [
-      "idle_with_work",
       "supply_floor"
     ],
-    "verdict": "FLAG:idle_with_work,supply_floor"
+    "verdict": "FLAG:supply_floor"
   },
   "history": [
     {
@@ -4318,6 +4317,49 @@
         "supply_floor"
       ],
       "verdict": "FLAG:idle_with_work,supply_floor"
+    },
+    {
+      "ts": "2026-09-28 21:38:35",
+      "audit_version": "v2.4.1",
+      "cpu_total_pct": 9.0,
+      "py_cpu_pct": 0.0,
+      "cores": 32,
+      "py_procs": 4,
+      "result_stale_min": 3.1,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 0,
+      "pool_ready_unclaimed": 0,
+      "load_state": "idle-starvation",
+      "pool_starvation_candidate": true,
+      "pool_starvation_detail": {
+        "run_samples": 2,
+        "span_min": null
+      },
+      "supply_gap_candidate": false,
+      "supply_gap_detail": {
+        "reason": "idle-starvation"
+      },
+      "supply_floor": {
+        "ready": 0,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 297.6,
+      "gpu": {
+        "present": true,
+        "util_pct": 0.0,
+        "mem_used_mb": 6041.0,
+        "compute_apps_count": 19,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_floor"
     }
   ],
   "lane_machine": "bm-c"
