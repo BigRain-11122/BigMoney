@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T11:01:07+08:00",
- "heartbeat_epoch_utc": 1790564467,
- "clock_read": "2026-09-28T11:01:07+08:00",
- "current_task": "r377 done: S6 33 legs rc=0 (8 C-family faces stale-takeover derive @ bma silent 57min) + orders 99/99 + smoke 25/25 + MSG-1042 processed (bma silence + 15:30 collector-window contingency received); census W2B slow-tail alive i=3399/5620 no-kill + W4-GENERATE autofill pid22540 RAM-gate refuse; next: census finalize -> RAM 3-sample -> W1/MASS x4/W2/W3 judge flips -> finalize x5 -> W2/W3 intake; 15:30 new-bar window astock_daily/rev_osc + live.paper trio; 15:35+ round evaluates bma collector takeover",
+ "last_seen": "2026-09-28T11:18:17+08:00",
+ "heartbeat_epoch_utc": 1790565497,
+ "clock_read": "2026-09-28T11:18:17+08:00",
+ "current_task": "r378 done: S6 29 legs rc=0 + smoke 25/25 + orders 99/99 dual-scan zero un-acked; census W2B slow-tail alive i=3999/5620 (ETA afternoon no-kill); RAM 3.18->4.54GB approaching autofill 3-sample gate (W4-GENERATE ready auto-pick imminent); W2-JUDGE gate 2/3 discharged gate3 RAM defer; 4 C-faces bma-stale-77min takeover derive lawful; no-new-bar (09-25 MidAutumn closed, last bar 09-24) -> live.paper trio honest skip; next: census finalize -> RAM window -> judge flips x5 -> finalize -> W2/W3 intake; 15:30 new-bar window dual-lane + trio; 15:35+ bma collector takeover eval per MSG-1042",
  "cpu_cores": 16,
- "free_ram_gb": 3.18,
+ "free_ram_gb": 4.54,
  "gpu_free_vram_gb": 6.73,
  "total_ram_gb": 25.7,
- "cpu_util_pct": 36.4,
- "round_no": 377,
- "verdict": "healthy: smoke 25/25, S6 33 legs rc=0; census W2B 4-worker 100% CPU in-flight slow-tail (i=3399/5620, ckpt 10:12:33, ETA ~afternoon, no-kill law); W4-GENERATE autofill claim alive (pid22540) in-runner RAM gate honest refuse (free 0.96-3.92GB <4GB r354 three-sample); judge flips W1/MASS x4/W2/W3 all RAM-gated honest defer; orders 99/99 dual-scan; board 0 open; bma silent 57min -> C-family stale-takeover derive done by bmb r377 (O-2100 s2.4), 15:30 collector contingency per MSG-1042 for first healthy 15:35+ round; migration executor armed precheck waiting (Tuanjie editor 3 procs + census CWD holders), window to 09-29 12:00, zero interference",
+ "cpu_util_pct": 16.4,
+ "round_no": 378,
+ "verdict": "healthy: smoke 25/25, S6 29 legs rc=0, orders 99/99; census W2B 4-worker in-flight slow-tail i=3999/5620 no-kill law (ETA afternoon); RAM recovered 4.54GB near autofill gate -> W4-GENERATE ready auto-pick by C8 watchdog; W1/MASSx4/W2/W3 judge + V2-P1 all RAM-gated r354 honest defer; board 0 open all claimed; probe py_low_with_work_cands=legitimate structural occupation (census burn + RAM gates, not violation); bma silent 77min -> 4 stale-takeover derive faces lawful (O-2100 s2.4); migration executor armed precheck waiting (Tuanjie editor + census CWD), window to 09-29 12:00, zero interference",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -115,15 +115,15 @@
   "O-2026-09-27-2255-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 3.18,
+ "idle_ram_gb": 4.54,
  "gpu_free_vram_mb": 6896,
- "idle_ram_mb": 3177,
+ "idle_ram_mb": 4540,
  "gpu_idle_vram_mb": 6896,
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.73,
- "cpu_pct": 36.4,
- "round": 377,
- "free_ram_mb": 3177,
+ "cpu_pct": 16.4,
+ "round": 378,
+ "free_ram_mb": 4540,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 377
+ "loop_round": 378
 }
