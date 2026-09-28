@@ -1,0 +1,88 @@
+{
+  "face": "national_team_event_ledger",
+  "ticket_ref": "T-2026-09-28-106 s3 anchor-4 (s1c deliverable)",
+  "prereg_ref": "research/NATIONAL_TEAM_S3_REVIEW_PREREG.md §2 anchor-4 (FROZEN pre-run)",
+  "evidence_cutoff": "2026-09-24",
+  "verification_gate": "R176 AI-pollution gate + dual-source citation rule (prereg §2 anchor-4); action-confidence grading per NATIONAL_TEAM_FACE.md s4: official-announcement=confirmed / share-jump=inferred / thin-evidence=questioned",
+  "network_honesty_note": "2026-09-28 r178 window: external authoritative announcement face UNREACHABLE (zh.wikipedia.org read-timeout, www.huijin.com.cn conn-fail, web_fetch abort x3) -- point-event announcement verification DEFERRED to a future window; share-face = SSE exchange-official data (first source, already in-tree from s1 r172) and stands as the segment-level primary. Verified point events = 0 this window -> per prereg §2 frozen clause the batch converts to pure segment share-face review (return cells 0, N_eff=0, honest no-null exit). Point-event flip to verified MUST happen via changelog append-only BEFORE any burn; a re-run after a segment-form burn needs fresh prereg (append_ledger docstring law).",
+  "events": [
+    {
+      "event_id": "NT-2015-07-RESCUE",
+      "kind": "segment",
+      "action": "rescue-buy (state-capital inflow, 证金/汇金 2015 rescue wave)",
+      "window": {"start": "2015-07-03", "end": "2015-08-31"},
+      "date_basis": "segment anchor = 2015-07-03 first SSE-retrievable STAT_DATE in rescue month (s1 audit receipt); weekend policy announcements 2015-07-04/05 are public-record history; segment review uses share face only (price panel starts 2020, prereg gate-3②)",
+      "members_scope": ["510300", "510050", "510500"],
+      "status": "verified",
+      "confidence": "inferred-from-official-share-face",
+      "enters_return_cells": false,
+      "sources": [
+        {"kind": "exchange-official-data", "ref": "results/national_team/audit_receipt.json + NATIONAL_TEAM_FACE.md s1(a): SSE commonQuery official per-date share table retrievable at 2015-07-03 with 510300=85.5亿份 / 510050=169.3亿份 / 510500=12.4亿份 (three core members in-market 2015)", "verified_at": "2026-09-28 16:1x r172 bm-c"},
+        {"kind": "public-record-history", "ref": "2015-07 state rescue (证金公司 2015-07 establishment & broad-ETF purchase wave) = public-record market history; announcement-face original documents not fetchable this window (network honesty note above)", "verified_at": "2026-09-28 r178 bm-c"}
+      ]
+    },
+    {
+      "event_id": "NT-2023-10-23-HUIJIN-ETF-ANN",
+      "kind": "point",
+      "action": "HuiJin announcement: bought ETFs and will continue increasing holdings",
+      "date": "2023-10-23",
+      "date_basis": "candidate D per spec timeline (NATIONAL_TEAM_FACE.md s1c candidates); NOT yet verified against announcement original this window -- external authoritative face unreachable (see network_honesty_note)",
+      "members_scope": ["510050", "510300", "510500", "512100", "588000"],
+      "status": "unverified-announcement",
+      "confidence": "candidate (announcement fetch pending)",
+      "enters_return_cells": false,
+      "corroborating_share_face": "2023Q4 share jump visible in official SSE/F10 data (510300 month-end shares 185.2亿 2023-06-30 -> 374亿 2023-12-31, holder_structure.json period rows; institution ratio 64.7->79.4%) -- corroborates accumulation wave but does NOT verify the announcement date D (share-jump = inferred grade only)",
+      "sources": [
+        {"kind": "exchange-official-data", "ref": "results/national_team/share_series_sse.json + holder_structure.json (SSE official + EM F10 dual-validated at half-year points, s1 r172)", "verified_at": "2026-09-28 16:5x r172 bm-c"},
+        {"kind": "announcement-original", "ref": "PENDING -- HuiJin official site / CSRC announcement fetch deferred to a network-open window (append-only flip, prereg §9)", "verified_at": null}
+      ]
+    },
+    {
+      "event_id": "NT-2024-02-06-HUIJIN-EXPAND-ANN",
+      "kind": "point",
+      "action": "HuiJin announcement: expand scope of ETF purchases",
+      "date": "2024-02-06",
+      "date_basis": "candidate D per spec timeline; NOT yet verified against announcement original this window (see network_honesty_note)",
+      "members_scope": ["510050", "510300", "510500", "512100", "588000"],
+      "status": "unverified-announcement",
+      "confidence": "candidate (announcement fetch pending)",
+      "enters_return_cells": false,
+      "corroborating_share_face": "2024 share surge in official data (510300 half-year path 374->607->894亿份; institution ratio 83.1% 2024-12-31) consistent with expanded accumulation but does NOT verify the announcement date D",
+      "sources": [
+        {"kind": "exchange-official-data", "ref": "results/national_team/share_series_sse.json + holder_structure.json (s1 r172)", "verified_at": "2026-09-28 16:5x r172 bm-c"},
+        {"kind": "announcement-original", "ref": "PENDING -- announcement fetch deferred to a network-open window (append-only flip, prereg §9)", "verified_at": null}
+      ]
+    },
+    {
+      "event_id": "NT-2024H1-Q4-ACCUM",
+      "kind": "segment",
+      "action": "sustained national-team accumulation wave (2024H1 through 2024Q4)",
+      "window": {"start": "2024-01-01", "end": "2024-12-31"},
+      "date_basis": "segment = calendar-year 2024 accumulation wave; boundaries follow visible official share-face trajectory (374亿 2023-12-31 -> 894亿 2024-12-31 month-end grid)",
+      "members_scope": ["510050", "510300", "510500", "512100", "588000"],
+      "status": "verified",
+      "confidence": "inferred-from-official-share-face",
+      "enters_return_cells": false,
+      "sources": [
+        {"kind": "exchange-official-data", "ref": "results/national_team/share_series_sse.json (38 month-end points 2023-06..2026-08, SSE official) + holder_structure.json (EM F10 institution-ratio cross-validated)", "verified_at": "2026-09-28 16:5x r172 bm-c"}
+      ]
+    },
+    {
+      "event_id": "NT-2026H1-EXODUS",
+      "kind": "segment",
+      "action": "institutional-holder exodus / large redemption wave (2026-H1) -- direction attribution (state-team exit vs general institutional) PENDING s2 disclosure hard-evidence (2026 interim top-10 holders vs 2025 annual)",
+      "window": {"start": "2026-01-01", "end": "2026-06-30"},
+      "date_basis": "segment = 2026-H1 disclosure window (2025-12-31 -> 2026-06-30 report periods); member-level exit dates pending s2 PDF holder-chapter extraction per spec",
+      "members_scope": ["510050", "510300", "510500", "512100", "588000"],
+      "status": "verified-as-share-face-fact (direction attribution pending s2)",
+      "confidence": "inferred-from-official-share-face",
+      "enters_return_cells": false,
+      "sources": [
+        {"kind": "exchange-official-data", "ref": "results/national_team/share_series_sse.json + holder_structure.json: shares 510300 888->189亿 / 510050 567->64亿 / 512100 257->31亿 (2025-12-31 -> 2026-06-30), institution ratio 510050 91.5->31.8%; partial re-fill by 2026-09-24 (510300 239亿, 588000 550亿, share_snapshot.json)", "verified_at": "2026-09-28 16:5x r172 bm-c"}
+      ]
+    }
+  ],
+  "changelog": [
+    {"ts": "2026-09-28 21:0x", "by": "bm-c r178", "entry": "ledger created (s1c deliverable, anchor-4): 3 segments verified via in-tree SSE-official share face; 2 point events unverified-announcement (external announcement face unreachable this window -- wikipedia/huijin.cn/web_fetch all fail, honesty note above); verified point events = 0 -> batch converts to segment share-face review per prereg §2 frozen clause; flips are append-only via this changelog"}
+  ]
+}
