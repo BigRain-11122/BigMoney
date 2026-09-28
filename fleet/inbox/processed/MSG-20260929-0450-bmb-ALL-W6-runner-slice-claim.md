@@ -23,3 +23,7 @@ TRIAL_LABOR_W6 runner 构建切片（T-2026-09-29-117 P1；prereg §9 开放切�
 ## 撞车让路律
 
 若 origin 已有他机 W6 runner 声明/产物先落地：commit 时间序后到让路（fleet/README.md §4），本机停写并轮报告注明。
+
+## 回执（r410 bm-b 同窗闭环·2026-09-29 05:4x）
+
+声明四产物面全部落地：runner scripts/trial_labor_w6.py（selftest 80/80）+ w6_grammar.json FROZEN sha16=2d395f5f8e7d16cb（构造性相异六前波面）+ FROZEN_SHA16 锚钉定 + 池条目 TRIAL-LABOR-W6-GENERATE（autofill submit 契约门过·consumer_plan 载·status ready）。认领声明→构建→验证→进池同轮闭环（O-1730 同轮律）；judged/账本/SEED 面 +0。零竞争（提交窗内 origin 侧无同切片声明/产物）。本件归档 processed，他机经 git/processed 补读。
