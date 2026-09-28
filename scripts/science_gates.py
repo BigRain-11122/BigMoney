@@ -1078,6 +1078,17 @@ SEED_REGISTRY = {
     # full-repo scan zero hits 2026-09-28 18:2x before prereg freeze;
     # registered same commit as prereg freeze (R250 law; prereg =
     # research/NATIONAL_TEAM_S3_REVIEW_PREREG.md; F-04 MSG-20260928-1825)
+    "etf_ops_bp1": 20294000,
+    # ETF-OPS-BP1 broad-index pullback-buy chain K=200/cell same-mask
+    # random-entry nulls (T-2026-09-28-103 s2; 30 member-cell streams
+    # default_rng([20294000, cell_idx]), cell_idx<30, K=200 sequential
+    # draws per stream; band 20294000..20294029 clean gap above
+    # national_team_s3_perm band (20291500..20293499); NOTE: parked W5
+    # prereg doc claims 20291500/20292000/20292500 unregistered (parked;
+    # must re-pick on unfreeze -- national_team collision); rg --type py
+    # full-repo scan zero hits 2026-09-28 19:5x before prereg freeze;
+    # registered same commit as prereg freeze (R250 law; prereg =
+    # research/etf_ops/ETF_OPS_BP1_PREREG.md; F-04 MSG-20260928-2000)
 
 
 }
