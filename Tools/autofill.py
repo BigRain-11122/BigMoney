@@ -1332,7 +1332,13 @@ def submit(a):
     """Contract-gated pool entry append (r301+r305 law: hand-submitted
     field omissions -- missing shards, missing workers_plan, null runner
     -- are silently dropped by _pick and starve the pool; assert the trio
-    at the entry point instead of post-hoc tick forensics)."""
+    at the entry point instead of post-hoc tick forensics).
+
+    D-20260929-02 ② declaration gate: BEFORE the pool write, mandatory
+    fetch + fresh re-read of the fleet inbox pending MSG face; another
+    machine's declaration naming this entry id = REFUSED (freeze,
+    "见声明即冻结") -- read-only git fetch only, single-writer law
+    untouched. Guard fault = honest degrade log, never a silent block."""
     bad = []
     a_id = (a.id or "").strip()
     if not a_id:
@@ -1363,8 +1369,25 @@ def submit(a):
     if bad:
         for b in bad:
             print(f"REFUSED: {b}")
-        _log(f"submit REFUSED {a_id or '<empty>'}: " + "; ".join(bad))
+        _log(f"submit REFUSED {a_id or '<empty>'}: " + "; ".join(b))
         return 2
+    # D-20260929-02 ②: fresh inbox re-read BEFORE the pool write -- a
+    # stale tree is structurally blind to an unfetched declaration
+    # (r404 live-fire: bm-c 08:39 MSG landed 08:47, bm-a last fetched
+    # 08:26 -> duplicate port, 59/59 vs 62/62 double selftest tax).
+    try:
+        import inbox_guard
+        freeze, gdetail = inbox_guard.conflict(ROOT, _machine_id(),
+                                                a_id, fetch=True)
+    except Exception as ex:
+        freeze, gdetail = False, f"guard-fault {ex}"
+    if freeze:
+        print(f"REFUSED: rival declaration freeze ({gdetail}) "
+              f"per D-20260929-02 ②")
+        _log(f"submit REFUSED {a_id}: declaration freeze -- {gdetail}")
+        return 2
+    if "guard-fault" in gdetail or "fetch-fault" in gdetail:
+        _log(f"submit inbox-guard degrade {a_id}: {gdetail}")
     wp = {"workers": a.workers, "priority": a.wp_priority or "BelowNormal"}
     if a.wp_note:
         wp["note"] = a.wp_note

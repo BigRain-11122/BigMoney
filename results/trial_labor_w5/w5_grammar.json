@@ -1,0 +1,2315 @@
+{
+ "axes": {
+  "exits": [
+   "template_default",
+   "ce_machine",
+   "time_stop_5d",
+   "time_stop_7d",
+   "time_stop_10d",
+   "time_stop_20d",
+   "trailing_stop",
+   "profit_ladder"
+  ],
+  "filters": [
+   "none",
+   "depth_thresh",
+   "amplitude",
+   "liquidity",
+   "trend_slope",
+   "dual_window",
+   "fundamental_mask"
+  ],
+  "gate": [
+   "none",
+   "bull",
+   "bear"
+  ],
+  "initial_stop": [
+   "none",
+   "p3",
+   "p5",
+   "p8",
+   "p12",
+   "a15",
+   "a20",
+   "a25"
+  ],
+  "sizing": [
+   "equal_weight",
+   "inverse_vol",
+   "cap20",
+   "regime_delever"
+  ],
+  "timing": [
+   "daily_signal",
+   "weekly_grid"
+  ],
+  "vol": [
+   "none",
+   "calm",
+   "wild"
+  ],
+  "yang": [
+   "none",
+   "first_yang"
+  ]
+ },
+ "axis_combos": 64512,
+ "evidence_cutoff": "2026-09-22",
+ "exclusion": {
+  "note": "exclusion face = yang=none only; prior-wave keys yang=none-completed (semantic identity match); yang=first_yang = new-syntax legal cells (prereg sec.1)",
+  "sources": [
+   "p4_batch1_results.csv",
+   "p4_batch2a_results.csv",
+   "p4_folk_results.csv",
+   "p4_queue_results.csv",
+   "p4_batch2_results.csv",
+   "w1_screen.json survivors (generate-time)",
+   "w2_screen.json survivors (generate-time)",
+   "MASS screen survivors (generate-time, declared translation)",
+   "w3_screen.json survivors (generate-time)",
+   "w4_screen.json survivors (generate-time real-read; absent at freeze = zero rows honest)",
+   "w1_judge / MASS judged / w2_judge / w3_judge / w4_judge products (generate-time real-read re-declare window)"
+  ],
+  "stop_gate_vol_yang_none_face": [
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "registered_default_axis:stop-gate-vol-yang-none",
+    "fn": "low_vol_long",
+    "module": "volatility",
+    "sig_params": {
+     "n": 60,
+     "rebal_days": null,
+     "top_k": 5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "registered_default_axis:stop-gate-vol-yang-none",
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "registered_default_axis:stop-gate-vol-yang-none",
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 8
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "registered_default_axis:stop-gate-vol-yang-none",
+    "fn": "engulf_reversal",
+    "module": "ta",
+    "sig_params": {
+     "drop_th": -0.05
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "registered_default_axis:stop-gate-vol-yang-none",
+    "fn": "needle_probe",
+    "module": "patterns",
+    "sig_params": {
+     "drop_th": -0.05,
+     "shadow_pct": 0.02
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "registered_default_axis:stop-gate-vol-yang-none",
+    "fn": "vol_drought_reversal",
+    "module": "patterns",
+    "sig_params": {
+     "drop_th": -0.05,
+     "vol_floor": 0.55
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "ants_climb",
+    "module": "folk",
+    "sig_params": {
+     "max_day": 0.012
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "false_break_back",
+    "module": "folk",
+    "sig_params": {
+     "n_back": 3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "gap_up_hold",
+    "module": "folk",
+    "sig_params": {
+     "gap_th": 0.01
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "lian_yin_first_yang",
+    "module": "folk",
+    "sig_params": {
+     "n_down": 3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "low_suction",
+    "module": "folk",
+    "sig_params": {
+     "shrink": 0.8
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "rsi_low_flat",
+    "module": "folk",
+    "sig_params": {
+     "low_th": 25,
+     "n": 14
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "second_wave",
+    "module": "folk",
+    "sig_params": {
+     "retest": 0.05
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "volume_mound",
+    "module": "folk",
+    "sig_params": {
+     "mound": 1.3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "big_yin_shakeout",
+    "module": "patterns",
+    "sig_params": {
+     "big_yin": -0.035
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "box_breakout",
+    "module": "patterns",
+    "sig_params": {
+     "box_n": 20,
+     "box_th": 0.08,
+     "vol_mult": 1.3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "doji_at_low",
+    "module": "patterns",
+    "sig_params": {
+     "drop_th": -0.05
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "immortal_guide",
+    "module": "patterns",
+    "sig_params": {
+     "shadow_pct": 0.015
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "inside_bar_breakup",
+    "module": "patterns",
+    "sig_params": {}
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "island_reversal",
+    "module": "patterns",
+    "sig_params": {
+     "gap": 0.01
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "ma_converge_break",
+    "module": "patterns",
+    "sig_params": {
+     "spread": 0.015
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "macd_divergence",
+    "module": "patterns",
+    "sig_params": {
+     "look": 30
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "morning_star",
+    "module": "patterns",
+    "sig_params": {
+     "big_red": -0.03,
+     "small_body": 0.01
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "n_shape",
+    "module": "patterns",
+    "sig_params": {
+     "leg_up": 0.04
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "obv_divergence",
+    "module": "patterns",
+    "sig_params": {
+     "look": 30
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "piercing_line",
+    "module": "patterns",
+    "sig_params": {
+     "big_red": -0.02
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "three_methods_up",
+    "module": "patterns",
+    "sig_params": {
+     "big_yang": 0.03
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "three_soldiers",
+    "module": "patterns",
+    "sig_params": {
+     "min_body": 0.004
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "yang_break_3ma",
+    "module": "patterns",
+    "sig_params": {
+     "spread": 0.015
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "bb_squeeze_breakout",
+    "module": "ta",
+    "sig_params": {
+     "bb_n": 20,
+     "k": 2.0,
+     "width_n": 60
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "cci_revert",
+    "module": "ta",
+    "sig_params": {
+     "cci_n": 20,
+     "entry_th": -100.0,
+     "exit_th": 100.0,
+     "trend_ma": 60
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "hammer_reversal",
+    "module": "ta",
+    "sig_params": {
+     "body_max": 0.35,
+     "drop_th": -0.05,
+     "shadow_mult": 2.0
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "kdj_reversal",
+    "module": "ta",
+    "sig_params": {
+     "entry_j": 0.0,
+     "exit_j": 80.0,
+     "kdj_n": 9,
+     "trend_ma": 60
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "macd_trend",
+    "module": "ta",
+    "sig_params": {
+     "fast": 12,
+     "signal": 9,
+     "slow": 26
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "nr7_breakout",
+    "module": "ta",
+    "sig_params": {
+     "hold_n": 5,
+     "nr_n": 7
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "rsi_divergence",
+    "module": "ta",
+    "sig_params": {
+     "look": 30,
+     "n": 14
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "rsrs_timing",
+    "module": "ta",
+    "sig_params": {
+     "buy_z": 0.8,
+     "exit_z": -0.8,
+     "window": 18,
+     "z_win": 250
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "streak_up",
+    "module": "ta",
+    "sig_params": {
+     "min_up": 0.0,
+     "streak_n": 3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "strong_close",
+    "module": "ta",
+    "sig_params": {
+     "pos_th": 0.85,
+     "vol_len": 20,
+     "vol_mult": 1.5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "vol_breakout",
+    "module": "ta",
+    "sig_params": {
+     "brk_len": 20,
+     "exit_len": 10,
+     "vol_avg_len": 20,
+     "vol_mult": 1.5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "williams_reversal",
+    "module": "ta",
+    "sig_params": {
+     "entry_th": -80.0,
+     "exit_th": -20.0,
+     "wr_n": 14
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "negative_default_axis:stop-gate-vol-yang-none",
+    "fn": "vol_breakout",
+    "module": "volatility",
+    "sig_params": {
+     "n": 20
+    }
+   }
+  ]
+ },
+ "faces": {
+  "composite_rotation.composite_score": "panel",
+  "composite_rotation.top_n_rotation": "panel",
+  "event.breakout_confirm": "persym",
+  "event.double_bottom": "persym",
+  "event.gap_fill": "persym",
+  "folk.ants_climb": "persym",
+  "folk.false_break_back": "persym",
+  "folk.gap_up_hold": "persym",
+  "folk.lian_yin_first_yang": "persym",
+  "folk.low_suction": "persym",
+  "folk.rsi_low_flat": "persym",
+  "folk.second_wave": "persym",
+  "folk.volume_mound": "persym",
+  "macro.csi300_momentum_filter": "persym",
+  "macro.csi300_trend_filter": "persym",
+  "macro.drawdown_filter": "persym",
+  "macro.volatility_regime_filter": "persym",
+  "mean_reversion.bollinger_breakout": "persym",
+  "mean_reversion.pullback_bounce": "persym",
+  "mean_reversion.rsi2": "persym",
+  "mean_reversion.rsi_revert": "persym",
+  "mean_reversion.zscore_revert": "persym",
+  "momentum.cross_sectional_momentum": "panel",
+  "momentum.dual_momentum": "panel",
+  "momentum.momentum_acceleration": "panel",
+  "momentum.relative_strength_rotation": "panel",
+  "momentum.time_series_momentum": "persym",
+  "patterns.big_yin_shakeout": "persym",
+  "patterns.box_breakout": "persym",
+  "patterns.doji_at_low": "persym",
+  "patterns.duck_head": "persym",
+  "patterns.immortal_guide": "persym",
+  "patterns.inside_bar_breakup": "persym",
+  "patterns.island_reversal": "persym",
+  "patterns.ma_converge_break": "persym",
+  "patterns.macd_divergence": "persym",
+  "patterns.morning_star": "persym",
+  "patterns.n_shape": "persym",
+  "patterns.needle_probe": "persym",
+  "patterns.obv_divergence": "persym",
+  "patterns.piercing_line": "persym",
+  "patterns.three_methods_up": "persym",
+  "patterns.three_soldiers": "persym",
+  "patterns.vol_drought_reversal": "persym",
+  "patterns.yang_break_3ma": "persym",
+  "seasonal.holiday_effect": "persym",
+  "seasonal.month_end_effect": "calendar",
+  "seasonal.month_seasonality": "calendar",
+  "seasonal.trend_by_season": "persym",
+  "seasonal.weekday_effect": "calendar",
+  "sentiment.amount_rank": "panel",
+  "sentiment.intraday_momentum": "panel",
+  "sentiment.overnight_drift": "panel",
+  "sentiment.price_volume_trend": "panel",
+  "sentiment.turnover_surge": "panel",
+  "ta.bb_squeeze_breakout": "persym",
+  "ta.cci_revert": "persym",
+  "ta.engulf_reversal": "persym",
+  "ta.hammer_reversal": "persym",
+  "ta.kdj_reversal": "persym",
+  "ta.macd_trend": "persym",
+  "ta.nr7_breakout": "persym",
+  "ta.rsi_divergence": "persym",
+  "ta.rsrs_timing": "persym",
+  "ta.streak_up": "persym",
+  "ta.strong_close": "persym",
+  "ta.vol_breakout": "persym",
+  "ta.williams_reversal": "persym",
+  "trend.donchian_breakout": "persym",
+  "trend.dual_ma_cross": "persym",
+  "trend.parabolic_sar": "persym",
+  "trend.supertrend": "persym",
+  "trend.triple_ma": "persym",
+  "volatility.low_vol_long": "panel",
+  "volatility.vol_breakout": "persym",
+  "volatility.vol_regime_switch": "persym",
+  "volatility.vol_target": "persym"
+ },
+ "families": {
+  "A": [
+   {
+    "fn": "low_vol_long",
+    "module": "volatility",
+    "registered_ovr": {
+     "loss_time_days": 16
+    },
+    "registered_params": {
+     "max_positions": 5,
+     "position_size_pct": 0.1,
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "sig_params": {
+     "n": 60,
+     "rebal_days": null,
+     "top_k": 5
+    },
+    "trader_id": "VOLATILITY-CE-01"
+   },
+   {
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    },
+    "registered_params": {
+     "max_positions": 5,
+     "position_size_pct": 0.19,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 5
+    },
+    "trader_id": "COMPOSITE-CE-01"
+   },
+   {
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    },
+    "registered_params": {
+     "max_positions": 8,
+     "position_size_pct": 0.1187,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_lock": 0.05,
+     "trailing_stop_activate": 0.03
+    },
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 8
+    },
+    "trader_id": "COMPOSITE-CE-02"
+   },
+   {
+    "fn": "engulf_reversal",
+    "module": "ta",
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    },
+    "registered_params": {
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_lock": 0.05,
+     "trailing_stop_activate": 0.03
+    },
+    "sig_params": {
+     "drop_th": -0.05
+    },
+    "trader_id": "ENGULF-CE-01"
+   },
+   {
+    "fn": "needle_probe",
+    "module": "patterns",
+    "registered_ovr": {},
+    "registered_params": {},
+    "sig_params": {
+     "drop_th": -0.05,
+     "shadow_pct": 0.02
+    },
+    "trader_id": "NEEDLE-DE-01"
+   },
+   {
+    "fn": "vol_drought_reversal",
+    "module": "patterns",
+    "registered_ovr": {
+     "loss_time_days": 16
+    },
+    "registered_params": {
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "sig_params": {
+     "drop_th": -0.05,
+     "vol_floor": 0.55
+    },
+    "trader_id": "DROUGHT-CE-01"
+   }
+  ],
+  "B": [
+   {
+    "fn": "composite_score",
+    "module": "composite_rotation"
+   },
+   {
+    "fn": "breakout_confirm",
+    "module": "event"
+   },
+   {
+    "fn": "double_bottom",
+    "module": "event"
+   },
+   {
+    "fn": "gap_fill",
+    "module": "event"
+   },
+   {
+    "fn": "ants_climb",
+    "module": "folk"
+   },
+   {
+    "fn": "false_break_back",
+    "module": "folk"
+   },
+   {
+    "fn": "gap_up_hold",
+    "module": "folk"
+   },
+   {
+    "fn": "lian_yin_first_yang",
+    "module": "folk"
+   },
+   {
+    "fn": "low_suction",
+    "module": "folk"
+   },
+   {
+    "fn": "rsi_low_flat",
+    "module": "folk"
+   },
+   {
+    "fn": "second_wave",
+    "module": "folk"
+   },
+   {
+    "fn": "volume_mound",
+    "module": "folk"
+   },
+   {
+    "fn": "csi300_momentum_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "csi300_trend_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "drawdown_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "volatility_regime_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "bollinger_breakout",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "pullback_bounce",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "rsi2",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "rsi_revert",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "zscore_revert",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "cross_sectional_momentum",
+    "module": "momentum"
+   },
+   {
+    "fn": "dual_momentum",
+    "module": "momentum"
+   },
+   {
+    "fn": "momentum_acceleration",
+    "module": "momentum"
+   },
+   {
+    "fn": "relative_strength_rotation",
+    "module": "momentum"
+   },
+   {
+    "fn": "time_series_momentum",
+    "module": "momentum"
+   },
+   {
+    "fn": "big_yin_shakeout",
+    "module": "patterns"
+   },
+   {
+    "fn": "box_breakout",
+    "module": "patterns"
+   },
+   {
+    "fn": "doji_at_low",
+    "module": "patterns"
+   },
+   {
+    "fn": "duck_head",
+    "module": "patterns"
+   },
+   {
+    "fn": "immortal_guide",
+    "module": "patterns"
+   },
+   {
+    "fn": "inside_bar_breakup",
+    "module": "patterns"
+   },
+   {
+    "fn": "island_reversal",
+    "module": "patterns"
+   },
+   {
+    "fn": "ma_converge_break",
+    "module": "patterns"
+   },
+   {
+    "fn": "macd_divergence",
+    "module": "patterns"
+   },
+   {
+    "fn": "morning_star",
+    "module": "patterns"
+   },
+   {
+    "fn": "n_shape",
+    "module": "patterns"
+   },
+   {
+    "fn": "obv_divergence",
+    "module": "patterns"
+   },
+   {
+    "fn": "piercing_line",
+    "module": "patterns"
+   },
+   {
+    "fn": "three_methods_up",
+    "module": "patterns"
+   },
+   {
+    "fn": "three_soldiers",
+    "module": "patterns"
+   },
+   {
+    "fn": "yang_break_3ma",
+    "module": "patterns"
+   },
+   {
+    "fn": "holiday_effect",
+    "module": "seasonal"
+   },
+   {
+    "fn": "month_end_effect",
+    "module": "seasonal"
+   },
+   {
+    "fn": "month_seasonality",
+    "module": "seasonal"
+   },
+   {
+    "fn": "trend_by_season",
+    "module": "seasonal"
+   },
+   {
+    "fn": "weekday_effect",
+    "module": "seasonal"
+   },
+   {
+    "fn": "amount_rank",
+    "module": "sentiment"
+   },
+   {
+    "fn": "intraday_momentum",
+    "module": "sentiment"
+   },
+   {
+    "fn": "overnight_drift",
+    "module": "sentiment"
+   },
+   {
+    "fn": "price_volume_trend",
+    "module": "sentiment"
+   },
+   {
+    "fn": "turnover_surge",
+    "module": "sentiment"
+   },
+   {
+    "fn": "bb_squeeze_breakout",
+    "module": "ta"
+   },
+   {
+    "fn": "cci_revert",
+    "module": "ta"
+   },
+   {
+    "fn": "hammer_reversal",
+    "module": "ta"
+   },
+   {
+    "fn": "kdj_reversal",
+    "module": "ta"
+   },
+   {
+    "fn": "macd_trend",
+    "module": "ta"
+   },
+   {
+    "fn": "nr7_breakout",
+    "module": "ta"
+   },
+   {
+    "fn": "rsi_divergence",
+    "module": "ta"
+   },
+   {
+    "fn": "rsrs_timing",
+    "module": "ta"
+   },
+   {
+    "fn": "streak_up",
+    "module": "ta"
+   },
+   {
+    "fn": "strong_close",
+    "module": "ta"
+   },
+   {
+    "fn": "vol_breakout",
+    "module": "ta"
+   },
+   {
+    "fn": "williams_reversal",
+    "module": "ta"
+   },
+   {
+    "fn": "donchian_breakout",
+    "module": "trend"
+   },
+   {
+    "fn": "dual_ma_cross",
+    "module": "trend"
+   },
+   {
+    "fn": "parabolic_sar",
+    "module": "trend"
+   },
+   {
+    "fn": "supertrend",
+    "module": "trend"
+   },
+   {
+    "fn": "triple_ma",
+    "module": "trend"
+   },
+   {
+    "fn": "vol_breakout",
+    "module": "volatility"
+   },
+   {
+    "fn": "vol_regime_switch",
+    "module": "volatility"
+   },
+   {
+    "fn": "vol_target",
+    "module": "volatility"
+   }
+  ]
+ },
+ "gate_spec": {
+  "bear": "close(d) < MA200(d) permits entry (bear-participation face)",
+  "bull": "close(d) >= MA200(d) permits entry (bull-participation face)",
+  "composition_order": "signal -> filter -> timing -> GATE -> initial-stop (frozen identically on the dedup face and the engine face)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as the signal, zero lookahead)",
+  "ma_window": 200,
+  "member": "510300",
+  "min_periods": 200,
+  "nan_window": "first 199 bars MA200=NaN -> gate-closed on BOTH bull/bear faces (conservative; panel-level na-window count disclosed)",
+  "none": "no gate (W1/W2 semantic baseline face)",
+  "overlay": "gate-closed signal day -> effective signal zeroed (grammar layer, MSG-0440 E1-mapping primitive; engine/exit_rules.py ZERO touch; engine-native signal-off exit semantics shared by every template/cell)"
+ },
+ "grammar_kind": "w5-yang-gate-extended",
+ "grammar_sha256": "29720178c39425de",
+ "inventory_audit": {
+  "a_templates": 6,
+  "a_unique_module_fn_keys": 5,
+  "b_fns": 72,
+  "count_note": "prereg prose 86-fn/B-76 count not reproducible by any standard probe (all-visible=own=81 total); W1-lineage inventory convention = frozen generation face (B=72 machinery actual); W2 MSG-0440 / W3/W4 selftest disclosures carry over verbatim; prereg 4,500/76=59.2 prose average reads as 4,500/72=62.5 on the machinery face",
+  "grid_own_fns_excluded": 4,
+  "modules_on_disk": 13,
+  "non_grid_fns": 77
+ },
+ "k_nulls": 200,
+ "n_draws": {
+  "A": 500,
+  "B": 4500
+ },
+ "negative_priors": null,
+ "prereg": "research/TRIAL_LABOR_W5_PREREG.md",
+ "seeds": {
+  "derivation": "Sobol(seed=20302000+family_idx, scramble) param box + default_rng([20302000+family_idx, 7919]) eight-tuple axis stream R/X/S/T/STOP/GATE/VOL/YANG (prereg s.3; A idx 0-5, B idx 6+slot; re-pick disclosure r405: draft berth 20291500 band-collided with national_team_s3_perm, three-step law)",
+  "trial_labor_w5_gen": 20302000,
+  "trial_labor_w5_scrnull": 20302500,
+  "trial_labor_w5_unc": 20303000
+ },
+ "stop_fill_mapping": "prereg literal: trigger day-D low -> exit D+1 OPEN; engine exits have no open-fill primitive (all exits fill at signal-day close, engine native shared by registered members); grammar-layer mapping: exit-sig augment at D+1 -> engine-native fill at D+1 CLOSE; conservative intent kept (post-trigger next-day, overnight gap borne); disclosed per-cell",
+ "stop_formula": {
+  "a15": {
+   "kind": "atr",
+   "mult": 15.0
+  },
+  "a20": {
+   "kind": "atr",
+   "mult": 20.0
+  },
+  "a25": {
+   "kind": "atr",
+   "mult": 25.0
+  },
+  "none": null,
+  "p12": {
+   "kind": "pct",
+   "stop": 0.12
+  },
+  "p3": {
+   "kind": "pct",
+   "stop": 0.03
+  },
+  "p5": {
+   "kind": "pct",
+   "stop": 0.05
+  },
+  "p8": {
+   "kind": "pct",
+   "stop": 0.08
+  }
+ },
+ "value_domains": {
+  "composite_rotation.composite_score": {},
+  "composite_rotation.top_n_rotation": {
+   "rebal_days": [
+    10,
+    20,
+    40
+   ],
+   "top_n": [
+    3,
+    5,
+    8
+   ]
+  },
+  "event.breakout_confirm": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ]
+  },
+  "event.double_bottom": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "tolerance": [
+    0.015,
+    0.03,
+    0.045
+   ]
+  },
+  "event.gap_fill": {
+   "n": [
+    2,
+    5,
+    10
+   ]
+  },
+  "folk.ants_climb": {
+   "max_day": [
+    0.006,
+    0.012,
+    0.018
+   ]
+  },
+  "folk.false_break_back": {
+   "n_back": [
+    2,
+    3,
+    6
+   ]
+  },
+  "folk.gap_up_hold": {
+   "gap_th": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "folk.lian_yin_first_yang": {
+   "n_down": [
+    2,
+    3,
+    6
+   ]
+  },
+  "folk.low_suction": {
+   "shrink": [
+    0.4,
+    0.8,
+    1.2
+   ]
+  },
+  "folk.rsi_low_flat": {
+   "low_th": [
+    12,
+    25,
+    50
+   ],
+   "n": [
+    7,
+    14,
+    28
+   ]
+  },
+  "folk.second_wave": {
+   "retest": [
+    0.025,
+    0.05,
+    0.075
+   ]
+  },
+  "folk.volume_mound": {
+   "mound": [
+    0.65,
+    1.3,
+    1.95
+   ]
+  },
+  "macro.csi300_momentum_filter": {
+   "n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "macro.csi300_trend_filter": {
+   "ma_n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "macro.drawdown_filter": {
+   "max_dd": [
+    -0.225,
+    -0.15,
+    -0.075
+   ]
+  },
+  "macro.volatility_regime_filter": {
+   "n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "mean_reversion.bollinger_breakout": {
+   "k": [
+    1.0,
+    2.0,
+    3.0
+   ],
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "mean_reversion.pullback_bounce": {
+   "pullback_n": [
+    5,
+    10,
+    20
+   ],
+   "trend_n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "mean_reversion.rsi2": {
+   "n": [
+    2,
+    4
+   ]
+  },
+  "mean_reversion.rsi_revert": {
+   "n": [
+    7,
+    14,
+    28
+   ],
+   "overbought": [
+    35,
+    70,
+    140
+   ],
+   "oversold": [
+    15,
+    30,
+    60
+   ]
+  },
+  "mean_reversion.zscore_revert": {
+   "entry": [
+    -3.0,
+    -2.0,
+    -1.0
+   ],
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "momentum.cross_sectional_momentum": {
+   "n": [
+    60,
+    120,
+    240
+   ],
+   "skip": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.dual_momentum": {
+   "n": [
+    60,
+    120,
+    240
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.momentum_acceleration": {
+   "fast": [
+    10,
+    20,
+    40
+   ],
+   "slow": [
+    60,
+    120,
+    240
+   ]
+  },
+  "momentum.relative_strength_rotation": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.time_series_momentum": {
+   "n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "patterns.big_yin_shakeout": {
+   "big_yin": [
+    -0.0525,
+    -0.035,
+    -0.0175
+   ]
+  },
+  "patterns.box_breakout": {
+   "box_n": [
+    10,
+    20,
+    40
+   ],
+   "box_th": [
+    0.04,
+    0.08,
+    0.12
+   ],
+   "vol_mult": [
+    0.65,
+    1.3,
+    1.95
+   ]
+  },
+  "patterns.doji_at_low": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "patterns.duck_head": {
+   "neck": [
+    4,
+    8,
+    16
+   ]
+  },
+  "patterns.immortal_guide": {
+   "shadow_pct": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "patterns.inside_bar_breakup": {},
+  "patterns.island_reversal": {
+   "gap": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "patterns.ma_converge_break": {
+   "spread": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "patterns.macd_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ]
+  },
+  "patterns.morning_star": {
+   "big_red": [
+    -0.045,
+    -0.03,
+    -0.015
+   ],
+   "small_body": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "patterns.n_shape": {
+   "leg_up": [
+    0.02,
+    0.04,
+    0.06
+   ]
+  },
+  "patterns.needle_probe": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ],
+   "shadow_pct": [
+    0.01,
+    0.02,
+    0.03
+   ]
+  },
+  "patterns.obv_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ]
+  },
+  "patterns.piercing_line": {
+   "big_red": [
+    -0.03,
+    -0.02,
+    -0.01
+   ]
+  },
+  "patterns.three_methods_up": {
+   "big_yang": [
+    0.015,
+    0.03,
+    0.045
+   ]
+  },
+  "patterns.three_soldiers": {
+   "min_body": [
+    0.002,
+    0.004,
+    0.006
+   ]
+  },
+  "patterns.vol_drought_reversal": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ],
+   "vol_floor": [
+    0.275,
+    0.55,
+    0.825
+   ]
+  },
+  "patterns.yang_break_3ma": {
+   "spread": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "seasonal.holiday_effect": {
+   "pre_days": [
+    1,
+    3,
+    5
+   ]
+  },
+  "seasonal.month_end_effect": {
+   "window": [
+    2,
+    3,
+    5
+   ]
+  },
+  "seasonal.month_seasonality": {
+   "month": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  "seasonal.trend_by_season": {
+   "ma_n": [
+    100,
+    200,
+    400
+   ],
+   "month": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  "seasonal.weekday_effect": {
+   "weekday": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "sentiment.amount_rank": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "sentiment.intraday_momentum": {
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "sentiment.overnight_drift": {
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "sentiment.price_volume_trend": {
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "sentiment.turnover_surge": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "threshold": [
+    1.0,
+    2.0,
+    3.0
+   ]
+  },
+  "ta.bb_squeeze_breakout": {
+   "bb_n": [
+    10,
+    20,
+    40
+   ],
+   "k": [
+    1.0,
+    2.0,
+    3.0
+   ],
+   "width_n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.cci_revert": {
+   "cci_n": [
+    10,
+    20,
+    40
+   ],
+   "entry_th": [
+    -150.0,
+    -100.0,
+    -50.0
+   ],
+   "exit_th": [
+    50.0,
+    100.0,
+    150.0
+   ],
+   "trend_ma": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.engulf_reversal": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "ta.hammer_reversal": {
+   "body_max": [
+    0.175,
+    0.35,
+    0.525
+   ],
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ],
+   "shadow_mult": [
+    1.0,
+    2.0,
+    3.0
+   ]
+  },
+  "ta.kdj_reversal": {
+   "entry_j": [
+    0.0
+   ],
+   "exit_j": [
+    40.0,
+    80.0,
+    120.0
+   ],
+   "kdj_n": [
+    4,
+    9,
+    18
+   ],
+   "trend_ma": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.macd_trend": {
+   "fast": [
+    6,
+    12,
+    24
+   ],
+   "signal": [
+    4,
+    9,
+    18
+   ],
+   "slow": [
+    13,
+    26,
+    52
+   ]
+  },
+  "ta.nr7_breakout": {
+   "hold_n": [
+    2,
+    5,
+    10
+   ],
+   "nr_n": [
+    3,
+    7,
+    14
+   ]
+  },
+  "ta.rsi_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ],
+   "n": [
+    7,
+    14,
+    28
+   ]
+  },
+  "ta.rsrs_timing": {
+   "buy_z": [
+    0.4,
+    0.8,
+    1.2
+   ],
+   "exit_z": [
+    -1.2,
+    -0.8,
+    -0.4
+   ],
+   "window": [
+    9,
+    18,
+    36
+   ],
+   "z_win": [
+    125,
+    250,
+    500
+   ]
+  },
+  "ta.streak_up": {
+   "min_up": [
+    0.0
+   ],
+   "streak_n": [
+    2,
+    3,
+    6
+   ]
+  },
+  "ta.strong_close": {
+   "pos_th": [
+    0.425,
+    0.85,
+    1.275
+   ],
+   "vol_len": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ]
+  },
+  "ta.vol_breakout": {
+   "brk_len": [
+    10,
+    20,
+    40
+   ],
+   "exit_len": [
+    5,
+    10,
+    20
+   ],
+   "vol_avg_len": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ]
+  },
+  "ta.williams_reversal": {
+   "entry_th": [
+    -120.0,
+    -80.0,
+    -40.0
+   ],
+   "exit_th": [
+    -30.0,
+    -20.0,
+    -10.0
+   ],
+   "wr_n": [
+    7,
+    14,
+    28
+   ]
+  },
+  "trend.donchian_breakout": {
+   "entry_n": [
+    10,
+    20,
+    40
+   ],
+   "exit_n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "trend.dual_ma_cross": {
+   "fast": [
+    2,
+    5,
+    10
+   ],
+   "slow": [
+    10,
+    20,
+    40
+   ]
+  },
+  "trend.parabolic_sar": {
+   "af_inc": [
+    0.01,
+    0.02,
+    0.03
+   ],
+   "af_max": [
+    0.1,
+    0.2,
+    0.3
+   ],
+   "af_start": [
+    0.01,
+    0.02,
+    0.03
+   ]
+  },
+  "trend.supertrend": {
+   "mult": [
+    1.5,
+    3.0,
+    4.5
+   ],
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "trend.triple_ma": {
+   "n1": [
+    2,
+    5,
+    10
+   ],
+   "n2": [
+    10,
+    20,
+    40
+   ],
+   "n3": [
+    30,
+    60,
+    120
+   ]
+  },
+  "volatility.low_vol_long": {
+   "n": [
+    30,
+    60,
+    120
+   ],
+   "rebal_days": [
+    null,
+    10,
+    20
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "volatility.vol_breakout": {
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "volatility.vol_regime_switch": {
+   "ma_n": [
+    100,
+    200,
+    400
+   ],
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "volatility.vol_target": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "target_vol": [
+    0.1,
+    0.15,
+    0.2
+   ]
+  }
+ },
+ "vol_anchor": {
+  "calm_days": 1523,
+  "first_valid_bar": 519,
+  "note": "probe r396 core48/leg-L face (results/_r396bma_volgate_probe.py)",
+  "wild_days": 1441
+ },
+ "vol_spec": {
+  "calm": "vol20 <= med500 permits entry (low-vol regime face)",
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> initial-stop (frozen identically on the dedup face and the engine face; stop arms only after BOTH entry gates)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as the signal, zero lookahead)",
+  "med500": "vol20 rolling 500-obs median (min_periods=500, all <=d)",
+  "med500_min": 500,
+  "med500_window": 500,
+  "member": "510300",
+  "nan_window": "first 519 bars med500=NaN -> vol-closed on BOTH calm/wild faces (conservative; panel-level na-window count disclosed)",
+  "non_isomorphism": "VOL face != GATE face (probe r396: 2014-12-31 wild AND bull coexist)",
+  "none": "no gate (W3 semantic baseline face)",
+  "overlay": "vol-closed signal day -> effective signal zeroed (grammar layer, MSG-0440 E1-mapping primitive; engine/exit_rules.py ZERO touch; engine-native signal-off exit semantics shared by every template/cell)",
+  "ret": "close(d)/close(d-1)-1",
+  "vol20": "ret rolling 20 sample std (ddof=1, min_periods=20, incl d)",
+  "vol20_ddof": 1,
+  "vol20_min": 20,
+  "vol20_window": 20,
+  "wild": "vol20 > med500 permits entry (high-vol regime face)"
+ },
+ "wave": "TRIAL_LABOR_W5",
+ "yang_anchor": {
+  "cutoff": "2026-09-22",
+  "first_date": "2012-05-28",
+  "n_bars": 3483,
+  "note": "cross-table anchors asserted as LOWER BOUNDS per prereg sec.2 G-YANG (下界); yang_days asserted exact",
+  "probe_facts": "results/_r162bmc_yanggate_probe_facts.json (r162 bm-c, probe-facts face not a results face)",
+  "red_and_bear_lower_bound": 914,
+  "yang_and_bull_lower_bound": 962,
+  "yang_days": 1751,
+  "yang_rate": 0.5027
+ },
+ "yang_spec": {
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "first_yang": "only signal-day yang days permit entry",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL, zero lookahead)",
+  "member": "510300",
+  "none": "no gate (W4 semantic baseline face)",
+  "warmup": "zero warmup window (bar-0 onward judgeable; structural improvement vs the VOL 519-bar med500 window)",
+  "yang": "close(d) > open(d) (single-K-line binary, strict >; doji close==open counts as red, probe r162 face)"
+ }
+}

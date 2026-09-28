@@ -373,6 +373,23 @@ def run_pass(dry=False):
         _push_claims_and_ledger(myid, "pass no-op sweep")  # retry pending pushes
         return 0
     entry_id, shard_key = e["id"], sh["key"]
+    # D-20260929-02 ② slice-start declaration freeze: the pass already
+    # fetched origin above, so the guard reads the post-fetch origin
+    # inbox face fresh (fetch=False) -- a rival machine's pending MSG
+    # naming this entry = skip the pass entirely ("见声明即冻结");
+    # guard fault = honest degrade, claim-by-file locks untouched.
+    try:
+        import inbox_guard
+        freeze, gdetail = inbox_guard.conflict(ROOT, myid, entry_id,
+                                               fetch=False)
+    except Exception as ex:
+        freeze, gdetail = False, f"guard-fault {ex}"
+    if freeze:
+        _log(f"declaration freeze on {entry_id}: {gdetail} -> skip pass "
+             f"(D-20260929-02 ②; declaring machine lands the work)")
+        return 0
+    if "guard-fault" in gdetail:
+        _log(f"inbox-guard degrade on {entry_id}: {gdetail}")
     if dry:
         _log(f"DRY: would claim {entry_id}/{shard_key}")
         return 0
