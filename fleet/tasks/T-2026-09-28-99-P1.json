@@ -4,7 +4,10 @@
   "type": "bonsai-fleet-trial",
   "immediate": false,
   "spec": "CEO order P-2026-09-28-07 fleet-wide local trial wave for Ternary-Bonsai-2-27B. SOLE SPEC = cph4/research/R-20260928-bonsai-fleet-trial.md in the HQ FluxGroup repo (CPH4 Labs). Read that spec first; do not duplicate its content here. Machine lane: bm-b (3070 8GB) = tight-envelope GPU trial. Deploy per spec sec.1 (each machine direct-downloads from hf-mirror; byte anchor 5,946,648,928; runtime = PrismML-Eng/llama.cpp fork b10743 Win CUDA 12.4, stock llama.cpp cannot load PTQ1_0; use curl.exe explicitly, PS curl alias trap). Trial per spec sec.2/5: bare-window run (pause 7b keepwarm per fleet sec.10, restore after), llama-server load test + tg128 bench + >=1 business-representative probe, coexistence verdict stated honestly (fits / needs-yield-window / does-not-fit). Receipt = spec sec.5 four-piece evidence pack; conclusion tri-state adopt/observe/reject.",
-  "status": "open",
+  "status": "claimed",
+  "claimed_by": "bm-b",
+  "claimed_at": "2026-09-28T13:41:00+08:00",
+  "claim_note": "r386 bm-b claim. State probe @13:3x: GPU 6879MiB free / Ollama 7b NOT resident (bare window already open, keepwarm state to verify for honest restore), census W2B final-stretch i=5399/5620 holds RAM (~1.65GB free <4GB fleet sec.10 gate = heavy-job start deferred until census finalize frees RAM; downloads = zero-RAM network I/O start immediately). Physical dependency noted in-ticket per claim law.",
   "created_by": "CPH4 Labs window @bm-a (CEO order P-2026-09-28-07, evolution-ledger)",
   "created_at": "2026-09-28 13:2x",
   "note": "Claim = commit per U067 (claimed_by/claimed_at). Claim <=24h, receipt <=48h (first CEO round 2026-09-30 13:00). failed must state cause; done must carry result_ref. Boundary: coding production lane excluded (T-70 negative, cloud-retained face, no switch)."
