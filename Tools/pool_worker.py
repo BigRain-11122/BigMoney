@@ -285,21 +285,18 @@ def _ledger_row(machine, entry_id, shard_key, started, duration_sec, rc):
 
 
 def _push_claims_and_ledger(myid, note):
-    """git add claims+ledger (+runner dirt under results/) -> commit+push.
-    Push lost to origin movement -> ONE pull --rebase + push retry, then
-    leave the local commit standing (next pass re-pushes, r199 spirit)."""
-    _git(["add", "results/pool_claims", "results/pool_worker_ledger.jsonl",
-          "results/pool_worker_lock." + myid + ".json"])
-    r = subprocess.run(["git", "status", "--porcelain", "--untracked-files",
-                        "results"], cwd=ROOT, capture_output=True)
-    dirty = r.stdout.decode(errors="replace").strip()
-    # collect runner result dirt (pool-side harvest consumes it via git)
-    if dirty:
-        for line in dirty.splitlines():
-            _git(["add", line[3:].strip().strip('"')])
+    """git add claims+ledger ONLY -> commit+push. Deliberately does NOT
+    sweep other results/ dirt: runner artifacts stay in the tree for the
+    POOL-SIDE harvest face (fleet round/autofill consumes the closed
+    claim, then commits the artifacts with proper round bookkeeping) --
+    a worker swallowing unrelated in-flight results state is the r398
+    dirty-tree hazard family. Push lost to origin movement -> ONE pull
+    --rebase + push retry, then leave the local commit standing (next
+    pass re-pushes, r199 spirit)."""
+    _git(["add", "results/pool_claims", "results/pool_worker_ledger.jsonl"])
     rc, err = _git(["commit", "-m",
                     f"pool_worker {myid}: {note} [claim-by-file O-2210]"])
-    if "nothing to commit" in err and "nothing" in err:
+    if "nothing to commit" in err:
         return True
     rc, err = _git(["push", "origin", "main"])
     if rc != 0:
