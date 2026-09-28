@@ -60,6 +60,10 @@ data/bond_w3a/
 # O-1136 watermark probe series: machine-local utilization append-log (3 machines
 # x 10min cadence = append-conflict hostile if tracked; round reports cite numbers)
 results/watermark.jsonl
+# T-113 pool worker (O-20260928-2210): machine-local single-instance PID
+# lock; the tracked claim/ledger faces live under results/pool_claims/ +
+# results/pool_worker_ledger.jsonl
+results/pool_worker_lock.*.json
 # T-108 D2 resident dispatcher (O-20260928-1630): machine-local event append
 # log; the tracked face is the machine-suffixed results/dispatcher_state.
 # <mid>.json lane file (event-written only)

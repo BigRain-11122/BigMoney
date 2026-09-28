@@ -271,6 +271,53 @@ def _owner_age_min(owner, shard):
     return min(ages) if ages else None
 
 
+def _ext_claim_age_min(entry_id, shard_key):
+    """O-20260928-2210 claim-by-file law (T-113 s1): results/pool_claims/
+    <entry>/<shard>.<machine>.json worker claim files are the shard-owner
+    TRUTH -- external pool workers never write runnable_pool.json (pool
+    single-writer law), so a fresh claim file marks the shard occupied.
+    Returns the freshest claim-heartbeat age in minutes (None = no claim
+    file / no parseable heartbeat). state=closed claims (worker finished,
+    awaiting the pool-side harvest flip) count as occupied too -- the
+    fleet must not double-burn a closed-but-not-yet-flipped shard.
+    Fail-soft: unreadable/malformed files are ignored (a corrupt worker
+    file must not wedge the fleet picker)."""
+    d = os.path.join(ROOT, "results", "pool_claims",
+                     str(entry_id).replace("/", "_"))
+    if not os.path.isdir(d):
+        return None
+    pref = str(shard_key).replace("/", "_") + "."
+    best = None
+    for fn in os.listdir(d):
+        if not (fn.startswith(pref) and fn.endswith(".json")):
+            continue
+        try:
+            with open(os.path.join(d, fn), encoding="utf-8") as fh:
+                c = json.load(fh)
+            st = c.get("state")
+            if st == "failed":
+                continue  # honest worker fail frees the shard (takeover ok)
+            if st == "closed" and c.get("outcome") == "ok":
+                hb = c.get("closed_at") or c.get("heartbeat")
+            else:
+                hb = c.get("heartbeat")
+            if not hb:
+                continue
+            hs = str(hb)
+            if "T" in hs:
+                dt = datetime.fromisoformat(hs)
+                now = datetime.now(dt.tzinfo) if dt.tzinfo else datetime.now()
+            else:
+                dt = datetime.strptime(hs, "%Y-%m-%d %H:%M:%S")
+                now = datetime.now()
+            age = (now - dt).total_seconds() / 60.0
+            if best is None or age < best:
+                best = age
+        except Exception:
+            continue
+    return best
+
+
 def _runner_alive(runner_rel):
     """True if a python process is already running this entry's runner.
     Null/empty runner -> False (live 2026-09-27: T34-PRESIGNAL-HALFSTEP
@@ -711,6 +758,15 @@ def _pick(pool, myid, skip=None):
             if sh.get("status") == "done":
                 # done shards never re-fire (r180: entry left "ready" +
                 # done shard wedged the picker into no-op relaunches)
+                continue
+            xc = _ext_claim_age_min(e["id"], sh["key"])
+            if xc is not None and xc < STALE_MIN:
+                # O-20260928-2210 claim-by-file truth: an external pool
+                # worker holds this shard via a fresh claim file (or a
+                # closed claim awaiting harvest flip) -- the fleet picker
+                # yields exactly as it would for a fresh pool owner.
+                _log(f"skip {e['id']}/{sh['key']}: ext claim fresh "
+                     f"({xc:.0f}min, claim-by-file O-2210)")
                 continue
             ow = sh.get("owner")
             if ow and ow != myid:
