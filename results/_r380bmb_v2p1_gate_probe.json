@@ -1,0 +1,63 @@
+{
+ "probe": "r380 bm-b V2-P1 G-REPRO-REV fix-first live verification",
+ "faces": {
+  "base": {
+   "verdict": "PASS",
+   "path_used": "artifact-drift-fallback",
+   "stats": {
+    "sharpe_full": -0.219,
+    "ann_ret": -0.014384,
+    "max_dd": -0.57193,
+    "n_days": 8792,
+    "median_abs_r": 0.0,
+    "p999_abs_r": 0.036853
+   },
+   "frozen": {
+    "sharpe_full": -0.219,
+    "ann_ret": -0.014384,
+    "max_dd": -0.57193,
+    "n_days": 8792,
+    "median_abs_r": 0.0,
+    "p999_abs_r": 0.036853
+   },
+   "entries": 4417,
+   "trades": 4417,
+   "series_days": 8792
+  },
+  "x2": {
+   "verdict": "PASS",
+   "path_used": "artifact-drift-fallback",
+   "stats": {
+    "sharpe_full": -0.505,
+    "ann_ret": -0.030544,
+    "max_dd": -0.707232,
+    "n_days": 8792,
+    "median_abs_r": 0.0,
+    "p999_abs_r": 0.036583
+   },
+   "frozen": {
+    "sharpe_full": -0.505,
+    "ann_ret": -0.030544,
+    "max_dd": -0.707232,
+    "n_days": 8792,
+    "median_abs_r": 0.0,
+    "p999_abs_r": 0.036583
+   },
+   "entries": 4417,
+   "trades": 4417,
+   "series_days": 8792
+  }
+ },
+ "paths_used": {
+  "base": "artifact-drift-fallback",
+  "x2": "artifact-drift-fallback"
+ },
+ "all_pass": true,
+ "law_refs": [
+  "prereg s9-a4 two-path + s9-a5 drift-fallback",
+  "MSG-20260928-0340/0345 forensics",
+  "r368 artifact reverify",
+  "53be4125 owner fix",
+  "r379 next-pointer (c)"
+ ]
+}

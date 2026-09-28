@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T11:40:29+08:00",
- "heartbeat_epoch_utc": 1790566829,
- "clock_read": "2026-09-28T11:40:29+08:00",
- "current_task": "r379 done: fix-first real loop -- W4-GENERATE false-crash root-caused (RAM-gate honest exit-2 fuse-counted: confirm sees dead+unlanded only) -> wait-law landed (tl2._ram_gate_gb wait_min=40 bounded in-place, w2/w3/w4 5 call sites, 5663942e) fuse auto-CLEARED 11:33:25 + autofill claim d3eabaac landed; next tick relaunch waits RAM window (3.4GB now) then generate lands; census W2B slow-tail alive i=4199/5620 @11:34 flush no-kill (memory-bound WS growth); S6 30 legs rc=0; smoke 25/25; orders 99/99 dual-scan zero un-acked; V2-P1 real red (G-REPRO-REV sleeve source missing) fused pending next-round fix-first pointer; 15:30 new-bar window dual-lane + trio; 15:35+ bma collector takeover eval per MSG-1042",
+ "last_seen": "2026-09-28T11:53:23+08:00",
+ "heartbeat_epoch_utc": 1790567603,
+ "clock_read": "2026-09-28T11:53:23+08:00",
+ "current_task": "r380 done: V2-P1 G-REPRO-REV red FIX-VERIFIED live (r379 next-ptr c) -- two-path source audit (cache replay 8e-6 benign cross-machine float drift + r368 sleeve-export artifact present reverify PASS) -> 53be4125 a5 drift-fallback live-fired both faces via _r380bmb_v2p1_gate_probe.py (path_used=artifact-drift-fallback, stats bit-equal frozen ann_ret -0.014384/-0.030544, entries=trades=4417) + runner selftest 26/26 local + fuse sig old-sha 880297a0 != current runner sha = S16c pick-time auto-clear armed; full-batch rerun stays r357-deferred (RAM window post-census); W4-GENERATE wait-law FIRST LIVE LAUNCH 11:40:01 (r379 fix paying off); census W2B slow-tail alive i=4199/5620 @11:34 no-kill; next: census tail -> RAM window -> judge flips x5 -> finalize x5 -> W2/W3 intake -> V2-P1 un-defer; 15:30 new-bar window dual-lane + trio; 15:35+ bma silence takeover eval per MSG-1042",
  "cpu_cores": 16,
- "free_ram_gb": 1.03,
+ "free_ram_gb": 1.13,
  "gpu_free_vram_gb": 6.73,
- "total_ram_gb": 25.7,
- "cpu_util_pct": 16.4,
- "round_no": 379,
- "verdict": "healthy: smoke 25/25, S6 30 legs rc=0, orders 99/99; W4-GENERATE fuse false-crash FIXED (wait-law 5663942e, fuse CLEARED 11:33:25 live-verified, claim landed d3eabaac, relaunch next tick waits RAM window); census W2B 4-worker in-flight slow-tail i=4199/5620 no-kill (memory-bound phase, ETA afternoon); RAM 3.42GB below judge gate = census serialize lawful; board 0 open all claimed; probe py_low_with_work_cands=legitimate structural occupation; V2-P1 real red (G-REPRO-REV sleeve source missing) fused pending fix; migration executor armed precheck waiting, window to 09-29 12:00, zero interference",
+ "total_ram_gb": 23.92,
+ "cpu_util_pct": 43.2,
+ "round_no": 380,
+ "verdict": "healthy: smoke 25/25, S6 30 legs rc=0, orders 99/99 dual-scan clean; V2-P1 red fix VERIFIED live (drift-fallback both faces PASS bit-equal, probe json on disk, selftest 26/26, fuse auto-clear armed at pick); W4-GENERATE wait-law launched 11:40:01 live (r379 law first live success); census W2B 4-worker slow-tail i=4199/5620 no-kill memory-bound phase ETA afternoon; RAM below judge gate = census serialize lawful; board 0 open all claimed; WM probe insufficient_history window-reset non-red; migration executor armed precheck waiting (Tuanjie editor), window to 09-29 12:00, zero interference",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -122,7 +122,7 @@
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.73,
  "cpu_pct": 16.4,
- "round": 379,
+ "round": 380,
  "free_ram_mb": 1056,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 379
+ "loop_round": 380
 }
