@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T20:59:25+08:00",
- "heartbeat_epoch_utc": 1790600365,
- "clock_read": "2026-09-28T20:59:25+08:00",
- "current_task": "r398 done: T-111 five-member ETF daily refresh leg FULL CLOSURE (4 probes: akshare wrapper ETF crash -> direct klc_kl.js+MiniRacer; as-traded basis proven qfq-factor s=1.0 all events; runner scripts/update_etf_daily.py update_repo-family selftest 10/10 + live first fire +3x5 rows -> panel cutoff 09-28 + idempotent no-op + BP1 anchor census 5/5 coexistence) -> next: T-104 s2 broad-grid prereg family (unblocks pool T104-GRID-S3-DUALFACE-P1 gate 1) > TRIAL_LABOR_LAW supply line (supply_gap standing) > CEO 48h report 09-29 22:45",
+ "last_seen": "2026-09-28T23:36:40+08:00",
+ "heartbeat_epoch_utc": 1790609800,
+ "clock_read": "2026-09-28T23:36:40+08:00",
+ "current_task": "r400 read-only degraded round done: S0 28-UU collision (live bm-a r404) -> abort + fallback branch machine/bm-b-r400 carries stranded GRID_DUALFACE_P1 runner+pool-ready; CEO O-2210 receipted, T-113 claim deferred (invisible-lock hazard, next round claims if open); migration execution segment active -> next: new-root first round (E:\\Fluxgroup\\FluxGroup\\quant\\bigmoney) sync + canonical 28-UU resolve + T-113",
  "cpu_cores": 16,
- "free_ram_gb": 11.7,
- "gpu_free_vram_gb": 7.06,
+ "free_ram_gb": 15.25,
+ "gpu_free_vram_gb": 6.59,
  "total_ram_gb": 25.69,
- "cpu_util_pct": 21.7,
- "round_no": 398,
- "verdict": "healthy: smoke 26/26 (+1 new etf_daily leg); T-111 refresh leg closed same round (panel 09-22->09-28, frozen anchors coexist 5/5); S6 all rc=0 with new-bar family fired (update_daily +36 rows cutoff 09-28; r397 non-trading-day label falsified); bm-a hb stale ~168min -> stale-takeover lawful; watermark py_low_board_clear legal idle + audit supply_gap/supply_floor standing -> supply line next; orders ack 121/121 self-receipt closed",
+ "cpu_util_pct": 6.2,
+ "round_no": 400,
+ "verdict": "degraded-healthy: smoke 26/26; WM red=true @23:17:19 = migration task-disable honest signal (GM waiver O-1612, autofill resumes post enable-all -> grid shard burn self-heals); S0 collision per OS order = read-only round + fallback branch; orders ack 122/122 (O-2210 added)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -134,17 +134,18 @@
   "O-20260928-1755-bm-a.md",
   "O-20260928-1925-bm-c.md",
   "O-20260928-1930-bm-a.md",
-  "O-20260928-1925-bm-b.md"
+  "O-20260928-1925-bm-b.md",
+  "O-20260928-2210-bm-a.md"
  ],
  "cores": 16,
  "idle_ram_gb": 11.7,
  "gpu_free_vram_mb": 7088,
  "idle_ram_mb": 11746,
  "gpu_idle_vram_mb": 7227,
- "n_orders_ack": 121,
+ "n_orders_ack": 122,
  "gpu_idle_vram_gb": 7.06,
  "cpu_pct": 0.5,
- "round": 398,
+ "round": 400,
  "free_ram_mb": 11746,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
@@ -153,5 +154,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 394
+ "loop_round": 400
 }
