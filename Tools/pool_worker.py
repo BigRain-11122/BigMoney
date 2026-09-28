@@ -18,6 +18,11 @@ via PID lock):
          workers never touch waiting)
        - worker_class eligibility (O-2210 data-locality honesty):
          self-contained -> any machine; bm-hosted -> only the lane host
+       - lane guard (R31/R65, autofill L764 parity): a designated
+         lane_owner is honored regardless of worker_class -- declared
+         lanes are claimable only by their owner machine
+         (W6-SCREEN r201 live-fire: bm-c worker stole bm-b's declared
+         lane on a self-contained entry; runner host-gate refused rc=2)
        - shard not done
        - no fresh external claim file (claim-by-file first-writer-wins,
          results/pool_claims/<entry>/<shard>.<machine>.json)
@@ -193,10 +198,11 @@ def _shard_claim_age_min(entry_id, shard_key):
             with open(os.path.join(d, fn), encoding="utf-8") as fh:
                 c = json.load(fh)
             st = c.get("state")
-            if st == "closed" and c.get("outcome") == "ok":
-                hb = c.get("closed_at") or c.get("heartbeat")
-            elif st == "failed":
+            if st == "failed" or (st == "closed"
+                                  and c.get("outcome") == "fail"):
                 continue  # honest fail frees the shard for takeover
+            if st == "closed":  # outcome ok
+                hb = c.get("closed_at") or c.get("heartbeat")
             else:
                 hb = c.get("heartbeat")
             age = _age_min(hb)
@@ -311,7 +317,14 @@ def _write_claim(entry_id, shard_key, machine, state, extra=None):
 
 
 def _eligible(entry, myid):
-    """O-2210 worker_class data-locality eligibility."""
+    """O-2210 worker_class data-locality eligibility + R31/R65 lane guard."""
+    lo = entry.get("lane_owner")
+    if lo not in (None, "", "ANY", myid):
+        # R31/R65 lane guard (autofill parity): a designated lane
+        # belongs to its owner machine regardless of worker_class --
+        # self-contained data does NOT make a declared lane claimable.
+        _log(f"entry {entry['id']}: lane owner {lo} != {myid} -> skip")
+        return False
     wc = entry.get("worker_class", "self-contained")
     if wc == "self-contained":
         return True
@@ -547,6 +560,16 @@ def selftest():
         ok("S4 self-contained any machine", _eligible(e_sc, "bg-b"))
         ok("S5 bm-hosted host match", _eligible(e_bm, "bm-b"))
         ok("S6 bm-hosted non-host refused", not _eligible(e_bm, "bg-b"))
+        e_laned = {"id": "X3", "worker_class": "self-contained",
+                   "lane_owner": "bm-b", "shards": []}
+        ok("S6b designated self-contained lane: non-owner refused "
+           "(R31/R65, W6-SCREEN r201 live-fire)",
+           not _eligible(e_laned, "bm-c"))
+        ok("S6c designated self-contained lane: owner allowed",
+           _eligible(e_laned, "bm-b"))
+        e_any = {"id": "X4", "worker_class": "self-contained",
+                 "lane_owner": "ANY", "shards": []}
+        ok("S6d lane ANY stays free-for-all", _eligible(e_any, "bg-b"))
         # S7 scan respects worker_class + done + fresh owner
         pool = {"entries": [
             {"id": "A", "status": "ready", "runner": "scripts/x.py",
@@ -586,6 +609,13 @@ def selftest():
                        "outcome": "ok", "closed_at": _now_iso()},
                       fh)
         ok("S10 closed-ok blocks (awaiting harvest)", _shard_claim_age_min("C", "s3") is not None)
+        with open(rival, "w", encoding="utf-8") as fh:
+            json.dump({"machine_id": "bg-z", "state": "closed",
+                       "outcome": "fail", "exit_code": 2,
+                       "closed_at": _now_iso(), "heartbeat": _now_iso()},
+                      fh)
+        ok("S10b closed-FAIL frees shard (writer-reader contract r201)",
+           _shard_claim_age_min("C", "s3") is None)
         # S11 our-claim age
         _write_claim("C", "s9", "bg-b", "running")
         ok("S11 own claim heartbeat fresh", (_claim_age_min_local("C", "s9", "bg-b") or 99) < 1)

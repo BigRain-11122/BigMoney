@@ -280,6 +280,8 @@ def _ext_claim_age_min(entry_id, shard_key):
     file / no parseable heartbeat). state=closed claims (worker finished,
     awaiting the pool-side harvest flip) count as occupied too -- the
     fleet must not double-burn a closed-but-not-yet-flipped shard.
+    closed-FAIL frees the shard (honest-fail law, writer writes
+    state=closed+outcome=fail -- writer-reader contract r201 fix).
     Fail-soft: unreadable/malformed files are ignored (a corrupt worker
     file must not wedge the fleet picker)."""
     d = os.path.join(ROOT, "results", "pool_claims",
@@ -295,9 +297,10 @@ def _ext_claim_age_min(entry_id, shard_key):
             with open(os.path.join(d, fn), encoding="utf-8") as fh:
                 c = json.load(fh)
             st = c.get("state")
-            if st == "failed":
+            if st == "failed" or (st == "closed"
+                                  and c.get("outcome") == "fail"):
                 continue  # honest worker fail frees the shard (takeover ok)
-            if st == "closed" and c.get("outcome") == "ok":
+            if st == "closed":  # outcome ok
                 hb = c.get("closed_at") or c.get("heartbeat")
             else:
                 hb = c.get("heartbeat")
