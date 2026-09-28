@@ -685,10 +685,22 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-09-29 06:40:01",
+  "ts": "2026-09-29 06:50:01",
   "machine": "bm-b",
-  "py_cpu_pct": 73.6,
-  "verdict": "py_loaded"
+  "py_cpu_pct": 0.0,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "DECISION-CHAIN-V3-TOURNAMENT",
+  "shard": "v3-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 1,
+  "fuse_skipped": [
+   {
+    "entry": "DECISION-CHAIN-V3-TOURNAMENT",
+    "shard": "v3-0of1",
+    "sig": "scripts/decision_chain_v3_tournament.py|run",
+    "fuse_refusals": 1
+   }
+  ]
  },
  "lane_machine": "bm-b"
 }
