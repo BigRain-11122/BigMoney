@@ -1,0 +1,214 @@
+{
+ "runner": "results/_r390bmb_s6_chain.py",
+ "machine": "bm-b",
+ "round": 390,
+ "ts": "2026-09-28 15:42:08",
+ "legs": [
+  {
+   "leg": "compute_audit",
+   "rc": 0,
+   "sec": 7.9,
+   "tail": "{\"ts\": \"2026-09-28 15:40:57\", \"audit_version\": \"v2.3\", \"cpu_total_pct\": 23.0, \"py_cpu_pct\": 11.6, \"cores\": 16, \"py_procs\": 17, \"result_stale_min\": 0.7, \"fleet_open_tasks\": 3, \"pool_ready_count\": 1, \"load_state\": \"pool-supply-gap\", \"pool_starvation_candidate\": false, \"pool_starvation_detail\": {\"reason\": \"pool-supply-gap\"}, \"gpu\": {\"present\": true, \"util_pct\": 1.0, \"mem_used_mb\": 951.0, \"compute_apps_count\": 20, \"rogue_apps\": []}, \"zombies\": [], \"single_core_hog_candidate\": false, \"single_core_hog_detail\": null, \"flags\": [], \"verdict\": \"CLEAN\"}\ncompute_audit: runnable_pool merged-sync settled {\"wrote_shared\": true, \"wrote_lane\": true}"
+  },
+  {
+   "leg": "py_watermark_probe",
+   "rc": 0,
+   "sec": 6.3,
+   "tail": "{\"ts\": \"2026-09-28 15:41:03\", \"epoch\": 1790581257.0, \"machine\": \"bm-b\", \"cpu_total_pct\": 20.0, \"cores\": 16, \"py_cpu_pct\": 7.6, \"py_procs\": 16, \"top_proc_cores\": 1.09, \"local_batch_running\": true, \"refresh_lock_lanes\": [], \"open_tickets\": 3, \"open_ticket_ids\": [\"T-2026-09-28-102\", \"T-2026-09-28-103\", \"T-2026-09-28-105\"], \"bandit_open\": 0, \"bars_present\": true, \"daily_panel\": true, \"verdict\": \"py_low_with_work_cands\", \"window\": {\"n\": 2, \"span_min\": 18.6, \"avg_py_cpu_pct\": 7.7, \"max_py_cpu_pct\": 7.8}, \"series_kept\": 63}"
+  },
+  {
+   "leg": "update_daily",
+   "rc": 0,
+   "sec": 2.5,
+   "tail": "=== Bigmoney daily update 2026-09-28 15:41:04 ===\ncore pool: 48 CSVs | today-bar guard: >= 15:30:00\nnew rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-24\nstatus -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\update_status.json"
+  },
+  {
+   "leg": "market_regime",
+   "rc": 0,
+   "sec": 0.9,
+   "tail": "regime state -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\regime_state.json\n  asof=2026-09-24 state=ORANGE (�ȡ���Σ) raw=ORANGE days_in_state=1 mode=shadow\n  trigger: hs300<MA200 (#10 collected)\n  trigger: breadth 0.77>=65%"
+  },
+  {
+   "leg": "strategy_scorecard",
+   "rc": 0,
+   "sec": 17.3,
+   "tail": "  DROUGHT-CE-01      S  total= 86.3  d1=86 d2=73 d3=100 d4=97 d5=62 d6=100 d7=100  veto=clean\n  NEEDLE-DE-01       A  total= 79.7  d1=78 d2=69 d3=96 d4=85 d5=46 d6=100 d7=100  veto=clean\n  COMPOSITE-CE-01    A  total= 77.2  d1=85 d2=78 d3=73 d4=78 d5=24 d6=100 d7=100  veto=clean\n  COMPOSITE-CE-02    A  total= 72.7  d1=84 d2=66 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean\n  ENGULF-CE-01       A  total= 69.7  d1=83 d2=62 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean\nstrategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\strategy_scorecard.json (17.0s)"
+  },
+  {
+   "leg": "market_clock_call",
+   "rc": 0,
+   "sec": 6.0,
+   "tail": "call written: C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\market_clock\\CALL-2026-09-24.md cell=ORANGE_COOL sleeves=4 activated=0"
+  },
+  {
+   "leg": "update_lhb",
+   "rc": 0,
+   "sec": 11.1,
+   "tail": " 55%|������������    | 6/11 [00:04<00:04,  1.21it/s]\n 64%|��������������   | 7/11 [00:05<00:03,  1.23it/s]\n 73%|����������������  | 8/11 [00:06<00:02,  1.20it/s]\n 82%|������������������ | 9/11 [00:07<00:01,  1.18it/s]\n 91%|������������������ | 10/11 [00:08<00:00,  1.16it/s]\n100%|��������������������| 11/11 [00:09<00:00,  1.21it/s]"
+  },
+  {
+   "leg": "update_heat",
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)"
+  },
+  {
+   "leg": "update_futures",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: local cutoff 2026-09-24 covers expected complete-bar date 2026-09-24 -> zero network"
+  },
+  {
+   "leg": "update_repo",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: repo rates lane owned by bm-a, not this machine (bm-b)"
+  },
+  {
+   "leg": "update_options",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: options lane owned by bm-a, not this machine (bm-b)"
+  },
+  {
+   "leg": "update_moneyflow",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: moneyflow lane owned by bm-a, not this machine (bm-b)"
+  },
+  {
+   "leg": "update_sina_mf",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: sina_mf lane owned by bm-a, not this machine (bm-b)"
+  },
+  {
+   "leg": "update_astock_daily",
+   "rc": 0,
+   "sec": 1.3,
+   "tail": "no-op: panel fresh (cutoff 2026-09-24 >= expected 2026-09-24) -> zero network"
+  },
+  {
+   "leg": "rev_osc_signal_export",
+   "rc": 0,
+   "sec": 1.5,
+   "tail": "rev_osc_signal_export: SIG/BARS already at cutoff 2026-09-24 & panel bytes unchanged -- no-op (idempotent)"
+  },
+  {
+   "leg": "update_minute_feed",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "update_minute_feed: throttle (2min < 20min) -- no-op"
+  },
+  {
+   "leg": "update_ths_panel",
+   "rc": 0,
+   "sec": 0.2,
+   "tail": "no-op: ths panel lane owned by bm-a, not this machine (bm-b)"
+  },
+  {
+   "leg": "ah_panel_puller",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: ah panel lane owned by bm-a, not this machine (bm-b)"
+  },
+  {
+   "leg": "update_fund_premium",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "no-op: fund_premium lane owned by bm-c, not this machine (bm-b)"
+  },
+  {
+   "leg": "update_fundamental",
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "snapshot fresh (5.9h < 24h) -> skip"
+  },
+  {
+   "leg": "b_layer_filter",
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1505, 'r2_st': 27, 'r1_loss+r2_st': 173, 'not_in_snapshot': 0}\nst crosstab: snapshot 200 vs scan proxy 82 | overlap 4\ngates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}\nmask -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\data\\fundamental\\b_layer_mask.csv\nverdict -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\fundamental_b_layer_filter.json"
+  },
+  {
+   "leg": "live_paper",
+   "rc": 0,
+   "sec": 8.7,
+   "tail": "COMPOSITE-CE-02: anchor OK (cutoff 2026-09-22) | paper 2 bars since 2026-09-23 | months_tracked=0 dd=-0.001 | x2: insufficient_data | x2 watch: probation margin 0.0491 [PROBATION] | saved C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\paper\\COMPOSITE-CE-02_paper.json\nDROUGHT-CE-01: anchor OK (cutoff 2026-09-22) | paper 2 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\paper\\DROUGHT-CE-01_paper.json\nENGULF-CE-01: anchor OK (cutoff 2026-09-22) | paper 2 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: probation margin 0.0143 [PROBATION] | saved C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\paper\\ENGULF-CE-01_paper.json\nNEEDLE-DE-01: anchor OK (cutoff 2026-09-22) | paper 2 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\paper\\NEEDLE-DE-01_paper.json\nVOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 2 bars since 2026-09-23 | months_tracked=0 dd=-0.0017 | x2: insufficient_data | x2 watch: ok | saved C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\paper\\VOLATILITY-CE-01_paper.json\npaper tracking: OK"
+  },
+  {
+   "leg": "t35_open_fill_verify",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat stale 342min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)\nopen_fill_verify day=2026-09-24: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\t35_open_fill_verify.json"
+  },
+  {
+   "leg": "t24_prospect_paper",
+   "rc": 0,
+   "sec": 1.5,
+   "tail": "lane_io single-writer guard: results/prospect_paper/* host=bm-a heartbeat stale 342min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)\nprospect lane: forward_guard t14_rules_fidelity.build_guard wired (up=24 dn=42)\nprospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-24"
+  },
+  {
+   "leg": "t24_prospect_promotion",
+   "rc": 0,
+   "sec": 1.5,
+   "tail": "PROS-OVB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)\nPROS-RSRS-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)\nPROS-TMU-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)\nPROS-TMU-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)\nPROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)\npromotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22"
+  },
+  {
+   "leg": "aggressive_lab",
+   "rc": 0,
+   "sec": 2.0,
+   "tail": "aggr paper: marks already at panel cutoff 2026-09-24 -- no-op (idempotent)"
+  },
+  {
+   "leg": "alloc_paper",
+   "rc": 0,
+   "sec": 0.8,
+   "tail": "ALLOC-P3: byte-identical (no new bar / no change), no-op\nALLOC-P3B: byte-identical (no new bar / no change), no-op\nALLOC-P4: byte-identical (no new bar / no change), no-op\nALLOC-P5: byte-identical (no new bar / no change), no-op\nALLOC-P6: byte-identical (no new bar / no change), no-op\nalloc_paper done: 0 file(s) updated, window 2026-09-23..2026-09-24"
+  },
+  {
+   "leg": "grid_paper",
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "grid paper: no markable bar yet (panel cutoff 2026-09-24 <= evidence_cutoff 2026-09-24) -- no-op"
+  },
+  {
+   "leg": "system_v1_paper",
+   "rc": 0,
+   "sec": 0.7,
+   "tail": "system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op"
+  },
+  {
+   "leg": "t35_paper_export",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat stale 342min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)\nexport 2026-09-24: traders=6 positions=18 equity=5996645 ops(entry/exit)=18/0 source=first-snapshot\n-> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\paper_export\\export-2026-09-24.json + latest.json"
+  },
+  {
+   "leg": "daily_scorecard",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 342min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)\nscorecard written: C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6"
+  },
+  {
+   "leg": "daily_report",
+   "rc": 0,
+   "sec": 0.4,
+   "tail": "daily report written: REPORT-2026-09-28.md/.json faces=4 token=1"
+  },
+  {
+   "leg": "build_status",
+   "rc": 0,
+   "sec": 3.7,
+   "tail": "lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat stale 342min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)\ndashboard status -> C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\dashboard_status.js\n  factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
+  },
+  {
+   "leg": "token_meter",
+   "rc": 0,
+   "sec": 0.1,
+   "tail": "saved: C:\\Users\\Administrator\\Desktop\\Bigmoney\\results\\token_usage.json\nper-round fixed context ~ 9555 + 2736 tokens (rough); ledger cumulative ~ 2049 state + 805961 report tokens; delta=0\nL2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=6 across 4 sigs"
+  }
+ ],
+ "n_ok": 34,
+ "n_bad": 0
+}
