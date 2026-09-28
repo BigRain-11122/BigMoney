@@ -78,15 +78,16 @@
 - results：`results/etf_ops/bp1_grid.json`（顶层 `evidence_cutoff="2026-09-22"`＋`science_gates.cutoff_meta` 必带）＋`results/etf_ops/bp1_rounds_<member>.csv` 逐员回合流＋null 分布件。
 - 本件 §7 回填。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【2026-09-28 R397 bm-b 回填·judged face=x2·产物=results/etf_ops/bp1_grid.json+bp1_nulls.json+bp1_rounds_<code>.csv·ledger 317,859→317,889】
 
-- 逐员-cell 胜率/回合数/盈亏比/期望/beat-passive：______
-- null p95 读数与胜率过闸面：______
-- G1'/G2 判定与 skill_line_v2/bootstrap_ci/trade_gate 全输入：______
-- D6 同族相关性逐对读数：______
-- 政体/分段分层胜率面：______
-- blocked_entry/blocked_exit/基金事件隔离日逐日单列：______
-- 预测对账（对/部分/错）：______
+- 逐员-cell 胜率/回合数/盈亏比/期望/beat-passive：**胜率区间 22.2%–60.0%**（510050 46.8–60.0 / 510300 25.0–43.3 / 510500 46.4–52.3 / 512100 42.3–57.9 / 588000 22.2–31.6）；回合数 16–58/cell（全批 900 回合）；beat-passive 全窗 **0/30**（链条累计最高 +2.2% vs 同窗被动最高 +89%，CN-CORE-SATELLITE 教训面再现：高胜率≠赢被动）；盈亏比/回合期望逐 cell 载 bp1_grid.json descriptive 节。
+- null p95 读数与胜率过闸面：同掩码随机入场 null p95（x2）=50.0%–85.7%；**实测胜率 > null p95 = 0/30——主判全批不过**，「低吸有技巧」在「贪心首触发日入场」口径下不成立：随机取同掩码触发日的入场胜率系统性更高（早接飞刀劣于随机深处承接，588000 20cm 面最显著 22–32% vs null p95 56–67%）。
+- G1'/G2 判定与 skill_line_v2/bootstrap_ci/trade_gate 全输入：**G2 eligible 2/30**（510300-D5-P612、512100 高 Sharpe cell：G1'v2 线+CI 双过、DSR≥0.95、PBO≤0.25）但两者均败主判 → **综合注册 0**；全输入（skill_line/bootstrap_ci/trade_gate/dsr/pbo）逐 cell 载 bp1_grid.json gates 节（判线=共享库实算零手抄）。
+- D6 同族相关性逐对读数：30 cell vs 在册 6 sleeve max|corr| 全部 <0.7（**0/30 拒收**；回合制链与恒在场 sleeve 结构性解耦，逐对读数载 bp1_grid.json d6 节）。
+- 政体/分段分层胜率面：逐 cell by_route_state（regime_deep_replay v3·L2 映射）+ by_t89_segment（bear/chop/bull）载 bp1_grid.json regime_face 节——分层读数如实、无全天候宣称。
+- blocked_entry/blocked_exit/基金事件隔离日逐日单列：blocked_entries/open_at_end/blocked_exit_rolls 逐员载 bp1_grid.json blocked_accounting 节+bp1_rounds_<code>.csv 逐回合列；隔离日=mask 构造面排除（5 员面隔离日计数入 shard face）。
+- 预测对账（对/部分/错）：§5.1 胜率方向**部分对**（P510 组 3/5 员最高、P815 组 3/5 员最低；区间 40–70% 预测对 4/5 员，588000 22–32% 出带=预测错）；§5.2 D5 回合数更少**对**（mask −23~−24%、回合 −9~−40%），胜率差<5pp 510050 对/510500 错=**部分对**；§5.3 null 中位 ~45–50% 方向对（p50 面载 bp1_nulls.json）；§5.4 极端日先验 blocked 路径实证在册（2015 股灾/2024-09 脉冲窗 blocked_exit 次日续卖逐回合 rolls 列）；§5.5 beat-passive 不保证**对**（0/30，MA200 空仓避险未跑赢 whipsaw+成本）。
+- **批判定：judged negative 族**——宽基回调低吸链（贪心首触发日+分层止盈+双止损）在五员两档全网格 30 cell 上主判全败，无注册无锦标赛臂；族教训=触发条件本身（回调幅度 D）不含独立技巧增量，出场纪律（MA200/−8%/分层 TP）是该链唯一可能有价值的部件面（2 个高 Sharpe cell 佐证），后续候选方向=出场纪律移植试验（新预注册），非本批复跑。
 
 ## §8 批后复盘【s7-T】
 
