@@ -10230,6 +10230,43 @@
     "prereg": "research/TRIAL_LABOR_W3_PREREG.md",
     "ticket": "T-2026-09-28-97"
    }
+  },
+  {
+   "batch": "GRID_DUALFACE_P1",
+   "ts": "2026-09-29 00:59:00",
+   "kind": "judgment",
+   "cells_ledger_delta": 30,
+   "ledger_total_after": 324519,
+   "gates": {
+    "win_rate_gate_x2": {
+     "n": 30,
+     "n_pass": 1,
+     "line": "wr_x2 > same-mask K=200 null p95 (single-sided); sole passer 510300-g8-L6 vs degenerate null p95=0.00 (disclosed)"
+    },
+    "g1_prime_v2": {
+     "n": 30,
+     "n_pass": 0,
+     "line": "skill_line_v2=1.1906 (ledger_head 324489, n_eff 324519, core48 passive); sharpe_full -1.93..2.88; bootstrap ci95_low all-negative"
+    },
+    "g2_registration_v2": {
+     "n": 30,
+     "n_pass": 0,
+     "line": "g1_pass=False all; DSR 0.0..1.0; family PBO 0.2286<=0.25 in-band (pbo_ok single-face pass)"
+    },
+    "d6_registered_corr": {
+     "n": 30,
+     "n_pass": 30,
+     "line": "max|corr| 0.013..0.095 vs registered 6 sleeves, zero rejects"
+    },
+    "beat_passive_full_x2": {
+     "n": 30,
+     "n_pass": 0,
+     "line": "virtual timepoints 6m/12m/24m mean beat 0.441/0.384/0.327; full-period 0/30"
+    }
+   },
+   "verdict": "judged-negative 0/30 registrations",
+   "prereg": "research/etf_ops/GRID_DUALFACE_P1_PREREG.md (frozen a03887474, seed 20295500)",
+   "results": "results/etf_ops/grid_dualface.json (sha16 485f729adf5a3927)"
   }
  ],
  "lane_machine": "bm-c"
