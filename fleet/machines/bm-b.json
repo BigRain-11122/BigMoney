@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T23:36:40+08:00",
- "heartbeat_epoch_utc": 1790609800,
- "clock_read": "2026-09-28T23:36:40+08:00",
- "current_task": "r400 read-only degraded round done: S0 28-UU collision (live bm-a r404) -> abort + fallback branch machine/bm-b-r400 carries stranded GRID_DUALFACE_P1 runner+pool-ready; CEO O-2210 receipted, T-113 claim deferred (invisible-lock hazard, next round claims if open); migration execution segment active -> next: new-root first round (E:\\Fluxgroup\\FluxGroup\\quant\\bigmoney) sync + canonical 28-UU resolve + T-113",
+ "last_seen": "2026-09-29T01:33:00+08:00",
+ "heartbeat_epoch_utc": 1790616641,
+ "clock_read": "2026-09-29T01:33:00+08:00",
+ "current_task": "r402 done: dead-session r401 dehydration salvage (T-104 GRID_DUALFACE_P1 closure 103 files) + S0 rebase 7-UU resolved vs bm-c r191 live-window base + push LANDED 155f57cec; next: W5 runner (bm-a T-114) watch -> V3-TOUR flip + CEO 48h report 09-29 22:45",
  "cpu_cores": 16,
- "free_ram_gb": 15.25,
+ "free_ram_gb": 14.76,
  "gpu_free_vram_gb": 6.59,
  "total_ram_gb": 25.69,
  "cpu_util_pct": 6.2,
- "round_no": 400,
- "verdict": "degraded-healthy: smoke 26/26; WM red=true @23:17:19 = migration task-disable honest signal (GM waiver O-1612, autofill resumes post enable-all -> grid shard burn self-heals); S0 collision per OS order = read-only round + fallback branch; orders ack 122/122 (O-2210 added)",
+ "round_no": 402,
+ "verdict": "healthy: smoke 26/26; WM red=false probe=insufficient_history (migration-window lawful); audit supply_floor standing with in-flight supply response (V3-TOUR runner bm-c pending + W5 bm-a T-114); orders ack 122/122",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -138,14 +138,14 @@
   "O-2026-09-28-2210-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 11.7,
- "gpu_free_vram_mb": 7088,
- "idle_ram_mb": 11746,
+ "idle_ram_gb": 14.76,
+ "gpu_free_vram_mb": 6758,
+ "idle_ram_mb": 14760,
  "gpu_idle_vram_mb": 7227,
  "n_orders_ack": 122,
  "gpu_idle_vram_gb": 7.06,
- "cpu_pct": 0.5,
- "round": 400,
+ "cpu_pct": 6.7,
+ "round": 402,
  "free_ram_mb": 11746,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
@@ -154,5 +154,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 400
+ "loop_round": 402
 }
