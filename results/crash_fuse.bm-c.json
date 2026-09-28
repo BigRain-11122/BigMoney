@@ -10,16 +10,6 @@
    "machine": "bm-a",
    "last_refusal_ts": "2026-09-27 03:30:03"
   },
-  "scripts/decision_chain_v2.py|run": {
-   "count": 3,
-   "refusals": 3,
-   "code_sha256": "880297a0fb0854bf",
-   "last_crash_ts": "2026-09-28 03:20:08",
-   "entry": "DECISION-CHAIN-V2-P1",
-   "shard": "v2-0of1",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-09-28 03:23:20"
-  },
   "scripts/trial_labor_w2.py|screen,--shard,0,--shards,1": {
    "count": 2,
    "refusals": 0,
@@ -28,6 +18,42 @@
    "entry": "TRIAL-LABOR-W2-SCREEN",
    "shard": "screen-0of1",
    "machine": "bm-c"
+  },
+  "scripts/census_fusion_s2_w2b.py|run": {
+   "count": 2,
+   "refusals": 2,
+   "code_sha256": "822aaa29c33fc07f",
+   "last_crash_ts": "2026-09-28 13:50:07",
+   "entry": "CENSUS-FUS-S2-W2B",
+   "shard": "censusw2b-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-09-28 14:13:22"
+  },
+  "scripts/trial_labor_w4.py|judge,--shard,0,--shards,1": {
+   "count": 1,
+   "refusals": 2,
+   "code_sha256": "c6a5b0373854aa95",
+   "last_crash_ts": "2026-09-28 17:30:04",
+   "entry": "TRIAL-LABOR-W4-JUDGE",
+   "shard": "judge-0of1",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-09-28 17:50:05"
+  }
+ },
+ "cleared": {
+  "scripts/trial_labor_w4.py|generate": {
+   "cleared_ts": "2026-09-28 12:33:38",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "44bf81ffa87535dc"
+  },
+  "scripts/decision_chain_v2.py|run": {
+   "cleared_ts": "2026-09-28 16:13:24",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 3,
+   "old_code_sha256": "880297a0fb0854bf"
   }
  },
  "lane_machine": "bm-c"
