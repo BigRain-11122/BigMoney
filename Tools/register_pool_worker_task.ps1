@@ -33,8 +33,13 @@ try {
 $pinMap = @{ 'bm-a' = 7; 'bm-b' = 12; 'bm-c' = 17 }
 $pin = 4
 if ($pinMap.ContainsKey($mid)) { $pin = [int]$pinMap[$mid] }
+# BUGFIX (r188 bm-c live-fire): Minute%15 domain is 0..14 -- a pin of 17
+# can never satisfy "-ne 17" -> infinite first-fire loop on the first
+# pin>14 machine. Normalize pin to its phase residue first (17->2 =
+# :02/:17/:32/:47 sweeps, distinct from loop pin :05 and other workers).
+$phase = $pin % 15
 $start = Get-Date -Minute 0 -Second 0
-while ($start.Minute % 15 -ne $pin) { $start = $start.AddMinutes(1) }
+while ($start.Minute % 15 -ne $phase) { $start = $start.AddMinutes(1) }
 while ($start -le (Get-Date)) { $start = $start.AddMinutes(15) }
 $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 15) -RepetitionDuration (New-TimeSpan -Days 3650)
 # ExecutionTimeLimit generous: a shard burn may legitimately run long; a

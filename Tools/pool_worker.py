@@ -10,8 +10,10 @@ Cycle (single pass; the schtask "Bigmoney-PoolWorker" fires this every
 N minutes -- silent VBS launcher, BelowNormal priority, single instance
 via PID lock):
 
-  1. fetch origin; read the freshest runnable_pool.json
-  2. scan READY entries -> claimable shards:
+  1. mid-git-op guard (D-20260928-02): another session mid-rebase/merge
+     or a live index.lock -> honest defer, zero git faces touched
+  2. fetch origin; read the freshest runnable_pool.json
+  3. scan READY entries -> claimable shards:
        - entry.status == "ready" (waiting batches wait for THEIR deps,
          workers never touch waiting)
        - worker_class eligibility (O-2210 data-locality honesty):
@@ -21,17 +23,17 @@ via PID lock):
          results/pool_claims/<entry>/<shard>.<machine>.json)
        - no fresh pool-side owner (fleet autofill claim -- the pool's
          owner field is transient but a FRESH one is respected)
-  3. claim-by-file: write OUR claim file + git push it. Workers NEVER
+  4. claim-by-file: write OUR claim file + git push it. Workers NEVER
      write runnable_pool.json (pool single-writer law untouched).
-  4. run entry.runner as a subprocess at BelowNormal priority, with a
+  5. run entry.runner as a subprocess at BelowNormal priority, with a
      background heartbeat thread refreshing the claim file every 5 min
      (stale > 20 min = another machine may lawfully take over, fleet law).
-  5. on finish: claim state=closed (outcome ok|fail) + result_ref,
+  6. on finish: claim state=closed (outcome ok|fail) + result_ref,
      append a capacity-ledger row to results/pool_worker_ledger.jsonl
      ({machine_id, entry, shard, started, duration_sec, cores,
      core_hours} = BigCompute monthly shared-compute KPI face),
      git push everything (claim + ledger + runner result artifacts).
-  6. the POOL-SIDE harvest flip (shard done) is consumed by the fleet
+  7. the POOL-SIDE harvest flip (shard done) is consumed by the fleet
      (autofill/round harvest reads closed claims as owner truth) --
      workers stay zero-write on the pool.
 
@@ -93,6 +95,21 @@ def _machine_id():
 def _git(args):
     r = subprocess.run(["git", *args], cwd=ROOT, capture_output=True)
     return r.returncode, (r.stderr or b"").decode(errors="replace")[:200]
+
+
+def _mid_git_op(root=None):
+    """D-20260928-02 fleet law: mid-rebase/merge marker or a live git
+    index.lock -> this background self-committer defers its git-write
+    face (tick x round-session rebase race family, r331 bm-b evidence;
+    parity with autofill r201 guard + resident_dispatcher index.lock
+    leg). Structural markers only -- a stale lock is maintenance work
+    for the fleet round, never bulldozed by a worker."""
+    gd = os.path.join(root or ROOT, ".git")
+    for marker in ("rebase-merge", "rebase-apply", "MERGE_HEAD",
+                   "index.lock"):
+        if os.path.exists(os.path.join(gd, marker)):
+            return marker
+    return None
 
 
 def _log(msg):
@@ -293,6 +310,11 @@ def _push_claims_and_ledger(myid, note):
     dirty-tree hazard family. Push lost to origin movement -> ONE pull
     --rebase + push retry, then leave the local commit standing (next
     pass re-pushes, r199 spirit)."""
+    mid = _mid_git_op()
+    if mid:
+        _log(f"push deferred: mid-git-op ({mid}) -- local files stand, "
+             "next pass re-pushes (zero loss)")
+        return False
     _git(["add", "results/pool_claims", "results/pool_worker_ledger.jsonl"])
     rc, err = _git(["commit", "-m",
                     f"pool_worker {myid}: {note} [claim-by-file O-2210]"])
@@ -337,6 +359,11 @@ def run_pass(dry=False):
     ok, lockf = _pid_lock(myid)
     if not ok:
         _log("another pool_worker instance holds the lock -> exit")
+        return 0
+    mid = _mid_git_op()
+    if mid:
+        _log(f"mid-git-op detected ({mid}) -> honest defer, next pass "
+             f"retries (D-20260928-02 law)")
         return 0
     _git(["fetch", "origin"])
     pool = _load_pool()
@@ -479,6 +506,23 @@ def selftest():
         pool_or = _load_pool()
         ok("S15 origin-main blob readable (post-fetch face)",
            isinstance(pool_or, dict) and "entries" in pool_or)
+        # S16-S19 D-20260928-02 mid-git-op guard (hermetic fake roots)
+        # (renumbered from r188 S14-S17 post-union with r404-cont S14/S15)
+        fake = os.path.join(tmp, "fake_repo")
+        ok("S16 clean tree -> no marker", _mid_git_op(fake) is None)
+        os.makedirs(os.path.join(fake, ".git", "rebase-merge"))
+        ok("S17 rebase-merge marker detected",
+           _mid_git_op(fake) == "rebase-merge")
+        shutil.rmtree(os.path.join(fake, ".git", "rebase-merge"))
+        with open(os.path.join(fake, ".git", "MERGE_HEAD"), "w") as fh:
+            fh.write("x")
+        ok("S18 MERGE_HEAD marker detected",
+           _mid_git_op(fake) == "MERGE_HEAD")
+        os.remove(os.path.join(fake, ".git", "MERGE_HEAD"))
+        with open(os.path.join(fake, ".git", "index.lock"), "w") as fh:
+            fh.write("x")
+        ok("S19 index.lock detected (live git op -> defer)",
+           _mid_git_op(fake) == "index.lock")
         CLAIMS = real_claims
         LEDGER = real_ledger
         allp = failc[0] == 0
