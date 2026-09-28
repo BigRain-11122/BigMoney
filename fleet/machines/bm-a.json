@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-29T03:19:43+08:00",
- "current_task": "r411: 5x HANDOVER backfill for r410 + pit-law batch-78; watch W5-JUDGE ignite (bm-b lane) + moneyflow panel self-heal",
+ "last_seen": "2026-09-29T03:52:22",
+ "current_task": "r412 closed: legal-idle maintenance (advisory staleness fix + 31-UU rebase resolve); watch W5-JUDGE judge-finalize on bm-b + moneyflow 30-min self-heal",
  "cpu_cores": 32,
- "cpu_pct": 75.1,
- "free_ram_gb": 45.4,
- "gpu_free_vram_gb": 3.0,
- "verdict": "green; r410 5x HANDOVER backfill landed (chain 328,615, pool 107, orders 122/122); W5-JUDGE ready on bm-b lane awaiting their autofill ignite (checkpoint absent); W6 DRAFT freeze-pending same trigger; board 0 open; moneyflow IC next_pick=claimed panel source-blocked self-heal; S6 36 legs rc=0",
+ "cpu_pct": 58.7,
+ "free_ram_gb": 51.3,
+ "gpu_free_vram_gb": 5.1,
+ "verdict": "green; r412 legal-idle maintenance: board closed (W5-JUDGE harvest landed bm-b r406 372/372, judge-finalize detached pid3108; V3-TOURNAMENT bm-c RAM-serial); moneyflow advisory-staleness fixed (sina sibling 0/5 REJECT r338 context appended to bandit candidate note; EM face conn-blocked since 09-25 stays parked per sec.9); W6 DRAFT freeze-pending finalize trigger; 31-UU rebase resolve clean; S6 36 legs rc=0; orders 122/122",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -131,8 +131,8 @@
   "O-20260928-1925-bm-c.md",
   "O-20260928-1930-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790623183,
- "clock_read": "2026-09-29T03:19:43+08:00",
+ "heartbeat_epoch_utc": 1790625142,
+ "clock_read": "2026-09-29T03:52:22",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 3.0,
@@ -143,12 +143,12 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 411,
+ "round_no": 412,
  "gpu_idle_vram_mb": 3103,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 52.0,
+ "idle_ram_gb": 51.3,
  "gpu0_free_vram_gb": 3.0,
- "cpu_util_pct": 75.1,
+ "cpu_util_pct": 58.7,
  "total_ram_gb": 100.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-27 09:3x, 6631MiB in use)",
  "prod_lanes": [
@@ -158,7 +158,7 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 411,
- "loop_round": 411,
+ "round": 412,
+ "loop_round": 412,
  "gpu_free_vram": "5559MB"
 }
