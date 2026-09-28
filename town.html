@@ -69,7 +69,7 @@
     <h4 id="i-title"></h4><div id="i-body"></div></div>
 </div>
 
-<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）</footer>
+<footer>数据源：results/dashboard_status.js（monitor/build_status.py 每 10 分钟 tick 刷新）· 全部真实数据，无 mock · J12 公司小镇 v1.0 · 队列排程上盘（QUEUE_BANDIT UCB1 advisory · O-1819 队列永不清空 · 不自动发起批）· 治理面上盘（科学审计五检+经营简报 · 总经办 mandate · r23 数据块）· 每日战报上盘（总经办 KPI v6 刷新 · T-75 · docs/daily_report 真数据 · r277）· 行情防线上盘（REGIME_GUARD shadow 状态灯 · T-05）· IV6 报告制 pass 2 上盘（EW 载体 · v2 门过 · 采纳=T1 待批）· 相关性监控 corr-watch 上盘（R36 监控件 · ORANGE=W2 IS2 收敛盯防）· 研究线批次上盘（factor_line · 研究楼 info · r41）· 数据链三行上盘（热度/期货/资金流 · 数据塔 info · r42）· 研究部席位对齐（BigMoney·调研部 · org_chart v2 同步 · r292）· 组合调度中心（org_chart v3 全对齐）· paper 首月晋升进度可视化（hr 整月规则驱动）· 昼夜随真实时间（?hour=H 可预览指定时刻）· 资产组合研究部上盘（org_chart v5 八部门对齐 · ALLOC-* 账户真数据 · 三线三判）· 策略厂/交易厅 O-2250 指针与 KPI 面补齐（org_chart v2 部门表对齐 · r383）</footer>
 
 <script src="results/dashboard_status.js"></script>
 <script>
@@ -340,14 +340,15 @@ const BUILDS = [
       + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('')
       + '<div class="row dim">KPI：新知识入库量 · idea 过闸率 · 外调轮执行率 · 正交成员供给数（相关性帽）· 五线供给覆盖（交易/配置/激进/CN/野路子）（org_chart v6）</div>' } },
   { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
-    dept:'策略部 Strategy Factory', mandate:'策略工厂 · 门禁链 G1\'/G2+判据科学层 v2 · 注册与退役',
+    dept:'策略部 Strategy Factory', mandate:'策略工厂（实况计数指针=research/STRATEGY_LIBRARY.md §一·O-2250）· 门禁链 G1\'/G2+判据科学层 v2 · 注册与退役',
     info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
     + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>'
     + (() => { const tl=(D.data&&D.data.trial_labor)||{};
         if (!tl.present) return '<div class="row dim">试用劳动力常设线待产出（TRIAL_LABOR_LAW · 千人试用期首波 T-94 在飞）</div>';
         const wrows = (tl.waves||[]).map(w => '<div class="row">'+w.wave+' 初筛'+(w.screen_done?'<span class="green">✔</span>':'…')+' · 候选 '+(w.candidates??'—')+(w.n_distinct!=null?'（去重 '+w.n_distinct+'+null '+w.k_nulls+'）':'')+' · 幸存 <span class="gold">'+(w.survivors_stage1??'—')+'</span>'+(w.null_p95!=null?' · 零假设p95线 '+Number(w.null_p95).toFixed(4):'')+(w.judge_prep?' · 判决格 '+(w.judge_prep.n_judge_cells??'—'):'')+(w.judge?' · <span class="green">判决✔</span> '+(w.judge.n_judged??'—')+'格 → 过闸 <span class="gold">'+(w.judge.n_eligible_g2??'—')+'</span>'+(w.judge.e_fp!=null?'（E[FP]标称 '+w.judge.e_fp+'）':'')+(w.judge.intake_n!=null?' · 上岗 '+w.judge.intake_n:''):'')+'</div>').join('');
         const pe = (tl.pool_entries||[]).map(e => e.id+':'+e.status).join(' · ');
-        return wrows + (pe?'<div class="row dim">池面：'+pe+'</div>':'') + '<div class="row dim">常设律（'+tl.law+'）：板空/池饿=默认续波 · 采集≠入册 · 上岗=TRIAL-* 纸盘月考</div>'; })() },
+        return wrows + (pe?'<div class="row dim">池面：'+pe+'</div>':'') + '<div class="row dim">常设律（'+tl.law+'）：板空/池饿=默认续波 · 采集≠入册 · 上岗=TRIAL-* 纸盘月考</div>'; })()
+    + '<div class="row dim">KPI：在册交易员质量 · 门禁通过率（org_chart v2 部门表）</div>' },
   { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
     dept:'风控部 Risk & Audit', mandate:'铁律执行 · 熔断 · 零假设校准 · 防作弊审计',
     info: () => { const rg = (D.data && D.data.regime) || {};
@@ -357,7 +358,7 @@ const BUILDS = [
         : '<div class="row dim">行情防线待产出（python scripts/market_regime.py）</div>';
       return D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' + rgRows; } },
   { id:'hall', x:310, y:160, w:100, h:56,  draw:drawHall,   label:'交易大厅',
-    dept:'交易部 Trading Desk', mandate:'交易员实战 · 模拟盘战绩=唯一计分板',
+    dept:'交易部 Trading Desk', mandate:'交易员实战（在册名单指针=research/STRATEGY_LIBRARY.md §二·O-2250）· 模拟盘战绩=唯一计分板',
     info: () => (D.trading.traders.length ? D.trading.traders.map(t =>
         '<div class="row">'+t.name+' <span class="gold">'+t.level+'</span> · IS '+t.is_sharpe.toFixed(2)+' / OOS '+t.oos_sharpe.toFixed(2)+'<br><span class="dim">'+t.oos_trades+'笔 · ×2成本'+(t.cost_x2_survive?'存活':'阵亡')+' · paper '+(t.paper_months??0)+'月</span></div>').join('')
       : '<div class="row dim">暂无在册交易员</div>')
