@@ -1,0 +1,136 @@
+{
+ "batch": "REPO_CALENDAR_P1_FEE_RECHECK",
+ "kind": "intake-fee-recheck (T-2026-09-28-112 step 1; NOT a judged batch: ledger +0, gate_attrition +0, DSR/PBO/nulls/D6 stand as judged in REPO-CALENDAR-P1.json)",
+ "evidence_cutoff": "2026-09-22",
+ "cutoff_meta": {
+  "evidence_cutoff": "2026-09-22"
+ },
+ "ticket": "T-2026-09-28-112 (claimed bm-c r183)",
+ "prereg": "research/INNOVATION_QUOTA_W1_PREREG.md s3 frozen cost clause + s7 receipt (@dd62920e freeze)",
+ "skill_line_frozen": {
+  "line": 25.006,
+  "n_eff": 319863,
+  "source": "REPO-CALENDAR-P1.json gates face (programmatic read, zero hand-copy)",
+  "passive_term": 11.8962
+ },
+ "fee_model": {
+  "unit": "per-placement fraction of principal, haircut at episode start day",
+  "sweep_bp": [
+   0.5,
+   1.0,
+   2.0,
+   5.0
+  ],
+  "pass_line_bp": 1.0,
+  "pass_line_note": "frozen pre-run: intake PASS iff flip bound b* >= 1.0bp uniform per placement; verdict independent of the exact exchange fee schedule (any actual fee below b* passes)",
+  "schedule_band_disclosure": "exchange repo fee band for GC001-GC028 believed order 0.036-0.84bp per placement per 10-wan lot (prereg s3 froze '按标准费率极低'); if CEO face supplies a sharper table the b* recheck reruns trivially -- no fact-face dependency"
+ },
+ "passive_face_informational": {
+  "sharpe_pre_fee": 11.7962,
+  "n_episodes": 3734,
+  "sharpe_after_fee_1bp": 11.6765,
+  "churn_bias_note": "uniform-b passive face is informational only: daily roll pays one placement per trading day (~37x the calendar-switch placement count/year), so uniform b over-penalizes passive; the frozen skill_line passive_term is pre-fee and does not move"
+ },
+ "cells": {
+  "CAL-SWITCH-GC007": {
+   "sharpe_pre_fee": 19.3526,
+   "n_episodes": 743,
+   "ann_ret_pre_fee": 8.230273,
+   "in_this_recheck": false,
+   "note": "CAL-SWITCH-GC007 judged-negative (19.3526 < mu_null 22.3153); closed per RANDOM_LARGE_SAMPLE_LAW s5 -- not part of this intake"
+  },
+  "CAL-SWITCH-GC014": {
+   "sharpe_pre_fee": 29.1961,
+   "n_episodes": 397,
+   "ann_ret_pre_fee": 11.227063,
+   "in_this_recheck": true,
+   "sweep": {
+    "0.5bp": {
+     "sharpe_after_fee": 29.188,
+     "clears_line": true
+    },
+    "1bp": {
+     "sharpe_after_fee": 29.1795,
+     "clears_line": true
+    },
+    "2bp": {
+     "sharpe_after_fee": 29.1616,
+     "clears_line": true
+    },
+    "5bp": {
+     "sharpe_after_fee": 29.0995,
+     "clears_line": true
+    }
+   },
+   "flip_bound_bp": 5.0,
+   "sharpe_after_fee_1bp": 29.1795,
+   "ann_ret_after_fee_1bp": 11.19577,
+   "fee_recheck_pass": true
+  },
+  "QW5-SWITCH-GC014": {
+   "sharpe_pre_fee": 26.5594,
+   "n_episodes": 457,
+   "ann_ret_pre_fee": 10.789182,
+   "in_this_recheck": true,
+   "sweep": {
+    "0.5bp": {
+     "sharpe_after_fee": 26.5566,
+     "clears_line": true
+    },
+    "1bp": {
+     "sharpe_after_fee": 26.5536,
+     "clears_line": true
+    },
+    "2bp": {
+     "sharpe_after_fee": 26.5466,
+     "clears_line": true
+    },
+    "5bp": {
+     "sharpe_after_fee": 26.5184,
+     "clears_line": true
+    }
+   },
+   "flip_bound_bp": 5.0,
+   "sharpe_after_fee_1bp": 26.5536,
+   "ann_ret_after_fee_1bp": 10.754489,
+   "fee_recheck_pass": true
+  },
+  "CAL-SWITCH-GC028": {
+   "sharpe_pre_fee": 34.8303,
+   "n_episodes": 213,
+   "ann_ret_pre_fee": 12.729849,
+   "in_this_recheck": true,
+   "sweep": {
+    "0.5bp": {
+     "sharpe_after_fee": 34.8237,
+     "clears_line": true
+    },
+    "1bp": {
+     "sharpe_after_fee": 34.8167,
+     "clears_line": true
+    },
+    "2bp": {
+     "sharpe_after_fee": 34.8018,
+     "clears_line": true
+    },
+    "5bp": {
+     "sharpe_after_fee": 34.7503,
+     "clears_line": true
+    }
+   },
+   "flip_bound_bp": 5.0,
+   "sharpe_after_fee_1bp": 34.8167,
+   "ann_ret_after_fee_1bp": 12.710981,
+   "fee_recheck_pass": true
+  }
+ },
+ "intake_verdict": {
+  "fee_recheck_pass_all": true,
+  "eligible_cells": [
+   "CAL-SWITCH-GC014",
+   "QW5-SWITCH-GC014",
+   "CAL-SWITCH-GC028"
+  ],
+  "next": "STRATEGY_LIBRARY cash-leg sleeve CANDIDATE intake (this ticket step 2); CE admission face is a separate walk (intake != activation)"
+ }
+}
