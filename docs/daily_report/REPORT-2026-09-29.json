@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-29",
- "generated_at": "2026-09-29 04:59:41",
+ "generated_at": "2026-09-29 05:12:51",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,17 +286,18 @@
   "marks_asof": "2026-09-28"
  },
  "rd": {
-  "commits_24h": 596,
-  "result_jsons_landed_24h": 117,
+  "commits_24h": 593,
+  "result_jsons_landed_24h": 115,
   "digests_landed_24h": 5,
   "prereg_md_touched_24h": 26,
   "compute_audit_latest": {
-   "ts": "2026-09-29 04:58:48",
-   "py_cpu_pct": 1.6,
+   "ts": "2026-09-29 05:11:48",
+   "py_cpu_pct": 6.4,
    "flags": [
+    "cap_violation",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_floor"
+   "verdict": "FLAG:cap_violation,supply_floor"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
@@ -569,27 +570,6 @@
    "owner": "bm-a (OS iteration loop r399; P0 CEO imm"
   },
   {
-   "id": "T-2026-09-28-97",
-   "status": "claimed",
-   "type": "trial-labor-wave3-prereg",
-   "immediate": false,
-   "owner": "bm-a (OS iteration loop R391; TRIAL_LABO"
-  },
-  {
-   "id": "T-2026-09-28-98",
-   "status": "claimed",
-   "type": "trial-labor-wave4-prereg",
-   "immediate": false,
-   "owner": "bm-a (OS iteration loop R396; TRIAL_LABO"
-  },
-  {
-   "id": "T-2026-09-29-114",
-   "status": "claimed",
-   "type": "trial-labor-wave5-prereg",
-   "immediate": false,
-   "owner": "bm-a (OS iteration loop r405; TRIAL_LABO"
-  },
-  {
    "id": "T-2026-09-29-116",
    "status": "claimed",
    "type": "pool-shared-view-retirement",
@@ -606,11 +586,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 861160,
+  "total_report_tokens_est": 862458,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 04:34:44",
+   "prev_generated": "2026-09-29 04:45:54",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1487,
+   "report_tokens_growth": 1298,
    "mandate_growth": 0
   },
   "method": {
@@ -621,21 +601,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-09-29 04:44:09",
-    "py_pct": 12.4,
-    "cpu_pct": 74.0,
-    "ready": 0,
-    "streak_min": 723.2,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "latest_ts": "2026-09-29 05:11:48",
+    "py_pct": 6.4,
+    "cpu_pct": 85.0,
+    "ready": 1,
+    "streak_min": 750.8,
+    "verdict": "FLAG:cap_violation,supply_floor",
     "py_series_tail": [
-     [
-      "03:02",
-      6.3
-     ],
-     [
-      "03:10",
-      3.9
-     ],
      [
       "03:13",
       7.4
@@ -675,9 +647,17 @@
      [
       "04:44",
       12.4
+     ],
+     [
+      "04:58",
+      1.6
+     ],
+     [
+      "05:11",
+      6.4
      ]
     ],
-    "today_samples": 26,
+    "today_samples": 28,
     "today_floor_ok": 0,
     "today_sla_flags": 3,
     "today_supply_gap_flags": 8
