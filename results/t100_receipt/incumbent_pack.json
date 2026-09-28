@@ -1,0 +1,59 @@
+{
+ "model": "qwen2.5:7b-instruct",
+ "ts": "2026-09-29T03:08:20+0800",
+ "P1-deepqa-multipletesting": {
+  "kind": "深度问答",
+  "grade_key": {
+   "e_fp_expected": "0.05*461=23.05 (23 左右)",
+   "dsr_rationale": "初筛幸存=已被选择偏差过滤，真实多重性由全部被试次数决定；按累计 N 折减才能控制族错误率"
+  },
+  "incumbent": {
+   "text": "(1) 假设初始5000个候选中的461个存活者中，假阳性率为99.1%（即4554个），那么按存活者数估算的假阳性期望约为4554 * 5% = 227.7个。\n\n(2) Deflated Sharpe Ratio 需要按跨波累计的总试验数折减，因为每次筛选都会引入新的假阳性，累积起来会影响最终的统计显著性，而不仅仅是当前批次的461个存活者，例如305,190次试验就需考虑所有批次的筛选过程。",
+   "sec": 3.4,
+   "usage": {
+    "prompt_tokens": 156,
+    "prompt_tokens_details": {
+     "cached_tokens": 24
+    },
+    "completion_tokens": 140,
+    "total_tokens": 296
+   }
+  }
+ },
+ "P2-firstreview-indexbug": {
+  "kind": "复杂一审档",
+  "grade_key": {
+   "expected_bug": "del 后列表缩短，range 索引继续前进=跳元素，且 i-1 在删除后语义漂移；应倒序遍历或建新列表"
+  },
+  "incumbent": {
+   "text": "缺陷诊断：使用 `del prices[i]` 会改变列表的长度，导致索引错位，从而跳过某些元素。\n\n修正函数：\n```python\ndef drop_crash_days(prices, pct=0.05):\n    to_remove = []\n    for i in range(1, len(prices)):\n        if prices[i] < prices[i-1] * (1 - pct):\n            to_remove.append(i)\n    for index in reversed(to_remove):\n        del prices[index]\n    return prices\n```",
+   "sec": 1.4,
+   "usage": {
+    "prompt_tokens": 139,
+    "prompt_tokens_details": {
+     "cached_tokens": 24
+    },
+    "completion_tokens": 109,
+    "total_tokens": 248
+   }
+  }
+ },
+ "P3-numbers-restate": {
+  "kind": "数字摘要",
+  "grade_key": {
+   "expected": "3810, 200, 4010, 0.5164, 461, 12.10%, 61/1226, 140/1311, 260/1273, 305190"
+  },
+  "incumbent": {
+   "text": "W4 初筛批：3810 个去重候选+200 个零假设信号，共 4010 个单元；\n零假设 p95=0.5164；\n存活 461 个，存活率 12.10%；\n波次分段的波动率闸面：calm 61/1226、none 140/1311、wild 260/1273；\n累计试验链总数 305,190。",
+   "sec": 1.5,
+   "usage": {
+    "prompt_tokens": 182,
+    "prompt_tokens_details": {
+     "cached_tokens": 24
+    },
+    "completion_tokens": 124,
+    "total_tokens": 306
+   }
+  }
+ }
+}

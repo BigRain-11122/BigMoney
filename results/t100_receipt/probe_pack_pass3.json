@@ -1,0 +1,66 @@
+{
+ "P1-deepqa-multipletesting": {
+  "kind": "深度问答",
+  "grade_key": {
+   "e_fp_expected": "0.05*461=23.05 (23 左右)",
+   "dsr_rationale": "初筛幸存=已被选择偏差过滤，真实多重性由全部被试次数决定；按累计 N 折减才能控制族错误率"
+  },
+  "bonsai": {
+   "text": "(1) 仅按存活者数估算的假阳性期望为 **23.05**（即 $461 \\times 0.05$）。\n\n(2) 因为“先筛后判”属于**选择偏差**，存活者并非随机样本，其显著性被初筛过程“富集”了；若仅按 461 计算会严重低估多重比较惩罚，必须按**全量试验数**（305,190）折减以反映真实的探索自由度（即 $305,190 \\times 0.05 \\approx 15,259.5$ 的假阳性期望）。",
+   "sec": 17.7,
+   "usage": {
+    "completion_tokens": 150,
+    "prompt_tokens": 135,
+    "total_tokens": 285,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    }
+   }
+  },
+  "incumbent": {
+   "error": "<HTTPError 400: 'Bad Request'>"
+  }
+ },
+ "P2-firstreview-indexbug": {
+  "kind": "复杂一审档",
+  "grade_key": {
+   "expected_bug": "del 后列表缩短，range 索引继续前进=跳元素，且 i-1 在删除后语义漂移；应倒序遍历或建新列表"
+  },
+  "bonsai": {
+   "text": "**缺陷诊断**：\n1.  **索引越界**：当 `i=0` 时，`prices[i-1]` 即 `prices[-1]` 会访问列表的最后一个元素，导致逻辑错误（比较了首项与末项）。\n2.  **列表修改导致索引错位**：在 `for` 循环中直接对正在遍历的列表执行 `del` 操作，会导致后续元素索引前移，从而跳过相邻的样本，导致删除不全。\n\n**修正函数**：\n```python\ndef drop_crash_days(prices, pct=0.05):\n    if not prices:\n        return prices\n    \n    # 使用列表推导式构建新列表，避免修改原列表导致的索引错位问题\n    # 从第二个元素开始比较，确保 i-1 有效\n    return [p for i, p in enumerate(prices) if i == 0 or p >= prices[i-1] * (1 - pct)]\n```",
+   "sec": 23.8,
+   "usage": {
+    "completion_tokens": 215,
+    "prompt_tokens": 126,
+    "total_tokens": 341,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    }
+   }
+  },
+  "incumbent": {
+   "error": "<HTTPError 400: 'Bad Request'>"
+  }
+ },
+ "P3-numbers-restate": {
+  "kind": "数字摘要",
+  "grade_key": {
+   "expected": "3810, 200, 4010, 0.5164, 461, 12.10%, 61/1226, 140/1311, 260/1273, 305190"
+  },
+  "bonsai": {
+   "text": "W4 初筛批：3810 个去重候选+200 个零假设信号，共 4010 个单元；零假设 p95=0.5164；存活 461 个，存活率 12.10%；波次分段的波动率闸面：calm 61/1226、none 140/1311、wild 260/1273；累计试验链总数 305,190。",
+   "sec": 15.6,
+   "usage": {
+    "completion_tokens": 123,
+    "prompt_tokens": 163,
+    "total_tokens": 286,
+    "prompt_tokens_details": {
+     "cached_tokens": 0
+    }
+   }
+  },
+  "incumbent": {
+   "error": "<HTTPError 400: 'Bad Request'>"
+  }
+ }
+}

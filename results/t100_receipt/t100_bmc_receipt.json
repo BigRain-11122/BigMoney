@@ -1,0 +1,59 @@
+{
+  "ticket": "T-2026-09-28-100-P1",
+  "machine": "bm-c (RTX3070-mod 16GB, wide-envelope GPU lane)",
+  "spec": "cph4/research/R-20260928-bonsai-fleet-trial.md (CEO order P-2026-09-28-07)",
+  "receipt_ts": "2026-09-29T03:12:00+08:00",
+  "receipt_window": "claimed 2026-09-28T13:39:30+08:00, CEO first round 2026-09-30 13:00 (inside 48h)",
+  "piece_1_deploy": {
+    "model_bytes": 5946648928,
+    "model_anchor": "MATCH",
+    "llama_bin_bytes": 257322810,
+    "cudart_bytes": 391443627,
+    "zip_anchors": "MATCH 2/2",
+    "runtime": "PrismML-Eng/llama.cpp fork prism-b10743 Win CUDA12.4 (build adfffbe41/10743)",
+    "health": "/health ok pass-1 27.1s, pass-2 21.1s, pass-3 21.1s-class relaunch ok",
+    "verdict": "PASS"
+  },
+  "piece_2_speed": {
+    "pass2_pp128_tok_s": 770.95,
+    "pass2_pp128_stddev": 75.14,
+    "pass2_tg128_tok_s": 40.52,
+    "pass2_tg128_stddev": 1.10,
+    "pass1_raw_tg128_cross_check": "40.42 ± 1.07 (two independent measurements consistent)",
+    "official_claim_16gb": "30+ tok/s",
+    "claim_met": true,
+    "verdict": "PASS -- claim verified met on 16GB card"
+  },
+  "piece_3_coresidency": {
+    "resident_stack": "ollama qwen2.5:7b-instruct 4.75GB VRAM + ComfyUI python + Tuanjie editor",
+    "gpu_pre_bench": "15042/16384 MiB (bonsai server loaded + incumbent + ComfyUI)",
+    "during_bench": "llama-bench ran co-resident; WDDM oversubscription managed without OOM or incumbent-stack crash; server alive post-bench (probe answers returned)",
+    "gpu_post_stop": "VRAM restored after trial server stop",
+    "verdict": "PASS -- can co-reside with incumbent stack on 16GB; no displacement of production lanes; trial server torn down after evidence collection (keep-warm deferred per O-2175)"
+  },
+  "piece_4_quality": {
+    "probes": 3,
+    "bonsai_grades": {
+      "P1-deepqa-multipletesting": "PASS -- 461*0.05=23.05 correct + DSR cumulative-N rationale correct (305,190 cited)",
+      "P2-firstreview-indexbug": "PASS -- caught BOTH del-index-shift AND i=0 negative-index wraparound; new-list fix correct",
+      "P3-numbers-restate": "PASS -- all 10 numbers verbatim (3810/200/4010/0.5164/461/12.10%/61,1226/140,1311/260,1273/305,190)"
+    },
+    "bonsai_score": "3/3",
+    "incumbent_qwen25_7b_grades": {
+      "P1": "FAIL(q1) -- answered 227.7 from rejected-count 4554, wrong base for asked survivor expectation (correct 23.05); DSR rationale ok",
+      "P2": "PASS-main -- index-shift defect + reversed-removal fix; missed i=0 wraparound",
+      "P3": "PASS -- numbers verbatim"
+    },
+    "latency": "bonsai 15.6-53.1s per answer vs incumbent 1.4-3.4s (7b ~5-10x faster)",
+    "verdict": "PASS -- quality edge to bonsai on deep-QA face (P1), parity elsewhere; latency tradeoff honest"
+  },
+  "harness_incidents": [
+    "pass-1 bench parser m[-1] grabbed ±stddev (tg128 recorded 1.07 not 40.42) -> fixed m[0]; pass-2 confirmed + claim_met flipped false->true; raw pass-1 table preserved (bench_tg128_pass1_parserbug.json + chain log)",
+    "pass-1/2/3 incumbent 400 root cause = ollama OpenAI-compat requires explicit model field; incumbent-only pass with model=qwen2.5:7b-instruct completed errors=0 (incumbent_pack.json)",
+    "pass-2 probe data=body(dict) vs data=data(bytes) TypeError -> fixed pass-3; probe exit contract upgraded to error-counting (rc=1 on errors)"
+  ],
+  "conclusion": "observe",
+  "conclusion_note": "All four receipt pieces PASS on bm-c wide-envelope lane; official 16GB 30+ tok/s claim VERIFIED (40.42-40.52 tok/s, co-resident with 7b serve + ComfyUI); quality 3/3 with deep-QA edge over incumbent 7b. Adoption for any BigMoney L2 face requires O-2175 evaluation + fleet-allocations 8.4 (not machine-level authority); T-70 coding-production boundary unchanged; latency ~5-10x slower than 7b incumbent makes routine/cheap faces a poor fit -- deep-QA/advisory档 is the candidate fit.",
+  "evidence_dir": "results/t100_receipt/",
+  "raw_labbench_dir": "labbench/bonsai2/ (gitignored R3: chain_r194.log, chain_r194_pass2.log, chain_r194_pass3.log, probe_pack_pass1.json, server.log)"
+}
