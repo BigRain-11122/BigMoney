@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T10:07:56+08:00",
- "heartbeat_epoch_utc": 1790561276,
- "clock_read": "2026-09-28T10:07:56+08:00",
- "current_task": "r374 done+storm addendum: local main has r374 (a0ee1d53+bd3363e6+addendum) NOT on origin main; origin copy = machine/bm-b-r374 escape branch; next = reconcile into main -> census finalize (~10:40-11:00) -> RAM 3-sample window -> W1/MASS x4/W2/W3 judge flips (bm-b=flip executor) -> finalize x5 -> W2/W3 intake; V2-P1 un-defer after; 15:30 new-bar window astock_daily/rev_osc",
+ "last_seen": "2026-09-28T10:22:01+08:00",
+ "heartbeat_epoch_utc": 1790562121,
+ "clock_read": "2026-09-28T10:22:01+08:00",
+ "current_task": "r375 done: push-storm reconcile landed (12-UU _r375bmb_resolve + r355 direct-connection + live-face supersede 13a730c5); witness: census W2B i=3399/5620 alive pid28864 ETA~14:1x; judge flips RAM-gated (2.17GB<4GB 3-sample not-yet); next: census finalize -> RAM 3-sample -> W1/MASS x4/W2/W3 flips -> finalize x5 -> W2/W3 intake; 15:30 new-bar window astock_daily/rev_osc + live.paper trio",
  "cpu_cores": 16,
- "free_ram_gb": 1.2,
+ "free_ram_gb": 2.8,
  "gpu_free_vram_gb": 6.74,
  "total_ram_gb": 25.7,
- "cpu_util_pct": 36.0,
- "round_no": 374,
- "verdict": "healthy: smoke 25/25, S6 chain rc=0 full; PUSH-STORM: r374 2-commit landed local + origin ESCAPE BRANCH machine/bm-b-r374 (second push rejection per D-20260925-01(3) law, 26-UU canon-resolved first: 22 snapshot take-new-by-ts probe + compute_audit history union 82+82->83 + x2_watch_log 1188+1188->1194 + dashboard_status.js whole-bytes; _r374bmb_resolve.py); NEXT ROUND FIRST ACTION = reconcile machine/bm-b-r374 into main (S0 pull --rebase will replay a0ee1d53+bd3363e6+addendum onto ec39d2c7, resolver re-runnable); census W2B i=3399/5620 ETA ~10:40-11:00; judge flips RAM-gated r354 not-yet; orders 99/99; board 0 open",
+ "cpu_util_pct": 54.0,
+ "round_no": 375,
+ "verdict": "healthy: smoke 25/25, S6 30 legs rc=0; RECONCILE DONE: r374 escape branch landed main 5da13a8e..2629c141 (12-UU canon-resolved: 8 snapshot take-new stage-2 + REPORT twins same-side + audit union 83+83->84 + js whole-bytes; _r375bmb_resolve.py; rebase-continue 3x refused r358 family -> r355-addendum direct-connection; bd3363e6 superseded by live autofill face per r369 law); census W2B in-flight ETA~14:1x; judge flips RAM-gated r354 not-yet; orders 99/99; board 0 open",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -115,15 +115,15 @@
   "O-2026-09-27-2255-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 1.2,
+ "idle_ram_gb": 2.8,
  "gpu_free_vram_mb": 6894,
- "idle_ram_mb": 1164,
+ "idle_ram_mb": 2867,
  "gpu_idle_vram_mb": 6871,
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.71,
- "cpu_pct": 36.0,
- "round": 374,
- "free_ram_mb": 1164,
+ "cpu_pct": 54.0,
+ "round": 375,
+ "free_ram_mb": 2867,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 374
+ "loop_round": 375
 }

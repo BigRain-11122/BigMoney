@@ -31,4 +31,5 @@
 冷层指针：坑律正典 2026-09-28 四十三批（r373 bm-b 窗·水位律当窗整编：CODELY.md append 后超 ≤10KB 硬线）：r150 池文件全幅 UU 冲突界切顶层闭括号 / r396 跨机 inbox ALL 归档竞态 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十三批』节（行级零丢失校验）。
 冷层指针：坑律正典 2026-09-28 四十四批（r154 bm-c 窗·水位律当窗整编：push-storm union 10,839B 复超 ≤10KB 硬线）：r373 REPORT 双件分类正定 snapshot take-new / r397 pandas 列对齐裸位运算断言假判 两条件全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十四批』节（行级零丢失校验）。
 
-- [2026-09-28 10:0x r154 bm-c] 坑律：**共享 md 台账追加禁用行首片段作 replace 锚**——append-only 台账（HQ-FEEDBACK/CODELY 等）replace 的 old_string 若只匹配某行行首片段而 new_string 不含该行全文，会把该行后续内容静默截断（r154 实弹：HQ-FEEDBACK.md 追加前误取 F-20260928-03 行首作锚，替换后该行中段被删，git diff 当场暴露立即整行恢复零丢失）。How to apply：追加一律锚最后一行完整结尾段（含状态尾）或文件尾写入（python open a 模式/Add-Content 前核编码）；old_string 必须覆盖整行；写后 git diff 自证零他人行变动。
+冷层指针：坑律正典 2026-09-28 四十五批（r375 bm-b 窗·水位律当窗整编：CODELY.md append 后超 ≤10KB 硬线）：r154 共享 md 台账 replace 锚律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十五批』节（行级零丢失校验）。
+- [2026-09-28 10:2 r375 bm-b] 坑律：**逃逸分支 reconcile 重放自家陈 addendum 撞活写面＝r369 活面新者胜律的 cherry-pick 面**——活面 launches 恒等+last_tick 较新=严格超集→活面直落为替代 addendum（r372 先例）+陈 pick 跳过零丢失；continue 拒发窗 r355-addendum 直连实测闭环（commit -F message→rebase --quit→update-ref→cherry-pick 余件）。指针=results/_r375bmb_resolve.py+13a730c5/2629c141。
