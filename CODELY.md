@@ -6,19 +6,8 @@
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
-冷层指针：坑律正典 2026-09-28 风暴批十条（r349/r366/r350/r119/r120/r368×2/r121/r369/r351）已 verbatim 整编至 research/memory-archive/202609.md『坑律归档 2026-09-28 二十五批』节（r370 bm-a 窗·行级零丢失校验）。
 冷层指针：坑律正典 2026-09-28 四十一批（r127 bm-c 窗·水位律当窗整编：r127 新坑律 append 后超 ≤10KB 硬线）：r370 resolver-union 吞修复面 / r123 吞面第四案+推后不复验 / r352 PS-UTF-16 重定向 / r352 rebase-stage 反映射 四条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十一批』节。
-冷层指针：坑律正典 2026-09-28 风暴窗九条（r123/r370/r352×2/r353/r354/r125/r373/r355）已 verbatim 整编至 research/memory-archive/202609.md『坑律归档 2026-09-28 二十六批』节（r356 bm-b 窗·行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 风暴窗六条（r375/r128/r376/r377/r378/r357）已 verbatim 整编至 research/memory-archive/202609.md『坑律归档 2026-09-28 二十七批』节（r358 bm-b 窗·水位律当窗整编：r358 新坑律 append 后超 ≤10KB 硬线·行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 二十八批（r384 bm-a 窗·水位律当窗整编：CODELY union 10,537B 超 ≤10KB 硬线）：r356 PS 无 env 前缀语法 / r358 win-git rebase-continue 拒发 r355-addendum 直连收口 / r359 pandas to_numpy 只读视图 三条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 二十八批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 二十九批（r385 bm-a 窗·水位律当窗整编：CODELY union 11,111B 超 ≤10KB 硬线）：r127 池发 DETACHED 崩因证据路由 / r381 push-storm B 族手搓探针取侧 / r136 orders_ack 后缀归一 三条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 二十九批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 三十批（r385 bm-a 窗·水位律当窗整编：双烧坑律 append 后 11,288B 复超线）：r137 跨对齐域裸位置访问 reindex 律 / r360 PS 2>&1 ErrorRecord 伪差异 两条件全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 三十一批（r363 bm-b 窗·水位律当窗整编：新坑律 append 后 10,428B 超 ≤10KB 硬线）：r361 BOM 假 in-place / r384 腿重植清残行 / r362 defer 吞池编辑 / r138 轮首 rebase 车道残脏 / r139 origin 缩身覆盖面回拼 五条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十一批』节（行级零丢失校验）。（r386 bm-a 同窗独立整编同批号撞号：bm-a 侧三条 r361/r384/r362 恒等⊂本批五条、bm-a 节让路=archive 让路注记；bm-a 新坑律一条并入热层——r328 双批注并含）
 
-冷层指针：坑律正典 2026-09-28 三十二批（r142 bm-c 窗·水位律当窗整编：新坑律 append 后超 ≤10KB 硬线）：r385 复现 fixture 回读侧写律 / r385 done-flip 发布延迟盲窗+盲窗结论待验律 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十二批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 三十三批（r389 bm-a 窗·水位律当窗整编：新坑律 append 后超 ≤10KB 硬线）：r363 真数据首跑连环撞/r386 hermetic 时间推进零覆盖 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十三批』节（行级零丢失校验）。（r143 bm-c 同窗独立整编同批号撞号：两条件恒等、bm-c 节让路=archive 让路注记；bm-c 新坑律 r143 已并入热层）
-冷层指针：坑律正典 2026-09-28 三十四批（r144 bm-c 窗·水位律当窗整编：CODELY union 10,895B 超 ≤10KB 硬线）：r141 CLI 子命令分发表零参调用+池分片键唯一律 / r142 crash-fuse 静默死盲窗断言律 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十四批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 三十五批（r144 bm-c 窗·水位律当窗整编：CODELY union 10,258B 超 ≤10KB 硬线）：r389 文本模式字节恒等假象 CRLF 血统律 / r365 resolver 原子写+悬对象恢复律 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十五批』节（行级零丢失校验）。
 
 
 
@@ -33,4 +22,6 @@
 
 冷层指针：坑律正典 2026-09-28 四十五批（r375 bm-b 窗·水位律当窗整编：CODELY.md append 后超 ≤10KB 硬线）：r154 共享 md 台账 replace 锚律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十五批』节（行级零丢失校验）。
 冷层指针：坑律正典 2026-09-28 四十六批（r376 bm-b 窗·水位律当窗整编：r376 新坑律 append 后超 ≤10KB 硬线）：r375 逃逸分支 reconcile 重放陈 addendum 撞活写面（r369 活面新者胜 cherry-pick 面） 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十六批』节（行级零丢失校验）。
-- [2026-09-28 10:5 r376 bm-b] 坑律：**pull --rebase abort 自荐 `git reset --hard`＝活写面在场时毒方（r149 族收方面）**——撞未跟踪件 abort(Cannot fast-forward working tree) 后先三探 status -sb/log/rev-parse blob-hash 再动手；本窗=并发 autofill 自循环已代完 rebase(16ceee54 零丢失)，盲从必砸 census 活写面；blob 恒等比对禁 PS `>` 重定向(UTF-16 面＝r352)，rev-parse 直读。指针=16ceee54/3bdfe4f1。
+冷层指针：坑律归档 25/26/27/28/29/30/31/32/33/34/35 批（2026-09-28 各窗水位律当窗整编·行级零丢失校验）各批全文 verbatim=archive 202609.md 对应『坑律归档 2026-09-28 <N>批』节——r159 bm-c 窗四十七批整编时 11 条老批指针行合并为本行，批内容零删零改动。
+冷层指针：坑律正典 2026-09-28 四十七批（r159 bm-c 窗·水位律当窗整编：CODELY.md 10,245B 超 ≤10KB 硬线）：r376 pull--rebase abort 毒方律 verbatim 迁入+11 条老批指针行合并注记=archive 202609.md『坑律归档 2026-09-28 四十七批』节（行级零丢失校验）。
+- [2026-09-28 11:3 r159 bm-c] 坑律：**rebase 冲突 stage 语义与 merge 反转——:2:=onto（origin）侧·:3:=被重放本机 commit 侧（r352 rebase-stage 反映射族二犯实证）**：resolve 取侧判据须无向——ts take-newer 天然安全；max-cutoff/同值 tie 时须显式取 :3: 本机面——r159 13-UU 实弹 4 面（token_usage/regime_state/lhb/update_status）误落 :2: 他机旧面，stopped-sha tree 对比当场纠回。How to apply：resolve 脚本一律 stopped-sha 全文件 ts 对比定侧，:2:/:3: 标签勿当方向语义用。指针=results/_r159bmc_resolve_storm.py/c7199608。
