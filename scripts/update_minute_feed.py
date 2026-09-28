@@ -53,14 +53,14 @@ ATTEMPTS = 3
 BACKOFF_S = (5, 10)
 PERIOD = "1"
 
-# T-103 category map seed -- spec sec.3 FROZEN
+# T-103 category map seed -- spec sec.3 FROZEN v1.2 (O-20260928-1533
+# broad-base narrowing: research universe = broad-index ETFs ONLY; the
+# five T+0 codes collected under v1.0/v1.1 stay archived-on-disk frozen,
+# resumable if CEO extends the universe)
 UNIVERSE = [
     ("510300", "broad-base", "T+1"),
-    ("511010", "bond", "T+0"),
-    ("511880", "money", "T+0"),
-    ("511990", "money", "T+0"),
-    ("513100", "crossborder", "T+0"),
-    ("518880", "gold", "T+0"),
+    ("510050", "broad-base", "T+1"),
+    ("510500", "broad-base", "T+1"),
 ]
 COLS = ("day", "open", "high", "low", "close", "volume", "amount")
 NUM_COLS = ("open", "high", "low", "close", "volume", "amount")
@@ -270,7 +270,7 @@ def run(force: bool = False) -> int:
         "archive_dir": "data/minute_feed",
         "symbols": symbols,
         "rows_new_total": total_new,
-        "spec": "research/etf_ops/MINUTE_FEED.md v1.1",
+        "spec": "research/etf_ops/MINUTE_FEED.md v1.2",
     }
     _write_status(payload, mid)
     print(f"update_minute_feed: done, +{total_new} rows across "
