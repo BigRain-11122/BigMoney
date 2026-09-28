@@ -3386,7 +3386,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-28 13:16:04",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal",
@@ -3408,7 +3408,9 @@
    "entered_by": "bm-c r165",
    "note": "r165 bm-c entry post-screen-finalize (461 survivors); parked waiting NOT ready: serial queue behind W2/W3-JUDGE + MASS W1 judge shards per prereg sec.0 physical-order gate (bm-b r369 ruling) + RAM r354 sequencing gate (census W2B burn on bm-b until finalize ~15:00 ETA per r164 watch); judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family | r399 bm-a flip waiting->ready @17:05: serial-queue deps ALL done (W2-JUDGE done + W3-JUDGE done + MASS-W1-JUDGE 4/4 shards done, finalize w1_judge.json landed 16:56) + census W2B landed + RAM gate 44.8GB free (r354) + G-VOL anchor raw-face fix validated bm-c r382 commit c712dfca (anchors {519,1523,1441,n3483}) + runner selftest 84/84 PASS pre-ignition (r398 lesson: verify-then-ignite) | r393 bm-b flip CONFIRMED ready @17:32: judge-prep LANDED per MSG-1712-bma dispatch (judge_state.json generated 17:32:22: manifest PASS 48 members, census L/D==frozen, n_survivors 461, grammar_sha256 d498e9343ee57460 == pool expected, gate meta L/D na-window 199/199, vol meta L/D na-window 519/519 leg-L anchors 594calm/518wild) — ALL data_gates deps cleared (serial queue done + judge-prep done + RAM 44.8GB r399 read); shard-0 owner=bm-a since 17:10:06 is the REFUSED-ignition tick claim (r399 JUDGE-GATE exit-2 era, pre judge_state), next tick ignition now passes gate; judge burn = daily-returns strip B7b any-healthy-machine face | r177 bm-c routing fix: lane_owner null->bm-b per physical deep-panel law (cache-less machines exit-2 honest; 37-crash claim-storm on bm-c 18:2x-18:4x + bm-a fuse-watch r399; W1/W2/W3 judge burns all landed bm-b empirically; autofill FAST_CONFIRM landed fc27e0ef contains future storms on any sig) | | r395 bm-b shard done-flip @19:38: fuse crash=flip-lag false positive (round gap 17:52-19:22 left completed shard unflipped past FUSE_CONFIRM_MIN; products verified this round); judge-finalize (w4_judge.json G1/G2/DSR/PBO/E[FP] + gate-x-vol disclosure) = this round detached work, entry done-flip deferred to finalize receipt; 48h CEO report clock starts at finalize.",
    "amended_at": "2026-09-28 17:32:30",
-   "lane_note": "r177bm-c lane pin: judge D-leg deep-panel face (Money02 t18 cache) physically on bm-b only; 18:22-18:33 non-data-host claim churn (P5C instant gate exits x29, fast-confirmed into fuse) ended by this pin; bm-b revival claim path: clear fuse via runner-code-change (O-0947) or GM tombstone"
+   "lane_note": "r177bm-c lane pin: judge D-leg deep-panel face (Money02 t18 cache) physically on bm-b only; 18:22-18:33 non-data-host claim churn (P5C instant gate exits x29, fast-confirmed into fuse) ended by this pin; bm-b revival claim path: clear fuse via runner-code-change (O-0947) or GM tombstone",
+   "done_at": "2026-09-28T20:03:45+08:00",
+   "result_ref": "results/trial_labor_w4/w4_judge.json"
   },
   {
    "id": "DECISION-CHAIN-V3-TOURNAMENT",
@@ -3528,7 +3530,7 @@
      "checkpoint": "",
      "note": "ladder default shard (single-face batch, r301 family; r179 repair patch on first-live-fire entry)",
      "owner": "bm-c",
-     "owner_since": "2026-09-28 20:03:05"
+     "owner_since": "2026-09-28 20:07:35"
     }
    ]
   }
