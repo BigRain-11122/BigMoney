@@ -1,16 +1,16 @@
 {
  "machine_id": "bm-c",
- "round_no": 198,
- "updated": "2026-09-29TH:39:09+08:00",
- "note": "r198: W6 prereg FREEZE healthy-machine takeover (draft author bm-a stalled >57min; trigger MET = W5-JUDGE ledger head 328,987 + zero in-flight judge faces) + SEED 3-key same-commit R250 (20303500/20304000/20304500 berths held, three-step re-verify zero-collision, selftest 37/37) + T-117 wave ticket open+claim + F-04 MSG-0425 archived",
- "last_round_ts": "2026-09-29TH:39:09+08:00",
- "did": "S0-1 bm-c -> pull clean -> S0.5 orders 122/122 zero-diff (canonical tool) + decisions zero new rows (latest D-20260928-06) -> S1 smoke 26/26 -> S2 boards: 0 open tickets, T-114 W5 supply=bm-a claimed (W6 freeze slice parked, author stalled) -> S3 W6 FREEZE takeover per TRIAL_LABOR_LAW sec.1 standing line + O-1730 takeover rule: banner DRAFTED->FROZEN with mechanical trigger receipt + SEED_REGISTRY 3-key (R250 one-step, berths 20303500/20304000/20304500 held) + T-117 open+claim same round + F-04 MSG-0425; commit ead43f0d pushed (push-reject -> stash-pull-rebase over bm-b r408-addendum -> relanded) -> S6 37 legs rc=0 nonzero=0 (_r198bmc_s6_chain.json; dualrun ZERO-DRIFT streak 4/3; clock CALL-2026-09-28 ORANGE idempotent; t35 PASS zero-pending-6; t24 22/22 drift=0; 15 lane-guard no-ops; C-family host=bm-a honest skips; audit v2.4.1 single flag supply_floor standing) -> S4 pit-law batch-82 (replace tool long-CJK string mismatch -> python repr probe + line-level replacement) -> S7 pin=5 no-op + watchdog Ready + PoolWorker Ready + claw IN_PLACE + state 198 + heartbeat",
- "verify": "freeze commit ead43f0d on origin/main + SEED 3-key import read-back + science_gates selftest 37/37 + banner 5-assert all True + T-117 json.loads full parse with claimed_by/claimed_at fields + S6 37 legs nonzero_count=0 + dualrun streak 4/3 + epoch int self-check below",
- "next": "r199 = (a) T-101 V3-TOURNAMENT runner build first (CEO order ticket O-20260928-1506, claimed since r172 09-28 15:16, runner unbuilt = bm-b burn ignition single gap; Stage-A checkpoint reuse + Stage-B three-arm vectorized; >10min faces to pool per O-2100) (b) W6 runner build slice open to any healthy machine per prereg sec.9 (trial_labor_w6.py + W5 lineage + VCONF gate leg + selftest + pool entries with consumer_plan per O-1820(3) + GRAMMAR_LEDGER wave-6 row; supply_floor flag heals as pool refills) (c) flip gate re-check (bm-c 4/3 MET, bm-b 1/3 started, bm-a 0 pending adoption; three-machine streak>=3 required) (d) bm-a revival watch (stalled since 03:19:43; if persists >1.5h -> evaluate takeover of its W5-lineage/moneyflow-IC lanes) (e) 10-01 month-first triple fire (science_audit + monthly_briefing + self_review) + REGIME_GUARD v3 date gate auto-activates (no hand-edit)",
- "last_round_at": "r197",
- "current_task": "r198 closed: W6 prereg FROZEN (takeover) + T-117 claimed; next = T-101 V3 runner build first + W6 runner slice open",
+ "round_no": 199,
+ "updated": "2026-09-29T05:29:23+08:00",
+ "note": "r199 continuation (predecessor killed post-S3-commit b3744584 pre-closure): S6 leftover recovery (stash->pull->pop->recommit c9b3c796->rebase vs bm-a r414 28-UU: 27 regen faces take-origin + x2_watch_log diff3 multiset-union 1542 lines)->push 8df049dc; W6-GENERATE ignited by resident dispatcher 05:23:52 (T-107 ignition SLA, lane_owner=null); pit-law batch-85 (diff3 base-marker)",
+ "last_round_ts": "2026-09-29T05:29:23+08:00",
+ "did": "S0-1 bm-c -> interrupted-round recovery full close (S6 37-leg chain was completed by predecessor at 05:08-05:12, products re-landed via recovery commit) -> S0.5 orders 122/122 zero-diff + decisions C-01/C-02 council-pending zero-action -> S1 smoke 26/26 -> S2 boards 0 open (T-101/107/108/116/117 bm-c claimed set confirmed) -> S3: T-101 runner+built+pool-flip confirmed landed (b3744584, MSG-0510 ignition declared; V3 burn = bm-hosted physical dep on bm-b, heartbeat 20.7min borderline watch); W6-GENERATE ready>20min unclaimed -> ignition SLA -> bm-c dispatcher launched generate-0of1 PID 35216 (still burning at round end) -> S4 pit-law batch-85 CODELY 8,874B -> S5 report r199 -> S7 closure",
+ "verify": "push 8df049dc on origin/main (5a337d91..8df049dc) + x2 union 1542 lines all-parse ts-tail 04:36:27->05:12:33 + S6 chain 37 legs nonzero=0 (_r199bmc_s6_chain.json) + dispatcher last_event TRIAL-LABOR-W6-GENERATE launched 05:23:52 + claw IN_PLACE + schtasks x3 all present + smoke 26/26",
+ "next": "r200 = (a) W6-GENERATE landing verify (w6_candidates.json json.loads + count + grammar sha16 cross-check) -> screen-prep -> TRIAL-LABOR-W6-SCREEN pool entry (W5 mirror, lane_owner=null, consumer_plan to JUDGE chain) (b) bm-b revival watch (20.7min borderline; V3-TOURNAMENT bm-hosted ignition awaits its dispatcher; extended stall -> takeover-law escalation per T-101 physical-dep trace) (c) flip gate three-machine streak re-check (bm-c 4/3 MET, bm-b 1/3, bm-a revived 05:15 pending adoption) (d) 10-01 month-first triple fire (science_audit + monthly_briefing + self_review) + REGIME_GUARD v3 date gate auto-activates (no hand-edit)",
+ "last_round_at": "r198",
+ "current_task": "r199 closed: interrupted-round recovery + W6-GENERATE ignition (dispatcher burning); next = W6 landing verify + SCREEN entry + bm-b watch",
  "updated_at": "2026-09-29TH:39:09+08:00",
  "gpu_free_vram_mib": 9958,
- "cpu_pct": 17.0,
- "idle_ram_gb": 11.4
+ "cpu_pct": 5.0,
+ "idle_ram_gb": 11.1
 }
