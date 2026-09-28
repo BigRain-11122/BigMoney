@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-29T04:37:27+08:00",
- "heartbeat_epoch_utc": 1790627847,
- "clock_read": "2026-09-29T04:37:27+08:00",
- "current_task": "round 409 done: pure maintenance (all lanes owned elsewhere) -- S6 37 legs rc=0 (pool_dualrun bm-b streak 2/3; wm py_low_with_work_cands legal whitelist astock repull in-flight); astock repull 4731/5217 @09-28 tail progressing, rev_osc waits; V3 waits bm-c runner; W6 bm-a in-flight",
+ "last_seen": "2026-09-29T05:03:32+08:00",
+ "heartbeat_epoch_utc": 1790629412,
+ "clock_read": "2026-09-29T05:03:32+08:00",
+ "current_task": "round 410 done: TRIAL_LABOR_W6 runner slice landed (trial_labor_w6.py selftest 80/80 + grammar FROZEN 2d395f5f8e7d16cb 193,536 combos + pool TRIAL-LABOR-W6-GENERATE ready; T-117 sec.9 open slice, claim MSG-0450 receipted) -- next: autofill generate burn -> SCREEN entry -> judge trio (RAM sequencing); astock repull in-flight, rev_osc waits panel",
  "cpu_cores": 16,
  "free_ram_gb": 12.91,
  "gpu_free_vram_gb": 2.61,
  "total_ram_gb": 23.92,
  "cpu_util_pct": 6.3,
- "round_no": 409,
- "verdict": "healthy: smoke 26/26; maintenance round r409 (board closed, pool V3 waiting bm-c runner, W6 bm-a in-flight); astock repull in-flight ~88% (rev_osc unlock next); orders ack 122/122; supply standing (astock repull + V3 runner gap + W6 in-flight)",
+ "round_no": 410,
+ "verdict": "healthy: smoke 26/26; S3 standing-line W6 runner slice landed (selftest 80/80 hermetic, grammar sha constructively distinct W1-W5, pool entry ready consumer_plan carried); S6 37 legs rc=0; orders 122/122 double-scan; pit-law batch-84 + CODELY reorg hot 7,966B zero-loss; supply standing (W6 generate burn next via autofill + astock repull in-flight + V3 runner bm-c gap)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -145,7 +145,7 @@
  "n_orders_ack": 122,
  "gpu_idle_vram_gb": 2.6,
  "cpu_pct": 4.4,
- "round": 408,
+ "round": 410,
  "free_ram_mb": 13407,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
@@ -154,5 +154,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 409
+ "loop_round": 410
 }
