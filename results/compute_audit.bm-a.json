@@ -1,15 +1,15 @@
 {
   "latest": {
-    "ts": "2026-09-29 03:02:35",
+    "ts": "2026-09-29 03:13:29",
     "audit_version": "v2.4.1",
-    "cpu_total_pct": 77.0,
-    "py_cpu_pct": 6.3,
+    "cpu_total_pct": 78.0,
+    "py_cpu_pct": 7.4,
     "cores": 32,
-    "py_procs": 36,
-    "result_stale_min": 2.4,
+    "py_procs": 54,
+    "result_stale_min": 3.2,
     "fleet_open_tasks": 0,
     "pool_ready_count": 1,
-    "pool_ready_unclaimed": 1,
+    "pool_ready_unclaimed": 0,
     "load_state": "pool-supply-gap",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
@@ -17,7 +17,7 @@
     },
     "supply_gap_candidate": true,
     "supply_gap_detail": {
-      "run_samples": 1,
+      "run_samples": 2,
       "span_min": null
     },
     "supply_floor": {
@@ -25,14 +25,12 @@
       "floor": 3,
       "breach": true
     },
-    "ignition_sla_breach_ids": [
-      "TRIAL-LABOR-W5-JUDGE"
-    ],
-    "supply_family_streak_min": 621.6,
+    "ignition_sla_breach_ids": [],
+    "supply_family_streak_min": 632.5,
     "gpu": {
       "present": true,
-      "util_pct": 4.0,
-      "mem_used_mb": 6445.0,
+      "util_pct": 3.0,
+      "mem_used_mb": 6810.0,
       "compute_apps_count": 33,
       "rogue_apps": []
     },
@@ -40,10 +38,9 @@
     "single_core_hog_candidate": false,
     "single_core_hog_detail": null,
     "flags": [
-      "ignition_sla",
       "supply_floor"
     ],
-    "verdict": "FLAG:ignition_sla,supply_floor"
+    "verdict": "FLAG:supply_floor"
   },
   "history": [
     {
@@ -5203,6 +5200,49 @@
         "supply_floor"
       ],
       "verdict": "FLAG:ignition_sla,supply_floor"
+    },
+    {
+      "ts": "2026-09-29 03:13:29",
+      "audit_version": "v2.4.1",
+      "cpu_total_pct": 78.0,
+      "py_cpu_pct": 7.4,
+      "cores": 32,
+      "py_procs": 54,
+      "result_stale_min": 3.2,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 1,
+      "pool_ready_unclaimed": 0,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "supply_gap_candidate": true,
+      "supply_gap_detail": {
+        "run_samples": 2,
+        "span_min": null
+      },
+      "supply_floor": {
+        "ready": 1,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 632.5,
+      "gpu": {
+        "present": true,
+        "util_pct": 3.0,
+        "mem_used_mb": 6810.0,
+        "compute_apps_count": 33,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_floor"
     }
   ],
   "lane_machine": "bm-a"
