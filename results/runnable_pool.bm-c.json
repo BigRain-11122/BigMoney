@@ -8,7 +8,7 @@
     "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-09-28 09:15:00",
+  "updated_at": "2026-09-28 09:45:09",
   "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
   "entries": [
     {
@@ -3238,6 +3238,35 @@
         }
       ],
       "entered_by": "bm-b r370"
+    },
+    {
+      "id": "TRIAL-LABOR-W4-GENERATE",
+      "ticket_ref": "T-2026-09-28-98 WAVE-4 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r396 commit 3aec0868 + seeds R250 same-commit 20289500/20290000/20290500; runner slice-1 built bm-a r397 selftest 84/84 hermetic + subprocess-capture double-run stdout byte-identical rc=0; grammar face frozen r397 sha16=d498e9343ee57460; MSG-20260928-0930 F-04 in-flight window covers runner+generate+screen; bm-b r369 sequencing-gate disposition adopted in prereg sec.0: W4-JUDGE queued behind W2/W3-JUDGE + RAM r354, generate/screen = CPU pool face lawful now)",
+      "prereg_ref": "research/TRIAL_LABOR_W4_PREREG.md FROZEN (sec.3 Sobol raw 5000 = A500/B4500 seven-tuple axis R/X/S/T/STOP/GATE/VOL incl. NEW volatility-gate face {none,calm,wild} = 32,256 axis combos; sec.1 SEVEN-source exclusion -- w1_screen survivors 149 + w2_screen survivors 404 + MASS screen survivors 166 consumed generate-time [tl3 declared translation, translated-exact 2 + 164 non-translatable disclosed never excluded] + w3_screen survivors 513 (NEW vs W3) consumed generate-time, judged products FOUR sources real-read re-declare window [w1/MASS/w2/w3_judge all pool-waiting at entry = declared-unavailable zero rows expected]; dedup T-84 s3 fingerprint + |corr|>=0.999 on the effective signal face, frozen composition order filter->timing->GATE->VOL->STOP; D6 max|corr| disclosure column naive caliber; seeds trial_labor_w4_gen/scrnull/unc=20289500/20290000/20290500; TRIAL_GRAMMAR_LEDGER wave-4 row runner-written at consume point; G-VOL probe anchors asserted in-runner fail-closed [first-valid 519 + calm 1523/wild 1441 core48 face])",
+      "runner": "scripts/trial_labor_w4.py",
+      "runner_args": [
+        "generate"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-28 09:45:09",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "LIGHT minutes-scale per prereg sec.0 (W3-GENERATE measured ~5min n=3552 tick-burned 08:20->08:25; W2 635s single-process bm-c): 5000 signal builds + gate+vol overlays (vectorized row-mask mul) + stop-overlay dedup face + ~5000x5000 naive-corr; single-process streaming, masks dropped per-candidate (W1 r348 RAM law); peak ~1.5-2GB; RAM gate three-sample >=4GB in-runner (r354 law, autofill has no RAM gate so in-runner exit 2 is the protection); py<70% fill face = autofill tick claims within ~10min"
+      },
+      "data_gates": "in-runner fail-closed exit 2: (a) w4_candidates.json exists -> refuse (same-grammar rerun ban, single-shot); (b) grammar sha anchor != d498e9343ee57460 -> refuse; (c) free RAM three-sample < 4GB -> honest refuse; (d) G-VOL probe anchors core48 face (first-valid 519 + calm 1523/wild 1441) -> refuse on drift. deps all green in-repo git: core48 panel + w4_grammar.json (r397) + w1_screen.json survivors 149 + w2_screen.json survivors 404 + w3_screen.json survivors 513 + results/mass_trial/screen_checkpoint.jsonl 166 pass rows; judged products four sources real-read at generate (expected declared-unavailable: TRIAL_LAB_W1_JUDGE/MASS_TRIAL_W1_JUDGE/TRIAL_LAB_W2_JUDGE/TRIAL_LAB_W3_JUDGE all pool-waiting at entry time)",
+      "shards": [
+        {
+          "key": "generate-0of1",
+          "status": "ready",
+          "owner": "bm-a",
+          "owner_since": "2026-09-28 10:10:05",
+          "checkpoint": "results/trial_labor_w4/w4_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
+          "note": "single shard whole-batch; zero engine cells burned at generate (dedup face only); harvest = landed-marker law r244 (next round flips entry+shard done)"
+        }
+      ]
     }
   ],
   "lane_machine": "bm-c"
