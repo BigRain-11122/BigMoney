@@ -638,7 +638,8 @@
    "pid": 26604,
    "runner_sha256": "1661d87df07677b7",
    "fill_latency_min": 48.6,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   },
   {
    "ts": "2026-09-28 10:50:01",
@@ -657,19 +658,25 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-09-28 10:50:01",
+  "ts": "2026-09-28 11:00:01",
   "machine": "bm-b",
-  "py_cpu_pct": 24.8,
+  "py_cpu_pct": 14.7,
   "keepalive": [
    "censusw2b-0of1"
   ],
-  "verdict": "launched",
+  "verdict": "fuse_refused_crash_loop",
   "entry": "TRIAL-LABOR-W4-GENERATE",
   "shard": "generate-0of1",
-  "pid": 22540,
-  "runner_sha256": "1661d87df07677b7",
-  "fill_latency_min": 68.4,
-  "target_met": false
+  "fuse_crashes": 1,
+  "fuse_refusals": 1,
+  "fuse_skipped": [
+   {
+    "entry": "TRIAL-LABOR-W4-GENERATE",
+    "shard": "generate-0of1",
+    "sig": "scripts/trial_labor_w4.py|generate",
+    "fuse_refusals": 1
+   }
+  ]
  },
  "lane_machine": "bm-b"
 }
