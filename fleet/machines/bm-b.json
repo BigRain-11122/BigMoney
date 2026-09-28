@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T09:10:08+08:00",
- "heartbeat_epoch_utc": 1790557808,
- "clock_read": "2026-09-28T09:10:08+08:00",
- "current_task": "r370: W3 judge slice LANDED (F-04 claim MSG-0905 -> trio judge-prep/judge/judge-finalize + pool TRIAL-LABOR-W3-JUDGE waiting; selftest 59->72/72 double-run byte-identical; six-disclosure MSG-0908; pool UU r312 done-union resolved vs bma screen-finalize same-window); next = census W2B finalize watch (i=2599/5620 ETA ~16:00) -> RAM stable >=4GB window -> W1-JUDGE/MASS x4/W2-JUDGE/W3-JUDGE flips (bm-b = flip executor, autofill-fed) -> judge burns -> finalize x4 -> W2/W3 intake slices; V2-P1 un-defer after W2B finalize+RAM (clear defer_note r378 law)",
+ "last_seen": "2026-09-28T09:20:00+08:00",
+ "heartbeat_epoch_utc": 1790558401,
+ "clock_read": "2026-09-28T09:20:00+08:00",
+ "current_task": "r371: W3 judge-prep PASS rc=0 (flip gate 2/3 discharged, survivors 513) -- all five judge batches staged (W1/W2/W3/MASS judge_state in place), sole waiter = RAM>=4GB three-sample r354 gate post-census; census W2B in-flight 4-worker i=2599/5620 ETA ~16:00; next = census finalize watch -> RAM window -> W1/MASS x4/W2/W3 flips (bm-b=flip executor) -> judge burns -> finalize x5 -> W2/W3 intake slices; V2-P1 un-defer after W2B+RAM; 15:30 new-bar window astock_daily/rev_osc lanes",
  "cpu_cores": 16,
- "free_ram_gb": 8.3,
+ "free_ram_gb": 0.8,
  "gpu_free_vram_gb": 6.71,
  "total_ram_gb": 25.7,
- "cpu_util_pct": 22.0,
- "round_no": 370,
- "verdict": "healthy: smoke 25/25, S6 33 legs rc=0 (pre-15:30 no-op family + lane guards honest skip), W3 judge slice landed (selftest 72/72, pool waiting RAM-gated), census W2B in-flight 4-worker i=2599/5620 (py 27-40% structural), free RAM 8.3GB window (judge pool candidates RAM-gated lawful r354), W3 screen survivors 513 received (bma finalize), zero collision faces",
+ "cpu_util_pct": 49.0,
+ "round_no": 371,
+ "verdict": "healthy: smoke 25/25, S6 33 faces rc=0 (29 ran + 4 new-bar conditional skips, cutoff 09-24 Mid-Autumn), W3 judge-prep gate discharged (513 survivors staged), scorecard/export stale-takeover legal (bm-a 23.6min>20min), census W2B alive CPU-min live-proof, orders 99/99 double-scan, zero collision faces",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -115,15 +115,15 @@
   "O-2026-09-27-2255-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 8.3,
+ "idle_ram_gb": 0.8,
  "gpu_free_vram_mb": 6894,
- "idle_ram_mb": 8499,
+ "idle_ram_mb": 790,
  "gpu_idle_vram_mb": 6871,
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.71,
  "cpu_pct": 22.0,
- "round": 370,
- "free_ram_mb": 8499,
+ "round": 371,
+ "free_ram_mb": 790,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 370
+ "loop_round": 371
 }
