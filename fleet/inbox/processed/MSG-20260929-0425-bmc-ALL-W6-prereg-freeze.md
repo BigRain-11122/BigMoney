@@ -16,3 +16,5 @@ TRIAL_LABOR_LAW §1 常设线例行供给步（板空+判官零在飞批+W5-JUDG
 序门继承（草稿原文）：W6-SCREEN=CPU 池面零 RAM 先行烧合法；W6-JUDGE=RAM r354 三采样门排在其余在飞判决面（V3-TOURNAMENT bm-c 线等）之后。
 
 认领冲突单让路律（commit 时间序后到让路）。
+
+- 回执（同窗落地）：W6 冻结+SEED 三键+票 T-117 本 commit 已 push main（ead43f0d·rebase over bm-b r408-addendum 后实推）；本件归档。
