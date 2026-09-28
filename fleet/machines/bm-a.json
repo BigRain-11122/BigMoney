@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-29T01:55:46+08:00",
- "current_task": "r407 closed: T-115 pool_worker claims-face origin read landed + W5 generate fix-first (double face bug) landed + autofill relaunch burning; watch W5-SCREEN entry next",
+ "last_seen": "2026-09-29T02:14:47+08:00",
+ "current_task": "r408: W5 generate harvested + screen entered; watch autofill screen burn",
  "cpu_cores": 32,
  "cpu_pct": 75.1,
  "free_ram_gb": 45.4,
  "gpu_free_vram_gb": 3.0,
- "verdict": "r407: T-115 done (e3622792, selftest 25/25, live-fire GRID=occupied-closed) + W5 generate fix-first (777e2b5e, selftest 73/73, gate anchors exact) + autofill 01:50 relaunch alive + S6 36/36 rc=0",
+ "verdict": "green; W5-GENERATE harvested done (n=3926), W5-SCREEN pool entry ready for autofill claim; board 0 open; orders 130/130 acked (double-scan)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -131,8 +131,8 @@
   "O-20260928-1925-bm-c.md",
   "O-20260928-1930-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790618146,
- "clock_read": "2026-09-29T01:55:46+08:00",
+ "heartbeat_epoch_utc": 1790619287,
+ "clock_read": "2026-09-29T02:14:47+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 3.0,
@@ -146,7 +146,7 @@
  "round_no": 407,
  "gpu_idle_vram_mb": 3103,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 45.4,
+ "idle_ram_gb": 52.0,
  "gpu0_free_vram_gb": 3.0,
  "cpu_util_pct": 75.1,
  "total_ram_gb": 100.6,
@@ -159,5 +159,6 @@
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
  "round": 407,
- "loop_round": 407
+ "loop_round": 407,
+ "gpu_free_vram": "5559MB"
 }
