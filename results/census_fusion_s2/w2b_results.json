@@ -1,0 +1,126 @@
+{
+ "evidence_cutoff": "2026-09-24",
+ "batch": "CENSUS_FUS_S2_W2B",
+ "ticket": "T-2026-09-26-86-P1 s2 wave-2 W2-B (CEO O-20260926-2320)",
+ "prereg_ref": "research/CENSUS_FUSION_S2_PREREG.md sec.9.4 + w2b_roster.json FROZEN commit f084c8e2 precedes runner build precedes ANY run (R99)",
+ "face": "EXPLORATION (zero judgment claims / zero paper eligibility)",
+ "n_candidates": 5204,
+ "n_controls": 16,
+ "n_nulls": 400,
+ "data_gate": {
+  "universe": {
+   "panel_files": 5217,
+   "join_members": 5217,
+   "ok_static_true_in_join": 3514,
+   "ok_static_false_in_join": 1703,
+   "mask_rows": 5222,
+   "min_rows_median": 2503,
+   "pct_end_at_cutoff": 0.9977,
+   "rows_dropped_post_cutoff": 0,
+   "gate_join_min_5000": true,
+   "universe_reading": "panel x mask CODE set (frozen >=5,000 gate; ok_static subset DISCLOSED not gated -- ok_static-only join would be ~3,517 < 5,000 and cannot satisfy the frozen gate; zero-run amendment window record: ticket progress_r326_bma + fleet/inbox MSG)",
+   "ok": true
+  },
+  "d8": {
+   "sha256": "9febb7b4b5fab2601ee9742e00b35edb4282a62683c1758cc4f63c11ab75fab7",
+   "n_dates": 250,
+   "n_syms": 5228,
+   "date_start": "2025-09-15",
+   "date_end": "2026-09-24",
+   "manifest_panel_report": {
+    "ok": true,
+    "panel_files": 5228,
+    "n_symbols": 5228,
+    "rows_dropped_post_cutoff": 0,
+    "collapse_rejected": 116259,
+    "unverifiable_rows": 0,
+    "duplicate_date_rows_dropped": 0,
+    "schema_foreign_files": 0,
+    "collapse_tol": 0.001,
+    "min_rows": 0,
+    "median_rows": 244,
+    "symbols_below_50_rows": 51,
+    "cutoff": "2026-09-24"
+   },
+   "manifest_bytes": 60418563
+  },
+  "d_prep": {
+   "artifact_dates": 250,
+   "artifact_dates_off_panel_calendar": 0,
+   "artifact_syms_dropped_not_in_universe": 11,
+   "d_window": [
+    "2025-09-15",
+    "2026-09-24"
+   ],
+   "d_valid_in_window": {
+    "sina_mf_eltra_large_net": 1176791,
+    "sina_mf_eltra_large_ratio": 1174574,
+    "sina_mf_large_net": 1176791,
+    "sina_mf_large_ratio": 1174574,
+    "sina_mf_mid_net": 1176791,
+    "sina_mf_mid_ratio": 1174574,
+    "sina_mf_small_net": 1176791,
+    "sina_mf_small_ratio": 1174574
+   },
+   "zscore_cross_section": "W2-A universe reading (panel x mask CODE set; wider than judged construct 3,498 -- sign anchors only, disclosed)"
+  },
+  "lhb_events": {
+   "raw": 266062,
+   "dedup_events": 227859,
+   "placed": 196714,
+   "drop_no_col": 31145,
+   "drop_no_date": 0
+  }
+ },
+ "d_family_disclosure": {
+  "standalone": "REJECT (R338 V1/V2 judged; OOS IC negative) -- disclosed with the batch, exploration face only",
+  "sign_anchor": "sina_construct_p1.json h10 IS IC (r0/r1 +, r2/r3 -); intra-D corr pre-evidence: TIER_r0|TIER_r1 0.4877, TIER_r0|MAIN 0.8636 (family_by_construction, roster honest_notes)"
+ },
+ "grid": {
+  "anchor_first_signal": "2025-09-15",
+  "n_signals": 50,
+  "n_execs": 50,
+  "cadence": "5 trading days",
+  "top_k": 50,
+  "panel_days": 8734,
+  "cutoff_real": "2026-09-24",
+  "n_syms": 5217,
+  "d_window": [
+   "2025-09-15",
+   "2026-09-24"
+  ],
+  "coverage_window_note": "D-combo stats run on the D-covered window (~1y) vs W2-A full-window (roster sec.9.4 disclosure)"
+ },
+ "products": [
+  "w2b_cells.csv",
+  "w2b_nulls.json",
+  "w2b_top_matrices.json",
+  "w2b_summary.json"
+ ],
+ "audit": {
+  "workers": 4,
+  "purpose": "exploration census (no selection gate)",
+  "ledger_trials_added": 5620,
+  "elapsed_sec": 35398.3,
+  "null_seed_band": "20282500..20282899",
+  "checkpoint": "w2b_checkpoint.jsonl (200-combo cadence)",
+  "sidecars": "C:\\Users\\Administrator\\Desktop\\Bigmoney\\Money02\\data\\cache\\census_w2 (W2-A read-only reuse) + C:\\Users\\Administrator\\Desktop\\Bigmoney\\Money02\\data\\cache\\census_w2b (own; gitignored, regenerable)",
+  "methodology_divergences": [
+   "D-window restriction: grid anchors inside the D-covered window (~250 artifact dates, ~47 weekly signals) vs W2-A full-window (roster sec.9.4)",
+   "D-face z-score cross-section = W2-A universe reading (panel x mask CODE set) -- wider than the judged construct universe (3,498); sign anchors only",
+   "nulls: rejection-redraw forced >=1 D face (sec.9.4 divergence from W2-A unconditional draw)",
+   "controls = D-faces x rs bench only (16) vs W2-A all-face x bench (64)",
+   "D8 artifact carries ~116k collapse-law-rejected panel rows as NaN (%.10g write-rounding latent defect, known + disclosed in the manifest)",
+   "A-sidecar read-only reuse dependency (validated vs w2_roster; W2A.prep_state() rebuild fallback)"
+  ]
+ },
+ "trials_ledger": {
+  "prev_total": 305190,
+  "batch_trials": 5620,
+  "total": 310810,
+  "batch": "CENSUS_FUS_S2_W2B",
+  "file": "census_fusion_s2/w2b_results.json",
+  "note": "exploration face: 5,204 cross-wave D>=1 combos + 16 D rs-controls + 400 nulls (sec.9.4 frozen N=5,620)",
+  "evidence_cutoff": "2026-09-24"
+ }
+}

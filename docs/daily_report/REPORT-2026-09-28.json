@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-28",
- "generated_at": "2026-09-28 13:41:29",
+ "generated_at": "2026-09-28 13:43:18",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0007,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.001,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0017,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -286,19 +286,19 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 600,
+  "commits_24h": 599,
   "result_jsons_landed_24h": 89,
   "digests_landed_24h": 2,
   "prereg_md_touched_24h": 17,
   "compute_audit_latest": {
-   "ts": "2026-09-28 13:40:05",
-   "py_cpu_pct": 0.5,
+   "ts": "2026-09-28 13:40:23",
+   "py_cpu_pct": 9.6,
    "flags": [],
    "verdict": "CLEAN"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -533,10 +533,10 @@
   },
   {
    "id": "T-2026-09-28-100",
-   "status": "claimed",
+   "status": "open",
    "type": "bonsai-fleet-trial",
    "immediate": false,
-   "owner": "bm-c"
+   "owner": ""
   },
   {
    "id": "T-2026-09-28-96",
@@ -561,20 +561,20 @@
   },
   {
    "id": "T-2026-09-28-99",
-   "status": "open",
+   "status": "claimed",
    "type": "bonsai-fleet-trial",
    "immediate": false,
-   "owner": ""
+   "owner": "bm-b"
   }
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 795565,
+  "total_report_tokens_est": 792801,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-28 13:18:00",
+   "prev_generated": "2026-09-28 13:06:44",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 2764,
-   "mandate_growth": 1
+   "report_tokens_growth": 2243,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
