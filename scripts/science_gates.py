@@ -194,6 +194,29 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
         # constant 0.0, frozen in the prereg; never borrows cta/core48
         # passives (no silent cross-pool reuse).
         return 0.0
+    if pool == "repo_cash":
+        # REPO_CALENDAR_P1 additive pool (research/INNOVATION_QUOTA_W1_PREREG
+        # .md SS4): THIS batch's own PASSIVE-GC001-ROLL Sharpe (daily
+        # overnight roll on the repo panel) read from the phase-1 product --
+        # the cash-leg domain never borrows equity/cta passives (no silent
+        # cross-pool reuse; CTA_P1 phase-1-write-first precedent).
+        path = os.path.join(results_dir, "innovation_quota",
+                            "REPO-CALENDAR-P1.json")
+        if not os.path.exists(path):
+            raise KeyError(f"repo_cash passive not on file yet ({path}) — "
+                           f"run REPO_CALENDAR_P1 phase-1 write first")
+        with open(path, encoding="utf-8") as fh:
+            pas = (json.load(fh).get("passive") or {})
+        cands = []
+        for name in ("passive_gc001_roll",):
+            sr = ((pas.get(name) or {}).get("full") or {}).get("sharpe")
+            if isinstance(sr, (int, float)) and math.isfinite(sr):
+                cands.append(float(sr))
+        if not cands:
+            raise KeyError("passive block missing/empty in "
+                           "innovation_quota/REPO-CALENDAR-P1.json — schema "
+                           "drift, fix batch writer")
+        return max(cands)  # strict = harder line
     if pool == "cta_wave1":
         # CTA_WAVE1 additive pool (research/CTA_WAVE1_PREREG.md SS4): strict-max
         # of THIS batch's own two passive long baselines (r20 / monthly) on the
