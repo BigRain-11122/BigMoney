@@ -681,26 +681,17 @@
    "pid": 3984,
    "runner_sha256": "1d4083d2200afec1",
    "fill_latency_min": 29.2,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-29 06:50:01",
+  "ts": "2026-09-29 07:00:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "verdict": "fuse_refused_crash_loop",
-  "entry": "DECISION-CHAIN-V3-TOURNAMENT",
-  "shard": "v3-0of1",
-  "fuse_crashes": 1,
-  "fuse_refusals": 1,
-  "fuse_skipped": [
-   {
-    "entry": "DECISION-CHAIN-V3-TOURNAMENT",
-    "shard": "v3-0of1",
-    "sig": "scripts/decision_chain_v3_tournament.py|run",
-    "fuse_refusals": 1
-   }
-  ]
+  "verdict": "claim_lost_yield",
+  "entry": "TRIAL-LABOR-W6-JUDGE",
+  "shard": "judge-0of1"
  },
  "lane_machine": "bm-b"
 }

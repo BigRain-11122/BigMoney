@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-29",
- "generated_at": "2026-09-29 06:33:13",
+ "generated_at": "2026-09-29 06:59:05",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,18 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-09-29.md"
  },
  "rd": {
-  "commits_24h": 582,
+  "commits_24h": 581,
   "result_jsons_landed_24h": 117,
   "digests_landed_24h": 5,
   "prereg_md_touched_24h": 26,
   "compute_audit_latest": {
-   "ts": "2026-09-29 06:31:28",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-09-29 06:58:21",
+   "py_cpu_pct": 1.0,
    "flags": [
     "supply_gap",
+    "ignition_sla",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_gap,supply_floor"
+   "verdict": "FLAG:supply_gap,ignition_sla,supply_floor"
   },
   "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
@@ -590,11 +591,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 868371,
+  "total_report_tokens_est": 868695,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 05:42:24",
+   "prev_generated": "2026-09-29 06:14:38",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1977,
+   "report_tokens_growth": 324,
    "mandate_growth": 0
   },
   "method": {
@@ -667,33 +668,13 @@
     "today_supply_gap_flags": 9
    },
    "bm-b": {
-    "latest_ts": "2026-09-29 06:01:43",
-    "py_pct": 9.8,
-    "cpu_pct": 17.0,
-    "ready": 2,
-    "streak_min": 800.7,
-    "verdict": "FLAG:supply_gap,supply_floor",
+    "latest_ts": "2026-09-29 06:58:21",
+    "py_pct": 1.0,
+    "cpu_pct": 9.0,
+    "ready": 1,
+    "streak_min": 857.4,
+    "verdict": "FLAG:supply_gap,ignition_sla,supply_floor",
     "py_series_tail": [
-     [
-      "03:44",
-      0.0
-     ],
-     [
-      "04:01",
-      0.1
-     ],
-     [
-      "04:10",
-      2.7
-     ],
-     [
-      "04:31",
-      1.8
-     ],
-     [
-      "04:44",
-      12.4
-     ],
      [
       "04:58",
       1.6
@@ -705,6 +686,10 @@
      [
       "05:19",
       0.7
+     ],
+     [
+      "05:28",
+      11.2
      ],
      [
       "05:30",
@@ -721,12 +706,28 @@
      [
       "06:01",
       9.8
+     ],
+     [
+      "06:03",
+      0.0
+     ],
+     [
+      "06:30",
+      1.1
+     ],
+     [
+      "06:31",
+      0.0
+     ],
+     [
+      "06:58",
+      1.0
      ]
     ],
-    "today_samples": 33,
+    "today_samples": 38,
     "today_floor_ok": 0,
-    "today_sla_flags": 5,
-    "today_supply_gap_flags": 12
+    "today_sla_flags": 7,
+    "today_supply_gap_flags": 17
    },
    "bm-c": {
     "latest_ts": "2026-09-29 06:31:28",
