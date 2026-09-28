@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28 08:52:54",
- "current_task": "R394 done: W3 screen slice-2 collision full-yield to bmc (take-origin 3 files, edf1cbe1) + 2nd-machine verify 59/59 + S6 33 legs rc=0 + pitlaw r394 + F-20260928-03",
+ "last_seen": "2026-09-28 09:10:12",
+ "current_task": "R395 done: W3 screen-finalize LANDED (burn lane bma per bmc yield; 3752/3752 cells; null p95 0.511572; survivors 513/3552; ledger 301,180; pool done-flipped; MSG-0915 judge-unblock) + D-02(1) receipt verified in-repo + S6 33 legs rc=0",
  "cpu_cores": 32,
- "cpu_pct": 96.5,
- "free_ram_gb": 45.6,
- "gpu_free_vram_gb": 5.6,
- "verdict": "py_low_board_clear legal idle (board closed, no open tickets, W3-SCREEN pool ready entry=bmc single-writer lane)",
+ "cpu_pct": 36.0,
+ "free_ram_gb": 42.9,
+ "gpu_free_vram_gb": 5.5,
+ "verdict": "py_low_board_clear legal idle (board closed 0 open; W3-SCREEN finalize landed+flipped this round; pool 1 ready = CENSUS-FUS-S2-W2B bm-b lane guard; judge faces waiting = bmb flip executor serial+RAM r354; IntradayMarks 09:25 armed first-fire)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,24 +108,24 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790556775,
- "clock_read": "2026-09-28T08:52:54+08:00",
+ "heartbeat_epoch_utc": 1790557812,
+ "clock_read": "2026-09-28T09:10:12+08:00",
  "cores": 32,
- "gpu_free_vram_mb": 5379,
- "gpu_idle_vram_gb": 5.53,
+ "gpu_free_vram_mb": 5629,
+ "gpu_idle_vram_gb": 5.5,
  "task": "round-closed",
- "free_ram_mb": 45584,
+ "free_ram_mb": 42900,
  "gpu": {
   "present": true,
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 393,
- "gpu_idle_vram_mb": 5366,
+ "round_no": 395,
+ "gpu_idle_vram_mb": 5629,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 47.6,
- "gpu0_free_vram_gb": 5.53,
- "cpu_util_pct": 96.5,
+ "idle_ram_gb": 42.9,
+ "gpu0_free_vram_gb": 5.5,
+ "cpu_util_pct": 36.0,
  "total_ram_gb": 100.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-27 09:3x, 6631MiB in use)",
  "prod_lanes": [
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 393,
- "loop_round": 393
+ "round": 395,
+ "loop_round": 395
 }
