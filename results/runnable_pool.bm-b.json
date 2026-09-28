@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-28 19:38:00",
+ "updated_at": "2026-09-28 17:15:00",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
  "entries": [
   {
@@ -3397,16 +3397,15 @@
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "done",
+     "status": "waiting",
      "owner": "bm-b",
      "owner_since": "2026-09-28 19:13:28",
      "checkpoint": "results/trial_labor_w4/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
-     "note": "single shard W1/W2/W3-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts)",
-     "result_ref": "results/trial_labor_w4/checkpoint/judge_shard_0of1.jsonl (461/461 judged cells all-done verified r395: unique cell_id 461 == screen survivors 461; runner log complete 19:03:15 + resume re-verify 19:13 clean; autofill claims 4caf60e8/990adbb7; fuse count=1 = flip-lag false positive, work complete)"
+     "note": "single shard W1/W2/W3-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts)"
     }
    ],
    "entered_by": "bm-c r165",
-   "note": "r165 bm-c entry post-screen-finalize (461 survivors); parked waiting NOT ready: serial queue behind W2/W3-JUDGE + MASS W1 judge shards per prereg sec.0 physical-order gate (bm-b r369 ruling) + RAM r354 sequencing gate (census W2B burn on bm-b until finalize ~15:00 ETA per r164 watch); judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family | r399 bm-a flip waiting->ready @17:05: serial-queue deps ALL done (W2-JUDGE done + W3-JUDGE done + MASS-W1-JUDGE 4/4 shards done, finalize w1_judge.json landed 16:56) + census W2B landed + RAM gate 44.8GB free (r354) + G-VOL anchor raw-face fix validated bm-c r382 commit c712dfca (anchors {519,1523,1441,n3483}) + runner selftest 84/84 PASS pre-ignition (r398 lesson: verify-then-ignite) | r393 bm-b flip CONFIRMED ready @17:32: judge-prep LANDED per MSG-1712-bma dispatch (judge_state.json generated 17:32:22: manifest PASS 48 members, census L/D==frozen, n_survivors 461, grammar_sha256 d498e9343ee57460 == pool expected, gate meta L/D na-window 199/199, vol meta L/D na-window 519/519 leg-L anchors 594calm/518wild) — ALL data_gates deps cleared (serial queue done + judge-prep done + RAM 44.8GB r399 read); shard-0 owner=bm-a since 17:10:06 is the REFUSED-ignition tick claim (r399 JUDGE-GATE exit-2 era, pre judge_state), next tick ignition now passes gate; judge burn = daily-returns strip B7b any-healthy-machine face | r395 bm-b shard done-flip @19:38: fuse crash=flip-lag false positive (round gap 17:52-19:22 left completed shard unflipped past FUSE_CONFIRM_MIN; products verified this round); judge-finalize (w4_judge.json G1/G2/DSR/PBO/E[FP] + gate-x-vol disclosure) = this round detached work, entry done-flip deferred to finalize receipt; 48h CEO report clock starts at finalize.",
+   "note": "r165 bm-c entry post-screen-finalize (461 survivors); parked waiting NOT ready: serial queue behind W2/W3-JUDGE + MASS W1 judge shards per prereg sec.0 physical-order gate (bm-b r369 ruling) + RAM r354 sequencing gate (census W2B burn on bm-b until finalize ~15:00 ETA per r164 watch); judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family | r399 bm-a flip waiting->ready @17:05: serial-queue deps ALL done (W2-JUDGE done + W3-JUDGE done + MASS-W1-JUDGE 4/4 shards done, finalize w1_judge.json landed 16:56) + census W2B landed + RAM gate 44.8GB free (r354) + G-VOL anchor raw-face fix validated bm-c r382 commit c712dfca (anchors {519,1523,1441,n3483}) + runner selftest 84/84 PASS pre-ignition (r398 lesson: verify-then-ignite) | r393 bm-b flip CONFIRMED ready @17:32: judge-prep LANDED per MSG-1712-bma dispatch (judge_state.json generated 17:32:22: manifest PASS 48 members, census L/D==frozen, n_survivors 461, grammar_sha256 d498e9343ee57460 == pool expected, gate meta L/D na-window 199/199, vol meta L/D na-window 519/519 leg-L anchors 594calm/518wild) — ALL data_gates deps cleared (serial queue done + judge-prep done + RAM 44.8GB r399 read); shard-0 owner=bm-a since 17:10:06 is the REFUSED-ignition tick claim (r399 JUDGE-GATE exit-2 era, pre judge_state), next tick ignition now passes gate; judge burn = daily-returns strip B7b any-healthy-machine face",
    "amended_at": "2026-09-28 17:32:30"
   },
   {
@@ -3451,7 +3450,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "done",
+   "status": "ready",
    "entered_at": "2026-09-28 16:39:05",
    "workers_plan": {
     "workers": 1,
@@ -3462,14 +3461,13 @@
    "shards": [
     {
      "key": "derive-0of1",
-     "status": "done",
+     "status": "waiting",
      "owner": "bm-b",
      "owner_since": "2026-09-28 17:43:31",
-     "checkpoint": "results/sentiment_axes/axes_full_history.json (atomic os.replace + sha256 + census)",
-     "result_ref": "results/sentiment_axes/axes_full_history.json (committed 55e4c489 r394; axes_sha256 7517364e6d9f864a internal-consistent vs runner log; universe_n 4930, days 8792, zero-event days 1066; evidence_cutoff 2026-09-22; fuse count=1 = flip-lag false positive, work complete)"
+     "checkpoint": "results/sentiment_axes/axes_full_history.json (atomic os.replace + sha256 + census)"
     }
    ],
-   "note": "r391b bm-b entry per CEO O-20260928-1614 fill-ladder ③即刻入池 (v4 前置件·烧批前置件提前算 v4 到位即点火); runner build = bm-b next deliverable; flip executor = the round that observes runner+selftest green; FLIPPED waiting->ready 2026-09-28 17:2x by r392 bm-b (runner landed + selftest 17/17 green + census verified; ignition SLA O-1614 item-2 applies: ready<=10min must be claimed by some healthy machine) | r395 bm-b entry+shard done-flip @19:38: derive output landed 17:43:51 (r394 commit 55e4c489), flip owed by round session gap = fuse false positive, verified complete this round (sha + census + coverage)."
+   "note": "r391b bm-b entry per CEO O-20260928-1614 fill-ladder ③即刻入池 (v4 前置件·烧批前置件提前算 v4 到位即点火); runner build = bm-b next deliverable; flip executor = the round that observes runner+selftest green; FLIPPED waiting->ready 2026-09-28 17:2x by r392 bm-b (runner landed + selftest 17/17 green + census verified; ignition SLA O-1614 item-2 applies: ready<=10min must be claimed by some healthy machine)"
   },
   {
    "id": "T104-GRID-S3-DUALFACE-P1",
