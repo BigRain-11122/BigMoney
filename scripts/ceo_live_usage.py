@@ -32,6 +32,18 @@ v1.3 (r411 bm-b, T-105 next slices per progress_r390):
   - LIVE-latest.md/.json stable rolling pointer twins (copy of today's
     page) for dashboard/daily_report direct links.
 
+v1.4 (r412 bm-b, intraday refresh slice per T-105 spec "intraday refresh
+  v1.1 (realtime feed per T-104 once landed)" -- T-104 feed landed r390):
+  - intraday face consuming data/minute_feed/<code>.csv (T-104 rolling
+    1m archive): per held symbol latest 1m close + day change vs the
+    feed's own previous-session last close (zero cross-panel coupling),
+    plus an honest per-bar freshness status (LIVE / LAGGED / PREV_SESSION /
+    NO_FEED).  Pre-market runs read the previous session's close honestly;
+    the face lights up as the feed accumulates from 09:15.  Pure
+    projection of the feed, zero new judgment, zero portfolio re-marking
+    (positions stay last-close-caliber; the intraday block is a parallel
+    readout, not a re-valuation).
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
@@ -67,6 +79,7 @@ NT_S2_VERDICT = os.path.join(ROOT, "results", "national_team",
 NT_S3_REVIEW = os.path.join(ROOT, "results", "national_team",
                             "s3_event_review.json")
 OUT_DIR = os.path.join(ROOT, "docs", "live_usage")
+MINUTE_FEED_DIR = os.path.join(ROOT, "data", "minute_feed")   # T-104 (v1.4)
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
 # bm-c 2026-09-28; owner-canon rows in market_clock POSITION_LADDER):
@@ -203,6 +216,69 @@ def _fmt_cny(x) -> str:
     return f"{x:,.0f}"
 
 
+def _intraday_face(held_symbols, today: str) -> dict:
+    """v1.4 intraday readout (T-104 minute feed, pure projection).
+
+    Per held symbol: latest 1m close + day change vs the feed's own
+    previous-session last close.  Honest freshness status per bar; no
+    portfolio re-marking, no new judgment.  Symbols outside the feed
+    universe (v1.2 narrowing) get an honest NO_FEED row."""
+    rows = []
+    now = dt.datetime.now()
+    asof = None
+    for sym in sorted(held_symbols):
+        path = os.path.join(MINUTE_FEED_DIR, f"{sym}.csv")
+        if not os.path.exists(path):
+            rows.append({"symbol": sym, "status": "NO_FEED",
+                         "note": "T-104 分钟宇宙外（v1.2 收窄）·口径=最近收盘"})
+            continue
+        last_day = last_close = prev_close = None
+        with open(path, encoding="utf-8-sig") as fh:
+            for line in fh:
+                parts = line.strip().split(",")
+                if len(parts) < 5 or parts[0] in ("day", ""):
+                    continue
+                d, close = parts[0], parts[4]
+                if d[:10] == today:
+                    last_day, last_close = d, float(close)
+                else:
+                    prev_close = float(close)   # feed-internal prev session
+        if last_close is None and prev_close is None:
+            rows.append({"symbol": sym, "status": "NO_FEED",
+                         "note": "feed 文件在位但零 bar"})
+            continue
+        if last_close is None:                 # no today bars yet
+            rows.append({"symbol": sym, "status": "PREV_SESSION",
+                         "latest_bar": None, "latest_close": prev_close,
+                         "prev_session_close": prev_close,
+                         "day_change_pct": None,
+                         "note": "上一场收盘档（今日 09:15 起随源点亮）"})
+            continue
+        if asof is None or last_day > asof:
+            asof = last_day
+        age_min = (now - dt.datetime.strptime(
+            last_day, "%Y-%m-%d %H:%M:%S")).total_seconds() / 60.0
+        status = "LIVE" if age_min <= 10.0 else "LAGGED"
+        chg = (last_close / prev_close - 1.0) \
+            if prev_close else None
+        rows.append({"symbol": sym, "status": status,
+                     "latest_bar": last_day, "latest_close": last_close,
+                     "prev_session_close": prev_close,
+                     "day_change_pct": round(chg * 100, 2)
+                     if chg is not None else None,
+                     "age_min": round(age_min, 1)})
+    n_live = sum(1 for r in rows if r["status"] == "LIVE")
+    return {
+        "feed": "T-104 minute_feed (rolling 1m archive, bm-b lane)",
+        "today": today,
+        "asof": asof,          # latest today-bar across feed (None=pre-market)
+        "n_held_with_feed": sum(1 for r in rows
+                                if r["status"] != "NO_FEED"),
+        "n_live": n_live,
+        "rows": rows,
+    }
+
+
 def build_payload(day: str) -> dict:
     regime = _read_json(REGIME_JSON)
     clock = _read_json(CLOCK_JSON)
@@ -247,8 +323,10 @@ def build_payload(day: str) -> dict:
             "positions": pos_rows,
         })
 
+    held = sorted({pos["symbol"] for m in members
+                   for pos in m["positions"]})
     return {
-        "schema": "ceo_live_usage_v1_3",
+        "schema": "ceo_live_usage_v1_4",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -285,6 +363,7 @@ def build_payload(day: str) -> dict:
                        if state == "ORANGE" else
                        "军种当值表按 MARKET_STAGE_TABLE 随政体态切换"),
         "members": members,
+        "intraday": _intraday_face(held, day),
         "chain_versions": [
             {"version": v, "status": s} for v, s in _version_banner()],
         "disclaimers": [
@@ -298,8 +377,8 @@ def build_payload(day: str) -> dict:
             "行业/主题/跨境/债券/黄金维持排除；",
             "国家队标注=T-106 s4 宇宙面（实测年报名义持仓+2026H1 撤离段指纹）；"
             "跟队信号面按 s3 诚实判负只挂标注，不产生交易指令；",
-            "数据口径=最近收盘 bar（asof 见上），日内刷新=v1.1（T-104 实时源"
-            "落地后）。",
+            "持仓口径=最近收盘 bar（asof 见上）；盘中档=T-104 分钟源实时读出"
+            "（v1.4 已接线·③节），09:15 起随源点亮·平行读出非重估值；",
         ],
     }
 
@@ -376,6 +455,27 @@ def render_md(p: dict) -> str:
                      f"{pos['hold_days']} 日｜浮盈亏 "
                      f"{_fmt_cny(pos['unrealized_pnl_cny'])}")
     L.append("")
+    intr = p["intraday"]
+    L.append("### 盘中档（T-104 分钟源·v1.4）")
+    if intr["asof"]:
+        L.append(f"- 最新 1m bar {intr['asof']}（LIVE {intr['n_live']}/"
+                 f"{intr['n_held_with_feed']} 员在流）")
+    else:
+        L.append(f"- 今日尚未有 bar（上一场收盘档·09:15 起随源点亮）"
+                 f"——在场 {intr['n_held_with_feed']} 员照挂上一场收盘")
+    for r in intr["rows"]:
+        if r["status"] == "NO_FEED":
+            L.append(f"  - {r['symbol']}：{r['note']}")
+        elif r["status"] == "PREV_SESSION":
+            L.append(f"  - {r['symbol']}：上一场收盘 {r['latest_close']}"
+                     f"（{r['note']}）")
+        else:
+            chg = (f"{r['day_change_pct']:+.2f}%"
+                   if r.get("day_change_pct") is not None else "n/a")
+            L.append(f"  - {r['symbol']}：{r['latest_close']}（{chg}·"
+                     f"{r['status']}·bar {r['latest_bar']}"
+                     f"·lag {r['age_min']}min）")
+    L.append("")
     L.append("## ④ 决策链版本横幅")
     L.append("")
     for v in p["chain_versions"]:
@@ -422,6 +522,8 @@ def run() -> int:
           f"cap={payload['ladder']['current_cap']:.0%}, "
           f"heat={payload['market']['heat']}, "
           f"{len(payload['members'])} members, "
+          f"intraday={payload['intraday']['asof'] or 'PREV_SESSION'} "
+          f"live={payload['intraday']['n_live']}, "
           f"{len(payload['chain_versions'])} version rows)")
     return 0
 
@@ -460,7 +562,32 @@ def selftest() -> int:
           and p1["national_team"]["nominal_pct"]["510050"] == 86.05
           and p1["national_team"]["signal_face"]["universe_face_only"]
           is True)
-    check("schema v1.3", p1["schema"] == "ceo_live_usage_v1_3")
+    check("schema v1.4", p1["schema"] == "ceo_live_usage_v1_4")
+    intr = p1["intraday"]
+    check("intraday face present (v1.4)",
+          intr["feed"].startswith("T-104 minute_feed")
+          and intr["n_held_with_feed"] >= 0)
+    stat_ok = {r["status"] for r in intr["rows"]} <= {
+        "LIVE", "LAGGED", "PREV_SESSION", "NO_FEED"}
+    shape_ok = True
+    for r in intr["rows"]:
+        if r["status"] == "NO_FEED":
+            continue
+        if not isinstance(r.get("latest_close"), float):
+            shape_ok = False
+            break
+        if r["status"] in ("LIVE", "LAGGED") and not str(
+                r.get("latest_bar", "")).startswith("2026-"):
+            shape_ok = False
+            break
+    check("intraday rows honest-status shaped", stat_ok and shape_ok)
+    check("intraday asof consistent with row statuses",
+          (intr["asof"] is None)
+          == all(r["status"] in ("PREV_SESSION", "NO_FEED")
+                 for r in intr["rows"]))
+    check("intraday disclaimer updated (v1.4 landed)",
+          any("盘中档=T-104 分钟源实时读出" in d
+              for d in p1["disclaimers"]))
     check("clock face consumed (v1.3)",
           bool(p1["market"]["clock_cell"]) and bool(p1["market"]["clock_asof"])
           and p1["market"]["heat"] in ("HOT", "COOL", "WARM", "COLD"))
@@ -518,6 +645,8 @@ def selftest() -> int:
           "市场时钟" in md1 and "满热档判定" in md1
           and ("GREEN×HOT 满热档生效" in md1
                or "满热档未触发" in md1))
+    check("intraday block rendered in md (v1.4)",
+          "盘中档（T-104 分钟源·v1.4）" in md1)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 
