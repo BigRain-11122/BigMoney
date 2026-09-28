@@ -3601,6 +3601,37 @@
    "entered_by": "bm-c fill_ladder T-107 slice-2",
    "done_at": "2026-09-28 21:13:47",
    "result_ref": "r182 bm-c flip (r200/r201 precedent; runner pid 19160 dead + receipt complete 21:06:58, attrition line in gate_attrition.json): REPO_CALENDAR_P1 4 cells + passive, ledger +2004 -> 319863 -- G1 v2 line 25.006 (passive 11.90 / mu_null 22.3153 / sigma 0.5344 / N_eff 319863): CAL-SWITCH-GC007 19.35 FAIL (below mu_null: weekly-term calendar switch indistinguishable from random-calendar nulls, judged-negative close-out), GC014 29.20 / QW5-GC014 26.56 / GC028 34.83 PASS with DSR 1.0 + PBO 0.0 + 1000 virtual starts beat 1.0 all windows + 100 splits same-sign 1.0 = 3/4 G2-eligible (STRATEGY_LIBRARY cash-leg sleeve candidates, intake ticket opened per prereg sec.8)"
+  },
+  {
+   "id": "INNOVATION-QUOTA-SLOT-2",
+   "ticket_ref": "T-2026-09-28-107 sec.4(d) innovation quota slot-2 (catalog tranche-2 per D4); evidence-driven family extension: REPO-CALENDAR-P1 batch-internal new fact '锁定期溢价须够长才可检' (GC007 19.35 < mu_null 22.32 judged-negative vs GC014 29.20 / GC028 34.83 pass) -> GC091/GC182 long-term extension cells",
+   "prereg_ref": "research/INNOVATION_QUOTA_W2_PREREG.md (frozen r183 bm-c; G-ANCHOR-FACE four-tuples per O-20260928-1712; per-cell common windows on GC001 trading calendar + term-missing-day honest fallback law 145/281 anchor-counted, zero ffill zero fabrication; seed innovation_quota_w2_repo=20298500 registered same commit)",
+   "runner": "scripts/innovation_quota_w2.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": null,
+   "priority": 3,
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "long-term-extension judged burn; W1 machinery scale (4002 batch cells); cheap-screen-first n/a (2-cell family batch, direct judged face)"
+   },
+   "data_gates": "runner fail-closed if prereg absent or anchor counts mismatch (rows 3735/3689/3376, window masks 368/192/454/145 and 362/192/448/281, outside-cal=0, rate band (0,200), last-row==cutoff; exit 2 honest face-mismatch refusal)",
+   "note": "ladder (d) slot-2: judged-negative GC007 stays closed (RANDOM_LARGE_SAMPLE_LAW s5 -- new prereg + new instrument face = lawful reopen channel, NOT a same-method rerun); if eligible, intake joins the SAME cash-leg sleeve candidate pool (within-family sleeve-collapsing semantics, no independent member claim, family corr disclosed not rejected); fee-after recheck = frozen intake precondition (T-112 precedent, b*>=1bp line)",
+   "status": "ready",
+   "shards": [
+    {
+     "key": "main",
+     "status": "ready",
+     "checkpoint": "",
+     "note": "ladder default shard (single-face batch, r301 family)",
+     "owner": "bm-c",
+     "owner_since": "2026-09-28 22:06:05"
+    }
+   ],
+   "entered_at": "2026-09-28 22:05:31",
+   "entered_by": "bm-c fill_ladder T-107 slice-2"
   }
  ],
  "lane_machine": "bm-c"
