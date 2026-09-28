@@ -3151,7 +3151,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-28 08:10:00",
    "workers_plan": {
     "workers": 1,
@@ -3162,12 +3162,14 @@
    "shards": [
     {
      "key": "generate-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-a",
      "owner_since": "2026-09-28 08:20:05",
-     "checkpoint": "results/trial_labor_w3/w3_candidates.json (single-shot product = completion marker; refuse-if-exists guard)"
+     "checkpoint": "results/trial_labor_w3/w3_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
+     "note": "DONE r393 bm-a harvest (r244 landed-marker law): tick 08:20:01 claim+launch (commit 2b3b43e3, runner sha 8e7e18706d174e62); products landed 2026-09-28 08:25:25 n=3552 grammar cc59eab79db53436 dedup 5000->3552 raw->distinct, six-source exclusion consumed (w1 149 + w2 404 + mass 166 translated-exact-2 + grammar-stop-gate-none 42) zero excluded-hits honest, gate faces bear1150/bull1182/none1220"
     }
-   ]
+   ],
+   "result_ref": "results/trial_labor_w3/w3_candidates.json"
   }
  ],
  "lane_machine": "bm-a"
