@@ -3477,31 +3477,32 @@
     {
       "id": "T104-GRID-S3-DUALFACE-P1",
       "ticket_ref": "T-2026-09-28-104 s3 (CEO O-20260928-1531 grid revival + O-20260928-1625 sec.1 dispatch: bm-b 池序 V2-P1 后第二位; universe FROZEN per O-20260928-1555 five-member two-tier {510050,510300,512100,510500,588000})",
-      "prereg_ref": "research/etf_ops/ grid prereg family = T-104 s2 (TO FREEZE before any burn per R99 law; grid params numeric frozen: spacing/levels/band/per-level size/TP/SL; costs x2 mandatory (fees=grid survival line); T-78 grid_sleeve 0/5 + CN-GRID-SLEEVE judged negatives = control/lesson anchors per ticket spec; 300/500 oscillation-face classic play + broad same-class; T+1 cross-day grids: realtime = trigger signal only, fills book honestly at T+1 open)",
+      "prereg_ref": "research/etf_ops/GRID_DUALFACE_P1_PREREG.md FROZEN r399 commit a03887474 (salvage of dead r399 session draft; probe facts independently re-verified 5/5 members rows/last/mono + minute feed 1970x5 window 09-15..09-28); SEED_REGISTRY grid_dualface_p1=20295500 registered same commit (R250 one-step; pair-derivation vs innovation 20295000 first-element distinct, census_unc precedent)",
       "runner": "scripts/grid_dualface_backtest.py",
       "runner_args": [
         "run"
       ],
       "lane_owner": "bm-b",
       "priority": 2,
-      "status": "waiting",
+      "status": "ready",
       "entered_at": "2026-09-28 16:39:05",
       "workers_plan": {
         "workers": "worker_cap() pool BelowNormal",
         "priority": "BelowNormal",
-        "note": "dual-face: deep face = daily-granularity grid backtests on T-22 harness lineage (HONEST DISCLOSURE: daily granularity undercounts fill count = lower-bound reading); minute face = sina recent window + data/minute_feed forward-accumulated archive (v1.3 5-symbol live since r391); per-member products + summary"
+        "note": "single shard 'run' (all five members sequential, per-member idempotent skip; measured 1.5s/member -> light batch); dual-face: deep face = daily-granularity grid state machine on T-22 lineage (HONEST DISCLOSURE: daily granularity undercounts intraday fills = lower-bound reading disclosed in prereg s1); minute face = LOCAL forward-accumulated archive data/minute_feed v1.3 (descriptive equivalence only, never a judgement; zero network)"
       },
-      "data_gates": "WAITING DEPS (flip upon ALL): (1) T-104 s2 prereg family FROZEN (bm-b lane in progress); (2) runner + selftest hermetic; (3) minute-feed archive freshness verified (data/minute_feed 5-symbol v1.3); (4) RAM >= 4GB. IN-RUNNER fail-closed: prereg absent / grammar sha mismatch = exit 2. LIVE PAPER GRID ENGINE fires 10-01 = separate face per ticket (real fills simulated on realtime quotes, full trade log)",
+      "data_gates": "ALL GATES GREEN r399 bm-b: (1) prereg FROZEN a03887474 precedes runner build (R99); (2) runner + selftest hermetic PASS (lifecycle fixture: sets/anchors/reanchor/multi-level fills/blocked_entry/blocked_exit roll/guard/nulls/fee/minute equivalence/grammar; double-run byte-identical) + real-data timing probe 1.5s/member incl 200-null engine (results/_r399bmb_grid_timing_probe.py); (3) minute-feed archive v1.3 five-symbol verified 1970 rows each 09-15..09-28 15:00 (runner minute leg = local archive only, zero network); (4) RAM 11.7GB free > 4GB floor. IN-RUNNER fail-closed: anchor face mismatch = exit 2; grammar sha mismatch = exit 2. JUDGED FACE x2; K=200 same-mask random-trigger-day nulls = FIRST gate (T-78 lesson product). LIVE PAPER GRID ENGINE fires 10-01 = separate face per ticket. Finalize = owner follow-up round after pool shards complete (python scripts/grid_dualface_backtest.py finalize; r253 redo-echo guard in-runner)",
       "shards": [
         {
           "key": "grid-0of1",
           "status": "waiting",
           "owner": null,
           "owner_since": null,
-          "checkpoint": "results/grid_dualface/ (per-member products + summary + sha256)"
+          "checkpoint": "results/etf_ops/grid_shard_<member>.json x5 + results/etf_ops/grid_rounds_<member>.csv x5 + results/etf_ops/grid_series/*.npy (30 cells x 2 faces)"
         }
       ],
-      "note": "r391b bm-b entry per CEO O-20260928-1625 dispatch (bm-b 池序 V2-P1 后第二位·entered_at 顺序在认领时兑现·V2-P1 priority 链条线优先照 O-1533/O-1555 池序法); anti-dup boundary vs T-103 (ETF 操作链 s2 entries = separate entries per GM retained-directive note) declared"
+      "note": "r391b bm-b entry per CEO O-20260928-1625 dispatch (bm-b 池序 V2-P1 后第二位·entered_at 顺序在认领时兑现·V2-P1 priority 链条线优先照 O-1533/O-1555 池序法); anti-dup boundary vs T-103 (ETF 操作链 s2 entries = separate entries per GM retained-directive note) declared",
+      "ready_at": "2026-09-28 21:5x"
     },
     {
       "id": "NATIONAL-TEAM-S3-EVENT-REVIEW",
@@ -3520,19 +3521,87 @@
       },
       "data_gates": "runner fail-closed if results/national_team/ s1 faces absent (exit 2 honest); event ledger source-cited per s1; win-rate + expectancy dual disclosure per O-1524 KPI law",
       "note": "ladder (c): v4 pre-compute on the national-team share face -- s2 selection verdict (six->subset, disclosure-hard) lands with the prereg slice; s4 chain integration is evidence-gated (universe face always, signal face only if s3 supports tradable edge)",
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-28 19:57:17",
       "entered_by": "bm-c fill_ladder T-107 slice-2",
       "shards": [
         {
           "key": "main",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "",
           "note": "ladder default shard (single-face batch, r301 family; r179 repair patch on first-live-fire entry)",
           "owner": "bm-c",
-          "owner_since": "2026-09-28 20:32:05"
+          "owner_since": "2026-09-28 20:57:07"
         }
-      ]
+      ],
+      "done_at": "2026-09-28 20:57:07",
+      "result_ref": "results/national_team/s3_event_review.json (r181 bm-c flip, r200/r201 precedent; runner pid 35516 dead + receipt complete: 418 requests, prereg sec.2 frozen clause fulfilled segment-only honest conversion, verified_points=0 <2, verified_segments=3, return_cells=0, N_eff=0 zero nulls, ledger 317859 flat, event_share_windows.json + event_ledger.json changelog faces in-tree)"
+    },
+    {
+      "id": "MEMBER-REINFORCE-P1",
+      "ticket_ref": "T-2026-09-28-107 sec.4(b) registered-member reinforcement faces (x2 cost / seed-stability / CSCV extra folds / regime-segment refinement) -- spec'd robustness dims of firm/STRATEGY_EVALUATION.md + T-63 three-card system",
+      "prereg_ref": "research/MEMBER_REINFORCE_P1_PREREG.md (to be frozen; G-ANCHOR-FACE four-tuple mandatory per O-20260928-1712; members = in-册 corps roster frozen at prereg time; zero new strategy invention)",
+      "runner": "scripts/member_reinforce_p1.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-c",
+      "priority": 2,
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "member-faced judged machinery reuse; x2/seed/fold dims per prereg"
+      },
+      "data_gates": "runner fail-closed if member roster / judged faces absent (exit 2 honest); reinforcement results append to member evidence faces, ledger +0 until judged per prereg",
+      "note": "ladder (b): registered-member reinforcement -- the four faces enumerated in T-107 sec.4(b), one prereg covers the batch; consumption = scorecard robustness dims + promotion gates",
+      "status": "done",
+      "shards": [
+        {
+          "key": "main",
+          "status": "done",
+          "checkpoint": "",
+          "note": "ladder default shard (single-face batch, r301 family)",
+          "owner": "bm-c",
+          "owner_since": "2026-09-28 21:13:47"
+        }
+      ],
+      "entered_at": "2026-09-28 20:58:31",
+      "entered_by": "bm-c fill_ladder T-107 slice-2",
+      "done_at": "2026-09-28 21:13:47",
+      "result_ref": "r182 bm-c flip (r200/r201 precedent; runner pid 30676 dead + receipt complete 21:06:58, attrition line in gate_attrition.json ts 21:04:28): 6-member robustness batch 624 cells, ledger 320487 -- x1 3/6 pass (COMPOSITE-CE-01 0.8416 / COMPOSITE-CE-02 0.7854 / VOLATILITY-CE-01 1.2578 vs line 0.4792), x2 0/6 g1-pass (cost-fragile face: sign survives 6/6 but CI gate fails all), F2 seed-stable 6/6, F3 PBO(8) 0.3714 observe + PBO(16) 0.5269 fail (fold-unstable flag), F4 reversal trio bull>bear opposite to prediction; zero registration claims by design (robustness evidence batch, consumption = scorecard robustness dims)"
+    },
+    {
+      "id": "INNOVATION-QUOTA-SLOT-1",
+      "ticket_ref": "T-2026-09-28-107 sec.4(d) INNOVATION QUOTA: every idle window burns >=1 novel hypothesis family (external digest candidates / benchmark-wave new judgment faces / untried zoo families) per RESEARCH_MECHANISM",
+      "prereg_ref": "research/INNOVATION_QUOTA_W1_PREREG.md (to be frozen; family selected from research/digests/ harvest candidates or untried ASTYLE_ZOO families; G-ANCHOR-FACE four-tuple mandatory; funnel dual-column reporting per harvest law)",
+      "runner": "scripts/innovation_quota_w1.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-c",
+      "priority": 3,
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "novel-family judgment burn; cheap-screen-first per TRIAL_LABOR_LAW sec.2 applies"
+      },
+      "data_gates": "runner fail-closed if family prereg absent (exit 2 honest); claims-are-not-verified law: external-origin family = hypothesis until independent verification chain passes",
+      "note": "ladder (d): slot-1 = first innovation-quota family; family identity frozen at prereg time, slot-2+ = later catalog tranche (D4 target >=100 templates fleet-wide)",
+      "status": "done",
+      "shards": [
+        {
+          "key": "main",
+          "status": "done",
+          "checkpoint": "",
+          "note": "ladder default shard (single-face batch, r301 family)",
+          "owner": "bm-c",
+          "owner_since": "2026-09-28 21:13:47"
+        }
+      ],
+      "entered_at": "2026-09-28 20:58:31",
+      "entered_by": "bm-c fill_ladder T-107 slice-2",
+      "done_at": "2026-09-28 21:13:47",
+      "result_ref": "r182 bm-c flip (r200/r201 precedent; runner pid 19160 dead + receipt complete 21:06:58, attrition line in gate_attrition.json): REPO_CALENDAR_P1 4 cells + passive, ledger +2004 -> 319863 -- G1 v2 line 25.006 (passive 11.90 / mu_null 22.3153 / sigma 0.5344 / N_eff 319863): CAL-SWITCH-GC007 19.35 FAIL (below mu_null: weekly-term calendar switch indistinguishable from random-calendar nulls, judged-negative close-out), GC014 29.20 / QW5-GC014 26.56 / GC028 34.83 PASS with DSR 1.0 + PBO 0.0 + 1000 virtual starts beat 1.0 all windows + 100 splits same-sign 1.0 = 3/4 G2-eligible (STRATEGY_LIBRARY cash-leg sleeve candidates, intake ticket opened per prereg sec.8)"
     }
   ],
   "lane_machine": "bm-b"
