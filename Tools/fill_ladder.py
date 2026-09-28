@@ -177,11 +177,29 @@ def consumer_plan_missing(cand):
     return not (cand.get("consumer_plan") or "").strip()
 
 
+def _merged_pool_view(shared_path):
+    """T-116 s3 wave-1 flip (D-20260928-03(1) structural end-state): the
+    ladder's DECISION base is the lane-merged view (scripts/merge_lane_views.
+    face_view -- shared + bm-a/bm-b/bm-c lanes, fixed source order, same
+    merger recipes the tick settle writes). existing_ids idempotency and
+    the floor/judge gates thereby see lane-only rows a bare shared read
+    is blind to; the write side keeps the double-file law unchanged.
+    No sources at all = {'entries': []} (pre-flip missing-shared parity).
+    Corrupt sources / identity contradictions raise -- the ladder refuses
+    to enqueue on an unreadable base (fail-closed beats a blind fill)."""
+    sdir = os.path.join(ROOT, "scripts")
+    if sdir not in sys.path:
+        sys.path.insert(0, sdir)
+    import merge_lane_views as _mlv
+    return _mlv.face_view("runnable_pool",
+                          results_dir=os.path.dirname(shared_path)) \
+        or {"entries": []}
+
+
 def run(dry_run=False, floor=FLOOR_DEFAULT):
     machine_id = _machine_id()
     shared_path, lane_path = _pool_paths(machine_id)
-    shared_raw = _load(shared_path)
-    pool = json.loads(shared_raw) if shared_raw else {"entries": []}
+    pool = _merged_pool_view(shared_path)
     entries = pool.get("entries", [])
     existing_ids = {e.get("id") for e in entries}
     ready_n = _compatible_ready_count(pool, machine_id)
