@@ -834,7 +834,11 @@ def _regime_states_by_date():
         raw = mats["v3"]["states"]
         l2 = {"GREEN": "GREEN", "YELLOW": "CHOP", "ORANGE": "ORANGE",
               "RED": "RED"}
-        return {d: l2.get(s, s) for d, s in raw.items()}
+        # key face: round trig_date strings hit this dict -- raw keys are
+        # pandas Timestamps, normalize to ISO date strings or every lookup
+        # misses and the whole disclosure face degrades to 'na'
+        return {str(pd.Timestamp(d).date()): l2.get(s, s)
+                for d, s in raw.items()}
     except Exception as exc:
         return {"__error__": repr(exc)[:200]}
 
@@ -949,6 +953,24 @@ def cmd_finalize(args):
                                f"({sh.get('grammar_sha16')})")
         if sh.get("evidence_cutoff") != EVIDENCE_CUTOFF:
             return gate_refuse(f"shard cutoff drift: {code}")
+        # reattach daily PnL streams: run strips _series from the shard
+        # JSON (control-face size law) and persists them as .npy in SER_DIR
+        # (cmd_run save face). Finalize must reload them or _finalize_math
+        # KeyError's on the stripped key (real-fire payload shape the
+        # hermetic fixture never exercises -- its shards keep _series
+        # in memory).
+        sh["_series"] = {}
+        for name, cell in sh["cells"].items():
+            ci = cell["cell_idx"]
+            try:
+                sx1 = np.load(os.path.join(SER_DIR, f"{code}_{ci}_x1.npy"))
+                sx2 = np.load(os.path.join(SER_DIR, f"{code}_{ci}_x2.npy"))
+            except Exception as exc:
+                return gate_refuse(f"series npy absent/unreadable: {code} "
+                                    f"cell {name}: {repr(exc)[:120]}")
+            sh["_series"][name] = (
+                np.asarray(sx1, dtype=np.float64),
+                np.asarray(sx2, dtype=np.float64))
         shards.append(sh)
     if os.path.exists(OUT_JSON):
         j = json.load(open(OUT_JSON, encoding="utf-8"))

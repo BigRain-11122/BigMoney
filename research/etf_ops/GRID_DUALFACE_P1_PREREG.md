@@ -84,8 +84,23 @@
 
 （一次定稿；工程修复重跑须双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
 
+**判负关单（2026-09-29 r401 bm-b · finalize 实弹 30/30 cell）**：
+
+- **链条主判 win-gate 1/30**（唯一过线=510300-g8-L6·wr 0.40 vs **degenerate null p95=0.00**——小样本 null 面如实标注，非技巧增量证据）；**G1'v2 0/30**（skill_line=1.1906 全批统一·sharpe_full −1.93~2.88·bootstrap CI 下界全负）；**G2 0/30**（DSR 0.0~1.0·family PBO **0.2286≤0.25 带内**·pbo_ok 单项过）；**E[round] gate 1/30**——**判负：0 注册**。
+- **三披露**：成交密度 g=4% 均值 3.15 回合/年（1.39-8.22）、g=6% 1.32、g=8% 0.63（全族远低于跑前预测带）；回合期望 x1/x2 双列（x2 正 15/30·e_p95 带 −0.132~+0.109）逐 cell 在件；**beat-passive 全败**——全期 0/30·虚拟时点 {6m,12m,24m} beat_rate 均值 0.441/0.384/0.327（max 0.525）。
+- **政体条件化有效窗**：L2 路由态分层胜率入件（样例 510050-g4-L4：CHOP 0.8125/RED 0.7143/GREEN 0.6316/ORANGE 0.5）＋T-89 分段同件——**禁全天候宣称**面成立。
+- **D6**：30 cell max|corr| **0.013~0.095** vs 在册 6 sleeve——零拒收；BP1 机制面相邻披露（同为趋势门内回调低吸结构·judged negative 2026-09-28）随件，≥0.7 拒收线未触及。
+- **描述条款**：maxdd_x2 −0.26~0.0·零崩年·OOS-2025 双正 12/30·成本×2 逐年面在件。
+- **极端日/硬界账**：blocked_exit_rolls 全批 **0**·blocked_entries 0·reanchor 独立回合 0（回合 census=tp 335+clear 154=489 回合·48 sets）；基金事件隔离日 **3**。
+- **分钟面等价**：19 日窗内 5/5 员各 1 极值失配日（2026-09-15 族·四舍五入面）如实单列。
+- **工程账（双跑留痕）**：finalize 实弹首跑揭两处载荷形状 bug——①shard JSON 剥 `_series` 后 finalize 缺 `.npy` 日线流重挂段（KeyError·hermetic fixture 携带内存 `_series` 从未覆盖实弹剥离面）②regime 路由态键=Timestamp vs 查询键字符串全 miss→整面降级 'na'；修复后 `GRID_DUALFACE_REFINALIZE=1` 合法重执行×2 **字节恒等**（sha16 485f729adf5a3927）·ledger 链位冻结 324489→324519 **+30 线性零双计**（r253 redo-echo 守卫实证）。
+- **产物**：`results/etf_ops/grid_dualface.json`（顶层 evidence_cutoff=2026-09-28＋science_gates.cutoff_meta＋ledger 块）＋`grid_nulls.json`＋`grid_minute_face.json`＋shard checkpoints `grid_shard_<member>.json`×5＋`grid_rounds_<member>.csv`×5＋`grid_series/` 60 npy 日线流。
+
 ## §8 批后复盘【必填·s7-T】
 
-- 预测对账（对/部分/错）＋门禁链损耗账（`results/gate_attrition.json` 追加一行）＋判线 v2 当批读数（skill_line_v2 数字）；
-- 回执入轮报告＋CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff＋live/paper SIGNAL_BUILDERS 接线＋smoke 锚定门复跑；
-- 仓位治理提醒（票 spec·非本批面）：网格袖帽 ≤20% 由 firm/portfolio.md 治理面接线（GM 提议默认·CEO 唯一上调门），本批 sim 面=1.0 袖名义纯测量；live paper grid engine 10-01 开火=独立面另票。
+- **预测对账（§5 六面）**：①胜率方向 **对**（g4>g6>g8=0.656/0.619/0.596 单调·L6 vs L4 +1.0pp 方向错但量级噪声内）②成交密度 **错**（g4 预测 5-15/yr 实测均值 3.15·g8 预测 2-6 实测 0.63——系统性高估 3~10×，教训=回调低吸结构在宽基震荡带的档位触达频率远低于直觉）③null 对照 **部分对**（「首判门过线不保证」兑现=1/30；「差距窄」错——null 底被同一出场纪律抬至 p95 高位，实测大面积低于 null p95，T-78 随机相位教训第三次同构实证）④极端日先验 **错**（一字板 blocked_exit 预期高发→全批 0 命中；宽基 ETF 连续硬一字板稀有·个股先验不可外推；2024-09 脉冲窗 reanchor 独立回合亦 0）⑤beat-passive **对**（不保证兑现=全期 0/30 全 horizon<0.5）⑥分钟面 **部分对**（5/5 员各 1 四舍五入失配日）。
+- **判负三出口处置（§4）**：judged negative 族教训=「格距-触发-成本三难」——浅档 g=4% E[round] 正 15/30 但 null 门全灭（无随机相位增量）·深档 g=8% 触发枯竭（0.63/yr）统计力不足·x2 双成本下正期望面缩水；**网格档位面在宽基五员工具箱内无可注册组合=族级关闭**。现金腿升级提案面：格距-成本死线读数（e_p95 带 −0.132~+0.109·13.041bp/边）供 SPM 现金腿参考；锦标赛臂/军团席位供给两出口不适用（无存活臂）。
+- **门禁链损耗账**：`results/gate_attrition.json` 追加一行（本批 30 入闸→win 1→G1' 0→G2 0→注册 0）。
+- **判线 v2 当批读数**：skill_line_v2=**1.1906**（ledger_head 324489·n_eff 324519·core48 被动源·null_term 主导）。
+- **回执**：轮报告 r401 bm-b＋CODELY.md 行级追加；**零注册→无注册接线义务**（无 evidence_cutoff 注册件、无 SIGNAL_BUILDERS 接线、无 smoke 锚定门复跑需求）。
+- **仓位治理提醒（票 spec·非本批面）**：网格袖帽 ≤20% 由 firm/portfolio.md 治理面接线（GM 提议默认·CEO 唯一上调门），本批 sim 面=1.0 袖名义纯测量；live paper grid engine 10-01 开火=独立面另票。

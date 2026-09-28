@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-28 19:38:00",
+ "updated_at": "2026-09-29T01:00:30+08:00",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
  "entries": [
   {
@@ -3584,7 +3584,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-28 16:39:05",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal",
@@ -3595,14 +3595,16 @@
    "shards": [
     {
      "key": "grid-0of1",
-     "status": "waiting",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-29 00:50:03",
      "checkpoint": "results/grid_dualface/ (per-member products + summary + sha256)"
     }
    ],
    "note": "r391b bm-b entry per CEO O-20260928-1625 dispatch (bm-b 池序 V2-P1 后第二位·entered_at 顺序在认领时兑现·V2-P1 priority 链条线优先照 O-1533/O-1555 池序法); anti-dup boundary vs T-103 (ETF 操作链 s2 entries = separate entries per GM retained-directive note) declared",
-   "ready_at": "2026-09-28 21:5x"
+   "ready_at": "2026-09-28 21:5x",
+   "result_ref": "results/etf_ops/grid_dualface.json judged-negative 0/30 registrations (sha16 485f729adf5a3927, ledger 324489->324519 +30 linear, PBO 0.2286 in-band, D6 0 rejects, beat-passive 0/30) + prereg s7/s8 one-time backfill + gate_attrition judgment row; runner finalize bugfixes in-round (npy _series reattach + regime Timestamp->str keys, REFINALIZE redo x2 byte-identical)",
+   "done_at": "2026-09-29T01:00:30+08:00"
   },
   {
    "id": "NATIONAL-TEAM-S3-EVENT-REVIEW",
