@@ -3502,6 +3502,37 @@
     }
    ],
    "note": "r391b bm-b entry per CEO O-20260928-1625 dispatch (bm-b 池序 V2-P1 后第二位·entered_at 顺序在认领时兑现·V2-P1 priority 链条线优先照 O-1533/O-1555 池序法); anti-dup boundary vs T-103 (ETF 操作链 s2 entries = separate entries per GM retained-directive note) declared"
+  },
+  {
+   "id": "NATIONAL-TEAM-S3-EVENT-REVIEW",
+   "ticket_ref": "T-2026-09-28-106 s3 event-window review (CEO O-20260928-1540 实效复盘 chain) + T-2026-09-28-107 sec.4(c) chain-v4 PRE-COMPUTE (national-team share-face full-history derivation computed ahead so v4 ignites instantly)",
+   "prereg_ref": "research/NATIONAL_TEAM_S3_REVIEW_PREREG.md (to be frozen from T-106 s3 spec: pre-registered event study -- N-day pre/post windows, v3 regime segmentation, cost-realistic, random baselines, N counted per BACKTEST_SCIENCE; no look-ahead)",
+   "runner": "scripts/national_team_s3_review.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": "bm-c",
+   "priority": 1,
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "event-window derivation over s1 evidence faces (results/national_team/ five files + spec NATIONAL_TEAM_FACE.md); bm-c lineage lane (T-106 claim r172)"
+   },
+   "data_gates": "runner fail-closed if results/national_team/ s1 faces absent (exit 2 honest); event ledger source-cited per s1; win-rate + expectancy dual disclosure per O-1524 KPI law",
+   "note": "ladder (c): v4 pre-compute on the national-team share face -- s2 selection verdict (six->subset, disclosure-hard) lands with the prereg slice; s4 chain integration is evidence-gated (universe face always, signal face only if s3 supports tradable edge)",
+   "status": "ready",
+   "entered_at": "2026-09-28 19:57:17",
+   "entered_by": "bm-c fill_ladder T-107 slice-2",
+   "shards": [
+    {
+     "key": "main",
+     "status": "ready",
+     "checkpoint": "",
+     "note": "ladder default shard (single-face batch, r301 family; r179 repair patch on first-live-fire entry)",
+     "owner": "bm-c",
+     "owner_since": "2026-09-28 20:03:05"
+    }
+   ]
   }
  ]
 }
