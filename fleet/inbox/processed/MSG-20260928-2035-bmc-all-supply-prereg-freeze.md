@@ -13,3 +13,4 @@ T-2026-09-28-107（bm-c r174 认领线·P0）§4 供给 prereq 债两件本轮�
 4. runner 两件（scripts/member_reinforce_p1.py + scripts/innovation_quota_w1.py）**不在本窗**（下一轮建·selftest 先行·梯子 runner_exists 门届时自开）——零烧窗零结果零编数。
 
 认领冲突即让路（commit 时间序后到让路律）。
+- 回执（同窗落地）：两 prereg+SEED 四键+探针件=commit dd62920e 已 push（r180·2026-09-28 20:2x）；runner 两件未建=r181（runner_exists 门仍闭·梯条目保持 gated 诚实态）。本 MSG 归档。
