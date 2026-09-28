@@ -87,6 +87,26 @@
    },
    "data_gates": "runner fail-closed if family prereg absent (exit 2 honest); claims-are-not-verified law: external-origin family = hypothesis until independent verification chain passes",
    "note": "ladder (d): slot-1 = first innovation-quota family; family identity frozen at prereg time, slot-2+ = later catalog tranche (D4 target >=100 templates fleet-wide)"
+  },
+  {
+   "id": "INNOVATION-QUOTA-SLOT-2",
+   "ticket_ref": "T-2026-09-28-107 sec.4(d) innovation quota slot-2 (catalog tranche-2 per D4); evidence-driven family extension: REPO-CALENDAR-P1 batch-internal new fact '锁定期溢价须够长才可检' (GC007 19.35 < mu_null 22.32 judged-negative vs GC014 29.20 / GC028 34.83 pass) -> GC091/GC182 long-term extension cells",
+   "prereg_ref": "research/INNOVATION_QUOTA_W2_PREREG.md (frozen r183 bm-c; G-ANCHOR-FACE four-tuples per O-20260928-1712; per-cell common windows on GC001 trading calendar + term-missing-day honest fallback law 145/281 anchor-counted, zero ffill zero fabrication; seed innovation_quota_w2_repo=20298500 registered same commit)",
+   "runner": "scripts/innovation_quota_w2.py",
+   "runner_args": ["run"],
+   "lane_owner": null,
+   "priority": 3,
+   "enqueue_gates": [
+    "prereg_frozen:research/INNOVATION_QUOTA_W2_PREREG.md",
+    "runner_exists"
+   ],
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "long-term-extension judged burn; W1 machinery scale (4002 batch cells); cheap-screen-first n/a (2-cell family batch, direct judged face)"
+   },
+   "data_gates": "runner fail-closed if prereg absent or anchor counts mismatch (rows 3735/3689/3376, window masks 368/192/454/145 and 362/192/448/281, outside-cal=0, rate band (0,200), last-row==cutoff; exit 2 honest face-mismatch refusal)",
+   "note": "ladder (d) slot-2: judged-negative GC007 stays closed (RANDOM_LARGE_SAMPLE_LAW s5 -- new prereg + new instrument face = lawful reopen channel, NOT a same-method rerun); if eligible, intake joins the SAME cash-leg sleeve candidate pool (within-family sleeve-collapsing semantics, no independent member claim, family corr disclosed not rejected); fee-after recheck = frozen intake precondition (T-112 precedent, b*>=1bp line)"
   }
  ]
 }

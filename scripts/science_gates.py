@@ -1151,6 +1151,21 @@ SEED_REGISTRY = {
         # research/etf_ops/GRID_DUALFACE_P1_PREREG.md, F-04
         # MSG-20260928-2110-bmb (dead r399 session salvage: seed declared
         # in MSG+prereg, registered here at salvage freeze commit r399)
+        "innovation_quota_w2_repo": 20298500,
+        # INNOVATION_QUOTA_W2 / REPO_CALENDAR_P2 long-term extension family:
+        # K=2000 random-calendar masks (rng([20298500,k]), k<2000) each
+        # evaluated on both cell structures (per-cell 2000-draw null pools)
+        # + K=1000 virtual startpoints (k in [2000,3000)) + 100 random
+        # split windows (k in [3000,3100)) per RANDOM_LARGE_SAMPLE_LAW
+        # (T-107 sec.4(d) slot-2); base 20298500 first element distinct from
+        # every other registry base = pair-derivation zero-collision
+        # semantics (grid_dualface_p1 same-window precedent; the W1
+        # 20295000..20298099 note above is a k-range description, not
+        # single-int occupation); full-repo rg scan zero
+        # seed-face hits 2026-09-28 21:4x before prereg freeze (CSV
+        # volume-column digit coincidences are not seed faces); registered
+        # same commit as prereg freeze (R250 law; prereg =
+        # research/INNOVATION_QUOTA_W2_PREREG.md; F-04 MSG-20260928-2140)
 
     }
 
