@@ -1072,6 +1072,7 @@ def _calendar_faces(packs_all, panels, sleeve_gated):
     n = len(close.index)
     rng = np.random.default_rng(BOOTSTRAP_SEED)
     dsr_faces, pbo_faces = {}, {}
+    skipped = []
     note = ("calendar series from p0-sliced member curves (slice law "
             "asserted on sampled starts); DSR n_trials = batch N_eff "
             f"{N_EFF}")
@@ -1082,7 +1083,13 @@ def _calendar_faces(packs_all, panels, sleeve_gated):
             att0 = pack["att"][p0]
             for p in [int(x) for x in rng.choice(
                     att_pool, size=min(3, len(att_pool)), replace=False)]:
-                k = int(rng.integers(1, max(2, n - p - 1)))
+                # member curves are W24M-capped windows (t34 curve law);
+                # the slice check only exists where the two windows overlap
+                k_hi = min(len(pack["att"][p]), len(att0) - (p - p0))
+                if k_hi <= 1:
+                    skipped.append(p)
+                    continue
+                k = int(rng.integers(1, max(2, k_hi)))
                 d_off = p - p0 + k
                 assert abs(att0[d_off] - pack["att"][p][k]) < 1e-10, (
                     "slice law FAIL (calendar faces unavailable)")
@@ -1109,6 +1116,7 @@ def _calendar_faces(packs_all, panels, sleeve_gated):
                      pd.Series(False, index=close.index))}
             att0_np = np.asarray(att0, dtype=float)
             chop0 = np.asarray(pack["chop"][p0], dtype=float)
+            n_cal = min(len(att0_np), len(chop0), n - p0)
             sl_np = np.asarray(sl, dtype=float)
             ca_np = np.asarray(cash, dtype=float)
             extra_ret = np.asarray(
@@ -1117,14 +1125,17 @@ def _calendar_faces(packs_all, panels, sleeve_gated):
             extra_dw = np.asarray(tilt["ov_dw"], dtype=float)
             panel = {}
             for arm in ARMS_A:
-                Wm = W[arm][p0:]
+                Wm = W[arm][p0:p0 + n_cal]
                 r = v2.env_daily_v2(
-                    (att0_np[:n - p0], chop0[:n - p0],
-                     sl_np[p0:], ca_np[p0:]), Wm, rate)
+                    (att0_np[:n_cal], chop0[:n_cal],
+                     sl_np[p0:p0 + n_cal], ca_np[p0:p0 + n_cal]), Wm,
+                    rate)
                 if arm == "A-H1":
                     r = r * H1_CORE_SCALE
-                    r = r + extra_ret[p0:] - rate * extra_dw[p0:]
-                panel[arm] = pd.Series(r, index=close.index[p0:])
+                    r = r + (extra_ret[p0:p0 + n_cal]
+                             - rate * extra_dw[p0:p0 + n_cal])
+                panel[arm] = pd.Series(
+                    r, index=close.index[p0:p0 + n_cal])
                 dsr_faces[f"{arm}_{face}"] = sg.deflated_sharpe_ratio(
                     [float(x) for x in r], n_trials=N_EFF)
             pbo_faces[face] = cscv_pbo(pd.DataFrame(panel))
@@ -1133,6 +1144,9 @@ def _calendar_faces(packs_all, panels, sleeve_gated):
         pbo_faces = {"n/a": True, "reason": str(ex)[:200]}
         note = ("slice law FAILED -> DSR/PBO faces honestly unavailable: "
                 + str(ex)[:200])
+    if skipped:
+        note += (f"; slice-law assert skipped on {len(skipped)} sampled "
+                 "start(s) without p0-window calendar overlap (honest)")
     return dsr_faces, pbo_faces, note
 
 
