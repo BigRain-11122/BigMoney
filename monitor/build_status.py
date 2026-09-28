@@ -1734,6 +1734,35 @@ def _system_v1_paper_state() -> dict:
     return out
 
 
+def _tl_judge_face(res_dir, judge_name, intake_name=None):
+    """Funnel stages 3-4 readout for one trial-labor wave: judged
+    product (w{1..3}_judge.json; mass face key n_judge_cells vs
+    tl-lineage n_judged_cells handled) + TRIAL-* intake product when
+    the wave's lineage has one. Consumed only when the frozen product
+    file exists -- zero judgment claims pre-landing; judged/eligible
+    counts are harvest faces of the prereg-frozen verdict, never a
+    promotion claim (intake/上岗 = display face of the intake
+    product only)."""
+    j = _read_json(os.path.join(res_dir, judge_name))
+    face = None
+    if j:
+        face = {"n_judged": (j.get("n_judged_cells")
+                            if j.get("n_judged_cells") is not None
+                            else j.get("n_judge_cells")),
+                "n_eligible_g2": j.get("n_eligible_g2"),
+                "e_fp": (j.get("n_wave_disclosure") or {}).get(
+                    "E_FP_nominal_5pct")}
+        if j.get("verdicts"):
+            face["verdicts"] = j["verdicts"]
+    if intake_name:
+        it = _read_json(os.path.join(res_dir, intake_name))
+        if it:
+            face = face or {}
+            face["intake_n_eligible"] = it.get("n_eligible")
+            face["intake_n"] = len(it.get("intake") or [])
+    return face
+
+
 def _trial_labor_state() -> dict:
     """TRIAL_LABOR_LAW v1.0 (O-2026-09-27-2250) standing trial-labor
     production line (CEO law: never idle, no CEO reminder): candidate
@@ -1771,6 +1800,9 @@ def _trial_labor_state() -> dict:
         if jst:
             w["judge_prep"] = {"n_judge_cells": jst.get("n_judge_cells"),
                                "seed": jst.get("seed_judge")}
+        jf = _tl_judge_face(d1, "w1_judge.json")
+        if jf:
+            w["judge"] = jf
         out["waves"].append(w)
         out["present"] = True
     # wave-1b: TRIAL_LABOR_W1 (bm-c lineage)
@@ -1779,18 +1811,24 @@ def _trial_labor_state() -> dict:
         if os.path.isdir(d2) else None
     if s2:
         nf = s2.get("null_family") or {}
-        out["waves"].append({
-            "wave": "TRIAL_LABOR_W1",
-            "screen_done": True,
-            "candidates": s2.get("batch_cells"),
-            "n_distinct": s2.get("n_distinct"),
-            "k_nulls": s2.get("k_nulls"),
-            "survivors_stage1": s2.get("n_survivors"),
-            "null_p95": nf.get("p95_line"),
-            "evidence_cutoff": s2.get("evidence_cutoff"),
-            "judge_prep": None,
-            "ledger_total": (s2.get("trials_ledger") or {}).get("total"),
-        })
+        w = {"wave": "TRIAL_LABOR_W1",
+             "screen_done": True,
+             "candidates": s2.get("batch_cells"),
+             "n_distinct": s2.get("n_distinct"),
+             "k_nulls": s2.get("k_nulls"),
+             "survivors_stage1": s2.get("n_survivors"),
+             "null_p95": nf.get("p95_line"),
+             "evidence_cutoff": s2.get("evidence_cutoff"),
+             "judge_prep": None,
+             "ledger_total": (s2.get("trials_ledger") or {}).get("total")}
+        # W1-lineage judge_state.json is the older prep schema (no
+        # survivor-count key; judge cells == survivors_stage1 already
+        # displayed) -- keep judge_prep None rather than render a
+        # misleading empty count.
+        jf = _tl_judge_face(d2, "w1_judge.json", "w1_intake.json")
+        if jf:
+            w["judge"] = jf
+        out["waves"].append(w)
         out["present"] = True
     # wave-2: TRIAL_LABOR_W2 (T-94 second wave; generate+screen landed
     # 09-28, judge-prep done, judge burn pool/RAM-gated -- judge_state
@@ -1813,6 +1851,9 @@ def _trial_labor_state() -> dict:
               "ledger_total": (s3.get("trials_ledger") or {}).get("total")}
         if jst3:
             w3["judge_prep"] = {"n_judge_cells": jst3.get("n_survivors")}
+        jf = _tl_judge_face(d3, "w2_judge.json", "w2_intake.json")
+        if jf:
+            w3["judge"] = jf
         out["waves"].append(w3)
         out["present"] = True
     # wave-3: TRIAL_LABOR_W3 (T-97 third wave; generate+screen landed
@@ -1836,6 +1877,9 @@ def _trial_labor_state() -> dict:
               "ledger_total": (s4.get("trials_ledger") or {}).get("total")}
         if jst4:
             w4["judge_prep"] = {"n_judge_cells": jst4.get("n_survivors")}
+        jf = _tl_judge_face(d4, "w3_judge.json", "w3_intake.json")
+        if jf:
+            w4["judge"] = jf
         out["waves"].append(w4)
         out["present"] = True
     # pool face (dynamic across future waves)
