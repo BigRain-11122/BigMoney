@@ -3520,6 +3520,7 @@
    "verdict": "FLAG:idle_with_work,supply_gap"
   },
   {
+<<<<<<< HEAD
    "ts": "2026-09-28 17:07:41",
    "audit_version": "v2.4",
    "cpu_total_pct": 6.0,
@@ -3530,6 +3531,18 @@
    "fleet_open_tasks": 1,
    "pool_ready_count": 1,
    "pool_ready_unclaimed": 0,
+=======
+   "ts": "2026-09-28 17:06:19",
+   "audit_version": "v2.4",
+   "cpu_total_pct": 2.0,
+   "py_cpu_pct": 1.6,
+   "cores": 16,
+   "py_procs": 11,
+   "result_stale_min": 0.6,
+   "fleet_open_tasks": 0,
+   "pool_ready_count": 6,
+   "pool_ready_unclaimed": 2,
+>>>>>>> db61b310 (round 392: T-109 claim+s1-start (sentiment_axes_derive.py built + selftest 17/17 green, pool entry SENTIMENT-AXES-FULLHIST-P1 flipped waiting->ready, four-face inventory in ticket) + O-1712 G-ANCHOR-FACE template law same-round + 3 CEO order receipts (O-1630/1640/1655) + S6 chain green (lhb +42 rows, scorecard/paper-export/build-status stale-takeover per O-2100 s2.4) + claim-loss starvation live-case MSG to fleet [via bm-b])
    "load_state": "pool-supply-gap",
    "pool_starvation_candidate": false,
    "pool_starvation_detail": {
@@ -3537,6 +3550,7 @@
    },
    "supply_gap_candidate": true,
    "supply_gap_detail": {
+<<<<<<< HEAD
     "run_samples": 120,
     "span_min": 917.4
    },
@@ -3552,17 +3566,44 @@
     "util_pct": 0.0,
     "mem_used_mb": 6058.0,
     "compute_apps_count": 19,
+=======
+    "run_samples": 124,
+    "span_min": 916.0
+   },
+   "supply_floor": {
+    "ready": 6,
+    "floor": 3,
+    "breach": false
+   },
+   "ignition_sla_breach_ids": [
+    "SENTIMENT-AXES-FULLHIST-P1",
+    "TRIAL-LABOR-W4-JUDGE"
+   ],
+   "supply_family_streak_min": 25.3,
+   "gpu": {
+    "present": true,
+    "util_pct": 1.0,
+    "mem_used_mb": 926.0,
+    "compute_apps_count": 20,
+>>>>>>> db61b310 (round 392: T-109 claim+s1-start (sentiment_axes_derive.py built + selftest 17/17 green, pool entry SENTIMENT-AXES-FULLHIST-P1 flipped waiting->ready, four-face inventory in ticket) + O-1712 G-ANCHOR-FACE template law same-round + 3 CEO order receipts (O-1630/1640/1655) + S6 chain green (lhb +42 rows, scorecard/paper-export/build-status stale-takeover per O-2100 s2.4) + claim-loss starvation live-case MSG to fleet [via bm-b])
     "rogue_apps": []
    },
    "zombies": [],
    "single_core_hog_candidate": false,
    "single_core_hog_detail": null,
    "flags": [
+<<<<<<< HEAD
     "idle_with_work",
     "supply_gap",
     "supply_floor"
    ],
    "verdict": "FLAG:idle_with_work,supply_gap,supply_floor"
+=======
+    "supply_gap",
+    "ignition_sla"
+   ],
+   "verdict": "FLAG:supply_gap,ignition_sla"
+>>>>>>> db61b310 (round 392: T-109 claim+s1-start (sentiment_axes_derive.py built + selftest 17/17 green, pool entry SENTIMENT-AXES-FULLHIST-P1 flipped waiting->ready, four-face inventory in ticket) + O-1712 G-ANCHOR-FACE template law same-round + 3 CEO order receipts (O-1630/1640/1655) + S6 chain green (lhb +42 rows, scorecard/paper-export/build-status stale-takeover per O-2100 s2.4) + claim-loss starvation live-case MSG to fleet [via bm-b])
   },
   {
    "ts": "2026-09-28 17:07:56",

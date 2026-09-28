@@ -3450,14 +3450,14 @@
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 16:39:05",
    "workers_plan": {
     "workers": 1,
     "priority": "BelowNormal",
     "note": "single-process pandas derivation over full-A panel ~5129 x ~8792 days; est 5-20min; artifact small-file git per 控制面律; consumers = v3 G-SENTIMENT gate cross-check + v4 national-team arm (O-1605) + T-106 控盘度面 event ledger measurement faces"
    },
-   "data_gates": "WAITING DEPS (flip to ready upon ALL): (1) runner built + selftest hermetic green (import-face reuse: wild_route_probe.py 3-axis computability probe + shared event engine 涨停/炸板/连板判定 禁重实现); (2) all-A panel census zero-drift vs T-102 frozen census (ok-universe ~5129); (3) machine free RAM >= 4GB. IN-RUNNER fail-closed: panel absent / census drift = honest exit 2. Anti-dup boundary: 国家队份额面全史派生 = separate entry (T-106 lane per O-1605/O-1625 dispatch, NOT this one)",
+   "data_gates": "READY (all 3 deps met 2026-09-28 17:2x r392 bm-b, flip executor per entry note): (1) runner built scripts/sentiment_axes_derive.py + selftest hermetic GREEN 17/17 (import-face reuse: wild_route_lab.build_engine/build_panels_from_cache T-57 lineage + B+ constants import; zero re-implementation); (2) panel census zero-drift verified in-round (T=8792, N=5222, meta generated 2026-09-24 03:42:50, ok_universe 5130, dates 1990-12-19..2026-09-22; S1 L21 caliber u_full=4930 computed exact, prereg '~5129' = ok-face approximation disclosed in artifact census) + in-runner fail-closed FaceMismatch exit 2 (G-ANCHOR-FACE O-20260928-1712 wording); (3) free RAM >= 4GB in-runner gate (shared loader, exit 3 fleet line). IN-RUNNER fail-closed: panel absent / census drift = honest exit 2. Anti-dup boundary: 国家队份额面全史派生 = separate entry (T-106 lane per O-1605/O-1625 dispatch, NOT this one)",
    "shards": [
     {
      "key": "derive-0of1",
@@ -3467,7 +3467,7 @@
      "checkpoint": "results/sentiment_axes/axes_full_history.json (atomic os.replace + sha256 + census)"
     }
    ],
-   "note": "r391b bm-b entry per CEO O-20260928-1614 fill-ladder ③即刻入池 (v4 前置件·烧批前置件提前算 v4 到位即点火); runner build = bm-b next deliverable; flip executor = the round that observes runner+selftest green"
+   "note": "r391b bm-b entry per CEO O-20260928-1614 fill-ladder ③即刻入池 (v4 前置件·烧批前置件提前算 v4 到位即点火); runner build = bm-b next deliverable; flip executor = the round that observes runner+selftest green; FLIPPED waiting->ready 2026-09-28 17:2x by r392 bm-b (runner landed + selftest 17/17 green + census verified; ignition SLA O-1614 item-2 applies: ready<=10min must be claimed by some healthy machine)"
   },
   {
    "id": "T104-GRID-S3-DUALFACE-P1",
