@@ -8,7 +8,7 @@
     "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-09-28 13:16:04",
+  "updated_at": "2026-09-28 14:14:14",
   "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
   "entries": [
     {
@@ -350,7 +350,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-27 19:10:30",
       "workers_plan": {
         "workers": 4,
@@ -361,11 +361,13 @@
       "shards": [
         {
           "key": "censusw2b-0of1",
-          "status": "waiting",
+          "status": "done",
           "owner": "bm-b",
           "owner_since": "2026-09-28 13:43:39",
           "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
-          "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
+          "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law",
+          "done_at": "2026-09-28 14:14:14",
+          "result_ref": "results/census_fusion_s2/w2b_results.json (chain 918f04ce)"
         }
       ],
       "d8_receipt": {
@@ -374,7 +376,9 @@
         "sha256_verified_vs_git_manifest": true,
         "note": "r344 fold take-new(updated_at) ts-face dropped this remote-added entry (local tick churn fresher ts); restored from 9b62a4c9 + entries-ID audit 79vs80 single-loss; MSG-1912 prose sha = hand-transcription error, git-tracked manifest byte-equal PASS; dep(2) W2-A finalize still pending -> status stays waiting"
       },
-      "flip_note": "r357 bm-b flip waiting->ready: D8 npz on-disk sha[:16]=9febb7b4b5fab260 == manifest; W2-A finalize done r357 (clean exit, sidecars stable). In-runner gates stay fail-closed (roster sha12 + D8 sha + join>=5000)."
+      "flip_note": "r357 bm-b flip waiting->ready: D8 npz on-disk sha[:16]=9febb7b4b5fab260 == manifest; W2-A finalize done r357 (clean exit, sidecars stable). In-runner gates stay fail-closed (roster sha12 + D8 sha + join>=5000).",
+      "done_at": "2026-09-28 14:14:14",
+      "done_note": "r386-cont bm-b done-flip (orphan r386 session died post-push pre-bookkeeping): burn complete 2026-09-28 13:43:11 (5220/5220 combos, runner-[done] receipt), finalize products committed 918f04ce (w2b_results/w2b_summary/w2b_nulls/w2b_cells/w2b_top_matrices). Crash-fuse 13:50 CONFIRMx2 = stale-crash-trace face (r382 law: runner dead + pool not yet flipped by dying session), relaunch refusal lawful no-harm."
     },
     {
       "id": "CN-CORE-DDCTL-P1",
@@ -2649,13 +2653,13 @@
       ],
       "lane_owner": null,
       "priority": 1,
-      "status": "waiting",
+      "status": "ready",
       "entered_at": "2026-09-28 01:26:30",
       "data_gates": "WAITING DEPS (flip to ready by the deep-panel machine round upon BOTH, W2B r346 precedent): (1) judge-prep run on the machine holding the D-leg t18 deep panel cache (physical = bm-b, 7.7GB Money02 sidecar family; bm-c probed absent 01:2x r121) -> judge_state.json present with t18 manifest verdict PASS + dual-leg census == frozen L{1253,1127,875}/D{3104,2978,2726}; (2) machine free RAM >= 4GB (judge state carries both legs' panels per worker initargs). IN-RUNNER fail-closed: cmd_judge refuses absent judge_state.json (exit 2 honest seconds on cache-less machines); judge cells = 149 survivors x dual-leg full curves + window grid + regime segments + G1'/DSR inputs",
       "shards": [
         {
           "key": "judge-0of1",
-          "status": "waiting",
+          "status": "ready",
           "owner": null,
           "owner_since": null,
           "checkpoint": "results/trial_labor_w1/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume)",
@@ -2668,7 +2672,9 @@
         "note": "flip executor = deep-panel machine round post judge-prep + RAM gate; judge-finalize + intake follow on completion (funnel sec: TRIAL intake face zero judgment claims pre-funnel)"
       },
       "note": "r121 bm-c entry post-screen-finalize (149 survivors); parked waiting NOT ready: bm-b currently W2-A burn 15.5GB no-kill (free 2.0GB) -- ready would race autofill into OOM; judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family",
-      "defer_note": "r357 bm-b: gate(1) judge-prep VERIFIED (judge_state.json t18 PASS 48-member + census_frozen L1253/1127/875 D3104/2978/2726 exact); gate(2) RAM 3-sample 12.74/13.29/13.36GB >=4GB MET at flip-check; flip DEFERRED to post-W2B-landing window: physical RAM dependency (W2B burn ~15.5GB no-kill precedent + judge ~7-8GB pickled panels stacked = OOM risk on 23.9GB dual-company box; MASS sec.9.1 frozen ordering puts judge family behind W2B). Auto-flip candidate next bm-b round post-W2B with same 3-sample gate."
+      "defer_note": "r357 bm-b: gate(1) judge-prep VERIFIED (judge_state.json t18 PASS 48-member + census_frozen L1253/1127/875 D3104/2978/2726 exact); gate(2) RAM 3-sample 12.74/13.29/13.36GB >=4GB MET at flip-check; flip DEFERRED to post-W2B-landing window: physical RAM dependency (W2B burn ~15.5GB no-kill precedent + judge ~7-8GB pickled panels stacked = OOM risk on 23.9GB dual-company box; MASS sec.9.1 frozen ordering puts judge family behind W2B). Auto-flip candidate next bm-b round post-W2B with same 3-sample gate.",
+      "ready_at": "2026-09-28 14:14:14",
+      "ready_note": "r386-cont bm-b flip, gates discharged fresh: (1) judge-prep PASS results/trial_labor_w1/judge_state.json (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726}; r357 verified, re-verified at flip); (2) screen-finalize survivors=149 non-empty; (3) RAM 3-sample 12.6/12.72/12.66 GB >=4GB across >30s r354 law (samples 14:14:14/14:14:31/14:14:47; census W2B finalized 13:43 + W2-JUDGE burn complete 14:01:54 = RAM released). Auto-flip candidate per r357 defer note 'next bm-b round post-W2B'. Sibling ordering: MASS x4/V2-P1/W3/W4-JUDGE stay waiting (single-burn no-stack law, anti-OOM 23.9GB box)."
     },
     {
       "id": "TRIAL-LABOR-W1-SCREEN",
@@ -3134,14 +3140,17 @@
           "key": "judge-0of1",
           "status": "waiting",
           "owner": "bm-b",
-          "owner_since": "2026-09-28 13:53:28",
+          "owner_since": "2026-09-28 14:13:24",
           "checkpoint": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
-          "note": "single shard W1-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell"
+          "note": "single shard W1-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell",
+          "done_at": "2026-09-28 14:14:14",
+          "result_ref": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (404/404 cells, log judge-shard complete 14:01:54, autofill claim 53cc84ab)"
         }
       ],
       "entered_by": "bm-b r362",
       "ready_at": "2026-09-28 13:50:02",
-      "ready_note": "r386 bm-b flip, ALL THREE gates discharged: (1) screen-finalize survivors=404 non-empty (w2_screen.json 07:09:20); (2) judge-prep PASS judge_state.json 07:11:36 (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726}, r365 gate-2 receipt); (3) RAM 3-sample 13.23/12.55/12.6 GB >=4GB across >30s r354 law (census W2B finalized 13:43:11 runner-[done] receipt cells=5220 -> RAM released). Flip executor = bm-b deep-panel round per entry workers_plan note + W1-JUDGE r357 defer precedent. Sibling ordering: W1-JUDGE/MASS-JUDGE-x4/V2-P1 stay waiting this round (single judge burn ~7-8GB no-stack law, anti-OOM dual-company 23.9GB box)."
+      "ready_note": "r386 bm-b flip, ALL THREE gates discharged: (1) screen-finalize survivors=404 non-empty (w2_screen.json 07:09:20); (2) judge-prep PASS judge_state.json 07:11:36 (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726}, r365 gate-2 receipt); (3) RAM 3-sample 13.23/12.55/12.6 GB >=4GB across >30s r354 law (census W2B finalized 13:43:11 runner-[done] receipt cells=5220 -> RAM released). Flip executor = bm-b deep-panel round per entry workers_plan note + W1-JUDGE r357 defer precedent. Sibling ordering: W1-JUDGE/MASS-JUDGE-x4/V2-P1 stay waiting this round (single judge burn ~7-8GB no-stack law, anti-OOM dual-company 23.9GB box).",
+      "note": "r386-cont bm-b: burn complete 404/404 @14:01:54 (shard done-flip this round); judge-finalize detached in-flight pid 23800 (14:13:55, log logs/w2_judge_finalize_r386.log) -- entry done-flip deferred to finalize receipt (w2_judge.json). Siblings stay waiting single-burn no-stack; W1-JUDGE flipped ready this round as next burn."
     },
     {
       "id": "TRIAL-LABOR-W3-GENERATE",
