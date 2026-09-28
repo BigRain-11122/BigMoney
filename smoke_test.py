@@ -119,13 +119,16 @@ def main() -> int:
           f"{len(syms)} syms x 400 bars, {m.get('num_trades', 0)} trades")
     check("engine: deterministic", det_ok, "identical on rerun (no hidden randomness)")
 
-    # T+1 guard: a non-T+0 trade must never close on its entry day
-    # (hold_days==0 sell is structurally blocked by the engine's entry-day
-    # skip; hold_days==1 = legal minimal 2-bar hold, not a violation).
-    viol = [t for t in r1["trades"] if t["hold_days"] == 0
-            and not is_t0(t["symbol"])]
-    check("engine: T+1 respected", len(viol) == 0,
-          f"{len(r1['trades'])} trades checked, {len(viol)} entry-day closes")
+    # T+1 guard: no trade may be opened and closed on the same date.
+    # trades list carries exit records only, so a same-day roundtrip shows up
+    # as a non-T+0 exit with hold_days <= 0 (entry-day sells are skipped by
+    # the engine's T+1 guard, backtester section 1). The previous opens-dict
+    # heuristic compared exit dates and false-flagged any young latest exit
+    # (surfaced r403 when the 09-28 bar made 159915's final exit hold_days=1).
+    same_day = [t for t in r1["trades"]
+                if not is_t0(t["symbol"]) and t["hold_days"] <= 0]
+    check("engine: T+1 respected", len(same_day) == 0,
+          f"{len(r1['trades'])} trades checked, {len(same_day)} same-day roundtrips")
 
     # --- 7) network / traffic modules ---
     import network_detector

@@ -7523,6 +7523,898 @@
     "ticket": "fleet/tasks/T-2026-09-27-95-P1.json"
    },
    "note": "A-v2 envelope cells only (5,522); B/C/D v1-consumed zero re-count; sleeve = judged replay measurement reuse"
+  },
+  {
+   "batch": "ETF_OPS_BP1",
+   "ts": "2026-09-28 20:27:51",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 30,
+   "ledger_total_after": 317889,
+   "gates": {
+    "win_rate_null_gate_x2": "0/30",
+    "g2_eligible_v2": "2/30",
+    "combined_registrations": 0,
+    "beat_passive_full_x2": "0/30",
+    "family_pbo": 0.0857
+   },
+   "eliminated": 30,
+   "refs": {
+    "results": "results/etf_ops/bp1_grid.json",
+    "nulls": "results/etf_ops/bp1_nulls.json",
+    "prereg": "research/etf_ops/ETF_OPS_BP1_PREREG.md",
+    "runner": "scripts/etf_ops_bp1.py"
+   }
+  },
+  {
+   "batch": "REPO_CALENDAR_P1",
+   "ts": "2026-09-28 21:01:19",
+   "kind": "measurement",
+   "cells_ledger_delta": 2004,
+   "ledger_total_after": 319863,
+   "gates": {
+    "g1_pass": {
+     "CAL-SWITCH-GC007": false,
+     "CAL-SWITCH-GC014": true,
+     "QW5-SWITCH-GC014": true,
+     "CAL-SWITCH-GC028": true
+    },
+    "g2_eligible": {
+     "CAL-SWITCH-GC007": false,
+     "CAL-SWITCH-GC014": true,
+     "QW5-SWITCH-GC014": true,
+     "CAL-SWITCH-GC028": true
+    },
+    "family_pbo": {
+     "pbo": 0.0,
+     "verdict": "register_eligible",
+     "n_trials": 4,
+     "n_rows": 5611,
+     "n_combinations": 70,
+     "n_blocks": 8,
+     "block_bounds": [
+      0,
+      701,
+      1402,
+      2104,
+      2805,
+      3506,
+      4208,
+      4909,
+      5611
+     ],
+     "omega_mean": 0.0,
+     "omega_median": 0.0,
+     "omega_p05": 0.0,
+     "omega_p95": 0.0,
+     "per_combination": [
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        3
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        4
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        2,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        4
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        3,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        4,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        1,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        4
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        3,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        4,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        2,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        0,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        4
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        3,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        4,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        2,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        1,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        5
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        4,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        3,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        2,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        5,
+        6
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        5,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        4,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        3,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      },
+      {
+       "is_blocks": [
+        4,
+        5,
+        6,
+        7
+       ],
+       "is_best_trial": "CAL-SWITCH-GC028",
+       "oos_rank": 1.0,
+       "omega": 0.0
+      }
+     ],
+     "bands_frozen": {
+      "register_eligible": "pbo <= 0.25",
+      "observe": "0.25 < pbo <= 0.5",
+      "fail": "pbo > 0.5"
+     }
+    }
+   },
+   "entries": {
+    "episodes": {
+     "CAL-SWITCH-GC007": 743,
+     "CAL-SWITCH-GC014": 397,
+     "QW5-SWITCH-GC014": 457,
+     "CAL-SWITCH-GC028": 213
+    }
+   }
+  },
+  {
+   "batch": "MEMBER_REINFORCE_P1",
+   "ts": "2026-09-28 21:04:28",
+   "kind": "measurement",
+   "cells_ledger_delta": 624,
+   "ledger_total_after": 320487,
+   "gates": {
+    "g1_pass": {
+     "COMPOSITE-CE-01": {
+      "x1": true,
+      "x2": false
+     },
+     "COMPOSITE-CE-02": {
+      "x1": true,
+      "x2": false
+     },
+     "DROUGHT-CE-01": {
+      "x1": false,
+      "x2": false
+     },
+     "ENGULF-CE-01": {
+      "x1": false,
+      "x2": false
+     },
+     "NEEDLE-DE-01": {
+      "x1": false,
+      "x2": false
+     },
+     "VOLATILITY-CE-01": {
+      "x1": true,
+      "x2": false
+     }
+    },
+    "x2_fragile": [],
+    "seed_unstable": []
+   },
+   "entries": {
+    "members": 6,
+    "null_draws": 600
+   }
   }
  ],
  "history": [
