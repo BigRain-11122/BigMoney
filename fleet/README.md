@@ -39,7 +39,7 @@
 
 - **CPU 回测 = 主战力**：各机自跑批量（`python -m tasks.local_runner` / 预注册实验脚本），或用 §4 任务单把大批次拆给多机分跑；每机 worker 上限 = `min(12, 空闲GB/0.5)`。
 - **GPU = ML 阶段专用**（BACKTEST_PLAN §四 G 门未过不开）。开 ML 后启用**借算协议**（U080 同制）：任务单标 `🤝借算@机id` → GPU 闲机（心跳 `gpu_vram_free` 达档且无高优自产）按 §4 认领制接单 → 产出落 results/ 随 git 回流 → 借算机批末**当场清本地临时件**（权威副本唯一=git 库内）。
-- **本地 LLM（Ollama）各机自装自用**（E:\Minigame\Tools\Ollama 范式）；模型路径/密钥一律本地化、环境变量，禁入库。
+- **本地 LLM（Ollama）各机自装自用**（E:\Fluxgroup\MiniGame\Tools\Ollama 范式）；模型路径/密钥一律本地化、环境变量，禁入库。
 
 ## 6. 写域分治（防冲突的根）
 
@@ -80,7 +80,7 @@ v1.0（2026-09-23）——首版由 bm-b 建立；修订走 CODELY.md 记录变�
 
 ## 10. 集团并联条款（与 Biggame 工程并联管理 · 2026-09-23 用户令）
 
-- **集团 = 两公司并行**：**Biggame**（游戏公司 · 治理 = E:\Minigame\MiniGame 仓库体系：AI总控接口/登记簿/快照/08号分治协议）∥ **Bigmoney**（金融公司 · 治理 = 本仓库：PLAN.md / fleet/README / CODELY.md）。
+- **集团 = 两公司并行**：**Biggame**（游戏公司 · 治理 = E:\Fluxgroup\MiniGame\MiniGame 仓库体系：AI总控接口/登记簿/快照/08号分治协议）∥ **Bigmoney**（金融公司 · 治理 = 本仓库：PLAN.md / fleet/README / CODELY.md）。
 - **互不越权**：两公司各自仓库各自治理，**互不写对方仓库**（唯一例外=用户直接指令）。
 - **互见层**：Bigmoney 总控面板「集团产线」实时读兄弟工程心跳（三游戏循环 + 本机回测循环，`monitor/build_status.py _group()`；兄弟路径不存在=远端机器自动隐藏，可移植性不破）。Biggame 侧对 Bigmoney 的可见性=其全局记忆 + 本机 fleet 心跳。
 - **共享机纪律（bm-b 双公司同机并行）**：①任一公司开重活前查空闲 RAM（<4GB 禁新开重活）②GPU 作业走 keepwarm.pause 释放阀（Biggame U020 同源礼仪）③CPU 并行两公司合计 ≤ 物理核-2（Bigmoney 回测 worker ≤12 已限幅，游戏 batchmode 各自限幅为既定配置）④全静默零弹窗铁律两公司通用。

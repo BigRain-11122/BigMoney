@@ -1213,11 +1213,11 @@ def _add_month_progress(out):
 # ---- group (parallel-managed sibling projects, e.g. Biggame game lines) ----
 # Paths are machine-local: absent on other machines -> panel degrades gracefully.
 # Migration-portable (O-20260926-2000-bm-c): roots carry old+new candidates;
-# first existing wins so the panel survives the E:\Minigame -> E:\Fluxgroup\MiniGame move.
+# first existing wins so the panel survives the E:\Fluxgroup\MiniGame -> E:\Fluxgroup\MiniGame move.
 _SIBLINGS = [
-    {"name": "Biggame · biu你一下", "roots": [r"E:\Minigame\BiuNiYiXia\Logs", r"E:\Fluxgroup\MiniGame\BiuNiYiXia\Logs"]},
-    {"name": "Biggame · HomeWreck", "roots": [r"E:\Minigame\HomeWreck\Logs", r"E:\Fluxgroup\MiniGame\HomeWreck\Logs"]},
-    {"name": "Biggame · PhantomEscapeGo", "roots": [r"E:\Minigame\PhantomEscapeGo\Logs", r"E:\Fluxgroup\MiniGame\PhantomEscapeGo\Logs"]},
+    {"name": "Biggame · biu你一下", "roots": [r"E:\Fluxgroup\MiniGame\BiuNiYiXia\Logs", r"E:\Fluxgroup\MiniGame\BiuNiYiXia\Logs"]},
+    {"name": "Biggame · HomeWreck", "roots": [r"E:\Fluxgroup\MiniGame\HomeWreck\Logs", r"E:\Fluxgroup\MiniGame\HomeWreck\Logs"]},
+    {"name": "Biggame · PhantomEscapeGo", "roots": [r"E:\Fluxgroup\MiniGame\PhantomEscapeGo\Logs", r"E:\Fluxgroup\MiniGame\PhantomEscapeGo\Logs"]},
 ]
 _GROUP_ALIVE_MIN = 30  # sibling loops run at 1-10 min cadence
 

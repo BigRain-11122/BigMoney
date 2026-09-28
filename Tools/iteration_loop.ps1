@@ -1,6 +1,6 @@
 # Bigmoney iteration loop - OS-scheduled headless round launcher.
 # Ported 2026-09-23 from the proven Biggame pattern
-# (E:\Minigame\BiuNiYiXia\Tools\iteration_loop.ps1, rounds 000+ live evidence).
+# (E:\Fluxgroup\MiniGame\BiuNiYiXia\Tools\iteration_loop.ps1, rounds 000+ live evidence).
 # The durable session cron only fires while a Codely CLI window is open - proven
 # dead overnight (8.8h, zero beats). This OS task is the only 10-min channel that
 # survives closed windows. Every beat: guards -> spawn ONE headless codely round
