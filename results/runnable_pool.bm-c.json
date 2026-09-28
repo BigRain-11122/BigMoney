@@ -9,8 +9,8 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-29T01:00:30+08:00",
-  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
+  "updated_at": "2026-09-29T06:00:54+08:00",
+  "_stamp_note": "bm-b r412: W6-GENERATE harvest flip (r244 landed-marker law) + W6-SCREEN entry submission (screen-prep PASS same round)",
   "entries": [
     {
       "id": "A158-TRUEGAP-IC",
@@ -3531,9 +3531,9 @@
       "shards": [
         {
           "key": "v3-0of1",
-          "status": "waiting",
+          "status": "ready",
           "owner": "bm-b",
-          "owner_since": "2026-09-29 05:30:04",
+          "owner_since": "2026-09-29 06:00:04",
           "checkpoint": null
         }
       ],
@@ -3877,10 +3877,9 @@
           "key": "generate-0of1",
           "status": "done",
           "checkpoint": "results/trial_labor_w6/w6_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
-          "note": "generate = deterministic pre-burn stage, minutes-scale single shard (W4-GENERATE measured ~2min n=3810 bm-b pool-burned; W5-GENERATE ~7min n=3926 bm-a 01:50-01:58)",
+          "note": "DONE bm-b r412 harvest per r244 landed-marker law: bm-c r200 verified landing 05:46:27 (raw 5000 -> distinct 3952; grammar sha16 2d395f5f8e7d16cb frozen-identical; 6-source exclusion 0 hits; zero double-ignite per W5 live-skip precedent); crash lineage: first live burn died gvvy tuple typo (bm-b r411 fix commit 0006c24f9, fuse auto-clear), stale-claim takeover bm-c tick 05:35:31 relaunch healed onto pushed fix",
           "owner": "bm-c",
-          "owner_since": "2026-09-29 05:35:34",
-          "done_at": "2026-09-29 05:46:27"
+          "owner_since": "2026-09-29 05:35:34"
         }
       ],
       "workers_plan": {
@@ -3888,9 +3887,42 @@
         "priority": "BelowNormal",
         "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE measured ~2min; W5-GENERATE ~7min n=3926)"
       },
-      "done_at": "2026-09-29 05:46:27",
-      "result_ref": "results/trial_labor_w6/w6_candidates.json",
-      "done_note": "r201 bm-c harvest (r244 landed-marker law): bmb r411 fix-first (gvvy_counts tuple typo crash at 5000-candidate count loop) -> bm-c relaunch 05:35:31 (crash-fuse cleared by code edit per O-0947) -> landed 05:46:27 clean exit; n=3952 (raw 5000 -> distinct 3952), grammar_sha256 2d395f5f8e7d16cb identical FROZEN, 13-source exclusion 0 hits (A/B 0/0), evidence_cutoff 2026-09-22; landing triple-verify re-checked r201 (json.loads + n + sha16 identical); zero double-ignite per W5 live-skip precedent (refuse-if-exists guard)"
+      "done_at": "2026-09-29T05:46:27+08:00",
+      "result_ref": "results/trial_labor_w6/w6_candidates.json"
+    },
+    {
+      "id": "TRIAL-LABOR-W6-SCREEN",
+      "ticket_ref": "T-2026-09-29-117 WAVE-6 screen slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; bm-b declared lane r411 [W6 SCREEN entry when generate lands] + explicit yield bm-c r200; GENERATE landed 05:46:27 bm-c-verified n=3952 distinct, grammar sha16 2d395f5f8e7d16cb frozen-identical, 6-source exclusion 0 hits; runner slice-1 built bm-b r410 selftest 80/80 hermetic + fix-first 0006c24f9 production-validated; screen-prep PASS bm-b r412 2026-09-29 06:00:54)",
+      "prereg_ref": "research/TRIAL_LABOR_W6_PREREG.md FROZEN sec.3 s2 verbatim: s2 cheap initial screening (TRIAL_LABOR_LAW sec.2): each distinct candidate runs one full-history backtest on the legacy axis leg-L 6m (W1 13bp base face, T+1; initial stop-loss face + regime gate face + volatility gate face + bullish candle face + volume gate face carried with the cell) -> beat6m = proportion of 1,253 virtual start points where candidate 6m forward return >= same-window passive (complete-window survival, partial windows counted and disclosed honestly); s2 batch TRIAL_LAB_W6_SCREEN: batch_trials = post-dedup candidates + 200 null (1 trial per cell)",
+      "runner": "scripts/trial_labor_w6.py",
+      "runner_args": [
+        "screen",
+        "--shard",
+        "0",
+        "--shards",
+        "1"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-29 06:00:54",
+      "data_gates": "screen-prep PASS bm-b r412 2026-09-29 06:00:54: panel 48/48, anchors 6/6 faithful, census 6m 1253/12m 1127/24m 875, starts 1253, passive precomputed, gate na-window 199 bars, G-VOL 594calm/518wild first-valid 519, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19; TRIAL-LABOR-W6-GENERATE done 05:46:27 w6_candidates.json n=3952 single-shot completion marker in-repo (refuse-if-exists guard)",
+      "shards": [
+        {
+          "key": "screen-0of1",
+          "status": "ready",
+          "owner": "bm-b",
+          "owner_since": "2026-09-29 06:20:04",
+          "checkpoint": "results/trial_labor_w6/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law)"
+        }
+      ],
+      "entered_by": "bm-b r412",
+      "worker_class": "self-contained",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W4-SCREEN live precedent 12 workers bm-c)",
+        "priority": "BelowNormal",
+        "note": "W5-SCREEN 3,926+200 cells 28min bm-c 12 workers; W6 3,952+200 cells bm-b 16-core"
+      }
     }
   ],
   "lane_machine": "bm-c"
