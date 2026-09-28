@@ -1178,6 +1178,26 @@ SEED_REGISTRY = {
         # volume-column digit coincidences are not seed faces); registered
         # same commit as prereg freeze (R250 law; prereg =
         # research/INNOVATION_QUOTA_W2_PREREG.md; F-04 MSG-20260928-2140)
+        "trial_labor_w5_gen": 20302000,
+        # TRIAL_LABOR_W5 (T-114 wave-5 single-K-line yang-gate trial):
+        # Sobol(., scramble=True, seed=20302000+family_idx) param-box draws
+        # (idx 0-5 family A templates / 6-81 family B factory functions)
+        # + axis-stream rng([20302000+family_idx, 7919]) (W5 prereg sec.3).
+        # RE-PICK disclosure: draft parked at 20291500 collided with
+        # national_team_s3_perm=20291500 registered band (T-103 progress
+        # note "W5 unfreeze must re-pick"); three-step take-number law
+        # (r183 69th): 92-key registry inventory + first-element-distinct
+        # + rg full-repo scan zero seed-face hits 2026-09-29 00:1x (CSV
+        # volume-column coincidences excluded per 69th batch); 20299000/
+        # 20299500 left free for NT-CHAIN-P1 (MSG-2305 declared pair).
+        # Registered same commit as prereg freeze (R250 law; prereg =
+        # research/TRIAL_LABOR_W5_PREREG.md; F-04 MSG-20260929-0010)
+        "trial_labor_w5_scrnull": 20302500,
+        # W5 screen K=200 same-grammar random-signal nulls
+        # (rng([20302500, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        "trial_labor_w5_unc": 20303000,
+        # W5 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20303000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
     }
 
