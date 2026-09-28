@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-28 08:44:49",
+ "updated_at": "2026-09-28 08:52:00",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
  "entries": [
   {
@@ -363,7 +363,7 @@
      "key": "censusw2b-0of1",
      "status": "waiting",
      "owner": "bm-b",
-     "owner_since": "2026-09-28 08:10:31",
+     "owner_since": "2026-09-28 08:40:31",
      "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
      "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
     }
@@ -3173,8 +3173,8 @@
   },
   {
    "id": "TRIAL-LABOR-W3-SCREEN",
-   "ticket_ref": "T-2026-09-28-97 WAVE-3 screen slice (CEO O-2026-09-27-2250 standing law; T-97 owner bm-a; runner slice-2 screen trio built this round selftest 62/62 hermetic; screen-prep gates PASS panel 48/48 anchors 6/6 census 1253; F-04 MSG-20260928-0844 declared same-window)",
-   "prereg_ref": "research/TRIAL_LABOR_W3_PREREG.md FROZEN r391 commit 28fcb7b2 sec.3 s2 screen face: 3552 distinct candidates + 200 nulls six-tuple-drawn (STOP+GATE legs) = 3752 cells; survival line beat6m > null p95 program-frozen; grammar sha16 cc59eab79db53436; leg-L 6m 1253 starts P-5C binding; ledger literal TRIAL_LAB_W3_SCREEN",
+   "ticket_ref": "T-2026-09-28-97 WAVE-3 screen slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r391; slice-2 built bm-c r150 per MSG-20260928-0839 single-writer claim, selftest 59/59 hermetic + double-run byte-identical; screen-prep PASS same round 16.9s in-repo: G-PANEL 48/48 + G-ANCHOR 6/6 faithful on W3 identity face gate=none+stop=none + G-CENSUS L{1253,1127,875} frozen-match + G-EXCLUDE A0/B0 hits disclosed + gate na-window 199 bars)",
+   "prereg_ref": "research/TRIAL_LABOR_W3_PREREG.md sec.3 s2: every distinct candidate one full leg-L 6m all-history backtest (V1 13bp base, T+1) with initial-stop + regime-gate faces carried per-cell (frozen composition order signal->filter->timing->GATE->STOP, MSG-0440 E1 mapping); beat6m >= passive over 1253 frozen starts (comparison operator >= per frozen sec.3 text); null family K=200 six-tuple axis R/X/S/T/STOP/GATE with gate leg, seed 20288000; survival line = beat6m > null p95 program-frozen via tl2._finalize_math import (W2 identical law); finalize refuses missing cells (checkpoint retained); products w3_screen.json + w3_screen_cells.csv + gate segmented survival stats per prereg sec.6; ledger TRIAL_LAB_W3_SCREEN batch = 3552 distinct + 200 nulls",
    "runner": "scripts/trial_labor_w3.py",
    "runner_args": [
     "screen",
@@ -3186,22 +3186,24 @@
    "lane_owner": null,
    "priority": 1,
    "status": "ready",
-   "entered_at": "2026-09-28 08:44:49",
-   "data_gates": "in-runner fail-closed: prep_state.json + w3_candidates.json + grammar sha anchor cc59eab79db53436 enforced at screen entry (exit 2); checkpoint append-per-cell resume; finalize refuses until all 3752 cell_ids present (exit 2, checkpoint retained). deps all green in-repo git: prep_state.json (this round) + w3_candidates.json (r393 pool harvest) + core48 leg-L panel + b_layer_mask",
+   "entered_at": "2026-09-28 08:52:00",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (32-core bm-c: <=25)",
+    "priority": "BelowNormal",
+    "note": "W2-SCREEN measured 3,124 cells minutes-level pool batch (r389 06:50-06:52); same cell weight + vectorized gate overlay -> 3,752 cells (3,552 distinct + 200 nulls) est minutes-level on 25 workers; per-cell jsonl checkpoint cross-kill resume (W1 law); prereg sec.0 worst-case anchor stands as ceiling"
+   },
+   "data_gates": "in-runner fail-closed exit 2: (a) prep_state.json absent (screen-prep first; PREP ALREADY PASS r150 in-repo); (b) w3_candidates.json absent; (c) grammar sha anchor != cc59eab79db53436 refuse; (d) free RAM three-sample < 4GB honest refuse (r354 law, in-runner gate mirrors W3-GENERATE face). deps all green in-repo git: core48 panel + w3_grammar.json (r392) + w3_candidates.json n=3552 (r393) + prep_state.json gates PASS (r150). After shard done: screen-finalize = separate round work (survivors feed the judge face next slice; W2 r362 precedent)",
    "shards": [
     {
      "key": "screen-0of1",
      "status": "ready",
-     "checkpoint": "results/trial_labor_w3/checkpoint/screen_shard_0of1.jsonl (append-per-cell; completion marker = finalize gate reads all cell_ids)",
-     "note": "",
-     "owner": null
+     "owner": "bm-a",
+     "owner_since": "2026-09-28 08:50:05",
+     "checkpoint": "results/trial_labor_w3/checkpoint/screen_shard_0of1.jsonl (append-per-cell; finalize gate refuses missing cells)",
+     "note": "single shard; worker_cap() parallelism inside the shard (W2-SCREEN same shape)"
     }
    ],
-   "workers_plan": {
-    "workers": 25,
-    "priority": "BelowNormal",
-    "note": "W1-SCREEN measured 1.2s/cell on 12 workers; W2-SCREEN 3124 cells two-minute pool batch; W3 face 3752 cells same cell weight + vectorized gate overlay row-mul -> ETA ~4-6 min on 25 workers (bm-a 32-core floor(32x0.8)=25, O-2130 law); per-worker state ~leg-L panel copies, peak est <10GB on 47.6GB free (r354 three-sample law is in-runner at generate; screen face holds panels per worker -- W1/W2 ran 12-worker on 16-core box fine)"
-   }
+   "result_ref": null
   }
  ],
  "lane_machine": "bm-a"
