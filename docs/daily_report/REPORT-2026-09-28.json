@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-28",
- "generated_at": "2026-09-28 18:08:33",
+ "generated_at": "2026-09-28 18:26:48",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,20 +286,20 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 642,
-  "result_jsons_landed_24h": 94,
+  "commits_24h": 631,
+  "result_jsons_landed_24h": 93,
   "digests_landed_24h": 4,
   "prereg_md_touched_24h": 25,
   "compute_audit_latest": {
-   "ts": "2026-09-28 18:06:30",
-   "py_cpu_pct": 0.9,
+   "ts": "2026-09-28 18:25:10",
+   "py_cpu_pct": 1.1,
    "flags": [
     "supply_gap",
     "supply_floor"
    ],
    "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -628,11 +628,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 816861,
+  "total_report_tokens_est": 820659,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-28 17:35:48",
+   "prev_generated": "2026-09-28 17:50:31",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 3314,
+   "report_tokens_growth": 3798,
    "mandate_growth": 0
   },
   "method": {
@@ -705,21 +705,13 @@
     "today_supply_gap_flags": 9
    },
    "bm-b": {
-    "latest_ts": "2026-09-28 17:48:55",
-    "py_pct": 0.2,
-    "cpu_pct": 3.0,
+    "latest_ts": "2026-09-28 18:25:10",
+    "py_pct": 1.1,
+    "cpu_pct": 2.0,
     "ready": 2,
-    "streak_min": 67.9,
+    "streak_min": 104.2,
     "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "16:19",
-      1.3
-     ],
-     [
-      "16:32",
-      2.7
-     ],
      [
       "16:38",
       3.3
@@ -759,12 +751,20 @@
      [
       "17:48",
       0.2
+     ],
+     [
+      "18:06",
+      0.9
+     ],
+     [
+      "18:25",
+      1.1
      ]
     ],
-    "today_samples": 130,
+    "today_samples": 132,
     "today_floor_ok": 2,
     "today_sla_flags": 2,
-    "today_supply_gap_flags": 8
+    "today_supply_gap_flags": 10
    },
    "bm-c": {
     "latest_ts": "2026-09-28 17:33:39",
