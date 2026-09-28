@@ -3477,31 +3477,32 @@
   {
    "id": "T104-GRID-S3-DUALFACE-P1",
    "ticket_ref": "T-2026-09-28-104 s3 (CEO O-20260928-1531 grid revival + O-20260928-1625 sec.1 dispatch: bm-b 池序 V2-P1 后第二位; universe FROZEN per O-20260928-1555 five-member two-tier {510050,510300,512100,510500,588000})",
-   "prereg_ref": "research/etf_ops/ grid prereg family = T-104 s2 (TO FREEZE before any burn per R99 law; grid params numeric frozen: spacing/levels/band/per-level size/TP/SL; costs x2 mandatory (fees=grid survival line); T-78 grid_sleeve 0/5 + CN-GRID-SLEEVE judged negatives = control/lesson anchors per ticket spec; 300/500 oscillation-face classic play + broad same-class; T+1 cross-day grids: realtime = trigger signal only, fills book honestly at T+1 open)",
+   "prereg_ref": "research/etf_ops/GRID_DUALFACE_P1_PREREG.md FROZEN r399 commit a03887474 (salvage of dead r399 session draft; probe facts independently re-verified 5/5 members rows/last/mono + minute feed 1970x5 window 09-15..09-28); SEED_REGISTRY grid_dualface_p1=20295500 registered same commit (R250 one-step; pair-derivation vs innovation 20295000 first-element distinct, census_unc precedent)",
    "runner": "scripts/grid_dualface_backtest.py",
    "runner_args": [
     "run"
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 16:39:05",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal",
     "priority": "BelowNormal",
-    "note": "dual-face: deep face = daily-granularity grid backtests on T-22 harness lineage (HONEST DISCLOSURE: daily granularity undercounts fill count = lower-bound reading); minute face = sina recent window + data/minute_feed forward-accumulated archive (v1.3 5-symbol live since r391); per-member products + summary"
+    "note": "single shard 'run' (all five members sequential, per-member idempotent skip; measured 1.5s/member -> light batch); dual-face: deep face = daily-granularity grid state machine on T-22 lineage (HONEST DISCLOSURE: daily granularity undercounts intraday fills = lower-bound reading disclosed in prereg s1); minute face = LOCAL forward-accumulated archive data/minute_feed v1.3 (descriptive equivalence only, never a judgement; zero network)"
    },
-   "data_gates": "WAITING DEPS (flip upon ALL): (1) T-104 s2 prereg family FROZEN (bm-b lane in progress); (2) runner + selftest hermetic; (3) minute-feed archive freshness verified (data/minute_feed 5-symbol v1.3); (4) RAM >= 4GB. IN-RUNNER fail-closed: prereg absent / grammar sha mismatch = exit 2. LIVE PAPER GRID ENGINE fires 10-01 = separate face per ticket (real fills simulated on realtime quotes, full trade log)",
+   "data_gates": "ALL GATES GREEN r399 bm-b: (1) prereg FROZEN a03887474 precedes runner build (R99); (2) runner + selftest hermetic PASS (lifecycle fixture: sets/anchors/reanchor/multi-level fills/blocked_entry/blocked_exit roll/guard/nulls/fee/minute equivalence/grammar; double-run byte-identical) + real-data timing probe 1.5s/member incl 200-null engine (results/_r399bmb_grid_timing_probe.py); (3) minute-feed archive v1.3 five-symbol verified 1970 rows each 09-15..09-28 15:00 (runner minute leg = local archive only, zero network); (4) RAM 11.7GB free > 4GB floor. IN-RUNNER fail-closed: anchor face mismatch = exit 2; grammar sha mismatch = exit 2. JUDGED FACE x2; K=200 same-mask random-trigger-day nulls = FIRST gate (T-78 lesson product). LIVE PAPER GRID ENGINE fires 10-01 = separate face per ticket. Finalize = owner follow-up round after pool shards complete (python scripts/grid_dualface_backtest.py finalize; r253 redo-echo guard in-runner)",
    "shards": [
     {
      "key": "grid-0of1",
      "status": "waiting",
      "owner": null,
      "owner_since": null,
-     "checkpoint": "results/grid_dualface/ (per-member products + summary + sha256)"
+     "checkpoint": "results/etf_ops/grid_shard_<member>.json x5 + results/etf_ops/grid_rounds_<member>.csv x5 + results/etf_ops/grid_series/*.npy (30 cells x 2 faces)"
     }
    ],
-   "note": "r391b bm-b entry per CEO O-20260928-1625 dispatch (bm-b 池序 V2-P1 后第二位·entered_at 顺序在认领时兑现·V2-P1 priority 链条线优先照 O-1533/O-1555 池序法); anti-dup boundary vs T-103 (ETF 操作链 s2 entries = separate entries per GM retained-directive note) declared"
+   "note": "r391b bm-b entry per CEO O-20260928-1625 dispatch (bm-b 池序 V2-P1 后第二位·entered_at 顺序在认领时兑现·V2-P1 priority 链条线优先照 O-1533/O-1555 池序法); anti-dup boundary vs T-103 (ETF 操作链 s2 entries = separate entries per GM retained-directive note) declared",
+   "ready_at": "2026-09-28 21:5x"
   },
   {
    "id": "NATIONAL-TEAM-S3-EVENT-REVIEW",
