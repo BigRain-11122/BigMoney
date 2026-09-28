@@ -314,7 +314,13 @@ def _yang_face_full():
             return None
         close = df["close"].astype(float)
         close.index = pd.to_datetime(df["date"])
-        o = df["open"].astype(float).reindex(close.index)
+        # r407 fix-first: `open` must carry the SAME date index before
+        # any reindex -- reindexing a RangeIndex series against datetime
+        # labels matches nothing -> all-NaN open -> na_window == n_bars
+        # -> G-YANG honest refusal on a healthy face (r406+ generate
+        # burn double-silent-death root cause).
+        o = df["open"].astype(float)
+        o.index = close.index
         close = close.sort_index()
         o = o.reindex(close.index)
         keep = close.index <= pd.Timestamp(CUTOFF)
@@ -344,8 +350,22 @@ def _yang_state_full():
             or meta.get("n_bars") != YANG_ANCHOR["n_bars"]:
         return None, (f"G-YANG full-face anchors {meta} != probe "
                       f"{{n_bars 3483, yang_days 1751}}")
-    # cross-table lower bounds need the GATE states on the same face
-    bull, bear, _ = tl3.gate_state_series(face)
+    # cross-table lower bounds need the GATE states computed on the
+    # PROBE BASIS VERBATIM (results/_r162bmc_yanggate_probe.py): the
+    # probe maps (close > ma200) strictly and the False leg -- which
+    # includes the 199-bar MA200 warmup window -- lands in "bear"
+    # (bear days 1,703 = 3,483 - 1,780 full window). tl3's grammar-layer
+    # gate_state_series instead gate-closes the warmup (min_periods=200,
+    # bear = close<ma200 & ma200.notna()) -- reusing it here mismatches
+    # the frozen face and broke the anchor on a healthy panel (r407:
+    # red∧bear 812 vs probe 914; the 102-bar gap = red days inside the
+    # warmup window). Anchors unchanged (fail-closed), only the face
+    # computation is aligned to the prereg sec.2 basis.
+    close = face[YANG_MEMBER]["close"].sort_index()
+    ma200 = close.rolling(GATE_SPEC["ma_window"],
+                          min_periods=GATE_SPEC["min_periods"]).mean()
+    bull = close > ma200          # probe strict >; NaN comparison -> False
+    bear = ~bull                  # probe map False->bear (warmup included)
     y = ys[0].fillna(False)
     yang_bull = int((y & bull.reindex(y.index).fillna(False)).sum())
     red_bear = int((ys[1].fillna(False)
