@@ -3854,6 +3854,36 @@
    "done_at": "2026-09-29T03:48:39+08:00",
    "result_ref": "results/trial_labor_w5/w5_judge.json",
    "done_note": "r407 bm-b harvest: judge-finalize detached pid3108 (r406 detach 03:26:33, r386 law) landed 03:48:39 -> w5_judge.json: 372 judged cells (== w5_screen survivors 372), E[FP]=18.6, G2 eligible 0 -> [] (single G1 pass at gate=none|vol=none|yang=none 1/109 did not clear G2), family PBO 11 modules (momentum 0.9143, sentiment 0.9286, composite_rotation 0.8571, patterns 0.1714 lowest), dual nulls B/P resampling not ledger +0 per prereg sec.0; trials_ledger TRIAL_LAB_W5_JUDGE prev 328615 + 372 = 328987 cross-wave linear no-reset verified; evidence_cutoff 2026-09-22 lockbox; wave-5 funnel honest zero-registration. Intake zero-face landed same round: results/trial_labor_w5/w5_intake.json (prereg sec.6 s4 actual-count clause, W3 precedent shape; zero eligible = D6/library/paper-desk all zero-surface). 48h CEO report clock running (deadline 2026-10-01 03:48)."
+  },
+  {
+   "id": "TRIAL-LABOR-W6-GENERATE",
+   "ticket_ref": "T-2026-09-29-117 WAVE-6 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-c r198 commit ead43f0d2 healthy-takeover of stalled bm-a r410 draft [trigger MET: W5-JUDGE landed 03:48:39 + ledger 328,987 + zero in-flight judge faces]; SEED berths 20303500/20304000/20304500 held same-commit R250 one-step; runner slice-1 built bm-b r410 claim MSG-20260929-0450 single-writer; selftest 80/80 hermetic; grammar face frozen r410 sha16=2d395f5f8e7d16cb axis_combos=193536; W6-JUDGE sequencing gate per prereg sec.0 [behind remaining in-flight judge faces + RAM r354]; generate = CPU pool face lawful now, minutes-scale per W4/W5 measured ~2min)",
+   "prereg_ref": "research/TRIAL_LABOR_W6_PREREG.md FROZEN (sec.3 Sobol raw 5000 = A500/B4500 nine-tuple axis R/X/S/T/STOP/GATE/VOL/YANG/VCONF incl. NEW volume-confirmation face {none,volume_surge,volume_dry} = 193,536 axis combos; sec.1 THIRTEEN-source exclusion vconf=none face only -- w1 149 + w2 404 + MASS 166 + w3 513 + w4 461 + w5_screen 372 survivors generate-time real-read + judged products SIX sources re-declare window; vconf in {volume_surge,volume_dry} any-combo = new-syntax legal; dedup T-84 s3 fingerprint + |corr|>=0.999 on effective signal face, frozen composition filter->timing->GATE->VOL->YANG->VCONF->STOP; G-VCONF raw-face law data/daily/sh510300.csv volume vs med20 19-bar warmup surge 1741/50.26% zero-volume-rows 0 cross-lower-bounds yang-and-surge>=924 red-and-dry>=904 four-gate 16-cells-non-empty probe r410)",
+   "consumer_plan": "TRIAL-LABOR-W6-GENERATE -> w6_candidates.json feeds SCREEN pool entry (next slice upon landing, W5 live-fire direct-ready precedent) -> w6_screen.json null p95 feeds next-wave prereg reference band (W1-W5 0.5116/0.5164 lineage) -> judged verdict face w6_judge.json -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows + TRIAL-<FAMILY>-<NN> paper accounts) -> 48h CEO report + scorecard/CEO one-pager faces (prereg sec.0 consumer_plan draft)",
+   "runner": "scripts/trial_labor_w6.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-29 04:58:04",
+   "data_gates": "in-runner fail-closed exit 2: (a) w6_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 2d395f5f8e7d16cb -> refuse; (c) G-VOL raw face + G-YANG raw face + G-VCONF raw face anchors -> refuse; (d) RAM gate three-sample >=4GB in-runner r354 law",
+   "shards": [
+    {
+     "key": "generate-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w6/w6_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
+     "note": "generate = deterministic pre-burn stage, minutes-scale single shard (W4-GENERATE measured ~2min n=3810 bm-b pool-burned; W5-GENERATE ~7min n=3926 bm-a 01:50-01:58)",
+     "owner": "bm-b",
+     "owner_since": "2026-09-29 05:00:04"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE measured ~2min; W5-GENERATE ~7min n=3926)"
+   }
   }
  ],
  "lane_machine": "bm-b"
