@@ -1,0 +1,122 @@
+{
+ "panel": "data/daily/sh510300.csv",
+ "rows": 3483,
+ "first_date": "2012-05-28",
+ "cutoff": "2026-09-22",
+ "zero_volume_rows": 0,
+ "warmup_gate_closed_bars": 19,
+ "surge_total": 1741,
+ "surge_days_known": 3464,
+ "surge_rate": 0.5026,
+ "dry_total": 1723,
+ "vconf_by_gate": {
+  "bull": {
+   "days": 1780,
+   "surge": 884,
+   "rate": 0.4966
+  },
+  "bear": {
+   "days": 1684,
+   "surge": 857,
+   "rate": 0.5089
+  }
+ },
+ "vconf_by_vol": {
+  "calm": {
+   "days": 1523,
+   "surge": 773,
+   "rate": 0.5076
+  },
+  "wild": {
+   "days": 1941,
+   "surge": 968,
+   "rate": 0.4987
+  }
+ },
+ "vconf_by_yang": {
+  "yang": {
+   "days": 1743,
+   "surge": 924,
+   "rate": 0.5301
+  },
+  "red": {
+   "days": 1721,
+   "surge": 817,
+   "rate": 0.4747
+  }
+ },
+ "cross_gate": {
+  "surge_and_bull": 884,
+  "dry_and_bull": 896,
+  "surge_and_bear": 857,
+  "dry_and_bear": 827
+ },
+ "cross_vol": {
+  "surge_and_calm": 773,
+  "dry_and_calm": 750,
+  "surge_and_wild": 968,
+  "dry_and_wild": 973
+ },
+ "cross_yang": {
+  "yang_and_surge": 924,
+  "yang_and_dry": 819,
+  "red_and_surge": 817,
+  "red_and_dry": 904
+ },
+ "four_gate_open_window": {
+  "bull_calm_yang_surge": 269,
+  "bull_calm_yang_dry": 234,
+  "bull_calm_red_surge": 213,
+  "bull_calm_red_dry": 196,
+  "bull_wild_yang_surge": 220,
+  "bull_wild_yang_dry": 239,
+  "bull_wild_red_surge": 182,
+  "bull_wild_red_dry": 227,
+  "bear_calm_yang_surge": 133,
+  "bear_calm_yang_dry": 137,
+  "bear_calm_red_surge": 158,
+  "bear_calm_red_dry": 183,
+  "bear_wild_yang_surge": 302,
+  "bear_wild_yang_dry": 209,
+  "bear_wild_red_surge": 264,
+  "bear_wild_red_dry": 298
+ },
+ "extreme_days": {
+  "2015-07-27": {
+   "vconf": "dry",
+   "vol_over_med20": 0.524
+  },
+  "2016-01-04": {
+   "vconf": "surge",
+   "vol_over_med20": 2.047
+  },
+  "2024-02-28": {
+   "vconf": "surge",
+   "vol_over_med20": 1.51
+  },
+  "2024-09-24": {
+   "vconf": "surge",
+   "vol_over_med20": 3.212
+  },
+  "2024-09-30": {
+   "vconf": "surge",
+   "vol_over_med20": 5.058
+  },
+  "2025-04-07": {
+   "vconf": "surge",
+   "vol_over_med20": 7.78
+  },
+  "2026-01-19": {
+   "vconf": "surge",
+   "vol_over_med20": 3.262
+  }
+ },
+ "core48_surge_rate": {
+  "n": 48,
+  "min": 0.4583,
+  "median": 0.491,
+  "max": 0.5527,
+  "method": "tl1.load_core() roster (import-reuse, real core48 face)",
+  "members_with_lt60_rows_excluded": 0
+ }
+}

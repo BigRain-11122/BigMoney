@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-29T02:42:25+08:00",
- "current_task": "r409: W5 screen-finalize landed (survivors 372, bands PASS, ledger 328615) + JUDGE entered waiting; watch bm-b judge-prep flip",
+ "last_seen": "2026-09-29T03:05:12+08:00",
+ "current_task": "r410: W6 DRAFT landed (VCONF volume-confirm axis, prereg+probe+digest); watch W5-JUDGE burn (bm-b lane ready) + W6 freeze trigger",
  "cpu_cores": 32,
  "cpu_pct": 75.1,
  "free_ram_gb": 45.4,
  "gpu_free_vram_gb": 3.0,
- "verdict": "green; W5-SCREEN chain closed: bm-c burn 4126/4126 + bm-a finalize (bands PASS, survivors 372) -> W5-JUDGE waiting lane=bm-b (judge-prep+RAM flip gates); board 0 open; orders 122/122 acked (double-scan)",
+ "verdict": "green; W6 prereg DRAFTED freeze-pending (trigger=W5-JUDGE full-chain land); W5-JUDGE ready on bm-b lane (judge-prep+RAM+serial PASS per bm-b r404) awaiting bm-b autofill ignite; board 0 open; orders 122/122 acked (round-start scan); S6 36 legs rc=0",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -131,8 +131,8 @@
   "O-20260928-1925-bm-c.md",
   "O-20260928-1930-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790620945,
- "clock_read": "2026-09-29T02:42:25+08:00",
+ "heartbeat_epoch_utc": 1790622312,
+ "clock_read": "2026-09-29T03:05:12+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 3.0,
@@ -143,7 +143,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 407,
+ "round_no": 410,
  "gpu_idle_vram_mb": 3103,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 52.0,
@@ -158,7 +158,7 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 407,
- "loop_round": 407,
+ "round": 410,
+ "loop_round": 410,
  "gpu_free_vram": "5559MB"
 }
