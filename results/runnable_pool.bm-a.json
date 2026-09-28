@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-28 09:45:09",
+ "updated_at": "2026-09-28 16:30:43",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
  "entries": [
   {
@@ -350,7 +350,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-27 19:10:30",
    "workers_plan": {
     "workers": 4,
@@ -361,11 +361,13 @@
    "shards": [
     {
      "key": "censusw2b-0of1",
-     "status": "waiting",
+     "status": "done",
      "owner": "bm-b",
-     "owner_since": "2026-09-28 09:50:31",
+     "owner_since": "2026-09-28 13:43:39",
      "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
-     "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
+     "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law",
+     "done_at": "2026-09-28 14:14:14",
+     "result_ref": "results/census_fusion_s2/w2b_results.json (chain 918f04ce)"
     }
    ],
    "d8_receipt": {
@@ -374,7 +376,9 @@
     "sha256_verified_vs_git_manifest": true,
     "note": "r344 fold take-new(updated_at) ts-face dropped this remote-added entry (local tick churn fresher ts); restored from 9b62a4c9 + entries-ID audit 79vs80 single-loss; MSG-1912 prose sha = hand-transcription error, git-tracked manifest byte-equal PASS; dep(2) W2-A finalize still pending -> status stays waiting"
    },
-   "flip_note": "r357 bm-b flip waiting->ready: D8 npz on-disk sha[:16]=9febb7b4b5fab260 == manifest; W2-A finalize done r357 (clean exit, sidecars stable). In-runner gates stay fail-closed (roster sha12 + D8 sha + join>=5000)."
+   "flip_note": "r357 bm-b flip waiting->ready: D8 npz on-disk sha[:16]=9febb7b4b5fab260 == manifest; W2-A finalize done r357 (clean exit, sidecars stable). In-runner gates stay fail-closed (roster sha12 + D8 sha + join>=5000).",
+   "done_at": "2026-09-28 14:14:14",
+   "done_note": "r386-cont bm-b done-flip (orphan r386 session died post-push pre-bookkeeping): burn complete 2026-09-28 13:43:11 (5220/5220 combos, runner-[done] receipt), finalize products committed 918f04ce (w2b_results/w2b_summary/w2b_nulls/w2b_cells/w2b_top_matrices). Crash-fuse 13:50 CONFIRMx2 = stale-crash-trace face (r382 law: runner dead + pool not yet flipped by dying session), relaunch refusal lawful no-harm."
   },
   {
    "id": "CN-CORE-DDCTL-P1",
@@ -1097,7 +1101,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 2,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 00:41:57",
    "workers_plan": {
     "workers": 1,
@@ -1110,12 +1114,14 @@
      "key": "v2-0of1",
      "status": "ready",
      "owner": "bm-b",
-     "owner_since": "2026-09-28 02:33:18",
+     "owner_since": "2026-09-28 16:18:31",
      "checkpoint": null
     }
    ],
    "lane_note": "a2 canonical (bm-c r118 adoption): execution lane = checkpoint-bearing machines; proven-complete set per own data_gates = bm-b (t34 base curves both axes + x2 curve union complete + deep panel, v1 finalize r318); bm-a artifact-gate exit-2 relaunch loop 01:10/01:20 tick log evidence; T-93 sender/receiver hash parity 30/30; 3rd re-pin r370 02:2x: 1st pin e8d63eb4 swallowed by r351 resolver union (re-adopt 208c487d), 2nd swallow = bm-c tick 01:50:04 tree-blind whole-file write (pre-defer old code) which also claimed v2-0of1 as bm-c (dead claim: no t34 curves on bm-c per data_gates) -- cleared; post-defer ticks (autofill r351+) defer git writes when origin moved pool",
-   "defer_note": "r357 bm-b defer ready->waiting (bm-c MSG-0355 receipt action): T-95 fix verified (runner sha 6b850e168fad4e46 != fused 880297a0fb0854bf -> S16c fix-is-the-unflag auto-clear at next pick, sig self-deletes). Physical RAM sequencing: W2B census burn (priority 1, trial-labor CEO 48h clock critical path, ~12.4GB no-kill precedent) fires first; V2-P1 4GB peak into that burn = dual-4GB squeeze (MSG-0345 co-signed face). Relaunch window = post-W2B-landing stable RAM (>=4GB x 3 samples >=30s per r354), flip executor = bm-b round. Deadline slack: 48h clock 09-29 22:45 vs 15min run."
+   "defer_note": "r357 bm-b defer ready->waiting (bm-c MSG-0355 receipt action): T-95 fix verified (runner sha 6b850e168fad4e46 != fused 880297a0fb0854bf -> S16c fix-is-the-unflag auto-clear at next pick, sig self-deletes). Physical RAM sequencing: W2B census burn (priority 1, trial-labor CEO 48h clock critical path, ~12.4GB no-kill precedent) fires first; V2-P1 4GB peak into that burn = dual-4GB squeeze (MSG-0345 co-signed face). Relaunch window = post-W2B-landing stable RAM (>=4GB x 3 samples >=30s per r354), flip executor = bm-b round. Deadline slack: 48h clock 09-29 22:45 vs 15min run.",
+   "ready_note": "r391 bm-b arm waiting->ready (r357 defer discharged, all 3 conditions): (1) RAM 3-sample [12.79, 12.92, 12.86] GB >=4GB (r354); (2) W2B census burn landed (dual-4GB squeeze cleared, CENSUS-FUS-S2-W2B done); (3) T-95 G-REPRO-REV fix verified live (bm-c 53be4125 + r380 bm-b gate probe all-pass base+x2 via prereg s9-a5 artifact-drift-fallback path). O-20260928-1533 sec.3 pool reorder: V2-P1 = next pool position (W4-JUDGE yields per CEO order; V3 tournament queued behind v2 verdict). S16c fix-is-the-unflag auto-clear in force (runner sha 6b850e168fad4e46 != fused 880297a0fb0854bf).",
+   "armed_at": "2026-09-28 16:03:41"
   },
   {
    "id": "DECISION-CHAIN-V2-SLEEVE-EXPORT",
@@ -1347,7 +1353,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 01:06:26",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
@@ -1359,12 +1365,14 @@
     {
      "key": "judge-0of4",
      "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-a",
+     "owner_since": "2026-09-28 16:30:43",
      "checkpoint": "results/mass_trial/judge_shard_0of4.jsonl (row-level cell_id done-set resume)",
      "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
     }
-   ]
+   ],
+   "ready_at": "2026-09-28 16:30:43",
+   "ready_note": "r398-cont bm-a flip+claim, gates discharged per frozen FLIP GATE: (a) CENSUS-FUS-S2-W2A/W2B done + TRIAL-LABOR-W1-SCREEN done (pool census verified this round); (b) free RAM ~57.8GB >> 4GB (r354 3-sample law satisfied by wide margin, samples in round report); ignition per O-20260928-1614 sec.1.3 (W1 four shards parallel-burn, RAM=only parallel cap) + O-1625 sec.1; executor bm-a: judge_state.json g_manifest PASS 48/48 + candidates sha 907e44d56999b0ab anchor verified + t18 deep panel cache 48/48 members present locally; launch face: 4 shards x --workers 10 (~28GB peak, fits 57.8GB free; results keyed deterministic per parallel_runner)"
   },
   {
    "id": "MASS-TRIAL-W1-JUDGE-SHARD-1",
@@ -1380,7 +1388,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 01:06:26",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
@@ -1392,12 +1400,14 @@
     {
      "key": "judge-1of4",
      "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-a",
+     "owner_since": "2026-09-28 16:30:43",
      "checkpoint": "results/mass_trial/judge_shard_1of4.jsonl (row-level cell_id done-set resume)",
      "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
     }
-   ]
+   ],
+   "ready_at": "2026-09-28 16:30:43",
+   "ready_note": "r398-cont bm-a flip+claim, gates discharged per frozen FLIP GATE: (a) CENSUS-FUS-S2-W2A/W2B done + TRIAL-LABOR-W1-SCREEN done (pool census verified this round); (b) free RAM ~57.8GB >> 4GB (r354 3-sample law satisfied by wide margin, samples in round report); ignition per O-20260928-1614 sec.1.3 (W1 four shards parallel-burn, RAM=only parallel cap) + O-1625 sec.1; executor bm-a: judge_state.json g_manifest PASS 48/48 + candidates sha 907e44d56999b0ab anchor verified + t18 deep panel cache 48/48 members present locally; launch face: 4 shards x --workers 10 (~28GB peak, fits 57.8GB free; results keyed deterministic per parallel_runner)"
   },
   {
    "id": "MASS-TRIAL-W1-JUDGE-SHARD-2",
@@ -1413,7 +1423,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 01:06:26",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
@@ -1425,12 +1435,14 @@
     {
      "key": "judge-2of4",
      "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-a",
+     "owner_since": "2026-09-28 16:30:43",
      "checkpoint": "results/mass_trial/judge_shard_2of4.jsonl (row-level cell_id done-set resume)",
      "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
     }
-   ]
+   ],
+   "ready_at": "2026-09-28 16:30:43",
+   "ready_note": "r398-cont bm-a flip+claim, gates discharged per frozen FLIP GATE: (a) CENSUS-FUS-S2-W2A/W2B done + TRIAL-LABOR-W1-SCREEN done (pool census verified this round); (b) free RAM ~57.8GB >> 4GB (r354 3-sample law satisfied by wide margin, samples in round report); ignition per O-20260928-1614 sec.1.3 (W1 four shards parallel-burn, RAM=only parallel cap) + O-1625 sec.1; executor bm-a: judge_state.json g_manifest PASS 48/48 + candidates sha 907e44d56999b0ab anchor verified + t18 deep panel cache 48/48 members present locally; launch face: 4 shards x --workers 10 (~28GB peak, fits 57.8GB free; results keyed deterministic per parallel_runner)"
   },
   {
    "id": "MASS-TRIAL-W1-JUDGE-SHARD-3",
@@ -1446,7 +1458,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-28 01:06:26",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)",
@@ -1458,12 +1470,14 @@
     {
      "key": "judge-3of4",
      "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "owner": "bm-a",
+     "owner_since": "2026-09-28 16:30:43",
      "checkpoint": "results/mass_trial/judge_shard_3of4.jsonl (row-level cell_id done-set resume)",
      "note": "cells i%%4==i of sorted 166 collapsed survivors; multi-machine shard-claim legal (ticket lock holds science face only); stale-owner takeover >20min per fleet law; finalize = separate round work (judge-finalize after all 4 shards done)"
     }
-   ]
+   ],
+   "ready_at": "2026-09-28 16:30:43",
+   "ready_note": "r398-cont bm-a flip+claim, gates discharged per frozen FLIP GATE: (a) CENSUS-FUS-S2-W2A/W2B done + TRIAL-LABOR-W1-SCREEN done (pool census verified this round); (b) free RAM ~57.8GB >> 4GB (r354 3-sample law satisfied by wide margin, samples in round report); ignition per O-20260928-1614 sec.1.3 (W1 four shards parallel-burn, RAM=only parallel cap) + O-1625 sec.1; executor bm-a: judge_state.json g_manifest PASS 48/48 + candidates sha 907e44d56999b0ab anchor verified + t18 deep panel cache 48/48 members present locally; launch face: 4 shards x --workers 10 (~28GB peak, fits 57.8GB free; results keyed deterministic per parallel_runner)"
   },
   {
    "id": "MF-ROT-S1",
@@ -2649,17 +2663,20 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "done",
    "entered_at": "2026-09-28 01:26:30",
    "data_gates": "WAITING DEPS (flip to ready by the deep-panel machine round upon BOTH, W2B r346 precedent): (1) judge-prep run on the machine holding the D-leg t18 deep panel cache (physical = bm-b, 7.7GB Money02 sidecar family; bm-c probed absent 01:2x r121) -> judge_state.json present with t18 manifest verdict PASS + dual-leg census == frozen L{1253,1127,875}/D{3104,2978,2726}; (2) machine free RAM >= 4GB (judge state carries both legs' panels per worker initargs). IN-RUNNER fail-closed: cmd_judge refuses absent judge_state.json (exit 2 honest seconds on cache-less machines); judge cells = 149 survivors x dual-leg full curves + window grid + regime segments + G1'/DSR inputs",
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-28 14:33:33",
      "checkpoint": "results/trial_labor_w1/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume)",
-     "note": "single shard; est 149 cells x dual-leg engine ~6-10x screen cell weight -> ~20-45min on 12 workers BelowNormal; GRAMMAR worker-injection fix r121 already in runner (judge state dict carries grammar key)"
+     "note": "single shard; est 149 cells x dual-leg engine ~6-10x screen cell weight -> ~20-45min on 12 workers BelowNormal; GRAMMAR worker-injection fix r121 already in runner (judge state dict carries grammar key)",
+     "done_at": "2026-09-28 14:27:53",
+     "result_ref": "results/trial_labor_w1/checkpoint/judge_shard_0of1.jsonl (149/149 cells, autofill log autofill_TRIAL-LABOR-W1-JUDGE.log shard complete 14:25:22, claim 14:23:34 pid 18172 12-worker pool)",
+     "storm_repair": "r387 storm-repair: autofill 14:33:33 stale claim-refresh reverted status done->waiting (dict-merge kept done_at/result_ref); re-asserted done same round, checkpoint 149/149 re-verified"
     }
    ],
    "workers_plan": {
@@ -2667,8 +2684,13 @@
     "priority": "BelowNormal",
     "note": "flip executor = deep-panel machine round post judge-prep + RAM gate; judge-finalize + intake follow on completion (funnel sec: TRIAL intake face zero judgment claims pre-funnel)"
    },
-   "note": "r121 bm-c entry post-screen-finalize (149 survivors); parked waiting NOT ready: bm-b currently W2-A burn 15.5GB no-kill (free 2.0GB) -- ready would race autofill into OOM; judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family",
-   "defer_note": "r357 bm-b: gate(1) judge-prep VERIFIED (judge_state.json t18 PASS 48-member + census_frozen L1253/1127/875 D3104/2978/2726 exact); gate(2) RAM 3-sample 12.74/13.29/13.36GB >=4GB MET at flip-check; flip DEFERRED to post-W2B-landing window: physical RAM dependency (W2B burn ~15.5GB no-kill precedent + judge ~7-8GB pickled panels stacked = OOM risk on 23.9GB dual-company box; MASS sec.9.1 frozen ordering puts judge family behind W2B). Auto-flip candidate next bm-b round post-W2B with same 3-sample gate."
+   "note": "r387 bm-b: burn complete 149/149 @14:25:22 (shard done-flip this round); judge-finalize QUEUED behind W2 finalize in-flight pid 23800 (14:13:55): DSR n_trials start-snapshot + per-cell g1 internal ledger scans -> sequential finalize required for cross-wave cumulative-N (TRIAL_LABOR_LAW sec.4). W1 finalize detach fires on w2_judge.json receipt. Entry done-flip deferred to w1_judge.json receipt (r386 precedent). | r387 bm-b 14:42: queue discharged: W2 finalize landed (w2_judge.json 404 judged, ledger head 311214) -> W1 judge-finalize detached pid 4084 (log logs/w1_judge_finalize_r387.log); entry done-flip deferred to w1_judge.json receipt (r386 precedent). | r388 bm-b 14:5x: w1_judge.json receipt harvested -> entry done-flip shared+lane with reload assertions (pitlaw batch-55), W1 wave closed honest zero G2 registration.",
+   "defer_note": "r357 bm-b: gate(1) judge-prep VERIFIED (judge_state.json t18 PASS 48-member + census_frozen L1253/1127/875 D3104/2978/2726 exact); gate(2) RAM 3-sample 12.74/13.29/13.36GB >=4GB MET at flip-check; flip DEFERRED to post-W2B-landing window: physical RAM dependency (W2B burn ~15.5GB no-kill precedent + judge ~7-8GB pickled panels stacked = OOM risk on 23.9GB dual-company box; MASS sec.9.1 frozen ordering puts judge family behind W2B). Auto-flip candidate next bm-b round post-W2B with same 3-sample gate.",
+   "ready_at": "2026-09-28 14:14:14",
+   "ready_note": "r386-cont bm-b flip, gates discharged fresh: (1) judge-prep PASS results/trial_labor_w1/judge_state.json (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726}; r357 verified, re-verified at flip); (2) screen-finalize survivors=149 non-empty; (3) RAM 3-sample 12.6/12.72/12.66 GB >=4GB across >30s r354 law (samples 14:14:14/14:14:31/14:14:47; census W2B finalized 13:43 + W2-JUDGE burn complete 14:01:54 = RAM released). Auto-flip candidate per r357 defer note 'next bm-b round post-W2B'. Sibling ordering: MASS x4/V2-P1/W3/W4-JUDGE stay waiting (single-burn no-stack law, anti-OOM 23.9GB box).",
+   "done_at": "2026-09-28 14:50:12",
+   "done_note": "r388 bm-b finalize receipt: judge-finalize detached pid 4084 (r387 ~14:41, log logs/w1_judge_finalize_r387.log) landed 14:50:01 -> w1_judge.json (149 judged cells, E[FP]=7.45, G2 eligible 0 -> [], family PBO faces (patterns .7429 / composite_rotation .4143 / volatility .0143 / ta .5857), descriptive summary; ledger TRIAL_LAB_W1_JUDGE prev 311214 + 149 = 311363 cross-wave linear; p1d_gates re-derived in-finalize 14:50:12 all PASS). Wave-1 funnel honest zero-registration. Intake face (D6 binding gate) lawful-zero path per prereg; TRIAL-* paper accounts face = zero eligible = none spawned.",
+   "result_ref": "results/trial_labor_w1/w1_judge.json"
   },
   {
    "id": "TRIAL-LABOR-W1-SCREEN",
@@ -3121,7 +3143,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "done",
    "entered_at": "2026-09-28 05:55:34",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal",
@@ -3132,14 +3154,22 @@
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-28 14:33:10",
      "checkpoint": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
-     "note": "single shard W1-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell"
+     "note": "single shard W1-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell",
+     "done_at": "2026-09-28 14:14:14",
+     "result_ref": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (404/404 cells, log judge-shard complete 14:01:54, autofill claim 53cc84ab)",
+     "storm_repair": "r387 storm-repair: same 14:33:10 stale claim-refresh revert; re-asserted done same round, checkpoint >=404 rows re-verified (r386-cont original flip evidence retained in done_at/result_ref)"
     }
    ],
-   "entered_by": "bm-b r362"
+   "entered_by": "bm-b r362",
+   "ready_at": "2026-09-28 13:50:02",
+   "ready_note": "r386 bm-b flip, ALL THREE gates discharged: (1) screen-finalize survivors=404 non-empty (w2_screen.json 07:09:20); (2) judge-prep PASS judge_state.json 07:11:36 (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726}, r365 gate-2 receipt); (3) RAM 3-sample 13.23/12.55/12.6 GB >=4GB across >30s r354 law (census W2B finalized 13:43:11 runner-[done] receipt cells=5220 -> RAM released). Flip executor = bm-b deep-panel round per entry workers_plan note + W1-JUDGE r357 defer precedent. Sibling ordering: W1-JUDGE/MASS-JUDGE-x4/V2-P1 stay waiting this round (single judge burn ~7-8GB no-stack law, anti-OOM dual-company 23.9GB box).",
+   "note": "r386-cont bm-b: burn complete 404/404 @14:01:54 (shard done-flip this round); judge-finalize detached in-flight pid 23800 (14:13:55, log logs/w2_judge_finalize_r386.log) -- entry done-flip deferred to finalize receipt (w2_judge.json). Siblings stay waiting single-burn no-stack; W1-JUDGE flipped ready this round as next burn.",
+   "done_at": "2026-09-28 14:41:15",
+   "done_note": "r387 bm-b finalize receipt: judge-finalize detached pid 23800 (14:13:55, r386) landed ~14:40 -> w2_judge.json (404 judged cells, E[FP]=20.2, G2 eligible 0 -> [], family PBO faces, descriptive summary; ledger TRIAL_LAB_W2_JUDGE prev 310810 + 404 = 311214 cross-wave linear) committed 200be873. Wave-2 funnel honest zero-registration. Intake face (D6 binding gate) lawful-zero path per prereg sec.4; TRIAL-* paper accounts face = zero eligible = none spawned."
   },
   {
    "id": "TRIAL-LABOR-W3-GENERATE",
@@ -3219,7 +3249,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "waiting",
+   "status": "done",
    "entered_at": "2026-09-28 09:04:24",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal",
@@ -3230,14 +3260,22 @@
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "waiting",
-     "owner": null,
-     "owner_since": null,
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-28 15:03:31",
      "checkpoint": "results/trial_labor_w3/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
-     "note": "single shard W1/W2-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell"
+     "note": "single shard W1/W2-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell",
+     "done_at": "2026-09-28 15:24:14",
+     "result_ref": "results/trial_labor_w3/checkpoint/judge_shard_0of1.jsonl (513/513 cells, autofill claim 15:00:01 pid 4604 runner_sha 8fedac0cdf63bc36, last-write 15:13:44 clean exit)",
+     "done_note": "r391 bm-b harvest: finalize receipt w3_judge.json @2026-09-28 15:51:55 (513 judged, E[FP]=25.65, G2 eligible 0, gate-face bear 0/218 bull 0/132 none 2/163; chain head 311363->311876) -> entry done-flip this round; w3_intake.json zero-face per prereg sec.6 s4 (zero survivors = lawful reading, zero library/paper-desk writes); bm-c shard claim 15:50:05 superseded by completed work (burn 15:13:44 + finalize in-flight since 15:21:53), no cells re-burned (full-checkpoint no-op resume); 48h CEO verdict report clock running (standing deadline 09-29 22:45)"
     }
    ],
-   "entered_by": "bm-b r370"
+   "entered_by": "bm-b r370",
+   "ready_at": "2026-09-28 14:58:26",
+   "ready_note": "r388 bm-b flip, ALL THREE gates discharged: (1) screen-finalize done -> w3_screen.json survivors 513 non-empty (r395 bm-a committed); (2) judge-prep PASS results/trial_labor_w3/judge_state.json generated 09:18:56 in-repo (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726} + per-leg gate meta present; bm-b r370 run); (3) RAM 3-sample [6.19, 12.87, 13.03] GB >=4GB across 32s r354 law @14:57:54-14:58:26 (W1+W2 judges closed this round, census W2B finalized 13:43, only light co-tenant = bonsai GPU trial pid 8516 ~1-2GB CPU face). Serial queue position: W1-JUDGE + W2-JUDGE both done (r388 done-flips) -> W3-JUDGE = next burn per r369 ruling order (W2->W3->MASS x4->W4). Sibling ordering: MASS-TRIAL-W1-JUDGE-SHARD-0..3 + DECISION-CHAIN-V2-P1 + W4-JUDGE stay waiting (single judge burn ~7-8GB no-stack law, anti-OOM 23.9GB box). Flip executor = bm-b deep-panel round per entry workers_plan note + W1-JUDGE r357 defer precedent.",
+   "note": "r389 bm-b: burn complete 513/513 @15:13:44 (shard done-flip this round); judge-finalize detached in-flight pid 28400 @15:21:53 (log logs/w3_judge_finalize_r389.log, r386 detach law) -- entry done-flip deferred to finalize receipt (w3_judge.json). Siblings stay waiting single-burn no-stack + r369 serial (MASS x4/DC-V2/W4-JUDGE); same-chain finalize serial law r387 honored (W2 landed r387, W1 landed r388, no other finalize active at detach).",
+   "done_at": "2026-09-28 16:00:15",
+   "done_note": "r391 bm-b harvest: finalize receipt w3_judge.json @2026-09-28 15:51:55 (513 judged, E[FP]=25.65, G2 eligible 0, gate-face bear 0/218 bull 0/132 none 2/163; chain head 311363->311876) -> entry done-flip this round; w3_intake.json zero-face per prereg sec.6 s4 (zero survivors = lawful reading, zero library/paper-desk writes); bm-c shard claim 15:50:05 superseded by completed work (burn 15:13:44 + finalize in-flight since 15:21:53), no cells re-burned (full-checkpoint no-op resume); 48h CEO verdict report clock running (standing deadline 09-29 22:45)"
   },
   {
    "id": "TRIAL-LABOR-W4-GENERATE",
@@ -3249,7 +3287,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-28 09:45:09",
    "workers_plan": {
     "workers": 1,
@@ -3260,13 +3298,123 @@
    "shards": [
     {
      "key": "generate-0of1",
-     "status": "ready",
-     "owner": "bm-a",
-     "owner_since": "2026-09-28 10:10:05",
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-28 12:13:37",
      "checkpoint": "results/trial_labor_w4/w4_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
-     "note": "single shard whole-batch; zero engine cells burned at generate (dedup face only); harvest = landed-marker law r244 (next round flips entry+shard done)"
+     "note": "DONE r382 bm-b harvest (r244 landed-marker law): tick 12:13:42 relaunch on changed runner sha (r379 fuse auto-clear law, S16c cleared 12:13:37) -> landed 12:27:41; products w4_candidates.json n=3810 distinct grammar d498e9343ee57460 evidence_cutoff 2026-09-22; G-VOL refusal 11:46 root-cause face law (r381 61f81785) production-validated through exact real-data anchors",
+     "done_at": "2026-09-28 12:27:41"
     }
-   ]
+   ],
+   "done_at": "2026-09-28 12:27:41",
+   "result_ref": "results/trial_labor_w4/w4_candidates.json",
+   "done_note": "r382 bm-b harvest (r244 landed-marker law): relaunch 12:13:47 on fixed runner sha (r381 raw-face law) clean burn 831.3s -> landed 12:27:41; raw 5000 (A500/B4500) -> exclusion hits 0 -> dedup distinct 3810 (fp-collapses 3844 + corr-collapses 35), zero engine cells burned, single-shot marker intact; G-VOL frozen anchors {first_valid 519, calm 1523, wild 1441, n_bars 3483} reproduced live on the raw full-history face = r381 face-fix production-validated; seven-source exclusion consumed (w1 149 + w2 404 + w3 513 + MASS 166 [translated-exact 2, 164 non-translatable disclosed] + grammar_stop_gate_vol_none 42); judged products 4 sources declared-unavailable zero rows honest; vol faces {calm 1226, none 1311, wild 1273}; grammar sha16 d498e9343ee57460 anchored; TRIAL_GRAMMAR_LEDGER wave-4 row runner-written at consume 12:27:41; next slice = W4 screen-prep + TRIAL-LABOR-W4-SCREEN pool entry (CPU pool face lawful per prereg sec.0 r369 disposition)"
+  },
+  {
+   "id": "TRIAL-LABOR-W4-SCREEN",
+   "ticket_ref": "T-2026-09-28-98 WAVE-4 screen slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r396 commit 3aec0868 + seeds R250 same-commit 20289500/20290000/20290500; runner full-slice built bm-a r397 selftest 84/84 hermetic; G-VOL raw-face law fix bm-b r381 commit 61f81785 production-validated through real-fire landing 12:27:41 n=3810 distinct; screen-prep PASS r382 12:30:56)",
+   "prereg_ref": "research/TRIAL_LABOR_W4_PREREG.md FROZEN sec.3 s2 (each distinct candidate = legacy-axis leg-L 6m full-history backtest, W1 13bp base, T+1, initial-stop + regime-gate + VOL-gate faces carried per cell, frozen composition order filter->timing->GATE->VOL->STOP per MSG-0440 E1 mapping; beat6m >= passive over 1253 frozen starts, comparison operator per frozen sec.3 text; null family K=200 seven-tuple axis R/X/S/T/STOP/GATE/VOL seed trial_labor_w4_scrnull=20290000; survival line = beat6m > null p95 program-frozen via tl2._finalize_math import = W2/W3 identical law; finalize refuses missing cells, checkpoint retained; ledger TRIAL_LAB_W4_SCREEN batch = distinct 3810 + 200 nulls literal per sec.3; products w4_screen.json + w4_screen_cells.csv + vol-gate segmented survival stats per prereg sec.6)",
+   "runner": "scripts/trial_labor_w4.py",
+   "runner_args": [
+    "screen",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "done",
+   "flip_note": "r164 bm-c flip waiting->ready (r203 any-machine law): gates (1) W4-GENERATE done r382 12:27:41 + (2) screen-prep PASS r382 12:30:56 both verified in-repo + (3) bm-c RAM 3-sample [6.14, 6.04, 6.16]GB >=4GB across ~32s r354 law (census W2B burn sits on bm-b 12.3GB no-kill, not this box; bm-b own 3-sample FAIL [4.46,3.16,1.81] latched; bm-a silent 2.5h+). Burn = autofill C8 claim, SCREEN face = CPU pool face per prereg sec.0 r369; shard claim by first healthy autofill commit-lock, stale-owner takeover >20min per fleet law.",
+   "entered_at": "2026-09-28 12:31:30",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (16-core bm-b: 12 observed; 32-core bm-c: <=25)",
+    "priority": "BelowNormal",
+    "note": "W2-SCREEN 3,124 cells minutes-level pool batch (r389 06:50-06:52) + W3-SCREEN 3,752 cells 4.6min (r395) same cell weight + vectorized gate+vol overlays -> 4,010 cells (3,810 distinct + 200 nulls) est minutes-level; per-cell jsonl checkpoint cross-kill resume (W1 law); prereg sec.0 worst-case anchor stands as ceiling"
+   },
+   "data_gates": "WAITING DEPS (flip to ready upon ALL, W1/W2/W3-JUDGE r346 precedent): (1) TRIAL-LABOR-W4-GENERATE done -- LANDED r382 12:27:41, w4_candidates.json n=3810 single-shot completion marker in-repo; (2) screen-prep PASS -- prep_state.json 12:30:56 gates G-PANEL 48/48 + G-ANCHOR registered-six replay faithful on the W4 seven-tuple identity face + G-CENSUS leg-L {1253,1127,875} frozen-match + G-EXCLUDE sources disclosed + G-VOL raw-face anchors {first-valid 519, calm 1523, wild 1441} re-verified live; (3) machine free RAM >= 4GB three-sample across >=30s (r354 law; autofill has no RAM gate so waiting status is the ONLY protection; census W2B slow-tail burn gates bm-b until finalize -- flip executor = any machine per r203 law, bm-a/bm-c RAM-open windows lawful; SCREEN face = CPU pool face per prereg sec.0 r369 disposition). IN-RUNNER fail-closed exit 2: prep/candidates/grammar absent, grammar sha != d498e9343ee57460 refuse, free RAM three-sample < 4GB honest refuse. After all shards: screen-finalize = separate round work (ledger TRIAL_LAB_W4_SCREEN + w4_screen.json + w4_screen_cells.csv; survivors feed the judge face next slice; W2 r362 / W3 r150 precedent)",
+   "shards": [
+    {
+     "key": "screen-0of1",
+     "status": "done",
+     "owner": "bm-c",
+     "owner_since": "2026-09-28 13:10:05",
+     "checkpoint": "results/trial_labor_w4/checkpoint/screen_shard_0of1.jsonl (append-per-cell; finalize gate refuses missing cells)",
+     "note": "single shard; worker_cap() parallelism inside the shard (W2/W3-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim | burn r165 finalize: 4010/4010 cells (autofill claim 13:00:01 pid 23908 12 workers ~12.3min), null p95 0.5164, survivors 461/3810 = 12.10%",
+     "done_at": "2026-09-28 13:16:04"
+    }
+   ],
+   "entered_by": "bm-b r382",
+   "done_at": "2026-09-28 13:16:04",
+   "result_ref": "results/trial_labor_w4/w4_screen.json (+ w4_screen_cells.csv)",
+   "note_done": "r165 bm-c finalize: burn 13:00:01 autofill claim (pid 23908, 12 workers, ~12.3min) -> checkpoint 4010/4010; finalize: null p95 0.5164 (prereg sec.5 band [0.42,0.62] PASS), distinct 3810 (band [2800,4600] PASS), survivors 461/3810 = 12.10% (band [2%,15%] PASS; count 461 in [100,750] PASS); vol segmented {calm 61/1226=4.98%, none 140/1311=10.68%, wild 260/1273=20.42%} -- sec.5 pred-4 VOL direction prior (calm>=none>=wild) FALSIFIED opposite order, prereg anticipated two-way martyrdom, batch-end sec.8 reconciliation carries it; gate x vol interaction top bear|wild 156/434=35.94%; ledger TRIAL_LAB_W4_SCREEN +4,010 chain total 305,190; survivors feed TRIAL-LABOR-W4-JUDGE (parked waiting entry same round, queued behind W2/W3-JUDGE per prereg sec.0 physical-order gate bm-b r369 ruling; judge-prep+judge+judge-finalize trio on deep-panel machine per W1 r346 precedent)"
+  },
+  {
+   "id": "TRIAL-LABOR-W4-JUDGE",
+   "ticket_ref": "T-2026-09-28-98 WAVE-4 judge slice (CEO O-20260927-2245 thousand-trader order + O-20260927-2250 standing law; prereg FROZEN r396 commit 3aec0868; runner full-slice built bm-a r397 selftest 84/84 hermetic -- judge trio CLI already in-tree unlike W3 later-build; screen-finalize LANDED bm-c r165: 4010/4010 cells, null p95 0.5164, survivors 461/3810 -- judge physical dep satisfied)",
+   "prereg_ref": "research/TRIAL_LABOR_W4_PREREG.md FROZEN sec.0 TRIAL_LAB_W4_JUDGE (s3 full judgment batch: batch_trials = survivors 461 judged cells; dual nulls B/P resampling face = not ledger +0 per prereg sec.0, census sec.9.2 NAV derivation precedent) + sec.0 W4-JUDGE physical-order gate (bm-b r369 ruling adopted, ticket-logged: judge face queued BEHIND W2/W3-JUDGE + other in-flight judge faces; RAM r354 three-sample gate + serial flip discipline auto-realizes; 48h CEO report clock starts at judge-finalize) + sec.4 (g1_prime_v2/g2_registration_v2 shared lib zero hand-copy; DSR n_trials = live chain head cross-wave no-reset, r396 freeze-time read 301,180 + W4 SCREEN +4,010 -> run-time live read governs; E[FP]=0.05*N_judged; family PBO CSCV 8 blocks family=strategy-module)",
+   "runner": "scripts/trial_labor_w4.py",
+   "runner_args": [
+    "judge",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "status": "waiting",
+   "entered_at": "2026-09-28 13:16:04",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "judge initargs carry BOTH leg panels + per-leg ATR20 + per-leg gate/vol state faces = heaviest per-worker state in the fleet (worker_cap RAM guard applies); dual-leg x {6m,12m,24m} x cost {base x1, x2=CostPatch(2)} engine curves per judged cell WITH gate+vol+stop overlays + dual nulls B/P resampling ~4-6x screen-cell weight; W2/W3 judge same-machinery precedent; flip executor = deep-panel machine round (bm-b) post queue-position + judge-prep + RAM 3-sample gate (W1-JUDGE r357 defer precedent)"
+   },
+   "data_gates": "WAITING DEPS (flip to ready upon ALL, W1-JUDGE r346 precedent): (1) serial queue ahead per prereg sec.0 physical-order gate (bm-b r369 ruling): TRIAL-LABOR-W2-JUDGE + TRIAL-LABOR-W3-JUDGE + MASS-TRIAL-W1-JUDGE-SHARD-0..3 ahead/in-flight; (2) judge-prep run on the deep-panel machine (physical = bm-b t18 sidecar family; cache-less machines exit-2 honest per W1 precedent) -> judge_state.json manifest verdict PASS; (3) machine free RAM >= 4GB three-sample across >=30s (r354 law; census W2B burn on bm-b gates it until finalize). IN-RUNNER fail-closed: judge_state/w4_screen absent exit 2; grammar sha != d498e9343ee57460 refuse; zero-survivor vacuous face = judge no-op lawful (not this wave: 461 survivors). After shards: judge-finalize = separate round work (ledger TRIAL_LAB_W4_JUDGE batch_trials=survivors literal + w4_judge.json G1/G2/DSR/PBO/E[FP] judgment summary + gate x vol segmented disclosure; intake slice lands next per prereg sec.6; 48h CEO report clock starts)",
+   "shards": [
+    {
+     "key": "judge-0of1",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/trial_labor_w4/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
+     "note": "single shard W1/W2/W3-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts)"
+    }
+   ],
+   "entered_by": "bm-c r165",
+   "note": "r165 bm-c entry post-screen-finalize (461 survivors); parked waiting NOT ready: serial queue behind W2/W3-JUDGE + MASS W1 judge shards per prereg sec.0 physical-order gate (bm-b r369 ruling) + RAM r354 sequencing gate (census W2B burn on bm-b until finalize ~15:00 ETA per r164 watch); judge-prep + judge + judge-finalize chain on deep-panel machine per physical-dep law O-1730 family"
+  },
+  {
+   "id": "DECISION-CHAIN-V3-TOURNAMENT",
+   "ticket_ref": "T-2026-09-28-101 (CEO O-20260928-1506 chain-tournament fast-iteration order; claimed bm-c r171 same-round per O-20260924-1730 immediate-law; pre-commitment posture: hypotheses frozen BEFORE v2/T-95 verdict lands -- V2-P1 status=waiting at freeze time, physical fact on record)",
+   "prereg_ref": "research/DECISION_CHAIN_V3_TOURNAMENT_PREREG.md FROZEN bm-c r171 + A-1 amendment bm-c r172 (O-20260928-1533); K=3 arms H1 style-tilt / H2' sentiment-gate (A-1 amended) / H3 minimal-chain control; seed 20291000 single entry same-commit; N_eff=16,566 = 3 arms x 5,522",
+   "runner": "scripts/decision_chain_v3_tournament.py",
+   "runner_args": [
+    "run"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 2,
+   "status": "waiting",
+   "entered_at": "2026-09-28 15:18:33",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "single-process finalize chain: in-runner gates+audit + sleeve two-path (a4/a5 law) + vectorized 6-arm envelopes x 2 axes x 2 faces (T-90 lineage; v1 finalize benchmark 99.9s per 4 arms, 3 new arms est +50%) + J-TOUR cross-arm correction + verdict/CSV/attrition/prereg-backfill/ledger-flip writes; RAM peak ~4GB (same face as V2-P1); est 10-20min wall total"
+   },
+   "data_gates": "in-runner fail-closed exit 2 artifact gate (v2 a2/a4 family, honest listing): t34 base curves both axes + x2 curve union + deep panel cache (t18) + p1c_stock cache OR frozen sleeve-export artifact + GC001 csv (git) + v1 verdict records (git) + core48 style legs {510300,512100,159915,512800} r60 computability census (G-STYLE) + MARKET_CLOCK L2 sector-spectrum face r20 census (G-THEME); G-REPRO-REV sleeve stats/counters bit-level vs p1_results frozen; G-REPRO-v1 B/C/D bit-level vs decision_chain_e2e.json; heat face failure = honest degradation (GREEN flat 0.80) census disclosed, never a gate; audit not CLEAN = ledger skipped; runner NOT YET BUILT (build = owner bm-c next deliverable, selftest hermetic r116 law before any burn; entry stays waiting until runner+selftest+ready-flip)",
+   "shards": [
+    {
+     "key": "v3-0of1",
+     "status": "waiting",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": null
+    }
+   ],
+   "lane_note": "sequencing per ticket verbatim: burn position = immediately after v2 (DECISION-CHAIN-V2-P1) finalize, pool serialization zero dead rounds; execution lane pinned at ready-flip per v2 a2 canon (checkpoint-bearing machines; proven-complete sets: bm-b curves+deep panel r318, bm-a p1c_stock r282); owner bm-c builds runner + selftest, finalize execution lane = checkpoint machines (multi-machine shards lawful, ticket lock = science face only)",
+   "defer_note": "waiting = physical serial position behind DECISION-CHAIN-V2-P1 (ticket spec: burn queue position immediately after v2 finalize, zero dead rounds); flip executor = the round that observes V2-P1 done + runner selftest green; RAM r354 three-sample law applies at launch",
+   "amended_at": "2026-09-28T15:57:00+08:00",
+   "note": "| A-1 AMENDMENT 2026-09-28 15:5x per CEO order O-20260928-1533 sec.2 (broad-base universe narrowing, P0): H2 theme-satellite -> H2' SENTIMENT-GATE (v2 + you-zi sentiment-cycle regime gate = all-A three-axis B+ numeric gate, S1 L16-L22 verbatim import; sentiment-ladder min-conjunction caps 80/50/20 reusing v2 frozen constants; N=5 hysteresis; C1 dual-thermometer first tournament test). Old H2 deployment face = industry/theme ETF = banned universe ('even a win could not go live = burning for nothing'). Lawful zero-burn-window amendment: pool slot waiting, runner not built, zero grids burned, V2-P1 still waiting (v2 verdict NOT landed, pool file verified at amendment time) = pre-commitment window open; CEO-order-driven not results-driven; r251/r280 precedent second instance. BURN HOST pinned = bm-b (all-A panel physical location, T-102 census d31a81fa; G-SENTIMENT host self-attest gate); science owner stays bm-c (prereg A-1 block + ledger changelog + this entry amendment). H1/H3/B/C/D + N_eff 16,566 + seed 20291000 unchanged."
   }
  ],
  "lane_machine": "bm-a"
