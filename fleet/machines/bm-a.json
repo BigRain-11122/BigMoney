@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28 09:10:12",
- "current_task": "R395 done: W3 screen-finalize LANDED (burn lane bma per bmc yield; 3752/3752 cells; null p95 0.511572; survivors 513/3552; ledger 301,180; pool done-flipped; MSG-0915 judge-unblock) + D-02(1) receipt verified in-repo + S6 33 legs rc=0",
+ "last_seen": "2026-09-28 09:30:18",
+ "current_task": "R396 done: TRIAL_LABOR_W4 prereg FROZEN+pushed (T-98 claim-and-start; VOL axis seven-tuple 32,256 combos; bm-b r369 ruling disposition = W4-JUDGE sequenced behind RAM r354 in-flight judge faces) + IntradayMarks 09:25 first-fire PASS (pre-open legal no-op) + S6 33 legs rc=0 + CODELY recompile batch-42 10,238B<=10KB",
  "cpu_cores": 32,
- "cpu_pct": 36.0,
+ "cpu_pct": 8.0,
  "free_ram_gb": 42.9,
  "gpu_free_vram_gb": 5.5,
- "verdict": "py_low_board_clear legal idle (board closed 0 open; W3-SCREEN finalize landed+flipped this round; pool 1 ready = CENSUS-FUS-S2-W2B bm-b lane guard; judge faces waiting = bmb flip executor serial+RAM r354; IntradayMarks 09:25 armed first-fire)",
+ "verdict": "py_low_board_clear legal idle (board closed 0 open; W4 prereg frozen = next-wave prep zero-latency for RAM window; pool 1 ready W2B census bm-b lane guard; judge faces waiting = bmb flip executor serial + RAM r354; IntradayMarks armed 09:25 first-fire PASS, marks capture from 09:35 tick)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -108,8 +108,8 @@
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790557812,
- "clock_read": "2026-09-28T09:10:12+08:00",
+ "heartbeat_epoch_utc": 1790559018,
+ "clock_read": "2026-09-28T09:30:18+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 5.5,
@@ -120,7 +120,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 395,
+ "round_no": 396,
  "gpu_idle_vram_mb": 5629,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 42.9,
@@ -135,6 +135,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 395,
- "loop_round": 395
+ "round": 396,
+ "loop_round": 396
 }
