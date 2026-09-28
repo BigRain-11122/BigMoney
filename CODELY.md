@@ -13,3 +13,5 @@
 
 冷层指针：2026-09-28 晚窗批（r398-cont/r399/r175/r393/r394/r401 执行记录+坑律补/六十/六十一/六十三批）全文 verbatim=archive 202609.md『坑律归档 2026-09-28 晚窗批·执行记录+坑律补/六十/六十一/六十三批』节（r395 bm-b 窗水位律当窗整编·行级零丢失校验·本机 62→63 撞号让位=bm-c 62 批先在 origin）。
 - [2026-09-28 19:5x] r177 bm-c 坑律六十二批（S6 批跑两坑）：①PS 拼接路径陷阱——循环批跑 S6 腿用双引号字符串 + 反斜杠目录拼路径，尾反斜杠转义吞收尾引号→全部腿以「cant open file」rc=2 假红（harness 面非腿败）；正解=Join-Path 拼路径（或正斜杠），假红面先验文件名再定腿责。②守卫在位性核查假阴——grep 守卫用 First-12 只见文件头部 regime_guard 命中，真守卫在 main() 尾部（L1767 batch-3 C 族 single-writer）被截断漏读=险把「法-码漂移」假案当真去修；且非宿主机写共享面先查 stale-takeover 机制（bm-a 心跳 78min>C_HOST_STALE_MIN 20min=合法接管非车道违例）。How to apply：宣称守卫缺失前必全文件扫（count/全量输出）；非宿主写共享面先读 _host_heartbeat_age_min 判 stale-takeover 再定性。
+
+- [2026-09-28 20:1x] r179 bm-c 坑律六十四批（梯生成器三件套缺口）：fill_ladder 首实弹入池条目缺 shards 数组=r301 饿死 picker 复发（submit 三件套契约 runner+workers_plan+shards 只在 autofill submit 入口断言·生成器侧无同律）——ready 态条目 30min 无人认领且无报错（静默饿死）。修法=生成器侧合成律 _ensure_shards（单面批默认 [{' + chr(39) + 'key' + chr(39) + ': ' + chr(39) + 'main' + chr(39) + '}]、显式 shards 保真）+selftest 断言；在池旧条目复用 ladder 自身双文件写器补丁。How to apply：任何新池条目生成器必须同律合成三件套，禁依赖消费端断言兜底（消费端断言=拒收不报错面）。
