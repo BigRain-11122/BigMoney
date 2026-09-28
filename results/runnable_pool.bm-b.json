@@ -8,7 +8,7 @@
   "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
  },
- "updated_at": "2026-09-28 14:43",
+ "updated_at": "2026-09-28 15:24:14",
  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
  "entries": [
   {
@@ -3250,16 +3250,19 @@
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "waiting",
+     "status": "done",
      "owner": "bm-b",
      "owner_since": "2026-09-28 15:23:14",
      "checkpoint": "results/trial_labor_w3/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
-     "note": "single shard W1/W2-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell"
+     "note": "single shard W1/W2-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell",
+     "done_at": "2026-09-28 15:24:14",
+     "result_ref": "results/trial_labor_w3/checkpoint/judge_shard_0of1.jsonl (513/513 cells, autofill claim 15:00:01 pid 4604 runner_sha 8fedac0cdf63bc36, last-write 15:13:44 clean exit)"
     }
    ],
    "entered_by": "bm-b r370",
    "ready_at": "2026-09-28 14:58:26",
-   "ready_note": "r388 bm-b flip, ALL THREE gates discharged: (1) screen-finalize done -> w3_screen.json survivors 513 non-empty (r395 bm-a committed); (2) judge-prep PASS results/trial_labor_w3/judge_state.json generated 09:18:56 in-repo (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726} + per-leg gate meta present; bm-b r370 run); (3) RAM 3-sample [6.19, 12.87, 13.03] GB >=4GB across 32s r354 law @14:57:54-14:58:26 (W1+W2 judges closed this round, census W2B finalized 13:43, only light co-tenant = bonsai GPU trial pid 8516 ~1-2GB CPU face). Serial queue position: W1-JUDGE + W2-JUDGE both done (r388 done-flips) -> W3-JUDGE = next burn per r369 ruling order (W2->W3->MASS x4->W4). Sibling ordering: MASS-TRIAL-W1-JUDGE-SHARD-0..3 + DECISION-CHAIN-V2-P1 + W4-JUDGE stay waiting (single judge burn ~7-8GB no-stack law, anti-OOM 23.9GB box). Flip executor = bm-b deep-panel round per entry workers_plan note + W1-JUDGE r357 defer precedent."
+   "ready_note": "r388 bm-b flip, ALL THREE gates discharged: (1) screen-finalize done -> w3_screen.json survivors 513 non-empty (r395 bm-a committed); (2) judge-prep PASS results/trial_labor_w3/judge_state.json generated 09:18:56 in-repo (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726} + per-leg gate meta present; bm-b r370 run); (3) RAM 3-sample [6.19, 12.87, 13.03] GB >=4GB across 32s r354 law @14:57:54-14:58:26 (W1+W2 judges closed this round, census W2B finalized 13:43, only light co-tenant = bonsai GPU trial pid 8516 ~1-2GB CPU face). Serial queue position: W1-JUDGE + W2-JUDGE both done (r388 done-flips) -> W3-JUDGE = next burn per r369 ruling order (W2->W3->MASS x4->W4). Sibling ordering: MASS-TRIAL-W1-JUDGE-SHARD-0..3 + DECISION-CHAIN-V2-P1 + W4-JUDGE stay waiting (single judge burn ~7-8GB no-stack law, anti-OOM 23.9GB box). Flip executor = bm-b deep-panel round per entry workers_plan note + W1-JUDGE r357 defer precedent.",
+   "note": "r389 bm-b: burn complete 513/513 @15:13:44 (shard done-flip this round); judge-finalize detached in-flight pid 28400 @15:21:53 (log logs/w3_judge_finalize_r389.log, r386 detach law) -- entry done-flip deferred to finalize receipt (w3_judge.json). Siblings stay waiting single-burn no-stack + r369 serial (MASS x4/DC-V2/W4-JUDGE); same-chain finalize serial law r387 honored (W2 landed r387, W1 landed r388, no other finalize active at detach)."
   },
   {
    "id": "TRIAL-LABOR-W4-GENERATE",
