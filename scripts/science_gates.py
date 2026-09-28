@@ -324,7 +324,8 @@ def passive_baseline(pool: str = "core48", results_dir: str = RESULTS_DIR) -> fl
 
 def skill_line_v2(batch_cells: int, pool: str = "core48", results_dir: str = RESULTS_DIR,
                   null_pool: dict | None = None,
-                  n_eff_override: int | None = None) -> dict:
+                  n_eff_override: int | None = None,
+                  passive_override: float | None = None) -> dict:
     """D1: skill_line_v2 = max(passive+0.10, mu_null + sigma_null*sqrt(2*ln N_eff)).
 
     Returns the line plus every input so batch reports can disclose the whole computation.
@@ -333,6 +334,11 @@ def skill_line_v2(batch_cells: int, pool: str = "core48", results_dir: str = RES
     (stored prev_total + batch_cells) -- the live data-driven head would
     otherwise include the batch's own echo and drift the line on redo
     (r253 single-count law: redo faces must be byte-stable).
+    passive_override (additive, REPO_CALENDAR_P2): per-cell batch-own
+    passive Sharpe -- batches whose judged cells each live on their own
+    window of the panel calendar (cell-window passives differ per cell)
+    pass each cell's own passive here; the named-pool reader stays the
+    default for every other caller (no silent cross-pool reuse).
     """
     if null_pool is None:
         null_pool = null_sharpes(results_dir)
@@ -343,7 +349,12 @@ def skill_line_v2(batch_cells: int, pool: str = "core48", results_dir: str = RES
         else n_eff(batch_cells, results_dir)
     extreme = cov["sigma"] * math.sqrt(2.0 * math.log(max(n, 2)))
     null_term = cov["mu"] + extreme
-    passive = passive_baseline(pool, results_dir)
+    if passive_override is not None:
+        passive = float(passive_override)
+        passive_source = "batch_own_per_cell"
+    else:
+        passive = passive_baseline(pool, results_dir)
+        passive_source = "pool:" + pool
     passive_term = passive + 0.10
     return {
         "n_eff": n,
@@ -353,6 +364,7 @@ def skill_line_v2(batch_cells: int, pool: str = "core48", results_dir: str = RES
         "mu_null": round(cov["mu"], 4),
         "sigma_null": round(cov["sigma"], 4),
         "pool": pool,
+        "passive_source": passive_source,
         "ledger_head": ledger_head(results_dir),
     }
 
@@ -1176,7 +1188,8 @@ def g1_prime_v2(sharpe_full, returns, batch_cells, pool: str = "core48",
                 min_trades: int = 30, ci_seed: int = 20260923,
                 results_dir: str = RESULTS_DIR,
                 null_pool: dict | None = None,
-                n_eff_override: int | None = None) -> dict:
+                n_eff_override: int | None = None,
+                passive_override: float | None = None) -> dict:
     """T-02 7/7: new-batch G1' verdict under v2 (BACKTEST_SCIENCE D1+D3).
 
     The two v2 clauses the ticket froze -- full-period Sharpe vs skill_line_v2
@@ -1188,10 +1201,14 @@ def g1_prime_v2(sharpe_full, returns, batch_cells, pool: str = "core48",
     verdict NEVER hand-copies a number (O-2250 single-source rule).
     null_pool (additive, P4_EXT_TILT): batch-own null family overrides the
     default collector — stock-domain batches calibrate their own line.
+    passive_override (additive, REPO_CALENDAR_P2): per-cell batch-own
+    passive (each judged cell on its own window of the panel calendar);
+    named-pool reader stays the default otherwise.
     """
     line = skill_line_v2(batch_cells=batch_cells, pool=pool,
                          results_dir=results_dir, null_pool=null_pool,
-                         n_eff_override=n_eff_override)
+                         n_eff_override=n_eff_override,
+                         passive_override=passive_override)
     ci = bootstrap_ci_sharpe(returns, seed=ci_seed)
     line_ok = bool(float(sharpe_full) > line["line"])
     ci_ok = bool(ci["ci_lower_bound_positive"])
