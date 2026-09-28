@@ -2,7 +2,10 @@
 
 L1 deterministic aggregator, monthly_briefing.py pattern: zero network / zero
 engine / zero token. SR1-SR5 checklist frozen v1.0 in the charter BEFORE first
-run (science_audit precedent); findings are REPORT-ONLY and never block; P0
+run (science_audit precedent); SR6 (v1.1, O-20260928-1712 sec.3 wiring)
+consumes the INCIDENT-20260928 sec.3 five 30-day zero-recurrence acceptance
+clauses via POINTER -- criteria stay frozen in the incident canon, zero
+re-legislation here. Findings are REPORT-ONLY and never block; P0
 findings auto-ticket; CEO is surfaced only for the 4 reserved items. Scores and
 judgements never gate anything here -- hr.py/science_audit.py stay the sole
 authorities in their domains; this file only aggregates existing on-disk
@@ -34,7 +37,7 @@ LEDGER = SR_DIR / "self_review_ledger.json"
 TEAM_LEDGER = SR_DIR / "team_ledger.json"
 
 CHARTER_NOTE = (
-    "判据=firm/SELF_REVIEW.md v1.0 冻结清单（SR1-SR5）；发现只报不阻断；"
+    "判据=firm/SELF_REVIEW.md v1.1 冻结清单（SR1-SR5+SR6 事故验收面）；发现只报不阻断；"
     "P0=修复单自动入队；特别重大（实盘/红线/使命/重大资源）=唯一 CEO 呈报面。"
     "本包=只读聚合台账，集团夜轮/周轮/科学审计唯一权威引用不重跑，计数单源零手抄。"
 )
@@ -51,6 +54,15 @@ def _read_json(path):
         return None
     except (json.JSONDecodeError, OSError):
         return None
+    except UnicodeDecodeError:
+        # PS-redirect writers emit UTF-16 (fffe BOM family, live-fire
+        # r401: results/_r239_*.json crash leg); same tolerance family as
+        # the utf-8-sig read above (monthly_briefing precedent).
+        try:
+            with open(path, encoding="utf-16") as f:
+                return json.load(f)
+        except (FileNotFoundError, json.JSONDecodeError, OSError, UnicodeDecodeError):
+            return None
 
 
 def _f(x, nd=4):
@@ -397,6 +409,194 @@ def sr5_resources(base, prev_entry, now=None):
     }
 
 
+# ---------------------------------------------------------------- SR6 incident
+
+# O-20260928-1712 sec.3 item-3 (CEO direct-order wiring, T-75 lane): the
+# INCIDENT-20260928 sec.3 five 30-day zero-recurrence acceptance clauses join
+# the monthly package as SR6. Criteria are FROZEN IN THE INCIDENT CANON
+# (pointer consumption here, zero re-legislation); window anchor = the order
+# issuance window 2026-09-28 17:00 (O-1710/1712 same-window).
+INCIDENT_FILE = "research/INCIDENT-20260928-cpu-idleness.md"
+SR6_ANCHOR = datetime(2026, 9, 28, 17, 0, 0)
+SR6_MANUAL_MARKERS = ("亲复", "enable+run", "手动复活", "manual resurrect")
+
+
+def _git_subjects(base, since_dt):
+    """Commit subjects ('%cI|%s') since a datetime; [] on any fault."""
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(base), "log", "--since",
+             since_dt.strftime("%Y-%m-%d %H:%M:%S"), "--pretty=format:%cI|%s"],
+            capture_output=True, text=True, encoding="utf-8", errors="replace",
+            timeout=30, check=True)
+        return out.stdout.splitlines()
+    except Exception:
+        return []
+
+
+def _incident_clauses(base):
+    """Parse sec.3 numbered acceptance clauses from the incident canon."""
+    try:
+        text = open(base / INCIDENT_FILE, encoding="utf-8").read()
+    except OSError:
+        return None
+    clauses, in_sec = [], False
+    for line in text.splitlines():
+        if line.startswith("## 三"):
+            in_sec = True
+            continue
+        if in_sec and line.startswith("## "):
+            break
+        m = re.match(r"^([1-9])\.\s+(.+)$", line.strip()) if in_sec else None
+        if m:
+            clauses.append({"n": int(m.group(1)), "text": m.group(2).strip()})
+    return clauses
+
+
+def _manual_resurrection_events(subject_lines):
+    """Pure clause-1 matcher: commit subjects carrying manual task-family
+    resurrection markers (zero-manual-intervention surveillance)."""
+    evts = []
+    for line in subject_lines:
+        try:
+            ts_s, subj = line.split("|", 1)
+        except ValueError:
+            continue
+        if any(mk.lower() in subj.lower() for mk in SR6_MANUAL_MARKERS):
+            evts.append({"ts": ts_s[:19], "subject": subj.strip()[:120]})
+    return evts
+
+
+def _gate_refusal_scan(lines):
+    """Pure clause-4 splitter: anchor-face family (same-type as the incident
+    G-VOL misconfig) vs dependency-gate family (honest context, not a
+    clause-4 violation)."""
+    anchor_family, dep_family = [], []
+    for line in lines:
+        if "面错配" in line:
+            anchor_family.append(line[:160])
+        elif "G-VOL" in line and ("FAILED" in line or "refuse" in line.lower() or "拒" in line):
+            anchor_family.append(line[:160])
+        elif "JUDGE-GATE" in line:
+            dep_family.append(line[:160])
+    return anchor_family, dep_family
+
+
+def sr6_incident_acceptance(base, now=None):
+    """30-day zero-recurrence surveillance for INCIDENT-20260928 sec.3.
+
+    L1 deterministic faces (report-only): (1) git subjects post-anchor for
+    manual task-family resurrection; (2) compute_audit ignition_sla_breach_ids
+    post-anchor; (3) supply-gap CLEAN misses post-anchor (v2.4 never-CLEAN);
+    (4) gate-refusal lines -- main autofill log (ts-gated) + per-entry runner
+    logs (mtime-gated; runner stdout carries no timestamps); (5) working-day
+    py>=70 longest/current streak vs the 3-day acceptance line.
+    """
+    now = now or datetime.now()
+    window_ends = SR6_ANCHOR + timedelta(days=30)
+    res = {"source": INCIDENT_FILE + " sec.3 (criteria frozen there, pointer)",
+           "anchor": SR6_ANCHOR.strftime("%Y-%m-%d %H:%M"),
+           "window_ends": window_ends.strftime("%Y-%m-%d"),
+           "clauses_n": 0, "faces": {}, "clause_status": []}
+    clauses = _incident_clauses(base)
+    if not clauses:
+        res["clause_status"].append(
+            {"clause": 0, "state": "SOURCE-MISSING",
+             "note": "incident canon absent/unparseable -- cannot surveil (honest miss)"})
+        return res
+    res["clauses_n"] = len(clauses)
+
+    # clause 1 -- manual task-family resurrection since anchor
+    manual = _manual_resurrection_events(_git_subjects(base, SR6_ANCHOR))
+    res["faces"]["manual_resurrection_events"] = manual
+    res["clause_status"].append(
+        {"clause": 1, "state": "PASS" if not manual else "VIOLATION",
+         "note": f"manual task-family resurrection events post-anchor: {len(manual)}"})
+
+    # clauses 2/3/5 -- compute_audit history since anchor (lane-merged face)
+    from merge_lane_views import face_view
+    ca = face_view("compute_audit", results_dir=str(base / "results")) or {}
+    post = []
+    for h in ca.get("history") or []:
+        t = _parse_ts(h.get("ts"))
+        if t is not None and t >= SR6_ANCHOR:
+            post.append(h)
+    sla = [{"ts": h.get("ts"), "ids": h.get("ignition_sla_breach_ids")}
+           for h in post if h.get("ignition_sla_breach_ids")]
+    res["faces"]["ignition_sla_breaches"] = sla
+    res["clause_status"].append(
+        {"clause": 2, "state": "PASS" if not sla else "VIOLATION",
+         "note": f"ignition SLA breaches (ready claim) post-anchor: {len(sla)}"})
+    gap_clean = [{"ts": h.get("ts"), "verdict": h.get("verdict")} for h in post
+                 if str(h.get("verdict")).upper() == "CLEAN" and h.get("supply_gap_candidate")]
+    res["faces"]["supply_gap_clean_misses"] = gap_clean
+    res["clause_status"].append(
+        {"clause": 3, "state": "PASS" if not gap_clean else "VIOLATION",
+         "note": f"supply-gap CLEAN misses post-anchor: {len(gap_clean)} (v2.4 never-CLEAN)"})
+
+    # clause 4 -- gate-refusal lines post-anchor
+    lines = []
+    logs_dir = base / "logs"
+    try:
+        for line in open(logs_dir / "autofill.log", encoding="utf-8",
+                         errors="replace").read().splitlines():
+            m = re.match(r"^(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\s", line)
+            if m:
+                t = _parse_ts(m.group(1))
+                if t is not None and t >= SR6_ANCHOR:
+                    lines.append(line)
+    except OSError:
+        pass
+    if logs_dir.exists():
+        for p in sorted(logs_dir.glob("autofill_*.log")):
+            try:
+                if p.stat().st_mtime < SR6_ANCHOR.timestamp():
+                    continue
+                lines.extend(p.read_text(encoding="utf-8", errors="replace").splitlines())
+            except OSError:
+                continue
+    anchor_fam, dep_fam = _gate_refusal_scan(lines)
+    res["faces"]["same_type_gate_refusals"] = anchor_fam[:8]
+    res["faces"]["dependency_gate_refusals_n"] = len(dep_fam)
+    res["clause_status"].append(
+        {"clause": 4, "state": "PASS" if not anchor_fam else "VIOLATION",
+         "note": (f"anchor-face same-type rejections post-anchor: {len(anchor_fam)}; "
+                  f"dependency-gate refusals (context, not violations): {len(dep_fam)}")})
+
+    # clause 5 -- working-day py>=70 streak (O-1614 3-day acceptance line)
+    day_max = {}
+    for h in post:
+        t = _parse_ts(h.get("ts"))
+        py = h.get("py_cpu_pct")
+        if t is None or t.weekday() >= 5 or not isinstance(py, (int, float)):
+            continue
+        day_max[t.date()] = max(day_max.get(t.date(), 0.0), float(py))
+    longest = cur = 0
+    for d in sorted(day_max):
+        cur = cur + 1 if day_max[d] >= 70.0 else 0
+        longest = max(longest, cur)
+    cur = 0
+    for d in sorted(day_max, reverse=True):
+        if day_max[d] >= 70.0:
+            cur += 1
+        else:
+            break
+    res["faces"]["workingday_py70"] = {
+        "days_measured": len(day_max), "longest_streak_days": longest,
+        "current_streak_days": cur,
+        "daily_max_py": {d.isoformat(): round(day_max[d], 1) for d in sorted(day_max)[-10:]}}
+    if longest >= 3:
+        c5, c5_note = "PASS", f"py>=70 working-day streak reached {longest} days (need 3)"
+    elif now > window_ends:
+        c5, c5_note = "VIOLATION", f"window ended with longest py>=70 streak {longest}/3"
+    else:
+        c5 = "PENDING"
+        c5_note = (f"in-window (ends {res['window_ends']}); longest py>=70 "
+                   f"working-day streak {longest}/3 so far")
+    res["clause_status"].append({"clause": 5, "state": c5, "note": c5_note})
+    return res
+
+
 # -------------------------------------------------------------- gather/render
 
 def gather(month, base=ROOT, now=None):
@@ -412,10 +612,17 @@ def gather(month, base=ROOT, now=None):
     sr3 = sr3_org(base, team_ledger, now)
     sr4 = sr4_process(base)
     sr5 = sr5_resources(base, prev, now)
+    sr6 = sr6_incident_acceptance(base, now)
 
     findings = list(sr4.get("findings") or [])
     for d in sr3["narrative_drift"]:
         findings.append({"check": "SR3", "severity": "P1", "text": f"law-vs-reality drift: {d}"})
+    for st in sr6.get("clause_status", []):
+        if st.get("state") == "VIOLATION":
+            sev = "P0" if st.get("clause") == 1 else "P1"
+            findings.append({"check": "SR6", "severity": sev,
+                             "text": (f"INCIDENT-20260928 sec.3 clause {st['clause']} "
+                                      f"zero-recurrence VIOLATION: {st['note']}")})
     for b in sr5["blocked_sources"]:
         if (b.get("age_min") or 0) > 60:
             findings.append({"check": "SR5", "severity": "P2",
@@ -432,7 +639,7 @@ def gather(month, base=ROOT, now=None):
 
     data = {"month": month, "generated": _fmt_ts(), "sr1": sr1, "sr2": sr2,
             "sr3": sr3, "sr4": {k: v for k, v in sr4.items() if k != "findings"},
-            "sr5": sr5, "findings": findings}
+            "sr5": sr5, "sr6": sr6, "findings": findings}
     return data, ledger, team_ledger
 
 
@@ -473,6 +680,22 @@ def render(d):
     bl = ", ".join(f"{b['file']}（{b['mode']}，{b['age_min']}min）" for b in s5["blocked_sources"]) or "无"
     L.append(f"- 阻断/停泊源：{bl}")
     L.append("")
+    s6 = d["sr6"]
+    L.append(f"## SR6 事故防复现验收面（INCIDENT-20260928 §三·O-1712 接线·窗至 {s6['window_ends']}）")
+    L.append(f"- 条款来源：{s6['source']}（{s6['clauses_n']} 条指针消费·判据不在本册复制）")
+    for st in s6.get("clause_status", []):
+        L.append(f"- 条款 {st['clause']}：{st['state']} —— {st['note']}")
+    f6 = s6.get("faces", {})
+    mr = f6.get("manual_resurrection_events") or []
+    if mr:
+        L.append(f"- 人工复活事件明细（前 3）：{json.dumps(mr[:3], ensure_ascii=False)}")
+    sg = f6.get("same_type_gate_refusals") or []
+    if sg:
+        L.append(f"- 同型门拒明细（前 3）：{json.dumps(sg[:3], ensure_ascii=False)}")
+    w70 = f6.get("workingday_py70") or {}
+    if w70:
+        L.append(f"- py≥70 工作日线（日最大·近 {len(w70.get('daily_max_py') or {})} 日）：{json.dumps(w70.get('daily_max_py'), ensure_ascii=False)}")
+    L.append("")
     L.append("## 发现（只报不阻断）")
     if d["findings"]:
         for f_ in d["findings"]:
@@ -502,6 +725,8 @@ def cmd_run(month):
     entry = {"month": month, "generated": data["generated"],
              "findings_n": len(data["findings"]),
              "findings": [f["text"] for f in data["findings"]],
+             "sr6_violations": sum(1 for st in data["sr6"].get("clause_status", [])
+                                   if st.get("state") == "VIOLATION"),
              "codely_bytes": data["sr5"]["codely_bytes"],
              "token_state_est": data["sr5"]["token_state_est"],
              "engine_n": data["sr2"]["engine_ledger"]["total"],
@@ -609,6 +834,64 @@ def cmd_selftest():
         s5 = sr5_resources(td, None, now=datetime(2026, 9, 24, 11, 0, 0))
         check("SR5 blocked source aged", s5["blocked_sources"] and s5["blocked_sources"][0]["age_min"] == 180.0)
         check("SR5 token est read", s5["token_state_est"] == 110000)
+        # 6b SR6 incident acceptance (O-20260928-1712 wiring)
+        (td / "research").mkdir(parents=True, exist_ok=True)
+        _atomic_write(td / "research" / "INCIDENT-20260928-cpu-idleness.md",
+                      "# INCIDENT\n\n## 一、时间线\n\n## 三、防复现验收（30 天零复现条款·入月度自审包盯梢）\n\n"
+                      "1. 任务族死亡：Watchdog 自愈响应≤15 分钟，30 天内人工介入复活任务=0 例为过；\n"
+                      "2. 点火 SLA：ready 批认领≤10 分钟（D2 后≤60 秒），30 天超时=0 例为过；\n"
+                      "3. supply-gap CLEAN 漏报：30 天=0 例（v2.4 已杜绝·抽验）；\n"
+                      "4. 锚面错配烧批死亡：新预注册 100% 带面定义四元组，30 天同型拦截=0 例为过；\n"
+                      "5. 工作时段三机 py≥70% 连续 3 日=满载机制成立验收（O-1614 线）。\n\n## 四、结语\n")
+        cl6 = _incident_clauses(td)
+        check("SR6 clause parsing (5 numbered)", cl6 and len(cl6) == 5 and cl6[0]["n"] == 1
+              and "Watchdog" in cl6[0]["text"])
+        ev6 = _manual_resurrection_events([
+            "2026-09-28T18:00:00+08:00|round X: task Disabled, GM 亲复 enable+run",
+            "2026-09-28T18:05:00+08:00|round Y: routine digest (no marker)"])
+        check("SR6 manual-resurrection matcher (pure)",
+              len(ev6) == 1 and "亲复" in ev6[0]["subject"])
+        af6, df6 = _gate_refusal_scan([
+            "GENERATE-GATE: G-VOL probe anchors FAILED on the core48 face -- refuse (prereg sec.2 fail-closed)",
+            "JUDGE-GATE: judge_state.json absent -- judge-prep + screen-finalize required first",
+            "2026-09-28 18:00:00 INFO: unrelated tick line"])
+        check("SR6 gate-refusal splitter (anchor vs dep family)",
+              len(af6) == 1 and "G-VOL" in af6[0] and len(df6) == 1)
+        res6 = td / "results"
+        _atomic_write(res6 / "compute_audit.json", json.dumps({
+            "latest": {"cpu_total_pct": 10.0, "flags": []},
+            "history": [
+                {"ts": "2026-09-28 16:00:00", "verdict": "CLEAN", "supply_gap_candidate": True,
+                 "ignition_sla_breach_ids": [], "py_cpu_pct": 10.0},
+                {"ts": "2026-09-28 18:00:00", "verdict": "CLEAN", "supply_gap_candidate": True,
+                 "ignition_sla_breach_ids": ["X-1"], "py_cpu_pct": 72.0},
+                {"ts": "2026-09-29 18:10:00", "verdict": "FLAG:x", "supply_gap_candidate": True,
+                 "ignition_sla_breach_ids": [], "py_cpu_pct": 80.0},
+                {"ts": "2026-09-30 18:20:00", "verdict": "FLAG:y", "supply_gap_candidate": False,
+                 "ignition_sla_breach_ids": [], "py_cpu_pct": 30.0}]}))
+        (td / "logs").mkdir(exist_ok=True)
+        _atomic_write(td / "logs" / "autofill.log",
+                      "2026-09-28 16:59:00 JUDGE-GATE: pre-anchor line (excluded)\n"
+                      "2026-09-28 18:01:00 JUDGE-GATE: judge_state.json absent -- context\n")
+        pe6 = td / "logs" / "autofill_E1.log"
+        _atomic_write(pe6, "GENERATE-GATE: G-VOL probe anchors FAILED on the core48 face -- refuse\n")
+        import os as _os
+        _os.utime(pe6, (1790590000.0, 1790590000.0))  # ~2026-09-28 18:06 local, post-anchor
+        s6 = sr6_incident_acceptance(td, now=datetime(2026, 9, 30, 21, 0, 0))
+        st6 = {x["clause"]: x["state"] for x in s6["clause_status"]}
+        check("SR6 c1 PASS (no manual events in tmp tree)",
+              st6.get(1) == "PASS" and s6["faces"]["manual_resurrection_events"] == [])
+        check("SR6 c2 VIOLATION (post-anchor SLA breach)",
+              st6.get(2) == "VIOLATION" and s6["faces"]["ignition_sla_breaches"][0]["ids"] == ["X-1"])
+        check("SR6 c3 VIOLATION (pre-anchor CLEAN excluded, post-anchor caught)",
+              st6.get(3) == "VIOLATION" and len(s6["faces"]["supply_gap_clean_misses"]) == 1)
+        check("SR6 c4 VIOLATION (per-entry mtime gate catches G-VOL, main-log ts gate dep family)",
+              st6.get(4) == "VIOLATION" and len(s6["faces"]["same_type_gate_refusals"]) == 1
+              and s6["faces"]["dependency_gate_refusals_n"] == 1)
+        w70 = s6["faces"]["workingday_py70"]
+        check("SR6 c5 PENDING (longest 2/3, current 0 broken by latest day)",
+              st6.get(5) == "PENDING" and w70["longest_streak_days"] == 2
+              and w70["current_streak_days"] == 0 and w70["days_measured"] == 3)
         # 7 full gather + determinism
         d1, led, tld = gather("202609", base=td, now=datetime(2026, 9, 24, 11, 0, 0))
         r1 = render(d1)
@@ -619,7 +902,7 @@ def cmd_selftest():
               any(f["check"] == "SR4" for f in d1["findings"]) and
               any(f["check"] == "SR5" for f in d1["findings"]))
         check("token red flag finding (>=1 real class)", any("token red flag" in f["text"] for f in d1["findings"]))
-        check("markdown rendered", f"SELF-REVIEW-202609" in r1 and "SR5" in r1)
+        check("markdown rendered", f"SELF-REVIEW-202609" in r1 and "SR5" in r1 and "SR6" in r1)
     print(f"selftest: {ok}/{total} PASS")
     return 0 if ok == total else 2
 

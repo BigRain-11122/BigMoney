@@ -1,8 +1,9 @@
-# Bigmoney 周期性自审机制 SELF_REVIEW（v1.0 · 2026-09-24 · CEO 令 O-20260924-1110）
+# Bigmoney 周期性自审机制 SELF_REVIEW（v1.1 · 2026-09-24 · CEO 令 O-20260924-1110）
 
 > **定位**：公司级周期性自我审查——常态机制非 CEO 令驱动；「我不复盘，全部自动化」（O-2205）的组织面延伸。审查由公司自己做、自己报、自己修；CEO 只在特别重大时被呈报。
 > **薄法指针**：科学判据月审唯一权威=`research/BACKTEST_SCIENCE.md` §7-M（本册只引用不复制）；集团层信号面（幻觉扫描/法熵/资源水位）=集团夜轮+周进化轮+retention-scan（引用不重跑）；升呈通道=`HQ-FEEDBACK.md`（跨层机制类）。
 > **诚实律**：判据先写死后首跑（science_audit 先例）；自审永不给自己放水——发现只报不阻断；跑后禁调判据（改动=T2+7 天否决窗）。
+> **changelog**：v1.1（2026-09-28·r401 bm-a）增 **SR6 事故验收面**——CEO 直令 O-20260928-1712 §三第三项派工（总经办 T-75 接线行）；SR 清单改动=T2 级+7 天否决窗（至 2026-10-05，CEO 一句话可废）；条款判据冻结于 `research/INCIDENT-20260928-cpu-idleness.md` §三本体（指针消费零重立），非看结果调线（窗前立法先例）。v1.0 五检（SR1-SR5）逐字不动。
 
 ## 一、节律（三层）
 
@@ -19,6 +20,7 @@
 - **SR3 组织面**：①法件实况对账——org_chart/OPERATING_PLAN 叙述（机器数/在册数/部门数）vs `fleet/machines/*.json`+`firm/traders/` 实况（O-20260924-1045「双机漂移」案的反向机械化）；②团队交付台账——org_chart v3 十一团队 last_delivery 对 90 天反镀金律（临期 30 天预警）。
 - **SR4 流程面**：①票据板 aging（open>72h/claimed>24h 释放条款核对·FLEET-OPS §5）；②令牌 ack 差集（orders_diff 复跑）；③周期任务重复检测（同窗多机维护提交扫描——F-09 家族探测）；④C2 锁盒违规趋势（science_audit history 聚合）。
 - **SR5 资源面**：①token_usage 增量+CODELY.md 体积趋势（F-07/F-10 水位月度快照）；②compute_audit 旗摘要；③数据源 blocked 时长（P-B/moneyflow 类 parked 天数）。
+- **SR6 事故验收面**（v1.1·O-20260928-1712 §三 接线）：`INCIDENT-20260928-cpu-idleness.md` §三五条款 30 天零复现验收盯梢（窗至 2026-10-28）——判据冻结于复盘件本体（指针消费零复制）；五面=①人工复活事件（git 主题扫·0 例为过）②点火 SLA 违约（audit `ignition_sla_breach_ids`·0 例为过）③supply-gap CLEAN 漏报（v2.4 never-CLEAN 抽验·0 例为过）④锚面同型门拒（autofill 日志扫：主日志 ts 门+per-entry mtime 门·0 例为过）⑤工作日 py≥70 连续 3 日线（O-1614 验收）；发现只报不阻断，条款 1 违约=P0 修复单（事故类复发）。
 
 **季度深审**=法熵审视（RULES §5 既有）+全盘梳理复跑（团队/流程/资源三问·以 `research/AUDIT-20260924-ORG.md` 为活底册：三问复检+上批修复回访+OPERATING_PLAN 滚动修订）+代码抽查（AUDIT-20260923 P0/P1 复发面扫描）。
 

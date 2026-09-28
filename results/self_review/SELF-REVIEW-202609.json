@@ -1,13 +1,13 @@
 {
  "month": "202609",
- "generated": "2026-09-24 11:07:19",
+ "generated": "2026-09-28 17:45:45",
  "sr1": {
   "source": "results/science_audit.json (reference only)",
-  "generated": "2026-09-24 08:20:45",
-  "ledger_head_total": 3041,
+  "generated": "2026-09-24 13:57:18",
+  "ledger_head_total": 3077,
   "checks_total": 6,
   "checks_non_ok": [],
-  "history_runs": 7,
+  "history_runs": 8,
   "c2_violation_trend": [
    1,
    0,
@@ -15,66 +15,91 @@
    0,
    0,
    1,
+   0,
    0
   ]
  },
  "sr2": {
-  "traders_n": 6,
+  "traders_n": 28,
   "traders_ids": [
    "COMPOSITE-CE-01",
    "COMPOSITE-CE-02",
    "DROUGHT-CE-01",
    "ENGULF-CE-01",
    "NEEDLE-DE-01",
+   "PROS-ANTS-01",
+   "PROS-ANTS-CE-01",
+   "PROS-BBS-01",
+   "PROS-BBS-CE-01",
+   "PROS-DOJI-01",
+   "PROS-DOJI-CE-01",
+   "PROS-DUCK-01",
+   "PROS-DUCK-CE-01",
+   "PROS-HAM-01",
+   "PROS-HAM-CE-01",
+   "PROS-IBB-01",
+   "PROS-IBB-CE-01",
+   "PROS-IMM-01",
+   "PROS-IMM-CE-01",
+   "PROS-MCB-01",
+   "PROS-MCB-CE-01",
+   "PROS-OVB-01",
+   "PROS-OVB-CE-01",
+   "PROS-RSRS-CE-01",
+   "PROS-TMU-01",
+   "PROS-TMU-CE-01",
+   "PROS-VOB-CE-01",
    "VOLATILITY-CE-01"
   ],
   "engine_ledger": {
-   "total": 5539,
-   "file": "j13v2_mill_ic1.json"
+   "total": 286551,
+   "file": "sina_construct_p1.json"
   },
   "factor_ledger": {
-   "total": 3041,
-   "file": "shortline_cta_p2_noau.json"
+   "total": 183030,
+   "file": "shortline_cta_wave1.json"
   },
   "paper": [
    {
     "id": "COMPOSITE-CE-01",
     "months": 0,
-    "bars": 1
+    "bars": 2
    },
    {
     "id": "COMPOSITE-CE-02",
     "months": 0,
-    "bars": 1
+    "bars": 2
    },
    {
     "id": "DROUGHT-CE-01",
     "months": 0,
-    "bars": 1
+    "bars": 2
    },
    {
     "id": "ENGULF-CE-01",
     "months": 0,
-    "bars": 1
+    "bars": 2
    },
    {
     "id": "NEEDLE-DE-01",
     "months": 0,
-    "bars": 1
+    "bars": 2
    },
    {
     "id": "VOLATILITY-CE-01",
     "months": 0,
-    "bars": 1
+    "bars": 2
    }
   ],
   "portfolio_ew6_sharpe": null,
   "portfolio_iv6_sharpe": null,
   "scorecard_best": {
-   "id": "DROUGHT-CE-01",
+   "id": "VOLATILITY-CE-01",
    "grade": "S",
-   "total": 88.64
-  }
+   "total": 87.05
+  },
+  "three_card_calibrated": true,
+  "three_card_vetoes": 0
  },
  "sr3": {
   "machines": [
@@ -82,9 +107,11 @@
    "bm-b",
    "bm-c"
   ],
-  "traders_n": 6,
+  "traders_n": 28,
   "teams_n": 11,
-  "narrative_drift": [],
+  "narrative_drift": [
+   "roster: narrative [2, 3, 6] vs actual 28 (六员, 六员, 3 员)"
+  ],
   "team_ledger_states": [
    {
     "team": "组合构建团队",
@@ -183,38 +210,525 @@
    },
    {
     "id": "T-2026-09-24-08",
-    "status": "open",
+    "status": "done",
     "age_h": null
    },
    {
     "id": "T-2026-09-24-09",
-    "status": "open",
+    "status": "done",
     "age_h": null
    },
    {
     "id": "T-2026-09-24-10",
-    "status": "open",
+    "status": "done",
     "age_h": null
    },
    {
     "id": "T-2026-09-24-11",
-    "status": "open",
+    "status": "done",
     "age_h": null
    },
    {
     "id": "T-2026-09-24-12",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-13",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-14",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-15",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-16",
     "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-17",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-18",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-19",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-20",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-21",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-22",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-23",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-24",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-25",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-26",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-27",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-28",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-29",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-30",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-31",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-32",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-33",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-34",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-35",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-36",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-37",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-24-38",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-39",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-40",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-41",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-42",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-43",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-44",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-45",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-46",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-47",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-48",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-49",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-50",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-51",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-52",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-53",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-54",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-55",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-56",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-57",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-58",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-59",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-60",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-61",
+    "status": "done",
+    "age_h": 75.5
+   },
+   {
+    "id": "T-2026-09-25-62",
+    "status": "done",
+    "age_h": 71.9
+   },
+   {
+    "id": "T-2026-09-25-63",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-64",
+    "status": "claimed",
+    "age_h": 71.1
+   },
+   {
+    "id": "T-2026-09-25-65",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-25-66",
+    "status": "claimed",
+    "age_h": 69.3
+   },
+   {
+    "id": "T-2026-09-25-67",
+    "status": "claimed",
+    "age_h": 68.3
+   },
+   {
+    "id": "T-2026-09-25-68",
+    "status": "claimed",
+    "age_h": 68.0
+   },
+   {
+    "id": "T-2026-09-25-69",
+    "status": "done",
+    "age_h": 66.7
+   },
+   {
+    "id": "T-2026-09-26-70",
+    "status": "claimed",
+    "age_h": 65.5
+   },
+   {
+    "id": "T-2026-09-26-71",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-72",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-73",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-74",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-75",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-76",
+    "status": "claimed",
+    "age_h": 56.3
+   },
+   {
+    "id": "T-2026-09-26-77",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-78",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-79",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-80",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-81",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-82",
+    "status": "done",
+    "age_h": 50.4
+   },
+   {
+    "id": "T-2026-09-26-83",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-84",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-85",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-86",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-87",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-88",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-26-89",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-27-90",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-27-91",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-27-92",
+    "status": "done",
+    "age_h": 32.2
+   },
+   {
+    "id": "T-2026-09-27-93",
+    "status": "done",
+    "age_h": 30.8
+   },
+   {
+    "id": "T-2026-09-27-94",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-27-95",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-100",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-101",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-102",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-103",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-104",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-105",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-106",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-107",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-108",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-109",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-96",
+    "status": "done",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-97",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-98",
+    "status": "claimed",
+    "age_h": null
+   },
+   {
+    "id": "T-2026-09-28-99",
+    "status": "done",
     "age_h": null
    }
   ],
   "ack_missing": {
-   "bm-a": [
-    "O-20260924-1045",
-    "O-20260924-1110"
-   ],
    "bm-b": [
-    "O-20260924-1045",
-    "O-20260924-1110"
+    "O-20260928-1555",
+    "O-20260928-1605",
+    "O-20260928-1614",
+    "O-20260928-1625",
+    "O-20260928-1630",
+    "O-20260928-1640",
+    "O-20260928-1655",
+    "O-20260928-1712"
    ]
   },
   "duplicate_windows": [
@@ -249,39 +763,254 @@
    [
     "2026-09-24 10:30",
     "{'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-24 14:00",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-24 21:30",
+    "{'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-25 00:00",
+    "{'bm-b', 'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-25 13:30",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-25 23:30",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-26 05:30",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-26 10:00",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-26 19:00",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-27 01:30",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-27 06:00",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-27 10:30",
+    "{'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-27 11:30",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-27 13:00",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-27 16:30",
+    "{'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-27 17:30",
+    "{'bm-b', 'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-27 18:00",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-27 20:00",
+    "{'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-28 04:30",
+    "{'bm-a', 'bm-c'}"
+   ],
+   [
+    "2026-09-28 07:30",
+    "{'bm-a', 'bm-b'}"
+   ],
+   [
+    "2026-09-28 11:30",
+    "{'bm-c', 'bm-b'}"
+   ],
+   [
+    "2026-09-28 17:00",
+    "{'bm-a', 'bm-c'}"
    ]
   ]
  },
  "sr5": {
-  "token_state_est": 1911,
+  "token_state_est": 2049,
   "token_delta_vs_prev": {
-   "prev_generated": "2026-09-24 10:14:55",
-   "state_tokens_growth": -8,
-   "report_tokens_growth": 453,
+   "prev_generated": "2026-09-28 17:09:46",
+   "state_tokens_growth": 0,
+   "report_tokens_growth": 1082,
    "mandate_growth": 0
   },
-  "codely_bytes": 408219,
+  "codely_bytes": 4795,
   "codely_bytes_delta_vs_prev": null,
-  "compute_flags": [],
-  "compute_cpu_pct": 48.0,
+  "compute_flags": [
+   "supply_gap",
+   "supply_floor"
+  ],
+  "compute_cpu_pct": 59.0,
   "blocked_sources": [
    {
     "file": "moneyflow_update_status.json",
     "mode": "refresh source-blocked (connection-level)",
-    "age_min": 36.2
+    "age_min": 23.9
+   }
+  ]
+ },
+ "sr6": {
+  "source": "research/INCIDENT-20260928-cpu-idleness.md sec.3 (criteria frozen there, pointer)",
+  "anchor": "2026-09-28 17:00",
+  "window_ends": "2026-10-28",
+  "clauses_n": 5,
+  "faces": {
+   "manual_resurrection_events": [],
+   "ignition_sla_breaches": [],
+   "supply_gap_clean_misses": [],
+   "same_type_gate_refusals": [],
+   "dependency_gate_refusals_n": 2,
+   "workingday_py70": {
+    "days_measured": 1,
+    "longest_streak_days": 0,
+    "current_streak_days": 0,
+    "daily_max_py": {
+     "2026-09-28": 2.7
+    }
+   }
+  },
+  "clause_status": [
+   {
+    "clause": 1,
+    "state": "PASS",
+    "note": "manual task-family resurrection events post-anchor: 0"
+   },
+   {
+    "clause": 2,
+    "state": "PASS",
+    "note": "ignition SLA breaches (ready claim) post-anchor: 0"
+   },
+   {
+    "clause": 3,
+    "state": "PASS",
+    "note": "supply-gap CLEAN misses post-anchor: 0 (v2.4 never-CLEAN)"
+   },
+   {
+    "clause": 4,
+    "state": "PASS",
+    "note": "anchor-face same-type rejections post-anchor: 0; dependency-gate refusals (context, not violations): 2"
+   },
+   {
+    "clause": 5,
+    "state": "PENDING",
+    "note": "in-window (ends 2026-10-28); longest py>=70 working-day streak 0/3 so far"
    }
   ]
  },
  "findings": [
   {
    "check": "SR4",
-   "severity": "P1",
-   "text": "orders_ack diff non-empty on bm-a: O-20260924-1045, O-20260924-1110"
+   "severity": "P2",
+   "text": "ticket T-2026-09-24-17 claimed >24h (98.0h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-24-29 claimed >24h (95.9h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-24-36 claimed >24h (93.1h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-24-37 claimed >24h (92.6h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-54 claimed >24h (78.5h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-56 claimed >24h (78.2h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-58 claimed >24h (78.0h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-59 claimed >24h (78.0h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-60 claimed >24h (78.0h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-63 claimed >24h (71.7h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-64 claimed >24h (71.1h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-66 claimed >24h (69.3h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-67 claimed >24h (68.0h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-25-68 claimed >24h (67.8h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-26-70 claimed >24h (65.5h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-26-76 claimed >24h (56.3h) -> release-clause check"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "ticket T-2026-09-27-91 claimed >24h (32.7h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P1",
-   "text": "orders_ack diff non-empty on bm-b: O-20260924-1045, O-20260924-1110"
+   "text": "orders_ack diff non-empty on bm-b: O-20260928-1555, O-20260928-1605, O-20260928-1614, O-20260928-1625, O-20260928-1630, O-20260928-1640, O-20260928-1655, O-20260928-1712"
   },
   {
    "check": "SR4",
@@ -324,9 +1053,114 @@
    "text": "same-window periodic maintenance by 2 machines at 2026-09-24 10:30 (F-09 family): bm-a, bm-c"
   },
   {
-   "check": "SR5",
+   "check": "SR4",
    "severity": "P2",
-   "text": "CODELY.md size 408219 bytes >400KB (F-07 hot-layer growth)"
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-24 14:00 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-24 21:30 (F-09 family): bm-a, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 3 machines at 2026-09-25 00:00 (F-09 family): bm-a, bm-b, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-25 13:30 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-25 23:30 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-26 05:30 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-26 10:00 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-26 19:00 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 01:30 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 06:00 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 10:30 (F-09 family): bm-a, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 11:30 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 13:00 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 16:30 (F-09 family): bm-a, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 3 machines at 2026-09-27 17:30 (F-09 family): bm-a, bm-b, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 18:00 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-27 20:00 (F-09 family): bm-a, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-28 04:30 (F-09 family): bm-a, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-28 07:30 (F-09 family): bm-a, bm-b"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-28 11:30 (F-09 family): bm-b, bm-c"
+  },
+  {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-09-28 17:00 (F-09 family): bm-a, bm-c"
+  },
+  {
+   "check": "SR3",
+   "severity": "P1",
+   "text": "law-vs-reality drift: roster: narrative [2, 3, 6] vs actual 28 (六员, 六员, 3 员)"
   }
  ]
 }

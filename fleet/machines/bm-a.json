@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T17:27:46+08:00",
- "current_task": "round-closed R400 (5x HANDOVER check + T-102 lane-2 institutional digest); active lanes T-102/T-109; W4-JUDGE judge-prep = bm-b physical dep watch",
+ "last_seen": "2026-09-28T17:50:41+08:00",
+ "current_task": "round-closed R401 (T-75 SR6 incident-acceptance wiring delivered, 10-01 due met early); active lanes T-102/T-109; W4-JUDGE judge-prep = bm-b physical dep + crash-fuse unblock pointer recorded in T-98",
  "cpu_cores": 32,
- "cpu_pct": 15.9,
+ "cpu_pct": 71.0,
  "free_ram_gb": 40.1,
  "gpu_free_vram_gb": 5.5,
- "verdict": "red lane = runnable-work-idle-low-cpu structural: ALL remaining pool work physically pinned on bm-b (W4-JUDGE judge-prep deep-panel leg F-04 MSG-1712 dispatched r399; V2-P1/V3 need t34 curves+deep panel, bm-a exit-2 wall in record 01:10/01:20); bm-b stalled ~95min (r391 in-flight: W3 finalize/intake landed 16:02, V2-P1 shard claim 16:18:31 unignited) = legal physical wait, no takeover possible; supply-floor fix = T-107/108 bm-c in build (D2 resident dispatcher); T-102 digest research = this round CPU-free carrier",
+ "verdict": "green lane py_low_with_work_cands legal-physical: probe 17:47 py 12.2% but ALL remaining pool work bm-b-pinned (V2-P1 ready owner=bm-b + W4-JUDGE waiting judge-prep dep + V3 t34 curves) + bm-b stall ~113min (15:48 last_seen, GM remote-heal impossible, disclosed R400 + this round) + supply engineering T-107/108 bm-c in-flight = no takeable shard on bm-a; this-round carrier = T-75 SR6 wiring (CPU-free closure)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -122,10 +122,12 @@
   "O-20260928-1630-bm-a.md",
   "O-20260928-1640-bm-a.md",
   "O-20260928-1655-bm-a.md",
-  "O-20260928-1712-bm-a.md"
+  "O-20260928-1712-bm-a.md",
+  "O-20260928-1716-bm-a.md",
+  "O-20260928-1750-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790587666,
- "clock_read": "2026-09-28T17:27:46+08:00",
+ "heartbeat_epoch_utc": 1790589041,
+ "clock_read": "2026-09-28T17:50:41+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 5.5,
@@ -136,7 +138,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 400,
+ "round_no": 401,
  "gpu_idle_vram_mb": 5629,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 57.8,
@@ -151,6 +153,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 400,
- "loop_round": 400
+ "round": 401,
+ "loop_round": 401
 }
