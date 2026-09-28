@@ -13,11 +13,22 @@ v1.1 (r391 bm-b, O-20260928-1555 + O-20260928-1605):
     (bm-c, in build) -- until that face lands the row honestly reads
     "quantification in flight"; face wiring = v1.2 on T-106 artifact.
 
+v1.2 (r190 bm-c, T-106 s4 universe-face wiring -- the promised hook):
+  - national-team row now DERIVED from landed T-106 artifacts (no more
+    placeholder): s2 selection verdict (name-matched annual top-10 nominal
+    pcts, per-ETF control band) + s3 event-window review (segment share
+    fingerprints + honest zero-cell verdict).
+  - s4 signal face = honest negative (s3 zero cells: point announcements
+    unverifiable in dead external window, segment return_cells=0,
+    N_eff=0) -> NO tournament v4+ arm; universe-face annotation only.
+
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
   - results/paper_export/latest.json     (T-35 d3: 6 traders positions/capital)
   - results/portfolio_blend_tournament.json (T-27: B_MAXDIV champion weights)
   - research/DECISION_CHAIN_LEDGER.md    (version banner rows, auto-derived)
+  - results/national_team/s2_selection_verdict.json  (T-106 s2, e_cut 08-31)
+  - results/national_team/s3_event_review.json       (T-106 s3, e_cut 09-24)
 
 Output: docs/live_usage/LIVE-YYYYMMDD.md + .json twin.  Same-day reruns
 regenerate in place (idempotent); other days are never touched
@@ -40,6 +51,10 @@ PAPER_LATEST = os.path.join(ROOT, "results", "paper_export", "latest.json")
 BLEND_JSON = os.path.join(ROOT, "results",
                           "portfolio_blend_tournament.json")
 LEDGER_MD = os.path.join(ROOT, "research", "DECISION_CHAIN_LEDGER.md")
+NT_S2_VERDICT = os.path.join(ROOT, "results", "national_team",
+                             "s2_selection_verdict.json")
+NT_S3_REVIEW = os.path.join(ROOT, "results", "national_team",
+                            "s3_event_review.json")
 OUT_DIR = os.path.join(ROOT, "docs", "live_usage")
 
 # Position ladder, v2 frozen canonical (DECISION_CHAIN v2 prereg, adopted
@@ -86,6 +101,59 @@ def _classify(code: str) -> str:
     if code.startswith(BOND_PREFIX):
         return "债券ETF（非宽基研究宇宙）"
     return "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）"
+
+
+def _national_team_face() -> dict:
+    """T-106 s4 universe face (v1.2): derive the CEO row from landed
+    artifacts -- s2 name-matched annual disclosure pcts + s3 segment
+    fingerprints + honest zero-cell signal verdict.  Plain-language
+    law (O-20260927-2245): no jargon, numbers first."""
+    v = _read_json(NT_S2_VERDICT)
+    s3 = _read_json(NT_S3_REVIEW)
+    subset = list(v["subset"])                      # frozen s2 verdict
+    per = v["per_etf"]
+    nom = {c: per[c]["nt_combined_pct"] for c in subset}
+    # latest segment fingerprint = 2026H1 exodus (share-face direction)
+    seg = s3.get("segment_share_fingerprints", {})
+    exo = seg.get("NT-2026H1-EXODUS", {})
+    exo_510300 = exo.get("510300") or {}
+    exo_delta = exo_510300.get("delta")
+    zero_cell = (s3.get("n_cells", -1) == 0 and s3.get("n_eff", -1) == 0)
+    if subset and all(nom[c] >= 80 for c in subset) and zero_cell:
+        status = "存量高控·近期无已验证增持动作"
+    else:                                          # honest fallback, no invented verdict
+        status = "读数异构·见依据行（禁编造当值判读）"
+    basis = (
+        f"最新年报 top-10 名义持仓（T-106 s2·证据截至 {v['evidence_cutoff']}）："
+        f"汇金两司合计 沪深300={nom.get('510300', 0)}%、"
+        f"上证50={nom.get('510050', 0)}%（extreme 控盘带·>=20% 披露表佐证）；"
+        "2026 上半年份额段指纹=区间净撤离（T-106 s3 EXODUS 段：510300 "
+        f"{exo_delta / 1e8:.0f} 亿份·证据截至 {s3.get('evidence_cutoff')}）；"
+        "增持公告面=外网窗口全灭·零已验证新增动作。"
+        "白话：国家队年报纸面还握大头，但上半年份额在退，也没有可信的新买公告"
+    )
+    return {
+        "status": status,
+        "basis": basis,
+        "face_source": "T-106 s2+s3 landed artifacts (owner bm-c)",
+        "s2_evidence_cutoff": v["evidence_cutoff"],
+        "s3_evidence_cutoff": s3.get("evidence_cutoff"),
+        "supported_subset": subset,
+        "nominal_pct": nom,
+        "per_etf_band": {c: per[c]["kongpan_band"] for c in v["universe"]},
+        "understated_note": "510500=75.58% heavy、512100=86.43% extreme："
+                            "第二层持仓实测高于 CEO 两层命名暗示（UNDERSTATED"
+                            "如实注记）；588000=0 名义缺席；159915=54.03% 非 CEO "
+                            "点名员",
+        "signal_face": {
+            "verdict": "not_supported（诚实判负）",
+            "basis": "T-106 s3 事件窗复盘=零格（点事件公告面外网不可达→冻结条款"
+                     "转段级；段级 return_cells=0·N_eff=0·账本 +0）——无『跟国家"
+                     "队』可交易边缘证据 → 不开锦标赛 v4+ 臂，一页纸只挂宇宙面"
+                     "标注（s4 spec 证据门控 IF-not 路径）",
+            "universe_face_only": True,
+        },
+    }
 
 
 def _version_banner() -> list:
@@ -158,7 +226,7 @@ def build_payload(day: str) -> dict:
         })
 
     return {
-        "schema": "ceo_live_usage_v1_1",
+        "schema": "ceo_live_usage_v1_2",
         "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
@@ -173,15 +241,7 @@ def build_payload(day: str) -> dict:
             "bench_ma200": regime.get("dims", {}).get("bench", {})
                             .get("ma200"),
         },
-        "national_team": {
-            "status": "中性（量化采集进行中）",
-            "basis": "T-106 控盘度量化面在建（O-20260928-1540 令 + "
-                     "O-20260928-1605 升格：份额异动+持仓披露差分+事件台账"
-                     "+舆论新闻面四面）；本行=T-105 状态行占位诚实律——"
-                     "face 落地前禁编造当值判读，v1.2 接线实测读数",
-            "face_source": "T-106 s1 control-degree quantification "
-                           "(owner bm-c, in build)",
-        },
+        "national_team": _national_team_face(),
         "ladder": {
             "rungs": [{"state": n, "cap": c, "note": d}
                       for n, c, d in LADDER],
@@ -204,6 +264,8 @@ def build_payload(day: str) -> dict:
             "研究宇宙=五员宽基定谳（O-20260928-1555）：第一层 上证50/沪深300"
             "（汇金高度控盘）·第二层 中证500/中证1000/科创50；创业板指出列，"
             "行业/主题/跨境/债券/黄金维持排除；",
+            "国家队标注=T-106 s4 宇宙面（实测年报名义持仓+2026H1 撤离段指纹）；"
+            "跟队信号面按 s3 诚实判负只挂标注，不产生交易指令；",
             "数据口径=最近收盘 bar（asof 见上），日内刷新=v1.1（T-104 实时源"
             "落地后）。",
         ],
@@ -215,7 +277,7 @@ def render_md(p: dict) -> str:
     L = []
     L.append(f"# CEO 实盘使用一页纸 · {p['day']}")
     L.append("")
-    L.append(f"> 自动生成 {p['generated']} · T-105 v1.1 · "
+    L.append(f"> 自动生成 {p['generated']} · T-105 v1.2 · "
              "纯聚合面（零新判据）· [版本台账]"
              "(../../research/DECISION_CHAIN_LEDGER.md)")
     L.append("")
@@ -230,6 +292,12 @@ def render_md(p: dict) -> str:
                 < (m['bench_ma200'] or 0) else "（熔断线之上）"))
     nt = p["national_team"]
     L.append(f"- **国家队状态：{nt['status']}** · 依据：{nt['basis']}")
+    L.append(f"  - 宇宙面注记（T-106 s4）：已验证高控两员="
+             f"{'、'.join(nt['supported_subset'])}"
+             f"（名义 {('、'.join(f'{c}={nt['nominal_pct'][c]}%' for c in nt['supported_subset']))}）；"
+             f"{nt['understated_note']}")
+    L.append(f"  - 跟队信号面：{nt['signal_face']['verdict']}——"
+             f"{nt['signal_face']['basis']}")
     L.append("")
     L.append("## ② 仓位指令（阶梯总帽）")
     L.append("")
@@ -331,7 +399,16 @@ def selftest() -> int:
     check("national-team status row present (O-1605)",
           p1["national_team"]["status"]
           and p1["national_team"]["basis"])
-    check("schema v1.1", p1["schema"] == "ceo_live_usage_v1_1")
+    check("national-team face DERIVED (v1.2, not placeholder)",
+          p1["national_team"]["face_source"]
+          .startswith("T-106 s2+s3 landed artifacts")
+          and p1["national_team"]["supported_subset"]
+          == ["510300", "510050"]
+          and p1["national_team"]["nominal_pct"]["510300"] == 82.76
+          and p1["national_team"]["nominal_pct"]["510050"] == 86.05
+          and p1["national_team"]["signal_face"]["universe_face_only"]
+          is True)
+    check("schema v1.2", p1["schema"] == "ceo_live_usage_v1_2")
     tier_faces = {"宽基·第一层（汇金高度控盘·O-1555）",
                   "宽基·第二层（O-1555）"}
     seen = {pos["category"] for m in p1["members"] for pos in m["positions"]}
@@ -369,7 +446,8 @@ def selftest() -> int:
                                  "③ 六员分配", "④ 决策链版本横幅",
                                  "⑤ 诚实免责")))
     check("national-team row rendered in md",
-          "国家队状态" in md1 and "T-106" in md1)
+          "国家队状态" in md1 and "T-106" in md1
+          and "宇宙面注记" in md1 and "跟队信号面" in md1)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

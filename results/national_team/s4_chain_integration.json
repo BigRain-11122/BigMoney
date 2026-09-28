@@ -1,0 +1,46 @@
+{
+ "batch": "NATIONAL_TEAM_S4_CHAIN_INTEGRATION",
+ "ticket": "T-2026-09-28-106",
+ "spec_ref": "s4 CHAIN INTEGRATION (evidence-gated, two paths, honest)",
+ "owner": "bm-c (OS iteration loop, round 190)",
+ "evidence_cutoff": "2026-09-24",
+ "cutoff_meta": {
+  "evidence_cutoff": "2026-09-24",
+  "s2_disclosure_face_cutoff": "2026-08-31",
+  "note": "双证据窗如实披露：s2 名义持仓面=最新年报/中报披露（2026-08-31）；s3 份额段指纹面=官方份额序列（2026-09-24）。两者均为冻结面零未来数据。"
+ },
+ "universe_face": {
+  "status": "WIRED",
+  "deliverable": "scripts/ceo_live_usage.py v1.2 -- national_team block now DERIVED from landed s2+s3 artifacts (placeholder row retired per v1.1 promised hook 'face wiring = v1.2 on T-106 artifact')",
+  "supported_subset": ["510300", "510050"],
+  "nominal_pct": {"510300": 82.76, "510050": 86.05},
+  "per_etf_band": {
+   "510300": "extreme", "510050": "extreme", "510500": "heavy",
+   "512100": "extreme", "159915": "heavy", "588000": "absent"
+  },
+  "understated_note": "510500=75.58%/512100=86.43% tier-2 UNDERSTATED 如实注记；588000=0 absent；159915=54.03% 非 CEO 点名员",
+  "universe_note": "NT subset 与 O-1555 五员两层定谳并存不互斥：O-1555 冻结面归 T-104 网格消费；NT 标注=本回执注记面归 T-103/T-105 消费（s2 divergence_note 律）",
+  "selftest": "15/15 ALL PASS (v1.2 derived-face assertions added)"
+ },
+ "signal_face": {
+  "status": "NOT_SUPPORTED (honest negative)",
+  "gate_evidence": {
+   "s3_receipt": "results/national_team/s3_event_review.json",
+   "verified_points": 0,
+   "verified_segments": 3,
+   "return_cells": 0,
+   "n_eff": 0,
+   "ledger_delta_trials": 0
+  },
+  "decision": "无『跟国家队』可交易边缘证据 -> 不开锦标赛 v4+ 臂（spec IF-not 路径）；一页纸只挂宇宙面标注，不产生交易指令",
+  "reopen_law": "判负族重开唯一通道=新 prereg+新证据（RANDOM_LARGE_SAMPLE_LAW §5·O-2325）：点事件公告面外网恢复后 verified points>=2 可按新 prereg 重开事件窗复盘；段级面无格不重跑",
+  "basis_plain": "白话：国家队的买卖公告没能验证（网上拿不到原文），段级份额窗也没有产生可判定的回报格，所以『跟着国家队买』这个信号没有被证明能用——页面上国家队信息只当背景知识看，不当买卖信号用"
+ },
+ "receipts_chain": {
+  "s2": "results/national_team/s2_selection_verdict.json (evidence_cutoff 2026-08-31)",
+  "s3": "results/national_team/s3_event_review.json (evidence_cutoff 2026-09-24, ledger 317859 +0)",
+  "t105_consumer": "scripts/ceo_live_usage.py v1.2 -> docs/live_usage/LIVE-<date>.md/.json",
+  "prereg": "research/NATIONAL_TEAM_S3_REVIEW_PREREG.md (FROZEN)"
+ },
+ "remaining_slices": "T-106 全四片闭环（s1 采集 r172 / s2 判定 r187 / s3 零格判负 r179-r182 / s4 双路接线本件）——票可翻 done（GM 复核后翻面）"
+}
