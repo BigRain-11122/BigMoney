@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-28T11:18:17+08:00",
- "heartbeat_epoch_utc": 1790565497,
- "clock_read": "2026-09-28T11:18:17+08:00",
- "current_task": "r378 done: S6 29 legs rc=0 + smoke 25/25 + orders 99/99 dual-scan zero un-acked; census W2B slow-tail alive i=3999/5620 (ETA afternoon no-kill); RAM 3.18->4.54GB approaching autofill 3-sample gate (W4-GENERATE ready auto-pick imminent); W2-JUDGE gate 2/3 discharged gate3 RAM defer; 4 C-faces bma-stale-77min takeover derive lawful; no-new-bar (09-25 MidAutumn closed, last bar 09-24) -> live.paper trio honest skip; next: census finalize -> RAM window -> judge flips x5 -> finalize -> W2/W3 intake; 15:30 new-bar window dual-lane + trio; 15:35+ bma collector takeover eval per MSG-1042",
+ "last_seen": "2026-09-28T11:40:29+08:00",
+ "heartbeat_epoch_utc": 1790566829,
+ "clock_read": "2026-09-28T11:40:29+08:00",
+ "current_task": "r379 done: fix-first real loop -- W4-GENERATE false-crash root-caused (RAM-gate honest exit-2 fuse-counted: confirm sees dead+unlanded only) -> wait-law landed (tl2._ram_gate_gb wait_min=40 bounded in-place, w2/w3/w4 5 call sites, 5663942e) fuse auto-CLEARED 11:33:25 + autofill claim d3eabaac landed; next tick relaunch waits RAM window (3.4GB now) then generate lands; census W2B slow-tail alive i=4199/5620 @11:34 flush no-kill (memory-bound WS growth); S6 30 legs rc=0; smoke 25/25; orders 99/99 dual-scan zero un-acked; V2-P1 real red (G-REPRO-REV sleeve source missing) fused pending next-round fix-first pointer; 15:30 new-bar window dual-lane + trio; 15:35+ bma collector takeover eval per MSG-1042",
  "cpu_cores": 16,
- "free_ram_gb": 4.54,
+ "free_ram_gb": 1.03,
  "gpu_free_vram_gb": 6.73,
  "total_ram_gb": 25.7,
  "cpu_util_pct": 16.4,
- "round_no": 378,
- "verdict": "healthy: smoke 25/25, S6 29 legs rc=0, orders 99/99; census W2B 4-worker in-flight slow-tail i=3999/5620 no-kill law (ETA afternoon); RAM recovered 4.54GB near autofill gate -> W4-GENERATE ready auto-pick by C8 watchdog; W1/MASSx4/W2/W3 judge + V2-P1 all RAM-gated r354 honest defer; board 0 open all claimed; probe py_low_with_work_cands=legitimate structural occupation (census burn + RAM gates, not violation); bma silent 77min -> 4 stale-takeover derive faces lawful (O-2100 s2.4); migration executor armed precheck waiting (Tuanjie editor + census CWD), window to 09-29 12:00, zero interference",
+ "round_no": 379,
+ "verdict": "healthy: smoke 25/25, S6 30 legs rc=0, orders 99/99; W4-GENERATE fuse false-crash FIXED (wait-law 5663942e, fuse CLEARED 11:33:25 live-verified, claim landed d3eabaac, relaunch next tick waits RAM window); census W2B 4-worker in-flight slow-tail i=4199/5620 no-kill (memory-bound phase, ETA afternoon); RAM 3.42GB below judge gate = census serialize lawful; board 0 open all claimed; probe py_low_with_work_cands=legitimate structural occupation; V2-P1 real red (G-REPRO-REV sleeve source missing) fused pending fix; migration executor armed precheck waiting, window to 09-29 12:00, zero interference",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -115,15 +115,15 @@
   "O-2026-09-27-2255-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 4.54,
- "gpu_free_vram_mb": 6896,
- "idle_ram_mb": 4540,
- "gpu_idle_vram_mb": 6896,
+ "idle_ram_gb": 1.03,
+ "gpu_free_vram_mb": 6891,
+ "idle_ram_mb": 1056,
+ "gpu_idle_vram_mb": 6891,
  "n_orders_ack": 99,
  "gpu_idle_vram_gb": 6.73,
  "cpu_pct": 16.4,
- "round": 378,
- "free_ram_mb": 4540,
+ "round": 379,
+ "free_ram_mb": 1056,
  "gpu_model": "NVIDIA GeForce RTX 3070 (1049MiB used @2026-09-28T03:52:02+08:00)",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -131,5 +131,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315 (s1 engine landed: piper+zh voice, smoke render PASS, mastered spec-chain proven); gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 378
+ "loop_round": 379
 }
