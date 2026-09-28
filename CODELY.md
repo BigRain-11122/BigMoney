@@ -32,4 +32,5 @@
 冷层指针：坑律正典 2026-09-28 四十四批（r154 bm-c 窗·水位律当窗整编：push-storm union 10,839B 复超 ≤10KB 硬线）：r373 REPORT 双件分类正定 snapshot take-new / r397 pandas 列对齐裸位运算断言假判 两条件全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十四批』节（行级零丢失校验）。
 
 冷层指针：坑律正典 2026-09-28 四十五批（r375 bm-b 窗·水位律当窗整编：CODELY.md append 后超 ≤10KB 硬线）：r154 共享 md 台账 replace 锚律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十五批』节（行级零丢失校验）。
-- [2026-09-28 10:2 r375 bm-b] 坑律：**逃逸分支 reconcile 重放自家陈 addendum 撞活写面＝r369 活面新者胜律的 cherry-pick 面**——活面 launches 恒等+last_tick 较新=严格超集→活面直落为替代 addendum（r372 先例）+陈 pick 跳过零丢失；continue 拒发窗 r355-addendum 直连实测闭环（commit -F message→rebase --quit→update-ref→cherry-pick 余件）。指针=results/_r375bmb_resolve.py+13a730c5/2629c141。
+冷层指针：坑律正典 2026-09-28 四十六批（r376 bm-b 窗·水位律当窗整编：r376 新坑律 append 后超 ≤10KB 硬线）：r375 逃逸分支 reconcile 重放陈 addendum 撞活写面（r369 活面新者胜 cherry-pick 面） 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十六批』节（行级零丢失校验）。
+- [2026-09-28 10:5 r376 bm-b] 坑律：**pull --rebase abort 自荐 `git reset --hard`＝活写面在场时毒方（r149 族收方面）**——撞未跟踪件 abort(Cannot fast-forward working tree) 后先三探 status -sb/log/rev-parse blob-hash 再动手；本窗=并发 autofill 自循环已代完 rebase(16ceee54 零丢失)，盲从必砸 census 活写面；blob 恒等比对禁 PS `>` 重定向(UTF-16 面＝r352)，rev-parse 直读。指针=16ceee54/3bdfe4f1。
