@@ -10069,6 +10069,40 @@
      "CAL-SWITCH-GC182": 18
     }
    }
+  },
+  {
+   "batch": "MASS_TRIAL_W1_JUDGE",
+   "ts": "2026-09-29 03:1x",
+   "kind": "measurement",
+   "cells_ledger_delta": 166,
+   "ledger_total_after": 312042,
+   "gates": {
+    "g1_prime_v2": {
+     "n_judged": 166,
+     "n_pass": 0,
+     "line": "sharpe_full > skill_line_v2=1.1887 AND bootstrap CI lower>0 AND entries>=30"
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "line": "G1' pass AND DSR>=0.95 (n_trials=312042 cumulative deflation) AND family PBO<=0.25"
+    },
+    "dsr_face": {
+     "max_dsr": 0.07718,
+     "note": "max DSR 0.077 << 0.95 gate; cumulative N~312k deflation dominates"
+    },
+    "wave_multiplicity": {
+     "screen_cells": 975,
+     "judged_cells": 166,
+     "E_FP_nominal_5pct": 8.3
+    },
+    "family_pbo": {
+     "n_sufficient_families": 5,
+     "note": "families with <8 cells = insufficient -> G2 cannot pass (honest n/a); mean_reversion pbo=0.4143"
+    }
+   },
+   "verdict": "judged-negative 0/166 registrations; prediction sec.9.1 modal-zero hit",
+   "prereg": "research/MASS_TRIAL_W1_PREREG.md sec.9.1 FROZEN (commit deb3b1f4, seed 20285000)",
+   "results": "results/mass_trial/w1_judge.json"
   }
  ],
  "history": [
