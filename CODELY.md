@@ -6,29 +6,5 @@
 ### Reference
 - 冷层指针：流水型条目（轮报告定案/执行记录/让路裁定）按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md，全量留 git，检索按日期段。
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
-冷层指针：坑律正典 2026-09-28 四十一批（r127 bm-c 窗·水位律当窗整编：r127 新坑律 append 后超 ≤10KB 硬线）：r370 resolver-union 吞修复面 / r123 吞面第四案+推后不复验 / r352 PS-UTF-16 重定向 / r352 rebase-stage 反映射 四条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十一批』节。
-
-冷层指针：坑律正典 2026-09-28 三十六批（r390 bm-a 窗·撞号让路重编〔origin 三十四/三十五批先落〕+push-storm 窗二折〔union 复超 ≤10KB 硬线〕）：r141 CLI 分发表零参+分片键唯一 / r142 fuse 25min 盲窗 / r143 Start-Process 多腿批法 / r389 auto-clear×lane-union 漂移〔D-03(2) 墓碑根修已取代〕四条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十六批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 三十七批（r366 bm-b 窗·撞号让路重编〔origin 三十五批=r144 bm-c 先落同 4 条、本窗 bm-b 三十五批让路删〕+水位律当窗整编〔r366 新坑律 append 后 union 复超 ≤10KB 硬线〕）：r144 UU 面截断管道清点 / r144 PS BOM 剥除 / r144 格式串失真 / r390 行插入锚定 四条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十七批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 三十八批（r392 bm-a 窗·水位律当窗整编：r392 新坑律 append 后超 ≤10KB 硬线）：r366 镜像先例 hermetic 断言锚 prereg 判词（先例死路面 bug）+块级 checkpoint 停滞误诊 / r367 union-ledger \r\r\n 双终结符+连带三坑 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十八批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 三十九批（r369 bm-b 窗·水位律当窗整编：r369 新坑律 append 后超 ≤10KB 硬线）：r149 bm-c rebase replay 未跟踪提取件挡 checkout / r368 bm-b rebase-continue EDITOR-unset 第三面 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 三十九批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 四十批（r394 bm-a 窗·水位律当窗整编：r394 新坑律 append 后超 ≤10KB 硬线）：r392 认领幽灵 staged-only 阻 rebase / r369 stash-pop 撞活写进程比进度尾行判序 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 四十二批（r396 bm-a 窗·水位律当窗整编：新坑律 append 后超 ≤10KB 硬线）：r394 MSG 声明盲窗同窗双实现撞车 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十二批』节（行级零丢失校验）。（四十一批=bm-c r127 窗在 quant 镜像 CODELY 面在册·本仓 archive 未见其节——本批取四十二批避撞）
-冷层指针：坑律正典 2026-09-28 四十三批（r373 bm-b 窗·水位律当窗整编：CODELY.md append 后超 ≤10KB 硬线）：r150 池文件全幅 UU 冲突界切顶层闭括号 / r396 跨机 inbox ALL 归档竞态 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十三批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 四十四批（r154 bm-c 窗·水位律当窗整编：push-storm union 10,839B 复超 ≤10KB 硬线）：r373 REPORT 双件分类正定 snapshot take-new / r397 pandas 列对齐裸位运算断言假判 两条件全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十四批』节（行级零丢失校验）。
-
-冷层指针：坑律正典 2026-09-28 四十五批（r375 bm-b 窗·水位律当窗整编：CODELY.md append 后超 ≤10KB 硬线）：r154 共享 md 台账 replace 锚律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十五批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 四十六批（r376 bm-b 窗·水位律当窗整编：r376 新坑律 append 后超 ≤10KB 硬线）：r375 逃逸分支 reconcile 重放陈 addendum 撞活写面（r369 活面新者胜 cherry-pick 面） 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十六批』节（行级零丢失校验）。
-冷层指针：坑律归档 25/26/27/28/29/30/31/32/33/34/35 批（2026-09-28 各窗水位律当窗整编·行级零丢失校验）各批全文 verbatim=archive 202609.md 对应『坑律归档 2026-09-28 <N>批』节——r159 bm-c 窗四十七批整编时 11 条老批指针行合并为本行，批内容零删零改动。
-冷层指针：坑律正典 2026-09-28 四十八批（r162 bm-c 窗·水位律当窗整编：push-storm union 复超 ≤10KB 硬线）：r159 rebase-stage :2:/:3: 反映射二犯 / r379 crash-fuse wait-law 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十八批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 四十七批（r159 bm-c 窗·水位律当窗整编：CODELY.md 10,245B 超 ≤10KB 硬线）：r376 pull--rebase abort 毒方律 verbatim 迁入+11 条老批指针行合并注记=archive 202609.md『坑律归档 2026-09-28 四十七批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 四十九批（r383 bm-b 窗·水位律当窗整编：r383 新坑律 append 后超 ≤10KB 硬线）：r161 strftime %z Windows 5 尾畸形切片+弱断言假阴性放行 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 四十九批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十批（r385 bm-b 窗·水位律当窗整编：r385 新坑律 append 后超 ≤10KB 硬线）：r381 池文件字节风格 / r162 开波四件套裁定链双门 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十一批（r168 bm-c 窗·水位律当窗整编：r168 新坑律 append 后超 ≤10KB 硬线）：r382 autofill 陈旧崩迹 / r383 town.html node --check / r385 runner 活度必探 worker 树 三条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十一批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十二批（r386 bm-b 窗·水位律当窗整编：r386 新坑律 append 后超 ≤10KB 硬线）：r167 本机大文件 HTTPS 首连瞬态悬死 stall-abort 旗组 / r168 GitHub release CDN 断面整段死 pythonw 常驻循环续传器 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十二批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十三批（r387 bm-b 窗·水位律当窗整编：r387 新坑律 append 后 10,625B 复超 ≤10KB 硬线）：r386 judge-finalize 5min 内联墙 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十三批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十四批（r387 bm-b 窗·水位律当窗整编：push-storm 并集后 10,519B 复超 ≤10KB 硬线）：r387 judge-finalize 同链串行律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十四批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十四批（续）：r387 资源快照换算复用律 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十四批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十五批（r387 bm-b 窗·水位律当窗整编：storm 条 append 后 10,575B 复超 ≤10KB 硬线）：r387 池修复双面同步律（shared+lane）+轮尾 add -A 前 reload 断言 一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十五批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十六批（r171 bm-c 窗·水位律当窗整编：新坑律 append 后 10826B 超 ≤10KB 硬线）：r169 PS 批量链运行器 Invoke-Expression 双位参 / r171 CDN 分段并行下载三坑 两条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十六批』节（行级零丢失校验）。
-冷层指针：坑律正典 2026-09-28 五十七批（r172 bm-c 窗·水位律当窗整编：r172 新坑律 append 后 10,720B 超 ≤10KB 硬线）：r172 在飞崩溃轮孤儿提交抢救律（首例实录：认领类孤儿=机械并集保字段/prereg 冻结类=预承诺载体必抢救上链/池全幅 UU=语义并集·abort=永久死锁禁选）一条全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十七批』节（行级零丢失校验）。
+冷层指针：坑律归档 25~57 批（2026-09-28 各窗水位律当窗整编·行级零丢失校验）各批全文 verbatim=archive 202609.md 对应『坑律归档 2026-09-28 <N>批』节（四十一批节在本仓 archive 缺=其全文在 quant 镜像 CODELY 面在册）——r173 bm-c 窗五十八批整编时 24 条老批指针行合并为本行，批内容零删零改动。
+冷层指针：坑律正典 2026-09-28 五十八批（r173 bm-c 窗·水位律当窗整编：本批新坑律入册即超 ≤10KB 硬线）：r173 T-106 采集批五条（akshare×pandas3 read_excel bytes 全死+sse 空日期硬崩→采集器直连端点律；SZSE 千分位逗号串 float 静默 0 行假阳=audit 零行判败；SSE STAT_DATE 管道滞后=walk-back 回执制；PS & 数组 splat 坑；datetime.date getset 描述符坑）+国家队三面接口正面知识 全文 verbatim=archive 202609.md『坑律归档 2026-09-28 五十八批』节（行级零丢失校验）。
