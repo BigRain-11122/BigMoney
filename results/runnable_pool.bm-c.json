@@ -363,7 +363,7 @@
           "key": "censusw2b-0of1",
           "status": "waiting",
           "owner": "bm-b",
-          "owner_since": "2026-09-28 13:30:30",
+          "owner_since": "2026-09-28 13:43:39",
           "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
           "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
         }
@@ -3121,7 +3121,7 @@
       ],
       "lane_owner": null,
       "priority": 1,
-      "status": "waiting",
+      "status": "ready",
       "entered_at": "2026-09-28 05:55:34",
       "workers_plan": {
         "workers": "worker_cap() pool BelowNormal",
@@ -3133,13 +3133,15 @@
         {
           "key": "judge-0of1",
           "status": "waiting",
-          "owner": null,
-          "owner_since": null,
+          "owner": "bm-b",
+          "owner_since": "2026-09-28 13:53:28",
           "checkpoint": "results/trial_labor_w2/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
           "note": "single shard W1-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts); judged-cell burn order = L-base, L-x2, D-base, D-x2 + dual nulls + disclosures per cell"
         }
       ],
-      "entered_by": "bm-b r362"
+      "entered_by": "bm-b r362",
+      "ready_at": "2026-09-28 13:50:02",
+      "ready_note": "r386 bm-b flip, ALL THREE gates discharged: (1) screen-finalize survivors=404 non-empty (w2_screen.json 07:09:20); (2) judge-prep PASS judge_state.json 07:11:36 (t18 manifest PASS 48-member + census L/D==frozen L{1253,1127,875}/D{3104,2978,2726}, r365 gate-2 receipt); (3) RAM 3-sample 13.23/12.55/12.6 GB >=4GB across >30s r354 law (census W2B finalized 13:43:11 runner-[done] receipt cells=5220 -> RAM released). Flip executor = bm-b deep-panel round per entry workers_plan note + W1-JUDGE r357 defer precedent. Sibling ordering: W1-JUDGE/MASS-JUDGE-x4/V2-P1 stay waiting this round (single judge burn ~7-8GB no-stack law, anti-OOM dual-company 23.9GB box)."
     },
     {
       "id": "TRIAL-LABOR-W3-GENERATE",
