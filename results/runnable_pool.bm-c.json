@@ -8,8 +8,8 @@
     "lane_guard": "lane_owner=null/ANY=任何合法机可吃; 指名=仅该机(R31/R65 判例)",
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)"
   },
-  "updated_at": "2026-09-28 07:00:56",
-  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry)",
+  "updated_at": "2026-09-28 08:10:00",
+  "_stamp_note": "WILD-S1 entered r197 bm-b post-freeze (prereg @7c8067ae); F-04 MSG-20260925-1855-bm-b declared BEFORE entry; BOND-PANEL-SHARD-0..5 entered r208 bm-b (F-04 MSG-20260925-2225 declared r207 before entry; manifest frozen 331 candidates); GPU-FACTOR-LANE-PROOF entered r238 bm-b (T-77 slice-4, waiting flip = bm-a-side torch verify per physical-dep law); SINA-CONSTRUCT-P1 entered r336 bm-a post-unblock (prereg FROZEN f5acd8fa + runner 6c9fb92f both r333 bm-b; F-04 MSG-20260927-1642 burn-unblock received by bm-a before entry); TRIAL-LABOR-W3-GENERATE entered r392 bm-a post-freeze (prereg FROZEN 28fcb7b2 r391 + runner+grammar sha cc59eab79db53436 same r392; F-04 MSG-20260928-0810 declared same-window as entry; slice-1+generate, screen/judge/intake next slices per W2 r360/r362 precedent)",
   "entries": [
     {
       "id": "A158-TRUEGAP-IC",
@@ -363,7 +363,7 @@
           "key": "censusw2b-0of1",
           "status": "waiting",
           "owner": "bm-b",
-          "owner_since": "2026-09-28 07:30:31",
+          "owner_since": "2026-09-28 08:10:31",
           "checkpoint": "results/census_fusion_s2/w2b_checkpoint.jsonl (200-combo cadence; resume = done-set i)",
           "note": "single shard whole-batch (checkpoint makes cross-kill resume safe); finalize -> results/census_fusion_s2/w2b_results.json (ledger N=5,620 declared at run finalize, r252 embed key; products w2b_cells.csv/w2b_nulls.json/w2b_top_matrices.json/w2b_summary.json); pool flip = round work per r203 law"
         }
@@ -3140,6 +3140,34 @@
         }
       ],
       "entered_by": "bm-b r362"
+    },
+    {
+      "id": "TRIAL-LABOR-W3-GENERATE",
+      "ticket_ref": "T-2026-09-28-97 WAVE-3 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN r391 commit 28fcb7b2 + seeds R250; runner slice-1+generate built bm-a r392 selftest 51/51 hermetic + double-run stdout byte-identical; grammar face frozen r392 sha16=cc59eab79db53436; bm-c r146 addendum route = bma next-round priority)",
+      "prereg_ref": "research/TRIAL_LABOR_W3_PREREG.md FROZEN (sec.3 Sobol raw 5000 = A500/B4500 six-tuple axis R/X/S/T/STOP/GATE incl. regime-gate face; sec.1 six-source exclusion -- w1_screen survivors 149 + w2_screen survivors 404 + MASS screen survivors 166 consumed generate-time [translated-exact 2 rows per declared conservative table in runner docstring + MSG-20260928-0810; 164 non-translatable counted disclosed never excluded], judged products three real-read re-declare window; dedup T-84 s3 fingerprint + |corr|>=0.999 on the effective signal face, frozen composition order filter->timing->GATE->STOP; D6 max|corr| disclosure column naive caliber; seeds trial_labor_w3_gen/scrnull/unc=20287500/20288000/20288500; TRIAL_GRAMMAR_LEDGER wave-3 row runner-written at consume point)",
+      "runner": "scripts/trial_labor_w3.py",
+      "runner_args": [
+        "generate"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-28 08:10:00",
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "LIGHT minutes-scale per prereg sec.0 (W2-GENERATE measured 635s single-process bm-c r138 harvest): 5000 signal builds + gate overlay (vectorized row-mask mul) + stop-overlay dedup face + 5000x5000 naive-corr; single-process streaming, masks dropped per-candidate (W1 r348 RAM law); peak ~1.5-2GB; RAM gate three-sample >=4GB in-runner (r354 law, autofill has no RAM gate so in-runner exit 2 is the protection)"
+      },
+      "data_gates": "in-runner fail-closed exit 2: (a) w3_candidates.json exists -> refuse (same-grammar rerun ban, single-shot); (b) grammar sha anchor != cc59eab79db53436 -> refuse; (c) free RAM three-sample < 4GB -> honest refuse. deps all green in-repo git: core48 panel + w3_grammar.json (r392) + w1_screen.json survivors 149 + w2_screen.json survivors 404 + results/mass_trial/screen_checkpoint.jsonl 166 pass rows; judged products three sources real-read at generate (expected declared-unavailable: TRIAL_LAB_W1_JUDGE/MASS_TRIAL_W1_JUDGE/TRIAL_LAB_W2_JUDGE all pool-waiting at entry time 08:10)",
+      "shards": [
+        {
+          "key": "generate-0of1",
+          "status": "ready",
+          "owner": null,
+          "owner_since": null,
+          "checkpoint": "results/trial_labor_w3/w3_candidates.json (single-shot product = completion marker; refuse-if-exists guard)"
+        }
+      ]
     }
   ],
   "lane_machine": "bm-c"
