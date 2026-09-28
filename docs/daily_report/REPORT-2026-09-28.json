@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-28",
- "generated_at": "2026-09-28 16:12:48",
+ "generated_at": "2026-09-28 16:43:40",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,21 +286,22 @@
   "marks_asof": "2026-09-24"
  },
  "rd": {
-  "commits_24h": 633,
-  "result_jsons_landed_24h": 94,
+  "commits_24h": 638,
+  "result_jsons_landed_24h": 93,
   "digests_landed_24h": 2,
-  "prereg_md_touched_24h": 21,
+  "prereg_md_touched_24h": 24,
   "compute_audit_latest": {
-   "ts": "2026-09-28 16:10:01",
-   "py_cpu_pct": 0.4,
+   "ts": "2026-09-28 16:41:59",
+   "py_cpu_pct": 0.0,
    "flags": [
-    "idle_with_work"
+    "idle_with_work",
+    "supply_gap"
    ],
-   "verdict": "FLAG:idle_with_work"
+   "verdict": "FLAG:idle_with_work,supply_gap"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -549,10 +550,10 @@
   },
   {
    "id": "T-2026-09-28-102",
-   "status": "open",
+   "status": "claimed",
    "type": "decision-chain-benchmark-wave",
    "immediate": false,
-   "owner": ""
+   "owner": "bm-a (OS iteration loop r398-cont; GM di"
   },
   {
    "id": "T-2026-09-28-103",
@@ -583,6 +584,27 @@
    "owner": "bm-c (OS iteration loop, round 172; CEO "
   },
   {
+   "id": "T-2026-09-28-107",
+   "status": "claimed",
+   "type": "saturation-mechanism-engineering",
+   "immediate": false,
+   "owner": "bm-c (OS iteration loop, round 174; git "
+  },
+  {
+   "id": "T-2026-09-28-108",
+   "status": "claimed",
+   "type": "execution-layer-v2-saturation-engineering",
+   "immediate": false,
+   "owner": "bm-c (OS iteration loop, round 174; git "
+  },
+  {
+   "id": "T-2026-09-28-109",
+   "status": "open",
+   "type": "follow-national-team-ops-chain",
+   "immediate": false,
+   "owner": ""
+  },
+  {
    "id": "T-2026-09-28-97",
    "status": "claimed",
    "type": "trial-labor-wave3-prereg",
@@ -599,22 +621,215 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 805961,
+  "total_report_tokens_est": 809356,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-28 15:23:20",
+   "prev_generated": "2026-09-28 16:13:24",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 2382,
-   "mandate_growth": 247
+   "report_tokens_growth": 1206,
+   "mandate_growth": 0
   },
   "method": {
    "bpe_proxy": 3.5,
    "disclosure": "ROUGH ESTIMATE -- byte/3.5 proxy; never presented as exact; exactness upgrade path = future CLI usage API"
   }
  },
+ "utilization": {
+  "machines": {
+   "bm-a": {
+    "latest_ts": "2026-09-28 09:45:56",
+    "py_pct": 0.8,
+    "cpu_pct": 19.0,
+    "ready": 2,
+    "streak_min": null,
+    "verdict": "CLEAN",
+    "py_series_tail": [
+     [
+      "08:19",
+      0.2
+     ],
+     [
+      "08:21",
+      4.9
+     ],
+     [
+      "08:42",
+      37.2
+     ],
+     [
+      "08:46",
+      0.0
+     ],
+     [
+      "08:48",
+      0.2
+     ],
+     [
+      "09:04",
+      0.5
+     ],
+     [
+      "09:07",
+      40.7
+     ],
+     [
+      "09:08",
+      0.0
+     ],
+     [
+      "09:15",
+      44.5
+     ],
+     [
+      "09:27",
+      1.7
+     ],
+     [
+      "09:23",
+      0.0
+     ],
+     [
+      "09:45",
+      0.8
+     ]
+    ],
+    "today_samples": 79,
+    "today_floor_ok": 0,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 0
+   },
+   "bm-b": {
+    "latest_ts": "2026-09-28 16:10:01",
+    "py_pct": 0.4,
+    "cpu_pct": 5.0,
+    "ready": 1,
+    "streak_min": null,
+    "verdict": "FLAG:idle_with_work",
+    "py_series_tail": [
+     [
+      "13:16",
+      21.3
+     ],
+     [
+      "13:29",
+      0.0
+     ],
+     [
+      "13:40",
+      0.5
+     ],
+     [
+      "13:40",
+      9.6
+     ],
+     [
+      "14:01",
+      0.0
+     ],
+     [
+      "14:15",
+      11.4
+     ],
+     [
+      "14:29",
+      13.9
+     ],
+     [
+      "14:40",
+      0.6
+     ],
+     [
+      "15:00",
+      0.9
+     ],
+     [
+      "15:22",
+      10.7
+     ],
+     [
+      "15:40",
+      11.6
+     ],
+     [
+      "16:10",
+      0.4
+     ]
+    ],
+    "today_samples": 118,
+    "today_floor_ok": 0,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 0
+   },
+   "bm-c": {
+    "latest_ts": "2026-09-28 16:41:59",
+    "py_pct": 0.0,
+    "cpu_pct": 9.0,
+    "ready": 5,
+    "streak_min": 0.0,
+    "verdict": "FLAG:idle_with_work,supply_gap",
+    "py_series_tail": [
+     [
+      "13:29",
+      0.0
+     ],
+     [
+      "13:40",
+      0.5
+     ],
+     [
+      "13:40",
+      9.6
+     ],
+     [
+      "14:01",
+      0.0
+     ],
+     [
+      "14:15",
+      11.4
+     ],
+     [
+      "14:29",
+      13.9
+     ],
+     [
+      "14:40",
+      0.6
+     ],
+     [
+      "15:00",
+      0.9
+     ],
+     [
+      "15:22",
+      10.7
+     ],
+     [
+      "15:40",
+      11.6
+     ],
+     [
+      "16:10",
+      0.4
+     ],
+     [
+      "16:41",
+      0.0
+     ]
+    ],
+    "today_samples": 119,
+    "today_floor_ok": 1,
+    "today_sla_flags": 0,
+    "today_supply_gap_flags": 1
+   }
+  },
+  "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
+  "canon": "O-20260928-1614 sec.6 + O-20260928-1630 D6 (two-pool sovereignty face merges when D7 lands)"
+ },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
   "results/paper_export/latest.json",
   "results/market_clock/call_latest.json",
-  "results/token_usage.json"
+  "results/token_usage.json",
+  "O-20260928-1614 sec.6 utilization face (T-107)"
  ]
 }
