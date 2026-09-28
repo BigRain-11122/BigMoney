@@ -60,6 +60,10 @@ data/bond_w3a/
 # O-1136 watermark probe series: machine-local utilization append-log (3 machines
 # x 10min cadence = append-conflict hostile if tracked; round reports cite numbers)
 results/watermark.jsonl
+# T-108 D2 resident dispatcher (O-20260928-1630): machine-local event append
+# log; the tracked face is the machine-suffixed results/dispatcher_state.
+# <mid>.json lane file (event-written only)
+results/dispatcher_log.jsonl
 # O-1626 watermark RED marker (T-25 C7 escalation): machine-local disposal
 # state, self-clearing on green; rounds cite verdict, git never carries it
 results/watermark_red.json

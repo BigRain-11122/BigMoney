@@ -39,7 +39,7 @@
   - **G-ANCHOR**：在册六员工注册配置经本波 grammar 引擎默认路线（template_default+EW+daily+initial_stop=none+gate=none+vol=none）重放，IS/OOS Sharpe==live.paper 锚定门常数（import 实读禁手抄；不等=基线漂移 VOID）；
   - **G-MANIFEST**：深轴 manifest verdict==PASS（48 员 twin cache 可核路·W1 §9.3 manifest_note 先例·**冻结时实读**=trial_labor_w3 judge_state g_manifest PASS/48 员在册·跑时以活值为准）；
   - **G-EXCLUDE**：已判格排除清单装载（七源）+命中计数披露（排除 0 合法·排除 0 如实）；
-  - **G-VOL**（本波新增）：vol20/med500 序列点时完整性断言（med500 首有效 bar-idx==519·calm/wild 计数=={1523,1441} 探针锚定·截断后末行==cutoff）。
+  - **G-VOL**（本波新增）：vol20/med500 序列点时完整性断言（med500 首有效 bar-idx==519·calm/wild 计数=={1523,1441} 探针锚定·截断后末行==cutoff）。**锚面定义四元组【G-ANCHOR-FACE·O-20260928-1712】**＝数据面路径 `data/daily/sh510300.csv`（git-tracked 原始全史成员件·非 W1-floored `load_core` 池面 2020-01-02 起）＋加载函数 raw `pd.read_csv` 直读截断 cutoff（runner `_vol_face_full` 同面）＋起算窗 2012-05-28 全史（3,483 bar）＋预热窗 vol20 min_periods=20→med500 min_periods=500（首有效第 519 bar）——探针加载路径≠锚声明路径=配置错配 VOID（报「面错配」非「数据腐坏」）。
 
 ## §3 方法论。【冻结。】
 
@@ -93,3 +93,4 @@
 - **W2-C 族面交接注记（anti-dup）**：因子普查存活腿族（census fusion legs）=TRIAL_LABOR_W2_PREREG §9.1 declare 的 W2 when-ready 子波独占面（问 W2A+W2B 双 finalize+roster 导出+§9.2 append-confirm）——**本波 §0 declare 禁碰**；W4 未来并入该供给=待 W2-C 消费落地后另发 declare（TRIAL_LABOR_LAW §5 律）。
 - **judged 供结 generate 时点 declare 窗**：四判决批（W1/MASS/W2/W3）落地后、本波 generate 跑前=§1 (d) 面加权 declare 窗（实读产物并表·逐源行数披露）；generate 已跑后落地者不入本波（禁事后改配）。
 - **s3 判决面**：已冻结于 §3（W3 结构同构·无需另立 sub-wave 冻结）；若跑前需修栈=零跑修档先例（r251/r280·如实留痕非结果驱动）。
+- **G-VOL 锚面定义四元组修正（O-20260928-1712 G-ANCHOR-FACE 律·changelog·r251/r280 零烧窗修档先例第三例）**：性质=面定义澄清**非判据放宽**——锚值 {519, 1523, 1441, n3483} 与 r396 探针事实逐位不变（§2 原文语义=raw 全史面）；runner 探针同面断言（`_vol_face_full` raw 成员件直读·非 `load_core` 池面）r381 已落地并生产实证（W4-GENERATE+screen-prep PASS 12:30:56 G-VOL raw re-verified·零引擎格重烧）；修正时点=SCREEN 池 entry 已开未烧、JUDGE 序门在后=跑前修档零烧窗合法（同 r251/r280 amendment-driven not result-driven 例）；收口对象=INCIDENT-20260928-cpu-idleness R3（10:08 bm-a r398 锚面刻度错配拒烧事故）。

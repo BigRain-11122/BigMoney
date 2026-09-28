@@ -26,6 +26,7 @@
 ## §2 数据与面板【必填·跑前探针事实，非结果】
 
 - 宇宙/池（core48 或声明口径；扩池须申明白名单与核名状态）：
+- **数据锚面定义四元组【每个数字探针锚必填·G-ANCHOR-FACE 律·O-20260928-1712】**：每个数据锚（计数/行数/首有效位/末行日期/Sharpe 锚定值等探针事实）必须绑定四元组＝**数据面路径＋加载函数＋起算窗＋预热窗**（例：`data/daily/sh510300.csv`＋raw `pd.read_csv` 直读截断〔非引擎 `load_core` 池面〕＋2012-05-28 全史起算＋vol20/med500 min_periods=20/500→首有效第 519 bar）。**无四元组的锚=预注册不合格（R99 冻结门拒收）**；runner 探针与锚**强制同面断言**——探针加载路径与锚声明路径逐位比对，一面不相等=配置错配 VOID（fail-closed 拒烧且**报「面错配」非「数据腐坏」**；INCIDENT-20260928-cpu-idleness R3 立法）；既册冻结件修正=零烧窗面定义澄清（changelog 注明·非判据放宽·r251/r280 先例族）。
 - 窗口与 **evidence_cutoff（前向锁盒 D2）**：面板一律截断到 cutoff ______；cutoff 后新 bar 锁定不得回流本批；
   结果 JSON 顶层必须带 `science_gates.cutoff_meta(cutoff)` 字段（缺字段=science_audit C2 VIOLATION）。
 - 数据完备门（不过门禁跑批）：______
