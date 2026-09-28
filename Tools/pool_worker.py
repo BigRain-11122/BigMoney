@@ -313,6 +313,25 @@ def _push_claims_and_ledger(myid, note):
     return True
 
 
+def _load_pool(ref="origin/main"):
+    """O-2210 item-3 (r404-cont): freshest pool face = ORIGIN blob (pool
+    single-writer authority), local file only as fallback. Local-file
+    reads caused the r404 duplicate-burn: the worker re-burned a shard
+    bm-c had already judged-done on origin because the local copy was
+    push-lag stale."""
+    r = subprocess.run(["git", "show", f"{ref}:results/runnable_pool.json"],
+                       cwd=ROOT, capture_output=True)
+    if r.returncode == 0:
+        try:
+            return json.loads(r.stdout.decode(errors="replace"))
+        except ValueError:
+            _log("origin pool blob unparseable -> local-file fallback")
+    else:
+        _log(f"origin pool blob unavailable (ref {ref}) -> local-file fallback")
+    with open(POOL, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
 def run_pass(dry=False):
     myid = _machine_id()
     ok, lockf = _pid_lock(myid)
@@ -320,8 +339,7 @@ def run_pass(dry=False):
         _log("another pool_worker instance holds the lock -> exit")
         return 0
     _git(["fetch", "origin"])
-    with open(POOL, encoding="utf-8") as fh:
-        pool = json.load(fh)
+    pool = _load_pool()
     e, sh = _scan(pool, myid)
     if not e:
         _log("nothing claimable (pool fresh-read)")
@@ -452,6 +470,15 @@ def selftest():
         ok("S13 core_hours math (rounded face)",
            abs(row["core_hours"] -
                round(row["cores"] * row["duration_sec"] / 3600.0, 4)) < 1e-9)
+        # S14/S15 origin-blob read face (O-2210 item-3, r404-cont):
+        # bogus ref degrades to local-file fallback without crash;
+        # real origin/main blob readable as pool face.
+        pool_fb = _load_pool(ref="refs/heads/__pw_selftest_bogus__")
+        ok("S14 bogus ref -> local-file fallback returns pool",
+           isinstance(pool_fb, dict) and len(pool_fb.get("entries", [])) > 0)
+        pool_or = _load_pool()
+        ok("S15 origin-main blob readable (post-fetch face)",
+           isinstance(pool_or, dict) and "entries" in pool_or)
         CLAIMS = real_claims
         LEDGER = real_ledger
         allp = failc[0] == 0

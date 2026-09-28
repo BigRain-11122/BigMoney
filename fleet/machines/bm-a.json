@@ -1,18 +1,19 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-09-28T22:41:01+08:00",
- "current_task": "round-closed R403 (S0 rebase collision resolved via canonical ALL_FACES recipe + smoke T+1 checker false-positive fixed 26/26 + S6 36 legs green + 3 order receipts acked); active lanes T-102/T-109; next = trial-labor W5 prereg standing line",
+ "last_seen": "2026-09-29T00:04:46+08:00",
+ "current_task": "round-closed r404-cont (R404 dead-window salvage + O-2210 item-3 worker read-face fix + T-113 done); active lanes T-102/T-109; next = W5 prereg standing line",
  "cpu_cores": 32,
  "cpu_pct": 62.8,
  "free_ram_gb": 44.8,
  "gpu_free_vram_gb": 3.0,
- "verdict": "insufficient_history probe 22:32 window n=1 post-4h-gap (honest, resuming); audit FLAG supply_floor ready1<3 = T-107 bm-c engineering line in flight; pool ready=1 INNOVATION-QUOTA-SLOT-2 burning bm-c autofill; W4-JUDGE done by bm-b 19:13 -> no in-flight verdict batch; this-round carrier = S0 rebase-collision canonical resolution + smoke T+1 checker false-positive fix (26/26) + S6 36 legs; next = trial-labor W5 prereg standing line",
+ "verdict": "r404-cont salvage round: dead R404 closeout complete (T-113 provider delivered+pushed, item-3 read-face fix 15/15, ticket done, O-2210 acked); py_low_with_work_cands legal-idle (board 0/bandit 0/pool no-takeable/local batch running); next = W5 prereg standing line + T-109 s2 real prereg",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
   "O-2026-09-27-2245-bm-a.md",
   "O-2026-09-27-2250-bm-a.md",
   "O-2026-09-27-2255-bm-a.md",
+  "O-2026-09-28-2210-bm-a.md",
   "O-20260923-1514-bm-a.md",
   "O-20260923-1533-bm-a.md",
   "O-20260923-1536-bm-a.md",
@@ -130,8 +131,8 @@
   "O-20260928-1925-bm-c.md",
   "O-20260928-1930-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790606462,
- "clock_read": "2026-09-28T22:41:01+08:00",
+ "heartbeat_epoch_utc": 1790611486,
+ "clock_read": "2026-09-29T00:04:46+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5629,
  "gpu_idle_vram_gb": 3.0,
@@ -142,7 +143,7 @@
   "idle_vram_free_gb": 5.5,
   "note": "compute_audit face 06:16: 12282 MiB total - 6612 used = 5670 free"
  },
- "round_no": 403,
+ "round_no": 404,
  "gpu_idle_vram_mb": 3103,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 44.8,
@@ -157,6 +158,6 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- this round fully occupied by BigMoney primary research round (T-91 CEO ticket, Monday deadline); standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round": 403,
- "loop_round": 403
+ "round": 404,
+ "loop_round": 404
 }
