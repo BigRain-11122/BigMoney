@@ -1,16 +1,16 @@
 {
  "machine_id": "bm-c",
- "round_no": 200,
- "updated": "2026-09-29T05:46:23+08:00",
- "note": "r200 green maintenance + W6-GENERATE landing verified mid-round (05:46:27: 5000->3952 distinct, sha16 2d395f5f8e7d16cb identical to frozen grammar, zero double-ignite) + flip gate NOT READY re-check + 5x HANDOVER",
- "last_round_ts": "2026-09-29T05:46:23+08:00",
- "did": "S0-1 bm-c -> stash-pull(29 files: bma r414 + bmb r40x/41x)-pop -> S0.5 orders 122/122 zero-diff + decisions no-new-line (C-01/C-02 council-pending, seat-3 opinions in-file) -> S1 smoke 26/26 -> S2 boards 0 open (8 bm-c claimed) -> S3: W6 burn health verified + LANDING VERIFY PASS (crash->bmb fix->relaunch PID 26516 ->05:46:27 w6_candidates.json complete: json.loads + raw 5000->distinct 3952 + grammar sha16 identical + 6-source exclusion 0 hits + RAM 11.28GB); W6-SCREEN entry yielded to bmb r411 declaration; flip gate re-check NOT READY (bmc 6/3 MET, bma 2/3, bmb 1/3); bm-b revived 05:30:30 V3 claim pushed -> S6 37 legs nonzero=0 (dualrun streak 6/3) -> S7 self-heal trio green + 5x HANDOVER r196-200 window entry",
- "verify": "W6 landing triple-verify (sha16 identical + json.loads + 5000->3952 count) + S6 chain 37 legs nonzero=0 (_r200bmc_s6_chain.json) + orders 122/122 missing=0 programmatic + ledger head 328,987 (w5_judge.json) + claw IN_PLACE + pin=5 no-op + smoke 26/26",
- "next": "r201 = (a) W6-GENERATE pool done-flip harvest (tick auto 05:55+ per W1-W5 precedent); W6-SCREEN = bmb r411 declared lane (bm-c watch only) (b) flip gate three-machine streak re-check (bma 2/3 near, bmb 1/3) (c) V3-TOURNAMENT bmb burn watch (bm-hosted) (d) 10-01 month-first triple fire (science_audit + monthly_briefing + self_review) + REGIME_GUARD v3 date gate auto-activates (no hand-edit)",
- "last_round_at": "r199",
- "current_task": "r200 closed: W6-GENERATE landing verified (3952 candidates) + green maintenance; next = W6 done-flip harvest + W6-SCREEN (bmb lane) + flip gate + 10-01 triple fire",
- "updated_at": "2026-09-29T05:46:23+08:00",
+ "round_no": 201,
+ "updated": "2026-09-29T06:17:23+08:00",
+ "note": "r201 incident-fix round: W6-GENERATE done-flip landed by bm-b r412 first-commit (local flip yielded per sec.4) + DOUBLE LIVE-FIRE: bm-c 06:02 + bm-a 06:07 pool_workers both stole lane_owner=bm-b W6-SCREEN shard (runner host-gate refused rc=2 both) -> lane-guard fix + closed-fail contract fix pushed e52d4f37 + MSG-0630 announcement + batch-87 pit law + water-line reorg (84/85/86 archived)",
+ "last_round_ts": "2026-09-29T06:17:23+08:00",
+ "did": "S0-1 bm-c -> stash-pull-pop -> S0.5 orders 122/122 zero-diff + decisions no-new-line (C-01/C-02 seat-3 opinions both in-file 09-28 03:07 duty round; remaining seats 1/2/7 = other companies) -> S1 smoke 26/26 -> S2 boards 0 open -> S3: W6-GENERATE landing triple-verify re-checked (n=3952 sha16 identical) + local done-flip SURPASSED by bm-b r412 origin commit (yielded, discarded local, rebased) + pool_worker lane-theft live-fire x2 (bm-c 06:02 + bm-a 06:07 both closed-fail rc=2, host-gate held) -> P0 fix-first: Tools/pool_worker.py _eligible lane guard (R31/R65 autofill-parity) + closed-FAIL frees in both readers (pool_worker._shard_claim_age_min + autofill._ext_claim_age_min, writer-reader contract) + selftest 29/29 + autofill ALL PASS + ledger diff3 multiset-union resolve + audit history union 179 rows + commit+push e52d4f37 + F-04 MSG-0630 to ALL (pull request) -> S6 37 legs nonzero=0 (dualrun streak 7/3 zero-drift; audit FLAG supply_gap+supply_floor honest [all remaining faces = bm-b lanes]; watermark py_low_board_clear legal-idle [V3+W6-SCREEN+V3 reburn = bm-b lanes]; multiple lawful stale-takeovers of bm-a stale faces 38-40min per O-2100 s2.4) -> S4 batch-87 + water-line reorg (84/85/86 -> archive, 8,902B, zero-loss verified) -> S7 self-heal trio green (pin=5 no-op, watchdog Ready, claw IN_PLACE)",
+ "verify": "pool flip equivalence check vs origin (status/done_at/result_ref same facts) + rebase clean 2-worker-commits replay + ledger 5 rows all-valid jsonl + worker selftest 29/29 (S6b/c/d + S10b) + autofill selftest ALL PASS + py_compile OK + S6 37 legs rc=0 (dualrun ZERO-DRIFT streak 7/3, cutoff 01:00:30) + orders 122/122 programmatic + CODELY 8,902B under 10KB + archive zero-loss 3/3 lines byte-identical",
+ "next": "r202 = (a) W6-SCREEN = bm-b lane watch (their fixed-code pull lands via MSG-0630; claim-fail files now free shards) (b) V3-TOURNAMENT reburn watch (bm-b fix-first 336dd5c2 landed) (c) flip gate: bmc 7/3 MET, bma 3/3 MET per r415, bmb=? -- three-machine 3x3 check via dualrun status when bm-b streak lands (flip itself = separate session action, never auto) (d) W6-JUDGE sequencing behind V3 + RAM gate (e) W7 prereg trigger = W6-JUDGE landed (not yet) (f) 10-01 month-first triple fire + REGIME_GUARD v3 date gate auto-activates (no hand-edit)",
+ "last_round_at": "r200",
+ "current_task": "r201 closed: lane-guard + closed-fail contract double fix pushed (e52d4f37) + MSG-0630 + batch-87 + green maintenance; next = W6-SCREEN/V3 bm-b lane watch + flip gate 3x3 + 10-01 triple fire",
+ "updated_at": "2026-09-29T06:17:23+08:00",
  "gpu_free_vram_mib": 9958,
- "cpu_pct": 2.0,
- "idle_ram_gb": 11.3
+ "cpu_pct": 1.7,
+ "idle_ram_gb": 11.8
 }

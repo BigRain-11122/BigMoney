@@ -3869,24 +3869,28 @@
       ],
       "lane_owner": null,
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-29 04:58:04",
       "data_gates": "in-runner fail-closed exit 2: (a) w6_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 2d395f5f8e7d16cb -> refuse; (c) G-VOL raw face + G-YANG raw face + G-VCONF raw face anchors -> refuse; (d) RAM gate three-sample >=4GB in-runner r354 law",
       "shards": [
         {
           "key": "generate-0of1",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/trial_labor_w6/w6_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
           "note": "generate = deterministic pre-burn stage, minutes-scale single shard (W4-GENERATE measured ~2min n=3810 bm-b pool-burned; W5-GENERATE ~7min n=3926 bm-a 01:50-01:58)",
           "owner": "bm-c",
-          "owner_since": "2026-09-29 05:35:34"
+          "owner_since": "2026-09-29 05:35:34",
+          "done_at": "2026-09-29 05:46:27"
         }
       ],
       "workers_plan": {
         "workers": 1,
         "priority": "BelowNormal",
         "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE measured ~2min; W5-GENERATE ~7min n=3926)"
-      }
+      },
+      "done_at": "2026-09-29 05:46:27",
+      "result_ref": "results/trial_labor_w6/w6_candidates.json",
+      "done_note": "r201 bm-c harvest (r244 landed-marker law): bmb r411 fix-first (gvvy_counts tuple typo crash at 5000-candidate count loop) -> bm-c relaunch 05:35:31 (crash-fuse cleared by code edit per O-0947) -> landed 05:46:27 clean exit; n=3952 (raw 5000 -> distinct 3952), grammar_sha256 2d395f5f8e7d16cb identical FROZEN, 13-source exclusion 0 hits (A/B 0/0), evidence_cutoff 2026-09-22; landing triple-verify re-checked r201 (json.loads + n + sha16 identical); zero double-ignite per W5 live-skip precedent (refuse-if-exists guard)"
     }
   ],
   "lane_machine": "bm-c"

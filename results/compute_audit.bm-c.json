@@ -1,14 +1,14 @@
 {
   "latest": {
-    "ts": "2026-09-29 05:41:28",
+    "ts": "2026-09-29 06:03:19",
     "audit_version": "v2.4.1",
     "cpu_total_pct": 9.0,
-    "py_cpu_pct": 4.7,
+    "py_cpu_pct": 0.0,
     "cores": 32,
-    "py_procs": 8,
-    "result_stale_min": 1.4,
+    "py_procs": 6,
+    "result_stale_min": 0.8,
     "fleet_open_tasks": 0,
-    "pool_ready_count": 2,
+    "pool_ready_count": 1,
     "pool_ready_unclaimed": 0,
     "load_state": "pool-supply-gap",
     "pool_starvation_candidate": false,
@@ -17,20 +17,20 @@
     },
     "supply_gap_candidate": true,
     "supply_gap_detail": {
-      "run_samples": 5,
-      "span_min": 42.7
+      "run_samples": 6,
+      "span_min": 64.5
     },
     "supply_floor": {
-      "ready": 2,
+      "ready": 1,
       "floor": 3,
       "breach": true
     },
     "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 780.5,
+    "supply_family_streak_min": 802.3,
     "gpu": {
       "present": true,
       "util_pct": 0.0,
-      "mem_used_mb": 5986.0,
+      "mem_used_mb": 5978.0,
       "compute_apps_count": 18,
       "rogue_apps": []
     },
@@ -5896,6 +5896,50 @@
         "present": true,
         "util_pct": 0.0,
         "mem_used_mb": 5986.0,
+        "compute_apps_count": 18,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": false,
+      "single_core_hog_detail": null,
+      "flags": [
+        "supply_gap",
+        "supply_floor"
+      ],
+      "verdict": "FLAG:supply_gap,supply_floor"
+    },
+    {
+      "ts": "2026-09-29 06:03:19",
+      "audit_version": "v2.4.1",
+      "cpu_total_pct": 9.0,
+      "py_cpu_pct": 0.0,
+      "cores": 32,
+      "py_procs": 6,
+      "result_stale_min": 0.8,
+      "fleet_open_tasks": 0,
+      "pool_ready_count": 1,
+      "pool_ready_unclaimed": 0,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "supply_gap_candidate": true,
+      "supply_gap_detail": {
+        "run_samples": 6,
+        "span_min": 64.5
+      },
+      "supply_floor": {
+        "ready": 1,
+        "floor": 3,
+        "breach": true
+      },
+      "ignition_sla_breach_ids": [],
+      "supply_family_streak_min": 802.3,
+      "gpu": {
+        "present": true,
+        "util_pct": 0.0,
+        "mem_used_mb": 5978.0,
         "compute_apps_count": 18,
         "rogue_apps": []
       },
