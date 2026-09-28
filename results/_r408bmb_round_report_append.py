@@ -1,0 +1,16 @@
+import io, sys
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+line = (
+ "2026-09-29T04:20:00+08:00 | r408 bm-b | dept:策略/研究+工程/舰队 (W2-W5 合并 CEO 呈报落地·四枚 48h 钟窗内清账) | "
+ "WM-VERDICT: 绿牌 red=false @04:10 lane=healthy; probe 04:10:45 py_low_with_work_cands=合法在飞供给(本地批 running=astock repull pid7644 锁活网络型+板全闭环 open=0+bandit claimed-parked 源阻塞自愈+池 ready=0·V3 runner bm-c 未建=物理依赖合法 waiting), §四合法 idle 白名单注记; "
+ "audit v2.4.1 idle-starvation+supply_floor standing(ready 0<floor 3·streak 689.7min·供给响应在飞=astock repull+V3 runner bm-c 未建+W6 prereg bm-a r410 在飞) | "
+ "did: (1) S0-1 bm-b 锚定; S0 stash-pull-pop 干净 up-to-date(轮首脏=autofill_state 本机运行态); (2) S0.5 双扫 orders 122/122 零未回执+集团 decisions.md 缺位=P-32 诚实 no-op(r400/r402 先例)+inbox 实为空(前窗查询输出误读=processed 最近3件,python os.listdir 复核实证零未读); (3) S1 smoke 26/26; (4) S2 双板 job_list 空+票板 0 open(T-116=bm-c 自领池迁移票 s3 wave-1 在役不碰; T-114=bm-a W5/W6 线在飞不碰); "
+ "(5) S3 主闭环=W2-W5 合并 CEO 呈报 docs/trial_labor/CEO-REPORT-WAVE2-5-20260929.md 落地=W2(09-28 14:38)/W3(09-28 16:01)/W4(09-28 20:03)/W5(09-29 03:48) 四枚 prereg §6 s4 48h CEO 钟全数窗内提前清账(最早提前 34.5h·W5 钟 47.5h)——漏斗 W2 2924→404→G1' 11→G2 0/W3 3552→513→2→0/W4 3810→461→0→0/W5 3926→372→1→0, 四波合计 14212→1750→14 G1'→0 录用 lawful-zero, 六波累计(含 W1) 16045→2065→0; E[FP] 四波 87.5·六波 103.25·实际过线 0=门比名义 5% 更紧; G1' 过线者族谱=低波动多头7/复合轮动5/箱体突破2 全折于 G2 DSR 校正(账本 328987); 三新面分段读数如实披露零判据权重(W3 GATE bear 19.0%>none 13.4%>bull 11.2%·W4 VOL wild 20.4%>>calm 5.0%·bear×wild 35.9% 最高·W5 YANG first_yang 6.6% vs none 12.2%=确认门整体砍半存活·bear×wild×none 36.8% 最高); 62 断言验数脚本 ALL PASS(results/_r408bmb_verify_ceo_report.py 回执件全量重derive 对账, 两处浮点尾差 3e-15 修容差后全绿); F-04 MSG-20260929-0415 ALL 声明(bm-a W3/W4 票面知会免重复呈报·异议窗开); "
+ "(6) S6 37 腿全 rc=0 nonzero=[](_r408bmb_s6_chain.py=r406 范式+pool_dualrun_reconcile 前置=T-116 证据腿先于 compute_audit 接线律): pool_dualrun bm-b 首行证据 ZERO-DRIFT 107 entries streak 1/3 cutoff 09-29T01:00:30+update_daily 0 新行 cutoff 09-28 盘前+regime ORANGE shadow(breadth 0.83)+scorecard 6/28/7 卡 derive=stale-takeover 合法(bm-a 心跳 03:19→04:10 51min>20min STALE_MIN)+clock CALL-0928 ORANGE_COOL sleeves4 act0 幂等+采集器车道守卫诚实 no-op×11+astock repull 锁活 no-op+etf_daily cutoff 覆盖+rev_osc 面板 incomplete(cutoff 09-24)诚实等待+minute_feed 09:15 前门+b_layer 全过+live.paper OK 无新 bar+t35v 0928 PASS 零例+t24a 22/22 drift0+t24b 0/22 诚实+aggr/alloc/grid 幂等 no-op+paper_export 0928+REPORT-20260929 faces4 token1+LIVE-20260929 ORANGE cap50%+daily_scorecard/build_status stale-takeover derive 合法+token L2 0 today; "
+ "(7) S7 自愈三查绿(schtasks Loop 正在运行 pin=2 no-op 04:22+Watchdog 重注册 04:20+pre-commit claw IN-SYNC)+state 408+心跳 epoch=1790626362 int 自证+orders 二扫 122/122 零差集 | "
+ "evidence: CEO 报告件在位 docs/trial_labor/+62 断言 ALL PASS+smoke 26/26+S6 链 JSON 37 腿 nonzero=[]+pool_dualrun jsonl bm-b 行 streak 1/3+epoch int 自证 | "
+ "next: (a) astock repull ~04:30 收口→rev_osc SIG/BARS 导出解锁(bm-b 双车道·下轮 S6 自然消费); (b) V3-TOURNAMENT bm-c runner 落地后 flip 门二条+RAM 三采样; (c) W6 prereg bm-a T-114 在飞 watch; (d) T-116 s3 wave-1 三机连绿 3 tick 观察窗(本机 streak 1/3); (e) r410=5x HANDOVER 核对 | marks/账本/SEED 本轮 +0(呈报面零判据触碰·判词面 W5 已于 r407 落地零注册) [r408 bm-b]"
+)
+with open(r'logs\iteration-loop\round_reports.md', 'a', encoding='utf-8') as fh:
+    fh.write(line + '\n')
+print('round report line appended, %d chars' % len(line))
