@@ -1,0 +1,95 @@
+{
+ "schema": "grid_paper_v1",
+ "account": "GRID-159915",
+ "instrument": "159915",
+ "lane": "experimental-grid (T-78 s5c, ticket T-2026-09-26-78, order O-20260926-0958 unlock-4)",
+ "whitelist_paradigm": "PROS-* precedent: own lane dir; excluded from t35 paper_export and daily_scorecard CEO faces by construction",
+ "guard": "shadow (record-only; zero interference; zero canon/production-account touch)",
+ "experimental": true,
+ "initial_cash_cny": 1000000.0,
+ "denomination": "CNY",
+ "paper_start_rationale": "first bar strictly after the frozen judgment-domain evidence_cutoff 2026-09-24 (blind forward; GRID_SLEEVE_P1 sec.4/8 + CEO O-0958 wiring order)",
+ "evidence_cutoff": "2026-09-24",
+ "machinery": {
+  "engine": "engine/grid_sleeve.py v1 (additive independent module, house backtester zero-touch)",
+  "params": {
+   "n_grids": 10,
+   "band_win": 250,
+   "nav0": 1000000.0,
+   "cost_bp": 13.0
+  },
+  "params_sha16": "17468ab8e9beb6c8"
+ },
+ "batch_honest_labels": {
+  "batch_sharpe_full": 0.0533,
+  "g1_prime_v2": {
+   "pass": false,
+   "line": 1.1634,
+   "line_ok": false,
+   "ci_lower_bound_positive": false
+  },
+  "gate_a_chop_specialist": true,
+  "chop_face": {
+   "grid_cum": 0.04393277925431849,
+   "passive_cum": -0.18866414778434026,
+   "n": 18
+  },
+  "null_face": {
+   "mu": 0.0261,
+   "max": 0.1144,
+   "cell_beats_null_max": false
+  },
+  "x2_stress": {
+   "sharpe": 0.0175,
+   "x2_flip_negative": false
+  },
+  "descriptive": {
+   "trend_up_opportunity_gap": 3.655621,
+   "trend_down_whipsaw_cost": 0.318706
+  },
+  "promotion_candidate": false
+ },
+ "batch_verdict": {
+  "science_survivors": [],
+  "paper_candidates": [],
+  "prereg_sha256_16": "cd280e829b6e921f",
+  "note": "s5b frozen verdict: honest negative -- observation wiring per CEO O-20260926-0958 regardless, labels above"
+ },
+ "risk_budget": {
+  "position_cap": 1.0,
+  "position_cap_note": "structural grid face: n_grids x unit_cash = NAV_0 fully deployed at band bottom (engine v1 design); declared budget parameter, not a modeled cap",
+  "cash_parking_leg": "intrinsic to machinery: between-grids idle cash + band-eject full-cash leg inside the engine",
+  "experimental": true,
+  "execution_layer_note": "marks are the deterministic machinery-replay measurement; budget fields are declared parameters, not modeled in marks"
+ },
+ "cost_face": "x1 (V1 legacy 13bp production-aligned; batch x2 stress face disclosed in labels -- x2 degrades but stays same-sign",
+ "forward_fund_event": {
+  "frozen": false,
+  "event_days": [],
+  "law": "r239 fund-event guard, forward face (GRID_SLEEVE_P1 sec.2 guard, applied to post-cutoff bars)"
+ },
+ "marks": [
+  {
+   "date": "2026-09-28",
+   "daily_ret": -0.02458978,
+   "equity_cny": 975410.22
+  }
+ ],
+ "marks_summary": {
+  "bars": 1,
+  "first_date": "2026-09-28",
+  "last_date": "2026-09-28",
+  "cumulative_ret": -0.02458978,
+  "current_dd": -0.02459
+ },
+ "equity_cny": 975410.22,
+ "panel_cutoff": "2026-09-28",
+ "updated": "2026-09-28 22:10:18",
+ "audit": {
+  "network": "zero",
+  "ledger_trials_added": 0,
+  "seed_registry_added": 0,
+  "engine_runs": 1,
+  "adoption": "ZERO (observation lane)"
+ }
+}
