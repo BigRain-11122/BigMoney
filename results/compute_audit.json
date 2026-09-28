@@ -1,15 +1,15 @@
 {
   "latest": {
-    "ts": "2026-09-29 05:11:48",
+    "ts": "2026-09-29 05:08:04",
     "audit_version": "v2.4.1",
-    "cpu_total_pct": 85.0,
-    "py_cpu_pct": 6.4,
+    "cpu_total_pct": 43.0,
+    "py_cpu_pct": 0.4,
     "cores": 32,
-    "py_procs": 26,
-    "result_stale_min": 4.8,
+    "py_procs": 9,
+    "result_stale_min": 0.5,
     "fleet_open_tasks": 0,
-    "pool_ready_count": 1,
-    "pool_ready_unclaimed": 0,
+    "pool_ready_count": 2,
+    "pool_ready_unclaimed": 1,
     "load_state": "pool-supply-gap",
     "pool_starvation_candidate": false,
     "pool_starvation_detail": {
@@ -21,27 +21,29 @@
       "span_min": null
     },
     "supply_floor": {
-      "ready": 1,
+      "ready": 2,
       "floor": 3,
       "breach": true
     },
-    "ignition_sla_breach_ids": [],
-    "supply_family_streak_min": 750.8,
+    "ignition_sla_breach_ids": [
+      "DECISION-CHAIN-V3-TOURNAMENT"
+    ],
+    "supply_family_streak_min": 747.1,
     "gpu": {
       "present": true,
-      "util_pct": 3.0,
-      "mem_used_mb": 6799.0,
-      "compute_apps_count": 33,
+      "util_pct": 0.0,
+      "mem_used_mb": 6003.0,
+      "compute_apps_count": 18,
       "rogue_apps": []
     },
     "zombies": [],
     "single_core_hog_candidate": false,
     "single_core_hog_detail": null,
     "flags": [
-      "cap_violation",
+      "ignition_sla",
       "supply_floor"
     ],
-    "verdict": "FLAG:cap_violation,supply_floor"
+    "verdict": "FLAG:ignition_sla,supply_floor"
   },
   "history": [
     {
@@ -5729,16 +5731,16 @@
       "verdict": "FLAG:supply_floor"
     },
     {
-      "ts": "2026-09-29 05:11:48",
+      "ts": "2026-09-29 05:08:04",
       "audit_version": "v2.4.1",
-      "cpu_total_pct": 85.0,
-      "py_cpu_pct": 6.4,
+      "cpu_total_pct": 43.0,
+      "py_cpu_pct": 0.4,
       "cores": 32,
-      "py_procs": 26,
-      "result_stale_min": 4.8,
+      "py_procs": 9,
+      "result_stale_min": 0.5,
       "fleet_open_tasks": 0,
-      "pool_ready_count": 1,
-      "pool_ready_unclaimed": 0,
+      "pool_ready_count": 2,
+      "pool_ready_unclaimed": 1,
       "load_state": "pool-supply-gap",
       "pool_starvation_candidate": false,
       "pool_starvation_detail": {
@@ -5750,27 +5752,29 @@
         "span_min": null
       },
       "supply_floor": {
-        "ready": 1,
+        "ready": 2,
         "floor": 3,
         "breach": true
       },
-      "ignition_sla_breach_ids": [],
-      "supply_family_streak_min": 750.8,
+      "ignition_sla_breach_ids": [
+        "DECISION-CHAIN-V3-TOURNAMENT"
+      ],
+      "supply_family_streak_min": 747.1,
       "gpu": {
         "present": true,
-        "util_pct": 3.0,
-        "mem_used_mb": 6799.0,
-        "compute_apps_count": 33,
+        "util_pct": 0.0,
+        "mem_used_mb": 6003.0,
+        "compute_apps_count": 18,
         "rogue_apps": []
       },
       "zombies": [],
       "single_core_hog_candidate": false,
       "single_core_hog_detail": null,
       "flags": [
-        "cap_violation",
+        "ignition_sla",
         "supply_floor"
       ],
-      "verdict": "FLAG:cap_violation,supply_floor"
+      "verdict": "FLAG:ignition_sla,supply_floor"
     }
   ]
 }
