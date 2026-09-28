@@ -1134,6 +1134,23 @@ SEED_REGISTRY = {
         # 2026-09-28 20:3x before prereg freeze; registered same commit as
         # prereg freeze (R250 law; prereg =
         # research/INNOVATION_QUOTA_W1_PREREG.md; F-04 MSG-20260928-2035)
+        "grid_dualface_p1": 20295500,  # GRID_DUALFACE_P1 K=200 same-mask
+        # random-trigger-day nulls (T-104 s2 broad-base oscillation grid
+        # dual-face batch): per-member-cell deterministic streams
+        # np.random.default_rng([20295500, cell_idx]), cell_idx<30
+        # (member_idx x 6 + grid_idx), K=200 sequential draws per stream
+        # (prereg sec.3.7 frozen); pair-derivation first element 20295500
+        # is distinct from innovation_quota_w1_repo's constant 20295000
+        # first element (its k<3100 rides the SECOND element only) = zero
+        # actual RNG collision by construction (census_fusion_s2_unc
+        # pair-derivation precedent); the 20295000..20298099 nominal band
+        # claim above is a k-range description, not single-int occupation;
+        # rg --type py full-repo scan zero 202955xx hits at freeze;
+        # registered at prereg freeze commit BEFORE any runner build,
+        # one-step R250 law; lane = T-2026-09-28-104 s2, prereg
+        # research/etf_ops/GRID_DUALFACE_P1_PREREG.md, F-04
+        # MSG-20260928-2110-bmb (dead r399 session salvage: seed declared
+        # in MSG+prereg, registered here at salvage freeze commit r399)
 
     }
 
