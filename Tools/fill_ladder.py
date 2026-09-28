@@ -1,0 +1,249 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""fill_ladder.py -- T-107 slice-2 supply-floor fill-ladder generator.
+
+O-20260928-1614 sec.1 SUPPLY FLOOR: runnable_pool ready count >= 3 per machine
+at all times; below floor -> standing fill-generator auto-enqueues from the
+fill ladder (sec.4 priorities a/b/c/d). O-20260928-1630 D4 names the standing
+supply catalog this generator consumes. COMPUTE_AUDIT.md v2.4 supply_floor
+flag names this generator as the remediation face.
+
+DESIGN LAWS (frozen in this slice):
+  * The ladder is a DISPATCHER OVER EXISTING LAW, zero new research invention
+    inside this tool (T-107 anti-dup note). Every catalog entry must cite its
+    law line (ticket/prereg) and carry an ENQUEUE GATE; the generator only
+    enqueues entries whose gates pass -- prereg-absent supply is NEVER
+    enqueued (BACKTEST_SCIENCE: every burn batch needs a frozen prereg).
+  * Idempotent append-only: an id already present in the pool (any status) is
+    never re-added; re-running is a no-op.
+  * DOUBLE-FILE LAW (r399 lane-merge law): every pool mutation writes BOTH
+    results/runnable_pool.json (shared) and results/runnable_pool.<id>.json
+    (lane) with the same bytes in the same operation -- shared-only edits are
+    resurrected by the next tick's lane-merge union.
+  * Zero writes when floor is satisfied or no lawful candidate exists
+    (honest no-op, stdout evidence only).
+
+USAGE:
+  python Tools/fill_ladder.py            # live: floor check + enqueue if due
+  python Tools/fill_ladder.py --dry-run  # report only, zero writes
+  python Tools/fill_ladder.py --floor N   # override floor (default 3)
+  python Tools/fill_ladder.py selftest   # hermetic offline selftest
+"""
+import json
+import os
+import sys
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+FLOOR_DEFAULT = 3
+
+CATALOG_PATH = os.path.join(ROOT, "Tools", "fill_ladder_catalog.json")
+
+
+def _now():
+    import datetime
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+def _machine_id():
+    with open(os.path.join(ROOT, "fleet", "machine.json"), encoding="utf-8") as f:
+        return json.load(f)["machine_id"]
+
+
+def _pool_paths(machine_id):
+    shared = os.path.join(ROOT, "results", "runnable_pool.json")
+    lane = os.path.join(ROOT, "results", "runnable_pool.%s.json" % machine_id)
+    return shared, lane
+
+
+def _load(path):
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding="utf-8") as f:
+        return f.read()
+
+
+def _lane_ok(entry, machine_id):
+    """F-08/R31 lane guard, same semantics as autofill: null/ANY = any machine."""
+    lane = entry.get("lane_owner")
+    return lane in (None, "", "ANY") or lane == machine_id
+
+
+def _compatible_ready_count(pool, machine_id):
+    if not pool:
+        return 0
+    entries = pool.get("entries", pool if isinstance(pool, list) else [])
+    return sum(1 for e in entries if e.get("status") == "ready" and _lane_ok(e, machine_id))
+
+
+def _write_pool_double(shared_path, lane_path, pool_obj):
+    """r399 law: shared + lane same bytes, shared first, both atomic-ish."""
+    data = json.dumps(pool_obj, ensure_ascii=False, indent=1) + "\n"
+    tmp = shared_path + ".ladder_tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(data)
+    os.replace(tmp, shared_path)
+    lane_dir = os.path.dirname(lane_path)
+    if os.path.isdir(lane_dir):
+        tmp2 = lane_path + ".ladder_tmp"
+        with open(tmp2, "w", encoding="utf-8") as f:
+            f.write(data)
+        os.replace(tmp2, lane_path)
+
+
+def _gate_pass(gate, machine_id, pool, cand_runner=None):
+    """Catalog gate: list of requirement strings, all must hold.
+
+    Supported requirement forms (extensible, D4 will add):
+      prereg_frozen:<repo-relative path>   -- file must exist in-tree AND its
+                                              head (first 12 lines) must NOT
+                                              carry a draft-pending marker
+                                              (非冻结/冻结挂起/禁按本稿/起草中/
+                                              草稿面) -- W5 draft-head
+                                              convention, r176 calibration
+      runner_exists                        -- the candidate's own runner file
+                                              must exist (no ignition of an
+                                              unbuilt runner)
+      standing_no_judge_inflight           -- TRIAL_LABOR_LAW sec.1 常供律
+                                              condition: no JUDGE-family pool
+                                              entry in ready/waiting state
+                                              (supply waves wait for the
+                                              judge pipeline; law text in the
+                                              W5 catalog entry).
+    """
+    for req in gate or []:
+        if req.startswith("prereg_frozen:"):
+            p = req.split(":", 1)[1]
+            full = os.path.join(ROOT, p)
+            if not os.path.exists(full):
+                return False, "prereg absent: %s" % p
+            with open(full, encoding="utf-8", errors="replace") as f:
+                head = "".join(f.readline() for _ in range(12))
+            for marker in ("非冻结", "冻结挂起", "禁按本稿", "起草中", "草稿面"):
+                if marker in head:
+                    return False, "prereg draft-pending (%s): %s" % (marker, p)
+        elif req == "runner_exists":
+            r = cand_runner
+            if not r or not os.path.exists(os.path.join(ROOT, r)):
+                return False, "runner not built: %s" % r
+        elif req == "standing_no_judge_inflight":
+            entries = (pool or {}).get("entries", [])
+            for e in entries:
+                if "JUDGE" in (e.get("id") or "") and e.get("status") in ("ready", "waiting"):
+                    return False, "judge batch %s still %s (TRIAL_LABOR_LAW sec.1)" % (
+                        e.get("id"), e.get("status"))
+        else:
+            return False, "unknown gate req: %s" % req
+    return True, ""
+
+
+def run(dry_run=False, floor=FLOOR_DEFAULT):
+    machine_id = _machine_id()
+    shared_path, lane_path = _pool_paths(machine_id)
+    shared_raw = _load(shared_path)
+    pool = json.loads(shared_raw) if shared_raw else {"entries": []}
+    entries = pool.get("entries", [])
+    existing_ids = {e.get("id") for e in entries}
+    ready_n = _compatible_ready_count(pool, machine_id)
+    print("[ladder] machine=%s compatible_ready=%d floor=%d" % (machine_id, ready_n, floor))
+    if ready_n >= floor:
+        print("[ladder] floor satisfied -- no-op")
+        return 0
+    with open(CATALOG_PATH, encoding="utf-8") as f:
+        catalog = json.load(f)
+    added, blocked = [], []
+    for cand in catalog.get("entries", []):
+        cid = cand["id"]
+        if cid in existing_ids:
+            continue
+        if cand.get("lane_owner") not in (None, "", "ANY") and cand["lane_owner"] != machine_id:
+            continue
+        ok, why = _gate_pass(cand.get("enqueue_gates"), machine_id, pool, cand.get("runner"))
+        if not ok:
+            blocked.append((cid, why))
+            continue
+        entry = {k: v for k, v in cand.items() if k != "enqueue_gates"}
+        entry["status"] = "ready"
+        entry["entered_at"] = _now()
+        entry["entered_by"] = "%s fill_ladder T-107 slice-2" % machine_id
+        entries.append(entry)
+        added.append(cid)
+    if added:
+        pool["entries"] = entries
+        if dry_run:
+            print("[ladder] DRY-RUN would enqueue: %s (zero writes)" % added)
+        else:
+            _write_pool_double(shared_path, lane_path, pool)
+            print("[ladder] enqueued (shared+lane double-file): %s" % added)
+    else:
+        print("[ladder] no lawful supply candidate passed gates -- honest no-op; "
+              "floor breach %d<%d stands until preregs land" % (ready_n, floor))
+        for cid, why in blocked:
+            print("[ladder]   blocked: %s (%s)" % (cid, why))
+    return 0
+
+
+def selftest():
+    """Hermetic offline selftest -- no repo pool writes, temp-dir fixtures."""
+    import shutil
+    import tempfile
+    tmp = tempfile.mkdtemp(prefix="fill_ladder_selftest_")
+    try:
+        # fixture: shared+lane pool with one bm-b-lane ready entry -> bm-c floor 0
+        shared = os.path.join(tmp, "runnable_pool.json")
+        lane = os.path.join(tmp, "runnable_pool.bm-c.json")
+        pool = {"entries": [{"id": "X", "status": "ready", "lane_owner": "bm-b"}]}
+        for p in (shared, lane):
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(pool, f)
+        # double-write law check
+        pool["entries"].append({"id": "Y", "status": "ready", "lane_owner": "bm-c"})
+        _write_pool_double(shared, lane, pool)
+        a, b = open(shared, encoding="utf-8").read(), open(lane, encoding="utf-8").read()
+        assert a == b and '"Y"' in a, "D1 double-file law violated"
+        # lane guard check
+        assert _lane_ok({"lane_owner": None}, "bm-c") and _lane_ok({"lane_owner": "ANY"}, "bm-c")
+        assert _lane_ok({"lane_owner": "bm-c"}, "bm-c") and not _lane_ok({"lane_owner": "bm-b"}, "bm-c")
+        # compatible-ready count
+        assert _compatible_ready_count(pool, "bm-c") == 1
+        assert _compatible_ready_count(pool, "bm-b") == 1  # X is bm-b lane
+        # gate check: prereg_frozen on missing file
+        ok, why = _gate_pass(["prereg_frozen:research/__absent__.md"], "bm-c", {"entries": []})
+        assert not ok and "prereg absent" in why
+        # gate check: existing file without draft markers passes
+        ok2, _ = _gate_pass(["prereg_frozen:Tools/fill_ladder.py"], "bm-c", {"entries": []})
+        assert ok2
+        # gate check: W5 draft head (draft-pending marker) must be refused
+        okw, whyw = _gate_pass(["prereg_frozen:research/TRIAL_LABOR_W5_PREREG.md"], "bm-c", {"entries": []})
+        assert not okw and "draft-pending" in whyw
+        # gate check: runner_exists on unbuilt runner refused, built runner passes
+        okr, whyr = _gate_pass(["runner_exists"], "bm-c", {"entries": []}, "scripts/__nope__.py")
+        assert not okr and "runner not built" in whyr
+        okr2, _ = _gate_pass(["runner_exists"], "bm-c", {"entries": []}, "Tools/fill_ladder.py")
+        assert okr2
+        # standing law gate: judge in-flight blocks supply wave
+        okj, whyj = _gate_pass(["standing_no_judge_inflight"], "bm-c",
+                               {"entries": [{"id": "TRIAL-LABOR-W4-JUDGE", "status": "waiting"}]})
+        assert not okj and "W4-JUDGE" in whyj
+        okj2, _ = _gate_pass(["standing_no_judge_inflight"], "bm-c",
+                             {"entries": [{"id": "TRIAL-LABOR-W4-JUDGE", "status": "done"}]})
+        assert okj2
+        # idempotency surface: _gate_pass unknown req refused
+        ok3, why3 = _gate_pass(["bogus_req"], "bm-c", {"entries": []})
+        assert not ok3 and "unknown gate" in why3
+        print("selftest: all assertions PASS (double-file law / lane guard / "
+              "ready count / gate refusal matrix)")
+        return 0
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+if __name__ == "__main__":
+    args = [a for a in sys.argv[1:] if not a.startswith("--")]
+    flags = [a for a in sys.argv[1:] if a.startswith("--")]
+    if args and args[0] == "selftest":
+        sys.exit(selftest())
+    floor = FLOOR_DEFAULT
+    for a in flags:
+        if a.startswith("--floor="):
+            floor = int(a.split("=", 1)[1])
+    sys.exit(run(dry_run=("--dry-run" in flags), floor=floor))
