@@ -1062,6 +1062,13 @@ SEED_REGISTRY = {
     # (purpose-pinning precedent); band 20290500..20290519 rg --type py scan
     # r396 zero hits; clean gap above trial_labor_w4_scrnull (20290000);
     # registered same commit as wave-4 prereg freeze (R250 law)
+    "decision_chain_v3_tournament": 20291000,
+    # T-20260928-101 chain v3 tournament 3-arm batch (H1 style-tilt /
+    # H2 theme-satellite / H3 minimal-chain control); bootstrap beat-rate CI
+    # seed family; band 20291000..20291019 free (rg --type py zero hits
+    # 2026-09-28 15:2x; occupied band ends 20290500 = trial_labor_w4_unc);
+    # registered same commit as prereg freeze (R250 law; prereg =
+    # research/DECISION_CHAIN_V3_TOURNAMENT_PREREG.md)
 
 }
 
