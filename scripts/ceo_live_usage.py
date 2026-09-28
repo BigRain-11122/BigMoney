@@ -1,9 +1,17 @@
-"""T-105: CEO live-usage daily one-pager generator (v1, aggregation-only).
+"""T-105: CEO live-usage daily one-pager generator (v1.1, aggregation-only).
 
 Deliverable per O-20260928-1533 sec.4 / T-105 spec: an AUTO-GENERATED daily
 one-pager the CEO can follow manually.  PURE PROJECTION of existing
 calibrated faces -- ZERO new judgments, zero new indicators (fail-closed
 law: sleeves not activated stay disclosed NOT_ACTIVATED).
+
+v1.1 (r391 bm-b, O-20260928-1555 + O-20260928-1605):
+  - five-member universe tier annotations (first-layer huijin high-control
+    510050/510300, second-layer 510500/512100/588000; ChiNext excluded)
+  - national-team status row in section 1 (current support/sell/neutral +
+    one-line basis).  Face source = T-106 control-degree quantification
+    (bm-c, in build) -- until that face lands the row honestly reads
+    "quantification in flight"; face wiring = v1.2 on T-106 artifact.
 
 Faces consumed (all existing, read-only):
   - results/regime_state.json            (REGIME_GUARD v3 state machine)
@@ -45,8 +53,12 @@ LADDER = [
 ]
 SIX = ("COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01",
        "ENGULF-CE-01", "NEEDLE-DE-01", "VOLATILITY-CE-01")
-BROAD = {"510300", "510050", "510500"}          # CEO-pinned core (O-1533)
-BROAD_EXT = {"159915", "159949", "588000", "512100"}   # prereg-gated family
+# Five-member universe final verdict (O-20260928-1555, CEO direct order):
+# tier-1 huijin high-control {510050 SSE50, 510300 HS300}; tier-2
+# {510500 CSI500, 512100 CSI1000, 588000 STAR50}.  ChiNext excluded.
+UNIVERSE_T1 = {"510300", "510050"}
+UNIVERSE_T2 = {"510500", "512100", "588000"}
+CHINEXT_EXCL = {"159915", "159949"}   # 创业板指出列 (O-1555)
 SECTOR_HINT = {          # honest category hints, no full spectrum re-derive
     "511880": "货币ETF", "511990": "货币ETF",
     "513100": "跨境ETF", "518880": "黄金ETF",
@@ -60,17 +72,20 @@ def _read_json(path):
 
 
 def _classify(code: str) -> str:
-    """Honest constituent annotation (O-1533 sec.1.3 / T-105 spec)."""
+    """Honest constituent annotation (O-1555 five-member verdict /
+    O-1533 sec.1.3 / T-105 spec)."""
     code = str(code)
-    if code in BROAD:
-        return "宽基·钦定核心"
-    if code in BROAD_EXT:
-        return "宽基·同族扩展（预注册后可用）"
+    if code in UNIVERSE_T1:
+        return "宽基·第一层（汇金高度控盘·O-1555）"
+    if code in UNIVERSE_T2:
+        return "宽基·第二层（O-1555）"
+    if code in CHINEXT_EXCL:
+        return "创业板指出列（O-1555 禁新增·存量持仓月界动作）"
     if code in SECTOR_HINT:
         return SECTOR_HINT[code]
     if code.startswith(BOND_PREFIX):
         return "债券ETF（非宽基研究宇宙）"
-    return "行业/主题或非钦定宽基（O-1533 收窄注记：非研究宇宙）"
+    return "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）"
 
 
 def _version_banner() -> list:
@@ -143,8 +158,8 @@ def build_payload(day: str) -> dict:
         })
 
     return {
-        "schema": "ceo_live_usage_v1",
-        "ticket": "T-2026-09-28-105",
+        "schema": "ceo_live_usage_v1_1",
+        "ticket": "T-202609-28-105",
         "day": day,
         "generated": dt.datetime.now().isoformat(timespec="seconds"),
         "market": {
@@ -157,6 +172,15 @@ def build_payload(day: str) -> dict:
                            .get("close"),
             "bench_ma200": regime.get("dims", {}).get("bench", {})
                             .get("ma200"),
+        },
+        "national_team": {
+            "status": "中性（量化采集进行中）",
+            "basis": "T-106 控盘度量化面在建（O-20260928-1540 令 + "
+                     "O-20260928-1605 升格：份额异动+持仓披露差分+事件台账"
+                     "+舆论新闻面四面）；本行=T-105 状态行占位诚实律——"
+                     "face 落地前禁编造当值判读，v1.2 接线实测读数",
+            "face_source": "T-106 s1 control-degree quantification "
+                           "(owner bm-c, in build)",
         },
         "ladder": {
             "rungs": [{"state": n, "cap": c, "note": d}
@@ -177,6 +201,9 @@ def build_payload(day: str) -> dict:
             "+CEO 唯一门，本页不改变该门；",
             "未激活袖面如实披露 NOT_ACTIVATED；既有六员持仓含行业 ETF 成分"
             "按 O-1533 如实标注，改仓=月界统一动作不追溯；",
+            "研究宇宙=五员宽基定谳（O-20260928-1555）：第一层 上证50/沪深300"
+            "（汇金高度控盘）·第二层 中证500/中证1000/科创50；创业板指出列，"
+            "行业/主题/跨境/债券/黄金维持排除；",
             "数据口径=最近收盘 bar（asof 见上），日内刷新=v1.1（T-104 实时源"
             "落地后）。",
         ],
@@ -188,7 +215,7 @@ def render_md(p: dict) -> str:
     L = []
     L.append(f"# CEO 实盘使用一页纸 · {p['day']}")
     L.append("")
-    L.append(f"> 自动生成 {p['generated']} · T-105 v1 · "
+    L.append(f"> 自动生成 {p['generated']} · T-105 v1.1 · "
              "纯聚合面（零新判据）· [版本台账]"
              "(../../research/DECISION_CHAIN_LEDGER.md)")
     L.append("")
@@ -201,6 +228,8 @@ def render_md(p: dict) -> str:
              f"{m['bench_ma200']}"
              + ("（熔断线之下）" if (m['bench_close'] or 0)
                 < (m['bench_ma200'] or 0) else "（熔断线之上）"))
+    nt = p["national_team"]
+    L.append(f"- **国家队状态：{nt['status']}** · 依据：{nt['basis']}")
     L.append("")
     L.append("## ② 仓位指令（阶梯总帽）")
     L.append("")
@@ -299,6 +328,18 @@ def selftest() -> int:
     check("market block has state+asof",
           p1["market"]["state"] in {r[0] for r in LADDER}
           and bool(p1["market"]["asof"]))
+    check("national-team status row present (O-1605)",
+          p1["national_team"]["status"]
+          and p1["national_team"]["basis"])
+    check("schema v1.1", p1["schema"] == "ceo_live_usage_v1_1")
+    tier_faces = {"宽基·第一层（汇金高度控盘·O-1555）",
+                  "宽基·第二层（O-1555）"}
+    seen = {pos["category"] for m in p1["members"] for pos in m["positions"]}
+    check("universe tiers annotated where held",
+          seen <= tier_faces | {
+              "货币ETF", "跨境ETF", "黄金ETF", "创业板指出列（O-1555 禁新增"
+              "·存量持仓月界动作）", "债券ETF（非宽基研究宇宙）",
+              "行业/主题或非五员宽基（O-1533/O-1555 收窄注记：非研究宇宙）"})
     check("ladder cap matches frozen rung",
           p1["ladder"]["current_cap"]
           == dict((n, c) for n, c, _ in LADDER)[
@@ -327,6 +368,8 @@ def selftest() -> int:
           all(k in md1 for k in ("① 市场判定", "② 仓位指令",
                                  "③ 六员分配", "④ 决策链版本横幅",
                                  "⑤ 诚实免责")))
+    check("national-team row rendered in md",
+          "国家队状态" in md1 and "T-106" in md1)
     print(f"selftest: {'ALL PASS' if not fails else f'FAIL {fails}'}")
     return 0 if not fails else 1
 

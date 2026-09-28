@@ -7,7 +7,9 @@ append-only by bar timestamp; overlapping rows must match the local copy
 byte-for-byte or the run aborts exit 3 (source-history-rewrite) with the
 local file untouched.  Deep intraday history does not exist; the archive
 is BUILT from now (forward-accumulation law, same design as the sentiment
-collectors).  Spec = research/etf_ops/MINUTE_FEED.md v1.0 (frozen).
+collectors).  Spec = research/etf_ops/MINUTE_FEED.md v1.3 (O-20260928-1555
+five-member universe: active codes 3 -> 5; new codes forward-accumulate
+from their first gated run).
 
 Source (GM probe 2026-09-28 15:30, O-20260928-1531 -- cite, no re-probe):
 ak.stock_zh_a_minute(symbol='sh510300', period='1') = 1970 real bars.
@@ -53,14 +55,18 @@ ATTEMPTS = 3
 BACKOFF_S = (5, 10)
 PERIOD = "1"
 
-# T-103 category map seed -- spec sec.3 FROZEN v1.2 (O-20260928-1533
-# broad-base narrowing: research universe = broad-index ETFs ONLY; the
-# five T+0 codes collected under v1.0/v1.1 stay archived-on-disk frozen,
+# T-103 category map seed -- spec sec.3 v1.3 (O-20260928-1555 five-member
+# universe final verdict: tier-1 huijin-high-control {510050, 510300} +
+# tier-2 {510500, 512100, 588000}; v1.2 O-20260928-1533 broad-base
+# narrowing: research universe = broad-index ETFs ONLY; the five T+0
+# codes collected under v1.0/v1.1 stay archived-on-disk frozen,
 # resumable if CEO extends the universe)
 UNIVERSE = [
-    ("510300", "broad-base", "T+1"),
-    ("510050", "broad-base", "T+1"),
-    ("510500", "broad-base", "T+1"),
+    ("510300", "broad-base", "T+1"),   # tier-1 huijin high-control
+    ("510050", "broad-base", "T+1"),   # tier-1 huijin high-control
+    ("510500", "broad-base", "T+1"),   # tier-2
+    ("512100", "broad-base", "T+1"),   # tier-2 (v1.3 O-1555 extension)
+    ("588000", "broad-base", "T+1"),   # tier-2 (v1.3 O-1555 extension)
 ]
 COLS = ("day", "open", "high", "low", "close", "volume", "amount")
 NUM_COLS = ("open", "high", "low", "close", "volume", "amount")
@@ -270,7 +276,7 @@ def run(force: bool = False) -> int:
         "archive_dir": "data/minute_feed",
         "symbols": symbols,
         "rows_new_total": total_new,
-        "spec": "research/etf_ops/MINUTE_FEED.md v1.2",
+        "spec": "research/etf_ops/MINUTE_FEED.md v1.3",
     }
     _write_status(payload, mid)
     print(f"update_minute_feed: done, +{total_new} rows across "
