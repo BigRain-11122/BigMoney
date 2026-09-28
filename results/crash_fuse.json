@@ -10,16 +10,6 @@
    "machine": "bm-a",
    "last_refusal_ts": "2026-09-27 03:30:03"
   },
-  "scripts/decision_chain_v2.py|run": {
-   "count": 3,
-   "refusals": 3,
-   "code_sha256": "880297a0fb0854bf",
-   "last_crash_ts": "2026-09-28 03:20:08",
-   "entry": "DECISION-CHAIN-V2-P1",
-   "shard": "v2-0of1",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-09-28 03:23:20"
-  },
   "scripts/trial_labor_w2.py|screen,--shard,0,--shards,1": {
    "count": 2,
    "refusals": 0,
@@ -47,6 +37,13 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "44bf81ffa87535dc"
+  },
+  "scripts/decision_chain_v2.py|run": {
+   "cleared_ts": "2026-09-28 16:13:24",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 3,
+   "old_code_sha256": "880297a0fb0854bf"
   }
  }
 }
