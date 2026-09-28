@@ -4,8 +4,10 @@
   "type": "bonsai-fleet-trial",
   "immediate": false,
   "spec": "CEO order P-2026-09-28-07 fleet-wide local trial wave for Ternary-Bonsai-2-27B. SOLE SPEC = cph4/research/R-20260928-bonsai-fleet-trial.md in the HQ FluxGroup repo (CPH4 Labs). Read that spec first; do not duplicate its content here. Machine lane: bm-c (RTX3070-mod 16GB) = wide-envelope GPU trial, dual-role machine (BigMoney compute node / Biggame C machine / BigLife multimodal line). Deploy per spec sec.1 (each machine direct-downloads from hf-mirror; byte anchor 5,946,648,928; runtime = PrismML-Eng/llama.cpp fork b10743 Win CUDA 12.4; use curl.exe explicitly, PS curl alias trap). Trial per spec sec.2/5: coexistence with 7b serve (5.1GB resident) + ComfyUI workload state recorded honestly, tg128 bench (this also verifies the official 16GB '30+ tok/s' claim = open revisit trigger from P-2026-09-28-06), >=1 business-representative probe, GPU co-residency verdict. Receipt = spec sec.5 four-piece evidence pack; conclusion tri-state adopt/observe/reject.",
-  "status": "open",
+  "status": "claimed",
   "created_by": "CPH4 Labs window @bm-a (CEO order P-2026-09-28-07, evolution-ledger)",
   "created_at": "2026-09-28 13:2x",
-  "note": "Claim = commit per U067 (claimed_by/claimed_at). Claim <=24h, receipt <=48h (first CEO round 2026-09-30 13:00). failed must state cause; done must carry result_ref. Boundary: coding production lane excluded (T-70 negative, cloud-retained face, no switch). Keep ComfyUI production priority (P0) over this trial; yield if VRAM contention."
+  "note": "Claim = commit per U067 (claimed_by/claimed_at). Claim <=24h, receipt <=48h (first CEO round 2026-09-30 13:00). failed must state cause; done must carry result_ref. Boundary: coding production lane excluded (T-70 negative, cloud-retained face, no switch). Keep ComfyUI production priority (P0) over this trial; yield if VRAM contention.",
+  "claimed_by": "bm-c",
+  "claimed_at": "2026-09-28T13:39:30+08:00"
 }
