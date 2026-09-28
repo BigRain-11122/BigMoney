@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-29",
- "generated_at": "2026-09-29 06:57:19",
+ "generated_at": "2026-09-29 07:18:10",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,23 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-09-29.md"
  },
  "rd": {
-  "commits_24h": 576,
-  "result_jsons_landed_24h": 117,
+  "commits_24h": 568,
+  "result_jsons_landed_24h": 116,
   "digests_landed_24h": 5,
   "prereg_md_touched_24h": 26,
   "compute_audit_latest": {
-   "ts": "2026-09-29 06:53:45",
-   "py_cpu_pct": 6.1,
+   "ts": "2026-09-29 07:14:02",
+   "py_cpu_pct": 6.7,
    "flags": [
-    "cap_violation",
     "supply_gap",
     "supply_floor"
    ],
-   "verdict": "FLAG:cap_violation,supply_gap,supply_floor"
+   "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -598,11 +597,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 868311,
+  "total_report_tokens_est": 872113,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 06:14:38",
+   "prev_generated": "2026-09-29 06:32:19",
    "state_tokens_growth": 0,
-   "report_tokens_growth": -60,
+   "report_tokens_growth": 3802,
    "mandate_growth": 0
   },
   "method": {
@@ -613,17 +612,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-09-29 06:53:45",
-    "py_pct": 6.1,
-    "cpu_pct": 87.0,
+    "latest_ts": "2026-09-29 07:14:02",
+    "py_pct": 6.7,
+    "cpu_pct": 77.0,
     "ready": 2,
-    "streak_min": 852.8,
-    "verdict": "FLAG:cap_violation,supply_gap,supply_floor",
+    "streak_min": 873.0,
+    "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "04:58",
-      1.6
-     ],
      [
       "05:08",
       0.4
@@ -667,12 +662,16 @@
      [
       "06:53",
       6.1
+     ],
+     [
+      "07:14",
+      6.7
      ]
     ],
-    "today_samples": 38,
+    "today_samples": 39,
     "today_floor_ok": 0,
     "today_sla_flags": 7,
-    "today_supply_gap_flags": 17
+    "today_supply_gap_flags": 18
    },
    "bm-b": {
     "latest_ts": "2026-09-29 06:30:04",
