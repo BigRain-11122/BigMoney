@@ -3,10 +3,11 @@
  "clock_cell": "ORANGE_COOL",
  "regime_v3": {
   "state": "ORANGE",
-  "asof": "2026-09-24",
-  "days_in_state": 1,
+  "asof": "2026-09-28",
+  "days_in_state": 2,
   "triggers": [
    "hs300<MA200 (#10 collected)",
+   "breadth 0.81>=65%",
    "breadth 0.77>=65%"
   ]
  },
@@ -16,10 +17,90 @@
   "rolling250_p80_rows": 96.0,
   "heat": "COOL"
  },
- "sector_board_top8": [],
- "sector_board_bottom5": [],
- "fresh_universe_n": 0,
- "breadth_r20_pos": null,
+ "sector_board_top8": [
+  {
+   "symbol": "513100",
+   "r5": 0.0154,
+   "r20": 0.0309,
+   "r60": 0.0632
+  },
+  {
+   "symbol": "512800",
+   "r5": 0.0,
+   "r20": 0.022,
+   "r60": 0.1178
+  },
+  {
+   "symbol": "511090",
+   "r5": 0.0075,
+   "r20": 0.0159,
+   "r60": 0.034
+  },
+  {
+   "symbol": "512200",
+   "r5": 0.0098,
+   "r20": 0.0008,
+   "r60": 0.0437
+  },
+  {
+   "symbol": "513520",
+   "r5": 0.004,
+   "r20": -0.0022,
+   "r60": -0.0688
+  },
+  {
+   "symbol": "511010",
+   "r5": 0.0001,
+   "r20": -0.003,
+   "r60": -0.0001
+  },
+  {
+   "symbol": "512170",
+   "r5": 0.0,
+   "r20": -0.0058,
+   "r60": 0.0759
+  },
+  {
+   "symbol": "511260",
+   "r5": 0.0007,
+   "r20": -0.006,
+   "r60": 0.0008
+  }
+ ],
+ "sector_board_bottom5": [
+  {
+   "symbol": "512720",
+   "r5": -0.0423,
+   "r20": -0.0734,
+   "r60": -0.1228
+  },
+  {
+   "symbol": "515790",
+   "r5": -0.054,
+   "r20": -0.0887,
+   "r60": -0.1944
+  },
+  {
+   "symbol": "518880",
+   "r5": -0.049,
+   "r20": -0.0957,
+   "r60": -0.012
+  },
+  {
+   "symbol": "515030",
+   "r5": -0.0466,
+   "r20": -0.1225,
+   "r60": -0.2386
+  },
+  {
+   "symbol": "512400",
+   "r5": -0.0803,
+   "r20": -0.1963,
+   "r60": -0.158
+  }
+ ],
+ "fresh_universe_n": 41,
+ "breadth_r20_pos": 0.098,
  "active_sleeves": [
   "grid sleeve (grid) NOT activated (NOT_ACTIVATED_FALSIFIED; FALSIFIED (T-78 grid_sleeve_p1 0/5 survivors judged negative))",
   "mean-reversion range sleeve (mean_reversion) NOT activated (NOT_ACTIVATED_NO_EVIDENCE)",

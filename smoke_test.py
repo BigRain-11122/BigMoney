@@ -162,7 +162,8 @@ def main() -> int:
             ("intraday_marks", "scripts/update_intraday_marks.py",
              ["--selftest"]),
             ("open_fill_verify", "scripts/t35_open_fill_verify.py",
-             ["--selftest"])):
+             ["--selftest"]),
+            ("etf_daily", "scripts/update_etf_daily.py", ["selftest"])):
         _label = f"updater: update_{_name} selftest (exit-code contract)"
         try:
             _r = _sp.run([sys.executable, _script, *_args],
