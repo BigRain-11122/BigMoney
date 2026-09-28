@@ -3342,6 +3342,140 @@
    "verdict": "FLAG:idle_with_work"
   },
   {
+   "ts": "2026-09-28 16:32:03",
+   "audit_version": "v2.3",
+   "cpu_total_pct": 2.0,
+   "py_cpu_pct": 2.7,
+   "cores": 16,
+   "py_procs": 11,
+   "result_stale_min": 8.2,
+   "fleet_open_tasks": 2,
+   "pool_ready_count": 1,
+   "load_state": "pool-supply-gap",
+   "pool_starvation_candidate": false,
+   "pool_starvation_detail": {
+    "reason": "pool-supply-gap"
+   },
+   "gpu": {
+    "present": true,
+    "util_pct": 1.0,
+    "mem_used_mb": 929.0,
+    "compute_apps_count": 20,
+    "rogue_apps": []
+   },
+   "zombies": [],
+   "single_core_hog_candidate": false,
+   "single_core_hog_detail": null,
+   "flags": [
+    "idle_with_work"
+   ],
+   "verdict": "FLAG:idle_with_work"
+  },
+  {
+   "ts": "2026-09-28 16:38:09",
+   "audit_version": "v2.3",
+   "cpu_total_pct": 23.0,
+   "py_cpu_pct": 3.3,
+   "cores": 16,
+   "py_procs": 14,
+   "result_stale_min": 4.8,
+   "fleet_open_tasks": 2,
+   "pool_ready_count": 6,
+   "load_state": "pool-supply-gap",
+   "pool_starvation_candidate": false,
+   "pool_starvation_detail": {
+    "reason": "pool-supply-gap"
+   },
+   "gpu": {
+    "present": true,
+    "util_pct": 1.0,
+    "mem_used_mb": 938.0,
+    "compute_apps_count": 20,
+    "rogue_apps": []
+   },
+   "zombies": [],
+   "single_core_hog_candidate": true,
+   "single_core_hog_detail": {
+    "pid": 22964,
+    "cores_used": 0.97
+   },
+   "flags": [],
+   "verdict": "CLEAN"
+  },
+  {
+   "ts": "2026-09-28 16:39:12",
+   "audit_version": "v2.3",
+   "cpu_total_pct": 16.0,
+   "py_cpu_pct": 11.5,
+   "cores": 16,
+   "py_procs": 14,
+   "result_stale_min": 0.1,
+   "fleet_open_tasks": 2,
+   "pool_ready_count": 6,
+   "load_state": "pool-supply-gap",
+   "pool_starvation_candidate": false,
+   "pool_starvation_detail": {
+    "reason": "pool-supply-gap"
+   },
+   "gpu": {
+    "present": true,
+    "util_pct": 1.0,
+    "mem_used_mb": 938.0,
+    "compute_apps_count": 20,
+    "rogue_apps": []
+   },
+   "zombies": [],
+   "single_core_hog_candidate": false,
+   "single_core_hog_detail": null,
+   "flags": [
+    "idle_with_work"
+   ],
+   "verdict": "FLAG:idle_with_work"
+  },
+  {
+   "ts": "2026-09-28 16:41:00",
+   "audit_version": "v2.4",
+   "cpu_total_pct": 3.0,
+   "py_cpu_pct": 0.2,
+   "cores": 16,
+   "py_procs": 14,
+   "result_stale_min": 0.8,
+   "fleet_open_tasks": 2,
+   "pool_ready_count": 6,
+   "load_state": "pool-supply-gap",
+   "pool_starvation_candidate": false,
+   "pool_starvation_detail": {
+    "reason": "pool-supply-gap"
+   },
+   "supply_gap_candidate": true,
+   "supply_gap_detail": {
+    "run_samples": 123,
+    "span_min": 890.7
+   },
+   "gpu": {
+    "present": true,
+    "util_pct": 1.0,
+    "mem_used_mb": 946.0,
+    "compute_apps_count": 20,
+    "rogue_apps": []
+   },
+   "zombies": [],
+   "single_core_hog_candidate": false,
+   "single_core_hog_detail": null,
+   "flags": [
+    "idle_with_work",
+    "supply_gap",
+    "supply_gap_p0"
+   ],
+   "escalation": {
+    "face": "GM dispatch",
+    "law": "O-20260928-1614 sec.5",
+    "flag": "supply_gap_p0",
+    "convergence": "supply real batches / claim ready entries within 15min"
+   },
+   "verdict": "FLAG:idle_with_work,supply_gap,supply_gap_p0"
+  },
+  {
    "ts": "2026-09-28 16:41:59",
    "audit_version": "v2.4",
    "cpu_total_pct": 9.0,
