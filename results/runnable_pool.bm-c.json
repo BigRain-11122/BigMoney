@@ -3788,7 +3788,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-29 02:08:30",
    "workers_plan": {
     "workers": "worker_cap() pool BelowNormal (W4-SCREEN live: 12 workers bm-c; 32-core bm-c: <=25; 32-core bm-a: <=25)",
@@ -3799,15 +3799,18 @@
    "shards": [
     {
      "key": "screen-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-c",
      "owner_since": "2026-09-29 02:15:35",
      "checkpoint": "results/trial_labor_w5/checkpoint/screen_shard_0of1.jsonl (append-per-cell; finalize gate refuses missing cells)",
-     "note": "single shard; worker_cap() parallelism inside the shard (W2/W3/W4-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim"
+     "note": "single shard; worker_cap() parallelism inside the shard (W2/W3/W4-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim",
+     "closed_at": "2026-09-29 02:33:04"
     }
    ],
    "entered_by": "bm-a r408",
-   "worker_class": "self-contained"
+   "worker_class": "self-contained",
+   "done_at": "2026-09-29 02:33:04",
+   "result_ref": "results/trial_labor_w5/w5_screen.json (survivors 372/3926 distinct, null p95 0.5164, ledger total 328615, screen-finalize bm-c r193)"
   }
  ],
  "lane_machine": "bm-c"

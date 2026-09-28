@@ -1366,6 +1366,11 @@ def submit(a):
     if not a.workers or a.workers <= 0:
         bad.append("workers_plan missing: pass --workers N explicitly "
                    "(O-2130 multi-core law, r305 law)")
+    if not (a.consumer_plan or "").strip():
+        bad.append("consumer_plan missing (O-1820 meaning law: entry must "
+                   "name the consuming face of its products -- judged "
+                   "verdict / STRATEGY_LIBRARY / paper account / scorecard "
+                   "/ dashboard / research digest; 宁亮牌不造活)")
     if bad:
         for b in bad:
             print(f"REFUSED: {b}")
@@ -1395,6 +1400,7 @@ def submit(a):
         "id": a_id,
         "ticket_ref": a.ticket_ref or "",
         "prereg_ref": a.prereg_ref or "",
+        "consumer_plan": (a.consumer_plan or "").strip(),
         "runner": runner,
         "runner_args": (a.runner_args or "run").split(),
         "lane_owner": a.lane_owner or None,
@@ -2468,7 +2474,9 @@ def selftest():
                      runner_args="run", priority=1, lane_owner=None,
                      workers=4, wp_priority="BelowNormal", wp_note=None,
                      ticket_ref=None, prereg_ref=None, data_gates=None,
-                     shard_checkpoint=None, shard_note=None)
+                     shard_checkpoint=None, shard_note=None,
+                     consumer_plan="S17 selftest consumer: tick "
+                                    "dry-launch smoke face")
             d.update(kw)
             return argparse.Namespace(**d)
 
@@ -2479,9 +2487,14 @@ def selftest():
            and p17[0]["runner"] == runner17.replace("\\", "/")
            and p17[0]["shards"][0]["key"] == "s0"
            and p17[0]["shards"][0]["owner"] is None
-           and p17[0]["workers_plan"]["workers"] == 4)
+           and p17[0]["workers_plan"]["workers"] == 4
+           and (p17[0].get("consumer_plan") or "").startswith("S17"))
         rc = submit(_sa(id="E17b", workers=0))
         ok("S17b no workers_plan -> refuse (r305 law)",
+           rc == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                           ["entries"]) == 1)
+        rc = submit(_sa(id="E17x", consumer_plan=None))
+        ok("S17x no consumer_plan -> refuse (O-1820 meaning law)",
            rc == 2 and len(json.load(open(POOL, encoding="utf-8"))
                            ["entries"]) == 1)
         rc = submit(_sa(id="E17c", shards=" , "))
@@ -2601,6 +2614,9 @@ def main():
     ap.add_argument("--data-gates", dest="data_gates")
     ap.add_argument("--shard-checkpoint", dest="shard_checkpoint")
     ap.add_argument("--shard-note", dest="shard_note")
+    ap.add_argument("--consumer-plan", dest="consumer_plan",
+                    help="O-1820 meaning law (required): consuming face "
+                         "of the batch products")
     a = ap.parse_args()
     if a.cmd == "tick":
         sys.exit(tick(dry=a.dry))

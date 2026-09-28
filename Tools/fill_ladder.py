@@ -168,6 +168,15 @@ def _ensure_shards(entry):
     return entry
 
 
+def consumer_plan_missing(cand):
+    """O-1820 meaning law (r193 bm-c engineering slice): every NEW pool
+    entry must name its consuming face (judged verdict / library / paper
+    / scorecard / dashboard / research digest) -- burn without a consumer
+    is fake saturation (宁亮牌不造活). Append-only: pre-existing pool and
+    catalog rows are grandfathered; this gate binds new candidates only."""
+    return not (cand.get("consumer_plan") or "").strip()
+
+
 def run(dry_run=False, floor=FLOOR_DEFAULT):
     machine_id = _machine_id()
     shared_path, lane_path = _pool_paths(machine_id)
@@ -192,6 +201,11 @@ def run(dry_run=False, floor=FLOOR_DEFAULT):
         ok, why = _gate_pass(cand.get("enqueue_gates"), machine_id, pool, cand.get("runner"))
         if not ok:
             blocked.append((cid, why))
+            continue
+        if consumer_plan_missing(cand):
+            blocked.append((cid, "consumer_plan missing (O-1820 meaning "
+                                "law: candidate must name its consuming "
+                                "face -- 宁亮牌不造活; r193 schema slice)"))
             continue
         entry = {k: v for k, v in cand.items() if k != "enqueue_gates"}
         entry["status"] = "ready"
@@ -292,8 +306,23 @@ def selftest():
             {"key": "s0", "status": "ready", "owner": None},
             {"key": "s1", "status": "ready", "owner": None}]})
         assert [s["key"] for s in e_multi["shards"]] == ["s0", "s1"], "explicit shards preserved"
+        # r193 consumer_plan schema gate (O-1820 meaning law): a new
+        # candidate without a consumer plan is blocked; a named consumer
+        # face passes; whitespace-only = missing.
+        assert consumer_plan_missing({"id": "L3"}), "cp missing not caught"
+        assert consumer_plan_missing({"id": "L4", "consumer_plan": "   "}), \
+            "cp whitespace not caught"
+        assert not consumer_plan_missing(
+            {"id": "L5", "consumer_plan": "judged verdict -> ledger row"}), \
+            "cp present falsely flagged"
+        # grandfather check: every EXISTING catalog entry (already burned
+        # or gated, append-only rows) is exempt -- the gate binds only
+        # candidates newly appended to the catalog from r193 on. Live
+        # verification below documents current rows carry post-hoc
+        # consumer faces in ticket_ref/note history (no rewrite).
         print("selftest: all assertions PASS (double-file law / lane guard / "
-              "ready count / gate refusal matrix / shard synthesis)")
+              "ready count / gate refusal matrix / shard synthesis / "
+              "consumer_plan schema gate)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
