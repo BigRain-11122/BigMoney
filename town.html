@@ -233,6 +233,19 @@ function drawAlloc(b) {                       // 资产组合研究部 (v5 第�
   rrect(x+28, y+22, 14, 12, '#161a22');       // door
   text('资产组合研究部', x-4, y+46, '#7a8494');
 }
+function drawEtfOps(b) {                     // ETF操作链研究所 (ETF ops 直属组 · O-20260928-1524 部门级)
+  const {x,y} = b, sv = (D.data && D.data.system_v1_paper) || {};
+  const live = !!sv.present;
+  rrect(x, y, 44, 46, '#232a38'); rrect(x, y, 44, 4, '#4fb8d8');   // cyan band = ETF ops line
+  rrect(x-2, y-5, 48, 5, '#3a4356');          // flat roof
+  for (let i=0; i<6; i++)                    // 6 windows = 分类图谱六类（宽基/行业主题/跨境/债券/商品/货币）
+    px(x+4+i*7, y+8, 5, 6, live ? ['#5fd38a','#e8c15a','#5a9ab8','#b890d8','#e8a34a','#c8d0dc'][i] : '#12151d');
+  rrect(x+3, y+20, 38, 9, '#161a22');        // ops-chain strip: 入场→持有→止盈→止损 (all-numeric law)
+  for (let i=0; i<4; i++) px(x+5+i*9, y+22, 7, 5, live ? (i<2?'#5fd38a':'#e8c15a') : '#232a38');
+  rrect(x+16, y+32, 12, 14, '#12151d');      // door
+  px(x+39, y+2, 3, 6, live ? '#5fd38a' : '#3a4356');   // LED = decision-chain live face
+  text('ETF操作链研究所', x-22, y+58, '#7a8494');
+}
 function drawFlags() {                       // milestone flags bottom strip
   const g = D.gamification, n = g.milestones_total, x0 = 24, y = H-42;
   for (let i=0; i<n; i++) {
@@ -419,6 +432,21 @@ const BUILDS = [
         + ap.accounts.map(a => '<div class="row">'+a.id+' <span class="'+((a.ret_pct??0)>=0?'green':'red')+'">'+f2(a.ret_pct)+'</span> · NAV ¥'+Math.round(a.latest_nav_cny).toLocaleString()+' · '+a.n_bars+' bars · '+a.n_trades+' 笔 · 费 ¥'+Math.round(a.total_cost_cny)+' · '+a.mode+(a.stale_leg_max?(' · stale腿 '+a.stale_leg_max+'日'):'')+'</div>').join('')
         + '<div class="row dim">三线三判：配置面读数不挪用交易 J 线/激进面判据 · marks 观察账本不入 CEO 面</div>'
         + '<div class="row dim">镜像冻结 s2 cells 1:1（engine import 零重实现）· P5 stale-leg 日披露（refresh 决策延至 s3 首月评审 2026-10）</div>'; } },
+  { id:'etfops', x:592, y:156, w:44, h:46, draw:drawEtfOps, label:'ETF操作链研究所',
+    dept:'ETF 操作链条研究组（直属组·部门级 O-20260928-1524）', mandate:'各类 ETF 操作链专研：分类图谱→每类一条操作链（入场→持有→止盈→止损·全数值化零酌情·「该买就买·该止盈就止盈」）→历史回测→入链三出口（锦标赛臂/军团席位/现金腿升级）',
+    info: () => { const sv = (D.data && D.data.system_v1_paper) || {};
+      const rows = !sv.present
+        ? '<div class="row dim">决策链活面待产出（T-91 s1/s2 harness · S6 轮确定性 replay）</div>'
+        : (sv.accounts||[]).map(a => '<div class="row">'+a.id+' ¥'+Math.round(a.equity_cny||0).toLocaleString()+' · <span class="'+((a.cumulative_ret??0)>=0?'green':'red')+'">'+((a.cumulative_ret??0)*100).toFixed(2)+'%</span> · '+(a.bars||0)+'bars · 持仓 '+(a.open_positions||0)+'</div>').join('');
+      const v1 = (sv.accounts||[]).find(x=>x.id==='SYSTEM-V1')||{};
+      const l1 = v1.l1_state||{}, rr = v1.route_row||{};
+      const routeRow = v1.id ? '<div class="row dim">L1 '+(l1.state||'—')+'（asof '+(l1.asof||'—')+'）· 路由 cap '+(rr.cap!=null?rr.cap:'—')+' · rev_osc 承重 '+(rr.rev_osc!=null?rr.rev_osc:'—')+' · 消费 ETF 面板 cutoff '+(sv.panel_cutoff||'—')+'</div>' : '';
+      return '<div class="row">分类图谱 6 类：宽基 · 行业主题 · 跨境QDII · 债券 · 商品 · 货币</div>'
+        + '<div class="row dim">链律：全数值化零酌情 · 判负族（CN-TREND/CORE-SAT/GRID/DIV-LOWVOL）=对照锚非禁区起点</div>'
+        + rows + routeRow
+        + '<div class="row dim">GRID-* 纸盘=T-78 s5c（S6 已接线·results/grid_paper/）· 分钟档案=T-104（data/minute_feed/）· T-103 批测管线（s0 图谱→s2 判定）· dashboard 面板接线待车道</div>'
+        + '<div class="row dim">KPI：交易级胜率（主判）· 止盈纪律执行率 · 盈亏比/回合期望/beat-passive（诚实双列披露）</div>'
+        + '<div class="row dim">红线变更=T0 · 组并入既有部门=总经理一句话（org_chart v2 部门表）</div>'; } },
   { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
     dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同 · 传输 · 心跳 · 备份 · 周期任务轮值 · SLA 10min 单跳',
     info: () => ((D.group && D.group.siblings && D.group.siblings.length)

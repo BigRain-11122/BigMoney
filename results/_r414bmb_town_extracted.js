@@ -1,0 +1,468 @@
+
+const SPRITE = { slime:'monitor/assets/slime.png', robot:'monitor/assets/robot.png',
+                 ghost:'monitor/assets/ghost.png', dragon:'monitor/assets/dragon.png',
+                 star:'monitor/assets/star.png', coin:'monitor/assets/coin.png',
+                 gem:'monitor/assets/gem.png', heart:'monitor/assets/heart.png' };
+const LEVEL_SPRITE = { INTERN:'slime', TRAINEE:'robot', TRADER:'ghost',
+                       SENIOR:'dragon', PRINCIPAL:'star' };
+const $ = id => document.getElementById(id);
+const cv = $('town'), cx = cv.getContext('2d');
+const W = 640, H = 380, S = 2;              // logical 640x380, scale 2x
+cx.imageSmoothingEnabled = false;
+
+let D = null, SPR = {}, hits = [];           // SPR=loaded sprites, hits=click zones
+
+function px(x, y, w, h, c) { cx.fillStyle = c; cx.fillRect(x*S, y*S, w*S, h*S); }
+function text(str, x, y, c, size=8, bold=true) {
+  cx.fillStyle = c; cx.font = (bold?'bold ':'')+size+'px "Courier New",monospace';
+  cx.fillText(str, x*S, y*S);
+}
+function rrect(x, y, w, h, c) { px(x, y, w, h, c); }
+
+/* ---------- buildings: each = rect zones + windows lit by real data ---------- */
+function drawLab(b) {                        // 研究楼 (research)
+  const {x,y} = b; rrect(x, y, 70, 55, '#232a38'); rrect(x, y, 70, 6, '#3a4356');
+  rrect(x-3, y-8, 76, 8, '#2a3140');          // roof
+  rrect(x+30, y-22, 8, 16, '#2a3140');        // small dome tower
+  rrect(x+33, y-26, 2, 6, '#e8c15a');
+  for (let r=0; r<2; r++) for (let c=0; c<5; c++) {
+    const lit = (r*5+c) < Math.min(10, D.research.factor_top.length);
+    px(x+6+c*13, y+12+r*22, 8, 10, lit ? '#e8c15a' : '#12151d');
+  }
+  px(x+6, y+48, 58, 4, '#161a22');           // door
+  text('研究楼', x+2, y+68, '#7a8494');
+}
+function drawFactory(b) {                     // 策略厂 (strategy/gates)
+  const {x,y} = b, gc = D.strategy.gate_chain;
+  rrect(x, y, 96, 66, '#232a38'); rrect(x, y, 96, 6, '#3a4356');
+  rrect(x+8, y-20, 10, 22, '#2a3140'); rrect(x+74, y-20, 10, 22, '#2a3140'); // stacks
+  // smoke when traders exist
+  if (D.strategy.n_traders > 0) {
+    const t = (Date.now()/600)%40;
+    for (let i=0;i<3;i++) { const sy = y-24-((t+i*13)%40)*0.6;
+      px(x+10+((t+i*13)%16)-8+((i%2)*64), sy, 5, 5, 'rgba(122,132,148,'+(0.55-(t+i*13)%40*0.012)+')'); }
+  }
+  for (let r=0; r<2; r++) for (let c=0; c<5; c++) {
+    const i = r*5+c, st = gc[i];
+    px(x+6+c*18, y+12+r*24, 12, 11, st ? (st.pass ? '#5fd38a' : '#e05a5a') : '#12151d');
+  }
+  px(x+38, y+54, 20, 12, '#161a22');
+  text('策略厂', x+2, y+80, '#7a8494');
+  text('N='+D.strategy.trials_total, x+56, y+80, '#5a9ab8', 7);
+}
+function drawTower(b) {                      // 风控塔 (risk)
+  const {x,y} = b, n = D.risk.length, rg = (D.data && D.data.regime) || {};
+  const RG_C = { GREEN:'#5fd38a', YELLOW:'#e8c15a', ORANGE:'#e8a34a', RED:'#e05a5a' };
+  for (let i=0; i<5; i++) rrect(x+i*3, y+i*13, 40-i*6, 14, i%2?'#232a38':'#1d222c');
+  rrect(x+16, y-14, 8, 16, '#2a3140');        // beacon mast
+  // REGIME_GUARD state beacon (T-05 shadow): colour = live state, ORANGE/RED blink
+  const bc = rg.present ? (RG_C[rg.state] || '#e05a5a') : '#e05a5a';
+  const att = rg.present && (rg.state === 'ORANGE' || rg.state === 'RED');
+  px(x+18, y-20, 4, 6, (!att || Math.floor(Date.now()/700)%2) ? bc : '#3a1a1a');
+  rrect(x+12, y+63, 28, 2, rg.present ? (RG_C[rg.state] || '#3a4356') : '#1d222c');  // regime band on tower base
+  if (rg.present) text(rg.state, x+26, y-12, RG_C[rg.state] || '#7a8494', 7);
+  for (let i=0; i<n; i++)                    // 6 rule segments, all lit = 0 violation
+    px(x+6, y+66+i*6, 28, 3, '#5fd38a');
+  text('风控塔 0违规', x-8, y+66+n*6+8, '#5fd38a');
+}
+function drawHall(b) {                       // 交易大厅 (trading)
+  const {x,y} = b, trs = D.trading.traders;
+  rrect(x, y, 100, 56, '#232a38'); rrect(x, y, 100, 6, '#e8c15a');
+  for (let c=0; c<4; c++) px(x+8+c*24, y+14, 14, 16, c<trs.length ? '#e8c15a' : '#12151d');
+  rrect(x+40, y+42, 20, 14, '#161a22');
+  const open = D.trading.paper_started;
+  rrect(x+28, y-16, 44, 12, '#161a22');
+  text(open?'PAPER OPEN':'RECRUITING', x+30, y-7, open?'#5fd38a':'#e8c15a', 7);
+  const pp = D.trading.paper || {};
+  if (pp.month_progress != null) {           // paper first-promotion-check progress
+    rrect(x+8, y+60, 84, 5, '#12151d');
+    px(x+8, y+60, Math.max(1, Math.round(84*pp.month_progress)), 5,
+       pp.month_progress >= 1 ? '#e8c15a' : '#5fd38a');
+    text('首月检查 ' + (pp.first_check||'').slice(5), x+56, y+74, '#5a9ab8', 7);
+  }
+  text('交易大厅', x+8, y+74, '#7a8494');
+}
+function drawData(b) {                       // 数据塔 (data freshness)
+  const {x,y} = b, f = D.data.fresh;
+  rrect(x, y, 34, 110, '#232a38'); rrect(x+14, y-26, 6, 30, '#2a3140');
+  const blink = Math.floor(Date.now()/700)%2;
+  px(x+12, y-32, 10, 8, f ? (blink?'#5fd38a':'#1d3a2a') : (blink?'#e05a5a':'#3a1a1a'));
+  for (let i=0; i<3; i++) px(x+30, y-14+i*9, 8, 2, '#3a4356');  // antenna arms
+  for (let r=0; r<4; r++) for (let c=0; c<2; c++)
+    px(x+7+c*14, y+12+r*24, 8, 10, (r*2+c) < 6 ? '#5a9ab8' : '#12151d');
+  text('数据塔', x-6, y+122, '#7a8494');
+}
+function drawDock(b) {                       // 机队码头 (fleet/group)
+  const {x,y} = b, sib = (D.group && D.group.siblings) ? D.group.siblings : [];
+  // water
+  for (let i=0; i<5; i++) rrect(x-4, y+26+i*12, 150, 6, i%2 ? '#0d1b26' : '#10222f');
+  rrect(x-8, y+18, 158, 6, '#2a3140');       // pier edge
+  for (let i=0; i<6; i++) px(x+i*26, y+12, 4, 8, '#2a3140'); // posts
+  sib.slice(0,3).forEach((s, i) => {
+    const bx = x+8+i*46, by = y+30+i*4, alive = s.alive;
+    rrect(bx, by, 34, 10, alive ? '#4a5870' : '#1d222c');     // hull
+    px(bx+15, by-14, 2, 14, alive ? '#e8c15a' : '#3a4356');   // mast
+    px(bx+6, by-10, 10, 8, alive ? '#e8c15a' : '#161a22');    // sail
+    if (alive) { px(bx+2, by+10, 30, 2, 'rgba(90,154,184,.5)');
+      const bl = Math.floor(Date.now()/900+i)%2; px(bx+16, by-20, 4, 4, bl?'#e8c15a':'#5a4310'); }
+  });
+  text('机队码头', x+38, y+14-8, '#7a8494');
+}
+function drawOffice(b) {                     // 总经办 (GM office · J13 LLM 研究助理)
+  const {x,y} = b;
+  rrect(x, y, 64, 40, '#262e3d'); rrect(x, y, 64, 5, '#e8c15a');
+  rrect(x-4, y-9, 72, 9, '#3a4356');          // roof slab
+  rrect(x+46, y-17, 5, 9, '#3a4356');         // chimney
+  px(x+10, y+16, 12, 12, '#e8c15a');          // GM window lit
+  px(x+28, y+16, 12, 12, Math.floor(Date.now()/700)%2 ? '#e8c15a' : '#12151d'); // J13 blink
+  rrect(x+44, y+16, 12, 24, '#161a22');       // door
+  text('总经办', x+12, y+52, '#7a8494');
+}
+function drawBunker(b) {                      // 工程部 (engineering · 地下机房)
+  const {x,y} = b, ok = D.health.smoke.fail === 0, t = Date.now();
+  rrect(x, y, 92, 32, '#1b2029'); rrect(x, y, 92, 3, '#3a4356');
+  rrect(x+74, y+6, 16, 26, '#0d1016');         // stair shaft mouth (dark, goes down)
+  for (let i=0;i<4;i++) px(x+76+i*3, y+8+i*6, 12-i*3, 4, '#232a38'); // descending steps
+  for (let i=0;i<2;i++) {                     // vent fans: spin only while smoke green
+    const fx = x+18+i*26, fy = y+16, spin = ok ? Math.floor(t/280+i)%2===0 : false;
+    rrect(fx-8, fy-8, 16, 16, '#12151d');
+    px(fx-1, fy-6, 2, 12, spin ? '#5fd38a' : '#3a4356');
+    px(fx-6, fy-1, 12, 2, spin ? '#3a4356' : '#232a38');
+  }
+  px(x+2, y+6, 4, 4, ok ? '#5fd38a' : '#e05a5a');  // status LED
+  text('工程部·地下机房', x-2, y-8, '#7a8494');
+}
+function drawPortfolio(b) {                   // 组合调度中心 (portfolio & capital · EW6 载体 + IV6 报告制 pass 2)
+  const {x,y} = b, p = (D.data && D.data.portfolio) || {};
+  const nm = p.members || 0, ok = !!p.ew_validated, iv = p.iv || {};
+  const cw = (D.data && D.data.corr_watch) || {};
+  rrect(x, y, 80, 48, '#232a38');
+  rrect(x, y, 80, 4, ok ? '#e8c15a' : '#e05a5a');   // gold band top (EW validated carrier)
+  rrect(x, y+4, 80, 2, iv.present ? (iv.v2_pass ? '#5fd38a' : '#e8a34a') : '#1d222c');  // IV sub-band (report-only)
+  rrect(x, y+6, 80, 2, cw.present ? ({GREEN:'#5fd38a',ORANGE:'#e8a34a',RED:'#e05a5a'})[cw.verdict] || '#5fd38a' : '#1d222c');  // corr-watch band (monitor R36)
+  for (let c=0; c<6; c++)                     // 6 windows = EW6 member sleeves
+    px(x+6+c*12, y+10, 9, 10, p.present && c < nm ? '#e8c15a' : '#12151d');
+  rrect(x+10, y+26, 60, 10, '#161a22');       // facade sign strip
+  text(p.present ? 'EW6 报告制' : 'EW6 待产', x+13, y+34, ok ? '#5fd38a' : '#e8c15a', 7);
+  rrect(x+33, y+40, 14, 8, '#161a22');        // door
+  text('组合调度中心', x+8, y+62, '#7a8494');
+}
+function drawAlloc(b) {                       // 资产组合研究部 (v5 第八部门 · ALLOC-* 配置账户族)
+  const {x,y} = b, ap = (D.data && D.data.alloc_paper) || {};
+  const accs = ap.accounts || [];
+  rrect(x, y, 70, 34, '#262e3d'); rrect(x, y, 70, 4, '#5a9ab8');   // teal band = allocation line
+  rrect(x-3, y-5, 76, 5, '#3a4356');          // flat roof
+  for (let i=0; i<7; i++) {                  // 7 windows = ALLOC-P1..P6/P3B account family
+    const a = accs[i];
+    px(x+5+i*9, y+10, 7, 9, !a ? '#12151d' : (a.ret_pct >= 0 ? '#5fd38a' : '#e05a5a'));
+  }
+  rrect(x+28, y+22, 14, 12, '#161a22');       // door
+  text('资产组合研究部', x-4, y+46, '#7a8494');
+}
+function drawEtfOps(b) {                     // ETF操作链研究所 (ETF ops 直属组 · O-20260928-1524 部门级)
+  const {x,y} = b, sv = (D.data && D.data.system_v1_paper) || {};
+  const live = !!sv.present;
+  rrect(x, y, 44, 46, '#232a38'); rrect(x, y, 44, 4, '#4fb8d8');   // cyan band = ETF ops line
+  rrect(x-2, y-5, 48, 5, '#3a4356');          // flat roof
+  for (let i=0; i<6; i++)                    // 6 windows = 分类图谱六类（宽基/行业主题/跨境/债券/商品/货币）
+    px(x+4+i*7, y+8, 5, 6, live ? ['#5fd38a','#e8c15a','#5a9ab8','#b890d8','#e8a34a','#c8d0dc'][i] : '#12151d');
+  rrect(x+3, y+20, 38, 9, '#161a22');        // ops-chain strip: 入场→持有→止盈→止损 (all-numeric law)
+  for (let i=0; i<4; i++) px(x+5+i*9, y+22, 7, 5, live ? (i<2?'#5fd38a':'#e8c15a') : '#232a38');
+  rrect(x+16, y+32, 12, 14, '#12151d');      // door
+  px(x+39, y+2, 3, 6, live ? '#5fd38a' : '#3a4356');   // LED = decision-chain live face
+  text('ETF操作链研究所', x-22, y+58, '#7a8494');
+}
+function drawFlags() {                       // milestone flags bottom strip
+  const g = D.gamification, n = g.milestones_total, x0 = 24, y = H-42;
+  for (let i=0; i<n; i++) {
+    const lit = i < g.milestones_done, fx = x0+i*34;
+    px(fx, y, 2, 26, '#3a4356');
+    px(fx+2, y+2, 14, 8, lit ? '#e8c15a' : '#1d222c');
+    if (lit) px(fx+4, y+4, 10, 4, '#b89030');
+  }
+  text('里程碑 '+g.milestones_done+'/'+n, x0+n*34+6, y+8, '#e8c15a');
+}
+function drawAchBoard() {                    // achievement wall
+  const g = D.gamification, x0 = 260, y = H-46;
+  rrect(x0-8, y-8, 300, 44, '#161a22'); rrect(x0-8, y-8, 300, 2, '#3a4356');
+  text('成就墙', x0-2, y+4, '#7a8494');
+  g.achievements.forEach((a, i) => {
+    const img = SPR[a.icon], ax = x0+i*36;
+    if (img) { cx.globalAlpha = a.unlocked ? 1 : 0.35;
+      cx.drawImage(img, ax*S, (y+8)*S, 16*S, 16*S); cx.globalAlpha = 1; }
+    px(ax+13, y+28, 2, 2, a.unlocked ? '#5fd38a' : '#3a4356');
+  });
+}
+/* ---------- NPC traders walking on the plaza ---------- */
+function drawNPCs(t) {
+  const trs = D.trading.traders, area = {x:314, y:302, w:96};
+  trs.forEach((tr, i) => {
+    const img = SPR[LEVEL_SPRITE[tr.level] || 'slime'];
+    const spd = 8+i*3, ph = (t/1000*spd + i*120) % (area.w*2);
+    const nx = area.x + (ph < area.w ? ph : area.w*2-ph);
+    const bob = Math.floor(t/240+i)%2;
+    if (img) cx.drawImage(img, nx*S, (area.y-14+bob)*S, 16*S, 16*S);
+    px(nx-6, area.y+2, 26, 2, 'rgba(90,154,184,.35)');
+    const tag = (tr.school === 'composite' ? '复' : tr.school === 'volatility' ? '波' : '?')
+              + (tr.name.endsWith('一号') ? '①' : '②');
+    text(tag, nx+2, area.y-17, '#c8d0dc', 7);
+  });
+}
+/* ---------- day-night cycle: sky follows the real local clock (?hour=H[.m] = acceptance override) ---------- */
+const HOUR_OVR = parseFloat(new URLSearchParams(location.search).get('hour'));
+function clockHour() {
+  return isNaN(HOUR_OVR) ? new Date().getHours() + new Date().getMinutes()/60
+                         : ((HOUR_OVR % 24) + 24) % 24;
+}
+function dayness() {                        // 0=night 1=day; dawn 5-8 / dusk 17-20 ramps
+  const h = clockHour();
+  if (h >= 8 && h < 17) return 1;
+  if (h >= 20 || h < 5) return 0;
+  return h < 8 ? (h-5)/3 : 1-(h-17)/3;
+}
+const lerpC = (a, b, k) => 'rgb(' + a.map((v, i) => Math.round(v+(b[i]-v)*k)).join(',') + ')';
+
+/* ---------- scene ---------- */
+function drawScene(t) {
+  const h = clockHour(), dn = dayness();
+  const topC = lerpC([7,8,12], [58,96,138], dn);          // sky night->day
+  const grd = cx.createLinearGradient(0, 0, 0, 90*S);
+  grd.addColorStop(0, topC); grd.addColorStop(1, lerpC([15,20,32], [126,156,190], dn));
+  cx.fillStyle = grd; cx.fillRect(0, 0, W*S, 90*S);
+  if (dn < 0.95) {                          // stars fade out with daylight
+    cx.globalAlpha = 1-dn;
+    for (let i=0; i<40; i++) { const sx = (i*53)%W, sy = (i*29)%70;
+      px(sx, sy, 1, 1, Math.floor(t/500+i)%3 ? '#3a4356' : '#e8c15a'); }
+    cx.globalAlpha = 1;
+  }
+  if (dn < 0.5) {                           // moon at night (craters punch sky colour)
+    cx.globalAlpha = 1-dn*2;
+    px(596, 14, 14, 14, '#e8c15a'); px(590, 20, 10, 10, topC); px(600, 10, 10, 10, topC);
+    cx.globalAlpha = 1;
+  }
+  if (dn > 0.1) {                           // sun arcs 5h->20h, blocky pixel rays
+    const p = (h-5)/15, sx = 30+p*(W-70), sy = 82-Math.sin(p*Math.PI)*56;
+    cx.globalAlpha = Math.min(1, dn*1.6);
+    px(sx, sy, 16, 16, '#f0d264'); px(sx+3, sy-5, 10, 5, '#f0d264'); px(sx+3, sy+16, 10, 5, '#f0d264');
+    px(sx-5, sy+3, 5, 10, '#f0d264'); px(sx+16, sy+3, 5, 10, '#f0d264');
+    cx.globalAlpha = 1;
+  }
+  // ground
+  rrect(0, 90, W, 6, lerpC([26,33,48], [58,74,96], dn));   // horizon
+  rrect(0, 96, W, H-96, lerpC([16,22,31], [26,36,51], dn));
+  for (let i=0; i<90; i++) px((i*37)%W, 100+((i*61)%(H-110)), 2, 1, lerpC([22,32,44], [40,54,72], dn));
+  // roads
+  rrect(0, 300, W, 14, '#1d222c'); px(0, 306, W, 1, '#3a4356');
+  rrect(436, 236, 12, 64, '#1d222c');
+  rrect(150, 236, 10, 64, '#1d222c');
+  // signboard
+  rrect(4, 98, 140, 26, '#161a22'); rrect(4, 98, 140, 2, '#e8c15a');
+  text('BIGMONEY · ' + D.meta.stage, 8, 114, '#e8c15a', 8);
+  const bs = BUILDS;
+  bs.forEach(b => b.draw(b));
+  drawNPCs(t);
+  drawFlags();
+  drawAchBoard();
+  text('生成于 ' + D.meta.generated_at, 446, H-8, '#5a6474', 7, false);
+}
+
+const BUILDS = [
+  { id:'lab',  x:16,  y:160, w:70,  h:55,  draw:drawLab,   label:'研究楼',
+    dept:'研究部 Research', mandate:'因子/信号挖掘 · IC/回测研究 · idea→候选池 · 可学清单采纳评估 · 外部调研 · BigMoney·调研部席位（集团建制 2026-09-27）',
+    info: () => { const fl = (D.research && D.research.factor_line) || {};
+      const flRows = fl.present
+        ? '<div class="row">研究线批次 · 因子账本 N='+(fl.total ?? '—')+'</div>'
+          + (fl.batches||[]).map(b => '<div class="row dim">'+b.id+' <span class="gold">'+(b.short||b.text)+'</span></div>').join('')
+        : '<div class="row dim">研究线批次待产出（results/shortline）</div>';
+      return '<div class="row">复合因子方案</div><div class="row gold">'+D.research.composite_plan+'</div>'
+      + flRows
+      + D.research.factor_top.slice(0,5).map(f => '<div class="row">'+f.factor+' IC '+f.ic_mean.toFixed(4)+' · IR '+f.ic_ir.toFixed(2)+'</div>').join('')
+      + '<div class="row dim">KPI：新知识入库量 · idea 过闸率 · 外调轮执行率 · 正交成员供给数（相关性帽）· 五线供给覆盖（交易/配置/激进/CN/野路子）（org_chart v6）</div>' } },
+  { id:'fac',  x:104, y:150, w:96,  h:66,  draw:drawFactory, label:'策略厂',
+    dept:'策略部 Strategy Factory', mandate:'策略工厂（实况计数指针=research/STRATEGY_LIBRARY.md §一·O-2250）· 门禁链 G1\'/G2+判据科学层 v2 · 注册与退役',
+    info: () => D.strategy.gate_chain.map(s => '<div class="row"><span class="'+(s.pass?'green':'red')+'">'+(s.pass?'✔':'✘')+'</span> '+s.stage+' <span class="dim">'+s.result+'</span></div>').join('')
+    + '<div class="row dim">试验账本 N='+D.strategy.trials_total+' · 432基线 '+D.strategy.n_pass+'/'+D.strategy.n_combos+' 过线</div>'
+    + (() => { const tl=(D.data&&D.data.trial_labor)||{};
+        if (!tl.present) return '<div class="row dim">试用劳动力常设线待产出（TRIAL_LABOR_LAW · 千人试用期首波 T-94 在飞）</div>';
+        const wrows = (tl.waves||[]).map(w => '<div class="row">'+w.wave+' 初筛'+(w.screen_done?'<span class="green">✔</span>':'…')+' · 候选 '+(w.candidates??'—')+(w.n_distinct!=null?'（去重 '+w.n_distinct+'+null '+w.k_nulls+'）':'')+' · 幸存 <span class="gold">'+(w.survivors_stage1??'—')+'</span>'+(w.null_p95!=null?' · 零假设p95线 '+Number(w.null_p95).toFixed(4):'')+(w.judge_prep?' · 判决格 '+(w.judge_prep.n_judge_cells??'—'):'')+(w.judge?' · <span class="green">判决✔</span> '+(w.judge.n_judged??'—')+'格 → 过闸 <span class="gold">'+(w.judge.n_eligible_g2??'—')+'</span>'+(w.judge.e_fp!=null?'（E[FP]标称 '+w.judge.e_fp+'）':'')+(w.judge.intake_n!=null?' · 上岗 '+w.judge.intake_n:''):'')+'</div>').join('');
+        const pe = (tl.pool_entries||[]).map(e => e.id+':'+e.status).join(' · ');
+        return wrows + (pe?'<div class="row dim">池面：'+pe+'</div>':'') + '<div class="row dim">常设律（'+tl.law+'）：板空/池饿=默认续波 · 采集≠入册 · 上岗=TRIAL-* 纸盘月考</div>'; })()
+    + '<div class="row dim">KPI：在册交易员质量 · 门禁通过率（org_chart v2 部门表）</div>' },
+  { id:'risk', x:224, y:120, w:40,  h:66,  draw:drawTower,  label:'风控塔',
+    dept:'风控部 Risk & Audit', mandate:'铁律执行 · 熔断 · 零假设校准 · 防作弊审计',
+    info: () => { const rg = (D.data && D.data.regime) || {};
+      const rgRows = rg.present
+        ? '<div class="row">行情防线 REGIME_GUARD：<span class="'+(rg.state==='GREEN'?'green':rg.state==='RED'?'red':'gold')+'">'+(rg.state_cn||rg.state)+'</span> · '+rg.mode+' · 在态 '+rg.days_in_state+' 日（asof '+rg.asof+'）</div>'
+          + '<div class="row dim">触发：'+((rg.triggers||[]).join('；')||'无')+' · shadow 只记录不干预 · enforce=GM/CEO 重审后（T-05 校准 FAIL 证据包在案）</div>'
+        : '<div class="row dim">行情防线待产出（python scripts/market_regime.py）</div>';
+      return D.risk.map(r => '<div class="row">⚑ '+r+'</div>').join('') + '<div class="row green">0 违规</div>' + rgRows; } },
+  { id:'hall', x:310, y:160, w:100, h:56,  draw:drawHall,   label:'交易大厅',
+    dept:'交易部 Trading Desk', mandate:'交易员实战（在册名单指针=research/STRATEGY_LIBRARY.md §二·O-2250）· 模拟盘战绩=唯一计分板',
+    info: () => (D.trading.traders.length ? D.trading.traders.map(t =>
+        '<div class="row">'+t.name+' <span class="gold">'+t.level+'</span> · IS '+t.is_sharpe.toFixed(2)+' / OOS '+t.oos_sharpe.toFixed(2)+'<br><span class="dim">'+t.oos_trades+'笔 · ×2成本'+(t.cost_x2_survive?'存活':'阵亡')+' · paper '+(t.paper_months??0)+'月</span></div>').join('')
+      : '<div class="row dim">暂无在册交易员</div>')
+      + ((D.trading.paper||{}).first_check ? '<div class="row">模拟盘首月：进度 <span class="green">'+Math.round(100*(D.trading.paper.month_progress??0))+'%</span> · 晋升检查日 '+D.trading.paper.first_check+' · 已计 '+D.trading.paper.months_tracked+' 月</div>' : '')
+      + ((D.trading.paper||{}).x2_probation ? '<div class="row">×2 看护：<span class="gold">'+D.trading.paper.x2_probation+' 员在护</span> · '+(D.trading.paper.x2_probation_names||[]).join(' ')+' · 剃刀线随新bar滚动</div>' : '')
+      + ((D.trading.scorecard||{}).present ? '<div class="row">P-6 记分卡：最优 <span class="gold">'+D.trading.scorecard.best.id+' '+D.trading.scorecard.best.grade+' '+Number(D.trading.scorecard.best.total).toFixed(2)+'</span> · S×'+((D.trading.scorecard.grade_counts||{}).S||0)+' A×'+((D.trading.scorecard.grade_counts||{}).A||0)+' B×'+((D.trading.scorecard.grade_counts||{}).B||0)+' C×'+((D.trading.scorecard.grade_counts||{}).C||0)+'</div>' : '<div class="row dim">P-6 记分卡待产出（python scripts/scorecard.py）</div>')
+      + '<div class="row dim">晋升阶梯：'+D.trading.levels.join(' → ')+'</div>' },
+  { id:'pf', x:176, y:236, w:80, h:48, draw:drawPortfolio, label:'组合调度中心',
+    dept:'组合与资金部 Portfolio & Capital', mandate:'组合构建 EW→IV · 相关性监控 · R-配3 帽应用层 · 现金腿 · hr.py 资金阶梯执行面',
+    info: () => {
+      const p = (D.data && D.data.portfolio) || {};
+      if (!p.present) return '<div class="row dim">组合批待产出（T-06 EW6 报告制）</div>';
+      const f2 = v => (v==null ? '—' : Number(v).toFixed(2));
+      const f1 = v => (v==null ? '—' : (Number(v)*100).toFixed(1));
+      const iv = p.iv || {};
+      let ivRows;
+      if (iv.present) {
+        ivRows = '<div class="row">IV6 风险预算：Sharpe <span class="gold">'+f2(iv.sharpe)+'</span> · v2 门'+(iv.v2_pass?'<span class="green">过</span>':'<span class="red">未过</span>')+'（线 '+f2(iv.skill_line_v2)+' · CI下界 '+f2(iv.ci95_low)+'）</div>'
+          + '<div class="row">年化 '+f1(iv.annual)+'% · 回撤 '+f1(iv.dd)+'% · 最差年 '+f1(iv.worst_year)+'% · '+iv.n_trades+' 笔 · DR <span class="green">'+f2(iv.dr)+'</span> · ×2 '+f2(iv.x2_sharpe)+' '+(iv.x2_survive?'<span class="green">存活</span>':'<span class="red">阵亡</span>')+'</div>'
+          + '<div class="row dim">vs EW 载体：ΔSharpe +'+f2(iv.delta_sharpe)+' · 回撤 '+f1(p.ew_dd)+'%→'+f1(iv.dd)+'% · corr(IV,EW) '+f2(iv.corr_ew)+' · 报告制 pass 2</div>';
+      } else {
+        ivRows = '<div class="row dim">IV 风险预算批待产出</div>';
+      }
+      const cw = (D.data && D.data.corr_watch) || {};
+      const cwRows = cw.present
+        ? '<div class="row">相关性监控 <span class="'+(cw.verdict==='RED'?'red':cw.verdict==='ORANGE'?'gold':'green')+'">'+cw.verdict+'</span> · W2 IS2 越线 '+cw.w2_hits+' 对 · max '+f2(cw.max_is2_pair)+'</div>'
+          + '<div class="row dim">尾窗 rolling '+f2(cw.rolling_avg_last)+' · corr(IV,EW) '+f2(cw.corr_iv6_ew6)+' · ×2 最薄垫 '+f2(cw.x2_margin_min)+' · FL '+cw.forward_bars+' bars（监控件 R36 · 盯防三看点）</div>'
+        : '<div class="row dim">相关性监控待产出</div>';
+      return '<div class="row">EW6 等权 '+p.members+' 员：Sharpe <span class="gold">'+f2(p.ew_sharpe)+'</span> · 年化 '+f1(p.ew_annual)+'% · 回撤 '+f1(p.ew_dd)+'%</div>'
+        + '<div class="row">'+p.n_trades+' 笔 · 最差年 '+f1(p.worst_year)+'%（无崩年）</div>'
+        + '<div class="row">分散收益 <span class="green">+'+f2(p.benefit)+'</span> · DR '+f2(p.dr)+'（成员加权均值 '+f2(p.weighted_mean)+'）</div>'
+        + '<div class="row">×2 成本 Sharpe '+f2(p.x2_sharpe)+' <span class="'+(p.x2_survive?'green':'red')+'">'+(p.x2_survive?'存活':'阵亡')+'</span>（vi 0.4004）</div>'
+        + '<div class="row dim">R-配3 熊市帽 overlay '+f2(p.overlay_sharpe)+' · 熊段 '+p.bear_days+' 日 · 报告制 T1</div>'
+        + ivRows
+        + cwRows
+        + '<div class="row dim">团队：组合构建 · 现金腿与资金运营 · 相关性监控</div>'
+        + '<div class="row dim">IV 采纳=章程 §五 T1 呈报待批 · EW 仍为验证载体（择优禁令）</div>'
+        + '<div class="row dim">读数政体折价（P-5B 6/6 FAIL 0.70 线）· 分配=章程 §五 T1 呈报</div>';
+    } },
+  { id:'data', x:440, y:90,  w:34,  h:110, draw:drawData,   label:'数据塔',
+    dept:'数据部 Data Ops', mandate:'日线数据链 · 语料库 · 数据纪元/校验 · 新鲜度 · 零污染',
+    info: () => '<div class="row">核心池 '+D.data.n_core+' 只 ETF</div><div class="row">最新 bar：'+D.data.latest_bar+'（'+D.data.stale_days+' 天前）</div><div class="row"><span class="'+(D.data.fresh?'green':'red')+'">'+(D.data.fresh?'新鲜':'过期')+'</span></div>'
+      + (() => { const rows = [];
+          [['heat','热度链'],['futures','期货链'],['moneyflow','资金流']].forEach(([k,name]) => {
+            const b = (D.data && D.data[k]) || null;
+            rows.push(!b || !b.present
+              ? '<div class="row dim">'+name+'待产出</div>'
+              : '<div class="row"><span class="'+(b.status==='ok'?'green':(b.status==='bad'?'red':''))+'">'+(b.text || '-')+'</span></div>');
+          });
+          return rows.join(''); })()
+      + '<div class="row dim">15:30 收盘守卫 · update_daily 每 tick 自动增量</div>' },
+  { id:'alloc', x:560, y:318, w:70, h:34, draw:drawAlloc, label:'资产组合研究部',
+    dept:'资产组合研究部 Asset Allocation Research', mandate:'百万级资产配置实测 · 买入持有+定期再平衡+防御倾斜 · 不做择时（org_chart v5 独立成行）',
+    info: () => { const ap = (D.data && D.data.alloc_paper) || {};
+      if (!ap.present) return '<div class="row dim">ALLOC-* 配置账户待产出（python scripts/alloc_paper.py run · T-66 s2 已接线）</div>';
+      const f2 = v => v==null ? '—' : (Number(v)*100).toFixed(2)+'%';
+      return '<div class="row">账户族 ALLOC-* ×'+ap.n_accounts+' · 初始 ¥'+(ap.capital_initial_cny/10000).toFixed(0)+'万 · inception '+ap.inception_date+' · 冻结 cutoff '+ap.cutoff_frozen+' · asof '+ap.latest_asof+'</div>'
+        + ap.accounts.map(a => '<div class="row">'+a.id+' <span class="'+((a.ret_pct??0)>=0?'green':'red')+'">'+f2(a.ret_pct)+'</span> · NAV ¥'+Math.round(a.latest_nav_cny).toLocaleString()+' · '+a.n_bars+' bars · '+a.n_trades+' 笔 · 费 ¥'+Math.round(a.total_cost_cny)+' · '+a.mode+(a.stale_leg_max?(' · stale腿 '+a.stale_leg_max+'日'):'')+'</div>').join('')
+        + '<div class="row dim">三线三判：配置面读数不挪用交易 J 线/激进面判据 · marks 观察账本不入 CEO 面</div>'
+        + '<div class="row dim">镜像冻结 s2 cells 1:1（engine import 零重实现）· P5 stale-leg 日披露（refresh 决策延至 s3 首月评审 2026-10）</div>'; } },
+  { id:'etfops', x:592, y:156, w:44, h:46, draw:drawEtfOps, label:'ETF操作链研究所',
+    dept:'ETF 操作链条研究组（直属组·部门级 O-20260928-1524）', mandate:'各类 ETF 操作链专研：分类图谱→每类一条操作链（入场→持有→止盈→止损·全数值化零酌情·「该买就买·该止盈就止盈」）→历史回测→入链三出口（锦标赛臂/军团席位/现金腿升级）',
+    info: () => { const sv = (D.data && D.data.system_v1_paper) || {};
+      const rows = !sv.present
+        ? '<div class="row dim">决策链活面待产出（T-91 s1/s2 harness · S6 轮确定性 replay）</div>'
+        : (sv.accounts||[]).map(a => '<div class="row">'+a.id+' ¥'+Math.round(a.equity_cny||0).toLocaleString()+' · <span class="'+((a.cumulative_ret??0)>=0?'green':'red')+'">'+((a.cumulative_ret??0)*100).toFixed(2)+'%</span> · '+(a.bars||0)+'bars · 持仓 '+(a.open_positions||0)+'</div>').join('');
+      const v1 = (sv.accounts||[]).find(x=>x.id==='SYSTEM-V1')||{};
+      const l1 = v1.l1_state||{}, rr = v1.route_row||{};
+      const routeRow = v1.id ? '<div class="row dim">L1 '+(l1.state||'—')+'（asof '+(l1.asof||'—')+'）· 路由 cap '+(rr.cap!=null?rr.cap:'—')+' · rev_osc 承重 '+(rr.rev_osc!=null?rr.rev_osc:'—')+' · 消费 ETF 面板 cutoff '+(sv.panel_cutoff||'—')+'</div>' : '';
+      return '<div class="row">分类图谱 6 类：宽基 · 行业主题 · 跨境QDII · 债券 · 商品 · 货币</div>'
+        + '<div class="row dim">链律：全数值化零酌情 · 判负族（CN-TREND/CORE-SAT/GRID/DIV-LOWVOL）=对照锚非禁区起点</div>'
+        + rows + routeRow
+        + '<div class="row dim">GRID-* 纸盘=T-78 s5c（S6 已接线·results/grid_paper/）· 分钟档案=T-104（data/minute_feed/）· T-103 批测管线（s0 图谱→s2 判定）· dashboard 面板接线待车道</div>'
+        + '<div class="row dim">KPI：交易级胜率（主判）· 止盈纪律执行率 · 盈亏比/回合期望/beat-passive（诚实双列披露）</div>'
+        + '<div class="row dim">红线变更=T0 · 组并入既有部门=总经理一句话（org_chart v2 部门表）</div>'; } },
+  { id:'dock', x:494, y:230, w:150, h:70,  draw:drawDock,   label:'机队码头',
+    dept:'舰队部 Fleet', mandate:'bm-a/bm-b/bm-c 三机协同 · 传输 · 心跳 · 备份 · 周期任务轮值 · SLA 10min 单跳',
+    info: () => ((D.group && D.group.siblings && D.group.siblings.length)
+      ? D.group.siblings.map(s => '<div class="row"><span class="'+(s.alive?'green':'red')+'">●</span> '+s.name+' · '+(s.alive ? s.age_min+' 分钟前活跃' : '静默 '+s.age_min+' 分钟')+'</div>').join('')
+      : '<div class="row dim">本机无集团心跳源</div>') },
+  { id:'office', x:520, y:128, w:64, h:40, draw:drawOffice, label:'总经办',
+    dept:'总经办 GM Office', mandate:'经营分析/月报+PK 赛制 · 每日战报 · J13 L2 本地助理 · 月度自审包聚合 · 集团委员会第3席·财务资源席（成本收益/资源代价/资金视角 · cph4/council.md v1.0 · org_chart v7）',
+    info: () => '<div class="row">公司阶段：'+D.meta.stage+'</div>'
+      + '<div class="row">资金 ¥'+(D.meta.capital/10000).toFixed(0)+'万 · NAV '+D.meta.nav.toFixed(3)+'</div>'
+      + (() => { const dr=(D.data&&D.data.daily_report)||{};
+          if (!dr.present) return '<div class="row dim">每日战报待产出（python scripts/daily_report.py run · T-75）</div>';
+          const eq = dr.equity_cny==null ? '—' : '¥'+Math.round(dr.equity_cny).toLocaleString();
+          const fresh = (dr.age_days??0) <= 1;
+          return '<div class="row">每日战报 <span class="'+(fresh?'green':'gold')+'">'+(dr.report_date||'—')+'</span>（'+(dr.age_days??'—')+' 日龄）· 战况 '+(dr.traders??'—')+' 员 · 权益 '+eq+' · 持仓 '+(dr.positions??'—')+'</div>'
+            + (() => { const t=dr.token_line||{};
+                if (t.total_report_tokens_est==null) return '';
+                const g=(t.delta_vs_prev||{}).report_tokens_growth;
+                return '<div class="row dim">token：state '+(t.total_state_tokens_est??'—')+' · 报告 '+Math.round(t.total_report_tokens_est/1000)+'k est'+(g!=null?'（日增 '+g+'）':'')+' · byte/3.5 粗估口径</div>'; })(); })()
+      + (() => { const g=(D.data&&D.data.governance)||{}, a=g.audit||{}, bf=g.briefing||{};
+          const seg = g.present ? '审计 '+(a.ok||0)+'/'+(a.checks||0)+' OK · findings '+((a.findings!=null)?a.findings:'-')+' · 简报 '+(bf.month||'待产出') : '待产出';
+          return '<div class="row">治理面：'+(g.status==='ok' ? '<span class="green">'+seg+'</span>' : seg)+'</div>'
+            + '<div class="row dim">月度科学审计五检（O-2215）· 经营简报（O-2205 ⑨）· findings 只报不阻断</div>'; })()
+      + (() => { const q=(D.data&&D.data.queue_bandit)||{};
+          if (!q.present) return '<div class="row dim">队列排程待产出</div>';
+          return '<div class="row">队列排程：UCB1 · 下一 '+q.next_lane_cn+' · 正收益 '+(q.positive_arms_cn||'无')+'</div>'
+            + '<div class="row dim">advisory only · 排程不发起批 · 每批照旧预注册+认领（bm-a R62 数据件）</div>'; })()
+      + (() => { const sv=(D.data&&D.data.system_v1_paper)||{};
+          if (!sv.present) return '<div class="row dim">决策链活面待产出（T-91 s1/s2 harness · S6 轮确定性 replay）</div>';
+          const accs=(sv.accounts||[]).map(a=>{
+            const ret=((a.cumulative_ret??0)*100).toFixed(2);
+            return a.id+' ¥'+Math.round(a.equity_cny||0).toLocaleString()+' · '+ret+'% · '+(a.bars||0)+'bars · 持仓 '+(a.open_positions||0);
+          }).join(' ｜ ');
+          const v1=(sv.accounts||[]).find(x=>x.id==='SYSTEM-V1')||{};
+          const l1=v1.l1_state||{}, rr=v1.route_row||{};
+          let row='<div class="row">决策链活面（T-91 完整系统·CEO 令）：'+accs+'</div>';
+          if (v1.id) row+='<div class="row dim">L1 '+(l1.state||'—')+'（asof '+(l1.asof||'—')+'）· 路由 rev_osc '+(rr.rev_osc!=null?rr.rev_osc:'—')+' 承重 · trend/lowvol 存根 0 · cap '+(rr.cap!=null?rr.cap:'—')+' · 判据=SPM J1-J4 月界口径（首检 2026-10-31 · 三线三判律）</div>';
+          return row; })()
+      + '<div class="row">J13 LLM 助理 <span class="green">v0.1 已交付</span>：ask/review/retro/ideas/selftest · Ollama qwen2.5:7b 本地常驻</div>'
+      + '<div class="row dim">总经理=quant 专管 AI 会话 · CEO 只见决策项（RULES §4）</div>'
+      + '<div class="row dim">LLM 产物=主张非指令 · 未经人工审计不采信</div>' },
+  { id:'bunker', x:30, y:258, w:92, h:32, draw:drawBunker, label:'工程部·地下机房',
+    dept:'工程部 Engineering', mandate:'OS 循环 · 自动化开发 · 质量闸门 · 基础设施',
+    info: () => '<div class="row">安全网 smoke：<span class="'+(D.health.smoke.fail===0?'green':'red')+'">'+D.health.smoke.pass+' PASS / '+D.health.smoke.fail+' FAIL</span></div>'
+      + '<div class="row">10min 自迭代循环：Bigmoney-IterationLoop（OS 任务 · 关窗不死）</div>'
+      + '<div class="row dim">KPI：轮健康度 · 修红时延 · 交付吞吐</div>'
+      + '<div class="row dim">数据链 tick '+D.meta.generated_at+' · 开发链=firm/DEV_AUTOMATION.md</div>' },
+];
+function findBuild(lx, ly) {
+  const pad = 6;
+  for (const b of BUILDS)
+    if (lx >= b.x-pad && lx <= b.x+b.w+pad && ly >= b.y-26 && ly <= b.y+b.h+pad+14) return b;
+  return null;
+}
+cv.addEventListener('click', e => {
+  const r = cv.getBoundingClientRect();
+  const lx = (e.clientX - r.left) / r.width * W, ly = (e.clientY - r.top) / r.height * H;
+  const b = findBuild(lx, ly);
+  if (!b) { $('info').style.display = 'none'; return; }
+  $('i-title').textContent = '🏢 ' + b.label;
+  $('i-body').innerHTML = (b.dept ? '<div class="row gold">'+b.dept+'</div>' : '')
+    + (b.mandate ? '<div class="row dim">'+b.mandate+'</div>' : '') + b.info();
+  $('info').style.display = 'block';
+});
+cv.addEventListener('mousemove', e => {
+  const r = cv.getBoundingClientRect();
+  const b = findBuild((e.clientX-r.left)/r.width*W, (e.clientY-r.top)/r.height*H);
+  cv.style.cursor = b ? 'pointer' : 'default';
+});
+
+function render() {
+  D = window.DASH_DATA;
+  $('stage').textContent = D.meta.stage;
+  const sm = D.health.smoke, dat = D.data, pp = D.trading.paper || {};
+  $('b-smoke').textContent = sm.fail === 0 ? sm.pass + ' PASS' : sm.fail + ' FAIL';
+  $('b-smoke').className = sm.fail === 0 ? '' : 'warn';
+  $('b-data').textContent = dat.fresh ? '新鲜' : '过期';
+  $('b-data').className = dat.fresh ? '' : 'warn';
+  $('b-paper').textContent = (pp.months_tracked ?? 0) + ' 月';
+  $('k-capital').textContent = '¥' + (D.meta.capital/10000).toFixed(0) + '万';
+  $('k-nav').textContent = D.meta.nav.toFixed(3);
+  const nT = D.trading.traders.length;
+  $('k-pass').textContent = nT; $('k-pass').style.color = nT > 0 ? '#5fd38a' : '#e05a5a';
+  $('k-mile').textContent = D.gamification.milestones_done + '/' + D.gamification.milestones_total;
+  $('k-trials').textContent = 'N=' + D.strategy.trials_total;
+  $('k-data').textContent = dat.latest_bar + ' (' + dat.stale_days + 'd)';
+  const loop = t => { drawScene(t); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+}
+// preload sprites then render
+let loaded = 0; const keys = Object.keys(SPRITE);
+keys.forEach(k => { const im = new Image(); im.src = SPRITE[k];
+  im.onload = im.onerror = () => { if (++loaded === keys.length) render(); }; SPR[k] = im; });
+if (!window.DASH_DATA) $('nodata').style.display = 'grid';
