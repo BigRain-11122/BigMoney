@@ -14,8 +14,13 @@ same-commit):
           exit 2, "face mismatch" not "data rot"). Count anchors
           fail-closed: GC001 rows == 3735 (first 2011-05-13), GC091
           rows == 3689, GC182 rows == 3376; judged-domain closes in
-          (0, 200) all-finite; outside-cal == 0 (every GC091/GC182 date
-          must sit inside the GC001 trading calendar).
+          (0, 200) all-finite; outside-cal in-range == 0 (every
+          GC091/GC182 date inside the GC001 calendar range must sit
+          on the GC001 trading calendar) with pre-GC001 history rows
+          anchor-counted + disclosed (GC091 122 / GC182 5 frozen,
+          prereg s2-补 r185: the term panels predate the GC001 panel
+          start 2011-05-13 -- 2006-11-01 / 2009-01-13 -- and never
+          enter window construction).
   cells   2 judged cells on their OWN windows of the GC001 trading
           calendar (cell window = GC001 calendar truncated to the
           term's own first in-window trading day): CAL-SWITCH-GC091
@@ -140,6 +145,10 @@ CELL_ANCHORS = {
               "month_end": 362, "pre_hol": 192, "union": 448,
               "missing": 281, "days": 182},
 }
+# s2-补 (r185): term panels carry real history PREDATING the GC001
+# panel start (GC091 2006-11-01 / GC182 2009-01-13 vs 2011-05-13);
+# pre-range rows never enter window construction and are anchor-counted.
+PRE_RANGE_ROWS = {"GC091": 122, "GC182": 5}
 
 
 def gate_refuse(msg):
@@ -221,18 +230,28 @@ def load_repo_panel():
         c = frames[s]["close"].to_numpy(dtype=float)
         if not (np.isfinite(c).all() and (c > 0).all() and (c < 200).all()):
             return None, f"G-RATE {s} close outside (0, 200)"
-    # -- outside-cal gate (prereg s2 ④): every GC091/GC182 date must sit
-    #    inside the GC001 trading calendar
+    # -- outside-cal gate (prereg s2 ④ as amended by s2-补, r185): the
+    #    freeze-time clause "outside-cal == 0" was a probe error -- the
+    #    term panels PREDATE the GC001 panel start. Corrected semantics:
+    #    every GC091/GC182 date INSIDE the GC001 calendar range must be
+    #    a GC001 trading day (== 0); pre-range history rows are never
+    #    queried by window construction (windows live on the GC001
+    #    calendar) and are anchor-counted + disclosed (122/5 frozen).
     gc001_days = set(_d(x) for x in
                      frames["GC001"]["date"].to_numpy().astype("datetime64[D]"))
+    gc001_first = _d(np.datetime64(GC001_FIRST, "D"))
     for s in ("GC091", "GC182"):
-        bad = [d for d in
-               frames[s]["date"].to_numpy().astype("datetime64[D]")
-               if _d(d) not in gc001_days]
+        days = frames[s]["date"].to_numpy().astype("datetime64[D]")
+        bad = [d for d in days
+               if _d(d) >= gc001_first and _d(d) not in gc001_days]
         if bad:
-            return None, (f"outside-cal {s}: {len(bad)} term dates not on "
-                          f"the GC001 trading calendar "
+            return None, (f"outside-cal {s}: {len(bad)} in-range term "
+                          f"dates not on the GC001 trading calendar "
                           f"(first {str(bad[0])})")
+        n_pre = sum(1 for d in days if _d(d) < gc001_first)
+        if n_pre != PRE_RANGE_ROWS[s]:
+            return None, (f"pre-range {s}: {n_pre} pre-GC001 history "
+                          f"rows != frozen anchor {PRE_RANGE_ROWS[s]}")
     rates = {s: frames[s]["close"].to_numpy(dtype=float) for s in TERMS_ALL}
     term_rate_map = {s: {_d(x): float(v) for x, v in
                          zip(frames[s]["date"].to_numpy()
@@ -246,6 +265,10 @@ def load_repo_panel():
                 "close_max": round(float(frames[s]["close"].max()), 4),
                 "close_median": round(float(frames[s]["close"].median()), 4)}
             for s in TERMS_ALL}
+    for s in ("GC091", "GC182"):
+        days = frames[s]["date"].to_numpy().astype("datetime64[D]")
+        face[s]["pre_range_rows"] = sum(
+            1 for d in days if _d(d) < gc001_first)
     return {"cal": frames["GC001"]["date"].to_numpy()
             .astype("datetime64[D]"),
             "rates": rates,
@@ -830,7 +853,9 @@ def _mk_repo_fixture(tmp):
     """Synthetic 11-term repo panel: W1 planted structure (month-end
     elevation, even-June long gaps) + P2 needs -- GC091/GC182 begin
     later than GC001, carry planted missing days (fallback-law input),
-    and never leave the GC001 calendar."""
+    never leave the GC001 calendar in-range, AND carry pre-GC001
+    history rows (real panel face per s2-补: term series predate the
+    overnight panel start; never queried by window construction)."""
     global PANEL_DIR
     PANEL_DIR = os.path.join(tmp, "repo_daily")
     os.makedirs(PANEL_DIR, exist_ok=True)
@@ -872,6 +897,16 @@ def _mk_repo_fixture(tmp):
             jan_hole = out["date"].dt.month.eq(1) & \
                 out["date"].dt.day.le(15)
             out = out[keep & ~drop_pick & ~jan_hole].reset_index(drop=True)
+            # s2-补 face: pre-GC001 history rows (real panel face --
+            # GC091/GC182 series predate the GC001 panel start; these
+            # rows never enter window construction and are counted by
+            # the pre-range anchor gate)
+            n_pre = 3 if term == "GC091" else 2
+            pre = pd.DataFrame({
+                "date": pd.bdate_range(end="2012-12-31", periods=n_pre),
+                "open": 2.0, "high": 2.2, "low": 1.9, "close": 2.05,
+                "volume": 999.0})
+            out = pd.concat([pre, out], ignore_index=True)
         out.to_csv(os.path.join(PANEL_DIR, f"{term}.csv"), index=False)
     return df
 
@@ -880,7 +915,7 @@ def cmd_selftest():
     global OUT_DIR, NULL_DIR, OUT_JSON, OUT_DIR_RESULTS, ATT_JSON, SEED, \
         K_NULLS, NULL_SHARDS, K_STARTS, K_SPLITS, MR_LOADER, \
         P1_FAMILY_LOADER, CELL_ANCHORS, GC001_ROWS, GC001_FIRST, \
-        GC091_ROWS, GC182_ROWS
+        GC091_ROWS, GC182_ROWS, PRE_RANGE_ROWS
     tmp = tempfile.mkdtemp(prefix="innovation_quota_w2_selftest_")
     K_NULLS, NULL_SHARDS = 40, 2
     K_STARTS, K_SPLITS = 20, 10
@@ -924,6 +959,12 @@ def cmd_selftest():
         g182 = pd.read_csv(os.path.join(PANEL_DIR, "GC182.csv"))
         GC091_ROWS = len(g91)
         GC182_ROWS = len(g182)
+        PRE_RANGE_ROWS = {}
+        for term, gdf in (("GC091", g91), ("GC182", g182)):
+            td_all = pd.to_datetime(gdf["date"]).to_numpy() \
+                .astype("datetime64[D]")
+            PRE_RANGE_ROWS[term] = sum(
+                1 for d in td_all if _d(d) < _d(cal_full[0]))
         CELL_ANCHORS = {}
         for term, gdf in (("GC091", g91), ("GC182", g182)):
             td = {_d(x) for x in pd.to_datetime(gdf["date"])
@@ -949,6 +990,14 @@ def cmd_selftest():
         ok.append(("panel gates pass on fixture", err is None))
         if err:
             raise RuntimeError(err)
+        ok.append(("pre-range history allowed + anchor-disclosed "
+                   "(s2-补 face)",
+                   P["face"]["GC091"]["pre_range_rows"]
+                   == PRE_RANGE_ROWS["GC091"]
+                   and P["face"]["GC182"]["pre_range_rows"]
+                   == PRE_RANGE_ROWS["GC182"]
+                   and PRE_RANGE_ROWS["GC091"] == 3
+                   and PRE_RANGE_ROWS["GC182"] == 2))
 
         # ---- engine hand-check: term-missing fallback law
         tiny = np.array(["2026-01-05", "2026-01-06", "2026-01-09"],
@@ -1137,14 +1186,27 @@ def cmd_selftest():
         # outside-cal: rewrite one GC182 settle row onto a SATURDAY (a
         # natural day on no trading calendar, inside the cutoff window)
         # -- the row count stays put so the refusal lands on the
-        # outside-cal face specifically
+        # outside-cal face specifically; target an IN-RANGE row so the
+        # pre-range anchor count is untouched (face isolation)
         g182p = os.path.join(PANEL_DIR, "GC182.csv")
         gdf = pd.read_csv(g182p)
-        gdf.loc[0, "date"] = "2013-04-06"     # Saturday
+        in_range182 = gdf.index[gdf["date"] >= GC001_FIRST]
+        gdf.loc[in_range182[0], "date"] = "2013-04-06"     # Saturday
         gdf.to_csv(g182p, index=False)
         _, err3 = load_repo_panel()
         ok.append(("outside-cal refusal", err3 is not None
                    and "outside-cal" in str(err3)))
+        # pre-range drift: move one GC091 in-range row to a pre-GC001
+        # date -- row count constant, in-range bad still 0, pre-range
+        # count 3->4 -> anchor mismatch refusal (s2-补 fail-closed face)
+        g91p = os.path.join(PANEL_DIR, "GC091.csv")
+        g91df = pd.read_csv(g91p)
+        in_range91 = g91df.index[g91df["date"] >= GC001_FIRST]
+        g91df.loc[in_range91[0], "date"] = "2012-12-20"
+        g91df.to_csv(g91p, index=False)
+        _, err4 = load_repo_panel()
+        ok.append(("pre-range anchor drift refusal", err4 is not None
+                   and "pre-range" in str(err4)))
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
