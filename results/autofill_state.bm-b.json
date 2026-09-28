@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-27 02:10:01",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "CN-TREND-ETF-P1",
-   "shard": "cntrend-0of1",
-   "pid": 1256,
-   "runner_sha256": "f96a022f64fef9d7",
-   "fill_latency_min": 79.6,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-27 02:40:01",
    "machine": "bm-a",
    "py_cpu_pct": 12.4,
@@ -683,23 +670,31 @@
    "fill_latency_min": 2.0,
    "target_met": true,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-29 05:30:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "DECISION-CHAIN-V3-TOURNAMENT",
+   "shard": "v3-0of1",
+   "pid": 20912,
+   "runner_sha256": "59cbcfaac9c30fd6",
+   "fill_latency_min": 851.5,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-29 05:20:01",
+  "ts": "2026-09-29 05:30:01",
   "machine": "bm-b",
-  "py_cpu_pct": 5.7,
-  "fuse_skipped": [
-   {
-    "entry": "TRIAL-LABOR-W6-GENERATE",
-    "shard": "generate-0of1",
-    "sig": "scripts/trial_labor_w6.py|generate",
-    "fuse_refusals": 1
-   }
-  ],
-  "verdict": "claim_lost_yield",
+  "py_cpu_pct": 0.0,
+  "verdict": "launched",
   "entry": "DECISION-CHAIN-V3-TOURNAMENT",
-  "shard": "v3-0of1"
+  "shard": "v3-0of1",
+  "pid": 20912,
+  "runner_sha256": "59cbcfaac9c30fd6",
+  "fill_latency_min": 851.5,
+  "target_met": false
  },
  "lane_machine": "bm-b"
 }
