@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-29 10:18:49",
+  "updated_at": "2026-09-29 10:38",
   "_stamp_note": "bm-b r419: W7 slice-2b funnel bodies landed (selftest 40/40) + TRIAL-LABOR-W7-GENERATE entry submission same-commit (pit-90 law; consumer_plan O-1820(3))",
   "entries": [
     {
@@ -3735,11 +3735,12 @@
       "shards": [
         {
           "key": "main",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "",
-          "note": "ladder default shard (single-face batch, r301 family)",
+          "note": "shard face closed r211 bm-c per MSG-1038 item-4 flag: entry-level done flip landed r186 2026-09-28T22:58:00 (judged-negative both cells, family slot closed law s5, product + prereg s7/s8 backfill same-commit verified three-way this round); shard status left ready at r186 = bookkeeping residue, zero science impact (entry-level done already had autofill skip; no rerun owed, no reopen)",
           "owner": "bm-c",
-          "owner_since": "2026-09-28 22:59:06"
+          "owner_since": "2026-09-28 22:59:06",
+          "closed_at": "2026-09-29 10:48:02"
         }
       ],
       "entered_at": "2026-09-28 22:05:31",
@@ -3979,16 +3980,18 @@
       ],
       "lane_owner": null,
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-29 10:18:49",
       "data_gates": "in-runner fail-closed exit 2: (a) w7_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 1fba956c2f21d1d3 -> refuse; (c) G-VOL raw face + G-YANG raw face + G-VCONF raw face + G-STREAK raw face anchors -> refuse; (d) RAM gate three-sample >=4GB in-runner r354 law",
       "shards": [
         {
           "key": "generate-0of1",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/trial_labor_w7/w7_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
           "owner": "bm-b",
-          "owner_since": "2026-09-29 10:20:04"
+          "owner_since": "2026-09-29 10:30:04",
+          "done_at": "2026-09-29 10:30:07",
+          "note": " | harvest r420 bm-b done-flip"
         }
       ],
       "entered_by": "bm-b",
@@ -3997,7 +4000,46 @@
         "workers": 1,
         "priority": "BelowNormal",
         "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE ~2min; W5-GENERATE ~7min n=3926; W6-GENERATE n=3952); W7 n~5000 raw draws, 14-source exclusion face"
-      }
+      },
+      "done_at": "2026-09-29 10:30:07",
+      "result_ref": "results/trial_labor_w7/w7_candidates.json",
+      "done_note": "DONE r420 bm-b harvest (r244 landed-marker law): autofill keepalive relaunch ~10:19:55 pid 6028 (r288 claim-refresh carrier, storm-repair r387 lineage) -> landed 10:30:07; products w7_candidates.json n=3704 distinct (raw 5000, dedup 3704), grammar sha16 1fba956c2f21d1d3 frozen-identical, 14-source exclusion hits {A:0,B:0} honest, evidence_cutoff 2026-09-22, audit ram_gate 11.86GB; TRIAL_GRAMMAR_LEDGER wave-7 row runner-written at consume (streak faces {up_streak2 1316, none 1296, down_streak2 1092}); zero engine cells burned"
+    },
+    {
+      "id": "TRIAL-LABOR-W7-SCREEN",
+      "ticket_ref": "T-2026-09-29-118 WAVE-7 screen slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-c r207 draft-author same-machine next-round freeze; SEED berths 20305000/20305500/20306000 same-commit R250; runner built bm-b r417-cont/r418/r419 single-writer berth MSG-20260929-0930/0945 honored, selftest 40/40 hermetic; GENERATE landed 2026-09-29 10:30:07 n=3704 distinct grammar 1fba956c2f21d1d3, 14-source exclusion 0 hits; screen-prep PASS bm-b r420 10:36:11; lane berth: bm-b declared (pit-96 law, runner-builder lineage r417-419)",
+      "prereg_ref": "research/TRIAL_LABOR_W7_PREREG.md FROZEN sec.3 s2: s2 cheap initial screening (TRIAL_LABOR_LAW sec.2): each distinct candidate runs one full-history backtest on the legacy axis leg-L 6m (W1 13bp base face, T+1; initial stop-loss face + regime gate face + volatility gate face + bullish-candle face + volume gate face + streak-confirmation face carried with the cell) -> beat6m = proportion of 1253 frozen virtual starts where candidate 6m forward return >= same-window passive; null family K=200 ten-tuple axis R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK seed trial_labor_w7_scrnull=20305500; survival line = beat6m > null p95 program-frozen via tl2._finalize_math import = W1-W6 identical law; batch TRIAL_LAB_W7_SCREEN batch_trials = 3704 distinct + 200 nulls literal per sec.3; finalize refuses missing cells; products w7_screen.json + w7_screen_cells.csv + five-gate segmented survival stats per prereg sec.6",
+      "runner": "scripts/trial_labor_w7.py",
+      "runner_args": [
+        "screen",
+        "--shard",
+        "0",
+        "--shards",
+        "1"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-29 10:38",
+      "data_gates": "GATES ALL GREEN (direct-ready r420, W1-W6-SCREEN lineage): (1) TRIAL-LABOR-W7-GENERATE done -- landed 10:30:07 w7_candidates.json n=3704 single-shot completion marker in-repo this commit (refuse-if-exists guard); (2) screen-prep PASS -- results/trial_labor_w7/prep_state.json bm-b r420 10:36:11: panel 48/48, anchors 6/6 faithful, census {6m 1253, 12m 1127, 24m 875}, starts 1253, passive precomputed, gate na-window 199 bars, G-VOL 594calm/518wild first-valid 519, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19, G-STREAK 384up/389down/856neither warmup 2 (raw-face anchors reproduced live fail-closed); (3) SCREEN = CPU pool face per prereg sec.0 (in-runner fail-closed exit 2: prep/candidates/grammar absent, grammar sha != 1fba956c2f21d1d3 refuse, tl2._ram_gate_gb 4GB three-sample honest refuse); entry-time RAM 3-sample 15.46/15.59/15.6GB >= 4GB r354 law",
+      "shards": [
+        {
+          "key": "screen-0of1",
+          "status": "ready",
+          "checkpoint": "results/trial_labor_w7/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law)",
+          "note": "single shard; worker_cap() parallelism inside the shard (W2-W6-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim",
+          "owner": "bm-b",
+          "owner_since": "2026-09-29 10:40:04"
+        }
+      ],
+      "entered_by": "bm-b r420",
+      "worker_class": "self-contained",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W5-SCREEN 4,126 cells 28min bm-c 12 workers; W6-SCREEN 4,152 cells bm-b)",
+        "priority": "BelowNormal",
+        "note": "W7 3,904 cells (3,704 distinct + 200 nulls) est minutes-level pool batch; per-cell jsonl checkpoint cross-kill resume (W1 law)"
+      },
+      "consumer_plan": "TRIAL-LABOR-W7-SCREEN -> screen-finalize (lane-owner separate round work per W5 bm-a r409 / W6 bm-b r413 precedent) -> w7_screen.json + w7_screen_cells.csv + null p95 (W1-W6 lineage 0.5116-0.5196 reference band) + trials_ledger TRIAL_LAB_W7_SCREEN -> TRIAL-LABOR-W7-JUDGE entry next (judge-prep + RAM r354) -> judged verdict face w7_judge.json -> s4 intake (W2-lineage D6 binding gate -> STRATEGY_LIBRARY registration rows + TRIAL-<FAMILY>-<NN> paper accounts) -> 48h CEO report + scorecard/CEO one-pager faces (prereg sec.0 consumer_plan)"
     }
   ],
   "lane_machine": "bm-c"
