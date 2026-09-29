@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-27 10:00:02",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "DECISION-CHAIN-E2E-X2-LC",
-   "shard": "dce2-legacy-lc",
-   "pid": 27472,
-   "runner_sha256": "ac9c499bdcb85879",
-   "fill_latency_min": 64.2,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-27 10:10:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -681,17 +668,33 @@
    "pid": 4592,
    "runner_sha256": "b3d1a8d5dbb022a0",
    "fill_latency_min": null,
+   "target_met": true,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-09-29 17:11:56",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "TRIAL-LABOR-W9-JUDGE",
+   "shard": "judge-0of1",
+   "pid": 13280,
+   "runner_sha256": "b3d1a8d5dbb022a0",
+   "fill_latency_min": 0.8,
    "target_met": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-29 17:10:02",
+  "ts": "2026-09-29 17:11:56",
   "machine": "bm-b",
-  "py_cpu_pct": 5.2,
-  "verdict": "relaunch_cooldown",
-  "entry": "TRIAL-LABOR-W9-SCREEN",
-  "shard": "screen-0of1",
-  "last_launch_min": 7.4
+  "py_cpu_pct": 0.0,
+  "verdict": "launched",
+  "entry": "TRIAL-LABOR-W9-JUDGE",
+  "shard": "judge-0of1",
+  "pid": 13280,
+  "runner_sha256": "b3d1a8d5dbb022a0",
+  "fill_latency_min": 0.8,
+  "target_met": true
  },
  "lane_machine": "bm-b"
 }
