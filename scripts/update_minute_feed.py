@@ -7,9 +7,21 @@ append-only by bar timestamp; overlapping rows must match the local copy
 byte-for-byte or the run aborts exit 3 (source-history-rewrite) with the
 local file untouched.  Deep intraday history does not exist; the archive
 is BUILT from now (forward-accumulation law, same design as the sentiment
-collectors).  Spec = research/etf_ops/MINUTE_FEED.md v1.3 (O-20260928-1555
+collectors).  Spec = research/etf_ops/MINUTE_FEED.md v1.4 (O-20260928-1555
 five-member universe: active codes 3 -> 5; new codes forward-accumulate
 from their first gated run).
+
+v1.4 laws (spec sec.4, defect fix after the 2026-09-29 09:41 livelock):
+  - elapsed-minute law: sina labels a bar by its END minute (label 09:41
+    covers 09:40:00-09:40:59, final only at 09:41:00) -- merge ONLY rows
+    with day <= floor(now) taken BEFORE the request (the forming current
+    bar never enters the archive; a partial bar poisoned the tail once:
+    vol 2264700 vs final 3328000 -> constant mismatch -> 8-day livelock).
+  - tail-repair face: overlap mismatch at the LOCAL TAIL row with
+    provenance (last success wall-clock < mismatch day + 60s = the row
+    was provably written mid-formation) -> replace tail with the source's
+    final row, disclosed in status.repairs.  This is the ONLY legal
+    local rewrite; any other mismatch stays hard exit 3 zero writes.
 
 Source (GM probe 2026-09-28 15:30, O-20260928-1531 -- cite, no re-probe):
 ak.stock_zh_a_minute(symbol='sh510300', period='1') = 1970 real bars.
@@ -27,7 +39,8 @@ Gates (spec sec.5):
     kind="forced" (data still real source bars)
 
 Atomicity: fetch ALL symbols first (any failure -> exit 2, zero writes),
-verify ALL overlaps (any mismatch -> exit 3, zero writes), then write.
+verify ALL overlaps (any non-repairable mismatch -> exit 3, zero writes
+including zero repairs), then write.
 
 Usage:
     python scripts/update_minute_feed.py             # gated run
@@ -104,22 +117,68 @@ def _norm_rows(records) -> list:
     return [rows[k] for k in sorted(rows)]
 
 
-def _merge_rows(local_rows, fetch_rows):
+def _floor_now() -> str:
+    """Elapsed-minute floor string taken BEFORE a fetch (conservative):
+    rows with day <= this are provably closed bars (sina end-minute
+    label law, spec sec.4 v1.4)."""
+    return dt.datetime.now().strftime("%Y-%m-%d %H:%M") + ":00"
+
+
+def _drop_forming(rows, floor_str):
+    """Elapsed-minute law: drop rows newer than the pre-request floor
+    (the forming current bar must never enter the archive)."""
+    return [r for r in rows if r[0] <= floor_str]
+
+
+def _tail_partial_provenance(mismatch_ts, last_success_ts):
+    """v1.4 repair-face proof: the local tail row at mismatch_ts was
+    written by a run whose wall-clock preceded the bar's completion
+    (last success < mismatch day + 60s -> provably mid-formation capture;
+    the 60s slack opens the boundary-second edge toward repair, while a
+    genuine late source rewrite stays far outside the window and is
+    refused).  Under append-only + full-overlap verification a poisoned
+    tail can never be passed by a later success, so at mismatch time
+    last_success_ts IS the poisoned row's write time."""
+    try:
+        w = dt.datetime.fromisoformat(last_success_ts)
+        bar_done = dt.datetime.strptime(mismatch_ts, "%Y-%m-%d %H:%M:%S")
+    except (ValueError, TypeError):
+        return False
+    return w < bar_done + dt.timedelta(seconds=60)
+
+
+def _merge_rows(local_rows, fetch_rows, last_success_ts=""):
     """Pure merge (spec sec.4): append-only by day, overlap must match
-    byte-for-byte.  Returns (new_rows, ok, mismatch_ts)."""
+    byte-for-byte; v1.4 tail-repair face for provably mid-formation tail
+    artifacts.  Returns (new_rows, ok, mismatch_ts, local_rows_fixed)."""
     if not local_rows:
-        return list(fetch_rows), True, None
+        return list(fetch_rows), True, None, local_rows
     local_max = local_rows[-1][0]
     local_map = {r[0]: r for r in local_rows}
+    fetch_map = {r[0]: r for r in fetch_rows}
     new_rows = []
+    repaired = None
     for row in fetch_rows:
         ts = row[0]
         if ts in local_map:
             if local_map[ts] != row:
-                return None, False, ts
+                if (repaired is None
+                        and ts == local_rows[-1][0]
+                        and ts in fetch_map
+                        and _tail_partial_provenance(ts,
+                                                      last_success_ts)):
+                    # v1.4 repair face: local tail = mid-formation
+                    # artifact, source row = the final bar.
+                    local_rows = local_rows[:-1] + [fetch_map[ts]]
+                    local_map[ts] = fetch_map[ts]
+                    repaired = ts
+                    continue
+                return None, False, ts, local_rows
         elif ts > local_max:
             new_rows.append(row)
-    return new_rows, True, None
+    if repaired is not None:
+        return new_rows, True, repaired, local_rows
+    return new_rows, True, None, local_rows
 
 
 def _read_local(path) -> list:
@@ -152,8 +211,11 @@ def _write_local(path, rows) -> None:
 
 
 def _fetch_symbol(code) -> list:
-    """Fetch + normalize the sina 1m rolling window; 3 attempts, honest."""
+    """Fetch + normalize the sina 1m rolling window; 3 attempts, honest.
+    v1.4 elapsed-minute law: floor taken BEFORE the request, forming
+    current bar dropped (never enters the archive)."""
     import akshare as ak
+    floor_str = _floor_now()
     last_err = None
     for i in range(ATTEMPTS):
         try:
@@ -163,7 +225,8 @@ def _fetch_symbol(code) -> list:
             if list(df.columns) != list(COLS):
                 raise RuntimeError(
                     f"column drift {list(df.columns)} != {list(COLS)}")
-            return _norm_rows(df.to_dict("records"))
+            rows = _norm_rows(df.to_dict("records"))
+            return _drop_forming(rows, floor_str)
         except Exception as exc:                               # noqa: BLE001
             last_err = exc
             time.sleep(BACKOFF_S[min(i, len(BACKOFF_S) - 1)])
@@ -228,6 +291,7 @@ def run(force: bool = False) -> int:
         kind = "forced"
 
     os.makedirs(FEED_DIR, exist_ok=True)
+    last_success_ts = str(status.get("last_success_ts", ""))
     try:
         frames = {}
         for code, _cat, _t in UNIVERSE:
@@ -237,7 +301,8 @@ def run(force: bool = False) -> int:
         for code, cat, tsettle in UNIVERSE:
             path = os.path.join(FEED_DIR, f"{code}.csv")
             local = _read_local(path)           # schema drift -> exit 2
-            new_rows, ok, bad_ts = _merge_rows(local, frames[code])
+            new_rows, ok, bad_ts, local_fixed = _merge_rows(
+                local, frames[code], last_success_ts)
             if not ok:
                 print(f"update_minute_feed: OVERLAP MISMATCH {code} "
                       f"@ {bad_ts} -- source rewrote history; local "
@@ -245,15 +310,26 @@ def run(force: bool = False) -> int:
                 return 3
             gap = bool(local) and bool(
                 frames[code]) and frames[code][0][0] > local[-1][0]
-            plan.append((code, cat, tsettle, path, local, new_rows, gap))
+            plan.append((code, cat, tsettle, path, local_fixed, new_rows,
+                         gap, bad_ts))
     except Exception as exc:                                    # noqa: BLE001
         print(f"update_minute_feed: mechanism/source failure (exit 2) -- "
               f"{exc}")
         return 2
 
     symbols = {}
+    repairs = {}
     total_new = 0
-    for code, cat, tsettle, path, local, new_rows, gap in plan:
+    for code, cat, tsettle, path, local, new_rows, gap, repaired_ts in plan:
+        if repaired_ts is not None:
+            old_tail = _read_local(path)[-1]
+            repairs[code] = {"kind": "tail_partial_capture",
+                             "ts": repaired_ts,
+                             "old": list(old_tail),
+                             "new": list(local[-1])}
+            print(f"update_minute_feed: REPAIR {code} tail {repaired_ts} "
+                  "-- mid-formation artifact replaced by source final "
+                  "bar (v1.4 repair face, disclosed)")
         _write_local(path, local + new_rows)
         total_new += len(new_rows)
         symbols[code] = {
@@ -276,11 +352,14 @@ def run(force: bool = False) -> int:
         "archive_dir": "data/minute_feed",
         "symbols": symbols,
         "rows_new_total": total_new,
-        "spec": "research/etf_ops/MINUTE_FEED.md v1.3",
+        "spec": "research/etf_ops/MINUTE_FEED.md v1.4",
     }
+    if repairs:
+        payload["repairs"] = repairs
     _write_status(payload, mid)
     print(f"update_minute_feed: done, +{total_new} rows across "
-          f"{len(plan)} symbols (kind={kind})")
+          f"{len(plan)} symbols (kind={kind}"
+          + (f", repairs={len(repairs)}" if repairs else "") + ")")
     return 0
 
 
@@ -335,16 +414,83 @@ def selftest() -> int:
         ("2026-09-28 14:56:00", "1.0", "1.1", "0.9", "1.05", "100",
          "105"),
     ]
-    new, ok, bad = _merge_rows(local, fetch)
-    check("merge appends only new", ok and new == fetch[1:] and bad is None)
-    new, ok, bad = _merge_rows([], fetch)
+    new, ok, bad, fixed = _merge_rows(local, fetch)
+    check("merge appends only new",
+          ok and new == fetch[1:] and bad is None and fixed == local)
+    new, ok, bad, fixed = _merge_rows([], fetch)
     check("merge fresh file takes all", ok and new == fetch)
     bad_fetch = [fetch[0], fetch[1]]
     bad_fetch[0] = ("2026-09-28 14:55:00", "1.0", "1.1", "0.9", "1.05",
                     "100", "104")
-    new, ok, bad = _merge_rows(local, bad_fetch)
+    new, ok, bad, fixed = _merge_rows(local, bad_fetch)
     check("merge refuses overlap mismatch",
-          (not ok) and bad == "2026-09-28 14:55:00")
+          (not ok) and bad == "2026-09-28 14:55:00" and fixed == local)
+
+    # [3b] v1.4 elapsed-minute law: forming bar dropped by pre-request
+    # floor (label 09:41 = forming at fetch 09:40:50)
+    win = [
+        ("2026-09-29 09:40:00", "4.410", "4.413", "4.410", "4.412",
+         "1561200", "6886134.4290"),
+        ("2026-09-29 09:41:00", "4.413", "4.416", "4.410", "4.415",
+         "2264700", "9993700.7134"),
+    ]
+    kept = _drop_forming(win, "2026-09-29 09:40:00")
+    check("elapsed-minute law drops forming bar",
+          [r[0] for r in kept] == ["2026-09-29 09:40:00"])
+
+    # [3c] v1.4 tail-repair face: provenance-provable partial tail is
+    # replaced by the source final row; unprovable / non-tail refused.
+    poisoned = [
+        ("2026-09-29 09:40:00", "4.410", "4.413", "4.410", "4.412",
+         "1561200", "6886134.4290"),
+        ("2026-09-29 09:41:00", "4.413", "4.416", "4.410", "4.415",
+         "2264700", "9993700.7134"),
+    ]
+    src_final = [
+        ("2026-09-29 09:40:00", "4.410", "4.413", "4.410", "4.412",
+         "1561200", "6886134.4290"),
+        ("2026-09-29 09:41:00", "4.413", "4.418", "4.410", "4.417",
+         "3328000", "14689476.2733"),
+        ("2026-09-29 09:42:00", "4.417", "4.418", "4.416", "4.417",
+         "1996059", "8816478.0165"),
+    ]
+    new, ok, rep, fixed = _merge_rows(poisoned, src_final,
+                                      "2026-09-29T09:40:44")
+    check("tail repair replaces partial with source final",
+          ok and rep == "2026-09-29 09:41:00"
+          and fixed[-1] == src_final[1]
+          and [r[0] for r in new] == ["2026-09-29 09:42:00"])
+    # provenance fails (last success far after the bar completed ->
+    # genuine late source rewrite) -> hard exit 3, local intact
+    new, ok, bad, fixed = _merge_rows(poisoned, src_final,
+                                      "2026-09-29T11:30:00")
+    check("unprovable tail mismatch stays hard exit 3",
+          (not ok) and bad == "2026-09-29 09:41:00" and fixed == poisoned)
+    # non-tail mismatch never repaired (earlier bar rewritten)
+    poison_early = [
+        ("2026-09-29 09:39:00", "4.410", "4.410", "4.407", "4.410",
+         "2254249", "9938427.3614"),
+    ] + poisoned[1:]
+    rewrite_early = [
+        ("2026-09-29 09:39:00", "9.9", "9.9", "9.9", "9.9", "1", "1"),
+        ("2026-09-29 09:41:00", "4.413", "4.418", "4.410", "4.417",
+         "3328000", "14689476.2733"),
+    ]
+    new, ok, bad, fixed = _merge_rows(poison_early, rewrite_early,
+                                      "2026-09-29T09:40:44")
+    check("non-tail mismatch never repaired",
+          (not ok) and bad == "2026-09-29 09:39:00"
+          and fixed == poison_early)
+    # boundary-second edge: success wall-clock inside the bar minute
+    # (09:41:00.2 writing label 09:41) -> within 60s slack, repairable
+    new, ok, rep, fixed = _merge_rows(poisoned, src_final,
+                                      "2026-09-29T09:41:01")
+    check("boundary-second provenance repairs",
+          ok and rep == "2026-09-29 09:41:00")
+    # no last_success_ts (fresh lane) -> no proof -> hard exit 3
+    new, ok, bad, fixed = _merge_rows(poisoned, src_final, "")
+    check("no provenance record = no repair",
+          (not ok) and fixed == poisoned)
 
     # [4] local I/O: write/read roundtrip, determinism, schema drift
     p = os.path.join(tmp, "t.csv")
