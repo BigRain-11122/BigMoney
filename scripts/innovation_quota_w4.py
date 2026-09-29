@@ -169,11 +169,14 @@ ANCHOR = {
 }
 EXTREME_DAYS = ["2015-07-27", "2016-01-04", "2024-02-28", "2024-09-24",
                 "2024-09-30", "2025-04-07", "2026-01-19"]
-# per-day frozen state records (probe extreme_days face, slow100 | slow45)
+# per-day frozen state records (probe extreme_days face, per-cell: the two
+# slow windows carry DIFFERENT vi values on the same calendar days --
+# slow45 2024-02-28 = overheat vi 1.2345 vs slow100 mid_upper_flat vi
+# 1.0283; tuples = (slow100_state, slow45_state))
 EXTREME_EXPECT = {
     "2015-07-27": ("drought", "drought"),
     "2016-01-04": ("overheat", "overheat"),
-    "2024-02-28": ("mid_upper_flat", "mid_upper_flat"),
+    "2024-02-28": ("mid_upper_flat", "overheat"),
     "2024-09-24": ("overheat", "overheat"),
     "2024-09-30": ("overheat", "overheat"),
     "2025-04-07": ("overheat", "overheat"),
