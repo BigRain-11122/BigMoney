@@ -28,9 +28,9 @@ import autofill
 try:
     scr = json.load(io.open(r"results/trial_labor_w9/w9_screen.json", encoding="utf-8"))
     n_distinct = scr["n_distinct"]
-    n_nulls = scr["n_nulls"]
-    null_p95 = scr["null_p95"]
-    survivors = scr["survivors"]
+    n_nulls = scr["k_nulls"]
+    null_p95 = scr["null_family"]["p95_line"]
+    survivors = scr["n_survivors"]
     led = scr["trials_ledger"]
     ledger_total = led["total"]
     cutoff = scr["evidence_cutoff"]
@@ -40,7 +40,7 @@ except Exception as ex:
 
 try:
     jst = json.load(io.open(r"results/trial_labor_w9/judge_state.json", encoding="utf-8"))
-    jprep = jst.get("verdict") or jst.get("status")
+    jprep = jst["g_manifest"]["verdict"]
 except Exception as ex:
     print("REFUSED: judge_state.json unreadable/missing (run judge-prep first):", ex)
     sys.exit(2)
