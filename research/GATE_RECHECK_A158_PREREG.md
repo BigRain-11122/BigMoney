@@ -54,6 +54,24 @@
 
 ## §6 产物
 
-- runner：`scripts/a158_gate_recheck.py`（subcommands：run/status/selftest；import a158_tsgate_probe 机制零重实现；`__main__` 守卫；selftest=hermetic 合成面：①门构造 import 同一性腿 ②thin_b 数学腿（首事件丢弃+stride 间距+确定性）③簇并查集腿（≥0.7 连通+代表排序）④在册克隆拒收腿（全同信号 corr=1.0→CLONE）⑤四态判线合成腿 ⑥refuse-if-exists 幂等腿 ⑦确定性双跑字节恒等腿）。
+- runner：`scripts/a158_gate_recheck.py`（subcommands：run/status/selftest；import a158_tsgate_probe 机制零重实现；`__main__` 守卫；selftest=hermetic 合成面：①门构造 import 同一性腿 ②thin_b 数学腿（首事件丢弃+stride 间距+双算确定性）③簇并查集腿（≥0.7 连通+代表排序法）④在册克隆拒收腿（全同信号 corr=1.0→CLONE）⑤四态判线+确认腿数学合成腿 ⑥refuse-if-exists 幂等腿（条件腿·产物在位时点火）；全批确定性=thin_b/簇双算+产物纯函数构造（runtime generated/elapsed 独立段；同批禁重跑故无全批双跑腿·如实）。
 - 产物：`results/gate_recheck_a158.json`（顶层 cutoff_meta+prereg 块+48 门四态+五员逐员读数+簇结构表+对在册 corr 列+audit 段）+ `research/A158_GATE_RECHECK.md`（可读面：四态汇总表+入册清单+簇表+诚实注记）。
 - 无 checkpoint（秒级单趟·原子写）；跑后 §7/§8 同窗回填（判决面 owner 一次定稿）。
+
+## §7 跑后实证。【2026-09-29 17:5x 回填·判决面 owner 一次定稿·bm-a r439】
+
+- **漏斗全链**：48 PASS 实读对账 ✓（G-P1+G-ANCHOR-ROC20 全过）→ D6 簇坍缩 **48→27 簇/27 代表**（11 多员簇·SUM*/VSUM* 同窗三元组 intra=1.000 构造恒等实证坍缩·CNT 族 0.92-0.95·MAX20/MAX30/RSV20_q90 0.833·MA20_q10/QTLD20_q10 0.844；16 单员簇）→ 对在册 RSV 绝对门 **全门 max|corr|<0.7=REGISTERED-CLONE 0** → 面A三腿复核 → **RECHECK-CONFIRM 17 / RECHECK-FAIL 10 / CLUSTER-COLLAPSED 21**。
+- **§5 预测对账**：①锚复现 ✓（3344/374/139 逐位+PASS==48 实读）②簇数 27 vs 带 [5,20]=**MISS 高侧**——根因=0.7 线下五员 OOS 开仓指示面按「共同开仓日」聚类，同窗恒等族正确合并（intra=1.000 实证），但窗变体/侧变体开仓日错开→分簇多于代数直觉预期；③STD20_q90 与 RSQR20_q90 双双 RECHECK-CONFIRM ✓（预测「至少其一」超额命中）；④REGISTERED-CLONE=0 ∈ [0,5] ✓；⑤确认数 17 vs 带 [0,12]=**MISS 高侧**——P1 全面板正中位在五员子集上的稳定性高于先验（五员=大市值 ETF 主流面·P1 判别力主要由其贡献）。
+- **入册清单主发现（T-101 v4 政体门候选库·17 门）**：**STD20_q90**（五员 net 中位 +1.14%/20 日·**5/5 全员正**·格点 B +1.04%·vs 在册 0.11）=头号候选；**RSQR20_q90**（趋势强度高位=延续面·+0.84%·4/5 正·B +1.13%）二号；STD10_q90（+1.35%·5/5）三号。量能族代表 VSUMD10/20/30_q90 三窗全入册（量能极端态=簇代表非整簇）；方向计数族代表 CNTD5_q90/CNTN20_q10；其余=SUMD5/SUMD30/SUMN10/SUMN20/MAX30/RANK30/RESI60/RSQR5/RSQR10_q90。
+- **C1 降格清单（10 门·簇代表但复核腿不过）**：CNTD10_q90/IMXD10_q90/MAX60_q10/MIN10_q10/QTLD20_q10/RESI10/20/30_q90/RSQR30_q90/STD30_q90——五员面稳定性不足如实降格（RESI 三窗+RSQR30/STD30 长窗趋势残差族五员面全弱）。
+- **独立性诚实注记**：面A 五员确认面 ⊂ P1 全面板面（同 OOS 跨度·子集宇宙）→ 确认=**消费面稳定性复核非独立复制**；独立面=格点 B（新窗抽样）+D6（新邻接轴）；入册=候选资格（v4 臂预注册锦标赛再判）非策略宣称；同窗恒等对 SUMD10/SUMP10_q90 双双非代表=簇坍缩律正确执行。
+- **账本**：非试验账本批（marks +0·SEED +0·不 append trials_ledger）；n_reps=27·E[FP]=1.35 顶层在位；evidence_cutoff=2026-09-22（C2 合法键）。
+
+## §8 批后复盘。【同窗回填·bm-a r439】
+
+- **消费面指名回执**：T-101 v4 政体门候选库=**17 门入册清单**（research/A158_GATE_RECHECK.md 入册表+results/gate_recheck_a158.json library_entries 数组=机器可读单源）；C1 输入特征清单=+10 降格门（累计 P1 142 PARTIAL+本批 10）；T-74 L5=STD/RSQR 高位门族特征面（17 门含 RSQR5/10/20 三窗）。
+- **判负处置实况**：CLUSTER-COLLAPSED 21=簇内非代表不重复入册（D6 簇坍缩律·合法产出）；REGISTERED-CLONE 0=PASS 池与在册 RSV 绝对门零同交易（邻接面健康）。
+- **预测双 MISS 复盘**：簇数/确认数双高侧 MISS=「代数构造恒等⇒信号同簇」直觉在开仓指示面不成立（同窗恒等✓·跨窗/跨侧✗）+全面板 PASS→五员稳定传导率高于先验——两 MISS 均为**结构性认知修正**非机制错误（判线零改动·如实体现在册）。
+- **下一关指针**：17 入册门 → v4 政体门臂预注册锦标赛（T-101 v4 面·g1_prime_v2/g2_registration_v2 共享库·多门组合臂设计归 v4 prereg 起草轮·本批零臂设计零策略宣称）。
+- **轮报告/CODELY.md 同轮回执**：bm-a r439（本批=r438 猝死遗产吸收+P1 §8 指针消费批同窗闭环：吸收→冻结→烧→判决→回填）。
+
