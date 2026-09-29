@@ -1,5 +1,5 @@
 {
- "version": "tranche-2 + consumption_state face (bm-c r234) + W11 pre-arm (bm-b r441: TRIAL-LABOR-W11-GENERATE entry added per frozen W11 prereg; tranche-1 five faces all consumed; W10 face consumed 19:42:03) + INNOVATION-QUOTA-SLOT-3 tranche-3(d) entry (bm-c r239 rebase-merged same window) + INNOVATION-QUOTA-SLOT-4 berth entry (bm-c r243); W12 pre-arm (bm-b r444: TRIAL-LABOR-W12-GENERATE entry added per frozen W12 prereg, RSQR trend-fit gate adoption of bm-a r447 berth) + SLOT-5 berth (bm-c r247: INNOVATION-QUOTA-SLOT-5 entry added per berth; zoo #86 icu_ma_timing, prereg BERTH research/INNOVATION_QUOTA_W5_PREREG.md) + SLOT-5 runner_exists flip (bm-c r249: scripts/innovation_quota_w5.py built selftest 31/31, G-ANCHOR real-panel pre-verified, both gates pass)",
+ "version": "tranche-2 + consumption_state face (bm-c r234) + W11 pre-arm (bm-b r441: TRIAL-LABOR-W11-GENERATE entry added per frozen W11 prereg; tranche-1 five faces all consumed; W10 face consumed 19:42:03) + INNOVATION-QUOTA-SLOT-3 tranche-3(d) entry (bm-c r239 rebase-merged same window) + INNOVATION-QUOTA-SLOT-4 berth entry (bm-c r243); W12 pre-arm (bm-b r444: TRIAL-LABOR-W12-GENERATE entry added per frozen W12 prereg, RSQR trend-fit gate adoption of bm-a r447 berth) + SLOT-5 berth (bm-c r247: INNOVATION-QUOTA-SLOT-5 entry added per berth; zoo #86 icu_ma_timing, prereg BERTH research/INNOVATION_QUOTA_W5_PREREG.md) + SLOT-5 runner_exists flip (bm-c r249: scripts/innovation_quota_w5.py built selftest 31/31, G-ANCHOR real-panel pre-verified, both gates pass) + SLOT-6 consumed (bm-c r257: RRG_ROTATION_P1 0/4 judged-negative, burn landed 06:50:35 bm-c autofill, pool done-flip same round, false-crash trap defused)",
  "law_refs": [
   "O-20260928-1614 sec.1 SUPPLY FLOOR + sec.4 FILL LADDER (a)(b)(c)(d)",
   "O-20260928-1630 D4 standing supply catalog",
@@ -55,6 +55,11 @@
    "state": "berth-declared",
    "evidence": "berth prereg research/INNOVATION_QUOTA_W8_PREREG_DRAFT.md (BERTH status, bm-b r448) + zoo #89 row adoption route (A/B variant batch sample-cov vs shrunk-cov same pipeline, T-27 method B mdp_weights verbatim, J4 T-28 face); A-layer inventory two-face audit in draft sec.A (#92/#85 P-1e-burned second example of zoo-status-lag); freeze steps per draft sec.C next round by drafting machine",
    "verified": "direct, bm-b r448"
+  },
+  "INNOVATION-QUOTA-SLOT-6": {
+   "state": "consumed",
+   "evidence": "RRG_ROTATION_P1 judged batch burned on bm-c autofill 2026-09-30 06:50:35 (r255 stale-claim rc=2 false-fail self-healed to real burn same morning); verdict results/innovation_quota/RRG-ROTATION-P1.json 0/4 judged-negative family closure (law s5); pool flipped done same round (r257 bm-c); prereg s7/s8 backfill = bm-c r257 per SLOT-5 r251 executing-machine precedent",
+   "verified": "direct, bm-c r257 (verdict JSON + pool flip + commit)"
   }
  },
  "entries": [
