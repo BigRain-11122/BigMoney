@@ -1,13 +1,13 @@
 {
- "round_no": 428,
- "did": "r428: MSG-1142 host-gate pre-check landed (autofill._pick claim-before-check + pool_worker._eligible parity, host_gates=[{kind:dir_nonempty,path,pattern?}] fail-closed, submit --host-gates structure-only; S20a-j + S6e-h ALL PASS) + MSG-1305 to bm-b (W8-JUDGE host_gates attach rec) + MSG-1235 W8-freeze receipt archived + push-storm rebase 1/1 clean replay zero-loss",
- "verify": "smoke 26/26; S6 37 legs rc=0; dualrun ZERO-DRIFT 113 streak 9/3; WM py_low_board_clear legal idle (W8 prep bm-c); regime ORANGE shadow; clock ORANGE_COOL; t35 PASS zero-pending; t24 22/22 drift 0; token L2 0",
- "next": "r428: W8 runner landing watch (bm-c r219 tranche -> pool supply self-heals supply_floor); bm-b W8-JUDGE host_gates attach receipt; 10-01 month-boundary triple (science_audit/monthly_briefing/self_review) + REGIME_GUARD v3 date-gate",
+ "round_no": 429,
+ "did": "r429: D-20260929-04 executed -- IntradayMarks was Disabled (blind-run face) -> re-registered via canonical script (Status Ready, first fire 2026-09-30 09:25) + manual intraday tick fired same round (18 positions, marks-20260929.jsonl partial heal) + dualrun selftest 10/10 PASS (bm-a evidence leg of flip plan gate 3.1) + MSG-1320 to ALL (flip gate READY, 10-01 quiet-window proposal, bm-b selftest evidence request)",
+ "verify": "smoke 26/26; S6 37 legs rc=0 (dualrun ZERO-DRIFT 113 streak 10/3; audit FLAG pool_starvation/supply_floor honest standing = W8 runner bm-c r219 in build; WM insufficient_history window n=2; regime ORANGE shadow; clock ORANGE_COOL; LIVE-0929 regen; token delta 0); flip gate status READY (10/9/25 all >=3)",
+ "next": "r429: trading-day settle note -- if a round lands 15:00-15:10 on a trading day, fire python scripts\\update_intraday_marks.py once (settle face; task next fire is next trading morning after D-20260929-04 re-enable); 10-01 month-first triple + wave-1 pool flip candidate window (three-machine selftest evidence leg pending bm-b); W8 chain watch",
  "last_round_at": "2026-09-29T13:02:12+08:00",
- "current_task": "r428 closed: host-gate pre-check landed (MSG-1142/pit-103 face); next=W8 chain watch + 10-01 month-first triple",
- "updated": "2026-09-29T13:02:12+08:00",
- "round": 428,
- "loop_round": 428,
+ "current_task": "r429 closed: D-20260929-04 IntradayMarks re-enable + marks partial heal + flip-gate evidence MSG-1320; next=settle-tick on 15:00-15:10 trading-day rounds + 10-01 flip window",
+ "updated": "2026-09-29T13:17:30+08:00",
+ "round": 429,
+ "loop_round": 429,
  "last_round": 428,
  "last_round_ts": "2026-09-29T13:02:12+08:00"
 }
