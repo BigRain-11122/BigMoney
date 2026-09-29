@@ -90,23 +90,33 @@ def main() -> int:
         "full": ols_hac(r.values.astype(float), bh.values.astype(float)),
     }
 
-    # --- excess identity: avoided OFF-day returns minus cost drag ---
+    # --- excess identity: strategy excess == -(sum of OFF-day B&H returns) - cost drag
+    # (prereg sec.3 frozen formula). NOTE T+1 open-fill convention breaks the
+    # close-to-close identity by the overnight-gap interaction -> residual is
+    # reported as the execution-convention gap, not an error term.
     off = ~pos_arr
     off_oos = off & oos_sel
     yrs_oos = oos_sel.sum() / 252.0
-    avoided_oos = float(bh.values[off_oos].sum())  # total B&H return avoided on OFF days
+    off_ret_all = bh.values[off_oos]
+    avoided_oos = float(off_ret_all.sum())  # net B&H return the strategy sat out
     cost_drag_oos = float(parent.COST_LEG * 2 * parent.count_entries(pos, oos_sel))  # round-trips
     excess_oos = parent.ann_ret(r[oos_sel].values) - parent.ann_ret(bh.values[oos_sel])
-    # concentration: top-5 avoided OFF days share (descriptive, prereg sec.3)
-    off_rets = np.sort(bh.values[off_oos])  # ascending (most negative avoided = best)
-    top5_share = float(off_rets[:5].sum() / avoided_oos) if avoided_oos != 0 else float("nan")
+    # loss-avoidance pool: negative OFF-day returns are the losses the gate sat out
+    neg_off = off_ret_all[off_ret_all < 0]
+    pos_off = off_ret_all[off_ret_all >= 0]
+    top5_neg = np.sort(off_ret_all)[:5]  # 5 most negative = largest avoided losses
+    top5_share = float(top5_neg.sum() / neg_off.sum()) if neg_off.size and neg_off.sum() != 0 else float("nan")
     identity = {
         "avoided_off_ret_sum_oos": avoided_oos,
         "avoided_off_ann_oos": avoided_oos / yrs_oos,
         "cost_drag_sum_oos": cost_drag_oos,
+        "cost_drag_ann_oos": cost_drag_oos / yrs_oos,
         "excess_ann_oos_true": float(excess_oos),
-        "identity_residual": float(excess_oos - (avoided_oos / yrs_oos - cost_drag_oos / yrs_oos)),
-        "top5_avoided_share_oos": top5_share,
+        "identity_residual_ann": float(excess_oos - (-avoided_oos / yrs_oos - cost_drag_oos / yrs_oos)),
+        "avoided_loss_sum_oos": float(neg_off.sum()) if neg_off.size else 0.0,
+        "avoided_gain_sum_oos": float(pos_off.sum()) if pos_off.size else 0.0,
+        "top5_avoided_share_of_loss_pool": top5_share,
+        "top5_avoided_days": [str(dates[i]) for i in np.where(off_oos)[0][np.argsort(off_ret_all)[:5]]],
     }
 
     # --- null: same-mask circular shift K=200, OOS excess face ---
@@ -147,16 +157,20 @@ def main() -> int:
         "audit": {"elapsed_sec": round(time.time() - t0, 1), "host": "bm-a",
                   "lane": "bm-a (local ETF panel data/daily)"},
     }
+    out["trials_ledger"] = sg.append_ledger(
+        "T-101-V4-A2-CORRSOURCE", 1, "t101_v4_a2_corrsource.json",
+        evidence_cutoff=EVIDENCE_CUTOFF,
+        note="D6-exit child of T-101-V4-A2-PRESCREEN; verdict closure on sole survivor cell")
     with open("results/t101_v4_a2_corrsource.json", "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
-    sg.append_ledger("T-101-V4-A2-CORRSOURCE", 1, "t101_v4_a2_corrsource.json",
-                     evidence_cutoff=EVIDENCE_CUTOFF)
     print(f"elapsed={out['audit']['elapsed_sec']}s verdict={verdict} action={line_action}")
     print(f"exposure on_share_oos={exposure['on_share_oos']:.4f} corr_full={corr['full']:.4f} corr_oos={corr['oos']:.4f}")
     print(f"OLS oos: alpha_ann={ols['oos']['alpha_ann']:+.5f} t={t_alpha:+.3f} beta={ols['oos']['beta']:.4f} r2={ols['oos']['r2']:.4f}")
     print(f"excess true={excess_oos:+.6f} null_med={null_med:+.6f} null_p95={null_p95:+.6f} leg2_pass={legs['leg2_excess_gt_null_p95']}")
-    print(f"identity: avoided_ann={identity['avoided_off_ann_oos']:+.5f} cost_drag_ann={identity['cost_drag_sum_oos']/yrs_oos:+.5f} "
-          f"residual={identity['identity_residual']:+.2e} top5_share={identity['top5_avoided_share_oos']:.3f}")
+    print(f"identity: avoided_ann={identity['avoided_off_ann_oos']:+.5f} cost_drag_ann={identity['cost_drag_ann_oos']:+.5f} "
+          f"residual_ann={identity['identity_residual_ann']:+.5f} "
+          f"loss_pool={identity['avoided_loss_sum_oos']:+.4f} gain_pool={identity['avoided_gain_sum_oos']:+.4f} "
+          f"top5_share={identity['top5_avoided_share_of_loss_pool']:.3f} top5_days={identity['top5_avoided_days']}")
     return 0
 
 

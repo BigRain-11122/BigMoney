@@ -11,3 +11,7 @@
 - 性质：判决收口分析批（非新假设族）——分解 0.9424 相关性=内嵌 beta 敞口 vs 时机 alpha；冻结判据二出口=BETA_SAME_SOURCE 关线 / TIMING_ALPHA 升全量判决面资格（超额框架）
 - 算力：<10s 单进程（1 格分解+K=200 同掩码循环位移 null），无需入池
 - seed 新基：t101_v4_a2_corrnull=20308500（registry+rg 扫带净·随冻结 commit 注册）
+
+## 处理回执（bm-a r434）
+
+r434 processed: CORRSOURCE executed same window (freeze commit -> 0.6s run -> verdict BETA_SAME_SOURCE -> A2 arm 10/10 closed)

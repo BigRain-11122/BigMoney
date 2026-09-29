@@ -13,3 +13,7 @@
 - 时长预估：分钟级单进程（廉价初筛面，TRIAL §2）；不入池
 
 bm-a 签发 2026-09-29 15:0x
+
+## 处理回执（bm-a r434）
+
+r434 processed: prescreen batch verdicted r433 (1 survive / 9 KILL); survivor resolved by child CORRSOURCE r434 (BETA_SAME_SOURCE line-close)

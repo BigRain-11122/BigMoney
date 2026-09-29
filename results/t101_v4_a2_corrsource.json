@@ -1,0 +1,89 @@
+{
+ "batch": "T-101-V4-A2-CORRSOURCE",
+ "prereg": "research/T-101-V4-A2-CORRSOURCE_PREREG.md",
+ "parent_batch": "T-101-V4-A2-PRESCREEN",
+ "subject_cell": "510050|RSV30_low<0.2",
+ "generated": "2026-09-29T15:06:07+0800",
+ "evidence_cutoff": "2026-09-28",
+ "science_gates": {
+  "cutoff_meta": {
+   "cutoff": "2026-09-28"
+  }
+ },
+ "split": "2017-01-01",
+ "cost_leg": 0.0005,
+ "hac_lag": 5,
+ "exposure": {
+  "on_share_full": 0.2081508284136355,
+  "on_share_oos": 0.1835095137420719,
+  "on_days_full": 1093,
+  "n_days_full": 5251,
+  "on_days_oos": 434,
+  "n_days_oos": 2365
+ },
+ "corr": {
+  "full": 0.5310297570859004,
+  "oos": 0.44318276204296325
+ },
+ "ols": {
+  "oos": {
+   "alpha_daily": 9.383458963249647e-05,
+   "alpha_t": 1.0267557222602102,
+   "alpha_ann": 0.02364631658738911,
+   "beta": 0.19626711923802095,
+   "r2": 0.19641096057203022
+  },
+  "full": {
+   "alpha_daily": -2.1939790835083883e-05,
+   "alpha_t": -0.23018972560651177,
+   "alpha_ann": -0.005528827290441138,
+   "beta": 0.28509632670990803,
+   "r2": 0.2819926029107076
+  }
+ },
+ "excess_identity": {
+  "avoided_off_ret_sum_oos": 0.08031032383458003,
+  "avoided_off_ann_oos": 0.008557379114720579,
+  "cost_drag_sum_oos": 0.122,
+  "cost_drag_ann_oos": 0.012999577167019027,
+  "excess_ann_oos_true": 0.0027382732809375643,
+  "identity_residual_ann": 0.02429522956267717,
+  "avoided_loss_sum_oos": -7.62460274989539,
+  "avoided_gain_sum_oos": 7.704913073729969,
+  "top5_avoided_share_of_loss_pool": 0.03542511940505378,
+  "top5_avoided_days": [
+   "2024-10-09",
+   "2025-04-07",
+   "2019-05-06",
+   "2022-04-25",
+   "2018-10-08"
+  ]
+ },
+ "null": {
+  "k": 200,
+  "seed_base": 20308500,
+  "med_excess": -0.031915486897461987,
+  "p95_excess": 0.0010596691403473356
+ },
+ "verdict_legs": {
+  "leg1_alpha_hac_t": 1.0267557222602102,
+  "leg1_pass": false,
+  "leg2_excess_gt_null_p95": true
+ },
+ "verdict": "BETA_SAME_SOURCE",
+ "line_action": "LINE_CLOSE_A2_arm_10_of_10_resolved_zero_cells_advance",
+ "audit": {
+  "elapsed_sec": 0.2,
+  "host": "bm-a",
+  "lane": "bm-a (local ETF panel data/daily)"
+ },
+ "trials_ledger": {
+  "prev_total": 340654,
+  "batch_trials": 1,
+  "total": 340655,
+  "batch": "T-101-V4-A2-CORRSOURCE",
+  "file": "t101_v4_a2_corrsource.json",
+  "note": "D6-exit child of T-101-V4-A2-PRESCREEN; verdict closure on sole survivor cell",
+  "evidence_cutoff": "2026-09-28"
+ }
+}
