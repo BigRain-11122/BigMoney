@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-29 07:33:00",
+ "updated_at": "2026-09-29T06:00:54+08:00",
  "_stamp_note": "bm-b r412: W6-GENERATE harvest flip (r244 landed-marker law) + W6-SCREEN entry submission (screen-prep PASS same round)",
  "entries": [
   {
@@ -3945,7 +3945,7 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-29 06:55:07",
    "data_gates": "READY (all three entry-time deps MET r413 bm-b): (1) serial-position face: pool drained 109/109 done at entry (V3-TOURNAMENT + W6-SCREEN done-flips same round r413), zero in-flight verdict faces ahead; (2) judge-prep PASS bm-b r413: manifest PASS 48 members, census L/D == frozen, survivors 293, gate meta L/D na-window 199/199, vol 519/519 (leg-L anchors 594calm/518wild), yang zero-warmup 819yang/812red, vconf 19-bar warmup 784surge/828dry -> results/trial_labor_w6/judge_state.json; (3) RAM r354 three-sample PASS 10.38/10.58/12.71 GB across 31s (>=4GB law). In-runner fail-closed: judge_state/w6_screen absent exit 2; grammar sha16 != 2d395f5f8e7d16cb refuse; zero-survivor vacuous face n/a (293 survivors). Judge dual-null rng trial_labor_w6_unc=20304500 [20304500, cell_idx] per prereg sec.3 s3; G2 n_trials live-head read = 333139 post-SCREEN cross-wave. After shards: judge-finalize = separate round work (ledger TRIAL_LAB_W6_JUDGE batch_trials=293 literal + w6_judge.json G1'/G2/DSR/PBO/E[FP] + gate x vol x yang x vconf segmented disclosure; intake slice next per prereg sec.6; 48h CEO report clock starts at judge-finalize)",
    "shards": [
@@ -3963,7 +3963,10 @@
     "workers": 20,
     "priority": "BelowNormal",
     "note": "worker_cap() RAM-guard governs at runtime (runner self-caps, --workers omitted from runner_args per W5-JUDGE same-machinery precedent); plan size 20 = floor(16 cores/0.8) per prereg sec.9 lower-bound; judge initargs carry BOTH leg panels + per-leg ATR20 + per-leg gate/vol/yang/vconf state faces = heaviest per-worker state in the fleet; dual-leg x {6m,12m,24m} x cost {base x1, x2=CostPatch(2)} engine curves per judged cell WITH gate+vol+yang+vconf+stop overlays + dual nulls B/P resampling ~4-6x screen-cell weight; W2/W3/W4/W5 judge same-machinery precedent"
-   }
+   },
+   "done_at": "2026-09-29T08:14:22+08:00",
+   "result_ref": "results/trial_labor_w6/w6_judge.json",
+   "done_note": "r415 bm-b successor harvest: judge-finalize detached by predecessor session 07:56:41 (predecessor died ~08:04 stream-timeout; process pid2432 survived and landed 08:14:22) -> w6_judge.json: 293 judged cells (== w6_screen survivors 293), TOTAL-ZERO G1 across all four faces (gate none/bear/bull 0; vol none/calm/wild 0; yang none/first_yang 0; vconf none/volume_dry/volume_surge 0) -> G2 eligible 0 -> [] (even W5's single gate=none|vol=none|yang=none G1 pass absent this wave); E[FP]=14.65 at nominal 5% caliber (DSR>=0.95 gate IS the correction); family PBO 11 modules (patterns 0.7429/82c, seasonal 0.8286/13c, sentiment 0.6714/29c, momentum 0.1857/25c lowest quantified, event 0.1429/8c; trend 6c + macro 7c insufficient <8 disclosed); trials_ledger TRIAL_LAB_W6_JUDGE prev 333139 + 293 = 333432 cross-wave linear no-reset verified; evidence_cutoff 2026-09-22 lockbox; grammar 2d395f5f8e7d16cb (== r410 build anchor, append-only face); wave-6 funnel honest zero-registration. Intake zero-face landed same round: results/trial_labor_w6/w6_intake.json (prereg sec.6 s4 actual-count clause; zero eligible = D6/library/paper-desk all zero-surface). 48h CEO report clock started at finalize landing 2026-09-29T08:14:22+08:00 (standing deadline 2026-10-01 08:14)."
   }
  ]
 }

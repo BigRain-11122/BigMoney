@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-29T07:35:11+08:00",
- "heartbeat_epoch_utc": 1790638511,
- "clock_read": "2026-09-29T07:35:11+08:00",
- "current_task": "round 414 closed: W6-JUDGE judge-0of1 burned 293/293 on bm-b via legal stale-takeover (bm-c claim 21.4min stale, O-2100 s2.4) + shard done-flip + MSG-0735 bm-c standdown -- next r415: judge-finalize (w6_judge.json + ledger + entry flip + 48h CEO clock), 09:15 T-105 intraday first-live window",
+ "last_seen": "2026-09-29T08:24:03+08:00",
+ "heartbeat_epoch_utc": 1790641443,
+ "clock_read": "2026-09-29T08:24:03+08:00",
+ "current_task": "round 415 closed: W6-JUDGE judge-finalize harvested from dead predecessor session (detached pid2432 outlived parent, landed 08:14:22) -- w6_judge.json 293 judged ALL-face G1 total-zero, E[FP]=14.65, G2 0, ledger 333432; pit-89 dual-face entry flip + intake zero-face + 48h CEO clock (deadline 2026-10-01 08:14). Next: W6 48h CEO report draft window, 09:15 T-105 intraday first-live window (bm-b P0), V3 flip gate 2nd condition watch",
  "cpu_cores": 16,
- "free_ram_gb": 10.8,
+ "free_ram_gb": 13.9,
  "gpu_free_vram_gb": 2.6,
  "total_ram_gb": 23.92,
- "cpu_util_pct": 11.0,
- "round_no": 414,
- "verdict": "healthy: smoke 26/26; r414 W6-JUDGE judge shard complete 293/293 normal exit + pit-89 same-round shard done-flip (entry ready for finalize) + town.html ETF-ops 11th building landed (screenshot+syntax+functional verified) + S6 34 legs rc=0 + dualrun ZERO-DRIFT streak 1/3 recovering; orders 122/122 zero-diff; bm-a stale 103min guard-faces self-healed (daily_score stale-takeover legal)",
+ "cpu_util_pct": 2.0,
+ "round_no": 415,
+ "verdict": "healthy: smoke 26/26; r415 successor harvest complete -- W6-JUDGE full closure (judge-finalize landed 08:14:22, receipt 4-assert pass, ALL-face G1 total-zero 0/293, E[FP]=14.65, ledger 333139+293=333432 linear, dual-face pool flip + intake zero-face + 48h CEO clock armed); orders 122/122 zero-diff (normalized); S7 trio green (loop pin=2, watchdog 08:40, claw in-sync)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -138,10 +138,10 @@
   "O-2026-09-28-2210-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 10.8,
+ "idle_ram_gb": 13.9,
  "gpu_idle_vram_gb": 2.6,
  "n_orders_ack": 122,
- "round": 414,
+ "round": 415,
  "gpu_model": "NVIDIA GeForce RTX 3070",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -149,5 +149,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 414
+ "loop_round": 415
 }

@@ -3945,24 +3945,28 @@
    ],
    "lane_owner": null,
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-29 06:55:07",
    "data_gates": "READY (all three entry-time deps MET r413 bm-b): (1) serial-position face: pool drained 109/109 done at entry (V3-TOURNAMENT + W6-SCREEN done-flips same round r413), zero in-flight verdict faces ahead; (2) judge-prep PASS bm-b r413: manifest PASS 48 members, census L/D == frozen, survivors 293, gate meta L/D na-window 199/199, vol 519/519 (leg-L anchors 594calm/518wild), yang zero-warmup 819yang/812red, vconf 19-bar warmup 784surge/828dry -> results/trial_labor_w6/judge_state.json; (3) RAM r354 three-sample PASS 10.38/10.58/12.71 GB across 31s (>=4GB law). In-runner fail-closed: judge_state/w6_screen absent exit 2; grammar sha16 != 2d395f5f8e7d16cb refuse; zero-survivor vacuous face n/a (293 survivors). Judge dual-null rng trial_labor_w6_unc=20304500 [20304500, cell_idx] per prereg sec.3 s3; G2 n_trials live-head read = 333139 post-SCREEN cross-wave. After shards: judge-finalize = separate round work (ledger TRIAL_LAB_W6_JUDGE batch_trials=293 literal + w6_judge.json G1'/G2/DSR/PBO/E[FP] + gate x vol x yang x vconf segmented disclosure; intake slice next per prereg sec.6; 48h CEO report clock starts at judge-finalize)",
    "shards": [
     {
      "key": "judge-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w6/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law)",
-     "note": "judge-0of1 single shard (W1-W5 judge single-shard precedent); workers BelowNormal; dual nulls B=2000 block bootstrap + P=2000 sign-flip in-shard per prereg sec.3 s3",
+     "note": "judge-0of1 single shard (W1-W5 judge single-shard precedent); workers BelowNormal; dual nulls B=2000 block bootstrap + P=2000 sign-flip in-shard per prereg sec.3 s3 | r414 bm-b: shard burn complete + done-flip in burn-landing round (pit-89 law); judge-finalize = separate round work per frozen data_gates (entry face flips at finalize landing)",
      "owner": "bm-b",
-     "owner_since": "2026-09-29 07:20:04"
+     "owner_since": "2026-09-29 07:20:04",
+     "result_ref": "results/trial_labor_w6/checkpoint/judge_shard_0of1.jsonl (293/293 cells, unique cell_id 293 == w6_screen survivors 293 verified r414 bm-b; burn 07:20:37->07:26:15 normal-exit 20 workers BelowNormal, runner log \"judge shard 0of1 complete\"; autofill tick claim 07:20:04 pid 14960 runner_sha 1d4083d2200afec1, legal stale-takeover per O-2100 s2.4 (prior owner bm-c claim 06:58:35 = 21.4min stale at tick, bm-c heartbeat 06:34:51); bm-c duplicate burn (if alive) = W1/W2 cross-kill contract harmless, finalize dedupes by cell_id)"
     }
    ],
    "workers_plan": {
     "workers": 20,
     "priority": "BelowNormal",
     "note": "worker_cap() RAM-guard governs at runtime (runner self-caps, --workers omitted from runner_args per W5-JUDGE same-machinery precedent); plan size 20 = floor(16 cores/0.8) per prereg sec.9 lower-bound; judge initargs carry BOTH leg panels + per-leg ATR20 + per-leg gate/vol/yang/vconf state faces = heaviest per-worker state in the fleet; dual-leg x {6m,12m,24m} x cost {base x1, x2=CostPatch(2)} engine curves per judged cell WITH gate+vol+yang+vconf+stop overlays + dual nulls B/P resampling ~4-6x screen-cell weight; W2/W3/W4/W5 judge same-machinery precedent"
-   }
+   },
+   "done_at": "2026-09-29T08:14:22+08:00",
+   "result_ref": "results/trial_labor_w6/w6_judge.json",
+   "done_note": "r415 bm-b successor harvest: judge-finalize detached by predecessor session 07:56:41 (predecessor died ~08:04 stream-timeout; process pid2432 survived and landed 08:14:22) -> w6_judge.json: 293 judged cells (== w6_screen survivors 293), TOTAL-ZERO G1 across all four faces (gate none/bear/bull 0; vol none/calm/wild 0; yang none/first_yang 0; vconf none/volume_dry/volume_surge 0) -> G2 eligible 0 -> [] (even W5's single gate=none|vol=none|yang=none G1 pass absent this wave); E[FP]=14.65 at nominal 5% caliber (DSR>=0.95 gate IS the correction); family PBO 11 modules (patterns 0.7429/82c, seasonal 0.8286/13c, sentiment 0.6714/29c, momentum 0.1857/25c lowest quantified, event 0.1429/8c; trend 6c + macro 7c insufficient <8 disclosed); trials_ledger TRIAL_LAB_W6_JUDGE prev 333139 + 293 = 333432 cross-wave linear no-reset verified; evidence_cutoff 2026-09-22 lockbox; grammar 2d395f5f8e7d16cb (== r410 build anchor, append-only face); wave-6 funnel honest zero-registration. Intake zero-face landed same round: results/trial_labor_w6/w6_intake.json (prereg sec.6 s4 actual-count clause; zero eligible = D6/library/paper-desk all zero-surface). 48h CEO report clock started at finalize landing 2026-09-29T08:14:22+08:00 (standing deadline 2026-10-01 08:14)."
   }
  ],
  "lane_machine": "bm-b"
