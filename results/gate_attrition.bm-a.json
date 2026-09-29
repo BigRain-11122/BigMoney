@@ -10174,140 +10174,6 @@
    "evidence_cutoff": "2026-09-28",
    "prereg": "research/T-101-V4-A2-CORRSOURCE_PREREG.md",
    "note": "D6-exit child batch; parent r433 missed finalize crash-recovery re-finalized same window (337,630 historical position restored)"
-  },
-  {
-   "batch": "T-101-V4-A10-REGIMECOMBO",
-   "ts": "2026-09-29T19:2x+08:00",
-   "host": "bm-a",
-   "n_cells": 16,
-   "verdict": "FV_FAIL_0of16",
-   "line_action": "ARM_TIMING_SPECTRUM_CLOSE",
-   "legs": {
-    "top_sharpe": 0.8125,
-    "skill_line": 1.5239,
-    "top_dsr": 0.1244,
-    "family_pbo_min": 0.2143,
-    "best_cell": "C1|510300|x1",
-    "best_oos_excess_cell": "C1|588000|x1 (+8.36% / x2 +6.94%)",
-    "d6_reject_vs_singlegate9": 6,
-    "d6_reject_vs_bh": 4,
-    "d6_accept": 6
-   },
-   "d6_attribution_finding": "C1|588000 combination mirror REJECTed at d6_sg 0.8905 (VSUMD30 single-gate beta duplicate, pre-declared r433 family) -- the only good-looking cell is the same-source mirror, zero independent arms",
-   "a10_arm_final_state": "regime-gate timing usage full-spectrum closed across three sublines (A2 prescreen 9/10 kill r433 + A158 single-gate FV 0/9 r441 + A10 combination FV 0/16 r442); input-feature qualification notes preserved (588000 family, C1 lane)",
-   "cells_ledger_delta": 16,
-   "ledger_total_after": 344056
-  },
-  {
-   "batch": "T-101-V4-A11-XSELECT",
-   "ts": "2026-09-29T19:4x+08:00",
-   "host": "bm-a",
-   "n_cells": 24,
-   "verdict": "FV_FAIL_0of24",
-   "line_action": "ARM_XSECTION_SELECT_CLOSE",
-   "legs": {
-    "top_sharpe": 0.4994,
-    "skill_line": 1.2504,
-    "top_dsr": 0.0168,
-    "family_pbo": {
-     "U5": 0.8143,
-     "U4": 0.0
-    },
-    "best_cell": "U4|f_c2|top2|x1",
-    "best_oos_excess_cell": "U4|f_c2|top1|x1 (+10.38% / x2 +8.26%)",
-    "d6_reject": 24,
-    "d6_reject_face": "vs_bh mirror 0.80-0.97 (structural class beta)",
-    "below_null_median_cells": "f_rsv30 U4 both + f_roc20 U4 all 4 (below-random ordering = negative information)",
-    "maxdd_floor_breaches": 20,
-    "deepest_maxdd": "-0.6002 (U5|f_c2|top1|x2)",
-    "null_pool": {
-     "n": 4800,
-     "nan": 0,
-     "mu": 0.159,
-     "sigma": 0.2161
-    },
-    "ledger": "344056->344080 +24 linear, trials_ledger key landed"
-   },
-   "a11_arm_final_state": "input-feature cross-sectional selection usage CLOSED (0/24): gate/factor feature differentials among the frozen five carry no selection information -- f_rsv30/f_roc20 orderings rank BELOW random (falling-knife / dead intra-class momentum), f_c2 positive-excess face = high-beta member tilt mirror (d6 0.94-0.97), not skill; always-invested top-k concentration deepens maxdd (20/24 breach -35% floor, deepest -60.0%); remaining input-feature route = predictor/conditional faces (vol/risk conditioning), non-selection non-timing, future batches need fresh prereg + D6 first",
-   "prereg": "research/T-101-V4_A11_XSELECT_PREREG.md",
-   "results": "results/t101_v4_a11_xselect.json",
-   "burn_disclosure": "burn#1-#3 pre-output engineering wiring failures (RangeIndex->DatetimeIndex silent all-NaN reindex + OR/AND; string/datetime key mix empty intersection; numpy scatter broadcast) -- all crashed BEFORE any JSON write or ledger append, zero partial products zero double-count; burn#4 final 141.3s, judgment faces zero-touch (r251/r280 precedent family)"
-  },
-  {
-   "batch": "T-101-V4-A12-PREDCOND",
-   "ts": "2026-09-29T20:4x+08:00",
-   "host": "bm-a",
-   "n_cells": 12,
-   "verdict": "FV_FAIL_0of12",
-   "line_action": "ARM_CONDITIONAL_SLEEVE_CLOSE",
-   "legs": {
-    "top_sharpe": 0.4316,
-    "skill_line": 1.0889,
-    "top_dsr": 0.001,
-    "family_pbo": {
-     "U5": 0.1714,
-     "U4": 0.4286
-    },
-    "best_cell": "U5|c_vtar|x1",
-    "c_vtar_oos_excess": "U5 +0.86%/x2 +0.65% ; U4 +0.29%/x2 +0.08% (small positive both universes, x2-stable)",
-    "c_volinv_oos_excess": "U5 -2.04%/x2 -2.25% ; U4 -0.74%/x2 -0.92% (negative both = A11 mirror closed)",
-    "d6_reject": 12,
-    "d6_reject_face": "vs_a11 dominant 0.847-0.933 (c_vtar max pair U4|f_c2|top2 0.8958; vs_bh 0.57-0.83)",
-    "maxdd_floor_breaches": 0,
-    "descriptive_positive_finding": "exposure conditioning structurally caps maxdd (0/12 breach vs A11 always-invested 20/24, deepest -60%) -- descriptive face only, far below Sharpe line",
-    "entries_ok": "all 12 pass (35-98 OOS trade events; sec.5 thin-event risk for c_volinv did not materialize)",
-    "null_pool": {
-     "n": 2400,
-     "nan": 0,
-     "mu": 0.239,
-     "sigma": 0.1683
-    },
-    "ledger": "346270->346282 +12 linear, trials_ledger key landed; head file=w10_screen.json (fleet in-flight advanced N_eff +2,190 since A11)"
-   },
-   "a12_arm_final_state": "vol/risk-conditioned continuous position usage CLOSED (0/12): input-feature route now five-subline closed (A2/A9/A10 timing + A11 selection + A12 conditioning); c_volinv negative OOS excess both universes = A11 high-vol-tilt mirror evidence closed-loop (same information opposite sign); c_vtar small positive crash-avoidance tilt far below registration (top cell 40% of line); exposure conditioning caps drawdown depth descriptively (input note for future risk-budget lines, not a strategy claim); remaining input-feature route = pure predictor (forecast, walk-forward) face only, future batches need fresh prereg + D6 first",
-   "prereg": "research/T-101-V4_A12_PREDCOND_PREREG.md",
-   "results": "results/t101_v4_a12_predcond.json",
-   "burn_disclosure": "zero-correction burn (single 61.0s run); selftest legs 3/4/8 stride-20 caliber errors caught and fixed PRE-freeze (judgment faces zero-touch, r251/r280 precedent family); dual-nulls base wiring: fv.UNC_BASE rebound to batch key 20316500 pre-call -- A10/A11 inherited fv module base 20313500 while declaring their own keys in prereg metadata (seed-arbitrary face, zero verdict impact, disclosure note in prereg sec.8)"
-  },
-  {
-   "batch": "T-101-V4-A13-PREDFACE",
-   "ts": "2026-09-29T21:5x+08:00",
-   "host": "bm-a",
-   "kind": "judgment",
-   "n_cells": 40,
-   "verdict": "FV_PASS_2of12_POSITIVE_SUPPLY",
-   "line_action": "INPUT_FEATURE_RESIDUAL_FACE_POSITIVE_no_exit",
-   "legs": {
-    "fv_pass_cells": [
-     "raw|510050|f_c2",
-     "raw|510500|f_c2"
-    ],
-    "supply_notes_oos_only": [
-     "raw|512100|f_c2",
-     "resid|512100|f_c2"
-    ],
-    "ic_oos": {
-     "510050|f_c2": 0.2363,
-     "510500|f_c2": 0.1945,
-     "512100|f_c2_raw": 0.2643,
-     "512100|f_c2_resid": 0.2857
-    },
-    "p_oos": {
-     "510050": 0.005,
-     "510500": 0.0348,
-     "512100_raw": 0.01,
-     "512100_resid": 0.01
-    },
-    "boot_ci_oos_excludes_zero": [
-     "510050 [0.090,0.372]",
-     "510500 [0.030,0.357]"
-    ],
-    "family_coherence": "all 4 hits = f_c2 (17-gate mean); rsv30/roc20/std20 dead across all 40 cells",
-    "e_fp_nominal": 0.6,
-    "mechanism": "continuous-value version of gate-family conditional means (gate_verify positive OOS = second instance of info-exists-conversion-dies two-symbol separation)",
-    "downstream": "f_c2 forecast face -> A1/C1 composite arm named input feature (bm-b lane, A8 downgrade route); conversion still faces D6 beta-domination (pre-declared)",
-    "ledger": "346553->346593 +40 linear, trials_ledger key landed"
-   }
   }
  ],
  "history": [
@@ -11324,6 +11190,171 @@
    },
    "retro_fill": false,
    "ts": "2026-09-29 18:33:39"
+  },
+  {
+   "batch": "TRIAL_LAB_W10_SCREEN",
+   "ts": "2026-09-29 19:54:28",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 2214,
+   "ledger_total_after": 346270,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 2014,
+     "n_survivors": 283,
+     "line": "beat6m_rate > null_p95 strictly-greater (null_p95=0.516361, prereg sec.3 frozen)"
+    },
+    "null_face": {
+     "p50": 0.5116,
+     "p95": 0.5164,
+     "n": 200,
+     "note": "K=200 thirteen-tuple axis nulls with mom leg, seed 20311500; p50 0.5116 within prereg sec.5.2 recalibrated band [0.50,0.52] (fifth consecutive wave >0.50: W6 0.5036 -> W7 0.51 -> W8 0.5116 -> W9 0.5116 -> W10 0.5116, drift disclosed); p95 0.5164 within ten-wave band 0.5116-0.5196; screen survival line = program-frozen null p95 (W2-W9 identical law)"
+    },
+    "mom_face": {
+     "segmented_survival": {
+      "none": {
+       "n_cells": 1278,
+       "n_survivors": 136,
+       "survival_rate": 0.106416
+      },
+      "mom_oversold": {
+       "n_cells": 736,
+       "n_survivors": 147,
+       "survival_rate": 0.199728
+      }
+     },
+     "note": "MOM new face direction intel (W10 true question, adopted from bm-c r228 package): POSITIVE-axis enrichment 1.88x (mom_oversold 19.97% vs none 10.64%) -- first gate face since W8 TSTATE deep_pullback 1.80x to enrich at screen, opposite of W9 AMP anti-enrichment; but judge face mom two segments both zero G1 (screen enrichment != registration-grade; W8 tstate precedent: enrichment face, zero registration)"
+    }
+   },
+   "eliminated": 1731,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W10_PREREG.md",
+    "results": "results/trial_labor_w10/w10_screen.json",
+    "ticket": "T-2026-09-29-122"
+   }
+  },
+  {
+   "batch": "TRIAL_LAB_W10_JUDGE",
+   "ts": "2026-09-29 20:31:29",
+   "kind": "judgment",
+   "retro_fill": false,
+   "cells_ledger_delta": 283,
+   "ledger_total_after": 346553,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 283,
+     "n_pass": 0,
+     "line": "skill_line_v2 per-cell (ledger_head live read); top cell W10-B-0125 cci_revert legL sharpe_full=0.9905 vs line=1.194 (n_eff=348484) -- line_ok false; eight-face total zero (gate/vol/yang/vconf/streak/tstate/amp/mom); 22 cells bootstrap ci_lower_positive but all below skill line",
+     "all_face_total_zero": true,
+     "faces": {
+      "gate": {
+       "none": 0,
+       "bear": 0,
+       "bull": 0
+      },
+      "vol": {
+       "wild": 0,
+       "none": 0,
+       "calm": 0
+      },
+      "yang": {
+       "none": 0,
+       "first_yang": 0
+      },
+      "vconf": {
+       "none": 0,
+       "volume_dry": 0,
+       "volume_surge": 0
+      },
+      "streak": {
+       "none": 0,
+       "up_streak2": 0,
+       "down_streak2": 0
+      },
+      "tstate": {
+       "none": 0,
+       "deep_pullback": 0,
+       "oversold_rsv": 0
+      },
+      "amp": {
+       "none": 0,
+       "amp_narrow": 0,
+       "amp_wide": 0
+      },
+      "mom": {
+       "none": 0,
+       "mom_oversold": 0
+      }
+     }
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "top_dsr": 0.565398,
+     "top_dsr_cell": "JUDGE|W10-B-2010",
+     "n_trials": 346270,
+     "line": "G1 pass AND DSR>=0.95 AND PBO<=0.25"
+    },
+    "e_fp_nominal_5pct": 14.15,
+    "family_pbo": {
+     "ta": {
+      "pbo": 0.2143,
+      "n_cells": 56
+     },
+     "folk": {
+      "pbo": 0.2571,
+      "n_cells": 23
+     },
+     "composite_rotation": {
+      "pbo": 0.4714,
+      "n_cells": 12
+     },
+     "momentum": {
+      "pbo": 0.4714,
+      "n_cells": 20
+     },
+     "volatility": {
+      "pbo": 0.5,
+      "n_cells": 12
+     },
+     "macro": {
+      "pbo": 0.5,
+      "n_cells": 16
+     },
+     "trend": {
+      "pbo": 0.5429,
+      "n_cells": 19
+     },
+     "sentiment": {
+      "pbo": 0.6571,
+      "n_cells": 27
+     },
+     "patterns": {
+      "pbo": 0.7857,
+      "n_cells": 56
+     },
+     "mean_reversion": {
+      "pbo": 0.7857,
+      "n_cells": 30
+     },
+     "event": {
+      "pbo": null,
+      "n_cells": 7,
+      "note": "insufficient (<8) -- G2 cannot pass"
+     },
+     "seasonal": {
+      "pbo": null,
+      "n_cells": 5,
+      "note": "insufficient (<8) -- G2 cannot pass"
+     }
+    }
+   },
+   "eliminated": 283,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W10_PREREG.md",
+    "results": "results/trial_labor_w10/w10_judge.json",
+    "intake": "results/trial_labor_w10/w10_intake.json (lawful-zero n_eligible=0, r440)",
+    "ticket": "T-2026-09-29-122"
+   }
   }
  ],
  "lane_machine": "bm-a"
