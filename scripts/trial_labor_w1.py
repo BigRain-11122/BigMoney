@@ -67,7 +67,8 @@ from p5c_virtual_timepoint import (EVIDENCE_CUTOFF_GRID, FROZEN_CENSUS,
                                    MIN_LISTED, WINDOWS, _census, _load_leg)
 from science_gates import (SEED_REGISTRY, append_ledger, cutoff_meta,
                            deflated_sharpe_ratio, g1_prime_v2,
-                           g2_registration_v2, ledger_head, _norm_cdf)
+                           g2_registration_v2, finalize_already_landed,
+                           ledger_head, _norm_cdf)  # pit-95 guard
 from screening.pbo import align_returns, cscv_pbo
 
 # ------------------------------------------------------------------ frozen
@@ -1141,6 +1142,14 @@ def _load_screen_rows():
 
 def cmd_screen_finalize() -> int:
     print(f"=== {WAVE} screen-finalize ===")
+    landed = finalize_already_landed(f"{WAVE}_SCREEN",
+                                     "results/trial_labor_w1/w1_screen.json")
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {WAVE}_SCREEN already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar, cells = _cell_list()
     rows = _load_screen_rows()
     by_id = {r["cell_id"]: r for r in rows}
@@ -1423,6 +1432,14 @@ def cmd_judge_prep() -> int:
 
 def cmd_judge_finalize() -> int:
     print(f"=== {WAVE} judge-finalize ===")
+    landed = finalize_already_landed(f"{WAVE}_JUDGE",
+                                     "results/trial_labor_w1/w1_judge.json")
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {WAVE}_JUDGE already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar = json.load(open(os.path.join(RES_DIR, "w1_grammar.json"),
                              encoding="utf-8"))
     screen = json.load(open(os.path.join(RES_DIR, "w1_screen.json"),
