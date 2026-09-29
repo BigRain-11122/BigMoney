@@ -4251,17 +4251,19 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-29 16:43",
    "data_gates": "GATES ALL GREEN (direct-ready r433, W1-W8-SCREEN lineage): (1) TRIAL-LABOR-W9-GENERATE done -- landed 16:40:23 w9_candidates.json n=2515 single-shot completion marker in-repo this commit (refuse-if-exists guard); (2) screen-prep PASS -- results/trial_labor_w9/prep_state.json bm-b r433 16:52: panel 48/48, anchors 6/6 faithful (grammar_replay IS/OOS == frozen), census {6m 1253, 12m 1127, 24m 875} == frozen, starts 1253, passive 6m precomputed, gate na-window 199 bars, G-VOL 594calm/518wild first-valid 519, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19, G-STREAK 384up/389down/856neither warmup 2, G-TSTATE mad60 188true/1453decidable warmup 178 + rsv60 332true/1572decidable warmup 59, G-AMP 801wide/811narrow decidable 1612 warmup 19 (NEW wave-9 fail-closed anchor face, prep-window replay; full-history 1718/1746/3464 per r431 probe facts); (3) grammar sha16 0601dda70b0209fa == FROZEN pinned at candidates serialization (fail-closed gate-b)",
    "shards": [
     {
      "key": "screen-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w9/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429 root-cause class fix)",
      "note": "single shard; worker_cap() parallelism inside the shard (W2-W8-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim",
      "owner": "bm-b",
-     "owner_since": "2026-09-29 17:02:45"
+     "owner_since": "2026-09-29 17:02:42",
+     "done_at": "2026-09-29 17:10:07",
+     "result_ref": "results/trial_labor_w9/checkpoint/screen_shard_0of1.jsonl (2,715/2,715 rows complete, cross-kill resume law)"
     }
    ],
    "entered_by": "bm-b r433",
@@ -4271,7 +4273,9 @@
     "priority": "BelowNormal",
     "note": "W9 2,715 cells (2,515 distinct + 200 nulls) est minutes-level pool batch; per-cell jsonl checkpoint cross-kill resume (W1 law); 50-candidate checkpoint cadence per prereg sec.0; null family = 200 same-grammar random-signal candidates, amp gate legs drawn in the same grid/param space per BACKTEST_PLAN three-iron-law, seed trial_labor_w9_scrnull=20310000"
    },
-   "consumer_plan": "TRIAL-LABOR-W9-SCREEN -> screen-finalize (lane-owner separate round work per W5-W8 precedent) -> w9_screen.json + w9_screen_cells.csv + null p95 (W1-W8 lineage 0.5116-0.5196 reference band, W8=0.5156; W9 sec.5.2 recalibrated band [0.50, 0.52] honest) + ledger TRIAL_LAB_W9_SCREEN row (science_gates.append_ledger live-head prev read, pit-112 out-dict embed law) -> TRIAL-LABOR-W9-JUDGE entry next (judge-prep + RAM r354 three-sample gate + serial-position face = zero in-flight judge faces ahead + host_gates MSG-1305 wiring per pit-103: dir_nonempty Money02/data/cache/t18_deep_panel/ohlcv *.parquet 48 files verified non-empty at JUDGE submission pre-flight) -> judged verdict face w9_judge.json (seven-gate x amp interaction disclosure columns per sec.3) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows) -> 48h CEO report clock starts at judge landing; W10 prereg reference-band feed per consumer lineage"
+   "consumer_plan": "TRIAL-LABOR-W9-SCREEN -> screen-finalize (lane-owner separate round work per W5-W8 precedent) -> w9_screen.json + w9_screen_cells.csv + null p95 (W1-W8 lineage 0.5116-0.5196 reference band, W8=0.5156; W9 sec.5.2 recalibrated band [0.50, 0.52] honest) + ledger TRIAL_LAB_W9_SCREEN row (science_gates.append_ledger live-head prev read, pit-112 out-dict embed law) -> TRIAL-LABOR-W9-JUDGE entry next (judge-prep + RAM r354 three-sample gate + serial-position face = zero in-flight judge faces ahead + host_gates MSG-1305 wiring per pit-103: dir_nonempty Money02/data/cache/t18_deep_panel/ohlcv *.parquet 48 files verified non-empty at JUDGE submission pre-flight) -> judged verdict face w9_judge.json (seven-gate x amp interaction disclosure columns per sec.3) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows) -> 48h CEO report clock starts at judge landing; W10 prereg reference-band feed per consumer lineage",
+   "done_at": "2026-09-29T17:10:14+08:00",
+   "result_ref": "results/trial_labor_w9/w9_screen.json (2,715/2,715 cells ckpt complete 17:10:07 runner pid4592 manual-tick ignition 17:02:42 r398 lineage after r351 origin-moved double-defer 16:50/17:00; finalize landed 17:10:14: distinct 2515 + nulls 200, null p95_line 0.517199 IN prereg sec.5.2 recalibrated band [0.50,0.52], survivors 243/2515 = 9.66%; AMP segmented survival = amp_narrow 59/823 7.17% < amp_wide 79/739 10.69% < none 105/953 11.02% = W9 research fact: amplitude-confirmation gate shows ANTI-enrichment at screen face (gate-restricted cells survive WORSE than no-gate cells, opposite of W8 TSTATE deep_pullback 1.80x enrichment); seven-gate interaction face computed; ledger 341,073+2,715=343,788 reconcile OK; judge-prep PASS same round (manifest 48, census L/D == frozen, gate meta 801wide/811narrow amp anchors); TRIAL-LABOR-W9-JUDGE pool entry submitted same round (host_gates MSG-1305 wiring, lane_owner=bm-b dual-face)"
   },
   {
    "id": "TRIAL-LABOR-W9-JUDGE",
@@ -4297,7 +4301,8 @@
      "status": "ready",
      "checkpoint": "results/trial_labor_w9/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429 root-cause class fix)",
      "note": "judge-0of1 single shard (W1-W8 judge single-shard precedent); workers BelowNormal; dual nulls B=2000 block bootstrap block=20 + P=2000 sign-flip two-sided in-shard per prereg sec.3 s3",
-     "owner": null
+     "owner": "bm-b",
+     "owner_since": "2026-09-29 17:11:59"
     }
    ],
    "workers_plan": {
