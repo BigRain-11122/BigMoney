@@ -10174,6 +10174,29 @@
    "evidence_cutoff": "2026-09-28",
    "prereg": "research/T-101-V4-A2-CORRSOURCE_PREREG.md",
    "note": "D6-exit child batch; parent r433 missed finalize crash-recovery re-finalized same window (337,630 historical position restored)"
+  },
+  {
+   "batch": "T-101-V4-A10-REGIMECOMBO",
+   "ts": "2026-09-29T19:2x+08:00",
+   "host": "bm-a",
+   "n_cells": 16,
+   "verdict": "FV_FAIL_0of16",
+   "line_action": "ARM_TIMING_SPECTRUM_CLOSE",
+   "legs": {
+    "top_sharpe": 0.8125,
+    "skill_line": 1.5239,
+    "top_dsr": 0.1244,
+    "family_pbo_min": 0.2143,
+    "best_cell": "C1|510300|x1",
+    "best_oos_excess_cell": "C1|588000|x1 (+8.36% / x2 +6.94%)",
+    "d6_reject_vs_singlegate9": 6,
+    "d6_reject_vs_bh": 4,
+    "d6_accept": 6
+   },
+   "d6_attribution_finding": "C1|588000 combination mirror REJECTed at d6_sg 0.8905 (VSUMD30 single-gate beta duplicate, pre-declared r433 family) -- the only good-looking cell is the same-source mirror, zero independent arms",
+   "a10_arm_final_state": "regime-gate timing usage full-spectrum closed across three sublines (A2 prescreen 9/10 kill r433 + A158 single-gate FV 0/9 r441 + A10 combination FV 0/16 r442); input-feature qualification notes preserved (588000 family, C1 lane)",
+   "cells_ledger_delta": 16,
+   "ledger_total_after": 344056
   }
  ],
  "history": [
@@ -11190,6 +11213,50 @@
    },
    "retro_fill": false,
    "ts": "2026-09-29 18:33:39"
+  },
+  {
+   "batch": "T-101-V4-A10-REGIMECOMBO",
+   "ts": "2026-09-29 19:2x",
+   "kind": "judgment",
+   "retro_fill": false,
+   "cells_ledger_delta": 16,
+   "ledger_total_after": 344056,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 16,
+     "n_pass": 0,
+     "line": "skill_line_v2 batch-own random-gate-combo null pool (mu=0.1290 sigma=0.2762 N_eff=344056 -> line 1.5239); top cell C1|510300|x1 sharpe 0.8125 = 53% of line; burn#1 NaN-poisoned passive-floor pseudo-pass corrected by zero-correction burn#2 (prereg sec.3 disclosure)"
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "top_dsr": 0.1244,
+     "top_dsr_cell": "C2|510500|x1",
+     "n_trials": 344056,
+     "line": "G1 pass AND DSR>=0.95 AND PBO<=0.25"
+    },
+    "d6_predeclared": {
+     "judged": 16,
+     "reject_corr_vs_singlegate9": 6,
+     "reject_corr_vs_bh": 4,
+     "accept": 6,
+     "basis": "same-gate-state-source beta family pre-declared r433 0.9424 precedent; C1|588000 oos_excess +8.36%/x2 +6.94% REJECTed at d6_sg 0.8905 = VSUMD30 mirror"
+    },
+    "family_pbo": {
+     "510300": 0.3857,
+     "510050": 0.7143,
+     "510500": 0.6714,
+     "512100": 0.4143,
+     "588000": 0.2143,
+     "note": "per-member tried-config universe = 17 single-gate + C1 + C2 (19/18 configs, CSCV 8 blocks)"
+    }
+   },
+   "eliminated": 16,
+   "refs": {
+    "prereg": "research/T-101-V4_A10_REGIMECOMBO_PREREG.md",
+    "results": "results/t101_v4_a10_regimecombo.json",
+    "upstream": "results/t101_v4_a158_fv.json (bm-a r441) + results/gate_timing_prescreen_a158.json (bm-c r231)",
+    "verdict": "FV_PASS 0/16 = regime-gate-family timing usage full-spectrum closed (A2 r433 + A158-FV r441 + A10 combo r442 three sublines); 588000 gate-family input-feature qualification note preserved for downstream combinator/predictor consumption"
+   }
   }
  ],
  "lane_machine": "bm-a"
