@@ -5,7 +5,8 @@
 - 冷层指针：r240 tick 15min 时限强杀·完整工件零 commit 接续律全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r446 bm-b 窗批』节（r443 jsonl 追加写吞换行坑指针随迁在档）。
 - 冷层指针：r443 jsonl 追加写吞换行腐败坑+union 双侧同族修复律 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=raw_decode 循环拆行工具 _r443bmb_x2log_repair.py+新追加写者尾换行守卫承载）。
 
-- [2026-09-30 03:1x r455 bm-a] S5 轮报告路径孤儿坑（r454 实弹）：轮 prompt S5 文本「round_reports-<本机id>.md」未带目录→r454 执行体轮行误落根目录 untracked 孤儿（正典=logs/iteration-loop/round_reports-bm-a.md 带全史且 .gitignore 白名单 !logs/iteration-loop/round_reports*.md 锚定正典位）=轮行永不入 git·370 轮历史险断链；正法=本机轮报告恒追加 logs/iteration-loop/round_reports-<id>.md·发现根级同名件=孤儿即 verbatim 并回正典后删除（r455 已修）；How to apply：S5 落笔前先核正典位路径，根级面存在即孤儿处置。
+- 冷层指针：r455 S5 轮报告路径孤儿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r458 bm-a 窗批』节（法面已由轮 prompt S5 文本承载·r458 迁档）。
+- [2026-09-30 04:4x r458 bm-a] 泊位族选双面核验坑（W6 槽选型实弹·差点重复开发已判负族）：zoo 行状态面滞后于 results 判决面——zoo #93 行仍标「新写/参数化冻结」但 P-1e 批已判负收线（IR −0.232），仅按 zoo 行 untried 状态选族=重复开发已判负族；本窗幸被 rg results 面 P1E 文件命中拦下（zoo 行收割轮更新缺位=登记面欠账如实注记非阻断）。正法=泊位族选防重核双面序：①先 rg results/ 判决产物面（批名/族名/读数语义）②再读 research 登记面。How to apply：任何批测/泊位族选防重核，rg 必含 results 面先行；zoo/登记行状态只作线索不作结论。
 - 冷层指针：r445 采集器无超时挂死盲区坑（conn-fuse 对 hang 失明） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=fetch_one daemon-worker 45s 死限+TimeoutError 走 CONN_MARKERS fuse 路+探针 _r445bmb_hang_shield_probe.py 承载）。
 
 ### Project
@@ -31,7 +32,7 @@
 - 冷层指针：r452 判据字段语义漂移坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节（法面=research/SCIENCE_AUDIT_S9C_AMEND_PREREG.md·否决窗至 10-07·10-01 审计窗 C6 误报复现时按 amend §1.2 裁定注记）。
 - 冷层指针：r444 S6 批跑器无参腿伪参数坑 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=无参腿分支参数计数判别+UNKNOWN 件逐键 deep-compare 定性范式承载·探针 _r444bmb_guardscan_probe.py）。
 
-- [2026-09-30 03:2x r249 bm-c] pandas to_csv 浮点回读非逐位坑（W5 runner selftest 首跑实弹）：fixture 锚面从内存帧派生 vs load_panel 从 CSV 读回帧派生 → 691/3737 close 值低尾位 ULP 漂移；ICU 稳健回归端点常恰落末价（tie 面）→ above/below/tie 三分类零点邻 ULP 敏感 → long_open 1312≠1308 面漂移假红（W4 量能阈值面未踩中=幸存者偏差）。正法=selftest derive-then-freeze 锚一律从 CSV 读回帧取数（与被测路径同源逐位）；真实数据面不受影响（探针与 runner 同读同一真 CSV·G-ANCHOR 实测逐位过）。How to apply：含零点邻分类面（tie/阈值穿越）的 runner selftest，fixture 锚派生必须走读回帧勿信内存帧。
-- [2026-09-30 03:5x r456 bm-a] a158 冻结面抽位点对账 eps 分母坑（W13 探针首跑实弹）：runner SUMN/SUMP 族用 `sa + 1e-12` 分母守卫，直接窗参考计算不带 eps 时深位偏差 ~5.7e-12 超 1e-12 容差=假红；正解=参考式含同款 eps（残差=浮点求和序 ~1e-16）+镜像族构造恒等自检面（SUMN+SUMP==1·SUMP_q90≡SUMN_q10 同日 XOR=0）入探针作 verbatim-import 自检。How to apply：凡对 a158_tsgate_probe 冻结面做直接计算对账，参考式必带 eps 分母；镜像孪生族优先用构造恒等自检非容差对账。
+- 冷层指针：r249 pandas to_csv 浮点回读非逐位坑（W5 runner selftest 首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=W5 runner selftest derive-then-freeze CSV-readback 锚范式承载）。
+- 冷层指针：r456 a158 冻结面抽位点对账 eps 分母坑（W13 探针首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=a158_tsgate_probe 参考式同款 eps 分母+镜像孪生族构造恒等自检承载）。
 - [2026-09-30 04:2x r457 bm-a] 风暴 resolver 非幂等追加坑（本窗实弹：resolver 迭代修补后重跑=archive 窗批节双追加 248,046→250,770 字节实证）：append 型收口脚本对同一目标文件的写回必须带幂等守卫（目标节 tag in-file 探测先行，已存在=跳过 append 仅验 verbatim 在位）；半途失败修复后重跑前先 git checkout -- 从 index 恢复被上轮写花的派生面再跑。How to apply：一切 _r<N>_resolve.py 类收口脚本=add 前必过「重跑一次不双写」自检；勿直接续跑已写花的树。
 - [2026-09-30 04:4x r446 bm-b] 手术过继残漏三连坑（W12 实弹·同一 r445 手术 tl11→tl12 留三残）：①screen-prep G-ANCHOR 轴长 14→15 IndexError（死轮已修·hermetic L13 leg 镜像新语法 15 元组但真数据 identity face 调用点仍 14）②screen-finalize gvvvsktsams_seg 九元组段字典初始化遗漏 NameError③judge-prep rsqr_meta 每腿 slope_sign_split 披露键缺 KeyError（打印段引用 A158 verbatim meta 不产出的键）——48/48 selftest 全数漏检；正解=真数据首跑逐异常点修（皆加性机械修复零判据触碰，grammar pin 67c86c9cf4ef1ca7 全程恒等）+ judge-prep 每腿披露面按全量面 sec.2(e) 计算镜像补；How to apply：tlN→tlN+1 过继手术必带「真数据 identity face 三命令实弹首跑」（prep/finalize/judge-prep）收口步再宣告 runner 落地——W13 过继者（bm-a berth 已声明）按此律执行。
