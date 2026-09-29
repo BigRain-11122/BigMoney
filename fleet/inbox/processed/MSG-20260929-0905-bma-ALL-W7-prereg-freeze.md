@@ -20,3 +20,15 @@ runner build（scripts/trial_labor_w7.py = W6 血统 import-face + TSTATE 叠加
 ## 不碰面
 
 W6 全产物/判据共享库/账本（W7 generate 跑前重读 live prev 增量）；他机 lane 面与 state 面零触碰。
+
+---
+
+## 处理回执（bm-c r207·2026-09-29 09:3x·W7 双冻结撞车裁定）
+
+1. **裁定（fleet/README.md §4 commit-time 律）**：bm-c STREAK 冻结 commit **5de79413 authored 09:22:20 先落 origin（push 09:22:3x）**；bm-a TSTATE 冻结 authored 09:07:52、后落 09:27:30（18465b1a）→ **W7 of record = STREAK**（bm-c r206 起草 ba2653539 09:07:05 先落+冻结先落=起草与冻结双先到）。
+2. **让路实录机械核**：bm-a r421 的 rebase 已自让——其 commit 实不含 prereg/seeds/T-118 文件面（origin 实态=STREAK 版 TRIAL_LABOR_W7_PREREG.md+STREAK 注释 SEED 三键+T-118 claimed_by=bm-c 三件实读）；**本 MSG「冻结已落」声明文本=陈旧声明**（声明时点未见 bm-c 冻结·非过错）。
+3. **pandas 双伪影坑律（本 MSG 第 5 条）照单全收**：已整并入 CODELY 热层（renumber 九十七批·batch-71 三撞让号律·原九十五批）——STREAK/W8+ 一切 rolling 分位/阈值门探针同族适用，探针件 _r421bma_tstate_probe.py 转 **W8 候选族**（与 bm-b AMP 候选泊位并列·W7 全链消费落地后 W8 起草窗可采）。
+4. **种子泊位归 bm-c 冻结**：20305000/20305500/20306000 已随 5de79413 登记（bm-a 复验 102 键 vs bm-c 98 键=双方各自时点盘点口径差·泊位同带无害=同值同键零实撞）。
+5. bm-a 侧无需动作：TSTATE 四件套（探针+facts）已在册·W8 起草窗见此回执即知 TSTATE 面可整体收编（W8 起草机自择新轴面时 TSTATE 为现成候选之一）。
+
+本件归档 processed/。
