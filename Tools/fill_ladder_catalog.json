@@ -1,112 +1,146 @@
 {
- "version": "tranche-1 (T-107 slice-2 / T-108 D4 seed)",
- "law_refs": [
-  "O-20260928-1614 sec.1 SUPPLY FLOOR + sec.4 FILL LADDER (a)(b)(c)(d)",
-  "O-20260928-1630 D4 standing supply catalog",
-  "firm/TRIAL_LABOR_LAW.md v1.0 sec.1 常供律",
-  "research/COMPUTE_AUDIT.md v2.4 supply_floor remediation face"
- ],
- "entries": [
-  {
-   "id": "TRIAL-LABOR-W5-GENERATE",
-   "ticket_ref": "T-2026-09-28-107 sec.4(a) trial-labor chain continuation W5/W6 per TRIAL_LABOR_LAW (standing supply; prereg drafting = separate any-lane work item, NOT this tool)",
-   "prereg_ref": "research/TRIAL_LABOR_W5_PREREG.md (to be frozen per PREREG_TEMPLATE incl. G-ANCHOR-FACE four-tuple per O-20260928-1712; grammar-registry dedup + cross-wave cumulative N_eff per law sec.4)",
-   "runner": "scripts/trial_labor_w5.py",
-   "runner_args": ["generate"],
-   "lane_owner": null,
-   "priority": 1,
-   "enqueue_gates": [
-    "prereg_frozen:research/TRIAL_LABOR_W5_PREREG.md",
-    "runner_exists",
-    "standing_no_judge_inflight"
-   ],
-   "workers_plan": {
-    "workers": "worker_cap() pool BelowNormal",
-    "priority": "BelowNormal",
-    "note": "generation leg = CPU-light census build, W2-W4 machinery precedent"
-   },
-   "data_gates": "runner fail-closed if prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused",
-   "note": "ladder (a): standing wave supply per TRIAL_LABOR_LAW -- enqueue ONLY when no JUDGE-family entry is ready/waiting (judge pipeline must drain first); W5 prereg is CURRENTLY DRAFT-PENDING in-tree (bm-c r162 draft, freeze trigger = judge funnel headroom, head marker 冻结挂起) -- prereg_frozen gate refuses draft heads, so this entry auto-arms only after the freeze steps (commit freeze + SEED_REGISTRY + wave ticket + F-04) land; anti-dup vs bm-a T-97/T-98 lineage is handled at the PREREG level (registry dedup), not at enqueue level"
-  },
-  {
-   "id": "MEMBER-REINFORCE-P1",
-   "ticket_ref": "T-2026-09-28-107 sec.4(b) registered-member reinforcement faces (x2 cost / seed-stability / CSCV extra folds / regime-segment refinement) -- spec'd robustness dims of firm/STRATEGY_EVALUATION.md + T-63 three-card system",
-   "prereg_ref": "research/MEMBER_REINFORCE_P1_PREREG.md (to be frozen; G-ANCHOR-FACE four-tuple mandatory per O-20260928-1712; members = in-册 corps roster frozen at prereg time; zero new strategy invention)",
-   "runner": "scripts/member_reinforce_p1.py",
-   "runner_args": ["run"],
-   "lane_owner": null,
-   "priority": 2,
-   "enqueue_gates": [
-    "prereg_frozen:research/MEMBER_REINFORCE_P1_PREREG.md",
-    "runner_exists"
-   ],
-   "workers_plan": {
-    "workers": "worker_cap() pool BelowNormal",
-    "priority": "BelowNormal",
-    "note": "member-faced judged machinery reuse; x2/seed/fold dims per prereg"
-   },
-   "data_gates": "runner fail-closed if member roster / judged faces absent (exit 2 honest); reinforcement results append to member evidence faces, ledger +0 until judged per prereg",
-   "note": "ladder (b): registered-member reinforcement -- the four faces enumerated in T-107 sec.4(b), one prereg covers the batch; consumption = scorecard robustness dims + promotion gates"
-  },
-  {
-   "id": "NATIONAL-TEAM-S3-EVENT-REVIEW",
-   "ticket_ref": "T-2026-09-28-106 s3 event-window review (CEO O-20260928-1540 实效复盘 chain) + T-2026-09-28-107 sec.4(c) chain-v4 PRE-COMPUTE (national-team share-face full-history derivation computed ahead so v4 ignites instantly)",
-   "prereg_ref": "research/NATIONAL_TEAM_S3_REVIEW_PREREG.md (to be frozen from T-106 s3 spec: pre-registered event study -- N-day pre/post windows, v3 regime segmentation, cost-realistic, random baselines, N counted per BACKTEST_SCIENCE; no look-ahead)",
-   "runner": "scripts/national_team_s3_review.py",
-   "runner_args": ["run"],
-   "lane_owner": "bm-c",
-   "priority": 1,
-   "enqueue_gates": [
-    "prereg_frozen:research/NATIONAL_TEAM_S3_REVIEW_PREREG.md",
-    "runner_exists"
-   ],
-   "workers_plan": {
-    "workers": "worker_cap() pool BelowNormal",
-    "priority": "BelowNormal",
-    "note": "event-window derivation over s1 evidence faces (results/national_team/ five files + spec NATIONAL_TEAM_FACE.md); bm-c lineage lane (T-106 claim r172)"
-   },
-   "data_gates": "runner fail-closed if results/national_team/ s1 faces absent (exit 2 honest); event ledger source-cited per s1; win-rate + expectancy dual disclosure per O-1524 KPI law",
-   "note": "ladder (c): v4 pre-compute on the national-team share face -- s2 selection verdict (six->subset, disclosure-hard) lands with the prereg slice; s4 chain integration is evidence-gated (universe face always, signal face only if s3 supports tradable edge)"
-  },
-  {
-   "id": "INNOVATION-QUOTA-SLOT-1",
-   "ticket_ref": "T-2026-09-28-107 sec.4(d) INNOVATION QUOTA: every idle window burns >=1 novel hypothesis family (external digest candidates / benchmark-wave new judgment faces / untried zoo families) per RESEARCH_MECHANISM",
-   "prereg_ref": "research/INNOVATION_QUOTA_W1_PREREG.md (to be frozen; family selected from research/digests/ harvest candidates or untried ASTYLE_ZOO families; G-ANCHOR-FACE four-tuple mandatory; funnel dual-column reporting per harvest law)",
-   "runner": "scripts/innovation_quota_w1.py",
-   "runner_args": ["run"],
-   "lane_owner": null,
-   "priority": 3,
-   "enqueue_gates": [
-    "prereg_frozen:research/INNOVATION_QUOTA_W1_PREREG.md",
-    "runner_exists"
-   ],
-   "workers_plan": {
-    "workers": "worker_cap() pool BelowNormal",
-    "priority": "BelowNormal",
-    "note": "novel-family judgment burn; cheap-screen-first per TRIAL_LABOR_LAW sec.2 applies"
-   },
-   "data_gates": "runner fail-closed if family prereg absent (exit 2 honest); claims-are-not-verified law: external-origin family = hypothesis until independent verification chain passes",
-   "note": "ladder (d): slot-1 = first innovation-quota family; family identity frozen at prereg time, slot-2+ = later catalog tranche (D4 target >=100 templates fleet-wide)"
-  },
-  {
-   "id": "INNOVATION-QUOTA-SLOT-2",
-   "ticket_ref": "T-2026-09-28-107 sec.4(d) innovation quota slot-2 (catalog tranche-2 per D4); evidence-driven family extension: REPO-CALENDAR-P1 batch-internal new fact '锁定期溢价须够长才可检' (GC007 19.35 < mu_null 22.32 judged-negative vs GC014 29.20 / GC028 34.83 pass) -> GC091/GC182 long-term extension cells",
-   "prereg_ref": "research/INNOVATION_QUOTA_W2_PREREG.md (frozen r183 bm-c; G-ANCHOR-FACE four-tuples per O-20260928-1712; per-cell common windows on GC001 trading calendar + term-missing-day honest fallback law 145/281 anchor-counted, zero ffill zero fabrication; seed innovation_quota_w2_repo=20298500 registered same commit)",
-   "runner": "scripts/innovation_quota_w2.py",
-   "runner_args": ["run"],
-   "lane_owner": null,
-   "priority": 3,
-   "enqueue_gates": [
-    "prereg_frozen:research/INNOVATION_QUOTA_W2_PREREG.md",
-    "runner_exists"
-   ],
-   "workers_plan": {
-    "workers": "worker_cap() pool BelowNormal",
-    "priority": "BelowNormal",
-    "note": "long-term-extension judged burn; W1 machinery scale (4002 batch cells); cheap-screen-first n/a (2-cell family batch, direct judged face)"
-   },
-   "data_gates": "runner fail-closed if prereg absent or anchor counts mismatch (rows 3735/3689/3376, window masks 368/192/454/145 and 362/192/448/281, outside-cal=0, rate band (0,200), last-row==cutoff; exit 2 honest face-mismatch refusal)",
-   "note": "ladder (d) slot-2: judged-negative GC007 stays closed (RANDOM_LARGE_SAMPLE_LAW s5 -- new prereg + new instrument face = lawful reopen channel, NOT a same-method rerun); if eligible, intake joins the SAME cash-leg sleeve candidate pool (within-family sleeve-collapsing semantics, no independent member claim, family corr disclosed not rejected); fee-after recheck = frozen intake precondition (T-112 precedent, b*>=1bp line)"
-  }
- ]
-}
+  "version": "tranche-2 (T-107 slice-2 continuation: +TRIAL-LABOR-W10-GENERATE pre-arm, bm-c r229; tranche-1 five faces all consumed)",
+  "law_refs": [
+    "O-20260928-1614 sec.1 SUPPLY FLOOR + sec.4 FILL LADDER (a)(b)(c)(d)",
+    "O-20260928-1630 D4 standing supply catalog",
+    "firm/TRIAL_LABOR_LAW.md v1.0 sec.1 常供律",
+    "research/COMPUTE_AUDIT.md v2.4 supply_floor remediation face"
+  ],
+  "entries": [
+    {
+      "id": "TRIAL-LABOR-W5-GENERATE",
+      "ticket_ref": "T-2026-09-28-107 sec.4(a) trial-labor chain continuation W5/W6 per TRIAL_LABOR_LAW (standing supply; prereg drafting = separate any-lane work item, NOT this tool)",
+      "prereg_ref": "research/TRIAL_LABOR_W5_PREREG.md (to be frozen per PREREG_TEMPLATE incl. G-ANCHOR-FACE four-tuple per O-20260928-1712; grammar-registry dedup + cross-wave cumulative N_eff per law sec.4)",
+      "runner": "scripts/trial_labor_w5.py",
+      "runner_args": [
+        "generate"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "enqueue_gates": [
+        "prereg_frozen:research/TRIAL_LABOR_W5_PREREG.md",
+        "runner_exists",
+        "standing_no_judge_inflight"
+      ],
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "generation leg = CPU-light census build, W2-W4 machinery precedent"
+      },
+      "data_gates": "runner fail-closed if prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused",
+      "note": "ladder (a): standing wave supply per TRIAL_LABOR_LAW -- enqueue ONLY when no JUDGE-family entry is ready/waiting (judge pipeline must drain first); W5 prereg is CURRENTLY DRAFT-PENDING in-tree (bm-c r162 draft, freeze trigger = judge funnel headroom, head marker 冻结挂起) -- prereg_frozen gate refuses draft heads, so this entry auto-arms only after the freeze steps (commit freeze + SEED_REGISTRY + wave ticket + F-04) land; anti-dup vs bm-a T-97/T-98 lineage is handled at the PREREG level (registry dedup), not at enqueue level"
+    },
+    {
+      "id": "MEMBER-REINFORCE-P1",
+      "ticket_ref": "T-2026-09-28-107 sec.4(b) registered-member reinforcement faces (x2 cost / seed-stability / CSCV extra folds / regime-segment refinement) -- spec'd robustness dims of firm/STRATEGY_EVALUATION.md + T-63 three-card system",
+      "prereg_ref": "research/MEMBER_REINFORCE_P1_PREREG.md (to be frozen; G-ANCHOR-FACE four-tuple mandatory per O-20260928-1712; members = in-册 corps roster frozen at prereg time; zero new strategy invention)",
+      "runner": "scripts/member_reinforce_p1.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": null,
+      "priority": 2,
+      "enqueue_gates": [
+        "prereg_frozen:research/MEMBER_REINFORCE_P1_PREREG.md",
+        "runner_exists"
+      ],
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "member-faced judged machinery reuse; x2/seed/fold dims per prereg"
+      },
+      "data_gates": "runner fail-closed if member roster / judged faces absent (exit 2 honest); reinforcement results append to member evidence faces, ledger +0 until judged per prereg",
+      "note": "ladder (b): registered-member reinforcement -- the four faces enumerated in T-107 sec.4(b), one prereg covers the batch; consumption = scorecard robustness dims + promotion gates"
+    },
+    {
+      "id": "NATIONAL-TEAM-S3-EVENT-REVIEW",
+      "ticket_ref": "T-2026-09-28-106 s3 event-window review (CEO O-20260928-1540 实效复盘 chain) + T-2026-09-28-107 sec.4(c) chain-v4 PRE-COMPUTE (national-team share-face full-history derivation computed ahead so v4 ignites instantly)",
+      "prereg_ref": "research/NATIONAL_TEAM_S3_REVIEW_PREREG.md (to be frozen from T-106 s3 spec: pre-registered event study -- N-day pre/post windows, v3 regime segmentation, cost-realistic, random baselines, N counted per BACKTEST_SCIENCE; no look-ahead)",
+      "runner": "scripts/national_team_s3_review.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": "bm-c",
+      "priority": 1,
+      "enqueue_gates": [
+        "prereg_frozen:research/NATIONAL_TEAM_S3_REVIEW_PREREG.md",
+        "runner_exists"
+      ],
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "event-window derivation over s1 evidence faces (results/national_team/ five files + spec NATIONAL_TEAM_FACE.md); bm-c lineage lane (T-106 claim r172)"
+      },
+      "data_gates": "runner fail-closed if results/national_team/ s1 faces absent (exit 2 honest); event ledger source-cited per s1; win-rate + expectancy dual disclosure per O-1524 KPI law",
+      "note": "ladder (c): v4 pre-compute on the national-team share face -- s2 selection verdict (six->subset, disclosure-hard) lands with the prereg slice; s4 chain integration is evidence-gated (universe face always, signal face only if s3 supports tradable edge)"
+    },
+    {
+      "id": "INNOVATION-QUOTA-SLOT-1",
+      "ticket_ref": "T-2026-09-28-107 sec.4(d) INNOVATION QUOTA: every idle window burns >=1 novel hypothesis family (external digest candidates / benchmark-wave new judgment faces / untried zoo families) per RESEARCH_MECHANISM",
+      "prereg_ref": "research/INNOVATION_QUOTA_W1_PREREG.md (to be frozen; family selected from research/digests/ harvest candidates or untried ASTYLE_ZOO families; G-ANCHOR-FACE four-tuple mandatory; funnel dual-column reporting per harvest law)",
+      "runner": "scripts/innovation_quota_w1.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": null,
+      "priority": 3,
+      "enqueue_gates": [
+        "prereg_frozen:research/INNOVATION_QUOTA_W1_PREREG.md",
+        "runner_exists"
+      ],
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "novel-family judgment burn; cheap-screen-first per TRIAL_LABOR_LAW sec.2 applies"
+      },
+      "data_gates": "runner fail-closed if family prereg absent (exit 2 honest); claims-are-not-verified law: external-origin family = hypothesis until independent verification chain passes",
+      "note": "ladder (d): slot-1 = first innovation-quota family; family identity frozen at prereg time, slot-2+ = later catalog tranche (D4 target >=100 templates fleet-wide)"
+    },
+    {
+      "id": "INNOVATION-QUOTA-SLOT-2",
+      "ticket_ref": "T-2026-09-28-107 sec.4(d) innovation quota slot-2 (catalog tranche-2 per D4); evidence-driven family extension: REPO-CALENDAR-P1 batch-internal new fact '锁定期溢价须够长才可检' (GC007 19.35 < mu_null 22.32 judged-negative vs GC014 29.20 / GC028 34.83 pass) -> GC091/GC182 long-term extension cells",
+      "prereg_ref": "research/INNOVATION_QUOTA_W2_PREREG.md (frozen r183 bm-c; G-ANCHOR-FACE four-tuples per O-20260928-1712; per-cell common windows on GC001 trading calendar + term-missing-day honest fallback law 145/281 anchor-counted, zero ffill zero fabrication; seed innovation_quota_w2_repo=20298500 registered same commit)",
+      "runner": "scripts/innovation_quota_w2.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": null,
+      "priority": 3,
+      "enqueue_gates": [
+        "prereg_frozen:research/INNOVATION_QUOTA_W2_PREREG.md",
+        "runner_exists"
+      ],
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "long-term-extension judged burn; W1 machinery scale (4002 batch cells); cheap-screen-first n/a (2-cell family batch, direct judged face)"
+      },
+      "data_gates": "runner fail-closed if prereg absent or anchor counts mismatch (rows 3735/3689/3376, window masks 368/192/454/145 and 362/192/448/281, outside-cal=0, rate band (0,200), last-row==cutoff; exit 2 honest face-mismatch refusal)",
+      "note": "ladder (d) slot-2: judged-negative GC007 stays closed (RANDOM_LARGE_SAMPLE_LAW s5 -- new prereg + new instrument face = lawful reopen channel, NOT a same-method rerun); if eligible, intake joins the SAME cash-leg sleeve candidate pool (within-family sleeve-collapsing semantics, no independent member claim, family corr disclosed not rejected); fee-after recheck = frozen intake precondition (T-112 precedent, b*>=1bp line)"
+    },
+    {
+      "id": "TRIAL-LABOR-W10-GENERATE",
+      "ticket_ref": "T-2026-09-28-107 sec.4(a) trial-labor chain continuation per TRIAL_LABOR_LAW sec.1 standing supply; W10 candidate = bm-c r228 supply step (MOM momentum-gate axis, MSG-20260929-1705 dual-signal + commit 1ce325dc2; candidate skeleton = research/TRIAL_LABOR_W10_CANDIDATE_MOM_PREREG_DRAFT.md with 10-item adopter checklist; freeze steps per checklist: W9 full-chain consumption trigger + frozen prereg + SEED_REGISTRY three keys 20311000/20311500/20312000 + wave ticket same-round claim per O-1730)",
+      "prereg_ref": "research/TRIAL_LABOR_W10_PREREG.md (to be frozen by adopting machine per W8->W9 AMP-adoption precedent -- draft-author-same-machine-next-round freeze lineage; NOT the candidate DRAFT file)",
+      "runner": "scripts/trial_labor_w10.py",
+      "runner_args": [
+        "generate"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "enqueue_gates": [
+        "prereg_frozen:research/TRIAL_LABOR_W10_PREREG.md",
+        "runner_exists",
+        "standing_no_judge_inflight"
+      ],
+      "consumer_plan": "TRIAL-LABOR-W10-GENERATE/SCREEN/JUDGE -> judged verdict face (w10_judge.json) -> s4 intake -> STRATEGY_LIBRARY + TRIAL-* paper accounts -> 48h CEO report + scorecard CEO face; screen null p95 -> next-wave (W11) prereg reference band (verbatim from candidate sec.6 draft plan)",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "generation leg = CPU-light census build, W2-W9 machinery precedent; thirteen-tuple axis grid 10,450,944 combos, 5,000-draw Sobol per candidate sec.3"
+      },
+      "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding)",
+      "note": "ladder (a) tranche-2 pre-arm: W10 candidate parked 2026-09-29 r228 (bm-c); MOM axis = thirteen-tuple cell key per candidate sec.3; entry auto-arms ONLY after freeze steps land (frozen prereg + runner build + SEED_REGISTRY + wave ticket) -- prereg_frozen gate refuses the candidate DRAFT head by design (mirrors W5 r162 draft-head convention); judge pipeline must drain first (standing_no_judge_inflight); tranche-1 five faces all consumed = supply-floor breach stands honestly until this or another lawful candidate arms"
+    }
+  ]
+}
