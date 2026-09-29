@@ -4479,6 +4479,35 @@
       "done_at": "2026-09-29 20:31:29",
       "result_ref": "results/trial_labor_w10/w10_judge.json",
       "done_note": "judge-finalize landed 2026-09-29 20:31:29 exit 0 (autofill lineage; 283/283 judged cells, zero G1 pass, zero G2 eligible, E[FP]=14.15, 22 cells ci-lower-positive all below skill line 1.194); intake s4 lawful-zero w10_intake.json r440 (zero TRIAL-* accounts, zero STRATEGY_LIBRARY rows); attrition W10 two rows r440; prereg sec.7/sec.8 backfilled r440; 48h CEO report docs/trial_labor/CEO-REPORT-WAVE10-20260929.md same round r440; wave ticket T-122 done r440; MOM 1.88x screen enrichment + judge zero-G1 = W11 supply-line input (enrichment-face-not-registration precedent W8 tstate)"
+    },
+    {
+      "id": "TRIAL-LABOR-W11-GENERATE",
+      "ticket_ref": "T-2026-09-29-123 WAVE-11 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-b r441 whole-package adoption of the bm-c r237 STD candidate per AMP->W9->W10 lineage [trigger MET live: W10 full chain landed 2026-09-29 20:31:29 {w10_judge.json 283/283 zero G1/G2 + CEO-REPORT-WAVE10 + attrition + pool 123/123 done}; SEED berth re-take 20317000/20317500/20318000 same freeze-commit R250 one-step law, three-step re-verify ALL GREEN no re-pick; runner slice-1 built bm-b r442 selftest 47/47 fourteen-tuple 31,352,832 grammar)",
+      "prereg_ref": "research/TRIAL_LABOR_W11_PREREG.md FROZEN sec.0 TRIAL_LAB_W11_GENERATE (s1 Sobol draws -> exclusion -> dedup -> w11_candidates.json + TRIAL_GRAMMAR_LEDGER wave-11 row; 5000-ceiling; fourteen-tuple grammar sha16 128962592feeb8d3 == FROZEN pin; evidence_cutoff 2026-09-22 P-5C frozen binding; twenty-source exclusion face incl. W10 survivors+judged as real-mom rows, std=none padded)",
+      "runner": "scripts/trial_labor_w11.py",
+      "runner_args": [
+        "generate"
+      ],
+      "shards": [
+        {
+          "key": "generate-0of1",
+          "status": "ready",
+          "checkpoint": "results/trial_labor_w11/w11_candidates.json (single-shot product = completion marker; refuse-if-exists guard)"
+        }
+      ],
+      "workers_plan": {
+        "workers": 1,
+        "priority": "BelowNormal",
+        "note": "LIGHT minutes-scale per prereg sec.0 (W7 ~10min n=3704; W8 ~10min n=2834; W9 ~10min n=2515; W10 ~11min n=2014 raw 5000; W11 raw 5000 draws, 20-source exclusion face, fourteen-tuple); single-process deterministic pre-burn stage (Sobol streams + dedup face), zero engine cells burned"
+      },
+      "priority": 1,
+      "worker_class": "self-contained",
+      "lane_owner": "bm-b",
+      "data_gates": "in-runner fail-closed exit 2: (a) w11_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 128962592feeb8d3 -> refuse; (c) G-MOM raw face + G-STD raw face fail-closed anchors (r228/r237 probe determinism laws) -> refuse on any drift",
+      "entered_at": "2026-09-29 23:15:54",
+      "finished_at": null,
+      "note": "armed_pending_runner resolved bm-b r442: runner landed commit f11aea5c3 selftest 47/47; grammar serialized results/trial_labor_w11/w11_grammar.json same round; pre-registered TRIAL_LABOR_LAW standing line",
+      "status": "ready"
     }
   ],
   "lane_machine": "bm-a"
