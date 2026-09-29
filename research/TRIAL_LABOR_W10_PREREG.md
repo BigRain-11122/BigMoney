@@ -83,11 +83,17 @@
 
 ## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假。】
 
-（占位·跑后回填：漏斗 raw→distinct→初筛→判决全链读数+账本两跳+§5 预测对账逐条+动量门方向读数面（mom_oversold LONG+bear 段接刀风险分段读数+MOM×TSTATE 交互分解〔121 独有日面〕）+CEO 呈报指针。回填纪律=九十五批坑律：判决面 owner 跑后一次定稿回填·逐字锚定占位句不存在才是合法探针。）
+**【2026-09-29 20:5x 一次定稿回填·bm-b r440（W10 判决面 owner）·数字真值源=results/trial_labor_w10/*.json】**
+
+- **漏斗**：raw 5,000 → distinct **2,014**（缩率 59.7%=十波最缩）→ 初筛 2,214 格（+200 null）→ 存活 **283**（14.05%）→ 全量判决 283 格 → **G1' 0/283·G2 0·上岗 0**（lawful-zero intake n_eligible=0·w10_intake.json r440）。账本 344,056+2,214=**346,270**（SCREEN 收官）→ +283=**346,553**（JUDGE 收官·活链头活读一致·跨波线性不重置）。
+- **判决面**：八面全段零 G1（gate/vol/yang/vconf/streak/tstate/amp/**mom** 每段 n_g1_pass=0）；最佳格 W10-B-0125 cci_revert leg-L 全期 Sharpe **0.9905** vs 技能线 **1.194**（N_eff=348,484）→ line_ok=false；**22 格 bootstrap CI 下界>0 但全在技能线下**（ci-lower-positive ≠ 过线·如实分层披露）；全批最高 DSR=**0.5654**（W10-B-2010 parabolic_sar·未过 G1'·不构成任何注册面；n_trials=346,270）。E[FP]=0.05×283=**14.15** 如实披露；族 PBO：patterns/mean_reversion **0.7857**（56/30 格）最紧·sentiment 0.6571·trend 0.5429·macro/volatility 0.5·composite_rotation/momentum 0.4714·folk 0.2571·ta **0.2143**（56 格）最松；两族 <8 格诚实 n/a（event 7/seasonal 5——G2 结构性不可过·判据不动）。
+- **MOM 面方向读数（初筛面·零判据权重·本波真问题）**：**POSITIVE-axis enrichment 1.88x——mom_oversold 19.97%**（147/736）**vs none 10.64%**（136/1,278）——CEO 供线 census 20 日前瞻正信号（t=+2.000）**在初筛面兑现为富集**：继 W8 TSTATE deep_pullback 1.80x 后第二个正轴富集门、与 W9 AMP anti-enrichment（narrow 拖累）方向相反；**但判决面 mom 两段全零 G1**（mom_oversold 最佳格 W10-B-2010 Sharpe 0.9253 vs 线 1.194）=**初筛富集≠注册级增量**（W8 tstate 同判·富集面进供给簿不进注册簿）。**bear 段接刀风险读数（预注册风险面）**：gate=bear 段 75 格判决 0 G1——r433 同门换用法的「bear 段 mom 开窗逆势接刀」在判决 caliber 未兑现任何面（风险未转化为收益·如实）；**八门交互最富集格**=bear|none|none|volume_surge|none|deep_pullback|amp_wide|mom_oversold 3/5 存活（small-n·非判据面）。
+- **§5 预测对账五条**：①distinct 2,014 **∉[2,600,4,600] ✗ MISS**（缩率 59.7% 越 [8%,48%] 上沿——十源排除簿累积+mom∈{oversold} 1/2 新空间+TSTATE 邻接无排除簿效应摊薄**同 W9 同向二连 MISS**·预测带失准=可证伪面如实·判读按实际划非判线·§5.1 已预注下沿风险兑现）；②null 中位 **0.5116** ∈重校带 [0.50,0.52] ✓（**第五波 >0.50**：0.5036→0.51→0.5116→0.5116→0.5116 漂移带内延续·判线=程序冻结 p95 **0.5164** 不受影响）；p95 0.5164 ∈[0.42,0.62] ✓（十波带 0.5116-0.5196 内）；存活率 14.05% ∈[2%,15%] ✓；存活 283 ∈[100,750] ✓ ③G1' 0 ∈[0,60] ✓ ④G2 模态零 ✓（**十一批判决同门全零**：W1/MASS/W2-W10）⑤MOM 方向先验：**「mom_oversold LONG 仓内锚」初筛面兑现 ✓**（1.88x 正轴富集·本波真问题=正读数）；「bear 段逆势接刀风险」判决面未兑现（0 G1·风险未转化为收益）；极端日先验 2/7 mom 开窗保持→整窗判读+dd 线全过（dd_ok 283/283·零 crash-year 格·clause_x2_no_crash 283/283）如实。
+- **CEO 呈报**：docs/trial_labor/CEO-REPORT-WAVE10-20260929.md（判决落地 2026-09-29 20:31:29 → 48h 窗止 **2026-10-01 20:31:29**·同轮提前落地）。
 
 ## §8 批后复盘。【必填 §7-T。】
 
-（占位·跑后回填：attrition 损耗账两行（TRIAL_LAB_W10_SCREEN+TRIAL_LAB_W10_JUDGE）+轮报告/CODELY.md 同轮回执+零新注册员注记+48h CEO 呈报落地指针+W1-W5 §7 漂移债清偿状态注记。）
+**【回执 2026-09-29 bm-b r440】**W10 attrition 损耗账两行（TRIAL_LAB_W10_SCREEN+TRIAL_LAB_W10_JUDGE）已追加 results/gate_attrition.json+gate_attrition.bm-b.json（retro_fill=false·原事件 ts 保留：SCREEN 19:54:28/JUDGE 20:31:29·判线 v2 当批读数随行）；轮报告+CODELY.md 行级追加同轮；零新注册员（lawful-zero intake n_eligible=0·零 TRIAL-* 袖盘·零 STRATEGY_LIBRARY 行）；判决面结果 48h 内 CEO 呈报=同轮落地（见 §7 指针）。**工程留痕**：JUDGE 面=autofill lineage 提交 burn（ckpt 283/283 后 20:31:29 finalize 落地 exit 0·零死手·r439 入池同 commit+本会话手动 tick 点火实证）；池条目 TRIAL-LABOR-W10-JUDGE ready→done r440 翻面（**123/123 全 done·板清**）；波级票 T-122 done 翻面带 result_ref r440。**下一波供给**：W11 按常供律自动续供起草（CEO 令「以后不要我提醒」·TRIAL_LABOR_LAW）；W10 事实输入=MOM 1.88x 正轴富集+判决零 G1（enrichment-face-not-registration=W8 tstate 同判先例）+null p50 0.5116/p95 0.5164（漂移带 [0.50,0.52] 五波延续携带）+distinct 二连 MISS（十源排除簿累积面=供给簿真值·W11 declare 窗十源+1）；W1-W5 §7 未回填漂移债仍在册（W6/W8/W9 §8 已记·待开片收口不在本波义务内）。
 
 ## §9 追加冻结节。【append-only·每 sub-wave 一冻——禁跑前另立冻结。】
 
