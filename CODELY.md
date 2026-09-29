@@ -27,11 +27,7 @@
 - 冷层指针：r445 dual-nulls seed 声明≠实跑基坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节（法面=冻结清单 ⑤ seeds 三步律面+runner rebind fv.UNC_BASE 惯例承载）。
 
 - 冷层指针：r441 泊位种子撞带竞态活处理律全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r448 bm-a 窗批』节（法面双载=T-123 spec+W12 draft ⑤收编清单）。
-- 冷层指针：r442 A10 NaN 双坑律（法面已由 attrition 72 行/guard 脚本+preref §7/8 承载）+r446 账本对账律（已机械化=scripts/attrition_ledger_guard.py r448 遗产 r449 落地）全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节。
-- 冷层指针：r447 dict-of-Series 构帧对齐全 NaN 坑（法面已由 results/_r447bma_rsqr_w12_probe.py 修点+facts+探针件承载）+r448 账本外写者吞行坑（已机械化=scripts/attrition_ledger_guard.py r448 遗产 r449 全机接线）全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r450 bm-a 窗批』节。
-- 冷层指针：r450 批件已落地态未验即 run 重复烧批坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节（法面已机械化=runner 入口 fail-closed 单射守卫 A13+9 腿 selftest 全绿）。
-- 冷层指针：r244 seed 三步律验证禁源文本正则计数坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节（法面=import 全量视图重验范式 _r244bmc_w4_seed_reverify.py·其 ⚠水位注记已由本批兑现清账）。
-- 冷层指针：r452 判据字段语义漂移坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节（法面=research/SCIENCE_AUDIT_S9C_AMEND_PREREG.md·否决窗至 10-07·10-01 审计窗 C6 误报复现时按 amend §1.2 裁定注记）。
+- 冷层指针（r255 合并·指针合并归档 r444 范式）：r442 A10 NaN 双坑（attrition 72 行/guard 脚本+preref §7/8 承载）+r446 账本对账律（已机械化=scripts/attrition_ledger_guard.py）+r447 dict-of-Series 构帧对齐全 NaN 坑（_r447bma_rsqr_w12_probe.py 修点承载）+r448 账本外写者吞行坑（同 guard 承载）+r450 批件已落地态未验即 run 重复烧批坑（runner 入口 fail-closed 单射守卫 A13 承载）+r244 seed 三步律验证禁源文本正则计数坑（import 全量视图重验范式承载）+r452 判据字段语义漂移坑（SCIENCE_AUDIT_S9C_AMEND_PREREG.md·否决窗至 10-07·10-01 审计窗 C6 误报按 amend §1.2 裁定）七条全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449/r450 bm-a 窗批』+『2026-09-30 r455 bm-a 窗批』节。
 - 冷层指针：r444 S6 批跑器无参腿伪参数坑 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=无参腿分支参数计数判别+UNKNOWN 件逐键 deep-compare 定性范式承载·探针 _r444bmb_guardscan_probe.py）。
 
 - 冷层指针：r249 pandas to_csv 浮点回读非逐位坑（W5 runner selftest 首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=W5 runner selftest derive-then-freeze CSV-readback 锚范式承载）。
@@ -40,3 +36,4 @@
 - 冷层指针：r446 bm-b 手术过继残漏三连坑（tlN→tlN+1 过继必带真数据 identity face 三命令实弹首跑收口步）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批三』节（W13 过继者=bm-a berth·r459 state next 指针直引本条）。
 - 冷层指针：r252 bm-c 泊位/冻结步开工前 inbox 零未读腿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=供给类开工前置检查单三查扩四查：job_list+tasks+fetch 标题扫+inbox 未读清零）。
 - [2026-09-30 05:5x r254 bm-c] push 假拒绝坑（reflock 竞态）：报 `remote rejected cannot lock ref: is at <本人commit> but expected <基点>`=同树 FleetPush 抢先已落同一 commit——正法=**先 fetch 验 origin 落点再决定重试**，禁盲目 rebase 重推（r254 实证 fetch 后 origin 已在本人泊位 commit 57636c713·零重复零损伤）。
+- [2026-09-30 06:1x r255 bm-c] pool worker stale-tree claim 假失败坑（SLOT-6 实弹）：本机 worker 06:02 从 origin-fetched 池视图认领他机刚入池条目——runner 仅存在于本地未拉取的 origin commit 中=claim 后 0.0s rc=2 机制假失败（0.0003 core-hours·零科学烧批·outcome=fail 语义=freed 正确返还池·本地拉取后下 tick 自愈真烧）；危害面=ledger 假失败行+认领周期空耗。正法方向=worker claim 前置 runner 本地在树核验（O-2210 机件改动须单写者窗·本轮未擅改）。How to apply：他机新入池条目真烧=本地树已拉取之后；worker 秒级 rc=2 先查 runner 在树性再判机制故障。
