@@ -190,6 +190,23 @@ def workers_plan_missing(cand):
     return not (wp or "").strip()
 
 
+def runner_args_missing(cand):
+    """r459 bm-a repair-2 third-face root fix (泊位登记三验 pit law
+    mechanized): SLOT-6 first launch ran the runner bare -> argparse
+    no-cmd exit 2 (r444 no-arg-leg family; W12-JUDGE ['judge', ...]
+    convention is the house form). New candidates must carry runner_args
+    as a non-empty LIST of non-empty strings -- deliberately stricter
+    than the workers_plan both-forms gate: the launch face splats
+    (*runner_args), so a bare string would splat per-character into a
+    bogus command line. Same append-only grandfather scope."""
+    ra = cand.get("runner_args")
+    if not isinstance(ra, (list, tuple)):
+        return True
+    if not ra:
+        return True
+    return any(not str(a).strip() for a in ra)
+
+
 def _merged_pool_view(shared_path):
     """T-116 s3 wave-1 flip (D-20260928-03(1) structural end-state): the
     ladder's DECISION base is the lane-merged view (scripts/merge_lane_views.
@@ -242,6 +259,12 @@ def run(dry_run=False, floor=FLOOR_DEFAULT):
             blocked.append((cid, "workers_plan missing (O-2130 multi-core "
                                 "law: autofill._pick hard-skips plan-less "
                                 "entries -- r459 SLOT-6 stranded live-fire)"))
+            continue
+        if runner_args_missing(cand):
+            blocked.append((cid, "runner_args missing (r444 no-arg-leg "
+                                "family: first launch argparse no-cmd exit 2 "
+                                "-- W12-JUDGE ['judge', ...] house form; "
+                                "r459 SLOT-6 repair-2 live-fire)"))
             continue
         entry = {k: v for k, v in cand.items() if k != "enqueue_gates"}
         entry["status"] = "ready"
@@ -364,6 +387,22 @@ def selftest():
         assert not workers_plan_missing(
             {"id": "L9", "workers_plan": "{'workers': 12}"}), \
             "wp string falsely flagged"
+        # r460 runner_args schema gate (r444 no-arg-leg family root fix):
+        # missing / empty list / bare string (splat-per-char hazard) /
+        # whitespace element all blocked; proper list passes.
+        assert runner_args_missing({"id": "L10"}), "ra missing not caught"
+        assert runner_args_missing({"id": "L11", "runner_args": []}), \
+            "ra empty list not caught"
+        assert runner_args_missing({"id": "L12", "runner_args": "run"}), \
+            "ra bare string not caught (splat-per-char hazard)"
+        assert runner_args_missing(
+            {"id": "L13", "runner_args": ["run", "  "]}), \
+            "ra whitespace element not caught"
+        assert not runner_args_missing({"id": "L14", "runner_args": ["run"]}), \
+            "ra proper list falsely flagged"
+        assert not runner_args_missing(
+            {"id": "L15", "runner_args": ["judge", "--shard", "0"]}), \
+            "ra multi-arg list falsely flagged"
         # grandfather check: every EXISTING catalog entry (already burned
         # or gated, append-only rows) is exempt -- the gate binds only
         # candidates newly appended to the catalog from r193 on. Live
@@ -371,7 +410,8 @@ def selftest():
         # consumer faces in ticket_ref/note history (no rewrite).
         print("selftest: all assertions PASS (double-file law / lane guard / "
               "ready count / gate refusal matrix / shard synthesis / "
-              "consumer_plan schema gate / workers_plan schema gate)")
+              "consumer_plan schema gate / workers_plan schema gate / "
+              "runner_args schema gate)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)

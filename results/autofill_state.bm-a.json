@@ -648,17 +648,27 @@
    "pid": 35836,
    "runner_sha256": "d15e2da9bae72147",
    "fill_latency_min": 23.4,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-30 06:12:11",
+  "ts": "2026-09-30 07:00:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "relaunch_cooldown",
+  "verdict": "fuse_refused_crash_loop",
   "entry": "INNOVATION-QUOTA-SLOT-6",
   "shard": "main",
-  "last_launch_min": 1.4
+  "fuse_crashes": 1,
+  "fuse_refusals": 3,
+  "fuse_skipped": [
+   {
+    "entry": "INNOVATION-QUOTA-SLOT-6",
+    "shard": "main",
+    "sig": "scripts/innovation_quota_w6.py|run",
+    "fuse_refusals": 3
+   }
+  ]
  },
  "lane_machine": "bm-a"
 }

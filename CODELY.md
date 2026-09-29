@@ -4,7 +4,8 @@
 ### Feedback
 
 - 冷层指针：r458 泊位族选双面核验坑（zoo 行状态面滞后于 results 判决面）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=防重核双面序：rg results 判决面先行·zoo/登记行状态只作线索）。
-- [2026-09-30 r459 bm-a] fill_ladder 门串坑（泊位登记三面坑族·step-6 同窗三连实弹）：①catalog enqueue_gates 裸串 prereg_frozen=checker unknown-gate-ref 永堵，正典=prereg_frozen:<路径>；runner 字段须裸路径（描述另放 runner_note）②pool entry 缺 workers_plan=autofill._pick 硬跳「no workers_plan」→ ready 批搁浅 3 tick（verdict pool_empty_or_busy 假象·SLOT-1 dict 式为正典；fill_ladder 已加 fail-closed 门镜像 consumer_plan）③缺 runner_args=首发即 argparse no-cmd exit 2（r444 无参腿族·W12-JUDGE ['judge',...] 惯例）——泊位登记面三验=enqueue_gates 语法+workers_plan+runner_args 三查后再宣告 pool-ready。SLOT-5 同病 latent（done 态不再撞检）；SLOT-7 冻结窗将撞新门=如实拦。
+- [2026-09-30 r459 bm-a] fill_ladder 门串坑（泊位登记三面坑族·step-6 同窗三连实弹）：①catalog enqueue_gates 裸串 prereg_frozen=checker unknown-gate-ref 永堵，正典=prereg_frozen:<路径>；runner 字段须裸路径（描述另放 runner_note）②pool entry 缺 workers_plan=autofill._pick 硬跳「no workers_plan」→ ready 批搁浅 3 tick（verdict pool_empty_or_busy 假象·SLOT-1 dict 式为正典；fill_ladder 已加 fail-closed 门镜像 consumer_plan）③缺 runner_args=首发即 argparse no-cmd exit 2（r444 无参腿族·W12-JUDGE ['judge',...] 惯例）——泊位登记面三验=enqueue_gates 语法+workers_plan+runner_args 三查后再宣告 pool-ready（r460 三面已全机械化=fill_ladder runner_args fail-closed 门落地）。SLOT-5 同病 latent（done 态不再撞检）；SLOT-7 冻结窗将撞新门=如实拦。
+- [2026-09-30 r460 bm-a] autofill crash-fuse 控制面坠机误锁坑（r459 泊位族第二面续弹）：首发坠于控制面因（当时 runner_args 未回填=argparse exit 2），06:40 tick 照 O-0947 确认 code-crash count=1 并拒同哈希重燃（门语「edit runner to clear」）——真修复在控制面（池 runner_args=['run'] 已落 r459 repair-2），代码 10/10 自检+verify 位对齐无缺陷，「编辑代码解锁」=伪修禁走。正解=pool_worker 通道（O-2210 独立发射器不吃 C8 fuse·self-contained 条目 20min stale 认领窗）带正确参数重跑=首次正确武装发射非 crash-loop；fuse 记录留档无害。How to apply：首发坠机后 autofill 通道被 fuse 锁死时先判代码是否有真缺陷（selftest+verify 面），无缺陷走 pool_worker 通道或补真实代码修复，禁为解锁而编辑。
 - 冷层指针：r445 采集器无超时挂死盲区坑（conn-fuse 对 hang 失明） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=fetch_one daemon-worker 45s 死限+TimeoutError 走 CONN_MARKERS fuse 路+探针 _r445bmb_hang_shield_probe.py 承载）。
 
 ### Project
@@ -12,8 +13,6 @@
 - 冷层指针：r440 撞批三查律+r449 风暴 union 复活去重律全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r245 bm-c 窗批』节。
 - 冷层指针：r440 bm-b 初筛富集面≠注册级增量律全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（法面已由 TRIAL_LABOR_W10_PREREG §7/8+CEO-REPORT-WAVE10+attrition 承载）。
 - 冷层指针：r242 bm-c runner 外科手术四连坑族全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（W11 runner 已建毕 selftest 47/47·坑律由 _r242bmc_w11_surgeon 系列工件承载）。
-- 冷层指针：r246 W4 配额槽判决收编行（VOLREGIME-TIMING-P1 0/3 全负·流水型）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节；正典=research/INNOVATION_QUOTA_W4_PREREG.md §7/§8+results/innovation_quota/VOLREGIME-TIMING-P1.json。
-- 冷层指针：r447 bm-b W12 千格烧批慢减速 RSQR 死锁（188 就绪 0 烧 0 录用 lawful-zero·r240 类会话死堆栈）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批三』节（批次判决面=results 面在档；r240 时限杀律已档）。
 ### Reference
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
 
@@ -26,7 +25,6 @@
 - 冷层指针（r255 合并·指针合并归档 r444 范式）：r442 A10 NaN 双坑（attrition 72 行/guard 脚本+preref §7/8 承载）+r446 账本对账律（已机械化=scripts/attrition_ledger_guard.py）+r447 dict-of-Series 构帧对齐全 NaN 坑（_r447bma_rsqr_w12_probe.py 修点承载）+r448 账本外写者吞行坑（同 guard 承载）+r450 批件已落地态未验即 run 重复烧批坑（runner 入口 fail-closed 单射守卫 A13 承载）+r244 seed 三步律验证禁源文本正则计数坑（import 全量视图重验范式承载）+r452 判据字段语义漂移坑（SCIENCE_AUDIT_S9C_AMEND_PREREG.md·否决窗至 10-07·10-01 审计窗 C6 误报按 amend §1.2 裁定）七条全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449/r450 bm-a 窗批』+『2026-09-30 r455 bm-a 窗批』节。
 - 冷层指针：r444 S6 批跑器无参腿伪参数坑 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=无参腿分支参数计数判别+UNKNOWN 件逐键 deep-compare 定性范式承载·探针 _r444bmb_guardscan_probe.py）。
 
-- 冷层指针：r249 pandas to_csv 浮点回读非逐位坑（W5 runner selftest 首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=W5 runner selftest derive-then-freeze CSV-readback 锚范式承载）。
 - 冷层指针：r456 a158 冻结面抽位点对账 eps 分母坑（W13 探针首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=a158_tsgate_probe 参考式同款 eps 分母+镜像孪生族构造恒等自检承载）。
 - 冷层指针：r457 风暴 resolver 非幂等追加坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r253 bm-c 窗批』节（法面=append 型收口脚本 add 前幂等守卫惯例+半途失败 git checkout -- 恢复惯例承载）。
 - 冷层指针：r446 bm-b 手术过继残漏三连坑（tlN→tlN+1 过继必带真数据 identity face 三命令实弹首跑收口步）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批三』节（W13 过继者=bm-a berth·r459 state next 指针直引本条）。
