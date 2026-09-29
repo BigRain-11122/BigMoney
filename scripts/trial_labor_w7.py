@@ -90,10 +90,10 @@ D-02 dual-signal receipt, commit 9ba94bf23):
     structure / G-STREAK probe anchors / five-gate 32-cell cross /
     structure-pass negative leg / status contract) + grammar
     serialization subcommand;
-  - slice-2 (next round, physical dep honest): funnel command set
+  - slice-2 (bm-b r418/r419, physical dep honored): funnel command set
     (generate / screen prep+burn+finalize / judge prep+burn+finalize /
-    intake -- tl6 cmd lineage parameterized to the ten-tuple + W7
-    file faces) + engine double-run byte-identity legs + GENERATE pool
+    intake -- tl6 cmd lineage parameterized to the ten-tuple + W7 file
+    faces) + engine double-run byte-identity legs + GENERATE pool
     entry (consumer_plan per O-1820(3), pre-positioned products same
     commit per pit-90; autofill tick burns, no inline burn);
   - LATER slices (physical deps, separate commits with MSG
@@ -142,6 +142,9 @@ SCREEN_FILE = os.path.join(RES_DIR, "w7_screen.json")
 SCREEN_CSV = os.path.join(RES_DIR, "w7_screen_cells.csv")
 JUDGE_FILE = os.path.join(RES_DIR, "w7_judge.json")
 INTAKE_FILE = os.path.join(RES_DIR, "w7_intake.json")
+PREP_FILE = os.path.join(RES_DIR, "prep_state.json")
+JUDGE_STATE_FILE = os.path.join(RES_DIR, "judge_state.json")
+CKPT_DIR = os.path.join(RES_DIR, "checkpoint")
 SCREEN_BATCH = "TRIAL_LAB_W7_SCREEN"   # prereg sec.3 ledger literal
 JUDGE_BATCH = "TRIAL_LAB_W7_JUDGE"     # prereg sec.3 ledger literal
 W6M = tl1.WINDOWS["6m"]                # leg-L 6m screen window (126 td)
@@ -847,61 +850,1725 @@ def cmd_status() -> int:
     """Honest slice-state readout (all faces read-only; absent =
     pending)."""
     faces = [("grammar", GRAMMAR_FILE), ("candidates", CANDIDATES_FILE),
-             ("screen", SCREEN_FILE), ("judge", JUDGE_FILE),
+             ("prep", PREP_FILE), ("screen", SCREEN_FILE),
+             ("judge_state", JUDGE_STATE_FILE), ("judge", JUDGE_FILE),
              ("intake", INTAKE_FILE)]
     for name, path in faces:
         if os.path.exists(path):
             print(f"{name}: present ({os.path.getsize(path)} bytes)")
         else:
-            print(f"{name}: PENDING (slice-2 funnel leg)")
-    print("slice-1a: streak overlay + G-STREAK gate + selftest LANDED "
-          "(bm-b r417-cont); funnel cmds + GENERATE pool entry = "
-          "slice-2 (physical dep, next round)")
+            print(f"{name}: PENDING (funnel leg)")
+    print("slice-1a streak overlay + G-STREAK gate LANDED (bm-b "
+          "r417-cont); slice-2a machinery LANDED (bm-b r418); funnel "
+          "cmd bodies + dispatch LANDED (slice-2b, bm-b r419); GENERATE "
+          "pool entry submitted same-commit -- autofill burns, no "
+          "inline burn (O-2100)")
     return 0
 
 
-def _slice2_pending(cmd: str) -> int:
-    print(f"{cmd}: slice-2b pending (slice-2a machinery LANDED r418: "
-          f"effective mask / curve runner W6-parity / null draw / "
-          f"14-source exclusion loader, selftest 37/37; funnel cmd "
-          f"bodies + GENERATE pool entry land next round; zero cells "
-          f"burned, zero numbers fabricated)")
-    return 3
-
-
+# -------------------------------------------------- generate slice (s1)
 def cmd_generate() -> int:
-    return _slice2_pending("generate")
+    """Frozen prereg sec.3 generate stage (W6 cmd_generate caliber on
+    the TEN-tuple face): per-slot Sobol streams consumed in global
+    round-robin -> 14-source exclusion -> T-84s3 dedup gate on the
+    effective signal face (gate + vol + yang + vconf + STREAK overlays
+    applied, frozen composition order) -> w7_candidates.json + grammar
+    ledger wave-7 row.  Zero engine cells burned."""
+    t0 = time.time()
+    print(f"=== {WAVE} generate (prereg FROZEN {PREREG}) ===")
+    if os.path.exists(CANDIDATES_FILE):
+        print("GENERATE-GATE: w7_candidates.json exists -- same-grammar "
+              "rerun FORBIDDEN (TRIAL_LABOR_LAW sec.4); refusing")
+        return 2
+    if not os.path.exists(GRAMMAR_FILE):
+        print("GENERATE-GATE: w7_grammar.json absent -- run `grammar` "
+              "first")
+        return 2
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    if _grammar_sha16(grammar) != grammar["grammar_sha256"] \
+            or (FROZEN_SHA16 and grammar["grammar_sha256"] != FROZEN_SHA16):
+        print(f"GENERATE-GATE: grammar sha drift -- frozen anchor "
+              f"{FROZEN_SHA16} != file {grammar['grammar_sha256']}; "
+              "refusing")
+        return 2
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
+    if not ram_ok:
+        print(f"GENERATE-GATE: free RAM {ram_min}GB < 4GB after bounded "
+              f"wait (three-sample r354 law, dual-company discipline; "
+              f"r379 wait-law) -- honest refuse, pool retries when RAM "
+              "frees")
+        return 2
+    tl1.GRAMMAR = grammar           # tl1._signal_frame reads tl1's global
+    prices = tl1.load_core()
+    cut = pd.Timestamp(CUTOFF)
+    prices = {s: df[df.index <= cut] for s, df in prices.items()}
+    P = tl1.build_panels(prices)
+    close = P["close"]
+    try:
+        bl = pd.read_csv(tl1.B_LAYER_MASK)
+        ok_codes = set(bl.loc[bl["ok_static"] == True, "code"].astype(str))
+        overlap = sorted(s for s in close.columns if s in ok_codes)
+    except Exception as e:
+        overlap = []
+        print(f"  [warn] b_layer_mask load error: {str(e)[:120]}")
+    if overlap:
+        fundamental_ok = pd.DataFrame(False, index=close.index,
+                                      columns=close.columns)
+        for s in overlap:
+            fundamental_ok[s] = True
+    else:
+        fundamental_ok = None
+    atr20 = tl2.atr20_series(prices)
+    gate_state = tl3.gate_state_series(prices)
+    vol_state, vol_err = tl4._vol_state_full()
+    if vol_err:
+        print(f"GENERATE-GATE: {vol_err} (prereg sec.2 fail-closed) "
+              "-- refuse")
+        return 2
+    yang_state, yang_err = tl5._yang_state_full()
+    if yang_err:
+        print(f"GENERATE-GATE: {yang_err} (prereg sec.2 G-YANG "
+              "fail-closed) -- refuse")
+        return 2
+    vconf_state, vconf_err = tl6._vconf_state_full()
+    if vconf_err:
+        print(f"GENERATE-GATE: {vconf_err} (prereg sec.2 G-VCONF "
+              "fail-closed) -- refuse")
+        return 2
+    streak_state, streak_err = _streak_state_full()
+    if streak_err:
+        print(f"GENERATE-GATE: {streak_err} (prereg sec.2 G-STREAK "
+              "fail-closed) -- refuse")
+        return 2
+    excl_rows, excl_disc = _load_exclusion_rows_w7(grammar)
+    neg_fns = {(e["module"], e["fn"])
+               for e in grammar["exclusion"][
+                   "stop_gate_vol_yang_vconf_streak_none_face"]
+               if str(e.get("face", "")).startswith("negative")}
+
+    # ---- draws: per-slot Sobol streams consumed in global round-robin
+    candidates, excluded_log = [], []
+    excl_hits = {"A": 0, "B": 0}
+    for family, n_draws in (("A", N_A), ("B", N_B)):
+        slots = grammar["families"][family]
+        n_slots = len(slots)
+        streams = {s: draw_candidate_sobol_w7(
+                       grammar, family, s,
+                       (n_draws - s + n_slots - 1) // n_slots)
+                   for s in range(n_slots)}
+        for i in range(n_draws):
+            slot = i % n_slots
+            _, cand = next(streams[slot])
+            cand["candidate_id"] = f"W7-{family}-{i:04d}"
+            cand["provenance"] = {"seed": SEED_GEN,
+                                  "family_idx": (slot if family == "A"
+                                                 else 6 + slot),
+                                  "stream_draw_idx": i // n_slots,
+                                  "global_draw_idx": i}
+            if family == "A":
+                cand["template_trader"] = slots[slot]["trader_id"]
+                cand["negative_prior"] = False
+            else:
+                cand["negative_prior"] = \
+                    (cand["module"], cand["fn"]) in neg_fns
+            hit = _excluded_w7(cand, excl_rows)
+            if hit:
+                excl_hits[family] += 1
+                excluded_log.append({"candidate_id": cand["candidate_id"],
+                                     "module": cand["module"],
+                                     "fn": cand["fn"],
+                                     "axis": cand["axis"], "face": hit})
+                continue
+            candidates.append(cand)
+        print(f"  raw draws {family}={n_draws}, exclusion hits "
+              f"{excl_hits[family]}")
+
+    # ---- dedup gate (T-84 s3) on the effective signal face (streaming)
+    fps, series = [], []
+    for j, cand in enumerate(candidates):
+        mk = f"{cand['module']}.{cand['fn']}"
+        mask = tl1._signal_frame(cand, P, grammar["faces"][mk])
+        mask = mask.reindex(index=close.index,
+                            columns=close.columns).fillna(0)
+        mask = tl1.apply_filter(mask, cand["axis"][0], P, fundamental_ok)
+        mask = tl1.apply_timing(mask, cand["axis"][3])
+        S = _effective_signal_mask_w7(mask, prices, cand["axis"][4], atr20,
+                                      cand["axis"][5], cand["axis"][6],
+                                      cand["axis"][7], cand["axis"][8],
+                                      cand["axis"][9],
+                                      gate_state, vol_state, yang_state,
+                                      vconf_state, streak_state)
+        fps.append(tl1._fingerprint(S))
+        series.append(tl1._naive_returns(S, close).values)
+        del mask, S
+        if (j + 1) % 250 == 0:
+            print(f"  [dedup face] {j + 1}/{len(candidates)}", flush=True)
+
+    fp_groups = {}
+    for i, fp in enumerate(fps):
+        fp_groups.setdefault(fp, []).append(i)
+    keep, fp_collapsed = set(), []
+    for fp, members in fp_groups.items():
+        members.sort(key=lambda k: candidates[k]["candidate_id"])
+        keep.add(members[0])
+        fp_collapsed.append({"kept": candidates[members[0]]["candidate_id"],
+                             "eliminated": [candidates[m]["candidate_id"]
+                                            for m in members[1:]]})
+    idx_keep = sorted(keep)
+    mat = np.vstack([series[i] for i in idx_keep])
+    sd = mat.std(axis=1)
+    live_rows = [j for j in range(len(idx_keep)) if sd[j] > 1e-12]
+    corr_elim, dead = [], set()
+    if len(live_rows) >= 2:
+        sub = mat[live_rows]
+        corr = np.corrcoef(sub)
+        for a_ in range(len(live_rows)):
+            for b_ in range(a_ + 1, len(live_rows)):
+                if abs(corr[a_, b_]) >= 0.999:
+                    ia, ib = idx_keep[live_rows[a_]], idx_keep[live_rows[b_]]
+                    ka = candidates[ia]["candidate_id"]
+                    kb = candidates[ib]["candidate_id"]
+                    dead.add(ib if ka < kb else ia)
+                    corr_elim.append({"pair": sorted([ka, kb]),
+                                      "corr": round(float(corr[a_, b_]), 6),
+                                      "eliminated": candidates[
+                                          ib if ka < kb else ia]
+                                      ["candidate_id"]})
+    final_keep = [i for i in idx_keep if i not in dead]
+    distinct = [candidates[i] for i in final_keep]
+
+    # gate/stop/vol/yang/vconf/streak face counts + gate x vol x yang x
+    # vconf x streak five-gate interaction (prereg sec.5.4 five-gate
+    # column, W6 four-gate face extended)
+    gate_counts, stop_counts = {}, {}
+    vol_counts, yang_counts, vconf_counts = {}, {}, {}
+    streak_counts = {}
+    gvvvsk_counts = {}
+    for c in distinct:
+        gate_counts[c["axis"][5]] = gate_counts.get(c["axis"][5], 0) + 1
+        stop_counts[c["axis"][4]] = stop_counts.get(c["axis"][4], 0) + 1
+        vol_counts[c["axis"][6]] = vol_counts.get(c["axis"][6], 0) + 1
+        yang_counts[c["axis"][7]] = yang_counts.get(c["axis"][7], 0) + 1
+        vconf_counts[c["axis"][8]] = vconf_counts.get(c["axis"][8], 0) + 1
+        streak_counts[c["axis"][9]] = streak_counts.get(c["axis"][9], 0) + 1
+        k5 = (f"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|"
+              f"{c['axis'][8]}|{c['axis'][9]}")
+        gvvvsk_counts[k5] = gvvvsk_counts.get(k5, 0) + 1
+
+    # D6 disclosure column (naive face; prereg sec.1 per-cell max|corr|)
+    reg_series = tl2._registered_naive_series(P, grammar)
+    reg_names = sorted(reg_series)
+    R = np.vstack([reg_series[nm] for nm in reg_names]) \
+        if reg_names else np.zeros((0, len(close.index)))
+    Rc = R - R.mean(axis=1, keepdims=True)
+    rn = np.linalg.norm(Rc, axis=1)
+    if final_keep:
+        F = np.vstack([series[i] for i in final_keep])
+        Fc = F - F.mean(axis=1, keepdims=True)
+        fn = np.linalg.norm(Fc, axis=1)
+        cm = (Fc @ Rc.T) / np.outer(np.where(fn > 1e-12, fn, 1.0),
+                                    np.where(rn > 1e-12, rn, 1.0))
+    else:
+        cm = np.zeros((0, len(reg_names)))
+    for row, i in enumerate(final_keep):
+        v = cm[row]
+        finite = v[np.isfinite(v)]
+        candidates[i]["max_corr_vs_registered_naive"] = (
+            round(float(np.max(np.abs(finite))), 4)
+            if len(finite) else None)
+
+    payload = {"wave": WAVE, "stage": "generate", "prereg": PREREG,
+               "evidence_cutoff": CUTOFF, **tl1.cutoff_meta(CUTOFF),
+               "grammar_sha256": grammar["grammar_sha256"],
+               "n": len(distinct), "candidates": distinct,
+               "exclusion": {"hits": excl_hits,
+                             "excluded_log": excluded_log,
+                             "sources": excl_disc,
+                             "note": "cell key=(template, params, "
+                                     "axis_config, initial_stop, gate, "
+                                     "vol, yang, vconf, streak); "
+                                     "exclusion face = streak=none only "
+                                     "(sec.1); prior-wave keys streak="
+                                     "none-completed; streak in "
+                                     "{up_streak2, down_streak2} = "
+                                     "new-syntax legal cells"},
+               "dedup": {"raw": len(candidates), "distinct": len(distinct),
+                         "fingerprint_collapse_groups": fp_collapsed,
+                         "corr_collapses": corr_elim,
+                         "note": "dedup legs on the generate-stage "
+                                 "effective signal face (gate + vol + "
+                                 "yang + vconf + STREAK overlays "
+                                 "applied, frozen composition order; "
+                                 "naive-hold returns, zero engine burn); "
+                                 "engine faces run at screen (W1 "
+                                 "precedent)"},
+               "gate_face_counts": gate_counts,
+               "stop_face_counts": stop_counts,
+               "vol_face_counts": vol_counts,
+               "yang_face_counts": yang_counts,
+               "vconf_face_counts": vconf_counts,
+               "streak_face_counts": streak_counts,
+               "gate_vol_yang_vconf_streak_face_counts": gvvvsk_counts,
+               "gate_state_meta": gate_state[2],
+               "vol_state_meta": vol_state[2],
+               "yang_state_meta": yang_state[2],
+               "vconf_state_meta": vconf_state[2],
+               "streak_state_meta": streak_state[2],
+               "d6_disclosure": {
+                   "max_corr_vs_registered_naive": "per-cell column; "
+                   "naive-face caliber (dedup byproduct); D6 binding gate "
+                   "at s4 intake recomputes at the engine face"},
+               "audit": {"ram_gate_gb": ram_min,
+                         "negative_prior_derivation": "derived from the "
+                         "frozen grammar's negative_default_axis:stop-"
+                         "gate-vol-yang-vconf-streak-none exclusion "
+                         "faces (face derivation is mechanical)",
+                         "seed_berth_note": "berths 20305000/20305500/"
+                         "20306000 held at the freeze commit (bm-c r207 "
+                         "three-step re-verify ALL GREEN, no re-pick; "
+                         "R250 one-step law)",
+                         "note": "Sobol per-slot streams in global "
+                                 "round-robin; deterministic pre-burn "
+                                 "stage; same-grammar rerun still FORBIDDEN "
+                                 "post-consume"},
+               "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(CANDIDATES_FILE, payload)
+
+    # grammar consumption ledger row (append-only; prereg sec.4/sec.6)
+    ser_ts = time.strftime("%Y-%m-%d %H:%M",
+                           time.localtime(os.path.getmtime(GRAMMAR_FILE)))
+    raw_total = len(candidates) + sum(excl_hits.values())
+    row = (f"| {WAVE} | {grammar['grammar_sha256'][:16]} | "
+           f"raw {raw_total} (A{N_A}/B{N_B}, excl hits "
+           f"{sum(excl_hits.values())}) | dedup -> {len(distinct)} "
+           f"(streak faces {json.dumps(streak_counts, sort_keys=True)}; "
+           f"gate x vol x yang x vconf x streak "
+           f"{json.dumps(gvvvsk_counts, sort_keys=True)}) "
+           f"| seeds gen={SEED_GEN} null={SEED_NULL} unc={SEED_UNC} | "
+           f"serialized {ser_ts} + consumed "
+           f"{time.strftime('%Y-%m-%d %H:%M:%S')} (pool "
+           f"TRIAL-LABOR-W7-GENERATE, T-118 prereg bm-c r207) | "
+           f"same-grammar rerun FORBIDDEN (TRIAL_LABOR_LAW sec.4) |\n")
+    os.makedirs(os.path.dirname(GRAMMAR_LEDGER), exist_ok=True)
+    if not os.path.exists(GRAMMAR_LEDGER):
+        with open(GRAMMAR_LEDGER, "w", encoding="utf-8", newline="\n") as fh:
+            fh.write("# TRIAL_GRAMMAR_LEDGER (append-only; TRIAL_LABOR_LAW "
+                     "sec.4 same-grammar-rerun ban)\n\n"
+                     "| wave | grammar_sha16 | raw | dedup | seeds | "
+                     "consumed | law |\n|---|---|---|---|---|---|---|\n")
+    with open(GRAMMAR_LEDGER, "a", encoding="utf-8", newline="\n") as fh:
+        fh.write(row)
+    print(f"generate done: raw {raw_total} -> exclusion hits "
+          f"{sum(excl_hits.values())} -> dedup distinct {len(distinct)} "
+          f"(fp-collapses {len(fp_collapsed)}, corr-collapses "
+          f"{len(corr_elim)})")
+    print(f"streak faces: {json.dumps(streak_counts, sort_keys=True)}; "
+          f"gate x vol x yang x vconf x streak: "
+          f"{json.dumps(gvvvsk_counts, sort_keys=True)[:400]}")
+    print(f"streak meta: n_bars={streak_state[2]['n_bars']} "
+          f"up={streak_state[2]['up_streak_days']} "
+          f"down={streak_state[2]['down_streak_days']} "
+          f"neither={streak_state[2]['neither_days']}")
+    print(f"products: w7_candidates.json + ledger row "
+          f"(sha16 {grammar['grammar_sha256'][:16]})")
+    print(f"elapsed {time.time() - t0:.1f}s (zero engine cells burned)")
+    return 0
 
 
-def cmd_screen(shard: int = 0, shards: int = 1, workers=None) -> int:
-    return _slice2_pending("screen")
+# ------------------------------------------------------ screen slice (s2)
+csv_cols_screen_w7 = ["cell_id", "candidate_id", "family", "module", "fn",
+                      "no_entries", "beat6m_k", "beat6m_n", "beat6m_rate",
+                      "binom_z", "binom_p", "sharpe_full", "dd_full",
+                      "n_trades", "n_entries", "stop_face", "stop_fired",
+                      "gate_face", "gate_zeroed", "vol_face", "vol_zeroed",
+                      "yang_face", "yang_zeroed", "vconf_face",
+                      "vconf_zeroed", "streak_face", "streak_zeroed",
+                      "survives_screen"]
+
+# pure survival-line math imported from tl2 (W2 identical frozen law:
+# survive iff beat6m_rate > null-family p95 -- program-frozen, zero
+# hand-picked thresholds; import-face law, zero re-implementation)
+_finalize_math = tl2._finalize_math
+
+
+def _screen_cell_w7(cell):
+    """One W7 screen cell: full leg-L backtest with the gate + vol +
+    yang + vconf + STREAK overlays + initial-stop overlay carried
+    per-cell (prereg sec.3 face a) -> beat6m row (pool worker; W6
+    _screen_cell caliber + streak columns)."""
+    st = tl1._ST
+    kind, cand, template = cell["kind"], cell["cand"], cell.get("template")
+    P, prices, states = st["P"], st["prices"], st["states"]
+    starts, passive = st["starts"], st["passive_6m"]
+    close = P["close"]
+    if kind == "null":
+        p_on, ax, rng = _null_axis_draw_w7(cell["i"])
+        cand = {"module": "null", "fn": "random_signal",
+                "sig_params": {"p_on": p_on}, "axis": ax,
+                "candidate_id": f"W7-NULL-{cell['i']:04d}",
+                "family": "NULL"}
+        mat = rng.random((len(close.index), len(close.columns)))
+        eq, trades, metrics, params, patch, fired, gz, vz, yz, cz, sz = \
+            run_candidate_curve_w7(
+                cand, None, prices, P, states, st["atr20"],
+                rng_matrix=mat, p_on=p_on, gate_state=st.get("gate_state"),
+                vol_state=st.get("vol_state"),
+                yang_state=st.get("yang_state"),
+                vconf_state=st.get("vconf_state"),
+                streak_state=st.get("streak_state"))
+    else:
+        eq, trades, metrics, params, patch, fired, gz, vz, yz, cz, sz = \
+            run_candidate_curve_w7(
+                cand, template, prices, P, states, st["atr20"],
+                fundamental_ok=st["fundamental_ok"],
+                gate_state=st.get("gate_state"),
+                vol_state=st.get("vol_state"),
+                yang_state=st.get("yang_state"),
+                vconf_state=st.get("vconf_state"),
+                streak_state=st.get("streak_state"))
+    row = {"cell_id": cell["cell_id"], "candidate_id": cand["candidate_id"],
+           "family": cand["family"], "stop_face": cand["axis"][4],
+           "stop_fired": int(fired), "gate_face": cand["axis"][5],
+           "gate_zeroed": int(gz), "vol_face": cand["axis"][6],
+           "vol_zeroed": int(vz), "yang_face": cand["axis"][7],
+           "yang_zeroed": int(yz), "vconf_face": cand["axis"][8],
+           "vconf_zeroed": int(cz), "streak_face": cand["axis"][9],
+           "streak_zeroed": int(sz)}
+    if len(eq) < 30 or float(eq.iloc[0]) <= 0:
+        row.update({"no_entries": True, "beat6m_k": 0,
+                    "beat6m_n": len(starts), "beat6m_rate": 0.0,
+                    "sharpe_full": None,
+                    "n_trades": int(metrics.get("num_trades", 0)),
+                    "n_entries": int(metrics.get("num_entries", 0))})
+        return row
+    k = n_win = 0
+    for p in starts:
+        if p + W6M - 1 >= len(eq):
+            continue
+        n_win += 1
+        cret = float(eq.iloc[p + W6M - 1] / eq.iloc[p] - 1.0)
+        if cret >= passive[p]:        # prereg sec.3 literal ">="
+            k += 1
+    rate = k / n_win if n_win else 0.0
+    n = len(starts)
+    z = (k - 0.5 * n) / math.sqrt(0.25 * n) if n else 0.0
+    pval = 2 * (1 - tl1._norm_cdf(abs(z)))
+    row.update({"no_entries": False, "module": cand.get("module"),
+                "fn": cand.get("fn"), "beat6m_k": k, "beat6m_n": n_win,
+                "beat6m_rate": round(rate, 6), "binom_z": round(z, 4),
+                "binom_p": round(pval, 6),
+                "sharpe_full": round(float(tl1.sharpe(eq)), 4),
+                "dd_full": round(float(tl1.max_drawdown(eq)), 4),
+                "n_trades": int(metrics.get("num_trades", 0)),
+                "n_entries": int(metrics.get("num_entries", 0))})
+    return row
+
+
+def _cell_list_w7():
+    """Distinct candidate cells + K null cells (deterministic order;
+    shard-split by index; W1-W6 precedent)."""
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    cands = json.load(open(CANDIDATES_FILE, encoding="utf-8"))["candidates"]
+    a_by_trader = {t["trader_id"]: t for t in tl1.A_TEMPLATES}
+    cells = []
+    for c in cands:
+        template = (a_by_trader.get(c.get("template_trader"))
+                    if c["family"] == "A" else None)
+        cells.append({"cell_id": f"SCREEN|{c['candidate_id']}",
+                      "kind": "cand", "cand": c, "template": template})
+    for i in range(K_NULLS):
+        cells.append({"cell_id": f"SCREEN|NULL-{i:04d}", "kind": "null",
+                      "i": i, "cand": None})
+    return grammar, cells
+
+
+def _load_screen_rows():
+    rows = []
+    for f in sorted(os.listdir(CKPT_DIR)):
+        if f.startswith("screen_shard_") and f.endswith(".jsonl"):
+            with open(os.path.join(CKPT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    ln = ln.strip()
+                    if ln:
+                        rows.append(json.loads(ln))
+    return rows
+
+
+def cmd_screen_prep() -> int:
+    """G-PANEL / G-ANCHOR / G-CENSUS / G-EXCLUDE / G-VOL / G-YANG /
+    G-VCONF / G-STREAK fail-closed gates + the shared passive 6m
+    precompute (prereg sec.2; W6 cmd_screen_prep caliber on the W7
+    ten-tuple grammar face + streak meta disclosure)."""
+    print(f"=== {WAVE} screen-prep (fail-closed gates) ===")
+    for p, what in ((GRAMMAR_FILE, "w7_grammar.json"),
+                    (CANDIDATES_FILE, "w7_candidates.json")):
+        if not os.path.exists(p):
+            print(f"PREP-GATE FAIL: {what} absent -- generate pending")
+            return 2
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    if FROZEN_SHA16 and _grammar_sha16(grammar) != FROZEN_SHA16:
+        print(f"PREP-GATE FAIL: grammar sha drift "
+              f"{grammar['grammar_sha256'][:16]} != frozen {FROZEN_SHA16}")
+        return 1
+    cg = json.load(open(CANDIDATES_FILE, encoding="utf-8"))
+    if str(cg.get("grammar_sha256", ""))[:16] != FROZEN_SHA16:
+        print("PREP-GATE FAIL: candidates grammar_sha256 != frozen anchor")
+        return 1
+    tl1.GRAMMAR = grammar   # tl1._signal_frame reads tl1's global
+    if not tl1.self_test_patches():
+        print("PREP-GATE FAIL: patch self-test")
+        return 1
+
+    prices_full = tl1.load_core()
+    cut = pd.Timestamp(CUTOFF)
+    # G-PANEL validates the cutoff-frozen face, not the raw load face
+    # (Monday-bar-proof, T-89 r313 pattern).  Every downstream consumer
+    # already sees the panel truncated at the frozen cutoff.
+    prices_full = {s: df[df.index <= cut] for s, df in prices_full.items()}
+    n_members = len(prices_full)
+    bad = [s for s, df in prices_full.items()
+           if len(df) < 60 or str(df.index[-1].date()) != CUTOFF
+           or not {"open", "high", "low", "close", "volume"} <= set(df.columns)]
+    gp = {"members": n_members, "bad": bad,
+          "pass": bool(n_members == 48 and not bad)}
+    if not gp["pass"]:
+        print(f"PREP-GATE FAIL: G-PANEL {gp}")
+        return 1
+
+    # G-VOL on the raw full-history face (W4 law; probe basis =
+    # data/daily/sh510300.csv; NOT the W1-floored load_core pool face)
+    vol_state_full, vol_err = tl4._vol_state_full()
+    if vol_err:
+        print(f"PREP-GATE FAIL: G-VOL {vol_err}")
+        return 1
+    vol_meta_core = vol_state_full[2]
+
+    # G-YANG on the raw full-history face (W5 law; probe basis =
+    # data/daily/sh510300.csv open+close; zero warmup + probe anchors)
+    yang_state_full, yang_err = tl5._yang_state_full()
+    if yang_err:
+        print(f"PREP-GATE FAIL: G-YANG {yang_err}")
+        return 1
+    yang_meta_core = yang_state_full[2]
+
+    # G-VCONF on the raw full-history face (prereg sec.2 probe basis =
+    # data/daily/sh510300.csv open+close+volume; 19-bar warmup + probe
+    # anchors + four-gate 16-cell non-empty law)
+    vconf_state_full, vconf_err = tl6._vconf_state_full()
+    if vconf_err:
+        print(f"PREP-GATE FAIL: G-VCONF {vconf_err}")
+        return 1
+    vconf_meta_core = vconf_state_full[2]
+
+    # G-STREAK on the raw full-history face (prereg sec.2 probe basis =
+    # data/daily/sh510300.csv close-over-close; 2-bar warmup + probe
+    # anchors + cross lower bounds + five-gate 32-cell non-empty law)
+    streak_state_full, streak_err = _streak_state_full()
+    if streak_err:
+        print(f"PREP-GATE FAIL: G-STREAK {streak_err}")
+        return 1
+    streak_meta_core = streak_state_full[2]
+
+    # G-ANCHOR: registered six replayed through the W7 grammar
+    # default-axis identity face (template_default+EW+daily+
+    # initial_stop=none+gate=none+vol=none+yang=none+vconf=none+
+    # streak=none -> tl1 engine identity; run_candidate_curve_w7
+    # parity law selftest-pinned on the all-none face)
+    pcut = {s: df[df.index <= cut] for s, df in prices_full.items()}
+    Pfull = tl1.build_panels(pcut)
+    anchors = {}
+    for t in tl1.A_TEMPLATES:
+        trader = tl1.load_trader(t["trader_id"])
+        a = tl1.anchor_gate(trader, prices_full)
+        if not a["ok"]:
+            print(f"PREP-GATE FAIL: live anchor drift {t['trader_id']}")
+            return 1
+        cand = {"module": t["module"], "fn": t["fn"],
+                "sig_params": t["sig_params"],
+                "axis": list(tl1.DEFAULT_AXIS)
+                + ["none", "none", "none", "none", "none", "none"]}
+        eq, *_ = run_candidate_curve_w7(cand, t, pcut, Pfull,
+                                        tl1.v3_state_series())
+        got_is = tl1.sharpe(eq[eq.index < tl1.OOS_START])
+        got_oos = tl1.sharpe(eq[eq.index >= tl1.OOS_START])
+        mine_ok = (abs(round(float(got_is), 4)
+                       - a["got"]["in_sample"]["sharpe"]) < 1e-9
+                   and abs(round(float(got_oos), 4)
+                           - a["got"]["out_sample"]["sharpe"]) < 1e-9)
+        anchors[t["trader_id"]] = {
+            "live_ok": True, "grammar_replay_is": round(float(got_is), 4),
+            "grammar_replay_oos": round(float(got_oos), 4),
+            "grammar_face_faithful": bool(mine_ok)}
+        if not mine_ok:
+            print(f"PREP-GATE FAIL: grammar replay != live anchor "
+                  f"{t['trader_id']} (is {got_is:.4f} vs "
+                  f"{a['got']['in_sample']['sharpe']}, oos {got_oos:.4f} vs "
+                  f"{a['got']['out_sample']['sharpe']})")
+            return 1
+    ga = {"pass": True, "anchors": anchors}
+
+    # leg-L panel + G-CENSUS (P-5C frozen grid, sec.2 wholesale binding)
+    prices, P, idx, listed, cen = tl1._load_leg("L")
+    if cen != tl1.FROZEN_CENSUS["L"]:
+        print(f"PREP-GATE FAIL: leg-L census drift {cen} != "
+              f"{tl1.FROZEN_CENSUS['L']}")
+        return 1
+    gc_ = {"pass": True, "census": cen, "frozen": tl1.FROZEN_CENSUS["L"]}
+    # panel-level gate + vol + yang + vconf + streak meta on the leg-L
+    # face (prereg sec.2 disclosure; structural invariants only -- the
+    # {1523, 1441} vol / yang 1751 / vconf 1741 / streak 3481-on-full
+    # probe anchors hold only on the raw full-history face; asserted
+    # above)
+    if STREAK_MEMBER not in prices:
+        print(f"PREP-GATE FAIL: leg-L panel missing streak member "
+              f"{STREAK_MEMBER} (streak series underivable)")
+        return 1
+    _, _, gate_meta = tl3.gate_state_series(prices)
+    _, _, vol_meta = tl4.vol_state_series(prices)
+    if not tl4._vol_structure_pass(vol_meta):
+        print(f"PREP-GATE FAIL: G-VOL leg-L structural invariants "
+              f"broken {vol_meta} -- honest refuse")
+        return 1
+    _, _, yang_meta = tl5.yang_state_series(prices)
+    if not tl5._yang_structure_pass(yang_meta):
+        print(f"PREP-GATE FAIL: G-YANG leg-L structural invariants "
+              f"broken {yang_meta} -- honest refuse")
+        return 1
+    _, _, vconf_meta = tl6.vconf_state_series(prices)
+    if not tl6._vconf_structure_pass(vconf_meta):
+        print(f"PREP-GATE FAIL: G-VCONF leg-L structural invariants "
+              f"broken {vconf_meta} -- honest refuse")
+        return 1
+    _, _, streak_meta = streak_state_series(prices)
+    if not _streak_structure_pass(streak_meta):
+        print(f"PREP-GATE FAIL: G-STREAK leg-L structural invariants "
+              f"broken {streak_meta} -- honest refuse")
+        return 1
+    close = P["close"]
+    n = len(idx)
+    starts = [p for p in range(n)
+              if idx[p] >= tl1.LEG_L_FLOOR and p >= tl1.WARMUP_TD
+              and p <= n - 1 - W6M and listed.iloc[p] >= tl1.MIN_LISTED]
+    if len(starts) != tl1.FROZEN_CENSUS["L"]["6m"]:
+        print(f"PREP-GATE FAIL: 6m starts {len(starts)} != "
+              f"{tl1.FROZEN_CENSUS['L']['6m']}")
+        return 1
+    passive_6m = {}
+    for p in starts:
+        sdate = idx[p]
+        edate = idx[p + W6M - 1]
+        syms = close.columns[close.loc[sdate].notna()]
+        rel = tl1.passive_rel(close, syms, sdate, edate)
+        passive_6m[int(p)] = round(float(rel.iloc[-1] - 1.0), 6)
+
+    prep = {"wave": WAVE, "evidence_cutoff": CUTOFF,
+            **tl1.cutoff_meta(CUTOFF),
+            "grammar_sha256": grammar["grammar_sha256"],
+            "gates": {"G-PANEL": gp, "G-ANCHOR": ga, "G-CENSUS": gc_,
+                      "G-EXCLUDE": {"pass": True,
+                                    "hits": cg["exclusion"]["hits"],
+                                    "sources": cg["exclusion"]["sources"]},
+                      "G-VOL": {"pass": True,
+                                "core48": vol_meta_core,
+                                "legL": vol_meta,
+                                "anchors": {"first_valid_bar":
+                                            tl4.VOL_ANCHOR_FIRST_VALID_BAR,
+                                            "calm_days":
+                                            tl4.VOL_ANCHOR_CALM_DAYS,
+                                            "wild_days":
+                                            tl4.VOL_ANCHOR_WILD_DAYS}},
+                      "G-YANG": {"pass": True,
+                                 "core48": yang_meta_core,
+                                 "legL": yang_meta,
+                                 "anchors": {"yang_days":
+                                             tl5.YANG_ANCHOR["yang_days"],
+                                             "yang_and_bull_lower_bound":
+                                             tl5.YANG_ANCHOR[
+                                                 "yang_and_bull_lower_bound"],
+                                             "red_and_bear_lower_bound":
+                                             tl5.YANG_ANCHOR[
+                                                 "red_and_bear_lower_bound"]}},
+                      "G-VCONF": {"pass": True,
+                                  "core48": vconf_meta_core,
+                                  "legL": vconf_meta,
+                                  "anchors": {
+                                      "surge_days":
+                                      tl6.VCONF_ANCHOR["surge_days"],
+                                      "dry_days":
+                                      tl6.VCONF_ANCHOR["dry_days"],
+                                      "zero_volume_rows":
+                                      tl6.VCONF_ANCHOR["zero_volume_rows"],
+                                      "warmup_gate_closed_bars":
+                                      tl6.VCONF_ANCHOR[
+                                          "warmup_gate_closed_bars"],
+                                      "yang_and_surge_lower_bound":
+                                      tl6.VCONF_ANCHOR[
+                                          "yang_and_surge_lower_bound"],
+                                      "red_and_dry_lower_bound":
+                                      tl6.VCONF_ANCHOR[
+                                          "red_and_dry_lower_bound"],
+                                      "four_gate_16cells":
+                                      "all non-empty (asserted "
+                                      "live at gate)"}},
+                      "G-STREAK": {"pass": True,
+                                   "core48": streak_meta_core,
+                                   "legL": streak_meta,
+                                   "anchors": {
+                                       "warmup_gate_closed_bars":
+                                       STREAK_ANCHOR[
+                                           "warmup_gate_closed_bars"],
+                                       "judgeable_days":
+                                       STREAK_ANCHOR["judgeable_days"],
+                                       "up_streak_days":
+                                       STREAK_ANCHOR["up_streak_days"],
+                                       "down_streak_days":
+                                       STREAK_ANCHOR["down_streak_days"],
+                                       "neither_days":
+                                       STREAK_ANCHOR["neither_days"],
+                                       "yang_and_up_lower_bound":
+                                       STREAK_ANCHOR[
+                                           "yang_and_up_lower_bound"],
+                                       "red_and_down_lower_bound":
+                                       STREAK_ANCHOR[
+                                           "red_and_down_lower_bound"],
+                                       "five_gate_32cells":
+                                       "all non-empty (asserted "
+                                       "live at gate)"}}},
+            "gate_meta": gate_meta, "vol_meta": vol_meta,
+            "yang_meta": yang_meta, "vconf_meta": vconf_meta,
+            "streak_meta": streak_meta,
+            "n_distinct": cg["n"], "n_starts_6m": len(starts),
+            "starts": starts, "passive_6m_ret": passive_6m,
+            "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(PREP_FILE, prep)
+    print(f"prep PASS: panel {gp['members']}/48, anchors 6/6 faithful, "
+          f"census {cen}, starts {len(starts)}, passive precomputed, "
+          f"gate na-window {gate_meta['na_window_bars']} bars, "
+          f"G-VOL {vol_meta['calm_days']}calm/{vol_meta['wild_days']}wild "
+          f"first-valid {vol_meta['first_valid_bar_idx']}, "
+          f"G-YANG {yang_meta['yang_days']}yang/{yang_meta['red_days']}"
+          f"red zero-warmup, "
+          f"G-VCONF {vconf_meta['surge_days']}surge/"
+          f"{vconf_meta['dry_days']}dry warmup "
+          f"{vconf_meta['na_window_bars']}, "
+          f"G-STREAK {streak_meta['up_streak_days']}up/"
+          f"{streak_meta['down_streak_days']}down/"
+          f"{streak_meta['neither_days']}neither warmup "
+          f"{streak_meta['na_window_bars']}")
+    return 0
+
+
+def cmd_screen(shard: int, shards: int, workers) -> int:
+    print(f"=== {WAVE} screen shard {shard}of{shards} ===")
+    for p, what in ((PREP_FILE, "prep_state.json"),
+                    (CANDIDATES_FILE, "w7_candidates.json")):
+        if not os.path.exists(p):
+            print(f"SCREEN-GATE: {what} absent -- run screen-prep first")
+            return 2
+    prep = json.load(open(PREP_FILE, encoding="utf-8"))
+    grammar, cells = _cell_list_w7()
+    if FROZEN_SHA16 and _grammar_sha16(grammar) != FROZEN_SHA16:
+        print(f"SCREEN-GATE: grammar sha drift != frozen {FROZEN_SHA16}")
+        return 2
+    ram_min, ram_ok = tl2._ram_gate_gb(wait_min=40)
+    if not ram_ok:
+        print(f"SCREEN-GATE: free RAM {ram_min}GB < 4GB after bounded "
+              f"wait (three-sample r354 law; r379 wait-law) -- honest "
+              "refuse, pool retries when RAM frees")
+        return 2
+    tl1.GRAMMAR = grammar
+    mine = [c for i, c in enumerate(cells) if i % shards == shard]
+    prices, P, idx, listed, cen = tl1._load_leg("L")
+    states = tl1.v3_state_series()
+    try:
+        bl = pd.read_csv(tl1.B_LAYER_MASK)
+        ok_codes = set(bl.loc[bl["ok_static"] == True, "code"].astype(str))
+        overlap = sorted(s for s in P["close"].columns if s in ok_codes)
+    except Exception:
+        overlap = []
+    # keep-ok face = the serialized grammar filter_def ("keep-ok codes only")
+    # -- identical to the generate-stage dedup face (consistency law)
+    if overlap:
+        fundamental_ok = pd.DataFrame(False, index=P["close"].index,
+                                      columns=P["close"].columns)
+        for s in overlap:
+            fundamental_ok[s] = True
+    else:
+        fundamental_ok = None
+    vol_state, vol_err = tl4._vol_state_full()
+    if vol_err:
+        print(f"SCREEN-GATE: {vol_err} (prereg sec.2 fail-closed) "
+              "-- refuse")
+        return 2
+    yang_state, yang_err = tl5._yang_state_full()
+    if yang_err:
+        print(f"SCREEN-GATE: {yang_err} (prereg sec.2 G-YANG "
+              "fail-closed) -- refuse")
+        return 2
+    vconf_state, vconf_err = tl6._vconf_state_full()
+    if vconf_err:
+        print(f"SCREEN-GATE: {vconf_err} (prereg sec.2 G-VCONF "
+              "fail-closed) -- refuse")
+        return 2
+    if STREAK_MEMBER not in prices:
+        print(f"SCREEN-GATE: leg-L panel missing streak member "
+              f"{STREAK_MEMBER} (streak series underivable) -- refuse")
+        return 2
+    streak_state = streak_state_series(prices)
+    state = {"P": P, "prices": prices, "states": states,
+             "starts": prep["starts"],
+             "passive_6m": {int(k): v for k, v in
+                            prep["passive_6m_ret"].items()},
+             "fundamental_ok": fundamental_ok,
+             "grammar": grammar, "atr20": tl2.atr20_series(prices),
+             "gate_state": tl3.gate_state_series(prices),
+             "vol_state": vol_state, "yang_state": yang_state,
+             "vconf_state": vconf_state, "streak_state": streak_state}
+
+    ck = os.path.join(CKPT_DIR, f"screen_shard_{shard}of{shards}.jsonl")
+    os.makedirs(CKPT_DIR, exist_ok=True)
+    done = set()
+    if os.path.exists(ck):
+        with open(ck, encoding="utf-8") as fh:
+            for ln in fh:
+                try:
+                    done.add(json.loads(ln)["cell_id"])
+                except Exception:
+                    pass
+    todo = [c for c in mine if c["cell_id"] not in done]
+    print(f"shard cells {len(mine)}, done {len(done)}, todo {len(todo)}")
+
+    def on_result(key, payload):
+        with open(ck, "a", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(tl1._j(payload), ensure_ascii=False,
+                                default=float) + "\n")
+
+    if todo:
+        jobs = [(c["cell_id"], _screen_cell_w7, (c,)) for c in todo]
+        tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),
+                              desc="screen cells", initializer=tl1._init_worker,
+                              initargs=(state,), on_result=on_result)
+    print(f"shard {shard}of{shards} complete -> {ck}")
+    return 0
 
 
 def cmd_screen_finalize() -> int:
-    return _slice2_pending("screen-finalize")
+    print(f"=== {WAVE} screen-finalize ===")
+    grammar, cells = _cell_list_w7()
+    rows = _load_screen_rows()
+    by_id = {r["cell_id"]: r for r in rows}
+    missing = [c["cell_id"] for c in cells if c["cell_id"] not in by_id]
+    if missing:
+        print(f"FINALIZE-GATE: {len(missing)} cells incomplete -- finalize "
+              f"refused (checkpoint retained); first missing: "
+              f"{missing[:3]}")
+        return 2
+    null_rows = [by_id[f"SCREEN|NULL-{i:04d}"] for i in range(K_NULLS)]
+    cand_rows = [by_id[c["cell_id"]] for c in cells if c["kind"] == "cand"]
+    p95, survivors = _finalize_math(cand_rows, null_rows)
+    null_rates = [r["beat6m_rate"] for r in null_rows]
+    stop_counts, gate_counts = {}, {}
+    vol_counts, yang_counts, vconf_counts = {}, {}, {}
+    streak_counts = {}
+    gate_seg, vol_seg, yang_seg, vconf_seg = {}, {}, {}, {}
+    streak_seg = {}
+    gvvy_seg, gvvvsk_seg = {}, {}
+    for r in cand_rows:
+        stop_counts[r["stop_face"]] = stop_counts.get(r["stop_face"], 0) + 1
+        gf, vf = r["gate_face"], r["vol_face"]
+        yf, cf = r["yang_face"], r["vconf_face"]
+        sf = r["streak_face"]
+        gate_counts[gf] = gate_counts.get(gf, 0) + 1
+        vol_counts[vf] = vol_counts.get(vf, 0) + 1
+        yang_counts[yf] = yang_counts.get(yf, 0) + 1
+        vconf_counts[cf] = vconf_counts.get(cf, 0) + 1
+        streak_counts[sf] = streak_counts.get(sf, 0) + 1
+        for seg, key in ((gate_seg, gf), (vol_seg, vf), (yang_seg, yf),
+                         (vconf_seg, cf), (streak_seg, sf),
+                         (gvvy_seg, f"{gf}|{vf}|{yf}|{cf}"),
+                         (gvvvsk_seg, f"{gf}|{vf}|{yf}|{cf}|{sf}")):
+            s = seg.setdefault(key, {"n_cells": 0, "n_survivors": 0})
+            s["n_cells"] += 1
+            s["n_survivors"] += int(bool(r["survives_screen"]))
+    for seg in (gate_seg, vol_seg, yang_seg, vconf_seg, streak_seg,
+                gvvy_seg, gvvvsk_seg):
+        for key, s in seg.items():
+            s["survival_rate"] = round(
+                s["n_survivors"] / s["n_cells"], 6) if s["n_cells"] else 0.0
+    prep = (json.load(open(PREP_FILE, encoding="utf-8"))
+            if os.path.exists(PREP_FILE) else {})
+    gate_meta = prep.get("gate_meta")
+    vol_meta = prep.get("vol_meta")
+    yang_meta = prep.get("yang_meta")
+    vconf_meta = prep.get("vconf_meta")
+    streak_meta = prep.get("streak_meta")
+    n_distinct = len(cand_rows)
+    batch_trials = n_distinct + K_NULLS
+    ledger = tl1.append_ledger(SCREEN_BATCH, batch_trials,
+                               "results/trial_labor_w7/w7_screen.json",
+                               evidence_cutoff=CUTOFF)
+    out = {"wave": WAVE, "stage": "screen", "prereg": PREREG,
+           **tl1.cutoff_meta(CUTOFF), "grammar_sha256": grammar["grammar_sha256"],
+           "n_distinct": n_distinct, "k_nulls": K_NULLS,
+           "null_family": {"rates": [round(x, 4) for x in null_rates],
+                           "median": round(float(np.median(null_rates)), 4),
+                           "p95_line": round(p95, 6),
+                           "p_regimes": list(tl1.NULL_P_REGIMES),
+                           "seed": SEED_NULL,
+                           "draw_order": "p_on regime -> TEN-tuple "
+                                         "axis R/X/S/T/STOP/GATE/VOL/"
+                                         "YANG/VCONF/STREAK -> signal "
+                                         "matrix (frozen runner face, "
+                                         "gate+vol+yang+vconf+streak "
+                                         "legs included)"},
+           "survival_rule": "beat6m_rate > null_p95 (prereg sec.3, frozen)",
+           "survivors": survivors, "n_survivors": len(survivors),
+           "stop_face_counts": stop_counts,
+           "gate_face_counts": gate_counts,
+           "vol_face_counts": vol_counts,
+           "yang_face_counts": yang_counts,
+           "vconf_face_counts": vconf_counts,
+           "streak_face_counts": streak_counts,
+           "gate_segmented_survival": gate_seg,
+           "vol_segmented_survival": vol_seg,
+           "yang_segmented_survival": yang_seg,
+           "vconf_segmented_survival": vconf_seg,
+           "streak_segmented_survival": streak_seg,
+           "gate_vol_yang_vconf_interaction_survival": gvvy_seg,
+           "gate_vol_yang_vconf_streak_interaction_survival": gvvvsk_seg,
+           "gate_na_window_bars": (gate_meta["na_window_bars"]
+                                   if gate_meta else None),
+           "vol_na_window_bars": (vol_meta["na_window_bars"]
+                                  if vol_meta else None),
+           "yang_na_window_bars": (yang_meta["na_window_bars"]
+                                   if yang_meta else None),
+           "vconf_na_window_bars": (vconf_meta["na_window_bars"]
+                                    if vconf_meta else None),
+           "streak_na_window_bars": (streak_meta["na_window_bars"]
+                                     if streak_meta else None),
+           "batch_cells": batch_trials, "trials_ledger": ledger,
+           "audit": {"note": "one full leg-L backtest per cell (prereg "
+                             "sec.3 all-history caliber, V1 13bp base, T+1); "
+                             "gate + vol + yang + vconf + STREAK overlays + "
+                             "initial-stop overlay at the engine face = "
+                             "effective-signal zeroing (MSG-0440 E1 "
+                             "mapping, dedup-face consistency, frozen "
+                             "composition order signal -> filter -> "
+                             "timing -> GATE -> VOL -> YANG -> VCONF -> "
+                             "STREAK -> initial-stop); MA200/vol-closed "
+                             "NaN windows gate-closed on BOTH faces, "
+                             "yang zero-warmup, vconf 19-bar warmup, "
+                             "streak 2-bar warmup (panel-level counts in "
+                             "gate/vol/yang/vconf/streak_na_window_bars); "
+                             "workers BelowNormal; checkpoint "
+                             "append-per-cell; beat6m comparison operator "
+                             "= >= per frozen prereg sec.3 text; survival "
+                             "math imported from tl2._finalize_math (W2 "
+                             "identical law)"},
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(SCREEN_FILE, out)
+    with open(SCREEN_CSV, "w", encoding="utf-8-sig", newline="") as fh:
+        w = csv.DictWriter(fh, fieldnames=csv_cols_screen_w7,
+                           extrasaction="ignore")
+        w.writeheader()
+        for r in cand_rows:
+            w.writerow(r)
+    print(f"screen finalize: distinct {n_distinct} + nulls {K_NULLS}, "
+          f"null p95 {p95:.4f}, survivors {len(survivors)}")
+    print(f"streak segmented survival: "
+          f"{json.dumps(streak_seg, sort_keys=True)}")
+    print(f"gate x vol x yang x vconf x streak interaction survival: "
+          f"{json.dumps(gvvvsk_seg, sort_keys=True)[:400]}")
+    print(f"products: w7_screen.json + w7_screen_cells.csv "
+          f"(ledger total {ledger['total']})")
+    return 0
 
 
-def cmd_judge(shard: int = 0, shards: int = 1, workers=None) -> int:
-    return _slice2_pending("judge")
+# ------------------------------------------------------ judge slice (s3)
+def _dual_nulls_w7(returns, cell_idx, seed=None):
+    """Dual nulls on the cell's mean daily return (prereg sec.3 s3):
+    B=2000 block-20 circular bootstrap + P=2000 sign-flip, two-sided;
+    W7 seed binding [20306000, cell_idx].  Math imported verbatim from
+    tl2._dual_nulls_w2 (import law; the seed constant is the only
+    differing face -- selftest cross-checks at the W7 seed)."""
+    return tl2._dual_nulls_w2(returns, cell_idx,
+                              seed=SEED_UNC if seed is None else seed)
+
+
+def _overlay_stop_disclosure_w7(cand, prices, P, atr20, fundamental_ok,
+                                gate_state, vol_state, yang_state,
+                                vconf_state, streak_state):
+    """Per-cell stop trigger/fill-day disclosure on the leg-L signal face
+    with the W7 composition order (filter -> timing -> GATE -> VOL ->
+    YANG -> VCONF -> STREAK -> initial-stop; MSG-0440 E1 mapping +
+    MSG-0450 annex 1).  Mirrors tl6._overlay_stop_disclosure_w6 with the
+    streak overlay inserted before stop arming (engine-face consistency
+    law; summary math imported)."""
+    stop_key = cand["axis"][4]
+    if stop_key == "none":
+        s = tl2._stop_dev_summary([], prices, P["close"].index)
+        s["stop_face"] = "none"
+        return s
+    mk = f"{cand['module']}.{cand['fn']}"
+    mask = tl1._signal_frame(cand, P, tl1.GRAMMAR["faces"][mk])
+    mask = mask.reindex(index=P["close"].index,
+                        columns=P["close"].columns).fillna(0)
+    mask = tl1.apply_filter(mask, cand["axis"][0], P, fundamental_ok)
+    mask = tl1.apply_timing(mask, cand["axis"][3])
+    G = tl3.gate_zero_mask(mask, cand["axis"][5], gate_state)
+    V = tl4.vol_zero_mask(G, cand["axis"][6], vol_state)
+    Y = tl5.yang_zero_mask(V, cand["axis"][7], yang_state)
+    VC = tl6.vconf_zero_mask(Y, cand["axis"][8], vconf_state)
+    SK = streak_zero_mask(VC, cand["axis"][9], streak_state)
+    _, ev = tl2.stop_exit_overlay(SK, prices, stop_key, atr20)
+    s = tl2._stop_dev_summary(ev, prices, mask.index)
+    s["stop_face"] = stop_key
+    return s
+
+
+def _judge_cell_w7(cell):
+    """One W7 survivor judged cell (prereg sec.3 s3 frozen face, pool
+    worker): dual-leg (P-5C grid) x cost {base x1, x2=CostPatch(2)} full
+    curves with the gate + vol + yang + vconf + STREAK overlays +
+    initial-stop overlay carried per cell (frozen composition order) +
+    window-grid beat vs passive + regime segments + dual nulls (W7 seed
+    [20306000, i]) + descriptive clauses + crisis/stop/gate-flip/vol-flip
+    disclosure columns.  Gates face = leg-L base (W1-W6 judged-cell
+    caliber); x2 + descriptive = disclosure."""
+    st = tl1._ST
+    cand, template = cell["cand"], cell.get("template")
+    out = {"cell_id": cell["cell_id"], "candidate_id": cand["candidate_id"],
+           "family": cand["family"], "module": cand["module"],
+           "fn": cand["fn"], "stop_face": cand["axis"][4],
+           "gate_face": cand["axis"][5], "vol_face": cand["axis"][6],
+           "yang_face": cand["axis"][7], "vconf_face": cand["axis"][8],
+           "streak_face": cand["axis"][9]}
+    legs = {}
+    for leg in ("L", "D"):
+        prices, P, idx = (st[f"prices_{leg}"], st[f"P_{leg}"],
+                          st[f"idx_{leg}"])
+        fok = st[f"fundamental_ok_{leg}"]
+        gs = st[f"gate_state_{leg}"]
+        vs = st[f"vol_state_{leg}"]
+        ys = st[f"yang_state_{leg}"]
+        cs = st[f"vconf_state_{leg}"]
+        sk = st[f"streak_state_{leg}"]
+        eq, trades, metrics, params, patch, fired, gz, vz, yz, cz, sz = \
+            run_candidate_curve_w7(cand, template, prices, P,
+                                   st["states"], st[f"atr20_{leg}"],
+                                   fundamental_ok=fok, gate_state=gs,
+                                   vol_state=vs, yang_state=ys,
+                                   vconf_state=cs, streak_state=sk)
+        with CostPatch(2):
+            eq2, _, m2, _, _, fired2, gz2, vz2, yz2, cz2, sz2 = \
+                run_candidate_curve_w7(
+                    cand, template, prices, P, st["states"],
+                    st[f"atr20_{leg}"], fundamental_ok=fok, gate_state=gs,
+                    vol_state=vs, yang_state=ys, vconf_state=cs,
+                    streak_state=sk)
+        if len(eq) < 30 or float(eq.iloc[0]) <= 0:
+            legs[leg] = {"beat": {}, "beat_x2": {}, "sharpe_full": None,
+                         "sharpe_full_x2": None, "n_trades": 0,
+                         "n_entries": 0, "stop_fired": 0,
+                         "stop_fired_x2": 0, "gate_zeroed": 0,
+                         "gate_zeroed_x2": 0, "vol_zeroed": 0,
+                         "vol_zeroed_x2": 0, "yang_zeroed": 0,
+                         "yang_zeroed_x2": 0, "vconf_zeroed": 0,
+                         "vconf_zeroed_x2": 0, "streak_zeroed": 0,
+                         "streak_zeroed_x2": 0,
+                         "regime_start_windows": {"bear": 0, "bull": 0,
+                                                  "chop": 0, "na": 0},
+                         "degenerate": True}
+            continue
+        daily = eq.pct_change().fillna(0.0)
+        segs = {"bear": 0, "bull": 0, "chop": 0, "na": 0}
+        s_series = st["states"].reindex(idx)
+        beat, beat_x2 = {}, {}
+        for wname, w in tl1.WINDOWS.items():
+            starts = st["starts"][leg][wname]
+            k = tot = k2 = 0
+            for p in starts:
+                if p + w - 1 >= len(eq):
+                    continue
+                tot += 1
+                pret = st["passive"][leg][wname][str(p)]
+                if float(eq.iloc[p + w - 1] / eq.iloc[p] - 1.0) > pret:
+                    k += 1
+                if float(eq2.iloc[p + w - 1] / eq2.iloc[p] - 1.0) > pret:
+                    k2 += 1
+                d = s_series.iloc[p] if p < len(s_series) else None
+                st_ = tl1.REGIME_MAP.get(d, "na") if d == d else "na"
+                segs[st_] += 1
+            beat[wname] = {"k": k, "n": tot,
+                           "rate": round(k / tot, 6) if tot else 0.0}
+            beat_x2[wname] = {"k": k2, "n": tot,
+                              "rate": round(k2 / tot, 6) if tot else 0.0}
+        legs[leg] = {"beat": beat, "beat_x2": beat_x2,
+                     "regime_start_windows": segs,
+                     "sharpe_full": round(float(tl1.sharpe(eq)), 4),
+                     "sharpe_full_x2": round(float(tl1.sharpe(eq2)), 4),
+                     "n_trades": int(metrics.get("num_trades", 0)),
+                     "n_entries": int(metrics.get("num_entries", 0)),
+                     "stop_fired": int(fired),
+                     "stop_fired_x2": int(fired2),
+                     "gate_zeroed": int(gz),
+                     "gate_zeroed_x2": int(gz2),
+                     "vol_zeroed": int(vz),
+                     "vol_zeroed_x2": int(vz2),
+                     "yang_zeroed": int(yz),
+                     "yang_zeroed_x2": int(yz2),
+                     "vconf_zeroed": int(cz),
+                     "vconf_zeroed_x2": int(cz2),
+                     "streak_zeroed": int(sz),
+                     "streak_zeroed_x2": int(sz2)}
+        if leg == "L":
+            out["legL_daily_returns"] = [round(float(x), 8)
+                                         for x in daily.values]
+            out["legL_sharpe_full"] = legs[leg]["sharpe_full"]
+            out["legL_n_trades"] = legs[leg]["n_trades"]
+            out["legL_n_entries"] = legs[leg]["n_entries"]
+            out["descriptive"] = tl2._descriptive_face(eq, eq2)
+            out["crisis_days_gt8pct"] = int(
+                (np.abs(np.asarray(daily.values, dtype=float))
+                 > 0.08).sum())
+            out["stop_disclosure"] = _overlay_stop_disclosure_w7(
+                cand, prices, P, st["atr20_L"], fok, gs, vs, ys, cs, sk)
+    out["legs"] = legs
+    if "legL_daily_returns" not in out:
+        out["legL_daily_returns"] = []
+        out["legL_sharpe_full"] = None
+        out["legL_n_trades"] = 0
+        out["legL_n_entries"] = 0
+    r = np.asarray(out["legL_daily_returns"], dtype=float)
+    out["dual_nulls"] = _dual_nulls_w7(r if len(r) else np.zeros(30),
+                                       cell["i"])
+    # prereg sec.5.6 gate/vol-flip day columns (disclosure-only, zero
+    # gate weight): panel-level flip-day count of the cell's OWN gate /
+    # vol face on the leg-L panel (state meta face; none -> null).  The
+    # yang AND vconf AND streak faces carry no probe-defined flip
+    # caliber (W5 yang precedent: probes define no such flips; daily
+    # binary faces); their disclosure columns are the per-leg yang_zeroed
+    # / vconf_zeroed / streak_zeroed counts above.
+    gm = st.get("gate_meta_L") or {}
+    vm = st.get("vol_meta_L") or {}
+    gk = cand["axis"][5]
+    vk = cand["axis"][6]
+    out["gate_flip_days_legL"] = (
+        None if gk == "none"
+        else int(gm.get("flips_bull_face" if gk == "bull"
+                        else "flips_bear_face", 0)))
+    out["vol_flip_days_legL"] = (
+        None if vk == "none"
+        else int(vm.get("flips_calm_face" if vk == "calm"
+                        else "flips_wild_face", 0)))
+    n_eff = sum(legs[lg]["regime_start_windows"][s]
+                for lg in legs for s in ("bear", "bull", "chop"))
+    out["n_eff_start_windows"] = n_eff
+    out["sample_sufficient"] = bool(
+        n_eff >= 500 and all(legs[lg]["regime_start_windows"][s] >= 100
+                             for lg in legs
+                             for s in ("bear", "bull", "chop")))
+    return out
+
+
+def cmd_judge_prep() -> int:
+    """Screen-finalize gate + grammar anchor + t18 manifest + dual-leg
+    census gates + starts + passive per (leg, window) + per-leg gate +
+    vol + yang + vconf + streak meta (prereg sec.2/3; W6 cmd_judge_prep
+    caliber on the W7 ten-tuple grammar face; G-VOL/G-YANG/G-VCONF/
+    G-STREAK structural per leg + probe anchors on the raw full-history
+    face)."""
+    print(f"=== {WAVE} judge-prep ===")
+    if not os.path.exists(SCREEN_FILE):
+        print("JUDGE-PREP-GATE: screen not finalized (w7_screen.json "
+              "absent)")
+        return 2
+    screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
+    if FROZEN_SHA16 and str(screen.get("grammar_sha256", ""))[:16] \
+            != FROZEN_SHA16:
+        print(f"JUDGE-PREP-GATE FAIL: screen grammar sha != frozen "
+              f"anchor {FROZEN_SHA16}")
+        return 1
+    man = json.load(open(tl1.T18_MANIFEST, encoding="utf-8"))
+    gm = {"verdict": man.get("verdict"),
+          "manifest_members": len(man.get("members", {})),
+          "pass": bool(man.get("verdict") == "PASS")}
+    if not gm["pass"]:
+        print("JUDGE-PREP-GATE FAIL: t18 manifest verdict != PASS")
+        return 1
+    vol_state_full, vol_err = tl4._vol_state_full()
+    if vol_err:
+        print(f"JUDGE-PREP-GATE FAIL: G-VOL {vol_err}")
+        return 1
+    yang_state_full, yang_err = tl5._yang_state_full()
+    if yang_err:
+        print(f"JUDGE-PREP-GATE FAIL: G-YANG {yang_err}")
+        return 1
+    vconf_state_full, vconf_err = tl6._vconf_state_full()
+    if vconf_err:
+        print(f"JUDGE-PREP-GATE FAIL: G-VCONF {vconf_err}")
+        return 1
+    streak_state_full, streak_err = _streak_state_full()
+    if streak_err:
+        print(f"JUDGE-PREP-GATE FAIL: G-STREAK {streak_err}")
+        return 1
+    starts, gate_meta, vol_meta = {}, {}, {}
+    yang_meta, vconf_meta, streak_meta = {}, {}, {}
+    for leg in ("L", "D"):
+        prices, P, idx, listed, cen = tl1._load_leg(leg)
+        if cen != tl1.FROZEN_CENSUS[leg]:
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} census drift {cen} "
+                  f"!= {tl1.FROZEN_CENSUS[leg]}")
+            return 1
+        for member, gate_name in ((tl6.GATE_MEMBER, "gate"),
+                                  (tl6.VOL_MEMBER, "vol"),
+                                  (tl6.YANG_MEMBER, "yang"),
+                                  (tl6.VCONF_MEMBER, "vconf"),
+                                  (STREAK_MEMBER, "streak")):
+            if member not in prices:
+                print(f"JUDGE-PREP-GATE FAIL: leg-{leg} panel missing "
+                      f"{gate_name} member {member} ({gate_name} series "
+                      f"underivable)")
+                return 1
+        _, _, gmeta = tl3.gate_state_series(prices)
+        gate_meta[leg] = gmeta
+        _, _, vmeta = tl4.vol_state_series(prices)
+        if not tl4._vol_structure_pass(vmeta):
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} G-VOL structural "
+                  f"invariants broken {vmeta} -- honest refuse")
+            return 1
+        vol_meta[leg] = vmeta
+        _, _, ymeta = tl5.yang_state_series(prices)
+        if not tl5._yang_structure_pass(ymeta):
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} G-YANG structural "
+                  f"invariants broken {ymeta} -- honest refuse")
+            return 1
+        yang_meta[leg] = ymeta
+        _, _, cmeta = tl6.vconf_state_series(prices)
+        if not tl6._vconf_structure_pass(cmeta):
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} G-VCONF structural "
+                  f"invariants broken {cmeta} -- honest refuse")
+            return 1
+        vconf_meta[leg] = cmeta
+        _, _, skmeta = streak_state_series(prices)
+        if not _streak_structure_pass(skmeta):
+            print(f"JUDGE-PREP-GATE FAIL: leg-{leg} G-STREAK structural "
+                  f"invariants broken {skmeta} -- honest refuse")
+            return 1
+        streak_meta[leg] = skmeta
+        n = len(idx)
+        starts[leg] = {}
+        for wname, w in tl1.WINDOWS.items():
+            st = [p for p in range(n)
+                  if idx[p] >= (tl1.LEG_L_FLOOR if leg == "L"
+                                else tl1.LEG_D_FLOOR)
+                  and p >= tl1.WARMUP_TD and p <= n - 1 - w
+                  and (listed.iloc[p] >= tl1.MIN_LISTED
+                       if leg == "L" else True)]
+            if len(st) != tl1.FROZEN_CENSUS[leg][wname]:
+                print(f"JUDGE-PREP-GATE FAIL: leg-{leg} {wname} starts "
+                      f"{len(st)} != {tl1.FROZEN_CENSUS[leg][wname]}")
+                return 1
+            starts[leg][wname] = st
+    vol_meta["full_raw_face"] = vol_state_full[2]
+    yang_meta["full_raw_face"] = yang_state_full[2]
+    vconf_meta["full_raw_face"] = vconf_state_full[2]
+    streak_meta["full_raw_face"] = streak_state_full[2]
+    if not screen.get("survivors"):
+        out = {"wave": WAVE, **tl1.cutoff_meta(CUTOFF),
+               "grammar_sha256": FROZEN_SHA16, "n_survivors": 0,
+               "g_manifest": gm, "starts": starts, "passive": {},
+               "census_frozen": tl1.FROZEN_CENSUS,
+               "gate_meta": gate_meta, "vol_meta": vol_meta,
+               "yang_meta": yang_meta, "vconf_meta": vconf_meta,
+               "streak_meta": streak_meta,
+               "vacuous": True,
+               "note": "zero screen survivors: lawful modal-zero face "
+                       "(prereg sec.5 pred.3); judge burn vacuous; "
+                       "judge-finalize writes the zero product + ledger 0",
+               "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+        tl1._dump(JUDGE_STATE_FILE, out)
+        print("judge-prep PASS (vacuous): zero survivors -- judge burn "
+              "skipped, judge-finalize writes the lawful zero product")
+        return 0
+    passive = {}
+    for leg in ("L", "D"):
+        prices, P, idx, listed, cen = tl1._load_leg(leg)
+        close = P["close"]
+        passive[leg] = {}
+        for wname, w in tl1.WINDOWS.items():
+            passive[leg][wname] = {}
+            for p in starts[leg][wname]:
+                sdate = idx[p]
+                edate = idx[p + w - 1]
+                syms = close.columns[close.loc[sdate].notna()]
+                rel = tl1.passive_rel(close, syms, sdate, edate)
+                passive[leg][wname][str(p)] = round(
+                    float(rel.iloc[-1] - 1.0), 6)
+    out = {"wave": WAVE, **tl1.cutoff_meta(CUTOFF),
+           "grammar_sha256": FROZEN_SHA16,
+           "n_survivors": len(screen["survivors"]),
+           "g_manifest": gm,
+           "starts": starts, "passive": passive,
+           "census_frozen": tl1.FROZEN_CENSUS, "gate_meta": gate_meta,
+           "vol_meta": vol_meta, "yang_meta": yang_meta,
+           "vconf_meta": vconf_meta, "streak_meta": streak_meta,
+           "manifest_note": "P-5C frozen census reproduces only on the "
+                            "48-member twin cache (W1 sec.9.3 precedent; "
+                            "member count disclosed, mechanical import "
+                            "wins)",
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(JUDGE_STATE_FILE, out)
+    print(f"judge-prep PASS: manifest {gm['verdict']} "
+          f"({gm['manifest_members']} members), census L/D == frozen, "
+          f"survivors {len(screen['survivors'])}, gate meta L/D "
+          f"na-window {gate_meta['L']['na_window_bars']}/"
+          f"{gate_meta['D']['na_window_bars']}, vol meta L/D "
+          f"na-window {vol_meta['L']['na_window_bars']}/"
+          f"{vol_meta['D']['na_window_bars']} "
+          f"(leg-L anchors {vol_meta['L']['calm_days']}calm/"
+          f"{vol_meta['L']['wild_days']}wild), yang meta L/D "
+          f"zero-warmup {yang_meta['L']['yang_days']}yang/"
+          f"{yang_meta['L']['red_days']}red, vconf meta L/D "
+          f"19-bar-warmup {vconf_meta['L']['surge_days']}surge/"
+          f"{vconf_meta['L']['dry_days']}dry, streak meta L/D "
+          f"2-bar-warmup {streak_meta['L']['up_streak_days']}up/"
+          f"{streak_meta['L']['down_streak_days']}down/"
+          f"{streak_meta['L']['neither_days']}neither")
+    return 0
+
+
+def cmd_judge(shard: int, shards: int, workers) -> int:
+    print(f"=== {WAVE} judge shard {shard}of{shards} ===")
+    for p, what in ((JUDGE_STATE_FILE, "judge_state.json"),
+                    (SCREEN_FILE, "w7_screen.json")):
+        if not os.path.exists(p):
+            # O-1712 sec.1.2 diagnostic-soundness: the refusal
+            # self-locates the expected face (abs path + machine) so
+            # absence vs path mismatch vs wrong-machine face reads off
+            # the refusal line itself (R398 anchor-face lesson).
+            print(f"JUDGE-GATE: {what} absent -- judge-prep + "
+                  f"screen-finalize required first; expected face: "
+                  f"{os.path.abspath(p)} (this machine: "
+                  f"{os.environ.get('COMPUTERNAME', '?')})")
+            return 2
+    jstate = json.load(open(JUDGE_STATE_FILE, encoding="utf-8"))
+    if jstate.get("vacuous"):
+        print("JUDGE-GATE: vacuous face (zero survivors) -- zero cells, "
+              "proceed to judge-finalize")
+        return 0
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    if FROZEN_SHA16 and _grammar_sha16(grammar) != FROZEN_SHA16:
+        print(f"JUDGE-GATE: grammar sha drift != frozen {FROZEN_SHA16}")
+        return 2
+    tl1.GRAMMAR = grammar
+    screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
+    cands = {c["candidate_id"]: c for c in json.load(
+        open(CANDIDATES_FILE, encoding="utf-8"))["candidates"]}
+    a_by_trader = {t["trader_id"]: t for t in tl1.A_TEMPLATES}
+    cells = []
+    for i, cid in enumerate(sorted(screen["survivors"])):
+        c = cands[cid]
+        template = (a_by_trader.get(c.get("template_trader"))
+                    if c["family"] == "A" else None)
+        cells.append({"cell_id": f"JUDGE|{cid}", "candidate_id": cid,
+                      "i": i, "cand": c, "template": template})
+    mine = [c for i, c in enumerate(cells) if i % shards == shard]
+
+    vol_state_full, vol_err = tl4._vol_state_full()
+    if vol_err:
+        print(f"JUDGE-GATE: {vol_err} (prereg sec.2 fail-closed) "
+              "-- refuse")
+        return 2
+    yang_state_full, yang_err = tl5._yang_state_full()
+    if yang_err:
+        print(f"JUDGE-GATE: {yang_err} (prereg sec.2 G-YANG "
+              "fail-closed) -- refuse")
+        return 2
+    vconf_state_full, vconf_err = tl6._vconf_state_full()
+    if vconf_err:
+        print(f"JUDGE-GATE: {vconf_err} (prereg sec.2 G-VCONF "
+              "fail-closed) -- refuse")
+        return 2
+    state = {}
+    for leg in ("L", "D"):
+        prices, P, idx, listed, cen = tl1._load_leg(leg)
+        if cen != tl1.FROZEN_CENSUS[leg]:
+            print(f"JUDGE-GATE: leg-{leg} census drift {cen} -- refuse")
+            return 2
+        state[f"prices_{leg}"] = prices
+        state[f"P_{leg}"] = P
+        state[f"idx_{leg}"] = idx
+        state[f"atr20_{leg}"] = tl2.atr20_series(prices)
+        try:
+            bl = pd.read_csv(tl1.B_LAYER_MASK)
+            ok_codes = set(bl.loc[bl["ok_static"] == True, "code"]
+                           .astype(str))
+            overlap = sorted(s for s in P["close"].columns
+                             if s in ok_codes)
+        except Exception:
+            overlap = []
+        # keep-ok face = identical derivation to the screen-stage face
+        # (consistency law); applied per-leg to that leg's own columns
+        if overlap:
+            fok = pd.DataFrame(False, index=P["close"].index,
+                               columns=P["close"].columns)
+            for s in overlap:
+                fok[s] = True
+        else:
+            fok = None
+        state[f"fundamental_ok_{leg}"] = fok
+        gs = tl3.gate_state_series(prices)
+        state[f"gate_state_{leg}"] = gs
+        state[f"gate_meta_{leg}"] = gs[2]
+        state[f"vol_state_{leg}"] = vol_state_full
+        state[f"vol_meta_{leg}"] = vol_state_full[2]
+        state[f"yang_state_{leg}"] = yang_state_full
+        state[f"yang_meta_{leg}"] = yang_state_full[2]
+        state[f"vconf_state_{leg}"] = vconf_state_full
+        state[f"vconf_meta_{leg}"] = vconf_state_full[2]
+        sk = streak_state_series(prices)
+        state[f"streak_state_{leg}"] = sk
+        state[f"streak_meta_{leg}"] = sk[2]
+    state["starts"] = jstate["starts"]
+    state["passive"] = jstate["passive"]
+    state["states"] = tl1.v3_state_series()
+    state["grammar"] = grammar
+
+    ck = os.path.join(CKPT_DIR, f"judge_shard_{shard}of{shards}.jsonl")
+    os.makedirs(CKPT_DIR, exist_ok=True)
+    done = set()
+    if os.path.exists(ck):
+        with open(ck, encoding="utf-8") as fh:
+            for ln in fh:
+                try:
+                    done.add(json.loads(ln)["cell_id"])
+                except Exception:
+                    pass
+    todo = [c for c in mine if c["cell_id"] not in done]
+    print(f"judge shard cells {len(mine)}, done {len(done)}, "
+          f"todo {len(todo)}")
+
+    def on_result(key, payload):
+        with open(ck, "a", encoding="utf-8", newline="\n") as fh:
+            fh.write(json.dumps(tl1._j(payload), ensure_ascii=False,
+                                default=float) + "\n")
+
+    if todo:
+        jobs = [(c["cell_id"], _judge_cell_w7, (c,)) for c in todo]
+        tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),
+                              desc="judge cells",
+                              initializer=tl1._init_worker,
+                              initargs=(state,), on_result=on_result)
+    print(f"judge shard {shard}of{shards} complete -> {ck}")
+    return 0
 
 
 def cmd_judge_finalize() -> int:
-    return _slice2_pending("judge-finalize")
+    print(f"=== {WAVE} judge-finalize ===")
+    grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
+    screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
+    survivors = list(screen.get("survivors", []))
+    rows = []
+    for f in sorted(os.listdir(CKPT_DIR)):
+        if f.startswith("judge_shard_") and f.endswith(".jsonl"):
+            with open(os.path.join(CKPT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    if ln.strip():
+                        rows.append(json.loads(ln))
+    by_id = {r["cell_id"]: r for r in rows}
+    missing = [f"JUDGE|{cid}" for cid in survivors
+               if f"JUDGE|{cid}" not in by_id]
+    if missing:
+        print(f"FINALIZE-GATE: {len(missing)} judged cells incomplete; "
+              f"refused (checkpoint retained); first: {missing[:3]}")
+        return 2
+    judged = [by_id[f"JUDGE|{cid}"] for cid in sorted(survivors)]
+
+    # G1'v2 + DSR per cell (n_trials = live chain head AFTER the screen
+    # append; prereg sec.4 cumulative-N, cross-wave no reset)
+    n_trials = tl1.ledger_head()["total"]
+    batch_cells = screen["batch_cells"]
+    for r in judged:
+        rets = r.get("legL_daily_returns") or []
+        if r.get("legL_sharpe_full") is None or not rets:
+            r["g1_prime_v2"] = None
+            r["dsr"] = None
+            r["g1_pass"] = False
+            r["verdict"] = "fail-degenerate"
+            continue
+        g1 = tl1.g1_prime_v2(r["legL_sharpe_full"], rets, batch_cells,
+                             pool="core48", n_trades=r["legL_n_trades"],
+                             n_entries=r["legL_n_entries"])
+        dsr = tl1.deflated_sharpe_ratio(rets, n_trials=n_trials)
+        r["g1_prime_v2"] = g1
+        r["dsr"] = {"dsr": round(float(dsr["dsr"]), 6),
+                    "n_trials": n_trials}
+        r["g1_pass"] = g1["pass_v2"]
+        r["verdict"] = ("pass" if (g1["pass_v2"] and r["sample_sufficient"])
+                        else "insufficient-sample" if not r[
+                            "sample_sufficient"] else "fail")
+    # family PBO (CSCV 8 blocks; family = strategy module; <8 cells n/a)
+    fam_map = {}
+    for r in judged:
+        fam_map.setdefault(r.get("module"), []).append(r)
+    pbos = {}
+    for fam, rs in fam_map.items():
+        series = {r["candidate_id"]: pd.Series(r["legL_daily_returns"])
+                  for r in rs if r.get("legL_daily_returns")}
+        if len(rs) < 8 or len(series) < 8:
+            pbos[fam] = {"pbo": None, "n_cells": len(rs),
+                         "note": "insufficient (<8) -- G2 cannot pass"}
+            for r in rs:
+                r["family_pbo"] = None
+            continue
+        mat = tl1.align_returns(series)
+        pbo = tl1.cscv_pbo(mat)
+        pbos[fam] = {"pbo": round(float(pbo["pbo"]), 4) if isinstance(
+            pbo, dict) else round(float(pbo), 4), "n_cells": len(rs)}
+        for r in rs:
+            r["family_pbo"] = pbos[fam]["pbo"]
+    # G2 registration columns
+    for r in judged:
+        if r.get("g1_prime_v2") is None:
+            r["g2_registration_v2"] = None
+            continue
+        g2 = tl1.g2_registration_v2(r["g1_pass"], r["dsr"],
+                                    r.get("family_pbo"))
+        r["g2_registration_v2"] = g2
+    n_judged = len(judged)
+    e_fp = round(0.05 * n_judged, 2)
+    eligible = [r["candidate_id"] for r in judged
+                if (r.get("g2_registration_v2") or {}).get("eligible_v2")]
+    ledger = tl1.append_ledger(JUDGE_BATCH, n_judged,
+                               "results/trial_labor_w7/w7_judge.json",
+                               evidence_cutoff=CUTOFF)
+    # descriptive clause batch summary (disclosure-only, zero gate weight)
+    cl_keys = [("clause_ann_pos", "annualized > 0"),
+               ("clause_oos_dual_pos",
+                "OOS(2025+ blind) sharpe + annualized both > 0"),
+               ("clause_dd_ok", "max drawdown >= -35%"),
+               ("clause_no_crash_year", "no calendar year <= -35%"),
+               ("clause_x2_no_crash_year",
+                "x2 face: no calendar year <= -35%")]
+    clauses = {}
+    for k, label in cl_keys:
+        vals = [r.get("descriptive", {}).get(k) for r in judged]
+        clauses[k] = {"label": label,
+                      "n_true": sum(1 for v in vals if v is True),
+                      "n_evaluable": sum(1 for v in vals
+                                         if v is not None)}
+    # GATE/VOL/YANG/VCONF/STREAK-face + interaction judged summaries
+    # (prereg sec.5.4/sec.5.6 direction-readout + five-gate column
+    # faces; disclosure-only, zero gate weight)
+    gate_sum, vol_sum = {}, {}
+    yang_sum, vconf_sum, streak_sum = {}, {}, {}
+    gvy_sum, gvvy_sum, gvvvsk_sum = {}, {}, {}
+    for r in judged:
+        g = r.get("gate_face", "none")
+        v = r.get("vol_face", "none")
+        y = r.get("yang_face", "none")
+        c = r.get("vconf_face", "none")
+        s = r.get("streak_face", "none")
+        for seg, key in ((gate_sum, g), (vol_sum, v), (yang_sum, y),
+                         (vconf_sum, c), (streak_sum, s),
+                         (gvy_sum, f"{g}|{v}|{y}"),
+                         (gvvy_sum, f"{g}|{v}|{y}|{c}"),
+                         (gvvvsk_sum, f"{g}|{v}|{y}|{c}|{s}")):
+            sm = seg.setdefault(key, {"n_cells": 0, "n_g1_pass": 0,
+                                      "n_eligible_g2": 0})
+            sm["n_cells"] += 1
+            sm["n_g1_pass"] += int(bool(r.get("g1_pass")))
+            sm["n_eligible_g2"] += int(
+                bool((r.get("g2_registration_v2") or {}).get("eligible_v2")))
+    out = {"wave": WAVE, "stage": "judge", "prereg": PREREG,
+           **tl1.cutoff_meta(CUTOFF), "grammar_sha256": grammar[
+               "grammar_sha256"],
+           "n_judged_cells": n_judged,
+           "n_wave_disclosure": {"screen_cells": batch_cells,
+                                 "judged_cells": n_judged,
+                                 "E_FP_nominal_5pct": e_fp,
+                                 "note": "DSR>=0.95 gate IS the multiple-"
+                                         "testing correction (cumulative-N "
+                                         "deflation); E[FP] disclosed at "
+                                         "the nominal 5% caliber"},
+           "family_pbo": pbos,
+           "gate_face_judgment": gate_sum,
+           "vol_face_judgment": vol_sum,
+           "yang_face_judgment": yang_sum,
+           "vconf_face_judgment": vconf_sum,
+           "streak_face_judgment": streak_sum,
+           "gate_vol_yang_interaction_judgment": gvy_sum,
+           "gate_vol_yang_vconf_interaction_judgment": gvvy_sum,
+           "gate_vol_yang_vconf_streak_interaction_judgment": gvvvsk_sum,
+           "descriptive_summary": {"n_cells": n_judged,
+                                   "clauses": clauses,
+                                   "note": "descriptive clauses are "
+                                           "batch-level disclosure per "
+                                           "prereg sec.3 -- zero gate "
+                                           "weight; gates = G1'v2/G2/DSR/"
+                                           "PBO per sec.4"},
+           "eligible_g2": eligible, "n_eligible_g2": len(eligible),
+           "trials_ledger": ledger,
+           "cells": [{k: v for k, v in r.items()
+                      if k != "legL_daily_returns"} for r in judged],
+           "audit": {"note": "judged face = dual-leg (P-5C grid) x "
+                             "{6m,12m,24m} x base/x2 curves with the "
+                             "gate + vol + yang + vconf + STREAK overlays "
+                             "carried per cell (frozen composition "
+                             "signal -> filter -> timing -> GATE -> VOL "
+                             "-> YANG -> VCONF -> STREAK -> initial-stop; "
+                             "engine/exit_rules.py zero touch) + regime "
+                             "segments + dual nulls (B=2000 block-20 + "
+                             "P=2000 sign-flip, seed [20306000, cell]); "
+                             "gates on the leg-L base face (W1-W6 "
+                             "judged-cell caliber); beat operator = "
+                             "strict > (W1-W6 judged-cell caliber; "
+                             "screen >= was the sec.3 s2 literal); x2 + "
+                             "descriptive clauses = disclosure-only zero "
+                             "criteria weight; crisis-day count = "
+                             "|daily|>8% leg-L base (sec.5.6); stop "
+                             "trigger/fill-day D+1 open-vs-close "
+                             "deviation = MSG-0450 annex-1 disclosure on "
+                             "the protection-floor signal face with the "
+                             "streak overlay inserted before stop arming "
+                             "(W7 composition law); gate_flip_days_legL / "
+                             "vol_flip_days_legL = panel-level flip-day "
+                             "counts of the cell's OWN gate / vol face "
+                             "on the leg-L panel (none -> null; sec.5.6 "
+                             "disclosure columns, zero gate weight; "
+                             "yang AND vconf AND streak faces = daily "
+                             "binaries with no probe-defined flip "
+                             "caliber [W5 yang precedent, r206 probe "
+                             "defines no streak flips], per-leg "
+                             "yang_zeroed / vconf_zeroed / streak_zeroed "
+                             "counts are their columns); gate x vol x "
+                             "yang x vconf x streak five-gate "
+                             "interaction segments = prereg sec.3 "
+                             "five-gate disclosure column; fundamental "
+                             "keep-ok face = screen consistency law"},
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(JUDGE_FILE, out)
+    print(f"judge finalize: {n_judged} judged cells, E[FP]={e_fp}, "
+          f"G2 eligible {len(eligible)} -> {eligible[:10]}")
+    print(f"streak-face judgment: {json.dumps(streak_sum, sort_keys=True)}")
+    print(f"gate x vol x yang x vconf x streak interaction judgment: "
+          f"{json.dumps(gvvvsk_sum, sort_keys=True)[:400]}")
+    return 0
 
 
+# ------------------------------------------------------ intake slice (s4)
 def cmd_intake() -> int:
-    return _slice2_pending("intake")
+    """s4 D6 binding gate (W2 cmd_intake precedent on the W7 file
+    faces): G2-eligible survivors -> per-candidate max|corr| vs the
+    registered roster (>=0.7 reject) + survivor-cluster collapse (>=0.7
+    pairs keep highest DSR) -> w7_intake.json registration-face rows.
+    Zero ledger rows (judgment face); STRATEGY_LIBRARY / paper
+    onboarding writes belong to the registration pipeline (prereg
+    sec.4)."""
+    print(f"=== {WAVE} intake (s4 D6 binding gate) ===")
+    if not os.path.exists(JUDGE_FILE):
+        print("INTAKE-GATE: judge not finalized (w7_judge.json absent)")
+        return 2
+    judge = json.load(open(JUDGE_FILE, encoding="utf-8"))
+    if str(judge.get("grammar_sha256", ""))[:16] != FROZEN_SHA16:
+        print(f"INTAKE-GATE FAIL: judge grammar sha != frozen anchor "
+              f"{FROZEN_SHA16}")
+        return 1
+    eligible = list(judge["eligible_g2"])
+    audit_note = ("intake = judgment face, zero ledger rows; candidate "
+                  "daily returns = judge checkpoint engine face (five-"
+                  "gate + stop overlays included); registered six = "
+                  "engine recompute at the registered config, cutoff-"
+                  "truncated FIRST (r363 law); D6 ceiling 0.7 prereg "
+                  "sec.4; cluster keep = highest DSR, tie lowest id; "
+                  "TRIAL-<FAMILY>-<NN>: family = strategy module per "
+                  "sec.4 PBO definition, per-module NN counter; hr/"
+                  "STRATEGY_LIBRARY writes + smoke anchor re-run = "
+                  "registration pipeline face (prereg sec.4)")
+    if not eligible:
+        out = {"wave": WAVE, "stage": "intake", "prereg": PREREG,
+               **tl1.cutoff_meta(CUTOFF), "grammar_sha256": FROZEN_SHA16,
+               "n_eligible": 0, "admitted": [], "rejected": [],
+               "d6_binding": {}, "intake": [],
+               "note": "zero G2-eligible survivors = lawful outcome, "
+                       "reported as-is (prereg sec.5 pred.3 modal zero)",
+               "audit": {"n_engine_runs": 0, "ledger_trials_added": 0,
+                         "note": audit_note},
+               "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+        tl1._dump(INTAKE_FILE, out)
+        print("intake: zero eligible survivors -- lawful zero, product "
+              "written")
+        return 0
+    cands = {c["candidate_id"]: c for c in json.load(
+        open(CANDIDATES_FILE, encoding="utf-8"))["candidates"]}
+    cells = {r["candidate_id"]: r for r in judge["cells"]}
+    dsr_by_id = {cid: (cells[cid].get("dsr") or {}).get("dsr")
+                 for cid in eligible}
+    # candidate engine-face daily returns: judge checkpoint rows (W1
+    # intake precedent; w7_judge.json cells are stripped by design)
+    cand_ret = {}
+    for f in sorted(os.listdir(CKPT_DIR)):
+        if f.startswith("judge_shard_") and f.endswith(".jsonl"):
+            with open(os.path.join(CKPT_DIR, f), encoding="utf-8") as fh:
+                for ln in fh:
+                    r = json.loads(ln)
+                    if r.get("candidate_id") in eligible:
+                        cand_ret[r["candidate_id"]] = r.get(
+                            "legL_daily_returns") or []
+    missing = [c for c in eligible if not len(cand_ret.get(c, []))]
+    if missing:
+        print(f"INTAKE-GATE FAIL: eligible rows missing legL daily "
+              f"returns in checkpoints: {missing[:3]}")
+        return 2
+    # registered six: engine-face recompute at the registered config
+    # (W1 intake precedent; truncate to cutoff before any engine face)
+    from live.paper import SIGNAL_BUILDERS      # W1 cmd_intake precedent
+    prices = tl1.load_core()
+    cut = pd.Timestamp(CUTOFF)
+    pcut = {s: df[df.index <= cut] for s, df in prices.items()}
+    P = tl1.build_panels(pcut)
+    reg_ret = {}
+    for t in tl1.A_TEMPLATES:
+        trader = tl1.load_trader(t["trader_id"])
+        entry = trader["params"]["entry"]
+        sig = SIGNAL_BUILDERS[entry](P)
+        params = {k: v for k, v in trader["params"].items()
+                  if k != "entry"}
+        with tl1.ExitPatch(trader.get("exit_overrides")):
+            res = tl1.run_backtest(pcut, params, entry_signal=sig,
+                                   exit_signal=(sig <= 0))
+        eq = pd.Series(res["equity_curve"],
+                       index=P["close"].index[:len(res["equity_curve"])])
+        reg_ret[t["trader_id"]] = eq.pct_change().fillna(0.0)
+    cand_ret_s = {cid: pd.Series(v, index=P["close"].index[:len(v)])
+                  for cid, v in cand_ret.items()}
+    admitted, rejected, d6 = tl2._d6_admit_core(eligible, cand_ret_s,
+                                                reg_ret, dsr_by_id)
+    intake_rows = tl2._trial_intake_rows(admitted, cands)
+    out = {"wave": WAVE, "stage": "intake", "prereg": PREREG,
+           **tl1.cutoff_meta(CUTOFF), "grammar_sha256": FROZEN_SHA16,
+           "n_eligible": len(eligible), "admitted": admitted,
+           "rejected": rejected, "d6_binding": d6, "intake": intake_rows,
+           "ceo_report_due": "48h from intake (prereg sec.4)",
+           "audit": {"n_engine_runs": len(reg_ret),
+                     "ledger_trials_added": 0, "note": audit_note},
+           "generated": time.strftime("%Y-%m-%d %H:%M:%S")}
+    tl1._dump(INTAKE_FILE, out)
+    print(f"intake: eligible {len(eligible)} -> admitted {len(admitted)} "
+          f"(D6 rejects {len(rejected)})")
+    return 0
 
 
 # ------------------------------------------------------------------ selftest
 def cmd_selftest() -> int:
-    """Hermetic offline selftest (zero network, zero engine burns, zero
-    cell evaluation): STREAK causality / 2-bar warmup / doji-equal /
+    """Hermetic offline selftest (zero network, zero live engine burns,
+    zero cell evaluation): STREAK causality / 2-bar warmup / doji-equal /
     identity / conservative-reindex / ten-tuple stream order / grammar
     structure / G-STREAK probe anchors / five-gate cross / structure
-    negative leg / status contract.  Engine double-run byte-identity
-    legs land with the slice-2 funnel command set (honest scope
-    disclosure, not a failing leg)."""
+    negative leg / status contract + engine double-run determinism legs
+    + slice-2b funnel faces (dispatch / null-cell engine path / CSV
+    contract)."""
     try:
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     except Exception:
@@ -1231,42 +2898,122 @@ def cmd_selftest() -> int:
         "cell, never excluded",
         miss is None)
 
+    # ---- L17 slice-2b funnel faces (dispatch + null path + contract)
+    want_cmds = ["grammar", "generate", "screen-prep", "screen",
+                "screen-finalize", "judge-prep", "judge",
+                "judge-finalize", "intake", "status", "selftest"]
+    got_cmds = []
+    for probe in (["grammar"], ["generate"], ["screen-prep"],
+                  ["screen"], ["screen-finalize"], ["judge-prep"],
+                  ["judge"], ["judge-finalize"], ["intake"],
+                  ["status"], ["selftest"]):
+        a = _build_parser().parse_args(probe)
+        got_cmds.append(a.cmd)
+    a_sh = _build_parser().parse_args(
+        ["screen", "--shard", "1", "--shards", "4", "--workers", "9"])
+    _ok("L17a main dispatch registers all eleven funnel subcommands "
+        "zero-burn (r141 crash-lane: every registered cmd has a body)",
+        got_cmds == want_cmds
+        and (a_sh.shard, a_sh.shards, a_sh.workers) == (1, 4, 9))
+    p_on0, ax0, rng0 = _null_axis_draw_w7(0)
+    p_on0b, ax0b, rng0b = _null_axis_draw_w7(0)
+    sk_dom = ax0[9] in AXIS_STREAK and ax0[4] in tl2.AXIS_STOP \
+        and len(ax0) == 10
+    mat0 = rng0.random((len(P3["close"].index), len(P3["close"].columns)))
+    eqn, trn, mtn, prn, pt, frn, gzn, vzn, yzn, czn, szn = \
+        run_candidate_curve_w7(
+            {"module": "null", "fn": "random_signal",
+             "sig_params": {"p_on": p_on0}, "axis": ax0,
+             "candidate_id": "W7-NULL-0000", "family": "NULL"},
+            None, frames3, P3, st3, gate_state=gs3, vol_state=vs3,
+            yang_state=ys3, vconf_state=cs3, streak_state=sk3,
+            rng_matrix=mat0, p_on=p_on0)
+    mat0b = rng0b.random((len(P3["close"].index),
+                          len(P3["close"].columns)))
+    eqnb, _, _, _, _, _, _, _, _, _, sznb = run_candidate_curve_w7(
+        {"module": "null", "fn": "random_signal",
+         "sig_params": {"p_on": p_on0b}, "axis": ax0b,
+         "candidate_id": "W7-NULL-0000", "family": "NULL"},
+        None, frames3, P3, st3, gate_state=gs3, vol_state=vs3,
+        yang_state=ys3, vconf_state=cs3, streak_state=sk3,
+        rng_matrix=mat0b, p_on=p_on0b)
+    _ok("L17b null-cell engine path: ten-tuple null draw deterministic "
+        "+ streak axis in-domain + engine 11-tuple return + double-run "
+        "byte-identity (screen null-family path)",
+        p_on0 == p_on0b and ax0 == ax0b and sk_dom
+        and len(eqn) == len(P3["close"].index) and szn >= 0
+        and list(eqn.values) == list(eqnb.values) and szn == sznb)
+    _ok("L18 screen CSV contract carries the streak columns in the "
+        "frozen order (cell_id/candidate_id head + streak pair before "
+        "survives_screen)",
+        csv_cols_screen_w7[:2] == ["cell_id", "candidate_id"]
+        and csv_cols_screen_w7[-3:] == ["streak_face", "streak_zeroed",
+                                        "survives_screen"]
+        and "streak_face" in csv_cols_screen_w7
+        and {"gate_zeroed", "vol_zeroed", "yang_zeroed", "vconf_zeroed",
+             "streak_zeroed"} <= set(csv_cols_screen_w7))
+
     print(f"\nselftest: {n_pass}/{n_leg} PASS "
           f"(scope: slice-1a streak layer + G-STREAK + grammar + "
           f"slice-2a machinery: effective mask / curve runner parity / "
-          f"null draw / 14-source exclusion loader; funnel cmd bodies "
-          f"generate/screen/judge = slice-2b)")
+          f"null draw / 14-source exclusion loader + slice-2b funnel "
+          f"faces: dispatch / null-cell engine path / CSV contract; "
+          f"zero live cells burned, zero numbers fabricated)")
     return 0 if n_pass == n_leg else 1
 
 
-def main(argv=None):
+def _build_parser():
+    """Argparse face shared by main() + the hermetic selftest dispatch
+    leg (zero-burn registration probe)."""
     ap = argparse.ArgumentParser(description="TRIAL_LABOR_W7 runner "
                                      "(streak-confirmation ten-gate wave)")
     sub = ap.add_subparsers(dest="cmd")
     sub.add_parser("grammar", help="serialize the frozen W7 grammar")
-    sub.add_parser("generate", help="slice-2 pending")
-    sp = sub.add_parser("screen", help="slice-2 pending")
+    sub.add_parser("generate",
+                   help="s1 Sobol draws -> exclusion -> dedup -> "
+                        "w7_candidates.json + ledger row")
+    sub.add_parser("screen-prep",
+                   help="fail-closed gates + passive 6m precompute")
+    sp = sub.add_parser("screen", help="s2 cheap screen shard burn")
     sp.add_argument("--shard", type=int, default=0)
     sp.add_argument("--shards", type=int, default=1)
-    sub.add_parser("screen-finalize", help="slice-2 pending")
-    jp = sub.add_parser("judge", help="slice-2 pending")
+    sp.add_argument("--workers", type=int, default=None)
+    sub.add_parser("screen-finalize",
+                   help="null p95 survival line -> w7_screen.json + csv")
+    sub.add_parser("judge-prep",
+                   help="dual-leg census gates + starts + passive")
+    jp = sub.add_parser("judge", help="s3 full judgment shard burn")
     jp.add_argument("--shard", type=int, default=0)
     jp.add_argument("--shards", type=int, default=1)
-    sub.add_parser("judge-finalize", help="slice-2 pending")
-    sub.add_parser("intake", help="slice-2 pending")
+    jp.add_argument("--workers", type=int, default=None)
+    sub.add_parser("judge-finalize",
+                   help="G1'v2/G2/DSR/PBO gates -> w7_judge.json")
+    sub.add_parser("intake",
+                   help="s4 D6 binding gate -> w7_intake.json")
     sub.add_parser("status", help="slice-state readout")
     sub.add_parser("selftest", help="hermetic offline selftest")
-    args = ap.parse_args(argv)
+    return ap
+
+
+def main(argv=None):
+    args = _build_parser().parse_args(argv)
+    # r141 crash-lane law: explicit per-command forwarding; no zero-arg
+    # dict dispatch; every registered subcommand HAS a built body
+    # (slice-2b complete -- zero half-built dispatch faces)
     if args.cmd == "grammar":
         return cmd_grammar()
     if args.cmd == "generate":
         return cmd_generate()
+    if args.cmd == "screen-prep":
+        return cmd_screen_prep()
     if args.cmd == "screen":
-        return cmd_screen(args.shard, args.shards)
+        return cmd_screen(args.shard, args.shards, args.workers)
     if args.cmd == "screen-finalize":
         return cmd_screen_finalize()
+    if args.cmd == "judge-prep":
+        return cmd_judge_prep()
     if args.cmd == "judge":
-        return cmd_judge(args.shard, args.shards)
+        return cmd_judge(args.shard, args.shards, args.workers)
     if args.cmd == "judge-finalize":
         return cmd_judge_finalize()
     if args.cmd == "intake":
@@ -1275,7 +3022,7 @@ def main(argv=None):
         return cmd_status()
     if args.cmd == "selftest":
         return cmd_selftest()
-    ap.print_help()
+    _build_parser().print_help()
     return 2
 
 
