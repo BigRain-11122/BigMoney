@@ -270,10 +270,10 @@ def run():
                                     vc["survive_d6_accept"], vc["survive_d6_reject"]))
     for row in rows:
         print("%s %-12s %-18s %s oos_excess=%+.4f sharpe=%+.3f entries=%d "
-              "maxdd=%+.2%% null_med=%+.3f d6=%.4f %s"
+              "maxdd=%+.1f%% null_med=%+.3f d6=%.4f %s"
               % (row["inst"], row["gate"], row["verdict"], row["final_status"],
                  row["oos_excess_vs_bh"], row["oos_sharpe"], row["oos_entries"],
-                 row["full_maxdd"], row["null_med_sharpe"],
+                 row["full_maxdd"] * 100.0, row["null_med_sharpe"],
                  row["d6_max_abs_vs_bh"], row["fail_reasons"]))
     return 0
 
