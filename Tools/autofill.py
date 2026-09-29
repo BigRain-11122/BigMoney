@@ -21,6 +21,15 @@ Contract:
     are guarded by the runner-side final compaction keep-last).
   * Lane guard (F-08/R31/R65): entry.lane_owner null/ANY = any machine;
     named = that machine only.
+  * Host gate (MSG-1142 pre-check, W6+W7 live-fire): entry.host_gates =
+    [{"kind": "dir_nonempty", "path": "<repo-relative or absolute dir>",
+    "pattern": "<optional glob, default *>"}] -- a machine failing ANY
+    gate never claims the entry (skip inside _pick BEFORE any pool
+    write); unknown kind / malformed gate = fail-closed skip. Kills the
+    cache-less claim face: a P5C judge shard claimed off-host burns
+    claim+launch+commit, dies on the runner's in-process GATE, feeds the
+    crash fuse and strands the shard ~20min in a stale-owner lockout
+    (W6 + W7, one window each).
   * Mid-rebase/mid-merge guard (r201): .git/rebase-merge|rebase-apply|
     MERGE_HEAD present -> honest no-op, no state write, no launch
     (live case: 20:00 tick fired on a conflicted tree, read the marker
@@ -74,6 +83,7 @@ Exit codes: 0 = normal (incl. honest no-op), 2 = mechanism fault
 selftest = offline decision matrix, no real launches.
 """
 import argparse
+import glob
 import json
 import os
 import subprocess
@@ -783,6 +793,37 @@ def _confirm_crashes(state, pool, myid, fuse):
     return dirty
 
 
+def _host_gate_reason(e):
+    """MSG-1142 claim-before-check host gate: entry.host_gates declares
+    data the runner physically needs on the burn host (e.g. the P5C
+    deep-panel cache -- W6+W7 judge claims by cache-less machines each
+    burned a ~20min window: instant GATE exit -> crash-fuse -> stale
+    owner lockout). Returns None when claimable HERE, else a short
+    reason. Fail-closed: unknown kind / malformed gate = refuse."""
+    gates = e.get("host_gates") or []
+    if not isinstance(gates, list):
+        return "malformed host_gates (not a list)"
+    for g in gates:
+        if not isinstance(g, dict):
+            return "malformed host gate (not an object)"
+        kind = g.get("kind")
+        path = g.get("path")
+        if kind != "dir_nonempty" or not path:
+            return f"unsupported gate {kind!r}"
+        p = path if os.path.isabs(path) else os.path.join(ROOT, path)
+        try:
+            if not os.path.isdir(p):
+                return f"dir absent {path}"
+            if not os.listdir(p):
+                return f"dir empty {path}"
+            pat = g.get("pattern") or "*"
+            if pat != "*" and not glob.glob(os.path.join(p, pat)):
+                return f"no match {path}/{pat}"
+        except OSError as ex:
+            return f"gate fault {path} ({ex})"
+    return None
+
+
 def _pick(pool, myid, skip=None):
     """Highest-priority ready, lane-legal, not-running entry + shard.
     skip (set of entry ids): candidates already refused by the caller
@@ -797,6 +838,12 @@ def _pick(pool, myid, skip=None):
         lo = e.get("lane_owner")
         if lo not in (None, "", "ANY", myid):
             _log(f"skip {e['id']}: lane owner {lo} != {myid}")
+            continue
+        gr = _host_gate_reason(e)
+        if gr is not None:
+            # MSG-1142 pre-check: never claim (nor write the pool) for a
+            # shard this host physically cannot burn.
+            _log(f"skip {e['id']}: host gate fail ({gr})")
             continue
         if not e.get("workers_plan"):
             # O-20260924-2130 s1.1: ready batch registration MUST carry a
@@ -1419,8 +1466,29 @@ def submit(a):
     if bad:
         for b in bad:
             print(f"REFUSED: {b}")
-        _log(f"submit REFUSED {a_id or '<empty>'}: " + "; ".join(b))
+        _log(f"submit REFUSED {a_id or '<empty>'}: " + "; ".join(bad))
         return 2
+    # MSG-1142 host gates: STRUCTURE-only validation here -- the
+    # submitter machine may differ from the burn host (lane owner), so
+    # presence is probed by _pick on each claiming machine (fail-closed).
+    hg = (getattr(a, "host_gates", None) or "").strip()
+    gates = None
+    if hg:
+        try:
+            gates = json.loads(hg)
+        except ValueError as ex:
+            print(f"REFUSED: --host-gates not valid JSON ({ex})")
+            _log(f"submit REFUSED {a_id}: host-gates JSON fault")
+            return 2
+        if (not isinstance(gates, list) or not gates
+                or any(not isinstance(g, dict)
+                       or g.get("kind") != "dir_nonempty"
+                       or not (g.get("path") or "").strip()
+                       for g in gates)):
+            print("REFUSED: --host-gates = JSON list of "
+                  "{kind: dir_nonempty, path} objects")
+            _log(f"submit REFUSED {a_id}: host-gates shape fault")
+            return 2
     # D-20260929-02 ②: fresh inbox re-read BEFORE the pool write -- a
     # stale tree is structurally blind to an unfetched declaration
     # (r404 live-fire: bm-c 08:39 MSG landed 08:47, bm-a last fetched
@@ -1459,6 +1527,8 @@ def submit(a):
                    for k in keys],
         "workers_plan": wp,
     }
+    if gates is not None:
+        entry["host_gates"] = gates
     pool.setdefault("entries", []).append(entry)
     pool["updated_at"] = _now()
     tmp = POOL + ".tmp"
@@ -2648,6 +2718,74 @@ def selftest():
                and st19c_out.get("fuse_crashes") == 1)
         finally:
             _py_cpu_pct = _py19
+        # S20 MSG-1142 host-gate pre-check (claim-before-check): a
+        # machine failing any entry host gate never claims it -- W6+W7
+        # live-fire face (cache-less judge claim -> instant P5C-GATE
+        # exit -> crash-fuse -> ~20min stale-owner lockout, twice).
+        gate20 = os.path.join(tmp, "gate_cache")
+        os.makedirs(gate20, exist_ok=True)
+        with open(os.path.join(gate20, "panel.parquet"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("x")
+        empty20 = os.path.join(tmp, "gate_empty")
+        os.makedirs(empty20, exist_ok=True)
+        e20, sh20 = _pick({"entries": [dict(
+            entry, id="E20", host_gates=[
+                {"kind": "dir_nonempty",
+                 "path": os.path.join(tmp, "no_such_dir")}])]}, "bm-x")
+        ok("S20a host gate dir absent -> not claimable",
+           e20 is None and sh20 is None)
+        e20, sh20 = _pick({"entries": [dict(
+            entry, id="E20", host_gates=[
+                {"kind": "dir_nonempty", "path": empty20,
+                 "pattern": "*.parquet"}])]}, "bm-x")
+        ok("S20b host gate dir empty -> not claimable",
+           e20 is None and sh20 is None)
+        e20, sh20 = _pick({"entries": [dict(
+            entry, id="E20", host_gates=[
+                {"kind": "dir_nonempty", "path": gate20,
+                 "pattern": "*.csv"}])]}, "bm-x")
+        ok("S20c host gate pattern miss -> not claimable",
+           e20 is None and sh20 is None)
+        e20, sh20 = _pick({"entries": [dict(
+            entry, id="E20", host_gates=[
+                {"kind": "dir_nonempty", "path": gate20,
+                 "pattern": "*.parquet"}])]}, "bm-x")
+        ok("S20d host gate pass -> claimable",
+           e20 is not None and e20["id"] == "E20"
+           and sh20 is not None and sh20["key"] == "s0")
+        e20, sh20 = _pick({"entries": [dict(
+            entry, id="E20", host_gates=[{"kind": "warp9"}])]}, "bm-x")
+        ok("S20e unknown gate kind -> fail-closed skip",
+           e20 is None and sh20 is None)
+        e20, sh20 = _pick({"entries": [dict(
+            entry, id="E20", host_gates="not-a-list")]}, "bm-x")
+        ok("S20f malformed host_gates -> fail-closed skip",
+           e20 is None and sh20 is None)
+        e20, sh20 = _pick({"entries": [dict(entry, id="E20")]}, "bm-x")
+        ok("S20g no host_gates field -> claimable (back-compat)",
+           e20 is not None and e20["id"] == "E20")
+        # S20h submit carries host_gates through (structure-only check:
+        # submitter != burn host is legal, e.g. lane owner elsewhere)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": []}, fh)
+        _pool_lane_clear()
+        rc20 = submit(_sa(id="E20s", host_gates=json.dumps(
+            [{"kind": "dir_nonempty", "path": gate20,
+              "pattern": "*.parquet"}])))
+        p20s = json.load(open(POOL, encoding="utf-8"))["entries"]
+        ok("S20h submit rides host_gates into the entry",
+           rc20 == 0 and p20s and p20s[-1].get("host_gates") == [
+               {"kind": "dir_nonempty", "path": gate20,
+                "pattern": "*.parquet"}])
+        rc20 = submit(_sa(id="E20t", host_gates='{"kind": "oops"}'))
+        ok("S20i submit refuses non-list host_gates",
+           rc20 == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                             ["entries"]) == 1)
+        rc20 = submit(_sa(id="E20u", host_gates="not-json"))
+        ok("S20j submit refuses bad JSON host_gates",
+           rc20 == 2 and len(json.load(open(POOL, encoding="utf-8"))
+                             ["entries"]) == 1)
     # S7 sampler sanity on the real machine (pure read)
     py = _py_cpu_pct(window=0.5)
     ok("S7 live py sample in [0,100]", 0.0 <= py <= 100.0)
@@ -2675,6 +2813,11 @@ def main():
     ap.add_argument("--ticket-ref", dest="ticket_ref")
     ap.add_argument("--prereg-ref", dest="prereg_ref")
     ap.add_argument("--data-gates", dest="data_gates")
+    ap.add_argument("--host-gates", dest="host_gates",
+                    help='MSG-1142 host gate: JSON list of '
+                         '{"kind": "dir_nonempty", "path": ..., '
+                         '"pattern": "*.parquet"} -- each claiming '
+                         'machine probes presence, fail-closed')
     ap.add_argument("--shard-checkpoint", dest="shard_checkpoint")
     ap.add_argument("--shard-note", dest="shard_note")
     ap.add_argument("--consumer-plan", dest="consumer_plan",

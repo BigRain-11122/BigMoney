@@ -23,6 +23,13 @@ via PID lock):
          lanes are claimable only by their owner machine
          (W6-SCREEN r201 live-fire: bm-c worker stole bm-b's declared
          lane on a self-contained entry; runner host-gate refused rc=2)
+       - host gate (MSG-1142 pre-check, autofill _host_gate_reason
+         parity): entry.host_gates = [{"kind": "dir_nonempty",
+         "path": ..., "pattern": ...}] -- a machine failing ANY gate
+         never claims the entry; unknown kind / malformed = fail-closed
+         (W6+W7 live-fire: cache-less judge claim -> instant P5C-GATE
+         exit -> crash-fuse -> ~20min stale-owner lockout, one window
+         per wave)
        - shard not done
        - no fresh external claim file (claim-by-file first-writer-wins,
          results/pool_claims/<entry>/<shard>.<machine>.json)
@@ -50,6 +57,7 @@ Exit codes: 0 = normal (ran or nothing claimable), 2 = mechanism fault
 check (zero network, zero git).
 """
 import ctypes
+import glob
 import json
 import os
 import subprocess
@@ -316,6 +324,36 @@ def _write_claim(entry_id, shard_key, machine, state, extra=None):
     return p
 
 
+def _host_gate_reason(entry):
+    """MSG-1142 claim-before-check host gate (autofill parity, standalone
+    per zero-loop-dependency law): entry.host_gates declares data the
+    runner physically needs on the burn host (e.g. the P5C deep-panel
+    cache). None = claimable HERE, else a short reason. Fail-closed on
+    unknown kind / malformed gate."""
+    gates = entry.get("host_gates") or []
+    if not isinstance(gates, list):
+        return "malformed host_gates (not a list)"
+    for g in gates:
+        if not isinstance(g, dict):
+            return "malformed host gate (not an object)"
+        kind = g.get("kind")
+        path = g.get("path")
+        if kind != "dir_nonempty" or not path:
+            return f"unsupported gate {kind!r}"
+        p = path if os.path.isabs(path) else os.path.join(ROOT, path)
+        try:
+            if not os.path.isdir(p):
+                return f"dir absent {path}"
+            if not os.listdir(p):
+                return f"dir empty {path}"
+            pat = g.get("pattern") or "*"
+            if pat != "*" and not glob.glob(os.path.join(p, pat)):
+                return f"no match {path}/{pat}"
+        except OSError as ex:
+            return f"gate fault {path} ({ex})"
+    return None
+
+
 def _eligible(entry, myid):
     """O-2210 worker_class data-locality eligibility + R31/R65 lane guard."""
     lo = entry.get("lane_owner")
@@ -324,6 +362,12 @@ def _eligible(entry, myid):
         # belongs to its owner machine regardless of worker_class --
         # self-contained data does NOT make a declared lane claimable.
         _log(f"entry {entry['id']}: lane owner {lo} != {myid} -> skip")
+        return False
+    gr = _host_gate_reason(entry)
+    if gr is not None:
+        # MSG-1142 pre-check: never claim a shard this host physically
+        # cannot burn (P5C-GATE instant-exit face).
+        _log(f"entry {entry['id']}: host gate fail ({gr}) -> skip")
         return False
     wc = entry.get("worker_class", "self-contained")
     if wc == "self-contained":
@@ -570,6 +614,28 @@ def selftest():
         e_any = {"id": "X4", "worker_class": "self-contained",
                  "lane_owner": "ANY", "shards": []}
         ok("S6d lane ANY stays free-for-all", _eligible(e_any, "bg-b"))
+        # S6e-S6h MSG-1142 host gate (autofill _host_gate_reason parity):
+        # a machine failing any entry gate never claims (P5C-GATE face)
+        gate_ok = os.path.join(tmp, "gate_ok")
+        os.makedirs(gate_ok, exist_ok=True)
+        with open(os.path.join(gate_ok, "panel.parquet"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("x")
+        e_hg = {"id": "X5", "worker_class": "self-contained", "shards": [],
+                "host_gates": [{"kind": "dir_nonempty", "path": gate_ok,
+                                "pattern": "*.parquet"}]}
+        ok("S6e host gate pass -> eligible", _eligible(e_hg, "bg-b"))
+        ok("S6f host gate dir absent -> refused",
+           not _eligible(dict(e_hg, host_gates=[
+               {"kind": "dir_nonempty",
+                "path": os.path.join(tmp, "no_such_dir")}]), "bg-b"))
+        ok("S6g host gate pattern miss -> refused",
+           not _eligible(dict(e_hg, host_gates=[
+               {"kind": "dir_nonempty", "path": gate_ok,
+                "pattern": "*.csv"}]), "bg-b"))
+        ok("S6h host gate unknown kind -> fail-closed refused",
+           not _eligible(dict(e_hg, host_gates=[{"kind": "warp9"}]),
+                         "bg-b"))
         # S7 scan respects worker_class + done + fresh owner
         pool = {"entries": [
             {"id": "A", "status": "ready", "runner": "scripts/x.py",
