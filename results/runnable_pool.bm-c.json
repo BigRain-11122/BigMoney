@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-29 19:55:53",
+  "updated_at": "2026-09-29T20:45:00+08:00",
   "_stamp_note": "r427 bm-b conflict-union with bm-c r219 (rebase replay 5b1bab03e onto 7f564efb1): pool-entry-done-union r312 [W8-GENERATE done absorbs bm-b harvest record; bm-c yield_note carried zero-loss; W8-SCREEN one-side keep] + audit rolling-ledger union; entries=115",
   "entries": [
     {
@@ -4451,7 +4451,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-29 19:55:53",
       "data_gates": "READY (entry-time deps re-verified live r439 bm-b): (1) serial-position face: zero in-flight judge faces ahead (W9-JUDGE entry done; pool judge face = this entry only); (2) judge-prep PASS bm-b r439: results/trial_labor_w10/judge_state.json (manifest/census/gate-meta live reads by runner; in-runner fail-closed judge_state/w10_screen absent exit 2; grammar sha16 != e21c7eb83087035c refuse; zero-survivor vacuous face n/a = 283 survivors); (3) RAM r354 three-sample gate re-run at submission. Judge dual-null rng trial_labor_w10_unc=20312000 [20312000, cell_idx] per prereg sec.3 s3; G2 n_trials live-head read = 346270 post-SCREEN cross-wave. After shard: judge-finalize = separate round work (ledger TRIAL_LAB_W10_JUDGE batch_trials=283 literal + w10_judge.json G1'/G2/DSR/PBO/E[FP] + eight-gate x mom interaction segmented disclosure columns per sec.3 incl. MOM x TSTATE adjacency audit column; intake slice next per prereg sec.6; 48h CEO report clock starts at judge-finalize; W11 prereg reference-band feed per consumer lineage)",
       "shards": [
@@ -4475,7 +4475,10 @@
           "path": "Money02/data/cache/t18_deep_panel/ohlcv",
           "pattern": "*.parquet"
         }
-      ]
+      ],
+      "done_at": "2026-09-29 20:31:29",
+      "result_ref": "results/trial_labor_w10/w10_judge.json",
+      "done_note": "judge-finalize landed 2026-09-29 20:31:29 exit 0 (autofill lineage; 283/283 judged cells, zero G1 pass, zero G2 eligible, E[FP]=14.15, 22 cells ci-lower-positive all below skill line 1.194); intake s4 lawful-zero w10_intake.json r440 (zero TRIAL-* accounts, zero STRATEGY_LIBRARY rows); attrition W10 two rows r440; prereg sec.7/sec.8 backfilled r440; 48h CEO report docs/trial_labor/CEO-REPORT-WAVE10-20260929.md same round r440; wave ticket T-122 done r440; MOM 1.88x screen enrichment + judge zero-G1 = W11 supply-line input (enrichment-face-not-registration precedent W8 tstate)"
     }
   ],
   "lane_machine": "bm-c"

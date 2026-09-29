@@ -65,13 +65,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 77.58,
+      "score": 77.57,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.8114,
        "oos_sharpe": 1.7479,
-       "skill_line_v2": 1.1937,
+       "skill_line_v2": 1.194,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -128,8 +128,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.3823,
-       "ledger_head_total": 346593
+       "null_margin_vs_skill_line": -0.3826,
+       "ledger_head_total": 348556
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -151,7 +151,7 @@
    },
    "COMPOSITE-CE-02": {
     "grade": "A",
-    "total": 72.65,
+    "total": 72.64,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -189,13 +189,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 65.77,
+      "score": 65.76,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6099,
        "oos_sharpe": 1.6392,
-       "skill_line_v2": 1.1937,
+       "skill_line_v2": 1.194,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -252,8 +252,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.5838,
-       "ledger_head_total": 346593
+       "null_margin_vs_skill_line": -0.5841,
+       "ledger_head_total": 348556
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -275,7 +275,7 @@
    },
    "DROUGHT-CE-01": {
     "grade": "S",
-    "total": 86.28,
+    "total": 86.27,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -313,13 +313,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 72.46,
+      "score": 72.45,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.724,
        "oos_sharpe": 1.213,
-       "skill_line_v2": 1.1937,
+       "skill_line_v2": 1.194,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -376,8 +376,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4697,
-       "ledger_head_total": 346593
+       "null_margin_vs_skill_line": -0.47,
+       "ledger_head_total": 348556
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -437,13 +437,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 61.62,
+      "score": 61.61,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.5392,
        "oos_sharpe": 0.3835,
-       "skill_line_v2": 1.1937,
+       "skill_line_v2": 1.194,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -500,8 +500,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.6545,
-       "ledger_head_total": 346593
+       "null_margin_vs_skill_line": -0.6548,
+       "ledger_head_total": 348556
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -562,13 +562,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 68.84,
+      "score": 68.83,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6624,
        "oos_sharpe": 0.4089,
-       "skill_line_v2": 1.1937,
+       "skill_line_v2": 1.194,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -625,8 +625,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.5313,
-       "ledger_head_total": 346593
+       "null_margin_vs_skill_line": -0.5316,
+       "ledger_head_total": 348556
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -692,7 +692,7 @@
       "reads": {
        "full_sharpe": 1.2578,
        "oos_sharpe": 2.0568,
-       "skill_line_v2": 1.1937,
+       "skill_line_v2": 1.194,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -749,8 +749,8 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
-       "null_margin_vs_skill_line": 0.0641,
-       "ledger_head_total": 346593
+       "null_margin_vs_skill_line": 0.0638,
+       "ledger_head_total": 348556
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
      },
@@ -782,7 +782,7 @@
     "veto_clean": true,
     "dims": {
      "1": 85.08,
-     "2": 77.58,
+     "2": 77.57,
      "3": 72.74,
      "4": 77.58,
      "5": 24.0,
@@ -876,12 +876,12 @@
    "trader": "COMPOSITE-CE-02",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 72.65,
+    "total": 72.64,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 83.93,
-     "2": 65.77,
+     "2": 65.76,
      "3": 46.09,
      "4": 100.0,
      "5": 24.0,
@@ -950,7 +950,7 @@
     "total": 75.1,
     "grade": "S",
     "face_scores": {
-     "inherited": 72.7,
+     "inherited": 72.6,
      "live_paper": 29.7,
      "progress": 0.0,
      "profile": 86.1
@@ -975,12 +975,12 @@
    "trader": "DROUGHT-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 86.28,
+    "total": 86.27,
     "grade": "S",
     "veto_clean": true,
     "dims": {
      "1": 86.28,
-     "2": 72.46,
+     "2": 72.45,
      "3": 100.0,
      "4": 97.28,
      "5": 61.72,
@@ -1079,7 +1079,7 @@
     "veto_clean": true,
     "dims": {
      "1": 82.68,
-     "2": 61.62,
+     "2": 61.61,
      "3": 33.67,
      "4": 79.28,
      "5": 45.52,
@@ -1178,7 +1178,7 @@
     "veto_clean": true,
     "dims": {
      "1": 78.38,
-     "2": 68.84,
+     "2": 68.83,
      "3": 95.51,
      "4": 84.69,
      "5": 45.52,
@@ -8314,7 +8314,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 10.2,
+  "elapsed_sec": 13.2,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
