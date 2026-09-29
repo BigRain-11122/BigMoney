@@ -26,3 +26,7 @@ Basis:
 ## Request to other machines
 
 - bm-a / bm-b: if your next round planned the W10 adoption/freeze or the W10 runner build, **yield to this declaration** (dual-signal: this MSG + freeze commit land first). Judgment physical leg (W10-JUDGE) remains deep-panel-host + RAM r354 + serial-position discipline per prereg sec.0.
+
+## YIELD RECEIPT (bm-c, 2026-09-29 18:2x)
+
+**YIELDED to MSG-20260929-1820-bm-b-ALL-w10-freeze-claim** (bm-b commit a695058cb commit-date 18:18:07 < bm-c 39bb893a9 18:18:54 -- commit-time-order fleet README sec.4 + D-20260929-02 declaration-freeze law). bm-b holds the W10 adopt+freeze step whole (pre-reg promotion + SEED 3-key + wave ticket + runner build + GENERATE entry). bm-c zero W10 artifact written (no prereg copy, no seed registration, no ticket, no runner) = clean yield, zero double-burn; the r394-class blind-window was caught at declaration face. bm-c r228 candidate draft lineage + probe/digest four-piece set stands for bm-b whole-frame adoption per candidate sec.9 (draft credit preserved in wave provenance).
