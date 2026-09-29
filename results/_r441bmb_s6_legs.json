@@ -1,0 +1,202 @@
+{
+ "pool_dualrun_reconcile": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 123 entries, streak 28/3, cutoff 2026-09-29T20:45:00+08:00)"
+  ],
+  "err": []
+ },
+ "compute_audit": {
+  "rc": 0,
+  "sec": 7.5,
+  "tail": [
+   "{\"ts\": \"2026-09-29 21:09:02\", \"audit_version\": \"v2.4.1\", \"cpu_total_pct\": 42.0, \"py_cpu_pct\": 2.4, \"cores\": 16, \"py_procs\": 20, \"result_stale_min\": 3.0, \"fleet_open_tasks\": 0, \"pool_ready_count\": 0, \"pool_ready_unclaimed\": 0, \"load_state\": \"idle-starvation\", \"pool_starvation_candidate\": true, \"pool_starvation_detail\": {\"run_samples\": 2, \"span_min\": null}, \"supply_gap_candidate\": false, \"supply_gap_detail\": {\"reason\": \"idle-starvation\"}, \"supply_floor\": {\"ready\": 0, \"floor\": 3, \"breach\": true}, \"ignition_sla_breach_ids\": [], \"supply_family_streak_min\": 32.7, \"gpu\": {\"present\": true, \"util_pct\": 4.0, \"mem_used_mb\": 6033.0, \"compute_apps_count\": 24, \"rogue_apps\": []}, \"zombies\": [], \"single_core_hog_candidate\": true, \"single_core_hog_detail\": {\"pid\": 20888, \"cores_used\": 0.91}, \"flags\": [\"supply_floor\"], \"verdict\": \"FLAG:supply_floor\"}"
+  ],
+  "err": []
+ },
+ "py_watermark": {
+  "rc": 0,
+  "sec": 6.1,
+  "tail": [
+   "{\"ts\": \"2026-09-29 21:09:08\", \"epoch\": 1790687343.0, \"machine\": \"bm-b\", \"cpu_total_pct\": 20.0, \"cores\": 16, \"py_cpu_pct\": 2.4, \"py_procs\": 24, \"top_proc_cores\": 0.23, \"local_batch_running\": true, \"refresh_lock_lanes\": [\"astock_daily\"], \"open_tickets\": 0, \"open_ticket_ids\": [], \"bandit_open\": 0, \"bars_present\": true, \"daily_panel\": true, \"verdict\": \"insufficient_history\", \"window\": {\"n\": 1, \"span_min\": 0.0}, \"series_kept\": 48}"
+  ],
+  "err": []
+ },
+ "update_daily": {
+  "rc": 0,
+  "sec": 2.3,
+  "tail": [
+   "core pool: 48 CSVs | today-bar guard: >= 15:30:00",
+   "new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-29",
+   "status -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\update_status.json"
+  ],
+  "err": []
+ },
+ "market_regime": {
+  "rc": 0,
+  "sec": 0.8,
+  "tail": [
+   "  asof=2026-09-29 state=ORANGE (�ȡ���Σ) raw=ORANGE days_in_state=3 mode=shadow",
+   "  trigger: hs300<MA200 (#10 collected)",
+   "  trigger: breadth 0.83>=65%"
+  ],
+  "err": []
+ },
+ "strategy_scorecard": {
+  "rc": 0,
+  "sec": 14.1,
+  "tail": [
+   "  COMPOSITE-CE-02    A  total= 72.7  d1=84 d2=66 d3=46 d4=100 d5=24 d6=100 d7=100  veto=clean",
+   "  ENGULF-CE-01       A  total= 69.7  d1=83 d2=62 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean",
+   "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (13.9s)"
+  ],
+  "err": []
+ },
+ "market_clock_call": {
+  "rc": 0,
+  "sec": 5.1,
+  "tail": [
+   "call written: C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-28.md cell=ORANGE_COOL sleeves=4 activated=0"
+  ],
+  "err": []
+ },
+ "update_lhb": {
+  "rc": 3,
+  "sec": 6.3,
+  "tail": [
+   "fetch: cutoff 2026-09-28 behind expected disclosure 2026-09-29",
+   "refetched quarter rows=5348 new_beyond_cutoff=72",
+   "OVERLAP MISMATCH {'old_rows': 42, 'new_rows': 67, 'netbuy_sum_old': 107649362.49, 'netbuy_sum_new': -117365775.23} - kept local, no write"
+  ],
+  "err": [
+   " 82%|������������������ | 9/11 [00:03<00:00,  2.27it/s]",
+   " 91%|������������������ | 10/11 [00:04<00:00,  2.43it/s]",
+   "100%|��������������������| 11/11 [00:04<00:00,  2.46it/s]"
+  ]
+ },
+ "update_heat": {
+  "rc": 0,
+  "sec": 0.5,
+  "tail": [
+   "no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)"
+  ],
+  "err": []
+ },
+ "update_futures": {
+  "rc": 0,
+  "sec": 0.2,
+  "tail": [
+   "no-op: local cutoff 2026-09-29 covers expected complete-bar date 2026-09-29 -> zero network"
+  ],
+  "err": []
+ },
+ "update_repo": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "no-op: repo rates lane owned by bm-a, not this machine (bm-b)"
+  ],
+  "err": []
+ },
+ "update_options": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "no-op: options lane owned by bm-a, not this machine (bm-b)"
+  ],
+  "err": []
+ },
+ "update_moneyflow": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "no-op: moneyflow lane owned by bm-a, not this machine (bm-b)"
+  ],
+  "err": []
+ },
+ "update_sina_mf": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "no-op: sina_mf lane owned by bm-a, not this machine (bm-b)"
+  ],
+  "err": []
+ },
+ "update_astock_daily": {
+  "rc": 0,
+  "sec": 0.9,
+  "tail": [
+   "refresh already in progress (lock alive) -> no-op"
+  ],
+  "err": []
+ },
+ "update_etf_daily": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "no-op: panel cutoff 2026-09-29 covers expected complete-bar date 2026-09-29 -> zero network"
+  ],
+  "err": []
+ },
+ "rev_osc_signal_export": {
+  "rc": 0,
+  "sec": 0.4,
+  "tail": [
+   "rev_osc_signal_export: panel incomplete (cutoff=2026-09-28) -- no-op, harness waits"
+  ],
+  "err": []
+ },
+ "update_minute_feed": {
+  "rc": 0,
+  "sec": 6.4,
+  "tail": [
+   "update_minute_feed: 512100 +0 rows (total 2208)",
+   "update_minute_feed: 588000 +0 rows (total 2208)",
+   "update_minute_feed: done, +0 rows across 5 symbols (kind=gated)"
+  ],
+  "err": []
+ },
+ "update_ths_panel": {
+  "rc": 0,
+  "sec": 0.2,
+  "tail": [
+   "no-op: ths panel lane owned by bm-a, not this machine (bm-b)"
+  ],
+  "err": []
+ },
+ "ah_panel_puller": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "no-op: ah panel lane owned by bm-a, not this machine (bm-b)"
+  ],
+  "err": []
+ },
+ "update_fund_premium": {
+  "rc": 0,
+  "sec": 0.0,
+  "tail": [
+   "no-op: fund_premium lane owned by bm-c, not this machine (bm-b)"
+  ],
+  "err": []
+ },
+ "update_fundamental": {
+  "rc": 0,
+  "sec": 0.4,
+  "tail": [
+   "snapshot fresh (10.5h < 24h) -> skip"
+  ],
+  "err": []
+ },
+ "b_layer_filter": {
+  "rc": 0,
+  "sec": 0.5,
+  "tail": [
+   "gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}",
+   "mask -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\data\\fundamental\\b_layer_mask.csv",
+   "verdict -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\fundamental_b_layer_filter.json"
+  ],
+  "err": []
+ }
+}

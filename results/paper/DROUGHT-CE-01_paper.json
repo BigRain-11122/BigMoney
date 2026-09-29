@@ -1,120 +1,120 @@
 {
- "trader": "DROUGHT-CE-01",
- "anchor_ok": true,
- "anchor": {
-  "ok": true,
-  "cutoff": "2026-09-22",
-  "got": {
-   "in_sample": {
-    "sharpe": 0.5538,
-    "annual_return": 0.0169,
-    "max_drawdown": -0.0476,
-    "trades": 76
-   },
-   "out_sample": {
-    "sharpe": 1.213,
-    "annual_return": 0.0408,
-    "max_drawdown": -0.0252,
-    "trades": 44
-   }
+  "trader": "DROUGHT-CE-01",
+  "anchor_ok": true,
+  "anchor": {
+    "ok": true,
+    "cutoff": "2026-09-22",
+    "got": {
+      "in_sample": {
+        "sharpe": 0.5538,
+        "annual_return": 0.0169,
+        "max_drawdown": -0.0476,
+        "trades": 76
+      },
+      "out_sample": {
+        "sharpe": 1.213,
+        "annual_return": 0.0408,
+        "max_drawdown": -0.0252,
+        "trades": 44
+      }
+    },
+    "checks": {
+      "in_sample": true,
+      "out_sample": true
+    }
   },
-  "checks": {
-   "in_sample": true,
-   "out_sample": true
-  }
- },
- "paper_start": "2026-09-23",
- "bars": 4,
- "months_tracked": 0,
- "monthly_returns": [],
- "current_dd": 0.0,
- "months_detail": [
-  {
-   "month": "2026-09",
-   "return": 0.0,
-   "bars": 4,
-   "month_ended": false,
-   "full_from_hire": false,
-   "counted": false
-  }
- ],
- "window_metrics": {
-  "annual_return": 0.0,
-  "sharpe": 0.0,
-  "max_drawdown": 0.0,
-  "win_rate": 0.0,
-  "profit_factor": 0.0,
-  "num_trades": 0,
-  "avg_hold_days": 0.0,
-  "fill_guard_buy_dropped": 0,
-  "fill_guard_sell_deferred_events": 0,
-  "fill_guard_deferred_days_total": 0,
-  "fill_guard_first_deferred_date": null
- },
- "cost_x2_check": {
-  "status": "insufficient_data",
+  "paper_start": "2026-09-23",
   "bars": 4,
-  "min_bars": 20
- },
- "x2_watch": {
-  "status": "ok",
-  "probation": false,
-  "margin": 0.1896,
-  "survive": true,
-  "source": "registration_x2_seed"
- },
- "cutoff": "2026-09-29",
- "updated": "2026-09-29 20:45:01",
- "risk_regime": {
-  "is_major_bear": false,
-  "position_cap": 0.8,
-  "as_of": "2026-09-29"
- },
- "regime_guard": {
-  "mode": "enforce",
-  "approved": true,
-  "active_from": "2026-10-01",
-  "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy",
-  "active": false,
-  "enforced": {
-   "active_from": "2026-10-01",
-   "days_enforced": 0,
-   "entries_blocked": 0,
-   "entries_halved": 0
+  "months_tracked": 0,
+  "monthly_returns": [],
+  "current_dd": 0.0,
+  "months_detail": [
+    {
+      "month": "2026-09",
+      "return": 0.0,
+      "bars": 4,
+      "month_ended": false,
+      "full_from_hire": false,
+      "counted": false
+    }
+  ],
+  "window_metrics": {
+    "annual_return": 0.0,
+    "sharpe": 0.0,
+    "max_drawdown": 0.0,
+    "win_rate": 0.0,
+    "profit_factor": 0.0,
+    "num_trades": 0,
+    "avg_hold_days": 0.0,
+    "fill_guard_buy_dropped": 0,
+    "fill_guard_sell_deferred_events": 0,
+    "fill_guard_deferred_days_total": 0,
+    "fill_guard_first_deferred_date": null
   },
-  "gate_note": "date gate not yet open (active_from=2026-10-01) -- downgrade to shadow semantics until the window reaches the gate"
- },
- "forward_guard": {
-  "enabled": true,
-  "guard_source": "t14_rules_fidelity.build_guard",
-  "buy_rejected_n": 0,
-  "sell_deferred_events_n": 0,
-  "deferred_days_total": 0,
-  "first_deferred_date": null,
-  "window_semantics": "guarded",
-  "as_of": "2026-09-29 20:45:01",
-  "consolidation": {
-   "enabled": true,
-   "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
-   "events_total": 21,
-   "events_in_universe_n": 0,
-   "crossing_rows_n": 0,
-   "crossing_rows": [],
-   "open_position_hits": 0,
-   "closed_trade_hits": 0,
-   "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
-   "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
-   "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
-  }
- },
- "open_positions": [],
- "capital": {
-  "initial_cash_cny": 1000000.0,
-  "equity_cny": 1000000.0,
-  "positions_value_cny": 0,
-  "cash_cny": 1000000.0,
-  "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
-  "denomination": "CNY"
- },
- "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
+  "cost_x2_check": {
+    "status": "insufficient_data",
+    "bars": 4,
+    "min_bars": 20
+  },
+  "x2_watch": {
+    "status": "ok",
+    "probation": false,
+    "margin": 0.1896,
+    "survive": true,
+    "source": "registration_x2_seed"
+  },
+  "cutoff": "2026-09-29",
+  "updated": "2026-09-29 21:10:10",
+  "risk_regime": {
+    "is_major_bear": false,
+    "position_cap": 0.8,
+    "as_of": "2026-09-29"
+  },
+  "regime_guard": {
+    "mode": "enforce",
+    "approved": true,
+    "active_from": "2026-10-01",
+    "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy",
+    "active": false,
+    "enforced": {
+      "active_from": "2026-10-01",
+      "days_enforced": 0,
+      "entries_blocked": 0,
+      "entries_halved": 0
+    },
+    "gate_note": "date gate not yet open (active_from=2026-10-01) -- downgrade to shadow semantics until the window reaches the gate"
+  },
+  "forward_guard": {
+    "enabled": true,
+    "guard_source": "t14_rules_fidelity.build_guard",
+    "buy_rejected_n": 0,
+    "sell_deferred_events_n": 0,
+    "deferred_days_total": 0,
+    "first_deferred_date": null,
+    "window_semantics": "guarded",
+    "as_of": "2026-09-29 21:10:10",
+    "consolidation": {
+      "enabled": true,
+      "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
+      "events_total": 21,
+      "events_in_universe_n": 0,
+      "crossing_rows_n": 0,
+      "crossing_rows": [],
+      "open_position_hits": 0,
+      "closed_trade_hits": 0,
+      "semantics": "boundary-inclusive (s5): entry<=event<=mark/exit, both ends in; buy mask no-trade per C1; sell face untouched per C2 (option-b adjusted panel deferred per O-1325 art.2 b)",
+      "reporting_only": "marks +0, ledger +0, adjudication criteria unchanged (T-20 deliverable-4 lineage)",
+      "note": "buy_rejected_n in forward_guard may include consolidation drops when composed (C4 AND composition)"
+    }
+  },
+  "open_positions": [],
+  "capital": {
+    "initial_cash_cny": 1000000.0,
+    "equity_cny": 1000000.0,
+    "positions_value_cny": 0,
+    "cash_cny": 1000000.0,
+    "cash_derivation": "equity - positions mark (paper plane runs no parking leg; T-09 cash_parking never wired here)",
+    "denomination": "CNY"
+  },
+  "no_future_data": "closed bars only; signal T close -> T+1 open (engine contract)"
 }

@@ -1,0 +1,130 @@
+{
+ "live.paper": {
+  "rc": 0,
+  "sec": 7.2,
+  "tail": [
+   "NEEDLE-DE-01: anchor OK (cutoff 2026-09-22) | paper 4 bars since 2026-09-23 | months_tracked=0 dd=0.0 | x2: insufficient_data | x2 watch: ok | saved C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\paper\\NEEDLE-DE-01_paper.json",
+   "VOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 4 bars since 2026-09-23 | months_tracked=0 dd=-0.0037 | x2: insufficient_data | x2 watch: ok | saved C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\paper\\VOLATILITY-CE-01_paper.json",
+   "paper tracking: OK"
+  ],
+  "err": []
+ },
+ "t35_open_fill_verify": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat stale 43min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)",
+   "open_fill_verify day=2026-09-29: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\t35_open_fill_verify.json"
+  ],
+  "err": []
+ },
+ "t24_prospect_paper": {
+  "rc": 0,
+  "sec": 1.2,
+  "tail": [
+   "prospect lane: enforce requested, DOWNGRADED to shadow semantics (date gate 2026-10-01)",
+   "prospect lane: forward_guard t14_rules_fidelity.build_guard wired (up=24 dn=42)",
+   "prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-29"
+  ],
+  "err": []
+ },
+ "t24_prospect_promotion": {
+  "rc": 0,
+  "sec": 1.4,
+  "tail": [
+   "PROS-TMU-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)",
+   "PROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0)",
+   "promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22"
+  ],
+  "err": []
+ },
+ "aggressive_lab": {
+  "rc": 0,
+  "sec": 1.8,
+  "tail": [
+   "aggr paper: marks already at panel cutoff 2026-09-29 -- no-op (idempotent)"
+  ],
+  "err": []
+ },
+ "alloc_paper": {
+  "rc": 0,
+  "sec": 0.5,
+  "tail": [
+   "ALLOC-P5: byte-identical (no new bar / no change), no-op",
+   "ALLOC-P6: byte-identical (no new bar / no change), no-op",
+   "alloc_paper done: 0 file(s) updated, window 2026-09-23..2026-09-29"
+  ],
+  "err": []
+ },
+ "grid_paper": {
+  "rc": 0,
+  "sec": 0.5,
+  "tail": [
+   "grid paper: marks already at panel cutoff 2026-09-28 -- no-op (idempotent)"
+  ],
+  "err": []
+ },
+ "system_v1_paper": {
+  "rc": 0,
+  "sec": 0.4,
+  "tail": [
+   "system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op"
+  ],
+  "err": []
+ },
+ "t35_paper_export": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat stale 43min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)",
+   "export 2026-09-29: traders=6 positions=18 equity=5994266 ops(entry/exit)=0/0 source=2026-09-28",
+   "-> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\paper_export\\export-2026-09-29.json + latest.json"
+  ],
+  "err": []
+ },
+ "daily_scorecard": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 43min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)",
+   "scorecard written: C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6"
+  ],
+  "err": []
+ },
+ "daily_report": {
+  "rc": 0,
+  "sec": 0.2,
+  "tail": [
+   "daily report written: REPORT-2026-09-29.md/.json faces=5 token=1"
+  ],
+  "err": []
+ },
+ "ceo_live_usage": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "ceo_live_usage: C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\docs\\live_usage\\LIVE-2026-09-29.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=2026-09-29 15:00:00 live=0, 4 version rows)"
+  ],
+  "err": []
+ },
+ "build_status": {
+  "rc": 0,
+  "sec": 2.8,
+  "tail": [
+   "lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat stale 43min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law)",
+   "dashboard status -> C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\dashboard_status.js",
+   "  factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
+  ],
+  "err": []
+ },
+ "token_meter": {
+  "rc": 0,
+  "sec": 0.1,
+  "tail": [
+   "saved: C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\token_usage.json",
+   "per-round fixed context ~ 10756 + 2722 tokens (rough); ledger cumulative ~ 2049 state + 952736 report tokens; delta=0",
+   "L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=20 across 13 sigs"
+  ],
+  "err": []
+ }
+}
