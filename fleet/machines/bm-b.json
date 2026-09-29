@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-29 17:12:44",
- "heartbeat_epoch_utc": 1790673164,
- "clock_read": "2026-09-29T17:12:44+08:00",
- "current_task": "W9 JUDGE burn in-flight (pid13280 @17:11:56, 243 judged cells, est ~30-45min); SCREEN finalized: survivors 243, null p95 0.5172 in-band, AMP anti-enrichment fact",
+ "last_seen": "2026-09-29T17:38:45+08:00",
+ "heartbeat_epoch_utc": 1790674725,
+ "clock_read": "2026-09-29T17:38:45+08:00",
+ "current_task": "W9 judge-finalize detached pid20568 (G1v2 bootstrap); S6 chain 33 legs green; CODELY waterline reorg done",
  "cpu_cores": 16,
  "free_ram_gb": 12.0,
  "gpu_free_vram_gb": 2.7,
  "total_ram_gb": 25.69,
  "cpu_util_pct": 2.7,
  "round_no": 434,
- "verdict": "green lane healthy; W9 funnel screen->judge advanced same round (burn 7.4min + finalize + judge-prep + JUDGE entry submitted + ignited); ledger 343,788; supply_gap/supply_floor audit flags = W9 transitional in-flight answer; board clear, bandit empty; push-storm 13-UU canon-resolved zero-loss",
+ "verdict": "green: W9 judge-finalize in flight, all lanes healthy",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -138,7 +138,7 @@
   "O-2026-09-28-2210-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 12.0,
+ "idle_ram_gb": 11.8,
  "gpu_idle_vram_gb": 2.8,
  "n_orders_ack": 122,
  "round": 434,
@@ -151,5 +151,6 @@
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
  "loop_round": 434,
  "gpu_free_vram_mb": 2809,
- "ram_free_gb": 12.0
+ "ram_free_gb": 12.0,
+ "gpu_idle_vram_mb": null
 }
