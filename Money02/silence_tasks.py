@@ -3,13 +3,13 @@ InvisibleRunner.vbs (user order 2026-09-20: zero popups machine-wide; vbs is
 their U060 sanctioned tool, exit codes propagate, triggers untouched)."""
 import subprocess
 
-VBS = r"E:\Fluxgroup\MiniGame\MiniGame\tools\InvisibleRunner.vbs"
+VBS = r"C:\Fluxgroup\MiniGame\MiniGame\tools\InvisibleRunner.vbs"
 TASKS = {
-    "ArtQueueWorker": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "E:\Fluxgroup\MiniGame\Tools\art-queue\art_queue_worker.ps1"',
-    "BiuNiYiXia-Autopilot": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "E:\Fluxgroup\MiniGame\BiuNiYiXia\Tools\autopilot.ps1"',
-    "BiuNiYiXia-IterationLoop": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "E:\Fluxgroup\MiniGame\BiuNiYiXia\Tools\iteration_loop.ps1"',
-    "HomeWreck-CruiseLoop": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "E:\Fluxgroup\MiniGame\HomeWreck\Tools\iteration_loop.ps1"',
-    "PhantomEscapeGo-ProducerLoop": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "E:\Fluxgroup\MiniGame\PhantomEscapeGo\Tools\iteration_loop.ps1"',
+    "ArtQueueWorker": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Fluxgroup\MiniGame\Tools\art-queue\art_queue_worker.ps1"',
+    "BiuNiYiXia-Autopilot": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Fluxgroup\MiniGame\BiuNiYiXia\Tools\autopilot.ps1"',
+    "BiuNiYiXia-IterationLoop": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Fluxgroup\MiniGame\BiuNiYiXia\Tools\iteration_loop.ps1"',
+    "HomeWreck-CruiseLoop": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Fluxgroup\MiniGame\HomeWreck\Tools\iteration_loop.ps1"',
+    "PhantomEscapeGo-ProducerLoop": r'powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:\Fluxgroup\MiniGame\PhantomEscapeGo\Tools\iteration_loop.ps1"',
 }
 
 

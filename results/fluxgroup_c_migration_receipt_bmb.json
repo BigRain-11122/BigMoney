@@ -1,0 +1,45 @@
+{
+ "order": "CEO 令 2026-09-29 「E盘不够就整体搬迁到C盘去」",
+ "migration": "bm-b base E:\\Fluxgroup -> C:\\Fluxgroup (whole-tree cross-volume)",
+ "date": "2026-09-29",
+ "executor": "bm-b interactive session (codely pid 8652)",
+ "precondition": {
+  "e_free_gb_before": 25.1,
+  "c_free_gb_before": 645.7,
+  "tree_files": 493098,
+  "tree_dirs": 30270,
+  "tree_bytes": 164877316690
+ },
+ "evidence": {
+  "copy": "robocopy /MIR /COPYALL /XJ pass1 19:02-19:08 (493054 files, 0 failed) + pass2 delta 19:10 (byte-identical)",
+  "zero_loss": "post-copy rescan E==C: 493098 files / 164877316690 bytes exact",
+  "git_heads": {
+   "MiniGame": "7c882faeb305459148999762fc45da119cb5eacd (E==C, dirty 6==6)",
+   "bigmoney": "cb44758b66c1b8d834570a4a2f1f0193fcce7366 (E==C, dirty 14==14)"
+  },
+  "tasks": "20 scheduled tasks re-registered from XML (paths E:\\Fluxgroup -> C:\\Fluxgroup), 20/20 enabled, 20/20 fired OK",
+  "ignition": "all four loop lanes + ollama + ticks verified on new root (run logs 19:23-19:24 at C:\\Fluxgroup, heartbeat 19:25:55, ollama/llama-server from C:\\Fluxgroup\\MiniGame\\Tools\\Ollama)",
+  "path_rewrite": "1891 files byte-safe rewritten (case-insensitive E:\\Fluxgroup->C:\\Fluxgroup, strict UTF-8 decode guard, BOM preserved); residual in active scope = 0; history zones untouched (taskxml-snapshot/results/_r*/Design/evidence/auto-saves/Logs/Library/.git)",
+  "junction": "C:\\Fluxgroup\\FluxGroup\\gaming\\MiniGame -> C:\\Fluxgroup\\MiniGame\\MiniGame recreated",
+  "bee_cache": "8 Unity projects Library\\Bee cleared (G15)",
+  "hkcu_path": "ffmpeg bin entry re-pointed to C:\\Fluxgroup\\MiniGame\\Tools\\ffmpeg\\bin"
+ },
+ "incidents": [
+  "orphan EngineTick round (codely child of killed shell, escaped cmdline-match, cwd-based writes) kept writing to old root 19:00-19:07 incl. one commit+auto-merge; exited on its own; delta pass2 captured all of it; HEAD equality verified after",
+  "fix-paths v1 ran against OLD root by accident: BOM-less .ps1 with Chinese comments read as ANSI by PS5.1, newline swallowed, '$root' assignment glued into comment line, GCI fell back to CWD (E:\\Fluxgroup); 1764 files string-rewritten on doomed old root (no functional loss; new root untouched); v2 rewritten ASCII-only + root guard, run correct side, residual 0",
+  "schtasks /create /xml requires UTF-16LE+BOM+declared-UTF-16 files on this host (proven format = prior migration fg-redef-bmb); UTF-8 exports rejected as malformed at (1,2)"
+ ],
+ "receipt_criteria_canon_v2": {
+  "1_tree_snapshot": "robocopy logs + counts in this file",
+  "2_task_list_before_after": "C:\\Users\\Administrator\\fg-c-move\\pre-taskxml (20) vs new-taskxml (20)",
+  "3_lane_ignition": "run logs + heartbeat + ollama on new root",
+  "4_git_head_identity": "see evidence.git_heads",
+  "5_root_path_registration": "fleet/machines/bm-b.json root_path=C:\\Fluxgroup + 基地布局正典.md bm-b row"
+ },
+ "artifacts": {
+  "workdir": "C:\\Users\\Administrator\\fg-c-move\\",
+  "logs": ["robocopy.log", "robocopy2.log", "purge.log", "journal.log", "replaced-files.txt"],
+  "journal": "C:\\Users\\Administrator\\fg-c-move\\journal.log"
+ },
+ "old_root": "E:\\Fluxgroup children purged post-verification (E: freed ~153.5GB); empty root shell left for next-session cleanup if locked by session CWD"
+}
