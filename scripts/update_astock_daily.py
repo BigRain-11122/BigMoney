@@ -74,6 +74,7 @@ import os
 import re
 import subprocess
 import sys
+import threading
 import time
 
 import akshare as ak
@@ -102,6 +103,7 @@ SLEEP_S = 2.5
 FUSE_LIMIT = 5
 CONN_STOP = 3
 QUARANTINE_AT = 3
+FETCH_TIMEOUT_S = 45           # hang-shield deadline (r445: 5h dead-socket recv)
 SETTLE_AT = 3                 # suspended-settle cycles at same expected cutoff
 MIN_SPAWN_S = 30 * 60
 STALE_TD = 20                 # structural-repull trigger (collector down long)
@@ -224,9 +226,32 @@ def universe_codes(elig_path=None):
 
 # ------------------------------------------------------------ fetch + parse
 
-def fetch_one(code, market):
-    """One request: full-history qfq daily bars (akshare filters client-side)."""
-    df = ak.stock_zh_a_daily(symbol=f"{market}{code}", adjust="qfq")
+def fetch_one(code, market, timeout_s=FETCH_TIMEOUT_S):
+    """One request: full-history qfq daily bars (akshare filters client-side).
+    Hang-shield (r445): akshare's sina fetch carries no timeout -- one dead
+    socket (CLOSE_WAIT recv, live-fire 09-29 20:38 spawn parked 5h at
+    [1500/5217] zero-CPU, invisible to the conn-fuse because a hang never
+    raises). Fetch runs in a daemon worker under a hard join deadline; a
+    timed-out worker's socket is orphaned but the loop survives and the
+    TimeoutError rides the existing CONN_MARKERS fuse path."""
+    box = {}
+
+    def _work():
+        try:
+            box["df"] = ak.stock_zh_a_daily(symbol=f"{market}{code}",
+                                            adjust="qfq")
+        except BaseException as e:    # relay verbatim to the caller
+            box["err"] = e
+
+    t = threading.Thread(target=_work, daemon=True)
+    t.start()
+    t.join(timeout_s)
+    if t.is_alive():
+        raise TimeoutError(f"fetch_one hang-shield: {timeout_s}s deadline "
+                           f"exceeded ({market}{code}, dead-socket recv)")
+    if "err" in box:
+        raise box["err"]
+    df = box["df"]
     rows = []
     for _, r in df.iterrows():
         row = {DATE_KEY: str(r["date"])[:10]}
