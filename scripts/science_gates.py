@@ -1316,6 +1316,38 @@ SEED_REGISTRY = {
         # (band 20309000..20309199 = clean 300-gap above a2_corrnull band)
         # W8 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20307500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "trial_labor_w9_gen": 20309500,
+        # TRIAL_LABOR_W9 (T-121 wave-9 amplitude-confirmation AMP-gate
+        # trial): Sobol(., scramble=True, seed=20309500+family_idx)
+        # param-box draws + twelve-tuple axis-stream
+        # rng([20309500+family_idx, 7919]) (W9 prereg sec.3). Draft
+        # berths 20309500/20310000/20310500 (bm-b r431 parked bases,
+        # in-draft-window DOUBLE collision re-pick: +500 natural
+        # positions 20308000/20308500/20309000 hit t101_v4_a2 batch
+        # {20308000, 20308500} -> first take 20309000/20309500/20310000
+        # hit t101_v4_a7_scrnull=20309000 (bm-a r435 same-window freeze,
+        # 108-key tree live-read) -> final take 20309500/20310000/
+        # 20310500) re-verified at freeze per three-step take-number law
+        # (r183 69th): 108-key live inventory (107 int seed values + 1
+        # policy annotation) zero exact/key collision (band 20309xxx-
+        # 20310xxx occupied only by t101_v4_a7_scrnull=20309000, its
+        # null band 20309000..20309199 zero-overlap vs gen Sobol band
+        # head 20309500) + first-element distinct vs all existing bases
+        # and mutually distinct (1097877923/930621365/1010720707 zero
+        # clash) + rg full-repo zero seed-face hits 2026-09-29 16:0x
+        # freeze live-read (hits = data\daily + Money0923 CSV volume-
+        # column digit coincidences + berth-declaration docs; 69th batch
+        # exclusion face; W5/W6/W7 same-family precedent; berths held,
+        # no re-pick at freeze). Registered same commit as prereg
+        # freeze (R250 law; prereg =
+        # research/TRIAL_LABOR_W9_PREREG.md; F-04 MSG-20260929-1615)
+        "trial_labor_w9_scrnull": 20310000,
+        # W9 screen K=200 same-grammar random-signal nulls
+        # (rng([20310000, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        # (amp gate leg merged into same-grid same-param-space draw)
+        "trial_labor_w9_unc": 20310500,
+        # W9 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20310500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
     }
 
