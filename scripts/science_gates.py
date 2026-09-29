@@ -565,6 +565,45 @@ def append_ledger(batch_name: str, batch_trials: int, file_name: str | None = No
     return out
 
 
+def finalize_already_landed(batch_name: str, file_name: str | None = None,
+                            results_dir: str = RESULTS_DIR) -> dict | None:
+    """pit-95 guard (orphan-finalize double-append): read-only tripwire that
+    reports whether the target product file already carries this batch's
+    trials_ledger block.
+
+    Producers land a batch exactly once; the only lawful re-run channel is a
+    fresh prereg under a fresh batch name. A finalize re-running on an
+    already-landed product must REFUSE instead of re-appending (r206
+    incident: orphan W6 judge finalize re-ran on the landed chain and
+    inflated the head 333,432 -> 333,725). Returns the landed ledger block
+    (callers dump it for disclosure and refuse), or None when the batch is
+    genuinely new / the file is absent, corrupt, or carries no matching
+    block (crash-recovery re-finalize stays lawful).
+
+    file_name resolution mirrors append_ledger metadata conventions:
+    'results/<sub>/<file>.json' (repo-relative), '<sub>/<file>.json'
+    (results-relative), and absolute paths are all accepted.
+    """
+    if not file_name:
+        return None
+    root = os.path.dirname(results_dir)
+    for cand in (os.path.join(results_dir, file_name),
+                 os.path.join(root, file_name)):
+        if not os.path.exists(cand):
+            continue
+        try:
+            with open(cand, encoding="utf-8") as fh:
+                d = json.load(fh)
+        except (OSError, ValueError, UnicodeDecodeError):
+            continue
+        tl = d.get("trials_ledger") if isinstance(d, dict) else None
+        if isinstance(tl, dict) and tl.get("batch") == batch_name:
+            out = dict(tl)
+            out["file"] = os.path.basename(cand)
+            return out
+    return None
+
+
 def cutoff_meta(cutoff) -> dict:
     """T-02 7/7 (forward lockbox, BACKTEST_SCIENCE s7-M): mandatory top-level
     metadata block for every post-v2 batch results JSON. science_audit C2 scans
@@ -1504,6 +1543,55 @@ def selftest() -> int:
            isinstance(ledger_head()["total"], int))
     finally:
         os.unlink(list_path)
+        os.rmdir(sub)
+
+    # pit-95 guard: finalize_already_landed read-only tripwire
+    os.makedirs(sub, exist_ok=True)
+    guard_path = os.path.join(sub, "guard_ledger.json")
+    guard_rel = os.path.join(sub, "guard_rel.json")
+    guard_repo_rel = os.path.join(sub, "guard_repo_rel.json")
+    try:
+        with open(guard_path, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"prev_total": 100,
+                                         "batch_trials": 7, "total": 107,
+                                         "batch": "guard-selftest-batch"}}, fh)
+        with open(guard_rel, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"prev_total": 10,
+                                         "batch_trials": 5, "total": 15,
+                                         "batch": "guard-rel-batch"}}, fh)
+        with open(guard_repo_rel, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"prev_total": 20,
+                                         "batch_trials": 6, "total": 26,
+                                         "batch": "guard-repo-rel-batch"}}, fh)
+        landed = finalize_already_landed("guard-selftest-batch", guard_path)
+        ok("finalize_already_landed trips on landed batch (pit-95 guard)",
+           isinstance(landed, dict) and landed["total"] == 107
+           and landed["batch"] == "guard-selftest-batch")
+        ok("finalize_already_landed: absolute / results-relative / "
+           "repo-relative file_name forms all resolve",
+           finalize_already_landed("guard-rel-batch",
+                                   "_selftest_sub/guard_rel.json")[
+               "total"] == 15
+           and finalize_already_landed(
+               "guard-repo-rel-batch",
+               "results/_selftest_sub/guard_repo_rel.json")[
+               "total"] == 26)
+        ok("finalize_already_landed None on different batch name",
+           finalize_already_landed("other-batch", guard_path) is None)
+        ok("finalize_already_landed None on missing file",
+           finalize_already_landed("guard-selftest-batch",
+                                   os.path.join(sub, "nope.json")) is None)
+        ok("finalize_already_landed None when file_name is None",
+           finalize_already_landed("guard-selftest-batch", None) is None)
+        with open(guard_path, "w", encoding="utf-8") as fh:
+            fh.write("{corrupt json")
+        ok("finalize_already_landed None on corrupt file "
+           "(crash-recovery re-finalize lawful)",
+           finalize_already_landed("guard-selftest-batch", guard_path) is None)
+    finally:
+        for p in (guard_path, guard_rel, guard_repo_rel):
+            if os.path.exists(p):
+                os.unlink(p)
         os.rmdir(sub)
 
     # T-03 F6: dual-basis trade gate
