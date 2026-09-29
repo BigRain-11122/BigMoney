@@ -159,8 +159,9 @@ def null_sharpes(R: pd.DataFrame, rebal_idx: np.ndarray, k: int,
     perm = rng.random((NULL_K, n_rebal, n_mem))
     pick = perm.argsort(axis=2)[:, :, :k]                 # (K, R, k)
     W_rebal = np.zeros((NULL_K, n_rebal, n_mem))
+    rows = np.arange(n_rebal)[:, None]
     for j in range(NULL_K):
-        W_rebal[j, np.arange(n_rebal)[None, :], pick[j]] = 1.0 / k
+        W_rebal[j, rows, pick[j]] = 1.0 / k
     W_daily = np.repeat(W_rebal, counts, axis=1)         # (K, n, n_mem)
     W_eff = np.zeros_like(W_daily)
     W_eff[:, 1:, :] = W_daily[:, :-1, :]
@@ -198,16 +199,23 @@ def load_panels():
 
 def build_universe_face(panels, members):
     """Common decidable window + feature score frames + return matrix +
-    EW passive (daily-rebalanced synthetic index, disclosed construction)."""
+    EW passive (daily-rebalanced synthetic index, disclosed construction).
+    burn#1 fail-closed G-WINDOW VOID engineering fix: every per-member series
+    is date-indexed BEFORE reindex onto the master calendar (factor frames
+    carry the panel RangeIndex; reindexing a RangeIndex series onto a
+    DatetimeIndex silently yields all-NaN), and the cross-member decidability
+    combine is AND (common = ALL members decidable), not OR. Judgment faces
+    untouched (zero-correction r251/r280 precedent family)."""
     master = None
     for m in members:
         d = pd.DatetimeIndex(panels[m]["date"])
         master = d if master is None else master.intersection(d)
     feats = {f: pd.DataFrame(index=master) for f in FEATURES}
-    decidable = pd.Series(False, index=master)
+    decidable = pd.Series(True, index=master)
     R = pd.DataFrame(index=master)
     for m in members:
         df = panels[m]
+        dates_m = pd.DatetimeIndex(df["date"])
         F = probe.alpha158_factors(df)
         if len(F) != probe.N_FACTORS:
             _fail("G-FACTORS VOID: %s factor table %d != %d"
@@ -221,13 +229,17 @@ def build_universe_face(panels, members):
         c2dec = pd.Series(True, index=df.index)
         for g in GATES17:
             c2dec = c2dec & gates[g][1]
-        dec_m = (F["RSV30"].notna() & F["ROC20"].notna() & c2dec)
-        feats["f_rsv30"][m] = F["RSV30"].reindex(master)
-        feats["f_c2"][m] = c2.reindex(master)
-        feats["f_roc20"][m] = F["ROC20"].reindex(master)
-        decidable = decidable | dec_m.reindex(master).fillna(False).values
+        dec_m = pd.Series((F["RSV30"].notna() & F["ROC20"].notna()
+                           & c2dec).values, index=dates_m)
+        feats["f_rsv30"][m] = pd.Series(F["RSV30"].values,
+                                        index=dates_m).reindex(master)
+        feats["f_c2"][m] = pd.Series(c2.values,
+                                     index=dates_m).reindex(master)
+        feats["f_roc20"][m] = pd.Series(F["ROC20"].values,
+                                        index=dates_m).reindex(master)
+        decidable = decidable & dec_m.reindex(master).fillna(False)
         r = df["close"].pct_change()
-        R[m] = r.reindex(master)
+        R[m] = pd.Series(r.values, index=dates_m).reindex(master)
     first = decidable[decidable].index
     if not len(first):
         _fail("G-WINDOW VOID: no common decidable date for %s" % members)
@@ -254,7 +266,8 @@ def run() -> int:
     panels = load_panels()
     prev_head = sg.ledger_head()
     bm = panels["510300"]
-    seg_by_date = pd.Series(tpl.regime_segment(bm).values, index=bm["date"].values)
+    seg_by_date = pd.Series(tpl.regime_segment(bm).values,
+                            index=pd.DatetimeIndex(bm["date"]))
 
     faces = {u: build_universe_face(panels, m) for u, m in UNIVERSES.items()}
     for u, fc in faces.items():
@@ -262,6 +275,12 @@ def run() -> int:
               % (u, fc["start"], fc["n_days"], fc["n_rebal"]))
 
     # ---- A10 16-cell + A9 9-cell D6 recomputation (import-verbatim source)
+    # date-key canonicalization (burn#2 engineering fix, judgment untouched):
+    # panel date columns are string-typed (tpl.load_panel string cutoff face)
+    # -> every D6 face is keyed on pd.DatetimeIndex(date) so intersections
+    # with the master DatetimeIndex are non-empty (string<->datetime mix =
+    # silent empty intersection, caught by max() on empty).
+    date_idx = {code: pd.DatetimeIndex(panels[code]["date"]) for code in panels}
     gate_masks = {}
     for code in sorted({c for m in UNIVERSES.values() for c in m}):
         F = probe.alpha158_factors(panels[code])
@@ -280,7 +299,7 @@ def run() -> int:
         w_eff = a10.combo_position(states)
         r = a10.combo_returns(panels[code], w_eff, a10.COST_RATE)
         a10_returns["%s|%s|%s" % (comb, code, ck)] = pd.Series(
-            r.values, index=panels[code]["date"].values)
+            r.values, index=date_idx[code])
     fv_members = sorted({c.split("|")[0] for c in fv.CELLS9})
     sg_returns = {}
     for code in fv_members:
@@ -288,7 +307,7 @@ def run() -> int:
         for g in [c.split("|")[1] for c in fv.CELLS9 if c.startswith(code + "|")]:
             pos = tpl.position_series(gate_masks[code][g][0])
             sg_returns["%s|%s" % (code, g)] = pd.Series(
-                tpl.daily_returns(df, pos).values, index=df["date"].values)
+                tpl.daily_returns(df, pos).values, index=date_idx[code])
 
     # ---- strategy construction for all 24 cells (PBO family input)
     cell_returns, cell_weff = {}, {}
@@ -361,7 +380,7 @@ def run() -> int:
         d6_vs_bh, d6_vs_a10, d6_vs_sg = {}, {}, {}
         for m in members:
             br = pd.Series(panels[m]["close"].pct_change().fillna(0).values,
-                           index=panels[m]["date"].values)
+                           index=date_idx[m])
             common = sr.index.intersection(br.index)
             if len(common) > 250:
                 d6_vs_bh[m] = round(float(np.corrcoef(
