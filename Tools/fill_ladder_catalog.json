@@ -1,5 +1,5 @@
 {
-  "version": "tranche-2 + consumption_state face (bm-c r234) + W11 pre-arm (bm-b r441: TRIAL-LABOR-W11-GENERATE entry added per frozen W11 prereg; tranche-1 five faces all consumed; W10 face consumed 19:42:03)",
+  "version": "tranche-2 + consumption_state face (bm-c r234) + W11 pre-arm (bm-b r441: TRIAL-LABOR-W11-GENERATE entry added per frozen W11 prereg; tranche-1 five faces all consumed; W10 face consumed 19:42:03) + INNOVATION-QUOTA-SLOT-3 tranche-3(d) entry (bm-c r239 rebase-merged same window)",
   "law_refs": [
     "O-20260928-1614 sec.1 SUPPLY FLOOR + sec.4 FILL LADDER (a)(b)(c)(d)",
     "O-20260928-1630 D4 standing supply catalog",
@@ -154,6 +154,28 @@
       },
       "data_gates": "runner fail-closed if prereg absent or anchor counts mismatch (rows 3735/3689/3376, window masks 368/192/454/145 and 362/192/448/281, outside-cal=0, rate band (0,200), last-row==cutoff; exit 2 honest face-mismatch refusal)",
       "note": "ladder (d) slot-2: judged-negative GC007 stays closed (RANDOM_LARGE_SAMPLE_LAW s5 -- new prereg + new instrument face = lawful reopen channel, NOT a same-method rerun); if eligible, intake joins the SAME cash-leg sleeve candidate pool (within-family sleeve-collapsing semantics, no independent member claim, family corr disclosed not rejected); fee-after recheck = frozen intake precondition (T-112 precedent, b*>=1bp line)"
+    },
+    {
+      "id": "INNOVATION-QUOTA-SLOT-3",
+      "ticket_ref": "T-2026-09-28-107 sec.4(d) innovation quota slot-3 (catalog tranche-3 per D4, target >=100 templates fleet-wide); family = ASTYLE_ZOO #95 index_higher_mom_timing (param-frozen r263 bm-b, untried zoo family -- FIRST higher-moment face in-repo, rg verified zero prior judgment artifacts)",
+      "prereg_ref": "research/INNOVATION_QUOTA_W3_PREREG.md (FROZEN r239 bm-c same-commit; G-ANCHOR-FACE four-tuple per O-20260928-1712; 3 judged cells = moment order {3,4,5} three-leg comparison, zoo r263 freeze candidate full spectrum; evidence_cutoff 2026-09-28 P-5C binding; probe facts results/_r239bmc_highermom_w3_probe_facts.json; seed innovation_quota_w3_mom=20317500 registered same commit, three-step law verified)",
+      "runner": "scripts/innovation_quota_w3.py",
+      "runner_args": [
+        "run"
+      ],
+      "lane_owner": null,
+      "priority": 3,
+      "enqueue_gates": [
+        "prereg_frozen:research/INNOVATION_QUOTA_W3_PREREG.md",
+        "runner_exists"
+      ],
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "novel-family judged burn (single-instrument daily state machine, minutes-level); cheap-screen-first n/a (3-cell family batch, direct judged face per W1/W2 innovation-quota precedent)"
+      },
+      "data_gates": "runner fail-closed if prereg absent (exit 2 honest); anchor-face same-panel assertion (rows==3486, first 2012-05-28, last cutoff 2026-09-28, legs entries 86/41/46 + stops 4/2/5 + long-days 1810/908/1854 re-derive == probe freeze, mismatch = config-mismatch VOID); claims-are-not-verified law: broker-note claims D-grade zero-adoption, zoo clean-room freeze is the construction base",
+      "note": "ladder (d) slot-3: judged-negative closure reopens only via new prereg + new instrument face (RANDOM_LARGE_SAMPLE_LAW s5); if G2 passes, intake joins T-34 fastline candidate pool (separate harness A/B face, T0 brake authority = REGIME_GUARD untouched); serial-position disclosure: W10-JUDGE in-flight bm-b lane, burn ignition queues behind standing serial discipline at submit time"
     },
     {
       "id": "TRIAL-LABOR-W10-GENERATE",

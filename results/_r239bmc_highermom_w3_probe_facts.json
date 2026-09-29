@@ -1,0 +1,61 @@
+{
+ "probe": "INNOVATION-QUOTA-SLOT-3 higher-moment timing supply probe",
+ "batch_family": "index_higher_mom_timing (ASTYLE_ZOO #95, param-frozen r263 bm-b)",
+ "anchor_face": {
+  "path": "data/daily/sh510300.csv",
+  "reader": "pd.read_csv raw (date,open,high,low,close,volume,amount)",
+  "cutoff": "2026-09-28",
+  "warmup_law": "ret first-valid idx 1 -> moment(20) first-valid idx 20 -> EMA(90, adjust=False) first defined at idx 20 -> signal first decidable idx 21 (diff vs prior EMA); position onset t+1 (signal-at-close, zero lookahead)"
+ },
+ "panel": {
+  "rows_cutoff": 3486,
+  "first_date": "2012-05-28",
+  "last_date": "2026-09-28",
+  "close_min": 2.082,
+  "close_max": 5.807,
+  "ret_first_valid_idx": 1
+ },
+ "legs": {
+  "mom3": {
+   "moment_first_valid_idx": 20,
+   "ema_first_valid_idx": 20,
+   "signal_first_decidable_idx": 21,
+   "decidable_days": 3465,
+   "raw_signal_long_days": 1810,
+   "position_days_after_stop_overlay": 1713,
+   "entries": 86,
+   "stop_exits": 4
+  },
+  "mom4": {
+   "moment_first_valid_idx": 20,
+   "ema_first_valid_idx": 20,
+   "signal_first_decidable_idx": 21,
+   "decidable_days": 3465,
+   "raw_signal_long_days": 908,
+   "position_days_after_stop_overlay": 860,
+   "entries": 41,
+   "stop_exits": 2
+  },
+  "mom5": {
+   "moment_first_valid_idx": 20,
+   "ema_first_valid_idx": 20,
+   "signal_first_decidable_idx": 21,
+   "decidable_days": 3465,
+   "raw_signal_long_days": 1854,
+   "position_days_after_stop_overlay": 1733,
+   "entries": 46,
+   "stop_exits": 5
+  }
+ },
+ "extreme_days": {
+  "worst_day": {
+   "date": "2015-07-08",
+   "ret": -0.10005197505197505
+  },
+  "best_day": {
+   "date": "2015-07-09",
+   "ret": 0.09991336991048216
+  }
+ },
+ "d6_loader_face": "scripts/cn_rev_tilt_p1.py present"
+}

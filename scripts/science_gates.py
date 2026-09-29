@@ -1437,6 +1437,16 @@ SEED_REGISTRY = {
         # W11 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20318000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
+        # INNOVATION-QUOTA-SLOT-3 / HIGHERMOM-TIMING-P1 (r239 bm-c; take-number
+        # TWO: draft base 20317500 collided mid-flight with bm-b r441 W11
+        # scrnull re-take landed on origin 21:08 while r239 was unpushed
+        # in-rebase -- later-yields law, SLOT-3 re-takes; runner not yet built
+        # = zero cells burned on 20317500, zero verdict impact; re-take 20319000
+        # band rg zero repo hits (20318500 discarded: data-volume column
+        # coincidence x4); single base key, k-indexed sub-streams like
+        # innovation_quota_w1_repo W1 semantics
+        "innovation_quota_w3_mom": 20319000,  # random-episode nulls K=2000 + virtual starts K=1000 + splits 100
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
