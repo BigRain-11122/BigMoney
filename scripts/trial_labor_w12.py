@@ -2437,7 +2437,7 @@ def cmd_screen_prep() -> int:
                 "sig_params": t["sig_params"],
                 "axis": list(tl1.DEFAULT_AXIS)
                 + ["none", "none", "none", "none", "none", "none",
-                   "none", "none", "none", "none"]}
+                   "none", "none", "none", "none", "none"]}
         eq, *_ = run_candidate_curve_w12(cand, t, pcut, Pfull,
                                         tl1.v3_state_series())
         got_is = tl1.sharpe(eq[eq.index < tl1.OOS_START])
@@ -2932,7 +2932,7 @@ def cmd_screen_finalize() -> int:
     gate_seg, vol_seg, yang_seg, vconf_seg = {}, {}, {}, {}
     streak_seg, tstate_seg, amp_seg, mom_seg = {}, {}, {}, {}
     gvvy_seg, gvvvsk_seg, gvvvskts_seg = {}, {}, {}
-    gvvvsktsa_seg, gvvvsktsam_seg = {}, {}
+    gvvvsktsa_seg, gvvvsktsam_seg, gvvvsktsams_seg = {}, {}, {}
     std_seg, rsqr_seg, gvvvsktsamsr_seg = {}, {}, {}
     for r in cand_rows:
         stop_counts[r["stop_face"]] = stop_counts.get(r["stop_face"], 0) + 1
@@ -3506,6 +3506,17 @@ def cmd_judge_prep() -> int:
             print(f"JUDGE-PREP-GATE FAIL: leg-{leg} G-RSQR structural "
                   f"invariants broken {rsqreta} -- honest refuse")
             return 1
+        # per-leg slope-sign disclosure (mirror of the full-face
+        # sec.2(e) computation in _rsqr_state_full; same frozen
+        # runner face, additive disclosure key -- not a gate input)
+        _b20 = _rsqr_faces_raw(prices)[9]
+        _mopen = _r20o & _r20d & _b20.notna()
+        rsqreta["slope_sign_split"] = {
+            "up_slope_days": int((_mopen & (_b20 > 0)).sum()),
+            "down_slope_days": int((_mopen & (_b20 <= 0)).sum()),
+            "note": "BETA20 sign from the same frozen runner; "
+                    "direction face intentionally NOT part of the "
+                    "gate (burned axes carry direction)"}
         rsqr_meta[leg] = rsqreta
         n = len(idx)
         starts[leg] = {}
