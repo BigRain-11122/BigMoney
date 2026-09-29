@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-30",
- "generated_at": "2026-09-30 00:58:23",
+ "generated_at": "2026-09-30 01:18:12",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -286,23 +286,32 @@
   "marks_asof": "2026-09-29"
  },
  "live_usage": {
-  "status": "missing",
-  "note": "LIVE-2026-09-30.json 未生成（ceo_live_usage.py 腿未跑或机制故障）——如实标注，禁编数"
+  "status": "ok",
+  "day": "2026-09-30",
+  "state": "ORANGE",
+  "rung": "ORANGE",
+  "cap": 0.5,
+  "heat": "COOL",
+  "clock_cell": "ORANGE_COOL",
+  "members": 6,
+  "md_link": "../live_usage/LIVE-2026-09-30.md"
  },
  "rd": {
-  "commits_24h": 438,
-  "result_jsons_landed_24h": 134,
+  "commits_24h": 441,
+  "result_jsons_landed_24h": 132,
   "digests_landed_24h": 9,
-  "prereg_md_touched_24h": 39,
+  "prereg_md_touched_24h": 40,
   "compute_audit_latest": {
-   "ts": "2026-09-30 00:54:20",
-   "py_cpu_pct": 100.0,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-09-30 01:17:02",
+   "py_cpu_pct": 0.0,
+   "flags": [
+    "supply_floor"
+   ],
+   "verdict": "FLAG:supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -559,11 +568,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 958825,
+  "total_report_tokens_est": 958696,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 23:24:48",
+   "prev_generated": "2026-09-29 23:44:19",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 773,
+   "report_tokens_growth": -129,
    "mandate_growth": 0
   },
   "method": {
@@ -698,41 +707,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-c": {
-    "latest_ts": "2026-09-29 22:32:13",
+    "latest_ts": "2026-09-30 01:17:02",
     "py_pct": 0.0,
-    "cpu_pct": 57.0,
-    "ready": 0,
-    "streak_min": 129.4,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "cpu_pct": 28.0,
+    "ready": 1,
+    "streak_min": 0.0,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "20:22",
-      0.4
-     ],
-     [
-      "20:29",
-      0.0
-     ],
-     [
-      "20:36",
-      0.7
-     ],
-     [
-      "20:48",
-      0.3
-     ],
-     [
-      "20:55",
-      0.3
-     ],
-     [
-      "21:09",
-      2.4
-     ],
-     [
-      "21:24",
-      0.1
-     ],
      [
       "21:28",
       0.0
@@ -750,11 +731,39 @@
       0.0
      ],
      [
+      "22:27",
+      0.3
+     ],
+     [
       "22:32",
+      0.0
+     ],
+     [
+      "22:42",
+      0.3
+     ],
+     [
+      "23:22",
+      0.3
+     ],
+     [
+      "23:38",
+      0.6
+     ],
+     [
+      "23:42",
+      0.4
+     ],
+     [
+      "00:54",
+      100.0
+     ],
+     [
+      "01:17",
       0.0
      ]
     ],
-    "today_samples": 0,
+    "today_samples": 2,
     "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
