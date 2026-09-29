@@ -4569,7 +4569,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-30T01:07:00+08:00",
       "entered_by": "bm-b r443",
       "data_gates": "GATES ALL GREEN (direct-ready r443, W1-W10-JUDGE lineage): (1) TRIAL-LABOR-W11-SCREEN done -- w11_screen.json finalize r443 (1462/1462 cells, null p95 0.5148 IN band, survivors 229, ledger 350,018 linear append-verified); (2) judge-prep PASS -- manifest 48 members, census L/D == frozen, survivors 229, gate meta L/D all faces incl. STD meta 120-bar-warmup 128open/1383closed decidable 1511 std10-open 147; (3) grammar sha16 128962592feeb8d3 == FROZEN; (4) host_gates pit-103 MSG-1305: Money02 deep-panel ohlcv parquet non-empty verified at submission pre-flight (5383 parquet files)",
@@ -4589,7 +4589,9 @@
         "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors lighter; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grid beat vs passive + regime segments + dual nulls + descriptive faces)",
         "priority": "BelowNormal",
         "note": "hours-scale pool batch per prereg sec.0; RAM r354 three-sample gate (free RAM 6.2GB at arm > 4GB ban threshold); checkpoint every cell resume cross-kill"
-      }
+      },
+      "result_ref": "results/trial_labor_w11/w11_judge.json (judge-finalize 2026-09-30 01:47:40 exit 0, 229/229 judged zero G1 zero G2, E[FP]=11.45, intake lawful-zero) -- bookkeeping flip by owner bm-b r444 dead-round closure; actual burn ran on autofill lineage (ckpt 229/229)",
+      "done_at": "2026-09-30 02:4x"
     },
     {
       "id": "INNOVATION-QUOTA-SLOT-4",
