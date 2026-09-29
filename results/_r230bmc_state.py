@@ -1,0 +1,36 @@
+import io, json
+
+d = json.load(io.open('state-bm-c.json', encoding='utf-8'))
+d['machine_id'] = 'bm-c'
+d['round_no'] = 231
+d['updated'] = '2026-09-29T17:38:30+08:00'
+d['last_round_ts'] = '2026-09-29T17:38:30+08:00'
+d['last_round_at'] = 'r230'
+d['note'] = ("r230: S0 17-UU rebase canon-resolve (take-origin shared derived faces vs bm-a r437-438, "
+             "r229 unique products fully replayed = escape-branch mission fulfilled via rebase path) + "
+             "orders 122/122 diff 0 + decisions D-01/D-02(kept-in-tree)/D-03 zero-action + smoke 26/26 + "
+             "yield-closeout round (W9-JUDGE bm-b lane + A158-TSGATE-P1 bm-a owned = zero bm-c-claimable) + "
+             "5x HANDOVER r230 window entry (ledger 341,063->343,788 live-read) + S6 37/37 (dualrun streak 38/3, "
+             "09-29 bar sina 9th-try zero-row honest cutoff 09-28) + state 230->231")
+d['did'] = ("S0 absorb x2 + rebase 17-UU canon-resolve (r229 replayed) -> S0.5 orders 122/122 + decisions 3 rows "
+            "(D-01 ack / D-02 sec.2 kept-in-tree F-20260929-01 / D-03 zero) -> S1 smoke 26/26 -> S2 boards 0 open + "
+            "pool 2 ready both spoken-for -> S3 yield-closeout (funnel discipline: W9-JUDGE = sole active supply step "
+            "bm-b lane; W10 candidate berth waits W9 verdict; v4 arms all-claimed) + 5x HANDOVER r230 -> S6 37 legs "
+            "rc=0 -> S7 trio + heartbeat epoch int")
+d['verify'] = ("smoke 26/26; S6 37/37 rc=0; dualrun streak 38/3; orders 122/122; watermark red=false probe "
+              "py_low_board_clear legal idle; post_review 3731 rows zero-X; ledger live head 343,788 "
+              "(w9_screen.json trials_ledger); HANDOVER 5x entry landed; epoch isinstance int")
+d['next'] = ("(a) W9-JUDGE harvest watch (bm-b lane) -> judged lands = W10 adopter freeze window opens "
+             "(any healthy machine, 10-item checklist) (b) 09-29/09-30 bar sina relay (c) A158-TSGATE-P1 finalize "
+             "watch (PASS -> T-101 v4 regime-gate candidate library / PARTIAL -> C1 input features / FAIL = "
+             "per-factor close) (d) 10-01 month-first trio + REGIME_GUARD v3 date-gate hands-off (e) next 5x "
+             "HANDOVER = r235")
+d['current_task'] = ("r230 closed: yield-closeout + 5x HANDOVER (ledger 343,788) + S6 37/37; next: W9-JUDGE "
+                     "watch + A158-TSGATE-P1 finalize watch + 10-01 trio")
+d['updated_at'] = '2026-09-29T17:38:30+08:00'
+d['gpu_free_vram_mib'] = 9865
+d['cpu_pct'] = 1.8
+d['idle_ram_gb'] = 12.0
+with io.open('state-bm-c.json', 'w', encoding='utf-8') as f:
+    json.dump(d, f, ensure_ascii=False, indent=1)
+print('state written round_no', d['round_no'])
