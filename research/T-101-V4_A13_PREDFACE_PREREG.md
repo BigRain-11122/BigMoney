@@ -1,7 +1,7 @@
 # T-101-V4-A13-PREDFACE 预注册（输入特征路线残余·纯预测器 forecast/walk-forward 信息面终测）
 
 > 血统：A12 §8 下游指针兑现（「残余去向=纯预测器（forecast·walk-forward 面）……若未来立项须新 prereg+D6 先行论证」——本批即该指名面首测=终测）+ r445 state next(d)（「pure predictor face (fresh prereg + D6 first) or line exit」）。A2/A9/A10/A11/A12 五子线已证伪=门/因子特征源在五员宇宙的**二值择时/门态连续权重/横截面选择/vol 条件化**四类**仓位映射**用法；本批=**信息面（forecast·walk-forward）**首测——测量「特征值→未来 20d 收益」的**秩相关预测技能本身**，非任何仓位构造：功能形=条件期望建模（Spearman IC·stride-20 非重叠再平衡日历），与已闭五子线功能形不同（A12 §8 冻结表述）。**本批=输入特征路线全谱收线的最后一面**：判负即线退出（superline exit），过线即 s4 供给注记（下游转化仍须过 D6 beta 同源门=预声明）。
-> 状态：**FROZEN——冻结于跑前·2026-09-29 21:3x·bm-a r446（起草机同轮一次冻结·A9/A10/A11/A12 臂线批先例：一次冻结即烧）**。本冻结 commit 同窗含 SEED_REGISTRY 两键注册（20318500/20319000 三步律过：126 键全盘零精确撞带·首元素正典 int(default_rng(s).integers(0,2**31))=295045756/989029903 互异且 vs 全部既有基零撞·null 派生带 20318500..20318539 与 unc 派生带 20319000..20319039 净隙 500 零重叠·rg 仓内代码面 20318xxx/20319xxx 零命中）+runner+MSG 声明。
+> 状态：**FROZEN——冻结于跑前·2026-09-29 21:3x·bm-a r446（起草机同轮一次冻结·A9/A10/A11/A12 臂线批先例：一次冻结即烧）**。本冻结 commit 同窗含 SEED_REGISTRY 两键注册+runner+MSG 声明。**【seeds 撞带重取横幅·零跑修正】**：unc 键原泊位 **20319000 与 bm-c r239 addendum d6909bf32（innovation_quota_w3_mom=20319000·origin 已落地）撞带**——A13 冻结 commit 未推窗内 lawful race·后到让路律（W9/W11/SLOT-3 先例族）→**重取=20320000**（20319500 探后弃：正典首元素 883288081 撞既有基首元）。重取三步律复验全绿（合并后 registry 129 键含 bm-c 20319000：20320000 零精确撞带·正典首元 1700875381 vs 全部既有基零撞·派生带 20320000..20320039 净·代码面与 data/daily 数据面双零命中）。scrnull 键 **20318500** 原位保留（三步律预检绿：零精确撞带·正典首元 295045756 互异·带清·rg 代码面零命中〔data/daily volume 列数值巧合=bm-c r239 同窗观察=t34/batch-69 先例面·非代码面撞带〕）。
 
 ## §0 批件身份【必填·跑前】
 
@@ -41,7 +41,7 @@
 - **特征构造（A11 逐字范式）**：per member：F=probe.alpha158_factors(panel)（行数=N_FACTORS 断言）；gates={g[0]:(mask,dec)}；c2=17 掩码 concat 均值；c2dec=17 dec 全 AND。f_std20=close.pct_change().rolling(20).std()。**RAW 面窗=成员自身日期轴上特征 decidable 起**（各特征独立窗·最大化 IS 深度）；**RESID 面窗=A11 build_universe_face 同法 master 交集+全成员 AND decidable**。
 - **再平衡日历**：stride-20·rebal_idx=arange(0,n,20)（族律）；对集=(特征值@rebal, fwd20@rebal)·尾 rebal 不满 20d 前瞻窗者弃（p+20≤n−1）。
 - **位移 null（批自对照·核心）**：K=200/格·**特征再平衡对数组** circular shift 随机偏移（偏移∈[1,n_pairs−1]·保对数组自相关结构+特征边际分布·同 fwd 目标同对集位重算 IC）→位移 null 池；empirical 双侧 p=(1+#{|null|≥|IC|})/(K+1)；z=(IC−mean_null)/std_null（nan-safe r442 律·std=0→z=NaN 披露）。**冻结流声明**：full 段流=rng([**20318500**, cell_idx])·OOS 段派生流=rng([**20318500+100000**, cell_idx])（段流分离防同一 null 池双用·cell_idx=冻结 40 格表序）。
-- **块自助 CI（不确定性面）**：circular block bootstrap B=2000·block=10（对再平衡对索引重采样重算 IC）；percentile CI 2.5/97.5（full+OOS 段）；**冻结流**：full=rng([**20319000**, cell_idx])·OOS 派生流=rng([**20319000+100000**, cell_idx])。**声明=实跑同基**（A12 rebind 正法：本批不经 fv.dual_nulls·UNC_BASE 直读直用·无继承基错配面）。
+- **块自助 CI（不确定性面）**：circular block bootstrap B=2000·block=10（对再平衡对索引重采样重算 IC）；percentile CI 2.5/97.5（full+OOS 段）；**冻结流**：full=rng([**20320000**, cell_idx])·OOS 派生流=rng([**20320000+100000**, cell_idx])。**声明=实跑同基**（A12 rebind 正法：本批不经 fv.dual_nulls·UNC_BASE 直读直用·无继承基错配面）。
 - **账本**：`sg.append_ledger("T-101-V4-A13-PREDFACE", 40, "t101_v4_a13_predface.json", evidence_cutoff="2026-09-29")`（finalize 落·线性·**返回值必落 out["trials_ledger"] 键 r442 律**）。
 
 ## §4 判据【必填·跑前写死，禁看结果调线】

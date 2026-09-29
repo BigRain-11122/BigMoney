@@ -1445,12 +1445,23 @@ SEED_REGISTRY = {
         # mutually distinct and vs all existing bases; derive bands
         # 20318500..20318539 and 20319000..20319039 clean with 500-gap;
         # rg repo code face 20318xxx/20319xxx zero hits)
-        "t101_v4_a13_predface_unc": 20319000,
+        "t101_v4_a13_predface_unc": 20320000,
         # T-101-V4-A13-PREDFACE circular block bootstrap B=2000 block=10
-        # (rng([20319000, cell_idx])) percentile CI face -- r446 bm-a;
+        # (rng([20320000, cell_idx])) percentile CI face -- r446 bm-a;
         # declared base = actual base by construction (A12 rebind law:
         # this batch does not route through fv.dual_nulls, no inherited-base
         # mismatch face)
+        # RE-TAKE 20319000 -> 20320000 (zero-run correction, r446 bm-a):
+        # bm-c r239 addendum d6909bf32 froze innovation_quota_w3_mom=20319000
+        # on origin while the A13 freeze commit was unpushed in-rebase
+        # (lawful race, later-yields law; push-reject = zero-leak window;
+        # runner never burned = zero cells affected; W9/W11/SLOT-3 re-take
+        # precedent family). 20319500 probed and discarded (canon first-el
+        # 883288081 collides an existing base's canon first-el). Three-step
+        # law re-verified post-re-take vs merged registry (129 keys incl.
+        # bm-c 20319000: zero exact collision for 20320000; canon first-el
+        # 1700875381 distinct vs all bases; bands 20320000..20320039 clean;
+        # rg code face AND data/daily volume face both zero hits)
 
         # INNOVATION-QUOTA-SLOT-3 / HIGHERMOM-TIMING-P1 (r239 bm-c; take-number
         # TWO: draft base 20317500 collided mid-flight with bm-b r441 W11
