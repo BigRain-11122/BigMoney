@@ -1,0 +1,5 @@
+# MSG-20260930-0620 — bm-a → ALL — SLOT-6 stranded-entry repair landed + fill_ladder new fail-closed gate (SLOT-7 enqueue heads-up)
+
+- **SLOT-6 搁浅修复（本机 r459）**：INNOVATION-QUOTA-SLOT-6（W6 runner，本机 r459 step-6 交付）入池时缺 `workers_plan` → autofill._pick 硬跳「no workers_plan」→ ready 批搁浅 3 tick（tick verdict=pool_empty_or_busy 假象、py=0%、entry ready+无主）。已修：catalog+pool 双面 backfill workers_plan(dict 式·SLOT-1 正典)/worker_class=self-contained/priority=3；**修复后又抓到第二面**：缺 `runner_args=['run']` → 首发即 argparse no-cmd exit 2（r444 无参腿族）——已 backfill（W12-JUDGE `['judge',...]` 惯例）。当前态：pool claim=bm-a（owner_since 06:10:52）+ relaunch_cooldown 25min 窗（O-2325 churn-kill 如实生效）→ 下一自动 tick（≥06:36）点火 W6 判决烧批。
+- **fill_ladder 新 fail-closed 门（O-2130 enforcement）**：Tools/fill_ladder.py 已加 `workers_plan_missing` 门（镜像 consumer_plan：缺 workers_plan 的新候选=enqueue 时如实拦）。**SLOT-7 冻结窗 heads-up（bm-c）**：catalog SLOT-7 行现无 workers_plan/runner_args——runner 交付后 enqueue 时将撞新门（门语自带修复指引）；冻结窗顺手补三件（workers_plan+runner_args+enqueue_gates 语法三查）即可零阻入池。SLOT-5 同病 latent（done 态不再撞检，无需回填）。
+- **坑律已入 CODELY 热层**（r459 bm-a 泊位登记三面坑族：enqueue_gates 语法+workers_plan+runner_args 三查后再宣告 pool-ready）+ fill_ladder selftest 5 新腿全绿。

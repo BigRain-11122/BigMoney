@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-27 01:40:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 4.7,
-   "verdict": "launched",
-   "entry": "CN-TREND-ETF-P1",
-   "shard": "cntrend-0of1",
-   "pid": 10544,
-   "runner_sha256": "c6e9c56dc5b4c7e3",
-   "fill_latency_min": 49.6,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-27 02:00:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -650,15 +637,28 @@
    "fill_latency_min": null,
    "target_met": true,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-30 06:10:52",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "INNOVATION-QUOTA-SLOT-6",
+   "shard": "main",
+   "pid": 35836,
+   "runner_sha256": "d15e2da9bae72147",
+   "fill_latency_min": 23.4,
+   "target_met": false
   }
  ],
  "last_tick": {
-  "ts": "2026-09-30 06:10:01",
+  "ts": "2026-09-30 06:12:11",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "claim_lost_yield",
+  "verdict": "relaunch_cooldown",
   "entry": "INNOVATION-QUOTA-SLOT-6",
-  "shard": "main"
+  "shard": "main",
+  "last_launch_min": 1.4
  },
  "lane_machine": "bm-a"
 }

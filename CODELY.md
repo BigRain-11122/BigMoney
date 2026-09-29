@@ -7,7 +7,7 @@
 
 - 冷层指针：r455 S5 轮报告路径孤儿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r458 bm-a 窗批』节（法面已由轮 prompt S5 文本承载·r458 迁档）。
 - 冷层指针：r458 泊位族选双面核验坑（zoo 行状态面滞后于 results 判决面）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=防重核双面序：rg results 判决面先行·zoo/登记行状态只作线索）。
-- [2026-09-30 r459 bm-a] fill_ladder 门串坑：catalog enqueue_gates 裸串 prereg_frozen=checker unknown-gate-ref 永堵（SLOT-6 实弹）；正典=prereg_frozen:<路径>；runner 字段须裸路径（描述另放 runner_note，否则 runner_exists 拼整串 not-built）；SLOT-5 同病 latent（done 态不再撞检）。
+- [2026-09-30 r459 bm-a] fill_ladder 门串坑（泊位登记三面坑族·step-6 同窗三连实弹）：①catalog enqueue_gates 裸串 prereg_frozen=checker unknown-gate-ref 永堵，正典=prereg_frozen:<路径>；runner 字段须裸路径（描述另放 runner_note）②pool entry 缺 workers_plan=autofill._pick 硬跳「no workers_plan」→ ready 批搁浅 3 tick（verdict pool_empty_or_busy 假象·SLOT-1 dict 式为正典；fill_ladder 已加 fail-closed 门镜像 consumer_plan）③缺 runner_args=首发即 argparse no-cmd exit 2（r444 无参腿族·W12-JUDGE ['judge',...] 惯例）——泊位登记面三验=enqueue_gates 语法+workers_plan+runner_args 三查后再宣告 pool-ready。SLOT-5 同病 latent（done 态不再撞检）；SLOT-7 冻结窗将撞新门=如实拦。
 - 冷层指针：r445 采集器无超时挂死盲区坑（conn-fuse 对 hang 失明） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=fetch_one daemon-worker 45s 死限+TimeoutError 走 CONN_MARKERS fuse 路+探针 _r445bmb_hang_shield_probe.py 承载）。
 
 ### Project
@@ -17,7 +17,7 @@
 - 冷层指针：r440 bm-b 初筛富集面≠注册级增量律全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（法面已由 TRIAL_LABOR_W10_PREREG §7/8+CEO-REPORT-WAVE10+attrition 承载）。
 - 冷层指针：r242 bm-c runner 外科手术四连坑族全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（W11 runner 已建毕 selftest 47/47·坑律由 _r242bmc_w11_surgeon 系列工件承载）。
 - 冷层指针：r246 W4 配额槽判决收编行（VOLREGIME-TIMING-P1 0/3 全负·流水型）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节；正典=research/INNOVATION_QUOTA_W4_PREREG.md §7/§8+results/innovation_quota/VOLREGIME-TIMING-P1.json。
-- [2026-09-30 05:58 r447 bm-b] W12 千人试用期收官（RSQR 门面·r240 死会话收编）：188 判决 0 过线 0 录用（lawful-zero·十三批 33,185→0 模态结局十三连中）；RSQR 轴全家族入排除簿=rsqr20 0.32× 毒面首证+10/20 不对称 1.04×/0.32×；账本 355,271。真值面=results/trial_labor_w12/*.json+docs/trial_labor/CEO-REPORT-WAVE12-20260930.md+prereg S7/S8（详档勿复述）。
+- 冷层指针：r447 bm-b W12 千格烧批慢减速 RSQR 死锁（188 就绪 0 烧 0 录用 lawful-zero·r240 类会话死堆栈）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批三』节（批次判决面=results 面在档；r240 时限杀律已档）。
 ### Reference
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
 
@@ -37,6 +37,6 @@
 - 冷层指针：r249 pandas to_csv 浮点回读非逐位坑（W5 runner selftest 首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=W5 runner selftest derive-then-freeze CSV-readback 锚范式承载）。
 - 冷层指针：r456 a158 冻结面抽位点对账 eps 分母坑（W13 探针首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=a158_tsgate_probe 参考式同款 eps 分母+镜像孪生族构造恒等自检承载）。
 - 冷层指针：r457 风暴 resolver 非幂等追加坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r253 bm-c 窗批』节（法面=append 型收口脚本 add 前幂等守卫惯例+半途失败 git checkout -- 恢复惯例承载）。
-- [2026-09-30 04:4x r446 bm-b] 手术过继残漏三连坑（W12 实弹·同一 r445 手术 tl11→tl12 留三残）：①screen-prep G-ANCHOR 轴长 14→15 IndexError（死轮已修·hermetic L13 leg 镜像新语法 15 元组但真数据 identity face 调用点仍 14）②screen-finalize gvvvsktsams_seg 九元组段字典初始化遗漏 NameError③judge-prep rsqr_meta 每腿 slope_sign_split 披露键缺 KeyError（打印段引用 A158 verbatim meta 不产出的键）——48/48 selftest 全数漏检；正解=真数据首跑逐异常点修（皆加性机械修复零判据触碰，grammar pin 67c86c9cf4ef1ca7 全程恒等）+ judge-prep 每腿披露面按全量面 sec.2(e) 计算镜像补；How to apply：tlN→tlN+1 过继手术必带「真数据 identity face 三命令实弹首跑」（prep/finalize/judge-prep）收口步再宣告 runner 落地——W13 过继者（bm-a berth 已声明）按此律执行。
+- 冷层指针：r446 bm-b 手术过继残漏三连坑（tlN→tlN+1 过继必带真数据 identity face 三命令实弹首跑收口步）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批三』节（W13 过继者=bm-a berth·r459 state next 指针直引本条）。
 - 冷层指针：r252 bm-c 泊位/冻结步开工前 inbox 零未读腿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=供给类开工前置检查单三查扩四查：job_list+tasks+fetch 标题扫+inbox 未读清零）。
 - [2026-09-30 05:5x r254 bm-c] push 假拒绝坑（reflock 竞态）：报 `remote rejected cannot lock ref: is at <本人commit> but expected <基点>`=同树 FleetPush 抢先已落同一 commit——正法=**先 fetch 验 origin 落点再决定重试**，禁盲目 rebase 重推（r254 实证 fetch 后 origin 已在本人泊位 commit 57636c713·零重复零损伤）。
