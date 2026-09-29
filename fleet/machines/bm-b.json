@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-29T10:23:26+08:00",
- "heartbeat_epoch_utc": 1790648606,
- "clock_read": "2026-09-29T10:23:26+08:00",
- "current_task": "round 419 closed: T-118 slice-2b funnel bodies landed+pushed (selftest 40/40, dispatch complete); TRIAL-LABOR-W7-GENERATE pool entry live, autofill burning pid6028. Next: harvest flip + SCREEN entry on candidates landing",
+ "last_seen": "2026-09-29 10:46",
+ "heartbeat_epoch_utc": 1790649807,
+ "clock_read": "2026-09-29T10:43:27+08:00",
+ "current_task": "W7-SCREEN burn in-flight (autofill pid19452) + round 420 closeout",
  "cpu_cores": 16,
- "free_ram_gb": 13.1,
+ "free_ram_gb": 14.62,
  "gpu_free_vram_gb": 2.8,
  "total_ram_gb": 23.92,
  "cpu_util_pct": 7.6,
  "round_no": 419,
- "verdict": "green (slice-2b landed 40/40; generate in-flight pid6028; audit supply_floor = in-flight carrier self-heals; minute_feed rc=3 source-history-rewrite honest repeat)",
+ "verdict": "W7-GENERATE harvested n=3704; SCREEN entry ready+ignited; chain healthy",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -149,5 +149,6 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 418
+ "loop_round": 418,
+ "gpu_free_vram_mb": 2661
 }
