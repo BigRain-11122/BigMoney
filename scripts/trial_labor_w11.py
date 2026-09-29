@@ -2963,7 +2963,7 @@ def _judge_cell_w11(cell):
                  > 0.08).sum())
             out["stop_disclosure"] = _overlay_stop_disclosure_w11(
                 cand, prices, P, st["atr20_L"], fok, gs, vs, ys, cs, sk,
-                ts, ap, mo)
+                ts, ap, mo, sd)
     out["legs"] = legs
     if "legL_daily_returns" not in out:
         out["legL_daily_returns"] = []
