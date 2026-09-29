@@ -1305,6 +1305,11 @@ SEED_REGISTRY = {
         # T-101-V4-A2-PRESCREEN (r433 bm-a; take-number law: 101-key
         # inventory zero-conflict checked 2026-09-29 15:0x before freeze):
         "t101_v4_a2_scrnull": 20308000,  # same-mask circular-shift nulls K=200/cell
+        "t101_v4_a2_corrnull": 20308500,  # T-101-V4-A2-CORRSOURCE same-mask
+        # circular-shift nulls K=200 (r434 bm-a D6-exit child batch; band
+        # 20308500..20308699 = clean 300-gap above t101_v4_a2_scrnull
+        # 20308000..20308199; rg seed-face scan zero hits 2026-09-29 15:3x
+        # before freeze; prereg research/T-101-V4-A2-CORRSOURCE_PREREG.md)
         # W8 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20307500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
