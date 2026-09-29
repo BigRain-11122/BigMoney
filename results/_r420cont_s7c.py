@@ -1,0 +1,4 @@
+﻿line = ("2026-09-29T08:52:00+08:00 | r420-cont bm-a addendum-1 | HANDOVER 5x window entry LANDED (round 420 %5==0 duty): bm-a signed window R341->R420 with OVERDUE BACKLOG disclosed honestly (R341-420 no bm-a window, cause r400-419 demotion chain + dead sessions, no backfill fabrication); cross-window backbone cross-read = bm-b r410 three-machine full-window entry + r415 W6-JUDGE closure; ledger live-read anchor 333,432 matches bm-b rider claim; next 5x = round 425 bm-a; orders closing scan 122/122 zero-diff (double-scan law); no new pit this round (dead-session harvest pattern = established r419 precedent + pit-93 canon, memory-gate honest skip)")
+with open("logs/iteration-loop/round_reports-bm-a.md", "a", encoding="utf-8", newline="") as fh:
+    fh.write(line + "\n")
+print("addendum appended")
