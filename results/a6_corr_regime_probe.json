@@ -1,0 +1,179 @@
+{
+ "generated": "2026-09-29T16:40:37+0800",
+ "evidence_cutoff": "2026-09-28",
+ "science_gates": {
+  "cutoff_meta": {
+   "cutoff": "2026-09-28"
+  }
+ },
+ "class": "descriptive-census (zero N_eff; no gates/no nulls/no verdict; A6 arm draft evidence face, consumer=T-101 v4 A6 prescreen prereg)",
+ "upstream": "research/DECISION_CHAIN_BENCHMARKS.md v0.2 sec.5 A6 (B6 risk-parity Q1-2020 corr-regime failure history)",
+ "params": {
+  "corr_window": 60,
+  "min_pair_obs": 40,
+  "min_pairs": 3,
+  "z_window": 250,
+  "z_th": 2.0,
+  "fwd_days": 20,
+  "split": "2017-01-01",
+  "stride": 20,
+  "regime_rule": "510300 close vs MA200 + MA200 60d slope (A2 parity)"
+ },
+ "panel_face": {
+  "universe": [
+   "510300",
+   "510050",
+   "510500",
+   "512100",
+   "588000"
+  ],
+  "earliest_member_date": "2005-02-23",
+  "construction": "pairwise-complete (staggered inceptions disclosed)"
+ },
+ "core": {
+  "regime_benchmark": "510300",
+  "flag_counts": {
+   "decidable_days": 3003,
+   "flag_on_full": 0,
+   "flag_on_IS": 0,
+   "flag_on_OOS": 0,
+   "flag_on_bear": 0,
+   "flag_on_bull": 0,
+   "flag_on_chop": 0
+  },
+  "covid_anchor": {
+   "window": [
+    "2020-02-20",
+    "2020-04-30"
+   ],
+   "flag_on_days": 0,
+   "reproduced": false
+  },
+  "pair_count": {
+   "min_decidable": 3,
+   "max": 10
+  },
+  "on_days_sample": [],
+  "per_member_fwd20": {
+   "510300": {
+    "on": {
+     "n": 0,
+     "mean": null,
+     "median": null,
+     "std": null
+    },
+    "off": {
+     "n": 2983,
+     "mean": 0.007023648467968975,
+     "median": 0.004970487729108353,
+     "std": 0.0626780307195118
+    },
+    "on_stride20_nonoverlap": {
+     "n": 0,
+     "mean": null
+    }
+   },
+   "510050": {
+    "on": {
+     "n": 0,
+     "mean": null,
+     "median": null,
+     "std": null
+    },
+    "off": {
+     "n": 2983,
+     "mean": 0.00650328854303856,
+     "median": 0.003657421517829995,
+     "std": 0.060648481737598625
+    },
+    "on_stride20_nonoverlap": {
+     "n": 0,
+     "mean": null
+    }
+   },
+   "510500": {
+    "on": {
+     "n": 0,
+     "mean": null,
+     "median": null,
+     "std": null
+    },
+    "off": {
+     "n": 2981,
+     "mean": 0.02777384278269543,
+     "median": 0.006718270775522006,
+     "std": 0.26584181716126637
+    },
+    "on_stride20_nonoverlap": {
+     "n": 0,
+     "mean": null
+    }
+   },
+   "512100": {
+    "on": {
+     "n": 0,
+     "mean": null,
+     "median": null,
+     "std": null
+    },
+    "off": {
+     "n": 2385,
+     "mean": 0.016688191342397744,
+     "median": -0.00039047247169066157,
+     "std": 0.1541005926805112
+    },
+    "on_stride20_nonoverlap": {
+     "n": 0,
+     "mean": null
+    }
+   },
+   "588000": {
+    "on": {
+     "n": 0,
+     "mean": null,
+     "median": null,
+     "std": null
+    },
+    "off": {
+     "n": 1405,
+     "mean": 0.00723592230064665,
+     "median": -0.011352885525070966,
+     "std": 0.100455115658921
+    },
+    "on_stride20_nonoverlap": {
+     "n": 0,
+     "mean": null
+    }
+   }
+  },
+  "rho_stats": {
+   "n": 3252,
+   "min": -0.12294985706451378,
+   "max": 0.9917464854008634,
+   "mean": 0.7107460061127769,
+   "q95": 0.9635497833725908,
+   "q99": 0.9816543349118623
+  },
+  "z_stats": {
+   "n": 3003,
+   "min": -4.109293802053156,
+   "max": 1.8688214875606155,
+   "mean": -0.05057300335372894,
+   "q95": 1.443897280738832,
+   "q99": 1.7072449495582271
+  }
+ },
+ "honest_disclosures": [
+  "descriptive only: no cost, no execution model, no strategy returns, no registration",
+  "flag-on forward windows overlap when flag persists (stride-20 non-overlap secondary view given)",
+  "conditional means are overlapping-window biased toward persistence episodes (census caliber, gate_census precedent)",
+  "pair count grows as members enter (588000 enters 2020-11) -- member-entry structural breaks disclosed, z is trailing-window adaptive",
+  "not a verdict: any arm usage must re-enter the TRIAL_LABOR_LAW prereg freeze chain",
+  "D6 note: market-state flag signal-axis distinct from RSV oversold (A2, killed) and GC001 liquidity (A7, killed); same-family corr must be measured at prereg time"
+ ],
+ "audit": {
+  "elapsed_sec": 0.4,
+  "host": "bm-a",
+  "lane": "bm-a (five-member ETF panel data/daily, O-1555 frozen universe)"
+ }
+}
