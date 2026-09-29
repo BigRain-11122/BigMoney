@@ -4690,6 +4690,42 @@
       ],
       "entered_at": "2026-09-30 03:20:43",
       "entered_by": "bm-b fill_ladder T-107 slice-2"
+    },
+    {
+      "id": "TRIAL-LABOR-W12-SCREEN",
+      "ticket_ref": "T-2026-09-30-124 WAVE-12 screen slice (TRIAL_LABOR_LAW sec.1 standing supply; prereg FROZEN bm-b r444 whole-package adoption of bm-a r447 RSQR candidate per AMP->W9/MOM->W10/STD->W11/RSQR->W12 four-straight lineage; SEED three keys 20320500/20321000/20321500 R250 one-step law facts results/_r444bmb_w12_seed_law_facts.json; runner bm-b r445 FROZEN grammar sha16 67c86c9cf4ef1ca7 axis_combos 94,058,496 selftest 48/48; GENERATE consumed bm-c autofill 03:21:52-03:35:28 859 dedup, pool flip bm-c r250)",
+      "prereg_ref": "research/TRIAL_LABOR_W12_PREREG.md FROZEN sec.0 TRIAL_LAB_W12_SCREEN (s2 cheap initial screen batch: batch_trials = 859 distinct + 200 nulls = 1,059 cells at 1 trial/cell; raw 5,000 -> dedup 859 = 17.2% honest BELOW the [45%,60%] sec.5.1 shrink-band prediction = falsifiable prediction face pre-noted in prereg, judgment by actual not by band (W11 below-band precedent); evidence_cutoff 2026-09-22 P-5C frozen binding on both batches; fifteen-tuple grammar sha16 67c86c9cf4ef1ca7 == FROZEN pin; screen line = beat6m > null p95 strictly, W11 sec.3 same-structure; null seed 20321000)",
+      "runner": "scripts/trial_labor_w12.py",
+      "runner_args": [
+        "screen",
+        "--shard",
+        "0",
+        "--shards",
+        "1"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-30T04:22:00+08:00",
+      "entered_by": "bm-b r446",
+      "data_gates": "GATES ALL GREEN (direct-ready r446, W11-SCREEN lineage): (1) TRIAL-LABOR-W12-GENERATE done -- landed 03:35:28 w12_candidates.json n=859 single-shot completion marker in-repo (refuse-if-exists guard; grammar sha 67c86c9cf4ef1ca7, seeds gen=20320500/null=20321000/unc=20321500); (2) screen-prep PASS -- bm-b r446 04:1x: panel 48/48, anchors 6/6 faithful (grammar_replay IS/OOS == frozen live anchor), census {6m 1253, 12m 1127, 24m 875} == frozen, starts 1253, passive 6m precomputed, gate na-window 199 bars, G-VOL 594calm/518wild, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19, G-STREAK 384up/389down/856neither warmup 2, G-TSTATE mad60 188true/1453decidable warmup 178 + rsv60 332true/1572decidable warmup 59, G-AMP 801wide/811narrow decidable 1612 warmup 19, G-MOM 153open/1339closed decidable 1492 warmup 139, G-RSQR 163open/1348closed decidable 1511 rsqr10-open 142 -- all frozen-anchor-faithful; (3) G-ANCHOR identity-face FIX this round: screen-prep G-ANCHOR cand axis = DEFAULT_AXIS(4)+10x none = 14-tuple W11 residue -> IndexError axis[14] on the real-data identity face (r445 surgeon one-site miss; hermetic selftest L13 leg already 15-tuple so uncovered by 48/48) -> +1 none surgical fix -> prep PASS + selftest 48/48 re-verified zero regression; free RAM at arm 6.8GB > 4GB r354 ban threshold (in-runner 3-sample gate authoritative)",
+      "consumer_plan": "TRIAL-LABOR-W12-SCREEN -> screen-finalize (lane-owner separate round work per W5-W11 precedent) -> w12_screen.json + w12_screen_cells.csv + null p95 (sec.5.2 band [0.50,0.52]; W11 live-read 0.514805 reference carried at freeze) + ledger TRIAL_LAB_W12_SCREEN row (science_gates.append_ledger live-head prev read, batch_trials=1,059) + §5.1 rsqr-axis screen enrichment readout (prediction: rsqr20_hi/rsqr10_hi survival >=1.3x vs none baseline; negative finding = lawful output) -> TRIAL-LABOR-W12-JUDGE entry next (judge-prep + RAM r354 three-sample gate) -> w12_judge.json verdict -> s4 intake -> CEO-REPORT-WAVE12 48h face (window by 2026-10-02)",
+      "shards": [
+        {
+          "key": "screen-0of1",
+          "status": "ready",
+          "checkpoint": "results/trial_labor_w12/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429 root-cause class fix)",
+          "note": "single shard; worker_cap() parallelism inside the shard (W2-W11-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim",
+          "owner": "bm-b",
+          "owner_since": "2026-09-30 04:10:04"
+        }
+      ],
+      "worker_class": "self-contained",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-SCREEN 2,214 cells ~7min wall at 12 workers; W11-SCREEN 1,462 cells; W12-SCREEN 1,059 cells = 859 distinct + 200 nulls, lightest; screen leg-L 6m full-history per cell, ten-gate face carried per cell incl rsqr)",
+        "priority": "BelowNormal",
+        "note": "minutes-scale pool batch per prereg sec.0 (W9-SCREEN 2,715 cells ~8min; W11 1,462 lighter; W12 1,059 lightest); checkpoint every 50 candidates per prereg sec.0; free RAM 6.8GB at arm > 4GB r354 three-sample ban threshold (in-runner gate authoritative)"
+      }
     }
   ]
 }
