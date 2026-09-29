@@ -1282,6 +1282,28 @@ SEED_REGISTRY = {
         "trial_labor_w7_unc": 20306000,
         # W7 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20306000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "trial_labor_w8_gen": 20306500,
+        # TRIAL_LABOR_W8 (T-120 wave-8 temporal-state gate trial):
+        # Sobol(., scramble=True, seed=20306500+family_idx) param-box draws
+        # + eleven-tuple axis-stream rng([20306500+family_idx, 7919])
+        # (W8 prereg sec.3). Draft berths 20306500/20307000/20307500
+        # (bm-b r423 parked bases) re-verified at freeze per three-step
+        # take-number law (r183 69th): 101-key int inventory zero
+        # exact/key collision (band 20306xxx-20308xxx occupied only by
+        # w7_unc 20306000) + first-element distinct vs all existing bases
+        # and mutually distinct + rg full-repo hits all doc-berth
+        # declarations or CSV volume-column digit coincidences, zero
+        # seed faces (2026-09-29 12:3x freeze live-read; W6/W7 same-family
+        # precedent; berths held, no re-pick). Registered same commit as
+        # prereg freeze (R250 law; prereg =
+        # research/TRIAL_LABOR_W8_PREREG.md; F-04 MSG-20260929-1235)
+        "trial_labor_w8_scrnull": 20307000,
+        # W8 screen K=200 same-grammar random-signal nulls
+        # (rng([20307000, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        # (tstate gate leg merged into same-grid same-param-space draw)
+        "trial_labor_w8_unc": 20307500,
+        # W8 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20307500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
     }
 
