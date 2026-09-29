@@ -1505,6 +1505,12 @@ SEED_REGISTRY = {
         # (rng([20321500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
         "trial_labor_w12_unc": 20321500,
 
+        # [r453 bm-a yield-note: duplicate bm-a freeze block removed per
+        # fleet README sec.4 commit-time order (bm-b r444 02:25:52 earlier
+        # vs bm-a r453 02:30:49 later -> later yields); independent bm-a
+        # three-step re-verification all-green on the same berths kept as
+        # cross-check at results/_r453bma_w12_seed_law_facts.json]
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
