@@ -75,7 +75,7 @@
 
 ## §7 跑后实证【跑后一次定稿回填·占位纪律解除】
 
-**【2026-09-29 09:3x 一次定稿回填·bm-b r417（T-118 五波漂移债清偿）·数字真值源=results/trial_labor_w1/*.json】**
+**【2026-09-29 09:3x 一次定稿回填·bm-b r417（T-119 五波漂移债清偿）·数字真值源=results/trial_labor_w1/*.json】**
 
 - **漏斗**：raw 1,000（A500/B500）→ distinct **658**（塌缩 34.2%）→ 初筛 858 格（658+200 null）→ 存活 **149**（W2-5 同口径 22.6%=149/658；W1 代口径 149/1,000=14.9%）→ 全量判决 149 格 → **G1' 4/149 过线**（W1-A-0360 Sharpe 1.6316/W1-A-0066 1.4078/W1-A-0007 1.3896/W1-A-0048 1.3388·判线 skill_line_v2=1.1887·n_eff=312,072·四格全 sample_sufficient=True·verdict=pass·双 nulls B/P=2000/2000 CI 下界全正）→ **G2 0**（DSR 0.0894-0.4623 远低于 0.95 门·n_trials=311,214 活链头实读）→ 上岗 0（w1_intake.json n_eligible=0 lawful-zero）。账本 287,526+858=**288,384**（SCREEN 收官）→ 311,214+149=**311,363**（JUDGE 收官·跨波落地时序=W2-JUDGE 后）。
 - **判决面**：null 族中位 0.4497·p95=0.511572（=641/1253 量化格值·与 W2/W3 三波同格值如实注记）；E[FP]=0.05×149=**7.45** 如实披露；族 PBO：patterns 0.7429（59 格）/composite_rotation 0.4143（27）/ta 0.5857（24）/volatility 0.0143（19）/folk 5 格不足判读如实。
@@ -84,7 +84,7 @@
 
 ## §8 批后复盘【必填·s7-T·r417 回填】
 
-**【回执 2026-09-29 bm-b r417（T-118 漂移债清偿）】**attrition 损耗账两行（TRIAL_LABOR_W1_SCREEN 858+TRIAL_LABOR_W1_JUDGE 149）原落地窗未落=**漂移债第二面**，r417 补录（results/gate_attrition.json history+bm-b 车道双写·原事件时戳 2026-09-28 01:21:37/14:50:01+backfill 注记）；判线 v2 当批读数 skill_line_v2=**1.1887**；零新注册员（G2=0·无 SIGNAL_BUILDERS 接线面）；首波大考 48h CEO 呈报=CEO-REPORT-WAVE1-20260929.md（r405 窗内落地）+**r417 纠偏附录**（wave-1b G1' 4 非 0·0 录用不变）；轮报告+CODELY.md 行级追加 r417 同轮。
+**【回执 2026-09-29 bm-b r417（T-119 漂移债清偿）】**attrition 损耗账两行（TRIAL_LABOR_W1_SCREEN 858+TRIAL_LABOR_W1_JUDGE 149）原落地窗未落=**漂移债第二面**，r417 补录（results/gate_attrition.json history+bm-b 车道双写·原事件时戳 2026-09-28 01:21:37/14:50:01+backfill 注记）；判线 v2 当批读数 skill_line_v2=**1.1887**；零新注册员（G2=0·无 SIGNAL_BUILDERS 接线面）；首波大考 48h CEO 呈报=CEO-REPORT-WAVE1-20260929.md（r405 窗内落地）+**r417 纠偏附录**（wave-1b G1' 4 非 0·0 录用不变）；轮报告+CODELY.md 行级追加 r417 同轮。
 
 ## §9 追加冻结节【append-only·每 sub-wave 一冻·禁跑前另行冻结】
 
