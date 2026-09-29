@@ -1221,6 +1221,28 @@ SEED_REGISTRY = {
         "trial_labor_w6_unc": 20304500,
         # W6 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20304500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "trial_labor_w7_gen": 20305000,
+        # TRIAL_LABOR_W7 (T-118 wave-7 streak-confirmation gate trial):
+        # Sobol(., scramble=True, seed=20305000+family_idx) param-box draws
+        # + axis-stream rng([20305000+family_idx, 7919]) (W7 prereg sec.3).
+        # Draft berths 20305000/20305500/20306000 (bm-c r206 parked bases)
+        # re-verified at freeze per three-step take-number law (r183 69th):
+        # 98-key int inventory zero exact/key collision + first-element
+        # distinct vs all existing bases + rg full-repo zero seed-face
+        # hits 2026-09-29 09:2x (prereg/W8-candidate/digest/round-report
+        # berth-declaration doc mentions are not seed faces; the 2 CSV hits
+        # are data volume-column digit coincidences per 69th batch; W5
+        # 20291500 re-pick precedent NOT triggered -- berths held; draft
+        # collision YIELD receipt: bm-b AMP draft yielded per fleet README
+        # sec.4 commit-time law, parked as W8 candidate berth). Registered
+        # same commit as prereg freeze (R250 law; prereg =
+        # research/TRIAL_LABOR_W7_PREREG.md; F-04 MSG-20260929-0930)
+        "trial_labor_w7_scrnull": 20305500,
+        # W7 screen K=200 same-grammar random-signal nulls
+        # (rng([20305500, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        "trial_labor_w7_unc": 20306000,
+        # W7 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20306000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
     }
 
