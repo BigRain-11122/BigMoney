@@ -1348,6 +1348,17 @@ SEED_REGISTRY = {
         "trial_labor_w9_unc": 20310500,
         # W9 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20310500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        # GATE-TIMING-PRESCREEN-A158 (bm-c r231; take-number law: 111-key
+        # inventory live-read 2026-09-29 18:0x -- 20311000/20311500/
+        # 20312000 = W10 catalog-reserved berths (Tools/fill_ladder_catalog
+        # .json W10-GENERATE pre-arm, r229) left untouched; band
+        # 20312500..20312699 = clean 300-gap above W10 reserved block):
+        "gate_timing_prescreen_a158_scrnull": 20312500,
+        # 17 library gates x 5 members = 85 cells, same-mask circular-shift
+        # nulls K=200/cell (rng base re-init per cell = r433 t101_v4_a2
+        # template verbatim semantics; prereg =
+        # research/GATE_TIMING_PRESCREEN_A158_PREREG.md; F-04
+        # MSG-20260929-1800)
 
     }
 
