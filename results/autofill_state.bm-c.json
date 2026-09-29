@@ -647,17 +647,27 @@
    "pid": 23224,
    "runner_sha256": "e53b4ccda5d2f2d4",
    "fill_latency_min": 28.4,
-   "target_met": false
+   "target_met": false,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-29 11:31:36",
+  "ts": "2026-09-29 11:35:02",
   "machine": "bm-c",
   "py_cpu_pct": 0.0,
-  "verdict": "relaunch_cooldown",
+  "verdict": "fuse_refused_crash_loop",
   "entry": "TRIAL-LABOR-W7-JUDGE",
   "shard": "judge-0of1",
-  "last_launch_min": 1.6
+  "fuse_crashes": 1,
+  "fuse_refusals": 1,
+  "fuse_skipped": [
+   {
+    "entry": "TRIAL-LABOR-W7-JUDGE",
+    "shard": "judge-0of1",
+    "sig": "scripts/trial_labor_w7.py|judge,--shard,0,--shards,1",
+    "fuse_refusals": 1
+   }
+  ]
  },
  "lane_machine": "bm-c"
 }
