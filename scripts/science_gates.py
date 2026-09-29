@@ -1380,6 +1380,12 @@ SEED_REGISTRY = {
         "trial_labor_w10_unc": 20312000,
         # W10 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20312000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "t101_v4_a158_fv_scrnull": 20313000,
+        # T-101-V4-A158-FULLVERDICT same-mask circular-shift nulls K=200/cell
+        # (rng re-init per cell, template semantics) -- r441 bm-a
+        "t101_v4_a158_fv_unc": 20313500,
+        # T-101-V4-A158-FULLVERDICT dual-nulls (B=2000 block bootstrap +
+        # P=2000 sign-flip, rng([20313500, cell_idx])) W1 semantics -- r441 bm-a
 
     }
 
