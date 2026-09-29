@@ -4744,7 +4744,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-30T04:34:53+08:00",
    "entered_by": "bm-b r446",
    "data_gates": "GATES ALL GREEN (direct-ready r446, W11-JUDGE lineage): (1) TRIAL-LABOR-W12-SCREEN done -- w12_screen.json finalize r446 (1,059/1,059 cells, null p95 0.5132 IN band, survivors 188, ledger 355,083 linear append-verified); (2) judge-prep PASS bm-b r446 04:3x -- manifest 48 members, census L/D == frozen, survivors 188, gate meta L/D all faces incl. std meta 120-bar-warmup 128open/1383closed decidable 1511 std10-open 147 + rsqr meta L 163open/1348closed decidable 1511 rsqr10-open 142 slope-split 85up/78down disclosure (per-leg mirror of full-face sec.2(e)); (3) grammar sha16 67c86c9cf4ef1ca7 == FROZEN pin; (4) host_gates Money02 deep-panel parquet 5,383 files non-empty verified at submission pre-flight (W11 5,383 parity)",
@@ -4760,7 +4760,9 @@
     }
    ],
    "worker_class": "self-contained",
-   "workers_plan": "{'workers': 'worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors; W12-JUDGE 188 survivors lightest; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grouped shared-start pruning)', 'priority': 'BelowNormal'}"
+   "workers_plan": "{'workers': 'worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors; W12-JUDGE 188 survivors lightest; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grouped shared-start pruning)', 'priority': 'BelowNormal'}",
+   "result_ref": "results/trial_labor_w12/w12_judge.json (judge-finalize 2026-09-30 05:22:37 exit 0, 188/188 judged zero G1 zero G2, E[FP]=9.4, intake lawful-zero 05:36:47) -- bookkeeping flip by owner bm-b r447 dead-round closure; actual burn ran on autofill lineage (ckpt 188/188; post-write runner crash 05:20:03 non-science tail-segment, zero checkpoint loss, zero science loss)",
+   "done_at": "2026-09-30 05:4x"
   },
   {
    "id": "INNOVATION-QUOTA-SLOT-6",
@@ -4778,7 +4780,8 @@
      "status": "ready",
      "checkpoint": "",
      "note": "ladder default shard (single-face batch, r301 family)",
-     "owner": null
+     "owner": "bm-a",
+     "owner_since": "2026-09-30 06:10:56"
     }
    ],
    "entered_at": "2026-09-30 05:47:34",
@@ -4791,5 +4794,6 @@
    "worker_class": "self-contained",
    "priority": 3
   }
- ]
+ ],
+ "lane_machine": "bm-a"
 }
