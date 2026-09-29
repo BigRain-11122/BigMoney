@@ -14044,6 +14044,223 @@
     "intake": "results/trial_labor_w11/w11_intake.json (lawful-zero n_eligible=0, r444 harvest round)",
     "ticket": "T-2026-09-29-123"
    }
+  },
+  {
+   "batch": "TRIAL_LAB_W12_SCREEN",
+   "ts": "2026-09-30 04:27:19",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 1059,
+   "ledger_total_after": 355083,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 859,
+     "n_survivors": 188,
+     "line": "beat6m_rate > null_p95 strictly-greater (null_p95=0.513208, prereg sec.3 frozen)"
+    },
+    "null_face": {
+     "p50": 0.5116,
+     "p95": 0.513208,
+     "n": 200,
+     "note": "K=200 fifteen-tuple axis nulls with mom+std+rsqr legs, seed 20321000; p50 0.5116 within prereg sec.5.2 band [0.50,0.52] (seventh consecutive wave >0.50 drift-lineage continuation); p95 0.513208 within twelve-wave band; screen survival line = program-frozen null p95 (W2-W11 identical law)"
+    },
+    "rsqr_face": {
+     "segmented_survival": {
+      "none": {
+       "n_cells": 527,
+       "n_survivors": 134,
+       "survival_rate": 0.254269
+      },
+      "rsqr10_hi": {
+       "n_cells": 148,
+       "n_survivors": 39,
+       "survival_rate": 0.263514
+      },
+      "rsqr20_hi": {
+       "n_cells": 184,
+       "n_survivors": 15,
+       "survival_rate": 0.081522
+      }
+     },
+     "note": "RSQR new face direction intel (W12 true question, adopted from bm-a r447 probe package): rsqr10_hi 0.26351 = 1.04x vs none -- BELOW prereg sec.5.1 >=1.3x prediction (enrichment MISS); rsqr20_hi 0.08152 = 0.32x STRONG anti-enrichment (first RSQR-axis screen face, 10/20 asymmetry mirrors STD W11 lineage); RSQR axis family fails supply-line promotion on screen evidence"
+    },
+    "std_face": {
+     "segmented_survival": {
+      "std10_hi": {
+       "n_cells": 173,
+       "n_survivors": 53,
+       "survival_rate": 0.306358
+      },
+      "none": {
+       "n_cells": 470,
+       "n_survivors": 94,
+       "survival_rate": 0.2
+      },
+      "std20_hi": {
+       "n_cells": 216,
+       "n_survivors": 41,
+       "survival_rate": 0.189815
+      }
+     },
+     "note": "STD carried face replication (W11 1.40x/0.72x asymmetry): std10_hi 0.30636 = 1.53x vs none 0.20000; std20_hi 0.18982 = 0.95x -- 10d-positive/20d-flat asymmetry replicated"
+    },
+    "mom_face": {
+     "segmented_survival": {
+      "mom_oversold": {
+       "n_cells": 294,
+       "n_survivors": 70,
+       "survival_rate": 0.238095
+      },
+      "none": {
+       "n_cells": 565,
+       "n_survivors": 118,
+       "survival_rate": 0.20885
+      }
+     },
+     "note": "MOM carried face enrichment decay lineage third reading: mom_oversold 0.23810 vs none 0.20885 = 1.14x -- W10 1.88x -> W11 1.25x -> W12 1.14x cross-wave decay continuation (twelve-source exclusion book accumulation)"
+    }
+   },
+   "eliminated": 671,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W12_PREREG.md",
+    "results": "results/trial_labor_w12/w12_screen.json",
+    "ticket": "T-2026-09-30-124"
+   }
+  },
+  {
+   "batch": "TRIAL_LAB_W12_JUDGE",
+   "ts": "2026-09-30 05:17:43",
+   "kind": "judgment",
+   "retro_fill": false,
+   "cells_ledger_delta": 188,
+   "ledger_total_after": 355271,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 188,
+     "n_pass": 0,
+     "line": "skill_line_v2 per-cell (ledger_head live read); top cell W12-B-0933 legL sharpe_full=0.8653 vs line=1.195 (n_eff=356142) -- line_ok False; ten-face total (gate/vol/yang/vconf/streak/tstate/amp/mom/std/rsqr); best-cell bootstrap ci95 [0.2664,1.3007]",
+     "all_face_total_zero": true,
+     "faces": {
+      "gate": {
+       "none": 0,
+       "bull": 0,
+       "bear": 0
+      },
+      "vol": {
+       "none": 0,
+       "calm": 0,
+       "wild": 0
+      },
+      "yang": {
+       "none": 0,
+       "first_yang": 0
+      },
+      "vconf": {
+       "none": 0,
+       "volume_dry": 0,
+       "volume_surge": 0
+      },
+      "streak": {
+       "none": 0,
+       "up_streak2": 0,
+       "down_streak2": 0
+      },
+      "tstate": {
+       "oversold_rsv": 0,
+       "deep_pullback": 0,
+       "none": 0
+      },
+      "amp": {
+       "amp_wide": 0,
+       "amp_narrow": 0,
+       "none": 0
+      },
+      "mom": {
+       "none": 0,
+       "mom_oversold": 0
+      },
+      "std": {
+       "std20_hi": 0,
+       "none": 0,
+       "std10_hi": 0
+      },
+      "rsqr": {
+       "rsqr10_hi": 0,
+       "none": 0,
+       "rsqr20_hi": 0
+      }
+     }
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "top_dsr": 0.611668,
+     "top_dsr_cell": "JUDGE|W12-B-0144",
+     "n_trials": 355083,
+     "line": "G1 pass AND DSR>=0.95 AND PBO<=0.25"
+    },
+    "e_fp_nominal_5pct": 9.4,
+    "family_pbo": {
+     "ta": {
+      "pbo": 0.2857,
+      "n_cells": 37
+     },
+     "patterns": {
+      "pbo": 0.4143,
+      "n_cells": 33
+     },
+     "composite_rotation": {
+      "pbo": null,
+      "n_cells": 5,
+      "note": "insufficient (<8) -- G2 cannot pass"
+     },
+     "volatility": {
+      "pbo": 0.3143,
+      "n_cells": 13
+     },
+     "momentum": {
+      "pbo": 0.7286,
+      "n_cells": 20
+     },
+     "sentiment": {
+      "pbo": 0.1143,
+      "n_cells": 21
+     },
+     "trend": {
+      "pbo": 0.7286,
+      "n_cells": 20
+     },
+     "folk": {
+      "pbo": 0.2857,
+      "n_cells": 18
+     },
+     "mean_reversion": {
+      "pbo": 0.7,
+      "n_cells": 16
+     },
+     "seasonal": {
+      "pbo": null,
+      "n_cells": 2,
+      "note": "insufficient (<8) -- G2 cannot pass"
+     },
+     "macro": {
+      "pbo": null,
+      "n_cells": 1,
+      "note": "insufficient (<8) -- G2 cannot pass"
+     },
+     "event": {
+      "pbo": null,
+      "n_cells": 2,
+      "note": "insufficient (<8) -- G2 cannot pass"
+     }
+    }
+   },
+   "eliminated": 188,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W12_PREREG.md",
+    "results": "results/trial_labor_w12/w12_judge.json",
+    "intake": "results/trial_labor_w12/w12_intake.json (lawful-zero n_eligible=0, r447 harvest round)",
+    "ticket": "T-2026-09-30-124"
+   }
   }
  ],
  "lane_machine": "bm-b"

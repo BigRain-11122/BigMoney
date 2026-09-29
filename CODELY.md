@@ -16,6 +16,7 @@
 - 冷层指针：r440 bm-b 初筛富集面≠注册级增量律全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（法面已由 TRIAL_LABOR_W10_PREREG §7/8+CEO-REPORT-WAVE10+attrition 承载）。
 - 冷层指针：r242 bm-c runner 外科手术四连坑族全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（W11 runner 已建毕 selftest 47/47·坑律由 _r242bmc_w11_surgeon 系列工件承载）。
 - 冷层指针：r246 W4 配额槽判决收编行（VOLREGIME-TIMING-P1 0/3 全负·流水型）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-a 窗批』节；正典=research/INNOVATION_QUOTA_W4_PREREG.md §7/§8+results/innovation_quota/VOLREGIME-TIMING-P1.json。
+- [2026-09-30 05:58 r447 bm-b] W12 千人试用期收官（RSQR 门面·r240 死会话收编）：188 判决 0 过线 0 录用（lawful-zero·十三批 33,185→0 模态结局十三连中）；RSQR 轴全家族入排除簿=rsqr20 0.32× 毒面首证+10/20 不对称 1.04×/0.32×；账本 355,271。真值面=results/trial_labor_w12/*.json+docs/trial_labor/CEO-REPORT-WAVE12-20260930.md+prereg S7/S8（详档勿复述）。
 ### Reference
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
 
