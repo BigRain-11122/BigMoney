@@ -1654,6 +1654,13 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
 
 def cmd_screen_finalize() -> int:
     print(f"=== {WAVE} screen-finalize ===")
+    landed = tl6.finalize_already_landed(SCREEN_BATCH, SCREEN_FILE)
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {SCREEN_BATCH} already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar, cells = _cell_list_w7()
     rows = _load_screen_rows()
     by_id = {r["cell_id"]: r for r in rows}
@@ -2266,6 +2273,13 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
 
 def cmd_judge_finalize() -> int:
     print(f"=== {WAVE} judge-finalize ===")
+    landed = tl6.finalize_already_landed(JUDGE_BATCH, JUDGE_FILE)
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {JUDGE_BATCH} already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
     screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
     survivors = list(screen.get("survivors", []))
@@ -2953,11 +2967,35 @@ def cmd_selftest() -> int:
         and {"gate_zeroed", "vol_zeroed", "yang_zeroed", "vconf_zeroed",
              "streak_zeroed"} <= set(csv_cols_screen_w7))
 
+    g_scr = tl6.finalize_already_landed(SCREEN_BATCH, SCREEN_FILE)
+    if os.path.exists(SCREEN_FILE):
+        _ok("L19a pit-95 guard live-fire: w7_screen.json carries "
+            "SCREEN_BATCH -> finalize re-run would be refused",
+            isinstance(g_scr, dict)
+            and g_scr.get("batch") == SCREEN_BATCH
+            and isinstance(g_scr.get("total"), int))
+    else:
+        _ok("L19a pit-95 guard fresh-face: w7_screen.json absent -> "
+            "guard None = lawful fresh batch, finalize proceeds",
+            g_scr is None)
+    g_jdg = tl6.finalize_already_landed(JUDGE_BATCH, JUDGE_FILE)
+    if os.path.exists(JUDGE_FILE):
+        _ok("L19b pit-95 guard live-fire: w7_judge.json carries "
+            "JUDGE_BATCH -> finalize re-run would be refused",
+            isinstance(g_jdg, dict)
+            and g_jdg.get("batch") == JUDGE_BATCH
+            and isinstance(g_jdg.get("total"), int))
+    else:
+        _ok("L19b pit-95 guard fresh-face: w7_judge.json absent -> "
+            "guard None = lawful fresh batch, finalize proceeds",
+            g_jdg is None)
+
     print(f"\nselftest: {n_pass}/{n_leg} PASS "
           f"(scope: slice-1a streak layer + G-STREAK + grammar + "
           f"slice-2a machinery: effective mask / curve runner parity / "
           f"null draw / 14-source exclusion loader + slice-2b funnel "
-          f"faces: dispatch / null-cell engine path / CSV contract; "
+          f"faces: dispatch / null-cell engine path / CSV contract + "
+          f"pit-95 finalize idempotency guard state-adaptive legs; "
           f"zero live cells burned, zero numbers fabricated)")
     return 0 if n_pass == n_leg else 1
 
