@@ -4778,10 +4778,10 @@
     {
      "key": "main",
      "status": "done",
-     "checkpoint": "burn complete 06:50:01-06:50:35 (verdict + attrition bm-c lane + trials_ledger landed)",
-     "note": "ladder default shard (single-face batch, r301 family)",
-     "owner": "bm-c",
-     "owner_since": "2026-09-30 06:50:05"
+     "checkpoint": "burn complete 06:40:01-06:40:34 (verdict + attrition + trials_ledger landed, adopt r449 bm-b)",
+     "note": "ladder default shard (single-face batch, r301 family); claim-collision honest note r449 bm-b: bm-c tick claim 06:50:05 post-dates bm-b burn-complete 06:40:34 (r255 stale-tree family, verdict unpushed in window); bm-c duplicate-burn if any = same-seed deterministic face, their side self-resolves per r450/r446 law",
+     "owner": "bm-b",
+     "owner_since": "2026-09-30 06:40:04"
     }
    ],
    "entered_at": "2026-09-30 05:47:34",
@@ -4796,7 +4796,7 @@
    "runner_args": [
     "run"
    ],
-   "result_ref": "results/innovation_quota/RRG-ROTATION-P1.json (r257 bm-c flip per SLOT-5 r250 executing-machine precedent; autofill burn 06:50:01 pid 26676 landed 06:50:35, r255 stale-claim self-heal then real burn): judged-negative ALL 4 cells -- RRG-BASE-X1 -0.0039 / RRG-BASE-X2 -0.3036 / RRG-UNC-X1 -0.4202 / RRG-UNC-X2 -0.5098 vs line 1.1949 (null_term dominant = shared core48 collector face, N_eff 355,375; passive_fed 0.3792 = core48 pool calibration live-read); DSR 2e-06/0/0/0; family PBO 0.30 > 0.25 gate (G2 family face fails independent of G1); 0/4 g1_prime_v2 pass, 0/4 G2-eligible -> zoo #91 rrg_quadrant_rotation judged-negative family closure per law s5 (T33/MF_ROT dual negative-prior mainline confirmed, prereg s5 prediction 1 realized); ledger +4 -> 355,375; attrition row = bm-c lane file (executing machine law); evidence_cutoff 2026-09-22; 48h CEO report clock start 2026-09-30 06:50 (due 2026-10-02 06:50); W6 prereg s7/s8 backfill claimed by bm-c per SLOT-5 r251 precedent (MSG heads-up sent, anti-double-write)"
+   "result_ref": "results/innovation_quota/RRG-ROTATION-P1.json (r449 bm-b flip per SLOT-1/2/4/5 precedent; autofill burn 06:40:01 pid 37644 dead zero-zombie + verdict landed 06:40:17 + bm-b lane attrition row 06:40:34 + trials_ledger 355,371->355,375 linear; adopt-verify-close anchors: prereg sha16 982899ca5dc905ed zero-touch + runner sha16 06ffd1aba437bf1c triple-anchor): judged-negative ALL 4 cells -- RRG-BASE-X1 -0.0039 / RRG-BASE-X2 -0.3036 / RRG-UNC-X1 -0.4202 / RRG-UNC-X2 -0.5098 vs line 1.1949 NULL-TERM-DOMINATED (first non-passive-dominant quota line, N_eff 355,375); DSR 2e-06/0/0/0; family PBO 0.3 observe band; G1 0/4 -> no G2 face, no T-34 intake; turnover budget breach both base cells 143.23/124.94 entries/yr vs 50/yr (unc 34.84/12.9 ok); beat_24m all <=0.085; pool-EW bench +2.39% ann vs all four cells negative; zoo #91 family closed per law s5 + reopen note 3 channels (industry-pure pool / RS window family / adaptive-hub quadrants); prereg s7/s8 backfilled r449; 48h CEO face due 2026-10-02 06:40"
   }
  ],
  "lane_machine": "bm-c"
