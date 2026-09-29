@@ -4,6 +4,8 @@
 ### Feedback
 ### [2026-09-29 21:4x r240 bm-c] tick 15min 时限强杀·完整工件零 commit 接续律（死 tick 实弹·烧完全批+S6 37 腿全绿后死于 S7 收口前·state 未进位轮报告未落=下 tick 轮号回读同号）：正解=取证三步后 adopt-verify-close——①进程链起止时刻核（wscript→powershell→codely·Last Run=在飞锚）确认零他执行体②工件完整性锚验（verdict 全 face+trials_ledger 键+prereg 判据零触碰 diff+attrition 双面）③账本并发叉核（他机同窗 landed 批=later-yields 重基）；禁盲目重跑（RANDOM_LARGE_SAMPLE_LAW）禁 reset 丢产物。附带坑：ack 名带 .md 尾（差集脚本须按 basename 全名比）；attrition 双数组=entries 详单+history 统一链、T-101 线批走车道文件 gate_attrition.bm-a.json 非共享面；内联 hash 锚序列化法须留痕否则不可复验。
 - [2026-09-30 01:0x r443 bm-b] jsonl 追加写吞换行腐败坑+union 双侧同族修复律（x2_watch_log 实弹·死轮遗产收编窗）：追加型 jsonl 生产者在并发/异常退出窗下 append 未带前置换行→两 JSON 对象同线拼接=逐行 json.loads 全断（本机死轮 23:5x 写入+origin bm-a 侧同族各 1 例=双侧腐败非单机面）；正典修复=JSONDecoder.raw_decode 循环拆拼接行零丢失（工具 results/_r443bmb_x2log_repair.py·修复后行数==对象数核验 1814）+rebase union 解后必对产物再跑同族拆分（r442 resolver 只验 raw-decode 可解不拆行=粘连行存活进 commit）。How to apply：凡 append-only jsonl 面收编/union 后，最终产物以「行数==对象数」为验收线；新追加写者一律带「ensure trailing newline before append」守卫。
+- [2026-09-30 03:1x r455 bm-a] S5 轮报告路径孤儿坑（r454 实弹）：轮 prompt S5 文本「round_reports-<本机id>.md」未带目录→r454 执行体轮行误落根目录 untracked 孤儿（正典=logs/iteration-loop/round_reports-bm-a.md 带全史且 .gitignore 白名单 !logs/iteration-loop/round_reports*.md 锚定正典位）=轮行永不入 git·370 轮历史险断链；正法=本机轮报告恒追加 logs/iteration-loop/round_reports-<id>.md·发现根级同名件=孤儿即 verbatim 并回正典后删除（r455 已修）；How to apply：S5 落笔前先核正典位路径，根级面存在即孤儿处置。
+
 ### Project
 
 - 冷层指针：r433 同门换用法反向证伪律+r431 探针条件率 NaN 归桶伪影律+r443 跨索引 reindex 静默全 NaN 接线坑+r438 轮中猝死脏树 autofill 认领锁死链+r233 阶梯目录消耗态盲区五条全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r440 bm-b 窗批』节（r233 条=r438 bm-b 窗批节在位引用·水位 11,849B 超 ≤10KB 硬线当窗即办·行级零丢失校验·r440 bm-a 撞批三查律+r229 LHB 源改史+r235 core48 源分层热层保留=操作面活跃）。
