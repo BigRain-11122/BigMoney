@@ -10268,6 +10268,46 @@
    "prereg": "research/T-101-V4_A12_PREDCOND_PREREG.md",
    "results": "results/t101_v4_a12_predcond.json",
    "burn_disclosure": "zero-correction burn (single 61.0s run); selftest legs 3/4/8 stride-20 caliber errors caught and fixed PRE-freeze (judgment faces zero-touch, r251/r280 precedent family); dual-nulls base wiring: fv.UNC_BASE rebound to batch key 20316500 pre-call -- A10/A11 inherited fv module base 20313500 while declaring their own keys in prereg metadata (seed-arbitrary face, zero verdict impact, disclosure note in prereg sec.8)"
+  },
+  {
+   "batch": "T-101-V4-A13-PREDFACE",
+   "ts": "2026-09-29T21:5x+08:00",
+   "host": "bm-a",
+   "kind": "judgment",
+   "n_cells": 40,
+   "verdict": "FV_PASS_2of12_POSITIVE_SUPPLY",
+   "line_action": "INPUT_FEATURE_RESIDUAL_FACE_POSITIVE_no_exit",
+   "legs": {
+    "fv_pass_cells": [
+     "raw|510050|f_c2",
+     "raw|510500|f_c2"
+    ],
+    "supply_notes_oos_only": [
+     "raw|512100|f_c2",
+     "resid|512100|f_c2"
+    ],
+    "ic_oos": {
+     "510050|f_c2": 0.2363,
+     "510500|f_c2": 0.1945,
+     "512100|f_c2_raw": 0.2643,
+     "512100|f_c2_resid": 0.2857
+    },
+    "p_oos": {
+     "510050": 0.005,
+     "510500": 0.0348,
+     "512100_raw": 0.01,
+     "512100_resid": 0.01
+    },
+    "boot_ci_oos_excludes_zero": [
+     "510050 [0.090,0.372]",
+     "510500 [0.030,0.357]"
+    ],
+    "family_coherence": "all 4 hits = f_c2 (17-gate mean); rsv30/roc20/std20 dead across all 40 cells",
+    "e_fp_nominal": 0.6,
+    "mechanism": "continuous-value version of gate-family conditional means (gate_verify positive OOS = second instance of info-exists-conversion-dies two-symbol separation)",
+    "downstream": "f_c2 forecast face -> A1/C1 composite arm named input feature (bm-b lane, A8 downgrade route); conversion still faces D6 beta-domination (pre-declared)",
+    "ledger": "346553->346593 +40 linear, trials_ledger key landed"
+   }
   }
  ],
  "history": [

@@ -355,7 +355,9 @@ def run() -> int:
                     cell_idx += 1
                     continue
                 ic_full, n_full, nex_full = _ic(x, y)
-                is_mask = (dts < pd.Timestamp(SPLIT)).values
+                # pandas 3: DatetimeIndex compare -> ndarray, no .values
+                # (gate_verify 09-29 pit law, np.asarray wrap)
+                is_mask = np.asarray(dts < pd.Timestamp(SPLIT))
                 if is_mask.any():
                     ic_is, n_is, nex_is = _ic(x[is_mask], y[is_mask])
                 else:
