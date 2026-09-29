@@ -183,7 +183,7 @@ CKPT_DIR = os.path.join(RES_DIR, "checkpoint")
 SCREEN_BATCH = "TRIAL_LAB_W11_SCREEN"   # prereg sec.0 ledger literal
 JUDGE_BATCH = "TRIAL_LAB_W11_JUDGE"     # prereg sec.0 ledger literal
 W6M = tl1.WINDOWS["6m"]                # leg-L 6m screen window (126 td)
-FROZEN_SHA16 = None   # pinned at slice-1 serialization (W10 precedent; None = print sha for the pin, refuse nothing)
+FROZEN_SHA16 = "128962592feeb8d3"   # pinned at slice-1 serialization (W10 precedent); r442 session died pre-pin -- pin completed r442-close from serialized grammar results/trial_labor_w11/w11_grammar.json grammar_sha256 (selftest L6g fail-closed verifies pin == built sha)
 
 # prior-wave grammar shas (constructive-distinct assertion face)
 PRIOR_WAVE_SHA16 = {
@@ -205,6 +205,13 @@ TSTATE_MEMBER = tl8.TSTATE_MEMBER       # "510300"
 AXIS_AMP = tl9.AXIS_AMP                 # ["none","amp_narrow","amp_wide"]
 AMP_MEMBER = tl9.AMP_MEMBER              # "510300"
 AMP_ANCHOR = tl9.AMP_ANCHOR             # W9 frozen probe anchors
+# FULL amp machinery imported verbatim from tl9 (W9 frozen face;
+# import-face law; zero re-implementation -- same block as tl10 L567)
+amp_state_series = tl9.amp_state_series
+amp_zero_mask = tl9.amp_zero_mask
+_amp_state_full = tl9._amp_state_full
+_amp_structure_pass = tl9._amp_structure_pass
+_amp_series_raw = tl9._amp_series_raw
 # AMP_SPEC carried from tl9.build_grammar_w9() inside build_grammar_w11
 # (import-time grammar-chain build is heavy; lazy face = build-time read)
 
@@ -2586,11 +2593,12 @@ def cmd_screen_finalize() -> int:
     stop_counts, gate_counts = {}, {}
     vol_counts, yang_counts, vconf_counts = {}, {}, {}
     streak_counts, tstate_counts, amp_counts = {}, {}, {}
-    mom_counts = {}
+    mom_counts, std_counts = {}, {}
     gate_seg, vol_seg, yang_seg, vconf_seg = {}, {}, {}, {}
     streak_seg, tstate_seg, amp_seg, mom_seg = {}, {}, {}, {}
     gvvy_seg, gvvvsk_seg, gvvvskts_seg = {}, {}, {}
     gvvvsktsa_seg, gvvvsktsam_seg = {}, {}
+    std_seg, gvvvsktsams_seg = {}, {}
     for r in cand_rows:
         stop_counts[r["stop_face"]] = stop_counts.get(r["stop_face"], 0) + 1
         gf, vf = r["gate_face"], r["vol_face"]
@@ -2598,6 +2606,7 @@ def cmd_screen_finalize() -> int:
         sf, tf = r["streak_face"], r["tstate_face"]
         af = r["amp_face"]
         mf = r["mom_face"]
+        stf = r["std_face"]
         gate_counts[gf] = gate_counts.get(gf, 0) + 1
         vol_counts[vf] = vol_counts.get(vf, 0) + 1
         yang_counts[yf] = yang_counts.get(yf, 0) + 1
