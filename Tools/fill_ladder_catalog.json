@@ -1,11 +1,26 @@
 {
-  "version": "tranche-2 (T-107 slice-2 continuation: +TRIAL-LABOR-W10-GENERATE pre-arm, bm-c r229; tranche-1 five faces all consumed)",
+  "version": "tranche-2 + consumption_state face (bm-c r234: per-entry consumption-state block added per r233 pitfall law -- claim-side three-step check now has a machine-readable face; tranche-1 five faces all consumed; tranche-2 pre-arm = TRIAL-LABOR-W10-GENERATE awaiting bm-b freeze steps)",
   "law_refs": [
     "O-20260928-1614 sec.1 SUPPLY FLOOR + sec.4 FILL LADDER (a)(b)(c)(d)",
     "O-20260928-1630 D4 standing supply catalog",
     "firm/TRIAL_LABOR_LAW.md v1.0 sec.1 常供律",
     "research/COMPUTE_AUDIT.md v2.4 supply_floor remediation face"
   ],
+  "consumption_state": {
+    "_law": "r233 pitfall law face (bm-c): claim-side MUST still run the three-step check (Test-Path prereg_ref -> read status banner -> Test-Path runner; both-in + sec.7 backfilled = consumed, zero re-claim); this block is the machine-readable mirror, authoritative sequence = per-entry evidence pointers below",
+    "TRIAL-LABOR-W5-GENERATE": {"state": "consumed", "evidence": "W5 wave burned in the W5-W9 chain (W9 verdict landed 2026-09-29; prereg research/TRIAL_LABOR_W5_PREREG.md frozen + runner scripts/trial_labor_w5.py + gate_attrition history); entry note 'draft-pending' was STALE -- kept verbatim above for lineage, superseded by this row",
+      "verified": "version-line claim + files-in-tree, bm-c r234"},
+    "MEMBER-REINFORCE-P1": {"state": "consumed", "evidence": "burned r180/r182 (bm-c near-miss r233: draft overwrote frozen file, restored byte-identical); prereg research/MEMBER_REINFORCE_P1_PREREG.md sec.7 backfilled",
+      "verified": "direct, bm-c r233 near-miss forensics"},
+    "NATIONAL-TEAM-S3-EVENT-REVIEW": {"state": "consumed", "evidence": "s1-s4 chain landed (results/national_team/ s3_event_review.json + s2_selection_verdict.json + s4_chain_integration.json 2026-09-28/29); prereg FROZEN + runner in-tree",
+      "verified": "direct, bm-c r234 (files + mtime read)"},
+    "INNOVATION-QUOTA-SLOT-1": {"state": "consumed", "evidence": "innovation_quota_w1 batch burned (prereg research/INNOVATION_QUOTA_W1_PREREG.md + runner scripts/innovation_quota_w1.py in-tree, tranche-1 version-line claim)",
+      "verified": "version-line claim + files-in-tree, bm-c r234"},
+    "INNOVATION-QUOTA-SLOT-2": {"state": "consumed", "evidence": "W2 REPO long-term extension judged batch burned (prereg frozen r183 bm-c + runner scripts/innovation_quota_w2.py in-tree, tranche-1 version-line claim)",
+      "verified": "version-line claim + files-in-tree, bm-c r234"},
+    "TRIAL-LABOR-W10-GENERATE": {"state": "pre-armed", "evidence": "prereg research/TRIAL_LABOR_W10_PREREG.md FROZEN by bm-b r437 + SEED three keys registered; runner build in flight (bm-b declared next-step, heartbeat 2026-09-29 18:26); auto-arms on prereg_frozen+runner_exists+standing_no_judge_inflight",
+      "verified": "direct, bm-c r234 (heartbeat + board read)"}
+  },
   "entries": [
     {
       "id": "TRIAL-LABOR-W5-GENERATE",
@@ -143,4 +158,5 @@
       "note": "ladder (a) tranche-2 pre-arm: W10 candidate parked 2026-09-29 r228 (bm-c); MOM axis = thirteen-tuple cell key per candidate sec.3; entry auto-arms ONLY after freeze steps land (frozen prereg + runner build + SEED_REGISTRY + wave ticket) -- prereg_frozen gate refuses the candidate DRAFT head by design (mirrors W5 r162 draft-head convention); judge pipeline must drain first (standing_no_judge_inflight); tranche-1 five faces all consumed = supply-floor breach stands honestly until this or another lawful candidate arms"
     }
   ]
-}
+}
+
