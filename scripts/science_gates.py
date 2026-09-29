@@ -1359,6 +1359,27 @@ SEED_REGISTRY = {
         # template verbatim semantics; prereg =
         # research/GATE_TIMING_PRESCREEN_A158_PREREG.md; F-04
         # MSG-20260929-1800)
+        # TRIAL_LABOR_W10 (bm-b r437 freeze; berths held from bm-c r228
+        # candidate draft, zero re-pick -- three-step take-number law
+        # re-verified at freeze ALL GREEN: 112-key registry live-read zero
+        # exact value/key collision; first elements 1282508069/905546082/
+        # 1631370965 distinct vs all 111 existing int bases and mutually
+        # distinct; rg whole-repo hits all = berth-declaration documents
+        # (prereg/MSG/catalog/HANDOVER/comments) != seed face; null-derive
+        # band 20311500..20311699 and unc-derive band 20312000..20312200
+        # overlap zero registered values; prereg =
+        # research/TRIAL_LABOR_W10_PREREG.md; F-04 MSG-20260929-1820)
+        "trial_labor_w10_gen": 20311000,
+        # 5000-draw Sobol generation axis draws
+        # (rng([20311000+family_idx, 7919]) integer-axis draw per
+        # W1-W9 lineage)
+        "trial_labor_w10_scrnull": 20311500,
+        # s2 screen K=200 same-structure random-signal nulls
+        # (rng([20311500, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        # (mom gate leg merged into same-grid same-param-space draw)
+        "trial_labor_w10_unc": 20312000,
+        # W10 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20312000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
     }
 
