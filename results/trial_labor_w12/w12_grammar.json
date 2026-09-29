@@ -1,0 +1,4154 @@
+{
+ "amp_anchor": {
+  "core48_wide_rate": {
+   "max": 0.5115,
+   "median": 0.4937,
+   "members_with_lt60_rows_excluded": 0,
+   "method": "tl1.load_core() roster (import-reuse, real core48 face)",
+   "min": 0.4808,
+   "n": 48
+  },
+  "cross_streak_lower_bounds": {
+   "down_and_narrow": 373,
+   "up_and_wide": 421
+  },
+  "cross_tstate_lower_bounds": {
+   "mad60_and_wide": 233,
+   "rsv60_and_narrow": 264
+  },
+  "cross_vconf_lower_bounds": {
+   "dry_and_narrow": 1198,
+   "surge_and_wide": 1193
+  },
+  "cross_yang_lower_bounds": {
+   "red_and_narrow": 887,
+   "yang_and_wide": 884
+  },
+  "cutoff": "2026-09-22",
+  "decidable_days": 3464,
+  "extreme_days": {
+   "2015-07-27": {
+    "amp_over_med20": 1.814,
+    "amp_state": "wide",
+    "mad60": true,
+    "rsv60": false,
+    "rsv_value": 0.2026,
+    "streak": "down_streak2"
+   },
+   "2016-01-04": {
+    "amp_over_med20": 4.814,
+    "amp_state": "wide",
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.2583,
+    "streak": "down_streak2"
+   },
+   "2024-02-28": {
+    "amp_over_med20": 1.21,
+    "amp_state": "wide",
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.709,
+    "streak": "neither"
+   },
+   "2024-09-24": {
+    "amp_over_med20": 3.853,
+    "amp_state": "wide",
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.5422,
+    "streak": "up_streak2"
+   },
+   "2024-09-30": {
+    "amp_over_med20": 6.654,
+    "amp_state": "wide",
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.9932,
+    "streak": "up_streak2"
+   },
+   "2025-04-07": {
+    "amp_over_med20": 6.961,
+    "amp_state": "wide",
+    "mad60": true,
+    "rsv60": true,
+    "rsv_value": 0.1753,
+    "streak": "down_streak2"
+   },
+   "2026-01-19": {
+    "amp_over_med20": 1.032,
+    "amp_state": "wide",
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.4745,
+    "streak": "down_streak2"
+   }
+  },
+  "first_date": "2012-05-28",
+  "first_decidable_bar_idx": 19,
+  "n_bars": 3483,
+  "narrow_days": 1746,
+  "note": "AMP core anchors (warmup 19 / decidable 3,464 / wide 1,718 / narrow 1,746 / zero-range 0) asserted EXACT; cross four-cell faces asserted as LOWER BOUNDS per prereg sec.2; seven-gate 128 cells asserted 73-non-empty with the exact frozen 55-empty name list (probe range 1-59) + exact per-cell cross-check vs the git-tracked probe facts file when present; extreme-day gate states asserted exact (amp ratios at probe 3-decimal rounding, rsv values at probe 4-decimal rounding, tolerance 5.001e-5); STREAK/TSTATE reproduction counts asserted exact (W7/W8 cross-probe determinism law)",
+  "probe_basis": "cross-tables on the r431 probe basis VERBATIM (r407 lesson): gate = close > ma200 strict with the NaN warmup leg False on BOTH bull and bear sides; vol = vol20 vs med500 NaN->False both sides; yang = close > open strict (doji red); surge = volume > med20 (min_periods=20, INCL d), dry = ~surge; streak = W7 close-over-close double; tstate = the tl8 census-verbatim faces; amp = the r417 face (all-decidable window m7 = amp_decidable & st.notna() & q10_ref.notna() == 3,305 days)",
+  "probe_facts": "results/_r431bmb_ampgate_w9_probe_facts.json (r431 bm-b berth-upgrade merge of r417 AMP probe + r423 STREAK/TSTATE faces; exact per-cell 128-grid cross-check face when present; probe-facts face not a results face)",
+  "seven_gate_128cells_empty": [
+   "bear|calm|red|dry|up_streak|mad60|narrow",
+   "bear|calm|red|dry|up_streak|mad60|wide",
+   "bear|calm|red|dry|up_streak|rsv60|narrow",
+   "bear|calm|red|dry|up_streak|rsv60|wide",
+   "bear|calm|red|surge|up_streak|mad60|narrow",
+   "bear|calm|yang|dry|up_streak|mad60|wide",
+   "bear|calm|yang|surge|down_streak|mad60|narrow",
+   "bear|calm|yang|surge|down_streak|mad60|wide",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow",
+   "bear|calm|yang|surge|down_streak|rsv60|wide",
+   "bear|wild|red|dry|up_streak|mad60|wide",
+   "bear|wild|red|dry|up_streak|rsv60|wide",
+   "bear|wild|red|surge|up_streak|mad60|wide",
+   "bear|wild|red|surge|up_streak|rsv60|narrow",
+   "bear|wild|red|surge|up_streak|rsv60|wide",
+   "bear|wild|yang|dry|up_streak|rsv60|wide",
+   "bull|calm|red|dry|down_streak|mad60|narrow",
+   "bull|calm|red|dry|down_streak|mad60|wide",
+   "bull|calm|red|dry|up_streak|mad60|narrow",
+   "bull|calm|red|dry|up_streak|mad60|wide",
+   "bull|calm|red|dry|up_streak|rsv60|narrow",
+   "bull|calm|red|dry|up_streak|rsv60|wide",
+   "bull|calm|red|surge|down_streak|mad60|narrow",
+   "bull|calm|red|surge|up_streak|mad60|narrow",
+   "bull|calm|red|surge|up_streak|mad60|wide",
+   "bull|calm|red|surge|up_streak|rsv60|narrow",
+   "bull|calm|red|surge|up_streak|rsv60|wide",
+   "bull|calm|yang|dry|down_streak|mad60|narrow",
+   "bull|calm|yang|dry|down_streak|mad60|wide",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow",
+   "bull|calm|yang|dry|down_streak|rsv60|wide",
+   "bull|calm|yang|dry|up_streak|mad60|narrow",
+   "bull|calm|yang|dry|up_streak|mad60|wide",
+   "bull|calm|yang|dry|up_streak|rsv60|wide",
+   "bull|calm|yang|surge|down_streak|mad60|narrow",
+   "bull|calm|yang|surge|down_streak|mad60|wide",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow",
+   "bull|calm|yang|surge|down_streak|rsv60|wide",
+   "bull|calm|yang|surge|up_streak|mad60|narrow",
+   "bull|calm|yang|surge|up_streak|mad60|wide",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow",
+   "bull|calm|yang|surge|up_streak|rsv60|wide",
+   "bull|wild|red|dry|up_streak|mad60|wide",
+   "bull|wild|red|dry|up_streak|rsv60|narrow",
+   "bull|wild|red|dry|up_streak|rsv60|wide",
+   "bull|wild|red|surge|up_streak|mad60|wide",
+   "bull|wild|red|surge|up_streak|rsv60|wide",
+   "bull|wild|yang|dry|down_streak|mad60|wide",
+   "bull|wild|yang|dry|down_streak|rsv60|wide",
+   "bull|wild|yang|dry|up_streak|rsv60|wide",
+   "bull|wild|yang|surge|down_streak|mad60|narrow",
+   "bull|wild|yang|surge|down_streak|mad60|wide",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow",
+   "bull|wild|yang|surge|down_streak|rsv60|wide",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow"
+  ],
+  "seven_gate_128cells_empty_count": 55,
+  "seven_gate_128cells_max": 59,
+  "seven_gate_128cells_min_nonzero": 1,
+  "seven_gate_128cells_nonzero_count": 73,
+  "seven_gate_all_decidable_days": 3305,
+  "streak_anchor_reproduction": {
+   "down_streak_days": 817,
+   "neither_days": 1820,
+   "up_streak_days": 844,
+   "warmup_gate_closed_bars": 2
+  },
+  "tstate_anchor_reproduction": {
+   "mad60_gate_true_days": 383,
+   "rsv60_gate_true_days": 632
+  },
+  "warmup_gate_closed_bars": 19,
+  "wide_days": 1718,
+  "wide_rate_on_decidable": 0.496,
+  "zero_range_rows": 0
+ },
+ "amp_spec": {
+  "amp_formula": "amp(d) = (high(d) - low(d)) / close(d) -- VERBATIM the registered formula engine/factors.py::intraday_range (FACTOR_CENSUS_REGISTRY A-row; zero-invention law)",
+  "amp_narrow": "amp <= med20amp (calm / consolidation-day face; MBAlib T-star family: quiet shrinking-volume consolidation; in-registry intraday_range three-window negative IC = narrow-face LONG anchor, short-window weak anchor, term-structure mismatch honest)",
+  "amp_wide": "amp > med20amp (spectacle / turn-day face; MBAlib long-doji family canon: giant amplitude = regime-change face, direction NOT promised = both-direction honest)",
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> YANG -> VCONF -> STREAK -> TSTATE -> AMP -> initial-stop (an amp-blocked signal never arms a stop; W8 order extended, prereg sec.3 twelve-tuple order R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP)",
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL/YANG/VCONF/STREAK/TSTATE, zero lookahead)",
+  "med20amp": "amp rolling-20 median (min_periods=20, INCL d)",
+  "member": "510300",
+  "nan_artifact_note": "NaN comparisons (amp > med / amp <= med) yield False NOT decidable (pit-95 batch-95 / r421 probe / r431 erratum face: the r417 map({False->x}) NaN-bucket artifact put gate-closed warmup days into the bear/wild buckets); the decidable face derives from the underlying value notna (med20amp.notna()); the naive (amp > med) bool face masquerades warmup bars as NARROW -- BANNED; amp_narrow keep face = (~wide) AND decidable",
+  "none": "no gate (W8 semantic baseline face)",
+  "series": "r417/r431 probe verbatim (zero-invention law): signal-day-d close info set on the member face",
+  "warmup": "19-bar warmup window gate-closed honest (med20amp first valid bar-idx == 19; VCONF-isostructural; structure spectrum vs YANG 0 / STREAK 2 / RSV 59 / MAD60 178 / VOL 519)"
+ },
+ "axes": {
+  "amp": [
+   "none",
+   "amp_narrow",
+   "amp_wide"
+  ],
+  "exits": [
+   "template_default",
+   "ce_machine",
+   "time_stop_5d",
+   "time_stop_7d",
+   "time_stop_10d",
+   "time_stop_20d",
+   "trailing_stop",
+   "profit_ladder"
+  ],
+  "filters": [
+   "none",
+   "depth_thresh",
+   "amplitude",
+   "liquidity",
+   "trend_slope",
+   "dual_window",
+   "fundamental_mask"
+  ],
+  "gate": [
+   "none",
+   "bull",
+   "bear"
+  ],
+  "initial_stop": [
+   "none",
+   "p3",
+   "p5",
+   "p8",
+   "p12",
+   "a15",
+   "a20",
+   "a25"
+  ],
+  "mom": [
+   "none",
+   "mom_oversold"
+  ],
+  "rsqr": [
+   "none",
+   "rsqr20_hi",
+   "rsqr10_hi"
+  ],
+  "sizing": [
+   "equal_weight",
+   "inverse_vol",
+   "cap20",
+   "regime_delever"
+  ],
+  "std": [
+   "none",
+   "std20_hi",
+   "std10_hi"
+  ],
+  "streak": [
+   "none",
+   "up_streak2",
+   "down_streak2"
+  ],
+  "timing": [
+   "daily_signal",
+   "weekly_grid"
+  ],
+  "tstate": [
+   "none",
+   "deep_pullback",
+   "oversold_rsv"
+  ],
+  "vconf": [
+   "none",
+   "volume_surge",
+   "volume_dry"
+  ],
+  "vol": [
+   "none",
+   "calm",
+   "wild"
+  ],
+  "yang": [
+   "none",
+   "first_yang"
+  ]
+ },
+ "axis_combos": 94058496,
+ "evidence_cutoff": "2026-09-22",
+ "exclusion": {
+  "note": "exclusion face = rsqr=none only; prior-wave keys rsqr=none-completed (semantic identity match); rsqr in {rsqr20_hi, rsqr10_hi} = new-syntax legal cells (prereg sec.1)",
+  "sources": [
+   "p4_batch1_results.csv",
+   "p4_batch2a_results.csv",
+   "p4_folk_results.csv",
+   "p4_queue_results.csv",
+   "p4_batch2_results.csv",
+   "w1_screen.json survivors (generate-time)",
+   "w2_screen.json survivors (generate-time)",
+   "MASS screen survivors (generate-time, declared translation)",
+   "w3_screen.json survivors (generate-time)",
+   "w4_screen.json survivors (generate-time)",
+   "w5_screen.json survivors (generate-time real-read; absent at build = zero rows honest)",
+   "w1_judge / MASS judged / w2_judge / w3_judge / w4_judge / w5_judge products (generate-time real-read re-declare window)",
+   "w6_screen.json survivors (generate-time)",
+   "w6_judge products (generate-time real-read re-declare window; W6-JUDGE landed 2026-09-29 08:14:22)",
+   "w7_screen.json survivors (generate-time)",
+   "w7_judge products (generate-time real-read re-declare window; W7-JUDGE landed 2026-09-29 11:42:55)",
+   "w8_screen.json survivors (generate-time)",
+   "w8_judge products (generate-time real-read re-declare window; W8-JUDGE landed 2026-09-29 15:26:25)",
+   "w9_screen.json survivors (generate-time)",
+   "w9_judge products (generate-time real-read re-declare window; W9-JUDGE landed 2026-09-29 17:47:46)",
+   "w10_screen.json survivors (generate-time)",
+   "w10_judge products (generate-time real-read re-declare window; W10-JUDGE landed 2026-09-29 20:31:29)",
+   "w12_screen.json survivors (generate-time)",
+   "w12_judge products (generate-time real-read re-declare window; W11-JUDGE landed 2026-09-30 01:47:40 = TWELFTH source)"
+  ],
+  "stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face": [
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "low_vol_long",
+    "module": "volatility",
+    "sig_params": {
+     "n": 60,
+     "rebal_days": null,
+     "top_k": 5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 8
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "engulf_reversal",
+    "module": "ta",
+    "sig_params": {
+     "drop_th": -0.05
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "needle_probe",
+    "module": "patterns",
+    "sig_params": {
+     "drop_th": -0.05,
+     "shadow_pct": 0.02
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "vol_drought_reversal",
+    "module": "patterns",
+    "sig_params": {
+     "drop_th": -0.05,
+     "vol_floor": 0.55
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "ants_climb",
+    "module": "folk",
+    "sig_params": {
+     "max_day": 0.012
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "false_break_back",
+    "module": "folk",
+    "sig_params": {
+     "n_back": 3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "gap_up_hold",
+    "module": "folk",
+    "sig_params": {
+     "gap_th": 0.01
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "lian_yin_first_yang",
+    "module": "folk",
+    "sig_params": {
+     "n_down": 3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "low_suction",
+    "module": "folk",
+    "sig_params": {
+     "shrink": 0.8
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "rsi_low_flat",
+    "module": "folk",
+    "sig_params": {
+     "low_th": 25,
+     "n": 14
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "second_wave",
+    "module": "folk",
+    "sig_params": {
+     "retest": 0.05
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "volume_mound",
+    "module": "folk",
+    "sig_params": {
+     "mound": 1.3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "big_yin_shakeout",
+    "module": "patterns",
+    "sig_params": {
+     "big_yin": -0.035
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "box_breakout",
+    "module": "patterns",
+    "sig_params": {
+     "box_n": 20,
+     "box_th": 0.08,
+     "vol_mult": 1.3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "doji_at_low",
+    "module": "patterns",
+    "sig_params": {
+     "drop_th": -0.05
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "immortal_guide",
+    "module": "patterns",
+    "sig_params": {
+     "shadow_pct": 0.015
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "inside_bar_breakup",
+    "module": "patterns",
+    "sig_params": {}
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "island_reversal",
+    "module": "patterns",
+    "sig_params": {
+     "gap": 0.01
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "ma_converge_break",
+    "module": "patterns",
+    "sig_params": {
+     "spread": 0.015
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "macd_divergence",
+    "module": "patterns",
+    "sig_params": {
+     "look": 30
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "morning_star",
+    "module": "patterns",
+    "sig_params": {
+     "big_red": -0.03,
+     "small_body": 0.01
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "n_shape",
+    "module": "patterns",
+    "sig_params": {
+     "leg_up": 0.04
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "obv_divergence",
+    "module": "patterns",
+    "sig_params": {
+     "look": 30
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "piercing_line",
+    "module": "patterns",
+    "sig_params": {
+     "big_red": -0.02
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "three_methods_up",
+    "module": "patterns",
+    "sig_params": {
+     "big_yang": 0.03
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "three_soldiers",
+    "module": "patterns",
+    "sig_params": {
+     "min_body": 0.004
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "yang_break_3ma",
+    "module": "patterns",
+    "sig_params": {
+     "spread": 0.015
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "bb_squeeze_breakout",
+    "module": "ta",
+    "sig_params": {
+     "bb_n": 20,
+     "k": 2.0,
+     "width_n": 60
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "cci_revert",
+    "module": "ta",
+    "sig_params": {
+     "cci_n": 20,
+     "entry_th": -100.0,
+     "exit_th": 100.0,
+     "trend_ma": 60
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "hammer_reversal",
+    "module": "ta",
+    "sig_params": {
+     "body_max": 0.35,
+     "drop_th": -0.05,
+     "shadow_mult": 2.0
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "kdj_reversal",
+    "module": "ta",
+    "sig_params": {
+     "entry_j": 0.0,
+     "exit_j": 80.0,
+     "kdj_n": 9,
+     "trend_ma": 60
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "macd_trend",
+    "module": "ta",
+    "sig_params": {
+     "fast": 12,
+     "signal": 9,
+     "slow": 26
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "nr7_breakout",
+    "module": "ta",
+    "sig_params": {
+     "hold_n": 5,
+     "nr_n": 7
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "rsi_divergence",
+    "module": "ta",
+    "sig_params": {
+     "look": 30,
+     "n": 14
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "rsrs_timing",
+    "module": "ta",
+    "sig_params": {
+     "buy_z": 0.8,
+     "exit_z": -0.8,
+     "window": 18,
+     "z_win": 250
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "streak_up",
+    "module": "ta",
+    "sig_params": {
+     "min_up": 0.0,
+     "streak_n": 3
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "strong_close",
+    "module": "ta",
+    "sig_params": {
+     "pos_th": 0.85,
+     "vol_len": 20,
+     "vol_mult": 1.5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "vol_breakout",
+    "module": "ta",
+    "sig_params": {
+     "brk_len": 20,
+     "exit_len": 10,
+     "vol_avg_len": 20,
+     "vol_mult": 1.5
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "williams_reversal",
+    "module": "ta",
+    "sig_params": {
+     "entry_th": -80.0,
+     "exit_th": -20.0,
+     "wr_n": 14
+    }
+   },
+   {
+    "axis": [
+     "none",
+     "template_default",
+     "equal_weight",
+     "daily_signal",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none",
+     "none"
+    ],
+    "face": "stop-gate-vol-yang-vconf-streak-tstate-amp-mom-std-rsqr-none",
+    "fn": "vol_breakout",
+    "module": "volatility",
+    "sig_params": {
+     "n": 20
+    }
+   }
+  ]
+ },
+ "faces": {
+  "composite_rotation.composite_score": "panel",
+  "composite_rotation.top_n_rotation": "panel",
+  "event.breakout_confirm": "persym",
+  "event.double_bottom": "persym",
+  "event.gap_fill": "persym",
+  "folk.ants_climb": "persym",
+  "folk.false_break_back": "persym",
+  "folk.gap_up_hold": "persym",
+  "folk.lian_yin_first_yang": "persym",
+  "folk.low_suction": "persym",
+  "folk.rsi_low_flat": "persym",
+  "folk.second_wave": "persym",
+  "folk.volume_mound": "persym",
+  "macro.csi300_momentum_filter": "persym",
+  "macro.csi300_trend_filter": "persym",
+  "macro.drawdown_filter": "persym",
+  "macro.volatility_regime_filter": "persym",
+  "mean_reversion.bollinger_breakout": "persym",
+  "mean_reversion.pullback_bounce": "persym",
+  "mean_reversion.rsi2": "persym",
+  "mean_reversion.rsi_revert": "persym",
+  "mean_reversion.zscore_revert": "persym",
+  "momentum.cross_sectional_momentum": "panel",
+  "momentum.dual_momentum": "panel",
+  "momentum.momentum_acceleration": "panel",
+  "momentum.relative_strength_rotation": "panel",
+  "momentum.time_series_momentum": "persym",
+  "patterns.big_yin_shakeout": "persym",
+  "patterns.box_breakout": "persym",
+  "patterns.doji_at_low": "persym",
+  "patterns.duck_head": "persym",
+  "patterns.immortal_guide": "persym",
+  "patterns.inside_bar_breakup": "persym",
+  "patterns.island_reversal": "persym",
+  "patterns.ma_converge_break": "persym",
+  "patterns.macd_divergence": "persym",
+  "patterns.morning_star": "persym",
+  "patterns.n_shape": "persym",
+  "patterns.needle_probe": "persym",
+  "patterns.obv_divergence": "persym",
+  "patterns.piercing_line": "persym",
+  "patterns.three_methods_up": "persym",
+  "patterns.three_soldiers": "persym",
+  "patterns.vol_drought_reversal": "persym",
+  "patterns.yang_break_3ma": "persym",
+  "seasonal.holiday_effect": "persym",
+  "seasonal.month_end_effect": "calendar",
+  "seasonal.month_seasonality": "calendar",
+  "seasonal.trend_by_season": "persym",
+  "seasonal.weekday_effect": "calendar",
+  "sentiment.amount_rank": "panel",
+  "sentiment.intraday_momentum": "panel",
+  "sentiment.overnight_drift": "panel",
+  "sentiment.price_volume_trend": "panel",
+  "sentiment.turnover_surge": "panel",
+  "ta.bb_squeeze_breakout": "persym",
+  "ta.cci_revert": "persym",
+  "ta.engulf_reversal": "persym",
+  "ta.hammer_reversal": "persym",
+  "ta.kdj_reversal": "persym",
+  "ta.macd_trend": "persym",
+  "ta.nr7_breakout": "persym",
+  "ta.rsi_divergence": "persym",
+  "ta.rsrs_timing": "persym",
+  "ta.streak_up": "persym",
+  "ta.strong_close": "persym",
+  "ta.vol_breakout": "persym",
+  "ta.williams_reversal": "persym",
+  "trend.donchian_breakout": "persym",
+  "trend.dual_ma_cross": "persym",
+  "trend.parabolic_sar": "persym",
+  "trend.supertrend": "persym",
+  "trend.triple_ma": "persym",
+  "volatility.low_vol_long": "panel",
+  "volatility.vol_breakout": "persym",
+  "volatility.vol_regime_switch": "persym",
+  "volatility.vol_target": "persym"
+ },
+ "families": {
+  "A": [
+   {
+    "fn": "low_vol_long",
+    "module": "volatility",
+    "registered_ovr": {
+     "loss_time_days": 16
+    },
+    "registered_params": {
+     "max_positions": 5,
+     "position_size_pct": 0.1,
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "sig_params": {
+     "n": 60,
+     "rebal_days": null,
+     "top_k": 5
+    },
+    "trader_id": "VOLATILITY-CE-01"
+   },
+   {
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    },
+    "registered_params": {
+     "max_positions": 5,
+     "position_size_pct": 0.19,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 5
+    },
+    "trader_id": "COMPOSITE-CE-01"
+   },
+   {
+    "fn": "top_n_rotation",
+    "module": "composite_rotation",
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    },
+    "registered_params": {
+     "max_positions": 8,
+     "position_size_pct": 0.1187,
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_lock": 0.05,
+     "trailing_stop_activate": 0.03
+    },
+    "sig_params": {
+     "rebal_days": 20,
+     "top_n": 8
+    },
+    "trader_id": "COMPOSITE-CE-02"
+   },
+   {
+    "fn": "engulf_reversal",
+    "module": "ta",
+    "registered_ovr": {
+     "loss_time_days": 16,
+     "take_profit_fractions": [
+      0.5,
+      0.5
+     ]
+    },
+    "registered_params": {
+     "take_profit_levels": [
+      0.05,
+      0.08
+     ],
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_lock": 0.05,
+     "trailing_stop_activate": 0.03
+    },
+    "sig_params": {
+     "drop_th": -0.05
+    },
+    "trader_id": "ENGULF-CE-01"
+   },
+   {
+    "fn": "needle_probe",
+    "module": "patterns",
+    "registered_ovr": {},
+    "registered_params": {},
+    "sig_params": {
+     "drop_th": -0.05,
+     "shadow_pct": 0.02
+    },
+    "trader_id": "NEEDLE-DE-01"
+   },
+   {
+    "fn": "vol_drought_reversal",
+    "module": "patterns",
+    "registered_ovr": {
+     "loss_time_days": 16
+    },
+    "registered_params": {
+     "time_decay_period": 25,
+     "time_decay_threshold": 0.05,
+     "trailing_stop_activate": 0.1
+    },
+    "sig_params": {
+     "drop_th": -0.05,
+     "vol_floor": 0.55
+    },
+    "trader_id": "DROUGHT-CE-01"
+   }
+  ],
+  "B": [
+   {
+    "fn": "composite_score",
+    "module": "composite_rotation"
+   },
+   {
+    "fn": "breakout_confirm",
+    "module": "event"
+   },
+   {
+    "fn": "double_bottom",
+    "module": "event"
+   },
+   {
+    "fn": "gap_fill",
+    "module": "event"
+   },
+   {
+    "fn": "ants_climb",
+    "module": "folk"
+   },
+   {
+    "fn": "false_break_back",
+    "module": "folk"
+   },
+   {
+    "fn": "gap_up_hold",
+    "module": "folk"
+   },
+   {
+    "fn": "lian_yin_first_yang",
+    "module": "folk"
+   },
+   {
+    "fn": "low_suction",
+    "module": "folk"
+   },
+   {
+    "fn": "rsi_low_flat",
+    "module": "folk"
+   },
+   {
+    "fn": "second_wave",
+    "module": "folk"
+   },
+   {
+    "fn": "volume_mound",
+    "module": "folk"
+   },
+   {
+    "fn": "csi300_momentum_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "csi300_trend_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "drawdown_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "volatility_regime_filter",
+    "module": "macro"
+   },
+   {
+    "fn": "bollinger_breakout",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "pullback_bounce",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "rsi2",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "rsi_revert",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "zscore_revert",
+    "module": "mean_reversion"
+   },
+   {
+    "fn": "cross_sectional_momentum",
+    "module": "momentum"
+   },
+   {
+    "fn": "dual_momentum",
+    "module": "momentum"
+   },
+   {
+    "fn": "momentum_acceleration",
+    "module": "momentum"
+   },
+   {
+    "fn": "relative_strength_rotation",
+    "module": "momentum"
+   },
+   {
+    "fn": "time_series_momentum",
+    "module": "momentum"
+   },
+   {
+    "fn": "big_yin_shakeout",
+    "module": "patterns"
+   },
+   {
+    "fn": "box_breakout",
+    "module": "patterns"
+   },
+   {
+    "fn": "doji_at_low",
+    "module": "patterns"
+   },
+   {
+    "fn": "duck_head",
+    "module": "patterns"
+   },
+   {
+    "fn": "immortal_guide",
+    "module": "patterns"
+   },
+   {
+    "fn": "inside_bar_breakup",
+    "module": "patterns"
+   },
+   {
+    "fn": "island_reversal",
+    "module": "patterns"
+   },
+   {
+    "fn": "ma_converge_break",
+    "module": "patterns"
+   },
+   {
+    "fn": "macd_divergence",
+    "module": "patterns"
+   },
+   {
+    "fn": "morning_star",
+    "module": "patterns"
+   },
+   {
+    "fn": "n_shape",
+    "module": "patterns"
+   },
+   {
+    "fn": "obv_divergence",
+    "module": "patterns"
+   },
+   {
+    "fn": "piercing_line",
+    "module": "patterns"
+   },
+   {
+    "fn": "three_methods_up",
+    "module": "patterns"
+   },
+   {
+    "fn": "three_soldiers",
+    "module": "patterns"
+   },
+   {
+    "fn": "yang_break_3ma",
+    "module": "patterns"
+   },
+   {
+    "fn": "holiday_effect",
+    "module": "seasonal"
+   },
+   {
+    "fn": "month_end_effect",
+    "module": "seasonal"
+   },
+   {
+    "fn": "month_seasonality",
+    "module": "seasonal"
+   },
+   {
+    "fn": "trend_by_season",
+    "module": "seasonal"
+   },
+   {
+    "fn": "weekday_effect",
+    "module": "seasonal"
+   },
+   {
+    "fn": "amount_rank",
+    "module": "sentiment"
+   },
+   {
+    "fn": "intraday_momentum",
+    "module": "sentiment"
+   },
+   {
+    "fn": "overnight_drift",
+    "module": "sentiment"
+   },
+   {
+    "fn": "price_volume_trend",
+    "module": "sentiment"
+   },
+   {
+    "fn": "turnover_surge",
+    "module": "sentiment"
+   },
+   {
+    "fn": "bb_squeeze_breakout",
+    "module": "ta"
+   },
+   {
+    "fn": "cci_revert",
+    "module": "ta"
+   },
+   {
+    "fn": "hammer_reversal",
+    "module": "ta"
+   },
+   {
+    "fn": "kdj_reversal",
+    "module": "ta"
+   },
+   {
+    "fn": "macd_trend",
+    "module": "ta"
+   },
+   {
+    "fn": "nr7_breakout",
+    "module": "ta"
+   },
+   {
+    "fn": "rsi_divergence",
+    "module": "ta"
+   },
+   {
+    "fn": "rsrs_timing",
+    "module": "ta"
+   },
+   {
+    "fn": "streak_up",
+    "module": "ta"
+   },
+   {
+    "fn": "strong_close",
+    "module": "ta"
+   },
+   {
+    "fn": "vol_breakout",
+    "module": "ta"
+   },
+   {
+    "fn": "williams_reversal",
+    "module": "ta"
+   },
+   {
+    "fn": "donchian_breakout",
+    "module": "trend"
+   },
+   {
+    "fn": "dual_ma_cross",
+    "module": "trend"
+   },
+   {
+    "fn": "parabolic_sar",
+    "module": "trend"
+   },
+   {
+    "fn": "supertrend",
+    "module": "trend"
+   },
+   {
+    "fn": "triple_ma",
+    "module": "trend"
+   },
+   {
+    "fn": "vol_breakout",
+    "module": "volatility"
+   },
+   {
+    "fn": "vol_regime_switch",
+    "module": "volatility"
+   },
+   {
+    "fn": "vol_target",
+    "module": "volatility"
+   }
+  ]
+ },
+ "gate_spec": {
+  "bear": "close(d) < MA200(d) permits entry (bear-participation face)",
+  "bull": "close(d) >= MA200(d) permits entry (bull-participation face)",
+  "composition_order": "signal -> filter -> timing -> GATE -> initial-stop (frozen identically on the dedup face and the engine face)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as the signal, zero lookahead)",
+  "ma_window": 200,
+  "member": "510300",
+  "min_periods": 200,
+  "nan_window": "first 199 bars MA200=NaN -> gate-closed on BOTH bull/bear faces (conservative; panel-level na-window count disclosed)",
+  "none": "no gate (W1/W2 semantic baseline face)",
+  "overlay": "gate-closed signal day -> effective signal zeroed (grammar layer, MSG-0440 E1-mapping primitive; engine/exit_rules.py ZERO touch; engine-native signal-off exit semantics shared by every template/cell)"
+ },
+ "grammar_kind": "w12-rsqr-gate-extended",
+ "grammar_sha256": "67c86c9cf4ef1ca7",
+ "inventory_audit": {
+  "a_templates": 6,
+  "a_unique_module_fn_keys": 5,
+  "b_fns": 72,
+  "count_note": "prereg prose 86-fn/B-76 count not reproducible by any standard probe (all-visible=own=81 total); W1-lineage inventory convention = frozen generation face (B=72 machinery actual); W2 MSG-0440 / W3/W4/W5 selftest disclosures carry over verbatim; prereg 4,500/76=59.2 prose average reads as 4,500/72=62.5 on the machinery face",
+  "grid_own_fns_excluded": 4,
+  "modules_on_disk": 13,
+  "non_grid_fns": 77
+ },
+ "k_nulls": 200,
+ "mom_anchor": {
+  "amp_anchor_reproduction": {
+   "narrow_days": 1746,
+   "wide_days": 1718,
+   "zero_range_rows": 0
+  },
+  "closed_days": 2970,
+  "core48_mom_open_rate": {
+   "max": 0.1215,
+   "median": 0.1012,
+   "members_with_lt260_rows_excluded": 0,
+   "method": "tl1.load_core() roster (import-reuse, real core48 face)",
+   "min": 0.0723,
+   "n": 48
+  },
+  "cross_amp_lower_bounds": {
+   "wide_and_mom": 222
+  },
+  "cross_streak_lower_bounds": {
+   "down_streak_and_mom": 139
+  },
+  "cross_tstate_lower_bounds": {
+   "mad60_and_mom": 253,
+   "rsv60_and_mom": 212
+  },
+  "cutoff": "2026-09-22",
+  "decidable_days": 3344,
+  "eight_gate_256cells_empty": [
+   "bear|calm|red|dry|down_streak|mad60|narrow|mom_closed",
+   "bear|calm|red|dry|up_streak|mad60|narrow|mom_closed",
+   "bear|calm|red|dry|up_streak|mad60|narrow|mom_open",
+   "bear|calm|red|dry|up_streak|mad60|wide|mom_closed",
+   "bear|calm|red|dry|up_streak|mad60|wide|mom_open",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|mom_closed",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|mom_open",
+   "bear|calm|red|dry|up_streak|rsv60|wide|mom_closed",
+   "bear|calm|red|dry|up_streak|rsv60|wide|mom_open",
+   "bear|calm|red|surge|down_streak|mad60|narrow|mom_closed",
+   "bear|calm|red|surge|up_streak|mad60|narrow|mom_closed",
+   "bear|calm|red|surge|up_streak|mad60|narrow|mom_open",
+   "bear|calm|red|surge|up_streak|mad60|wide|mom_closed",
+   "bear|calm|red|surge|up_streak|rsv60|narrow|mom_open",
+   "bear|calm|red|surge|up_streak|rsv60|wide|mom_closed",
+   "bear|calm|yang|dry|down_streak|mad60|narrow|mom_closed",
+   "bear|calm|yang|dry|down_streak|mad60|wide|mom_open",
+   "bear|calm|yang|dry|down_streak|rsv60|wide|mom_open",
+   "bear|calm|yang|dry|up_streak|mad60|narrow|mom_open",
+   "bear|calm|yang|dry|up_streak|mad60|wide|mom_closed",
+   "bear|calm|yang|dry|up_streak|mad60|wide|mom_open",
+   "bear|calm|yang|dry|up_streak|rsv60|narrow|mom_open",
+   "bear|calm|yang|dry|up_streak|rsv60|wide|mom_open",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|mom_closed",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|mom_open",
+   "bear|calm|yang|surge|down_streak|mad60|wide|mom_closed",
+   "bear|calm|yang|surge|down_streak|mad60|wide|mom_open",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|mom_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|mom_open",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|mom_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|mom_open",
+   "bear|calm|yang|surge|up_streak|mad60|narrow|mom_open",
+   "bear|calm|yang|surge|up_streak|rsv60|narrow|mom_open",
+   "bear|wild|red|dry|up_streak|mad60|narrow|mom_open",
+   "bear|wild|red|dry|up_streak|mad60|wide|mom_closed",
+   "bear|wild|red|dry|up_streak|mad60|wide|mom_open",
+   "bear|wild|red|dry|up_streak|rsv60|wide|mom_closed",
+   "bear|wild|red|dry|up_streak|rsv60|wide|mom_open",
+   "bear|wild|red|surge|down_streak|mad60|narrow|mom_closed",
+   "bear|wild|red|surge|up_streak|mad60|narrow|mom_closed",
+   "bear|wild|red|surge|up_streak|mad60|wide|mom_closed",
+   "bear|wild|red|surge|up_streak|mad60|wide|mom_open",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|mom_closed",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|mom_open",
+   "bear|wild|red|surge|up_streak|rsv60|wide|mom_closed",
+   "bear|wild|red|surge|up_streak|rsv60|wide|mom_open",
+   "bear|wild|yang|dry|down_streak|mad60|narrow|mom_open",
+   "bear|wild|yang|dry|down_streak|mad60|wide|mom_closed",
+   "bear|wild|yang|dry|down_streak|rsv60|narrow|mom_open",
+   "bear|wild|yang|dry|up_streak|mad60|narrow|mom_closed",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|mom_closed",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|mom_open",
+   "bear|wild|yang|surge|down_streak|mad60|narrow|mom_open",
+   "bear|wild|yang|surge|down_streak|rsv60|narrow|mom_open",
+   "bull|calm|red|dry|down_streak|mad60|narrow|mom_closed",
+   "bull|calm|red|dry|down_streak|mad60|narrow|mom_open",
+   "bull|calm|red|dry|down_streak|mad60|wide|mom_closed",
+   "bull|calm|red|dry|down_streak|mad60|wide|mom_open",
+   "bull|calm|red|dry|down_streak|rsv60|wide|mom_open",
+   "bull|calm|red|dry|up_streak|mad60|narrow|mom_closed",
+   "bull|calm|red|dry|up_streak|mad60|narrow|mom_open",
+   "bull|calm|red|dry|up_streak|mad60|wide|mom_closed",
+   "bull|calm|red|dry|up_streak|mad60|wide|mom_open",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|mom_closed",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|mom_open",
+   "bull|calm|red|dry|up_streak|rsv60|wide|mom_closed",
+   "bull|calm|red|dry|up_streak|rsv60|wide|mom_open",
+   "bull|calm|red|surge|down_streak|mad60|narrow|mom_closed",
+   "bull|calm|red|surge|down_streak|mad60|narrow|mom_open",
+   "bull|calm|red|surge|down_streak|mad60|wide|mom_open",
+   "bull|calm|red|surge|down_streak|rsv60|narrow|mom_open",
+   "bull|calm|red|surge|down_streak|rsv60|wide|mom_open",
+   "bull|calm|red|surge|up_streak|mad60|narrow|mom_closed",
+   "bull|calm|red|surge|up_streak|mad60|narrow|mom_open",
+   "bull|calm|red|surge|up_streak|mad60|wide|mom_closed",
+   "bull|calm|red|surge|up_streak|mad60|wide|mom_open",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|mom_closed",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|mom_open",
+   "bull|calm|red|surge|up_streak|rsv60|wide|mom_closed",
+   "bull|calm|red|surge|up_streak|rsv60|wide|mom_open",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|mom_closed",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|mom_open",
+   "bull|calm|yang|dry|down_streak|mad60|wide|mom_closed",
+   "bull|calm|yang|dry|down_streak|mad60|wide|mom_open",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|mom_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|mom_open",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|mom_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|mom_open",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|mom_closed",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|mom_open",
+   "bull|calm|yang|dry|up_streak|mad60|wide|mom_closed",
+   "bull|calm|yang|dry|up_streak|mad60|wide|mom_open",
+   "bull|calm|yang|dry|up_streak|rsv60|narrow|mom_open",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|mom_closed",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|mom_open",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|mom_closed",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|mom_open",
+   "bull|calm|yang|surge|down_streak|mad60|wide|mom_closed",
+   "bull|calm|yang|surge|down_streak|mad60|wide|mom_open",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|mom_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|mom_open",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|mom_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|mom_open",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|mom_closed",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|mom_open",
+   "bull|calm|yang|surge|up_streak|mad60|wide|mom_closed",
+   "bull|calm|yang|surge|up_streak|mad60|wide|mom_open",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|mom_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|mom_open",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|mom_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|mom_open",
+   "bull|wild|red|dry|up_streak|mad60|narrow|mom_closed",
+   "bull|wild|red|dry|up_streak|mad60|wide|mom_closed",
+   "bull|wild|red|dry|up_streak|mad60|wide|mom_open",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|mom_closed",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|mom_open",
+   "bull|wild|red|dry|up_streak|rsv60|wide|mom_closed",
+   "bull|wild|red|dry|up_streak|rsv60|wide|mom_open",
+   "bull|wild|red|surge|down_streak|mad60|narrow|mom_closed",
+   "bull|wild|red|surge|down_streak|rsv60|narrow|mom_open",
+   "bull|wild|red|surge|up_streak|mad60|narrow|mom_closed",
+   "bull|wild|red|surge|up_streak|mad60|wide|mom_closed",
+   "bull|wild|red|surge|up_streak|mad60|wide|mom_open",
+   "bull|wild|red|surge|up_streak|rsv60|narrow|mom_closed",
+   "bull|wild|red|surge|up_streak|rsv60|wide|mom_closed",
+   "bull|wild|red|surge|up_streak|rsv60|wide|mom_open",
+   "bull|wild|yang|dry|down_streak|mad60|wide|mom_closed",
+   "bull|wild|yang|dry|down_streak|mad60|wide|mom_open",
+   "bull|wild|yang|dry|down_streak|rsv60|narrow|mom_closed",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|mom_closed",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|mom_open",
+   "bull|wild|yang|dry|up_streak|mad60|wide|mom_closed",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|mom_closed",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|mom_open",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|mom_closed",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|mom_open",
+   "bull|wild|yang|surge|down_streak|mad60|wide|mom_closed",
+   "bull|wild|yang|surge|down_streak|mad60|wide|mom_open",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|mom_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|mom_open",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|mom_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|mom_open",
+   "bull|wild|yang|surge|up_streak|mad60|narrow|mom_closed",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|mom_closed",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|mom_open"
+  ],
+  "eight_gate_256cells_empty_count": 145,
+  "eight_gate_256cells_max": 37,
+  "eight_gate_256cells_min_nonzero": 1,
+  "eight_gate_256cells_nonzero_count": 111,
+  "eight_gate_all_decidable_days": 3305,
+  "extreme_days": {
+   "2015-07-27": {
+    "amp_state": "wide",
+    "mom_open": true,
+    "roc20_over_q10ref": 1.352,
+    "roc20_value": -0.0906,
+    "rsv60_value": 0.2026,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": true,
+    "tstate_rsv60_low": false
+   },
+   "2016-01-04": {
+    "amp_state": "wide",
+    "mom_open": false,
+    "roc20_over_q10ref": 0.361,
+    "roc20_value": -0.052,
+    "rsv60_value": 0.2583,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2024-02-28": {
+    "amp_state": "wide",
+    "mom_open": false,
+    "roc20_over_q10ref": -1.236,
+    "roc20_value": 0.0682,
+    "rsv60_value": 0.709,
+    "streak": "neither",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2024-09-24": {
+    "amp_state": "wide",
+    "mom_open": false,
+    "roc20_over_q10ref": -0.189,
+    "roc20_value": 0.01,
+    "rsv60_value": 0.5422,
+    "streak": "up_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2024-09-30": {
+    "amp_state": "wide",
+    "mom_open": false,
+    "roc20_over_q10ref": -4.995,
+    "roc20_value": 0.2647,
+    "rsv60_value": 0.9932,
+    "streak": "up_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2025-04-07": {
+    "amp_state": "wide",
+    "mom_open": true,
+    "roc20_over_q10ref": 2.147,
+    "roc20_value": -0.0852,
+    "rsv60_value": 0.1753,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": true,
+    "tstate_rsv60_low": true
+   },
+   "2026-01-19": {
+    "amp_state": "wide",
+    "mom_open": false,
+    "roc20_over_q10ref": -0.406,
+    "roc20_value": 0.015,
+    "rsv60_value": 0.4745,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   }
+  },
+  "first_date": "2012-05-28",
+  "first_decidable_bar_idx": 139,
+  "forward_differential": {
+   "fwd20d": {
+    "diff_open_minus_closed": 0.003931,
+    "mean_fwd_closed": 0.005216,
+    "mean_fwd_open": 0.009147,
+    "n_closed": 2952,
+    "n_open": 372,
+    "note": "descriptive probe face on 510300 anchor only; census universe face = 1,724 codes (O-1855(4)); NOT a strategy claim; overlapping windows inflate |t|",
+    "welch_t": 1.34
+   },
+   "fwd5d": {
+    "diff_open_minus_closed": 0.003026,
+    "mean_fwd_closed": 0.001127,
+    "mean_fwd_open": 0.004153,
+    "n_closed": 2965,
+    "n_open": 374,
+    "note": "descriptive probe face on 510300 anchor only; census universe face = 1,724 codes (O-1855(4)); NOT a strategy claim; overlapping windows inflate |t|",
+    "welch_t": 1.45
+   }
+  },
+  "n_bars": 3483,
+  "note": "MOM core anchors (warmup 139 / decidable 3,344 / open 374 / closed 2,970 / roc20-nan-before-bar20 20) asserted EXACT; TSTATE/STREAK/AMP cross faces asserted as LOWER BOUNDS per prereg sec.2; eight-gate 256 cells asserted 111-non-empty with the exact frozen 145-empty name list (probe range 1-37) + exact per-cell cross-check vs the git-tracked probe facts file when present; extreme-day gate states asserted exact (roc20 values at probe 4-decimal rounding, ratios at 3-decimal, rsv at 4-decimal; 2/7 mom-open incl. 2015-07-27 -0.0906 + 2025-04-07 -0.0852, 2016-01-04 -0.052 near-miss closed honest); STREAK/TSTATE/AMP reproduction counts asserted exact (W7/W8/W9 cross-probe determinism law)",
+  "open_days": 374,
+  "open_rate_on_decidable": 0.1074,
+  "probe_basis": "cross-tables on the r228 probe basis VERBATIM (r407 lesson): gate = close > ma200 strict NaN->False both sides; vol = vol20 vs med500 NaN->False both sides; yang = close > open strict (doji red); surge = volume > med20 (min_periods=20, INCL d), dry = ~surge; streak = W7 close-over-close double; tstate = the tl8 census-verbatim faces; amp = the r417 face; mom = the ROC20_q10 face above (eight-gate all-decidable window m8 = dec_mom & amp_known & streak-decidable & dec_mad & dec_rsv == 3,305 days)",
+  "probe_facts": "results/_r228bmc_momgate_w10_probe_facts.json (r228 bm-c MOM probe; exact per-cell 256-grid cross-check face when present; probe-facts face not a results face)",
+  "roc20_nan_rows_before_bar20": 20,
+  "streak_anchor_reproduction": {
+   "down_streak_days": 817,
+   "neither_days": 1820,
+   "up_streak_days": 844,
+   "warmup_gate_closed_bars": 2
+  },
+  "tstate_anchor_reproduction": {
+   "mad60_gate_true_days": 383,
+   "rsv60_gate_true_days": 632
+  },
+  "warmup_gate_closed_bars": 139
+ },
+ "mom_spec": {
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> YANG -> VCONF -> STREAK -> TSTATE -> AMP -> MOM -> initial-stop (a mom-blocked signal never arms a stop; W9 order extended, prereg sec.3 thirteen-tuple order R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP/MOM)",
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP, zero lookahead)",
+  "member": "510300",
+  "mom_oversold": "roc20 < q10_ref (20-day descent-speed entering its own bottom decile = oversold momentum state; speed face: MBAlib short-suppression folklore canon panic-sellers-pay behavioral hypothesis; census 20d-forward positive signal t=+2.000 universe face 1,724 codes = LONG anchor, 5d window halved in-register, term-structure mismatch honest)",
+  "nan_artifact_note": "NaN comparisons (roc20 < q10_ref) yield False NOT decidable (pit-95 batch-95 / r421 probe / r431 erratum face: the r417 map({False->x}) NaN-bucket artifact put gate-closed warmup days into the wrong buckets); the decidable face derives from the underlying values notna (q10_ref.notna() & roc20.notna()); the naive comparison bool face masquerades warmup bars as mom_closed -- BANNED at the mask level",
+  "none": "no gate (W9 semantic baseline face)",
+  "q10_ref": "q10_ref = roc20.rolling(252, min_periods=120).quantile(0.10) (own-trailing 252-observation decile reference)",
+  "roc20": "roc20(d) = close(d)/close(d-20) - 1 (20-day rate-of-change momentum)",
+  "series": "r228 probe verbatim / census family O-1855(4) ROC20_q10 (zero-invention law; structural transplant of the in-repo census-verbatim decile-gate mechanics = the MAD60_q10 pattern frozen in W8 prereg sec.2 / r431 tstate_faces): signal-day-d close info set on the member face",
+  "tstate_adjacency_note": "TSTATE adjacency disclosed (probe: mad60-open days 66.06% co-open / rsv60-open 35.16%; 253 both-open / 121 mom-unique days = speed face != position face; D6 max|corr| audit column face at intake)",
+  "warmup": "139-bar warmup window gate-closed honest (roc20 first valid bar-idx == 20; q10_ref min_periods 120 -> first decidable bar-idx == 139; structure spectrum vs YANG 0 / STREAK 2 / VCONF 19 / AMP 19 / RSV 59 / MAD60 178 / VOL 519)"
+ },
+ "n_draws": {
+  "A": 500,
+  "B": 4500
+ },
+ "negative_priors": null,
+ "prereg": "research/TRIAL_LABOR_W12_PREREG.md",
+ "rsqr_anchor": {
+  "amp_anchor_reproduction": {
+   "narrow_days": 1746,
+   "wide_days": 1718,
+   "zero_range_rows": 0
+  },
+  "closed_days": 3022,
+  "core48_rsqr20_open_rate": {
+   "max": 0.1183,
+   "median": 0.1009,
+   "members_with_lt260_rows_excluded": 0,
+   "method": "tl1.load_core() roster (import-reuse via r237 lineage, real core48 face) + frozen-runner RSQR verbatim",
+   "min": 0.0891,
+   "n": 48
+  },
+  "cross_lower_bounds": {
+   "down_streak_and_rsqr20": 67,
+   "mad60_and_rsqr20": 59,
+   "mom_and_rsqr20": 66,
+   "rsqr20_vs_rsqr10_both_open": 81,
+   "rsv60_and_rsqr20": 89,
+   "std20_and_rsqr20": 134,
+   "wide_and_rsqr20": 212
+  },
+  "cutoff": "2026-09-22",
+  "decidable_days": 3363,
+  "extreme_days": {
+   "2015-07-27": {
+    "rsqr10_open": false,
+    "rsqr20_open": false,
+    "rsqr20_over_q90ref": 0.009,
+    "rsqr20_value": 0.008163,
+    "slope_sign": "up",
+    "std20_open": false
+   },
+   "2016-01-04": {
+    "rsqr10_open": false,
+    "rsqr20_open": false,
+    "rsqr20_over_q90ref": 0.078,
+    "rsqr20_value": 0.072536,
+    "slope_sign": "up",
+    "std20_open": false
+   },
+   "2024-02-28": {
+    "rsqr10_open": false,
+    "rsqr20_open": false,
+    "rsqr20_over_q90ref": 0.72,
+    "rsqr20_value": 0.60315,
+    "slope_sign": "up",
+    "std20_open": true
+   },
+   "2024-09-24": {
+    "rsqr10_open": false,
+    "rsqr20_open": false,
+    "rsqr20_over_q90ref": 0.342,
+    "rsqr20_value": 0.295629,
+    "slope_sign": "down",
+    "std20_open": false
+   },
+   "2024-09-30": {
+    "rsqr10_open": false,
+    "rsqr20_open": false,
+    "rsqr20_over_q90ref": 0.384,
+    "rsqr20_value": 0.33162,
+    "slope_sign": "up",
+    "std20_open": true
+   },
+   "2025-04-07": {
+    "rsqr10_open": false,
+    "rsqr20_open": false,
+    "rsqr20_over_q90ref": 0.436,
+    "rsqr20_value": 0.359053,
+    "slope_sign": "down",
+    "std20_open": false
+   },
+   "2026-01-19": {
+    "rsqr10_open": false,
+    "rsqr20_open": false,
+    "rsqr20_over_q90ref": 0.543,
+    "rsqr20_value": 0.452557,
+    "slope_sign": "up",
+    "std20_open": false
+   }
+  },
+  "first_date": "2012-05-28",
+  "first_decidable_bar_idx": 120,
+  "n_bars": 3483,
+  "nine_gate_512cells_empty": [
+   "bear|calm|red|dry|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|calm|red|dry|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|calm|red|dry|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|calm|red|dry|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|red|dry|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|calm|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|calm|red|dry|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|calm|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|calm|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|calm|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|calm|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|calm|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|red|surge|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|red|surge|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|surge|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|calm|red|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|red|surge|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|surge|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|calm|red|surge|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|calm|red|surge|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|calm|red|surge|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|calm|red|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|calm|red|surge|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|calm|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|calm|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|calm|yang|dry|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|calm|yang|dry|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bear|calm|yang|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|calm|yang|dry|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|calm|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|calm|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|calm|yang|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|yang|surge|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|surge|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|surge|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bear|calm|yang|surge|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|calm|yang|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|calm|yang|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|calm|yang|surge|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|calm|yang|surge|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|wild|red|dry|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|red|dry|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|wild|red|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|red|dry|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|wild|red|dry|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|red|dry|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|wild|red|dry|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|wild|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bear|wild|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|wild|red|dry|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|wild|red|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|wild|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|wild|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|wild|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bear|wild|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|wild|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|wild|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|wild|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|wild|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|wild|red|surge|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|wild|red|surge|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|wild|red|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|wild|red|surge|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bear|wild|red|surge|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bear|wild|red|surge|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|wild|red|surge|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bear|wild|red|surge|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|wild|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|wild|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bear|wild|yang|dry|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|wild|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bear|wild|yang|dry|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bear|wild|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|wild|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bear|wild|yang|surge|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bear|wild|yang|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|surge|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bear|wild|yang|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bear|wild|yang|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bear|wild|yang|surge|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|red|dry|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|dry|down_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|red|dry|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|red|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|dry|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|calm|red|dry|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|calm|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|surge|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|red|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|surge|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|calm|red|surge|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|surge|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|red|surge|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|dry|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|wild|red|dry|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|red|dry|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|red|dry|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|wild|red|dry|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|dry|up_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|wild|red|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|wild|red|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|wild|red|surge|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|red|surge|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|red|surge|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|up_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|red|surge|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|wild|red|surge|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|red|surge|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|up_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|wild|red|surge|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|red|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|red|surge|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|red|surge|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|red|surge|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|wild|red|surge|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|yang|dry|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|yang|dry|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|wild|yang|dry|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|yang|dry|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|yang|dry|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|dry|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|yang|dry|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|std20_closed|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|mad60|wide|std20_open|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|mad60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|mad60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|mad60|wide|std20_closed|rsqr20_closed",
+   "bull|wild|yang|surge|up_streak|mad60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|mad60|wide|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_closed",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|std20_open|rsqr20_closed",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|std20_open|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|rsv60|wide|std20_closed|rsqr20_open",
+   "bull|wild|yang|surge|up_streak|rsv60|wide|std20_open|rsqr20_closed",
+   "bull|wild|yang|surge|up_streak|rsv60|wide|std20_open|rsqr20_open"
+  ],
+  "nine_gate_512cells_empty_count": 388,
+  "nine_gate_512cells_max": 41,
+  "nine_gate_512cells_min_nonzero": 1,
+  "nine_gate_512cells_nonzero_count": 124,
+  "nine_gate_all_decidable_days": 3305,
+  "open_days": 341,
+  "probe_facts_note": "generated verbatim from _r447bma_rsqr_w12_probe_facts.json (r447 probe = frozen authoritative RSQR definition via the a158 frozen-runner import; nine-gate face = rsqr20 open/closed states on the r447 probe basis; W4-VOL/W11-STD three-value axis precedent)",
+  "rsqr10_decidable_days": 3363,
+  "rsqr10_open_days": 332,
+  "rsqr10_open_rate_on_decidable": 0.0953,
+  "rsqr20_first_valid_bar_idx": 1,
+  "rsqr20_open_rate_on_decidable": 0.0979,
+  "slope_sign_split": {
+   "down_slope_days": 128,
+   "note": "BETA20 sign from the same frozen runner; direction face intentionally NOT part of the gate (burned axes carry direction)",
+   "up_slope_days": 213
+  },
+  "streak_anchor_reproduction": {
+   "down_streak_days": 817,
+   "neither_days": 1820,
+   "up_streak_days": 844
+  },
+  "tstate_anchor_reproduction": {
+   "mad60_gate_true_days": 383,
+   "rsv60_gate_true_days": 632
+  },
+  "warmup_gate_closed_bars": 120
+ },
+ "rsqr_spec": {
+  "adjacency_note": "nearest burned neighbor = W11 STD (both trend-state family): rsqr-open-and-std-closed 207 days = fit-quality-without-dispersion divergence face (construction distinct: fit QUALITY R^2 direction-blind vs dispersion LEVEL std/close incl. drift; 39.3%/34.27% mutual-open, D6 max|corr| audit column face at intake); W4 VOL 60.39% overlap + 122 wild-side non-empty; W9 AMP 62.17% + 129 narrow-only; W10 MOM 19.7% near-orthogonal; collapsed-neighbor precedent VSTD20_q20 (98.5% + 11-day empty set, r234 DEMOTE) is NOT this face (probe cross-check law)",
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> YANG -> VCONF -> STREAK -> TSTATE -> AMP -> MOM -> STD -> RSQR -> initial-stop (a rsqr-blocked signal never arms a stop; W11 order extended, prereg sec.3 fifteen-tuple order R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP/MOM/STD/RSQR)",
+  "direction_blind": "R^2 is sign-blind -- a clean DOWN-trend fits as well as an UP-trend; slope-sign split among rsqr20-open days 213 up / 128 down (probe face); direction conditioning lives in the burned axes GATE/YANG/STREAK/MOM (prereg sec.2 honesty disclosure (e))",
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "grind_face": "rsqr-open-and-calm 186 days forward-20d +0.33% vs rsqr-open-and-wild 122 days +3.19% (Welch t=-3.98) -- clean-grind increment face is a drag face (prereg sec.2 honesty disclosure (b)); the VOL axis co-conditioning decomposes this inside the cell grid",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP/MOM/STD, zero lookahead)",
+  "member": "510300",
+  "nan_artifact_note": "NaN comparisons (f > q90_ref) yield False NOT decidable (pit-95 batch-95 law; the decidable face derives from the underlying values notna; the naive comparison bool face masquerades warmup bars as rsqr_closed -- BANNED at the mask level)",
+  "none": "no gate (W11 semantic baseline face)",
+  "q90_ref": "q90_ref = f.rolling(GATE_WIN=252, min_periods=GATE_MINP=120).quantile(0.90) (own-trailing 252-observation top-decile reference; GATE_WIN/GATE_MINP constants same-source frozen-runner import)",
+  "rsqr10": "F[\"RSQR10\"] = same construction, 10-day window",
+  "rsqr20": "F[\"RSQR20\"] = rolling OLS r^2 of close vs t=1..d, 20-day window (qlib expanding-warmup semantics + flat-price guard std~0->NaN)",
+  "rsqr_hi": "f > q90_ref (trend-fit quality entering its own top decile = clean directional-trend state; time-series momentum / trend-continuation folklore + fitted-trend statistical basis; A158-TSGATE-P1 48-PASS pool STD-next top family RSQR20_q90 OOS med_t +1.520 / RSQR10_q90 +1.258 + GATE-RECHECK five-member net median +0.00838/+0.01156 CONFIRM = LONG anchor)",
+  "series": "r447 probe verbatim / A158-TSGATE-P1 frozen RSQR construction via the frozen in-repo runner import (zero-invention law; scripts/a158_tsgate_probe.py alpha158_factors): signal-day-d close info set on the member face",
+  "warmup": "120-bar warmup window gate-closed honest (k=1 undefined -> f valid from bar-idx 1: k=2 two-point fit; q90_ref min_periods 120 -> first decidable bar-idx == 120, fail-closed assertion == STD family warmup)"
+ },
+ "seeds": {
+  "derivation": "Sobol(seed=20320500+family_idx, scramble) param box + default_rng([20320500+family_idx, 7919]) FIFTEEN-tuple axis stream R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP/MOM/STD/RSQR (prereg s.3; A idx 0-5, B idx 6+slot; berths 20320500/20321000/20321500 held at the freeze commit per R250 one-step law, bm-b r444 three-step re-verify ALL GREEN no re-pick; berth-open adoption of the bm-a r447 RSQR candidate whole package per AMP->W9/MOM->W10/STD->W11 lineage)",
+  "trial_labor_w12_gen": 20320500,
+  "trial_labor_w12_scrnull": 20321000,
+  "trial_labor_w12_unc": 20321500
+ },
+ "std_anchor": {
+  "amp_anchor_reproduction": {
+   "narrow_days": 1746,
+   "wide_days": 1718,
+   "zero_range_rows": 0
+  },
+  "closed_days": 2972,
+  "core48_std20_open_rate": {
+   "max": 0.1343,
+   "median": 0.0982,
+   "members_with_lt260_rows_excluded": 0,
+   "method": "tl1.load_core() roster (import-reuse, real core48 face)",
+   "min": 0.0711,
+   "n": 48
+  },
+  "cutoff": "2026-09-22",
+  "decidable_days": 3363,
+  "eight_gate_256cells_empty": [
+   "bear|calm|red|dry|down_streak|mad60|narrow|std20_open",
+   "bear|calm|red|dry|down_streak|rsv60|narrow|std20_open",
+   "bear|calm|red|dry|up_streak|mad60|narrow|std20_closed",
+   "bear|calm|red|dry|up_streak|mad60|narrow|std20_open",
+   "bear|calm|red|dry|up_streak|mad60|wide|std20_closed",
+   "bear|calm|red|dry|up_streak|mad60|wide|std20_open",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|std20_closed",
+   "bear|calm|red|dry|up_streak|rsv60|narrow|std20_open",
+   "bear|calm|red|dry|up_streak|rsv60|wide|std20_closed",
+   "bear|calm|red|dry|up_streak|rsv60|wide|std20_open",
+   "bear|calm|red|surge|down_streak|mad60|narrow|std20_closed",
+   "bear|calm|red|surge|up_streak|mad60|narrow|std20_closed",
+   "bear|calm|red|surge|up_streak|mad60|narrow|std20_open",
+   "bear|calm|red|surge|up_streak|mad60|wide|std20_open",
+   "bear|calm|red|surge|up_streak|rsv60|narrow|std20_open",
+   "bear|calm|red|surge|up_streak|rsv60|wide|std20_open",
+   "bear|calm|yang|dry|down_streak|mad60|narrow|std20_open",
+   "bear|calm|yang|dry|down_streak|mad60|wide|std20_open",
+   "bear|calm|yang|dry|down_streak|rsv60|narrow|std20_open",
+   "bear|calm|yang|dry|down_streak|rsv60|wide|std20_open",
+   "bear|calm|yang|dry|up_streak|mad60|narrow|std20_open",
+   "bear|calm|yang|dry|up_streak|mad60|wide|std20_closed",
+   "bear|calm|yang|dry|up_streak|mad60|wide|std20_open",
+   "bear|calm|yang|dry|up_streak|rsv60|narrow|std20_open",
+   "bear|calm|yang|dry|up_streak|rsv60|wide|std20_open",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|std20_closed",
+   "bear|calm|yang|surge|down_streak|mad60|narrow|std20_open",
+   "bear|calm|yang|surge|down_streak|mad60|wide|std20_closed",
+   "bear|calm|yang|surge|down_streak|mad60|wide|std20_open",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|std20_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|narrow|std20_open",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|std20_closed",
+   "bear|calm|yang|surge|down_streak|rsv60|wide|std20_open",
+   "bear|calm|yang|surge|up_streak|mad60|narrow|std20_open",
+   "bear|calm|yang|surge|up_streak|rsv60|narrow|std20_open",
+   "bear|wild|red|dry|up_streak|mad60|narrow|std20_open",
+   "bear|wild|red|dry|up_streak|mad60|wide|std20_closed",
+   "bear|wild|red|dry|up_streak|mad60|wide|std20_open",
+   "bear|wild|red|dry|up_streak|rsv60|narrow|std20_open",
+   "bear|wild|red|dry|up_streak|rsv60|wide|std20_closed",
+   "bear|wild|red|dry|up_streak|rsv60|wide|std20_open",
+   "bear|wild|red|surge|down_streak|mad60|narrow|std20_closed",
+   "bear|wild|red|surge|up_streak|mad60|narrow|std20_closed",
+   "bear|wild|red|surge|up_streak|mad60|wide|std20_closed",
+   "bear|wild|red|surge|up_streak|mad60|wide|std20_open",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|std20_closed",
+   "bear|wild|red|surge|up_streak|rsv60|narrow|std20_open",
+   "bear|wild|red|surge|up_streak|rsv60|wide|std20_closed",
+   "bear|wild|red|surge|up_streak|rsv60|wide|std20_open",
+   "bear|wild|yang|dry|down_streak|mad60|wide|std20_closed",
+   "bear|wild|yang|dry|down_streak|rsv60|narrow|std20_open",
+   "bear|wild|yang|dry|up_streak|mad60|narrow|std20_closed",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|std20_closed",
+   "bear|wild|yang|dry|up_streak|rsv60|wide|std20_open",
+   "bear|wild|yang|surge|down_streak|mad60|narrow|std20_open",
+   "bear|wild|yang|surge|down_streak|rsv60|narrow|std20_open",
+   "bull|calm|red|dry|down_streak|mad60|narrow|std20_closed",
+   "bull|calm|red|dry|down_streak|mad60|narrow|std20_open",
+   "bull|calm|red|dry|down_streak|mad60|wide|std20_closed",
+   "bull|calm|red|dry|down_streak|mad60|wide|std20_open",
+   "bull|calm|red|dry|down_streak|rsv60|narrow|std20_open",
+   "bull|calm|red|dry|down_streak|rsv60|wide|std20_open",
+   "bull|calm|red|dry|up_streak|mad60|narrow|std20_closed",
+   "bull|calm|red|dry|up_streak|mad60|narrow|std20_open",
+   "bull|calm|red|dry|up_streak|mad60|wide|std20_closed",
+   "bull|calm|red|dry|up_streak|mad60|wide|std20_open",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|std20_closed",
+   "bull|calm|red|dry|up_streak|rsv60|narrow|std20_open",
+   "bull|calm|red|dry|up_streak|rsv60|wide|std20_closed",
+   "bull|calm|red|dry|up_streak|rsv60|wide|std20_open",
+   "bull|calm|red|surge|down_streak|mad60|narrow|std20_closed",
+   "bull|calm|red|surge|down_streak|mad60|narrow|std20_open",
+   "bull|calm|red|surge|down_streak|mad60|wide|std20_open",
+   "bull|calm|red|surge|down_streak|rsv60|narrow|std20_open",
+   "bull|calm|red|surge|down_streak|rsv60|wide|std20_open",
+   "bull|calm|red|surge|up_streak|mad60|narrow|std20_closed",
+   "bull|calm|red|surge|up_streak|mad60|narrow|std20_open",
+   "bull|calm|red|surge|up_streak|mad60|wide|std20_closed",
+   "bull|calm|red|surge|up_streak|mad60|wide|std20_open",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|std20_closed",
+   "bull|calm|red|surge|up_streak|rsv60|narrow|std20_open",
+   "bull|calm|red|surge|up_streak|rsv60|wide|std20_closed",
+   "bull|calm|red|surge|up_streak|rsv60|wide|std20_open",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|std20_closed",
+   "bull|calm|yang|dry|down_streak|mad60|narrow|std20_open",
+   "bull|calm|yang|dry|down_streak|mad60|wide|std20_closed",
+   "bull|calm|yang|dry|down_streak|mad60|wide|std20_open",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|std20_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|narrow|std20_open",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|std20_closed",
+   "bull|calm|yang|dry|down_streak|rsv60|wide|std20_open",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|std20_closed",
+   "bull|calm|yang|dry|up_streak|mad60|narrow|std20_open",
+   "bull|calm|yang|dry|up_streak|mad60|wide|std20_closed",
+   "bull|calm|yang|dry|up_streak|mad60|wide|std20_open",
+   "bull|calm|yang|dry|up_streak|rsv60|narrow|std20_open",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|std20_closed",
+   "bull|calm|yang|dry|up_streak|rsv60|wide|std20_open",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|std20_closed",
+   "bull|calm|yang|surge|down_streak|mad60|narrow|std20_open",
+   "bull|calm|yang|surge|down_streak|mad60|wide|std20_closed",
+   "bull|calm|yang|surge|down_streak|mad60|wide|std20_open",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|std20_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|narrow|std20_open",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|std20_closed",
+   "bull|calm|yang|surge|down_streak|rsv60|wide|std20_open",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|std20_closed",
+   "bull|calm|yang|surge|up_streak|mad60|narrow|std20_open",
+   "bull|calm|yang|surge|up_streak|mad60|wide|std20_closed",
+   "bull|calm|yang|surge|up_streak|mad60|wide|std20_open",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|std20_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|narrow|std20_open",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|std20_closed",
+   "bull|calm|yang|surge|up_streak|rsv60|wide|std20_open",
+   "bull|wild|red|dry|down_streak|rsv60|narrow|std20_open",
+   "bull|wild|red|dry|down_streak|rsv60|wide|std20_open",
+   "bull|wild|red|dry|up_streak|mad60|narrow|std20_closed",
+   "bull|wild|red|dry|up_streak|mad60|wide|std20_closed",
+   "bull|wild|red|dry|up_streak|mad60|wide|std20_open",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|std20_closed",
+   "bull|wild|red|dry|up_streak|rsv60|narrow|std20_open",
+   "bull|wild|red|dry|up_streak|rsv60|wide|std20_closed",
+   "bull|wild|red|dry|up_streak|rsv60|wide|std20_open",
+   "bull|wild|red|surge|down_streak|mad60|narrow|std20_closed",
+   "bull|wild|red|surge|down_streak|rsv60|narrow|std20_open",
+   "bull|wild|red|surge|up_streak|mad60|narrow|std20_open",
+   "bull|wild|red|surge|up_streak|mad60|wide|std20_closed",
+   "bull|wild|red|surge|up_streak|mad60|wide|std20_open",
+   "bull|wild|red|surge|up_streak|rsv60|narrow|std20_open",
+   "bull|wild|red|surge|up_streak|rsv60|wide|std20_closed",
+   "bull|wild|red|surge|up_streak|rsv60|wide|std20_open",
+   "bull|wild|yang|dry|down_streak|mad60|narrow|std20_open",
+   "bull|wild|yang|dry|down_streak|mad60|wide|std20_closed",
+   "bull|wild|yang|dry|down_streak|mad60|wide|std20_open",
+   "bull|wild|yang|dry|down_streak|rsv60|narrow|std20_open",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|std20_closed",
+   "bull|wild|yang|dry|down_streak|rsv60|wide|std20_open",
+   "bull|wild|yang|dry|up_streak|mad60|wide|std20_closed",
+   "bull|wild|yang|dry|up_streak|rsv60|narrow|std20_open",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|std20_closed",
+   "bull|wild|yang|dry|up_streak|rsv60|wide|std20_open",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|std20_closed",
+   "bull|wild|yang|surge|down_streak|mad60|narrow|std20_open",
+   "bull|wild|yang|surge|down_streak|mad60|wide|std20_closed",
+   "bull|wild|yang|surge|down_streak|mad60|wide|std20_open",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|std20_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|narrow|std20_open",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|std20_closed",
+   "bull|wild|yang|surge|down_streak|rsv60|wide|std20_open",
+   "bull|wild|yang|surge|up_streak|mad60|wide|std20_closed",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|std20_closed",
+   "bull|wild|yang|surge|up_streak|rsv60|narrow|std20_open",
+   "bull|wild|yang|surge|up_streak|rsv60|wide|std20_open"
+  ],
+  "eight_gate_256cells_empty_count": 153,
+  "eight_gate_256cells_max": 41,
+  "eight_gate_256cells_min_nonzero": 1,
+  "eight_gate_256cells_nonzero_count": 103,
+  "eight_gate_all_decidable_days": 3305,
+  "extreme_days": {
+   "2015-07-27": {
+    "amp_state": "wide",
+    "rsv60_value": 0.2026,
+    "std10_open": false,
+    "std20_open": false,
+    "std20_over_q90ref": 0.848,
+    "std20_value": 0.059731,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": true,
+    "tstate_rsv60_low": false
+   },
+   "2016-01-04": {
+    "amp_state": "wide",
+    "rsv60_value": 0.2583,
+    "std10_open": false,
+    "std20_open": false,
+    "std20_over_q90ref": 0.324,
+    "std20_value": 0.028832,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2024-02-28": {
+    "amp_state": "wide",
+    "rsv60_value": 0.709,
+    "std10_open": false,
+    "std20_open": true,
+    "std20_over_q90ref": 1.244,
+    "std20_value": 0.028493,
+    "streak": "neither",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2024-09-24": {
+    "amp_state": "wide",
+    "rsv60_value": 0.5422,
+    "std10_open": true,
+    "std20_open": false,
+    "std20_over_q90ref": 0.769,
+    "std20_value": 0.017217,
+    "streak": "up_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2024-09-30": {
+    "amp_state": "wide",
+    "rsv60_value": 0.9932,
+    "std10_open": true,
+    "std20_open": true,
+    "std20_over_q90ref": 2.565,
+    "std20_value": 0.059224,
+    "streak": "up_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   },
+   "2025-04-07": {
+    "amp_state": "wide",
+    "rsv60_value": 0.1753,
+    "std10_open": true,
+    "std20_open": false,
+    "std20_over_q90ref": 0.942,
+    "std20_value": 0.023636,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": true,
+    "tstate_rsv60_low": true
+   },
+   "2026-01-19": {
+    "amp_state": "wide",
+    "rsv60_value": 0.4745,
+    "std10_open": false,
+    "std20_open": false,
+    "std20_over_q90ref": 0.614,
+    "std20_value": 0.01535,
+    "streak": "down_streak2",
+    "tstate_mad60_q10": false,
+    "tstate_rsv60_low": false
+   }
+  },
+  "first_date": "2012-05-28",
+  "first_decidable_bar_idx": 120,
+  "n_bars": 3483,
+  "note": "STD core anchors (warmup 120 / decidable 3,363 / open 391 / std10 decidable 3,363 / std10 open 399) asserted EXACT; TSTATE/STREAK/AMP cross faces asserted as reproduction counts per prereg sec.2; eight-gate 256 cells asserted 103-non-empty with the exact frozen 153-empty name list (probe range 1-41) + exact per-cell cross-check vs the git-tracked probe facts file when present; extreme-day gate states asserted exact (std20 values at probe 6-decimal rounding, ratios at 3-decimal, rsv at 4-decimal; 2/7 std20-open incl. 2024-02-28 ratio 1.244 + 2024-09-30 ratio 2.565; std10 3/7 open adds 2024-09-24 + 2025-04-07 + 2024-09-30; 2015-07-27 0.848 / 2016-01-04 0.324 / 2026-01-19 0.614 closed honest); STREAK/TSTATE/AMP reproduction counts asserted exact (W7/W8/W9/W10 cross-probe determinism law)",
+  "open_days": 391,
+  "probe_basis": "cross-tables on the r237 probe basis VERBATIM: gate = close > ma200 strict NaN->False both sides; vol = vol20 vs med500 NaN->False both sides; yang = close > open strict (doji red); surge = volume > med20 (min_periods=20, INCL d), dry = ~surge; streak = W7 close-over-close double; tstate = the tl8 census-verbatim faces; amp = the r417 face; std20 = the A158 STD20_q90 face above (eight-gate all-decidable window m8 = dec_std20 & amp_known & streak-decidable & dec_mad & dec_rsv == 3,305 days)",
+  "probe_facts": "results/_r237bmc_stdq90_w11_probe_facts.json (r237 bm-c STD probe; exact per-cell 256-grid cross-check face when present; probe-facts face not a results face)",
+  "rate_caliber_note": "probe-facts rate = open/rows(3483); runner meta rate = open/decidable -- INTS asserted exact, rate values carried verbatim as recorded (zero-invention law)",
+  "std10_decidable_days": 3363,
+  "std10_open_days": 399,
+  "std10_open_rate_on_decidable": 0.1146,
+  "std20_open_rate_on_decidable": 0.1123,
+  "streak_anchor_reproduction": {
+   "down_streak_days": 817,
+   "neither_days": 1820,
+   "up_streak_days": 844
+  },
+  "tstate_anchor_reproduction": {
+   "mad60_gate_true_days": 383,
+   "rsv60_gate_true_days": 632
+  }
+ },
+ "std_spec": {
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> YANG -> VCONF -> STREAK -> TSTATE -> AMP -> MOM -> STD -> initial-stop (a std-blocked signal never arms a stop; W10 order extended, prereg sec.3 fourteen-tuple order R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP/MOM/STD)",
+  "drift_face_note": "honest negative finding carried (prereg adjacency (b)): std20-open AND calm 18 decidable-day forward-20d -2.83% vs std-open AND wild +1.90% (Welch t=-4.37) -- drift-dominated high-dispersion face = dilution risk disclosed pre-run",
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP/MOM, zero lookahead)",
+  "member": "510300",
+  "nan_artifact_note": "NaN comparisons (std20 > q90_ref) yield False NOT decidable (pit-95 batch-95 law); the decidable face derives from the underlying values notna (q90_ref.notna() & std20.notna()); the naive comparison bool face masquerades warmup bars as std_closed -- BANNED at the mask level",
+  "none": "no gate (W10 semantic baseline face)",
+  "q90_ref": "q90_ref = std20.rolling(252, min_periods=120).quantile(0.90) (own-trailing 252-observation upper-decile reference)",
+  "series": "r237 probe verbatim / A158-TSGATE-P1 frozen STD construction (zero-invention law; STD20_q90 = close.rolling(20, min_periods=1).std(ddof=1)/close A158 L240 verbatim, price-LEVEL std incl. drift, distinct from the W4 return-std by construction): signal-day-d close info set on the member face",
+  "std10_hi": "std10(d) = close.rolling(10, min_periods=1).std(ddof=1)/close vs q90_ref10 same construction; std10 > q90_ref10 (10-bar face; std10-vs-std20 mutual open 50.13%/49.12% partial redundancy disclosed -- same-family two-window axis-value variant, W4 calm/wild same-family precedent)",
+  "std20": "std20(d) = close.rolling(20, min_periods=1).std(ddof=1)/close (price-level 20-bar dispersion incl. drift)",
+  "std20_hi": "std20 > q90_ref (20-bar price dispersion entering its own top decile = high-dispersion state; volatility-clustering folklore (GARCH-family statistical basis); A158-TSGATE census OOS med_t +2.06 universe face 1,724 codes + GATE-RECHECK 5/5 five-member = LONG anchor; 5-day window un-halved in-register (+0.89% t=4.47), term-structure note honest)",
+  "w4_vol_adjacency_note": "W4 VOL collapse-adjacency main disclosure carried verbatim (prereg honest-adjacency (a)): 88.92% of std20-open days fall inside the W4 wild face + 38 std-only days + 305/1,441 re-split inside wild = the wave's true question (tail-quantile gate inside an already-burned median-split conditional space); the wave is judged on the criterion lines, not pre-judged; D6 max|corr| audit column face at intake",
+  "warmup": "120-bar warmup window gate-closed honest (std20 single-observation ddof=1 -> NaN at bar 0, valid from bar 1; q90_ref min_periods 120 -> first decidable bar-idx == 120, fail-closed asserted; structure spectrum vs YANG 0 / STREAK 2 / VCONF 19 / AMP 19 / RSV 59 / MAD60 178 / MOM 139 / VOL 519)"
+ },
+ "stop_fill_mapping": "prereg literal: trigger day-D low -> exit D+1 OPEN; engine exits have no open-fill primitive (all exits fill at signal-day close, engine native shared by registered members); grammar-layer mapping: exit-sig augment at D+1 -> engine-native fill at D+1 CLOSE; conservative intent kept (post-trigger next-day, overnight gap borne); disclosed per-cell",
+ "stop_formula": {
+  "a15": {
+   "kind": "atr",
+   "mult": 15.0
+  },
+  "a20": {
+   "kind": "atr",
+   "mult": 20.0
+  },
+  "a25": {
+   "kind": "atr",
+   "mult": 25.0
+  },
+  "none": null,
+  "p12": {
+   "kind": "pct",
+   "stop": 0.12
+  },
+  "p3": {
+   "kind": "pct",
+   "stop": 0.03
+  },
+  "p5": {
+   "kind": "pct",
+   "stop": 0.05
+  },
+  "p8": {
+   "kind": "pct",
+   "stop": 0.08
+  }
+ },
+ "streak_anchor": {
+  "cutoff": "2026-09-22",
+  "down_streak_days": 817,
+  "extreme_days": "4 down (2015-07-27 / 2016-01-04 / 2025-04-07 / 2026-01-19 crisis-day exposure held) + 2 up (2024-09-24 / 09-30 policy-pulse days) + 1 neither (2024-02-28 honest)",
+  "first_date": "2012-05-28",
+  "five_gate_32cells": "all non-empty (probe range 3-150; min cell bear|calm|yang|surge|down == 3; max cell bull|calm|yang|surge|up == 150)",
+  "judgeable_days": 3481,
+  "n_bars": 3483,
+  "neither_days": 1820,
+  "note": "up/down/neither judgeable-window totals asserted exact; cross-table anchors asserted as LOWER BOUNDS per prereg sec.2 G-STREAK; five-gate 32 cells asserted non-empty",
+  "probe_basis": "cross-tables on the r206 probe basis VERBATIM (r407 lesson): gate = close>ma200 strict with the NaN warmup leg in bear; vol = vol20<=med500 mapped with the NaN window in wild; yang = close>open strict (doji red); vconf = volume vs med20 (min_periods=20, INCL d)",
+  "probe_facts": "results/_r206bmc_streakgate_probe_facts.json (r206 bm-c, probe-facts face not a results face)",
+  "red_and_down_lower_bound": 713,
+  "streak_by_gate": {
+   "bear": {
+    "down": 474,
+    "up": 320
+   },
+   "bull": {
+    "down": 343,
+    "up": 524
+   }
+  },
+  "streak_by_yang": {
+   "red": {
+    "down": 713,
+    "up": 93
+   },
+   "yang": {
+    "down": 104,
+    "up": 751
+   }
+  },
+  "up_rate_judgeable": 0.5081,
+  "up_streak_days": 844,
+  "warmup_gate_closed_bars": 2,
+  "yang_and_up_lower_bound": 751
+ },
+ "streak_spec": {
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> YANG -> VCONF -> STREAK -> initial-stop (a streak-blocked signal never arms a stop; W6 order extended, prereg sec.3)",
+  "down_streak2": "close(d) < close(d-1) AND close(d-1) < close(d-2) -- only two-day down-confirmation days permit entry (lian-die rebound-candidate face)",
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL/YANG/VCONF, zero lookahead)",
+  "member": "510300",
+  "none": "no gate (W6 semantic baseline face)",
+  "series": "close-over-close double same-direction on the signal-day-d close info set: close(d) vs close(d-1) AND close(d-1) vs close(d-2)",
+  "up_streak2": "close(d) > close(d-1) AND close(d-1) > close(d-2) -- only two-day up-confirmation days permit entry (san-lian-yang continuation face, A-share folk canon)",
+  "warmup": "2-bar warmup window gate-closed honest (first 2 bars undecidable -- SHORTEST warmup of the gate family: vs YANG 0 / VCONF 19 / GATE 199 / VOL 519)"
+ },
+ "tstate_anchor": {
+  "cutoff": "2026-09-22",
+  "extreme_days": {
+   "2015-07-27": {
+    "mad60": true,
+    "rsv60": false,
+    "rsv_value": 0.2026,
+    "streak": "down_streak2"
+   },
+   "2016-01-04": {
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.2583,
+    "streak": "down_streak2"
+   },
+   "2024-02-28": {
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.709,
+    "streak": "neither"
+   },
+   "2024-09-24": {
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.5422,
+    "streak": "up_streak2"
+   },
+   "2024-09-30": {
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.9932,
+    "streak": "up_streak2"
+   },
+   "2025-04-07": {
+    "mad60": true,
+    "rsv60": true,
+    "rsv_value": 0.1753,
+    "streak": "down_streak2"
+   },
+   "2026-01-19": {
+    "mad60": false,
+    "rsv60": false,
+    "rsv_value": 0.4745,
+    "streak": "down_streak2"
+   }
+  },
+  "first_date": "2012-05-28",
+  "mad60": {
+   "decidable_days": 3305,
+   "first_decidable_bar_idx": 178,
+   "gate_true_days": 383,
+   "open_rate_pct_on_decidable": 11.59,
+   "warmup_gate_closed_bars": 178
+  },
+  "n_bars": 3483,
+  "note": "mad60/rsv60 judgeable-window totals asserted exact; STREAK x TSTATE cross four cells asserted as LOWER BOUNDS per prereg sec.2; six-gate 64 cells asserted 44-non-empty with the exact frozen 20-empty name list; extreme-day gate states asserted exact (rsv values at 4-decimal probe rounding, tolerance 5.001e-5)",
+  "probe_basis": "cross-tables on the r423 probe basis VERBATIM (r407 lesson): gate = close > ma200 strict with the NaN warmup leg False on BOTH bull and bear sides (tstate False in warmup bars -> identical counts); vol = vol20 vs med500 NaN->False both sides; yang = close > open strict (doji red); surge = volume > med20 (min_periods=20, INCL d), dry = ~surge; streak = W7 close-over-close double; tstate = the census-verbatim faces above",
+  "probe_facts": "results/_r423bmb_w8tstate_probe_facts.json (r423 bm-b berth-upgrade merge of r421 TSTATE probe + r206 STREAK def; probe-facts face not a results face)",
+  "rsv60": {
+   "decidable_days": 3424,
+   "first_decidable_bar_idx": 59,
+   "gate_true_days": 632,
+   "open_rate_pct_on_decidable": 18.46,
+   "warmup_gate_closed_bars": 59
+  },
+  "six_gate_64cells_empty": [
+   "bear|calm|red|dry|up_streak|mad60",
+   "bear|calm|red|dry|up_streak|rsv60",
+   "bear|calm|yang|surge|down_streak|mad60",
+   "bear|calm|yang|surge|down_streak|rsv60",
+   "bear|wild|red|surge|up_streak|rsv60",
+   "bull|calm|red|dry|down_streak|mad60",
+   "bull|calm|red|dry|up_streak|mad60",
+   "bull|calm|red|dry|up_streak|rsv60",
+   "bull|calm|red|surge|up_streak|mad60",
+   "bull|calm|red|surge|up_streak|rsv60",
+   "bull|calm|yang|dry|down_streak|mad60",
+   "bull|calm|yang|dry|down_streak|rsv60",
+   "bull|calm|yang|dry|up_streak|mad60",
+   "bull|calm|yang|surge|down_streak|mad60",
+   "bull|calm|yang|surge|down_streak|rsv60",
+   "bull|calm|yang|surge|up_streak|mad60",
+   "bull|calm|yang|surge|up_streak|rsv60",
+   "bull|wild|red|dry|up_streak|rsv60",
+   "bull|wild|yang|surge|down_streak|mad60",
+   "bull|wild|yang|surge|down_streak|rsv60"
+  ],
+  "six_gate_64cells_empty_count": 20,
+  "six_gate_64cells_max": 63,
+  "six_gate_64cells_min_nonzero": 1,
+  "six_gate_64cells_nonzero_count": 44,
+  "streak_anchor_reproduction": {
+   "down_streak_days": 817,
+   "neither_days": 1820,
+   "up_streak_days": 844,
+   "warmup_gate_closed_bars": 2
+  },
+  "streak_tstate_cross_lower_bounds": {
+   "down_and_mad60": 146,
+   "down_and_rsv60": 253,
+   "up_and_mad60": 52,
+   "up_and_rsv60": 55
+  },
+  "zero_volume_rows": 0
+ },
+ "tstate_spec": {
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> YANG -> VCONF -> STREAK -> TSTATE -> initial-stop (a tstate-blocked signal never arms a stop; W7 order extended, prereg sec.3)",
+  "deep_pullback": "MAD60_q10: dist(d) = close/MA60 - 1 (MA60 = close rolling-60 mean); gate = dist < dist.rolling(252, min_periods=120).quantile(0.10) -- price in the bottom decile of its trailing 252-bar dist band = deep-pullback state (die-shen le-cai-jie folk canon, A-share dip-buying core)",
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL/YANG/VCONF/STREAK, zero lookahead)",
+  "member": "510300",
+  "nan_artifact_note": "NaN < x comparison yields False NOT decidable (pit-95 batch-95 r421 probe lesson); the decidable face derives from the underlying value notna (q10_ref.notna() / rsv60.notna()); bool-series first_valid_index all-True artifact BANNED; argmax takes the first True",
+  "none": "no gate (W7 semantic baseline face)",
+  "oversold_rsv": "RSV60_low<0.2: rsv(d) = (close - low60)/(high60 - low60), hh/ll rolling-60 extremes, hh == ll -> NaN gate-closed; gate = rsv < 0.2 -- price in the bottom 20% of its 60-day range = oversold state (RSV = KDJ family mother formula, A-share retail first-indicator family)",
+  "quantile_honest_note": "prereg sec.2 prose says '20 fen-wei' but its own frozen anchors (gate-true 383 / decidable 3,305 / first-decidable 178) reproduce ONLY on quantile(0.10) (q20 measured = 700 gate-true, breaks G-TSTATE); census name MAD60_q10 + probe code + probe facts all agree on q10 -- anchors + referenced code artifact are the operative frozen face",
+  "series": "census-verbatim O-1855(4) gate_census instrument_gates transplant (zero-invention law): signal-day-d close info set on the member face",
+  "warmup": "178-bar warmup window gate-closed honest for deep_pullback (MA60 59 bars + quantile min_periods 120 -> first decidable bar-idx == 178; structure spectrum vs YANG 0 / STREAK 2 / VCONF 19 / RSV 59 / VOL 519) + 59-bar warmup for oversold_rsv (first decidable bar-idx == 59)"
+ },
+ "value_domains": {
+  "composite_rotation.composite_score": {},
+  "composite_rotation.top_n_rotation": {
+   "rebal_days": [
+    10,
+    20,
+    40
+   ],
+   "top_n": [
+    3,
+    5,
+    8
+   ]
+  },
+  "event.breakout_confirm": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ]
+  },
+  "event.double_bottom": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "tolerance": [
+    0.015,
+    0.03,
+    0.045
+   ]
+  },
+  "event.gap_fill": {
+   "n": [
+    2,
+    5,
+    10
+   ]
+  },
+  "folk.ants_climb": {
+   "max_day": [
+    0.006,
+    0.012,
+    0.018
+   ]
+  },
+  "folk.false_break_back": {
+   "n_back": [
+    2,
+    3,
+    6
+   ]
+  },
+  "folk.gap_up_hold": {
+   "gap_th": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "folk.lian_yin_first_yang": {
+   "n_down": [
+    2,
+    3,
+    6
+   ]
+  },
+  "folk.low_suction": {
+   "shrink": [
+    0.4,
+    0.8,
+    1.2
+   ]
+  },
+  "folk.rsi_low_flat": {
+   "low_th": [
+    12,
+    25,
+    50
+   ],
+   "n": [
+    7,
+    14,
+    28
+   ]
+  },
+  "folk.second_wave": {
+   "retest": [
+    0.025,
+    0.05,
+    0.075
+   ]
+  },
+  "folk.volume_mound": {
+   "mound": [
+    0.65,
+    1.3,
+    1.95
+   ]
+  },
+  "macro.csi300_momentum_filter": {
+   "n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "macro.csi300_trend_filter": {
+   "ma_n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "macro.drawdown_filter": {
+   "max_dd": [
+    -0.225,
+    -0.15,
+    -0.075
+   ]
+  },
+  "macro.volatility_regime_filter": {
+   "n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "mean_reversion.bollinger_breakout": {
+   "k": [
+    1.0,
+    2.0,
+    3.0
+   ],
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "mean_reversion.pullback_bounce": {
+   "pullback_n": [
+    5,
+    10,
+    20
+   ],
+   "trend_n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "mean_reversion.rsi2": {
+   "n": [
+    2,
+    4
+   ]
+  },
+  "mean_reversion.rsi_revert": {
+   "n": [
+    7,
+    14,
+    28
+   ],
+   "overbought": [
+    35,
+    70,
+    140
+   ],
+   "oversold": [
+    15,
+    30,
+    60
+   ]
+  },
+  "mean_reversion.zscore_revert": {
+   "entry": [
+    -3.0,
+    -2.0,
+    -1.0
+   ],
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "momentum.cross_sectional_momentum": {
+   "n": [
+    60,
+    120,
+    240
+   ],
+   "skip": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.dual_momentum": {
+   "n": [
+    60,
+    120,
+    240
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.momentum_acceleration": {
+   "fast": [
+    10,
+    20,
+    40
+   ],
+   "slow": [
+    60,
+    120,
+    240
+   ]
+  },
+  "momentum.relative_strength_rotation": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "momentum.time_series_momentum": {
+   "n": [
+    100,
+    200,
+    400
+   ]
+  },
+  "patterns.big_yin_shakeout": {
+   "big_yin": [
+    -0.0525,
+    -0.035,
+    -0.0175
+   ]
+  },
+  "patterns.box_breakout": {
+   "box_n": [
+    10,
+    20,
+    40
+   ],
+   "box_th": [
+    0.04,
+    0.08,
+    0.12
+   ],
+   "vol_mult": [
+    0.65,
+    1.3,
+    1.95
+   ]
+  },
+  "patterns.doji_at_low": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "patterns.duck_head": {
+   "neck": [
+    4,
+    8,
+    16
+   ]
+  },
+  "patterns.immortal_guide": {
+   "shadow_pct": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "patterns.inside_bar_breakup": {},
+  "patterns.island_reversal": {
+   "gap": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "patterns.ma_converge_break": {
+   "spread": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "patterns.macd_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ]
+  },
+  "patterns.morning_star": {
+   "big_red": [
+    -0.045,
+    -0.03,
+    -0.015
+   ],
+   "small_body": [
+    0.005,
+    0.01,
+    0.015
+   ]
+  },
+  "patterns.n_shape": {
+   "leg_up": [
+    0.02,
+    0.04,
+    0.06
+   ]
+  },
+  "patterns.needle_probe": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ],
+   "shadow_pct": [
+    0.01,
+    0.02,
+    0.03
+   ]
+  },
+  "patterns.obv_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ]
+  },
+  "patterns.piercing_line": {
+   "big_red": [
+    -0.03,
+    -0.02,
+    -0.01
+   ]
+  },
+  "patterns.three_methods_up": {
+   "big_yang": [
+    0.015,
+    0.03,
+    0.045
+   ]
+  },
+  "patterns.three_soldiers": {
+   "min_body": [
+    0.002,
+    0.004,
+    0.006
+   ]
+  },
+  "patterns.vol_drought_reversal": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ],
+   "vol_floor": [
+    0.275,
+    0.55,
+    0.825
+   ]
+  },
+  "patterns.yang_break_3ma": {
+   "spread": [
+    0.0075,
+    0.015,
+    0.0225
+   ]
+  },
+  "seasonal.holiday_effect": {
+   "pre_days": [
+    1,
+    3,
+    5
+   ]
+  },
+  "seasonal.month_end_effect": {
+   "window": [
+    2,
+    3,
+    5
+   ]
+  },
+  "seasonal.month_seasonality": {
+   "month": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  "seasonal.trend_by_season": {
+   "ma_n": [
+    100,
+    200,
+    400
+   ],
+   "month": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+   ]
+  },
+  "seasonal.weekday_effect": {
+   "weekday": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "sentiment.amount_rank": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "sentiment.intraday_momentum": {
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "sentiment.overnight_drift": {
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "sentiment.price_volume_trend": {
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "sentiment.turnover_surge": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "threshold": [
+    1.0,
+    2.0,
+    3.0
+   ]
+  },
+  "ta.bb_squeeze_breakout": {
+   "bb_n": [
+    10,
+    20,
+    40
+   ],
+   "k": [
+    1.0,
+    2.0,
+    3.0
+   ],
+   "width_n": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.cci_revert": {
+   "cci_n": [
+    10,
+    20,
+    40
+   ],
+   "entry_th": [
+    -150.0,
+    -100.0,
+    -50.0
+   ],
+   "exit_th": [
+    50.0,
+    100.0,
+    150.0
+   ],
+   "trend_ma": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.engulf_reversal": {
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ]
+  },
+  "ta.hammer_reversal": {
+   "body_max": [
+    0.175,
+    0.35,
+    0.525
+   ],
+   "drop_th": [
+    -0.075,
+    -0.05,
+    -0.025
+   ],
+   "shadow_mult": [
+    1.0,
+    2.0,
+    3.0
+   ]
+  },
+  "ta.kdj_reversal": {
+   "entry_j": [
+    0.0
+   ],
+   "exit_j": [
+    40.0,
+    80.0,
+    120.0
+   ],
+   "kdj_n": [
+    4,
+    9,
+    18
+   ],
+   "trend_ma": [
+    30,
+    60,
+    120
+   ]
+  },
+  "ta.macd_trend": {
+   "fast": [
+    6,
+    12,
+    24
+   ],
+   "signal": [
+    4,
+    9,
+    18
+   ],
+   "slow": [
+    13,
+    26,
+    52
+   ]
+  },
+  "ta.nr7_breakout": {
+   "hold_n": [
+    2,
+    5,
+    10
+   ],
+   "nr_n": [
+    3,
+    7,
+    14
+   ]
+  },
+  "ta.rsi_divergence": {
+   "look": [
+    15,
+    30,
+    60
+   ],
+   "n": [
+    7,
+    14,
+    28
+   ]
+  },
+  "ta.rsrs_timing": {
+   "buy_z": [
+    0.4,
+    0.8,
+    1.2
+   ],
+   "exit_z": [
+    -1.2,
+    -0.8,
+    -0.4
+   ],
+   "window": [
+    9,
+    18,
+    36
+   ],
+   "z_win": [
+    125,
+    250,
+    500
+   ]
+  },
+  "ta.streak_up": {
+   "min_up": [
+    0.0
+   ],
+   "streak_n": [
+    2,
+    3,
+    6
+   ]
+  },
+  "ta.strong_close": {
+   "pos_th": [
+    0.425,
+    0.85,
+    1.275
+   ],
+   "vol_len": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ]
+  },
+  "ta.vol_breakout": {
+   "brk_len": [
+    10,
+    20,
+    40
+   ],
+   "exit_len": [
+    5,
+    10,
+    20
+   ],
+   "vol_avg_len": [
+    10,
+    20,
+    40
+   ],
+   "vol_mult": [
+    0.75,
+    1.5,
+    2.25
+   ]
+  },
+  "ta.williams_reversal": {
+   "entry_th": [
+    -120.0,
+    -80.0,
+    -40.0
+   ],
+   "exit_th": [
+    -30.0,
+    -20.0,
+    -10.0
+   ],
+   "wr_n": [
+    7,
+    14,
+    28
+   ]
+  },
+  "trend.donchian_breakout": {
+   "entry_n": [
+    10,
+    20,
+    40
+   ],
+   "exit_n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "trend.dual_ma_cross": {
+   "fast": [
+    2,
+    5,
+    10
+   ],
+   "slow": [
+    10,
+    20,
+    40
+   ]
+  },
+  "trend.parabolic_sar": {
+   "af_inc": [
+    0.01,
+    0.02,
+    0.03
+   ],
+   "af_max": [
+    0.1,
+    0.2,
+    0.3
+   ],
+   "af_start": [
+    0.01,
+    0.02,
+    0.03
+   ]
+  },
+  "trend.supertrend": {
+   "mult": [
+    1.5,
+    3.0,
+    4.5
+   ],
+   "n": [
+    5,
+    10,
+    20
+   ]
+  },
+  "trend.triple_ma": {
+   "n1": [
+    2,
+    5,
+    10
+   ],
+   "n2": [
+    10,
+    20,
+    40
+   ],
+   "n3": [
+    30,
+    60,
+    120
+   ]
+  },
+  "volatility.low_vol_long": {
+   "n": [
+    30,
+    60,
+    120
+   ],
+   "rebal_days": [
+    null,
+    10,
+    20
+   ],
+   "top_k": [
+    3,
+    5,
+    8
+   ]
+  },
+  "volatility.vol_breakout": {
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "volatility.vol_regime_switch": {
+   "ma_n": [
+    100,
+    200,
+    400
+   ],
+   "n": [
+    10,
+    20,
+    40
+   ]
+  },
+  "volatility.vol_target": {
+   "n": [
+    10,
+    20,
+    40
+   ],
+   "target_vol": [
+    0.1,
+    0.15,
+    0.2
+   ]
+  }
+ },
+ "vconf_anchor": {
+  "cutoff": "2026-09-22",
+  "dry_days": 1723,
+  "first_date": "2012-05-28",
+  "four_gate_16cells": "all non-empty (probe range 133-302; bull_calm_yang_surge 269 ... bear_wild_yang_surge 302 / bear_wild_red_dry 298)",
+  "n_bars": 3483,
+  "note": "cross-table anchors asserted as LOWER BOUNDS per prereg sec.2 G-VCONF (下界); surge/dry days asserted exact; zero-volume rows asserted zero; four-gate 16 cells asserted non-empty",
+  "probe_basis": "cross-tables on the r410 probe basis VERBATIM (r407 lesson): gate = close>ma200 strict with the NaN warmup leg in bear; vol = vol20<=med500 mapped with the NaN window in wild; yang = close>open strict (doji red)",
+  "probe_facts": "results/_r410bma_volconf_probe_facts.json (r410 bm-a, probe-facts face not a results face)",
+  "red_and_dry_lower_bound": 904,
+  "surge_days": 1741,
+  "surge_rate": 0.5026,
+  "warmup_gate_closed_bars": 19,
+  "yang_and_surge_lower_bound": 924,
+  "zero_volume_rows": 0
+ },
+ "vconf_spec": {
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL/YANG, zero lookahead)",
+  "member": "510300",
+  "none": "no gate (W5 semantic baseline face)",
+  "series": "med20(d) = volume rolling-20 median (min_periods=20, INCL d); volume(d) vs med20(d) on the signal-day-d close info set",
+  "volume_dry": "volume(d) <= med20(d) -- only dry days permit entry (suo-liang face)",
+  "volume_surge": "volume(d) > med20(d) -- only surge days permit entry (fang-liang confirm, A-share folk canon)",
+  "warmup": "19-bar warmup window gate-closed honest (med20 first valid bar-idx == 19; structural middle position vs YANG zero-warmup / VOL 519-bar med500)"
+ },
+ "vol_anchor": {
+  "calm_days": 1523,
+  "first_valid_bar": 519,
+  "note": "probe r396 core48/leg-L face (results/_r396bma_volgate_probe.py)",
+  "wild_days": 1441
+ },
+ "vol_spec": {
+  "calm": "vol20 <= med500 permits entry (low-vol regime face)",
+  "composition_order": "signal -> filter -> timing -> GATE -> VOL -> initial-stop (frozen identically on the dedup face and the engine face; stop arms only after BOTH entry gates)",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as the signal, zero lookahead)",
+  "med500": "vol20 rolling 500-obs median (min_periods=500, all <=d)",
+  "med500_min": 500,
+  "med500_window": 500,
+  "member": "510300",
+  "nan_window": "first 519 bars med500=NaN -> vol-closed on BOTH calm/wild faces (conservative; panel-level na-window count disclosed)",
+  "non_isomorphism": "VOL face != GATE face (probe r396: 2014-12-31 wild AND bull coexist)",
+  "none": "no gate (W3 semantic baseline face)",
+  "overlay": "vol-closed signal day -> effective signal zeroed (grammar layer, MSG-0440 E1-mapping primitive; engine/exit_rules.py ZERO touch; engine-native signal-off exit semantics shared by every template/cell)",
+  "ret": "close(d)/close(d-1)-1",
+  "vol20": "ret rolling 20 sample std (ddof=1, min_periods=20, incl d)",
+  "vol20_ddof": 1,
+  "vol20_min": 20,
+  "vol20_window": 20,
+  "wild": "vol20 > med500 permits entry (high-vol regime face)"
+ },
+ "wave": "TRIAL_LABOR_W12",
+ "yang_anchor": {
+  "cutoff": "2026-09-22",
+  "first_date": "2012-05-28",
+  "n_bars": 3483,
+  "note": "cross-table anchors asserted as LOWER BOUNDS per prereg sec.2 G-YANG (下界); yang_days asserted exact",
+  "probe_facts": "results/_r162bmc_yanggate_probe_facts.json (r162 bm-c, probe-facts face not a results face)",
+  "red_and_bear_lower_bound": 914,
+  "yang_and_bull_lower_bound": 962,
+  "yang_days": 1751,
+  "yang_rate": 0.5027
+ },
+ "yang_spec": {
+  "engine_note": "entry-permittance only (effective signal zeroed, MSG-0440 E1-mapping primitive; exit logic zero change; engine/exit_rules.py zero touch)",
+  "first_yang": "only signal-day yang days permit entry",
+  "info_set": "signal-day d close; entry fills d+1 open (T+1 causal, same info set as GATE/VOL, zero lookahead)",
+  "member": "510300",
+  "none": "no gate (W4 semantic baseline face)",
+  "warmup": "zero warmup window (bar-0 onward judgeable; structural improvement vs the VOL 519-bar med500 window)",
+  "yang": "close(d) > open(d) (single-K-line binary, strict >; doji close==open counts as red, probe r162 face)"
+ }
+}
