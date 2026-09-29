@@ -9,8 +9,8 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-30 04:35:15",
-  "_stamp_note": "r446 bm-b bookkeeping flip: W12-SCREEN done + W12-JUDGE armed (single_writer control-plane edit; autofill C8 read-side launches burn)",
+  "updated_at": "2026-09-30 06:2x",
+  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
   "entries": [
     {
       "id": "A158-TRUEGAP-IC",
@@ -4763,6 +4763,39 @@
       "workers_plan": "{'workers': 'worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors; W12-JUDGE 188 survivors lightest; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grouped shared-start pruning)', 'priority': 'BelowNormal'}",
       "result_ref": "results/trial_labor_w12/w12_judge.json (judge-finalize 2026-09-30 05:22:37 exit 0, 188/188 judged zero G1 zero G2, E[FP]=9.4, intake lawful-zero 05:36:47) -- bookkeeping flip by owner bm-b r447 dead-round closure; actual burn ran on autofill lineage (ckpt 188/188; post-write runner crash 05:20:03 non-science tail-segment, zero checkpoint loss, zero science loss)",
       "done_at": "2026-09-30 05:4x"
+    },
+    {
+      "id": "INNOVATION-QUOTA-SLOT-6",
+      "lane_owner": null,
+      "prereg_ref": "research/INNOVATION_QUOTA_W6_PREREG.md FROZEN (r459 bm-a self-freeze per W5 r247->r248 mirror: seed innovation_quota_w6_rrg_rotation=20324500 registered + three-step law ALL GREEN import view facts results/_r459bma_w6_seed_law_facts.json; G-ANCHOR probe facts frozen results/_r459bma_rrg_w6_probe_facts.json 81 ME x 2 variants bit-exact; D6 probe corr faces registered all <0.7 merge-clause zero triggers; unconstrained sizing locked top-2@0.475; batch lo=2021-05-06)",
+      "runner": "scripts/innovation_quota_w6.py",
+      "runner_note": "BUILT r459 bm-a, selftest 10/10 + real-panel G-ANCHOR pre-verification bit-exact via 'verify' subcommand read-only; r450 landed-state guard rc=2 + CostPatch(2.0) x2 faces + verbatim-import probe construction r456 paradigm; both enqueue gates pass -> pool-enqueued same window | r459 repair-2: runner_args=[run] backfilled (first launch argparse no-cmd exit 2, r444 no-arg-leg family; W12-JUDGE runner_args convention)",
+      "ticket_ref": "T-2026-09-28-107 sec.4(d) fill-ladder innovation quota",
+      "added_at": "2026-09-30 04:4x bm-a r458",
+      "consumer_plan": "RRG_ROTATION_P1 judged verdict -> G2 pass = T-34 fastline candidate pool eligibility + rotation-family material shelf (quadrant state-machine axis); fail = judged-negative family closure (MF_ROT/T33 dual negative-prior burden upheld as expected mainline, legal output saving future RRG-variant burns) + attrition row + 48h CEO report with O-1116 high-elasticity dual-column (return/drawdown) disclosure",
+      "status": "ready",
+      "shards": [
+        {
+          "key": "main",
+          "status": "ready",
+          "checkpoint": "",
+          "note": "ladder default shard (single-face batch, r301 family)",
+          "owner": "bm-a",
+          "owner_since": "2026-09-30 06:10:56"
+        }
+      ],
+      "entered_at": "2026-09-30 05:47:34",
+      "entered_by": "bm-a fill_ladder T-107 slice-2",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "r459 bm-a stranded-entry live-fire repair: enqueued plan-less, autofill._pick hard-skipped 3 ticks; 4-cell judged batch x1000 vstarts+100 splits multi-core; CEO 10%% CPU headroom law = BelowNormal"
+      },
+      "worker_class": "self-contained",
+      "priority": 3,
+      "runner_args": [
+        "run"
+      ]
     }
   ],
   "lane_machine": "bm-b"

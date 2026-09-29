@@ -2,17 +2,13 @@
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 ### Feedback
-- 冷层指针：r240 tick 15min 时限强杀·完整工件零 commit 接续律全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r446 bm-b 窗批』节（r443 jsonl 追加写吞换行坑指针随迁在档）。
-- 冷层指针：r443 jsonl 追加写吞换行腐败坑+union 双侧同族修复律 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=raw_decode 循环拆行工具 _r443bmb_x2log_repair.py+新追加写者尾换行守卫承载）。
 
-- 冷层指针：r455 S5 轮报告路径孤儿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r458 bm-a 窗批』节（法面已由轮 prompt S5 文本承载·r458 迁档）。
 - 冷层指针：r458 泊位族选双面核验坑（zoo 行状态面滞后于 results 判决面）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=防重核双面序：rg results 判决面先行·zoo/登记行状态只作线索）。
 - [2026-09-30 r459 bm-a] fill_ladder 门串坑（泊位登记三面坑族·step-6 同窗三连实弹）：①catalog enqueue_gates 裸串 prereg_frozen=checker unknown-gate-ref 永堵，正典=prereg_frozen:<路径>；runner 字段须裸路径（描述另放 runner_note）②pool entry 缺 workers_plan=autofill._pick 硬跳「no workers_plan」→ ready 批搁浅 3 tick（verdict pool_empty_or_busy 假象·SLOT-1 dict 式为正典；fill_ladder 已加 fail-closed 门镜像 consumer_plan）③缺 runner_args=首发即 argparse no-cmd exit 2（r444 无参腿族·W12-JUDGE ['judge',...] 惯例）——泊位登记面三验=enqueue_gates 语法+workers_plan+runner_args 三查后再宣告 pool-ready。SLOT-5 同病 latent（done 态不再撞检）；SLOT-7 冻结窗将撞新门=如实拦。
 - 冷层指针：r445 采集器无超时挂死盲区坑（conn-fuse 对 hang 失明） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=fetch_one daemon-worker 45s 死限+TimeoutError 走 CONN_MARKERS fuse 路+探针 _r445bmb_hang_shield_probe.py 承载）。
 
 ### Project
 
-- 冷层指针：r433 同门换用法反向证伪律+r431 探针条件率 NaN 归桶伪影律+r443 跨索引 reindex 静默全 NaN 接线坑+r438 轮中猝死脏树 autofill 认领锁死链+r233 阶梯目录消耗态盲区五条全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r440 bm-b 窗批』节（r233 条=r438 bm-b 窗批节在位引用·水位 11,849B 超 ≤10KB 硬线当窗即办·行级零丢失校验·r440 bm-a 撞批三查律+r229 LHB 源改史+r235 core48 源分层热层保留=操作面活跃）。
 - 冷层指针：r440 撞批三查律+r449 风暴 union 复活去重律全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r245 bm-c 窗批』节。
 - 冷层指针：r440 bm-b 初筛富集面≠注册级增量律全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（法面已由 TRIAL_LABOR_W10_PREREG §7/8+CEO-REPORT-WAVE10+attrition 承载）。
 - 冷层指针：r242 bm-c runner 外科手术四连坑族全文 verbatim=archive 202609.md『热冷整编 2026-09-29 r449 bm-a 窗批』节（W11 runner 已建毕 selftest 47/47·坑律由 _r242bmc_w11_surgeon 系列工件承载）。
@@ -35,5 +31,6 @@
 - 冷层指针：r457 风暴 resolver 非幂等追加坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r253 bm-c 窗批』节（法面=append 型收口脚本 add 前幂等守卫惯例+半途失败 git checkout -- 恢复惯例承载）。
 - 冷层指针：r446 bm-b 手术过继残漏三连坑（tlN→tlN+1 过继必带真数据 identity face 三命令实弹首跑收口步）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批三』节（W13 过继者=bm-a berth·r459 state next 指针直引本条）。
 - 冷层指针：r252 bm-c 泊位/冻结步开工前 inbox 零未读腿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=供给类开工前置检查单三查扩四查：job_list+tasks+fetch 标题扫+inbox 未读清零）。
+- [2026-09-30 06:4x r448 bm-b] 族选防重 rg 键面补律（r458 双面律本窗第二例·W8 泊位实弹·零污染拦截）：zoo 行族名拼法 rg（path_continuity/salience 等）**漏检 P-1e 已烧面**——批件与判决产物用 zoo 编号别名（zoo92_coin_team/zoo85_stv），族名零命中≠零前判；本窗幸被消费位指针链（P-1c harness→P1E_NEIGHBOR_CORR 受检侧名单）拦下。正法=泊位族选防重 rg pattern 必并 **zooNN_\* 别名键面**+顺消费位指针走链复核。How to apply：任何族选/防重核，rg 键面=族名∪zooNN 别名∪消费位批名三键。
 - [2026-09-30 05:5x r254 bm-c] push 假拒绝坑（reflock 竞态）：报 `remote rejected cannot lock ref: is at <本人commit> but expected <基点>`=同树 FleetPush 抢先已落同一 commit——正法=**先 fetch 验 origin 落点再决定重试**，禁盲目 rebase 重推（r254 实证 fetch 后 origin 已在本人泊位 commit 57636c713·零重复零损伤）。
 - [2026-09-30 06:1x r255 bm-c] pool worker stale-tree claim 假失败坑（SLOT-6 实弹）：本机 worker 06:02 从 origin-fetched 池视图认领他机刚入池条目——runner 仅存在于本地未拉取的 origin commit 中=claim 后 0.0s rc=2 机制假失败（0.0003 core-hours·零科学烧批·outcome=fail 语义=freed 正确返还池·本地拉取后下 tick 自愈真烧）；危害面=ledger 假失败行+认领周期空耗。正法方向=worker claim 前置 runner 本地在树核验（O-2210 机件改动须单写者窗·本轮未擅改）。How to apply：他机新入池条目真烧=本地树已拉取之后；worker 秒级 rc=2 先查 runner 在树性再判机制故障。
