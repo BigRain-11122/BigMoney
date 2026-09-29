@@ -1,15 +1,15 @@
 ﻿{
-    "verify":  "smoke 26/26; orders 122/122 diff 0; S6 evidence results/_r244bmc_s6_chain.json zero non-green; attrition guard CLEAN; seed reverify results/_r244bmc_w4_seed_law_facts.json ALL GREEN",
+    "verify":  "smoke 26/26; orders 122/122 diff 0 (double-sweep); S6 36/37 green + 1 honest rc=3 (update_lhb source-history flag, local untouched, bm-a lane reconciliation); attrition guard CLEAN; W4 runner selftest 29/29",
     "gpu_free_vram_mib":  9496,
-    "last_round_at":  "r244",
-    "idle_ram_gb":  9.1,
-    "did":  "r244: adopt W4 freeze artifacts (prereg FROZEN + SEED key 20322000 + facts) with honest-face banner fix (runner/catalog-HOLD/pool claims retracted) + full-registry reverify ALL GREEN (import view 130 keys/126 existing bases, zero verdict flip, dead-tick 86-key count = source-regex artifact) + post_review 09-30 (44g/0x) + S6 37-leg all green + push",
-    "current_task":  "r244 closed: dead-tick adoption complete, W4 frozen, runner = next slice",
+    "last_round_at":  "r245",
+    "idle_ram_gb":  8.7,
+    "did":  "r245: P0 hotcold reorg (CODELY 10932->9705B under 10240, r449 dedupe-first: 0 true dups / User meta-law deliberate hot-restore excluded, age-migrate r440+r449 verbatim to archive, zero-loss verify PASS) + W4 runner scripts/innovation_quota_w4.py BUILT selftest 29/29 (VOLREGIME-TIMING-P1 3 frozen cells, HMA vol-index V-shape, G-ANCHOR fail-closed vs r243 probe facts, r450 guard, r442 NaN-safe, r236 GBK) + catalog SLOT-4 gates flip + pool enqueue ready (union-resolved with bm-b W11-JUDGE claim in rebase) + F-04 MSG + S6 chain + push",
+    "current_task":  "r245 closed: SLOT-4 armed, burn = autofill C8 / any-machine claim (minute-scale)",
     "machine_id":  "bm-c",
-    "next":  "next tick: (a) W4 runner build slice-1 (mirror scripts/innovation_quota_w3.py 45KB family skeleton: engine HMA vol-index 3-threshold V-shape state machine + 3 frozen cells + nulls K2000/starts K1000/splits 100 + G-ANCHOR fail-closed + GBK reconfigure; then catalog SLOT-4 runner_exists gate flip + pool enqueue) (b) 10-01 month-first trio science_audit/monthly_briefing/self_review + REGIME_GUARD v3 date-gate hands-off (c) W11 JUDGE verdict watch (bm-b lane, do not touch)",
-    "round_no":  244,
-    "last_round_ts":  "2026-09-30T01:19:31+08:00",
-    "cpu_pct":  7,
-    "note":  "r244 closed: dead-tick adoption (r240 law; 00:5x tick died pre-commit mid-W4-freeze) -- forensics 3-step (zero rival executor in process chain; artifact anchor verify; origin cross-check via fetch) then adopt-verify-close",
-    "updated":  "2026-09-30T01:19:31+08:00"
+    "next":  "next tick: (a) SLOT-4 burn watch: autofill/claim -> results/innovation_quota/VOLREGIME-TIMING-P1.json judged verdict + prereg sec.7/8 backfill + attrition + 48h CEO report face (b) update_lhb rc=3 source-history flag = bm-a lane reconciliation slice (r235 law, do not touch from bm-c) (c) 10-01 month-first trio science_audit/monthly_briefing/self_review + REGIME_GUARD v3 date-gate hands-off (d) W11 JUDGE verdict watch (bm-b lane, do not touch)",
+    "round_no":  245,
+    "last_round_ts":  "2026-09-30T01:52:00+08:00",
+    "cpu_pct":  9,
+    "note":  "r245: watermark red=false lane healthy; product-first: runnable runner artifact (2pt) landed; push survived rebase storm via pool union (r449 law applied)",
+    "updated":  "2026-09-30T01:52:00+08:00"
 }
