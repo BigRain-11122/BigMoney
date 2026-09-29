@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-29T06:00:54+08:00",
+  "updated_at": "2026-09-29 07:33:00",
   "_stamp_note": "bm-b r412: W6-GENERATE harvest flip (r244 landed-marker law) + W6-SCREEN entry submission (screen-prep PASS same round)",
   "entries": [
     {
@@ -3951,11 +3951,12 @@
       "shards": [
         {
           "key": "judge-0of1",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/trial_labor_w6/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law)",
-          "note": "judge-0of1 single shard (W1-W5 judge single-shard precedent); workers BelowNormal; dual nulls B=2000 block bootstrap + P=2000 sign-flip in-shard per prereg sec.3 s3",
+          "note": "judge-0of1 single shard (W1-W5 judge single-shard precedent); workers BelowNormal; dual nulls B=2000 block bootstrap + P=2000 sign-flip in-shard per prereg sec.3 s3 | r414 bm-b: shard burn complete + done-flip in burn-landing round (pit-89 law); judge-finalize = separate round work per frozen data_gates (entry face flips at finalize landing)",
           "owner": "bm-b",
-          "owner_since": "2026-09-29 07:20:04"
+          "owner_since": "2026-09-29 07:20:04",
+          "result_ref": "results/trial_labor_w6/checkpoint/judge_shard_0of1.jsonl (293/293 cells, unique cell_id 293 == w6_screen survivors 293 verified r414 bm-b; burn 07:20:37->07:26:15 normal-exit 20 workers BelowNormal, runner log \"judge shard 0of1 complete\"; autofill tick claim 07:20:04 pid 14960 runner_sha 1d4083d2200afec1, legal stale-takeover per O-2100 s2.4 (prior owner bm-c claim 06:58:35 = 21.4min stale at tick, bm-c heartbeat 06:34:51); bm-c duplicate burn (if alive) = W1/W2 cross-kill contract harmless, finalize dedupes by cell_id)"
         }
       ],
       "workers_plan": {
