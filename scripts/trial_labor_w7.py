@@ -525,6 +525,310 @@ def draw_candidate_sobol_w7(grammar, family, slot, n_draws):
                   "family": family}
 
 
+# ------------------------------------------------ exclusion (14 real-reads)
+def _load_exclusion_rows_w7(grammar):
+    """Fourteen real-read source faces + the frozen serialized grammar
+    face (prereg sec.1), all real-read at generate time.  All prior-wave
+    keys are padded to the W7 TEN-tuple with streak=none (semantic-
+    identity completion law).  Sources: 1 = frozen serialized grammar
+    stop-gate-vol-yang-vconf-streak-none face (10-tuple at build);
+    2-8 = W1/W2/MASS (declared tl3 translation)/W3/W4/W5/W6 screen
+    survivors -- W6 is NEW vs W6's own loader (generate-time real-read;
+    absent at build = zero rows honest per prereg sec.1); 9-15 =
+    judged products (w1_judge / MASS judged / w2_judge / w3_judge /
+    w4_judge / w5_judge / w6_judge) -- generate-time real-read
+    re-declare window (declared-unavailable -> zero rows, no
+    fabrication).
+    """
+    rows = list(grammar["exclusion"]
+                ["stop_gate_vol_yang_vconf_streak_none_face"])
+    disc = {"grammar_stop_gate_vol_yang_vconf_streak_none_rows":
+            len(rows)}
+
+    def _screen_survivors(scr_path, cand_path, pad, tag):
+        if not (os.path.exists(scr_path) and os.path.exists(cand_path)):
+            return f"declared-unavailable ({os.path.basename(scr_path)} " \
+                   f"absent)"
+        scr = json.load(open(scr_path, encoding="utf-8"))
+        cands = {c["candidate_id"]: c for c in
+                 json.load(open(cand_path, encoding="utf-8"))["candidates"]}
+        n = 0
+        for cid in sorted(scr.get("survivors", [])):
+            c = cands[cid]
+            rows.append({"module": c["module"], "fn": c["fn"],
+                         "sig_params": c["sig_params"],
+                         "axis": list(c["axis"]) + pad,
+                         "face": f"{tag}:stop-gate-vol-yang-vconf-"
+                                 "streak-none",
+                         "candidate_id": cid})
+            n += 1
+        return n
+
+    disc["w1_screen_survivors"] = _screen_survivors(
+        os.path.join(tl1.RES_DIR, "w1_screen.json"),
+        os.path.join(tl1.RES_DIR, "w1_candidates.json"),
+        ["none"] * 6, "w1_screen_survivor")
+    disc["w2_screen_survivors"] = _screen_survivors(
+        os.path.join(tl2.RES_DIR, "w2_screen.json"),
+        os.path.join(tl2.RES_DIR, "w2_candidates.json"),
+        ["none"] * 5, "w2_screen_survivor")
+    disc["w3_screen_survivors"] = _screen_survivors(
+        os.path.join(tl3.RES_DIR, "w3_screen.json"),
+        os.path.join(tl3.RES_DIR, "w3_candidates.json"),
+        ["none"] * 4, "w3_screen_survivor")
+    disc["w4_screen_survivors"] = _screen_survivors(
+        tl4.SCREEN_FILE, tl4.CANDIDATES_FILE,
+        ["none"] * 3, "w4_screen_survivor")
+    disc["w5_screen_survivors"] = _screen_survivors(
+        tl5.SCREEN_FILE, tl5.CANDIDATES_FILE,
+        ["none"] * 2, "w5_screen_survivor")
+    disc["w6_screen_survivors"] = _screen_survivors(
+        tl6.SCREEN_FILE, tl6.CANDIDATES_FILE,
+        ["none"], "w6_screen_survivor")
+
+    # MASS screen survivors: declared tl3 translation + vol-yang-vconf-
+    # streak none pad (translated rows are 6-tuples)
+    if os.path.exists(tl6.MASS_SCREEN_CKPT):
+        n_tr = n_bad = 0
+        with open(tl6.MASS_SCREEN_CKPT, encoding="utf-8") as fh:
+            for ln in fh:
+                ln = ln.strip()
+                if not ln:
+                    continue
+                r = json.loads(ln)
+                if r.get("row_type") != "candidate" \
+                        or not r.get("screen_pass"):
+                    continue
+                tr = tl3._mass_translate_row(r)
+                if tr is None:
+                    n_bad += 1
+                    continue
+                tr["axis"] = list(tr["axis"]) + ["none"] * 4
+                tr["face"] = "mass_screen_survivor:translated-exact"
+                tr["candidate_id"] = r.get("id")
+                rows.append(tr)
+                n_tr += 1
+        disc["mass_screen_survivors"] = {
+            "consumed_pass_rows": n_tr + n_bad,
+            "translated_exact_rows": n_tr,
+            "non_translatable_disclosed": n_bad,
+            "note": tl6.MASS_TRANSLATION_NOTE}
+    else:
+        disc["mass_screen_survivors"] = "declared-unavailable " \
+                                        "(screen_checkpoint.jsonl absent)"
+
+    # judged products: generate-time real-read re-declare window (prereg
+    # sec.1/sec.9); absent -> declared-unavailable zero rows (freeze-time
+    # expectation per prereg sec.0 (d): W1/MASS/W2/W3/W4/W5 judged
+    # landed; W6-JUDGE landed 2026-09-29 08:14:22 -- live re-read at
+    # generate time is the law)
+    def _judged_source(jpath, cand_path, pad, tag, mass=False):
+        if not os.path.exists(jpath):
+            return "declared-unavailable at generate time " \
+                   f"({os.path.basename(jpath)} absent; pool-waiting); " \
+                   "zero rows"
+        j = json.load(open(jpath, encoding="utf-8"))
+        cells = j.get("cells", [])
+        n = 0
+        cands = {}
+        if not mass and cand_path and os.path.exists(cand_path):
+            cands = {c["candidate_id"]: c for c in json.load(
+                open(cand_path, encoding="utf-8"))["candidates"]}
+        for c in cells:
+            if mass:
+                tr = tl3._mass_translate_row(c)
+                if tr is None:
+                    continue
+                tr["axis"] = list(tr["axis"]) + ["none"] * 4
+                tr["face"] = f"{tag}:translated-exact"
+                rows.append(tr)
+            else:
+                src = cands.get(c.get("candidate_id"))
+                if src is None:
+                    continue
+                rows.append({"module": src["module"], "fn": src["fn"],
+                             "sig_params": src["sig_params"],
+                             "axis": list(src["axis"]) + pad,
+                             "face": f"{tag}:stop-gate-vol-yang-vconf-"
+                                     "streak-none",
+                             "candidate_id": c.get("candidate_id")})
+            n += 1
+        return {"consumed_rows": n,
+                "note": "judged product consumed as exclusion rows "
+                        "(exact-key law, positive or negative verdicts "
+                        "alike)"}
+
+    disc["w1_judge_products"] = _judged_source(
+        tl6.W1_JUDGE_FILE, os.path.join(tl1.RES_DIR, "w1_candidates.json"),
+        ["none"] * 6, "w1_judged")
+    disc["mass_judge_products"] = _judged_source(
+        tl6.MASS_JUDGE_FILE, None, None, "mass_judged", mass=True)
+    disc["w2_judge_products"] = _judged_source(
+        tl6.W2_JUDGE_FILE, os.path.join(tl2.RES_DIR, "w2_candidates.json"),
+        ["none"] * 5, "w2_judged")
+    disc["w3_judge_products"] = _judged_source(
+        tl6.W3_JUDGE_FILE, os.path.join(tl3.RES_DIR, "w3_candidates.json"),
+        ["none"] * 4, "w3_judged")
+    disc["w4_judge_products"] = _judged_source(
+        tl4.JUDGE_FILE, tl4.CANDIDATES_FILE,
+        ["none"] * 3, "w4_judged")
+    disc["w5_judge_products"] = _judged_source(
+        tl5.JUDGE_FILE, tl5.CANDIDATES_FILE,
+        ["none"] * 2, "w5_judged")
+    disc["w6_judge_products"] = _judged_source(
+        tl6.JUDGE_FILE, tl6.CANDIDATES_FILE,
+        ["none"], "w6_judged")
+    # (d)-face judged-supply weighting: frozen baseline uniform stands
+    # (prereg sec.0 declare; sec.9 re-declare window = live prev
+    # increment merged at generate time, uniform baseline absent an
+    # append-confirm amendment -- disclosed, no fabrication)
+    disc["judged_supply_weighting"] = (
+        "frozen baseline uniform per prereg sec.0 declare (axis families "
+        "equal allocation, zero judged weighting); sec.9 re-declare window "
+        "requires a prereg-level append-confirm BEFORE generate runs -- "
+        "none exists, uniform stands, availability of the seven judge "
+        "products disclosed above")
+    return rows, disc
+
+
+def _excluded_w7(cand, rows):
+    """Exact already-judged cell test, streak=none face only (prereg
+    sec.1: streak in {up_streak2, down_streak2} = new-syntax legal
+    cells -- never excluded; W1-lineage cells implicitly stop/gate/vol/
+    yang/vconf/streak=none; W2 cells carry their own stop face; W3
+    stop+gate; W4 stop+gate+vol; W5 stop+gate+vol+yang; W6
+    stop+gate+vol+yang+vconf).  Returns the exclusion face or None."""
+    if cand["axis"][9] != "none":
+        return None
+    for e in rows:
+        if (cand["module"], cand["fn"]) == (e["module"], e["fn"]) \
+                and cand["sig_params"] == e["sig_params"] \
+                and cand["axis"] == e["axis"]:
+            return e.get("face", "excluded")
+    return None
+
+
+# -------------------------------------------- effective face + engine curves
+def _effective_signal_mask_w7(mask, prices, stop_key, atr20, gate_key,
+                               vol_key, yang_key, vconf_key, streak_key,
+                               gate_state, vol_state, yang_state,
+                               vconf_state, streak_state):
+    """Dedup-face holdings proxy with the frozen composition order
+    GATE -> VOL -> YANG -> VCONF -> STREAK -> initial-stop (prereg
+    sec.3 ten-tuple dedup legs; zero engine burn).  streak=none +
+    vconf=none + yang=none + vol=none + gate=none + stop=none = W1
+    identity; streak=none = W6 semantic baseline; all six overlay faces
+    deterministic layers of the same grammar stack (W6 order extended
+    by the streak leg, zero disturbance to the first five)."""
+    G = tl3.gate_zero_mask(mask, gate_key, gate_state)
+    V = tl4.vol_zero_mask(G, vol_key, vol_state)
+    Y = tl5.yang_zero_mask(V, yang_key, yang_state)
+    VC = tl6.vconf_zero_mask(Y, vconf_key, vconf_state)
+    SK = streak_zero_mask(VC, streak_key, streak_state)
+    return tl2._effective_signal_mask(SK, prices, stop_key, atr20)
+
+
+def run_candidate_curve_w7(cand, template, prices, P, states, atr20=None,
+                           fundamental_ok=None, rng_matrix=None, p_on=None,
+                           gate_state=None, vol_state=None, yang_state=None,
+                           vconf_state=None, streak_state=None):
+    """One W7 candidate cell at the engine face with the gate + vol +
+    yang + vconf + streak overlays + initial-stop overlay carried
+    per-cell (prereg sec.3 face a; frozen composition order filter ->
+    timing -> GATE -> VOL -> YANG -> VCONF -> STREAK -> initial-stop).
+
+    streak=none+vconf=none+yang=none+vol=none+gate=none+stop=none ->
+    byte-identical to the tl1 engine face; streak=none+vconf=none ->
+    tl5 W5 face; streak=none -> tl6 W6 face (parity laws, selftest-
+    pinned); streak in {up_streak2, down_streak2} = new W7 syntax
+    (entry-permittance only, never excluded).  Returns (eq, trades,
+    metrics, params, patch, stop_fired, gate_zeroed, vol_zeroed,
+    yang_zeroed, vconf_zeroed, streak_zeroed)."""
+    stop_key = cand["axis"][4]
+    gate_key = cand["axis"][5]
+    vol_key = cand["axis"][6]
+    yang_key = cand["axis"][7]
+    vconf_key = cand["axis"][8]
+    streak_key = cand["axis"][9]
+    if gate_state is None:
+        gate_state = tl3.gate_state_series(prices)
+    if vol_state is None:
+        vol_state = tl4.vol_state_series(prices)
+    if yang_state is None:
+        yang_state = tl5.yang_state_series(prices)
+    if vconf_state is None:
+        vconf_state = tl6.vconf_state_series(prices)
+    if streak_state is None:
+        streak_state = streak_state_series(prices)
+    if stop_key != "none" and tl2.STOP_FORMULA[stop_key]["kind"] == "atr" \
+            and atr20 is None:
+        atr20 = tl2.atr20_series(prices)
+    mk = f"{cand['module']}.{cand['fn']}"
+    face = "null" if rng_matrix is not None else tl1.GRAMMAR["faces"][mk]
+    if rng_matrix is not None:
+        mask = tl1._signal_frame(None, P, face, rng_matrix=rng_matrix,
+                                 p_on=p_on)
+    else:
+        mask = tl1._signal_frame(cand, P, face)
+    mask = mask.reindex(index=P["close"].index,
+                        columns=P["close"].columns).fillna(0)
+    mask = tl1.apply_filter(mask, cand["axis"][0], P, fundamental_ok)
+    mask = tl1.apply_timing(mask, cand["axis"][3])
+    G = tl3.gate_zero_mask(mask, gate_key, gate_state)
+    V = tl4.vol_zero_mask(G, vol_key, vol_state)
+    Y = tl5.yang_zero_mask(V, yang_key, yang_state)
+    VC = tl6.vconf_zero_mask(Y, vconf_key, vconf_state)
+    SK = streak_zero_mask(VC, streak_key, streak_state)
+    gate_zeroed = int((mask > 0).sum().sum() - (G > 0).sum().sum())
+    vol_zeroed = int((G > 0).sum().sum() - (V > 0).sum().sum())
+    yang_zeroed = int((V > 0).sum().sum() - (Y > 0).sum().sum())
+    vconf_zeroed = int((Y > 0).sum().sum() - (VC > 0).sum().sum())
+    streak_zeroed = int((VC > 0).sum().sum() - (SK > 0).sum().sum())
+    if stop_key == "none":
+        S, stop_fired = SK, 0
+    else:
+        S = tl2._effective_signal_mask(SK, prices, stop_key, atr20)
+        d = (SK > 0) & (S == 0)
+        stop_fired = int(sum(int((d[c] & ~d[c].shift(1, fill_value=False)
+                                 ).sum()) for c in d.columns))
+    params, patch = tl1.candidate_engine_params(cand, template)
+    params, scale = tl1.sizing_pieces(cand, P, states, params)
+    params["report_num_entries"] = True
+    dd_control = (template.get("registered_dd_control")
+                  if template is not None else None)
+    with tl1.ExitPatch(patch):
+        res = tl1.run_backtest(prices, params, entry_signal=S,
+                               exit_signal=(S <= 0),
+                               entry_size_scale=scale, dd_control=dd_control)
+    eq = pd.Series(res["equity_curve"],
+                   index=P["close"].index[:len(res["equity_curve"])])
+    return eq, res["trades"], res["metrics"], params, patch, stop_fired, \
+        gate_zeroed, vol_zeroed, yang_zeroed, vconf_zeroed, streak_zeroed
+
+
+def _null_axis_draw_w7(i):
+    """Deterministic null-cell draw per prereg sec.3: rng=[SEED_NULL, i]
+    (W7 berth 20305500, distinct from the W6 berth 20304000 -- zero
+    stream overlap by construction); consumption order frozen = p_on
+    regime -> TEN-tuple axis R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK ->
+    signal matrix.  Same engine/cost/panel as candidate cells incl. the
+    gate + vol + yang + vconf + streak legs (BACKTEST_PLAN three iron
+    rules)."""
+    rng = np.random.default_rng([SEED_NULL, i])
+    p_on = tl1.NULL_P_REGIMES[int(rng.integers(len(tl1.NULL_P_REGIMES)))]
+    ax = (tl1.AXIS_FILTERS[int(rng.integers(len(tl1.AXIS_FILTERS)))],
+          tl1.AXIS_EXITS[int(rng.integers(len(tl1.AXIS_EXITS)))],
+          tl1.AXIS_SIZING[int(rng.integers(len(tl1.AXIS_SIZING)))],
+          tl1.AXIS_TIMING[int(rng.integers(len(tl1.AXIS_TIMING)))],
+          tl2.AXIS_STOP[int(rng.integers(len(tl2.AXIS_STOP)))],
+          tl3.AXIS_GATE[int(rng.integers(len(tl3.AXIS_GATE)))],
+          tl4.AXIS_VOL[int(rng.integers(len(tl4.AXIS_VOL)))],
+          tl5.AXIS_YANG[int(rng.integers(len(tl5.AXIS_YANG)))],
+          tl6.AXIS_VCONF[int(rng.integers(len(tl6.AXIS_VCONF)))],
+          AXIS_STREAK[int(rng.integers(len(AXIS_STREAK)))])
+    return p_on, list(ax), rng
+
+
 # ------------------------------------------------------------ grammar / status
 def cmd_grammar() -> int:
     """Serialize the frozen W7 grammar to results/trial_labor_w7/
@@ -557,10 +861,11 @@ def cmd_status() -> int:
 
 
 def _slice2_pending(cmd: str) -> int:
-    print(f"{cmd}: slice-2 pending (claim MSG-20260929-0945-bmb; funnel "
-          f"command set lands with the generate/screen/judge parameterized "
-          f"tl6 lineage next round; zero cells burned, zero numbers "
-          f"fabricated)")
+    print(f"{cmd}: slice-2b pending (slice-2a machinery LANDED r418: "
+          f"effective mask / curve runner W6-parity / null draw / "
+          f"14-source exclusion loader, selftest 37/37; funnel cmd "
+          f"bodies + GENERATE pool entry land next round; zero cells "
+          f"burned, zero numbers fabricated)")
     return 3
 
 
@@ -764,9 +1069,173 @@ def cmd_selftest() -> int:
     _ok("L11 status contract exit 0 on pending products",
         rc == 0)
 
+    # ---- L12 effective-mask streak legs (mask level, zero engine burn)
+    tl1.GRAMMAR = g          # engine legs need tl1's grammar global
+    frames3 = tl1._synth_prices(n_days=640, n_syms=3, seed=23)
+    # controlled alternating 510300: close 100 +/- 0.7 alternating ->
+    # ZERO up_streak2/down_streak2 days (never two same-direction
+    # closes in a row)
+    alt_o = pd.Series(100.0, index=frames3["510300"].index
+                      if "510300" in frames3 else
+                      frames3[list(frames3)[0]].index)
+    alt_c = alt_o.copy()
+    alt_v = alt_o.copy()
+    for i in range(len(alt_c)):
+        alt_c.iloc[i] = 100.0 + (0.7 if i % 2 == 0 else -0.7)
+        alt_o.iloc[i] = 100.0
+        alt_v.iloc[i] = 2000.0 if i % 2 == 0 else 500.0
+    frames3[STREAK_MEMBER] = pd.DataFrame(
+        {"open": alt_o, "high": alt_c + 0.2, "low": alt_o - 0.2,
+         "close": alt_c, "volume": alt_v, "amount": 1e5},
+        index=alt_c.index)
+    P3 = tl1.build_panels(frames3)
+    gs3 = tl3.gate_state_series(frames3)
+    vs3 = tl4.vol_state_series(frames3)
+    ys3 = tl5.yang_state_series(frames3)
+    cs3 = tl6.vconf_state_series(frames3)
+    sk3 = streak_state_series(frames3)
+    sig = pd.DataFrame(1.0, index=P3["close"].index,
+                       columns=P3["close"].columns)
+    m_none = _effective_signal_mask_w7(
+        sig, frames3, "none", None, "none", "none", "none", "none",
+        "none", gs3, vs3, ys3, cs3, sk3)
+    m_w6 = tl6._effective_signal_mask_w6(
+        sig, frames3, "none", None, "none", "none", "none", "none",
+        gs3, vs3, ys3, cs3)
+    _ok("L12a effective mask streak=none == W6 face byte-equal "
+        "(semantic-baseline identity law)",
+        m_none.equals(m_w6))
+    m_up = _effective_signal_mask_w7(
+        sig, frames3, "none", None, "none", "none", "none", "none",
+        "up_streak2", gs3, vs3, ys3, cs3, sk3)
+    _ok("L12b up_streak2 on the alternating face permits nothing "
+        "(zero double-up days -> all-zero mask, bite negative leg)",
+        int((m_up > 0).sum().sum()) == 0)
+    # ramp 510300: strictly increasing close -> every judgeable day
+    # is up_streak2 (bite positive leg)
+    frames4 = tl1._synth_prices(n_days=640, n_syms=3, seed=23)
+    ramp_i = (frames4["510300"].index if "510300" in frames4
+              else frames4[list(frames4)[0]].index)
+    ramp_c = pd.Series([100.0 + 0.5 * k for k in range(len(ramp_i))],
+                       index=ramp_i)
+    ramp_o = pd.Series(100.0, index=ramp_i)
+    ramp_v = pd.Series(1000.0, index=ramp_i)
+    frames4[STREAK_MEMBER] = pd.DataFrame(
+        {"open": ramp_o, "high": ramp_c + 0.2, "low": ramp_o - 0.2,
+         "close": ramp_c, "volume": ramp_v, "amount": 1e5},
+        index=ramp_i)
+    P4 = tl1.build_panels(frames4)
+    gs4 = tl3.gate_state_series(frames4)
+    vs4 = tl4.vol_state_series(frames4)
+    ys4 = tl5.yang_state_series(frames4)
+    cs4 = tl6.vconf_state_series(frames4)
+    sk4 = streak_state_series(frames4)
+    sig4 = pd.DataFrame(1.0, index=P4["close"].index,
+                        columns=P4["close"].columns)
+    m4_none = _effective_signal_mask_w7(
+        sig4, frames4, "none", None, "none", "none", "none", "none",
+        "none", gs4, vs4, ys4, cs4, sk4)
+    m4_up = _effective_signal_mask_w7(
+        sig4, frames4, "none", None, "none", "none", "none", "none",
+        "up_streak2", gs4, vs4, ys4, cs4, sk4)
+    _ok("L12c up_streak2 on the ramp face == none face on every "
+        "judgeable row (rows 2+), warmup 2 bars gate-closed (bite "
+        "positive leg)",
+        m4_up.iloc[2:].equals(m4_none.iloc[2:])
+        and int((m4_up.iloc[:2] > 0).sum().sum()) == 0)
+
+    # ---- L13 engine-face legs: parity + determinism + streak bites
+    base = {"module": "volatility", "fn": "low_vol_long",
+            "sig_params": {"n": 60, "top_k": 3, "rebal_days": None},
+            "family": "B", "candidate_id": "ST-B-0000",
+            "axis": ["none", "time_stop_5d", "equal_weight",
+                     "daily_signal", "none", "none", "none", "none",
+                     "none", "none"]}
+    st3 = pd.Series("GREEN", index=P3["close"].index)
+    eq7, tr7, m7, _, _, _, _, _, _, _, sz7 = run_candidate_curve_w7(
+        base, None, frames3, P3, st3, gate_state=gs3, vol_state=vs3,
+        yang_state=ys3, vconf_state=cs3, streak_state=sk3)
+    eq6 = tl6.run_candidate_curve_w6(
+        dict(base, axis=base["axis"][:9]), None, frames3, P3, st3,
+        gate_state=gs3, vol_state=vs3, yang_state=ys3,
+        vconf_state=cs3)[0]
+    _ok("L13a engine face: streak=none identical to tl6 W6 face "
+        "(byte-equal parity law)",
+        list(eq7.values) == list(eq6.values))
+    eq7b, *_ = run_candidate_curve_w7(
+        dict(base, candidate_id="ST-B-0001"), None, frames3, P3, st3,
+        gate_state=gs3, vol_state=vs3, yang_state=ys3, vconf_state=cs3,
+        streak_state=sk3)
+    _ok("L13b engine double-run byte-identity (determinism leg)",
+        list(eq7.values) == list(eq7b.values) and sz7 == 0)
+    st4 = pd.Series("GREEN", index=P4["close"].index)
+    eq4n, tr4n, m4n, _, _, _, _, _, _, _, sz4n = run_candidate_curve_w7(
+        dict(base, axis=list(base["axis"])), None, frames4, P4, st4,
+        gate_state=gs4, vol_state=vs4, yang_state=ys4, vconf_state=cs4,
+        streak_state=sk4)
+    eq4u, tr4u, m4u, _, _, _, _, _, _, _, sz4u = run_candidate_curve_w7(
+        dict(base, axis=[*base["axis"][:9], "up_streak2"]), None,
+        frames4, P4, st4, gate_state=gs4, vol_state=vs4, yang_state=ys4,
+        vconf_state=cs4, streak_state=sk4)
+    _ok("L13c engine face: up_streak2 on ramp == streak=none "
+        "byte-equal (all days confirmed)",
+        list(eq4u.values) == list(eq4n.values) and sz4u == 0)
+    eq4d, tr4d, m4d, _, _, _, _, _, _, _, sz4d = run_candidate_curve_w7(
+        dict(base, axis=[*base["axis"][:9], "down_streak2"]), None,
+        frames4, P4, st4, gate_state=gs4, vol_state=vs4, yang_state=ys4,
+        vconf_state=cs4, streak_state=sk4)
+    m4_down_mask = _effective_signal_mask_w7(
+        sig4, frames4, "none", None, "none", "none", "none", "none",
+        "down_streak2", gs4, vs4, ys4, cs4, sk4)
+    _ok("L13d engine face: down_streak2 on ramp zeroes every entry "
+        "(mask all-zero + engine num_entries == 0 + streak_zeroed > 0)",
+        int((m4_down_mask > 0).sum().sum()) == 0
+        and int(m4d.get("num_entries", -1)) == 0 and sz4d > 0)
+
+    # ---- L14 null-axis draw contract (ten-tuple + determinism)
+    p1, ax1, rg1 = _null_axis_draw_w7(0)
+    p2, ax2, rg2 = _null_axis_draw_w7(0)
+    _ok("L14 null-axis draw determinism + TEN-tuple with streak in "
+        "the frozen domain (W7 null berth 20305500)",
+        p1 == p2 and ax1 == ax2 and len(ax1) == 10
+        and ax1[9] in AXIS_STREAK and ax1[:9][4] in tl2.AXIS_STOP)
+
+    # ---- L15 exclusion loader real-read (14 sources + grammar face)
+    rows15, disc15 = _load_exclusion_rows_w7(g)
+    w6s = disc15.get("w6_screen_survivors")
+    w6j = disc15.get("w6_judge_products")
+    _ok("L15a exclusion loader: every row a 10-tuple axis with "
+        "streak=none + disclosure keys present",
+        all(len(r["axis"]) == 10 and r["axis"][9] == "none"
+            for r in rows15)
+        and {"w1_screen_survivors", "mass_screen_survivors",
+             "w6_screen_survivors", "w6_judge_products",
+             "judged_supply_weighting"} <= set(disc15))
+    _ok("L15b W6 screen survivors real-read == 293 (generate-time "
+        "re-declare window, prereg sec.1) + W6 judged consumed",
+        w6s == 293 and isinstance(w6j, dict)
+        and w6j.get("consumed_rows", 0) > 0,
+        f"w6_screen={w6s} w6_judged="
+        f"{w6j.get('consumed_rows') if isinstance(w6j, dict) else w6j}")
+
+    # ---- L16 _excluded_w7 exact-key law (streak face never excluded)
+    hit_key = {"module": rows15[0]["module"], "fn": rows15[0]["fn"],
+               "sig_params": rows15[0]["sig_params"],
+               "axis": rows15[0]["axis"]}
+    hit = _excluded_w7(hit_key, rows15)
+    _ok("L16a exact already-judged key (streak=none face) -> excluded",
+        hit is not None)
+    miss = _excluded_w7({**hit_key, "axis": [*hit_key["axis"][:9],
+                                             "up_streak2"]}, rows15)
+    _ok("L16b streak in {up_streak2, down_streak2} = new-syntax legal "
+        "cell, never excluded",
+        miss is None)
+
     print(f"\nselftest: {n_pass}/{n_leg} PASS "
-          f"(scope: slice-1a streak layer + G-STREAK + grammar; engine "
-          f"double-run legs = slice-2 with the funnel command set)")
+          f"(scope: slice-1a streak layer + G-STREAK + grammar + "
+          f"slice-2a machinery: effective mask / curve runner parity / "
+          f"null draw / 14-source exclusion loader; funnel cmd bodies "
+          f"generate/screen/judge = slice-2b)")
     return 0 if n_pass == n_leg else 1
 
 
