@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-29 17:11:14",
+  "updated_at": "2026-09-29T18:05:00+08:00",
   "_stamp_note": "r427 bm-b conflict-union with bm-c r219 (rebase replay 5b1bab03e onto 7f564efb1): pool-entry-done-union r312 [W8-GENERATE done absorbs bm-b harvest record; bm-c yield_note carried zero-loss; W8-SCREEN one-side keep] + audit rolling-ledger union; entries=115",
   "entries": [
     {
@@ -4292,7 +4292,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-29 17:11:14",
       "data_gates": "READY (entry-time deps re-verified live r434 bm-b): (1) serial-position face: zero in-flight judge faces ahead (W8-JUDGE entry done; pool judge face = this entry only); (2) judge-prep PASS bm-b r434: results/trial_labor_w9/judge_state.json (manifest/census/gate-meta live reads by runner; in-runner fail-closed judge_state/w9_screen absent exit 2; grammar sha16 != 0601dda70b0209fa refuse; zero-survivor vacuous face n/a = 243 survivors); (3) RAM r354 three-sample gate re-run at submission. Judge dual-null rng trial_labor_w9_unc=20310500 [20310500, cell_idx] per prereg sec.3 s3; G2 n_trials live-head read = 343788 post-SCREEN cross-wave. After shard: judge-finalize = separate round work (ledger TRIAL_LAB_W9_JUDGE batch_trials=243 literal + w9_judge.json G1'/G2/DSR/PBO/E[FP] + seven-gate x amp interaction segmented disclosure columns per sec.3; intake slice next per prereg sec.6; 48h CEO report clock starts at judge-finalize; W10 prereg reference-band feed per consumer lineage)",
       "shards": [
@@ -4316,7 +4316,10 @@
           "path": "Money02/data/cache/t18_deep_panel/ohlcv",
           "pattern": "*.parquet"
         }
-      ]
+      ],
+      "done_at": "2026-09-29 17:47:46",
+      "result_ref": "results/trial_labor_w9/w9_judge.json",
+      "done_note": "judge-finalize landed 2026-09-29 17:47:46 exit 0 (detached burn pid20568 submitted bm-b r435, autofill lineage; 243/243 judged cells, zero G1 pass, zero G2 eligible, E[FP]=12.15, 28 cells ci-lower-positive all below skill line 1.1937); intake s4 lawful-zero w9_intake.json r436 (zero TRIAL-* accounts, zero STRATEGY_LIBRARY rows); attrition W9 two rows r436; prereg sec.7/sec.8 backfilled r436; 48h CEO report docs/trial_labor/CEO-REPORT-WAVE9-20260929.md same round r436; wave ticket T-121 done r436; AMP anti-enrichment research fact = W10 supply-line input"
     },
     {
       "id": "A158-TSGATE-P1",
