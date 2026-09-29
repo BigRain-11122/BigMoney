@@ -4200,6 +4200,35 @@
    "done_at": "2026-09-29 15:26:25",
    "result_ref": "results/trial_labor_w8/w8_judge.json",
    "done_note": "judge-finalize landed 15:26:25 exit 0 (autofill r199 launch-claim fired 15:01:17; 408/408 judged cells, zero G1, zero G2 eligible, E[FP]=20.4); intake s4 lawful-zero w8_intake.json r430; attrition W8 two rows r430; prereg sec.7/sec.8 backfilled r430; 48h CEO report docs/trial_labor/CEO-REPORT-WAVE8-20260929.md same round; wave ticket T-120 done r430; W9 next-wave supply = AMP candidate frame parked"
+  },
+  {
+   "id": "TRIAL-LABOR-W9-GENERATE",
+   "ticket_ref": "T-2026-09-29-121 WAVE-9 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-b r432 draft-author same-machine next-round freeze per r431 next-pointer [trigger MET: W8 full chain landed 2026-09-29 15:26:25 + ledger head 341,063 linear live-read {head file=w8_judge.json} + zero in-flight judge faces pool 116/116 done 16:0x]; SEED berths 20309500/20310000/20310500 held same-commit R250 one-step, in-draft-window double-collision re-pick lineage disclosed in prereg banner + registry comments, freeze-time three-step re-verify ALL GREEN no re-pick; runner slice-1 built bm-b r432 same round per product-priority law + prereg sec.9 open slice self-claim (twelve-tuple grammar + AMP overlay layer + G-AMP fail-closed full-face gate + hermetic selftest 49/49 incl. NaN-artifact legs [pit-95 batch-95 + r431 erratum face] + seven-gate 128-cell 73/55 anchors + extreme-day 7/7-wide states + core48 spread 48/0.4808/0.4937/0.5115; grammar sha16 0601dda70b0209fa pinned at slice-1 serialization, constructively distinct from W1/MASS/W2-W8)",
+   "prereg_ref": "research/TRIAL_LABOR_W9_PREREG.md FROZEN (sec.3 Sobol raw 5000 = A500/B4500 TWELVE-tuple axis R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/TSTATE/AMP incl. NEW amplitude-confirmation face {none, amp_narrow, amp_wide} = 5,225,472 axis combos; sec.1 EIGHTEEN-source exclusion amp=none face only -- w1 149 + w2 404 + MASS 166 consumed (declared conservative translation: 2 exact + 164 disclosed) + w3 513 + w4 461 + w5 372 + w6 293 + w7_screen 284 + w8_screen 408 survivors generate-time real-read + judged products NINE sources re-declare window (w8_judge landed 2026-09-29 15:26:25, 408 cells consumed; draft-time nine-source full-declare window = second in history); amp in {amp_narrow, amp_wide} any-combo = new-syntax legal; dedup T-84 s3 fingerprint + |corr|>=0.999 on effective signal face, frozen composition filter->timing->GATE->VOL->YANG->VCONF->STREAK->TSTATE->AMP->STOP; G-AMP raw-face law data/daily/sh510300.csv r417/r431-probe-verbatim amp=(high-low)/close registered formula + med20amp rolling-20 median min_periods=20 incl d 19/3464/1718/1746 + zero-range 0 + cross four-cell lower bounds {884,887,1193,1198,421,373,233,264} + seven-gate 128-cell 73-non-empty frozen 55-empty name list + extreme-day states (7/7 wide incl. 2025-04-07 6.961x double-tstate rsv 0.1753) probe r431 facts exact per-cell cross-check)",
+   "consumer_plan": "TRIAL-LABOR-W9-GENERATE -> w9_candidates.json feeds the SCREEN pool entry (next slice upon landing, W5-W8 live-fire direct-ready precedent; lane_owner=bm-b per prereg sec.6 both-faces value) -> w9_screen.json null p95 feeds the next-wave (W10) prereg reference band (W1-W8 0.5116-0.5196 lineage, W8=0.5156; W9 sec.5.2 recalibrated band [0.50,0.52] honest) -> judged verdict face w9_judge.json (RAM r354 + W9-JUDGE sequencing gate behind in-flight judge faces per sec.0 + host_gates MSG-1305 at JUDGE submission) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows + paper onboarding = registration pipeline face) -> 48h CEO report face + scorecard/CEO one-pager consumption; TRIAL_GRAMMAR_LEDGER wave-9 row runner-written at consume (same-grammar rerun FORBIDDEN law)",
+   "runner": "scripts/trial_labor_w9.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-29 16:4x",
+   "data_gates": "in-runner fail-closed exit 2: (a) w9_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 0601dda70b0209fa -> refuse; (c) G-VOL raw face + G-YANG raw face + G-VCONF raw face + G-STREAK raw face + G-TSTATE raw face + G-AMP raw face anchors (amp 19/3464/1718/1746 + zero-range 0 + 128-cell 73/55 + extreme days 7/7 wide) -> refuse; (d) RAM gate three-sample >=4GB in-runner r354 law",
+   "shards": [
+    {
+     "key": "generate-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w9/w9_candidates.json (single-shot product = completion marker; refuse-if-exists guard)"
+    }
+   ],
+   "entered_by": "bm-b",
+   "worker_class": "self-contained",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE ~2min; W5 ~7min n=3926; W6 n=3952; W7 ~10min n=3704; W8 ~10min n=2834); W9 n~5000 raw draws, 18-source exclusion face; single-process deterministic pre-burn stage (Sobol streams + dedup face), zero engine cells burned"
+   }
   }
  ]
 }
