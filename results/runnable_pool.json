@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-29 13:17",
+ "updated_at": "2026-09-29 13:31:48",
  "_stamp_note": "bm-c r219: W8 runner build tranche landed (claim f5fe5ee03 first-claimer; selftest 50/50 hermetic; grammar sha16 e7252c9cc9b2ed57 pinned) + TRIAL-LABOR-W8-GENERATE entry submission same-commit (pit-90 pre-positioned products: runner + w8_grammar.json; lane_owner=null self-contained per W7-GENERATE precedent)",
  "entries": [
   {
@@ -4107,7 +4107,8 @@
      "status": "ready",
      "checkpoint": "results/trial_labor_w8/w8_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
      "owner": "bm-b",
-     "owner_since": "2026-09-29 13:30:04"
+     "owner_since": "2026-09-29 13:30:04",
+     "yield_note": "released by bm-c r219 2026-09-29 13:4x round: lane_owner=bm-b per W8 freeze (pit-103 terminal gate + MSG-1230 correction); bm-c autofill last_tick claim_lost_yield 13:26:02; stale crash-round claim (owner_since 13:20:50) cleared for bm-b immediate claim; canonical runner = bm-b r425 e3fcbde54 sha16 282c3290d1b431bc (bm-c duplicate build dropped per anti-rebuild law)"
     }
    ],
    "entered_by": "bm-b",
