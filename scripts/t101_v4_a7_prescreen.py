@@ -170,7 +170,7 @@ def main() -> int:
             full_stats = {"sharpe": sharpe(r), "ann_ret": ann_ret(r), "maxdd": max_drawdown(r)}
             is_stats = {"sharpe": sharpe(r[is_sel]), "ann_ret": ann_ret(r[is_sel])}
             oos_stats = {"sharpe": sharpe(r[oos_sel]), "ann_ret": ann_ret(r[oos_sel]), "maxdd": max_drawdown(r[oos_sel]),
-                         "entries": count_entries(pos, oos_sel)}
+                         "entries": count_entries(pos, oos_sel.values)}
             oos_excess = oos_stats["ann_ret"] - ann_ret(bh_ret[oos_sel])
             cell = {"inst": code, "gate": gate,
                     "riskoff_days_full": int((~pos).sum()), "riskoff_days_oos": int((~pos[oos_sel.values]).sum()),

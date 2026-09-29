@@ -63,6 +63,20 @@
 - results JSON：`results/t101_v4_a7_prescreen.json`（顶层 evidence_cutoff+science_gates.cutoff_meta+trials_ledger）；CSV：`results/t101_v4_a7_prescreen.csv`；
 - 本件 §7/§8 回填；gate_attrition.bm-a.json 追加一行（第 72 条·entries 列表名 r248 律）。
 
-## §7 跑后实证【待回填】
+## §7 跑后实证【2026-09-29 15:48:31+08:00 回填·bm-a·elapsed 1.9s】
 
-## §8 批后复盘【待回填】
+- **verdict：10/10 KILL，0 survive，A7 臂线关闭（LINE_CLOSE，§4 预承诺处置）**；产物 results/t101_v4_a7_prescreen.json+.csv；
+- 判据命中：oos_excess≤0=**10/10**（−0.12%~−2.54%/yr）；maxdd<−35%=**10/10**（全期 −48.6%~−74.5%，2015 崩盘主导）；sharpe≤null_med=8/10（512100 双门 0.363/0.351>null 0.345/0.352 但超额+回撤双杀）；entries<15=1/10（588000|L1=11·薄证据面分类，非机制证伪）；
+- L1 面：OOS risk-off 敞口 76 日/2,360 OOS 日≈**3.2%**→结构性 beta 面（vs B&H max|corr|=0.9984=§1 预声明披露面证实）；entries=36×4 员（P1「≪15」预测部分错：OOS 世代 GC001>5% 年末/季末尖峰年年发生非稀少）；
+- L2 面：OOS risk-off 50 日≈2.1%，whipsaw 税拖累全员负超额（P2 全对）；全史压力天数 L1=220/L2=80（GC001 首日 2011-05-13 起）=双门皆极稀疏门；
+- **分段证伪（P4，本批最深发现）**：bear 段门零避损——510300|L1 bear OOS −16.0%/yr ≈ chop −16.1%/yr（门在 bear 段几乎全程 risk-on：**OOS 世代流动性压力尖峰与权益 bear 完全解耦**→防御门开错时段=纯成本无避损）；bull +24.1%/yr=beta；
+- IS 面（P5 证伪）：510300|L1 IS ann **−0.84%/yr**——含 2013-06 钱荒的 IS 窗同样无经济性；
+- D6：vs carry 族 max|corr|=**0.0154 ACCEPT**（§1 结构性近零预期证实）；双门互 corr 见 JSON d6.gate_pair；
+- 账本：append_ledger prev=341,063 +10 → **341,073**（trials_ledger 嵌 JSON 顶层·lesson-112 ✓）；
+- 运行面坑（零格已烧修正窗·r251/r280 先例）：首跑崩溃=pandas 3 布尔掩码跨日历对齐（pos 日期值索引 vs 列掩码 RangeIndex）→修复=位置掩码 `.values`（与邻行 `~pos[oos_sel.values]` 同式），判据/阈值/种子零触碰。
+
+## §8 批后复盘【同窗回填】
+
+- §5 预测记分：P1 部分错 / P2 对 / P3 对（双门全灭·本面即终局）/ **P4 证伪**（避损不在 bear——压力-bear 解耦）/ **P5 证伪**（IS 同负）——负结果两面包收，预测纪律面如实记分不粉饰；
+- 快速关线=TRIAL §2 正产出形态（省全量判决烧批：升格门 alpha 分解/全量 G1'/G2 面全部不用烧）；A7 线关闭入 gate_attrition 第 72 条；同语法重跑禁令生效——未来流动性世代反转（利率中枢回 >5%）须**新预注册新冻结**方可重开；
+- 机制层遗产：①GC001 期限梯面板+信号四元组锚法实跑验证通过（供后续政体门臂复用）；②「流动性压力⇏权益 bear」OOS 解耦事实=未来任何流动性类门设计的**前置反例**（门须直接对齐目标风险段，代理压力信号须先过压力-风险重合检验再立项）。

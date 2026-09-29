@@ -1,0 +1,636 @@
+{
+ "batch": "T-101-V4-A7-PRESCREEN",
+ "prereg": "research/T-101-V4-A7-PRESCREEN_PREREG.md",
+ "generated": "2026-09-29T15:48:31+0800",
+ "evidence_cutoff": "2026-09-28",
+ "science_gates": {
+  "cutoff_meta": {
+   "cutoff": "2026-09-28"
+  }
+ },
+ "universe": [
+  "510300",
+  "510050",
+  "510500",
+  "512100",
+  "588000"
+ ],
+ "gates": [
+  "LIQ-L1:GC001>5.00",
+  "LIQ-L2:GC001z120>3.0"
+ ],
+ "gate_frozen_params": {
+  "level_th": 5.0,
+  "z_window": 120,
+  "z_th": 3.0,
+  "signal_face": "data/repo_daily/GC001.csv",
+  "signal_first": "2011-05-13",
+  "stress_days_full_history": {
+   "LIQ-L1:GC001>5.00": 220,
+   "LIQ-L2:GC001z120>3.0": 80
+  }
+ },
+ "split": "2017-01-01",
+ "cost_leg": 0.0005,
+ "null_k": 200,
+ "null_seed_base": 20309000,
+ "cells": {
+  "510300|LIQ-L1:GC001>5.00": {
+   "inst": "510300",
+   "gate": "LIQ-L1:GC001>5.00",
+   "riskoff_days_full": 193,
+   "riskoff_days_oos": 76,
+   "IS": {
+    "sharpe": 0.10048012638898077,
+    "ann_ret": -0.008353808708685628
+   },
+   "OOS": {
+    "sharpe": 0.19330469695217042,
+    "ann_ret": 0.01883887428108011,
+    "maxdd": -0.4668185468069812,
+    "entries": 36
+   },
+   "full": {
+    "sharpe": 0.15413402987329158,
+    "ann_ret": 0.010014096876393985,
+    "maxdd": -0.48561501362189974
+   },
+   "oos_excess_vs_bh": -0.010799907987072643,
+   "oos_n": 2365,
+   "is_n": 1121,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.15976790919102812,
+     "oos_days": 747
+    },
+    "bull": {
+     "oos_ann_ret": 0.2405884638644593,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.1606386318286095,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.23854446609323815,
+    "p95_sharpe": 0.3274248535479176
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "510300|LIQ-L2:GC001z120>3.0": {
+   "inst": "510300",
+   "gate": "LIQ-L2:GC001z120>3.0",
+   "riskoff_days_full": 78,
+   "riskoff_days_oos": 50,
+   "IS": {
+    "sharpe": 0.24097072064215339,
+    "ann_ret": 0.028551312150083552
+   },
+   "OOS": {
+    "sharpe": 0.2087398460034226,
+    "ann_ret": 0.02177661986471424,
+    "maxdd": -0.4767047199148994,
+    "entries": 30
+   },
+   "full": {
+    "sharpe": 0.2179076124207708,
+    "ann_ret": 0.0239502895589796,
+    "maxdd": -0.4902419212624318
+   },
+   "oos_excess_vs_bh": -0.00786216240343851,
+   "oos_n": 2365,
+   "is_n": 1121,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.17031053722866885,
+     "oos_days": 747
+    },
+    "bull": {
+     "oos_ann_ret": 0.2399956686346807,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.12848934809611023,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.25963459078479045,
+    "p95_sharpe": 0.3336538109935593
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "510050|LIQ-L1:GC001>5.00": {
+   "inst": "510050",
+   "gate": "LIQ-L1:GC001>5.00",
+   "riskoff_days_full": 221,
+   "riskoff_days_oos": 76,
+   "IS": {
+    "sharpe": 0.32102187076188576,
+    "ann_ret": 0.05239547636222808
+   },
+   "OOS": {
+    "sharpe": 0.19543000163730376,
+    "ann_ret": 0.019213543196494376,
+    "maxdd": -0.456326637708495,
+    "entries": 36
+   },
+   "full": {
+    "sharpe": 0.27173345197232635,
+    "ann_ret": 0.037319009389059854,
+    "maxdd": -0.7447624866370282
+   },
+   "oos_excess_vs_bh": -0.007238900327602771,
+   "oos_n": 2365,
+   "is_n": 2886,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.12295000850130722,
+     "oos_days": 747
+    },
+    "bull": {
+     "oos_ann_ret": 0.17238052603663756,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.09216707585963912,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.318997416712427,
+    "p95_sharpe": 0.40031766328095186
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "510050|LIQ-L2:GC001z120>3.0": {
+   "inst": "510050",
+   "gate": "LIQ-L2:GC001z120>3.0",
+   "riskoff_days_full": 81,
+   "riskoff_days_oos": 50,
+   "IS": {
+    "sharpe": 0.36910050219694857,
+    "ann_ret": 0.06762837107368469
+   },
+   "OOS": {
+    "sharpe": 0.22744840044443956,
+    "ann_ret": 0.02523319548565084,
+    "maxdd": -0.4636516483004314,
+    "entries": 30
+   },
+   "full": {
+    "sharpe": 0.313346771015664,
+    "ann_ret": 0.04832124000080129,
+    "maxdd": -0.7267671849320336
+   },
+   "oos_excess_vs_bh": -0.0012192480384463078,
+   "oos_n": 2365,
+   "is_n": 2886,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.13049107223835432,
+     "oos_days": 747
+    },
+    "bull": {
+     "oos_ann_ret": 0.16793536426048372,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.04032033507262889,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.34111462238884294,
+    "p95_sharpe": 0.3927155333294582
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "510500|LIQ-L1:GC001>5.00": {
+   "inst": "510500",
+   "gate": "LIQ-L1:GC001>5.00",
+   "riskoff_days_full": 176,
+   "riskoff_days_oos": 76,
+   "IS": {
+    "sharpe": 0.6452986027226413,
+    "ann_ret": 0.5991964060256945
+   },
+   "OOS": {
+    "sharpe": 0.12662752634511942,
+    "ann_ret": 0.0033822118620279173,
+    "maxdd": -0.49577282248908916,
+    "entries": 36
+   },
+   "full": {
+    "sharpe": 0.3580579138745125,
+    "ann_ret": 0.14376784575855917,
+    "maxdd": -0.6495323952552238
+   },
+   "oos_excess_vs_bh": -0.010236483194144386,
+   "oos_n": 2365,
+   "is_n": 924,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.20224045811235913,
+     "oos_days": 747
+    },
+    "bull": {
+     "oos_ann_ret": 0.2502828634357166,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.17279556345834468,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.36758751919288046,
+    "p95_sharpe": 0.4087049487517537
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "510500|LIQ-L2:GC001z120>3.0": {
+   "inst": "510500",
+   "gate": "LIQ-L2:GC001z120>3.0",
+   "riskoff_days_full": 73,
+   "riskoff_days_oos": 50,
+   "IS": {
+    "sharpe": 0.6555755603927923,
+    "ann_ret": 0.6197985539996431
+   },
+   "OOS": {
+    "sharpe": 0.10523688453872203,
+    "ann_ret": -0.0012063579372375566,
+    "maxdd": -0.5248974500680834,
+    "entries": 30
+   },
+   "full": {
+    "sharpe": 0.3586857048916862,
+    "ann_ret": 0.14411130635063385,
+    "maxdd": -0.6917525529517761
+   },
+   "oos_excess_vs_bh": -0.01482505299340986,
+   "oos_n": 2365,
+   "is_n": 924,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.21746155855826566,
+     "oos_days": 747
+    },
+    "bull": {
+     "oos_ann_ret": 0.26435775222866176,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.19029658628823476,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.37839299360547196,
+    "p95_sharpe": 0.40393366572824596
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "512100|LIQ-L1:GC001>5.00": {
+   "inst": "512100",
+   "gate": "LIQ-L1:GC001>5.00",
+   "riskoff_days_full": 83,
+   "riskoff_days_oos": 76,
+   "IS": {
+    "sharpe": -1.0043196106015142,
+    "ann_ret": -0.18137162409629204
+   },
+   "OOS": {
+    "sharpe": 0.36273319028644085,
+    "ann_ret": 0.12452304868850606,
+    "maxdd": -0.5015197786684011,
+    "entries": 36
+   },
+   "full": {
+    "sharpe": 0.35432158615927223,
+    "ann_ret": 0.11845311038904915,
+    "maxdd": -0.5185185121554685
+   },
+   "oos_excess_vs_bh": -0.006124696380331418,
+   "oos_n": 2364,
+   "is_n": 41,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": 0.13475204474421987,
+     "oos_days": 746
+    },
+    "bull": {
+     "oos_ann_ret": 0.2543904158686674,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.16811472590003462,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.3448041616994413,
+    "p95_sharpe": 0.38588369146235424
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%"
+   ]
+  },
+  "512100|LIQ-L2:GC001z120>3.0": {
+   "inst": "512100",
+   "gate": "LIQ-L2:GC001z120>3.0",
+   "riskoff_days_full": 51,
+   "riskoff_days_oos": 50,
+   "IS": {
+    "sharpe": -1.8487039570385737,
+    "ann_ret": -0.30245992097019925
+   },
+   "OOS": {
+    "sharpe": 0.3510632372527485,
+    "ann_ret": 0.11668394474556254,
+    "maxdd": -0.5118510770702331,
+    "entries": 30
+   },
+   "full": {
+    "sharpe": 0.33834666391057655,
+    "ann_ret": 0.10776173990055815,
+    "maxdd": -0.5345104350262011
+   },
+   "oos_excess_vs_bh": -0.013963800323274933,
+   "oos_n": 2364,
+   "is_n": 41,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": 0.1183356944138465,
+     "oos_days": 746
+    },
+    "bull": {
+     "oos_ann_ret": 0.25599274519845383,
+     "oos_days": 1171
+    },
+    "chop": {
+     "oos_ann_ret": -0.18133542296030292,
+     "oos_days": 447
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.35185461912735766,
+    "p95_sharpe": 0.37849651214817265
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "588000|LIQ-L1:GC001>5.00": {
+   "inst": "588000",
+   "gate": "LIQ-L1:GC001>5.00",
+   "riskoff_days_full": 11,
+   "riskoff_days_oos": 11,
+   "IS": {
+    "sharpe": NaN,
+    "ann_ret": NaN
+   },
+   "OOS": {
+    "sharpe": 0.19369187287396938,
+    "ann_ret": 0.01161220885640657,
+    "maxdd": -0.6167730065950607,
+    "entries": 11
+   },
+   "full": {
+    "sharpe": 0.19369187287396938,
+    "ann_ret": 0.01161220885640657,
+    "maxdd": -0.6167730065950607
+   },
+   "oos_excess_vs_bh": -0.008873027432066083,
+   "oos_n": 1425,
+   "is_n": 0,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.3250457996000069,
+     "oos_days": 599
+    },
+    "bull": {
+     "oos_ann_ret": 0.6331902179917301,
+     "oos_days": 563
+    },
+    "chop": {
+     "oos_ann_ret": -0.0880687761488198,
+     "oos_days": 263
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.2177647055532,
+    "p95_sharpe": 0.2892059270822727
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "entries<15(thin_evidence_face)",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  },
+  "588000|LIQ-L2:GC001z120>3.0": {
+   "inst": "588000",
+   "gate": "LIQ-L2:GC001z120>3.0",
+   "riskoff_days_full": 38,
+   "riskoff_days_oos": 38,
+   "IS": {
+    "sharpe": NaN,
+    "ann_ret": NaN
+   },
+   "OOS": {
+    "sharpe": 0.13681088401397082,
+    "ann_ret": -0.004961514050691451,
+    "maxdd": -0.6282017318740631,
+    "entries": 23
+   },
+   "full": {
+    "sharpe": 0.13681088401397082,
+    "ann_ret": -0.004961514050691451,
+    "maxdd": -0.6282017318740631
+   },
+   "oos_excess_vs_bh": -0.025446750339164104,
+   "oos_n": 1425,
+   "is_n": 0,
+   "segments_oos": {
+    "bear": {
+     "oos_ann_ret": -0.3290475718421222,
+     "oos_days": 599
+    },
+    "bull": {
+     "oos_ann_ret": 0.6532497341944976,
+     "oos_days": 563
+    },
+    "chop": {
+     "oos_ann_ret": -0.1765764213446409,
+     "oos_days": 263
+    }
+   },
+   "null": {
+    "k": 200,
+    "med_sharpe": 0.19924555236834765,
+    "p95_sharpe": 0.31210008157888786
+   },
+   "verdict": "KILL",
+   "fail_reasons": [
+    "oos_excess<=0",
+    "maxdd<-35%",
+    "sharpe<=null_med"
+   ]
+  }
+ },
+ "d6": {
+  "vs_bh": {
+   "510300|LIQ-L1:GC001>5.00_vs_510300": 0.9723,
+   "510300|LIQ-L1:GC001>5.00_vs_510050": 0.8926,
+   "510300|LIQ-L1:GC001>5.00_vs_510500": 0.2835,
+   "510300|LIQ-L1:GC001>5.00_vs_512100": 0.2949,
+   "510300|LIQ-L1:GC001>5.00_vs_588000": 0.6916,
+   "510300|LIQ-L2:GC001z120>3.0_vs_510300": 0.9825,
+   "510300|LIQ-L2:GC001z120>3.0_vs_510050": 0.9094,
+   "510300|LIQ-L2:GC001z120>3.0_vs_510500": 0.2834,
+   "510300|LIQ-L2:GC001z120>3.0_vs_512100": 0.2875,
+   "510300|LIQ-L2:GC001z120>3.0_vs_588000": 0.6965,
+   "510050|LIQ-L1:GC001>5.00_vs_510300": 0.8955,
+   "510050|LIQ-L1:GC001>5.00_vs_510050": 0.9821,
+   "510050|LIQ-L1:GC001>5.00_vs_510500": 0.2361,
+   "510050|LIQ-L1:GC001>5.00_vs_512100": 0.2195,
+   "510050|LIQ-L1:GC001>5.00_vs_588000": 0.5315,
+   "510050|LIQ-L2:GC001z120>3.0_vs_510300": 0.9071,
+   "510050|LIQ-L2:GC001z120>3.0_vs_510050": 0.9918,
+   "510050|LIQ-L2:GC001z120>3.0_vs_510500": 0.2359,
+   "510050|LIQ-L2:GC001z120>3.0_vs_512100": 0.2133,
+   "510050|LIQ-L2:GC001z120>3.0_vs_588000": 0.5453,
+   "510500|LIQ-L1:GC001>5.00_vs_510300": 0.2761,
+   "510500|LIQ-L1:GC001>5.00_vs_510050": 0.2292,
+   "510500|LIQ-L1:GC001>5.00_vs_510500": 0.9972,
+   "510500|LIQ-L1:GC001>5.00_vs_512100": 0.3693,
+   "510500|LIQ-L1:GC001>5.00_vs_588000": 0.7572,
+   "510500|LIQ-L2:GC001z120>3.0_vs_510300": 0.2791,
+   "510500|LIQ-L2:GC001z120>3.0_vs_510050": 0.233,
+   "510500|LIQ-L2:GC001z120>3.0_vs_510500": 0.9981,
+   "510500|LIQ-L2:GC001z120>3.0_vs_512100": 0.3633,
+   "510500|LIQ-L2:GC001z120>3.0_vs_588000": 0.7459,
+   "512100|LIQ-L1:GC001>5.00_vs_510300": 0.292,
+   "512100|LIQ-L1:GC001>5.00_vs_510050": 0.2173,
+   "512100|LIQ-L1:GC001>5.00_vs_510500": 0.3662,
+   "512100|LIQ-L1:GC001>5.00_vs_512100": 0.9984,
+   "512100|LIQ-L1:GC001>5.00_vs_588000": 0.2343,
+   "512100|LIQ-L2:GC001z120>3.0_vs_510300": 0.28,
+   "512100|LIQ-L2:GC001z120>3.0_vs_510050": 0.208,
+   "512100|LIQ-L2:GC001z120>3.0_vs_510500": 0.3582,
+   "512100|LIQ-L2:GC001z120>3.0_vs_512100": 0.9965,
+   "512100|LIQ-L2:GC001z120>3.0_vs_588000": 0.2241,
+   "588000|LIQ-L1:GC001>5.00_vs_510300": 0.6933,
+   "588000|LIQ-L1:GC001>5.00_vs_510050": 0.5328,
+   "588000|LIQ-L1:GC001>5.00_vs_510500": 0.7586,
+   "588000|LIQ-L1:GC001>5.00_vs_512100": 0.235,
+   "588000|LIQ-L1:GC001>5.00_vs_588000": 0.9973,
+   "588000|LIQ-L2:GC001z120>3.0_vs_510300": 0.6624,
+   "588000|LIQ-L2:GC001z120>3.0_vs_510050": 0.5105,
+   "588000|LIQ-L2:GC001z120>3.0_vs_510500": 0.7376,
+   "588000|LIQ-L2:GC001z120>3.0_vs_512100": 0.2275,
+   "588000|LIQ-L2:GC001z120>3.0_vs_588000": 0.9801
+  },
+  "vs_carry_family": {
+   "510300|LIQ-L1:GC001>5.00_vs_carry": 0.0097,
+   "510300|LIQ-L1:GC001>5.00_vs_ratediff": 0.0133,
+   "510300|LIQ-L2:GC001z120>3.0_vs_carry": 0.0154,
+   "510300|LIQ-L2:GC001z120>3.0_vs_ratediff": 0.0126,
+   "510050|LIQ-L1:GC001>5.00_vs_carry": 0.007,
+   "510050|LIQ-L1:GC001>5.00_vs_ratediff": 0.0113,
+   "510050|LIQ-L2:GC001z120>3.0_vs_carry": 0.015,
+   "510050|LIQ-L2:GC001z120>3.0_vs_ratediff": 0.0146,
+   "510500|LIQ-L1:GC001>5.00_vs_carry": -0.0031,
+   "510500|LIQ-L1:GC001>5.00_vs_ratediff": 0.0136,
+   "510500|LIQ-L2:GC001z120>3.0_vs_carry": -0.005,
+   "510500|LIQ-L2:GC001z120>3.0_vs_ratediff": 0.0091,
+   "512100|LIQ-L1:GC001>5.00_vs_carry": -0.0106,
+   "512100|LIQ-L1:GC001>5.00_vs_ratediff": 0.0001,
+   "512100|LIQ-L2:GC001z120>3.0_vs_carry": -0.0138,
+   "512100|LIQ-L2:GC001z120>3.0_vs_ratediff": -0.0042,
+   "588000|LIQ-L1:GC001>5.00_vs_carry": 0.0105,
+   "588000|LIQ-L1:GC001>5.00_vs_ratediff": 0.0154,
+   "588000|LIQ-L2:GC001z120>3.0_vs_carry": 0.0044,
+   "588000|LIQ-L2:GC001z120>3.0_vs_ratediff": 0.0086
+  },
+  "gate_pair": {
+   "510300": 0.9621,
+   "510050": 0.9787,
+   "510500": 0.9962,
+   "512100": 0.9961,
+   "588000": 0.9828
+  },
+  "max_abs_vs_bh_disclosed": 0.9984,
+  "vs_bh_pre_declared": "structural beta face of sparse defensive gate (prereg sec.1): disclosed, not a reject line",
+  "max_abs_vs_carry_family": 0.0154,
+  "d6_verdict": "ACCEPT",
+  "in_family_note": "REPO-CALENDAR-P1/P2 cells carry metrics only (no daily series in results JSON); carry proxies = GC001 daily carry + daily rate diff on same anchor face; full numeric family D6 deferred to full-judge face if any survivor reaches it (A2 precedent line)"
+ },
+ "summary": {
+  "n_cells": 10,
+  "survivors": 0,
+  "killed": 10
+ },
+ "audit": {
+  "elapsed_sec": 1.9,
+  "host": "bm-a",
+  "lane": "bm-a (repo panel data/repo_daily + ETF panel data/daily)"
+ },
+ "trials_ledger": {
+  "prev_total": 341063,
+  "batch_trials": 10,
+  "total": 341073,
+  "batch": "T-101-V4-A7-PRESCREEN",
+  "file": "t101_v4_a7_prescreen.json",
+  "note": "A7 liquidity-regime defensive-gate arm cheap pre-screen; 2 gates x 5 members",
+  "evidence_cutoff": "2026-09-28"
+ }
+}
