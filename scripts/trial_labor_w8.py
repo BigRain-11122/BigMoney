@@ -1965,6 +1965,10 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
     print(f"shard cells {len(mine)}, done {len(done)}, todo {len(todo)}")
 
     def on_result(key, payload):
+        # r429: S0 stash -u can lift the (untracked) checkpoint dir
+        # mid-burn -> recreate before append or the pool driver dies
+        # (2026-09-29 W8-SCREEN live fire, 828 cells lost to a crash)
+        os.makedirs(CKPT_DIR, exist_ok=True)
         with open(ck, "a", encoding="utf-8", newline="\n") as fh:
             fh.write(json.dumps(tl1._j(payload), ensure_ascii=False,
                                 default=float) + "\n")
@@ -2630,6 +2634,8 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
           f"todo {len(todo)}")
 
     def on_result(key, payload):
+        # r429: same stash-ectomy hardening as screen face (see there)
+        os.makedirs(CKPT_DIR, exist_ok=True)
         with open(ck, "a", encoding="utf-8", newline="\n") as fh:
             fh.write(json.dumps(tl1._j(payload), ensure_ascii=False,
                                 default=float) + "\n")
