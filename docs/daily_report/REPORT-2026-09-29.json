@@ -1,10 +1,10 @@
 {
  "report_date": "2026-09-29",
- "generated_at": "2026-09-29 21:31:17",
+ "generated_at": "2026-09-29 22:03:17",
  "combat": {
   "paper_summary": {
    "traders": 6,
-   "total_equity_cny": 5994265.64,
+   "total_equity_cny": 5995353.51,
    "total_positions": 18,
    "entries_today": 0,
    "exits_today": 0,
@@ -15,8 +15,8 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 999598.15,
-     "positions_value": 950837.02,
+     "equity": 999947.89,
+     "positions_value": 951186.76,
      "cash": 48761.13,
      "denomination": "CNY"
     },
@@ -31,9 +31,9 @@
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 997911.81,
-     "positions_value": 948750.34,
-     "cash": 49161.47,
+     "equity": 998465.86,
+     "positions_value": 949304.38,
+     "cash": 49161.48,
      "denomination": "CNY"
     },
     "positions": 8,
@@ -95,8 +95,8 @@
     "trader": "VOLATILITY-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 996755.68,
-     "positions_value": 497408.31,
+     "equity": 996939.76,
+     "positions_value": 497592.39,
      "cash": 499347.37,
      "denomination": "CNY"
     },
@@ -297,17 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-09-29.md"
  },
  "rd": {
-  "commits_24h": 488,
-  "result_jsons_landed_24h": 127,
+  "commits_24h": 493,
+  "result_jsons_landed_24h": 128,
   "digests_landed_24h": 9,
   "prereg_md_touched_24h": 39,
   "compute_audit_latest": {
-   "ts": "2026-09-29 21:29:17",
+   "ts": "2026-09-29 22:01:43",
    "py_cpu_pct": 0.0,
    "flags": [
+    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_floor"
+   "verdict": "FLAG:pool_starvation,supply_floor"
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
@@ -568,11 +569,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 952736,
+  "total_report_tokens_est": 954610,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 20:46:56",
+   "prev_generated": "2026-09-29 21:10:22",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 4573,
+   "report_tokens_growth": 1874,
    "mandate_growth": 0
   },
   "method": {
@@ -584,44 +585,12 @@
   "machines": {
    "bm-a": {
     "latest_ts": "2026-09-29 21:29:17",
-    "py_pct": 0.4,
-    "cpu_pct": 8.0,
-    "ready": 1,
-    "streak_min": 353.0,
-    "verdict": "FLAG:supply_gap,supply_floor",
+    "py_pct": 1.8,
+    "cpu_pct": 27.0,
+    "ready": 0,
+    "streak_min": 66.5,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "18:22",
-      0.5
-     ],
-     [
-      "18:35",
-      3.8
-     ],
-     [
-      "18:46",
-      0.4
-     ],
-     [
-      "18:49",
-      0.9
-     ],
-     [
-      "19:23",
-      0.0
-     ],
-     [
-      "19:31",
-      20.9
-     ],
-     [
-      "19:35",
-      1.9
-     ],
-     [
-      "19:40",
-      0.0
-     ],
      [
       "19:47",
       42.2
@@ -635,14 +604,46 @@
       0.3
      ],
      [
+      "20:04",
+      100.0
+     ],
+     [
       "20:22",
       0.4
+     ],
+     [
+      "20:29",
+      0.0
+     ],
+     [
+      "20:36",
+      0.7
+     ],
+     [
+      "20:48",
+      0.3
+     ],
+     [
+      "20:55",
+      0.3
+     ],
+     [
+      "21:09",
+      2.4
+     ],
+     [
+      "21:24",
+      0.1
+     ],
+     [
+      "21:29",
+      1.8
      ]
     ],
-    "today_samples": 131,
+    "today_samples": 139,
     "today_floor_ok": 0,
     "today_sla_flags": 10,
-    "today_supply_gap_flags": 55
+    "today_supply_gap_flags": 58
    },
    "bm-b": {
     "latest_ts": "2026-09-29 21:09:02",
@@ -707,25 +708,13 @@
     "today_supply_gap_flags": 56
    },
    "bm-c": {
-    "latest_ts": "2026-09-29 21:28:01",
+    "latest_ts": "2026-09-29 22:01:43",
     "py_pct": 0.0,
     "cpu_pct": 4.0,
     "ready": 0,
-    "streak_min": 65.2,
-    "verdict": "FLAG:supply_floor",
+    "streak_min": 98.9,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "19:40",
-      0.0
-     ],
-     [
-      "19:47",
-      42.2
-     ],
-     [
-      "19:57",
-      0.3
-     ],
      [
       "19:59",
       0.3
@@ -759,11 +748,23 @@
       2.4
      ],
      [
+      "21:24",
+      0.1
+     ],
+     [
       "21:28",
+      0.0
+     ],
+     [
+      "21:29",
+      1.8
+     ],
+     [
+      "22:01",
       0.0
      ]
     ],
-    "today_samples": 138,
+    "today_samples": 141,
     "today_floor_ok": 0,
     "today_sla_flags": 10,
     "today_supply_gap_flags": 58
