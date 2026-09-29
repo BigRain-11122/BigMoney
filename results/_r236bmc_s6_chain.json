@@ -1,0 +1,155 @@
+{
+ "runner": "_r236bmc_s6_chain.py",
+ "machine": "bm-c",
+ "legs": {
+  "python scripts/pool_dualrun_reconcile.py run": {
+   "rc": 0,
+   "tail": "[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 122 entries, streak 45/3, cutoff 2026-09-29T19:46:30+08:00)"
+  },
+  "python scripts/compute_audit.py": {
+   "rc": 0,
+   "tail": "{\"ts\": \"2026-09-29 19:59:08\", \"audit_version\": \"v2.4.1\", \"cpu_total_pct\": 11.0, \"py_cpu_pct\": 0.3, \"cores\": 32, \"py_procs\": 8, \"result_stale_min\": 0.1"
+  },
+  "python scripts/py_watermark.py probe": {
+   "rc": 0,
+   "tail": "{\"ts\": \"2026-09-29 19:59:14\", \"epoch\": 1790683148.0, \"machine\": \"bm-c\", \"cpu_total_pct\": 19.0, \"cores\": 32, \"py_cpu_pct\": 0.1, \"py_procs\": 8, \"top_pro"
+  },
+  "python scripts/update_daily.py": {
+   "rc": 0,
+   "tail": "status -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\update_status.json"
+  },
+  "python scripts/market_regime.py": {
+   "rc": 0,
+   "tail": "trigger: breadth 0.83>=65%"
+  },
+  "python scripts/strategy_scorecard.py": {
+   "rc": 0,
+   "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (13.3s)"
+  },
+  "python scripts/market_clock_call.py run": {
+   "rc": 0,
+   "tail": "call written: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-28.md cell=ORANGE_COOL sleeves=4 activated=0"
+  },
+  "python scripts/update_lhb.py": {
+   "rc": 0,
+   "tail": "no-op: <30min since last fetch attempt (min-interval guard)"
+  },
+  "python scripts/update_heat.py": {
+   "rc": 0,
+   "tail": "no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)"
+  },
+  "python scripts/update_futures.py": {
+   "rc": 0,
+   "tail": "no-op: local cutoff 2026-09-28 covers expected complete-bar date 2026-09-28 -> zero network"
+  },
+  "python scripts/update_repo.py": {
+   "rc": 0,
+   "tail": "no-op: repo rates lane owned by bm-a, not this machine (bm-c)"
+  },
+  "python scripts/update_options.py": {
+   "rc": 0,
+   "tail": "no-op: options lane owned by bm-a, not this machine (bm-c)"
+  },
+  "python scripts/update_moneyflow.py": {
+   "rc": 0,
+   "tail": "no-op: moneyflow lane owned by bm-a, not this machine (bm-c)"
+  },
+  "python scripts/update_sina_mf.py": {
+   "rc": 0,
+   "tail": "no-op: sina_mf lane owned by bm-a, not this machine (bm-c)"
+  },
+  "python scripts/update_astock_daily.py": {
+   "rc": 0,
+   "tail": "no-op: astock_daily lane owned by bm-b, not this machine (bm-c)"
+  },
+  "python scripts/update_etf_daily.py": {
+   "rc": 0,
+   "tail": "no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)"
+  },
+  "python scripts/rev_osc_signal_export.py run": {
+   "rc": 0,
+   "tail": "rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op"
+  },
+  "python scripts/update_minute_feed.py": {
+   "rc": 0,
+   "tail": "update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op"
+  },
+  "python scripts/update_ths_panel.py": {
+   "rc": 0,
+   "tail": "no-op: ths panel lane owned by bm-a, not this machine (bm-c)"
+  },
+  "python scripts/ah_panel_puller.py": {
+   "rc": 0,
+   "tail": "no-op: ah panel lane owned by bm-a, not this machine (bm-c)"
+  },
+  "python scripts/update_fund_premium.py snapshot": {
+   "rc": 0,
+   "tail": "no-op: snapshot 2026-09-28 already covers expected NAV date 2026-09-28"
+  },
+  "python scripts/update_fundamental.py": {
+   "rc": 0,
+   "tail": "snapshot fresh (9.3h < 24h) -> skip"
+  },
+  "C:\\Users\\Dasheng\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m firm.risk.b_layer_filter": {
+   "rc": 0,
+   "tail": "verdict -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\fundamental_b_layer_filter.json"
+  },
+  "python -m live.paper": {
+   "rc": 0,
+   "tail": "paper tracking: OK"
+  },
+  "python scripts/t35_open_fill_verify.py": {
+   "rc": 0,
+   "tail": "open_fill_verify day=2026-09-28: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\t35_op"
+  },
+  "python scripts/t24_prospect_paper.py run": {
+   "rc": 0,
+   "tail": "prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-28"
+  },
+  "python scripts/t24_prospect_promotion.py run": {
+   "rc": 0,
+   "tail": "promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22"
+  },
+  "python scripts/aggressive_lab.py paper": {
+   "rc": 0,
+   "tail": "aggr paper: marks already at panel cutoff 2026-09-28 -- no-op (idempotent)"
+  },
+  "python scripts/alloc_paper.py run": {
+   "rc": 0,
+   "tail": "no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)"
+  },
+  "python scripts/grid_paper.py run": {
+   "rc": 0,
+   "tail": "grid paper: marks already at panel cutoff 2026-09-28 -- no-op (idempotent)"
+  },
+  "python scripts/system_v1_paper.py run": {
+   "rc": 0,
+   "tail": "system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op"
+  },
+  "python scripts/t35_paper_export.py run": {
+   "rc": 0,
+   "tail": "-> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\paper_export\\export-2026-09-28.json + latest.json"
+  },
+  "python scripts/daily_scorecard.py": {
+   "rc": 0,
+   "tail": "scorecard written: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6"
+  },
+  "python scripts/daily_report.py run": {
+   "rc": 0,
+   "tail": "daily report written: REPORT-2026-09-29.md/.json faces=5 token=1"
+  },
+  "python scripts/ceo_live_usage.py": {
+   "rc": 0,
+   "tail": "ceo_live_usage: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\docs\\live_usage\\LIVE-2026-09-29.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, "
+  },
+  "python -m monitor.build_status": {
+   "rc": 0,
+   "tail": "factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
+  },
+  "python scripts/token_meter.py": {
+   "rc": 0,
+   "tail": "L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=20 across 12 sigs"
+  }
+ },
+ "non_green": {}
+}
