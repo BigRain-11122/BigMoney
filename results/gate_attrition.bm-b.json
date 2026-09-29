@@ -12188,6 +12188,195 @@
     "intake": "results/trial_labor_w10/w10_intake.json (lawful-zero n_eligible=0, r440)",
     "ticket": "T-2026-09-29-122"
    }
+  },
+  {
+   "batch": "TRIAL_LAB_W11_SCREEN",
+   "ts": "2026-09-30 00:58:40",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 1462,
+   "ledger_total_after": 350018,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 1262,
+     "n_survivors": 229,
+     "line": "beat6m_rate > null_p95 strictly-greater (null_p95=0.514805, prereg sec.3 frozen)"
+    },
+    "null_face": {
+     "p50": 0.5116,
+     "p95": 0.514805,
+     "n": 200,
+     "note": "K=200 fourteen-tuple axis nulls with mom+std legs, seed 20317500; p50 0.5116 within prereg sec.5.2 recalibrated band [0.50,0.52] (sixth consecutive wave >0.50: W6 0.5036 -> W7 0.51 -> W8 0.5116 -> W9 0.5116 -> W10 0.5116 -> W11 0.5116, drift disclosed); p95 0.514805 within eleven-wave band; screen survival line = program-frozen null p95 (W2-W10 identical law)"
+    },
+    "std_face": {
+     "segmented_survival": {
+      "std20_hi": {
+       "n_cells": 278,
+       "n_survivors": 35,
+       "survival_rate": 0.125899
+      },
+      "none": {
+       "n_cells": 688,
+       "n_survivors": 121,
+       "survival_rate": 0.175872
+      },
+      "std10_hi": {
+       "n_cells": 296,
+       "n_survivors": 73,
+       "survival_rate": 0.246622
+      }
+     },
+     "note": "STD new face direction intel (W11 true question, adopted from bm-c r234/r237 probe package): POSITIVE 10d / NEGATIVE 20d asymmetry -- std10_hi 24.66% (73/296) = 1.40x enrichment vs none 17.59%, std20_hi 12.59% (35/278) = 0.72x anti-enrichment; std∧calm family drag confirmed (4/68=5.88% vs std∧wild 51/249=20.48%, std10_hi∧calm 0/26 total wipeout) = prereg sec.5.1(b) drift-face prediction HIT at screen"
+    },
+    "mom_face": {
+     "segmented_survival": {
+      "mom_oversold": {
+       "n_cells": 452,
+       "n_survivors": 94,
+       "survival_rate": 0.207965
+      },
+      "none": {
+       "n_cells": 810,
+       "n_survivors": 135,
+       "survival_rate": 0.166667
+      }
+     },
+     "note": "MOM carried face enrichment decay: mom_oversold 20.80% (94/452) vs none 16.67% (135/810) = 1.25x -- W10 1.88x decayed to 1.25x under the eleven-source exclusion book (cross-wave prior decay first observation)"
+    }
+   },
+   "eliminated": 1033,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W11_PREREG.md",
+    "results": "results/trial_labor_w11/w11_screen.json",
+    "ticket": "T-2026-09-29-123"
+   }
+  },
+  {
+   "batch": "TRIAL_LAB_W11_JUDGE",
+   "ts": "2026-09-30 01:47:40",
+   "kind": "judgment",
+   "retro_fill": false,
+   "cells_ledger_delta": 229,
+   "ledger_total_after": 350247,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 229,
+     "n_pass": 0,
+     "line": "skill_line_v2 per-cell (ledger_head live read); top cell W11-B-3023 legL sharpe_full=0.997 vs line=1.1944 (n_eff=351480) -- line_ok false; nine-face total zero (gate/vol/yang/vconf/streak/tstate/amp/mom/std); best-cell bootstrap ci95 [0.4094,1.4199] lower bound positive but below skill line",
+     "all_face_total_zero": true,
+     "faces": {
+      "gate": {
+       "bear": 0,
+       "none": 0,
+       "bull": 0
+      },
+      "vol": {
+       "none": 0,
+       "calm": 0,
+       "wild": 0
+      },
+      "yang": {
+       "none": 0,
+       "first_yang": 0
+      },
+      "vconf": {
+       "none": 0,
+       "volume_dry": 0,
+       "volume_surge": 0
+      },
+      "streak": {
+       "up_streak2": 0,
+       "none": 0,
+       "down_streak2": 0
+      },
+      "tstate": {
+       "none": 0,
+       "oversold_rsv": 0,
+       "deep_pullback": 0
+      },
+      "amp": {
+       "amp_wide": 0,
+       "none": 0,
+       "amp_narrow": 0
+      },
+      "mom": {
+       "mom_oversold": 0,
+       "none": 0
+      },
+      "std": {
+       "std10_hi": 0,
+       "none": 0,
+       "std20_hi": 0
+      }
+     }
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "top_dsr": 0.627268,
+     "top_dsr_cell": "JUDGE|W11-B-1381",
+     "n_trials": 350018,
+     "line": "G1 pass AND DSR>=0.95 AND PBO<=0.25"
+    },
+    "e_fp_nominal_5pct": 11.45,
+    "family_pbo": {
+     "composite_rotation": {
+      "pbo": 0.2571,
+      "n_cells": 10
+     },
+     "ta": {
+      "pbo": 0.4429,
+      "n_cells": 39
+     },
+     "volatility": {
+      "pbo": 0.2857,
+      "n_cells": 11
+     },
+     "patterns": {
+      "pbo": 0.4286,
+      "n_cells": 38
+     },
+     "mean_reversion": {
+      "pbo": 0.3857,
+      "n_cells": 26
+     },
+     "momentum": {
+      "pbo": 0.5143,
+      "n_cells": 21
+     },
+     "trend": {
+      "pbo": 0.7857,
+      "n_cells": 17
+     },
+     "sentiment": {
+      "pbo": 0.9,
+      "n_cells": 25
+     },
+     "event": {
+      "pbo": 0.1714,
+      "n_cells": 10
+     },
+     "seasonal": {
+      "pbo": 0.8143,
+      "n_cells": 10
+     },
+     "folk": {
+      "pbo": 0.7,
+      "n_cells": 15
+     },
+     "macro": {
+      "pbo": null,
+      "n_cells": 7,
+      "note": "insufficient (<8) -- G2 cannot pass"
+     }
+    }
+   },
+   "eliminated": 229,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W11_PREREG.md",
+    "results": "results/trial_labor_w11/w11_judge.json",
+    "intake": "results/trial_labor_w11/w11_intake.json (lawful-zero n_eligible=0, r444 harvest round)",
+    "ticket": "T-2026-09-29-123"
+   }
   }
  ],
  "lane_machine": "bm-b"

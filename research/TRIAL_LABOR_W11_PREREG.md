@@ -66,11 +66,17 @@
 
 ## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假。】
 
-（空——收编机冻结后跑批回填。）
+**【2026-09-30 02:1x 一次定稿回填·bm-b r444（W11 判决面 owner）·数字真值源=results/trial_labor_w11/*.json】**
+
+- **漏斗**：raw 5,000（A:500+B:4,500）→ distinct **1,262**（缩率 74.8%=十一波最缩）→ 初筛 1,462 格（+200 null）→ 存活 **229**（18.15%）→ 全量判决 229 格 → **G1' 0/229·G2 0·上岗 0**（lawful-zero intake n_eligible=0·w11_intake.json r444）。账本 348,556+1,462=**350,018**（SCREEN 收官）→ +229=**350,247**（JUDGE 收官·活链头活读一致·跨波线性不重置；348,556 头含他机 SLOT-4/创新配额窗在飞批=later-yields 重基·r240 律）。
+- **判决面**：九面全段零 G1（gate/vol/yang/vconf/streak/tstate/amp/**mom/std** 每段 n_g1_pass=0）；最佳格 W11-B-3023 leg-L 全期 Sharpe **0.997** vs 技能线 **1.1944**（N_eff=351,480）→ line_ok=false；最佳格 bootstrap CI95 **[0.409, 1.420]** 下界>0 但在技能线下（ci-lower-positive ≠ 过线·分层如实）；全批最高 DSR=**0.6273**（W11-B-1381·未过 G1'·不构成任何注册面；n_trials=350,018）。E[FP]=0.05×229=**11.45** 如实披露；族 PBO：sentiment **0.9**（25 格）/seasonal 0.8143（10）/trend 0.7857（17）高企·ta 0.4429（39 格）·composite_rotation 0.2571·event 0.1714（10）最松·macro 7 格 <8 n/a（G2 结构性不可过）。
+- **STD 面方向读数（初筛面·零判据权重·本波真问题）**：**正 10d/负 20d 不对称——std10_hi 24.66%**（73/296）**vs none 17.59% = 1.40× 富集；std20_hi 12.59%**（35/278）**= 0.72× 反富集**（首个 STD 屏级面·10 日高波动状态=正富集轴/20 日=反富集轴）；**std∧calm 拖累面兑现**：std∧calm 4/68=5.88% vs std∧wild 51/249=20.48%（std10_hi∧calm **0/26 全灭**）=§5.1(b) 漂移面负读数预测 HIT；**但判决面 std 三段全零 G1**=初筛富集≠注册级增量（W8 tstate/W10 mom 同判·富集面进供给簿不进注册簿）。**MOM 续供面衰减读数**：mom_oversold 20.80%（94/452）vs none 16.67%=**1.25×**——W10 1.88× → W11 1.25×=**跨波先验衰减首证**（十一源排除簿累积下同门富集度衰减）。
+- **§5 预测对账**：①缩率 74.8% ∉[45%,60%] **✗ MISS**（distinct 1,262 << 去重门后 ≥3,000 下限——十一源排除簿累积+std10vsstd20 互开 50.13%/49.12% 部分冗余摊薄·**与 W9/W10 同向三连 MISS**·预测带失准=可证伪面如实·判读按实际划非判线·§6 已预注下沿风险）；②std 轴正富集 ≥1.3x：std10_hi 1.40× ✓ HIT / std20_hi 0.72× ✗ 反富集（正负不对称=本波新研究事实·轴族合计 18.82% vs 17.59%=1.07× 低于带）＋**std∧calm < std∧wild 拖累面 ✓ HIT**（5.88% vs 20.48%·两向殉死如实兑现）；③极端日先验=探针注记面保留（判决面未做逐段复验·零矛盾零翻案面）；④null 中位 **0.5116** ∈重校带 [0.50,0.52] ✓（**第六波 >0.50**：0.5036→0.51→0.5116→0.5116→0.5116→0.5116 漂移带内延续·判线=程序冻结 p95 **0.514805** 不受影响）；p95 0.514805 ∈[0.50,0.52] ✓（十一波带内）；⑤G1' 0 ∈[0,8] ✓（带内诚实·带下沿）；⑥G2 模态零 ✓（**十二批判决同门全零**：W1/MASS/W2-W11）。
+- **CEO 呈报**：docs/trial_labor/CEO-REPORT-WAVE11-20260930.md（判决落地 2026-09-30 01:47:40 → 48h 窗止 **2026-10-02 01:47:40**·同轮提前落地）。
 
 ## §8 批后复盘。【必填 §7-T。】
 
-（空——判决面落地后回填。）
+**【回执 2026-09-30 bm-b r444】**W11 attrition 损耗账两行（TRIAL_LAB_W11_SCREEN+TRIAL_LAB_W11_JUDGE）已追加 results/gate_attrition.json+gate_attrition.bm-b.json（retro_fill=false·原事件 ts 保留：SCREEN 00:58:40/JUDGE 01:47:40·判线 v2 当批读数随行·append 后 guard scan CLEAN 零丢失）；轮报告+CODELY.md 行级追加同轮；零新注册员（lawful-zero intake n_eligible=0·零 TRIAL-* 袖盘·零 STRATEGY_LIBRARY 行）；判决面结果 48h 内 CEO 呈报=同轮落地（见 §7 指针）。**工程留痕**：JUDGE 面=autofill lineage 提交 burn（ckpt 229/229 后 01:47:40 finalize 落地 exit 0）；**首跑 01:05:44 runner crash 事故如实**：_overlay_stop_disclosure_w11 调用点缺第 14 参 sd·TypeError 死于首格（0/229 格烧损=零科学损·crash-fuse count=1）→r444 fix-first commit 补参 per W10 mirror lineage→autofill 重燃 claim（7b679efb5）→01:31:48 ckpt 全落→01:47:40 finalize exit 0。STD 轴读数面（正 10d/负 20d 不对称+std∧calm 拖累）与 MOM 衰减面（1.88×→1.25×）已随本件与 CEO 报告进入下一波 grammar 供给先验面；STD+MOM 面已入谱=排除簿拦截自动生效（W12 起自动适用）。
 
 ## §9 追加冻结节。【append-only·每 sub-wave 一冻——禁跑前另立冻结。】
 
