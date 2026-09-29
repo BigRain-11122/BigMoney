@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-09-29T07:49:05+08:00",
-  "current_task": "r419: S0 merge-back LANDED (merge-not-rebase 21-face canonical + escape-branch-first + atomic FF main push 12fa3e709..6eb3da16f) - r416-r418 stranded products on-chain; S6 33 legs ran (dualrun streak 3/3, audit flags standing-honest); orders 122/122; smoke 26/26",
+  "last_seen": "2026-09-29T08:42:45+08:00",
+  "current_task": "r420-cont: harvest dead-session products + pit-93 merge (18 UU canon-resolved) + FF main push landed + post-merge pool settle",
   "cpu_cores": 32,
   "cpu_pct": 50.4,
   "free_ram_gb": 46.6,
   "gpu_free_vram_gb": 5.1,
-  "verdict": "demoted-maintenance-x2: S0 conflict vs live writer (bm-b heartbeat 3.8min + W6-JUDGE in flight); smoke 26/26; orders 122/122 x2 scans zero-diff; decisions.md unchanged (mtime 03:20 pre-round); chain 34 ran + 3 no-new-bar skip rc=0 (dualrun ZERO-DRIFT 2/3; audit flags supply_gap/supply_floor standing-honest bm-b lane; watermark py_low_with_work_cands legal-idle accounting: board closed 0/0/0 + moneyflow refresh I/O-bound in flight + demotion forbids new claims; regime ORANGE shadow; clock ORANGE_COOL); D-20260929-02 receipt landed in 48h window; products escaping via machine/bm-a-r418 per D-20260925-01(3) if main push rejected",
+  "verdict": "r420-cont recovered: dead r420 session S6 products harvested + bm-b r415 integrated via pit-93 two-step merge (escape branch + atomic FF push, zero rebase replays); post-merge pool face settled same-window; supply_floor standing (pool empty) -> trial-labor next-wave drafting = next round head; smoke 26/26",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -131,8 +131,8 @@
     "O-20260928-1925-bm-c.md",
     "O-20260928-1930-bm-a.md"
   ],
-  "heartbeat_epoch_utc": 1790639345,
-  "clock_read": "2026-09-29T07:49:05+08:00",
+  "heartbeat_epoch_utc": 1790642565,
+  "clock_read": "2026-09-29T08:42:45+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 5178,
   "gpu_idle_vram_gb": 5.1,
@@ -146,7 +146,7 @@
     "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
   ],
   "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
-  "round_no": 418,
+  "round_no": 420,
   "gpu_total_vram_mb": 12282,
   "idle_ram_gb": 46.6,
   "cpu_util_pct": 50.4,
