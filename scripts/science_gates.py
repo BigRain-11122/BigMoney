@@ -1483,6 +1483,18 @@ SEED_REGISTRY = {
         # above W12 declared berths 20320500/20321000/20321500
         # (unregistered at freeze, bm-a r447 MSG-2225)
         "innovation_quota_w4_volregime": 20322000,
+        # INNOVATION-QUOTA-SLOT-5 ICU_MA_TIMING_P1 (zoo #86 icu_ma_timing
+        # Siegel repeated-median regression endpoint timing; berth bm-c
+        # r247, freeze r248 bm-c): random-day-placement nulls K=2000 +
+        # virtual starts K=1000 + splits 100, k-indexed sub-streams
+        # rng([20322500, k]) like W3/W4; three-step law r248 live
+        # re-verified ALL GREEN (134-key full import view, 130 existing
+        # distinct bases zero-collision, canon first-el 989747964
+        # distinct, band 20322500 clean; rg hits = sh513070.csv volume-column numeric coincidence t34/69
+        # precedent family + own berth/prereg/catalog text); +500 ladder
+        # above W4 20322000 (W12 trio 20320500/20321000/20321500
+        # registered bm-b r444 before this window)
+        "innovation_quota_w5_icu_ma": 20322500,
         # TRIAL_LABOR_W12 RSQR-gate (rsqr20_hi/rsqr10_hi trend-fit-quality
         # confirm, three-value axis per W4 VOL / W11 STD precedent) wave:
         # 5,000-draw Sobol generation axis draws (rng([20320500+family_idx,

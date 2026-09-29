@@ -1,7 +1,7 @@
-# INNOVATION_QUOTA_W5_PREREG · 创新配额槽-5：ICU 稳健回归均线择时族（ICU-MA-TIMING-P1·zoo #86 icu_ma_timing）judged 判决批 —— **BERTH（泊位起草·2026-09-30 02:3x·bm-c r247·未冻结）**
+# INNOVATION_QUOTA_W5_PREREG · 创新配额槽-5：ICU 稳健回归均线择时族（ICU-MA-TIMING-P1·zoo #86 icu_ma_timing）judged 判决批 —— **FROZEN（冻结于跑前·2026-09-30 02:5x·bm-c r248）**
 
-> **状态：BERTH——泊位起草于 2026-09-30 02:3x bm-c r247（供给律开窗=pool ready=1<3 且唯一件=bm-b 车道 W11-JUDGE·本车道空·r246 收轮实测）；冻结步=后继轮精确续作点（W4 时间线先例：r243 泊位→r244 冻结+SEED 注册→r245 runner+入池→r246 烧+adopt；本批冻结步=①SEED_REGISTRY 单键注册（泊位草读带=20322500 候选·W12 泊位 20320500/20321000/20321500+W4 实取 20322000 后首带·冻结窗活复验三步律后落位）②本件 FROZEN 横幅+跑前预测定稿③F-04 MSG 冻结窗声明）**。冻结前判据节（§4）与构造（§2/§3）文本已定稿待冻结窗确认；§7/§8 占位纪律=写数字即造假。
-> **泊位史**：候选备货泊位·2026-09-30 02:3x·bm-c r247。供给律锚=O-20260928-1614 §一.4 填充阶梯④创新配额（每闲置窗≥1 新假设族·本窗实况=r246 收轮 pool ready=1<3·audit supply_floor/supply_gap 旗在册）+TRIAL_LABOR_LAW §1 常供律精神。
+> **状态：FROZEN——冻结于跑前·2026-09-30 02:5x bm-c r248（泊位起草机次轮冻结=W5 槽自 declare 自冻结·W4 r243→r244 时间线镜像）。本冻结窗已落地面：SEED_REGISTRY 单键 `innovation_quota_w5_icu_ma`=**20322500**（+500 推位·W4 实取 20322000 后首带·W12 三键 20320500/20321000/20321500 已由 bm-b r444 于本窗前注册在册〔导入视图在场〕零撞带；三步律全量导入视图活复验全绿=**134 键全景·130 相异现存基零精确撞带**+首元素 **989747964** 互异+band 20322500 洁净〔k-子流自基派生·相异基=相异流族〕·rg 10 命中全可分类〔sh513070.csv 量列数值巧合 t34/69 先例族+本件/泊位 MSG/catalog/registry/脚本自身文本〕·证据=results/_r248bmc_w5_seed_law_facts.json〔r248 活复验=import 全景·r244 坑律禁源文本正则计数〕）。§5 跑前预测已于泊位窗写死、本冻结窗定稿锁定（五条零改）。**未落地面（诚实披露）**：runner scripts/innovation_quota_w5.py 未存在（下轮精确续作点=W4 镜像骨架 scipy siegelslopes 滚动窗+N 三格替换 HMA 面）、catalog SLOT-5 双门=enqueue_gates prereg_frozen 本窗已真+runner_exists 未过→维持 HOLD、池未入队（两门全过才入池）。冻结实况律：探针事实件（§2·results/_r247bmc_icu_w5_probe_facts.json）逐位为锚·runner G-ANCHOR fail-closed 对账·漂移=exit 2 禁烧。**
+> **泊位史（保留行）**：候选备货泊位·2026-09-30 02:3x·bm-c r247。供给律锚=O-20260928-1614 §一.4 填充阶梯④创新配额（每闲置窗≥1 新假设族·本窗实况=r246 收轮 pool ready=1<3·audit supply_floor/supply_gap 旗在册）+TRIAL_LABOR_LAW §1 常供律精神。
 > 令源：O-20260928-1614 §4(d) 槽位制+O-1721 借力律+RESEARCH_MECHANISM 常态线；票=T-2026-09-28-107 §4(d)+fill_ladder_catalog `INNOVATION-QUOTA-SLOT-5` 条目（同窗追加·enqueue_gates=prereg_frozen+runner_exists——**两门全过才入池**）。
 > **族选防重核（r247 实读）**：①rg `ICU|siegel|repeated.median` 全仓=research 面仅 r222 冻结卡+ASTYLE_ZOO #86 行+QRS 侧写一件；results 面命中=代码伪命中（996.ICU709 仪表码片段）——**零前判=新族合法开法**；②**参数化已冻结**（bm-b r222 深读全档·DIGEST-20260926-r222-icu-ma-paramfreeze.md：构造/信号/成本三源真值+N 三套并存披露+snooping 折价评估在册）=泊位最快合法路径；③配额线已烧面=W1/W2 逆回购日历（SLOT-1/2）+W3 #95 高阶矩（SLOT-3）+W4 #96 量能状态机（SLOT-4）——**#86=稳健回归估计量面=配额线首个非 HMA/非矩量的趋势估计量族**（Siegel RM 端点 vs W4 HMA 量比 vs W3 矩读数·估计量对象全新）；④已烧轴全谱=价格/收益派生单读数（VOL=收益std/AMP=振幅/MOM=速度/STD=发散/TSTATE=位置/STREAK=连续性/GATE·YANG）——ICU=**回归端点拟合值**（窗内全点参与的 RM 稳健估计·非任何单读数轴）·D6 邻接探针实测（§2）最大=MOM 轴 a_in_b **≤9.7%**（趋势轴新估计量非塌缩实证·vs W4 先例 12% 同判）；⑤MA 族黑名单警示（ta.py 判定律 2 单一读数）=消费位结构性化解先例在册（zoo #86 行：T-34 快线候选池=A/B harness 面非独立策略·本批=judged 判决面先行·判据面与快线池分立）；⑥#90 鳄鱼线/#91 RRG 等其余冻结行=MA 族同带变体/轮动负先验面——本槽不消耗·后继槽候选。
 > 外源锚披露（借力律·宣称≠验证）：中泰 2023-04-12 研报图 7 宣称面（策略净值 ~10 vs 基准 ~4·回撤减半）=**D 级目测零采信**（r222 卡 §二：图内无正文数字）；本批构造基=r222 冻结卡 §一 clean-room（scipy.stats.siegelslopes method='hierarchical' 真值源·本仓 scipy 1.16.1 实测在位+手工 RM 交叉核 50/50 逐位一致·探针件 §2）；N 三套={5,120,15}=研报叙述/复现 skopt 贝叶斯/可微目标三通道**选择面披露+snooping 折价**（非结果调参面·三通道全入批零选优）。
@@ -35,7 +35,7 @@
 - **引擎（确定性日频状态机·W3/W4 同骨架）**：`side(t)=sign(close(t)−ICU(N)(t))`；`state(t)`=上穿入多/下穿平/相等承前（纠缠维持=ffill(side≠0)）；`position(t)=state(t−1).astype(float)`（**T+1 onset 因果律**·shift 嵌入）；持仓日收益=`position(t)×ret(t)` close-to-close；**无额外止损线**（下穿平仓即出场·r222 冻结卡无止损条款·两可处如实留痕）；仓位=二态 1.0/0.0（**研报 0.95 仓位面分歧披露**——仓法满仓/空仓二态与已烧轴全谱判据可比性优先·W3/W4 lineage）；成本 x1=`scripts/ce_transfer.py COST_X1_RATE`（13.041bp/边）|Δpos| 次日入账·双边；x2=披露列；判据面=x1。
 - **judged 格（3 格冻结·批内零选优）**：①`ICU-N5`（研报叙述通道）；②`ICU-N120`（skopt 贝叶斯通道·复现 score 最优 N）；③`ICU-N15`（可微目标通道）。三通道 N 全谱入批=snooping 折价披露载体（选择面非调参面·批内零剔除）。
 - **passive 基线**：`PASSIVE-510300-BH` 批窗活算年化 Sharpe 喂 `passive_override`（REPO_CALENDAR_P2 律·禁手抄）。
-- **null 对照**：K=2000 随机日置 null（每格保持仓日数、均匀重置位置——W4 null 族冻结构造）；**虚拟起点** K=1000（RANDOM_LARGE_SAMPLE_LAW §1）；**随机分窗** 100 窗（§3 ≥100）；seed 基=**冻结窗 SEED_REGISTRY 注册键（泊位草读带 20322500 候选·k-子流 rng([seed,k]) 同 W3/W4 语义：nulls k<2000·starts k∈[2000,3000)·splits k∈[3000,3100)）**；**null 碎片化成本拖累披露**（W4 §7 兑现面承袭：随机日置孤立日 2 翻面成本拖累压倒暴露缩放·μ_null 预期深负·§5 预测 4 据此）。
+- **null 对照**：K=2000 随机日置 null（每格保持仓日数、均匀重置位置——W4 null 族冻结构造）；**虚拟起点** K=1000（RANDOM_LARGE_SAMPLE_LAW §1）；**随机分窗** 100 窗（§3 ≥100）；seed 基=**SEED_REGISTRY[`innovation_quota_w5_icu_ma`]=20322500**（r248 冻结窗三步律活复验全绿·r441/r244 律·k-子流 rng([20322500, k]) 同 W3/W4 语义：nulls k<2000·starts k∈[2000,3000)·splits k∈[3000,3100)）；**null 碎片化成本拖累披露**（W4 §7 兑现面承袭：随机日置孤立日 2 翻面成本拖累压倒暴露缩放·μ_null 预期深负·§5 预测 4 据此）。
 - 账本：`science_gates.append_ledger("ICU_MA_TIMING_P1", ...)`（dict schema·返回值必落 out["trials_ledger"]=r434 坑律·evidence_cutoff="2026-09-22"）。
 
 ## §4 判据。【跑前写死，禁看结果调线。】
@@ -60,4 +60,4 @@
 
 ## §8 批后复盘。【必填 §7-T。】
 
-— bm-c r247 泊位落地（探针+草稿+catalog 条目+MSG 声明同窗）；冻结步=后继轮（SEED 注册+FROZEN 横幅+预测定稿·W4 r244 时间线镜像）。
+— bm-c r247 泊位落地（探针+草稿+catalog 条目+MSG 声明同窗）→ bm-c r248 冻结（SEED 注册+FROZEN 横幅+§5 预测锁定+MSG 冻结声明同窗）。下轮精确续作点=runner slice（W4 镜像骨架）→selftest→catalog SLOT-5 runner_exists 门翻转→入池 autofill 烧（W4 r245 时间线镜像）。
