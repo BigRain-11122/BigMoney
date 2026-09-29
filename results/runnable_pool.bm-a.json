@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-30T00:49:00+08:00",
+  "updated_at": "2026-09-30T01:07:00+08:00",
   "_stamp_note": "r427 bm-b conflict-union with bm-c r219 (rebase replay 5b1bab03e onto 7f564efb1): pool-entry-done-union r312 [W8-GENERATE done absorbs bm-b harvest record; bm-c yield_note carried zero-loss; W8-SCREEN one-side keep] + audit rolling-ledger union; entries=115",
   "entries": [
     {
@@ -4529,7 +4529,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-30T00:49:00+08:00",
       "entered_by": "bm-b r443",
       "data_gates": "GATES ALL GREEN (direct-ready r443, W1-W10-SCREEN lineage): (1) TRIAL-LABOR-W11-GENERATE done -- landed 23:48:32 w11_candidates.json n=1,262 single-shot completion marker in-repo this commit (refuse-if-exists guard); (2) screen-prep PASS -- results/trial_labor_w11/prep_state.json bm-b r443 00:47: panel 48/48, anchors 6/6 faithful (grammar_replay IS/OOS == frozen), census {6m 1253, 12m 1127, 24m 875} == frozen, starts 1253, passive 6m precomputed, gate na-window 199 bars, G-VOL 594calm/518wild first-valid 519, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19, G-STREAK 384up/389down/856neither warmup 2, G-TSTATE mad60 188true/1453decidable warmup 178 + rsv60 332true/1572decidable warmup 59, G-AMP 801wide/811narrow decidable 1612 warmup 19, G-MOM 153open/1339closed decidable 1492 warmup 139 (W10 prep-window replay face carried), G-STD face carried in prep per fourteen-tuple; (3) grammar sha16 128962592feeb8d3 == FROZEN pinned at candidates serialization (fail-closed gate-b)",
@@ -4537,11 +4537,13 @@
       "shards": [
         {
           "key": "screen-0of1",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/trial_labor_w11/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429 root-cause class fix)",
           "note": "single shard; worker_cap() parallelism inside the shard (W2-W10-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim",
           "owner": "bm-b",
-          "owner_since": "2026-09-30 00:53:30"
+          "owner_since": "2026-09-30 00:53:30",
+          "done_at": "2026-09-30 01:03:00",
+          "result_ref": "results/trial_labor_w11/checkpoint/screen_shard_0of1.jsonl (1,462/1,462 rows complete, cross-kill resume law)"
         }
       ],
       "worker_class": "self-contained",
@@ -4549,6 +4551,44 @@
         "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-SCREEN 2,214 cells ~7min wall at 12 workers; W11-SCREEN 1,462 cells = 1,262 distinct + 200 nulls; screen leg-L 6m full-history per cell, nine-gate face carried per cell)",
         "priority": "BelowNormal",
         "note": "hours-scale pool batch per prereg sec.0 (W9-SCREEN 2,715 cells ~8min; W10-SCREEN 2,214 ~7min; W11 1,462 lighter); checkpoint every 50 candidates per prereg sec.0; free RAM 7.3GB at arm > 4GB r354 three-sample ban threshold"
+      },
+      "done_at": "2026-09-30T01:03:00+08:00",
+      "result_ref": "results/trial_labor_w11/w11_screen.json + w11_screen_cells.csv (1,462/1,462 cells ckpt complete 01:03 runner pid14156 manual-tick ignition 00:53:27 r443 autofill lineage; finalize landed same round: distinct 1,262 + nulls 200, null p95_line 0.5148 IN prereg sec.5.2 band [0.50,0.52] (W1-W10 lineage 0.5116-0.5196 continuation), survivors 229/1,262 = 18.15%; RESEARCH FACT: STD segmented survival std10_hi 73/296 24.66% > none 121/688 17.59% > std20_hi 35/278 12.59% = first STD-axis screen enrichment face (positive 10-day / negative 20-day asymmetry, r237 probe drift note consistent); MOM continuation oversold 94/452 20.80% vs none 135/810 16.67% = 1.25x positive-axis (weaker than W10 1.88x); nine-gate interaction survival face computed; ledger live-head prev read + 1,462 = 350,018 linear append (pit-112 out-dict embed verified); judge-prep PASS same round; TRIAL-LABOR-W11-JUDGE pool entry submitted same commit (host_gates MSG-1305 wiring verified, lane_owner=bm-b)"
+    },
+    {
+      "id": "TRIAL-LABOR-W11-JUDGE",
+      "ticket_ref": "T-2026-09-29-123 WAVE-11 judge slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-b r441 whole-package adoption of the bm-c r237 STD candidate; runner slice-1 built bm-b r442 selftest 47/47 + r442-close fix-first lineage; GENERATE landed 23:48:32 n=1,262 adopted r443 (r240 law); SCREEN burned r443 00:53:27 pid14156 manual-tick ignition autofill lineage, finalize landed r443: null p95 0.5148 IN [0.50,0.52] band, survivors 229/1,262 = 18.15%; RESEARCH FACT: STD segmented enrichment std10_hi 24.66% > none 17.59% > std20_hi 12.59% (positive 10-day/negative 20-day asymmetry, first STD-axis screen face; MOM oversold 20.80% vs none 16.67% = 1.25x positive-axis continuation weaker than W10 1.88x))",
+      "prereg_ref": "research/TRIAL_LABOR_W11_PREREG.md FROZEN sec.0 TRIAL_LAB_W11_JUDGE (s3 full-judgment batch: batch_trials = screen survivors 229; dual nulls face; evidence_cutoff 2026-09-22 P-5C frozen binding; fourteen-tuple grammar sha16 128962592feeb8d3 == FROZEN pin; judged-supply declare window = eleven-source per prereg sec.0 ⑧)",
+      "runner": "scripts/trial_labor_w11.py",
+      "runner_args": [
+        "judge",
+        "--shard",
+        "0",
+        "--shards",
+        "1"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-30T01:07:00+08:00",
+      "entered_by": "bm-b r443",
+      "data_gates": "GATES ALL GREEN (direct-ready r443, W1-W10-JUDGE lineage): (1) TRIAL-LABOR-W11-SCREEN done -- w11_screen.json finalize r443 (1462/1462 cells, null p95 0.5148 IN band, survivors 229, ledger 350,018 linear append-verified); (2) judge-prep PASS -- manifest 48 members, census L/D == frozen, survivors 229, gate meta L/D all faces incl. STD meta 120-bar-warmup 128open/1383closed decidable 1511 std10-open 147; (3) grammar sha16 128962592feeb8d3 == FROZEN; (4) host_gates pit-103 MSG-1305: Money02 deep-panel ohlcv parquet non-empty verified at submission pre-flight (5383 parquet files)",
+      "consumer_plan": "TRIAL-LABOR-W11-JUDGE -> judge-finalize (lane-owner separate round work per W5-W10 precedent) -> w11_judge.json (nine-gate x mom/std interaction disclosure columns per sec.3 incl. STD x MOM adjacency audit column + W10 real-mom exclusion rows law; G1'v2/G2/DSR/PBO/E[FP] faces) + ledger TRIAL_LAB_W11_JUDGE row (live-head prev read, pit-112 out-dict embed law) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows + TRIAL-<FAMILY>-<NN> paper onboarding) -> 48h CEO report clock starts at judge landing (CEO-REPORT-WAVE11) + W12 prereg reference-band feed (screen null p95 0.5148 entered into lineage table)",
+      "shards": [
+        {
+          "key": "judge-0of1",
+          "status": "ready",
+          "checkpoint": "results/trial_labor_w11/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume; dir gitignored per r429)",
+          "note": "single shard; worker_cap() parallelism inside the shard (W8-W10-JUDGE same shape); dual nulls + deep-panel RAM r354 three-sample face",
+          "owner": "bm-b",
+          "owner_since": "2026-09-30 01:25:54"
+        }
+      ],
+      "worker_class": "self-contained",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors lighter; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grid beat vs passive + regime segments + dual nulls + descriptive faces)",
+        "priority": "BelowNormal",
+        "note": "hours-scale pool batch per prereg sec.0; RAM r354 three-sample gate (free RAM 6.2GB at arm > 4GB ban threshold); checkpoint every cell resume cross-kill"
       }
     }
   ],

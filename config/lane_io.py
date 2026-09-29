@@ -124,19 +124,60 @@ def mirror_shared(face, indent=1, machine=None):
     return write_lane(face, data, indent=indent, machine=machine)
 
 
+def _row_identity(r):
+    """Stable per-row identity for keyed-array union: append-only
+    ledger rows key on (batch, ts) (gate_attrition family); anything
+    else unions by full JSON value."""
+    if isinstance(r, dict) and ("batch" in r or "ts" in r):
+        return ("k", r.get("batch"), r.get("ts"))
+    return ("v", json.dumps(r, sort_keys=True, ensure_ascii=False))
+
+
+def _union_face_payload(prev, data):
+    """Lossless shared->lane union (r452 clobber #4 root fix):
+    the mirror must never drop rows that exist ONLY in the lane file
+    (T-101 line batches write the lane face only -- r240 lane-primary
+    law).  Base = the lane's own append-only ordering; rows whose key
+    also exists on the shared side take the shared (authoritative)
+    content in place; shared rows the lane lacks append at the tail;
+    scalar fields refresh from shared while lane-only fields survive.
+    This honors the function's documented 'union semantics' contract
+    that the former replace-with-shared implementation violated."""
+    merged = dict(prev)
+    for k, v in data.items():
+        if isinstance(v, list):
+            base = prev.get(k)
+            if not isinstance(base, list):
+                merged[k] = list(v)
+                continue
+            by_key = {_row_identity(r): r for r in v}
+            out = []
+            for r in base:
+                ik = _row_identity(r)
+                # same-key rows take the shared (authoritative) content
+                out.append(by_key.pop(ik) if ik in by_key else r)
+            out.extend(by_key.values())
+            merged[k] = out
+        else:
+            merged[k] = v
+    return merged
+
+
 def mirror_shared_if_changed(face, machine=None):
     """Every-round maintenance mirror for scattered-writer faces
     (gate_attrition / post_review_criteria): refresh the own-machine
     lane from the shared face ONLY when the semantic payload actually
     changed -- parsed-payload compare is formatting-agnostic, so the
     mixed indent conventions across the many one-off runner writers
-    never cause phantom churn.  A shared face mid-swallow simply
-    mirrors the stale state (union semantics keep every earlier
-    captured snapshot lossless for the reader; the victim's own lane
-    and git history stay the recovery paths).  Returns True when the
-    lane is up-to-date after the call (an unchanged skip counts as
-    up-to-date).  Fail-soft to stderr, never raises into the calling
-    S6 leg; a missing shared face is a quiet no-op, not a fault."""
+    never cause phantom churn.  The merge is a LOSSLESS union: rows
+    that exist only in the lane (lane-primary writers, r240 law) are
+    preserved in place, shared-known rows refresh to the shared
+    content, and shared rows missing from the lane append at the tail
+    -- a replace-with-shared rewrite is the r452 clobber #4 shape and
+    must never happen.  Returns True when the lane is up-to-date after
+    the call (an unchanged skip counts as up-to-date).  Fail-soft to
+    stderr, never raises into the calling S6 leg; a missing shared
+    face is a quiet no-op, not a fault."""
     if face not in _KNOWN_FACES:
         print(f"lane_io: unknown face {face!r} -- refuse (fail-closed)",
               file=sys.stderr)
@@ -167,6 +208,10 @@ def mirror_shared_if_changed(face, machine=None):
                 prev.pop("lane_machine", None)
                 if prev == data:
                     return True  # unchanged -- churn-free skip
+                merged = _union_face_payload(prev, data)
+                if merged == prev:
+                    return True  # union result identical -- churn-free skip
+                return write_lane(face, merged, machine=machine)
         except Exception:
             pass  # corrupt lane -> rewrite from shared below
     return write_lane(face, data, machine=machine)
@@ -341,6 +386,75 @@ def _selftest():
                      li.shared_derive_write_allowed(
                          "results/__fam/*", verbose=False) is False))
         li.C_SINGLE_WRITER_HOSTS = {face: "bm-z"}
+
+        # --- r452 union-mirror legs (clobber #4 root fix, hermetic tmp disk)
+        import shutil
+        import tempfile
+        import types
+        li.machine_id = lambda: "bm-z"
+        saved_paths, saved_lane = li.PATHS, li.lane_path
+        tmpd = tempfile.mkdtemp(prefix="laneio_r452_")
+        li.PATHS = types.SimpleNamespace(results_dir=tmpd)
+        li.lane_path = (lambda f, machine=None:
+                        os.path.join(tmpd, f"{f}.lane-{machine or 'bm-z'}.json"))
+        uface = "gate_attrition"  # known-face gate must pass
+        r1 = {"batch": "B1", "ts": "t1", "v": 1}
+        r2 = {"batch": "B2", "ts": "t2", "v": 2}
+        r3u = {"batch": "T-101-V4-A14-UNION", "ts": "t3u", "v": 3}
+        r4 = {"batch": "B4", "ts": "t4", "v": 4}
+        shared = {"schema": "s", "entries": [r1, r2], "history": [r1]}
+        lane0 = {"schema": "s", "entries": [r1, r2, r3u],
+                 "history": [r1], "lane_machine": "bm-z"}
+        with open(os.path.join(tmpd, uface + ".json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump(shared, fh)
+        with open(li.lane_path(uface), "w", encoding="utf-8") as fh:
+            json.dump(lane0, fh)
+        writes = {"n": 0}
+        _real_write = li.write_lane
+
+        def _count_write(f, data, indent=1, machine=None):
+            writes["n"] += 1
+            return _real_write(f, data, indent=indent, machine=machine)
+
+        li.write_lane = _count_write
+        # LU1 lane-unique row survives the mirror (old code clobbered to 2)
+        ok1 = li.mirror_shared_if_changed(uface)
+        lu1 = json.load(open(li.lane_path(uface), encoding="utf-8"))
+        legs.append(("union-lane-unique-preserved",
+                     ok1 is True and len(lu1["entries"]) == 3
+                     and any(r["batch"] == "T-101-V4-A14-UNION"
+                             for r in lu1["entries"])))
+        # LU2 churn-free: converged union == lane -> no write
+        n0 = writes["n"]
+        legs.append(("union-churn-free-skip",
+                     li.mirror_shared_if_changed(uface) is True
+                     and writes["n"] == n0))
+        # LU3 shared-new row appends at the tail
+        shared["entries"] = [r1, r2, r4]
+        with open(os.path.join(tmpd, uface + ".json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump(shared, fh)
+        li.mirror_shared_if_changed(uface)
+        lu3 = json.load(open(li.lane_path(uface), encoding="utf-8"))
+        legs.append(("union-shared-new-appended",
+                     len(lu3["entries"]) == 4
+                     and lu3["entries"][-1]["batch"] == "B4"))
+        # LU4 same-key row refreshes to the shared (authoritative) content
+        shared["entries"] = [{"batch": "B1", "ts": "t1", "v": 99}, r2, r4]
+        with open(os.path.join(tmpd, uface + ".json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump(shared, fh)
+        li.mirror_shared_if_changed(uface)
+        lu4 = json.load(open(li.lane_path(uface), encoding="utf-8"))
+        legs.append(("union-same-key-shared-authoritative",
+                     next(r for r in lu4["entries"]
+                          if r["batch"] == "B1")["v"] == 99
+                     and len(lu4["entries"]) == 4))
+        li.write_lane = _real_write
+        shutil.rmtree(tmpd, ignore_errors=True)
+        li.PATHS, li.lane_path = saved_paths, saved_lane
+
         ok = sum(1 for _, r in legs if r)
         for name, r in legs:
             print(f"  [{'PASS' if r else 'FAIL'}] {name}")
