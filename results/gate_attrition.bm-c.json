@@ -10681,6 +10681,78 @@
     "intake": "results/trial_labor_w6/w6_intake.json (zero-face n_eligible=0)",
     "ticket": "T-2026-09-29-117"
    }
+  },
+  {
+   "batch": "TRIAL_LAB_W7_SCREEN",
+   "ts": "2026-09-29 10:59:31",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 3904,
+   "ledger_total_after": 337336,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 3704,
+     "n_survivors": 284,
+     "line": "beat6m_rate > null_p95 strictly-greater (null_p95=0.5180, prereg sec.3 frozen)"
+    },
+    "null_face": {
+     "p50": 0.51,
+     "p95": 0.518,
+     "n": 200,
+     "note": "K=200 ten-tuple axis nulls with streak leg, seed 20305500; p50 0.51 > 0.50 = null-bottom prediction miss second consecutive wave (W6 0.5036 -> W7 0.51), disclosed honestly; screen survival line = program-frozen null p95 (W2-W6 identical law)"
+    },
+    "streak_face": {
+     "segmented_survival": "down_streak2 9.34% (102/1092) > none 7.95% (103/1296) > up_streak2 6.00% (79/1316)",
+     "top_interaction_cell": "none|wild|none|volume_dry|down_streak2 35% (7/20)",
+     "note": "STREAK new-face direction intel: reversal-confirmation (buy after 2 down bars) enriches screen survival vs momentum-confirmation, same direction as in-book reversal anchors (T-22/T-73/O-2330); judge face all-zero G1 in all streak segments"
+    }
+   },
+   "eliminated": 3420,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W7_PREREG.md",
+    "results": "results/trial_labor_w7/w7_screen.json",
+    "ticket": "T-2026-09-29-118"
+   },
+   "note": "r422 bm-b backfill (T-119 drift-debt face #3): attrition row missed at r421 screen-finalize landing window; original event ts preserved; numbers true-source = results/trial_labor_w7/w7_screen.json read-only (no re-burn); receipt = TRIAL_LABOR_W7_PREREG sec.8"
+  },
+  {
+   "batch": "TRIAL_LAB_W7_JUDGE",
+   "ts": "2026-09-29 11:42:55",
+   "kind": "judgment",
+   "retro_fill": false,
+   "cells_ledger_delta": 284,
+   "ledger_total_after": 337620,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 284,
+     "n_pass": 0,
+     "line": "skill_line_v2 per-cell (ledger_head live read); top cell W7-B-0809 pullback_bounce sharpe_full=0.9533 vs line=1.1930 (n_eff=341240) -- line_ok false; five-face total zero (gate/vol/yang/vconf/streak all segments 0)"
+    },
+    "g2_registration_v2": {
+     "n_eligible": 0,
+     "top_dsr": 0.748135,
+     "n_trials": 337336,
+     "line": "G1 pass AND DSR>=0.95 AND PBO<=0.25"
+    },
+    "e_fp_nominal_5pct": 14.2,
+    "family_pbo": {
+     "folk": 0.8286,
+     "seasonal": 0.8286,
+     "patterns": 0.6571,
+     "ta": 0.6,
+     "mean_reversion": 0.5429,
+     "momentum": 0.4857,
+     "trend": 0.4429,
+     "composite_rotation": "insufficient (<8 cells)"
+    }
+   },
+   "eliminated": 284,
+   "refs": {
+    "prereg": "research/TRIAL_LABOR_W7_PREREG.md",
+    "results": "results/trial_labor_w7/w7_judge.json",
+    "intake": "results/trial_labor_w7/w7_intake.json (zero-face n_eligible=0)",
+    "ticket": "T-2026-09-29-118"
+   }
   }
  ],
  "lane_machine": "bm-c"
