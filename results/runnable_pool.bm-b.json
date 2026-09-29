@@ -9,8 +9,8 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-29 12:56:20",
- "_stamp_note": "r425 bm-b: TRIAL-LABOR-W8-GENERATE submitted (runner slice-1 + w8_grammar.json sha16=282c3290d1b431bc pre-positioned same commit per pit-90; lane_owner=bm-b per pit-103 terminal gate + freeze-time correction)",
+ "updated_at": "2026-09-29 13:42",
+ "_stamp_note": "r427 bm-b conflict-union with bm-c r219 (rebase replay 5b1bab03e onto 7f564efb1): pool-entry-done-union r312 [W8-GENERATE done absorbs bm-b harvest record; bm-c yield_note carried zero-loss; W8-SCREEN one-side keep] + audit rolling-ledger union; entries=115",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -4098,16 +4098,19 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-29 12:56:20",
    "data_gates": "in-runner fail-closed exit 2: (a) w8_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 282c3290d1b431bc -> refuse; (c) G-VOL raw face + G-YANG raw face + G-VCONF raw face + G-STREAK raw face + G-TSTATE raw face anchors (mad60 178/3305/383 + rsv60 59/3424/632 + six-gate 64-cell 44/20 + extreme days) -> refuse; (d) RAM gate three-sample >=4GB in-runner r354 law",
    "shards": [
     {
      "key": "generate-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/trial_labor_w8/w8_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
      "owner": "bm-b",
-     "owner_since": "2026-09-29 13:30:04"
+     "owner_since": "2026-09-29 13:30:04",
+     "yield_note": "released by bm-c r219 2026-09-29 13:4x round: lane_owner=bm-b per W8 freeze (pit-103 terminal gate + MSG-1230 correction); bm-c autofill last_tick claim_lost_yield 13:26:02; stale crash-round claim (owner_since 13:20:50) cleared for bm-b immediate claim; canonical runner = bm-b r425 e3fcbde54 sha16 282c3290d1b431bc (bm-c duplicate build dropped per anti-rebuild law)",
+     "done_at": "2026-09-29T13:40:06+08:00",
+     "note": "harvest r427 bm-b done-flip"
     }
    ],
    "entered_by": "bm-b",
@@ -4116,7 +4119,46 @@
     "workers": 1,
     "priority": "BelowNormal",
     "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE ~2min; W5 ~7min n=3926; W6 n=3952; W7 ~10min n=3704); W8 n~5000 raw draws, 16-source exclusion face; single-process deterministic pre-burn stage (Sobol streams + dedup face), zero engine cells burned"
-   }
+   },
+   "done_at": "2026-09-29T13:40:06+08:00",
+   "result_ref": "results/trial_labor_w8/w8_candidates.json",
+   "done_note": "r427 bm-b harvest: autofill launch 13:30:01 pid10608 -> w8_candidates.json landed 13:40:06 (single-shot completion marker, refuse-if-exists guard honored; pid exited clean post-rename ~13:57); n=2834 (raw 5,000 A500/B4500 -> dedup -> 2,834 distinct, below the '>=3,000' prereg sec.0 estimate -- honest, 11-tuple axis space raises fingerprint collisions; tstate faces {deep_pullback 684, none 1304, oversold_rsv 846}); grammar sha16 282c3290d1b431bc == FROZEN verified at harvest (gate-b); 16-source exclusion face real-read hits A=0/B=0 (tstate=none-only exclusion face; new-syntax tstate faces legal-by-construction); TRIAL_GRAMMAR_LEDGER wave-8 row appended same-run; evidence_cutoff 2026-09-22"
+  },
+  {
+   "id": "TRIAL-LABOR-W8-SCREEN",
+   "ticket_ref": "T-2026-09-29-120 WAVE-8 screen slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-b r424 draft-author same-machine next-round freeze per r423 next-pointer; SEED berths 20306500/20307000/20307500 held same-commit R250 one-step; freeze-time correction MSG-20260929-1230-bmc-bmb sec.6 pool routing lane_owner=bm-b SCREEN+JUDGE; runner slice-1 built bm-b r425; GENERATE landed r427 harvest commit (autofill 13:30:01 pid10608 -> n=2834 13:40:06 + TRIAL_GRAMMAR_LEDGER wave-8 row))",
+   "prereg_ref": "research/TRIAL_LABOR_W8_PREREG.md FROZEN sec.0 TRIAL_LAB_W8_SCREEN (s2 cheap initial screen batch: batch_trials = 2,834 distinct + 200 nulls = 3,034 cells at 1 trial/cell; raw 5,000 -> dedup 2,834 honest below the >=3,000 sec.0 estimate; evidence_cutoff 2026-09-22 P-5C frozen binding on both batches; eleven-tuple grammar sha16 282c3290d1b431bc == FROZEN)",
+   "runner": "scripts/trial_labor_w8.py",
+   "runner_args": [
+    "screen",
+    "--shard",
+    "0",
+    "--shards",
+    "1"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-29 13:42",
+   "data_gates": "GATES ALL GREEN (direct-ready r427, W1-W7-SCREEN lineage): (1) TRIAL-LABOR-W8-GENERATE done -- landed 13:40:06 w8_candidates.json n=2834 single-shot completion marker in-repo this commit (refuse-if-exists guard); (2) screen-prep PASS -- results/trial_labor_w8/prep_state.json bm-b r427 13:41:28: panel 48/48, anchors 6/6 faithful (grammar_replay IS/OOS == frozen), census {6m 1253, 12m 1127, 24m 875} == frozen, starts 1253, passive 6m precomputed, gate na-window 199 bars, G-VOL 594calm/518wild first-valid 519, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19, G-STREAK 384up/389down/856neither warmup 2, G-TSTATE mad60 188true/1453decidable warmup 178 + rsv60 332true/1572decidable warmup 59; (3) grammar sha16 282c3290d1b431bc == FROZEN pinned at candidates serialization (fail-closed gate-b)",
+   "shards": [
+    {
+     "key": "screen-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w8/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law)",
+     "note": "single shard; worker_cap() parallelism inside the shard (W2-W7-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim",
+     "owner": "bm-b",
+     "owner_since": "2026-09-29 13:50:04"
+    }
+   ],
+   "entered_by": "bm-b r427",
+   "worker_class": "self-contained",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W6-SCREEN 4,152 cells; W7-SCREEN 3,904 cells)",
+    "priority": "BelowNormal",
+    "note": "W8 3,034 cells (2,834 distinct + 200 nulls) est minutes-level pool batch; per-cell jsonl checkpoint cross-kill resume (W1 law); 50-candidate checkpoint cadence per prereg sec.0"
+   },
+   "consumer_plan": "TRIAL-LABOR-W8-SCREEN -> screen-finalize (lane-owner separate round work per W5/W6/W7 precedent) -> w8_screen.json + w8_screen_cells.csv + null p95 (W1-W7 lineage 0.5116-0.5196 reference band) + TRIAL_GRAMMAR_LEDGER TRIAL_LAB_W8_SCREEN trials row -> TRIAL-LABOR-W8-JUDGE entry next (judge-prep + RAM r354 three-sample gate + serial-position face = zero in-flight judge faces ahead + host_gates MSG-1305 wiring per pit-103: dir_nonempty Money02/data/cache/t18_deep_panel/ohlcv *.parquet 48 files verified non-empty r427 pre-flight) -> judged verdict face w8_judge.json -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows) -> 48h CEO report clock starts at judge landing"
   }
  ],
  "lane_machine": "bm-b"
