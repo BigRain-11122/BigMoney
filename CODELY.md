@@ -7,6 +7,8 @@
 - 冷层指针：坑律一百零四批（宣称-树实不符律·r216 bm-c）全文 verbatim=archive 202609.md『坑律归档 2026-09-29 r220 bm-c 窗批』节。
 - 冷层指针：坑律一百零五批（r427 bm-a·S0 脏树三步抢救律）+一百零五批二支（r425 bm-b·prereg 散文与冻结锚冲突律·与 r427 同号双载如实）+一百零六批（r426 bm-b·rebase continue 误导态三联）+一百零七批（r219 bm-c·S0 三步法非快进变体）+一百零八批（r220 bm-c·stash 窗活写者三基算术）+W8 泊位起草与预测重校律（r423 bm-b）全文 verbatim=archive 202609.md『坑律归档 2026-09-29 r221 bm-c 窗批』节（水位 10,708B 超 ≤10KB 硬线当窗即办·行级零丢失校验）。
 - 冷层指针：IntradayMarks 交易日门控常设（D-20260929-04·r429 bm-a）全文 verbatim=archive 202609.md同节。
+- [2026-09-29 15:4x r430 bm-b] W8 时序态门波收口（0 录用照报不翻案·408 judged·六面全零 G1·账本 341,063 linear·intake lawful-zero·prereg §7/§8 一次定稿·CEO-REPORT-WAVE8 同轮提前 ~47.8h·池 116/116 done·T-120 done）：**研究事实=TSTATE deep_pullback 初筛富集 20.03%（137/684·1.80× vs none 11.12%）=八波最强单面富集**，与 census t=+2.255/+2.201 主证及 W7 连跌富集构成「连跌确认→位置深度确认」同向深化链；判决面 tstate 三段零 G1=富集≠注册级增量（捞底/飞刀两向殉死·期限错位弱锚如实）。W9 供给=AMP 振幅门候选架（转泊件在册任何健康机可起草）。指针：research/TRIAL_LABOR_W8_PREREG.md §7/§8·docs/trial_labor/CEO-REPORT-WAVE8-20260929.md·results/gate_attrition.json 21 行。
+
 ### Reference
 冷层指针（09-29 r426 bm-b 水位整编·r173 范式合并行·七行 verbatim 迁 archive 202609.md『指针合并归档 2026-09-29 r426 bm-b 窗批』节·零删改）：坑律正典 2026-09-28 各窗老批（二十五~五十七/五十八/晚窗/补/六十~六十九等）+2026-09-29 七十~一百零一批全段+四窗批合并行（r407/r403/r406/r193）+八十一~九十六批全段各指针行全文 verbatim=archive 对应『坑律归档 2026-09-28 <各节>』『坑律归档 2026-09-29 <窗批>』节（本轮 CODELY.md 10,279B 超 ≤10KB 硬线触发当窗即办·行级零丢失校验）。
 冷层指针（09-29 r427 bm-a 水位整编·r173 范式合并行·两行 verbatim 迁 archive 202609.md『坑律归档 2026-09-29 r427 bm-a 窗批』节·零删改）：坑律正典 2026-09-29 一百零二批（r426 bm-a·S0 rebase 队列构成诊断律·线性 rebase 静默丢未推 merge commit 坑）+一百零三批（r215 bm-c addendum 更新版·池条目 lane_owner 缺失死手窗+跨机数据面断言必查传输史）全文 verbatim=archive 对应节。

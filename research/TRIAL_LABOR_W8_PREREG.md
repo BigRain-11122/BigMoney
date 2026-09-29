@@ -77,7 +77,19 @@
 
 （一次定稿；工程修复重跑双跑留痕如实账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
 
+**【2026-09-29 15:37 一次定稿回填·bm-b r430（W8 判决面 owner）·数字真值源=results/trial_labor_w8/*.json】**
+
+- **漏斗**：raw 5,000 → distinct **2,834**（缩率 43.3%）→ 初筛 3,034 格（+200 null）→ 存活 **408**（14.40%）→ 全量判决 408 格 → **G1' 0/408·G2 0·上岗 0**（zero-face intake n_eligible=0）。账本 337,620+3,034=**340,654**（SCREEN 收官）→〔bm-a T-101-V4-A2-CORRSOURCE 块 +1=340,655 插花如实披露〕→ +408=**341,063**（JUDGE 收官·活链头活读一致）。
+- **判决面**：六面全段零 G1（gate/vol/yang/vconf/streak/tstate 每段 n_g1_pass=0）；最佳格 W8-B-2704（patterns·红三兵 three_soldiers）全期 Sharpe **0.9533** vs 技能线 **1.1933**（N_eff=343,688）→ line_ok=false；其 DSR=0.6858（n_trials=340,655）+族 PBO 0.7143>0.25 双不过=三重不过；全批最高 DSR=0.6858（未过 G1'·不构成任何注册面）。E[FP]=0.05×408=**20.4** 如实披露；族 PBO：trend 0.9286（36 格）最紧·momentum 0.8571·ta 0.7571·patterns/seasonal 0.7143 高企·macro 0.3714（9 格）最松。
+- **TSTATE 面方向读数（初筛面·零判据权重·本波真问题）**：deep_pullback（MAD60_q10 深回撤门）**20.03%**（137/684）> oversold_rsv（RSV60<0.2 超卖门）**14.89%**（126/846）> none **11.12%**（145/1,304）——**TSTATE 门初筛富集成立（deep 1.80× vs none·rsv 1.34×）**：「跌深了才敢接」捞底派口诀初筛面富集成立，与普查主证（20 日前瞻 t=+2.255/+2.201 LONG 先验）及 W7 down_streak 富集（连跌确认→位置深度确认）同向深化；判决面 tstate 三段全零 G1=富集不构成注册级增量；期限错位（普查 20 日 vs 引擎 6m）弱锚如实。六门交互最富集 n≥5 格：none×wild×none×volume_surge×none×oversold_rsv 与 none×none×none×volume_dry×none×deep_pullback **83.3%**（5/6）·前六名五格带 tstate 腿。飞刀派（判决面）同殉=两向殉死如实。
+- **§5 预测对账五条**：①distinct 2,834∈[2,800,4,600] ✓（缩率 43.3%∈[8%,44%] ✓ 带上沿——tstate 2/3 新空间+排除簿拦截摊低跨波重复如实）②null 中位 0.5116∈重校带 [0.50,0.52] ✓（第三波 >0.50：0.5036→0.51→0.5116 漂移带内延续·判线=程序冻结 p95 不受影响）；p95 0.5156∈[0.42,0.62] ✓（八波带 0.5116-0.5196 内）；存活率 14.40%∈[2%,15%] ✓；存活 408∈[100,750] ✓（带上沿：TSTATE 格结构性下修预期未兑现=反向富集如实）③G1' 0∈[0,60] ✓ ④G2 模态零 ✓（**九波全中**：W1/MASS/W2-W8）⑤TSTATE 方向先验：deep>none 初筛富集与普查主证+W7 锚同向 ✓（判决面全灭如实·富集≠注册级增量）。
+- **CEO 呈报**：docs/trial_labor/CEO-REPORT-WAVE8-20260929.md（判决落地 15:26:25 → 48h 窗止 **2026-10-01 15:26:25**·同轮提前落地）。
+
+
 ## §8 批后复盘。【必填 §7-T。】
+
+**【回执 2026-09-29 bm-b r430】**W8 attrition 损耗账两行（TRIAL_LAB_W8_SCREEN+TRIAL_LAB_W8_JUDGE）已追加 results/gate_attrition.json+gate_attrition.bm-b.json（判线 v2 当批读数随行·r429 SCREEN 收官轮漏 attrition 行本轮一并收口=T-119 drift-debt 同族范式·retro_fill=false 原事件 ts 保留）；轮报告+CODELY.md 行级追加同轮；零新注册员（无 SIGNAL_BUILDERS 接线面）；判决面结果 48h 内 CEO 呈报=同轮落地（见 §7 指针）。**工程修复留痕**：SCREEN 面 r428 崩溃 fix-first→r429 复跑 burn complete+finalize LANDED；JUDGE 面 autofill r199 launch-claim 点火 15:01:17→judge-finalize 15:26:25 落地 exit 0 零死手（pit-111 makedirs+gitignore checkpoint 双修在飞实证）；池条目 TRIAL-LABOR-W8-JUDGE ready→done 本轮翻面；波级票 T-120 done 翻面带 result_ref。**下一波供给**：W9 候选架=AMP 振幅门（research/TRIAL_LABOR_W8_CANDIDATE_AMP_PREREG_DRAFT.md 转泊·任何健康机可认领起草）；W9 prereg null 底参照=W8 p50 0.5116/p95 0.5156（漂移带 [0.50,0.52] 三波延续如实携带）；W1-W5 §7 未回填漂移债仍在册（W6 §8 已记·待开片收口不在本波义务内）。
+
 
 （预测对账门禁链损耗账 results/gate_attrition.json 追加行·判线 v2 当批读数·回执入轮报告+CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff+live/paper SIGNAL_BUILDERS 接线+smoke 锚定门复跑；判决面结果 48h 内呈 CEO。）
 

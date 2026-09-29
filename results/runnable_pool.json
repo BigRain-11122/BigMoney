@@ -4178,7 +4178,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-09-29T14:35:03+08:00",
    "entered_by": "bm-b r429",
    "data_gates": "READY (all entry-time deps MET r429 bm-b): (1) serial-position face: live-read 14:3x zero in-flight judge faces (W1-W7 + MASS all done); (2) judge-prep PASS r429: manifest 48 members, census L/D == frozen, survivors 408, gate meta vol 519/519 yang zero-warmup 819/812 vconf 19-bar 784/828 streak 2-bar 384/389/856neither tstate mad60 178-warmup 188true/1453decidable + rsv60 59-warmup 332true/1572decidable -> judge_state.json; (3) RAM r354 three-sample PASS 12.21/12.35/12.35 GB (in-runner bounded wait 40min r379 law as backstop); (4) host_gates pit-103: Money02/data/cache/t18_deep_panel/ohlcv 48/48 parquet non-empty verified 14:3x",
@@ -4196,7 +4196,10 @@
     "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W7-JUDGE 284 survivors ~10min; W8 408 cells est similar scale)",
     "priority": "BelowNormal",
     "note": "per-cell jsonl checkpoint cross-kill resume (W1 law); RAM-gated serial face; est minutes-to-tens-of-minutes pool batch"
-   }
+   },
+   "done_at": "2026-09-29 15:26:25",
+   "result_ref": "results/trial_labor_w8/w8_judge.json",
+   "done_note": "judge-finalize landed 15:26:25 exit 0 (autofill r199 launch-claim fired 15:01:17; 408/408 judged cells, zero G1, zero G2 eligible, E[FP]=20.4); intake s4 lawful-zero w8_intake.json r430; attrition W8 two rows r430; prereg sec.7/sec.8 backfilled r430; 48h CEO report docs/trial_labor/CEO-REPORT-WAVE8-20260929.md same round; wave ticket T-120 done r430; W9 next-wave supply = AMP candidate frame parked"
   }
  ]
 }
