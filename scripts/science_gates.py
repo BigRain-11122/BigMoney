@@ -1302,6 +1302,9 @@ SEED_REGISTRY = {
         # (rng([20307000, i]), i<200) per BACKTEST_PLAN three-iron-laws
         # (tstate gate leg merged into same-grid same-param-space draw)
         "trial_labor_w8_unc": 20307500,
+        # T-101-V4-A2-PRESCREEN (r433 bm-a; take-number law: 101-key
+        # inventory zero-conflict checked 2026-09-29 15:0x before freeze):
+        "t101_v4_a2_scrnull": 20308000,  # same-mask circular-shift nulls K=200/cell
         # W8 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20307500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
