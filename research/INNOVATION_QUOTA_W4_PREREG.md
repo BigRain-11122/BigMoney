@@ -59,10 +59,27 @@
 
 ## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假。】
 
-（空——收编机冻结后跑批回填。）
+- **判决=0/3 全 G1' v2 FAIL → 族关单（judged-negative·s5）**。三格全期 Sharpe：SLOW100-V **−0.208**／SLOW45-V **−0.2734**／SLOW100-UPPER **+0.1728** vs 判线 **0.4394**（passive_term 0.4394 主导=批窗活算 passive 0.3394+0.10·passive_source=batch_own_per_cell·r445/A12 律兑现；null_term 0.2748/0.2632/0.1960 次之）；bootstrap CI95 三格全含零 [−0.7234,+0.3487]/[−0.8025,+0.2804]/[−0.3540,+0.7126]；DSR **0.0/0.0/2.8e-05** 全远离 0.95；N_eff=352,021；家族 PBO **0.0**（register_eligible 带·UPPER 全 70 组合 OOS rank 1）——G1 全灭即无 G2 资格面·g2_eligible 0/3。
+- 交易级 KPI（O-1524 主读数）：SLOW100-V 48.00%/+2.9bp/1.123（550 回合）·SLOW45-V 47.15%/+1.2bp/1.138（596）·UPPER 47.58%/**+23.1bp**/1.481（330）——单回合期望微正但全窗输被动持有（passive 510300-BH 批窗 Sharpe 0.3394·年化 +5.20%·maxdd −46.31%）；vs-passive-same-days 面结构性 −entry-cost（W1 lineage 披露保留）。
+- 虚拟起点 beat 率（6m/12m/24m）：SLOW100-V 0.265/0.164/**0.043**·SLOW45-V 0.290/0.271/0.131·UPPER 0.414/0.364/0.288——24m 三格全 <0.5。
+- 100 分窗同号率：SLOW100-V **0.75**（<0.80 分段不稳）·SLOW45-V 0.92·UPPER 1.00·passive 0.92。
+- 空仓日面：mid 带空仓日 1,107/1,191/2,281 日（持仓占比 67.2%/65.5%/**32.4%**）——按年近均匀（24-113 日/年）·2018 熊+2024 震荡合计 13.7%（SLOW100-V 152/1,107）≪40%。
+- 极端日面：gate 结构性开在危机日（volume spike=overheat 连续性·#96 状态机即出场·无止损线冻结面兑现）——2015-07-27（drought·pos 1.0）与 2016-01-04（overheat·pos 0.0）在场直吃；三格 maxdd −64.77%/−64.48%/−43.46% 全 ≥0.8×passive（−37.05%）；最差日 2015-07-08 −10.01%/最佳 2015-07-09 +9.99%。
+- null 面：μ_null **−0.5187/−0.5646/−0.9326**（σ 0.157/0.1638/0.2233）深负——随机日置碎片化成本拖累=§3 冻结披露兑现（孤立日 2 翻面·UPPER 持仓 32.4%→成本占比最深）；null 族保暴露毁量能结构。
+- D6：对在册 6 CE 成员 max|corr| 0.3028/0.271/0.1828 全 <0.7 零拒收；批内 cross SLOW100-V|SLOW45-V 0.824（慢线双腿近同读数=族内冗余披露非注册面）；近邻警告面如实=VCONF 512 格描述面（overlap 48.4%·非在烧轴）+W4-TRIAL-LABOR VOL calm/wild（return-std 政体分箱·测量对象不同·overlap 42.6/46.7%）+REGIME_GUARD（状态机非量能读数）。
+- 账本：append_ledger("VOLREGIME_TIMING_P1") prev **350,018 → +2,003 → 352,021** 线性无重置（ledger_head w11_screen.json 活读一致）；attrition 行 entries-face 01:50:57 已落（cells_ledger_delta 2003·g1 0/3·g2 0/3·pbo 0.0 register_eligible）；evidence_cutoff=2026-09-22 顶层键在位；seed 基 SEED_REGISTRY[`innovation_quota_w4_volregime`]=**20322000**（130 键注册面 import 复验一致·r445 声明=实跑）；runner sha256 `869c1097ce0091b8` 与 autofill 点火记录及在树件三方逐位一致（r245 锚表修正版首烧·r450 单射守卫在位零重复烧）。
 
 ## §8 批后复盘。【必填 §7-T。】
 
-（空——判决面落地后回填。）
+**复盘（2026-09-30 01:5x-02:0x r246 bm-c adopt-verify-close）**：
+- 预测 1 **部分对**：UPPER 四面全居首（Sharpe +0.1728·beat_12m 0.364·回合期望 +23.1bp·盈亏比 1.481）=V 型上界腿方向信息保留✓；但 V 腿序反——beat_12m SLOW45-V 0.271 **>** SLOW100-V 0.164（预测 SLOW100-V≥SLOW45-V ✗·Sharpe 面序反而合预测 −0.208>−0.2734）；「UPPER 独过线」条款未触发（0/3）。
+- 预测 2 **对且强化**：judged-negative 主通道兑现（0/3 全 G1 FAIL——配额线 W1/W2/W3 → W4 四连判负面延续）。
+- 预测 3 **错**：空仓日按年近均匀非政体集中（2018+2024 合计 13.7% ≪ 40%）——量能 mid 带「趋势不明期」信息面假设不成立·空仓日无政体信息。
+- 预测 4 **错**（持仓占比落带 ✓ 67.2/65.5/32.4 vs 预测 0.64-0.67/~32%）：μ_null 非 passive×暴露缩放而是碎片化成本拖累深负（−0.519/−0.565/−0.933——§3 冻结披露面兑现并压倒暴露缩放效应）；判线 **passive 项主导**（0.4394 > null_term 0.196-0.275）非预测的 null 项主导。
+- 预测 5 **对**：三格 maxdd 全 ≥0.8×passive（−64.8/−64.5/−43.5 vs 阈 −37.05）；2015-07-27/2016-01-04 危机日 gate 开放直吃。
+- 损耗账：attrition 行已落（cells_ledger_delta 2003·ledger_total_after 352,021·g1_pass 0/3·g2_eligible 0/3·family_pbo 0.0 register_eligible）；判线读数=line 0.4394（N_eff 352,021·passive_term 主导）。
+- **族关单+重开注记（RANDOM_LARGE_SAMPLE_LAW §5）**：同方法同参数禁重跑；新证据通道=①非 HMA 量能矩读数面（量比/OBV/ATR 归一 z——HMA 双平滑时滞同 W3 主死因族）②UPPER 上界腿独立新 prereg 大考（本批最强腿但 beat_24m 0.288<0.5·非候选·仅方向注记）③日内/更高频量能矩（EOD 面时滞不可检）。无新证据=族保持关单。
+- 无 G2 过格 → T-34 登记面不开票；funnel 双列定稿：**收割 1 族（zoo #96 volume_regime_bimodal·配额线首个量能原生择时面）vs 过闸 0/3**。
+- 泊位关闭：INNOVATION-QUOTA-SLOT-4 ready→done（r246 翻面·SLOT-1/2 前例）——autofill 复发 churn 由翻面止损；回执入轮报告+CODELY.md 行级指针；48h CEO 呈报面起计 2026-09-30 01:50（本轮回执面承载·到期 2026-10-02 01:50）。
 
 — bm-c r243 泊位落地 → **r244 bm-c 收编冻结收口（r240 死 tick 接续律：00:5x 冻结窗死于半程零 commit·01:1x 收编轮 adopt-verify-close·三步律全量重验全绿零翻案）**；泊位条款关闭·runner 步开放=任何健康机（lane_owner=null·镜像 W3 同族骨架）。

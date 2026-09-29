@@ -97,6 +97,54 @@
    "shard": "judge-0of1",
    "machine": "bm-c",
    "last_refusal_ts": "2026-09-29 11:50:05"
+  },
+  "scripts/trial_labor_w8.py|judge,--shard,0,--shards,1": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "dd57c39cfc597825",
+   "last_crash_ts": "2026-09-29 15:30:04",
+   "entry": "TRIAL-LABOR-W8-JUDGE",
+   "shard": "judge-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-09-29 15:30:04"
+  },
+  "scripts/trial_labor_w9.py|judge,--shard,0,--shards,1": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "b3d1a8d5dbb022a0",
+   "last_crash_ts": "2026-09-29 17:50:03",
+   "entry": "TRIAL-LABOR-W9-JUDGE",
+   "shard": "judge-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-09-29 17:50:03"
+  },
+  "scripts/trial_labor_w10.py|judge,--shard,0,--shards,1": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "31b23b9f33be2756",
+   "last_crash_ts": "2026-09-29 20:40:03",
+   "entry": "TRIAL-LABOR-W10-JUDGE",
+   "shard": "judge-0of1",
+   "machine": "bm-b"
+  },
+  "scripts/trial_labor_w11.py|generate": {
+   "count": 1,
+   "refusals": 4,
+   "code_sha256": "f70e23d009984930",
+   "last_crash_ts": "2026-09-30 00:10:03",
+   "entry": "TRIAL-LABOR-W11-GENERATE",
+   "shard": "generate-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-09-30 00:40:04"
+  },
+  "scripts/innovation_quota_w4.py|run": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "c6ab71181c82538c",
+   "last_crash_ts": "2026-09-30 02:06:34",
+   "entry": "INNOVATION-QUOTA-SLOT-4",
+   "shard": "main",
+   "machine": "bm-c"
   }
  },
  "cleared": {
@@ -141,6 +189,27 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "59cbcfaac9c30fd6"
+  },
+  "scripts/trial_labor_w8.py|screen,--shard,0,--shards,1": {
+   "cleared_ts": "2026-09-29 14:26:25",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "22105dcfb4dab968"
+  },
+  "scripts/trial_labor_w11.py|generate": {
+   "cleared_ts": "2026-09-29 23:36:19",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "e8185934380e0d33"
+  },
+  "scripts/trial_labor_w11.py|judge,--shard,0,--shards,1": {
+   "cleared_ts": "2026-09-30 01:25:54",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "f70e23d009984930"
   }
  },
  "lane_machine": "bm-c"
