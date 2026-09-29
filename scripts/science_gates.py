@@ -1546,6 +1546,34 @@ SEED_REGISTRY = {
         # (bm-a r456) stays clear of this base by construction
         "innovation_quota_w7_nlnl": 20325000,
 
+        # TRIAL_LABOR_W13 SUMN up-purity gate (sumn20_lo/sumn10_lo
+        # down-share-of-absolute-amplitude low-quantile window,
+        # three-value axis per W4 VOL / W11 STD / W12 RSQR precedent)
+        # wave: 5,000-draw Sobol generation axis draws
+        # (rng([20323000+family_idx, 7919]) integer-axis draw per
+        # W1-W12 lineage); berthed bm-a r456 (draft + probe MSG-
+        # 20260930-0356-bma-ALL; bm-c r251/r252 independent cross-
+        # validation yielded per fleet README sec.4 commit-time
+        # order, digest DIGEST-20260930-w13-sumn-yield-crossvalidation
+        # .md); adopted+frozen bm-a r461 (drafting machine's next
+        # round self-freeze, W5 r247->r248 / W6 r458->r459 / W7
+        # r254->r255 timeline mirror); three-step law verified at
+        # freeze (135-key pre-registration import view zero-collision
+        # on all three berths; canon first-els mutually distinct vs
+        # all bases; null band 20323500..20323699 and unc band
+        # 20324000..20324200 clean; rg hits = berth/freeze docs +
+        # registry placeholder comments, all self-classifiable per
+        # W7 r255 precedent; facts = results/_r461bma_w13_seed_law_
+        # facts.json)
+        "trial_labor_w13_gen": 20323000,
+        # s2 screen K=200 same-structure random-signal nulls
+        # (rng([20323500, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        # (sumn gate leg merged into same-grid same-param-space draw)
+        "trial_labor_w13_scrnull": 20323500,
+        # W13 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20324000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "trial_labor_w13_unc": 20324000,
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
