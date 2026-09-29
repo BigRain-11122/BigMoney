@@ -1386,6 +1386,15 @@ SEED_REGISTRY = {
         "t101_v4_a158_fv_unc": 20313500,
         # T-101-V4-A158-FULLVERDICT dual-nulls (B=2000 block bootstrap +
         # P=2000 sign-flip, rng([20313500, cell_idx])) W1 semantics -- r441 bm-a
+        "t101_v4_a10_combo_scrnull": 20314000,
+        # T-101-V4-A10-REGIMECOMBO random-gate-combo nulls K=200/cell
+        # (rng([20314000, cell_idx]) per cell) -- r442 bm-a; three-step law
+        # verified pre-freeze (118 int bases zero-collision, band 20314xxx
+        # empty, Sobol first-els 0.7516/0.2982 distinct, rg hits = data
+        # volume-column numeric coincidence = batch-69 precedent face)
+        "t101_v4_a10_combo_unc": 20314500,
+        # T-101-V4-A10-REGIMECOMBO dual-nulls (B=2000 block bootstrap +
+        # P=2000 sign-flip, rng([20314500, cell_idx])) W1 semantics -- r442 bm-a
 
     }
 
