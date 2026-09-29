@@ -20,6 +20,13 @@
 ## §C 冻结轮（r449）精确续作清单
 
 1. **LW 构造冻结探针**：`results/_r449bmb_w8_probe.py`——滚动窗（候选 252d·冻结前实测定档）+收缩目标（Ledoit-Wolf 2004 JMV 常相关目标 vs sklearn LedoitWolf 实现择一·**实现级选择=冻结轮定谳并写死**）+λ 强度面+Σ 特征值面+A/B 权重差分锚日（3 个冻结日逐位）+双跑字节恒等+G-ANCHOR-FACE 四元组（O-20260928-1712）。
+   **【r449 已跑·定谳回填（产物 results/_r449bmb_w8_probe.json·双跑字节恒等 PASS·lw_selfcheck 5/5）】**
+   ① 实现级定谳=**手写 Ledoit-Wolf 2004 JMV（μI 相关目标·N=n−1 与 pandas .cov() ddof=1 同口径·公式在探针内冻结 verbatim）**：sklearn 不在 requirements（环境实测 ModuleNotFoundError）→ 零新依赖裁定；
+   ② 滚动窗 252d@21td 锚网格=66 锚实测定档：**16/66（24.2%）窗样本协方差奇异（A 臂生产配方不可算）**=「病逆防御」靶现象实弹实证；λ∈[0.0387,0.8984] 中位 0.1314；静态 IS 面（n=1211/p=28）cond(sample)=303,080.5 vs cond(shrunk)=36.2=四个数量级良态化；
+   ③ 求解路径分布：A 臂 50 有效锚全走 pg_fallback（闭式解零命中）vs B 臂 14 闭式+52 pg_fallback——收缩面把 14 个窗翻回闭式正解；
+   ④ A/B 权重差分 50 有效锚：max|Δw|∈[0.047,0.294] 中位 0.108（B 臂重配实质发生）；DR_A 2.4376>DR_B 2.3149（静态 IS 面）=样本臂在自身协方差面过拟合的预期面如实入档；
+   ⑤ **退化窗政策（prereg 判据节冻结条款）**：A 臂不可算窗=配对差分剔除+剔除计数诚实披露（B 臂收缩恒 PD 仍可算=对照披露面）；禁 pinv 代打（A 臂=生产配方 verbatim 禁改）；「3 个冻结日逐位」=从探针 66 锚表取首/中/尾三个非奇异锚入 prereg 逐位冻结。
+   ⑥ feasibility 前置探针（死会话收编·`_r449bmb_w8_feas*.py`）：机制身份验证=未改写注册件员 2/2 字节恒等（VOLATILITY-CE-01/NEEDLE-DE-01）；COMPOSITE-CE-01/CE-02/ENGULF-CE-01 三员 replay 漂移=T-78 s4 退出覆盖层接线（09-26 d65f2d4ac·prereg 背书）合法注册进化非机制漂移——A/B 批员面=烧批时点现注册件+evidence_cutoff 披露（配对设计内两臂同员面=无偏）。
 2. SEED_REGISTRY 三步律+facts 件（r244 禁源文本正则计数律=import 全量视图重验）。
 3. runner `scripts/innovation_quota_w8.py`（W5/W6 骨架参数化复用·selftest 全绿+A/B 配对腿）；**入池件必带 workers_plan（dict）+runner_args**——bm-a r459 stranded 教训（plan-less enqueue=autofill 硬跳=供给线楔死·O-2130 fail-closed 门已立）。
 4. prereg 全节按模板写死（§0-§8+四选一不适配披露+判据调 science_gates 共享库禁手抄）+冻结 commit 锁+catalog 全 schema 条目+池 enqueue。
