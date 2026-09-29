@@ -10927,6 +10927,44 @@
     "intake": "results/trial_labor_w8/w8_intake.json (zero-face n_eligible=0)",
     "ticket": "T-2026-09-29-120"
    }
+  },
+  {
+   "batch": "GATE-TIMING-PRESCREEN-A158",
+   "ts": "2026-09-29 18:01:57",
+   "kind": "prescreen",
+   "retro_fill": false,
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 343788,
+   "gates": {
+    "r433_frozen_4": {
+     "n_cells": 85,
+     "n_survive": 19,
+     "n_kill": 66,
+     "fail_dist": {
+      "oos_excess<=0": 62,
+      "sharpe<=null_med": 16,
+      "maxdd<-35%": 9
+     },
+     "criteria": "oos_excess>0 & entries>=15 & maxdd>=-35% & oos_sharpe>null_med (template t101_v4_a2 verbatim)"
+    },
+    "d6_vs_bh": {
+     "judged": 19,
+     "reject_corr>=0.7": 6,
+     "accept": 13,
+     "basis": "beta same-source family pre-declared (r433 0.9424 precedent)"
+    },
+    "intra_library_disclosure": {
+     "faces_with_mate_corr>=0.7": 40,
+     "faces_total": 85,
+     "note": "non-kill disclosure face, redundancy ruling belongs to v4 arm prereg"
+    }
+   },
+   "eliminated": 72,
+   "refs": [
+    "research/GATE_TIMING_PRESCREEN_A158_PREREG.md",
+    "results/gate_timing_prescreen_a158.json",
+    "results/gate_recheck_a158.json (bm-a r439 17-gate library source)"
+   ]
   }
  ],
  "lane_machine": "bm-c"

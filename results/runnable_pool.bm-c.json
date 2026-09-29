@@ -4333,17 +4333,18 @@
       ],
       "lane_owner": null,
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-29 17:2x",
       "data_gates": "in-runner fail-closed exit 2 every invocation: G-PANEL (csvs>=1500 + five-member present) + G-CUTOFF (five tails<=2026-09-22; 510300 truncated rows==3483) + G-ANCHOR-ROC20 (dec==3344 open==374 first-idx==139, both affine forms) + G-FACTORS (157 factors >=500 valid on anchor + gate-order identity pin vs finalize name table); no host gates (pure pandas CPU, any machine); RAM trivial (<1GB)",
       "shards": [
         {
           "key": "run-0of1",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/a158_tsgate_p1/shard_0of1.jsonl (append-per-instrument done-set resume, r340 incremental law)",
           "note": "worker_cap() parallelism inside the shard via parallel_runner (ProcessPool, __main__ guarded); multi-shard i%shards split legal on partial claim",
           "owner": "bm-a",
-          "owner_since": "2026-09-29 17:20:09"
+          "owner_since": "2026-09-29 17:20:02",
+          "done_flip": "2026-09-29 r438 bm-a harvest: autofill launch -> 1724/1724 -> finalize landed same round"
         }
       ],
       "entered_by": "bm-a r438",
@@ -4352,7 +4353,10 @@
         "workers": "worker_cap() pool BelowNormal (bm-a <=25, bm-b <=12, bm-c cache-less ok pure-pandas)",
         "priority": "BelowNormal",
         "note": "est serial ~6min / worker_cap ~1-2min; 1,724 insts x 157 factors x 314 gates; deterministic; zero engine, zero network, zero token; selftest 31/31 incl real-data anchor leg; per-instrument checkpoint 50-flush cadence via on_result"
-      }
+      },
+      "done_at": "2026-09-29T17:35:00+08:00",
+      "result_ref": "results/a158_tsgate_p1.json + research/A158_TSGATE_P1.md + research/A158_TSGATE_P1_PREREG.md sec.7/8 backfilled",
+      "done_note": "bm-a r438 harvest: autofill 17:20:02 tick claim+launch pid77520 (runner_sha 2ad3ddab3969ae9f), 1724/1724 insts checkpointed, runner exited clean ~17:31; finalize same-round 17:35: PASS=48 PARTIAL=142 FAIL=117 N/A=7 (1013 insts >=500 bars at cutoff, 711 min_bars honest); anchor ROC20_q10 reproduced in-run+finalize; top candidates STD20_q90 (five-member 5/5 OOS positive) + RSQR20_q90 -> GATE-RECHECK-A158 queue; ROC20_q10 panel-face FAIL disclosed (cross-face no-verdict-borrowing vs W10 grammar face); dual-name five-member hygiene finding disclosed"
     }
   ],
   "lane_machine": "bm-c"

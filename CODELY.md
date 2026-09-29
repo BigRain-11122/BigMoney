@@ -4,6 +4,7 @@
 ### Feedback
 ### Project
 （W8 收口定案流水条 r430 bm-b 已整编至 archive 202609.md『流水整编 2026-09-29 r437 bm-a 窗批』节·行级零丢失。）
+- [2026-09-29 18:0x r231 bm-c] GATE-TIMING-PRESCREEN-A158 烧批收口（r433 律必经关·bm-a r439 17 门库×五员 85 格·in-round 30.4s）：SURVIVE 19/KILL 66·D6 分判 13 接受/6 同源拒（0.930-0.951=r433 判例复现）·13 格择时合格清单移交 T-101 v4 臂预注册锦标赛（588000 七格集中=科创员独立证据面·批内冗余 40/85 面披露归 v4 设计轮）·预测 2 对 1 部分 1 miss 零改线·attrition +1 eliminated=72·非试验面 ledger 343,788 不变·SEED 20312500 登记（W10 预留块 20311000-20312000 未动）·正典=results/gate_timing_prescreen_a158.json+research/GATE_TIMING_PRESCREEN_A158_PREREG.md §7/8；本窗 GATE-RECHECK-A158 让路实录=bm-a 同窗全链落地（07bbfdd6e）·本机未 commit 死工零污染·D-20260929-02 双信号律正常运转。
 
 ### Reference
 - 冷层指针：坑律指针行五条+Reference 指针两条（一百零二/一百零四/一百零五批/IntradayMarks 常设/r426 bm-b 七行/r427 bm-a 两行·各自指向的 verbatim 全文本已在 archive 对应节）verbatim=archive 202609.md『指针合并归档 2026-09-29 r225 bm-c 窗批』节（r225 bm-c 窗水位律当窗整编·行级零丢失校验）。
