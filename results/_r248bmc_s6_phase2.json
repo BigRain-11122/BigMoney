@@ -1,0 +1,86 @@
+﻿[
+    {
+        "leg":  "live_paper",
+        "rc":  0,
+        "secs":  8.1,
+        "tail":  "VOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 4 bars since 2026-09-23 | months_tracked=0 dd=-0.0037 | x2: insufficient_data | x2 watch: ok | saved K:\\"
+    },
+    {
+        "leg":  "t35_open_fill_verify",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat stale 44min -\u003e stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law) | op"
+    },
+    {
+        "leg":  "t24_prospect_paper",
+        "rc":  0,
+        "secs":  2,
+        "tail":  "prospect lane: forward_guard t14_rules_fidelity.build_guard wired (up=24 dn=42) | prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-29"
+    },
+    {
+        "leg":  "t24_prospect_promotion",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "PROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0) | promotion gate: eligible=0/22 legs_pass={\u0027paper_months\u0027: 0, \u0027g2_full\u0027: 0, \u0027t22_beat_p"
+    },
+    {
+        "leg":  "aggressive_lab_paper",
+        "rc":  0,
+        "secs":  3,
+        "tail":  "aggr paper: marks already at panel cutoff 2026-09-29 -- no-op (idempotent)"
+    },
+    {
+        "leg":  "alloc_paper",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)"
+    },
+    {
+        "leg":  "grid_paper",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "grid paper: marks already at panel cutoff 2026-09-29 -- no-op (idempotent)"
+    },
+    {
+        "leg":  "system_v1_paper",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op"
+    },
+    {
+        "leg":  "t35_paper_export",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "export 2026-09-29: traders=6 positions=18 equity=5995354 ops(entry/exit)=0/0 source=2026-09-28 | -\u003e K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\paper_export\\e"
+    },
+    {
+        "leg":  "daily_scorecard",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 45min -\u003e stale-takeover derive by bm-c (O-2100 s2.4 STALE_MIN law) | scoreca"
+    },
+    {
+        "leg":  "daily_report",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "daily report written: REPORT-2026-09-30.md/.json faces=5 token=1"
+    },
+    {
+        "leg":  "ceo_live_usage",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "ceo_live_usage: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\docs\\live_usage\\LIVE-2026-09-30.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANG"
+    },
+    {
+        "leg":  "build_status",
+        "rc":  0,
+        "secs":  3,
+        "tail":  "dashboard status -\u003e K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\dashboard_status.js |   factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
+    },
+    {
+        "leg":  "token_meter",
+        "rc":  0,
+        "secs":  1,
+        "tail":  "per-round fixed context ~ 10918 + 3114 tokens (rough); ledger cumulative ~ 2049 state + 964859 report tokens; delta=0 | L2 local-LLM legs: 0 today / 2 total (~0"
+    }
+]
