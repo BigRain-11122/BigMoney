@@ -1,4 +1,4 @@
-# TRIAL_LABOR_W8_CANDIDATE_TSTATE_PREREG_DRAFT —— TSTATE 时序态门 wave-8 候选泊位（转泊收执 2026-09-29 09:4x·bm-a r422）
+# TRIAL_LABOR_W8_CANDIDATE_TSTATE_PREREG_DRAFT —— TSTATE 时序态门 wave-8 候选泊位（转泊收执 2026-09-29 09:3x·bm-a r422）
 
 > **【转泊收执（collision yield receipt·fleet/README.md §4 commit 时间序）】**本件原为 bm-a r421 起草+冻结的 TRIAL_LABOR_W7_PREREG（TSTATE 时序态门·本地 commit 2026-09-29 09:07:52·SEED 三键 20305000/20305500/20306000 同 commit 登记·T-118 开票认领·F-04 MSG-0905 声明——推送被拒未及上链）。W7 泊位三机同窗撞车：bm-c STREAK 稿 ba2653539 @09:07:05 先落 origin（r207 冻结上链 5de79413b）+bm-b AMP 稿 r417a 已让路转 W8 候选 → 本机后到让路：**W7=STREAK 版正典**（research/TRIAL_LABOR_W7_PREREG.md 现挂 bm-c 冻结版），本 TSTATE 版 **W7 冻结失效**——wave 号/SEED 三键/T-118 票全归 W7-STREAK；TSTATE 若立 W8 须另开票+种子撞带重取（三步律复验）+重走冻结四件套（prereg 冻结+SEED 同 commit+票同轮认领+F-04 MSG）。转泊后状态=**W8 候选备货泊位**（与 bm-b AMP 并列·W8 起草窗=W7 全链消费落地后·任何健康机可认领起草·起草面无门禁）。**供给侧事实全部保值有效**：TSTATE census 正信号主证（O-1855④ MAD60_q10 中位 t=+2.255·60% 工具 |t|>2 / RSV60_low<0.2 中位 t=+2.201·58%·20 日前瞻窗）+探针件 results/_r421bma_tstate_probe.py + _r421bma_tstate_probe_facts.json（含 pandas NaN 比较/bool first_valid_index 双伪影坑律修正面·九十五批）+§1-§9 全部冻结文语义。以下原文逐字保留（标题行 wave-7 字样=历史原貌不追改）。
 
