@@ -91,7 +91,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import trial_labor_w1 as tl1  # import-face reuse law (prereg sec.6)
 import trial_labor_w2 as tl2  # initial-stop overlay layer import law
 import trial_labor_w3 as tl3  # regime-gate overlay + dual-gate machinery
-from science_gates import CostPatch, SEED_REGISTRY  # noqa: E402
+from science_gates import (CostPatch, SEED_REGISTRY,  # noqa: E402
+                           finalize_already_landed)  # pit-95 guard
 
 # ------------------------------------------------------------ frozen (prereg)
 WAVE = "TRIAL_LABOR_W4"
@@ -1261,6 +1262,13 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
 
 def cmd_screen_finalize() -> int:
     print(f"=== {WAVE} screen-finalize ===")
+    landed = finalize_already_landed(SCREEN_BATCH, SCREEN_FILE)
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {SCREEN_BATCH} already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar, cells = _cell_list_w4()
     rows = _load_screen_rows()
     by_id = {r["cell_id"]: r for r in rows}
@@ -1749,6 +1757,13 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
 
 def cmd_judge_finalize() -> int:
     print(f"=== {WAVE} judge-finalize ===")
+    landed = finalize_already_landed(JUDGE_BATCH, JUDGE_FILE)
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {JUDGE_BATCH} already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
     screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
     survivors = list(screen.get("survivors", []))
