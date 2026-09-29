@@ -291,9 +291,32 @@ def verdict_cell(face, member, ic_is, n_is, ic_oos, n_oos, ic_full, p_oos):
     return out
 
 
+def _landed_block(path):
+    """Return the trials_ledger block if this batch's verdict already landed.
+
+    Single-shot law (append_ledger contract: any re-run of a landed batch
+    needs fresh prereg; r450 duplicate-burn incident root-cause fix).
+    """
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as fh:
+            j = json.load(fh)
+    except Exception:
+        return None
+    tl = j.get("trials_ledger") if isinstance(j, dict) else None
+    if isinstance(tl, dict) and tl.get("batch") == "T-101-V4-A13-PREDFACE":
+        return tl
+    return None
+
+
 # ---------------------------------------------------------------- main burn
 
 def run() -> int:
+    if _landed_block(RESULTS_JSON) is not None:
+        _fail("verdict already landed (trials_ledger block present in %s) "
+              "-- single-shot law, re-run needs fresh prereg"
+              % os.path.basename(RESULTS_JSON))
     t0 = time.time()
     fv.g_p1_check()
     fv.g_accept_check()
@@ -518,6 +541,21 @@ def selftest() -> int:
     v = np.array([0.0, 0.05, -0.05, 0.10])
     s = _pool_summary(v, 0.10)
     ok("pool p math", abs(s["p_two"] - 2.0 / 5.0) < 1e-12)
+
+    # 9. single-shot guard (r450 incident): landed block refuses, others pass
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        p_landed = os.path.join(td, "landed.json")
+        with open(p_landed, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"batch": "T-101-V4-A13-PREDFACE",
+                                         "total": 1}}, fh)
+        p_other = os.path.join(td, "other.json")
+        with open(p_other, "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"batch": "SOME-OTHER-BATCH"}}, fh)
+        ok("single-shot guard",
+           _landed_block(p_landed) is not None
+           and _landed_block(p_other) is None
+           and _landed_block(os.path.join(td, "absent.json")) is None)
 
     allok = all(results)
     print("selftest: %s" % ("ALL PASS" if allok else "HAS FAIL"))
