@@ -1,0 +1,31 @@
+import json
+
+d = json.load(open("state-bm-a.json", encoding="utf-8"))
+d["round_no"] = 433
+d["round"] = 433
+d["loop_round"] = 433
+d["last_round"] = 432
+d["did"] = ("r433: T-101-V4-A2-PRESCREEN live-fire verdict (supply action for audit supply_gap): "
+            "1 survive (510050|RSV30 oos_excess +0.27%/yr sharpe 0.394>null 0.030 maxdd -33.6%) / 9 KILL "
+            "(oos_excess<=0 across 510300/510500/512100/588000 + 5 cells maxdd break -35% bear-catch-knife, "
+            "prereg extreme-day prior hit) + D6 REJECT max|corr|=0.9424 beta-same-source (survivor deferred behind "
+            "correlation-source prereg gate) + same-gate usage-flip falsification: gate_verify 20d-forward PASS != "
+            "continuous regime-timing (honest negative) + A1 C1 dual-thermometer arm skeleton frozen bm-b-lane")
+d["verify"] = ("smoke 26/26; S6 34 legs rc=0 + 3 trigger-gated legit-skip (no new bar, cutoff 09-28): dualrun "
+               "ZERO-DRIFT 115 streak 14/3; WM py_low_board_clear legal-idle; audit FLAG supply_gap/supply_floor "
+               "(supply action delivered this round = v4 prescreen batch; next pool wave = full-judge arms); regime "
+               "ORANGE days=2; clock ORANGE_COOL sleeves=4; paper_export equity 5,988,732; REPORT-0929 faces=5; "
+               "LIVE-2026-09-29 ORANGE cap=50%; dashboard 432combos/0pass milestones=5/7; token delta=0; orders "
+               "122/122 zero-unacked (python authoritative diff; PS .md-suffix key trap double false-positive resolved); "
+               "gate_attrition row-level zero-loss 69->70; tasks: loop Running pin=8, watchdog Ready, IntradayMarks "
+               "Ready next 09-30 09:25, pre-commit claw byte-equal")
+d["next"] = ("r434: (a) survivor correlation-source prereg (D6 exit: beta decomposition) or honest line-close; "
+             "(b) A1 C1 dual-thermometer bm-b-lane full freeze follow-up (MSG-1500 lane declared); (c) 10-01 "
+             "month-first triple + pool wave-1 flip quiet window; (d) next trial-labor grammar supply post-W8; "
+             "next 5x = bm-a r435")
+d["current_task"] = "r433 closed: T-101-V4-A2 prescreen verdict 1/10 survive + D6 REJECT; next=r434 survivor corr-source prereg or line-close"
+d["last_round_at"] = "2026-09-29T15:25:00+08:00"
+d["updated"] = "2026-09-29T15:25:00+08:00"
+d["last_round_ts"] = "2026-09-29T14:35:00+08:00"
+json.dump(d, open("state-bm-a.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+print("state updated round_no=433")
