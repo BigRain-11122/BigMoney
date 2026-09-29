@@ -1,5 +1,5 @@
 {
- "version": "tranche-2 + consumption_state face (bm-c r234) + W11 pre-arm (bm-b r441: TRIAL-LABOR-W11-GENERATE entry added per frozen W11 prereg; tranche-1 five faces all consumed; W10 face consumed 19:42:03) + INNOVATION-QUOTA-SLOT-3 tranche-3(d) entry (bm-c r239 rebase-merged same window) + INNOVATION-QUOTA-SLOT-4 berth entry (bm-c r243)",
+ "version": "tranche-2 + consumption_state face (bm-c r234) + W11 pre-arm (bm-b r441: TRIAL-LABOR-W11-GENERATE entry added per frozen W11 prereg; tranche-1 five faces all consumed; W10 face consumed 19:42:03) + INNOVATION-QUOTA-SLOT-3 tranche-3(d) entry (bm-c r239 rebase-merged same window) + INNOVATION-QUOTA-SLOT-4 berth entry (bm-c r243); W12 pre-arm (bm-b r444: TRIAL-LABOR-W12-GENERATE entry added per frozen W12 prereg, RSQR trend-fit gate adoption of bm-a r447 berth)",
  "law_refs": [
   "O-20260928-1614 sec.1 SUPPLY FLOOR + sec.4 FILL LADDER (a)(b)(c)(d)",
   "O-20260928-1630 D4 standing supply catalog",
@@ -41,6 +41,10 @@
   "TRIAL-LABOR-W11-GENERATE": {
    "state": "done",
    "evidence": "runner landed bm-b r442 (selftest 47/47, FROZEN_SHA16 128962592feeb8d3) + GENERATE burned pid13836 done 23:48:32 (n=1262 candidates, grammar sha == FROZEN pin verified at adoption) + pool flip done_at 00:49:00 + SCREEN armed ready (screen-prep PASS 48/48) -- r451 bm-a catalog sync (entry was stale armed_pending_runner)"
+  },
+  "TRIAL-LABOR-W12-GENERATE": {
+   "state": "armed_pending_runner",
+   "evidence": "freeze steps landed bm-b r444 2026-09-30 02:2x (frozen prereg research/TRIAL_LABOR_W12_PREREG.md + SEED_REGISTRY 20320500/20321000/20321500 + wave ticket T-2026-09-30-124 + MSG dual-signal); runner build pending next slice; TRIAL_GRAMMAR_LEDGER wave-12 row lands at GENERATE consumption per W11 8d03c4126 precedent"
   }
  },
  "entries": [
@@ -236,6 +240,30 @@
    "runner": "scripts/innovation_quota_w4.py (BUILT r245 bm-c, selftest 29/29: HMA vol-index V-shape engine + G-ANCHOR fail-closed vs r243 probe facts + r450 landed-state guard rc=2 + GBK reconfigure entry law; both enqueue gates now pass -> pool-enqueued same window)",
    "consumer_plan": "VOLREGIME_TIMING_P1 judged verdict (results/innovation_quota/VOLREGIME-TIMING-P1.json) -> G2 pass = T-34 fastline candidate pool eligibility; fail = judged-negative family closure + attrition row + 48h CEO report",
    "note": "ladder (d) slot-4 (bm-c r243 berth): zoo #96 volume_regime_bimodal family (r263 digest param-frozen, clean-room; #95 consumed by slot-3 judged-negative r240). Volume-native TIMING face = new measurement object for quota line (burned axes all price/return-derived); non-monotone V-shape three-threshold state machine. Probe facts frozen results/_r243bmc_volregime_w4_probe_facts.json (decidable 3,375/first-decidable 108/long-open 2,267=67.17% high-baseline face; V-shape half-broken: overheat fwd5 +0.424%/d vs drought +0.016%/d t=2.96; extreme days 6-7/7 open = no crisis defense; fwd20 negative). Supply-law anchor: O-1614 sec.4(d) idle-window quota (pool ready=0<3, supply_family_streak 139min+ at r243 open)."
+  },
+  {
+   "id": "TRIAL-LABOR-W12-GENERATE",
+   "ticket_ref": "T-2026-09-30-124 wave ticket (opened+claimed same freeze commit per O-1730 immediate law, W8=T-120/W9=T-121/W10=T-122/W11=T-123 lineage); W12 candidate = bm-a r447 supply step (RSQR trend-fit-quality confirm gate axis rsqr20_hi/rsqr10_hi, MSG-20260929-2225 dual-signal + commit; candidate skeleton = research/TRIAL_LABOR_W12_CANDIDATE_RSQR_PREREG_DRAFT.md with 10-item adopter checklist; freeze steps per checklist: W11 full-chain consumption trigger + frozen prereg + SEED_REGISTRY three keys 20320500/20321000/20321500 (draft berths zero-collision verified at freeze, three-step law ALL GREEN facts results/_r444bmb_w12_seed_law_facts.json) + wave ticket same-round claim per O-1730)",
+   "prereg_ref": "research/TRIAL_LABOR_W12_PREREG.md (FROZEN 2026-09-30 02:2x bm-b r444 whole-package adoption of the bm-a r447 RSQR candidate per AMP->W9/MOM->W10/STD->W11/RSQR->W12 four-straight adoption lineage; NOT the candidate DRAFT file)",
+   "runner": "scripts/trial_labor_w12.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": null,
+   "priority": 1,
+   "enqueue_gates": [
+    "prereg_frozen:research/TRIAL_LABOR_W12_PREREG.md",
+    "runner_exists",
+    "standing_no_judge_inflight"
+   ],
+   "consumer_plan": "TRIAL-LABOR-W12-GENERATE/SCREEN/JUDGE -> judged verdict face (w12_judge.json) -> s4 intake -> STRATEGY_LIBRARY + TRIAL-* paper accounts -> 48h CEO report + scorecard CEO face; screen null p95 -> next-wave (W13) prereg reference band",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "generation leg = CPU-light census build, W2-W11 machinery precedent; fifteen-tuple axis grid 94,058,496 combos (W11 31,352,832 x3 RSQR three-value axis), 5,000-draw Sobol per candidate sec.3"
+   },
+   "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding); G-RSQR runner door asserts probe anchor face decidable 3,363/open 341/rsqr10 332/first-decidable 120/slope 213-128 per frozen sec.3 (probe re-run at freeze window bit-exact ALL GREEN, facts results/_r447bma_rsqr_w12_probe_facts.json)",
+   "note": "ladder (a) tranche-2 pre-arm: W12 candidate parked 2026-09-29 22:2x (bm-a r447); RSQR axis = fifteen-tuple cell key per frozen sec.3; entry auto-arms ONLY after freeze steps land (frozen prereg + runner build + SEED_REGISTRY + wave ticket) -- prereg_frozen gate refuses the candidate DRAFT head by design (mirrors W5 r162 draft-head convention); judge pipeline must drain first (standing_no_judge_inflight; W11 judge drained 01:47:40 + pool TRIAL-LABOR-W11-JUDGE flipped done same freeze round r444; INNOVATION-QUOTA-SLOT-4 ready = bm-c innovation-quota lane non-trial-labor judge, honest disclosure)"
   }
  ]
 }

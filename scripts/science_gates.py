@@ -1483,6 +1483,27 @@ SEED_REGISTRY = {
         # above W12 declared berths 20320500/20321000/20321500
         # (unregistered at freeze, bm-a r447 MSG-2225)
         "innovation_quota_w4_volregime": 20322000,
+        # TRIAL_LABOR_W12 RSQR-gate (rsqr20_hi/rsqr10_hi trend-fit-quality
+        # confirm, three-value axis per W4 VOL / W11 STD precedent) wave:
+        # 5,000-draw Sobol generation axis draws (rng([20320500+family_idx,
+        # 7919]) integer-axis draw per W1-W11 lineage); berths drafted bm-a
+        # r447 (berth declaration MSG-20260929-2225), adopted+frozen bm-b
+        # r444 (four-straight adoption AMP->W9/MOM->W10/STD->W11/RSQR->W12);
+        # three-step law verified at freeze (143-key registry zero-collision
+        # on all three berths; canon first-els 1294340368/1873818339/
+        # 561143918 mutually distinct vs all bases; null band
+        # 20321000..20321199 and unc band 20321500..20321700 clean; rg hits
+        # = berth-declaration docs + data volume-column numeric coincidences
+        # t34/batch-69 precedent face; facts = results/_r444bmb_w12_seed_
+        # law_facts.json)
+        "trial_labor_w12_gen": 20320500,
+        # s2 screen K=200 same-structure random-signal nulls
+        # (rng([20321000, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        # (rsqr gate leg merged into same-grid same-param-space draw)
+        "trial_labor_w12_scrnull": 20321000,
+        # W12 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20321500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "trial_labor_w12_unc": 20321500,
 
     }
 
