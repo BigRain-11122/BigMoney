@@ -45,3 +45,9 @@
 - 损耗账：`results/gate_attrition.json`（MASS_TRIAL_W1 + MASS_TRIAL_W1_JUDGE 两行）
 - 预注册：`research/MASS_TRIAL_W1_PREREG.md` §9.1（冻结 commit deb3b1f4）·`research/TRIAL_LABOR_W1_PREREG.md`
 - 账本头：312,042（`science_gates.append_ledger` 活链）
+
+## 七、纠偏附录（r417·2026-09-29 09:4x·bm-b·T-119 漂移债清偿时点发现）
+
+- **本件 §二 表 wave-1b 列「G1' 技能线过线 0」系误载**：wave-1b 判决件实读 **G1' 4/149 过线**（W1-A-0360 Sharpe 1.6316/W1-A-0066 1.4078/W1-A-0007 1.3896/W1-A-0048 1.3388·判线 1.1887·四格全 sample_sufficient=True·verdict=pass）；§三「最佳候选全期 Sharpe 仅 0.19」为 wave-1a（MASS）面真值误植 wave-1b 语境——r405 执笔者据 w1a 面读数代填 w1b 列、未实读 w1_judge.json（根因=W1 §7 跑后实证未回填=漂移债未偿致该读数长期无对账面）。
+- **结论面零改动**：G2 注册资格 **0/149 照真**（四名过线者 DSR 0.0894-0.4623 全数远低于 0.95 门）→ **0 录用结论不变**；E[FP]=7.45 照真（w1b 判决格数口径无涉 G1 数）。
+- 纠偏执行：W1 prereg §7/§8 已同轮一次定稿回填（含本纠偏注记）；attrition 两行（TRIAL_LABOR_W1_SCREEN/JUDGE）同轮补录。

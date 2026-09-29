@@ -76,13 +76,18 @@
 - 语法消耗登记簿：`research/TRIAL_GRAMMAR_LEDGER.md`（append-only·wave-2 行=语法哈希+raw/dedup 计数+seed+消耗时点）。
 - 池路由：SCREEN/JUDGE 批 >5min 入池（O-2100）；**lane_owner=null**（core48+T-18 in-repo 双机可跑·judge 面 cache-less 机 in-runner exit 2 诚实秒级=W1 先例）；workers_plan ≤floor(核×0.8) BelowNormal；RAM 门禁 r354 三采样律（池条目 data_gates 注记）；**CPU 排队=池优先序自主调度**（当前 census W2B 燃批=优先级 1 在飞，SCREEN 入池后按 entered_at 优先序排后=物理依赖合法排序票内留痕）；C 族 when-ready 见 §9。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑后一次定稿回填·占位纪律解除】
 
-（一次定稿；工程修复重跑双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
+**【2026-09-29 09:3x 一次定稿回填·bm-b r417（T-119 五波漂移债清偿）·数字真值源=results/trial_labor_w2/*.json】**
 
-## §8 批后复盘【必填·s7-T】
+- **漏斗**：raw 5,000 → distinct **2,924**（塌缩 41.5%）→ 初筛 3,124 格（2,924+200 null）→ 存活 **404**（13.8%）→ 全量判决 404 格 → **G1' 11/404 过线**（最佳 W2-B-1971 箱体突破〔patterns〕p12 Sharpe 1.635·W2-A-0456 低波动多头〔volatility〕a20 1.6004·余 9 名 1.2253-1.5382=low_vol_long×6+top_n_rotation×4·判线 skill_line_v2=1.189·DSR 0.064-0.367）→ **G2 0**（全数 DSR<<0.95·n_trials=310,810 活链头）→ 上岗 0（lawful-zero）。账本 294,304+3,124=**297,428**（SCREEN 收官）→ 310,810+404=**311,214**（JUDGE 收官）。
+- **判决面**：null 族中位 0.4521·p95=0.511572；E[FP]=0.05×404=**20.2** 如实披露；族 PBO：patterns 0.1429（141 格）/volatility 0.0429（43）/composite_rotation 0.1714（49）/folk 0.4857（18）/ta 0.6（72）；描述条款：年化>0 329/404·OOS 双正 308/404·dd 线 402/404·无崩年 404/404（x2 面 404/404）。
+- **初始止损面读数（§5.4 方向预测对账·零判据权重）**：w2_screen 件载 stop_face_counts 面格数（none 359/p3 395/p5 382/p8 360/p12 327/a15 391/a20 346/a25 364）**无逐面分段存活读数面**——§5.4 的「beat6m 中位略降/ATR>pct」面级读数**缺位如实注记不编数**（止损面效应初筛判读载体=judge 件 stop_disclosure 列族）；G1 过线者止损面分布=a20/p5/p12/p3/none 混合——**预测4 判读=读数缺位非 miss 非中**。
+- **§5 预测对账六条**：①distinct 2,924∉[3,600,5,000] **miss**（塌缩 41.5%>预测 10-35% 上缘——W3 §5.1 已据实放宽上限带 [2,900,4,600]）②null 中位 0.4521<0.50 ✓·p95 0.5116∈[0.42,0.62] ✓·存活 404∈[100,750] ✓（13.8%∈[2%,15%] ✓）③G1' 11∈[0,60] ✓·G2 模态零 ✓ ④止损面=读数缺位（上注） ⑤族富集：A 存活 136/B 268（格数）——底盘不等（A 500/B 4,500 raw）·**率面 A 27.2%〔136/500 raw 分母〕>B 6.0%〔268/4,500〕=A>B ✓** ⑥极端日先验=载体律 ✓（止损触发日计数列随格披露已落地）。
 
-（预测对账+门禁链损耗账 results/gate_attrition.json 追加行+判线 v2 当批读数（skill_line_v2 数字）+回执入轮报告+CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff+live/paper SIGNAL_BUILDERS 接线+smoke 锚定门复跑；首波大考结果 48h 内呈 CEO）
+## §8 批后复盘【必填·s7-T·r417 回填】
+
+**【回执 2026-09-29 bm-b r417（T-119 漂移债清偿）】**attrition 损耗账两行（TRIAL_LAB_W2_SCREEN 3,124+TRIAL_LAB_W2_JUDGE 404）原落地窗未落=漂移债第二面，r417 补录（gate_attrition history+bm-b 车道双写·原事件时戳 2026-09-28 07:00:27/14:38:37+backfill 注记）；判线 v2 当批读数 skill_line_v2=**1.189**；零新注册员（G2=0）；48h CEO 呈报=CEO-REPORT-WAVE2-5-20260929.md（四钟合一·W2 判决落地 09-28 14:38→窗止 09-30 14:38 提前 ~34.5h）+**r417 纠偏附录**（六波总 G1' 18 非 14·W1b 4 员漏计·0 录用不变）；轮报告+CODELY.md 行级追加 r417 同轮。
 
 ## §9 追加冻结节【append-only·每 sub-wave 一冻·禁跑前另行冻结】
 

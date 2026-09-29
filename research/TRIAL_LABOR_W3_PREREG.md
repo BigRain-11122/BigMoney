@@ -78,13 +78,18 @@
 - 语法消耗登记簿：`research/TRIAL_GRAMMAR_LEDGER.md`（append-only·wave-3 行=语法哈希+raw/dedup 计数+seed+消耗时点）。
 - 池路由：SCREEN/JUDGE 批 >5min 入池（O-2100）；**lane_owner=null**（core48+T-18 in-repo 双机可跑·judge 面 cache-less 机 in-runner exit 2 诚实秒级=W1/W2 先例）；workers_plan ≤floor(核×0.8) BelowNormal；RAM 门禁 r354 三采样律（池条目 data_gates 注记）；**CPU 排队=池优先序自主调度**（当前在飞/门后批=W2B census bm-b 燃+三判决批 RAM 门=物理依赖合法排序票内留痕）；§9 交接见下。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑后一次定稿回填·占位纪律解除】
 
-（一次定稿；工程修复重跑双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
+**【2026-09-29 09:3x 一次定稿回填·bm-b r417（T-119 五波漂移债清偿）·数字真值源=results/trial_labor_w3/*.json】**
 
-## §8 批后复盘【必填·s7-T】
+- **漏斗**：raw 5,000 → distinct **3,552**（塌缩 29.0%）→ 初筛 3,752 格（3,552+200 null）→ 存活 **513**（14.4%）→ 全量判决 513 格 → **G1' 2/513 过线**（W3-A-0312 低波动多头〔volatility〕p3 1.2934·W3-A-0325 top_n_rotation〔composite_rotation〕none 1.3283·判线 skill_line_v2=1.1892·DSR 0.0839-0.0878）→ **G2 0**（n_trials=311,363 活链头）→ 上岗 0（lawful-zero）。账本 297,428+3,752=**301,180**（SCREEN 收官）→ 311,363+513=**311,876**（JUDGE 收官）。
+- **判决面**：null 族中位 0.4757·p95=0.511572；E[FP]=0.05×513=**25.65** 如实披露；族 PBO：patterns 0.5714（191 格）/ta 0.6714（89）/folk 0.8286（34）/composite_rotation 0.4（31）/volatility 0.1143（28）；描述条款：年化>0 393/513·OOS 双正 342/513·dd 线 511/513·无崩年 513/513（x2 513/513）。
+- **GATE 门方向读数（§5.4 方向预测对账·零判据权重）**：分段存活 **bear 19.0%（218/1,150）> none 13.4%（163/1,220）> bull 11.2%（132/1,182）**——预测「bear 门面>none>bull」**方向全中 ✓**（MASS stage-1 先验跨刻度迁移成立·「熊市闸=第一杠杆」REFINE-BENCH 首炉定谳复现）；G1 过线者 2 名均 gate=none 面（门面过线者零=门面不抬判决线上限如实）。
+- **§5 预测对账六条**：①distinct 3,552∈[2,900,4,600] ✓（塌缩 29.0%∈10-35% ✓）②null 中位 0.4757<0.50 ✓·p95 0.5116∈[0.42,0.62] ✓（W1/W2 三波同带兑现）·存活 513∈[100,750] ✓（14.4%∈[2%,15%] ✓）③G1' 2∈[0,60] ✓·G2 模态零 ✓ ④GATE 方向 bear>none>bull **全中 ✓** ⑤族富集：A 存活 137/B 376——率面 A 27.4%〔137/500 raw〕>B 8.4%〔376/4,500〕**A>B ✓** ⑥极端日先验=载体律 ✓（gate 翻面日计数列随格披露已落地）。
 
-（预测对账+门禁链损耗账 results/gate_attrition.json 追加行+判线 v2 当批读数（skill_line_v2 数字）+回执入轮报告+CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff+live/paper SIGNAL_BUILDERS 接线+smoke 锚定门复跑；判决面结果 48h 内呈 CEO）
+## §8 批后复盘【必填·s7-T·r417 回填】
+
+**【回执 2026-09-29 bm-b r417（T-119 漂移债清偿）】**attrition 损耗账：SCREEN 行（TRIAL_LAB_W3_SCREEN 3,752·原落地窗已落 2026-09-28 09:03:55 ✓）+ JUDGE 行（TRIAL_LAB_W3_JUDGE 513）原窗未落=漂移债第二面，r417 补录（gate_attrition history+bm-b 车道双写·原事件时戳 2026-09-28 15:51:55+backfill 注记）；判线 v2 当批读数 skill_line_v2=**1.1892**；零新注册员（G2=0）；48h CEO 呈报=CEO-REPORT-WAVE2-5-20260929.md（W3 判决落地 09-28 16:01→窗止 09-30 16:01 提前 ~36h）+r417 纠偏附录（六波总 G1' 18 非 14·0 录用不变）；轮报告+CODELY.md 行级追加 r417 同轮。
 
 ## §9 追加冻结节【append-only·每 sub-wave 一冻·禁跑前另行冻结】
 

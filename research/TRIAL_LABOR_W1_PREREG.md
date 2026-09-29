@@ -73,13 +73,18 @@
 - 语法消耗登记簿：`research/TRIAL_GRAMMAR_LEDGER.md`（append-only·wave 行=语法哈希+raw/dedup 计数+seed+消耗时点）。
 - 池路由：SCREEN/JUDGE 批 >5min 入池（O-2100）；**lane_owner=null**（core48+T-18 面板 in-repo 双机可跑）；workers_plan ≤floor(核×0.8) BelowNormal；**排队于 W2A/W2B census 燃批之后**（CPU 物理依赖·票内留痕合法排序——当前 W2A 燃烧中 no-kill carry）；C 族 when-ready 见 §9。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑后一次定稿回填·占位纪律解除】
 
-（一次定稿；工程修复重跑双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
+**【2026-09-29 09:3x 一次定稿回填·bm-b r417（T-119 五波漂移债清偿）·数字真值源=results/trial_labor_w1/*.json】**
 
-## §8 批后复盘【必填·s7-T】
+- **漏斗**：raw 1,000（A500/B500）→ distinct **658**（塌缩 34.2%）→ 初筛 858 格（658+200 null）→ 存活 **149**（W2-5 同口径 22.6%=149/658；W1 代口径 149/1,000=14.9%）→ 全量判决 149 格 → **G1' 4/149 过线**（W1-A-0360 Sharpe 1.6316/W1-A-0066 1.4078/W1-A-0007 1.3896/W1-A-0048 1.3388·判线 skill_line_v2=1.1887·n_eff=312,072·四格全 sample_sufficient=True·verdict=pass·双 nulls B/P=2000/2000 CI 下界全正）→ **G2 0**（DSR 0.0894-0.4623 远低于 0.95 门·n_trials=311,214 活链头实读）→ 上岗 0（w1_intake.json n_eligible=0 lawful-zero）。账本 287,526+858=**288,384**（SCREEN 收官）→ 311,214+149=**311,363**（JUDGE 收官·跨波落地时序=W2-JUDGE 后）。
+- **判决面**：null 族中位 0.4497·p95=0.511572（=641/1253 量化格值·与 W2/W3 三波同格值如实注记）；E[FP]=0.05×149=**7.45** 如实披露；族 PBO：patterns 0.7429（59 格）/composite_rotation 0.4143（27）/ta 0.5857（24）/volatility 0.0143（19）/folk 5 格不足判读如实。
+- **【CEO 呈报纠偏·r417 回填时点发现】**docs/trial_labor/CEO-REPORT-WAVE1-20260929.md（r405 落地）载「wave-1b G1' 过线 0」「最佳候选全期 Sharpe 仅 0.19」——**与本判决件实读矛盾**（实读 wave-1b G1'=4·最佳 1.6316；0.19/0=G1 为 wave-1a〔MASS〕面真值=r405 执笔者将 w1a 读数误植 w1b 列）。**0 录用结论不变**（G2=0 两面同真）；纠偏附录 r417 同轮追加呈报件。
+- **§5 预测对账五条**：①distinct 658∉[800,1000] **miss**（塌缩 34.2% 破预测 0-20% 上缘——W2 §5.1 已据此放宽底盘预测带）②null 中位 0.4497<0.50 ✓·p95 0.5116∈[0.42,0.62] ✓·存活 149∈[20,150] ✓（率 14.9%〔raw 分母 W1 代口径〕∈[2%,15%] ✓）③G1' 4∈[0,30] ✓·G2 模态零 ✓ ④族富集方向：A 族存活 108/B 族 41——**A>B ✓**（先验标签随格携带零预筛兑现）⑤极端日先验=载体律 ✓（整窗判读+dd 非单点·危机日计数列随格披露已随判决件落地）。
 
-（预测对账+门禁链损耗账 results/gate_attrition.json 追加行+判线 v2 当批读数（skill_line_v2 数字）+回执入轮报告+CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff+live/paper SIGNAL_BUILDERS 接线+smoke 锚定门复跑；首波大考结果 48h 内呈 CEO）
+## §8 批后复盘【必填·s7-T·r417 回填】
+
+**【回执 2026-09-29 bm-b r417（T-119 漂移债清偿）】**attrition 损耗账两行（TRIAL_LABOR_W1_SCREEN 858+TRIAL_LABOR_W1_JUDGE 149）原落地窗未落=**漂移债第二面**，r417 补录（results/gate_attrition.json history+bm-b 车道双写·原事件时戳 2026-09-28 01:21:37/14:50:01+backfill 注记）；判线 v2 当批读数 skill_line_v2=**1.1887**；零新注册员（G2=0·无 SIGNAL_BUILDERS 接线面）；首波大考 48h CEO 呈报=CEO-REPORT-WAVE1-20260929.md（r405 窗内落地）+**r417 纠偏附录**（wave-1b G1' 4 非 0·0 录用不变）；轮报告+CODELY.md 行级追加 r417 同轮。
 
 ## §9 追加冻结节【append-only·每 sub-wave 一冻·禁跑前另行冻结】
 
