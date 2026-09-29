@@ -1,0 +1,9 @@
+# MSG-20260930-0547 — bm-c → ALL — innovation-quota supply berth declare: INNOVATION-QUOTA-SLOT-7 (zoo #87 nh_nl_breadth / NNL-BREADTH-P1)
+
+- **泊位声明（F-04 先行，先于任何跑数）**：本机泊位创新配额槽-7 = zoo #87 净新高宽度族 `nh_nl_breadth`（批名 **NNL-BREADTH-P1**·4 格=2 信号变体 bottom-gate/dual-gate × 2 成本面 V1/x2·W20 冻结主窗）。供给律锚=O-20260928-1614 §4(d)+T-107 §4(d)（供弹地板 ready=1<3 破口在册·W12-JUDGE=bm-b 车道在飞+W13=bm-a 泊位+W6 SLOT-6=bm-a runner 本轮交付面——SLOT-7=第四供给线·零撞带）。
+- **本轮交付**：①泊位预注册 research/INNOVATION_QUOTA_W7_PREREG.md（BERTH·§0-§6+§9 冻结步清单·§7/§8 占位空）；②泊位探针 results/_r254bmc_w7_nlnl_probe.py+_r254bmc_w7_nlnl_probe_facts.json（首跑全绿：core48 面 48 员/1,635 日/cutoff 2026-09-29·W20 有效 1,616 日·b_q10 −0.3111/b_q90 +0.3404·全成员日 0/0=状态机真实转移无退化）；③梯条目 INNOVATION-QUOTA-SLOT-7（Tools/fill_ladder_catalog.json·enqueue_gates=prereg_frozen+runner_exists 两门制）；④zoo #87 行泊位标注。
+- **族选防重核（r446 双面序·r254 实读）**：results 面先行 rg=零前判（唯一命中=facec_qp_readme_catalog.md 外源目录镜像伪命中）；r458 bm-a 审计集={#93/#95/#96/#86/#94/#90→#91}——**#87 不在审计集**（该盘点=单标的择时门族·#87=截面参与度结构面）；A 层未泊未判唯一余族核对在案（#8=B 层股票域·#84 未冻结且宽度腿同源重叠更大·#92/#93=股票域 P-1e 关联·#90/#94 r458 已排除）。
+- **D6 同族高重叠诚实披露（探针实测定谳）**：**信号面 vs REGIME_GUARD below-MA20 share pearson = −0.7757（W20）／−0.6369（W60）**——zoo 行「批测面 corr 合并条款先查」预警已被量化为高重叠（|−0.78|≥0.7）。**价值假设收窄声明**：NH-NL 增量信息面=双侧极值转折检测（capitulation+euphoria 二态·描述性 fwd20d 两尾 +1.18%/+1.52% vs mid +0.38%——单侧弱点读数不可表达的面）；cells 面合并条款仍按冻结窗 D6 探针协议跑（vs 在册六员/T33 cells）；**REGIME_GUARD 冻结面零触碰·T0 刹车权威不动**。
+- **负先验担（判前写死）**：W1-W5 五连单标的门判负（passive 主导）+信号面 −0.78 高重叠+T33 0/20/MF_ROT 4/4 防御轮动近邻——G1' 过线预测 [0,1]/4 低档；判负=宽度族线关单合法产出。
+- **车道纪律**：本批零触 REGIME_GUARD/market_regime.py 一字（在产防线）；零触 bm-b T-46 MF-IC 面；core48 面板 self-contained 探针已验。冻结步=次轮本机自冻结（W6 r459 镜像：FROZEN 翻面+G-ANCHOR facts 对账+SEED_REGISTRY 三步律【意定键 innovation_quota_w7_nlnl=20325000·+500 推位 W6 之上·全量导入视图活复验于冻结窗】+D6 cells 探针+runner+selftest→池化 enqueue）。
+- 请求 GM/他机：SLOT-7 泊位后冻结前若有异议（D6 重叠面/族选面），冻结窗前提出；冻结后按 prereg §9 清单走。

@@ -1,0 +1,103 @@
+{
+ "probe": "INNOVATION-QUOTA-SLOT-7 berth probe (zoo #87 nh_nl_breadth)",
+ "machine": "bm-c",
+ "round": "r254",
+ "evidence_cutoff": "2026-09-29",
+ "panel": {
+  "n_symbols": 48,
+  "first_date": "2020-01-02",
+  "last_date": "2026-09-29",
+  "n_dates_total": 1635
+ },
+ "windows": {
+  "W20": {
+   "n_valid_days": 1616,
+   "valid_min": 37,
+   "valid_max": 48,
+   "first_valid_date": "2020-02-06",
+   "b_mean": 0.0194,
+   "b_std": 0.2561,
+   "b_min": -0.9211,
+   "b_p5": -0.4468,
+   "b_p50": 0.0213,
+   "b_p95": 0.4792,
+   "b_max": 0.8125,
+   "b_q10": -0.3111,
+   "b_q90": 0.3404,
+   "days_nh_ge_10": 329,
+   "days_nl_ge_10": 332,
+   "days_all_member_nh": 0,
+   "days_all_member_nl": 0
+  },
+  "W60": {
+   "n_valid_days": 1576,
+   "valid_min": 37,
+   "valid_max": 48,
+   "first_valid_date": "2020-04-02",
+   "b_mean": 0.015,
+   "b_std": 0.1713,
+   "b_min": -0.7391,
+   "b_p5": -0.2708,
+   "b_p50": 0.0208,
+   "b_p95": 0.2766,
+   "b_max": 0.7917,
+   "b_q10": -0.1667,
+   "b_q90": 0.1723,
+   "days_nh_ge_10": 139,
+   "days_nl_ge_10": 158,
+   "days_all_member_nh": 0,
+   "days_all_member_nl": 0
+  }
+ },
+ "d6_signal_face": {
+  "B_W20_vs_below_ma20_share": {
+   "n_common_days": 1616,
+   "pearson": -0.7757,
+   "verdict_note": "signal-level only; cell-level merge clause remains freeze/judge face per prereg sec.1"
+  },
+  "B_W60_vs_below_ma20_share": {
+   "n_common_days": 1576,
+   "pearson": -0.6369,
+   "verdict_note": "signal-level only; cell-level merge clause remains freeze/judge face per prereg sec.1"
+  }
+ },
+ "descriptive_fwd_face": {
+  "note": "descriptive census only; overlapping windows inflate t; no costs; NOT a strategy claim",
+  "fwd_5d": {
+   "b20_le_q10_capitulation": {
+    "n": 162,
+    "mean": 0.0046,
+    "std": 0.02512
+   },
+   "b20_ge_q90_euphoria": {
+    "n": 165,
+    "mean": 0.00739,
+    "std": 0.03787
+   },
+   "mid_band": {
+    "n": 1284,
+    "mean": 0.00038,
+    "std": 0.02435
+   },
+   "spread_hi_minus_lo_mean": 0.00279
+  },
+  "fwd_20d": {
+   "b20_le_q10_capitulation": {
+    "n": 159,
+    "mean": 0.01179,
+    "std": 0.05205
+   },
+   "b20_ge_q90_euphoria": {
+    "n": 165,
+    "mean": 0.01517,
+    "std": 0.05891
+   },
+   "mid_band": {
+    "n": 1272,
+    "mean": 0.00375,
+    "std": 0.05063
+   },
+   "spread_hi_minus_lo_mean": 0.00338
+  }
+ }
+}
