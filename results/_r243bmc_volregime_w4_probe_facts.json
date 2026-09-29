@@ -1,0 +1,322 @@
+{
+ "probe": "INNOVATION-QUOTA-SLOT-4 volume_regime_bimodal pre-freeze facts (zoo #96, r263 frozen params)",
+ "anchor": "data/daily/sh510300.csv",
+ "cutoff": "2026-09-22",
+ "panel": {
+  "rows": 3483,
+  "first": "2012-05-28",
+  "last": "2026-09-22"
+ },
+ "construction": {
+  "upper_thr": 1.15,
+  "lower_thr": 0.810874,
+  "a": 1.5,
+  "slow_windows": [
+   100,
+   45
+  ],
+  "int_windows": {
+   "100": [
+    50,
+    10
+   ],
+   "45": [
+    22,
+    7
+   ]
+  },
+  "position_rule": "long = vi>1.15 (overheat) OR vi<lower (drought); mid band flat (ETF no short leg, zoo #94 precedent)"
+ },
+ "cells": {
+  "slow100": {
+   "decidable": 3375,
+   "first_decidable_bar_idx": 108,
+   "overheat_open": 1093,
+   "drought_open": 1174,
+   "long_open": 2267,
+   "open_rate": 0.671704,
+   "mid_upper_flat": 439,
+   "mid_lower_flat": 669,
+   "dec_vs_dec100": null,
+   "fwd5_long_open_vs_decidable": {
+    "n_a": 2255,
+    "n_b": 3370,
+    "t": 0.785,
+    "mean_a": 0.002182,
+    "mean_b": 0.001497
+   },
+   "fwd20_long_open_vs_decidable": {
+    "n_a": 2255,
+    "n_b": 3355,
+    "t": -0.372,
+    "mean_a": 0.005597,
+    "mean_b": 0.006231
+   },
+   "fwd5_overheat_vs_drought": {
+    "n_a": 1093,
+    "n_b": 1172,
+    "t": 2.963,
+    "mean_a": 0.004239,
+    "mean_b": 0.000158
+   },
+   "fwd5_long_vs_calm": {
+    "n_a": 964,
+    "n_b": 1518,
+    "t": 0.188,
+    "mean_a": 0.002177,
+    "mean_b": 0.001981
+   },
+   "fwd5_long_vs_wild": {
+    "n_a": 1059,
+    "n_b": 1441,
+    "t": 0.597,
+    "mean_a": 0.002393,
+    "mean_b": 0.001464
+   },
+   "extreme_days": {
+    "2015-07-27": {
+     "state": "drought",
+     "vi": 0.322266
+    },
+    "2016-01-04": {
+     "state": "overheat",
+     "vi": 1.699534
+    },
+    "2024-02-28": {
+     "state": "mid_upper_flat",
+     "vi": 1.028254
+    },
+    "2024-09-24": {
+     "state": "overheat",
+     "vi": 2.197385
+    },
+    "2024-09-30": {
+     "state": "overheat",
+     "vi": 3.126965
+    },
+    "2025-04-07": {
+     "state": "overheat",
+     "vi": 4.906937
+    },
+    "2026-01-19": {
+     "state": "overheat",
+     "vi": 4.38777
+    }
+   },
+   "extreme_open_count": 6,
+   "d6": {
+    "vs_w4_calm": {
+     "both": 966,
+     "a_only": 1059,
+     "b_only": 557,
+     "neither": 382,
+     "a_in_b": 0.4261
+    },
+    "vs_w4_wild": {
+     "both": 1059,
+     "a_only": 966,
+     "b_only": 382,
+     "neither": 557,
+     "a_in_b": 0.4671
+    },
+    "vs_vconf_surge": {
+     "both": 1097,
+     "a_only": 1170,
+     "b_only": 591,
+     "neither": 517,
+     "a_in_b": 0.4839
+    },
+    "vs_w11_std20_open": {
+     "both": 272,
+     "a_only": 1988,
+     "b_only": 119,
+     "neither": 984,
+     "a_in_b": 0.12
+    },
+    "vs_w10_mom_open": {
+     "both": 269,
+     "a_only": 1983,
+     "b_only": 105,
+     "neither": 987,
+     "a_in_b": 0.1187
+    },
+    "vs_w9_amp_wide": {
+     "both": 1127,
+     "a_only": 1140,
+     "b_only": 549,
+     "neither": 559,
+     "a_in_b": 0.4971
+    },
+    "vs_w7_streak_up": {
+     "both": 553,
+     "a_only": 1714,
+     "b_only": 277,
+     "neither": 831,
+     "a_in_b": 0.2439
+    },
+    "vs_w8_tstate_open": {
+     "both": 516,
+     "a_only": 1751,
+     "b_only": 225,
+     "neither": 883,
+     "a_in_b": 0.2276
+    }
+   },
+   "regime_rates": {
+    "pct_long_when_calm": 63.43,
+    "pct_long_when_wild": 73.49,
+    "pct_long_when_surge": 64.99,
+    "pct_long_when_dry": 69.35
+   }
+  },
+  "slow45": {
+   "decidable": 3433,
+   "first_decidable_bar_idx": 50,
+   "overheat_open": 1131,
+   "drought_open": 1083,
+   "long_open": 2214,
+   "open_rate": 0.644917,
+   "mid_upper_flat": 478,
+   "mid_lower_flat": 741,
+   "dec_vs_dec100": null,
+   "fwd5_long_open_vs_decidable": {
+    "n_a": 2202,
+    "n_b": 3428,
+    "t": -0.291,
+    "mean_a": 0.00116,
+    "mean_b": 0.001415
+   },
+   "fwd20_long_open_vs_decidable": {
+    "n_a": 2202,
+    "n_b": 3413,
+    "t": -0.338,
+    "mean_a": 0.00532,
+    "mean_b": 0.005894
+   },
+   "fwd5_overheat_vs_drought": {
+    "n_a": 1129,
+    "n_b": 1083,
+    "t": 2.482,
+    "mean_a": 0.002809,
+    "mean_b": -0.000615
+   },
+   "fwd5_long_vs_calm": {
+    "n_a": 939,
+    "n_b": 1518,
+    "t": -0.025,
+    "mean_a": 0.001955,
+    "mean_b": 0.001981
+   },
+   "fwd5_long_vs_wild": {
+    "n_a": 1018,
+    "n_b": 1441,
+    "t": -0.16,
+    "mean_a": 0.001212,
+    "mean_b": 0.001464
+   },
+   "extreme_days": {
+    "2015-07-27": {
+     "state": "drought",
+     "vi": 0.438869
+    },
+    "2016-01-04": {
+     "state": "overheat",
+     "vi": 1.435462
+    },
+    "2024-02-28": {
+     "state": "overheat",
+     "vi": 1.234525
+    },
+    "2024-09-24": {
+     "state": "overheat",
+     "vi": 2.195862
+    },
+    "2024-09-30": {
+     "state": "overheat",
+     "vi": 2.255856
+    },
+    "2025-04-07": {
+     "state": "overheat",
+     "vi": 5.20564
+    },
+    "2026-01-19": {
+     "state": "overheat",
+     "vi": 2.637555
+    }
+   },
+   "extreme_open_count": 7,
+   "d6": {
+    "vs_w4_calm": {
+     "both": 941,
+     "a_only": 1018,
+     "b_only": 582,
+     "neither": 423,
+     "a_in_b": 0.425
+    },
+    "vs_w4_wild": {
+     "both": 1018,
+     "a_only": 941,
+     "b_only": 423,
+     "neither": 582,
+     "a_in_b": 0.4598
+    },
+    "vs_vconf_surge": {
+     "both": 1111,
+     "a_only": 1103,
+     "b_only": 609,
+     "neither": 610,
+     "a_in_b": 0.5018
+    },
+    "vs_w11_std20_open": {
+     "both": 269,
+     "a_only": 1905,
+     "b_only": 122,
+     "neither": 1067,
+     "a_in_b": 0.1215
+    },
+    "vs_w10_mom_open": {
+     "both": 270,
+     "a_only": 1898,
+     "b_only": 104,
+     "neither": 1072,
+     "a_in_b": 0.122
+    },
+    "vs_w9_amp_wide": {
+     "both": 1111,
+     "a_only": 1103,
+     "b_only": 591,
+     "neither": 628,
+     "a_in_b": 0.5018
+    },
+    "vs_w7_streak_up": {
+     "both": 537,
+     "a_only": 1677,
+     "b_only": 303,
+     "neither": 916,
+     "a_in_b": 0.2425
+    },
+    "vs_w8_tstate_open": {
+     "both": 515,
+     "a_only": 1699,
+     "b_only": 243,
+     "neither": 976,
+     "a_in_b": 0.2326
+    }
+   },
+   "regime_rates": {
+    "pct_long_when_calm": 61.79,
+    "pct_long_when_wild": 70.65,
+    "pct_long_when_surge": 64.59,
+    "pct_long_when_dry": 64.39
+   }
+  }
+ },
+ "intra_family": {
+  "slow100_vs_slow45": {
+   "both": 1765,
+   "s100_only": 502,
+   "s45_only": 418,
+   "s100_in_s45": 0.7786
+  }
+ }
+}

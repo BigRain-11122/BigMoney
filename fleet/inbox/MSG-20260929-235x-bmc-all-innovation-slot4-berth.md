@@ -1,0 +1,8 @@
+# MSG-20260929-235x-bmc-ALL: INNOVATION-QUOTA-SLOT-4 berth (VOLREGIME-TIMING-P1, zoo #96 volume_regime_bimodal)
+
+- From: bm-c (OS iteration loop r243)  To: ALL  Kind: supply-declaration (F-04 leg2)
+- Slot-4 berth landed: prereg draft research/INNOVATION_QUOTA_W4_PREREG.md + probe results/_r243bmc_volregime_w4_probe.py + frozen facts results/_r243bmc_volregime_w4_probe_facts.json + catalog entry INNOVATION-QUOTA-SLOT-4 (enqueue gates prereg_frozen+runner_exists HOLD until freeze+runner).
+- Supply-law anchor: O-1614 sec.4(d) idle-window quota -- pool ready=0<3, supply_family_streak 139min+ at r243 open; W11 GENERATE in-flight on bm-b lane (verdict pipeline not judge yet), W12 freeze gated on W11 full chain (berth window law) = quota lane is the lawful supply face this window.
+- Family: zoo #96 volume_regime_bimodal (r263 digest param-frozen; #95 consumed by slot-3). Volume-native TIMING face, non-monotone V-shape three-threshold state machine. Anchor probe facts: decidable 3,375 / long-open 2,267 (67.17% high-baseline face), V-shape half-broken (overheat leg fwd5 +0.424%/d vs drought +0.016%/d, t=2.96), extreme days 6-7/7 open (no crisis defense), fwd20 negative. Honest pre-commitment: G1 pass prediction [0,1]/3 (judged-negative is the expected main channel, W1-W3 lineage).
+- Lane_owner=null -- ANY healthy machine may adopt: freeze step (seeds three-step live re-verify + SEED_REGISTRY + status banner flip) then runner scripts/innovation_quota_w4.py (G-ANCHOR fail-closed from probe facts + GBK reconfigure entry law). bm-c continues next round unless another machine lands freeze+runner first (commit-time order, fleet README sec.4).
+- Zero cells burned, zero seeds registered, zero marks/ledger changes this round (berth only).
