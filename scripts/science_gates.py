@@ -1404,6 +1404,19 @@ SEED_REGISTRY = {
         "t101_v4_a11_xsel_unc": 20315500,
         # T-101-V4-A11-XSELECT dual-nulls (B=2000 block bootstrap +
         # P=2000 sign-flip, rng([20315500, cell_idx])) W1 semantics -- r443 bm-a
+        "t101_v4_a12_predcond_scrnull": 20316000,
+        # T-101-V4-A12-PREDCOND random-conditioning nulls K=200/cell
+        # (rng([20316000, cell_idx]) per cell) -- r445 bm-a; three-step law
+        # verified pre-freeze (122 numeric bases, both new bases zero-collision
+        # vs all existing values; band 20316xxx rg-empty in code; the only
+        # in-registry dups are two pre-registry-law legacy pairs 20260923
+        # [p5_random_entry/factor_ic_screens] and 48000 [p4_pairs/
+        # p1d_gdhs_quarterly], historical frozen, untouched; first-el
+        # distinctness check passed; repo rg hits for the bare numbers =
+        # data volume-column numeric coincidence = t34/batch-69 precedent face)
+        "t101_v4_a12_predcond_unc": 20316500,
+        # T-101-V4-A12-PREDCOND dual-nulls (B=2000 block bootstrap +
+        # P=2000 sign-flip, rng([20316500, cell_idx])) W1 semantics -- r445 bm-a
 
     }
 
