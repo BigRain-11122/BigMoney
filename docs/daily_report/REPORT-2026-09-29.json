@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-29",
- "generated_at": "2026-09-29 19:24:12",
+ "generated_at": "2026-09-29 19:33:58",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,22 +297,21 @@
   "md_link": "../live_usage/LIVE-2026-09-29.md"
  },
  "rd": {
-  "commits_24h": 494,
-  "result_jsons_landed_24h": 117,
+  "commits_24h": 495,
+  "result_jsons_landed_24h": 118,
   "digests_landed_24h": 8,
   "prereg_md_touched_24h": 36,
   "compute_audit_latest": {
-   "ts": "2026-09-29 19:23:43",
-   "py_cpu_pct": 0.0,
+   "ts": "2026-09-29 19:31:57",
+   "py_cpu_pct": 20.9,
    "flags": [
-    "pool_starvation",
     "supply_floor"
    ],
-   "verdict": "FLAG:pool_starvation,supply_floor"
+   "verdict": "FLAG:supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": false
+  "batch_in_flight": true
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -569,11 +568,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 942451,
+  "total_report_tokens_est": 944365,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 18:39:55",
+   "prev_generated": "2026-09-29 18:52:04",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 448,
+   "report_tokens_growth": 1914,
    "mandate_growth": 0
   },
   "method": {
@@ -646,37 +645,13 @@
     "today_supply_gap_flags": 52
    },
    "bm-b": {
-    "latest_ts": "2026-09-29 18:22:43",
-    "py_pct": 0.5,
-    "cpu_pct": 5.0,
-    "ready": 0,
-    "streak_min": 232.9,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "latest_ts": "2026-09-29 19:31:57",
+    "py_pct": 20.9,
+    "cpu_pct": 15.0,
+    "ready": 1,
+    "streak_min": 302.2,
+    "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "16:30",
-      0.9
-     ],
-     [
-      "16:35",
-      9.6
-     ],
-     [
-      "16:38",
-      0.0
-     ],
-     [
-      "16:54",
-      0.1
-     ],
-     [
-      "16:56",
-      0.4
-     ],
-     [
-      "17:00",
-      0.6
-     ],
      [
       "17:30",
       9.4
@@ -698,11 +673,35 @@
       1.8
      ],
      [
+      "18:21",
+      0.0
+     ],
+     [
       "18:22",
       0.5
+     ],
+     [
+      "18:35",
+      3.8
+     ],
+     [
+      "18:46",
+      0.4
+     ],
+     [
+      "18:49",
+      0.9
+     ],
+     [
+      "19:23",
+      0.0
+     ],
+     [
+      "19:31",
+      20.9
      ]
     ],
-    "today_samples": 119,
+    "today_samples": 125,
     "today_floor_ok": 0,
     "today_sla_flags": 10,
     "today_supply_gap_flags": 52
