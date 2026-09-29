@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-29",
- "generated_at": "2026-09-29 09:47:38",
+ "generated_at": "2026-09-29 10:01:33",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "enforce",
-     "active_from": "2026-10-01"
+     "mode": "shadow",
+     "active_from": null
     }
    }
   ],
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-09-29.md"
  },
  "rd": {
-  "commits_24h": 541,
+  "commits_24h": 539,
   "result_jsons_landed_24h": 120,
   "digests_landed_24h": 6,
   "prereg_md_touched_24h": 31,
   "compute_audit_latest": {
-   "ts": "2026-09-29 09:44:52",
-   "py_cpu_pct": 7.1,
+   "ts": "2026-09-29 09:57:25",
+   "py_cpu_pct": 0.0,
    "flags": [
     "pool_starvation",
     "supply_floor"
@@ -312,7 +312,7 @@
   },
   "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -581,13 +581,6 @@
    "owner": "bm-c (OS iteration loop r193; self-opene"
   },
   {
-   "id": "T-2026-09-29-117",
-   "status": "claimed",
-   "type": "trial-labor-wave6-prereg",
-   "immediate": false,
-   "owner": "bm-c (OS iteration loop, round 198; heal"
-  },
-  {
    "id": "T-2026-09-29-118",
    "status": "claimed",
    "type": "trial-labor-wave7-prereg",
@@ -597,11 +590,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 883057,
+  "total_report_tokens_est": 883726,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 09:05:12",
+   "prev_generated": "2026-09-29 09:33:59",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 2622,
+   "report_tokens_growth": 669,
    "mandate_growth": 0
   },
   "method": {
@@ -612,11 +605,73 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-09-29 09:44:52",
-    "py_pct": 7.1,
-    "cpu_pct": 70.0,
+    "latest_ts": "2026-09-29 09:31:18",
+    "py_pct": 6.1,
+    "cpu_pct": 84.0,
     "ready": 0,
-    "streak_min": 1023.9,
+    "streak_min": 1010.3,
+    "verdict": "FLAG:pool_starvation,supply_floor",
+    "py_series_tail": [
+     [
+      "07:26",
+      0.2
+     ],
+     [
+      "07:45",
+      10.1
+     ],
+     [
+      "07:57",
+      9.8
+     ],
+     [
+      "08:07",
+      0.1
+     ],
+     [
+      "08:15",
+      9.8
+     ],
+     [
+      "08:16",
+      7.1
+     ],
+     [
+      "08:37",
+      4.8
+     ],
+     [
+      "08:42",
+      6.2
+     ],
+     [
+      "08:48",
+      0.2
+     ],
+     [
+      "09:02",
+      7.4
+     ],
+     [
+      "09:04",
+      0.0
+     ],
+     [
+      "09:31",
+      6.1
+     ]
+    ],
+    "today_samples": 55,
+    "today_floor_ok": 0,
+    "today_sla_flags": 8,
+    "today_supply_gap_flags": 29
+   },
+   "bm-b": {
+    "latest_ts": "2026-09-29 09:40:28",
+    "py_pct": 1.9,
+    "cpu_pct": 5.0,
+    "ready": 0,
+    "streak_min": 1019.5,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -664,8 +719,8 @@
       6.1
      ],
      [
-      "09:44",
-      7.1
+      "09:40",
+      1.9
      ]
     ],
     "today_samples": 56,
@@ -673,96 +728,14 @@
     "today_sla_flags": 8,
     "today_supply_gap_flags": 29
    },
-   "bm-b": {
-    "latest_ts": "2026-09-29 08:48:34",
-    "py_pct": 0.2,
-    "cpu_pct": 5.0,
-    "ready": 0,
-    "streak_min": 967.6,
-    "verdict": "FLAG:supply_floor",
-    "py_series_tail": [
-     [
-      "06:31",
-      0.0
-     ],
-     [
-      "06:53",
-      6.1
-     ],
-     [
-      "06:58",
-      1.0
-     ],
-     [
-      "06:59",
-      0.3
-     ],
-     [
-      "07:14",
-      6.7
-     ],
-     [
-      "07:16",
-      0.9
-     ],
-     [
-      "07:26",
-      0.2
-     ],
-     [
-      "07:45",
-      10.1
-     ],
-     [
-      "07:57",
-      9.8
-     ],
-     [
-      "08:15",
-      9.8
-     ],
-     [
-      "08:16",
-      7.1
-     ],
-     [
-      "08:48",
-      0.2
-     ]
-    ],
-    "today_samples": 49,
-    "today_floor_ok": 0,
-    "today_sla_flags": 8,
-    "today_supply_gap_flags": 27
-   },
    "bm-c": {
-    "latest_ts": "2026-09-29 09:04:48",
+    "latest_ts": "2026-09-29 09:57:25",
     "py_pct": 0.0,
-    "cpu_pct": 6.0,
+    "cpu_pct": 18.0,
     "ready": 0,
-    "streak_min": 983.8,
-    "verdict": "FLAG:supply_floor",
+    "streak_min": 1036.4,
+    "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "06:59",
-      0.3
-     ],
-     [
-      "07:14",
-      6.7
-     ],
-     [
-      "07:16",
-      0.9
-     ],
-     [
-      "07:26",
-      0.2
-     ],
-     [
-      "07:45",
-      10.1
-     ],
      [
       "07:57",
       9.8
@@ -788,11 +761,31 @@
       6.2
      ],
      [
+      "08:48",
+      0.2
+     ],
+     [
+      "09:02",
+      7.4
+     ],
+     [
       "09:04",
+      0.0
+     ],
+     [
+      "09:31",
+      6.1
+     ],
+     [
+      "09:40",
+      1.9
+     ],
+     [
+      "09:57",
       0.0
      ]
     ],
-    "today_samples": 52,
+    "today_samples": 57,
     "today_floor_ok": 0,
     "today_sla_flags": 8,
     "today_supply_gap_flags": 29
