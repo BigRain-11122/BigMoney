@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-29 16:23:02",
- "heartbeat_epoch_utc": 1790670175,
- "clock_read": "2026-09-29T16:22:55+08:00",
- "current_task": "W9 chain live (freeze done r432 + runner slice-1 built + GENERATE pool ready lane=bm-b; autofill burns next tick)",
+ "last_seen": "2026-09-29 16:44:32",
+ "heartbeat_epoch_utc": 1790671472,
+ "clock_read": "2026-09-29T16:44:32",
+ "current_task": "W9 SCREEN pool entry submitted (2,715 cells, autofill next tick ignites); GENERATE harvested n=2515",
  "cpu_cores": 16,
- "free_ram_gb": 12.1,
+ "free_ram_gb": 12.0,
  "gpu_free_vram_gb": 2.7,
  "total_ram_gb": 25.69,
  "cpu_util_pct": 2.7,
- "round_no": 430,
- "verdict": "pool-supply-gap (W9-GENERATE ready unclaimed=1, autofill C8 owns burn; supply response = W9 chain this round; board clear, bandit claimed)",
+ "round_no": 433,
+ "verdict": "green lane healthy; W9 funnel advanced generate->screen (below-band dedup 2515 honest, AMP gate-closed collapse mass); supply_floor answered in-flight; board clear, bandit claimed",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -138,10 +138,10 @@
   "O-2026-09-28-2210-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 14.1,
+ "idle_ram_gb": 12.0,
  "gpu_idle_vram_gb": 2.8,
  "n_orders_ack": 122,
- "round": 428,
+ "round": 431,
  "gpu_model": "NVIDIA GeForce RTX 3070",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -149,7 +149,7 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 430,
+ "loop_round": 433,
  "gpu_free_vram_mb": 2809,
- "ram_free_gb": 12.1
+ "ram_free_gb": 12.0
 }
