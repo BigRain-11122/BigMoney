@@ -9,8 +9,8 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-30 04:35:15",
- "_stamp_note": "r446 bm-b bookkeeping flip: W12-SCREEN done + W12-JUDGE armed (single_writer control-plane edit; autofill C8 read-side launches burn)",
+ "updated_at": "2026-09-30 06:1x",
+ "_stamp_note": "r459 bm-a control-plane repair flip: INNOVATION-QUOTA-SLOT-6 enqueued plan-less (r459 step-6 miss) -> autofill._pick hard-skip stranded the ready batch 3 ticks; workers_plan+worker_class+priority backfilled from catalog fix (single_writer control-plane edit, r446 bookkeeping-flip precedent); fill_ladder.py workers_plan gate added fail-closed (selftest green)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -4782,7 +4782,14 @@
     }
    ],
    "entered_at": "2026-09-30 05:47:34",
-   "entered_by": "bm-a fill_ladder T-107 slice-2"
+   "entered_by": "bm-a fill_ladder T-107 slice-2",
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "r459 bm-a stranded-entry live-fire repair: enqueued plan-less, autofill._pick hard-skipped 3 ticks; 4-cell judged batch x1000 vstarts+100 splits multi-core; CEO 10%% CPU headroom law = BelowNormal"
+   },
+   "worker_class": "self-contained",
+   "priority": 3
   }
  ]
 }

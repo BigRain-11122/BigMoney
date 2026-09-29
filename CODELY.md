@@ -6,7 +6,8 @@
 - 冷层指针：r443 jsonl 追加写吞换行腐败坑+union 双侧同族修复律 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=raw_decode 循环拆行工具 _r443bmb_x2log_repair.py+新追加写者尾换行守卫承载）。
 
 - 冷层指针：r455 S5 轮报告路径孤儿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r458 bm-a 窗批』节（法面已由轮 prompt S5 文本承载·r458 迁档）。
-- [2026-09-30 04:4x r458 bm-a] 泊位族选双面核验坑（W6 槽选型实弹·差点重复开发已判负族）：zoo 行状态面滞后于 results 判决面——zoo #93 行仍标「新写/参数化冻结」但 P-1e 批已判负收线（IR −0.232），仅按 zoo 行 untried 状态选族=重复开发已判负族；本窗幸被 rg results 面 P1E 文件命中拦下（zoo 行收割轮更新缺位=登记面欠账如实注记非阻断）。正法=泊位族选防重核双面序：①先 rg results/ 判决产物面（批名/族名/读数语义）②再读 research 登记面。How to apply：任何批测/泊位族选防重核，rg 必含 results 面先行；zoo/登记行状态只作线索不作结论。
+- 冷层指针：r458 泊位族选双面核验坑（zoo 行状态面滞后于 results 判决面）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=防重核双面序：rg results 判决面先行·zoo/登记行状态只作线索）。
+- [2026-09-30 r459 bm-a] fill_ladder 门串坑：catalog enqueue_gates 裸串 prereg_frozen=checker unknown-gate-ref 永堵（SLOT-6 实弹）；正典=prereg_frozen:<路径>；runner 字段须裸路径（描述另放 runner_note，否则 runner_exists 拼整串 not-built）；SLOT-5 同病 latent（done 态不再撞检）。
 - 冷层指针：r445 采集器无超时挂死盲区坑（conn-fuse 对 hang 失明） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r457 bm-a 窗批』节（法面=fetch_one daemon-worker 45s 死限+TimeoutError 走 CONN_MARKERS fuse 路+探针 _r445bmb_hang_shield_probe.py 承载）。
 
 ### Project
@@ -37,5 +38,5 @@
 - 冷层指针：r456 a158 冻结面抽位点对账 eps 分母坑（W13 探针首跑实弹） 全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批』节（法面=a158_tsgate_probe 参考式同款 eps 分母+镜像孪生族构造恒等自检承载）。
 - 冷层指针：r457 风暴 resolver 非幂等追加坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r253 bm-c 窗批』节（法面=append 型收口脚本 add 前幂等守卫惯例+半途失败 git checkout -- 恢复惯例承载）。
 - [2026-09-30 04:4x r446 bm-b] 手术过继残漏三连坑（W12 实弹·同一 r445 手术 tl11→tl12 留三残）：①screen-prep G-ANCHOR 轴长 14→15 IndexError（死轮已修·hermetic L13 leg 镜像新语法 15 元组但真数据 identity face 调用点仍 14）②screen-finalize gvvvsktsams_seg 九元组段字典初始化遗漏 NameError③judge-prep rsqr_meta 每腿 slope_sign_split 披露键缺 KeyError（打印段引用 A158 verbatim meta 不产出的键）——48/48 selftest 全数漏检；正解=真数据首跑逐异常点修（皆加性机械修复零判据触碰，grammar pin 67c86c9cf4ef1ca7 全程恒等）+ judge-prep 每腿披露面按全量面 sec.2(e) 计算镜像补；How to apply：tlN→tlN+1 过继手术必带「真数据 identity face 三命令实弹首跑」（prep/finalize/judge-prep）收口步再宣告 runner 落地——W13 过继者（bm-a berth 已声明）按此律执行。
-- [2026-09-30 04:5x r252 bm-c] 泊位/冻结步开工前 inbox 零未读腿坑（W13 撞带让路实弹）：供给类开工三查漏 inbox 面——04:37 pull 已带入 bm-a 03:56 泊位声明 MSG 而 04:50 起草窗未读→draft/catalog 写完才发现撞带（幸零 commit 零 push=零外泄窗口自愈·r232 让路范式处置）。正法=泊位/冻结/认领类动作前置检查单三查扩四查：job_list+fleet\tasks+fetch 标题扫+**fleet\inbox 未读清零**；死轮接续窗尤甚（取证三步注意力占满=漏 inbox 面）。How to apply：任何供给步开工前先做 inbox 差集（processed basename 全名比），有未读=先读后动再写。
+- 冷层指针：r252 bm-c 泊位/冻结步开工前 inbox 零未读腿坑全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r459 bm-a 窗批二』节（法面=供给类开工前置检查单三查扩四查：job_list+tasks+fetch 标题扫+inbox 未读清零）。
 - [2026-09-30 05:5x r254 bm-c] push 假拒绝坑（reflock 竞态）：报 `remote rejected cannot lock ref: is at <本人commit> but expected <基点>`=同树 FleetPush 抢先已落同一 commit——正法=**先 fetch 验 origin 落点再决定重试**，禁盲目 rebase 重推（r254 实证 fetch 后 origin 已在本人泊位 commit 57636c713·零重复零损伤）。

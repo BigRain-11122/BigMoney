@@ -177,6 +177,19 @@ def consumer_plan_missing(cand):
     return not (cand.get("consumer_plan") or "").strip()
 
 
+def workers_plan_missing(cand):
+    """O-20260924-2130 s1.1 multi-core law (r459 bm-a live-fire: SLOT-6
+    enqueued plan-less -> autofill._pick hard-skips "no workers_plan"
+    -> ready batch stranded unclaimable, tick verdict pool_empty_or_busy
+    for 3 ticks while the entry sat "ready"). New candidates must carry
+    a multi-core plan; dict or non-empty string form both valid. Same
+    append-only grandfather scope as consumer_plan."""
+    wp = cand.get("workers_plan")
+    if isinstance(wp, dict):
+        return not wp
+    return not (wp or "").strip()
+
+
 def _merged_pool_view(shared_path):
     """T-116 s3 wave-1 flip (D-20260928-03(1) structural end-state): the
     ladder's DECISION base is the lane-merged view (scripts/merge_lane_views.
@@ -224,6 +237,11 @@ def run(dry_run=False, floor=FLOOR_DEFAULT):
             blocked.append((cid, "consumer_plan missing (O-1820 meaning "
                                 "law: candidate must name its consuming "
                                 "face -- 宁亮牌不造活; r193 schema slice)"))
+            continue
+        if workers_plan_missing(cand):
+            blocked.append((cid, "workers_plan missing (O-2130 multi-core "
+                                "law: autofill._pick hard-skips plan-less "
+                                "entries -- r459 SLOT-6 stranded live-fire)"))
             continue
         entry = {k: v for k, v in cand.items() if k != "enqueue_gates"}
         entry["status"] = "ready"
@@ -333,6 +351,19 @@ def selftest():
         assert not consumer_plan_missing(
             {"id": "L5", "consumer_plan": "judged verdict -> ledger row"}), \
             "cp present falsely flagged"
+        # r459 workers_plan schema gate (O-2130 multi-core law): plan-less
+        # new candidates are blocked; dict and string forms both valid.
+        assert workers_plan_missing({"id": "L6"}), "wp missing not caught"
+        assert workers_plan_missing({"id": "L7", "workers_plan": "   "}), \
+            "wp whitespace not caught"
+        assert workers_plan_missing({"id": "L7b", "workers_plan": {}}), \
+            "wp empty dict not caught"
+        assert not workers_plan_missing(
+            {"id": "L8", "workers_plan": {"workers": 12}}), \
+            "wp dict falsely flagged"
+        assert not workers_plan_missing(
+            {"id": "L9", "workers_plan": "{'workers': 12}"}), \
+            "wp string falsely flagged"
         # grandfather check: every EXISTING catalog entry (already burned
         # or gated, append-only rows) is exempt -- the gate binds only
         # candidates newly appended to the catalog from r193 on. Live
@@ -340,7 +371,7 @@ def selftest():
         # consumer faces in ticket_ref/note history (no rewrite).
         print("selftest: all assertions PASS (double-file law / lane guard / "
               "ready count / gate refusal matrix / shard synthesis / "
-              "consumer_plan schema gate)")
+              "consumer_plan schema gate / workers_plan schema gate)")
         return 0
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
