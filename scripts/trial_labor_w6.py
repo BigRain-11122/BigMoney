@@ -114,7 +114,8 @@ import trial_labor_w2 as tl2  # initial-stop overlay layer import law
 import trial_labor_w3 as tl3  # regime-gate overlay + MASS translation
 import trial_labor_w4 as tl4  # vol overlay + dual-gate machinery
 import trial_labor_w5 as tl5  # yang overlay + triple-gate machinery
-from science_gates import CostPatch, SEED_REGISTRY  # noqa: E402
+from science_gates import (CostPatch, SEED_REGISTRY,  # noqa: E402
+                           finalize_already_landed)  # pit-95 guard
 
 # ------------------------------------------------------------ frozen (prereg)
 WAVE = "TRIAL_LABOR_W6"
@@ -1537,6 +1538,13 @@ def cmd_screen(shard: int, shards: int, workers) -> int:
 
 def cmd_screen_finalize() -> int:
     print(f"=== {WAVE} screen-finalize ===")
+    landed = finalize_already_landed(SCREEN_BATCH, SCREEN_FILE)
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {SCREEN_BATCH} already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar, cells = _cell_list_w6()
     rows = _load_screen_rows()
     by_id = {r["cell_id"]: r for r in rows}
@@ -2118,6 +2126,13 @@ def cmd_judge(shard: int, shards: int, workers) -> int:
 
 def cmd_judge_finalize() -> int:
     print(f"=== {WAVE} judge-finalize ===")
+    landed = finalize_already_landed(JUDGE_BATCH, JUDGE_FILE)
+    if landed is not None:
+        print(f"FINALIZE-IDEMPOTENT-GUARD: {JUDGE_BATCH} already landed "
+              f"(ledger total={landed.get('total')}); re-run refused "
+              "(pit-95 double-append guard; re-run channel = fresh prereg "
+              "+ fresh batch name)")
+        return 2
     grammar = json.load(open(GRAMMAR_FILE, encoding="utf-8"))
     screen = json.load(open(SCREEN_FILE, encoding="utf-8"))
     survivors = list(screen.get("survivors", []))
@@ -3116,6 +3131,23 @@ def cmd_selftest() -> int:
     else:
         ok("G-VCONF cross-table lower bounds live (gate refused -- see "
            "prior leg)", False)
+
+    # [17] pit-95 finalize idempotency guard (live-fire on the real
+    # landed W6 products; refuse-channel = fresh prereg + fresh batch name)
+    g_scr = finalize_already_landed(SCREEN_BATCH, SCREEN_FILE)
+    ok("pit-95 guard live-fire: w6_screen.json carries SCREEN_BATCH "
+       "-> finalize re-run would be refused",
+       isinstance(g_scr, dict)
+       and g_scr.get("batch") == SCREEN_BATCH
+       and isinstance(g_scr.get("total"), int))
+    g_jdg = finalize_already_landed(JUDGE_BATCH, JUDGE_FILE)
+    ok("pit-95 guard live-fire: w6_judge.json carries JUDGE_BATCH "
+       "(r206 orphan double-append face is now structurally refused)",
+       isinstance(g_jdg, dict)
+       and g_jdg.get("batch") == JUDGE_BATCH
+       and g_jdg.get("total") == 333432)
+    ok("pit-95 guard: mismatched batch name -> None (lawful new batch)",
+       finalize_already_landed("NO-SUCH-BATCH", SCREEN_FILE) is None)
 
     print(f"selftest: {ok_n - fails[0]}/{ok_n} PASS, {fails[0]} FAIL")
     if fails[0]:
