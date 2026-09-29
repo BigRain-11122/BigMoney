@@ -84,13 +84,18 @@
 - 语法消耗登记簿：`research/TRIAL_GRAMMAR_LEDGER.md`（append-only·wave-5 行：语法 sha+raw/dedup 计数+seed+消耗时点）。
 - 池路由：SCREEN/JUDGE 批 >5min 入池（O-2100）；**lane_owner=null**（core48+T-18 in-repo 双机可跑·judge 面 cache-less 机 in-runner exit 2 诚实=W1-W4 先例）；workers_plan ≥floor(核数/0.8) BelowNormal；RAM 门禁 r354 三采样例（池条目 data_gates 注记）；**CPU 排队=池优先序自主调度**（当前在飞=门后批：census W2B bm-b 烧+五判决面 RAM 门后合法排序票内留痕）；**W5-JUDGE 序门=排在 W2/W3/W4-JUDGE 及其余在飞判决面后（§0）**；§9 交接窗下。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假。】
+## §7 跑后实证。【跑后一次定稿回填·占位纪律解除。】
 
-（一次定稿；工程修复重跑双跑留痕如实账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
+**【2026-09-29 09:3x 一次定稿回填·bm-b r417（T-118 五波漂移债清偿）·数字真值源=results/trial_labor_w5/*.json】**
 
-## §8 批后复盘。【必填 §7-T。】
+- **漏斗**：raw 5,000 → distinct **3,926**（塌缩 21.5%）→ 初筛 4,126 格（3,926+200 null）→ 存活 **372**（9.5%）→ 全量判决 372 格 → **G1' 1/372 过线**（W5-B-2619 箱体突破〔patterns〕none/none/none Sharpe 1.6861·判线 skill_line_v2=1.1918·DSR 0.4396）→ **G2 0**（n_trials=328,615 活链头）→ 上岗 0（zero-face intake）。账本 324,489+4,126=**328,615**（SCREEN 收官）→ 328,615+372=**328,987**（JUDGE 收官）。
+- **判决面**：null 族中位 0.4972·p95=0.516361；E[FP]=0.05×372=**18.6** 如实披露；族 PBO：composite_rotation 0.8571（18 格）/volatility 0.7143（24）/ta 0.5143（72）/patterns 0.1714（103）/folk 0.4857；描述条款：年化>0 263/372·OOS 双正 246/372·dd 线 371/372·无崩年 372/372（x2 372/372）。
+- **YANG 门方向读数（§5.4 方向预测对账·零判据权重）**：分段存活 **none 12.2%（247/2,032）vs first_yang 6.6%（125/1,894）**——预测「first_yang≥none」**miss 反向**（确认过滤门整体砍半存活=「门是付费的不是免费的」实证·仓内淬炼台主证 26.9→61-67% 方向**未跨语法迁移**·两向殉死兑现）；三门交互 **bear×wild×none 36.8%（91/247）最高**·bear×calm×first_yang 0.9%（2/211）最低。
+- **§5 预测对账五条**：①distinct 3,926∈[2,800,4,600] ✓（缩 21.5%∈[8%,44%] ✓）②null 中位 0.4972<0.50 ✓（近缘）·p95 0.5164∈[0.42,0.62] ✓·存活 372∈[100,750] ✓（9.5%∈[2%,15%] ✓）③G1' 1∈[0,60] ✓·G2 模态零 ✓ ④YANG 方向 **miss 反向砍半**（上注）⑤极端日先验=载体律 ✓（七极端日 4 red 关/3 yang 放行·危机日暴露非零整窗判读实证）。
 
-（预测对账门禁链损耗账 results/gate_attrition.json 追加行·判线 v2 当批读数·回执入轮报告+CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff+live/paper SIGNAL_BUILDERS 接线+smoke 锚定门复跑；判决面结果 48h 内呈 CEO。）
+## §8 批后复盘。【必填 §7-T·r417 回填。】
+
+**【回执 2026-09-29 bm-b r417（T-118 漂移债清偿）】**attrition 损耗账两行（TRIAL_LAB_W5_SCREEN 4,126+TRIAL_LAB_W5_JUDGE 372）原落地窗未落=漂移债第二面，r417 补录（gate_attrition history+bm-b 车道双写·原事件时戳 2026-09-29 02:35:48/03:48:39+backfill 注记）；判线 v2 当批读数 skill_line_v2=**1.1918**；零新注册员（G2=0·zero-face）；48h CEO 呈报=CEO-REPORT-WAVE2-5-20260929.md（W5 判决落地 09-29 03:48→窗止 10-01 03:48 提前 ~47.5h）+r417 纠偏附录（六波总 G1' 18 非 14·0 录用不变）；轮报告+CODELY.md 行级追加 r417 同轮。
 
 ## §9 追加冻结节。【append-only·每 sub-wave 一冻——禁跑前另立冻结。】
 
