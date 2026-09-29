@@ -57,10 +57,19 @@
 - 产物：`results/a158_tsgate_p1.json`（顶层 cutoff_meta+prereg 块+314 门 IS/OOS 聚合+verdicts+五员次级表+极端日门态披露+audit 段）+ `research/A158_TSGATE_P1.md`（可读供应面：判定表+PASS/PARTIAL 候选清单+诚实注记）+ checkpoint `results/a158_tsgate_p1/`（gitignored·per-shard jsonl 断点续跑）。
 - 池路由：入池 `A158-TSGATE-P1`（lane_owner=null·lane-free·workers_plan=shard 内 worker_cap 并行 BelowNormal·O-2130 多核律）；>5min 串行估计=池批面（autofill 续烧）；finalize=烧后合并腿（lane 任意健康机·per W-SCREEN 先例）。
 
-## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证。【2026-09-29 17:2x 回填·判决面 owner 一次定稿·bm-a r438】
 
-（占位·跑后回填：314 门全判定表+PASS/PARTIAL/FAIL/N/A 计数+§5 预测对账逐条+五员次级面+锚复现读数+消费面指针。）
+- **漏斗全链**：面板 1,724 csv → 截断 cutoff 后 ≥500 bars 入样 **1,013 工具**（711 跳过全=min_bars·新基不足·gate_verify 同律·零因子错误=157 因子 pandas 移植全面板零异常）→ 314 门 → **PASS 48 / PARTIAL 142 / FAIL 117 / N/A 7**（N/A=OOS 工具<30 的极窄门）。
+- **§5 预测对账**：①锚门逐位复现 ✓（in-run fail-closed 双形态·3344/374/139）；②PASS=48 vs 预测带 [0,25]=**MISS 如实**——根因=SUMD/SUMP/SUMN 三元组构造恒等（SUMP+SUMN=1·SUMD=2SUMP−1）+VSUMD/VSUMP/VSUMN 同构+CNT 族+5/10/20/30 窗高相关→**有效独立族数 ≪314**，中位判线在关联簇内成片通过（E[FP]=15.7 仅解释约 1/3·48 PASS 全部须经独立复核面收束）；③RSV 低分位方向命中（RSV30_q10 OOS +0.53%/RSV60_q10 OOS +0.65% 双正）但 IS 反号→**PARTIAL**（与 gate_verify MAD60/ROC20 PARTIAL 同族处置·2017 线机制漂移族）；④FAIL=117 vs 预测 ~254+=MISS（同②关联族推涨 PARTIAL/PASS 所致·FAIL 占比 37% 非多数如实）；⑤极端日门态披露落盘（2015-07-27 n_open=90·RSV5_q10/ROC5_q90 等开窗·全 314 门×7 日态在 results JSON）。
+- **消费面主发现（v4 政体门候选队列）**：**STD20_q90**（OOS 中位 +1.07%·正份额 0.74·五员次级面 5/5 全正 +0.3%~+1.7%·不重叠 +0.93%）与 **RSQR20_q90**（趋势强度高位=趋势延续面·OOS +0.93%·五员 4/5 正）=头两号独立复核候选；STD10_q90（OOS +1.26%）次之。量能 RSI 族（VSUMP/VSUMN/VSUMD 窗 10/20/30）与方向计数族（CNTD/CNTN/CNTP）=关联簇成片 PASS·簇内代表待 D6 审计后取一。
+- **跨面诚实注记（判定不互借律）**：**ROC20_q10（=W10 MOM 同构门）在本 B2 政体门普查面上 FAIL**（OOS −0.15%·IS +1.03% 反号）——W10 试用语法面=另一消费面独立冻结（W8 TSTATE 同族降格后依法开波先例），本面读数不借判 W10 面、W10 面亦不借本面；读数如实入档供 v4 政体门面参详。
+- **面板卫生发现**：五员在面板内**双名双件**（510300.csv 与 sh510300.csv 并存·史长不同·n_in 173 vs 254）——主判定面按工具计数如实双计（无去重宣称）·五员次级表双列披露；后续维护链对账项（去重决策归数据道另行裁定·本批零改动）。
+- **锚门复现**：G-ANCHOR-ROC20 in-run+finalize 双过（预注册 §5.1）。
 
-## §8 批后复盘。【必填 §7-T】
+## §8 批后复盘。【同窗回填·bm-a r438】
 
-（占位·跑后回填：消费面指名回执（v4/C1/T-74 何面取走何门）+关线清单+独立复核队列指针+轮报告/CODELY.md 同轮回执。）
+- **消费面指名回执**：T-101 v4 政体门候选库=48 PASS 门入独立复核队列（下一关=gate_verify 式独立 OOS 复核+D6 邻接审计·簇内 SUMD/SUMP/SUMN 与 VSUM* 族各取代表前禁整簇入册）；C1 输入特征清单=142 PARTIAL 门（RSV30/RSV60_q10 在列·与 gate_verify RSV 绝对门 PASS2 读数并存=同族两面如实）；T-74 L5=STD/RSQR 高位门族特征面。
+- **关线清单**：117 FAIL 门=该因子该侧时序门用法关线（合法产出·与截面判负互为独立假设·不互相翻案）。
+- **独立复核队列指针**：48 PASS → 下批 `GATE-RECHECK-A158`（gate_verify 纪律独立复核·冻结后烧）=v4 政体门臂候选唯一升格通道。
+- **轮报告/CODELY.md 同轮回执**：bm-a r438（本批=供给底线破口响应·板空常供律例行供料·B2 备货件闭环：prereg 冻结→runner→池条目→autofill 17:20 点火 1724/1724→finalize 同轮全落地）。
+- **账本**：非试验账本批（marks +0·SEED +0·无策略 trial·不 append trials_ledger——census/verify 先例）；N_gates=314·E[FP]=15.7 已披露；evidence_cutoff=2026-09-22 顶层在位（C2 键合规）。
