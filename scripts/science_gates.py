@@ -1472,6 +1472,17 @@ SEED_REGISTRY = {
         # coincidence x4); single base key, k-indexed sub-streams like
         # innovation_quota_w1_repo W1 semantics
         "innovation_quota_w3_mom": 20319000,  # random-episode nulls K=2000 + virtual starts K=1000 + splits 100
+        # INNOVATION-QUOTA-SLOT-4 VOLREGIME_TIMING_P1 (zoo #96
+        # volume_regime_bimodal; berth bm-c r243, freeze r244 bm-c):
+        # random-day-placement nulls K=2000 + virtual starts K=1000 +
+        # splits 100, k-indexed sub-streams rng([20322000, k]) like W3;
+        # three-step law r244 ALL GREEN (129-key zero-collision, canon
+        # first-el 615887398 distinct, band 20322000 clean; rg hits =
+        # sse.csv/sh513990.csv volume-column numeric coincidences
+        # t34/batch-69 precedent family + prereg own text); +500 ladder
+        # above W12 declared berths 20320500/20321000/20321500
+        # (unregistered at freeze, bm-a r447 MSG-2225)
+        "innovation_quota_w4_volregime": 20322000,
 
     }
 
