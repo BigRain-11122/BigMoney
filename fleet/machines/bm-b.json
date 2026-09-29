@@ -2,17 +2,17 @@
  "machine_id": "bm-b",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-29T09:41:32+08:00",
- "heartbeat_epoch_utc": 1790646092,
- "clock_read": "2026-09-29T09:41:32+08:00",
- "current_task": "round 416 closed: W6 48h CEO report landed (CEO-REPORT-WAVE6, ~47h early) + W6 attrition 2 rows + prereg sec.7/8 backfill (W1-W5 drift debt disclosed). Next: W7 trial-labor draft berth (TRIAL_LABOR_LAW standing line, comp_audit supply_floor flag carrier), 09:15 T-104 minute-feed first-live window (bm-b lane)",
+ "last_seen": "2026-09-29T10:09:35+08:00",
+ "heartbeat_epoch_utc": 1790647775,
+ "clock_read": "2026-09-29T10:09:35+08:00",
+ "current_task": "round 418 closed: T-118 slice-2a machinery landed+pushed (selftest 37/37, W6 byte-parity pinned). Next: slice-2b funnel cmd bodies + GENERATE pool entry (pit-90 same-commit)",
  "cpu_cores": 16,
- "free_ram_gb": 12.7,
+ "free_ram_gb": 11.2,
  "gpu_free_vram_gb": 2.6,
  "total_ram_gb": 23.92,
- "cpu_util_pct": 3.5,
- "round_no": 416,
- "verdict": "green (W7 slice-1a landed + renumber closure; slice-2 funnel cmds next)",
+ "cpu_util_pct": 21.0,
+ "round_no": 418,
+ "verdict": "green (slice-2a landed 37/37; minute_feed rc=3 source-history-rewrite honest; audit supply_floor -> slice-2b GENERATE entry next)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -138,10 +138,10 @@
   "O-2026-09-28-2210-bm-a.md"
  ],
  "cores": 16,
- "idle_ram_gb": 12.7,
+ "idle_ram_gb": 11.2,
  "gpu_idle_vram_gb": 2.6,
  "n_orders_ack": 122,
- "round": 417,
+ "round": 418,
  "gpu_model": "NVIDIA GeForce RTX 3070",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -149,5 +149,5 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 416
+ "loop_round": 417
 }
