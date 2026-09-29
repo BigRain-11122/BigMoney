@@ -1523,6 +1523,17 @@ SEED_REGISTRY = {
         # three-step re-verification all-green on the same berths kept as
         # cross-check at results/_r453bma_w12_seed_law_facts.json]
 
+        # INNOVATION-QUOTA-SLOT-6 RRG-ROTATION-P1 (zoo #91
+        # rrg_quadrant_rotation, core48 month-end quadrant rotation):
+        # virtual starts K=1000 + splits 100 k-indexed sub-streams
+        # rng([20324500, k]) per W1-W5 lineage; +500 ladder above W5
+        # 20322500 and above the W13 berthed-but-unregistered draft seeds
+        # 20323000/20323500/20324000 (r456 berth declaration; W13 freeze
+        # will register those -- 20324500 clear of both faces); registered
+        # r459 bm-a freeze window, three-step law verified same window
+        # (results/_r459bma_w6_seed_law_facts.json)
+        "innovation_quota_w6_rrg_rotation": 20324500,
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
