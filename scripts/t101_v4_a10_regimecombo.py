@@ -324,13 +324,26 @@ def run() -> int:
                      "d6_max_vs_sg": d6_max_sg})
 
     # batch-own null pool (P4_EXT_TILT face) + G1'/DSR/G2 per cell
-    null_pool = {"values": [float(v) for v in null_values],
-                 "coverage": {"n_values": len(null_values),
+    # (r442 zero-correction: NaN-safe coverage stats -- a random all-closed
+    # gate combo yields a constant zero return series -> tpl.sharpe NaN;
+    # 1/3200 in burn #1, its bare np.mean/np.std poisoned mu/sigma -> NaN ->
+    # skill_line_v2 null_term NaN -> line degenerated to the passive floor
+    # -> C1|510300|x1 pseudo g1_pass. Fix = stats over the valid subset with
+    # nan_count disclosure, judgment NOT a criteria change.)
+    null_arr = np.asarray(null_values, dtype=float)
+    nan_count = int(np.isnan(null_arr).sum())
+    valid_vals = null_arr[~np.isnan(null_arr)]
+    null_pool = {"values": [float(v) for v in valid_vals],
+                 "coverage": {"n_values": int(valid_vals.size),
+                              "nan_excluded": nan_count,
+                              "n_drawn": int(null_arr.size),
                               "schemas_parsed": ["T-101-V4-A10-REGIMECOMBO "
-                                                "random-gate-combo nulls "
-                                                "K=200 x 16 cells (batch-own)"],
-                              "mu": float(np.mean(null_values)),
-                              "sigma": float(np.std(null_values, ddof=1))}}
+                                                 "random-gate-combo nulls "
+                                                 "K=200 x 16 cells (batch-own, "
+                                                 "NaN all-closed combos excluded "
+                                                 "from stats with count)"],
+                              "mu": float(np.mean(valid_vals)),
+                              "sigma": float(np.std(valid_vals, ddof=1))}}
     n_trials_dsr = int(prev_head["total"]) + len(CELLS16)  # post-own-append head
     for cell_idx, cell_id in enumerate(list(cells.keys())):
         c = cells[cell_id]
@@ -399,11 +412,20 @@ def run() -> int:
 
     with open(RESULTS_JSON, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, indent=1)
-    sg.append_ledger("T-101-V4-A10-REGIMECOMBO", len(CELLS16),
-                     os.path.basename(RESULTS_JSON),
-                     evidence_cutoff=EVIDENCE_CUTOFF)
+    # ledger append at finalize (chain-linear; live prev_total read inside;
+    # r442 zero-correction #2: return value MUST land in out["trials_ledger"]
+    # -- dropping it = ledger silent no-op, r434 bm-a pitfall relapse caught
+    # in-window by self-check before any commit of results)
+    out["trials_ledger"] = sg.append_ledger(
+        "T-101-V4-A10-REGIMECOMBO", len(CELLS16),
+        os.path.basename(RESULTS_JSON),
+        evidence_cutoff=EVIDENCE_CUTOFF,
+        note="v4 regime-gate arm combination/input-feature subline: C1 "
+             "accept-family mean + C2 17-gate library mean -> continuous "
+             "weight; G1'v2/G2v2/DSR/PBO per shared library; zero-correction "
+             "burn #2 (NaN-safe null coverage + trials_ledger landed)")
     out["audit"]["runtime_sec"] = round(time.time() - t0, 1)
-    with open(RESULTS_JSON, "w", encoding="utf-8") as f:  # rewrite with runtime
+    with open(RESULTS_JSON, "w", encoding="utf-8") as f:  # rewrite with ledger
         json.dump(out, f, ensure_ascii=False, indent=1)
 
     print("combo verdict: %d/%d FV-PASS (%d D6-REJECT) in %.1fs -> %s"
