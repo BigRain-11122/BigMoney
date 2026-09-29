@@ -9,8 +9,8 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-29 10:38",
- "_stamp_note": "bm-b r419: W7 slice-2b funnel bodies landed (selftest 40/40) + TRIAL-LABOR-W7-GENERATE entry submission same-commit (pit-90 law; consumer_plan O-1820(3))",
+ "updated_at": "2026-09-29 12:56:20",
+ "_stamp_note": "r425 bm-b: TRIAL-LABOR-W8-GENERATE submitted (runner slice-1 + w8_grammar.json sha16=282c3290d1b431bc pre-positioned same commit per pit-90; lane_owner=bm-b per pit-103 terminal gate + freeze-time correction)",
  "entries": [
   {
    "id": "A158-TRUEGAP-IC",
@@ -4086,6 +4086,35 @@
    "done_at": "2026-09-29T11:42:55+08:00",
    "result_ref": "results/trial_labor_w7/w7_judge.json",
    "done_note": "r422 bm-b successor harvest: judge-finalize detached by predecessor r422-attempt 11:26:01 (predecessor died ~11:37 stream-timeout; finalize process survived session death and landed 11:42:55, W6 r415 same pattern) -> w7_judge.json: 284 judged cells (== w7_screen survivors 284), TOTAL-ZERO G1 across all five faces (gate none/bear/bull 0; vol none/calm/wild 0; yang none/first_yang 0; vconf none/dry/surge 0; streak none/up/down 0) -> G2 eligible 0 -> [] (best cell W7-B-0809 pullback_bounce sharpe_full=0.9533 vs line=1.1930 n_eff=341240 line_ok false; top DSR 0.7481 no G1); E[FP]=14.2 at nominal 5% caliber (DSR>=0.95 gate IS the correction); family PBO 11 modules (folk/seasonal 0.8286 highest, trend 0.4429 lowest, composite_rotation 1c insufficient disclosed); trials_ledger TRIAL_LAB_W7_JUDGE prev 337336 + 284 = 337620 cross-wave linear no-reset verified; evidence_cutoff 2026-09-22 lockbox; grammar 1fba956c2f21d1d3 (== FROZEN_SHA16 build anchor). Intake zero-face landed same round: results/trial_labor_w7/w7_intake.json (prereg sec.6 s4 actual-count clause; zero eligible = D6/library/paper-desk all zero-surface). Attrition rows W7-SCREEN + W7-JUDGE backfilled same round (T-119 drift-debt face #3). 48h CEO report clock started at finalize landing 2026-09-29T11:42:55+08:00 (standing deadline 2026-10-01 11:42:55); CEO report landed same round docs/trial_labor/CEO-REPORT-WAVE7-20260929.md. | bm-a pool_worker claim-by-file close outcome=ok (O-2210 claim-ledger bookkeeping, landed 0354aace0 same window; entry-level flip = this bm-b harvest commit, dual-close faces consistent: both record done)."
+  },
+  {
+   "id": "TRIAL-LABOR-W8-GENERATE",
+   "ticket_ref": "T-2026-09-29-120 WAVE-8 generate slice (CEO O-2026-09-27-2245 thousand-trader order + O-2026-09-27-2250 standing law; prereg FROZEN bm-b r424 draft-author same-machine next-round freeze per r423 next-pointer [trigger MET: W7 full chain landed 2026-09-29 11:42:55 + ledger head 337,620 linear + zero in-flight judge faces]; SEED berths 20306500/20307000/20307500 held same-commit R250 one-step, freeze-time correction MSG-20260929-1230-bmc-bmb landed in the same freeze commit [sec.6 pool routing lane_owner null->bm-b SCREEN+JUDGE + T-18 premise sentence]; runner slice-1 built bm-b r425 (eleven-tuple grammar + TSTATE overlay layer + G-TSTATE fail-closed full-face gate + hermetic selftest 47/47 incl. NaN-artifact leg [pit-95 batch-95] + six-gate 64-cell 44/20 anchors + extreme-day states; grammar sha16 282c3290d1b431bc pinned at slice-1 serialization, constructively distinct from W1/MASS/W2-W7)",
+   "prereg_ref": "research/TRIAL_LABOR_W8_PREREG.md FROZEN (sec.3 Sobol raw 5000 = A500/B4500 ELEVEN-tuple axis R/X/S/T/STOP/GATE/VOL/YANG/VCONF/STREAK/TSTATE incl. NEW temporal-state face {none, deep_pullback, oversold_rsv} = 1,741,824 axis combos; sec.1 SIXTEEN-source exclusion tstate=none face only -- w1 149 + w2 404 + MASS 166 consumed (declared conservative translation: 2 exact + 164 disclosed) + w3 513 + w4 461 + w5 372 + w6 293 + w7_screen 284 survivors generate-time real-read + judged products EIGHT sources re-declare window (w7_judge landed 2026-09-29 11:42:55, 284 cells consumed); tstate in {deep_pullback, oversold_rsv} any-combo = new-syntax legal; dedup T-84 s3 fingerprint + |corr|>=0.999 on effective signal face, frozen composition filter->timing->GATE->VOL->YANG->VCONF->STREAK->TSTATE->STOP; G-TSTATE raw-face law data/daily/sh510300.csv census-verbatim MAD60_q10 [quantile(0.10) = probe+census+anchors operative face; prereg '20 fen-wei' prose vs own anchors 383 disclosed in TSTATE_SPEC.quantile_honest_note] 178/3305/383 + RSV60 59/3424/632 + streak-anchor reproduction 844/817/1820 + cross lower bounds {52,55,146,253} + six-gate 64-cell 44-non-empty frozen 20-empty name list + extreme-day states (2025-04-07 double-gate rsv 0.1753) probe r423)",
+   "consumer_plan": "TRIAL-LABOR-W8-GENERATE -> w8_candidates.json feeds the SCREEN pool entry (next slice upon landing, W5/W6/W7 live-fire direct-ready precedent; lane_owner=bm-b per freeze-time correction) -> w8_screen.json null p95 feeds the next-wave prereg reference band (W1-W7 0.5116-0.5196 lineage, W7=0.5180; W8 sec.5.2 recalibrated band [0.50,0.52] honest) -> judged verdict face w8_judge.json (RAM r354 + W8-JUDGE sequencing gate behind in-flight judge faces per sec.0) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows + paper onboarding = registration pipeline face) -> 48h CEO report face + scorecard/CEO one-pager consumption; TRIAL_GRAMMAR_LEDGER wave-8 row runner-written at consume (same-grammar rerun FORBIDDEN law)",
+   "runner": "scripts/trial_labor_w8.py",
+   "runner_args": [
+    "generate"
+   ],
+   "lane_owner": "bm-b",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-09-29 12:56:20",
+   "data_gates": "in-runner fail-closed exit 2: (a) w8_candidates.json exists -> refuse same-grammar rerun TRIAL_LABOR_LAW sec.4; (b) grammar sha drift vs FROZEN 282c3290d1b431bc -> refuse; (c) G-VOL raw face + G-YANG raw face + G-VCONF raw face + G-STREAK raw face + G-TSTATE raw face anchors (mad60 178/3305/383 + rsv60 59/3424/632 + six-gate 64-cell 44/20 + extreme days) -> refuse; (d) RAM gate three-sample >=4GB in-runner r354 law",
+   "shards": [
+    {
+     "key": "generate-0of1",
+     "status": "ready",
+     "checkpoint": "results/trial_labor_w8/w8_candidates.json (single-shot product = completion marker; refuse-if-exists guard)"
+    }
+   ],
+   "entered_by": "bm-b",
+   "worker_class": "self-contained",
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "LIGHT minutes-scale per prereg sec.0 (W4-GENERATE ~2min; W5 ~7min n=3926; W6 n=3952; W7 ~10min n=3704); W8 n~5000 raw draws, 16-source exclusion face; single-process deterministic pre-burn stage (Sobol streams + dedup face), zero engine cells burned"
+   }
   }
  ]
 }
