@@ -33,6 +33,7 @@
   `{id, priority(P0修红/P1用户指定/P2回测计划/P3维护), type, spec(预注册引用或参数), status(open|claimed|done|failed), claimed_by, claimed_at, result_ref, created_by, created_at, note}`
 - **认领 = 改 `status=claimed` + `claimed_by=本机id` + `claimed_at` 并 commit push——commit 即锁**（U067 同制）。两机同窗撞认领 = 行级手术按 commit 时间序**后到让路**，让路方在轮报告注明。
 - **切片/池批 fetch 双闸律（D-20260929-02②·2026-09-29）**：MSG 声明式切片**开工前**+算力池条目 **submit 前**，强制 `git fetch` 重读 `fleet/inbox/` 最新 MSG 面——**见同面 rival 声明即冻结让路**（r239 池认领 fetch 前置律升格切片面·r394 实弹：声明 08:39:38→实件 08:47 盲窗内他机独立完成同移植=纯重复开发双烧，幸零格）。撞车已发生=按 commit 时间序后到让路+重复实件 take-origin 全量撤回（r244 落地标记律）。
+- **pool 共享面法注（T-116 s4 拍板·2026-09-29 r204 bm-c）**：`results/runnable_pool.json` 共享面=**派生视图 derived-view-only**（sync_face settle 再生；手写白名单=fill_ladder double-file 写侧〔写侧律不动〕+会话一次性 defer/flip 脚本+批 runner 注册件，此外共享面零手写）；**决策读点一律 lane-merged view**（s3 wave-1 已切+F6 origin 守卫）；`prev` 共享字节=回滚律不动；外发 git 传输面（pool_worker 单 blob origin 协议/dispatcher churn gate 锚）继续以共享面为准——依据=`research/POOL_RETIREMENT_S1_CENSUS.md` §四.3 option (a)；手建池条目脚本 ts 一律复用 autofill `_now()` 空格式正典禁自写 ISO（MSG-0705·r204 bm-c 根修 merge_lane_views `_flat_winner` parse-first 兼容在野双格式史）。
 - **超时释放**：claimed 超 24h 无进展（claimed_at 未刷新）= 任何机器可改回 open 并注明；**failed 必须写死因**；done 必须带 `result_ref`（指向 results/ 或 research/ 产物）+ 按账本纪律记录试验总数 N（BACKTEST_PLAN 三铁律照走）。
 - 任务单来源：用户（开发机手写或让 AI 代写）/ 回测计划派生 / 任何机器提案（P2 以下优先级，P1 须用户署名）。
 
@@ -79,6 +80,7 @@ powershell -NoProfile -ExecutionPolicy Bypass -File Tools\register_loop_task.ps1
 
 v1.0（2026-09-23）——首版由 bm-b 建立；修订走 CODELY.md 记录变更理由与日期。
 - v1.1（2026-09-29）——§4 增「切片/池批 fetch 双闸律」（D-20260929-02② 司域即行：r394 撞车实弹→r239 fetch 前置律升格切片面；①双信号认领窗=HQ fleet-protocol 候选登记随 10-04 周轮，本司不另立新法防法熵）。
+- v1.2（2026-09-29）——§4 增「pool 共享面法注」（T-116 s4 拍板 option (a)：共享面=derived-view-only 派生视图+决策读点 lane-merged+prev 回滚律+外发传输面锚共享面；回执=research/POOL_RETIREMENT_S3_WAVE1_FLIP_RECEIPT.md §四 s4 CLOSED）。
 
 ## 10. 集团并联条款（与 Biggame 工程并联管理 · 2026-09-23 用户令）
 

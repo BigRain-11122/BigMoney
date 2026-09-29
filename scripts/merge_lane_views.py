@@ -35,6 +35,7 @@ Usage:
 Exit codes: 0 ok / 1 reconcile drift (or selftest fail) / 2 mechanism fault.
 Zero network, zero engine, L1 deterministic; fail-closed on shape surprises.
 """
+import datetime
 import json
 import os
 import re
@@ -164,13 +165,44 @@ def _deep_ts(d, *keys):
     return str(cur)
 
 
+def _ts_parse(v):
+    """Best-effort timestamp parse for cross-format comparison.
+
+    Fleet writers emit two in-the-wild formats (MSG-0705): canonical
+    autofill _now() 'YYYY-MM-DD HH:MM:SS' (naive local) and manual
+    submit scripts' ISO-8601 with tz. Same-day mixed formats mis-rank
+    lexicographically ('T' 0x54 > ' ' 0x20 -> space side always loses).
+    Parse via fromisoformat, drop tzinfo (fleet clocks are uniform
+    Asia/Shanghai; the tz only restates the same local offset), return
+    None for unparseable values so the caller falls back to legacy.
+    """
+    try:
+        dt = datetime.datetime.fromisoformat(str(v).strip())
+    except (ValueError, TypeError):
+        return None
+    return dt.replace(tzinfo=None) if dt.tzinfo is not None else dt
+
+
 def _flat_winner(sources, probe):
-    """Index of the source whose probe ts is newest; ties -> first-seen."""
-    best, best_ts = 0, ""
+    """Index of the source whose probe ts is newest; ties -> first-seen.
+
+    Parse-first comparison (MSG-0705 cross-format law): incumbent and
+    candidate both parse as timestamps -> datetime compare (equal
+    instants in different formats stay first-seen, zero churn); any
+    unparseable side falls back to the legacy lexicographic compare.
+    """
+    best, best_ts, best_dt, have = 0, "", None, False
     for i, (_label, data) in enumerate(sources):
         ts = probe(data)
-        if ts > best_ts:
-            best, best_ts = i, ts
+        dt = _ts_parse(ts)
+        if not have:
+            take = True
+        elif dt is not None and best_dt is not None:
+            take = dt > best_dt
+        else:
+            take = ts > best_ts
+        if take:
+            best, best_ts, best_dt, have = i, ts, dt, True
     return best
 
 
@@ -949,6 +981,29 @@ def _selftest():
     for face in A_FACES:
         merged, _ = merge_face(face, [("legacy", shared[face])])
         check(f"bootstrap-identity:{face}", merged == shared[face])
+
+    # 1b. _flat_winner cross-format same-day ordering (MSG-0705: canonical
+    # space format vs manual-script ISO-8601 must rank by instant, not by
+    # lexicographic 'T' > ' '; equal instants keep first-seen zero churn)
+    src_space_new = [{"updated_at": "2026-09-29 06:55:07"},
+                     {"updated_at": "2026-09-29T06:00:54+08:00"}]
+    src_iso_new = [{"updated_at": "2026-09-29T06:55:07+08:00"},
+                   {"updated_at": "2026-09-29 06:00:54"}]
+    src_eq_fmt = [{"updated_at": "2026-09-29 06:55:07"},
+                  {"updated_at": "2026-09-29T06:55:07+08:00"}]
+    src_rev = [src_space_new[1], src_space_new[0]]
+    check("winner:space-newer-beats-same-day-iso",
+          _flat_winner([("a", src_space_new[0]), ("b", src_space_new[1])],
+                       lambda d: d["updated_at"]) == 0)
+    check("winner:iso-newer-beats-same-day-space",
+          _flat_winner([("a", src_iso_new[0]), ("b", src_iso_new[1])],
+                       lambda d: d["updated_at"]) == 0)
+    check("winner:equal-instant-first-seen",
+          _flat_winner([("a", src_eq_fmt[0]), ("b", src_eq_fmt[1])],
+                       lambda d: d["updated_at"]) == 0)
+    check("winner:reversed-order-space-newer-wins",
+          _flat_winner([("a", src_rev[0]), ("b", src_rev[1])],
+                       lambda d: d["updated_at"]) == 1)
 
     # 2. compute_audit: history ts-key union zero-loss + nested latest probe
     a = {"latest": {"ts": "01:00:00", "py_cpu_pct": 1.0},
