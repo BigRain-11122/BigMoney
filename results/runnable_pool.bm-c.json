@@ -9,8 +9,8 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-30 03:17:58",
-  "_stamp_note": "r245 bm-c: INNOVATION-QUOTA-SLOT-4 enqueued (both enqueue gates pass: prereg FROZEN r244 + runner built r245 selftest 29/29); W11-JUDGE remains the only other ready entry (bm-b lane fix r444 in-flight) | union r245 bm-c: rebase conflict resolved both-kept (bm-b W11-JUDGE claim 7b679efb5 + bm-c SLOT-4 enqueue dd04a4028) + r445 bm-b union append TRIAL-LABOR-W12-GENERATE (rebase conflict zero-loss union; INNOVATION-QUOTA-SLOT-5 kept from base)",
+  "updated_at": "2026-09-30 04:35:15",
+  "_stamp_note": "r446 bm-b bookkeeping flip: W12-SCREEN done + W12-JUDGE armed (single_writer control-plane edit; autofill C8 read-side launches burn)",
   "entries": [
     {
       "id": "A158-TRUEGAP-IC",
@@ -4705,7 +4705,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-30T04:22:00+08:00",
       "entered_by": "bm-b r446",
       "data_gates": "GATES ALL GREEN (direct-ready r446, W11-SCREEN lineage): (1) TRIAL-LABOR-W12-GENERATE done -- landed 03:35:28 w12_candidates.json n=859 single-shot completion marker in-repo (refuse-if-exists guard; grammar sha 67c86c9cf4ef1ca7, seeds gen=20320500/null=20321000/unc=20321500); (2) screen-prep PASS -- bm-b r446 04:1x: panel 48/48, anchors 6/6 faithful (grammar_replay IS/OOS == frozen live anchor), census {6m 1253, 12m 1127, 24m 875} == frozen, starts 1253, passive 6m precomputed, gate na-window 199 bars, G-VOL 594calm/518wild, G-YANG 819yang/812red zero-warmup, G-VCONF 784surge/828dry warmup 19, G-STREAK 384up/389down/856neither warmup 2, G-TSTATE mad60 188true/1453decidable warmup 178 + rsv60 332true/1572decidable warmup 59, G-AMP 801wide/811narrow decidable 1612 warmup 19, G-MOM 153open/1339closed decidable 1492 warmup 139, G-RSQR 163open/1348closed decidable 1511 rsqr10-open 142 -- all frozen-anchor-faithful; (3) G-ANCHOR identity-face FIX this round: screen-prep G-ANCHOR cand axis = DEFAULT_AXIS(4)+10x none = 14-tuple W11 residue -> IndexError axis[14] on the real-data identity face (r445 surgeon one-site miss; hermetic selftest L13 leg already 15-tuple so uncovered by 48/48) -> +1 none surgical fix -> prep PASS + selftest 48/48 re-verified zero regression; free RAM at arm 6.8GB > 4GB r354 ban threshold (in-runner 3-sample gate authoritative)",
@@ -4713,11 +4713,12 @@
       "shards": [
         {
           "key": "screen-0of1",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/trial_labor_w12/checkpoint/screen_shard_0of1.jsonl (append-per-cell done-set resume, W1/W2 cross-kill law; dir gitignored per r429 root-cause class fix)",
           "note": "single shard; worker_cap() parallelism inside the shard (W2-W11-SCREEN same shape); multi-shard i%shards split legal per shard law on partial claim",
           "owner": "bm-b",
-          "owner_since": "2026-09-30 04:10:04"
+          "owner_since": "2026-09-30 04:10:04",
+          "done_note": "burn complete 04:13:00 ckpt 1059/1059; finalize by lane-owner r446"
         }
       ],
       "worker_class": "self-contained",
@@ -4725,7 +4726,41 @@
         "workers": "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-SCREEN 2,214 cells ~7min wall at 12 workers; W11-SCREEN 1,462 cells; W12-SCREEN 1,059 cells = 859 distinct + 200 nulls, lightest; screen leg-L 6m full-history per cell, ten-gate face carried per cell incl rsqr)",
         "priority": "BelowNormal",
         "note": "minutes-scale pool batch per prereg sec.0 (W9-SCREEN 2,715 cells ~8min; W11 1,462 lighter; W12 1,059 lightest); checkpoint every 50 candidates per prereg sec.0; free RAM 6.8GB at arm > 4GB r354 three-sample ban threshold (in-runner gate authoritative)"
-      }
+      },
+      "result_ref": "results/trial_labor_w12/w12_screen.json + w12_screen_cells.csv (screen-finalize 2026-09-30 04:3x exit 0 by bm-b r446; 1,059/1,059 cells = 859 distinct + 200 nulls; null p95 0.5132 IN sec.5.2 band [0.50,0.52]; survivors 188/859 = 21.88%; ledger 355,083 linear append-verified (+1,059 from 354,024); RESEARCH FACTS: rsqr-axis first screen face rsqr10_hi 26.35% ~ none 25.43% > rsqr20_hi 8.15% toxic-low face; std10_hi 30.64% > none 20.00% > std20_hi 18.98% replication (W11 asymmetry holds); mom_oversold 23.81% vs none 20.89% = 1.14x continuation weakening lineage W10 1.88x -> W11 1.25x -> W12 1.14x) -- burn on autofill lineage pid~04:10:04-04:13:00 shard ckpt 1,059 lines complete",
+      "done_at": "2026-09-30T04:34:53+08:00"
+    },
+    {
+      "id": "TRIAL-LABOR-W12-JUDGE",
+      "ticket_ref": "T-2026-09-30-124 WAVE-12 judge slice (TRIAL_LABOR_LAW sec.1 standing supply; prereg FROZEN bm-b r444; runner FROZEN bm-b r445 grammar sha16 67c86c9cf4ef1ca7 fifteen-tuple 94,058,496 selftest 48/48 + r446 surgical fixes screen-prep axis 14->15 one-site miss + screen-finalize gvvvsktsams_seg init miss + judge-prep rsqr per-leg slope-sign disclosure key; GENERATE consumed bm-c autofill 03:21:52-03:35:28 859 dedup, pool flip bm-c r250; SCREEN burned autofill lineage 04:10:04-04:13:00 1,059 cells, finalize bm-b r446: null p95 0.5132 IN [0.50,0.52], survivors 188/859 = 21.88%)",
+      "prereg_ref": "research/TRIAL_LABOR_W12_PREREG.md FROZEN sec.0 TRIAL_LAB_W12_JUDGE (s3 full-judgment batch: batch_trials = screen survivors 188; dual nulls face; evidence_cutoff 2026-09-22 P-5C frozen binding; fifteen-tuple grammar sha16 67c86c9cf4ef1ca7 == FROZEN pin; judged-supply declare window per prereg sec.0)",
+      "runner": "scripts/trial_labor_w12.py",
+      "runner_args": [
+        "judge",
+        "--shard",
+        "0",
+        "--shards",
+        "1"
+      ],
+      "lane_owner": "bm-b",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-09-30T04:34:53+08:00",
+      "entered_by": "bm-b r446",
+      "data_gates": "GATES ALL GREEN (direct-ready r446, W11-JUDGE lineage): (1) TRIAL-LABOR-W12-SCREEN done -- w12_screen.json finalize r446 (1,059/1,059 cells, null p95 0.5132 IN band, survivors 188, ledger 355,083 linear append-verified); (2) judge-prep PASS bm-b r446 04:3x -- manifest 48 members, census L/D == frozen, survivors 188, gate meta L/D all faces incl. std meta 120-bar-warmup 128open/1383closed decidable 1511 std10-open 147 + rsqr meta L 163open/1348closed decidable 1511 rsqr10-open 142 slope-split 85up/78down disclosure (per-leg mirror of full-face sec.2(e)); (3) grammar sha16 67c86c9cf4ef1ca7 == FROZEN pin; (4) host_gates Money02 deep-panel parquet 5,383 files non-empty verified at submission pre-flight (W11 5,383 parity)",
+      "consumer_plan": "TRIAL-LABOR-W12-JUDGE -> judge-finalize (lane-owner separate round work per W5-W11 precedent) -> w12_judge.json (G1'v2/G2/DSR/PBO/E[FP] faces + rsqr-axis disclosure columns) + ledger TRIAL_LAB_W12_JUDGE row (live-head prev read) -> s4 intake (D6 binding gate -> STRATEGY_LIBRARY registration rows + TRIAL-RSQR-<NN> paper onboarding) -> 48h CEO report clock starts at judge landing (CEO-REPORT-WAVE12, window by 2026-10-02 04:00) + W13 prereg reference-band feed (screen null p95 0.5132 entered into lineage table)",
+      "shards": [
+        {
+          "key": "judge-0of1",
+          "status": "ready",
+          "checkpoint": "results/trial_labor_w12/checkpoint/judge_shard_0of1.jsonl (append-per-cell done-set resume; dir gitignored per r429)",
+          "note": "single shard; 188 survivors = lightest judge batch of W5-W12 (W11 229 ~33min wall)",
+          "owner": "bm-b",
+          "owner_since": "2026-09-30 05:10:04"
+        }
+      ],
+      "worker_class": "self-contained",
+      "workers_plan": "{'workers': 'worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors; W12-JUDGE 188 survivors lightest; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grouped shared-start pruning)', 'priority': 'BelowNormal'}"
     }
   ],
   "lane_machine": "bm-c"

@@ -1,0 +1,243 @@
+{
+ "round": 253,
+ "machine": "bm-c",
+ "elapsed_sec": 60.9,
+ "legs_total": 37,
+ "non_green": [
+  {
+   "i": 8,
+   "leg": "scripts/update_lhb.py",
+   "rc": 3,
+   "tail3": [
+    " 82%|������������������ | 9/11 [00:01<00:00,  6.96it/s]",
+    " 91%|������������������ | 10/11 [00:01<00:00,  6.67it/s]",
+    "100%|��������������������| 11/11 [00:01<00:00,  7.15it/s]"
+   ]
+  }
+ ],
+ "note": "rebase double-wedge window; S6 full chain per driver _r430bma (anti-rebuild reuse)",
+ "rows": [
+  {
+   "i": 1,
+   "leg": "scripts/pool_dualrun_reconcile.py run",
+   "rc": 0,
+   "tail": "[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 131 entries, streak 51/3, cutoff 2026-09-30 04:35:15)"
+  },
+  {
+   "i": 2,
+   "leg": "scripts/compute_audit.py",
+   "rc": 0,
+   "tail": "{\"ts\": \"2026-09-30 05:22:36\", \"audit_version\": \"v2.4.1\", \"cpu_total_pct\": 9.0, \"py_cpu_pct\": 0.0, \"cores\": 32, \"py_procs\": 6, \"result_stale_min\": 2.5, \"fleet_open_tasks\": 0, \"pool_ready_count\": 1, \"pool_ready_unclaimed\": 0, \"load_state\": \"pool-supply-gap\", \"po"
+  },
+  {
+   "i": 3,
+   "leg": "scripts/py_watermark.py probe",
+   "rc": 0,
+   "tail": "{\"ts\": \"2026-09-30 05:22:42\", \"epoch\": 1790716956.0, \"machine\": \"bm-c\", \"cpu_total_pct\": 26.0, \"cores\": 32, \"py_cpu_pct\": 0.0, \"py_procs\": 6, \"top_proc_cores\": 0.0, \"local_batch_running\": false, \"refresh_lock_lanes\": [], \"open_tickets\": 0, \"open_ticket_ids\": ["
+  },
+  {
+   "i": 4,
+   "leg": "scripts/update_daily.py",
+   "rc": 0,
+   "tail": "status -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\update_status.json"
+  },
+  {
+   "i": 5,
+   "leg": "scripts/market_regime.py",
+   "rc": 0,
+   "tail": "  trigger: breadth 0.83>=65%"
+  },
+  {
+   "i": 6,
+   "leg": "scripts/strategy_scorecard.py",
+   "rc": 0,
+   "tail": "strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\strategy_scorecard.json (14.0s)"
+  },
+  {
+   "i": 7,
+   "leg": "scripts/market_clock_call.py run",
+   "rc": 0,
+   "tail": "call written: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\market_clock\\CALL-2026-09-28.md cell=ORANGE_COOL sleeves=4 activated=0"
+  },
+  {
+   "i": 8,
+   "leg": "scripts/update_lhb.py",
+   "rc": 3,
+   "tail": "OVERLAP MISMATCH {'old_rows': 42, 'new_rows': 67, 'netbuy_sum_old': 107649362.49, 'netbuy_sum_new': -117365775.23} - kept local, no write"
+  },
+  {
+   "i": 9,
+   "leg": "scripts/update_heat.py",
+   "rc": 0,
+   "tail": "no-op: heat lane host bm-a authority, this machine (bm-c) stdout-only (R31 lane-guard, r378 catch #5)"
+  },
+  {
+   "i": 10,
+   "leg": "scripts/update_futures.py",
+   "rc": 0,
+   "tail": "no-op: local cutoff 2026-09-29 covers expected complete-bar date 2026-09-29 -> zero network"
+  },
+  {
+   "i": 11,
+   "leg": "scripts/update_repo.py",
+   "rc": 0,
+   "tail": "no-op: repo rates lane owned by bm-a, not this machine (bm-c)"
+  },
+  {
+   "i": 12,
+   "leg": "scripts/update_options.py",
+   "rc": 0,
+   "tail": "no-op: options lane owned by bm-a, not this machine (bm-c)"
+  },
+  {
+   "i": 13,
+   "leg": "scripts/update_moneyflow.py",
+   "rc": 0,
+   "tail": "no-op: moneyflow lane owned by bm-a, not this machine (bm-c)"
+  },
+  {
+   "i": 14,
+   "leg": "scripts/update_sina_mf.py",
+   "rc": 0,
+   "tail": "no-op: sina_mf lane owned by bm-a, not this machine (bm-c)"
+  },
+  {
+   "i": 15,
+   "leg": "scripts/update_astock_daily.py",
+   "rc": 0,
+   "tail": "no-op: astock_daily lane owned by bm-b, not this machine (bm-c)"
+  },
+  {
+   "i": 16,
+   "leg": "scripts/update_etf_daily.py",
+   "rc": 0,
+   "tail": "no-op: five-member ETF daily lane owned by bm-b, not this machine (bm-c)"
+  },
+  {
+   "i": 17,
+   "leg": "scripts/rev_osc_signal_export.py run",
+   "rc": 0,
+   "tail": "rev_osc_signal_export: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op"
+  },
+  {
+   "i": 18,
+   "leg": "scripts/update_minute_feed.py",
+   "rc": 0,
+   "tail": "update_minute_feed: lane guard (owner=bm-b, this=bm-c) -- stdout-only honest no-op"
+  },
+  {
+   "i": 19,
+   "leg": "scripts/update_ths_panel.py",
+   "rc": 0,
+   "tail": "no-op: ths panel lane owned by bm-a, not this machine (bm-c)"
+  },
+  {
+   "i": 20,
+   "leg": "scripts/ah_panel_puller.py",
+   "rc": 0,
+   "tail": "no-op: ah panel lane owned by bm-a, not this machine (bm-c)"
+  },
+  {
+   "i": 21,
+   "leg": "scripts/update_fund_premium.py snapshot",
+   "rc": 0,
+   "tail": "no-op: before 15:30:00 (close-data alignment, update_heat precedent)"
+  },
+  {
+   "i": 22,
+   "leg": "scripts/update_fundamental.py",
+   "rc": 0,
+   "tail": "snapshot fresh (18.7h < 24h) -> skip"
+  },
+  {
+   "i": 23,
+   "leg": "-m firm.risk.b_layer_filter",
+   "rc": 0,
+   "tail": "verdict -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\fundamental_b_layer_filter.json"
+  },
+  {
+   "i": 24,
+   "leg": "-m live.paper",
+   "rc": 0,
+   "tail": "paper tracking: OK"
+  },
+  {
+   "i": 25,
+   "leg": "scripts/t35_open_fill_verify.py",
+   "rc": 0,
+   "tail": "open_fill_verify day=2026-09-29: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\t35_open_fill_verify.json"
+  },
+  {
+   "i": 26,
+   "leg": "scripts/t24_prospect_paper.py run",
+   "rc": 0,
+   "tail": "prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-29"
+  },
+  {
+   "i": 27,
+   "leg": "scripts/t24_prospect_promotion.py run",
+   "rc": 0,
+   "tail": "promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22"
+  },
+  {
+   "i": 28,
+   "leg": "scripts/aggressive_lab.py paper",
+   "rc": 0,
+   "tail": "aggr paper: marks already at panel cutoff 2026-09-29 -- no-op (idempotent)"
+  },
+  {
+   "i": 29,
+   "leg": "scripts/alloc_paper.py run",
+   "rc": 0,
+   "tail": "no-op: alloc_paper lane owned by bm-b, not this machine (bm-c)"
+  },
+  {
+   "i": 30,
+   "leg": "scripts/grid_paper.py run",
+   "rc": 0,
+   "tail": "grid paper: marks already at panel cutoff 2026-09-29 -- no-op (idempotent)"
+  },
+  {
+   "i": 31,
+   "leg": "scripts/system_v1_paper.py run",
+   "rc": 0,
+   "tail": "system_v1_paper: lane guard (owner=bm-a, this=bm-c) -- stdout-only honest no-op"
+  },
+  {
+   "i": 32,
+   "leg": "scripts/t35_paper_export.py run",
+   "rc": 0,
+   "tail": "-> K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\paper_export\\export-2026-09-29.json + latest.json"
+  },
+  {
+   "i": 33,
+   "leg": "scripts/daily_scorecard.py",
+   "rc": 0,
+   "tail": "scorecard written: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\daily_scorecard.html traders: 6 o1600 rows: 6"
+  },
+  {
+   "i": 34,
+   "leg": "scripts/daily_report.py run",
+   "rc": 0,
+   "tail": "daily report written: REPORT-2026-09-30.md/.json faces=5 token=1"
+  },
+  {
+   "i": 35,
+   "leg": "scripts/ceo_live_usage.py",
+   "rc": 0,
+   "tail": "ceo_live_usage: K:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\docs\\live_usage\\LIVE-2026-09-30.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)"
+  },
+  {
+   "i": 36,
+   "leg": "-m monitor.build_status",
+   "rc": 0,
+   "tail": "  factors=10 backtest=432combos/0pass traders=6 milestones=5/7"
+  },
+  {
+   "i": 37,
+   "leg": "scripts/token_meter.py",
+   "rc": 0,
+   "tail": "L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=26 across 15 sigs"
+  }
+ ]
+}
