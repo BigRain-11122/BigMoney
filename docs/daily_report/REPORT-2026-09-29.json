@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-29",
- "generated_at": "2026-09-29 11:30:39",
+ "generated_at": "2026-09-29 11:47:26",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -23,8 +23,8 @@
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -39,8 +39,8 @@
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -87,8 +87,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -103,8 +103,8 @@
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    }
   ],
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-09-29.md"
  },
  "rd": {
-  "commits_24h": 547,
-  "result_jsons_landed_24h": 119,
+  "commits_24h": 545,
+  "result_jsons_landed_24h": 120,
   "digests_landed_24h": 6,
   "prereg_md_touched_24h": 31,
   "compute_audit_latest": {
-   "ts": "2026-09-29 11:28:16",
-   "py_cpu_pct": 0.3,
+   "ts": "2026-09-29 11:46:10",
+   "py_cpu_pct": 3.0,
    "flags": [
     "supply_gap",
     "supply_floor"
    ],
    "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -583,11 +583,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 897541,
+  "total_report_tokens_est": 898626,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-29 11:06:19",
+   "prev_generated": "2026-09-29 11:21:57",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 3476,
+   "report_tokens_growth": 1085,
    "mandate_growth": 0
   },
   "method": {
@@ -598,66 +598,66 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-09-29 10:08:53",
-    "py_pct": 7.2,
-    "cpu_pct": 84.0,
-    "ready": 0,
-    "streak_min": 1047.9,
-    "verdict": "FLAG:pool_starvation,supply_floor",
+    "latest_ts": "2026-09-29 11:46:10",
+    "py_pct": 3.0,
+    "cpu_pct": 53.0,
+    "ready": 1,
+    "streak_min": 1145.2,
+    "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
      [
-      "08:07",
+      "10:08",
+      0.9
+     ],
+     [
+      "10:18",
       0.1
      ],
      [
-      "08:15",
-      9.8
+      "10:20",
+      9.9
      ],
      [
-      "08:16",
-      7.1
-     ],
-     [
-      "08:37",
-      4.8
-     ],
-     [
-      "08:42",
-      6.2
-     ],
-     [
-      "08:48",
-      0.2
-     ],
-     [
-      "09:02",
-      7.4
-     ],
-     [
-      "09:04",
+      "10:35",
       0.0
      ],
      [
-      "09:31",
-      6.1
+      "10:39",
+      0.8
      ],
      [
-      "09:40",
-      1.9
+      "10:44",
+      1.6
      ],
      [
-      "09:44",
-      7.1
+      "10:48",
+      0.3
      ],
      [
-      "10:08",
-      7.2
+      "11:02",
+      1.8
+     ],
+     [
+      "11:03",
+      0.1
+     ],
+     [
+      "11:20",
+      0.6
+     ],
+     [
+      "11:28",
+      0.3
+     ],
+     [
+      "11:46",
+      3.0
      ]
     ],
-    "today_samples": 58,
+    "today_samples": 71,
     "today_floor_ok": 0,
-    "today_sla_flags": 8,
-    "today_supply_gap_flags": 29
+    "today_sla_flags": 9,
+    "today_supply_gap_flags": 35
    },
    "bm-b": {
     "latest_ts": "2026-09-29 11:02:48",
