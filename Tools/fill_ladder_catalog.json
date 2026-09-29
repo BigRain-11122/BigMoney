@@ -1,5 +1,5 @@
 {
-  "version": "tranche-2 + consumption_state face (bm-c r234: per-entry consumption-state block added per r233 pitfall law -- claim-side three-step check now has a machine-readable face; tranche-1 five faces all consumed; tranche-2 pre-arm = TRIAL-LABOR-W10-GENERATE awaiting bm-b freeze steps)",
+  "version": "tranche-2 + consumption_state face (bm-c r234) + W11 pre-arm (bm-b r441: TRIAL-LABOR-W11-GENERATE entry added per frozen W11 prereg; tranche-1 five faces all consumed; W10 face consumed 19:42:03)",
   "law_refs": [
     "O-20260928-1614 sec.1 SUPPLY FLOOR + sec.4 FILL LADDER (a)(b)(c)(d)",
     "O-20260928-1630 D4 standing supply catalog",
@@ -8,18 +8,40 @@
   ],
   "consumption_state": {
     "_law": "r233 pitfall law face (bm-c): claim-side MUST still run the three-step check (Test-Path prereg_ref -> read status banner -> Test-Path runner; both-in + sec.7 backfilled = consumed, zero re-claim); this block is the machine-readable mirror, authoritative sequence = per-entry evidence pointers below",
-    "TRIAL-LABOR-W5-GENERATE": {"state": "consumed", "evidence": "W5 wave burned in the W5-W9 chain (W9 verdict landed 2026-09-29; prereg research/TRIAL_LABOR_W5_PREREG.md frozen + runner scripts/trial_labor_w5.py + gate_attrition history); entry note 'draft-pending' was STALE -- kept verbatim above for lineage, superseded by this row",
-      "verified": "version-line claim + files-in-tree, bm-c r234"},
-    "MEMBER-REINFORCE-P1": {"state": "consumed", "evidence": "burned r180/r182 (bm-c near-miss r233: draft overwrote frozen file, restored byte-identical); prereg research/MEMBER_REINFORCE_P1_PREREG.md sec.7 backfilled",
-      "verified": "direct, bm-c r233 near-miss forensics"},
-    "NATIONAL-TEAM-S3-EVENT-REVIEW": {"state": "consumed", "evidence": "s1-s4 chain landed (results/national_team/ s3_event_review.json + s2_selection_verdict.json + s4_chain_integration.json 2026-09-28/29); prereg FROZEN + runner in-tree",
-      "verified": "direct, bm-c r234 (files + mtime read)"},
-    "INNOVATION-QUOTA-SLOT-1": {"state": "consumed", "evidence": "innovation_quota_w1 batch burned (prereg research/INNOVATION_QUOTA_W1_PREREG.md + runner scripts/innovation_quota_w1.py in-tree, tranche-1 version-line claim)",
-      "verified": "version-line claim + files-in-tree, bm-c r234"},
-    "INNOVATION-QUOTA-SLOT-2": {"state": "consumed", "evidence": "W2 REPO long-term extension judged batch burned (prereg frozen r183 bm-c + runner scripts/innovation_quota_w2.py in-tree, tranche-1 version-line claim)",
-      "verified": "version-line claim + files-in-tree, bm-c r234"},
-    "TRIAL-LABOR-W10-GENERATE": {"state": "pre-armed", "evidence": "prereg research/TRIAL_LABOR_W10_PREREG.md FROZEN by bm-b r437 + SEED three keys registered; runner build in flight (bm-b declared next-step, heartbeat 2026-09-29 18:26); auto-arms on prereg_frozen+runner_exists+standing_no_judge_inflight",
-      "verified": "direct, bm-c r234 (heartbeat + board read)"}
+    "TRIAL-LABOR-W5-GENERATE": {
+      "state": "consumed",
+      "evidence": "W5 wave burned in the W5-W9 chain (W9 verdict landed 2026-09-29; prereg research/TRIAL_LABOR_W5_PREREG.md frozen + runner scripts/trial_labor_w5.py + gate_attrition history); entry note 'draft-pending' was STALE -- kept verbatim above for lineage, superseded by this row",
+      "verified": "version-line claim + files-in-tree, bm-c r234"
+    },
+    "MEMBER-REINFORCE-P1": {
+      "state": "consumed",
+      "evidence": "burned r180/r182 (bm-c near-miss r233: draft overwrote frozen file, restored byte-identical); prereg research/MEMBER_REINFORCE_P1_PREREG.md sec.7 backfilled",
+      "verified": "direct, bm-c r233 near-miss forensics"
+    },
+    "NATIONAL-TEAM-S3-EVENT-REVIEW": {
+      "state": "consumed",
+      "evidence": "s1-s4 chain landed (results/national_team/ s3_event_review.json + s2_selection_verdict.json + s4_chain_integration.json 2026-09-28/29); prereg FROZEN + runner in-tree",
+      "verified": "direct, bm-c r234 (files + mtime read)"
+    },
+    "INNOVATION-QUOTA-SLOT-1": {
+      "state": "consumed",
+      "evidence": "innovation_quota_w1 batch burned (prereg research/INNOVATION_QUOTA_W1_PREREG.md + runner scripts/innovation_quota_w1.py in-tree, tranche-1 version-line claim)",
+      "verified": "version-line claim + files-in-tree, bm-c r234"
+    },
+    "INNOVATION-QUOTA-SLOT-2": {
+      "state": "consumed",
+      "evidence": "W2 REPO long-term extension judged batch burned (prereg frozen r183 bm-c + runner scripts/innovation_quota_w2.py in-tree, tranche-1 version-line claim)",
+      "verified": "version-line claim + files-in-tree, bm-c r234"
+    },
+    "TRIAL-LABOR-W10-GENERATE": {
+      "state": "pre-armed",
+      "evidence": "prereg research/TRIAL_LABOR_W10_PREREG.md FROZEN by bm-b r437 + SEED three keys registered; runner build in flight (bm-b declared next-step, heartbeat 2026-09-29 18:26); auto-arms on prereg_frozen+runner_exists+standing_no_judge_inflight",
+      "verified": "direct, bm-c r234 (heartbeat + board read)"
+    },
+    "TRIAL-LABOR-W11-GENERATE": {
+      "state": "armed_pending_runner",
+      "evidence": "freeze commit r441 bm-b: frozen prereg research/TRIAL_LABOR_W11_PREREG.md + SEED_REGISTRY three keys 20317000/20317500/20318000 + wave ticket T-2026-09-29-123; runner scripts/trial_labor_w11.py NOT yet built (runner_exists gate holds); claim-side three-step check still mandatory per r233 pitfall law"
+    }
   },
   "entries": [
     {
@@ -156,7 +178,30 @@
       },
       "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding)",
       "note": "ladder (a) tranche-2 pre-arm: W10 candidate parked 2026-09-29 r228 (bm-c); MOM axis = thirteen-tuple cell key per candidate sec.3; entry auto-arms ONLY after freeze steps land (frozen prereg + runner build + SEED_REGISTRY + wave ticket) -- prereg_frozen gate refuses the candidate DRAFT head by design (mirrors W5 r162 draft-head convention); judge pipeline must drain first (standing_no_judge_inflight); tranche-1 five faces all consumed = supply-floor breach stands honestly until this or another lawful candidate arms"
+    },
+    {
+      "id": "TRIAL-LABOR-W11-GENERATE",
+      "ticket_ref": "T-2026-09-29-123 wave ticket (opened+claimed same freeze commit per O-1730 immediate law, W8=T-120/W9=T-121/W10=T-122 lineage); W11 candidate = bm-c r237 supply step (STD high-dispersion confirm gate axis std20_hi/std10_hi, MSG-20260929-2015 dual-signal + commit; candidate skeleton = research/TRIAL_LABOR_W11_CANDIDATE_STD_PREREG_DRAFT.md with 10-item adopter checklist; freeze steps per checklist: W10 full-chain consumption trigger + frozen prereg + SEED_REGISTRY three keys 20317000/20317500/20318000 (draft berth 20316000/20316500 collided with bm-a r445 A12 -> +500 re-take per draft clause-5, W9 precedent) + wave ticket same-round claim per O-1730)",
+      "prereg_ref": "research/TRIAL_LABOR_W11_PREREG.md (FROZEN 2026-09-29 21:1x bm-b r441 whole-package adoption per W8->W9->W10 adoption lineage; NOT the candidate DRAFT file)",
+      "runner": "scripts/trial_labor_w11.py",
+      "runner_args": [
+        "generate"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "enqueue_gates": [
+        "prereg_frozen:research/TRIAL_LABOR_W11_PREREG.md",
+        "runner_exists",
+        "standing_no_judge_inflight"
+      ],
+      "consumer_plan": "TRIAL-LABOR-W11-GENERATE/SCREEN/JUDGE -> judged verdict face (w11_judge.json) -> s4 intake -> STRATEGY_LIBRARY + TRIAL-* paper accounts -> 48h CEO report + scorecard CEO face; screen null p95 -> next-wave (W12) prereg reference band (verbatim from candidate sec.6 draft plan)",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "generation leg = CPU-light census build, W2-W10 machinery precedent; fourteen-tuple axis grid 31,352,832 combos (W10 10,450,944 x3 STD three-value axis), 5,000-draw Sobol per candidate sec.3"
+      },
+      "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding); G-STD runner door asserts probe anchor face decidable 3,363/open 391/std10 399/first-decidable 120 per frozen sec.3",
+      "note": "ladder (a) tranche-2 pre-arm: W11 candidate parked 2026-09-29 r237 (bm-c); STD axis = fourteen-tuple cell key per frozen sec.3; entry auto-arms ONLY after freeze steps land (frozen prereg + runner build + SEED_REGISTRY + wave ticket) -- prereg_frozen gate refuses the candidate DRAFT head by design (mirrors W5 r162 draft-head convention); judge pipeline must drain first (standing_no_judge_inflight; W10 judge drained 20:31:29, pool 123/123 done at r441 freeze live-read)"
     }
   ]
 }
-
