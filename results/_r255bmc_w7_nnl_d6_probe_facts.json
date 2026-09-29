@@ -1,0 +1,99 @@
+{
+ "probe": "NNL-BREADTH-P1 freeze-window theta + D6 cells probe",
+ "machine": "bm-c",
+ "round": "r255",
+ "evidence_cutoff": "2026-09-29",
+ "panel": {
+  "n_symbols": 48,
+  "n_dates": 1635,
+  "first_date": "2020-01-02",
+  "last_date": "2026-09-29",
+  "target": "510300",
+  "w_main": 20,
+  "theta_trail": 500
+ },
+ "theta_face": {
+  "formula": "trailing-500d rolling quantile of B_t(W20), min_periods=500; zero hand-copied constants",
+  "n_decidable_days": 1117,
+  "first_decidable_date": "2022-02-24",
+  "last_decidable_date": "2026-09-29",
+  "order_invariant_lo_le_re_le_hi": true,
+  "strict_frac_lo_lt_re": 1.0,
+  "strict_frac_re_lt_hi": 1.0,
+  "th_lo_range": [
+   -0.4176,
+   -0.2054
+  ],
+  "th_re_range": [
+   -0.0213,
+   0.0455
+  ],
+  "th_hi_range": [
+   0.2297,
+   0.4167
+  ],
+  "extreme_day_samples": {
+   "2021-02-18": "absent-or-warmup",
+   "2022-04-26": {
+    "b": -0.587,
+    "th_lo": -0.2402,
+    "th_re": 0.0426,
+    "th_hi": 0.3556
+   },
+   "2024-02-05": {
+    "b": -0.3125,
+    "th_lo": -0.4167,
+    "th_re": -0.0213,
+    "th_hi": 0.234
+   },
+   "2024-09-24": {
+    "b": 0.4792,
+    "th_lo": -0.3843,
+    "th_re": -0.0208,
+    "th_hi": 0.234
+   },
+   "2025-01-14": {
+    "b": 0.0625,
+    "th_lo": -0.3542,
+    "th_re": 0.0,
+    "th_hi": 0.2708
+   }
+  }
+ },
+ "state_face": {
+  "initial_state_convention": "long at first decidable day (passive default; runner freeze pins identical convention in selftest)",
+  "bottom_defensive_days": 259,
+  "bottom_decidable_days": 1117,
+  "dual_defensive_days": 376,
+  "dual_decidable_days": 1117
+ },
+ "d6_cells_face": {
+  "batch_internal_bottom_vs_dual": 0.6511,
+  "vs_t33_cells": {
+   "slope_r2_rotation_25_top3_r8": {
+    "bottom": 0.3892,
+    "dual": 0.3907
+   },
+   "dual_momentum_etf_20_60_top3": {
+    "bottom": 0.4618,
+    "dual": 0.3464
+   },
+   "rs_rotation_20": {
+    "bottom": 0.4461,
+    "dual": 0.3431
+   },
+   "composite_top5": {
+    "bottom": 0.1292,
+    "dual": 0.1242
+   }
+  },
+  "merge_clause_applied": [],
+  "vs_registered_six": {
+   "max_abs_corr": 0.351,
+   "argmax": "ENGULF-CE-01"
+  },
+  "regime_guard_note": "in-production non-cell (T0 authority untouched): signal face adjudicated at berth pearson -0.7757 W20 / -0.6369 W60 (r254 facts); no cells pair exists, merge clause cannot trigger against a non-cell -- honest boundary per prereg s5.3"
+ },
+ "cost_face": "ce_transfer.COST_X1_RATE imported (13.041bp/side); D6 return series = x1 net convention, no metric persisted",
+ "merge_clause_threshold": 0.7
+}

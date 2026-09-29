@@ -1534,6 +1534,18 @@ SEED_REGISTRY = {
         # (results/_r459bma_w6_seed_law_facts.json)
         "innovation_quota_w6_rrg_rotation": 20324500,
 
+        # INNOVATION-QUOTA-SLOT-7 NNL-BREADTH-P1 (zoo #87
+        # nh_nl_breadth, core48 net-new-high breadth two-sided
+        # extreme-turn gate): virtual starts K=1000 + splits 100
+        # k-indexed sub-streams rng([20325000, k]) per W1-W6 lineage;
+        # +500 ladder above W6 20324500; berthed bm-c r254 (MSG-
+        # 20260930-0547, commit 57636c713), registered r255 bm-c
+        # freeze window, three-step law FULL import view verified
+        # same window (facts = results/_r255bmc_w7_seed_law_facts.json);
+        # W13 berthed-but-unregistered trio 20323000/20323500/20324000
+        # (bm-a r456) stays clear of this base by construction
+        "innovation_quota_w7_nlnl": 20325000,
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
