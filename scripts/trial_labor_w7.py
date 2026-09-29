@@ -105,9 +105,12 @@ D-02 dual-signal receipt, commit 9ba94bf23):
 """
 from __future__ import annotations
 import argparse
+import csv
 import json
+import math
 import os
 import sys
+import time
 
 import numpy as np
 import pandas as pd
@@ -119,7 +122,7 @@ import trial_labor_w3 as tl3  # regime-gate overlay + MASS translation
 import trial_labor_w4 as tl4  # vol overlay + dual-gate machinery
 import trial_labor_w5 as tl5  # yang overlay + triple-gate machinery
 import trial_labor_w6 as tl6  # vconf overlay + nine-tuple machinery
-from science_gates import SEED_REGISTRY  # noqa: E402
+from science_gates import CostPatch, SEED_REGISTRY  # noqa: E402
 
 # ------------------------------------------------------------ frozen (prereg)
 WAVE = "TRIAL_LABOR_W7"
