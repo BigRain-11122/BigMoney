@@ -422,7 +422,8 @@
    "fill_latency_min": 53.4,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 7
+   "saturation_launches": 7,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 01:19:23",
@@ -461,7 +462,8 @@
    "fill_latency_min": 54.5,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 01:20:44",
@@ -518,7 +520,8 @@
    "fill_latency_min": 56.7,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 4
+   "saturation_launches": 4,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 01:23:02",
@@ -839,13 +842,34 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 01:38:02",
+  "ts": "2026-10-01 01:48:02",
   "machine": "bm-a",
-  "py_cpu_pct": 37.5,
-  "verdict": "relaunch_cooldown",
+  "py_cpu_pct": 37.3,
+  "verdict": "fuse_refused_crash_loop",
   "entry": "PERPETUAL-N1-W2-SHARD-0",
   "shard": "n1w2-0of12",
-  "last_launch_min": 19.5
+  "fuse_crashes": 1,
+  "fuse_refusals": 3,
+  "fuse_skipped": [
+   {
+    "entry": "PERPETUAL-N1-W2-SHARD-0",
+    "shard": "n1w2-0of12",
+    "sig": "scripts/perpetual_faces_n1.py|run,--shard,0,--of,12",
+    "fuse_refusals": 3
+   },
+   {
+    "entry": "PERPETUAL-N1-W2-SHARD-1",
+    "shard": "n1w2-1of12",
+    "sig": "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12",
+    "fuse_refusals": 2
+   },
+   {
+    "entry": "PERPETUAL-N1-W2-SHARD-2",
+    "shard": "n1w2-2of12",
+    "sig": "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12",
+    "fuse_refusals": 1
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-01T01:37:14+08:00"
