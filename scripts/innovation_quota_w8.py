@@ -970,14 +970,17 @@ def _mk_synthetic_sleeves(n_members=28, n_days=760):
     for i, tid in enumerate(FROZEN_ROSTER):
         r = base + rng.normal(0, 0.006, n_days)
         rets[tid] = r
-    # planted singular window: a member cluster goes perfectly
-    # correlated over a segment >= ROLL so at least one anchor window
-    # sits fully inside it (sample cov singular -> A-arm carry policy
-    # fires there) while the LW-shrunk face stays PD
+    # planted singular window: one member goes exactly flat over a
+    # segment >= ROLL (eq bit-constant, cumprod x*1.0 is exact) so
+    # anchor windows sitting fully inside carry an exact zero-variance
+    # column -> sample cov exactly singular (np.linalg.solve raises ->
+    # A-arm carry policy fires) while the LW-shrunk face stays PD.
+    # Duplicate-member planting through the eq->pct_change roundtrip
+    # loses bit-exactness to prefix-scale rounding and never trips
+    # the exact-singularity detector (numpy-level probe verified
+    # before this fix: array_equal False, solve no-raise).
     seg = slice(280, 600)
-    proto = rets[FROZEN_ROSTER[3]][seg].copy()
-    for tid in FROZEN_ROSTER[4:8]:
-        rets[tid][seg] = proto
+    rets[FROZEN_ROSTER[4]][seg] = 0.0
     sleeves = {}
     for tid, r in rets.items():
         eq = pd.Series(1.5 * np.cumprod(1.0 + r), index=dates)
@@ -1017,16 +1020,18 @@ def cmd_selftest():
         PROBE_FACTS = facts_path
         _SELFTEST_FACTS = True
         _SLEEVES_OVERRIDE = sleeves
-        # drift refusal: perturb one frozen anchor face
-        good_row = {k: v for k, v in facts["anchors"][0].items()
-                    if k not in ("wA", "wB", "singular_A")}
-        facts["anchors"][0]["lambda"] = \
-            float(facts["anchors"][0]["lambda"]) + 0.5
+        # drift refusal: perturb one compared top-level face (the
+        # per-anchor row compare is bound to the real r449 probe facts
+        # only -- frozen 3-day binding keys on facts['probe'] starting
+        # 'W8'; synthetic facts exercise the same aggregate-face
+        # refusal path anchor_drift -> rc=2)
+        good_med = facts["lambda_stats"]["median"]
+        facts["lambda_stats"]["median"] = float(good_med) + 0.5
         with open(facts_path, "w", encoding="utf-8") as fh:
             json.dump(facts, fh)
         ok.append(("anchor drift refusal (rc=2)",
                    cmd_verify() == 2))
-        facts["anchors"][0]["lambda"] = good_row["lambda"]
+        facts["lambda_stats"]["median"] = good_med
         with open(facts_path, "w", encoding="utf-8") as fh:
             json.dump(facts, fh)
         ok.append(("anchor restored -> verify clean (rc=0)",
