@@ -1,0 +1,1508 @@
+{
+ "batch": "COV_SHRINK_AB_P1",
+ "evidence_cutoff": "2026-09-22",
+ "cutoff_meta": {
+  "evidence_cutoff": "2026-09-22"
+ },
+ "prereg": "research/INNOVATION_QUOTA_W8_PREREG.md (r448 bm-b berth + r450 bm-b freeze, seed 20325500)",
+ "prereg_sha256_16": "c0e56e4426864e1c",
+ "generated": "2026-09-30T09:09:22+08:00",
+ "seed": {
+  "base": 20325500,
+  "k_substreams": "starts k in [0,1000); splits k in [1000,1100) -- rng([SEED, k]) one k-stream shared across cells/faces; no own-null family (deterministic paired-diff design, prereg sec.4)"
+ },
+ "panel": {
+  "roster_n": 28,
+  "matrix_shape": [
+   1630,
+   28
+  ],
+  "matrix_first": "2020-01-03",
+  "matrix_last": "2026-09-22",
+  "anchor_four_tuples": {
+   "member_sleeve_matrix": {
+    "path": "firm/traders/*.json + data/daily bare-code core48 (via iv6_portfolio.member_run_iv6, t27 anchor-cum-sleeve)",
+    "loader": "iv6_portfolio.member_run_iv6(tid, mult)",
+    "start_window": "2020-01-03",
+    "warmup_window": "engine per-member signal warmup (in sleeves, not the cov window)"
+   },
+   "rolling_cov_window": {
+    "path": "member x1 eq curves pct-change matrix",
+    "loader": "t27.daily_ret_matrix(sleeves, 'x1')",
+    "start_window": "2021-01-18",
+    "warmup_window": "252 trailing trading days"
+   }
+  },
+  "cutoff_face": "registration-pinned P-5C binding (probe facts cutoff 2026-09-22)"
+ },
+ "construction": "verbatim-import results/_r449bmb_w8_probe.py (r456 paradigm): A arm = t27 mdp_weights VERBATIM (sample cov, production recipe); B arm = mdp_weights_cov on hand-rolled Ledoit-Wolf 2004 JMV shrunk cov (mu*I target, N=n-1 pandas ddof=1); rolling 252d@21td anchors over the x1 matrix, weights decided at anchor close effective next bar (T+1 causality)",
+ "anchor_faces": {
+  "n_anchors": 66,
+  "n_singular_A_windows": 16,
+  "n_valid_paired_anchors": 50,
+  "first_singular_anchor": "2021-01-15",
+  "lambda_stats": {
+   "min": 0.03873,
+   "median": 0.131431,
+   "max": 0.898438
+  },
+  "max_wdiff_stats": {
+   "n_valid": 50,
+   "min": 0.047206,
+   "median": 0.108369,
+   "max": 0.294259
+  },
+  "solver_paths_A": {
+   "closed_form": 0,
+   "pg_fallback_local_optimum": 50,
+   "SINGULAR_SAMPLE_COV": 16
+  },
+  "solver_paths_B": {
+   "closed_form": 14,
+   "pg_fallback_local_optimum": 52
+  },
+  "static_IS_face": {
+   "n": 1211,
+   "p": 28,
+   "n_over_p": 43.25,
+   "lambda": 0.218714,
+   "cond_sample": 303080.5,
+   "cond_shrunk": 36.2,
+   "solver_A": "pg_fallback_local_optimum",
+   "solver_B": "pg_fallback_local_optimum",
+   "max_wdiff": 0.179304,
+   "l1_wdiff": 0.609487,
+   "dr_A": 2.437629,
+   "dr_B": 2.314945,
+   "dr_ew_A": 1.843535
+  },
+  "frozen_anchor_days": [
+   "2021-02-22",
+   "2024-07-08",
+   "2026-09-03"
+  ]
+ },
+ "degenerate_window_policy": {
+  "frozen_rule": "prereg sec.2/3: A arm at singular anchors CARRIES last computable weights (production recipe verbatim, pinv forbidden); paired per-anchor diff faces exclude singular anchors (count disclosed); accrual lo = first valid anchor effective bar",
+  "accrual_lo": "2021-02-23",
+  "singular_carried_in_window_A": 15,
+  "pre_lo_warmup_anchors": 1
+ },
+ "cost_face": {
+  "x1_rate_per_side": 0.0013041,
+  "x2_rate_per_side": 0.0026082,
+  "transition_cost_rule": "|dw|_1 * rate on each weight-event day, initial deployment included; x2 face reuses x1-estimated weights (T-27 precedent)",
+  "turnover_budget_per_year": 50.0
+ },
+ "passive": {
+  "face": "510300 B&H, data/daily/510300.csv bare-code panel face, truncated to evidence cutoff by index alignment (T-28 J4 caliber)",
+  "stats": {
+   "sharpe_full": -0.1062,
+   "ann_ret": -0.035013,
+   "max_dd": -0.428059,
+   "n_days": 1357
+  },
+  "j4_canon_record_disclosure": {
+   "value": 0.4854,
+   "note": "T-28 production B_MAXDIV static-assembly 12m pooled beat-passive record (NOT-DEMONSTRATED vs 0.70 line); cross-batch disclosure only, different start-grid caliber, non-gate"
+  }
+ },
+ "nulls": {
+  "consumed": "shared core48 collector for skill_line_v2 calibration (K=0 own nulls; deterministic paired-diff primary face per prereg sec.4)"
+ },
+ "cells": {
+  "COVSHRINK-A-X1": {
+   "arm": "A",
+   "cov_face": "sample",
+   "cost_face": "x1",
+   "accrual_lo": "2021-02-23",
+   "n_weight_events": 65,
+   "n_singular_carried": 15,
+   "sharpe_full": 0.6602,
+   "ann_ret": 0.010571,
+   "max_dd": -0.019308,
+   "n_days": 1357,
+   "l1_turnover_total": 17.606729,
+   "turnover_per_year": 3.27,
+   "turnover_budget_ok": true,
+   "worst_12m_vstart_dd": -0.01616
+  },
+  "COVSHRINK-A-X2": {
+   "arm": "A",
+   "cov_face": "sample",
+   "cost_face": "x2",
+   "accrual_lo": "2021-02-23",
+   "n_weight_events": 65,
+   "n_singular_carried": 15,
+   "sharpe_full": 0.0259,
+   "ann_ret": 0.000297,
+   "max_dd": -0.034291,
+   "n_days": 1357,
+   "l1_turnover_total": 17.606729,
+   "turnover_per_year": 3.27,
+   "turnover_budget_ok": true,
+   "worst_12m_vstart_dd": -0.02494
+  },
+  "COVSHRINK-B-X1": {
+   "arm": "B",
+   "cov_face": "lw_shrunk",
+   "cost_face": "x1",
+   "accrual_lo": "2021-02-23",
+   "n_weight_events": 65,
+   "n_singular_carried": 0,
+   "sharpe_full": 0.6149,
+   "ann_ret": 0.016048,
+   "max_dd": -0.033,
+   "n_days": 1357,
+   "l1_turnover_total": 13.915857,
+   "turnover_per_year": 2.58,
+   "turnover_budget_ok": true,
+   "worst_12m_vstart_dd": -0.026621
+  },
+  "COVSHRINK-B-X2": {
+   "arm": "B",
+   "cov_face": "lw_shrunk",
+   "cost_face": "x2",
+   "accrual_lo": "2021-02-23",
+   "n_weight_events": 65,
+   "n_singular_carried": 0,
+   "sharpe_full": 0.0588,
+   "ann_ret": 0.001289,
+   "max_dd": -0.0687,
+   "n_days": 1357,
+   "l1_turnover_total": 13.915857,
+   "turnover_per_year": 2.58,
+   "turnover_budget_ok": true,
+   "worst_12m_vstart_dd": -0.036095
+  }
+ },
+ "paired": {
+  "d_x1_stats": {
+   "sharpe_full": 0.3716,
+   "ann_ret": 0.005526,
+   "max_dd": -0.019777,
+   "n_days": 1357
+  },
+  "d_x2_stats": {
+   "sharpe_full": 0.074,
+   "ann_ret": 0.001121,
+   "max_dd": -0.039177,
+   "n_days": 1357
+  },
+  "n_weight_events_b": 65,
+  "paired_beats": {
+   "n_starts": 1000,
+   "windows": {
+    "6m": {
+     "b_beats_a": 381,
+     "b_beat_rate": 0.381,
+     "a_beats_b": 619,
+     "a_beat_rate": 0.619,
+     "ties": 0
+    },
+    "12m": {
+     "b_beats_a": 487,
+     "b_beat_rate": 0.487,
+     "a_beats_b": 513,
+     "a_beat_rate": 0.513,
+     "ties": 0
+    },
+    "24m": {
+     "b_beats_a": 604,
+     "b_beat_rate": 0.604,
+     "a_beats_b": 396,
+     "a_beat_rate": 0.396,
+     "ties": 0
+    }
+   }
+  },
+  "primary_readout": "12m B-beat-A rate 0.487 (K=1000 paired virtual starts)"
+ },
+ "virtual_starts": {
+  "n_starts": 1000,
+  "windows_days": {
+   "6m": 126,
+   "12m": 252,
+   "24m": 504
+  },
+  "cells": {
+   "COVSHRINK-A-X1": {
+    "6m": {
+     "beats": 768,
+     "beat_rate": 0.768
+    },
+    "12m": {
+     "beats": 736,
+     "beat_rate": 0.736
+    },
+    "24m": {
+     "beats": 615,
+     "beat_rate": 0.615
+    }
+   },
+   "COVSHRINK-A-X2": {
+    "6m": {
+     "beats": 764,
+     "beat_rate": 0.764
+    },
+    "12m": {
+     "beats": 719,
+     "beat_rate": 0.719
+    },
+    "24m": {
+     "beats": 592,
+     "beat_rate": 0.592
+    }
+   },
+   "COVSHRINK-B-X1": {
+    "6m": {
+     "beats": 770,
+     "beat_rate": 0.77
+    },
+    "12m": {
+     "beats": 744,
+     "beat_rate": 0.744
+    },
+    "24m": {
+     "beats": 631,
+     "beat_rate": 0.631
+    }
+   },
+   "COVSHRINK-B-X2": {
+    "6m": {
+     "beats": 755,
+     "beat_rate": 0.755
+    },
+    "12m": {
+     "beats": 715,
+     "beat_rate": 0.715
+    },
+    "24m": {
+     "beats": 596,
+     "beat_rate": 0.596
+    }
+   }
+  }
+ },
+ "splits": {
+  "COVSHRINK-A-X1": {
+   "same_sign_rate": 0.5,
+   "segment_stable": false,
+   "n_splits": 100
+  },
+  "COVSHRINK-A-X2": {
+   "same_sign_rate": 0.0,
+   "segment_stable": false,
+   "n_splits": 100
+  },
+  "COVSHRINK-B-X1": {
+   "same_sign_rate": 0.27,
+   "segment_stable": false,
+   "n_splits": 100
+  },
+  "COVSHRINK-B-X2": {
+   "same_sign_rate": 0.0,
+   "segment_stable": false,
+   "n_splits": 100
+  },
+  "PAIRED-DIFF-D-X1": {
+   "same_sign_rate": 0.27,
+   "segment_stable": false,
+   "n_splits": 100
+  },
+  "PASSIVE-510300-BH": {
+   "same_sign_rate": 0.0,
+   "segment_stable": false,
+   "n_splits": 100
+  }
+ },
+ "d6": {
+  "provenance": "frozen at the r450 D6 probe window verbatim (results/_r450bmb_w8_d6_probe_facts.json); merge-clause adjudication is the freeze-window admission record, not re-computed at burn (W6 precedent)",
+  "reject_line": 0.7,
+  "batch_internal_A_vs_B": 0.8562,
+  "batch_internal_note": "variant face of the same frozen pipeline (sample vs LW-shrunk cov) -- expected near 1, both cells burn, non-rejectable by design (W7 bottom-vs-dual precedent)",
+  "vs_t33_cells": {
+   "slope_r2_rotation_25_top3_r8": {
+    "A": 0.3718,
+    "B": 0.4893
+   },
+   "dual_momentum_etf_20_60_top3": {
+    "A": 0.3752,
+    "B": 0.51
+   },
+   "rs_rotation_20": {
+    "A": 0.3623,
+    "B": 0.5164
+   },
+   "composite_top5": {
+    "A": 0.3707,
+    "B": 0.4197
+   }
+  },
+  "merge_clause_applied": [],
+  "vs_registered_six": {
+   "max_abs_corr": 0.0694,
+   "argmax": "ENGULF-CE-01",
+   "note": "arms are blends OF the corps members -- structural containment, disclose-only (t27 blend precedent)"
+  },
+  "vs_b_maxdiv_production_face": {
+   "A": 0.8768,
+   "B": 0.7556,
+   "production_weights_sha_note": "t27 B_MAXDIV registered assembly sha 9b112d51583aeeb7 (SPM v1 28-member face)"
+  },
+  "production_face_note": "B_MAXDIV production static assembly re-derived from the same t27 machinery (IS-segment weights on the same x1 matrix, t27 evaluation-frame caliber); the family IS the production assembly's cov-face upgrade per zoo #89 adoption route -- upgrade-target confirmation face, reject line structurally non-applicable (pre-declared at freeze), disclosed"
+ },
+ "gates": {
+  "COVSHRINK-A-X1": {
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.6602,
+    "skill_line": {
+     "n_eff": 357383,
+     "line": 1.1952,
+     "passive_term": 0.4792,
+     "null_term": 1.1952,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "passive_source": "pool:core48",
+     "ledger_head": {
+      "total": 357379,
+      "file": "NNL-BREADTH-P1.json",
+      "note": null
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.1906,
+     "ci95_high": 1.4715,
+     "point": 0.6602,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 65,
+     "n_entries": 65,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.000926,
+    "sr_annualized": 0.6602,
+    "sr_star": 0.125242,
+    "sigma_sr": 0.026874,
+    "n_trials": 357383,
+    "T": 1357,
+    "skew": 0.6649,
+    "kurtosis": 17.1639
+   },
+   "cost_face_role": "judged",
+   "g2": {
+    "gate": "g2_registration_v2",
+    "g1_pass": false,
+    "dsr": 0.000926,
+    "dsr_gate": 0.95,
+    "dsr_ok": false,
+    "family_pbo": 0.0,
+    "pbo_gate": 0.25,
+    "pbo_ok": true,
+    "missing_inputs": [
+     "g1_prime_v2"
+    ],
+    "eligible_v2": false
+   }
+  },
+  "COVSHRINK-A-X2": {
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.0259,
+    "skill_line": {
+     "n_eff": 357383,
+     "line": 1.1952,
+     "passive_term": 0.4792,
+     "null_term": 1.1952,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "passive_source": "pool:core48",
+     "ledger_head": {
+      "total": 357379,
+      "file": "NNL-BREADTH-P1.json",
+      "note": null
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.8105,
+     "ci95_high": 0.862,
+     "point": 0.0259,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 65,
+     "n_entries": 65,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 2e-06,
+    "sr_annualized": 0.0259,
+    "sr_star": 0.126521,
+    "sigma_sr": 0.027149,
+    "n_trials": 357383,
+    "T": 1357,
+    "skew": 0.3454,
+    "kurtosis": 15.9187
+   },
+   "cost_face_role": "stress-disclosure",
+   "g2": {
+    "gate": "g2_registration_v2",
+    "g1_pass": false,
+    "dsr": 2e-06,
+    "dsr_gate": 0.95,
+    "dsr_ok": false,
+    "family_pbo": 0.0,
+    "pbo_gate": 0.25,
+    "pbo_ok": true,
+    "missing_inputs": [
+     "g1_prime_v2"
+    ],
+    "eligible_v2": false
+   }
+  },
+  "COVSHRINK-B-X1": {
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.6149,
+    "skill_line": {
+     "n_eff": 357383,
+     "line": 1.1952,
+     "passive_term": 0.4792,
+     "null_term": 1.1952,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "passive_source": "pool:core48",
+     "ledger_head": {
+      "total": 357379,
+      "file": "NNL-BREADTH-P1.json",
+      "note": null
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.2212,
+     "ci95_high": 1.4275,
+     "point": 0.6149,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 65,
+     "n_entries": 65,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 0.000631,
+    "sr_annualized": 0.6149,
+    "sr_star": 0.12573,
+    "sigma_sr": 0.026979,
+    "n_trials": 357383,
+    "T": 1357,
+    "skew": 0.5292,
+    "kurtosis": 20.9697
+   },
+   "cost_face_role": "judged",
+   "g2": {
+    "gate": "g2_registration_v2",
+    "g1_pass": false,
+    "dsr": 0.000631,
+    "dsr_gate": 0.95,
+    "dsr_ok": false,
+    "family_pbo": 0.0,
+    "pbo_gate": 0.25,
+    "pbo_ok": true,
+    "missing_inputs": [
+     "g1_prime_v2"
+    ],
+    "eligible_v2": false
+   }
+  },
+  "COVSHRINK-B-X2": {
+   "g1_prime_v2": {
+    "gate": "g1_prime_v2",
+    "sharpe_full": 0.0588,
+    "skill_line": {
+     "n_eff": 357383,
+     "line": 1.1952,
+     "passive_term": 0.4792,
+     "null_term": 1.1952,
+     "mu_null": -0.0332,
+     "sigma_null": 0.2429,
+     "pool": "core48",
+     "passive_source": "pool:core48",
+     "ledger_head": {
+      "total": 357379,
+      "file": "NNL-BREADTH-P1.json",
+      "note": null
+     }
+    },
+    "line_ok": false,
+    "bootstrap_ci": {
+     "ci95_low": -0.7974,
+     "ci95_high": 0.8752,
+     "point": 0.0588,
+     "ci_lower_bound_positive": false,
+     "n_resamples": 1000,
+     "block_days": 10.0,
+     "seed": 20260923
+    },
+    "ci_lower_bound_positive": false,
+    "pass_v2": false,
+    "trade_gate": {
+     "n_trades": 65,
+     "n_entries": 65,
+     "min": 30,
+     "trades_ok": true,
+     "entries_ok": true,
+     "dual_ok": true
+    }
+   },
+   "dsr": {
+    "dsr": 3e-06,
+    "sr_annualized": 0.0588,
+    "sr_star": 0.12648,
+    "sigma_sr": 0.02714,
+    "n_trials": 357383,
+    "T": 1357,
+    "skew": 0.3467,
+    "kurtosis": 23.1182
+   },
+   "cost_face_role": "stress-disclosure",
+   "g2": {
+    "gate": "g2_registration_v2",
+    "g1_pass": false,
+    "dsr": 3e-06,
+    "dsr_gate": 0.95,
+    "dsr_ok": false,
+    "family_pbo": 0.0,
+    "pbo_gate": 0.25,
+    "pbo_ok": true,
+    "missing_inputs": [
+     "g1_prime_v2"
+    ],
+    "eligible_v2": false
+   }
+  }
+ },
+ "family_pbo": {
+  "pbo": 0.0,
+  "verdict": "register_eligible",
+  "n_trials": 4,
+  "n_rows": 1357,
+  "n_combinations": 70,
+  "n_blocks": 8,
+  "block_bounds": [
+   0,
+   169,
+   339,
+   508,
+   678,
+   848,
+   1017,
+   1187,
+   1357
+  ],
+  "omega_mean": 0.2476,
+  "omega_median": 0.3333,
+  "omega_p05": 0.0,
+  "omega_p95": 0.3333,
+  "per_combination": [
+   {
+    "is_blocks": [
+     0,
+     1,
+     2,
+     3
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     2,
+     4
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     2,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     2,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     2,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     3,
+     4
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     3,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     3,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     3,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     4,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     4,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     4,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     1,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     3,
+     4
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     3,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     3,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     3,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     4,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     4,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     4,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     2,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     3,
+     4,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     3,
+     4,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     3,
+     4,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     3,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     3,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     3,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     4,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     0,
+     4,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     4,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     0,
+     5,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     3,
+     4
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     3,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     3,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     3,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     4,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     4,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     4,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     2,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     3,
+     4,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     3,
+     4,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     3,
+     4,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     1,
+     3,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     1,
+     3,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     1,
+     3,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     4,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     4,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     4,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     1,
+     5,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     2,
+     3,
+     4,
+     5
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     2,
+     3,
+     4,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     2,
+     3,
+     4,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     2,
+     3,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     2,
+     3,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     2,
+     3,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     2,
+     4,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 1.0,
+    "omega": 0.0
+   },
+   {
+    "is_blocks": [
+     2,
+     4,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     2,
+     4,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     2,
+     5,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     3,
+     4,
+     5,
+     6
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     3,
+     4,
+     5,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     3,
+     4,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     3,
+     5,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-B-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   },
+   {
+    "is_blocks": [
+     4,
+     5,
+     6,
+     7
+    ],
+    "is_best_trial": "COVSHRINK-A-X1",
+    "oos_rank": 2.0,
+    "omega": 0.3333
+   }
+  ],
+  "bands_frozen": {
+   "register_eligible": "pbo <= 0.25",
+   "observe": "0.25 < pbo <= 0.5",
+   "fail": "pbo > 0.5"
+  }
+ },
+ "paired_gate": {
+  "g1_prime_v2": {
+   "gate": "g1_prime_v2",
+   "sharpe_full": 0.3716,
+   "skill_line": {
+    "n_eff": 357383,
+    "line": 1.1952,
+    "passive_term": 0.1,
+    "null_term": 1.1952,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429,
+    "pool": "core48",
+    "passive_source": "batch_own_per_cell",
+    "ledger_head": {
+     "total": 357379,
+     "file": "NNL-BREADTH-P1.json",
+     "note": null
+    }
+   },
+   "line_ok": false,
+   "bootstrap_ci": {
+    "ci95_low": -0.4624,
+    "ci95_high": 1.1705,
+    "point": 0.3716,
+    "ci_lower_bound_positive": false,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "ci_lower_bound_positive": false,
+   "pass_v2": false,
+   "trade_gate": {
+    "n_trades": 65,
+    "n_entries": 65,
+    "min": 30,
+    "trades_ok": true,
+    "entries_ok": true,
+    "dual_ok": true
+   }
+  },
+  "dsr": {
+   "dsr": 7.4e-05,
+   "sr_annualized": 0.3716,
+   "sr_star": 0.125734,
+   "sigma_sr": 0.02698,
+   "n_trials": 357383,
+   "T": 1357,
+   "skew": 0.7207,
+   "kurtosis": 29.6166
+  },
+  "g2": {
+   "gate": "g2_registration_v2",
+   "g1_pass": false,
+   "dsr": 7.4e-05,
+   "dsr_gate": 0.95,
+   "dsr_ok": false,
+   "family_pbo": 0.0,
+   "pbo_gate": 0.25,
+   "pbo_ok": true,
+   "missing_inputs": [
+    "g1_prime_v2"
+   ],
+   "eligible_v2": false
+  },
+  "x2_paired_direction_ok": true,
+  "d_x2_sharpe": 0.074
+ },
+ "verdict": {
+  "methodology_adopt_eligible": false,
+  "verdict_template": "prereg sec.4: adopt-eligible = paired G1' pass (line live-read, passive_override=0.0 spread face) AND paired G2 eligible AND x2 paired direction consistent (D_x2 sharpe > 0); else judged-negative family closure (zoo #89 A/B route tested and closed, RANDOM_LARGE_SAMPLE_LAW s5 reopen note)",
+  "consumer_face": "adopt-eligible -> SPM B_MAXDIV methodology-upgrade candidate at the 2026-10-01 monthly boundary (PROFIT_MODEL_MAP constraint-2 source) + STRATEGY_LIBRARY methodology row; closure -> attrition row + 48h CEO report"
+ },
+ "funnel": {
+  "harvest_column": 1,
+  "harvest_note": "zoo #89 cov_shrinkage_lw adoption route A/B variant batch (first covariance-face family in tree, r448 berth two-face audit: zero prior judgment artifacts)",
+  "gate_column": "cells: 0/4 g1_prime_v2 pass, 0/4 G2-eligible; paired methodology gate: G1' FAIL / G2 NOT / x2-dir OK -> JUDGED-NEGATIVE family closure"
+ },
+ "trials_ledger": {
+  "prev_total": 357379,
+  "batch_trials": 4,
+  "total": 357383,
+  "batch": "COV_SHRINK_AB_P1",
+  "file": "results/innovation_quota/COV-SHRINK-AB-P1.json",
+  "note": "4 judgment cells (2 cov arms x 2 cost faces, every cell pays per W6 s0 counting law); 56 member engine runs = anchor-cum-sleeve non-search machinery faces (t27 verbatim, disclosed); paired-diff D_x1 = primary methodology gate face (gates/disclosure, not a ledger cell, t27 readout precedent)",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "judgment_note": "judged per prereg sec.4 via shared library (batch_cells=4 s0 counting law); the primary hypothesis face is the deterministic paired diff B-A, no random-baseline null family per prereg (non-survivor A/B design); DSR/N_eff accounting = both arms each counted via the 4-cell family; T0 brake authority stays with REGIME_GUARD, adoption walks the monthly-boundary process"
+}

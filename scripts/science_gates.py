@@ -1586,6 +1586,14 @@ SEED_REGISTRY = {
         # (facts = results/_r450bmb_w8_seed_law_facts.json)
         "innovation_quota_w8_covshrink": 20325500,
 
+        # INNOVATION-QUOTA-W9 CROWD-VOTE-P1 four-vote crowding state
+        # gate (zoo #84 crowding_vote, bm-c r259 berth / r260 freeze
+        # window); +500 ladder above W8 20325500 (last registered quota
+        # base); three-step law FULL import view verified same window
+        # (facts = results/_r260bmc_w9_seed_law_facts.json); W13 trio
+        # (registered bm-a r461) stays clear of this base by construction
+        "innovation_quota_w9_crowd": 20326000,
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
