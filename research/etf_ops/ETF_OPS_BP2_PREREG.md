@@ -1,0 +1,95 @@
+# ETF-OPS-BP2 预注册（周期定投纪律链全网格回测批·出场纪律移植试验）· T-103 s2 chain #2
+
+> 权威链：research/BACKTEST_SCIENCE.md（v2 判据唯一权威）＋ BACKTEST_PLAN.md 三铁律 ＋ research/COMPUTE_AUDIT.md（批件纪律）＋ PREREG_TEMPLATE.md（本件母板）。
+> 法链：O-20260928-1524（ETF 操作链条建制令）→ O-20260928-1533（宽基收窄）→ O-20260928-1555（五员宇宙定谳+两线分治）。
+> 谱系：**BP1 族教训承接件**（research/etf_ops/ETF_OPS_BP1_PREREG.md §7 判负面：「触发条件本身不含独立技巧增量，出场纪律（MA200/−8%/分层 TP）是该链唯一可能有价值的部件面（2 个高 Sharpe cell 佐证），后续候选方向=出场纪律移植试验（新预注册），非本批复跑」——本批即该指针的落地）。BP1 判负族以对照臂/教训锚入本件，**零复跑**（no-reopen 律）。
+> 设计源：research/etf_ops/ETF_OPS_S0_CENSUS.md（宇宙/证据/边界冻结面）；出场纪律栈=BP1 §3 逐字移植（移植面=出场栈，入场换为无技巧日历定投——本批要害=隔离「出场纪律」的独立增量）。
+> 状态：**跑前冻结**（2026-09-30 R458 bm-b · 与 F-04 MSG-20260930-1150-bmb-all＋SEED_REGISTRY 登记同 commit）；跑后只许回填 §7 占位节，禁改判据禁重跑。
+
+## §0 批件身份【跑前冻结】
+
+- 批名 / 批号：**ETF-OPS-BP2**；批内格数=**15 member-cell**（5 员 × 3 cell：(P1,P2)∈{(5,10),(6,12),(8,15)}%）——**每 member-cell 计入 N_eff，扩容即买单**；虚拟时点窗 {6m=126, 12m=252, 24m=504}td 与成本面 {base,×2}=同格内披露/判定维度，非扩格。
+- 认领：F-04 先行=`fleet/inbox/MSG-20260930-1150-bmb-all-etfops-bp2-prereg-freeze.md`＋任务单=`T-2026-09-28-103-P1`（s2 chain #2·bm-b standing 认领 r391·progress_r458 续作点）。
+- 部门归属：ETF 操作链条研究组（直属组·org_chart v2 行）；轮报告标注 dept:研究/策略。
+- 算力预算：runner=T-22 血统向量化 envelope（BP1 runner `scripts/etf_ops_bp1.py` 范式复用：出场栈/成本/涨跌停/守卫/门禁机械面全量继承，入场掩码与主判机械面为本批新增）；**五员可分片**（shard=member）；窗口配对引擎=跨起点向量化（见 §3）；预估整批 <5 min（BP1 实测 2–3s/员 全网格先例，本批新增窗口面约 ×3–10）——**实测超 5 min 即入池 results/runnable_pool.json 后台化+checkpoint（R41 律），轮内禁内联代跑；≤5 min 轮内内联合法（r397 先例）**；批报告必带 audit 段（无 audit 段的结果件不入账本）。
+- 与 BP1 的机制面差异声明（no-reopen 合规）：入场=日历定投（无数据派生信号·零技巧主张）替代 BP1 双门触发；主判=窗口配对出场纪律增量（§4）替代 BP1 胜率-null 主判；出场栈四件（TP1/TP2/硬止损/趋势止损）+优先级 +成本/记账/守卫律全部逐字继承。分析单元（回合制）、出场纪律同族——**族相关性由批内 family PBO 门承担**，跨批与 BP1 的关系=教训锚非同批族。
+
+## §1 α 机制段【D6——无机制段=批不受理】
+
+- [x] **行为偏差**（主·处置效应反向面）：A 股散户定投后「盈利拿不住、亏损不肯放」——chop 主导形态（T-89 实勘 510300 chop 占比 71%）下浮盈常态化回吐、深亏常态化装死。纪律栈把「该止盈就止盈」（分层 TP 落袋）与「该断就断」（−8% 硬止损+MA200 趋势止损）机械化执行，对抗无纪律持有人的浮盈回吐与深亏装死。**谁付钱**：无纪律持有盘在回吐段以更低净变现价交付（纪律盘提前落袋）、在崩段以更深回撤承担（纪律盘止损离场）。入场腿（月度日历）**零技巧主张**——本批不主张任何入场选择增量，全部主张压在出场纪律增量上（§4 主判与该主张严格对齐）。
+- 国内性主张（O-1522 方向盘）：「定投+纪律止盈」=A 股原生大众打法（基金定投人群的标准动作+「该止盈就止盈」的纪律化表达），非国外动量/均值回归框架移植；月频=国内定投人群实际操作频率。
+- **同族相关性准入检查（D6·冻结程序）**：对照清单=①在册 6 交易员 sleeve（COMPOSITE-CE-01/02、DROUGHT-CE-01、ENGULF-CE-01、NEEDLE-DE-01、VOLATILITY-CE-01·日收益序列口径）；②同批 15 cell=同族网格（族内由 family PBO 门承担）；③在队函数：grid_dualface_p1（机制面互斥=区间做市 vs 回合制纪律链·零格位重叠·判面已在树）、T-106 国家队（事件复盘面非策略函数）。**数值=跑批时 sleeve 日收益序列实测，§7 回填逐对披露**；任一 cell max|corr|≥0.7（vs ①）→ **该 cell 拒收**如实披露；BP1 判负族=教训锚非在册函数，不适用 D6 拒收面，读数随 §7 披露。
+
+## §2 数据与面板【跑前探针事实·G-ANCHOR-FACE 四元组逐锚落格】
+
+- 宇宙/池：**五员两档冻结宇宙**（O-1555）：510050（上证50·10cm）/ 510300（沪深300·10cm）/ 510500（中证500·10cm）/ 512100（中证1000·10cm）/ 588000（科创50·**20cm**）。
+- **数据锚面定义四元组【每个数字探针锚必填·R99 冻结门】**（r458 探针 2026-09-30 11:2x 实测；面板由 T-2026-09-28-111 刷新腿维护·r457 实证 qfq 五员面已鲜至 09-29）：
+
+| 员 | ①数据面路径 | ②加载函数 | ③起算窗 | ④预热窗 | 实测行数 | 末行日期 |
+|---|---|---|---|---|---|---|
+| 510050 | `data/daily/sh510050.csv` | `pd.read_csv` raw 直读截断（非引擎池面） | 2005-02-23 全史起算 | MA200 min_periods=200 → 首有效 MA200 第 200 bar | 5252 | 2026-09-29 |
+| 510300 | `data/daily/sh510300.csv` | 同上 | 2012-05-28 | 同上 | 3487 | 2026-09-29 |
+| 510500 | `data/daily/sh510500.csv` | 同上 | 2013-03-15 | 同上 | 3290 | 2026-09-29 |
+| 512100 | `data/daily/sh512100.csv` | 同上 | 2016-11-04 | 同上 | 2406 | 2026-09-29 |
+| 588000 | `data/daily/sh588000.csv` | 同上 | 2020-11-16 | 同上 | 1426 | 2026-09-29 |
+
+- **探针-锚同面断言【G-ANCHOR-FACE·必填】**：runner 探针实载路径与上表锚声明路径**逐位比对**——一面不相等=**面错配 VOID**（fail-closed 拒烧，报「面错配」非「数据腐坏」·INCIDENT-20260928 立法）；行数/首行/末行三面实测==锚值（5252/3487/3290/2406/1426·上表首末行）任一不等=fail-closed。
+- 窗口与 **evidence_cutoff（D2 前向锁盒）=2026-09-29**（qfq 五员面实测最新 complete bar；09-30 当日 bar 收盘前不入库·锁定不得回流本批）；结果 JSON 顶层必带 `evidence_cutoff="2026-09-29"`＋`science_gates.cutoff_meta`（缺字段=science_audit C2 VIOLATION）。
+- 数据完备门（不过门禁烧）：每员①实测行数==锚行数②末行==2026-09-29③OHLC 无 NaN④date 单调递增无重复——任一不过=该员 fail-closed 禁烧，如实上报。
+- 守卫日数据面：基金事件守卫（r239 冻结律）需五员宇宙中位 |r1|——五员全载入后逐日计算（BP1 `universe_median_abs_r1` 机械面继承）；单员纪元窗内中位==自身 → 守卫结构性惰性（BP1 实测同面·如实披露）。
+
+## §3 方法学【冻结】
+
+- 入场（**本批新增·日历定投**）：信号=**每公历月首个交易日**（员自身面板日历·月度首 bar 日）；执行=信号日 **T+1 次日开盘**买入一单位（O-1132 保守代理·与 BP1 同约定）；**持仓期间后续月度信号跳过**（skip-while-holding·单仓位禁加码金字塔·跳过计数 `skipped_signals` 如实披露）；回合关闭后下一月度信号日**严格晚于出场日**（同日不重入·BP1 冻结选择镜像）。**入场零数据派生门**——MA200/触发深度等 BP1 入场面全部移除（移植面=出场栈 only）。
+- 出场（**BP1 §3 出场栈逐字移植**）：TP1 `close ≥ entry_cost×(1+P1)` ⇒ T+1 开盘卖 50%；TP2 `close ≥ entry_cost×(1+P2)` ⇒ T+1 开盘清仓；硬止损 `close ≤ entry_cost×0.92`（−8% 公司正典同门）⇒ T+1 开盘清仓；趋势止损 `close < MA200` ⇒ T+1 开盘清仓（MA200 首有效前趋势止损惰性=NaN 不触发·如实）；同日出场优先级=**trend_sl > hard_sl > tp2 > tp1**（engine/exit_rules 正典镜像·BP1 冻结选择）；TP1 后余仓同 entry_cost 计价（成本基准=入场成交价加权）。
+- 涨跌停诚实记账（BP1 逐字继承）：入场日开盘一字涨停（h==l 且 o/pc−1 ≥ tier−0.002·tier=0.10、588000=0.20）=不可成交记 `blocked_entry`（回合作废·入下月信号·不入分母）；出场日开盘一字跌停记 `blocked_exit`（committed·次日续执行·无信号重估）。
+- 基金事件守卫（r239 冻结律逐字）：单日 `|r1|>10.5%`（588000 用 20.5%）且当日五员宇宙中位 `|r1|<3%` ⇒ 该员该日**信号隔离**（月度信号日命中=跳过该月入场·如实计数）。
+- 回合定义与胜负：回合=入场到清仓一单位；胜负=回合净盈亏（含双边成本·两腿各自成交价）>0；回合净=Σ frac_i×leg_net_i（TP1 腿 0.5/余仓 0.5·单腿出场 1.0；leg_net=px_exit×(1−c_out)/(px_entry×(1+c_in))−1·乘法双轨 BP1 逐字）。
+- 成本口径：**V1 legacy 13.041bp/side 双轨**（base ×1＋×2 压测面·CostPatch multiplier 律·禁直引常量另算）；**judged face=×2**（BP1/cn_kline/rev_osc 判面先例）；×1=披露面。
+- **窗口配对引擎（本批新增·主判机械面）**：虚拟窗起点=全部可行起点 s（窗长 L∈{126,252,504}td·s+L≤n·T-22 血统），逐窗独立模拟（窗内平地起步·两腿同起）：
+  - **chain 腿**：月度信号→T+1 开盘入场→出场栈运转；窗末（第 L−1 bar）**强制平仓于末 bar 收盘 mark**（含 TP1 后余仓·成本照计·pending blocked_exit 滚动至窗末者同价强平——窗界测量成交=末 bar 收盘·冻结选择）；
+  - **DCA 对照腿（same-entry 同掩码律）**：取 chain 腿**实际成交的入场日**（同 fill 价·同成本），逐单位持有至窗末末 bar 收盘卖出——**入场集与 chain 完全一致**（隔离出场纪律增量·入场时点零混淆）；纯日历全月度不跳过面=另列披露面（full-panel·非主判）；
+  - 窗指标=两腿**逐单位净收益均值**；`paired_diff = mean(chain_unit_nets) − mean(dca_unit_nets)`；窗内 chain 成交单位 <2 ⇒ 该窗不入配对集（计数披露）；
+  - 实现律=跨起点向量化状态机（S 宽 numpy 状态数组·≤504 步推进），**selftest 必含暴力参考实现抽样逐窗全等断言**（≥50 窗/员·双实现 byte 级同值）。
+- null 对照（连续性披露面·非主判）：**K=200 均匀随机交易日入场 null/员-cell**（等量回合数·同出场栈·同成本）——检验「月历节奏 vs 任意日」零技巧主张的连续性读数；与 BP1 同掩码 null 的口径差异如实声明（BP1 掩码=双门触发日·本批掩码=月历日，掩码语义不同故取均匀日面）。**seed 基=`etf_ops_bp2`=`20294100`**（15 流 `default_rng([20294100, cell_idx])`·cell_idx<15·K=200 sequential draws/stream；SEED_REGISTRY 本冻结同 commit 登记·R250 律；带 20294100..20294114·rg 全仓扫描零命中 2026-09-30 11:2x 实测）。
+- 账本：`science_gates.append_ledger("ETF_OPS_BP2", batch_trials=15, file_name=OUT_JSON, evidence_cutoff="2026-09-29", prev_total=<live-head 实读>)`（dict schema 唯一·禁手抄 prev）。
+
+## §4 判据【跑前写死·禁看结果调线】
+
+- **链条主判（本批唯一新增判据·与 §1 主张严格对齐）=窗口配对出场纪律增量**：逐 member-cell 池化全部合格窗（3 窗长×全部起点·单位过滤 ≥2）的 paired_diff 集合——**主判=median(paired_diff) > 0 ∧ bootstrap CI95（10,000 重采样·percentile 法·`default_rng([20294100, 1000+cell_idx])`）排除 0**；judged face=×2（×1 并行披露）。**批主判过线计数=过线 cell 数/15**；不过=「出场纪律在无技巧入场上无独立增量」成立，judged negative 入族教训。
+- **G1' v2（注册资格·公司正典）**=`science_gates.g1_prime_v2(sharpe_full, returns, batch_cells=15, n_trades, n_entries)`：chain 腿全面板日 mark-to-market 权益曲线（TP1 后余仓 mark 同 BP1 `chain_daily` 面）——全期 Sharpe>skill_line_v2 且 bootstrap CI 下界>0 且 entries≥30（F6 双口径·(entries_ok) 为准）；批报告逐列披露 skill_line/bootstrap_ci/trade_gate 全输入。
+- **G2 注册资格 v2**=`science_gates.g2_registration_v2(g1_pass, dsr, pbo)`：G1' 过线且 DSR≥0.95（`deflated_sharpe_ratio` 原始收益跑·N_eff=15 记账）且**家族 PBO≤0.25**（`screening/pbo.py` CSCV 8 块·15 cell 同族）；缺输入=诚实拒收。**综合注册=主判∧G2 双过**（主判不过即无注册——增量主张不成立时高 Sharpe 不足以注册）。
+- 连续性/披露面并行（禁单指标叙事）：回合胜率+均匀日 null p95 读数（非判据·连续性面）；盈亏比 `avg_win/avg_loss`；回合期望；**beat-passive**（全窗 buy-hold 总收益 vs chain 费用后 booked-evenly 算术累计·BP1 口径逐字+虚拟时点 {6m,12m,24m}×{×1,×2} beat_rate 面）；**beat-pure-DCA**（全月度不跳过持有至面板末的逐单位均值 vs chain 全面板逐单位均值——朴素定投资人对照·full-panel 披露面）。
+- 政体条件化有效窗披露（O-1518 T1）：paired_diff 按 T-74 L2 路由态（GREEN/CHOP/ORANGE/RED·YELLOW→CHOP）与 T-89 分段（trend/chop）分层披露 median——**禁全天候宣称**。
+- 描述条款（批级·不替代门）：年化>0、OOS 双正、回撤≥−35%、成本×2 逐年稳定。
+- 硬界设计三件套适用面声明：本批=回合制+窗配对批**无 max 硬界检测判线**；三件套落位=①极端日先验入 §5（一字板记账=事件豁免路径·blocked_entry/blocked_exit 逐日单列披露）②基金事件守卫隔离日单列③危机日（|r1| 双面）命中记日志豁免单列。
+- 现金腿披露（保守面）：chain 腿回合间闲置现金**不计任何收益**（T-88 逆回购停泊面=升级提案出口之一·主判不贷记现金收益=对 chain 保守方向的冻结选择·如实声明）。
+
+## §5 跑前预测【写死于跑前·跑后对账】
+
+1. **主判方向**：chop/熊转窗口 paired_diff 为正（分层 TP 在浮盈回吐前落袋+趋势止损砍深亏 vs DCA 全程装死），强牛窗口为负（TP1/TP2 提前卖飞+趋势止损 V 反转窗追高回补）；全样本 median 预测**小正（+0.5%~+2%/单位/窗）**，(5,10)% 组 CI 排零概率最高、(8,15)% 组最暴露于牛窗卖飞——**主判过线预测 2–7/15 cell**（诚实区间·非拍脑袋单点）。
+2. **胜率**：预测 55%–75%（月历入场正漂移资产+小目标 TP1 构造性抬高）；vs 均匀日 null p95 预测**大多不过**（入场零技巧主张的实证面——null 过线反而异常需查实现）。
+3. **趋势止损病理窗**：V 反转窗（2024-09-24 族）chain 劣于 DCA（底部砍仓→次月更高价回补）；2015-06/07 股灾窗 chain 显著优于 DCA（月度接刀被趋势止损截断 vs DCA 全程装死）——政体分层披露必现两极。
+4. **beat-passive**：预测 **0/15**（BP1 0/30 先例——回合制链大量空仓段 vs 恒在场 β，费后难越）。
+5. **beat-pure-DCA**：不确定面（纪律落袋 vs 持有至末的结构性对冲）——预测 2–6/15 员-cell 为正，510050（2005–2014 长横盘史）与 588000（20cm 高波）最可能为正；**记录为不确定预测·非方向断言**。
+6. **极端日先验（硬界三件套(c)）**：①2015-06/07 股灾窗硬止损日一字跌停=`blocked_exit` 队列（−8% 实际损耗深于名义）；②2016-01 熔断 4 日同形态；③2024-09-24~10-08 政策脉冲窗 TP 触发日一字涨=`blocked_exit` 次日续卖（止盈「免费升级」后跳空）；④2026-01-19 极端溢价日 588000 20cm 带高发；⑤基金守卫隔离日（510500 2022-08-29 −12.7% 实勘在案）逐日单列。
+7. **skip-while-holding 面**：回合均长预测 1–4 月（TP1 小目标速达），月度信号跳过率预测 30%–60%（长回合吞多月历）——skip 计数与回合数反相关如实披露。
+
+## §6 产物
+
+- script：`scripts/etf_ops_bp2.py`（BP1 runner 范式复用：出场栈/成本/涨跌停/守卫/门禁/账本/selftest 骨架继承；新增=月历掩码+窗口配对引擎+主判机械面；G-ANCHOR-FACE 同面断言内建·分片 checkpoint 断点续跑·grammar_sha16 跑前钉死）。
+- results：`results/etf_ops/bp2_grid.json`（顶层 `evidence_cutoff="2026-09-29"`＋`science_gates.cutoff_meta` 必带＋cells/gates/pbo/d6/regime_face/blocked_accounting/descriptive/virtual_timepoints/beat_dca 面）＋`results/etf_ops/bp2_nulls.json`＋`results/etf_ops/bp2_rounds_<member>.csv` 逐员回合流＋`results/etf_ops/bp2_windows.json`（逐员-cell paired_diff 池化 median/CI/n_windows/skip 计数）＋分片件 `bp2_shard_<code>.json`。
+- 本件 §7 回填。
+
+## §7 跑后实证【占位·跑后回填·禁预写】
+
+- 逐员-cell 主判读数（median paired_diff/CI95/窗数/单位过滤计数）：待跑。
+- 胜率/null p95/G1'/G2/DSR/PBO/d6 逐面：待跑。
+- beat-passive/beat-pure-DCA/政体分层/blocked 记账/skip 面：待跑。
+- 预测对账（§5 逐条 对/部分/错）：待跑。
+
+## §8 批后复盘【s7-T】
+
+- 预测对账＋门禁链损耗账（`results/gate_attrition.json` 追加一行）＋判线 v2 当批读数（skill_line_v2 数字）；
+- 回执入轮报告＋CODELY.md 行级追加；若注册新员：注册件带 evidence_cutoff＋live/paper SIGNAL_BUILDERS 接线＋smoke 锚定门复跑；
+- 三出口（O-1524 §3）：锦标赛臂候选（DECISION_CHAIN v1.2）／军团席位供给／现金腿升级提案（chain 闲置现金×T-88 逆回购面=升级提案出口）——judged negatives 记族教训（BP1/BP2 两代族教训并档）。

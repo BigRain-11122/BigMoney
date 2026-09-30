@@ -1163,6 +1163,17 @@ SEED_REGISTRY = {
     # full-repo scan zero hits 2026-09-28 19:5x before prereg freeze;
         # registered same commit as prereg freeze (R250 law; prereg =
         # research/etf_ops/ETF_OPS_BP1_PREREG.md; F-04 MSG-20260928-2000)
+    "etf_ops_bp2": 20294100,
+    # ETF-OPS-BP2 calendar-DCA discipline chain (T-2026-09-28-103 s2 chain
+    # #2, BP1 family-lesson exit-discipline transplant): 15 member-cell
+    # streams default_rng([20294100, cell_idx]), cell_idx<15, K=200
+    # sequential draws per stream (uniform-random-trading-day entry nulls);
+    # bootstrap-CI streams default_rng([20294100, 1000+cell_idx]); band
+    # 20294100..20294114 clean gap inside etf_ops_bp1 band tail (bp1 uses
+    # 20294000..20294029; member_reinforce starts 20294500); rg full-repo
+    # scan zero hits 2026-09-30 11:4x before prereg freeze; registered same
+    # commit as prereg freeze (R250 law; prereg =
+    # research/etf_ops/ETF_OPS_BP2_PREREG.md; F-04 MSG-20260930-1150)
         "member_reinforce_p1_null": 20294500,
         # MEMBER_REINFORCE_P1 seed-stability face, seed #1 base: K=200
         # same-mask random nulls per member (default_rng([20294500, k]),
