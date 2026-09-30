@@ -1611,6 +1611,27 @@ SEED_REGISTRY = {
         # W13 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20324000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
         "trial_labor_w13_unc": 20324000,
+        # W14 trial-labor trio (RESI trend-extension position + CNTD
+        # up-day density dual new axes; canonical draft bm-c r276
+        # berth 04759cf69 first-to-origin, adoption MSG-20260930-154x
+        # bm-b yield+adopt; members adjudicated bm-b r471 freeze window
+        # per GATE-RECHECK roster: RESI{resi60_hi} single window
+        # (resi30 RECHECK-FAIL c1-demoted) + CNTD{cntd5_hi,cntn20_lo}
+        # (cntd10 RECHECK-FAIL c1-demoted; cntn20 RECHECK-CONFIRM));
+        # berth keys retaken above then-max 20327000 (SLOT-11) after
+        # natural +500 push 20324500-20325500 collided the
+        # INNOVATION-QUOTA-SLOT-7/8/9/10 band (r276 live-read,
+        # r441 retake precedent; band-interleave pit law disclosed);
+        # three-step law verified at freeze (facts =
+        # results/_r471bmb_w14_seed_law_facts.json)
+        "trial_labor_w14_gen": 20327500,
+        # s2 screen K=200 same-structure random-signal nulls
+        # (rng([20328000, i]), i<200) per BACKTEST_PLAN three-iron-laws
+        # (resi/cntd gate legs merged into same-grid same-param-space draw)
+        "trial_labor_w14_scrnull": 20328000,
+        # W14 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
+        # (rng([20328500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "trial_labor_w14_unc": 20328500,
         # INNOVATION-QUOTA-SLOT-8 COV-SHRINK-AB-P1 (zoo #89
         # cov_shrinkage_lw adoption route: A/B variant batch sample-cov
         # vs LW-shrunk-cov fed to the same frozen T-27 MaxDiv pipeline,
