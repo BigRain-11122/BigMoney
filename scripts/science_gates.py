@@ -1690,6 +1690,18 @@ SEED_REGISTRY = {
         # same window (facts = results/_r268bmc_w11_seed_law_facts.json)
         "innovation_quota_w11_momtiming": 20327000,
 
+        # LOWAMP-P1 (T-2026-09-30-132-P1 s1 freeze, bm-b r483): daily
+        # cross-sectional low-amplitude family judged batch per
+        # O-2026-09-30-2230 fast-track (watchlist seat #1). +500 ladder
+        # above exclusion_marginal_rand 20329500 (registry scan max at
+        # berth): lowamp_p1_params = sensitivity space-filling draws
+        # rng([20330000, k]) per prereg sec.3; lowamp_p1_nulls = K=2000
+        # same-mask random-selection null pool rng([20330500, k]) per
+        # prereg sec.4 null_pool (facts =
+        # results/_r483bmb_lowamp_seed_law_facts.json)
+        "lowamp_p1_params": 20330000,
+        "lowamp_p1_nulls": 20330500,
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
