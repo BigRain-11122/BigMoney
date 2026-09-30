@@ -214,25 +214,15 @@
    "machine": "bm-a",
    "last_refusal_ts": "2026-10-01 02:16:17"
   },
-  "scripts/cross_start_robustness.py|run_face_b": {
-   "count": 1,
-   "refusals": 30,
-   "code_sha256": "8259296c0c23bc7e",
-   "last_crash_ts": "2026-10-01 02:04:04",
-   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
-   "shard": "faceb-0of1",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-01 03:56:05"
-  },
   "scripts/perpetual_faces_n1.py|run,--shard,0,--of,12": {
    "count": 1,
-   "refusals": 18,
-   "code_sha256": "5667c984e14af8e5",
-   "last_crash_ts": "2026-10-01 01:44:04",
+   "refusals": 117,
+   "code_sha256": "8519c531bd47a6c7",
+   "last_crash_ts": "2026-10-01 01:05:54",
    "entry": "PERPETUAL-N1-W2-SHARD-0",
    "shard": "n1w2-0of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 02:16:15"
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 02:52:01"
   },
   "scripts/perpetual_faces_n1.py|run,--shard,4,--of,12": {
    "count": 2,
@@ -316,23 +306,23 @@
   },
   "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12": {
    "count": 1,
-   "refusals": 17,
-   "code_sha256": "5667c984e14af8e5",
-   "last_crash_ts": "2026-10-01 01:46:04",
+   "refusals": 111,
+   "code_sha256": "8519c531bd47a6c7",
+   "last_crash_ts": "2026-10-01 01:11:04",
    "entry": "PERPETUAL-N1-W2-SHARD-1",
    "shard": "n1w2-1of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 02:16:16"
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 02:52:01"
   },
   "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12": {
    "count": 1,
-   "refusals": 16,
-   "code_sha256": "5667c984e14af8e5",
-   "last_crash_ts": "2026-10-01 01:48:04",
+   "refusals": 107,
+   "code_sha256": "8519c531bd47a6c7",
+   "last_crash_ts": "2026-10-01 01:15:04",
    "entry": "PERPETUAL-N1-W2-SHARD-2",
    "shard": "n1w2-2of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 02:16:16"
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 02:52:01"
   },
   "scripts/lowamp_p1.py|run,--nulls": {
    "count": 1,
@@ -363,16 +353,6 @@
    "shard": "lowamp-p1-cell-laeq-legacy-x2-0of1",
    "machine": "bm-c",
    "last_refusal_ts": "2026-10-01 02:59:48"
-  },
-  "scripts/lowamp_p1.py|run,--cell,LA-T3,--axis,legacy,--face,x2": {
-   "count": 1,
-   "refusals": 1,
-   "code_sha256": "d6997f152c007f80",
-   "last_crash_ts": "2026-10-01 00:45:15",
-   "entry": "LOWAMP-P1-CELL-LAT3-LEGACY-X2",
-   "shard": "lowamp-p1-cell-lat3-legacy-x2-0of1",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-10-01 00:45:19"
   },
   "scripts/lowamp_p1.py|run,--cell,LA-EDGE,--axis,legacy,--face,base": {
    "count": 1,
@@ -492,9 +472,11 @@
    "old_code_sha256": "27a70cb416318ef7"
   },
   "scripts/cross_start_robustness.py|run_face_b": {
-   "cleared_ts": "2026-09-30 20:56:13",
-   "cleared_by": "bm-b r478",
-   "reason": "data-gate zero-burn misclassified as crash: 20:40 launch FAIL-CLOSED per spec on astock panel complete=False (refresh in flight); no code defect; relaunch authorized post panel completion (pool entry parked waiting)"
+   "cleared_ts": "2026-10-01 04:04:05",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "8259296c0c23bc7e"
   },
   "scripts/p2_null_calibration_ext.py|--shard,0,--nshards,4": {
    "cleared_ts": "2026-09-30 21:50:05",
