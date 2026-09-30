@@ -1,0 +1,43 @@
+{
+ "ts": "2026-09-30T08:53:33+08:00",
+ "round": 463,
+ "machine": "bm-a",
+ "lane": "trial-labor W13 runner build / layer kit",
+ "steps": [
+  "anchor: 3363d dec / open 387 / sumn10 368 / nine-gate 103/409",
+  "layer: exec OK (6 functions defined)",
+  "face: tail 2026-09-22 == cutoff",
+  "G-SUMN: dec 3363 / open 387 / sumn10 368 / slope 387/0 / mirror 387/0 / nine-gate 103 nonzero / 409 empty / all-dec 3305",
+  "zero-mask: none identity + sumn20_lo keep 0",
+  "structure-pass: OK"
+ ],
+ "anchor_head": {
+  "n_bars": 3483,
+  "decidable_days": 3363,
+  "open_days": 387,
+  "closed_days": 2976,
+  "sumn10_open_days": 368,
+  "first_decidable_bar_idx": 120,
+  "nine_gate_512cells_nonzero_count": 103,
+  "nine_gate_512cells_empty_count": 409,
+  "nine_gate_all_decidable_days": 3305
+ },
+ "slope_sign_split": {
+  "up_slope_days": 387,
+  "down_slope_days": 0,
+  "note": "BETA20 sign from the same frozen runner; up-dominant windows are slope-up-heavy BY CONSTRUCTION (direction-loaded axis) -- the split quantifies how much; direction conditioning still lives in burned axes (GATE/YANG/STREAK/MOM), redundancy measured in adjacency cells"
+ },
+ "mirror_twin": {
+  "sumn20_q10_vs_sump20_q90_both_open_days": 387,
+  "sumn20_q10_vs_sump20_q90_xor_days": 0,
+  "sumn_plus_sump_max_dev": 2.5000002068509275e-11,
+  "note": "mirror-twin identity SUMN+SUMP==1 (eps 1e-12 denominator); supply face = ONE up-share axis"
+ },
+ "zero_coopen_exact_assert": {
+  "mad60": true,
+  "rsv60": true,
+  "mom": true
+ },
+ "probe_sha256_head16": "C2E5AAB0AC05906F",
+ "next": "embed kit into W13 surgeon skeleton (W12 surgeon sections adapted; src=scripts/trial_labor_w12.py) -> draft -> r446 three-command identity face -> selftest -> formal land scripts/trial_labor_w13.py -> catalog runner_exists flip + GENERATE pool entry"
+}
