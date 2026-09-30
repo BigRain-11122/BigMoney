@@ -1634,13 +1634,13 @@ def cmd_status() -> int:
 
 # -------------------------------------------------- generate slice (s1)
 def cmd_generate() -> int:
-    """Frozen prereg sec.3 generate stage (W12 cmd_generate caliber on
+    """Frozen prereg sec.3 generate stage (W13 cmd_generate caliber on
     the EIGHTEEN-tuple face): per-slot Sobol streams consumed in global
-    round-robin -> 25-source exclusion -> T-84s3 dedup gate on the
-    effective signal face (gate + vol + yang + vconf + streak + tstate
-    + amp + MOM + STD + RSQR overlays applied, frozen composition
-    order) -> w14_candidates.json + grammar ledger wave-13 row.  Zero
-    engine cells burned."""
+    round-robin -> 28-real-read + frozen-grammar-face exclusion ->
+    T-84s3 dedup gate on the effective signal face (gate + vol + yang +
+    vconf + streak + tstate + amp + MOM + STD + RSQR + SUMN + RESI +
+    CNT overlays applied, frozen composition order) -> w14_candidates.json
+    + grammar ledger wave-14 row.  Zero engine cells burned."""
     t0 = time.time()
     print(f"=== {WAVE} generate (prereg FROZEN {PREREG}) ===")
     if os.path.exists(CANDIDATES_FILE):
@@ -1737,6 +1737,16 @@ def cmd_generate() -> int:
         print(f"GENERATE-GATE: {sumn_err} (prereg sec.2 G-SUMN "
               "fail-closed) -- refuse")
         return 2
+    resi_state, resi_err = _resi_state_full()
+    if resi_err:
+        print(f"GENERATE-GATE: {resi_err} (prereg sec.2 G-RESI "
+              "fail-closed) -- refuse")
+        return 2
+    cnt_state, cnt_err = _cnt_state_full()
+    if cnt_err:
+        print(f"GENERATE-GATE: {cnt_err} (prereg sec.2 G-CNT "
+              "fail-closed) -- refuse")
+        return 2
     excl_rows, excl_disc = _load_exclusion_rows_w14(grammar)
     neg_fns = {(e["module"], e["fn"])
                for e in grammar["exclusion"]
@@ -1757,7 +1767,7 @@ def cmd_generate() -> int:
         for i in range(n_draws):
             slot = i % n_slots
             _, cand = next(streams[slot])
-            cand["candidate_id"] = f"W13-{family}-{i:04d}"
+            cand["candidate_id"] = f"W14-{family}-{i:04d}"
             cand["provenance"] = {"seed": SEED_GEN,
                                   "family_idx": (slot if family == "A"
                                                  else 6 + slot),
@@ -1796,12 +1806,13 @@ def cmd_generate() -> int:
                                       cand["axis"][9], cand["axis"][10],
                                       cand["axis"][11], cand["axis"][12],
                                       cand["axis"][13], cand["axis"][14],
-                                      cand["axis"][15],
+                                      cand["axis"][15], cand["axis"][16],
+                                      cand["axis"][17],
                                       gate_state, vol_state, yang_state,
                                       vconf_state, streak_state,
                                       tstate_state, amp_state, mom_state,
                                       std_state, rsqr_state,
-                                      sumn_state)
+                                      sumn_state, resi_state, cnt_state)
         fps.append(tl1._fingerprint(S))
         series.append(tl1._naive_returns(S, close).values)
         del mask, S
@@ -1851,6 +1862,8 @@ def cmd_generate() -> int:
     mom_counts, std_counts = {}, {}
     rsqr_counts = {}
     sumn_counts = {}
+    resi_counts = {}
+    cnt_counts = {}
     gvvvsktsam_counts = {}
     for c in distinct:
         gate_counts[c["axis"][5]] = gate_counts.get(c["axis"][5], 0) + 1
@@ -1866,11 +1879,14 @@ def cmd_generate() -> int:
         std_counts[c["axis"][13]] = std_counts.get(c["axis"][13], 0) + 1
         rsqr_counts[c["axis"][14]] = rsqr_counts.get(c["axis"][14], 0) + 1
         sumn_counts[c["axis"][15]] = sumn_counts.get(c["axis"][15], 0) + 1
-        k11 = (f"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|"
+        resi_counts[c["axis"][16]] = resi_counts.get(c["axis"][16], 0) + 1
+        cnt_counts[c["axis"][17]] = cnt_counts.get(c["axis"][17], 0) + 1
+        k13 = (f"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|"
               f"{c['axis'][8]}|{c['axis'][9]}|{c['axis'][10]}|"
               f"{c['axis'][11]}|{c['axis'][12]}|{c['axis'][13]}|"
-              f"{c['axis'][14]}|{c['axis'][15]}")
-        gvvvsktsam_counts[k11] = gvvvsktsam_counts.get(k11, 0) + 1
+              f"{c['axis'][14]}|{c['axis'][15]}|{c['axis'][16]}|"
+              f"{c['axis'][17]}")
+        gvvvsktsam_counts[k13] = gvvvsktsam_counts.get(k13, 0) + 1
 
     # D6 disclosure column (naive face; prereg sec.1 per-cell max|corr|)
     reg_series = tl2._registered_naive_series(P, grammar)
@@ -1902,20 +1918,23 @@ def cmd_generate() -> int:
                              "excluded_log": excluded_log,
                              "sources": excl_disc,
                              "note": "cell key=(template, params, "
-                                     "axis_config, initial_stop, gate, "
-                                     "vol, yang, vconf, streak, tstate, "
-                                     "amp, mom, std, rsqr, sumn); exclusion "
-                                     "face = sumn=none only (sec.1); prior-wave "
-                                     "keys sumn=none-completed; sumn in "
-                                     "{sumn20_lo, sumn10_lo} = "
-                                     "new-syntax legal cells"},
+                                     "axis_config, initial_stop, gate, vol, "
+                                     "yang, vconf, streak, tstate, "
+                                     "amp, mom, std, rsqr, sumn, resi, "
+                                     "cnt); exclusion face = resi=none "
+                                     "AND cnt=none only (sec.1); prior-wave "
+                                     "keys resi/cnt-none-completed "
+                                     "(semantic identity match); resi/cnt "
+                                     "in member values = new-syntax legal "
+                                     "cells (prereg sec.1)"},
                "dedup": {"raw": len(candidates), "distinct": len(distinct),
                          "fingerprint_collapse_groups": fp_collapsed,
                          "corr_collapses": corr_elim,
                          "note": "dedup legs on the generate-stage "
                                  "effective signal face (gate + vol + "
                                  "yang + vconf + streak + tstate + AMP "
-                                 "+ MOM + STD + RSQR overlays applied, frozen "
+                                 "+ MOM + STD + RSQR + SUMN + RESI + CNT "
+                                 "overlays applied, frozen "
                                  "composition order; naive-hold "
                                  "returns, zero engine burn); engine "
                                  "faces run at screen (W1 precedent)"},
@@ -1931,8 +1950,10 @@ def cmd_generate() -> int:
                "std_face_counts": std_counts,
                "rsqr_face_counts": rsqr_counts,
                "sumn_face_counts": sumn_counts,
+               "resi_face_counts": resi_counts,
+               "cnt_face_counts": cnt_counts,
                "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_"
-               "face_counts":
+               "resi_cnt_face_counts":
                    gvvvsktsam_counts,
                "gate_state_meta": gate_state[2],
                "vol_state_meta": vol_state[2],
@@ -1945,22 +1966,27 @@ def cmd_generate() -> int:
                "std_state_meta": std_state[2],
                "rsqr_state_meta": rsqr_state[2],
                "sumn_state_meta": sumn_state[2],
+               "resi_state_meta": resi_state[2],
+               "cnt_state_meta": cnt_state[4],
                "d6_disclosure": {
                    "max_corr_vs_registered_naive": "per-cell column; "
                    "naive-face caliber (dedup byproduct); D6 binding gate "
                    "at s4 intake recomputes at the engine face"},
                "audit": {"ram_gate_gb": ram_min,
                          "negative_prior_derivation": "derived from the "
-                         "frozen grammar's negative_default_axis:stop-"
-                         "gate-vol-yang-vconf-streak-tstate-amp-mom-"
-                         "none exclusion faces (face derivation is "
+                         "frozen grammar's stop-gate-vol-yang-vconf-"
+                         "streak-tstate-amp-mom-std-rsqr-sumn-resi-cnt-"
+                         "none exclusion-face rows whose face value "
+                         "starts with 'negative' (zero such rows in "
+                         "the frozen grammar -> negative_prior False "
+                         "for all family-B draws; face derivation is "
                          "mechanical)",
                          "seed_berth_note": "berths 20327500/"
                          "20328000/20328500 held at the freeze commit "
-                         "(bm-a r461 three-step re-verify ALL GREEN, "
-                         "no re-pick; R250 one-step law; berth-open adoption "
-                         "of the bm-a r456 SUMN candidate whole package "
-                         "per AMP->W9/MOM->W10/STD->W11/RSQR->W12 adoption lineage)",
+                         "(bm-b r471 three-step re-verify ALL GREEN, "
+                         "no re-pick; R250 one-step law; berth adoption "
+                         "lineage AMP->W9/MOM->W10/STD->W11/RSQR->W12/"
+                         "SUMN->W13/RESI+CNT->W14)",
                          "note": "Sobol per-slot streams in global "
                                  "round-robin; deterministic pre-burn "
                                  "stage; same-grammar rerun still FORBIDDEN "
@@ -1978,13 +2004,16 @@ def cmd_generate() -> int:
            f"(std faces {json.dumps(std_counts, sort_keys=True)}; "
            f"rsqr faces {json.dumps(rsqr_counts, sort_keys=True)}; "
            f"sumn faces {json.dumps(sumn_counts, sort_keys=True)}; "
+           f"resi faces {json.dumps(resi_counts, sort_keys=True)}; "
+           f"cnt faces {json.dumps(cnt_counts, sort_keys=True)}; "
            f"gate x vol x yang x vconf x streak x tstate x amp x mom "
-           f"x std x rsqr x sumn {json.dumps(gvvvsktsam_counts, sort_keys=True)}) "
+           f"x std x rsqr x sumn x resi x cnt "
+           f"{json.dumps(gvvvsktsam_counts, sort_keys=True)}) "
            f"| seeds gen={SEED_GEN} null={SEED_NULL} unc={SEED_UNC} | "
            f"serialized {ser_ts} + consumed "
            f"{time.strftime('%Y-%m-%d %H:%M:%S')} (pool "
-           f"TRIAL-LABOR-W13-GENERATE, T-125 prereg bm-a r461 frozen / "
-           f"runner bm-a r465) | "
+           f"TRIAL-LABOR-W14-GENERATE, prereg bm-b r471 frozen / "
+           f"runner bm-b r493 + r494 generate-leg 18-tuple completion) | "
            f"same-grammar rerun FORBIDDEN (TRIAL_LABOR_LAW sec.4) |\n")
     os.makedirs(os.path.dirname(GRAMMAR_LEDGER), exist_ok=True)
     if not os.path.exists(GRAMMAR_LEDGER):
@@ -2004,8 +2033,10 @@ def cmd_generate() -> int:
           f"std faces: {json.dumps(std_counts, sort_keys=True)}; "
           f"rsqr faces: {json.dumps(rsqr_counts, sort_keys=True)}; "
           f"sumn faces: {json.dumps(sumn_counts, sort_keys=True)}; "
+          f"resi faces: {json.dumps(resi_counts, sort_keys=True)}; "
+          f"cnt faces: {json.dumps(cnt_counts, sort_keys=True)}; "
           f"gate x vol x yang x vconf x streak x tstate x amp x mom x "
-          f"std x rsqr x sumn: "
+          f"std x rsqr x sumn x resi x cnt: "
           f"{json.dumps(gvvvsktsam_counts, sort_keys=True)[:400]}")
     print(f"mom meta: n_bars={mom_state[2]['n_bars']} "
           f"open={mom_state[2]['open_days']} "
