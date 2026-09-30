@@ -1,0 +1,99 @@
+﻿=== r479 bm-b S6 chunk1 start 21:40:07 ===
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 146 entries, streak 1/3, cutoff 2026-09-30T18:2x+08:00)
+LEG pool_dualrun_reconcile rc=0 0.1120845s
+{"ts": "2026-09-30 21:40:15", "audit_version": "v2.4.1", "cpu_total_pct": 15.0, "py_cpu_pct": 10.4, "cores": 16, "py_procs": 16, "result_stale_min": 0.2, "fleet_open_tasks": 0, "pool_ready_count": 4, "pool_ready_unclaimed": 2, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 1, "span_min": null}, "supply_floor": {"ready": 4, "floor": 3, "breach": false}, "ignition_sla_breach_ids": ["P2NULL-KLIFT-K2200-S1", "P2NULL-KLIFT-K2200-S3"], "supply_family_streak_min": 1029.0, "gpu": {"present": true, "util_pct": 1.0, "mem_used_mb": 5868.0, "compute_apps_count": 26, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "flags": ["ignition_sla"], "verdict": "FLAG:ignition_sla"}
+LEG compute_audit rc=0 7.6653661s
+{"ts": "2026-09-30 21:40:21", "epoch": 1790775616.0, "machine": "bm-b", "cpu_total_pct": 11.0, "cores": 16, "py_cpu_pct": 7.6, "py_procs": 16, "top_proc_cores": 1.07, "local_batch_running": true, "refresh_lock_lanes": ["astock_daily"], "open_tickets": 0, "open_ticket_ids": [], "bandit_open": 0, "bars_present": true, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 49}
+LEG py_watermark rc=0 6.0559219s
+=== Bigmoney daily update 2026-09-30 21:40:21 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-30
+status -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+LEG update_daily rc=0 3.866698s
+regime state -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-09-30 state=ORANGE (�ȡ���Σ) raw=ORANGE days_in_state=4 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+  trigger: breadth 0.79>=65%
+LEG market_regime rc=0 0.7066928s
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat fresh (11min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG strategy_scorecard rc=0 0.1046656s
+lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2)
+call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+LEG market_clock_call rc=0 5.9991335s
+cutoff=2026-09-30 quarter=2026Q3 today=2026-09-30
+no-op: cutoff 2026-09-30 covers latest disclosure window (2026-09-30)
+LEG update_lhb rc=0 0.6069233s
+no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+LEG update_heat rc=0 0.4712376s
+no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+LEG update_futures rc=0 0.2218132s
+no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+LEG update_repo rc=0 0.0919069s
+no-op: options lane owned by bm-a, not this machine (bm-b)
+LEG update_options rc=0 0.1149395s
+no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+LEG update_moneyflow rc=0 0.1004765s
+no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+LEG update_sina_mf rc=0 0.1021073s
+refresh already in progress (lock alive) -> no-op
+LEG update_astock_daily rc=0 0.9464518s
+no-op: panel cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+LEG update_etf_daily rc=0 0.0908586s
+rev_osc_signal_export: panel incomplete (cutoff=2026-09-30) -- no-op, harness waits
+LEG rev_osc_signal_export rc=0 0.4756747s
+update_minute_feed: 510300 +0 rows (total 2446)
+update_minute_feed: 510050 +0 rows (total 2446)
+update_minute_feed: 510500 +0 rows (total 2446)
+update_minute_feed: 512100 +0 rows (total 2446)
+update_minute_feed: 588000 +0 rows (total 2446)
+update_minute_feed: done, +0 rows across 5 symbols (kind=gated)
+LEG update_minute_feed rc=0 175.722702s
+no-op: ths panel lane owned by bm-a, not this machine (bm-b)
+LEG update_ths_panel rc=0 0.1659161s
+no-op: ah panel lane owned by bm-a, not this machine (bm-b)
+LEG ah_panel_puller rc=0 0.093886s
+no-op: fund_premium lane owned by bm-c, not this machine (bm-b)
+LEG update_fund_premium rc=0 0.0581278s
+snapshot fresh (10.2h < 24h) -> skip
+LEG update_fundamental rc=0 0.4481326s
+LEG b_layer_filter rc=0 0.0210074s
+=== chunk1 end 21:43:32 ===
+=== r479 bm-b S6 chunk2 start 21:43:49 ===
+lane_io single-writer guard: results/paper/* host=bm-a heartbeat fresh (14min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG live_paper rc=0 0.5s
+lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat fresh (14min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG t35_open_fill_verify rc=0 0.1s
+lane_io single-writer guard: results/prospect_paper/* host=bm-a heartbeat fresh (14min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG t24_prospect_paper rc=0 0.4s
+lane_io single-writer guard: results/prospect_promotion/* host=bm-a heartbeat fresh (14min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG t24_prospect_promotion rc=0 0.1s
+aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+LEG aggressive_lab_paper rc=0 2s
+ALLOC-P1: byte-identical (no new bar / no change), no-op
+ALLOC-P2: byte-identical (no new bar / no change), no-op
+ALLOC-P3: byte-identical (no new bar / no change), no-op
+ALLOC-P3B: byte-identical (no new bar / no change), no-op
+ALLOC-P4: byte-identical (no new bar / no change), no-op
+ALLOC-P5: byte-identical (no new bar / no change), no-op
+ALLOC-P6: byte-identical (no new bar / no change), no-op
+alloc_paper done: 0 file(s) updated, window 2026-09-23..2026-09-30
+LEG alloc_paper rc=0 0.5s
+grid paper: marks already at panel cutoff 2026-09-29 -- no-op (idempotent)
+LEG grid_paper rc=0 0.5s
+system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op
+LEG system_v1_paper rc=0 0.4s
+lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat fresh (15min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG t35_paper_export rc=0 0.1s
+lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat fresh (15min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG daily_scorecard rc=0 0.1s
+daily report written: REPORT-2026-09-30.md/.json faces=5 token=1
+LEG daily_report rc=0 0.2s
+ceo_live_usage: C:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-09-30.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=2026-09-30 15:00:00 live=0, 4 version rows)
+LEG ceo_live_usage rc=0 0.1s
+lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat fresh (15min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+LEG build_status rc=0 0.5s
+saved: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+per-round fixed context ~ 10918 + 2258 tokens (rough); ledger cumulative ~ 2049 state + 1037235 report tokens; delta=0
+L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=38 across 22 sigs
+LEG token_meter rc=0 0.1s
+=== chunk2 end 21:43:54 ===
