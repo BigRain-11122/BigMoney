@@ -1,0 +1,2077 @@
+{
+ "surgeon": "results\\_r445bmb_w12_surgeon.py",
+ "src": "scripts\\trial_labor_w12.py",
+ "region_start_line0": 1530,
+ "total_subs": 109,
+ "found": 107,
+ "miss": 2,
+ "unfolded": 0,
+ "rows": [
+  {
+   "line": 1535,
+   "kind": "sub1",
+   "what": "generate docstring",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 430,
+   "new_len": 436,
+   "added_lines": [
+    "    \"\"\"Frozen prereg sec.3 generate stage (W11 cmd_generate caliber on",
+    "    the FIFTEEN-tuple face): per-slot Sobol streams consumed in global",
+    "    round-robin -> 24-source exclusion -> T-84s3 dedup gate on the",
+    "    + amp + MOM + STD overlays applied, frozen composition order) ->",
+    "    w12_candidates.json + grammar ledger wave-12 row.  Zero engine cells"
+   ],
+   "removed_lines": [
+    "    \"\"\"Frozen prereg sec.3 generate stage (W9 cmd_generate caliber on",
+    "    the FOURTEEN-tuple face): per-slot Sobol streams consumed in global",
+    "    round-robin -> 20-source exclusion -> T-84s3 dedup gate on the",
+    "    + amp + MOM overlays applied, frozen composition order) ->",
+    "    w11_candidates.json + grammar ledger wave-10 row.  Zero engine cells"
+   ],
+   "new_text": "    \"\"\"Frozen prereg sec.3 generate stage (W11 cmd_generate caliber on\n    the FIFTEEN-tuple face): per-slot Sobol streams consumed in global\n    round-robin -> 24-source exclusion -> T-84s3 dedup gate on the\n    effective signal face (gate + vol + yang + vconf + streak + tstate\n    + amp + MOM + STD overlays applied, frozen composition order) ->\n    w12_candidates.json + grammar ledger wave-12 row.  Zero engine cells\n    burned.\"\"\""
+  },
+  {
+   "line": 1554,
+   "kind": "sub1",
+   "what": "G-RSQR gate",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 178,
+   "new_len": 363,
+   "added_lines": [
+    "    rsqr_state, rsqr_err = _rsqr_state_full()",
+    "    if rsqr_err:",
+    "        print(f\"GENERATE-GATE: {rsqr_err} (prereg sec.2 G-RSQR \"",
+    "              \"fail-closed) -- refuse\")",
+    "        return 2"
+   ],
+   "removed_lines": [],
+   "new_text": "    std_state, std_err = _std_state_full()\n    if std_err:\n        print(f\"GENERATE-GATE: {std_err} (prereg sec.2 G-STD \"\n              \"fail-closed) -- refuse\")\n        return 2\n    rsqr_state, rsqr_err = _rsqr_state_full()\n    if rsqr_err:\n        print(f\"GENERATE-GATE: {rsqr_err} (prereg sec.2 G-RSQR \"\n              \"fail-closed) -- refuse\")\n        return 2"
+  },
+  {
+   "line": 1568,
+   "kind": "sub1",
+   "what": "neg_fns key",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 79,
+   "new_len": 84,
+   "added_lines": [
+    "               [\"stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face\"]"
+   ],
+   "removed_lines": [
+    "               [\"stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_none_face\"]"
+   ],
+   "new_text": "               [\"stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face\"]"
+  },
+  {
+   "line": 1574,
+   "kind": "sub1",
+   "what": "generate mask call",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 684,
+   "new_len": 714,
+   "added_lines": [
+    "        S = _effective_signal_mask_w12(mask, prices, cand[\"axis\"][4], atr20,",
+    "                                      cand[\"axis\"][13], cand[\"axis\"][14],",
+    "                                      std_state, rsqr_state)"
+   ],
+   "removed_lines": [
+    "        S = _effective_signal_mask_w11(mask, prices, cand[\"axis\"][4], atr20,",
+    "                                      cand[\"axis\"][13],",
+    "                                      std_state)"
+   ],
+   "new_text": "        S = _effective_signal_mask_w12(mask, prices, cand[\"axis\"][4], atr20,\n                                      cand[\"axis\"][5], cand[\"axis\"][6],\n                                      cand[\"axis\"][7], cand[\"axis\"][8],\n                                      cand[\"axis\"][9], cand[\"axis\"][10],\n                                      cand[\"axis\"][11], cand[\"axis\"][12],\n                                      cand[\"axis\"][13], cand[\"axis\"][14],\n                                      gate_state, vol_state, yang_state,\n                                      vconf_state, streak_state,\n                                      tstate_state, amp_state, mom_state,\n                                      std_state, rsqr_state)"
+  },
+  {
+   "line": 1604,
+   "kind": "sub1",
+   "what": "counts init",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 62,
+   "new_len": 83,
+   "added_lines": [
+    "    rsqr_counts = {}"
+   ],
+   "removed_lines": [],
+   "new_text": "    mom_counts, std_counts = {}, {}\n    rsqr_counts = {}\n    gvvvsktsam_counts = {}"
+  },
+  {
+   "line": 1610,
+   "kind": "sub1",
+   "what": "counts loop",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 330,
+   "new_len": 442,
+   "added_lines": [
+    "        rsqr_counts[c[\"axis\"][14]] = rsqr_counts.get(c[\"axis\"][14], 0) + 1",
+    "        k10 = (f\"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|\"",
+    "              f\"{c['axis'][11]}|{c['axis'][12]}|{c['axis'][13]}|\"",
+    "              f\"{c['axis'][14]}\")",
+    "        gvvvsktsam_counts[k10] = gvvvsktsam_counts.get(k10, 0) + 1"
+   ],
+   "removed_lines": [
+    "        k9 = (f\"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|\"",
+    "              f\"{c['axis'][11]}|{c['axis'][12]}|{c['axis'][13]}\")",
+    "        gvvvsktsam_counts[k9] = gvvvsktsam_counts.get(k9, 0) + 1"
+   ],
+   "new_text": "        std_counts[c[\"axis\"][13]] = std_counts.get(c[\"axis\"][13], 0) + 1\n        rsqr_counts[c[\"axis\"][14]] = rsqr_counts.get(c[\"axis\"][14], 0) + 1\n        k10 = (f\"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|\"\n              f\"{c['axis'][8]}|{c['axis'][9]}|{c['axis'][10]}|\"\n              f\"{c['axis'][11]}|{c['axis'][12]}|{c['axis'][13]}|\"\n              f\"{c['axis'][14]}\")\n        gvvvsktsam_counts[k10] = gvvvsktsam_counts.get(k10, 0) + 1"
+  },
+  {
+   "line": 1630,
+   "kind": "sub1",
+   "what": "excl note",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 345,
+   "new_len": 356,
+   "added_lines": [
+    "                                     \"amp, mom, std, rsqr); exclusion face \"",
+    "                                     \"= rsqr=none only (sec.1); prior-wave \"",
+    "                                     \"keys rsqr=none-completed; rsqr in \"",
+    "                                     \"{rsqr20_hi, rsqr10_hi} = \""
+   ],
+   "removed_lines": [
+    "                                     \"amp, mom, std); exclusion face \"",
+    "                                     \"= std=none only (sec.1); prior-wave \"",
+    "                                     \"keys std=none-completed; std in \"",
+    "                                     \"{std20_hi, std10_hi} = \""
+   ],
+   "new_text": "                                     \"amp, mom, std, rsqr); exclusion face \"\n                                     \"= rsqr=none only (sec.1); prior-wave \"\n                                     \"keys rsqr=none-completed; rsqr in \"\n                                     \"{rsqr20_hi, rsqr10_hi} = \"\n                                     \"new-syntax legal cells\"},"
+  },
+  {
+   "line": 1645,
+   "kind": "sub1",
+   "what": "dedup note",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 33,
+   "new_len": 39,
+   "added_lines": [
+    "\"+ MOM + STD overlays applied, frozen \""
+   ],
+   "removed_lines": [
+    "\"+ MOM overlays applied, frozen \""
+   ],
+   "new_text": "\"+ MOM + STD overlays applied, frozen \""
+  },
+  {
+   "line": 1647,
+   "kind": "sub1",
+   "what": "payload counts",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 177,
+   "new_len": 230,
+   "added_lines": [
+    "               \"rsqr_face_counts\": rsqr_counts,",
+    "               \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_face_\""
+   ],
+   "removed_lines": [
+    "               \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_face_\""
+   ],
+   "new_text": "               \"std_face_counts\": std_counts,\n               \"rsqr_face_counts\": rsqr_counts,\n               \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_face_\"\n               \"counts\":\n                   gvvvsktsam_counts,"
+  },
+  {
+   "line": 1657,
+   "kind": "sub1",
+   "what": "payload metas",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 46,
+   "new_len": 95,
+   "added_lines": [
+    "               \"rsqr_state_meta\": rsqr_state[2],"
+   ],
+   "removed_lines": [],
+   "new_text": "               \"std_state_meta\": std_state[2],\n               \"rsqr_state_meta\": rsqr_state[2],"
+  },
+  {
+   "line": 1661,
+   "kind": "sub1",
+   "what": "berth note",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 541,
+   "new_len": 434,
+   "added_lines": [
+    "                         \"seed_berth_note\": \"berths 20320500/\"",
+    "                         \"20321000/20321500 held at the freeze commit \"",
+    "                         \"(bm-b r444 three-step re-verify ALL GREEN, \"",
+    "                         \"no re-pick; R250 one-step law; berth-open adoption \"",
+    "                         \"of the bm-a r447 RSQR candidate whole package \"",
+    "                         \"per AMP->W9/MOM->W10/STD->W11 adoption lineage)\","
+   ],
+   "removed_lines": [
+    "                         \"seed_berth_note\": \"berths 20317000/\"",
+    "                         \"20317500/20318000 held at the freeze commit \"",
+    "                         \"(bm-b r441 three-step re-verify ALL GREEN, \"",
+    "                         \"no re-pick after the 20316000/20316500 \"",
+    "                         \"collision re-take per draft clause-5; R250 \"",
+    "                         \"one-step law; berth-open adoption of the \"",
+    "                         \"bm-c r237 STD candidate whole package per \"",
+    "                         \"AMP->W9->W10 adoption lineage)\","
+   ],
+   "new_text": "                         \"seed_berth_note\": \"berths 20320500/\"\n                         \"20321000/20321500 held at the freeze commit \"\n                         \"(bm-b r444 three-step re-verify ALL GREEN, \"\n                         \"no re-pick; R250 one-step law; berth-open adoption \"\n                         \"of the bm-a r447 RSQR candidate whole package \"\n                         \"per AMP->W9/MOM->W10/STD->W11 adoption lineage)\","
+  },
+  {
+   "line": 1683,
+   "kind": "sub1",
+   "what": "ledger row",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 208,
+   "new_len": 284,
+   "added_lines": [
+    "           f\"rsqr faces {json.dumps(rsqr_counts, sort_keys=True)}; \"",
+    "           f\"x std x rsqr {json.dumps(gvvvsktsam_counts, sort_keys=True)}) \""
+   ],
+   "removed_lines": [
+    "           f\"x std {json.dumps(gvvvsktsam_counts, sort_keys=True)}) \""
+   ],
+   "new_text": "           f\"(std faces {json.dumps(std_counts, sort_keys=True)}; \"\n           f\"rsqr faces {json.dumps(rsqr_counts, sort_keys=True)}; \"\n           f\"gate x vol x yang x vconf x streak x tstate x amp x mom \"\n           f\"x std x rsqr {json.dumps(gvvvsktsam_counts, sort_keys=True)}) \""
+  },
+  {
+   "line": 1695,
+   "kind": "sub1",
+   "what": "ledger pool row",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 107,
+   "new_len": 107,
+   "added_lines": [
+    "           f\"TRIAL-LABOR-W12-GENERATE, T-124 prereg bm-b r444 frozen / \"",
+    "           f\"runner bm-b r445) | \""
+   ],
+   "removed_lines": [
+    "           f\"TRIAL-LABOR-W11-GENERATE, T-123 prereg bm-b r441 frozen / \"",
+    "           f\"runner bm-b r442) | \""
+   ],
+   "new_text": "           f\"TRIAL-LABOR-W12-GENERATE, T-124 prereg bm-b r444 frozen / \"\n           f\"runner bm-b r445) | \""
+  },
+  {
+   "line": 1702,
+   "kind": "sub1",
+   "what": "generate print",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 205,
+   "new_len": 368,
+   "added_lines": [
+    "          f\"std faces: {json.dumps(std_counts, sort_keys=True)}; \"",
+    "          f\"rsqr faces: {json.dumps(rsqr_counts, sort_keys=True)}; \"",
+    "          f\"gate x vol x yang x vconf x streak x tstate x amp x mom x \"",
+    "          f\"std x rsqr: \""
+   ],
+   "removed_lines": [
+    "          f\"gate x vol x yang x vconf x streak x tstate x amp x mom: \""
+   ],
+   "new_text": "    print(f\"mom faces: {json.dumps(mom_counts, sort_keys=True)}; \"\n          f\"std faces: {json.dumps(std_counts, sort_keys=True)}; \"\n          f\"rsqr faces: {json.dumps(rsqr_counts, sort_keys=True)}; \"\n          f\"gate x vol x yang x vconf x streak x tstate x amp x mom x \"\n          f\"std x rsqr: \"\n          f\"{json.dumps(gvvvsktsam_counts, sort_keys=True)[:400]}\")"
+  },
+  {
+   "line": 1722,
+   "kind": "sub1",
+   "what": "csv cols",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 88,
+   "new_len": 138,
+   "added_lines": [
+    "                      \"rsqr_face\", \"rsqr_zeroed\","
+   ],
+   "removed_lines": [],
+   "new_text": "                      \"std_face\", \"std_zeroed\",\n                      \"rsqr_face\", \"rsqr_zeroed\",\n                      \"survives_screen\"]"
+  },
+  {
+   "line": 1728,
+   "kind": "subn",
+   "what": "screen+judge cell unpack",
+   "n_expected": 3,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 126,
+   "new_len": 130,
+   "added_lines": [
+    "            tz, az, mz, dz, rz = run_candidate_curve_w12("
+   ],
+   "removed_lines": [
+    "            tz, az, mz, dz = run_candidate_curve_w11("
+   ],
+   "new_text": "        eq, trades, metrics, params, patch, fired, gz, vz, yz, cz, sz, \\\n            tz, az, mz, dz, rz = run_candidate_curve_w12("
+  },
+  {
+   "line": 1735,
+   "kind": "subn",
+   "what": "screen cell state args",
+   "n_expected": 2,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 46,
+   "new_len": 95,
+   "added_lines": [
+    "                std_state=st.get(\"std_state\"),",
+    "                rsqr_state=st.get(\"rsqr_state\"))"
+   ],
+   "removed_lines": [
+    "                std_state=st.get(\"std_state\"))"
+   ],
+   "new_text": "                std_state=st.get(\"std_state\"),\n                rsqr_state=st.get(\"rsqr_state\"))"
+  },
+  {
+   "line": 1739,
+   "kind": "sub1",
+   "what": "screen row",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 97,
+   "new_len": 174,
+   "added_lines": [
+    "           \"std_zeroed\": int(dz),",
+    "           \"rsqr_face\": cand[\"axis\"][14],",
+    "           \"rsqr_zeroed\": int(rz)}"
+   ],
+   "removed_lines": [
+    "           \"std_zeroed\": int(dz)}"
+   ],
+   "new_text": "           \"mom_zeroed\": int(mz), \"std_face\": cand[\"axis\"][13],\n           \"std_zeroed\": int(dz),\n           \"rsqr_face\": cand[\"axis\"][14],\n           \"rsqr_zeroed\": int(rz)}"
+  },
+  {
+   "line": 1746,
+   "kind": "sub1",
+   "what": "prep G-RSQR gate",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 38,
+   "new_len": 497,
+   "added_lines": [
+    "",
+    "    # G-RSQR on the raw full-history face (prereg sec.2 probe basis =",
+    "    # data/daily/sh510300.csv; 120-bar warmup + probe anchors",
+    "    # decidable 3,363 / open 341 / rsqr10 3363/332 + slope split",
+    "    # 213/128 + nine-gate 512-cell 124/388 law + extreme-day 0/7",
+    "    # open states)",
+    "    rsqr_state_full, rsqr_err = _rsqr_state_full()",
+    "    if rsqr_err:",
+    "        print(f\"PREP-GATE FAIL: G-RSQR {rsqr_err}\")",
+    "        return 1",
+    "    rsqr_meta_core = rsqr_state_full[2]"
+   ],
+   "removed_lines": [],
+   "new_text": "    std_meta_core = std_state_full[2]\n\n    # G-RSQR on the raw full-history face (prereg sec.2 probe basis =\n    # data/daily/sh510300.csv; 120-bar warmup + probe anchors\n    # decidable 3,363 / open 341 / rsqr10 3363/332 + slope split\n    # 213/128 + nine-gate 512-cell 124/388 law + extreme-day 0/7\n    # open states)\n    rsqr_state_full, rsqr_err = _rsqr_state_full()\n    if rsqr_err:\n        print(f\"PREP-GATE FAIL: G-RSQR {rsqr_err}\")\n        return 1\n    rsqr_meta_core = rsqr_state_full[2]\n"
+  },
+  {
+   "line": 1760,
+   "kind": "subn",
+   "what": "member loops",
+   "n_expected": 2,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 72,
+   "new_len": 125,
+   "added_lines": [
+    "                              (MOM_MEMBER, \"mom\"), (STD_MEMBER, \"std\"),",
+    "                              (RSQR_MEMBER, \"rsqr\")):"
+   ],
+   "removed_lines": [
+    "                              (MOM_MEMBER, \"mom\"), (STD_MEMBER, \"std\")):"
+   ],
+   "new_text": "                              (MOM_MEMBER, \"mom\"), (STD_MEMBER, \"std\"),\n                              (RSQR_MEMBER, \"rsqr\")):"
+  },
+  {
+   "line": 1766,
+   "kind": "sub1",
+   "what": "prep legL structure",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 243,
+   "new_len": 497,
+   "added_lines": [
+    "    _r20o, _r20d, rsqr_meta, _r10o, _r10d = rsqr_state_series(prices)",
+    "    if not _rsqr_structure_pass(rsqr_meta):",
+    "        print(f\"PREP-GATE FAIL: G-RSQR leg-L structural \"",
+    "              f\"invariants broken {rsqr_meta} -- honest refuse\")",
+    "        return 1"
+   ],
+   "removed_lines": [],
+   "new_text": "    _o20, _d20, std_meta, _o10, _d10 = std_state_series(prices)\n    if not _std_structure_pass(std_meta):\n        print(f\"PREP-GATE FAIL: G-STD leg-L structural invariants \"\n              f\"broken {std_meta} -- honest refuse\")\n        return 1\n    _r20o, _r20d, rsqr_meta, _r10o, _r10d = rsqr_state_series(prices)\n    if not _rsqr_structure_pass(rsqr_meta):\n        print(f\"PREP-GATE FAIL: G-RSQR leg-L structural \"\n              f\"invariants broken {rsqr_meta} -- honest refuse\")\n        return 1"
+  },
+  {
+   "line": 1785,
+   "kind": "sub1",
+   "what": "prep payload G-RSQR",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 156,
+   "new_len": 318,
+   "added_lines": [
+    "                       \"G-RSQR\": {\"pass\": True,",
+    "                                  \"core48\": rsqr_meta_core,",
+    "                                  \"legL\": rsqr_meta},"
+   ],
+   "removed_lines": [],
+   "new_text": "                       \"G-STD\": {\"pass\": True,\n                                 \"core48\": std_meta_core,\n                                 \"legL\": std_meta},\n                       \"G-RSQR\": {\"pass\": True,\n                                  \"core48\": rsqr_meta_core,\n                                  \"legL\": rsqr_meta},"
+  },
+  {
+   "line": 1798,
+   "kind": "sub1",
+   "what": "prep payload meta",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 152,
+   "new_len": 188,
+   "added_lines": [
+    "            \"rsqr_meta\": rsqr_meta,"
+   ],
+   "removed_lines": [],
+   "new_text": "            \"amp_meta\": amp_meta, \"mom_meta\": mom_meta,\n            \"std_meta\": std_meta,\n            \"rsqr_meta\": rsqr_meta,\n            \"n_distinct\": cg[\"n\"], \"n_starts_6m\": len(starts),"
+  },
+  {
+   "line": 1808,
+   "kind": "sub1",
+   "what": "prep print",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 114,
+   "new_len": 324,
+   "added_lines": [
+    "          f\"{mom_meta['warmup_gate_closed_bars']}; \"",
+    "          f\"G-RSQR {rsqr_meta['open_days']}open/\"",
+    "          f\"{rsqr_meta['closed_days']}closed decidable \"",
+    "          f\"{rsqr_meta['decidable_days']} rsqr10-open \"",
+    "          f\"{rsqr_meta['rsqr10_open_days']}\")"
+   ],
+   "removed_lines": [
+    "          f\"{mom_meta['warmup_gate_closed_bars']}\")"
+   ],
+   "new_text": "          f\"{mom_meta['decidable_days']} warmup \"\n          f\"{mom_meta['warmup_gate_closed_bars']}; \"\n          f\"G-RSQR {rsqr_meta['open_days']}open/\"\n          f\"{rsqr_meta['closed_days']}closed decidable \"\n          f\"{rsqr_meta['decidable_days']} rsqr10-open \"\n          f\"{rsqr_meta['rsqr10_open_days']}\")\n    return 0"
+  },
+  {
+   "line": 1820,
+   "kind": "sub1",
+   "what": "shard state init",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 82,
+   "new_len": 125,
+   "added_lines": [
+    "    rsqr_state = rsqr_state_series(prices)"
+   ],
+   "removed_lines": [],
+   "new_text": "    mom_state = mom_state_series(prices)\n    std_state = std_state_series(prices)\n    rsqr_state = rsqr_state_series(prices)\n"
+  },
+  {
+   "line": 1827,
+   "kind": "sub1",
+   "what": "shard st",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 73,
+   "new_len": 112,
+   "added_lines": [
+    "             \"std_state\": std_state,",
+    "             \"rsqr_state\": rsqr_state}"
+   ],
+   "removed_lines": [
+    "             \"std_state\": std_state}"
+   ],
+   "new_text": "             \"mom_state\": mom_state,\n             \"std_state\": std_state,\n             \"rsqr_state\": rsqr_state}"
+  },
+  {
+   "line": 1833,
+   "kind": "sub1",
+   "what": "finalize counts init",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 95,
+   "new_len": 116,
+   "added_lines": [
+    "    rsqr_counts = {}"
+   ],
+   "removed_lines": [],
+   "new_text": "    mom_counts, std_counts = {}, {}\n    rsqr_counts = {}\n    gate_seg, vol_seg, yang_seg, vconf_seg = {}, {}, {}, {}"
+  },
+  {
+   "line": 1839,
+   "kind": "sub1",
+   "what": "finalize segs init",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 37,
+   "new_len": 52,
+   "added_lines": [
+    "    std_seg, rsqr_seg, gvvvsktsamsr_seg = {}, {}, {}"
+   ],
+   "removed_lines": [
+    "    std_seg, gvvvsktsams_seg = {}, {}"
+   ],
+   "new_text": "    std_seg, rsqr_seg, gvvvsktsamsr_seg = {}, {}, {}"
+  },
+  {
+   "line": 1843,
+   "kind": "sub1",
+   "what": "finalize face read",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 28,
+   "new_len": 57,
+   "added_lines": [
+    "        rqf = r[\"rsqr_face\"]"
+   ],
+   "removed_lines": [],
+   "new_text": "        stf = r[\"std_face\"]\n        rqf = r[\"rsqr_face\"]\n"
+  },
+  {
+   "line": 1847,
+   "kind": "sub1",
+   "what": "finalize counts loop",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 52,
+   "new_len": 107,
+   "added_lines": [
+    "        rsqr_counts[rqf] = rsqr_counts.get(rqf, 0) + 1"
+   ],
+   "removed_lines": [],
+   "new_text": "        std_counts[stf] = std_counts.get(stf, 0) + 1\n        rsqr_counts[rqf] = rsqr_counts.get(rqf, 0) + 1"
+  },
+  {
+   "line": 1852,
+   "kind": "sub1",
+   "what": "finalize seg loop a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 101,
+   "new_len": 143,
+   "added_lines": [
+    "                         (rsqr_seg, rqf),"
+   ],
+   "removed_lines": [],
+   "new_text": "                         (std_seg, stf),\n                         (rsqr_seg, rqf),\n                         (gvvy_seg, f\"{gf}|{vf}|{yf}|{cf}\"),"
+  },
+  {
+   "line": 1860,
+   "kind": "sub1",
+   "what": "finalize seg loop b",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 150,
+   "new_len": 307,
+   "added_lines": [
+    "                          f\"{stf}\"),",
+    "                         (gvvvsktsamsr_seg,",
+    "                          f\"{gf}|{vf}|{yf}|{cf}|{sf}|{tf}|{af}|{mf}|\"",
+    "                          f\"{stf}|{rqf}\")):"
+   ],
+   "removed_lines": [
+    "                          f\"{stf}\")):"
+   ],
+   "new_text": "                         (gvvvsktsams_seg,\n                          f\"{gf}|{vf}|{yf}|{cf}|{sf}|{tf}|{af}|{mf}|\"\n                          f\"{stf}\"),\n                         (gvvvsktsamsr_seg,\n                          f\"{gf}|{vf}|{yf}|{cf}|{sf}|{tf}|{af}|{mf}|\"\n                          f\"{stf}|{rqf}\")):"
+  },
+  {
+   "line": 1871,
+   "kind": "sub1",
+   "what": "finalize rate loop",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 239,
+   "new_len": 267,
+   "added_lines": [
+    "                tstate_seg, amp_seg, mom_seg, std_seg, rsqr_seg, gvvy_seg,",
+    "                gvvvsktsam_seg, gvvvsktsams_seg, gvvvsktsamsr_seg):"
+   ],
+   "removed_lines": [
+    "                tstate_seg, amp_seg, mom_seg, std_seg, gvvy_seg,",
+    "                gvvvsktsam_seg, gvvvsktsams_seg):"
+   ],
+   "new_text": "    for seg in (gate_seg, vol_seg, yang_seg, vconf_seg, streak_seg,\n                tstate_seg, amp_seg, mom_seg, std_seg, rsqr_seg, gvvy_seg,\n                gvvvsk_seg, gvvvskts_seg, gvvvsktsa_seg,\n                gvvvsktsam_seg, gvvvsktsams_seg, gvvvsktsamsr_seg):"
+  },
+  {
+   "line": 1884,
+   "kind": "sub1",
+   "what": "finalize meta read",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 36,
+   "new_len": 74,
+   "added_lines": [
+    "    rsqr_meta = prep.get(\"rsqr_meta\")"
+   ],
+   "removed_lines": [],
+   "new_text": "    std_meta = prep.get(\"std_meta\")\n    rsqr_meta = prep.get(\"rsqr_meta\")\n"
+  },
+  {
+   "line": 1888,
+   "kind": "sub1",
+   "what": "finalize payload counts",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 89,
+   "new_len": 133,
+   "added_lines": [
+    "           \"rsqr_face_counts\": rsqr_counts,"
+   ],
+   "removed_lines": [],
+   "new_text": "           \"std_face_counts\": std_counts,\n           \"rsqr_face_counts\": rsqr_counts,\n           \"gate_segmented_survival\": gate_seg,"
+  },
+  {
+   "line": 1895,
+   "kind": "sub1",
+   "what": "finalize payload segs",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 45,
+   "new_len": 93,
+   "added_lines": [
+    "           \"rsqr_segmented_survival\": rsqr_seg,"
+   ],
+   "removed_lines": [],
+   "new_text": "           \"std_segmented_survival\": std_seg,\n           \"rsqr_segmented_survival\": rsqr_seg,"
+  },
+  {
+   "line": 1899,
+   "kind": "sub1",
+   "what": "finalize payload interaction",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 111,
+   "new_len": 229,
+   "added_lines": [
+    "           \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_\"",
+    "           \"survival\": gvvvsktsamsr_seg,"
+   ],
+   "removed_lines": [],
+   "new_text": "           \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_interaction_\"\n           \"survival\": gvvvsktsams_seg,\n           \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_\"\n           \"survival\": gvvvsktsamsr_seg,"
+  },
+  {
+   "line": 1909,
+   "kind": "sub1",
+   "what": "finalize na bars",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 119,
+   "new_len": 242,
+   "added_lines": [
+    "           \"rsqr_na_window_bars\": (rsqr_meta[\"na_window_bars\"]",
+    "                                   if rsqr_meta else None),"
+   ],
+   "removed_lines": [],
+   "new_text": "           \"std_na_window_bars\": (std_meta[\"na_window_bars\"]\n                                   if std_meta else None),\n           \"rsqr_na_window_bars\": (rsqr_meta[\"na_window_bars\"]\n                                   if rsqr_meta else None),"
+  },
+  {
+   "line": 1919,
+   "kind": "sub1",
+   "what": "finalize draw order a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 31,
+   "new_len": 40,
+   "added_lines": [
+    "\"MOM/STD/RSQR -> signal matrix (frozen \""
+   ],
+   "removed_lines": [
+    "\"MOM -> signal matrix (frozen \""
+   ],
+   "new_text": "\"MOM/STD/RSQR -> signal matrix (frozen \""
+  },
+  {
+   "line": 1922,
+   "kind": "sub1",
+   "what": "finalize draw order b",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 31,
+   "new_len": 40,
+   "added_lines": [
+    "\"vconf+streak+tstate+amp+mom+std+rsqr \""
+   ],
+   "removed_lines": [
+    "\"vconf+streak+tstate+amp+mom \""
+   ],
+   "new_text": "\"vconf+streak+tstate+amp+mom+std+rsqr \"\n"
+  },
+  {
+   "line": 1925,
+   "kind": "sub1",
+   "what": "finalize audit order",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 121,
+   "new_len": 136,
+   "added_lines": [
+    "                             \"-> STREAK -> TSTATE -> AMP -> MOM -> STD -> \"",
+    "                             \"RSQR -> initial-stop); MA200/\""
+   ],
+   "removed_lines": [
+    "                             \"-> STREAK -> TSTATE -> AMP -> MOM -> \"",
+    "                             \"initial-stop); MA200/\""
+   ],
+   "new_text": "                             \"-> STREAK -> TSTATE -> AMP -> MOM -> STD -> \"\n                             \"RSQR -> initial-stop); MA200/\""
+  },
+  {
+   "line": 1932,
+   "kind": "sub1",
+   "what": "audit warmups",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 221,
+   "new_len": 248,
+   "added_lines": [
+    "                             \"mom 139-bar warmup / std 120-bar warmup / rsqr \"",
+    "                             \"120-bar warmup (panel-level counts in gate/vol/yang/vconf/\"",
+    "                             \"streak/tstate/amp/mom/std/rsqr_na_window_bars); \""
+   ],
+   "removed_lines": [
+    "                             \"mom 139-bar warmup / std 120-bar warmup \"",
+    "                             \"(panel-level counts in gate/vol/yang/vconf/\"",
+    "                             \"streak/tstate/amp/mom/std_na_window_bars); \""
+   ],
+   "new_text": "                             \"mom 139-bar warmup / std 120-bar warmup / rsqr \"\n                             \"120-bar warmup (panel-level counts in gate/vol/yang/vconf/\"\n                             \"streak/tstate/amp/mom/std/rsqr_na_window_bars); \""
+  },
+  {
+   "line": 1943,
+   "kind": "sub1",
+   "what": "audit erratum",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 133,
+   "new_len": 237,
+   "added_lines": [
+    "                              \"decidable (same erratum law); rsqr20_hi/rsqr10_hi keep \"",
+    "                              \"face = open AND decidable (same erratum law); \""
+   ],
+   "removed_lines": [
+    "                              \"decidable (same erratum law); \""
+   ],
+   "new_text": "                             \"std20_hi/std10_hi keep face = open AND \"\n                              \"decidable (same erratum law); rsqr20_hi/rsqr10_hi keep \"\n                              \"face = open AND decidable (same erratum law); \""
+  },
+  {
+   "line": 1952,
+   "kind": "sub1",
+   "what": "finalize prints",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 424,
+   "new_len": 688,
+   "added_lines": [
+    "    print(f\"rsqr segmented survival: {json.dumps(rsqr_seg, sort_keys=True)}\")",
+    "    print(f\"gate x vol x yang x vconf x streak x tstate x amp x mom x \"",
+    "          f\"std x rsqr interaction survival: \"",
+    "          f\"{json.dumps(gvvvsktsamsr_seg, sort_keys=True)[:400]}\")"
+   ],
+   "removed_lines": [],
+   "new_text": "    print(f\"std segmented survival: {json.dumps(std_seg, sort_keys=True)}\")\n    print(f\"rsqr segmented survival: {json.dumps(rsqr_seg, sort_keys=True)}\")\n    print(f\"gate x vol x yang x vconf x streak x tstate x amp x mom \"\n          f\"interaction survival: \"\n          f\"{json.dumps(gvvvsktsam_seg, sort_keys=True)[:400]}\")\n    print(f\"gate x vol x yang x vconf x streak x tstate x amp x mom \"\n          f\"x std interaction survival: \"\n          f\"{json.dumps(gvvvsktsams_seg, sort_keys=True)[:400]}\")\n    print(f\"gate x vol x yang x vconf x streak x tstate x amp x mom x \"\n          f\"std x rsqr interaction survival: \"\n          f\"{json.dumps(gvvvsktsamsr_seg, sort_keys=True)[:400]}\")"
+  },
+  {
+   "line": 1982,
+   "kind": "sub1",
+   "what": "dual nulls docstring a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 130,
+   "new_len": 140,
+   "added_lines": [
+    "    differing face -- selftest cross-checks at the W12 unc-berth seed).\"\"\""
+   ],
+   "removed_lines": [
+    "    differing face -- selftest cross-checks at the W10 seed).\"\"\""
+   ],
+   "new_text": "    tl2._dual_nulls_w2 (import law; the seed constant is the only\n    differing face -- selftest cross-checks at the W12 unc-berth seed).\"\"\""
+  },
+  {
+   "line": 1990,
+   "kind": "sub1",
+   "what": "dual nulls docstring b",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 141,
+   "new_len": 151,
+   "added_lines": [
+    "    W12 unc-berth seed binding [20321500, cell_idx].  Math imported verbatim from"
+   ],
+   "removed_lines": [
+    "    W10 seed binding [20312000, cell_idx].  Math imported verbatim from"
+   ],
+   "new_text": "    B=2000 block-20 circular bootstrap + P=2000 sign-flip, two-sided;\n    W12 unc-berth seed binding [20321500, cell_idx].  Math imported verbatim from"
+  },
+  {
+   "line": 1998,
+   "kind": "sub1",
+   "what": "stop disclosure sig",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 278,
+   "new_len": 322,
+   "added_lines": [
+    "def _overlay_stop_disclosure_w12(cand, prices, P, atr20, fundamental_ok,",
+    "                                amp_state, mom_state, std_state,",
+    "                                rsqr_state):"
+   ],
+   "removed_lines": [
+    "def _overlay_stop_disclosure_w11(cand, prices, P, atr20, fundamental_ok,",
+    "                                amp_state, mom_state, std_state):"
+   ],
+   "new_text": "def _overlay_stop_disclosure_w12(cand, prices, P, atr20, fundamental_ok,\n                                gate_state, vol_state, yang_state,\n                                vconf_state, streak_state, tstate_state,\n                                amp_state, mom_state, std_state,\n                                rsqr_state):"
+  },
+  {
+   "line": 2012,
+   "kind": "sub1",
+   "what": "stop disclosure docstring",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 352,
+   "new_len": 361,
+   "added_lines": [
+    "    with the W12 composition order (filter -> timing -> GATE -> VOL ->",
+    "    RSQR -> initial-stop; MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors",
+    "    tl11._overlay_stop_disclosure_w11 with the rsqr overlay inserted"
+   ],
+   "removed_lines": [
+    "    with the W11 composition order (filter -> timing -> GATE -> VOL ->",
+    "    initial-stop; MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors",
+    "    tl10._overlay_stop_disclosure_w10 with the std overlay inserted"
+   ],
+   "new_text": "    with the W12 composition order (filter -> timing -> GATE -> VOL ->\n    YANG -> VCONF -> STREAK -> TSTATE -> AMP -> MOM -> STD ->\n    RSQR -> initial-stop; MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors\n    tl11._overlay_stop_disclosure_w11 with the rsqr overlay inserted\n    before stop arming (engine-face consistency law; summary math\n    imported).\"\"\""
+  },
+  {
+   "line": 2028,
+   "kind": "sub1",
+   "what": "stop disclosure chain",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 174,
+   "new_len": 232,
+   "added_lines": [
+    "    RQ = rsqr_zero_mask(SD, cand[\"axis\"][14], rsqr_state)",
+    "    _, ev = tl2.stop_exit_overlay(RQ, prices, stop_key, atr20)"
+   ],
+   "removed_lines": [
+    "    _, ev = tl2.stop_exit_overlay(SD, prices, stop_key, atr20)"
+   ],
+   "new_text": "    MO = mom_zero_mask(AP, cand[\"axis\"][12], mom_state)\n    SD = std_zero_mask(MO, cand[\"axis\"][13], std_state)\n    RQ = rsqr_zero_mask(SD, cand[\"axis\"][14], rsqr_state)\n    _, ev = tl2.stop_exit_overlay(RQ, prices, stop_key, atr20)"
+  },
+  {
+   "line": 2039,
+   "kind": "sub1",
+   "what": "judge cell out face",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 54,
+   "new_len": 96,
+   "added_lines": [
+    "           \"std_face\": cand[\"axis\"][13],",
+    "           \"rsqr_face\": cand[\"axis\"][14]}"
+   ],
+   "removed_lines": [
+    "           \"std_face\": cand[\"axis\"][13]}"
+   ],
+   "new_text": "           \"std_face\": cand[\"axis\"][13],\n           \"rsqr_face\": cand[\"axis\"][14]}\n    legs = {}"
+  },
+  {
+   "line": 2044,
+   "kind": "sub1",
+   "what": "judge cell state read",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 36,
+   "new_len": 73,
+   "added_lines": [
+    "        rq = st[f\"rsqr_state_{leg}\"]"
+   ],
+   "removed_lines": [],
+   "new_text": "        sd = st[f\"std_state_{leg}\"]\n        rq = st[f\"rsqr_state_{leg}\"]\n"
+  },
+  {
+   "line": 2047,
+   "kind": "sub1",
+   "what": "judge cell unpack 2",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 126,
+   "new_len": 131,
+   "added_lines": [
+    "                az2, mz2, dz2, rz2 = run_candidate_curve_w12("
+   ],
+   "removed_lines": [
+    "                az2, mz2, dz2 = run_candidate_curve_w11("
+   ],
+   "new_text": "            eq2, _, m2, _, _, fired2, gz2, vz2, yz2, cz2, sz2, tz2, \\\n                az2, mz2, dz2, rz2 = run_candidate_curve_w12("
+  },
+  {
+   "line": 2054,
+   "kind": "sub1",
+   "what": "judge cell curve states 1",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 188,
+   "new_len": 252,
+   "added_lines": [
+    "                                                 std_state=sd,",
+    "                                                 rsqr_state=rq)"
+   ],
+   "removed_lines": [
+    "                                                 std_state=sd)"
+   ],
+   "new_text": "                                                 amp_state=ap,\n                                                 mom_state=mo,\n                                                 std_state=sd,\n                                                 rsqr_state=rq)"
+  },
+  {
+   "line": 2064,
+   "kind": "sub1",
+   "what": "judge cell curve states 2",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 115,
+   "new_len": 130,
+   "added_lines": [
+    "                    mom_state=mo, std_state=sd, rsqr_state=rq)"
+   ],
+   "removed_lines": [
+    "                    mom_state=mo, std_state=sd)"
+   ],
+   "new_text": "                    streak_state=sk, tstate_state=ts, amp_state=ap,\n                    mom_state=mo, std_state=sd, rsqr_state=rq)"
+  },
+  {
+   "line": 2072,
+   "kind": "sub1",
+   "what": "judge degenerate legs",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 86,
+   "new_len": 175,
+   "added_lines": [
+    "                         \"rsqr_zeroed\": 0,",
+    "                         \"rsqr_zeroed_x2\": 0,"
+   ],
+   "removed_lines": [],
+   "new_text": "                         \"std_zeroed\": 0,\n                         \"std_zeroed_x2\": 0,\n                         \"rsqr_zeroed\": 0,\n                         \"rsqr_zeroed_x2\": 0,"
+  },
+  {
+   "line": 2080,
+   "kind": "sub1",
+   "what": "judge legs dict",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 91,
+   "new_len": 185,
+   "added_lines": [
+    "                     \"rsqr_zeroed\": int(rz),",
+    "                     \"rsqr_zeroed_x2\": int(rz2),"
+   ],
+   "removed_lines": [],
+   "new_text": "                     \"std_zeroed\": int(dz),\n                     \"std_zeroed_x2\": int(dz2),\n                     \"rsqr_zeroed\": int(rz),\n                     \"rsqr_zeroed_x2\": int(rz2),"
+  },
+  {
+   "line": 2088,
+   "kind": "sub1",
+   "what": "stop disc call",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 171,
+   "new_len": 175,
+   "added_lines": [
+    "            out[\"stop_disclosure\"] = _overlay_stop_disclosure_w12(",
+    "                ts, ap, mo, sd, rq)"
+   ],
+   "removed_lines": [
+    "            out[\"stop_disclosure\"] = _overlay_stop_disclosure_w11(",
+    "                ts, ap, mo, sd)"
+   ],
+   "new_text": "            out[\"stop_disclosure\"] = _overlay_stop_disclosure_w12(\n                cand, prices, P, st[\"atr20_L\"], fok, gs, vs, ys, cs, sk,\n                ts, ap, mo, sd, rq)"
+  },
+  {
+   "line": 2097,
+   "kind": "sub1",
+   "what": "judge cmd G-RSQR gate",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 180,
+   "new_len": 367,
+   "added_lines": [
+    "    rsqr_state_full, rsqr_err = _rsqr_state_full()",
+    "    if rsqr_err:",
+    "        print(f\"JUDGE-GATE: {rsqr_err} (prereg sec.2 G-RSQR \"",
+    "              \"fail-closed) -- refuse\")",
+    "        return 2"
+   ],
+   "removed_lines": [],
+   "new_text": "    std_state_full, std_err = _std_state_full()\n    if std_err:\n        print(f\"JUDGE-GATE: {std_err} (prereg sec.2 G-STD \"\n              \"fail-closed) -- refuse\")\n        return 2\n    rsqr_state_full, rsqr_err = _rsqr_state_full()\n    if rsqr_err:\n        print(f\"JUDGE-GATE: {rsqr_err} (prereg sec.2 G-RSQR \"\n              \"fail-closed) -- refuse\")\n        return 2"
+  },
+  {
+   "line": 2111,
+   "kind": "sub1",
+   "what": "judge cmd per-leg state",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 123,
+   "new_len": 247,
+   "added_lines": [
+    "        rst = rsqr_state_series(prices)",
+    "        state[f\"rsqr_state_{leg}\"] = rst",
+    "        state[f\"rsqr_meta_{leg}\"] = rst[2]"
+   ],
+   "removed_lines": [],
+   "new_text": "        sdst = std_state_series(prices)\n        state[f\"std_state_{leg}\"] = sdst\n        state[f\"std_meta_{leg}\"] = sdst[2]\n        rst = rsqr_state_series(prices)\n        state[f\"rsqr_state_{leg}\"] = rst\n        state[f\"rsqr_meta_{leg}\"] = rst[2]"
+  },
+  {
+   "line": 2122,
+   "kind": "sub1",
+   "what": "judge prep G-RSQR gate",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 136,
+   "new_len": 279,
+   "added_lines": [
+    "    rsqr_state_full, rsqr_err = _rsqr_state_full()",
+    "    if rsqr_err:",
+    "        print(f\"JUDGE-PREP-GATE FAIL: G-RSQR {rsqr_err}\")",
+    "        return 1"
+   ],
+   "removed_lines": [],
+   "new_text": "    std_state_full, std_err = _std_state_full()\n    if std_err:\n        print(f\"JUDGE-PREP-GATE FAIL: G-STD {std_err}\")\n        return 1\n    rsqr_state_full, rsqr_err = _rsqr_state_full()\n    if rsqr_err:\n        print(f\"JUDGE-PREP-GATE FAIL: G-RSQR {rsqr_err}\")\n        return 1"
+  },
+  {
+   "line": 2133,
+   "kind": "sub1",
+   "what": "judge prep metas init",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 62,
+   "new_len": 81,
+   "added_lines": [
+    "    rsqr_meta = {}"
+   ],
+   "removed_lines": [],
+   "new_text": "    tstate_meta, amp_meta, mom_meta, std_meta = {}, {}, {}, {}\n    rsqr_meta = {}"
+  },
+  {
+   "line": 2139,
+   "kind": "sub1",
+   "what": "judge prep member loop",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 92,
+   "new_len": 149,
+   "added_lines": [
+    "                                  (STD_MEMBER, \"std\"),",
+    "                                  (RSQR_MEMBER, \"rsqr\")):"
+   ],
+   "removed_lines": [
+    "                                  (STD_MEMBER, \"std\")):"
+   ],
+   "new_text": "                                  (STD_MEMBER, \"std\"),\n                                  (RSQR_MEMBER, \"rsqr\")):\n            if member not in prices:"
+  },
+  {
+   "line": 2146,
+   "kind": "sub1",
+   "what": "judge prep per-leg structure",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": false,
+   "old_len": 302,
+   "new_len": 613,
+   "added_lines": [
+    "        _r20o, _r20d, rsqreta, _r10o, _r10d = rsqr_state_series(prices)",
+    "        if not _rsqr_structure_pass(rsqreta):",
+    "            print(f\"JUDGE-PREP-GATE FAIL: leg-{leg} G-RSQR structural \"",
+    "                  f\"invariants broken {rsqreta} -- honest refuse\")",
+    "            return 1",
+    "        rsqr_meta[leg] = rsqreta"
+   ],
+   "removed_lines": [],
+   "new_text": "        _so20, _sd20, stdeta, _so10, _sd10 = std_state_series(prices)\n        if not _std_structure_pass(stdeta):\n            print(f\"JUDGE-PREP-GATE FAIL: leg-{leg} G-STD structural \"\n                  f\"invariants broken {stdeta} -- honest refuse\")\n            return 1\n        std_meta[leg] = stdeta\n        _r20o, _r20d, rsqreta, _r10o, _r10d = rsqr_state_series(prices)\n        if not _rsqr_structure_pass(rsqreta):\n            print(f\"JUDGE-PREP-GATE FAIL: leg-{leg} G-RSQR structural \"\n                  f\"invariants broken {rsqreta} -- honest refuse\")\n            return 1\n        rsqr_meta[leg] = rsqreta"
+  },
+  {
+   "line": 2168,
+   "kind": "sub1",
+   "what": "judge prep full_raw_face",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 49,
+   "new_len": 101,
+   "added_lines": [
+    "    rsqr_meta[\"full_raw_face\"] = rsqr_state_full[2]"
+   ],
+   "removed_lines": [],
+   "new_text": "    std_meta[\"full_raw_face\"] = std_state_full[2]\n    rsqr_meta[\"full_raw_face\"] = rsqr_state_full[2]"
+  },
+  {
+   "line": 2172,
+   "kind": "subn",
+   "what": "prep vacuous payload",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 127,
+   "new_len": 166,
+   "added_lines": [
+    "               \"rsqr_meta\": rsqr_meta,"
+   ],
+   "removed_lines": [],
+   "new_text": "               \"amp_meta\": amp_meta, \"mom_meta\": mom_meta,\n               \"std_meta\": std_meta,\n               \"rsqr_meta\": rsqr_meta,\n               \"vacuous\": True,"
+  },
+  {
+   "line": 2180,
+   "kind": "subn",
+   "what": "prep main payload",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 93,
+   "new_len": 128,
+   "added_lines": [
+    "           \"rsqr_meta\": rsqr_meta,"
+   ],
+   "removed_lines": [],
+   "new_text": "           \"mom_meta\": mom_meta,\n           \"std_meta\": std_meta,\n           \"rsqr_meta\": rsqr_meta,\n           \"manifest_note\":"
+  },
+  {
+   "line": 2186,
+   "kind": "sub1",
+   "what": "judge prep print",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 255,
+   "new_len": 581,
+   "added_lines": [
+    "    print(f\"rsqr meta L 120-bar-warmup \"",
+    "          f\"{rsqr_meta['L']['open_days']}open/\"",
+    "          f\"{rsqr_meta['L']['closed_days']}closed decidable \"",
+    "          f\"{rsqr_meta['L']['decidable_days']} rsqr10-open \"",
+    "          f\"{rsqr_meta['L']['rsqr10_open_days']} slope-split \"",
+    "          f\"{rsqr_meta['L']['slope_sign_split']}\")"
+   ],
+   "removed_lines": [],
+   "new_text": "    print(f\"std meta L 120-bar-warmup \"\n          f\"{std_meta['L']['open_days']}open/\"\n          f\"{std_meta['L']['closed_days']}closed decidable \"\n          f\"{std_meta['L']['decidable_days']} std10-open \"\n          f\"{std_meta['L']['std10_open_days']}\")\n    print(f\"rsqr meta L 120-bar-warmup \"\n          f\"{rsqr_meta['L']['open_days']}open/\"\n          f\"{rsqr_meta['L']['closed_days']}closed decidable \"\n          f\"{rsqr_meta['L']['decidable_days']} rsqr10-open \"\n          f\"{rsqr_meta['L']['rsqr10_open_days']} slope-split \"\n          f\"{rsqr_meta['L']['slope_sign_split']}\")"
+  },
+  {
+   "line": 2207,
+   "kind": "sub1",
+   "what": "judge final sums init",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 175,
+   "new_len": 219,
+   "added_lines": [
+    "    rsqr_sum = {}",
+    "    gvvvsktsamsr_sum = {}"
+   ],
+   "removed_lines": [],
+   "new_text": "    amp_sum, mom_sum, std_sum = {}, {}, {}\n    rsqr_sum = {}\n    gvy_sum, gvvy_sum, gvvvsk_sum = {}, {}, {}\n    gvvvskts_sum, gvvvsktsa_sum, gvvvsktsam_sum = {}, {}, {}\n    gvvvsktsams_sum = {}\n    gvvvsktsamsr_sum = {}"
+  },
+  {
+   "line": 2218,
+   "kind": "sub1",
+   "what": "judge final face read",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 40,
+   "new_len": 81,
+   "added_lines": [
+    "        rqf = r.get(\"rsqr_face\", \"none\")"
+   ],
+   "removed_lines": [],
+   "new_text": "        stf = r.get(\"std_face\", \"none\")\n        rqf = r.get(\"rsqr_face\", \"none\")\n"
+  },
+  {
+   "line": 2222,
+   "kind": "sub1",
+   "what": "judge final seg loop a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 92,
+   "new_len": 134,
+   "added_lines": [
+    "                         (rsqr_sum, rqf),"
+   ],
+   "removed_lines": [],
+   "new_text": "                         (std_sum, stf),\n                         (rsqr_sum, rqf),\n                         (gvy_sum, f\"{g}|{v}|{y}\"),"
+  },
+  {
+   "line": 2230,
+   "kind": "sub1",
+   "what": "judge final seg loop b",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 112,
+   "new_len": 231,
+   "added_lines": [
+    "                          f\"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}\"),",
+    "                         (gvvvsktsamsr_sum,",
+    "                          f\"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}|{rqf}\")):"
+   ],
+   "removed_lines": [
+    "                          f\"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}\")):"
+   ],
+   "new_text": "                         (gvvvsktsams_sum,\n                          f\"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}\"),\n                         (gvvvsktsamsr_sum,\n                          f\"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}|{rqf}\")):"
+  },
+  {
+   "line": 2240,
+   "kind": "sub1",
+   "what": "judge final payload sums",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 40,
+   "new_len": 83,
+   "added_lines": [
+    "           \"rsqr_face_judgment\": rsqr_sum,"
+   ],
+   "removed_lines": [],
+   "new_text": "           \"std_face_judgment\": std_sum,\n           \"rsqr_face_judgment\": rsqr_sum,"
+  },
+  {
+   "line": 2244,
+   "kind": "sub1",
+   "what": "judge final payload interaction",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 111,
+   "new_len": 229,
+   "added_lines": [
+    "           \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_\"",
+    "           \"judgment\": gvvvsktsamsr_sum,"
+   ],
+   "removed_lines": [],
+   "new_text": "           \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_interaction_\"\n           \"judgment\": gvvvsktsams_sum,\n           \"gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_\"\n           \"judgment\": gvvvsktsamsr_sum,"
+  },
+  {
+   "line": 2254,
+   "kind": "sub1",
+   "what": "judge final audit",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 448,
+   "new_len": 463,
+   "added_lines": [
+    "                             \"tstate + amp + MOM + STD + RSQR overlays carried \"",
+    "                             \"-> STREAK -> TSTATE -> AMP -> MOM -> STD -> \"",
+    "                             \"RSQR -> initial-stop; \""
+   ],
+   "removed_lines": [
+    "                             \"tstate + amp + MOM + STD overlays carried \"",
+    "                             \"-> STREAK -> TSTATE -> AMP -> MOM -> STD \"",
+    "                             \"-> initial-stop; \""
+   ],
+   "new_text": "                             \"gate + vol + yang + vconf + streak + \"\n                             \"tstate + amp + MOM + STD + RSQR overlays carried \"\n                             \"per \"\n                             \"cell (frozen composition signal -> filter \"\n                             \"-> timing -> GATE -> VOL -> YANG -> VCONF \"\n                             \"-> STREAK -> TSTATE -> AMP -> MOM -> STD -> \"\n                             \"RSQR -> initial-stop; \""
+  },
+  {
+   "line": 2275,
+   "kind": "sub1",
+   "what": "judge final prints",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 241,
+   "new_len": 314,
+   "added_lines": [
+    "    print(f\"rsqr-face judgment: {json.dumps(rsqr_sum, sort_keys=True)}\")"
+   ],
+   "removed_lines": [],
+   "new_text": "    print(f\"std-face judgment: {json.dumps(std_sum, sort_keys=True)}\")\n    print(f\"rsqr-face judgment: {json.dumps(rsqr_sum, sort_keys=True)}\")\n    print(f\"gate x vol x yang x vconf x streak x tstate x amp x mom \"\n          f\"interaction judgment: \"\n          f\"{json.dumps(gvvvsktsam_sum, sort_keys=True)[:400]}\")"
+  },
+  {
+   "line": 2288,
+   "kind": "sub1",
+   "what": "judge final audit stop note",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 220,
+   "new_len": 230,
+   "added_lines": [
+    "                             \"std+rsqr overlays inserted before stop arming \"",
+    "                             \"(W11/W12 composition law); gate_flip_days_legL \""
+   ],
+   "removed_lines": [
+    "                             \"mom overlay inserted before stop arming \"",
+    "                             \"(W10 composition law); gate_flip_days_legL \""
+   ],
+   "new_text": "                             \"the protection-floor signal face with the \"\n                             \"std+rsqr overlays inserted before stop arming \"\n                             \"(W11/W12 composition law); gate_flip_days_legL \""
+  },
+  {
+   "line": 2299,
+   "kind": "sub1",
+   "what": "intake docstring",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 78,
+   "new_len": 78,
+   "added_lines": [
+    "    \"\"\"s4 D6 binding gate (W2 cmd_intake precedent on the W11 file"
+   ],
+   "removed_lines": [
+    "    \"\"\"s4 D6 binding gate (W2 cmd_intake precedent on the W10 file"
+   ],
+   "new_text": "    \"\"\"s4 D6 binding gate (W2 cmd_intake precedent on the W11 file\n    faces):"
+  },
+  {
+   "line": 2310,
+   "kind": "sub1",
+   "what": "selftest docstring",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 491,
+   "new_len": 585,
+   "added_lines": [
+    "    spread) / G-RSQR probe anchors (nine-gate 512-cell 124/388 +",
+    "    slope split 213/128 + core48 spread) / grammar structure / draw",
+    "    determinism / 24-source exclusion loader / engine double-run",
+    "    determinism legs / funnel faces (dispatch / null-cell engine path /",
+    "    CSV contract) + pit-95 finalize guards.\"\"\""
+   ],
+   "removed_lines": [
+    "    spread) / grammar structure / draw determinism / 20-source",
+    "    exclusion loader / engine double-run determinism legs / funnel",
+    "    faces (dispatch / null-cell engine path / CSV contract) + pit-95",
+    "    finalize guards.\"\"\""
+   ],
+   "new_text": "    zero cell evaluation): MOM causality / 139-bar warmup / NaN\n    comparison-artifact leg (pit-95 batch-95 + r431 erratum face) /\n    mom=none identity / eight-gate intersection / G-MOM probe anchors\n    (incl. eight-gate 256-cell 111/145 + extreme days 2/7 + core48\n    spread) / G-RSQR probe anchors (nine-gate 512-cell 124/388 +\n    slope split 213/128 + core48 spread) / grammar structure / draw\n    determinism / 24-source exclusion loader / engine double-run\n    determinism legs / funnel faces (dispatch / null-cell engine path /\n    CSV contract) + pit-95 finalize guards.\"\"\""
+  },
+  {
+   "line": 2334,
+   "kind": "sub1",
+   "what": "L6a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 203,
+   "new_len": 206,
+   "added_lines": [
+    "    _ok(\"L6a axis_combos == 94,058,496 (31,352,832 x 3 rsqr-axis \"",
+    "        \"values; W11 std-face combos x len(AXIS_RSQR))\",",
+    "        g[\"axis_combos\"] == 94058496",
+    "        == tl11.AXIS_COMBOS * len(AXIS_RSQR))"
+   ],
+   "removed_lines": [
+    "    _ok(\"L6a axis_combos == 31,352,832 (10,450,944 x 3 std-axis \"",
+    "        \"values; W10 mom-face combos x len(AXIS_STD))\",",
+    "        g[\"axis_combos\"] == 31352832",
+    "        == tl10.AXIS_COMBOS * len(AXIS_STD))"
+   ],
+   "new_text": "    _ok(\"L6a axis_combos == 94,058,496 (31,352,832 x 3 rsqr-axis \"\n        \"values; W11 std-face combos x len(AXIS_RSQR))\",\n        g[\"axis_combos\"] == 94058496\n        == tl11.AXIS_COMBOS * len(AXIS_RSQR))"
+  },
+  {
+   "line": 2344,
+   "kind": "sub1",
+   "what": "L6b",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 121,
+   "new_len": 128,
+   "added_lines": [
+    "    _ok(\"L6b fifteen axes present, rsqr == frozen three-value\",",
+    "        len(g[\"axes\"]) == 15 and g[\"axes\"][\"rsqr\"] == AXIS_RSQR)"
+   ],
+   "removed_lines": [
+    "    _ok(\"L6b fourteen axes present, mom == frozen binary\",",
+    "        len(g[\"axes\"]) == 14 and g[\"axes\"][\"mom\"] == AXIS_MOM)"
+   ],
+   "new_text": "    _ok(\"L6b fifteen axes present, rsqr == frozen three-value\",\n        len(g[\"axes\"]) == 15 and g[\"axes\"][\"rsqr\"] == AXIS_RSQR)"
+  },
+  {
+   "line": 2351,
+   "kind": "sub1",
+   "what": "L6c text",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 119,
+   "new_len": 112,
+   "added_lines": [
+    "    _ok(\"L6c W12 seeds == SEED_REGISTRY berths (20320500/20321000/\"",
+    "        \"20321500 berths held, no re-pick)\","
+   ],
+   "removed_lines": [
+    "    _ok(\"L6c W11 seeds == SEED_REGISTRY berths (20317000/20317500/\"",
+    "        \"20318000 berth re-take held, no re-pick)\","
+   ],
+   "new_text": "    _ok(\"L6c W12 seeds == SEED_REGISTRY berths (20320500/20321000/\"\n        \"20321500 berths held, no re-pick)\","
+  },
+  {
+   "line": 2358,
+   "kind": "sub1",
+   "what": "L6d",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 154,
+   "new_len": 156,
+   "added_lines": [
+    "    _ok(\"L6d new sha16 constructively distinct from W1/MASS/W2-W11\",",
+    "        and sha != tl11.FROZEN_SHA16,"
+   ],
+   "removed_lines": [
+    "    _ok(\"L6d new sha16 constructively distinct from W1/MASS/W2-W9\",",
+    "        and sha != tl9.FROZEN_SHA16,"
+   ],
+   "new_text": "    _ok(\"L6d new sha16 constructively distinct from W1/MASS/W2-W11\",\n        sha not in set(PRIOR_WAVE_SHA16.values())\n        and sha != tl11.FROZEN_SHA16,"
+  },
+  {
+   "line": 2367,
+   "kind": "sub1",
+   "what": "L6e",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 242,
+   "new_len": 248,
+   "added_lines": [
+    "    _ok(\"L6e exclusion face rows rsqr=none-padded to 15-long axis\",",
+    "        all(len(r[\"axis\"]) == 15 and r[\"axis\"][-1] == \"none\"",
+    "            [\"stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face\"]))"
+   ],
+   "removed_lines": [
+    "    _ok(\"L6e exclusion face rows mom=none-padded to 13-long axis\",",
+    "        all(len(r[\"axis\"]) == 14 and r[\"axis\"][-1] == \"none\"",
+    "            [\"stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_none_face\"]))"
+   ],
+   "new_text": "    _ok(\"L6e exclusion face rows rsqr=none-padded to 15-long axis\",\n        all(len(r[\"axis\"]) == 15 and r[\"axis\"][-1] == \"none\"\n            for r in g[\"exclusion\"]\n            [\"stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face\"]))"
+  },
+  {
+   "line": 2380,
+   "kind": "sub1",
+   "what": "L7g+L7i",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 543,
+   "new_len": 1537,
+   "added_lines": [
+    "            rstate2, rerr2 = _rsqr_state_full()",
+    "            _ok(\"L7g probe-facts exact per-cell 512-grid cross-check \"",
+    "                \"(r447 determinism law: every computed RSQR-face cell \"",
+    "                rerr2 is None",
+    "                and rstate2[2][\"nine_gate_512cells\"]",
+    "                == pf.get(\"nine_gate_cells\"),",
+    "                rerr2 or \"rsqr-face cells == probe facts\")",
+    "        # core48 member-level rsqr20 open-rate spread (r447 probe",
+    "        # method verbatim; frozen-runner RSQR verbatim)",
+    "        prices_r = tl1.load_core()",
+    "        cut_r = pd.Timestamp(CUTOFF)",
+    "        rates2 = {}",
+    "        for sym, d2 in sorted(prices_r.items()):",
+    "            d2 = d2[d2.index <= cut_r]",
+    "            if len(d2) >= 260:",
+    "                op2, wdec2, _ = rsqr_state_series({RSQR_MEMBER: d2})[:3]",
+    "                if wdec2.any():",
+    "                    rates2[str(sym)] = round(float(",
+    "                        (op2 & wdec2).mean()), 4)",
+    "        vals2 = sorted(rates2.values())",
+    "        cf2 = RSQR_ANCHOR[\"core48_rsqr20_open_rate\"]",
+    "        _ok(\"L7i core48 rsqr20-open-rate spread (n 48 / min 0.0891 / \"",
+    "            \"median 0.1009 / max 0.1183; r447 probe face)\",",
+    "            len(vals2) == cf2[\"n\"] and vals2[0] == cf2[\"min\"]",
+    "            and vals2[len(vals2) // 2] == cf2[\"median\"]",
+    "            and vals2[-1] == cf2[\"max\"],",
+    "            f\"n={len(vals2)} min={vals2[0] if vals2 else None}\")"
+   ],
+   "removed_lines": [
+    "            sstate, serr = _std_state_full()",
+    "            _ok(\"L7g probe-facts exact per-cell 256-grid cross-check \"",
+    "                \"(r237 determinism law: every computed STD-face cell \"",
+    "                serr is None",
+    "                and sstate[2][\"eight_gate_256cells\"]",
+    "                == pf.get(\"eight_gate_cells\"),",
+    "                serr or \"std-face cells == probe facts\")"
+   ],
+   "new_text": "        if os.path.exists(PROBE_FACTS_FILE):\n            pf = json.load(open(PROBE_FACTS_FILE, encoding=\"utf-8\"))\n            rstate2, rerr2 = _rsqr_state_full()\n            _ok(\"L7g probe-facts exact per-cell 512-grid cross-check \"\n                \"(r447 determinism law: every computed RSQR-face cell \"\n                \"== the git-tracked frozen probe face)\",\n                rerr2 is None\n                and rstate2[2][\"nine_gate_512cells\"]\n                == pf.get(\"nine_gate_cells\"),\n                rerr2 or \"rsqr-face cells == probe facts\")\n        # core48 member-level rsqr20 open-rate spread (r447 probe\n        # method verbatim; frozen-runner RSQR verbatim)\n        prices_r = tl1.load_core()\n        cut_r = pd.Timestamp(CUTOFF)\n        rates2 = {}\n        for sym, d2 in sorted(prices_r.items()):\n            d2 = d2[d2.index <= cut_r]\n            if len(d2) >= 260:\n                op2, wdec2, _ = rsqr_state_series({RSQR_MEMBER: d2})[:3]\n                if wdec2.any():\n                    rates2[str(sym)] = round(float(\n                        (op2 & wdec2).mean()), 4)\n        vals2 = sorted(rates2.values())\n        cf2 = RSQR_ANCHOR[\"core48_rsqr20_open_rate\"]\n        _ok(\"L7i core48 rsqr20-open-rate spread (n 48 / min 0.0891 / \"\n            \"median 0.1009 / max 0.1183; r447 probe face)\",\n            len(vals2) == cf2[\"n\"] and vals2[0] == cf2[\"min\"]\n            and vals2[len(vals2) // 2] == cf2[\"median\"]\n            and vals2[-1] == cf2[\"max\"],\n            f\"n={len(vals2)} min={vals2[0] if vals2 else None}\")"
+  },
+  {
+   "line": 2423,
+   "kind": "sub1",
+   "what": "L8a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 300,
+   "new_len": 300,
+   "added_lines": [
+    "        \"candidate incl. the std+rsqr axes, fifteen-tuple)\",",
+    "        and len(c1[1][\"axis\"]) == 15)"
+   ],
+   "removed_lines": [
+    "        \"candidate incl. the mom+std axes, fourteen-tuple)\",",
+    "        and len(c1[1][\"axis\"]) == 14)"
+   ],
+   "new_text": "    _ok(\"L8a Sobol draw determinism (same seed -> byte-identical \"\n        \"candidate incl. the std+rsqr axes, fifteen-tuple)\",\n        json.dumps(c1[1], sort_keys=True) == json.dumps(c2[1],\n                                                        sort_keys=True)\n        and len(c1[1][\"axis\"]) == 15)"
+  },
+  {
+   "line": 2437,
+   "kind": "sub1",
+   "what": "L8b",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 384,
+   "new_len": 390,
+   "added_lines": [
+    "    fifteen = [rng_a.integers(0, 4, n) for _ in range(15)]",
+    "    thirteen = [rng_b.integers(0, 4, n) for _ in range(13)]",
+    "    _ok(\"L8b STD+RSQR append AFTER AMP in the rng stream (first thirteen \"",
+    "        \"axis arrays == W10-order stream verbatim, zero disturbance)\",",
+    "        all(np.array_equal(a, b) for a, b in zip(fifteen, thirteen)))"
+   ],
+   "removed_lines": [
+    "    fourteen = [rng_a.integers(0, 4, n) for _ in range(14)]",
+    "    twelve = [rng_b.integers(0, 4, n) for _ in range(12)]",
+    "    _ok(\"L8b MOM+STD append AFTER AMP in the rng stream (first twelve \"",
+    "        \"axis arrays == W9-order stream verbatim, zero disturbance)\",",
+    "        all(np.array_equal(a, b) for a, b in zip(fourteen, twelve)))"
+   ],
+   "new_text": "    fifteen = [rng_a.integers(0, 4, n) for _ in range(15)]\n    rng_b = np.random.default_rng([SEED_GEN + 0, 7919])\n    thirteen = [rng_b.integers(0, 4, n) for _ in range(13)]\n    _ok(\"L8b STD+RSQR append AFTER AMP in the rng stream (first thirteen \"\n        \"axis arrays == W10-order stream verbatim, zero disturbance)\",\n        all(np.array_equal(a, b) for a, b in zip(fifteen, thirteen)))"
+  },
+  {
+   "line": 2454,
+   "kind": "sub1",
+   "what": "L9a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": false,
+   "old_len": 703,
+   "new_len": 763,
+   "added_lines": [
+    "    _ok(\"L9a exclusion loader: every row a 15-tuple axis, rsqr=none \"",
+    "        \"at 14 for ALL rows + std at 13 inside the frozen three-value \"",
+    "        \"domain + W11 real-std rows present (24 sources; W1-W10 \"",
+    "        \"sources std=none, W11 survivors/judged carry real values)\",",
+    "        all(len(r[\"axis\"]) == 15 and r[\"axis\"][14] == \"none\"",
+    "            and r[\"axis\"][13] in AXIS_STD for r in rows10)",
+    "        and any(r[\"axis\"][13] in (\"std20_hi\", \"std10_hi\")",
+    "             \"@@W11TAG3@@\", \"@@W11TAG4@@\","
+   ],
+   "removed_lines": [
+    "    _ok(\"L9a exclusion loader: every row a 14-tuple axis, std=none \"",
+    "        \"at 13 for ALL rows + mom at 12 inside the frozen binary \"",
+    "        \"domain + W10 real-mom rows present (20 sources; W1-W9 \"",
+    "        \"sources mom=none, W10 survivors/judged carry real values)\",",
+    "        all(len(r[\"axis\"]) == 14 and r[\"axis\"][13] == \"none\"",
+    "            and r[\"axis\"][12] in AXIS_MOM for r in rows10)",
+    "        and any(r[\"axis\"][12] == \"mom_oversold\""
+   ],
+   "new_text": "    _ok(\"L9a exclusion loader: every row a 15-tuple axis, rsqr=none \"\n        \"at 14 for ALL rows + std at 13 inside the frozen three-value \"\n        \"domain + W11 real-std rows present (24 sources; W1-W10 \"\n        \"sources std=none, W11 survivors/judged carry real values)\",\n        all(len(r[\"axis\"]) == 15 and r[\"axis\"][14] == \"none\"\n            and r[\"axis\"][13] in AXIS_STD for r in rows10)\n        and any(r[\"axis\"][13] in (\"std20_hi\", \"std10_hi\")\n                for r in rows10)\n        and {\"w1_screen_survivors\", \"mass_screen_survivors\",\n             \"w9_screen_survivors\", \"w9_judge_products\",\n             \"w10_screen_survivors\", \"w10_judge_products\",\n             \"@@W11TAG3@@\", \"@@W11TAG4@@\",\n             \"judged_supply_weighting\"} <= set(disc10))"
+  },
+  {
+   "line": 2487,
+   "kind": "sub1",
+   "what": "L9b text",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 130,
+   "new_len": 133,
+   "added_lines": [
+    "        \"== 243 (generate-time re-declare window, prereg sec.1 TWELVE \""
+   ],
+   "removed_lines": [
+    "        \"== 243 (generate-time re-declare window, prereg sec.1 TEN \""
+   ],
+   "new_text": "        \"== 243 (generate-time re-declare window, prereg sec.1 TWELVE \"\n        \"judge sources; W9-JUDGE landed 2026-09-29 17:47:46)\""
+  },
+  {
+   "line": 2494,
+   "kind": "sub1",
+   "what": "L10b",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 299,
+   "new_len": 297,
+   "added_lines": [
+    "    miss = _excluded_w12({**hit_key,",
+    "                          \"axis\": [*hit_key[\"axis\"][:14],",
+    "                                   \"rsqr20_hi\"]},",
+    "    _ok(\"L10b rsqr in {rsqr20_hi, rsqr10_hi} = new-syntax legal cell, \""
+   ],
+   "removed_lines": [
+    "    miss = _excluded_w11({**hit_key,",
+    "                          \"axis\": [*hit_key[\"axis\"][:12],",
+    "                                   \"mom_oversold\", \"none\"]},",
+    "    _ok(\"L10b mom in {mom_oversold} = new-syntax legal cell, \""
+   ],
+   "new_text": "    miss = _excluded_w12({**hit_key,\n                          \"axis\": [*hit_key[\"axis\"][:14],\n                                   \"rsqr20_hi\"]},\n                         rows10)\n    _ok(\"L10b rsqr in {rsqr20_hi, rsqr10_hi} = new-syntax legal cell, \"\n        \"never excluded\",\n        miss is None)"
+  },
+  {
+   "line": 2507,
+   "kind": "sub1",
+   "what": "L12 rq3",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 36,
+   "new_len": 73,
+   "added_lines": [
+    "    rq3 = rsqr_state_series(frames3)"
+   ],
+   "removed_lines": [],
+   "new_text": "    ss3 = std_state_series(frames3)\n    rq3 = rsqr_state_series(frames3)\n"
+  },
+  {
+   "line": 2510,
+   "kind": "sub1",
+   "what": "L12 rq5",
+   "n_expected": 1,
+   "old_in_w12_src": true,
+   "new_in_w12_src": true,
+   "old_len": 36,
+   "new_len": 73,
+   "added_lines": [
+    "    rq5 = rsqr_state_series(frames5)"
+   ],
+   "removed_lines": [],
+   "new_text": "    ss5 = std_state_series(frames5)\n    rq5 = rsqr_state_series(frames5)\n"
+  },
+  {
+   "line": 2513,
+   "kind": "sub1",
+   "what": "L13 base axis fifteen",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 220,
+   "new_len": 228,
+   "added_lines": [
+    "                     \"none\", \"none\"]}"
+   ],
+   "removed_lines": [
+    "                     \"none\"]}"
+   ],
+   "new_text": "            \"axis\": [\"none\", \"time_stop_5d\", \"equal_weight\",\n                     \"daily_signal\", \"none\", \"none\", \"none\", \"none\",\n                     \"none\", \"none\", \"none\", \"none\", \"none\",\n                     \"none\", \"none\"]}"
+  },
+  {
+   "line": 2525,
+   "kind": "sub1",
+   "what": "L12 mask calls gs3 none",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 100,
+   "new_len": 113,
+   "added_lines": [
+    "        \"none\", \"none\", \"none\", \"none\", \"none\", \"none\", gs3,",
+    "        vs3, ys3, cs3, sk3, ts3, as3, ms3, ss3, rq3)"
+   ],
+   "removed_lines": [
+    "        \"none\", \"none\", \"none\", \"none\", \"none\", gs3, vs3, ys3, cs3,",
+    "        sk3, ts3, as3, ms3, ss3)"
+   ],
+   "new_text": "        \"none\", \"none\", \"none\", \"none\", \"none\", \"none\", gs3,\n        vs3, ys3, cs3, sk3, ts3, as3, ms3, ss3, rq3)"
+  },
+  {
+   "line": 2531,
+   "kind": "sub1",
+   "what": "L12 mask calls gs3 mom",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 108,
+   "new_len": 121,
+   "added_lines": [
+    "        \"none\", \"none\", \"none\", \"mom_oversold\", \"none\", \"none\", gs3,",
+    "        vs3, ys3, cs3, sk3, ts3, as3, ms3, ss3, rq3)"
+   ],
+   "removed_lines": [
+    "        \"none\", \"none\", \"none\", \"mom_oversold\", \"none\", gs3, vs3,",
+    "        ys3, cs3, sk3, ts3, as3, ms3, ss3)"
+   ],
+   "new_text": "        \"none\", \"none\", \"none\", \"mom_oversold\", \"none\", \"none\", gs3,\n        vs3, ys3, cs3, sk3, ts3, as3, ms3, ss3, rq3)"
+  },
+  {
+   "line": 2538,
+   "kind": "sub1",
+   "what": "L12 mask calls gs5 none",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 100,
+   "new_len": 113,
+   "added_lines": [
+    "        \"none\", \"none\", \"none\", \"none\", \"none\", \"none\", gs5,",
+    "        vs5, ys5, cs5, sk5, ts5, as5, ms5, ss5, rq5)"
+   ],
+   "removed_lines": [
+    "        \"none\", \"none\", \"none\", \"none\", \"none\", gs5, vs5, ys5, cs5,",
+    "        sk5, ts5, as5, ms5, ss5)"
+   ],
+   "new_text": "        \"none\", \"none\", \"none\", \"none\", \"none\", \"none\", gs5,\n        vs5, ys5, cs5, sk5, ts5, as5, ms5, ss5, rq5)"
+  },
+  {
+   "line": 2544,
+   "kind": "sub1",
+   "what": "L12 mask calls gs5 mom",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 108,
+   "new_len": 121,
+   "added_lines": [
+    "        \"none\", \"none\", \"none\", \"mom_oversold\", \"none\", \"none\", gs5,",
+    "        vs5, ys5, cs5, sk5, ts5, as5, ms5, ss5, rq5)"
+   ],
+   "removed_lines": [
+    "        \"none\", \"none\", \"none\", \"mom_oversold\", \"none\", gs5, vs5,",
+    "        ys5, cs5, sk5, ts5, as5, ms5, ss5)"
+   ],
+   "new_text": "        \"none\", \"none\", \"none\", \"mom_oversold\", \"none\", \"none\", gs5,\n        vs5, ys5, cs5, sk5, ts5, as5, ms5, ss5, rq5)"
+  },
+  {
+   "line": 2551,
+   "kind": "sub1",
+   "what": "L13a",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 341,
+   "new_len": 363,
+   "added_lines": [
+    "        sdz10, rz10 = \\",
+    "        run_candidate_curve_w12(",
+    "            std_state=ss3, rsqr_state=rq3)"
+   ],
+   "removed_lines": [
+    "        sdz10 = \\",
+    "        run_candidate_curve_w11(",
+    "            std_state=ss3)"
+   ],
+   "new_text": "    eq10, tr10, m10, _, _, _, _, _, _, _, sz10, tz10, az10, mz10, \\\n        sdz10, rz10 = \\\n        run_candidate_curve_w12(\n            base, None, frames3, P3, st3, gate_state=gs3, vol_state=vs3,\n            yang_state=ys3, vconf_state=cs3, streak_state=sk3,\n            tstate_state=ts3, amp_state=as3, mom_state=ms3,\n            std_state=ss3, rsqr_state=rq3)"
+  },
+  {
+   "line": 2568,
+   "kind": "sub1",
+   "what": "L13b check",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 255,
+   "new_len": 278,
+   "added_lines": [
+    "        \"16-tuple return shape (rsqr_zeroed carried)\",",
+    "        and tz10 == tz10b and az10 == az10b and mz10 == mz10b == 0",
+    "        and rz10 == 0)"
+   ],
+   "removed_lines": [
+    "        \"15-tuple return shape (mom_zeroed carried)\",",
+    "        and tz10 == tz10b and az10 == az10b and mz10 == mz10b == 0)"
+   ],
+   "new_text": "    _ok(\"L13b engine double-run byte-identity (determinism leg) + \"\n        \"16-tuple return shape (rsqr_zeroed carried)\",\n        list(eq10.values) == list(eq10b.values) and sz10 == sz10b\n        and tz10 == tz10b and az10 == az10b and mz10 == mz10b == 0\n        and rz10 == 0)"
+  },
+  {
+   "line": 2580,
+   "kind": "sub1",
+   "what": "L13b call",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 369,
+   "new_len": 400,
+   "added_lines": [
+    "        _, _ = \\",
+    "        run_candidate_curve_w12(",
+    "            amp_state=as3, mom_state=ms3, std_state=ss3,",
+    "            rsqr_state=rq3)"
+   ],
+   "removed_lines": [
+    "        _ = \\",
+    "        run_candidate_curve_w11(",
+    "            amp_state=as3, mom_state=ms3, std_state=ss3)"
+   ],
+   "new_text": "    eq10b, _, _, _, _, _, _, _, _, _, sz10b, tz10b, az10b, mz10b, \\\n        _, _ = \\\n        run_candidate_curve_w12(\n            dict(base, candidate_id=\"ST-B-0001\"), None, frames3, P3,\n            st3, gate_state=gs3, vol_state=vs3, yang_state=ys3,\n            vconf_state=cs3, streak_state=sk3, tstate_state=ts3,\n            amp_state=as3, mom_state=ms3, std_state=ss3,\n            rsqr_state=rq3)"
+  },
+  {
+   "line": 2598,
+   "kind": "sub1",
+   "what": "L13c",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 352,
+   "new_len": 383,
+   "added_lines": [
+    "    eq5n, tr5n, m5n, _, _, _, _, _, _, _, _, _, az5n, mz5n, _, _ = \\",
+    "        run_candidate_curve_w12(",
+    "            amp_state=as5, mom_state=ms5, std_state=ss5,",
+    "            rsqr_state=rq5)"
+   ],
+   "removed_lines": [
+    "    eq5n, tr5n, m5n, _, _, _, _, _, _, _, _, _, az5n, mz5n, _ = \\",
+    "        run_candidate_curve_w11(",
+    "            amp_state=as5, mom_state=ms5, std_state=ss5)"
+   ],
+   "new_text": "    eq5n, tr5n, m5n, _, _, _, _, _, _, _, _, _, az5n, mz5n, _, _ = \\\n        run_candidate_curve_w12(\n            dict(base, axis=list(base[\"axis\"])), None, frames5, P5,\n            st5, gate_state=gs5, vol_state=vs5, yang_state=ys5,\n            vconf_state=cs5, streak_state=sk5, tstate_state=ts5,\n            amp_state=as5, mom_state=ms5, std_state=ss5,\n            rsqr_state=rq5)"
+  },
+  {
+   "line": 2615,
+   "kind": "sub1",
+   "what": "L13d",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 419,
+   "new_len": 446,
+   "added_lines": [
+    "    eq5o, tr5o, m5o, _, _, _, _, _, _, _, _, _, az5o, mz5o, _, _ = \\",
+    "        run_candidate_curve_w12(",
+    "                             \"none\", \"none\"]), None,",
+    "            std_state=ss5, rsqr_state=rq5)"
+   ],
+   "removed_lines": [
+    "    eq5o, tr5o, m5o, _, _, _, _, _, _, _, _, _, az5o, mz5o, _ = \\",
+    "        run_candidate_curve_w11(",
+    "                             \"none\"]), None,",
+    "            std_state=ss5)"
+   ],
+   "new_text": "    eq5o, tr5o, m5o, _, _, _, _, _, _, _, _, _, az5o, mz5o, _, _ = \\\n        run_candidate_curve_w12(\n            dict(base, axis=[*base[\"axis\"][:12], \"mom_oversold\",\n                             \"none\", \"none\"]), None,\n            frames5, P5, st5, gate_state=gs5, vol_state=vs5,\n            yang_state=ys5, vconf_state=cs5, streak_state=sk5,\n            tstate_state=ts5, amp_state=as5, mom_state=ms5,\n            std_state=ss5, rsqr_state=rq5)"
+  },
+  {
+   "line": 2635,
+   "kind": "sub1",
+   "what": "L13e",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 419,
+   "new_len": 446,
+   "added_lines": [
+    "    eq3o, tr3o, m3o, _, _, _, _, _, _, _, _, _, az3o, mz3o, _, _ = \\",
+    "        run_candidate_curve_w12(",
+    "                             \"none\", \"none\"]), None,",
+    "            std_state=ss3, rsqr_state=rq3)"
+   ],
+   "removed_lines": [
+    "    eq3o, tr3o, m3o, _, _, _, _, _, _, _, _, _, az3o, mz3o, _ = \\",
+    "        run_candidate_curve_w11(",
+    "                             \"none\"]), None,",
+    "            std_state=ss3)"
+   ],
+   "new_text": "    eq3o, tr3o, m3o, _, _, _, _, _, _, _, _, _, az3o, mz3o, _, _ = \\\n        run_candidate_curve_w12(\n            dict(base, axis=[*base[\"axis\"][:12], \"mom_oversold\",\n                             \"none\", \"none\"]), None,\n            frames3, P3, st3, gate_state=gs3, vol_state=vs3,\n            yang_state=ys3, vconf_state=cs3, streak_state=sk3,\n            tstate_state=ts3, amp_state=as3, mom_state=ms3,\n            std_state=ss3, rsqr_state=rq3)"
+  },
+  {
+   "line": 2655,
+   "kind": "sub1",
+   "what": "L14",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 379,
+   "new_len": 412,
+   "added_lines": [
+    "    _ok(\"L14 null-axis draw determinism + FIFTEEN-tuple with std+rsqr \"",
+    "        \"in the frozen domains (W12 null berth 20321000)\",",
+    "        p1 == p2 and ax1 == ax2 and len(ax1) == 15",
+    "        and ax1[14] in AXIS_RSQR"
+   ],
+   "removed_lines": [
+    "    _ok(\"L14 null-axis draw determinism + FOURTEEN-tuple with mom+std \"",
+    "        \"in the frozen domains (W11 null berth 20317500)\",",
+    "        p1 == p2 and ax1 == ax2 and len(ax1) == 14"
+   ],
+   "new_text": "    _ok(\"L14 null-axis draw determinism + FIFTEEN-tuple with std+rsqr \"\n        \"in the frozen domains (W12 null berth 20321000)\",\n        p1 == p2 and ax1 == ax2 and len(ax1) == 15\n        and ax1[12] in AXIS_MOM and ax1[13] in AXIS_STD\n        and ax1[14] in AXIS_RSQR\n        and ax1[11] in tl9.AXIS_AMP\n        and ax1[10] in tl8.AXIS_TSTATE and ax1[9] in tl7.AXIS_STREAK\n        and ax1[4] in tl2.AXIS_STOP)"
+  },
+  {
+   "line": 2673,
+   "kind": "sub1",
+   "what": "L15b dom",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 121,
+   "new_len": 161,
+   "added_lines": [
+    "               and ax0[14] in AXIS_RSQR",
+    "               and ax0[4] in tl2.AXIS_STOP and len(ax0) == 15)"
+   ],
+   "removed_lines": [
+    "               and ax0[4] in tl2.AXIS_STOP and len(ax0) == 14)"
+   ],
+   "new_text": "    mom_dom = (ax0[12] in AXIS_MOM and ax0[13] in AXIS_STD\n               and ax0[14] in AXIS_RSQR\n               and ax0[4] in tl2.AXIS_STOP and len(ax0) == 15)"
+  },
+  {
+   "line": 2681,
+   "kind": "sub1",
+   "what": "L15b call 1",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 543,
+   "new_len": 564,
+   "added_lines": [
+    "        mzn, _, rzn = \\",
+    "        run_candidate_curve_w12(",
+    "             \"candidate_id\": \"W12-NULL-0000\", \"family\": \"NULL\"},",
+    "            std_state=ss3, rsqr_state=rq3, rng_matrix=mat0, p_on=p_on0)"
+   ],
+   "removed_lines": [
+    "        mzn, _ = \\",
+    "        run_candidate_curve_w11(",
+    "             \"candidate_id\": \"W11-NULL-0000\", \"family\": \"NULL\"},",
+    "            std_state=ss3, rng_matrix=mat0, p_on=p_on0)"
+   ],
+   "new_text": "    eqn, trn, mtn, prn, pt, frn, gzn, vzn, yzn, czn, szn, tzn, azn, \\\n        mzn, _, rzn = \\\n        run_candidate_curve_w12(\n            {\"module\": \"null\", \"fn\": \"random_signal\",\n             \"sig_params\": {\"p_on\": p_on0}, \"axis\": ax0,\n             \"candidate_id\": \"W12-NULL-0000\", \"family\": \"NULL\"},\n            None, frames3, P3, st3, gate_state=gs3, vol_state=vs3,\n            yang_state=ys3, vconf_state=cs3, streak_state=sk3,\n            tstate_state=ts3, amp_state=as3, mom_state=ms3,\n            std_state=ss3, rsqr_state=rq3, rng_matrix=mat0, p_on=p_on0)"
+  },
+  {
+   "line": 2707,
+   "kind": "sub1",
+   "what": "L15b call 2",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 516,
+   "new_len": 538,
+   "added_lines": [
+    "    eqnb, _, _, _, _, _, _, _, _, _, _, _, _, mznb, _, rznb = \\",
+    "        run_candidate_curve_w12(",
+    "             \"candidate_id\": \"W12-NULL-0000\", \"family\": \"NULL\"},",
+    "            std_state=ss3, rsqr_state=rq3, rng_matrix=mat0b, p_on=p_on0b)"
+   ],
+   "removed_lines": [
+    "    eqnb, _, _, _, _, _, _, _, _, _, _, _, _, mznb, _ = \\",
+    "        run_candidate_curve_w11(",
+    "             \"candidate_id\": \"W11-NULL-0000\", \"family\": \"NULL\"},",
+    "            std_state=ss3, rng_matrix=mat0b, p_on=p_on0b)"
+   ],
+   "new_text": "    eqnb, _, _, _, _, _, _, _, _, _, _, _, _, mznb, _, rznb = \\\n        run_candidate_curve_w12(\n            {\"module\": \"null\", \"fn\": \"random_signal\",\n             \"sig_params\": {\"p_on\": p_on0b}, \"axis\": ax0b,\n             \"candidate_id\": \"W12-NULL-0000\", \"family\": \"NULL\"},\n            None, frames3, P3, st3, gate_state=gs3, vol_state=vs3,\n            yang_state=ys3, vconf_state=cs3, streak_state=sk3,\n            tstate_state=ts3, amp_state=as3, mom_state=ms3,\n            std_state=ss3, rsqr_state=rq3, rng_matrix=mat0b, p_on=p_on0b)"
+  },
+  {
+   "line": 2731,
+   "kind": "sub1",
+   "what": "L15b check",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 377,
+   "new_len": 401,
+   "added_lines": [
+    "    _ok(\"L15b null-cell engine path: fifteen-tuple null draw \"",
+    "        \"deterministic + rsqr axis in-domain + engine 16-tuple return \"",
+    "        and list(eqn.values) == list(eqnb.values) and mzn == mznb",
+    "        and rzn == rznb)"
+   ],
+   "removed_lines": [
+    "    _ok(\"L15b null-cell engine path: fourteen-tuple null draw \"",
+    "        \"deterministic + mom axis in-domain + engine 14-tuple return \"",
+    "        and list(eqn.values) == list(eqnb.values) and mzn == mznb)"
+   ],
+   "new_text": "    _ok(\"L15b null-cell engine path: fifteen-tuple null draw \"\n        \"deterministic + rsqr axis in-domain + engine 16-tuple return \"\n        \"+ double-run byte-identity (screen null-family path)\",\n        p_on0 == p_on0b and ax0 == ax0b and mom_dom\n        and len(eqn) == len(P3[\"close\"].index) and mzn >= 0\n        and list(eqn.values) == list(eqnb.values) and mzn == mznb\n        and rzn == rznb)"
+  },
+  {
+   "line": 2749,
+   "kind": "sub1",
+   "what": "L15c",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 607,
+   "new_len": 630,
+   "added_lines": [
+    "    _ok(\"L15c screen CSV contract carries the mom+std+rsqr columns in the \"",
+    "        \"frozen order (cell_id/candidate_id head + rsqr pair before \"",
+    "        csv_cols_screen_w12[:2] == [\"cell_id\", \"candidate_id\"]",
+    "        and csv_cols_screen_w12[-3:] == [\"rsqr_face\", \"rsqr_zeroed\",",
+    "        and \"mom_face\" in csv_cols_screen_w12",
+    "             \"mom_zeroed\", \"std_zeroed\", \"rsqr_zeroed\"} <= set(csv_cols_screen_w12))"
+   ],
+   "removed_lines": [
+    "    _ok(\"L15c screen CSV contract carries the mom+std columns in the \"",
+    "        \"frozen order (cell_id/candidate_id head + std pair before \"",
+    "        csv_cols_screen_w11[:2] == [\"cell_id\", \"candidate_id\"]",
+    "        and csv_cols_screen_w11[-3:] == [\"std_face\", \"std_zeroed\",",
+    "        and \"mom_face\" in csv_cols_screen_w11",
+    "             \"mom_zeroed\", \"std_zeroed\"} <= set(csv_cols_screen_w11))"
+   ],
+   "new_text": "    _ok(\"L15c screen CSV contract carries the mom+std+rsqr columns in the \"\n        \"frozen order (cell_id/candidate_id head + rsqr pair before \"\n        \"survives_screen)\",\n        csv_cols_screen_w12[:2] == [\"cell_id\", \"candidate_id\"]\n        and csv_cols_screen_w12[-3:] == [\"rsqr_face\", \"rsqr_zeroed\",\n                                         \"survives_screen\"]\n        and \"mom_face\" in csv_cols_screen_w12\n        and {\"gate_zeroed\", \"vol_zeroed\", \"yang_zeroed\", \"vconf_zeroed\",\n             \"streak_zeroed\", \"tstate_zeroed\", \"amp_zeroed\",\n             \"mom_zeroed\", \"std_zeroed\", \"rsqr_zeroed\"} <= set(csv_cols_screen_w12))"
+  },
+  {
+   "line": 2777,
+   "kind": "sub1",
+   "what": "selftest scope print",
+   "n_expected": 1,
+   "old_in_w12_src": false,
+   "new_in_w12_src": true,
+   "old_len": 451,
+   "new_len": 448,
+   "added_lines": [
+    "          f\"(scope: W12 rsqr layer + G-RSQR + fifteen-tuple grammar \"",
+    "          f\"draw / 24-source exclusion loader + funnel faces: dispatch \""
+   ],
+   "removed_lines": [
+    "          f\"(scope: slice-1 mom layer + G-MOM + fourteen-tuple grammar \"",
+    "          f\"draw / 20-source exclusion loader + funnel faces: dispatch \""
+   ],
+   "new_text": "    print(f\"\\nselftest: {n_pass}/{n_leg} PASS \"\n          f\"(scope: W12 rsqr layer + G-RSQR + fifteen-tuple grammar \"\n          f\"+ machinery: effective mask / curve runner parity / null \"\n          f\"draw / 24-source exclusion loader + funnel faces: dispatch \"\n          f\"/ null-cell engine path / CSV contract + pit-95 finalize \"\n          f\"idempotency guard state-adaptive legs; zero live cells \"\n          f\"burned, zero numbers fabricated)\")"
+  }
+ ],
+ "verdict": "PARTIAL: 2 miss + 0 unfolded need live-file re-reads before section build",
+ "note": "W13 sections 11-15 build law (r464): old anchors = these verified texts (== live src); new payloads = old + sumn-leg append mirroring the added_lines rsqr->sumn (axis[15]/SU/uz/gvvvsktsamsrs/G-SUMN/sumn_state/sqf; kit facts dec 3363 open 387 sumn10 368 nine-gate 103/409 slope 387/0 mirror 387-0-xor; W13 berths 20323000/20323500/20324000; 17-tuple return +sumn_zeroed)."
+}

@@ -1027,6 +1027,23 @@ def sec10_mask_curve_null(src, steps):
     return src
 
 
+def sec11_generate(src, steps):
+    src = sub1(src, '    """Frozen prereg sec.3 generate stage (W11 cmd_generate caliber on\n    the FIFTEEN-tuple face): per-slot Sobol streams consumed in global\n    round-robin -> 24-source exclusion -> T-84s3 dedup gate on the\n    effective signal face (gate + vol + yang + vconf + streak + tstate\n    + amp + MOM + STD overlays applied, frozen composition order) ->\n    w12_candidates.json + grammar ledger wave-12 row.  Zero engine cells\n    burned."""', '    """Frozen prereg sec.3 generate stage (W12 cmd_generate caliber on\n    the SIXTEEN-tuple face): per-slot Sobol streams consumed in global\n    round-robin -> 25-source exclusion -> T-84s3 dedup gate on the\n    effective signal face (gate + vol + yang + vconf + streak + tstate\n    + amp + MOM + STD + RSQR overlays applied, frozen composition\n    order) -> w13_candidates.json + grammar ledger wave-13 row.  Zero\n    engine cells burned."""', 'generate docstring')
+    src = sub1(src, '    std_state, std_err = _std_state_full()\n    if std_err:\n        print(f"GENERATE-GATE: {std_err} (prereg sec.2 G-STD "\n              "fail-closed) -- refuse")\n        return 2\n    rsqr_state, rsqr_err = _rsqr_state_full()\n    if rsqr_err:\n        print(f"GENERATE-GATE: {rsqr_err} (prereg sec.2 G-RSQR "\n              "fail-closed) -- refuse")\n        return 2', '    std_state, std_err = _std_state_full()\n    if std_err:\n        print(f"GENERATE-GATE: {std_err} (prereg sec.2 G-STD "\n              "fail-closed) -- refuse")\n        return 2\n    rsqr_state, rsqr_err = _rsqr_state_full()\n    if rsqr_err:\n        print(f"GENERATE-GATE: {rsqr_err} (prereg sec.2 G-RSQR "\n              "fail-closed) -- refuse")\n        return 2\n    sumn_state, sumn_err = _sumn_state_full()\n    if sumn_err:\n        print(f"GENERATE-GATE: {sumn_err} (prereg sec.2 G-SUMN "\n              "fail-closed) -- refuse")\n        return 2', 'G-RSQR gate')
+    src = sub1(src, '               ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face"]', '               ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_none_face"]', 'neg_fns key')
+    src = sub1(src, '        S = _effective_signal_mask_w12(mask, prices, cand["axis"][4], atr20,\n                                      cand["axis"][5], cand["axis"][6],\n                                      cand["axis"][7], cand["axis"][8],\n                                      cand["axis"][9], cand["axis"][10],\n                                      cand["axis"][11], cand["axis"][12],\n                                      cand["axis"][13], cand["axis"][14],\n                                      gate_state, vol_state, yang_state,\n                                      vconf_state, streak_state,\n                                      tstate_state, amp_state, mom_state,\n                                      std_state, rsqr_state)', '        S = _effective_signal_mask_w13(mask, prices, cand["axis"][4], atr20,\n                                      cand["axis"][5], cand["axis"][6],\n                                      cand["axis"][7], cand["axis"][8],\n                                      cand["axis"][9], cand["axis"][10],\n                                      cand["axis"][11], cand["axis"][12],\n                                      cand["axis"][13], cand["axis"][14],\n                                      cand["axis"][15],\n                                      gate_state, vol_state, yang_state,\n                                      vconf_state, streak_state,\n                                      tstate_state, amp_state, mom_state,\n                                      std_state, rsqr_state,\n                                      sumn_state)', 'generate mask call')
+    src = sub1(src, '    mom_counts, std_counts = {}, {}\n    rsqr_counts = {}\n    gvvvsktsam_counts = {}', '    mom_counts, std_counts = {}, {}\n    rsqr_counts = {}\n    sumn_counts = {}\n    gvvvsktsam_counts = {}', 'counts init')
+    src = sub1(src, '        std_counts[c["axis"][13]] = std_counts.get(c["axis"][13], 0) + 1\n        rsqr_counts[c["axis"][14]] = rsqr_counts.get(c["axis"][14], 0) + 1\n        k10 = (f"{c[\'axis\'][5]}|{c[\'axis\'][6]}|{c[\'axis\'][7]}|"\n              f"{c[\'axis\'][8]}|{c[\'axis\'][9]}|{c[\'axis\'][10]}|"\n              f"{c[\'axis\'][11]}|{c[\'axis\'][12]}|{c[\'axis\'][13]}|"\n              f"{c[\'axis\'][14]}")\n        gvvvsktsam_counts[k10] = gvvvsktsam_counts.get(k10, 0) + 1', '        std_counts[c["axis"][13]] = std_counts.get(c["axis"][13], 0) + 1\n        rsqr_counts[c["axis"][14]] = rsqr_counts.get(c["axis"][14], 0) + 1\n        sumn_counts[c["axis"][15]] = sumn_counts.get(c["axis"][15], 0) + 1\n        k11 = (f"{c[\'axis\'][5]}|{c[\'axis\'][6]}|{c[\'axis\'][7]}|"\n              f"{c[\'axis\'][8]}|{c[\'axis\'][9]}|{c[\'axis\'][10]}|"\n              f"{c[\'axis\'][11]}|{c[\'axis\'][12]}|{c[\'axis\'][13]}|"\n              f"{c[\'axis\'][14]}|{c[\'axis\'][15]}")\n        gvvvsktsam_counts[k11] = gvvvsktsam_counts.get(k11, 0) + 1', 'counts loop')
+    src = sub1(src, '                                     "amp, mom, std, rsqr); exclusion face "\n                                     "= rsqr=none only (sec.1); prior-wave "\n                                     "keys rsqr=none-completed; rsqr in "\n                                     "{rsqr20_hi, rsqr10_hi} = "\n                                     "new-syntax legal cells"},', '                                     "amp, mom, std, rsqr, sumn); exclusion "\n                                     "face = sumn=none only (sec.1); prior-wave "\n                                     "keys sumn=none-completed; sumn in "\n                                     "{sumn20_lo, sumn10_lo} = "\n                                     "new-syntax legal cells"},', 'excl note')
+    src = sub1(src, '"+ MOM + STD overlays applied, frozen "', '"+ MOM + STD + RSQR overlays applied, frozen "', 'dedup note')
+    src = sub1(src, '               "std_face_counts": std_counts,\n               "rsqr_face_counts": rsqr_counts,\n               "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_face_"\n               "counts":\n                   gvvvsktsam_counts,', '               "std_face_counts": std_counts,\n               "rsqr_face_counts": rsqr_counts,\n               "sumn_face_counts": sumn_counts,\n               "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_"\n               "face_counts":\n                   gvvvsktsam_counts,', 'payload counts')
+    src = sub1(src, '               "std_state_meta": std_state[2],\n               "rsqr_state_meta": rsqr_state[2],', '               "std_state_meta": std_state[2],\n               "rsqr_state_meta": rsqr_state[2],\n               "sumn_state_meta": sumn_state[2],', 'payload metas')
+    src = sub1(src, '                         "seed_berth_note": "berths 20320500/"\n                         "20321000/20321500 held at the freeze commit "\n                         "(bm-b r444 three-step re-verify ALL GREEN, "\n                         "no re-pick; R250 one-step law; berth-open adoption "\n                         "of the bm-a r447 RSQR candidate whole package "\n                         "per AMP->W9/MOM->W10/STD->W11 adoption lineage)",', '                         "seed_berth_note": "berths 20323000/"\n                         "20323500/20324000 held at the freeze commit "\n                         "(bm-a r461 three-step re-verify ALL GREEN, "\n                         "no re-pick; R250 one-step law; berth-open adoption "\n                         "of the bm-a r456 SUMN candidate whole package "\n                         "per AMP->W9/MOM->W10/STD->W11/RSQR->W12 adoption lineage)",', 'berth note')
+    src = sub1(src, '           f"(std faces {json.dumps(std_counts, sort_keys=True)}; "\n           f"rsqr faces {json.dumps(rsqr_counts, sort_keys=True)}; "\n           f"gate x vol x yang x vconf x streak x tstate x amp x mom "\n           f"x std x rsqr {json.dumps(gvvvsktsam_counts, sort_keys=True)}) "', '           f"(std faces {json.dumps(std_counts, sort_keys=True)}; "\n           f"rsqr faces {json.dumps(rsqr_counts, sort_keys=True)}; "\n           f"sumn faces {json.dumps(sumn_counts, sort_keys=True)}; "\n           f"gate x vol x yang x vconf x streak x tstate x amp x mom "\n           f"x std x rsqr x sumn {json.dumps(gvvvsktsam_counts, sort_keys=True)}) "', 'ledger row')
+    src = sub1(src, '           f"TRIAL-LABOR-W12-GENERATE, T-124 prereg bm-b r444 frozen / "\n           f"runner bm-b r445) | "', '           f"TRIAL-LABOR-W13-GENERATE, T-125 prereg bm-a r461 frozen / "\n           f"runner bm-a r465) | "', 'ledger pool row')
+    src = sub1(src, '    print(f"mom faces: {json.dumps(mom_counts, sort_keys=True)}; "\n          f"std faces: {json.dumps(std_counts, sort_keys=True)}; "\n          f"rsqr faces: {json.dumps(rsqr_counts, sort_keys=True)}; "\n          f"gate x vol x yang x vconf x streak x tstate x amp x mom x "\n          f"std x rsqr: "\n          f"{json.dumps(gvvvsktsam_counts, sort_keys=True)[:400]}")', '    print(f"mom faces: {json.dumps(mom_counts, sort_keys=True)}; "\n          f"std faces: {json.dumps(std_counts, sort_keys=True)}; "\n          f"rsqr faces: {json.dumps(rsqr_counts, sort_keys=True)}; "\n          f"sumn faces: {json.dumps(sumn_counts, sort_keys=True)}; "\n          f"gate x vol x yang x vconf x streak x tstate x amp x mom x "\n          f"std x rsqr x sumn: "\n          f"{json.dumps(gvvvsktsam_counts, sort_keys=True)[:400]}")', 'generate print')
+    steps.append("generate: G-SUMN gate + sixteen-tuple dedup + counts")
+    return src
 def main() -> int:
     src = open(SRC, encoding="utf-8").read()
     steps = []
@@ -1040,6 +1057,7 @@ def main() -> int:
     src = sec8_exclusion_loader(src, steps)
     src = sec9_excluded(src, steps)
     src = sec10_mask_curve_null(src, steps)
+    src = sec11_generate(src, steps)
     open(DST, "w", encoding="utf-8", newline="\n").write(src)
     py_compile.compile(DST, doraise=True)
     anchor = KIT.build_sumn_anchor()
@@ -1049,7 +1067,6 @@ def main() -> int:
         "partial": True,
         "sections_landed": steps,
         "sections_pending": [
-            "11 generate: G-SUMN gate + sixteen-tuple dedup + counts",
             "12 screen slice: csv/cell/prep/shard/finalize sumn wiring",
             "13 judge slice: prep/cell/finalize sumn wiring",
             "14 selftest: sixteen-tuple faces (L6/L7g/L7i/L8/L9/L10/"
@@ -1072,8 +1089,8 @@ def main() -> int:
                 anchor["slope_sign_split"]["up_slope_days"],
                 anchor["slope_sign_split"]["down_slope_days"]),
         },
-        "next": ("r465: extend surgeon sections 11-15 (generate/"
-                 "screen/judge/selftest/residual) reading the actual "
+        "next": ("r466: extend surgeon sections 12-15 (screen/"
+                 "judge/selftest/residual) reading the actual "
                  "w12 sections from scripts/trial_labor_w12.py lines "
                  "1741-4913, re-run from SRC fresh (idempotent), then "
                  "r446 three-command identity face -> selftest -> "
@@ -1081,7 +1098,7 @@ def main() -> int:
     }
     json.dump(report, open(REPORT, "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
-    print("SURGEON-OK: sections 1-10 landed, draft written, py_compile "
+    print("SURGEON-OK: sections 1-11 landed, draft written, py_compile "
           "PASS")
     for s in steps:
         print("  + " + s)

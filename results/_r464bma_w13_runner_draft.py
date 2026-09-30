@@ -1883,13 +1883,13 @@ def cmd_status() -> int:
 
 # -------------------------------------------------- generate slice (s1)
 def cmd_generate() -> int:
-    """Frozen prereg sec.3 generate stage (W11 cmd_generate caliber on
-    the FIFTEEN-tuple face): per-slot Sobol streams consumed in global
-    round-robin -> 24-source exclusion -> T-84s3 dedup gate on the
+    """Frozen prereg sec.3 generate stage (W12 cmd_generate caliber on
+    the SIXTEEN-tuple face): per-slot Sobol streams consumed in global
+    round-robin -> 25-source exclusion -> T-84s3 dedup gate on the
     effective signal face (gate + vol + yang + vconf + streak + tstate
-    + amp + MOM + STD overlays applied, frozen composition order) ->
-    w12_candidates.json + grammar ledger wave-12 row.  Zero engine cells
-    burned."""
+    + amp + MOM + STD + RSQR overlays applied, frozen composition
+    order) -> w13_candidates.json + grammar ledger wave-13 row.  Zero
+    engine cells burned."""
     t0 = time.time()
     print(f"=== {WAVE} generate (prereg FROZEN {PREREG}) ===")
     if os.path.exists(CANDIDATES_FILE):
@@ -1981,10 +1981,15 @@ def cmd_generate() -> int:
         print(f"GENERATE-GATE: {rsqr_err} (prereg sec.2 G-RSQR "
               "fail-closed) -- refuse")
         return 2
+    sumn_state, sumn_err = _sumn_state_full()
+    if sumn_err:
+        print(f"GENERATE-GATE: {sumn_err} (prereg sec.2 G-SUMN "
+              "fail-closed) -- refuse")
+        return 2
     excl_rows, excl_disc = _load_exclusion_rows_w12(grammar)
     neg_fns = {(e["module"], e["fn"])
                for e in grammar["exclusion"]
-               ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face"]
+               ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_none_face"]
                if str(e.get("face", "")).startswith("negative")}
 
     # ---- draws: per-slot Sobol streams consumed in global round-robin
@@ -2033,16 +2038,18 @@ def cmd_generate() -> int:
                             columns=close.columns).fillna(0)
         mask = tl1.apply_filter(mask, cand["axis"][0], P, fundamental_ok)
         mask = tl1.apply_timing(mask, cand["axis"][3])
-        S = _effective_signal_mask_w12(mask, prices, cand["axis"][4], atr20,
+        S = _effective_signal_mask_w13(mask, prices, cand["axis"][4], atr20,
                                       cand["axis"][5], cand["axis"][6],
                                       cand["axis"][7], cand["axis"][8],
                                       cand["axis"][9], cand["axis"][10],
                                       cand["axis"][11], cand["axis"][12],
                                       cand["axis"][13], cand["axis"][14],
+                                      cand["axis"][15],
                                       gate_state, vol_state, yang_state,
                                       vconf_state, streak_state,
                                       tstate_state, amp_state, mom_state,
-                                      std_state, rsqr_state)
+                                      std_state, rsqr_state,
+                                      sumn_state)
         fps.append(tl1._fingerprint(S))
         series.append(tl1._naive_returns(S, close).values)
         del mask, S
@@ -2091,6 +2098,7 @@ def cmd_generate() -> int:
     streak_counts, tstate_counts, amp_counts = {}, {}, {}
     mom_counts, std_counts = {}, {}
     rsqr_counts = {}
+    sumn_counts = {}
     gvvvsktsam_counts = {}
     for c in distinct:
         gate_counts[c["axis"][5]] = gate_counts.get(c["axis"][5], 0) + 1
@@ -2105,11 +2113,12 @@ def cmd_generate() -> int:
         mom_counts[c["axis"][12]] = mom_counts.get(c["axis"][12], 0) + 1
         std_counts[c["axis"][13]] = std_counts.get(c["axis"][13], 0) + 1
         rsqr_counts[c["axis"][14]] = rsqr_counts.get(c["axis"][14], 0) + 1
-        k10 = (f"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|"
+        sumn_counts[c["axis"][15]] = sumn_counts.get(c["axis"][15], 0) + 1
+        k11 = (f"{c['axis'][5]}|{c['axis'][6]}|{c['axis'][7]}|"
               f"{c['axis'][8]}|{c['axis'][9]}|{c['axis'][10]}|"
               f"{c['axis'][11]}|{c['axis'][12]}|{c['axis'][13]}|"
-              f"{c['axis'][14]}")
-        gvvvsktsam_counts[k10] = gvvvsktsam_counts.get(k10, 0) + 1
+              f"{c['axis'][14]}|{c['axis'][15]}")
+        gvvvsktsam_counts[k11] = gvvvsktsam_counts.get(k11, 0) + 1
 
     # D6 disclosure column (naive face; prereg sec.1 per-cell max|corr|)
     reg_series = tl2._registered_naive_series(P, grammar)
@@ -2143,10 +2152,10 @@ def cmd_generate() -> int:
                              "note": "cell key=(template, params, "
                                      "axis_config, initial_stop, gate, "
                                      "vol, yang, vconf, streak, tstate, "
-                                     "amp, mom, std, rsqr); exclusion face "
-                                     "= rsqr=none only (sec.1); prior-wave "
-                                     "keys rsqr=none-completed; rsqr in "
-                                     "{rsqr20_hi, rsqr10_hi} = "
+                                     "amp, mom, std, rsqr, sumn); exclusion "
+                                     "face = sumn=none only (sec.1); prior-wave "
+                                     "keys sumn=none-completed; sumn in "
+                                     "{sumn20_lo, sumn10_lo} = "
                                      "new-syntax legal cells"},
                "dedup": {"raw": len(candidates), "distinct": len(distinct),
                          "fingerprint_collapse_groups": fp_collapsed,
@@ -2154,7 +2163,7 @@ def cmd_generate() -> int:
                          "note": "dedup legs on the generate-stage "
                                  "effective signal face (gate + vol + "
                                  "yang + vconf + streak + tstate + AMP "
-                                 "+ MOM + STD overlays applied, frozen "
+                                 "+ MOM + STD + RSQR overlays applied, frozen "
                                  "composition order; naive-hold "
                                  "returns, zero engine burn); engine "
                                  "faces run at screen (W1 precedent)"},
@@ -2169,8 +2178,9 @@ def cmd_generate() -> int:
                "mom_face_counts": mom_counts,
                "std_face_counts": std_counts,
                "rsqr_face_counts": rsqr_counts,
-               "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_face_"
-               "counts":
+               "sumn_face_counts": sumn_counts,
+               "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_"
+               "face_counts":
                    gvvvsktsam_counts,
                "gate_state_meta": gate_state[2],
                "vol_state_meta": vol_state[2],
@@ -2182,6 +2192,7 @@ def cmd_generate() -> int:
                "mom_state_meta": mom_state[2],
                "std_state_meta": std_state[2],
                "rsqr_state_meta": rsqr_state[2],
+               "sumn_state_meta": sumn_state[2],
                "d6_disclosure": {
                    "max_corr_vs_registered_naive": "per-cell column; "
                    "naive-face caliber (dedup byproduct); D6 binding gate "
@@ -2192,12 +2203,12 @@ def cmd_generate() -> int:
                          "gate-vol-yang-vconf-streak-tstate-amp-mom-"
                          "none exclusion faces (face derivation is "
                          "mechanical)",
-                         "seed_berth_note": "berths 20320500/"
-                         "20321000/20321500 held at the freeze commit "
-                         "(bm-b r444 three-step re-verify ALL GREEN, "
+                         "seed_berth_note": "berths 20323000/"
+                         "20323500/20324000 held at the freeze commit "
+                         "(bm-a r461 three-step re-verify ALL GREEN, "
                          "no re-pick; R250 one-step law; berth-open adoption "
-                         "of the bm-a r447 RSQR candidate whole package "
-                         "per AMP->W9/MOM->W10/STD->W11 adoption lineage)",
+                         "of the bm-a r456 SUMN candidate whole package "
+                         "per AMP->W9/MOM->W10/STD->W11/RSQR->W12 adoption lineage)",
                          "note": "Sobol per-slot streams in global "
                                  "round-robin; deterministic pre-burn "
                                  "stage; same-grammar rerun still FORBIDDEN "
@@ -2214,13 +2225,14 @@ def cmd_generate() -> int:
            f"{sum(excl_hits.values())}) | dedup -> {len(distinct)} "
            f"(std faces {json.dumps(std_counts, sort_keys=True)}; "
            f"rsqr faces {json.dumps(rsqr_counts, sort_keys=True)}; "
+           f"sumn faces {json.dumps(sumn_counts, sort_keys=True)}; "
            f"gate x vol x yang x vconf x streak x tstate x amp x mom "
-           f"x std x rsqr {json.dumps(gvvvsktsam_counts, sort_keys=True)}) "
+           f"x std x rsqr x sumn {json.dumps(gvvvsktsam_counts, sort_keys=True)}) "
            f"| seeds gen={SEED_GEN} null={SEED_NULL} unc={SEED_UNC} | "
            f"serialized {ser_ts} + consumed "
            f"{time.strftime('%Y-%m-%d %H:%M:%S')} (pool "
-           f"TRIAL-LABOR-W12-GENERATE, T-124 prereg bm-b r444 frozen / "
-           f"runner bm-b r445) | "
+           f"TRIAL-LABOR-W13-GENERATE, T-125 prereg bm-a r461 frozen / "
+           f"runner bm-a r465) | "
            f"same-grammar rerun FORBIDDEN (TRIAL_LABOR_LAW sec.4) |\n")
     os.makedirs(os.path.dirname(GRAMMAR_LEDGER), exist_ok=True)
     if not os.path.exists(GRAMMAR_LEDGER):
@@ -2239,8 +2251,9 @@ def cmd_generate() -> int:
     print(f"mom faces: {json.dumps(mom_counts, sort_keys=True)}; "
           f"std faces: {json.dumps(std_counts, sort_keys=True)}; "
           f"rsqr faces: {json.dumps(rsqr_counts, sort_keys=True)}; "
+          f"sumn faces: {json.dumps(sumn_counts, sort_keys=True)}; "
           f"gate x vol x yang x vconf x streak x tstate x amp x mom x "
-          f"std x rsqr: "
+          f"std x rsqr x sumn: "
           f"{json.dumps(gvvvsktsam_counts, sort_keys=True)[:400]}")
     print(f"mom meta: n_bars={mom_state[2]['n_bars']} "
           f"open={mom_state[2]['open_days']} "

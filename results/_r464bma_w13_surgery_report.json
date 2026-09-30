@@ -12,10 +12,10 @@
   "Sobol: sixteen-tuple stream (sumn leg appends after rsqr)",
   "exclusion: 25 real-read faces, w12 screen+judge sources (tl12), pads +1 sumn-none all waves",
   "_excluded: axis[15] sumn=none face law",
-  "mask/curve/null: sumn leg wiring (axis[15], composition +SUMN, SU chain, sumn_zeroed return)"
+  "mask/curve/null: sumn leg wiring (axis[15], composition +SUMN, SU chain, sumn_zeroed return)",
+  "generate: G-SUMN gate + sixteen-tuple dedup + counts"
  ],
  "sections_pending": [
-  "11 generate: G-SUMN gate + sixteen-tuple dedup + counts",
   "12 screen slice: csv/cell/prep/shard/finalize sumn wiring",
   "13 judge slice: prep/cell/finalize sumn wiring",
   "14 selftest: sixteen-tuple faces (L6/L7g/L7i/L8/L9/L10/L12/L13/L14/L15/L16)",
@@ -32,5 +32,5 @@
   "nine_gate_512cells_empty_count": 409,
   "slope_split": "387/0"
  },
- "next": "r465: extend surgeon sections 11-15 (generate/screen/judge/selftest/residual) reading the actual w12 sections from scripts/trial_labor_w12.py lines 1741-4913, re-run from SRC fresh (idempotent), then r446 three-command identity face -> selftest -> formal land"
+ "next": "r466: extend surgeon sections 12-15 (screen/judge/selftest/residual) reading the actual w12 sections from scripts/trial_labor_w12.py lines 1741-4913, re-run from SRC fresh (idempotent), then r446 three-command identity face -> selftest -> formal land"
 }
