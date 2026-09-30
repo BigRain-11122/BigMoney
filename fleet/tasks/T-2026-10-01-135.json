@@ -1,0 +1,10 @@
+{
+ "id": "T-2026-10-01-135",
+ "priority": "P2",
+ "type": "bonsai-gpu-tier-reverify",
+ "spec": "Group decision D-20261001-02 dispatch (executed-by=BigMoney, self-claimed night-window): re-run bm-a 4070S GPU-tier Bonsai benchmark verification (tg128 tok/s co-residency measurement, T-99/T-100 dual-ticket protocol per R-20260928-bonsai-fleet-trial sec.5) during a genuine night window when the GPU is NOT occupied by the three editors + 7b serve (yield law D-20260930-04(3)). Trigger condition: gpu_free_vram_mb >= 9000 (i.e. current occupants released) at round start. Evidence: results json + one row in the fleet trial report comparison table. NOT a new direction -- group decision dispatch, GM authority sufficient (D-20261001-02 executed-by=BigMoney).",
+ "status": "open",
+ "created_by": "bm-a OS loop r496 (group face D-19 fresh-read dispatch consumption)",
+ "created_at": "2026-10-01T01:30:00+08:00",
+ "note": "D-20261001-02 receipt: dispatched to BigMoney as self-claim with night-window scheduling; queued as ticket so the re-verify does not get lost across rounds. Round-start GPU-idle probe = trigger check (cheap, no burn)."
+}
