@@ -1,12 +1,12 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T04:18:54+08:00",
+  "generated_at": "2026-10-01T07:12:47+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
   "universe_size": 76,
   "summary": {
-    "single_core": 38,
-    "multiprocess": 38
+    "single_core": 37,
+    "multiprocess": 39
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
@@ -27,7 +27,6 @@
       "scripts/decision_chain_v3_tournament.py",
       "scripts/gpu_factor_matrix.py",
       "scripts/grid_dualface_backtest.py",
-      "scripts/grid_p1_screen.py",
       "scripts/innovation_quota_w1.py",
       "scripts/innovation_quota_w10.py",
       "scripts/innovation_quota_w2.py",
@@ -653,10 +652,23 @@
     "scripts/grid_p1_screen.py": {
       "path": "scripts/grid_p1_screen.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 66,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap  # O-2355 s2 face"
+        },
+        {
+          "line": 529,
+          "text": "res = run_cells_parallel("
+        },
+        {
+          "line": 562,
+          "text": "res = run_cells_parallel("
+        }
+      ],
       "main_guard": true,
-      "size_bytes": 33127,
+      "size_bytes": 39645,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -1352,16 +1364,16 @@
       "verdict": "multiprocess",
       "evidence": [
         {
-          "line": 2877,
+          "line": 2909,
           "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
         },
         {
-          "line": 3883,
+          "line": 3915,
           "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
         }
       ],
       "main_guard": true,
-      "size_bytes": 269993,
+      "size_bytes": 271718,
       "pool_entry_count": 1,
       "pool_statuses": {
         "waiting": 1

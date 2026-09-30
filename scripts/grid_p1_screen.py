@@ -37,6 +37,15 @@ Hard gates (any FAIL = batch VOID, exit 2, no verdicts): patch self-test,
 resume (t22 law) for cells + nulls; finalize reads the checkpoint file,
 never in-memory state (T-33 law).
 
+Multicore face (O-2026-09-30-2355 s2 conversion, T-134): cells + 100
+nulls burn via scripts/parallel_runner.py ProcessPool -- shared panel
+ships once per worker through the initializer, on_result appends each
+checkpoint row the moment its future lands (r340 incremental-persistence
+law); anchors stay serial (6 member reruns, member files); audit.workers
+carries the pool truth. Determinism: per-job seed streams are independent
+of scheduling, so pooled output is bit-identical to the serial burn
+(proven by the selftest S-mp parity legs on the exact task functions).
+
 Usage: python scripts/grid_p1_screen.py run | selftest
 Products: results/grid_p1.json + research/grid_p1_results.csv
 + gate_attrition row + trials-ledger append (finalize, single-shot guard).
@@ -53,6 +62,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import numpy as np
 import pandas as pd
+
+from parallel_runner import run_cells_parallel, worker_cap  # O-2355 s2 face
 
 TICKET = "T-2026-09-25-40"
 PREREG_PATH = os.path.join("research", "GRID_P1.md")
@@ -135,6 +146,47 @@ def run_cell(prices, idx, entry, exit_, params, ce, cost_mult=None):
             "oos_trades": oos_ts}
 
 
+# ------------------------------------------------- multicore pool face (s2)
+# O-2026-09-30-2355 s2 conversion (bm-c r305, T-134): cells + 100 nulls
+# burn via ProcessPool (parallel_runner). Shared inputs ship ONCE per
+# worker through the initializer (w8/ems idiom -- never closures); task
+# fns are top-level picklable. Determinism: every job's result depends
+# only on its own (regime, k) seed stream, results keyed by job key and
+# independent of scheduling -> pooled output bit-identical to serial
+# (selftest S-mp parity legs prove the identity on the exact task fns).
+_POOL_CTX = {}
+
+
+def _init_pool_ctx(prices, idx, syms, entry, exit_):
+    _POOL_CTX.clear()
+    _POOL_CTX.update(prices=prices, idx=idx, syms=syms,
+                     entry=entry, exit_=exit_)
+
+
+def _cell_task(ce, mult):
+    """Pooled cell burn; per-cell error captured as a row (serial law)."""
+    try:
+        r = run_cell(_POOL_CTX["prices"], _POOL_CTX["idx"],
+                     _POOL_CTX["entry"], _POOL_CTX["exit_"], SIZING,
+                     ce, mult)
+        return {"full": r["full"], "oos": r["oos"], "eq": r["eq"],
+                "n_trades": r["n_trades"], "n_entries": r["n_entries"],
+                "oos_trades": r["oos_trades"]}
+    except Exception as ex:
+        return {"_error": f"cell_error: {type(ex).__name__}: {ex}"}
+
+
+def _null_task(p, seed, ce):
+    """Pooled null burn. No error capture: a raising null propagates and
+    kills the run exactly like the serial loop did (checkpoint keeps the
+    rows already completed -- t22 resume law picks up on the next run)."""
+    idx, syms = _POOL_CTX["idx"], _POOL_CTX["syms"]
+    e = null_entry(idx, syms, p, seed)
+    r = run_cell(_POOL_CTX["prices"], idx, e, _false_panel(idx, syms),
+                 {}, ce)
+    return {"full": r["full"], "oos": r["oos"]}
+
+
 # ---------------------------------------------------------------- checkpoint
 
 def load_rows(path):
@@ -204,7 +256,7 @@ def anchor_ok_1x(t: dict, r1: dict) -> bool:
 # ------------------------------------------------------------------ finalize
 
 def finalize(cell_rows, verdict_cells, nulls, passive_rows, anchors, gates,
-             t0, void=False):
+             t0, void=False, workers=1):
     import science_gates as sg
     if os.path.exists(OUT_JSON) and os.environ.get("GRID_P1_REFINALIZE") != "1":
         print("finalize refused: OUT_JSON exists (single-shot guard; "
@@ -337,7 +389,12 @@ def finalize(cell_rows, verdict_cells, nulls, passive_rows, anchors, gates,
                                       if c.get("status") == "ok")
                                    + len(nulls.get("rows", []))
                                    + len(anchors.get("repro", []))),
-                  "workers": 1, "cpu_parallel": "serial (single-process)",
+                  "workers": int(workers),
+                  "cpu_parallel": (
+                      "ProcessPool via parallel_runner (cells+nulls, "
+                      "O-2026-09-30-2355 s2; anchors serial 6-run)"
+                      if int(workers) > 1 else
+                      "resume no-op / pool not spawned this run"),
                   "prereg_frozen_before_run": True},
     }
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
@@ -426,7 +483,8 @@ def cmd_run(_) -> int:
     entry = grid_channel_harvest(close, **GRID_PARAMS)
     exit_ = (entry <= 0)
 
-    # ---------- cells: 2 regimes x 2 cost faces (checkpointed) ----------
+    # ---------- cells: 2 regimes x 2 cost faces (checkpointed, pooled) --
+    cell_specs = []
     for ce in (False, True):
         regime = "ce" if ce else "default"
         for face, mult in (("x1", None), ("x2", 2.0)):
@@ -434,32 +492,50 @@ def cmd_run(_) -> int:
             if key in done:
                 _log(f"cell {key}: resume-skip")
                 continue
-            try:
-                r = run_cell(prices, idx, entry, exit_, SIZING, ce, mult)
-                row = {"key": key, "name": "grid_channel_harvest",
-                       "exit_regime": regime, "cost_face": face,
-                       "status": "ok",
-                       "full": {k: (round(float(v), 6)
-                                    if isinstance(v, (int, float)) else v)
-                                for k, v in r["full"].items()},
-                       "oos": {k: round(float(v), 6) for k, v in
-                               r["oos"].items()},
-                       "n_trades": r["n_trades"], "n_entries": r["n_entries"],
-                       "oos_trades": r["oos_trades"], "note": ""}
-                if face == "x1":
-                    rets = r["eq"].pct_change().dropna()
-                    row["_rets"] = [round(float(x), 8) for x in rets.to_numpy()]
-                    row["_eq_index"] = [str(d.date()) for d in r["eq"].index]
-                _append_row(row)
-                _log(f"cell {key}: s={r['full']['sharpe']:.4f} "
-                     f"entries={r['n_entries']} trades={r['n_trades']}")
-            except Exception as ex:
-                _append_row({"key": key, "exit_regime": regime,
-                             "cost_face": face,
-                             "status": f"cell_error: {type(ex).__name__}: {ex}"})
-                _log(f"cell {key}: ERROR {ex}")
+            cell_specs.append((key, regime, face, ce, mult))
 
-    # ---------- nulls: 50 per exit regime (checkpointed) ----------
+    def _cell_row(key, regime, face, r):
+        row = {"key": key, "name": "grid_channel_harvest",
+               "exit_regime": regime, "cost_face": face,
+               "status": "ok",
+               "full": {k: (round(float(v), 6)
+                            if isinstance(v, (int, float)) else v)
+                        for k, v in r["full"].items()},
+               "oos": {k: round(float(v), 6) for k, v in r["oos"].items()},
+               "n_trades": r["n_trades"], "n_entries": r["n_entries"],
+               "oos_trades": r["oos_trades"], "note": ""}
+        if face == "x1":
+            rets = r["eq"].pct_change().dropna()
+            row["_rets"] = [round(float(x), 8) for x in rets.to_numpy()]
+            row["_eq_index"] = [str(d.date()) for d in r["eq"].index]
+        return row
+
+    workers_used = 1
+    if cell_specs:
+        spec_by_key = {s[0]: s for s in cell_specs}
+
+        def _on_cell(key, payload):
+            s = spec_by_key[key]
+            if payload.get("_error"):
+                _append_row({"key": s[0], "exit_regime": s[1],
+                             "cost_face": s[2],
+                             "status": payload["_error"]})
+                _log(f"cell {s[0]}: ERROR {payload['_error']}")
+                return
+            _append_row(_cell_row(s[0], s[1], s[2], payload))
+            _log(f"cell {s[0]}: s={payload['full']['sharpe']:.4f} "
+                 f"entries={payload['n_entries']} trades={payload['n_trades']}")
+
+        res = run_cells_parallel(
+            [(s[0], _cell_task, (s[3], s[4])) for s in cell_specs],
+            workers=worker_cap(), desc="grid-p1-cells",
+            initializer=_init_pool_ctx,
+            initargs=(prices, idx, syms, entry, exit_),
+            on_result=_on_cell)
+        workers_used = max(workers_used, res.get("__workers__", 1))
+
+    # ---------- nulls: 50 per exit regime (checkpointed, pooled) --------
+    null_specs = []
     for ce in (False, True):
         regime = "ce" if ce else "default"
         for k in range(N_RAND):
@@ -468,17 +544,30 @@ def cmd_run(_) -> int:
             key = f"null|{regime}|{k}"
             if key in done:
                 continue
-            e = null_entry(idx, syms, p, seed)
-            r = run_cell(prices, idx, e, _false_panel(idx, syms), {}, ce)
-            _append_row({"key": key, "name": f"rand_{regime}_p{p}_s{k}",
-                         "exit_regime": regime, "status": "ok", "p": p,
-                         "seed": seed,
-                         "full": {"sharpe": round(float(r["full"]["sharpe"]), 6),
-                                  "annual_return": round(float(r["full"]["annual_return"]), 6),
-                                  "max_drawdown": round(float(r["full"]["max_drawdown"]), 6)},
+            null_specs.append((key, regime, p, seed, k, ce))
+    if null_specs:
+        spec_by_key = {s[0]: s for s in null_specs}
+
+        def _on_null(key, payload):
+            s = spec_by_key[key]
+            _append_row({"key": s[0], "name": f"rand_{s[1]}_p{s[2]}_s{s[4]}",
+                         "exit_regime": s[1], "status": "ok", "p": s[2],
+                         "seed": s[3],
+                         "full": {"sharpe": round(float(payload["full"]["sharpe"]), 6),
+                                  "annual_return": round(float(payload["full"]["annual_return"]), 6),
+                                  "max_drawdown": round(float(payload["full"]["max_drawdown"]), 6)},
                          "oos": {kk: round(float(vv), 6)
-                                 for kk, vv in r["oos"].items()}})
-        _log(f"nulls regime={regime}: checked {N_RAND}")
+                                 for kk, vv in payload["oos"].items()}})
+
+        res = run_cells_parallel(
+            [(s[0], _null_task, (s[2], s[3], s[5])) for s in null_specs],
+            workers=worker_cap(), desc="grid-p1-nulls",
+            initializer=_init_pool_ctx,
+            initargs=(prices, idx, syms, entry, exit_),
+            on_result=_on_null)
+        workers_used = max(workers_used, res.get("__workers__", 1))
+    for ce in (False, True):
+        _log(f"nulls regime={'ce' if ce else 'default'}: checked {N_RAND}")
 
     # ---------- rebuild from checkpoint (T-33 law: file, not memory) ------
     rows = load_rows(CELLS_PATH)
@@ -573,7 +662,7 @@ def cmd_run(_) -> int:
     gates["anchors_ok"] = True
     _log("all hard gates PASS -- finalizing")
     return finalize(cell_rows, verdict_cells, nulls, passive_rows, anchors,
-                    gates, t0)
+                    gates, t0, workers=workers_used)
 
 
 # ----------------------------------------------------------------- selftest
@@ -662,6 +751,58 @@ def cmd_selftest(_) -> int:
                                                        "sharpe": 0.5}}))
     finally:
         lp.seg_metrics = orig
+    # -- S-mp legs (O-2026-09-30-2355 s2; ems S18 idiom): pool identity on
+    #    synthetic fixtures -- inline task == spawn+pickle+initializer path
+    #    (bit-identical payloads), double-run determinism, worker-count face.
+    rng = np.random.default_rng(4242)
+    n_day = 300
+    syms_s = ["s%d" % j for j in range(6)]
+    sidx = pd.date_range("2023-01-02", periods=n_day, freq="B")
+    sprices = {}
+    for s in syms_s:
+        c = 10.0 * np.cumprod(1 + rng.normal(0, 0.012, n_day))
+        o = c * (1 + rng.normal(0, 0.004, n_day))
+        sprices[s] = pd.DataFrame(
+            {"open": o, "high": np.maximum(o, c) * 1.01,
+             "low": np.minimum(o, c) * 0.99, "close": c}, index=sidx)
+    s_entry = pd.DataFrame((rng.random((n_day, len(syms_s))) < 0.08)
+                           .astype(int), index=sidx, columns=syms_s)
+    s_exit = (s_entry <= 0)
+    _POOL_CTX.clear()
+    _POOL_CTX.update(prices=sprices, idx=sidx, syms=syms_s,
+                     entry=s_entry, exit_=s_exit)
+    inline_n0 = _null_task(0.05, 55_500, False)
+    inline_n1 = _null_task(0.05, 55_550, True)
+    inline_c0 = _cell_task(False, None)
+    res_p = run_cells_parallel(
+        [("n0", _null_task, (0.05, 55_500, False)),
+         ("n1", _null_task, (0.05, 55_550, True)),
+         ("c0", _cell_task, (False, None))],
+        workers=2, desc="s-mp", initializer=_init_pool_ctx,
+        initargs=(sprices, sidx, syms_s, s_entry, s_exit))
+    ok("S-mp worker count face", res_p.pop("__workers__") == 2)
+
+    def _canon(p):
+        return json.dumps(p, sort_keys=True, default=float)
+
+    ok("S-mp null task pool==inline (default exit)",
+       _canon(res_p["n0"]) == _canon(inline_n0))
+    ok("S-mp null task pool==inline (CE exit branch)",
+       _canon(res_p["n1"]) == _canon(inline_n1))
+    ok("S-mp cell task pool==inline (metrics + equity + trades)",
+       _canon({k: inline_c0[k] for k in ("full", "oos", "n_trades",
+                                         "n_entries", "oos_trades")})
+       == _canon({k: res_p["c0"][k] for k in ("full", "oos", "n_trades",
+                                              "n_entries", "oos_trades")})
+       and list(np.round(inline_c0["eq"].to_numpy(), 10))
+       == list(np.round(res_p["c0"]["eq"].to_numpy(), 10)))
+    again = run_cells_parallel(
+        [("n0", _null_task, (0.05, 55_500, False))], workers=1,
+        desc="s-mp2", initializer=_init_pool_ctx,
+        initargs=(sprices, sidx, syms_s, s_entry, s_exit))
+    ok("S-mp double-run determinism (re-pool == inline)",
+       _canon(again["n0"]) == _canon(inline_n0))
+    _POOL_CTX.clear()
     print("SELFTEST", "ALL PASS" if ok_all else "FAIL")
     return 0 if ok_all else 1
 
