@@ -1,10 +1,10 @@
 {
-  "ts": "2026-09-30T20:19:50",
-  "mode": "no-op: panel fresh",
+  "ts": "2026-09-30T21:09:15",
+  "mode": "refresh in progress (todo=5082/5229, quarantined=11, settled=0)",
   "panel": {
-    "complete": true,
-    "cutoff": "2026-09-29",
-    "universe_n": 5228,
+    "complete": false,
+    "cutoff": "2026-09-30",
+    "universe_n": 5229,
     "per_files": 5217
   },
   "claim": "T-2026-09-26-87-bm-b-astock-daily-collector",
@@ -19,36 +19,31 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 11,
-    "fetched": 11,
-    "appended": 1,
-    "readjusted": 0,
-    "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
-    "conn_stopped": false,
-    "elapsed_min": 0.9,
-    "vwap_anchor_max": 0.119501,
+    "todo": 5218,
+    "fetched": 136,
+    "appended": 135,
+    "readjusted": 1,
+    "readjusted_tail": [
+      "000062@1997-01-30"
+    ],
+    "failures_tail": [
+      "000016:conn:SSLError",
+      "000531:conn:SSLError",
+      "000565:conn:TimeoutError",
+      "000566:conn:TimeoutError",
+      "000567:conn:TimeoutError"
+    ],
+    "failures_n": 5,
+    "conn_stopped": true,
+    "elapsed_min": 19.8,
+    "vwap_anchor_max": 0.117104,
     "repull": false
   },
   "quarantined_n": 11,
-  "last_spawn_attempt": "2026-09-30T09:42:36",
+  "last_spawn_attempt": "2026-09-30T21:09:13",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 12,
-  "settled": [
-    "000016",
-    "002731",
-    "002860",
-    "300082",
-    "300527",
-    "301139",
-    "600293",
-    "600363",
-    "601059",
-    "601198",
-    "603400",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "no_op_reason": "panel fresh (cutoff 2026-09-29 >= expected 2026-09-29)"
 }

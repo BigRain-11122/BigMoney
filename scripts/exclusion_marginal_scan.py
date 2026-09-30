@@ -781,26 +781,47 @@ def run() -> int:
         start_months[y] = next(m for m, sp in enumerate(sig_pos) if sp >= p)
 
     stock_fee = kr.fee_schedule_for("600000")
-    cache: dict[str, tuple] = {}
 
-    def mkt(code: str) -> tuple:
-        if code not in cache:
-            df = pd.read_csv(os.path.join(PANEL_DIR, f"{code}.csv"),
-                             usecols=["date", "open", "close"])
-            df = df[df["date"] <= EVIDENCE_CUTOFF]
-            # drop rows outside the calendar face (pre-2005 listing history):
-            # unreachable for execution (signals 2007+, exec at signal+1) and
-            # bare cal_pos_of[d] would KeyError; cnt_full age face (feature pass)
-            # is computed on the UNTRUNCATED df -- frozen sec.2 full-history
-            # age250 semantics are NOT touched by this execution-array filter.
-            _keep = df["date"].astype(str).isin(cal_pos_of)
-            df = df[_keep]
-            mpos = np.array([cal_pos_of[d] for d in df["date"].astype(str)],
-                            dtype=np.int64)
-            opens = df["open"].to_numpy()
-            closes = df["close"].to_numpy()
-            cache[code] = (mpos, opens, closes, _ffill_np(mpos, closes, n_cal))
-        return cache[code]
+    class _Mkt:
+        """Lazy per-code market tuple map. r478 fix: r477 turned the prebuilt
+        dict into a lazy FUNCTION, but _sim_cell consumes dict-subscript
+        (mkt[c]) -- first cell died TypeError post-feature-pass. A __getitem__
+        class keeps the dict contract _sim_cell and the selftest fixtures
+        assert, while keeping the isin calendar filter (r477 fix B)."""
+
+        def __init__(self):
+            self.cache: dict[str, tuple] = {}
+
+        def __getitem__(self, code: str) -> tuple:
+            if code not in self.cache:
+                df = pd.read_csv(os.path.join(PANEL_DIR, f"{code}.csv"),
+                                 usecols=["date", "open", "close"])
+                df = df[df["date"] <= EVIDENCE_CUTOFF]
+                # drop rows outside the calendar face (pre-2005 listing history):
+                # unreachable for execution (signals 2007+, exec at signal+1) and
+                # bare cal_pos_of[d] would KeyError; cnt_full age face (feature
+                # pass) is computed on the UNTRUNCATED df -- frozen sec.2
+                # full-history age250 semantics are NOT touched by this filter.
+                _keep = df["date"].astype(str).isin(cal_pos_of)
+                df = df[_keep]
+                mpos = np.array([cal_pos_of[d] for d in df["date"].astype(str)],
+                                dtype=np.int64)
+                opens = df["open"].to_numpy()
+                closes = df["close"].to_numpy()
+                self.cache[code] = (mpos, opens, closes,
+                                    _ffill_np(mpos, closes, n_cal))
+            return self.cache[code]
+
+    mkt = _Mkt()
+    # r478 fast-fail gate: exercise the exact production consumption face
+    # (lazy subscript -> tuple) BEFORE the multi-minute feature pass, so a
+    # producer/consumer contract break dies in seconds with a clear assert,
+    # not a TypeError at the first cell after the pass (probe-coverage
+    # lesson r477: selftest dict fixtures cannot see run()'s producer side).
+    if codes:
+        _probe = mkt[codes[0]]
+        assert len(_probe) == 4 and _probe[0].dtype == np.int64, \
+            "mkt tuple contract (mpos, opens, closes, ffill)"
 
     def slip_of(code: str, m: int) -> float:
         i = code_idx[code]

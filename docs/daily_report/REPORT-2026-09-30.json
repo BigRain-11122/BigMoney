@@ -1,10 +1,10 @@
 {
  "report_date": "2026-09-30",
- "generated_at": "2026-09-30 20:41:23",
+ "generated_at": "2026-09-30 21:17:42",
  "combat": {
   "paper_summary": {
    "traders": 6,
-   "total_equity_cny": 5995353.51,
+   "total_equity_cny": 5999331.97,
    "total_positions": 18,
    "entries_today": 0,
    "exits_today": 0,
@@ -15,32 +15,32 @@
     "trader": "COMPOSITE-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 999947.89,
-     "positions_value": 951186.76,
+     "equity": 1001359.7,
+     "positions_value": 952598.57,
      "cash": 48761.13,
      "denomination": "CNY"
     },
     "positions": 5,
     "dd": -0.0029,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
     "trader": "COMPOSITE-CE-02",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 998465.86,
-     "positions_value": 949304.38,
-     "cash": 49161.48,
+     "equity": 1000967.86,
+     "positions_value": 951806.39,
+     "cash": 49161.47,
      "denomination": "CNY"
     },
     "positions": 8,
     "dd": -0.0047,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -55,8 +55,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -71,8 +71,8 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
@@ -87,24 +87,24 @@
     "positions": 0,
     "dd": 0.0,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    },
    {
     "trader": "VOLATILITY-CE-01",
     "capital_cny": {
      "initial": 1000000.0,
-     "equity": 996939.76,
-     "positions_value": 497592.39,
-     "cash": 499347.37,
+     "equity": 997004.41,
+     "positions_value": 497657.03,
+     "cash": 499347.38,
      "denomination": "CNY"
     },
     "positions": 5,
     "dd": -0.0037,
     "guard": {
-     "mode": "shadow",
-     "active_from": null
+     "mode": "enforce",
+     "active_from": "2026-10-01"
     }
    }
   ],
@@ -283,7 +283,7 @@
     "zero evidence-backed sleeves activate in this cell (fail-closed, O-20260926-1342 sec.1.4)"
    ]
   },
-  "marks_asof": "2026-09-29"
+  "marks_asof": "2026-09-30"
  },
  "live_usage": {
   "status": "ok",
@@ -297,21 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-09-30.md"
  },
  "rd": {
-  "commits_24h": 342,
-  "result_jsons_landed_24h": 154,
+  "commits_24h": 335,
+  "result_jsons_landed_24h": 148,
   "digests_landed_24h": 2,
-  "prereg_md_touched_24h": 36,
+  "prereg_md_touched_24h": 35,
   "compute_audit_latest": {
-   "ts": "2026-09-30 20:38:07",
-   "py_cpu_pct": 0.4,
+   "ts": "2026-09-30 21:07:51",
+   "py_cpu_pct": 1.1,
    "flags": [
     "supply_gap",
-    "ignition_sla",
     "supply_floor"
    ],
-   "verdict": "FLAG:supply_gap,ignition_sla,supply_floor"
+   "verdict": "FLAG:supply_gap,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -598,11 +597,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1033010,
+  "total_report_tokens_est": 1034653,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-30 20:06:19",
+   "prev_generated": "2026-09-30 20:21:19",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 224,
+   "report_tokens_growth": 1643,
    "mandate_growth": 0
   },
   "method": {
@@ -675,12 +674,74 @@
     "today_supply_gap_flags": 19
    },
    "bm-b": {
-    "latest_ts": "2026-09-30 20:18:54",
-    "py_pct": 1.3,
-    "cpu_pct": 3.0,
-    "ready": 1,
-    "streak_min": 947.7,
-    "verdict": "FLAG:supply_floor",
+    "latest_ts": "2026-09-30 21:07:51",
+    "py_pct": 1.1,
+    "cpu_pct": 21.0,
+    "ready": 2,
+    "streak_min": 996.6,
+    "verdict": "FLAG:supply_gap,supply_floor",
+    "py_series_tail": [
+     [
+      "18:43",
+      0.2
+     ],
+     [
+      "06:03",
+      0.0
+     ],
+     [
+      "06:10",
+      7.6
+     ],
+     [
+      "06:30",
+      1.1
+     ],
+     [
+      "18:41",
+      0.8
+     ],
+     [
+      "19:05",
+      0.8
+     ],
+     [
+      "19:27",
+      0.1
+     ],
+     [
+      "19:53",
+      0.2
+     ],
+     [
+      "20:04",
+      1.0
+     ],
+     [
+      "20:18",
+      1.3
+     ],
+     [
+      "20:34",
+      10.2
+     ],
+     [
+      "21:07",
+      1.1
+     ]
+    ],
+    "today_samples": 98,
+    "today_floor_ok": 0,
+    "today_sla_flags": 4,
+    "today_supply_gap_flags": 21
+   },
+   "bm-c": {
+    "latest_ts": "2026-09-30 20:18:09",
+    "py_pct": 0.0,
+    "cpu_pct": 11.0,
+    "ready": 2,
+    "streak_min": 946.9,
+    "verdict": "FLAG:ignition_sla,supply_floor",
     "py_series_tail": [
      [
       "18:17",
@@ -728,75 +789,13 @@
      ],
      [
       "20:18",
-      1.3
+      0.0
      ]
     ],
     "today_samples": 96,
     "today_floor_ok": 0,
-    "today_sla_flags": 3,
-    "today_supply_gap_flags": 19
-   },
-   "bm-c": {
-    "latest_ts": "2026-09-30 20:38:07",
-    "py_pct": 0.4,
-    "cpu_pct": 14.0,
-    "ready": 2,
-    "streak_min": 966.9,
-    "verdict": "FLAG:supply_gap,ignition_sla,supply_floor",
-    "py_series_tail": [
-     [
-      "18:23",
-      0.2
-     ],
-     [
-      "18:43",
-      0.2
-     ],
-     [
-      "06:03",
-      0.0
-     ],
-     [
-      "06:10",
-      7.6
-     ],
-     [
-      "06:30",
-      1.1
-     ],
-     [
-      "18:41",
-      0.8
-     ],
-     [
-      "19:05",
-      0.8
-     ],
-     [
-      "19:27",
-      0.1
-     ],
-     [
-      "19:53",
-      0.2
-     ],
-     [
-      "20:04",
-      1.0
-     ],
-     [
-      "20:18",
-      1.3
-     ],
-     [
-      "20:38",
-      0.4
-     ]
-    ],
-    "today_samples": 97,
-    "today_floor_ok": 0,
     "today_sla_flags": 4,
-    "today_supply_gap_flags": 20
+    "today_supply_gap_flags": 19
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",

@@ -25,3 +25,4 @@
 
 - [2026-09-30 r286 bm-c] 有新bar触发判读面坑：判「本轮有无新 bar」必读 update_daily 维护的面板 data/daily/<码>.csv（尾行日期），误读 core48 历法面 data/daily/sh<码>.csv（bm-b 五员车道·sina ETF 源另一通道）=假阴漏跑触发（09-30 bar 20:42 落地实测）。live/t35/t24 纸面腿虽 bm-a lane-io 守卫兜底，触发判读仍须用对面。
 
+- [2026-09-30 r478 bm-b] 修复自身引入契约破坏探针盲区坑（EXCLUSION-MARGINAL 三连烧谱系终章）：r477 把 mkt 从预建 dict 改懒函数修 KeyError 时，漏看 _sim_cell 消费面=mkt[c] 下标——selftest 夹具用纯 dict 构造永探不到 run() 生产侧契约破坏（20:30 烧批特征面过完才死于首 cell TypeError 白烧 45min）。解法=烧前生产消费面探针 mkt[codes[0]] assert 置特征面前（秒级熔断）；姊妹面=数据门烧批撞 astock 刷新窗（panel complete=false）会被 autofill 记假崩溃连烧保险丝——预防=刷新窗内提前 park 池票（FACEB 20:40 先例清保险丝、EXCLUSION 21:09 前置泊位零假崩）。How to apply：懒构造生产者改造必查全部消费下标面+夹具构造面与生产构造面同构；刷新窗撞烧批=先 park 后清障。

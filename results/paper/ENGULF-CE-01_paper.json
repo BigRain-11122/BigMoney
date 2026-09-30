@@ -24,7 +24,7 @@
     }
   },
   "paper_start": "2026-09-23",
-  "bars": 4,
+  "bars": 5,
   "months_tracked": 0,
   "monthly_returns": [],
   "current_dd": 0.0,
@@ -32,7 +32,7 @@
     {
       "month": "2026-09",
       "return": 0.0,
-      "bars": 4,
+      "bars": 5,
       "month_ended": false,
       "full_from_hire": false,
       "counted": false
@@ -59,13 +59,13 @@
     "dd_control_state_end": "normal",
     "dd_control_min_dd": 0.0,
     "status": "insufficient_data",
-    "bars": 4,
+    "bars": 5,
     "floor": 20,
     "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
   },
   "cost_x2_check": {
     "status": "insufficient_data",
-    "bars": 4,
+    "bars": 5,
     "min_bars": 20
   },
   "x2_watch": {
@@ -75,21 +75,26 @@
     "survive": true,
     "source": "registration_x2_seed"
   },
-  "cutoff": "2026-09-29",
-  "updated": "2026-09-30 20:20:48",
+  "cutoff": "2026-09-30",
+  "updated": "2026-09-30 21:15:55",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
-    "as_of": "2026-09-29"
+    "as_of": "2026-09-30"
   },
   "regime_guard": {
-    "mode": "shadow",
-    "state": "ORANGE",
-    "state_cn": "橙·高危",
-    "asof": "2026-09-29",
-    "raw_level": "ORANGE",
-    "days_in_state": 3,
-    "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
+    "mode": "enforce",
+    "approved": true,
+    "active_from": "2026-10-01",
+    "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy",
+    "active": false,
+    "enforced": {
+      "active_from": "2026-10-01",
+      "days_enforced": 0,
+      "entries_blocked": 0,
+      "entries_halved": 0
+    },
+    "gate_note": "date gate not yet open (active_from=2026-10-01) -- downgrade to shadow semantics until the window reaches the gate"
   },
   "forward_guard": {
     "enabled": true,
@@ -99,7 +104,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-09-30 20:20:48",
+    "as_of": "2026-09-30 21:15:55",
     "consolidation": {
       "enabled": true,
       "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",

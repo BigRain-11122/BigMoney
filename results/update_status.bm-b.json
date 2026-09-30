@@ -1,12 +1,12 @@
 {
- "updated": "2026-09-30 20:19:10",
- "now": "2026-09-30 20:19:09.413339",
+ "updated": "2026-09-30 21:07:59",
+ "now": "2026-09-30 21:07:58.007186",
  "close_accept_time": "15:30:00",
  "symbols": 48,
  "total_new_rows": 0,
  "failures": [],
  "overlap_mismatches": [],
- "data_cutoff": "2026-09-29",
+ "data_cutoff": "2026-09-30",
  "per_symbol": [
   {
    "symbol": "510300",
@@ -19,84 +19,84 @@
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159915",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159919",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159920",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159928",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159934",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159949",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159980",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159985",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159992",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159995",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "159996",
    "appended": 0,
    "overlap_mismatch": false,
    "error": null,
-   "skipped": "probe_no_new"
+   "skipped": "catchup_backoff"
   },
   {
    "symbol": "510050",
@@ -345,20 +345,57 @@
   }
  ],
  "catchup": {
-  "laggards": [],
+  "laggards": [
+   "159901",
+   "159915",
+   "159919",
+   "159920",
+   "159928",
+   "159934",
+   "159949",
+   "159980",
+   "159985",
+   "159992",
+   "159995",
+   "159996"
+  ],
   "fetched": [],
-  "backoff": [],
+  "backoff": [
+   "159901",
+   "159915",
+   "159919",
+   "159920",
+   "159928",
+   "159934",
+   "159949",
+   "159980",
+   "159985",
+   "159992",
+   "159995",
+   "159996"
+  ],
   "stale_dead": []
  },
- "catchup_attempts": {},
+ "catchup_attempts": {
+  "159901": "2026-09-30T20:35:23",
+  "159915": "2026-09-30T20:35:23",
+  "159919": "2026-09-30T20:35:23",
+  "159920": "2026-09-30T20:35:23",
+  "159928": "2026-09-30T20:35:23",
+  "159934": "2026-09-30T20:35:23",
+  "159949": "2026-09-30T20:35:23",
+  "159980": "2026-09-30T20:35:23",
+  "159985": "2026-09-30T20:35:23",
+  "159992": "2026-09-30T20:35:23",
+  "159995": "2026-09-30T20:35:23",
+  "159996": "2026-09-30T20:35:23"
+ },
  "cutoff_error": null,
  "source_used": "sina",
  "fallback_events": [
   {
-   "symbol": "510300",
-   "diagnosis": "upstream_has_newer_bar",
-   "tencent_latest": "2026-09-30",
-   "note": "zero-row ambiguity: upstream bar-existence probe"
+   "diagnosis": "validation_leg_error",
+   "error": "TimeoutError: The read operation timed out"
   }
  ],
  "exit_code": 0,
