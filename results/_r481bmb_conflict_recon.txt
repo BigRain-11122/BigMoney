@@ -1,0 +1,12 @@
+only_ours(bm-c): 4 lines, bytes=1724
+  O| - [2026-09-30 r291 bm-c] 正典引用字符面坑（BEHAVIOR_GUARDRAILS 锚校验实弹）：机器校验「引用是否在场」扫中文正典文本时，负数拼写=U+2212 全角负号（−7.43%）非 ASCII 连字符（-7.43%）——单态子串匹配必假阴（锚校验 FAIL 误报漂移）。How to apply：对含负数引用的中文正典做机器在场校验，须双拼写兼容（ASCII - 与 U+2212 −）或先归一字符面；凡跨「人写正典×机读断言」界面一律先探字符面再写匹配（同族=破折号/引号全半角面）。
+  O| - 冷层指针（r291 合并·r444 范式）：r472 冻结探针事实消费三坑+r473 同轮双 rebase 撞车窗三坑+r485 sina ETF 节前发布滞后坑+r486 脏树并发窗双同步坑律——四条指针条原文 verbatim=archive 202609.md『热冷整编 2026-09-30 r291 bm-c 窗批』节（全文档案=.codely-cli/memory/mem-20260930-q-002..005.md）
+  O| - 冷层指针（r475 合并·指针合并归档 r444 范式）：r472 冻结探针事实消费三坑（W14 runner 门键名口径/面前缀/CSV 新列）+r473 同轮双 rebase 撞车窗三坑（ours-theirs 逐轮翻转/r261 幻影拒走双面/GIT_EDITOR 同调用）+r485 sina ETF 节前发布滞后四腿探针定谳——三条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r475 bm-b 窗批』节。
+  O| - 冷层指针（r291 合并·指针合并归档 r444 范式）：r282 bm-c SSH+r284 aps+r285 astock+r476 bm-b rebase/并发窗种子带撞号+r477 探针≠门覆盖面+r286 bm-c inbox/有新bar 触发判读面——八条指针条原文 verbatim=archive 202609.md『热冷整编 2026-09-30 r291 bm-c 窗批』节（其全文在『热冷整编 2026-09-30 r491 bm-a 窗批』节）
+only_theirs(bm-b): 2 lines, bytes=1310
+  T| - [2026-09-30 22:4x r481 bm-b] bm-b 无集团树坑+D-19 新鲜读 temp partial clone 配方（r481 首例实弹）：本机无集团仓检出——bm-c r290 正典配方路径 K:\Fluxgroup\FluxGroup 在本机 fatal（C 盘迁移后 K: 门面不存在·bm-b 只有 BigMoney 仓），D-19 新鲜读正解=temp partial clone：git clone --depth 1 --filter=blob:none --no-checkout git@github.com:BigRain-11122/FluxGroup.git $env:TEMP\fg-dec-bmb 后 git -C … show origin/main:docs/decisions.md 与 docs/orders.md（零树触碰·blob:none 只拉树对象·秒级）；首跑水位基线 last_decisions_sha=21B5C469…FAFDCB 已入 state.json。How to apply：bm-b 一切集团台账消费走此配方（git show 面），禁信本机任何「集团树工作树」（不存在）亦禁按他机 K:\ 路径硬套。
+  T| - 冷层指针（r481 合并·指针合并归档 r444 范式）：r472/r473/r485/r486 四条 mem- 档案指针行+r475 冷层指针行+r492 O-2054 回执流水行+r282/r284/r285/r286×2/r476×2/r477 九条截断指针行——全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r481 bm-b 窗批』节；mem 全文另在 .codely-cli/memory/mem-20260930-q-002~005.md；原九条截断行所指内容另见 archive『热冷整编 2026-09-30 r491 bm-a 窗批』+『r492 bm-a 窗批』两节。
+compute_audit keys: ['latest', 'history']
+regime_state keys: ['updated', 'asof', 'mode', 'state', 'state_cn', 'raw_level', 'green_streak', 'days_in_state', 'thresholds_fp', 'dims', 'triggers', 'transitions', 'history', 'rule']
+archive ours tail sections: ['## 热冷整编 2026-09-30 r480 bm-b 窗批', '## 热冷整编 2026-09-30 r291 bm-c 窗批']
+archive theirs tail sections: ['## 热冷整编 2026-09-30 r480 bm-b 窗批', '## 热冷整编 2026-09-30 r481 bm-b 窗批（CODELY>10KB 硬线触发·指针/回执行全迁 verbatim·merged 指针行替代）']

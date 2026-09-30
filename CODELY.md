@@ -16,10 +16,7 @@
 - 冷层指针：流水型条目按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md；坑律一〇九~一一六批等历史指针行 verbatim=archive 202609.md『指针合并归档 r444』+『指针迁移归档 r445』两节。
 - 冷层指针（r281 合并·指针合并归档 r444 范式）：r473 断头 rebase 诊断序+r473 盘中标记零价蒸发坑（『r466 bm-b 窗批』节）+r454/r455/r236/r444/r229/r235/r237/r445/r441/r442/r446/r447/r448/r450/r244/r452/r456/r457/r252/r255/r449/r462/r464/r258/r259/r269/r459+W8 构造事实诸坑律——全文 verbatim=archive 202609.md 各『窗批』节；原指针行 verbatim=archive『热冷整编 2026-09-30 r281 bm-c 窗批』节。
 
-- 冷层指针（r291 合并·r444 范式）：r472 冻结探针事实消费三坑+r473 同轮双 rebase 撞车窗三坑+r485 sina ETF 节前发布滞后坑+r486 脏树并发窗双同步坑律——四条指针条原文 verbatim=archive 202609.md『热冷整编 2026-09-30 r291 bm-c 窗批』节（全文档案=.codely-cli/memory/mem-20260930-q-002..005.md）
-- 冷层指针（r475 合并·指针合并归档 r444 范式）：r472 冻结探针事实消费三坑（W14 runner 门键名口径/面前缀/CSV 新列）+r473 同轮双 rebase 撞车窗三坑（ours-theirs 逐轮翻转/r261 幻影拒走双面/GIT_EDITOR 同调用）+r485 sina ETF 节前发布滞后四腿探针定谳——三条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r475 bm-b 窗批』节。
 
-- 冷层指针（r291 合并·指针合并归档 r444 范式）：r282 bm-c SSH+r284 aps+r285 astock+r476 bm-b rebase/并发窗种子带撞号+r477 探针≠门覆盖面+r286 bm-c inbox/有新bar 触发判读面——八条指针条原文 verbatim=archive 202609.md『热冷整编 2026-09-30 r291 bm-c 窗批』节（其全文在『热冷整编 2026-09-30 r491 bm-a 窗批』节）
 
 
 
@@ -28,5 +25,7 @@
 - [2026-09-30 21:4x r491 bm-a] 引擎语义变更×参数钉扎≠证据复现律（PROSPECT 锚漂 22/22 实弹·RW-1 余波）…（指针条·全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r492 bm-a 窗批』节）
 - [2026-09-30 21:4x r288 bm-c] 崩轮遗产恢复序+rebase 侧 S6 面冲突矩阵（r287 15min-kill 遗 65 件未提交+push 被拒双态实弹·r491 滞留窗姊妹面）…（指针条·全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r492 bm-a 窗批』节）
 - [2026-09-30 r492 bm-a] Start-Process 长命令引号吞没坑（G2 矿源安装实弹·分离进程静默零动作）：PowerShell Start-Process -ArgumentList 传含嵌套路径+重定向的长  字符串→进程起而命令体引号被吞→零执行零报错（日志只有父进程写的头行·7 分钟零 CLONE 行暴露）。Why：-ArgumentList 拼接不再保证内部引号成对传递。How to apply：分离进程启动后必立即查效果面（日志/目标文件）验证已动工；未动工=改前台直跑或写 .ps1 脚本件再 -File 启动（引号不进命令行）；本例前台重试三源全落地零损失。
-- [2026-09-30 r290 bm-c] 集团决策面盲读坑+D-19 新鲜读律接线（149-commit 滞后实弹）：本机集团树 K:\Fluxgroup\FluxGroup 的 git checkout 常态落后 origin 百+ commit 且无任何同步机制（循环只 pull BigMoney 仓）——直读工作树 decisions.md=陈旧面，r290 实测漏读 D-20260930-05..41 共 37 条（含 RW-5 冻结令/投递层统一单 D-19/散户轨道重构令 D-41；此前全靠 BigMoney 仓内 MSG/正典旁路传播才未误事，非可靠机制）。根治=iteration_prompt.txt 决策审核步已改（D-20260930-19 接线）：git -C 集团树 fetch + git show origin/main:docs/decisions.md 新鲜面消费+state 自持水位键 last_decisions_sha（SHA-256 内容寻址·D-18 禁行数比对）+派工通告板块+orders.md CEO 待办物理件区。How to apply：一切读集团台账/令件的场合一律 origin/main 面（git show 零树触碰），禁信本机集团树工作树副本；水位比对用内容 hash 禁行数。
+- [2026-09-30 r290 bm-c] 集团决策面盲读坑+D-19 新鲜读律接线（指针条·全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r481 bm-b rebase-resolver 注记』节）
 - [2026-09-30 22:2x r493 bm-a] 普查批书写变体保守判律（G2_OVERLAP_CENSUS_P1 实弹·M4/M5 续片适用）：跨仓同源公式比对（M1 alpha101 vs M3 alphas.py 同为 Kakushadze verbatim 英译）在「规范化字符串恒等」判据下系统性判 DRIFT（15/101 面·括号风格变体如 SignedPower(x, 2.) vs SignedPower((x),2.)）——两独立第三方英译的括号/常数书写风格恒不同，恒等判据=安全侧 fail-closed（不引用 verdict 不重烧·SLOT 轮数值对照可升级）；skip 面教训=在库批判决空间的 skip 集（neutralized/cap 19 面）必须从 vendored 模块 ast 静态单源并入 verdict 空间，漏并=skip 编号误判 NEW-FACE（19 面假阳性当场抓回）。How to apply：M4/M5 普查 runner 复用 g2_overlap_census.py 四腿骨架+把「书写变体预筛」加 norm（去冗余括号）降 DRIFT 噪声；任何「在库不可算面」先并 skip 集再分类。
+- [2026-09-30 22:4x r481 bm-b] bm-b 无集团树坑+D-19 新鲜读 temp partial clone 配方（r481 首例实弹）：本机无集团仓检出——bm-c r290 正典配方路径 K:\Fluxgroup\FluxGroup 在本机 fatal（C 盘迁移后 K: 门面不存在·bm-b 只有 BigMoney 仓），D-19 新鲜读正解=temp partial clone：git clone --depth 1 --filter=blob:none --no-checkout git@github.com:BigRain-11122/FluxGroup.git $env:TEMP\fg-dec-bmb 后 git -C … show origin/main:docs/decisions.md 与 docs/orders.md（零树触碰·blob:none 只拉树对象·秒级）；首跑水位基线 last_decisions_sha=21B5C469…FAFDCB 已入 state.json。How to apply：bm-b 一切集团台账消费走此配方（git show 面），禁信本机任何「集团树工作树」（不存在）亦禁按他机 K:\ 路径硬套。
+- 冷层指针（r481 合并·指针合并归档 r444 范式）：r472/r473/r485/r486 四条 mem- 档案指针行+r475 冷层指针行+r492 O-2054 回执流水行+r282/r284/r285/r286×2/r476×2/r477 九条截断指针行——全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r481 bm-b 窗批』节；mem 全文另在 .codely-cli/memory/mem-20260930-q-002~005.md；原九条截断行所指内容另见 archive『热冷整编 2026-09-30 r491 bm-a 窗批』+『r492 bm-a 窗批』两节。
