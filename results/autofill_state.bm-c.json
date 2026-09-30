@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-28 22:16:46",
-   "machine": "bm-c",
-   "py_cpu_pct": 3.0,
-   "verdict": "launched",
-   "entry": "INNOVATION-QUOTA-SLOT-2",
-   "shard": "main",
-   "pid": 5640,
-   "runner_sha256": "6c800ba7f173b7f1",
-   "fill_latency_min": 11.3,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-28 22:17:01",
    "machine": "bm-c",
    "py_cpu_pct": 0.0,
@@ -649,25 +636,34 @@
    "fill_latency_min": 44.0,
    "target_met": false,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-30 09:38:01",
+   "machine": "bm-c",
+   "py_cpu_pct": 0.0,
+   "fuse_skipped": [
+    {
+     "entry": "INNOVATION-QUOTA-SLOT-8",
+     "shard": "main",
+     "sig": "scripts/innovation_quota_w8.py|run",
+     "fuse_refusals": 5
+    }
+   ],
+   "verdict": "launched",
+   "entry": "INNOVATION-QUOTA-SLOT-9",
+   "shard": "main",
+   "pid": 37544,
+   "runner_sha256": "e0d2b019647b1cdc",
+   "fill_latency_min": 4.6,
+   "target_met": true,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-30 09:37:01",
+  "ts": "2026-09-30 09:40:01",
   "machine": "bm-c",
-  "py_cpu_pct": 0.0,
-  "verdict": "fuse_refused_crash_loop",
-  "entry": "INNOVATION-QUOTA-SLOT-8",
-  "shard": "main",
-  "fuse_crashes": 2,
-  "fuse_refusals": 4,
-  "fuse_skipped": [
-   {
-    "entry": "INNOVATION-QUOTA-SLOT-8",
-    "shard": "main",
-    "sig": "scripts/innovation_quota_w8.py|run",
-    "fuse_refusals": 4
-   }
-  ]
+  "py_cpu_pct": 0.4,
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-c"
 }
