@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-01",
- "generated_at": "2026-10-01 02:34:06",
+ "generated_at": "2026-10-01 02:53:44",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-10-01.md"
  },
  "rd": {
-  "commits_24h": 439,
-  "result_jsons_landed_24h": 156,
+  "commits_24h": 442,
+  "result_jsons_landed_24h": 154,
   "digests_landed_24h": 2,
-  "prereg_md_touched_24h": 40,
+  "prereg_md_touched_24h": 41,
   "compute_audit_latest": {
-   "ts": "2026-10-01 02:31:31",
-   "py_cpu_pct": 100.0,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-01 02:52:44",
+   "py_cpu_pct": 0.4,
+   "flags": [
+    "idle_with_work",
+    "supply_floor"
+   ],
+   "verdict": "FLAG:idle_with_work,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -599,13 +602,6 @@
    "owner": ""
   },
   {
-   "id": "T-2026-09-30-132",
-   "status": "claimed",
-   "type": "lowamp-family-judged-p1",
-   "immediate": true,
-   "owner": "bm-a (OS iteration loop, round 494; CEO "
-  },
-  {
    "id": "T-2026-09-30-133",
    "status": "claimed",
    "type": "perpetual-saturation-p1",
@@ -618,22 +614,15 @@
    "type": "multi-core-enforcement-sweep",
    "immediate": true,
    "owner": "bm-c"
-  },
-  {
-   "id": "T-2026-10-01-135",
-   "status": "claimed",
-   "type": "bonsai-gpu-tier-reverify",
-   "immediate": false,
-   "owner": "bm-a (OS iteration loop, round 497; clai"
   }
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1043708,
+  "total_report_tokens_est": 1044116,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-01 01:45:24",
+   "prev_generated": "2026-10-01 02:14:13",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1080,
+   "report_tokens_growth": 408,
    "mandate_growth": 0
   },
   "method": {
@@ -644,37 +633,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-01 01:17:38",
-    "py_pct": 59.9,
-    "cpu_pct": 90.0,
-    "ready": 30,
-    "streak_min": 1246.4,
-    "verdict": "FLAG:cap_violation,supply_gap,ignition_sla",
+    "latest_ts": "2026-10-01 02:52:44",
+    "py_pct": 0.4,
+    "cpu_pct": 5.0,
+    "ready": 2,
+    "streak_min": 0.0,
+    "verdict": "FLAG:idle_with_work,supply_floor",
     "py_series_tail": [
-     [
-      "22:14",
-      0.8
-     ],
-     [
-      "22:15",
-      0.1
-     ],
-     [
-      "22:18",
-      0.1
-     ],
-     [
-      "22:33",
-      0.2
-     ],
-     [
-      "22:38",
-      1.6
-     ],
-     [
-      "22:59",
-      2.5
-     ],
      [
       "23:14",
       0.2
@@ -698,12 +663,36 @@
      [
       "01:17",
       59.9
+     ],
+     [
+      "01:44",
+      2.7
+     ],
+     [
+      "01:48",
+      59.4
+     ],
+     [
+      "02:12",
+      4.7
+     ],
+     [
+      "02:27",
+      0.9
+     ],
+     [
+      "02:31",
+      100.0
+     ],
+     [
+      "02:52",
+      0.4
      ]
     ],
-    "today_samples": 3,
-    "today_floor_ok": 3,
-    "today_sla_flags": 3,
-    "today_supply_gap_flags": 1
+    "today_samples": 9,
+    "today_floor_ok": 8,
+    "today_sla_flags": 7,
+    "today_supply_gap_flags": 5
    },
    "bm-b": {
     "latest_ts": "2026-10-01 02:31:31",
@@ -833,12 +822,49 @@
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
   "canon": "O-20260928-1614 sec.6 + O-20260928-1630 D6 (two-pool sovereignty face merges when D7 lands)"
  },
+ "core_spread": {
+  "day": "2026-10-01",
+  "machines": {
+   "bm-a": {
+    "batches_judged": 29,
+    "core_seconds": 7341.9,
+    "wall_seconds": 805.6,
+    "effective_cores": 9.11,
+    "single_core_burn": 0,
+    "multicore_burn": 29,
+    "too_short": 1,
+    "last_ts": "2026-10-01T02:49:25+08:00"
+   },
+   "bm-b": {
+    "batches_judged": 4,
+    "core_seconds": 1273.5,
+    "wall_seconds": 114.2,
+    "effective_cores": 11.15,
+    "single_core_burn": 0,
+    "multicore_burn": 4,
+    "too_short": 3,
+    "last_ts": "2026-10-01T02:13:15+08:00"
+   },
+   "bm-c": {
+    "batches_judged": 0,
+    "core_seconds": 0.0,
+    "wall_seconds": 0.0,
+    "effective_cores": null,
+    "single_core_burn": 0,
+    "multicore_burn": 0,
+    "too_short": 0,
+    "last_ts": null
+   }
+  },
+  "canon": "T-134 s4 (O-2026-09-30-2355) -- law-2 sampler rows results/pool_core_samples.jsonl"
+ },
  "canon_refs": [
   "T-75 ticket (O-20260926-0940)",
   "results/paper_export/latest.json",
   "results/market_clock/call_latest.json",
   "results/token_usage.json",
   "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
-  "O-20260928-1614 sec.6 utilization face (T-107)"
+  "O-20260928-1614 sec.6 utilization face (T-107)",
+  "T-134 s4 core-spread/parallel-efficiency row (O-2026-09-30-2355)"
  ]
 }
