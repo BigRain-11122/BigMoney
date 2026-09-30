@@ -1,9 +1,9 @@
 {
-  "ts": "2026-09-30T08:45:02",
-  "mode": "refresh in progress (lock alive)",
+  "ts": "2026-09-30T08:59:13",
+  "mode": "refresh incomplete (checkpoint preserved)",
   "panel": {
     "complete": false,
-    "cutoff": "2026-09-28",
+    "cutoff": "2026-09-29",
     "universe_n": 5228,
     "per_files": 5217
   },
@@ -19,36 +19,45 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 11,
-    "fetched": 11,
-    "appended": 0,
-    "readjusted": 0,
-    "readjusted_tail": [],
-    "failures_tail": [],
-    "failures_n": 0,
+    "todo": 3723,
+    "fetched": 3664,
+    "appended": 3608,
+    "readjusted": 44,
+    "readjusted_tail": [
+      "603999@2015-12-10",
+      "605183@2020-12-07",
+      "605319@2021-06-07",
+      "688208@2020-02-13",
+      "688410@2022-12-26",
+      "688629@2023-06-27",
+      "688668@2020-12-21",
+      "688699@2020-12-18"
+    ],
+    "failures_tail": [
+      "688009:conn:SSLError",
+      "688011:conn:SSLError",
+      "688279:conn:SSLError",
+      "688292:conn:SSLError",
+      "688336:conn:SSLError",
+      "688398:conn:TimeoutError",
+      "688443:conn:TimeoutError",
+      "688559:conn:SSLError",
+      "688639:conn:SSLError",
+      "688701:conn:TimeoutError",
+      "688772:conn:SSLError",
+      "688775:conn:SSLError"
+    ],
+    "failures_n": 59,
     "conn_stopped": false,
-    "elapsed_min": 0.7,
-    "vwap_anchor_max": 0.119501,
+    "elapsed_min": 314.9,
+    "vwap_anchor_max": 0.497403,
     "repull": false
   },
   "quarantined_n": 11,
   "last_spawn_attempt": "2026-09-30T03:44:19",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 12,
-  "settled": [
-    "000016",
-    "002731",
-    "002860",
-    "300082",
-    "300211",
-    "301139",
-    "601059",
-    "601198",
-    "601238",
-    "603400",
-    "605303",
-    "688496"
-  ],
+  "settled_n": 0,
+  "settled": [],
   "no_op_reason": "panel fresh (cutoff 2026-09-28 >= expected 2026-09-28)"
 }
