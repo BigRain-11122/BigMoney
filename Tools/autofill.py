@@ -703,22 +703,6 @@ def _tick_owned_dirt():
     return [p for p in dirt if os.path.exists(p)]
 
 
-_MULTIPROC_MARKERS = ("ProcessPoolExecutor", "multiprocessing.Pool",
-                      "multiprocessing.Process", "ProcessPool")
-# r300 port (bm-c T-134 s1 classifier fix, r493 bm-b): house indirection
-# arm -- T-134 s2 conversions delegate the ProcessPool to the shared
-# scripts/parallel_runner library, so a parallel_runner import or a
-# run_cells_parallel( call site IS real machinery. Without this arm the
-# launch gate false-negatived converted runners and refused them (live
-# case: trial_labor_w14.py tl1.run_cells_parallel -> multicore-gate
-# REFUSE 2026-10-01 05:20/05:22 while the r300-fixed census already
-# classified the same source multiprocess).
-_RE_INDIRECT_MULTIPROC = re.compile(
-    r"from\s+(scripts\.)?parallel_runner\s+import"
-    r"|\bimport\s+(scripts\.)?parallel_runner\b"
-    r"|\brun_cells_parallel\s*\(")
-
-
 def _runner_core_verdict(runner_rel):
     """O-20260930-2355 law-1 (T-134 s3): workers_plan is CODE, not a
     declaration -- source-scan the runner for a real process-pool
@@ -726,10 +710,14 @@ def _runner_core_verdict(runner_rel):
     (verdict, marker): 'multiproc' | 'single_core' | 'unreadable'.
     Absolute paths pass through so the hermetic selftest (r117 law)
     can point at tmp fixtures without touching ROOT.
-    r300 law (r493 bm-b port): comment lines are skipped before matching
-    (a comment naming a primitive can never flip a verdict -- mechanism,
-    not pattern coincidence); library-indirect usage counts (import or
-    call-site either hit = installed), mirroring multicore_census.py."""
+    r300 census law (T-134 s1): the scan must cover the library-
+    indirect face (house parallel_runner import / run_cells_parallel
+    call site) and skip comment lines; the pattern is single-sourced
+    from scripts/multicore_census.py RE_MULTIPROCESS so the census and
+    this launch gate can never drift (live 2026-10-01 05:2x: gate
+    judged trial_labor_w14.py single_core while it delegates
+    tl1.run_cells_parallel -> scripts/parallel_runner ProcessPool ->
+    pool W14-GENERATE stranded fleet-wide on a false refusal)."""
     fp = (runner_rel if os.path.isabs(str(runner_rel))
           else os.path.join(ROOT, str(runner_rel)))
     try:
@@ -737,15 +725,19 @@ def _runner_core_verdict(runner_rel):
             src = fh.read()
     except Exception:
         return ("unreadable", "")
+    try:
+        if os.path.join(ROOT, "scripts") not in sys.path:
+            sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        from multicore_census import RE_MULTIPROCESS
+    except Exception:
+        # fail-closed: classifier unavailable -> never launch
+        return ("unreadable", "")
     for line in src.splitlines():
         if line.lstrip().startswith("#"):
             continue
-        for mk in _MULTIPROC_MARKERS:
-            if mk in line:
-                return ("multiproc", mk)
-        m = _RE_INDIRECT_MULTIPROC.search(line)
+        m = RE_MULTIPROCESS.search(line)
         if m:
-            return ("multiproc", "indirect:" + m.group(0)[:40])
+            return ("multiproc", m.group(0))
     return ("single_core", "")
 
 
@@ -3310,22 +3302,26 @@ def selftest():
         ok("S22c scan verdict unreadable (fail-closed)",
            _runner_core_verdict(os.path.join(tmp, "absent.py"))
            == ("unreadable", ""))
-        # S22k/S22l r300 port (r493 bm-b): library-indirect arm +
-        # comment-skip -- scanner verdicts mirror the fixed census
-        # (multicore_census.py classify_source; live case trial_labor_w14).
-        ind_src = os.path.join(tmp, "ind_runner.py")
-        cm_src = os.path.join(tmp, "cm_runner.py")
-        with open(ind_src, "w", encoding="utf-8") as fh:
-            fh.write("import trial_labor_w13 as tl1\n"
-                     "tl1.run_cells_parallel(jobs, workers=8)\n")
-        with open(cm_src, "w", encoding="utf-8") as fh:
-            fh.write("# plan: from parallel_runner import run_cells_parallel\n"
-                     "# and run_cells_parallel(jobs) someday\n"
-                     "print('only comments name the primitive')\n")
-        ok("S22k indirect run_cells_parallel -> multiproc",
-           _runner_core_verdict(ind_src)[0] == "multiproc")
-        ok("S22l comment-only naming -> single_core",
-           _runner_core_verdict(cm_src) == ("single_core", ""))
+        # r300 census law (T-134 s1): library-indirect faces must pass
+        # the gate; comment-only markers must not count (live family:
+        # trial_labor_w14 tl1.run_cells_parallel false refusal).
+        lib_src = os.path.join(tmp, "lib_runner.py")
+        call_src = os.path.join(tmp, "call_runner.py")
+        com_src = os.path.join(tmp, "com_runner.py")
+        with open(lib_src, "w", encoding="utf-8") as fh:
+            fh.write("from parallel_runner import run_cells_parallel\n")
+        with open(call_src, "w", encoding="utf-8") as fh:
+            fh.write("tl1.run_cells_parallel(jobs, workers=8)\n")
+        with open(com_src, "w", encoding="utf-8") as fh:
+            fh.write("# ProcessPoolExecutor comment only\nprint('x')\n")
+        ok("S22c2 scan verdict multiproc on parallel_runner import",
+           _runner_core_verdict(lib_src) == ("multiproc",
+                                            "from parallel_runner import"))
+        ok("S22c3 scan verdict multiproc on run_cells_parallel call",
+           _runner_core_verdict(call_src) == ("multiproc",
+                                              "run_cells_parallel("))
+        ok("S22c4 comment-only marker does not count (r300 law)",
+           _runner_core_verdict(com_src) == ("single_core", ""))
         # S22d law-1 at registration: single-thread runner REFUSED
         with open(POOL, "w", encoding="utf-8") as fh:
             json.dump({"entries": []}, fh)
