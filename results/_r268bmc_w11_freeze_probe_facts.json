@@ -1,0 +1,391 @@
+{
+ "probe": "MOM-TIMING-P1 freeze-window G-ANCHOR re-verify + threshold constants + D6 cells FULL protocol",
+ "machine": "bm-c",
+ "round": "r268",
+ "evidence_cutoff": "2026-09-29",
+ "panel": {
+  "rows": 3487,
+  "first_date": "2012-05-28",
+  "last_date": "2026-09-29",
+  "incremental_segment": "NONE -- panel last date 2026-09-29 unmoved vs berth facts"
+ },
+ "g_anchor_reverify": {
+  "pass": true,
+  "reference": "results/_r267bmc_w11_berth_probe_facts.json (berth frozen facts; berth probe re-run git-face zero-diff same window, bit-exact proof in round report)",
+  "n_face_checks": 62,
+  "panel_510300": {
+   "rows": 3487,
+   "first_date": "2012-05-28",
+   "last_date": "2026-09-29",
+   "moment_window": 20,
+   "ema_alpha": 0.02197802197802198,
+   "stop": -0.1
+  },
+  "cells_state_stats": {
+   "3": {
+    "decidable_days": 3465,
+    "first_decidable": "2012-06-28",
+    "long_days": 1807,
+    "flat_days": 1658,
+    "long_occupancy": 0.5215,
+    "entries": 88,
+    "stop_exits": 3,
+    "flip_exits": 84,
+    "f6_gate_30": true
+   },
+   "4": {
+    "decidable_days": 3465,
+    "first_decidable": "2012-06-28",
+    "long_days": 904,
+    "flat_days": 2561,
+    "long_occupancy": 0.2609,
+    "entries": 45,
+    "stop_exits": 4,
+    "flip_exits": 41,
+    "f6_gate_30": true
+   },
+   "5": {
+    "decidable_days": 3465,
+    "first_decidable": "2012-06-28",
+    "long_days": 1850,
+    "flat_days": 1615,
+    "long_occupancy": 0.5339,
+    "entries": 49,
+    "stop_exits": 4,
+    "flip_exits": 44,
+    "f6_gate_30": true
+   }
+  },
+  "batch_internal_state_face": {
+   "MOM3_vs_MOM4": -0.0808,
+   "MOM3_vs_MOM5": 0.7403,
+   "MOM4_vs_MOM5": -0.076
+  },
+  "d6_signal_face_anchors": {
+   "vs_regime_guard_width_below_ma20": {
+    "MOM3": {
+     "pearson": -0.3649,
+     "n_common": 1616
+    },
+    "MOM4": {
+     "pearson": 0.0379,
+     "n_common": 1616
+    },
+    "MOM5": {
+     "pearson": -0.2364,
+     "n_common": 1616
+    }
+   },
+   "vs_87_nhnl_b20": {
+    "MOM3": {
+     "pearson": 0.2459,
+     "n_common": 1616
+    },
+    "MOM4": {
+     "pearson": -0.0046,
+     "n_common": 1616
+    },
+    "MOM5": {
+     "pearson": 0.1467,
+     "n_common": 1616
+    }
+   },
+   "vs_vstd20_second_moment_proxy": {
+    "MOM3": {
+     "pearson": -0.0305,
+     "n_common": 3465
+    },
+    "MOM4": {
+     "pearson": 0.4817,
+     "n_common": 3465
+    },
+    "MOM5": {
+     "pearson": -0.0517,
+     "n_common": 3465
+    }
+   }
+  },
+  "extreme_days": [
+   {
+    "date": "2015-07-08",
+    "ret": -0.100052,
+    "mom5_state": 0.0,
+    "mom3_state": 0.0
+   },
+   {
+    "date": "2015-01-19",
+    "ret": -0.099945,
+    "mom5_state": 0.0,
+    "mom3_state": 1.0
+   },
+   {
+    "date": "2015-07-09",
+    "ret": 0.099913,
+    "mom5_state": 0.0,
+    "mom3_state": 0.0
+   },
+   {
+    "date": "2015-08-24",
+    "ret": -0.099862,
+    "mom5_state": 0.0,
+    "mom3_state": 0.0
+   },
+   {
+    "date": "2015-07-10",
+    "ret": 0.099764,
+    "mom5_state": 0.0,
+    "mom3_state": 0.0
+   },
+   {
+    "date": "2015-07-27",
+    "ret": -0.098388,
+    "mom5_state": 0.0,
+    "mom3_state": 0.0
+   },
+   {
+    "date": "2024-09-30",
+    "ret": 0.094081,
+    "mom5_state": 1.0,
+    "mom3_state": 1.0
+   },
+   {
+    "date": "2024-10-09",
+    "ret": -0.088395,
+    "mom5_state": 1.0,
+    "mom3_state": 1.0
+   }
+  ],
+  "note": "one-face-off = config mismatch VOID per prereg G-ANCHOR law (s9 step 2)"
+ },
+ "threshold_constants_zero_drift": {
+  "pass": true,
+  "compared": {
+   "moment_window": 20,
+   "ema_alpha": 0.02197802197802198,
+   "ema_alpha_is_exact_2_over_91": true,
+   "stop": -0.1,
+   "orders": [
+    3,
+    4,
+    5
+   ],
+   "nulls_K": 2000,
+   "starts_K": 1000,
+   "splits_K": 100,
+   "batch_cells_N_eff": 2003,
+   "seed_registered": 20327000
+  },
+  "prereg_tokens": {
+   "20-day moment window": true,
+   "EMA90 alpha=2/91 author-verbatim": true,
+   "stop -0.10 single line": true,
+   "orders {3,4,5} three-leg full spectrum": true,
+   "K2000 occupancy-matched nulls": true,
+   "starts K1000": true,
+   "splits 100": true,
+   "BATCH_CELLS 2003": true,
+   "seed 20327000": true
+  },
+  "note": "author-verbatim constants, zero calibration (moment orders {3,4,5} = r263 param-freeze candidate carried verbatim; window 20 / EMA alpha=2/91 / stop -0.10 = author-verbatim, no threshold search); code defaults asserted via verbatim import from berth probe + prereg text tokens + SEED_REGISTRY live view"
+ },
+ "d6_cells_full_protocol": {
+  "batch_internal_return_face": {
+   "MOM3_vs_MOM4": 0.3989,
+   "MOM3_vs_MOM5": 0.8918,
+   "MOM4_vs_MOM5": 0.3904
+  },
+  "batch_internal_note": "MOM3/4/5 = variant faces of ONE construction axis (moment order, r263 full-spectrum burn) -- variant pairs burn-both per family rule (W8/W9 precedent); merge clause NOT applicable to variant axis (prereg s1); state-face anchor 0.7403 MOM3-MOM5 re-verified bit-exact in g_anchor",
+  "return_face_note": "r_cell(t) = pos(t-1) * r(t) lag-1 close-to-close exposure map; runner T+1-open fills differ only at sub-day granularity (honest approximation for the daily corr face); timing batch HAS return-series cells -> registered-six return-face corr measured directly, NO W10 IC-batch protocol substitution needed",
+  "vs_registered_six_return_face": {
+   "COMPOSITE-CE-01": {
+    "MOM3": {
+     "corr": 0.1273,
+     "n_common": 1630
+    },
+    "MOM4": {
+     "corr": 0.0248,
+     "n_common": 1630
+    },
+    "MOM5": {
+     "corr": 0.1342,
+     "n_common": 1630
+    }
+   },
+   "COMPOSITE-CE-02": {
+    "MOM3": {
+     "corr": 0.1211,
+     "n_common": 1630
+    },
+    "MOM4": {
+     "corr": 0.089,
+     "n_common": 1630
+    },
+    "MOM5": {
+     "corr": 0.1328,
+     "n_common": 1630
+    }
+   },
+   "DROUGHT-CE-01": {
+    "MOM3": {
+     "corr": 0.0643,
+     "n_common": 1630
+    },
+    "MOM4": {
+     "corr": 0.1462,
+     "n_common": 1630
+    },
+    "MOM5": {
+     "corr": 0.0866,
+     "n_common": 1630
+    }
+   },
+   "ENGULF-CE-01": {
+    "MOM3": {
+     "corr": 0.1107,
+     "n_common": 1630
+    },
+    "MOM4": {
+     "corr": 0.2754,
+     "n_common": 1630
+    },
+    "MOM5": {
+     "corr": 0.1314,
+     "n_common": 1630
+    }
+   },
+   "NEEDLE-DE-01": {
+    "MOM3": {
+     "corr": 0.1252,
+     "n_common": 1630
+    },
+    "MOM4": {
+     "corr": 0.2521,
+     "n_common": 1630
+    },
+    "MOM5": {
+     "corr": 0.1259,
+     "n_common": 1630
+    }
+   },
+   "VOLATILITY-CE-01": {
+    "MOM3": {
+     "corr": 0.1255,
+     "n_common": 1630
+    },
+    "MOM4": {
+     "corr": 0.0995,
+     "n_common": 1630
+    },
+    "MOM5": {
+     "corr": 0.1266,
+     "n_common": 1630
+    }
+   }
+  },
+  "vs_t33_rotation_cells_return_face": {
+   "slope_r2_rotation_25_top3_r8": {
+    "MOM3": 0.3415,
+    "MOM4": 0.2597,
+    "MOM5": 0.3248
+   },
+   "dual_momentum_etf_20_60_top3": {
+    "MOM3": 0.3701,
+    "MOM4": 0.3074,
+    "MOM5": 0.3552
+   },
+   "rs_rotation_20": {
+    "MOM3": 0.4078,
+    "MOM4": 0.3065,
+    "MOM5": 0.3918
+   },
+   "composite_top5": {
+    "MOM3": 0.1374,
+    "MOM4": 0.0428,
+    "MOM5": 0.1512
+   }
+  },
+  "vs_calendar_neighbor_state_faces": {
+   "vs_repo_stress_state": {
+    "MOM3": {
+     "pearson": 0.0017,
+     "n_common": 3465
+    },
+    "MOM4": {
+     "pearson": -0.0837,
+     "n_common": 3465
+    },
+    "MOM5": {
+     "pearson": -0.01,
+     "n_common": 3465
+    }
+   },
+   "vs_month_end_adjacent_calendar": {
+    "MOM3": {
+     "pearson": -0.0097,
+     "n_common": 3465
+    },
+    "MOM4": {
+     "pearson": 0.0183,
+     "n_common": 3465
+    },
+    "MOM5": {
+     "pearson": -0.0002,
+     "n_common": 3465
+    }
+   }
+  },
+  "berth_signal_face_anchors": {
+   "vs_regime_guard_width_below_ma20": {
+    "MOM3": {
+     "pearson": -0.3649,
+     "n_common": 1616
+    },
+    "MOM4": {
+     "pearson": 0.0379,
+     "n_common": 1616
+    },
+    "MOM5": {
+     "pearson": -0.2364,
+     "n_common": 1616
+    }
+   },
+   "vs_87_nhnl_b20": {
+    "MOM3": {
+     "pearson": 0.2459,
+     "n_common": 1616
+    },
+    "MOM4": {
+     "pearson": -0.0046,
+     "n_common": 1616
+    },
+    "MOM5": {
+     "pearson": 0.1467,
+     "n_common": 1616
+    }
+   },
+   "vs_vstd20_second_moment_proxy": {
+    "MOM3": {
+     "pearson": -0.0305,
+     "n_common": 3465
+    },
+    "MOM4": {
+     "pearson": 0.4817,
+     "n_common": 3465
+    },
+    "MOM5": {
+     "pearson": -0.0517,
+     "n_common": 3465
+    }
+   }
+  },
+  "high_risk_pair_volatility_ce_01": {
+   "MOM3": 0.1255,
+   "MOM4": 0.0995,
+   "MOM5": 0.1266
+  },
+  "clause_eligible_max_abs_corr": 0.4817,
+  "merge_clause_threshold": 0.7,
+  "merge_clause_applied": []
+ },
+ "single_source_note": "construction single source = results/_r267bmc_w11_berth_probe.py (build_faces_510300 + constants) -- the step-6 runner verbatim-imports and parity-asserts (r456 zero-drift paradigm)"
+}

@@ -1615,6 +1615,15 @@ SEED_REGISTRY = {
         # (facts = results/_r265bmc_w10_seed_law_facts.json)
         "innovation_quota_w10_premium": 20326500,
 
+        # INNOVATION-QUOTA-W11 MOM-TIMING-P1 index higher-moment
+        # timing gate (zoo #95 index_higher_mom_timing, bm-c r267
+        # berth / r268 freeze window); +500 ladder above W10 20326500
+        # (last registered quota base); k-sub-stream semantics same law
+        # (nulls k<2000, splits k in [3000,3100), starts band
+        # k in [2000,3000)); three-step law FULL import view verified
+        # same window (facts = results/_r268bmc_w11_seed_law_facts.json)
+        "innovation_quota_w11_momtiming": 20327000,
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)
