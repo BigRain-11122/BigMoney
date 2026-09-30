@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-30",
- "generated_at": "2026-09-30 16:54:41",
+ "generated_at": "2026-09-30 16:56:58",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,22 +297,22 @@
   "md_link": "../live_usage/LIVE-2026-09-30.md"
  },
  "rd": {
-  "commits_24h": 384,
+  "commits_24h": 380,
   "result_jsons_landed_24h": 160,
-  "digests_landed_24h": 5,
+  "digests_landed_24h": 4,
   "prereg_md_touched_24h": 39,
   "compute_audit_latest": {
-   "ts": "2026-09-30 16:50:50",
-   "py_cpu_pct": 7.9,
+   "ts": "2026-09-30 16:50:29",
+   "py_cpu_pct": 0.0,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_with_work_cands",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
-  "batch_in_flight": true
+  "batch_in_flight": false
  },
  "decisions_tail": [
   "- 2026-09-26 09:32 · T-74 市场时钟组合=六层既有件集成（v3 政体×热度复合×三军名册×选股面×仓位帽），零新策略族 · 理由=O-0932 CEO 令+反重复铁律（收敛声明入票） · 指针=research/MARKET_CLOCK_COMBO.md s0 v1.0",
@@ -598,13 +598,17 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-09-30 16:50:50",
-    "py_pct": 7.9,
-    "cpu_pct": 70.0,
+    "latest_ts": "2026-09-30 16:30:11",
+    "py_pct": 5.7,
+    "cpu_pct": 71.0,
     "ready": 0,
-    "streak_min": 739.6,
+    "streak_min": 719.0,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
+     [
+      "14:38",
+      0.6
+     ],
      [
       "14:39",
       0.2
@@ -648,13 +652,9 @@
      [
       "16:30",
       5.7
-     ],
-     [
-      "16:50",
-      7.9
      ]
     ],
-    "today_samples": 81,
+    "today_samples": 80,
     "today_floor_ok": 0,
     "today_sla_flags": 1,
     "today_supply_gap_flags": 19
@@ -722,11 +722,11 @@
     "today_supply_gap_flags": 19
    },
    "bm-c": {
-    "latest_ts": "2026-09-30 16:29:43",
+    "latest_ts": "2026-09-30 16:50:29",
     "py_pct": 0.0,
-    "cpu_pct": 6.0,
+    "cpu_pct": 9.0,
     "ready": 0,
-    "streak_min": 718.5,
+    "streak_min": 739.3,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
      [
@@ -770,11 +770,11 @@
       1.7
      ],
      [
-      "16:09",
-      0.1
+      "16:30",
+      5.7
      ],
      [
-      "16:29",
+      "16:50",
       0.0
      ]
     ],

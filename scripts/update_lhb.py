@@ -16,6 +16,20 @@ Safety (update_daily paradigm):
   - overlap check: re-fetched rows with date <= cutoff must match the
     stored rows for the cutoff date (row count + net-buy sum, tol 1e-6);
     mismatch = source restated history -> write NOTHING, flag, exit 3
+  - late-disclosure superset acceptance (r280 bm-c deadlock fix): the
+    EM source legitimately COMPLETES past-date rows for days after the
+    event -- late LHB disclosures keep landing past-date rows (25 rows
+    joined the 2026-09-28 window hours after first fetch) and the
+    shangbang_hou_1/2/5/10ri forward-return columns get filled in as
+    later closes happen (probe 2026-09-30: 42/42 common rows differ on
+    上榜后1日/2日 with netbuy byte-identical). The strict equality check
+    above misread that benign completion as restatement and deadlocked
+    the panel (13 consecutive rc3 observations, cutoff frozen at
+    09-28 while 09-29 disclosures waited). Fix: when the strict check
+    fails but every stored cutoff-date row still exists in the fetched
+    set with identical per-key netbuy (sorted-list identity, NaN-aware)
+    = PURE ADDITION -> write proceeds (superset overwrite is the design
+    anyway). Any mutation/removal of a stored row stays a hard exit-3.
   - idempotent: no events beyond cutoff -> honest no-op exit 0
   - fetch failure -> no write, exit 2 (retry next run)
 Write-domain (claim-scoped): the current-quarter chunk file,
@@ -198,6 +212,46 @@ def store_state(parquet_path, chunks_dir):
     return True, "ok"
 
 
+def _nan_sk(v):
+    # deterministic sort key: NaN sorts first, never compares as equal
+    nan = v != v
+    return (bool(nan), 0.0 if nan else float(v))
+
+
+def is_pure_addition(old_day, new_day):
+    """r280 deadlock fix: True when every stored cutoff-date row still
+    exists in the fetched set with identical per-key 龙虎榜净买额
+    (sorted per-key lists, NaN==NaN) -- i.e. the source only ADDED
+    late-disclosure rows. Any stored row missing, count-changed or
+    netbuy-mutated -> False (true restatement, keep blocking)."""
+    if len(old_day) == 0:
+        return True
+    if len(new_day) == 0:
+        return False
+
+    def _keyed(frame):
+        keyed = {}
+        keys = list(zip(frame["代码"].astype(str),
+                        pd.to_datetime(frame["上榜日"]).dt.strftime("%Y-%m-%d"),
+                        frame["上榜原因"].astype(str)))
+        nb = pd.to_numeric(frame["龙虎榜净买额"], errors="coerce").tolist()
+        for i, kk in enumerate(keys):
+            keyed.setdefault(kk, []).append(nb[i])
+        return keyed
+
+    om, nm = _keyed(old_day), _keyed(new_day)
+    for kk, vals in om.items():
+        if kk not in nm or len(nm[kk]) != len(vals):
+            return False
+        for a, b in zip(sorted(vals, key=_nan_sk), sorted(nm[kk], key=_nan_sk)):
+            an, bn = a != a, b != b
+            if an != bn:
+                return False
+            if not an and abs(a - b) > max(TOL, abs(a) * 1e-9):
+                return False
+    return True
+
+
 def rebuild_from_chunks():
     frames = []
     for name in sorted(os.listdir(CHUNKS)):
@@ -280,6 +334,7 @@ def main():
     old_day = lhb[pd.to_datetime(lhb["上榜日"]) == cutoff]
     new_day = df[fd == cutoff]
     ok_overlap = True
+    late_ok = False
     detail = {"old_rows": int(len(old_day)), "new_rows": int(len(new_day))}
     if len(old_day) and len(new_day):
         old_sum = float(pd.to_numeric(old_day["龙虎榜净买额"],
@@ -290,9 +345,22 @@ def main():
         detail["netbuy_sum_new"] = round(new_sum, 2)
         ok_overlap = (len(old_day) == len(new_day)
                       and abs(old_sum - new_sum) <= max(TOL, abs(old_sum) * 1e-9))
+        if not ok_overlap:
+            # r280: late disclosures land past-date rows for hours after
+            # the event (probe 2026-09-30: 25 rows joined the 09-28 window
+            # with all 42 stored rows netbuy-identical). Pure ADDITION =
+            # legitimate completion -> proceed; mutation/removal -> exit 3.
+            late_ok = is_pure_addition(old_day, new_day)
+            if late_ok:
+                detail["overlap_note"] = ("late_disclosure_superset_accepted"
+                                          " (stored rows netbuy-identical,"
+                                          " source only added rows)")
     elif len(old_day) != len(new_day):
         ok_overlap = False
-    if not ok_overlap:
+        late_ok = is_pure_addition(old_day, new_day)
+        if late_ok:
+            detail["overlap_note"] = "late_disclosure_superset_accepted"
+    if not ok_overlap and not late_ok:
         save_status({"cutoff": str(cutoff.date()),
                      "verdict": "overlap_mismatch: source restated history, "
                                 "local kept untouched",
@@ -440,6 +508,52 @@ def selftest():
         assert len(back) == 2 and not os.path.exists(p + ".tmp"), \
             "atomic write roundtrip failed"
         print("[PASS] atomic_parquet_write roundtrip + tmp cleanup",
+              flush=True)
+
+        # ---- r280: is_pure_addition (late-disclosure superset acceptance)
+        def _mk(rows):
+            return pd.DataFrame({
+                "代码": [r[0] for r in rows],
+                "上榜日": ["2026-09-28"] * len(rows),
+                "上榜原因": [r[1] for r in rows],
+                "龙虎榜净买额": [r[2] for r in rows],
+            })
+
+        base = [("000513", "日涨幅偏离值达到7%的前5只证券", 1.2e8),
+                ("000560", "日换手率达到20%的前5只证券", -1.9e8)]
+        late = [("300999", "日振幅值达到15%的前5只证券", -5.0e7)]
+        assert is_pure_addition(_mk(base), _mk(base + late)) is True
+        print("[PASS] is_pure_addition late row added -> accepted",
+              flush=True)
+        assert is_pure_addition(_mk(base), _mk(base)) is True
+        print("[PASS] is_pure_addition identical sets -> accepted",
+              flush=True)
+        mut = [("000513", "日涨幅偏离值达到7%的前5只证券", 9.9e7), base[1]]
+        assert is_pure_addition(_mk(base), _mk(mut)) is False
+        print("[PASS] is_pure_addition stored netbuy mutated -> blocked",
+              flush=True)
+        assert is_pure_addition(_mk(base), _mk([base[0]])) is False
+        print("[PASS] is_pure_addition stored row removed -> blocked",
+              flush=True)
+        dup_old = [("000001", "reason-a", 10.0), ("000001", "reason-a", 20.0)]
+        dup_new = [("000001", "reason-a", 5.0), ("000001", "reason-a", 25.0)]
+        assert is_pure_addition(_mk(dup_old), _mk(dup_new)) is False
+        print("[PASS] is_pure_addition intra-key swap (sum-equal) -> blocked",
+              flush=True)
+        nan_pair = [("000002", "reason-b", float("nan")),
+                    ("000002", "reason-b", 1.0)]
+        assert is_pure_addition(_mk(nan_pair),
+                                _mk([nan_pair[0], nan_pair[1]])) is True
+        assert is_pure_addition(_mk(nan_pair),
+                                _mk([("000002", "reason-b", 1.0),
+                                     ("000002", "reason-b", 1.0)])) is False
+        print("[PASS] is_pure_addition NaN identity NaN==NaN only",
+              flush=True)
+        assert is_pure_addition(_mk(base).iloc[0:0], _mk(late)) is True
+        print("[PASS] is_pure_addition empty stored -> additions accepted",
+              flush=True)
+        assert is_pure_addition(_mk(base), _mk(base).iloc[0:0]) is False
+        print("[PASS] is_pure_addition source emptied window -> blocked",
               flush=True)
 
     print("selftest: all guard cases PASS", flush=True)
