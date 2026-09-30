@@ -204,23 +204,35 @@
    "shard": "p2null-klift-s2-0of1",
    "machine": "bm-c"
   },
+  "scripts/perpetual_faces_n1.py|run,--shard,3,--of,12": {
+   "count": 1,
+   "refusals": 15,
+   "code_sha256": "5667c984e14af8e5",
+   "last_crash_ts": "2026-10-01 01:50:04",
+   "entry": "PERPETUAL-N1-W2-SHARD-3",
+   "shard": "n1w2-3of12",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 02:16:17"
+  },
   "scripts/exclusion_marginal_scan.py|run": {
    "count": 1,
-   "refusals": 0,
-   "code_sha256": "5dc9b37eef84d669",
-   "last_crash_ts": "2026-09-30 21:40:03",
+   "refusals": 9,
+   "code_sha256": "27a70cb416318ef7",
+   "last_crash_ts": "2026-10-01 02:02:13",
    "entry": "EXCLUSION-MARGINAL-P1-RUN",
    "shard": "exclusion-0of1",
-   "machine": "bm-b"
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-01 02:34:08"
   },
-  "scripts/lowamp_p1.py|run,--sensitivity": {
+  "scripts/cross_start_robustness.py|run_face_b": {
    "count": 1,
-   "refusals": 0,
-   "code_sha256": "e70301bf089fd5b5",
-   "last_crash_ts": "2026-10-01 01:20:55",
-   "entry": "LOWAMP-P1-SENS",
-   "shard": "lowamp-p1-sens-0of1",
-   "machine": "bm-a"
+   "refusals": 8,
+   "code_sha256": "8259296c0c23bc7e",
+   "last_crash_ts": "2026-10-01 02:04:04",
+   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
+   "shard": "faceb-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-01 02:34:08"
   },
   "scripts/perpetual_faces_n1.py|run,--shard,0,--of,12": {
    "count": 1,
@@ -231,36 +243,6 @@
    "shard": "n1w2-0of12",
    "machine": "bm-a",
    "last_refusal_ts": "2026-10-01 02:16:15"
-  },
-  "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12": {
-   "count": 1,
-   "refusals": 17,
-   "code_sha256": "5667c984e14af8e5",
-   "last_crash_ts": "2026-10-01 01:46:04",
-   "entry": "PERPETUAL-N1-W2-SHARD-1",
-   "shard": "n1w2-1of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 02:16:16"
-  },
-  "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12": {
-   "count": 1,
-   "refusals": 16,
-   "code_sha256": "5667c984e14af8e5",
-   "last_crash_ts": "2026-10-01 01:48:04",
-   "entry": "PERPETUAL-N1-W2-SHARD-2",
-   "shard": "n1w2-2of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 02:16:16"
-  },
-  "scripts/perpetual_faces_n1.py|run,--shard,3,--of,12": {
-   "count": 1,
-   "refusals": 15,
-   "code_sha256": "5667c984e14af8e5",
-   "last_crash_ts": "2026-10-01 01:50:04",
-   "entry": "PERPETUAL-N1-W2-SHARD-3",
-   "shard": "n1w2-3of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 02:16:17"
   },
   "scripts/perpetual_faces_n1.py|run,--shard,4,--of,12": {
    "count": 2,
@@ -341,6 +323,26 @@
    "shard": "n1w2-11of12",
    "machine": "bm-a",
    "last_refusal_ts": "2026-10-01 02:16:22"
+  },
+  "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12": {
+   "count": 1,
+   "refusals": 17,
+   "code_sha256": "5667c984e14af8e5",
+   "last_crash_ts": "2026-10-01 01:46:04",
+   "entry": "PERPETUAL-N1-W2-SHARD-1",
+   "shard": "n1w2-1of12",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 02:16:16"
+  },
+  "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12": {
+   "count": 1,
+   "refusals": 16,
+   "code_sha256": "5667c984e14af8e5",
+   "last_crash_ts": "2026-10-01 01:48:04",
+   "entry": "PERPETUAL-N1-W2-SHARD-2",
+   "shard": "n1w2-2of12",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 02:16:16"
   }
  },
  "cleared": {
@@ -415,11 +417,11 @@
    "old_code_sha256": "9c46c580e0897ffb"
   },
   "scripts/exclusion_marginal_scan.py|run": {
-   "cleared_ts": "2026-09-30 21:00:04",
+   "cleared_ts": "2026-10-01 01:20:05",
    "cleared_by": "bm-b",
    "reason": "code_changed",
    "crashes": 1,
-   "old_code_sha256": "b57f5649b0cbcef3"
+   "old_code_sha256": "5dc9b37eef84d669"
   },
   "scripts/cross_start_robustness.py|run_face_b": {
    "cleared_ts": "2026-09-30 20:56:13",
@@ -434,11 +436,11 @@
    "old_code_sha256": "1098a0ebc1c3dd2c"
   },
   "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,legacy,--face,base": {
-   "cleared_ts": "2026-10-01 00:52:06",
-   "cleared_by": "bm-a",
+   "cleared_ts": "2026-10-01 02:00:05",
+   "cleared_by": "bm-b",
    "reason": "code_changed",
    "crashes": 1,
-   "old_code_sha256": "d6997f152c007f80"
+   "old_code_sha256": "5da5664a264a4a0e"
   },
   "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,legacy,--face,x2": {
    "cleared_ts": "2026-10-01 01:14:15",
@@ -474,6 +476,34 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "d6997f152c007f80"
+  },
+  "scripts/perpetual_faces_n1.py|run,--shard,0,--of,12": {
+   "cleared_ts": "2026-10-01 02:02:15",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "5667c984e14af8e5"
+  },
+  "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12": {
+   "cleared_ts": "2026-10-01 02:04:06",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "5667c984e14af8e5"
+  },
+  "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12": {
+   "cleared_ts": "2026-10-01 02:06:06",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "5667c984e14af8e5"
+  },
+  "scripts/lowamp_p1.py|run,--sensitivity": {
+   "cleared_ts": "2026-10-01 02:48:16",
+   "cleared_by": "bm-a",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "e70301bf089fd5b5"
   }
  },
  "lane_machine": "bm-a"
