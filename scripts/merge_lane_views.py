@@ -52,8 +52,10 @@ A_FACES = ("compute_audit", "regime_state", "autofill_state",
 MACHINES = ("bm-a", "bm-b", "bm-c")
 # r370 pit-law: resolver/union may swallow the OTHER machine's in-tree fixes
 # for governance fields -- non-empty-first with annotation, never blind-pick.
+# r504 bm-a: park_note joins the family (deliberate-hold annotation, r478
+# W14 判例 field) -- dropped notes were half of the 06:06/06:26 clobber.
 GOVERNANCE_FIELDS = ("lane_owner", "lane_note", "claimed_by", "claimed_at",
-                     "claim_note", "yield_note", "defer_note")
+                     "claim_note", "yield_note", "defer_note", "park_note")
 _RECON_TS = re.compile(r"(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})")
 
 
@@ -347,24 +349,44 @@ def _merge_pool_entry(a, b, notes, label_a, label_b):
     # deliberate session defer (status waiting + non-empty defer_note)
     # was resurrected to ready by a stale pre-defer lane mirror -- no
     # per-entry ts exists, so the note IS the deliberate-act marker.
-    # Marker law (risk-asymmetric): marked-waiting beats bare-ready (a
-    # swallowed defer = autofill relaunches a deliberately-held batch =
-    # double burn); the un-defer convention clears defer_note on
-    # flip-back, and a swallowed un-defer only delays a fill by <= one
-    # round (mirror heals the lane) = low harm. Both sides marked (or
-    # neither) -> legacy rank. This branch also merges governance and
-    # shards across sides regardless of the winning side (the old
+    # r504 bm-a live case (twice in one window): park_note had NO
+    # marker protection -- a GM-window re-park (waiting+park_note on
+    # shared, r478 W14 判例 field) was resurrected to ready by stale
+    # pre-park lane mirrors at two settles; fleet daemons then legally
+    # claimed the fake-ready and burned into a governance hold (kill
+    # at dedup 7750/10000, zero product, N=0 held). Marker test now
+    # covers BOTH deliberate-hold notes (defer_note, park_note).
+    # Authority rule (writer-model, r378 canon: session one-offs touch
+    # ONLY the shared face; dual-track ticks write both sides): in a
+    # marked-vs-bare conflict the side carrying the shared face's
+    # verdict wins -- protects the park AND the un-park (a stale lane
+    # mirror must never outvote the face a session just wrote, in
+    # EITHER direction). Lane-vs-lane (no shared input in this pair)
+    # falls back to the risk-asymmetric marker law (marked-waiting
+    # beats bare-ready: a swallowed park = daemon burns a
+    # deliberately-held batch). Both sides marked (or neither) ->
+    # legacy rank. This branch also merges governance and shards
+    # across sides regardless of the winning side (the old
     # take-one-side-wholesale dropped the losing side's annotations).
-    a_note, b_note = bool(a.get("defer_note")), bool(b.get("defer_note"))
+    a_note = bool(a.get("defer_note") or a.get("park_note"))
+    b_note = bool(b.get("defer_note") or b.get("park_note"))
     a_mw = a.get("status") == "waiting" and a_note
     b_mw = b.get("status") == "waiting" and b_note
     bare_ready = ((a.get("status") == "ready" and not a_note)
                   or (b.get("status") == "ready" and not b_note))
     if (a_mw or b_mw) and bare_ready:
-        win, lose = (a, b) if a_mw else (b, a)
-        notes.append(f"entry {a.get('id')}: deliberate defer marker "
-                     f"(waiting+defer_note, r378 catch #4 law) beats "
-                     f"bare ready from a stale mirror")
+        a_shared, b_shared = label_a == "legacy", label_b == "legacy"
+        if a_shared != b_shared:
+            win, lose = (a, b) if a_shared else (b, a)
+            notes.append(f"entry {a.get('id')}: deliberate-hold marker "
+                         f"conflict -> shared-face verdict kept "
+                         f"({win.get('status')!r}, r504 authority law; "
+                         f"stale mirror overruled)")
+        else:
+            win, lose = (a, b) if a_mw else (b, a)
+            notes.append(f"entry {a.get('id')}: deliberate-hold marker "
+                         f"(waiting+defer_note/park_note, r378 catch #4 "
+                         f"+ r504) beats bare ready from a stale mirror")
     else:
         rank = {"ready": 2, "waiting": 1}
         win = a if rank.get(a.get("status"), 0) >= \
@@ -399,8 +421,13 @@ def merge_runnable_pool(sources):
                 order.append(eid)
             else:
                 prev, prev_label = by_id[eid]
+                # r504: carry legacy (shared-face) provenance through the
+                # pairwise reduce -- the shared verdict must stay
+                # recognizable in later lane pairs (authority law above).
+                eff = ("legacy" if "legacy" in (prev_label, label)
+                       else label)
                 by_id[eid] = (_merge_pool_entry(prev, e, notes,
-                                                prev_label, label), label)
+                                                prev_label, label), eff)
     win = _flat_winner(sources, lambda d: str(d.get("updated_at", "")))
     out = dict(sources[win][1])
     out["entries"] = [by_id[eid][0] for eid in order]
@@ -1179,6 +1206,45 @@ def _selftest():
             {"id": "W", "status": "ready", "defer_note": "undefer?"}]})])
     w = next(e for e in both[0]["entries"] if e["id"] == "W")
     check("pool:both-marked-rank-fallback", w["status"] == "ready")
+
+    # 5d. r504 bm-a live case (W14 clobber, twice in one window):
+    # park_note joins the marker law; the shared face carries session
+    # verdicts (one-off writers touch ONLY shared per r378 canon) so a
+    # stale lane mirror must never outvote it in a marked-vs-bare
+    # conflict -- park AND un-park both hold. Lane-vs-lane falls back
+    # to the risk-asymmetric marker law.
+    parked_shared = {"updated_at": "2026-10-01 05:56:00", "entries": [
+        {"id": "W14R", "status": "waiting",
+         "park_note": "GM dual-ruling window re-park r494"}]}
+    stale_ready_lane = {"updated_at": "2026-10-01 05:20:00", "entries": [
+        {"id": "W14R", "status": "ready"}]}
+    m, _n = merge_runnable_pool([("legacy", parked_shared),
+                                 ("bm-b", stale_ready_lane)])
+    e14 = next(e for e in m["entries"] if e["id"] == "W14R")
+    check("pool:park-marker-beats-stale-ready",
+          e14["status"] == "waiting"
+          and e14.get("park_note") == "GM dual-ruling window re-park r494")
+    m, _n = merge_runnable_pool([("legacy", parked_shared),
+                                 ("bm-b", stale_ready_lane),
+                                 ("bm-c", stale_ready_lane)])
+    e14 = next(e for e in m["entries"] if e["id"] == "W14R")
+    check("pool:park-authority-survives-multi-lane",
+          e14["status"] == "waiting")
+    unparked_shared = {"updated_at": "2026-10-01 07:00:00", "entries": [
+        {"id": "W14U", "status": "ready"}]}
+    stale_parked_lane = {"updated_at": "2026-10-01 06:00:00", "entries": [
+        {"id": "W14U", "status": "waiting", "park_note": "stale park"}]}
+    m, _n = merge_runnable_pool([("legacy", unparked_shared),
+                                 ("bm-b", stale_parked_lane)])
+    e14u = next(e for e in m["entries"] if e["id"] == "W14U")
+    check("pool:unpark-shared-verdict-holds",
+          e14u["status"] == "ready"
+          and e14u.get("park_note") == "stale park")  # r370 non-null-first
+    m, _n = merge_runnable_pool([("bm-a", stale_parked_lane),
+                                 ("bm-b", stale_ready_lane)])
+    e14l = next(e for e in m["entries"] if e["id"] == "W14U")
+    check("pool:lane-vs-lane-marker-fallback",
+          e14l["status"] == "waiting")
 
     # 6. gate_attrition full-volume union (47 consumers need every row)
     a = {"schema": "v1", "entries": [{"batch": "B", "ts": "01"}],
