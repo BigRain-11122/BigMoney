@@ -201,6 +201,43 @@ def main() -> int:
           f"frozen T-78 grid caliber 13.0bp vs canonical 13.041bp "
           f"(delta {grid_delta:.2f} CNY/100k side)")
 
+    # RW-4 (T-127, D-20260930-05): canonical data-panel gate. The bare
+    # 6-digit code IS the canonical key; twins/duplicates fail the audit's
+    # len(set)==len(list) acceptance face; stale members are excluded
+    # (batch) or refused (in-service/required); the in-service panel is
+    # the FROZEN 48-member whitelist (knowledge/panel_gate.py), never the
+    # directory listing -- silent expansion OR shrink both fail closed.
+    from knowledge import panel_gate as _pg
+    lb_real = {s: d.index[-1].strftime("%Y-%m-%d") for s, d in panels.items()}
+    inv_real = _pg.PanelInventory(bare={s: s + ".csv" for s in panels},
+                                  prefixed={}, last_bars=lb_real)
+    res_real = _pg.gate(list(panels), mode="inservice", inventory=inv_real)
+    syn = _pg.PanelInventory(bare={"510300": "510300.csv"},
+                             prefixed={"510300": "sh510300.csv"},
+                             last_bars={"510300": "2026-09-29"})
+    res_twin = _pg.gate(["sh510300", "510300"], mode="batch", inventory=syn)
+    stale_fx = _pg.PanelInventory(bare={"510300": "510300.csv"}, prefixed={},
+                                   last_bars={"510300": "2026-01-01"})
+    res_stale = _pg.gate(["510300"], mode="inservice", inventory=stale_fx,
+                         anchor="2026-09-29")
+    res_lock = _pg.gate(["600000"], mode="inservice", inventory=syn)
+    res_shrink = _pg.gate(["510050"], mode="inservice", inventory=syn)
+    check("panel gate: real in-service panel inside frozen 48-lock (RW-4)",
+          res_real.ok and len(res_real.accepted) == len(panels) and _pg.verify(),
+          f"{len(res_real.accepted)}/{len(panels)} members in lock, "
+          f"sha16={_pg.INSERVICE_SHA16[:8]}, len(set)==len(list) holds")
+    check("panel gate: twins refused, len(set)==len(list) (RW-4)",
+          (not res_twin.ok) and any("twin/duplicate" in x for x in res_twin.reasons),
+          "sh510300+510300 -> duplicate after canonicalization -> batch "
+          "not accepted")
+    check("panel gate: stale in-service member refused (RW-4)",
+          (not res_stale.ok) and any("stale" in x for x in res_stale.reasons),
+          "last_bar 2026-01-01 vs anchor 2026-09-29 -> lock breach refused")
+    check("panel gate: out-of-lock + silent-shrink refused (RW-4)",
+          (not res_lock.ok) and any("out-of-lock" in x for x in res_lock.reasons)
+          and (not res_shrink.ok) and any("missing in-lock" in x for x in res_shrink.reasons),
+          "600000 out-of-lock refused; 1-of-48 request = silent shrink refused")
+
     # --- 7) network / traffic modules ---
     import network_detector
     import traffic_policy

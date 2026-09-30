@@ -1,0 +1,44 @@
+{
+ "probe": "rw4_slice2_panel_gate_realdata",
+ "ticket": "T-2026-09-30-127 (RW-4 slice-2)",
+ "generated_utc": "2026-09-30T06:37:30.083583+00:00",
+ "counts": {
+  "files_csv": 1724,
+  "canonical_unique_codes": 1676,
+  "twins_deduped": 48,
+  "bare_keys": 48,
+  "prefixed_keys": 1676,
+  "panel_anchor_last_bar": "2026-09-29",
+  "stale_days": 5,
+  "batch_excluded_stale": 1628,
+  "file_face_stale_files": 1671,
+  "batch_accepted": 48,
+  "inservice_accepted": 48
+ },
+ "acceptance_face": {
+  "twins_found_in_files": 48,
+  "len_set_eq_len_list_after_dedup": true,
+  "audit_verbatim": "len(set)==len(list)",
+  "stale_excluded_n": 1628,
+  "inservice_gate_ok": true,
+  "inservice_whitelist_n": 48,
+  "inservice_sha16": "abf3d43b9ca13ea5"
+ },
+ "injection_legs": {
+  "twin_request_refused": true,
+  "out_of_lock_refused": true,
+  "stale_inservice_refused": true,
+  "stale_required_refused": true,
+  "missing_inlock_refused": true,
+  "stale_batch_excluded_not_refused": true
+ },
+ "inservice_refusals": [],
+ "divergence_disclosure": "audit RW-4 row says in-service panel 'locked to 30'; no in-repo count reproduces 30 (48 bare core48 / 53 fresh / 6 registered / 18 held / 22 PROSPECT). Lock = REAL 48-member universe, frozen sha16 abf3d43b9ca13ea5; divergence disclosed, no 30-member panel fabricated.",
+ "excluded_sample": {
+  "158000": "stale last_bar=2026-09-22 (>5d behind 2026-09-29)",
+  "158001": "stale last_bar=2026-09-22 (>5d behind 2026-09-29)",
+  "158003": "stale last_bar=2026-09-22 (>5d behind 2026-09-29)",
+  "158005": "stale last_bar=2026-09-22 (>5d behind 2026-09-29)",
+  "158006": "stale last_bar=2026-09-22 (>5d behind 2026-09-29)"
+ }
+}

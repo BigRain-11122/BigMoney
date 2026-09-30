@@ -52,6 +52,7 @@ import pandas as pd
 from config import PATHS
 from config.lane_io import shared_derive_write_allowed
 import engine.backtester as _eb
+from knowledge import panel_gate as _panel_gate  # RW-4 (T-127)
 from engine import run_backtest
 from engine.metrics import annual_return, max_drawdown, sharpe
 from firm.hr import TRADERS_DIR, load_trader, save_trader
@@ -159,7 +160,14 @@ SIGNAL_BUILDERS["bb_squeeze_breakout()"] = lambda P: _apply_sym(
 
 
 def load_core(min_listing_days: int = 60) -> dict:
-    """Core-48 bare-code universe (mirror of combined_exit_screen.load_core)."""
+    """Core-48 bare-code universe (mirror of combined_exit_screen.load_core).
+
+    RW-4 data gate (T-127 / D-20260930-05): the in-service panel is the
+    FROZEN whitelist in knowledge/panel_gate.py -- NOT the directory
+    listing. Lock breaches (new/unvetted bare file, missing in-lock
+    member) and staleness (>N days behind the panel anchor) fail
+    closed: the batch is not accepted.
+    """
     out = {}
     daily = PATHS.daily_dir
     for f in sorted(os.listdir(daily)):
@@ -174,6 +182,15 @@ def load_core(min_listing_days: int = 60) -> dict:
         if "amount" not in df.columns:
             df["amount"] = df["volume"] * df["close"]
         out[f[:-4]] = df[["open", "high", "low", "close", "volume", "amount"]]
+    last_bars = {s: df.index[-1].strftime("%Y-%m-%d") for s, df in out.items()}
+    inv = _panel_gate.PanelInventory(
+        bare={s: s + ".csv" for s in out}, prefixed={}, last_bars=last_bars)
+    res = _panel_gate.gate(list(out), mode="inservice", inventory=inv,
+                           stale_days=_panel_gate.STALE_DAYS_DEFAULT)
+    if not res.ok:
+        raise RuntimeError(
+            "RW-4 in-service panel gate refused the batch (batch not "
+            "accepted): " + "; ".join(res.reasons))
     return out
 
 
