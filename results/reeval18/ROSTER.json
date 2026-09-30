@@ -1,0 +1,1537 @@
+{
+ "roster_id": "REEVAL18",
+ "order_refs": [
+  "O-20260930-1058",
+  "O-20260930-1101"
+ ],
+ "ticket_ref": "T-2026-09-30-126",
+ "generated_by": "results/_r470bma_reeval18_roster.py (deterministic, zero network)",
+ "honest_label": "2026 YTD review component: selection process of these passers included 2026 data (O-20260930-1101 sec.1 honest label); drill window is a review, not a pure out-of-sample exam. Forward monthly exam from on-board day = the true final review; live gate = CEO only (O-1058 sec.2 L5).",
+ "per_wave_counts": {
+  "w1": {
+   "judged": 149,
+   "g1_pass": 4
+  },
+  "w2": {
+   "judged": 404,
+   "g1_pass": 11
+  },
+  "w3": {
+   "judged": 513,
+   "g1_pass": 2
+  },
+  "w4": {
+   "judged": 461,
+   "g1_pass": 0
+  },
+  "w5": {
+   "judged": 372,
+   "g1_pass": 1
+  },
+  "w6": {
+   "judged": 293,
+   "g1_pass": 0
+  },
+  "w7": {
+   "judged": 284,
+   "g1_pass": 0
+  },
+  "w8": {
+   "judged": 408,
+   "g1_pass": 0
+  },
+  "w9": {
+   "judged": 243,
+   "g1_pass": 0
+  },
+  "w10": {
+   "judged": 283,
+   "g1_pass": 0
+  },
+  "w11": {
+   "judged": 229,
+   "g1_pass": 0
+  },
+  "w12": {
+   "judged": 188,
+   "g1_pass": 0
+  },
+  "mass": {
+   "judged": 166,
+   "g1_pass": 0
+  }
+ },
+ "total_passers": 18,
+ "dsr_max": 0.462294,
+ "dsr_min": 0.064009,
+ "rows": [
+  {
+   "wave": "w1",
+   "cell_id": "JUDGE|W1-A-0360",
+   "candidate_id": "W1-A-0360",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 60,
+    "top_k": 5,
+    "rebal_days": 10
+   },
+   "axis": [
+    "none",
+    "time_stop_20d",
+    "regime_delever",
+    "daily_signal"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {},
+   "leg_core48": {
+    "sharpe_full": 1.6316,
+    "n_trades": 402,
+    "n_entries": 406,
+    "beat_6m": 0.575419,
+    "beat_12m": 0.549246,
+    "beat_24m": 0.608,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.57,
+    "n_trades": 1040,
+    "n_entries": 1045,
+    "beat_6m": 0.416881,
+    "beat_12m": 0.357287,
+    "beat_24m": 0.364637,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.1887,
+    "n_eff": 312072,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.8673,
+    "ci95_high": 2.3438,
+    "point": 1.6311,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    8.192e-05,
+    0.00028602
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.462294,
+   "dsr_n_trials": 311214,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0143,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w5",
+   "cell_id": "JUDGE|W5-B-2619",
+   "candidate_id": "W5-B-2619",
+   "family": "B",
+   "module": "patterns",
+   "fn": "box_breakout",
+   "sig_params": {
+    "box_n": 40,
+    "box_th": 0.04,
+    "vol_mult": 0.65
+   },
+   "axis": [
+    "amplitude",
+    "profit_ladder",
+    "inverse_vol",
+    "daily_signal",
+    "none",
+    "none",
+    "none",
+    "none"
+   ],
+   "template_trader": null,
+   "faces": {
+    "stop_face": "none",
+    "gate_face": "none",
+    "vol_face": "none",
+    "yang_face": "none"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.6861,
+    "n_trades": 290,
+    "n_entries": 210,
+    "beat_6m": 0.578611,
+    "beat_12m": 0.52795,
+    "beat_24m": 0.528,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.8877,
+    "n_trades": 392,
+    "n_entries": 308,
+    "beat_6m": 0.421392,
+    "beat_12m": 0.33143,
+    "beat_24m": 0.298239,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.1918,
+    "n_eff": 332741,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.9572,
+    "ci95_high": 2.4366,
+    "point": 1.6856,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    5.452e-05,
+    0.00014812
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.439559,
+   "dsr_n_trials": 328615,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.1714,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-B-1971",
+   "candidate_id": "W2-B-1971",
+   "family": "B",
+   "module": "patterns",
+   "fn": "box_breakout",
+   "sig_params": {
+    "box_n": 40,
+    "box_th": 0.04,
+    "vol_mult": 0.65
+   },
+   "axis": [
+    "amplitude",
+    "profit_ladder",
+    "cap20",
+    "daily_signal",
+    "p12"
+   ],
+   "template_trader": null,
+   "faces": {
+    "stop_face": "p12"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.635,
+    "n_trades": 288,
+    "n_entries": 208,
+    "beat_6m": 0.623304,
+    "beat_12m": 0.621118,
+    "beat_24m": 0.670857,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.8632,
+    "n_trades": 390,
+    "n_entries": 306,
+    "beat_6m": 0.443943,
+    "beat_12m": 0.37777,
+    "beat_24m": 0.3562,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.9242,
+    "ci95_high": 2.3921,
+    "point": 1.6345,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    0.0001159,
+    0.00034956
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.367222,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.1429,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0456",
+   "candidate_id": "W2-A-0456",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 60,
+    "rebal_days": 10,
+    "top_k": 5
+   },
+   "axis": [
+    "depth_thresh",
+    "ce_machine",
+    "inverse_vol",
+    "daily_signal",
+    "a20"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {
+    "stop_face": "a20"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.6004,
+    "n_trades": 469,
+    "n_entries": 406,
+    "beat_6m": 0.564246,
+    "beat_12m": 0.537711,
+    "beat_24m": 0.509714,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.5687,
+    "n_trades": 1208,
+    "n_entries": 940,
+    "beat_6m": 0.409794,
+    "beat_12m": 0.344862,
+    "beat_24m": 0.323551,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.8101,
+    "ci95_high": 2.3854,
+    "point": 1.5999,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    6.124e-05,
+    0.00019393
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.302598,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0429,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0066",
+   "candidate_id": "W2-A-0066",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 60,
+    "rebal_days": 10,
+    "top_k": 5
+   },
+   "axis": [
+    "amplitude",
+    "ce_machine",
+    "inverse_vol",
+    "daily_signal",
+    "p5"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {
+    "stop_face": "p5"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.5382,
+    "n_trades": 446,
+    "n_entries": 392,
+    "beat_6m": 0.563448,
+    "beat_12m": 0.54126,
+    "beat_24m": 0.500571,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.3617,
+    "n_trades": 898,
+    "n_entries": 777,
+    "beat_6m": 0.408827,
+    "beat_12m": 0.33546,
+    "beat_24m": 0.321717,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.7918,
+    "ci95_high": 2.294,
+    "point": 1.5377,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    5.255e-05,
+    0.00017302
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.249172,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0429,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0116",
+   "candidate_id": "W2-A-0116",
+   "family": "A",
+   "module": "composite_rotation",
+   "fn": "top_n_rotation",
+   "sig_params": {
+    "rebal_days": 40,
+    "top_n": 5
+   },
+   "axis": [
+    "amplitude",
+    "template_default",
+    "equal_weight",
+    "daily_signal",
+    "a25"
+   ],
+   "template_trader": "COMPOSITE-CE-02",
+   "faces": {
+    "stop_face": "a25"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.5309,
+    "n_trades": 413,
+    "n_entries": 340,
+    "beat_6m": 0.604948,
+    "beat_12m": 0.532387,
+    "beat_24m": 0.622857,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.9134,
+    "n_trades": 961,
+    "n_entries": 798,
+    "beat_6m": 0.439111,
+    "beat_12m": 0.376763,
+    "beat_24m": 0.376376,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.7505,
+    "ci95_high": 2.3643,
+    "point": 1.5304,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    9.039e-05,
+    0.00026392
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.185754,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.1714,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0085",
+   "candidate_id": "W2-A-0085",
+   "family": "A",
+   "module": "composite_rotation",
+   "fn": "top_n_rotation",
+   "sig_params": {
+    "rebal_days": 20,
+    "top_n": 8
+   },
+   "axis": [
+    "depth_thresh",
+    "template_default",
+    "inverse_vol",
+    "daily_signal",
+    "p5"
+   ],
+   "template_trader": "COMPOSITE-CE-01",
+   "faces": {
+    "stop_face": "p5"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.4228,
+    "n_trades": 492,
+    "n_entries": 384,
+    "beat_6m": 0.595371,
+    "beat_12m": 0.544809,
+    "beat_24m": 0.492571,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.4535,
+    "n_trades": 1187,
+    "n_entries": 921,
+    "beat_6m": 0.406894,
+    "beat_12m": 0.329416,
+    "beat_24m": 0.296772,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.6811,
+    "ci95_high": 2.1909,
+    "point": 1.4224,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    6.387e-05,
+    0.00022805
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.170809,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.1714,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w1",
+   "cell_id": "JUDGE|W1-A-0066",
+   "candidate_id": "W1-A-0066",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 30,
+    "top_k": 5,
+    "rebal_days": 10
+   },
+   "axis": [
+    "depth_thresh",
+    "template_default",
+    "cap20",
+    "daily_signal"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {},
+   "leg_core48": {
+    "sharpe_full": 1.4078,
+    "n_trades": 446,
+    "n_entries": 397,
+    "beat_6m": 0.585794,
+    "beat_12m": 0.589175,
+    "beat_24m": 0.710857,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.5831,
+    "n_trades": 1297,
+    "n_entries": 1051,
+    "beat_6m": 0.466817,
+    "beat_12m": 0.390195,
+    "beat_24m": 0.451211,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.1887,
+    "n_eff": 312072,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.6546,
+    "ci95_high": 2.1588,
+    "point": 1.4073,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    0.00011224,
+    0.00042561
+   ],
+   "signflip_p": 0.0015,
+   "dsr": 0.157991,
+   "dsr_n_trials": 311214,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0143,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0349",
+   "candidate_id": "W2-A-0349",
+   "family": "A",
+   "module": "composite_rotation",
+   "fn": "top_n_rotation",
+   "sig_params": {
+    "rebal_days": 40,
+    "top_n": 5
+   },
+   "axis": [
+    "none",
+    "template_default",
+    "regime_delever",
+    "daily_signal",
+    "p12"
+   ],
+   "template_trader": "COMPOSITE-CE-01",
+   "faces": {
+    "stop_face": "p12"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.4414,
+    "n_trades": 447,
+    "n_entries": 345,
+    "beat_6m": 0.604948,
+    "beat_12m": 0.548358,
+    "beat_24m": 0.577143,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.5817,
+    "n_trades": 1093,
+    "n_entries": 812,
+    "beat_6m": 0.441044,
+    "beat_12m": 0.376427,
+    "beat_24m": 0.36427,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.6542,
+    "ci95_high": 2.2672,
+    "point": 1.441,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    8.236e-05,
+    0.00025233
+   ],
+   "signflip_p": 0.0005,
+   "dsr": 0.14293,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.1714,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0300",
+   "candidate_id": "W2-A-0300",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 120,
+    "rebal_days": 10,
+    "top_k": 5
+   },
+   "axis": [
+    "dual_window",
+    "ce_machine",
+    "cap20",
+    "daily_signal",
+    "p5"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {
+    "stop_face": "p5"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.3645,
+    "n_trades": 382,
+    "n_entries": 335,
+    "beat_6m": 0.596169,
+    "beat_12m": 0.563443,
+    "beat_24m": 0.656,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.5629,
+    "n_trades": 1095,
+    "n_entries": 879,
+    "beat_6m": 0.45393,
+    "beat_12m": 0.397918,
+    "beat_24m": 0.426999,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.5964,
+    "ci95_high": 2.1162,
+    "point": 1.3641,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    8.435e-05,
+    0.00031809
+   ],
+   "signflip_p": 0.0005,
+   "dsr": 0.139068,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0429,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0224",
+   "candidate_id": "W2-A-0224",
+   "family": "A",
+   "module": "composite_rotation",
+   "fn": "top_n_rotation",
+   "sig_params": {
+    "rebal_days": 10,
+    "top_n": 5
+   },
+   "axis": [
+    "amplitude",
+    "time_stop_20d",
+    "cap20",
+    "daily_signal",
+    "p12"
+   ],
+   "template_trader": "COMPOSITE-CE-02",
+   "faces": {
+    "stop_face": "p12"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.3916,
+    "n_trades": 377,
+    "n_entries": 380,
+    "beat_6m": 0.680766,
+    "beat_12m": 0.674357,
+    "beat_24m": 0.795429,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.4026,
+    "n_trades": 928,
+    "n_entries": 933,
+    "beat_6m": 0.410116,
+    "beat_12m": 0.388516,
+    "beat_24m": 0.374908,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.6297,
+    "ci95_high": 2.1509,
+    "point": 1.3911,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    0.00014749,
+    0.00049806
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.134415,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.1714,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w1",
+   "cell_id": "JUDGE|W1-A-0048",
+   "candidate_id": "W1-A-0048",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 60,
+    "top_k": 5,
+    "rebal_days": null
+   },
+   "axis": [
+    "none",
+    "time_stop_20d",
+    "cap20",
+    "daily_signal"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {},
+   "leg_core48": {
+    "sharpe_full": 1.3388,
+    "n_trades": 425,
+    "n_entries": 429,
+    "beat_6m": 0.614525,
+    "beat_12m": 0.572316,
+    "beat_24m": 0.690286,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.4855,
+    "n_trades": 1084,
+    "n_entries": 1088,
+    "beat_6m": 0.469394,
+    "beat_12m": 0.420416,
+    "beat_24m": 0.450844,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.1887,
+    "n_eff": 312072,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.5543,
+    "ci95_high": 2.1626,
+    "point": 1.3384,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    0.00012762,
+    0.00040177
+   ],
+   "signflip_p": 0.0015,
+   "dsr": 0.106467,
+   "dsr_n_trials": 311214,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0143,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0222",
+   "candidate_id": "W2-A-0222",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 60,
+    "rebal_days": 20,
+    "top_k": 5
+   },
+   "axis": [
+    "depth_thresh",
+    "profit_ladder",
+    "regime_delever",
+    "daily_signal",
+    "p12"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {
+    "stop_face": "p12"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.3267,
+    "n_trades": 533,
+    "n_entries": 401,
+    "beat_6m": 0.557063,
+    "beat_12m": 0.540373,
+    "beat_24m": 0.522286,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.595,
+    "n_trades": 1571,
+    "n_entries": 1057,
+    "beat_6m": 0.416559,
+    "beat_12m": 0.352921,
+    "beat_24m": 0.320616,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.5436,
+    "ci95_high": 2.119,
+    "point": 1.3263,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    5.166e-05,
+    0.0001944
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.103977,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0429,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w1",
+   "cell_id": "JUDGE|W1-A-0007",
+   "candidate_id": "W1-A-0007",
+   "family": "A",
+   "module": "composite_rotation",
+   "fn": "top_n_rotation",
+   "sig_params": {
+    "top_n": 5,
+    "rebal_days": 40
+   },
+   "axis": [
+    "none",
+    "ce_machine",
+    "cap20",
+    "daily_signal"
+   ],
+   "template_trader": "COMPOSITE-CE-01",
+   "faces": {},
+   "leg_core48": {
+    "sharpe_full": 1.3896,
+    "n_trades": 417,
+    "n_entries": 321,
+    "beat_6m": 0.683958,
+    "beat_12m": 0.652174,
+    "beat_24m": 0.748571,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.8685,
+    "n_trades": 1041,
+    "n_entries": 776,
+    "beat_6m": 0.513853,
+    "beat_12m": 0.505037,
+    "beat_24m": 0.5708,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.1887,
+    "n_eff": 312072,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.5575,
+    "ci95_high": 2.2762,
+    "point": 1.3892,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    0.00016649,
+    0.0005657
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.08938,
+   "dsr_n_trials": 311214,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.4143,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w3",
+   "cell_id": "JUDGE|W3-A-0312",
+   "candidate_id": "W3-A-0312",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 60,
+    "rebal_days": null,
+    "top_k": 5
+   },
+   "axis": [
+    "dual_window",
+    "ce_machine",
+    "equal_weight",
+    "daily_signal",
+    "p3",
+    "none"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {
+    "stop_face": "p3",
+    "gate_face": "none"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.2934,
+    "n_trades": 446,
+    "n_entries": 406,
+    "beat_6m": 0.560255,
+    "beat_12m": 0.535049,
+    "beat_24m": 0.499429,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.7274,
+    "n_trades": 1208,
+    "n_entries": 1025,
+    "beat_6m": 0.417848,
+    "beat_12m": 0.361316,
+    "beat_24m": 0.337124,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.1892,
+    "n_eff": 315115,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.4554,
+    "ci95_high": 2.0859,
+    "point": 1.293,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    3.811e-05,
+    0.00015728
+   ],
+   "signflip_p": 0.0005,
+   "dsr": 0.087752,
+   "dsr_n_trials": 311363,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.1143,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w3",
+   "cell_id": "JUDGE|W3-A-0325",
+   "candidate_id": "W3-A-0325",
+   "family": "A",
+   "module": "composite_rotation",
+   "fn": "top_n_rotation",
+   "sig_params": {
+    "rebal_days": 40,
+    "top_n": 5
+   },
+   "axis": [
+    "amplitude",
+    "profit_ladder",
+    "regime_delever",
+    "daily_signal",
+    "none",
+    "none"
+   ],
+   "template_trader": "COMPOSITE-CE-01",
+   "faces": {
+    "stop_face": "none",
+    "gate_face": "none"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.3283,
+    "n_trades": 488,
+    "n_entries": 337,
+    "beat_6m": 0.591381,
+    "beat_12m": 0.52795,
+    "beat_24m": 0.552,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.8928,
+    "n_trades": 1116,
+    "n_entries": 818,
+    "beat_6m": 0.426224,
+    "beat_12m": 0.349899,
+    "beat_24m": 0.34336,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.1892,
+    "n_eff": 315115,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.5497,
+    "ci95_high": 2.1259,
+    "point": 1.3279,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    5.235e-05,
+    0.00019107
+   ],
+   "signflip_p": 0.0,
+   "dsr": 0.083912,
+   "dsr_n_trials": 311363,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.4,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0006",
+   "candidate_id": "W2-A-0006",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 120,
+    "rebal_days": 10,
+    "top_k": 5
+   },
+   "axis": [
+    "dual_window",
+    "ce_machine",
+    "inverse_vol",
+    "daily_signal",
+    "a20"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {
+    "stop_face": "a20"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.2312,
+    "n_trades": 392,
+    "n_entries": 341,
+    "beat_6m": 0.56265,
+    "beat_12m": 0.514641,
+    "beat_24m": 0.460571,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.5638,
+    "n_trades": 1132,
+    "n_entries": 899,
+    "beat_6m": 0.414626,
+    "beat_12m": 0.348892,
+    "beat_24m": 0.319516,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.4556,
+    "ci95_high": 1.9596,
+    "point": 1.2309,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    2.937e-05,
+    0.00011959
+   ],
+   "signflip_p": 0.001,
+   "dsr": 0.075844,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0429,
+   "candidate_join_ok": true
+  },
+  {
+   "wave": "w2",
+   "cell_id": "JUDGE|W2-A-0486",
+   "candidate_id": "W2-A-0486",
+   "family": "A",
+   "module": "volatility",
+   "fn": "low_vol_long",
+   "sig_params": {
+    "n": 120,
+    "rebal_days": 10,
+    "top_k": 5
+   },
+   "axis": [
+    "none",
+    "template_default",
+    "inverse_vol",
+    "daily_signal",
+    "p5"
+   ],
+   "template_trader": "VOLATILITY-CE-01",
+   "faces": {
+    "stop_face": "p5"
+   },
+   "leg_core48": {
+    "sharpe_full": 1.2253,
+    "n_trades": 358,
+    "n_entries": 316,
+    "beat_6m": 0.553871,
+    "beat_12m": 0.505768,
+    "beat_24m": 0.493714,
+    "regime_windows": {
+     "bear": 370,
+     "bull": 1299,
+     "chop": 1586,
+     "na": 0
+    }
+   },
+   "leg_deep": {
+    "sharpe_full": 0.2977,
+    "n_trades": 707,
+    "n_entries": 536,
+    "beat_6m": 0.414626,
+    "beat_12m": 0.333445,
+    "beat_24m": 0.300073,
+    "regime_windows": {
+     "bear": 1624,
+     "bull": 4674,
+     "chop": 2510,
+     "na": 0
+    }
+   },
+   "skill_line": {
+    "line": 1.189,
+    "n_eff": 313934,
+    "passive_term": 0.4792,
+    "mu_null": -0.0332,
+    "sigma_null": 0.2429
+   },
+   "line_ok": true,
+   "ci_lower_bound_positive": true,
+   "bootstrap_ci": {
+    "ci95_low": 0.4797,
+    "ci95_high": 2.0551,
+    "point": 1.2249,
+    "ci_lower_bound_positive": true,
+    "n_resamples": 1000,
+    "block_days": 10.0,
+    "seed": 20260923
+   },
+   "dual_nulls_ci": [
+    3.267e-05,
+    0.00013131
+   ],
+   "signflip_p": 0.002,
+   "dsr": 0.064009,
+   "dsr_n_trials": 310810,
+   "sample_sufficient": true,
+   "n_eff_start_windows": 12063,
+   "verdict": "pass",
+   "family_pbo": 0.0429,
+   "candidate_join_ok": true
+  }
+ ]
+}
