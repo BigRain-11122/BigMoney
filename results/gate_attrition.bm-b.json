@@ -15162,6 +15162,41 @@
     "intake": "results/trial_labor_w12/w12_intake.json (lawful-zero n_eligible=0, r447 harvest round)",
     "ticket": "T-2026-09-30-124"
    }
+  },
+  {
+   "batch": "TRIAL_LAB_W13_JUDGE",
+   "ts": "2026-09-30 12:28:02",
+   "kind": "judgment",
+   "retro_fill": false,
+   "cells_ledger_delta": 99,
+   "ledger_total_after": 362083,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 99,
+     "n_pass": 0,
+     "line": "skill_line_v2 per-cell (ledger_head live read); top cell W13-B-2571 legL sharpe_full=1.0071 vs line=1.1959 (n_eff=362577) -- line_ok False; sixteen-gate faces all 0 g1_pass (mom/std/rsqr/sumn/interaction)"
+    },
+    "g2_registration_v2": {
+     "n": 99,
+     "n_eligible": 0
+    },
+    "e_fp_nominal_5pct": 4.95,
+    "family_pbo": {
+     "patterns": 0.7714,
+     "ta": 0.7429,
+     "mean_reversion": 0.7857,
+     "sentiment": 0.1286,
+     "folk": 0.7714,
+     "trend": 0.8143
+    }
+   },
+   "eliminated": 99,
+   "refs": {
+    "judge": "results/trial_labor_w13/w13_judge.json",
+    "intake": "results/trial_labor_w13/w13_intake.json",
+    "runner": "scripts/trial_labor_w13.py",
+    "note": "judge-finalize+intake closed bm-b r459 (resume round after three dead sessions; burn autofill lineage 039d1e837); W13-SCREEN attrition row absent = bm-a r467 lane bookkeeping gap, disclosed for bm-a heal"
+   }
   }
  ],
  "lane_machine": "bm-b"
