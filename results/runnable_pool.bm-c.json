@@ -4831,6 +4831,39 @@
    "entered_at": "2026-09-30 07:25:05",
    "entered_by": "bm-c fill_ladder T-107 slice-2",
    "result_ref": "results/innovation_quota/NNL-BREADTH-P1.json (0/4 G1+G2 judged-negative family closure, verdict 07:26:11; prereg s7/s8 backfilled bm-c r257)"
+  },
+  {
+   "id": "INNOVATION-QUOTA-SLOT-8",
+   "ticket_ref": "T-2026-09-28-107 sec.4(d) fill-ladder innovation quota",
+   "prereg_ref": "research/INNOVATION_QUOTA_W8_PREREG.md FROZEN (2026-09-30 08:1x bm-b r450 dead-session freeze window, adopted+enqueue completed by successor round same day: seed innovation_quota_w8_covshrink=20325500 registered + three-step law ALL GREEN import view facts results/_r450bmb_w8_seed_law_facts.json (137-key view zero-collision, first_el 1399858817, +500 ladder above W7 20325000, W13 trio 20323000-20324000 clear by construction); G-ANCHOR frozen probe facts results/_r449bmb_w8_probe.json core48 28-member matrix 1630x28 2020-01-03..2026-09-22 cutoff 2026-09-22, 66 anchors 21td cadence, 16 singular-A windows, lambda [0.039,0.898] med 0.131, cond 303k->36; D6 probe corr faces: batch-internal 0.8562 variant-face burn-both + vs T33 max 0.5164 all <0.7 merge-clause zero-trigger + vs registered six 0.0694 disclose-only + production B_MAXDIV face A 0.8768/B 0.7556 upgrade-target pre-declared non-applicable; 4 cells A/B cov arms x x1/x2 cost, paired-diff D_x1 primary)",
+   "runner": "scripts/innovation_quota_w8.py",
+   "runner_note": "BUILT r450 bm-b freeze window (dead-session build adopted+verified by successor same window): selftest 12/12 after adoption-window fixture repair (3 selftest-fixture flaws found at adoption verify: eq->pct_change roundtrip loses bit-exactness to prefix-scale rounding so duplicate-member singular planting never trips the exact-singularity detector -> replanted as exact zero-variance member segment; drift fixture perturbed a per-anchor face outside the synthetic compare scope -> moved to compared top-level lambda_stats; ZERO production-path change) + read-only verify real-panel G-ANCHOR bit-exact re-run at adoption (66 anchors/16 singular-A, matrix 1630x28, cutoff 2026-09-22, 22s) + r450 landed-state guard (judged product refuses re-run); both enqueue gates pass -> pool-enqueued same window",
+   "consumer_plan": "COV-SHRINK-AB-P1 paired verdict -> G1' paired + G2 paired + x2 direction all pass = METHODOLOGY-ADOPT-ELIGIBLE -> SPM B_MAXDIV cov-face upgrade candidate for 2026-10-01 monthly-gate wiring report (zoo #89 adoption route fulfillment, PROFIT_MODEL_MAP constraint-2 face); any face fail = judged-negative family closure (zoo #89 A/B route tested-and-closed, legal output saving future cov-shrinkage burns) + attrition row + 48h CEO report (O-1116 return/drawdown dual-column)",
+   "lane_owner": null,
+   "priority": 1,
+   "runner_args": [
+    "run"
+   ],
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "4-cell judged batch x1000 paired vstarts + 100 splits + 66-anchor dual-arm solves + 56-member sleeve engine re-derive, single-process minutes-scale per prereg sec.0 (core48 in-repo panel, x1/x2 sleeves; measured verify 22s + D6 probe 18s); CEO 10% CPU headroom law = BelowNormal"
+   },
+   "note": "ladder (d) slot-8 (bm-b r448 berth, r450 freeze): zoo #89 cov_shrinkage_lw adoption route (A/B variant batch sample-cov vs LW-shrunk-cov fed to the same frozen T-27 MaxDiv pipeline, 28-member x1 sleeve matrix rolling 252d@21td); berth prereg research/INNOVATION_QUOTA_W8_PREREG_DRAFT.md sec.B band (r448), frozen prereg INNOVATION_QUOTA_W8_PREREG.md (r450 dead-session window, adopted+enqueue completed by successor round); degenerate-window policy frozen (A-arm singular anchor = carry last computable weights, pinv forbidden, paired-diff excludes singular anchors, accrual lo 2021-02-23); supply_floor response: ready=0<3 breach (SLOT-7 done-flipped by bm-c r257 verdict 07:26), W13-GENERATE armed bm-a runner pending, W8 = next innovation-quota supply line",
+   "parked": "2026-09-30 bm-b r450",
+   "status": "ready",
+   "shards": [
+    {
+     "key": "main",
+     "status": "ready",
+     "checkpoint": "",
+     "note": "ladder default shard (single-face batch, r301 family)",
+     "owner": "bm-c",
+     "owner_since": "2026-09-30 08:50:06"
+    }
+   ],
+   "entered_at": "2026-09-30 08:24:45",
+   "entered_by": "bm-b fill_ladder T-107 slice-2"
   }
  ],
  "lane_machine": "bm-c"
