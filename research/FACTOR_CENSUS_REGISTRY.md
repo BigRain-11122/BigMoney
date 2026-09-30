@@ -43,6 +43,28 @@ factor_registry.py 内 bench 登记行（T-48 r162 同源·对照组非候选）
 |---|---|---|
 | lowamp20 | 20 日 mean((high−low)/close)·低=溢价（sign prior −） | CEO 令票 spec 原文点名「formal census must cover lowamp/trend fusion families on core48 with x2 cost」；原始 GM scratch（23:05·.codely-cli/scratch/fusion_explore_p0/ gitignored）配方不可恢复=经济面重建披露：低振幅稳定族；与 A 行 intraday_range/vol_20/vol_60 同族但不同窗不同量纲（振幅均值非方差、非归一化 range）=非重复面；血统锚=票 spec 原文+本注记 |
 
+## H. G2 矿源普查新面（2026-09-30 bm-a r493·G2_OVERLAP_CENSUS_P1·append-only）
+
+- 血统：M1 Vibe-Trading HEAD 18027a0c（r492 装锚 ls-remote 验）×478 面公式级重叠普查（prereg=research/G2_OVERLAP_CENSUS_P1.md 冻结后跑·工件 results/g2_overlap_census_p1.json）——**431 面 DUP 撞号引用在库 C 行三族 verdict 不重烧**（WQ101 86 VERIFIED+15 书写变体 DRIFT·19 skip 面=在库 neutralized/cap 判决空间一部分如实并入；GTJA191 191/191；A158 qlib 名集 154/154 命中·BETA5/10/20/30/60 五面 Qlib 语义漂移旗=ROC 型非 REGBETA 型披露）；本节只登记 12 个 NEW-FACE（零撞号面）。
+
+| 面 | 构造（源文件 formula/说明锚） | DATA_GATE | 注记 |
+|---|---|---|---|
+| academic_bab | Frazzini-Pedersen 低贝塔异象 OHLCV 简化版（等权市场收益滚动 beta 截面负排序） | 否（OHLCV 可算） | SLOT 泊位候选·机制段待 prereg |
+| academic_corr_rewire | 事件窗 vs 平静基线相关行 \|Δρ\| 均值（纯滚动因果版） | 否 | kin 豁免面（token 撞 vol_price_corr 但构造异质·普查豁免表白名单） |
+| academic_high52w | close/ts_max(close,252)（George-Hwang 2004） | 否 | mom 族机制近亲（名字零撞号如实） |
+| academic_mkt_rf | 21 日收益截面 z 分（MKT_RF 代理） | 否 | **ETF 截面域全员同值风险注记**：core48 截面无区分度概率高，SLOT 轮如实判 |
+| academic_cma | FF5 投资因子（Conservative Minus Aggressive） | **是（基本面缺位·D-41 §五 DATA_GAP）** | 数据不采集=不开烧 |
+| academic_hml | FF5 价值因子（B/M） | 是 | 同上 |
+| academic_rmw | FF5 盈利因子 | 是 | 同上 |
+| academic_smb | FF5 规模因子 | 是 | 同上 |
+| fund_asset_growth | 资产增长（fundamental 目录） | 是 | 同上 |
+| fund_earnings_yield | 盈利收益率（E/P） | 是 | 同上 |
+| fund_gross_profitability | 毛利润率（Novy-Marx） | 是 | 同上 |
+| fund_roe | ROE | 是 | 同上 |
+
+- 消费契约：OHLCV-ready 4 面（bab/corr_rewire/high52w/mkt_rf）=SLOT 泊位候选（逐族三验+预注册后烧·G2 spec §四.1；mkt_rf 带区分度存疑注记照登）；DATA_GATE 8 面=数据缺口显式锁定（基本面采集管线立项前禁入任何烧批——D-41 §一.2/§五 DATA_GAP 纪律）；DUP-FAMILY-DRIFT 19 面（WQ101 15 书写变体+ACADEMIC 4 名字近亲）+M3 16 面=构造验证留 SLOT 轮（名字级/书写级近亲非语义等价·不引用族 verdict 亦不判负）。
+- 供料池 ready 面账：3→**7 级**（+4 OHLCV-ready；G2 spec §四.1 目标 30+ 级的 23%——M1 三主矿=在库三族第三方重实现为主价值=431 面防重烧；扩面缺口如实披露归 M4(initial-d 213)/M5(JunQHuang 120) 后续普查片）。
+
 ## 记账
 
 - 总登记面: A28 + B(zoo85×2, zoo92, zoo93 家族) + C 三族 + D 四档 + E 两面 + F 2 —— s2 普查 N 以 prereg 冻结时的逐行可计算清单为准（本件为单源母面，prereg 引用行号枚举）

@@ -190,14 +190,20 @@ _M3_DOC = r"Alpha#(\d+)\s*:\s*(.+?)(?=\n\s*Alpha#|\n\s*Alpha_|\nConventions)"
 
 
 def export_m3():
+    """Module docstring ONLY (ast-extracted) -- per-alpha function docstrings
+    repeat 'Alpha#N' and the earlier regex swallowed trailing English prose
+    (run-1 engineering bug: 31 rows for 16 alphas, cross legs polluted)."""
     text = _read_text(M3_ALPHAS)
+    tree = ast.parse(text)
+    doc = ast.get_docstring(tree) or ""
     faces = []
-    for m in re.finditer(_M3_DOC, text, re.S):
+    for m in re.finditer(_M3_DOC, doc, re.S):
         num = int(m.group(1))
         formula = re.sub(r"\s+", "", m.group(2))
+        formula = formula.rstrip(")") if formula.count(")") > formula.count("(") else formula
         faces.append({"number": num, "doc_formula": formula.strip(),
                      "meta_id": "m3_alpha%d" % num, "family_dir": "m3"})
-    m5 = re.search(r"Alpha_5_day_reversal:\s*([^\n]+)", text)
+    m5 = re.search(r"Alpha_5_day_reversal:\s*([^\n]+)", doc)
     if m5:
         faces.append({"number": None,
                       "doc_formula": m5.group(1).strip(),
@@ -207,6 +213,37 @@ def export_m3():
 
 
 # ---------------------------------------------------------------- in-repo sources
+WQ101_VENDORED = os.path.join(ROOT, "research", "shortline", "external",
+                              "worldquant101_alpha101.py")
+
+
+def _load_wq101_skip_numbers():
+    """Single-source: vendored module's _NEUTRALIZED_ALPHAS set literal via ast
+    (no import/exec) + alpha056 cap exclusion (P1 prereg s2, 82/101 computable).
+    These 19 numbers ARE part of the in-repo verdict space (skip=adjudicated
+    not-computable on the ETF panel), NOT new faces."""
+    nums = set()
+    try:
+        tree = ast.parse(_read_text(WQ101_VENDORED))
+    except (OSError, SyntaxError):
+        return nums
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Assign):
+            for tgt in node.targets:
+                if isinstance(tgt, ast.Name) and tgt.id == "_NEUTRALIZED_ALPHAS":
+                    try:
+                        val = ast.literal_eval(node.value)
+                    except (ValueError, SyntaxError):
+                        continue
+                    for item in val:
+                        if isinstance(item, tuple) and item:
+                            nums.add(int(item[0]))
+                        elif isinstance(item, int):
+                            nums.add(item)
+    nums.add(56)                       # alpha056 cap exclusion, P1 prereg s2
+    return nums
+
+
 def load_wq101_verdicts():
     rows = list(csv.DictReader(io.open(WQ101_CSV, encoding="utf-8-sig")))
     out = {}
@@ -214,6 +251,8 @@ def load_wq101_verdicts():
         m = re.match(r"alpha(\d+)$", r["factor"].strip())
         if m:
             out[int(m.group(1))] = r["status"].strip()
+    for n in _load_wq101_skip_numbers():
+        out.setdefault(n, "skip(neutralized_or_cap)")
     return out
 
 
@@ -426,8 +465,8 @@ def classify_m3_leg(m3, m1_alpha101_by_num, wq_verd, engine_names):
 
 def _row(face, leg, verdict, number_hit, agreement, cross, inrepo_status):
     return {
-        "face": face.get("meta_id") or face["file"],
-        "file": face["file"],
+        "face": face.get("meta_id") or face.get("file", ""),
+        "file": face.get("file", ""),
         "leg": leg,
         "number": face.get("number"),
         "formula_latex": face.get("formula_latex", ""),

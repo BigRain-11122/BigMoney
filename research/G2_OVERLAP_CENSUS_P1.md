@@ -76,9 +76,25 @@
 - 登记簿追加=`research/FACTOR_CENSUS_REGISTRY.md` 新 H 行（G2 矿源面·append-only·NEW-FACE 逐面带 DATA_GATE 标记）；
 - 本文件 §7 回填。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【2026-09-30 bm-a r493 回填·一次定稿】
 
-（一次定稿；工程修复重跑须双跑留痕如实记账；确定性引擎产物写 bug 的合法重执行口径≠结果重跑）
+- **跑次留痕（工程修复双跑·如实记账）**：跑 1=0.69s 因 M3 face 缺 `file` 键 KeyError 崩于写 JSON 前（零产物落盘）；修复=face.get 容错（判据零触碰）；跑 2=selftest 7/7 后执行中又发现两处执行缺陷（M3 函数 docstring 双计 31 行+公式吞英文说明污染 cross 腿·WQ101 19 skip 编号误判 NEW-FACE）→修复三处（M3 只解析模块 docstring·WQ skip 集并入=单源 vendored `_NEUTRALIZED_ALPHAS` ast 静态解析+alpha056 cap·skip 面如实并入判决空间）；**跑 3=终跑 0.71s rc0 全 478 行**（478=冻结数逐位对账 ✓）。三跑零烧格零结果面差异风险（census 零回测，分类面确定性重derive）。
+- **四态分布**：DUP-NUMBER-VERIFIED **431**（WQ101 86+GTJA191 191+A158 154）/ DUP-FAMILY-DRIFT **35**（WQ101 15+ACADEMIC 4+M3 16）/ NEW-FACE **12**（ACADEMIC 8+FUNDAMENTAL 4）/ UNVERIFIABLE **0**（预测 8 异常面未现——矿源文件解析全过）。
+- **WQ101 腿**：101/101 编号撞号 ✓；VERIFIED 86=双写一致 66+skip 面 19+交叉一致面；DRIFT 15（#1/3/6/12/21/38/40/41/42/54/72/88/94/98/101）=M1 formula_latex vs M3 docstring **括号书写变体**（同公式异书写·如 #1 `SignedPower(x, 2.)` vs `SignedPower((x),2.)`）——字符串恒等判据下保守判 DRIFT=安全侧（fail-closed 不引用 verdict 不重烧）；SLOT 轮数值对照可升级。
+- **GTJA191 腿**：191/191 DUP-NUMBER-VERIFIED 全中（三源双写全一致）。
+- **A158 腿**：154/154 名称命中 Qlib verbatim 157 名集；BETA5/10/20/30/60 五面 `qlib_semantics_drift_risk` 旗实证（M1=ROC/N 型 `(close_t−close_{t−N})/(N·close)` vs Qlib=REGBETA 回归型——beta10 判例泛化）+旗启发式局限披露（仅回归类 root 触发，其余改编面未捕捉·保守低估）。
+- **ACADEMIC/FUNDAMENTAL**：DRIFT 4=carhart_mom(kin=mom_60)/illiq(kin=amihud_illiq)/retskew(kin=return_skew)/strev(kin=rev_10)——名字级近亲如实；NEW-FACE 8=bab/cma/corr_rewire(豁免)/high52w/hml/mkt_rf/rmw/smb；FUNDAMENTAL 4 全 NEW-FACE ✓。M3-EXTRA 5_day_reversal DRIFT（kin 注记瑕疵如实：'day' token 过宽误指 overnight_minus_intraday，真实近亲=rev_5/ret5 族——SLOT 轮裁定，结论面不受影响）。
+- **净新面=12**：OHLCV-ready 4（bab/corr_rewire/high52w/mkt_rf）+DATA_GATE 8（FF5 四+fundamental 四·基本面缺位锁）。已入登记簿 H 节（FACTOR_CENSUS_REGISTRY.md append-only）。
+- **audit**：elapsed 0.71s（预算上限 180s 内 ✓）·rows_classified 478/478 ✓·a158 单源 N=157 断言过 ✓·evidence_cutoff/cutoff_meta 顶层在位 ✓。
+
+## §8 批后复盘【bm-a r493】
+
+- **预测对账**：①WQ101 101/101 DUP-NUMBER=**部分对**（编号全撞 ✓·双写一致 86<95 预测线——书写变体 15 面保守 DRIFT）；②GTJA191 191/191+一致 ≥185=**对**（191 全一致超预测）；③A158 命中 ≥120=**对**（154/154 超预期）·漂移旗 ≥15=**错**（5 面——旗启发式保守低估如实披露）；④ACADEMIC 近亲 ≥5=**部分对**（4 面·差 1）；⑤FUNDAMENTAL 4/4 NEW=**对**；⑥M3 16/16 DUP-NUMBER=**错**（15 编号面+1 extra 全 DRIFT——M3 公式书写变体同 #1 族因；教训=M3 与 M1 为同源翻译的两个独立英译，括号风格系统性不同）；⑦净新面 8-16=**对**（12 落区间中位）；⑧解析异常 ≤5=**对**（0 面）。总评=8 条对 4 错 3 部分对 1。
+- **门禁链损耗账**：results/gate_attrition.json 已追加 G2_OVERLAP_CENSUS_P1 行（cells_delta=0·四态分布账）。
+- **消费面去向**：登记簿 H 节落 12 面（4 SLOT 候选+8 DATA_GATE 锁）；431 撞号面=防重烧价值兑现（后续任何 G2 矿源消费批先对 H 节+results/g2_overlap_census_p1.json 查重）。下片=M4/M5 矿普查（供料池 7→30+ 缺口主力）或 4 SLOT 候选逐族预注册——按消费面紧迫度排序（O-1901 ④）。
+- 回执=round_reports-bm-a.md r493 行+CODELY.md 行级追加。
+- 全起点分布：不适用声明（零回测零收益序列·§8 模板原文）。
+- 试验量归因：新增试验数 **0**（census 非试验·30 天 ≤500 预算零消耗 ✓）。
 
 ## §8 批后复盘【必填·s7-T】
 

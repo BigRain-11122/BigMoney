@@ -7411,7 +7411,7 @@
     "ticket": "fleet/tasks/T-2026-09-24-19-P1.json",
     "decision_pack": "research/CONSOLIDATION_GOVERNANCE.md"
    },
-   "note": "phantom contribution quantification batch (stage-2c) = O-1325 option-a/b adjudication evidence; zero registration claims per prereg \u00a74; dSharpe IS/OOS: CE-01 +0.3050/+0.6243, CE-02 +0.3115/+0.1628, DROUGHT +0.5767/-0.0001; 10-row attribution: d0 gap component dominates (official true-return components ~0); GM adjudication recorded in decision pack"
+   "note": "phantom contribution quantification batch (stage-2c) = O-1325 option-a/b adjudication evidence; zero registration claims per prereg §4; dSharpe IS/OOS: CE-01 +0.3050/+0.6243, CE-02 +0.3115/+0.1628, DROUGHT +0.5767/-0.0001; 10-row attribution: d0 gap component dominates (official true-return components ~0); GM adjudication recorded in decision pack"
   },
   {
    "batch": "SINA_CONSTRUCT_P1",
@@ -13978,7 +13978,7 @@
        "survival_rate": 0.246622
       }
      },
-     "note": "STD new face direction intel (W11 true question, adopted from bm-c r234/r237 probe package): POSITIVE 10d / NEGATIVE 20d asymmetry -- std10_hi 24.66% (73/296) = 1.40x enrichment vs none 17.59%, std20_hi 12.59% (35/278) = 0.72x anti-enrichment; std\u2227calm family drag confirmed (4/68=5.88% vs std\u2227wild 51/249=20.48%, std10_hi\u2227calm 0/26 total wipeout) = prereg sec.5.1(b) drift-face prediction HIT at screen"
+     "note": "STD new face direction intel (W11 true question, adopted from bm-c r234/r237 probe package): POSITIVE 10d / NEGATIVE 20d asymmetry -- std10_hi 24.66% (73/296) = 1.40x enrichment vs none 17.59%, std20_hi 12.59% (35/278) = 0.72x anti-enrichment; std∧calm family drag confirmed (4/68=5.88% vs std∧wild 51/249=20.48%, std10_hi∧calm 0/26 total wipeout) = prereg sec.5.1(b) drift-face prediction HIT at screen"
     },
     "mom_face": {
      "segmented_survival": {
@@ -14428,6 +14428,24 @@
     "intake": "results/trial_labor_w13/w13_intake.json",
     "runner": "scripts/trial_labor_w13.py",
     "note": "judge-finalize+intake closed bm-b r459 (resume round after three dead sessions; burn autofill lineage 039d1e837); W13-SCREEN attrition row absent = bm-a r467 lane bookkeeping gap, disclosed for bm-a heal"
+   }
+  },
+  {
+   "batch": "G2_OVERLAP_CENSUS_P1",
+   "ts": "2026-09-30 22:17:17",
+   "kind": "census",
+   "retro_fill": false,
+   "cells_ledger_delta": 0,
+   "ledger_total_after": 362083,
+   "gates": {
+    "face_tally": {
+     "total_faces": 478,
+     "DUP-NUMBER-VERIFIED": 431,
+     "DUP-FAMILY-DRIFT": 35,
+     "NEW-FACE": 12,
+     "UNVERIFIABLE": 0
+    },
+    "note": "formula-level overlap census (zero backtest, zero cells); 431 faces cited in-repo verdicts (no re-burn); 12 new faces -> FACTOR_CENSUS_REGISTRY H-rows (4 OHLCV-ready + 8 DATA_GATE fundamental); runner evidence=results/g2_overlap_census_p1.json"
    }
   }
  ]
