@@ -1,0 +1,52 @@
+{
+ "probe": "alloc-scan-anchor",
+ "faces": {
+  "510300": {
+   "path": "data\\daily\\sh510300.csv",
+   "loader": "pd.read_csv",
+   "rows": 3487,
+   "first_date": "2012-05-28",
+   "last_date": "2026-09-29",
+   "null_close": 0
+  },
+  "511010": {
+   "path": "data\\daily\\sh511010.csv",
+   "loader": "pd.read_csv",
+   "rows": 3273,
+   "first_date": "2013-04-09",
+   "last_date": "2026-09-22",
+   "null_close": 0
+  },
+  "518880": {
+   "path": "data\\daily\\sh518880.csv",
+   "loader": "pd.read_csv",
+   "rows": 3200,
+   "first_date": "2013-07-29",
+   "last_date": "2026-09-22",
+   "null_close": 0
+  },
+  "513500": {
+   "path": "data\\daily\\sh513500.csv",
+   "loader": "pd.read_csv",
+   "rows": 3085,
+   "first_date": "2014-01-15",
+   "last_date": "2026-09-22",
+   "null_close": 0
+  }
+ },
+ "joint": {
+  "first_date": "2014-01-15",
+  "last_date": "2026-09-22",
+  "rows": 3085,
+  "years": 12.242,
+  "n_complete_months": 153,
+  "month_first_anchors": 153,
+  "quarter_first_anchors": 51,
+  "year_first_anchors": 13
+ },
+ "cash_leg": {
+  "repo_daily_csv_present": true,
+  "path": "Money0923\\data\\repo_daily.csv",
+  "note": "all scan variants are full-investment (CASH weight 0); repo accrual immaterial to residue only"
+ }
+}
