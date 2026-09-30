@@ -381,8 +381,11 @@ def run_backtest(prices: dict, params: dict,
 
     # pending entries: signal fired at day T, execute at day T+1 open
     pending_entries: dict[str, dict] = {}
-    # sell-deferral book (P4-B2): sym -> stored ExitAction awaiting a fillable close
-    deferred_exits: dict[str, object] = {}
+    # pending exits (RW-1, audit P0-1): an exit decided at day T's close
+    # fills at day T+1's open -- sym -> stored ExitAction awaiting that
+    # fill; guard/suspension blocks keep it queued for the next fillable
+    # open (P4-B2 retry semantics, moved from close to open).
+    pending_exits: dict[str, object] = {}
     # T-20 PAPER_GUARD_DUAL_RAIL additive disclosure counters (emitted ONLY
     # when fill_guard is present -- same pattern as fill_guard_buy_dropped;
     # fill semantics above stay P4-B2 verbatim, these are report-only).
@@ -403,6 +406,80 @@ def run_backtest(prices: dict, params: dict,
     for i, date in enumerate(dates):
         row_close = closes.loc[date]
         row_open = opens.loc[date]
+
+        # 0x) RW-1 (audit P0-1): execute pending exits at today's OPEN.
+        # An exit decided at a prior close fills at the NEXT session's
+        # open -- same T+1 causality the entry side already enforces; the
+        # former same-close fill was a look-ahead exit (systematic
+        # overstatement of every exit).
+        for sym in list(pending_exits.keys()):
+            st = positions.get(sym)
+            if st is None:            # position gone (should not happen)
+                del pending_exits[sym]
+                continue
+            px = row_open[sym]
+            if pd.isna(px):
+                continue              # no open print -> retry next open
+            if not _fillable(sell_g, sym, i):
+                # P4-B2 sell deferral: no liquidity at this open (e.g.
+                # sealed limit-down) -> retry at next fillable open.
+                # T-20 additive disclosure: count guard-driven deferral
+                # days/episodes (the None path never reads these).
+                deferred_days += 1
+                if first_deferred_date is None:
+                    first_deferred_date = str(date.date())
+                deferred_open.add(sym)
+                continue
+            if strict_fills and not _real_bar(real_open_mask, sym, i):
+                # T-03-F2 strict_open_fills: suspension day (ffilled
+                # stale open, no real bar) -> defer with the ORIGINAL
+                # action until the first real-bar open.
+                continue
+            action = pending_exits.pop(sym)
+            qty = st.quantity * action.close_fraction
+            gross = qty * px
+            if tier_v2 is None:
+                rate_sell = cost_rate   # legacy path (identical arithmetic)
+            else:
+                rate_sell = (fee.commission_rate + fee.handling_fee
+                             + fee.supervision_fee
+                             + float(tier_v2.at[date, sym]))
+            proceeds = gross * (1 - rate_sell)
+            cash += proceeds
+            pnl_rate = (px - st.cost_price) / st.cost_price
+            trades.append({
+                "date": str(date.date()), "symbol": sym,
+                "reason": action.reason,
+                "price": round(px, 4), "qty": round(qty, 2),
+                "fee": round(gross * rate_sell, 2),
+                "pnl": round((px - st.cost_price) * qty - gross * rate_sell, 2),
+                "pnl_rate": round(pnl_rate, 4),
+                "hold_days": st.hold_days,
+            })
+            if trade_pnl_mode == "full":
+                # T-03-F1: honest per-trade pnl incl. the BUY-side cost
+                # (legacy 'pnl' above omits it -- audit P0-2, ~13bp/trade).
+                trades[-1]["pnl_full"] = round(
+                    (px - st.cost_price) * qty
+                    - gross * cost_rate
+                    - st.cost_price * qty * cost_rate, 2)
+            if action.close_fraction >= 1.0:
+                if stage_fracs is not None and sym in staged_books:
+                    # P4-B3: the staged book dies with the position;
+                    # queued adds that never filled are honest drops.
+                    staged_books.pop(sym, None)
+                    if sym in pending_adds:
+                        adds_dropped_total += len(pending_adds.pop(sym))
+                    stage_end_cost_px.append(st.cost_price)
+                del positions[sym]
+            else:
+                st.quantity -= qty
+                st.tier_reached += 1
+            # T-20 additive disclosure: a guard-deferred episode just
+            # filled -- close it (episode == decision -> first fillable).
+            if sym in deferred_open:
+                deferred_open.discard(sym)
+                deferred_events += 1
 
         # 0) execute pending entries at today's OPEN
         for sym, info in list(pending_entries.items()):
@@ -584,77 +661,18 @@ def run_backtest(prices: dict, params: dict,
             if pd.isna(px):
                 st.hold_days += 1
                 continue
-            if sym in deferred_exits:
-                # P4-B2 sell deferral: exit already decided, executing late.
-                action = deferred_exits.pop(sym)
-            else:
-                action = evaluate(st, px, cfg, signal_reversed=bool(exit_sig[sym].loc[date]))
-
+            if sym in pending_exits:
+                # RW-1: an exit decision is already queued for the next
+                # open -- the frozen decision stands, no re-evaluation.
+                st.hold_days += 1
+                continue
+            action = evaluate(st, px, cfg, signal_reversed=bool(exit_sig[sym].loc[date]))
             if action.should_close:
-                if not _fillable(sell_g, sym, i):
-                    # P4-B2 sell deferral: no liquidity at this close (e.g.
-                    # sealed limit-down) -> retry at next fillable close.
-                    deferred_exits[sym] = action
-                    # T-20 additive disclosure: count guard-driven deferral
-                    # days/episodes (the None path never reads these).
-                    deferred_days += 1
-                    if first_deferred_date is None:
-                        first_deferred_date = str(date.date())
-                    deferred_open.add(sym)
-                    st.hold_days += 1
-                    continue
-                if strict_fills and not _real_bar(real_close_mask, sym, i):
-                    # T-03-F2 strict_open_fills: suspension day (ffilled
-                    # stale close) -> cannot trade; defer with the ORIGINAL
-                    # action until the first real-bar close.
-                    deferred_exits[sym] = action
-                    st.hold_days += 1
-                    continue
-                qty = st.quantity * action.close_fraction
-                gross = qty * px
-                if tier_v2 is None:
-                    rate_sell = cost_rate   # legacy path (identical arithmetic)
-                else:
-                    rate_sell = (fee.commission_rate + fee.handling_fee
-                                 + fee.supervision_fee
-                                 + float(tier_v2.at[date, sym]))
-                proceeds = gross * (1 - rate_sell)
-                cash += proceeds
-                pnl_rate = (px - st.cost_price) / st.cost_price
-                trades.append({
-                    "date": str(date.date()), "symbol": sym,
-                    "reason": action.reason,
-                    "price": round(px, 4), "qty": round(qty, 2),
-                    "fee": round(gross * rate_sell, 2),
-                    "pnl": round((px - st.cost_price) * qty - gross * rate_sell, 2),
-                    "pnl_rate": round(pnl_rate, 4),
-                    "hold_days": st.hold_days,
-                })
-                if trade_pnl_mode == "full":
-                    # T-03-F1: honest per-trade pnl incl. the BUY-side cost
-                    # (legacy 'pnl' above omits it -- audit P0-2, ~13bp/trade;
-                    # applies to every tranche scale-out on its closed qty).
-                    trades[-1]["pnl_full"] = round(
-                        (px - st.cost_price) * qty
-                        - gross * cost_rate
-                        - st.cost_price * qty * cost_rate, 2)
-                if action.close_fraction >= 1.0:
-                    if stage_fracs is not None and sym in staged_books:
-                        # P4-B3: the staged book dies with the position;
-                        # queued adds that never filled are honest drops.
-                        staged_books.pop(sym, None)
-                        if sym in pending_adds:
-                            adds_dropped_total += len(pending_adds.pop(sym))
-                        stage_end_cost_px.append(st.cost_price)
-                    del positions[sym]
-                else:
-                    st.quantity -= qty
-                    st.tier_reached += 1
-                # T-20 additive disclosure: a guard-deferred episode just
-                # filled -- close it (episode == decision -> first fillable).
-                if sym in deferred_open:
-                    deferred_open.discard(sym)
-                    deferred_events += 1
+                # RW-1 (audit P0-1): decide at this close, fill at the
+                # NEXT session's open. A same-close fill was a look-ahead
+                # exit (systematic overstatement); guard/suspension checks
+                # now run at the open where the fill actually happens.
+                pending_exits[sym] = action
             st.hold_days += 1
 
         # 1b) P4-B3 staged trigger check at today's CLOSE (flag ON only):

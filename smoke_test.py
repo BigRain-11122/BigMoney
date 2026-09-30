@@ -130,6 +130,18 @@ def main() -> int:
     check("engine: T+1 respected", len(same_day) == 0,
           f"{len(r1['trades'])} trades checked, {len(same_day)} same-day roundtrips")
 
+    # RW-1 (audit P0-1, D-20260930-05): an exit decided at day T's close
+    # must FILL at day T+1's open -- the pre-fix engine filled exits at the
+    # same close (look-ahead, systematic overstatement). Every exit record
+    # must therefore carry its own execution day's OPEN price.
+    open_px = {s: dict(zip(w.index.strftime("%Y-%m-%d"), w["open"]))
+               for s, w in window.items()}
+    bad_exit_px = [t for t in r1["trades"]
+                   if abs(round(float(open_px[t["symbol"]].get(t["date"], float("nan"))), 4)
+                               - t["price"]) > 1e-6]
+    check("engine: exits fill at T+1 open (RW-1)", len(bad_exit_px) == 0,
+          f"{len(r1['trades'])} exits checked, {len(bad_exit_px)} non-open fills")
+
     # --- 7) network / traffic modules ---
     import network_detector
     import traffic_policy
