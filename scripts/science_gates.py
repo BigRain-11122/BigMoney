@@ -1754,6 +1754,78 @@ REFORM_SUB_DIRECTIONS = {
     "anti_luck": {"batch_dsr": +1},
 }
 
+# --- Freeze-window step-2 ratification (2026-09-30 bm-c r271, prereg §9-②
+# DRAFT -> FROZEN). Ratified BEFORE any W14+ reeval burn; engine-reads
+# independent, so lawful inside RW-5 (MSG-1330 §2 "既有件内容修订合法");
+# append-only ratification record lives in the prereg §9. Values below are
+# the SINGLE canonical source -- W14 scoring runners consume these
+# constants directly (禁手抄判线), never hand-copied numbers. ---
+# No single dimension >= 0.50: CEO "多维度考量" (O-1058) mechanical
+# expression -- single-dim dictatorship is impossible by construction.
+REFORM_DIM_WEIGHTS = {
+    "ret": 0.30, "robust": 0.30, "anti_overfit": 0.20, "anti_luck": 0.20,
+}
+# Within-dimension sub-weights (each dim sums to 1). Keys are a subset of
+# REFORM_SUB_DIRECTIONS[dim]; positive-weight keys only are consumed.
+REFORM_SUB_WEIGHTS = {
+    "ret": {"sharpe_full_L": 0.40, "annualized_ret_L": 0.20,
+            "return_ceiling_O1126": 0.10, "beat6m_rate_L": 0.15,
+            "beat12m_rate_L": 0.15},
+    "robust": {"cost_x2_sharpe_L": 0.40, "regime_min_sharpe_L": 0.35,
+               "bootstrap_ci_low_L": 0.25},
+    "anti_overfit": {"family_pbo": 0.60, "d6_max_abs_corr": 0.40},
+    "anti_luck": {"batch_dsr": 1.00},
+}
+# L4 wide-in cap: top-N per wave promoted to TRIAL-* paper probation
+# (宽进不滥进; forward monthly exam stays the true final gate).
+REFORM_TOPN_PER_WAVE = 3
+# O-1126 return-ceiling comparison baseline. Candidates per O-20260929-1116:
+# EW-48 / five-member-EW / B_MAXDIV. Ratified = five-member equal weight of
+# the O-1555 frozen universe {510300,510050,510500,512100,588000}: the only
+# candidate that is simultaneously (a) deterministic and batch-independent
+# (cross-wave comparability of a standing standard), and (b) the investable
+# ETF face (落地性). EW-48 imports non-investable members for the ETF line;
+# B_MAXDIV is a moving target (promotion-dependent composition), not a
+# passive baseline. Metric = candidate annualized minus baseline annualized
+# over the same evaluation window, higher=better (direction already frozen).
+REFORM_CEILING_BASELINE = "five_member_ew_O1555"
+
+
+def reform_weight_freeze_integrity() -> dict:
+    """Deterministic audit of the frozen step-2 values (no I/O, no engine).
+
+    Consumed by selftest and by the W14 scoring runner pre-flight: dim
+    weights cover all four dims, sum to 1, and no single dim >= 0.5; every
+    sub-weight key is a known direction; each dim's sub-weights sum to 1;
+    top-N is a positive int.
+    """
+    errs = []
+    if set(REFORM_DIM_WEIGHTS) != set(REFORM_DIMENSIONS):
+        errs.append("dim_weights keys != REFORM_DIMENSIONS")
+    total = sum(REFORM_DIM_WEIGHTS.values())
+    if abs(total - 1.0) > 1e-9:
+        errs.append(f"dim_weights sum={total} != 1")
+    for d, w in REFORM_DIM_WEIGHTS.items():
+        if float(w) >= 0.5:
+            errs.append(f"single-dim dictatorship {d}={w} (>=0.5)")
+    for d, subs in REFORM_SUB_WEIGHTS.items():
+        if d not in REFORM_SUB_DIRECTIONS:
+            errs.append(f"unknown dim {d} in sub_weights")
+            continue
+        unknown = [s for s in subs if s not in REFORM_SUB_DIRECTIONS[d]]
+        if unknown:
+            errs.append(f"unknown sub keys {unknown} in {d}")
+        st = sum(subs.values())
+        if abs(st - 1.0) > 1e-9:
+            errs.append(f"sub_weights[{d}] sum={st} != 1")
+    if not isinstance(REFORM_TOPN_PER_WAVE, int) or REFORM_TOPN_PER_WAVE < 1:
+        errs.append("REFORM_TOPN_PER_WAVE must be int >= 1")
+    return {"gate": "reform_weight_freeze_integrity", "errors": errs,
+            "pass": not errs, "dim_weights": REFORM_DIM_WEIGHTS,
+            "sub_weights": REFORM_SUB_WEIGHTS,
+            "top_n_per_wave": REFORM_TOPN_PER_WAVE,
+            "ceiling_baseline": REFORM_CEILING_BASELINE}
+
 
 def _pct_ranks(values: dict) -> dict:
     """Within-batch percentile ranks in (0,1) -- midrank ties, None dropped.
@@ -2296,6 +2368,41 @@ def selftest() -> int:
        reform_composite_scores(mm, w_ok, {"ret": {"nope": 1.0},
                                           "anti_overfit": {}, "anti_luck": {}})["error"] is not None
        and g2_registration_v2(True, 0.97, 0.20)["eligible_v2"])
+    wf = reform_weight_freeze_integrity()
+    ok("reform step-2 FROZEN integrity: 4 dims, sum=1, no dim>=0.5, "
+       "sub keys known, per-dim sums=1, top-N int>=1",
+       wf["pass"] and set(wf["dim_weights"]) == set(REFORM_DIMENSIONS)
+       and abs(sum(wf["dim_weights"].values()) - 1.0) < 1e-9
+       and all(v < 0.5 for v in wf["dim_weights"].values())
+       and wf["top_n_per_wave"] == REFORM_TOPN_PER_WAVE
+       and wf["ceiling_baseline"] == REFORM_CEILING_BASELINE)
+    ok("reform step-2 FROZEN weights pass the composite gate unmodified "
+       "(end-to-end consumption, zero hand-copied lines)",
+       reform_composite_scores(mm, REFORM_DIM_WEIGHTS,
+                              REFORM_SUB_WEIGHTS)["error"] is None)
+    mm_full = {
+        "X": {"ret": {"sharpe_full_L": 2.0, "annualized_ret_L": 0.15,
+                      "return_ceiling_O1126": 0.05, "beat6m_rate_L": 0.6,
+                      "beat12m_rate_L": 0.55},
+              "robust": {"cost_x2_sharpe_L": 1.4, "regime_min_sharpe_L": 0.5,
+                         "bootstrap_ci_low_L": 0.3},
+              "anti_overfit": {"family_pbo": 0.1, "d6_max_abs_corr": 0.2},
+              "anti_luck": {"batch_dsr": 0.4}},
+        "Y": {"ret": {"sharpe_full_L": 1.0, "annualized_ret_L": 0.08,
+                      "return_ceiling_O1126": -0.02, "beat6m_rate_L": 0.5,
+                      "beat12m_rate_L": 0.45},
+              "robust": {"cost_x2_sharpe_L": 0.6, "regime_min_sharpe_L": -0.1,
+                         "bootstrap_ci_low_L": 0.1},
+              "anti_overfit": {"family_pbo": 0.5, "d6_max_abs_corr": 0.6},
+              "anti_luck": {"batch_dsr": 0.2}},
+    }
+    g2f = g2_reform_fdr4d(mm_full, REFORM_DIM_WEIGHTS, REFORM_SUB_WEIGHTS,
+                          {"X": 0.01, "Y": 0.5})
+    ok("g2_reform_fdr4d: frozen-weights end-to-end (X dominates every dim, "
+       "eligible; Y fails FDR)",
+       g2f["members"]["X"]["eligible_reform"] is True
+       and g2f["members"]["X"]["composite"] > g2f["members"]["Y"]["composite"]
+       and not g2f["members"]["Y"]["eligible_reform"])
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
