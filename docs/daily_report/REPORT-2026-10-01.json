@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-01",
- "generated_at": "2026-10-01 06:30:54",
+ "generated_at": "2026-10-01 06:48:07",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -298,19 +298,20 @@
  },
  "rd": {
   "commits_24h": 456,
-  "result_jsons_landed_24h": 152,
+  "result_jsons_landed_24h": 154,
   "digests_landed_24h": 1,
   "prereg_md_touched_24h": 40,
   "compute_audit_latest": {
-   "ts": "2026-10-01 06:29:12",
-   "py_cpu_pct": 0.4,
+   "ts": "2026-10-01 06:47:05",
+   "py_cpu_pct": 0.1,
    "flags": [
     "idle_with_work",
-    "supply_gap"
+    "supply_gap",
+    "supply_floor"
    ],
-   "verdict": "FLAG:idle_with_work,supply_gap"
+   "verdict": "FLAG:idle_with_work,supply_gap,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -618,11 +619,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1045665,
+  "total_report_tokens_est": 1046878,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-01 05:29:49",
+   "prev_generated": "2026-10-01 05:39:36",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 39,
+   "report_tokens_growth": 1213,
    "mandate_growth": 0
   },
   "method": {
@@ -633,25 +634,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-01 05:28:16",
-    "py_pct": 0.3,
-    "cpu_pct": 6.0,
+    "latest_ts": "2026-10-01 06:47:05",
+    "py_pct": 0.1,
+    "cpu_pct": 12.0,
     "ready": 2,
-    "streak_min": 155.5,
+    "streak_min": 234.4,
     "verdict": "FLAG:idle_with_work,supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "02:12",
-      4.7
-     ],
-     [
-      "02:27",
-      0.9
-     ],
-     [
-      "02:31",
-      100.0
-     ],
      [
       "02:52",
       0.4
@@ -687,12 +676,24 @@
      [
       "05:28",
       0.3
+     ],
+     [
+      "05:39",
+      2.1
+     ],
+     [
+      "06:29",
+      0.4
+     ],
+     [
+      "06:47",
+      0.1
      ]
     ],
-    "today_samples": 17,
-    "today_floor_ok": 8,
+    "today_samples": 20,
+    "today_floor_ok": 10,
     "today_sla_flags": 7,
-    "today_supply_gap_flags": 12
+    "today_supply_gap_flags": 15
    },
    "bm-b": {
     "latest_ts": "2026-10-01 06:29:12",
@@ -826,19 +827,19 @@
   "day": "2026-10-01",
   "machines": {
    "bm-a": {
-    "batches_judged": 29,
-    "core_seconds": 7341.9,
-    "wall_seconds": 805.6,
-    "effective_cores": 9.11,
-    "single_core_burn": 0,
+    "batches_judged": 30,
+    "core_seconds": 7398.6,
+    "wall_seconds": 865.8,
+    "effective_cores": 8.55,
+    "single_core_burn": 1,
     "multicore_burn": 29,
     "too_short": 1,
-    "last_ts": "2026-10-01T02:49:25+08:00",
+    "last_ts": "2026-10-01T06:19:17+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 0,
-     "audit_ts": "2026-10-01 05:28:16"
+     "audit_batches": 2,
+     "audit_ts": "2026-10-01 06:47:05"
     }
    },
    "bm-b": {
