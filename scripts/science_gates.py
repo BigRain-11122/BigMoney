@@ -1635,6 +1635,10 @@ SEED_REGISTRY = {
         # W14 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20328500, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
         "trial_labor_w14_unc": 20328500,
+        # CROSS-START-ROBUSTNESS-P1 (D-41 deliverable #1, bm-c r284):
+        # A-RAND-{1,2,3} random static-weight null cells
+        # default_rng(20329000+k).dirichlet(ones(4)) per prereg sec.3-A
+        "cross_start_robustness_p1": 20329000,
         # INNOVATION-QUOTA-SLOT-8 COV-SHRINK-AB-P1 (zoo #89
         # cov_shrinkage_lw adoption route: A/B variant batch sample-cov
         # vs LW-shrunk-cov fed to the same frozen T-27 MaxDiv pipeline,
