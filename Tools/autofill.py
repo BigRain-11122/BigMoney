@@ -88,6 +88,7 @@ import argparse
 import glob
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -118,6 +119,8 @@ _STATE_LANE_PRIMARY = True
 # rebased on c5d63fb8).
 _POOL_LANE_PRIMARY = True
 LOG = os.path.join(ROOT, "logs", "autofill.log")
+LOGS_DIR = os.path.join(ROOT, "logs")   # r491: launch-log dir (hermetic
+                                        # selftest swaps this global)
 MACHINES = os.path.join(ROOT, "fleet", "machines")
 MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json")
 _GIT_DIR = os.path.join(ROOT, ".git")
@@ -950,6 +953,42 @@ def _ckpt_no_progress_since(sh, ts):
     return mtime < launched
 
 
+def _park_marker_since(entry_id, ts):
+    """r491 data-wait park discriminator: True when the entry's launch
+    log (logs/autofill_<id>.log) carries an AUTOFILL-PARK marker whose
+    embedded timestamp is >= the given launch ts (timestamp-gated: a
+    stale marker from an older launch never parks a fresh one). The
+    canonical marker line is printed by runners that fail-closed on a
+    DATA-WAIT gate (panel/eligibility incomplete -- collector exit-2
+    family: honest zero-burn, NOT a crash), format:
+        AUTOFILL-PARK: YYYY-MM-DD HH:MM:SS <reason>
+    """
+    try:
+        if not entry_id or not ts:
+            return False
+        launched = datetime.strptime(ts, "%Y-%m-%d %H:%M:%S")
+    except Exception:
+        return False
+    p = os.path.join(LOGS_DIR, f"autofill_{entry_id}.log")
+    try:
+        if not os.path.exists(p):
+            return False
+        with open(p, encoding="utf-8", errors="replace") as fh:
+            txt = fh.read()[-4000:]
+        for m in re.finditer(
+                r"AUTOFILL-PARK:\s*(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})",
+                txt):
+            try:
+                if datetime.strptime(
+                        m.group(1), "%Y-%m-%d %H:%M:%S") >= launched:
+                    return True
+            except Exception:
+                continue
+        return False
+    except Exception:
+        return False
+
+
 def _last_launch_of(state, entry_id, shard_key):
     """Newest launch record for this entry+shard (None if never).
 
@@ -977,6 +1016,7 @@ def _confirm_crashes(state, pool, myid, fuse):
     itself is shared (all machines respect it at the launch gate).
     Returns True if the registry changed (caller saves)."""
     dirty = False
+    parked = []
     sigs = fuse.setdefault("sigs", {})
     for rec in state.get("launches", []):
         if (rec.get("machine") != myid
@@ -1012,6 +1052,32 @@ def _confirm_crashes(state, pool, myid, fuse):
                 and _ckpt_no_progress_since(shard, rec.get("ts")))
         if age < FUSE_CONFIRM_MIN and not fast:
             continue
+        # r491 data-wait park (false-crash-fuse law): a runner that
+        # fail-closed on a DATA gate prints a timestamped AUTOFILL-PARK
+        # marker into its launch log (collector exit-2 family: honest
+        # zero-burn while a data dependency settles -- live family:
+        # EXCLUSION/FACEB astock-refresh refusals fused 26/25 times on
+        # 2026-10-01 02:02-03:46 while the refresh was simply still
+        # running). Park entry+shard (waiting + park_note) instead of
+        # entering the crash registry -- the fuse stays for real
+        # crashes (fix-first); a data-wait un-parks when the gate
+        # passes (session flips ready, park_note documents condition).
+        if _park_marker_since(rec.get("entry"), rec.get("ts")):
+            ent["status"] = "waiting"
+            shard["status"] = "waiting"
+            shard["park_note"] = (
+                f"AUTOFILL-PARK {rec.get('ts')}: runner fail-closed on "
+                f"a data-wait gate (launch-log marker) -- honest "
+                f"zero-burn, NOT a crash; un-park = flip entry+shard "
+                f"ready once the data gate passes (r491 law)")
+            rec["crash_counted"] = True
+            rec["auto_parked"] = True
+            parked.append((rec.get("entry"), rec.get("shard")))
+            _log(f"crash-fuse PARK-NOT-CRASH {rec.get('entry')}/"
+                 f"{rec.get('shard')}: data-wait gate marker -> "
+                 f"entry+shard waiting, no fuse entry (refusal churn "
+                 f"ends; r491 law)")
+            continue
         sig = _sig(ent)
         reg = sigs.get(sig)
         if reg is None:
@@ -1028,7 +1094,25 @@ def _confirm_crashes(state, pool, myid, fuse):
              f"(entry {rec.get('entry')} shard {rec.get('shard')} "
              f"launched {rec.get('ts')}: runner dead + shard not landed) "
              f"-- same-version relaunch refused (O-0947 fix-first)")
-    return dirty
+    if parked:
+        # Persist the park exactly like a harvest flip (lane-strict
+        # authority write + union settle); no git here -- the tick-owned
+        # dirt law carries the lane/shared faces on the next daemon git
+        # flow or the session round commit. Fail-soft: a lost write
+        # retries on the next tick (the fresh marker re-confirms).
+        try:
+            if _POOL_LANE_PRIMARY:
+                _write_lane_file_strict(POOL, pool)
+            else:
+                tmp = POOL + ".tmp"
+                with open(tmp, "w", encoding="utf-8") as fh:
+                    json.dump(pool, fh, ensure_ascii=False, indent=1)
+                os.replace(tmp, POOL)
+            _pool_settle()
+        except Exception as ex:
+            _log(f"park persist fault ({ex}) -- lane-local only, next "
+                 f"tick re-confirms and retries (r491 fail-soft)")
+    return dirty or bool(parked)
 
 
 def _host_gate_reason(e):
@@ -1884,9 +1968,9 @@ def submit(a):
 
 def selftest():
     import tempfile
-    global POOL, STATE, FUSE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, \
-        _runner_alive, _fuse_gate_view, _pool_settle, CLAIMS, \
-        CORE_SAMPLES, RED_FLAGS, _runner_core_verdict
+    global POOL, STATE, FUSE, MACHINES, LOG, LOGS_DIR, _GIT_DIR, \
+        _py_cpu_pct, _runner_alive, _fuse_gate_view, _pool_settle, \
+        CLAIMS, CORE_SAMPLES, RED_FLAGS, _runner_core_verdict
     ok_all = True
 
     def ok(name, cond):
@@ -1905,6 +1989,8 @@ def selftest():
         # fixture when a leg plants one.
         _lane_st = _lane_path_for(STATE)
         LOG = os.path.join(tmp, "autofill.log")
+        LOGS_DIR = os.path.join(tmp, "logs")   # r491 hermetic launch-log dir
+        os.makedirs(LOGS_DIR, exist_ok=True)
         MACHINES = os.path.join(tmp, "machines")
         os.makedirs(MACHINES)
         # T-134 s3 hermetic surfaces: worker claims + sampler logs live
@@ -2781,6 +2867,55 @@ def selftest():
            and not st16i2["launches"][0].get("crash_counted"))
         os.remove(_f16i)
         os.rmdir(os.path.join(os.path.dirname(POOL), "fake_ns_ckpt"))
+        # S16p r491 data-wait park: a dead launch whose log carries a
+        # FRESH timestamped AUTOFILL-PARK marker parks entry+shard
+        # (waiting + park_note) and NEVER enters the crash registry; an
+        # OLD marker (pre-launch ts) is ignored (timestamp-gated) and
+        # counts as a normal crash. Live family: EXCLUSION/FACEB fused
+        # 26/25 refusals on astock-refresh gate refusals.
+        _lpf = os.path.join(LOGS_DIR, "autofill_E1.log")
+        with open(_lpf, "w", encoding="utf-8") as fh:
+            fh.write("AUTOFILL-PARK: 2020-01-01 00:00:00 stale marker\n")
+        st16p = {"launches": [
+            {"ts": (datetime.now() - timedelta(minutes=6)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"}]}
+        pool16p = {"entries": [dict(entry, shards=[
+            {"key": "s0", "status": "ready", "owner": None,
+             "checkpoint": "results/fake_ns_ckpt/judge.jsonl (row "
+                           "resume)"}])]}
+        fu16p = {"sigs": {}}
+        d16p = _confirm_crashes(st16p, pool16p, "bm-b", fu16p)
+        ok("S16p stale marker ignored -> normal crash count",
+           d16p and fu16p["sigs"].get("scripts/fake_runner.py|run",
+                                      {}).get("count") == 1
+           and st16p["launches"][0]["crash_counted"]
+           and not st16p["launches"][0].get("auto_parked")
+           and pool16p["entries"][0]["shards"][0]["status"] == "ready")
+        with open(_lpf, "a", encoding="utf-8") as fh:
+            fh.write("AUTOFILL-PARK: " + st16p["launches"][0]["ts"]
+                     + " data-wait gate (panel incomplete)\n")
+        st16p2 = {"launches": [
+            {"ts": (datetime.now() - timedelta(minutes=6)).strftime(
+                "%Y-%m-%d %H:%M:%S"), "machine": "bm-b",
+             "verdict": "launched", "entry": "E1", "shard": "s0",
+             "runner_sha256": "abc123"}]}
+        pool16p2 = {"entries": [dict(entry, shards=[
+            {"key": "s0", "status": "ready", "owner": None,
+             "checkpoint": "results/fake_ns_ckpt/judge.jsonl (row "
+                           "resume)"}])]}
+        fu16p2 = {"sigs": {}}
+        d16p2 = _confirm_crashes(st16p2, pool16p2, "bm-b", fu16p2)
+        _e16p2 = pool16p2["entries"][0]
+        ok("S16p2 fresh marker -> auto-park (waiting, no fuse entry)",
+           d16p2 and not fu16p2["sigs"]
+           and st16p2["launches"][0]["crash_counted"]
+           and st16p2["launches"][0].get("auto_parked")
+           and _e16p2["status"] == "waiting"
+           and _e16p2["shards"][0]["status"] == "waiting"
+           and "AUTOFILL-PARK" in _e16p2["shards"][0].get("park_note", ""))
+        os.remove(_lpf)
         # S16b launch gate: same runner+args+version (hash) with a
         # confirmed crash -> relaunch REFUSED, refusal counter visible.
         with open(POOL, "w", encoding="utf-8") as fh:

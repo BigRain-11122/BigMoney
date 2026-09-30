@@ -957,6 +957,14 @@ def run() -> int:
     if not ok:
         print("run: FAIL-CLOSED -- burn gate refused (honest, zero-burn):")
         print(json.dumps(gates_rep, ensure_ascii=False, indent=1))
+        if "panel_gate" in gates_rep or "eligibility_age_h" in gates_rep:
+            # r491 data-wait marker: the autofill crash-confirmer reads
+            # this timestamped line and PARKS the pool entry (waiting)
+            # instead of crash-fusing an honest data-wait refusal.
+            print("AUTOFILL-PARK: " + time.strftime("%Y-%m-%d %H:%M:%S")
+                  + " data-wait gate (astock panel / eligibility "
+                    "incomplete) -- relaunch after data settle, not a "
+                    "crash (r491 false-crash-fuse law)")
         return 2
 
     import science_gates as sg

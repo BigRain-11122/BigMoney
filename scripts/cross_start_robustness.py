@@ -423,6 +423,15 @@ def run_face_b(write=True):
     if not ok:
         print(json.dumps({"face_b": "FAIL-CLOSED (zero-burn)", "gates": gates},
                          ensure_ascii=False, indent=1))
+        if str(gates.get("fail", "")).startswith(
+                ("panel gate:", "eligibility age")):
+            # r491 data-wait marker: the autofill crash-confirmer reads
+            # this timestamped line and PARKS the pool entry (waiting)
+            # instead of crash-fusing an honest data-wait refusal.
+            print("AUTOFILL-PARK: " + _t.strftime("%Y-%m-%d %H:%M:%S")
+                  + " data-wait gate (astock panel / eligibility "
+                    "incomplete) -- relaunch after data settle, not a "
+                    "crash (r491 false-crash-fuse law)")
         return 2
     from firm.risk import b_layer_filter as blf
 
