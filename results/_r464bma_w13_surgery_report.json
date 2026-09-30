@@ -1,7 +1,9 @@
 {
+ "review_flags": [],
+ "axis15_refs": 6,
  "src": "scripts\\trial_labor_w12.py",
  "dst": "results\\_r464bma_w13_runner_draft.py",
- "partial": true,
+ "partial": false,
  "sections_landed": [
   "docstring: W13 identity (6 anchored rewrites)",
   "imports: + tl12 + a158 SUMN columns face",
@@ -13,14 +15,17 @@
   "exclusion: 25 real-read faces, w12 screen+judge sources (tl12), pads +1 sumn-none all waves",
   "_excluded: axis[15] sumn=none face law",
   "mask/curve/null: sumn leg wiring (axis[15], composition +SUMN, SU chain, sumn_zeroed return)",
-  "generate: G-SUMN gate + sixteen-tuple dedup + counts"
+  "generate: G-SUMN gate + sixteen-tuple dedup + counts",
+  "screen slice: csv/cell/prep/shard/finalize sumn wiring",
+  "judge slice: prep/cell/finalize sumn wiring",
+  "selftest: sixteen-tuple faces (L6/L7g/L7i/L8/L9/L10/L12/L13/L14/L15)",
+  "residual pass: identifiers/payloads (screen/judge/intake/selftest legs)"
  ],
- "sections_pending": [
-  "12 screen slice: csv/cell/prep/shard/finalize sumn wiring",
-  "13 judge slice: prep/cell/finalize sumn wiring",
-  "14 selftest: sixteen-tuple faces (L6/L7g/L7i/L8/L9/L10/L12/L13/L14/L15/L16)",
-  "15 residual pass: identifiers/payloads (screen/judge/intake/selftest legs)",
-  "16 formal land + catalog runner_exists arm + GENERATE pool"
+ "post_surgeon_pending": [
+  "r446 three-command real-data identity face (prep/finalize/judge-prep)",
+  "selftest full run",
+  "formal land scripts/trial_labor_w13.py",
+  "catalog runner_exists flip + GENERATE pool entry"
  ],
  "py_compile": "PASS",
  "sumn_anchor_checks": {

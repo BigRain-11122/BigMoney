@@ -1,0 +1,6 @@
+live = open('scripts/trial_labor_w12.py', encoding='utf-8').read()
+i = live.find('disc["w12_screen_survivors"]')
+print(repr(live[i:i+320]))
+i2 = live.find('disc["w12_judge_products"]')
+print()
+print(repr(live[i2:i2+400]))

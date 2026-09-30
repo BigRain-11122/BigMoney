@@ -1,0 +1,492 @@
+rows in 12-14 range: 95
+================ 1722 sub1 csv cols n=1
+  +                       "rsqr_face", "rsqr_zeroed",
+================ 1728 subn screen+judge cell unpack n=3
+  -             tz, az, mz, dz = run_candidate_curve_w11(
+  +             tz, az, mz, dz, rz = run_candidate_curve_w12(
+================ 1735 subn screen cell state args n=2
+  -                 std_state=st.get("std_state"))
+  +                 std_state=st.get("std_state"),
+  +                 rsqr_state=st.get("rsqr_state"))
+================ 1739 sub1 screen row n=1
+  -            "std_zeroed": int(dz)}
+  +            "std_zeroed": int(dz),
+  +            "rsqr_face": cand["axis"][14],
+  +            "rsqr_zeroed": int(rz)}
+================ 1746 sub1 prep G-RSQR gate n=1
+  + 
+  +     # G-RSQR on the raw full-history face (prereg sec.2 probe basis =
+  +     # data/daily/sh510300.csv; 120-bar warmup + probe anchors
+  +     # decidable 3,363 / open 341 / rsqr10 3363/332 + slope split
+  +     # 213/128 + nine-gate 512-cell 124/388 law + extreme-day 0/7
+  +     # open states)
+  +     rsqr_state_full, rsqr_err = _rsqr_state_full()
+  +     if rsqr_err:
+  +         print(f"PREP-GATE FAIL: G-RSQR {rsqr_err}")
+  +         return 1
+  +     rsqr_meta_core = rsqr_state_full[2]
+================ 1760 subn member loops n=2
+  -                               (MOM_MEMBER, "mom"), (STD_MEMBER, "std")):
+  +                               (MOM_MEMBER, "mom"), (STD_MEMBER, "std"),
+  +                               (RSQR_MEMBER, "rsqr")):
+================ 1766 sub1 prep legL structure n=1
+  +     _r20o, _r20d, rsqr_meta, _r10o, _r10d = rsqr_state_series(prices)
+  +     if not _rsqr_structure_pass(rsqr_meta):
+  +         print(f"PREP-GATE FAIL: G-RSQR leg-L structural "
+  +               f"invariants broken {rsqr_meta} -- honest refuse")
+  +         return 1
+================ 1785 sub1 prep payload G-RSQR n=1
+  +                        "G-RSQR": {"pass": True,
+  +                                   "core48": rsqr_meta_core,
+  +                                   "legL": rsqr_meta},
+================ 1798 sub1 prep payload meta n=1
+  +             "rsqr_meta": rsqr_meta,
+================ 1808 sub1 prep print n=1
+  -           f"{mom_meta['warmup_gate_closed_bars']}")
+  +           f"{mom_meta['warmup_gate_closed_bars']}; "
+  +           f"G-RSQR {rsqr_meta['open_days']}open/"
+  +           f"{rsqr_meta['closed_days']}closed decidable "
+  +           f"{rsqr_meta['decidable_days']} rsqr10-open "
+  +           f"{rsqr_meta['rsqr10_open_days']}")
+================ 1820 sub1 shard state init n=1
+  +     rsqr_state = rsqr_state_series(prices)
+================ 1827 sub1 shard st n=1
+  -              "std_state": std_state}
+  +              "std_state": std_state,
+  +              "rsqr_state": rsqr_state}
+================ 1833 sub1 finalize counts init n=1
+  +     rsqr_counts = {}
+================ 1839 sub1 finalize segs init n=1
+  -     std_seg, gvvvsktsams_seg = {}, {}
+  +     std_seg, rsqr_seg, gvvvsktsamsr_seg = {}, {}, {}
+================ 1843 sub1 finalize face read n=1
+  +         rqf = r["rsqr_face"]
+================ 1847 sub1 finalize counts loop n=1
+  +         rsqr_counts[rqf] = rsqr_counts.get(rqf, 0) + 1
+================ 1852 sub1 finalize seg loop a n=1
+  +                          (rsqr_seg, rqf),
+================ 1860 sub1 finalize seg loop b n=1
+  -                           f"{stf}")):
+  +                           f"{stf}"),
+  +                          (gvvvsktsamsr_seg,
+  +                           f"{gf}|{vf}|{yf}|{cf}|{sf}|{tf}|{af}|{mf}|"
+  +                           f"{stf}|{rqf}")):
+================ 1871 sub1 finalize rate loop n=1
+  -                 tstate_seg, amp_seg, mom_seg, std_seg, gvvy_seg,
+  -                 gvvvsktsam_seg, gvvvsktsams_seg):
+  +                 tstate_seg, amp_seg, mom_seg, std_seg, rsqr_seg, gvvy_seg,
+  +                 gvvvsktsam_seg, gvvvsktsams_seg, gvvvsktsamsr_seg):
+================ 1884 sub1 finalize meta read n=1
+  +     rsqr_meta = prep.get("rsqr_meta")
+================ 1888 sub1 finalize payload counts n=1
+  +            "rsqr_face_counts": rsqr_counts,
+================ 1895 sub1 finalize payload segs n=1
+  +            "rsqr_segmented_survival": rsqr_seg,
+================ 1899 sub1 finalize payload interaction n=1
+  +            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_"
+  +            "survival": gvvvsktsamsr_seg,
+================ 1909 sub1 finalize na bars n=1
+  +            "rsqr_na_window_bars": (rsqr_meta["na_window_bars"]
+  +                                    if rsqr_meta else None),
+================ 1919 sub1 finalize draw order a n=1
+  - "MOM -> signal matrix (frozen "
+  + "MOM/STD/RSQR -> signal matrix (frozen "
+================ 1922 sub1 finalize draw order b n=1
+  - "vconf+streak+tstate+amp+mom "
+  + "vconf+streak+tstate+amp+mom+std+rsqr "
+================ 1925 sub1 finalize audit order n=1
+  -                              "-> STREAK -> TSTATE -> AMP -> MOM -> "
+  -                              "initial-stop); MA200/"
+  +                              "-> STREAK -> TSTATE -> AMP -> MOM -> STD -> "
+  +                              "RSQR -> initial-stop); MA200/"
+================ 1932 sub1 audit warmups n=1
+  -                              "mom 139-bar warmup / std 120-bar warmup "
+  -                              "(panel-level counts in gate/vol/yang/vconf/"
+  -                              "streak/tstate/amp/mom/std_na_window_bars); "
+  +                              "mom 139-bar warmup / std 120-bar warmup / rsqr "
+  +                              "120-bar warmup (panel-level counts in gate/vol/yang/vconf/"
+  +                              "streak/tstate/amp/mom/std/rsqr_na_window_bars); "
+================ 1943 sub1 audit erratum n=1
+  -                               "decidable (same erratum law); "
+  +                               "decidable (same erratum law); rsqr20_hi/rsqr10_hi keep "
+  +                               "face = open AND decidable (same erratum law); "
+================ 1952 sub1 finalize prints n=1
+  +     print(f"rsqr segmented survival: {json.dumps(rsqr_seg, sort_keys=True)}")
+  +     print(f"gate x vol x yang x vconf x streak x tstate x amp x mom x "
+  +           f"std x rsqr interaction survival: "
+  +           f"{json.dumps(gvvvsktsamsr_seg, sort_keys=True)[:400]}")
+================ 1982 sub1 dual nulls docstring a n=1
+  -     differing face -- selftest cross-checks at the W10 seed)."""
+  +     differing face -- selftest cross-checks at the W12 unc-berth seed)."""
+================ 1990 sub1 dual nulls docstring b n=1
+  -     W10 seed binding [20312000, cell_idx].  Math imported verbatim from
+  +     W12 unc-berth seed binding [20321500, cell_idx].  Math imported verbatim from
+================ 1998 sub1 stop disclosure sig n=1
+  - def _overlay_stop_disclosure_w11(cand, prices, P, atr20, fundamental_ok,
+  -                                 amp_state, mom_state, std_state):
+  + def _overlay_stop_disclosure_w12(cand, prices, P, atr20, fundamental_ok,
+  +                                 amp_state, mom_state, std_state,
+  +                                 rsqr_state):
+================ 2012 sub1 stop disclosure docstring n=1
+  -     with the W11 composition order (filter -> timing -> GATE -> VOL ->
+  -     initial-stop; MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors
+  -     tl10._overlay_stop_disclosure_w10 with the std overlay inserted
+  +     with the W12 composition order (filter -> timing -> GATE -> VOL ->
+  +     RSQR -> initial-stop; MSG-0440 E1 mapping + MSG-0450 annex 1).  Mirrors
+  +     tl11._overlay_stop_disclosure_w11 with the rsqr overlay inserted
+================ 2028 sub1 stop disclosure chain n=1
+  -     _, ev = tl2.stop_exit_overlay(SD, prices, stop_key, atr20)
+  +     RQ = rsqr_zero_mask(SD, cand["axis"][14], rsqr_state)
+  +     _, ev = tl2.stop_exit_overlay(RQ, prices, stop_key, atr20)
+================ 2039 sub1 judge cell out face n=1
+  -            "std_face": cand["axis"][13]}
+  +            "std_face": cand["axis"][13],
+  +            "rsqr_face": cand["axis"][14]}
+================ 2044 sub1 judge cell state read n=1
+  +         rq = st[f"rsqr_state_{leg}"]
+================ 2047 sub1 judge cell unpack 2 n=1
+  -                 az2, mz2, dz2 = run_candidate_curve_w11(
+  +                 az2, mz2, dz2, rz2 = run_candidate_curve_w12(
+================ 2054 sub1 judge cell curve states 1 n=1
+  -                                                  std_state=sd)
+  +                                                  std_state=sd,
+  +                                                  rsqr_state=rq)
+================ 2064 sub1 judge cell curve states 2 n=1
+  -                     mom_state=mo, std_state=sd)
+  +                     mom_state=mo, std_state=sd, rsqr_state=rq)
+================ 2072 sub1 judge degenerate legs n=1
+  +                          "rsqr_zeroed": 0,
+  +                          "rsqr_zeroed_x2": 0,
+================ 2080 sub1 judge legs dict n=1
+  +                      "rsqr_zeroed": int(rz),
+  +                      "rsqr_zeroed_x2": int(rz2),
+================ 2088 sub1 stop disc call n=1
+  -             out["stop_disclosure"] = _overlay_stop_disclosure_w11(
+  -                 ts, ap, mo, sd)
+  +             out["stop_disclosure"] = _overlay_stop_disclosure_w12(
+  +                 ts, ap, mo, sd, rq)
+================ 2097 sub1 judge cmd G-RSQR gate n=1
+  +     rsqr_state_full, rsqr_err = _rsqr_state_full()
+  +     if rsqr_err:
+  +         print(f"JUDGE-GATE: {rsqr_err} (prereg sec.2 G-RSQR "
+  +               "fail-closed) -- refuse")
+  +         return 2
+================ 2111 sub1 judge cmd per-leg state n=1
+  +         rst = rsqr_state_series(prices)
+  +         state[f"rsqr_state_{leg}"] = rst
+  +         state[f"rsqr_meta_{leg}"] = rst[2]
+================ 2122 sub1 judge prep G-RSQR gate n=1
+  +     rsqr_state_full, rsqr_err = _rsqr_state_full()
+  +     if rsqr_err:
+  +         print(f"JUDGE-PREP-GATE FAIL: G-RSQR {rsqr_err}")
+  +         return 1
+================ 2133 sub1 judge prep metas init n=1
+  +     rsqr_meta = {}
+================ 2139 sub1 judge prep member loop n=1
+  -                                   (STD_MEMBER, "std")):
+  +                                   (STD_MEMBER, "std"),
+  +                                   (RSQR_MEMBER, "rsqr")):
+================ 2146 sub1 judge prep per-leg structure n=1
+  +         _r20o, _r20d, rsqreta, _r10o, _r10d = rsqr_state_series(prices)
+  +         if not _rsqr_structure_pass(rsqreta):
+  +             print(f"JUDGE-PREP-GATE FAIL: leg-{leg} G-RSQR structural "
+  +                   f"invariants broken {rsqreta} -- honest refuse")
+  +             return 1
+  +         rsqr_meta[leg] = rsqreta
+================ 2168 sub1 judge prep full_raw_face n=1
+  +     rsqr_meta["full_raw_face"] = rsqr_state_full[2]
+================ 2172 subn prep vacuous payload n=1
+  +                "rsqr_meta": rsqr_meta,
+================ 2180 subn prep main payload n=1
+  +            "rsqr_meta": rsqr_meta,
+================ 2186 sub1 judge prep print n=1
+  +     print(f"rsqr meta L 120-bar-warmup "
+  +           f"{rsqr_meta['L']['open_days']}open/"
+  +           f"{rsqr_meta['L']['closed_days']}closed decidable "
+  +           f"{rsqr_meta['L']['decidable_days']} rsqr10-open "
+  +           f"{rsqr_meta['L']['rsqr10_open_days']} slope-split "
+  +           f"{rsqr_meta['L']['slope_sign_split']}")
+================ 2207 sub1 judge final sums init n=1
+  +     rsqr_sum = {}
+  +     gvvvsktsamsr_sum = {}
+================ 2218 sub1 judge final face read n=1
+  +         rqf = r.get("rsqr_face", "none")
+================ 2222 sub1 judge final seg loop a n=1
+  +                          (rsqr_sum, rqf),
+================ 2230 sub1 judge final seg loop b n=1
+  -                           f"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}")):
+  +                           f"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}"),
+  +                          (gvvvsktsamsr_sum,
+  +                           f"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}|{rqf}")):
+================ 2240 sub1 judge final payload sums n=1
+  +            "rsqr_face_judgment": rsqr_sum,
+================ 2244 sub1 judge final payload interaction n=1
+  +            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_"
+  +            "judgment": gvvvsktsamsr_sum,
+================ 2254 sub1 judge final audit n=1
+  -                              "tstate + amp + MOM + STD overlays carried "
+  -                              "-> STREAK -> TSTATE -> AMP -> MOM -> STD "
+  -                              "-> initial-stop; "
+  +                              "tstate + amp + MOM + STD + RSQR overlays carried "
+  +                              "-> STREAK -> TSTATE -> AMP -> MOM -> STD -> "
+  +                              "RSQR -> initial-stop; "
+================ 2275 sub1 judge final prints n=1
+  +     print(f"rsqr-face judgment: {json.dumps(rsqr_sum, sort_keys=True)}")
+================ 2288 sub1 judge final audit stop note n=1
+  -                              "mom overlay inserted before stop arming "
+  -                              "(W10 composition law); gate_flip_days_legL "
+  +                              "std+rsqr overlays inserted before stop arming "
+  +                              "(W11/W12 composition law); gate_flip_days_legL "
+================ 2299 sub1 intake docstring n=1
+  -     """s4 D6 binding gate (W2 cmd_intake precedent on the W10 file
+  +     """s4 D6 binding gate (W2 cmd_intake precedent on the W11 file
+================ 2310 sub1 selftest docstring n=1
+  -     spread) / grammar structure / draw determinism / 20-source
+  -     exclusion loader / engine double-run determinism legs / funnel
+  -     faces (dispatch / null-cell engine path / CSV contract) + pit-95
+  -     finalize guards."""
+  +     spread) / G-RSQR probe anchors (nine-gate 512-cell 124/388 +
+  +     slope split 213/128 + core48 spread) / grammar structure / draw
+  +     determinism / 24-source exclusion loader / engine double-run
+  +     determinism legs / funnel faces (dispatch / null-cell engine path /
+  +     CSV contract) + pit-95 finalize guards."""
+================ 2334 sub1 L6a n=1
+  -     _ok("L6a axis_combos == 31,352,832 (10,450,944 x 3 std-axis "
+  -         "values; W10 mom-face combos x len(AXIS_STD))",
+  -         g["axis_combos"] == 31352832
+  -         == tl10.AXIS_COMBOS * len(AXIS_STD))
+  +     _ok("L6a axis_combos == 94,058,496 (31,352,832 x 3 rsqr-axis "
+  +         "values; W11 std-face combos x len(AXIS_RSQR))",
+  +         g["axis_combos"] == 94058496
+  +         == tl11.AXIS_COMBOS * len(AXIS_RSQR))
+================ 2344 sub1 L6b n=1
+  -     _ok("L6b fourteen axes present, mom == frozen binary",
+  -         len(g["axes"]) == 14 and g["axes"]["mom"] == AXIS_MOM)
+  +     _ok("L6b fifteen axes present, rsqr == frozen three-value",
+  +         len(g["axes"]) == 15 and g["axes"]["rsqr"] == AXIS_RSQR)
+================ 2351 sub1 L6c text n=1
+  -     _ok("L6c W11 seeds == SEED_REGISTRY berths (20317000/20317500/"
+  -         "20318000 berth re-take held, no re-pick)",
+  +     _ok("L6c W12 seeds == SEED_REGISTRY berths (20320500/20321000/"
+  +         "20321500 berths held, no re-pick)",
+================ 2358 sub1 L6d n=1
+  -     _ok("L6d new sha16 constructively distinct from W1/MASS/W2-W9",
+  -         and sha != tl9.FROZEN_SHA16,
+  +     _ok("L6d new sha16 constructively distinct from W1/MASS/W2-W11",
+  +         and sha != tl11.FROZEN_SHA16,
+================ 2367 sub1 L6e n=1
+  -     _ok("L6e exclusion face rows mom=none-padded to 13-long axis",
+  -         all(len(r["axis"]) == 14 and r["axis"][-1] == "none"
+  -             ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_none_face"]))
+  +     _ok("L6e exclusion face rows rsqr=none-padded to 15-long axis",
+  +         all(len(r["axis"]) == 15 and r["axis"][-1] == "none"
+  +             ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_none_face"]))
+================ 2380 sub1 L7g+L7i n=1
+  -             sstate, serr = _std_state_full()
+  -             _ok("L7g probe-facts exact per-cell 256-grid cross-check "
+  -                 "(r237 determinism law: every computed STD-face cell "
+  -                 serr is None
+  -                 and sstate[2]["eight_gate_256cells"]
+  -                 == pf.get("eight_gate_cells"),
+  -                 serr or "std-face cells == probe facts")
+  +             rstate2, rerr2 = _rsqr_state_full()
+  +             _ok("L7g probe-facts exact per-cell 512-grid cross-check "
+  +                 "(r447 determinism law: every computed RSQR-face cell "
+  +                 rerr2 is None
+  +                 and rstate2[2]["nine_gate_512cells"]
+  +                 == pf.get("nine_gate_cells"),
+  +                 rerr2 or "rsqr-face cells == probe facts")
+  +         # core48 member-level rsqr20 open-rate spread (r447 probe
+  +         # method verbatim; frozen-runner RSQR verbatim)
+  +         prices_r = tl1.load_core()
+  +         cut_r = pd.Timestamp(CUTOFF)
+  +         rates2 = {}
+  +         for sym, d2 in sorted(prices_r.items()):
+  +             d2 = d2[d2.index <= cut_r]
+  +             if len(d2) >= 260:
+  +                 op2, wdec2, _ = rsqr_state_series({RSQR_MEMBER: d2})[:3]
+  +                 if wdec2.any():
+  +                     rates2[str(sym)] = round(float(
+  +                         (op2 & wdec2).mean()), 4)
+  +         vals2 = sorted(rates2.values())
+  +         cf2 = RSQR_ANCHOR["core48_rsqr20_open_rate"]
+  +         _ok("L7i core48 rsqr20-open-rate spread (n 48 / min 0.0891 / "
+  +             "median 0.1009 / max 0.1183; r447 probe face)",
+  +             len(vals2) == cf2["n"] and vals2[0] == cf2["min"]
+  +             and vals2[len(vals2) // 2] == cf2["median"]
+  +             and vals2[-1] == cf2["max"],
+  +             f"n={len(vals2)} min={vals2[0] if vals2 else None}")
+================ 2423 sub1 L8a n=1
+  -         "candidate incl. the mom+std axes, fourteen-tuple)",
+  -         and len(c1[1]["axis"]) == 14)
+  +         "candidate incl. the std+rsqr axes, fifteen-tuple)",
+  +         and len(c1[1]["axis"]) == 15)
+================ 2437 sub1 L8b n=1
+  -     fourteen = [rng_a.integers(0, 4, n) for _ in range(14)]
+  -     twelve = [rng_b.integers(0, 4, n) for _ in range(12)]
+  -     _ok("L8b MOM+STD append AFTER AMP in the rng stream (first twelve "
+  -         "axis arrays == W9-order stream verbatim, zero disturbance)",
+  -         all(np.array_equal(a, b) for a, b in zip(fourteen, twelve)))
+  +     fifteen = [rng_a.integers(0, 4, n) for _ in range(15)]
+  +     thirteen = [rng_b.integers(0, 4, n) for _ in range(13)]
+  +     _ok("L8b STD+RSQR append AFTER AMP in the rng stream (first thirteen "
+  +         "axis arrays == W10-order stream verbatim, zero disturbance)",
+  +         all(np.array_equal(a, b) for a, b in zip(fifteen, thirteen)))
+================ 2454 sub1 L9a n=1
+  -     _ok("L9a exclusion loader: every row a 14-tuple axis, std=none "
+  -         "at 13 for ALL rows + mom at 12 inside the frozen binary "
+  -         "domain + W10 real-mom rows present (20 sources; W1-W9 "
+  -         "sources mom=none, W10 survivors/judged carry real values)",
+  -         all(len(r["axis"]) == 14 and r["axis"][13] == "none"
+  -             and r["axis"][12] in AXIS_MOM for r in rows10)
+  -         and any(r["axis"][12] == "mom_oversold"
+  +     _ok("L9a exclusion loader: every row a 15-tuple axis, rsqr=none "
+  +         "at 14 for ALL rows + std at 13 inside the frozen three-value "
+  +         "domain + W11 real-std rows present (24 sources; W1-W10 "
+  +         "sources std=none, W11 survivors/judged carry real values)",
+  +         all(len(r["axis"]) == 15 and r["axis"][14] == "none"
+  +             and r["axis"][13] in AXIS_STD for r in rows10)
+  +         and any(r["axis"][13] in ("std20_hi", "std10_hi")
+  +              "@@W11TAG3@@", "@@W11TAG4@@",
+================ 2487 sub1 L9b text n=1
+  -         "== 243 (generate-time re-declare window, prereg sec.1 TEN "
+  +         "== 243 (generate-time re-declare window, prereg sec.1 TWELVE "
+================ 2494 sub1 L10b n=1
+  -     miss = _excluded_w11({**hit_key,
+  -                           "axis": [*hit_key["axis"][:12],
+  -                                    "mom_oversold", "none"]},
+  -     _ok("L10b mom in {mom_oversold} = new-syntax legal cell, "
+  +     miss = _excluded_w12({**hit_key,
+  +                           "axis": [*hit_key["axis"][:14],
+  +                                    "rsqr20_hi"]},
+  +     _ok("L10b rsqr in {rsqr20_hi, rsqr10_hi} = new-syntax legal cell, "
+================ 2507 sub1 L12 rq3 n=1
+  +     rq3 = rsqr_state_series(frames3)
+================ 2510 sub1 L12 rq5 n=1
+  +     rq5 = rsqr_state_series(frames5)
+================ 2513 sub1 L13 base axis fifteen n=1
+  -                      "none"]}
+  +                      "none", "none"]}
+================ 2525 sub1 L12 mask calls gs3 none n=1
+  -         "none", "none", "none", "none", "none", gs3, vs3, ys3, cs3,
+  -         sk3, ts3, as3, ms3, ss3)
+  +         "none", "none", "none", "none", "none", "none", gs3,
+  +         vs3, ys3, cs3, sk3, ts3, as3, ms3, ss3, rq3)
+================ 2531 sub1 L12 mask calls gs3 mom n=1
+  -         "none", "none", "none", "mom_oversold", "none", gs3, vs3,
+  -         ys3, cs3, sk3, ts3, as3, ms3, ss3)
+  +         "none", "none", "none", "mom_oversold", "none", "none", gs3,
+  +         vs3, ys3, cs3, sk3, ts3, as3, ms3, ss3, rq3)
+================ 2538 sub1 L12 mask calls gs5 none n=1
+  -         "none", "none", "none", "none", "none", gs5, vs5, ys5, cs5,
+  -         sk5, ts5, as5, ms5, ss5)
+  +         "none", "none", "none", "none", "none", "none", gs5,
+  +         vs5, ys5, cs5, sk5, ts5, as5, ms5, ss5, rq5)
+================ 2544 sub1 L12 mask calls gs5 mom n=1
+  -         "none", "none", "none", "mom_oversold", "none", gs5, vs5,
+  -         ys5, cs5, sk5, ts5, as5, ms5, ss5)
+  +         "none", "none", "none", "mom_oversold", "none", "none", gs5,
+  +         vs5, ys5, cs5, sk5, ts5, as5, ms5, ss5, rq5)
+================ 2551 sub1 L13a n=1
+  -         sdz10 = \
+  -         run_candidate_curve_w11(
+  -             std_state=ss3)
+  +         sdz10, rz10 = \
+  +         run_candidate_curve_w12(
+  +             std_state=ss3, rsqr_state=rq3)
+================ 2568 sub1 L13b check n=1
+  -         "15-tuple return shape (mom_zeroed carried)",
+  -         and tz10 == tz10b and az10 == az10b and mz10 == mz10b == 0)
+  +         "16-tuple return shape (rsqr_zeroed carried)",
+  +         and tz10 == tz10b and az10 == az10b and mz10 == mz10b == 0
+  +         and rz10 == 0)
+================ 2580 sub1 L13b call n=1
+  -         _ = \
+  -         run_candidate_curve_w11(
+  -             amp_state=as3, mom_state=ms3, std_state=ss3)
+  +         _, _ = \
+  +         run_candidate_curve_w12(
+  +             amp_state=as3, mom_state=ms3, std_state=ss3,
+  +             rsqr_state=rq3)
+================ 2598 sub1 L13c n=1
+  -     eq5n, tr5n, m5n, _, _, _, _, _, _, _, _, _, az5n, mz5n, _ = \
+  -         run_candidate_curve_w11(
+  -             amp_state=as5, mom_state=ms5, std_state=ss5)
+  +     eq5n, tr5n, m5n, _, _, _, _, _, _, _, _, _, az5n, mz5n, _, _ = \
+  +         run_candidate_curve_w12(
+  +             amp_state=as5, mom_state=ms5, std_state=ss5,
+  +             rsqr_state=rq5)
+================ 2615 sub1 L13d n=1
+  -     eq5o, tr5o, m5o, _, _, _, _, _, _, _, _, _, az5o, mz5o, _ = \
+  -         run_candidate_curve_w11(
+  -                              "none"]), None,
+  -             std_state=ss5)
+  +     eq5o, tr5o, m5o, _, _, _, _, _, _, _, _, _, az5o, mz5o, _, _ = \
+  +         run_candidate_curve_w12(
+  +                              "none", "none"]), None,
+  +             std_state=ss5, rsqr_state=rq5)
+================ 2635 sub1 L13e n=1
+  -     eq3o, tr3o, m3o, _, _, _, _, _, _, _, _, _, az3o, mz3o, _ = \
+  -         run_candidate_curve_w11(
+  -                              "none"]), None,
+  -             std_state=ss3)
+  +     eq3o, tr3o, m3o, _, _, _, _, _, _, _, _, _, az3o, mz3o, _, _ = \
+  +         run_candidate_curve_w12(
+  +                              "none", "none"]), None,
+  +             std_state=ss3, rsqr_state=rq3)
+================ 2655 sub1 L14 n=1
+  -     _ok("L14 null-axis draw determinism + FOURTEEN-tuple with mom+std "
+  -         "in the frozen domains (W11 null berth 20317500)",
+  -         p1 == p2 and ax1 == ax2 and len(ax1) == 14
+  +     _ok("L14 null-axis draw determinism + FIFTEEN-tuple with std+rsqr "
+  +         "in the frozen domains (W12 null berth 20321000)",
+  +         p1 == p2 and ax1 == ax2 and len(ax1) == 15
+  +         and ax1[14] in AXIS_RSQR
+================ 2673 sub1 L15b dom n=1
+  -                and ax0[4] in tl2.AXIS_STOP and len(ax0) == 14)
+  +                and ax0[14] in AXIS_RSQR
+  +                and ax0[4] in tl2.AXIS_STOP and len(ax0) == 15)
+================ 2681 sub1 L15b call 1 n=1
+  -         mzn, _ = \
+  -         run_candidate_curve_w11(
+  -              "candidate_id": "W11-NULL-0000", "family": "NULL"},
+  -             std_state=ss3, rng_matrix=mat0, p_on=p_on0)
+  +         mzn, _, rzn = \
+  +         run_candidate_curve_w12(
+  +              "candidate_id": "W12-NULL-0000", "family": "NULL"},
+  +             std_state=ss3, rsqr_state=rq3, rng_matrix=mat0, p_on=p_on0)
+================ 2707 sub1 L15b call 2 n=1
+  -     eqnb, _, _, _, _, _, _, _, _, _, _, _, _, mznb, _ = \
+  -         run_candidate_curve_w11(
+  -              "candidate_id": "W11-NULL-0000", "family": "NULL"},
+  -             std_state=ss3, rng_matrix=mat0b, p_on=p_on0b)
+  +     eqnb, _, _, _, _, _, _, _, _, _, _, _, _, mznb, _, rznb = \
+  +         run_candidate_curve_w12(
+  +              "candidate_id": "W12-NULL-0000", "family": "NULL"},
+  +             std_state=ss3, rsqr_state=rq3, rng_matrix=mat0b, p_on=p_on0b)
+================ 2731 sub1 L15b check n=1
+  -     _ok("L15b null-cell engine path: fourteen-tuple null draw "
+  -         "deterministic + mom axis in-domain + engine 14-tuple return "
+  -         and list(eqn.values) == list(eqnb.values) and mzn == mznb)
+  +     _ok("L15b null-cell engine path: fifteen-tuple null draw "
+  +         "deterministic + rsqr axis in-domain + engine 16-tuple return "
+  +         and list(eqn.values) == list(eqnb.values) and mzn == mznb
+  +         and rzn == rznb)
+================ 2749 sub1 L15c n=1
+  -     _ok("L15c screen CSV contract carries the mom+std columns in the "
+  -         "frozen order (cell_id/candidate_id head + std pair before "
+  -         csv_cols_screen_w11[:2] == ["cell_id", "candidate_id"]
+  -         and csv_cols_screen_w11[-3:] == ["std_face", "std_zeroed",
+  -         and "mom_face" in csv_cols_screen_w11
+  -              "mom_zeroed", "std_zeroed"} <= set(csv_cols_screen_w11))
+  +     _ok("L15c screen CSV contract carries the mom+std+rsqr columns in the "
+  +         "frozen order (cell_id/candidate_id head + rsqr pair before "
+  +         csv_cols_screen_w12[:2] == ["cell_id", "candidate_id"]
+  +         and csv_cols_screen_w12[-3:] == ["rsqr_face", "rsqr_zeroed",
+  +         and "mom_face" in csv_cols_screen_w12
+  +              "mom_zeroed", "std_zeroed", "rsqr_zeroed"} <= set(csv_cols_screen_w12))
+================ 2777 sub1 selftest scope print n=1
+  -           f"(scope: slice-1 mom layer + G-MOM + fourteen-tuple grammar "
+  -           f"draw / 20-source exclusion loader + funnel faces: dispatch "
+  +           f"(scope: W12 rsqr layer + G-RSQR + fifteen-tuple grammar "
+  +           f"draw / 24-source exclusion loader + funnel faces: dispatch "

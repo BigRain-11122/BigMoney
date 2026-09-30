@@ -1,0 +1,15 @@
+import re
+draft = open('results/_r464bma_w13_runner_draft.py', encoding='utf-8').read()
+i = draft.find('FROZEN_SHA16')
+while i >= 0 and '=' not in draft[i:i+60]:
+    i = draft.find('FROZEN_SHA16', i + 1)
+print('def:', repr(draft[i-20:i+260]))
+print()
+j = draft.find('L6g')
+print('L6g:', repr(draft[j-60:j+560]))
+print()
+live = open('scripts/trial_labor_w12.py', encoding='utf-8').read()
+k = live.find('FROZEN_SHA16 =')
+print('live def:', repr(live[k:k+200]))
+m = live.find('L6g')
+print('live L6g:', repr(live[m-60:m+500]))
