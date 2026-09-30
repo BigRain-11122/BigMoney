@@ -1,12 +1,12 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T00:21:15+08:00",
+  "generated_at": "2026-10-01T00:30:25+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
-  "universe_size": 74,
+  "universe_size": 75,
   "summary": {
     "single_core": 65,
-    "multiprocess": 9
+    "multiprocess": 10
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
@@ -701,6 +701,30 @@
       },
       "workers_plan_declared": [
         "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/lowamp_p1.py": {
+      "path": "scripts/lowamp_p1.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 701,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 710,
+          "text": "with ProcessPoolExecutor(max_workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 53629,
+      "pool_entry_count": 18,
+      "pool_statuses": {
+        "ready": 18
+      },
+      "workers_plan_declared": [
+        "12"
       ]
     },
     "scripts/mass_trial_w1.py": {

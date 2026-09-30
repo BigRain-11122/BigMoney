@@ -1812,24 +1812,394 @@
     "c6_regime": "VIOLATION",
     "n_findings": 29
    }
+  },
+  {
+   "generated": "2026-10-01 00:35:13",
+   "ledger_head": {
+    "total": 364589,
+    "file": "p2_calibration_v2_ext.json",
+    "note": "null baseline K-lift (CEO O-2054 e-item): 2,200 new-seed null trials, frozen v1/v2 design, window 2026-09-22"
+   },
+   "null_pool": {
+    "n_values": 120,
+    "mu": -0.09124,
+    "sigma": 0.236831
+   },
+   "skill_line": {
+    "line": 1.1073,
+    "n_eff": 364589
+   },
+   "checks": [
+    {
+     "check": "C1_null_mu_sigma_recompute",
+     "n_values": 120,
+     "mu": -0.09124,
+     "sigma": 0.236831,
+     "coverage_note": [
+      "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
+     ],
+     "flags": {
+      "mu_drift_flag": false,
+      "sigma_drift_flag": false,
+      "pool_change": false
+     },
+     "drift_vs": {
+      "mu_prev": -0.033217,
+      "sigma_prev": 0.242917,
+      "n_prev": 120
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C2_lockbox_violation_scan",
+     "data_cutoff": "2026-09-30",
+     "n_ledger_files": 65,
+     "n_whitelisted_legacy": 19,
+     "n_ok_with_cutoff": 40,
+     "violations": [
+      {
+       "file": "decision_chain_e2e.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "decision_chain_v2.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "decision_chain_v3_tournament.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "prospect_regime_segments.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "t22_virtual_timepoints.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      },
+      {
+       "file": "t34_early_signal_verdict.json",
+       "cutoff": "2026-09-22",
+       "key": "evidence_cutoff",
+       "status": "VIOLATION",
+       "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+      }
+     ],
+     "verdict": "VIOLATIONS"
+    },
+    {
+     "check": "C3_trader_dsr_recheck",
+     "n_traders": 28,
+     "n_stale": 22,
+     "n_warn": 0,
+     "n_gate_cross": 0,
+     "rows": [
+      {
+       "trader": "COMPOSITE-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.042409,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 364589,
+       "ci_low_recorded": -0.0485,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.002135,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "COMPOSITE-CE-02",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.074987,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 364589,
+       "ci_low_recorded": -0.1586,
+       "pbo_recorded": 0.0714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.005032,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "DROUGHT-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.030128,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 364589,
+       "ci_low_recorded": -0.0214,
+       "pbo_recorded": 0.4714,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.001294,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "ENGULF-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.018704,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 364589,
+       "ci_low_recorded": -0.2763,
+       "pbo_recorded": 0.1143,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.000651,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "NEEDLE-DE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.044671,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 364589,
+       "ci_low_recorded": -0.0843,
+       "pbo_recorded": 0.6429,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.002306,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      },
+      {
+       "trader": "PROS-ANTS-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-ANTS-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-BBS-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-BBS-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DOJI-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DOJI-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DUCK-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-DUCK-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-HAM-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-HAM-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IBB-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IBB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IMM-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-IMM-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-MCB-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-MCB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-OVB-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-OVB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-RSRS-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-TMU-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-TMU-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "PROS-VOB-CE-01",
+       "status": "STALE",
+       "reason": "no g25 verdict file — run g25_retro before adjudication"
+      },
+      {
+       "trader": "VOLATILITY-CE-01",
+       "verdict_recorded": "fail",
+       "dsr_recorded": 0.348554,
+       "n_trials_recorded": 2727,
+       "ledger_head_now": 364589,
+       "ci_low_recorded": 0.4548,
+       "pbo_recorded": 0.3,
+       "sigma_consistent": true,
+       "dsr_rechecked_now": 0.063825,
+       "dsr_gate_cross": false,
+       "status": "OK"
+      }
+     ],
+     "verdict": "STALE"
+    },
+    {
+     "check": "C4_gate_attrition_summary",
+     "status": "PRESENT",
+     "n_entries": 77,
+     "keys": [
+      "created",
+      "entries",
+      "history",
+      "purpose",
+      "schema"
+     ],
+     "verdict": "OK"
+    },
+    {
+     "check": "C5_skill_line_v2_recompute",
+     "line": 1.1073,
+     "n_eff": 364589,
+     "passive_term": 0.4792,
+     "null_term": 1.1073,
+     "ledger_head": {
+      "total": 364589,
+      "file": "p2_calibration_v2_ext.json",
+      "note": "null baseline K-lift (CEO O-2054 e-item): 2,200 new-seed null trials, frozen v1/v2 design, window 2026-09-22"
+     },
+     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
+     "formula_selfconsistent": true,
+     "line_prev": 1.1942,
+     "flags": {
+      "line_drift_flag": true
+     },
+     "verdict": "OK"
+    },
+    {
+     "check": "C6_regime_guard_integrity",
+     "flags": {
+      "paper_block_absent_everywhere": false
+     },
+     "findings": [
+      {
+       "kind": "VIOLATION",
+       "detail": "COMPOSITE-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "COMPOSITE-CE-02_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "DROUGHT-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "ENGULF-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "NEEDLE-DE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      },
+      {
+       "kind": "VIOLATION",
+       "detail": "VOLATILITY-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)"
+      }
+     ],
+     "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "fp_matches_prereg": true,
+     "n_history": 4,
+     "state_file_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
+     "state_mode": "shadow",
+     "paper_files": 6,
+     "paper_with_block": 6,
+     "verdict": "VIOLATION"
+    }
+   ],
+   "summary": {
+    "c1_null": "OK",
+    "c2_lockbox": "VIOLATIONS",
+    "c3_traders": "STALE",
+    "c4_attrition": "OK",
+    "c5_line": "OK",
+    "c6_regime": "VIOLATION",
+    "n_findings": 35
+   }
   }
  ],
  "current": {
   "module": "scripts/science_audit.py",
   "authority": "research/BACKTEST_SCIENCE.md s7-M + research/SCIENCE_AUDIT_PREREG.md (s1-s6 frozen before first run; s9 = C6 frozen before its first run)",
-  "generated": "2026-09-30 01:35:32",
+  "generated": "2026-10-01 00:35:13",
   "ledger_head": {
-   "total": 350018,
-   "file": "w11_screen.json",
-   "note": null
+   "total": 364589,
+   "file": "p2_calibration_v2_ext.json",
+   "note": "null baseline K-lift (CEO O-2054 e-item): 2,200 new-seed null trials, frozen v1/v2 design, window 2026-09-22"
   },
   "previous_snapshot_source": "science_audit.json:history[-1]",
   "checks": [
    {
     "check": "C1_null_mu_sigma_recompute",
     "n_values": 120,
-    "mu": -0.033217,
-    "sigma": 0.242917,
+    "mu": -0.09124,
+    "sigma": 0.236831,
     "coverage_note": [
      "p1_screen.json:random_null (stores oos_sharpes array + p95 summaries only; full-period null sharpes not persisted -> out of coverage, disclosed)"
     ],
@@ -1847,12 +2217,55 @@
    },
    {
     "check": "C2_lockbox_violation_scan",
-    "data_cutoff": "2026-09-29",
+    "data_cutoff": "2026-09-30",
     "n_ledger_files": 65,
     "n_whitelisted_legacy": 19,
-    "n_ok_with_cutoff": 46,
-    "violations": [],
-    "verdict": "OK"
+    "n_ok_with_cutoff": 40,
+    "violations": [
+     {
+      "file": "decision_chain_e2e.json",
+      "cutoff": "2026-09-22",
+      "key": "evidence_cutoff",
+      "status": "VIOLATION",
+      "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+     },
+     {
+      "file": "decision_chain_v2.json",
+      "cutoff": "2026-09-22",
+      "key": "evidence_cutoff",
+      "status": "VIOLATION",
+      "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+     },
+     {
+      "file": "decision_chain_v3_tournament.json",
+      "cutoff": "2026-09-22",
+      "key": "evidence_cutoff",
+      "status": "VIOLATION",
+      "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+     },
+     {
+      "file": "prospect_regime_segments.json",
+      "cutoff": "2026-09-22",
+      "key": "evidence_cutoff",
+      "status": "VIOLATION",
+      "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+     },
+     {
+      "file": "t22_virtual_timepoints.json",
+      "cutoff": "2026-09-22",
+      "key": "evidence_cutoff",
+      "status": "VIOLATION",
+      "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+     },
+     {
+      "file": "t34_early_signal_verdict.json",
+      "cutoff": "2026-09-22",
+      "key": "evidence_cutoff",
+      "status": "VIOLATION",
+      "reason": "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+     }
+    ],
+    "verdict": "VIOLATIONS"
    },
    {
     "check": "C3_trader_dsr_recheck",
@@ -1866,11 +2279,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.042409,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 350018,
+      "ledger_head_now": 364589,
       "ci_low_recorded": -0.0485,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.002192,
+      "dsr_rechecked_now": 0.002135,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -1879,11 +2292,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.074987,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 350018,
+      "ledger_head_now": 364589,
       "ci_low_recorded": -0.1586,
       "pbo_recorded": 0.0714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.005155,
+      "dsr_rechecked_now": 0.005032,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -1892,11 +2305,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.030128,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 350018,
+      "ledger_head_now": 364589,
       "ci_low_recorded": -0.0214,
       "pbo_recorded": 0.4714,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.00133,
+      "dsr_rechecked_now": 0.001294,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -1905,11 +2318,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.018704,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 350018,
+      "ledger_head_now": 364589,
       "ci_low_recorded": -0.2763,
       "pbo_recorded": 0.1143,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.000671,
+      "dsr_rechecked_now": 0.000651,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -1918,11 +2331,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.044671,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 350018,
+      "ledger_head_now": 364589,
       "ci_low_recorded": -0.0843,
       "pbo_recorded": 0.6429,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.002367,
+      "dsr_rechecked_now": 0.002306,
       "dsr_gate_cross": false,
       "status": "OK"
      },
@@ -2041,11 +2454,11 @@
       "verdict_recorded": "fail",
       "dsr_recorded": 0.348554,
       "n_trials_recorded": 2727,
-      "ledger_head_now": 350018,
+      "ledger_head_now": 364589,
       "ci_low_recorded": 0.4548,
       "pbo_recorded": 0.3,
       "sigma_consistent": true,
-      "dsr_rechecked_now": 0.064882,
+      "dsr_rechecked_now": 0.063825,
       "dsr_gate_cross": false,
       "status": "OK"
      }
@@ -2055,7 +2468,7 @@
    {
     "check": "C4_gate_attrition_summary",
     "status": "PRESENT",
-    "n_entries": 72,
+    "n_entries": 77,
     "keys": [
      "created",
      "entries",
@@ -2067,18 +2480,18 @@
    },
    {
     "check": "C5_skill_line_v2_recompute",
-    "line": 1.1942,
-    "n_eff": 350018,
+    "line": 1.1073,
+    "n_eff": 364589,
     "passive_term": 0.4792,
-    "null_term": 1.1942,
+    "null_term": 1.1073,
     "ledger_head": {
-     "total": 350018,
-     "file": "w11_screen.json",
-     "note": null
+     "total": 364589,
+     "file": "p2_calibration_v2_ext.json",
+     "note": "null baseline K-lift (CEO O-2054 e-item): 2,200 new-seed null trials, frozen v1/v2 design, window 2026-09-22"
     },
     "recorded_lines_jurisdiction": "historical repro constants; current line = skill_line_v2",
     "formula_selfconsistent": true,
-    "line_prev": 0.9404,
+    "line_prev": 1.1942,
     "flags": {
      "line_drift_flag": true
     },
@@ -2117,7 +2530,7 @@
     ],
     "thresholds_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
     "fp_matches_prereg": true,
-    "n_history": 3,
+    "n_history": 4,
     "state_file_fp": "368a8d9d2f65669b4ceddf9db6a3efd4661762a4ae6ea3f1fbcfa81977739601",
     "state_mode": "shadow",
     "paper_files": 6,
@@ -2127,12 +2540,12 @@
   ],
   "summary": {
    "c1_null": "OK",
-   "c2_lockbox": "OK",
+   "c2_lockbox": "VIOLATIONS",
    "c3_traders": "STALE",
    "c4_attrition": "OK",
    "c5_line": "OK",
    "c6_regime": "VIOLATION",
-   "n_findings": 29
+   "n_findings": 35
   },
   "discipline": "findings never block any lane; CEO notification zero-action (O-2205)"
  }
