@@ -1,3 +1,5 @@
+> **【让路横幅·2026-09-30 15:4x·bm-b r470 addendum——本稿=后到让路稿非在位波】**bm-c r276 同窗撞泊先落 origin（MSG-20260930-1525 泊位声明 15:25+commit 04759cf69 15:30:31）=W14 起草泊位持有者；其稿 research/TRIAL_LABOR_W14_CANDIDATE_RESICNT_PREREG_DRAFT.md=W14 正典候选稿（RESI+CNTD 同族双机独立同谳=零合谋互证·r270 先例同款）。**bm-b 按 fleet/README sec.4 commit 时间序让路并收编**（其稿 sec.9 footer 开放收编条款+五连收编先例）：冻结步归 bm-b 次轮·探针腿=r470 已持实证（本稿随附 facts）·成员集分歧（本稿 resi60_hi/cntd5_hi+cntn20_lo vs bm-c resi60+resi30/cntd10+cntd5）=冻结步裁决面·seeds 沿 bm-c 重取带 20327500/20328000/20328500·本稿保留为交叉验证证据面+探针腿载体·**禁再引用本稿为 W14 正典**（正典=bm-c 稿）。让路+收编声明全文=fleet/inbox/MSG-20260930-154x-bmb-ALL-w14-yield-adoption.md。
+
 # TRIAL_LABOR_W14 —— 千人试用期大考 wave-14 波级预注册候选稿（MASS CANDIDATE TRIAL PROGRAM 第十四波·趋势延展门+上行频率门·改革首判波）
 
 > **【状态：DRAFT——泊位起草中·2026-09-30 15:4x·bm-b r470（TRIAL_LABOR_LAW §1 常供律默认动作：板空+池饿（139 条全 done）+零在飞判决批+W13 JUDGE 已落地 12:33——起草泊位先到持有：fetch 实读 origin/main==HEAD 零 rival W14 泊位（D-02 fetch-gate·r239 撞号律）；冻结步=起草机次轮自冻结（W5/W6/W7/W13 四先例）。】**
