@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-27 10:00:02",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "DECISION-CHAIN-E2E-X2-LC",
-   "shard": "dce2-legacy-lc",
-   "pid": 27472,
-   "runner_sha256": "ac9c499bdcb85879",
-   "fill_latency_min": 64.2,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-27 10:10:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -600,7 +587,8 @@
    "fill_latency_min": 56.3,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 3
+   "saturation_launches": 3,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 01:16:16",
@@ -687,7 +675,8 @@
    "fill_latency_min": 60.2,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 8
+   "saturation_launches": 8,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 01:20:01",
@@ -709,29 +698,42 @@
    "fullburn_window": true,
    "target_met": false,
    "saturation_launches": 1
+  },
+  {
+   "ts": "2026-10-01 01:20:44",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
+   "shard": "lowamp-p1-cell-larep-deep-base-0of1",
+   "pid": 106904,
+   "runner_sha256": "e70301bf089fd5b5",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 61.6,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 2
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 01:20:01",
+  "ts": "2026-10-01 01:20:44",
   "machine": "bm-a",
-  "py_cpu_pct": 37.7,
-  "cooldown_skipped": {
-   "entry": "PERPETUAL-N1-W2-SHARD-0",
-   "shard": "n1w2-0of12",
-   "last_launch_min": 1.5
-  },
+  "py_cpu_pct": 0.0,
+  "harvest_flipped": 1,
   "verdict": "launched",
-  "entry": "PERPETUAL-N1-W2-SHARD-1",
-  "shard": "n1w2-1of12",
-  "pid": 7680,
-  "runner_sha256": "5667c984e14af8e5",
+  "entry": "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
+  "shard": "lowamp-p1-cell-larep-deep-base-0of1",
+  "pid": 106904,
+  "runner_sha256": "e70301bf089fd5b5",
   "core_verdict": "multiproc",
   "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": 54.5,
+  "fill_latency_min": 61.6,
   "fullburn_window": true,
   "target_met": false,
-  "saturation_launches": 1
+  "saturation_launches": 2
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T01:19:09+08:00"
+ "core_samples_seen": "2026-10-01T01:20:30+08:00"
 }
