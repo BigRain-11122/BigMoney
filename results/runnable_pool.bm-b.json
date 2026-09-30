@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-30 20:19:00",
+ "updated_at": "2026-09-30T18:2x+08:00",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -5102,7 +5102,7 @@
      "key": "exclusion-0of1",
      "status": "ready",
      "owner": "bm-b",
-     "owner_since": "2026-09-30 20:10:04",
+     "owner_since": "2026-09-30 20:30:04",
      "checkpoint": "results/exclusion_marginal_scan/scan.json single-shot (idempotency guard; no partial-state resume face by design -- 16-cell burn is one deterministic pass)",
      "note": "r476 bm-b: engine leg landed (monthly rotation event-walk: resume-day exits realize on resume day = no liquidity look-ahead, suspension entry-skip, overlap hold, ADV20 1% fill cap, 100-share lots, min-comm 5, V2 stock cost via knowledge/rules primitives imported never rewritten); gates probe on real data ALL PASS (panel 5217/elig 5229/cutoff 2026-09-29/age 8.2h/family open); timing probe 150 files 1.5s -> full load ~52s, whole burn est 5-15min (prereg sec.0 upper budget 20-40min stands); burn via pool per O-2100 (>5min law); after burn = next round backfills prereg sec.7 + carrier EXCLUSION_MARGINAL.md marginal table + TRACK sec.2 #3 row flip",
      "claim_note": "r476 successor round control-plane claim-clear: entering session (dead r476 firing 19:42) died pre-burn by stream timeout, shard never ran (no scan.json, no autofill launch); stale pre-claim was blocking autofill (claim_lost_yield verdict 19:50 tick); owner nulled for clean autofill pick; runner re-verified selftest 16/16 by successor r476 session 19:5x"
