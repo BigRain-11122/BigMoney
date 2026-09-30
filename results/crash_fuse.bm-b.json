@@ -204,15 +204,6 @@
    "shard": "p2null-klift-s2-0of1",
    "machine": "bm-c"
   },
-  "scripts/lowamp_p1.py|run,--sensitivity": {
-   "count": 1,
-   "refusals": 0,
-   "code_sha256": "e70301bf089fd5b5",
-   "last_crash_ts": "2026-10-01 01:20:55",
-   "entry": "LOWAMP-P1-SENS",
-   "shard": "lowamp-p1-sens-0of1",
-   "machine": "bm-a"
-  },
   "scripts/perpetual_faces_n1.py|run,--shard,3,--of,12": {
    "count": 1,
    "refusals": 1,
@@ -225,23 +216,33 @@
   },
   "scripts/exclusion_marginal_scan.py|run": {
    "count": 1,
-   "refusals": 9,
+   "refusals": 11,
    "code_sha256": "27a70cb416318ef7",
    "last_crash_ts": "2026-10-01 02:02:13",
    "entry": "EXCLUSION-MARGINAL-P1-RUN",
    "shard": "exclusion-0of1",
    "machine": "bm-b",
-   "last_refusal_ts": "2026-10-01 02:34:08"
+   "last_refusal_ts": "2026-10-01 02:54:04"
   },
   "scripts/cross_start_robustness.py|run_face_b": {
    "count": 1,
-   "refusals": 8,
+   "refusals": 10,
    "code_sha256": "8259296c0c23bc7e",
    "last_crash_ts": "2026-10-01 02:04:04",
    "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
    "shard": "faceb-0of1",
    "machine": "bm-b",
-   "last_refusal_ts": "2026-10-01 02:34:08"
+   "last_refusal_ts": "2026-10-01 02:54:04"
+  },
+  "scripts/lowamp_p1.py|run,--nulls": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "9538b4e2cf37c02d",
+   "last_crash_ts": "2026-10-01 02:52:03",
+   "entry": "LOWAMP-P1-NULLS",
+   "shard": "lowamp-p1-nulls-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-01 02:52:04"
   }
  },
  "cleared": {
@@ -396,6 +397,13 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "5667c984e14af8e5"
+  },
+  "scripts/lowamp_p1.py|run,--sensitivity": {
+   "cleared_ts": "2026-10-01 02:52:04",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "e70301bf089fd5b5"
   }
  },
  "lane_machine": "bm-b"
