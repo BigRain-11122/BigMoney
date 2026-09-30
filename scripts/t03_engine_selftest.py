@@ -87,8 +87,13 @@ def main() -> int:
         "H": (_sig([11]), _sig([20])),
     })
     base_params = {"position_size_pct": 0.10, "max_positions": 5}
+    # RW-3: engine defaults flipped to the honest caliber (strict + full
+    # pnl); the LEGACY control runs must pin the legacy caliber explicitly
+    # or the legacy-vs-strict comparison collapses into one behavior.
+    legacy_params = dict(base_params, strict_open_fills=False,
+                         trade_pnl_mode="legacy")
 
-    run_legacy = run_backtest(prices, dict(base_params), entry_signal=ent, exit_signal=ext)
+    run_legacy = run_backtest(prices, dict(legacy_params), entry_signal=ent, exit_signal=ext)
     run_strict = run_backtest(prices, dict(base_params, strict_open_fills=True),
                               entry_signal=ent, exit_signal=ext)
 
@@ -101,15 +106,15 @@ def main() -> int:
 
     g_legacy = [t for t in run_legacy["trades"] if t["symbol"] == "G"]
     g_strict = [t for t in run_strict["trades"] if t["symbol"] == "G"]
-    ok("F2 legacy executes the in-gap exit at the stale close (day 12)",
-       g_legacy and g_legacy[0]["date"] == str(DATES[12].date()) and g_legacy[0]["price"] == 10.0)
+    ok("F2 legacy executes the in-gap exit at the T+1 ffilled open (day 13, RW-1)",
+       g_legacy and g_legacy[0]["date"] == str(DATES[13].date()) and g_legacy[0]["price"] == 10.0)
     ok("F2 strict DEFERS the exit to the first real-bar close (day 15) keeping the original reason",
        g_strict and g_strict[0]["date"] == str(DATES[15].date())
        and g_strict[0]["price"] == 10.5 and g_strict[0]["reason"] == "signal_reversal")
 
     # ---------------------------------------------------------- stale_mark_tag (F2)
     ent_g, ext_g = _entry_exit_df({"G": (_sig([8]), _sig([20])), "H": (_sig([], False), _sig([], False))})
-    run_marks = run_backtest(prices, dict(base_params, stale_mark_tag=True),
+    run_marks = run_backtest(prices, dict(legacy_params, stale_mark_tag=True),
                              entry_signal=ent_g, exit_signal=ext_g)
     m = run_marks["metrics"]
     ok("F2 stale_mark_tag: gap days held through are flagged (exactly 5)",
@@ -123,17 +128,25 @@ def main() -> int:
     # ---------------------------------------------------------- S2: trade_pnl_mode (F1)
     # W: +3% winner (single close via reversal). T: tiny gainer 1.5*cost_rate
     # (legacy-positive, full-negative -> win-rate flip). L: layered TP symbol.
+    # RW-1: exits/TP fill at the NEXT day open -> each open series carries
+    # the prior close's gain on the fill day (fixture updated r475).
     w_open = pd.Series(10.0, index=DATES)
     w_close = pd.Series(10.0, index=DATES)
     w_close.iloc[2:6] = [10.1, 10.2, 10.3, 10.3]  # +3% by day 5
+    w_open.iloc[6] = 10.3                          # exit fills day 6 open
     t_close = pd.Series(10.0, index=DATES)
+    t_open = pd.Series(10.0, index=DATES)
     t_close.iloc[5] = 10.0 * (1 + 1.5 * COST_RATE)   # ~+0.195%: between 1x and 2x cost
+    t_open.iloc[6] = t_close.iloc[5]                  # exit fills day 6 open
     l_close = pd.Series(10.0, index=DATES)
+    l_open = pd.Series(10.0, index=DATES)
     l_close.iloc[2:9] = [10.1, 10.2, 10.3, 10.4, 10.6, 10.6, 10.6]  # tier1 (+5%) day 6
+    l_open.iloc[7] = 10.6                            # tier1 scale-out fills day 7 open
+    l_open.iloc[9] = 10.6                            # reversal exit fills day 9 open
     px2 = {
         "W": _frame(w_open, w_close),
-        "T": _frame(pd.Series(10.0, index=DATES), t_close),
-        "L": _frame(pd.Series(10.0, index=DATES), l_close),
+        "T": _frame(t_open, t_close),
+        "L": _frame(l_open, l_close),
     }
     ent2, ext2 = _entry_exit_df({
         "W": (_sig([0]), _sig([5])),
@@ -268,11 +281,18 @@ def main() -> int:
     # ---------------------------------------------------------- S9: determinism + key set
     r1 = run_backtest(prices, dict(base_params), entry_signal=ent, exit_signal=ext)
     r2 = run_backtest(prices, dict(base_params), entry_signal=ent, exit_signal=ext)
+    r1_leg = run_backtest(prices, dict(legacy_params), entry_signal=ent, exit_signal=ext)
     ok("determinism: identical double-run (metrics+trades+equity)",
        json.dumps(r1, sort_keys=True) == json.dumps(r2, sort_keys=True))
-    ok("legacy metrics key set exactly the 7 historical keys under default flags",
-       set(r1["metrics"]) == {"annual_return", "sharpe", "max_drawdown", "win_rate",
-                              "profit_factor", "num_trades", "avg_hold_days"})
+    # RW-3: default flags now carry the full-pnl metric keys; a legacy-pinned
+    # run must still carry EXACTLY the 7 historical keys.
+    legacy7 = {"annual_return", "sharpe", "max_drawdown", "win_rate",
+               "profit_factor", "num_trades", "avg_hold_days"}
+    ok("legacy-pinned metrics key set exactly the 7 historical keys",
+       set(r1_leg["metrics"]) == legacy7)
+    ok("default flags = legacy 7 + RW-3 full-pnl keys",
+       set(r1["metrics"]) == legacy7 | {"win_rate_full", "profit_factor_full",
+                                       "avg_pnl_full"})
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nt03_engine_selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")

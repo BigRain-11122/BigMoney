@@ -1996,7 +1996,9 @@ def g2_reform_fdr4d(member_metrics: dict, dim_weights: dict, sub_weights: dict,
 
 # ---------------------------------------------------------------- F12 CostPatch (single source)
 
-COST_X2_RATE = 0.0026082  # G2-recorded stressed single-side cost (2x fee schedule)
+from knowledge import cost_spec as _cost_spec  # RW-3 single-source (T-127)
+
+COST_X2_RATE = _cost_spec.X2_RATE  # = 2x FeeSchedule-derived x1 (was G2 literal)
 
 
 class CostPatch:

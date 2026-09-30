@@ -62,13 +62,14 @@ import strategies.folk as _fk_mod
 import strategies.patterns as _pt_mod
 import strategies.ta as _ta_mod
 from scripts.science_gates import COST_X2_RATE, CostPatch  # T-03-F12 single source (re-exported for lfc/p3 importers)
+from knowledge import cost_spec  # RW-3 single-source cost spec (T-127)
 from scripts.regime_calibration import (  # T-21 s3.2 import-replay (no cache)
     build_bench, bench_dim_series, breadth_series, raw_series, state_replay)
 from scripts.market_regime import raw_level_v3, resolve_state_v3
 
 OOS_START = "2025-01-01"        # registered evidence segment split (J7+)
 ANCHOR_TOL = 0.002             # project standard (J14/J15)
-COST_X1_RATE = 0.0013041       # G2-recorded baseline single-side cost
+COST_X1_RATE = cost_spec.X1_RATE    # RW-3: FeeSchedule-derived (was G2 literal)
 MIN_BARS_COST_CHECK = 20       # cost-x2 verdict needs a real window
 INITIAL_CASH = 1_000_000.0     # engine default (anchor + paper same)
 PAPER_LEVELS = ("INTERN", "TRAINEE")   # paper-tracked levels (TRADER+ -> live)

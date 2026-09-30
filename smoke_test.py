@@ -174,6 +174,33 @@ def main() -> int:
     check("engine: emptying cutoff refused (RW-2)", raised,
           "out-of-range cutoff raises -> caller rc != 0")
 
+    # RW-3 (T-127, D-20260930-05): single-source cost spec. The same
+    # synthetic bar must cost identically on every ACTIVE cost face
+    # (engine / live-paper anchor+paper path / x2 stress face); the frozen
+    # grid legacy face must diverge by exactly its declared 13.0-vs-13.041
+    # caliber, never by silent drift. (ce_transfer/combined_exit import
+    # the same knowledge.cost_spec constants -- verified script-mode.)
+    from knowledge import cost_spec
+    from scripts.science_gates import COST_X2_RATE as _SG_X2
+    bar_notional = 100_000.0
+    engine_side = round(cost_rate * bar_notional, 6)
+    from live import paper as _lp
+    from scripts import grid_paper as _gp
+    active_faces = {"engine": engine_side,
+                    "paper": round(_lp.COST_X1_RATE * bar_notional, 6)}
+    parity_ok = (len(set(active_faces.values())) == 1
+                 and cost_spec.verify()
+                 and abs(_SG_X2 - 2 * _lp.COST_X1_RATE) < 1e-15)
+    grid_delta = abs(_gp.COST_BP_X1 * 1e-4
+                     - _lp.COST_X1_RATE) * bar_notional
+    check("engine: single-source cost parity (RW-3)", parity_ok,
+          f"same bar 100k CNY: {engine_side:.4f}/side on engine"
+          f"+paper+x2 faces; spec verify={cost_spec.verify()}")
+    check("engine: grid legacy divergence = declared 0.041bp (RW-3)",
+          abs(grid_delta - 0.41) < 0.005 and _gp.COST_BP_X1 == 13.0,
+          f"frozen T-78 grid caliber 13.0bp vs canonical 13.041bp "
+          f"(delta {grid_delta:.2f} CNY/100k side)")
+
     # --- 7) network / traffic modules ---
     import network_detector
     import traffic_policy

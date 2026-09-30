@@ -37,6 +37,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pandas as pd
 
 from config import PATHS
+from knowledge import cost_spec  # RW-3 single-source cost spec (T-127)
 from engine.grid_sleeve import (_selftest as engine_selftest,
                                 guard_event_days, run_grid_sleeve)
 
@@ -48,7 +49,7 @@ GUARD_LIMITS = {"510300": 0.105, "159915": 0.205, "512880": 0.105,
                 "518880": 0.105, "511010": 0.105}
 UNI_THRESH = 0.03                 # r239 calm-universe threshold (frozen)
 GRID_KW = {"n_grids": 10, "band_win": 250, "nav0": 1_000_000.0}
-COST_BP_X1 = 13.0                 # V1 legacy (batch x1 face, smoke-verified)
+COST_BP_X1 = cost_spec.GRID_LEGACY_COST_BP_X1  # RW-3: frozen T-78 declared caliber (13.0, replay stays faithful); NEW grid batches must use cost_spec.X1 (13.041)
 INITIAL_CNY = 1_000_000.0         # AGGR paper precedent
 
 

@@ -50,6 +50,7 @@ import pandas as pd
 from config import PATHS
 import engine.backtester as _eb
 from science_gates import COST_X2_RATE, CostPatch, append_ledger, ledger_head  # T-03 F3/F12 (audit P0-7/P1-16)
+from knowledge import cost_spec  # RW-3 single-source cost spec (T-127)
 from engine import run_backtest
 from engine.metrics import annual_return, sharpe, max_drawdown
 from strategies import volatility
@@ -62,7 +63,7 @@ COST_MULTS = [2, 3]
 MIN_TRADES = 30
 MAX_DD = -0.35
 # COST_X2_RATE -> single source scripts/science_gates.py (T-03-F12)
-COST_X1_RATE = 0.0013041     # G2-recorded baseline single-side cost
+COST_X1_RATE = cost_spec.X1_RATE     # RW-3: FeeSchedule-derived (was G2 literal)
 
 BASE_PARAMS = {"max_positions": 5, "position_size_pct": 0.10}
 

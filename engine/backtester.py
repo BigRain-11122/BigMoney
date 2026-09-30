@@ -16,6 +16,7 @@ from knowledge.rules import (
     ADV20_TIER_2BP_YUAN, ADV20_TIER_5BP_YUAN, ADV_FILL_CAP_RATE,
     SLIPPAGE_TIER_2BP, SLIPPAGE_TIER_5BP, SLIPPAGE_TIER_10BP, COST_BASIS_V2,
 )
+from knowledge import cost_spec  # RW-3 single-source cost spec (T-127)
 
 
 def _entry_signal(close: pd.Series, fast: int = 5, slow: int = 20) -> pd.Series:
@@ -227,12 +228,17 @@ def run_backtest(prices: dict, params: dict,
         max_positions=params.get("max_positions", 5),
     )
     fee = FeeSchedule()
-    cost_rate = fee.commission_rate + fee.handling_fee + fee.supervision_fee + fee.slippage_a
+    cost_rate = cost_spec.x1_side_rate(fee)  # RW-3: derived, never a local literal
 
-    # T-03 additive flags: defaults keep the legacy path byte-identical.
-    strict_fills = bool(params.get("strict_open_fills", False))
+    # T-03 additive flags. RW-3 (T-127, D-20260930-05) flipped the two
+    # audit-honesty defaults: per-trade pnl now charges BUY-side cost and
+    # fills require a real bar unless the caller pins the legacy caliber
+    # explicitly (frozen-evidence faces do exactly that in their JSONs).
+    # Both flips are anchor-verified byte-identical on the 6 registered
+    # members (results/_r475bma_rw3_probe.json, 0/6 moved).
+    strict_fills = bool(params.get("strict_open_fills", True))
     stale_marks = bool(params.get("stale_mark_tag", False))
-    trade_pnl_mode = params.get("trade_pnl_mode", "legacy")
+    trade_pnl_mode = params.get("trade_pnl_mode", "full")
     sizing_mode = params.get("sizing_mode", "fixed_initial")
     report_num_entries = bool(params.get("report_num_entries", False))
 

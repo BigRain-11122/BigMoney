@@ -54,6 +54,7 @@ import numpy as np
 import pandas as pd
 
 from config import PATHS
+from knowledge import cost_spec  # RW-3 single-source cost spec (T-127)
 from engine.grid_sleeve import (
     _selftest as engine_selftest,
     guard_event_days,
@@ -76,9 +77,9 @@ GUARD_LIMITS = {"510300": 0.105, "510500": 0.105, "512880": 0.105,
 LIVE_ORDER = ("510300", "159915", "512880", "518880", "511010")
 EXPECT_QUARANTINE = {"510500"}   # frozen sec.2 probe facts (hard-gate face)
 GRID_KW = {"n_grids": 10, "band_win": 250, "nav0": 1_000_000.0}
-COST_BP_X1 = 13.0                # V1 legacy (smoke-verified face)
-COST_BP_X2 = 26.0                # CostPatch(2) convention, engine-native
-PASSIVE_COST = 13.0 / 1e4        # one-time entry cost, J8 formula precedent
+COST_BP_X1 = cost_spec.GRID_LEGACY_COST_BP_X1  # RW-3: frozen declared caliber (13.0); NEW grid batches must use cost_spec.X1
+COST_BP_X2 = 2 * COST_BP_X1        # CostPatch(2) convention, engine-native
+PASSIVE_COST = COST_BP_X1 / 1e4    # one-time entry cost, J8 formula precedent
 SEG_LEN, CHOP_THRESH = 60, 0.10   # frozen segmenter (engine defaults)
 NAMED_SIX = ("COMPOSITE-CE-01", "COMPOSITE-CE-02", "DROUGHT-CE-01",
              "ENGULF-CE-01", "NEEDLE-DE-01", "VOLATILITY-CE-01")
