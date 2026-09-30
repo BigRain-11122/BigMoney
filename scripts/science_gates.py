@@ -1722,6 +1722,206 @@ def g2_registration_v2(g1_pass, dsr, pbo, dsr_gate: float = 0.95,
     }
 
 
+# --------------------------------------- O-20260930-1058 registration reform (L3)
+# Reform law (O-20260930-1058 §二2): L3 registration gate = batch-internal BH FDR
+# (q<=10% -- REPLACING the global-ledger DSR>=0.95 execution whose structural
+# unreachability as the ledger inflates was the "always zero results" root
+# cause) + four-dimension composite score. Effective from the W14 verdict face
+# (O-1058 §三2); W13 and earlier waves keep g2_registration_v2 per their frozen
+# preregs -- this section is ADDITIVE ONLY, zero behavior change for existing
+# consumers. This library carries the MECHANISM; weight VALUES freeze at the
+# REGISTRATION_REFORM_FDR4D freeze window (prereg §9-②, pre-registered, loop
+# side). Scope division per MSG-20260930-1332: bm-c = W14+ standing standards
+# canon; bm-a T-126 = REEVAL-18 drill product line consuming the same refs.
+
+REFORM_Q_LEVEL = 0.10  # BH batch-internal FDR q (O-1058 §二2 verbatim: q<=10%)
+
+REFORM_DIMENSIONS = ("ret", "robust", "anti_overfit", "anti_luck")
+
+# Sub-metric direction map (+1 higher-better, -1 lower-better). Mechanism face;
+# a key present here is not forced into scoring -- frozen sub-weights decide.
+#   ret        Sharpe / annualized / return-ceiling O-1126 / beat rates
+#   robust     cost-x2 Sharpe / worst-regime-segment Sharpe / bootstrap CI low
+#   anti_overfit  family PBO (CSCV) / D6 cross-family |corr|
+#   anti_luck  batch-internal deflated DSR (n_trials = batch size, NOT the
+#              global ledger; one of four dimensions, never the sole gate)
+REFORM_SUB_DIRECTIONS = {
+    "ret": {"sharpe_full_L": +1, "annualized_ret_L": +1, "return_ceiling_O1126": +1,
+            "beat6m_rate_L": +1, "beat12m_rate_L": +1},
+    "robust": {"cost_x2_sharpe_L": +1, "regime_min_sharpe_L": +1,
+               "bootstrap_ci_low_L": +1},
+    "anti_overfit": {"family_pbo": -1, "d6_max_abs_corr": -1},
+    "anti_luck": {"batch_dsr": +1},
+}
+
+
+def _pct_ranks(values: dict) -> dict:
+    """Within-batch percentile ranks in (0,1) -- midrank ties, None dropped.
+
+    Mechanism-frozen normalization for the reform composite score: scale-free,
+    robust to outliers, and inherently batch-internal (O-1058 replaces the
+    global-ledger execution with batch-internal faces). n=1 -> 0.5 honest.
+    """
+    items = [(cid, v) for cid, v in values.items() if v is not None]
+    if not items:
+        return {}
+    n = len(items)
+    if n == 1:
+        return {items[0][0]: 0.5}
+    order = sorted(items, key=lambda t: t[1])
+    ranks = {}
+    i = 0
+    while i < n:
+        j = i
+        while j + 1 < n and order[j + 1][1] == order[i][1]:
+            j += 1
+        avg_rank = (i + j) / 2.0 + 1.0  # 1-based midrank of the tie block
+        for k in range(i, j + 1):
+            ranks[order[k][0]] = (avg_rank - 0.5) / n
+        i = j + 1
+    return ranks
+
+
+def bh_batch_fdr(p_values: dict, q: float = REFORM_Q_LEVEL) -> dict:
+    """Benjamini-Hochberg batch-internal FDR (O-20260930-1058 §二2 L3).
+
+    Step-up over ONE batch's p-values: BH adjusted q_(i) = min_{j>=i}
+    min(m/j * p_(j), 1) computed top-down (monotone); a candidate passes iff
+    adjusted q <= q. Equivalent to the classical k* rule (largest k with
+    p_(k) <= (k/m)*q; all i<=k pass). Ties resolve deterministically by id
+    order. m=1 degenerates honestly to p<=q. None p-values are refused
+    honestly (excluded from m, reported missing, never zero-filled).
+    """
+    out_items = {cid: {"p": p, "bh_q": None, "fdr_pass": False}
+                 for cid, p in p_values.items()}
+    items = sorted(((cid, p) for cid, p in p_values.items() if p is not None),
+                   key=lambda t: (t[1], t[0]))
+    m = len(items)
+    if m == 0:
+        return {"gate": "bh_batch_fdr", "q_level": q, "m": 0, "items": out_items}
+    adjusted = [None] * m
+    running = float("inf")
+    for idx in range(m - 1, -1, -1):
+        cid, p = items[idx]
+        rank = idx + 1
+        running = min(running, (m / rank) * p, 1.0)
+        adjusted[idx] = running
+    for idx, (cid, p) in enumerate(items):
+        out_items[cid]["bh_q"] = adjusted[idx]
+        out_items[cid]["fdr_pass"] = bool(adjusted[idx] <= q)
+    return {"gate": "bh_batch_fdr", "q_level": q, "m": m, "items": out_items}
+
+
+def reform_composite_scores(member_metrics: dict, dim_weights: dict,
+                            sub_weights: dict) -> dict:
+    """Four-dimension composite scores within one batch (O-1058 §二2).
+
+    Per-dimension sub-score = weighted mean of within-batch midrank percentiles
+    of the dimension's PRESENT sub-metrics (direction-corrected via
+    REFORM_SUB_DIRECTIONS so every percentile reads "higher=better");
+    composite = sum(dim_weight * dim_sub_score). Weights MUST be pre-frozen at
+    the reform freeze window (values live in the prereg, not here). Missing
+    dimensions (no present weighted sub-metric) are refused honestly: the
+    member gets missing_dims and composite None -- never silently zero-filled.
+    """
+    errs = []
+    dims = {}
+    for d in REFORM_DIMENSIONS:
+        if d not in dim_weights:
+            errs.append(f"dim_weights missing {d}")
+        else:
+            w = float(dim_weights[d])
+            if w < 0.0:
+                errs.append(f"negative dim weight {d}")
+            dims[d] = w
+    if not errs and abs(sum(dims.values()) - 1.0) > 1e-9:
+        errs.append("dim_weights must sum to 1")
+    if errs:
+        return {"error": errs, "scores": {}}
+    cids = list(member_metrics)
+    # per (dim, sub) -> within-batch quality percentiles
+    per_dim_ranked = {}
+    for d in REFORM_DIMENSIONS:
+        subs_w = sub_weights.get(d, {}) or {}
+        ranked = {}
+        for sub, sw in subs_w.items():
+            if float(sw) <= 0:
+                continue
+            if sub not in REFORM_SUB_DIRECTIONS[d]:
+                return {"error": [f"unknown sub-metric {d}.{sub}"], "scores": {}}
+            sign = REFORM_SUB_DIRECTIONS[d][sub]
+            raw = {cid: (member_metrics[cid].get(d, {}) or {}).get(sub)
+                   for cid in cids}
+            corrected = {cid: (sign * v if v is not None else None)
+                        for cid, v in raw.items()}
+            ranked[sub] = _pct_ranks(corrected)
+        per_dim_ranked[d] = ranked
+    scores = {}
+    for cid in cids:
+        dim_scores = {}
+        missing = []
+        composite = 0.0
+        for d in REFORM_DIMENSIONS:
+            w = dims[d]
+            if w == 0.0:
+                dim_scores[d] = None
+                continue
+            num = 0.0
+            den = 0.0
+            for sub, r in per_dim_ranked[d].items():
+                rv = r.get(cid)
+                if rv is None:
+                    continue
+                sw = float(sub_weights[d][sub])
+                num += sw * rv
+                den += sw
+            if den <= 0.0:
+                missing.append(d)
+                dim_scores[d] = None
+                continue
+            dim_scores[d] = num / den
+            composite += w * (num / den)
+        scores[cid] = {
+            "composite": (None if missing else composite),
+            "dim_scores": dim_scores,
+            "missing_dims": missing,
+        }
+    return {"error": None, "scores": scores}
+
+
+def g2_reform_fdr4d(member_metrics: dict, dim_weights: dict, sub_weights: dict,
+                    batch_p_values: dict, q: float = REFORM_Q_LEVEL) -> dict:
+    """Reformed L3 registration gate (O-20260930-1058 §二2): batch-internal BH
+    FDR + four-dimension composite score.
+
+    eligible_reform = fdr_pass AND complete composite (no missing dims).
+    The global-ledger DSR>=0.95 execution is GONE here; the deflated Sharpe
+    ratio enters as the anti_luck DIMENSION computed with n_trials = batch
+    size (one of four, never the sole gate). L4 (top-N -> TRIAL-*) ranks by
+    composite among eligible_reform members -- selection stays with the
+    caller's prereg (N and paper risk caps frozen there).
+    """
+    fdr = bh_batch_fdr(batch_p_values, q)
+    comp = reform_composite_scores(member_metrics, dim_weights, sub_weights)
+    if comp.get("error"):
+        return {"gate": "g2_reform_fdr4d", "q_level": q, "m": fdr["m"],
+                "error": comp["error"], "members": {}}
+    members = {}
+    for cid, sc in comp["scores"].items():
+        f = fdr["items"][cid]
+        members[cid] = {
+            "p": f["p"],
+            "bh_q": f["bh_q"],
+            "fdr_pass": f["fdr_pass"],
+            "composite": sc["composite"],
+            "dim_scores": sc["dim_scores"],
+            "missing_dims": sc["missing_dims"],
+            "eligible_reform": bool(f["fdr_pass"] and sc["composite"] is not None),
+        }
+    return {"gate": "g2_reform_fdr4d", "q_level": q, "m": fdr["m"],
+            "error": None, "members": members}
+
+
 # ---------------------------------------------------------------- F12 CostPatch (single source)
 
 COST_X2_RATE = 0.0026082  # G2-recorded stressed single-side cost (2x fee schedule)
@@ -2032,6 +2232,70 @@ def selftest() -> int:
     ok("g2_registration_v2: consumes deflated_sharpe_ratio dict directly",
        g2_registration_v2(True, dsr_good25, 0.1143)["dsr"] == dsr_good25["dsr"]
        and g2_registration_v2(True, dsr_good25, 0.1143)["eligible_v2"])
+
+    # O-20260930-1058 registration reform (L3): BH batch-internal FDR + 4-dim
+    # composite mechanism. Known-answer checks first (BH step-up by hand).
+    bh_all = bh_batch_fdr({"A": 0.01, "B": 0.02, "C": 0.03, "D": 0.04})
+    ok("bh_batch_fdr: hand-checked all-pass batch (m=4, all adj q=0.04<=0.10)",
+       bh_all["m"] == 4 and all(v["fdr_pass"] for v in bh_all["items"].values())
+       and all(abs(v["bh_q"] - 0.04) < 1e-12 for v in bh_all["items"].values()))
+    bh_sel = bh_batch_fdr({"A": 0.001, "B": 0.02, "C": 0.5})
+    ok("bh_batch_fdr: hand-checked selective batch (A,B pass @0.003/0.03; C fail @0.5)",
+       bh_sel["items"]["A"]["fdr_pass"] and bh_sel["items"]["B"]["fdr_pass"]
+       and not bh_sel["items"]["C"]["fdr_pass"]
+       and abs(bh_sel["items"]["A"]["bh_q"] - 0.003) < 1e-12
+       and abs(bh_sel["items"]["B"]["bh_q"] - 0.03) < 1e-12)
+    ok("bh_batch_fdr: m=1 degenerates honestly to p<=q",
+       bh_batch_fdr({"X": 0.10})["items"]["X"]["fdr_pass"]
+       and not bh_batch_fdr({"X": 0.11})["items"]["X"]["fdr_pass"])
+    ok("bh_batch_fdr: None p refused honestly (excluded from m, not zero-filled)",
+       bh_batch_fdr({"X": None, "Y": 0.01})["m"] == 1
+       and bh_batch_fdr({"X": None, "Y": 0.01})["items"]["X"]["bh_q"] is None)
+    pr = _pct_ranks({"a": 1.0, "b": 2.0, "c": 3.0})
+    pr_tie = _pct_ranks({"a": 1.0, "b": 1.0, "c": 2.0})
+    ok("_pct_ranks: midrank percentiles + tie block averaging (n=3)",
+       abs(pr["a"] - 1 / 6) < 1e-12 and abs(pr["b"] - 0.5) < 1e-12
+       and abs(pr["c"] - 5 / 6) < 1e-12
+       and abs(pr_tie["a"] - 1 / 3) < 1e-12 and abs(pr_tie["b"] - 1 / 3) < 1e-12
+       and abs(pr_tie["c"] - 5 / 6) < 1e-12)
+    mm = {
+        "X": {"ret": {"sharpe_full_L": 2.0, "beat6m_rate_L": 0.60},
+              "anti_overfit": {"family_pbo": 0.10}, "anti_luck": {"batch_dsr": 0.40}},
+        "Y": {"ret": {"sharpe_full_L": 1.0, "beat6m_rate_L": 0.50},
+              "anti_overfit": {"family_pbo": 0.50}, "anti_luck": {"batch_dsr": 0.20}},
+    }
+    w_ok = {"ret": 0.4, "robust": 0.0, "anti_overfit": 0.3, "anti_luck": 0.3}
+    sw = {"ret": {"sharpe_full_L": 0.7, "beat6m_rate_L": 0.3},
+          "anti_overfit": {"family_pbo": 1.0}, "anti_luck": {"batch_dsr": 1.0}}
+    cs = reform_composite_scores(mm, w_ok, sw)
+    ok("reform_composite_scores: direction-corrected percentiles (low PBO ranks high)",
+       abs(cs["scores"]["X"]["dim_scores"]["ret"]
+           - (0.7 * 0.75 + 0.3 * 0.75)) < 1e-12
+       and abs(cs["scores"]["X"]["dim_scores"]["anti_overfit"] - 0.75) < 1e-12
+       and abs(cs["scores"]["Y"]["dim_scores"]["anti_overfit"] - 0.25) < 1e-12
+       and cs["scores"]["X"]["composite"] > cs["scores"]["Y"]["composite"])
+    ok("reform_composite_scores: dim weights must sum to 1 (refused honestly)",
+       reform_composite_scores(mm, {"ret": 0.9, "robust": 0.0,
+                                    "anti_overfit": 0.05, "anti_luck": 0.04},
+                               sw)["error"] is not None)
+    mm_missing = dict(mm)
+    mm_missing["Y"] = {"ret": {"sharpe_full_L": 1.0},
+                       "anti_overfit": {"family_pbo": 0.50}, "anti_luck": {}}
+    cs2 = reform_composite_scores(mm_missing, w_ok, sw)
+    ok("reform_composite_scores: missing dim refused (composite None, no zero-fill)",
+       cs2["scores"]["Y"]["composite"] is None
+       and "anti_luck" in cs2["scores"]["Y"]["missing_dims"])
+    g2r = g2_reform_fdr4d(mm, w_ok, sw, {"X": 0.01, "Y": 0.5})
+    ok("g2_reform_fdr4d: FDR + composite joint verdict (X eligible, Y not)",
+       g2r["members"]["X"]["eligible_reform"] and not g2r["members"]["Y"]["eligible_reform"]
+       and g2r["members"]["X"]["fdr_pass"] and not g2r["members"]["Y"]["fdr_pass"])
+    ok("g2_reform_fdr4d: anti-luck DSR is a DIMENSION not the sole gate (O-1058)",
+       g2r["members"]["X"]["dim_scores"]["anti_luck"] is not None
+       and g2r["members"]["Y"]["dim_scores"]["anti_luck"] is not None)
+    ok("reform: unknown sub-metric refused; existing g2_registration_v2 untouched",
+       reform_composite_scores(mm, w_ok, {"ret": {"nope": 1.0},
+                                          "anti_overfit": {}, "anti_luck": {}})["error"] is not None
+       and g2_registration_v2(True, 0.97, 0.20)["eligible_v2"])
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
