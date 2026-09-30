@@ -1,0 +1,38 @@
+{
+  "artifact": "G2 mine install addendum M4/M5 (r494) -- P1 covered M1-M3; this addendum anchors the M4/M5 continuation slice",
+  "order_ref": "O-20260930-1132 scaling mining wave-2 + O-20260930-2054 supply face + GITHUB_MINING_SUPPLY_G2.md sec.4.1 (M1-M5 census batch slice-2)",
+  "executed_by": "bm-a r494",
+  "executed_at": "2026-09-30T23:2x+08:00",
+  "install_root": "quant/toolstack/repos/ (master-repo gitignored space, zero git disturbance)",
+  "anchors": {
+    "M4_initial-d-ml-quant-trading": "HEAD a770825f841504e41581f057b4d94160e6a50c2e (ls-remote pre-clone == post-clone git log, byte-identical verified, shallow depth-1)",
+    "M5_JunQHuang-Machine_Learning-Quant-Stock-Selection": "HEAD b3e3712935deb909d143334942edb2ca438c3a26 (ls-remote pre-clone == post-clone git log, byte-identical verified, shallow depth-1)"
+  },
+  "inventory_honest_per_g2_negative_plan": {
+    "M4_ml-quant-trading": {
+      "claimed_factors": 213,
+      "installed_reality": "exactly 213 @register_*-decorated factor defs across src/mlquant/features/_factors_*.py (add 30 / alpha101-subset 9 / best 21 / better 28 / change 5 / extra 14 / market 6 / old_027-076 50 / original 28 / stock 22); formula face = WQ-syntax docstring single-source; PyTorch Panel-based tensor engine (tensor_factors.ts_* helper library)",
+      "verdict": "claim 213 == registered 213 VERBATIM (rare code-grade honest mine; contrast M2/M3/M5 paper-universe downgrades); docstring formula = single-source (no dual-write) -> P2 legs rely on cross-source formula identity vs in-repo corpus",
+      "extras": "full ML stack: training/eval/portfolio/rank modules, configs, notebooks, tests, docker"
+    },
+    "M5_Machine_Learning-Quant-Stock-Selection": {
+      "claimed_factors": 120,
+      "installed_reality": "24 alpha_NNN methods (alpha_001..alpha_025 minus alpha_010) in multifactor_demo/factors.py; DEMO_FACTORS tuple == method set (assert passed); pure-code face (no docstring formulas); README self-describes as intentionally-generic public demo set",
+      "verdict": "claim 120 = paper-universe claim vs installed 24 -> honest downgrade (M3 precedent: claim 101 vs 16 installed); mine value = third independent WQ101 code translation (cross-check asset) + sklearn pipeline demo",
+      "extras": "examples/run_demo.py + tests; no data assets"
+    }
+  },
+  "overlap_census_face": {
+    "status": "prereg FROZEN this round (research/G2_OVERLAP_CENSUS_P2.md, 237 rows: M4 213 + M5 24); runner extension (export_m4_faces/export_m5_faces + norm_formula_v2 bracket-prescreen per r493 lesson + skip-set single-source reuse) + burn = next round slice",
+    "r493_lessons_baked_in": [
+      "bracket-style variance prescreen (norm_v2 strips only single-atom wrap parens) to cut translation-variant DRIFT noise",
+      "in-repo un-computable skip faces must merge from vendored ast single source before classification (19-face false-NEW lesson)",
+      "P1 verdicts never retro-flipped (fail-closed; DRIFT upgrade path stays SLOT-round numeric comparison)"
+    ]
+  },
+  "evidence": {
+    "face_freeze_probe": "results/_r494bma_face_freeze.py output (M4 213 registered verbatim; M5 24 demo==methods)",
+    "clone_method": "git clone --depth 1 (foreground, effect-face verified per r492 Start-Process lesson)"
+  },
+  "marks": "+0 accounts / +0 SEED / zero engine / zero admission faces touched; pure supply-install + prereg-freeze face"
+}
