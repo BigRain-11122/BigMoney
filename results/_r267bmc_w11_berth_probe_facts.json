@@ -1,0 +1,151 @@
+{
+ "berth_round": "bm-c r267 2026-09-30",
+ "cells_state_stats": {
+  "3": {
+   "decidable_days": 3465,
+   "entries": 88,
+   "f6_gate_30": true,
+   "first_decidable": "2012-06-28",
+   "flat_days": 1658,
+   "flip_exits": 84,
+   "long_days": 1807,
+   "long_occupancy": 0.5215,
+   "stop_exits": 3
+  },
+  "4": {
+   "decidable_days": 3465,
+   "entries": 45,
+   "f6_gate_30": true,
+   "first_decidable": "2012-06-28",
+   "flat_days": 2561,
+   "flip_exits": 41,
+   "long_days": 904,
+   "long_occupancy": 0.2609,
+   "stop_exits": 4
+  },
+  "5": {
+   "decidable_days": 3465,
+   "entries": 49,
+   "f6_gate_30": true,
+   "first_decidable": "2012-06-28",
+   "flat_days": 1615,
+   "flip_exits": 44,
+   "long_days": 1850,
+   "long_occupancy": 0.5339,
+   "stop_exits": 4
+  }
+ },
+ "consumers": "INNOVATION-QUOTA-SLOT-11 prereg draft (research/INNOVATION_QUOTA_W11_PREREG.md BERTH) -> freeze window steps 1-5 -> runner build -> pool enqueue -> judged verdict (T-34 fastline candidate pool consumer either way)",
+ "d6_signal_face": {
+  "batch_internal": {
+   "MOM3_vs_MOM4": -0.0808,
+   "MOM3_vs_MOM5": 0.7403,
+   "MOM4_vs_MOM5": -0.076
+  },
+  "berth_scope_note": "vol-family registered-trader return-face corr + T33 cells + registered six + repo/month-end faces = freeze-window step-5 full protocol (prereg sec.1 plan); VSTD20 = second-moment proxy honest disclosure",
+  "note_variant_faces": "MOM3/4/5 = variant faces of one construction axis (moment order); merge-clause relevant, burn-both per W9 analog",
+  "vs_87_nhnl_b20": {
+   "MOM3": {
+    "n_common": 1616,
+    "pearson": 0.2459
+   },
+   "MOM4": {
+    "n_common": 1616,
+    "pearson": -0.0046
+   },
+   "MOM5": {
+    "n_common": 1616,
+    "pearson": 0.1467
+   }
+  },
+  "vs_regime_guard_width_below_ma20": {
+   "MOM3": {
+    "n_common": 1616,
+    "pearson": -0.3649
+   },
+   "MOM4": {
+    "n_common": 1616,
+    "pearson": 0.0379
+   },
+   "MOM5": {
+    "n_common": 1616,
+    "pearson": -0.2364
+   }
+  },
+  "vs_vstd20_second_moment_proxy": {
+   "MOM3": {
+    "n_common": 3465,
+    "pearson": -0.0305
+   },
+   "MOM4": {
+    "n_common": 3465,
+    "pearson": 0.4817
+   },
+   "MOM5": {
+    "n_common": 3465,
+    "pearson": -0.0517
+   }
+  }
+ },
+ "evidence_cutoff_asof": "2026-09-29 (as-of face; panel last bar = last complete bar, P-5C lockbox at freeze)",
+ "extreme_days": [
+  {
+   "date": "2015-07-08",
+   "mom3_state": 0.0,
+   "mom5_state": 0.0,
+   "ret": -0.100052
+  },
+  {
+   "date": "2015-01-19",
+   "mom3_state": 1.0,
+   "mom5_state": 0.0,
+   "ret": -0.099945
+  },
+  {
+   "date": "2015-07-09",
+   "mom3_state": 0.0,
+   "mom5_state": 0.0,
+   "ret": 0.099913
+  },
+  {
+   "date": "2015-08-24",
+   "mom3_state": 0.0,
+   "mom5_state": 0.0,
+   "ret": -0.099862
+  },
+  {
+   "date": "2015-07-10",
+   "mom3_state": 0.0,
+   "mom5_state": 0.0,
+   "ret": 0.099764
+  },
+  {
+   "date": "2015-07-27",
+   "mom3_state": 0.0,
+   "mom5_state": 0.0,
+   "ret": -0.098388
+  },
+  {
+   "date": "2024-09-30",
+   "mom3_state": 1.0,
+   "mom5_state": 1.0,
+   "ret": 0.094081
+  },
+  {
+   "date": "2024-10-09",
+   "mom3_state": 1.0,
+   "mom5_state": 1.0,
+   "ret": -0.088395
+  }
+ ],
+ "panel_510300": {
+  "ema_alpha": 0.02197802197802198,
+  "first_date": "2012-05-28",
+  "last_date": "2026-09-29",
+  "moment_window": 20,
+  "rows": 3487,
+  "stop": -0.1
+ },
+ "param_freeze_source": "zoo #95 row r263 param-freeze candidate carried verbatim: moment order {3,4,5} three-leg full spectrum / window 20 / EMA 90 (alpha=2/91) / trigger = EMA slope sign / stop -0.1 single line; clean-room, no source-code copy",
+ "probe": "INNOVATION-QUOTA-SLOT-11 berth (zoo #95 index_higher_mom_timing)"
+}
