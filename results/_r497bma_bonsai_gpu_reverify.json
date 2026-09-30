@@ -1,0 +1,121 @@
+{
+ "ts_start": "2026-10-01T01:45:02",
+ "machine": "bm-a",
+ "task": "T-2026-10-01-135",
+ "decision_ref": "D-20261001-02",
+ "spec": "cph4/research/R-20260928-bonsai-fleet-trial.md",
+ "anchor_reference": {
+  "bm_a_4070S_prev_tg128": 54.7,
+  "bm_b_3070_tg128": 40.75,
+  "bm_c_3070mod16g_coresident_tg128": 40.52
+ },
+ "round_start_gpu": {
+  "free_mb": 5582,
+  "used_mb": 6416,
+  "util_pct": 0,
+  "ts": "01:45:02"
+ },
+ "window_note": "round-start free=10770MiB (keeper not yet resident); MiniGameOllamaKeepWarm fired 01:43:59 mid-window and re-warmed the in-service 7b -- U020 valve used per bm-b yield-window precedent",
+ "byte_check": {
+  "model": {
+   "bytes": 5946648928,
+   "anchor": 5946648928,
+   "match": true
+  },
+  "llama-bin.zip": {
+   "bytes": 257322810,
+   "anchor": 257322810,
+   "match": true
+  },
+  "cudart.zip": {
+   "bytes": 391443627,
+   "anchor": 391443627,
+   "match": true
+  }
+ },
+ "pause_valve": {
+  "set": true,
+  "path": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\gaming\\MiniGame\\.codely-cli\\engine-tick\\keepwarm.pause",
+  "released": true
+ },
+ "qwen_state_before": {
+  "resident_models": [
+   "qwen2.5:7b-instruct"
+  ],
+  "gpu": {
+   "free_mb": 5582,
+   "used_mb": 6416,
+   "util_pct": 0,
+   "ts": "01:45:03"
+  }
+ },
+ "gpu_probe_bare": {
+  "free_mb": 10681,
+  "used_mb": 1317,
+  "util_pct": 0,
+  "ts": "01:45:05"
+ },
+ "bare": {
+  "cmd": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\.codely-cli\\labbench\\bonsai2\\runtime\\llama-bench.exe -m C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\.codely-cli\\labbench\\bonsai2\\Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -p 512 -n 128 -r 3",
+  "wall_sec": 15.1,
+  "rc": 0,
+  "ok": true,
+  "stdout_tail": "| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |\n| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |\n| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | CUDA       |  99 |   1 |           pp512 |      1649.55 卤 59.12 |\n| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | CUDA       |  99 |   1 |           tg128 |         58.33 卤 0.20 |\n\nbuild: adfffbe41 (10743)\n",
+  "pp512_tok_s": 1649.55,
+  "pp512_pm": 59.12,
+  "tg128_tok_s": 58.33,
+  "tg128_pm": 0.2
+ },
+ "gpu_after_bare": {
+  "free_mb": 10681,
+  "used_mb": 1317,
+  "util_pct": 0,
+  "ts": "01:45:20"
+ },
+ "deploy": {
+  "port": 8077,
+  "health_ok_sec": 4.6,
+  "gpu_during_load": {
+   "free_mb": 4072,
+   "used_mb": 7926,
+   "util_pct": 0,
+   "ts": "01:45:25"
+  }
+ },
+ "gpu_qwen_resident": {
+  "free_mb": 5600,
+  "used_mb": 6398,
+  "util_pct": 0,
+  "ts": "01:45:38"
+ },
+ "coresident": {
+  "cmd": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\.codely-cli\\labbench\\bonsai2\\runtime\\llama-bench.exe -m C:\\Users\\sjs20\\Desktop\\FluxGroup\\life\\BigLife\\.codely-cli\\labbench\\bonsai2\\Ternary-Bonsai-2-27B-PTQ1_0.gguf -ngl 99 -fa on -p 512 -n 128 -r 3",
+  "wall_sec": 12.4,
+  "rc": 0,
+  "ok": true,
+  "stdout_tail": "| model                          |       size |     params | backend    | ngl |  fa |            test |                  t/s |\n| ------------------------------ | ---------: | ---------: | ---------- | --: | --: | --------------: | -------------------: |\n| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | CUDA       |  99 |   1 |           pp512 |      1647.55 卤 42.59 |\n| qwen35 27B PTQ1_0 - 1.75 bpw ternary (group 128) |   5.53 GiB |    26.90 B | CUDA       |  99 |   1 |           tg128 |         58.01 卤 0.56 |\n\nbuild: adfffbe41 (10743)\n",
+  "pp512_tok_s": 1647.55,
+  "pp512_pm": 42.59,
+  "tg128_tok_s": 58.01,
+  "tg128_pm": 0.56
+ },
+ "gpu_coresident": {
+  "free_mb": 6956,
+  "used_mb": 5042,
+  "util_pct": 0,
+  "ts": "01:45:51"
+ },
+ "coexist": {
+  "verdict": "can-co-reside",
+  "qwen_model": "qwen2.5:7b-instruct",
+  "note": "co-resident = in-service 7b resident (keep_alive=-1) during the bonsai bench; OOM/fail = honest needs-yield-window"
+ },
+ "gpu_final": {
+  "free_mb": 6956,
+  "used_mb": 5042,
+  "util_pct": 0,
+  "ts": "01:45:51"
+ },
+ "ts_end": "2026-10-01T01:45:51",
+ "parser_note": "llama-bench stdout is UTF-8; subprocess text=True decoded cp936 making the plusminus literal unmatchable -- numbers recovered from stdout_tail with charset-agnostic regex (\\D+ separator); script parser fixed same round"
+}

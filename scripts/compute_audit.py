@@ -67,10 +67,13 @@ IGNITION_SLA_MIN = 1.0        # O-20260928-1614 sec.2 acceptance line:
 SUPPLY_GAP_SUSTAIN_MIN = 15.0  # O-20260928-1614 sec.5 P0 window
 SUPPLY_FAMILY_FLAGS = ("supply_gap", "pool_starvation", "supply_floor",
                        "ignition_sla")
-AUDIT_VERSION = "v2.4.1"     # v2.4 standing saturation mechanism;
+AUDIT_VERSION = "v2.4.2"     # v2.4 standing saturation mechanism;
                               # v2.4.1 r179 bm-c: ignition_sla 10min -> 60s
                               # acceptance line (D2 live r175 + ladder
-                              # adoption slice r179; charter synced)
+                              # adoption slice r179; charter synced);
+                              # v2.4.2 T-134 s4: parallel-efficiency row
+                              # (core-seconds/wall-seconds per batch, law-2
+                              # sampler aggregate -- observational, no flag)
 
 
 def cpu_total():
@@ -367,6 +370,63 @@ def supply_family_streak_min(hist, cur_flags, now_epoch):
         return None
 
 
+# ------------------------------------------------- s4 efficiency face (T-134)
+CORE_SAMPLES_PATH = os.path.join(ROOT, "results", "pool_core_samples.jsonl")
+PAR_EFF_WINDOW_MIN = 60.0    # trailing window for the per-batch aggregate
+
+
+def parallel_efficiency_row(now_epoch, samples_path=None):
+    """T-134 s4 (CEO order O-2026-09-30-2355): parallel-efficiency face =
+    core-seconds / wall-seconds per batch, aggregated over the trailing
+    window from the law-2 launch sampler (Tools/core_sampler.py ->
+    results/pool_core_samples.jsonl, per-batch rows with verdicts).
+    Pure aggregation, observational -- no new flag; missing/unreadable
+    file -> honest zero-batch row (readable=False; the sampler fleet
+    landed r496, per-machine lanes accrue as their launchers sample)."""
+    path = samples_path or CORE_SAMPLES_PATH
+    row = {"window_min": PAR_EFF_WINDOW_MIN, "batches_judged": 0,
+           "core_seconds": 0.0, "wall_seconds": 0.0,
+           "effective_cores": None, "multicore_burn": 0,
+           "single_core_burn": 0, "too_short_to_sample": 0}
+    if not os.path.exists(path):
+        row["readable"] = False
+        return row
+    try:
+        with open(path, encoding="utf-8") as f:
+            lines = f.read().splitlines()
+    except Exception:
+        row["readable"] = False
+        return row
+    cut = time.strftime("%Y-%m-%dT%H:%M",
+                        time.localtime(now_epoch - PAR_EFF_WINDOW_MIN * 60))
+    cpu_sum = wall_sum = 0.0
+    for ln in lines:
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if str(r.get("ts", ""))[:16] < cut:   # ISO prefix compare, minute precision
+            continue
+        v = r.get("verdict")
+        if v == "too_short_to_sample":
+            row["too_short_to_sample"] += 1
+            continue
+        if v in ("multicore_burn", "single_core_burn"):
+            row["batches_judged"] += 1
+            row[v] += 1
+            cpu_sum += float(r.get("cpu_s") or 0.0)
+            wall_sum += float(r.get("wall_s") or 0.0)
+    row["core_seconds"] = round(cpu_sum, 2)
+    row["wall_seconds"] = round(wall_sum, 2)
+    if wall_sum > 0:
+        row["effective_cores"] = round(cpu_sum / wall_sum, 2)
+    row["readable"] = True
+    return row
+
+
 def main():
     cores = core_count()
     p1 = {pid: (name, cpu_s, age) for pid, name, cpu_s, age in python_procs()}
@@ -496,6 +556,7 @@ def main():
         "zombies": zombies,
         "single_core_hog_candidate": hog_candidate,
         "single_core_hog_detail": hog,
+        "parallel_efficiency": parallel_efficiency_row(time.time()),
         "flags": flags,
         "verdict": "CLEAN" if not flags else "FLAG:" + ",".join(flags),
     }
@@ -675,6 +736,41 @@ def _selftest():
           and streak >= 20.0, True)
     check("v2.4 no family flags -> streak None",
           supply_family_streak_min([], ["zombie_process"], now), None)
+
+    # ---- T-134 s4 legs (O-2026-09-30-2355) ----
+    # (l) parallel-efficiency aggregation: hermetic temp jsonl, window filter
+    #     + weighted effective cores + verdict-class counts
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmp:
+        p = os.path.join(tmp, "cores.jsonl")
+        now_iso = time.strftime("%Y-%m-%dT%H:%M:%S")
+        rows = [
+            {"ts": now_iso, "machine_id": "bm-a", "entry": "A", "shard": "1",
+             "wall_s": 30.0, "cpu_s": 300.0, "effective_cores": 10.0,
+             "verdict": "multicore_burn"},
+            {"ts": now_iso, "machine_id": "bm-a", "entry": "B", "shard": "2",
+             "wall_s": 30.0, "cpu_s": 30.0, "effective_cores": 1.0,
+             "verdict": "single_core_burn"},
+            {"ts": now_iso, "machine_id": "bm-a", "entry": "C", "shard": "3",
+             "wall_s": 5.0, "cpu_s": 4.0, "effective_cores": 0.8,
+             "verdict": "too_short_to_sample"},
+            {"ts": "2026-09-30T00:00:00", "machine_id": "bm-a",
+             "entry": "OLD", "shard": "4", "wall_s": 30.0, "cpu_s": 300.0,
+             "effective_cores": 10.0, "verdict": "multicore_burn"},
+        ]
+        with open(p, "w", encoding="utf-8") as fh:
+            for r in rows:
+                fh.write(json.dumps(r) + "\n")
+        pe = parallel_efficiency_row(now, samples_path=p)
+    check("s4 window filter keeps 2 judged", pe["batches_judged"], 2)
+    check("s4 weighted cores 330/60=5.5", pe["effective_cores"], 5.5)
+    check("s4 single_core count", pe["single_core_burn"], 1)
+    check("s4 multicore count", pe["multicore_burn"], 1)
+    check("s4 too_short counted not judged", pe["too_short_to_sample"], 1)
+    check("s4 missing file -> unreadable",
+          parallel_efficiency_row(
+              now, samples_path=os.path.join("Z:\\no", "such.jsonl"))
+          .get("readable"), False)
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")

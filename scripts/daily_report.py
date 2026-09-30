@@ -233,6 +233,60 @@ def _utilization_face(now):
                      "(two-pool sovereignty face merges when D7 lands)"}
 
 
+# ------------------------------------------------- core-spread face (T-134 s4)
+def _core_spread_face(day):
+    """T-134 s4 (CEO order O-2026-09-30-2355) three-machine core-spread +
+    parallel-efficiency comparison row: per-machine judged batches,
+    weighted effective cores (core-seconds / wall-seconds), single-core
+    red-flag counts -- aggregated from results/pool_core_samples.jsonl
+    rows dated <day> (law-2 launch sampler, Tools/core_sampler.py; rows
+    propagate per machine via git).  Aggregation only; machines without
+    samples today get honest zero rows, never fabricated."""
+    per = {mid: {"batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0,
+                 "effective_cores": None, "single_core_burn": 0,
+                 "multicore_burn": 0, "too_short": 0, "last_ts": None}
+           for mid in ("bm-a", "bm-b", "bm-c")}
+    path = os.path.join(ROOT, "results", "pool_core_samples.jsonl")
+    try:
+        with open(path, encoding="utf-8") as f:
+            lines = f.read().splitlines()
+    except Exception:
+        return {"day": day, "machines": per,
+                "note": "pool_core_samples.jsonl 未读出——如实标注，禁编数"}
+    for ln in lines:
+        ln = ln.strip()
+        if not ln:
+            continue
+        try:
+            r = json.loads(ln)
+        except Exception:
+            continue
+        if not str(r.get("ts", "")).startswith(day):
+            continue
+        mid = r.get("machine_id")
+        if mid not in per:
+            continue
+        d = per[mid]
+        d["last_ts"] = str(r.get("ts"))
+        v = r.get("verdict")
+        if v == "too_short_to_sample":
+            d["too_short"] += 1
+            continue
+        if v in ("multicore_burn", "single_core_burn"):
+            d["batches_judged"] += 1
+            d[v] += 1
+            d["core_seconds"] += float(r.get("cpu_s") or 0.0)
+            d["wall_seconds"] += float(r.get("wall_s") or 0.0)
+    for d in per.values():
+        if d["wall_seconds"] > 0:
+            d["effective_cores"] = round(d["core_seconds"] / d["wall_seconds"], 2)
+        d["core_seconds"] = round(d["core_seconds"], 1)
+        d["wall_seconds"] = round(d["wall_seconds"], 1)
+    return {"day": day, "machines": per,
+            "canon": "T-134 s4 (O-2026-09-30-2355) -- law-2 sampler rows "
+                     "results/pool_core_samples.jsonl"}
+
+
 def build_report(now):
     return {
         "report_date": now.strftime("%Y-%m-%d"),
@@ -244,10 +298,12 @@ def build_report(now):
         "tomorrow_queue": _queue_face(),
         "token_line": _token_face(),
         "utilization": _utilization_face(now),
+        "core_spread": _core_spread_face(now.strftime("%Y-%m-%d")),
         "canon_refs": ["T-75 ticket (O-20260926-0940)", "results/paper_export/latest.json",
                        "results/market_clock/call_latest.json", "results/token_usage.json",
                        "T-105 v1.3 live-usage embedded section (docs/live_usage/)",
-                       "O-20260928-1614 sec.6 utilization face (T-107)"],
+                       "O-20260928-1614 sec.6 utilization face (T-107)",
+                       "T-134 s4 core-spread/parallel-efficiency row (O-2026-09-30-2355)"],
     }
 
 
@@ -312,6 +368,17 @@ def render_md(rep):
         if series:
             L.append(f"  - py 序列（近 {len(m.get('py_series_tail') or [])} 采样）：{series}")
     L.append(f"- 填充台账：{u.get('fill_ledger')}")
+    cs = rep.get("core_spread") or {}
+    parts = []
+    for mid, m in (cs.get("machines") or {}).items():
+        eff = m.get("effective_cores")
+        parts.append(f"**{mid}** 有效核 {eff if eff is not None else 'N/A'}"
+                     f"（判 {m.get('batches_judged')} 批 · 多核达标 {m.get('multicore_burn')}"
+                     f" · 单核红牌 {m.get('single_core_burn')} · 短跑不计 {m.get('too_short')}）")
+    if parts:
+        L.append(f"- **核分布/并行效率三机对照（T-134 s4 · {cs.get('day')}）**：" + "；".join(parts))
+    if cs.get("note"):
+        L.append(f"  - {cs.get('note')}")
     L.append("")
     L.append("## Token 行（T-77 · L1 本地零 token/L3 云端该用就用）")
     t = rep.get("token_line") or {}
@@ -338,7 +405,7 @@ def run():
 def selftest():
     """Hermetic: synthetic faces -> page renders with all five faces + token line."""
     global _combat_face, _rd_face, _decision_face, _queue_face, _token_face
-    global _utilization_face, _live_face
+    global _utilization_face, _live_face, _core_spread_face
     _combat_face = lambda: {
         "paper_summary": {"traders": 1, "total_equity_cny": 100, "total_positions": 2,
                           "entries_today": 2, "exits_today": 0},
@@ -369,12 +436,28 @@ def selftest():
         "rung": "ORANGE", "cap": 0.5, "heat": "COOL",
         "clock_cell": "ORANGE_COOL", "members": 6,
         "md_link": f"../live_usage/LIVE-2026-09-26.md"}
+    _core_spread_face = lambda day: {
+        "day": "2026-09-26",
+        "machines": {"bm-a": {"batches_judged": 2, "core_seconds": 330.0,
+                              "wall_seconds": 60.0, "effective_cores": 5.5,
+                              "single_core_burn": 1, "multicore_burn": 1,
+                              "too_short": 0, "last_ts": "x"},
+                     "bm-b": {"batches_judged": 0, "core_seconds": 0.0,
+                              "wall_seconds": 0.0, "effective_cores": None,
+                              "single_core_burn": 0, "multicore_burn": 0,
+                              "too_short": 0, "last_ts": None},
+                     "bm-c": {"batches_judged": 1, "core_seconds": 240.0,
+                              "wall_seconds": 30.0, "effective_cores": 8.0,
+                              "single_core_burn": 0, "multicore_burn": 1,
+                              "too_short": 1, "last_ts": "y"}},
+        "canon": "T-134 s4"}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
     for marker in ("一、实战面", "二、CEO 实盘使用面（T-105 直达）", "三、研发面",
                    "四、决策面", "五、明日队列", "Token 行", "ORANGE_COOL",
                    "六、算力利用率", "T-107 slice-2 pending", "FLAG:supply_floor",
-                   "实盘一页纸直达"):
+                   "实盘一页纸直达", "核分布/并行效率三机对照（T-134 s4",
+                   "有效核 5.5", "单核红牌 1", "有效核 N/A"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
