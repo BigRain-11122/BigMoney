@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-10-01 00:26:34",
+ "updated_at": "2026-10-01 01:22",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -5093,7 +5093,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 0,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-30 19:44:10",
    "entered_by": "bm-b (OS iteration loop r476)",
    "data_gates": "in-runner FAIL-CLOSED: probe same-face assertions (paths+counts bit-pinned) + panel complete&cutoff>=2026-09-22 + eligibility snapshot<24h + closed_family open + seed-registry law (exclusion_marginal_rand=20329500 registered r476 (renumbered from 20329000: same-window collision with bm-c cross_start_robustness_p1 burned+published first, ours unburned yields)) + cost_spec.verify + ADV-cap mirror; idempotency: existing scan.json = no-op exit 0 (EXCLUSION_MARGINAL_REBURN=1 redo channel); selftest 16/16 hermetic incl. hand-value cost legs (r474 law); trials_ledger appended BEFORE json.dump embed (r474 embed-order law); gate_attrition.bm-b.json +1 measurement row append-only",
@@ -5102,19 +5102,25 @@
      "key": "exclusion-0of1",
      "status": "ready",
      "owner": "bm-b",
-     "owner_since": "2026-09-30 21:30:04",
+     "owner_since": "2026-10-01 01:56:05",
      "checkpoint": "results/exclusion_marginal_scan/scan.json single-shot (idempotency guard; no partial-state resume face by design -- 16-cell burn is one deterministic pass)",
      "note": "r476 bm-b: engine leg landed (monthly rotation event-walk: resume-day exits realize on resume day = no liquidity look-ahead, suspension entry-skip, overlap hold, ADV20 1% fill cap, 100-share lots, min-comm 5, V2 stock cost via knowledge/rules primitives imported never rewritten); gates probe on real data ALL PASS (panel 5217/elig 5229/cutoff 2026-09-29/age 8.2h/family open); timing probe 150 files 1.5s -> full load ~52s, whole burn est 5-15min (prereg sec.0 upper budget 20-40min stands); burn via pool per O-2100 (>5min law); after burn = next round backfills prereg sec.7 + carrier EXCLUSION_MARGINAL.md marginal table + TRACK sec.2 #3 row flip",
      "claim_note": "r476 successor round control-plane claim-clear: entering session (dead r476 firing 19:42) died pre-burn by stream timeout, shard never ran (no scan.json, no autofill launch); stale pre-claim was blocking autofill (claim_lost_yield verdict 19:50 tick); owner nulled for clean autofill pick; runner re-verified selftest 16/16 by successor r476 session 19:5x"
     }
    ],
    "workers_plan": {
-    "workers": 1,
+    "workers": 8,
     "priority": "BelowNormal",
-    "note": "prereg sec.0 frozen pool routing; serial deterministic single pass (T33/GRID-P1 light-batch precedent); holiday full-core amendment (O-20260930-1858) applies from 2026-10-01 -- this entry stays default-priority per current law"
+    "workers_law": "ProcessPool via parallel_runner.run_cells_parallel (phase-1 per-code features + phase-2 per-cell sims); code-verified min(worker_cap(),8), env override EXCLUSION_MARGINAL_WORKERS; fixed-order assembly = scheduling-independent bytes",
+    "note": "O-2026-09-30-2355 multicore conversion landed bm-b r484 (T-134 s2); hermetic pool legs S17-S19, selftest 19/19; mkt contract + t_from_sharpe json fix carried"
    },
    "worker_class": "bm-hosted",
-   "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention."
+   "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention.",
+   "ready_flipped": {
+    "at": "2026-10-01 01:22",
+    "by": "bm-b r484",
+    "law": "T-134 s2 conversion-before-burn (O-2026-09-30-2355 sec.2)"
+   }
   },
   {
    "id": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
@@ -5126,7 +5132,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 0,
-   "status": "waiting",
+   "status": "ready",
    "entered_at": "2026-09-30 20:15:34",
    "entered_by": "bm-c (OS iteration loop r285)",
    "host_gates": [
@@ -5141,18 +5147,24 @@
      "key": "faceb-0of1",
      "status": "ready",
      "owner": "bm-b",
-     "owner_since": "2026-09-30 20:40:15",
+     "owner_since": "2026-10-01 01:58:05",
      "checkpoint": "results/cross_start_robustness/face_b.json single-shot (idempotency guard; one deterministic pass, no partial-state resume face by design)",
      "note": "r285 bm-c: engine = 100% import from bm-b exclusion_marginal_scan (r476) -- _sim_cell/_metrics/_build_selection/_signal_schedule/_load_calendar/_side_cost/_ffill_np, zero rewrite (MSG-1947 sec.2 anti-dup); assembly mirrors ems.run() with ONE disclosed deviation: pre-calendar-face (<2005-02-23) panel rows filtered before mapping (both cells run all-rules-OFF, barcnt/stale unconsumed, signal-date amt20 identical; ems.run() original FAIL-CLOSEDs on pre-2005 listings -- engineering fact in MSG-20260930-2115, bm-b berth fork); est burn 2-4min on bm-b (panel load ~52s + 34 event-walk sims), workers:1 serial deterministic single pass (T33/GRID-P1 light-batch precedent); after burn = consumer backfill by bm-c next round: prereg sec.7/8 + SUMMARY + TRACK sec.2 #1 flip + sec.4 consumption 306->308"
     }
    ],
    "workers_plan": {
-    "workers": 1,
+    "workers": 8,
     "priority": "BelowNormal",
-    "note": "serial deterministic single pass (event-walk engine, T33/GRID-P1 light-batch precedent; runner self-applies BELOW_NORMAL via ctypes per O-20260929-1029 headroom law); holiday full-core amendment (O-20260930-1858) applies from 2026-10-01 -- this entry stays default-priority per current law"
+    "workers_law": "ProcessPool via parallel_runner.run_cells_parallel (phase-1 per-code features + phase-2 per-(cell,start) sims, 34 tasks); code-verified min(worker_cap(),8), env override CROSS_START_FACEB_WORKERS; fixed-order assembly = scheduling-independent bytes",
+    "note": "O-2026-09-30-2355 multicore conversion landed bm-b r484 (T-134 s2); hermetic pool legs BS6a-c, selftest 22/22; r478-class mkt callable/subscript TypeError fixed pre-burn"
    },
    "worker_class": "bm-hosted",
-   "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention."
+   "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention.",
+   "ready_flipped": {
+    "at": "2026-10-01 01:22",
+    "by": "bm-b r484",
+    "law": "T-134 s2 conversion-before-burn (O-2026-09-30-2355 sec.2)"
+   }
   },
   {
    "id": "P2NULL-KLIFT-K2200-S0",
@@ -5350,7 +5362,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5361,10 +5373,14 @@
    "shards": [
     {
      "key": "lowamp-p1-cell-larep-legacy-base-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
      "owner": "bm-b",
-     "owner_since": "2026-10-01 01:10:05"
+     "owner_since": "2026-10-01 02:02:04",
+     "claimed_since": "2026-10-01 02:00:05",
+     "done_at": "2026-10-01 02:02:04",
+     "harvested_by": "bm-b",
+     "harvest_claim": "lowamp-p1-cell-larep-legacy-base-0of1.bm-b.json"
     }
    ]
   },
@@ -5384,7 +5400,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5422,7 +5438,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -5466,7 +5482,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -5510,7 +5526,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5548,7 +5564,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5586,7 +5602,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -5630,7 +5646,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -5674,7 +5690,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5710,7 +5726,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5748,7 +5764,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -5792,7 +5808,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -5836,7 +5852,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5874,7 +5890,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
@@ -5912,7 +5928,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -5956,7 +5972,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:19:25",
    "entered_by": "bm-a (OS iteration loop r495)",
    "host_gates": [
@@ -6009,10 +6025,10 @@
      "status": "done",
      "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
      "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20330500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:18:04",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 02:48:04",
      "claimed_since": "2026-10-01 01:50:10",
-     "done_at": "2026-10-01 02:18:04",
+     "done_at": "2026-10-01 02:48:04",
      "harvested_by": "bm-a",
      "harvest_claim": "lowamp-p1-nulls-0of1.bm-a.json"
     }
@@ -6063,7 +6079,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:25:26",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6072,17 +6088,14 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-0-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 0 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:18:50",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-0of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 02:02:15"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6100,7 +6113,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:25:44",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6109,17 +6122,14 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-1-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 1 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:20:11",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-1of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 02:04:06"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6137,7 +6147,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:25:48",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6146,17 +6156,16 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-2-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 2 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:22:28",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-2of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 02:06:06",
+     "done_at": "2026-10-01 02:11:38",
+     "done_by": "bm-b r488 GM-takeover inline multicore burn (22s @ 8 workers/shard, law: claimant heartbeat stale >20min -> healthy machine takes over; bm-a heartbeat 45.8min stale at 02:03, no burn commits for 2-7 on origin; runner deterministic byte-equal so zero double-burn harm)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6174,7 +6183,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:25:53",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6183,17 +6192,16 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-3-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 3 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:24:00",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-3of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:24:00",
+     "done_at": "2026-10-01 02:11:38",
+     "done_by": "bm-b r488 GM-takeover inline multicore burn (22s @ 8 workers/shard, law: claimant heartbeat stale >20min -> healthy machine takes over; bm-a heartbeat 45.8min stale at 02:03, no burn commits for 2-7 on origin; runner deterministic byte-equal so zero double-burn harm)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6211,7 +6219,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:25:58",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6220,17 +6228,16 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-4-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 4 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:50:24",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-4of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:50:24",
+     "done_at": "2026-10-01 02:11:38",
+     "done_by": "bm-b r488 GM-takeover inline multicore burn (22s @ 8 workers/shard, law: claimant heartbeat stale >20min -> healthy machine takes over; bm-a heartbeat 45.8min stale at 02:03, no burn commits for 2-7 on origin; runner deterministic byte-equal so zero double-burn harm)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6248,7 +6255,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:26:03",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6257,17 +6264,16 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-5-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 5 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:30:27",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-5of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:30:27",
+     "done_at": "2026-10-01 02:11:38",
+     "done_by": "bm-b r488 GM-takeover inline multicore burn (22s @ 8 workers/shard, law: claimant heartbeat stale >20min -> healthy machine takes over; bm-a heartbeat 45.8min stale at 02:03, no burn commits for 2-7 on origin; runner deterministic byte-equal so zero double-burn harm)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6285,7 +6291,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:26:09",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6294,17 +6300,16 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-6-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 6 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:31:14",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-6of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:31:14",
+     "done_at": "2026-10-01 02:11:38",
+     "done_by": "bm-b r488 GM-takeover inline multicore burn (22s @ 8 workers/shard, law: claimant heartbeat stale >20min -> healthy machine takes over; bm-a heartbeat 45.8min stale at 02:03, no burn commits for 2-7 on origin; runner deterministic byte-equal so zero double-burn harm)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6322,7 +6327,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:26:14",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6331,17 +6336,16 @@
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-7-of-12.json (presence=done; deterministic rerun byte-equal)",
      "note": "N1-W2 wave shard 7 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:32:04",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-7of12.bm-a.json"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:32:04",
+     "done_at": "2026-10-01 02:11:38",
+     "done_by": "bm-b r488 GM-takeover inline multicore burn (22s @ 8 workers/shard, law: claimant heartbeat stale >20min -> healthy machine takes over; bm-a heartbeat 45.8min stale at 02:03, no burn commits for 2-7 on origin; runner deterministic byte-equal so zero double-burn harm)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6359,7 +6363,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:26:19",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6367,18 +6371,17 @@
      "key": "n1w2-8of12",
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-8-of-12.json (presence=done; deterministic rerun byte-equal)",
-     "note": "N1-W2 wave shard 8 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:34:17",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-8of12.bm-a.json"
+     "note": "N1-W2 wave shard 8 of 12 (A2000+B200 contiguous slice); ~2min serial burn | r487 bm-b inline short-burn claim (claim-to-saturation, each shard ~1-2min multicore)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:40:54",
+     "done_at": "2026-10-01 01:43:06",
+     "done_by": "bm-b r487 inline multicore burn (22s @ 8 workers vs ~2min serial decl)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6396,7 +6399,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:26:24",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6404,18 +6407,17 @@
      "key": "n1w2-9of12",
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-9-of-12.json (presence=done; deterministic rerun byte-equal)",
-     "note": "N1-W2 wave shard 9 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:35:07",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-9of12.bm-a.json"
+     "note": "N1-W2 wave shard 9 of 12 (A2000+B200 contiguous slice); ~2min serial burn | r487 bm-b inline short-burn claim (claim-to-saturation, each shard ~1-2min multicore)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:40:54",
+     "done_at": "2026-10-01 01:43:06",
+     "done_by": "bm-b r487 inline multicore burn (22s @ 8 workers vs ~2min serial decl)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6433,7 +6435,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:26:28",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6441,18 +6443,17 @@
      "key": "n1w2-10of12",
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-10-of-12.json (presence=done; deterministic rerun byte-equal)",
-     "note": "N1-W2 wave shard 10 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:35:59",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-10of12.bm-a.json"
+     "note": "N1-W2 wave shard 10 of 12 (A2000+B200 contiguous slice); ~2min serial burn | r487 bm-b inline short-burn claim (claim-to-saturation, each shard ~1-2min multicore)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:40:54",
+     "done_at": "2026-10-01 01:43:06",
+     "done_by": "bm-b r487 inline multicore burn (22s @ 8 workers vs ~2min serial decl)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   },
   {
@@ -6470,7 +6471,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 1,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 00:26:34",
    "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
    "shards": [
@@ -6478,18 +6479,17 @@
      "key": "n1w2-11of12",
      "status": "done",
      "checkpoint": "results/p2cal_ext/n1_w2/shard-11-of-12.json (presence=done; deterministic rerun byte-equal)",
-     "note": "N1-W2 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 02:22:04",
-     "claimed_since": "2026-10-01 01:36:50",
-     "done_at": "2026-10-01 02:22:04",
-     "harvested_by": "bm-a",
-     "harvest_claim": "n1w2-11of12.bm-a.json"
+     "note": "N1-W2 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn | r487 bm-b inline short-burn claim (claim-to-saturation, each shard ~1-2min multicore)",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:40:54",
+     "done_at": "2026-10-01 01:43:06",
+     "done_by": "bm-b r487 inline multicore burn (22s @ 8 workers vs ~2min serial decl)"
     }
    ],
    "workers_plan": {
-    "workers": 1,
-    "priority": "BelowNormal"
+    "workers": 8,
+    "priority": "BelowNormal",
+    "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
    }
   }
  ],
