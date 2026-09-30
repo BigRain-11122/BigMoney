@@ -1,0 +1,58 @@
+{
+ "probe": "D-20260930-27 Q4 marks slimming evaluation v2",
+ "files_read": [
+  "marks-20260928.jsonl",
+  "marks-20260929.jsonl",
+  "marks-20260930.jsonl"
+ ],
+ "ticks_per_file": {
+  "marks-20260928.jsonl": 3,
+  "marks-20260929.jsonl": 1,
+  "marks-20260930.jsonl": 62
+ },
+ "threshold_bp": 5.0,
+ "total_ticks": 66,
+ "kept": 4,
+ "suppressed": 62,
+ "suppressed_pct": 93.9,
+ "retention_rule": "first-tick + settle + state-change + any trader equity move >= 5bp",
+ "sample_suppressed": [
+  {
+   "file": "marks-20260928.jsonl",
+   "ts": "2026-09-28T09:45:01",
+   "kind": "intraday",
+   "why": "move 0.0bp < 5.0bp"
+  },
+  {
+   "file": "marks-20260928.jsonl",
+   "ts": "2026-09-28T10:05:01",
+   "kind": "intraday",
+   "why": "move 0.0bp < 5.0bp"
+  },
+  {
+   "file": "marks-20260930.jsonl",
+   "ts": "2026-09-30T09:35:01",
+   "kind": "intraday",
+   "why": "move 0.0bp < 5.0bp"
+  },
+  {
+   "file": "marks-20260930.jsonl",
+   "ts": "2026-09-30T09:45:01",
+   "kind": "intraday",
+   "why": "move 0.0bp < 5.0bp"
+  },
+  {
+   "file": "marks-20260930.jsonl",
+   "ts": "2026-09-30T09:55:01",
+   "kind": "intraday",
+   "why": "move 0.0bp < 5.0bp"
+  },
+  {
+   "file": "marks-20260930.jsonl",
+   "ts": "2026-09-30T09:58:25",
+   "kind": "intraday",
+   "why": "move 0.0bp < 5.0bp"
+  }
+ ],
+ "note": "writer untouched; decision data for D-27 Q4 (per-trader caliber: suppress only if ALL traders <5bp and no state change)"
+}

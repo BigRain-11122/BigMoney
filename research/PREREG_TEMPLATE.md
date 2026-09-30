@@ -38,6 +38,7 @@
 - 因子/信号定义（冻结参数）、滞后规则（披露时点→信号可用日，禁未来数据）：
 - null 对照：K=______ 同掩码随机 null（seed 基=______；新基先登记 `science_gates.SEED_REGISTRY` 再跑）＋被动基线（池已校准者）；
 - 成本口径声明：**V1 legacy（13bp×2 压测）或 V2（ADV20 三层滑点+1%ADV 帽）**——新批建议 V2（knowledge/rules.py）；历史锚点复现恒用 V1 双轨防漂移；
+- **往返成本 bp 申报【CN-C7·必填·D-20260930-40】**：单一可比数字=单边成本 bp×2（面 A=`knowledge/cost_spec.py` 派生），逐品种类申报——ETF=______ bp/往返（面 A 恒等 26.082）；股票面按 `knowledge/rules.py fee_schedule_for` 前缀路由申报（买边______bp/卖边______bp·印花税仅卖边 5bp+过户费双边 0.1bp）；单笔名义额档位必附（¥5 最低佣金临界=名义 ¥20,000，小额档有效佣金率翻 4×）；**ETF 与股票结果只有在此口径下才可比**，禁再写"13bp/边"品种无关口径；
 - 账本：`science_gates.append_ledger(batch_name, batch_trials, file_name, evidence_cutoff=...)`（dict schema 唯一，禁手抄 prev）。
 
 ## §4 判据【必填·跑前写死，禁看结果调线】

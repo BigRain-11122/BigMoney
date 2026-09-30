@@ -307,6 +307,60 @@ def _check_no_silent_zero(line: dict, daily_dir: str | None = None) -> list:
     return viol
 
 
+def _tick_redundant(cur: dict, prev: dict, bp: float = 5.0) -> tuple[bool, str]:
+    """D-20260930-27 Q4 marks slimming (r480): an intraday tick is
+    REDUNDANT when, vs the last WRITTEN tick: no trader's equity moved
+    >=bp AND no state change (cash / symbol / quantity / cost_price /
+    pending_watch) AND nothing is unpriced. First tick of the day and the
+    settle face are never suppressed (callers enforce). Audit Q4 measured
+    93.9% of ticks redundant (62/66) on the 09-28..09-30 files; the
+    suppressed tick adds audit noise, not evidence. Returns
+    (redundant, reason)."""
+    tr_cur, tr_prev = cur.get("traders") or {}, prev.get("traders") or {}
+    if set(tr_cur) != set(tr_prev):
+        return False, "trader-set change"
+    for tid, t in tr_cur.items():
+        p = tr_prev[tid]
+        if (t.get("unpriced_symbols") or p.get("unpriced_symbols")):
+            return False, f"{tid}: unpriced face -- keep evidence"
+        pw_c, pw_p = t.get("pending_watch") or {}, p.get("pending_watch") or {}
+        if set(pw_c) != set(pw_p) or any(
+                pw_c[k] != pw_p[k] for k in pw_c):
+            return False, f"{tid}: pending_watch change"
+        st_c = ";".join(f"{x.get('symbol')}|{x.get('quantity')}|"
+                        f"{x.get('cost_price')}"
+                        for x in (t.get("positions") or []))
+        st_p = ";".join(f"{x.get('symbol')}|{x.get('quantity')}|"
+                        f"{x.get('cost_price')}"
+                        for x in (p.get("positions") or []))
+        if st_c != st_p or t.get("cash_cny") != p.get("cash_cny"):
+            return False, f"{tid}: state change"
+        e_c, e_p = t.get("equity_mark_cny"), p.get("equity_mark_cny")
+        if not e_c or not e_p:
+            return False, f"{tid}: unpriced equity anchor"
+        if abs(e_c - e_p) / e_p * 1e4 >= bp:
+            return False, (f"{tid}: move "
+                           f"{abs(e_c - e_p) / e_p * 1e4:.1f}bp >= {bp}bp")
+    return True, f"all traders <{bp}bp, no state change"
+
+
+def _last_written_tick(marks_path: str) -> dict | None:
+    """Last line of today's marks file (suppressed ticks never land, so
+    this is the retention base). None when the day has no ticks yet."""
+    if not os.path.exists(marks_path):
+        return None
+    last = None
+    with open(marks_path, encoding="utf-8") as fh:
+        for line in fh:
+            line = line.strip()
+            if line:
+                try:
+                    last = json.loads(line)
+                except ValueError:
+                    continue
+    return last
+
+
 def run(force: bool = False) -> int:
     now = _now()
     kind = "forced" if force else _gate(now)
@@ -339,6 +393,17 @@ def run(force: bool = False) -> int:
               f"on disk but zero/None mark, D-20260930-27): {viol} -- "
               "tick NOT written")
         return 2
+    if kind == "intraday" and not force:
+        # D-20260930-27 Q4 slimming (r480): redundant intraday ticks are
+        # audit noise (93.9% measured) -- first-tick/settle/state-change/
+        # >=5bp-move faces always land, suppressed ones never do.
+        prev = _last_written_tick(marks_path)
+        if prev is not None:
+            redundant, why = _tick_redundant(line, prev)
+            if redundant:
+                print(f"intraday_marks: tick suppressed (Q4 slimming, "
+                      f"{why}) -- no evidence value lost")
+                return 0
     with open(marks_path, "a", encoding="utf-8") as fh:
         fh.write(json.dumps(line, ensure_ascii=False) + "\n")
     n_marked = sum(1 for t in states.values() for p in t["positions"])
@@ -458,6 +523,34 @@ def _selftest() -> bool:
     finally:
         import shutil
         shutil.rmtree(tmp, ignore_errors=True)
+    # S10-S13 (D-20260930-27 Q4 slimming, r480): redundancy gate -- a
+    # tick is suppressible only when ALL traders moved <5bp with no
+    # state/pending/unpriced change; every evidence face keeps the tick.
+    base_tr = {"cash_cny": 1000000.0,
+               "positions": [{"symbol": "510300", "quantity": 1000.0,
+                               "cost_price": 4.0}],
+               "equity_mark_cny": 1000000.0}
+    def _mk(eq):
+        return {"traders": {"T-X": {
+            "cash_cny": base_tr["cash_cny"],
+            "positions": [dict(p) for p in base_tr["positions"]],
+            "equity_mark_cny": eq}}}
+    prev = _mk(1000000.0)
+    ok &= _tick_redundant(_mk(1000000.0), prev)[0] is True      # S10 flat
+    ok &= _tick_redundant(_mk(1000002.0), prev)[0] is True      # S10 0.02bp
+    ok &= _tick_redundant(_mk(1000600.0), prev)[0] is False     # S10 6bp
+    cur_st = _mk(1000000.0)
+    cur_st["traders"]["T-X"]["positions"][0]["quantity"] = 900.0
+    ok &= _tick_redundant(cur_st, prev)[0] is False             # S11 state
+    cur_pw = _mk(1000000.0)
+    cur_pw["traders"]["T-X"]["pending_watch"] = {"510300": 4.1}
+    ok &= _tick_redundant(cur_pw, prev)[0] is False             # S12 pending
+    cur_un = _mk(1000000.0)
+    cur_un["traders"]["T-X"]["unpriced_symbols"] = ["999999"]
+    ok &= _tick_redundant(cur_un, prev)[0] is False             # S13 unpriced
+    ok &= _tick_redundant({"traders": {"T-Y": dict(base_tr)}},
+                          prev)[0] is False                      # trader-set
+    ok &= _tick_redundant(_mk(None), _mk(1000000.0))[0] is False  # anchor
     return bool(ok)
 
 

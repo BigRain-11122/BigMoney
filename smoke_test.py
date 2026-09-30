@@ -294,6 +294,100 @@ def main() -> int:
           f"exit off sealed board -> filled next real open "
           f"({_idx[5].date()}), violations=0 by construction")
 
+    # RW-7 (T-127, D-20260930-05): exit_rules priority layer + risk-gate
+    # circuit breaker as the SOLE order exit. (a) exit priority is fixed:
+    # P1 signal_reversal > P2 stop_loss > P3 take_profit > P4 time_decay
+    # > P5 loss_time_stop > P6 global_hard_limit -- on any bar where two
+    # rules fire simultaneously the higher one must win. (b) RiskGate
+    # rejections are EXCEPTIONS (no silent drops): position cap / total
+    # cap / trade-count cap / invalid side / halted-day BUY all raise.
+    # (c) emit_order_sheet refuses ungated orders -- the gate is the only
+    # path by which an order sheet can leave the system.
+    from config import RISK as _RISK_CFG
+    RISK = _RISK_CFG
+    from live import (RiskGate, RiskGateRejected, Order, gate_orders,
+                      emit_order_sheet as _emit)
+    # P1 > P2: reversal wins on a bar that is also in stop territory
+    _p12 = evaluate(ExitState(cost_price=100.0, hold_days=1), 91.0, cfg,
+                    signal_reversed=True)
+    check("exit: P1 signal_reversal beats P2 stop (RW-7)",
+          _p12.reason == "signal_reversal" and _p12.should_close,
+          "reversal+stop same bar -> signal_reversal (P1 > P2)")
+    # P2 > P3: trailing stop hit while pnl >= next take-profit tier
+    _p23 = evaluate(ExitState(cost_price=100.0, hold_days=6, tier_reached=1,
+                               high_watermark=112.0,
+                               trailing_stop_price=110.88), 110.5, cfg)
+    check("exit: P2 stop_loss beats P3 take_profit (RW-7)",
+          _p23.reason == "stop_loss" and abs(_p23.pnl_rate - 0.105) < 1e-9,
+          "pnl +10.5% >= tier-2 10% but price 110.5 <= trailing 110.88 "
+          "-> stop_loss (P2 > P3)")
+    # P4 > P5: decay window reached on a losing hold
+    _p45 = evaluate(ExitState(cost_price=100.0, hold_days=12), 99.0, cfg)
+    check("exit: P4 time_decay beats P5 loss_time_stop (RW-7)",
+          _p45.reason == "time_decay",
+          "hold 12d pnl -1% -> time_decay, not loss_time_stop (P4 > P5)")
+    # P4 dominates the whole pnl<0 & hold>=12 overlap: P5's firing domain
+    # is swallowed by P4 there (ladder P4 > P5 proven above); P5 keeps
+    # only its exclusive window (8d <= hold < 12d, pnl < 0), already
+    # asserted by the standing "loss 8d force-close" case.
+    # P6 alone: a profitable-but-flat hold outlives every earlier rule
+    _p6 = evaluate(ExitState(cost_price=100.0, hold_days=25), 103.0, cfg)
+    check("exit: P6 global_hard_limit terminal tier (RW-7)",
+          _p6.reason == "global_hard_limit" and _p6.should_close,
+          "hold 25d pnl +3% >= decay threshold 2% -> hard_limit fires")
+    # circuit breaker boundary: halt AT the limit, trade above it
+    _g = RiskGate()
+    check("gate: daily_loss_breaker boundary (RW-7)",
+          _g.daily_loss_breaker(-0.03) and not _g.daily_loss_breaker(-0.029),
+          f"halt at pnl <= {RISK.daily_loss_limit:.0%}, clear above")
+    _ord_ok = Order("2026-09-30", "510300", "BUY", 0.05, "rebalance", 3.90)
+    _rej = {}
+    for _name, _o, _kw in (
+            ("position_cap", Order("2026-09-30", "510300", "BUY", 0.50, "x", 1.0), {}),
+            ("total_cap", Order("2026-09-30", "510300", "BUY", 0.05, "x", 1.0), {"current_positions": {"a": {"weight": 0.78}}}),
+            ("invalid_side", Order("2026-09-30", "510300", "SHORT", 0.05, "x", 1.0), {}),
+            ("halted_buy", _ord_ok, {"daily_pnl_pct": -0.05}),
+            ("trade_cap", Order("2026-09-30", "510300", "BUY", 0.05, "x", 1.0), {"pre_counts": 10})):
+        try:
+            _gg = RiskGate()
+            if _kw.get("pre_counts"):
+                _gg.orders_today = _kw["pre_counts"]
+            _gg.check([_o], _kw.get("current_positions", {}), 1_000_000.0,
+                      daily_pnl_pct=_kw.get("daily_pnl_pct"))
+            _rej[_name] = None
+        except RiskGateRejected as _e:
+            _rej[_name] = _e.reason
+    check("gate: rejections raise, never silently drop (RW-7)",
+          all(_rej[k] for k in ("position_cap", "total_cap", "invalid_side",
+                                "halted_buy", "trade_cap")),
+          "position/total/trade caps + invalid side + halted-day BUY all "
+          f"raise RiskGateRejected; reasons={list(_rej.values())}")
+    _halt_sell = Order("2026-09-30", "510300", "SELL", 0.0, "de-risk", 3.9)
+    _gsell = RiskGate().check([_halt_sell], {}, 1_000_000.0,
+                              daily_pnl_pct=-0.05)
+    check("gate: halted day still lets exits through (RW-7)",
+          _gsell == [_halt_sell],
+          "circuit breaker blocks new opens, not de-risking sells")
+    # sole exit: emit_order_sheet refuses ungated orders
+    _emit_refused = False
+    try:
+        _emit([_ord_ok], "2026-09-30")
+    except RuntimeError:
+        _emit_refused = True
+    import tempfile as _tf
+    with _tf.TemporaryDirectory() as _td:
+        _saved_logs = PATHS.logs_dir
+        PATHS.logs_dir = _td
+        try:
+            _receipt = gate_orders([_ord_ok], {}, 1_000_000.0)
+            _sheet = _emit(_receipt, "2026-09-30", gate_receipt=_receipt)
+            _wrote = os.path.exists(_sheet)
+        finally:
+            PATHS.logs_dir = _saved_logs
+    check("gate: emit_order_sheet is the sole gated exit (RW-7)",
+          _emit_refused and _wrote,
+          "ungated emit -> RuntimeError; gate_orders receipt -> sheet written")
+
     # --- 7) network / traffic modules ---
     import network_detector
     import traffic_policy
