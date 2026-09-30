@@ -5093,7 +5093,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 0,
-   "status": "ready",
+   "status": "waiting",
    "entered_at": "2026-09-30 19:44:10",
    "entered_by": "bm-b (OS iteration loop r476)",
    "data_gates": "in-runner FAIL-CLOSED: probe same-face assertions (paths+counts bit-pinned) + panel complete&cutoff>=2026-09-22 + eligibility snapshot<24h + closed_family open + seed-registry law (exclusion_marginal_rand=20329500 registered r476 (renumbered from 20329000: same-window collision with bm-c cross_start_robustness_p1 burned+published first, ours unburned yields)) + cost_spec.verify + ADV-cap mirror; idempotency: existing scan.json = no-op exit 0 (EXCLUSION_MARGINAL_REBURN=1 redo channel); selftest 16/16 hermetic incl. hand-value cost legs (r474 law); trials_ledger appended BEFORE json.dump embed (r474 embed-order law); gate_attrition.bm-b.json +1 measurement row append-only",
@@ -5113,7 +5113,8 @@
     "priority": "BelowNormal",
     "note": "prereg sec.0 frozen pool routing; serial deterministic single pass (T33/GRID-P1 light-batch precedent); holiday full-core amendment (O-20260930-1858) applies from 2026-10-01 -- this entry stays default-priority per current law"
    },
-   "worker_class": "bm-hosted"
+   "worker_class": "bm-hosted",
+   "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention."
   },
   {
    "id": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
@@ -5125,7 +5126,7 @@
    ],
    "lane_owner": "bm-b",
    "priority": 0,
-   "status": "ready",
+   "status": "waiting",
    "entered_at": "2026-09-30 20:15:34",
    "entered_by": "bm-c (OS iteration loop r285)",
    "host_gates": [
@@ -5150,7 +5151,8 @@
     "priority": "BelowNormal",
     "note": "serial deterministic single pass (event-walk engine, T33/GRID-P1 light-batch precedent; runner self-applies BELOW_NORMAL via ctypes per O-20260929-1029 headroom law); holiday full-core amendment (O-20260930-1858) applies from 2026-10-01 -- this entry stays default-priority per current law"
    },
-   "worker_class": "bm-hosted"
+   "worker_class": "bm-hosted",
+   "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention."
   },
   {
    "id": "P2NULL-KLIFT-K2200-S0",
@@ -5181,11 +5183,13 @@
    "shards": [
     {
      "key": "p2null-klift-s0-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": "bm-c",
-     "owner_since": "2026-09-30 21:20:05",
+     "owner_since": "2026-09-30T21:39:30+08:00",
      "checkpoint": "results/p2cal_ext/shard-0-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
-     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)",
+     "result_ref": "results/p2cal_ext/shard-0-of-4.json",
+     "done_note": "bm-b r479 harvest flip: empirical single-shot completion verified (A family n=500 runs + B family n=50 runs present in result file, evidence_cutoff 2026-09-22); r180 done-shard wedge law + CEO O-20260930-2054 anti-blind-burn; original owner preserved"
     }
    ],
    "workers_plan": {
@@ -5223,11 +5227,13 @@
    "shards": [
     {
      "key": "p2null-klift-s1-0of1",
-     "status": "ready",
+     "status": "done",
      "owner": null,
-     "owner_since": null,
+     "owner_since": "2026-09-30T21:47:20+08:00",
      "checkpoint": "results/p2cal_ext/shard-1-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
-     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)",
+     "result_ref": "results/p2cal_ext/shard-1-of-4.json",
+     "done_note": "bm-b r479 harvest flip: empirical single-shot completion (A n=500 + B n=50 runs verified); original burner bm-c (claim file present); flip by bm-b after r479 owner_since-null merge fix"
     }
    ],
    "workers_plan": {
@@ -5265,11 +5271,13 @@
    "shards": [
     {
      "key": "p2null-klift-s2-0of1",
-     "status": "ready",
-     "owner": null,
-     "owner_since": null,
+     "status": "done",
+     "owner": "bm-b",
+     "owner_since": "2026-09-30T21:45:10+08:00",
      "checkpoint": "results/p2cal_ext/shard-2-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
-     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)",
+     "result_ref": "results/p2cal_ext/shard-2-of-4.json",
+     "done_note": "bm-b r479 harvest flip: burn complete 370.9s 550 runs, empirical single-shot completion"
     }
    ],
    "workers_plan": {

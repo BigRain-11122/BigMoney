@@ -70,8 +70,16 @@ def _merge_shard_same_key(a, b):
     """Same-key shard rows: the row with the newer ``owner_since`` is
     the base (r311 latest.ts deep-probe law); fields missing on the
     base fill from the other side (r370 non-null-first family; ts ties
-    resolve deterministically to the first side)."""
-    ta, tb = str(a.get("owner_since", "")), str(b.get("owner_since", ""))
+    resolve deterministically to the first side).
+
+    r479 bm-b pit fix: owner_since keys PRESENT with a null value
+    str()-compared as "None", which sorts AFTER every real timestamp
+    string ("N" > "2") -- a null-timestamp lane row became the base and
+    swallowed a done harvest flip (S1 live evidence: done reverted to
+    ready by settle). None/"" normalize to "" so real timestamps win,
+    restoring the r311 latest.ts law for null-valued keys."""
+    ta, tb = (str(a.get("owner_since") or ""),
+              str(b.get("owner_since") or ""))
     base, other = (a, b) if ta >= tb else (b, a)
     out = dict(base)
     for k, v in other.items():
