@@ -127,6 +127,12 @@ TURNOVER_BUDGET = 50.0            # prereg sec.3 disclosure budget / year
 FROZEN_ANCHOR_DAYS = ("2021-02-22", "2024-07-08", "2026-09-03")
 # first valid / valid[24] of 50 (lower-middle) / last valid -- r449 probe
 # facts verbatim, prereg sec.2 bitwise freeze
+FROZEN_ACCRUAL_LO = "2021-02-23"
+# prereg sec.2 frozen policy: batch accrual lo = first VALID (non-singular)
+# anchor's effective bar -- ONE batch-level face for all 4 cells, passive and
+# paired diffs. The B arm (LW-shrunk, always PD) re-weights at every anchor
+# and would otherwise self-derive lo=first anchor (warmup singular anchor
+# 2021-01-18), drifting off the frozen face; cmd_run anchors it explicitly.
 J4_CANON_RECORD = 0.4854          # T-28 production B_MAXDIV 12m pooled
 # beat-passive record -- cross-batch DISCLOSURE ONLY, non-gate
 ARMS = ("A", "B")
@@ -342,7 +348,7 @@ def load_probe_facts(path=None):
 
 
 # ------------------------------------------------------------- accrual
-def arm_series(R, rows, arm, rate):
+def arm_series(R, rows, arm, rate, lo_ts=None):
     """Daily-rebalanced net return series for one arm on matrix R.
 
     Weight blocks: A arm changes weights only at non-singular anchors
@@ -351,11 +357,19 @@ def arm_series(R, rows, arm, rate):
     anchor. Transition cost = |dw|_1 * rate booked on each effective
     day, initial deployment |w-0|_1 included (cost-always-on).
     Accrual window = [first valid anchor's effective bar, panel end).
+    lo_ts = batch-level accrual anchor (prereg sec.2 frozen policy):
+    when given, blocks before it are warmup only -- no accrual, no
+    cost booking (both arms share the one frozen accrual face; without
+    it the B arm self-derives lo=first anchor, which drifts off the
+    frozen face whenever the first anchor is singular -- first-burn
+    GATE-REFUSE 'accrual lo drift A 2021-02-23 != B 2021-01-18').
     Returns (net series, faces dict).
     """
     blocks = []                       # (eff_pos, weights, changed)
     prev = None
     lo_pos = None
+    if lo_ts is not None:
+        lo_pos = int(R.index.get_loc(pd.Timestamp(lo_ts)))
     for r in rows:
         eff_pos = int(R.index.get_loc(pd.Timestamp(r["eff_date"])))
         if arm == "A":
@@ -752,10 +766,15 @@ def cmd_run():
           flush=True)
 
     # ---- cells: 2 arms x 2 cost faces
+    # batch-level accrual anchor (prereg sec.2 frozen policy: accrual lo =
+    # first VALID anchor's effective bar) -- shared by all 4 cells so the
+    # paired-diff / passive / virtual-start faces stay length-aligned.
+    lo_batch = next(r["eff_date"] for r in rows if not r["singular_A"])
     cells = {}
     for (arm, face) in CELL_FACES:
         R = R1 if face == "x1" else R2
-        net, acc = arm_series(R, rows, arm, COST_RATE[face])
+        net, acc = arm_series(R, rows, arm, COST_RATE[face],
+                             lo_ts=lo_batch)
         cells[(arm, face)] = {
             "net": net, "arm_faces": acc,
             "stats": _cell_stats(net.to_numpy()),
@@ -767,6 +786,10 @@ def cmd_run():
     lo_b = cells[("B", "x1")]["arm_faces"]["lo_date"]
     if lo_a != lo_b:
         return gate_refuse(f"accrual lo drift A {lo_a} != B {lo_b}")
+    if not _SELFTEST_FACTS and lo_a != FROZEN_ACCRUAL_LO:
+        return gate_refuse(f"accrual lo {lo_a} != frozen "
+                           f"{FROZEN_ACCRUAL_LO} (prereg sec.2 "
+                           f"runner-derive assertion)")
     years = len(cells[("A", "x1")]["net"]) / float(PBP)
 
     # ---- passive (510300 B&H, T-28 J4 caliber), aligned to accrual
