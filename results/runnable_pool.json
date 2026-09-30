@@ -5166,7 +5166,7 @@
       "lane_owner": null,
       "worker_class": "self-contained",
       "priority": 0,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-30 21:08:57",
       "entered_by": "bm-c (OS iteration loop r287)",
       "host_gates": [
@@ -5181,18 +5181,21 @@
       "shards": [
         {
           "key": "p2null-klift-s0-0of1",
-          "status": "ready",
+          "status": "done",
           "owner": "bm-c",
           "owner_since": "2026-09-30 21:50:05",
           "checkpoint": "results/p2cal_ext/shard-0-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
-          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)",
+          "done_note": "shard output landed + consumed by finalize r289 (r203 flip law)"
         }
       ],
       "workers_plan": {
         "workers": 1,
         "priority": "BelowNormal",
         "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
-      }
+      },
+      "done_at": "2026-09-30 22:0x",
+      "result_ref": "results/p2_calibration_v2_ext.json (finalize r289 bm-c: ledger 362,389+2,200=364,589; canon mu -0.0912/sigma 0.2368 K120 vs merged mu -0.0909/sigma 0.2475 K2320; skill_line_v2 @n_eff 362,389: 1.1071->1.1613 K-lift +0.0542; H-K1 stability in-noise, H-K3 line-drift disclosure face)"
     },
     {
       "id": "P2NULL-KLIFT-K2200-S1",
@@ -5208,7 +5211,7 @@
       "lane_owner": null,
       "worker_class": "self-contained",
       "priority": 0,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-30 21:08:57",
       "entered_by": "bm-c (OS iteration loop r287)",
       "host_gates": [
@@ -5223,18 +5226,21 @@
       "shards": [
         {
           "key": "p2null-klift-s1-0of1",
-          "status": "ready",
+          "status": "done",
           "owner": null,
           "owner_since": null,
           "checkpoint": "results/p2cal_ext/shard-1-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
-          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)",
+          "done_note": "shard output landed + consumed by finalize r289 (r203 flip law)"
         }
       ],
       "workers_plan": {
         "workers": 1,
         "priority": "BelowNormal",
         "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
-      }
+      },
+      "done_at": "2026-09-30 22:0x",
+      "result_ref": "results/p2_calibration_v2_ext.json (finalize r289 bm-c: ledger 362,389+2,200=364,589; canon mu -0.0912/sigma 0.2368 K120 vs merged mu -0.0909/sigma 0.2475 K2320; skill_line_v2 @n_eff 362,389: 1.1071->1.1613 K-lift +0.0542; H-K1 stability in-noise, H-K3 line-drift disclosure face)"
     },
     {
       "id": "P2NULL-KLIFT-K2200-S2",
@@ -5250,7 +5256,7 @@
       "lane_owner": null,
       "worker_class": "self-contained",
       "priority": 0,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-30 21:08:57",
       "entered_by": "bm-c (OS iteration loop r287)",
       "host_gates": [
@@ -5265,18 +5271,21 @@
       "shards": [
         {
           "key": "p2null-klift-s2-0of1",
-          "status": "ready",
+          "status": "done",
           "owner": "bm-c",
           "owner_since": "2026-09-30 21:50:37",
           "checkpoint": "results/p2cal_ext/shard-2-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
-          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)",
+          "done_note": "shard output landed + consumed by finalize r289 (r203 flip law)"
         }
       ],
       "workers_plan": {
         "workers": 1,
         "priority": "BelowNormal",
         "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
-      }
+      },
+      "done_at": "2026-09-30 22:0x",
+      "result_ref": "results/p2_calibration_v2_ext.json (finalize r289 bm-c: ledger 362,389+2,200=364,589; canon mu -0.0912/sigma 0.2368 K120 vs merged mu -0.0909/sigma 0.2475 K2320; skill_line_v2 @n_eff 362,389: 1.1071->1.1613 K-lift +0.0542; H-K1 stability in-noise, H-K3 line-drift disclosure face)"
     },
     {
       "id": "P2NULL-KLIFT-K2200-S3",
@@ -5292,7 +5301,7 @@
       "lane_owner": null,
       "worker_class": "self-contained",
       "priority": 0,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-09-30 21:08:57",
       "entered_by": "bm-c (OS iteration loop r287)",
       "host_gates": [
@@ -5307,18 +5316,21 @@
       "shards": [
         {
           "key": "p2null-klift-s3-0of1",
-          "status": "ready",
+          "status": "done",
           "owner": null,
           "owner_since": null,
           "checkpoint": "results/p2cal_ext/shard-3-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
-          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+          "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)",
+          "done_note": "shard output landed + consumed by finalize r289 (r203 flip law)"
         }
       ],
       "workers_plan": {
         "workers": 1,
         "priority": "BelowNormal",
         "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
-      }
+      },
+      "done_at": "2026-09-30 22:0x",
+      "result_ref": "results/p2_calibration_v2_ext.json (finalize r289 bm-c: ledger 362,389+2,200=364,589; canon mu -0.0912/sigma 0.2368 K120 vs merged mu -0.0909/sigma 0.2475 K2320; skill_line_v2 @n_eff 362,389: 1.1071->1.1613 K-lift +0.0542; H-K1 stability in-noise, H-K3 line-drift disclosure face)"
     }
   ]
 }

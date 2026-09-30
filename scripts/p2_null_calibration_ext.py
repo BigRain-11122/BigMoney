@@ -188,11 +188,11 @@ def finalize() -> int:
         fams = d.get("families") or {}
         a_runs += (fams.get("A_random_engine_exit") or {}).get("runs") or []
         b_runs += (fams.get("B_random_entry_random_exit") or {}).get("runs") or []
-        nshards_seen.add((d.get("shard"), d.get("nshards")))
-    if len(nshards_seen) != 1:
+        nshards_seen.add(d.get("nshards"))
+    if len(nshards_seen) != 1 or None in nshards_seen:
         print(f"finalize: FAIL-CLOSED -- mixed nshards {sorted(nshards_seen)}")
         return 2
-    nshards = nshards_seen.pop()[1]
+    nshards = nshards_seen.pop()
     done = {(d_["shard"]) for d_ in (json.load(open(sf, encoding="utf-8"))
                                      for sf in shard_files)}
     if done != set(range(nshards)):
