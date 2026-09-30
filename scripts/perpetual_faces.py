@@ -105,9 +105,23 @@ def _load_pool():
 
 
 def _pool_live_count(pool):
+    """Live = claimable/pending supply. park_note'd entries are deliberate
+    governance holds (r304 park_note marker law / r504 authority law),
+    not supply: their unfreeze is gated on canon self-proof or a GM
+    ruling and the picker never claims a 'waiting' entry -- counting
+    them as live deadlocks the never-dry law behind a parked entry
+    forever (live case r497: W14 re-park N=0 held live=1 while every
+    burnable face was done and the pool was truly starved)."""
     entries = pool.get("entries", [])
     vals = entries.values() if isinstance(entries, dict) else entries
-    return sum(1 for e in vals if str(e.get("status", "")) in ("ready", "waiting", "running"))
+    n = 0
+    for e in vals:
+        if str(e.get("status", "")) not in ("ready", "waiting", "running"):
+            continue
+        if e.get("park_note"):
+            continue
+        n += 1
+    return n
 
 
 def _py_face():
@@ -306,10 +320,13 @@ def cmd_supply():
     vals = list(pool.get("entries", []))
     if isinstance(pool.get("entries"), dict):
         vals = list(pool["entries"].values())
-    # law sec.1 leg-3: no same-face in-flight wave (live = ready/waiting/running)
+    # law sec.1 leg-3: no same-face in-flight wave (live = ready/waiting/running;
+    # park_note'd entries are deliberate holds, not in-flight supply -- same
+    # r304/r504 marker law as _pool_live_count)
     n1_live = [e for e in vals
                if str(e.get("id", "")).startswith("PERPETUAL-N1-")
-               and str(e.get("status", "")) in ("ready", "waiting", "running")]
+               and str(e.get("status", "")) in ("ready", "waiting", "running")
+               and not e.get("park_note")]
     if n1_live:
         _write_state(st)
         print(f"supply: same-face wave in flight ({len(n1_live)} live "
@@ -396,6 +413,18 @@ def cmd_selftest():
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)
+    # 4b. park_note'd entries are deliberate holds, never live supply
+    # (r304/r504 marker law; live case r497 W14 re-park deadlocked the
+    # starvation leg -- the face this generator exists to feed)
+    probe_pool = {"entries": [
+        {"id": "A", "status": "done"},
+        {"id": "B", "status": "waiting"},
+        {"id": "C", "status": "waiting", "park_note": "governance hold"},
+        {"id": "D", "status": "ready", "park_note": "governance hold"},
+        {"id": "E", "status": "ready"},
+    ]}
+    assert _pool_live_count(probe_pool) == 2, \
+        "park_note'd entries must not count as live supply"
     # 5. state round-trip (no pool writes; state file may be created in tmp)
     st = _load_state()
     st["_selftest_probe"] = True

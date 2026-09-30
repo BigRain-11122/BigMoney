@@ -13594,6 +13594,33 @@
     "prereg": "research/T28_STABLE_PROFIT.md"
    },
    "note": "RW-6 re-execution on fixed engine; ledger +0 (r259)"
+  },
+  {
+   "batch": "EXCLUSION-MARGINAL-P1",
+   "ts": "2026-10-01 07:09:27",
+   "kind": "measurement",
+   "cells_ledger_delta": 16,
+   "ledger_total_after": 368813,
+   "gates": {
+    "burn_gates_all_pass": true,
+    "m1_loo_positive_rules": [
+     "r1_loss"
+    ],
+    "m1_aoi_positive_rules": [
+     "l1_liq5000w",
+     "l2_price1y",
+     "l3_age250",
+     "l4_active10td",
+     "r1_loss",
+     "r2_st"
+    ],
+    "void": false
+   },
+   "eliminated": null,
+   "refs": {
+    "results": "results/exclusion_marginal_scan/scan.json",
+    "prereg": "research/EXCLUSION_MARGINAL_PREREG.md"
+   }
   }
  ],
  "history": [

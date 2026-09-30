@@ -93,6 +93,41 @@ CLAIM_A = {"cagr": 0.0587, "maxdd": -0.144, "win_rate": 0.71,
                      "external config not in repo"}
 
 
+# ---- pool harvest handshake (worker-side half, O-2026-09-30-2355 window) --
+_CLAIM_STARTED_B = ""
+
+
+def _machine_id() -> str:
+    try:
+        return json.load(open(os.path.join(_REPO_ROOT, "fleet",
+                                          "machine.json"),
+                              encoding="utf-8"))["machine_id"]
+    except Exception:
+        return "unknown"
+
+
+def _pool_claim_face_b(detail: str) -> None:
+    """On a completed Face B burn write results/pool_claims/<entry>/
+    <shard>.<machine>.json with state=closed outcome=ok so the
+    launcher's harvest flip lands the shard done (the worker NEVER
+    writes runnable_pool.json -- pool single-writer law; without this
+    handshake a completed burn reads as a crash to the fuse and the
+    campaign freezes -- r496 lowamp live family + r497 this-batch
+    live: the 07:08 face_b burn completed but fed refusals 07:12-07:16)."""
+    import time as _t
+    d = os.path.join(_REPO_ROOT, "results", "pool_claims",
+                     "CROSS-START-ROBUSTNESS-P1-FACEB-RUN")
+    os.makedirs(d, exist_ok=True)
+    fp = os.path.join(d, f"faceb-0of1.{_machine_id()}.json")
+    now = _t.strftime("%Y-%m-%d %H:%M:%S")
+    with open(fp, "w", encoding="utf-8") as fh:
+        json.dump({"machine_id": _machine_id(), "state": "closed",
+                   "pid": os.getpid(), "heartbeat": now, "outcome": "ok",
+                   "exit_code": 0, "started": _CLAIM_STARTED_B,
+                   "closed_at": now, "result_ref": detail},
+                  fh, ensure_ascii=False, indent=1)
+
+
 def _rand_targets():
     """Seeded random static weights (prereg sec.3-A): default_rng(base+k)
     .dirichlet(ones(4)), k=0..N_RAND_CELLS-1. Deterministic, sum=1."""
@@ -410,6 +445,8 @@ def run_face_b(write=True):
     fact disclosed to bm-b, MSG-20260930-2115-bmc-bmb)."""
     import time as _t
     t0 = _t.time()
+    global _CLAIM_STARTED_B
+    _CLAIM_STARTED_B = _t.strftime("%Y-%m-%d %H:%M:%S")
     ems = _ems()
     # CPU headroom law (O-20260929-1029): self-apply BELOW_NORMAL priority
     # (harmless no-op off-Windows; belt-and-suspenders beside workers_plan).
@@ -423,6 +460,14 @@ def run_face_b(write=True):
     if not ok:
         print(json.dumps({"face_b": "FAIL-CLOSED (zero-burn)", "gates": gates},
                          ensure_ascii=False, indent=1))
+        if str(gates.get("fail", "")).startswith("already burned"):
+            # product already on disk: close the claim handshake anyway
+            # so the harvest can land a ghost-ready shard done (rc=2
+            # contract face unchanged -- this is the worker-side
+            # checkpoint-presence signal, r497 handshake family)
+            _pool_claim_face_b("idempotent no-op: face_b.json present "
+                               "(product complete) -- claim (re)written "
+                               "so a ghost-ready shard harvests done")
         if str(gates.get("fail", "")).startswith(
                 ("panel gate:", "eligibility age")):
             # r491 data-wait marker: the autofill crash-confirmer reads
@@ -701,6 +746,10 @@ def run_face_b(write=True):
         "ledger_total_after": ledger["total"],
         "elapsed_sec": payload["burn_audit"]["elapsed_sec"],
     }, ensure_ascii=False))
+    _pool_claim_face_b(f"Face B burn COMPLETE conclusion_B={verdict_b['verdict']} "
+                       f"rand_null_pass={rand_pass} ledger -> {ledger['total']} "
+                       f"-> {FACE_B_FILE} + face_b_cells.csv | elapsed "
+                       f"{payload['burn_audit']['elapsed_sec']}s")
     return payload
 
 

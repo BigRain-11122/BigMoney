@@ -943,7 +943,42 @@ def _burn_gates(probe_f: dict) -> tuple[bool, dict]:
     return True, rep
 
 
+# ---- pool harvest handshake (worker-side half, O-2026-09-30-2355 window) --
+_CLAIM_STARTED = ""
+
+
+def _machine_id() -> str:
+    try:
+        return json.load(open(os.path.join(ROOT, "fleet", "machine.json"),
+                              encoding="utf-8"))["machine_id"]
+    except Exception:
+        return "unknown"
+
+
+def _pool_claim(detail: str) -> None:
+    """On a completed burn write results/pool_claims/<entry>/
+    <shard>.<machine>.json with state=closed outcome=ok so the
+    launcher's harvest flip lands the shard done (the worker NEVER
+    writes runnable_pool.json -- pool single-writer law; without this
+    handshake a completed burn reads as a crash to the fuse and the
+    campaign freezes -- r496 lowamp live family + r497 this-batch live:
+    the 07:06/07:08 burns completed but fed refusals 07:12-07:16)."""
+    d = os.path.join(ROOT, "results", "pool_claims",
+                     "EXCLUSION-MARGINAL-P1-RUN")
+    os.makedirs(d, exist_ok=True)
+    fp = os.path.join(d, f"exclusion-0of1.{_machine_id()}.json")
+    now = time.strftime("%Y-%m-%d %H:%M:%S")
+    with open(fp, "w", encoding="utf-8") as fh:
+        json.dump({"machine_id": _machine_id(), "state": "closed",
+                   "pid": os.getpid(), "heartbeat": now, "outcome": "ok",
+                   "exit_code": 0, "started": _CLAIM_STARTED,
+                   "closed_at": now, "result_ref": detail},
+                  fh, ensure_ascii=False, indent=1)
+
+
 def run() -> int:
+    global _CLAIM_STARTED
+    _CLAIM_STARTED = time.strftime("%Y-%m-%d %H:%M:%S")
     t0 = time.time()
     if not os.path.exists(PROBE_FILE):
         print("run: FAIL-CLOSED -- probe facts missing (run probe first).")
@@ -952,6 +987,8 @@ def run() -> int:
     if os.path.exists(SCAN_FILE) and os.environ.get("EXCLUSION_MARGINAL_REBURN") != "1":
         print("run: already burned -- scan.json present, no-op (idempotency guard).")
         print("     redo channel = EXCLUSION_MARGINAL_REBURN=1 (fresh prereg for re-burns).")
+        _pool_claim("idempotent no-op: scan.json present (product complete) -- "
+                    "claim (re)written so a ghost-ready shard harvests done")
         return 0
     ok, gates_rep = _burn_gates(probe_f)
     if not ok:
@@ -1221,6 +1258,10 @@ def run() -> int:
     print(f"burn COMPLETE: {len(CELLS)} cells | ledger {ledger['prev_total']} -> {ledger['total']}")
     print(f"  signals {sig_dates[0]} .. {sig_dates[-1]} ({n_sig} months) | universe {n_codes}")
     print(f"  products: {SCAN_FILE} + {CELLS_FILE} | elapsed {payload['burn_audit']['elapsed_sec']}s")
+    _pool_claim(f"burn COMPLETE {len(CELLS)} cells | ledger "
+                f"{ledger['prev_total']} -> {ledger['total']} -> {SCAN_FILE} "
+                f"+ {CELLS_FILE} | elapsed "
+                f"{payload['burn_audit']['elapsed_sec']}s")
     return 0
 
 

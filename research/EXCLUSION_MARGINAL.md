@@ -5,21 +5,23 @@
 
 ## 状态
 
-**冻结待烧**——预注册 `research/EXCLUSION_MARGINAL_PREREG.md` r475 冻结（R99：冻结 commit 先于烧）；runner `scripts/exclusion_marginal_scan.py` probe/selftest 腿已落地（probe facts=results/exclusion_marginal_scan/probe_facts.json；selftest 5/5；run 腿引擎下片诚实 rc=2 零烧）。试验量：烧批 +16 格 → 累计 318/500。
+**已烧毕（r497 bm-b）**——预注册 `research/EXCLUSION_MARGINAL_PREREG.md` r475 冻结（R99：冻结 commit 先于烧）；runner `scripts/exclusion_marginal_scan.py`；烧批 2026-10-01 07:06→07:09（daemon 池车道·193.6s·8 workers）；试验量：本批 +16 → **累计 324/500**（含同窗 Face B +2）；产物=results/exclusion_marginal_scan/scan.json+scan_cells.csv；§7/§8 详版已回填预注册件。基面：FULL +15.09%/ann vs NONE +8.69%/ann=**规则集 +6.4pp**（代价面 maxdd −70.7% vs −26.8%·Sharpe 0.70 vs 1.04 如实披露）；RAND 双 null +3.30%/+4.64%=非随机假象。
 
 ## 设计一句话
 
 冻结经典低量选股基线（20 日均额升序取 10 只月频等权 T+1），16 格全量公布扫描 6 排除规则（R-配1 亏损/R-配2 ST/SS2 流动性地板/价格地板/次新 250bars/停牌活跃 10td）的 LOO+AOI 双面边际值+随机选股 null 交互面；判据=全期 Δ>0 ∩ 全起点正份额 ≥0.50 ∩ 起点中位 Δ>0（跑前写死）。
 
-## 边际值表（烧后回填·占位）
+## 边际值表（r497 烧后回填）
 
 | 规则 | Δ 全期（FULL−LOO） | 全起点正份额 | 起点中位 Δ | AOI 面 Δ' | 判定 |
 |---|---|---|---|---|---|
-| r1_loss | — | — | — | — | 待烧 |
-| r2_st | — | — | — | — | 待烧 |
-| l1_liq5000w | — | — | — | — | 待烧 |
-| l2_price1y | — | — | — | — | 待烧 |
-| l3_age250 | — | — | — | — | 待烧 |
-| l4_active10td | — | — | — | — | 待烧 |
+| r1_loss | +1.47pp | 93.8% | +4.66pp | +2.25pp | **边际正**（唯一） |
+| r2_st | +0.13pp | 31.2% | −0.36pp | +0.11pp | 边际负（AOI 独正最弱） |
+| l1_liq5000w | +1.71pp | 37.5% | −0.42pp | +5.71pp | 边际负（AOI 独正最大） |
+| l2_price1y | +0.11pp | 31.2% | 0.00pp | +0.64pp | 边际近零负 |
+| l3_age250 | +0.54pp | 31.2% | −0.23pp | +0.37pp | 边际负 |
+| l4_active10td | +0.03pp | 37.5% | 0.00pp | +3.99pp | 边际近零（AOI 独正第二） |
+
+**读法**：六规则高重叠互替——AOI 全六独正（每条单独有值）＋LOO 仅 r1_loss 判决正（其余五条在场时边际多被吸收）；排除集价值来自簇，单规则移除近零成本（r1_loss 除外）。
 
 （§7 详版在预注册件回填）

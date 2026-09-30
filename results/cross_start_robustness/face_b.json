@@ -1,0 +1,264 @@
+{
+ "base_params": {
+  "allstart_jan_firsts": "2007..2022 (16 starts)",
+  "cost_face": "V2 stock: knowledge/rules.py fee_schedule_for + ADV20 3-layer slippage",
+  "initial_capital_cny": 1000000,
+  "n_holdings": 10,
+  "rank_face": "amt20_mean asc (low-amount first)",
+  "rebalance": "monthly (month-end signal, next trading day open execution, T+1)",
+  "weighting": "equal",
+  "window_first_signal": "2007-01"
+ },
+ "burn_audit": {
+  "elapsed_sec": 169.6,
+  "n_cached_names": 2021,
+  "parallel_face": "parallel_runner.run_cells_parallel phase-1 features + phase-2 per-(cell,start) sims (T-134 s2, O-2026-09-30-2355)",
+  "workers": 8
+ },
+ "burn_gates_report": {
+  "adv_cap_mirror": true,
+  "burn_universe": 5217,
+  "cost_spec_verify": true,
+  "eligibility_age_h": 19.6,
+  "eligibility_codes": 5229,
+  "family_engine": "open",
+  "family_face_b": "open",
+  "panel_files": 5217,
+  "panel_status_cutoff": "2026-09-30",
+  "rand_seed_base": 20329100
+ },
+ "cells": {
+  "B-FULL": {
+   "allstart_best": 0.196010219673177,
+   "allstart_median": 0.11044477168768563,
+   "allstart_median_cagr": 0.11044477168768563,
+   "allstart_p25": 0.09752653547762297,
+   "allstart_p75": 0.12610235050148627,
+   "allstart_pos_share": 1.0,
+   "allstart_worst": 0.08692654607340078,
+   "allstarts_ann_ret_net": {
+    "2007": 0.08692654607340078,
+    "2008": 0.09156771788382745,
+    "2009": 0.0976252073760484,
+    "2010": 0.09723051978234665,
+    "2011": 0.09975972486976392,
+    "2012": 0.11039136573240294,
+    "2013": 0.11744276138460097,
+    "2014": 0.12343212733055964,
+    "2015": 0.12230944288425372,
+    "2016": 0.10312948990702342,
+    "2017": 0.08806263850838647,
+    "2018": 0.11049817764296832,
+    "2019": 0.13411302001426617,
+    "2020": 0.15028899613089042,
+    "2021": 0.17540306128600958,
+    "2022": 0.196010219673177
+   },
+   "allstarts_worst_5y": {
+    "2007": -0.015270366626854104,
+    "2008": -0.015354907850419708,
+    "2009": -0.015125944314389406,
+    "2010": -0.017287673532947467,
+    "2011": -0.018657871958024708,
+    "2012": -0.01749510522334974,
+    "2013": -0.017986208556746708,
+    "2014": -0.019035041240700767,
+    "2015": -0.022817478541831582,
+    "2016": -0.028008200877689293,
+    "2017": -0.024568802222483033,
+    "2018": 0.03340910516097351,
+    "2019": 0.02903731938559484,
+    "2020": 0.10701021978367109,
+    "2021": 0.1519298289329114,
+    "2022": null
+   },
+   "base": "rank",
+   "cohort_overlap_mean": 0.5140425531914894,
+   "full_period": {
+    "ann_ret_net": 0.08692654607340078,
+    "cost_drag_ann": 0.004987587654035298,
+    "final_equity": 5110059.543156399,
+    "maxdd": -0.2681732895048534,
+    "n_buys": 1047,
+    "n_sells": 1037,
+    "n_skip_entry": 432,
+    "open_positions_at_end": 10,
+    "sharpe": 1.0429808610617397,
+    "t_from_sharpe": 4.613899323695249,
+    "turnover_ann": 1.6128410044166983,
+    "worst_10y": 0.02997265520314052,
+    "worst_3y": -0.04246646685332489,
+    "worst_5y": -0.015270366626854104,
+    "years": 19.56967213114754
+   },
+   "median_ok": true,
+   "off_rules": [
+    "r1_loss",
+    "r2_st",
+    "l1_liq5000w",
+    "l2_price1y",
+    "l3_age250",
+    "l4_active10td"
+   ],
+   "pass": false,
+   "pos_share_ok": true,
+   "seed_base": null,
+   "worst5y": -0.015270366626854104,
+   "worst5y_ok": false
+  },
+  "B-RAND": {
+   "allstart_best": 0.16937914636896023,
+   "allstart_median": 0.13005856228866786,
+   "allstart_median_cagr": 0.13005856228866786,
+   "allstart_p25": 0.10709255742497281,
+   "allstart_p75": 0.14290288985689248,
+   "allstart_pos_share": 1.0,
+   "allstart_worst": 0.0880339334218847,
+   "allstarts_ann_ret_net": {
+    "2007": 0.1363644163142015,
+    "2008": 0.10671644796584179,
+    "2009": 0.14367011944798724,
+    "2010": 0.12169462737069048,
+    "2011": 0.1271642616390427,
+    "2012": 0.14847219729174932,
+    "2013": 0.1426471466598609,
+    "2014": 0.132952862938293,
+    "2015": 0.10721792724468315,
+    "2016": 0.10238115043184193,
+    "2017": 0.0880339334218847,
+    "2018": 0.10039135280857003,
+    "2019": 0.15459561019776014,
+    "2020": 0.16937914636896023,
+    "2021": 0.13904500328816738,
+    "2022": 0.11569962279224355
+   },
+   "allstarts_worst_5y": {
+    "2007": -0.07410430874232865,
+    "2008": -0.08607778869081173,
+    "2009": -0.07849425268186272,
+    "2010": -0.08594227251989095,
+    "2011": -0.08599970207910834,
+    "2012": -0.08522211997694429,
+    "2013": -0.08634069015498247,
+    "2014": -0.0848438586425867,
+    "2015": -0.0864141571829602,
+    "2016": -0.013695641059011332,
+    "2017": -0.013713298681955144,
+    "2018": -0.013703836923863233,
+    "2019": -0.013614636334388308,
+    "2020": 0.06749798129005669,
+    "2021": 0.10241203484482764,
+    "2022": null
+   },
+   "base": "random",
+   "cohort_overlap_mean": 0.004680851063829788,
+   "full_period": {
+    "ann_ret_net": 0.1363644163142015,
+    "cost_drag_ann": 0.024104694837053204,
+    "final_equity": 12202863.0402142,
+    "maxdd": -0.672738451081978,
+    "n_buys": 2253,
+    "n_sells": 2243,
+    "n_skip_entry": 96,
+    "open_positions_at_end": 10,
+    "sharpe": 0.6095481461697243,
+    "t_from_sharpe": 2.696496056993037,
+    "turnover_ann": 9.640766343500982,
+    "worst_10y": -0.005031562360493291,
+    "worst_3y": -0.10631670919641656,
+    "worst_5y": -0.07410430874232865,
+    "years": 19.56967213114754
+   },
+   "median_ok": true,
+   "off_rules": [
+    "r1_loss",
+    "r2_st",
+    "l1_liq5000w",
+    "l2_price1y",
+    "l3_age250",
+    "l4_active10td"
+   ],
+   "pass": false,
+   "pos_share_ok": true,
+   "seed_base": 20329100,
+   "worst5y": -0.07410430874232865,
+   "worst5y_ok": false
+  }
+ },
+ "conclusion_B": {
+  "claim_anchor": {
+   "cagr": 0.148,
+   "source": "ORDER conclusion B: low-volume selection (single-start defect named by the ORDER, 须补验)",
+   "win_band": "8-10y"
+  },
+  "criteria": "allstart_pos_share>=0.50 AND allstart_median_cagr>0 AND worst5y_cagr>0 (prereg sec.3-B/sec.4, frozen pre-burn, Face A criteria family)",
+  "criteria_reads": {
+   "allstart_median": 0.11044477168768563,
+   "allstart_pos_share": 1.0,
+   "median_ok": true,
+   "pass": false,
+   "pos_share_ok": true,
+   "worst5y": -0.015270366626854104,
+   "worst5y_ok": false
+  },
+  "inrepo_face": "engine-canonical raw baseline: amt20_mean asc top-10 monthly equal-weight T+1, ALL exclusion rules OFF, universe = eligibility ∩ b_layer_mask ∩ panel files",
+  "note": "ORDER wording: majority of starts hold -> keep, else withdraw (low-volume conclusion's single-start defect was named by the ORDER as 须补验).",
+  "verdict": "withdrawn",
+  "verdict_cell": "B-FULL"
+ },
+ "engine_provenance": {
+  "anti_dup_law": "MSG-20260930-1947 sec.2 + prereg sec.3-B: burn window opens on engine landing; import reuse, zero engine rewrite",
+  "assembly_deviation": "panel rows dated < calendar face start (2005-02-23) filtered pre-mapping; both cells run all-rules-OFF so barcnt/stale faces are unconsumed and signal-date amt20 is identical under the filter (disclosed; ems.run() assembly fails-closed on pre-2005 rows instead -- engineering fact, bm-b berth to resolve)",
+  "imported_faces": [
+   "_load_calendar",
+   "_signal_schedule",
+   "_build_selection",
+   "_sim_cell",
+   "_metrics",
+   "_side_cost",
+   "_ffill_np",
+   "_feature_task",
+   "_Mkt",
+   "RULES",
+   "START_YEARS",
+   "N_HOLDINGS",
+   "INITIAL_CASH",
+   "BASE_PARAMS",
+   "EVIDENCE_CUTOFF"
+  ],
+  "imported_from": "scripts/exclusion_marginal_scan.py (bm-b r476 engine + T-134 s2 multicore conversion r484: selftest 19/19 hermetic incl pool legs)"
+ },
+ "evidence_cutoff": "2026-09-22",
+ "face_b_params": {
+  "b_rand_seed": "default_rng([base+100+m, 7919]) per-month streams (engine random procedure, seed band cross_start_robustness_p1+100)",
+  "off_rules": "ALL (raw baseline face; B-FULL == bm-b NONE-cell semantics by frozen definition)",
+  "rand_seed_base": 20329100,
+  "starts": "2007..2022 Jan first signal month (16)"
+ },
+ "order_ref": "D-20260930-41 deliverable #1 face B (RETAIL_QUANT_TRACK sec.2 #1, bm-c berth)",
+ "rand_null_pass_count": 0,
+ "schema": "cross_start_face_b_v1",
+ "science_gates": {
+  "cutoff_meta": {
+   "evidence_cutoff": "2026-09-22"
+  }
+ },
+ "signal_first_last": [
+  "2007-01-31",
+  "2026-08-31"
+ ],
+ "signal_months": 236,
+ "trials_ledger": {
+  "batch": "CROSS-START-ROBUSTNESS-P1",
+  "batch_trials": 2,
+  "evidence_cutoff": "2026-09-22",
+  "file": "results/cross_start_robustness/face_b.json",
+  "note": "D-41 deliverable #1 FACE B: low-volume selection cross-start adjudication +2 (B-FULL/B-RAND); engine = bm-b EXCLUSION-MARGINAL import (r476) per MSG-1947 sec.2 anti-dup; burn host = bm-b (astock panel locality)",
+  "prev_total": 368813,
+  "total": 368815
+ },
+ "universe": {
+  "face": "engine canonical: eligibility ∩ b_layer_mask presence ∩ panel files (mirrors bm-b run())",
+  "n_codes": 5217
+ }
+}

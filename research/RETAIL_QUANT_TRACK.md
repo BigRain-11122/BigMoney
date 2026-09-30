@@ -14,9 +14,9 @@
 
 | # | 事项 | 状态 | 载体 |
 |---|---|---|---|
-| 1 | **跨起点+滚动窗口稳健性检验**（对两条站立结论：四资产配置 5.87%/−14.4%/71%、低量选股 14.80%/8-10 年胜——后者单起点缺陷令原文点名**须补验**；判据=多数起点成立才留，否则**撤回**） | **Face A ✅ 裁定=保留（bm-c r284·CROSS-START-ROBUSTNESS-P1：等权月频面 122 起点全正·中位 +5.70%·worst5y +2.87% 三判据全过；vs 令文锚 5.69%/−12.5%/79.9% 同量级带）；Face B 🔒 分级暂缓（基线定义 §3-B 已冻结共享，烧批待 bm-b #3 引擎落地 import 复用防双引擎，届时 +2）** | `research/CROSS_START_ROBUSTNESS.md`（冻结+Face A 烧毕回填）＋`results/cross_start_robustness/` 三件 |
+| 1 | **跨起点+滚动窗口稳健性检验**（对两条站立结论：四资产配置 5.87%/−14.4%/71%、低量选股 14.80%/8-10 年胜——后者单起点缺陷令原文点名**须补验**；判据=多数起点成立才留，否则**撤回**） | **Face A ✅ 裁定=保留（bm-c r284·CROSS-START-ROBUSTNESS-P1：等权月频面 122 起点全正·中位 +5.70%·worst5y +2.87% 三判据全过；vs 令文锚 5.69%/−12.5%/79.9% 同量级带）；Face B ✅ 裁定=撤回（bm-b r497 烧毕·引擎 100% import #3 零双引擎：pos_share=1.0/全起点中位 +11.04% 双过，worst5y −1.53% 败→三判据不过→低量选股 14.80% 站立结论**撤回**；B-RAND seeded null 0 过判=判据非平凡；+2 试验·results/cross_start_robustness/face_b.json）** | `research/CROSS_START_ROBUSTNESS.md`（冻结+Face A 烧毕回填）＋`results/cross_start_robustness/` 三件 |
 | 2 | **配置政策扫描**（权重区间×再平衡规则；唯一"可赢/容量无限/不拥挤"维度；判据=滚动 5 年最差为正+一年内见 −20% 概率+起点敏感度） | **✅ 已落地 r474（bm-b）** | `research/ALLOCATION_POLICY_SCAN.md`（冻结+烧毕：**277/300** 格过判，302 试验入闸；失败格全集中 s≥0.5∩纯债袖边际负；全起点中位 2.6~12.8%、worst10y 全正、p_dd20 全网格 ≤9.7% vs 纯股基线 38.5%；产物=results/allocation_policy_scan/ 三件） |
-| 3 | **排除规则边际值扫描**（"排除"是机构因仓位要求做不到的动作；第一铁律已实测 alpha 5.63%→14.80%） | **🔒 冻结待烧（bm-b r475·F-04 MSG 20260930-1935）** | `research/EXCLUSION_MARGINAL.md`＋预注册 `research/EXCLUSION_MARGINAL_PREREG.md`（16 格 LOO+AOI 双面+RAND null；烧批 +16 试验） |
+| 3 | **排除规则边际值扫描**（"排除"是机构因仓位要求做不到的动作；第一铁律已实测 alpha 5.63%→14.80%） | **✅ 已落地 r497（bm-b daemon 烧毕 16 格：FULL +15.09%/ann vs NONE +8.69%/ann=排除规则集 +6.4pp；RAND 双 null +3.30%/+4.64%=规则集非随机假象；AOI 全六规则独正（l1 流动性 +5.71pp/l4 活跃 +3.99pp 最大）；LOO 仅 r1_loss 边际正·其余五规则在场时边际冗余；maxdd 代价面 −70.7% vs −26.8% 如实披露；+16 试验·results/exclusion_marginal_scan/scan.json）** | `research/EXCLUSION_MARGINAL.md`＋预注册 `research/EXCLUSION_MARGINAL_PREREG.md`（16 格 LOO+AOI 双面+RAND null；烧批 +16 试验） |
 | 4 | **成本-换手-税一体化核算** | **✅ 已落地 r483** | `research/ACCOUNT_COST_TRADE_TAX.md` + `scripts/account_cost_tax.py`（selftest 15/15）+ `results/account_cost_tax.json` |
 | 5 | **行为护栏制度化**（−7.43%/年行为损耗=最大单项漏损；定投/阈值再平衡/年度评估/放弃条件存档） | **✅ 已落地 r291（bm-c）** | `research/BEHAVIOR_GUARDRAILS.md`（条文冻结：四护栏+放弃判据 C1-C3·锚读数 import 派生禁手抄）＋`scripts/behavior_guardrails.py`（probe/selftest/run·selftest 31/31·锚漂移 fail-closed）＋`results/behavior_guardrails/`（guardrails.json+CEO 一页卡·**+0 试验**） |
 
@@ -37,7 +37,7 @@
 
 - **锚点（baseline）**：2026-09-30 12:28 账本 N=**362,083**（W13-JUDGE 落地时点·此后新增才计数）
 - **上限**：令生效后 30 天（至 2026-10-30 首验）新增 ≤**500**；单批 >100 须归因说明
-- **当前消耗**：r483 交付件#4 = **0**（L1 纯派生）＋ r474 交付件#2 = **302**（ALLOC-POLICY-SCAN-P1 全量公布网格·账本 362,083→362,385 实读）＋ r284 交付件#1 Face A = **4**（CROSS-START-ROBUSTNESS-P1 裁定批·账本 362,385→362,389 实读）＋ r291 交付件#5 = **0**（制度化条文·ORDER 定谳「测不了只能写死」·L1 派生零烧批）→ **累计 306/500**
+- **当前消耗**：r483 交付件#4 = **0**（L1 纯派生）＋ r474 交付件#2 = **302**（ALLOC-POLICY-SCAN-P1 全量公布网格·账本 362,083→362,385 实读）＋ r284 交付件#1 Face A = **4**（CROSS-START-ROBUSTNESS-P1 裁定批·账本 362,385→362,389 实读）＋ r291 交付件#5 = **0**（制度化条文·ORDER 定谳「测不了只能写死」·L1 派生零烧批）＋ r497 交付件#1 Face B = **2**（bm-b daemon 烧毕·裁定撤回·账本 368,813→368,815 实读）＋ r497 交付件#3 排除扫描 = **16**（bm-b daemon 烧毕·纯测量零注册·账本 368,797→368,813 实读）→ **累计 324/500**
 - **违反处置**：>500 或单批 >100 无归因 = CPH4 点名面；本司内=新预注册受理时闸拒
 
 ## 五、DATA_GAP 台账（令 §3 六项材料·缺项显式标记律）

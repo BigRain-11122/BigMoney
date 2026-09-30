@@ -69,12 +69,17 @@
 
 `scripts/exclusion_marginal_scan.py`（run 腿引擎下片）＋ `results/exclusion_marginal_scan/scan.json`（顶层 evidence_cutoff+16 格全指标+per-rule 边际表）＋ `scan_cells.csv` ＋ 本件 §7 回填＋载体件 research/EXCLUSION_MARGINAL.md 边际值表。
 
-## §7 跑后实证（占位·写数字即造假）
+## §7 跑后实证（烧后一次定稿回填）
 
-（空——烧后一次定稿回填）
+- **烧面**：16 格烧毕（bm-b 池车道 2026-10-01 07:06→07:09，193.6s，8 workers/分片 T-134 多核；账本 368,797→368,813 **+16**；evidence_cutoff=2026-09-22；宇宙 5,217 股·信号窗 2007-01-31..2026-08-31 共 236 个月；冻结面探针 pin 全 PASS）。
+- **基面对照**：FULL **+15.09%/年**（Sharpe 0.70·maxdd **−70.7%**）vs NONE **+8.69%/年**（Sharpe 1.04·maxdd **−26.8%**）=排除规则集 **+6.4pp/年**（与令引 5.63→14.80 同向；代价面=回撤更深·Sharpe 反转，如实公布）；RAND 双 null +3.30%/+4.64%（远低于 FULL/NONE=规则集非随机假象）。
+- **逐规则边际判决（M1 双面）**：LOO 仅 **r1_loss 边际正**（full +1.47pp·median +4.66pp·pos_share 93.8% ✓）；其余五规则 LOO 判决均负（l1_liq5000w full +1.71pp 但 median −0.42pp/pos 37.5% ✗）；AOI 全六规则独正（l1_liq5000w **+5.71pp**/l4_active10td **+3.99pp**/r1_loss +2.25pp 最大·r2_st +0.11pp 最弱）。
+- **机制读法（非裁断面）**：AOI 全正＋LOO 多负=六规则**高重叠互替**（每条单独有值；其余五条在场时边际多被吸收）——排除集价值来自簇，单规则移除近零成本（r1_loss 除外）。
+- 全 16 格全指标见 scan.json；载体 research/EXCLUSION_MARGINAL.md 边际值表同步更新。
 
 ## §8 批后复盘
 
-- 预测对账逐条（对/部分/错）＋gate_attrition 追加一行＋试验量归因：**本批 +16**（318/500 累计·单批 <100 无归因义务仍一句：16 格=6 规则×2 测量面+2 基线+2 随机 null=最小完备边际读数集）。
-- 回执入轮报告＋CODELY 行级；无新注册面→无 SIGNAL_BUILDERS 接线义务。
-- 下片精确续作点：runner run 腿引擎（月频重算+停牌出场+V2 成本+RAND seeds 登记）→selftest 扩腿→runnable_pool 入池→烧批→§7 回填。
+- 预测对账：#1 **部分**（r1_loss=唯一 LOO 判决正规则 ✓；但按 full 期点值「正值最大」=l1_liq5000w +1.71pp＞r1_loss +1.47pp——l1 中位面负判决作废）；#2 **对**（l1 中位 −0.42pp≈近零负·「可交易性溢价」反直觉证据未现）；#3 **错**（l4_active10td LOO 判决负·full +0.03pp 近零——2015-2018 停牌潮贡献未在边际面验证）；#4 **错**（r2_st LOO 判决负；「量级小于 r1」子句 ✓ +0.13pp<+1.47pp）；#5 **错**（FULL maxdd −70.7% vs NONE −26.8%=「削尾」方向反——规则集追 +6.4pp alpha 代价面回撤更深，2015/2024-01 小微盘踩踏面 FULL 更重，如实披露）。
+- 试验量归因：本批 **+16**；§四闸 306→**324**（含同窗 Face B +2）；单批 <100 无归因义务仍一句：6 规则×2 测量面+2 基线+2 随机 null=最小完备边际读数集。
+- 零注册面：无新注册员/无 SIGNAL_BUILDERS 接线（测量扫描）；gate_attrition.bm-b +1 measurement 行（append-only）；RETAIL_QUANT_TRACK §二 #3 行已同步翻面。
+- 回执：bm-b r497 轮报告+CODELY 行级追加。
