@@ -70,11 +70,22 @@
 
 ## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假。】
 
-（空——收编机冻结后跑批回填。）
+**【2026-09-30 bm-b r459 回填·GENERATE/SCREEN 实跑=bm-a r467（autofill 谱系）·JUDGE 收口+本回填=bm-b r459】**
+
+- GENERATE 面：raw 5000 → distinct 393（去重存活率 **7.86%**——W11 25.2%→W12 17.2%→W13 7.86% 连续三波单调塌缩；§5.1① 带内预测 [45%,60%] 与 W11/W12 实读早已背离=**带陈旧如实注记**，十六元组空间抽样冗余度加剧的直接实证）；排除四源命中 A:0/B:0（grammar 42 行+w1 149+w2 404 等全源零命中如实）。
+- SCREEN 面：593 cells（393 distinct 的屏级展开面）→ survivors **99/593=16.7%**；null 族 200 抽样仅 5 唯一值（粗糙族·p50=p95=0.5116 同值）；判线 beat6m_rate>0.5116 严格（prereg §3 冻结）；**null p95 0.5116 带内 [0.50,0.52] ✓ 第八波延续·p50>0.50 七波延续**。
+- §5.1② 对账：**sumn 值格反富集 toxic 定谳**——sumn10_lo 存活率 0.0833（4/48）、sumn20_lo 0.1224（6/49）vs none 基线 0.3007（89/296）=0.28×/0.41×，深低于预测富集 ≥1.3x（**MISS**；A158-TSGATE OOS 强先验屏级二连不兑现=W12 rsqr20 0.32× 后第二例）；预测负读数面 (b)「sumn∧calm 拖累」反向兑现=值格全面 toxic，细分 interaction 面载 w13_screen.json。
+- §5.3 对账（JUDGE）：99/99 judged·**G1'v2 0/99（带内 [0,8] ✓·W10/W11/W12 后第四连零 G1）**·G2 eligible 0·E[FP]=4.95；top cell W13-B-2571 legL sharpe_full=1.0071 vs skill_line_v2=1.1959（n_eff 活读 362,577）line_ok False；family PBO=patterns 0.7714/ta 0.7429/mean_reversion 0.7857/folk 0.7714/trend 0.8143/sentiment 0.1286（低 PBO 族仅 sentiment·无承重）；十六门面 mom/std/rsqr/sumn/interaction 判决读数全 0 g1_pass（w13_judge.json face 节）。
+- §5.1③ 极端日先验：sumn 值格屏级全 toxic（10 存活者判决面全灭 G1）——2/7 开窗态与暴跌段闭合态先验读数随格殉死、无独立承重面如实。
+- intake（s4）：eligible 0 → **lawful zero**（TRIAL-SUMN-* 账户零孵化·d6_binding 空转）·w13_intake.json 12:28 落地。
+- 波级收口面：账本 TRIAL_LAB_W13_SCREEN +593（total 359,980·bm-a r467）+TRIAL_LAB_W13_JUDGE +99（total 362,083·bm-b r459）线性；attrition JUDGE 行 bm-b r459 已补（SCREEN 行=bm-a 车道欠账、本条披露待补）；pool TRIAL-LABOR-W13-JUDGE ready→done flip r459；JUDGE burn=autofill 谱系 commit 039d1e837（99-cell checkpoint 11:50 完整·三轮会话猝死后 r459 续跑 finalize）。
 
 ## §8 批后复盘。【必填 §7-T。】
 
-（空——判决面落地后回填。）
+- 预测对账汇总：§5.1① **部分错**（带 [45%,60%] 陈旧于 W11/W12 实读；7.86%=三波塌缩趋势延续，「三值轴扩容剔除近重复」假设被三波实读否证）；§5.1② **错**（sumn 反富集 0.28×/0.41× toxic·≥1.3x 富集 MISS）；§5.2 **对**（0.5116 带内）；§5.3 **对**（G1 0 带内·诚实区间兑现）。
+- 族级教训（轴扩容先验移植族）：**「强单先验→屏级富集」假设两连 toxic 定谳**（W12 rsqr20 0.32×、W13 sumn 0.28×/0.41×；该族唯一命中=W10 MOM 1.88×，历史命中率 1/3）；下波同型提案硬门=①先验→屏级富集历史命中率披露（1/3）②族内去重塌缩预算（raw 5000 的 distinct 供给率已 7.86%·采样效率入提案门）。
+- 损耗账：attrition JUDGE 行已补+SCREEN 行 bm-a 欠账披露；无注册=零 SIGNAL_BUILDERS 接线零 CEO 注册面；CEO-REPORT-WAVE13 48h 面=consumer_plan 原文义务（48h 窗内任一健康机·下轮起算）。
+- 无存活变体面向 W14 供给：sumn 轴判负面=磨面 (b) 语义（「低 sumn=卖压耗尽」在屏级为反富集毒格）；W14 起草泊位=开放条款（§9 footer 律）。
 
 ## §9 追加冻结节。【append-only·每 sub-wave 一冻——禁跑前另立冻结。】
 

@@ -81,12 +81,16 @@
 - results：`results/etf_ops/bp2_grid.json`（顶层 `evidence_cutoff="2026-09-29"`＋`science_gates.cutoff_meta` 必带＋cells/gates/pbo/d6/regime_face/blocked_accounting/descriptive/virtual_timepoints/beat_dca 面）＋`results/etf_ops/bp2_nulls.json`＋`results/etf_ops/bp2_rounds_<member>.csv` 逐员回合流＋`results/etf_ops/bp2_windows.json`（逐员-cell paired_diff 池化 median/CI/n_windows/skip 计数）＋分片件 `bp2_shard_<code>.json`。
 - 本件 §7 回填。
 
-## §7 跑后实证【占位·跑后回填·禁预写】
+## §7 跑后实证【2026-09-30 R459 bm-b 回填·judged face=x2·产物=results/etf_ops/bp2_grid.json+bp2_nulls.json+bp2_rounds_<code>.csv+bp2_windows.json·ledger 361,984→361,999（r459 修复=science_gates.ledger 嵌套面入链·BP1 +30 沉没披露见轮报告）】
 
-- 逐员-cell 主判读数（median paired_diff/CI95/窗数/单位过滤计数）：待跑。
-- 胜率/null p95/G1'/G2/DSR/PBO/d6 逐面：待跑。
-- beat-passive/beat-pure-DCA/政体分层/blocked 记账/skip 面：待跑。
-- 预测对账（§5 逐条 对/部分/错）：待跑。
+- 逐员-cell 主判读数（median paired_diff/CI95/窗数）：**0/15 过线**——510050 三 cell −1.55%/−1.66%/−1.81%（CI 全负）、510300 −3.03%/−3.25%/−3.07%（全负）、510500 −3.76%/−3.60%/−3.66%（全负）、512100 −7.89%/−8.69%/−8.99%（全负）、588000 +0.64%/+0.19%/−0.05%（CI 全含零=统计零）；合格窗池化 n_windows 3,399–14,612/cell（三窗长×全起点）。**出场纪律栈在无技巧月历入场上无独立增量=全批判负主张成立**：纪律面 vs 同入场 DCA-hold 对照逐窗系统性为负（TP 卖飞+趋势止损 V 反转追高回补+whipsaw 成本 > 落袋与砍亏收益）。
+- 胜率/null p95：回合胜率(x2) 26.9%–40.9%（588000 最低 26.9–30.4%、510050 最高 39.4–40.9%）vs 均匀日 null p95 0.386–0.475——**过线 0/15（入场零技巧主张的 null 面自洽✓）**；回合期望 e_pnl(x2) −1.60%~+3.07% vs null e_p95(x2) 0.33%~4.38%——**过线 0/15**。
+- G1'/G2/DSR/PBO/d6：G1'v2 **0/15 过**（skill_line_v2·n_eff=361,999 共享库实算）；DSR 510500 三 cell 0.70/0.97/0.98（正但 G1' 败）、其余≈0；家族 PBO 0.1429（≤0.25 带内·无承重）；D6 vs 在册 6 sleeve max|corr| 0.034–0.116 **0/15 拒收**；**综合注册 0/15**（主判不过即无注册·判据冻结照走）。
+- beat-passive **0/15**（BP1 0/30 先例复现）；**beat-pure-DCA 0/15**（全月历不跳过持有对照亦全败——纪律面无任何对照系增量）；虚拟时点 6m×2 beat_rate 0.31–0.41（12m/24m 面载 grid virtual_timepoints 节）。
+- 政体/分段分层（510050-TP5-10 样面·全 15 cell 载 bp2_grid.json regime_face 节）：CHOP −2.16%（n=4,276）/GREEN −0.91%（n=7,458）/ORANGE **+5.02%**（n=200·稀有态唯一正向·披露面）/RED −2.56%（n=2,582）/na −12.85%（n=96）；t89 分段 bear −2.04%/bull −0.35%——**§5.3 方向预测双向全错（chop/熊转不为正、牛窗负得最浅），全天候与全态均不成立**。
+- blocked 记账/skip 面：blocked_entry **0**、blocked_exit_rolls **0**（全批·§5.6 先验路径零命中=月历信号日与 T+1 开盘从未撞一字板）；隔离日=510500 两日（2022-08-29 −12.7% 实勘在案·入 mask 面）+512100 危机日 2 日；月度信号跳过率全批 34%（801/2,358·510050 28–35%、588000 22–26%、512100 40–43%）；回合均长≈1.5–3 月；open_at_end 0。
+- 预测对账（§5 逐条）：§5.1 主判小正 2–7/15=**错**（0/15·全负）；§5.2 胜率 55–75%=**错**（26.9–40.9%·x2 成本面+TP 分腿构造压胜率深于预估），null 过线 0=对；§5.3 政体两极=**错**（bear/chop 全负·ORANGE 稀有态正为唯一意外）；§5.4 beat-passive 0/15=**对**；§5.5 beat-pure-DCA 2–6/15 正=**错**（0/15·点名 510050/588000 亦败）；§5.6 先验路径零命中=部分对（blocked 全零·隔离日在册）；§5.7 skip 30–60%+回合 1–4 月=**对**（34% 低带+1.5–3 月）。
+- **批判定：judged negative 族·两代定谳**——BP1 假说「出场纪律是该链唯一可能有价值的部件面」在本移植试验上被证伪：出场栈（TP1/TP2+硬止损+趋势止损）对无技巧月历入场**无独立增量且系统性减值**（12/15 cell CI 全负、588000 统计零、无一对照系存活）；族教训升级=「月历定投+叠加纪律」全族（入场技巧 BP1+出场纪律 BP2 两代）判负封档，后续候选必须改变**入场/敞口结构本身**（如政体门控敞口），禁再以纪律件叠加零技巧入场；无注册无锦标赛臂无军团席位，现金腿升级提案出口=chain 闲置现金不计收益的保守面维持（T-88 停泊面升级提案不在本批主张内）。
 
 ## §8 批后复盘【s7-T】
 

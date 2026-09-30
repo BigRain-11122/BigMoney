@@ -50,6 +50,15 @@ def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
             # skip, same as unparseable. .get on a list raised AttributeError
             # and crashed every ledger_head consumer (aggressive_lab S6 leg).
             tl = d.get("trials_ledger") if isinstance(d, dict) else None
+            # r459: nested face -- etf_ops family products carry the ledger
+            # block under science_gates.ledger (BP1/BP2 precedent); a
+            # top-level-only read sinks those +N into an invisible branch and
+            # every later batch under-counts N_eff (r253 redo-echo family,
+            # live instance: BP1 +30 sunk 09-28, BP2 +15 caught 09-30).
+            if tl is None and isinstance(d, dict):
+                _sg = d.get("science_gates")
+                if isinstance(_sg, dict) and isinstance(_sg.get("ledger"), dict):
+                    tl = _sg["ledger"]
         except (OSError, ValueError, UnicodeDecodeError):
             continue
         if isinstance(tl, dict) and isinstance(tl.get("total"), (int, float)):
@@ -597,6 +606,13 @@ def finalize_already_landed(batch_name: str, file_name: str | None = None,
         except (OSError, ValueError, UnicodeDecodeError):
             continue
         tl = d.get("trials_ledger") if isinstance(d, dict) else None
+        # r459: nested face (same fix as ledger_head -- etf_ops family
+        # products nest the block under science_gates.ledger; the guard must
+        # see landed blocks it would otherwise miss -> double-append risk).
+        if tl is None and isinstance(d, dict):
+            _sg = d.get("science_gates")
+            if isinstance(_sg, dict) and isinstance(_sg.get("ledger"), dict):
+                tl = _sg["ledger"]
         if isinstance(tl, dict) and tl.get("batch") == batch_name:
             out = dict(tl)
             out["file"] = os.path.basename(cand)

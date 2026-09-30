@@ -13548,6 +13548,33 @@
     "results": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\aggressive_lab.json",
     "prereg": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\AGGRESSIVE_LAB.md"
    }
+  },
+  {
+   "batch": "ETF_OPS_BP2",
+   "ts": "2026-09-30 12:35:00",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 15,
+   "ledger_total_after": 361999,
+   "gates": {
+    "primary_paired_window_x2": "0/15",
+    "g1_prime_v2": "0/15",
+    "g2_eligible_v2": "0/15",
+    "combined_registrations": 0,
+    "beat_passive_full_x2": "0/15",
+    "beat_pure_dca_x2": "0/15",
+    "family_pbo": 0.1429,
+    "d6_rejects": "0/15"
+   },
+   "eliminated": 15,
+   "refs": {
+    "results": "results/etf_ops/bp2_grid.json",
+    "nulls": "results/etf_ops/bp2_nulls.json",
+    "windows": "results/etf_ops/bp2_windows.json",
+    "prereg": "research/etf_ops/ETF_OPS_BP2_PREREG.md",
+    "runner": "scripts/etf_ops_bp2.py",
+    "verdict": "judged negative family (two-generation closure: BP1 entry-technique + BP2 exit-discipline transplant both negative; ledger block visibility fix r459 -- science_gates.ledger nested face now chained)"
+   }
   }
  ],
  "history": [

@@ -175,6 +175,25 @@
    "shard": "main",
    "machine": "bm-a",
    "last_refusal_ts": "2026-09-30 07:00:06"
+  },
+  "scripts/innovation_quota_w8.py|run": {
+   "count": 2,
+   "refusals": 5,
+   "code_sha256": "efdbaa5121ce30d4",
+   "last_crash_ts": "2026-09-30 09:34:03",
+   "entry": "INNOVATION-QUOTA-SLOT-8",
+   "shard": "main",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-09-30 09:40:06"
+  },
+  "scripts/trial_labor_w13.py|judge,--shard,0,--shards,1": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "0a1091d3e00c68e3",
+   "last_crash_ts": "2026-09-30 12:30:04",
+   "entry": "TRIAL-LABOR-W13-JUDGE",
+   "shard": "judge-0of1",
+   "machine": "bm-b"
   }
  },
  "cleared": {
@@ -242,8 +261,8 @@
    "old_code_sha256": "f70e23d009984930"
   },
   "scripts/innovation_quota_w8.py|run": {
-   "cleared_ts": "2026-09-30 09:20:04",
-   "cleared_by": "bm-b",
+   "cleared_ts": "2026-09-30 09:20:06",
+   "cleared_by": "bm-a",
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "9c46c580e0897ffb"
