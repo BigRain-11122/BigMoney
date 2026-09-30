@@ -1,18 +1,18 @@
 {
  "machine_id": "bm-c",
- "round_no": 274,
- "last_round_at": 273,
+ "round_no": 275,
+ "last_round_at": 274,
  "last_round_ts": "2026-09-30T14:04:08+08:00",
- "updated": "2026-09-30T14:25:57+08:00",
- "cpu_pct": 9.0,
- "idle_ram_gb": 8.9,
- "gpu_free_vram_mib": 9724,
- "verify": "S1 smoke 31/31; S6 33 legs rc0 (dualrun ZERO-DRIFT 139 streak 51/3; audit flags pool_starvation/supply_floor=RW-5 freeze-window legal idle honest; watermark py_low_board_clear; daily 0-new cutoff 09-29 pre-15:30 legal no-op; scorecard+daily_scorecard stale-takeover derive by bm-c per O-2100 s2.4 STALE_MIN law [bm-a heartbeat stale >30min observed]; lhb 30min-throttle no-op; 0 new bar paper-family legal skip/idempotent; attrition CLEAN 4 ledgers; orders 127/127 zero unacked; decisions zero new rows; pin :X5 no-op + watchdog Ready + claw MATCH); RW-5 compliance zero new prereg/slot/supply/burn",
- "did": "r273: freeze-window wait-state maintenance round (RW-5 in effect, board 0 open + pool 0 + supply lines frozen per D-20260930-05): (a) S0.5 orders 127/127 zero unacked + decisions tail D-20260930-04 zero new rows + inbox zero unread; (b) S6 chain 33 legs all rc0 with stale-takeover derive of strategy_scorecard + daily_scorecard CEO faces (bm-a heartbeat stale >30min, O-2100 s2.4 law fired in-guard); (c) S7 schtasks loop Running + watchdog Ready + pin :X5 no-op + claw MATCH + attrition CLEAN; (d) T-107/T-108 remaining slices confirmed supply-side = RW-5 frozen (legal defer, not re-scanned)",
+ "updated": "2026-09-30T14:42:24+08:00",
+ "cpu_pct": 33.0,
+ "idle_ram_gb": 8.4,
+ "gpu_free_vram_mib": 9505,
+ "verify": "S1 smoke 33/33; S6 33 legs rc0 except lhb rc3 source-revision OVERLAP MISMATCH (old42/new67 netbuy sign-flip, local zero-write, bm-a lane obs #11, reported unmasked); dualrun ZERO-DRIFT 139 streak 51/3; audit flags pool_starvation/supply_floor=RW-5 freeze honest; watermark py_low_board_clear; daily 0-new cutoff 09-29 pre-15:30 legal no-op; stale-takeover derives (scorecard/dailysc/paper-family/t35export/buildstat) all guard-internal legal per O-2100 s2.4 C_HOST_STALE_MIN=20min (bm-a hb 26-27min); attrition CLEAN 4 ledgers; orders 127/127 double-scan zero unacked; pin :X5 no-op + watchdog Ready + claw MATCH; RW-5 compliance zero new prereg/slot/supply/burn",
+ "did": "r274: RW-5 freeze-window wait-state maintenance round (board 0 open + pool 0 + supply lines frozen D-20260930-05, no re-scan of frozen waiting objects): (a) S6 chain full run, CEO faces regenerated incl. stale-takeover derives during bm-a round gap; (b) lhb rc3 obs #11 reported; (c) STALE_MIN law constant verified 20min (r273 '>30min' wording corrected, MSG-1042 canon face); (d) 15:30 post-close round will catch 09-30 bar (holiday-eve last session)",
  "current_task": [
-  "r273 closed: RW-5 freeze-window maintenance round; r274 = 10-01 month-first trio (science_audit+monthly_briefing+self_review) + REGIME_GUARD v3 date-gate auto-activation + RW unfreeze watch (bm-a T-127 verify 10-03)"
+  "r274 closed: freeze-window maintenance; r275 = 10-01 month-first trio (science_audit+monthly_briefing+self_review) + REGIME_GUARD v3 date-gate auto-activation + RW unfreeze watch (RW-4 slice-2 in flight bm-a)"
  ],
- "next": "(a) 10-01 month-first trio + REGIME_GUARD v3 auto-activation hands-off. (b) RW-1~4 unfreeze watch (RW-1/2 landed origin per MSG-1352, RW-3 Q6 recon out, bm-a T-127 verify 10-03) -> reeval burn = sole remaining canon TODO. (c) 48h CEO clocks 10-02: SLOT-7/8/9/10 + W12 judge 10-02 05:22 + W13 CEO-REPORT 10-02 12:28 (bm-b r460 in-flight, watch only). (d) D-20260930-04 T-99/T-100 presentation F-20260930-01 pending next decision round. (e) lhb rc3 adjudication = bm-a lane (10th obs in book). (f) bm-a heartbeat staleness observed >30min this round -> their loop lane, escalation only if MSG/inbox face confirms stall.",
+ "next": "(a) 10-01 month-first trio + REGIME_GUARD v3 auto-activation hands-off. (b) RW-1~4 unfreeze watch (RW-1/2/3 landed origin, RW-4 slice-2 bm-a in flight, T-127 verify 10-03) -> reeval burn = sole remaining canon TODO. (c) 15:30 post-close round = 09-30 bar landing (bm-b etf_daily lane + own fund_prem snapshot window). (d) 48h CEO clocks 10-02: SLOT-7/8/9/10 + W12 judge 05:22 + W13 CEO-REPORT 12:28 (watch only). (e) lhb rc3 adjudication = bm-a lane (obs #11 in book). (f) product score honest = 1 (face-refresh maintenance only, no new product in freeze window).",
  "heartbeat_epoch_utc": 1790749557,
  "clock_read": "2026-09-30T14:25:57+08:00",
  "note": "r271 product score=2 (runnable frozen-weights mechanism: constants+audit fn+selftest 57/57 in tree = runnable/viewable artifact). Step-2 立法=git 可验；生效面=W14 判决面起（未到·三态不混报）；验收=下轮复审。 supply_floor ready=0<3 standing honest: RW-5 freeze (board 0 open + pool 0 + supply lines frozen per D-20260930-05) = legal idle, no fabricated burn per O-1820."
