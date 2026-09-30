@@ -1,0 +1,128 @@
+{
+  "account_constraints": {
+    "etf_round_trip_bp": 26.082,
+    "etf_side_bp": 13.041,
+    "min_commission_critical_ticket_yuan": 20000.0,
+    "tax_face": {
+      "capital_gains_individual": "A-share trading capital gains for individual investors: income-tax exempt (institutional-fact citation, ORDER sec.1.1 discipline; not self-run)",
+      "caveat": "tax policy is a cited institutional fact, not backtested; policy change risk disclosed",
+      "etf": "no stamp tax (CN-C1); distributions rare for the five-member universe",
+      "stock_dividend_tax": "differentiated by holding period: >1y exempt / 1m-1y 10% / <1m 20% (institutional-fact citation)"
+    },
+    "turnover_drag_table_ref": "results/account_cost_tax.json turnover_drag",
+    "universe": "五员宽基冻结律 (510300/510050/510500/512100/588000) + GC001 cash leg; stock face N/A"
+  },
+  "anchor_assertions": [
+    {
+      "check": "face-A verdict allstart_pos_share == 1.0",
+      "pass": true
+    },
+    {
+      "check": "face-A worst5y > 0",
+      "pass": true
+    },
+    {
+      "check": "face-A p_dd20_1y == 0",
+      "pass": true
+    },
+    {
+      "check": "alloc pass 277/300",
+      "pass": true
+    },
+    {
+      "check": "threshold5 co-rate == monthly co-rate (69/75)",
+      "pass": true
+    },
+    {
+      "check": "passing-cell worst10y all positive",
+      "pass": true
+    },
+    {
+      "check": "passing-cell p_dd20 <= 9.73%",
+      "pass": true
+    },
+    {
+      "check": "ETF Face A round-trip 26.082bp",
+      "pass": true
+    },
+    {
+      "check": "min-commission critical ticket ¥20,000",
+      "pass": true
+    },
+    {
+      "check": "R1 citation present in frozen canon",
+      "pass": true
+    }
+  ],
+  "anchor_evidence_cutoffs": {
+    "account_cost_tax": "2026-09-29",
+    "allocation_policy_scan": "2026-09-22",
+    "cross_start_robustness": "2026-09-22",
+    "face_a_allstart_worst": 0.04428781414314886
+  },
+  "berth_msg": "fleet/inbox/processed/MSG-20260930-2235-bmc-ALL-d41-5-behavior-guardrails-berth.md",
+  "canon": "research/BEHAVIOR_GUARDRAILS.md",
+  "data_gap": "本件不涉轨道正典 §五缺项 1-6 面（零个股面/零新数据面）；C1 窗前历史未测如实披露（canon §4）",
+  "guardrails": {
+    "g1_dca": {
+      "leg_policy": "减腿不减额：金额不足先集中 ≤3 腿各 ≥临界票，禁拆单到临界票以下",
+      "market_trigger": "forbidden (confirmation-type entry timing is on the falsified list)",
+      "mechanism": "把入场决策从情绪面移到日历面（-7.43%/年行为损耗主形态=择时入场）",
+      "min_leg_ticket_yuan": 20000.0,
+      "rule": "固定日历日（每月首个交易日收盘）固定金额按目标权重买入"
+    },
+    "g2_threshold_rebalance": {
+      "anchor_monthly_cost_drag_bp": 3.09,
+      "anchor_monthly_pass_rate": "69/75",
+      "anchor_threshold5_pass_rate": "69/75",
+      "band_pp": 5.0,
+      "check": "month-end",
+      "discretion": "none（跌不敢买回/涨不肯卖回=行为损耗形态，带宽内禁裁量）",
+      "rule": "目标权重 ±5pp 绝对偏离带（threshold5），月末检查，带内零动作，带外机械修正回目标权"
+    },
+    "g3_annual_review": {
+      "anchor_month_win_rate": 0.5569620253164557,
+      "anchor_year_win_rate": 0.7988466757123474,
+      "frequency": "annual",
+      "review_object": "预注册判据（护栏四放弃条件+目标权重带），非盈亏感觉",
+      "rule": "每年一次固定日历日按预注册判据评估；评估日之间禁绩效检视"
+    },
+    "g4_abandonment_criteria": {
+      "c1_paradigm_fail": {
+        "consecutive_windows": 2,
+        "derivation": "Face A 122 起点全正且 worst5y=+2.87%（13 年窗从未出现 5 年负）",
+        "threshold_cagr": 0.0,
+        "trigger": "滚动 5 年年化收益 < 0 连续 2 个评估窗",
+        "window_years": 5
+      },
+      "c2_consecutive_fail": {
+        "consecutive_windows": 3,
+        "derivation": "配置扫描 277 过判格 allstart_median 下界（机械派生）",
+        "threshold_cagr": 0.0261,
+        "trigger": "年度评估连续 3 次滚动 5y 为正但逐年恶化且末次低于过判格全起点中位下界"
+      },
+      "c3_maxdd_review": {
+        "derivation": "2.0× Face A 冻结 maxDD 取整（-12.48%→-25%）；p_dd20_1y=0 缓冲",
+        "threshold_maxdd": -0.25,
+        "trigger": "组合 maxDD 击穿 -25%（非计划复审：降仓 50% 至纯债/现金面，等下一评估窗定去留）"
+      },
+      "counter_lock": "无放弃条件的永久死扛=行为损耗镜像形态，同禁",
+      "rule": "放弃条件事前冻结存档；触发=机械降仓至纯债/现金面（按 G2 带宽规则执行非一次性清仓）；未触发=继续持有，两方向零裁量"
+    }
+  },
+  "institutional_citation": {
+    "behavior_drag_annual": -0.0743,
+    "behavior_drag_loser_share": 0.853,
+    "caliber": "cited (ORDER sec.1.1 ledger #7); self-run inadmissible per no-duplication law",
+    "source": "机构台账⑦ 盈米基金 2025 (8,152 funds), ORDER sec.1.1 citation"
+  },
+  "order_ref": "D-20260930-41 deliverable #5",
+  "schema": "behavior_guardrails_v1",
+  "search_accounting": {
+    "dsr": "N/A (L1 codification, zero backtest cells, zero selection claim)",
+    "full_start_distribution": "N/A per track canon sec.6-B (no new strategy claim; consumed faces #1/#2 carry their own all-start distributions)",
+    "new_trials": 0,
+    "pbo": "N/A (L1 codification, zero backtest cells, zero selection claim)",
+    "trial_budget_state": "306/500 unchanged (+0)"
+  }
+}
