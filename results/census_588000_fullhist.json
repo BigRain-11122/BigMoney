@@ -1,0 +1,238 @@
+{
+ "schema": "census_588000_fullhist_v1",
+ "order_ref": "O-20260930-1858 sec.2-e / O-20260930-2054 sec.1 (588000 full-history stress batch, leg-1 census)",
+ "batch_class": "descriptive census (zero N_eff, non-judgment)",
+ "member": "588000",
+ "evidence_cutoff": "2026-09-30",
+ "generated": "2026-09-30T22:13:21+08:00",
+ "faces": {
+  "coverage": {
+   "n_bars": 1427,
+   "first_date": "2020-11-16",
+   "last_date": "2026-09-30",
+   "per_year_bars": {
+    "2020": 34,
+    "2021": 243,
+    "2022": 242,
+    "2023": 242,
+    "2024": 242,
+    "2025": 243,
+    "2026": 181
+   }
+  },
+  "integrity": {
+   "strict_date_increasing": true,
+   "duplicate_dates": 0,
+   "nan_ohlc": 0,
+   "ohlc_range_violations": 0,
+   "negative_volume": 0,
+   "max_calendar_gap_days": 11,
+   "integrity_clean": true
+  },
+  "distribution": {
+   "n_returns": 1426,
+   "ann_mean": 0.017336,
+   "ann_vol": 0.318578,
+   "skew": 1.249005,
+   "kurtosis": 11.971403,
+   "best_day": {
+    "date": "2024-09-30",
+    "ret": 0.182322
+   },
+   "worst_day": {
+    "date": "2025-04-03",
+    "ret": -0.096247
+   },
+   "median_abs_daily_ret": 0.009911,
+   "sharpe_zero_rate_naive": 0.0544
+  },
+  "drawdown": {
+   "max_drawdown": {
+    "peak_date": "2021-07-08",
+    "trough_date": "2024-09-23",
+    "recovery_date": "2026-05-06",
+    "depth": 0.596407,
+    "days_underwater": 1166
+   },
+   "top_episodes": [
+    {
+     "peak_date": "2021-07-08",
+     "trough_date": "2024-09-23",
+     "recovery_date": "2026-05-06",
+     "depth": 0.596407,
+     "days_underwater": 1166
+    },
+    {
+     "peak_date": "2026-06-30",
+     "trough_date": "2026-09-14",
+     "recovery_date": null,
+     "depth": 0.31186,
+     "days_underwater": 65
+    },
+    {
+     "peak_date": "2021-01-25",
+     "trough_date": "2021-03-16",
+     "recovery_date": "2021-06-18",
+     "depth": 0.184176,
+     "days_underwater": 94
+    },
+    {
+     "peak_date": "2026-05-25",
+     "trough_date": "2026-06-08",
+     "recovery_date": "2026-06-18",
+     "depth": 0.157658,
+     "days_underwater": 18
+    },
+    {
+     "peak_date": "2020-11-16",
+     "trough_date": "2020-12-09",
+     "recovery_date": "2021-01-05",
+     "depth": 0.05802,
+     "days_underwater": 35
+    }
+   ],
+   "n_episodes_any_depth": 16
+  },
+  "roll_windows": {
+   "roll_20d": {
+    "p5": -0.113652,
+    "p50": -0.011173,
+    "p95": 0.181185
+   },
+   "worst_20d_windows": [
+    {
+     "end_date": "2026-08-06",
+     "ret": -0.232818
+    },
+    {
+     "end_date": "2026-08-04",
+     "ret": -0.23048
+    },
+    {
+     "end_date": "2026-07-29",
+     "ret": -0.220524
+    },
+    {
+     "end_date": "2026-07-31",
+     "ret": -0.205994
+    },
+    {
+     "end_date": "2026-08-05",
+     "ret": -0.204662
+    }
+   ],
+   "best_20d_windows": [
+    {
+     "end_date": "2024-10-09",
+     "ret": 0.621622
+    },
+    {
+     "end_date": "2024-10-28",
+     "ret": 0.550445
+    },
+    {
+     "end_date": "2024-10-10",
+     "ret": 0.548023
+    },
+    {
+     "end_date": "2024-10-22",
+     "ret": 0.537335
+    },
+    {
+     "end_date": "2024-10-23",
+     "ret": 0.529499
+    }
+   ],
+   "roll_60d": {
+    "p5": -0.171667,
+    "p50": -0.023563,
+    "p95": 0.400979
+   }
+  },
+  "cost_stress": {
+   "caliber": "knowledge/cost_spec.py Face A + knowledge/rules.py (frozen mirror)",
+   "x1_side_buy_bp": 13.041,
+   "x1_side_sell_bp": 13.041,
+   "x1_round_trip_bp": 26.082,
+   "x2_stress_round_trip_bp": 52.164,
+   "adv20_yuan_tail": 6002386519.85,
+   "v2_slippage_bp_tail": 2.0,
+   "v2_side_buy_bp_tail": 5.041,
+   "t_plus": "T+1",
+   "drag_table_bp": [
+    {
+     "round_trips_per_year": 1,
+     "annual_drag_bp_x1": 26.08,
+     "annual_drag_bp_x2_stress": 52.16
+    },
+    {
+     "round_trips_per_year": 2,
+     "annual_drag_bp_x1": 52.16,
+     "annual_drag_bp_x2_stress": 104.33
+    },
+    {
+     "round_trips_per_year": 4,
+     "annual_drag_bp_x1": 104.33,
+     "annual_drag_bp_x2_stress": 208.66
+    },
+    {
+     "round_trips_per_year": 12,
+     "annual_drag_bp_x1": 312.98,
+     "annual_drag_bp_x2_stress": 625.97
+    },
+    {
+     "round_trips_per_year": 26,
+     "annual_drag_bp_x1": 678.13,
+     "annual_drag_bp_x2_stress": 1356.26
+    },
+    {
+     "round_trips_per_year": 52,
+     "annual_drag_bp_x1": 1356.26,
+     "annual_drag_bp_x2_stress": 2712.53
+    }
+   ]
+  },
+  "corr_stress_vs_core": {
+   "pair": "588000~510300",
+   "joint_days": 1427,
+   "corr_p5": 0.4701,
+   "corr_p50": 0.7056,
+   "corr_p95": 0.8456,
+   "z_threshold": 2.0,
+   "flag_on_days": 57,
+   "flag_on_dates_head": [
+    "2023-08-16",
+    "2023-08-21",
+    "2023-08-22",
+    "2023-08-23",
+    "2023-08-24",
+    "2023-08-25",
+    "2023-08-28",
+    "2023-08-29",
+    "2023-08-30",
+    "2023-09-04",
+    "2023-09-05",
+    "2023-09-06"
+   ],
+   "inception_anchor_2020_11_16_to_2021_02_28_days": 69,
+   "inception_anchor_flag_on": 0
+  },
+  "ma200_gate": {
+   "ma_window": 200,
+   "frac_days_below_ma200": 0.4653,
+   "longest_consecutive_below_days": 308,
+   "fwd20_mean_on_below_days": 0.001495,
+   "fwd20_mean_on_above_days": 0.012075,
+   "n_cond_days": 1407
+  },
+  "liquidity_yearly_mean_amount_cny": {
+   "2020": 862401281.53,
+   "2021": 778512933.7,
+   "2022": 1181367581.76,
+   "2023": 2585192239.02,
+   "2024": 3595998731.93,
+   "2025": 4107777757.75,
+   "2026": 6184716068.94
+  }
+ }
+}

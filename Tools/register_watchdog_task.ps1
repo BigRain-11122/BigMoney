@@ -15,5 +15,9 @@ $start = Get-Date -Minute 0 -Second 0
 while ($start -le (Get-Date)) { $start = $start.AddMinutes(20) }
 $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 30) -RepetitionDuration (New-TimeSpan -Days 3650)
 $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
-Register-ScheduledTask -TaskName 'Bigmoney-LoopWatchdog' -Action $a -Trigger $t -Settings $s -Force | Out-Null
-Write-Output "registered Bigmoney-LoopWatchdog (project=$Project), first fire $start"
+# S4U law (2026-09-29 user order, bm-b lane rule): all lane scheduled tasks
+# on this machine register S4U, never InteractiveToken -- survives logoff and
+# child console windows stay invisible (no desktop flash).
+$p = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U
+Register-ScheduledTask -TaskName 'Bigmoney-LoopWatchdog' -Action $a -Trigger $t -Settings $s -Principal $p -Force | Out-Null
+Write-Output "registered Bigmoney-LoopWatchdog (project=$Project, logon=S4U), first fire $start"
