@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-01",
- "generated_at": "2026-10-01 07:16:32",
+ "generated_at": "2026-10-01 07:38:11",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,13 +297,13 @@
   "md_link": "../live_usage/LIVE-2026-10-01.md"
  },
  "rd": {
-  "commits_24h": 467,
-  "result_jsons_landed_24h": 153,
+  "commits_24h": 465,
+  "result_jsons_landed_24h": 152,
   "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 40,
+  "prereg_md_touched_24h": 39,
   "compute_audit_latest": {
-   "ts": "2026-10-01 07:15:52",
-   "py_cpu_pct": 0.7,
+   "ts": "2026-10-01 07:36:15",
+   "py_cpu_pct": 0.0,
    "flags": [
     "idle_with_work",
     "supply_gap",
@@ -626,11 +626,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1048138,
+  "total_report_tokens_est": 1048709,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-01 06:30:58",
+   "prev_generated": "2026-10-01 06:56:58",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 924,
+   "report_tokens_growth": 571,
    "mandate_growth": 0
   },
   "method": {
@@ -765,33 +765,13 @@
     "today_supply_gap_flags": 15
    },
    "bm-c": {
-    "latest_ts": "2026-10-01 05:37:22",
+    "latest_ts": "2026-10-01 07:36:15",
     "py_pct": 0.0,
-    "cpu_pct": 12.0,
-    "ready": 3,
-    "streak_min": 164.6,
-    "verdict": "FLAG:idle_with_work,supply_gap",
+    "cpu_pct": 9.0,
+    "ready": 2,
+    "streak_min": 283.5,
+    "verdict": "FLAG:idle_with_work,supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "02:12",
-      4.7
-     ],
-     [
-      "02:27",
-      0.9
-     ],
-     [
-      "02:31",
-      100.0
-     ],
-     [
-      "02:52",
-      0.4
-     ],
-     [
-      "03:22",
-      0.7
-     ],
      [
       "03:39",
       0.0
@@ -817,14 +797,34 @@
       0.0
      ],
      [
-      "05:37",
+      "05:28",
+      0.3
+     ],
+     [
+      "05:39",
+      2.1
+     ],
+     [
+      "06:29",
+      0.4
+     ],
+     [
+      "06:47",
+      0.1
+     ],
+     [
+      "07:15",
+      0.7
+     ],
+     [
+      "07:36",
       0.0
      ]
     ],
-    "today_samples": 17,
-    "today_floor_ok": 9,
+    "today_samples": 22,
+    "today_floor_ok": 10,
     "today_sla_flags": 7,
-    "today_supply_gap_flags": 12
+    "today_supply_gap_flags": 17
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -878,7 +878,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-01 05:37:22"
+     "audit_ts": "2026-10-01 07:36:15"
     }
    }
   },
