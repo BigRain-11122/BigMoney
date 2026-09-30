@@ -94,10 +94,15 @@ def null_sharpes(results_dir: str = RESULTS_DIR) -> dict:
         except (OSError, ValueError):
             return None
 
-    # p2_calibration.json: families[random*].runs[].full.sharpe  (n=100 engine-exit null family +
-    # n=20 random-exit family = the project's calibration-grade null population)
-    d = _load("p2_calibration.json")
-    if d:
+    # RW-6 (T-127, r477): prefer the v2 engine-effect recompute pool when
+    # present -- the fixed-engine null population (same frozen design, same
+    # window 2026-09-22, same seeds; mu/sigma shift = pure engine effect).
+    # Fallback = frozen v1 canon (pre-fix engine) if v2 is absent.
+    for _fname in ("p2_calibration_v2.json", "p2_calibration.json"):
+        d = _load(_fname)
+        if not d:
+            continue
+        _vals: list[float] = []
         for fam_name, fam in (d.get("families") or {}).items():
             if "random" not in fam_name.lower():
                 continue
@@ -108,9 +113,13 @@ def null_sharpes(results_dir: str = RESULTS_DIR) -> dict:
                 full = run.get("full") or {} if isinstance(run, dict) else {}
                 sr = full.get("sharpe")
                 if isinstance(sr, (int, float)) and math.isfinite(sr):
-                    values.append(float(sr))
-        if values:
-            parsed.append("p2_calibration.json:families[random*].runs[].full.sharpe")
+                    _vals.append(float(sr))
+        if _vals:
+            values = _vals
+            parsed.append(f"{_fname}:families[random*].runs[].full.sharpe"
+                          + (" (RW-6 engine-effect recompute, preferred)"
+                             if _fname.endswith("_v2.json") else " (v1 canon fallback)"))
+            break
 
     coverage = {
         "n_values": len(values),
@@ -122,7 +131,8 @@ def null_sharpes(results_dir: str = RESULTS_DIR) -> dict:
         "mu": (sum(values) / len(values)) if values else None,
         "sigma": (_pstdev(values) if len(values) > 1 else None),
     }
-    return {"values": values, "coverage": coverage}
+    return {"values": values, "coverage": coverage,
+            "source": (parsed[-1] if parsed else None)}
 
 
 def _pstdev(xs: list[float]) -> float:
@@ -373,6 +383,7 @@ def skill_line_v2(batch_cells: int, pool: str = "core48", results_dir: str = RES
         "mu_null": round(cov["mu"], 4),
         "sigma_null": round(cov["sigma"], 4),
         "pool": pool,
+        "null_pool_source": null_pool.get("source"),
         "passive_source": passive_source,
         "ledger_head": ledger_head(results_dir),
     }

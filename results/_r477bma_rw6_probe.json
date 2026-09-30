@@ -1,0 +1,261 @@
+{
+ "batch": "RW6-member-final-recompute",
+ "evidence_cutoff": "2026-09-22",
+ "engine_fixes": {
+  "rw1_tplus1_open_exits": true,
+  "rw2_cutoff_hard_truncation": true,
+  "rw3_single_source_cost": true,
+  "rw4_panel_gate": true
+ },
+ "n_members": 6,
+ "members": {
+  "COMPOSITE-CE-01": {
+   "ok": true,
+   "old": {
+    "in_sample": {
+     "sharpe": 0.4696,
+     "max_dd": -0.1592,
+     "annual": 0.0286,
+     "trades": 312
+    },
+    "out_sample": {
+     "sharpe": 1.7479,
+     "max_dd": -0.0434,
+     "annual": 0.1366,
+     "trades": 181
+    }
+   },
+   "new": {
+    "in_sample": {
+     "sharpe": 1.1244,
+     "annual": 0.0559,
+     "trades": 309,
+     "dd": -0.0901
+    },
+    "out_sample": {
+     "sharpe": 0.862,
+     "annual": 0.0745,
+     "trades": 164,
+     "dd": -0.0735
+    }
+   },
+   "checks": {
+    "in_sample.sharpe": true,
+    "in_sample.annual": true,
+    "in_sample.trades": true,
+    "in_sample.dd": true,
+    "out_sample.sharpe": true,
+    "out_sample.annual": true,
+    "out_sample.trades": true,
+    "out_sample.dd": true
+   }
+  },
+  "COMPOSITE-CE-02": {
+   "ok": true,
+   "old": {
+    "in_sample": {
+     "sharpe": 0.5346,
+     "max_dd": -0.1614,
+     "annual": 0.0412,
+     "trades": 543
+    },
+    "out_sample": {
+     "sharpe": 1.6392,
+     "max_dd": -0.038,
+     "annual": 0.114,
+     "trades": 279
+    }
+   },
+   "new": {
+    "in_sample": {
+     "sharpe": 0.7841,
+     "annual": 0.0591,
+     "trades": 513,
+     "dd": -0.1179
+    },
+    "out_sample": {
+     "sharpe": 1.5605,
+     "annual": 0.1024,
+     "trades": 257,
+     "dd": -0.0381
+    }
+   },
+   "checks": {
+    "in_sample.sharpe": true,
+    "in_sample.annual": true,
+    "in_sample.trades": true,
+    "in_sample.dd": true,
+    "out_sample.sharpe": true,
+    "out_sample.annual": true,
+    "out_sample.trades": true,
+    "out_sample.dd": true
+   }
+  },
+  "DROUGHT-CE-01": {
+   "ok": true,
+   "old": {
+    "in_sample": {
+     "sharpe": 0.5538,
+     "max_dd": -0.0476,
+     "annual": 0.0169,
+     "trades": 76
+    },
+    "out_sample": {
+     "sharpe": 1.213,
+     "max_dd": -0.0252,
+     "annual": 0.0408,
+     "trades": 44
+    }
+   },
+   "new": {
+    "in_sample": {
+     "sharpe": 0.461,
+     "annual": 0.0141,
+     "trades": 72,
+     "dd": -0.053
+    },
+    "out_sample": {
+     "sharpe": 1.2407,
+     "annual": 0.0431,
+     "trades": 41,
+     "dd": -0.022
+    }
+   },
+   "checks": {
+    "in_sample.sharpe": true,
+    "in_sample.annual": true,
+    "in_sample.trades": true,
+    "in_sample.dd": true,
+    "out_sample.sharpe": true,
+    "out_sample.annual": true,
+    "out_sample.trades": true,
+    "out_sample.dd": true
+   }
+  },
+  "ENGULF-CE-01": {
+   "ok": true,
+   "old": {
+    "in_sample": {
+     "sharpe": 0.6121,
+     "max_dd": -0.0426,
+     "annual": 0.0197,
+     "trades": 104
+    },
+    "out_sample": {
+     "sharpe": 0.3835,
+     "max_dd": -0.0376,
+     "annual": 0.012,
+     "trades": 46
+    }
+   },
+   "new": {
+    "in_sample": {
+     "sharpe": 0.5337,
+     "annual": 0.0174,
+     "trades": 97,
+     "dd": -0.0496
+    },
+    "out_sample": {
+     "sharpe": 0.1686,
+     "annual": 0.0049,
+     "trades": 43,
+     "dd": -0.0498
+    }
+   },
+   "checks": {
+    "in_sample.sharpe": true,
+    "in_sample.annual": true,
+    "in_sample.trades": true,
+    "in_sample.dd": true,
+    "out_sample.sharpe": true,
+    "out_sample.annual": true,
+    "out_sample.trades": true,
+    "out_sample.dd": true
+   }
+  },
+  "NEEDLE-DE-01": {
+   "ok": true,
+   "old": {
+    "in_sample": {
+     "sharpe": 0.7781,
+     "max_dd": -0.0254,
+     "annual": 0.0185,
+     "trades": 50
+    },
+    "out_sample": {
+     "sharpe": 0.4089,
+     "max_dd": -0.0282,
+     "annual": 0.0119,
+     "trades": 23
+    }
+   },
+   "new": {
+    "in_sample": {
+     "sharpe": 0.6862,
+     "annual": 0.0166,
+     "trades": 49,
+     "dd": -0.0261
+    },
+    "out_sample": {
+     "sharpe": 0.1927,
+     "annual": 0.0049,
+     "trades": 19,
+     "dd": -0.0278
+    }
+   },
+   "checks": {
+    "in_sample.sharpe": true,
+    "in_sample.annual": true,
+    "in_sample.trades": true,
+    "in_sample.dd": true,
+    "out_sample.sharpe": true,
+    "out_sample.annual": true,
+    "out_sample.trades": true,
+    "out_sample.dd": true
+   }
+  },
+  "VOLATILITY-CE-01": {
+   "ok": true,
+   "old": {
+    "in_sample": {
+     "sharpe": 1.0275,
+     "max_dd": -0.0378,
+     "annual": 0.0262,
+     "trades": 375
+    },
+    "out_sample": {
+     "sharpe": 2.0568,
+     "max_dd": -0.009,
+     "annual": 0.0424,
+     "trades": 147
+    }
+   },
+   "new": {
+    "in_sample": {
+     "sharpe": 1.103,
+     "annual": 0.0267,
+     "trades": 339,
+     "dd": -0.0335
+    },
+    "out_sample": {
+     "sharpe": 1.7166,
+     "annual": 0.0355,
+     "trades": 131,
+     "dd": -0.0113
+    }
+   },
+   "checks": {
+    "in_sample.sharpe": true,
+    "in_sample.annual": true,
+    "in_sample.trades": true,
+    "in_sample.dd": true,
+    "out_sample.sharpe": true,
+    "out_sample.annual": true,
+    "out_sample.trades": true,
+    "out_sample.dd": true
+   }
+  }
+ },
+ "drift": [],
+ "verdict": "BYTE-STABLE"
+}

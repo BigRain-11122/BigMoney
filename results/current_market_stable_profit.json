@@ -27,42 +27,42 @@
  "w_cur": {
   "x1": {
    "n_days": 177,
-   "ret": 0.00943,
-   "dd": -0.009585
+   "ret": 0.007575,
+   "dd": -0.011124
   },
   "x2": {
    "n_days": 177,
-   "ret": 0.00484,
-   "dd": -0.011468
+   "ret": 0.002945,
+   "dd": -0.013036
   }
  },
  "w_seg": {
   "x1": {
    "bull": {
     "n_days": 663,
-    "cum_ret": 0.038277
+    "cum_ret": 0.032775
    },
    "chop": {
     "n_days": 772,
-    "cum_ret": 0.04297
+    "cum_ret": 0.031077
    },
    "bear": {
     "n_days": 196,
-    "cum_ret": 0.010016
+    "cum_ret": 0.005466
    }
   },
   "x2": {
    "bull": {
     "n_days": 663,
-    "cum_ret": 0.023556
+    "cum_ret": 0.018512
    },
    "chop": {
     "n_days": 772,
-    "cum_ret": 0.025813
+    "cum_ret": 0.014095
    },
    "bear": {
     "n_days": 196,
-    "cum_ret": 0.00411
+    "cum_ret": -0.000148
    }
   }
  },
@@ -538,20 +538,21 @@
   }
  },
  "trials_ledger": {
-  "prev_total": 22157,
+  "prev_total": 362083,
   "batch_trials": 20,
-  "total": 22177,
+  "total": 362083,
   "batch": "T28_STABLE_PROFIT",
   "file": "current_market_stable_profit.json",
-  "note": "engineering re-run of run#1 (W-SEG face VOID: v3 raw states unmapped -> zero segment days, J3 judged on broken face; J18 fix implementation only); 20 cells already counted in run#1 entry, ledger +0",
+  "note": "RW-6 re-execution of run#1 20 aggregate cells on the fixed engine (RW-1..4); cells already counted in run#1 entry -> ledger +0 (r259 single-count law); sleeve runs ledger +0 (o1600 caliber)",
   "evidence_cutoff": "2026-09-23"
  },
  "adoption": "ZERO wiring this batch (veto window 09-24..10-01 honored; activation 10-01 month boundary per GM MSG-20260924-1958)",
  "audit": {
-  "runtime_sec": 5.4,
+  "runtime_sec": 16.4,
   "machine": "bm-a",
-  "ts": "2026-09-24 20:12:11",
+  "ts": "2026-09-30 15:11:29",
   "sleeve_cutoff": "2026-09-23",
-  "rerun_void_repair": true
+  "rerun_void_repair": false,
+  "rw6_reexecution": true
  }
 }

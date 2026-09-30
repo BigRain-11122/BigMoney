@@ -1,0 +1,229 @@
+﻿{
+ "classified": [
+  {
+   "state": "UU",
+   "path": "CODELY.md",
+   "class": "memory-union",
+   "recipe": "merge-base prefix-identity assertion on BOTH sides, then DIRECT-CONCAT appended suffixes: new = merge-base + A-suffix + B-suffix, entries kept verbatim (NO line-level dedupe -- union-dedupe collapses structure 61+61->52 rows live-fire; byte math base 39,270 + 597 + 700 = 40,567B zero loss, r311/D-20260927-09); prefix assertion fails = in-place edit not append = manual review; heat/cold archival rules unchanged",
+   "law": "R208/r212/D-20260927-09"
+  },
+  {
+   "state": "UU",
+   "path": "docs/daily_report/REPORT-2026-09-30.json",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face: take-new by generated ts inside the doc; .md and .json twins MUST take the SAME side (ts probes independently may tie-break differently); storm-proven r98/r99/r100",
+   "law": "r98/r99/r100"
+  },
+  {
+   "state": "UU",
+   "path": "docs/daily_report/REPORT-2026-09-30.md",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face: take-new by generated ts inside the doc; .md and .json twins MUST take the SAME side (ts probes independently may tie-break differently); storm-proven r98/r99/r100",
+   "law": "r98/r99/r100"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-2026-09-30.json",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily ���������ݵ�/����������): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-2026-09-30.md",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily ���������ݵ�/����������): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-latest.json",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily ���������ݵ�/����������): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-latest.md",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily ���������ݵ�/����������): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "results/compute_audit.json",
+   "class": "rolling-ledger",
+   "recipe": "union both blobs on history key (zero row loss; line-count = |A �� B|), then newest snapshot fields take-new; take-side ts probe = DEEP-SCAN nested layers (top-level miss != no ts: true ts lives in nested path e.g. latest.ts; top-only scan -> tie -> stale side silently picked, r311/D-20260927-09) and probe the compare path for existence first (missing key = silently-false compare, r319)",
+   "law": "r188/R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/daily_scorecard.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe (regenerated whole-doc each S6 chain round, fresher side wins by construction); probe law r100: normalize key by stripping '_'/'-' BEFORE prefix match (as_of/state_updated silently miss raw startswith('asof'/'updated')) AND validate candidate value as timestamp-shaped (^20\\d{2}-) before max-compare (non-ts strings e.g. 'forced' poison lexicographic max -> wrong-side take live-fire r100); probe law R350: negative key-EXCLUDE tables are themselves a new miss carrier (asof in EXCLUDE swallowed forward_guard.as_of wall-clock key -> probe tie -> stale side taken, R350 live-fire) -- wall-clock probes require time-of-day in the value ([T ]HH:MM, date-only values must not feed the max), key-name exclusion lists are FORBIDDEN, ambiguity adjudicated by value shape only; idempotent re-runs probe the STAGED blob (:2:/:3:), never the working tree",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/dashboard_status.js",
+   "class": "js-wrapper-snapshot",
+   "recipe": "NOT plain JSON: producer format = `window.DASH_DATA = {...};` �� resolve values then re-emit EXACT producer format (monitor/build_status.py writer), or take-side whole bytes; NEVER json.dumps direct-write (silently strips wrapper)",
+   "law": "R209"
+  },
+  {
+   "state": "UU",
+   "path": "results/dashboard_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc (latest-state semantics)",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/fundamental_b_layer_filter.json",
+   "class": "snapshot",
+   "recipe": "take-new by updated ts (per-run verdict snapshot, re-derived each round)",
+   "law": "R216"
+  },
+  {
+   "state": "UU",
+   "path": "results/futures_update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts (ts probe deep-scans nested layers, r311/D-20260927-09; probe hardening r100: normalize key stripping '_'/'-' before prefix match + value must match ^20\\d{2}- before max-compare; probe law R350: key-EXCLUDE lists forbidden, wall-clock values require time-of-day, probe staged blob not working tree)",
+   "law": "R208/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/lhb_update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts (ts probe deep-scans nested layers, r311/D-20260927-09; probe hardening r100: normalize key stripping '_'/'-' before prefix match + value must match ^20\\d{2}- before max-compare; probe law R350: key-EXCLUDE lists forbidden, wall-clock values require time-of-day, probe staged blob not working tree)",
+   "law": "R208/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/COMPOSITE-CE-01_paper.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe on 'updated' (live.paper regenerates whole doc per bar; both sides derive from same in-repo panel -- no row-union needed, storm-proven r98/r99/r100); probe hardening law r100 + R350 exclusion-table ban apply",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/COMPOSITE-CE-02_paper.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe on 'updated' (live.paper regenerates whole doc per bar; both sides derive from same in-repo panel -- no row-union needed, storm-proven r98/r99/r100); probe hardening law r100 + R350 exclusion-table ban apply",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/DROUGHT-CE-01_paper.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe on 'updated' (live.paper regenerates whole doc per bar; both sides derive from same in-repo panel -- no row-union needed, storm-proven r98/r99/r100); probe hardening law r100 + R350 exclusion-table ban apply",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/ENGULF-CE-01_paper.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe on 'updated' (live.paper regenerates whole doc per bar; both sides derive from same in-repo panel -- no row-union needed, storm-proven r98/r99/r100); probe hardening law r100 + R350 exclusion-table ban apply",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/NEEDLE-DE-01_paper.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe on 'updated' (live.paper regenerates whole doc per bar; both sides derive from same in-repo panel -- no row-union needed, storm-proven r98/r99/r100); probe hardening law r100 + R350 exclusion-table ban apply",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper/VOLATILITY-CE-01_paper.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe on 'updated' (live.paper regenerates whole doc per bar; both sides derive from same in-repo panel -- no row-union needed, storm-proven r98/r99/r100); probe hardening law r100 + R350 exclusion-table ban apply",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper_export/export-2026-09-29.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe -- NO wall-clock 'generated' field exists (deterministic export, R93 law); probe MUST key on state_updated/generated_from_state_updated family (underscore-variant key miss + 'forced'-value poisoning both live-fire r100: probe said tie, human diff showed ours 19:31 > theirs 19:23); probe law R350 applies (value-shape gate only, key-EXCLUDE lists forbidden)",
+   "law": "r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/paper_export/latest.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe -- NO wall-clock 'generated' field exists (deterministic export, R93 law); probe MUST key on state_updated/generated_from_state_updated family (underscore-variant key miss + 'forced'-value poisoning both live-fire r100: probe said tie, human diff showed ours 19:31 > theirs 19:23); probe law R350 applies (value-shape gate only, key-EXCLUDE lists forbidden)",
+   "law": "r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/prospect_paper/_summary.json",
+   "class": "snapshot",
+   "recipe": "t24 two-leg deterministic summary face (S6 chain regenerates whole-doc per round; sole drift = inner 'generated' wall-clock) -- take-new via hardened deep-ts probe; two consecutive storm rounds (bma R350 + bmc r103) hit UNKNOWN fail-closed with identical manual classification = catalog gap closed bmc r103",
+   "law": "r350/r103"
+  },
+  {
+   "state": "UU",
+   "path": "results/prospect_promotion/_summary.json",
+   "class": "snapshot",
+   "recipe": "t24 two-leg deterministic summary face (S6 chain regenerates whole-doc per round; sole drift = inner 'generated' wall-clock) -- take-new via hardened deep-ts probe; two consecutive storm rounds (bma R350 + bmc r103) hit UNKNOWN fail-closed with identical manual classification = catalog gap closed bmc r103",
+   "law": "r350/r103"
+  },
+  {
+   "state": "UU",
+   "path": "results/regime_state.json",
+   "class": "rolling-ledger",
+   "recipe": "union both blobs on history/transitions keys (zero row loss), then take-new state fields; take-side ts probe = deep-scan nested layers (r311/D-20260927-09), dedup keys must exist inside entries (probe per-face before union, r319)",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/scorecard_v1.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe (regenerated whole-doc each S6 chain round, fresher side wins by construction); probe law r100: normalize key by stripping '_'/'-' BEFORE prefix match (as_of/state_updated silently miss raw startswith('asof'/'updated')) AND validate candidate value as timestamp-shaped (^20\\d{2}-) before max-compare (non-ts strings e.g. 'forced' poison lexicographic max -> wrong-side take live-fire r100); probe law R350: negative key-EXCLUDE tables are themselves a new miss carrier (asof in EXCLUDE swallowed forward_guard.as_of wall-clock key -> probe tie -> stale side taken, R350 live-fire) -- wall-clock probes require time-of-day in the value ([T ]HH:MM, date-only values must not feed the max), key-name exclusion lists are FORBIDDEN, ambiguity adjudicated by value shape only; idempotent re-runs probe the STAGED blob (:2:/:3:), never the working tree",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/strategy_scorecard.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe (regenerated whole-doc each S6 chain round, fresher side wins by construction); probe law r100: normalize key by stripping '_'/'-' BEFORE prefix match (as_of/state_updated silently miss raw startswith('asof'/'updated')) AND validate candidate value as timestamp-shaped (^20\\d{2}-) before max-compare (non-ts strings e.g. 'forced' poison lexicographic max -> wrong-side take live-fire r100); probe law R350: negative key-EXCLUDE tables are themselves a new miss carrier (asof in EXCLUDE swallowed forward_guard.as_of wall-clock key -> probe tie -> stale side taken, R350 live-fire) -- wall-clock probes require time-of-day in the value ([T ]HH:MM, date-only values must not feed the max), key-name exclusion lists are FORBIDDEN, ambiguity adjudicated by value shape only; idempotent re-runs probe the STAGED blob (:2:/:3:), never the working tree",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/t35_open_fill_verify.json",
+   "class": "snapshot",
+   "recipe": "take-new via hardened deep-ts probe (regenerated whole-doc each S6 chain round, fresher side wins by construction); probe law r100: normalize key by stripping '_'/'-' BEFORE prefix match (as_of/state_updated silently miss raw startswith('asof'/'updated')) AND validate candidate value as timestamp-shaped (^20\\d{2}-) before max-compare (non-ts strings e.g. 'forced' poison lexicographic max -> wrong-side take live-fire r100); probe law R350: negative key-EXCLUDE tables are themselves a new miss carrier (asof in EXCLUDE swallowed forward_guard.as_of wall-clock key -> probe tie -> stale side taken, R350 live-fire) -- wall-clock probes require time-of-day in the value ([T ]HH:MM, date-only values must not feed the max), key-name exclusion lists are FORBIDDEN, ambiguity adjudicated by value shape only; idempotent re-runs probe the STAGED blob (:2:/:3:), never the working tree",
+   "law": "r98/r99/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/token_usage.json",
+   "class": "snapshot",
+   "recipe": "take-new by generated ts (meter re-derives whole doc from files each round; newest measurement wins wholesale)",
+   "law": "R216"
+  },
+  {
+   "state": "UU",
+   "path": "results/update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts (ts probe deep-scans nested layers, r311/D-20260927-09; probe hardening r100: normalize key stripping '_'/'-' before prefix match + value must match ^20\\d{2}- before max-compare; probe law R350: key-EXCLUDE lists forbidden, wall-clock values require time-of-day, probe staged blob not working tree)",
+   "law": "R208/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/x2_watch_log.jsonl",
+   "class": "append-log",
+   "recipe": "union both blobs line-level zero loss (append-only ledger)",
+   "law": "r188/r217"
+  }
+ ],
+ "unknown": [
+  {
+   "state": "UU",
+   "path": "results/_attrition_guard_scan.json"
+  }
+ ]
+}
+== 31 classified, 1 UNKNOWN (fail-closed: classify manually, never blind take-new)
+RED: unclassifiable conflict entries �� resolve by hand per SKILL.md ��unknown; do NOT default-resolve.

@@ -1,0 +1,3094 @@
+{
+  "batch": "P2-null-calibration-v2-engine-effect",
+  "generated": "2026-09-30 15:11:02",
+  "preregistered_doc": "research/NULL_CALIBRATION.md (frozen 2026-09-23 pre-run; v2 = same design re-executed on the fixed engine, RW-6)",
+  "evidence_cutoff": "2026-09-22",
+  "universe": {
+    "pool": "core48-bare-codes",
+    "n_syms": 48,
+    "history": "2020-01-02 .. 2026-09-22"
+  },
+  "oos_start": "2025-01-01",
+  "engine_fixes": {
+    "rw1_tplus1_open_exits": true,
+    "rw2_cutoff_truncation": true,
+    "rw3_single_source_cost": true,
+    "rw4_panel_gate": true
+  },
+  "families": {
+    "A_random_engine_exit": {
+      "n": 100,
+      "full_sharpe_p95": 0.3206,
+      "runs": [
+        {
+          "name": "rand_p0.02_s0",
+          "full": {
+            "annual_return": -0.0169,
+            "sharpe": -0.2003,
+            "max_drawdown": -0.2574,
+            "win_rate": 0.5707,
+            "profit_factor": 0.9689,
+            "num_trades": 736,
+            "avg_hold_days": 9.95,
+            "win_rate_full": 0.5666,
+            "profit_factor_full": 0.9065,
+            "avg_pnl_full": -142.84
+          },
+          "oos": {
+            "sharpe": 0.0821,
+            "annual_return": 0.0034,
+            "max_drawdown": -0.0773
+          },
+          "n_trades": 736,
+          "oos_trades": 230,
+          "p": 0.02,
+          "seed": 0,
+          "note": "random entry p=0.02 seed=0; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s1",
+          "full": {
+            "annual_return": -0.036,
+            "sharpe": -0.3386,
+            "max_drawdown": -0.3412,
+            "win_rate": 0.5501,
+            "profit_factor": 0.8835,
+            "num_trades": 769,
+            "avg_hold_days": 9.93,
+            "win_rate_full": 0.5436,
+            "profit_factor_full": 0.8308,
+            "avg_pnl_full": -288.59
+          },
+          "oos": {
+            "sharpe": 0.3639,
+            "annual_return": 0.0307,
+            "max_drawdown": -0.1254
+          },
+          "n_trades": 769,
+          "oos_trades": 226,
+          "p": 0.02,
+          "seed": 1,
+          "note": "random entry p=0.02 seed=1; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s2",
+          "full": {
+            "annual_return": -0.0079,
+            "sharpe": -0.0737,
+            "max_drawdown": -0.2176,
+            "win_rate": 0.5873,
+            "profit_factor": 1.0111,
+            "num_trades": 773,
+            "avg_hold_days": 9.88,
+            "win_rate_full": 0.5744,
+            "profit_factor_full": 0.9474,
+            "avg_pnl_full": -79.0
+          },
+          "oos": {
+            "sharpe": 0.2691,
+            "annual_return": 0.0166,
+            "max_drawdown": -0.0729
+          },
+          "n_trades": 773,
+          "oos_trades": 217,
+          "p": 0.02,
+          "seed": 2,
+          "note": "random entry p=0.02 seed=2; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s3",
+          "full": {
+            "annual_return": -0.0494,
+            "sharpe": -0.4336,
+            "max_drawdown": -0.4407,
+            "win_rate": 0.5405,
+            "profit_factor": 0.8381,
+            "num_trades": 729,
+            "avg_hold_days": 9.79,
+            "win_rate_full": 0.5309,
+            "profit_factor_full": 0.7889,
+            "avg_pnl_full": -381.58
+          },
+          "oos": {
+            "sharpe": 0.2117,
+            "annual_return": 0.0151,
+            "max_drawdown": -0.1091
+          },
+          "n_trades": 729,
+          "oos_trades": 205,
+          "p": 0.02,
+          "seed": 3,
+          "note": "random entry p=0.02 seed=3; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s4",
+          "full": {
+            "annual_return": -0.0104,
+            "sharpe": -0.1235,
+            "max_drawdown": -0.2336,
+            "win_rate": 0.5574,
+            "profit_factor": 1.0083,
+            "num_trades": 732,
+            "avg_hold_days": 9.77,
+            "win_rate_full": 0.5464,
+            "profit_factor_full": 0.9424,
+            "avg_pnl_full": -86.03
+          },
+          "oos": {
+            "sharpe": -0.0353,
+            "annual_return": -0.0058,
+            "max_drawdown": -0.135
+          },
+          "n_trades": 732,
+          "oos_trades": 218,
+          "p": 0.02,
+          "seed": 4,
+          "note": "random entry p=0.02 seed=4; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s5",
+          "full": {
+            "annual_return": -0.0045,
+            "sharpe": 0.0085,
+            "max_drawdown": -0.3822,
+            "win_rate": 0.5678,
+            "profit_factor": 1.0282,
+            "num_trades": 745,
+            "avg_hold_days": 9.91,
+            "win_rate_full": 0.5584,
+            "profit_factor_full": 0.9648,
+            "avg_pnl_full": -55.19
+          },
+          "oos": {
+            "sharpe": 1.1742,
+            "annual_return": 0.0959,
+            "max_drawdown": -0.0482
+          },
+          "n_trades": 745,
+          "oos_trades": 234,
+          "p": 0.02,
+          "seed": 5,
+          "note": "random entry p=0.02 seed=5; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s6",
+          "full": {
+            "annual_return": 0.0223,
+            "sharpe": 0.2604,
+            "max_drawdown": -0.1861,
+            "win_rate": 0.5987,
+            "profit_factor": 1.1974,
+            "num_trades": 755,
+            "avg_hold_days": 10.06,
+            "win_rate_full": 0.5854,
+            "profit_factor_full": 1.1282,
+            "avg_pnl_full": 196.29
+          },
+          "oos": {
+            "sharpe": 0.9861,
+            "annual_return": 0.0649,
+            "max_drawdown": -0.056
+          },
+          "n_trades": 755,
+          "oos_trades": 222,
+          "p": 0.02,
+          "seed": 6,
+          "note": "random entry p=0.02 seed=6; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s7",
+          "full": {
+            "annual_return": -0.0212,
+            "sharpe": -0.2302,
+            "max_drawdown": -0.2837,
+            "win_rate": 0.5626,
+            "profit_factor": 0.9356,
+            "num_trades": 727,
+            "avg_hold_days": 10.08,
+            "win_rate_full": 0.5598,
+            "profit_factor_full": 0.8756,
+            "avg_pnl_full": -194.75
+          },
+          "oos": {
+            "sharpe": 0.7973,
+            "annual_return": 0.0656,
+            "max_drawdown": -0.0784
+          },
+          "n_trades": 727,
+          "oos_trades": 219,
+          "p": 0.02,
+          "seed": 7,
+          "note": "random entry p=0.02 seed=7; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s8",
+          "full": {
+            "annual_return": -0.0094,
+            "sharpe": -0.0874,
+            "max_drawdown": -0.2185,
+            "win_rate": 0.5703,
+            "profit_factor": 1.0066,
+            "num_trades": 740,
+            "avg_hold_days": 9.99,
+            "win_rate_full": 0.5649,
+            "profit_factor_full": 0.9429,
+            "avg_pnl_full": -86.8
+          },
+          "oos": {
+            "sharpe": 0.5041,
+            "annual_return": 0.0427,
+            "max_drawdown": -0.061
+          },
+          "n_trades": 740,
+          "oos_trades": 238,
+          "p": 0.02,
+          "seed": 8,
+          "note": "random entry p=0.02 seed=8; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s9",
+          "full": {
+            "annual_return": 0.0115,
+            "sharpe": 0.1627,
+            "max_drawdown": -0.1324,
+            "win_rate": 0.5528,
+            "profit_factor": 1.1271,
+            "num_trades": 767,
+            "avg_hold_days": 9.78,
+            "win_rate_full": 0.5437,
+            "profit_factor_full": 1.0593,
+            "avg_pnl_full": 91.35
+          },
+          "oos": {
+            "sharpe": 0.0213,
+            "annual_return": -0.0007,
+            "max_drawdown": -0.0741
+          },
+          "n_trades": 767,
+          "oos_trades": 215,
+          "p": 0.02,
+          "seed": 9,
+          "note": "random entry p=0.02 seed=9; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s10",
+          "full": {
+            "annual_return": 0.0462,
+            "sharpe": 0.4677,
+            "max_drawdown": -0.1328,
+            "win_rate": 0.5945,
+            "profit_factor": 1.4087,
+            "num_trades": 725,
+            "avg_hold_days": 9.95,
+            "win_rate_full": 0.5807,
+            "profit_factor_full": 1.324,
+            "avg_pnl_full": 446.27
+          },
+          "oos": {
+            "sharpe": 0.7634,
+            "annual_return": 0.0463,
+            "max_drawdown": -0.0513
+          },
+          "n_trades": 725,
+          "oos_trades": 241,
+          "p": 0.02,
+          "seed": 10,
+          "note": "random entry p=0.02 seed=10; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s11",
+          "full": {
+            "annual_return": 0.0125,
+            "sharpe": 0.2201,
+            "max_drawdown": -0.1431,
+            "win_rate": 0.5863,
+            "profit_factor": 1.1567,
+            "num_trades": 742,
+            "avg_hold_days": 10.18,
+            "win_rate_full": 0.5768,
+            "profit_factor_full": 1.0782,
+            "avg_pnl_full": 104.32
+          },
+          "oos": {
+            "sharpe": 0.9695,
+            "annual_return": 0.0716,
+            "max_drawdown": -0.0595
+          },
+          "n_trades": 742,
+          "oos_trades": 222,
+          "p": 0.02,
+          "seed": 11,
+          "note": "random entry p=0.02 seed=11; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s12",
+          "full": {
+            "annual_return": -0.0425,
+            "sharpe": -0.5499,
+            "max_drawdown": -0.3176,
+            "win_rate": 0.5248,
+            "profit_factor": 0.835,
+            "num_trades": 705,
+            "avg_hold_days": 9.88,
+            "win_rate_full": 0.5106,
+            "profit_factor_full": 0.7793,
+            "avg_pnl_full": -355.27
+          },
+          "oos": {
+            "sharpe": -0.4391,
+            "annual_return": -0.0412,
+            "max_drawdown": -0.1192
+          },
+          "n_trades": 705,
+          "oos_trades": 210,
+          "p": 0.02,
+          "seed": 12,
+          "note": "random entry p=0.02 seed=12; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s13",
+          "full": {
+            "annual_return": -0.0117,
+            "sharpe": -0.0836,
+            "max_drawdown": -0.2412,
+            "win_rate": 0.5621,
+            "profit_factor": 0.9922,
+            "num_trades": 701,
+            "avg_hold_days": 9.8,
+            "win_rate_full": 0.5492,
+            "profit_factor_full": 0.9316,
+            "avg_pnl_full": -109.57
+          },
+          "oos": {
+            "sharpe": -0.1979,
+            "annual_return": -0.0214,
+            "max_drawdown": -0.0866
+          },
+          "n_trades": 701,
+          "oos_trades": 227,
+          "p": 0.02,
+          "seed": 13,
+          "note": "random entry p=0.02 seed=13; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s14",
+          "full": {
+            "annual_return": 0.0243,
+            "sharpe": 0.2835,
+            "max_drawdown": -0.2128,
+            "win_rate": 0.5901,
+            "profit_factor": 1.2336,
+            "num_trades": 749,
+            "avg_hold_days": 10.02,
+            "win_rate_full": 0.5741,
+            "profit_factor_full": 1.1569,
+            "avg_pnl_full": 224.51
+          },
+          "oos": {
+            "sharpe": 0.5403,
+            "annual_return": 0.0316,
+            "max_drawdown": -0.0566
+          },
+          "n_trades": 749,
+          "oos_trades": 205,
+          "p": 0.02,
+          "seed": 14,
+          "note": "random entry p=0.02 seed=14; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s15",
+          "full": {
+            "annual_return": 0.0344,
+            "sharpe": 0.384,
+            "max_drawdown": -0.1798,
+            "win_rate": 0.5933,
+            "profit_factor": 1.3119,
+            "num_trades": 745,
+            "avg_hold_days": 9.92,
+            "win_rate_full": 0.5772,
+            "profit_factor_full": 1.2294,
+            "avg_pnl_full": 314.23
+          },
+          "oos": {
+            "sharpe": 0.7045,
+            "annual_return": 0.0396,
+            "max_drawdown": -0.0654
+          },
+          "n_trades": 745,
+          "oos_trades": 223,
+          "p": 0.02,
+          "seed": 15,
+          "note": "random entry p=0.02 seed=15; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s16",
+          "full": {
+            "annual_return": 0.0223,
+            "sharpe": 0.2795,
+            "max_drawdown": -0.1748,
+            "win_rate": 0.6008,
+            "profit_factor": 1.2076,
+            "num_trades": 744,
+            "avg_hold_days": 9.93,
+            "win_rate_full": 0.5941,
+            "profit_factor_full": 1.1354,
+            "avg_pnl_full": 199.32
+          },
+          "oos": {
+            "sharpe": 1.1314,
+            "annual_return": 0.0772,
+            "max_drawdown": -0.0574
+          },
+          "n_trades": 744,
+          "oos_trades": 233,
+          "p": 0.02,
+          "seed": 16,
+          "note": "random entry p=0.02 seed=16; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s17",
+          "full": {
+            "annual_return": 0.0053,
+            "sharpe": 0.1154,
+            "max_drawdown": -0.2246,
+            "win_rate": 0.5945,
+            "profit_factor": 1.099,
+            "num_trades": 757,
+            "avg_hold_days": 10.12,
+            "win_rate_full": 0.5799,
+            "profit_factor_full": 1.0263,
+            "avg_pnl_full": 36.55
+          },
+          "oos": {
+            "sharpe": 0.0476,
+            "annual_return": 0.001,
+            "max_drawdown": -0.0837
+          },
+          "n_trades": 757,
+          "oos_trades": 212,
+          "p": 0.02,
+          "seed": 17,
+          "note": "random entry p=0.02 seed=17; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s18",
+          "full": {
+            "annual_return": -0.0068,
+            "sharpe": -0.0544,
+            "max_drawdown": -0.2542,
+            "win_rate": 0.5642,
+            "profit_factor": 1.0199,
+            "num_trades": 787,
+            "avg_hold_days": 9.71,
+            "win_rate_full": 0.5527,
+            "profit_factor_full": 0.9556,
+            "avg_pnl_full": -66.63
+          },
+          "oos": {
+            "sharpe": 0.4771,
+            "annual_return": 0.0355,
+            "max_drawdown": -0.0777
+          },
+          "n_trades": 787,
+          "oos_trades": 234,
+          "p": 0.02,
+          "seed": 18,
+          "note": "random entry p=0.02 seed=18; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s19",
+          "full": {
+            "annual_return": -0.0201,
+            "sharpe": -0.1859,
+            "max_drawdown": -0.2244,
+            "win_rate": 0.5422,
+            "profit_factor": 0.9452,
+            "num_trades": 699,
+            "avg_hold_days": 9.76,
+            "win_rate_full": 0.5308,
+            "profit_factor_full": 0.888,
+            "avg_pnl_full": -186.34
+          },
+          "oos": {
+            "sharpe": -0.6619,
+            "annual_return": -0.0672,
+            "max_drawdown": -0.1353
+          },
+          "n_trades": 699,
+          "oos_trades": 212,
+          "p": 0.02,
+          "seed": 19,
+          "note": "random entry p=0.02 seed=19; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s20",
+          "full": {
+            "annual_return": 0.006,
+            "sharpe": 0.1058,
+            "max_drawdown": -0.2111,
+            "win_rate": 0.5543,
+            "profit_factor": 1.0933,
+            "num_trades": 709,
+            "avg_hold_days": 10.04,
+            "win_rate_full": 0.5444,
+            "profit_factor_full": 1.0263,
+            "avg_pnl_full": 40.11
+          },
+          "oos": {
+            "sharpe": 0.0533,
+            "annual_return": 0.0013,
+            "max_drawdown": -0.0641
+          },
+          "n_trades": 709,
+          "oos_trades": 218,
+          "p": 0.02,
+          "seed": 20,
+          "note": "random entry p=0.02 seed=20; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s21",
+          "full": {
+            "annual_return": -0.0365,
+            "sharpe": -0.4476,
+            "max_drawdown": -0.269,
+            "win_rate": 0.5548,
+            "profit_factor": 0.8658,
+            "num_trades": 721,
+            "avg_hold_days": 9.9,
+            "win_rate_full": 0.5423,
+            "profit_factor_full": 0.8078,
+            "avg_pnl_full": -302.58
+          },
+          "oos": {
+            "sharpe": -0.4508,
+            "annual_return": -0.0503,
+            "max_drawdown": -0.199
+          },
+          "n_trades": 721,
+          "oos_trades": 215,
+          "p": 0.02,
+          "seed": 21,
+          "note": "random entry p=0.02 seed=21; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s22",
+          "full": {
+            "annual_return": 0.0468,
+            "sharpe": 0.4662,
+            "max_drawdown": -0.1452,
+            "win_rate": 0.5678,
+            "profit_factor": 1.3674,
+            "num_trades": 796,
+            "avg_hold_days": 9.8,
+            "win_rate_full": 0.5553,
+            "profit_factor_full": 1.2878,
+            "avg_pnl_full": 422.41
+          },
+          "oos": {
+            "sharpe": 0.2926,
+            "annual_return": 0.0145,
+            "max_drawdown": -0.0573
+          },
+          "n_trades": 796,
+          "oos_trades": 223,
+          "p": 0.02,
+          "seed": 22,
+          "note": "random entry p=0.02 seed=22; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s23",
+          "full": {
+            "annual_return": 0.0233,
+            "sharpe": 0.2677,
+            "max_drawdown": -0.2023,
+            "win_rate": 0.5799,
+            "profit_factor": 1.2082,
+            "num_trades": 738,
+            "avg_hold_days": 10.08,
+            "win_rate_full": 0.5691,
+            "profit_factor_full": 1.1363,
+            "avg_pnl_full": 203.48
+          },
+          "oos": {
+            "sharpe": 0.6111,
+            "annual_return": 0.0364,
+            "max_drawdown": -0.0647
+          },
+          "n_trades": 738,
+          "oos_trades": 227,
+          "p": 0.02,
+          "seed": 23,
+          "note": "random entry p=0.02 seed=23; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s24",
+          "full": {
+            "annual_return": -0.007,
+            "sharpe": -0.0545,
+            "max_drawdown": -0.307,
+            "win_rate": 0.5576,
+            "profit_factor": 1.0196,
+            "num_trades": 764,
+            "avg_hold_days": 9.67,
+            "win_rate_full": 0.551,
+            "profit_factor_full": 0.9536,
+            "avg_pnl_full": -69.28
+          },
+          "oos": {
+            "sharpe": 0.6976,
+            "annual_return": 0.0556,
+            "max_drawdown": -0.0696
+          },
+          "n_trades": 764,
+          "oos_trades": 231,
+          "p": 0.02,
+          "seed": 24,
+          "note": "random entry p=0.02 seed=24; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s25",
+          "full": {
+            "annual_return": -0.0257,
+            "sharpe": -0.2492,
+            "max_drawdown": -0.2991,
+            "win_rate": 0.5305,
+            "profit_factor": 0.9134,
+            "num_trades": 722,
+            "avg_hold_days": 9.66,
+            "win_rate_full": 0.5235,
+            "profit_factor_full": 0.8562,
+            "avg_pnl_full": -234.22
+          },
+          "oos": {
+            "sharpe": 0.1566,
+            "annual_return": 0.0099,
+            "max_drawdown": -0.0756
+          },
+          "n_trades": 722,
+          "oos_trades": 215,
+          "p": 0.02,
+          "seed": 25,
+          "note": "random entry p=0.02 seed=25; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s26",
+          "full": {
+            "annual_return": -0.0149,
+            "sharpe": -0.1675,
+            "max_drawdown": -0.2375,
+            "win_rate": 0.5559,
+            "profit_factor": 0.9755,
+            "num_trades": 689,
+            "avg_hold_days": 10.21,
+            "win_rate_full": 0.5385,
+            "profit_factor_full": 0.9102,
+            "avg_pnl_full": -133.1
+          },
+          "oos": {
+            "sharpe": 0.2286,
+            "annual_return": 0.0145,
+            "max_drawdown": -0.0982
+          },
+          "n_trades": 689,
+          "oos_trades": 219,
+          "p": 0.02,
+          "seed": 26,
+          "note": "random entry p=0.02 seed=26; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s27",
+          "full": {
+            "annual_return": -0.005,
+            "sharpe": -0.035,
+            "max_drawdown": -0.1986,
+            "win_rate": 0.5323,
+            "profit_factor": 1.0356,
+            "num_trades": 712,
+            "avg_hold_days": 10.03,
+            "win_rate_full": 0.5225,
+            "profit_factor_full": 0.9644,
+            "avg_pnl_full": -50.92
+          },
+          "oos": {
+            "sharpe": -0.0842,
+            "annual_return": -0.0102,
+            "max_drawdown": -0.0838
+          },
+          "n_trades": 712,
+          "oos_trades": 214,
+          "p": 0.02,
+          "seed": 27,
+          "note": "random entry p=0.02 seed=27; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s28",
+          "full": {
+            "annual_return": -0.0009,
+            "sharpe": 0.0251,
+            "max_drawdown": -0.2241,
+            "win_rate": 0.5757,
+            "profit_factor": 1.06,
+            "num_trades": 766,
+            "avg_hold_days": 9.81,
+            "win_rate_full": 0.5679,
+            "profit_factor_full": 0.994,
+            "avg_pnl_full": -8.98
+          },
+          "oos": {
+            "sharpe": 0.4591,
+            "annual_return": 0.0319,
+            "max_drawdown": -0.0809
+          },
+          "n_trades": 766,
+          "oos_trades": 228,
+          "p": 0.02,
+          "seed": 28,
+          "note": "random entry p=0.02 seed=28; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s29",
+          "full": {
+            "annual_return": 0.0004,
+            "sharpe": 0.0394,
+            "max_drawdown": -0.2146,
+            "win_rate": 0.5741,
+            "profit_factor": 1.0657,
+            "num_trades": 749,
+            "avg_hold_days": 9.93,
+            "win_rate_full": 0.5701,
+            "profit_factor_full": 0.9978,
+            "avg_pnl_full": -3.2
+          },
+          "oos": {
+            "sharpe": 0.1196,
+            "annual_return": 0.0062,
+            "max_drawdown": -0.117
+          },
+          "n_trades": 749,
+          "oos_trades": 222,
+          "p": 0.02,
+          "seed": 29,
+          "note": "random entry p=0.02 seed=29; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s30",
+          "full": {
+            "annual_return": -0.0142,
+            "sharpe": -0.1678,
+            "max_drawdown": -0.2428,
+            "win_rate": 0.5644,
+            "profit_factor": 0.9699,
+            "num_trades": 707,
+            "avg_hold_days": 9.89,
+            "win_rate_full": 0.5545,
+            "profit_factor_full": 0.907,
+            "avg_pnl_full": -143.86
+          },
+          "oos": {
+            "sharpe": 0.0118,
+            "annual_return": -0.0019,
+            "max_drawdown": -0.1029
+          },
+          "n_trades": 707,
+          "oos_trades": 206,
+          "p": 0.02,
+          "seed": 30,
+          "note": "random entry p=0.02 seed=30; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s31",
+          "full": {
+            "annual_return": 0.0229,
+            "sharpe": 0.2637,
+            "max_drawdown": -0.181,
+            "win_rate": 0.5957,
+            "profit_factor": 1.1983,
+            "num_trades": 737,
+            "avg_hold_days": 10.19,
+            "win_rate_full": 0.5821,
+            "profit_factor_full": 1.1298,
+            "avg_pnl_full": 198.21
+          },
+          "oos": {
+            "sharpe": 0.5898,
+            "annual_return": 0.04,
+            "max_drawdown": -0.047
+          },
+          "n_trades": 737,
+          "oos_trades": 219,
+          "p": 0.02,
+          "seed": 31,
+          "note": "random entry p=0.02 seed=31; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s32",
+          "full": {
+            "annual_return": 0.0201,
+            "sharpe": 0.253,
+            "max_drawdown": -0.1576,
+            "win_rate": 0.5652,
+            "profit_factor": 1.1842,
+            "num_trades": 752,
+            "avg_hold_days": 10.15,
+            "win_rate_full": 0.5598,
+            "profit_factor_full": 1.1136,
+            "avg_pnl_full": 170.18
+          },
+          "oos": {
+            "sharpe": 0.7271,
+            "annual_return": 0.0463,
+            "max_drawdown": -0.0457
+          },
+          "n_trades": 752,
+          "oos_trades": 217,
+          "p": 0.02,
+          "seed": 32,
+          "note": "random entry p=0.02 seed=32; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s33",
+          "full": {
+            "annual_return": -0.0048,
+            "sharpe": -0.0361,
+            "max_drawdown": -0.191,
+            "win_rate": 0.5609,
+            "profit_factor": 1.036,
+            "num_trades": 722,
+            "avg_hold_days": 10.07,
+            "win_rate_full": 0.5485,
+            "profit_factor_full": 0.9673,
+            "avg_pnl_full": -46.8
+          },
+          "oos": {
+            "sharpe": 0.0858,
+            "annual_return": 0.0037,
+            "max_drawdown": -0.1135
+          },
+          "n_trades": 722,
+          "oos_trades": 223,
+          "p": 0.02,
+          "seed": 33,
+          "note": "random entry p=0.02 seed=33; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s34",
+          "full": {
+            "annual_return": -0.0037,
+            "sharpe": -0.0159,
+            "max_drawdown": -0.2058,
+            "win_rate": 0.5591,
+            "profit_factor": 1.0314,
+            "num_trades": 728,
+            "avg_hold_days": 9.91,
+            "win_rate_full": 0.5536,
+            "profit_factor_full": 0.9651,
+            "avg_pnl_full": -51.95
+          },
+          "oos": {
+            "sharpe": 0.7598,
+            "annual_return": 0.0581,
+            "max_drawdown": -0.0813
+          },
+          "n_trades": 728,
+          "oos_trades": 225,
+          "p": 0.02,
+          "seed": 34,
+          "note": "random entry p=0.02 seed=34; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s35",
+          "full": {
+            "annual_return": -0.0182,
+            "sharpe": -0.1407,
+            "max_drawdown": -0.3505,
+            "win_rate": 0.556,
+            "profit_factor": 0.9568,
+            "num_trades": 687,
+            "avg_hold_days": 10.22,
+            "win_rate_full": 0.5357,
+            "profit_factor_full": 0.8995,
+            "avg_pnl_full": -168.24
+          },
+          "oos": {
+            "sharpe": -0.1061,
+            "annual_return": -0.0139,
+            "max_drawdown": -0.1006
+          },
+          "n_trades": 687,
+          "oos_trades": 217,
+          "p": 0.02,
+          "seed": 35,
+          "note": "random entry p=0.02 seed=35; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s36",
+          "full": {
+            "annual_return": -0.0503,
+            "sharpe": -0.4682,
+            "max_drawdown": -0.4243,
+            "win_rate": 0.5356,
+            "profit_factor": 0.8188,
+            "num_trades": 702,
+            "avg_hold_days": 9.76,
+            "win_rate_full": 0.5328,
+            "profit_factor_full": 0.7705,
+            "avg_pnl_full": -414.94
+          },
+          "oos": {
+            "sharpe": 0.2346,
+            "annual_return": 0.0209,
+            "max_drawdown": -0.1153
+          },
+          "n_trades": 702,
+          "oos_trades": 220,
+          "p": 0.02,
+          "seed": 36,
+          "note": "random entry p=0.02 seed=36; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s37",
+          "full": {
+            "annual_return": -0.0197,
+            "sharpe": -0.2318,
+            "max_drawdown": -0.2728,
+            "win_rate": 0.5591,
+            "profit_factor": 0.9475,
+            "num_trades": 744,
+            "avg_hold_days": 9.82,
+            "win_rate_full": 0.5511,
+            "profit_factor_full": 0.8895,
+            "avg_pnl_full": -178.9
+          },
+          "oos": {
+            "sharpe": 0.0716,
+            "annual_return": 0.0024,
+            "max_drawdown": -0.1188
+          },
+          "n_trades": 744,
+          "oos_trades": 213,
+          "p": 0.02,
+          "seed": 37,
+          "note": "random entry p=0.02 seed=37; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s38",
+          "full": {
+            "annual_return": -0.0016,
+            "sharpe": 0.01,
+            "max_drawdown": -0.236,
+            "win_rate": 0.5692,
+            "profit_factor": 1.0488,
+            "num_trades": 759,
+            "avg_hold_days": 9.69,
+            "win_rate_full": 0.5613,
+            "profit_factor_full": 0.9815,
+            "avg_pnl_full": -27.03
+          },
+          "oos": {
+            "sharpe": 0.5557,
+            "annual_return": 0.0375,
+            "max_drawdown": -0.0646
+          },
+          "n_trades": 759,
+          "oos_trades": 229,
+          "p": 0.02,
+          "seed": 38,
+          "note": "random entry p=0.02 seed=38; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s39",
+          "full": {
+            "annual_return": 0.0126,
+            "sharpe": 0.1808,
+            "max_drawdown": -0.25,
+            "win_rate": 0.5762,
+            "profit_factor": 1.1305,
+            "num_trades": 755,
+            "avg_hold_days": 10.08,
+            "win_rate_full": 0.5669,
+            "profit_factor_full": 1.062,
+            "avg_pnl_full": 93.9
+          },
+          "oos": {
+            "sharpe": 0.386,
+            "annual_return": 0.0234,
+            "max_drawdown": -0.0982
+          },
+          "n_trades": 755,
+          "oos_trades": 213,
+          "p": 0.02,
+          "seed": 39,
+          "note": "random entry p=0.02 seed=39; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s40",
+          "full": {
+            "annual_return": -0.0144,
+            "sharpe": -0.1233,
+            "max_drawdown": -0.241,
+            "win_rate": 0.5456,
+            "profit_factor": 0.9789,
+            "num_trades": 724,
+            "avg_hold_days": 9.96,
+            "win_rate_full": 0.5304,
+            "profit_factor_full": 0.9177,
+            "avg_pnl_full": -131.29
+          },
+          "oos": {
+            "sharpe": -0.4901,
+            "annual_return": -0.0434,
+            "max_drawdown": -0.0947
+          },
+          "n_trades": 724,
+          "oos_trades": 207,
+          "p": 0.02,
+          "seed": 40,
+          "note": "random entry p=0.02 seed=40; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s41",
+          "full": {
+            "annual_return": -0.0044,
+            "sharpe": -0.0261,
+            "max_drawdown": -0.2299,
+            "win_rate": 0.5792,
+            "profit_factor": 1.0338,
+            "num_trades": 720,
+            "avg_hold_days": 10.31,
+            "win_rate_full": 0.5653,
+            "profit_factor_full": 0.9674,
+            "avg_pnl_full": -48.3
+          },
+          "oos": {
+            "sharpe": 0.2032,
+            "annual_return": 0.0126,
+            "max_drawdown": -0.0818
+          },
+          "n_trades": 720,
+          "oos_trades": 212,
+          "p": 0.02,
+          "seed": 41,
+          "note": "random entry p=0.02 seed=41; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s42",
+          "full": {
+            "annual_return": -0.0242,
+            "sharpe": -0.2572,
+            "max_drawdown": -0.2324,
+            "win_rate": 0.5635,
+            "profit_factor": 0.9321,
+            "num_trades": 756,
+            "avg_hold_days": 9.93,
+            "win_rate_full": 0.5529,
+            "profit_factor_full": 0.8757,
+            "avg_pnl_full": -203.26
+          },
+          "oos": {
+            "sharpe": -0.2137,
+            "annual_return": -0.0264,
+            "max_drawdown": -0.1454
+          },
+          "n_trades": 756,
+          "oos_trades": 225,
+          "p": 0.02,
+          "seed": 42,
+          "note": "random entry p=0.02 seed=42; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s43",
+          "full": {
+            "annual_return": -0.0208,
+            "sharpe": -0.2377,
+            "max_drawdown": -0.2941,
+            "win_rate": 0.539,
+            "profit_factor": 0.9347,
+            "num_trades": 705,
+            "avg_hold_days": 10.12,
+            "win_rate_full": 0.5248,
+            "profit_factor_full": 0.8694,
+            "avg_pnl_full": -191.53
+          },
+          "oos": {
+            "sharpe": 0.8999,
+            "annual_return": 0.0783,
+            "max_drawdown": -0.07
+          },
+          "n_trades": 705,
+          "oos_trades": 228,
+          "p": 0.02,
+          "seed": 43,
+          "note": "random entry p=0.02 seed=43; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s44",
+          "full": {
+            "annual_return": -0.0044,
+            "sharpe": -0.0308,
+            "max_drawdown": -0.2059,
+            "win_rate": 0.5871,
+            "profit_factor": 1.0299,
+            "num_trades": 746,
+            "avg_hold_days": 10.26,
+            "win_rate_full": 0.5777,
+            "profit_factor_full": 0.9634,
+            "avg_pnl_full": -53.7
+          },
+          "oos": {
+            "sharpe": 0.6504,
+            "annual_return": 0.046,
+            "max_drawdown": -0.0506
+          },
+          "n_trades": 746,
+          "oos_trades": 213,
+          "p": 0.02,
+          "seed": 44,
+          "note": "random entry p=0.02 seed=44; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s45",
+          "full": {
+            "annual_return": -0.0453,
+            "sharpe": -0.5787,
+            "max_drawdown": -0.3046,
+            "win_rate": 0.538,
+            "profit_factor": 0.821,
+            "num_trades": 697,
+            "avg_hold_days": 10.16,
+            "win_rate_full": 0.5237,
+            "profit_factor_full": 0.7652,
+            "avg_pnl_full": -375.79
+          },
+          "oos": {
+            "sharpe": -0.2447,
+            "annual_return": -0.0268,
+            "max_drawdown": -0.1327
+          },
+          "n_trades": 697,
+          "oos_trades": 218,
+          "p": 0.02,
+          "seed": 45,
+          "note": "random entry p=0.02 seed=45; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s46",
+          "full": {
+            "annual_return": -0.0249,
+            "sharpe": -0.2622,
+            "max_drawdown": -0.3903,
+            "win_rate": 0.5299,
+            "profit_factor": 0.9116,
+            "num_trades": 668,
+            "avg_hold_days": 10.0,
+            "win_rate_full": 0.5195,
+            "profit_factor_full": 0.8519,
+            "avg_pnl_full": -236.74
+          },
+          "oos": {
+            "sharpe": 0.8625,
+            "annual_return": 0.0701,
+            "max_drawdown": -0.1013
+          },
+          "n_trades": 668,
+          "oos_trades": 223,
+          "p": 0.02,
+          "seed": 46,
+          "note": "random entry p=0.02 seed=46; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s47",
+          "full": {
+            "annual_return": -0.0065,
+            "sharpe": -0.0547,
+            "max_drawdown": -0.2516,
+            "win_rate": 0.5714,
+            "profit_factor": 1.0222,
+            "num_trades": 728,
+            "avg_hold_days": 10.09,
+            "win_rate_full": 0.5563,
+            "profit_factor_full": 0.9567,
+            "avg_pnl_full": -64.44
+          },
+          "oos": {
+            "sharpe": 0.6068,
+            "annual_return": 0.0418,
+            "max_drawdown": -0.0627
+          },
+          "n_trades": 728,
+          "oos_trades": 220,
+          "p": 0.02,
+          "seed": 47,
+          "note": "random entry p=0.02 seed=47; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s48",
+          "full": {
+            "annual_return": -0.016,
+            "sharpe": -0.1797,
+            "max_drawdown": -0.2383,
+            "win_rate": 0.5447,
+            "profit_factor": 0.9628,
+            "num_trades": 716,
+            "avg_hold_days": 9.79,
+            "win_rate_full": 0.5363,
+            "profit_factor_full": 0.8985,
+            "avg_pnl_full": -151.03
+          },
+          "oos": {
+            "sharpe": 0.7224,
+            "annual_return": 0.0595,
+            "max_drawdown": -0.0584
+          },
+          "n_trades": 716,
+          "oos_trades": 222,
+          "p": 0.02,
+          "seed": 48,
+          "note": "random entry p=0.02 seed=48; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.02_s49",
+          "full": {
+            "annual_return": -0.0172,
+            "sharpe": -0.1993,
+            "max_drawdown": -0.2435,
+            "win_rate": 0.553,
+            "profit_factor": 0.9659,
+            "num_trades": 736,
+            "avg_hold_days": 9.89,
+            "win_rate_full": 0.5394,
+            "profit_factor_full": 0.9029,
+            "avg_pnl_full": -149.27
+          },
+          "oos": {
+            "sharpe": -0.0017,
+            "annual_return": -0.0029,
+            "max_drawdown": -0.0807
+          },
+          "n_trades": 736,
+          "oos_trades": 206,
+          "p": 0.02,
+          "seed": 49,
+          "note": "random entry p=0.02 seed=49; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s0",
+          "full": {
+            "annual_return": 0.0043,
+            "sharpe": 0.0945,
+            "max_drawdown": -0.2417,
+            "win_rate": 0.5954,
+            "profit_factor": 1.0999,
+            "num_trades": 818,
+            "avg_hold_days": 9.93,
+            "win_rate_full": 0.5868,
+            "profit_factor_full": 1.0235,
+            "avg_pnl_full": 31.29
+          },
+          "oos": {
+            "sharpe": 0.789,
+            "annual_return": 0.06,
+            "max_drawdown": -0.06
+          },
+          "n_trades": 818,
+          "oos_trades": 242,
+          "p": 0.05,
+          "seed": 0,
+          "note": "random entry p=0.05 seed=0; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s1",
+          "full": {
+            "annual_return": -0.0334,
+            "sharpe": -0.3211,
+            "max_drawdown": -0.3379,
+            "win_rate": 0.559,
+            "profit_factor": 0.8918,
+            "num_trades": 771,
+            "avg_hold_days": 10.2,
+            "win_rate_full": 0.5486,
+            "profit_factor_full": 0.8329,
+            "avg_pnl_full": -265.07
+          },
+          "oos": {
+            "sharpe": 0.4737,
+            "annual_return": 0.0476,
+            "max_drawdown": -0.0819
+          },
+          "n_trades": 771,
+          "oos_trades": 242,
+          "p": 0.05,
+          "seed": 1,
+          "note": "random entry p=0.05 seed=1; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s2",
+          "full": {
+            "annual_return": -0.0068,
+            "sharpe": -0.0495,
+            "max_drawdown": -0.2745,
+            "win_rate": 0.5678,
+            "profit_factor": 1.0219,
+            "num_trades": 752,
+            "avg_hold_days": 10.21,
+            "win_rate_full": 0.5572,
+            "profit_factor_full": 0.9531,
+            "avg_pnl_full": -67.87
+          },
+          "oos": {
+            "sharpe": 1.4376,
+            "annual_return": 0.1184,
+            "max_drawdown": -0.0503
+          },
+          "n_trades": 752,
+          "oos_trades": 241,
+          "p": 0.05,
+          "seed": 2,
+          "note": "random entry p=0.05 seed=2; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s3",
+          "full": {
+            "annual_return": -0.0041,
+            "sharpe": 0.0272,
+            "max_drawdown": -0.3433,
+            "win_rate": 0.5557,
+            "profit_factor": 1.0338,
+            "num_trades": 736,
+            "avg_hold_days": 10.03,
+            "win_rate_full": 0.5435,
+            "profit_factor_full": 0.9694,
+            "avg_pnl_full": -48.43
+          },
+          "oos": {
+            "sharpe": 0.8429,
+            "annual_return": 0.0662,
+            "max_drawdown": -0.0715
+          },
+          "n_trades": 736,
+          "oos_trades": 240,
+          "p": 0.05,
+          "seed": 3,
+          "note": "random entry p=0.05 seed=3; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s4",
+          "full": {
+            "annual_return": -0.0213,
+            "sharpe": -0.1965,
+            "max_drawdown": -0.3263,
+            "win_rate": 0.5729,
+            "profit_factor": 0.9635,
+            "num_trades": 850,
+            "avg_hold_days": 9.88,
+            "win_rate_full": 0.5612,
+            "profit_factor_full": 0.9037,
+            "avg_pnl_full": -151.93
+          },
+          "oos": {
+            "sharpe": 0.33,
+            "annual_return": 0.0278,
+            "max_drawdown": -0.0679
+          },
+          "n_trades": 850,
+          "oos_trades": 233,
+          "p": 0.05,
+          "seed": 4,
+          "note": "random entry p=0.05 seed=4; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s5",
+          "full": {
+            "annual_return": 0.0025,
+            "sharpe": 0.0711,
+            "max_drawdown": -0.2393,
+            "win_rate": 0.5631,
+            "profit_factor": 1.0847,
+            "num_trades": 808,
+            "avg_hold_days": 9.97,
+            "win_rate_full": 0.5532,
+            "profit_factor_full": 1.0098,
+            "avg_pnl_full": 13.28
+          },
+          "oos": {
+            "sharpe": 0.9218,
+            "annual_return": 0.0676,
+            "max_drawdown": -0.0743
+          },
+          "n_trades": 808,
+          "oos_trades": 252,
+          "p": 0.05,
+          "seed": 5,
+          "note": "random entry p=0.05 seed=5; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s6",
+          "full": {
+            "annual_return": -0.0367,
+            "sharpe": -0.4348,
+            "max_drawdown": -0.264,
+            "win_rate": 0.5466,
+            "profit_factor": 0.8709,
+            "num_trades": 730,
+            "avg_hold_days": 10.48,
+            "win_rate_full": 0.5384,
+            "profit_factor_full": 0.8151,
+            "avg_pnl_full": -303.25
+          },
+          "oos": {
+            "sharpe": -0.4501,
+            "annual_return": -0.0523,
+            "max_drawdown": -0.1155
+          },
+          "n_trades": 730,
+          "oos_trades": 232,
+          "p": 0.05,
+          "seed": 6,
+          "note": "random entry p=0.05 seed=6; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s7",
+          "full": {
+            "annual_return": 0.0121,
+            "sharpe": 0.1732,
+            "max_drawdown": -0.1047,
+            "win_rate": 0.572,
+            "profit_factor": 1.1385,
+            "num_trades": 785,
+            "avg_hold_days": 9.89,
+            "win_rate_full": 0.5592,
+            "profit_factor_full": 1.0664,
+            "avg_pnl_full": 96.86
+          },
+          "oos": {
+            "sharpe": -0.3278,
+            "annual_return": -0.0298,
+            "max_drawdown": -0.095
+          },
+          "n_trades": 785,
+          "oos_trades": 234,
+          "p": 0.05,
+          "seed": 7,
+          "note": "random entry p=0.05 seed=7; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s8",
+          "full": {
+            "annual_return": -0.0047,
+            "sharpe": -0.022,
+            "max_drawdown": -0.2804,
+            "win_rate": 0.5781,
+            "profit_factor": 1.0324,
+            "num_trades": 813,
+            "avg_hold_days": 9.69,
+            "win_rate_full": 0.5658,
+            "profit_factor_full": 0.9652,
+            "avg_pnl_full": -50.67
+          },
+          "oos": {
+            "sharpe": 0.9798,
+            "annual_return": 0.0837,
+            "max_drawdown": -0.0666
+          },
+          "n_trades": 813,
+          "oos_trades": 246,
+          "p": 0.05,
+          "seed": 8,
+          "note": "random entry p=0.05 seed=8; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s9",
+          "full": {
+            "annual_return": -0.0582,
+            "sharpe": -0.5441,
+            "max_drawdown": -0.4343,
+            "win_rate": 0.5294,
+            "profit_factor": 0.7903,
+            "num_trades": 731,
+            "avg_hold_days": 10.18,
+            "win_rate_full": 0.5198,
+            "profit_factor_full": 0.7384,
+            "avg_pnl_full": -446.52
+          },
+          "oos": {
+            "sharpe": 0.2425,
+            "annual_return": 0.0225,
+            "max_drawdown": -0.1196
+          },
+          "n_trades": 731,
+          "oos_trades": 236,
+          "p": 0.05,
+          "seed": 9,
+          "note": "random entry p=0.05 seed=9; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s10",
+          "full": {
+            "annual_return": 0.012,
+            "sharpe": 0.1752,
+            "max_drawdown": -0.2386,
+            "win_rate": 0.5609,
+            "profit_factor": 1.127,
+            "num_trades": 804,
+            "avg_hold_days": 9.87,
+            "win_rate_full": 0.5473,
+            "profit_factor_full": 1.0564,
+            "avg_pnl_full": 83.42
+          },
+          "oos": {
+            "sharpe": 0.7008,
+            "annual_return": 0.0466,
+            "max_drawdown": -0.0543
+          },
+          "n_trades": 804,
+          "oos_trades": 227,
+          "p": 0.05,
+          "seed": 10,
+          "note": "random entry p=0.05 seed=10; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s11",
+          "full": {
+            "annual_return": -0.0141,
+            "sharpe": -0.1589,
+            "max_drawdown": -0.2396,
+            "win_rate": 0.5225,
+            "profit_factor": 0.9761,
+            "num_trades": 733,
+            "avg_hold_days": 10.26,
+            "win_rate_full": 0.5171,
+            "profit_factor_full": 0.9075,
+            "avg_pnl_full": -132.25
+          },
+          "oos": {
+            "sharpe": 0.7614,
+            "annual_return": 0.064,
+            "max_drawdown": -0.0769
+          },
+          "n_trades": 733,
+          "oos_trades": 233,
+          "p": 0.05,
+          "seed": 11,
+          "note": "random entry p=0.05 seed=11; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s12",
+          "full": {
+            "annual_return": -0.0169,
+            "sharpe": -0.1667,
+            "max_drawdown": -0.2749,
+            "win_rate": 0.5649,
+            "profit_factor": 0.9667,
+            "num_trades": 786,
+            "avg_hold_days": 9.99,
+            "win_rate_full": 0.5611,
+            "profit_factor_full": 0.9041,
+            "avg_pnl_full": -146.48
+          },
+          "oos": {
+            "sharpe": 0.5294,
+            "annual_return": 0.0413,
+            "max_drawdown": -0.0756
+          },
+          "n_trades": 786,
+          "oos_trades": 239,
+          "p": 0.05,
+          "seed": 12,
+          "note": "random entry p=0.05 seed=12; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s13",
+          "full": {
+            "annual_return": 0.0242,
+            "sharpe": 0.2894,
+            "max_drawdown": -0.1317,
+            "win_rate": 0.5833,
+            "profit_factor": 1.2139,
+            "num_trades": 816,
+            "avg_hold_days": 10.01,
+            "win_rate_full": 0.5686,
+            "profit_factor_full": 1.1378,
+            "avg_pnl_full": 196.38
+          },
+          "oos": {
+            "sharpe": 0.3606,
+            "annual_return": 0.0224,
+            "max_drawdown": -0.057
+          },
+          "n_trades": 816,
+          "oos_trades": 232,
+          "p": 0.05,
+          "seed": 13,
+          "note": "random entry p=0.05 seed=13; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s14",
+          "full": {
+            "annual_return": -0.0055,
+            "sharpe": -0.0057,
+            "max_drawdown": -0.1491,
+            "win_rate": 0.5486,
+            "profit_factor": 1.0368,
+            "num_trades": 782,
+            "avg_hold_days": 9.97,
+            "win_rate_full": 0.5332,
+            "profit_factor_full": 0.9708,
+            "avg_pnl_full": -44.85
+          },
+          "oos": {
+            "sharpe": 0.3021,
+            "annual_return": 0.0185,
+            "max_drawdown": -0.0787
+          },
+          "n_trades": 782,
+          "oos_trades": 232,
+          "p": 0.05,
+          "seed": 14,
+          "note": "random entry p=0.05 seed=14; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s15",
+          "full": {
+            "annual_return": -0.0274,
+            "sharpe": -0.332,
+            "max_drawdown": -0.2798,
+            "win_rate": 0.5504,
+            "profit_factor": 0.9106,
+            "num_trades": 734,
+            "avg_hold_days": 10.23,
+            "win_rate_full": 0.5422,
+            "profit_factor_full": 0.8493,
+            "avg_pnl_full": -233.27
+          },
+          "oos": {
+            "sharpe": 0.1539,
+            "annual_return": 0.009,
+            "max_drawdown": -0.1436
+          },
+          "n_trades": 734,
+          "oos_trades": 234,
+          "p": 0.05,
+          "seed": 15,
+          "note": "random entry p=0.05 seed=15; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s16",
+          "full": {
+            "annual_return": -0.0118,
+            "sharpe": -0.11,
+            "max_drawdown": -0.2302,
+            "win_rate": 0.5745,
+            "profit_factor": 0.9984,
+            "num_trades": 799,
+            "avg_hold_days": 9.94,
+            "win_rate_full": 0.5645,
+            "profit_factor_full": 0.936,
+            "avg_pnl_full": -99.41
+          },
+          "oos": {
+            "sharpe": 0.0965,
+            "annual_return": 0.0046,
+            "max_drawdown": -0.1484
+          },
+          "n_trades": 799,
+          "oos_trades": 229,
+          "p": 0.05,
+          "seed": 16,
+          "note": "random entry p=0.05 seed=16; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s17",
+          "full": {
+            "annual_return": 0.0064,
+            "sharpe": 0.1234,
+            "max_drawdown": -0.188,
+            "win_rate": 0.5742,
+            "profit_factor": 1.1077,
+            "num_trades": 782,
+            "avg_hold_days": 10.16,
+            "win_rate_full": 0.5665,
+            "profit_factor_full": 1.0335,
+            "avg_pnl_full": 46.7
+          },
+          "oos": {
+            "sharpe": 0.453,
+            "annual_return": 0.0334,
+            "max_drawdown": -0.0568
+          },
+          "n_trades": 782,
+          "oos_trades": 240,
+          "p": 0.05,
+          "seed": 17,
+          "note": "random entry p=0.05 seed=17; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s18",
+          "full": {
+            "annual_return": -0.0178,
+            "sharpe": -0.19,
+            "max_drawdown": -0.2798,
+            "win_rate": 0.544,
+            "profit_factor": 0.9714,
+            "num_trades": 807,
+            "avg_hold_days": 10.27,
+            "win_rate_full": 0.5266,
+            "profit_factor_full": 0.9036,
+            "avg_pnl_full": -139.58
+          },
+          "oos": {
+            "sharpe": 0.4097,
+            "annual_return": 0.0325,
+            "max_drawdown": -0.0908
+          },
+          "n_trades": 807,
+          "oos_trades": 236,
+          "p": 0.05,
+          "seed": 18,
+          "note": "random entry p=0.05 seed=18; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s19",
+          "full": {
+            "annual_return": -0.0192,
+            "sharpe": -0.2198,
+            "max_drawdown": -0.247,
+            "win_rate": 0.5644,
+            "profit_factor": 0.9465,
+            "num_trades": 753,
+            "avg_hold_days": 10.05,
+            "win_rate_full": 0.5591,
+            "profit_factor_full": 0.8845,
+            "avg_pnl_full": -177.09
+          },
+          "oos": {
+            "sharpe": 0.1152,
+            "annual_return": 0.0065,
+            "max_drawdown": -0.15
+          },
+          "n_trades": 753,
+          "oos_trades": 236,
+          "p": 0.05,
+          "seed": 19,
+          "note": "random entry p=0.05 seed=19; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s20",
+          "full": {
+            "annual_return": -0.0034,
+            "sharpe": -0.0146,
+            "max_drawdown": -0.2525,
+            "win_rate": 0.5548,
+            "profit_factor": 1.0408,
+            "num_trades": 730,
+            "avg_hold_days": 10.55,
+            "win_rate_full": 0.5493,
+            "profit_factor_full": 0.9704,
+            "avg_pnl_full": -42.26
+          },
+          "oos": {
+            "sharpe": 0.7885,
+            "annual_return": 0.0612,
+            "max_drawdown": -0.0598
+          },
+          "n_trades": 730,
+          "oos_trades": 237,
+          "p": 0.05,
+          "seed": 20,
+          "note": "random entry p=0.05 seed=20; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s21",
+          "full": {
+            "annual_return": -0.0356,
+            "sharpe": -0.3404,
+            "max_drawdown": -0.3994,
+            "win_rate": 0.5417,
+            "profit_factor": 0.8833,
+            "num_trades": 792,
+            "avg_hold_days": 10.29,
+            "win_rate_full": 0.5316,
+            "profit_factor_full": 0.8252,
+            "avg_pnl_full": -275.69
+          },
+          "oos": {
+            "sharpe": 0.5113,
+            "annual_return": 0.044,
+            "max_drawdown": -0.0556
+          },
+          "n_trades": 792,
+          "oos_trades": 236,
+          "p": 0.05,
+          "seed": 21,
+          "note": "random entry p=0.05 seed=21; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s22",
+          "full": {
+            "annual_return": -0.0239,
+            "sharpe": -0.2603,
+            "max_drawdown": -0.2756,
+            "win_rate": 0.5314,
+            "profit_factor": 0.9338,
+            "num_trades": 796,
+            "avg_hold_days": 9.87,
+            "win_rate_full": 0.5188,
+            "profit_factor_full": 0.8747,
+            "avg_pnl_full": -200.86
+          },
+          "oos": {
+            "sharpe": 0.4549,
+            "annual_return": 0.0378,
+            "max_drawdown": -0.1236
+          },
+          "n_trades": 796,
+          "oos_trades": 242,
+          "p": 0.05,
+          "seed": 22,
+          "note": "random entry p=0.05 seed=22; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s23",
+          "full": {
+            "annual_return": -0.0244,
+            "sharpe": -0.1658,
+            "max_drawdown": -0.4192,
+            "win_rate": 0.557,
+            "profit_factor": 0.9372,
+            "num_trades": 781,
+            "avg_hold_days": 10.4,
+            "win_rate_full": 0.5467,
+            "profit_factor_full": 0.8803,
+            "avg_pnl_full": -200.76
+          },
+          "oos": {
+            "sharpe": 0.4816,
+            "annual_return": 0.0416,
+            "max_drawdown": -0.0828
+          },
+          "n_trades": 781,
+          "oos_trades": 229,
+          "p": 0.05,
+          "seed": 23,
+          "note": "random entry p=0.05 seed=23; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s24",
+          "full": {
+            "annual_return": -0.0365,
+            "sharpe": -0.3469,
+            "max_drawdown": -0.3398,
+            "win_rate": 0.5579,
+            "profit_factor": 0.8897,
+            "num_trades": 803,
+            "avg_hold_days": 10.22,
+            "win_rate_full": 0.5467,
+            "profit_factor_full": 0.8351,
+            "avg_pnl_full": -276.93
+          },
+          "oos": {
+            "sharpe": 0.3224,
+            "annual_return": 0.0295,
+            "max_drawdown": -0.0898
+          },
+          "n_trades": 803,
+          "oos_trades": 239,
+          "p": 0.05,
+          "seed": 24,
+          "note": "random entry p=0.05 seed=24; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s25",
+          "full": {
+            "annual_return": -0.0578,
+            "sharpe": -0.5721,
+            "max_drawdown": -0.445,
+            "win_rate": 0.5348,
+            "profit_factor": 0.8083,
+            "num_trades": 776,
+            "avg_hold_days": 10.04,
+            "win_rate_full": 0.5271,
+            "profit_factor_full": 0.7561,
+            "avg_pnl_full": -414.7
+          },
+          "oos": {
+            "sharpe": -0.0238,
+            "annual_return": -0.0079,
+            "max_drawdown": -0.1021
+          },
+          "n_trades": 776,
+          "oos_trades": 227,
+          "p": 0.05,
+          "seed": 25,
+          "note": "random entry p=0.05 seed=25; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s26",
+          "full": {
+            "annual_return": 0.0082,
+            "sharpe": 0.1329,
+            "max_drawdown": -0.2602,
+            "win_rate": 0.5899,
+            "profit_factor": 1.1086,
+            "num_trades": 790,
+            "avg_hold_days": 10.24,
+            "win_rate_full": 0.5823,
+            "profit_factor_full": 1.0397,
+            "avg_pnl_full": 59.04
+          },
+          "oos": {
+            "sharpe": 0.4769,
+            "annual_return": 0.0319,
+            "max_drawdown": -0.0889
+          },
+          "n_trades": 790,
+          "oos_trades": 233,
+          "p": 0.05,
+          "seed": 26,
+          "note": "random entry p=0.05 seed=26; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s27",
+          "full": {
+            "annual_return": 0.0147,
+            "sharpe": 0.2156,
+            "max_drawdown": -0.1986,
+            "win_rate": 0.5762,
+            "profit_factor": 1.1601,
+            "num_trades": 774,
+            "avg_hold_days": 10.07,
+            "win_rate_full": 0.5698,
+            "profit_factor_full": 1.0852,
+            "avg_pnl_full": 120.93
+          },
+          "oos": {
+            "sharpe": 0.5548,
+            "annual_return": 0.0376,
+            "max_drawdown": -0.063
+          },
+          "n_trades": 774,
+          "oos_trades": 239,
+          "p": 0.05,
+          "seed": 27,
+          "note": "random entry p=0.05 seed=27; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s28",
+          "full": {
+            "annual_return": -0.0099,
+            "sharpe": -0.0964,
+            "max_drawdown": -0.2115,
+            "win_rate": 0.5568,
+            "profit_factor": 1.0136,
+            "num_trades": 792,
+            "avg_hold_days": 10.23,
+            "win_rate_full": 0.5417,
+            "profit_factor_full": 0.9458,
+            "avg_pnl_full": -78.85
+          },
+          "oos": {
+            "sharpe": 0.2313,
+            "annual_return": 0.0152,
+            "max_drawdown": -0.0842
+          },
+          "n_trades": 792,
+          "oos_trades": 235,
+          "p": 0.05,
+          "seed": 28,
+          "note": "random entry p=0.05 seed=28; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s29",
+          "full": {
+            "annual_return": -0.0453,
+            "sharpe": -0.4781,
+            "max_drawdown": -0.3202,
+            "win_rate": 0.5418,
+            "profit_factor": 0.8471,
+            "num_trades": 766,
+            "avg_hold_days": 10.37,
+            "win_rate_full": 0.5326,
+            "profit_factor_full": 0.7928,
+            "avg_pnl_full": -345.94
+          },
+          "oos": {
+            "sharpe": -0.5338,
+            "annual_return": -0.0597,
+            "max_drawdown": -0.2063
+          },
+          "n_trades": 766,
+          "oos_trades": 230,
+          "p": 0.05,
+          "seed": 29,
+          "note": "random entry p=0.05 seed=29; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s30",
+          "full": {
+            "annual_return": -0.0151,
+            "sharpe": -0.1606,
+            "max_drawdown": -0.273,
+            "win_rate": 0.5585,
+            "profit_factor": 0.9834,
+            "num_trades": 795,
+            "avg_hold_days": 9.9,
+            "win_rate_full": 0.5497,
+            "profit_factor_full": 0.9196,
+            "avg_pnl_full": -122.85
+          },
+          "oos": {
+            "sharpe": -0.1601,
+            "annual_return": -0.0192,
+            "max_drawdown": -0.1179
+          },
+          "n_trades": 795,
+          "oos_trades": 235,
+          "p": 0.05,
+          "seed": 30,
+          "note": "random entry p=0.05 seed=30; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s31",
+          "full": {
+            "annual_return": -0.013,
+            "sharpe": -0.1141,
+            "max_drawdown": -0.2931,
+            "win_rate": 0.59,
+            "profit_factor": 0.9921,
+            "num_trades": 822,
+            "avg_hold_days": 10.55,
+            "win_rate_full": 0.5815,
+            "profit_factor_full": 0.9296,
+            "avg_pnl_full": -107.77
+          },
+          "oos": {
+            "sharpe": 0.4994,
+            "annual_return": 0.0381,
+            "max_drawdown": -0.0804
+          },
+          "n_trades": 822,
+          "oos_trades": 225,
+          "p": 0.05,
+          "seed": 31,
+          "note": "random entry p=0.05 seed=31; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s32",
+          "full": {
+            "annual_return": -0.0287,
+            "sharpe": -0.2719,
+            "max_drawdown": -0.3108,
+            "win_rate": 0.5524,
+            "profit_factor": 0.9129,
+            "num_trades": 773,
+            "avg_hold_days": 10.15,
+            "win_rate_full": 0.5408,
+            "profit_factor_full": 0.8548,
+            "avg_pnl_full": -233.1
+          },
+          "oos": {
+            "sharpe": 0.5802,
+            "annual_return": 0.0562,
+            "max_drawdown": -0.0736
+          },
+          "n_trades": 773,
+          "oos_trades": 232,
+          "p": 0.05,
+          "seed": 32,
+          "note": "random entry p=0.05 seed=32; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s33",
+          "full": {
+            "annual_return": -0.0129,
+            "sharpe": -0.0865,
+            "max_drawdown": -0.295,
+            "win_rate": 0.5321,
+            "profit_factor": 0.9949,
+            "num_trades": 795,
+            "avg_hold_days": 10.03,
+            "win_rate_full": 0.5245,
+            "profit_factor_full": 0.9291,
+            "avg_pnl_full": -107.55
+          },
+          "oos": {
+            "sharpe": -0.211,
+            "annual_return": -0.0209,
+            "max_drawdown": -0.1195
+          },
+          "n_trades": 795,
+          "oos_trades": 223,
+          "p": 0.05,
+          "seed": 33,
+          "note": "random entry p=0.05 seed=33; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s34",
+          "full": {
+            "annual_return": -0.0247,
+            "sharpe": -0.255,
+            "max_drawdown": -0.3005,
+            "win_rate": 0.5591,
+            "profit_factor": 0.9294,
+            "num_trades": 812,
+            "avg_hold_days": 10.15,
+            "win_rate_full": 0.5468,
+            "profit_factor_full": 0.8671,
+            "avg_pnl_full": -199.71
+          },
+          "oos": {
+            "sharpe": 0.5053,
+            "annual_return": 0.0475,
+            "max_drawdown": -0.0821
+          },
+          "n_trades": 812,
+          "oos_trades": 244,
+          "p": 0.05,
+          "seed": 34,
+          "note": "random entry p=0.05 seed=34; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s35",
+          "full": {
+            "annual_return": 0.0273,
+            "sharpe": 0.3315,
+            "max_drawdown": -0.1381,
+            "win_rate": 0.572,
+            "profit_factor": 1.264,
+            "num_trades": 778,
+            "avg_hold_days": 10.24,
+            "win_rate_full": 0.563,
+            "profit_factor_full": 1.177,
+            "avg_pnl_full": 232.65
+          },
+          "oos": {
+            "sharpe": 0.753,
+            "annual_return": 0.0484,
+            "max_drawdown": -0.084
+          },
+          "n_trades": 778,
+          "oos_trades": 240,
+          "p": 0.05,
+          "seed": 35,
+          "note": "random entry p=0.05 seed=35; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s36",
+          "full": {
+            "annual_return": 0.0359,
+            "sharpe": 0.508,
+            "max_drawdown": -0.1508,
+            "win_rate": 0.6042,
+            "profit_factor": 1.3291,
+            "num_trades": 816,
+            "avg_hold_days": 10.04,
+            "win_rate_full": 0.5919,
+            "profit_factor_full": 1.2393,
+            "avg_pnl_full": 301.37
+          },
+          "oos": {
+            "sharpe": 0.8143,
+            "annual_return": 0.046,
+            "max_drawdown": -0.0536
+          },
+          "n_trades": 816,
+          "oos_trades": 228,
+          "p": 0.05,
+          "seed": 36,
+          "note": "random entry p=0.05 seed=36; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s37",
+          "full": {
+            "annual_return": -0.02,
+            "sharpe": -0.2154,
+            "max_drawdown": -0.2197,
+            "win_rate": 0.5709,
+            "profit_factor": 0.96,
+            "num_trades": 818,
+            "avg_hold_days": 9.97,
+            "win_rate_full": 0.5623,
+            "profit_factor_full": 0.8969,
+            "avg_pnl_full": -158.16
+          },
+          "oos": {
+            "sharpe": -0.4027,
+            "annual_return": -0.0435,
+            "max_drawdown": -0.1241
+          },
+          "n_trades": 818,
+          "oos_trades": 239,
+          "p": 0.05,
+          "seed": 37,
+          "note": "random entry p=0.05 seed=37; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s38",
+          "full": {
+            "annual_return": -0.018,
+            "sharpe": -0.1214,
+            "max_drawdown": -0.4157,
+            "win_rate": 0.5517,
+            "profit_factor": 0.9715,
+            "num_trades": 832,
+            "avg_hold_days": 9.68,
+            "win_rate_full": 0.5433,
+            "profit_factor_full": 0.9132,
+            "avg_pnl_full": -142.86
+          },
+          "oos": {
+            "sharpe": 0.522,
+            "annual_return": 0.0415,
+            "max_drawdown": -0.1317
+          },
+          "n_trades": 832,
+          "oos_trades": 255,
+          "p": 0.05,
+          "seed": 38,
+          "note": "random entry p=0.05 seed=38; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s39",
+          "full": {
+            "annual_return": -0.0069,
+            "sharpe": -0.055,
+            "max_drawdown": -0.2473,
+            "win_rate": 0.5702,
+            "profit_factor": 1.0225,
+            "num_trades": 784,
+            "avg_hold_days": 10.06,
+            "win_rate_full": 0.5663,
+            "profit_factor_full": 0.9525,
+            "avg_pnl_full": -67.11
+          },
+          "oos": {
+            "sharpe": 0.5882,
+            "annual_return": 0.0436,
+            "max_drawdown": -0.0809
+          },
+          "n_trades": 784,
+          "oos_trades": 237,
+          "p": 0.05,
+          "seed": 39,
+          "note": "random entry p=0.05 seed=39; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s40",
+          "full": {
+            "annual_return": -0.014,
+            "sharpe": -0.1556,
+            "max_drawdown": -0.268,
+            "win_rate": 0.5513,
+            "profit_factor": 0.9804,
+            "num_trades": 780,
+            "avg_hold_days": 10.14,
+            "win_rate_full": 0.5423,
+            "profit_factor_full": 0.9157,
+            "avg_pnl_full": -124.78
+          },
+          "oos": {
+            "sharpe": 0.6891,
+            "annual_return": 0.0564,
+            "max_drawdown": -0.0606
+          },
+          "n_trades": 780,
+          "oos_trades": 243,
+          "p": 0.05,
+          "seed": 40,
+          "note": "random entry p=0.05 seed=40; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s41",
+          "full": {
+            "annual_return": -0.0176,
+            "sharpe": -0.1885,
+            "max_drawdown": -0.275,
+            "win_rate": 0.5506,
+            "profit_factor": 0.9735,
+            "num_trades": 801,
+            "avg_hold_days": 10.07,
+            "win_rate_full": 0.5393,
+            "profit_factor_full": 0.9096,
+            "avg_pnl_full": -136.31
+          },
+          "oos": {
+            "sharpe": 0.8948,
+            "annual_return": 0.0757,
+            "max_drawdown": -0.0684
+          },
+          "n_trades": 801,
+          "oos_trades": 246,
+          "p": 0.05,
+          "seed": 41,
+          "note": "random entry p=0.05 seed=41; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s42",
+          "full": {
+            "annual_return": -0.0273,
+            "sharpe": -0.2993,
+            "max_drawdown": -0.3236,
+            "win_rate": 0.5264,
+            "profit_factor": 0.9257,
+            "num_trades": 794,
+            "avg_hold_days": 9.62,
+            "win_rate_full": 0.5176,
+            "profit_factor_full": 0.8623,
+            "avg_pnl_full": -207.2
+          },
+          "oos": {
+            "sharpe": 0.2109,
+            "annual_return": 0.0148,
+            "max_drawdown": -0.0756
+          },
+          "n_trades": 794,
+          "oos_trades": 236,
+          "p": 0.05,
+          "seed": 42,
+          "note": "random entry p=0.05 seed=42; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s43",
+          "full": {
+            "annual_return": -0.0186,
+            "sharpe": -0.1504,
+            "max_drawdown": -0.3422,
+            "win_rate": 0.5704,
+            "profit_factor": 0.9668,
+            "num_trades": 824,
+            "avg_hold_days": 10.1,
+            "win_rate_full": 0.557,
+            "profit_factor_full": 0.9088,
+            "avg_pnl_full": -147.85
+          },
+          "oos": {
+            "sharpe": 0.3007,
+            "annual_return": 0.0234,
+            "max_drawdown": -0.0861
+          },
+          "n_trades": 824,
+          "oos_trades": 241,
+          "p": 0.05,
+          "seed": 43,
+          "note": "random entry p=0.05 seed=43; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s44",
+          "full": {
+            "annual_return": -0.0016,
+            "sharpe": 0.0138,
+            "max_drawdown": -0.3009,
+            "win_rate": 0.5561,
+            "profit_factor": 1.0578,
+            "num_trades": 793,
+            "avg_hold_days": 10.13,
+            "win_rate_full": 0.5498,
+            "profit_factor_full": 0.9871,
+            "avg_pnl_full": -18.6
+          },
+          "oos": {
+            "sharpe": 0.6753,
+            "annual_return": 0.0485,
+            "max_drawdown": -0.0682
+          },
+          "n_trades": 793,
+          "oos_trades": 231,
+          "p": 0.05,
+          "seed": 44,
+          "note": "random entry p=0.05 seed=44; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s45",
+          "full": {
+            "annual_return": -0.0312,
+            "sharpe": -0.3043,
+            "max_drawdown": -0.2779,
+            "win_rate": 0.5582,
+            "profit_factor": 0.9186,
+            "num_trades": 799,
+            "avg_hold_days": 10.32,
+            "win_rate_full": 0.5494,
+            "profit_factor_full": 0.8636,
+            "avg_pnl_full": -231.02
+          },
+          "oos": {
+            "sharpe": -0.0848,
+            "annual_return": -0.0131,
+            "max_drawdown": -0.1324
+          },
+          "n_trades": 799,
+          "oos_trades": 218,
+          "p": 0.05,
+          "seed": 45,
+          "note": "random entry p=0.05 seed=45; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s46",
+          "full": {
+            "annual_return": -0.0117,
+            "sharpe": -0.0862,
+            "max_drawdown": -0.3454,
+            "win_rate": 0.5773,
+            "profit_factor": 0.9954,
+            "num_trades": 783,
+            "avg_hold_days": 10.07,
+            "win_rate_full": 0.5632,
+            "profit_factor_full": 0.9323,
+            "avg_pnl_full": -103.87
+          },
+          "oos": {
+            "sharpe": 0.8024,
+            "annual_return": 0.0706,
+            "max_drawdown": -0.0774
+          },
+          "n_trades": 783,
+          "oos_trades": 236,
+          "p": 0.05,
+          "seed": 46,
+          "note": "random entry p=0.05 seed=46; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s47",
+          "full": {
+            "annual_return": 0.0188,
+            "sharpe": 0.32,
+            "max_drawdown": -0.1774,
+            "win_rate": 0.6018,
+            "profit_factor": 1.203,
+            "num_trades": 781,
+            "avg_hold_days": 9.86,
+            "win_rate_full": 0.589,
+            "profit_factor_full": 1.1201,
+            "avg_pnl_full": 153.37
+          },
+          "oos": {
+            "sharpe": 1.2867,
+            "annual_return": 0.0855,
+            "max_drawdown": -0.0488
+          },
+          "n_trades": 781,
+          "oos_trades": 253,
+          "p": 0.05,
+          "seed": 47,
+          "note": "random entry p=0.05 seed=47; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s48",
+          "full": {
+            "annual_return": -0.0179,
+            "sharpe": -0.1828,
+            "max_drawdown": -0.2917,
+            "win_rate": 0.5714,
+            "profit_factor": 0.9613,
+            "num_trades": 798,
+            "avg_hold_days": 10.1,
+            "win_rate_full": 0.5602,
+            "profit_factor_full": 0.8985,
+            "avg_pnl_full": -154.08
+          },
+          "oos": {
+            "sharpe": 0.5485,
+            "annual_return": 0.0487,
+            "max_drawdown": -0.0833
+          },
+          "n_trades": 798,
+          "oos_trades": 250,
+          "p": 0.05,
+          "seed": 48,
+          "note": "random entry p=0.05 seed=48; exits=engine rules"
+        },
+        {
+          "name": "rand_p0.05_s49",
+          "full": {
+            "annual_return": -0.0447,
+            "sharpe": -0.4038,
+            "max_drawdown": -0.3697,
+            "win_rate": 0.5394,
+            "profit_factor": 0.8566,
+            "num_trades": 799,
+            "avg_hold_days": 10.08,
+            "win_rate_full": 0.5332,
+            "profit_factor_full": 0.8042,
+            "avg_pnl_full": -333.38
+          },
+          "oos": {
+            "sharpe": 0.0239,
+            "annual_return": -0.0054,
+            "max_drawdown": -0.1169
+          },
+          "n_trades": 799,
+          "oos_trades": 233,
+          "p": 0.05,
+          "seed": 49,
+          "note": "random entry p=0.05 seed=49; exits=engine rules"
+        }
+      ]
+    },
+    "B_random_entry_random_exit": {
+      "n": 20,
+      "runs": [
+        {
+          "name": "randexit_p0.02_s0",
+          "full": {
+            "annual_return": -0.0335,
+            "sharpe": -0.3872,
+            "max_drawdown": -0.3152,
+            "win_rate": 0.5352,
+            "profit_factor": 0.9036,
+            "num_trades": 781,
+            "avg_hold_days": 8.04,
+            "win_rate_full": 0.5224,
+            "profit_factor_full": 0.8372,
+            "avg_pnl_full": -247.72
+          },
+          "oos": {
+            "sharpe": -0.1316,
+            "annual_return": -0.0154,
+            "max_drawdown": -0.0911
+          },
+          "n_trades": 781,
+          "oos_trades": 242,
+          "p": 0.02,
+          "seed": 0,
+          "note": "random entry p=0.02 seed=0 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s1",
+          "full": {
+            "annual_return": -0.0413,
+            "sharpe": -0.4125,
+            "max_drawdown": -0.3406,
+            "win_rate": 0.5498,
+            "profit_factor": 0.8804,
+            "num_trades": 844,
+            "avg_hold_days": 8.26,
+            "win_rate_full": 0.5355,
+            "profit_factor_full": 0.8218,
+            "avg_pnl_full": -292.39
+          },
+          "oos": {
+            "sharpe": 0.1487,
+            "annual_return": 0.0096,
+            "max_drawdown": -0.1414
+          },
+          "n_trades": 844,
+          "oos_trades": 248,
+          "p": 0.02,
+          "seed": 1,
+          "note": "random entry p=0.02 seed=1 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s2",
+          "full": {
+            "annual_return": -0.0257,
+            "sharpe": -0.3128,
+            "max_drawdown": -0.2782,
+            "win_rate": 0.5447,
+            "profit_factor": 0.9362,
+            "num_trades": 817,
+            "avg_hold_days": 8.24,
+            "win_rate_full": 0.5288,
+            "profit_factor_full": 0.8691,
+            "avg_pnl_full": -198.13
+          },
+          "oos": {
+            "sharpe": 0.2161,
+            "annual_return": 0.0138,
+            "max_drawdown": -0.0672
+          },
+          "n_trades": 817,
+          "oos_trades": 232,
+          "p": 0.02,
+          "seed": 2,
+          "note": "random entry p=0.02 seed=2 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s3",
+          "full": {
+            "annual_return": -0.0299,
+            "sharpe": -0.2844,
+            "max_drawdown": -0.3516,
+            "win_rate": 0.5434,
+            "profit_factor": 0.9258,
+            "num_trades": 806,
+            "avg_hold_days": 8.12,
+            "win_rate_full": 0.5261,
+            "profit_factor_full": 0.8619,
+            "avg_pnl_full": -218.22
+          },
+          "oos": {
+            "sharpe": 0.1564,
+            "annual_return": 0.0091,
+            "max_drawdown": -0.0706
+          },
+          "n_trades": 806,
+          "oos_trades": 222,
+          "p": 0.02,
+          "seed": 3,
+          "note": "random entry p=0.02 seed=3 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s4",
+          "full": {
+            "annual_return": -0.0176,
+            "sharpe": -0.2267,
+            "max_drawdown": -0.2138,
+            "win_rate": 0.541,
+            "profit_factor": 0.9794,
+            "num_trades": 793,
+            "avg_hold_days": 7.86,
+            "win_rate_full": 0.5296,
+            "profit_factor_full": 0.9056,
+            "avg_pnl_full": -134.35
+          },
+          "oos": {
+            "sharpe": -0.0685,
+            "annual_return": -0.0085,
+            "max_drawdown": -0.1352
+          },
+          "n_trades": 793,
+          "oos_trades": 241,
+          "p": 0.02,
+          "seed": 4,
+          "note": "random entry p=0.02 seed=4 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s5",
+          "full": {
+            "annual_return": -0.0025,
+            "sharpe": 0.0294,
+            "max_drawdown": -0.3887,
+            "win_rate": 0.5762,
+            "profit_factor": 1.0585,
+            "num_trades": 781,
+            "avg_hold_days": 8.19,
+            "win_rate_full": 0.5557,
+            "profit_factor_full": 0.9864,
+            "avg_pnl_full": -20.7
+          },
+          "oos": {
+            "sharpe": 0.993,
+            "annual_return": 0.0742,
+            "max_drawdown": -0.0446
+          },
+          "n_trades": 781,
+          "oos_trades": 253,
+          "p": 0.02,
+          "seed": 5,
+          "note": "random entry p=0.02 seed=5 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s6",
+          "full": {
+            "annual_return": -0.0015,
+            "sharpe": 0.0219,
+            "max_drawdown": -0.3362,
+            "win_rate": 0.5902,
+            "profit_factor": 1.0593,
+            "num_trades": 820,
+            "avg_hold_days": 8.5,
+            "win_rate_full": 0.572,
+            "profit_factor_full": 0.9886,
+            "avg_pnl_full": -17.16
+          },
+          "oos": {
+            "sharpe": 1.0896,
+            "annual_return": 0.0894,
+            "max_drawdown": -0.0667
+          },
+          "n_trades": 820,
+          "oos_trades": 239,
+          "p": 0.02,
+          "seed": 6,
+          "note": "random entry p=0.02 seed=6 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s7",
+          "full": {
+            "annual_return": -0.0164,
+            "sharpe": -0.1876,
+            "max_drawdown": -0.2326,
+            "win_rate": 0.5496,
+            "profit_factor": 0.9731,
+            "num_trades": 797,
+            "avg_hold_days": 8.28,
+            "win_rate_full": 0.5408,
+            "profit_factor_full": 0.9006,
+            "avg_pnl_full": -143.0
+          },
+          "oos": {
+            "sharpe": 0.9518,
+            "annual_return": 0.0759,
+            "max_drawdown": -0.0556
+          },
+          "n_trades": 797,
+          "oos_trades": 238,
+          "p": 0.02,
+          "seed": 7,
+          "note": "random entry p=0.02 seed=7 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s8",
+          "full": {
+            "annual_return": -0.0408,
+            "sharpe": -0.4195,
+            "max_drawdown": -0.3404,
+            "win_rate": 0.5431,
+            "profit_factor": 0.881,
+            "num_trades": 823,
+            "avg_hold_days": 8.16,
+            "win_rate_full": 0.5237,
+            "profit_factor_full": 0.8216,
+            "avg_pnl_full": -290.18
+          },
+          "oos": {
+            "sharpe": 0.0789,
+            "annual_return": 0.0025,
+            "max_drawdown": -0.1114
+          },
+          "n_trades": 823,
+          "oos_trades": 255,
+          "p": 0.02,
+          "seed": 8,
+          "note": "random entry p=0.02 seed=8 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s9",
+          "full": {
+            "annual_return": 0.0071,
+            "sharpe": 0.1187,
+            "max_drawdown": -0.1443,
+            "win_rate": 0.5345,
+            "profit_factor": 1.1161,
+            "num_trades": 825,
+            "avg_hold_days": 7.81,
+            "win_rate_full": 0.5212,
+            "profit_factor_full": 1.0386,
+            "avg_pnl_full": 57.24
+          },
+          "oos": {
+            "sharpe": -0.1492,
+            "annual_return": -0.0106,
+            "max_drawdown": -0.0605
+          },
+          "n_trades": 825,
+          "oos_trades": 230,
+          "p": 0.02,
+          "seed": 9,
+          "note": "random entry p=0.02 seed=9 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s10",
+          "full": {
+            "annual_return": 0.0195,
+            "sharpe": 0.2178,
+            "max_drawdown": -0.2242,
+            "win_rate": 0.5452,
+            "profit_factor": 1.1791,
+            "num_trades": 785,
+            "avg_hold_days": 8.27,
+            "win_rate_full": 0.5274,
+            "profit_factor_full": 1.1009,
+            "avg_pnl_full": 148.63
+          },
+          "oos": {
+            "sharpe": 0.001,
+            "annual_return": -0.0022,
+            "max_drawdown": -0.057
+          },
+          "n_trades": 785,
+          "oos_trades": 245,
+          "p": 0.02,
+          "seed": 10,
+          "note": "random entry p=0.02 seed=10 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s11",
+          "full": {
+            "annual_return": -0.0223,
+            "sharpe": -0.2587,
+            "max_drawdown": -0.2791,
+            "win_rate": 0.5512,
+            "profit_factor": 0.9474,
+            "num_trades": 782,
+            "avg_hold_days": 8.41,
+            "win_rate_full": 0.5332,
+            "profit_factor_full": 0.8777,
+            "avg_pnl_full": -179.6
+          },
+          "oos": {
+            "sharpe": 0.4016,
+            "annual_return": 0.0306,
+            "max_drawdown": -0.0694
+          },
+          "n_trades": 782,
+          "oos_trades": 230,
+          "p": 0.02,
+          "seed": 11,
+          "note": "random entry p=0.02 seed=11 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s12",
+          "full": {
+            "annual_return": -0.0281,
+            "sharpe": -0.3572,
+            "max_drawdown": -0.2911,
+            "win_rate": 0.5207,
+            "profit_factor": 0.9162,
+            "num_trades": 749,
+            "avg_hold_days": 8.37,
+            "win_rate_full": 0.51,
+            "profit_factor_full": 0.8505,
+            "avg_pnl_full": -230.7
+          },
+          "oos": {
+            "sharpe": 0.2442,
+            "annual_return": 0.0157,
+            "max_drawdown": -0.1008
+          },
+          "n_trades": 749,
+          "oos_trades": 234,
+          "p": 0.02,
+          "seed": 12,
+          "note": "random entry p=0.02 seed=12 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s13",
+          "full": {
+            "annual_return": -0.0209,
+            "sharpe": -0.1507,
+            "max_drawdown": -0.3365,
+            "win_rate": 0.5274,
+            "profit_factor": 0.9561,
+            "num_trades": 749,
+            "avg_hold_days": 8.11,
+            "win_rate_full": 0.506,
+            "profit_factor_full": 0.8923,
+            "avg_pnl_full": -175.44
+          },
+          "oos": {
+            "sharpe": -0.2642,
+            "annual_return": -0.0281,
+            "max_drawdown": -0.1072
+          },
+          "n_trades": 749,
+          "oos_trades": 244,
+          "p": 0.02,
+          "seed": 13,
+          "note": "random entry p=0.02 seed=13 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s14",
+          "full": {
+            "annual_return": 0.002,
+            "sharpe": 0.0699,
+            "max_drawdown": -0.3106,
+            "win_rate": 0.5677,
+            "profit_factor": 1.0823,
+            "num_trades": 805,
+            "avg_hold_days": 8.31,
+            "win_rate_full": 0.5453,
+            "profit_factor_full": 1.009,
+            "avg_pnl_full": 13.59
+          },
+          "oos": {
+            "sharpe": 0.2843,
+            "annual_return": 0.0189,
+            "max_drawdown": -0.0762
+          },
+          "n_trades": 805,
+          "oos_trades": 230,
+          "p": 0.02,
+          "seed": 14,
+          "note": "random entry p=0.02 seed=14 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s15",
+          "full": {
+            "annual_return": 0.0328,
+            "sharpe": 0.3629,
+            "max_drawdown": -0.1763,
+            "win_rate": 0.5723,
+            "profit_factor": 1.2974,
+            "num_trades": 788,
+            "avg_hold_days": 8.16,
+            "win_rate_full": 0.5482,
+            "profit_factor_full": 1.2068,
+            "avg_pnl_full": 278.25
+          },
+          "oos": {
+            "sharpe": 0.6273,
+            "annual_return": 0.0357,
+            "max_drawdown": -0.0471
+          },
+          "n_trades": 788,
+          "oos_trades": 239,
+          "p": 0.02,
+          "seed": 15,
+          "note": "random entry p=0.02 seed=15 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s16",
+          "full": {
+            "annual_return": -0.0231,
+            "sharpe": -0.2382,
+            "max_drawdown": -0.3218,
+            "win_rate": 0.5576,
+            "profit_factor": 0.9522,
+            "num_trades": 825,
+            "avg_hold_days": 8.12,
+            "win_rate_full": 0.5455,
+            "profit_factor_full": 0.8868,
+            "avg_pnl_full": -176.24
+          },
+          "oos": {
+            "sharpe": 0.2742,
+            "annual_return": 0.0206,
+            "max_drawdown": -0.0822
+          },
+          "n_trades": 825,
+          "oos_trades": 257,
+          "p": 0.02,
+          "seed": 16,
+          "note": "random entry p=0.02 seed=16 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s17",
+          "full": {
+            "annual_return": -0.0051,
+            "sharpe": -0.0479,
+            "max_drawdown": -0.2233,
+            "win_rate": 0.5692,
+            "profit_factor": 1.0387,
+            "num_trades": 838,
+            "avg_hold_days": 8.15,
+            "win_rate_full": 0.5537,
+            "profit_factor_full": 0.9613,
+            "avg_pnl_full": -53.6
+          },
+          "oos": {
+            "sharpe": -0.3252,
+            "annual_return": -0.0255,
+            "max_drawdown": -0.1157
+          },
+          "n_trades": 838,
+          "oos_trades": 245,
+          "p": 0.02,
+          "seed": 17,
+          "note": "random entry p=0.02 seed=17 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s18",
+          "full": {
+            "annual_return": -0.0208,
+            "sharpe": -0.2257,
+            "max_drawdown": -0.3262,
+            "win_rate": 0.5537,
+            "profit_factor": 0.9553,
+            "num_trades": 829,
+            "avg_hold_days": 7.92,
+            "win_rate_full": 0.538,
+            "profit_factor_full": 0.8897,
+            "avg_pnl_full": -169.42
+          },
+          "oos": {
+            "sharpe": 0.7487,
+            "annual_return": 0.0634,
+            "max_drawdown": -0.0748
+          },
+          "n_trades": 829,
+          "oos_trades": 253,
+          "p": 0.02,
+          "seed": 18,
+          "note": "random entry p=0.02 seed=18 + random exit p=0.05"
+        },
+        {
+          "name": "randexit_p0.02_s19",
+          "full": {
+            "annual_return": -0.0139,
+            "sharpe": -0.128,
+            "max_drawdown": -0.2071,
+            "win_rate": 0.5406,
+            "profit_factor": 0.9895,
+            "num_trades": 764,
+            "avg_hold_days": 7.9,
+            "win_rate_full": 0.5196,
+            "profit_factor_full": 0.9178,
+            "avg_pnl_full": -122.51
+          },
+          "oos": {
+            "sharpe": -0.2799,
+            "annual_return": -0.0236,
+            "max_drawdown": -0.0999
+          },
+          "n_trades": 764,
+          "oos_trades": 229,
+          "p": 0.02,
+          "seed": 19,
+          "note": "random entry p=0.02 seed=19 + random exit p=0.05"
+        }
+      ]
+    },
+    "C_passive": {
+      "runs": {
+        "ew48_buyhold": {
+          "full": {
+            "sharpe": 0.3004,
+            "annual_return": 0.038,
+            "max_drawdown": -0.3843
+          },
+          "oos": {
+            "sharpe": 0.7101,
+            "annual_return": 0.1202,
+            "max_drawdown": -0.1677
+          },
+          "n_trades": 0,
+          "oos_trades": 0
+        },
+        "ew48_monthly_rebal": {
+          "full": {
+            "sharpe": 0.3792,
+            "annual_return": 0.0521,
+            "max_drawdown": -0.3652
+          },
+          "oos": {
+            "sharpe": 0.8051,
+            "annual_return": 0.1306,
+            "max_drawdown": -0.116
+          },
+          "n_trades": 0,
+          "oos_trades": 0
+        }
+      },
+      "note": "no engine; identical to v1 family C by construction"
+    }
+  },
+  "null_pool_old_vs_new": {
+    "v1": {
+      "n_values": 120,
+      "mu": -0.033216666666666665,
+      "sigma": 0.2429174989919965
+    },
+    "v2": {
+      "n_values": 120,
+      "mu": -0.09124,
+      "sigma": 0.23683094328545623
+    },
+    "mu_delta": -0.058023,
+    "sigma_delta": -0.006087
+  },
+  "skill_line_v2_old_vs_new": {
+    "n_eff_held_equal": 362083,
+    "v1_line_at_current_neff": 1.1958,
+    "v2_line_at_current_neff": 1.107,
+    "line_delta_engine_effect": -0.0888,
+    "passive_term": null,
+    "formula": "max(passive+0.10, mu + sigma*sqrt(2*ln N_eff))",
+    "ledger_note": "+0 (r259 re-execution single-count; 122 trials already counted by v1 entry)"
+  },
+  "audit": {
+    "elapsed_sec": 68.1,
+    "n_backtests": 120,
+    "workers": 1,
+    "cpu_parallel": "serial (single-process)",
+    "machine": "bm-a"
+  }
+}
