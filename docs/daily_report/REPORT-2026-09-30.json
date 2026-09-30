@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-30",
- "generated_at": "2026-09-30 08:02:50",
+ "generated_at": "2026-09-30 08:41:32",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-09-30.md"
  },
  "rd": {
-  "commits_24h": 426,
-  "result_jsons_landed_24h": 133,
+  "commits_24h": 424,
+  "result_jsons_landed_24h": 135,
   "digests_landed_24h": 9,
   "prereg_md_touched_24h": 44,
   "compute_audit_latest": {
-   "ts": "2026-09-30 08:01:01",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-09-30 08:39:56",
+   "py_cpu_pct": 0.5,
    "flags": [
     "supply_floor"
    ],
    "verdict": "FLAG:supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -575,11 +575,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 977779,
+  "total_report_tokens_est": 978483,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-30 07:27:02",
+   "prev_generated": "2026-09-30 07:36:29",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 1251,
+   "report_tokens_growth": 704,
    "mandate_growth": 0
   },
   "method": {
@@ -590,25 +590,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-09-30 07:35:04",
-    "py_pct": 0.3,
-    "cpu_pct": 12.0,
+    "latest_ts": "2026-09-30 08:39:56",
+    "py_pct": 0.5,
+    "cpu_pct": 14.0,
     "ready": 1,
-    "streak_min": 183.8,
+    "streak_min": 248.7,
     "verdict": "FLAG:supply_floor",
     "py_series_tail": [
-     [
-      "04:31",
-      0.1
-     ],
-     [
-      "04:54",
-      0.2
-     ],
-     [
-      "04:55",
-      2.3
-     ],
      [
       "05:22",
       0.0
@@ -644,9 +632,21 @@
      [
       "07:35",
       0.3
+     ],
+     [
+      "07:35",
+      0.0
+     ],
+     [
+      "08:01",
+      0.1
+     ],
+     [
+      "08:39",
+      0.5
      ]
     ],
-    "today_samples": 28,
+    "today_samples": 31,
     "today_floor_ok": 0,
     "today_sla_flags": 1,
     "today_supply_gap_flags": 9
