@@ -5333,6 +5333,624 @@
       },
       "done_at": "2026-09-30 22:0x",
       "result_ref": "results/p2_calibration_v2_ext.json (finalize r289 bm-c: ledger 362,389+2,200=364,589; canon mu -0.0912/sigma 0.2368 K120 vs merged mu -0.0909/sigma 0.2475 K2320; skill_line_v2 @n_eff 362,389: 1.1071->1.1613 K-lift +0.0542; H-K1 stability in-noise, H-K3 line-drift disclosure face)"
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAREP-LEGACY-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-REP",
+        "--axis",
+        "legacy",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-larep-legacy-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+          "owner": "bm-a",
+          "owner_since": "2026-10-01 00:20:09"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAREP-LEGACY-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-REP",
+        "--axis",
+        "legacy",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-larep-legacy-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-REP",
+        "--axis",
+        "deep",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-larep-deep-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAREP-DEEP-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-REP",
+        "--axis",
+        "deep",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-larep-deep-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEQ-LEGACY-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EQ",
+        "--axis",
+        "legacy",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laeq-legacy-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEQ-LEGACY-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EQ",
+        "--axis",
+        "legacy",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laeq-legacy-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEQ-DEEP-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EQ",
+        "--axis",
+        "deep",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laeq-deep-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEQ-DEEP-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EQ",
+        "--axis",
+        "deep",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laeq-deep-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAT3-LEGACY-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-T3",
+        "--axis",
+        "legacy",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-lat3-legacy-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAT3-LEGACY-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-T3",
+        "--axis",
+        "legacy",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-lat3-legacy-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAT3-DEEP-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-T3",
+        "--axis",
+        "deep",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-lat3-deep-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAT3-DEEP-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-T3",
+        "--axis",
+        "deep",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-lat3-deep-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEDGE-LEGACY-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EDGE",
+        "--axis",
+        "legacy",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laedge-legacy-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEDGE-LEGACY-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EDGE",
+        "--axis",
+        "legacy",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laedge-legacy-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEDGE-DEEP-BASE",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EDGE",
+        "--axis",
+        "deep",
+        "--face",
+        "base"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laedge-deep-base-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-CELL-LAEDGE-DEEP-X2",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--cell",
+        "LA-EDGE",
+        "--axis",
+        "deep",
+        "--face",
+        "x2"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "host_gates": [
+        {
+          "kind": "dir_nonempty",
+          "path": "Money02/data/cache/t18_deep_panel/ohlcv"
+        }
+      ],
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-cell-laedge-deep-x2-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-NULLS",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--nulls"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-nulls-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+          "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20330500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool"
+        }
+      ]
+    },
+    {
+      "id": "LOWAMP-P1-SENS",
+      "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+      "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+      "runner": "scripts/lowamp_p1.py",
+      "runner_args": [
+        "run",
+        "--sensitivity"
+      ],
+      "lane_owner": "ANY",
+      "priority": 0,
+      "status": "ready",
+      "entered_at": "2026-10-01 00:19:25",
+      "entered_by": "bm-a (OS iteration loop r495)",
+      "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+      "workers_plan": {
+        "workers": 12,
+        "priority": "BelowNormal"
+      },
+      "shards": [
+        {
+          "key": "lowamp-p1-sens-0of1",
+          "status": "ready",
+          "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+          "note": "N=500 space-filling draws over W77-104/N{2,3}/{invvol,eq}, legacy full panel, rng([20330000,k]); descriptive face only"
+        }
+      ]
     }
   ]
 }
