@@ -12847,6 +12847,33 @@
     "results": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\results\\aggressive_lab.json",
     "prereg": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\research\\AGGRESSIVE_LAB.md"
    }
+  },
+  {
+   "batch": "ETF_OPS_BP2",
+   "ts": "2026-09-30 12:35:00",
+   "kind": "measurement",
+   "retro_fill": false,
+   "cells_ledger_delta": 15,
+   "ledger_total_after": 361999,
+   "gates": {
+    "primary_paired_window_x2": "0/15",
+    "g1_prime_v2": "0/15",
+    "g2_eligible_v2": "0/15",
+    "combined_registrations": 0,
+    "beat_passive_full_x2": "0/15",
+    "beat_pure_dca_x2": "0/15",
+    "family_pbo": 0.1429,
+    "d6_rejects": "0/15"
+   },
+   "eliminated": 15,
+   "refs": {
+    "results": "results/etf_ops/bp2_grid.json",
+    "nulls": "results/etf_ops/bp2_nulls.json",
+    "windows": "results/etf_ops/bp2_windows.json",
+    "prereg": "research/etf_ops/ETF_OPS_BP2_PREREG.md",
+    "runner": "scripts/etf_ops_bp2.py",
+    "verdict": "judged negative family (two-generation closure: BP1 entry-technique + BP2 exit-discipline transplant both negative; ledger block visibility fix r459 -- science_gates.ledger nested face now chained)"
+   }
   }
  ],
  "history": [
@@ -14433,6 +14460,41 @@
     "results": "results/trial_labor_w12/w12_judge.json",
     "intake": "results/trial_labor_w12/w12_intake.json (lawful-zero n_eligible=0, r447 harvest round)",
     "ticket": "T-2026-09-30-124"
+   }
+  },
+  {
+   "batch": "TRIAL_LAB_W13_JUDGE",
+   "ts": "2026-09-30 12:28:02",
+   "kind": "judgment",
+   "retro_fill": false,
+   "cells_ledger_delta": 99,
+   "ledger_total_after": 362083,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 99,
+     "n_pass": 0,
+     "line": "skill_line_v2 per-cell (ledger_head live read); top cell W13-B-2571 legL sharpe_full=1.0071 vs line=1.1959 (n_eff=362577) -- line_ok False; sixteen-gate faces all 0 g1_pass (mom/std/rsqr/sumn/interaction)"
+    },
+    "g2_registration_v2": {
+     "n": 99,
+     "n_eligible": 0
+    },
+    "e_fp_nominal_5pct": 4.95,
+    "family_pbo": {
+     "patterns": 0.7714,
+     "ta": 0.7429,
+     "mean_reversion": 0.7857,
+     "sentiment": 0.1286,
+     "folk": 0.7714,
+     "trend": 0.8143
+    }
+   },
+   "eliminated": 99,
+   "refs": {
+    "judge": "results/trial_labor_w13/w13_judge.json",
+    "intake": "results/trial_labor_w13/w13_intake.json",
+    "runner": "scripts/trial_labor_w13.py",
+    "note": "judge-finalize+intake closed bm-b r459 (resume round after three dead sessions; burn autofill lineage 039d1e837); W13-SCREEN attrition row absent = bm-a r467 lane bookkeeping gap, disclosed for bm-a heal"
    }
   }
  ],

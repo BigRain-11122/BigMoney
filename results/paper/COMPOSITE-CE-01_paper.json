@@ -6,16 +6,16 @@
     "cutoff": "2026-09-22",
     "got": {
       "in_sample": {
-        "sharpe": 0.4696,
-        "annual_return": 0.0286,
-        "max_drawdown": -0.1592,
-        "trades": 312
+        "sharpe": 1.1244,
+        "annual_return": 0.0559,
+        "max_drawdown": -0.0901,
+        "trades": 309
       },
       "out_sample": {
-        "sharpe": 1.7479,
-        "annual_return": 0.1366,
-        "max_drawdown": -0.0434,
-        "trades": 181
+        "sharpe": 0.862,
+        "annual_return": 0.0745,
+        "max_drawdown": -0.0735,
+        "trades": 164
       }
     },
     "checks": {
@@ -64,25 +64,20 @@
     "source": "registration_x2_seed"
   },
   "cutoff": "2026-09-29",
-  "updated": "2026-09-30 12:26:56",
+  "updated": "2026-09-30 13:00:54",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
     "as_of": "2026-09-29"
   },
   "regime_guard": {
-    "mode": "enforce",
-    "approved": true,
-    "active_from": "2026-10-01",
-    "note": "v3 response matrix wired (T-21); per-date semantics governed by the date gate -- pre-active_from window dates stay legacy",
-    "active": false,
-    "enforced": {
-      "active_from": "2026-10-01",
-      "days_enforced": 0,
-      "entries_blocked": 0,
-      "entries_halved": 0
-    },
-    "gate_note": "date gate not yet open (active_from=2026-10-01) -- downgrade to shadow semantics until the window reaches the gate"
+    "mode": "shadow",
+    "state": "ORANGE",
+    "state_cn": "橙·高危",
+    "asof": "2026-09-29",
+    "raw_level": "ORANGE",
+    "days_in_state": 3,
+    "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
   },
   "forward_guard": {
     "enabled": true,
@@ -92,7 +87,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-09-30 12:26:56",
+    "as_of": "2026-09-30 13:00:54",
     "consolidation": {
       "enabled": true,
       "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
