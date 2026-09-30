@@ -1,4 +1,11 @@
-"""PERPETUAL_FACES generator v0.1 -- T-133 s2 (CEO O-2026-09-30-2340).
+"""PERPETUAL_FACES generator v0.2 -- T-133 s2 (CEO O-2026-09-30-2340).
+
+v0.2 (bm-b r485): N1 runner landed (scripts/perpetual_faces_n1.py, wave-2
+prereg research/PERPETUAL_N1_W2_PREREG.md frozen pre-run); first-wave W2
+materialized via autofill submit per law freeze-signature sequencing line
+("runner lands one batch, materialize one batch"); N1 supply_ready=False
+until the per-shard materializer pattern lands (next slice) -- supply()
+reports it honestly as supply-blocked, never fake-materializes.
 
 Law: research/PERPETUAL_FACES.md v1.0 (FROZEN bm-b r484 2026-09-30).
 Face-level prereg frozen ONCE (ticket law); per-wave preregs (R99
@@ -63,8 +70,14 @@ EXT_W1_IN_USE = set(range(10_100, 12_100)) | set(range(20_100, 20_300))
 
 # --- face registry (law sec.2; runner=None = not landed, never materialized) ---
 FACES = [
-    {"id": "N1", "name": "nulls-deepening", "priority": 1, "runner": None,
-     "runner_args": None, "wave": 2, "prereg_ref": None},
+    {"id": "N1", "name": "nulls-deepening", "priority": 1,
+     "runner": "scripts/perpetual_faces_n1.py",
+     "runner_args": ["run"],  # per-shard args appended at materialization
+     "wave": 2, "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md",
+     # supply auto-path blocked until the per-shard materializer pattern lands
+     # (next slice); W2 first batch entered via autofill submit per the law
+     # freeze-signature sequencing line -- never a fake-supply entry
+     "supply_ready": False},
     {"id": "N3", "name": "neighborhood-robustness", "priority": 2, "runner": None,
      "runner_args": None, "wave": 1, "prereg_ref": None},
     {"id": "N2", "name": "random-subspace-furnace", "priority": 3, "runner": None,
@@ -131,9 +144,13 @@ def cmd_status():
     pool, live, starving, py, py_ok = _trigger()
     pending = [f["id"] for f in sorted(FACES, key=lambda x: x["priority"]) if not f["runner"]]
     landed = [f["id"] for f in FACES if f["runner"]]
+    blocked = [f["id"] for f in FACES
+               if f["runner"] and not f.get("supply_ready", True)]
     print(f"pool live entries: {live} (starving={starving})")
     print(f"lane py_cpu face: {py} (py_ok={py_ok})")
     print(f"faces runner-landed: {landed or 'NONE'}")
+    if blocked:
+        print(f"supply-blocked (per-shard materializer pending, honest): {blocked}")
     print(f"faces pending (honest, never materialized): {pending}")
     st = _load_state()
     w = len(st.get("waves", []))
@@ -166,12 +183,23 @@ def cmd_supply():
         _write_state(st)
         print(f"supply: no trigger (live={live} py={py}) -- flags updated")
         return 0
-    landed = [f for f in sorted(FACES, key=lambda x: x["priority"]) if f["runner"]]
+    landed = [f for f in sorted(FACES, key=lambda x: x["priority"])
+              if f["runner"] and f.get("supply_ready", True)]
+    blocked = [f["id"] for f in FACES
+               if f["runner"] and not f.get("supply_ready", True)]
+    if blocked:
+        st["last_supply"]["supply_blocked"] = blocked
     if not landed:
         _write_state(st)
-        print("supply: trigger MET but no face runner landed -- honest no-op, "
-              "flags written (pool_starved/supply_floor) for s3 wiring; "
-              "N1-W2 runner is the next law-sequenced deliverable")
+        if blocked:
+            print(f"supply: trigger MET but runner-landed faces awaiting the "
+                  f"per-shard materializer pattern ({','.join(blocked)}) -- "
+                  f"honest no-op, flags written; first wave materialized via "
+                  f"autofill submit per law sequencing line")
+        else:
+            print("supply: trigger MET but no face runner landed -- honest no-op, "
+                  "flags written (pool_starved/supply_floor) for s3 wiring; "
+                  "N1-W2 runner is the next law-sequenced deliverable")
         return 0
     face = landed[0]
     # materialization path activates with the first landed runner; v0.1
