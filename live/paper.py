@@ -251,6 +251,26 @@ def seg_metrics(equity: pd.Series, start: str | None = None) -> dict:
             "max_drawdown": round(float(max_drawdown(seg)), 4)}
 
 
+def window_metrics_honesty(m: dict | None, bars: int) -> dict | None:
+    """D-20260930-27 Q3 / D-20260930-28 B4 citation ban: annualized /
+    Sharpe-class stats on fewer than 20 bars are mathematically
+    meaningless (probe evidence: annual=-175.6% on 4 bars). Drop them
+    from the self-report state face and stamp an explicit insufficient_data
+    status (same honesty pattern as seg_metrics T-04 F4); counts and
+    fill-guard counters stay (not annualized, not quotable performance)."""
+    if m is None or bars >= 20:
+        return m
+    out = {k: v for k, v in m.items()
+           if k not in ("annual_return", "sharpe", "max_drawdown",
+                        "profit_factor")}
+    out["status"] = "insufficient_data"
+    out["bars"] = int(bars)
+    out["floor"] = 20
+    out["note"] = ("annualized/Sharpe-class stats suppressed (bars<20, "
+                   "D-20260930-27 Q3) -- must not be quoted")
+    return out
+
+
 def anchor_seg_guard(got: dict) -> str | None:
     """Anchor-gate guard for F4: insufficient segments must yield an
     explicit honest not-ok, never a fake pass/fail via zero comparison."""
@@ -815,7 +835,8 @@ def update_trader(t: dict, prices_full: dict, P: dict, vi_bar,
              "months_tracked": agg["months_tracked"],
              "monthly_returns": agg["monthly_returns"],
              "current_dd": agg["current_dd"], "months_detail": agg["months_detail"],
-             "window_metrics": run["metrics"], "cost_x2_check": x2,
+             "window_metrics": window_metrics_honesty(
+                 run["metrics"], agg["bars"]), "cost_x2_check": x2,
              "x2_watch": watch,
              "cutoff": data_cutoff, "updated": time.strftime("%Y-%m-%d %H:%M:%S"),
              "risk_regime": {"is_major_bear": regime["is_major_bear"],
@@ -896,6 +917,20 @@ def _selftest_seg_metrics() -> bool:
     ok &= err is not None and "out_sample segment too short (12 bars" in err
     ok &= anchor_seg_guard({"in_sample": {"sharpe": 0.5},
                             "out_sample": {"sharpe": 0.4}}) is None
+    # D-20260930-27 Q3: bars<20 window_metrics -> annualized/Sharpe-class
+    # stats suppressed + explicit status; >=20 passes through untouched.
+    m4 = {"sharpe": -11.36, "annual_return": -1.756, "max_drawdown": -0.01,
+          "win_rate": 0.0, "profit_factor": 0.0, "num_trades": 3,
+          "avg_hold_days": 2.0, "fill_guard_buy_dropped": 1,
+          "fill_guard_sell_deferred_events": 0}
+    g4 = window_metrics_honesty(m4, 4)
+    ok &= g4["status"] == "insufficient_data" and g4["bars"] == 4 \
+        and g4["floor"] == 20 and g4["num_trades"] == 3 \
+        and g4["fill_guard_buy_dropped"] == 1
+    ok &= all(k not in g4 for k in
+              ("sharpe", "annual_return", "max_drawdown", "profit_factor"))
+    ok &= window_metrics_honesty(m4, 20) is m4
+    ok &= window_metrics_honesty(None, 4) is None
     return bool(ok)
 
 

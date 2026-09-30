@@ -119,7 +119,8 @@ def _update_member(t: dict, prices_full: dict, P: dict, data_cutoff: str,
         "months_tracked": agg["months_tracked"],
         "monthly_returns": agg["monthly_returns"],
         "current_dd": agg["current_dd"], "months_detail": agg["months_detail"],
-        "window_metrics": run["metrics"],
+        "window_metrics": lp.window_metrics_honesty(
+            run["metrics"], agg["bars"]),
         "recorded_evidence": {k: t["prospect"][k] for k in (
             "recorded_full_sharpe", "recorded_oos_sharpe",
             "recorded_x2_full_sharpe", "recorded_n_trades",

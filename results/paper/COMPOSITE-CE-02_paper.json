@@ -39,11 +39,7 @@
     }
   ],
   "window_metrics": {
-    "annual_return": -0.0922,
-    "sharpe": -2.2929,
-    "max_drawdown": -0.0047,
     "win_rate": 0.0,
-    "profit_factor": 0.0,
     "num_trades": 0,
     "avg_hold_days": 0.0,
     "fill_guard_buy_dropped": 0,
@@ -53,7 +49,11 @@
     "dd_control_days_de_risked": 0,
     "dd_control_scaled_entries": 0,
     "dd_control_state_end": "normal",
-    "dd_control_min_dd": -0.0047
+    "dd_control_min_dd": -0.0047,
+    "status": "insufficient_data",
+    "bars": 4,
+    "floor": 20,
+    "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
   },
   "cost_x2_check": {
     "status": "insufficient_data",
@@ -68,7 +68,7 @@
     "source": "registration_x2_seed"
   },
   "cutoff": "2026-09-29",
-  "updated": "2026-09-30 13:00:55",
+  "updated": "2026-09-30 13:14:11",
   "risk_regime": {
     "is_major_bear": false,
     "position_cap": 0.8,
@@ -91,7 +91,7 @@
     "deferred_days_total": 0,
     "first_deferred_date": null,
     "window_semantics": "guarded",
-    "as_of": "2026-09-30 13:00:55",
+    "as_of": "2026-09-30 13:14:11",
     "consolidation": {
       "enabled": true,
       "source": "t19_paper_guard (registry 21ev/19sym bit-exact, read-only)",
