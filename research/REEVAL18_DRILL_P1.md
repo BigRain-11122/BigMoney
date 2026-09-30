@@ -73,10 +73,21 @@
 - 产物：`results/reeval18/drill_manifest.json`（prep 门+窗定义+帽锚 asof）；`results/reeval18/checkpoint_drill.jsonl`（逐员 append·kill-safe）；`results/reeval18/DRILL-<cutoff>.json`（顶层 evidence_cutoff+cutoff_meta·18 员子面/披露列/门态/两段排序/上岗名单）。
 - 入池：run 烧批按 O-2100 长 309 活纪律入 `results/runnable_pool.json`（workers_plan 必带·BelowNormal·CPU 余量律 O-20260929-10:29）。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【跑后回填·2026-09-30 bm-a r494】
 
-（空）
+- 烧成实况：18/18 cells 双成本腿 16.3s（单核短跑·checkpoint 逐员 append）；finalize 哨兵确定性重放 sha256 恒等 MATCH（3489f030…db344）。
+- 窗面：2026-01-05..2026-09-22（176 交易日）；五员 EW 基线窗年化 +2.81%。
+- **判负定谳：fdr_pass 0/18**（最优 W1-A-0360 窗 Sharpe 1.684/p=0.0797，BH 批内校正后 q=0.470≫0.10——18 员同批多重检验下无一幸存）；eligible_reform 0；上岗名单 **空**（0 员）。
+- **D6 撞线重**：14/18 拒收（注册员撞线 11 员 max|corr| 0.707~0.923〔低波族全撞 VOLATILITY-CE-01/轮动族全撞 COMPOSITE-CE-02〕+批内簇去重 3 员）；仅 4 员 D6 独立（W2-A-0300/W2-A-0486/W2-B-1971/W3-A-0325）但 FDR 判负同归。
+- **两段第二段结构性缺数据**：当前态 ORANGE（09-24 起·days_in_state 4）在演习窗（末 09-22）内 bear 段=0 天 ⇒ fit_pct 全 None ⇒ final_score 全 None——现风格适配度在窗内不可测量=诚实缺席（规则冻结如期执行，非规则缺陷）。
+- 预测对账：P1 fdr_pass 0 ∈[0,12] ✓；P3 eligible 0 ∈[0,10] ✓；P4 onboard 0 ∈[0,10] ✓；**P2 D6 拒收 14 ∉[0,10] ✗**——低估撞线密度（预注册带 10 封顶·实际 14），低波/轮动族与注册员窗内相关性比预判更重=如实记 MISS。
+- 披露面实证：帽后年化逐员在列（ORANGE cap 0.50 锚·例 W1-A-0360 帽后年化 +1.81% vs 未帽 +3.65%）；样本薄员 0（最薄 W2-A-0486 窗内 11 笔）；x2 成本列全带（例 W1-A-0360 x2 Sharpe 1.111）；bootstrap CI 下界负值 14/18 员（窗短+9 月回落段所致）。
+- 账本：ledger_delta 0（重估面零生成试验·D-41 §四闸 306/500 不动）；marks +0。
 
-## §8 批后复盘【必填·s7-T】
+## §8 批后复盘【必填·s7-T·2026-09-30 bm-a r494】
 
-（空）
+- **负结果定谳（防镀金律如实记）**：旧标准 18 员在 2026 YTD 窗按新标准（四维合成+批内 FDR）重考=全军判负——改革标准的过滤强度实证兑现（CEO 令 O-1058「多维考量」的机械表达：无单一维独裁+批内 FDR 防运气+D6 防克隆三闸同时收紧）；纸盘泊位零污染=改革第一考的最优产出面（宁缺毋滥）。
+- **撞线密度教训（P2 MISS 根因）**：低波族/轮动族候选与注册员在窗内日收益相关性系统性高（0.78~0.92）——同族网格邻域候选的「独立性」预设过强，后续 W14+ 波 intake 阶段应预期高撞线率、SLOT 供给优先选新机制族（D-41 五优先项同向）。
+- 工程面：模板面坑实录——roster 模板必须映射 A_TEMPLATES 引擎面条目（registered_params 契约），load_trader 活件面 schema 不同（本窗 KeyError 实弹抓回）；D6 复用件输入须 pd.Series（list 输入 pd.concat 崩·selftest 夹具先行抓回）；两者均已修入 harness+selftest。
+- 后续片：s4=48h CEO 报告面（本窗已出 docs/trial_labor/CEO-REPORT-REEVAL18-20260930.md·白话律）；上岗名单空 ⇒ TRIAL-R18 纸盘账户零开（省算力·O-1901 意义性合规）；REEVAL-18 线就此收口，下一消费面=W14+ 新波供给（D-41 试验闸内）。
+

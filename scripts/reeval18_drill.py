@@ -347,11 +347,23 @@ def _roster_cand(row):
             "wave": row["wave"]}
 
 
+def _roster_template(row):
+    """Template = the A_TEMPLATES engine-face entry keyed by trader_id
+    (registered_params/registered_ovr/registered_dd_control live there --
+    candidate_engine_params contract; load_trader's live-file schema is a
+    different face, W1 cmd_screen_prep caliber)."""
+    tid = row.get("template_trader")
+    if not tid:
+        return None
+    for t in tl1.A_TEMPLATES:
+        if t["trader_id"] == tid:
+            return t
+    raise ValueError(f"template {tid} not in registered A_TEMPLATES")
+
+
 def _run_cell(st, row, cap):
     cand = _roster_cand(row)
-    template = None
-    if row["template_trader"]:
-        template = load_trader(row["template_trader"])
+    template = _roster_template(row)
     eq, trades, metrics = _wave_run(st, row["wave"], cand, template)
     st["_last_trades"] = trades
     with CostPatch(2):
@@ -573,8 +585,7 @@ def cmd_finalize() -> int:
         if cid not in member_metrics:
             continue
         cand = _roster_cand(row)
-        template = load_trader(row["template_trader"]) \
-            if row["template_trader"] else None
+        template = _roster_template(row)
         eq, _tr, _mt = _wave_run(st, row["wave"], cand, template)
         r = eq.iloc[st["wbase"]:].pct_change().dropna()
         cand_rets[cid] = pd.Series([round(float(x), 8) for x in r.values],
