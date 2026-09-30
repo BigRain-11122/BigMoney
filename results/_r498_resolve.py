@@ -47,6 +47,9 @@ log = []
 def resolve_twin_side(pair_paths, probe_path_idx=0, tag=''):
     """Decide winner side by ts probe on the JSON member; write ALL members from that side's blob bytes."""
     a2, a3 = blob(2, pair_paths[probe_path_idx]), blob(3, pair_paths[probe_path_idx])
+    if a2 is None or a3 is None:
+        log.append(f'{tag}: no conflict stages present -> SKIP (not conflicted this batch)')
+        return None
     j2, j3 = json.loads(a2), json.loads(a3)
     p2, p3 = probe_side(j2), probe_side(j3)
     if p2 is None and p3 is None:
@@ -69,6 +72,9 @@ def resolve_twin_side(pair_paths, probe_path_idx=0, tag=''):
 
 def resolve_snapshot_ts(path, tag=''):
     a2, a3 = blob(2, path), blob(3, path)
+    if a2 is None or a3 is None:
+        log.append(f'{tag or path}: no conflict stages present -> SKIP (not conflicted this batch)')
+        return None
     j2, j3 = json.loads(a2), json.loads(a3)
     p2, p3 = probe_side(j2), probe_side(j3)
     if p2 is None and p3 is None:
@@ -87,6 +93,9 @@ def resolve_snapshot_ts(path, tag=''):
 
 def resolve_jsonl_union(path):
     a2, a3 = blob(2, path), blob(3, path)
+    if a2 is None or a3 is None:
+        log.append(f'{path}: no conflict stages present -> SKIP (not conflicted this batch)')
+        return None
     # normalize mixed EOLs (producer appends vary CRLF/LF) to LF for split+dedup, exact-line dedup only
     t2 = a2.decode('utf-8').replace('\r\n', '\n')
     t3 = a3.decode('utf-8').replace('\r\n', '\n')
@@ -102,7 +111,11 @@ def resolve_jsonl_union(path):
     return len(union)
 
 def resolve_aa_shards(paths):
-    for p in paths:
+    todo = [p for p in paths if blob(2, p) is not None and blob(3, p) is not None]
+    if not todo:
+        log.append('aa_shards: no conflict stages present -> SKIP (not conflicted this batch)')
+        return True
+    for p in todo:
         a2, a3 = blob(2, p), blob(3, p)
         j2, j3 = json.loads(a2), json.loads(a3)
         # assert science payload identical (all keys except audit envelope)

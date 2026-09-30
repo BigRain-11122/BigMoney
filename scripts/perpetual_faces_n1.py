@@ -72,6 +72,74 @@ PROBE_OUT = os.path.join(OUT_DIR, "_n1_w2_probe.json")
 W1_EXT_OUT = os.path.join(PATHS.results_dir, "p2_calibration_v2_ext.json")
 
 
+# --- pool harvest handshake (r496 canon, T-134 s3) -------------------------
+# Worker-side half: on a verified-done shard write results/pool_claims/
+# <entry>/<shard>.<machine>.json state=closed outcome=ok so the launcher's
+# harvest flip lands the shard done. The worker NEVER writes
+# runnable_pool.json (pool single-writer law). Without this handshake a
+# completed wave reads as a crash to the fuse and autofill relaunches the
+# same shard forever (r498 live family: 12/12 checkpoints on disk, pool
+# shards stuck 'ready', claim-relaunch churn every tick).
+
+def _machine_id() -> str:
+    try:
+        return json.load(open(os.path.join(
+            PATHS.root, "fleet", "machine.json"), encoding="utf-8")
+        ).get("machine_id", "unknown")
+    except Exception:
+        return "unknown"
+
+
+def _now_iso() -> str:
+    return time.strftime("%Y-%m-%dT%H:%M:%S") + time.strftime("%z")[:3] \
+        + ":" + time.strftime("%z")[3:]
+
+
+def _pool_claim(entry_id: str, shard_key: str, detail: str) -> None:
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    d = os.path.join(root, "results", "pool_claims",
+                     entry_id.replace("/", "_"))
+    os.makedirs(d, exist_ok=True)
+    fp = os.path.join(d, f"{shard_key}.{_machine_id()}.json")
+    now = _now_iso()
+    with open(fp, "w", encoding="utf-8") as f:
+        json.dump({"machine_id": _machine_id(), "state": "closed",
+                   "pid": os.getpid(), "heartbeat": now, "outcome": "ok",
+                   "exit_code": 0, "closed_at": now, "result_ref": detail},
+                  f, ensure_ascii=False, indent=1)
+    print(f"pool claim closed: {os.path.basename(fp)}", flush=True)
+
+
+def _entry_shard_of(shard: int, nshards: int) -> tuple:
+    """Pool entry/shard identity (mirrors the T-133 s2 registration face:
+    PERPETUAL-N1-W2-SHARD-<i> / n1w2-<i>of<N>)."""
+    return (f"PERPETUAL-N1-W2-SHARD-{shard}", f"n1w2-{shard}of{nshards}")
+
+
+def _shard_valid(path: str, shard: int, nshards: int) -> bool:
+    """Checkpoint presence law (pool contract: presence=done, deterministic
+    rerun byte-equal): a shard file counts as done only if it parses, its
+    shard/nshards fields match, the slice ranges obey the contiguous slice
+    law, and both families carry exactly the expected run counts."""
+    try:
+        d = json.load(open(path, encoding="utf-8"))
+    except Exception:
+        return False
+    if d.get("batch") != BATCH or d.get("shard") != shard \
+            or d.get("nshards") != nshards:
+        return False
+    a_lo, a_hi = d.get("a_range") or [-1, -1]
+    b_lo, b_hi = d.get("b_range") or [-1, -1]
+    if (a_lo, a_hi) != (shard * A_N // nshards, (shard + 1) * A_N // nshards):
+        return False
+    if (b_lo, b_hi) != (shard * B_N // nshards, (shard + 1) * B_N // nshards):
+        return False
+    fams = d.get("families") or {}
+    n_a = len((fams.get("A_random_engine_exit") or {}).get("runs") or [])
+    n_b = len((fams.get("B_random_entry_random_exit") or {}).get("runs") or [])
+    return n_a == a_hi - a_lo and n_b == b_hi - b_lo
+
+
 def p_for(j: int) -> float:
     """50-seed block alternation, v1 pattern continuation (import-face)."""
     return ext.p_for(j)
@@ -138,6 +206,19 @@ def run_shard(shard: int, nshards: int, workers: int = 1) -> int:
     b_lo, b_hi = shard * B_N // nshards, (shard + 1) * B_N // nshards
     t0 = time.time()
 
+    # checkpoint presence law: verified-done shard -> claim handshake +
+    # skip the burn (pool contract "presence=done; deterministic rerun
+    # byte-equal"; stops the relaunch churn on already-burned shards).
+    ckpt = os.path.join(SHARD_DIR, f"shard-{shard}-of-{nshards}.json")
+    if os.path.exists(ckpt) and _shard_valid(ckpt, shard, nshards):
+        entry_id, shard_key = _entry_shard_of(shard, nshards)
+        _pool_claim(entry_id, shard_key,
+                    f"verified checkpoint skip: {os.path.basename(ckpt)} "
+                    f"(presence=done, slice+family counts verified)")
+        print(f"skip: {os.path.basename(ckpt)} verified done "
+              f"(slice A[{a_lo}..{a_hi}) B[{b_lo}..{b_hi}))", flush=True)
+        return 0
+
     if workers > 1:
         _cap_blas_threads()
         with ProcessPoolExecutor(max_workers=workers,
@@ -178,6 +259,11 @@ def run_shard(shard: int, nshards: int, workers: int = 1) -> int:
         json.dump(out, f, ensure_ascii=False, default=str)
     print(f"saved: {path} ({out['audit']['elapsed_sec']}s, "
           f"{out['audit']['n_backtests']} runs)")
+    entry_id, shard_key = _entry_shard_of(shard, nshards)
+    _pool_claim(entry_id, shard_key,
+                f"shard burned: {os.path.basename(path)} "
+                f"({out['audit']['n_backtests']} runs, "
+                f"{out['audit']['elapsed_sec']}s)")
     return 0
 
 
@@ -509,10 +595,45 @@ def selftest() -> int:
         os.environ.pop(var, None)
     _cap_blas_threads()
     assert os.environ["OMP_NUM_THREADS"] == "1", "BLAS cap missing"
+    # 10. pool harvest handshake (r498): entry/shard identity mirrors the
+    # T-133 s2 registration face; _shard_valid accepts only slice-law-
+    # conforming, family-count-exact checkpoints (presence=done contract).
+    import tempfile
+    assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W2-SHARD-0", "n1w2-0of12")
+    assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W2-SHARD-11", "n1w2-11of12")
+    a0, a1 = 3 * A_N // 12, 4 * A_N // 12
+    b0, b1 = 3 * B_N // 12, 4 * B_N // 12
+    good = {"batch": BATCH, "shard": 3, "nshards": 12, "a_range": [a0, a1],
+            "b_range": [b0, b1],
+            "families": {"A_random_engine_exit": {"runs": [{}] * (a1 - a0)},
+                         "B_random_entry_random_exit": {"runs": [{}] * (b1 - b0)}}}
+    with tempfile.NamedTemporaryFile("w", suffix=".json",
+                                      delete=False) as tf:
+        json.dump(good, tf)
+        tp = tf.name
+    try:
+        assert _shard_valid(tp, 3, 12), "valid checkpoint rejected"
+        for bad in ({"batch": "OTHER", "shard": 3, "nshards": 12},
+                    {**good, "shard": 4},
+                    {**good, "a_range": [a0 + 1, a1]},
+                    {**good, "families": {
+                        "A_random_engine_exit": {"runs": [{}] * (a1 - a0 - 1)},
+                        "B_random_entry_random_exit": {"runs": [{}] * (b1 - b0)}}},
+                    "{truncated json"):
+            with open(tp, "w", encoding="utf-8") as f:
+                if isinstance(bad, str):
+                    f.write(bad)
+                else:
+                    json.dump(bad, f)
+            assert not _shard_valid(tp, 3, 12), f"invalid checkpoint accepted: {bad.get('batch', bad) if isinstance(bad, dict) else bad}"  # noqa: E501
+    finally:
+        os.unlink(tp)
+    assert _machine_id(), "machine_id unreadable"
     print("selftest: PASS (v1 constants + seed bands disjoint [v1/W1/registry/"
           "law W3-W4] + law band parity + p pattern + determinism + slice "
           "math + canon intact + W1 dep complete + path safety + O-2355 "
-          "multiprocess code-backed workers plan)")
+          "multiprocess code-backed workers plan + r498 pool claim "
+          "handshake identity/verify)")
     return 0
 
 

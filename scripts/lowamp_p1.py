@@ -473,15 +473,19 @@ def _sens_task(payload):
     P, close = _G["P"], _G["close"]
     entry, weights, _ = build_signal(close, P["volume"], P["amount"], W, N)
     if sizing == "eq":
-        w2 = weights.copy()
+        # equal-weight among the day's active entries (identical math to
+        # the original in-place variant; pandas>=3 CoW makes to_numpy()
+        # read-only, which killed every eq-draw sens task with
+        # "assignment destination is read-only" -- r498 silent engine
+        # death, zero rows in 68 min)
         on = entry.to_numpy(dtype=bool)
         cnt = entry.sum(axis=1).to_numpy(dtype=float)
-        w2.to_numpy()[:] = np.nan
-        wf = w2.to_numpy(dtype=float)
+        wf = np.full(weights.shape, np.nan, dtype=float)
         for i in range(len(close.index)):
             if cnt[i] > 0:
                 wf[i, on[i]] = 1.0 / cnt[i]
-        weights = w2
+        weights = pd.DataFrame(wf, index=weights.index,
+                               columns=weights.columns)
     active = [c for c in entry.columns if entry[c].any()]
     run = run_cell_portfolio(_G["prices"], close, entry, weights, "base",
                              active)

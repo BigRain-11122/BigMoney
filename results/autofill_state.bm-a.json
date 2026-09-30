@@ -680,7 +680,8 @@
    "fill_latency_min": 70.1,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 5
+   "saturation_launches": 5,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 01:30:05",
@@ -881,92 +882,17 @@
    "fill_latency_min": 84.4,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 02:08:02",
+  "ts": "2026-10-01 02:30:02",
   "machine": "bm-a",
-  "py_cpu_pct": 37.4,
-  "verdict": "fuse_refused_crash_loop",
-  "entry": "PERPETUAL-N1-W2-SHARD-0",
-  "shard": "n1w2-0of12",
-  "fuse_crashes": 1,
-  "fuse_refusals": 14,
-  "fuse_skipped": [
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-0",
-    "shard": "n1w2-0of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,0,--of,12",
-    "fuse_refusals": 14
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-1",
-    "shard": "n1w2-1of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12",
-    "fuse_refusals": 13
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-2",
-    "shard": "n1w2-2of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12",
-    "fuse_refusals": 12
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-3",
-    "shard": "n1w2-3of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,3,--of,12",
-    "fuse_refusals": 11
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-4",
-    "shard": "n1w2-4of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,4,--of,12",
-    "fuse_refusals": 10
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-5",
-    "shard": "n1w2-5of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,5,--of,12",
-    "fuse_refusals": 7
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-6",
-    "shard": "n1w2-6of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,6,--of,12",
-    "fuse_refusals": 7
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-7",
-    "shard": "n1w2-7of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,7,--of,12",
-    "fuse_refusals": 6
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-8",
-    "shard": "n1w2-8of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,8,--of,12",
-    "fuse_refusals": 5
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-9",
-    "shard": "n1w2-9of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,9,--of,12",
-    "fuse_refusals": 5
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-10",
-    "shard": "n1w2-10of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,10,--of,12",
-    "fuse_refusals": 4
-   },
-   {
-    "entry": "PERPETUAL-N1-W2-SHARD-11",
-    "shard": "n1w2-11of12",
-    "sig": "scripts/perpetual_faces_n1.py|run,--shard,11,--of,12",
-    "fuse_refusals": 4
-   }
-  ]
+  "py_cpu_pct": 0.0,
+  "verdict": "claim_lost_yield",
+  "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-BASE",
+  "shard": "lowamp-p1-cell-larep-legacy-base-0of1"
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-01T01:50:48+08:00"
