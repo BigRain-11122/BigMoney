@@ -1,0 +1,39 @@
+{
+  "ts": "2026-09-30 10:49:10",
+  "akshare_version": "1.18.96",
+  "machine": "bm-b",
+  "round": 457,
+  "question": "20260930 TypeError = unpublished-null vs transport?",
+  "arms": [
+    {
+      "period": "20260930",
+      "ok": false,
+      "rows": null,
+      "elapsed_s": 1.1,
+      "error_type": "TypeError",
+      "error": "'NoneType' object is not subscriptable"
+    },
+    {
+      "period": "20260630",
+      "ok": true,
+      "rows": 11449,
+      "elapsed_s": 50.4,
+      "error": null
+    },
+    {
+      "period": "20251231",
+      "ok": false,
+      "rows": null,
+      "elapsed_s": 41.4,
+      "error_type": "SSLError",
+      "error": "HTTPSConnectionPool(host='datacenter-web.eastmoney.com', port=443): Max retries exceeded with url: /api/data/v1/get?sortColumns=UPDATE_DATE%2CSECURITY_CODE&sortTypes=-1%2C-1&pageSize=500&pageNumber=4&"
+    }
+  ],
+  "verdict": {
+    "A_unpublished_raise": true,
+    "B_published_ok": true,
+    "C_published_ok": false
+  },
+  "conclusion": "NOT period-specific -- do not patch, report",
+  "conclusion_all_pass": false
+}

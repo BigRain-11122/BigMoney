@@ -1,0 +1,59 @@
+{
+ "ok": true,
+ "updated": "2026-09-30 10:55:14",
+ "periods": {
+  "annual": "20251231",
+  "interim": "20260630",
+  "interim_prev": "20250630"
+ },
+ "rows": {
+  "annual": 11514,
+  "interim": 11449,
+  "interim_prev": 11609,
+  "st_list": 197,
+  "st_source": "sina_name_markers"
+ },
+ "degraded": {
+  "ttm_ok": true,
+  "prev_err": null
+ },
+ "skipped_dims": [
+  "证监会立案调查",
+  "年报审计非标意见"
+ ],
+ "health_gates": {
+  "annual_rows_ge_min": true,
+  "annual_period_within_18m": true,
+  "annual_np_nonnull_ge_095": true,
+  "st_rows_in_band": true,
+  "st_names_marker_ge_08": true,
+  "verdict_rows_gt_4000": true,
+  "np_ratio": 1.0,
+  "st_marker_ratio": 1.0,
+  "all_pass": true
+ },
+ "verdicts": {
+  "rows": 11635,
+  "eligible": 7273,
+  "r1_loss_total": 4326,
+  "r1_by_reason": {
+   "annual<0": 3542,
+   "ttm<0": 663,
+   "no_data": 121
+  },
+  "r2_st_total": 389,
+  "r2_by_source": {
+   "st_list+name_marker": 197,
+   "name_marker": 192
+  },
+  "ttm_ok_rows": 11448
+ },
+ "coverage_vs_bars": {
+  "bars_codes": 5222,
+  "covered": 5222,
+  "missing": 0,
+  "missing_sample": []
+ },
+ "snapshot": "data/fundamental/eligibility.csv",
+ "lane_machine": "bm-b"
+}

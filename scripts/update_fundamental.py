@@ -106,12 +106,28 @@ def prev_twin(period: str) -> str:
 
 # ---------------------------------------------------------------- fetchers
 
+def _unpublished_null(e: BaseException) -> bool:
+    """EM answers result:null for a period with zero disclosures; akshare's
+    data_json["result"]["pages"] then raises TypeError (NoneType subscript)
+    before any page fetch -- the source's not-published-yet signal, not a
+    transport failure (probe r457: 20260930 raises this in ~1s while the
+    same endpoint serves published 20260630 11,449 rows; live transport
+    failures on this endpoint show up as SSLError/requests exceptions,
+    a different class this fence excludes). Gross mislabels stay fenced:
+    pick_annual hard-fails when no annual period is reachable, and health
+    gate annual_period_within_18m blocks the snapshot write."""
+    return (type(e) is TypeError
+            and "'NoneType' object is not subscriptable" in str(e))
+
+
 def fetch_yjbb(period: str) -> pd.DataFrame:
     """One earnings-report period -> code/name/np frame (deduped).
 
-    Returns an EMPTY frame when the period is not (fully) published yet;
-    RAISES on transport failure after retries -- the two cases are never
-    conflated (a silent fallback to an older period would mislabel data).
+    Returns an EMPTY frame when the period is not (fully) published yet
+    -- either as a short df (partial publication) or as EM's result:null
+    payload (zero disclosures, via _unpublished_null); RAISES on transport
+    failure after retries -- the two cases are never conflated (a silent
+    fallback to an older period would mislabel data).
     """
     import akshare as ak
     last = None
@@ -119,6 +135,8 @@ def fetch_yjbb(period: str) -> pd.DataFrame:
         try:
             df = ak.stock_yjbb_em(date=period)
         except Exception as e:  # noqa: BLE001 -- transport vs empty split
+            if _unpublished_null(e):
+                return pd.DataFrame()
             last = e
             time.sleep(1.0)
             continue

@@ -1,27 +1,27 @@
 {
   "ok": true,
-  "updated": "2026-09-30 10:40:09",
+  "updated": "2026-09-30 10:55:23",
   "module": "firm/risk/b_layer_filter.py",
   "order": "O-20260923-1820 item3b",
   "inputs": {
     "universe_csv": "research/shortline/stock_universe_scan.csv",
     "universe_rows": 5222,
     "eligibility_csv": "data/fundamental/eligibility.csv",
-    "eligibility_rows": 11631,
-    "eligibility_asof": "2026-09-30 10:40:08"
+    "eligibility_rows": 11635,
+    "eligibility_asof": "2026-09-30 10:55:14"
   },
   "mask": {
     "total": 5222,
     "ok_static": 3517,
     "excluded_total": 1705,
     "excluded_by_reason": {
-      "r1_loss": 1507,
+      "r1_loss": 1506,
       "r2_st": 27,
-      "r1_loss+r2_st": 171,
+      "r1_loss+r2_st": 172,
       "not_in_snapshot": 0
     },
     "st_crosstab_informational": {
-      "snapshot_st_in_universe": 198,
+      "snapshot_st_in_universe": 199,
       "scan_regime_proxy_sealed5": 82,
       "overlap": 4,
       "note": "proxy=sealed5>=3 & sealed10==0 (SS2); snapshot ST is today's list applied full-window -- overlap gap = the two conservatism directions differ"
