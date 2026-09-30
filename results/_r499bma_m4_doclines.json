@@ -1,0 +1,1280 @@
+[
+ {
+  "face": "add_001",
+  "sub": "add",
+  "line": "rank(Δclose, 5) * rank(Δvolume, 5).",
+  "extracted": "rank(Δclose, 5) * rank(Δvolume, 5)"
+ },
+ {
+  "face": "add_002",
+  "sub": "add",
+  "line": "-(close - ts_mean(close, 10)) / ts_mean(close, 10) * rank(volume).",
+  "extracted": "-(close - ts_mean(close, 10)) / ts_mean(close, 10) * rank(volume)"
+ },
+ {
+  "face": "add_003",
+  "sub": "add",
+  "line": "sign(Δclose, 1) * (1 + |Δclose/close|) * Δvolume/volume.",
+  "extracted": "sign(Δclose, 1) * (1 + |Δclose/close|) * Δvolume/volume"
+ },
+ {
+  "face": "add_004",
+  "sub": "add",
+  "line": "ts_rank(volume, 20) * ts_rank(-close_loc, 10).",
+  "extracted": "ts_rank(volume, 20) * ts_rank(-close_loc, 10)"
+ },
+ {
+  "face": "add_005",
+  "sub": "add",
+  "line": "ts_sum(close > delay(close, 1), 12) - ts_sum(close < delay(close, 1), 12).",
+  "extracted": "ts_sum(close > delay(close, 1), 12) - ts_sum(close < delay(close, 1), 12)"
+ },
+ {
+  "face": "add_006",
+  "sub": "add",
+  "line": "ewma(close/delay(close,1)-1, 1/12) - close/delay(close,12)-1.",
+  "extracted": "ewma(close/delay(close,1)-1, 1/12) - close/delay(close,12)-1"
+ },
+ {
+  "face": "add_007",
+  "sub": "add",
+  "line": "corr(rank(close), rank(volume), 5).",
+  "extracted": "corr(rank(close), rank(volume), 5)"
+ },
+ {
+  "face": "add_008",
+  "sub": "add",
+  "line": "ts_std(close/delay(close,1)-1, 20).",
+  "extracted": "ts_std(close/delay(close,1)-1, 20)"
+ },
+ {
+  "face": "add_009",
+  "sub": "add",
+  "line": "(high + low) / 2 - delay((high + low) / 2, 3).",
+  "extracted": "(high + low) / 2 - delay((high + low) / 2, 3)"
+ },
+ {
+  "face": "add_010",
+  "sub": "add",
+  "line": "ts_max(high, 5) - ts_min(low, 5) scaled by close.",
+  "extracted": "ts_max(high, 5) - ts_min(low, 5) scaled by close"
+ },
+ {
+  "face": "add_011",
+  "sub": "add",
+  "line": "ts_corr(vwap, volume, 10).",
+  "extracted": "ts_corr(vwap, volume, 10)"
+ },
+ {
+  "face": "add_012",
+  "sub": "add",
+  "line": "rank(open - mean(open,10)) * rank(abs(close-vwap)).",
+  "extracted": "rank(open - mean(open,10)) * rank(abs(close-vwap))"
+ },
+ {
+  "face": "add_013",
+  "sub": "add",
+  "line": "(high * low)^0.5 - vwap.",
+  "extracted": "(high * low)^0.5 - vwap"
+ },
+ {
+  "face": "add_014",
+  "sub": "add",
+  "line": "close - delay(close, 5) scaled by delay(close, 5).",
+  "extracted": "close - delay(close, 5) scaled by delay(close, 5)"
+ },
+ {
+  "face": "add_015",
+  "sub": "add",
+  "line": "open / delay(close, 1) - 1 (intraday gap rank).",
+  "extracted": "open / delay(close, 1) - 1 (intraday gap rank)"
+ },
+ {
+  "face": "add_016",
+  "sub": "add",
+  "line": "ts_max(vwap, 10) - vwap.",
+  "extracted": "ts_max(vwap, 10) - vwap"
+ },
+ {
+  "face": "add_017",
+  "sub": "add",
+  "line": "vwap - ts_min(vwap, 10).",
+  "extracted": "vwap - ts_min(vwap, 10)"
+ },
+ {
+  "face": "add_018",
+  "sub": "add",
+  "line": "mean(abs(close - open) / (high - low + 1e-9), 5).",
+  "extracted": "mean(abs(close - open) / (high - low + 1e-9), 5)"
+ },
+ {
+  "face": "add_019",
+  "sub": "add",
+  "line": "sum(close > open, 5) / 5 - bullishness ratio.",
+  "extracted": "sum(close > open, 5) / 5 - bullishness ratio"
+ },
+ {
+  "face": "add_020",
+  "sub": "add",
+  "line": "std(close, 10) / mean(close, 10) - coefficient of variation.",
+  "extracted": "std(close, 10) / mean(close, 10) - coefficient of variation"
+ },
+ {
+  "face": "add_021",
+  "sub": "add",
+  "line": "rank(corr(close, volume, 20)).",
+  "extracted": "rank(corr(close, volume, 20))"
+ },
+ {
+  "face": "add_022",
+  "sub": "add",
+  "line": "ewma(volume, 2/6) / ewma(volume, 2/24) - volume wave.",
+  "extracted": "ewma(volume, 2/6) / ewma(volume, 2/24) - volume wave"
+ },
+ {
+  "face": "add_023",
+  "sub": "add",
+  "line": "close - ts_mean(close, 5) (deviation from 5-day MA).",
+  "extracted": "close - ts_mean(close, 5) (deviation from 5-day MA)"
+ },
+ {
+  "face": "add_024",
+  "sub": "add",
+  "line": "close - ts_mean(close, 20) (deviation from 20-day MA).",
+  "extracted": "close - ts_mean(close, 20) (deviation from 20-day MA)"
+ },
+ {
+  "face": "add_025",
+  "sub": "add",
+  "line": "mean(close, 5) / mean(close, 20).",
+  "extracted": "mean(close, 5) / mean(close, 20)"
+ },
+ {
+  "face": "add_026",
+  "sub": "add",
+  "line": "ts_std(volume, 5) / ts_mean(volume, 5) (volume CV).",
+  "extracted": "ts_std(volume, 5) / ts_mean(volume, 5) (volume CV)"
+ },
+ {
+  "face": "add_027",
+  "sub": "add",
+  "line": "rank(-delta(close, 3) * Δvolume).",
+  "extracted": "rank(-delta(close, 3) * Δvolume)"
+ },
+ {
+  "face": "add_028",
+  "sub": "add",
+  "line": "(close - open) / (high - low + 1e-9).",
+  "extracted": "(close - open) / (high - low + 1e-9)"
+ },
+ {
+  "face": "add_029",
+  "sub": "add",
+  "line": "ts_mean((close - open) / (high - low + eps), 10).",
+  "extracted": "ts_mean((close - open) / (high - low + eps), 10)"
+ },
+ {
+  "face": "add_030",
+  "sub": "add",
+  "line": "rank(sum(ret, 5)) * rank(sum(ret, 20)).",
+  "extracted": "rank(sum(ret, 5)) * rank(sum(ret, 20))"
+ },
+ {
+  "face": "alpha_001",
+  "sub": "alpha",
+  "line": "cs_rank(ts_rank(close, 5)) - 0.5",
+  "extracted": "cs_rank(ts_rank(close, 5)) - 0.5"
+ },
+ {
+  "face": "alpha_002",
+  "sub": "alpha",
+  "line": "-corr(rank(Δ log volume, 2), rank((C-O)/O), 6)",
+  "extracted": "-corr(rank(Δ log volume, 2), rank((C-O)/O), 6)"
+ },
+ {
+  "face": "alpha_003",
+  "sub": "alpha",
+  "line": "-corr(rank(open), rank(volume), 10)",
+  "extracted": "-corr(rank(open), rank(volume), 10)"
+ },
+ {
+  "face": "alpha_004",
+  "sub": "alpha",
+  "line": "-ts_rank(rank(low), 9)",
+  "extracted": "-ts_rank(rank(low), 9)"
+ },
+ {
+  "face": "alpha_006",
+  "sub": "alpha",
+  "line": "-corr(open, volume, 10)",
+  "extracted": "-corr(open, volume, 10)"
+ },
+ {
+  "face": "alpha_007",
+  "sub": "alpha",
+  "line": "Deviation from 20-day mean, cross-sectionally z-scored.",
+  "extracted": ""
+ },
+ {
+  "face": "alpha_012",
+  "sub": "alpha",
+  "line": "sign(Δvolume) × (−Δclose)",
+  "extracted": "sign(Δvolume) × (−Δclose)"
+ },
+ {
+  "face": "alpha_053",
+  "sub": "alpha",
+  "line": "-Δ(close-location, 9)",
+  "extracted": "-Δ(close-location, 9)"
+ },
+ {
+  "face": "alpha_101",
+  "sub": "alpha",
+  "line": "(close - open) / (high - low + eps)",
+  "extracted": "(close - open) / (high - low + eps)"
+ },
+ {
+  "face": "best_001",
+  "sub": "best",
+  "line": "ts_rank of -close_loc over 5 days.",
+  "extracted": ""
+ },
+ {
+  "face": "best_002",
+  "sub": "best",
+  "line": "ts_rank of -close_loc over 10 days.",
+  "extracted": ""
+ },
+ {
+  "face": "best_003",
+  "sub": "best",
+  "line": "ts_rank of -close_loc over 20 days.",
+  "extracted": ""
+ },
+ {
+  "face": "best_004",
+  "sub": "best",
+  "line": "Delta(close_loc, 3).",
+  "extracted": "Delta(close_loc, 3)"
+ },
+ {
+  "face": "best_005",
+  "sub": "best",
+  "line": "Delta(close_loc, 5).",
+  "extracted": "Delta(close_loc, 5)"
+ },
+ {
+  "face": "best_006",
+  "sub": "best",
+  "line": "EWMA of -close_loc, alpha=1/10.",
+  "extracted": ""
+ },
+ {
+  "face": "best_007",
+  "sub": "best",
+  "line": "Cross-sectional rank of -close_loc.",
+  "extracted": ""
+ },
+ {
+  "face": "best_008",
+  "sub": "best",
+  "line": "ts_mean(vwap / close, 3).",
+  "extracted": "ts_mean(vwap / close, 3)"
+ },
+ {
+  "face": "best_009",
+  "sub": "best",
+  "line": "EWMA(vwap, 5) / EWMA(close, 5).",
+  "extracted": "EWMA(vwap, 5) / EWMA(close, 5)"
+ },
+ {
+  "face": "best_010",
+  "sub": "best",
+  "line": "(vwap / close - 1) * volume.",
+  "extracted": "(vwap / close - 1) * volume"
+ },
+ {
+  "face": "best_011",
+  "sub": "best",
+  "line": "cs_rank(open / delay(close, 1) - 1).",
+  "extracted": "cs_rank(open / delay(close, 1) - 1)"
+ },
+ {
+  "face": "best_012",
+  "sub": "best",
+  "line": "ts_mean(open / delay(close, 1) - 1, 5).",
+  "extracted": "ts_mean(open / delay(close, 1) - 1, 5)"
+ },
+ {
+  "face": "best_013",
+  "sub": "best",
+  "line": "EWMA(open / delay(close, 1) - 1, alpha=1/5).",
+  "extracted": "EWMA(open / delay(close, 1) - 1, alpha=1/5)"
+ },
+ {
+  "face": "best_014",
+  "sub": "best",
+  "line": "Correlation of ts_rank(volume, 7) and ts_rank(range/close, 7) over 5 days.",
+  "extracted": "Correlation of ts_rank(volume, 7) and ts_rank(range/close, 7) over 5 days"
+ },
+ {
+  "face": "best_015",
+  "sub": "best",
+  "line": "cs_rank((high - low) / close).",
+  "extracted": "cs_rank((high - low) / close)"
+ },
+ {
+  "face": "best_016",
+  "sub": "best",
+  "line": "(high - low) / close / (1 + sqrt(volume)).",
+  "extracted": "(high - low) / close / (1 + sqrt(volume))"
+ },
+ {
+  "face": "best_017",
+  "sub": "best",
+  "line": "Delta(EWMA(close, alpha=1/5), 1) - moving average breakout.",
+  "extracted": "Delta(EWMA(close, alpha=1/5), 1) - moving average breakout"
+ },
+ {
+  "face": "best_018",
+  "sub": "best",
+  "line": "Delta(EWMA(close, alpha=1/10), 1).",
+  "extracted": "Delta(EWMA(close, alpha=1/10), 1)"
+ },
+ {
+  "face": "best_019",
+  "sub": "best",
+  "line": "Delta(EWMA(close, alpha=1/20), 1).",
+  "extracted": "Delta(EWMA(close, alpha=1/20), 1)"
+ },
+ {
+  "face": "best_020",
+  "sub": "best",
+  "line": "EWMA((close - vwap) * volume, alpha=1/5) - money flow.",
+  "extracted": "EWMA((close - vwap) * volume, alpha=1/5) - money flow"
+ },
+ {
+  "face": "best_021",
+  "sub": "best",
+  "line": "max((vwap-close)*vol, 3) + min((vwap-close)*vol, 3) * delta(volume, 3).",
+  "extracted": "max((vwap-close)*vol, 3) + min((vwap-close)*vol, 3) * delta(volume, 3)"
+ },
+ {
+  "face": "better_001",
+  "sub": "better",
+  "line": "(open/delay(close,1) - 1) * log2(volume + 1).",
+  "extracted": "(open/delay(close,1) - 1) * log2(volume + 1)"
+ },
+ {
+  "face": "better_002",
+  "sub": "better",
+  "line": "(open/delay(close,1) - 1) * volume / mean(volume, 5).",
+  "extracted": "(open/delay(close,1) - 1) * volume / mean(volume, 5)"
+ },
+ {
+  "face": "better_003",
+  "sub": "better",
+  "line": "(open/delay(close,1)-1) * (vwap-close) * (high-low) / close.",
+  "extracted": "(open/delay(close,1)-1) * (vwap-close) * (high-low) / close"
+ },
+ {
+  "face": "better_004",
+  "sub": "better",
+  "line": "-(vwap_loc - delay(vwap_loc, 1)) where vwap_loc = (2*vwap-low-high)/(high-low).",
+  "extracted": "-(vwap_loc - delay(vwap_loc, 1)) where vwap_loc = (2*vwap-low-high)/(high-low)"
+ },
+ {
+  "face": "better_005",
+  "sub": "better",
+  "line": "-(vwap_loc - delay(vwap_loc, 5)).",
+  "extracted": "-(vwap_loc - delay(vwap_loc, 5))"
+ },
+ {
+  "face": "better_006",
+  "sub": "better",
+  "line": "mean((2*vwap - low - high) / (high - low), 5).",
+  "extracted": "mean((2*vwap - low - high) / (high - low), 5)"
+ },
+ {
+  "face": "better_007",
+  "sub": "better",
+  "line": "(high-low)/close * (volume - delay(volume, 1)).",
+  "extracted": "(high-low)/close * (volume - delay(volume, 1))"
+ },
+ {
+  "face": "better_008",
+  "sub": "better",
+  "line": "(high-low)/close / log2(volume + 1).",
+  "extracted": "(high-low)/close / log2(volume + 1)"
+ },
+ {
+  "face": "better_009",
+  "sub": "better",
+  "line": "Conditional sum: if vwap[t]<vwap[t-1]: |vwap/delay(vwap,1)-1|/log(amount+1), window=20.",
+  "extracted": "Conditional sum: if vwap[t]<vwap[t-1]: |vwap/delay(vwap,1)-1|/log(amount+1), window=20"
+ },
+ {
+  "face": "better_010",
+  "sub": "better",
+  "line": "Same as better_009 but window=10.",
+  "extracted": ""
+ },
+ {
+  "face": "better_011",
+  "sub": "better",
+  "line": "Multi-period support/resistance using min(low, delay(low,1)) and max(high, delay(high,1)).",
+  "extracted": "Multi-period support/resistance using min(low, delay(low,1)) and max(high, delay(high,1))"
+ },
+ {
+  "face": "better_012",
+  "sub": "better",
+  "line": "Multi-period support/resistance using min(low, delay(vwap,1)) and max(high, delay(vwap,1)).",
+  "extracted": "Multi-period support/resistance using min(low, delay(vwap,1)) and max(high, delay(vwap,1))"
+ },
+ {
+  "face": "better_013",
+  "sub": "better",
+  "line": "(vwap/close - 1) * log2(amount + 1).",
+  "extracted": "(vwap/close - 1) * log2(amount + 1)"
+ },
+ {
+  "face": "better_014",
+  "sub": "better",
+  "line": "mean((vwap/close - 1) * log2(amount + 1), 4).",
+  "extracted": "mean((vwap/close - 1) * log2(amount + 1), 4)"
+ },
+ {
+  "face": "better_015",
+  "sub": "better",
+  "line": "ewma((vwap - mean(vwap,10))/mean(vwap,10) delta 5, 1/20).",
+  "extracted": "ewma((vwap - mean(vwap,10))/mean(vwap,10) delta 5, 1/20)"
+ },
+ {
+  "face": "better_016",
+  "sub": "better",
+  "line": "ewma((vwap - mean(vwap,6))/mean(vwap,6) delta 3, 1/12).",
+  "extracted": "ewma((vwap - mean(vwap,6))/mean(vwap,6) delta 3, 1/12)"
+ },
+ {
+  "face": "better_017",
+  "sub": "better",
+  "line": "ewma((amount - mean(amount,6))/mean(amount,6) delta 3, 1/12).",
+  "extracted": "ewma((amount - mean(amount,6))/mean(amount,6) delta 3, 1/12)"
+ },
+ {
+  "face": "better_018",
+  "sub": "better",
+  "line": "ewma((amount - mean(amount,10))/mean(amount,10) delta 5, 1/20).",
+  "extracted": "ewma((amount - mean(amount,10))/mean(amount,10) delta 5, 1/20)"
+ },
+ {
+  "face": "better_019",
+  "sub": "better",
+  "line": "Triple-smoothed EMA of log(volume) change.",
+  "extracted": "Triple-smoothed EMA of log(volume) change"
+ },
+ {
+  "face": "better_020",
+  "sub": "better",
+  "line": "std(|ret|/volume, 10) / mean(|ret|/volume, 10) - Amihud illiquidity CV.",
+  "extracted": "std(|ret|/volume, 10) / mean(|ret|/volume, 10) - Amihud illiquidity CV"
+ },
+ {
+  "face": "better_021",
+  "sub": "better",
+  "line": "vwap / delay(close, 1).",
+  "extracted": "vwap / delay(close, 1)"
+ },
+ {
+  "face": "better_022",
+  "sub": "better",
+  "line": "(vwap/delay(close,1) - 1) * log2(amount + 1).",
+  "extracted": "(vwap/delay(close,1) - 1) * log2(amount + 1)"
+ },
+ {
+  "face": "better_023",
+  "sub": "better",
+  "line": "mean((vwap/delay(close,1) - 1) * log2(amount + 1), 4).",
+  "extracted": "mean((vwap/delay(close,1) - 1) * log2(amount + 1), 4)"
+ },
+ {
+  "face": "better_024",
+  "sub": "better",
+  "line": "(max(vwap-close, 5) + min(vwap-close, 5)) * Δvolume_5.",
+  "extracted": "(max(vwap-close, 5) + min(vwap-close, 5)) * Δvolume_5"
+ },
+ {
+  "face": "better_025",
+  "sub": "better",
+  "line": "(max(vwap-close, 5) + min(vwap-close, 5)) * (volume - mean(volume, 5)).",
+  "extracted": "(max(vwap-close, 5) + min(vwap-close, 5)) * (volume - mean(volume, 5))"
+ },
+ {
+  "face": "better_026",
+  "sub": "better",
+  "line": "ewma((high-low)/close, 2/5) / ewma(ewma((high-low)/close, 2/5), 2/20).",
+  "extracted": "ewma((high-low)/close, 2/5) / ewma(ewma((high-low)/close, 2/5), 2/20)"
+ },
+ {
+  "face": "better_027",
+  "sub": "better",
+  "line": "Conditional sum: if vwap < delay(close,1): |vwap/delay(close,1)-1|/log(amount+1), window=20.",
+  "extracted": "Conditional sum: if vwap < delay(close,1): |vwap/delay(close,1)-1|/log(amount+1), window=20"
+ },
+ {
+  "face": "better_028",
+  "sub": "better",
+  "line": "Conditional sum: if vwap < close: |vwap/close-1|/log(amount+1), window=20.",
+  "extracted": "Conditional sum: if vwap < close: |vwap/close-1|/log(amount+1), window=20"
+ },
+ {
+  "face": "change_001",
+  "sub": "change",
+  "line": "1-day return minus its 5-day mean (mean-reversion proxy).",
+  "extracted": "1-day return minus its 5-day mean (mean-reversion proxy)"
+ },
+ {
+  "face": "change_002",
+  "sub": "change",
+  "line": "Acceleration: Δ(Δclose, 1) over 1 day.",
+  "extracted": "Acceleration: Δ(Δclose, 1) over 1 day"
+ },
+ {
+  "face": "change_003",
+  "sub": "change",
+  "line": "Volume Δ-rank: rank of (volume - ts_mean(volume, 20)).",
+  "extracted": "Volume Δ-rank: rank of (volume - ts_mean(volume, 20))"
+ },
+ {
+  "face": "change_004",
+  "sub": "change",
+  "line": "Range expansion: (high - low) / ts_mean(high - low, 20).",
+  "extracted": "Range expansion: (high - low) / ts_mean(high - low, 20)"
+ },
+ {
+  "face": "change_005",
+  "sub": "change",
+  "line": "Sign flip count: ts_sum(sign(Δclose), 5).",
+  "extracted": "Sign flip count: ts_sum(sign(Δclose), 5)"
+ },
+ {
+  "face": "extra_001",
+  "sub": "extra",
+  "line": "Delta(close_loc, 1).",
+  "extracted": "Delta(close_loc, 1)"
+ },
+ {
+  "face": "extra_002",
+  "sub": "extra",
+  "line": "rank(max(vwap-close, 3)) + rank(min(vwap-close, 3)) * rank(Δvolume, 3).",
+  "extracted": "rank(max(vwap-close, 3)) + rank(min(vwap-close, 3)) * rank(Δvolume, 3)"
+ },
+ {
+  "face": "extra_003",
+  "sub": "extra",
+  "line": "open / delay(close, 1) - 1 (overnight gap).",
+  "extracted": "open / delay(close, 1) - 1 (overnight gap)"
+ },
+ {
+  "face": "extra_004",
+  "sub": "extra",
+  "line": "Volume-weighted close-loc EWMA difference (AD oscillator).",
+  "extracted": "Volume-weighted close-loc EWMA difference (AD oscillator)"
+ },
+ {
+  "face": "extra_005",
+  "sub": "extra",
+  "line": "Amount surge: amount / ts_mean(amount, 20) - 1.",
+  "extracted": "Amount surge: amount / ts_mean(amount, 20) - 1"
+ },
+ {
+  "face": "extra_006",
+  "sub": "extra",
+  "line": "cs_rank of volume / mean(volume, 20).",
+  "extracted": "cs_rank of volume / mean(volume, 20)"
+ },
+ {
+  "face": "extra_007",
+  "sub": "extra",
+  "line": "ewma(high-low, 2/5) / ewma(ewma(high-low, 2/5), 2/20) - range expansion.",
+  "extracted": "ewma(high-low, 2/5) / ewma(ewma(high-low, 2/5), 2/20) - range expansion"
+ },
+ {
+  "face": "extra_008",
+  "sub": "extra",
+  "line": "sum(max(high-delay(close,1), 0), 5) / sum(max(delay(close,1)-low, 0), 10) * 100.",
+  "extracted": "sum(max(high-delay(close,1), 0), 5) / sum(max(delay(close,1)-low, 0), 10) * 100"
+ },
+ {
+  "face": "extra_009",
+  "sub": "extra",
+  "line": "Conditional volatility: ewma(std(close,20) * (close<=delay(close,1)), 1/5) - ewma(..., 1/20).",
+  "extracted": "Conditional volatility: ewma(std(close,20) * (close<=delay(close,1)), 1/5) - ewma(..., 1/20)"
+ },
+ {
+  "face": "extra_010",
+  "sub": "extra",
+  "line": "close / delay(close, 5) - 5-day momentum.",
+  "extracted": "close / delay(close, 5) - 5-day momentum"
+ },
+ {
+  "face": "extra_011",
+  "sub": "extra",
+  "line": "Raw amount (turnover).",
+  "extracted": "Raw amount (turnover)"
+ },
+ {
+  "face": "extra_012",
+  "sub": "extra",
+  "line": "high / open.",
+  "extracted": "high / open"
+ },
+ {
+  "face": "extra_013",
+  "sub": "extra",
+  "line": "vwap / close.",
+  "extracted": "vwap / close"
+ },
+ {
+  "face": "extra_014",
+  "sub": "extra",
+  "line": "(high - low) / close - intraday range.",
+  "extracted": "(high - low) / close - intraday range"
+ },
+ {
+  "face": "cs_rank_close",
+  "sub": "cs",
+  "line": "Cross-sectional rank of close return.",
+  "extracted": ""
+ },
+ {
+  "face": "cs_rank_open",
+  "sub": "cs",
+  "line": "Cross-sectional rank of open gap.",
+  "extracted": ""
+ },
+ {
+  "face": "cs_rank_high",
+  "sub": "cs",
+  "line": "Cross-sectional rank of high return.",
+  "extracted": ""
+ },
+ {
+  "face": "cs_rank_low",
+  "sub": "cs",
+  "line": "Cross-sectional rank of low return.",
+  "extracted": ""
+ },
+ {
+  "face": "cs_rank_avg",
+  "sub": "cs",
+  "line": "Cross-sectional rank of vwap return.",
+  "extracted": ""
+ },
+ {
+  "face": "cs_rank_amount",
+  "sub": "cs",
+  "line": "Cross-sectional rank of amount.",
+  "extracted": ""
+ },
+ {
+  "face": "old_027",
+  "sub": "old",
+  "line": "rank(volume) * rank(vwap - close).",
+  "extracted": "rank(volume) * rank(vwap - close)"
+ },
+ {
+  "face": "old_028",
+  "sub": "old",
+  "line": "corr(rank(open), rank(volume), 10).",
+  "extracted": "corr(rank(open), rank(volume), 10)"
+ },
+ {
+  "face": "old_029",
+  "sub": "old",
+  "line": "ts_min(rank(corr(close, volume, 5)), 12).",
+  "extracted": "ts_min(rank(corr(close, volume, 5)), 12)"
+ },
+ {
+  "face": "old_030",
+  "sub": "old",
+  "line": "sign(Δclose, 5) * (1 - rank(Δvolume, 5)).",
+  "extracted": "sign(Δclose, 5) * (1 - rank(Δvolume, 5))"
+ },
+ {
+  "face": "old_031",
+  "sub": "old",
+  "line": "rank(Δclose, 10) * rank(Δvolume/vol, 10).",
+  "extracted": "rank(Δclose, 10) * rank(Δvolume/vol, 10)"
+ },
+ {
+  "face": "old_032",
+  "sub": "old",
+  "line": "ts_mean(close, 7) - close + corr(vwap, delay(close,5), 230).",
+  "extracted": "ts_mean(close, 7) - close + corr(vwap, delay(close,5), 230)"
+ },
+ {
+  "face": "old_033",
+  "sub": "old",
+  "line": "rank(-1 + open/close).",
+  "extracted": "rank(-1 + open/close)"
+ },
+ {
+  "face": "old_034",
+  "sub": "old",
+  "line": "rank(1 - rank(std(ret, 2)/std(ret, 5)) + 1 - rank(Δclose, 1)).",
+  "extracted": "rank(1 - rank(std(ret, 2)/std(ret, 5)) + 1 - rank(Δclose, 1))"
+ },
+ {
+  "face": "old_035",
+  "sub": "old",
+  "line": "ts_rank(volume, 32) * (1 - ts_rank(close + high - low, 16)).",
+  "extracted": "ts_rank(volume, 32) * (1 - ts_rank(close + high - low, 16))"
+ },
+ {
+  "face": "old_036",
+  "sub": "old",
+  "line": "rank(corr(delay(open-close,1), close, 20)) + rank(open-close).",
+  "extracted": "rank(corr(delay(open-close,1), close, 20)) + rank(open-close)"
+ },
+ {
+  "face": "old_037",
+  "sub": "old",
+  "line": "-rank(open - delay(high, 1)) * rank(open - delay(close, 1)) * rank(open - delay(low, 1)).",
+  "extracted": "-rank(open - delay(high, 1)) * rank(open - delay(close, 1)) * rank(open - delay(low, 1))"
+ },
+ {
+  "face": "old_038",
+  "sub": "old",
+  "line": "-(rank(open) ^ rank(close/vwap)).",
+  "extracted": "-(rank(open) ^ rank(close/vwap))"
+ },
+ {
+  "face": "old_039",
+  "sub": "old",
+  "line": "-rank(Δclose, 7) * (1 - rank(ewma(volume*ret/close, 1/20))).",
+  "extracted": "-rank(Δclose, 7) * (1 - rank(ewma(volume*ret/close, 1/20)))"
+ },
+ {
+  "face": "old_040",
+  "sub": "old",
+  "line": "-rank(std(high, 10)) * corr(high, volume, 10).",
+  "extracted": "-rank(std(high, 10)) * corr(high, volume, 10)"
+ },
+ {
+  "face": "old_041",
+  "sub": "old",
+  "line": "(high * low)^0.5 - vwap.",
+  "extracted": "(high * low)^0.5 - vwap"
+ },
+ {
+  "face": "old_042",
+  "sub": "old",
+  "line": "rank(vwap - close) / rank(vwap + close).",
+  "extracted": "rank(vwap - close) / rank(vwap + close)"
+ },
+ {
+  "face": "old_043",
+  "sub": "old",
+  "line": "ts_rank(volume / mean(volume, 20), 20) * ts_rank(-Δclose, 7).",
+  "extracted": "ts_rank(volume / mean(volume, 20), 20) * ts_rank(-Δclose, 7)"
+ },
+ {
+  "face": "old_044",
+  "sub": "old",
+  "line": "-corr(high, rank(volume), 5).",
+  "extracted": "-corr(high, rank(volume), 5)"
+ },
+ {
+  "face": "old_045",
+  "sub": "old",
+  "line": "-rank(sum(delay(close,5), 20)/20) * corr(close, volume, 2).",
+  "extracted": "-rank(sum(delay(close,5), 20)/20) * corr(close, volume, 2)"
+ },
+ {
+  "face": "old_046",
+  "sub": "old",
+  "line": "(mean(close,3)+mean(close,6)+mean(close,12)+mean(close,24))/(4*close) - 1.",
+  "extracted": "(mean(close,3)+mean(close,6)+mean(close,12)+mean(close,24))/(4*close) - 1"
+ },
+ {
+  "face": "old_047",
+  "sub": "old",
+  "line": "(ts_max(high, 6) - close) / (ts_max(high, 6) - ts_min(low, 6) + eps) * 100.",
+  "extracted": "(ts_max(high, 6) - close) / (ts_max(high, 6) - ts_min(low, 6) + eps) * 100"
+ },
+ {
+  "face": "old_048",
+  "sub": "old",
+  "line": "(-Δclose, 1) * volume / ewma(volume, 1/20).",
+  "extracted": "(-Δclose, 1) * volume / ewma(volume, 1/20)"
+ },
+ {
+  "face": "old_049",
+  "sub": "old",
+  "line": "Conditional: if close<delay(close,1): Δclose else 0 over 20 days sum.",
+  "extracted": "Conditional: if close<delay(close,1): Δclose else 0 over 20 days sum"
+ },
+ {
+  "face": "old_050",
+  "sub": "old",
+  "line": "-ts_max(rank(corr(rank(volume), rank(vwap), 5)), 5).",
+  "extracted": "-ts_max(rank(corr(rank(volume), rank(vwap), 5)), 5)"
+ },
+ {
+  "face": "old_051",
+  "sub": "old",
+  "line": "If close<delay(close,1): Δclose else 0 - conditional neg momentum sum 12.",
+  "extracted": "If close<delay(close,1): Δclose else 0 - conditional neg momentum sum 12"
+ },
+ {
+  "face": "old_052",
+  "sub": "old",
+  "line": "(sum(max(0, high-delay(close,1)), 26) / sum(max(0, delay(close,1)-low), 26) - 1) * 100.",
+  "extracted": "(sum(max(0, high-delay(close,1)), 26) / sum(max(0, delay(close,1)-low), 26) - 1) * 100"
+ },
+ {
+  "face": "old_053",
+  "sub": "old",
+  "line": "ts_sum(close > delay(close, 1), 12) / 12 * 100.",
+  "extracted": "ts_sum(close > delay(close, 1), 12) / 12 * 100"
+ },
+ {
+  "face": "old_054",
+  "sub": "old",
+  "line": "(-1 * rank(std(|close-open|,10) + |close-open|) + rank(corr(close,open,10))).",
+  "extracted": "(-1 * rank(std(|close-open|,10) + |close-open|) + rank(corr(close,open,10)))"
+ },
+ {
+  "face": "old_055",
+  "sub": "old",
+  "line": "corr(rank(close-ts_min(low,12))/(ts_max(high,12)-ts_min(low,12)), rank(volume), 6).",
+  "extracted": "corr(rank(close-ts_min(low,12))/(ts_max(high,12)-ts_min(low,12)), rank(volume), 6)"
+ },
+ {
+  "face": "old_056",
+  "sub": "old",
+  "line": "-rank(sum(ret, 10)) * rank(corr(close, volume, 5)) * rank(returns volatility 20).",
+  "extracted": "-rank(sum(ret, 10)) * rank(corr(close, volume, 5)) * rank(returns volatility 20)"
+ },
+ {
+  "face": "old_057",
+  "sub": "old",
+  "line": "close / ewma(close, 1/30) - 1.",
+  "extracted": "close / ewma(close, 1/30) - 1"
+ },
+ {
+  "face": "old_058",
+  "sub": "old",
+  "line": "-volume * (close - delay(close,1)).",
+  "extracted": "-volume * (close - delay(close,1))"
+ },
+ {
+  "face": "old_059",
+  "sub": "old",
+  "line": "mean(volume * |ret|, 20) ranked.",
+  "extracted": "mean(volume * |ret|, 20) ranked"
+ },
+ {
+  "face": "old_060",
+  "sub": "old",
+  "line": "2 * (rank(open - min(open, 12)) - rank((sum(ret, 60)/60 + 1)^2)).",
+  "extracted": "2 * (rank(open - min(open, 12)) - rank((sum(ret, 60)/60 + 1)^2))"
+ },
+ {
+  "face": "old_061",
+  "sub": "old",
+  "line": "rank(vwap - ts_min(vwap, 16)).",
+  "extracted": "rank(vwap - ts_min(vwap, 16))"
+ },
+ {
+  "face": "old_062",
+  "sub": "old",
+  "line": "rank(corr(vwap, sum(mean(volume,20), 23), 5)).",
+  "extracted": "rank(corr(vwap, sum(mean(volume,20), 23), 5))"
+ },
+ {
+  "face": "old_063",
+  "sub": "old",
+  "line": "max(rank(corr(rank(vwap), rank(volume), 4)), 8).",
+  "extracted": "max(rank(corr(rank(vwap), rank(volume), 4)), 8)"
+ },
+ {
+  "face": "old_064",
+  "sub": "old",
+  "line": "rank(corr(sum(open*0.178 + low*0.822, 15), sum(mean(volume,60), 9), 11)).",
+  "extracted": "rank(corr(sum(open*0.178 + low*0.822, 15), sum(mean(volume,60), 9), 11))"
+ },
+ {
+  "face": "old_065",
+  "sub": "old",
+  "line": "rank(corr(((open*0.147) + (vwap*0.853)), sum(mean(vol,6), 2), 6)).",
+  "extracted": "rank(corr(((open*0.147) + (vwap*0.853)), sum(mean(vol,6), 2), 6))"
+ },
+ {
+  "face": "old_066",
+  "sub": "old",
+  "line": "rank(delta(vwap, 4)).",
+  "extracted": "rank(delta(vwap, 4))"
+ },
+ {
+  "face": "old_067",
+  "sub": "old",
+  "line": "(high - ts_max(high, 6)) / (ts_max(high, 6) + eps) * rank(corr(vwap, mean(vol,20), 4)).",
+  "extracted": "(high - ts_max(high, 6)) / (ts_max(high, 6) + eps) * rank(corr(vwap, mean(vol,20), 4))"
+ },
+ {
+  "face": "old_068",
+  "sub": "old",
+  "line": "(rank(corr(high, mean(volume,15), 9)) * rank(corr(close, volume, 4))).",
+  "extracted": "(rank(corr(high, mean(volume,15), 9)) * rank(corr(close, volume, 4)))"
+ },
+ {
+  "face": "old_069",
+  "sub": "old",
+  "line": "sum(max(rank(corr(ts_rank(close,5), ts_rank(volume,5), 4)), 0), 3).",
+  "extracted": "sum(max(rank(corr(ts_rank(close,5), ts_rank(volume,5), 4)), 0), 3)"
+ },
+ {
+  "face": "old_070",
+  "sub": "old",
+  "line": "rank(delta(vwap, 2)).",
+  "extracted": "rank(delta(vwap, 2))"
+ },
+ {
+  "face": "old_071",
+  "sub": "old",
+  "line": "ts_rank(corr(ts_rank(close, 3), ts_rank(volume, 3), 18), 4).",
+  "extracted": "ts_rank(corr(ts_rank(close, 3), ts_rank(volume, 3), 18), 4)"
+ },
+ {
+  "face": "old_072",
+  "sub": "old",
+  "line": "rank(ewma(corr(mean(volume,40), low, 4), 1/20)) + rank(ewma(corr(rank(vwap), rank(volume), 4), 1/7)).",
+  "extracted": "rank(ewma(corr(mean(volume,40), low, 4), 1/20)) + rank(ewma(corr(rank(vwap), rank(volume), 4), 1/7))"
+ },
+ {
+  "face": "old_073",
+  "sub": "old",
+  "line": "-ts_rank(ewma(Δ(vwap, 5), 1/2), 3).",
+  "extracted": "-ts_rank(ewma(Δ(vwap, 5), 1/2), 3)"
+ },
+ {
+  "face": "old_074",
+  "sub": "old",
+  "line": "rank(corr(close, sum(mean(volume,30), 37), 15)).",
+  "extracted": "rank(corr(close, sum(mean(volume,30), 37), 15))"
+ },
+ {
+  "face": "old_075",
+  "sub": "old",
+  "line": "rank(corr(rank(vwap), rank(volume), 5)) vs rank(corr(rank(close), rank(volume), 5)).",
+  "extracted": "rank(corr(rank(vwap), rank(volume), 5)) vs rank(corr(rank(close), rank(volume), 5))"
+ },
+ {
+  "face": "old_076",
+  "sub": "old",
+  "line": "rank(Δ(corr(vwap, volume, 4), 3)).",
+  "extracted": "rank(Δ(corr(vwap, volume, 4), 3))"
+ },
+ {
+  "face": "original_001",
+  "sub": "original",
+  "line": "20-day close volatility, cross-sectionally z-scored.",
+  "extracted": ""
+ },
+ {
+  "face": "original_002",
+  "sub": "original",
+  "line": "Close to 20-day high distance, ranked.",
+  "extracted": ""
+ },
+ {
+  "face": "original_003",
+  "sub": "original",
+  "line": "Close to 20-day low distance, ranked.",
+  "extracted": ""
+ },
+ {
+  "face": "original_004",
+  "sub": "original",
+  "line": "ts_rank of close over 60 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_005",
+  "sub": "original",
+  "line": "ts_rank of volume over 60 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_006",
+  "sub": "original",
+  "line": "20-day correlation of close and volume.",
+  "extracted": ""
+ },
+ {
+  "face": "original_007",
+  "sub": "original",
+  "line": "ts_rank of close over 20 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_008",
+  "sub": "original",
+  "line": "ts_rank of volume over 20 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_009",
+  "sub": "original",
+  "line": "10-day correlation of close and volume.",
+  "extracted": ""
+ },
+ {
+  "face": "original_010",
+  "sub": "original",
+  "line": "5-day correlation of close and volume.",
+  "extracted": ""
+ },
+ {
+  "face": "original_011",
+  "sub": "original",
+  "line": "ts_rank of close over 10 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_012",
+  "sub": "original",
+  "line": "ts_rank of volume over 10 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_013",
+  "sub": "original",
+  "line": "ts_rank of close over 5 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_014",
+  "sub": "original",
+  "line": "ts_rank of volume over 5 days.",
+  "extracted": ""
+ },
+ {
+  "face": "original_015",
+  "sub": "original",
+  "line": "10-day close volatility.",
+  "extracted": ""
+ },
+ {
+  "face": "original_016",
+  "sub": "original",
+  "line": "5-day close volatility.",
+  "extracted": ""
+ },
+ {
+  "face": "original_017",
+  "sub": "original",
+  "line": "Close to 10-day high distance.",
+  "extracted": ""
+ },
+ {
+  "face": "original_018",
+  "sub": "original",
+  "line": "Close to 10-day low distance.",
+  "extracted": ""
+ },
+ {
+  "face": "original_019",
+  "sub": "original",
+  "line": "Close to 5-day high distance.",
+  "extracted": ""
+ },
+ {
+  "face": "original_020",
+  "sub": "original",
+  "line": "Close to 5-day low distance.",
+  "extracted": ""
+ },
+ {
+  "face": "original_021",
+  "sub": "original",
+  "line": "10-day momentum: close[t] / close[t-10] - 1.",
+  "extracted": ""
+ },
+ {
+  "face": "original_022",
+  "sub": "original",
+  "line": "5-day momentum: close[t] / close[t-5] - 1.",
+  "extracted": ""
+ },
+ {
+  "face": "original_023",
+  "sub": "original",
+  "line": "3-day momentum: close[t] / close[t-3] - 1.",
+  "extracted": ""
+ },
+ {
+  "face": "original_024",
+  "sub": "original",
+  "line": "1-day momentum: close[t] / close[t-1] - 1.",
+  "extracted": ""
+ },
+ {
+  "face": "original_025",
+  "sub": "original",
+  "line": "cs_rank of 10-day momentum.",
+  "extracted": ""
+ },
+ {
+  "face": "original_026",
+  "sub": "original",
+  "line": "cs_rank of 5-day momentum.",
+  "extracted": ""
+ },
+ {
+  "face": "original_027",
+  "sub": "original",
+  "line": "cs_rank of 1-day momentum.",
+  "extracted": ""
+ },
+ {
+  "face": "original_028",
+  "sub": "original",
+  "line": "cs_rank of 20-day momentum.",
+  "extracted": ""
+ },
+ {
+  "face": "stock_001",
+  "sub": "stock",
+  "line": "Corr(Δlog(volume), (close-open)/open, 4).",
+  "extracted": "Corr(Δlog(volume), (close-open)/open, 4)"
+ },
+ {
+  "face": "stock_002",
+  "sub": "stock",
+  "line": "Corr(Δlog(volume), (close-open)/open, 6).",
+  "extracted": "Corr(Δlog(volume), (close-open)/open, 6)"
+ },
+ {
+  "face": "stock_003",
+  "sub": "stock",
+  "line": "rank(close - ts_max(vwap, 15)) ^ delta(close, 5).",
+  "extracted": "rank(close - ts_max(vwap, 15)) ^ delta(close, 5)"
+ },
+ {
+  "face": "stock_004",
+  "sub": "stock",
+  "line": "EWMA((close - mean(close,6))/mean(close,6) - delay(..., 3), alpha=1/12).",
+  "extracted": "EWMA((close - mean(close,6))/mean(close,6) - delay(..., 3), alpha=1/12)"
+ },
+ {
+  "face": "stock_005",
+  "sub": "stock",
+  "line": "(close - delay(close, 6)) / delay(close, 6) * (volume + 1).",
+  "extracted": "(close - delay(close, 6)) / delay(close, 6) * (volume + 1)"
+ },
+ {
+  "face": "stock_006",
+  "sub": "stock",
+  "line": "(close - mean(close, 12)) / mean(close, 12).",
+  "extracted": "(close - mean(close, 12)) / mean(close, 12)"
+ },
+ {
+  "face": "stock_007",
+  "sub": "stock",
+  "line": "(delay(ts_min(low,5), 5) - ts_min(low,5)) * rank((sum(ret,60)-sum(ret,20))/40) * rank(volume).",
+  "extracted": "(delay(ts_min(low,5), 5) - ts_min(low,5)) * rank((sum(ret,60)-sum(ret,20))/40) * rank(volume)"
+ },
+ {
+  "face": "stock_008",
+  "sub": "stock",
+  "line": "-(sum(open,5)*sum(ret,5) - delay(sum(open,5)*sum(ret,5), 10)) ranked.",
+  "extracted": "-(sum(open,5)*sum(ret,5) - delay(sum(open,5)*sum(ret,5), 10)) ranked"
+ },
+ {
+  "face": "stock_009",
+  "sub": "stock",
+  "line": "(mean(close,3)+mean(close,6)+mean(close,12)+mean(close,24)) / (4*close).",
+  "extracted": "(mean(close,3)+mean(close,6)+mean(close,12)+mean(close,24)) / (4*close)"
+ },
+ {
+  "face": "stock_010",
+  "sub": "stock",
+  "line": "std(log(amount+1), 6).",
+  "extracted": "std(log(amount+1), 6)"
+ },
+ {
+  "face": "stock_011",
+  "sub": "stock",
+  "line": "CCI-like: (typical - mean(typical,12)) / (0.015 * mean(|close - mean(typical,12)|, 12)).",
+  "extracted": "CCI-like: (typical - mean(typical,12)) / (0.015 * mean(|close - mean(typical,12)|, 12))"
+ },
+ {
+  "face": "stock_012",
+  "sub": "stock",
+  "line": "RSI-like: ewma(max(Δvol, 0), 1/6) / ewma(|Δvol|, 1/6) * 100.",
+  "extracted": "RSI-like: ewma(max(Δvol, 0), 1/6) / ewma(|Δvol|, 1/6) * 100"
+ },
+ {
+  "face": "stock_013",
+  "sub": "stock",
+  "line": "Δ(vwap - close) / Δ(vwap + close).",
+  "extracted": "Δ(vwap - close) / Δ(vwap + close)"
+ },
+ {
+  "face": "stock_014",
+  "sub": "stock",
+  "line": "(close / delay(close, 12) - 1) * volume.",
+  "extracted": "(close / delay(close, 12) - 1) * volume"
+ },
+ {
+  "face": "stock_015",
+  "sub": "stock",
+  "line": "Conditional down-vol: sum(|ret|/log(amt+1) * (close<delay(close,1)), 20) / count(down, 20).",
+  "extracted": "Conditional down-vol: sum(|ret|/log(amt+1) * (close<delay(close,1)), 20) / count(down, 20)"
+ },
+ {
+  "face": "stock_016",
+  "sub": "stock",
+  "line": "Williams %R multi-timeframe composite.",
+  "extracted": ""
+ },
+ {
+  "face": "stock_017",
+  "sub": "stock",
+  "line": "-ret * mean(volume, 20) * vwap * (high - close).",
+  "extracted": "-ret * mean(volume, 20) * vwap * (high - close)"
+ },
+ {
+  "face": "stock_018",
+  "sub": "stock",
+  "line": "5-day close return minus 20-day close return.",
+  "extracted": ""
+ },
+ {
+  "face": "stock_019",
+  "sub": "stock",
+  "line": "(low - close) * open^5 / ((close - high) * close^5).",
+  "extracted": "(low - close) * open^5 / ((close - high) * close^5)"
+ },
+ {
+  "face": "stock_020",
+  "sub": "stock",
+  "line": "(close - delay(close,1)) / delay(close,1) * volume.",
+  "extracted": "(close - delay(close,1)) / delay(close,1) * volume"
+ },
+ {
+  "face": "stock_021",
+  "sub": "stock",
+  "line": "((high-low) - ewma(high-low, 2/11)) / ewma(high-low, 2/11) * 100.",
+  "extracted": "((high-low) - ewma(high-low, 2/11)) / ewma(high-low, 2/11) * 100"
+ },
+ {
+  "face": "stock_022",
+  "sub": "stock",
+  "line": "corr(mean(volume,20), low, 5) + (high+low)/2 - close.",
+  "extracted": "corr(mean(volume,20), low, 5) + (high+low)/2 - close"
+ }
+]

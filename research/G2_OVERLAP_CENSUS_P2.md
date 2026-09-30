@@ -79,8 +79,17 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（空）
+- **批级完成判据**：237/237 行全分类 rc0（elapsed 0.88s≪预算 180s·M4 十族面数与 §0 冻结账逐位一致 213·M5 DEMO_FACTORS 断言过 24）→ 工件 `results/g2_overlap_census_p2.json`（evidence_cutoff 2026-09-30+cutoff_meta 齐）。
+- **四态 tally**：DUP-FORMULA-VERIFIED **4**（add_013/old_041→WQ#41·old_042→WQ#42·stock_009→GTJA#46·全 ok 撞号引用在库 verdict 不重烧）｜DUP-FAMILY-DRIFT **38**（M4-WQ101 8 简化重实现面+M4-MARKET 6 kin 名字级〔RANK30/OPEN0·构造判决留 SLOT〕+M5 24 code-face-unverified 同号异构）｜NEW-FACE **126**｜UNVERIFIABLE **69**。
+- **§5 预测对账（8 项·5 项被证伪=冻结预测的诚实处置面）**：①M5 24/24 编号撞号 ✓ 但 ≥20/24 VERIFIED **证伪→0/24**（M5=generic demo 集非 WQ 构造·README 降级在构造级再实证）；②M4-WQ101 9/9 编号撞号 ✓ 但 ≥7/9 公式恒等 **证伪→0/9**（8 DRIFT+1 UNVERIFIABLE·M4 子集=简化重实现非 verbatim）；③old_027-076 GTJA 再编号猜想 **证伪**——仅 old_041/042 撞 WQ#41/42 verbatim（2/50），无批量 GTJA 再编号；④六名字键族 ≥80/148 恒等 **证伪→4/198**（legacy Feature.py 族=WQ/GTJA 之外的原生矿非抄录矿）；⑤MARKET 2-4 NEW-FACE **证伪→0**（6/6 kin DRIFT）；⑥净 NEW-FACE 12-34 **证伪→126**（向上·legacy 矿=真新面富集）；⑦解析异常 ≤8 **证伪→69**（M4 docstring 语料远不如今冻结假设的公式净——散文/条件式/省略式=§4 态4 UNVERIFIABLE 不入池不烧）；⑧替代先验=解析异常面=69（见⑦）。
+- **语料面披露**：WQ101 99+GTJA191 188 归一化唯一式（源 101/191·归一去重后少量同式撞号）；A158/登记簿行=代码即公式/散文构造非 WQ 语法串=零串恒等（名字级 kin 单腿如实披露）。
+- **Δ 符号变体 20 面**（U+0394 书写）：恒等腿诚实未中（保守侧 fail-closed·不并入 norm 规则=冻结判据零改）。
+- **工程修复链（r493 P1 双跑留痕正典）**：提取保真四轮迭代收敛——run-1/2/3 工件保全（`*_run{1,2,3}.json`）+终版 canonical；修复面=散文头剥离/尾注解剥离（组内含语义词才剥·算术组保全）/` vs`·`...` 歧义拒/语义词表门（复合变量分解 close_loc/方括号下标记法）；selftest 31/31。
+- **账本**：trials_ledger +0·marks +0·SEED +0（测量面非注册面）；P1 478 行分类零翻面。
+- **供料池**：ready 面 7→**133 级**（+126 OHLCV+amount/vwap 可算面·G2 spec §四.1 目标 30+ 超标 4.4x；全数未过 SLOT 三验=泊位候选·按消费面紧迫度逐族预注册·禁一次性全量判决烧 O-1901 ①）。
 
 ## §8 批后复盘【必填·s7-T】
 
-（空）
+- **廉价普查价值再实证**：M4/M5 两矿冻结时血统假设与实况双向偏离（名字键族抄录假设证伪/新面富集超预测 10x/docstring 公式净度远低预期）——census 以 0.88s·零烧批代价在入池前定谳 4+38 面防重烧与 69 面数据卫生，O-1901 ①「千级矿先廉价普查」判据兑现。
+- **下片**：①126 NEW-FACE 按消费面紧迫度逐族 SLOT 预注册（优先建议：old_/stock_ 主力族 top-N 先行）；②69 UNVERIFIABLE 面=M4 代码面提取腿（M5-style code-face）未来批选项；③M5 24 面 code-face DRIFT=零再烧价值确认（demo 集）；④G2 三矿主价值总账=431（P1）+4（P2）面防重烧+12（P1）+126（P2）新面泊位。
+- **runner 沉淀（M6+ 普查片复用）**：norm_v2 括号预筛+提取器 v3（散文门/注解剥/歧义拒）+语料四源装配+selftest 31 夹具=g2_overlap_census.py 单源可扩。

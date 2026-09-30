@@ -480,6 +480,569 @@ def _row(face, leg, verdict, number_hit, agreement, cross, inrepo_status):
     }
 
 
+# ================================================================ P2 (M4/M5)
+# G2_OVERLAP_CENSUS_P2 (prereg research/G2_OVERLAP_CENSUS_P2.md, FROZEN
+# before this extension landed -- freeze commit e6953e67d). 237 rows:
+# M4 initial-d/ml-quant-trading 213 registered faces + M5 JunQHuang 24
+# honest-downgrade faces. Zero backtest/network/engine; measurement face.
+M4_FEATURES_DIR = os.path.join(TOOLSTACK_REPOS, "ml-quant-trading",
+                               "src", "mlquant", "features")
+M5_FACTORS_FILE = os.path.join(TOOLSTACK_REPOS,
+                               "Machine_Learning-Quant-Stock-Selection",
+                               "multifactor_demo", "factors.py")
+OUT_JSON_P2 = os.path.join(ROOT, "results", "g2_overlap_census_p2.json")
+P2_EVIDENCE_CUTOFF = "2026-09-30"
+P2_MINE_ANCHORS = {                    # r494 install anchors, prereg sec.2
+    "M4_ml-quant-trading": "a770825f841504e41581f057b4d94160e6a50c2e",
+    "M5_Machine_Learning-Quant-Stock-Selection": "b3e3712935deb909d143334942edb2ca438c3a26",
+}
+# prereg sec.0 frozen family census (bit-exact gate, != -> VOID refuse)
+P2_M4_FAMILY_BUDGET = {"add": 30, "alpha": 9, "best": 21, "better": 28,
+                       "change": 5, "extra": 14, "cs": 6, "old": 50,
+                       "original": 28, "stock": 22}
+P2_TIME_BUDGET_S = 180                 # prereg sec.0 cap
+
+_ATOM_RE = re.compile(r"[a-z_][a-z0-9_]*|\d+(?:\.\d+)?")
+
+
+def _strip_redundant_parens(t):
+    """norm_v2 bracket prescreen (prereg sec.3, frozen): strip ONLY
+    single-atom / single-number wrapper layers ((x))->x, (2.)->2 -- iterated
+    to fixpoint; never strips call-argument parens (preceded by ident char)
+    or explicit precedence structures (content not a single atom)."""
+    prev = None
+    while prev != t:
+        prev = t
+        out = []
+        i, n = 0, len(t)
+        while i < n:
+            c = t[i]
+            if c == "(" and (i == 0
+                              or not (t[i - 1].isalnum() or t[i - 1] == "_")):
+                depth, j = 0, i
+                while j < n:
+                    if t[j] == "(":
+                        depth += 1
+                    elif t[j] == ")":
+                        depth -= 1
+                        if depth == 0:
+                            break
+                    j += 1
+                if j < n and (j + 1 >= n or t[j + 1] != "("):
+                    inner = t[i + 1:j]
+                    if _ATOM_RE.fullmatch(inner):
+                        out.append(inner)
+                        i = j + 1
+                        continue
+            out.append(c)
+            i += 1
+        t = "".join(out)
+    return t
+
+
+def norm_formula_v2(s):
+    """Frozen P2 normalizer = P1 norm_formula superset + bracket prescreen.
+    P1 DRIFT faces keep their P1-book DRIFT verdict (no retro-flip; prereg
+    sec.0) -- v2 only judges THIS slice's M4/M5 equivalence legs."""
+    t = norm_formula(s)
+    t = re.sub(r"(\d)\.(?!\d)", r"\1", t)   # '(2.)'->'2' (frozen sec.3 example)
+    return _strip_redundant_parens(t)
+
+
+# P2 extractor vocabulary: OHLCV/derived variable words allowed in symbolic
+# formula faces (frozen in runner, observed-token audit trail: mine dump
+# results/_r499bma_m4_doclines.json). Function-position identifiers (directly
+# followed by '(') are exempt; any other >=3-char word outside this vocab
+# marks the line as prose (no machine-readable formula face).
+_P2_FORMULA_VOCAB = {"close", "open", "high", "low", "volume", "vol", "vwap",
+                     "amount", "amt", "ret", "rets", "returns", "range", "eps",
+                     "loc", "location", "delta", "sign", "alpha",
+                     "log", "log2", "sqrt", "abs"}
+
+
+def _is_prose_line(line):
+    # [A-Za-z]+ tokenization (NOT [A-Za-z_]+): compound variables like
+    # close_loc / vwap_loc decompose into vocab parts; snake_case function
+    # names keep their function-position exemption via the final part.
+    for m in re.finditer(r"[A-Za-z]+", line):
+        tok = m.group(0).lower()
+        if (len(tok) >= 3 and line[m.end():m.end() + 1] != "("
+                and tok not in _P2_FORMULA_VOCAB):
+            return True
+    return False
+
+
+def _matching_open(s, close_idx):
+    depth = 0
+    for j in range(close_idx, -1, -1):
+        if s[j] == ")":
+            depth += 1
+        elif s[j] == "(":
+            depth -= 1
+            if depth == 0:
+                return j
+    return None
+
+
+def _m4_formula_from_docstring(doc):
+    """M4 docstring first line = formula face (single-source leg -- M4 has no
+    formula_latex dual write). Frozen extraction fidelity (eng-fix trail,
+    r493 P1 precedent): em-dash prose tail cut; multi-word prose head label
+    before ':' stripped; trailing annotation paren-groups (non-call, >=2
+    alpha words) stripped; ' vs ' dual-construction and '...' placeholder
+    lines rejected as ambiguous/abbreviated (frozen sec.4 state-4 lineage);
+    prose lines (vocab rule) yield '' -- honest absent face."""
+    if not doc:
+        return ""
+    first = doc.strip().splitlines()[0].strip()
+    if "\u2014" in first:                # em-dash prose separator
+        first = first.split("\u2014")[0].strip()
+    first = first.rstrip(".").strip()
+    if ":" in first and "(" not in first.split(":")[0]:
+        # multi-word prose head label (never a ternary head -- guard: no
+        # call parens in head)
+        head, _, rest = first.partition(":")
+        if " " in head.strip():
+            first = rest.strip()
+    while first.endswith(")"):           # trailing annotation paren-groups
+        first = first.rstrip(".").strip()
+        i = _matching_open(first, len(first) - 1)
+        if i is None:
+            break
+        if i > 0 and (first[i - 1].isalnum() or first[i - 1] == "_"):
+            break                        # call-argument group, keep
+        inner = first[i + 1:-1]
+        if _is_prose_line(inner):        # prose annotation (e.g. '(deviation
+            first = first[:i].strip()    # from 20-day MA)'); arithmetic
+        else:                            # groups (e.g. '/ (4*close)') keep
+            break
+    first = first.rstrip(".").strip()
+    if not first:
+        return ""
+    if " vs " in " %s " % first:
+        return ""                        # ambiguous dual construction
+    if "..." in first:
+        return ""                        # abbreviated placeholder
+    if ("(" in first and ")" in first) or ("[" in first and "]" in first):
+        candidate = first                # call-paren or bracket-index notation
+    else:                                # paren-less symbolic shorthand
+        toks = first.split()
+        if not (1 < len(toks) <= 3 and re.search(r"[/+^]", first)):
+            return ""
+        candidate = first
+    if _is_prose_line(candidate):
+        return ""
+    return candidate
+
+
+def export_m4_faces():
+    """Walk M4 _factors_*.py; ast-extract @register_*("name") functions ->
+    (registered name, docstring formula, subfamily by name prefix, file)."""
+    out = []
+    for fn in sorted(os.listdir(M4_FEATURES_DIR)):
+        if not (fn.startswith("_factors_") and fn.endswith(".py")):
+            continue
+        path = os.path.join(M4_FEATURES_DIR, fn)
+        tree = ast.parse(_read_text(path))
+        for node in tree.body:
+            if not isinstance(node, ast.FunctionDef):
+                continue
+            reg_name = None
+            for dec in node.decorator_list:
+                if (isinstance(dec, ast.Call) and isinstance(dec.func, ast.Name)
+                        and dec.func.id.startswith("register_")
+                        and dec.args and isinstance(dec.args[0], ast.Constant)
+                        and isinstance(dec.args[0].value, str)):
+                    reg_name = dec.args[0].value
+                    break
+            if reg_name is None:
+                continue
+            out.append({
+                "file": fn,
+                "func": node.name,
+                "meta_id": reg_name,
+                "subfamily": reg_name.split("_")[0],
+                "doc_formula": _m4_formula_from_docstring(ast.get_docstring(node)),
+                "body_node": node,
+            })
+    return out
+
+
+def export_m5_faces():
+    """M5 AlphaFactorEngine.alpha_NNN methods (code-as-formula leg) +
+    DEMO_FACTORS == method-set assertion (prereg sec.2 gate)."""
+    tree = ast.parse(_read_text(M5_FACTORS_FILE))
+    methods = []
+    demo = None
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ClassDef) and node.name == "AlphaFactorEngine":
+            for sub in node.body:
+                if isinstance(sub, ast.FunctionDef):
+                    if re.match(r"alpha_\d+$", sub.name):
+                        methods.append(sub)
+        if isinstance(node, ast.Assign):
+            for tgt in node.targets:
+                if isinstance(tgt, ast.Name) and tgt.id == "DEMO_FACTORS":
+                    try:
+                        demo = ast.literal_eval(node.value)
+                    except (ValueError, SyntaxError):
+                        demo = None
+    names = sorted(m.name for m in methods)
+    demo_ok = demo is not None and sorted(demo) == names
+    faces = [{"meta_id": m.name, "number": int(m.name.split("_")[1]),
+              "body_node": m} for m in methods]
+    return faces, names, demo_ok
+
+
+def _op_sequence(func_node):
+    """Source-order operator/constant sequence from a function body AST
+    (prereg sec.3 M5 leg: operator-name + constant + window sequence,
+    normalized). Attribute calls -> base name (self.ts_mean -> ts_mean,
+    np.log -> log). Numbers keep sign via unary-op wrapping."""
+    seq = []
+
+    def visit(node, neg=False):
+        if isinstance(node, ast.Call):
+            f = node.func
+            name = None
+            if isinstance(f, ast.Name):
+                name = f.id
+            elif isinstance(f, ast.Attribute):
+                name = f.attr
+            seq.append(("op", name.lower() if name else "?"))
+            for a in node.args:
+                visit(a)
+            for k in node.keywords:
+                visit(k.value)
+            return
+        if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+            v = node.value
+            seq.append(("num", -v if neg else v))
+            return
+        if isinstance(node, ast.UnaryOp):
+            visit(node.operand, neg=(node.op.__class__.__name__ == "USub"))
+            return
+        for child in ast.iter_child_nodes(node):
+            if isinstance(child, (ast.expr,)):
+                visit(child)
+            else:
+                visit(child)
+
+    for stmt in func_node.body:
+        visit(stmt)
+    return seq
+
+
+def _ops_view(seq):
+    return [s[1] for s in seq if s[0] == "op"]
+
+
+def _nums_view(seq):
+    return sorted(s[1] for s in seq if s[0] == "num")
+
+
+def _registry_row_names():
+    """Registry A-H table row first-cell names (kinship pool member per
+    prereg sec.3 leg-2). Parse-only, no science semantics."""
+    names = set()
+    if not os.path.exists(REGISTRY_MD):
+        return names
+    for line in _read_text(REGISTRY_MD).splitlines():
+        m = re.match(r"\|\s*([a-z0-9_]+)\s*\|", line)
+        if m and m.group(1) not in ("面", "---", "---|"):
+            names.add(m.group(1))
+    return names
+
+
+def _p2_row(face, leg, verdict, number_hit, formula_ok, corpus_hit, kin_hit,
+            inrepo_status, note=""):
+    return {
+        "face": face.get("meta_id", ""),
+        "file": face.get("file", "factors.py"),
+        "leg": leg,
+        "number": face.get("number"),
+        "subfamily": face.get("subfamily", ""),
+        "doc_formula": face.get("doc_formula", ""),
+        "number_hit": number_hit,
+        "formula_ok": formula_ok,
+        "corpus_hit": corpus_hit,          # {"family","number","status"} or None
+        "kin_hit": kin_hit,                # in-repo name or None
+        "verdict": verdict,
+        "inrepo_verdict_status": inrepo_status,
+        "note": note,
+    }
+
+
+def classify_p2_m4_wq101_leg(m4, m1_a101_by_num, wq_verd):
+    rows = []
+    for face in m4:
+        if face["subfamily"] != "alpha":
+            continue
+        m = re.match(r"alpha_(\d+)$", face["meta_id"])
+        n = int(m.group(1)) if m else None
+        number_hit = n in wq_verd
+        formula_ok = None
+        ref = m1_a101_by_num.get(n) if n is not None else None
+        if face["doc_formula"] and ref is not None:
+            a = norm_formula_v2(face["doc_formula"])
+            b = norm_formula_v2(ref["formula_latex"] or ref["doc_formula"])
+            formula_ok = (a == b) if (a and b) else None
+            if a and "\u0394" in face["doc_formula"]:
+                face_note = "delta-symbol variant in mine docstring (U+0394) -- identity leg honest miss disclosed"
+            else:
+                face_note = ""
+        else:
+            face_note = "no machine-readable formula face" if not face["doc_formula"] else "no M1 same-number ref"
+        if not number_hit:
+            verdict = "NEW-FACE"
+        elif formula_ok is None:
+            verdict = "UNVERIFIABLE"
+        elif formula_ok:
+            verdict = "DUP-NUMBER-VERIFIED"
+        else:
+            verdict = "DUP-FAMILY-DRIFT"
+        rows.append(_p2_row(face, "M4-WQ101", verdict, number_hit, formula_ok,
+                            None, None, wq_verd.get(n, ""), face_note))
+    return rows
+
+
+def classify_p2_m4_formula_leg(m4, corpus, engine_names, wq_verd, gtja_verd):
+    """Legs 2+3 (frozen): formula-identity primary vs in-repo WQ-syntax corpus
+    -> DUP-FORMULA-VERIFIED; else name kinship (engine+zoo+registry rows)
+    -> DUP-FAMILY-DRIFT; else NEW-FACE."""
+    rows = []
+    for face in m4:
+        sub = face["subfamily"]
+        if sub == "alpha":                # leg-1 territory
+            continue
+        leg = "M4-MARKET" if sub == "cs" else "M4-NAMEKEY"
+        fml = face["doc_formula"]
+        corpus_hit = None
+        formula_ok = None
+        if fml:
+            a = norm_formula_v2(fml)
+            if a:
+                for key, rec in corpus.items():
+                    if a == rec["norm"]:
+                        corpus_hit = rec
+                        formula_ok = True
+                        break
+        kin = _kinship_hit(face["meta_id"], engine_names)
+        if corpus_hit is not None:
+            verdict = "DUP-FORMULA-VERIFIED"
+            status = corpus_hit["status"]
+            note = "corpus: %s#%s" % (corpus_hit["family"], corpus_hit["number"])
+            if sub == "old" and corpus_hit["family"] == "gtja191":
+                note += " (GTJA-renumber suspicion adjudicated by formula identity)"
+        elif formula_ok is None and not fml:
+            # no machine-readable formula face (prose-only docstring):
+            # kin hit -> DUP-FAMILY-DRIFT (leg-3/leg-2 chain); zero kin ->
+            # UNVERIFIABLE per frozen sec.4 state-4 (公式源缺 -> 不入池不烧)
+            if kin:
+                verdict = "DUP-FAMILY-DRIFT"
+                status = ""
+                note = "kin=%s (name-level; formula face absent in mine docstring)" % kin
+            else:
+                verdict = "UNVERIFIABLE"
+                status = ""
+                note = "prose-only docstring: no machine-readable formula face (frozen sec.4 state-4)"
+        elif kin:
+            verdict = "DUP-FAMILY-DRIFT"
+            status = ""
+            note = "kin=%s (name-level; construction verdict deferred to SLOT prereg)" % kin
+            if fml and "\u0394" in fml:
+                note += " + delta-symbol variant disclosed"
+        else:
+            verdict = "NEW-FACE"
+            status = ""
+            note = ""
+            if fml and "\u0394" in fml:
+                note = "delta-symbol variant in mine docstring -- identity miss disclosed"
+        rows.append(_p2_row(face, leg, verdict, False, formula_ok, corpus_hit,
+                            kin, status, note))
+    return rows
+
+
+def _m1_compute_bodies():
+    """M1 alpha_NNN.py compute() function nodes (M5 code-face comparison
+    leg needs the implementation body, not just formula fields)."""
+    out = {}
+    d = os.path.join(M1_ZOO, "alpha101")
+    if not os.path.isdir(d):
+        return out
+    for fn in sorted(os.listdir(d)):
+        m = re.match(r"alpha_(\d+)\.py$", fn)
+        if not m:
+            continue
+        try:
+            tree = ast.parse(_read_text(os.path.join(d, fn)))
+        except SyntaxError:
+            continue
+        for node in tree.body:
+            if isinstance(node, ast.FunctionDef) and node.name == "compute":
+                out[int(m.group(1))] = node
+                break
+    return out
+
+
+def classify_p2_m5_leg(m5_faces, m1_compute_bodies, wq_verd):
+    rows = []
+    for face in m5_faces:
+        n = face["number"]
+        number_hit = n in wq_verd
+        ref = m1_compute_bodies.get(n)
+        code_ok = None
+        if ref is not None:
+            a_seq = _op_sequence(face["body_node"])
+            b_seq = _op_sequence(ref)
+            if _ops_view(a_seq) and _ops_view(b_seq):
+                code_ok = (_ops_view(a_seq) == _ops_view(b_seq)
+                           and _nums_view(a_seq) == _nums_view(b_seq))
+        if not number_hit:
+            verdict = "NEW-FACE"
+            note = ""
+        elif code_ok is None:
+            verdict = "DUP-FAMILY-DRIFT"
+            note = "code-face-limit: operator sequence not extractable both sides"
+        elif code_ok:
+            verdict = "DUP-NUMBER-VERIFIED"
+            note = "operator+window sequence identical (code-face verified)"
+        else:
+            verdict = "DUP-FAMILY-DRIFT"
+            note = "code-face-unverified: same number, different construction (M5 generic demo set -- README honest-downgrade lineage)"
+        rows.append(_p2_row(face, "M5-WQ101", verdict, number_hit, None,
+                            None, None, wq_verd.get(n, ""), note))
+    return rows
+
+
+def run_p2():
+    t0 = time.time()
+    if os.path.exists(OUT_JSON_P2):
+        print(json.dumps({"status": "REFUSED",
+                          "why": "results/g2_overlap_census_p2.json exists; "
+                                 "prereg forbids re-run (engineering re-run "
+                                 "needs dual-run trail)"}, indent=1))
+        return 2
+    gate_fail = []
+    m4 = export_m4_faces()
+    fam_counts = {}
+    for f in m4:
+        fam_counts[f["subfamily"]] = fam_counts.get(f["subfamily"], 0) + 1
+    if fam_counts != P2_M4_FAMILY_BUDGET:
+        gate_fail.append("M4 family census mismatch: %s" % fam_counts)
+    m5_faces, m5_names, demo_ok = export_m5_faces()
+    if not (len(m5_names) == 24 and demo_ok):
+        gate_fail.append("M5 gate: n=%s demo_ok=%s" % (len(m5_names), demo_ok))
+    for p in (M4_FEATURES_DIR, M5_FACTORS_FILE, WQ101_CSV, GTJA191_CSV,
+              REGISTRY_MD):
+        if not os.path.exists(p):
+            gate_fail.append("missing source: %s" % p)
+    if gate_fail:
+        print(json.dumps({"status": "GATE-FAIL", "failures": gate_fail},
+                         ensure_ascii=False, indent=1))
+        return 2
+
+    m1 = export_m1()
+    wq_verd = load_wq101_verdicts()      # skip set merged here (single source)
+    gtja_verd = load_gtja191_verdicts()
+    a158_names = load_a158_names()
+    engine_names = load_engine_face_names()
+    registry_rows = _registry_row_names()
+    kin_pool = engine_names | a158_names | registry_rows
+    m1_a101_by_num = {f["number"]: f for f in m1["alpha101"]}
+
+    # in-repo WQ-syntax formula corpus (frozen leg-2 sources). A158 probe and
+    # registry rows carry no machine-readable WQ-syntax formula strings
+    # (code-as-formula / prose constructions) -> disclosed, contribute zero
+    # string identities (cross-formal identity unprovable, M5-leg lineage).
+    corpus = {}
+    for face in m1["alpha101"]:
+        s = norm_formula_v2(face["formula_latex"] or face["doc_formula"])
+        if s:
+            corpus.setdefault(s, {"family": "wq101", "number": face["number"],
+                                  "status": wq_verd.get(face["number"], ""),
+                                  "norm": s})
+    for face in m1["gtja191"]:
+        s = norm_formula_v2(face["formula_latex"] or face["doc_formula"])
+        if s:
+            corpus.setdefault(s, {"family": "gtja191", "number": face["number"],
+                                  "status": gtja_verd.get(face["number"], ""),
+                                  "norm": s})
+
+    rows = []
+    rows += classify_p2_m4_wq101_leg(m4, m1_a101_by_num, wq_verd)
+    rows += classify_p2_m4_formula_leg(m4, corpus, kin_pool, wq_verd, gtja_verd)
+    rows += classify_p2_m5_leg(m5_faces, _m1_compute_bodies(), wq_verd)
+    expected_total = (sum(P2_M4_FAMILY_BUDGET.values()) + 24)
+    if len(rows) != expected_total:
+        print(json.dumps({"status": "GATE-FAIL",
+                          "failures": ["row count %d != expected %d"
+                                       % (len(rows), expected_total)]}))
+        return 2
+
+    tally, by_leg = {}, {}
+    for r in rows:
+        tally[r["verdict"]] = tally.get(r["verdict"], 0) + 1
+        by_leg.setdefault(r["leg"], {})
+        by_leg[r["leg"]][r["verdict"]] = by_leg[r["leg"]].get(r["verdict"], 0) + 1
+
+    elapsed = round(time.time() - t0, 2)
+    doc = {
+        "artifact": "G2_OVERLAP_CENSUS_P2",
+        "prereg": "research/G2_OVERLAP_CENSUS_P2.md (FROZEN before run)",
+        "evidence_cutoff": P2_EVIDENCE_CUTOFF,
+        "science_gates": {"cutoff_meta": {"cutoff": P2_EVIDENCE_CUTOFF}},
+        "mine_anchors": P2_MINE_ANCHORS,
+        "m4_family_counts": fam_counts,
+        "m5_demo_assertion": "DEMO_FACTORS == alpha_NNN method set, n=24 PASS",
+        "corpus_disclosure": {
+            "wq101_formulas": sum(1 for v in corpus.values() if v["family"] == "wq101"),
+            "gtja191_formulas": sum(1 for v in corpus.values() if v["family"] == "gtja191"),
+            "a158_formula_face": "not machine-readable as WQ-syntax strings (code-as-formula) -- zero string identities, name-level kinship only",
+            "registry_rows_formula_face": "prose constructions, not WQ syntax -- name-level kinship only",
+        },
+        "total_faces": len(rows),
+        "tally": tally,
+        "by_leg": by_leg,
+        "notes": {
+            "zero_backtest": True, "zero_network": True, "zero_nulls": True,
+            "trials_ledger_append": 0, "marks": "+0", "seeds": "+0",
+            "p1_verdicts_not_retroflipped": True,
+            "norm_v2_bracket_prescreen_is_p2_slice_only": True,
+            "m5_readme_honest_downgrade": "claimed 120 vs installed 24 (prereg sec.2)",
+        },
+        "audit": {
+            "elapsed_s": elapsed,
+            "budget_cap_s": P2_TIME_BUDGET_S,
+            "within_budget": elapsed <= P2_TIME_BUDGET_S,
+            "rows_classified": len(rows),
+            "expected_rows": expected_total,
+            "eng_fix_trail": "extraction fidelity iterated to convergence "
+                             "(runs 1-3 preserved as "
+                             "results/g2_overlap_census_p2_run{1,2,3}.json "
+                             "trails; canonical = final convergence run; r493 "
+                             "P1 dual-run-trail precedent): r1->r2 shorthand "
+                             "rule + UNVERIFIABLE state for absent faces; "
+                             "r2->r3 prose-head strip + trailing-annotation "
+                             "strip + 'vs'/'...' ambiguity reject + vocabulary "
+                             "prose gate; r3->final annotation prose-inner "
+                             "criterion (arithmetic groups keep) + "
+                             "compound-variable decomposition (close_loc) + "
+                             "bracket-index notation. All rules frozen in "
+                             "runner; observed-token dump "
+                             "results/_r499bma_m4_doclines.json",
+        },
+        "rows": rows,
+    }
+    with io.open(OUT_JSON_P2, "w", encoding="utf-8", newline="\n") as fh:
+        json.dump(doc, fh, ensure_ascii=False, indent=2)
+    print(json.dumps({
+        "status": "OK", "total_faces": len(rows), "tally": tally,
+        "by_leg": by_leg, "elapsed_s": elapsed, "out": OUT_JSON_P2,
+    }, ensure_ascii=False, indent=1))
+    return 0
+
+
 # ---------------------------------------------------------------- main
 def run():
     t0 = time.time()
@@ -583,6 +1146,85 @@ def selftest():
     ok.append(("kinship", _kinship_hit("strev", {"rev_5"}) == "rev_5"))
     ok.append(("kinship_illiq", _kinship_hit("illiq", {"amihud_illiq"}) == "amihud_illiq"))
     ok.append(("kinship_none", _kinship_hit("cma", {"mom_20", "rev_5"}) is None))
+    # ---- P2 fixtures (offline, synthetic only) ----
+    ok.append(("v2_wrap_single", norm_formula_v2("((x)) + (y)") == "x+y"))
+    ok.append(("v2_wrap_num", norm_formula_v2("(2.)") == "2"))
+    ok.append(("v2_call_parens_kept",
+               norm_formula_v2("signedpower((x), 2.)") == "signedpower(x,2)"))
+    ok.append(("v2_precedence_kept",
+               norm_formula_v2("(a + b) * c") == "(a+b)*c"))
+    ok.append(("v2_absorbs_p1_drift",
+               norm_formula_v2("signedpower((x), 2.)")
+               == norm_formula_v2("signedpower(x, 2)")))
+    ok.append(("v2_no_func_destructure",
+               norm_formula_v2("rank(x)") != "rankx"))
+    doc = "rank(volume) * rank(vwap - close) — legacy port."
+    ok.append(("m4_doc_cut", _m4_formula_from_docstring(doc)
+               == "rank(volume) * rank(vwap - close)"))
+    ok.append(("m4_doc_desc_none",
+               _m4_formula_from_docstring("Cross-sectional rank of close return.") == ""))
+    ok.append(("m4_doc_parenless_shorthand",
+               _m4_formula_from_docstring("high / open.") == "high / open"))
+    ok.append(("m4_doc_prose_rejected",
+               _m4_formula_from_docstring("Deviation from 20-day mean, cross-sectionally z-scored.") == ""))
+    ok.append(("m4_doc_head_strip",
+               _m4_formula_from_docstring("Amount surge: amount / ts_mean(amount, 20) - 1")
+               == "amount / ts_mean(amount, 20) - 1"))
+    ok.append(("m4_doc_annotation_strip",
+               _m4_formula_from_docstring("close - ts_mean(close, 20) (deviation from 20-day MA).")
+               == "close - ts_mean(close, 20)"))
+    ok.append(("m4_doc_annotation_keeps_callgroup",
+               _m4_formula_from_docstring("EWMA(open / delay(close, 1) - 1, alpha=1/5)")
+               == "EWMA(open / delay(close, 1) - 1, alpha=1/5)"))
+    ok.append(("m4_doc_annotation_keeps_arithgroup",
+               _m4_formula_from_docstring("(mean(close,3)+mean(close,6)) / (4*close).")
+               == "(mean(close,3)+mean(close,6)) / (4*close)"))
+    ok.append(("m4_doc_annotation_keeps_divisor",
+               _m4_formula_from_docstring("(close - open) / (high - low + 1e-9).")
+               == "(close - open) / (high - low + 1e-9)"))
+    ok.append(("m4_doc_vs_rejected",
+               _m4_formula_from_docstring("rank(a, 5) vs rank(b, 5)") == ""))
+    ok.append(("m4_doc_ellipsis_rejected",
+               _m4_formula_from_docstring("ewma(std(close,20), 1/5) - ewma(..., 1/20)") == ""))
+    ok.append(("m4_doc_prose_scaled_by",
+               _m4_formula_from_docstring("ts_max(high, 5) - ts_min(low, 5) scaled by close.") == ""))
+    ok.append(("m4_doc_conditional_rejected",
+               _m4_formula_from_docstring("Conditional sum: if vwap < close: |vwap/close-1|, window=20.") == ""))
+    m4_src = '''
+@register_legacy_factor("alpha_001")
+def alpha_001(panel):
+    """cs_rank(ts_rank(close, 5)) - 0.5 — momentum."""
+    return None
+'''
+    import tempfile
+    tmpdir = tempfile.mkdtemp()
+    fake = os.path.join(tmpdir, "_factors_x.py")
+    with io.open(fake, "w", encoding="utf-8") as fh:
+        fh.write(m4_src)
+    tree = ast.parse(_read_text(fake))
+    fn = [n for n in tree.body if isinstance(n, ast.FunctionDef)][0]
+    ok.append(("m4_extract", _m4_formula_from_docstring(ast.get_docstring(fn))
+               == "cs_rank(ts_rank(close, 5)) - 0.5"))
+    ok.append(("m4_reg_name", fn.name == "alpha_001"))
+    m5_src = '''
+class AlphaFactorEngine:
+    def alpha_002(self):
+        a = self.ts_mean(self.volume, 5)
+        return -(a - self.volume)
+'''
+    tree2 = ast.parse(m5_src)
+    cls = [n for n in tree2.body if isinstance(n, ast.ClassDef)][0]
+    meth = [n for n in cls.body if isinstance(n, ast.FunctionDef)][0]
+    ok.append(("m5_ops", _ops_view(_op_sequence(meth)) == ["ts_mean"]))
+    ok.append(("m5_nums", _nums_view(_op_sequence(meth)) == [5]))
+    a1 = ast.parse("def f():\n    return ts_corr(rank(x), y, 6)\n")
+    a2 = ast.parse("def g():\n    return ts_corr(rank(x), y, 5)\n")
+    ok.append(("m5_seq_differs", _ops_view(_op_sequence(a1.body[0]))
+               == _ops_view(_op_sequence(a2.body[0]))
+               and _nums_view(_op_sequence(a1.body[0]))
+               != _nums_view(_op_sequence(a2.body[0]))))
+    import shutil
+    shutil.rmtree(tmpdir, ignore_errors=True)
     fails = [name for name, passed in ok if not passed]
     print("g2_overlap_census selftest: %d/%d PASS %s"
           % (len(ok) - len(fails), len(ok),
@@ -594,4 +1236,6 @@ if __name__ == "__main__":
     cmd = sys.argv[1] if len(sys.argv) > 1 else "run"
     if cmd == "selftest":
         sys.exit(selftest())
+    if cmd in ("run-p2", "run_p2"):
+        sys.exit(run_p2())
     sys.exit(run())
