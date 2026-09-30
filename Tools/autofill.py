@@ -124,6 +124,15 @@ _GIT_DIR = os.path.join(ROOT, ".git")
 
 LOW_PY_LINE = 70.0        # O-1136: py CPU < 70% of machine capacity
 SAMPLE_S = 2.0            # instantaneous py-CPU sample window
+SATURATE_MAX_PER_TICK = 8 # O-20260930-2340 claim-to-saturation: cap on
+                          # same-tick launches while the py face stays
+                          # under the line (RAM/core-bounded ceiling; the
+                          # 22:59 audit found 7 ready batches starved by
+                          # the one-claim-per-tick cadence -- banned).
+SATURATE_RAMP_WAIT_S = 25.0  # post-launch wait so the fresh runner
+                          # registers on the CPU face before re-sample
+                          # (claim further only while still unsaturated).
+SATURATE_MIN_FREE_RAM_GB = 8.0  # stop claiming below this free-RAM floor
 STALE_MIN = 20.0          # O-2100 s2.4: shard-owner heartbeat staleness
 KEEPALIVE_MIN = 10.0      # r288 claim-keepalive cadence (well under
                           # STALE_MIN): refresh owner_since while the
@@ -1201,7 +1210,7 @@ def _keepalive_claims(pool, myid):
         return keys if committed else []
 
 
-def tick(dry=False):
+def tick(dry=False, _saturate_depth=0):
     probe = _mid_op()
     if probe is not None:
         _log(f"tick no-op: git mid-operation ({probe}) -- conflicted "
@@ -1423,15 +1432,39 @@ def tick(dry=False):
                 "fill_latency_min": latency,
                 "fullburn_window": fullburn,
                 "target_met": (latency is None
-                               or latency <= FILL_TARGET_MIN)})
+                               or latency <= FILL_TARGET_MIN),
+                "saturation_launches": _saturate_depth + 1})
     state["launches"].append(rec)
     state["launches"] = state["launches"][-50:]
     state["last_tick"] = rec
     _save_state(state)
     _log(f"C8 LAUNCH {e['id']}/{sh.get('key')} pid={p.pid} "
-         f"py={py}% latency={latency}min target_met={rec['target_met']}")
+         f"py={py}% latency={latency}min target_met={rec['target_met']} "
+         f"launch#{_saturate_depth + 1} this tick")
     print(json.dumps(rec, ensure_ascii=False))
-    return 0
+    # O-20260930-2340 claim-to-saturation: after a successful launch,
+    # give the fresh runner time to register on the CPU face, then
+    # RE-ENTER the tick (fresh py sample + fresh pool read) and keep
+    # claiming while the machine still has idle capacity. Any early
+    # exit inside the re-entered tick (py saturated / pool empty /
+    # fuse refusal / claim yield) ends the chain honestly with that
+    # face -- one-claim-per-tick starved 7 ready batches at the 22:59
+    # CEO audit, that cadence is banned (O-2340 sec.1 law 1).
+    if _saturate_depth + 1 >= SATURATE_MAX_PER_TICK:
+        _log(f"saturate stop: per-tick cap {SATURATE_MAX_PER_TICK} "
+             f"launches reached")
+        return 0
+    time.sleep(SATURATE_RAMP_WAIT_S)
+    try:
+        import psutil
+        if (psutil.virtual_memory().available
+                < SATURATE_MIN_FREE_RAM_GB * (1 << 30)):
+            _log("saturate stop: free RAM below "
+                 f"{SATURATE_MIN_FREE_RAM_GB}GB floor -- chain ends")
+            return 0
+    except Exception:
+        pass
+    return tick(dry, _saturate_depth=_saturate_depth + 1)
 
 
 def status():

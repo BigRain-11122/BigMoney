@@ -1,7 +1,10 @@
 # Registers the Bigmoney autofill task (Bigmoney-Autofill, C8 leg).
-# Runs Tools\autofill.py tick every 10 min: O-20260924-2100 s2.2 fill
-# latency hard target (ready pool shard -> running <= 10 min), zero-LLM
-# deterministic. PATH-AGNOSTIC + idempotent via -Force + pure ASCII.
+# Runs Tools\autofill.py tick every 2 min: O-20260930-2340 claim-to-
+# saturation law (CEO order -- fill latency tightened from the O-20260924-2100
+# s2.2 10-min cadence; no-op ticks stay pure-local + cheap, git fetch only
+# rides claim flows). ExecutionTimeLimit 15 min: one saturation-chain tick =
+# up to 8 launches x (~12s claim + 25s ramp wait) can exceed 5 min.
+# Zero-LLM deterministic. PATH-AGNOSTIC + idempotent via -Force + pure ASCII.
 $Project = Split-Path -Parent $PSScriptRoot
 $af = Join-Path $Project 'Tools\autofill.py'
 $vbs = Join-Path $Project 'Tools\InvisibleRunner.vbs'
@@ -11,8 +14,8 @@ $a = New-ScheduledTaskAction -Execute 'wscript.exe' `
     -Argument ('//B //nologo "' + $vbs + '" python.exe "' + $af + '" tick') `
     -WorkingDirectory $Project
 $start = Get-Date -Minute 0 -Second 0
-while ($start -le (Get-Date)) { $start = $start.AddMinutes(10) }
-$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 10) -RepetitionDuration (New-TimeSpan -Days 3650)
-$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
+while ($start -le (Get-Date)) { $start = $start.AddMinutes(2) }
+$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 2) -RepetitionDuration (New-TimeSpan -Days 3650)
+$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 15)
 Register-ScheduledTask -TaskName 'Bigmoney-Autofill' -Action $a -Trigger $t -Settings $s -Force | Out-Null
 Write-Output "registered Bigmoney-Autofill (project=$Project), first fire $start"
