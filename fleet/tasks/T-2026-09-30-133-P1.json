@@ -4,9 +4,12 @@
  "type": "perpetual-saturation-p1",
  "immediate": true,
  "spec": "CEO direct order O-2026-09-30-2340 (fleet CPU severely idle). ROOT CAUSE: claim cadence (10-min tick, one claim per tick -> 7 ready batches starved at 22:59 audit) + lenient legal-idle definitions (I/O-bound collectors counted as busy) + inter-wave supply gaps. THREE slices: (s1) CLAIM-TO-SATURATION LAW: amend Tools/autofill.py + watchdog cadence -- pool non-empty AND py<70% -> claim multiple shards SAME tick until saturation (RAM/core limits respected), watchdog tick every 2 minutes while pool non-empty; idle whitelist NARROWED: I/O-bound collectors do NOT count as CPU busy (cpu/py faces are the only truth); board-closed+pool-empty+no-perpetual-face = the ONLY legal idle. (s2) PERPETUAL FACES (never-dry supply, face-level prereg frozen once, unlimited shards, all N into cumulative N_eff): N1 nulls-deepening (re-bootstrap every judged/in-flight family at 10x draws), N2 random-subspace furnaces (grammar random combos, exploration face), N3 neighborhood robustness grids (registered members parameter stress, G2 evidence supply), N4 bootstrap alternate-history replays (bar resampling -> alternate universes replay); generator materializes next N shards automatically when pool starves (supply_floor flag = trigger). (s3) RED-FLAG WIRING: pool_starvation/supply_floor flags = daily report FIRST line + CEO-face standing row; flag = owning machine round report must carry remediation line. VERIFICATION: next-day report compares py_cpu samples across three machines -- target sustained py>50% fleet-wide while supply exists.",
- "status": "open",
+ "status": "claimed",
  "created_by": "GM (quant 专管会话) via O-2026-09-30-2340",
  "created_at": "2026-09-30 23:40",
+ "claimed_by": "bm-b",
+ "claimed_at": "2026-09-30 23:55",
+ "claim_note": "OS iteration loop round 484; claim-and-start same round per O-20260924-1730 immediate-law; git fetch immediately before claim per r239 collision law -- origin/main status=open verified at 23:5x. SLICE-DECLARED CLAIM per T-50/T-64/T-68 precedent (zero whole-ticket lock): bm-b slice = s2 PERPETUAL FACES (face-level frozen prereg + supply_floor generator + N1-N4 runners staged); s1 autofill/watchdog amendment (bm-a primary, autofill owner) + s3 daily-report/CEO-face wiring (ops faces) remain OPEN to any healthy machine face per ticket note 'any machine for faces'.",
  "note": "Owner dept = 工程部 (autofill/watchdog amendment) + 策略部 (perpetual faces) + 运营部 (red-flag report wiring). Lane: bm-a primary (autofill owner) any machine for faces. Number 133 = max+1 after loop T-131 + GM T-132 (verified pre-push).",
  "ticket_lineage": "seq 133 @ 23:40 (origin re-verified pre-push)"
 }
