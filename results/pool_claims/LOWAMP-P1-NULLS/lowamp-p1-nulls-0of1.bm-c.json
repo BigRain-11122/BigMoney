@@ -1,15 +1,13 @@
 {
- "entry": "LOWAMP-P1-NULLS",
- "shard": "lowamp-p1-nulls-0of1",
- "machine": "bm-c",
- "state": "open",
- "heartbeat": "2026-10-01 02:52:00",
- "relay": {
+ "machine_id": "bm-c",
+ "state": "killed_duplicate",
+ "pid": null,
+ "heartbeat": "2026-10-01T02:55:00+08:00",
+ "note": "duplicate burn killed at k~1726/2000 per MSG-0231 kill-advice (bm-b daemon 12w completed batch 02:48:04, origin nulls.jsonl 2000 lines; local 1726 rows verified strict byte-subset of origin set, zero data loss; checkpoint abandoned in place, no harvest)",
+ "relay_provenance": {
   "by": "bm-b",
   "at": "2026-10-01 02:52:00",
-  "basis": "MSG-2026-10-01-0235 (bm-c loop r297, branch machine/bm-c-r297)",
-  "facts": "bm-c burn in flight since 00:47:02 (pythonw PID 37088, 8 workers, k~1372/2000 @02:2x, ~13.5 cells/min, ETA ~03:12); bm-c 69-commit push backlog blocked native claim heartbeats from reaching origin (last origin-visible stamp 00:56:21)",
-  "action": "bm-b killed own duplicate 12w burn @02:51 (1054/2000 rows burned, subset of bm-c set, rows bit-identical per frozen rng([20330500,k]); partial kept in local results/lowamp_p1/nulls.jsonl until bm-c merge lands)",
-  "contract": "this heartbeat = bm-b relay refresh of bm-c's stranded claim (claim-by-file O-2210 gate); refresh ONLY while bm-c burn alive per latest MSG; remove/ignore once bm-c merge lands done-flip"
+  "basis": "MSG-2026-10-01-0235",
+  "note": "bm-b r490a yield-relay of stranded bm-c claim preserved at r299 rebase merge; superseded by killed_duplicate 02:55 (batch closed judged per bm-a r498 T-132)"
  }
 }
