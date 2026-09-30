@@ -195,15 +195,14 @@
    "shard": "judge-0of1",
    "machine": "bm-b"
   },
-  "scripts/p2_null_calibration_ext.py|--shard,0,--nshards,4": {
+  "scripts/p2_null_calibration_ext.py|--shard,2,--nshards,4": {
    "count": 1,
-   "refusals": 1,
+   "refusals": 0,
    "code_sha256": "1098a0ebc1c3dd2c",
-   "last_crash_ts": "2026-09-30 21:31:34",
-   "entry": "P2NULL-KLIFT-K2200-S0",
-   "shard": "p2null-klift-s0-0of1",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-09-30 21:31:36"
+   "last_crash_ts": "2026-09-30 21:50:03",
+   "entry": "P2NULL-KLIFT-K2200-S2",
+   "shard": "p2null-klift-s2-0of1",
+   "machine": "bm-c"
   }
  },
  "cleared": {
@@ -288,6 +287,13 @@
    "cleared_ts": "2026-09-30 20:56:13",
    "cleared_by": "bm-b r478",
    "reason": "data-gate zero-burn misclassified as crash: 20:40 launch FAIL-CLOSED per spec on astock panel complete=False (refresh in flight); no code defect; relaunch authorized post panel completion (pool entry parked waiting)"
+  },
+  "scripts/p2_null_calibration_ext.py|--shard,0,--nshards,4": {
+   "cleared_ts": "2026-09-30 21:50:05",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "1098a0ebc1c3dd2c"
   }
  },
  "lane_machine": "bm-c"
