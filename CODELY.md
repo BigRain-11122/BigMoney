@@ -13,3 +13,5 @@
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批及历史批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
 - 冷层指针：流水型条目按 D-20260924-01 月度整编至 research/memory-archive/<YYYYMM>.md；坑律一〇九~一一六批等历史指针行 verbatim=archive 202609.md『指针合并归档 r444』+『指针迁移归档 r445』两节。
 - 冷层指针（r281 合并·指针合并归档 r444 范式）：r473 断头 rebase 诊断序+r473 盘中标记零价蒸发坑（『r466 bm-b 窗批』节）+r454/r455/r236/r444/r229/r235/r237/r445/r441/r442/r446/r447/r448/r450/r244/r452/r456/r457/r252/r255/r449/r462/r464/r258/r259/r269/r459+W8 构造事实诸坑律——全文 verbatim=archive 202609.md 各『窗批』节；原指针行 verbatim=archive『热冷整编 2026-09-30 r281 bm-c 窗批』节。
+
+- [2026-09-30 r472 bm-b] 冻结探针事实消费三坑（W14 runner build 实弹·r471 半成品收养窗）：①r470 探针 rate 键名 open_rate_on_decidable 实为 open/n_bars 口径（0.112=390/3483，非 390/3363）——runner 门按键名字面语义自算 on-decidable 即撞假红；②探针 512 格键末段带面前缀（resi60_closed/cntd5_closed）≠W13 范式裸 closed——逐格 cross-check 全 None 假漂移；③screen CSV DictWriter extrasaction=ignore 静默丢新轴列（resi/cnt 四列不落 CSV）——新波 CSV 合同腿必须显式断言新列在位。律=冻结探针事实是 canon：写断言前先对事实文件字节验分母口径+键名构造，键名语义不权威；门改为消费探针实际构造并披露 label drift。How to apply：W15+ runner 门/自检腿消费冻结 probe facts 时先打印事实键值对 caliber 再写比较面。
