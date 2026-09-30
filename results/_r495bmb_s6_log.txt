@@ -31,3 +31,36 @@ LEG ceo_live_usage rc=0 :: ceo_live_usage: C:\Fluxgroup\FluxGroup\quant\bigmoney
 LEG monitor.build_status rc=0 :: dashboard status -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\dashboard_status.js |   factors=10 backtest=432combos/0pass traders=6 milestones=5/7
 LEG token_meter rc=0 :: per-round fixed context ~ 11118 + 8189 tokens (rough); ledger cumulative ~ 2049 state + 1046878 report tokens; delta=0 | L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=536 across 41 sigs
 S6RUNNER_DONE fails=0 
+LEG strategy_scorecard rc=0 ::   ENGULF-CE-01       A  total= 67.0  d1=83 d2=48 d3=34 d4=79 d5=46 d6=100 d7=100  veto=clean | strategy_scorecard: 6 strategy / 28 trader / 7 portfolio cards -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\strategy_scorecard.json (13.9s)
+LEG market_clock_call rc=0 :: call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+LEG update_lhb rc=0 :: cutoff=2026-09-30 quarter=2026Q3 today=2026-10-01 | no-op: cutoff 2026-09-30 covers latest disclosure window (2026-09-30)
+LEG update_heat rc=0 :: no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+LEG update_futures rc=0 :: no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+LEG update_repo rc=0 :: no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+LEG update_options rc=0 :: no-op: options lane owned by bm-a, not this machine (bm-b)
+LEG update_moneyflow rc=0 :: no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+LEG update_sina_mf rc=0 :: no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+LEG update_astock_daily rc=0 :: no-op: panel fresh (cutoff 2026-09-30 >= expected 2026-09-30) -> zero network
+LEG update_etf_daily rc=0 :: no-op: panel cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+LEG rev_osc_signal_export rc=0 :: rev_osc_signal_export: SIG-2026-09-30 picks=10 gate_open=True thin=False bars_codes=37 -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\rev_osc_live
+LEG update_minute_feed rc=0 :: update_minute_feed: before 09:15 -- no-op
+LEG update_ths_panel rc=0 :: no-op: ths panel lane owned by bm-a, not this machine (bm-b)
+LEG ah_panel_puller rc=0 :: no-op: ah panel lane owned by bm-a, not this machine (bm-b)
+LEG update_fund_premium rc=0 :: no-op: fund_premium lane owned by bm-c, not this machine (bm-b)
+LEG update_fundamental rc=0 :: snapshot fresh (19.4h < 24h) -> skip
+LEG b_layer_filter rc=0 :: mask -> C:\Fluxgroup\FluxGroup\quant\bigmoney\data\fundamental\b_layer_mask.csv | verdict -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+LEG live.paper rc=0 :: VOLATILITY-CE-01: anchor OK (cutoff 2026-09-22) | paper 5 bars since 2026-09-23 | months_tracked=0 dd=-0.0037 | x2: insufficient_data | x2 watch: ok | saved C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper\VOLATILITY-CE-01_paper.json | paper tracking: OK
+LEG t35_open_fill_verify rc=0 :: lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat stale 83min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law) | open_fill_verify day=2026-09-30: PASS (matched 0, dropped 0, breach 0, zero-pending traders 6) -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\t35_open_fill_verify.json
+LEG t24_prospect_paper rc=0 :: prospect lane: forward_guard t14_rules_fidelity.build_guard wired (up=24 dn=42) | prospect tracking: OK pass=22/22 drift=0 months_total=0 cutoff=2026-09-30
+LEG t24_prospect_promotion rc=0 :: PROS-VOB-CE-01: eligible=False (paper=0m g2_pack=subleg_fail t22_rows=0) | promotion gate: eligible=0/22 legs_pass={'paper_months': 0, 'g2_full': 0, 't22_beat_passive': 0} cutoff=2026-09-22
+LEG aggressive_lab rc=0 :: aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+LEG alloc_paper rc=0 :: ALLOC-P6: byte-identical (no new bar / no change), no-op | alloc_paper done: 0 file(s) updated, window 2026-09-23..2026-09-30
+LEG grid_paper rc=0 :: grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+LEG system_v1_paper rc=0 :: system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op
+LEG t35_paper_export rc=0 :: export 2026-09-30: traders=6 positions=18 equity=5998496 ops(entry/exit)=0/0 source=2026-09-29 | -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\paper_export\export-2026-09-30.json + latest.json
+LEG daily_scorecard rc=0 :: lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat stale 83min -> stale-takeover derive by bm-b (O-2100 s2.4 STALE_MIN law) | scorecard written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\daily_scorecard.html traders: 6 o1600 rows: 6
+LEG daily_report rc=0 :: daily report written: REPORT-2026-10-01.md/.json faces=5 token=1
+LEG ceo_live_usage rc=0 :: ceo_live_usage: C:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-01.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)
+LEG monitor.build_status rc=0 :: dashboard status -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\dashboard_status.js |   factors=10 backtest=432combos/0pass traders=6 milestones=5/7
+LEG token_meter rc=0 :: per-round fixed context ~ 11118 + 8388 tokens (rough); ledger cumulative ~ 2049 state + 1047802 report tokens; delta=0 | L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=539 across 41 sigs
+S6RUNNER_DONE fails=0 

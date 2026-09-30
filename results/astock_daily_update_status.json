@@ -1,8 +1,8 @@
 {
-  "ts": "2026-10-01T06:18:18",
-  "mode": "refresh incomplete (checkpoint preserved)",
+  "ts": "2026-10-01T06:56:09",
+  "mode": "no-op: panel fresh",
   "panel": {
-    "complete": false,
+    "complete": true,
     "cutoff": "2026-09-30",
     "universe_n": 5229,
     "per_files": 5217
@@ -19,26 +19,35 @@
     "9": 392
   },
   "last_refresh": {
-    "todo": 135,
-    "fetched": 133,
-    "appended": 122,
+    "todo": 1,
+    "fetched": 1,
+    "appended": 0,
     "readjusted": 0,
     "readjusted_tail": [],
-    "failures_tail": [
-      "001381:KeyError:'date'",
-      "300269:conn:SSLError"
-    ],
-    "failures_n": 2,
+    "failures_tail": [],
+    "failures_n": 0,
     "conn_stopped": false,
-    "elapsed_min": 10.7,
-    "vwap_anchor_max": 0.119501,
+    "elapsed_min": 0.1,
+    "vwap_anchor_max": 0.016871,
     "repull": false
   },
-  "quarantined_n": 11,
+  "quarantined_n": 12,
   "last_spawn_attempt": "2026-10-01T06:07:37",
   "spawn_reason": "no panel cutoff (first pull / empty panel)",
   "spawn_mode": "continuation/first-pull",
-  "settled_n": 0,
-  "settled": [],
-  "no_op_reason": "panel fresh (cutoff 2026-09-29 >= expected 2026-09-29)"
+  "settled_n": 11,
+  "settled": [
+    "000016",
+    "002667",
+    "002731",
+    "002813",
+    "002860",
+    "300082",
+    "600293",
+    "601059",
+    "601198",
+    "603183",
+    "688496"
+  ],
+  "no_op_reason": "panel fresh (cutoff 2026-09-30 >= expected 2026-09-30)"
 }
