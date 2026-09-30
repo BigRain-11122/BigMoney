@@ -35,6 +35,10 @@
 - #97 `etf_premium_sentiment`（A 层·ETF 域）+ #98 `repo_rate_stress`（A 层·择时族低优先）→ `research/shortline/ASTYLE_ZOO.md` 十三、外源扩容族表尾追加（本窗同 commit）。
 - 维护律履行：新族先入表再实现；实现走门禁链（G1'/G2+随机基线）；采纳全走配额泊位 prereg。
 
+## 五、ERRATUM（2026-09-30 bm-c r264 泊位窗·append-only）
+
+- **§一 #97 描述性证据撤回**：本 digest §一与 r263 探针 facts 的 B 面（cross-mean premium_z 状态）=**构造退化伪影**——premium_z 为逐日截面 z（ddof=0·build_premium_panel.add_premium_z）→截面均值恒 0（泊位探针实测 max |均值|=2.58e-16=浮点残差）→热/冷态=浮点噪声分类（占用 9.5%/10.4%=滚动 q90/q10 门在任意序列上的机械占用）→「fwd20d 热 −1.31% vs 冷 +1.32%≈2.6pp」=随机子集机会伪影，**不作为描述性证据**。修正面=cross-mean premium_adj（意图忠实）：泊位探针 facts=results/_r264bmc_w10_berth_probe_facts.json（fwd20 冷 +0.737% vs 中段 −0.009% 冷尾独存·热尾 +0.064% 平·fwd5 冷 +0.505%；D6 信号面 max |corr| 0.3683 全净；暴露门 2d 确认 episode 17/16<F6 30=交易形态判杀→judged 形态=IC 型路由输入面）。§二 #98 面非退化（GC001 利率水平面·实证独立），弱先验判定维持。证据权威=r264 泊位探针 facts+research/INNOVATION_QUOTA_W10_PREREG.md。
+
 ## 四、下一步（下轮指针）
 
 1. SLOT-10 泊位 declare（拟 INNOVATION-QUOTA-SLOT-10·bm-c 车道）：prereg 起草从 #97 主候选起（四格：热态降险路由 vs 冷态入场许可×成本双面·null 判线预设·确认构造必带·换手预算必列）——W1-W9 泊位范式镜像；泊位声明须带 D-02 fetch-gate（r239 撞号律）。

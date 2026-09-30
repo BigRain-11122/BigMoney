@@ -1,0 +1,127 @@
+{
+ "artifact": "r264 bm-c W10 berth probe (PREMIUM-SENT-P1 zoo #97 etf_premium_sentiment, CORRECTED face, berth descriptive facts)",
+ "machine": "bm-c",
+ "round": 264,
+ "lane_note": "research/supply berth lane, zero network, zero engine touch, marks +0",
+ "degeneracy_audit": {
+  "zoo_as_written_face": "cross-mean premium_z",
+  "premium_z_semantics": "per-date cross-sectional z of premium_adj, ddof=0 (scripts/build_premium_panel.py add_premium_z)",
+  "max_abs_cross_mean_premium_z": 2.5849186795675233e-16,
+  "verdict": "DEGENERATE -- cross-sectional mean of a per-date cross-sectional z is identically 0; empirical max 2.6e-16 = float roundoff",
+  "r263_supply_probe_face": "RETRACTED as descriptive evidence -- its hot/cold state was float-noise classification (occupancy 144/158 of 1514 = mechanical q90/q10 occupancy); fwd20d spread -1.31%/+1.32% = chance artifact of random subsets",
+  "correction": "intent-faithful corrected face = cross-mean premium_adj (market-wide NAV-price wedge level, % units), rolling-252 q90/q10 state, min_periods=120 -- pre-freeze berth-window clarification (zero burns on either face, r251/r280 zero-burn clarification precedent family)"
+ },
+ "premium_state_face": {
+  "definition": "cross-mean premium_adj over panel members per date > rolling-252 q90 (hot) / < q10 (cold), min_periods=120",
+  "data_face": "data/fund_premium/panel/panel.csv (bm-c collector lane, T-16 ARB-1 product)",
+  "load_fn": "csv.DictReader raw direct read (non-engine pool face)",
+  "n_dates_panel": 1633,
+  "first_date": "2020-01-02",
+  "last_date": "2026-09-24",
+  "n_members_first": 37,
+  "n_members_last": 48,
+  "cross_mean_min": -0.0741,
+  "cross_mean_max": 0.0911,
+  "cross_mean_mean": 0.0023,
+  "days_below_par": 675,
+  "n_state_days": 1514,
+  "first_decidable_date": "2020-07-03",
+  "n_hot": 153,
+  "n_cold": 146
+ },
+ "fwd_conditional_means": {
+  "h20": {
+   "hot_mean": 0.00064,
+   "n_hot": 152,
+   "cold_mean": 0.00737,
+   "n_cold": 145,
+   "mid_mean": -9e-05,
+   "n_mid": 1199,
+   "hot_minus_cold_pp": -0.673,
+   "note": "descriptive, overlapping windows, no cost, no prereg status"
+  },
+  "h5": {
+   "hot_mean": 0.0,
+   "n_hot": 153,
+   "cold_mean": 0.00505,
+   "n_cold": 145,
+   "mid_mean": -0.00038,
+   "n_mid": 1213,
+   "hot_minus_cold_pp": -0.505,
+   "note": "descriptive, overlapping windows, no cost, no prereg status"
+  }
+ },
+ "d6_signal_face": {
+  "vs_w9_crowd_day": {
+   "hot_pearson": 0.0349,
+   "cold_pearson": -0.0012,
+   "n_common": 1514
+  },
+  "vs_regime_guard_width_below_ma20": {
+   "hot_pearson": -0.1,
+   "cold_pearson": 0.2019,
+   "n_common": 1514
+  },
+  "vs_87_nhnl_b20_closed_family": {
+   "hot_pearson": 0.2593,
+   "cold_pearson": -0.3683,
+   "n_common": 1514
+  },
+  "vs_98_repo_stress_state": {
+   "hot_pearson": 0.0129,
+   "cold_pearson": -0.018,
+   "n_common": 1514
+  },
+  "vs_month_end_adjacent_calendar": {
+   "hot_pearson": -0.0017,
+   "cold_pearson": -0.0108,
+   "n_common": 1514
+  },
+  "hot_month_end_share": 0.1961,
+  "cold_month_end_share": 0.1849
+ },
+ "confirmed_state_episodes_2d": {
+  "V1_HOT_DEF_2d": {
+   "rule": "long 510300 default; hot-raw 2 consecutive -> cash next day; not-hot-raw 2 consecutive -> re-enter; symmetric, no hysteresis",
+   "n_exits_to_cash": 17,
+   "n_reentries": 17,
+   "days_long": 1468,
+   "days_cash": 46,
+   "cash_occupancy": 0.0304,
+   "est_turnover_per_yr": 2.83,
+   "first_flips": [
+    "2020-10-12",
+    "2020-10-14",
+    "2021-08-24",
+    "2021-08-26",
+    "2022-03-17",
+    "2022-03-21",
+    "2022-11-02",
+    "2022-11-08"
+   ]
+  },
+  "V2_COLD_GATE_2d": {
+   "rule": "cash default; cold-raw 2 consecutive -> enter next day; not-cold-raw 2 consecutive -> exit to cash; symmetric, no hysteresis",
+   "n_entries": 16,
+   "n_exits": 16,
+   "days_long": 38,
+   "days_cash": 1476,
+   "long_occupancy": 0.0251,
+   "est_turnover_per_yr": 2.66,
+   "first_flips": [
+    "2020-07-16",
+    "2020-07-20",
+    "2021-03-09",
+    "2021-03-11",
+    "2021-07-27",
+    "2021-07-29",
+    "2022-03-08",
+    "2022-03-10"
+   ]
+  },
+  "f6_entries_gate_note": "F6 entries>=30 dual-caliber (entries_ok governs): V1 exits-to-cash / V2 entries are the round-trip counts; <30 = structural F6 fail for the exposure-gate form (trading-face viability evidence, independent of the IC-face judged design)",
+  "window_years": 6.01
+ },
+ "evidence_cutoff": "2026-09-29",
+ "generated_by": "results/_r264bmc_w10_berth_probe.py (deterministic re-run comparable)"
+}

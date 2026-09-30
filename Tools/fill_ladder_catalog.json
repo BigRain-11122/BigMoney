@@ -411,6 +411,30 @@
    },
    "note": "ladder (d) slot-8 (bm-b r448 berth, r450 freeze): zoo #89 cov_shrinkage_lw adoption route (A/B variant batch sample-cov vs LW-shrunk-cov fed to the same frozen T-27 MaxDiv pipeline, 28-member x1 sleeve matrix rolling 252d@21td); berth prereg research/INNOVATION_QUOTA_W8_PREREG_DRAFT.md sec.B band (r448), frozen prereg INNOVATION_QUOTA_W8_PREREG.md (r450 dead-session window, adopted+enqueue completed by successor round); degenerate-window policy frozen (A-arm singular anchor = carry last computable weights, pinv forbidden, paired-diff excludes singular anchors, accrual lo 2021-02-23); supply_floor response: ready=0<3 breach (SLOT-7 done-flipped by bm-c r257 verdict 07:26), W13-GENERATE armed bm-a runner pending, W8 = next innovation-quota supply line",
    "parked": "2026-09-30 bm-b r450"
+  },
+  {
+   "id": "INNOVATION-QUOTA-SLOT-10",
+   "ticket_ref": "T-2026-09-28-107 sec.4(d) fill-ladder innovation quota",
+   "prereg_ref": "research/INNOVATION_QUOTA_W10_PREREG.md BERTH (bm-c r264 berth declare+draft; PREMIUM-SENT-P1 zoo #97 etf_premium_sentiment CORRECTED face = cross-mean premium_adj rolling-252 q90/q10 state min_periods=120; berth-window construction erratum: zoo-as-written cross-mean premium_z is mathematically degenerate (per-date cross-sectional z ddof=0, cross-mean identically 0, empirical max 2.58e-16) -> r263 supply-probe B-face retracted as float-noise artifact, erratum in digest sec.5 + zoo #97 line same commit; berth probe facts results/_r264bmc_w10_berth_probe_facts.json: fwd20 hot +0.064%/cold +0.737%/mid -0.009% cold-tail-only descriptive face, D6 signal face max|corr| 0.3683 clean, exposure-gate form killed by F6 (2d-confirm episodes 17/16 < 30) -> judged face = IC-type routing-input (template sec.4 factor-batch three-gate), 4 cells {HOT,COLD}x{h20,h5}, nulls K=2000 occupancy-matched, N_eff 2004; freeze = next window steps 1-5 (seed innovation_quota_w10_premium=20326500 three-step law); runner build = post-freeze per W7/W9 timeline mirror)",
+   "runner": null,
+   "runner_note": "NOT BUILT (berth window; two-gate law: prereg_frozen + runner_exists both must pass before pool enqueue)",
+   "consumer_plan": "PREMIUM-SENT-P1 judged verdict (IC-type routing-input face) -> any tail passing V1+V2+V3 on primary h20 = T-34 fastline candidate pool eligibility (routing-gate input per zoo #97, harness A/B adoption face, REGIME_GUARD T0 authority untouched); both tails fail = judged-negative family closure + attrition row + 48h CEO report (O-1116 conditional-mean/null-band adapted dual-column)",
+   "lane_owner": null,
+   "priority": 1,
+   "enqueue_gates": [
+    "prereg_frozen:research/INNOVATION_QUOTA_W10_PREREG.md",
+    "runner_exists"
+   ],
+   "runner_args": [
+    "run"
+   ],
+   "workers_plan": {
+    "workers": "worker_cap() pool BelowNormal",
+    "priority": "BelowNormal",
+    "note": "4-cell IC batch x2000 occupancy-matched null draws x100 half-splits, single-process minutes-scale per prereg sec.0; CEO 10% CPU headroom law = BelowNormal"
+   },
+   "note": "ladder (d) slot-10 (bm-c r264 berth): zoo #97 etf_premium_sentiment family, corrected face after berth-window degeneracy audit (cross-mean premium_z identically 0 = float-noise artifact retracted; corrected = cross-mean premium_adj); supply_floor response: ready=0<3 breach standing, r262 scan verdict mandated digest-wave slice -> r263 slice #97 primary; W12-JUDGE bm-b + W13 bm-a verdict-response precedence respected (no verdicts landed this window); judged face = IC-type routing-input (F6 structural kill of exposure-gate form: 2d-confirm episodes 17/16 < 30)",
+   "parked": "2026-09-30 bm-c r264"
   }
  ],
  "INNOVATION-QUOTA-SLOT-9": {

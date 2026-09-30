@@ -5,8 +5,9 @@
 
 - 冷层指针（合并）：r458 泊位族选双面核验坑（rg results 判决面先行·zoo/登记行状态只作线索）=『热冷整编 2026-09-30 r459 bm-a 窗批二』节+r445 采集器无超时挂死盲区坑（fetch_one 45s 死限+TimeoutError 走 CONN_MARKERS fuse 路·探针 _r445bmb_hang_shield_probe.py 承载）=『热冷整编 2026-09-30 r457 bm-a 窗批』节，全文 verbatim=archive 202609.md。
 - 冷层指针（r261 合并·指针合并归档 r444 范式）：r459 bm-a fill_ladder 门串坑（泊位登记三验已全机械化=fill_ladder fail-closed 三门+r460 落地）+r460 bm-a autofill crash-fuse 控制面坠机误锁坑（pool_worker 通道正解=fuse 锁死先判真缺陷再走独立发射器）两条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r261 bm-c 窗批』节。
+- [2026-09-30 r264 bm-c] 截面 z 均值恒零坑（泊位探针实证·P0 级）：逐日截面 z（ddof=0）的截面均值数学恒=0——浮点残差（~1e-16）喂滚动分位门=纯噪声分类（占用恰为 q90/q10 机械占用）且随机子集 fwd 差可伪装成「信号」（r263 #97 面「2.6pp 热冷差」伪影撤回实证）。Why：面板列语义必须逐字核（premium_z=逐日截面 z 非「逐员滚动 z」——digest 凭印象描述列语义=伪证之源）。How：凡「截面聚合门」构造前必跑退化审计（聚合序列 max|值| 与业务量级比对+列语义 verbatim 核）；判例面=INNOVATION_QUOTA_W10_PREREG 泊位史节+r264 泊位探针 degeneracy_audit。
+- 冷层指针（r264 合并·指针合并归档 r444 范式）：r263 bm-c web_fetch 伪成坑+r465 bm-a 过继手术锚律收割器范式+r454 bm-b S6 分离链驱动 reconfigure 漏网面，三条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r264 bm-c 窗批』节（r261×2+r254 已由 bm-b r455 合并指针行归档·r449 去重律不复活）。
 - 冷层指针（r455 合并·指针合并归档 r444 范式）：r261 rebase --continue 幻影拒走坑（脏树幻报冲突·正法=ls-files -u 验零→add 脏态件→continue）+r261 判决落地即同窗 done-flip 止损 churn 律（ready 滞留>20min 撞 r450 守卫·判决观测轮即翻面）+r254 push 假拒绝坑（reflock 竞态·先 fetch 验 origin 落点再重试禁盲 rebase）三条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r455 bm-b 窗批』节。
-- [2026-09-30 r263 bm-c] web_fetch 伪成坑：en.wikipedia.org 请求被返回成无关营销页——fetch 报成功≠命中目标文，返回内容含目标关键词的核验必须先于 funnel 记成；伪成/超时一律记死路（R109），锚名+DOI 入补采队列，禁当外证（R169 律）。
 
 ### Project
 
@@ -25,6 +26,4 @@
 - 冷层指针（r465 合并·指针合并归档 r444 范式）：r462 同机并行会话鉴别律+S6链分离后台驱动律（_r462bma_s6_chain.py 范式承载）+r464 surgeon 锚面取自实跑文件律（三实证实跑锚坑族·其规模化解=r465 收割器范式条留在热层）两条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r465 bm-a 窗批』节。
 - 冷层指针（r259 合并）：r448 bm-b 族选防重三键面 rg 补律（法面=results/_r258bmc_zoo_eligibility_scan.json 扫描工件承载）+r258 bm-c 族选第三例（census 盘点行主面法·机械三键面 rg 仅确认面·SLOT-9 定谳）+r259 bm-c 孤儿收养逐件直验律（死会话 prereg 头「已落地件」≠落地证据·泊位-冻结分轮不因会话死亡并窗）三条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r259 bm-c 窗批』节。
 
-- [2026-09-30 r465 bm-a] 过继手术锚律收割器范式（W13 sec11 实弹·r464「锚取自实跑文件」律的规模化解）：100+ sub 的 sections 11-15 手工逐锚不可行→正法=ast 收割器（_r465bma_w13_harvest.py）从前代 surgeon 提取全部 sub1/subn 的 (old,new,what) 常量折叠 payload+逐条验证 new verbatim∈live SRC——验证过=payload 即实跑文本（等价满足锚律），miss 桶=payload 漂移点如实标旗建段时活读（本窗 107/109 绿·2 miss=judge-prep per-leg+L9a 占位符后置 replace 面）；锚库 JSON 供 builder（_r465bma_w13_sec11_build.py）程序化生成 sub 调用（repr 字面量自包含 splice 进 surgeon），杜绝手敲千行字面量。追加型锚的尾部换行陷阱：old 尾无 \n 时 replace 锚含 \n 必 no-op（诊断=repr 尾部字节）。
-- [2026-09-30 r454 bm-b] S6 分离链驱动=reconfigure 律漏网面（r236 族）：驱动 stdout 重定向文件仍 GBK 写，腿输出含 U+FFFD 即 print 当场炸整链——链驱动模板必带 sys.stdout.reconfigure(utf-8)；断链续跑=cont 驱动自断腿重放幂等安全。
 - [2026-09-30 r455 bm-b] update_futures 门 no-op≠全腿新鲜读坑：local_data_cutoff()=VARIETIES（9 员）MAX 聚合——任一员新鲜即门闭，单员滞后被掩蔽永不重拉（本窗实读 9/9 员齐 09-29 健康·零事故·掩蔽面=latent）；TS=一次性腿不在 VARIETIES（bm-a T-65 s2 专拉止 09-24·hold 列≠oi 已由 CTA_WAVE1 冻结件裁定 OHLCV-only）——读期货面板禁以「cutoff covered no-op」推 10/10 新鲜；修面（min 门/逐员 stale-leg 重拉）=bm-a R48/R51 车道观察件 results/_r455bmb_futures_gate_probe.json 承载。
