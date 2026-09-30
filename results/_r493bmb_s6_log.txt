@@ -1,0 +1,296 @@
+S6 chain r493 bm-b start 2026-10-01T05:20:30.147311
+
+=== pool_dualrun_reconcile rc=0 0.1s
+[pool_dualrun] ZERO-DRIFT (merged view == shared blob, 176 entries, streak 10/3, cutoff 2026-10-01 01:22)
+
+
+=== compute_audit rc=0 7.6s
+{"ts": "2026-10-01 05:20:37", "audit_version": "v2.4.2", "cpu_total_pct": 1.0, "py_cpu_pct": 1.7, "cores": 16, "py_procs": 17, "result_stale_min": 0.5, "fleet_open_tasks": 1, "pool_ready_count": 3, "pool_ready_unclaimed": 0, "load_state": "pool-supply-gap", "pool_starvation_candidate": false, "pool_starvation_detail": {"reason": "pool-supply-gap"}, "supply_gap_candidate": true, "supply_gap_detail": {"run_samples": 9, "span_min": 147.9}, "supply_floor": {"ready": 3, "floor": 3, "breach": false}, "ignition_sla_breach_ids": [], "supply_family_streak_min": 147.9, "gpu": {"present": true, "util_pct": 2.0, "mem_used_mb": 5887.0, "compute_apps_count": 25, "rogue_apps": []}, "zombies": [], "single_core_hog_candidate": false, "single_core_hog_detail": null, "parallel_efficiency": {"window_min": 60.0, "batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0, "effective_cores": null, "multicore_burn": 0, "single_core_burn": 0, "too_short_to_sample": 4, "readable": true}, "flags": ["idle_with_work", "supply_gap"], "verdict": "FLAG:idle_with_work,supply_gap"}
+compute_audit: runnable_pool merged-sync settled {"wrote_shared": false, "wrote_lane": true}
+
+
+=== py_watermark rc=0 6.0s
+{"ts": "2026-10-01 05:20:43", "epoch": 1790803238.0, "machine": "bm-b", "cpu_total_pct": 10.0, "cores": 16, "py_cpu_pct": 0.8, "py_procs": 17, "top_proc_cores": 0.11, "local_batch_running": true, "refresh_lock_lanes": ["astock_daily"], "open_tickets": 1, "open_ticket_ids": ["T-2026-09-30-131"], "bandit_open": 0, "bars_present": true, "daily_panel": true, "verdict": "insufficient_history", "window": {"n": 1, "span_min": 0.0}, "series_kept": 53}
+
+
+=== update_daily rc=0 1.8s
+=== Bigmoney daily update 2026-10-01 05:20:44 ===
+core pool: 48 CSVs | today-bar guard: >= 15:30:00
+new rows: 0 | failures: 0 | overlap_mismatch: [] | data cutoff: 2026-09-30
+status -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\update_status.json
+
+
+=== market_regime rc=0 0.6s
+regime state -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\regime_state.json
+  asof=2026-09-30 state=ORANGE (橙·高危) raw=ORANGE days_in_state=4 mode=shadow
+  trigger: hs300<MA200 (#10 collected)
+  trigger: breadth 0.79>=65%
+
+
+=== strategy_scorecard rc=0 0.1s
+lane_io single-writer guard: results/strategy_scorecard.json host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== market_clock_call rc=0 5.6s
+lane_io single-writer guard: results/market_clock/l3_activation_table.json host=bm-a -> skip C-face derive this cycle (D-20260928-03 slice-2)
+call written: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\market_clock\CALL-2026-09-30.md cell=ORANGE_COOL sleeves=4 activated=0
+
+
+=== update_lhb rc=0 0.6s
+cutoff=2026-09-30 quarter=2026Q3 today=2026-10-01
+no-op: cutoff 2026-09-30 covers latest disclosure window (2026-09-30)
+
+
+=== update_heat rc=0 0.5s
+no-op: heat lane host bm-a authority, this machine (bm-b) stdout-only (R31 lane-guard, r378 catch #5)
+
+
+=== update_futures rc=0 0.2s
+no-op: local cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+
+
+=== update_repo rc=0 0.1s
+no-op: repo rates lane owned by bm-a, not this machine (bm-b)
+
+
+=== update_options rc=0 0.1s
+no-op: options lane owned by bm-a, not this machine (bm-b)
+
+
+=== update_moneyflow rc=0 0.1s
+no-op: moneyflow lane owned by bm-a, not this machine (bm-b)
+
+
+=== update_sina_mf rc=0 0.1s
+no-op: sina_mf lane owned by bm-a, not this machine (bm-b)
+
+
+=== update_astock_daily rc=0 0.9s
+refresh already in progress (lock alive) -> no-op
+
+
+=== update_etf_daily rc=0 0.1s
+no-op: panel cutoff 2026-09-30 covers expected complete-bar date 2026-09-30 -> zero network
+
+
+=== rev_osc_signal_export rc=0 0.5s
+rev_osc_signal_export: panel incomplete (cutoff=2026-09-30) -- no-op, harness waits
+
+
+=== update_minute_feed rc=0 0.0s
+update_minute_feed: before 09:15 -- no-op
+
+
+=== update_ths_panel rc=0 0.1s
+no-op: ths panel lane owned by bm-a, not this machine (bm-b)
+
+
+=== ah_panel_puller rc=0 0.1s
+no-op: ah panel lane owned by bm-a, not this machine (bm-b)
+
+
+=== update_fund_premium rc=0 0.0s
+no-op: fund_premium lane owned by bm-c, not this machine (bm-b)
+
+
+=== update_fundamental rc=0 0.4s
+snapshot fresh (17.8h < 24h) -> skip
+
+
+=== b_layer_filter rc=0 0.5s
+mask: 5222 codes | ok_static 3517 | excluded 1705 {'r1_loss': 1506, 'r2_st': 27, 'r1_loss+r2_st': 172, 'not_in_snapshot': 0}
+st crosstab: snapshot 199 vs scan proxy 82 | overlap 4
+gates: {'universe_unique': True, 'excluded_reconciles': True, 'total_reconciles': True, 'determinism': True, 'all_pass': True}
+mask -> C:\Fluxgroup\FluxGroup\quant\bigmoney\data\fundamental\b_layer_mask.csv
+verdict -> C:\Fluxgroup\FluxGroup\quant\bigmoney\results\fundamental_b_layer_filter.json
+
+
+=== live_paper rc=0 0.5s
+lane_io single-writer guard: results/paper/* host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== t35_open_fill_verify rc=0 0.1s
+lane_io single-writer guard: results/t35_open_fill_verify.json host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== t24_prospect_paper rc=0 0.5s
+lane_io single-writer guard: results/prospect_paper/* host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== t24_prospect_promotion rc=0 0.1s
+lane_io single-writer guard: results/prospect_promotion/* host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== aggressive_lab rc=0 2.7s
+aggr paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+
+
+=== alloc_paper rc=0 0.6s
+ALLOC-P1: byte-identical (no new bar / no change), no-op
+ALLOC-P2: byte-identical (no new bar / no change), no-op
+ALLOC-P3: byte-identical (no new bar / no change), no-op
+ALLOC-P3B: byte-identical (no new bar / no change), no-op
+ALLOC-P4: byte-identical (no new bar / no change), no-op
+ALLOC-P5: byte-identical (no new bar / no change), no-op
+ALLOC-P6: byte-identical (no new bar / no change), no-op
+alloc_paper done: 0 file(s) updated, window 2026-09-23..2026-09-30
+
+
+=== grid_paper rc=0 0.5s
+grid paper: marks already at panel cutoff 2026-09-30 -- no-op (idempotent)
+
+
+=== system_v1_paper rc=0 0.5s
+system_v1_paper: lane guard (owner=bm-a, this=bm-b) -- stdout-only honest no-op
+
+
+=== t35_paper_export rc=0 0.1s
+lane_io single-writer guard: results/paper_export/* host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== daily_scorecard rc=0 0.1s
+lane_io single-writer guard: results/daily_scorecard.json host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== daily_report rc=0 0.3s
+daily report written: REPORT-2026-10-01.md/.json faces=5 token=1
+
+
+=== ceo_live_usage rc=0 0.1s
+ceo_live_usage: C:\Fluxgroup\FluxGroup\quant\bigmoney\docs\live_usage\LIVE-2026-10-01.md (+ .json twin + LIVE-latest pointers) written (state=ORANGE, rung=ORANGE, cap=50%, heat=COOL, 6 members, intraday=PREV_SESSION live=0, 4 version rows)
+
+
+=== build_status rc=0 0.5s
+lane_io single-writer guard: results/dashboard_status.json host=bm-a heartbeat fresh (9min) -> skip derive this cycle (D-20260928-03 batch-3 C-family)
+
+
+=== token_meter rc=0 0.1s
+saved: C:\Fluxgroup\FluxGroup\quant\bigmoney\results\token_usage.json
+per-round fixed context ~ 11118 + 7325 tokens (rough); ledger cumulative ~ 2049 state + 1045074 report tokens; delta=0
+L2 local-LLM legs: 0 today / 2 total (~0 tokens today, by_cmd={'retro': 2}); crash-fuse refusals=522 across 40 sigs
+
+
+=== science_audit_monthly rc=0 5.2s
+{"ledger_head": 368797, "summary": {"c1_null": "OK", "c2_lockbox": "VIOLATIONS", "c3_traders": "STALE", "c4_attrition": "OK", "c5_line": "OK", "c6_regime": "VIOLATION", "n_findings": 34}, "prev_src": "science_audit.json:history[-1]"}
+  [OK      ] C1_null_mu_sigma_recompute
+  [VIOLATIONS] C2_lockbox_violation_scan
+      VIOLATION decision_chain_e2e.json: cutoff_meta present but evidence_cutoff/last_bar_read missing
+      VIOLATION decision_chain_v2.json: cutoff_meta present but evidence_cutoff/last_bar_read missing
+      VIOLATION decision_chain_v3_tournament.json: cutoff_meta present but evidence_cutoff/last_bar_read missing
+      VIOLATION prospect_regime_segments.json: cutoff_meta present but evidence_cutoff/last_bar_read missing
+      VIOLATION t22_virtual_timepoints.json: cutoff_meta present but evidence_cutoff/last_bar_read missing
+      VIOLATION t34_early_signal_verdict.json: cutoff_meta present but evidence_cutoff/last_bar_read missing
+  [STALE   ] C3_trader_dsr_recheck
+      STALE PROS-ANTS-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-ANTS-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-BBS-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-BBS-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-DOJI-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-DOJI-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-DUCK-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-DUCK-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-HAM-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-HAM-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-IBB-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-IBB-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-IMM-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-IMM-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-MCB-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-MCB-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-OVB-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-OVB-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-RSRS-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-TMU-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-TMU-CE-01: no g25 verdict file — run g25_retro before adjudication
+      STALE PROS-VOB-CE-01: no g25 verdict file — run g25_retro before adjudication
+  [OK      ] C4_gate_attrition_summary
+  [OK      ] C5_skill_line_v2_recompute
+  [VIOLATION] C6_regime_guard_integrity
+      VIOLATION: COMPOSITE-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)
+      VIOLATION: COMPOSITE-CE-02_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)
+      VIOLATION: DROUGHT-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)
+      VIOLATION: ENGULF-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)
+      VIOLATION: NEEDLE-DE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)
+      VIOLATION: VOLATILITY-CE-01_paper.json: regime_guard mode 'enforce' != shadow (unauthorized interference)
+
+
+=== monthly_briefing rc=0 0.1s
+[monthly_briefing] BRIEF-202609.md written (28 traders, N=None)
+
+
+=== self_review rc=0 0.7s
+self_review: SELF-REVIEW-202609.md written; findings=71 (report-only)
+  [P2] ticket T-2026-09-24-17 claimed >24h (157.6h) -> release-clause check
+  [P2] ticket T-2026-09-24-29 claimed >24h (155.5h) -> release-clause check
+  [P2] ticket T-2026-09-24-36 claimed >24h (152.6h) -> release-clause check
+  [P2] ticket T-2026-09-24-37 claimed >24h (152.2h) -> release-clause check
+  [P2] ticket T-2026-09-25-54 claimed >24h (138.1h) -> release-clause check
+  [P2] ticket T-2026-09-25-56 claimed >24h (137.8h) -> release-clause check
+  [P2] ticket T-2026-09-25-58 claimed >24h (137.6h) -> release-clause check
+  [P2] ticket T-2026-09-25-59 claimed >24h (137.6h) -> release-clause check
+  [P2] ticket T-2026-09-25-60 claimed >24h (137.6h) -> release-clause check
+  [P2] ticket T-2026-09-25-63 claimed >24h (131.3h) -> release-clause check
+  [P2] ticket T-2026-09-25-64 claimed >24h (130.7h) -> release-clause check
+  [P2] ticket T-2026-09-25-66 claimed >24h (128.9h) -> release-clause check
+  [P2] ticket T-2026-09-25-67 claimed >24h (127.6h) -> release-clause check
+  [P2] ticket T-2026-09-25-68 claimed >24h (127.4h) -> release-clause check
+  [P2] ticket T-2026-09-26-70 claimed >24h (125.1h) -> release-clause check
+  [P2] ticket T-2026-09-26-76 claimed >24h (115.9h) -> release-clause check
+  [P2] ticket T-2026-09-27-91 claimed >24h (92.2h) -> release-clause check
+  [P2] ticket T-2026-09-28-103 claimed >24h (61.2h) -> release-clause check
+  [P2] ticket T-2026-09-28-105 claimed >24h (61.2h) -> release-clause check
+  [P2] ticket T-2026-09-28-107 claimed >24h (60.8h) -> release-clause check
+  [P2] ticket T-2026-09-28-108 claimed >24h (60.7h) -> release-clause check
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 01:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 02:00 (F-09 family): bm-b, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 04:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 05:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 06:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 08:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 09:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 10:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 14:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-24 21:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 3 machines at 2026-09-25 00:00 (F-09 family): bm-a, bm-b, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-25 13:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-25 23:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-26 05:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-26 10:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-26 19:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 01:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 06:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 10:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 11:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 13:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 16:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 3 machines at 2026-09-27 17:30 (F-09 family): bm-a, bm-b, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 18:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-27 20:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-28 04:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-28 07:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-28 11:30 (F-09 family): bm-b, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-28 17:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-28 17:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-29 00:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-29 10:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-29 10:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-29 11:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-29 13:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-29 13:30 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-29 17:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 00:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 01:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 02:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 03:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 07:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 10:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 13:00 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 14:30 (F-09 family): bm-a, bm-b
+  [P2] same-window periodic maintenance by 2 machines at 2026-09-30 22:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-10-01 01:00 (F-09 family): bm-a, bm-c
+  [P2] same-window periodic maintenance by 2 machines at 2026-10-01 04:00 (F-09 family): bm-a, bm-b
+  [P1] law-vs-reality drift: roster: narrative [2, 3, 6] vs actual 28 (六员, 六员, 3 员)
+  [P1] INCIDENT-20260928 sec.3 clause 2 zero-recurrence VIOLATION: ignition SLA breaches (ready claim) post-anchor: 14
+
+
+S6 chain end 2026-10-01T05:21:08.617359 bad=[]
