@@ -1594,6 +1594,16 @@ SEED_REGISTRY = {
         # (registered bm-a r461) stays clear of this base by construction
         "innovation_quota_w9_crowd": 20326000,
 
+        # INNOVATION-QUOTA-W10 PREMIUM-SENT-P1 cross-mean premium_adj
+        # IC routing-input state gate (zoo #97 etf_premium_sentiment
+        # CORRECTED face, bm-c r264 berth / r265 freeze window); +500
+        # ladder above W9 20326000 (last registered quota base);
+        # k-sub-stream semantics same law (nulls k<2000, splits
+        # k in [3000,3100), starts band reserved-unused); three-step
+        # law FULL import view verified same window
+        # (facts = results/_r265bmc_w10_seed_law_facts.json)
+        "innovation_quota_w10_premium": 20326500,
+
     }
 
 # ------------------------------------------- T-02 close-out: v2 batch-gate verdicts (D1/D3/D4 columns)

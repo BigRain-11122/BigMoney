@@ -1,0 +1,220 @@
+{
+ "probe": "PREMIUM-SENT-P1 freeze-window G-ANCHOR re-verify + degeneracy identity + threshold constants + D6 cells probe",
+ "machine": "bm-c",
+ "round": "r265",
+ "evidence_cutoff": "2026-09-29",
+ "panel": {
+  "n_dates_panel": 1633,
+  "first_date": "2020-01-02",
+  "last_date": "2026-09-24",
+  "members_first_last": [
+   37,
+   48
+  ],
+  "incremental_segment": "NONE -- panel last date 2026-09-24 unmoved vs berth facts"
+ },
+ "g_anchor_reverify": {
+  "pass": true,
+  "reference": "results/_r264bmc_w10_berth_probe_facts.json (berth frozen facts; berth probe re-run git-face zero-diff same window, bit-exact proof in round report)",
+  "n_face_checks": 55,
+  "anchors": {
+   "n_dates_panel": 1633,
+   "first_date": "2020-01-02",
+   "last_date": "2026-09-24",
+   "n_members_first": 37,
+   "n_members_last": 48,
+   "cross_mean_min": -0.0741,
+   "cross_mean_max": 0.0911,
+   "cross_mean_mean": 0.0023,
+   "days_below_par": 675,
+   "n_state_days": 1514,
+   "first_decidable_date": "2020-07-03",
+   "n_hot": 153,
+   "n_cold": 146
+  },
+  "fwd_conditional_means": {
+   "h20": {
+    "hot_mean": 0.00064,
+    "n_hot": 152,
+    "cold_mean": 0.00737,
+    "n_cold": 145,
+    "mid_mean": -9e-05,
+    "n_mid": 1199,
+    "hot_minus_cold_pp": -0.673,
+    "note": "descriptive, overlapping windows, no cost, no prereg status"
+   },
+   "h5": {
+    "hot_mean": 0.0,
+    "n_hot": 153,
+    "cold_mean": 0.00505,
+    "n_cold": 145,
+    "mid_mean": -0.00038,
+    "n_mid": 1213,
+    "hot_minus_cold_pp": -0.505,
+    "note": "descriptive, overlapping windows, no cost, no prereg status"
+   }
+  },
+  "d6_signal_face": {
+   "vs_w9_crowd_day": {
+    "hot_pearson": 0.0349,
+    "cold_pearson": -0.0012,
+    "n_common": 1514
+   },
+   "vs_regime_guard_width_below_ma20": {
+    "hot_pearson": -0.1,
+    "cold_pearson": 0.2019,
+    "n_common": 1514
+   },
+   "vs_87_nhnl_b20_closed_family": {
+    "hot_pearson": 0.2593,
+    "cold_pearson": -0.3683,
+    "n_common": 1514
+   },
+   "vs_98_repo_stress_state": {
+    "hot_pearson": 0.0129,
+    "cold_pearson": -0.018,
+    "n_common": 1514
+   },
+   "vs_month_end_adjacent_calendar": {
+    "hot_pearson": -0.0017,
+    "cold_pearson": -0.0108,
+    "n_common": 1514
+   },
+   "hot_month_end_share": 0.1961,
+   "cold_month_end_share": 0.1849
+  },
+  "confirmed_state_episodes_2d": {
+   "V1_HOT_DEF_2d": {
+    "n_exits_to_cash": 17,
+    "n_reentries": 17,
+    "days_long": 1468,
+    "days_cash": 46,
+    "cash_occupancy": 0.0304,
+    "est_turnover_per_yr": 2.83,
+    "first_flips": [
+     "2020-10-12",
+     "2020-10-14",
+     "2021-08-24",
+     "2021-08-26",
+     "2022-03-17",
+     "2022-03-21",
+     "2022-11-02",
+     "2022-11-08"
+    ]
+   },
+   "V2_COLD_GATE_2d": {
+    "n_entries": 16,
+    "n_exits": 16,
+    "days_long": 38,
+    "days_cash": 1476,
+    "long_occupancy": 0.0251,
+    "est_turnover_per_yr": 2.66,
+    "first_flips": [
+     "2020-07-16",
+     "2020-07-20",
+     "2021-03-09",
+     "2021-03-11",
+     "2021-07-27",
+     "2021-07-29",
+     "2022-03-08",
+     "2022-03-10"
+    ]
+   },
+   "window_years": 6.01
+  },
+  "degeneracy_identity": {
+   "max_abs_cross_mean_premium_z": 2.5849186795675233e-16,
+   "identity_holds": true,
+   "note": "construction-erratum mechanical self-proof reproduced (per-date cross-sectional z ddof=0 -> cross-mean identically 0)"
+  },
+  "note": "one-face-off = config mismatch VOID per prereg s2 G-ANCHOR-FACE law"
+ },
+ "threshold_constants_zero_drift": {
+  "pass": true,
+  "compared": {
+   "state_window": 252,
+   "state_q_hi": 0.9,
+   "state_q_lo": 0.1,
+   "state_min_periods": 120,
+   "fwd_horizons_primary_secondary": [
+    20,
+    5
+   ],
+   "v3_calendar_split": "2023-07-01",
+   "nulls_K": 2000,
+   "batch_cells_N_eff": 2004,
+   "seed_registered": 20326500
+  },
+  "prereg_tokens": {
+   "q90/q10 tail occupancy gate": true,
+   "window 252": true,
+   "min_periods=120": true,
+   "split 2023-07-01": true,
+   "nulls K=2,000": true,
+   "N_eff 2004": true,
+   "seed 20326500": true
+  },
+  "note": "author-verbatim constants, zero calibration (q90/q10 tail occupancy = gate author verbatim; no trailing-quantile search); code defaults asserted via inspect.signature on the single-source pct_rank_state + prereg text tokens"
+ },
+ "d6_cells_face": {
+  "batch_internal_hot_vs_cold": -0.1095,
+  "batch_internal_note": "HOT/COLD tails are structural complements of one state gate (disjoint tail occupancy of the same cross-mean series) -- NOT a variant pair and NOT merge-clause eligible; both tails burn independently per prereg s4 family rule (W9 'variant face both burn' analog)",
+  "h20_vs_h5_signal_face": 1.0,
+  "h20_h5_note": "h20/h5 cells share the identical state-day indicator series by construction (cell axis = evaluation horizon, pre-declared h20 primary + h5 secondary zero-family-weight); signal-face corr = 1.0 trivially, no variant implication, no merge clause",
+  "vs_in_register_five_faces": {
+   "vs_w9_crowd_day": {
+    "hot_pearson": 0.0349,
+    "cold_pearson": -0.0012,
+    "n_common": 1514
+   },
+   "vs_regime_guard_width_below_ma20": {
+    "hot_pearson": -0.1,
+    "cold_pearson": 0.2019,
+    "n_common": 1514
+   },
+   "vs_87_nhnl_b20_closed_family": {
+    "hot_pearson": 0.2593,
+    "cold_pearson": -0.3683,
+    "n_common": 1514
+   },
+   "vs_98_repo_stress_state": {
+    "hot_pearson": 0.0129,
+    "cold_pearson": -0.018,
+    "n_common": 1514
+   },
+   "vs_month_end_adjacent_calendar": {
+    "hot_pearson": -0.0017,
+    "cold_pearson": -0.0108,
+    "n_common": 1514
+   }
+  },
+  "in_register_max_abs_corr": 0.3683,
+  "vs_t33_cells": {
+   "slope_r2_rotation_25_top3_r8": {
+    "hot": 0.2753,
+    "cold": 0.3358
+   },
+   "dual_momentum_etf_20_60_top3": {
+    "hot": 0.2527,
+    "cold": 0.2989
+   },
+   "rs_rotation_20": {
+    "hot": 0.2649,
+    "cold": 0.3283
+   },
+   "composite_top5": {
+    "hot": 0.1221,
+    "cold": 0.1884
+   }
+  },
+  "vs_registered_six": {
+   "max_abs_corr": 0.3079,
+   "argmax": "ENGULF-CE-01"
+  },
+  "merge_clause_applied": [],
+  "protocol_substitution_note": "prereg s1: IC-type batch has no return-series cells -> registered-trader daily-return corr inapplicable; T33 in-book cells and registered six measured on the signal/conditional-expectation face (state-day indicator x daily series point-biserial) per prereg s1 substitution clause, honest protocol note",
+  "clause_eligible_max_abs_corr": 0.3683
+ },
+ "merge_clause_threshold": 0.7,
+ "single_source_note": "construction single source = results/_r264bmc_w10_berth_probe.py (pct_rank_state + panel load + fwd) -- the r266 runner verbatim-imports and parity-asserts (r456 zero-drift paradigm)"
+}
