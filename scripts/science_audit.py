@@ -133,7 +133,11 @@ def check_lockbox() -> dict:
     for path in _ledger_files():
         name = os.path.basename(path)
         d = _load(path) or {}
+        cm = d.get("cutoff_meta") if isinstance(d.get("cutoff_meta"), dict) else None
         legal = {k: d.get(k) for k in C2_LEGAL_CUTOFF_KEYS if d.get(k)}
+        if cm and cm.get("evidence_cutoff"):
+            # RW-2 (T-127): engine assembly-proof face carries its own cutoff.
+            legal.setdefault("evidence_cutoff", str(cm["evidence_cutoff"]))
         entry = {"file": name, "cutoff": next(iter(legal.values()), None), "key": next(iter(legal), None)}
         if legal:
             if cutoff_now and str(entry["cutoff"]) > cutoff_now:
@@ -149,6 +153,24 @@ def check_lockbox() -> dict:
                 entry["status"] = "VIOLATION"
                 entry["reason"] = "post-v2 batch missing cutoff metadata (unverifiable lockbox read)"
                 findings.append(entry)
+        # RW-2 row-level assertion (D-20260930-05): 'rows actually read <=
+        # cutoff', NOT field-existence. Applies to engine-produced batches
+        # carrying the assembly-proof face (cutoff_meta); pre-RW2 legacy
+        # files keep the field-existence caliber above.
+        if cm is not None:
+            ec = str(cm.get("evidence_cutoff", "") or "")
+            lr = str(cm.get("last_bar_read", "") or "")
+            if not ec or not lr:
+                entry["status"] = "VIOLATION"
+                entry["reason"] = "cutoff_meta present but evidence_cutoff/last_bar_read missing"
+                findings.append(entry)
+            elif lr > ec:
+                entry["status"] = "VIOLATION"
+                entry["reason"] = (f"rows read beyond cutoff: last_bar_read {lr} "
+                                   f"> evidence_cutoff {ec} (RW-2 row-level)")
+                findings.append(entry)
+            else:
+                entry["rows_read_ok"] = f"{lr} <= {ec}"
         files.append(entry)
     return {
         "check": "C2_lockbox_violation_scan",
@@ -535,10 +557,16 @@ def selftest() -> int:
         mk("postv2_ok.json", trials_ledger={"total": 5}, evidence_cutoff="2026-09-22")
         mk("postv2_bad.json", trials_ledger={"total": 5})               # post-v2, no key -> VIOLATION
         mk("postv2_impossible.json", trials_ledger={"total": 5}, evidence_cutoff="2026-12-31")
+        mk("rw2_rows_ok.json", trials_ledger={"total": 5},
+           cutoff_meta={"evidence_cutoff": "2026-09-22", "last_bar_read": "2026-09-22"})
+        mk("rw2_rows_beyond.json", trials_ledger={"total": 5},
+           cutoff_meta={"evidence_cutoff": "2026-09-22", "last_bar_read": "2026-09-29"})
+        mk("rw2_rows_incomplete.json", trials_ledger={"total": 5},
+           cutoff_meta={"evidence_cutoff": "2026-09-22"})
         mk("not_a_batch.json", other=1)                                # no trials_ledger -> out of universe
         c2 = check_lockbox()
         vmap = {v["file"]: v for v in c2["violations"]}
-        ok("C2 universe = 4 ledger files (non-batch excluded)", c2["n_ledger_files"] == 4)
+        ok("C2 universe = 7 ledger files (non-batch excluded)", c2["n_ledger_files"] == 7)
         ok("C2 legacy whitelisted without key -> grandfathered (no violation)",
            "p1_screen.json" not in vmap and c2["n_whitelisted_legacy"] == 1)
         ok("C2 post-v2 with legal cutoff key -> OK (no violation)", "postv2_ok.json" not in vmap)
@@ -546,6 +574,14 @@ def selftest() -> int:
            "postv2_bad.json" in vmap and "missing cutoff metadata" in vmap["postv2_bad.json"]["reason"])
         ok("C2 cutoff beyond data cutoff -> VIOLATION (impossible data)",
            "postv2_impossible.json" in vmap and "impossible data" in vmap["postv2_impossible.json"]["reason"])
+        ok("C2 RW-2 rows actually read <= cutoff -> OK (no violation)",
+           "rw2_rows_ok.json" not in vmap)
+        ok("C2 RW-2 rows read beyond cutoff -> VIOLATION (row-level, not field-existence)",
+           "rw2_rows_beyond.json" in vmap
+           and "rows read beyond cutoff" in vmap["rw2_rows_beyond.json"]["reason"])
+        ok("C2 RW-2 cutoff_meta missing last_bar_read -> VIOLATION",
+           "rw2_rows_incomplete.json" in vmap
+           and "last_bar_read missing" in vmap["rw2_rows_incomplete.json"]["reason"])
         ok("C2 verdict VIOLATIONS when any finding", c2["verdict"] == "VIOLATIONS")
 
         # --- C4 attrition presence check on temp dir

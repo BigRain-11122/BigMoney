@@ -142,6 +142,38 @@ def main() -> int:
     check("engine: exits fill at T+1 open (RW-1)", len(bad_exit_px) == 0,
           f"{len(r1['trades'])} exits checked, {len(bad_exit_px)} non-open fills")
 
+    # RW-2 (T-127, D-20260930-05): evidence_cutoff is a backtester input
+    # param with HARD truncation at data-assembly -- the engine itself can
+    # never read a post-cutoff row, even if the caller forgets to truncate.
+    cut_i = len(next(iter(window.values()))) // 2
+    cut_d = next(iter(window.values())).index[cut_i]
+    n_after = int(sum(int((w.index > cut_d).sum()) for w in window.values()))
+    r3 = run_backtest(window, {}, evidence_cutoff=cut_d)
+    pre = {s: w[w.index <= cut_d] for s, w in window.items()}
+    r4 = run_backtest(pre, {})
+    meta = r3.get("cutoff_meta") or {}
+    trunc_ok = (
+        meta.get("last_bar_read") == str(pd.Timestamp(cut_d).date())
+        and meta.get("rows_after_cutoff_dropped") == n_after
+        and r3["metrics"] == r4["metrics"]
+        and r3["equity_curve"] == r4["equity_curve"])
+    check("engine: evidence_cutoff hard truncation (RW-2)", trunc_ok,
+          f"cutoff {cut_d.date()}, {n_after} post-cutoff rows dropped, "
+          "result identical to pre-truncated input")
+    eq_dates = list(next(iter(window.values())).index[:len(r3["equity_curve"])])
+    check("engine: rows actually read <= cutoff (RW-2)",
+          bool(eq_dates) and eq_dates[-1] <= cut_d,
+          f"last bar read {eq_dates[-1].date()} <= {cut_d.date()}")
+    check("engine: legacy keyset intact without evidence_cutoff (RW-2)",
+          "cutoff_meta" not in r1, "no cutoff_meta when flag off")
+    raised = False
+    try:
+        run_backtest(window, {}, evidence_cutoff="2000-01-01")
+    except ValueError:
+        raised = True
+    check("engine: emptying cutoff refused (RW-2)", raised,
+          "out-of-range cutoff raises -> caller rc != 0")
+
     # --- 7) network / traffic modules ---
     import network_detector
     import traffic_policy

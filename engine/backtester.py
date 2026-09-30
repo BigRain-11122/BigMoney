@@ -41,7 +41,8 @@ def run_backtest(prices: dict, params: dict,
                  cash_parking=None,
                  entry_size_scale=None,
                  staged_entry=None,
-                 dd_control=None) -> dict:
+                 dd_control=None,
+                 evidence_cutoff=None) -> dict:
     """prices: dict[symbol] -> DataFrame with date index, cols open/close/high/low.
 
     J7 signal-injection adapter (BACKTEST_PLAN S2 contract):
@@ -188,6 +189,33 @@ def run_backtest(prices: dict, params: dict,
     dd_control_days_de_risked / dd_control_scaled_entries /
     dd_control_state_end / dd_control_min_dd.
     """
+    # RW-2 (T-127, D-20260930-05): evidence_cutoff hard truncation at
+    # data-assembly. Default None = legacy path byte-identical (engine
+    # additive iron rule). When provided, EVERY input frame is truncated to
+    # rows <= cutoff BEFORE any panel is built, so no post-cutoff row can be
+    # read; a post-truncation tripwire re-verifies the assembled frames --
+    # a read beyond the cutoff raises (caller surfaces it as rc != 0).
+    cutoff_meta = None
+    if evidence_cutoff is not None:
+        ps = pd.Timestamp(evidence_cutoff)
+        rows_after = int(sum(int((df.index > ps).sum()) for df in prices.values()))
+        prices = {s: df.loc[df.index <= ps] for s, df in prices.items()}
+        empty = [s for s, df in prices.items() if len(df) == 0]
+        if empty:
+            raise ValueError(
+                f"evidence_cutoff {ps.date()} empties input symbols: {empty}")
+        last_read = max(df.index.max() for df in prices.values())
+        if last_read > ps:
+            raise RuntimeError(
+                f"RW-2 cutoff tripwire: post-truncation last bar {last_read} "
+                f"> evidence_cutoff {ps.date()} (out-of-cutoff read refused)")
+        cutoff_meta = {
+            "evidence_cutoff": str(ps.date()),
+            "rows_after_cutoff_dropped": rows_after,
+            "last_bar_read": str(pd.Timestamp(last_read).date()),
+            "n_symbols": len(prices),
+        }
+
     cfg = ExitConfig(
         take_profit_levels=tuple(params.get("take_profit_levels", (0.05, 0.10, 0.20))),
         trailing_activate=params.get("trailing_stop_activate", 0.05),
@@ -879,4 +907,9 @@ def run_backtest(prices: dict, params: dict,
             for s, info in sorted(pending_entries.items())]
     if stats_v2 is not None:
         result["cost_v2"] = stats_v2
+    if cutoff_meta is not None:
+        # RW-2: assembly-level proof face (rows actually read <= cutoff) for
+        # science_audit C2 row-level assertion. NEW top-level key only when
+        # the flag is ON (G5 keyset discipline).
+        result["cutoff_meta"] = cutoff_meta
     return result

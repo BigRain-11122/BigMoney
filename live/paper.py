@@ -322,7 +322,8 @@ def anchor_gate(t: dict, prices_full: dict) -> dict:
     with ExitPatch(t.get("exit_overrides")):
         res = run_backtest(prices, params, entry_signal=entry,
                            exit_signal=(entry <= 0),
-                           dd_control=t.get("dd_control"))
+                           dd_control=t.get("dd_control"),
+                           evidence_cutoff=cutoff)
     eq = pd.Series(res["equity_curve"], index=idx[:len(res["equity_curve"])])
     n_trades = res["metrics"]["num_trades"]
     oos_trades = sum(1 for tr in res["trades"] if str(tr["date"]) >= OOS_START)
@@ -385,7 +386,8 @@ def prospect_anchor_gate(t: dict, prices_full: dict) -> dict:
     with ExitPatch(t.get("exit_overrides")):
         res = run_backtest(prices, params, entry_signal=entry,
                            exit_signal=(entry <= 0),
-                           dd_control=t.get("dd_control"))
+                           dd_control=t.get("dd_control"),
+                           evidence_cutoff=cutoff)
     eq = pd.Series(res["equity_curve"], index=idx[:len(res["equity_curve"])])
     n_trades = res["metrics"]["num_trades"]
     oos_trades = sum(1 for tr in res["trades"] if str(tr["date"]) >= OOS_START)

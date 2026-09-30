@@ -1,0 +1,59 @@
+{
+ "probe": "q6_cost_caliber_reconciliation",
+ "decision": "D-20260930-31 Q6 (48h deliverable)",
+ "generated_utc": "2026-09-30T05:47:02.533355+00:00",
+ "verdict": "TWO_CALIBERS_CONFIRMED",
+ "canonical_trade": {
+  "notional_cny": 100000.0,
+  "face_a_v1_flat": {
+   "per_side_rate": 0.0013041,
+   "per_side_cny": 130.41,
+   "round_trip_cny": 260.82,
+   "components_bp": {
+    "commission": 2.5,
+    "handling": 0.341,
+    "supervision": 0.2,
+    "slippage_a": 10.0,
+    "sum_bp": 13.041
+   }
+  },
+  "face_a_x2_costpatch": {
+   "per_side_rate": 0.0026082,
+   "per_side_cny": 260.82,
+   "recorded_COST_X2_RATE": 0.0026082,
+   "matches_recorded": true
+  },
+  "face_a_x3_costpatch": {
+   "per_side_rate": 0.0039123000000000005,
+   "per_side_cny": 391.2300000000001
+  },
+  "face_b_grid_sleeve": {
+   "per_side_rate": 0.0013,
+   "per_side_cny": 130.0,
+   "round_trip_cny": 260.0,
+   "provenance": "hardcoded COST_BP_X1=13.0 in grid_sleeve_p1.py + grid_paper.py (frozen-batch verdict face)"
+  },
+  "face_b_grid_x2": {
+   "per_side_rate": 0.0026,
+   "per_side_cny": 260.0,
+   "provenance": "hardcoded COST_BP_X2=26.0"
+  }
+ },
+ "divergence": {
+  "per_side_rate_diff": 4.100000000000154e-06,
+  "per_side_bp_diff": 0.041000000000001535,
+  "per_side_cny_diff_on_100k": 0.4100000000000154,
+  "round_trip_cny_diff_on_100k": 0.8200000000000308,
+  "x2_rate_diff": 8.200000000000308e-06
+ },
+ "single_source_status": {
+  "face_a_derived_from_FeeSchedule": true,
+  "face_b_derived_from_FeeSchedule": false,
+  "paper_live_selftest_locks_face_a": true,
+  "slippage_c_30bp_used_by_active_path": false,
+  "commission_min_yuan5_used_by_active_engine": false,
+  "commission_min_binding_threshold_cny": 20000.0
+ },
+ "risk_note": "Numeric divergence is tiny (0.041bp/side = 0.31% of the cost, Y0.41 per Y100k side) and grid verdicts were frozen at 13.0 -- no historical number is wrong as declared. The structural issue is single-source: the grid face hardcodes its rate instead of deriving from FeeSchedule, so any future fee change would leave the grid face silently stale. RW-3 merge direction: canonical spec in knowledge/ recording both faces + derivation; next NEW grid prereg (post RW-5 unfreeze) uses FeeSchedule-derived cost_bp; frozen grid_sleeve_p1 verdicts stay 13.0 as declared historical evidence (no retroactive rewrite, r444/A7).",
+ "rw3_scope_next_slice": "RW-3 (T-127): (1) knowledge/ canonical cost spec file shared by backtest/paper/gateway; (2) trade_pnl_mode='full' default flip REQUIRES explicit param propagation to all 6 trader JSONs first (anchor gates recompute from trader params -- a silent default flip breaks every anchor); (3) strict_open_fills default True same constraint; (4) selftest asserting all three faces give the same price+cost on the same bar."
+}
