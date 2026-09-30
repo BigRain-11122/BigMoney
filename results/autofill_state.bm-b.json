@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-29 05:30:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "DECISION-CHAIN-V3-TOURNAMENT",
-   "shard": "v3-0of1",
-   "pid": 20912,
-   "runner_sha256": "59cbcfaac9c30fd6",
-   "fill_latency_min": 851.5,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-29 06:00:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -820,24 +807,50 @@
    "fullburn_window": true,
    "target_met": false,
    "saturation_launches": 1
+  },
+  {
+   "ts": "2026-10-01 05:42:02",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.7,
+   "cooldown_skipped": {
+    "entry": "EXCLUSION-MARGINAL-P1-RUN",
+    "shard": "exclusion-0of1",
+    "last_launch_min": 2.1
+   },
+   "verdict": "launched",
+   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
+   "shard": "faceb-0of1",
+   "pid": 51668,
+   "runner_sha256": "e2bcf587207adca1",
+   "core_verdict": "multiproc",
+   "core_marker": "indirect:from scripts.parallel_runner import",
+   "fill_latency_min": 566.5,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 05:40:01",
+  "ts": "2026-10-01 05:42:02",
   "machine": "bm-b",
-  "py_cpu_pct": 1.3,
+  "py_cpu_pct": 0.7,
+  "cooldown_skipped": {
+   "entry": "EXCLUSION-MARGINAL-P1-RUN",
+   "shard": "exclusion-0of1",
+   "last_launch_min": 2.1
+  },
   "verdict": "launched",
-  "entry": "EXCLUSION-MARGINAL-P1-RUN",
-  "shard": "exclusion-0of1",
-  "pid": 22728,
-  "runner_sha256": "3cb919dc33b2c147",
+  "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
+  "shard": "faceb-0of1",
+  "pid": 51668,
+  "runner_sha256": "e2bcf587207adca1",
   "core_verdict": "multiproc",
-  "core_marker": "indirect:from parallel_runner import",
-  "fill_latency_min": 595.9,
+  "core_marker": "indirect:from scripts.parallel_runner import",
+  "fill_latency_min": 566.5,
   "fullburn_window": true,
   "target_met": false,
   "saturation_launches": 1
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T05:28:24+08:00"
+ "core_samples_seen": "2026-10-01T05:40:19+08:00"
 }
