@@ -27,3 +27,4 @@
 - 冷层指针（r259 合并）：r448 bm-b 族选防重三键面 rg 补律（法面=results/_r258bmc_zoo_eligibility_scan.json 扫描工件承载）+r258 bm-c 族选第三例（census 盘点行主面法·机械三键面 rg 仅确认面·SLOT-9 定谳）+r259 bm-c 孤儿收养逐件直验律（死会话 prereg 头「已落地件」≠落地证据·泊位-冻结分轮不因会话死亡并窗）三条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r259 bm-c 窗批』节。
 
 - [2026-09-30 r465 bm-a] 过继手术锚律收割器范式（W13 sec11 实弹·r464「锚取自实跑文件」律的规模化解）：100+ sub 的 sections 11-15 手工逐锚不可行→正法=ast 收割器（_r465bma_w13_harvest.py）从前代 surgeon 提取全部 sub1/subn 的 (old,new,what) 常量折叠 payload+逐条验证 new verbatim∈live SRC——验证过=payload 即实跑文本（等价满足锚律），miss 桶=payload 漂移点如实标旗建段时活读（本窗 107/109 绿·2 miss=judge-prep per-leg+L9a 占位符后置 replace 面）；锚库 JSON 供 builder（_r465bma_w13_sec11_build.py）程序化生成 sub 调用（repr 字面量自包含 splice 进 surgeon），杜绝手敲千行字面量。追加型锚的尾部换行陷阱：old 尾无 \n 时 replace 锚含 \n 必 no-op（诊断=repr 尾部字节）。
+- [2026-09-30 r454 bm-b] S6 分离链驱动=reconfigure 律漏网面（r236 族）：驱动 stdout 重定向文件仍 GBK 写，腿输出含 U+FFFD 即 print 当场炸整链——链驱动模板必带 sys.stdout.reconfigure(utf-8)；断链续跑=cont 驱动自断腿重放幂等安全。
