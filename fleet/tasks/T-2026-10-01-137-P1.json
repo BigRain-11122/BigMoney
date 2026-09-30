@@ -4,11 +4,12 @@
  "type": "pool-retirement-wave1-flip",
  "immediate": false,
  "spec": "T-116 s3 wave-1 dualrun flip execution per research/POOL_RETIREMENT_S3_WAVE1_ANALYSIS.md sec.3 plan, gate MET 2026-10-01 05:02 (pool_dualrun status: three-machine streak 5/9/3 all >=3 green, cutoff 2026-10-01 01:22; first all-green reported bm-c r301). Staged execution in analysis sec.3 order: stage-1 compute_audit ready-scan read flip (pure read, lowest risk) -> stage-2 fill_ladder read side -> stage-3 autofill three read points (L843 claim fresh-read base, L992 keepalive base via main read, L1122 tick main read, L1347 harvest) + F6 _pool_origin_stale four-path guard widening (SAME commit as autofill flip, hard precondition). Rollback = single-commit revert per site. Acceptance = science faces byte-identical (sha_shared==sha_merged dualrun evidence continues). Engineering ticket: zero research, zero judgment-line, zero pool science-face rewrite.",
- "status": "claimed",
+ "status": "void",
  "created_by": "bm-a (OS iteration loop r502)",
  "created_at": "2026-10-01 05:06",
  "claimed_by": "bm-a (OS iteration loop r502; claim-at-open same round; git fetch immediately before claim per r239 collision law -- origin/main == HEAD at 05:05 fetch)",
  "claimed_at": "2026-10-01 05:06",
- "result_ref": null,
- "note": "Staging across rounds is per-analysis design (risk-ordered sites, each site single-commit revertible; F1 equivalence = mixed readers safe at every settle state). Stage-3 (autofill+F6) may land a later round with fresh rebase; continuation point written back to this note per S3 small-loop discipline."
+ "result_ref": "research/POOL_RETIREMENT_S3_WAVE1_FLIP_RECEIPT.md (bm-c r203 commit 298c4796b)",
+ "note": "VOID same-round (r502): DUPLICATE of already-executed work. Wave-1 flip was executed 2026-09-29 by bm-c r203 (commit 298c4796b) with gate MET (streaks 3/3/8 all-green, harness/autofill/ladder/audit selftests green, smoke 26/26), receipt = research/POOL_RETIREMENT_S3_WAVE1_FLIP_RECEIPT.md. Code verification this round confirmed all six read points flipped (compute_audit _merged_pool / fill_ladder _merged_pool_view / autofill tick+claim+harvest _pool_merged_view, keepalive follows main read, keepalive L1401 = F5 prev-bytes rollback law not a decision read) + F6 four-relpath guard in _pool_origin_stale. Zero code touched by this claim, zero burns, zero science faces -- pure bookkeeping void. Mis-fire root cause: claim was drafted from the PRE-flip analysis doc (sec.3 'flip 计划（门判后执行）') + the dualrun status line 'flip gate: READY' without first scanning for the receipt/successor canon (receipt existed since 09-29; the READY line is the evidence leg's standing retention status, not a pending-work signal). Genuine remaining open face in this line = s4 拍板 (dispatcher churn-gate anchor option (a) vs (b) + pool_worker origin-blob protocol, F7/F8), inputs complete, evidence leans option (a) = maintain anchors; ruling belongs to T-116 owner lineage (bm-c) / GM, not this ticket. Pit lesson logged to CODELY.md r502.",
+ "ticket_lineage": "superseded by already-landed canon 298c4796b (bm-c r203); void per single-active-ticket law"
 }
