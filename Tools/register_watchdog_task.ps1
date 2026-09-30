@@ -1,6 +1,10 @@
 # Registers the Bigmoney watchdog task (Bigmoney-LoopWatchdog).
-# Runs Tools\watchdog.ps1 every 30 min: heals the iteration-loop task, kicks
-# stalled rounds, revives dead background chains (margin pull / P-1c batch).
+# Runs Tools\watchdog.ps1: heals the iteration-loop task, kicks stalled
+# rounds, revives dead background chains (margin pull / P-1c batch).
+# O-2026-09-30-2340 knife-1 (bm-b r483): cadence 30 -> 2 min. Pool-empty
+# exemption honored by body behavior: every C1-C7 probe is a cheap idempotent
+# shell check (<1s CPU) and the watchdog never launches pool-eating work when
+# the pool is empty -- a 2-min pass in pool-empty state costs ~nothing.
 # PATH-AGNOSTIC + idempotent via -Force + pure ASCII. Zero-token by design
 # (pure shell checks + relaunches, never invokes codely).
 $Project = Split-Path -Parent $PSScriptRoot
@@ -11,9 +15,9 @@ if (-not (Test-Path $vbs)) { Write-Output "FATAL: $vbs missing"; exit 1 }
 $a = New-ScheduledTaskAction -Execute 'wscript.exe' `
     -Argument ('//B //nologo "' + $vbs + '" powershell.exe -NoProfile -ExecutionPolicy Bypass -File "' + $wd + '"') `
     -WorkingDirectory $Project
-$start = Get-Date -Minute 0 -Second 0
-while ($start -le (Get-Date)) { $start = $start.AddMinutes(20) }
-$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 30) -RepetitionDuration (New-TimeSpan -Days 3650)
+$start = Get-Date -Second 0
+while ($start -le (Get-Date)) { $start = $start.AddMinutes(2) }
+$t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 2) -RepetitionDuration (New-TimeSpan -Days 3650)
 $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
 # S4U law (2026-09-29 user order, bm-b lane rule): all lane scheduled tasks
 # on this machine register S4U, never InteractiveToken -- survives logoff and
