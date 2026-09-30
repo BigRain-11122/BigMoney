@@ -36,6 +36,7 @@
 - **探针-锚同面断言**：runner probe 实载路径与上述四元组逐位比对（load_core 面板首行/行数/成员数/adj 19/19/manifest PASS/cutoff 截断六断言 fail-closed）；一面不符=**面错配 VOID**（报「面错配」非「数据腐坏」·INCIDENT-20260928 立法）。
 - 窗口与 **evidence_cutoff=2026-09-22**（前向锁盒 D2·T-22 BATCH_CUTOFF 绑定=deep manifest min of axes·两轴一律截 ≤cutoff 再联合；cutoff 后新 bar 锁定不得回流）；结果 JSON 顶层 `evidence_cutoff` + `science_gates.cutoff_meta("2026-09-22")`（缺字段=science_audit C2 VIOLATION）。
 - 起点集：**T-22 冻结枚举律逐字**——`enumerate_starts`（pos≥252td 预热 ∧ ≥126td 前瞻 ∧ 当日上市成员数≥24）确定性全枚举；**G-CENSUS 门：起点数逐位=={legacy: 1,255, deep: 1,506}**（T-22 finalize 冻结读数·V2 先例同门）；双轴各 ≥1,000 → RANDOM_LARGE_SAMPLE_LAW §2.1 K≥1000 ✓。
+  - **〔零跑修正案·AMENDMENT 2026-10-01·r251/r280 先例·零格已烧·结果盲〕**：上行的 legacy 1,255 为 t22 的 **2026-09-23 末场面**读数（其 LEGACY_CUTOFF）；本批 §2 绑定 evidence_cutoff=2026-09-22 截断纪律下确定性枚举实测 **legacy=1,254**（锚行 1,631；1,631−252−126+1；raw 面与 adj 替换面双面同读·probe 实测 2026-10-01 pre-burn），deep=1,506 与冻结读数逐位一致。D2 截断纪律优先，G-CENSUS 门锚定实测值 **{legacy: 1,254, deep: 1,506}**——runner=scripts/lowamp_p1.py（G_CENSUS 常量+probe 双轴断言）执行；本注记为唯一修正面，判据其余零改。
 - 数据完备门（不过门禁跑）：①legacy 48 员/adj 19/19 子集；②deep manifest PASS ∧ 48 员 ∧ ohlcv 48 文件；③cutoff 截断后两轴末行==2026-09-22；④零重复日期+单调；⑤G-CENSUS。
 - **流动性/可交易闸（Top-N 集中风险面·票面 mandatory）**：选择资格=有效 amp（满 W 窗史）∧ 当日 close notna ∧ 当日 volume>0 ∧ amount>0 ∧ **amt20_median ≥ ¥50,000,000**（20 日滚动成交额中位·deep 轴 amount=proxy 面如实披露）；冻结理由=Top-2 集中度的执行保护（探针实测 legacy 末日 amt20 最小员=¥20.9M·p10=¥126.8M——¥50M 线排除尾部流动性行而不空转）。
 - DATA_GAP 对号：不涉缺项 1-4/6；缺项 5（2016 前 ETF 日线）→ legacy 轴 2020 起为正典设计面（P-5 caliber 非缺口）、deep 轴 2013 起在仓覆盖。
