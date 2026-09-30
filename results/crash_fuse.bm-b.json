@@ -213,16 +213,6 @@
    "shard": "lowamp-p1-sens-0of1",
    "machine": "bm-a"
   },
-  "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12": {
-   "count": 1,
-   "refusals": 3,
-   "code_sha256": "5667c984e14af8e5",
-   "last_crash_ts": "2026-10-01 01:46:04",
-   "entry": "PERPETUAL-N1-W2-SHARD-1",
-   "shard": "n1w2-1of12",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 01:50:21"
-  },
   "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12": {
    "count": 1,
    "refusals": 2,
@@ -245,13 +235,23 @@
   },
   "scripts/exclusion_marginal_scan.py|run": {
    "count": 1,
-   "refusals": 1,
+   "refusals": 2,
    "code_sha256": "27a70cb416318ef7",
    "last_crash_ts": "2026-10-01 02:02:13",
    "entry": "EXCLUSION-MARGINAL-P1-RUN",
    "shard": "exclusion-0of1",
    "machine": "bm-b",
-   "last_refusal_ts": "2026-10-01 02:02:15"
+   "last_refusal_ts": "2026-10-01 02:04:05"
+  },
+  "scripts/cross_start_robustness.py|run_face_b": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "8259296c0c23bc7e",
+   "last_crash_ts": "2026-10-01 02:04:04",
+   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
+   "shard": "faceb-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-01 02:04:05"
   }
  },
  "cleared": {
@@ -388,6 +388,13 @@
   },
   "scripts/perpetual_faces_n1.py|run,--shard,0,--of,12": {
    "cleared_ts": "2026-10-01 02:02:15",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "5667c984e14af8e5"
+  },
+  "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12": {
+   "cleared_ts": "2026-10-01 02:04:06",
    "cleared_by": "bm-b",
    "reason": "code_changed",
    "crashes": 1,

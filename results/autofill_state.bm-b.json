@@ -1,22 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-28 12:10:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 24.5,
-   "keepalive": [
-    "censusw2b-0of1"
-   ],
-   "verdict": "launched",
-   "entry": "TRIAL-LABOR-W4-GENERATE",
-   "shard": "generate-0of1",
-   "pid": 9896,
-   "runner_sha256": "f09090cbdecb8d43",
-   "fill_latency_min": 148.5,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-28 13:50:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -654,7 +638,8 @@
    "fill_latency_min": 371.9,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 01:58:02",
@@ -696,30 +681,70 @@
    "fill_latency_min": 100.7,
    "fullburn_window": true,
    "target_met": false,
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 02:02:02",
+   "machine": "bm-b",
+   "py_cpu_pct": 1.1,
+   "harvest_flipped": 1,
+   "fuse_skipped": [
+    {
+     "entry": "EXCLUSION-MARGINAL-P1-RUN",
+     "shard": "exclusion-0of1",
+     "sig": "scripts/exclusion_marginal_scan.py|run",
+     "fuse_refusals": 1
+    }
+   ],
+   "cooldown_skipped": {
+    "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
+    "shard": "faceb-0of1",
+    "last_launch_min": 4.2
+   },
+   "verdict": "launched",
+   "entry": "PERPETUAL-N1-W2-SHARD-0",
+   "shard": "n1w2-0of12",
+   "pid": 53196,
+   "runner_sha256": "df65b92869fb84fd",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 96.8,
+   "fullburn_window": true,
+   "target_met": false,
    "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 02:00:02",
+  "ts": "2026-10-01 02:02:02",
   "machine": "bm-b",
-  "py_cpu_pct": 2.0,
+  "py_cpu_pct": 1.1,
+  "harvest_flipped": 1,
+  "fuse_skipped": [
+   {
+    "entry": "EXCLUSION-MARGINAL-P1-RUN",
+    "shard": "exclusion-0of1",
+    "sig": "scripts/exclusion_marginal_scan.py|run",
+    "fuse_refusals": 1
+   }
+  ],
   "cooldown_skipped": {
-   "entry": "EXCLUSION-MARGINAL-P1-RUN",
-   "shard": "exclusion-0of1",
-   "last_launch_min": 4.1
+   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
+   "shard": "faceb-0of1",
+   "last_launch_min": 4.2
   },
   "verdict": "launched",
-  "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-BASE",
-  "shard": "lowamp-p1-cell-larep-legacy-base-0of1",
-  "pid": 55964,
-  "runner_sha256": "9538b4e2cf37c02d",
+  "entry": "PERPETUAL-N1-W2-SHARD-0",
+  "shard": "n1w2-0of12",
+  "pid": 53196,
+  "runner_sha256": "df65b92869fb84fd",
   "core_verdict": "multiproc",
   "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": 100.7,
+  "fill_latency_min": 96.8,
   "fullburn_window": true,
   "target_met": false,
   "saturation_launches": 1
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T01:58:20+08:00"
+ "core_samples_seen": "2026-10-01T02:00:19+08:00"
 }
