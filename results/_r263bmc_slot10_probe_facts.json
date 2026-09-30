@@ -1,0 +1,45 @@
+{
+ "artifact": "r263 bm-c SLOT-10 supply-wave probe (two fresh A-layer gate candidates, descriptive only)",
+ "machine": "bm-c",
+ "round": 263,
+ "lane_note": "research/supply lane, zero network, zero engine touch, marks +0",
+ "candidates": {
+  "A_repo_rate_state": {
+   "definition": "GC001 close > rolling-252 q90 of own history (min_periods=120); annualized % face",
+   "data_face": "data/repo_daily/GC001.csv (bm-a collector lane, in-repo shared)",
+   "n_days_total": 3739,
+   "first_date": "2011-05-13",
+   "last_date": "2026-09-29",
+   "n_state_days": 3620,
+   "stress_open_rate": 0.0826,
+   "stress_month_end_adjacent_share": 0.3813,
+   "fwd20d_510300_mean_stress": 0.00589,
+   "n_fwd_stress": 289,
+   "fwd20d_510300_mean_other": 0.00515,
+   "n_fwd_other": 3178,
+   "near_family_disclosure": "W1/W2 revrepo-CALENDAR judged-negative (calendar usage face); this = rate-LEVEL state face, distinct usage; D6 corr audit deferred to berth prereg"
+  },
+  "B_etf_premium_disp": {
+   "definition": "cross-mean premium_z over core48 > rolling-252 q90 (hot) / < q10 (cold) of own history",
+   "data_face": "data/fund_premium/panel/panel.csv (bm-c collector lane)",
+   "n_dates_panel": 1633,
+   "first_date": "2020-01-02",
+   "last_date": "2026-09-24",
+   "n_members_first": 37,
+   "n_members_last": 48,
+   "n_state_days": 1514,
+   "n_hot": 144,
+   "n_cold": 158,
+   "fwd20d_510300_mean_hot": -0.01308,
+   "n_fwd_hot": 144,
+   "fwd20d_510300_mean_cold": 0.01317,
+   "n_fwd_cold": 158,
+   "fwd20d_510300_mean_mid": 0.00072,
+   "n_fwd_mid": 1194,
+   "thin_history_disclosure": "panel starts 2020-01-02 (NAV backfill boundary) = ~6.7y; deep-history three-window grid burden carried; forward-accumulation panel law applies",
+   "near_family_disclosure": "no prior burn touched NAV-price wedge face (T-16 ARB-1 = arb consumer face, not gate); #84/#87 sentiment-cluster mechanism-neighbor risk disclosed (9-burn family-cluster burden)"
+  }
+ },
+ "evidence_cutoff": "2026-09-29",
+ "generated_by": "results/_r263bmc_slot10_probe.py (deterministic re-run comparable)"
+}

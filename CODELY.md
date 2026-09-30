@@ -7,6 +7,7 @@
 - 冷层指针（r261 合并·指针合并归档 r444 范式）：r459 bm-a fill_ladder 门串坑（泊位登记三验已全机械化=fill_ladder fail-closed 三门+r460 落地）+r460 bm-a autofill crash-fuse 控制面坠机误锁坑（pool_worker 通道正解=fuse 锁死先判真缺陷再走独立发射器）两条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r261 bm-c 窗批』节。
 - [2026-09-30 r261 bm-c] rebase --continue 幻影拒走坑（stopped-rebase 脏工作树面·本仓每轮 rebase 必撞）：rebase 停点处 `git rebase --continue` 报「You must edit all merge conflicts and then mark them as resolved using git add」但 `git ls-files -u` 空、无 UU 件——真因=后台 dispatcher/autofill 常驻进程持续写脏运行态文件（autofill_state/crash_fuse/dispatcher_state 族），continue 把未暂存改动误报为冲突语；正法=先 ls-files -u 验零未合并→git add 脏态件（r290 律允许随行提交）→continue；或 `git commit -F .git/rebase-merge/message` 先落该 pick 再 continue。连带=continue 消费 staged 态可产出 sidecar 同名消息提交（内容合法无害·勿误判重复提交去 revert）。
 - [2026-09-30 r261 bm-c] 判决落地即同窗 done-flip 止损 churn 律（SLOT-8 实弹+SLOT-9 当日应用）：judged 产物落地后池条目滞留 ready>20min=任机 pool_worker/dispatcher stale 认领撞 r450 守卫 fail-close（SLOT-8 被 bm-a 09:37 撞+本机 dispatcher 09:38 撞·守卫单射零重复烧实证）；正法=判决观测轮即翻 done+result_ref（r244 收割律的止损面），勿等收割轮。How to apply：观测到 trials_ledger 落地（live head 前进）=同窗池翻面，s7/s8 回填仍归收割轮（W7 r256→r257 镜像不破）。
+- [2026-09-30 r263 bm-c] web_fetch 伪成坑：en.wikipedia.org 请求被返回成无关营销页——fetch 报成功≠命中目标文，返回内容含目标关键词的核验必须先于 funnel 记成；伪成/超时一律记死路（R109），锚名+DOI 入补采队列，禁当外证（R169 律）。
 
 ### Project
 
