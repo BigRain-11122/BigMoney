@@ -49,6 +49,10 @@
   "rt_bp": 26.082,
   "source": "knowledge/cost_spec.py X1_RATE (imported)"
  },
+ "audit": {
+  "workers": 4,
+  "face": "T-134 s2 ProcessPool conversion (O-2026-09-30-2355): pass B all-start grid = per-start jobs via scripts/parallel_runner (worker_cap x0.8 + RAM guard, BelowNormal workers); pass A headline = unchanged single vectorized call; outputs byte-identical to retired serial loop (S9 determinism law)"
+ },
  "grid": {
   "cells": [
    "A-EQW",
@@ -341,6 +345,8 @@
   "batch": "CROSS-START-ROBUSTNESS-P1",
   "file": "results/cross_start_robustness/scan.json",
   "note": "D-41 deliverable #1 cross-start robustness adjudication face A: equal-weight 25x4 monthly + 3 seeded random static-weight nulls; conclusion adjudication not a selection search",
-  "evidence_cutoff": "2026-09-22"
+  "evidence_cutoff": "2026-09-22",
+  "reexec_single_count": true,
+  "reexec_note": "deterministic-engine legal re-execution; ledger +0 per r259 single-count law"
  }
 }

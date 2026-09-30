@@ -57,9 +57,11 @@ import numpy as np  # noqa: E402
 try:
     from scripts import science_gates as sg
     from scripts import allocation_policy_scan as aps
+    from scripts.parallel_runner import run_cells_parallel, worker_cap
 except ImportError:
     import science_gates as sg
     import allocation_policy_scan as aps
+    from parallel_runner import run_cells_parallel, worker_cap
 
 BATCH = "CROSS-START-ROBUSTNESS-P1"
 EVIDENCE_CUTOFF = "2026-09-22"        # same lockbox as ALLOC-POLICY-SCAN-P1
@@ -133,6 +135,44 @@ def _win_metrics(path, starts):
     return out
 
 
+# ---- T-134 s2 multicore conversion (CEO order O-2026-09-30-2355) --------
+# All-start grid = per-start independent jobs through the house
+# scripts/parallel_runner ProcessPool (worker_cap x0.8 + RAM guard,
+# BelowNormal workers per O-1136). Outputs are byte-identical to the
+# retired serial loop: each start simulates the same sliced window and
+# results are keyed by start index (scheduler-independent determinism).
+_AS_G: dict = {}
+
+
+def _as_init(dates, rets, targets, rule):
+    """Pool worker initializer: BelowNormal priority (O-1136) + shared
+    sliced-input globals (panels passed once via initargs, never via
+    closures -- picklable-worker law)."""
+    try:
+        import psutil
+        pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
+        if pri is not None:
+            psutil.Process().nice(pri)
+    except Exception:
+        pass
+    aps._cost_check()   # worker-side lazy global init (COST_PER_SIDE=None
+                        # until _cost_check imports cost_spec.X1_RATE)
+    _AS_G.update(dates=dates, rets=rets, targets=targets, rule=rule)
+
+
+def _allstart_one(payload):
+    """One all-start grid job: simulate the sliced window for ALL target
+    rows; returns (start_index, V-vector-or-None). Top-level picklable."""
+    j, s = payload["j"], payload["s"]
+    if payload["horizon"] <= 0:
+        return j, None
+    sim = aps.simulate_with_dates(
+        _AS_G["dates"][s:], _AS_G["rets"][s:], _AS_G["targets"],
+        np.zeros(_AS_G["targets"].shape[0], dtype=int), _AS_G["rule"],
+        store_path=False)
+    return j, sim["V"]
+
+
 def _allstart_stats(dates, rets, targets, rule="monthly"):
     """Fresh-entry all-start grid (prereg sec.3-A). Start grid = monthly
     first trading days (same grid/horizon gate as #2); ENTRY SEMANTICS =
@@ -148,15 +188,17 @@ def _allstart_stats(dates, rets, targets, rule="monthly"):
     valid = horizon_days >= aps.MIN_START_HORIZON
     n_valid, n_short = int(valid.sum()), int((~valid).sum())
     R = targets.shape[0]
-    zero = np.zeros(R, dtype=int)
     finals = np.empty((len(starts), R), dtype=float)
-    for j, s in enumerate(starts):
-        if horizon_days[j] <= 0:
-            finals[j] = np.nan
-            continue
-        sim = aps.simulate_with_dates(dates[s:], rets[s:], targets, zero,
-                                      rule, store_path=False)
-        finals[j] = sim["V"]
+    jobs = [(j, _allstart_one,
+             ({"j": j, "s": int(s), "horizon": int(horizon_days[j])},))
+            for j, s in enumerate(starts)]
+    pool_out = run_cells_parallel(
+        jobs, workers=worker_cap(), desc="allstart grid",
+        initializer=_as_init, initargs=(dates, rets, targets, rule))
+    as_workers = pool_out.pop("__workers__", 1)
+    for j in range(len(starts)):
+        _, v = pool_out[j]
+        finals[j] = v if v is not None else np.nan
     per_row = []
     for i in range(R):
         with np.errstate(divide="ignore", invalid="ignore"):
@@ -171,7 +213,7 @@ def _allstart_stats(dates, rets, targets, rule="monthly"):
             "allstart_p75": float(np.percentile(head, 75)),
             "allstart_pos_share": float((head > 0).mean()),
         })
-    return per_row, n_valid, n_short, int(len(starts))
+    return per_row, n_valid, n_short, int(len(starts)), as_workers
 
 
 def _adjudicate(cell):
@@ -670,8 +712,8 @@ def run(write=True):
     simA = aps.simulate_with_dates(dates, rets, targets,
                                   np.zeros(R, dtype=int), "monthly",
                                   store_path=True)
-    # pass B: all-start fresh-entry grid
-    allstart_rows, n_valid, n_short, n_starts = _allstart_stats(
+    # pass B: all-start fresh-entry grid (T-134 s2: per-start ProcessPool)
+    allstart_rows, n_valid, n_short, n_starts, as_workers = _allstart_stats(
         dates, rets, targets, "monthly")
     starts = aps._monthly_start_idx(dates)
     n = rets.shape[0]
@@ -721,6 +763,13 @@ def run(write=True):
         "faces": facts,
         "cost": {"face": "A", "per_side_bp": 13.041, "rt_bp": 26.082,
                  "source": "knowledge/cost_spec.py X1_RATE (imported)"},
+        "audit": {"workers": int(as_workers),
+                  "face": "T-134 s2 ProcessPool conversion (O-2026-09-30-2355): "
+                          "pass B all-start grid = per-start jobs via "
+                          "scripts/parallel_runner (worker_cap x0.8 + RAM guard, "
+                          "BelowNormal workers); pass A headline = unchanged "
+                          "single vectorized call; outputs byte-identical to "
+                          "retired serial loop (S9 determinism law)"},
         "grid": {"cells": cell_ids, "rule": "monthly",
                  "n_starts": n_starts, "n_valid_starts": n_valid,
                  "n_short_starts": n_short,
