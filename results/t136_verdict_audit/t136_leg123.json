@@ -1,0 +1,212 @@
+{
+  "active": [
+    "159934",
+    "511010",
+    "511260",
+    "518880"
+  ],
+  "axis": "legacy",
+  "batch": "LOWAMP-P1",
+  "cell": "LA-REP",
+  "cost_x1_rate": 0.0013041,
+  "decomposition": {
+    "as_burned_ret_pp": -17.99,
+    "exit_stack_churn_cost_pp": -33.86,
+    "intended_p1_only_ret_pp": 15.88,
+    "raw_path_BH": {
+      "159934": {
+        "first_close": 3.342,
+        "last_close": 9.257,
+        "path_ret": 1.7699
+      },
+      "511010": {
+        "first_close": 119.377,
+        "last_close": 140.709,
+        "path_ret": 0.1787
+      },
+      "511260": {
+        "first_close": 108.351,
+        "last_close": 134.821,
+        "path_ret": 0.2443
+      },
+      "518880": {
+        "first_close": 3.37,
+        "last_close": 8.859,
+        "path_ret": 1.6288
+      }
+    }
+  },
+  "legA_as_burned": {
+    "artifact": {
+      "max_dd": -0.183578,
+      "n_entries": 255,
+      "n_trades": 254,
+      "nav_last": 820129.43,
+      "ret_full": -0.179871,
+      "sharpe_full": -1.447533
+    },
+    "per_sym": {
+      "159934": {
+        "avg_hold_days": 6.5,
+        "avg_pnl_rate": 0.006975,
+        "n_trades": 4,
+        "nav_last": 1002876.96,
+        "num_entries": 4,
+        "reasons": {
+          "signal_reversal": 3,
+          "time_decay": 1
+        }
+      },
+      "511010": {
+        "avg_hold_days": 11.24,
+        "avg_pnl_rate": 0.000961,
+        "n_trades": 123,
+        "nav_last": 884075.55,
+        "num_entries": 123,
+        "reasons": {
+          "loss_time_stop": 55,
+          "signal_reversal": 1,
+          "time_decay": 67
+        }
+      },
+      "511260": {
+        "avg_hold_days": 11.38,
+        "avg_pnl_rate": 0.001435,
+        "n_trades": 124,
+        "nav_last": 935464.59,
+        "num_entries": 125,
+        "reasons": {
+          "loss_time_stop": 55,
+          "time_decay": 69
+        }
+      },
+      "518880": {
+        "avg_hold_days": 3.33,
+        "avg_pnl_rate": -0.002467,
+        "n_trades": 3,
+        "nav_last": 997712.33,
+        "num_entries": 3,
+        "reasons": {
+          "signal_reversal": 3
+        }
+      }
+    },
+    "replay": {
+      "max_dd": -0.183578,
+      "n_entries": 255,
+      "n_trades": 254,
+      "nav_last": 820129.43,
+      "ret_full": -0.179871,
+      "sharpe_full": -1.447533
+    },
+    "returns_bp_match": true,
+    "returns_len_artifact": 1630,
+    "returns_len_replay": 1630,
+    "returns_max_abs_diff": 0.0,
+    "summary_fields_match": true
+  },
+  "legB_p1_only": {
+    "exit_patch": {
+      "global_hard_limit": 1000000,
+      "loss_time_days": 1000000
+    },
+    "params_override": {
+      "initial_stop": -1.0,
+      "take_profit_levels": [],
+      "time_decay_period": 1000000,
+      "time_decay_threshold": -1.0,
+      "trailing_stop_activate": 10.0
+    },
+    "per_sym": {
+      "159934": {
+        "avg_hold_days": 9.0,
+        "avg_pnl_rate": 0.0113,
+        "n_trades": 3,
+        "nav_last": 1004028.34,
+        "num_entries": 3,
+        "reasons": {
+          "signal_reversal": 3
+        }
+      },
+      "511010": {
+        "avg_hold_days": 386.0,
+        "avg_pnl_rate": 0.0106,
+        "n_trades": 1,
+        "nav_last": 1059109.03,
+        "num_entries": 2,
+        "reasons": {
+          "signal_reversal": 1
+        }
+      },
+      "511260": {
+        "avg_hold_days": 0.0,
+        "avg_pnl_rate": 0.0,
+        "n_trades": 0,
+        "nav_last": 1097906.39,
+        "num_entries": 1,
+        "reasons": {}
+      },
+      "518880": {
+        "avg_hold_days": 3.33,
+        "avg_pnl_rate": -0.002467,
+        "n_trades": 3,
+        "nav_last": 997712.33,
+        "num_entries": 3,
+        "reasons": {
+          "signal_reversal": 3
+        }
+      }
+    },
+    "result": {
+      "max_dd": -0.037083,
+      "n_entries": 9,
+      "n_trades": 7,
+      "nav_last": 1158756.09,
+      "ret_full": 0.158756,
+      "sharpe_full": 1.158046
+    }
+  },
+  "legC_independent": {
+    "B_vs_C_returns_max_abs_diff": 0.0005053800000000002,
+    "per_sym": {
+      "159934": {
+        "n_buys": 3,
+        "n_sells": 3,
+        "nav_last": 1004729.75,
+        "pnl_last": 4729.75
+      },
+      "511010": {
+        "n_buys": 2,
+        "n_sells": 1,
+        "nav_last": 1059109.03,
+        "pnl_last": 59109.03
+      },
+      "511260": {
+        "n_buys": 1,
+        "n_sells": 0,
+        "nav_last": 1097906.39,
+        "pnl_last": 97906.39
+      },
+      "518880": {
+        "n_buys": 3,
+        "n_sells": 3,
+        "nav_last": 997712.33,
+        "pnl_last": -2287.67
+      }
+    },
+    "result": {
+      "max_dd": -0.037083,
+      "nav_last": 1159457.5,
+      "ret_full": 0.159457,
+      "sharpe_full": 1.162685
+    }
+  },
+  "panel_facts": {
+    "anchor_rows_510300": 1631,
+    "axis": "legacy",
+    "members": 48,
+    "panel_end": "2026-09-22",
+    "panel_start": "2020-01-02",
+    "starts": 1254
+  }
+}
