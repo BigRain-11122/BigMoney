@@ -186,7 +186,9 @@ def p2_invvol_weights(rets_window):
 
 def simulate(dates, prices, adv20_map, cash_ret, weights, capital,
              mode="monthly", cost_fn=side_cost_v2, p2=False, start_idx=0):
-    """Daily share-based sim. mode: monthly | daily-threshold | buyhold.
+    """Daily share-based sim. mode: monthly | quarterly | annual |
+    daily-threshold | buyhold (quarterly/annual added additively by
+    T-2026-09-30-130 ALLOCATION_POLICY_SCAN; existing modes byte-identical).
 
     weights: {sym: w} with 'CASH' as explicit residual leg (never traded).
     p2=True overrides weights monthly from rolling vol (warmup equal-weight).
@@ -225,6 +227,12 @@ def simulate(dates, prices, adv20_map, cash_ret, weights, capital,
             w = (p2_invvol_weights(win) if len(win) >= P2_VOL_WIN
                  else {s: 1.0 / len(P2_POOL) for s in P2_POOL})
         elif mode == "monthly" and is_month_first:
+            w = dict(weights)
+        elif mode == "quarterly" and is_month_first and d[5:7] in ("01", "04", "07", "10"):
+            # additive T-2026-09-30-130 ALLOCATION_POLICY_SCAN mode; existing
+            # cells' modes untouched (byte-identical behavior for them).
+            w = dict(weights)
+        elif mode == "annual" and is_month_first and d[5:7] == "01":
             w = dict(weights)
         elif mode == "daily-threshold" and t > start_idx:
             cur_w = {s: (asset_val[s] / equity if equity > 0 else 0.0) for s in syms}
