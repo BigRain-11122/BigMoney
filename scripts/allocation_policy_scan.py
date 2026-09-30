@@ -231,7 +231,7 @@ def simulate(rets, targets, start_idx, rule, store_path=False, cal_mask=None):
             else:
                 exec_mask = act & cal_mask[t]
             if exec_mask.any():
-                cost = (np.abs(targets - w) * cost_leg).sum(1)
+                cost = (np.abs(targets - w) * cost_leg).sum(1) * COST_PER_SIDE
                 V[exec_mask] *= (1.0 - cost[exec_mask])
                 w[exec_mask] = targets[exec_mask]
                 n_reb[exec_mask] += 1
@@ -410,7 +410,36 @@ def run(write=True):
     if not write:
         return result
     os.makedirs(OUT_DIR, exist_ok=True)
-    with open(os.path.join(OUT_DIR, "scan.json"), "w", encoding="utf-8") as f:
+    # r259 single-count law: legal re-execution of a void burn re-CARRIES the
+    # existing ledger entry instead of appending again; the trials-ledger block
+    # MUST live inside the batch results JSON (ledger_head is data-driven from
+    # results files -- an entry left outside the JSON = chain-silent +N).
+    scan_path = os.path.join(OUT_DIR, "scan.json")
+    existing_tl = None
+    if os.path.exists(scan_path):
+        try:
+            with open(scan_path, encoding="utf-8") as fh:
+                old = json.load(fh)
+            tl = old.get("trials_ledger") or {}
+            if tl.get("batch") == BATCH:
+                existing_tl = tl
+        except Exception:
+            existing_tl = None
+    if existing_tl is not None:
+        led = dict(existing_tl)
+        led["reexec_single_count"] = True
+        led["reexec_note"] = ("void-burn legal re-execution (engine cost-"
+                              "multiplier bug fixed post first burn); ledger "
+                              "+0 per r259 single-count law")
+    else:
+        led = sg.append_ledger(batch_name=BATCH, batch_trials=N_TRIALS,
+                               file_name="results/allocation_policy_scan/scan.json",
+                               evidence_cutoff=EVIDENCE_CUTOFF,
+                               note="D-41 deliverable #2 full-grid publication "
+                                    "scan (ORDER sec.5-2): 75 weights x 4 rules "
+                                    "+ 2 baselines; no selection freedom")
+    result["trials_ledger"] = led
+    with open(scan_path, "w", encoding="utf-8") as f:
         json.dump(result, f, ensure_ascii=False, indent=1)
     cols = ["cell_id", "s", "bond_share", "cash", "rule", "n_rebalances",
             "cost_drag_annual", "cagr", "vol", "sharpe", "t_info", "maxdd",
@@ -420,12 +449,6 @@ def run(write=True):
             "allstart_pos_share", "allstart_short", "pass"]
     pd.DataFrame([{k: c.get(k) for k in cols} for c in cells]) \
         .to_csv(os.path.join(OUT_DIR, "scan_cells.csv"), index=False)
-    led = sg.append_ledger(batch_name=BATCH, batch_trials=N_TRIALS,
-                           file_name="results/allocation_policy_scan/scan.json",
-                           evidence_cutoff=EVIDENCE_CUTOFF,
-                           note="D-41 deliverable #2 full-grid publication scan "
-                                "(ORDER sec.5-2): 75 weights x 4 rules + 2 "
-                                "baselines; no selection freedom")
     _write_summary(result)
     print(json.dumps({"batch": BATCH, "cutoff": EVIDENCE_CUTOFF,
                       "n_cells": len(cells), "n_pass": n_pass,
@@ -534,7 +557,8 @@ def _naive_sim(rets, dates, target, rule):
             w = w * (1.0 + rets[t]) / (1.0 + pr)
             do_exec = pending if rule == "threshold5" else bool(cal[t])
             if do_exec:
-                cost = float((np.abs(target - w) * _etf_cost_leg_mask()).sum())
+                cost = float((np.abs(target - w) * _etf_cost_leg_mask()).sum()
+                             * COST_PER_SIDE)
                 V *= (1.0 - cost)
                 w = target.copy()
                 n_reb += 1
@@ -665,6 +689,23 @@ def selftest():
             except ValueError:
                 raised = True
             chk("S12 face-mismatch anchor gate refuses (fail-closed)", raised)
+            # S13 hand-value rebalance cost leg (cost-multiplier bug guard:
+            # twin-equality S4 cannot catch a shared-bug -- this leg asserts
+            # the literal per-side rate multiplies the ETF-leg weight delta)
+            d3 = ["2013-01-31", "2013-02-01", "2013-02-04"]
+            r3 = np.zeros((3, 4))
+            r3[1] = [0.02, 0.0, 0.0, 0.0]
+            tg5 = np.array([[0.50, 0.50, 0.0, 0.0]])
+            sim13 = simulate_with_dates(d3, r3, tg5, np.zeros(1, dtype=int),
+                                        "monthly", store_path=True)
+            pr13 = 0.5 * 0.02
+            dw13 = 2 * (0.5 * 1.02 / (1 + pr13) - 0.5)
+            cost13 = dw13 * COST_PER_SIDE
+            v13 = (1.0 - COST_PER_SIDE) * (1 + pr13) * (1 - cost13)
+            chk("S13 rebalance cost == hand value (X1 multiplies |dw|)",
+                abs(sim13["V"][0] - v13) < 1e-14
+                and abs(sim13["tot_cost"][0] - cost13) < 1e-16
+                and sim13["n_reb"][0] == 1)
         finally:
             for k in FACES:
                 FACES[k] = saved[k]
