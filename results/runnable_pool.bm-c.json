@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-30 11:5x",
+  "updated_at": "2026-09-30T18:2x+08:00",
   "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
   "entries": [
     {
@@ -5046,6 +5046,42 @@
       "entered_by": "bm-c fill_ladder T-107 slice-2",
       "done_at": "2026-09-30T11:31:17+08:00",
       "result_ref": "results/innovation_quota/PREMIUM-SENT-P1.json (r267 bm-c harvest flip per SLOT-1/2/4/5 precedent; verdict judged 11:31:17 NEGATIVE family closure W1-W10 ten-straight: hot V1+V2 FAIL / cold V1 FAIL spread +0.676pp vs null-band 0.747pp miss 0.07pp V2+V3 pass STABLE 0.93; h5 V1 pass zero-family-weight per pre-frozen h20 primary anti-window-picking law; ledger 359,980->361,984 chain-consistent; prereg s7/s8 backfilled same window r267; 48h CEO face due 2026-10-02 11:31)"
+    },
+    {
+      "id": "TRIAL-LABOR-W14-GENERATE",
+      "ticket_ref": "T-2026-09-30-128 wave ticket (opened+claimed same freeze commit per O-1730 immediate law, W8=T-120/W9=T-121/W10=T-122/W11=T-123/W12=T-124/W13=T-125 lineage); W14 candidate = bm-c r276 supply step first-to-origin (RESI trend-extension position + CNT yang-day density dual new axes, MSG-20260930-1525 dual-signal + commit 04759cf69; bm-b r470 same-window independent dual draft zero-collusion cross-validation yield/adoption MSG-20260930-154x, bm-b takes freeze step per berth open-adoption clause; bm-c r277 gap probe resi30/cntd10 facts MSG-20260930-155x + twin cross-val 39/39; member-set adjudication GATE-RECHECK evidence-forced RESI{resi60_hi} x CNT{cntd5_hi,cntn20_lo} = 6 multiplier; seeds 20327500/20328000/20328500 three-step law ALL GREEN facts results/_r471bmb_w14_seed_law_facts.json)",
+      "prereg_ref": "research/TRIAL_LABOR_W14_PREREG.md (FROZEN 2026-09-30 16:5x bm-b r471 adoption freeze window per berth-first-to-hold + open-adoption clause, W13 timeline mirror; NOT the candidate DRAFT files)",
+      "runner": "scripts/trial_labor_w14.py",
+      "runner_args": [
+        "generate"
+      ],
+      "lane_owner": null,
+      "priority": 1,
+      "consumer_plan": "TRIAL-LABOR-W14-GENERATE/SCREEN/JUDGE -> judged verdict face (w14_judge.json, reform-face first wave: eligible_reform + top-3 dual face per O-1058 five-step chain) -> s4 intake -> STRATEGY_LIBRARY + TRIAL-RESICNT-* paper accounts -> 48h CEO report + scorecard CEO face; screen null p95 -> next-wave (W15) prereg reference band",
+      "workers_plan": {
+        "workers": "worker_cap() pool BelowNormal",
+        "priority": "BelowNormal",
+        "note": "generation leg = CPU-light census build, W2-W13 machinery precedent; eighteen-tuple axis grid 1,693,052,928 combos (W13 282,175,488 x6: RESI 2-value x CNT 3-value adjudicated member set), 10,000-draw Sobol per candidate sec.3 (O-1132 expansion)"
+      },
+      "data_gates": "runner fail-closed if frozen prereg absent or grammar sha mismatch vs registry (exit 2 honest); append-only grammar registry, same-grammar rerun refused; evidence_cutoff=2026-09-22 (P-5C binding); G-RESI/G-CNT runner door asserts probe anchor faces resi60 decidable 3363/open 390/first-decidable 120 + cntd5 3364/137/119 + cntn20 3364/265/119 per frozen sec.3 (three-probe closure: bm-b r470 facts + r471 supplement facts + bm-c r277 gap facts, twin cross-val 39/39 byte-level)",
+      "note": "runner LANDED bm-b r472 (dead r472-session half-work adopted wholesale per r471 attrition law + Slice-B completed: selftest 53/53 incl. W14 own faces [eighteen-tuple grammar 1,693,052,928 / resi+cnt stream append zero disturbance / 28-source exclusion loader / G-RESI+G-CNT real-face fail-closed anchors / mask+engine parity vs W9+W13 / screen CSV contract resi/cnt columns]; three-command identity first-runs real-data rc=2 honest [screen-prep ALL gates PASS + candidates-absent tail refusal; screen-finalize generate-pending refusal; judge-prep screen-absent refusal]; grammar sha16 a231bf10940e7878 pinned at w14_grammar.json serialization)",
+      "status": "waiting",
+      "shards": [
+        {
+          "key": "generate-0of1",
+          "status": "waiting",
+          "checkpoint": "results/trial_labor_w14/w14_candidates.json (single-shot product = completion marker; refuse-if-exists guard)",
+          "owner": "bm-b",
+          "owner_since": "2026-09-30 18:10:04",
+          "park_note": "parked pre-burn: w14_candidates.json absent = zero generate burn, trial-gate consumption N=0 (CEO anti-waste law FB-004 honored)"
+        }
+      ],
+      "entered_at": "2026-09-30 17:48:17",
+      "entered_by": "bm-b",
+      "worker_class": "self-contained",
+      "parked_per": "D-20260930-41 sec.1.2 confirm-type-timing ban (any-confirm-timing family) + MSG-20260930-1755-bma-ALL bm-a r483 adjudication; receipt bm-b r473",
+      "parked_at": "2026-09-30T18:1x+08:00",
+      "unfreeze_gate": "research/RETAIL_QUANT_TRACK.md sec.4 gates (trial-budget attribution, <=500/30d) + sec.1.2 compliance self-proof; berth+drafts archived intact (probe facts not invalidated clause)"
     }
   ],
   "lane_machine": "bm-c"
