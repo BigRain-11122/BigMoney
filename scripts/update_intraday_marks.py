@@ -16,6 +16,16 @@ fund_etf_spot_ths; push2 family (fund_etf_spot_em) is day-blocked and
 NEVER tried first. Conn failures -> 3 attempts, then exit 2 honest
 (no partial write, no silent pop).
 
+D-20260930-27 P0 fix (zero-price marking, 2026-09-30): a held symbol
+whose live quote row exists but carries last<=0 (e.g. 513100 QDII face
+glitch 09-30 09:35) used to write mark=0.00/market_value=null and was
+SILENTLY wiped out of equity_mark. Forbidden: fallback chain
+live>0 -> state last_close -> local daily panel close; only a symbol
+with no price on ANY face is "unpriced" (explicit flag + equity
+isolation + per-trader unpriced_symbols disclosure). Machine check
+before write: a held symbol with a local daily close on disk carrying
+mark<=0/None = mechanism violation -> exit 2, tick NOT written.
+
 Gates (script-side, safe under any scheduler cadence):
   - non-workday OR before 09:30 OR after 15:10 -> legal no-op exit 0
   - 09:30 <= now < 15:00 -> intraday tick
@@ -72,6 +82,34 @@ def _norm_code(raw: str) -> str:
         if s.startswith(p):
             return s[len(p):]
     return s
+
+
+DAILY_DIR = os.path.join(PATHS.data_dir, "daily")
+
+
+def _local_last_close(sym: str, daily_dir: str | None = None) -> float | None:
+    """Last valid close from the local daily panel (second source face,
+    D-20260930-27). Reads data/daily/<code>.csv bottom-up; returns None
+    when the file is missing or holds no positive close."""
+    path = os.path.join(daily_dir or DAILY_DIR, f"{sym}.csv")
+    if not os.path.exists(path):
+        return None
+    try:
+        with open(path, encoding="utf-8") as fh:
+            lines = [ln for ln in fh.read().splitlines() if ln.strip()]
+        for ln in reversed(lines):
+            cells = ln.split(",")
+            if len(cells) < 5:
+                continue
+            try:
+                c = float(cells[4])
+            except ValueError:
+                continue
+            if c > 0:
+                return c
+        return None
+    except OSError:
+        return None
 
 
 def _fetch_spot() -> tuple[dict, dict]:
@@ -183,29 +221,47 @@ def _settle_done(marks_path: str) -> bool:
 
 
 def _compose(states: dict, quotes: dict, now: dt.datetime, kind: str,
-             meta: dict) -> dict:
+             meta: dict, daily_dir: str | None = None) -> dict:
     traders_out = {}
     for tid, st in states.items():
         cap = st["capital"]
         cash = float((cap or {}).get("cash_cny") or 0.0)
-        poss, mv_total = [], 0.0
+        poss, mv_total, unpriced = [], 0.0, []
         for p in st["positions"]:
             sym = p["symbol"]
             q = quotes.get(sym)
-            mark = q["last"] if q else p.get("last_close")
+            # D-20260930-27 P0: a zero/missing live price must NEVER
+            # silently zero the position out of equity. Fallback chain:
+            # valid live quote -> state last_close -> local daily panel
+            # close; only a symbol priced on NO face is unpriced
+            # (explicit flag + isolation + disclosure, never a fake 0).
+            live = float((q or {}).get("last") or 0.0)
+            if live > 0:
+                mark, src = live, "live"
+            elif (p.get("last_close") or 0) > 0:
+                mark, src = float(p["last_close"]), "last_close"
+            else:
+                lc = _local_last_close(sym, daily_dir)
+                if lc:
+                    mark, src = lc, "local_daily"
+                else:
+                    mark, src = None, "unpriced"
             mv = round(p["quantity"] * mark, 2) if mark else None
             if mv:
                 mv_total += mv
+            else:
+                unpriced.append(sym)
             poss.append({
                 "symbol": sym, "quantity": p["quantity"],
                 "cost_price": p["cost_price"],
                 "session_open": (q or {}).get("open"),
                 "mark": mark,
+                "mark_source": src,
                 "market_value_cny": mv,
                 "unrealized_pnl_cny":
                     round((mark - p["cost_price"]) * p["quantity"], 2)
                     if mark else None,
-                "marked": bool(q),
+                "marked": live > 0,
             })
         traders_out[tid] = {
             "cash_cny": round(cash, 2),
@@ -213,6 +269,11 @@ def _compose(states: dict, quotes: dict, now: dt.datetime, kind: str,
             "equity_mark_cny": round(cash + mv_total, 2),
             "state_cutoff": st["cutoff"],
         }
+        # D-20260930-27: unpriced positions are isolated from equity AND
+        # disclosed -- an equity face that silently excludes a held
+        # position's market value is forbidden.
+        if unpriced:
+            traders_out[tid]["unpriced_symbols"] = unpriced
         # T-35 d2-c (O-2045 s2.1): pending entries queued at the prior
         # close fill at THIS session's 09:30 open; the position is not in
         # state yet, so record the real session open per pending symbol
@@ -230,6 +291,20 @@ def _compose(states: dict, quotes: dict, now: dt.datetime, kind: str,
             "date": now.strftime("%Y-%m-%d"),
             "kind": kind, "source": meta["source"],
             "source_rows": meta["rows"], "traders": traders_out}
+
+
+def _check_no_silent_zero(line: dict, daily_dir: str | None = None) -> list:
+    """D-20260930-27 machine check: a held symbol with a local daily
+    close on disk must never carry mark<=0/None in a written tick.
+    Returns the violation list (empty = clean)."""
+    viol = []
+    for tid, t in (line.get("traders") or {}).items():
+        for pos in t.get("positions") or []:
+            m = pos.get("mark")
+            if m is None or float(m) <= 0:
+                if _local_last_close(str(pos.get("symbol", "")), daily_dir):
+                    viol.append(f"{tid}:{pos.get('symbol')}")
+    return viol
 
 
 def run(force: bool = False) -> int:
@@ -258,6 +333,12 @@ def run(force: bool = False) -> int:
     os.makedirs(MARKS_DIR, exist_ok=True)
     marks_path = os.path.join(MARKS_DIR, f"marks-{now:%Y%m%d}.jsonl")
     line = _compose(states, quotes, now, kind, meta)
+    viol = _check_no_silent_zero(line)
+    if viol:
+        print(f"intraday_marks: MACHINE-CHECK VIOLATION (local daily quote "
+              f"on disk but zero/None mark, D-20260930-27): {viol} -- "
+              "tick NOT written")
+        return 2
     with open(marks_path, "a", encoding="utf-8") as fh:
         fh.write(json.dumps(line, ensure_ascii=False) + "\n")
     n_marked = sum(1 for t in states.values() for p in t["positions"])
@@ -291,7 +372,8 @@ def _selftest() -> bool:
     ok &= tx["positions"][0]["unrealized_pnl_cny"] == 200.0
     ok &= tx["equity_mark_cny"] == 964200.0
     ok &= tx["positions"][0]["session_open"] == 4.1
-    # S4: unmarked symbol falls back to last close (never fabricated)
+    # S4: symbol priced on NO face -> unpriced isolation + disclosure
+    # (never fabricated; D-20260930-27 forbids silent equity wipe)
     states2 = {"T-X": {"positions": [
                    {"symbol": "999999", "quantity": 10.0,
                     "cost_price": 1.0, "hold_days": 1}],
@@ -300,6 +382,53 @@ def _selftest() -> bool:
                      "intraday", {"source": "x", "rows": 1})
     ok &= line2["traders"]["T-X"]["positions"][0]["marked"] is False
     ok &= line2["traders"]["T-X"]["equity_mark_cny"] == 0.0
+    ok &= line2["traders"]["T-X"].get("unpriced_symbols") == ["999999"]
+    # S7 (D-20260930-27 P0 regression): live row present but last==0
+    # (the 09-30 09:35 513100 face) must fall back to state last_close,
+    # never write mark=0 and never wipe the position out of equity.
+    states4 = {"T-X": {"positions": [
+                   {"symbol": "513100", "quantity": 1000.0,
+                    "cost_price": 2.3, "last_close": 2.324, "hold_days": 1}],
+               "capital": {"cash_cny": 100.0}, "cutoff": "2026-09-30"}}
+    q0 = {"513100": {"last": 0.0, "open": 2.3, "prev_close": 2.324,
+                     "high": 0.0, "low": 0.0}}
+    line4 = _compose(states4, q0, dt.datetime(2026, 9, 30, 10, 0),
+                     "intraday", {"source": "x", "rows": 1})
+    p4 = line4["traders"]["T-X"]["positions"][0]
+    ok &= p4["mark"] == 2.324 and p4["mark_source"] == "last_close"
+    ok &= p4["marked"] is False
+    ok &= p4["market_value_cny"] == 2324.0
+    ok &= line4["traders"]["T-X"]["equity_mark_cny"] == 2424.0
+    ok &= "unpriced_symbols" not in line4["traders"]["T-X"]
+    # S8: no live quote, no state last_close -> local daily panel fallback
+    import tempfile, shutil
+    tmpd = tempfile.mkdtemp(prefix="marks_p0_")
+    try:
+        with open(os.path.join(tmpd, "777777.csv"), "w",
+                  encoding="utf-8") as fh:
+            fh.write("date,open,high,low,close,vol,amt\n")
+            fh.write("2026-09-29,2.2,2.3,2.1,2.25,100,200\n")
+        ok &= _local_last_close("777777", daily_dir=tmpd) == 2.25
+        ok &= _local_last_close("000000", daily_dir=tmpd) is None
+        states5 = {"T-X": {"positions": [
+                       {"symbol": "777777", "quantity": 100.0,
+                        "cost_price": 2.0, "hold_days": 1}],
+                   "capital": {"cash_cny": 0.0}, "cutoff": "2026-09-30"}}
+        line5 = _compose(states5, {}, dt.datetime(2026, 9, 30, 10, 0),
+                         "intraday", {"source": "x", "rows": 1},
+                         daily_dir=tmpd)
+        p5 = line5["traders"]["T-X"]["positions"][0]
+        ok &= p5["mark"] == 2.25 and p5["mark_source"] == "local_daily"
+        ok &= p5["market_value_cny"] == 225.0
+        # S9 (machine check): held symbol with a local daily close but a
+        # zero/None mark = violation (tick must not be written).
+        bad = {"traders": {"T-X": {"positions": [
+            {"symbol": "777777", "mark": 0.0, "market_value_cny": None}]}}}
+        ok &= _check_no_silent_zero(bad, daily_dir=tmpd) == ["T-X:777777"]
+        ok &= _check_no_silent_zero(line5, daily_dir=tmpd) == []
+        ok &= _check_no_silent_zero(line4, daily_dir=tmpd) == []
+    finally:
+        shutil.rmtree(tmpd, ignore_errors=True)
     # S6 (T-35 d2-c): pending_watch -- pending-entry symbols capture the
     # session open even though the position is not in state yet; symbols
     # without a live open quote are omitted (never fabricated); no
