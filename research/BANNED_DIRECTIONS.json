@@ -1,0 +1,87 @@
+{
+  "version": "v1.0",
+  "date": "2026-09-30",
+  "authority": "D-20260930-41 section 1.2 / docs/audits/retail-quant-conclusions-v2-20260930.md section 3",
+  "purpose": "Machine-readable registry of FALSIFIED research directions. Any preregistration whose mechanism section claims one of these without new data or a new mechanism argument is NOT ADMITTED (fail-closed).",
+  "usage": "python Tools/banned_direction_gate.py --prereg <path>  -> exit 0 ADMIT, exit 1 REJECT (fail-closed)",
+  "exception_clause": "A rejected direction may be re-admitted ONLY with (a) new data the original falsification lacked, or (b) a NEW mechanism argument not covered by the original falsification. The prereg must state which, and cite the original falsification id.",
+  "directions": [
+    {
+      "id": "BAN-01",
+      "name": "ETF cross-sectional momentum",
+      "patterns": ["横截面.{0,6}动量", "cross.?section.{0,10}momentum", "ETF.{0,8}动量排序", "强者恒强.{0,8}(ETF|池)"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "annual -7.65%, max drawdown -55.1%, 31 names weekly",
+      "reason": "cross-section too narrow; A-share chasing strength has negative expectancy"
+    },
+    {
+      "id": "BAN-02",
+      "name": "ETF cross-sectional reversal",
+      "patterns": ["横截面.{0,6}反转", "cross.?section.{0,10}reversal", "ETF.{0,8}反转排序"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "annual -2.81%, max drawdown -28.7%; with no-trade band -2.05% and turnover rose to 20.6x",
+      "reason": "narrow cross-section only shuffles noise; cost exceeds signal"
+    },
+    {
+      "id": "BAN-03",
+      "name": "Single-name timing reversal or momentum at 5/10/20 days",
+      "patterns": ["1.?15\\s*天", "5.?20\\s*日.{0,8}(反转|动量)", "日内", "intraday", "短线.{0,6}(反转|动量)"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "annual -2.7% to +2.8%, win rate 45-51% across the full grid (18 combinations)",
+      "reason": "no positive expectancy on ETFs after cost at short horizons"
+    },
+    {
+      "id": "BAN-04",
+      "name": "Grid trading",
+      "patterns": ["网格", "grid\\s*trad", "网格化"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "SSE50 +11.9% excess but gold ETF opportunity cost -142.0%; securities ETF -9.2%",
+      "reason": "grid sells volatility and loses trends; target selection is the whole problem"
+    },
+    {
+      "id": "BAN-05",
+      "name": "Market-temperature / breadth timing as a precondition",
+      "patterns": ["水温", "广度.{0,6}(择时|闸|前置)", "breadth.{0,10}tim", "涨跌家数"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "all worse than no precondition: base 14.80% -> 3.46% (breadth>0.5) / 5.18% (breadth>0.3) / 6.92% (EW>MA200); 58.1% idle",
+      "reason": "the low-amount signal is contrarian; any confirmation filter deletes it"
+    },
+    {
+      "id": "BAN-06",
+      "name": "Stock-level confirmation preconditions (above MA20, prior 20d positive)",
+      "patterns": ["站上\\s*MA", "均线确认", "MA20.{0,8}(确认|过滤|前置)", "前\\s*20\\s*日.{0,6}为正"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "above-MA20 turned +14.80% into -0.91%; prior-20d-positive gave 1.58%",
+      "reason": "confirmation is the same action as deleting the signal"
+    },
+    {
+      "id": "BAN-07",
+      "name": "Small-cap / low-price factor",
+      "patterns": ["小市值", "small.?cap", "低价(因|股|选)", "low.?price.{0,10}factor"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "26.80% at >=50m ADV collapses to 0.80% at >=1bn and 0.40% at >=2bn",
+      "reason": "artefact of small-cap plus survivorship; the panel contains zero delisted names"
+    },
+    {
+      "id": "BAN-08",
+      "name": "Buffer zones / trade bands used to cut turnover",
+      "patterns": ["缓冲", "buffer", "无交易带", "no.?trade.?band"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "buffer+10 held 14.87% but turnover stayed 29.7x; buffer+20 collapsed to 10.74% with -41.5% drawdown",
+      "reason": "the low-amount signal decays too fast; turnover cannot be compressed without losing the edge"
+    },
+    {
+      "id": "BAN-09",
+      "name": "Style persistence / chasing the prior year's winning style",
+      "patterns": ["风格延续", "追(上年|去年).{0,4}最强", "style.{0,10}persist", "风格轮动押注"],
+      "falsified_by": "docs/audits/retail-quant-conclusions-v2-20260930.md#3",
+      "measured": "in 4 of 6 years the prior year's strongest style ranked in the bottom half the next year; 2020 healthcare +86% -> 2021 -74.2%",
+      "reason": "style persistence does not exist in this market; styles may be diversified but not bet on"
+    }
+  ],
+  "required_fields_in_prereg_on_match": [
+    "which exception applies: new_data or new_mechanism",
+    "citation of the original falsification id (BAN-xx)",
+    "what the original falsification could not have seen"
+  ]
+}

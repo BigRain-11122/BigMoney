@@ -1,0 +1,16 @@
+{
+ "remote_track_ban_hits": [
+  "r483）**：W14 双候选稿（bm-c r276 RESICNT 正典稿 + bm-b r470 RESI_CNTD 让路稿）= **确认型择时族**（RESI 趋势延伸位置门 + CNTD 阳线密度门）——落入 ORDER §1.2 禁开面（「任何确认型择时」·§5 明禁）；且 raw 10,000 抽样将直接击穿 §6-C 试验量闸（≤500/30 天）。**裁定=双稿停泊（PARKED·档存不删）**：起草泊位保持开放条款但供给优先级让位于本轨道五件事；任何机器拟解冻 W14 须先过本正典 §四闸（试验预算归因 + §1.2 合规自证）。泊位持有机已 MSG 通知。TRIAL_LABOR_LAW §1 常供律\"禁空转\"精神不变——供给能量整体转轨至下表五件事，非停工。\n\n## 二、只回测五件事（优先级即顺序·令原文 §2）\n\n| # | 事"
+ ],
+ "remote_track_len": 4842,
+ "local_track_len": 4161,
+ "template_s05": "§0.5 禁开方向硬闸【必填·跑前·D-20260930-41 §1.2】\n\n- **跑前必须过闸**：`python Tools/banned_direction_gate.py --prereg research/<BATCH_ID>.md`\n  - 退出 0 = 放行；**退出 1 = 不受理**（fail-closed）。\n- **命中已证伪九方向**（登记表 `research/BANNED_DIRECTIONS.json`）时，**必须**在本节写明：\n  - 命中编号：BAN-__\n  - 例外类型：`new_data`（原否证时没有的数据）或 `new_mechanism`（原否证未覆盖的机制）\n  - **原否证不可能看见的东西**：____________\n- **未补例外 = 判不受理**；已烧格数计入浪费台账。\n- 理由：该司 362,083 次试验 0 过门，主因是算力反复投入已被证伪的方向。\n\n## §1 α 机制段【必填·D6——无机制段=批不受理】\n\n四选一（勾选）+ 一句话论证（为什么该信号在该品种上**应该**有超额、由谁付出代价）：\n\n- [ ] **风险溢价**：持有不适风险/流动性风险/行为风险的补偿——论证：\n- [ ] **行为偏差**：锚定/处置效应/追涨杀跌/注意力稀缺等可命名偏差——论证：\n- [ ] **结构性**：指数调样/申赎机制/涨跌停制度/披露时滞等结构摩擦——论证：\n- [ ] **微观结构**：买卖价差/成交约束/订单流不平衡——论证：\n\n**散户凭什么赢【§1.2·D-20260930-41·必填】**：一句话",
+ "usage_line": "tools/banned-direction-gate.ps1 -Prereg <path>  -> exit 0 ADMIT, exit 1 REJECT",
+ "required_fields": [
+  "which exception applies: new_data or new_mechanism",
+  "citation of the original falsification id (BAN-xx)",
+  "what the original falsification could not have seen"
+ ],
+ "remote_template_has_s05": false,
+ "remote_template_len": 5495
+}

@@ -1,0 +1,71 @@
+{
+ "tool": "Tools/banned_direction_gate.py selftest",
+ "round": "r491 bm-a (T-129 D-41 gate landing, r471 adoption)",
+ "legs": [
+  {
+   "leg": "S1_clean_admit",
+   "expect": 0,
+   "exit": 0,
+   "ok": true,
+   "decision": "ADMIT",
+   "reason": "no banned direction claimed"
+  },
+  {
+   "leg": "S2_banned_no_s05_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "decision": "REJECT",
+   "reason": "banned directions claimed but prereg has no section-0.5 exception block"
+  },
+  {
+   "leg": "S3_banned_full_exception_admit",
+   "expect": 0,
+   "exit": 0,
+   "ok": true,
+   "decision": "ADMIT",
+   "reason": "banned directions claimed WITH complete section-0.5 exception (new_data); scientific validity of the exception"
+  },
+  {
+   "leg": "S4_placeholder_statement_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "decision": "REJECT",
+   "reason": "section-0.5 exception incomplete: what-the-original-falsification-could-not-see statement"
+  },
+  {
+   "leg": "S5_missing_registry_failclosed",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "decision": "REJECT",
+   "reason": "registry unreadable: [Errno 2] No such file or directory: 'Z:/nope.json'"
+  },
+  {
+   "leg": "S6_missing_prereg_failclosed",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "decision": "REJECT",
+   "reason": "prereg unreadable: [Errno 2] No such file or directory: 'C:\\\\Users\\\\sjs20\\\\AppData\\\\Local\\\\Temp\\\\tmphln79wib\\\\"
+  },
+  {
+   "leg": "S7_wrong_id_citation_reject",
+   "expect": 1,
+   "exit": 1,
+   "ok": true,
+   "decision": "REJECT",
+   "reason": "section-0.5 exception incomplete: citation for matched ids: BAN-04"
+  },
+  {
+   "leg": "S8_s05_mention_only_admit",
+   "expect": 0,
+   "exit": 0,
+   "ok": true,
+   "decision": "ADMIT",
+   "reason": "no banned direction claimed"
+  }
+ ],
+ "all_pass": true
+}

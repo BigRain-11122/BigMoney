@@ -12,60 +12,65 @@
       "max_dd": true
     },
     "got": {
-      "full_sharpe": 0.335,
-      "oos_sharpe": 0.4749,
-      "x2_full_sharpe": 0.1513,
-      "n_trades": 115,
-      "oos_trades": 41,
-      "max_dd": -0.0455
+      "full_sharpe": 0.1417,
+      "oos_sharpe": 0.9148,
+      "x2_full_sharpe": 0.0095,
+      "n_trades": 109,
+      "oos_trades": 40,
+      "max_dd": -0.0743
     }
   },
   "evidence_cutoff": "2026-09-22",
-  "cutoff": "2026-09-29",
-  "updated": "2026-09-29 20:52:41",
+  "cutoff": "2026-09-30",
+  "updated": "2026-09-30 21:26:45",
   "paper_start": "2026-09-24",
-  "bars": 3,
+  "bars": 4,
   "months_tracked": 0,
   "monthly_returns": [],
   "current_dd": -0.0024,
   "months_detail": [
     {
       "month": "2026-09",
-      "return": -0.0009,
-      "bars": 3,
+      "return": -0.0011,
+      "bars": 4,
       "month_ended": false,
       "full_from_hire": false,
       "counted": false
     }
   ],
   "window_metrics": {
-    "annual_return": -0.0756,
-    "sharpe": -2.7015,
-    "max_drawdown": -0.0024,
     "win_rate": 0.0,
-    "profit_factor": 0.0,
     "num_trades": 1,
-    "avg_hold_days": 1.0,
+    "avg_hold_days": 2.0,
     "fill_guard_buy_dropped": 0,
     "fill_guard_sell_deferred_events": 0,
     "fill_guard_deferred_days_total": 0,
-    "fill_guard_first_deferred_date": null
+    "fill_guard_first_deferred_date": null,
+    "cn_one_word": {
+      "buy_dropped": 0,
+      "sell_deferred": 0,
+      "violations": 0
+    },
+    "status": "insufficient_data",
+    "bars": 4,
+    "floor": 20,
+    "note": "annualized/Sharpe-class stats suppressed (bars<20, D-20260930-27 Q3) -- must not be quoted"
   },
   "recorded_evidence": {
-    "recorded_full_sharpe": 0.335,
-    "recorded_oos_sharpe": 0.4749,
-    "recorded_x2_full_sharpe": 0.1513,
-    "recorded_n_trades": 115,
-    "recorded_oos_trades": 41,
-    "recorded_max_dd": -0.0455
+    "recorded_full_sharpe": 0.1417,
+    "recorded_oos_sharpe": 0.9148,
+    "recorded_x2_full_sharpe": 0.0095,
+    "recorded_n_trades": 109,
+    "recorded_oos_trades": 40,
+    "recorded_max_dd": -0.0743
   },
   "regime_guard": {
     "mode": "shadow",
     "state": "ORANGE",
     "state_cn": "橙·高危",
-    "asof": "2026-09-29",
+    "asof": "2026-09-30",
     "raw_level": "ORANGE",
-    "days_in_state": 3,
+    "days_in_state": 4,
     "note": "shadow = log-only; enforce needs calibration PASS + GM approval (T-05)"
   },
   "forward_guard": {

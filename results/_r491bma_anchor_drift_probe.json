@@ -1,0 +1,105 @@
+{
+ "round": "r491 bm-a anchor-drift diagnosis v2",
+ "PROS-ANTS-01": {
+  "checks": {
+   "full_sharpe": false,
+   "oos_sharpe": false,
+   "x2_full_sharpe": false,
+   "n_trades": false,
+   "oos_trades": false,
+   "max_dd": false
+  },
+  "got": {
+   "full_sharpe": -0.0086,
+   "oos_sharpe": 0.3455,
+   "x2_full_sharpe": -0.2533,
+   "n_trades": 181,
+   "oos_trades": 64,
+   "max_dd": -0.0756
+  },
+  "recorded": {
+   "recorded_full_sharpe": 0.2599,
+   "recorded_oos_sharpe": 0.6294,
+   "recorded_x2_full_sharpe": 0.0146,
+   "recorded_n_trades": 187,
+   "recorded_oos_trades": 66,
+   "recorded_max_dd": -0.0611
+  },
+  "params": {
+   "entry": "ants_climb()",
+   "trade_pnl_mode": "legacy",
+   "strict_open_fills": false
+  },
+  "replay_cutoff": "2026-09-22"
+ },
+ "PROS-DOJI-CE-01": {
+  "checks": {
+   "full_sharpe": true,
+   "oos_sharpe": false,
+   "x2_full_sharpe": true,
+   "n_trades": false,
+   "oos_trades": false,
+   "max_dd": false
+  },
+  "got": {
+   "full_sharpe": 0.244,
+   "oos_sharpe": 0.5113,
+   "x2_full_sharpe": 0.0525,
+   "n_trades": 396,
+   "oos_trades": 97,
+   "max_dd": -0.1642
+  },
+  "recorded": {
+   "recorded_full_sharpe": 0.2438,
+   "recorded_oos_sharpe": 0.4018,
+   "recorded_x2_full_sharpe": 0.0523,
+   "recorded_n_trades": 422,
+   "recorded_oos_trades": 105,
+   "recorded_max_dd": -0.1685
+  },
+  "params": {
+   "entry": "doji_at_low()",
+   "time_decay_period": 25,
+   "time_decay_threshold": 0.05,
+   "trailing_stop_activate": 0.1,
+   "trade_pnl_mode": "legacy",
+   "strict_open_fills": false
+  },
+  "replay_cutoff": "2026-09-22"
+ },
+ "PROS-TMU-CE-01": {
+  "checks": {
+   "full_sharpe": false,
+   "oos_sharpe": false,
+   "x2_full_sharpe": false,
+   "n_trades": true,
+   "oos_trades": true,
+   "max_dd": false
+  },
+  "got": {
+   "full_sharpe": -0.0925,
+   "oos_sharpe": -0.0777,
+   "x2_full_sharpe": -0.1744,
+   "n_trades": 49,
+   "oos_trades": 18,
+   "max_dd": -0.0436
+  },
+  "recorded": {
+   "recorded_full_sharpe": 0.0945,
+   "recorded_oos_sharpe": 0.5009,
+   "recorded_x2_full_sharpe": 0.0143,
+   "recorded_n_trades": 49,
+   "recorded_oos_trades": 18,
+   "recorded_max_dd": -0.0383
+  },
+  "params": {
+   "entry": "three_methods_up()",
+   "time_decay_period": 25,
+   "time_decay_threshold": 0.05,
+   "trailing_stop_activate": 0.1,
+   "trade_pnl_mode": "legacy",
+   "strict_open_fills": false
+  },
+  "replay_cutoff": "2026-09-22"
+ }
+}
