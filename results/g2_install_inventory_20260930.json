@@ -1,0 +1,39 @@
+{
+  "artifact": "G2 mine install + inventory (post-install count)",
+  "order_ref": "O-20260930-2054 sec.1 item-1 (G2 mine-source install) + O-20260930-1858 sec.2.c + GITHUB_MINING_SUPPLY_G2.md sec.4.1",
+  "executed_by": "bm-a r492",
+  "executed_at": "2026-09-30T21:45..22:0x+08:00",
+  "install_root": "quant/toolstack/repos/ (master-repo gitignored space, zero git disturbance)",
+  "anchors": {
+    "M1_Vibe-Trading": "HEAD 18027a0c2b97bd41ac38a0e269799e485bb457d3 (ls-remote 2026-09-30 21:4x; G1 anchor 9a27a6e superseded by upstream HEAD, shallow depth-1 clone)",
+    "M2_Guotai-Jununan-191-Alpha": "HEAD 0735c4eaf7ebb9a571bc6acd5d963ebb4e13ba06 (ls-remote verified)",
+    "M3_Multi-factor-Model-for-Stock-Selection": "HEAD ad6927bce30f04f6dea5bc214c209d36ef22ac40 (ls-remote verified)"
+  },
+  "inventory_honest_per_g2_negative_plan": {
+    "M1_Vibe-Trading": {
+      "claimed_factors": 452,
+      "installed_reality": "292 alpha_NNN.py files under agent/src/factors + ~20 named academic factor modules (bab/carhart_mom/cma/corr_rewire/high52w/hml/illiq/mkt_rf/retskew/rmw/smb/strev + bench/compare runners) ~= 312 factor faces",
+      "verdict": "installed >= 100 floor -> NO downgrade; claim 452 vs counted ~312 factor files -> factor-count claim NOT confirmed verbatim, census must count by formula not by file",
+      "extras": "full framework: agent (multi-agent research), 7 backtest engines per G1, MCP tools, desktop/frontend, wiki"
+    },
+    "M2_Guotai-Jununan-191-Alpha": {
+      "claimed_factors": 191,
+      "installed_reality": "0 executable factors -- repo is documentation-grade: README.md + 2 PDFs (101 Formulaic Alphas paper + GTJA 2017-06 research report) + placeholder file 'files/123'; 4 files total",
+      "verdict": "claim 191 = paper-universe claim, NOT code -> per G2 negative-plan honest downgrade: M2 = material-grade PDF primary source (191 formulas live in the research-report PDF as extraction source; NOT a directly loadable factor library)"
+    },
+    "M3_Multi-factor-Model-for-Stock-Selection": {
+      "claimed_factors": 101,
+      "installed_reality": "16 implemented alphas (docstring-implemented list: Alpha#1/3/6/12/21/38/40/41/42/54/72/88/94/98/101 + Alpha_5_day_reversal) in src/alphas.py + full A-share pipeline (data_preparation_main, preprocessor, ic_analyzer, factor_combiner, lgbm_model, backtester)",
+      "verdict": "claim 101 = paper universe -> installed subset 16 -> honest downgrade; pipeline itself is the A-share data-cleaning asset per G2 M3 consumer plan"
+    }
+  },
+  "overlap_census_face": {
+    "status": "NOT-RUN this round -- census is a preregistered cheap-census-gate burn (gate_census 98s precedent), formula-level dedup vs in-repo adjudicated families (A158 census verdicts / W1-W13 closed families / O-1522 style families)",
+    "next_step": "draft G2_OVERLAP_CENSUS prereg (cheap census gate paradigm) then burn; high-priority collision face per G2 M3 note: Alpha101 vs Alpha158 lineage overlap check FIRST"
+  },
+  "evidence": {
+    "clone_log": "results/g2_install_20260930.log",
+    "first_detached_attempt": "silent no-op (quote-swallow in Start-Process), retried foreground same round -- honest note"
+  },
+  "marks": "+0 accounts / +0 SEED / zero engine / zero admission faces touched; pure supply-install face"
+}
