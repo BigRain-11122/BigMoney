@@ -1,0 +1,96 @@
+{
+ "probe": "EXCLUSION-MARGINAL-P1 data anchors",
+ "evidence_cutoff": "2026-09-22",
+ "anchor_faces": {
+  "panel": {
+   "path": "data/astock_daily/per/<code>.csv",
+   "loader": "pandas.read_csv",
+   "start": "per-file first date (1991-04-03 oldest实证)",
+   "warmup": "amt20_mean min_periods=20; age250 rule needs 250 bars"
+  },
+  "eligibility": {
+   "path": "data/fundamental/eligibility.csv",
+   "loader": "firm.risk.b_layer_filter.load_eligibility",
+   "start": "snapshot (24h refresh, update_fundamental.py)",
+   "warmup": "static mask, none"
+  },
+  "b_layer_mask": {
+   "path": "data/fundamental/b_layer_mask.csv",
+   "loader": "firm.risk.b_layer_filter.load_mask",
+   "start": "snapshot (regenerated per eligibility refresh)",
+   "warmup": "static mask, none"
+  }
+ },
+ "panel_files": 5217,
+ "eligibility_codes": 5229,
+ "cells": [
+  "FULL",
+  "NONE",
+  "LOO-r1_loss",
+  "LOO-r2_st",
+  "LOO-l1_liq5000w",
+  "LOO-l2_price1y",
+  "LOO-l3_age250",
+  "LOO-l4_active10td",
+  "AOI-r1_loss",
+  "AOI-r2_st",
+  "AOI-l1_liq5000w",
+  "AOI-l2_price1y",
+  "AOI-l3_age250",
+  "AOI-l4_active10td",
+  "RAND-FULL",
+  "RAND-NONE"
+ ],
+ "n_cells": 16,
+ "rules": [
+  "r1_loss",
+  "r2_st",
+  "l1_liq5000w",
+  "l2_price1y",
+  "l3_age250",
+  "l4_active10td"
+ ],
+ "base_params": {
+  "rank_face": "amt20_mean asc (low-amount first)",
+  "n_holdings": 10,
+  "weighting": "equal",
+  "rebalance": "monthly (month-end signal, next trading day open execution, T+1)",
+  "initial_capital_cny": 1000000,
+  "window_first_signal": "2007-01",
+  "allstart_jan_firsts": "2007..2022 (16 starts)",
+  "cost_face": "V2 stock: knowledge/rules.py fee_schedule_for + ADV20 3-layer slippage"
+ },
+ "sample_anchors": {
+  "000001": {
+   "rows_total": 8445,
+   "rows_to_cutoff": 8441,
+   "first": "1991-04-03",
+   "last": "2026-09-29",
+   "amt20_first_valid_idx": 19,
+   "sha16": "ce697f967e138fdc"
+  },
+  "301203": {
+   "rows_total": 847,
+   "rows_to_cutoff": 843,
+   "first": "2023-04-04",
+   "last": "2026-09-29",
+   "amt20_first_valid_idx": 19,
+   "sha16": "a98a263986b312bc"
+  },
+  "688981": {
+   "rows_total": 1501,
+   "rows_to_cutoff": 1497,
+   "first": "2020-07-16",
+   "last": "2026-09-29",
+   "amt20_first_valid_idx": 19,
+   "sha16": "9c2e3a2afc4ccc28"
+  }
+ },
+ "mask_reason_counts": {
+  "r1_loss": 1506,
+  "r1_loss+r2_st": 172,
+  "r2_st": 27
+ },
+ "mask_total": 5222,
+ "cost_spec_face": "see knowledge/cost_spec.py"
+}

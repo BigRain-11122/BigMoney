@@ -16,7 +16,7 @@
 |---|---|---|---|
 | 1 | **跨起点+滚动窗口稳健性检验**（对两条站立结论：四资产配置 5.87%/−14.4%/71%、低量选股 14.80%/8-10 年胜——后者单起点缺陷令原文点名**须补验**；判据=多数起点成立才留，否则**撤回**） | 待办·下一片 | `research/CROSS_START_ROBUSTNESS.md`（开烧前走 PREREG_TEMPLATE 冻结） |
 | 2 | **配置政策扫描**（权重区间×再平衡规则；唯一"可赢/容量无限/不拥挤"维度；判据=滚动 5 年最差为正+一年内见 −20% 概率+起点敏感度） | **✅ 已落地 r474（bm-b）** | `research/ALLOCATION_POLICY_SCAN.md`（冻结+烧毕：**277/300** 格过判，302 试验入闸；失败格全集中 s≥0.5∩纯债袖边际负；全起点中位 2.6~12.8%、worst10y 全正、p_dd20 全网格 ≤9.7% vs 纯股基线 38.5%；产物=results/allocation_policy_scan/ 三件） |
-| 3 | **排除规则边际值扫描**（"排除"是机构因仓位要求做不到的动作；第一铁律已实测 alpha 5.63%→14.80%） | 待办 | `research/EXCLUSION_MARGINAL.md` |
+| 3 | **排除规则边际值扫描**（"排除"是机构因仓位要求做不到的动作；第一铁律已实测 alpha 5.63%→14.80%） | **🔒 冻结待烧（bm-b r475·F-04 MSG 20260930-1935）** | `research/EXCLUSION_MARGINAL.md`＋预注册 `research/EXCLUSION_MARGINAL_PREREG.md`（16 格 LOO+AOI 双面+RAND null；烧批 +16 试验） |
 | 4 | **成本-换手-税一体化核算** | **✅ 已落地 r483** | `research/ACCOUNT_COST_TRADE_TAX.md` + `scripts/account_cost_tax.py`（selftest 15/15）+ `results/account_cost_tax.json` |
 | 5 | **行为护栏制度化**（−7.43%/年行为损耗=最大单项漏损；定投/阈值再平衡/年度评估/放弃条件存档） | 待办 | `research/BEHAVIOR_GUARDRAILS.md` |
 
