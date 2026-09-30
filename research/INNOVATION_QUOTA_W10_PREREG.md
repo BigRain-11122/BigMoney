@@ -80,11 +80,22 @@ results/innovation_quota/PREMIUM-SENT-P1.json（含 evidence_cutoff 顶层键=sc
 
 ## §7 跑后实证。【跑前必须为空——占位纪律：写数字即造假。】
 
-（收割轮回填占位）
+- **判定时点**：2026-09-30 11:31:17 verdict 落地（autofill 认领 11:31:01 pid 26812 → runner `scripts/innovation_quota_w10.py` 烧毕·r450 landed-state guard 防双烧在案）；正典=**results/innovation_quota/PREMIUM-SENT-P1.json**。
+- **批面**：4 判定格 {HOT,COLD}×{h20,h5} + 2,000 occupancy-matched null（**BATCH_CELLS=2004**·s0 计数律）；seed 20326500 单共享 k-流（W5/W9 律）；面板 2020-01-02..2026-09-24（1,633 日·状态 1,514 可判自 2020-07-03·hot 153/cold 146 日·P-5C 锁盒增量段 0 行如实）。
+- **门读数（h20 主判面·反窗口挑选律预冻结）**：HOT-H20 **V1 FAIL ∧ V2 FAIL**（V3 pass）→ 尾败；COLD-H20 **V1 FAIL**（spread +0.676pp vs null-band 0.747pp·差 0.07pp）∧ V2 pass ∧ V3 pass → 尾败；**passing_tails=[] → judged-negative 族关单（W1-W10 十连判负）**。h5 副格 V1 pass（spread 0.488993pp ≥ 阈 0.410409pp）但**零族权重**（h20 主判预冻结·反窗口挑选律）。
+- **null 带读数**：mu +0.016302pp / sigma 0.212228pp / p5 −0.319859pp / p95 +0.370319pp / **p95_abs_spread 0.410409pp**（n=2,000·V1 阈披露面）。
+- **分窗稳定**：same_sign_rate **0.93**（n_splits=100）STABLE——超 §5-4 上修面。
+- **D6 面实测**：clause-eligible max|corr| **0.3683**（COLD vs #87 nhnl_breadth 族）< 0.7·合并条款零触发；vs 在册六 max 0.3079（argmax=ENGULF-CE-01）；vs T33 cells max 0.3358（dual_momentum COLD 面·点二列协议代跑）；批内 hot/cold −0.1095=同门 disjoint 尾结构互补非变体对（双尾独立烧·W9 同律注记在案）。
+- **§7-T 试验账**：trials_ledger 359,980 → **361,984**（+2,004 线性 append-verified·chain-consistent）；**N_eff=361,984**；evidence_cutoff=2026-09-29（cutoff_meta 合法键在 verdict 顶层）；损耗账行=**results/gate_attrition.bm-c.json**（烧批同窗已落·r266）。
+- **48h CEO 报面**：时钟自 verdict 落地起算——**2026-10-02 11:31 到期**。
 
 ## §8 批后复盘。【必填 §7-T。】
 
-（收割轮回填占位·预测对账+门禁链损耗账 results/gate_attrition.json 追加一行+判线当批读数）
+- **§5 预测对账**：①尾分离（COLD>HOT）——HOT 两格 V1/V2 全败=**兑现**；COLD-h20 V1 差 0.07pp 未过（预测过线概率 [0.4,0.7] 中档=区间内如实·差一线即十连判负主渠道）；批 judged-negative=整体 [0.2,0.5] 中低档**兑现**。②h5 留存——COLD-h5 spread 0.489pp≈h20 0.676pp 的 0.72×（预测 ~0.68 兑现；「折价出清修复启动快·短窗不衰减」主张成立·但零族权重不改变关单）。③D6 max 0.3683<0.7 零触发=**兑现**。④分窗 0.93 STABLE 超 ~0.5/~0.7 上修面——方向一致性比预期稳，但 V1 主门未过=稳定性救不了幅度。⑤极端日——harvest_column=1（收割窗逐日单列披露在 verdict extreme_segment_faces/incremental_segment 字段；2024 跨境炒作风段集中度未构成段敏感性红旗：V3 全窗同号）。
+- **判线当批读数**：IC 型路由输入面无 G1'/G2/DSR/PBO（无收益序列格可注册·judgment_note 在案）；判定走 V1/V2/V3 三门——V1=方向幅度 vs null p95_abs_spread（floor 0.02pp）、V2=null 极值校准、V3=OOS 留存——本批两尾主门皆 V1 阻断（IC 面判线=条件期望差带口径·O-1116 适配双列披露）。
+- **门禁链损耗账**：results/gate_attrition.bm-c.json 本批行已落（烧批同窗 r266·append-only 面）。
+- **族关单与重开注记（RANDOM_LARGE_SAMPLE_LAW s5）**：etf_premium_sentiment 族 judged-negative 关单——重开通道=①修复主张变体须换确认构造/政体条件化面并过 D6 corr 审计（vs #87 宽度族 −0.3683 高邻披露在案）②非 premium 载体的情绪面（如 cross-mean premium_adj 加速度/斜率面）③折价尾部与入场许可面（T-34 快线）的 A/B harness 面——任何重开须新预注册+负先验负担前置（十连判负族律）。
+- **诚实注记**：泊位窗勘误（cross-mean premium_z 数学退化→premium_adj 修正面）在 §0/§9 与 zoo #97 行在册；本批判定面=修正面构造·勘误零影响判定。0 幸存=诚实收线（W1-W10 十连判负族律下判负=预期主通道·合法产出）。
 
 ## §9 追加冻结节。【append-only·每 sub-wave 一冻——禁跑前另立冻结。】
 
