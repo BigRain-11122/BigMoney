@@ -1,0 +1,192 @@
+{
+  "caliber_sources": {
+    "face_a": "knowledge/cost_spec.py X1_RATE (frozen, ETF default)",
+    "grid_legacy": "cost_spec.GRID_LEGACY_COST_BP_X1 = 13.0bp (frozen historical)",
+    "routing": "knowledge/rules.py fee_schedule_for (CN-C1, r479)",
+    "v2_basis": "knowledge/rules.py cost_v2_slippage ADV20 tiers (frozen)"
+  },
+  "etf_face_a_flat": {
+    "round_trip_bp": 26.082,
+    "side_buy_bp": 13.041,
+    "side_sell_bp": 13.041,
+    "x2_stress_round_trip_bp": 52.164
+  },
+  "evidence_cutoff": "2026-09-29",
+  "five_members_v2_adv20": {
+    "510050": {
+      "adv20_yuan": 1490591078.9,
+      "panel_first": "2005-02-23",
+      "panel_last": "2026-09-29",
+      "panel_rows": 5252,
+      "t_plus": "T+1",
+      "v2_round_trip_bp": 10.082,
+      "v2_side_buy_bp": 5.041,
+      "v2_side_sell_bp": 5.041,
+      "v2_slippage_bp": 2.0
+    },
+    "510300": {
+      "adv20_yuan": 3172254974.05,
+      "panel_first": "2012-05-28",
+      "panel_last": "2026-09-29",
+      "panel_rows": 3487,
+      "t_plus": "T+1",
+      "v2_round_trip_bp": 10.082,
+      "v2_side_buy_bp": 5.041,
+      "v2_side_sell_bp": 5.041,
+      "v2_slippage_bp": 2.0
+    },
+    "510500": {
+      "adv20_yuan": 3007279057.4,
+      "panel_first": "2013-03-15",
+      "panel_last": "2026-09-29",
+      "panel_rows": 3290,
+      "t_plus": "T+1",
+      "v2_round_trip_bp": 10.082,
+      "v2_side_buy_bp": 5.041,
+      "v2_side_sell_bp": 5.041,
+      "v2_slippage_bp": 2.0
+    },
+    "512100": {
+      "adv20_yuan": 2650996905.0,
+      "panel_first": "2016-11-04",
+      "panel_last": "2026-09-29",
+      "panel_rows": 2406,
+      "t_plus": "T+1",
+      "v2_round_trip_bp": 10.082,
+      "v2_side_buy_bp": 5.041,
+      "v2_side_sell_bp": 5.041,
+      "v2_slippage_bp": 2.0
+    },
+    "588000": {
+      "adv20_yuan": 5878333840.8,
+      "panel_first": "2020-11-16",
+      "panel_last": "2026-09-29",
+      "panel_rows": 1426,
+      "t_plus": "T+1",
+      "v2_round_trip_bp": 10.082,
+      "v2_side_buy_bp": 5.041,
+      "v2_side_sell_bp": 5.041,
+      "v2_slippage_bp": 2.0
+    }
+  },
+  "min_commission_critical_ticket_yuan": 20000.0,
+  "min_commission_escalation": [
+    {
+      "etf_round_trip_bp": 41.082,
+      "etf_side_buy_bp": 20.541,
+      "stock_round_trip_bp": 46.282,
+      "stock_side_buy_bp": 20.641,
+      "ticket_yuan": 5000
+    },
+    {
+      "etf_round_trip_bp": 31.082,
+      "etf_side_buy_bp": 15.541,
+      "stock_round_trip_bp": 36.282,
+      "stock_side_buy_bp": 15.641,
+      "ticket_yuan": 10000
+    },
+    {
+      "etf_round_trip_bp": 26.082,
+      "etf_side_buy_bp": 13.041,
+      "stock_round_trip_bp": 31.282,
+      "stock_side_buy_bp": 13.141,
+      "ticket_yuan": 20000
+    },
+    {
+      "etf_round_trip_bp": 26.082,
+      "etf_side_buy_bp": 13.041,
+      "stock_round_trip_bp": 31.282,
+      "stock_side_buy_bp": 13.141,
+      "ticket_yuan": 50000
+    },
+    {
+      "etf_round_trip_bp": 26.082,
+      "etf_side_buy_bp": 13.041,
+      "stock_round_trip_bp": 31.282,
+      "stock_side_buy_bp": 13.141,
+      "ticket_yuan": 135000
+    },
+    {
+      "etf_round_trip_bp": 26.082,
+      "etf_side_buy_bp": 13.041,
+      "stock_round_trip_bp": 31.282,
+      "stock_side_buy_bp": 13.141,
+      "ticket_yuan": 1000000
+    }
+  ],
+  "order_ref": "D-20260930-41 deliverable #4",
+  "schema": "account_cost_tax_v1",
+  "search_accounting": {
+    "dsr": "N/A (L1 derivation, no backtest cells)",
+    "full_start_distribution": "N/A (no strategy conclusion claimed; robustness belongs to deliverable #1)",
+    "new_trials": 0,
+    "pbo": "N/A (L1 derivation, no backtest cells)"
+  },
+  "stock_cn_c1_routed": {
+    "note": "stamp 5bp sell-only + transfer 0.1bp both sides; stock conclusions inadmissible until engine fee_by_symbol wiring lands (r479 boundary)",
+    "ref_code": "600519",
+    "round_trip_bp": 31.282,
+    "side_buy_bp": 13.141,
+    "side_sell_bp": 18.141
+  },
+  "t0_etf_codes": [
+    "159920",
+    "159934",
+    "511010",
+    "511090",
+    "511260",
+    "511880",
+    "511990",
+    "513050",
+    "513100",
+    "513180",
+    "513500",
+    "513520",
+    "518880"
+  ],
+  "tax_face": {
+    "capital_gains_individual": "A-share trading capital gains for individual investors: income-tax exempt (institutional-fact citation, ORDER sec.1.1 discipline; not self-run)",
+    "caveat": "tax policy is a cited institutional fact, not backtested; policy change risk disclosed",
+    "etf": "no stamp tax (CN-C1); distributions rare for the five-member universe",
+    "stock_dividend_tax": "differentiated by holding period: >1y exempt / 1m-1y 10% / <1m 20% (institutional-fact citation)"
+  },
+  "turnover_drag": [
+    {
+      "annual_drag_bp_face_a_flat": 26.08,
+      "annual_drag_bp_v2_member_avg": 10.08,
+      "round_trips_per_year": 1,
+      "stock_annual_drag_bp": 31.28
+    },
+    {
+      "annual_drag_bp_face_a_flat": 52.16,
+      "annual_drag_bp_v2_member_avg": 20.16,
+      "round_trips_per_year": 2,
+      "stock_annual_drag_bp": 62.56
+    },
+    {
+      "annual_drag_bp_face_a_flat": 104.33,
+      "annual_drag_bp_v2_member_avg": 40.33,
+      "round_trips_per_year": 4,
+      "stock_annual_drag_bp": 125.13
+    },
+    {
+      "annual_drag_bp_face_a_flat": 312.98,
+      "annual_drag_bp_v2_member_avg": 120.98,
+      "round_trips_per_year": 12,
+      "stock_annual_drag_bp": 375.38
+    },
+    {
+      "annual_drag_bp_face_a_flat": 678.13,
+      "annual_drag_bp_v2_member_avg": 262.13,
+      "round_trips_per_year": 26,
+      "stock_annual_drag_bp": 813.33
+    },
+    {
+      "annual_drag_bp_face_a_flat": 1356.26,
+      "annual_drag_bp_v2_member_avg": 524.26,
+      "round_trips_per_year": 52,
+      "stock_annual_drag_bp": 1626.66
+    }
+  ],
+  "v2_member_avg_round_trip_bp": 10.082
+}
