@@ -16,8 +16,11 @@ W2 bands (law sec.4):
                             exit seed = 21_100 + j (random exit, p=0.05)
 
 Subcommands:
-  run --shard i --of N   burn shard i of N (also accepts --nshards),
+  run --shard i --of N [--workers W]  burn shard i of N (also accepts --nshards),
                          writes results/p2cal_ext/n1_w2/shard-<i>-of-<N>.json
+                         --workers W: process-pool size (default: full cores,
+                         O-2026-09-30-2355 multicore law + O-20260930-1858
+                         holiday full-core mobilization; BLAS capped 1/worker)
   finalize               FAIL-CLOSED merge of all shards -> cumulative null
                          pool (canon 120 + W1 ext 2200 + W2 2200 = 4520),
                          skill_line_v2 K-lift at same n_eff (v2 attribution
@@ -25,14 +28,19 @@ Subcommands:
                          results/perpetual_faces/n1_w2_results.json
   probe                  2-run end-to-end design probe at out-of-band seeds
                          95_002/95_003 (ledger +0)
+  parity                 serial-vs-pool byte-equality check on real wave
+                         j-slice (O-2355 conversion verification face;
+                         ledger +0; writes _n1_w2_parity.json)
   status                 shard inventory + finalize state (read-only)
   selftest               offline hermetic checks (no network, no engine)
 """
 import glob
 import json
+import multiprocessing
 import os
 import sys
 import time
+from concurrent.futures import ProcessPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -69,44 +77,80 @@ def p_for(j: int) -> float:
     return ext.p_for(j)
 
 
-def run_shard(shard: int, nshards: int) -> int:
-    v1m, prices, idx, closes, cost_rate = ext._assemble()
-    n_days, n_syms = closes.shape
-    cols = list(closes.columns)
-    t0 = time.time()
+# --- O-2026-09-30-2355 multicore law: single body, two drivers (serial/pool) ---
+_CTX = None        # per-process assembled engine context (spawn-safe global)
 
+
+def _worker_init():
+    global _CTX
+    v1m, prices, idx, closes, cost_rate = ext._assemble()
+    _CTX = (prices, idx, closes, closes.shape[0], closes.shape[1],
+            list(closes.columns))
+
+
+def _run_a(j: int) -> dict:
+    prices, idx, closes, n_days, n_syms, cols = _CTX
+    p = p_for(j)
+    rng = np.random.default_rng(A_SEED_BASE + j)
+    entry = ext._entry_matrix(rng, n_days, n_syms, idx, cols, p)
+    exit_ = pd.DataFrame(False, index=idx, columns=cols)
+    r = v1.run_one(prices, idx, entry, exit_, {}, f"w2A_p{p}_j{j}")
+    return {**r, "p": p, "seed_rng": A_SEED_BASE + j,
+            "note": f"w2 random entry p={p} rng={A_SEED_BASE + j}; "
+                    f"exits=engine rules (v1 design verbatim)"}
+
+
+def _run_b(j: int) -> dict:
+    prices, idx, closes, n_days, n_syms, cols = _CTX
+    p = p_for(j)
+    rng = np.random.default_rng(A_SEED_BASE + j)      # SAME matrix as A[j]
+    entry = ext._entry_matrix(rng, n_days, n_syms, idx, cols, p)
+    rng_x = np.random.default_rng(B_EXIT_SEED_BASE + j)
+    exit_ = pd.DataFrame((rng_x.random((n_days, n_syms)) < v1.P_EXIT),
+                         index=idx, columns=cols)
+    r = v1.run_one(prices, idx, entry, exit_, {}, f"w2B_p{p}_j{j}")
+    return {**r, "p": p, "seed_rng_entry": A_SEED_BASE + j,
+            "seed_rng_exit": B_EXIT_SEED_BASE + j,
+            "note": f"w2 random entry rng={A_SEED_BASE + j} "
+                    f"(paired with w2A_j{j}) + random exit "
+                    f"rng={B_EXIT_SEED_BASE + j} p={v1.P_EXIT}"}
+
+
+def _resolve_workers(argv) -> int:
+    """O-2355: workers_plan from declaration to code. Default = full cores
+    (O-20260930-1858 holiday full-core mobilization), BLAS capped 1/worker
+    so the pool does not oversubscribe."""
+    if "--workers" in argv:
+        w = int(argv[argv.index("--workers") + 1])
+        assert w >= 1, "workers must be >= 1"
+        return w
+    return max(1, multiprocessing.cpu_count())
+
+
+def _cap_blas_threads():
+    for var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+                "NUMEXPR_NUM_THREADS"):
+        os.environ.setdefault(var, "1")
+
+
+def run_shard(shard: int, nshards: int, workers: int = 1) -> int:
     a_lo, a_hi = shard * A_N // nshards, (shard + 1) * A_N // nshards
     b_lo, b_hi = shard * B_N // nshards, (shard + 1) * B_N // nshards
+    t0 = time.time()
 
-    fam_a = []
-    for j in range(a_lo, a_hi):
-        p = p_for(j)
-        rng = np.random.default_rng(A_SEED_BASE + j)
-        entry = ext._entry_matrix(rng, n_days, n_syms, idx, cols, p)
-        exit_ = pd.DataFrame(False, index=idx, columns=cols)
-        r = v1.run_one(prices, idx, entry, exit_, {}, f"w2A_p{p}_j{j}")
-        fam_a.append({**r, "p": p, "seed_rng": A_SEED_BASE + j,
-                      "note": f"w2 random entry p={p} rng={A_SEED_BASE + j}; "
-                              f"exits=engine rules (v1 design verbatim)"})
-        print(f"  A[j{j}] full_s={r['full']['sharpe']:>7.3f} "
-              f"({time.time()-t0:.0f}s)", flush=True)
-
-    fam_b = []
-    for j in range(b_lo, b_hi):
-        p = p_for(j)
-        rng = np.random.default_rng(A_SEED_BASE + j)      # SAME matrix as A[j]
-        entry = ext._entry_matrix(rng, n_days, n_syms, idx, cols, p)
-        rng_x = np.random.default_rng(B_EXIT_SEED_BASE + j)
-        exit_ = pd.DataFrame((rng_x.random((n_days, n_syms)) < v1.P_EXIT),
-                             index=idx, columns=cols)
-        r = v1.run_one(prices, idx, entry, exit_, {}, f"w2B_p{p}_j{j}")
-        fam_b.append({**r, "p": p, "seed_rng_entry": A_SEED_BASE + j,
-                      "seed_rng_exit": B_EXIT_SEED_BASE + j,
-                      "note": f"w2 random entry rng={A_SEED_BASE + j} "
-                              f"(paired with w2A_j{j}) + random exit "
-                              f"rng={B_EXIT_SEED_BASE + j} p={v1.P_EXIT}"})
-        print(f"  B[j{j}] full_s={r['full']['sharpe']:>7.3f} "
-              f"({time.time()-t0:.0f}s)", flush=True)
+    if workers > 1:
+        _cap_blas_threads()
+        with ProcessPoolExecutor(max_workers=workers,
+                                  initializer=_worker_init) as ex:
+            fam_a = list(ex.map(_run_a, range(a_lo, a_hi)))
+            fam_b = list(ex.map(_run_b, range(b_lo, b_hi)))
+    else:
+        _worker_init()                       # in-process ctx, serial driver
+        fam_a = [_run_a(j) for j in range(a_lo, a_hi)]
+        fam_b = [_run_b(j) for j in range(b_lo, b_hi)]
+    print(f"  A[{a_lo}..{a_hi}) + B[{b_lo}..{b_hi}) done "
+          f"({len(fam_a)}+{len(fam_b)} runs, {time.time()-t0:.0f}s, "
+          f"workers={workers})", flush=True)
 
     os.makedirs(SHARD_DIR, exist_ok=True)
     out = {
@@ -120,7 +164,11 @@ def run_shard(shard: int, nshards: int) -> int:
                      "B_random_entry_random_exit": {"n": len(fam_b), "runs": fam_b}},
         "audit": {"elapsed_sec": round(time.time() - t0, 1),
                   "n_backtests": len(fam_a) + len(fam_b),
-                  "workers": 1, "cpu_parallel": "serial (single-process)",
+                  "workers": workers,
+                  "cpu_parallel": ("multiprocess (ProcessPoolExecutor, "
+                                    f"{workers} workers, O-2355)"
+                                    if workers > 1 else
+                                    "serial (single-process)"),
                   "machine": json.loads(open(
                       os.path.join(PATHS.root, "fleet", "machine.json"),
                       encoding="utf-8").read()).get("machine_id", "unknown")},
@@ -319,6 +367,44 @@ def probe() -> int:
     return 0
 
 
+def parity() -> int:
+    """O-2355 conversion verification: serial vs process-pool byte-equality
+    on a real wave j-slice. Ledger +0 (same wave j's, re-burned identically
+    inside their shards; evidence file out-of-band, finalize ignores it)."""
+    _cap_blas_threads()
+    a_js = [0, 1, 2, 3]
+    b_js = [0, 1]
+    t0 = time.time()
+    _worker_init()
+    ser_a = [_run_a(j) for j in a_js]
+    ser_b = [_run_b(j) for j in b_js]
+    with ProcessPoolExecutor(max_workers=4, initializer=_worker_init) as ex:
+        par_a = list(ex.map(_run_a, a_js))
+        par_b = list(ex.map(_run_b, b_js))
+
+    def canon(rs):
+        return [json.dumps(x, sort_keys=True, default=str) for x in rs]
+
+    ok_a = canon(ser_a) == canon(par_a)
+    ok_b = canon(ser_b) == canon(par_b)
+    ok = ok_a and ok_b
+    out = {"batch": BATCH + "-parity", "evidence_cutoff": CUTOFF,
+           "law_ref": "O-2026-09-30-2355 (conversion verified: pool output "
+                      "byte-equal to serial on wave j-slice)",
+           "note": "design/engine verification only; NOT batch trials; "
+                   "ledger +0; j's belong to the wave itself",
+           "a_slice": a_js, "b_slice": b_js,
+           "byte_equal": {"A": ok_a, "B": ok_b},
+           "elapsed_sec": round(time.time() - t0, 1)}
+    os.makedirs(OUT_DIR, exist_ok=True)
+    with open(os.path.join(OUT_DIR, "_n1_w2_parity.json"), "w",
+              encoding="utf-8") as f:
+        json.dump(out, f, ensure_ascii=False, default=str, indent=2)
+    print(f"parity: A={ok_a} B={ok_b} -> "
+          f"{'PASS' if ok else 'FAIL'} ({out['elapsed_sec']}s)")
+    return 0 if ok else 2
+
+
 def status() -> int:
     nshards = 12
     present = sorted(int(os.path.basename(p).split("-")[1])
@@ -407,9 +493,26 @@ def selftest() -> int:
             "output path collides with canon/W1 file"
     assert os.path.abspath(SHARD_DIR) != os.path.abspath(ext.SHARD_DIR), \
         "shard dir collides with W1 shard dir"
+    # 9. O-2026-09-30-2355 multicore law: workers_plan is code, not declaration
+    import pickle
+    for fn in (_worker_init, _run_a, _run_b):
+        pickle.dumps(fn)                      # spawn-picklable top-level fns
+    default_w = _resolve_workers([])
+    assert default_w >= 1
+    if multiprocessing.cpu_count() >= 2:
+        assert default_w >= 2, \
+            "O-2355: pool runner default must be multiprocess on multi-core"
+    assert _resolve_workers(["--workers", "3"]) == 3
+    assert _resolve_workers(["run", "--shard", "0", "--of", "12"]) == default_w
+    for var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS",
+                "MKL_NUM_THREADS", "NUMEXPR_NUM_THREADS"):
+        os.environ.pop(var, None)
+    _cap_blas_threads()
+    assert os.environ["OMP_NUM_THREADS"] == "1", "BLAS cap missing"
     print("selftest: PASS (v1 constants + seed bands disjoint [v1/W1/registry/"
           "law W3-W4] + law band parity + p pattern + determinism + slice "
-          "math + canon intact + W1 dep complete + path safety)")
+          "math + canon intact + W1 dep complete + path safety + O-2355 "
+          "multiprocess code-backed workers plan)")
     return 0
 
 
@@ -421,6 +524,8 @@ def main():
         return finalize()
     if "probe" in argv:
         return probe()
+    if "parity" in argv:
+        return parity()
     if "status" in argv:
         return status()
     shard = nshards = None
@@ -432,13 +537,14 @@ def main():
         nshards = int(argv[argv.index("--nshards") + 1])
     if shard is None or nshards is None:
         print(__doc__)
-        print("usage: run --shard i --of N | finalize | probe | status | selftest")
+        print("usage: run --shard i --of N [--workers W] | finalize | probe | "
+              "parity | status | selftest")
         return 2
     if "run" not in argv:
-        print("usage: run --shard i --of N")
+        print("usage: run --shard i --of N [--workers W]")
         return 2
     assert 0 <= shard < nshards, "shard out of range"
-    return run_shard(shard, nshards)
+    return run_shard(shard, nshards, workers=_resolve_workers(argv))
 
 
 if __name__ == "__main__":
