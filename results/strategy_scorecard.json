@@ -2,7 +2,7 @@
  "ticket": "T-2026-09-25-63",
  "order": "O-20260925-1755",
  "charter": "firm/STRATEGY_EVALUATION.md v2.0 (sec 2/6/7/8)",
- "generated": "2026-09-30T15:26:21",
+ "generated": "2026-09-30T15:46:56",
  "naming_reconciliation": "charter sec.4 names strategy_scorecard.py/json; T-07 delivered the strategy face as scripts/scorecard.py -> results/scorecard_v1.json (disclosed in that file). This v2 file IS the charter-named three-card artifact: strategy face = reused engine (zero rebuild), trader/portfolio cards = new.",
  "calibration_state": "calibrated (SCORECARD_CALIB_P1 frozen; evidence_cutoff 2026-09-22): trader/portfolio composite totals & grades emitted from frozen weight/band values (results/strategy_scorecard_calib.json); strategy-face totals = v1.0 frozen; discipline veto faces gate the grade (sec 8.2). Evaluation never overrides gates (sec 8.3).",
  "unified_law": {
@@ -27,7 +27,7 @@
   "per_trader": {
    "COMPOSITE-CE-01": {
     "grade": "A",
-    "total": 77.09,
+    "total": 77.86,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -65,13 +65,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 77.5,
+      "score": 81.31,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.8114,
        "oos_sharpe": 0.862,
-       "skill_line_v2": 1.1958,
+       "skill_line_v2": 1.107,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -128,7 +128,7 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.3844,
+       "null_margin_vs_skill_line": -0.2956,
        "ledger_head_total": 362083
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
@@ -151,7 +151,7 @@
    },
    "COMPOSITE-CE-02": {
     "grade": "A",
-    "total": 72.63,
+    "total": 73.21,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -189,13 +189,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 65.7,
+      "score": 68.57,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6099,
        "oos_sharpe": 1.5605,
-       "skill_line_v2": 1.1958,
+       "skill_line_v2": 1.107,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -252,7 +252,7 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "ce_transfer.py",
-       "null_margin_vs_skill_line": -0.5859,
+       "null_margin_vs_skill_line": -0.4971,
        "ledger_head_total": 362083
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
@@ -275,7 +275,7 @@
    },
    "DROUGHT-CE-01": {
     "grade": "S",
-    "total": 86.26,
+    "total": 86.94,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -313,13 +313,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 72.38,
+      "score": 75.78,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.724,
        "oos_sharpe": 1.2407,
-       "skill_line_v2": 1.1958,
+       "skill_line_v2": 1.107,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -376,7 +376,7 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.4718,
+       "null_margin_vs_skill_line": -0.383,
        "ledger_head_total": 362083
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
@@ -399,7 +399,7 @@
    },
    "ENGULF-CE-01": {
     "grade": "A",
-    "total": 66.52,
+    "total": 67.03,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -437,13 +437,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 45.93,
+      "score": 48.46,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.5392,
        "oos_sharpe": 0.1686,
-       "skill_line_v2": 1.1958,
+       "skill_line_v2": 1.107,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -500,7 +500,7 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.6566,
+       "null_margin_vs_skill_line": -0.5678,
        "ledger_head_total": 362083
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
@@ -524,7 +524,7 @@
    },
    "NEEDLE-DE-01": {
     "grade": "A",
-    "total": 76.9,
+    "total": 77.52,
     "veto_clean": true,
     "vetoes": {
      "future_data": {
@@ -562,13 +562,13 @@
       "formula": "beat=100*min(1,beat_rate_6m/0.70); dd=100*clip((0.35-|min_dd_6m|)/0.30,0,1); excess=100*clip(median_excess_6m/0.05,0,1); D1=0.60*beat+0.25*dd+0.15*excess"
      },
      "2": {
-      "score": 55.19,
+      "score": 58.3,
       "weight": 0.2,
       "status": "tested",
       "reads": {
        "full_sharpe": 0.6624,
        "oos_sharpe": 0.1927,
-       "skill_line_v2": 1.1958,
+       "skill_line_v2": 1.107,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -625,7 +625,7 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "g2_folk.py",
-       "null_margin_vs_skill_line": -0.5334,
+       "null_margin_vs_skill_line": -0.4446,
        "ledger_head_total": 362083
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
@@ -692,7 +692,7 @@
       "reads": {
        "full_sharpe": 1.2578,
        "oos_sharpe": 1.7166,
-       "skill_line_v2": 1.1958,
+       "skill_line_v2": 1.107,
        "i_line": 0.3521
       },
       "formula": "full=100*min(1,full_sharpe/skill_line_v2); oos=100*min(1,oos_sharpe/i_line); D2=0.70*full+0.30*oos"
@@ -749,7 +749,7 @@
        "prereg_chain": true,
        "declared_clean": true,
        "batch_script": "combined_exit_screen.py",
-       "null_margin_vs_skill_line": 0.062,
+       "null_margin_vs_skill_line": 0.1508,
        "ledger_head_total": 362083
       },
       "formula": "prereg=100 if registration carries repro/batch evidence chain else 0; declared=100 if no undeclared-snooping flag recorded else 0; D7=0.5*prereg+0.5*declared"
@@ -777,12 +777,12 @@
    "trader": "COMPOSITE-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 77.09,
+    "total": 77.86,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 85.08,
-     "2": 77.5,
+     "2": 81.31,
      "3": 72.74,
      "4": 77.58,
      "5": 24.0,
@@ -848,10 +848,10 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 78.0,
+    "total": 78.3,
     "grade": "S",
     "face_scores": {
-     "inherited": 77.1,
+     "inherited": 77.9,
      "live_paper": 29.8,
      "progress": 0.0,
      "profile": 88.3
@@ -876,12 +876,12 @@
    "trader": "COMPOSITE-CE-02",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 72.63,
+    "total": 73.21,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 83.93,
-     "2": 65.7,
+     "2": 68.57,
      "3": 46.09,
      "4": 100.0,
      "5": 24.0,
@@ -947,10 +947,10 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 75.1,
+    "total": 75.3,
     "grade": "S",
     "face_scores": {
-     "inherited": 72.6,
+     "inherited": 73.2,
      "live_paper": 29.7,
      "progress": 0.0,
      "profile": 86.1
@@ -975,12 +975,12 @@
    "trader": "DROUGHT-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 86.26,
+    "total": 86.94,
     "grade": "S",
     "veto_clean": true,
     "dims": {
      "1": 86.28,
-     "2": 72.38,
+     "2": 75.78,
      "3": 100.0,
      "4": 97.28,
      "5": 61.72,
@@ -1046,10 +1046,10 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 79.2,
+    "total": 79.4,
     "grade": "S",
     "face_scores": {
-     "inherited": 86.3,
+     "inherited": 86.9,
      "live_paper": 30.0,
      "progress": 0.0,
      "profile": 83.3
@@ -1074,12 +1074,12 @@
    "trader": "ENGULF-CE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 66.52,
+    "total": 67.03,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 82.68,
-     "2": 45.93,
+     "2": 48.46,
      "3": 33.67,
      "4": 79.28,
      "5": 45.52,
@@ -1145,10 +1145,10 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 71.1,
+    "total": 71.3,
     "grade": "S",
     "face_scores": {
-     "inherited": 66.5,
+     "inherited": 67.0,
      "live_paper": 30.0,
      "progress": 0.0,
      "profile": 83.0
@@ -1173,12 +1173,12 @@
    "trader": "NEEDLE-DE-01",
    "readout_only": false,
    "inherited_strategy": {
-    "total": 76.9,
+    "total": 77.52,
     "grade": "A",
     "veto_clean": true,
     "dims": {
      "1": 78.38,
-     "2": 55.19,
+     "2": 58.3,
      "3": 95.51,
      "4": 84.69,
      "5": 45.52,
@@ -1244,10 +1244,10 @@
     "source": "results/corps_roster.json (T-33 data-determined corps face)"
    },
    "composite": {
-    "total": 75.1,
+    "total": 75.3,
     "grade": "S",
     "face_scores": {
-     "inherited": 76.9,
+     "inherited": 77.5,
      "live_paper": 30.0,
      "progress": 0.0,
      "profile": 82.7
@@ -8314,7 +8314,7 @@
   "portfolio_cohort": "IV6/EW6 + tournament 5 methods (first-cohort)"
  },
  "audit": {
-  "elapsed_sec": 15.8,
+  "elapsed_sec": 15.0,
   "zero_new_backtests": true,
   "zero_engine_runs": true,
   "ledger_delta": 0,
