@@ -5102,10 +5102,11 @@
           "key": "exclusion-0of1",
           "status": "ready",
           "owner": "bm-b",
-          "owner_since": "2026-10-01 01:56:05",
+          "owner_since": "2026-10-01 04:32:05",
           "checkpoint": "results/exclusion_marginal_scan/scan.json single-shot (idempotency guard; no partial-state resume face by design -- 16-cell burn is one deterministic pass)",
           "note": "r476 bm-b: engine leg landed (monthly rotation event-walk: resume-day exits realize on resume day = no liquidity look-ahead, suspension entry-skip, overlap hold, ADV20 1% fill cap, 100-share lots, min-comm 5, V2 stock cost via knowledge/rules primitives imported never rewritten); gates probe on real data ALL PASS (panel 5217/elig 5229/cutoff 2026-09-29/age 8.2h/family open); timing probe 150 files 1.5s -> full load ~52s, whole burn est 5-15min (prereg sec.0 upper budget 20-40min stands); burn via pool per O-2100 (>5min law); after burn = next round backfills prereg sec.7 + carrier EXCLUSION_MARGINAL.md marginal table + TRACK sec.2 #3 row flip",
-          "claim_note": "r476 successor round control-plane claim-clear: entering session (dead r476 firing 19:42) died pre-burn by stream timeout, shard never ran (no scan.json, no autofill launch); stale pre-claim was blocking autofill (claim_lost_yield verdict 19:50 tick); owner nulled for clean autofill pick; runner re-verified selftest 16/16 by successor r476 session 19:5x"
+          "claim_note": "r476 successor round control-plane claim-clear: entering session (dead r476 firing 19:42) died pre-burn by stream timeout, shard never ran (no scan.json, no autofill launch); stale pre-claim was blocking autofill (claim_lost_yield verdict 19:50 tick); owner nulled for clean autofill pick; runner re-verified selftest 16/16 by successor r476 session 19:5x",
+          "park_note": "AUTOFILL-PARK 2026-10-01 04:02:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
         }
       ],
       "workers_plan": {
@@ -5147,9 +5148,10 @@
           "key": "faceb-0of1",
           "status": "ready",
           "owner": "bm-b",
-          "owner_since": "2026-10-01 01:58:05",
+          "owner_since": "2026-10-01 04:34:05",
           "checkpoint": "results/cross_start_robustness/face_b.json single-shot (idempotency guard; one deterministic pass, no partial-state resume face by design)",
-          "note": "r285 bm-c: engine = 100% import from bm-b exclusion_marginal_scan (r476) -- _sim_cell/_metrics/_build_selection/_signal_schedule/_load_calendar/_side_cost/_ffill_np, zero rewrite (MSG-1947 sec.2 anti-dup); assembly mirrors ems.run() with ONE disclosed deviation: pre-calendar-face (<2005-02-23) panel rows filtered before mapping (both cells run all-rules-OFF, barcnt/stale unconsumed, signal-date amt20 identical; ems.run() original FAIL-CLOSEDs on pre-2005 listings -- engineering fact in MSG-20260930-2115, bm-b berth fork); est burn 2-4min on bm-b (panel load ~52s + 34 event-walk sims), workers:1 serial deterministic single pass (T33/GRID-P1 light-batch precedent); after burn = consumer backfill by bm-c next round: prereg sec.7/8 + SUMMARY + TRACK sec.2 #1 flip + sec.4 consumption 306->308"
+          "note": "r285 bm-c: engine = 100% import from bm-b exclusion_marginal_scan (r476) -- _sim_cell/_metrics/_build_selection/_signal_schedule/_load_calendar/_side_cost/_ffill_np, zero rewrite (MSG-1947 sec.2 anti-dup); assembly mirrors ems.run() with ONE disclosed deviation: pre-calendar-face (<2005-02-23) panel rows filtered before mapping (both cells run all-rules-OFF, barcnt/stale unconsumed, signal-date amt20 identical; ems.run() original FAIL-CLOSEDs on pre-2005 listings -- engineering fact in MSG-20260930-2115, bm-b berth fork); est burn 2-4min on bm-b (panel load ~52s + 34 event-walk sims), workers:1 serial deterministic single pass (T33/GRID-P1 light-batch precedent); after burn = consumer backfill by bm-c next round: prereg sec.7/8 + SUMMARY + TRACK sec.2 #1 flip + sec.4 consumption 306->308",
+          "park_note": "AUTOFILL-PARK 2026-10-01 04:04:01: runner fail-closed on a data-wait gate (launch-log marker) -- honest zero-burn, NOT a crash; un-park = flip entry+shard ready once the data gate passes (r491 law)"
         }
       ],
       "workers_plan": {
