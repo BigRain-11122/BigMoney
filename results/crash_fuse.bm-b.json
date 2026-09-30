@@ -195,15 +195,14 @@
    "shard": "judge-0of1",
    "machine": "bm-b"
   },
-  "scripts/p2_null_calibration_ext.py|--shard,0,--nshards,4": {
+  "scripts/p2_null_calibration_ext.py|--shard,2,--nshards,4": {
    "count": 1,
-   "refusals": 1,
+   "refusals": 0,
    "code_sha256": "1098a0ebc1c3dd2c",
-   "last_crash_ts": "2026-09-30 21:31:34",
-   "entry": "P2NULL-KLIFT-K2200-S0",
-   "shard": "p2null-klift-s0-0of1",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-09-30 21:31:36"
+   "last_crash_ts": "2026-09-30 21:50:03",
+   "entry": "P2NULL-KLIFT-K2200-S2",
+   "shard": "p2null-klift-s2-0of1",
+   "machine": "bm-c"
   },
   "scripts/exclusion_marginal_scan.py|run": {
    "count": 1,
@@ -212,6 +211,45 @@
    "last_crash_ts": "2026-09-30 21:40:03",
    "entry": "EXCLUSION-MARGINAL-P1-RUN",
    "shard": "exclusion-0of1",
+   "machine": "bm-b"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-EQ,--axis,legacy,--face,base": {
+   "count": 1,
+   "refusals": 3,
+   "code_sha256": "d6997f152c007f80",
+   "last_crash_ts": "2026-10-01 00:40:03",
+   "entry": "LOWAMP-P1-CELL-LAEQ-LEGACY-BASE",
+   "shard": "lowamp-p1-cell-laeq-legacy-base-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 00:45:19"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-EQ,--axis,legacy,--face,x2": {
+   "count": 1,
+   "refusals": 3,
+   "code_sha256": "d6997f152c007f80",
+   "last_crash_ts": "2026-10-01 00:40:03",
+   "entry": "LOWAMP-P1-CELL-LAEQ-LEGACY-X2",
+   "shard": "lowamp-p1-cell-laeq-legacy-x2-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 00:45:19"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-T3,--axis,legacy,--face,x2": {
+   "count": 1,
+   "refusals": 1,
+   "code_sha256": "d6997f152c007f80",
+   "last_crash_ts": "2026-10-01 00:45:15",
+   "entry": "LOWAMP-P1-CELL-LAT3-LEGACY-X2",
+   "shard": "lowamp-p1-cell-lat3-legacy-x2-0of1",
+   "machine": "bm-c",
+   "last_refusal_ts": "2026-10-01 00:45:19"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,deep,--face,base": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "5da5664a264a4a0e",
+   "last_crash_ts": "2026-10-01 01:10:03",
+   "entry": "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
+   "shard": "lowamp-p1-cell-larep-deep-base-0of1",
    "machine": "bm-b"
   }
  },
@@ -297,6 +335,13 @@
    "cleared_ts": "2026-09-30 20:56:13",
    "cleared_by": "bm-b r478",
    "reason": "data-gate zero-burn misclassified as crash: 20:40 launch FAIL-CLOSED per spec on astock panel complete=False (refresh in flight); no code defect; relaunch authorized post panel completion (pool entry parked waiting)"
+  },
+  "scripts/p2_null_calibration_ext.py|--shard,0,--nshards,4": {
+   "cleared_ts": "2026-09-30 21:50:05",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "1098a0ebc1c3dd2c"
   }
  },
  "lane_machine": "bm-b"
