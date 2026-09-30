@@ -1,0 +1,209 @@
+{
+ "probe": "INNOVATION-QUOTA-SLOT-9 berth probe (zoo #84 crowding_vote)",
+ "machine": "bm-c",
+ "round": "r259",
+ "evidence_cutoff": "2026-09-29",
+ "thresholds_frozen": {
+  "score": "annualized 20d OLS log-trend x R^2 (x252)",
+  "v1_top3_gt": 0.2,
+  "v2_spread_gt": 0.25,
+  "v3_weak_share_gt": 0.55,
+  "v4_guard_score_lt": 0.0,
+  "crowd_rule": ">=3/4 votes",
+  "confirm_out_days": 2,
+  "confirm_in_days": 3,
+  "hysteresis_pct": 0.75,
+  "recovery_diff_lt": 0.1875,
+  "recovery_rank_gt": 0.4,
+  "note": "author-verbatim wzetf 2026-08-22 card, zero calibration"
+ },
+ "panel": {
+  "n_symbols": 48,
+  "n_members_non_guard": 47,
+  "guard": "510300",
+  "first_date": "2020-01-02",
+  "last_date": "2026-09-29",
+  "n_dates_total": 1635
+ },
+ "g_anchor_face": {
+  "anchor_four_tuple": "data/daily/<code>.csv bare-code 48 files / pd.read_csv raw direct read / full panel history / 20-bar score warmup",
+  "n_decidable_days": 1616,
+  "first_decidable_date": "2020-02-06",
+  "vote_occupancy": {
+   "v1_days": 1525,
+   "v2_days": 1599,
+   "v3_days": 715,
+   "v4_days": 824
+  },
+  "crowd_days_ge3": 860,
+  "crowd_days_eq4": 571,
+  "recover_days_ge3": 660,
+  "vote_count_mean": 2.8855,
+  "weak_share_q10": 0.125,
+  "weak_share_q90": 0.8279,
+  "top3_mean_q10": 0.3191,
+  "top3_mean_q90": 2.3734,
+  "spread_q10": 0.5736,
+  "spread_q90": 2.1252,
+  "guard_score_neg_days": 824,
+  "extreme_day_sample": [
+   {
+    "date": "2020-02-06",
+    "votes": 4,
+    "weak_share": 0.5833,
+    "spread": 1.5002,
+    "guard_score": -0.5529
+   },
+   {
+    "date": "2020-02-07",
+    "votes": 4,
+    "weak_share": 0.5833,
+    "spread": 1.6529,
+    "guard_score": -0.6444
+   },
+   {
+    "date": "2020-02-10",
+    "votes": 4,
+    "weak_share": 0.5833,
+    "spread": 1.6569,
+    "guard_score": -0.7105
+   },
+   {
+    "date": "2020-02-11",
+    "votes": 4,
+    "weak_share": 0.5556,
+    "spread": 1.5968,
+    "guard_score": -0.7198
+   },
+   {
+    "date": "2020-02-12",
+    "votes": 4,
+    "weak_share": 0.5556,
+    "spread": 1.572,
+    "guard_score": -0.6307
+   },
+   {
+    "date": "2020-02-13",
+    "votes": 4,
+    "weak_share": 0.5833,
+    "spread": 1.5178,
+    "guard_score": -0.5982
+   },
+   {
+    "date": "2020-02-14",
+    "votes": 4,
+    "weak_share": 0.5833,
+    "spread": 1.5404,
+    "guard_score": -0.472
+   },
+   {
+    "date": "2020-03-31",
+    "votes": 4,
+    "weak_share": 0.9487,
+    "spread": 1.6891,
+    "guard_score": -1.4053
+   }
+  ]
+ },
+ "state_machine_face": {
+  "asym_verbatim": {
+   "n_flips": 71,
+   "first_flip_dates": [
+    "2020-02-07",
+    "2020-02-28",
+    "2020-03-17",
+    "2020-04-14",
+    "2020-05-28",
+    "2020-06-10"
+   ]
+  },
+  "sym_ablation_2d2d": {
+   "n_flips": 77,
+   "first_flip_dates": [
+    "2020-02-07",
+    "2020-02-27",
+    "2020-03-17",
+    "2020-04-13",
+    "2020-05-28",
+    "2020-06-09"
+   ]
+  }
+ },
+ "d6_signal_face": {
+  "weak_share_vs_below_ma20": {
+   "n_common_days": 1616,
+   "pearson": 0.7728,
+   "verdict_note": "signal-level only; cell-level merge clause remains freeze/judge face per prereg sec.1"
+  },
+  "vote_count_vs_below_ma20": {
+   "n_common_days": 1616,
+   "pearson": 0.5965,
+   "verdict_note": "signal-level only; cell-level merge clause remains freeze/judge face per prereg sec.1"
+  },
+  "weak_share_vs_nhnl_b20": {
+   "n_common_days": 1616,
+   "pearson": -0.5539,
+   "verdict_note": "signal-level only; cell-level merge clause remains freeze/judge face per prereg sec.1"
+  },
+  "vote_count_vs_nhnl_b20": {
+   "n_common_days": 1616,
+   "pearson": -0.442,
+   "verdict_note": "signal-level only; cell-level merge clause remains freeze/judge face per prereg sec.1"
+  }
+ },
+ "descriptive_fwd_face": {
+  "note": "descriptive census only; overlapping windows inflate t; no costs; NOT a strategy claim",
+  "fwd_5d": {
+   "crowd_day": {
+    "n": 859,
+    "mean": 0.00163,
+    "std": 0.02825
+   },
+   "non_crowd_day": {
+    "n": 752,
+    "mean": 0.0014,
+    "std": 0.02369
+   },
+   "spread_noncrowd_minus_crowd_mean": -0.00023
+  },
+  "fwd_20d": {
+   "crowd_day": {
+    "n": 844,
+    "mean": 0.00728,
+    "std": 0.05643
+   },
+   "non_crowd_day": {
+    "n": 752,
+    "mean": 0.00399,
+    "std": 0.04606
+   },
+   "spread_noncrowd_minus_crowd_mean": -0.00329
+  },
+  "guard_fwd_5d": {
+   "crowd_day": {
+    "n": 859,
+    "mean": 0.00035,
+    "std": 0.02928
+   },
+   "non_crowd_day": {
+    "n": 752,
+    "mean": 0.00132,
+    "std": 0.02548
+   },
+   "spread_noncrowd_minus_crowd_mean": 0.00096
+  },
+  "guard_fwd_20d": {
+   "crowd_day": {
+    "n": 844,
+    "mean": 0.00287,
+    "std": 0.05474
+   },
+   "non_crowd_day": {
+    "n": 752,
+    "mean": 0.00292,
+    "std": 0.04787
+   },
+   "spread_noncrowd_minus_crowd_mean": 5e-05
+  }
+ }
+}
