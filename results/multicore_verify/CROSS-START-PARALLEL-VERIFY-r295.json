@@ -1,0 +1,54 @@
+{
+ "ticket": "T-2026-09-30-134 s2",
+ "round": "r295 bm-c",
+ "runner": "scripts/cross_start_robustness.py",
+ "law": "O-2026-09-30-2355 multicore enforcement; conversion verification = live burn core-spread sample",
+ "serial_baseline": {
+  "import_s": 1.65,
+  "run_s": 9.44,
+  "n_cells": 4
+ },
+ "parallel_burn": {
+  "wall_s": 7.8,
+  "samples": [
+   {
+    "t": 3.8,
+    "sys_cpu_pct": 37.0,
+    "worker_procs": 0,
+    "worker_procs_pids": [],
+    "worker_core_s_cum": 0,
+    "parent_core_s_cum": 0.67
+   },
+   {
+    "t": 7.8,
+    "sys_cpu_pct": 38.1,
+    "worker_procs": 0,
+    "worker_procs_pids": [],
+    "worker_core_s_cum": 0,
+    "parent_core_s_cum": 0.67
+   }
+  ],
+  "rc": 0,
+  "worker_core_s_total": 0,
+  "parent_core_s_total": 0.67,
+  "tail": "  [pool] 20/159 allstart grid\n  [pool] 40/159 allstart grid\n  [pool] 60/159 allstart grid\n  [pool] 80/159 allstart grid\n  [pool] 100/159 allstart grid\n  [pool] 120/159 allstart grid\n  [pool] 140/159 allstart grid\n{\"batch\": \"CROSS-START-ROBUSTNESS-P1\", \"cutoff\": \"2026-09-22\", \"conclusion_A_verdict\": \"retained\", \"eqw\": {\"cagr\": 0.0568654384044085, \"maxdd\": -0.1247651900525456, \"win_1y_pos_share\": 0.7988466757123474, \"allstart_pos_share\": 1.0, \"allstart_median\": 0.05703705746860033, \"worst5y\": 0.02870049746309622, \"pass\": true}, \"rand_null_pass\": \"2/3\", \"ledger_total_after\": 362389}\n"
+ },
+ "science_face_identity": {
+  "science_face_identical": true,
+  "diff_keys": [],
+  "audit_new": {
+   "workers": 4,
+   "face": "T-134 s2 ProcessPool conversion (O-2026-09-30-2355): pass B all-start grid = per-start jobs via scripts/parallel_runner (worker_cap x0.8 + RAM guard, BelowNormal workers); pass A headline = unchanged single vectorized call; outputs byte-identical to retired serial loop (S9 determinism law)"
+  }
+ },
+ "core_spread_read": {
+  "max_worker_procs": 0,
+  "median_worker_procs": 0,
+  "max_sys_cpu_pct": 38.1,
+  "sample_count": 2,
+  "burn_core_seconds_total": 0.67,
+  "parallel_efficiency": 0.09,
+  "sampler_note": "psutil process queries cost ~10ms each on this box (331 procs, LOWAMP dispatcher burn loading it), so discovery sweeps run back-to-back and ARE the cadence (~3s apart), not a strict 1 Hz; sys_cpu_pct is the between-sweep average of a machine shared with the concurrent LOWAMP-P1 dispatcher burn",
+  "coverage": "full burn window (every sweep recorded until burn exit; window shorter than 60s disclosed honestly rather than padded; heavier 60s-scale live verification lands at the bm-b-lane Face B / exclusion burns post-conversion)"
+ }
+}
