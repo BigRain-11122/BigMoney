@@ -709,6 +709,7 @@ def run() -> int:
     cutoff_pos = max(i for i, d in enumerate(cal) if d <= EVIDENCE_CUTOFF)
     cal = cal[: cutoff_pos + 1]                      # rows actually read <= cutoff
     cal_pos_of = {d: i for i, d in enumerate(cal)}
+    cal_start = cal[0]  # calendar face start (2005-02-23); pre-face stock history is expected-unmapped, not a face error
     sig_dates, sig_pos_full = _signal_schedule(_load_calendar()[0])
     n_cal = len(cal)
     # signals must live inside the truncated grid; exec positions likewise
@@ -746,7 +747,8 @@ def run() -> int:
         for j, d in enumerate(dates):
             q = cal_pos_of.get(d)
             if q is None:
-                unmapped += 1
+                if d >= cal_start:   # only in-coverage unmapped rows are face errors
+                    unmapped += 1
                 continue
             mpos_l.append(q); o_l.append(df["open"].iat[j])
             cl_l.append(df["close"].iat[j]); a_l.append(amt20_full[j])
