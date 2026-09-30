@@ -10,9 +10,12 @@ All data read from results/*.json is data-driven (no frozen numbers); formulas a
 BACKTEST_SCIENCE.md (revision = prereg + 7-day veto window).
 
 Usage:
-  python scripts/science_gates.py selftest      # offline synthetic assertions, zero network
-  python scripts/science_gates.py report       # live reading -> results/science_gates_v2.json
-  import scripts.science_gates as sg           # library use
+  python -m scripts.science_gates selftest    # offline synthetic assertions, zero network
+  python -m scripts.science_gates report     # live reading -> results/science_gates_v2.json
+  import scripts.science_gates as sg         # library use
+  (module mode REQUIRED: direct `python scripts/science_gates.py` puts only
+  scripts/ on sys.path, so the module-level `from knowledge import cost_spec`
+  import below dies with ModuleNotFoundError)
 """
 from __future__ import annotations
 
@@ -2026,6 +2029,155 @@ def g2_reform_fdr4d(member_metrics: dict, dim_weights: dict, sub_weights: dict,
             "error": None, "members": members}
 
 
+# --------------------------------------- D-20260930-37 M1/M3 adoption (bm-a r482)
+# Group audit D-37 dispatched M1~M6 as SUGGESTION patches (拍板⑤: 司内采纳后
+# 才入闸); this section = the company adoption of M3 (类级认输台账) and M1
+# (t 值门槛) in the 拍板③ priority order (M5 fee routing already landed as
+# the D-39 P0 fix r479; M7 landed group-side). PROSPECTIVE ONLY: both gates
+# bind preregs frozen AFTER this adoption -- frozen batches keep their frozen
+# verdicts (档存重估=新程序非翻案, O-20260930-1058 law). M1 is a CHEAP gate the
+# N_eff-diluted DSR face can never replace (D-37 M1 rationale): a new-factor
+# claim whose t < 3.0 fails multiple-testing honesty before any ledger math.
+
+M1_T_HURDLE = 3.0        # Harvey/Liu/Zhu (2016) new-factor multiple-testing hurdle
+M1_MIN_PERIODS = 20      # t face sample floor; mirrors the DSR/bootstrap floor
+
+
+def t_from_sharpe(sharpe_annualized, n_periods,
+                  periods_per_year: float = PERIODS_PER_YEAR) -> float:
+    """M1 helper: t-stat of the mean return from stored (Sharpe, length) stats.
+
+    t = SR_daily * sqrt(T) -- the standard t of a sample mean against zero.
+    Strategy faces that persist (sharpe_annualized, n_periods) derive the t
+    face without re-reading raw returns; factor faces with richer stats
+    (IC t / ICIR) report their own batch t face instead -- never re-derive a
+    weaker proxy when the direct t is available.
+    """
+    sr = float(sharpe_annualized)
+    n = int(n_periods)
+    if n < M1_MIN_PERIODS:
+        raise ValueError(f"t face needs >= {M1_MIN_PERIODS} periods (got {n})")
+    if not math.isfinite(sr):
+        raise ValueError("sharpe must be finite")
+    return (sr / math.sqrt(periods_per_year)) * math.sqrt(n)
+
+
+def m1_t_value_gate(t_stat, hurdle: float = M1_T_HURDLE,
+                    claim_class: str = "new_factor") -> dict:
+    """M1: Harvey/Liu/Zhu t-hurdle for NEW factor/strategy claims (D-37 M1).
+
+    Multiple testing across many tried candidates inflates plain |t|>=2.0
+    false-discovery; H/L/Z put the hurdle at ~3.0. Missing/invalid inputs are
+    refused honestly (missing_input flag, pass=False) -- a batch that never
+    computed its t face fails the declaration, it is not waved through.
+    """
+    out = {"gate": "m1_t_value", "claim_class": claim_class, "hurdle": hurdle,
+           "t": None, "pass": False, "missing_input": False}
+    if t_stat is None:
+        out["missing_input"] = True
+        return out
+    try:
+        t = float(t_stat)
+    except (TypeError, ValueError):
+        out["missing_input"] = True
+        return out
+    if not math.isfinite(t):
+        out["missing_input"] = True
+        return out
+    out["t"] = round(t, 6)
+    out["pass"] = bool(t >= hurdle)
+    return out
+
+
+# M3: family-level permanent-close ledger. Source face = STRATEGY_LIBRARY.md
+# §〇 判负线与死面库存 (R270 L7 zoo upgrade); this dict is the SINGLE
+# machine-readable source -- research/CLOSED_FAMILIES.md mirrors it for the
+# human/CEO face. Function-level negatives (34 判负 across strategy modules)
+# stay recorded in STRATEGY_LIBRARY §一; this registry is the LINE/FAMILY
+# level only. Reopen law = O-20260925-1105 判负线禁翻案: a closed family
+# never re-burns under the same prereg; the only lawful channel is a fresh
+# prereg declaring the new-evidence delta (新证据=新预注册) or citing the
+# entry's own reopen channel (scheduled window / CEO one-liner).
+CLOSED_FAMILIES_REOPEN_RULES = frozenset({
+    "new_evidence_new_prereg",       # O-1105 default: fresh prereg + delta vs archived verdict
+    "scheduled_rerun_20261031",      # T-28 acceptance re-run window pre-scheduled in the close
+    "ceo_one_line_reopen",           # CEO-gated modeling ban (照登不建模 domain)
+})
+
+CLOSED_FAMILIES = {
+    "cta_futures_p1": {
+        "verdict": "negative_x3",
+        "closed_by": "O-20260925-1105",
+        "evidence": "research/STRATEGY_LIBRARY.md §〇 期货行（CTA_P1/CTA_P2_NOAU/CTA_WAVE1 三连判负 + P-A1 + T-48 复合格）",
+        "reopen": "new_evidence_new_prereg",
+    },
+    "cn_combo_five_family": {
+        "verdict": "negative_19_cells",
+        "closed_by": "R264 verdict ledger",
+        "evidence": "research/CN_COMBO_VERDICTS.md（REV-TILT/DIV-LOWVOL-ROT/REGIME-POLICY/CORE-SATELLITE/DDCTL 五家族 19 格 pass_v2 0/19）",
+        "reopen": "new_evidence_new_prereg",
+    },
+    "wild_route_s1": {
+        "verdict": "g2_registration_empty_1569_cells",
+        "closed_by": "wild_route_s1 first verdict",
+        "evidence": "results/wild_route/wild_route_s1.json",
+        "reopen": "new_evidence_new_prereg",
+    },
+    "factor_blend": {
+        "verdict": "negative_line",
+        "closed_by": "R270 item-6 ruling note 4",
+        "evidence": "research/FACTOR_BLEND(_V2).md 判负线档案",
+        "reopen": "new_evidence_new_prereg",
+    },
+    "t28_spm_first": {
+        "verdict": "not_demonstrated_j4_pooled_below_0.70",
+        "closed_by": "research/T28_STABLE_PROFIT.md",
+        "evidence": "T-28 首测 NOT-DEMONSTRATED（J4 pooled < 0.70 唯一挂点·验收复跑窗 2026-10-31 在册）",
+        "reopen": "scheduled_rerun_20261031",
+    },
+    "microcap_2024_crash": {
+        "verdict": "infeasible_domain_no_modeling",
+        "closed_by": "O-20260926-0926",
+        "evidence": "微盘 2024 崩塌域不可行域照登不建模（集团令原文）",
+        "reopen": "ceo_one_line_reopen",
+    },
+}
+
+
+def closed_family_check(family_key, reopen_evidence=None) -> dict:
+    """M3: family-close tripwire for NEW preregs (D-37 M3, O-1105 law).
+
+    status semantics:
+      open                    -- family not in the close registry, no restriction;
+      rejected                -- closed family, prereg carries NO reopen evidence
+                                 (re-burning a dead face under the same prereg
+                                 family is refused before any burn);
+      reopen_channel_declared -- prereg declared the new-evidence delta (or
+                                 cited the entry's scheduled/CEO channel); the
+                                 archived verdict evidence must be confronted
+                                 in the prereg, and the fresh prereg freeze
+                                 (never a silent re-run) stays the channel.
+    """
+    key = str(family_key)
+    entry = CLOSED_FAMILIES.get(key)
+    if entry is None:
+        return {"gate": "closed_family_check", "family": key,
+                "status": "open", "in_registry": False}
+    ev = reopen_evidence.strip() if isinstance(reopen_evidence, str) else ""
+    if not ev:
+        return {"gate": "closed_family_check", "family": key,
+                "status": "rejected", "in_registry": True,
+                "reopen_rule": entry["reopen"],
+                "reason": "closed family: declare the new-evidence delta vs the "
+                          "archived verdict (O-20260925-1105 新证据=新预注册) or "
+                          "cite the entry's reopen channel",
+                "entry": entry}
+    return {"gate": "closed_family_check", "family": key,
+            "status": "reopen_channel_declared", "in_registry": True,
+            "reopen_rule": entry["reopen"], "reopen_evidence": ev,
+            "entry": entry}
+
+
 # ---------------------------------------------------------------- F12 CostPatch (single source)
 
 from knowledge import cost_spec as _cost_spec  # RW-3 single-source (T-127)
@@ -2437,6 +2589,45 @@ def selftest() -> int:
        g2f["members"]["X"]["eligible_reform"] is True
        and g2f["members"]["X"]["composite"] > g2f["members"]["Y"]["composite"]
        and not g2f["members"]["Y"]["eligible_reform"])
+
+    # D-20260930-37 M1/M3 adoption (bm-a r482): t hurdle + closed families
+    ok("M1 t_from_sharpe known answer (SR_ann=1.0, T=1512 -> sqrt(6))",
+       abs(t_from_sharpe(1.0, 1512) - math.sqrt(6.0)) < 1e-9)
+    try:
+        t_from_sharpe(1.0, 10)
+        _t_small_ok = False
+    except ValueError:
+        _t_small_ok = True
+    ok("M1 t_from_sharpe refuses thin samples (<20 periods, DSR floor mirror)",
+       _t_small_ok)
+    ok("M1 t_value_gate: hurdle boundary (2.99 fail / 3.0 pass), "
+       "missing input refused honestly (never waved through)",
+       not m1_t_value_gate(2.99)["pass"] and m1_t_value_gate(3.0)["pass"]
+       and not m1_t_value_gate(None)["pass"]
+       and m1_t_value_gate(None)["missing_input"]
+       and not m1_t_value_gate("junk")["pass"]
+       and m1_t_value_gate("junk")["missing_input"])
+    ok("M1 t_value_gate: SR=2.5 6y face clears 3.0; SR=1.0 6y face does not "
+       "(the cheap multiple-testing bite D-37 M1 named)",
+       m1_t_value_gate(t_from_sharpe(2.5, 1512))["pass"]
+       and not m1_t_value_gate(t_from_sharpe(1.0, 1512))["pass"])
+    ok("M3 closed_family_check: unknown open / closed-no-evidence rejected / "
+       "declared delta = lawful reopen channel",
+       closed_family_check("never_heard_of")["status"] == "open"
+       and closed_family_check("factor_blend")["status"] == "rejected"
+       and closed_family_check(
+           "factor_blend",
+           reopen_evidence="IC computation face fixed + new regime gate "
+                           "(delta vs archived negative declared)"
+       )["status"] == "reopen_channel_declared")
+    ok("M3 CLOSED_FAMILIES registry integrity: 6 entries mirror "
+       "STRATEGY_LIBRARY §〇 dead inventory; fields complete; reopen enum known",
+       len(CLOSED_FAMILIES) == 6
+       and all(set(v) >= {"verdict", "closed_by", "evidence", "reopen"}
+               and all(str(v[k]).strip() for k in v)
+               for v in CLOSED_FAMILIES.values())
+       and {v["reopen"] for v in CLOSED_FAMILIES.values()}
+       <= set(CLOSED_FAMILIES_REOPEN_RULES))
 
     n_fail = sum(1 for _, c in checks if not c)
     print(f"\nscience_gates selftest: {len(checks)-n_fail}/{len(checks)} PASS, {n_fail} FAIL")
