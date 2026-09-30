@@ -21,3 +21,7 @@
 - [2026-09-30 r476 bm-b] 并发窗种子带撞号坑（exclusion_marginal_rand 20329000 实弹）：两机同窗独立选中同号——authoring 时点扫描零命中=假绿（对方冻结提交未落本地视野）；bm-c 先烧先发=保号既成事实，我方未烧=让号改 20329500（registry 104 值扫描验空）。改号三同步面=registry 值+runner pin 断言与注释+pool data_gates 文本；prereg 不含具体值=零改。How to apply：种子零撞号扫描必须在 fetch/rebase 边界重跑，authoring 扫描不算数；撞号=未烧方让号勿争议，改号后 selftest 重验才收口。
 - [2026-09-30 r477 bm-b] 探针≠门覆盖面坑（EXCLUSION-MARGINAL 首烧拒烧实弹）：probe/timing 探针只验路径+计数+抽样 150 件，未覆盖「门自己声称把关的全量数据面」——日历映射门对 2005-02-23 面前上市史（1991 起·1154/5217 件含 000001）逐行 FAIL-CLOSED，20:10 首烧即死于首只老股（bm-c MSG-2115 隔机预言面逐字命中=协同披露有效机制）；姊妹病灶=mkt() 裸 dict 索引同病 KeyError 面。修法=门计数器只计窗内（d>=cal[0]）行+执行面 isin 行过滤，**特征面 cnt_full 基于未截断 df=冻结全史 age250 语义分毫未动**（从 2005 截断才构成违备——修门禁顺手截数据=语义偷换）。How to apply：新 runner 的 FAIL-CLOSED 门上线前必问「探针腿是否覆盖该门把关的全量面」；跨机缺陷披露（他 berth 只披露不定夺）收讫即本 berth 裁量+回执（指针=commit 42d37e673+MSG-20260930-2030/2115）。
 
+- [2026-09-30 r286 bm-c] inbox 回执写件与原件归档同名互噬坑：先写回执到 processed/ 再 Move-Item 原件 -Force 同名=回执被原件静默覆盖（本窗实弹·Move-Item -Force 不校验目标语义）。正解=回执走 fleet/inbox/ 独立命名 MSG-<ts>-<sender>-<receiver>-topic.md 由收件方消费归档；原件 Move 原样入 processed/ 禁 Force；轮报告回执行兜底。姊妹坑=stash pop 与后台 daemon 态件竞写（10min tick 窗口内必撞）→先 checkout 态件回 HEAD 再 pop（daemon 下 tick 自愈重写·r286 两连实证）。
+
+- [2026-09-30 r286 bm-c] 有新bar触发判读面坑：判「本轮有无新 bar」必读 update_daily 维护的面板 data/daily/<码>.csv（尾行日期），误读 core48 历法面 data/daily/sh<码>.csv（bm-b 五员车道·sina ETF 源另一通道）=假阴漏跑触发（09-30 bar 20:42 落地实测）。live/t35/t24 纸面腿虽 bm-a lane-io 守卫兜底，触发判读仍须用对面。
+
