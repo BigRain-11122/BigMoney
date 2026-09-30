@@ -9,7 +9,7 @@
   "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
   "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
  },
- "updated_at": "2026-09-30T18:2x+08:00",
+ "updated_at": "2026-10-01 00:26:34",
  "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
  "entries": [
   {
@@ -5363,8 +5363,8 @@
      "key": "lowamp-p1-cell-larep-legacy-base-0of1",
      "status": "ready",
      "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 00:22:08"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:10:05"
     }
    ]
   },
@@ -5397,8 +5397,8 @@
      "key": "lowamp-p1-cell-larep-legacy-x2-0of1",
      "status": "ready",
      "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 00:22:48"
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:44:07"
     }
    ]
   },
@@ -5437,8 +5437,8 @@
      "key": "lowamp-p1-cell-larep-deep-base-0of1",
      "status": "ready",
      "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 00:23:27"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 01:00:05"
     }
    ]
   },
@@ -5477,8 +5477,8 @@
      "key": "lowamp-p1-cell-larep-deep-x2-0of1",
      "status": "ready",
      "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 00:26:08"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 00:40:05"
     }
    ]
   },
@@ -5510,7 +5510,9 @@
     {
      "key": "lowamp-p1-cell-laeq-legacy-base-0of1",
      "status": "ready",
-     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:40:40"
     }
    ]
   },
@@ -5542,7 +5544,9 @@
     {
      "key": "lowamp-p1-cell-laeq-legacy-x2-0of1",
      "status": "ready",
-     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:40:40"
     }
    ]
   },
@@ -5649,8 +5653,12 @@
    "shards": [
     {
      "key": "lowamp-p1-cell-lat3-legacy-base-0of1",
-     "status": "ready",
-     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+     "status": "done",
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "owner_since": "2026-10-01 01:14:03",
+     "done_at": "2026-10-01 01:14:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p1-cell-lat3-legacy-base-0of1.bm-c.json"
     }
    ]
   },
@@ -5682,7 +5690,9 @@
     {
      "key": "lowamp-p1-cell-lat3-legacy-x2-0of1",
      "status": "ready",
-     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:50:08"
     }
    ]
   },
@@ -5790,7 +5800,9 @@
     {
      "key": "lowamp-p1-cell-laedge-legacy-base-0of1",
      "status": "ready",
-     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:42:07"
     }
    ]
   },
@@ -5822,7 +5834,9 @@
     {
      "key": "lowamp-p1-cell-laedge-legacy-x2-0of1",
      "status": "ready",
-     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip"
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:45:19"
     }
    ]
   },
@@ -5957,6 +5971,393 @@
      "note": "N=500 space-filling draws over W77-104/N{2,3}/{invvol,eq}, legacy full panel, rng([20330000,k]); descriptive face only"
     }
    ]
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-0",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "0",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:25:26",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-0of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-0-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 0 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:40:53"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-1",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "1",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:25:44",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-1of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-1-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 1 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:46:10"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-2",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "2",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:25:48",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-2of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-2-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 2 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": "bm-c",
+     "owner_since": "2026-10-01 00:50:19"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-3",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "3",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:25:53",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-3of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-3-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 3 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-4",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "4",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:25:58",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-4of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-4-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 4 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-5",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "5",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:26:03",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-5of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-5-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 5 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-6",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "6",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:26:09",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-6of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-6-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 6 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-7",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "7",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:26:14",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-7of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-7-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 7 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-8",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "8",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:26:19",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-8of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-8-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 8 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-9",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "9",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:26:24",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-9of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-9-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 9 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-10",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "10",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:26:28",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-10of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-10-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 10 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
+  },
+  {
+   "id": "PERPETUAL-N1-W2-SHARD-11",
+   "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+   "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md (frozen pre-run commit 112195415)",
+   "consumer_plan": "science_gates null-pool deepening: merged pool K=4520 -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer); law PERPETUAL_FACES.md sec.5 cumulative N_eff",
+   "runner": "scripts/perpetual_faces_n1.py",
+   "runner_args": [
+    "run",
+    "--shard",
+    "11",
+    "--of",
+    "12"
+   ],
+   "lane_owner": "ANY",
+   "priority": 1,
+   "status": "ready",
+   "entered_at": "2026-10-01 00:26:34",
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+   "shards": [
+    {
+     "key": "n1w2-11of12",
+     "status": "ready",
+     "checkpoint": "results/p2cal_ext/n1_w2/shard-11-of-12.json (presence=done; deterministic rerun byte-equal)",
+     "note": "N1-W2 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+     "owner": null
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal"
+   }
   }
  ],
  "lane_machine": "bm-a"
