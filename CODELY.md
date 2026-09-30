@@ -11,6 +11,8 @@
 
 ### Project
 
+- [2026-09-30 r461 bm-b] rebase 重放撞车双向坑（bigmoney-conflict-resolve 补律·resolve.py/resolve2.py 承载）：①重放批的方向**禁按 rebase 常识假设 base=新**——r460 会话死于重放中，其 S6 产物 12:54-55 比新基 12:47-49 更新 → snapshot 取 theirs（r460 侧）；解前必逐件 ts 探针定方向+断言。②rolling-ledger union 兼收上游行数回归——bm-a r472 compute_audit 206→201（其侧重放丢 6 行），本机 union 201+207→208 自愈零丢失；union 断言 = 行数 ≥ max(两侧) 且 |A∪B| 精确对账，是行数回归的唯一恢复面。③lane_io 守卫件（r378 D-03①）在重放侧无守卫的旧 commit 照写共享面=冲突面扩大——解法仍归 canon 分类器，无需新机制。
+
 - 冷层指针（r464 合并·指针合并归档 r444 范式）：r440 撞批三查律+r449 风暴 union 复活去重律（『热冷整编 2026-09-30 r245 bm-c 窗批』节）+r440 bm-b 初筛富集面≠注册级增量律（法面已由 TRIAL_LABOR_W10_PREREG §7/8+CEO-REPORT-WAVE10+attrition 承载）+r242 runner 外科手术四连坑族（W11 runner 已建毕 selftest 47/47·坑律由 _r242bmc_w11_surgeon 系列工件承载）（两律=『热冷整编 2026-09-29 r449 bm-a 窗批』节），全文 verbatim=archive 202609.md。
 ### Reference
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
