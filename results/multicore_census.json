@@ -1,25 +1,19 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T00:30:25+08:00",
+  "generated_at": "2026-10-01T04:18:54+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
-  "universe_size": 75,
+  "universe_size": 76,
   "summary": {
-    "single_core": 65,
-    "multiprocess": 10
+    "single_core": 38,
+    "multiprocess": 38
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
     "all_non_multiprocess": [
       "Tools/t36_drill_runner.py",
-      "scripts/a158_tsgate_probe.py",
-      "scripts/aggr_fullpool_battery.py",
-      "scripts/aggressive_lab.py",
       "scripts/alloc_backtest.py",
       "scripts/bond_panel_puller.py",
-      "scripts/census_fusion_s2.py",
-      "scripts/census_fusion_s2_w2.py",
-      "scripts/census_fusion_s2_w2b.py",
       "scripts/cn_core_ddctl_p1.py",
       "scripts/cn_core_sat_p1.py",
       "scripts/cn_div_lowvol_rot_p1.py",
@@ -28,15 +22,9 @@
       "scripts/cn_regime_policy_p1.py",
       "scripts/cn_rev_tilt_p1.py",
       "scripts/cn_sector_leader_p1.py",
-      "scripts/cn_soe_etf_p1.py",
-      "scripts/cn_trend_etf_p1.py",
-      "scripts/cross_start_robustness.py",
       "scripts/cta_wave1.py",
       "scripts/decision_chain_v2.py",
       "scripts/decision_chain_v3_tournament.py",
-      "scripts/exclusion_marginal_scan.py",
-      "scripts/fusion_grid_p1.py",
-      "scripts/fusion_p1_nav.py",
       "scripts/gpu_factor_matrix.py",
       "scripts/grid_dualface_backtest.py",
       "scripts/grid_p1_screen.py",
@@ -47,7 +35,6 @@
       "scripts/innovation_quota_w5.py",
       "scripts/innovation_quota_w6.py",
       "scripts/innovation_quota_w7.py",
-      "scripts/innovation_quota_w8.py",
       "scripts/innovation_quota_w9.py",
       "scripts/mf_rot_backtest.py",
       "scripts/national_team_s3_review.py",
@@ -61,27 +48,9 @@
       "scripts/sina_construct_ic.py",
       "scripts/t19_phantom_contribution.py",
       "scripts/t33_router_validation.py",
-      "scripts/trial_labor_w1.py",
-      "scripts/trial_labor_w10.py",
-      "scripts/trial_labor_w11.py",
-      "scripts/trial_labor_w12.py",
-      "scripts/trial_labor_w13.py",
-      "scripts/trial_labor_w14.py",
-      "scripts/trial_labor_w2.py",
-      "scripts/trial_labor_w3.py",
-      "scripts/trial_labor_w4.py",
-      "scripts/trial_labor_w5.py",
-      "scripts/trial_labor_w6.py",
-      "scripts/trial_labor_w7.py",
-      "scripts/trial_labor_w8.py",
-      "scripts/trial_labor_w9.py",
       "scripts/wild_route_lab.py"
     ],
-    "non_multiprocess_with_live_pool_entries": [
-      "scripts/cross_start_robustness.py",
-      "scripts/exclusion_marginal_scan.py",
-      "scripts/trial_labor_w14.py"
-    ]
+    "non_multiprocess_with_live_pool_entries": []
   },
   "out_of_scope_face": "S6 chain updater/gate scripts (update_*.py etc.) are I/O gates, not pool burn batches; census universe is the pool runner face only",
   "verdicts": {
@@ -127,8 +96,17 @@
     "scripts/a158_tsgate_probe.py": {
       "path": "scripts/a158_tsgate_probe.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 471,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 478,
+          "text": "run_cells_parallel(jobs, workers=workers or worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 40230,
       "pool_entry_count": 1,
@@ -142,8 +120,17 @@
     "scripts/aggr_fullpool_battery.py": {
       "path": "scripts/aggr_fullpool_battery.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 48,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 496,
+          "text": "res = run_cells_parallel("
+        }
+      ],
       "main_guard": true,
       "size_bytes": 45686,
       "pool_entry_count": 1,
@@ -157,8 +144,21 @@
     "scripts/aggressive_lab.py": {
       "path": "scripts/aggressive_lab.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 64,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 452,
+          "text": "res = run_cells_parallel("
+        },
+        {
+          "line": 740,
+          "text": "res = run_cells_parallel("
+        }
+      ],
       "main_guard": true,
       "size_bytes": 69367,
       "pool_entry_count": 1,
@@ -202,8 +202,21 @@
     "scripts/census_fusion_s2.py": {
       "path": "scripts/census_fusion_s2.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 516,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 550,
+          "text": "res = run_cells_parallel(jobs, workers=workers, desc=\"census\","
+        },
+        {
+          "line": 784,
+          "text": "from parallel_runner import run_cells_parallel"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 53875,
       "pool_entry_count": 1,
@@ -217,8 +230,21 @@
     "scripts/census_fusion_s2_w2.py": {
       "path": "scripts/census_fusion_s2_w2.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 55,
+          "text": "via parallel_runner.run_cells_parallel (r259 audit key)."
+        },
+        {
+          "line": 578,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 616,
+          "text": "res = run_cells_parallel(jobs, workers=workers or 4, desc=\"census-w2a\","
+        }
+      ],
       "main_guard": true,
       "size_bytes": 47569,
       "pool_entry_count": 1,
@@ -232,8 +258,17 @@
     "scripts/census_fusion_s2_w2b.py": {
       "path": "scripts/census_fusion_s2_w2b.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 508,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 584,
+          "text": "res = run_cells_parallel("
+        }
+      ],
       "main_guard": true,
       "size_bytes": 47470,
       "pool_entry_count": 1,
@@ -367,8 +402,17 @@
     "scripts/cn_soe_etf_p1.py": {
       "path": "scripts/cn_soe_etf_p1.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 171,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 772,
+          "text": "out = run_cells_parallel(jobs, workers=4, desc=\"cn_soe nulls\","
+        }
+      ],
       "main_guard": true,
       "size_bytes": 80649,
       "pool_entry_count": 1,
@@ -382,8 +426,17 @@
     "scripts/cn_trend_etf_p1.py": {
       "path": "scripts/cn_trend_etf_p1.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 148,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 707,
+          "text": "out = run_cells_parallel(jobs, workers=4, desc=\"cn_trend nulls\","
+        }
+      ],
       "main_guard": true,
       "size_bytes": 67467,
       "pool_entry_count": 1,
@@ -397,16 +450,29 @@
     "scripts/cross_start_robustness.py": {
       "path": "scripts/cross_start_robustness.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 60,
+          "text": "from scripts.parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 64,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 195,
+          "text": "pool_out = run_cells_parallel("
+        }
+      ],
       "main_guard": true,
-      "size_bytes": 51928,
+      "size_bytes": 60284,
       "pool_entry_count": 1,
       "pool_statuses": {
-        "waiting": 1
+        "ready": 1
       },
       "workers_plan_declared": [
-        "1"
+        "8"
       ]
     },
     "scripts/cta_wave1.py": {
@@ -481,23 +547,45 @@
     "scripts/exclusion_marginal_scan.py": {
       "path": "scripts/exclusion_marginal_scan.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 669,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 670,
+          "text": "res_s = run_cells_parallel("
+        },
+        {
+          "line": 678,
+          "text": "res_s2 = run_cells_parallel("
+        }
+      ],
       "main_guard": true,
-      "size_bytes": 49419,
+      "size_bytes": 60980,
       "pool_entry_count": 1,
       "pool_statuses": {
-        "waiting": 1
+        "ready": 1
       },
       "workers_plan_declared": [
-        "1"
+        "8"
       ]
     },
     "scripts/fusion_grid_p1.py": {
       "path": "scripts/fusion_grid_p1.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 39,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 725,
+          "text": "out = run_cells_parallel(jobs, workers=4, desc=\"fusion grid cells\","
+        }
+      ],
       "main_guard": true,
       "size_bytes": 51020,
       "pool_entry_count": 1,
@@ -511,8 +599,17 @@
     "scripts/fusion_p1_nav.py": {
       "path": "scripts/fusion_p1_nav.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 40,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 296,
+          "text": "res = run_cells_parallel(jobs, workers=min(worker_cap(), 12),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 22938,
       "pool_entry_count": 1,
@@ -676,8 +773,17 @@
     "scripts/innovation_quota_w8.py": {
       "path": "scripts/innovation_quota_w8.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 107,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 199,
+          "text": "res = run_cells_parallel(jobs, workers=min(worker_cap(), MAX_WORKERS),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 57880,
       "pool_entry_count": 1,
@@ -709,19 +815,23 @@
       "verdict": "multiprocess",
       "evidence": [
         {
-          "line": 701,
+          "line": 757,
           "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
         },
         {
-          "line": 710,
+          "line": 758,
+          "text": "from parallel_runner import worker_cap"
+        },
+        {
+          "line": 766,
           "text": "with ProcessPoolExecutor(max_workers=workers,"
         }
       ],
       "main_guard": true,
-      "size_bytes": 53629,
+      "size_bytes": 56293,
       "pool_entry_count": 18,
       "pool_statuses": {
-        "ready": 18
+        "done": 18
       },
       "workers_plan_declared": [
         "12"
@@ -732,6 +842,10 @@
       "exists": true,
       "verdict": "multiprocess",
       "evidence": [
+        {
+          "line": 78,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
         {
           "line": 611,
           "text": "import multiprocessing as mp"
@@ -763,6 +877,10 @@
         {
           "line": 245,
           "text": "with ProcessPoolExecutor("
+        },
+        {
+          "line": 266,
+          "text": "from parallel_runner import worker_cap"
         }
       ],
       "main_guard": true,
@@ -880,6 +998,34 @@
         "1"
       ]
     },
+    "scripts/perpetual_faces_n1.py": {
+      "path": "scripts/perpetual_faces_n1.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 55,
+          "text": "import multiprocessing"
+        },
+        {
+          "line": 59,
+          "text": "from concurrent.futures import ProcessPoolExecutor"
+        },
+        {
+          "line": 278,
+          "text": "with ProcessPoolExecutor(max_workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 40593,
+      "pool_entry_count": 12,
+      "pool_statuses": {
+        "done": 12
+      },
+      "workers_plan_declared": [
+        "8"
+      ]
+    },
     "scripts/prospect_regime_segments.py": {
       "path": "scripts/prospect_regime_segments.py",
       "exists": true,
@@ -888,6 +1034,10 @@
         {
           "line": 289,
           "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 290,
+          "text": "from parallel_runner import worker_cap"
         },
         {
           "line": 295,
@@ -1002,6 +1152,10 @@
           "text": "from concurrent.futures import ProcessPoolExecutor"
         },
         {
+          "line": 50,
+          "text": "from parallel_runner import worker_cap"
+        },
+        {
           "line": 263,
           "text": "with ProcessPoolExecutor(max_workers=workers or worker_cap(),"
         }
@@ -1037,6 +1191,10 @@
       "verdict": "multiprocess",
       "evidence": [
         {
+          "line": 203,
+          "text": "from parallel_runner import worker_cap"
+        },
+        {
           "line": 204,
           "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
         },
@@ -1058,8 +1216,21 @@
     "scripts/trial_labor_w1.py": {
       "path": "scripts/trial_labor_w1.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 64,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap"
+        },
+        {
+          "line": 1124,
+          "text": "run_cells_parallel(jobs, workers=workers or worker_cap(),"
+        },
+        {
+          "line": 1369,
+          "text": "run_cells_parallel(jobs, workers=workers or worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 88689,
       "pool_entry_count": 2,
@@ -1074,8 +1245,17 @@
     "scripts/trial_labor_w10.py": {
       "path": "scripts/trial_labor_w10.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 2471,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 3255,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 231029,
       "pool_entry_count": 3,
@@ -1091,8 +1271,17 @@
     "scripts/trial_labor_w11.py": {
       "path": "scripts/trial_labor_w11.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 2564,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 3406,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 234355,
       "pool_entry_count": 3,
@@ -1108,8 +1297,17 @@
     "scripts/trial_labor_w12.py": {
       "path": "scripts/trial_labor_w12.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 2898,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 3808,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 262763,
       "pool_entry_count": 3,
@@ -1125,8 +1323,17 @@
     "scripts/trial_labor_w13.py": {
       "path": "scripts/trial_labor_w13.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 3051,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 4033,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 277735,
       "pool_entry_count": 3,
@@ -1142,8 +1349,17 @@
     "scripts/trial_labor_w14.py": {
       "path": "scripts/trial_labor_w14.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 2877,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 3883,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 269993,
       "pool_entry_count": 1,
@@ -1157,8 +1373,17 @@
     "scripts/trial_labor_w2.py": {
       "path": "scripts/trial_labor_w2.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 1059,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 1543,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 122056,
       "pool_entry_count": 3,
@@ -1174,8 +1399,17 @@
     "scripts/trial_labor_w3.py": {
       "path": "scripts/trial_labor_w3.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 1082,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 1511,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 121183,
       "pool_entry_count": 3,
@@ -1191,8 +1425,17 @@
     "scripts/trial_labor_w4.py": {
       "path": "scripts/trial_labor_w4.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 1256,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 1750,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 137237,
       "pool_entry_count": 3,
@@ -1208,8 +1451,17 @@
     "scripts/trial_labor_w5.py": {
       "path": "scripts/trial_labor_w5.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 1364,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 1905,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 144765,
       "pool_entry_count": 3,
@@ -1225,8 +1477,17 @@
     "scripts/trial_labor_w6.py": {
       "path": "scripts/trial_labor_w6.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 1532,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 2119,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 164661,
       "pool_entry_count": 3,
@@ -1242,8 +1503,17 @@
     "scripts/trial_labor_w7.py": {
       "path": "scripts/trial_labor_w7.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 1648,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 2266,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 157933,
       "pool_entry_count": 3,
@@ -1259,8 +1529,17 @@
     "scripts/trial_labor_w8.py": {
       "path": "scripts/trial_labor_w8.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 1978,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 2645,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 188308,
       "pool_entry_count": 3,
@@ -1276,8 +1555,17 @@
     "scripts/trial_labor_w9.py": {
       "path": "scripts/trial_labor_w9.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 2147,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        },
+        {
+          "line": 2876,
+          "text": "tl1.run_cells_parallel(jobs, workers=workers or tl1.worker_cap(),"
+        }
+      ],
       "main_guard": true,
       "size_bytes": 204414,
       "pool_entry_count": 3,

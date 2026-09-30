@@ -7,7 +7,8 @@ referenced by results/runnable_pool.json entries), source-scans each for
 parallelism primitives, and emits a per-runner verdict:
 
   multiprocess   source contains real process-parallel machinery
-                 (multiprocessing / ProcessPoolExecutor / joblib.Parallel)
+                 (multiprocessing / ProcessPoolExecutor / joblib.Parallel
+                 / house scripts/parallel_runner delegation)
   thread_io_only threads or asyncio only -- GIL-bound; legal for I/O gates,
                  NOT CPU multi-core (does not satisfy O-2355 for burn batches)
   single_core    no parallel machinery at all -- banned from pool per
@@ -41,10 +42,20 @@ OUT_PATH = os.path.join("results", "multicore_census.json")
 TZ = timezone(timedelta(hours=8))
 
 # Static face only: patterns match real machinery, not comments naming it.
+# Comment lines are skipped before matching (a comment naming a primitive
+# can never flip a verdict -- selftest comment-resistance cases).
+# House indirection arm: T-134 s2 conversions delegate the ProcessPool to
+# the shared scripts/parallel_runner library (import or run_cells_parallel
+# call = real machinery; first instances cross_start_robustness.py /
+# exclusion_marginal_scan.py -- without this arm the census false-negatives
+# converted runners and the hard-law ban face goes stale).
 RE_MULTIPROCESS = re.compile(
     r"import\s+multiprocessing|from\s+multiprocessing"
     r"|ProcessPoolExecutor|multiprocessing\.(Pool|Process|Manager)"
     r"|\bmp\.Pool\b|joblib\s*\.\s*Parallel|from\s+joblib\s+import"
+    r"|from\s+(scripts\.)?parallel_runner\s+import"
+    r"|\bimport\s+(scripts\.)?parallel_runner\b"
+    r"|\brun_cells_parallel\s*\("
 )
 RE_THREAD_IO = re.compile(
     r"import\s+threading|from\s+threading|ThreadPoolExecutor|import\s+asyncio"
@@ -58,6 +69,8 @@ def classify_source(src):
     mp_hits = []
     th_hits = []
     for i, line in enumerate(src.splitlines(), 1):
+        if line.lstrip().startswith("#"):
+            continue
         if RE_MULTIPROCESS.search(line):
             mp_hits.append((i, line.strip()[:120]))
         if RE_THREAD_IO.search(line):
@@ -180,6 +193,16 @@ def selftest():
         ("import pandas as pd\ndef run():\n    return df.apply(calc)\n",
          "single_core"),
         ("# we should use multiprocessing someday\nimport pandas as pd\n",
+         "single_core"),
+        ("from scripts.parallel_runner import run_cells_parallel, worker_cap\n"
+         "out = run_cells_parallel(jobs, workers=8)\n",
+         "multiprocess"),
+        ("from parallel_runner import run_cells_parallel\n"
+         "res = run_cells_parallel(jobs, workers=4, desc='x')\n",
+         "multiprocess"),
+        ("# plan: from parallel_runner import run_cells_parallel someday\n"
+         "# and run_cells_parallel(jobs) too\n"
+         "import pandas as pd\n",
          "single_core"),
     ]
     fails = 0
