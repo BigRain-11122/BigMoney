@@ -1,5 +1,7 @@
 # ALLOCATION_POLICY_SCAN 预注册（ORDER D-20260930-41 五件事 #2·跑前冻结）
 
+> **状态终谳（2026-09-30 19:2x r283 收口窗）：SUPERSEDED 撤批——同窗撞车撤认领**。撞批事实：本机 18:36:24 认领澄清先上 origin（b04ff54f7）→ bm-b r474 18:55:52 对同一 #2 交付物独立冻结+烧毕 CLOSED（302 trials·277/300·origin 在册）=正典；反重复铁律+撞认领处置=本机撤销、零平行发布。本机侧链路：首燃 fail-closed 零产物零账本→修复重燃 SCAN-DONE cells=456 robust=317（281s）→超窗猝死未收口；**试验闸零入账**（r259 未入链不追溯补记·D-41 预算维持 bm-b 302/500 实况）；456 格产物存档 results/_r283bmc_alloc_scan_SUPERSEDED.{json,csv}（本机宇宙含 513500 跨境面≠bm-b GC001 面，未来如需该覆盖面=新交付物另过轨道闸）。冻结判据 §4/预测 §5 原样保全。
+
 > 批号：ALLOCATION_POLICY_SCAN_P1 ｜ 票：T-2026-09-30-130-P1（claimed_by=bm-c·r283）｜ F-04 声明：MSG-20260930-1835-bmc-ALL（开工前落）
 > 载体令：`docs/audits/ORDER-retail-quant-research-track-20260930.md` §2 #2 ｜ 轨道正典：`research/RETAIL_QUANT_TRACK.md` §二 ｜ 冻结时刻：2026-09-30 18:3x +08（跑前 commit）
 > 纪律：跑后只许回填 §7 占位节；禁改判据禁重跑；三线三判律——本批=政策扫描描述性交付，**不主张 G1'/G2 注册**（判据面=ORDER §2 #2 行原文）。
@@ -43,7 +45,9 @@
 - null 对照：**RB-NEVER=结构性零信号对照**（再平衡机制 vs 不再平衡的纯增量问题）+ 单资产 100% 行=被动基线面（510300 满仓=股基线）——本批无随机 null（确定性网格全量公布型扫描，ORDER §5-2 允许的例外；零随机元零 seed 需求）
 - 成本口径：**V2（ADV20 三层滑点 2/5/10bp+佣金 2.5bp+经手 0.0341bp+监管 0.2bp）**——引擎默认 cost_fn 逐字复用
 - **往返成本 bp 申报【CN-C7·必填·D-20260930-40】**：面 A=**26.082 bp/往返（ETF·13.041bp/边）**＝knowledge/cost_spec.py x1_side_rate 派生（佣金 2.5+经手 0.341+监管 0.2+滑点 10bp v1 基）；本批实跑 V2 面逐变体披露**realized bp/边**（total_cost/turnover）——四资产皆高流动 ETF（ADV20 深厚），V2 实际滑点预期≤2-5bp 档；单笔名义额档位：¥1,000,000 账户/腿——单腿名义 ≥2 万远超 5 元佣金底临界（临界=¥20,000），小额档 4× 效应不适用（如实申报）；ETF 与股票结果只有在此口径下才可比，禁「13bp/边」品种无关口径
-- 账本：`science_gates.append_ledger("ALLOCATION_POLICY_SCAN_P1", 399, "allocation_policy_scan.json", evidence_cutoff="2026-09-22")`（dict schema 唯一，跑成后单发）
+- 账本：`science_gates.append_ledger("ALLOCATION_POLICY_SCAN_P1", 456, "allocation_policy_scan.json", evidence_cutoff="2026-09-22")`（dict schema 唯一，跑成后单发）
+  - **changelog（2026-09-30 18:5x·零烧窗扫尾·r478 判据多读法坑预防）**：§3 账本行残留初稿 399（同 §0 已澄清的 57×7 算术滑笔·澄清 commit 未扫尽处）→ 456 与 §0 冻结真值/runner 调用（`allocation_policy_scan.py` L~290 append_ledger(BATCH, 456)）三方对齐；零烧窗内扫尾（探针/selftest 外零跑·账本零 append），非判据改动（C1/C2/C3 零触）
+  - **changelog（2026-09-30 19:0x·首次点火 fail-closed 中止·零产物零账本·修复后重燃）**：首燃 19:0x 触发 runner 自带近似验证门 `approx validation FAIL-CLOSED: rel_dev=0.126184`（阈值行全起点面=连续近似·重置密集行微结构差复利放大：扁平 13.041bp 成本 vs 引擎实跑 ~4.7bp+重置时序+reserve 包络·抽样行 0.01%→2.5% 随重置数单调·诊断件 results/_r283bmc_diag_approx.py）→ **零产物零账本干净中止**（fail-closed 先于任何文件写与 append_ledger·W14 零烧面同判 N=0）→ 修复=阈值行全起点面升精为**引擎逐起点精算**（ab.simulate verbatim·start_idx=s·与 canonical 同参·s=0 恒等断言 fail-closed；NEVER 闭式 0.07% 照旧过·日历段恒等照旧）——§3 引擎逐字复用声明面增强非削弱·C1/C2/C3 判据零改动·网格 456 零改动·运行预算 3-4min 仍在 §0 <5min 声明内；判例=r251/r280 零格修复窗（fail-closed 中止=未烧）
 - **闭合族对号声明【M3·必填】**：family_key=`ALLOCATION_POLICY`——`science_gates.CLOSED_FAMILIES` 不在册（open 照跑）；人读镜像 `research/CLOSED_FAMILIES.md` 无配置族条目（已核）
 
 ## §4 判据【必填·跑前写死，禁看结果调线】
