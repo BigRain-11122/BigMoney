@@ -239,9 +239,15 @@ def _core_spread_face(day):
     parallel-efficiency comparison row: per-machine judged batches,
     weighted effective cores (core-seconds / wall-seconds), single-core
     red-flag counts -- aggregated from results/pool_core_samples.jsonl
-    rows dated <day> (law-2 launch sampler, Tools/core_sampler.py; rows
+    rows dated <day> (    law-2 launch sampler, Tools/core_sampler.py; rows
     propagate per machine via git).  Aggregation only; machines without
-    samples today get honest zero rows, never fabricated."""
+    samples today get honest zero rows, never fabricated.
+    r503 merge (T-134 s4 follow-up, r502 next-pointer): each machine's
+    latest per-machine compute_audit lane (results/compute_audit.<mid>.json
+    -> latest.parallel_efficiency, 60-min trailing window, readable flag)
+    is joined as audit_window -- so a zero-sample machine renders its
+    sampler-health state (zero launches vs unreadable sampler) instead of
+    a bare N/A that reads like a data gap."""
     per = {mid: {"batches_judged": 0, "core_seconds": 0.0, "wall_seconds": 0.0,
                  "effective_cores": None, "single_core_burn": 0,
                  "multicore_burn": 0, "too_short": 0, "last_ts": None}
@@ -282,9 +288,21 @@ def _core_spread_face(day):
             d["effective_cores"] = round(d["core_seconds"] / d["wall_seconds"], 2)
         d["core_seconds"] = round(d["core_seconds"], 1)
         d["wall_seconds"] = round(d["wall_seconds"], 1)
+    for mid, d in per.items():
+        aud = _read_json(os.path.join(ROOT, "results",
+                                      f"compute_audit.{mid}.json")) or {}
+        latest_aud = aud.get("latest") or {}
+        pe = latest_aud.get("parallel_efficiency") or {}
+        d["audit_window"] = {
+            "readable": pe.get("readable"),
+            "window_min": pe.get("window_min"),
+            "audit_batches": pe.get("batches_judged"),
+            "audit_ts": latest_aud.get("ts"),
+        }
     return {"day": day, "machines": per,
             "canon": "T-134 s4 (O-2026-09-30-2355) -- law-2 sampler rows "
-                     "results/pool_core_samples.jsonl"}
+                     "results/pool_core_samples.jsonl + per-machine "
+                     "compute_audit parallel_efficiency window merge (r503)"}
 
 
 def build_report(now):
@@ -372,9 +390,19 @@ def render_md(rep):
     parts = []
     for mid, m in (cs.get("machines") or {}).items():
         eff = m.get("effective_cores")
-        parts.append(f"**{mid}** 有效核 {eff if eff is not None else 'N/A'}"
-                     f"（判 {m.get('batches_judged')} 批 · 多核达标 {m.get('multicore_burn')}"
-                     f" · 单核红牌 {m.get('single_core_burn')} · 短跑不计 {m.get('too_short')}）")
+        seg = (f"**{mid}** 有效核 {eff if eff is not None else 'N/A'}"
+               f"（判 {m.get('batches_judged')} 批 · 多核达标 {m.get('multicore_burn')}"
+               f" · 单核红牌 {m.get('single_core_burn')} · 短跑不计 {m.get('too_short')}）")
+        if eff is None:
+            aw = m.get("audit_window") or {}
+            if aw.get("readable"):
+                wm = aw.get("window_min")
+                wm_s = f"{wm:g}" if isinstance(wm, (int, float)) else "?"
+                seg += (f"——当日零发射·采样器健康"
+                        f"（近{wm_s}min窗 {aw.get('audit_batches')} 批）")
+            elif aw:
+                seg += "——采样器读出不可用（compute_audit 面如实标注）"
+        parts.append(seg)
     if parts:
         L.append(f"- **核分布/并行效率三机对照（T-134 s4 · {cs.get('day')}）**：" + "；".join(parts))
     if cs.get("note"):
@@ -445,11 +473,17 @@ def selftest():
                      "bm-b": {"batches_judged": 0, "core_seconds": 0.0,
                               "wall_seconds": 0.0, "effective_cores": None,
                               "single_core_burn": 0, "multicore_burn": 0,
-                              "too_short": 0, "last_ts": None},
-                     "bm-c": {"batches_judged": 1, "core_seconds": 240.0,
-                              "wall_seconds": 30.0, "effective_cores": 8.0,
-                              "single_core_burn": 0, "multicore_burn": 1,
-                              "too_short": 1, "last_ts": "y"}},
+                              "too_short": 0, "last_ts": None,
+                              "audit_window": {"readable": True, "window_min": 60.0,
+                                               "audit_batches": 0,
+                                               "audit_ts": "2026-09-26 09:00:00"}},
+                     "bm-c": {"batches_judged": 0, "core_seconds": 0.0,
+                              "wall_seconds": 0.0, "effective_cores": None,
+                              "single_core_burn": 0, "multicore_burn": 0,
+                              "too_short": 0, "last_ts": None,
+                              "audit_window": {"readable": False, "window_min": 60.0,
+                                               "audit_batches": 0,
+                                               "audit_ts": None}}},
         "canon": "T-134 s4"}
     rep = build_report(datetime(2026, 9, 26, 10, 0, 0))
     md = render_md(rep)
@@ -457,7 +491,9 @@ def selftest():
                    "四、决策面", "五、明日队列", "Token 行", "ORANGE_COOL",
                    "六、算力利用率", "T-107 slice-2 pending", "FLAG:supply_floor",
                    "实盘一页纸直达", "核分布/并行效率三机对照（T-134 s4",
-                   "有效核 5.5", "单核红牌 1", "有效核 N/A"):
+                   "有效核 5.5", "单核红牌 1", "有效核 N/A",
+                   "当日零发射·采样器健康（近60min窗 0 批）",
+                   "采样器读出不可用（compute_audit 面如实标注）"):
         assert marker in md, marker
     assert rep["combat"]["traders"][0]["trader"] == "T1"
     assert rep["report_date"] == "2026-09-26"
