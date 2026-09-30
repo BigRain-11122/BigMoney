@@ -213,16 +213,6 @@
    "shard": "exclusion-0of1",
    "machine": "bm-b"
   },
-  "scripts/lowamp_p1.py|run,--cell,LA-T3,--axis,legacy,--face,x2": {
-   "count": 1,
-   "refusals": 1,
-   "code_sha256": "d6997f152c007f80",
-   "last_crash_ts": "2026-10-01 00:45:15",
-   "entry": "LOWAMP-P1-CELL-LAT3-LEGACY-X2",
-   "shard": "lowamp-p1-cell-lat3-legacy-x2-0of1",
-   "machine": "bm-c",
-   "last_refusal_ts": "2026-10-01 00:45:19"
-  },
   "scripts/lowamp_p1.py|run,--sensitivity": {
    "count": 1,
    "refusals": 0,
@@ -357,6 +347,13 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "5da5664a264a4a0e"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-T3,--axis,legacy,--face,x2": {
+   "cleared_ts": "2026-10-01 01:21:45",
+   "cleared_by": "bm-a",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "d6997f152c007f80"
   }
  },
  "lane_machine": "bm-a"
