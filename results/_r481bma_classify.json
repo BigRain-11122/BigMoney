@@ -1,0 +1,101 @@
+{
+ "classified": [
+  {
+   "state": "UU",
+   "path": "docs/daily_report/REPORT-2026-09-30.json",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face: take-new by generated ts inside the doc; .md and .json twins MUST take the SAME side (ts probes independently may tie-break differently); storm-proven r98/r99/r100",
+   "law": "r98/r99/r100"
+  },
+  {
+   "state": "UU",
+   "path": "docs/daily_report/REPORT-2026-09-30.md",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face: take-new by generated ts inside the doc; .md and .json twins MUST take the SAME side (ts probes independently may tie-break differently); storm-proven r98/r99/r100",
+   "law": "r98/r99/r100"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-2026-09-30.json",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily 本地再生幂等/他日永不动): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-2026-09-30.md",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily 本地再生幂等/他日永不动): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-latest.json",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily 本地再生幂等/他日永不动): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "docs/live_usage/LIVE-latest.md",
+   "class": "snapshot",
+   "recipe": "same-day idempotent regen face (ceo_live_usage daily 本地再生幂等/他日永不动): take-new by generated ts inside the doc; all LIVE-* twins (dated + latest pointers) MUST take the SAME side; r439 bm-b live-fire manual adjudication formalized",
+   "law": "r98/r99/r100/r439bmb"
+  },
+  {
+   "state": "UU",
+   "path": "results/compute_audit.json",
+   "class": "rolling-ledger",
+   "recipe": "union both blobs on history key (zero row loss; line-count = |A ∪ B|), then newest snapshot fields take-new; take-side ts probe = DEEP-SCAN nested layers (top-level miss != no ts: true ts lives in nested path e.g. latest.ts; top-only scan -> tie -> stale side silently picked, r311/D-20260927-09) and probe the compare path for existence first (missing key = silently-false compare, r319)",
+   "law": "r188/R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/fundamental_b_layer_filter.json",
+   "class": "snapshot",
+   "recipe": "take-new by updated ts (per-run verdict snapshot, re-derived each round)",
+   "law": "R216"
+  },
+  {
+   "state": "UU",
+   "path": "results/futures_update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts (ts probe deep-scans nested layers, r311/D-20260927-09; probe hardening r100: normalize key stripping '_'/'-' before prefix match + value must match ^20\\d{2}- before max-compare; probe law R350: key-EXCLUDE lists forbidden, wall-clock values require time-of-day, probe staged blob not working tree)",
+   "law": "R208/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/lhb_update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts (ts probe deep-scans nested layers, r311/D-20260927-09; probe hardening r100: normalize key stripping '_'/'-' before prefix match + value must match ^20\\d{2}- before max-compare; probe law R350: key-EXCLUDE lists forbidden, wall-clock values require time-of-day, probe staged blob not working tree)",
+   "law": "R208/r100/R350"
+  },
+  {
+   "state": "UU",
+   "path": "results/regime_state.json",
+   "class": "rolling-ledger",
+   "recipe": "union both blobs on history/transitions keys (zero row loss), then take-new state fields; take-side ts probe = deep-scan nested layers (r311/D-20260927-09), dedup keys must exist inside entries (probe per-face before union, r319)",
+   "law": "R208"
+  },
+  {
+   "state": "UU",
+   "path": "results/token_usage.json",
+   "class": "snapshot",
+   "recipe": "take-new by generated ts (meter re-derives whole doc from files each round; newest measurement wins wholesale)",
+   "law": "R216"
+  },
+  {
+   "state": "UU",
+   "path": "results/update_status.json",
+   "class": "snapshot",
+   "recipe": "take-new whole doc; if genuinely co-written by two faces, merge dicts key-wise newest-ts (ts probe deep-scans nested layers, r311/D-20260927-09; probe hardening r100: normalize key stripping '_'/'-' before prefix match + value must match ^20\\d{2}- before max-compare; probe law R350: key-EXCLUDE lists forbidden, wall-clock values require time-of-day, probe staged blob not working tree)",
+   "law": "R208/r100/R350"
+  }
+ ],
+ "unknown": [
+  {
+   "state": "UU",
+   "path": "results/_attrition_guard_scan.json"
+  }
+ ]
+}
