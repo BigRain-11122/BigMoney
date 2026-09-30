@@ -1,11 +1,17 @@
-"""PERPETUAL_FACES generator v0.2 -- T-133 s2 (CEO O-2026-09-30-2340).
+"""PERPETUAL_FACES generator v0.3 -- T-133 s2 (CEO O-2026-09-30-2340).
 
 v0.2 (bm-b r485): N1 runner landed (scripts/perpetual_faces_n1.py, wave-2
 prereg research/PERPETUAL_N1_W2_PREREG.md frozen pre-run); first-wave W2
 materialized via autofill submit per law freeze-signature sequencing line
-("runner lands one batch, materialize one batch"); N1 supply_ready=False
-until the per-shard materializer pattern lands (next slice) -- supply()
-reports it honestly as supply-blocked, never fake-materializes.
+("runner lands one batch, materialize one batch").
+
+v0.3 (bm-b r490): per-shard materializer pattern landed (the "next slice"
+the v0.2 registry promised). Runner is wave-parameterized (v0.3 --wave,
+law sec.4 pre-assigned rows W2/W3; spawn-side wave carrier via executor
+initargs). supply() now expands the next law wave into 12 per-shard pool
+entries (W2 registration face verbatim) when the 3-leg trigger fires;
+per-wave prereg presence is the materialization gate (never fake-supply);
+pool rewrites mirror the file's probed indent/EOL (r289 format law).
 
 Law: research/PERPETUAL_FACES.md v1.0 (FROZEN bm-b r484 2026-09-30).
 Face-level prereg frozen ONCE (ticket law); per-wave preregs (R99
@@ -29,7 +35,9 @@ sec.1 honest clause).
 Contract (law sec.1/sec.3):
   supply   evaluate 3-leg trigger (pool starving AND py<70 AND no
            same-face in-flight wave) -> materialize next wave for the
-           first runner-landed face in priority order N1>N3>N2>N4.
+           first runner-landed face in priority order N1>N3>N2>N4 as
+           12 per-shard entries (per-wave prereg required, never
+           fake-supply; next wave derived from pool entry truth).
            Writes flags to results/perpetual_faces_state.json
            (pool_starved / supply_floor / faces_pending) consumed by
            the s3 daily-report/CEO-face wiring.  exit 0 normal (incl.
@@ -38,7 +46,8 @@ Contract (law sec.1/sec.3):
   selftest offline hermetic checks (no network, no pool writes):
            face registry integrity, seed-band disjointness vs
            science_gates.SEED_REGISTRY + v1/ext in-use bands, pool
-           parse, state round-trip. exit 0/1.
+           parse, state round-trip, materializer expansion face,
+           pool format-mirror probe. exit 0/1.
 
 Single-writer law: pool file written ONLY by this lane-machine
 generator on materialization; autofill stays read-only (pool schema
@@ -74,10 +83,10 @@ FACES = [
      "runner": "scripts/perpetual_faces_n1.py",
      "runner_args": ["run"],  # per-shard args appended at materialization
      "wave": 2, "prereg_ref": "research/PERPETUAL_N1_W2_PREREG.md",
-     # supply auto-path blocked until the per-shard materializer pattern lands
-     # (next slice); W2 first batch entered via autofill submit per the law
-     # freeze-signature sequencing line -- never a fake-supply entry
-     "supply_ready": False},
+     # per-shard materializer pattern landed r490 (runner v0.3 --wave):
+     # supply() expands the next law sec.4 wave into 12 per-shard entries
+     # when the 3-leg trigger fires; per-wave prereg presence is the gate
+     "supply_ready": True},
     {"id": "N3", "name": "neighborhood-robustness", "priority": 2, "runner": None,
      "runner_args": None, "wave": 1, "prereg_ref": None},
     {"id": "N2", "name": "random-subspace-furnace", "priority": 3, "runner": None,
@@ -138,6 +147,90 @@ def _write_state(st):
     with open(tmp, "w", encoding="utf-8") as f:
         json.dump(st, f, ensure_ascii=False, indent=1)
     os.replace(tmp, STATE_PATH)
+
+
+def _expand_wave_entries(face, wave, ts):
+    """Per-shard materializer (law sec.1): expand one wave into 12 pool
+    entries -- the W2 registration face verbatim (one entry per shard,
+    runner carries the wave, checkpoint=presence=done contract, unclaimed
+    shard faces). Pure function: no pool/state writes (selftest exercises
+    it hermetically)."""
+    bands = N1_BANDS[wave]
+    entries = []
+    for i in range(12):
+        entries.append({
+            "id": f"PERPETUAL-N1-W{wave}-SHARD-{i}",
+            "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+            "prereg_ref": (f"research/PERPETUAL_N1_W{wave}_PREREG.md "
+                           f"(frozen pre-run; law sec.4 W{wave} bands "
+                           f"A {bands['a'][0]}+ / B-exit {bands['b_exit'][0]}+)"),
+            "consumer_plan": ("science_gates null-pool deepening: merged "
+                              "pool (law sec.5 cumulative) -> skill_line_v2 "
+                              "K-lift + p95/p99 face (G1 prime skill line "
+                              "consumer)"),
+            "runner": "scripts/perpetual_faces_n1.py",
+            "runner_args": ["run", "--shard", str(i), "--of", "12",
+                            "--wave", str(wave)],
+            "lane_owner": "ANY",
+            "priority": 1,
+            "status": "ready",
+            "entered_at": ts,
+            "worker_class": "self-contained",
+            "data_gates": ("in-runner FAIL-CLOSED: universe==48 bare codes "
+                           "+ panel end==2026-09-22 same-window + law sec.4 "
+                           "seed bands (selftest-enforced) + determinism "
+                           "byte-equal rerun"),
+            "shards": [{
+                "key": f"n1w{wave}-{i}of12",
+                "status": "ready",
+                "checkpoint": (f"results/p2cal_ext/n1_w{wave}/"
+                              f"shard-{i}-of-12.json (presence=done; "
+                              f"deterministic rerun byte-equal)"),
+                "note": (f"N1-W{wave} wave shard {i} of 12 "
+                         f"(A2000+B200 contiguous slice); ~2min serial burn"),
+            }],
+            "workers_plan": {
+                "workers": 8, "priority": "BelowNormal",
+                "workers_law": ("ProcessPoolExecutor code-backed, "
+                                "O-20260930-2355 multicore law (serial-vs-"
+                                "pool byte-equal parity proven on W2); "
+                                "BLAS 1/worker cap; --workers override"),
+            },
+        })
+    return entries
+
+
+def _pool_format_probe():
+    """r289 format law: probe the pool file's indent + EOL + trailing-NL
+    face before any rewrite (bare json.dump defaults = whole-file diff).
+    Missing file -> the canonical producer face (indent 2, CRLF)."""
+    indent, crlf, trailing_nl = 2, True, False
+    if os.path.exists(POOL_PATH):
+        b = open(POOL_PATH, "rb").read()
+        nl = b.count(b"\n")
+        crlf = b.count(b"\r\n") >= max(1, nl) // 2
+        trailing_nl = b.endswith(b"\n")
+        for line in b.decode("utf-8", errors="replace").split("\n"):
+            s = line.strip()
+            if s.startswith('"'):
+                indent = len(line) - len(line.lstrip(" "))
+                break
+    return indent, crlf, trailing_nl
+
+
+def _pool_write_mirror(pool):
+    """Atomic pool write mirroring the probed producer format (single-writer
+    lane law; the tmp+replace face is the established producer pattern)."""
+    indent, crlf, trailing_nl = _pool_format_probe()
+    s = json.dumps(pool, ensure_ascii=False, indent=indent)
+    if crlf:
+        s = s.replace("\n", "\r\n")
+    if trailing_nl and not s.endswith("\n"):
+        s += "\r\n" if crlf else "\n"
+    tmp = POOL_PATH + ".tmp"
+    with open(tmp, "wb") as f:
+        f.write(s.encode("utf-8"))
+    os.replace(tmp, POOL_PATH)
 
 
 def cmd_status():
@@ -202,44 +295,80 @@ def cmd_supply():
                   "N1-W2 runner is the next law-sequenced deliverable")
         return 0
     face = landed[0]
-    # materialization path activates with the first landed runner; v0.1
-    # ships the registry with runner=None for all faces by law (runners
-    # land with their own frozen wave preregs in subsequent rounds).
-    entry = {
-        "id": f"{face['id']}-W{face['wave']}",
-        "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
-        "prereg_ref": face["prereg_ref"],
-        "runner": face["runner"],
-        "runner_args": face["runner_args"] or [],
-        "lane_owner": "ANY",
-        "priority": 1,
-        "status": "ready",
-        "entered_at": sg._now() if hasattr(sg, "_now") else None,
-        "worker_class": "self-contained",
-        "shards": [],  # filled by the wave's own materializer spec
-        "workers_plan": {"workers": 12, "priority": "BelowNormal"},
-    }
-    pool.setdefault("entries", [])
-    entries = pool["entries"]
-    vals = entries.values() if isinstance(entries, dict) else entries
-    if any(e.get("id") == entry["id"] for e in vals):
-        print(f"supply: wave entry {entry['id']} already in pool -- idempotent no-op")
+    ts = sg._now() if hasattr(sg, "_now") else None
+    if face["id"] != "N1":
+        # future faces (N3/N2/N4): their per-shard materializer patterns
+        # land together with their runners (law freeze-signature sequencing)
         _write_state(st)
+        print(f"supply: face {face['id']} runner landed but its per-shard "
+              f"materializer pattern has not landed -- honest no-op")
         return 0
-    pool["updated_at"] = entry["entered_at"]
-    tmp = POOL_PATH + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        json.dump(pool, f, ensure_ascii=False, indent=1)
-    os.replace(tmp, POOL_PATH)
-    st["waves"].append({"face": face["id"], "wave": face["wave"],
-                        "entered_at": entry["entered_at"],
-                        "bands": N1_BANDS.get(face["wave"]) if face["id"] == "N1" else None})
+    vals = list(pool.get("entries", []))
+    if isinstance(pool.get("entries"), dict):
+        vals = list(pool["entries"].values())
+    # law sec.1 leg-3: no same-face in-flight wave (live = ready/waiting/running)
+    n1_live = [e for e in vals
+               if str(e.get("id", "")).startswith("PERPETUAL-N1-")
+               and str(e.get("status", "")) in ("ready", "waiting", "running")]
+    if n1_live:
+        _write_state(st)
+        print(f"supply: same-face wave in flight ({len(n1_live)} live "
+              f"PERPETUAL-N1-* entries) -- honest no-op (law sec.1 leg-3)")
+        return 0
+    # next wave from pool entry truth (materialization ledger of record;
+    # generator-local state waves[] is not the cross-machine truth face)
+    waves_seen = []
+    for e in vals:
+        eid = str(e.get("id", ""))
+        if eid.startswith("PERPETUAL-N1-W") and "-SHARD-" in eid:
+            try:
+                waves_seen.append(
+                    int(eid.split("PERPETUAL-N1-W")[1].split("-SHARD-")[0]))
+            except (IndexError, ValueError):
+                pass
+    wave = (max(waves_seen) + 1) if waves_seen else face["wave"]
+    if wave not in N1_BANDS:
+        st["last_supply"]["awaiting"] = f"law sec.4 bands for W{wave}"
+        _write_state(st)
+        print(f"supply: next wave W{wave} has no law sec.4 pre-assigned "
+              f"bands yet (tail rows extend per-wave at prereg time) -- "
+              f"honest no-op")
+        return 0
+    prereg_rel = f"research/PERPETUAL_N1_W{wave}_PREREG.md"
+    if not os.path.exists(os.path.join(PATHS.root, prereg_rel)):
+        st["last_supply"]["awaiting"] = f"frozen prereg for W{wave}"
+        _write_state(st)
+        print(f"supply: per-wave prereg {prereg_rel} not frozen -- never "
+              f"fake-supply (honest no-op; prereg is the wave gate)")
+        return 0
+    new_entries = _expand_wave_entries(face, wave, ts)
+    existing_ids = {str(e.get("id", "")) for e in vals}
+    new_entries = [e for e in new_entries if e["id"] not in existing_ids]
+    if not new_entries:
+        _write_state(st)
+        print(f"supply: W{wave} per-shard entries already in pool -- "
+              f"idempotent no-op")
+        return 0
+    pool.setdefault("entries", [])
+    if isinstance(pool["entries"], dict):
+        for e in new_entries:
+            pool["entries"][e["id"]] = e
+    else:
+        pool["entries"].extend(new_entries)
+    pool["updated_at"] = ts
+    _pool_write_mirror(pool)
+    st["waves"].append({"face": face["id"], "wave": wave, "entered_at": ts,
+                        "n_entries": len(new_entries),
+                        "bands": N1_BANDS.get(wave)})
     _write_state(st)
-    print(f"supply: materialized {entry['id']} into runnable_pool (single-writer lane write)")
+    print(f"supply: materialized {len(new_entries)} per-shard entries "
+          f"PERPETUAL-N1-W{wave}-SHARD-0..11 into runnable_pool "
+          f"(single-writer lane write, format-mirrored)")
     return 0
 
 
 def cmd_selftest():
+    global POOL_PATH               # 8b swaps it to a temp file (restored)
     ok = True
     # 1. face registry integrity (law sec.2: four faces, priorities 1-4)
     ids = [f["id"] for f in sorted(FACES, key=lambda x: x["priority"])]
@@ -275,8 +404,65 @@ def cmd_selftest():
     del st["_selftest_probe"]
     # 6. py face reader robustness (missing machine file -> None, no crash)
     assert _py_face() is None or isinstance(_py_face(), float)
-    print("perpetual_faces selftest: 6/6 PASS "
-          "(registry/seed-bands/pool/state/py-face)")
+    # 7. per-shard materializer expansion face (pure function; no writes)
+    ts = "2026-10-01T00:00:00"
+    exp = _expand_wave_entries(FACES[0], 3, ts)
+    assert len(exp) == 12, "expansion must be 12 per-shard entries"
+    assert [e["id"] for e in exp] == \
+        [f"PERPETUAL-N1-W3-SHARD-{i}" for i in range(12)]
+    for i, e in enumerate(exp):
+        assert e["runner_args"] == ["run", "--shard", str(i), "--of", "12",
+                                    "--wave", "3"], f"shard {i} args drift"
+        assert e["status"] == "ready" and e["lane_owner"] == "ANY"
+        assert e["worker_class"] == "self-contained"
+        assert e["entered_at"] == ts and e["priority"] == 1
+        assert "PERPETUAL_N1_W3_PREREG" in e["prereg_ref"]
+        assert str(N1_BANDS[3]["a"][0]) in e["prereg_ref"], "law A band uncited"
+        assert str(N1_BANDS[3]["b_exit"][0]) in e["prereg_ref"], "law B band uncited"
+        assert len(e["shards"]) == 1 and e["shards"][0]["key"] == f"n1w3-{i}of12"
+        assert e["shards"][0]["status"] == "ready"
+        assert e["shards"][0]["checkpoint"].startswith(
+            f"results/p2cal_ext/n1_w3/shard-{i}-of-12.json")
+        assert "owner" not in e["shards"][0], "unclaimed at materialization"
+        assert e["workers_plan"]["workers"] >= 1, "O-2355 workers face"
+        for forbidden_owner in ("owner", "owner_since", "done_at", "done_by"):
+            assert forbidden_owner not in e["shards"][0]
+    # expansion band cites stay law-frozen (R250): tamper probe refuses
+    bands_copy = dict(N1_BANDS[3])
+    try:
+        N1_BANDS[3] = {"a": (99_999, 99_999), "b_exit": (99_998, 99_998)}
+        bad = _expand_wave_entries(FACES[0], 3, ts)
+        assert "99999" in bad[0]["prereg_ref"], "expansion ignores band table"
+    finally:
+        N1_BANDS[3] = bands_copy
+    # 8. pool format-mirror probe (read-only; r289 law: indent2+CRLF probed)
+    if os.path.exists(POOL_PATH):
+        indent, crlf, trailing_nl = _pool_format_probe()
+        assert indent == 2 and crlf, f"pool format face drifted: {indent}/{crlf}"
+        assert trailing_nl is False, "pool trailing face drifted"
+    # 8b. writer round-trip on a temp file (hermetic; real pool untouched):
+    # probe defaults + CRLF mirror + no trailing NL + byte-identical face
+    real_pool = POOL_PATH
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        try:
+            POOL_PATH = os.path.join(td, "pool_probe.json")
+            sample = {"version": 1, "entries": [{"id": "X-1", "n": [1, 2]}]}
+            _pool_write_mirror(sample)
+            b = open(POOL_PATH, "rb").read()
+            assert b.count(b"\r\n") == b.count(b"\n") and b.count(b"\n") > 0, \
+                "CRLF mirror broken"
+            assert not b.endswith(b"\n"), "trailing NL leaked"
+            assert b'{\r\n  "version": 1' in b, "indent2 mirror broken"
+            rt = json.loads(b.decode("utf-8"))
+            assert rt == sample, "round-trip content drift"
+            # probe on the temp face agrees (indent2/CRLF/no-trailing)
+            assert _pool_format_probe() == (2, True, False)
+        finally:
+            POOL_PATH = real_pool
+    print("perpetual_faces selftest: 8/8 PASS "
+          "(registry/seed-bands/pool/state/py-face/"
+          "materializer-expansion/pool-format-probe+writer-roundtrip)")
     return 0 if ok else 1
 
 

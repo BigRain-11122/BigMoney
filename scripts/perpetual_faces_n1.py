@@ -1,8 +1,16 @@
-"""PERPETUAL_FACES N1 wave-2 runner -- T-133 s2 (CEO O-2026-09-30-2340).
+"""PERPETUAL_FACES N1 wave runner -- T-133 s2 (CEO O-2026-09-30-2340).
 
 Law: research/PERPETUAL_FACES.md v1.0 sec.2/sec.4 (FROZEN bm-b r484).
-Wave prereg: research/PERPETUAL_N1_W2_PREREG.md (wave-level frozen
-pre-run, R99; bands = law sec.4 ledger W2 rows verbatim, R250 one-step).
+Wave prereg: per-wave frozen pre-run (R99; bands = law sec.4 ledger rows
+verbatim, R250 one-step -- bands frozen in the law BEFORE any wave runner
+exists, no re-pick after freeze).
+
+v0.3 (bm-b r490): wave-parameterized (--wave, law sec.4 pre-assigned rows
+W2/W3; W2 default = landed frozen wave, byte-identical behavior). Wave
+config travels to spawn-side workers via the executor initializer (Windows
+spawn re-imports the module with W2 defaults -- the initializer re-pins the
+wave before any rng use). finalize() composes the cumulative pool per law
+sec.5 (canon + W1 ext + every completed prior wave + this wave).
 
 Design = frozen v1 null calibration VERBATIM via import-face reuse:
   engine      = p2_null_calibration.run_one (same-source, no re-impl)
@@ -14,25 +22,33 @@ W2 bands (law sec.4):
   family A: j = 0..1999, entry seed = 12_100 + j  (random entry, engine exit)
   family B: j = 0..199,  entry seed = 12_100 + j (paired with A[j]),
                             exit seed = 21_100 + j (random exit, p=0.05)
+W3 bands (law sec.4):
+  family A: j = 0..1999, entry seed = 14_100 + j
+  family B: j = 0..199,  entry seed = 14_100 + j (paired with A[j]),
+                            exit seed = 21_300 + j
 
 Subcommands:
-  run --shard i --of N [--workers W]  burn shard i of N (also accepts --nshards),
-                         writes results/p2cal_ext/n1_w2/shard-<i>-of-<N>.json
-                         --workers W: process-pool size (default: full cores,
+  run --shard i --of N [--wave W] [--workers P]
+                         burn shard i of N for wave W (default 2; also
+                         accepts --nshards), writes
+                         results/p2cal_ext/n1_w<W>/shard-<i>-of-<N>.json
+                         --workers P: process-pool size (default: full cores,
                          O-2026-09-30-2355 multicore law + O-20260930-1858
                          holiday full-core mobilization; BLAS capped 1/worker)
-  finalize               FAIL-CLOSED merge of all shards -> cumulative null
-                         pool (canon 120 + W1 ext 2200 + W2 2200 = 4520),
+  finalize [--wave W]    FAIL-CLOSED merge of all shards -> cumulative null
+                         pool (law sec.5: canon 120 + W1 ext 2200 +
+                         completed prior waves + this wave 2200),
                          skill_line_v2 K-lift at same n_eff (v2 attribution
                          law), ledger +2200, writes
-                         results/perpetual_faces/n1_w2_results.json
-  probe                  2-run end-to-end design probe at out-of-band seeds
-                         95_002/95_003 (ledger +0)
-  parity                 serial-vs-pool byte-equality check on real wave
+                         results/perpetual_faces/n1_w<W>_results.json
+  probe                 2-run end-to-end design probe at out-of-band seeds
+                         95_002/95_003 (ledger +0; W2 design face only --
+                         wave 3 design = W2 verbatim, honest no-op)
+  parity                serial-vs-pool byte-equality check on real wave
                          j-slice (O-2355 conversion verification face;
-                         ledger +0; writes _n1_w2_parity.json)
-  status                 shard inventory + finalize state (read-only)
-  selftest               offline hermetic checks (no network, no engine)
+                         ledger +0; writes _n1_w2_parity.json; W2 face only)
+  status [--wave W]     shard inventory + finalize state (read-only)
+  selftest              offline hermetic checks (no network, no engine)
 """
 import glob
 import json
@@ -56,20 +72,57 @@ import p2_null_calibration_ext as ext  # noqa: E402
 BATCH = "PERPETUAL-N1-W2"
 WAVE = 2
 LAW_REF = "research/PERPETUAL_FACES.md v1.0 sec.4 (T-133 s2, O-2026-09-30-2340)"
-PREREG = ("research/PERPETUAL_N1_W2_PREREG.md (wave-level frozen pre-run; "
-          "design = frozen v1 null calibration verbatim, new seed bands only)")
 CUTOFF = ext.CUTOFF                      # 2026-09-22 same-window law
 A_N = 2000
 B_N = 200
-A_SEED_BASE = 12_100                    # law sec.4: 12_100..14_099
-B_EXIT_SEED_BASE = 21_100               # law sec.4: 21_100..21_299
 PROBE_ENTRY_SEED = 95_002               # out-of-band (design probe only)
 PROBE_EXIT_SEED = 95_003
-SHARD_DIR = os.path.join(PATHS.results_dir, "p2cal_ext", "n1_w2")
 OUT_DIR = os.path.join(PATHS.results_dir, "perpetual_faces")
-OUT = os.path.join(OUT_DIR, "n1_w2_results.json")
-PROBE_OUT = os.path.join(OUT_DIR, "_n1_w2_probe.json")
 W1_EXT_OUT = os.path.join(PATHS.results_dir, "p2_calibration_v2_ext.json")
+
+# --- law sec.4 wave ledger (bands verbatim; runner is wave-parameterized,
+#     single source = law file mirrored in perpetual_faces.N1_BANDS which
+#     selftest asserts parity against -- never a new pick after freeze) ---
+WAVE_CONFIGS = {
+    2: {"batch": "PERPETUAL-N1-W2",
+        "prereg": ("research/PERPETUAL_N1_W2_PREREG.md (wave-level frozen "
+                   "pre-run; design = frozen v1 null calibration verbatim, "
+                   "new seed bands only)"),
+        "a_seed_base": 12_100,           # law sec.4 W2 A: 12_100..14_099
+        "b_exit_seed_base": 21_100,      # law sec.4 W2 B: 21_100..21_299
+        "shard_subdir": "n1_w2", "out_name": "n1_w2_results.json"},
+    3: {"batch": "PERPETUAL-N1-W3",
+        "prereg": ("research/PERPETUAL_N1_W3_PREREG.md (wave-level frozen "
+                   "pre-run; design = frozen v1 null calibration verbatim, "
+                   "new seed bands only)"),
+        "a_seed_base": 14_100,           # law sec.4 W3 A: 14_100..16_099
+        "b_exit_seed_base": 21_300,      # law sec.4 W3 B: 21_300..21_499
+        "shard_subdir": "n1_w3", "out_name": "n1_w3_results.json"},
+}
+
+PREREG = WAVE_CONFIGS[2]["prereg"]
+A_SEED_BASE = WAVE_CONFIGS[2]["a_seed_base"]
+B_EXIT_SEED_BASE = WAVE_CONFIGS[2]["b_exit_seed_base"]
+SHARD_DIR = os.path.join(PATHS.results_dir, "p2cal_ext",
+                         WAVE_CONFIGS[2]["shard_subdir"])
+OUT = os.path.join(OUT_DIR, WAVE_CONFIGS[2]["out_name"])
+PROBE_OUT = os.path.join(OUT_DIR, "_n1_w2_probe.json")
+
+
+def _set_wave(w: int) -> None:
+    """Switch the active wave face (law sec.4 pre-assigned rows only; the
+    W2 default path stays byte-identical). Also used as the spawn-side
+    wave carrier: child processes re-import the module with W2 defaults,
+    so the executor initializer re-pins the wave before any rng use."""
+    global WAVE, BATCH, PREREG, A_SEED_BASE, B_EXIT_SEED_BASE, SHARD_DIR, OUT
+    cfg = WAVE_CONFIGS[w]
+    WAVE = w
+    BATCH = cfg["batch"]
+    PREREG = cfg["prereg"]
+    A_SEED_BASE = cfg["a_seed_base"]
+    B_EXIT_SEED_BASE = cfg["b_exit_seed_base"]
+    SHARD_DIR = os.path.join(PATHS.results_dir, "p2cal_ext", cfg["shard_subdir"])
+    OUT = os.path.join(OUT_DIR, cfg["out_name"])
 
 
 # --- pool harvest handshake (r496 canon, T-134 s3) -------------------------
@@ -112,8 +165,8 @@ def _pool_claim(entry_id: str, shard_key: str, detail: str) -> None:
 
 def _entry_shard_of(shard: int, nshards: int) -> tuple:
     """Pool entry/shard identity (mirrors the T-133 s2 registration face:
-    PERPETUAL-N1-W2-SHARD-<i> / n1w2-<i>of<N>)."""
-    return (f"PERPETUAL-N1-W2-SHARD-{shard}", f"n1w2-{shard}of{nshards}")
+    PERPETUAL-N1-W<wave>-SHARD-<i> / n1w<wave>-<i>of<N>)."""
+    return (f"PERPETUAL-N1-W{WAVE}-SHARD-{shard}", f"n1w{WAVE}-{shard}of{nshards}")
 
 
 def _shard_valid(path: str, shard: int, nshards: int) -> bool:
@@ -149,8 +202,9 @@ def p_for(j: int) -> float:
 _CTX = None        # per-process assembled engine context (spawn-safe global)
 
 
-def _worker_init():
+def _worker_init(wave: int = 2):
     global _CTX
+    _set_wave(wave)          # spawn carrier: re-pin wave before any rng use
     v1m, prices, idx, closes, cost_rate = ext._assemble()
     _CTX = (prices, idx, closes, closes.shape[0], closes.shape[1],
             list(closes.columns))
@@ -162,9 +216,9 @@ def _run_a(j: int) -> dict:
     rng = np.random.default_rng(A_SEED_BASE + j)
     entry = ext._entry_matrix(rng, n_days, n_syms, idx, cols, p)
     exit_ = pd.DataFrame(False, index=idx, columns=cols)
-    r = v1.run_one(prices, idx, entry, exit_, {}, f"w2A_p{p}_j{j}")
+    r = v1.run_one(prices, idx, entry, exit_, {}, f"w{WAVE}A_p{p}_j{j}")
     return {**r, "p": p, "seed_rng": A_SEED_BASE + j,
-            "note": f"w2 random entry p={p} rng={A_SEED_BASE + j}; "
+            "note": f"w{WAVE} random entry p={p} rng={A_SEED_BASE + j}; "
                     f"exits=engine rules (v1 design verbatim)"}
 
 
@@ -176,11 +230,11 @@ def _run_b(j: int) -> dict:
     rng_x = np.random.default_rng(B_EXIT_SEED_BASE + j)
     exit_ = pd.DataFrame((rng_x.random((n_days, n_syms)) < v1.P_EXIT),
                          index=idx, columns=cols)
-    r = v1.run_one(prices, idx, entry, exit_, {}, f"w2B_p{p}_j{j}")
+    r = v1.run_one(prices, idx, entry, exit_, {}, f"w{WAVE}B_p{p}_j{j}")
     return {**r, "p": p, "seed_rng_entry": A_SEED_BASE + j,
             "seed_rng_exit": B_EXIT_SEED_BASE + j,
-            "note": f"w2 random entry rng={A_SEED_BASE + j} "
-                    f"(paired with w2A_j{j}) + random exit "
+            "note": f"w{WAVE} random entry rng={A_SEED_BASE + j} "
+                    f"(paired with w{WAVE}A_j{j}) + random exit "
                     f"rng={B_EXIT_SEED_BASE + j} p={v1.P_EXIT}"}
 
 
@@ -222,11 +276,12 @@ def run_shard(shard: int, nshards: int, workers: int = 1) -> int:
     if workers > 1:
         _cap_blas_threads()
         with ProcessPoolExecutor(max_workers=workers,
-                                  initializer=_worker_init) as ex:
+                                  initializer=_worker_init,
+                                  initargs=(WAVE,)) as ex:
             fam_a = list(ex.map(_run_a, range(a_lo, a_hi)))
             fam_b = list(ex.map(_run_b, range(b_lo, b_hi)))
     else:
-        _worker_init()                       # in-process ctx, serial driver
+        _worker_init(WAVE)                   # in-process ctx, serial driver
         fam_a = [_run_a(j) for j in range(a_lo, a_hi)]
         fam_b = [_run_b(j) for j in range(b_lo, b_hi)]
     print(f"  A[{a_lo}..{a_hi}) + B[{b_lo}..{b_hi}) done "
@@ -279,12 +334,26 @@ def _w1_values():
     return vals
 
 
+def _wave_values(w: int) -> list:
+    """Prior wave's run sharpes from its committed finalize output
+    (law sec.5 cumulative composition; FAIL-CLOSED on incompleteness)."""
+    fp = os.path.join(OUT_DIR, WAVE_CONFIGS[w]["out_name"])
+    d = json.load(open(fp, encoding="utf-8"))
+    fams = d.get("families") or {}
+    a = (fams.get("A_random_engine_exit") or {}).get("runs") or []
+    b = (fams.get("B_random_entry_random_exit") or {}).get("runs") or []
+    vals = [float(r["full"]["sharpe"]) for r in a + b]
+    assert len(vals) == A_N + B_N, \
+        f"prior wave W{w} file incomplete: {len(vals)} != {A_N + B_N} (FAIL-CLOSED)"
+    return vals
+
+
 def finalize() -> int:
     shard_files = sorted(glob.glob(os.path.join(
         SHARD_DIR, "shard-*-of-*.json")))
     if not shard_files:
-        print("finalize: FAIL-CLOSED -- no shard files under "
-              "results/p2cal_ext/n1_w2/")
+        print(f"finalize: FAIL-CLOSED -- no shard files under "
+              f"results/p2cal_ext/{WAVE_CONFIGS[WAVE]['shard_subdir']}/")
         return 2
     a_runs, b_runs, nshards_seen = [], [], set()
     for sf in shard_files:
@@ -314,18 +383,26 @@ def finalize() -> int:
     canon_pool = sg.null_sharpes()               # canon 120, untouched
     canon_cov = canon_pool["coverage"]
     w1_vals = _w1_values()
-    w2_vals = [float(r["full"]["sharpe"]) for r in a_runs + b_runs]
-    pre_values = list(canon_pool["values"]) + w1_vals       # 2,320
-    merged_values = pre_values + w2_vals                   # 4,520
+    wv_vals = [float(r["full"]["sharpe"]) for r in a_runs + b_runs]
+    # law sec.5 cumulative composition: canon + W1 ext + every completed
+    # prior wave's finalize output + this wave (N_eff never resets)
+    pre_values = list(canon_pool["values"]) + w1_vals       # 2,320 base
+    pre_parts = ["canon 120", "W1 ext 2200"]
+    for w in range(2, WAVE):
+        pre_values += _wave_values(w)
+        pre_parts.append(f"W{w} 2200")
+    merged_values = pre_values + wv_vals
 
     def cov(vals, schema):
         return {"n_values": len(vals), "schemas_parsed": [schema],
                 "known_unparsed": [], "mu": sum(vals) / len(vals),
                 "sigma": sg._pstdev(vals)}
 
-    cov_pre = cov(pre_values, "canon 120 + W1 ext 2200 (pre-W2 cumulative)")
-    cov_w2 = cov(w2_vals, "n1_w2 shard merge: families[*].runs[].full.sharpe")
-    cov_mrg = cov(merged_values, "canon 120 + W1 ext 2200 + W2 2200")
+    cov_pre = cov(pre_values, " + ".join(pre_parts)
+                  + f" (pre-W{WAVE} cumulative)")
+    cov_wv = cov(wv_vals, f"n1_w{WAVE} shard merge: "
+                          "families[*].runs[].full.sharpe")
+    cov_mrg = cov(merged_values, " + ".join(pre_parts + [f"W{WAVE} 2200"]))
 
     # K-lift at the SAME n_eff on both sides (v2 attribution law verbatim)
     line_old = sg.skill_line_v2(batch_cells=0,
@@ -335,8 +412,9 @@ def finalize() -> int:
                                 null_pool={"values": merged_values,
                                            "coverage": cov_mrg})
 
-    led = sg.append_ledger(BATCH, A_N + B_N, "perpetual_faces/n1_w2_results.json",
-                           note="perpetual N1 nulls-deepening wave 2 (law "
+    led = sg.append_ledger(BATCH, A_N + B_N,
+                           f"perpetual_faces/n1_w{WAVE}_results.json",
+                           note=f"perpetual N1 nulls-deepening wave {WAVE} (law "
                                 "PERPETUAL_FACES v1.0 sec.4): 2,200 new-seed "
                                 "null trials, frozen v1 design, window "
                                 "2026-09-22",
@@ -367,20 +445,21 @@ def finalize() -> int:
         "null_pool_cumulative": {
             "canon": {"n_values": canon_cov["n_values"], "mu": canon_cov["mu"],
                       "sigma": canon_cov["sigma"]},
-            "pre_w2_cumulative": {"n_values": cov_pre["n_values"],
-                                  "mu": cov_pre["mu"],
-                                  "sigma": cov_pre["sigma"]},
-            "w2_only": {"n_values": cov_w2["n_values"], "mu": cov_w2["mu"],
-                        "sigma": cov_w2["sigma"]},
+            f"pre_w{WAVE}_cumulative": {"n_values": cov_pre["n_values"],
+                                        "mu": cov_pre["mu"],
+                                        "sigma": cov_pre["sigma"]},
+            f"w{WAVE}_only": {"n_values": cov_wv["n_values"],
+                              "mu": cov_wv["mu"], "sigma": cov_wv["sigma"]},
             "merged": {"n_values": cov_mrg["n_values"], "mu": cov_mrg["mu"],
                        "sigma": cov_mrg["sigma"]},
-            "mu_delta_w2_vs_w1ext": None,  # filled below from W1 file
-            "se_mu_at_k4520": round(cov_mrg["sigma"] / (cov_mrg["n_values"] ** 0.5), 6),
+            f"mu_delta_w{WAVE}_vs_w{WAVE-1}ext": None,  # filled below
+            f"se_mu_at_k{cov_mrg['n_values']}": round(
+                cov_mrg["sigma"] / (cov_mrg["n_values"] ** 0.5), 6),
         },
         "skill_line_v2_k_lift": {
             "n_eff_held_equal": line_old["n_eff"],
-            "line_pre_w2": line_old["line"],
-            "line_merged_4520": line_new["line"],
+            f"line_pre_w{WAVE}": line_old["line"],
+            f"line_merged_{cov_mrg['n_values']}": line_new["line"],
             "line_delta_k_lift": round(line_new["line"] - line_old["line"], 4),
             "passive_term": line_new.get("passive"),
             "formula": "max(passive+0.10, mu + sigma*sqrt(2*ln N_eff))",
@@ -393,17 +472,24 @@ def finalize() -> int:
             encoding="utf-8").read()).get("machine_id", "unknown"),
             "finalize_only": True},
     }
-    w1d = json.load(open(W1_EXT_OUT, encoding="utf-8"))
-    w1_ext_cov = (w1d.get("null_pool_old_vs_new") or {}).get("ext_only") or {}
-    if w1_ext_cov.get("mu") is not None:
-        out["null_pool_cumulative"]["mu_delta_w2_vs_w1ext"] = round(
-            cov_w2["mu"] - w1_ext_cov["mu"], 6)
+    if WAVE == 2:
+        w1d = json.load(open(W1_EXT_OUT, encoding="utf-8"))
+        prior_mu = ((w1d.get("null_pool_old_vs_new") or {})
+                    .get("ext_only") or {}).get("mu")
+    else:
+        wprev = json.load(open(os.path.join(
+            OUT_DIR, WAVE_CONFIGS[WAVE - 1]["out_name"]), encoding="utf-8"))
+        prior_mu = ((wprev.get("null_pool_cumulative") or {})
+                    .get(f"w{WAVE - 1}_only") or {}).get("mu")
+    if prior_mu is not None:
+        out["null_pool_cumulative"][f"mu_delta_w{WAVE}_vs_w{WAVE-1}ext"] = round(
+            cov_wv["mu"] - prior_mu, 6)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, default=str)
-    print(f"pre-W2  mu={cov_pre['mu']:.4f} sigma={cov_pre['sigma']:.4f} "
+    print(f"pre-W{WAVE}  mu={cov_pre['mu']:.4f} sigma={cov_pre['sigma']:.4f} "
           f"(K={cov_pre['n_values']})")
-    print(f"w2      mu={cov_w2['mu']:.4f} sigma={cov_w2['sigma']:.4f} "
-          f"(K={cov_w2['n_values']})")
+    print(f"w{WAVE}      mu={cov_wv['mu']:.4f} sigma={cov_wv['sigma']:.4f} "
+          f"(K={cov_wv['n_values']})")
     print(f"merged  mu={cov_mrg['mu']:.4f} sigma={cov_mrg['sigma']:.4f} "
           f"(K={cov_mrg['n_values']})")
     print(f"skill_line_v2 @n_eff={line_old['n_eff']}: {line_old['line']} -> "
@@ -416,6 +502,10 @@ def finalize() -> int:
 
 def probe() -> int:
     """2-run end-to-end design probe at out-of-band seeds. Ledger +0."""
+    if WAVE != 2:
+        print(f"probe: W2 design-verification face only (wave {WAVE} design "
+              f"= W2 verbatim, already verified r485) -- honest no-op")
+        return 0
     v1m, prices, idx, closes, cost_rate = ext._assemble()
     n_days, n_syms = closes.shape
     cols = list(closes.columns)
@@ -457,6 +547,11 @@ def parity() -> int:
     """O-2355 conversion verification: serial vs process-pool byte-equality
     on a real wave j-slice. Ledger +0 (same wave j's, re-burned identically
     inside their shards; evidence file out-of-band, finalize ignores it)."""
+    if WAVE != 2:
+        print(f"parity: O-2355 conversion-verification face ran on W2 "
+              f"(byte-equal PASS, r485/r488); wave {WAVE} reuses the same "
+              f"serial/pool driver verbatim -- honest no-op")
+        return 0
     _cap_blas_threads()
     a_js = [0, 1, 2, 3]
     b_js = [0, 1]
@@ -629,16 +724,71 @@ def selftest() -> int:
     finally:
         os.unlink(tp)
     assert _machine_id(), "machine_id unreadable"
+    # 11. wave-3 face (per-shard materializer lane): law sec.4 W3 rows
+    # verbatim, disjointness vs every in-use band, spawn-carrier parity,
+    # entry identity, path separation, prereg presence (never fake-supply),
+    # finalize cumulative dependency present.
+    _set_wave(3)
+    try:
+        import perpetual_faces as pf
+        assert WAVE_CONFIGS[3]["a_seed_base"] == pf.N1_BANDS[3]["a"][0], \
+            "W3 A band drift vs law mirror"
+        assert WAVE_CONFIGS[3]["b_exit_seed_base"] == \
+            pf.N1_BANDS[3]["b_exit"][0], "W3 B band drift vs law mirror"
+        w3_a = {A_SEED_BASE + j for j in range(A_N)}
+        w3_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w3_a & w3_b), "W3 A/B band overlap"
+        assert not (w3_a & reg_ints) and not (w3_b & reg_ints), \
+            "W3 hits SEED_REGISTRY"
+        for nm, band in (("A", w3_a), ("B", w3_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W3 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W3 {nm} hits W1"
+            assert not (band & probes), f"W3 {nm} hits probe seeds"
+        assert not (w3_a & {WAVE_CONFIGS[2]["a_seed_base"] + j
+                            for j in range(A_N)}), "W3 A hits W2 band"
+        assert not (w3_b & {WAVE_CONFIGS[2]["b_exit_seed_base"] + j
+                             for j in range(B_N)}), "W3 B hits W2 band"
+        la = set(range(pf.N1_BANDS[4]["a"][0], pf.N1_BANDS[4]["a"][1] + 1))
+        lb = set(range(pf.N1_BANDS[4]["b_exit"][0],
+                       pf.N1_BANDS[4]["b_exit"][1] + 1))
+        assert not (w3_a & la) and not (w3_b & lb), "W3 hits law W4 band"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W3-SHARD-0",
+                                          "n1w3-0of12"), "W3 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W3-SHARD-11",
+                                           "n1w3-11of12")
+        assert SHARD_DIR.endswith("n1_w3") and OUT.endswith(
+            "n1_w3_results.json"), "W3 path drift"
+        assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+            PATHS.results_dir, "p2cal_ext", WAVE_CONFIGS[2]["shard_subdir"])), \
+            "W3 shard dir collides with W2"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W3_PREREG.md")), \
+            "W3 per-wave prereg missing (materializer requirement)"
+        assert os.path.exists(os.path.join(
+            OUT_DIR, WAVE_CONFIGS[2]["out_name"])), \
+            "W3 finalize cumulative dep (W2 output) missing"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     print("selftest: PASS (v1 constants + seed bands disjoint [v1/W1/registry/"
-          "law W3-W4] + law band parity + p pattern + determinism + slice "
+          "law W2/W4] + law band parity + p pattern + determinism + slice "
           "math + canon intact + W1 dep complete + path safety + O-2355 "
           "multiprocess code-backed workers plan + r498 pool claim "
-          "handshake identity/verify)")
+          "handshake identity/verify + W3 materializer face "
+          "[bands/identity/paths/prereg/cumulative-dep/spawn-carrier])")
     return 0
 
 
 def main():
     argv = sys.argv[1:]
+    if "--wave" in argv:
+        w = int(argv[argv.index("--wave") + 1])
+        if w not in WAVE_CONFIGS:
+            print(f"unknown wave {w} (law sec.4 pre-assigned rows: "
+                  f"{sorted(WAVE_CONFIGS)}; W5+ bands extend per-wave at "
+                  f"prereg time, law sec.4 tail rows)")
+            return 2
+        _set_wave(w)
     if "selftest" in argv:
         return selftest()
     if "finalize" in argv:
@@ -658,11 +808,12 @@ def main():
         nshards = int(argv[argv.index("--nshards") + 1])
     if shard is None or nshards is None:
         print(__doc__)
-        print("usage: run --shard i --of N [--workers W] | finalize | probe | "
-              "parity | status | selftest")
+        print("usage: run --shard i --of N [--wave W] [--workers P] | "
+              "finalize [--wave W] | probe | parity | status [--wave W] | "
+              "selftest")
         return 2
     if "run" not in argv:
-        print("usage: run --shard i --of N [--workers W]")
+        print("usage: run --shard i --of N [--wave W] [--workers P]")
         return 2
     assert 0 <= shard < nshards, "shard out of range"
     return run_shard(shard, nshards, workers=_resolve_workers(argv))
