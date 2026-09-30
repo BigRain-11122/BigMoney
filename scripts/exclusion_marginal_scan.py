@@ -788,6 +788,13 @@ def run() -> int:
             df = pd.read_csv(os.path.join(PANEL_DIR, f"{code}.csv"),
                              usecols=["date", "open", "close"])
             df = df[df["date"] <= EVIDENCE_CUTOFF]
+            # drop rows outside the calendar face (pre-2005 listing history):
+            # unreachable for execution (signals 2007+, exec at signal+1) and
+            # bare cal_pos_of[d] would KeyError; cnt_full age face (feature pass)
+            # is computed on the UNTRUNCATED df -- frozen sec.2 full-history
+            # age250 semantics are NOT touched by this execution-array filter.
+            _keep = df["date"].astype(str).isin(cal_pos_of)
+            df = df[_keep]
             mpos = np.array([cal_pos_of[d] for d in df["date"].astype(str)],
                             dtype=np.int64)
             opens = df["open"].to_numpy()
