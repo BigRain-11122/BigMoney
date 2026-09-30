@@ -299,6 +299,59 @@ def _face_b_gates():
     return True, rep
 
 
+# --------------------------------------------------------------------------
+# multicore faces (O-2026-09-30-2355 hard law; T-134 s2 conversion, bm-b).
+# Face B sims run as per-(cell, start) ProcessPool tasks through the shared
+# parallel_runner; engine faces stay 100% imported from ems. This also FIXES
+# the r478-class contract bug: the old closure `def mkt(code)->tuple` was a
+# CALLABLE, while ems._sim_cell subscripts (mkt[c]) -- it would have died
+# TypeError at the first marked position, after the multi-minute feature
+# pass. The engine's ems._Mkt class (subscriptable) is the contract face.
+# --------------------------------------------------------------------------
+def _fb_init_ctx(ctx: dict) -> None:
+    """ProcessPool initializer: ships the compact shared context once per
+    worker; the engine module global pair (ems._POOL_CTX/_MKT_CACHE) is the
+    only state the tasks consume (spawn-safe, no closures cross the wire)."""
+    global _FB_CTX
+    _FB_CTX = ctx
+    ems = _ems()
+    ems._POOL_CTX = ctx
+    ems._MKT_CACHE = ems._Mkt()
+
+
+def _fb_task(sel_named, m0):
+    """One face-B sim task: full-period replay (m0 None) or one Jan-first
+    start replay (prereg sec.3-B frozen faces, engine imported)."""
+    ems = _ems()
+    ctx = ems._POOL_CTX
+    mkt = ems._MKT_CACHE
+    from knowledge import rules as _kr
+    stock_fee = _kr.fee_schedule_for("600000")
+    sig_pos, n_cal, cal = ctx["sig_pos"], ctx["n_cal"], ctx["cal"]
+    n_sig, code_idx, AMT = ctx["n_sig"], ctx["code_idx"], ctx["AMT"]
+
+    def slip_of(code: str, m: int) -> float:
+        i = code_idx[code]
+        adv = AMT[i, m] if m < n_sig else np.nan
+        return _kr.cost_v2_slippage(adv if adv == adv else None)
+
+    start_month = 0 if m0 is None else m0
+    day0 = sig_pos[0] if m0 is None else sig_pos[m0]
+    rp = ems._sim_cell(sel_named, mkt, sig_pos, n_cal, start_month,
+                       stock_fee, slip_of)
+    met = ems._metrics(rp, cal, day0)
+    if m0 is None:
+        return {"full_met": met}
+    yrs = (n_cal - day0) / 244.0
+    return {"start": {
+        "ann_ret_net": (float(rp["eq"][-1]) / ems.INITIAL_CASH)
+                       ** (1.0 / yrs) - 1.0,
+        "final_equity": float(rp["eq"][-1]),
+        "worst_5y": met["worst_5y"],
+        "maxdd": met["maxdd"],
+    }}
+
+
 def run_face_b(write=True):
     """Burn Face B (prereg sec.3-B, frozen): raw low-amount baseline
     (amt20-asc top-10, monthly, T+1 open exec, V2 stock costs) across the
@@ -329,8 +382,6 @@ def run_face_b(write=True):
         print(json.dumps({"face_b": "FAIL-CLOSED (zero-burn)", "gates": gates},
                          ensure_ascii=False, indent=1))
         return 2
-    import pandas as pd
-    from knowledge import rules as kr
     from firm.risk import b_layer_filter as blf
 
     # ---- calendar + signals (engine faces, imported) ----
@@ -356,47 +407,39 @@ def run_face_b(write=True):
     code_idx = {c: i for i, c in enumerate(codes)}
     n_codes = len(codes)
 
-    # ---- feature matrices (mirror ems.run(); calendar lower bound added) ----
+    # ---- feature matrices (phase-1 ProcessPool via the engine's shared
+    # _feature_task; lo_bound keeps the disclosed face-B calendar filter;
+    # T-134 s2 / O-2026-09-30-2355) ----
+    from parallel_runner import run_cells_parallel, worker_cap
+    _wo = os.environ.get("CROSS_START_FACEB_WORKERS")
+    workers = int(_wo) if _wo else int(min(worker_cap(), 8))
+    cal_first = cal[0]
+    ctx_f = {"panel_dir": ems.PANEL_DIR, "cal_pos_of": cal_pos_of,
+             "cal_start": cal_first, "sig_pos": sig_pos,
+             "code_idx": code_idx}
     AMT = np.full((n_codes, n_sig), np.nan)
     CLOSE = np.full((n_codes, n_sig), np.nan)
     CNT = np.full((n_codes, n_sig), np.nan)
     STALE = np.full((n_codes, n_sig), np.inf)
-    cal_first = cal[0]
-    for c in codes:
-        with open(os.path.join(ems.PANEL_DIR, f"{c}.csv")) as _fh:
-            df = pd.read_csv(_fh, usecols=["date", "open", "close", "amount"])
-        df = df[(df["date"] <= ems.EVIDENCE_CUTOFF)
-                & (df["date"] >= cal_first)]
-        amt20_full = df["amount"].rolling(20).mean().to_numpy()
-        cnt_full = np.arange(1, len(df) + 1, dtype=np.float64)
-        dates = df["date"].astype(str).tolist()
-        mpos_l, cl_l, a_l, cnt_l = [], [], [], []
-        unmapped = 0
-        for j, d in enumerate(dates):
-            q = cal_pos_of.get(d)
-            if q is None:
-                unmapped += 1
-                continue
-            mpos_l.append(q)
-            cl_l.append(df["close"].iat[j])
-            a_l.append(amt20_full[j])
-            cnt_l.append(cnt_full[j])
-        if unmapped:
-            gates["fail"] = f"calendar-unmapped in-calendar rows: {c} x{unmapped}"
+    feats = run_cells_parallel(
+        [(c, ems._feature_task, (c, cal_first)) for c in codes],
+        workers=workers, desc="face_b_features",
+        initializer=_fb_init_ctx, initargs=(ctx_f,))
+    feats.pop("__workers__")
+    for c in codes:                    # fixed assembly order (determinism)
+        r = feats[c]
+        if r["unmapped"]:
+            gates["fail"] = f"calendar-unmapped in-calendar rows: {c} x{r['unmapped']}"
             print(json.dumps({"face_b": "FAIL-CLOSED (zero-burn)",
                               "gates": gates}, ensure_ascii=False, indent=1))
             return 2
-        if not mpos_l:
+        if r["empty"]:
             continue
-        mpos = np.asarray(mpos_l, dtype=np.int64)
-        idx = np.searchsorted(mpos, np.asarray(sig_pos), side="right") - 1
-        has = idx >= 0
-        ii = np.where(has, idx, 0)
-        i = code_idx[c]
-        AMT[i] = np.where(has, np.asarray(a_l)[ii], np.nan)
-        CLOSE[i] = np.where(has, np.asarray(cl_l)[ii], np.nan)
-        CNT[i] = np.where(has, np.asarray(cnt_l)[ii], np.nan)
-        STALE[i] = np.where(has, np.asarray(sig_pos) - mpos[ii], np.inf)
+        i = r["i"]
+        AMT[i] = r["amt"]
+        CLOSE[i] = r["close"]
+        CNT[i] = r["cnt"]
+        STALE[i] = r["stale"]
     r1 = elig.loc[codes, "r1_loss"].astype(bool).to_numpy()
     r2 = elig.loc[codes, "r2_st"].astype(bool).to_numpy()
     seed_base_rand = int(sg.SEED_REGISTRY[SEED_KEY]) + B_RAND_SEED_OFFSET
@@ -408,29 +451,18 @@ def run_face_b(write=True):
         p = cal.index(first_day)
         start_months[y] = next(m for m, sp in enumerate(sig_pos) if sp >= p)
 
-    stock_fee = kr.fee_schedule_for("600000")
-    cache: dict[str, tuple] = {}
-
-    def mkt(code: str) -> tuple:
-        if code not in cache:
-            with open(os.path.join(ems.PANEL_DIR, f"{code}.csv")) as _fh:
-                df = pd.read_csv(_fh, usecols=["date", "open", "close"])
-            df = df[(df["date"] <= ems.EVIDENCE_CUTOFF)
-                    & (df["date"] >= cal_first)]
-            mpos = np.array([cal_pos_of[d] for d in df["date"].astype(str)],
-                            dtype=np.int64)
-            opens = df["open"].to_numpy()
-            closes = df["close"].to_numpy()
-            cache[code] = (mpos, opens, closes,
-                           ems._ffill_np(mpos, closes, n_cal))
-        return cache[code]
-
-    def slip_of(code: str, m: int) -> float:
-        i = code_idx[code]
-        adv = AMT[i, m] if m < n_sig else np.nan
-        return kr.cost_v2_slippage(adv if adv == adv else None)
-
-    cells_out = {}
+    # ---- phase-2: per-(cell, start) sim pool (T-134 s2 /
+    # O-2026-09-30-2355); mkt contract = ems._Mkt (subscriptable; the old
+    # closure callable was the r478-class TypeError bug, fixed here) ----
+    ctx_c = {"panel_dir": ems.PANEL_DIR, "cal_pos_of": cal_pos_of,
+             "cal_start": cal_first, "sig_pos": sig_pos, "n_cal": n_cal,
+             "cal": cal, "n_sig": n_sig, "code_idx": code_idx, "AMT": AMT,
+             "codes": codes}
+    ems._POOL_CTX = ctx_c
+    ems._MKT_CACHE = ems._Mkt()
+    sel_by_cell: dict[str, list] = {}
+    sel_named_by_cell: dict[str, list] = {}
+    jobs = []
     for cell in _face_b_cells():
         name = cell["cell"]
         sel = ems._build_selection(
@@ -438,24 +470,38 @@ def run_face_b(write=True):
             seed_base_rand if cell.get("base") == "random" else None)
         sel_named = [[(codes[i], adv) for i, adv in s] if s else []
                      for s in sel]
-        rep_full = ems._sim_cell(sel_named, mkt, sig_pos, n_cal, 0,
-                                 stock_fee, slip_of)
-        full_met = ems._metrics(rep_full, cal, sig_pos[0])
+        sel_by_cell[name] = sel
+        sel_named_by_cell[name] = sel_named
+        jobs.append((f"{name}|full", _fb_task, (sel_named, None)))
+        for y in ems.START_YEARS:
+            jobs.append((f"{name}|start{y}", _fb_task,
+                         (sel_named, start_months[y])))
+    # r478-class fast-fail gate (parent side, seconds): exercise the exact
+    # production consumption face (subscript -> tuple) BEFORE the pool burn.
+    _probe_code = next((nm for s in sel_named_by_cell["B-FULL"] if s
+                        for nm, _ in s), None)
+    if _probe_code:
+        _t_probe = ems._MKT_CACHE[_probe_code]
+        assert len(_t_probe) == 4 and _t_probe[0].dtype == np.int64, \
+            "mkt tuple contract (mpos, opens, closes, ffill)"
+    res = run_cells_parallel(jobs, workers=workers, desc="face_b",
+                             initializer=_fb_init_ctx, initargs=(ctx_c,))
+    n_workers = res.pop("__workers__")
+
+    union_codes = set()
+    for cell in _face_b_cells():
+        for m in sel_by_cell[cell["cell"]]:
+            if m:
+                union_codes.update(i for i, _ in m)
+
+    cells_out = {}
+    for cell in _face_b_cells():
+        name = cell["cell"]
+        sel = sel_by_cell[name]
+        full_met = res[f"{name}|full"]["full_met"]
         starts = {}
         for y in ems.START_YEARS:
-            m0 = start_months[y]
-            rp = ems._sim_cell(sel_named, mkt, sig_pos, n_cal, m0,
-                               stock_fee, slip_of)
-            d0 = sig_pos[m0]
-            met_s = ems._metrics(rp, cal, d0)
-            yrs = (n_cal - d0) / 244.0
-            starts[str(y)] = {
-                "ann_ret_net": (float(rp["eq"][-1]) / ems.INITIAL_CASH)
-                               ** (1.0 / yrs) - 1.0,
-                "final_equity": float(rp["eq"][-1]),
-                "worst_5y": met_s["worst_5y"],
-                "maxdd": met_s["maxdd"],
-            }
+            starts[str(y)] = res[f"{name}|start{y}"]["start"]
         vals = np.array([v["ann_ret_net"] for v in starts.values()])
         row = {
             "off_rules": cell.get("off", []),
@@ -525,15 +571,17 @@ def run_face_b(write=True):
         "trials_ledger": ledger,
         "burn_gates_report": gates,
         "engine_provenance": {
-            "imported_from": "scripts/exclusion_marginal_scan.py (bm-b r476, "
-                             "commit 25b13a8a5, selftest 16/16 hermetic)",
+            "imported_from": "scripts/exclusion_marginal_scan.py (bm-b r476 "
+                             "engine + T-134 s2 multicore conversion r484: "
+                             "selftest 19/19 hermetic incl pool legs)",
             "anti_dup_law": "MSG-20260930-1947 sec.2 + prereg sec.3-B: burn "
                             "window opens on engine landing; import reuse, "
                             "zero engine rewrite",
             "imported_faces": [
                 "_load_calendar", "_signal_schedule", "_build_selection",
                 "_sim_cell", "_metrics", "_side_cost", "_ffill_np",
-                "RULES", "START_YEARS", "N_HOLDINGS", "INITIAL_CASH",
+                "_feature_task", "_Mkt", "RULES", "START_YEARS",
+                "N_HOLDINGS", "INITIAL_CASH",
                 "BASE_PARAMS", "EVIDENCE_CUTOFF"],
             "assembly_deviation": "panel rows dated < calendar face start "
                                   "(2005-02-23) filtered pre-mapping; both "
@@ -563,7 +611,12 @@ def run_face_b(write=True):
         "conclusion_B": verdict_b,
         "rand_null_pass_count": rand_pass,
         "burn_audit": {"elapsed_sec": round(_t.time() - t0, 1),
-                       "n_cached_names": len(cache)},
+                       "n_cached_names": len(union_codes),
+                       "workers": n_workers,
+                       "parallel_face": "parallel_runner.run_cells_parallel "
+                                        "phase-1 features + phase-2 "
+                                        "per-(cell,start) sims "
+                                        "(T-134 s2, O-2026-09-30-2355)"},
     }
     if not write:
         return payload
@@ -1034,6 +1087,56 @@ def selftest():
         "unmapped still counted honest",
         kept == ["2005-02-23", "2005-02-24", "2005-02-28"]
         and unmapped == ["2005-02-28"])
+    # BS6: T-134 s2 multicore conversion faces -- (a) the mkt contract FIX:
+    # the object handed to ems._sim_cell must be SUBSCRIPTABLE and not a
+    # bare callable (the old closure `def mkt(code)` was callable-only and
+    # would die TypeError at the first marked position, r478 class);
+    # (b) _fb_task inline == ProcessPool payload + double-run determinism.
+    import shutil
+    import tempfile
+    from parallel_runner import run_cells_parallel
+    tmp_b = tempfile.mkdtemp(prefix="faceb_s17_")
+    cal_b: list[str] = []
+    for mm in range(1, 13):
+        cal_b += [f"2020-{mm:02d}-10", f"2020-{mm:02d}-25"]
+    n_cal_b = len(cal_b)
+    cal_pos_b = {d: i for i, d in enumerate(cal_b)}
+    sig_pos_b = [1 + 2 * k for k in range(12)]
+    for c, px in (("600001", 10.0), ("600002", 5.0)):
+        with open(os.path.join(tmp_b, f"{c}.csv"), "w", encoding="ascii") as f:
+            f.write("date,open,close,amount\n"
+                    + "\n".join(f"{d},{px},{px},6000000.0" for d in cal_b)
+                    + "\n")
+    AMT_b = np.full((2, 12), 6e8)
+    ctx_b = {"panel_dir": tmp_b, "cal_pos_of": cal_pos_b, "n_cal": n_cal_b,
+             "sig_pos": sig_pos_b, "cal": cal_b, "n_sig": 12,
+             "code_idx": {"600001": 0, "600002": 1}, "AMT": AMT_b,
+             "codes": ["600001", "600002"]}
+    _fb_init_ctx(ctx_b)
+    chk("BS6a mkt contract = subscriptable ems._Mkt (non-callable; old "
+        "closure was the r478-class TypeError bug)",
+        hasattr(ems._MKT_CACHE, "__getitem__") and not callable(ems._MKT_CACHE))
+    sel_b = [[("600001", 6e8)], []]        # buy month0, exit month1
+    r_full_i = _fb_task(sel_b, None)
+    r_start_i = _fb_task(sel_b, 0)
+    chk("BS6b inline full-period sim trades (n_buys>0)",
+        r_full_i["full_met"]["n_buys"] == 1)
+    res_b = run_cells_parallel(
+        [("full", _fb_task, (sel_b, None)), ("start", _fb_task, (sel_b, 0))],
+        workers=2, desc="bs6", initializer=_fb_init_ctx, initargs=(ctx_b,))
+    res_b.pop("__workers__")
+    res_b2 = run_cells_parallel(
+        [("full", _fb_task, (sel_b, None)), ("start", _fb_task, (sel_b, 0))],
+        workers=2, desc="bs6b", initializer=_fb_init_ctx, initargs=(ctx_b,))
+    res_b2.pop("__workers__")
+    chk("BS6c face-B pool==inline identity + double-run determinism",
+        json.dumps(res_b["full"], sort_keys=True)
+        == json.dumps(r_full_i, sort_keys=True)
+        and json.dumps(res_b["start"], sort_keys=True)
+        == json.dumps(r_start_i, sort_keys=True)
+        and json.dumps(res_b2["full"], sort_keys=True)
+        == json.dumps(res_b["full"], sort_keys=True))
+    shutil.rmtree(tmp_b, ignore_errors=True)
     print(f"selftest: {ok}/{ok} PASS")
     return 0
 

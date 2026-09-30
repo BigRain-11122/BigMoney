@@ -388,7 +388,7 @@ def _metrics(replay: dict, cal: list[str], day0: int) -> dict:
     yrs_held = years
     return {
         "ann_ret_net": ann, "maxdd": maxdd, "sharpe": sharpe,
-        "t_from_sharpe": sharpe * np.sqrt(years),
+        "t_from_sharpe": float(sharpe * np.sqrt(years)),
         "final_equity": final, "years": years,
         "turnover_ann": (replay["buy_notional"] + replay["sell_notional"]) / 2.0
                         / mean_eq / yrs_held if mean_eq > 0 else None,
@@ -609,7 +609,121 @@ def selftest() -> int:
     from knowledge import cost_spec
     assert cost_spec.verify(), "cost_spec frozen face"
     ok += 1
-    print(f"selftest: {ok}/16 PASS (hermetic; engine legs S6-S16 landed r476)")
+    # S17: multicore faces are module-top-level (spawn-importable on win32)
+    # + _Mkt lazy tuple contract on a synthetic tmpdir panel (T-134 s2 /
+    # O-2026-09-30-2355; r478 contract face re-asserted on the pool class)
+    import shutil
+    import tempfile
+    assert callable(_init_pool_ctx) and callable(_cell_task) and _Mkt is not None, \
+        "pool faces module-top-level (no closures cross the wire)"
+    tmp = tempfile.mkdtemp(prefix="excl_marg_s17_")
+    cal_s: list[str] = []
+    for mm in range(1, 13):
+        cal_s += [f"2020-{mm:02d}-10", f"2020-{mm:02d}-25"]
+    n_cal_s = len(cal_s)
+    cal_pos_s = {d: i for i, d in enumerate(cal_s)}
+    sig_pos_s = [1 + 2 * k for k in range(12)]      # month-end = day-25 bars
+    codes_s = ["600001", "600002", "600003"]
+    for ci, c in enumerate(codes_s):
+        rows, px = [], (10.0, 5.0, 20.0)[ci]
+        for i, d in enumerate(cal_s):
+            if c == "600003" and i < 12:
+                continue                            # late listing face
+            if c == "600002" and i == 2:
+                continue                            # exec-day suspension face
+            rows.append(f"{d},{px},{px},6000000.0")
+        with open(os.path.join(tmp, f"{c}.csv"), "w", encoding="ascii") as f:
+            f.write("date,open,close,amount\n" + "\n".join(rows) + "\n")
+    n_sig_s = len(sig_pos_s)
+    AMT_s = np.full((3, n_sig_s), np.nan)
+    CLOSE_s = np.full((3, n_sig_s), np.nan)
+    CNT_s = np.full((3, n_sig_s), np.nan)
+    STALE_s = np.full((3, n_sig_s), np.nan)
+    for i, (a, cl) in enumerate(((6e8, 5.0), (8e7, 2.0), (2e8, 20.0))):
+        AMT_s[i, :], CLOSE_s[i, :], CNT_s[i, :], STALE_s[i, :] = a, cl, 300.0, 0.0
+    r1_s = np.array([False, False, False])
+    r2_s = np.array([False, False, True])          # 600003 = ST face
+    ctx_s = {
+        "AMT": AMT_s, "CLOSE": CLOSE_s, "CNT": CNT_s, "STALE": STALE_s,
+        "r1": r1_s, "r2": r2_s, "codes": codes_s,
+        "code_idx": {c: i for i, c in enumerate(codes_s)},
+        "n_sig": n_sig_s, "sig_pos": sig_pos_s, "n_cal": n_cal_s, "cal": cal_s,
+        "cal_pos_of": cal_pos_s,
+        "start_months": {y: min(y - 2007, n_sig_s - 1) for y in START_YEARS},
+        "seed_base": 20329500, "panel_dir": tmp,
+    }
+    global _POOL_CTX, _MKT_CACHE
+    _POOL_CTX, _MKT_CACHE = ctx_s, _Mkt()
+    _t = _MKT_CACHE["600003"]
+    assert len(_t) == 4 and _t[0].dtype == np.int64 and _t[0][0] == 12, \
+        "_Mkt lazy tuple contract (late-listing face)"
+    assert np.isnan(_t[3][0]) and not np.isnan(_t[3][12]), "ffill face"
+    ok += 1
+    # S18: real ProcessPool round-trip on synthetic fixtures -- inline
+    # _cell_task payload == pool payload (spawn + pickle + initializer path)
+    # and double-run determinism; exercises the exact production burn shape
+    cells_s = [{"cell": "FULL", "off": []},
+               {"cell": "RAND-NONE", "off": RULES, "base": "random"}]
+    inline = {c["cell"]: json.loads(json.dumps(_cell_task(c))) for c in cells_s}
+    assert inline["FULL"]["met"]["n_buys"] > 0, "synthetic burn trades"
+    from parallel_runner import run_cells_parallel
+    res_s = run_cells_parallel(
+        [(c["cell"], _cell_task, (c,)) for c in cells_s], workers=2,
+        desc="s18", initializer=_init_pool_ctx, initargs=(ctx_s,))
+    assert res_s.pop("__workers__") == 2, "pool worker count face"
+    for c in cells_s:
+        assert json.dumps(res_s[c["cell"]], sort_keys=True) \
+            == json.dumps(inline[c["cell"]], sort_keys=True), \
+            f"pool==inline identity ({c['cell']})"
+    res_s2 = run_cells_parallel(
+        [(c["cell"], _cell_task, (c,)) for c in cells_s], workers=2,
+        desc="s18b", initializer=_init_pool_ctx, initargs=(ctx_s,))
+    res_s2.pop("__workers__")
+    for c in cells_s:
+        assert json.dumps(res_s2[c["cell"]], sort_keys=True) \
+            == json.dumps(res_s[c["cell"]], sort_keys=True), \
+            f"pool double-run determinism ({c['cell']})"
+    ok += 1
+    # S19: _feature_task hermetic leg -- phase-1 pool face: inline == pool
+    # identity, in-face unmapped counting, pre-face silent-skip semantics,
+    # late-listing NaN face (has=False months stay NaN/inf)
+    with open(os.path.join(tmp, "600004.csv"), "w", encoding="ascii") as f:
+        f.write("date,open,close,amount\n"
+                "2004-12-31,7.0,7.0,1000.0\n"      # pre-face: silently skipped
+                "2020-03-15,7.0,7.0,1000.0\n"      # in-face unmapped: counted
+                "2020-01-10,7.0,7.0,1000.0\n")
+    ctx_f_s = {"panel_dir": tmp, "cal_pos_of": cal_pos_s,
+               "cal_start": cal_s[0], "sig_pos": sig_pos_s,
+               "code_idx": {c: i for i, c in
+                            enumerate(codes_s + ["600004"])}}
+    _POOL_CTX = ctx_f_s
+    r4 = _feature_task("600004", None)
+    assert r4["unmapped"] == 1 and not r4["empty"], \
+        "in-face unmapped counted, pre-face row silently skipped"
+    r1_ = _feature_task("600001", None)
+    r3_ = _feature_task("600003", None)
+    assert r3_["empty"] is False and bool(np.isnan(r3_["close"][0])) \
+        and not np.isnan(r3_["close"][-1]), "late-listing has-face (close)"
+    assert bool(np.isnan(r3_["amt"]).all()), \
+        "12-bar fixture: amt20 min_periods=20 face (honest all-NaN)"
+    feats_s = run_cells_parallel(
+        [("600001", _feature_task, ("600001", None)),
+         ("600003", _feature_task, ("600003", None)),
+         ("600004", _feature_task, ("600004", None))],
+        workers=2, desc="s19", initializer=_init_pool_ctx, initargs=(ctx_f_s,))
+    feats_s.pop("__workers__")
+    for code, base in (("600001", r1_), ("600003", r3_), ("600004", r4)):
+        p = feats_s[code]
+        assert p["i"] == base["i"] and p["empty"] == base["empty"] \
+            and p["unmapped"] == base["unmapped"], f"feature pool scalars ({code})"
+        if not base["empty"]:
+            for k in ("amt", "close", "cnt", "stale"):
+                assert np.array_equal(p[k], base[k], equal_nan=True), \
+                    f"feature pool identity ({code}.{k})"
+    shutil.rmtree(tmp, ignore_errors=True)
+    ok += 1
+    print(f"selftest: {ok}/19 PASS (hermetic; engine legs S6-S16 r476; "
+          f"multicore legs S17-S19 T-134 s2)")
     return 0
 
 
@@ -623,6 +737,150 @@ def _ffill_np(mpos: np.ndarray, close: np.ndarray, n_cal: int) -> np.ndarray:
     out = np.where(idx >= 0, out[np.clip(idx, 0, n_cal - 1)], np.nan)
     out[~valid & (idx < 0)] = np.nan
     return out
+
+
+# --------------------------------------------------------------------------
+# multicore faces (O-2026-09-30-2355 hard law; T-134 s2 conversion, bm-b)
+# One pool task = one cell (selection + full-period replay + 16 all-starts;
+# prereg sec.3 engine faces verbatim, zero science change). Per-code market
+# tuples stay lazily built per worker (bounded RAM: only cohort codes of the
+# cells that worker touches); the compact shared context (feature matrices,
+# calendar, codes, seeds) ships once per worker via the initializer --
+# parallel_runner house pattern (t22/lowamp_p1 lineage, spawn-safe on win32).
+# --------------------------------------------------------------------------
+_POOL_CTX: dict = {}
+_MKT_CACHE: "_Mkt | None" = None
+
+
+class _Mkt:
+    """Lazy per-code market tuple map. r478 fix (kept): _sim_cell consumes
+    dict-subscript (mkt[c]); this __getitem__ class keeps the dict contract
+    the selftest fixtures assert, while keeping the isin calendar filter
+    (r477 fix B). Pool face: each worker holds its own instance."""
+
+    def __init__(self):
+        self.cache: dict[str, tuple] = {}
+
+    def __getitem__(self, code: str) -> tuple:
+        if code not in self.cache:
+            df = pd.read_csv(os.path.join(_POOL_CTX["panel_dir"], f"{code}.csv"),
+                             usecols=["date", "open", "close"])
+            df = df[df["date"] <= EVIDENCE_CUTOFF]
+            # drop rows outside the calendar face (pre-2005 listing history):
+            # unreachable for execution (signals 2007+, exec at signal+1) and
+            # bare cal_pos_of[d] would KeyError; cnt_full age face (feature
+            # pass) is computed on the UNTRUNCATED df -- frozen sec.2
+            # full-history age250 semantics are NOT touched by this filter.
+            cal_pos_of = _POOL_CTX["cal_pos_of"]
+            _keep = df["date"].astype(str).isin(cal_pos_of)
+            df = df[_keep]
+            mpos = np.array([cal_pos_of[d] for d in df["date"].astype(str)],
+                            dtype=np.int64)
+            opens = df["open"].to_numpy()
+            closes = df["close"].to_numpy()
+            self.cache[code] = (mpos, opens, closes,
+                                _ffill_np(mpos, closes, _POOL_CTX["n_cal"]))
+        return self.cache[code]
+
+
+def _feature_task(code: str, lo_bound) -> dict:
+    """Phase-1 pool task: one code's feature-matrix row (amt/close/cnt/
+    stale at signal months) + in-face unmapped count. lo_bound=None keeps
+    ems semantics (pre-calendar-face rows are expected-unmapped, silently
+    skipped); a date keeps face-B semantics (rows are pre-filtered, any
+    remaining unmapped row counts)."""
+    ctx = _POOL_CTX
+    sig_pos = ctx["sig_pos"]
+    cal_pos_of = ctx["cal_pos_of"]
+    cal_start = ctx["cal_start"]
+    df = pd.read_csv(os.path.join(ctx["panel_dir"], f"{code}.csv"),
+                     usecols=["date", "open", "close", "amount"])
+    df = df[df["date"] <= EVIDENCE_CUTOFF]          # RW-2 truncation face
+    if lo_bound is not None:
+        df = df[df["date"] >= lo_bound]
+    amt20_full = df["amount"].rolling(20).mean().to_numpy()
+    cnt_full = np.arange(1, len(df) + 1, dtype=np.float64)
+    dates = df["date"].astype(str).tolist()
+    mpos_l, cl_l, a_l, cnt_l = [], [], [], []
+    unmapped = 0
+    for j, d in enumerate(dates):
+        q = cal_pos_of.get(d)
+        if q is None:
+            if lo_bound is None and d < cal_start:
+                continue                             # pre-face history face
+            unmapped += 1
+            continue
+        mpos_l.append(q)
+        cl_l.append(df["close"].iat[j])
+        a_l.append(amt20_full[j])
+        cnt_l.append(cnt_full[j])
+    if not mpos_l:
+        return {"i": ctx["code_idx"][code], "empty": True, "unmapped": unmapped}
+    mpos = np.asarray(mpos_l, dtype=np.int64)
+    idx = np.searchsorted(mpos, np.asarray(sig_pos), side="right") - 1
+    has = idx >= 0
+    ii = np.where(has, idx, 0)
+    return {"i": ctx["code_idx"][code], "empty": False, "unmapped": unmapped,
+            "amt": np.where(has, np.asarray(a_l)[ii], np.nan),
+            "close": np.where(has, np.asarray(cl_l)[ii], np.nan),
+            "cnt": np.where(has, np.asarray(cnt_l)[ii], np.nan),
+            "stale": np.where(has, np.asarray(sig_pos) - mpos[ii], np.inf)}
+
+
+def _init_pool_ctx(ctx: dict) -> None:
+    """ProcessPool initializer: ships the compact shared context once per
+    worker (spawn re-imports this module fresh; no closure state crosses
+    the wire -- O-2130/t22 law)."""
+    global _POOL_CTX, _MKT_CACHE
+    _POOL_CTX = ctx
+    _MKT_CACHE = _Mkt()
+
+
+def _cell_task(cell: dict) -> dict:
+    """One pool task = one cell, engine faces verbatim (frozen sec.3)."""
+    ctx = _POOL_CTX
+    mkt = _MKT_CACHE
+    codes = ctx["codes"]
+    code_idx = ctx["code_idx"]
+    AMT, CLOSE, CNT, STALE = (ctx["AMT"], ctx["CLOSE"], ctx["CNT"], ctx["STALE"])
+    n_sig, sig_pos, n_cal, cal = ctx["n_sig"], ctx["sig_pos"], ctx["n_cal"], ctx["cal"]
+    start_months, seed_base = ctx["start_months"], ctx["seed_base"]
+    from knowledge import rules as _kr
+    stock_fee = _kr.fee_schedule_for("600000")
+
+    def slip_of(code: str, m: int) -> float:
+        i = code_idx[code]
+        adv = AMT[i, m] if m < n_sig else np.nan
+        return _kr.cost_v2_slippage(adv if adv == adv else None)
+
+    name = cell["cell"]
+    sel = _build_selection(AMT, CLOSE, CNT, STALE, ctx["r1"], ctx["r2"], cell,
+                           seed_base if cell.get("base") == "random" else None)
+    sel_named = [[(codes[i], adv) for i, adv in s] if s else []
+                 for s in sel]
+    rep = _sim_cell(sel_named, mkt, sig_pos, n_cal, 0, stock_fee, slip_of)
+    met = _metrics(rep, cal, sig_pos[0])
+    starts = {}
+    for y in START_YEARS:
+        m0 = start_months[y]
+        rp = _sim_cell(sel_named, mkt, sig_pos, n_cal, m0, stock_fee, slip_of)
+        d0 = sig_pos[m0]
+        days = n_cal - d0
+        yrs = days / 244.0
+        starts[str(y)] = {
+            "ann_ret_net": (float(rp["eq"][-1]) / INITIAL_CASH) ** (1.0 / yrs) - 1.0,
+        }
+    vals = np.array([v["ann_ret_net"] for v in starts.values()])
+    return {
+        "name": name,
+        "sel": sel,
+        "met": met,
+        "starts": {k: v["ann_ret_net"] for k, v in starts.items()},
+        "allstart_best": float(vals.max()), "allstart_worst": float(vals.min()),
+        "allstart_p25": float(np.percentile(vals, 25)),
+        "allstart_median": float(np.median(vals)),
+        "allstart_p75": float(np.percentile(vals, 75)),
+    }
 
 
 # --------------------------------------------------------------------------
@@ -729,45 +987,37 @@ def run() -> int:
     code_idx = {c: i for i, c in enumerate(codes)}
     n_codes = len(codes)
 
-    # ---- feature extraction (single pass, compact matrices) ----
+    # ---- feature extraction (phase-1 ProcessPool; T-134 s2 / O-2026-09-30-2355:
+    # serial per-code CSV pass was the single-core head of this runner) ----
+    from parallel_runner import run_cells_parallel, worker_cap
+    _wo = os.environ.get("EXCLUSION_MARGINAL_WORKERS")
+    workers = int(_wo) if _wo else int(min(worker_cap(), 8))
+    ctx_f = {"panel_dir": PANEL_DIR, "cal_pos_of": cal_pos_of,
+             "cal_start": cal_start, "sig_pos": sig_pos,
+             "code_idx": code_idx}
     AMT = np.full((n_codes, n_sig), np.nan)
     CLOSE = np.full((n_codes, n_sig), np.nan)
     CNT = np.full((n_codes, n_sig), np.nan)
     STALE = np.full((n_codes, n_sig), np.inf)
-    for c in codes:
-        p = f"{c}.csv"
-        df = pd.read_csv(os.path.join(PANEL_DIR, p),
-                         usecols=["date", "open", "close", "amount"])
-        df = df[df["date"] <= EVIDENCE_CUTOFF]       # RW-2 truncation face
-        amt20_full = df["amount"].rolling(20).mean().to_numpy()
-        cnt_full = np.arange(1, len(df) + 1, dtype=np.float64)
-        dates = df["date"].astype(str).tolist()
-        mpos_l, o_l, cl_l, a_l, cnt_l = [], [], [], [], []
-        unmapped = 0
-        for j, d in enumerate(dates):
-            q = cal_pos_of.get(d)
-            if q is None:
-                if d >= cal_start:   # only in-coverage unmapped rows are face errors
-                    unmapped += 1
-                continue
-            mpos_l.append(q); o_l.append(df["open"].iat[j])
-            cl_l.append(df["close"].iat[j]); a_l.append(amt20_full[j])
-            cnt_l.append(cnt_full[j])
-        if unmapped:
-            gates_rep["unmapped_rows"] = {c: unmapped}
+    global _POOL_CTX, _MKT_CACHE
+    _POOL_CTX = ctx_f
+    feats = run_cells_parallel([(c, _feature_task, (c, None)) for c in codes],
+                               workers=workers, desc="features",
+                               initializer=_init_pool_ctx, initargs=(ctx_f,))
+    feats.pop("__workers__")
+    for c in codes:                    # fixed assembly order (determinism)
+        r = feats[c]
+        if r["unmapped"]:
+            gates_rep["unmapped_rows"] = {c: r["unmapped"]}
             print("run: FAIL-CLOSED -- calendar-unmapped post-2005 rows (face error VOID).")
             return 2
-        if not mpos_l:
+        if r["empty"]:
             continue
-        mpos = np.asarray(mpos_l, dtype=np.int64)
-        idx = np.searchsorted(mpos, np.asarray(sig_pos), side="right") - 1
-        has = idx >= 0
-        ii = np.where(has, idx, 0)
-        i = code_idx[c]
-        AMT[i] = np.where(has, np.asarray(a_l)[ii], np.nan)
-        CLOSE[i] = np.where(has, np.asarray(cl_l)[ii], np.nan)
-        CNT[i] = np.where(has, np.asarray(cnt_l)[ii], np.nan)
-        STALE[i] = np.where(has, np.asarray(sig_pos) - mpos[ii], np.inf)
+        i = r["i"]
+        AMT[i] = r["amt"]
+        CLOSE[i] = r["close"]
+        CNT[i] = r["cnt"]
+        STALE[i] = r["stale"]
 
     r1 = elig.loc[codes, "r1_loss"].astype(bool).to_numpy()
     r2 = elig.loc[codes, "r2_st"].astype(bool).to_numpy()
@@ -782,85 +1032,52 @@ def run() -> int:
 
     stock_fee = kr.fee_schedule_for("600000")
 
-    class _Mkt:
-        """Lazy per-code market tuple map. r478 fix: r477 turned the prebuilt
-        dict into a lazy FUNCTION, but _sim_cell consumes dict-subscript
-        (mkt[c]) -- first cell died TypeError post-feature-pass. A __getitem__
-        class keeps the dict contract _sim_cell and the selftest fixtures
-        assert, while keeping the isin calendar filter (r477 fix B)."""
-
-        def __init__(self):
-            self.cache: dict[str, tuple] = {}
-
-        def __getitem__(self, code: str) -> tuple:
-            if code not in self.cache:
-                df = pd.read_csv(os.path.join(PANEL_DIR, f"{code}.csv"),
-                                 usecols=["date", "open", "close"])
-                df = df[df["date"] <= EVIDENCE_CUTOFF]
-                # drop rows outside the calendar face (pre-2005 listing history):
-                # unreachable for execution (signals 2007+, exec at signal+1) and
-                # bare cal_pos_of[d] would KeyError; cnt_full age face (feature
-                # pass) is computed on the UNTRUNCATED df -- frozen sec.2
-                # full-history age250 semantics are NOT touched by this filter.
-                _keep = df["date"].astype(str).isin(cal_pos_of)
-                df = df[_keep]
-                mpos = np.array([cal_pos_of[d] for d in df["date"].astype(str)],
-                                dtype=np.int64)
-                opens = df["open"].to_numpy()
-                closes = df["close"].to_numpy()
-                self.cache[code] = (mpos, opens, closes,
-                                    _ffill_np(mpos, closes, n_cal))
-            return self.cache[code]
-
-    mkt = _Mkt()
+    # ---- multicore burn face, phase 2: per-cell sims (T-134 s2 /
+    # O-2026-09-30-2355) ----
+    # Context ships once per worker; per-cell tasks are pure + deterministic
+    # (assembly order fixed below -> scheduling-independent output bytes).
+    ctx = {
+        "AMT": AMT, "CLOSE": CLOSE, "CNT": CNT, "STALE": STALE,
+        "r1": r1, "r2": r2, "codes": codes, "code_idx": code_idx,
+        "n_sig": n_sig, "sig_pos": sig_pos, "n_cal": n_cal, "cal": cal,
+        "cal_pos_of": cal_pos_of, "start_months": start_months,
+        "seed_base": seed_base, "panel_dir": PANEL_DIR,
+    }
+    _POOL_CTX = ctx
+    _MKT_CACHE = _Mkt()
     # r478 fast-fail gate: exercise the exact production consumption face
-    # (lazy subscript -> tuple) BEFORE the multi-minute feature pass, so a
+    # (lazy subscript -> tuple) BEFORE the multi-hour cell burn, so a
     # producer/consumer contract break dies in seconds with a clear assert,
-    # not a TypeError at the first cell after the pass (probe-coverage
+    # not a TypeError in a pool worker after the feature pass (probe-coverage
     # lesson r477: selftest dict fixtures cannot see run()'s producer side).
     if codes:
-        _probe = mkt[codes[0]]
+        _probe = _MKT_CACHE[codes[0]]
         assert len(_probe) == 4 and _probe[0].dtype == np.int64, \
             "mkt tuple contract (mpos, opens, closes, ffill)"
 
-    def slip_of(code: str, m: int) -> float:
-        i = code_idx[code]
-        adv = AMT[i, m] if m < n_sig else np.nan
-        return kr.cost_v2_slippage(adv if adv == adv else None)
+    jobs = [(c["cell"], _cell_task, (c,)) for c in CELLS]
+    res = run_cells_parallel(jobs, workers=workers, desc="cells",
+                             initializer=_init_pool_ctx, initargs=(ctx,))
+    n_workers = res.pop("__workers__")
 
     cells_out = {}
     cohorts_by_cell = {}
-    for cell in CELLS:
+    union_codes: set[int] = set()
+    for cell in CELLS:                    # fixed assembly order (determinism)
         name = cell["cell"]
-        sel = _build_selection(AMT, CLOSE, CNT, STALE, r1, r2, cell,
-                               seed_base if cell.get("base") == "random" else None)
-        cohorts_by_cell[name] = sel
-        sel_named = [[(codes[i], adv) for i, adv in s] if s else []
-                     for s in sel]
-        # full-history replay (start 2007)
-        rep = _sim_cell(sel_named, mkt, sig_pos, n_cal, 0, stock_fee, slip_of)
-        met = _metrics(rep, cal, sig_pos[0])
-        # all-starts
-        starts = {}
-        for y in START_YEARS:
-            m0 = start_months[y]
-            rp = _sim_cell(sel_named, mkt, sig_pos, n_cal, m0, stock_fee, slip_of)
-            d0 = sig_pos[m0]
-            days = n_cal - d0
-            yrs = days / 244.0
-            starts[str(y)] = {
-                "ann_ret_net": (float(rp["eq"][-1]) / INITIAL_CASH) ** (1.0 / yrs) - 1.0,
-            }
-        vals = np.array([v["ann_ret_net"] for v in starts.values()])
+        r = res[name]
+        cohorts_by_cell[name] = r["sel"]
+        for m in r["sel"]:
+            if m:
+                union_codes.update(i for i, _ in m)
         cells_out[name] = {
             "off_rules": cell.get("off", []),
             "base": cell.get("base", "rank"),
-            "full_period": met,
-            "allstarts_ann_ret_net": {k: v["ann_ret_net"] for k, v in starts.items()},
-            "allstart_best": float(vals.max()), "allstart_worst": float(vals.min()),
-            "allstart_p25": float(np.percentile(vals, 25)),
-            "allstart_median": float(np.median(vals)),
-            "allstart_p75": float(np.percentile(vals, 75)),
+            "full_period": r["met"],
+            "allstarts_ann_ret_net": r["starts"],
+            "allstart_best": r["allstart_best"], "allstart_worst": r["allstart_worst"],
+            "allstart_p25": r["allstart_p25"], "allstart_median": r["allstart_median"],
+            "allstart_p75": r["allstart_p75"],
         }
 
     # ---- M1 marginal verdicts (prereg sec.4 frozen) ----
@@ -947,7 +1164,11 @@ def run() -> int:
             "exit_slippage_adv": "exit month's selection-signal ADV (no-lookahead)",
         },
         "burn_audit": {"elapsed_sec": round(time.time() - t0, 1),
-                       "n_cached_names": len(cache)},
+                       "n_cached_names": len(union_codes),
+                       "workers": n_workers,
+                       "parallel_face": "parallel_runner.run_cells_parallel "
+                                        "per-cell ProcessPool (T-134 s2, "
+                                        "O-2026-09-30-2355)"},
     }
     os.makedirs(RES_DIR, exist_ok=True)
     with open(SCAN_FILE, "w", encoding="utf-8") as f:

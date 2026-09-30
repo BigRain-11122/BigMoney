@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-10-01 00:26:34",
+  "updated_at": "2026-10-01 01:22",
   "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
   "entries": [
     {
@@ -5093,7 +5093,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 0,
-      "status": "waiting",
+      "status": "ready",
       "entered_at": "2026-09-30 19:44:10",
       "entered_by": "bm-b (OS iteration loop r476)",
       "data_gates": "in-runner FAIL-CLOSED: probe same-face assertions (paths+counts bit-pinned) + panel complete&cutoff>=2026-09-22 + eligibility snapshot<24h + closed_family open + seed-registry law (exclusion_marginal_rand=20329500 registered r476 (renumbered from 20329000: same-window collision with bm-c cross_start_robustness_p1 burned+published first, ours unburned yields)) + cost_spec.verify + ADV-cap mirror; idempotency: existing scan.json = no-op exit 0 (EXCLUSION_MARGINAL_REBURN=1 redo channel); selftest 16/16 hermetic incl. hand-value cost legs (r474 law); trials_ledger appended BEFORE json.dump embed (r474 embed-order law); gate_attrition.bm-b.json +1 measurement row append-only",
@@ -5109,12 +5109,18 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
+        "workers": 8,
         "priority": "BelowNormal",
-        "note": "prereg sec.0 frozen pool routing; serial deterministic single pass (T33/GRID-P1 light-batch precedent); holiday full-core amendment (O-20260930-1858) applies from 2026-10-01 -- this entry stays default-priority per current law"
+        "workers_law": "ProcessPool via parallel_runner.run_cells_parallel (phase-1 per-code features + phase-2 per-cell sims); code-verified min(worker_cap(),8), env override EXCLUSION_MARGINAL_WORKERS; fixed-order assembly = scheduling-independent bytes",
+        "note": "O-2026-09-30-2355 multicore conversion landed bm-b r484 (T-134 s2); hermetic pool legs S17-S19, selftest 19/19; mkt contract + t_from_sharpe json fix carried"
       },
       "worker_class": "bm-hosted",
-      "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention."
+      "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention.",
+      "ready_flipped": {
+        "at": "2026-10-01 01:22",
+        "by": "bm-b r484",
+        "law": "T-134 s2 conversion-before-burn (O-2026-09-30-2355 sec.2)"
+      }
     },
     {
       "id": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
@@ -5126,7 +5132,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 0,
-      "status": "waiting",
+      "status": "ready",
       "entered_at": "2026-09-30 20:15:34",
       "entered_by": "bm-c (OS iteration loop r285)",
       "host_gates": [
@@ -5147,12 +5153,18 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
+        "workers": 8,
         "priority": "BelowNormal",
-        "note": "serial deterministic single pass (event-walk engine, T33/GRID-P1 light-batch precedent; runner self-applies BELOW_NORMAL via ctypes per O-20260929-1029 headroom law); holiday full-core amendment (O-20260930-1858) applies from 2026-10-01 -- this entry stays default-priority per current law"
+        "workers_law": "ProcessPool via parallel_runner.run_cells_parallel (phase-1 per-code features + phase-2 per-(cell,start) sims, 34 tasks); code-verified min(worker_cap(),8), env override CROSS_START_FACEB_WORKERS; fixed-order assembly = scheduling-independent bytes",
+        "note": "O-2026-09-30-2355 multicore conversion landed bm-b r484 (T-134 s2); hermetic pool legs BS6a-c, selftest 22/22; r478-class mkt callable/subscript TypeError fixed pre-burn"
       },
       "worker_class": "bm-hosted",
-      "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention."
+      "defer_note": "r479 bm-b deliberate defer 21:38: astock universe refresh in-flight since 21:09:13 (spawn pid 47564 on bm-b); this burn consumes the astock panel -> mid-refresh launches die at in-runner FAIL-CLOSED gates as false crashes (FACEB 20:40 precedent + r479 park-first lesson). Un-defer = bm-b round post-settle (refresh process exit + panel complete verified), defer_note cleared on flip-back per r378 convention.",
+      "ready_flipped": {
+        "at": "2026-10-01 01:22",
+        "by": "bm-b r484",
+        "law": "T-134 s2 conversion-before-burn (O-2026-09-30-2355 sec.2)"
+      }
     },
     {
       "id": "P2NULL-KLIFT-K2200-S0",
