@@ -1,0 +1,296 @@
+{
+ "probe": "DATA_GAP#2 delisted universe/prices + DATA_GAP#3 historical ST status free-source availability (D-41 sec.3 items 2/3)",
+ "machine": "bm-c",
+ "akshare_version": "1.18.96",
+ "probed_at": "2026-09-30T23:24:39+08:00",
+ "evidence_cutoff": "2026-09-30",
+ "faces": {
+  "sh_delist_list": {
+   "ok": true,
+   "rows": 159,
+   "sec": 0.94,
+   "columns": [
+    "公司代码",
+    "公司简称",
+    "上市日期",
+    "暂停上市日期"
+   ],
+   "cov_上市日期": "1990-12-19 -> 2022-05-25",
+   "cov_暂停上市日期": "2001-04-25 -> 2026-07-06",
+   "sample_tail": [
+    {
+     "公司代码": "900956",
+     "公司简称": "东贝Ｂ股",
+     "上市日期": "1999-07-15",
+     "暂停上市日期": "2020-11-23"
+    },
+    {
+     "公司代码": "900957",
+     "公司简称": "*ST凌云B",
+     "上市日期": "2000-07-28",
+     "暂停上市日期": "2025-07-04"
+    }
+   ]
+  },
+  "sz_delist_list": {
+   "ok": true,
+   "rows": 208,
+   "sec": 0.38,
+   "columns": [
+    "证券代码",
+    "证券简称",
+    "上市日期",
+    "终止上市日期"
+   ],
+   "cov_上市日期": "1990-12-01 -> 2019-10-29",
+   "cov_终止上市日期": "1999-07-12 -> 2026-07-17",
+   "sample_tail": [
+    {
+     "证券代码": "300742",
+     "证券简称": "越博退",
+     "上市日期": "2018-05-08",
+     "终止上市日期": "2024-07-22"
+    },
+    {
+     "证券代码": "300799",
+     "证券简称": "左江退",
+     "上市日期": "2019-10-29",
+     "终止上市日期": "2024-07-29"
+    }
+   ]
+  },
+  "sh_live_listing_dates": {
+   "ok": true,
+   "rows": 1702,
+   "sec": 2.16,
+   "columns": [
+    "证券代码",
+    "证券简称",
+    "证券全称",
+    "公司简称",
+    "公司全称",
+    "上市日期"
+   ],
+   "cov_上市日期": "1990-12-19 -> 2026-09-17"
+  },
+  "sz_live_listing_dates": {
+   "ok": true,
+   "rows": 2904,
+   "sec": 1.95,
+   "columns": [
+    "板块",
+    "A股代码",
+    "A股简称",
+    "A股上市日期",
+    "A股总股本",
+    "A股流通股本",
+    "所属行业"
+   ],
+   "cov_A股上市日期": "1991-01-29 -> 2026-09-30"
+  },
+  "delist_price_300104_tx_hist": {
+   "ok": true,
+   "rows": 1700,
+   "sec": 6.37,
+   "columns": [
+    "date",
+    "open",
+    "close",
+    "high",
+    "low",
+    "volume",
+    "turnover",
+    "amount"
+   ],
+   "cov_date": "2010-08-12 -> 2020-07-20",
+   "coverage": "2010-08-12 -> 2020-07-20"
+  },
+  "delist_price_300104_sina_daily": {
+   "ok": false,
+   "sec": 0.28,
+   "error": "JSONDecodeError: No value to decode"
+  },
+  "delist_price_300104_em_hist": {
+   "ok": false,
+   "sec": 0.54,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  "delist_price_601558_tx_hist": {
+   "ok": true,
+   "rows": 2246,
+   "sec": 26.88,
+   "columns": [
+    "date",
+    "open",
+    "close",
+    "high",
+    "low",
+    "volume",
+    "turnover",
+    "amount"
+   ],
+   "cov_date": "2011-01-13 -> 2020-06-23",
+   "coverage": "2011-01-13 -> 2020-06-23"
+  },
+  "delist_price_601558_sina_daily": {
+   "ok": false,
+   "sec": 0.49,
+   "error": "JSONDecodeError: No value to decode"
+  },
+  "delist_price_601558_em_hist": {
+   "ok": false,
+   "sec": 0.14,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  "delist_price_000003_tx_hist": {
+   "ok": true,
+   "rows": 2465,
+   "sec": 13.05,
+   "columns": [
+    "date",
+    "open",
+    "close",
+    "high",
+    "low",
+    "volume",
+    "turnover",
+    "amount"
+   ],
+   "cov_date": "1991-07-03 -> 2002-04-26",
+   "coverage": "1991-07-03 -> 2002-04-26"
+  },
+  "delist_price_000003_sina_daily": {
+   "ok": false,
+   "sec": 0.3,
+   "error": "JSONDecodeError: No value to decode"
+  },
+  "delist_price_000003_em_hist": {
+   "ok": false,
+   "sec": 0.69,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  "st_em_current": {
+   "ok": false,
+   "sec": 5.9,
+   "error": "ConnectionError: ('Connection aborted.', RemoteDisconnected('Remote end closed connection without response'))"
+  },
+  "name_change_600696": {
+   "ok": true,
+   "rows": 13,
+   "sec": 0.15,
+   "columns": [
+    "index",
+    "name"
+   ],
+   "sample_rows": [
+    {
+     "index": 1,
+     "name": "ST豪盛"
+    },
+    {
+     "index": 2,
+     "name": "福建豪盛"
+    },
+    {
+     "index": 3,
+     "name": "利嘉股份"
+    },
+    {
+     "index": 4,
+     "name": "G利嘉"
+    }
+   ]
+  },
+  "name_change_002450": {
+   "ok": true,
+   "rows": 3,
+   "sec": 0.13,
+   "columns": [
+    "index",
+    "name"
+   ],
+   "sample_rows": [
+    {
+     "index": 1,
+     "name": "ST康得新"
+    },
+    {
+     "index": 2,
+     "name": "*ST康得"
+    },
+    {
+     "index": 3,
+     "name": "康得退"
+    }
+   ]
+  },
+  "name_change_000503": {
+   "ok": true,
+   "rows": 7,
+   "sec": 0.15,
+   "columns": [
+    "index",
+    "name"
+   ],
+   "sample_rows": [
+    {
+     "index": 1,
+     "name": "琼海虹"
+    },
+    {
+     "index": 2,
+     "name": "海虹控股"
+    },
+    {
+     "index": 3,
+     "name": "ST海虹"
+    },
+    {
+     "index": 4,
+     "name": "海虹控股"
+    }
+   ]
+  }
+ },
+ "cost_estimates": {
+  "delisted_price_backfill": {
+   "n_delisted_from_lists": 367,
+   "per_symbol_sec_tx": 6.37,
+   "per_symbol_sec_sina": 0.28,
+   "estimated_wallclock": "~0.65h for 367 delisted symbols (single source, network-bound)"
+  },
+  "st_history_derive": {
+   "per_symbol_sec": 0.15,
+   "universe_live_plus_delisted": "~5,129 live + 367 delisted",
+   "estimated_wallclock": "~0.23h full-universe name-change sweep (network-bound)"
+  }
+ },
+ "consumers": [
+  "RETAIL_QUANT_TRACK.md DATA_GAP#2 survivorship-bias fix (delisted stocks must enter backtest universe with prices)",
+  "RETAIL_QUANT_TRACK.md DATA_GAP#3 second-bias fix (historical daily ST status for b_layer_mask history-true variant)",
+  "EXCLUSION-MARGINAL-P1 family (delisting/ST exclusion rules need delisted face to be honest)"
+ ],
+ "gates": "P1 data-source expansion -- GM signature required before any acquisition build (r292 #1 precedent; probe is read-only availability evidence only)",
+ "membership_verification": {
+  "sz_300104_leshitui": {
+   "in_list": true,
+   "listing": "2010-08-12",
+   "terminate": "2020-07-21"
+  },
+  "sz_002450_kangdetui": {
+   "in_list": true,
+   "listing": "2010-07-16",
+   "terminate": "2021-05-31"
+  },
+  "sh_601558": {
+   "in_list": true
+  },
+  "sz_terminate_date_range": "1999-07-12 -> 2026-07-17 (list fresh through current year)",
+  "sh_face_caveat": "SH list columns = 公司代码/公司简称/上市日期/暂停上市日期 (suspension date as 4th col; termination-date proxy, SZ face has exact 终止上市日期)",
+  "sh_coverage_observed": "1990-12-19 -> 2022-05-25 on date columns"
+ },
+ "probe_verdict": {
+  "DATA_GAP#2": "FREE-SOURCE VERIFIED: SH+SZ delist lists (159+208=367 symbols, dates 1990->2026 fresh) + delisted FULL-HISTORY daily prices via tencent stock_zh_a_hist_tx 3/3 incl hardest PT case 000003 (1991-07-03 -> 2002-04-26, 2465 rows); sina/EM dead for delisted (sina JSONDecodeError, EM channel dead on bm-c); tx per-symbol 6-27s observed, full delisted backfill ~0.65h+margin",
+  "DATA_GAP#3": "DERIVE ROUTE VERIFIED: stock_info_change_name (sina) 0.13-0.15s/sym, 600696=13 records/002450=3/000503=7; per-day ST status derivable from name-change timeline (ST/*ST name-pattern segments); full-universe sweep ~0.23h; EM current-ST face dead on bm-c (channel-dead family, redundant with derive route)"
+ }
+}

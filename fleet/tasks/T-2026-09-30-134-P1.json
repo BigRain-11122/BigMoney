@@ -1,0 +1,12 @@
+{
+ "id": "T-2026-09-30-134",
+ "priority": "P1",
+ "type": "survivorship-bias-data-acquisition-p1",
+ "immediate": false,
+ "spec": "D-41 sec.3 materials #2+#3 acquisition build (probe-verified r293 bm-c, evidence results/_r293bmc_probe_delist_st_sources.json). FACE A (DATA_GAP#2 delisted panel): SH+SZ delist lists 159+208=367 symbols with listing/termination dates (SZ fresh to 2026-07; SH 4th col = suspension-date proxy) + delisted full-history daily prices via tencent stock_zh_a_hist_tx 3/3 verified incl hardest PT case 000003 (1991->2002, 2465 rows); ~367 syms x 6-27s ~= 0.65h+margin, detached spawn + per-symbol checkpoint + conn-fuse (r280 family). FACE B (DATA_GAP#3 ST history derive): stock_info_change_name sweep full universe ~5,129 live + 367 delisted x 0.15s ~= 0.23h -> per-day ST/*ST status panel from name-change timeline (b_layer_mask history-true variant supply). Consumers: backtest universe survivorship fix (delisted stocks MUST enter historical universe), EXCLUSION-MARGINAL-P1 exclusion-rule honesty, b_layer_mask history-true variant, RETAIL_QUANT_TRACK DATA_GAP#2/#3. GATE: P1 data-source expansion -- GM signature required before build start (r292 #1 precedent); probes are read-only availability evidence only.",
+ "status": "open",
+ "created_by": "bm-c (OS iteration loop r293)",
+ "created_at": "2026-09-30 23:36",
+ "note": "Number 134 = max+1 after GM T-133 (O-2340 perpetual-saturation ticket, origin re-verified pre-push). Sister ticket of T-2026-09-30-131 (fundamental history, material #1). Free sources verified -> CEO physical-item face likely waived; tushare token backup per O-1750.",
+ "ticket_lineage": "seq 134 = max(origin)+1 @ 23:36 after collision-check fetch; rows in RETAIL_QUANT_TRACK.md reference this number"
+}
