@@ -2,51 +2,75 @@
  "face": "minute_feed_status",
  "lane_machine": "bm-b",
  "kind": "gated",
- "ts": "2026-09-30T14:39:27",
- "last_success_ts": "2026-09-30T14:39:27",
+ "ts": "2026-09-30T15:04:53",
+ "last_success_ts": "2026-09-30T15:04:53",
  "archive_dir": "data/minute_feed",
  "symbols": {
   "510300": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 2427,
-   "rows_new": 24,
-   "oldest_fetched": "2026-09-17 13:35:00",
+   "rows_total": 2446,
+   "rows_new": 19,
+   "oldest_fetched": "2026-09-17 13:53:00",
    "gap_vs_local": false
   },
   "510050": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 2427,
-   "rows_new": 24,
-   "oldest_fetched": "2026-09-17 13:35:00",
+   "rows_total": 2446,
+   "rows_new": 19,
+   "oldest_fetched": "2026-09-17 13:53:00",
    "gap_vs_local": false
   },
   "510500": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 2427,
-   "rows_new": 24,
-   "oldest_fetched": "2026-09-17 13:35:00",
+   "rows_total": 2446,
+   "rows_new": 19,
+   "oldest_fetched": "2026-09-17 13:53:00",
    "gap_vs_local": false
   },
   "512100": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 2428,
-   "rows_new": 25,
-   "oldest_fetched": "2026-09-17 13:35:00",
+   "rows_total": 2446,
+   "rows_new": 18,
+   "oldest_fetched": "2026-09-17 13:53:00",
    "gap_vs_local": false
   },
   "588000": {
    "category": "broad-base",
    "t_settlement": "T+1",
-   "rows_total": 2428,
-   "rows_new": 25,
-   "oldest_fetched": "2026-09-17 13:36:00",
+   "rows_total": 2446,
+   "rows_new": 18,
+   "oldest_fetched": "2026-09-17 13:53:00",
    "gap_vs_local": false
   }
  },
- "rows_new_total": 122,
- "spec": "research/etf_ops/MINUTE_FEED.md v1.4"
+ "rows_new_total": 93,
+ "spec": "research/etf_ops/MINUTE_FEED.md v1.4",
+ "repairs": {
+  "512100": {
+   "kind": "tail_partial_capture",
+   "ts": "2026-09-30 14:40:00",
+   "old": [
+    "2026-09-30 14:40:00",
+    "2.977",
+    "2.978",
+    "2.976",
+    "2.976",
+    "548700",
+    "1633109.8091"
+   ],
+   "new": [
+    "2026-09-30 14:40:00",
+    "2.977",
+    "2.978",
+    "2.976",
+    "2.976",
+    "784100",
+    "2333660.2244"
+   ]
+  }
+ }
 }
