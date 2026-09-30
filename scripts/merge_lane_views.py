@@ -327,6 +327,25 @@ def _merge_pool_entry(a, b, notes, label_a, label_b):
                 notes.append(f"entry {a.get('id')}: done-absorb + "
                              f"governance {f} from "
                              f"{label_b if done is a else label_a}")
+        # r489 two-layer contract heal (r304 bm-c): done-absorption kept
+        # the done side's shard rows wholesale and DROPPED the other
+        # side's -- a lane-side shard repair on a done entry (harvest
+        # flip landing after the entry-level flip; session shard-face
+        # closure per the r211 precedent) was structurally swallowed
+        # (live: W9-W13 JUDGE shard faces stuck ready while entry done,
+        # the r489 mirror family). Key-union with the done side as base:
+        # same-key rows still resolve by newer owner_since (r311), so a
+        # stale ready row can never revert a done shard (done rows
+        # never re-enter the staleness/takeover gates); rows missing on
+        # the done side heal from the other. Guard: a done side with
+        # empty/absent shards never fabricates phantom rows (pre-fix
+        # behavior preserved for shard-less done entries).
+        sa, sb = done.get("shards"), other.get("shards")
+        if isinstance(sa, list) and sa and isinstance(sb, list):
+            rows = _union_shard_rows(sa, sb)
+            out["shards"] = rows
+            notes.append(f"entry {a.get('id')}: done-absorb shards "
+                         f"key-union -> {len(rows)} (r489 two-layer)")
         return out
     if a.get("status") == b.get("status"):
         out = dict(a)
@@ -1170,6 +1189,48 @@ def _selftest():
           and len([r for r in s["shards"] if r.get("key") == "v2-0of1"]) == 1)
     check("pool:shard-keyless-union", {"note": "keyless-extra"}
           in s["shards"])
+
+    # 5c. done-absorb shard key-union (r304 bm-c, r489 two-layer fix):
+    # a lane-side done-shard repair on a done entry must heal the merged
+    # view; a stale ready row (older owner_since) must NOT revert a done
+    # shard; a shard-less done entry must not fabricate phantom rows.
+    done_shared = {"updated_at": "04:00:00", "entries": [
+        {"id": "DJ", "status": "done", "shards": [
+            {"key": "judge-0of1", "status": "ready", "owner": "bm-b",
+             "owner_since": "2026-09-29 17:11:59"}]}]}
+    healed_lane = {"updated_at": "05:00:00", "entries": [
+        {"id": "DJ", "status": "done", "shards": [
+            {"key": "judge-0of1", "status": "done", "owner": "bm-c",
+             "owner_since": "2026-10-01 06:40:00",
+             "done_at": "2026-10-01 06:40:00"}]}]}
+    m, _ = merge_runnable_pool([("legacy", done_shared),
+                                ("bm-c", healed_lane)])
+    dj = next(e for e in m["entries"] if e["id"] == "DJ")
+    check("pool:done-absorb-shard-heal", dj["status"] == "done"
+          and dj["shards"][0]["status"] == "done"
+          and dj["shards"][0]["owner_since"] == "2026-10-01 06:40:00")
+    done_shared2 = {"updated_at": "04:00:00", "entries": [
+        {"id": "DJ2", "status": "done", "shards": [
+            {"key": "judge-0of1", "status": "done", "owner": "bm-c",
+             "owner_since": "2026-10-01 06:40:00"}]}]}
+    stale_lane2 = {"updated_at": "05:00:00", "entries": [
+        {"id": "DJ2", "status": "done", "shards": [
+            {"key": "judge-0of1", "status": "ready", "owner": "bm-b",
+             "owner_since": "2026-09-29 17:11:59"}]}]}
+    m, _ = merge_runnable_pool([("legacy", done_shared2),
+                                ("bm-b", stale_lane2)])
+    dj2 = next(e for e in m["entries"] if e["id"] == "DJ2")
+    check("pool:done-absorb-stale-cannot-revert",
+          dj2["shards"][0]["status"] == "done")
+    done_bare = {"updated_at": "04:00:00", "entries": [
+        {"id": "DB", "status": "done", "shards": []}]}
+    phantom_lane = {"updated_at": "05:00:00", "entries": [
+        {"id": "DB", "status": "done", "shards": [
+            {"key": "x-0of1", "status": "ready"}]}]}
+    m, _ = merge_runnable_pool([("legacy", done_bare),
+                                ("bm-b", phantom_lane)])
+    db = next(e for e in m["entries"] if e["id"] == "DB")
+    check("pool:done-absorb-no-phantom-shards", db.get("shards") == [])
     # swallow direction: shared reverted to the old fork, lane holds the
     # newer keepalive -> merged must recover the newer truth.
     m, _ = merge_runnable_pool([("legacy", stale_lane), ("bm-a", fresh)])
@@ -1245,6 +1306,34 @@ def _selftest():
     e14l = next(e for e in m["entries"] if e["id"] == "W14U")
     check("pool:lane-vs-lane-marker-fallback",
           e14l["status"] == "waiting")
+
+    # 5d. park_note marker arm (r304 bm-c, live case 72bb3c0e0): a
+    # governance park (waiting + park_note, NO defer_note) must beat a
+    # stale lane's bare ready; a legitimate archive-preserving re-arm
+    # (ready + park_note retained) vs a stale waiting mirror is
+    # both-marked -> legacy rank -> ready still wins.
+    parked = merge_runnable_pool([
+        ("legacy", {"updated_at": "04:00:00", "entries": [
+            {"id": "PK", "status": "waiting",
+             "park_note": "governance park r494",
+             "parked_per": "D-20260930-41 sec.1.2"}]}),
+        ("bm-a", {"updated_at": "03:00:00", "entries": [
+            {"id": "PK", "status": "ready"}]})])
+    pk = next(e for e in parked[0]["entries"] if e["id"] == "PK")
+    check("pool:park-marker-beats-stale-ready-bmc",
+          pk["status"] == "waiting"
+          and pk["park_note"] == "governance park r494")
+    rearm = merge_runnable_pool([
+        ("legacy", {"updated_at": "04:00:00", "entries": [
+            {"id": "PK2", "status": "ready",
+             "park_note": "archive survives un-park (convention)",
+             "parked_per": "D-20260930-41 sec.1.2"}]}),
+        ("bm-b", {"updated_at": "03:00:00", "entries": [
+            {"id": "PK2", "status": "waiting",
+             "park_note": "stale park mirror"}]})])
+    pk2 = next(e for e in rearm[0]["entries"] if e["id"] == "PK2")
+    check("pool:rearm-retaining-park-note-still-wins",
+          pk2["status"] == "ready")
 
     # 6. gate_attrition full-volume union (47 consumers need every row)
     a = {"schema": "v1", "entries": [{"batch": "B", "ts": "01"}],
