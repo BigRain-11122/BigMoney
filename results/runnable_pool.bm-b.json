@@ -5102,7 +5102,7 @@
      "key": "exclusion-0of1",
      "status": "ready",
      "owner": "bm-b",
-     "owner_since": "2026-09-30 20:40:04",
+     "owner_since": "2026-09-30 21:30:04",
      "checkpoint": "results/exclusion_marginal_scan/scan.json single-shot (idempotency guard; no partial-state resume face by design -- 16-cell burn is one deterministic pass)",
      "note": "r476 bm-b: engine leg landed (monthly rotation event-walk: resume-day exits realize on resume day = no liquidity look-ahead, suspension entry-skip, overlap hold, ADV20 1% fill cap, 100-share lots, min-comm 5, V2 stock cost via knowledge/rules primitives imported never rewritten); gates probe on real data ALL PASS (panel 5217/elig 5229/cutoff 2026-09-29/age 8.2h/family open); timing probe 150 files 1.5s -> full load ~52s, whole burn est 5-15min (prereg sec.0 upper budget 20-40min stands); burn via pool per O-2100 (>5min law); after burn = next round backfills prereg sec.7 + carrier EXCLUSION_MARGINAL.md marginal table + TRACK sec.2 #3 row flip",
      "claim_note": "r476 successor round control-plane claim-clear: entering session (dead r476 firing 19:42) died pre-burn by stream timeout, shard never ran (no scan.json, no autofill launch); stale pre-claim was blocking autofill (claim_lost_yield verdict 19:50 tick); owner nulled for clean autofill pick; runner re-verified selftest 16/16 by successor r476 session 19:5x"
@@ -5151,6 +5151,174 @@
     "note": "serial deterministic single pass (event-walk engine, T33/GRID-P1 light-batch precedent; runner self-applies BELOW_NORMAL via ctypes per O-20260929-1029 headroom law); holiday full-core amendment (O-20260930-1858) applies from 2026-10-01 -- this entry stays default-priority per current law"
    },
    "worker_class": "bm-hosted"
+  },
+  {
+   "id": "P2NULL-KLIFT-K2200-S0",
+   "ticket_ref": "CEO O-20260930-2054 sec.1 e-item (nulls K-lift; fleet/orders/O-20260930-2054-bm-a.md) + O-20260930-1858 sec.2.e science-face investment; no open fleet task ticket = CEO-direct queue authorization",
+   "prereg_ref": "research/P2_NULL_KLIFT_PREREG.md FROZEN r287 commit 0dbc44c80 (design = NULL_CALIBRATION.md v1.0 verbatim + v2 fixed-engine RW-1..4 law; new seed bands A-ext rng 10_100+j j=0..1999 / B-ext exit rng 20_100+j j=0..199; 2,200 new-seed null trials, window frozen evidence_cutoff 2026-09-22; canon files untouched)",
+   "runner": "scripts/p2_null_calibration_ext.py",
+   "runner_args": [
+    "--shard",
+    "0",
+    "--nshards",
+    "4"
+   ],
+   "lane_owner": null,
+   "worker_class": "self-contained",
+   "priority": 0,
+   "status": "ready",
+   "entered_at": "2026-09-30 21:08:57",
+   "entered_by": "bm-c (OS iteration loop r287)",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/daily"
+    }
+   ],
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare-code assert + cutoff 2026-09-22 hard truncation (post-cutoff panel bars excluded, RW-2 law) + shard slice math + FeeSchedule single-source cost (RW-3); idempotency: shard re-run overwrites own results/p2cal_ext/shard-0-of-4.json byte-equal single-shot (FACEB precedent); selftest 7 legs hermetic offline (constants+seed bands disjoint vs v1 in-use AND 148-value SEED_REGISTRY+p pattern+determinism+slice math+canon intact+path safety)",
+   "est_burn": "~5.5min/shard (550 runs x ~0.54s measured v1 canon + panel load ~5s); 4 shards ~22min serial total",
+   "consumer_plan": "skill_line_v2 / g1_prime_v2 registration criteria baseline: canon-flip governance proposal (old-vs-new mu/sigma/line numbers, prereg sec.4 H-K1/H-K2/H-K3) + all future prereg criteria sections (CEO O-2058/O-1858 sec.2.e named consumer); finalize leg (merge 4 shards + ledger +2,200 + same-n_eff dual-line derive, v2 attribution law) = claiming round AFTER all 4 shards done, batch does not self-flip",
+   "shards": [
+    {
+     "key": "p2null-klift-s0-0of1",
+     "status": "ready",
+     "owner": "bm-c",
+     "owner_since": "2026-09-30 21:20:05",
+     "checkpoint": "results/p2cal_ext/shard-0-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
+     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
+   }
+  },
+  {
+   "id": "P2NULL-KLIFT-K2200-S1",
+   "ticket_ref": "CEO O-20260930-2054 sec.1 e-item (nulls K-lift; fleet/orders/O-20260930-2054-bm-a.md) + O-20260930-1858 sec.2.e science-face investment; no open fleet task ticket = CEO-direct queue authorization",
+   "prereg_ref": "research/P2_NULL_KLIFT_PREREG.md FROZEN r287 commit 0dbc44c80 (design = NULL_CALIBRATION.md v1.0 verbatim + v2 fixed-engine RW-1..4 law; new seed bands A-ext rng 10_100+j j=0..1999 / B-ext exit rng 20_100+j j=0..199; 2,200 new-seed null trials, window frozen evidence_cutoff 2026-09-22; canon files untouched)",
+   "runner": "scripts/p2_null_calibration_ext.py",
+   "runner_args": [
+    "--shard",
+    "1",
+    "--nshards",
+    "4"
+   ],
+   "lane_owner": null,
+   "worker_class": "self-contained",
+   "priority": 0,
+   "status": "ready",
+   "entered_at": "2026-09-30 21:08:57",
+   "entered_by": "bm-c (OS iteration loop r287)",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/daily"
+    }
+   ],
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare-code assert + cutoff 2026-09-22 hard truncation (post-cutoff panel bars excluded, RW-2 law) + shard slice math + FeeSchedule single-source cost (RW-3); idempotency: shard re-run overwrites own results/p2cal_ext/shard-1-of-4.json byte-equal single-shot (FACEB precedent); selftest 7 legs hermetic offline (constants+seed bands disjoint vs v1 in-use AND 148-value SEED_REGISTRY+p pattern+determinism+slice math+canon intact+path safety)",
+   "est_burn": "~5.5min/shard (550 runs x ~0.54s measured v1 canon + panel load ~5s); 4 shards ~22min serial total",
+   "consumer_plan": "skill_line_v2 / g1_prime_v2 registration criteria baseline: canon-flip governance proposal (old-vs-new mu/sigma/line numbers, prereg sec.4 H-K1/H-K2/H-K3) + all future prereg criteria sections (CEO O-2058/O-1858 sec.2.e named consumer); finalize leg (merge 4 shards + ledger +2,200 + same-n_eff dual-line derive, v2 attribution law) = claiming round AFTER all 4 shards done, batch does not self-flip",
+   "shards": [
+    {
+     "key": "p2null-klift-s1-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/p2cal_ext/shard-1-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
+     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
+   }
+  },
+  {
+   "id": "P2NULL-KLIFT-K2200-S2",
+   "ticket_ref": "CEO O-20260930-2054 sec.1 e-item (nulls K-lift; fleet/orders/O-20260930-2054-bm-a.md) + O-20260930-1858 sec.2.e science-face investment; no open fleet task ticket = CEO-direct queue authorization",
+   "prereg_ref": "research/P2_NULL_KLIFT_PREREG.md FROZEN r287 commit 0dbc44c80 (design = NULL_CALIBRATION.md v1.0 verbatim + v2 fixed-engine RW-1..4 law; new seed bands A-ext rng 10_100+j j=0..1999 / B-ext exit rng 20_100+j j=0..199; 2,200 new-seed null trials, window frozen evidence_cutoff 2026-09-22; canon files untouched)",
+   "runner": "scripts/p2_null_calibration_ext.py",
+   "runner_args": [
+    "--shard",
+    "2",
+    "--nshards",
+    "4"
+   ],
+   "lane_owner": null,
+   "worker_class": "self-contained",
+   "priority": 0,
+   "status": "ready",
+   "entered_at": "2026-09-30 21:08:57",
+   "entered_by": "bm-c (OS iteration loop r287)",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/daily"
+    }
+   ],
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare-code assert + cutoff 2026-09-22 hard truncation (post-cutoff panel bars excluded, RW-2 law) + shard slice math + FeeSchedule single-source cost (RW-3); idempotency: shard re-run overwrites own results/p2cal_ext/shard-2-of-4.json byte-equal single-shot (FACEB precedent); selftest 7 legs hermetic offline (constants+seed bands disjoint vs v1 in-use AND 148-value SEED_REGISTRY+p pattern+determinism+slice math+canon intact+path safety)",
+   "est_burn": "~5.5min/shard (550 runs x ~0.54s measured v1 canon + panel load ~5s); 4 shards ~22min serial total",
+   "consumer_plan": "skill_line_v2 / g1_prime_v2 registration criteria baseline: canon-flip governance proposal (old-vs-new mu/sigma/line numbers, prereg sec.4 H-K1/H-K2/H-K3) + all future prereg criteria sections (CEO O-2058/O-1858 sec.2.e named consumer); finalize leg (merge 4 shards + ledger +2,200 + same-n_eff dual-line derive, v2 attribution law) = claiming round AFTER all 4 shards done, batch does not self-flip",
+   "shards": [
+    {
+     "key": "p2null-klift-s2-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/p2cal_ext/shard-2-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
+     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
+   }
+  },
+  {
+   "id": "P2NULL-KLIFT-K2200-S3",
+   "ticket_ref": "CEO O-20260930-2054 sec.1 e-item (nulls K-lift; fleet/orders/O-20260930-2054-bm-a.md) + O-20260930-1858 sec.2.e science-face investment; no open fleet task ticket = CEO-direct queue authorization",
+   "prereg_ref": "research/P2_NULL_KLIFT_PREREG.md FROZEN r287 commit 0dbc44c80 (design = NULL_CALIBRATION.md v1.0 verbatim + v2 fixed-engine RW-1..4 law; new seed bands A-ext rng 10_100+j j=0..1999 / B-ext exit rng 20_100+j j=0..199; 2,200 new-seed null trials, window frozen evidence_cutoff 2026-09-22; canon files untouched)",
+   "runner": "scripts/p2_null_calibration_ext.py",
+   "runner_args": [
+    "--shard",
+    "3",
+    "--nshards",
+    "4"
+   ],
+   "lane_owner": null,
+   "worker_class": "self-contained",
+   "priority": 0,
+   "status": "ready",
+   "entered_at": "2026-09-30 21:08:57",
+   "entered_by": "bm-c (OS iteration loop r287)",
+   "host_gates": [
+    {
+     "kind": "dir_nonempty",
+     "path": "data/daily"
+    }
+   ],
+   "data_gates": "in-runner FAIL-CLOSED: universe==48 bare-code assert + cutoff 2026-09-22 hard truncation (post-cutoff panel bars excluded, RW-2 law) + shard slice math + FeeSchedule single-source cost (RW-3); idempotency: shard re-run overwrites own results/p2cal_ext/shard-3-of-4.json byte-equal single-shot (FACEB precedent); selftest 7 legs hermetic offline (constants+seed bands disjoint vs v1 in-use AND 148-value SEED_REGISTRY+p pattern+determinism+slice math+canon intact+path safety)",
+   "est_burn": "~5.5min/shard (550 runs x ~0.54s measured v1 canon + panel load ~5s); 4 shards ~22min serial total",
+   "consumer_plan": "skill_line_v2 / g1_prime_v2 registration criteria baseline: canon-flip governance proposal (old-vs-new mu/sigma/line numbers, prereg sec.4 H-K1/H-K2/H-K3) + all future prereg criteria sections (CEO O-2058/O-1858 sec.2.e named consumer); finalize leg (merge 4 shards + ledger +2,200 + same-n_eff dual-line derive, v2 attribution law) = claiming round AFTER all 4 shards done, batch does not self-flip",
+   "shards": [
+    {
+     "key": "p2null-klift-s3-0of1",
+     "status": "ready",
+     "owner": null,
+     "owner_since": null,
+     "checkpoint": "results/p2cal_ext/shard-3-of-4.json single-shot overwrite-idempotent (deterministic seeds, re-run reproduces byte-equal runs)",
+     "note": "r287 bm-c: null baseline K-lift for the skill_line_v2 registration gate; 100%% import p2_null_calibration v1 (run_one/load_core/BASELINE_P/P_EXIT) + v2 cutoff-truncation semantics, zero engine rewrite; probe results/_p2cal_ext_probe.json (out-of-band seeds 95_000/95_001, 2 runs green, ledger +0)"
+    }
+   ],
+   "workers_plan": {
+    "workers": 1,
+    "priority": "BelowNormal",
+    "note": "serial deterministic per-shard (v1/v2 calibration precedent, 0.54s/run measured); NO multiprocessing (Windows guard law); BelowNormal per CPU-yield law (O-1029 baseline; O-1858 holiday full-load amendment applies to bm-a face, lane-free shards keep BelowNormal conservative)"
+   }
   }
  ],
  "lane_machine": "bm-b"
