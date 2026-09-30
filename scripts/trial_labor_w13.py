@@ -2573,7 +2573,7 @@ def cmd_screen_prep() -> int:
                 "sig_params": t["sig_params"],
                 "axis": list(tl1.DEFAULT_AXIS)
                 + ["none", "none", "none", "none", "none", "none",
-                   "none", "none", "none", "none", "none"]}
+                   "none", "none", "none", "none", "none", "none"]}
         eq, *_ = run_candidate_curve_w13(cand, t, pcut, Pfull,
                                         tl1.v3_state_series())
         got_is = tl1.sharpe(eq[eq.index < tl1.OOS_START])
@@ -3087,6 +3087,7 @@ def cmd_screen_finalize() -> int:
     streak_seg, tstate_seg, amp_seg, mom_seg = {}, {}, {}, {}
     gvvy_seg, gvvvsk_seg, gvvvskts_seg = {}, {}, {}
     gvvvsktsa_seg, gvvvsktsam_seg, gvvvsktsams_seg = {}, {}, {}
+    gvvvsktsamsr_seg = {}
     std_seg, rsqr_seg, sumn_seg, gvvvsktsamsrn_seg = {}, {}, {}, {}
     for r in cand_rows:
         stop_counts[r["stop_face"]] = stop_counts.get(r["stop_face"], 0) + 1
@@ -3126,7 +3127,9 @@ def cmd_screen_finalize() -> int:
                          (gvvvsktsams_seg,
                           f"{gf}|{vf}|{yf}|{cf}|{sf}|{tf}|{af}|{mf}|"
                           f"{stf}"),
-                         (sumn_seg, nqf),
+                         (gvvvsktsamsr_seg,
+                          f"{gf}|{vf}|{yf}|{cf}|{sf}|{tf}|{af}|{mf}|"
+                          f"{stf}|{rqf}"),
                          (gvvvsktsamsrn_seg,
                           f"{gf}|{vf}|{yf}|{cf}|{sf}|{tf}|{af}|{mf}|"
                           f"{stf}|{rqf}|{nqf}")):
@@ -3210,9 +3213,9 @@ def cmd_screen_finalize() -> int:
            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_interaction_"
            "survival": gvvvsktsams_seg,
            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_"
-            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_interaction_"
-            "survival": gvvvsktsamsrn_seg,
            "survival": gvvvsktsamsr_seg,
+           "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_interaction_"
+           "survival": gvvvsktsamsrn_seg,
            "gate_na_window_bars": (gate_meta["na_window_bars"]
                                    if gate_meta else None),
            "vol_na_window_bars": (vol_meta["na_window_bars"]
@@ -4175,7 +4178,8 @@ def cmd_judge_finalize() -> int:
                           f"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}"),
                          (gvvvsktsams_sum,
                           f"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}"),
-                         (sumn_sum, nqf),
+                         (gvvvsktsamsr_sum,
+                          f"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}|{rqf}"),
                          (gvvvsktsamsrn_sum,
                           f"{g}|{v}|{y}|{c}|{s}|{t}|{a}|{m}|{stf}|{rqf}|{nqf}")):
             sm = seg.setdefault(key, {"n_cells": 0, "n_g1_pass": 0,
@@ -4219,9 +4223,9 @@ def cmd_judge_finalize() -> int:
            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_interaction_"
            "judgment": gvvvsktsams_sum,
            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_interaction_"
-            "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_interaction_"
-            "judgment": gvvvsktsamsrn_sum,
            "judgment": gvvvsktsamsr_sum,
+           "gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_interaction_"
+           "judgment": gvvvsktsamsrn_sum,
            "descriptive_summary": {"n_cells": n_judged,
                                    "clauses": clauses,
                                    "note": "descriptive clauses are "
