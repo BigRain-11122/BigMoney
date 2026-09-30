@@ -1,0 +1,41 @@
+{
+ "probe": "_r455bmb_futures_gate_probe",
+ "ts": "2026-09-30T10:2x+08:00",
+ "host": "bm-b",
+ "trigger": "S3 development scan: futures CTA lane (PLAN.md P-3 GM-signed) candidate probe; anti-dup three-check found CTA_WAVE1 fully closed by bm-a (T-65 s2 freeze R186 + burn R189 78 cells + sec.7 backfill) -- probe repurposed as standing-lane verification face",
+ "facts": {
+  "panel_census": {
+   "dir": "data/futures_daily/",
+   "files": 10,
+   "rows_and_spans": {
+    "AU": {"rows": 4562, "first": "2008-01-09", "last": "2026-09-29"},
+    "RB": {"rows": 4253, "first": "2009-03-27", "last": "2026-09-29"},
+    "IC": {"rows": 2355, "first": "2017-01-17", "last": "2026-09-29"},
+    "IF": {"rows": 2355, "first": "2017-01-17", "last": "2026-09-29"},
+    "IH": {"rows": 2355, "first": "2017-01-17", "last": "2026-09-29"},
+    "IM": {"rows": 1017, "first": "2022-07-22", "last": "2026-09-29"},
+    "SC": {"rows": 2067, "first": "2018-03-26", "last": "2026-09-29"},
+    "T": {"rows": 2355, "first": "2017-01-17", "last": "2026-09-29"},
+    "TF": {"rows": 2355, "first": "2017-01-17", "last": "2026-09-29"},
+    "TS": {"rows": 1967, "first": "2018-08-17", "last": "2026-09-24", "note": "one-off leg pulled by bm-a T-65 s2 (futures_zh_daily_sina TS0); NOT in updater VARIETIES; header col 'hold' where others have 'oi'; adjudicated in frozen CTA_WAVE1 prereg: evidence_cutoff=2026-09-24 gate 10/10, hold/oi/settle excluded from signal inputs (OHLCV-only)"}
+   }
+  },
+  "updater_universe": {
+   "VARIETIES": ["IF", "IC", "IM", "IH", "T", "TF", "RB", "AU", "SC"],
+   "n": 9,
+   "ts_stale_member_absent": "TS"
+  },
+  "freshness_gate": {
+   "function": "local_data_cutoff() = MAX last-bar date across VARIETIES files (scripts/update_futures.py L153-167)",
+   "cutoff_gate": "needs_fetch only when MAX < expected complete-bar date",
+   "observed": "2026-09-30T10:14:49 status: mode=no-op cutoff covered, data_cutoff=2026-09-29 == expected",
+   "latent_gap": "per-variety staleness within the 9 in-universe members is masked by the MAX aggregate: a single stale member never re-fetches once any sibling is fresh (no active incident today: all 9 at 2026-09-29)",
+   "suggested_owner_face": "bm-a (R48 puller / R51 wiring lineage): consider min-based or per-variety gate + stale-leg-only refresh in a future maintenance slice; NOT fixed this round by bm-b (lane ownership yield, observation only)"
+  }
+ },
+ "anti_dup_receipts": {
+  "cta_wave1_state": "CLOSED -- prereg frozen R186 @f3f52633 (sha b5bed148), runner scripts/cta_wave1.py, pool CTA-WAVE1-RUN status=done, results results/shortline_cta_wave1.json 262KB + research/cta_wave1_results.csv 78 cells, sec.7 backfilled bm-a R189 2026-09-25 21:14:31",
+  "town_org_alignment": "CLOSED -- town.html 11 buildings all carry org_chart v2 department rows incl v5/v6/v7 faces (r383/r292 receipts in town footer)"
+ },
+ "verdict": "futures lane standing-face healthy at 9/9 fresh; TS one-off leg frozen-adjudicated (not a defect); latent MAX-mask robustness gap recorded for lane owner; zero new work opened"
+}
