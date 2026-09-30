@@ -1,0 +1,346 @@
+{
+ "evidence_cutoff": "2026-09-22",
+ "science_gates": {
+  "cutoff_meta": {
+   "evidence_cutoff": "2026-09-22"
+  }
+ },
+ "batch": "CROSS-START-ROBUSTNESS-P1",
+ "prereg": "research/CROSS_START_ROBUSTNESS.md",
+ "n_trials": 4,
+ "family": {
+  "key": "cross-start-robustness",
+  "status": "open"
+ },
+ "faces": {
+  "stock": {
+   "rows": 3483,
+   "first": "2012-05-28",
+   "last": "2026-09-22"
+  },
+  "bond": {
+   "rows": 3273,
+   "first": "2013-04-09",
+   "last": "2026-09-22"
+  },
+  "gold": {
+   "rows": 3200,
+   "first": "2013-07-29",
+   "last": "2026-09-22"
+  },
+  "cash": {
+   "rows": 3735,
+   "first": "2011-05-13",
+   "last": "2026-09-22"
+  },
+  "ffill_counts": {
+   "stock": 0,
+   "bond": 0,
+   "gold": 0,
+   "cash": 0
+  },
+  "n_days": 3200,
+  "joint_start": "2013-07-29",
+  "joint_end": "2026-09-22"
+ },
+ "cost": {
+  "face": "A",
+  "per_side_bp": 13.041,
+  "rt_bp": 26.082,
+  "source": "knowledge/cost_spec.py X1_RATE (imported)"
+ },
+ "grid": {
+  "cells": [
+   "A-EQW",
+   "A-RAND-1",
+   "A-RAND-2",
+   "A-RAND-3"
+  ],
+  "rule": "monthly",
+  "n_starts": 159,
+  "n_valid_starts": 122,
+  "n_short_starts": 37,
+  "min_start_horizon_td": 756,
+  "rand_seed_base": 20329000,
+  "rand_procedure": "default_rng(base+k).dirichlet(ones(4))"
+ },
+ "face_B_staged": {
+  "status": "STAGED zero burns this batch",
+  "baseline": "amt20_mean asc top-10 monthly equal-weight T+1, 16 Jan-firsts 2007..2022, V2 stock costs",
+  "engine_plan": "import bm-b EXCLUSION-MARGINAL engine when it lands (anti-dup; MSG-1947 sec.2)",
+  "planned_trials": 2
+ },
+ "conclusion_A": {
+  "claim_anchor": {
+   "cagr": 0.0587,
+   "maxdd": -0.144,
+   "win_rate": 0.71,
+   "source": "ORDER conclusion A: regime-adaptive four-asset, external config not in repo"
+  },
+  "inrepo_face": "equal-weight 25x4 monthly four-asset (near-kin; no replication obligation per prereg sec.1.2)",
+  "verdict_cell": "A-EQW",
+  "criteria": "allstart_pos_share>=0.50 AND allstart_median_cagr>0 AND worst5y_cagr>0 (prereg sec.4, frozen pre-burn)",
+  "criteria_reads": {
+   "cell_id": "A-EQW",
+   "rule": "monthly",
+   "w": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "n_rebalances": 158,
+   "cost_drag_annual": 0.0003085539054428482,
+   "t_face": "informational t_from_sharpe (M1 declared non-gating)",
+   "seed": null,
+   "cagr": 0.0568654384044085,
+   "vol": 0.06926555896572124,
+   "sharpe": 0.8343502996418845,
+   "t_info": 2.9727286992117268,
+   "maxdd": -0.1247651900525456,
+   "worst3y": -0.009878568409435906,
+   "worst5y": 0.02870049746309622,
+   "worst10y": 0.0385998454510017,
+   "p_dd20_1y": 0.0,
+   "n_dd_windows": 2949,
+   "win_1y_pos_share": 0.7988466757123474,
+   "win_month_pos_share": 0.5569620253164557,
+   "n_1y_windows": 2948,
+   "n_month_slices": 158,
+   "allstart_n_valid": 122,
+   "allstart_short": 37,
+   "allstart_best": 0.08698622844560422,
+   "allstart_worst": 0.04428781414314886,
+   "allstart_p25": 0.05477450958543911,
+   "allstart_median": 0.05703705746860033,
+   "allstart_p75": 0.061937857728561196,
+   "allstart_pos_share": 1.0,
+   "pos_share_ok": true,
+   "median_ok": true,
+   "worst5y_ok": true,
+   "pass": true
+  },
+  "verdict": "retained",
+  "note": "ORDER wording: majority of starts hold -> keep, else withdraw. Claimed numbers are external-config reads, compared not gated."
+ },
+ "rand_null_pass_count": 2,
+ "kin_context": {
+  "baselines": {
+   "stock_bh": {
+    "cagr": 0.058672190968316995,
+    "maxdd": -0.4630606860158315,
+    "worst5y": -0.04385201658131854
+   },
+   "cash_only": {
+    "cagr": 0.017626928063944503,
+    "maxdd": 0.0,
+    "worst5y": 0.013250342874513432
+   }
+  },
+  "nearest_kin_cells": {
+   "0.20|0.50|0.20|monthly": {
+    "w": [
+     0.16,
+     0.32,
+     0.32,
+     0.2
+    ],
+    "cagr": 0.058636847283970894,
+    "maxdd": -0.11254805813343183,
+    "worst5y": 0.02773152888883912,
+    "allstart_median": 0.06471929242899799,
+    "allstart_pos_share": 1.0,
+    "allstart_best": 0.0998837285889429,
+    "allstart_worst": 0.05443012737444408
+   },
+   "0.30|0.50|0.20|monthly": {
+    "w": [
+     0.24,
+     0.28,
+     0.28,
+     0.2
+    ],
+    "cagr": 0.059253817405401144,
+    "maxdd": -0.11916483384210552,
+    "worst5y": 0.03087947294794735,
+    "allstart_median": 0.061327569744140775,
+    "allstart_pos_share": 1.0,
+    "allstart_best": 0.09387953538821403,
+    "allstart_worst": 0.04819158022749148
+   }
+  },
+  "source": "results/allocation_policy_scan/scan.json (bm-b r474, +0 trials)",
+  "nearest_kin_note": "0.30|0.50|0.20|monthly = closest grid cell to equal-weight in weight space (L1 dist 0.12)"
+ },
+ "cells": [
+  {
+   "cell_id": "A-EQW",
+   "rule": "monthly",
+   "w": [
+    0.25,
+    0.25,
+    0.25,
+    0.25
+   ],
+   "n_rebalances": 158,
+   "cost_drag_annual": 0.0003085539054428482,
+   "t_face": "informational t_from_sharpe (M1 declared non-gating)",
+   "seed": null,
+   "cagr": 0.0568654384044085,
+   "vol": 0.06926555896572124,
+   "sharpe": 0.8343502996418845,
+   "t_info": 2.9727286992117268,
+   "maxdd": -0.1247651900525456,
+   "worst3y": -0.009878568409435906,
+   "worst5y": 0.02870049746309622,
+   "worst10y": 0.0385998454510017,
+   "p_dd20_1y": 0.0,
+   "n_dd_windows": 2949,
+   "win_1y_pos_share": 0.7988466757123474,
+   "win_month_pos_share": 0.5569620253164557,
+   "n_1y_windows": 2948,
+   "n_month_slices": 158,
+   "allstart_n_valid": 122,
+   "allstart_short": 37,
+   "allstart_best": 0.08698622844560422,
+   "allstart_worst": 0.04428781414314886,
+   "allstart_p25": 0.05477450958543911,
+   "allstart_median": 0.05703705746860033,
+   "allstart_p75": 0.061937857728561196,
+   "allstart_pos_share": 1.0,
+   "pos_share_ok": true,
+   "median_ok": true,
+   "worst5y_ok": true,
+   "pass": true
+  },
+  {
+   "cell_id": "A-RAND-1",
+   "rule": "monthly",
+   "w": [
+    0.641296,
+    0.154006,
+    0.182419,
+    0.022279
+   ],
+   "n_rebalances": 158,
+   "cost_drag_annual": 0.0003739615946566111,
+   "t_face": "informational t_from_sharpe (M1 declared non-gating)",
+   "seed": 20329000,
+   "cagr": 0.06733077772613894,
+   "vol": 0.14611673023498054,
+   "sharpe": 0.5199090657670459,
+   "t_info": 1.8523977296459615,
+   "maxdd": -0.3130753705075341,
+   "worst3y": -0.0815351398505132,
+   "worst5y": 0.005888400407190186,
+   "worst10y": 0.027491921996638524,
+   "p_dd20_1y": 0.09766022380467955,
+   "n_dd_windows": 2949,
+   "win_1y_pos_share": 0.6468792401628223,
+   "win_month_pos_share": 0.5379746835443038,
+   "n_1y_windows": 2948,
+   "n_month_slices": 158,
+   "allstart_n_valid": 122,
+   "allstart_short": 37,
+   "allstart_best": 0.08841141727367474,
+   "allstart_worst": 0.016693387758672795,
+   "allstart_p25": 0.04603533997333037,
+   "allstart_median": 0.053558835357852885,
+   "allstart_p75": 0.0660356184942546,
+   "allstart_pos_share": 1.0,
+   "pos_share_ok": true,
+   "median_ok": true,
+   "worst5y_ok": true,
+   "pass": true
+  },
+  {
+   "cell_id": "A-RAND-2",
+   "rule": "monthly",
+   "w": [
+    0.03593,
+    0.336083,
+    0.024697,
+    0.60329
+   ],
+   "n_rebalances": 158,
+   "cost_drag_annual": 5.985220872153993e-05,
+   "t_face": "informational t_from_sharpe (M1 declared non-gating)",
+   "seed": 20329001,
+   "cagr": 0.02554169014292329,
+   "vol": 0.0117627309718725,
+   "sharpe": 2.153594522683352,
+   "t_info": 7.673098753357957,
+   "maxdd": -0.016895536603731665,
+   "worst3y": 0.015176336276993663,
+   "worst5y": 0.020917643387975415,
+   "worst10y": 0.023255520283128606,
+   "p_dd20_1y": 0.0,
+   "n_dd_windows": 2949,
+   "win_1y_pos_share": 1.0,
+   "win_month_pos_share": 0.7911392405063291,
+   "n_1y_windows": 2948,
+   "n_month_slices": 158,
+   "allstart_n_valid": 122,
+   "allstart_short": 37,
+   "allstart_best": 0.026726121930801705,
+   "allstart_worst": 0.01988851178065887,
+   "allstart_p25": 0.02226617792033936,
+   "allstart_median": 0.02336358137641903,
+   "allstart_p75": 0.024130103247309354,
+   "allstart_pos_share": 1.0,
+   "pos_share_ok": true,
+   "median_ok": true,
+   "worst5y_ok": true,
+   "pass": true
+  },
+  {
+   "cell_id": "A-RAND-3",
+   "rule": "monthly",
+   "w": [
+    0.753393,
+    0.026666,
+    0.112344,
+    0.107597
+   ],
+   "n_rebalances": 158,
+   "cost_drag_annual": 0.0002391606633970762,
+   "t_face": "informational t_from_sharpe (M1 declared non-gating)",
+   "seed": 20329002,
+   "cagr": 0.06327475739922828,
+   "vol": 0.1688863671598514,
+   "sharpe": 0.44853831731038496,
+   "t_info": 1.598109006657066,
+   "maxdd": -0.36342373707697684,
+   "worst3y": -0.10603763273180522,
+   "worst5y": -0.009790139869065295,
+   "worst10y": 0.013095432661370587,
+   "p_dd20_1y": 0.21566632756866735,
+   "n_dd_windows": 2949,
+   "win_1y_pos_share": 0.6221166892808684,
+   "win_month_pos_share": 0.5443037974683544,
+   "n_1y_windows": 2948,
+   "n_month_slices": 158,
+   "allstart_n_valid": 122,
+   "allstart_short": 37,
+   "allstart_best": 0.07513352900698922,
+   "allstart_worst": -0.0013349595962833805,
+   "allstart_p25": 0.03383283550207006,
+   "allstart_median": 0.044354573942771425,
+   "allstart_p75": 0.056832292846511034,
+   "allstart_pos_share": 0.9836065573770492,
+   "pos_share_ok": true,
+   "median_ok": true,
+   "worst5y_ok": false,
+   "pass": false
+  }
+ ],
+ "trials_ledger": {
+  "prev_total": 362385,
+  "batch_trials": 4,
+  "total": 362389,
+  "batch": "CROSS-START-ROBUSTNESS-P1",
+  "file": "results/cross_start_robustness/scan.json",
+  "note": "D-41 deliverable #1 cross-start robustness adjudication face A: equal-weight 25x4 monthly + 3 seeded random static-weight nulls; conclusion adjudication not a selection search",
+  "evidence_cutoff": "2026-09-22"
+ }
+}

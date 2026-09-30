@@ -1,6 +1,6 @@
 {
  "report_date": "2026-09-30",
- "generated_at": "2026-09-30 19:28:59",
+ "generated_at": "2026-09-30 19:54:21",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-09-30.md"
  },
  "rd": {
-  "commits_24h": 360,
-  "result_jsons_landed_24h": 162,
-  "digests_landed_24h": 3,
-  "prereg_md_touched_24h": 38,
+  "commits_24h": 353,
+  "result_jsons_landed_24h": 158,
+  "digests_landed_24h": 2,
+  "prereg_md_touched_24h": 39,
   "compute_audit_latest": {
-   "ts": "2026-09-30 19:27:39",
-   "py_cpu_pct": 0.1,
+   "ts": "2026-09-30 19:53:06",
+   "py_cpu_pct": 0.2,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "insufficient_history",
+  "watermark_verdict": "py_low_board_clear",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -597,11 +597,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1028572,
+  "total_report_tokens_est": 1030935,
   "delta_vs_prev": {
-   "prev_generated": "2026-09-30 18:46:37",
+   "prev_generated": "2026-09-30 19:07:57",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 726,
+   "report_tokens_growth": 2363,
    "mandate_growth": 0
   },
   "method": {
@@ -736,17 +736,13 @@
     "today_supply_gap_flags": 19
    },
    "bm-c": {
-    "latest_ts": "2026-09-30 19:27:39",
-    "py_pct": 0.1,
-    "cpu_pct": 14.0,
+    "latest_ts": "2026-09-30 19:53:06",
+    "py_pct": 0.2,
+    "cpu_pct": 3.0,
     "ready": 0,
-    "streak_min": 896.4,
+    "streak_min": 921.9,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "17:36",
-      6.3
-     ],
      [
       "17:49",
       0.6
@@ -790,9 +786,13 @@
      [
       "19:27",
       0.1
+     ],
+     [
+      "19:53",
+      0.2
      ]
     ],
-    "today_samples": 93,
+    "today_samples": 94,
     "today_floor_ok": 0,
     "today_sla_flags": 2,
     "today_supply_gap_flags": 19
