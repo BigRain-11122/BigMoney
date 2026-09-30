@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-27 16:50:02",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "SINA-CONSTRUCT-P1",
-   "shard": "sinac-0of1",
-   "pid": 44968,
-   "runner_sha256": "8dab58232abc4450",
-   "fill_latency_min": 14.5,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-28 00:50:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -683,13 +670,27 @@
    "fill_latency_min": 52.5,
    "target_met": false,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-09-30 08:30:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 1.0,
+   "verdict": "launched",
+   "entry": "INNOVATION-QUOTA-SLOT-8",
+   "shard": "main",
+   "pid": 39764,
+   "runner_sha256": "9c46c580e0897ffb",
+   "fill_latency_min": 5.3,
+   "target_met": true
   }
  ],
  "last_tick": {
-  "ts": "2026-09-30 08:20:01",
+  "ts": "2026-09-30 08:50:01",
   "machine": "bm-b",
-  "py_cpu_pct": 1.0,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 1.2,
+  "verdict": "claim_lost_yield",
+  "entry": "INNOVATION-QUOTA-SLOT-8",
+  "shard": "main"
  },
  "lane_machine": "bm-b"
 }
