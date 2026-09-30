@@ -1,7 +1,15 @@
 {
- "machine_id": "bm-c",
- "state": "claimed",
- "pid": 37088,
- "heartbeat": "2026-10-01T00:47:09+08:00",
- "started": "2026-10-01T00:47:09+08:00"
+ "entry": "LOWAMP-P1-NULLS",
+ "shard": "lowamp-p1-nulls-0of1",
+ "machine": "bm-c",
+ "state": "open",
+ "heartbeat": "2026-10-01 02:52:00",
+ "relay": {
+  "by": "bm-b",
+  "at": "2026-10-01 02:52:00",
+  "basis": "MSG-2026-10-01-0235 (bm-c loop r297, branch machine/bm-c-r297)",
+  "facts": "bm-c burn in flight since 00:47:02 (pythonw PID 37088, 8 workers, k~1372/2000 @02:2x, ~13.5 cells/min, ETA ~03:12); bm-c 69-commit push backlog blocked native claim heartbeats from reaching origin (last origin-visible stamp 00:56:21)",
+  "action": "bm-b killed own duplicate 12w burn @02:51 (1054/2000 rows burned, subset of bm-c set, rows bit-identical per frozen rng([20330500,k]); partial kept in local results/lowamp_p1/nulls.jsonl until bm-c merge lands)",
+  "contract": "this heartbeat = bm-b relay refresh of bm-c's stranded claim (claim-by-file O-2210 gate); refresh ONLY while bm-c burn alive per latest MSG; remove/ignore once bm-c merge lands done-flip"
+ }
 }
