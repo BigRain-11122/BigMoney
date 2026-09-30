@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-27 05:50:01",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "FUSION-GRID-P1",
-   "shard": "run-0of1",
-   "pid": 20952,
-   "runner_sha256": "3b49bab9bb036efd",
-   "fill_latency_min": 9.9,
-   "target_met": true,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-27 06:10:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -666,15 +653,41 @@
    "target_met": true,
    "saturation_launches": 3,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 01:14:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-X2",
+   "shard": "lowamp-p1-cell-larep-legacy-x2-0of1",
+   "pid": 92020,
+   "runner_sha256": "e70301bf089fd5b5",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 54.8,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 01:08:01",
+  "ts": "2026-10-01 01:14:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "claim_lost_yield",
-  "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-BASE",
-  "shard": "lowamp-p1-cell-larep-legacy-base-0of1"
+  "harvest_flipped": 1,
+  "verdict": "launched",
+  "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-X2",
+  "shard": "lowamp-p1-cell-larep-legacy-x2-0of1",
+  "pid": 92020,
+  "runner_sha256": "e70301bf089fd5b5",
+  "core_verdict": "multiproc",
+  "core_marker": "ProcessPoolExecutor",
+  "fill_latency_min": 54.8,
+  "fullburn_window": true,
+  "target_met": false,
+  "saturation_launches": 1
  },
  "lane_machine": "bm-a"
 }
