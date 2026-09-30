@@ -1,22 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-28 02:30:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 24.8,
-   "keepalive": [
-    "censusw2a-0of1"
-   ],
-   "verdict": "launched",
-   "entry": "DECISION-CHAIN-V2-P1",
-   "shard": "v2-0of1",
-   "pid": 24976,
-   "runner_sha256": "880297a0fb0854bf",
-   "fill_latency_min": 111.4,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-28 03:40:01",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -822,29 +806,50 @@
    "fullburn_window": true,
    "target_met": false,
    "saturation_launches": 2
+  },
+  {
+   "ts": "2026-10-01 01:35:41",
+   "machine": "bm-a",
+   "py_cpu_pct": 37.1,
+   "cooldown_skipped": {
+    "entry": "PERPETUAL-N1-W2-SHARD-0",
+    "shard": "n1w2-0of12",
+    "last_launch_min": 17.2
+   },
+   "verdict": "launched",
+   "entry": "PERPETUAL-N1-W2-SHARD-10",
+   "shard": "n1w2-10of12",
+   "pid": 50124,
+   "runner_sha256": "5667c984e14af8e5",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 69.5,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 3
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 01:34:50",
+  "ts": "2026-10-01 01:35:41",
   "machine": "bm-a",
-  "py_cpu_pct": 38.6,
+  "py_cpu_pct": 37.1,
   "cooldown_skipped": {
    "entry": "PERPETUAL-N1-W2-SHARD-0",
    "shard": "n1w2-0of12",
-   "last_launch_min": 16.3
+   "last_launch_min": 17.2
   },
   "verdict": "launched",
-  "entry": "PERPETUAL-N1-W2-SHARD-9",
-  "shard": "n1w2-9of12",
-  "pid": 48972,
+  "entry": "PERPETUAL-N1-W2-SHARD-10",
+  "shard": "n1w2-10of12",
+  "pid": 50124,
   "runner_sha256": "5667c984e14af8e5",
   "core_verdict": "multiproc",
   "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": 68.7,
+  "fill_latency_min": 69.5,
   "fullburn_window": true,
   "target_met": false,
-  "saturation_launches": 2
+  "saturation_launches": 3
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T01:34:41+08:00"
+ "core_samples_seen": "2026-10-01T01:35:31+08:00"
 }
