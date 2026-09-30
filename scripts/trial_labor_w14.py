@@ -1740,7 +1740,8 @@ def cmd_generate() -> int:
     excl_rows, excl_disc = _load_exclusion_rows_w14(grammar)
     neg_fns = {(e["module"], e["fn"])
                for e in grammar["exclusion"]
-               ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_rsqr_sumn_none_face"]
+               ["stop_gate_vol_yang_vconf_streak_tstate_amp_mom_std_"
+                "rsqr_sumn_resi_cnt_none_face"]
                if str(e.get("face", "")).startswith("negative")}
 
     # ---- draws: per-slot Sobol streams consumed in global round-robin
