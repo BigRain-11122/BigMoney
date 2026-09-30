@@ -1,0 +1,1309 @@
+{
+  "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
+  "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
+  "generated_at": "2026-10-01T00:21:15+08:00",
+  "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
+  "universe_size": 74,
+  "summary": {
+    "single_core": 65,
+    "multiprocess": 9
+  },
+  "hard_law_face": {
+    "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
+    "all_non_multiprocess": [
+      "Tools/t36_drill_runner.py",
+      "scripts/a158_tsgate_probe.py",
+      "scripts/aggr_fullpool_battery.py",
+      "scripts/aggressive_lab.py",
+      "scripts/alloc_backtest.py",
+      "scripts/bond_panel_puller.py",
+      "scripts/census_fusion_s2.py",
+      "scripts/census_fusion_s2_w2.py",
+      "scripts/census_fusion_s2_w2b.py",
+      "scripts/cn_core_ddctl_p1.py",
+      "scripts/cn_core_sat_p1.py",
+      "scripts/cn_div_lowvol_rot_p1.py",
+      "scripts/cn_kline_pattern_p1.py",
+      "scripts/cn_mkneutral_p1.py",
+      "scripts/cn_regime_policy_p1.py",
+      "scripts/cn_rev_tilt_p1.py",
+      "scripts/cn_sector_leader_p1.py",
+      "scripts/cn_soe_etf_p1.py",
+      "scripts/cn_trend_etf_p1.py",
+      "scripts/cross_start_robustness.py",
+      "scripts/cta_wave1.py",
+      "scripts/decision_chain_v2.py",
+      "scripts/decision_chain_v3_tournament.py",
+      "scripts/exclusion_marginal_scan.py",
+      "scripts/fusion_grid_p1.py",
+      "scripts/fusion_p1_nav.py",
+      "scripts/gpu_factor_matrix.py",
+      "scripts/grid_dualface_backtest.py",
+      "scripts/grid_p1_screen.py",
+      "scripts/innovation_quota_w1.py",
+      "scripts/innovation_quota_w10.py",
+      "scripts/innovation_quota_w2.py",
+      "scripts/innovation_quota_w4.py",
+      "scripts/innovation_quota_w5.py",
+      "scripts/innovation_quota_w6.py",
+      "scripts/innovation_quota_w7.py",
+      "scripts/innovation_quota_w8.py",
+      "scripts/innovation_quota_w9.py",
+      "scripts/mf_rot_backtest.py",
+      "scripts/national_team_s3_review.py",
+      "scripts/p1e_ic_batch.py",
+      "scripts/p1e_neighbor_corr.py",
+      "scripts/p1e_synth.py",
+      "scripts/p2_null_calibration_ext.py",
+      "scripts/p4_batch3_dca.py",
+      "scripts/rev_osc_stock_p1.py",
+      "scripts/sentiment_axes_derive.py",
+      "scripts/sina_construct_ic.py",
+      "scripts/t19_phantom_contribution.py",
+      "scripts/t33_router_validation.py",
+      "scripts/trial_labor_w1.py",
+      "scripts/trial_labor_w10.py",
+      "scripts/trial_labor_w11.py",
+      "scripts/trial_labor_w12.py",
+      "scripts/trial_labor_w13.py",
+      "scripts/trial_labor_w14.py",
+      "scripts/trial_labor_w2.py",
+      "scripts/trial_labor_w3.py",
+      "scripts/trial_labor_w4.py",
+      "scripts/trial_labor_w5.py",
+      "scripts/trial_labor_w6.py",
+      "scripts/trial_labor_w7.py",
+      "scripts/trial_labor_w8.py",
+      "scripts/trial_labor_w9.py",
+      "scripts/wild_route_lab.py"
+    ],
+    "non_multiprocess_with_live_pool_entries": [
+      "scripts/cross_start_robustness.py",
+      "scripts/exclusion_marginal_scan.py",
+      "scripts/trial_labor_w14.py"
+    ]
+  },
+  "out_of_scope_face": "S6 chain updater/gate scripts (update_*.py etc.) are I/O gates, not pool burn batches; census universe is the pool runner face only",
+  "verdicts": {
+    "Tools/t36_drill_runner.py": {
+      "path": "Tools/t36_drill_runner.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 4727,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "2"
+      ]
+    },
+    "scripts/a158_truegap_ic.py": {
+      "path": "scripts/a158_truegap_ic.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 326,
+          "text": "from concurrent.futures import ProcessPoolExecutor"
+        },
+        {
+          "line": 328,
+          "text": "ProcessPoolExecutor(max_workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 37970,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "3"
+      ]
+    },
+    "scripts/a158_tsgate_probe.py": {
+      "path": "scripts/a158_tsgate_probe.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 40230,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal (bm-a <=25, bm-b <=12, bm-c cache-less ok pure-pandas)"
+      ]
+    },
+    "scripts/aggr_fullpool_battery.py": {
+      "path": "scripts/aggr_fullpool_battery.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 45686,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "min(worker_cap(), 25) multi-core sleeve phase (ProcessPoolExecutor, O-2130 compliant)"
+      ]
+    },
+    "scripts/aggressive_lab.py": {
+      "path": "scripts/aggressive_lab.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 69367,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "25"
+      ]
+    },
+    "scripts/alloc_backtest.py": {
+      "path": "scripts/alloc_backtest.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 40275,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/bond_panel_puller.py": {
+      "path": "scripts/bond_panel_puller.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 25242,
+      "pool_entry_count": 6,
+      "pool_statuses": {
+        "done": 6
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/census_fusion_s2.py": {
+      "path": "scripts/census_fusion_s2.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 53875,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "4"
+      ]
+    },
+    "scripts/census_fusion_s2_w2.py": {
+      "path": "scripts/census_fusion_s2_w2.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 47569,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "4"
+      ]
+    },
+    "scripts/census_fusion_s2_w2b.py": {
+      "path": "scripts/census_fusion_s2_w2b.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 47470,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "4"
+      ]
+    },
+    "scripts/cn_core_ddctl_p1.py": {
+      "path": "scripts/cn_core_ddctl_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 46205,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cn_core_sat_p1.py": {
+      "path": "scripts/cn_core_sat_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 48536,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cn_div_lowvol_rot_p1.py": {
+      "path": "scripts/cn_div_lowvol_rot_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 69031,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cn_kline_pattern_p1.py": {
+      "path": "scripts/cn_kline_pattern_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 60219,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1 process, vectorized numpy (own-null 2000x7 bincount path = multi-core by BLAS/vector width; per-cell+null-shard checkpoints make it safely interruptible)"
+      ]
+    },
+    "scripts/cn_mkneutral_p1.py": {
+      "path": "scripts/cn_mkneutral_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 78881,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cn_regime_policy_p1.py": {
+      "path": "scripts/cn_regime_policy_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 51410,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cn_rev_tilt_p1.py": {
+      "path": "scripts/cn_rev_tilt_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 55861,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cn_sector_leader_p1.py": {
+      "path": "scripts/cn_sector_leader_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 78693,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cn_soe_etf_p1.py": {
+      "path": "scripts/cn_soe_etf_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 80649,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "4"
+      ]
+    },
+    "scripts/cn_trend_etf_p1.py": {
+      "path": "scripts/cn_trend_etf_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 67467,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "4"
+      ]
+    },
+    "scripts/cross_start_robustness.py": {
+      "path": "scripts/cross_start_robustness.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 51928,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "waiting": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/cta_wave1.py": {
+      "path": "scripts/cta_wave1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 44434,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/decision_chain_e2e.py": {
+      "path": "scripts/decision_chain_e2e.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 207,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 210,
+          "text": "with ProcessPoolExecutor(max_workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 58014,
+      "pool_entry_count": 9,
+      "pool_statuses": {
+        "done": 9
+      },
+      "workers_plan_declared": [
+        "runner t34 formula min(cores-2, ram_guard) ProcessPool BelowNormal"
+      ]
+    },
+    "scripts/decision_chain_v2.py": {
+      "path": "scripts/decision_chain_v2.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 82455,
+      "pool_entry_count": 2,
+      "pool_statuses": {
+        "done": 2
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/decision_chain_v3_tournament.py": {
+      "path": "scripts/decision_chain_v3_tournament.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 79973,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/exclusion_marginal_scan.py": {
+      "path": "scripts/exclusion_marginal_scan.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 49419,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "waiting": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/fusion_grid_p1.py": {
+      "path": "scripts/fusion_grid_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 51020,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "4"
+      ]
+    },
+    "scripts/fusion_p1_nav.py": {
+      "path": "scripts/fusion_p1_nav.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 22938,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "min(worker_cap(), 12) ProcessPool via parallel_runner.run_cells_parallel (O-2130 compliant)"
+      ]
+    },
+    "scripts/gpu_factor_matrix.py": {
+      "path": "scripts/gpu_factor_matrix.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 19207,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/grid_dualface_backtest.py": {
+      "path": "scripts/grid_dualface_backtest.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 73938,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/grid_p1_screen.py": {
+      "path": "scripts/grid_p1_screen.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 33127,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/innovation_quota_w1.py": {
+      "path": "scripts/innovation_quota_w1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 42486,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w10.py": {
+      "path": "scripts/innovation_quota_w10.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 63176,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w2.py": {
+      "path": "scripts/innovation_quota_w2.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 58213,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w4.py": {
+      "path": "scripts/innovation_quota_w4.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 59073,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w5.py": {
+      "path": "scripts/innovation_quota_w5.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 66812,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w6.py": {
+      "path": "scripts/innovation_quota_w6.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 41633,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w7.py": {
+      "path": "scripts/innovation_quota_w7.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 65706,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w8.py": {
+      "path": "scripts/innovation_quota_w8.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 57880,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/innovation_quota_w9.py": {
+      "path": "scripts/innovation_quota_w9.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 67127,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/mass_trial_w1.py": {
+      "path": "scripts/mass_trial_w1.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 611,
+          "text": "import multiprocessing as mp"
+        },
+        {
+          "line": 612,
+          "text": "with mp.Pool(args.workers, initializer=_worker_init) as pool:"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 66131,
+      "pool_entry_count": 4,
+      "pool_statuses": {
+        "done": 4
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal (16-core box: 12 observed; RAM-flip-gated)"
+      ]
+    },
+    "scripts/member_reinforce_p1.py": {
+      "path": "scripts/member_reinforce_p1.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 227,
+          "text": "from concurrent.futures import ProcessPoolExecutor"
+        },
+        {
+          "line": 245,
+          "text": "with ProcessPoolExecutor("
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 36606,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/mf_rot_backtest.py": {
+      "path": "scripts/mf_rot_backtest.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 65480,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/national_team_s3_review.py": {
+      "path": "scripts/national_team_s3_review.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 20316,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/p1e_ic_batch.py": {
+      "path": "scripts/p1e_ic_batch.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 33310,
+      "pool_entry_count": 4,
+      "pool_statuses": {
+        "done": 4
+      },
+      "workers_plan_declared": [
+        "4"
+      ]
+    },
+    "scripts/p1e_neighbor_corr.py": {
+      "path": "scripts/p1e_neighbor_corr.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 21181,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/p1e_synth.py": {
+      "path": "scripts/p1e_synth.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 36360,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/p2_null_calibration_ext.py": {
+      "path": "scripts/p2_null_calibration_ext.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 20757,
+      "pool_entry_count": 4,
+      "pool_statuses": {
+        "done": 4
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/p4_batch3_dca.py": {
+      "path": "scripts/p4_batch3_dca.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 46177,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/prospect_regime_segments.py": {
+      "path": "scripts/prospect_regime_segments.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 289,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 295,
+          "text": "with ProcessPoolExecutor(max_workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 50509,
+      "pool_entry_count": 9,
+      "pool_statuses": {
+        "done": 9
+      },
+      "workers_plan_declared": [
+        "runner worker_cap() ProcessPool BelowNormal"
+      ]
+    },
+    "scripts/rev_osc_stock_p1.py": {
+      "path": "scripts/rev_osc_stock_p1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 50088,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/sentiment_axes_derive.py": {
+      "path": "scripts/sentiment_axes_derive.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 17589,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/sina_construct_ic.py": {
+      "path": "scripts/sina_construct_ic.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 36806,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/t18_deep_axis.py": {
+      "path": "scripts/t18_deep_axis.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 673,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 674,
+          "text": "with ProcessPoolExecutor(max_workers=workers,"
+        },
+        {
+          "line": 1025,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 86294,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "12"
+      ]
+    },
+    "scripts/t19_phantom_contribution.py": {
+      "path": "scripts/t19_phantom_contribution.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 35433,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "single-process full-window rail replays (~159 rails x 6y deterministic replay; prereg s0 budget est 8-15min)"
+      ]
+    },
+    "scripts/t24_prospect_beatrate.py": {
+      "path": "scripts/t24_prospect_beatrate.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 42,
+          "text": "from concurrent.futures import ProcessPoolExecutor"
+        },
+        {
+          "line": 263,
+          "text": "with ProcessPoolExecutor(max_workers=workers or worker_cap(),"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 18561,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "runner worker_cap() pool (50 observed live)"
+      ]
+    },
+    "scripts/t33_router_validation.py": {
+      "path": "scripts/t33_router_validation.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 20473,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/t54_prospect_grid.py": {
+      "path": "scripts/t54_prospect_grid.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 204,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 210,
+          "text": "with ProcessPoolExecutor("
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 30200,
+      "pool_entry_count": 8,
+      "pool_statuses": {
+        "done": 8
+      },
+      "workers_plan_declared": [
+        "runner worker_cap() (bm-b=12, bm-a=25 cap observed)"
+      ]
+    },
+    "scripts/trial_labor_w1.py": {
+      "path": "scripts/trial_labor_w1.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 88689,
+      "pool_entry_count": 2,
+      "pool_statuses": {
+        "done": 2
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool (12 observed; W2-A burn parallel 12+4=16 exactly-saturated BelowNormal)",
+        "worker_cap() pool (judge initargs carry BOTH leg panels -- heavier per worker than screen; worker_cap RAM guard formula applies)"
+      ]
+    },
+    "scripts/trial_labor_w10.py": {
+      "path": "scripts/trial_labor_w10.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 231029,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "20",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W9-SCREEN 2,715 cells; W10-SCREEN 2,214 cells = 2,014 distinct + 200 nulls; screen leg-L 6m full-history per cell, eight-gate face carried per cell)"
+      ]
+    },
+    "scripts/trial_labor_w11.py": {
+      "path": "scripts/trial_labor_w11.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 234355,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors lighter; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grid beat vs passive + regime segments + dual nulls + descriptive faces)",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-SCREEN 2,214 cells ~7min wall at 12 workers; W11-SCREEN 1,462 cells = 1,262 distinct + 200 nulls; screen leg-L 6m full-history per cell, nine-gate face carried per cell)"
+      ]
+    },
+    "scripts/trial_labor_w12.py": {
+      "path": "scripts/trial_labor_w12.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 262763,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-SCREEN 2,214 cells ~7min wall at 12 workers; W11-SCREEN 1,462 cells; W12-SCREEN 1,059 cells = 859 distinct + 200 nulls, lightest; screen leg-L 6m full-history per cell, ten-gate face carried per cell incl rsqr)",
+        "{'workers': 'worker_cap() pool BelowNormal (16-core bm-b: <=12; W10-JUDGE 283 survivors ~33min wall; W11-JUDGE 229 survivors; W12-JUDGE 188 survivors lightest; dual-leg x base/x2 CostPatch(2) engine curves per cell + window-grouped shared-start pruning)', 'priority': 'BelowNormal'}"
+      ]
+    },
+    "scripts/trial_labor_w13.py": {
+      "path": "scripts/trial_labor_w13.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 277735,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal",
+        "worker_cap() pool BelowNormal (32-core bm-a: <=26 CEO 10% reserve law; W12-SCREEN 1,059 cells ~3min wall; W13-SCREEN 593 cells = 393 distinct + 200 nulls, lightest in lineage; screen leg-L 6m full-history per cell, eleven-gate face carried per cell incl sumn)",
+        "worker_cap() pool BelowNormal (judge initargs carry BOTH leg panels + per-leg ATR20 + per-leg eleven-gate state faces incl sumn = heaviest per-worker state in the fleet (worker_cap RAM guard applies); dual-leg x {6m,12m,24m} x cost {base x1, x2=CostPatch(2)} engine curves per judged cell WITH gate+vol+yang+vconf+streak+tstate+amp+mom+std+rsqr+sumn overlays + dual nulls B/P resampling ~4-6x screen-cell weight; W2-W12 judge same-machinery precedent; flip executor = deep-panel machine round (bm-b) post judge-prep + RAM 3-sample gate (W1-JUDGE r357 defer precedent)"
+      ]
+    },
+    "scripts/trial_labor_w14.py": {
+      "path": "scripts/trial_labor_w14.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 269993,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "waiting": 1
+      },
+      "workers_plan_declared": [
+        "worker_cap() pool BelowNormal"
+      ]
+    },
+    "scripts/trial_labor_w2.py": {
+      "path": "scripts/trial_labor_w2.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 122056,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "worker_cap() pool BelowNormal",
+        "worker_cap() pool BelowNormal (16-core box: 12 observed)"
+      ]
+    },
+    "scripts/trial_labor_w3.py": {
+      "path": "scripts/trial_labor_w3.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 121183,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "worker_cap() pool BelowNormal",
+        "worker_cap() pool BelowNormal (32-core bm-c: <=25)"
+      ]
+    },
+    "scripts/trial_labor_w4.py": {
+      "path": "scripts/trial_labor_w4.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 137237,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "worker_cap() pool BelowNormal",
+        "worker_cap() pool BelowNormal (16-core bm-b: 12 observed; 32-core bm-c: <=25)"
+      ]
+    },
+    "scripts/trial_labor_w5.py": {
+      "path": "scripts/trial_labor_w5.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 144765,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "worker_cap() pool BelowNormal",
+        "worker_cap() pool BelowNormal (W4-SCREEN live: 12 workers bm-c; 32-core bm-c: <=25; 32-core bm-a: <=25)"
+      ]
+    },
+    "scripts/trial_labor_w6.py": {
+      "path": "scripts/trial_labor_w6.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 164661,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "20",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W4-SCREEN live precedent 12 workers bm-c)"
+      ]
+    },
+    "scripts/trial_labor_w7.py": {
+      "path": "scripts/trial_labor_w7.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 157933,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "20",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W5-SCREEN 4,126 cells 28min bm-c 12 workers; W6-SCREEN 4,152 cells bm-b)"
+      ]
+    },
+    "scripts/trial_labor_w8.py": {
+      "path": "scripts/trial_labor_w8.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 188308,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W6-SCREEN 4,152 cells; W7-SCREEN 3,904 cells)",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W7-JUDGE 284 survivors ~10min; W8 408 cells est similar scale)"
+      ]
+    },
+    "scripts/trial_labor_w9.py": {
+      "path": "scripts/trial_labor_w9.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 204414,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "1",
+        "20",
+        "worker_cap() pool BelowNormal (16-core bm-b: <=12; W6-SCREEN 4,152 cells; W7-SCREEN 3,904 cells; W8-SCREEN 3,034 cells)"
+      ]
+    },
+    "scripts/wild_route_lab.py": {
+      "path": "scripts/wild_route_lab.py",
+      "exists": true,
+      "verdict": "single_core",
+      "evidence": [],
+      "main_guard": true,
+      "size_bytes": 62818,
+      "pool_entry_count": 9,
+      "pool_statuses": {
+        "done": 9
+      },
+      "workers_plan_declared": [
+        "1"
+      ]
+    },
+    "scripts/xstock_tilt.py": {
+      "path": "scripts/xstock_tilt.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 547,
+          "text": "from concurrent.futures import ProcessPoolExecutor"
+        },
+        {
+          "line": 582,
+          "text": "with ProcessPoolExecutor(max_workers=WORKERS) as ex:"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 48687,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "8"
+      ]
+    }
+  }
+}

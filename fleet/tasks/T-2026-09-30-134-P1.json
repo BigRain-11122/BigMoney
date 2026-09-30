@@ -4,9 +4,12 @@
  "type": "multi-core-enforcement-sweep",
  "immediate": true,
  "spec": "CEO direct order O-2026-09-30-2355 (multi-core CPUs; single-thread burners everywhere; FIX IT). FOUR slices: (s1) RUNNER CENSUS: enumerate ALL pool/常用 runners in scripts/, classify single-core vs multi-core (source scan: multiprocessing/ProcessPool/concurrent usage), results/multicore_census.json with per-runner verdict. (s2) CONVERSION BACKLOG: every single-core runner converted to ProcessPool with workers_plan (converted one-by-one, each verified by 60-second core-spread sample during live burn -- conversion without verification does not count); converted runners re-enter pool. (s3) LAUNCH VERIFICATION LAW: autofill/launcher samples core distribution 60s after launch -- single-core burn = red flag (瞎跑 face) + report line; launcher REJECTS unconverted single-thread runners at registration (workers_plan code-verified, not declared). (s4) EFFICIENCY FACE: compute_audit adds parallel-efficiency row (core-seconds / wall-seconds per batch); daily report carries three-machine core-spread + parallel-efficiency comparison row. Evidence anchor: bm-c GM perpetual furnace = 31-process all-core 100% live proof the pattern works.",
- "status": "open",
+ "status": "claimed",
  "created_by": "GM (quant 专管会话) via O-2026-09-30-2355",
  "created_at": "2026-09-30 23:55",
  "note": "Owner dept = 工程部 (launcher/audit) + 各 runner owner depts (conversions). Lane: bm-a primary (autofill owner), any machine for census/conversion. Number 134 = max+1 (T-133 mine, re-verified pre-push).",
- "ticket_lineage": "seq 134 @ 23:55"
+ "ticket_lineage": "seq 134 @ 23:55",
+ "claimed_by": "bm-c",
+ "claimed_at": "2026-10-01T00:19:05+08:00",
+ "claim_note": "s1 runner census started same round (CEO immediate law); s3 autofill lane stays bm-a"
 }
