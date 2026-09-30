@@ -3,7 +3,9 @@
 Deterministic, zero-LLM fill: the pool (results/runnable_pool.json) is
 the ONLY runnable face; when a machine's python CPU sits below 70% while
 a ready, lane-legal shard is on the pool, this script launches the
-shard's runner detached at BelowNormal priority -- no round, no MSG, no
+shard's runner detached at BelowNormal priority (holiday full-burn
+window per O-20260930-1858 sec.1: NORMAL priority, auto-revert at
+re-open) -- no round, no MSG, no
 human in the loop (O-2100: fill latency ready->running <= 10 min).
 
 Contract:
@@ -128,6 +130,17 @@ KEEPALIVE_MIN = 10.0      # r288 claim-keepalive cadence (well under
                           # local runner burns so remote takeover gates
                           # never see a live owner as stale.
 FILL_TARGET_MIN = 10.0    # O-2100 s2.2 hard target
+HOLIDAY_FULLBURN_START = datetime(2026, 10, 1, 0, 0, 0)
+                          # O-20260930-1858 sec.1: holiday full-mobilization
+                          # window (A-share holiday calendar): launched
+                          # runners ride NORMAL priority inside it -- the
+                          # BelowNormal ~10%-margin default is suspended for
+                          # the window only.
+HOLIDAY_FULLBURN_END = datetime(2026, 10, 9, 0, 0, 0)
+                          # re-opening trading day 00:00. Date-based check
+                          # so the BelowNormal default restores itself
+                          # (order clause "restored automatically on market re-open day" --
+                          # no manual flip, no lingering state to unwind).
 FUSE_CONFIRM_MIN = 25.0   # O-0947: crash confirm window -- > one flip
                           # window (r224 landed->flip lag) + margin, so a
                           # SUCCESSFUL-but-unflipped run is never counted
@@ -158,6 +171,15 @@ def _machine_id():
             return json.load(fh).get("machine_id", "")
     except Exception:
         return ""
+
+
+def _fullburn_active(now=None):
+    """O-20260930-1858 sec.1 holiday full-burn window (bm-a face):
+    True inside [10-01 00:00, re-open 10-09 00:00) -> launched runners
+    ride NORMAL priority (full mobilization); outside it the BelowNormal
+    margin default applies unchanged."""
+    now = now or datetime.now()
+    return HOLIDAY_FULLBURN_START <= now < HOLIDAY_FULLBURN_END
 
 
 def _mid_op():
@@ -1387,15 +1409,19 @@ def tick(dry=False):
         p = subprocess.Popen(cmd, cwd=ROOT, stdout=lf,
                              stderr=subprocess.STDOUT,
                              creationflags=DETACHED, close_fds=True)
+    fullburn = _fullburn_active()
     try:
         import psutil
-        psutil.Process(p.pid).nice(psutil.BELOW_NORMAL_PRIORITY_CLASS)
+        psutil.Process(p.pid).nice(
+            psutil.NORMAL_PRIORITY_CLASS if fullburn
+            else psutil.BELOW_NORMAL_PRIORITY_CLASS)
     except Exception:
         pass
     rec.update({"verdict": "launched", "entry": e["id"],
                 "shard": sh.get("key"), "pid": p.pid,
                 "runner_sha256": cur,
                 "fill_latency_min": latency,
+                "fullburn_window": fullburn,
                 "target_met": (latency is None
                                or latency <= FILL_TARGET_MIN)})
     state["launches"].append(rec)
@@ -2786,6 +2812,14 @@ def selftest():
         ok("S20j submit refuses bad JSON host_gates",
            rc20 == 2 and len(json.load(open(POOL, encoding="utf-8"))
                              ["entries"]) == 1)
+    # S21 O-20260930-1858 sec.1 holiday full-burn window: pure date face
+    ok("S21 fullburn closed before 10-01",
+       not _fullburn_active(datetime(2026, 9, 30, 23, 59, 59)))
+    ok("S21 fullburn open across 10-01..10-08",
+       _fullburn_active(datetime(2026, 10, 1, 0, 0, 0))
+       and _fullburn_active(datetime(2026, 10, 8, 23, 59, 59)))
+    ok("S21 fullburn auto-reverts at re-open 10-09",
+       not _fullburn_active(datetime(2026, 10, 9, 0, 0, 0)))
     # S7 sampler sanity on the real machine (pure read)
     py = _py_cpu_pct(window=0.5)
     ok("S7 live py sample in [0,100]", 0.0 <= py <= 100.0)
