@@ -1573,6 +1573,18 @@ SEED_REGISTRY = {
         # W13 judge dual-nulls (B=2000 block bootstrap + P=2000 sign-flip)
         # (rng([20324000, cell_idx])) per RANDOM_LARGE_SAMPLE_LAW sec.3
         "trial_labor_w13_unc": 20324000,
+        # INNOVATION-QUOTA-SLOT-8 COV-SHRINK-AB-P1 (zoo #89
+        # cov_shrinkage_lw adoption route: A/B variant batch sample-cov
+        # vs LW-shrunk-cov fed to the same frozen T-27 MaxDiv pipeline,
+        # rolling 252d@21td anchors over the 28-member x1 sleeve matrix):
+        # virtual starts K=1000 + splits 100 k-indexed sub-streams
+        # rng([20325500, k]) per W1-W7 lineage; +500 ladder above W7
+        # 20325000 (W13 berthed-but-unregistered trio 20323000/
+        # 20323500/20324000 stays clear by construction); berthed bm-b
+        # r448 (draft sec.B berth band), registered r450 bm-b freeze
+        # window, three-step law FULL import view verified same window
+        # (facts = results/_r450bmb_w8_seed_law_facts.json)
+        "innovation_quota_w8_covshrink": 20325500,
 
     }
 
