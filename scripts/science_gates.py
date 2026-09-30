@@ -1690,17 +1690,28 @@ SEED_REGISTRY = {
         # same window (facts = results/_r268bmc_w11_seed_law_facts.json)
         "innovation_quota_w11_momtiming": 20327000,
 
-        # LOWAMP-P1 (T-2026-09-30-132-P1 s1 freeze, bm-b r483): daily
-        # cross-sectional low-amplitude family judged batch per
-        # O-2026-09-30-2230 fast-track (watchlist seat #1). +500 ladder
-        # above exclusion_marginal_rand 20329500 (registry scan max at
-        # berth): lowamp_p1_params = sensitivity space-filling draws
-        # rng([20330000, k]) per prereg sec.3; lowamp_p1_nulls = K=2000
-        # same-mask random-selection null pool rng([20330500, k]) per
-        # prereg sec.4 null_pool (facts =
-        # results/_r483bmb_lowamp_seed_law_facts.json)
+        # LOWAMP-P1 low-amplitude family dedicated judged batch (CEO
+        # fast-track O-2026-09-30-2230 / T-132, bm-a r494 freeze window):
+        # 501 cells (1 furnace-continuity anchor C0096 + 500 Sobol
+        # space-filling draws in frozen band amp 77-104 / topN 2-3 /
+        # invvol-eq, RANDOM_LARGE_SAMPLE_LAW sec.2) on the 19-member
+        # consolidation adjusted_view face; +500 ladder above the last
+        # registered base 20329500 (exclusion_marginal_rand) -> NEW BAND
+        # 20330000/20330500/20331000 (203xxxxx zone fully packed
+        # 20302000-20329500 in 500-steps, 148-key ast live-read r494;
+        # first pick 20308500/20308600/20308700 collided t101_v4_a2
+        # 20308500 -> re-take per three-step law, second pick zone
+        # 20313000-20314000 collided t101_v4 a158_fv/a10_combo ->
+        # re-take to 20330xxx fresh zone; whole-repo rg zero hits;
+        # prereg research/LOWAMP_P1_PREREG.md sec.6)
         "lowamp_p1_params": 20330000,
-        "lowamp_p1_nulls": 20330500,
+        # Sobol parameter-axis draws (scipy qmc.Sobol(seed=20330000))
+        "lowamp_p1_starts": 20330500,
+        # K=2000 virtual starts/cell dual-leg L/D x {6m,12m,24m}
+        # rng([20330500, cell_idx, leg]) per RANDOM_LARGE_SAMPLE_LAW sec.1
+        "lowamp_p1_nulls": 20331000,
+        # dual nulls B=2000 block bootstrap + P=2000 sign-flip
+        # rng([20331000, cell_idx]) per RANDOM_LARGE_SAMPLE_LAW sec.3
 
     }
 
