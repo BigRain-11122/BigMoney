@@ -1639,6 +1639,17 @@ SEED_REGISTRY = {
         # A-RAND-{1,2,3} random static-weight null cells
         # default_rng(20329000+k).dirichlet(ones(4)) per prereg sec.3-A
         "cross_start_robustness_p1": 20329000,
+        # EXCLUSION-MARGINAL-P1 (D-20260930-41 deliverable #3, bm-b r476):
+        # RAND-FULL/RAND-NONE random-selection null cells -- per-month
+        # rng([20329500 + month_idx, 7919]) over signal months 2007-01..
+        # 2026-08 (<250 months -> band 20329500..20329750); two-int seed
+        # sequence protocol disjoint from scalar-seed bands; RENUMBERED
+        # 20329000->20329500 by r476 successor session: concurrent-window
+        # collision with bm-c cross_start_robustness_p1 (both sides picked
+        # 20329000 independently; theirs burned+published first = fait
+        # accompli, ours unburned = yields; 20329500 free-band verified
+        # registry scan 104 seeds max=20329000)
+        "exclusion_marginal_rand": 20329500,
         # INNOVATION-QUOTA-SLOT-8 COV-SHRINK-AB-P1 (zoo #89
         # cov_shrinkage_lw adoption route: A/B variant batch sample-cov
         # vs LW-shrunk-cov fed to the same frozen T-27 MaxDiv pipeline,
