@@ -238,6 +238,62 @@ def main() -> int:
           and (not res_shrink.ok) and any("missing in-lock" in x for x in res_shrink.reasons),
           "600000 out-of-lock refused; 1-of-48 request = silent shrink refused")
 
+    # D-20260930-39 (P0): asset-class fee routing. ETF default stays
+    # byte-identical (13.041bp both sides); a stock symbol adds the
+    # sell-only 5bp stamp tax + 0.1bp/side transfer fee -> 13.141bp buy /
+    # 18.141bp sell. Cost helpers must charge exactly those deltas.
+    from knowledge import rules as _kr
+    _fs_etf = _kr.fee_schedule_for("510300")
+    _fs_stk = _kr.fee_schedule_for("600519")
+    _ok_route = (_fs_etf == _kr.FeeSchedule()
+                 and _fs_stk.stamp_tax == 0.0005
+                 and _fs_stk.transfer_fee == 0.00001
+                 and abs(cost_spec.x1_side_rate(_fs_stk) * 1e4 - 13.141) < 1e-9
+                 and abs(cost_spec.x1_sell_side_rate(_fs_stk) * 1e4 - 18.141) < 1e-9
+                 and cost_spec.X1_SELL_RATE == cost_spec.X1_RATE)
+    _b_e = _kr.total_buy_cost(100.0, 1000)
+    _s_e = _kr.total_sell_proceeds(100.0, 1000)
+    _d_buy = _kr.total_buy_cost(100.0, 1000, _fs_stk) - _b_e
+    _d_sell = _s_e - _kr.total_sell_proceeds(100.0, 1000, _fs_stk)
+    check("rules: stock fee routing sell 18.141bp / buy 13.141bp (D-39)",
+          _ok_route and abs(_d_buy - 1.0) < 1e-9 and abs(_d_sell - 51.0) < 1e-9,
+          f"600519 vs 510300 on 100k notional: buy +{_d_buy:.0f} CNY "
+          f"(transfer), sell -{_d_sell:.0f} CNY (stamp50+transfer1); "
+          f"ETF sell rate {cost_spec.X1_SELL_RATE*1e4:.4f}bp == buy rate")
+
+    # D-20260930-38 CN-A: one-word-bar (high==low, sealed limit board)
+    # fills are impossible on the A-share exchange. Entry on a one-word
+    # open -> order DROPPED; exit on a one-word open -> DEFERRED to the
+    # next fillable open; "violations" is 0 by construction.
+    _idx = pd.date_range("2026-01-05", periods=8, freq="B")
+
+    def _ow_frame(o, c, h, l):
+        return pd.DataFrame({"open": o, "close": c, "high": h, "low": l},
+                            index=_idx)
+
+    _one = _ow_frame([10, 10.5, 10.6, 10.6, 10.6, 10.7, 10.8, 10.8],
+                     [10, 10.6, 10.6, 10.6, 10.6, 10.7, 10.8, 10.8],
+                     [10.2, 10.6, 10.7, 10.7, 10.6, 10.7, 10.8, 10.8],
+                     [10.0, 10.4, 10.5, 10.5, 10.6, 10.6, 10.8, 10.8])
+    _es = pd.DataFrame(False, index=_idx, columns=["OW"])
+    _es.loc[_idx[0], "OW"] = True          # entry fills _idx[1] (normal)
+    _xs = pd.DataFrame(False, index=_idx, columns=["OW"])
+    _xs.loc[_idx[3], "OW"] = True          # exit exec _idx[4] = one-word
+    _r = run_backtest({"OW": _one}, {"hold_days": 2,
+                                     "take_profit_tiers": [(2, 0.5)],
+                                     "hard_stop": -0.08,
+                                     "max_positions": 1,
+                                     "position_size_pct": 0.5},
+                      entry_signal=_es, exit_signal=_xs)
+    _owm = _r["metrics"]["cn_one_word"]
+    _fills = [t["date"] for t in _r["trades"]]
+    check("engine: one-word bar buy dropped + sell deferred (CN-A, D-38)",
+          _owm == {"buy_dropped": 0, "sell_deferred": 1, "violations": 0}
+          and str(_idx[4].date()) not in _fills
+          and str(_idx[5].date()) in _fills,
+          f"exit off sealed board -> filled next real open "
+          f"({_idx[5].date()}), violations=0 by construction")
+
     # --- 7) network / traffic modules ---
     import network_detector
     import traffic_policy

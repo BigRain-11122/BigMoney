@@ -46,13 +46,25 @@ def x1_side_rate(fee: FeeSchedule = FeeSchedule()) -> float:
     """Active canonical per-side cost rate (Face A), derived -- never
     hardcoded. Any fee-table change propagates to every face at once;
     the assert below then FAILS, forcing a conscious re-record instead
-    of silent drift."""
+    of silent drift. D-39: transfer_fee is a BOTH-sides fee and is part
+    of every side rate (0 for the ETF default -> recorded face intact)."""
     return (fee.commission_rate + fee.handling_fee
-            + fee.supervision_fee + fee.slippage_a)
+            + fee.supervision_fee + fee.transfer_fee + fee.slippage_a)
 
 
 X1_RATE = x1_side_rate()
 X2_RATE = 2.0 * X1_RATE
+
+# D-20260930-39 CN-C2: sell-side rate for a given schedule = buy side +
+# stamp tax (sell-only). ETF default (stamp_tax=0) -> X1_SELL == X1_RATE
+# bit-for-bit; stock schedules (rules.fee_schedule_for) add the 5bp
+# sell-only stamp tax so stock backtests can never silently reuse the
+# symmetric ETF rate.
+def x1_sell_side_rate(fee: FeeSchedule = FeeSchedule()) -> float:
+    return x1_side_rate(fee) + fee.stamp_tax
+
+
+X1_SELL_RATE = x1_sell_side_rate()
 
 # Face B: frozen historical grid caliber (see module docstring).
 GRID_LEGACY_COST_BP_X1 = 13.0

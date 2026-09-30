@@ -49,6 +49,59 @@ def is_t0(code: str) -> bool:
     return code in T0_ETF_CODES
 
 
+# ---------------------------------------------------------------------------
+# D-20260930-39 P0 asset-class fee routing (CN-C1/CN-C2). Registry truth
+# source = docs/audits/instrument-rules-registry-20260930.md (audit D-39).
+# The DEFAULT FeeSchedule stays the ETF caliber (stamp_tax=0.0,
+# transfer_fee=0.0) so every existing ETF face is byte-identical; stock
+# symbols route to a schedule that adds the A-share stock extras:
+#   stamp tax 0.05%  (sell side ONLY -- halved 2023-08-28)
+#   transfer fee 0.001% (0.1bp per side, BOTH sides; SH+SZ both charge)
+# CN-C3 minimum commission (¥5/trade) already lives in commission_min and
+# the max() in both cost helpers -- every stock batch must still declare
+# its effective per-side commission (¥5 floor dominates under ¥20k tickets).
+# ---------------------------------------------------------------------------
+STOCK_STAMP_TAX = 0.0005          # 5bp, sell side only (CN-C2)
+STOCK_TRANSFER_FEE = 0.00001      # 0.1bp per side, both sides
+_STOCK_FIRST_DIGITS = frozenset("036489")   # 60x/68x sh, 00x/30x sz, 4/8/92x bse
+_FUND_FIRST_DIGITS = frozenset("51")        # 51x/56x/58x sh fund, 15x/16x sz fund
+
+
+def _bare_code(code: str) -> str:
+    c = str(code).strip().lower()
+    for p in ("sh", "sz", "bj", "of"):
+        if c.startswith(p):
+            c = c[len(p):]
+            break
+    return c
+
+
+def is_stock(code: str) -> bool:
+    """True when the symbol routes to the A-share STOCK fee caliber."""
+    c = _bare_code(code)
+    return len(c) == 6 and c.isdigit() and c[0] in _STOCK_FIRST_DIGITS
+
+
+def is_fund(code: str) -> bool:
+    """True for ETF/fund codes (the default caliber)."""
+    c = _bare_code(code)
+    return len(c) == 6 and c.isdigit() and c[0] in _FUND_FIRST_DIGITS
+
+
+def fee_schedule_for(code: str) -> FeeSchedule:
+    """CN-C1: route the fee schedule by symbol prefix (D-20260930-39).
+
+    ETF/fund and anything unrecognized -> default ETF schedule (historical
+    caliber, byte-identical); stock -> ETF base + sell-side stamp tax +
+    both-side transfer fee. Callers must pass the schedule they get here
+    into the cost helpers -- the helpers never guess the asset class.
+    """
+    if is_stock(code):
+        return FeeSchedule(stamp_tax=STOCK_STAMP_TAX,
+                           transfer_fee=STOCK_TRANSFER_FEE)
+    return FeeSchedule()
+
+
 def min_lot(code: str) -> int:
     return 100   # 1 hand = 100 shares for buy
 
@@ -59,20 +112,32 @@ def price_tick(code: str) -> float:
 
 def total_buy_cost(price: float, qty: int,
                    fee: FeeSchedule = FeeSchedule()) -> float:
-    """Total cash needed to buy qty shares at price (incl fees)."""
+    """Total cash needed to buy qty shares at price (incl fees).
+
+    D-39 CN-C2: transfer fee applies on BOTH sides when the schedule
+    carries one (stock caliber); ETF default is 0 -> byte-identical.
+    """
     gross = price * qty
     fee_total = max(gross * fee.commission_rate, fee.commission_min)
     fee_total += gross * (fee.handling_fee + fee.supervision_fee)
+    fee_total += gross * fee.transfer_fee
     fee_total += gross * fee.slippage_a
     return gross + fee_total
 
 
 def total_sell_proceeds(price: float, qty: int,
                         fee: FeeSchedule = FeeSchedule()) -> float:
-    """Cash received after selling qty shares at price (net of fees)."""
+    """Cash received after selling qty shares at price (net of fees).
+
+    D-39 CN-C2: stamp tax is charged on the SELL side only (stock
+    caliber, 5bp since the 2023-08-28 halving); ETF default is 0 ->
+    byte-identical with the historical path.
+    """
     gross = price * qty
     fee_total = max(gross * fee.commission_rate, fee.commission_min)
     fee_total += gross * (fee.handling_fee + fee.supervision_fee)
+    fee_total += gross * fee.transfer_fee
+    fee_total += gross * fee.stamp_tax
     fee_total += gross * fee.slippage_a
     return gross - fee_total
 
@@ -121,7 +186,20 @@ def cost_v2_slippage(adv20_yuan) -> float:
 
 
 def cost_v2_side_rate(adv20_yuan, fee: FeeSchedule = None) -> float:
-    """Full per-side rate under the v2 basis: fixed fees + tiered slippage."""
+    """Full per-side rate under the v2 basis: fixed fees + tiered slippage.
+
+    D-39 CN-C2 note: includes the both-side transfer fee (0 for ETF).
+    Sell-side stamp tax is NOT amortized here -- stock sells must use
+    cost_v2_sell_side_rate so the asymmetry stays explicit, never hidden.
+    """
     f = fee if fee is not None else FeeSchedule()
     return (f.commission_rate + f.handling_fee + f.supervision_fee
+            + f.transfer_fee
             + cost_v2_slippage(adv20_yuan))
+
+
+def cost_v2_sell_side_rate(adv20_yuan, fee: FeeSchedule = None) -> float:
+    """Stock-caliber SELL side rate = buy side + stamp tax (5bp).
+    ETF schedules carry stamp_tax=0 -> identical to cost_v2_side_rate."""
+    f = fee if fee is not None else FeeSchedule()
+    return cost_v2_side_rate(adv20_yuan, f) + f.stamp_tax

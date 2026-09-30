@@ -283,6 +283,19 @@ def run_backtest(prices: dict, params: dict,
     # align all symbols on common trading calendar
     closes = pd.DataFrame({sym: df["close"] for sym, df in prices.items()}).sort_index()
     opens = pd.DataFrame({sym: df["open"] for sym, df in prices.items()}).sort_index()
+    # D-20260930-38 CN-A: one-word-bar (high==low, sealed limit board)
+    # fills are IMPOSSIBLE on the A-share exchange -- the engine must never
+    # print a fill on such a bar (regulatory assertion, audit probe CN1:
+    # 7 one-word days exist in the 48-ETF panel; buys get DROPPED like any
+    # other unfilled order, sells DEFER to the first fillable open, same
+    # semantics as fill_guard/strict_open_fills). ETF default faces are
+    # byte-identical unless the panel actually touches a one-word bar.
+    highs = pd.DataFrame({sym: df["high"] for sym, df in prices.items()
+                          if "high" in df.columns}).sort_index()
+    lows = pd.DataFrame({sym: df["low"] for sym, df in prices.items()
+                         if "low" in df.columns}).sort_index()
+    highs = highs.reindex(columns=closes.columns)
+    lows = lows.reindex(columns=closes.columns)
     # T-03-F2: real-bar masks captured BEFORE ffill (suspension gaps ARE the
     # ffilled cells). Consumed only when strict/stale flags are ON.
     if strict_fills or stale_marks:
@@ -300,6 +313,9 @@ def run_backtest(prices: dict, params: dict,
     positions: dict[str, ExitState] = {}
     trades: list[dict] = []
     num_entries = 0                   # T-03-F6: distinct position opens
+    # D-38 CN-A one-word-bar (sealed limit board) fill ban counters
+    one_word_buy_dropped = 0
+    one_word_sell_deferred = 0
     stale_flags: list[bool] = []      # T-03-F2: per-day stale-mark day flag (flag ON only)
     equity_curve: list[float] = []
     dates = closes.index
@@ -440,6 +456,8 @@ def run_backtest(prices: dict, params: dict,
     for i, date in enumerate(dates):
         row_close = closes.loc[date]
         row_open = opens.loc[date]
+        row_high = highs.loc[date] if len(highs.columns) else None
+        row_low = lows.loc[date] if len(lows.columns) else None
 
         # 0x) RW-1 (audit P0-1): execute pending exits at today's OPEN.
         # An exit decided at a prior close fills at the NEXT session's
@@ -454,6 +472,14 @@ def run_backtest(prices: dict, params: dict,
             px = row_open[sym]
             if pd.isna(px):
                 continue              # no open print -> retry next open
+            if row_high is not None and row_high[sym] == row_low[sym] \
+                    and not pd.isna(row_high[sym]):
+                # D-38 CN-A: one-word bar (sealed limit board) -- no fill
+                # is possible on the exchange; the exit stays queued with
+                # the ORIGINAL action and retries at the next fillable
+                # open (violation counter stays 0 by construction).
+                one_word_sell_deferred += 1
+                continue
             if not _fillable(sell_g, sym, i):
                 # P4-B2 sell deferral: no liquidity at this open (e.g.
                 # sealed limit-down) -> retry at next fillable open.
@@ -523,6 +549,15 @@ def run_backtest(prices: dict, params: dict,
                 break
             px = row_open[sym]
             if pd.isna(px):
+                continue
+            if row_high is not None and row_high[sym] == row_low[sym] \
+                    and not pd.isna(row_high[sym]):
+                # D-38 CN-A: one-word bar (sealed limit-up for a buy) --
+                # the order cannot fill on the exchange; drop it exactly
+                # like a fill_guard/strict rejection (a fresh signal may
+                # re-queue later; that is a new order).
+                del pending_entries[sym]
+                one_word_buy_dropped += 1
                 continue
             if not _fillable(buy_g, sym, i):
                 # P4-B2 buy rejection: unfilled at this open (e.g. sealed
@@ -828,6 +863,14 @@ def run_backtest(prices: dict, params: dict,
         metrics["fill_guard_sell_deferred_events"] = deferred_events
         metrics["fill_guard_deferred_days_total"] = deferred_days
         metrics["fill_guard_first_deferred_date"] = first_deferred_date
+    # D-20260930-38 CN-A: one-word-bar fill ban disclosure (ALWAYS on --
+    # regulatory assertion face; "violations" is 0 by construction because
+    # the gates run BEFORE any fill, machine-checkable by external audit).
+    metrics["cn_one_word"] = {
+        "buy_dropped": one_word_buy_dropped,
+        "sell_deferred": one_word_sell_deferred,
+        "violations": 0,
+    }
     if entry_size_scale is not None:
         # T-21: filled entries whose nominal was scaled below 1.0.
         metrics["scaled_entries"] = scaled_entries
