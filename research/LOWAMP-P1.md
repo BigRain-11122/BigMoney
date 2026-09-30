@@ -85,8 +85,30 @@
 - 产物：`results/lowamp_p1/lowamp_p1_results.json`（顶层 evidence_cutoff+cutoff_meta+audit 段+4 cells×2 axes×2 faces 全表+G 门读数+nulls 三族+sensitivity 分布+分段统计+D6 corr 逐对清单）+ `cells.csv`（小件入 git）+ `probe.json`（探针/锚/D6/closed_family 回执）+ 本文件 §7/§8 回填。
 - 下游：PASS → s4 intake（**LOWAMP-\* 纸盘提案**（fast-track：prereg only+GM 署名+次交易日激活）+ STRATEGY_LIBRARY 注册 + 决策链版本台账通道第二活袖候选 + POTENTIAL_WATCHLIST 状态翻面）；judged-negative → 如实出名单（append-only 进出记录）；T-86 普查 lowamp 列 verbatim 消费。
 
-## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
+## §7 跑后实证【2026-10-01 finalize 落地·bm-a 03:18:35 audit.machine·§7/§8 回填=bm-b r490】
 
-## §8 批后复盘【必填·s7-T·跑后回填】
+- **verdict = judged-negative**（三态如实：G1' ∧ G2 ∧ 双轴 ∧ x2 ∧ M1 五门中四败·G-SEG 过——族级合取 FAIL）。产物=results/lowamp_p1/lowamp_p1_results.json（evidence_cutoff=2026-09-22·trials ledger 366,789→368,797 +2,008）。
+- **G1' v2（headline=LA-REP legacy 全面板 2020-01-02→2026-09-22 连续单跑）**：sharpe_full=**−1.4475** vs skill_line_v2=**1.9459**（μ_null=+0.0564·σ_null=0.3732·n_eff=ledger 368,797·null_term=1.9459＞passive_term=0.4792）→ line_ok=**FAIL**；block bootstrap CI95=[−2.1969, −0.6836] 下界>0=**FAIL**；trade gate（n_trades=254/n_entries=255≥30·双口径）=PASS。ret_full=−17.99%·maxDD=−18.36%·39.24 笔/年。
+- **G2**：DSR=**0.0**＜0.95=FAIL（T=1630·skew=−1.2106·kurt=11.378·sr_star=0.0816）；家族 PBO=**0.0**≤0.25=PASS（M=4 小矩阵分辨率粗如实注记）；eligible_v2=false → **FAIL**。
+- **双轴确认**：deep 轴 LA-REP 12m beat=527/1380=**0.3819**·CI_lo=**0.3558**＜0.50 → **FAIL**。
+- **x2 存活线**：LA-REP legacy x2 sharpe_full=**−3.6391**＜0 → **FAIL**（ret −50.85%·maxDD −51.01%·x2_cost_drag_sharpe=−2.1915）。
+- **M1**：t_from_sharpe=**−3.6815**＜3.0 → **FAIL**（H/L/Z 门槛 t≥3.0·新策略主张面）。
+- **G-SEG**：覆盖 legacy bear696/bull345/chop87·deep bear746/bull540/chop94（每段≥50 起点）→ PASS（insufficient-sample 未触发）。
+- 全起点 12m 分布（n=1128）：best=+2.98% / p75=−0.72% / median=−1.88% / p25=−3.37% / worst=−7.01% / **positive_share=11.79%**；滚动最差 3y=−9.65%·5y=−14.01%·10y=n/a。
+- nulls 三族：same-mask K=2000（μ=+0.0564·p05=−0.5062·p50=+0.0746·p95=+0.5951·σ=0.3732）+ block bootstrap B=2000（p_ge_obs=0.4865）+ sign-flip P=2000（p_two_sided=0.0）。
+- sensitivity 描述面（K=500·legacy）：sharpe p05=−1.5256 / p50=−1.0305 / p95=−0.0377·maxdd_worst=−19.71%（零判定宣称）。
+- 4 cells×2 axes×2 faces 全表=results/lowamp_p1/cells.csv（**16/16 cell 全负 Sharpe**：legacy base −0.93~−1.47·deep base −0.21~−0.42·x2 全列 −1.77~−3.65）；LA-REP 与 LA-EQ 全轴逐位恒等（两入选员 amp 近同→invvol≈eq·sizing 维度无区分度如实）。
+- descriptive：IS 年化 −9.05% / OOS 年化 −9.82% / 无 ≤−35% 崩年 / 成本口径=ETF 26.082bp/往返（X1_RATE import 派生断言恒等）。
+- 探针回执：D6 max|corr|=0.1688（VOLATILITY-CE-01·逐对 6/6＜0.7 admit）·closed_family=open（六键零命中）·§0.5 banned gate ADMIT（r483 清洗后）·G-CENSUS {legacy 1,254, deep 1,506} 实测逐位（probe.json）。
+- audit.liquidity：amt20_min=¥50M·active_members_ever=**4**·elig_days_median=45·selected_days=1542。
 
-- 预测对账（对/部分/错逐条）＋门禁链损耗账（`results/gate_attrition.json` 追加行）＋skill_line_v2 当批读数；D6/§0.5/closed_family 三探针回执；试验量归因（2,008 已入 §3 账本行·§四闸消耗同步）；全起点分布（§1.3 最好/最坏/p25/中位/p75+滚动 3/5/10 年最差——只报单一起点=结论无效）；回执入轮报告+CODELY.md 行级追加；若注册新员：evidence_cutoff+SIGNAL_BUILDERS 接线+smoke 锚定门复跑。
+## §8 批后复盘【bm-b r490 回填】
+
+- **预测对账（§5 逐条）**：#1 **错**（Sharpe −1.4475 vs [0.8,1.4]·符号反）；#2 **错**（beat 0.3819 vs [0.52,0.72]·CI_lo 0.3558 vs [0.48,0.65]）；#3 结果=未过线（预测过线概率 [40,70%]——未过在其支持集内，但幅度远超区间反面）；#4 **部分**（deep 未过线在 [35,65%] 概率支持集内）；#5 **对**（PBO 0.0≤0.25）；#6 **错**（x2 −3.64 深负·存活预测 [70,90%] 的点面完全落空）；#7 **错**（t=−3.68 vs [2.3,3.6]·符号反）；#8 极端日先验=无裸 max 门·maxDD −18.4% 路径内化（未逐日对账如实）。
+- **⚠ 判决完整性审计（回填轮读只探针·证据=归因面审计）**：core48 冻结白名单+冻结资格面归因探针定谳入选员=**511010（5年国债ETF）+511260（10年国债ETF）**（8/8 采样日 Top-2 稳定·第三席近年=511090·与 audit active_members_ever=4 一致）；**输入面净性四证**：两员均不在 19 员 adjusted-view 替换集（实载=raw face）·raw 全窗零 |ret|>2% 日（无事件伪影）·in-window 价格路径 511010 +17.9%（119.377→140.709）/511260 +24.4%（108.351→134.821）·深轴同向（−17.2%）排除单轴面因 → 常开 Top-2 毛收益应为正两位数，判出面 headline **−18.0%** 不可调和（**~39pp 背离**；成本满算仅 ~6.6% 累计=39.24 笔/年×26.082bp×6.5 年）。**二次证据**：x2 面 ΔSharpe=−2.1915，按 vol≈6.2% 反隐 Δcost≈13.6%/年=单笔 ≈347bp=声明 26bp 的 **13 倍**——成本乘二不可能解释。结论=**疑 runner 执行面缺陷（信号→持仓→P&L 映射），判决数值作为该族测量的可信度=低，verdict 完整性=UNDER REVIEW**；炉子勘探面背离候选因（top20 选择偏差/窗延 2026 债熊/宇宙流动性闸差异）在此旗标裁定前**降级为次要**——先修测量仪再谈机制。
+- **治理动作**：完整性旗标入轮报告+CODELY.md（E1 级）+修复单入队（T-2026-10-01-135-P0：lowamp_p1.py 执行面已知答案审计——债对 B&H 已知收益 vs 引擎输出对账）；消费警告=skill_line_v2 n_eff 已吞本批 2,008 试验（若后续治理裁定 VOID 则账本回退=治理动作非本批权限）；watchlist 出名单按冻结门照走+完整性注记（下）。
+- 门禁链损耗账：results/gate_attrition.json 追加行（kind=judgment·retro_fill=true·finalize 2026-10-01 03:18 bm-a·回填=bm-b r490）。
+- skill_line_v2 当批读数：**1.9459**（null_term 1.9459=μ 0.0564+σ 0.3732×√(2·ln 368,797)；passive_term 0.4792）。
+- 试验量归因：2,008 = judged cells 4×判面 2（base+x2）+ same-mask null draws 2,000（§0 冻结式·账本 366,789→368,797 已随 finalize 落账）。
+- 全起点分布：见 §7（最好/最坏/p25/中位/p75/正份额+滚动 3/5/10 年最差——非单一起点宣称）。
+- 新员注册：**无**（判负不出新员；完整性旗标下双禁——既不注册亦不据本 verdict 作族间 meta 结论）。

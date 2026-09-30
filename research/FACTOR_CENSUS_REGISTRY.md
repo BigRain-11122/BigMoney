@@ -209,3 +209,7 @@ factor_registry.py 内 bench 登记行（T-48 r162 同源·对照组非候选）
 
 - 消费契约：126 面全数=泊位候选非入册资格——逐族 SLOT 三验+预注册后烧（G2 spec §四.1·O-1901 ① 禁一次性全量判决烧·优先序按消费面紧迫度）；69 UNVERIFIABLE 面=M4 代码面提取腿未来批选项（本批公式源缺如实不入池）；38 DRIFT 面=名字级/同号级近亲非语义等价（不引用族 verdict 亦不判负，构造验证留 SLOT 轮）。
 - 供料池 ready 面账：7→**133 级**（+126 P2 OHLCV+amount/vwap 可算面；G2 spec §四.1 目标 30+ 超标——富集面全数未过 SLOT 三验如实标注）。
+
+### G 行 lowamp 概念族消费注记（2026-10-01 bm-b r490·append-only·T-86 普查 lowamp 列 verbatim 消费回执）
+
+- LOWAMP-P1 专用判决批（T-132·verdict=judged-negative·fast-track O-2026-09-30-2230）已消费低振幅族 judged faces：W∈[77,104] 滚动收益 std 振幅排序变体（judged cells W∈{89,104}+sensitivity W∈[77,104]·close-to-close std 构造；与 G 行 lowamp20=mean((high−low)/close) 20 日窗为**不同构造同族概念**——消费声明按族概念立、构造差异如实注记）——**禁重跑**（TRIAL_GRAMMAR_LEDGER LOWAMP-P1 行同立）；⚠ verdict 完整性 UNDER REVIEW（bm-b r490 审计·修复单 T-2026-10-01-135-P0·裁定前禁据本 verdict 作族间 meta 结论）。

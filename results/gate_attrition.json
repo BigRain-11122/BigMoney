@@ -14447,6 +14447,70 @@
     },
     "note": "formula-level overlap census (zero backtest, zero cells); 431 faces cited in-repo verdicts (no re-burn); 12 new faces -> FACTOR_CENSUS_REGISTRY H-rows (4 OHLCV-ready + 8 DATA_GATE fundamental); runner evidence=results/g2_overlap_census_p1.json"
    }
+  },
+  {
+   "batch": "LOWAMP-P1",
+   "ts": "2026-10-01 03:18:35",
+   "kind": "judgment",
+   "retro_fill": true,
+   "cells_ledger_delta": 2008,
+   "ledger_total_after": 368797,
+   "gates": {
+    "g1_prime_v2": {
+     "n": 1,
+     "n_pass": 0,
+     "line": "skill_line_v2 ledger-head live read: headline LA-REP legacy sharpe_full=-1.4475 vs line=1.9459 (n_eff=368797, mu_null=0.0564 sigma_null=0.3732); bootstrap CI95=[-2.1969,-0.6836] lower>0 FAIL; trade gate 254/255 >=30 PASS"
+    },
+    "g2_registration_v2": {
+     "n": 1,
+     "n_eligible": 0,
+     "dsr": 0.0,
+     "dsr_gate": 0.95,
+     "family_pbo": 0.0,
+     "pbo_gate": 0.25
+    },
+    "m1_t_value": {
+     "t": -3.6815,
+     "hurdle": 3.0,
+     "n_pass": 0
+    },
+    "dual_axis": {
+     "beat_k": 527,
+     "beat_n": 1380,
+     "ci_lo": 0.3558,
+     "gate": 0.5,
+     "n_pass": 0
+    },
+    "x2_survival": {
+     "sharpe_full": -3.6391,
+     "n_pass": 0
+    },
+    "g_seg": {
+     "pass": true,
+     "coverage": {
+      "legacy": {
+       "bear": 696,
+       "bull": 345,
+       "chop": 87
+      },
+      "deep": {
+       "bear": 746,
+       "bull": 540,
+       "chop": 94
+      }
+     }
+    }
+   },
+   "eliminated": 4,
+   "verdict": "judged-negative",
+   "verdict_integrity": "UNDER REVIEW (bm-b r490 closeout audit: picks 511010+511260 clean raw face +17.9%/+24.4% in-window vs judged -18.0% = ~39pp irreconcilable; x2 dSharpe -2.1915 implies ~347bp/trade = 13x declared 26.082bp; suspected runner execution-face defect; repair ticket T-2026-10-01-135-P0)",
+   "refs": {
+    "results": "results/lowamp_p1/lowamp_p1_results.json",
+    "prereg": "research/LOWAMP-P1.md",
+    "runner": "scripts/lowamp_p1.py",
+    "ticket": "T-2026-09-30-132-P1",
+    "note": "finalize bm-a 03:18:35 (audit.machine=bm-a, pool-legal lane); retro_fill by bm-b r490 (dead-round gap: attrition row + sec.7/8 + watchlist exit + grammar/census consumption closeout this round)"
+   }
   }
  ]
 }
