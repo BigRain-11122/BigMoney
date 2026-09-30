@@ -11,9 +11,11 @@
 
 ### Project
 
-- [2026-09-30 r461 bm-b] rebase 重放撞车双向坑（bigmoney-conflict-resolve 补律·resolve.py/resolve2.py 承载）：①重放批的方向**禁按 rebase 常识假设 base=新**——r460 会话死于重放中，其 S6 产物 12:54-55 比新基 12:47-49 更新 → snapshot 取 theirs（r460 侧）；解前必逐件 ts 探针定方向+断言。②rolling-ledger union 兼收上游行数回归——bm-a r472 compute_audit 206→201（其侧重放丢 6 行），本机 union 201+207→208 自愈零丢失；union 断言 = 行数 ≥ max(两侧) 且 |A∪B| 精确对账，是行数回归的唯一恢复面。③lane_io 守卫件（r378 D-03①）在重放侧无守卫的旧 commit 照写共享面=冲突面扩大——解法仍归 canon 分类器，无需新机制。
+- 冷层指针（r466 合并·r444 范式）：r461 rebase 重放撞车双向坑（方向禁按 rebase 常识·逐件 ts 探针定方向·union=行数回归唯一恢复面·lane_io 守卫旧 commit 照写归分类器）全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r466 bm-b 窗批』节。
 
 - 冷层指针（r464 合并·指针合并归档 r444 范式）：r440 撞批三查律+r449 风暴 union 复活去重律（『热冷整编 2026-09-30 r245 bm-c 窗批』节）+r440 bm-b 初筛富集面≠注册级增量律（法面已由 TRIAL_LABOR_W10_PREREG §7/8+CEO-REPORT-WAVE10+attrition 承载）+r242 runner 外科手术四连坑族（W11 runner 已建毕 selftest 47/47·坑律由 _r242bmc_w11_surgeon 系列工件承载）（两律=『热冷整编 2026-09-29 r449 bm-a 窗批』节），全文 verbatim=archive 202609.md。
+- [2026-09-30 r466 bm-b] 无头 rebase 收口双新面（D-20260925-01 侧支律配套·_r466bmb_resolve.py 承载）：①rebase --continue 撞「Terminal is dumb, but EDITOR unset」=无头会话无编辑器，正解=git -c core.editor=true rebase --continue（惰性编辑器吞开屏复用原 commit message，勿手敲 -m 重打）；②UU 探针 raw 正则带捕获组时 findall 只回组内容不回全匹配（md/js 面探针打印 ':55' 伪 ts 定不了向）——raw 探针一律 finditer+group(0)，md/js 方向裁决让孪生 json 探针代言（r98 孪生同侧律）；③push 两拒（重试额度尽）后按 D-20260925-01③ 推 origin machine/<id>-r<N> 侧支收轮，下轮 S0 pull --rebase 自然合并（本地 main 已含侧支 lineage），落地后侧支冗余可删。
+
 ### Reference
 - 坑律正典全量归档（O-20260927-0230-bm-a·集团令）：**≤10KB 硬线——append 后超线=当窗即办热冷整编勿等月**（水位律自 >50KB 重锚·新坑律仍先入本件）；十五/十六批索引与迁移史全文 verbatim=archive 202609.md『坑律归档 2026-09-27 二十三批』节。
 
@@ -25,6 +27,6 @@
 - 冷层指针（r467 合并·指针合并归档 r444 范式）：r456 a158 冻结面抽位点对账 eps 分母坑+r457 风暴 resolver 非幂等追加坑+r446 bm-b 手术过继残漏三连坑（tlN→tlN+1 过继必带真数据 identity face 三命令实弹首跑收口步·W13 过继者=bm-a berth）+r252 泊位/冻结步开工前 inbox 零未读腿坑（『r459 bm-a 窗批/二/三』节）+r255 pool worker stale-tree claim 假失败坑（O-2210 待单写者窗）+r449 冻结面 replay 漂移三源定谳律+W8 构造事实（『r258 bm-c 窗批』节）+r462 同机并行会话鉴别律+S6 链分离后台驱动律+r464 surgeon 锚面取自实跑文件律（『r465 bm-a 窗批』节）+r448 bm-b 族选防重三键面 rg 补律+r258 bm-c 族选第三例+r259 bm-c 孤儿收养逐件直验律（『r259 bm-c 窗批』节），全文 verbatim=archive 202609.md。
 - 冷层指针（r462 合并·指针合并归档 r444 范式）：r269 泊位反重复双洞坑+r459 嵌套账本块扫描器盲区坑两条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r462 bm-b 窗批』节。
 - [2026-09-30 r270 bm-c] 改革正典范围分工定谳（MSG-1332 双向确认·长期生效）：bm-c=W14+ 常设注册门标准正典（REGISTRATION_REFORM_FDR4D_PREREG.md·含共享机制件 science_gates.{bh_batch_fdr,reform_composite_scores,g2_reform_fdr4d}）；bm-a T-126=REEVAL-18 演习产品线（roster+drill prereg+烧批+s4 top-N 上岗·drill 消费面=results/reeval18/ROSTER.json 单写者）。禁双头互代写；bm-c 名册件=交叉验证+盘点面零评分用途。RW-5 冻结令期（解冻=RW-1~4 全绿）：禁新 prereg 首入库/新 SLOT/新供给线/引擎读数依赖烧批（现在烧=白烧·MSG-1330 §2）；既有件内容修订合法；smoke 红属修复过渡态按 leg 契约 exit 码上报禁回滚禁自行改判据（真缺陷→T-127 票面 bm-a 单写者）。
-- [2026-09-30 r473 bm-a] 盘中标记零价静默蒸发坑（D-20260930-27 P0·513100 09-30 09:35 实弹：源行在但 last=0 → mark=0.00/mv=null 写盘+`marked=bool(行在)` 误报 true=两员各 ~19% 持仓静默剔出权益，150 行 20 行零值）。根=价 0 双义混用（`if mark:` 把 0 既当缺失又落真值字段）+「行在」≠「价真」两判据合一。How：一切 mark/估值路径过「价真=值>0」回退链 live>0→state last_close→本地日线收盘→显式 unpriced 隔离+per-trader unpriced_symbols 披露；配机检=「本地有行情却记 0 价」断言失败禁写盘（update_intraday_marks._check_no_silent_zero 先例·selftest S7-S9 承载·exit 2 契约）。
-- [2026-09-30 r473 bm-a] 断头 rebase 诊断序（r471 实弹·r472 遗留 append）：轮任务被时限强杀于 rebase 中→轮首「脏树+pull 拒」先 git reflog 分辨**真脏树 vs 中断重放态伪装脏树**（rebase 被杀后工作树停在重放中态=满屏像本地改动）；正序=reflog 定位断点→重放态当 commit 消费收口（ls-files -u 验零守门→add 脏态件→rebase --continue）→再 pull --rebase；误判为他人半成品而绕行=多轮僵死（r471 三连撞实证）。
+- 冷层指针（r466 合并·r444 范式）：r473 bm-a 盘中标记零价静默蒸发坑（价 0 双义+「行在」≠「价真」两判据合一·P0；How=mark/估值路径过「价真=值>0」回退链+断言禁写盘·selftest S7-S9 承载）全文 verbatim=archive 同节。
+- 冷层指针（r466 合并·r444 范式）：r473 bm-a 断头 rebase 诊断序（脏树+pull 拒先 git reflog 分辨真脏树 vs 中断重放态伪装脏树·正序=重放态当 commit 消费收口→再 pull --rebase）全文 verbatim=archive 同节。
 - [2026-09-30 r462 bm-b] stash-pop UU 变体坑（S0 轮首脏处理序·_r462bmb_stash_pop_marks_union.py 承载）：轮首工作树含当日 marks 日账（盘中道 tick 产物）+本机 runtime 件时，stash→pull FF→pop 三段中 **pop 段也会撞 UU**（stash 侧面 vs 刚拉 origin 同窗双写面，非 rebase 冲突=不在「转只读禁解」范围）；正解=bigmoney-conflict-resolve append-log union 配方（:2/:3 双 blob 行级 union·按 ts 排序·json.loads 逐行验证后写回·git add 清标→stash drop）。坑点=pop 输出容易被误读为 pull 冲突而误转只读轮；判别=rebase 状态面 vs stash@{N} 存在与 Unmerged paths 并存=pop 未完成态。
