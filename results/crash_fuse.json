@@ -251,6 +251,16 @@
    "entry": "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
    "shard": "lowamp-p1-cell-larep-deep-base-0of1",
    "machine": "bm-b"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,legacy,--face,x2": {
+   "count": 1,
+   "refusals": 12,
+   "code_sha256": "d6997f152c007f80",
+   "last_crash_ts": "2026-10-01 00:28:03",
+   "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-X2",
+   "shard": "lowamp-p1-cell-larep-legacy-x2-0of1",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 00:50:06"
   }
  },
  "cleared": {
@@ -342,6 +352,13 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "1098a0ebc1c3dd2c"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,legacy,--face,base": {
+   "cleared_ts": "2026-10-01 00:52:06",
+   "cleared_by": "bm-a",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "d6997f152c007f80"
   }
  }
 }

@@ -121,6 +121,11 @@ LOG = os.path.join(ROOT, "logs", "autofill.log")
 MACHINES = os.path.join(ROOT, "fleet", "machines")
 MACHINE_JSON = os.path.join(ROOT, "fleet", "machine.json")
 _GIT_DIR = os.path.join(ROOT, ".git")
+# O-20260930-2355 (T-134 s3) launch-verification surfaces: worker claim
+# dir (harvest-flip input) + core-spread sample log + red-flag face.
+CLAIMS = os.path.join(ROOT, "results", "pool_claims")
+CORE_SAMPLES = os.path.join(ROOT, "results", "pool_core_samples.jsonl")
+RED_FLAGS = os.path.join(ROOT, "results", "pool_red_flags.jsonl")
 
 LOW_PY_LINE = 70.0        # O-1136: py CPU < 70% of machine capacity
 SAMPLE_S = 2.0            # instantaneous py-CPU sample window
@@ -695,6 +700,208 @@ def _tick_owned_dirt():
     return [p for p in dirt if os.path.exists(p)]
 
 
+_MULTIPROC_MARKERS = ("ProcessPoolExecutor", "multiprocessing.Pool",
+                      "multiprocessing.Process", "ProcessPool")
+
+
+def _runner_core_verdict(runner_rel):
+    """O-20260930-2355 law-1 (T-134 s3): workers_plan is CODE, not a
+    declaration -- source-scan the runner for a real process-pool
+    implementation before it may enter the pool / relaunch. Returns
+    (verdict, marker): 'multiproc' | 'single_core' | 'unreadable'.
+    Absolute paths pass through so the hermetic selftest (r117 law)
+    can point at tmp fixtures without touching ROOT."""
+    fp = (runner_rel if os.path.isabs(str(runner_rel))
+          else os.path.join(ROOT, str(runner_rel)))
+    try:
+        with open(fp, encoding="utf-8", errors="replace") as fh:
+            src = fh.read()
+    except Exception:
+        return ("unreadable", "")
+    for mk in _MULTIPROC_MARKERS:
+        if mk in src:
+            return ("multiproc", mk)
+    return ("single_core", "")
+
+
+def _core_sample_red_flags(state, myid):
+    """O-20260930-2355 law-2 red-flag face: consume the detached core
+    sampler's append log (results/pool_core_samples.jsonl) and surface
+    own-machine single_core_burn verdicts on the tick record + the
+    pool_red_flags.jsonl 瞎跑 face. Watermark (state.core_samples_seen)
+    keeps re-reads O(1)-ish; a malformed line is skipped, never fatal."""
+    seen = state.get("core_samples_seen") or ""
+    flags = []
+    if not os.path.exists(CORE_SAMPLES):
+        return flags
+    try:
+        with open(CORE_SAMPLES, encoding="utf-8") as fh:
+            lines = fh.read().splitlines()
+    except Exception as ex:
+        _log(f"core-samples read fault (non-fatal): {ex}")
+        return flags
+    for ln in lines[-200:]:
+        try:
+            rec = json.loads(ln)
+        except ValueError:
+            continue
+        if rec.get("machine_id") != myid:
+            continue
+        ts = str(rec.get("ts", ""))
+        if ts and ts <= seen:
+            continue
+        if ts > (state.get("core_samples_seen") or ""):
+            state["core_samples_seen"] = ts
+        if rec.get("verdict") != "single_core_burn":
+            continue
+        flag = {"ts": ts, "entry": rec.get("entry"),
+                "shard": rec.get("shard"), "pid": rec.get("pid"),
+                "wall_s": rec.get("wall_s"),
+                "effective_cores": rec.get("effective_cores"),
+                "law": "O-20260930-2355 sec.1 law-2"}
+        flags.append(flag)
+        try:
+            os.makedirs(os.path.dirname(RED_FLAGS), exist_ok=True)
+            with open(RED_FLAGS, "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(flag, ensure_ascii=False) + "\n")
+        except Exception as ex:
+            _log(f"red-flag append fault (non-fatal): {ex}")
+    if flags:
+        _log(f"SINGLE-CORE BURN red flags x{len(flags)} (O-20260930-"
+             f"2355 law-2): "
+             + "; ".join(f"{f['entry']}/{f['shard']}" for f in flags[:3]))
+    return flags
+
+
+def _harvest_claims_scan():
+    """Yield (entry_id, shard_key, claim_path, claim) for every worker
+    claim file with state=closed + outcome=ok -- a completed burn's
+    handshake with the pool-side harvest flip (the documented-but-
+    missing half of the r201 worker-reader contract: the worker never
+    writes runnable_pool.json, the launcher lands the done-flip)."""
+    if not os.path.isdir(CLAIMS):
+        return
+    for entry_dir in sorted(os.listdir(CLAIMS)):
+        ed = os.path.join(CLAIMS, entry_dir)
+        if not os.path.isdir(ed):
+            continue
+        for fn in sorted(os.listdir(ed)):
+            if not fn.endswith(".json"):
+                continue
+            fp = os.path.join(ed, fn)
+            try:
+                with open(fp, encoding="utf-8") as fh:
+                    c = json.load(fh)
+            except Exception:
+                continue
+            if (c.get("state") == "closed"
+                    and c.get("outcome") == "ok"):
+                stem = fn[:-len(".json")]
+                shard_key = stem.rsplit(".", 1)[0]
+                yield (entry_dir, shard_key, fp, c)
+
+
+def _harvest_done_flips(myid):
+    """Pool-side harvest flip (T-134 s3 window fix): land closed+ok
+    worker claims as shard status=done. Without this leg a completed
+    burn stays 'ready' forever -> the crash-confirmer misreads the dead
+    runner as a crash (r496 live: 3 completed LOWAMP burns fed the
+    fuse, refusals froze the campaign + relaunch churn burned twice).
+    Write law mirrors _claim_shard: merged-view mutate -> lane-strict
+    -> settle -> git add/commit/push (r282 single rebase-retry). On a
+    git fault the flip STAYS local (unlike a claim it is settled truth,
+    the lane union carries it; the next tick commit or session S7 rides
+    it) -- never rolled back, never blocking the tick."""
+    prev = None
+    prev_lane = None
+    try:
+        with open(POOL, encoding="utf-8") as fh:
+            prev = fh.read()
+        prev_lane = _read_pool_lane_bytes()
+        pool = _pool_merged_view()
+    except (Exception, SystemExit) as ex:
+        _log(f"harvest yield: pool unavailable ({ex}) -- next tick")
+        return 0
+    flips, touched_claims = [], []
+    for entry_id, shard_key, cpath, claim in _harvest_claims_scan():
+        hit = None
+        for e in pool.get("entries", []):
+            if e.get("id") != entry_id:
+                continue
+            for s in e.get("shards", []):
+                if s.get("key") == shard_key:
+                    hit = s
+                    break
+            break
+        if hit is None:
+            continue
+        if hit.get("status") == "done":
+            continue
+        hit["status"] = "done"
+        # r311 latest.ts law: the done row must be the NEWEST same-key
+        # base or a stale mirror swallows the flip at the next settle
+        # (r479 live family: done reverted to ready) -- bump
+        # owner_since to the flip moment. Done shards never re-enter
+        # the staleness/takeover gates, so the bump is audit-only;
+        # original claim stamp is preserved in claimed_since.
+        if hit.get("owner_since"):
+            hit.setdefault("claimed_since", hit["owner_since"])
+        hit["owner_since"] = _now()
+        hit["done_at"] = _now()
+        hit["harvested_by"] = myid
+        hit["harvest_claim"] = os.path.basename(cpath)
+        flips.append({"entry": entry_id, "shard": shard_key})
+        touched_claims.append(cpath)
+    if not flips:
+        return 0
+    _log(f"harvest flip x{len(flips)}: "
+         + "; ".join(f"{f['entry']}/{f['shard']}" for f in flips[:4]))
+    try:
+        if _POOL_LANE_PRIMARY:
+            _write_lane_file_strict(POOL, pool)
+        else:
+            tmp = POOL + ".tmp"
+            with open(tmp, "w", encoding="utf-8") as fh:
+                json.dump(pool, fh, ensure_ascii=False, indent=1)
+            os.replace(tmp, POOL)
+        if _mid_op() is None and not _pool_origin_stale():
+            if not _pool_settle():
+                tmp = POOL + ".tmp"
+                with open(tmp, "w", encoding="utf-8") as fh:
+                    json.dump(pool, fh, ensure_ascii=False, indent=1)
+                os.replace(tmp, POOL)
+        else:
+            _log("harvest git deferred: mid-op/origin-stale -> flip "
+                 "kept local, next tick commits")
+            return len(flips)
+        dirt = [POOL, *_tick_owned_dirt(), *touched_claims]
+        dirt = [p for p in dirt if os.path.exists(p)]
+        for args in (("add", *dirt),
+                     ("commit", "-m",
+                      f"autofill harvest flip {len(flips)} shard(s) done "
+                      f"(worker claim handshake, O-20260930-2355 window) "
+                      f"[via {myid}]"),
+                     ("push",)):
+            rc, err = _git(args)
+            if rc == 0:
+                continue
+            if args[0] == "push":
+                rc2, err2 = _git(("pull", "--rebase",))
+                if rc2 == 0 and _git(("push",))[0] == 0:
+                    break
+                _log(f"harvest push kept local after retry "
+                     f"({(err or '').strip()[-80:]}) -- next tick commit "
+                     f"or session S7 rides it")
+                break
+            _log(f"harvest git fault on '{args[0]}' "
+                 f"({(err or '').strip()[-80:]}) -- flip kept local")
+            break
+    except Exception as ex:
+        _log(f"harvest write fault ({ex}) -- flip kept in lane, next "
+             f"tick retries")
+    return len(flips)
+
+
 def _sha16(path):
     """Launch-time code version stamp: sha256[:16] of the runner file
     bytes (None if absent). Same hash after a crash = same version =
@@ -1230,6 +1437,14 @@ def tick(dry=False, _saturate_depth=0):
         _log(f"tick ABORT corrupt autofill_state (refuse wipe, r201): {ex}")
         print(f"ABORT corrupt autofill_state.json: {ex}")
         return 2
+    # O-20260930-2355 law-2: consume the detached core-sampler's log ->
+    # own-machine single_core_burn verdicts become named red flags.
+    try:
+        _flags = _core_sample_red_flags(state, rec["machine"])
+        if _flags:
+            rec["single_core_red_flags"] = _flags
+    except Exception as ex:
+        _log(f"core-sample scan fault (non-fatal): {ex}")
     if py >= LOW_PY_LINE:
         rec["verdict"] = "py_loaded"
         state["last_tick"] = rec
@@ -1257,6 +1472,17 @@ def tick(dry=False, _saturate_depth=0):
         _log(f"tick ABORT corrupt crash_fuse (refuse wipe, r201 law): {ex}")
         print(f"ABORT corrupt crash_fuse.json: {ex}")
         return 2
+    # T-134 s3 harvest leg: land closed+ok worker claims as done BEFORE
+    # the crash-confirmer reads the pool (r496 live family: completed
+    # burns without flips fed the fuse -- refusals froze the campaign
+    # and the relaunch churn re-burned landed shards).
+    try:
+        flipped = _harvest_done_flips(rec["machine"])
+        if flipped:
+            pool = _pool_merged_view()
+            rec["harvest_flipped"] = flipped
+    except (Exception, SystemExit) as ex:
+        _log(f"harvest leg fault (non-fatal, next tick retries): {ex}")
     if _confirm_crashes(state, pool, rec["machine"], fuse):
         _save_fuse(fuse)
     if not dry:
@@ -1276,6 +1502,7 @@ def tick(dry=False, _saturate_depth=0):
     # refuse-and-skip, keep picking down the pool.
     skip, fuse_skipped, refused_head = set(), [], None
     cooldown_head = None
+    mc_refused = []
     e = sh = cur = sig = reg = None
     while True:
         cand_e, cand_sh = _pick(pool, rec["machine"], skip=skip)
@@ -1283,6 +1510,21 @@ def tick(dry=False, _saturate_depth=0):
             break
         cur = _sha16(os.path.join(ROOT, cand_e["runner"]))
         sig = _sig(cand_e)
+        # O-20260930-2355 law-1 (T-134 s3): single-thread runners are
+        # BANNED from the pool -- code-verified at the launch gate;
+        # stock entries too (sec.2: convert first, then re-enter).
+        mv, mmk = _runner_core_verdict(cand_e["runner"])
+        if mv != "multiproc":
+            _log(f"multicore-gate REFUSE {cand_e['id']}/"
+                 f"{cand_sh.get('key')}: runner {cand_e['runner']} "
+                 f"core_verdict={mv} -- O-20260930-2355 law-1: "
+                 f"ProcessPool conversion required before relaunch")
+            mc_refused.append({"entry": cand_e["id"],
+                               "shard": cand_sh.get("key"),
+                               "runner": cand_e["runner"],
+                               "core_verdict": mv})
+            skip.add(cand_e["id"])
+            continue
         reg = fuse.get("sigs", {}).get(sig)
         if reg and reg.get("code_sha256") == cur:
             reg["refusals"] = int(reg.get("refusals", 0)) + 1
@@ -1360,6 +1602,20 @@ def tick(dry=False, _saturate_depth=0):
                  f"{cooldown_head.get('shard')}) -> no-op")
             print(json.dumps(rec, ensure_ascii=False))
             return 0
+        if mc_refused:
+            # every takeable candidate was banned by the multicore
+            # gate (O-20260930-2355 law-1) -- named verdict so the
+            # audit face can tell a conversion backlog from an empty
+            # pool.
+            rec["verdict"] = "multicore_gate_refused"
+            rec["multicore_refused"] = mc_refused
+            state["last_tick"] = rec
+            _save_state(state)
+            _log(f"tick py={py}% every takeable entry refused by "
+                 f"multicore gate x{len(mc_refused)} (conversion "
+                 f"backlog, O-20260930-2355 sec.2)")
+            print(json.dumps(rec, ensure_ascii=False))
+            return 0
         rec["verdict"] = "pool_empty_or_busy"
         state["last_tick"] = rec
         _save_state(state)
@@ -1373,6 +1629,10 @@ def tick(dry=False, _saturate_depth=0):
         # same: head paced by the churn-kill cooldown while a later
         # entry launches (anti-starvation law kept the loop moving)
         rec["cooldown_skipped"] = cooldown_head
+    if mc_refused:
+        # same: head banned by the multicore gate while a later (code-
+        # verified multiproc) entry launches
+        rec["multicore_refused"] = mc_refused
     if reg:
         # D-03(2) cleared-tombstone: record the clear so the lane-union
         # cannot resurrect this sig from another machine's stale lane
@@ -1426,9 +1686,21 @@ def tick(dry=False, _saturate_depth=0):
             else psutil.BELOW_NORMAL_PRIORITY_CLASS)
     except Exception:
         pass
+    # O-20260930-2355 law-2 (T-134 s3): detached 60s core-spread
+    # sampler rides every launch -- a single-core burn is a named red
+    # flag, not "ran = worked".
+    try:
+        sampler = os.path.join(ROOT, "Tools", "core_sampler.py")
+        subprocess.Popen([sys.executable, sampler, str(p.pid),
+                          str(e["id"]), str(sh.get("key"))],
+                         cwd=ROOT, creationflags=DETACHED,
+                         close_fds=True)
+    except Exception as ex:
+        _log(f"core-sampler spawn fault (non-fatal): {ex}")
     rec.update({"verdict": "launched", "entry": e["id"],
                 "shard": sh.get("key"), "pid": p.pid,
                 "runner_sha256": cur,
+                "core_verdict": mv, "core_marker": mmk,
                 "fill_latency_min": latency,
                 "fullburn_window": fullburn,
                 "target_met": (latency is None
@@ -1510,6 +1782,12 @@ def submit(a):
                    "keepalive scan for 27 ticks)")
     elif not os.path.isfile(os.path.join(ROOT, runner)):
         bad.append(f"runner not on disk: {runner}")
+    elif _runner_core_verdict(runner)[0] != "multiproc":
+        bad.append(f"runner {runner} REFUSED by the O-20260930-2355 "
+                   "law-1 multicore gate: single-thread runners are "
+                   "banned from the pool (workers_plan is CODE, not a "
+                   "declaration -- convert the runner to ProcessPool/"
+                   "multiprocessing, then resubmit)")
     keys = [k.strip() for k in (a.shards or "").split(",") if k.strip()]
     if not keys:
         bad.append("shards empty (r301 law: a ready entry without shards "
@@ -1607,7 +1885,8 @@ def submit(a):
 def selftest():
     import tempfile
     global POOL, STATE, FUSE, MACHINES, LOG, _GIT_DIR, _py_cpu_pct, \
-        _runner_alive, _fuse_gate_view, _pool_settle
+        _runner_alive, _fuse_gate_view, _pool_settle, CLAIMS, \
+        CORE_SAMPLES, RED_FLAGS, _runner_core_verdict
     ok_all = True
 
     def ok(name, cond):
@@ -1628,6 +1907,17 @@ def selftest():
         LOG = os.path.join(tmp, "autofill.log")
         MACHINES = os.path.join(tmp, "machines")
         os.makedirs(MACHINES)
+        # T-134 s3 hermetic surfaces: worker claims + sampler logs live
+        # in tmp; the launch gate gets a fixture passthrough for the
+        # pre-existing legs (their runners are fixtures, not real
+        # code-verified runners) -- the dedicated S22 legs below restore
+        # the real scanner (r117 law).
+        CLAIMS = os.path.join(tmp, "pool_claims")
+        CORE_SAMPLES = os.path.join(tmp, "pool_core_samples.jsonl")
+        RED_FLAGS = os.path.join(tmp, "pool_red_flags.jsonl")
+        _mcv_orig = _runner_core_verdict
+        _runner_core_verdict = \
+            lambda r: ("multiproc", "fixture-passthrough")
         entry = {"id": "E1", "status": "ready",
                  "runner": "scripts/fake_runner.py",
                  "runner_args": ["run"], "lane_owner": None,
@@ -2845,6 +3135,108 @@ def selftest():
         ok("S20j submit refuses bad JSON host_gates",
            rc20 == 2 and len(json.load(open(POOL, encoding="utf-8"))
                              ["entries"]) == 1)
+        # S22 O-20260930-2355 (T-134 s3) multicore law + harvest legs --
+        # real scanner restored (fixture passthrough off for these).
+        _runner_core_verdict = _mcv_orig
+        mp_src = os.path.join(tmp, "mp_runner.py")
+        st_src = os.path.join(tmp, "st_runner.py")
+        with open(mp_src, "w", encoding="utf-8") as fh:
+            fh.write("from concurrent.futures import "
+                     "ProcessPoolExecutor\n")
+        with open(st_src, "w", encoding="utf-8") as fh:
+            fh.write("print('single thread burner')\n")
+        ok("S22a scan verdict multiproc on ProcessPool source",
+           _runner_core_verdict(mp_src)
+           == ("multiproc", "ProcessPoolExecutor"))
+        ok("S22b scan verdict single_core on plain source",
+           _runner_core_verdict(st_src) == ("single_core", ""))
+        ok("S22c scan verdict unreadable (fail-closed)",
+           _runner_core_verdict(os.path.join(tmp, "absent.py"))
+           == ("unreadable", ""))
+        # S22d law-1 at registration: single-thread runner REFUSED
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": []}, fh)
+        _pool_lane_clear()
+        rc22 = submit(_sa(id="E22-single", runner=st_src))
+        ok("S22d submit refuses single-thread runner (law-1)",
+           rc22 == 2 and not json.load(
+               open(POOL, encoding="utf-8"))["entries"])
+        # S22e law-1 at launch: single-core stock entry refused with a
+        # named verdict (conversion backlog is not an empty pool)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(entry, id="E22-stock",
+                                       runner=st_src)]}, fh)
+        _pool_lane_clear()
+        rc = tick(dry=True)
+        st22 = _load_state()["last_tick"]
+        ok("S22e launch gate refuses single-core stock entry",
+           rc == 0 and st22["verdict"] == "multicore_gate_refused"
+           and st22["multicore_refused"][0]["core_verdict"]
+           == "single_core"
+           and st22["multicore_refused"][0]["entry"] == "E22-stock")
+        # S22f harvest: closed+ok worker claim lands the shard done
+        # (r496 false-positive fix; owner_since bumped per r311 law so
+        # the flip sticks against stale mirrors)
+        cd22 = os.path.join(CLAIMS, "E22-h")
+        os.makedirs(cd22, exist_ok=True)
+        with open(os.path.join(cd22, "s0.bm-y.json"), "w",
+                  encoding="utf-8") as fh:
+            json.dump({"machine_id": "bm-y", "state": "closed",
+                       "outcome": "ok",
+                       "closed_at": datetime.now().astimezone().isoformat(
+                           timespec="seconds")}, fh)
+        with open(POOL, "w", encoding="utf-8") as fh:
+            json.dump({"entries": [dict(
+                entry, id="E22-h",
+                shards=[{"key": "s0", "status": "ready",
+                         "owner": "bm-y",
+                         "owner_since": "2026-09-30 00:00:00"}])]}, fh)
+        _pool_lane_clear()
+        n22 = _harvest_done_flips("bm-a")
+        lane22 = json.load(open(_lane_path_for(POOL), encoding="utf-8"))
+        sh22 = lane22["entries"][0]["shards"][0]
+        ok("S22f harvest flips closed+ok claim to done (lane authority)",
+           n22 == 1 and sh22["status"] == "done"
+           and sh22["harvested_by"] == "bm-a"
+           and sh22["harvest_claim"] == "s0.bm-y.json"
+           and sh22.get("claimed_since") == "2026-09-30 00:00:00")
+        # S22g merged view keeps the flip (r311 latest.ts stick) +
+        # harvest is idempotent
+        mv22 = _pool_merged_view()
+        ok("S22g flip sticks in merged view (newest owner_since base)",
+           next(s for e in mv22["entries"] if e["id"] == "E22-h"
+                for s in e["shards"])["status"] == "done")
+        ok("S22h harvest idempotent on landed shard",
+           _harvest_done_flips("bm-a") == 0)
+        # S22i law-2 red-flag scan: own-machine single_core_burn ->
+        # named flag + append-only red-flag face + watermark dedup
+        st22i = _load_state()
+        with open(CORE_SAMPLES, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps({"ts": "2026-10-01T00:01:00+08:00",
+                                 "machine_id": "bm-a", "entry": "E1",
+                                 "shard": "s0",
+                                 "verdict": "single_core_burn",
+                                 "effective_cores": 1.0}) + "\n")
+            fh.write(json.dumps({"ts": "2026-10-01T00:02:00+08:00",
+                                 "machine_id": "bm-a", "entry": "E1",
+                                 "shard": "s1",
+                                 "verdict": "multicore_burn",
+                                 "effective_cores": 12.0}) + "\n")
+            fh.write(json.dumps({"ts": "2026-10-01T00:03:00+08:00",
+                                 "machine_id": "bm-b", "entry": "E1",
+                                 "shard": "s2",
+                                 "verdict": "single_core_burn",
+                                 "effective_cores": 1.0}) + "\n")
+        fl22 = _core_sample_red_flags(st22i, "bm-a")
+        rf_lines = (open(RED_FLAGS, encoding="utf-8").read().splitlines()
+                    if os.path.exists(RED_FLAGS) else [])
+        ok("S22i single_core_burn -> named red flag (own machine only)",
+           len(fl22) == 1 and fl22[0]["shard"] == "s0"
+           and len(rf_lines) == 1)
+        fl22b = _core_sample_red_flags(st22i, "bm-a")
+        ok("S22j red-flag watermark dedups re-reads", not fl22b)
+        _runner_core_verdict = \
+            lambda r: ("multiproc", "fixture-passthrough")
     # S21 O-20260930-1858 sec.1 holiday full-burn window: pure date face
     ok("S21 fullburn closed before 10-01",
        not _fullburn_active(datetime(2026, 9, 30, 23, 59, 59)))

@@ -185,6 +185,53 @@
    "shard": "main",
    "machine": "bm-c",
    "last_refusal_ts": "2026-09-30 09:40:06"
+  },
+  "scripts/trial_labor_w13.py|judge,--shard,0,--shards,1": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "0a1091d3e00c68e3",
+   "last_crash_ts": "2026-09-30 12:30:04",
+   "entry": "TRIAL-LABOR-W13-JUDGE",
+   "shard": "judge-0of1",
+   "machine": "bm-b"
+  },
+  "scripts/p2_null_calibration_ext.py|--shard,2,--nshards,4": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "1098a0ebc1c3dd2c",
+   "last_crash_ts": "2026-09-30 21:50:03",
+   "entry": "P2NULL-KLIFT-K2200-S2",
+   "shard": "p2null-klift-s2-0of1",
+   "machine": "bm-c"
+  },
+  "scripts/exclusion_marginal_scan.py|run": {
+   "count": 1,
+   "refusals": 0,
+   "code_sha256": "5dc9b37eef84d669",
+   "last_crash_ts": "2026-09-30 21:40:03",
+   "entry": "EXCLUSION-MARGINAL-P1-RUN",
+   "shard": "exclusion-0of1",
+   "machine": "bm-b"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,legacy,--face,x2": {
+   "count": 1,
+   "refusals": 12,
+   "code_sha256": "d6997f152c007f80",
+   "last_crash_ts": "2026-10-01 00:28:03",
+   "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-X2",
+   "shard": "lowamp-p1-cell-larep-legacy-x2-0of1",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 00:50:06"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,deep,--face,base": {
+   "count": 1,
+   "refusals": 11,
+   "code_sha256": "d6997f152c007f80",
+   "last_crash_ts": "2026-10-01 00:30:03",
+   "entry": "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
+   "shard": "lowamp-p1-cell-larep-deep-base-0of1",
+   "machine": "bm-a",
+   "last_refusal_ts": "2026-10-01 00:50:06"
   }
  },
  "cleared": {
@@ -257,6 +304,32 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "9c46c580e0897ffb"
+  },
+  "scripts/exclusion_marginal_scan.py|run": {
+   "cleared_ts": "2026-09-30 21:00:04",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "b57f5649b0cbcef3"
+  },
+  "scripts/cross_start_robustness.py|run_face_b": {
+   "cleared_ts": "2026-09-30 20:56:13",
+   "cleared_by": "bm-b r478",
+   "reason": "data-gate zero-burn misclassified as crash: 20:40 launch FAIL-CLOSED per spec on astock panel complete=False (refresh in flight); no code defect; relaunch authorized post panel completion (pool entry parked waiting)"
+  },
+  "scripts/p2_null_calibration_ext.py|--shard,0,--nshards,4": {
+   "cleared_ts": "2026-09-30 21:50:05",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "1098a0ebc1c3dd2c"
+  },
+  "scripts/lowamp_p1.py|run,--cell,LA-REP,--axis,legacy,--face,base": {
+   "cleared_ts": "2026-10-01 00:52:06",
+   "cleared_by": "bm-a",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "d6997f152c007f80"
   }
  },
  "lane_machine": "bm-a"

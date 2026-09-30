@@ -143,6 +143,11 @@ FROZEN_ENVELOPE = ("2026-10-01 pre-burn amendment note: legacy G-CENSUS "
 _G = {}   # per-worker globals
 
 
+# set by cmd_run at launch; rides the pool-claim handshake (see
+# _pool_claim -- O-20260930-2355 window)
+_CLAIM_STARTED = ""
+
+
 def _machine_id() -> str:
     try:
         return json.load(open(os.path.join(ROOT, "fleet", "machine.json"),
@@ -651,7 +656,48 @@ def _mk(kind, **kw):
     return d
 
 
+def _now_iso() -> str:
+    import datetime
+    return datetime.datetime.now().astimezone().isoformat(
+        timespec="seconds")
+
+
+def _pool_claim(entry_id: str, shard_key: str, detail: str) -> None:
+    """O-20260930-2355 window: worker-side half of the pool harvest
+    handshake -- on a successful burn write results/pool_claims/
+    <entry>/<shard>.<machine>.json with state=closed outcome=ok so the
+    launcher's harvest flip lands the shard done (the worker NEVER
+    writes runnable_pool.json -- pool single-writer law; without this
+    handshake a completed burn reads as a crash to the fuse and the
+    campaign freezes, r496 live family)."""
+    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    d = os.path.join(root, "results", "pool_claims",
+                     entry_id.replace("/", "_"))
+    os.makedirs(d, exist_ok=True)
+    fp = os.path.join(d, f"{shard_key}.{_machine_id()}.json")
+    now = _now_iso()
+    _dump({"machine_id": _machine_id(), "state": "closed",
+           "pid": os.getpid(), "heartbeat": now, "outcome": "ok",
+           "exit_code": 0, "started": _CLAIM_STARTED, "closed_at": now,
+           "result_ref": detail}, fp)
+    _log(entry_id.lower(), f"pool claim closed: {os.path.basename(fp)}")
+
+
+def _entry_of(args) -> tuple:
+    """Pool entry/shard identity for the claim handshake (ids mirror
+    the r495 registration face exactly)."""
+    if getattr(args, "nulls", None):
+        return ("LOWAMP-P1-NULLS", "lowamp-p1-nulls-0of1")
+    if getattr(args, "sensitivity", None):
+        return ("LOWAMP-P1-SENS", "lowamp-p1-sens-0of1")
+    entry = ("LOWAMP-P1-CELL-" + args.cell.replace("-", "").upper()
+             + "-" + args.axis.upper() + "-" + args.face.upper())
+    return (entry, entry.lower() + "-0of1")
+
+
 def cmd_run(args) -> int:
+    global _CLAIM_STARTED
+    _CLAIM_STARTED = _now_iso()
     os.makedirs(OUT_DIR, exist_ok=True)
     if not _require_probe():
         return 3
@@ -661,7 +707,9 @@ def cmd_run(args) -> int:
         log = "nulls"
         axis = "legacy"
         keyfn = lambda p: f"null|{p['k']}"
-        n = _run_parallel_tasks(tasks, axis, keyfn, path, log)
+        _run_parallel_tasks(tasks, axis, keyfn, path, log)
+        _pool_claim(*_entry_of(args),
+                    f"nulls N={K_NULLS} -> {path}")
         return 0
     if args.sensitivity:
         path = _shard_files(kind="sens")
@@ -670,6 +718,8 @@ def cmd_run(args) -> int:
         axis = "legacy"
         keyfn = lambda p: f"sens|{p['k']}"
         _run_parallel_tasks(tasks, axis, keyfn, path, log)
+        _pool_claim(*_entry_of(args),
+                    f"sens N={K_SENS} -> {path}")
         return 0
     if not (args.cell in CELLS and args.axis in AXES
             and args.face in FACES):
@@ -692,6 +742,8 @@ def cmd_run(args) -> int:
         _dump(row, cpath)
         _log(log, f"cont face written: {cpath}")
     _log(log, f"shard complete: {len(starts)} starts + cont face")
+    _pool_claim(*_entry_of(args),
+                f"cells {len(starts)} -> {path} + {os.path.basename(cpath)}")
     return 0
 
 
