@@ -1,0 +1,55 @@
+{
+  "probe": "DATA_GAP#1 source availability (D-41 sec.3 six-materials, item 1: per-stock point-in-time PE/PB/ROE/dividend history)",
+  "ticket_ref": "T-2026-09-30-131-P1",
+  "probed_at": "2026-09-30T22:55:00+08:00",
+  "machine": "bm-c",
+  "akshare_version": "1.18.96",
+  "sample_symbol": "600519",
+  "results": {
+    "baidu_valuation_pe_ttm": {
+      "endpoint": "ak.stock_zh_valuation_baidu(symbol, indicator='市盈率(TTM)', period='全部')",
+      "ok": true, "rows": 612, "coverage": "2001-08-27 -> 2026-09-30",
+      "cadence": "semi-monthly anchors (1st/16th each month; tail sample: 2026-08-16, 2026-08-31, 2026-09-15, 2026-09-30)",
+      "per_call_sec_cold": 42.2, "per_call_sec_warm": 0.2
+    },
+    "baidu_valuation_pe_static": {
+      "endpoint": "ak.stock_zh_valuation_baidu(symbol, indicator='市盈率(静)', period='全部')",
+      "ok": true, "rows": 612, "coverage": "2001-08-27 -> 2026-09-30", "per_call_sec": 0.2
+    },
+    "baidu_valuation_pb": {
+      "endpoint": "ak.stock_zh_valuation_baidu(symbol, indicator='市净率', period='全部')",
+      "ok": true, "rows": 612, "coverage": "2001-08-27 -> 2026-09-30", "per_call_sec": 0.1
+    },
+    "baidu_valuation_total_mv": {
+      "endpoint": "ak.stock_zh_valuation_baidu(symbol, indicator='总市值', period='全部')",
+      "ok": true, "rows": 612, "coverage": "2001-08-27 -> 2026-09-30", "per_call_sec": 0.3
+    },
+    "sina_financial_indicator_roe": {
+      "endpoint": "ak.stock_financial_analysis_indicator(symbol, start_year='2001')",
+      "ok": true, "rows": 100, "coverage": "2001-06-30 -> 2026-06-30 (quarterly report periods)",
+      "note": "PIT strictness: values keyed by report period; true point-in-time use requires aligning to publication dates (~1-4 months after report period end) in downstream spec",
+      "per_call_sec": 2.4
+    },
+    "legulegu_gxl_dividend_yield": {
+      "endpoint": "ak.stock_a_gxl_lg(symbol='sh600519' | '600519')",
+      "ok": false, "err": "KeyError both prefix and bare formats -- endpoint dead/shape-changed in ak 1.18.96"
+    },
+    "dividend_detail_events": {
+      "endpoint": "ak.stock_history_dividend_detail(symbol, indicator='分红')",
+      "ok": true, "rows": 31, "cols": ["公告日期", "送股", "转增", "派息", "进度", "除权除息日", "股权登记日", "红股上市日"],
+      "head_dates": ["2026-06-22", "2025-12-11", "2025-06-20", "2024-12-14"],
+      "note": "dividend yield derivable: 派息 events joined to price panel at 除权除息日 -> TTM yield series; replaces dead legulegu gxl face"
+    }
+  },
+  "full_universe_cost_estimate": {
+    "universe": "eligibility.csv 6-digit codes (ok-universe ~5,129 per panel-gate canon)",
+    "faces_per_symbol": 6, "avg_sec_per_face": 2.5,
+    "estimated_wallclock": "~3.6h one-shot backfill (network-bound)",
+    "pattern": "detached background spawn + per-symbol checkpoint + conn-fuse (r280 family precedent update_astock_daily.py)"
+  },
+  "consumers": [
+    "FACTOR_CENSUS_REGISTRY H rows: 8 DATA_GATE fundamental-locked faces (FF5 four + fundamental four: asset_growth/earnings_yield/gross_profitability/roe)",
+    "RETAIL_QUANT_TRACK.md DATA_GAP#1 -> low-valuation/dividend/quality/low-vol factor family (D-41 sec.3: 唯一还没堵上的收益提升路径)"
+  ],
+  "gates": "P1 数据源扩容须 GM 署名任务单才开工 (RETAIL_QUANT_TRACK.md sec.7); probe is read-only availability evidence, not acquisition start"
+}
