@@ -1,13 +1,13 @@
 {
   "latest": {
-    "ts": "2026-10-01 01:44:34",
+    "ts": "2026-10-01 02:12:05",
     "audit_version": "v2.4.1",
-    "cpu_total_pct": 33.0,
-    "py_cpu_pct": 2.7,
+    "cpu_total_pct": 77.0,
+    "py_cpu_pct": 4.7,
     "cores": 16,
-    "py_procs": 23,
-    "result_stale_min": 0.3,
-    "fleet_open_tasks": 2,
+    "py_procs": 13,
+    "result_stale_min": 0.5,
+    "fleet_open_tasks": 1,
     "pool_ready_count": 32,
     "pool_ready_unclaimed": 1,
     "load_state": "pool-supply-gap",
@@ -17,8 +17,8 @@
     },
     "supply_gap_candidate": true,
     "supply_gap_detail": {
-      "run_samples": 4,
-      "span_min": 83.1
+      "run_samples": 5,
+      "span_min": 110.6
     },
     "supply_floor": {
       "ready": 32,
@@ -28,17 +28,20 @@
     "ignition_sla_breach_ids": [
       "LOWAMP-P1-CELL-LAT3-LEGACY-BASE"
     ],
-    "supply_family_streak_min": 1273.3,
+    "supply_family_streak_min": 1300.9,
     "gpu": {
       "present": true,
-      "util_pct": 3.0,
-      "mem_used_mb": 5888.0,
+      "util_pct": 2.0,
+      "mem_used_mb": 5887.0,
       "compute_apps_count": 25,
       "rogue_apps": []
     },
     "zombies": [],
-    "single_core_hog_candidate": false,
-    "single_core_hog_detail": null,
+    "single_core_hog_candidate": true,
+    "single_core_hog_detail": {
+      "pid": 55612,
+      "cores_used": 1.39
+    },
     "flags": [
       "supply_gap",
       "ignition_sla"
@@ -46,50 +49,6 @@
     "verdict": "FLAG:supply_gap,ignition_sla"
   },
   "history": [
-    {
-      "audit_version": "v2.4.1",
-      "cores": 16,
-      "cpu_total_pct": 16.0,
-      "flags": [
-        "pool_starvation",
-        "supply_floor"
-      ],
-      "fleet_open_tasks": 0,
-      "gpu": {
-        "compute_apps_count": 22,
-        "mem_used_mb": 5183.0,
-        "present": true,
-        "rogue_apps": [],
-        "util_pct": 4.0
-      },
-      "ignition_sla_breach_ids": [],
-      "load_state": "idle-starvation",
-      "pool_ready_count": 0,
-      "pool_ready_unclaimed": 0,
-      "pool_starvation_candidate": true,
-      "pool_starvation_detail": {
-        "run_samples": 9,
-        "span_min": 86.8
-      },
-      "py_cpu_pct": 0.9,
-      "py_procs": 18,
-      "result_stale_min": 0.4,
-      "single_core_hog_candidate": false,
-      "single_core_hog_detail": null,
-      "supply_family_streak_min": 1048.0,
-      "supply_floor": {
-        "breach": true,
-        "floor": 3,
-        "ready": 0
-      },
-      "supply_gap_candidate": false,
-      "supply_gap_detail": {
-        "reason": "idle-starvation"
-      },
-      "ts": "2026-09-29 10:08:59",
-      "verdict": "FLAG:pool_starvation,supply_floor",
-      "zombies": []
-    },
     {
       "audit_version": "v2.4.1",
       "cores": 32,
@@ -8882,6 +8841,55 @@
       "zombies": [],
       "single_core_hog_candidate": false,
       "single_core_hog_detail": null,
+      "flags": [
+        "supply_gap",
+        "ignition_sla"
+      ],
+      "verdict": "FLAG:supply_gap,ignition_sla"
+    },
+    {
+      "ts": "2026-10-01 02:12:05",
+      "audit_version": "v2.4.1",
+      "cpu_total_pct": 77.0,
+      "py_cpu_pct": 4.7,
+      "cores": 16,
+      "py_procs": 13,
+      "result_stale_min": 0.5,
+      "fleet_open_tasks": 1,
+      "pool_ready_count": 32,
+      "pool_ready_unclaimed": 1,
+      "load_state": "pool-supply-gap",
+      "pool_starvation_candidate": false,
+      "pool_starvation_detail": {
+        "reason": "pool-supply-gap"
+      },
+      "supply_gap_candidate": true,
+      "supply_gap_detail": {
+        "run_samples": 5,
+        "span_min": 110.6
+      },
+      "supply_floor": {
+        "ready": 32,
+        "floor": 3,
+        "breach": false
+      },
+      "ignition_sla_breach_ids": [
+        "LOWAMP-P1-CELL-LAT3-LEGACY-BASE"
+      ],
+      "supply_family_streak_min": 1300.9,
+      "gpu": {
+        "present": true,
+        "util_pct": 2.0,
+        "mem_used_mb": 5887.0,
+        "compute_apps_count": 25,
+        "rogue_apps": []
+      },
+      "zombies": [],
+      "single_core_hog_candidate": true,
+      "single_core_hog_detail": {
+        "pid": 55612,
+        "cores_used": 1.39
+      },
       "flags": [
         "supply_gap",
         "ignition_sla"
