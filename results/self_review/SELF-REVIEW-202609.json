@@ -1,9 +1,9 @@
 {
  "month": "202609",
- "generated": "2026-10-01 00:35:38",
+ "generated": "2026-10-01 01:43:24",
  "sr1": {
   "source": "results/science_audit.json (reference only)",
-  "generated": "2026-10-01 00:35:13",
+  "generated": "2026-10-01 01:43:24",
   "ledger_head_total": 364589,
   "checks_total": 6,
   "checks_non_ok": [
@@ -11,7 +11,7 @@
    "C3_trader_dsr_recheck:STALE",
    "C6_regime_guard_integrity:VIOLATION"
   ],
-  "history_runs": 10,
+  "history_runs": 12,
   "c2_violation_trend": [
    1,
    0,
@@ -22,6 +22,8 @@
    0,
    0,
    0,
+   1,
+   1,
    1
   ]
  },
@@ -482,12 +484,12 @@
    {
     "id": "T-2026-09-25-61",
     "status": "done",
-    "age_h": 130.3
+    "age_h": 131.5
    },
    {
     "id": "T-2026-09-25-62",
     "status": "done",
-    "age_h": 126.7
+    "age_h": 127.9
    },
    {
     "id": "T-2026-09-25-63",
@@ -497,7 +499,7 @@
    {
     "id": "T-2026-09-25-64",
     "status": "claimed",
-    "age_h": 125.9
+    "age_h": 127.1
    },
    {
     "id": "T-2026-09-25-65",
@@ -507,27 +509,27 @@
    {
     "id": "T-2026-09-25-66",
     "status": "claimed",
-    "age_h": 124.1
+    "age_h": 125.3
    },
    {
     "id": "T-2026-09-25-67",
     "status": "claimed",
-    "age_h": 123.2
+    "age_h": 124.3
    },
    {
     "id": "T-2026-09-25-68",
     "status": "claimed",
-    "age_h": 122.8
+    "age_h": 123.9
    },
    {
     "id": "T-2026-09-25-69",
     "status": "done",
-    "age_h": 121.6
+    "age_h": 122.7
    },
    {
     "id": "T-2026-09-26-70",
     "status": "claimed",
-    "age_h": 120.3
+    "age_h": 121.5
    },
    {
     "id": "T-2026-09-26-71",
@@ -557,7 +559,7 @@
    {
     "id": "T-2026-09-26-76",
     "status": "claimed",
-    "age_h": 111.2
+    "age_h": 112.3
    },
    {
     "id": "T-2026-09-26-77",
@@ -587,7 +589,7 @@
    {
     "id": "T-2026-09-26-82",
     "status": "done",
-    "age_h": 105.2
+    "age_h": 106.3
    },
    {
     "id": "T-2026-09-26-83",
@@ -637,12 +639,12 @@
    {
     "id": "T-2026-09-27-92",
     "status": "done",
-    "age_h": 87.0
+    "age_h": 88.1
    },
    {
     "id": "T-2026-09-27-93",
     "status": "done",
-    "age_h": 85.6
+    "age_h": 86.7
    },
    {
     "id": "T-2026-09-27-94",
@@ -848,6 +850,11 @@
     "id": "T-2026-09-30-134",
     "status": "claimed",
     "age_h": null
+   },
+   {
+    "id": "T-2026-10-01-135",
+    "status": "open",
+    "age_h": 0.2
    }
   ],
   "ack_missing": {},
@@ -858,7 +865,7 @@
    ],
    [
     "2026-09-24 02:00",
-    "{'bm-b', 'bm-c'}"
+    "{'bm-c', 'bm-b'}"
    ],
    [
     "2026-09-24 04:00",
@@ -894,7 +901,7 @@
    ],
    [
     "2026-09-25 00:00",
-    "{'bm-b', 'bm-c', 'bm-a'}"
+    "{'bm-c', 'bm-b', 'bm-a'}"
    ],
    [
     "2026-09-25 13:30",
@@ -942,7 +949,7 @@
    ],
    [
     "2026-09-27 17:30",
-    "{'bm-b', 'bm-c', 'bm-a'}"
+    "{'bm-c', 'bm-b', 'bm-a'}"
    ],
    [
     "2026-09-27 18:00",
@@ -962,7 +969,7 @@
    ],
    [
     "2026-09-28 11:30",
-    "{'bm-b', 'bm-c'}"
+    "{'bm-c', 'bm-b'}"
    ],
    [
     "2026-09-28 17:00",
@@ -1035,28 +1042,34 @@
    [
     "2026-09-30 22:00",
     "{'bm-c', 'bm-a'}"
+   ],
+   [
+    "2026-10-01 01:00",
+    "{'bm-c', 'bm-a'}"
    ]
   ]
  },
  "sr5": {
   "token_state_est": 2049,
   "token_delta_vs_prev": {
-   "prev_generated": "2026-09-30 23:52:43",
+   "prev_generated": "2026-10-01 00:32:27",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 881,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
-  "codely_bytes": 12859,
+  "codely_bytes": 15254,
   "codely_bytes_delta_vs_prev": null,
   "compute_flags": [
+   "cap_violation",
+   "supply_gap",
    "ignition_sla"
   ],
-  "compute_cpu_pct": 36.0,
+  "compute_cpu_pct": 90.0,
   "blocked_sources": [
    {
     "file": "moneyflow_update_status.json",
     "mode": "refresh source-blocked (connection-level)",
-    "age_min": 55.8
+    "age_min": 25.0
    }
   ]
  },
@@ -1120,6 +1133,28 @@
      ]
     },
     {
+     "ts": "2026-10-01 00:21:29",
+     "ids": [
+      "LOWAMP-P1-CELL-LAREP-LEGACY-X2",
+      "LOWAMP-P1-CELL-LAREP-DEEP-BASE",
+      "LOWAMP-P1-CELL-LAREP-DEEP-X2",
+      "LOWAMP-P1-CELL-LAEQ-LEGACY-BASE",
+      "LOWAMP-P1-CELL-LAEQ-LEGACY-X2",
+      "LOWAMP-P1-CELL-LAEQ-DEEP-BASE",
+      "LOWAMP-P1-CELL-LAEQ-DEEP-X2",
+      "LOWAMP-P1-CELL-LAT3-LEGACY-BASE",
+      "LOWAMP-P1-CELL-LAT3-LEGACY-X2",
+      "LOWAMP-P1-CELL-LAT3-DEEP-BASE",
+      "LOWAMP-P1-CELL-LAT3-DEEP-X2",
+      "LOWAMP-P1-CELL-LAEDGE-LEGACY-BASE",
+      "LOWAMP-P1-CELL-LAEDGE-LEGACY-X2",
+      "LOWAMP-P1-CELL-LAEDGE-DEEP-BASE",
+      "LOWAMP-P1-CELL-LAEDGE-DEEP-X2",
+      "LOWAMP-P1-NULLS",
+      "LOWAMP-P1-SENS"
+     ]
+    },
+    {
      "ts": "2026-10-01 00:29:09",
      "ids": [
       "LOWAMP-P1-CELL-LAREP-DEEP-X2",
@@ -1137,6 +1172,28 @@
       "LOWAMP-P1-NULLS",
       "LOWAMP-P1-SENS"
      ]
+    },
+    {
+     "ts": "2026-10-01 01:17:38",
+     "ids": [
+      "LOWAMP-P1-CELL-LAEQ-DEEP-BASE",
+      "LOWAMP-P1-CELL-LAEQ-DEEP-X2",
+      "LOWAMP-P1-CELL-LAT3-LEGACY-BASE",
+      "LOWAMP-P1-CELL-LAT3-DEEP-BASE",
+      "LOWAMP-P1-CELL-LAT3-DEEP-X2",
+      "LOWAMP-P1-CELL-LAEDGE-DEEP-BASE",
+      "LOWAMP-P1-CELL-LAEDGE-DEEP-X2",
+      "LOWAMP-P1-NULLS",
+      "PERPETUAL-N1-W2-SHARD-3",
+      "PERPETUAL-N1-W2-SHARD-4",
+      "PERPETUAL-N1-W2-SHARD-5",
+      "PERPETUAL-N1-W2-SHARD-6",
+      "PERPETUAL-N1-W2-SHARD-7",
+      "PERPETUAL-N1-W2-SHARD-8",
+      "PERPETUAL-N1-W2-SHARD-9",
+      "PERPETUAL-N1-W2-SHARD-10",
+      "PERPETUAL-N1-W2-SHARD-11"
+     ]
     }
    ],
    "supply_gap_clean_misses": [],
@@ -1149,7 +1206,7 @@
     "daily_max_py": {
      "2026-09-29": 100.0,
      "2026-09-30": 100.0,
-     "2026-10-01": 3.7
+     "2026-10-01": 59.9
     }
    }
   },
@@ -1162,7 +1219,7 @@
    {
     "clause": 2,
     "state": "VIOLATION",
-    "note": "ignition SLA breaches (ready claim) post-anchor: 9"
+    "note": "ignition SLA breaches (ready claim) post-anchor: 11"
    },
    {
     "clause": 3,
@@ -1185,107 +1242,107 @@
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-24-17 claimed >24h (152.8h) -> release-clause check"
+   "text": "ticket T-2026-09-24-17 claimed >24h (153.9h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-24-29 claimed >24h (150.7h) -> release-clause check"
+   "text": "ticket T-2026-09-24-29 claimed >24h (151.9h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-24-36 claimed >24h (147.9h) -> release-clause check"
+   "text": "ticket T-2026-09-24-36 claimed >24h (149.0h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-24-37 claimed >24h (147.5h) -> release-clause check"
+   "text": "ticket T-2026-09-24-37 claimed >24h (148.6h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-54 claimed >24h (133.3h) -> release-clause check"
+   "text": "ticket T-2026-09-25-54 claimed >24h (134.5h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-56 claimed >24h (133.1h) -> release-clause check"
+   "text": "ticket T-2026-09-25-56 claimed >24h (134.2h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-58 claimed >24h (132.9h) -> release-clause check"
+   "text": "ticket T-2026-09-25-58 claimed >24h (134.0h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-59 claimed >24h (132.9h) -> release-clause check"
+   "text": "ticket T-2026-09-25-59 claimed >24h (134.0h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-60 claimed >24h (132.9h) -> release-clause check"
+   "text": "ticket T-2026-09-25-60 claimed >24h (134.0h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-63 claimed >24h (126.5h) -> release-clause check"
+   "text": "ticket T-2026-09-25-63 claimed >24h (127.6h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-64 claimed >24h (125.9h) -> release-clause check"
+   "text": "ticket T-2026-09-25-64 claimed >24h (127.1h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-66 claimed >24h (124.1h) -> release-clause check"
+   "text": "ticket T-2026-09-25-66 claimed >24h (125.3h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-67 claimed >24h (122.8h) -> release-clause check"
+   "text": "ticket T-2026-09-25-67 claimed >24h (123.9h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-25-68 claimed >24h (122.6h) -> release-clause check"
+   "text": "ticket T-2026-09-25-68 claimed >24h (123.8h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-26-70 claimed >24h (120.3h) -> release-clause check"
+   "text": "ticket T-2026-09-26-70 claimed >24h (121.5h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-26-76 claimed >24h (111.1h) -> release-clause check"
+   "text": "ticket T-2026-09-26-76 claimed >24h (112.3h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-27-91 claimed >24h (87.5h) -> release-clause check"
+   "text": "ticket T-2026-09-27-91 claimed >24h (88.6h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-28-103 claimed >24h (56.5h) -> release-clause check"
+   "text": "ticket T-2026-09-28-103 claimed >24h (57.6h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-28-105 claimed >24h (56.5h) -> release-clause check"
+   "text": "ticket T-2026-09-28-105 claimed >24h (57.6h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-28-107 claimed >24h (56.0h) -> release-clause check"
+   "text": "ticket T-2026-09-28-107 claimed >24h (57.2h) -> release-clause check"
   },
   {
    "check": "SR4",
    "severity": "P2",
-   "text": "ticket T-2026-09-28-108 claimed >24h (56.0h) -> release-clause check"
+   "text": "ticket T-2026-09-28-108 claimed >24h (57.1h) -> release-clause check"
   },
   {
    "check": "SR4",
@@ -1518,6 +1575,11 @@
    "text": "same-window periodic maintenance by 2 machines at 2026-09-30 22:00 (F-09 family): bm-a, bm-c"
   },
   {
+   "check": "SR4",
+   "severity": "P2",
+   "text": "same-window periodic maintenance by 2 machines at 2026-10-01 01:00 (F-09 family): bm-a, bm-c"
+  },
+  {
    "check": "SR3",
    "severity": "P1",
    "text": "law-vs-reality drift: roster: narrative [2, 3, 6] vs actual 28 (六员, 六员, 3 员)"
@@ -1525,7 +1587,7 @@
   {
    "check": "SR6",
    "severity": "P1",
-   "text": "INCIDENT-20260928 sec.3 clause 2 zero-recurrence VIOLATION: ignition SLA breaches (ready claim) post-anchor: 9"
+   "text": "INCIDENT-20260928 sec.3 clause 2 zero-recurrence VIOLATION: ignition SLA breaches (ready claim) post-anchor: 11"
   }
  ]
 }

@@ -17,5 +17,8 @@ $start = Get-Date -Minute 0 -Second 0
 while ($start -le (Get-Date)) { $start = $start.AddMinutes(2) }
 $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 2) -RepetitionDuration (New-TimeSpan -Days 3650)
 $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 15)
-Register-ScheduledTask -TaskName 'Bigmoney-Autofill' -Action $a -Trigger $t -Settings $s -Force | Out-Null
-Write-Output "registered Bigmoney-Autofill (project=$Project), first fire $start"
+# S4U law (2026-09-29 bm-b lane rule, watchdog register script same pattern):
+# lane tasks register S4U, never InteractiveToken -- headless children, no black window.
+$p = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U
+Register-ScheduledTask -TaskName 'Bigmoney-Autofill' -Action $a -Trigger $t -Settings $s -Principal $p -Force | Out-Null
+Write-Output "registered Bigmoney-Autofill (project=$Project, logon=S4U, cadence=2min), first fire $start"

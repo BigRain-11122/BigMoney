@@ -6085,8 +6085,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6118,8 +6119,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6151,8 +6153,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6184,8 +6187,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6217,8 +6221,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6250,8 +6255,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6283,8 +6289,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6316,8 +6323,9 @@
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6341,16 +6349,19 @@
       "shards": [
         {
           "key": "n1w2-8of12",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/p2cal_ext/n1_w2/shard-8-of-12.json (presence=done; deterministic rerun byte-equal)",
           "note": "N1-W2 wave shard 8 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
           "owner": "bm-a",
-          "owner_since": "2026-10-01 01:34:17"
+          "owner_since": "2026-10-01 01:34:17",
+          "done_at": "2026-10-01 01:55:50",
+          "done_by": "bm-b r487 inline multicore burn 01:41-01:42 (22s each @ 8 workers, checkpoints in-commit byte-equal; claim race yielded to bm-a per fleet/README sec.4 commit-time order)"
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6374,16 +6385,19 @@
       "shards": [
         {
           "key": "n1w2-9of12",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/p2cal_ext/n1_w2/shard-9-of-12.json (presence=done; deterministic rerun byte-equal)",
           "note": "N1-W2 wave shard 9 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
           "owner": "bm-a",
-          "owner_since": "2026-10-01 01:35:07"
+          "owner_since": "2026-10-01 01:35:07",
+          "done_at": "2026-10-01 01:55:50",
+          "done_by": "bm-b r487 inline multicore burn 01:41-01:42 (22s each @ 8 workers, checkpoints in-commit byte-equal; claim race yielded to bm-a per fleet/README sec.4 commit-time order)"
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6407,16 +6421,19 @@
       "shards": [
         {
           "key": "n1w2-10of12",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/p2cal_ext/n1_w2/shard-10-of-12.json (presence=done; deterministic rerun byte-equal)",
           "note": "N1-W2 wave shard 10 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
           "owner": "bm-a",
-          "owner_since": "2026-10-01 01:35:59"
+          "owner_since": "2026-10-01 01:35:59",
+          "done_at": "2026-10-01 01:55:50",
+          "done_by": "bm-b r487 inline multicore burn 01:41-01:42 (22s each @ 8 workers, checkpoints in-commit byte-equal; claim race yielded to bm-a per fleet/README sec.4 commit-time order)"
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     },
     {
@@ -6440,16 +6457,19 @@
       "shards": [
         {
           "key": "n1w2-11of12",
-          "status": "ready",
+          "status": "done",
           "checkpoint": "results/p2cal_ext/n1_w2/shard-11-of-12.json (presence=done; deterministic rerun byte-equal)",
           "note": "N1-W2 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
           "owner": "bm-a",
-          "owner_since": "2026-10-01 01:36:50"
+          "owner_since": "2026-10-01 01:36:50",
+          "done_at": "2026-10-01 01:55:50",
+          "done_by": "bm-b r487 inline multicore burn 01:41-01:42 (22s each @ 8 workers, checkpoints in-commit byte-equal; claim race yielded to bm-a per fleet/README sec.4 commit-time order)"
         }
       ],
       "workers_plan": {
-        "workers": 1,
-        "priority": "BelowNormal"
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, default=cpu_count at launch (O-2026-09-30-2355 law-1, r486 conversion + parity serial-vs-pool byte-equal PASS); BLAS 1/worker cap; --workers override"
       }
     }
   ]

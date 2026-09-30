@@ -3,17 +3,17 @@
  "root_path": "C:\\Fluxgroup",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-09-30T23:53:28.525211+08:00",
- "heartbeat_epoch_utc": 1790783608,
- "clock_read": "2026-09-30T23:53:28.525211+08:00",
- "current_task": "T-133 s2 perpetual faces (generator v0.1 landed; N1-W2 runner next)",
+ "last_seen": "2026-10-01T01:49:59+08:00",
+ "heartbeat_epoch_utc": 1790790599,
+ "clock_read": "2026-10-01T01:49:59+08:00",
+ "current_task": "T-133 s2: N1-W2 wave 6/12 done (bm-b shards 8-11 burned multicore 22s each); finalize pending all-12; W3 band supply next",
  "cpu_cores": 16,
  "free_ram_gb": 6.2,
  "gpu_free_vram_gb": 2.1,
  "total_ram_gb": 0.0,
  "cpu_util_pct": 9.8,
- "round_no": 483,
- "verdict": "healthy: T-133 claimed s2 (claim-and-start same round) + generator landed; pool supplied by bm-a LOWAMP entries",
+ "round_no": 487,
+ "verdict": "healthy: r487 O-2355 bm-b multicore law fully landed (N1 r486 + ems19/face_b22 carried commits + pool workers_plan code-backed fix + 22s@8w vs 2min serial live proof) + autofill 2-min S4U re-registered; WM RED idle-low-cpu remediation in flight (cadence fix + claims racing)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -146,13 +146,14 @@
   "O-20260930-1858-bm-a.md",
   "O-20260930-2054-bm-a.md",
   "O-2026-09-30-2230-bm-a.md",
-  "O-2026-09-30-2340-bm-a.md"
+  "O-2026-09-30-2340-bm-a.md",
+  "O-2026-09-30-2355-bm-a.md"
  ],
  "cores": 16,
  "idle_ram_gb": 6.2,
  "gpu_idle_vram_gb": 2.2,
- "n_orders_ack": 132,
- "round": 483,
+ "n_orders_ack": 133,
+ "round": 487,
  "gpu_model": "NVIDIA GeForce RTX 3070",
  "prod_lanes": [
   "bigmoney-compute-node",
@@ -160,9 +161,9 @@
   "gpu-light-postprocess"
  ],
  "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 483,
+ "loop_round": 487,
  "gpu_free_vram_mb": 2150,
  "ram_free_gb": 6.2,
- "last_round_at": "2026-09-30T23:30x",
- "last_round_ts": "2026-09-30T23:35:29+08:00"
+ "last_round_at": "2026-10-01T01:5x",
+ "last_round_ts": "2026-10-01T01:49:59+08:00"
 }
