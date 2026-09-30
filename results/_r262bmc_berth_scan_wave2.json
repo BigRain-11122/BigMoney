@@ -1,0 +1,50 @@
+{
+  "artifact": "r262 bm-c berth-scan wave-2 (post-W9 A-layer exhaustion verdict + next-line selection)",
+  "machine": "bm-c",
+  "round": 262,
+  "ts": "2026-09-30 09:5x",
+  "law_refs": [
+    "O-20260928-1614 sec.1.4 fill-ladder (d) innovation quota + supply floor ready>=3",
+    "TRIAL_LABOR_LAW.md v1.0 (default draft-next-wave trigger = board empty / pool hungry / NO in-flight judgment batch)",
+    "r258 three-key eligibility scan (results/_r258bmc_zoo_eligibility_scan.json) adopted inventory",
+    "r446/r448 anti-duplication three-key-face law",
+    "cross-machine hard constraint: full-A stock panel physically on bm-b only (any stock-face burn lane = bm-b mandatory)",
+    "CEO product-first law P-202609-29-07 (verdict faces are products; pure bookkeeping capped)"
+  ],
+  "delta_since_r258_scan": {
+    "zoo_84_crowding_vote": "judged-negative family closure 2026-09-30 09:38:29 (CROWD-VOTE-P1 0/4 G1'+G2; harvest backfilled r262; 48h CEO clock due 10-02 09:38)",
+    "trial_labor_w10": "JUDGED 2026-09-29 20:59: 0/283 cells G1 pass (gate_face none/bull/bear 0+0+0)",
+    "trial_labor_w11": "JUDGED 2026-09-30 02:18: 0/229 cells G1 pass (gate_face bear/none/bull 0+0+0); VSTD20_q20 demoted-by-evidence earlier in berth window",
+    "in_flight": "W12-JUDGE = bm-b lane in flight; W13 runner = bm-a delivery window (runner_exists gate)"
+  },
+  "a_layer_verdict": {
+    "status": "EXHAUSTED",
+    "evidence": "W1-W9 nine consecutive judged-negative quota burns (revrepo-calendar W1/W2, zoo#95 W3, zoo#96 W4, zoo#86 W5, zoo#91 W6, zoo#87 W7, zoo#89 W8, zoo#84 W9); r258 scan PRIMARY #84 now burned; BACKUP #90 = reproduction-failure retained construction face (not burnable without reproduction); all other A-layer zoo rows carry named exclusions (T33-burned 0/20 / stock-domain / data-face pre-check unresolved / P-1e judged IR -0.232)",
+    "implication": "quota-line SLOT-10+ berth requires NEW family candidates = new digest-wave output (research lane) or B-layer; no in-place A-layer family remains eligible"
+  },
+  "next_line_selection": [
+    {
+      "line": "trial-labor drain-first (W12-JUDGE bm-b in flight + W13 runner bm-a)",
+      "verdict": "NO bm-c berth action this window: in-flight judgment batch exists -> TRIAL_LABOR_LAW default-draft trigger does NOT fire; new time-series-gate (B2-family) berth would duplicate W10-W13 A158-TSGATE program (0/283 + 0/229 so far) = anti-duplication violation",
+      "next_window": "post-W12/W13-verdict family selection (if W12/W13 also judge-negative -> whole A158-TSGATE route closes, B-layer/bm-b + digest waves become the only remaining lines)"
+    },
+    {
+      "line": "B-layer stock-domain (zoo #79 micro_cap / #94 lhb_inst_dist data-face pre-check / #93 disposition_cgo P-1e-judged)",
+      "verdict": "NOT bm-c berthable: full-A stock panel physics on bm-b + burn lane = bm-b mandatory; bm-b's own supply line obligation",
+      "next_window": "bm-b post-drain berth face"
+    },
+    {
+      "line": "new digest wave (fresh zoo A-layer candidates via external-source scan, research lane, lane-free)",
+      "verdict": "bm-c LAWFUL next supply line; quota SLOT-10 berth will draw from its output",
+      "next_window": "next bm-c supply window starts digest-wave slice (web_fetch authority-source waves + digest cards + zoo rows), consumer_plan = quota line T-107 sec.4(d) + T-34 fastline candidate face"
+    }
+  ],
+  "supply_floor_face": {
+    "ready": 0,
+    "floor": 3,
+    "breach_standing": true,
+    "honest_note": "breach is real and disclosed (audit FLAG supply_floor standing ~309min family-streak at r261 chain); lawful idle state per drain-first discipline: two in-flight judgment/build lanes (W12-JUDGE bm-b, W13 bm-a) + three fresh verdict faces this morning (SLOT-7 07:26, SLOT-8 09:09, SLOT-9 09:38) = verdict-face products, not idle-spin; bm-c next supply = digest-wave slice per selection above"
+  },
+  "evidence_cutoff": "2026-09-29",
+  "evidence_cutoff_note": "panel cutoff per W9 G-ANCHOR face; scan reads in-tree artifacts only, zero network"
+}
