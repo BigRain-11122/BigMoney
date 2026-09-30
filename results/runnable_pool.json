@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-09-30 06:2x",
+  "updated_at": "2026-09-30 11:5x",
   "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
   "entries": [
     {
@@ -4988,7 +4988,7 @@
       ],
       "lane_owner": "bm-b",
       "priority": 1,
-      "status": "waiting",
+      "status": "ready",
       "entered_at": "2026-09-30T11:2x",
       "entered_by": "bm-a r467",
       "workers_plan": {
@@ -4996,13 +4996,15 @@
         "priority": "BelowNormal",
         "note": "99 judged cells = second-lightest judge batch in lineage (W12 188 judged); single shard W1-W12-JUDGE precedent; multi-shard i%shards split legal per shard law"
       },
-      "data_gates": "WAITING DEPS (flip to ready upon ALL, W12-JUDGE precedent): (1) serial-position face re-confirm at flip time per prereg sec.0 + bm-b r369 ruling (W2/W3/W4/W5/W6/W7/W8/W9/W10/W11/W12-JUDGE + MASS-W1-JUDGE all done as of r467; any newly-entered in-flight verdict face ahead = re-queue behind it); (2) judge-prep run on the deep-panel machine (physical = bm-b t18 sidecar family; cache-less machines exit-2 honest per W1 precedent) -> judge_state.json manifest verdict PASS; (3) machine free RAM >= 4GB three-sample across >=30s (r354 law). IN-RUNNER fail-closed: judge_state/w13_screen absent exit 2; grammar sha != 868cd0c6413636e6 refuse; zero-survivor vacuous face n/a (99 survivors). After shards: judge-finalize = separate round work (ledger TRIAL_LAB_W13_JUDGE batch_trials=survivors literal + w13_judge.json G1'v2/G2/DSR/PBO/E[FP] judgment summary + eleven-gate segmented disclosure incl sumn_face_judgment + sumn interaction faces) -- NOTE judge-finalize same fix-first surgical pair landed r467 (gvvvsktsamsr_sum loop line + output keys; selftest 48/48 re-verified); intake slice lands next per prereg sec.6; 48h CEO report clock starts at judge-finalize",
+      "data_gates": "GATES ALL GREEN (direct-ready r459 bm-b, W12-JUDGE r446 lineage): (1) serial-position re-confirm at flip time -- W2/W3/W4/W5/W6/W7/W8/W9/W10/W11/W12-JUDGE + MASS-TRIAL-W1-JUDGE all done; INNOVATION-QUOTA-SLOT-10 (bm-c berth) entered 11:30:31 AFTER this entry 11:2x = not ahead, no re-queue; (2) judge-prep real-data first fire on deep-panel bm-b r459 exit 0 PASS: judge_state.json g_manifest verdict PASS 48 members, census L/D == frozen {6m 1253/3104, 12m 1127/2978, 24m 875/2726}, grammar sha16 868cd0c6413636e6 == FROZEN pin, survivors 99, eleven-gate meta faithful incl sumn (150open/1361closed decidable 1511 sumn10-open 144) -- r446 three-command real-data closure complete (screen-prep bm-a r467 + screen-finalize bm-a r467 + judge-prep bm-b r459); (3) RAM r354 three-sample 6.59/6.57/6.76 GB free across 32s all >=4GB (in-runner gate authoritative). Burn via autofill pool face; judge-finalize = lane-owner separate round work per W5-W12 precedent; 48h CEO report clock starts at judge-finalize.",
       "shards": [
         {
           "key": "judge-0of1",
-          "status": "waiting",
+          "status": "ready",
           "checkpoint": "results/trial_labor_w13/checkpoint/judge_shard_0of1.jsonl (row-level done-set resume, cross-kill W1 law)",
-          "note": "single shard W1-W12-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts)"
+          "note": "single shard W1-W12-JUDGE precedent; multi-shard i%shards split legal per shard law on partial claim; cell enumeration = sorted survivors global index i = dual-nulls seed binding face (stable across shard counts)",
+          "owner": "bm-b",
+          "owner_since": "2026-09-30 11:50:05"
         }
       ],
       "consumer_plan": "TRIAL-LABOR-W13-JUDGE -> w13_judge.json verdict face -> s4 intake (D6 binding gate, TRIAL-SUMN-* accounts spawn only on G2 eligible) -> CEO-REPORT-WAVE13 48h face + scorecard CEO face; sumn negative readout already carried from screen (0.28x-0.41x anti-enrichment) = judge confirms at full caliber",
