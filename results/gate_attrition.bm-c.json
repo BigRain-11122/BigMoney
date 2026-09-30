@@ -16973,6 +16973,54 @@
     "runner": "scripts/trial_labor_w13.py",
     "note": "judge-finalize+intake closed bm-b r459 (resume round after three dead sessions; burn autofill lineage 039d1e837); W13-SCREEN attrition row absent = bm-a r467 lane bookkeeping gap, disclosed for bm-a heal"
    }
+  },
+  {
+   "batch": "TRIAL_LAB_W13_SCREEN",
+   "ts": "2026-09-30 11:06:33",
+   "kind": "measurement",
+   "retro_fill": true,
+   "cells_ledger_delta": 593,
+   "ledger_total_after": 359980,
+   "gates": {
+    "screen_pass": {
+     "n_candidates": 393,
+     "n_survivors": 99,
+     "line": "beat6m_rate > null_p95 strictly-greater (null_p95=0.511572, prereg sec.3 frozen)"
+    },
+    "null_face": {
+     "p50": 0.5116,
+     "p95": 0.511572,
+     "n": 200,
+     "seed": 20323500,
+     "note": "K=200 sixteen-tuple axis nulls with mom+std+rsqr+sumn legs, seed 20323500; p50 0.5116 within prereg sec.5.2 band [0.50,0.52] (eighth consecutive wave >0.50 drift-lineage continuation); p95 0.511572 within thirteen-wave band; screen survival line = program-frozen null p95 (W2-W12 identical law)"
+    },
+    "sumn_face": {
+     "segmented_survival": {
+      "sumn20_lo": {
+       "n_cells": 49,
+       "n_survivors": 6,
+       "survival_rate": 0.122449
+      },
+      "sumn10_lo": {
+       "n_cells": 48,
+       "n_survivors": 4,
+       "survival_rate": 0.083333
+      },
+      "none": {
+       "n_cells": 296,
+       "n_survivors": 89,
+       "survival_rate": 0.300676
+      }
+     },
+     "note": "SUMN new face direction intel (W13 true question, adopted from bm-a r456 probe package): sumn20_lo 0.12245 = 0.41x vs none -- BELOW prereg sec.5.1 >=1.3x prediction (enrichment MISS); sumn10_lo 0.08333 = 0.28x STRONG anti-enrichment (two-window concordant toxic, strongest axis-face miss of the supply-line family); SUMN axis family fails supply-line promotion on screen evidence (family hit rate now 1/3)"
+    }
+   },
+   "refs": {
+    "screen": "results/trial_labor_w13/w13_screen.json",
+    "prereg": "research/TRIAL_LABOR_W13_PREREG.md",
+    "grammar_ledger": "research/TRIAL_GRAMMAR_LEDGER.md"
+   },
+   "note": "retro-fill by bm-b r471 W14 freeze-window (draft checklist-1 attrition SCREEN row backfill verification); original lane bm-a r467 autofill lineage (GENERATE/SCREEN); debt disclosed in W13 prereg sec.8 + CEO-REPORT-WAVE13 (cross-machine lane no-double-write at run time); data verbatim from w13_screen.json (trials_ledger prev 359387 + batch 593 = 359980, linear to W13-JUDGE +99 = 362083)"
   }
  ],
  "lane_machine": "bm-c"
