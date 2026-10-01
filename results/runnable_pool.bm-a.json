@@ -11947,7 +11947,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-02 01:2x",
    "entered_by": "bm-a (OS iteration loop r547)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (results/lowamp_p3/probe.json PASS 14/14 2026-10-02: G-CENSUS 1254/1506 inherited + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| fresh probe 0.1868 vs 0.7 + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod; sec.0.6 HOLD-THROUGH dual-channel exit-axis (params bridge 4 keys + ExitPatch 2 keys, prereg verbatim); law-A census in finalize (default-stack share >20% -> consumption-blocked)",
@@ -11958,12 +11958,18 @@
    "shards": [
     {
      "key": "lowamp-p3-cell-larep-legacy-base-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/lowamp_p3/ JSONL checkpoint resume (t22 pattern)",
      "owner": "bm-a",
-     "owner_since": "2026-10-02 01:14:10"
+     "owner_since": "2026-10-02 01:14:46",
+     "claimed_since": "2026-10-02 01:14:10",
+     "done_at": "2026-10-02 01:14:46",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p3-cell-larep-legacy-base-0of1.bm-a.json"
     }
-   ]
+   ],
+   "done_by": "bm-a",
+   "done_at": "2026-10-02 01:14:46"
   },
   {
    "id": "LOWAMP-P3-CELL-LAREP-LEGACY-X2",
