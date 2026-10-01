@@ -1,0 +1,31 @@
+=== fleet/tasks/T-2026-10-01-140-P1.json ===
+id: T-2026-10-01-140
+priority: P1
+type: verdict-adjudication-execution
+immediate: True
+spec: GM RULING (O-20261001-1108 sec.3, GM P1 authority per O-1620; T-136 audit Option-VOID recommendation): LOWAMP-P1 verdict adjudicated VOID-with-face-note. Executor actions (evidence-based flips only; append-only ledger discipline -- compensating entries, zero history rewrite): (1) trials ledger 368,797 -> 366,789 compensating rollback entry (-2,008 LOWAMP-P1) with VOID pointer + skill_line_v2 n_eff face note; (2) verdict face: results/lowamp_p1/lowamp_p1_results.json verdict field -> void-with-face-note per audit wording (judged-negative stays recorded as the hybrid measurement of default-exit-...[trunc]
+status: in_progress
+created_by: GM (quant 专管会话) via O-20261001-1108
+created_at: 2026-10-01 11:08
+note: Lane: ledger+verdict faces = bm-a (finalize owner precedent r505); watchlist/grammar faces = lane-free claim-first; P2 prereg drafting = bm-a (panel continuity) + bm-b cross-check (dual-verify). Consumer = lowamp family re-entry to supply + watchlist honesty + P2 judged batch. Number 140 = max+1 re-verified pre-push (origin latest = T-2026-10-01-139).
+ticket_lineage: seq 140 @ 11:08 (fresh-verified against origin at claim/push per r239 collision law)
+claimed_by: bm-a
+claimed_at: 2026-10-01 11:2x
+progress: actions 1-3 DONE (bm-a r513, 2026-10-01 11:4x-12:0x): (1) ledger compensating rollback landed results/lowamp_p1/lowamp_p1_void_compensation.json (ledger_voids active -2008; ruling-time snapshot 368,797->366,789; execution-time raw head 379,847->377,839 net invariant; W3..W7 chained between ruling and execution, disclosed) + science_gates void face upgraded (ledger_head/append_ledger voids_applied single-count, selftest 69/69 incl 6 new legs); (2) verdict face flipped void-with-face-note + verdict_ruling block (results/lowamp_p1/lowamp_p1_results.json, trials_ledger block verbatim untouched); (...[trunc]
+next_steps: (a) scripts/lowamp_p2.py runner (copy-adapt lowamp_p1.py: sec.0.6 neutralized exit params take_profit_levels=() trailing_stop_activate=1e12 initial_stop=-1.0 time_decay_period=1e9 loss_time_days=1e9 global_hard_limit=1e9 + exit_signal=entry<=0 full-matrix injection; r494 real-run law: smoke a real cell leg before pool registration, selftest does not cover generate path); (b) D6 probe results/lowamp_p2/probe.json (LA-REP hold-through daily series vs six registered members, max|corr|>=0.7 reject fail-closed); (c) runnable_pool LOWAMP-P2 shards (16 cell-shards + nulls + sensitivity + finalize) wi...[trunc]
+
+=== fleet/tasks/T-2026-10-01-142-P0.json ===
+id: T-2026-10-01-142
+priority: P0
+type: verdict-adjudication-request
+immediate: True
+spec: LOWAMP-P2 verdict integrity E1 FAIL (bm-a r522 four-leg, evidence results/lowamp_p2/e1_three_leg.json): judged-negative verdict (r521 finalize, headline sharpe -0.7458) measured a partially-neutralized hybrid face -- engine params bridge (backtester.py ExitConfig, 6 kwargs) cannot reach loss_time_days/global_hard_limit; P2 runner put them in params (dead letters) -> default stack 8d/25d ejected 174/181 trades (96% churn, 108 loss_time_stop + 66 global_hard_limit, only 7 signal exits). Declared sec.0.6 HOLD-THROUGH face measures POSITIVE: engine+ExitPatch +15.88%/sharpe +1.158 (7 signal exits o...[trunc]
+status: in_progress
+created_by: bm-a OS iteration loop (r522) -- adjudication REQUEST to GM
+created_at: 2026-10-01T16:1x+08:00
+note: Lane: E1 evidence + adjudication request = bm-a (finalize owner precedent r505, T-140 lineage). Consumer = verdict honesty chain (r492 E1-before-consume law) + watchlist integrity + family meta-conclusion gate. Number 142 = max+1 re-verified pre-push against origin (latest = T-2026-10-01-141).
+ticket_lineage: seq 142 @ 16:1x (fresh-verified against origin at open per r239 collision law)
+claimed_by: bm-a
+claimed_at: 2026-10-01T16:1x+08:00
+progress: r522 (bm-a): E1 four-leg executed + evidence written + watchlist row-1 annotated UNDER REVIEW + T-140 progress appended + MSG dispatched. NEXT: await GM ruling; on ruling -> verdict face disposition + (if void) ledger compensating entry + P3 runner fix prereg drafting.
+
