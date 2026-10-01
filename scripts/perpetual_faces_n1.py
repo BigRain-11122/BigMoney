@@ -118,6 +118,19 @@ WAVE_CONFIGS = {
         "a_seed_base": 21_900,           # law sec.4 W5 A: 21_900..23_899 (skip-over)
         "b_exit_seed_base": 21_700,      # law sec.4 W5 B: 21_700..21_899
         "shard_subdir": "n1_w5", "out_name": "n1_w5_results.json"},
+    # W6 (r309 bm-c, law sec.4 W6+ WARNING executed): A keeps the
+    # arithmetic +2_000 tail (23_900..25_899, clean); B's arithmetic +200
+    # tail 21_900..22_099 is documented-refused (falls inside the W5 A
+    # band) -- B re-bases past every reserved band incl. this wave's own
+    # A band, packing at W6 A end + 1 (25_900..26_099). Same disclosed
+    # skip-over discipline as W5; NOT a re-pick (R250).
+    6: {"batch": "PERPETUAL-N1-W6",
+        "prereg": ("research/PERPETUAL_N1_W6_PREREG.md (wave-level frozen "
+                   "pre-run; design = frozen v1 null calibration verbatim, "
+                   "new seed bands only)"),
+        "a_seed_base": 23_900,           # law sec.4 W6 A: 23_900..25_899 (arithmetic)
+        "b_exit_seed_base": 25_900,      # law sec.4 W6 B: 25_900..26_099 (skip-over)
+        "shard_subdir": "n1_w6", "out_name": "n1_w6_results.json"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -885,6 +898,63 @@ def selftest() -> int:
             OUT_DIR, WAVE_CONFIGS[4]["out_name"])), \
             "W5 finalize cumulative dep (W4 output) missing"
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+        # --- wave-6 face (r309 bm-c: same guard set, dep = W5; B band =
+        #     documented skip-over per law sec.4 W6+ WARNING row) ---
+        _set_wave(6)
+        try:
+            assert WAVE_CONFIGS[6]["a_seed_base"] == pf.N1_BANDS[6]["a"][0], \
+                "W6 A band drift vs law mirror"
+            assert WAVE_CONFIGS[6]["b_exit_seed_base"] == \
+                pf.N1_BANDS[6]["b_exit"][0], "W6 B band drift vs law mirror"
+            w6_a = {A_SEED_BASE + j for j in range(A_N)}
+            w6_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+            assert not (w6_a & w6_b), "W6 A/B band overlap"
+            assert not (w6_a & reg_ints) and not (w6_b & reg_ints), \
+                "W6 hits SEED_REGISTRY"
+            for nm, band in (("A", w6_a), ("B", w6_b)):
+                assert not (band & v1_a) and not (band & v1_b), f"W6 {nm} hits v1"
+                assert not (band & w1_a) and not (band & w1_b), f"W6 {nm} hits W1"
+                assert not (band & probes), f"W6 {nm} hits probe seeds"
+            for wprev in (2, 3, 4, 5):
+                assert not (w6_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                    for j in range(A_N)}), f"W6 A hits W{wprev}"
+                assert not (w6_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                    for j in range(B_N)}), f"W6 B hits W{wprev}"
+            # skip-over refusal facts (law sec.4 W6+ WARNING): the B
+            # arithmetic +200 tail lands inside the W5 A band -> the skip
+            # is forced; packing invariant = B sits at W6 A end + 1 (A
+            # keeps its arithmetic +2_000 tail = W5 A end + 1).
+            arith_b = {WAVE_CONFIGS[5]["b_exit_seed_base"] + 200 + j
+                       for j in range(B_N)}
+            assert arith_b & {WAVE_CONFIGS[5]["a_seed_base"] + j
+                              for j in range(A_N)}, \
+                "refused B arithmetic tail must hit W5 A (doc)"
+            assert WAVE_CONFIGS[6]["a_seed_base"] == \
+                WAVE_CONFIGS[5]["a_seed_base"] + 2000, \
+                "W6 A must keep the arithmetic +2_000 tail (W5 A end + 1)"
+            assert WAVE_CONFIGS[6]["b_exit_seed_base"] == \
+                WAVE_CONFIGS[6]["a_seed_base"] + A_N, \
+                "W6 packing drift (B must sit at W6 A end + 1)"
+            assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W6-SHARD-0",
+                                              "n1w6-0of12"), "W6 entry identity"
+            assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W6-SHARD-11",
+                                               "n1w6-11of12")
+            assert SHARD_DIR.endswith("n1_w6") and OUT.endswith(
+                "n1_w6_results.json"), "W6 path drift"
+            for wprev in (2, 3, 4, 5):
+                assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                    PATHS.results_dir, "p2cal_ext",
+                    WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                    f"W6 shard dir collides with W{wprev}"
+            assert os.path.exists(os.path.join(
+                PATHS.root, "research", "PERPETUAL_N1_W6_PREREG.md")), \
+                "W6 per-wave prereg missing (materializer requirement)"
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[5]["out_name"])), \
+                "W6 finalize cumulative dep (W5 output) missing"
+            assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+        finally:
+            _set_wave(2)
     finally:
         _set_wave(2)
     print("selftest: PASS (v1 constants + seed bands disjoint [v1/W1/registry/"
@@ -895,7 +965,8 @@ def selftest() -> int:
           "[bands/identity/paths/prereg/cumulative-dep/spawn-carrier] "
           "+ W4 materializer face [same guard set, dep=W3] "
           "+ W5 materializer face [same guard set, dep=W4, A=skip-over "
-          "per law sec.4 W5 row])")
+          "per law sec.4 W5 row] + W6 materializer face [same guard set, "
+          "dep=W5, B=skip-over per law sec.4 W6+ WARNING row])")
     return 0
 
 

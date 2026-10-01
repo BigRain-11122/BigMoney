@@ -84,6 +84,16 @@ N1_BANDS = {
     # (21_900..22_099) now lands inside the W5 A band -- the W6 prereg
     # must re-base B with the same disclosed skip-over discipline.
     5: {"a": (21_900, 23_899), "b_exit": (21_700, 21_899)},
+    # W6 (r309 bm-c, prereg-time extension per the law's pinned W6+
+    # WARNING): B keeps its arithmetic stride concept but the +200 tail
+    # (21_900..22_099) is documented-refused (falls inside the W5 A band
+    # 21_900..23_899) -- disjointness hard law wins, so B skips past
+    # every reserved band INCLUDING this wave's own A band and packs at
+    # the first free 200-window (== W6 A end + 1). A itself keeps the
+    # arithmetic +2_000 tail verbatim (23_900 == W5 A end + 1, no
+    # collision). NOT a re-pick: W6 bands were never assigned and the
+    # measurement face has no result to fish (R250).
+    6: {"a": (23_900, 25_899), "b_exit": (25_900, 26_099)},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -139,8 +149,26 @@ def _pool_live_count(pool):
             continue
         if e.get("park_note"):
             continue
+        if not _claimable(e):
+            continue
         n += 1
     return n
+
+
+def _claimable(e):
+    """True when the entry still has burnable work. An entry whose every
+    shard is done is burn-complete regardless of its entry.status -- the
+    daemon harvest only lands the shard layer (r488 presence=done
+    semantics) and the entry-layer done flip belongs to the observing
+    round (r180 dual-flip), so a closed wave awaiting its entry flip is
+    a ghost face, not supply. Counting ghosts as live deadlocks the
+    never-dry law behind a finished wave forever (live case r309: 12
+    finalized W5 entries entry=ready blocked the W6 supply trigger while
+    every burnable face was done)."""
+    shards = e.get("shards") or []
+    if shards and all(str(s.get("status", "")) == "done" for s in shards):
+        return False
+    return True
 
 
 def _py_face():
@@ -408,7 +436,8 @@ def cmd_supply():
                 if str(e.get("id", "")).startswith(f"PERPETUAL-{fid}-")
                 and str(e.get("status", "")) in ("ready", "waiting",
                                                 "running")
-                and not e.get("park_note")]
+                and not e.get("park_note")
+                and _claimable(e)]
         if live:
             st["last_supply"]["awaiting"] = (f"{fid} wave in flight "
                                              f"({len(live)} live entries)")
@@ -523,6 +552,23 @@ def cmd_selftest():
     assert N1_BANDS[5]["a"][1] - N1_BANDS[5]["a"][0] + 1 == 2000, "W5 A width"
     assert N1_BANDS[5]["b_exit"][1] - N1_BANDS[5]["b_exit"][0] + 1 == 200, "W5 B width"
     assert N1_BANDS[4]["b_exit"][1] + 1 == N1_BANDS[5]["b_exit"][0], "W5 B tail gap"
+    # 3c. W6 skip-over packing invariant (law sec.4 W6+ WARNING): A keeps
+    # the arithmetic +2_000 tail (W5 A end + 1); B's arithmetic +200 tail
+    # (21_900..22_099) is documented-refused -- it falls inside the W5 A
+    # band -- so B skips past every reserved band including this wave's
+    # own A band and packs at the first free 200-window (W6 A end + 1).
+    # Refusal facts machine-proven: the arithmetic B position MUST
+    # collide (the skip is forced, not a free pick).
+    assert N1_BANDS[6]["a"][0] == N1_BANDS[5]["a"][1] + 1, "W6 A tail gap"
+    assert N1_BANDS[6]["a"][1] - N1_BANDS[6]["a"][0] + 1 == 2000, "W6 A width"
+    assert N1_BANDS[6]["b_exit"][1] - N1_BANDS[6]["b_exit"][0] + 1 == 200, "W6 B width"
+    assert N1_BANDS[6]["b_exit"][0] == N1_BANDS[6]["a"][1] + 1, \
+        "W6 packing drift (B must sit at W6 A end + 1)"
+    arith_b = set(range(N1_BANDS[5]["b_exit"][1] + 1,
+                        N1_BANDS[5]["b_exit"][1] + 201))
+    w5_a = set(range(N1_BANDS[5]["a"][0], N1_BANDS[5]["a"][1] + 1))
+    assert arith_b & w5_a, \
+        "W6 B skip must be forced (arithmetic tail must hit the W5 A band)"
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)
@@ -538,6 +584,22 @@ def cmd_selftest():
     ]}
     assert _pool_live_count(probe_pool) == 2, \
         "park_note'd entries must not count as live supply"
+    # 4c. ghost faces are not supply (r309 W5 live case: a finalized wave
+    # awaiting its entry-layer done flip must not block the never-dry
+    # trigger): ready + all shards done = burn-complete = not claimable;
+    # ready + any shard not done = claimable; shardless entries keep the
+    # legacy claimable face.
+    probe_pool2 = {"entries": [
+        {"id": "G1", "status": "ready",
+         "shards": [{"key": "k", "status": "done"}]},
+        {"id": "G2", "status": "ready",
+         "shards": [{"key": "k", "status": "ready"}]},
+        {"id": "G3", "status": "ready",
+         "shards": [{"key": "k1", "status": "done"},
+                    {"key": "k2", "status": "ready"}]},
+    ]}
+    assert _pool_live_count(probe_pool2) == 2, \
+        "ghost (all-shards-done) entries must not count as live supply"
     # 5. state round-trip (no pool writes; state file may be created in tmp)
     st = _load_state()
     st["_selftest_probe"] = True
@@ -641,8 +703,9 @@ def cmd_selftest():
         finally:
             POOL_PATH = real_pool
     print("perpetual_faces selftest: 8/8 PASS "
-          "(registry/seed-bands/pool/state/py-face/"
-          "materializer-expansion/pool-format-probe+writer-roundtrip)")
+          "(registry/seed-bands+3c-W6-packing/pool/state/py-face/"
+          "materializer-expansion/pool-format-probe+writer-roundtrip; "
+          "4b park_note + 4c ghost claimable legs)")
     return 0 if ok else 1
 
 
