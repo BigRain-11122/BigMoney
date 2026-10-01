@@ -94,6 +94,19 @@ N1_BANDS = {
     # collision). NOT a re-pick: W6 bands were never assigned and the
     # measurement face has no result to fish (R250).
     6: {"a": (23_900, 25_899), "b_exit": (25_900, 26_099)},
+    # W7 (r501 bm-b, prereg-time extension, same pinned skip-over
+    # discipline -- BOTH tails refused this wave): A's arithmetic
+    # +2_000 tail (25_900..27_899) is documented-refused (falls on the
+    # W6 B band 25_900..26_099), so A skips past every reserved band and
+    # packs at the first free 2,000-window (W6 B end + 1 == 26_100);
+    # B's arithmetic +200 tail (26_100..26_299) is in turn refused (it
+    # falls inside THIS wave's own A band), so B skips past every
+    # reserved band including this wave's A and packs at W7 A end + 1.
+    # Refusal facts machine-proven in selftest leg 3d. NOT a re-pick:
+    # W7 bands were never assigned, measurement face has nothing to
+    # fish (R250). W8+ WARNING: A's arithmetic tail (28_100..30_099)
+    # will land on the W7 B band -- W8 must re-base A the same way.
+    7: {"a": (26_100, 28_099), "b_exit": (28_100, 28_299)},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -569,6 +582,29 @@ def cmd_selftest():
     w5_a = set(range(N1_BANDS[5]["a"][0], N1_BANDS[5]["a"][1] + 1))
     assert arith_b & w5_a, \
         "W6 B skip must be forced (arithmetic tail must hit the W5 A band)"
+    # 3d. W7 skip-over packing invariant (r501 bm-b, same forced-skip
+    # family -- BOTH tails refused this wave): A's arithmetic +2_000
+    # tail (25_900..27_899) is documented-refused (hits the W6 B band
+    # 25_900..26_099), so A packs at the first free 2,000-window ==
+    # W6 B end + 1; B's arithmetic +200 tail (26_100..26_299) is refused
+    # too (falls inside this wave's own A band), so B packs at
+    # W7 A end + 1. Refusal facts machine-proven below.
+    assert N1_BANDS[7]["a"][1] - N1_BANDS[7]["a"][0] + 1 == 2000, "W7 A width"
+    assert N1_BANDS[7]["b_exit"][1] - N1_BANDS[7]["b_exit"][0] + 1 == 200, \
+        "W7 B width"
+    assert N1_BANDS[7]["a"][0] == N1_BANDS[6]["b_exit"][1] + 1, \
+        "W7 packing drift (A must sit at W6 B end + 1)"
+    assert N1_BANDS[7]["b_exit"][0] == N1_BANDS[7]["a"][1] + 1, \
+        "W7 packing drift (B must sit at W7 A end + 1)"
+    arith_a7 = set(range(N1_BANDS[6]["a"][1] + 1, N1_BANDS[6]["a"][1] + 2001))
+    w6_b = set(range(N1_BANDS[6]["b_exit"][0], N1_BANDS[6]["b_exit"][1] + 1))
+    assert arith_a7 & w6_b, \
+        "W7 A skip must be forced (arithmetic tail must hit the W6 B band)"
+    arith_b7 = set(range(N1_BANDS[6]["b_exit"][1] + 1,
+                         N1_BANDS[6]["b_exit"][1] + 201))
+    w7_a = set(range(N1_BANDS[7]["a"][0], N1_BANDS[7]["a"][1] + 1))
+    assert arith_b7 & w7_a, \
+        "W7 B skip must be forced (arithmetic tail must hit the W7 A band)"
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)
@@ -703,7 +739,7 @@ def cmd_selftest():
         finally:
             POOL_PATH = real_pool
     print("perpetual_faces selftest: 8/8 PASS "
-          "(registry/seed-bands+3c-W6-packing/pool/state/py-face/"
+          "(registry/seed-bands+3c-W6+3d-W7-packing/pool/state/py-face/"
           "materializer-expansion/pool-format-probe+writer-roundtrip; "
           "4b park_note + 4c ghost claimable legs)")
     return 0 if ok else 1
