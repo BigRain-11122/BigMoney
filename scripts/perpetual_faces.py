@@ -1026,6 +1026,31 @@ N1_BANDS = {
     # code impact.]
     49: {"a": (141_004, 143_003), "b_exit": (45_401, 45_600),
          "engine_owner": "bm-b"},
+    # THIRTY-NINTH ENGINE-OWNED WAVE (r350 bm-c freeze): bm-c's
+    # FOURTEENTH owned wave after W14/W17/W20/W23/W26/W29/W32/W37/
+    # W39/W41/W42/W43/W46. Wave 50 = next free number after the
+    # registered W49 row (W48 = bm-a-declared slot in the r555
+    # W47-yield receipt, still UNREGISTERED at this freeze --
+    # W19/W18 non-contiguity precedent, r516 derive law). BOTH
+    # SIDES = ARITHMETIC CONTINUATION from the W49 row tail, no
+    # skip: A 143_004..145_003 (= W49 A end 143_003 + 1) and
+    # B 45_601..45_800 (= W49 B end 45_600 + 1) -- both windows
+    # CLEAN vs the full reserved universe (46 registered rows +
+    # the W48 PUBLISHED PROJECTION bands A 139_004..141_003 /
+    # B 45_201..45_400 reserved per r518-①, N3-R1 used-seed band
+    # 70_000..70_005, probe-seed cluster 95_000..95_003, live
+    # SEED_REGISTRY values, probe/actual draw ranges; ADMIT
+    # receipt results/_r350bmc_w50_band_gate.py, origin slot
+    # vacancy machine-checked). NOT a re-pick (R250: W50 bands
+    # were never assigned). W47 finalized BEFORE this freeze
+    # (bm-b r556 same-window K=101,320, ledger 467,948); W49
+    # registered by bm-b r556 with its finalize NOT landed at
+    # this freeze (in-flight upstream honest note -- the finalize
+    # merge loop derives the wave set from registry keys at run
+    # time and stays FAIL-CLOSED on any not-yet-finalized
+    # upstream seat, r307 two-state law).
+    50: {"a": (143_004, 145_003), "b_exit": (45_601, 45_800),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
