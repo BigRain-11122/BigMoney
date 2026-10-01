@@ -3,9 +3,9 @@
 > 律：GREEN-IDLE 机器领池即产（claim-by-file 协议·O-2210 既有范式）；池 <10 件=秘书处补货责任；备货单须过 C-02 产出计分面（能跑/能玩/能看才入池）；领单机器在行尾记 `claimed@<机>@<ts>` 完工记 `done@<ts>+commit`。
 
 ## 资产线（3+）
-1. 【城线】砖集扩 96 件全族（程序化 autotile 16 变体×草/广场/人行道/路缘四族·本地零额度）——claimed@bm-c 生产泵@10-01 11:5x（进行中·U272 后续）
-2. 【城线】引擎 5×5 可行走 demo（Tilemap+CompositeCollider2D+A* 首步·Unity 工程）——可领
-3. 【城线】消息雀 PIL mini-cycle（4-6 帧行走动画合成+demo 页行走层）——可领
+1. 【城线】砖集扩 96 件全族（程序化 autotile 16 变体×草/广场/人行道/路缘四族·本地零额度）——claimed@bm-c 生产泵@10-01 11:5x → done@10-02 00:05+MiniGame 1ffc9b510（五族×16=96 全族+cross 族顺带清 U266 斑马 punch·QC 8.3）
+2. 【城线】引擎 5×5 可行走 demo（Tilemap+CompositeCollider2D+A* 首步·Unity 工程）——可领（placemap.json 已产出可直接消费）
+3. 【城线】消息雀 PIL mini-cycle（4-6 帧行走动画合成+demo 页行走层）——claimed@bm-c@10-01 23:5x → done@10-02 00:05+MiniGame 1ffc9b510（6 帧 hop 循环 sheet+GIF+demo 页·QC 8.0+相位数据实测分层）
 4. 【游戏线】G17 UnboxIt 待审件推进（审计 lane 72 存量待泄洪）——可领
 
 ## 内容线（3+）
