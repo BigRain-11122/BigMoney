@@ -3,18 +3,18 @@
  "root_path": "C:\\Fluxgroup",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-10-01T18:26:50+08:00",
- "heartbeat_epoch_utc": 1790850410,
- "clock_read": "2026-10-01T18:26:50+08:00",
- "current_task": "W19 12-shard engine burn in flight (7/12 on disk @close); next: W19 finalize + ledger (+2,200 -> 401,948) + prereg S5/S7/S8 backfill; W17=bm-c / W18=bm-a sovereignty watch (bands continue from W19 table tail)",
+ "last_seen": "2026-10-01T19:22:33+08:00",
+ "heartbeat_epoch_utc": 1790853753,
+ "clock_read": "2026-10-01T19:22:33+08:00",
+ "current_task": "W19 finalize landed (K=37,520, ledger 404,148, S5 4/4 PASS, S7/S8 backfilled); rotation watch W18=bm-a / W20=bm-c slots (fetch-first table-tail check); bm-b next own wave W22 (16+3k law); engine queue empty = standing rotation gap (GM waiver O-1612)",
  "cpu_cores": 16,
- "free_ram_gb": 6.2,
+ "free_ram_gb": 4.4,
  "gpu_free_vram_gb": 2.2,
  "total_ram_gb": 0.0,
- "cpu_util_pct": 0.0,
- "round_no": 517,
- "verdict": "W19 frozen+ignited same round (never-dry standing step = supply root-fix for the idle-family flags; T-141 acceptance face in flight); fresh probe cands EMPTY; py_low_board_clear (r528 claim-lock fix consumed -- no claimed-ticket false red)",
- "idle_ram_gb": 6.2,
+ "cpu_util_pct": 4.5,
+ "round_no": 518,
+ "verdict": "r518 yield round completed end-to-end: W19 finalize verdict face landed one-pass rc0 (ledger_head self-cert 404,148; K-lift -0.0013 negative honest); crash-tail adopted (liveness 3-check first); py_low_board_clear legal idle (open 0/bandit 0/bars present); audit idle-family flags = standing rotation gap, GM waiver in case",
+ "idle_ram_gb": 4.4,
  "gpu_idle_vram_gb": 2.2,
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -157,5 +157,5 @@
   "O-20261001-1410-bm-c.md",
   "O-20261001-1420-bm-c.md"
  ],
- "gpu_idle_vram_mb": 2252
+ "gpu_idle_vram_mb": 2266
 }
