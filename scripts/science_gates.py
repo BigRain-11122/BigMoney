@@ -987,6 +987,10 @@ SEED_REGISTRY = {
     # T-2026-09-26-73 s3 slice-6 (doctrine residual prereg), prereg
     # research/CN_CORE_DDCTL_PREREG.md s3.4
     "rev_osc_stock_p1": 20261230,           # REV_OSC_STOCK_P1 K=2000 nulls
+    "refine_bench_rev_p2": 20263300,        # REFINE_BENCH_STOCK_REV_P2 stage-B
+    # judged nulls K=2000 H=20 face rng(20263300+k) k<2000; band
+    # 20263300..20265299 sits above rev_osc_stock_p1 true band top
+    # 20263229 (its k<2000 face); prereg research/REFINE_BENCH_STOCK_REV_P2.md
     # (rev_osc nulls = 20261230+k k<2000); band 20261230..20261429 sits
     # exactly above cn_core_ddctl_p1 band top 20261229 = collision-free by
     # construction; registered at prereg freeze BEFORE any runner burn,
