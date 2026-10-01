@@ -1,0 +1,143 @@
+{
+  "batch": "LOWAMP-P2",
+  "checks": [
+    {
+      "detail": "x1_side=0.0013041 -> rt_bp=26.082",
+      "name": "cost_x1_derived",
+      "pass": true
+    },
+    {
+      "detail": "{\"gate\": \"closed_family_check\", \"family\": \"lowamp_daily_xs\", \"status\": \"open\", \"in_registry\": false}",
+      "name": "closed_family_open",
+      "pass": true
+    },
+    {
+      "detail": "48",
+      "name": "members_legacy",
+      "pass": true
+    },
+    {
+      "detail": "2026-09-22",
+      "name": "panel_end_legacy",
+      "pass": true
+    },
+    {
+      "detail": "per-frame asserts in loader",
+      "name": "no_dup_monotonic_legacy",
+      "pass": true
+    },
+    {
+      "detail": "starts=1254 want=1254",
+      "name": "g_census_legacy",
+      "pass": true
+    },
+    {
+      "detail": "48",
+      "name": "members_deep",
+      "pass": true
+    },
+    {
+      "detail": "2026-09-22",
+      "name": "panel_end_deep",
+      "pass": true
+    },
+    {
+      "detail": "per-frame asserts in loader",
+      "name": "no_dup_monotonic_deep",
+      "pass": true
+    },
+    {
+      "detail": "starts=1506 want=1506",
+      "name": "g_census_deep",
+      "pass": true
+    },
+    {
+      "detail": "PASS",
+      "name": "deep_manifest_pass",
+      "pass": true
+    },
+    {
+      "detail": "48",
+      "name": "deep_ohlcv_48",
+      "pass": true
+    },
+    {
+      "detail": "19",
+      "name": "adj_view_19",
+      "pass": true
+    },
+    {
+      "detail": "max|corr|=0.1738 vs 0.7",
+      "name": "d6_admission",
+      "pass": true
+    }
+  ],
+  "d6": {
+    "max_abs_corr": 0.1738,
+    "max_member": "VOLATILITY-CE-01",
+    "pairs": [
+      {
+        "corr": 0.045,
+        "member": "COMPOSITE-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0024,
+        "member": "COMPOSITE-CE-02",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0754,
+        "member": "DROUGHT-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": -0.0196,
+        "member": "ENGULF-CE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.0111,
+        "member": "NEEDLE-DE-01",
+        "n_overlap": 1630
+      },
+      {
+        "corr": 0.1738,
+        "member": "VOLATILITY-CE-01",
+        "n_overlap": 1630
+      }
+    ],
+    "reject_line": 0.7
+  },
+  "g_census_amendment": "2026-10-01 pre-burn amendment note: legacy G-CENSUS re-anchored 1255->1254 under the binding 2026-09-22 cutoff truncation (r251/r280 zero-burn lineage)",
+  "headline": {
+    "n_entries": 183,
+    "n_trades": 181,
+    "ret_full": -0.093356,
+    "sharpe_full": -0.7458
+  },
+  "liquidity": {
+    "active_members_ever": 4,
+    "amt20_min_yuan": 50000000.0,
+    "elig_days_median": 45.0,
+    "elig_days_min": 0,
+    "selected_days": 1542
+  },
+  "runtime_sec": 13.2,
+  "seed_disclosure": {
+    "note": "registry row lowamp_p2_starts=20334000 NOT consumed by this batch (T-22 full enumeration judged starts; full-panel continuous sensitivity); prereg sec.3 binds nulls to 20334500 and sens draws to 20333500 (verbatim).",
+    "nulls": 20334500,
+    "registry_rows": {
+      "lowamp_p1_nulls": 20331000,
+      "lowamp_p1_params": 20330000,
+      "lowamp_p1_starts": 20330500,
+      "lowamp_p2_nulls": 20334500,
+      "lowamp_p2_params": 20333500,
+      "lowamp_p2_starts": 20334000
+    },
+    "sensitivity": 20333500
+  },
+  "ticket": "T-2026-10-01-140",
+  "ts": "2026-10-01 12:41:32",
+  "verdict": "PASS"
+}
