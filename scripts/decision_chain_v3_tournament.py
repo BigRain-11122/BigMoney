@@ -59,6 +59,9 @@ from t22_virtual_timepoints import (    # frozen T-22 primitives
 )
 import science_gates as sg
 from screening.pbo import cscv_pbo      # CSCV PBO (backtest-science D4)
+from parallel_runner import (           # T-134 s2 multicore (bm-c r307)
+    run_cells_parallel, worker_cap,
+)
 
 TICKET = "T-2026-09-28-101"
 BATCH = "DECISION_CHAIN_V3_TOURNAMENT"
@@ -504,8 +507,105 @@ def _arm_cells_v3(W4, att, chop, sleeve, cash, close, eligible, curves,
     return cells
 
 
+# ---- T-134 s2 multicore conversion (bm-c r307) --------------------------
+# Seam law: every cell builder below (_arm_cells_v3 / v1._arm_cells /
+# v2.passive_cells) is per-start pure (for p in eligible, zero cross-start
+# state), so calling the SAME frozen builders with chunks of starts and
+# reassembling in eligible order is bit-identical to the serial
+# full-eligible call by construction (r306 reassembly law). Worker state
+# ships ONCE per pool via initializer; curves enters workers REDUCED to
+# the only field any builder reads (row["p_ret_12m"]) so per-worker
+# residency stays RAM-guard safe. DECISION_CHAIN_V3_MP=1 = serial escape.
+_MP_STATE = {}
+_MP_CHUNK = 64          # starts per pool task (2,761 starts -> ~44 tasks
+                        # x 9 invocations per face-pack; overhead amortized
+                        # while keeping all cores fed the whole overlay
+                        # stage)
+_MP_KINDS = ("A-H1", "A-H2S", "A-H3", "B", "D", "C",
+             "P-A-H1", "P-A-H2S", "P-A-H3")
+
+
+def _mp_workers_default() -> int:
+    env = os.environ.get("DECISION_CHAIN_V3_MP", "").strip()
+    if env:
+        try:
+            return max(1, int(env))
+        except ValueError:
+            _log(f"DECISION_CHAIN_V3_MP={env!r} unparseable -> worker_cap")
+    return worker_cap()
+
+
+def _mp_pack_init(state):
+    _MP_STATE.clear()
+    _MP_STATE.update(state)
+
+
+def _mp_arm_chunk(job):
+    """One (kind, starts-chunk) unit: calls the SAME frozen cell builders
+    with a chunk of starts. Error semantics preserved verbatim: any
+    builder raise propagates out of the pool future (honest crash, same
+    as serial; no swallowing, no masking)."""
+    kind, chunk = job
+    s = _MP_STATE
+    if kind == "A-H1":
+        return kind, _arm_cells_v3(
+            s["W4"], s["att"], s["chop"], s["sleeve"], s["cash"],
+            s["close"], chunk, s["curves"], s["rate"], s["axis_reg"],
+            scale=H1_CORE_SCALE, extra_ret=s["extra_ret"],
+            extra_dw=s["extra_dw"])
+    if kind == "A-H2S":
+        return kind, _arm_cells_v3(
+            s["W4_eff"], s["att"], s["chop"], s["sleeve"], s["cash"],
+            s["close"], chunk, s["curves"], s["rate"], s["axis_reg"])
+    if kind == "A-H3":
+        return kind, _arm_cells_v3(
+            s["W4_h3"], s["att"], s["chop"], s["sleeve"], s["cash"],
+            s["close"], chunk, s["curves"], s["rate"], s["axis_reg"])
+    if kind == "P-A-H1":
+        return kind, _arm_cells_v3(
+            s["W4"], s["att"], s["chop"], s["sleeve"], s["cash"],
+            s["close"], chunk, s["curves"], 0.0, s["axis_reg"],
+            scale=H1_CORE_SCALE, extra_ret=s["extra_ret"], extra_dw=None)
+    if kind == "P-A-H2S":
+        return kind, _arm_cells_v3(
+            s["W4_eff"], s["att"], s["chop"], s["sleeve"], s["cash"],
+            s["close"], chunk, s["curves"], 0.0, s["axis_reg"])
+    if kind == "P-A-H3":
+        return kind, _arm_cells_v3(
+            s["W4_h3"], s["att"], s["chop"], s["sleeve"], s["cash"],
+            s["close"], chunk, s["curves"], 0.0, s["axis_reg"])
+    if kind == "B":
+        return kind, v1._arm_cells(
+            s["W_B"], s["att"], s["chop"], s["close"], chunk,
+            s["curves"], s["rate"], s["axis_reg"])
+    if kind == "D":
+        return kind, v1._arm_cells(
+            s["W_D"], s["att"], s["chop"], s["close"], chunk,
+            s["curves"], s["rate"], s["axis_reg"])
+    if kind == "C":
+        return kind, v2.passive_cells(s["close"], chunk, s["axis_reg"])
+    raise ValueError(f"unknown mp kind {kind}")
+
+
+def _mp_merge(res, eligible):
+    """Reassemble chunk payloads into per-kind cell dicts keyed in
+    eligible order (serial insertion order) so downstream aggregation
+    iterates identically to the serial path (byte-equal face)."""
+    merged = {k: {} for k in _MP_KINDS}
+    for key, payload in res.items():
+        if key == "__workers__":
+            continue
+        kind, _ci = key.split("|", 1)
+        merged[kind].update(payload[1])
+    cells = {k: {p: merged[k][p] for p in eligible}
+             for k in ("A-H1", "A-H2S", "A-H3", "B", "D", "C")}
+    primes = {arm: {p: merged[f"P-{arm}"][p] for p in eligible}
+              for arm in ARMS_A}
+    return cells, primes
+
+
 def overlay_axis_face_v3(axis, face, close, eligible, W4, W4_eff, W4_h3,
-                          sleeve, cash, tilt, log=_log):
+                          sleeve, cash, tilt, log=_log, workers=None):
     """Cells for all six arms on one (axis, face). B/D via the frozen v1
     2-leg cells, C via passive caliber, A arms via the generalized
     builder; per-arm zero-fee counterfactuals (A') kept for ring-3."""
@@ -535,36 +635,71 @@ def overlay_axis_face_v3(axis, face, close, eligible, W4, W4_eff, W4_h3,
     extra_ret = np.asarray(extra_ret, dtype=float)
     extra_dw = np.asarray(tilt["ov_dw"], dtype=float)
 
-    cells = {}
-    cells["A-H1"] = _arm_cells_v3(
-        W4, att, chop, sleeve_np, cash_np, close, eligible, curves, rate,
-        axis_reg, scale=H1_CORE_SCALE, extra_ret=extra_ret,
-        extra_dw=extra_dw)
-    cells["A-H2S"] = _arm_cells_v3(
-        W4_eff, att, chop, sleeve_np, cash_np, close, eligible, curves,
-        rate, axis_reg)
-    cells["A-H3"] = _arm_cells_v3(
-        W4_h3, att, chop, sleeve_np, cash_np, close, eligible, curves,
-        rate, axis_reg)
-    cells["B"] = v1._arm_cells(W_B, att, chop, close, eligible, curves,
-                               rate, axis_reg)
-    cells["D"] = v1._arm_cells(W_D, att, chop, close, eligible, curves,
-                               rate, axis_reg)
-    cells["C"] = v2.passive_cells(close, eligible, axis_reg)
-    primes = {
-        "A-H1": _arm_cells_v3(
+    n_proc = workers if workers is not None else _mp_workers_default()
+    if n_proc <= 1 or len(eligible) < 2 * _MP_CHUNK:
+        # serial path verbatim (frozen reference + small-batch escape)
+        cells = {}
+        cells["A-H1"] = _arm_cells_v3(
             W4, att, chop, sleeve_np, cash_np, close, eligible, curves,
-            0.0, axis_reg, scale=H1_CORE_SCALE, extra_ret=extra_ret,
-            extra_dw=None),
-        "A-H2S": _arm_cells_v3(
+            rate, axis_reg, scale=H1_CORE_SCALE, extra_ret=extra_ret,
+            extra_dw=extra_dw)
+        cells["A-H2S"] = _arm_cells_v3(
             W4_eff, att, chop, sleeve_np, cash_np, close, eligible,
-            curves, 0.0, axis_reg),
-        "A-H3": _arm_cells_v3(
-            W4_h3, att, chop, sleeve_np, cash_np, close, eligible,
-            curves, 0.0, axis_reg),
+            curves, rate, axis_reg)
+        cells["A-H3"] = _arm_cells_v3(
+            W4_h3, att, chop, sleeve_np, cash_np, close, eligible, curves,
+            rate, axis_reg)
+        cells["B"] = v1._arm_cells(W_B, att, chop, close, eligible, curves,
+                                   rate, axis_reg)
+        cells["D"] = v1._arm_cells(W_D, att, chop, close, eligible, curves,
+                                   rate, axis_reg)
+        cells["C"] = v2.passive_cells(close, eligible, axis_reg)
+        primes = {
+            "A-H1": _arm_cells_v3(
+                W4, att, chop, sleeve_np, cash_np, close, eligible, curves,
+                0.0, axis_reg, scale=H1_CORE_SCALE, extra_ret=extra_ret,
+                extra_dw=None),
+            "A-H2S": _arm_cells_v3(
+                W4_eff, att, chop, sleeve_np, cash_np, close, eligible,
+                curves, 0.0, axis_reg),
+            "A-H3": _arm_cells_v3(
+                W4_h3, att, chop, sleeve_np, cash_np, close, eligible,
+                curves, 0.0, axis_reg),
+        }
+        if n_proc > 1:
+            log(f"[{axis}/{face}] eligible={len(eligible)} < "
+                f"{2 * _MP_CHUNK} -> serial (pool overhead would dominate)")
+        return {"cells": cells, "primes": primes, "rate_side": rate,
+                "att": att, "chop": chop, "mp_workers": 1}
+
+    # ---- mp path (T-134 s2): same frozen builders, chunked starts
+    state = {
+        "close": close, "att": att, "chop": chop,
+        "curves": {f"{t34.ATTACK[0]}|{p}":
+                   {"p_ret_12m": curves[f"{t34.ATTACK[0]}|{p}"]["p_ret_12m"]}
+                   for p in eligible},
+        "W4": W4, "W4_eff": W4_eff, "W4_h3": W4_h3,
+        "W_B": W_B, "W_D": W_D,
+        "sleeve": sleeve_np, "cash": cash_np,
+        "extra_ret": extra_ret, "extra_dw": extra_dw,
+        "rate": rate, "axis_reg": axis_reg,
     }
+    starts = list(eligible)
+    chunks = [starts[i:i + _MP_CHUNK]
+              for i in range(0, len(starts), _MP_CHUNK)]
+    jobs = [(f"{kind}|{ci}", _mp_arm_chunk, ((kind, chunk),))
+            for ci, chunk in enumerate(chunks) for kind in _MP_KINDS]
+    t_mp = time.time()
+    res = run_cells_parallel(jobs, workers=n_proc,
+                             initializer=_mp_pack_init,
+                             initargs=(state,),
+                             desc=f"{axis}/{face} arm-cells")
+    cells, primes = _mp_merge(res, starts)
+    log(f"[{axis}/{face}] mp overlay done: {len(jobs)} chunk tasks x "
+        f"{res['__workers__']} workers in {round(time.time() - t_mp, 1)}s "
+        f"(chunk={_MP_CHUNK} starts)")
     return {"cells": cells, "primes": primes, "rate_side": rate,
-            "att": att, "chop": chop}
+            "att": att, "chop": chop, "mp_workers": res["__workers__"]}
 
 
 # -------------------------------------------------------------- judgment
@@ -637,6 +772,8 @@ def cmd_run(_) -> int:
     t0 = time.time()
     _seed_check()
     mid = machine_id()
+    mp_workers = _mp_workers_default()
+    mp_info = {"workers": mp_workers, "chunk": _MP_CHUNK, "packs": []}
     _log(f"=== {BATCH} run: gates -> 6-arm overlay -> J-TOUR verdict "
          f"(machine {mid}) ===")
 
@@ -782,15 +919,22 @@ def cmd_run(_) -> int:
             sl, census = v2.sleeve_align(sleeve_gated[face], close)
             sleeve_census[face] = census
             pack = overlay_axis_face_v3(axis, face, close, eligible, W4,
-                                        W4_eff, W4_h3, sl, cash, tilt)
+                                        W4_eff, W4_h3, sl, cash, tilt,
+                                        workers=mp_workers)
             if pack is None:
                 return 2
+            mp_info["packs"].append(
+                {"axis": axis, "face": face,
+                 "mp_workers": pack.get("mp_workers"),
+                 "n_starts": len(eligible)})
             packs_all.setdefault(axis, {})[face] = pack
         judge_all[axis] = {face: judge_axis_face_v3(packs_all[axis][face])
                            for face in FACES}
         states_meta[axis]["sleeve_census"] = sleeve_census
         _log(f"[{axis}] 6-arm overlay done both faces "
              f"({round(time.time() - t0, 1)}s cumulative)")
+
+    audit["mp_overlay"] = mp_info
 
     # ---- G-REPRO-v1 (B/D aggregates bit-level vs v1 frozen records)
     repro_checks = v2.repro_v1_checks(judge_all, v1_payload)
@@ -1632,10 +1776,15 @@ def cmd_selftest(_) -> int:
       all(k in skel for k in CONSUMER_KEYS_V3)
       and set(CONSUMER_KEYS_V3) <= set(skel.keys()))
 
-    # V16: prereg anchors present (backfill safety)
+    # V16: prereg s7/s8 no-blind-rewrite guard, TWO lawful states:
+    # pre-burn = placeholder anchors intact; post-burn = finalize
+    # backfill landed (2026-09-29 r412 consumed the anchors verbatim --
+    # "一次定稿（finalize" + attrition row), never neither.
     src = open(PREREG_PATH, encoding="utf-8").read()
     t("V16 prereg s7/s8 anchors present (no blind-rewrite risk)",
-      S7_ANCHOR in src and S8_ANCHOR in src)
+      (S7_ANCHOR in src and S8_ANCHOR in src)
+      or ("一次定稿" in src and "gate_attrition.json" in src
+          and "DECISION_CHAIN_V3_TOURNAMENT" in src))
 
     # V17: DSR face import + n_trials law
     rets17 = list(np.random.default_rng(5).normal(0.001, 0.01, 300))
@@ -1656,8 +1805,141 @@ def cmd_selftest(_) -> int:
       0.0 <= float(pbo18["pbo"] if isinstance(pbo18, dict)
                    else pbo18) <= 1.0)
 
+    # V19-V22: T-134 s2 S-mp parity legs (bm-c r307) -- chunked-pool cell
+    # building must equal the frozen serial path exactly (same builders,
+    # same starts; merge in eligible order). Fixture curves carry EXTRA
+    # junk fields so a builder secretly consuming any field beyond
+    # p_ret_12m would crash the reduced-curve worker state (assumption
+    # tested, not assumed).
+    n19 = 260
+    idx19 = pd.bdate_range("2024-01-01", periods=n19)
+    rng19 = np.random.default_rng(42)
+    close19 = pd.DataFrame({
+        c: 100.0 * np.cumprod(1 + rng19.normal(0.0004, 0.01, n19))
+        for c in ("510300", "512100", "159915", "512800")}, index=idx19)
+    elig19 = list(range(20, n19 - 10, 7))
+    att19 = {p: np.asarray(rng19.normal(0.001, 0.01, min(W24M, n19 - p)),
+                           dtype=float) for p in elig19}
+    chop19 = {p: np.asarray(rng19.normal(0.0005, 0.008, min(W24M, n19 - p)),
+                            dtype=float) for p in elig19}
+    W4_19 = np.tile([1 / 6, 5 / 6, 0.02, 0.31], (n19, 1))
+    W4e_19 = np.tile([0.5, 0.3, 0.02, 0.18], (n19, 1))
+    W4h_19 = np.tile([0.4, 0.35, 0.0, 0.25], (n19, 1))
+    sl19 = np.asarray(rng19.normal(0.0, 0.01, n19), dtype=float)
+    ca19 = np.full(n19, 1e-4)
+    curves19 = {f"{t34.ATTACK[0]}|{p}":
+                {"p_ret_12m": float(rng19.normal(0.05, 0.02)),
+                 "curve": np.zeros(min(W24M, n19 - p)), "junk": 1}
+                for p in elig19}
+    ar19 = regime_proxy(close19["510300"])
+    er19 = np.asarray(rng19.normal(0.0, 0.008, n19), dtype=float)
+    ed19 = np.zeros(n19)
+    ed19[10] = 0.10
+    state19 = {"close": close19, "att": att19, "chop": chop19,
+               "curves": {k: {"p_ret_12m": v["p_ret_12m"]}
+                          for k, v in curves19.items()},
+               "W4": W4_19, "W4_eff": W4e_19, "W4_h3": W4h_19,
+               "W_B": np.tile([1.0, 0.0, 0.0], (n19, 1)),
+               "W_D": np.tile([1 / 6, 5 / 6, 0.0], (n19, 1)),
+               "sleeve": sl19, "cash": ca19, "extra_ret": er19,
+               "extra_dw": ed19, "rate": 0.0013, "axis_reg": ar19}
+
+    def _serial_ref19():
+        ser = {
+            "A-H1": _arm_cells_v3(W4_19, att19, chop19, sl19, ca19,
+                                  close19, elig19, curves19, 0.0013, ar19,
+                                  scale=H1_CORE_SCALE, extra_ret=er19,
+                                  extra_dw=ed19),
+            "A-H2S": _arm_cells_v3(W4e_19, att19, chop19, sl19, ca19,
+                                   close19, elig19, curves19, 0.0013,
+                                   ar19),
+            "A-H3": _arm_cells_v3(W4h_19, att19, chop19, sl19, ca19,
+                                  close19, elig19, curves19, 0.0013,
+                                  ar19),
+            "B": v1._arm_cells(np.tile([1.0, 0.0, 0.0], (n19, 1)), att19,
+                               chop19, close19, elig19, curves19, 0.0013,
+                               ar19),
+            "D": v1._arm_cells(np.tile([1 / 6, 5 / 6, 0.0], (n19, 1)),
+                               att19, chop19, close19, elig19, curves19,
+                               0.0013, ar19),
+            "C": v2.passive_cells(close19, elig19, ar19),
+            "P-A-H1": _arm_cells_v3(W4_19, att19, chop19, sl19, ca19,
+                                    close19, elig19, curves19, 0.0, ar19,
+                                    scale=H1_CORE_SCALE, extra_ret=er19,
+                                    extra_dw=None),
+            "P-A-H2S": _arm_cells_v3(W4e_19, att19, chop19, sl19, ca19,
+                                     close19, elig19, curves19, 0.0,
+                                     ar19),
+            "P-A-H3": _arm_cells_v3(W4h_19, att19, chop19, sl19, ca19,
+                                    close19, elig19, curves19, 0.0,
+                                    ar19)}
+        return ({"A-H1": ser["A-H1"], "A-H2S": ser["A-H2S"],
+                 "A-H3": ser["A-H3"], "B": ser["B"], "D": ser["D"],
+                 "C": ser["C"]},
+                {"A-H1": ser["P-A-H1"], "A-H2S": ser["P-A-H2S"],
+                 "A-H3": ser["P-A-H3"]})
+
+    def _cells_eq(got_cells, got_primes, ref):
+        ref_cells, ref_primes = ref
+        if set(got_cells) != set(ref_cells) or set(got_primes) != set(
+                ref_primes):
+            return False
+        for k in ref_cells:
+            if list(got_cells[k]) != list(ref_cells[k]):
+                return False        # eligible insertion order (merge law)
+            if got_cells[k] != ref_cells[k]:
+                return False        # exact per-start equality
+        for k in ref_primes:
+            if list(got_primes[k]) != list(ref_primes[k]):
+                return False
+            if got_primes[k] != ref_primes[k]:
+                return False
+        return True
+
+    ref19 = _serial_ref19()
+    chunks19 = [elig19[i:i + 7] for i in range(0, len(elig19), 7)]
+    jobs19 = [(f"{k}|{ci}", _mp_arm_chunk, ((k, ch),))
+              for ci, ch in enumerate(chunks19) for k in _MP_KINDS]
+
+    # V19: inline chunk path == serial full-eligible (purity + merge)
+    _mp_pack_init(state19)
+    res19 = {key: fn(*args) for key, fn, args in jobs19}
+    c19, p19 = _mp_merge(res19, elig19)
+    t("V19 S-mp: chunked builders == serial (all 9 kinds, order+exact)",
+      _cells_eq(c19, p19, ref19) and len(chunks19) >= 4)
+
+    # V20: real ProcessPool == serial (initializer state + wire)
+    res20 = run_cells_parallel(jobs19, workers=2,
+                               initializer=_mp_pack_init,
+                               initargs=(state19,),
+                               desc="selftest arm-cells")
+    c20, p20 = _mp_merge(res20, elig19)
+    t("V20 S-mp: pool(workers=2) == serial bit-level", _cells_eq(
+        c20, p20, ref19) and res20["__workers__"] == 2)
+
+    # V21: pool determinism (double run identical)
+    res21 = run_cells_parallel(jobs19, workers=2,
+                               initializer=_mp_pack_init,
+                               initargs=(state19,),
+                               desc="selftest arm-cells")
+    t("V21 S-mp: double pool run deterministic", res21 == res20)
+
+    # V22: worker-count invariance (1 vs 3 workers)
+    res22a = run_cells_parallel(jobs19, workers=1,
+                                initializer=_mp_pack_init,
+                                initargs=(state19,),
+                                desc="selftest arm-cells")
+    res22b = run_cells_parallel(jobs19, workers=3,
+                                initializer=_mp_pack_init,
+                                initargs=(state19,),
+                                desc="selftest arm-cells")
+    del res22a["__workers__"], res22b["__workers__"]
+    res20_cmp = {k: v for k, v in res20.items() if k != "__workers__"}
+    t("V22 S-mp: worker-count invariance (1==2==3 pools)", res22a ==
+      res22b and res22a == res20_cmp)
+
     print(f"\nselftest: {len(fails)} FAIL / "
-          f"{18 - len(fails)} PASS")
+          f"{22 - len(fails)} PASS")
     return 1 if fails else 0
 
 

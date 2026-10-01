@@ -1,12 +1,12 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T08:17:25+08:00",
+  "generated_at": "2026-10-01T08:57:37+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
-  "universe_size": 76,
+  "universe_size": 77,
   "summary": {
-    "single_core": 36,
-    "multiprocess": 40
+    "single_core": 35,
+    "multiprocess": 42
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
@@ -24,7 +24,6 @@
       "scripts/cn_sector_leader_p1.py",
       "scripts/cta_wave1.py",
       "scripts/decision_chain_v2.py",
-      "scripts/decision_chain_v3_tournament.py",
       "scripts/gpu_factor_matrix.py",
       "scripts/grid_dualface_backtest.py",
       "scripts/innovation_quota_w1.py",
@@ -459,15 +458,15 @@
           "text": "from parallel_runner import run_cells_parallel, worker_cap"
         },
         {
-          "line": 195,
+          "line": 230,
           "text": "pool_out = run_cells_parallel("
         }
       ],
       "main_guard": true,
-      "size_bytes": 60284,
+      "size_bytes": 62821,
       "pool_entry_count": 1,
       "pool_statuses": {
-        "ready": 1
+        "done": 1
       },
       "workers_plan_declared": [
         "8"
@@ -530,10 +529,23 @@
     "scripts/decision_chain_v3_tournament.py": {
       "path": "scripts/decision_chain_v3_tournament.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 62,
+          "text": "from parallel_runner import (           # T-134 s2 multicore (bm-c r307)"
+        },
+        {
+          "line": 693,
+          "text": "res = run_cells_parallel(jobs, workers=n_proc,"
+        },
+        {
+          "line": 1912,
+          "text": "res20 = run_cells_parallel(jobs19, workers=2,"
+        }
+      ],
       "main_guard": true,
-      "size_bytes": 79973,
+      "size_bytes": 94023,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -561,10 +573,10 @@
         }
       ],
       "main_guard": true,
-      "size_bytes": 60980,
+      "size_bytes": 62952,
       "pool_entry_count": 1,
       "pool_statuses": {
-        "ready": 1
+        "done": 1
       },
       "workers_plan_declared": [
         "8"
@@ -998,7 +1010,7 @@
         }
       ],
       "main_guard": true,
-      "size_bytes": 25923,
+      "size_bytes": 26453,
       "pool_entry_count": 4,
       "pool_statuses": {
         "done": 4
@@ -1036,18 +1048,43 @@
           "text": "from concurrent.futures import ProcessPoolExecutor"
         },
         {
-          "line": 278,
+          "line": 285,
           "text": "with ProcessPoolExecutor(max_workers=workers,"
         }
       ],
       "main_guard": true,
-      "size_bytes": 40593,
-      "pool_entry_count": 12,
+      "size_bytes": 43838,
+      "pool_entry_count": 36,
       "pool_statuses": {
-        "done": 12
+        "done": 24,
+        "ready": 12
       },
       "workers_plan_declared": [
         "8"
+      ]
+    },
+    "scripts/portfolio_book.py": {
+      "path": "scripts/portfolio_book.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 94,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap  # O-2355 s2 face"
+        },
+        {
+          "line": 322,
+          "text": "res = run_cells_parallel(jobs, workers=min(worker_cap(), 12),"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 65170,
+      "pool_entry_count": 1,
+      "pool_statuses": {
+        "done": 1
+      },
+      "workers_plan_declared": [
+        "12"
       ]
     },
     "scripts/prospect_regime_segments.py": {
