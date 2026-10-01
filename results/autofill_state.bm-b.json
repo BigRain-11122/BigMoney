@@ -1053,14 +1053,27 @@
    "fill_latency_min": 47.8,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 13:48:02",
+  "ts": "2026-10-01 13:50:02",
   "machine": "bm-b",
-  "py_cpu_pct": 43.5,
-  "verdict": "pool_empty_or_busy"
+  "py_cpu_pct": 0.0,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "LOWAMP-P2-NULLS",
+  "shard": "lowamp-p2-nulls-0of1",
+  "fuse_crashes": 1,
+  "fuse_refusals": 1,
+  "fuse_skipped": [
+   {
+    "entry": "LOWAMP-P2-NULLS",
+    "shard": "lowamp-p2-nulls-0of1",
+    "sig": "scripts/lowamp_p2.py|run,--nulls",
+    "fuse_refusals": 1
+   }
+  ]
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-01T13:31:24+08:00"
