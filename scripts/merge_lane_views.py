@@ -768,10 +768,11 @@ def sync_face(face, results_dir=None, machine=None):
                 if praw:
                     probe_crlf = praw.count(b"\r\n") > 0
                     probe_trailing = praw.endswith(b"\n")
-                    for pline in praw.decode("utf-8", "replace").splitlines():
-                        if pline.strip():
-                            probe_indent = len(pline) - len(pline.lstrip(" "))
-                            break
+                    # r514: key-line probe (first non-blank line is the
+                    # opening '{' at column 0 -- probing it always yields
+                    # 0 and would erase every indent, same family as the
+                    # resolve-path hardcoded indent live-fire)
+                    probe_indent = _probe_key_indent(praw)
             except OSError:
                 pass
             s_out = json.dumps(merged, ensure_ascii=False,
@@ -893,13 +894,26 @@ def resolve_face_from_blobs(face, blobs):
     return merge_face(face, sources)
 
 
+def _probe_key_indent(raw: bytes) -> int:
+    """r289 format law (r514 bm-a live-fire on runnable_pool): probe the
+    FIRST KEY line's indent -- the opening '{' is always column 0, so a
+    naive first-line probe would erase every indent and a hardcoded dump
+    default flips the whole file (21k-line diff observed 2026-10-01 when
+    resolve wrote indent=1 over the pool's flat-0-key producer face)."""
+    for pline in raw.decode("utf-8", "replace").splitlines():
+        if pline.strip().startswith('"'):
+            return len(pline) - len(pline.lstrip(" "))
+    return 1
+
+
 def _read_stage(stage, rel):
     r = subprocess.run(["git", "show", f":{stage}:{rel}"],
                        capture_output=True)
     if r.returncode != 0:
-        return None, None
+        return None, None, None
     raw = r.stdout
-    return json.loads(raw.decode("utf-8")), (b"\r\n" in raw)
+    return (json.loads(raw.decode("utf-8")), (b"\r\n" in raw),
+            _probe_key_indent(raw))
 
 
 def _cmd_resolve(argv):
@@ -932,13 +946,16 @@ def _cmd_resolve(argv):
     face = detect_face(path)
     rel = path.replace("\\", "/")
     crlf = None
+    probe_indent = None
     blobs = {}
 
     def _load_file(p):
-        nonlocal crlf
+        nonlocal crlf, probe_indent
         raw = open(p, "rb").read()
         if crlf is None and b"\r\n" in raw:
             crlf = True
+        if probe_indent is None:
+            probe_indent = _probe_key_indent(raw)
         return json.loads(raw.decode("utf-8"))
 
     if opts["--stage1"] or opts["--stage2"] or opts["--stage3"]:
@@ -952,11 +969,13 @@ def _cmd_resolve(argv):
     else:
         for stage, key in ((2, "base_side"), (3, "replay_side"),
                            (1, "base")):
-            data, c = _read_stage(stage, rel)
+            data, c, ind = _read_stage(stage, rel)
             if data is not None:
                 blobs[key] = data
                 if crlf is None:
                     crlf = c
+                if probe_indent is None:
+                    probe_indent = ind
     if "base_side" not in blobs and "replay_side" not in blobs:
         print(f"resolve: no conflict stages for {rel!r} -- is a "
               f"rebase/merge active for this path? (or pass explicit "
@@ -966,7 +985,12 @@ def _cmd_resolve(argv):
     print(f"[resolve:{face}] stage blobs present={sorted(blobs)}")
     for n in notes:
         print(f"  - {n}")
-    payload = json.dumps(merged, ensure_ascii=False, indent=1)
+    # r289 format law: mirror the incumbent producer face (probed from the
+    # base-side raw blob above); hardcoded indent=1 flipped the whole
+    # 10.5k-line pool file on the 2026-10-01 r514 live-fire.
+    payload = json.dumps(merged, ensure_ascii=False,
+                         indent=(probe_indent if probe_indent is not None
+                                 else 1))
     if crlf:
         payload = payload.replace("\n", "\r\n")
     out_path = opts["--out"] or path
