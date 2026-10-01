@@ -1,0 +1,125 @@
+{
+ "member": "COMPOSITE-CE-01",
+ "regime": "ce",
+ "entry": "top_n_rotation(composite, n=5, rebal_days=20)",
+ "gate": "perpetual-n3-r1 (prereg research/PERPETUAL_N3_R1_PREREG.md)",
+ "lines": {
+  "nbhd_line": 0.4474,
+  "vi_bar": 0.4004,
+  "worst_year_floor": -0.35,
+  "source": "science_gates.recorded_lines() live read"
+ },
+ "neighborhood_pass": true,
+ "cost_x3_pass": true,
+ "per_year_pass": true,
+ "anchor_reverify": {
+  "d_in": 8e-06,
+  "d_oos": 3.6e-05,
+  "trades_in_exact": true,
+  "trades_oos_exact": true,
+  "pass": true
+ },
+ "yearly": {
+  "2020": 0.0126,
+  "2021": 0.0902,
+  "2022": -0.038,
+  "2023": 0.0605,
+  "2024": 0.1516,
+  "2025": 0.0896,
+  "2026": 0.0287
+ },
+ "worst_year": -0.038,
+ "neighborhood": {
+  "points": 4,
+  "red": 0,
+  "clause": "red*2 <= points (G2_FOLK clause 2 verbatim)",
+  "cells": [
+   {
+    "point": {
+     "n": 4
+    },
+    "full_sharpe": 1.231,
+    "red": false,
+    "bootstrap_ci_low": 0.4229
+   },
+   {
+    "point": {
+     "n": 6
+    },
+    "full_sharpe": 0.8653,
+    "red": false,
+    "bootstrap_ci_low": 0.4558
+   },
+   {
+    "point": {
+     "rebal_days": 15
+    },
+    "full_sharpe": 1.1003,
+    "red": false,
+    "bootstrap_ci_low": 0.283
+   },
+   {
+    "point": {
+     "rebal_days": 25
+    },
+    "full_sharpe": 1.0608,
+    "red": false,
+    "bootstrap_ci_low": 0.252
+   }
+  ]
+ },
+ "x3": {
+  "full_sharpe": 0.2259,
+  "oos_sharpe": 0.2896,
+  "n_trades": 456
+ },
+ "cost_clause": {
+  "x3_positive": true,
+  "recorded_x2_beats_vi": true,
+  "recorded_x2_full_sharpe": 0.5242,
+  "note": "x2>vi on recorded evidence; x3 survival = this wave's cell"
+ },
+ "center_bootstrap_ci": {
+  "ci95_low": 0.1624,
+  "ci95_high": 1.9502,
+  "point": 0.9948,
+  "ci_lower_bound_positive": true,
+  "n_resamples": 1000,
+  "block_days": 10.0,
+  "seed": 70000
+ },
+ "center_dsr": {
+  "dsr": 0.006515,
+  "sr_annualized": 0.9948,
+  "sr_star": 0.133842,
+  "sigma_sr": 0.028665,
+  "n_trials": 373219,
+  "T": 1630,
+  "skew": -4.1095,
+  "kurtosis": 83.4586
+ },
+ "line_recheck": {
+  "line": 1.1084,
+  "n_eff": 373247,
+  "center_full_sharpe": 0.9948,
+  "line_ok": false
+ },
+ "g2_registration_v2": {
+  "gate": "g2_registration_v2",
+  "g1_pass": false,
+  "dsr": 0.006515,
+  "dsr_gate": 0.95,
+  "dsr_ok": false,
+  "family_pbo": null,
+  "pbo_gate": 0.25,
+  "pbo_ok": false,
+  "missing_inputs": [
+   "g1_prime_v2",
+   "family_pbo"
+  ],
+  "eligible_v2": false
+ },
+ "status": "judged",
+ "evidence_cutoff": "2026-09-22",
+ "generated": "2026-10-01T09:42:27+08:00"
+}

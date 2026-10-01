@@ -315,62 +315,124 @@ def _panel():
     return prices, P
 
 
-def _burn_member(m: dict, prices, P, write: bool = True) -> list:
-    """Burn all remaining cells for one member; returns new cell records.
-    write=False = probe face (in-memory only, checkpoint untouched)."""
+def _compute_cell(m: dict, kind: str, point: dict, seed: int,
+                  prices, P) -> dict:
+    """Single-body cell computation (serial and pooled drivers share this
+    exact code path -- O-2026-09-30-2355 s2 single-body law)."""
     mid = m["id"]
     spec = FAMILIES[mid]
-    seed = SEED_BASE + MEMBER_ORDER.index(mid)
     regime = member_regime(m)
+    bp = dict(spec["center"])
+    bp.update(point)
+    state = spec["build"](P, bp)
+    r = _run_cell(prices, P, state, m, point,
+                  cost_mult=3.0 if kind == "x3" else None)
+    rec = {"id": cell_id(mid, kind, point), "member": mid,
+           "kind": kind, "point": point or None, "regime": regime,
+           "full_sharpe": round(_sharpe(r["eq"]), 4),
+           "in_sharpe": round(float(r["in_s"]), 4),
+           "oos_sharpe": round(float(r["oos_s"]), 4),
+           "n_trades": r["n_trades"], "n_in": r["n_in"],
+           "n_oos": r["n_oos"],
+           "max_dd": round(float(r["full"]["max_drawdown"]), 4),
+           "annual_return": round(float(r["full"]["annual_return"]), 4),
+           "bootstrap_ci": bootstrap_ci_sharpe(r["rets"], seed=seed)}
+    # no wall-clock fields in checkpoint rows: determinism law (rerun
+    # byte-equal); burn-time provenance lives in the pool claim file and
+    # the member pack's generated face
+    if kind == "center":
+        from p3_portfolio import yearly_returns
+        rec_in = m["backtest"]["in_sample"]
+        rec_oos = m["backtest"]["out_sample"]
+        rec["yearly"] = {str(k): round(v, 4)
+                         for k, v in yearly_returns(r["eq"]).items()}
+        rec["anchor"] = {
+            "d_in": round(abs(r["in_s"] - rec_in["sharpe"]), 6),
+            "d_oos": round(abs(r["oos_s"] - rec_oos["sharpe"]), 6),
+            "trades_in_exact": bool(r["n_in"] == rec_in["trades"]),
+            "trades_oos_exact": bool(r["n_oos"] == rec_oos["trades"]),
+            "pass": bool(abs(r["in_s"] - rec_in["sharpe"]) < ANCHOR_TOL
+                         and abs(r["oos_s"] - rec_oos["sharpe"])
+                         < ANCHOR_TOL
+                         and r["n_in"] == rec_in["trades"]
+                         and r["n_oos"] == rec_oos["trades"]),
+        }
+        # n_trials = live ledger head at burn time (a fact of the run; a
+        # re-burned crashed cell carries the then-current head -- t22
+        # resume semantics, disclosed)
+        rec["dsr"] = deflated_sharpe_ratio(
+            r["rets"], n_trials=int(ledger_head()["total"]))
+    return rec
+
+
+# --- O-2026-09-30-2355 multicore law: single body, two drivers -------------
+# pooled face: initializer ships the assembled panel context (spawn-safe
+# module-global, grid_p1_screen r304 canon); per-cell exceptions propagate
+# and kill the run (fail-closed; buffered plan-order flush below keeps
+# rerun byte-equal -- completion order never reaches the checkpoint).
+from parallel_runner import run_cells_parallel, worker_cap  # noqa: E402
+
+_POOL_CTX = {}      # per-process assembled context (spawn-safe global)
+
+
+def _init_pool_ctx(prices, P):
+    _POOL_CTX.clear()
+    _POOL_CTX.update(prices=prices, P=P)
+
+
+def _cell_task(m, kind, point, seed):
+    return _compute_cell(m, kind, point, seed,
+                         _POOL_CTX["prices"], _POOL_CTX["P"])
+
+
+def _burn_member(m: dict, prices, P, write: bool = True,
+                 use_pool: bool = True) -> list:
+    """Burn all remaining cells for one member; returns new cell records.
+    write=False = probe face (in-memory only, checkpoint untouched).
+    Pooled driver = default (law-1: single-thread runners may not serve
+    pool entries); serial driver kept for parity/hermetic legs."""
+    mid = m["id"]
+    seed = SEED_BASE + MEMBER_ORDER.index(mid)
     cells = read_cells(mid) if write else []
     anchor_fail = _anchor_fail_ids(cells) if write else set()
     todo = cells_todo(m, cells, anchor_fail)
+    if not todo:
+        return []
     new_recs = []
+    if use_pool:
+        specs = [(cell_id(mid, kind, point), _cell_task,
+                  (m, kind, point, seed)) for kind, point in todo]
+        by_key = {}
+
+        def _on_cell(key, payload):
+            by_key[key] = payload
+
+        run_cells_parallel(specs, workers=min(worker_cap(), len(specs)),
+                           desc=f"n3r1-{mid}", initializer=_init_pool_ctx,
+                           initargs=(prices, P), on_result=_on_cell)
+        # buffered plan-order flush: determinism law (rerun byte-equal)
+        for kind, point in todo:
+            rec = by_key[cell_id(mid, kind, point)]
+            new_recs.append(rec)
+            if write:
+                _append_cell(mid, rec)
+                _log_cell(mid, rec)
+        return new_recs
     for kind, point in todo:
-        bp = dict(spec["center"])
-        bp.update(point)
-        state = spec["build"](P, bp)
-        r = _run_cell(prices, P, state, m, point,
-                      cost_mult=3.0 if kind == "x3" else None)
-        rec = {"id": cell_id(mid, kind, point), "member": mid,
-               "kind": kind, "point": point or None, "regime": regime,
-               "full_sharpe": round(_sharpe(r["eq"]), 4),
-               "in_sharpe": round(float(r["in_s"]), 4),
-               "oos_sharpe": round(float(r["oos_s"]), 4),
-               "n_trades": r["n_trades"], "n_in": r["n_in"],
-               "n_oos": r["n_oos"],
-               "max_dd": round(float(r["full"]["max_drawdown"]), 4),
-               "annual_return": round(float(r["full"]["annual_return"]), 4),
-               "bootstrap_ci": bootstrap_ci_sharpe(r["rets"], seed=seed),
-               "ts": time.strftime("%Y-%m-%d %H:%M:%S")}
-        if kind == "center":
-            from p3_portfolio import yearly_returns
-            rec_in = m["backtest"]["in_sample"]
-            rec_oos = m["backtest"]["out_sample"]
-            rec["yearly"] = {str(k): round(v, 4)
-                             for k, v in yearly_returns(r["eq"]).items()}
-            rec["anchor"] = {
-                "d_in": round(abs(r["in_s"] - rec_in["sharpe"]), 6),
-                "d_oos": round(abs(r["oos_s"] - rec_oos["sharpe"]), 6),
-                "trades_in_exact": bool(r["n_in"] == rec_in["trades"]),
-                "trades_oos_exact": bool(r["n_oos"] == rec_oos["trades"]),
-                "pass": bool(abs(r["in_s"] - rec_in["sharpe"]) < ANCHOR_TOL
-                             and abs(r["oos_s"] - rec_oos["sharpe"])
-                             < ANCHOR_TOL
-                             and r["n_in"] == rec_in["trades"]
-                             and r["n_oos"] == rec_oos["trades"]),
-            }
-            rec["dsr"] = deflated_sharpe_ratio(
-                r["rets"], n_trials=int(ledger_head()["total"]))
+        rec = _compute_cell(m, kind, point, seed, prices, P)
         new_recs.append(rec)
         if write:
             _append_cell(mid, rec)
-            print(f"[{mid}] {rec['id']}: full_s={rec['full_sharpe']} "
-                  f"in_s={rec['in_sharpe']} oos_s={rec['oos_sharpe']} "
-                  f"trades={rec['n_trades']}"
-                  + (f" anchor={'OK' if rec['anchor']['pass'] else 'FAIL'}"
-                     if kind == "center" else ""), flush=True)
+            _log_cell(mid, rec)
     return new_recs
+
+
+def _log_cell(mid: str, rec: dict):
+    print(f"[{mid}] {rec['id']}: full_s={rec['full_sharpe']} "
+          f"in_s={rec['in_sharpe']} oos_s={rec['oos_sharpe']} "
+          f"trades={rec['n_trades']}"
+          + (f" anchor={'OK' if rec['anchor']['pass'] else 'FAIL'}"
+             if rec["kind"] == "center" else ""), flush=True)
 
 
 # ------------------------------------------------------- pool handshake (r497)
@@ -397,7 +459,7 @@ def pool_entry_id(mid: str) -> str:
     return f"{BATCH}-{mid}"
 
 
-def cmd_run(member_id: str) -> int:
+def cmd_run(member_id: str, use_pool: bool = True) -> int:
     try:
         import psutil
         pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
@@ -413,12 +475,13 @@ def cmd_run(member_id: str) -> int:
     cells = read_cells(member_id)
     todo = cells_todo(m, cells, _anchor_fail_ids(cells))
     print(f"member={member_id} cells_done={len(_cells_done(cells))} "
-          f"cells_todo={len(todo)} cutoff={EVIDENCE_CUT}")
+          f"cells_todo={len(todo)} cutoff={EVIDENCE_CUT} "
+          f"driver={'pool' if use_pool else 'serial'}")
     if todo:
         prices, P = _panel()
         if prices is None:
             return 2
-        _burn_member(m, prices, P, write=True)
+        _burn_member(m, prices, P, write=True, use_pool=use_pool)
         cells = read_cells(member_id)
     anchor_ok = next((c["anchor"]["pass"] for c in cells
                       if c["kind"] == "center"), None)
@@ -828,6 +891,64 @@ def cmd_selftest() -> int:
     print(f"S7 pool-entry-id: {'PASS' if s7 else 'FAIL'}")
     ok &= s7
 
+    # S8: S-mp parity legs (O-2026-09-30-2355 s2; ems S18 idiom): inline
+    # task == spawn+pickle+initializer pool path (bit-identical canonical
+    # payloads), double-run determinism, worker-count face -- synthetic
+    # fixtures, zero real-data burn, zero writes.
+    s8 = True
+    try:
+        Ps = _synth_panel(n=320)
+        syms = list(Ps["close"].columns)
+        prices_s = {s: pd.DataFrame({"open": Ps["open"][s],
+                                     "high": Ps["high"][s],
+                                     "low": Ps["low"][s],
+                                     "close": Ps["close"][s]})
+                    for s in syms}
+        m_vol = next(m for m in members if m["id"] == "VOLATILITY-CE-01")
+        seed_v = SEED_BASE + MEMBER_ORDER.index("VOLATILITY-CE-01")
+        # low_vol rotation binds on any panel (ranking fires continuously;
+        # rare-event families like needle bind only on real crash days --
+        # t24 S2 WARN precedent -- so the parity fixture uses VOLATILITY)
+        inline_c = _compute_cell(m_vol, "center", {}, seed_v,
+                                 prices_s, Ps)
+        inline_n = _compute_cell(m_vol, "nbhd", {"n": 50}, seed_v,
+                                 prices_s, Ps)
+
+        def _canon(x):
+            return json.dumps(x, sort_keys=True, default=float)
+
+        def _collect(key, payload):
+            _collect.out[key] = payload
+        _collect.out = {}
+        res_p = run_cells_parallel(
+            [("c", _cell_task, (m_vol, "center", {}, seed_v)),
+             ("n", _cell_task, (m_vol, "nbhd", {"n": 50}, seed_v))],
+            workers=2, desc="n3r1-s-mp", initializer=_init_pool_ctx,
+            initargs=(prices_s, Ps), on_result=_collect)
+        w_face = res_p.pop("__workers__", None)
+        if w_face != 2:
+            print(f"FAIL S8: worker count face {w_face} != 2")
+            s8 = False
+        if _canon(_collect.out.get("c")) != _canon(inline_c) \
+                or _canon(_collect.out.get("n")) != _canon(inline_n):
+            print("FAIL S8: pool task != inline task (parity drift)")
+            s8 = False
+        _collect.out = {}
+        run_cells_parallel(
+            [("c", _cell_task, (m_vol, "center", {}, seed_v)),
+             ("n", _cell_task, (m_vol, "nbhd", {"n": 50}, seed_v))],
+            workers=2, desc="n3r1-s-mp2", initializer=_init_pool_ctx,
+            initargs=(prices_s, Ps), on_result=_collect)
+        _collect.out.pop("__workers__", None)
+        if _canon(_collect.out.get("c")) != _canon(inline_c):
+            print("FAIL S8: double-run determinism drift")
+            s8 = False
+    except Exception as ex:
+        print(f"FAIL S8: S-mp leg exception {type(ex).__name__}: {ex}")
+        s8 = False
+    print(f"S8 s-mp-parity: {'PASS' if s8 else 'FAIL'}")
+    ok &= s8
+
     print(f"selftest: {'ALL PASS' if ok else 'FAIL'}")
     return 0 if ok else 1
 
@@ -837,6 +958,9 @@ def main() -> int:
     sub = ap.add_subparsers(dest="cmd", required=True)
     r = sub.add_parser("run")
     r.add_argument("--member", required=True)
+    r.add_argument("--serial", action="store_true",
+                   help="serial driver (parity/hermetic leg; pool entries "
+                        "are served by the pooled driver per law-1)")
     sub.add_parser("status")
     sub.add_parser("probe")
     f = sub.add_parser("finalize")
@@ -844,7 +968,7 @@ def main() -> int:
     sub.add_parser("selftest")
     args = ap.parse_args()
     if args.cmd == "run":
-        return cmd_run(args.member)
+        return cmd_run(args.member, use_pool=not args.serial)
     if args.cmd == "status":
         return cmd_status()
     if args.cmd == "probe":
