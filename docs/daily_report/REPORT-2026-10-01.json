@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-01",
- "generated_at": "2026-10-01 10:37:36",
+ "generated_at": "2026-10-01 10:49:56",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -298,17 +298,17 @@
  },
  "rd": {
   "commits_24h": 591,
-  "result_jsons_landed_24h": 145,
-  "digests_landed_24h": 1,
-  "prereg_md_touched_24h": 41,
+  "result_jsons_landed_24h": 144,
+  "digests_landed_24h": 0,
+  "prereg_md_touched_24h": 42,
   "compute_audit_latest": {
-   "ts": "2026-10-01 10:29:37",
-   "py_cpu_pct": 1.7,
+   "ts": "2026-10-01 10:47:36",
+   "py_cpu_pct": 0.1,
    "flags": [
     "idle_with_work",
-    "supply_floor"
+    "ignition_sla"
    ],
-   "verdict": "FLAG:idle_with_work,supply_floor"
+   "verdict": "FLAG:idle_with_work,ignition_sla"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
@@ -633,29 +633,13 @@
  "utilization": {
   "machines": {
    "bm-a": {
-    "latest_ts": "2026-10-01 09:57:50",
-    "py_pct": 0.3,
-    "cpu_pct": 32.0,
-    "ready": 12,
-    "streak_min": 14.9,
-    "verdict": "FLAG:supply_gap",
+    "latest_ts": "2026-10-01 10:47:36",
+    "py_pct": 0.1,
+    "cpu_pct": 11.0,
+    "ready": 8,
+    "streak_min": 18.0,
+    "verdict": "FLAG:idle_with_work,ignition_sla",
     "py_series_tail": [
-     [
-      "08:07",
-      0.6
-     ],
-     [
-      "08:10",
-      2.8
-     ],
-     [
-      "08:33",
-      0.0
-     ],
-     [
-      "08:46",
-      0.1
-     ],
      [
       "08:49",
       0.4
@@ -687,11 +671,27 @@
      [
       "09:57",
       0.3
+     ],
+     [
+      "10:00",
+      0.4
+     ],
+     [
+      "10:24",
+      0.0
+     ],
+     [
+      "10:29",
+      1.7
+     ],
+     [
+      "10:47",
+      0.1
      ]
     ],
-    "today_samples": 35,
-    "today_floor_ok": 19,
-    "today_sla_flags": 11,
+    "today_samples": 39,
+    "today_floor_ok": 21,
+    "today_sla_flags": 12,
     "today_supply_gap_flags": 25
    },
    "bm-b": {
@@ -826,19 +826,19 @@
   "day": "2026-10-01",
   "machines": {
    "bm-a": {
-    "batches_judged": 65,
-    "core_seconds": 9761.8,
-    "wall_seconds": 1224.7,
-    "effective_cores": 7.97,
+    "batches_judged": 68,
+    "core_seconds": 9981.8,
+    "wall_seconds": 1255.0,
+    "effective_cores": 7.95,
     "single_core_burn": 5,
-    "multicore_burn": 60,
+    "multicore_burn": 63,
     "too_short": 1,
-    "last_ts": "2026-10-01T10:17:41+08:00",
+    "last_ts": "2026-10-01T10:42:10+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 16,
-     "audit_ts": "2026-10-01 09:57:50"
+     "audit_batches": 15,
+     "audit_ts": "2026-10-01 10:47:36"
     }
    },
    "bm-b": {
