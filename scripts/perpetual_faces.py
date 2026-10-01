@@ -304,6 +304,29 @@ N1_BANDS = {
     # verify at W20 prereg (rotation slot W20=bm-c).
     19: {"a": (80_001, 82_000), "b_exit": (38_500, 38_699),
          "engine_owner": "bm-b"},
+    # W20 (r330 bm-c, prereg-time extension per the W19 row's W20+ WARNING
+    # -- never-dry supply law standing step; sovereignty rotation law
+    # F-20261001-01 slot W20=bm-c per law sec.4 W19 row verbatim, bm-c's
+    # THIRD owned wave after W14/W17; freeze window opened only AFTER
+    # bm-b's W19 yield disposition landed on origin (r329 pointer gate:
+    # W19 v3 re-band row in-canon, A 80_001..82_000 / B 38_500..38_699,
+    # prereg frozen, engine burning on bm-b)): BOTH tails
+    # arithmetic-clean exactly as the W19 row projected -- A's +2_000
+    # tail (82_001..84_000 == W19 A end + 1) and B's +200 tail
+    # (38_700..38_899 == W19 B end + 1), no skip on either side (38k-
+    # segment continuation of the W17 B re-base lineage). Machine-
+    # verified at prereg time (results/_r330bmc_w20_band_gate.py ADMIT
+    # receipt vs the 17-row pre-W20 table incl. W18/W19 + SEED_REGISTRY
+    # values + N2/N4 probe points + N2-W15 draft probe points +
+    # lfc/options actual ranges + N3-R1 used-seed band 70_000..70_005,
+    # MSG-183x r529 mandatory leg). NINTH engine-owned wave. NOT a
+    # re-pick (R250: W20 bands were never assigned; the measurement
+    # face has no result to fish). W21+ WARNING: A +2_000 tail
+    # 84_001..86_000 and B +200 tail 38_900..39_099 projection
+    # per the r330 gate receipt -- verify at W21 prereg (rotation
+    # slot W21=bm-a).
+    20: {"a": (82_001, 84_000), "b_exit": (38_700, 38_899),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
