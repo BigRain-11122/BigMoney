@@ -55,6 +55,19 @@
 - 波账=`results/perpetual_faces_state.json` waves[] append（生成器 §3 契约）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 回填位·跑前留空】
+## §7 跑后实证【2026-10-01 12:1x r313 回填·source=results/perpetual_faces/n1_w7_results.json】
 
-## §8 批后复盘【s7-T 回填位·跑前留空】
+- **回填注记（r307 隔窗律如实记）**：finalize 本体=r312 会话同窗落地（生成 11:05:27·commit c6ff39aab），该会话随后猝死（S5/S6/S7 簿记全失、无轮报告行）——§7/§8 回填由 r313 承接窗补记；本 runner 守卫腿=W7 累积依赖运行时 FAIL-CLOSED 两态安全设计，隔窗零红由 r313 复跑 selftest 证实。
+- 12/12 分片合并（shards_consumed 12 件全在场·fail-closed 过；池面 entry+shard 双层 done 12/12 条目〔r489 双层律；SHARD-10 ghost-ready 同窗修复=r312〕）；W7-only **K=2,200 mu=−0.0934 sigma=0.2478**（mu_delta_w7_vs_w6ext=−0.0060）。
+- merged 累计池 **K=15,520 mu=−0.0914 sigma=0.2453**，se_mu@K15520=**0.001969**（七波加深收窄链持续：canon120→W1→W2→W3→W4→W5→W6→W7）。
+- skill_line_v2 @n_eff=377,647：line_pre_w7 **1.15 → merged 1.1517**（K-lift delta=**+0.0017**）。
+- A 队（n=2,000）：mu=−0.0899，**p95=0.3280**，p99=0.4819；B 队 200 run 逐件明细面在合并件。
+- 账本行回执：prev_total 377,647 ＋ batch 2,200 ＝ **total 379,847**（batch=PERPETUAL-N1-W7·file=n1_w7_results.json·evidence_cutoff 2026-09-22）；波账 waves[] wave 7 行已在（perpetual_faces_state.json）。
+
+## §8 批后复盘【s7-T·2026-10-01 12:1x r313 回填】
+
+- 预测对账 **4/4 全对**：①|Δmu| W7-only vs W6 merged 锚（−0.0910）=0.0024＜0.02 ✓（merged 侧 0.0004 亦过）②sigma 相对变化（merged 0.2453 vs 锚 0.2449）=+0.2%＜±10% ✓（W7-only 侧 +1.2% 亦过）③A 队 p95 Δ=0.0028（0.3280−0.3252）＜0.05 ✓（且＜0.03 门=连续第三波门内：W5 0.0083/W6 0.0114/W7 0.0028）④K-lift +0.0017≤0.02 ✓（W3 +0.0082/W4 −0.0143/W5 −0.0018/W6 +0.0003/W7 +0.0017 五波全带内·幅度序列=加深边际递减再证·线稳 1.15x）。
+- 累计 null 池 15,520 态：mu −0.0914/sigma 0.2453/se_mu 0.001969——七波同设计同窗加深，mu/sigma 稳定先验再证；skill 线零质变（加深不抬线第五次复证）；canon flip 不在本波（K2200 同律·治理提案面素材恒）。
+- 波间事故如实记：r312 会话 finalize 落地（11:05·c6ff39aab）后猝死于 S4 后段——S5 轮报告行/S6 链/S7 state+heartbeat 写面全失；state-bm-c.json 同窗被 rebase 恢复手术回退至 r310 面（round_no=311 陈旧）=r313 以 commit log×轮报告×heartbeat 三源交叉重建轮号承接（r471 收养律家族·跨轮恢复先例）。
+- 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
+- 供给线展望：W8 已物化在烧（池面 12/12 分片 done·entry 层 r489 sweep 已翻）；origin 产物面 1/12+bm-c 本机 4 件待交付（MSG-103x 可见性缺口 W8 复发·daemon harvest flip 不含产物件=r310 系统面未收口·autofill lineage 裁量项）；W9 起算术尾=法典 §4 W8+ 警示窗（28_300..30_299 与 lfc_p1_screen registry 点双拒绝面已在 W8 selftest refusal facts 机证）。
