@@ -1222,6 +1222,21 @@ N1_BANDS = {
     # assigned).
     59: {"a": (161_004, 163_003), "b_exit": (48_001, 48_200),
          "engine_owner": "bm-b"},
+    # W60 r355 bm-c: A = ARITHMETIC CONTINUATION from the registered
+    # W59 tail zero skip (163_004..165_003 = W59 A end 163_003 + 1,
+    # WIDTH_A 2_000 machine-derived CLEAN == the W59 row W60+ published
+    # projection verbatim); B = ARITHMETIC CONTINUATION zero skip
+    # (48_201..48_400 = W59 B end 48_200 + 1, WIDTH_B 200
+    # machine-derived CLEAN). Chain W1..W59 finalizes ALL LANDED at
+    # this freeze (W59 bm-b r563 one-pass K=127,720, ledger head
+    # 494,348) = ZERO in-flight upstream seats. ADMIT receipt
+    # results/_r355bmc_w60_band_gate.py; probe cluster 95_000..95_003
+    # r335 discovery leg + N3-R1 used-seed band 70_000..70_005
+    # MSG-183x r529 mandatory leg; origin slot vacancy
+    # machine-checked. NOT a re-pick (R250: W60 bands were never
+    # assigned).
+    60: {"a": (163_004, 165_003), "b_exit": (48_201, 48_400),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
