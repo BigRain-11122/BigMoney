@@ -1,24 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 08:51:28",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "harvest_flipped": 1,
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W4-SHARD-7",
-   "shard": "n1w4-7of12",
-   "pid": 49116,
-   "runner_sha256": "b8abc2859a56fe57",
-   "core_verdict": "multiproc",
-   "core_marker": "import multiprocessing",
-   "fill_latency_min": 6.4,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 8,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 08:52:01",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -922,31 +904,39 @@
    "target_met": true,
    "saturation_launches": 2,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 14:34:01",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "PERPETUAL-N1-W9-SHARD-3",
+   "shard": "n1w9-3of12",
+   "pid": 69212,
+   "runner_sha256": "8356e88937807e69",
+   "core_verdict": "multiproc",
+   "core_marker": "import multiprocessing",
+   "fill_latency_min": 19.9,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 14:30:01",
+  "ts": "2026-10-01 14:34:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "fuse_refused_crash_loop",
-  "entry": "REFINE-BENCH-REV-P2-SHARD-0",
-  "shard": "rev-p2-0of2",
-  "fuse_crashes": 1,
-  "fuse_refusals": 7,
-  "fuse_skipped": [
-   {
-    "entry": "REFINE-BENCH-REV-P2-SHARD-0",
-    "shard": "rev-p2-0of2",
-    "sig": "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2",
-    "fuse_refusals": 7
-   },
-   {
-    "entry": "REFINE-BENCH-REV-P2-SHARD-1",
-    "shard": "rev-p2-1of2",
-    "sig": "scripts/refine_bench_rev_p2.py|run,--shard,1,--of,2",
-    "fuse_refusals": 7
-   }
-  ]
+  "verdict": "launched",
+  "entry": "PERPETUAL-N1-W9-SHARD-3",
+  "shard": "n1w9-3of12",
+  "pid": 69212,
+  "runner_sha256": "8356e88937807e69",
+  "core_verdict": "multiproc",
+  "core_marker": "import multiprocessing",
+  "fill_latency_min": 19.9,
+  "fullburn_window": true,
+  "target_met": false,
+  "saturation_launches": 1
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-01T14:11:14+08:00"
