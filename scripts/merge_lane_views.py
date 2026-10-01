@@ -756,9 +756,33 @@ def sync_face(face, results_dir=None, machine=None):
     if cur_shared != merged:
         tmp = shared + ".sync.tmp"
         try:
-            with open(tmp, "w", encoding="utf-8") as fh:
-                json.dump(merged, fh, ensure_ascii=False, indent=2,
-                          default=str)
+            # r289 format law (r499 10-01 live-fire): mirror the shared
+            # file's probed indent/EOL/trailing-NL face -- hardcoded dump
+            # defaults flip the whole file (14k-line diff) whenever the
+            # incumbent producer face differs (autofill indent1 vs
+            # indent2 writers observed 2026-10-01); probe-then-mirror.
+            probe_indent, probe_crlf, probe_trailing = 2, True, False
+            try:
+                with open(shared, "rb") as fh:
+                    praw = fh.read()
+                if praw:
+                    probe_crlf = praw.count(b"\r\n") > 0
+                    probe_trailing = praw.endswith(b"\n")
+                    for pline in praw.decode("utf-8", "replace").splitlines():
+                        if pline.strip():
+                            probe_indent = len(pline) - len(pline.lstrip(" "))
+                            break
+            except OSError:
+                pass
+            s_out = json.dumps(merged, ensure_ascii=False,
+                               indent=probe_indent, default=str)
+            if probe_crlf:
+                s_out = s_out.replace("\n", "\r\n")
+            if probe_trailing and not s_out.endswith(
+                    "\r\n" if probe_crlf else "\n"):
+                s_out += "\r\n" if probe_crlf else "\n"
+            with open(tmp, "w", encoding="utf-8", newline="") as fh:
+                fh.write(s_out)
             os.replace(tmp, shared)
             res["wrote_shared"] = True
             res["status"] = "settled"
