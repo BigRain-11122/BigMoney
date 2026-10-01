@@ -2260,6 +2260,12 @@ CLOSED_FAMILIES = {
         "evidence": "微盘 2024 崩塌域不可行域照登不建模（集团令原文）",
         "reopen": "ceo_one_line_reopen",
     },
+    "lowamp_daily_xs": {
+        "verdict": "judged_negative_p3_true_face",
+        "closed_by": "LOWAMP-P3 verdict + E1 four-leg (r533 bm-b, 2026-10-02)",
+        "evidence": "results/lowamp_p3/lowamp_p3_results.json + research/LOWAMP-P3.md sec.7/8 (P1/P2 voided defect-faces; P3 = exit-axis dual-channel corrected face, law-A census default_share 0.0, merit gates G1'/M1/DSR/PBO/dual-axis all failed)",
+        "reopen": "new_evidence_new_prereg",
+    },
 }
 
 
@@ -2792,9 +2798,9 @@ def selftest() -> int:
            reopen_evidence="IC computation face fixed + new regime gate "
                            "(delta vs archived negative declared)"
        )["status"] == "reopen_channel_declared")
-    ok("M3 CLOSED_FAMILIES registry integrity: 6 entries mirror "
+    ok("M3 CLOSED_FAMILIES registry integrity: 7 entries mirror "
        "STRATEGY_LIBRARY §〇 dead inventory; fields complete; reopen enum known",
-       len(CLOSED_FAMILIES) == 6
+       len(CLOSED_FAMILIES) == 7
        and all(set(v) >= {"verdict", "closed_by", "evidence", "reopen"}
                and all(str(v[k]).strip() for k in v)
                for v in CLOSED_FAMILIES.values())
