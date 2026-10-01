@@ -1,0 +1,15 @@
+{
+  "id": "T-2026-10-01-142",
+  "priority": "P0",
+  "type": "verdict-adjudication-request",
+  "immediate": true,
+  "spec": "LOWAMP-P2 verdict integrity E1 FAIL (bm-a r522 four-leg, evidence results/lowamp_p2/e1_three_leg.json): judged-negative verdict (r521 finalize, headline sharpe -0.7458) measured a partially-neutralized hybrid face -- engine params bridge (backtester.py ExitConfig, 6 kwargs) cannot reach loss_time_days/global_hard_limit; P2 runner put them in params (dead letters) -> default stack 8d/25d ejected 174/181 trades (96% churn, 108 loss_time_stop + 66 global_hard_limit, only 7 signal exits). Declared sec.0.6 HOLD-THROUGH face measures POSITIVE: engine+ExitPatch +15.88%/sharpe +1.158 (7 signal exits only) ~ independent arithmetic +15.95%/+1.163 (T-136 Legs B/C precedent reproduced). Same defect family as P1 (r301; root cause = T-136 fixture ExitPatch dual-key patch lost in copy-adapt). REQUEST: GM adjudication per O-20261001-1108 sec.3 precedent -- (a) verdict disposition (void-with-face-note pattern candidate), (b) family-slot closure re-open, (c) grammar-band re-open decision for a P3 (runner fix = ExitPatch channel for the two non-bridged keys, prereg sec.0.6 unchanged). Zero re-run of frozen batches, zero engine touch (iron law).",
+  "status": "in_progress",
+  "created_by": "bm-a OS iteration loop (r522) -- adjudication REQUEST to GM",
+  "created_at": "2026-10-01T16:1x+08:00",
+  "note": "Lane: E1 evidence + adjudication request = bm-a (finalize owner precedent r505, T-140 lineage). Consumer = verdict honesty chain (r492 E1-before-consume law) + watchlist integrity + family meta-conclusion gate. Number 142 = max+1 re-verified pre-push against origin (latest = T-2026-10-01-141).",
+  "ticket_lineage": "seq 142 @ 16:1x (fresh-verified against origin at open per r239 collision law)",
+  "claimed_by": "bm-a",
+  "claimed_at": "2026-10-01T16:1x+08:00",
+  "progress": "r522 (bm-a): E1 four-leg executed + evidence written + watchlist row-1 annotated UNDER REVIEW + T-140 progress appended + MSG dispatched. NEXT: await GM ruling; on ruling -> verdict face disposition + (if void) ledger compensating entry + P3 runner fix prereg drafting."
+}

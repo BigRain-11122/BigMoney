@@ -5,8 +5,14 @@
 # cadence, zero claim round-trips), py% CEO face row write, sec.2 batched
 # ledger flush. Engine burns NEVER touch runnable_pool.json (law sec.1).
 # PATH-AGNOSTIC + idempotent via -Force + pure ASCII.
-# S4U law (2026-09-29 bm-b lane rule): lane tasks register S4U, never
-# InteractiveToken -- headless children, no black window.
+# PRINCIPAL LAW (bm-a live-fire 2026-10-01 15:3x): S4U principal requires
+# elevation on this lane (Register-ScheduledTask 0x80070005 access denied,
+# script then printed a false success) -> default principal per the proven
+# unelevated family (register_loop_task/pool_worker/dispatcher). Headless
+# window suppression is unaffected: InvisibleRunner.vbs + wscript //B owns
+# that face. -ErrorAction Stop gates the success line (no false-success).
+# Task name stays 'Bigmoney-SatEngine-bm-b' (fleet-shared local name; bm-b
+# runs it live -- renaming here would orphan bm-b's task = double-engine).
 $Project = Split-Path -Parent $PSScriptRoot
 $eng = Join-Path $Project 'scripts\saturation_engine.py'
 $vbs = Join-Path $Project 'Tools\InvisibleRunner.vbs'
@@ -19,6 +25,5 @@ $start = Get-Date -Minute 0 -Second 0
 while ($start -le (Get-Date)) { $start = $start.AddMinutes(1) }
 $t = New-ScheduledTaskTrigger -Once -At $start -RepetitionInterval (New-TimeSpan -Minutes 1) -RepetitionDuration (New-TimeSpan -Days 3650)
 $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit (New-TimeSpan -Minutes 10)
-$p = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U
-Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Principal $p -Force | Out-Null
-Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=S4U, cadence=60s), first fire $start"
+Register-ScheduledTask -TaskName 'Bigmoney-SatEngine-bm-b' -Action $a -Trigger $t -Settings $s -Force -ErrorAction Stop | Out-Null
+Write-Output "registered Bigmoney-SatEngine-bm-b (project=$Project, logon=default, cadence=60s), first fire $start"
