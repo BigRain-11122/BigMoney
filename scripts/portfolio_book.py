@@ -31,7 +31,9 @@ Subcommands (r446 three-command law):
               identity vs frozen probe artifact 50b77e2a...) ->
               portfolio_book/manifest_book.json
   run         the burn: 18 sleeves x dual-cost verbatim replay
-              (checkpoint per sleeve, kill-safe resume) -> 4 book configs
+              (ProcessPool via parallel_runner, O-2026-09-30-2355 law-1
+              multicore face; pool==inline byte parity; checkpoint per
+              sleeve, kill-safe resume) -> 4 book configs
               computed FROM the JSON-roundtripped checkpoint via the
               single-source _compute_config helper (finalize recompute
               identity by construction; checkpoint per config) ->
@@ -89,6 +91,7 @@ import pandas as pd
 import reeval18_drill as drill              # frozen judgment harness (verbatim)
 from engine.metrics import max_drawdown, sharpe
 from knowledge.cost_spec import X1_RATE
+from parallel_runner import run_cells_parallel, worker_cap  # O-2355 s2 face
 from live.paper import self_test_patches
 from p5_random_entry import passive_rel
 from science_gates import (CostPatch, REFORM_DIM_WEIGHTS, REFORM_Q_LEVEL,
@@ -234,24 +237,122 @@ def _archive_faces():
 
 
 # ------------------------------------------------------------------ replay
-def _replay_members(st, rows, x2=True):
-    """Verbatim sleeve replay (drill._wave_run dispatch). Returns per-cid
-    full-history x1/x2 equity curves + x1 trades."""
+POOL_ENTRY_ID = "PORTFOLIO-BOOK-P1-BURN"
+POOL_SHARD_KEY = "portfolio-book-p1-burn-0of1"
+_CLAIM_STARTED = None
+
+
+def _now_iso() -> str:
+    import datetime
+    return datetime.datetime.now().astimezone().isoformat(timespec="seconds")
+
+
+def _pool_claim(entry_id: str, shard_key: str, detail: str) -> None:
+    """O-2026-09-30-2355 window: worker-side half of the pool harvest
+    handshake (lowamp r496 canon) -- on a successful burn write
+    results/pool_claims/<entry>/<shard>.<machine>.json with state=closed
+    outcome=ok so the launcher harvest flips the shard done (worker NEVER
+    writes runnable_pool.json -- pool single-writer law; without this
+    handshake a completed burn reads as a crash to the fuse and the
+    campaign freezes)."""
+    d = os.path.join(_ROOT, "results", "pool_claims",
+                     entry_id.replace("/", "_"))
+    os.makedirs(d, exist_ok=True)
+    fp = os.path.join(d, f"{shard_key}.{_machine_id()}.json")
+    now = _now_iso()
+    with open(fp, "w", encoding="utf-8") as f:
+        json.dump({"machine_id": _machine_id(), "state": "closed",
+                   "pid": os.getpid(), "heartbeat": now, "outcome": "ok",
+                   "exit_code": 0, "started": _CLAIM_STARTED,
+                   "closed_at": now, "result_ref": detail}, f,
+                  ensure_ascii=False, indent=1)
+    print(f"  pool claim closed: {os.path.basename(fp)}")
+
+
+def _cap_blas_threads():
+    """1 BLAS thread per worker so the pool never oversubscribes
+    (perpetual_faces_n1 canon)."""
+    for var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS",
+                "NUMEXPR_NUM_THREADS"):
+        os.environ.setdefault(var, "1")
+
+
+_G = {}
+
+
+def _init_worker():
+    """Per-worker init: BelowNormal priority (O-1136 reserve law) + the
+    heavy shared state built ONCE per worker (drill canon)."""
+    import psutil
+    pri = getattr(psutil, "BELOW_NORMAL_PRIORITY_CLASS", None)
+    if pri is not None:
+        try:
+            psutil.Process().nice(pri)   # O-1136 low-priority pool law
+        except Exception:
+            pass
+    _G["st"] = drill._build_state()
+
+
+def _member_task(row, x2):
+    """One sleeve replay inside a worker: drill._wave_run dispatch
+    VERBATIM (x1 + optional x2 leg). Pure function of (row, x2) --
+    pool==inline byte parity (S-mp selftest legs + finalize double-run
+    gate live)."""
+    st = _G["st"]
+    cand = drill._roster_cand(row)
+    template = drill._roster_template(row)
+    eq, trades, _m = drill._wave_run(st, row["wave"], cand, template)
+    eq2 = None
+    if x2:
+        with CostPatch(2):
+            eq2, _t2, _m2 = drill._wave_run(st, row["wave"], cand,
+                                            template)
+    return {"cid": row["candidate_id"], "eq1": eq, "eq2": eq2,
+            "trades": trades}
+
+
+def _replay_rows(rows, task_fn, x2, initializer=_init_worker):
+    """Generic ProcessPool dispatch via parallel_runner (r304
+    grid_p1_screen conversion canon). Returns (per-cid payload dict in
+    ROSTER order -- deterministic regardless of completion order,
+    workers used). Hermetic S-mp selftest targets this dispatcher with
+    stub task/init fns."""
+    jobs = [(r["candidate_id"], task_fn, (r, x2)) for r in rows]
+    _cap_blas_threads()
+    res = run_cells_parallel(jobs, workers=min(worker_cap(), 12),
+                             desc="sleeves", initializer=initializer)
+    n_workers = res.pop("__workers__", 0)
     out = {}
-    for row in rows:
-        cid = row["candidate_id"]
-        cand = drill._roster_cand(row)
-        template = drill._roster_template(row)
-        eq, trades, _m = drill._wave_run(st, row["wave"], cand, template)
-        eq2 = None
-        if x2:
-            with CostPatch(2):
-                eq2, _t2, _m2 = drill._wave_run(st, row["wave"], cand,
-                                                template)
-        out[cid] = {"eq1": eq, "eq2": eq2, "trades": trades,
-                    "wave": row["wave"]}
-        print(f"  replay {cid} ok ({'x1+x2' if x2 else 'x1'})")
-    return out
+    for r in rows:                        # roster order -- byte-stable
+        p = res[r["candidate_id"]]
+        out[r["candidate_id"]] = {"eq1": p["eq1"], "eq2": p["eq2"],
+                                  "trades": p["trades"], "wave": r["wave"]}
+    return out, n_workers
+
+
+def _replay_members(st, rows, x2=True):
+    """Verbatim sleeve replay via ProcessPool (O-2026-09-30-2355 law-1
+    multicore face; serial semantics preserved). Returns per-cid
+    full-history x1/x2 equity curves + x1 trades + workers used."""
+    if not rows:
+        return {}, 0
+    out, n_workers = _replay_rows(rows, _member_task, x2)
+    print(f"  replay {len(rows)} sleeves ok ({'x1+x2' if x2 else 'x1'}, "
+          f"workers={n_workers})")
+    return out, n_workers
+
+
+# -- hermetic S-mp selftest stubs (never touch repo data; r116 law)
+def _smp_stub_init():
+    _G["st"] = {"base": 3}
+
+
+def _smp_stub_task(row, x2):
+    b = _G["st"]["base"]
+    eq1 = pd.Series([float(b * row["k"]), float(b * row["k"] + 1.0)])
+    eq2 = pd.Series([float(2 * b * row["k"])]) if x2 else None
+    return {"cid": row["candidate_id"], "eq1": eq1, "eq2": eq2,
+            "trades": [{"date": "2026-01-05"}]}
 
 
 def _decision_dates(st, rebal_pos):
@@ -618,7 +719,7 @@ def cmd_prep() -> int:
         anchors[t["trader_id"]] = {"ok": True}
     # probe same-face reconstruction (18 x1 replays, the expensive gate)
     t0 = time.time()
-    repl = _replay_members(st, roster["rows"], x2=False)
+    repl, _nw = _replay_members(st, roster["rows"], x2=False)
     win_rets1, n_trades_win = {}, {}
     for row in roster["rows"]:
         cid = row["candidate_id"]
@@ -696,10 +797,21 @@ def _load_members_ckpt():
 
 
 def cmd_run() -> int:
+    global _CLAIM_STARTED
+    _CLAIM_STARTED = _now_iso()
     print(f"=== {WAVE} run (18 sleeves x dual-cost + 4 book configs) ===")
     if not os.path.exists(MANIFEST):
         print("RUN-GATE FAIL: prep manifest absent (run prep first)")
         return 1
+    if os.path.exists(BURN_JSON):
+        # presence=done pool contract (r488 law family): a complete burn
+        # product IS the checkpoint; claim + skip stops relaunch churn.
+        _pool_claim(POOL_ENTRY_ID, POOL_SHARD_KEY,
+                    f"burn product present (presence=done): "
+                    f"{os.path.basename(BURN_JSON)}")
+        print("skip: burn product present (presence=done; deterministic "
+              "rerun byte-equal)")
+        return 0
     t0 = time.time()
     roster = drill._load_roster()
     arc_f = _archive_faces()
@@ -712,12 +824,13 @@ def cmd_run() -> int:
     if cap is None:
         print(f"RUN-GATE FAIL: regime state {reg.get('state')} off-ladder")
         return 1
-    # -- sleeve replay checkpoint (kill-safe resume)
+    # -- sleeve replay checkpoint (kill-safe resume; ProcessPool)
     done = _ckpt_ids(CKPT_MEMBERS, "candidate_id")
     todo_rows = [r for r in roster["rows"]
                  if r["candidate_id"] not in done]
+    nw_used = 0
     if todo_rows:
-        repl = _replay_members(st, todo_rows, x2=True)
+        repl, nw_used = _replay_members(st, todo_rows, x2=True)
         for row in todo_rows:
             cid = row["candidate_id"]
             mp = _member_payload(cid, row["wave"], repl[cid]["eq1"],
@@ -785,14 +898,17 @@ def cmd_run() -> int:
         "ledger_delta": 0, "marks": "+0",
         "audit": {"machine": _machine_id(),
                   "elapsed_sec": round(time.time() - t0, 1),
-                  "workers": 1, "stage": "run"},
+                  "workers": nw_used or 1, "stage": "run"},
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
     }
     json.dump(_j(burn), open(BURN_JSON, "w", encoding="utf-8"),
               ensure_ascii=False, indent=1)
+    _pool_claim(POOL_ENTRY_ID, POOL_SHARD_KEY,
+                f"18 sleeves + 4 configs -> {os.path.basename(BURN_JSON)} "
+                f"(workers={nw_used})")
     print(f"run DONE: 4/4 configs -> {BURN_JSON} "
           f"(replay+ckpt {t_cfg - t0:.1f}s, configs "
-          f"{time.time() - t_cfg:.1f}s)")
+          f"{time.time() - t_cfg:.1f}s, workers={nw_used})")
     return 0
 
 
@@ -1185,6 +1301,39 @@ def cmd_selftest() -> int:
     msa = _monthly_start_ann(eq_d, {"n_win_days": 9}, [0, 4])
     chk("monthly-start dist: best >= median >= worst",
         msa["best"] >= msa["median"] >= msa["worst"])
+    # (p) S-mp pool==inline parity legs (O-2026-09-30-2355 law-1; the
+    #     hermetic stub task/init fns go through the EXACT production
+    #     _replay_rows dispatcher -- scheduling independence, roster
+    #     order, x2 flag; real-data byte parity is enforced live by the
+    #     finalize sentinel+config double-run gate)
+    stub_rows = [{"candidate_id": "m2", "k": 2, "wave": "w1"},
+                 {"candidate_id": "m1", "k": 1, "wave": "w2"},
+                 {"candidate_id": "m3", "k": 3, "wave": "w1"}]
+
+    def _mat(out):
+        return {c: [list(v["eq1"]),
+                    (list(v["eq2"]) if v["eq2"] is not None else None),
+                    v["trades"], v["wave"]] for c, v in out.items()}
+
+    out_p, nw_p = _replay_rows(stub_rows, _smp_stub_task, True,
+                               initializer=_smp_stub_init)
+    exp = {}
+    for r in stub_rows:
+        exp[r["candidate_id"]] = [
+            [3.0 * r["k"], 3.0 * r["k"] + 1.0], [6.0 * r["k"]],
+            [{"date": "2026-01-05"}], r["wave"]]
+    chk("S-mp pool==inline (stub task, materialized bytes)",
+        _mat(out_p) == exp)
+    chk("S-mp roster-order face (dict order == task order)",
+        list(out_p.keys()) == ["m2", "m1", "m3"])
+    chk("S-mp workers face (1 <= w <= min(cap,12))", 1 <= nw_p <= 12)
+    out_p2, _ = _replay_rows(stub_rows, _smp_stub_task, True,
+                             initializer=_smp_stub_init)
+    chk("S-mp double-run determinism (re-pool == pool)", _mat(out_p2) == exp)
+    out_x1, _ = _replay_rows(stub_rows[:1], _smp_stub_task, False,
+                             initializer=_smp_stub_init)
+    chk("S-mp x2-flag face (x2=False -> eq2 None)",
+        out_x1["m2"]["eq2"] is None)
     n_fail = len(fails)
     print(f"selftest: {'ALL PASS' if not n_fail else f'{n_fail} FAIL'}")
     return 0 if not n_fail else 1
