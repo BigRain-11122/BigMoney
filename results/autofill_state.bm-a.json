@@ -1,28 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 01:23:50",
-   "machine": "bm-a",
-   "py_cpu_pct": 37.8,
-   "cooldown_skipped": {
-    "entry": "PERPETUAL-N1-W2-SHARD-0",
-    "shard": "n1w2-0of12",
-    "last_launch_min": 5.3
-   },
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W2-SHARD-3",
-   "shard": "n1w2-3of12",
-   "pid": 32652,
-   "runner_sha256": "5667c984e14af8e5",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": 58.1,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 6,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 01:24:33",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -993,26 +971,44 @@
    "fill_latency_min": 12.5,
    "fullburn_window": true,
    "target_met": false,
-   "saturation_launches": 2
+   "saturation_launches": 2,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 10:15:31",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "PERPETUAL-N1-W6-SHARD-9",
+   "shard": "n1w6-9of12",
+   "pid": 76356,
+   "runner_sha256": "0de392f7aea650c2",
+   "core_verdict": "multiproc",
+   "core_marker": "import multiprocessing",
+   "fill_latency_min": 13.3,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 3
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 10:14:42",
+  "ts": "2026-10-01 10:15:31",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
   "harvest_flipped": 1,
   "verdict": "launched",
-  "entry": "PERPETUAL-N1-W6-SHARD-8",
-  "shard": "n1w6-8of12",
-  "pid": 63268,
+  "entry": "PERPETUAL-N1-W6-SHARD-9",
+  "shard": "n1w6-9of12",
+  "pid": 76356,
   "runner_sha256": "0de392f7aea650c2",
   "core_verdict": "multiproc",
   "core_marker": "import multiprocessing",
-  "fill_latency_min": 12.5,
+  "fill_latency_min": 13.3,
   "fullburn_window": true,
   "target_met": false,
-  "saturation_launches": 2
+  "saturation_launches": 3
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T10:14:27+08:00"
+ "core_samples_seen": "2026-10-01T10:15:16+08:00"
 }
