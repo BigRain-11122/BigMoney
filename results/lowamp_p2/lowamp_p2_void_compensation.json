@@ -1,0 +1,39 @@
+{
+ "batch": "LOWAMP-P2-VOID-COMPENSATION",
+ "kind": "governance-void-compensating-entry",
+ "evidence_cutoff": "2026-09-22",
+ "ruling": {
+  "order": "O-20261001-2355",
+  "section": "sec.1 (T-142 GM P1 ruling, CEO direct order)",
+  "ticket": "T-2026-10-01-142",
+  "audit": "results/lowamp_p2/e1_three_leg.json (E1 four-leg; pre-consumption catch, verdict face zero-loss)",
+  "ruled_at": "2026-10-01 23:55",
+  "executed_by": "bm-a",
+  "executed_at": "2026-10-02 00:1x"
+ },
+ "trials_ledger": {
+  "prev_total": 437148,
+  "batch_trials": -2008,
+  "total": 435140,
+  "batch": "LOWAMP-P2-VOID-COMPENSATION",
+  "file": "results/lowamp_p2/lowamp_p2_results.json",
+  "note": "LOWAMP-P2 verdict VOID compensating rollback (-2,008) per O-20261001-2355 sec.1; ruling-time chain head was 386,267 (P2 finalize r521); perpetual waves W3..W33 chained on top between finalize and this execution, so the -2,008 nets at the execution-time raw head 437148 -> 435140 (cumulative as-if LOWAMP-P2 never burned, all else equal). Append-only discipline: the LOWAMP-P2 product's own trials_ledger block stays verbatim; the active void below makes every raw/downstream cumulative net of the 2,008 exactly once (ledger_head void face, science_gates T-140/T-142).",
+  "evidence_cutoff": "2026-09-22",
+  "voids_applied": [
+   "LOWAMP-P1",
+   "LOWAMP-P2"
+  ]
+ },
+ "ledger_voids": [
+  {
+   "batch": "LOWAMP-P2",
+   "file": "results/lowamp_p2/lowamp_p2_results.json",
+   "voided_trials": 2008,
+   "active": true,
+   "reason": "verdict VOID-with-face-note: exit-neutralization dead-letter (loss_time_days/global_hard_limit written to params channel; engine ExitConfig bridge reads only 6 kwargs) -> default stack 8d/25d ejected 174/181 = 96% churn (108 loss_time_stop + 66 global_hard_limit, 7 signal exits); measured a partially-neutralized hybrid face, NOT the declared HOLD-THROUGH face (+15.88%/sharpe +1.158 ExitPatch-corrected ~ +15.95%/+1.163 independent arithmetic); second same-family defect (T-136/P1 r301 root cause = fixture ExitPatch dual-key patch lost in copy-adapt); E1 exit-census caught before consumption (exit-axis explicit gate O-20261001-1108 first application), ledger verdict face zero-loss, trials compensated here.",
+   "ruling": "O-20261001-2355",
+   "ticket": "T-2026-10-01-142",
+   "audit": "results/lowamp_p2/e1_three_leg.json"
+  }
+ ]
+}

@@ -70,3 +70,14 @@
 
 - §5 资源申报/§6 里程碑/§7 回填（全起点分布+预测对账+损耗账）/§8 结论三态：跑后回填，跑前留空。
 - **跑前冻结=本件 commit**（freeze hash 入轮报告与 pool 票）；冻结后禁改判据（回填限 §7/§8）。
+
+
+---
+## §9 治理裁定附录（append-only·2026-10-02 00:1x·bm-a T-142 执行·O-20261001-2355 §一）
+
+- **裁定**：LOWAMP-P2 verdict **VOID-with-face-note**（O-20261001-2355 §一 T-142 GM P1 裁决·CEO 直令「排好单子！开工！」随令裁决·bm-a r545 执行）。E1 四腿证据=results/lowamp_p2/e1_three_leg.json：烧录面=**出场中和死信杂交面**——loss_time_days/global_hard_limit 两键写进 params 通道=引擎桥外死信（backtester.py ExitConfig 只读 6 kwargs），缺省栈 8d/25d 踢出 174/181=96% 换手（108 loss_time_stop+66 global_hard_limit+7 signal）；声明面 §0.6 HOLD-THROUGH 为正：引擎+ExitPatch **+15.88%/夏普 +1.158**（仅 7 笔信号出场）≈ 独立算术腿 +15.95%/+1.163（T-136 Legs B/C 先例复现）。
+- **第二次同族缺陷定谳**：与 P1（r301）同根因=fixture 当年 ExitPatch 双键补丁被 copy-adapt 丢失；**出场轴显式门（O-20261001-1108 §三·TRIAL_LABOR_LAW §4）起效实证**——E1 在判决消费前拦下，账本 verdict 面零损（对比 T-136 第一次的事后回滚成本=本例零回滚）。
+- **律 A 升格落地（本裁定第三件）**：出场轴双件门=烧前显式声明 + **烧后退出原因普查**——普查中引擎缺省退出占比 >20% 于 hold-through 面=自动封锁消费（防第三例）；P3 消费前 E1 四腿=强制门。
+- **账本补偿回滚**：−2,008 试验（P2 finalize r521 落账 384,259→386,267；执行刻 W3..W33 已链入·raw head 437,148→**435,140** 净额不变式）＝**results/lowamp_p2/lowamp_p2_void_compensation.json**（ledger_voids 活跃声明+补偿分录·append-only·voids_applied=[LOWAMP-P1, LOWAMP-P2] 单计律）；本批产物 trials_ledger 块逐字保留零历史改写。
+- **语法带与名单**：P2 verdict 禁作族间 meta 结论/禁出名单（POTENTIAL_WATCHLIST 行 1 已翻已裁定态）；族供给重开通道=**LOWAMP-P3 新考卷**（ExitPatch 通道写 loss_time_days/global_hard_limit 两键·live.paper 契约·同冻结族/面板/cutoff 2026-09-22·E1 四腿+烧后出场普查双门）；已烧 LOWAMP-P2 批本身禁重跑不变（冻结批零重跑铁律·P3=新批非重跑）。
+- **禁令不变**：engine/exit_rules.py 与 engine/backtester.py 零触碰（铁律）；样本外恒盲+成本恒开；seeds 不回收（P3 用新种子带 20335000+）。

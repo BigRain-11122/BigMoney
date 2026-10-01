@@ -494,5 +494,11 @@
       "LOWAMP-P1"
     ]
   },
-  "verdict": "judged-negative"
+  "verdict": "void-with-face-note",
+  "verdict_ruling": {
+    "ruling": "O-20261001-2355 sec.1 (T-142 GM P1 ruling, CEO direct order)",
+    "ticket": "T-2026-10-01-142",
+    "audit": "results/lowamp_p2/e1_three_leg.json (E1 four-leg, pre-consumption catch per r492 law)",
+    "face_note": "judged-negative stays recorded as the partially-neutralized hybrid measurement: the two non-bridged engine exit keys (loss_time_days/global_hard_limit) were written to the params channel = dead letters (backtester.py ExitConfig bridge reads only 6 kwargs), so the engine default stack (8d/25d) ejected 174/181 = 96% churn (108 loss_time_stop + 66 global_hard_limit, 7 signal exits). The declared sec.0.6 HOLD-THROUGH face measures POSITIVE: engine+ExitPatch +15.88%/sharpe +1.158 (7 signal exits) ~ independent arithmetic leg +15.95%/+1.163 (T-136 Legs B/C precedent). Second same-family defect (P1 r301 root cause: fixture ExitPatch dual-key patch lost in copy-adapt). E1 exit-census caught it BEFORE consumption -- verdict face zero-loss, ledger compensating rollback -2,008 lands in lowamp_p2_void_compensation.json. The family re-opens supply via LOWAMP-P3 (ExitPatch channel for the two non-bridged keys + post-burn exit-reason census per O-20261001-2355 sec.1 law-A upgrade)."
+  }
 }
