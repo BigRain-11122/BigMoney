@@ -1,12 +1,12 @@
 {
  "machine_id": "bm-b",
- "round_no": 532,
- "note": "r532 recovery round: adopted r531 post-commit crash leftovers (state stuck 530 vs git self-label r531); S0 surgical delivery db5110d55 (W40 12/12 products + LOWAMP-P3-NULLS in-flight checkpoint + lane superset); W40 FINALIZE one-pass 448,340+2,200=450,540 S5 4/4 PASS dual-anchor, prereg s7/s8 backfilled; LOWAMP-P3-NULLS burn still active (daemon-managed)",
- "last_round_at": "2026-10-02T02:33:00+08:00",
- "last_round_ts": 1790879580,
- "ts": "2026-10-02T02:33:00+08:00",
- "updated": "2026-10-02T02:33:00+08:00",
- "updated_at": "2026-10-02T02:33:00+08:00",
+ "round_no": 530,
+ "note": "r530 W38 FULL CLOSEOUT + W39 yield: W38 finalize one-pass prev 443,940 (==W37 head, chain-unlocked by bm-c r342 same window) + 2,200 = 446,140, K-lift -0.0001, S5 4/4 PASS dual-anchor (W36 frozen + W37 rolled both disclosed), prereg s7/s8 mechanical backfill, products via surgical c8fbcf164 (r310 12/12 gate + r519 deletion-set audit). W38 12/12 burn completed same window (shards delivered via surgical 840df662a after peak-window push-rejection loop; lane ledger superset ride 4b7f26473). W39 double-freeze collision with bm-c r342 (same band A 121_004..123_003 / B 43_001..43_200 bit-identical = dual-machine independent derive cross-validation) -> commit-order YIELD to bm-c per r511 law (zero local W39 burns, zero ledger pollution, canon four-file restore to origin side). W37 finalize landed by bm-c r342 = chain head 443,940 consumed by W38 finalize. MSG-012x W37-finalize reminder consumed+replied (MSG-013x). WM face: watermark_red runnable-work-idle-low-cpu at round-start (RAM-floor 3.4GB<4.0 engine gate intermittent, burn continued through gaps 12/12 complete); post-burn py_watermark insufficient_history (n=1), pool ready 17 = LOWAMP-P3 family claimed-in-cycle by bm-a (bm-b autofill claim rival-lost per r297/yield law, no local arrears). Next: W40 freeze = first-free-number after bm-c's W39 claim (A 123_004..125_003 / B 43_201..43_400 both projected CLEAN per r530 gate receipt -- verify at freeze); W38 prereg anchors now = W37 measured for W40 prereg drafting.",
+ "last_round_at": "2026-10-02T01:35:48+08:00",
+ "last_round_ts": 1790876148,
+ "ts": "2026-10-02T01:35:48+08:00",
+ "updated": "2026-10-02T01:35:48+08:00",
+ "updated_at": "2026-10-02T01:35:48+08:00",
  "last_decisions_sha": "4FD50184453162A8B01C47D6CA79224B95869DB2487AA18E10D61479177F250C",
  "last_decisions_at": "2026-10-02T01:04:00+08:00"
 }

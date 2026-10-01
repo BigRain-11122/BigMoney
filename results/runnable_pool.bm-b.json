@@ -12160,11 +12160,12 @@
      "key": "lowamp-p3-cell-laeq-legacy-x2-0of1",
      "status": "done",
      "checkpoint": "results/lowamp_p3/ JSONL checkpoint resume (t22 pattern)",
-     "owner_since": "2026-10-02 01:30:04",
-     "done_at": "2026-10-02 01:30:04",
-     "harvested_by": "bm-c",
+     "owner": "bm-a",
+     "owner_since": "2026-10-02 02:04:03",
+     "done_at": "2026-10-02 02:04:03",
+     "harvested_by": "bm-a",
      "harvest_claim": "lowamp-p3-cell-laeq-legacy-x2-0of1.bm-c.json",
-     "owner": "bm-c"
+     "claimed_since": "2026-10-02 01:48:12"
     }
    ],
    "done_by": "bm-c",
@@ -12466,7 +12467,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-02 01:2x",
    "entered_by": "bm-a (OS iteration loop r547)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (results/lowamp_p3/probe.json PASS 14/14 2026-10-02: G-CENSUS 1254/1506 inherited + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| fresh probe 0.1868 vs 0.7 + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod; sec.0.6 HOLD-THROUGH dual-channel exit-axis (params bridge 4 keys + ExitPatch 2 keys, prereg verbatim); law-A census in finalize (default-stack share >20% -> consumption-blocked)",
@@ -12477,12 +12478,18 @@
    "shards": [
     {
      "key": "lowamp-p3-cell-laedge-legacy-x2-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/lowamp_p3/ JSONL checkpoint resume (t22 pattern)",
-     "owner": "bm-c",
-     "owner_since": "2026-10-02 01:49:22"
+     "owner": "bm-a",
+     "owner_since": "2026-10-02 02:10:59",
+     "claimed_since": "2026-10-02 02:10:24",
+     "done_at": "2026-10-02 02:10:59",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p3-cell-laedge-legacy-x2-0of1.bm-a.json"
     }
-   ]
+   ],
+   "done_by": "bm-a",
+   "done_at": "2026-10-02 02:11:00"
   },
   {
    "id": "LOWAMP-P3-CELL-LAEDGE-DEEP-BASE",
@@ -12589,7 +12596,7 @@
      "status": "ready",
      "checkpoint": "results/lowamp_p3/ nulls JSONL checkpoint",
      "owner": "bm-b",
-     "owner_since": "2026-10-02 02:22:08"
+     "owner_since": "2026-10-02 02:42:09"
     }
    ]
   },
@@ -12604,7 +12611,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-02 01:2x",
    "entered_by": "bm-a (OS iteration loop r547)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (results/lowamp_p3/probe.json PASS 14/14 2026-10-02: G-CENSUS 1254/1506 inherited + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| fresh probe 0.1868 vs 0.7 + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod; sec.0.6 HOLD-THROUGH dual-channel exit-axis (params bridge 4 keys + ExitPatch 2 keys, prereg verbatim); law-A census in finalize (default-stack share >20% -> consumption-blocked)",
@@ -12615,10 +12622,18 @@
    "shards": [
     {
      "key": "lowamp-p3-sens-0of1",
-     "status": "ready",
-     "checkpoint": "results/lowamp_p3/ sens JSONL checkpoint"
+     "status": "done",
+     "checkpoint": "results/lowamp_p3/ sens JSONL checkpoint",
+     "owner": "bm-a",
+     "owner_since": "2026-10-02 02:10:05",
+     "claimed_since": "2026-10-02 02:08:14",
+     "done_at": "2026-10-02 02:10:05",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p3-sens-0of1.bm-a.json"
     }
-   ]
+   ],
+   "done_by": "bm-a",
+   "done_at": "2026-10-02 02:10:05"
   }
  ],
  "lane_machine": "bm-b"

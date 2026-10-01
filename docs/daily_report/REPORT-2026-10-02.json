@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-02",
- "generated_at": "2026-10-02 02:30:54",
+ "generated_at": "2026-10-02 01:15:52",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,17 +297,19 @@
   "md_link": "../live_usage/LIVE-2026-10-02.md"
  },
  "rd": {
-  "commits_24h": 901,
-  "result_jsons_landed_24h": 101,
+  "commits_24h": 888,
+  "result_jsons_landed_24h": 543,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 60,
+  "prereg_md_touched_24h": 57,
   "compute_audit_latest": {
-   "ts": "2026-10-02 02:28:01",
-   "py_cpu_pct": 85.1,
-   "flags": [],
-   "verdict": "CLEAN"
+   "ts": "2026-10-02 01:14:22",
+   "py_cpu_pct": 1.8,
+   "flags": [
+    "cap_violation"
+   ],
+   "verdict": "FLAG:cap_violation"
   },
-  "watermark_verdict": "loaded_ok",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": true
  },
@@ -614,17 +616,17 @@
   },
   {
    "id": "T-2026-10-01-143",
-   "status": "claimed",
+   "status": "open",
    "type": "monthly-exam-prep-p1",
    "immediate": false,
-   "owner": "bm-c (OS iteration loop, round 344; acco"
+   "owner": ""
   }
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1076297,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-02 00:55:12",
+   "prev_generated": "2026-10-02 00:44:42",
    "state_tokens_growth": 0,
    "report_tokens_growth": 0,
    "mandate_growth": 0
@@ -699,13 +701,25 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-02 02:28:01",
-    "py_pct": 85.1,
-    "cpu_pct": 63.0,
-    "ready": 1,
+    "latest_ts": "2026-10-02 00:35:16",
+    "py_pct": 75.7,
+    "cpu_pct": 54.0,
+    "ready": 0,
     "streak_min": null,
     "verdict": "CLEAN",
     "py_series_tail": [
+     [
+      "20:54",
+      0.7
+     ],
+     [
+      "21:20",
+      0.6
+     ],
+     [
+      "21:32",
+      0.4
+     ],
      [
       "21:52",
       0.3
@@ -739,24 +753,12 @@
       1.7
      ],
      [
-      "00:41",
-      0.1
-     ],
-     [
-      "00:53",
-      100.0
-     ],
-     [
-      "01:14",
-      1.8
-     ],
-     [
-      "02:28",
-      85.1
+      "00:35",
+      75.7
      ]
     ],
-    "today_samples": 4,
-    "today_floor_ok": 1,
+    "today_samples": 1,
+    "today_floor_ok": 0,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
    },
@@ -830,14 +832,14 @@
   "day": "2026-10-02",
   "machines": {
    "bm-a": {
-    "batches_judged": 29,
-    "core_seconds": 5344.9,
-    "wall_seconds": 723.7,
-    "effective_cores": 7.39,
+    "batches_judged": 14,
+    "core_seconds": 1342.3,
+    "wall_seconds": 241.4,
+    "effective_cores": 5.56,
     "single_core_burn": 0,
-    "multicore_burn": 29,
+    "multicore_burn": 14,
     "too_short": 0,
-    "last_ts": "2026-10-02T02:05:19+08:00",
+    "last_ts": "2026-10-02T01:15:36+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
@@ -846,30 +848,30 @@
     }
    },
    "bm-b": {
-    "batches_judged": 52,
-    "core_seconds": 9629.1,
-    "wall_seconds": 1557.0,
-    "effective_cores": 6.18,
+    "batches_judged": 24,
+    "core_seconds": 3702.0,
+    "wall_seconds": 602.4,
+    "effective_cores": 6.15,
     "single_core_burn": 0,
-    "multicore_burn": 52,
+    "multicore_burn": 24,
     "too_short": 0,
-    "last_ts": "2026-10-02T02:13:40+08:00",
+    "last_ts": "2026-10-02T00:43:28+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 24,
-     "audit_ts": "2026-10-02 02:28:01"
+     "audit_batches": 39,
+     "audit_ts": "2026-10-02 00:35:16"
     }
    },
    "bm-c": {
-    "batches_judged": 2,
-    "core_seconds": 228.9,
-    "wall_seconds": 120.4,
-    "effective_cores": 1.9,
-    "single_core_burn": 1,
-    "multicore_burn": 1,
+    "batches_judged": 0,
+    "core_seconds": 0.0,
+    "wall_seconds": 0.0,
+    "effective_cores": null,
+    "single_core_burn": 0,
+    "multicore_burn": 0,
     "too_short": 0,
-    "last_ts": "2026-10-02T01:50:33+08:00",
+    "last_ts": null,
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
