@@ -1,24 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 08:08:01",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "harvest_flipped": 1,
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W3-SHARD-9",
-   "shard": "n1w3-9of12",
-   "pid": 96412,
-   "runner_sha256": "259994c7750173a7",
-   "core_verdict": "multiproc",
-   "core_marker": "import multiprocessing",
-   "fill_latency_min": 38.5,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 08:08:49",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -902,7 +884,8 @@
    "fill_latency_min": 4.1,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 4
+   "saturation_launches": 4,
+   "crash_counted": true
   },
   {
    "ts": "2026-10-01 12:47:09",
@@ -919,26 +902,44 @@
    "fill_latency_min": 5.0,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 5
+   "saturation_launches": 5,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 12:47:58",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 2,
+   "verdict": "launched",
+   "entry": "LOWAMP-P2-CELL-LAEQ-LEGACY-X2",
+   "shard": "lowamp-p2-cell-laeq-legacy-x2-0of1",
+   "pid": 95388,
+   "runner_sha256": "35d2764b0031f8f7",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 5.8,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 6
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 12:47:09",
+  "ts": "2026-10-01 12:47:58",
   "machine": "bm-a",
-  "py_cpu_pct": 37.4,
-  "harvest_flipped": 1,
+  "py_cpu_pct": 0.0,
+  "harvest_flipped": 2,
   "verdict": "launched",
-  "entry": "LOWAMP-P2-CELL-LAEQ-LEGACY-BASE",
-  "shard": "lowamp-p2-cell-laeq-legacy-base-0of1",
-  "pid": 63452,
+  "entry": "LOWAMP-P2-CELL-LAEQ-LEGACY-X2",
+  "shard": "lowamp-p2-cell-laeq-legacy-x2-0of1",
+  "pid": 95388,
   "runner_sha256": "35d2764b0031f8f7",
   "core_verdict": "multiproc",
   "core_marker": "ProcessPoolExecutor",
-  "fill_latency_min": 5.0,
+  "fill_latency_min": 5.8,
   "fullburn_window": true,
   "target_met": true,
-  "saturation_launches": 5
+  "saturation_launches": 6
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T12:46:35+08:00"
+ "core_samples_seen": "2026-10-01T12:47:58+08:00"
 }
