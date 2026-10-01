@@ -641,6 +641,33 @@ N1_BANDS = {
          "engine_owner": "bm-b"},
     32: {"a": (107_004, 109_003), "b_exit": (41_401, 41_600),
          "engine_owner": "bm-c"},
+    # W33 (r544 bm-a, prereg-time extension per the W32 row's W33+
+    # WARNING -- never-dry supply law standing step; sovereignty
+    # rotation law F-20260901-01 slot W33=bm-a per the +3 rotation
+    # from the W30=bm-a real anchor (finalize landed bm-a r542,
+    # K=63,920; W31 finalize landed bm-b r525, K=66,120, ledger
+    # 432,748 chain head; W32 bm-c r339 registered + burned 12/12
+    # on origin + ledger-appended -- its finalize sits pending at
+    # the bm-c seat, consuming nothing this freeze touches; r543
+    # seat discipline "W32 row landed then take over" discharged:
+    # the W32 row IS landed; band-disjoint coexistence per r531
+    # proven machine-side by this freeze's gate receipt). BOTH
+    # tails arithmetic-clean exactly as the W32 row's W33+ WARNING
+    # projected (A 109_004..111_003 == W32 A end + 1, B 41_601..
+    # 41_800 == W32 B end + 1, no skip either side). Machine-
+    # verified at prereg time (results/_r544bma_w33_band_gate.py
+    # ADMIT receipt vs the 30-row pre-W33 table incl. W30/W31/W32
+    # + SEED_REGISTRY values + probe-seed cluster 95_000..95_003
+    # r335 discovery leg + N3-R1 used-seed band 70_000..70_005
+    # MSG-183x r529 mandatory leg). TWENTY-SECOND engine-owned
+    # wave, bm-a's SEVENTH owned wave after W12/W18/W21/W24/W27/
+    # W30. NOT a re-pick (R250: W33 bands
+    # were never assigned; the measurement face has no result to
+    # fish). W34+ WARNING: A +2_000 tail 111_004..113_003 and B
+    # +200 tail 41_801..42_000 projection per the r544 gate
+    # receipt -- verify at W34 prereg (rotation slot W34=bm-b).
+    33: {"a": (109_004, 111_003), "b_exit": (41_601, 41_800),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
