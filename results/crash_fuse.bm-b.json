@@ -421,16 +421,6 @@
    "shard": "faceb-0of1",
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-01 07:16:05"
-  },
-  "scripts/stock_face_furnace.py|run,--family,mom,--cells,4:8,--workers,6": {
-   "count": 1,
-   "refusals": 2,
-   "code_sha256": "89a80afe23a7f6fb",
-   "last_crash_ts": "2026-10-01 12:24:03",
-   "entry": "STOCKFURN-MOM-AKSHARE-SHARD-4",
-   "shard": "stockfurn-mom-4to8",
-   "machine": "bm-b",
-   "last_refusal_ts": "2026-10-01 12:26:05"
   }
  },
  "cleared": {
@@ -618,6 +608,13 @@
   },
   "scripts/stock_face_furnace.py|run,--family,mom,--cells,0:4,--workers,6": {
    "cleared_ts": "2026-10-01 12:36:16",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "89a80afe23a7f6fb"
+  },
+  "scripts/stock_face_furnace.py|run,--family,mom,--cells,4:8,--workers,6": {
+   "cleared_ts": "2026-10-01 12:38:17",
    "cleared_by": "bm-b",
    "reason": "code_changed",
    "crashes": 1,
