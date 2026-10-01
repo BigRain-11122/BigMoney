@@ -1,0 +1,130 @@
+{
+  "active_n": 4,
+  "axis": "legacy",
+  "batch": "LOWAMP-P3",
+  "cell": "LA-REP",
+  "cost_x1_rate": 0.0013041,
+  "e1_verdict": "PASS",
+  "evidence_cutoff": "2026-09-22",
+  "face": "base",
+  "legA2_exit_census": {
+    "block_share": 0.2,
+    "census_pass": true,
+    "default_share": 0.0,
+    "default_stack_fires": {},
+    "dual_channel_held": true,
+    "per_sym_reasons": {
+      "159934": {
+        "signal_reversal": 3
+      },
+      "511010": {
+        "signal_reversal": 1
+      },
+      "511260": {},
+      "518880": {
+        "signal_reversal": 3
+      }
+    },
+    "reason_totals": {
+      "signal_reversal": 7
+    },
+    "total_exits": 7
+  },
+  "legA_as_burned": {
+    "artifact": {
+      "max_dd": -0.037083,
+      "n_days": 1631,
+      "n_entries": 9,
+      "n_trades": 7,
+      "nav_first": 1000000.0,
+      "nav_last": 1158756.09,
+      "ret_full": 0.158756,
+      "sharpe_full": 1.158046,
+      "trades_per_year": 1.08
+    },
+    "replay": {
+      "max_dd": -0.037083,
+      "n_days": 1631,
+      "n_entries": 9,
+      "n_trades": 7,
+      "nav_first": 1000000.0,
+      "nav_last": 1158756.09,
+      "ret_full": 0.158756,
+      "sharpe_full": 1.158046,
+      "trades_per_year": 1.08
+    },
+    "returns_bp_match": true,
+    "returns_len_artifact": 1630,
+    "returns_len_replay": 1630,
+    "returns_max_abs_diff": 0.0,
+    "summary_fields_match": true
+  },
+  "legB_engine_note": {
+    "b_equals_a_by_construction": true,
+    "b_vs_c_ref": "legC_independent.engine_vs_C_returns_max_abs_diff",
+    "exit_patch_overrides": {
+      "global_hard_limit": 1000000000,
+      "loss_time_days": 1000000000
+    }
+  },
+  "legC_independent": {
+    "B_vs_C_within_5bp_per_day": false,
+    "days_over_5bp": 1,
+    "days_total": 1630,
+    "engine_vs_C_returns_max_abs_diff": 0.0005053800000000002,
+    "letter_within_5bp_per_day": false,
+    "over_day_is_trade_boundary": true,
+    "per_sym": {
+      "159934": {
+        "n_buys": 3,
+        "n_sells": 3,
+        "nav_last": 1004729.75
+      },
+      "511010": {
+        "n_buys": 2,
+        "n_sells": 1,
+        "nav_last": 1059109.03
+      },
+      "511260": {
+        "n_buys": 1,
+        "n_sells": 0,
+        "nav_last": 1097906.39
+      },
+      "518880": {
+        "n_buys": 3,
+        "n_sells": 3,
+        "nav_last": 997712.33
+      }
+    },
+    "result": {
+      "max_dd": -0.037083,
+      "nav_last": 1159457.5,
+      "ret_full": 0.159457,
+      "sharpe_full": 1.162685
+    },
+    "second_largest_diff": 0.00018552
+  },
+  "legC_residual_note": {
+    "canonical_precedents": [
+      "research/T136_VERDICT_AUDIT.md L48: 'B-vs-C daily-returns max abs diff 5.05e-4 (boundary fill-semantics residue)' -> cross-validation STOOD",
+      "research/LOWAMP-P2.md sec.9 L78 (binding for P3, carried '全文为准'): engine+ExitPatch +15.88%/+1.158 ~= independent +15.95%/+1.163 (T-136 Legs B/C precedent) -> declared face adjudicated POSITIVE"
+    ],
+    "determinism": "identical float 0.0005053800000000002 across T-136 / LOWAMP-P2 B' / this P3 as-burned leg",
+    "disposition": "counted as at-boundary-residue pass per the two canonical precedents above; marginal letter exceedance disclosed for finalize-window / GM re-review before any verdict consumption",
+    "reading": "letter 5.0538bp > 5.0bp on 1/1630 days (a trade-boundary fill day; second-largest 1.86bp, rest <0.07bp)",
+    "value": 0.0005053800000000002
+  },
+  "panel_facts": {
+    "anchor_rows_510300": 1631,
+    "axis": "legacy",
+    "members": 48,
+    "panel_end": "2026-09-22",
+    "panel_start": "2020-01-02",
+    "starts": 1254
+  },
+  "verdict_face_reconciliation": {
+    "reason": "finalize blocked on NULLS same-mask draws (466/2000 in-flight on bm-b at r551); re-run this leg in the finalize window before any verdict consumption",
+    "results_file_present": false,
+    "status": "DEFERRED"
+  }
+}
