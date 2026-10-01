@@ -1,0 +1,468 @@
+{
+ "probe": "d6_top10_corr (r513 bm-a, T-139 stage-B feed)",
+ "purpose": "same-family D6 evidence for stage-B judgment prereg: top10_independent is a single time-exit H20 corner; this measures true daily-return independence",
+ "cells": [
+  "D-15|raw|base|time|h20",
+  "Dtop10|raw|base|time|h20",
+  "D-25|raw|base|time|h20",
+  "D-15|yang|base|time|h20",
+  "D-25|yang|base|time|h20",
+  "Dtop10|yang|base|time|h20",
+  "D-15|raw|liq2|time|h20",
+  "D-25|raw|liq2|time|h20",
+  "Dtop10|raw|liq2|time|h20",
+  "D-15|yang|liq2|time|h20"
+ ],
+ "corr_matrix": [
+  [
+   1.0,
+   0.9995,
+   0.9995,
+   0.9655,
+   0.9638,
+   0.962,
+   0.9385,
+   0.9379,
+   0.9378,
+   0.8856
+  ],
+  [
+   0.9995,
+   1.0,
+   1.0,
+   0.9654,
+   0.9637,
+   0.9619,
+   0.9384,
+   0.9378,
+   0.9377,
+   0.8855
+  ],
+  [
+   0.9995,
+   1.0,
+   1.0,
+   0.9654,
+   0.9637,
+   0.9619,
+   0.9384,
+   0.9379,
+   0.9377,
+   0.8855
+  ],
+  [
+   0.9655,
+   0.9654,
+   0.9654,
+   1.0,
+   0.997,
+   0.9959,
+   0.9267,
+   0.926,
+   0.9259,
+   0.9118
+  ],
+  [
+   0.9638,
+   0.9637,
+   0.9637,
+   0.997,
+   1.0,
+   0.999,
+   0.926,
+   0.9252,
+   0.9251,
+   0.9091
+  ],
+  [
+   0.962,
+   0.9619,
+   0.9619,
+   0.9959,
+   0.999,
+   1.0,
+   0.9251,
+   0.9244,
+   0.9243,
+   0.9088
+  ],
+  [
+   0.9385,
+   0.9384,
+   0.9384,
+   0.9267,
+   0.926,
+   0.9251,
+   1.0,
+   1.0,
+   0.9999,
+   0.9491
+  ],
+  [
+   0.9379,
+   0.9378,
+   0.9379,
+   0.926,
+   0.9252,
+   0.9244,
+   1.0,
+   1.0,
+   0.9999,
+   0.9489
+  ],
+  [
+   0.9378,
+   0.9377,
+   0.9377,
+   0.9259,
+   0.9251,
+   0.9243,
+   0.9999,
+   0.9999,
+   1.0,
+   0.9481
+  ],
+  [
+   0.8856,
+   0.8855,
+   0.8855,
+   0.9118,
+   0.9091,
+   0.9088,
+   0.9491,
+   0.9489,
+   0.9481,
+   1.0
+  ]
+ ],
+ "max_abs_offdiag": 1.0,
+ "mean_abs_offdiag": 0.9482,
+ "d6_threshold": 0.7,
+ "pairs_ge_threshold": [
+  [
+   "D-15|raw|base|time|h20",
+   "Dtop10|raw|base|time|h20",
+   0.9995
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "D-25|raw|base|time|h20",
+   0.9995
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "D-15|yang|base|time|h20",
+   0.9655
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "D-25|yang|base|time|h20",
+   0.9638
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "Dtop10|yang|base|time|h20",
+   0.962
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "D-15|raw|liq2|time|h20",
+   0.9385
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "D-25|raw|liq2|time|h20",
+   0.9379
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9378
+  ],
+  [
+   "D-15|raw|base|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.8856
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "D-25|raw|base|time|h20",
+   1.0
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "D-15|yang|base|time|h20",
+   0.9654
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "D-25|yang|base|time|h20",
+   0.9637
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "Dtop10|yang|base|time|h20",
+   0.9619
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "D-15|raw|liq2|time|h20",
+   0.9384
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "D-25|raw|liq2|time|h20",
+   0.9378
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9377
+  ],
+  [
+   "Dtop10|raw|base|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.8855
+  ],
+  [
+   "D-25|raw|base|time|h20",
+   "D-15|yang|base|time|h20",
+   0.9654
+  ],
+  [
+   "D-25|raw|base|time|h20",
+   "D-25|yang|base|time|h20",
+   0.9637
+  ],
+  [
+   "D-25|raw|base|time|h20",
+   "Dtop10|yang|base|time|h20",
+   0.9619
+  ],
+  [
+   "D-25|raw|base|time|h20",
+   "D-15|raw|liq2|time|h20",
+   0.9384
+  ],
+  [
+   "D-25|raw|base|time|h20",
+   "D-25|raw|liq2|time|h20",
+   0.9379
+  ],
+  [
+   "D-25|raw|base|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9377
+  ],
+  [
+   "D-25|raw|base|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.8855
+  ],
+  [
+   "D-15|yang|base|time|h20",
+   "D-25|yang|base|time|h20",
+   0.997
+  ],
+  [
+   "D-15|yang|base|time|h20",
+   "Dtop10|yang|base|time|h20",
+   0.9959
+  ],
+  [
+   "D-15|yang|base|time|h20",
+   "D-15|raw|liq2|time|h20",
+   0.9267
+  ],
+  [
+   "D-15|yang|base|time|h20",
+   "D-25|raw|liq2|time|h20",
+   0.926
+  ],
+  [
+   "D-15|yang|base|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9259
+  ],
+  [
+   "D-15|yang|base|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.9118
+  ],
+  [
+   "D-25|yang|base|time|h20",
+   "Dtop10|yang|base|time|h20",
+   0.999
+  ],
+  [
+   "D-25|yang|base|time|h20",
+   "D-15|raw|liq2|time|h20",
+   0.926
+  ],
+  [
+   "D-25|yang|base|time|h20",
+   "D-25|raw|liq2|time|h20",
+   0.9252
+  ],
+  [
+   "D-25|yang|base|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9251
+  ],
+  [
+   "D-25|yang|base|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.9091
+  ],
+  [
+   "Dtop10|yang|base|time|h20",
+   "D-15|raw|liq2|time|h20",
+   0.9251
+  ],
+  [
+   "Dtop10|yang|base|time|h20",
+   "D-25|raw|liq2|time|h20",
+   0.9244
+  ],
+  [
+   "Dtop10|yang|base|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9243
+  ],
+  [
+   "Dtop10|yang|base|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.9088
+  ],
+  [
+   "D-15|raw|liq2|time|h20",
+   "D-25|raw|liq2|time|h20",
+   1.0
+  ],
+  [
+   "D-15|raw|liq2|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9999
+  ],
+  [
+   "D-15|raw|liq2|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.9491
+  ],
+  [
+   "D-25|raw|liq2|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   0.9999
+  ],
+  [
+   "D-25|raw|liq2|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.9489
+  ],
+  [
+   "Dtop10|raw|liq2|time|h20",
+   "D-15|yang|liq2|time|h20",
+   0.9481
+  ]
+ ],
+ "independent_groups_at_threshold": [
+  [
+   "D-15|raw|base|time|h20",
+   "D-15|yang|liq2|time|h20",
+   "Dtop10|raw|liq2|time|h20",
+   "D-25|raw|liq2|time|h20",
+   "D-15|raw|liq2|time|h20",
+   "Dtop10|yang|base|time|h20",
+   "D-25|yang|base|time|h20",
+   "D-15|yang|base|time|h20",
+   "D-25|raw|base|time|h20",
+   "Dtop10|raw|base|time|h20"
+  ]
+ ],
+ "n_independent_groups": 1,
+ "anchors": [
+  {
+   "name": "D-15|raw|base|time|h20",
+   "entries": 4457,
+   "ref_entries": 4457,
+   "ann_ret": 0.091023,
+   "match": true
+  },
+  {
+   "name": "Dtop10|raw|base|time|h20",
+   "entries": 4464,
+   "ref_entries": 4464,
+   "ann_ret": 0.088913,
+   "match": true
+  },
+  {
+   "name": "D-25|raw|base|time|h20",
+   "entries": 4463,
+   "ref_entries": 4463,
+   "ann_ret": 0.088564,
+   "match": true
+  },
+  {
+   "name": "D-15|yang|base|time|h20",
+   "entries": 4401,
+   "ref_entries": 4401,
+   "ann_ret": 0.052134,
+   "match": true
+  },
+  {
+   "name": "D-25|yang|base|time|h20",
+   "entries": 4406,
+   "ref_entries": 4406,
+   "ann_ret": 0.047419,
+   "match": true
+  },
+  {
+   "name": "Dtop10|yang|base|time|h20",
+   "entries": 4417,
+   "ref_entries": 4417,
+   "ann_ret": 0.044403,
+   "match": true
+  },
+  {
+   "name": "D-15|raw|liq2|time|h20",
+   "entries": 4363,
+   "ref_entries": 4363,
+   "ann_ret": 0.041457,
+   "match": true
+  },
+  {
+   "name": "D-25|raw|liq2|time|h20",
+   "entries": 4381,
+   "ref_entries": 4381,
+   "ann_ret": 0.040782,
+   "match": true
+  },
+  {
+   "name": "Dtop10|raw|liq2|time|h20",
+   "entries": 4384,
+   "ref_entries": 4384,
+   "ann_ret": 0.0397,
+   "match": true
+  },
+  {
+   "name": "D-15|yang|liq2|time|h20",
+   "entries": 3956,
+   "ref_entries": 3956,
+   "ann_ret": 0.015788,
+   "match": true
+  }
+ ],
+ "law_refs": [
+  "O-20260928-1506 D6 (max|corr|>=0.7 reject)",
+  "r512 census honesty warning (same-corner top10)",
+  "r511 engine-reuse law (zero re-implementation)"
+ ],
+ "evidence_cutoff": "2026-09-22",
+ "panel": "p1c_stock T=8792 N=5222 x b_layer (frozen, REV_OSC_STOCK_P1 load_panel verbatim)",
+ "audit": {
+  "machine": "bm-a",
+  "workers": 1,
+  "elapsed_sec": 6.6,
+  "ts": "2026-10-01T12:13:22+0800"
+ }
+}
