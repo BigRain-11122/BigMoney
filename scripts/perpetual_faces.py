@@ -1069,6 +1069,25 @@ N1_BANDS = {
     # vacancy machine-checked).
     51: {"a": (145_004, 147_003), "b_exit": (46_001, 46_200),
          "engine_owner": "bm-c"},
+    # FORTY-FIRST ENGINE-OWNED WAVE (r351 bm-c freeze): bm-c's
+    # SIXTEENTH owned wave. Wave 52 = next free number after the
+    # registered W51 row (zero-gap relay in the bm-c own-series under
+    # the de-throttle law; W48 re-derive + W50/W51 finalizes
+    # chain-ordered and pending, coexist by band disjointness per
+    # r531). BOTH SIDES = ARITHMETIC CONTINUATION from the W51 row
+    # tail, no skip: A 147_004..149_003 (= W51 A end 147_003 + 1) and
+    # B 46_201..46_400 (= W51 B end 46_200 + 1) -- both windows CLEAN
+    # per the W51 row W52+ WARNING projections, machine-derived at
+    # this freeze (r535 law: clean-projection claims must be
+    # machine-derived, never prose-copied). Machine-verified at
+    # prereg time (results/_r351bmc_w52_band_gate.py ADMIT receipt vs
+    # the 48-row pre-W52 table + live SEED_REGISTRY values + probe
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). NOT a re-pick (R250: W52 bands were
+    # never assigned).
+    52: {"a": (147_004, 149_003), "b_exit": (46_201, 46_400),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
