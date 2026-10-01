@@ -61,8 +61,19 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（占位·finalize 窗机械回填。）
+（r529 finalize 窗机械回填·锚滚动律执行披露：起草窗锚=W34 实测值〔merged mu −0.09152·sigma 0.24453·A p95 0.3096〕；W35 finalize 于本波 finalize 窗前落账〔bm-a r546 FULL CLOSEOUT·K=74,920·账本链头 439,540 net·LOWAMP-P1+P2 双 void〕→ 本节判定锚按 §5 披露滚动至 **W35 finalize 实测值**〔merged mu −0.091375·sigma 0.244604·A p95 0.3336〕执行。）
+
+1. **S5-1 mu 漂移 PASS**：W36-only mu −0.094081 vs 锚 −0.091375，|Δ|=**0.002706 < 0.02**（merged mu −0.091452 vs 锚 |Δ|=0.000077·W2..W35 三十四面实测稳定先例延续）。
+2. **S5-2 sigma 相对变化 PASS**：merged sigma 0.244847 vs 锚 0.244604，**+0.0993% < ±10%**（纯抽样波动）。
+3. **S5-3 A 族 p95 PASS**：W36 A p95 **0.3205** vs 锚 0.3336，|Δ|=**0.0131 < 0.05**（门校准面仅作机器断裂侦测，测量面零注册利害）；A p99=0.4901。
+4. **S5-4 K-lift PASS**：**+0.0011 ≤0.02**（1.1556→1.1567·@n_eff_held 439,540·如实报正号；对照 W35 实测 +0.0005=连续两波正号·正负交替抽样波动面延续）。
+
+批面机证：12/12 分片烧录（引擎 tick 架构·audit.machine=bm-b·r528 冻结 commit 后自燃 r535 律·烧录窗 00:32:42-00:43:25 十二分片连烧）→ finalize **一次定稿零重跑**（r538 律）；账本 prev=439,540（活链头 derive·W35 bm-a r546 落账后）+2,200=**441,740 链性**；voids_applied=[LOWAMP-P1, LOWAMP-P2]；累计 null 池 **K=77,120**（==§0 投影逐字）；evidence_cutoff=2026-09-22（顶层字段+cutoff_meta 双写在产品件）；se_mu=0.000882 @K=77,120；产物 12/12 origin 完备（r528 ride 0-1 + r529 ride pre-pull 2-11 交付·r310 完备性律）。
 
 ## §8 批后复盘【必填·s7-T】
 
-（占位·finalize 窗机械回填。）
+- 带净空：A 115_004..117_003 / B 42_201..42_400 零跳位双带算术顺延==W35 行 W36+ 公示投影逐位吻合（ADMIT 回执 refusal facts 机证 results/_r528bmb_w36_band_gate.py·r535 净空机闸 derive 律）——W36 后 A 尾 117_003、B 尾 42_400；W37+ 投影 A 117_004..119_003 / B 42_401..42_600 已入法典 §4 W37+ WARNING 行（first-free-number 律）。
+- 同窗实况：r528 猝死窗（冻结+烧录 shard-0/1 后中断·state.json 未回写 round_no 停 527）由本窗 r529 收口（S0 ride pre-pull 交付分片 2-11 上 origin+finalize+本回填+state 补写）；W35 finalize（bm-a r546）与本窗同窗先后落地=finalize 链序 W35 先行按 §0 注记执行（pre-values 消费 registry 全键<36·n1_w35_results.json 产品件在场后 prev=439,540 活链头 derive·r518 origin 时序律）。
+- 引擎面：tick 架构零重启自燃（r535 律·W36 12/12 烧录窗 00:32:42-00:43:25）；W36=第二十五枚引擎波·bm-b 第十一枚自有波（W10/W11/W13/W16/W19/W22/W25/W28/W31/W34/W36）；去节流律 own-continuous-series W34→W36 两波接力（r527→r528 冻结窗）。
+- 下游：skill_line_v2 消费面自动（1.1567 新线）；canon_flip NOT performed（治理提案面素材·K2200 同律）。
+- 下轮指针：本机连续系列下一波=**W37**（first-free-number·法典 §4 表尾 fetch 锁〔r511 律〕+W36 行 W37+ 投影 A 117_004..119_003/B 42_401..42_600 derive+带闸机验〔r335 探针簇腿+r529 N3-R1 全值腿强制〕再冻结）。
