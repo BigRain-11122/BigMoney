@@ -110,7 +110,10 @@ STALL_EXIT_S = 300                       # inner watchdog: stall -> hard exit, t
 LOG_DIR = os.path.join(ROOT, "logs", "saturation_engine")
 TASK_NAME = "Bigmoney-SaturationEngine"
 
-STATE_VERSION = "v0.2-s2a"
+STATE_VERSION = "v0.3-s3a"
+LAW_REF = ("firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, "
+           "O-20261001-1410 CEO direct order)")
+FACE_DIR = os.path.join(ROOT, "results", "saturation_engine")
 
 
 # ----------------------------------------------------------------- helpers
@@ -132,6 +135,12 @@ def max_concurrent(mid):
 
 def state_path(mid):
     return os.path.join(ROOT, "results", "saturation_engine_state.%s.json" % mid)
+
+
+def face_path(mid):
+    """Law sec.5 CEO-face lane file (s3; reader: build_status
+    _engine_face_state aggregates every face_*.json present)."""
+    return os.path.join(FACE_DIR, "face_%s.json" % mid)
 
 
 def product_path(wave, shard, nshards=N1_SHARDS):
@@ -182,18 +191,27 @@ def _machine_cpu_pct():
 
 # ------------------------------------------------------------ queue derive
 def derive_n1_queue(bands, preregs, done, quarantined, slot,
-                    nshards=N1_SHARDS, max_items=64):
+                    nshards=N1_SHARDS, max_items=64, owner_mid=None):
     """Ordered eligible work items, primary partition first (law sec.1).
 
     Pure function (selftest-legible): bands = {wave: row}, preregs = {wave:
     path-or-None}, done/quarantined = sets of (wave, shard). Waves ascend
     (complete earlier waves first); within a wave primary slots first, then
     secondary takeover order. Authorization = band row + prereg presence.
+    engine_owner gate (r508 convention parity, sec.1 zero-cross-machine-
+    duplication): a band row carrying engine_owner != owner_mid is a
+    FOREIGN engine wave -- invisible here; rows without the field are
+    pool-era legacy waves and stay eligible as before.
     """
     items = []
     for wave in sorted(bands):
         if not preregs.get(wave):
             continue                             # never fake-supply (law sec.1)
+        row = bands[wave]
+        if owner_mid is not None:
+            owner = row.get("engine_owner") if isinstance(row, dict) else None
+            if owner and owner != owner_mid:
+                continue
         primary = [s for s in range(nshards) if s % len(FLEET_ORDER) == slot]
         secondary = [s for s in range(nshards) if s % len(FLEET_ORDER) != slot]
         for shard in primary + secondary:
@@ -459,6 +477,40 @@ def derive_grammar_consumption(bands, preregs, done, remote_done):
     return out
 
 
+def derive_face(mid, now, st, burns, done, py_pct, ram_free_gb, fatal=None):
+    """Law sec.5 CEO-face row (T-141 s3): schema mirrors the bm-b instance
+    (reader contract = monitor/build_status.py _engine_face_state --
+    machine_id + int epoch drive the standing/alive row; extras advisory).
+    Pure (selftest-legible)."""
+    active = [{"wave": w, "shard": s, "pid": rec.get("pid")}
+              for (w, s), rec in burns.items()]
+    queue_depth = len(st.get("queue_next") or [])
+    if fatal is not None:
+        verdict = "fault"
+    elif active:
+        verdict = "burning"
+    elif queue_depth:
+        verdict = "queued"
+    else:
+        verdict = "idle"
+    last_done = (st.get("completed") or [{}])[-1].get("ended_epoch")
+    last_flush = st.get("last_append_epoch")
+
+    def _iso(epoch):
+        return time.strftime("%Y-%m-%dT%H:%M:%S+08:00",
+                             time.localtime(epoch)) if epoch else None
+    return {
+        "machine_id": mid, "engine": "saturation-engine",
+        "version": STATE_VERSION, "law_ref": LAW_REF,
+        "ts": _iso(int(now)), "epoch": int(now),
+        "py_cpu_pct": py_pct, "engine_alive": fatal is None,
+        "ram_free_gb": ram_free_gb, "active_burns": active,
+        "queue_depth": queue_depth, "shards_done_total": len(done),
+        "last_shard_done_at": _iso(last_done),
+        "last_flush_at": _iso(last_flush), "verdict": verdict,
+    }
+
+
 # ------------------------------------------------------------------- state
 def load_state(path):
     try:
@@ -601,7 +653,7 @@ def run_engine(mid, once=False):
                                     {w: prereg_path(w) if os.path.isfile(
                                         prereg_path(w)) else None
                                      for w in active_waves},
-                                    done, quarantined, slot)
+                                    done, quarantined, slot, owner_mid=mid)
             st["queue_next"] = queue[:8]
             for item in queue:
                 if len(burns) >= maxburn:
@@ -656,6 +708,20 @@ def _flush(st, spath, now, burns, done, quarantined, crash, remote_done,
     try:
         write_state(spath, st)
     except OSError:
+        pass                                         # never crash the loop on IO
+    # law sec.5 CEO face row (s3): lane file live-written with every state
+    # flush (<=60s heartbeat bound); reader = build_status aggregation.
+    ram_gb = None
+    if psutil:
+        try:
+            ram_gb = round(psutil.virtual_memory().available / (1024 ** 3), 1)
+        except Exception:
+            ram_gb = None
+    try:
+        os.makedirs(FACE_DIR, exist_ok=True)
+        write_state(face_path(mid), derive_face(
+            mid, now, st, burns, done, py_pct, ram_gb, fatal=fatal))
+    except Exception:
         pass                                         # never crash the loop on IO
 
 
@@ -848,6 +914,38 @@ def selftest():
         rec2 = ledger_append_batch(pend2, "selftest", repo=repo)
         leg("hermetic busy defer", rec2.get("outcome") == "deferred"
             and "CHERRY_PICK_HEAD" in rec2.get("reason", ""))
+
+    # 11. s3 CEO face (law sec.5): reader-contract keys + verdict logic
+    face = derive_face("selftest", 1790000000.0, {"queue_next": []},
+                       {(9, 0): {"pid": 7, "adopted": False}}, {(9, 0)},
+                       12.5, 4.5)
+    leg("face reader-contract keys", all(
+        k in face for k in ("machine_id", "epoch", "py_cpu_pct",
+                            "engine_alive", "active_burns", "queue_depth",
+                            "shards_done_total", "ts")))
+    leg("face epoch int", isinstance(face["epoch"], int))
+    leg("face verdict burning", face["verdict"] == "burning"
+        and face["shards_done_total"] == 1)
+    leg("face verdict idle",
+        derive_face("s", 1.0, {"queue_next": []}, {}, set(), 0.0, 1.0)
+        ["verdict"] == "idle")
+    with tempfile.TemporaryDirectory() as td:
+        p = os.path.join(td, "face_x.json")
+        write_state(p, face)
+        leg("face round-trip", load_state(p).get("machine_id") == "selftest")
+
+    # 12. sec.1 engine_owner gate (r508 convention parity): foreign
+    #     engine waves invisible, legacy field-absent rows stay eligible
+    gbands = {11: {"a": (1, 2), "engine_owner": "bm-b"},
+              12: {"a": (3, 4), "engine_owner": "bm-c"}}
+    qg = derive_n1_queue(gbands, {11: "p", 12: "p"}, set(), set(), slot=2,
+                         owner_mid="bm-c")
+    leg("owner gate excludes foreign wave",
+        all(i["wave"] != 11 for i in qg) and any(i["wave"] == 12 for i in qg))
+    leg("owner gate legacy rows allowed",
+        all(i["wave"] == 2 for i in derive_n1_queue(
+            {2: {"a": (1, 2)}}, {2: "p"}, set(), set(), slot=2,
+            owner_mid="bm-c")))
 
     total = n_legs[0]
     print("selftest: %d/%d PASS" % (total - len(fails), total)

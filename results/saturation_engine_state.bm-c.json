@@ -1,7 +1,7 @@
 {
  "machine_id": "bm-c",
  "engine": "saturation_engine",
- "version": "v0.2-s2a",
+ "version": "v0.3-s3a",
  "law": "firm/SATURATION_ENGINE_LAW.md v1.0",
  "core_cap": 26,
  "workers_per_shard": 8,
@@ -17,7 +17,8 @@
   "6": 12,
   "7": 12,
   "8": 12,
-  "9": 12
+  "9": 12,
+  "10": 12
  },
  "wave_complete_flags": [
   2,
@@ -27,7 +28,8 @@
   6,
   7,
   8,
-  9
+  9,
+  10
  ],
  "queue_next": [],
  "ignitions": [
@@ -117,17 +119,17 @@
   }
  ],
  "burns_active": [],
- "cycle": 81,
- "heartbeat_epoch": 1790840181,
- "last_cycle_ts": "2026-10-01T15:36:21",
- "py_cpu_pct": 0.2,
- "machine_cpu_pct": 5.8,
- "done_count": 96,
+ "cycle": 24,
+ "heartbeat_epoch": 1790840858,
+ "last_cycle_ts": "2026-10-01T15:47:38",
+ "py_cpu_pct": 0.27,
+ "machine_cpu_pct": 4.6,
+ "done_count": 108,
  "quarantined": [],
  "crash_counts": {},
  "sync": {
-  "last_epoch": 1790840181,
-  "remote_done_count": 96,
+  "last_epoch": 1790840858,
+  "remote_done_count": 108,
   "err": null
  },
  "completed": [
@@ -311,6 +313,23 @@
    "b_exit_band": [
     28500,
     28699
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 10,
+   "a_band": [
+    34100,
+    36099
+   ],
+   "b_exit_band": [
+    28700,
+    28899
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
