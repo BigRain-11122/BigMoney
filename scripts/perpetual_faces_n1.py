@@ -777,6 +777,43 @@ WAVE_CONFIGS = {
                  "b_exit_seed_base": 41_601,    # law sec.4 W33 B: 41_601..41_800 (arithmetic)
                  "shard_subdir": "n1_w33", "out_name": "n1_w33_results.json",
                  "engine_owner": "bm-a"},
+            # W34 (r527 bm-b, prereg-time extension per the W33 row's
+            # W34+ WARNING -- never-dry supply law standing step +
+            # O-20261001-2355 CEO de-throttle order (every machine
+            # keeps its own continuous series, waiting forbidden;
+            # sequence constraints preserve finalize ORDER only).
+            # Sovereignty rotation law F-20260901-01 slot W34=bm-b
+            # per the +3 rotation from the W31=bm-b real anchor
+            # (finalize landed bm-b r525, K=66,120; W33 finalize
+            # landed bm-a r544 same-window, K=70,520, ledger 437,148
+            # chain head -- W1..W33 ALL finalized at this freeze, the
+            # chain fully caught up, zero pending upstream face for
+            # the first time). BOTH tails arithmetic-clean exactly as
+            # the W33 row's W34+ WARNING projected (A 111_004..113_003
+            # == W33 A end + 1, B 41_801..42_000 == W33 B end + 1, no
+            # skip either side). Machine-verified at prereg time
+            # (results/_r527bmb_w34_band_gate.py ADMIT receipt vs the
+            # 31-row pre-W34 table incl. W30/W31/W32/W33 +
+            # SEED_REGISTRY + probes/actuals + probe-seed cluster
+            # 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+            # band 70_000..70_005 MSG-183x r529 mandatory leg; the
+            # same-window pre-scan receipt _r527bmb_w34_pre_band_gate.py
+            # is the leg-0 evidence base). TWENTY-THIRD ENGINE-OWNED
+            # WAVE, bm-b's TENTH owned wave after W10/W11/W13/W16/
+            # W19/W22/W25/W28/W31. NOT a re-pick (R250: W34 bands
+            # were never assigned; the measurement face has no
+            # result to fish).
+            34: {"batch": "PERPETUAL-N1-W34",
+                 "prereg": ("research/PERPETUAL_N1_W34_PREREG.md (wave-level frozen "
+                            "pre-run; design = frozen v1 null calibration verbatim, "
+                            "new seed bands only; TWENTY-THIRD ENGINE-OWNED WAVE, "
+                            "sovereignty rotation law W34=bm-b + O-20261001-2355 "
+                            "de-throttle order, engine_owner=bm-b, W33 row slot "
+                            "assignment verbatim, both tails arithmetic continuation)"),
+                 "a_seed_base": 111_004,        # law sec.4 W34 A: 111_004..113_003 (arithmetic)
+                 "b_exit_seed_base": 41_801,    # law sec.4 W34 B: 41_801..42_000 (arithmetic)
+                 "shard_subdir": "n1_w34", "out_name": "n1_w34_results.json",
+                 "engine_owner": "bm-b"},
             # W35 (r545 bm-a, engine de-throttle law O-20261001-2355
             # sec.2 -- per-machine self-owned continuous series,
             # zero-gap relay after W33 full closeout (finalize landed
@@ -3921,6 +3958,94 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W34 materializer face (r527 bm-b freeze) --------------------------
+    _set_wave(34)
+    try:
+        assert WAVE_CONFIGS[34]["a_seed_base"] == pf.N1_BANDS[34]["a"][0], \
+            "W34 A band drift vs law mirror"
+        assert WAVE_CONFIGS[34]["b_exit_seed_base"] == \
+            pf.N1_BANDS[34]["b_exit"][0], "W34 B band drift vs law mirror"
+        assert WAVE_CONFIGS[34].get("engine_owner") == \
+            pf.N1_BANDS[34].get("engine_owner") == "bm-b", \
+            "W34 engine_owner drift (law mirror parity)"
+        w34_a = {A_SEED_BASE + j for j in range(A_N)}
+        w34_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w34_a & w34_b), "W34 A/B band overlap"
+        assert not (w34_a & reg_ints) and not (w34_b & reg_ints), \
+            "W34 hits SEED_REGISTRY"
+        for nm, band in (("A", w34_a), ("B", w34_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W34 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W34 {nm} hits W1"
+            assert not (band & probes), f"W34 {nm} hits probe seeds"
+        # prior-wave disjointness incl. W30 (bm-a own lineage, finalized
+        # r542), W31 (bm-b, finalized r525), W32 (bm-c, finalized r340
+        # window) and W33 (bm-a, registered + burned 12/12 + FINALIZED
+        # bm-a r544 same-window as this freeze -- the chain fully caught
+        # up: W1..W33 all finalized at this freeze, zero pending upstream
+        # face for the first time).
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33):
+            assert not (w34_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W34 A hits W{wprev}"
+            assert not (w34_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W34 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W34 bands must clear it.
+        n3r1_used34 = set(range(70_000, 70_006))
+        assert not (w34_a & n3r1_used34) and not (w34_b & n3r1_used34), \
+            "W34 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w34_a & lfc_actual12) and not (w34_b & lfc_actual12), \
+            "W34 bands must clear the lfc actual draw range"
+        assert not (w34_a & options_actual12) and \
+            not (w34_b & options_actual12), \
+            "W34 bands must clear the options_wave2 actual draw range"
+        # arithmetic-continuation facts (law sec.4 W34 row, r527): BOTH
+        # tails land clean exactly as the W33 row's W34+ WARNING
+        # projected -- no forced skip either side (candidate start ==
+        # W33 band end + 1 on both sides; the W33-published projection
+        # window IS the candidate, machine-verified by the r527 gate).
+        assert WAVE_CONFIGS[34]["a_seed_base"] == 111_004 == 111_003 + 1, \
+            "W34 A must start at the W33 A end + 1 (arithmetic continuation)"
+        assert WAVE_CONFIGS[34]["b_exit_seed_base"] == 41_801 == 41_800 + 1, \
+            "W34 B must start at the W33 B end + 1 (arithmetic continuation)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W34-SHARD-0",
+                                          "n1w34-0of12"), "W34 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W34-SHARD-11",
+                                           "n1w34-11of12")
+        assert SHARD_DIR.endswith("n1_w34") and OUT.endswith(
+            "n1_w34_results.json"), "W34 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W34 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W34_PREREG.md")), \
+            "W34 per-wave prereg missing (materializer requirement)"
+        # W34 finalize cumulative deps: W17..W33 outputs ALL PRESENT
+        # (W33 finalize landed bm-a r544 same-window as this freeze --
+        # K=70,520 chain-linear, ledger head 437,148; W1..W33 ALL
+        # finalized at this freeze: the dep pin needs NO auto-join
+        # amendment for the first time, the chain is fully caught up).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                      30, 31, 32, 33):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W34 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 34 (no 15; W30/W31/W32/W33
+        # all seated and finalized).
+        assert sorted(w for w in WAVE_CONFIGS if w < 34) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33], \
+            "W34 prior-wave set must derive from registry keys (no 15)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- W35 materializer face (r545 bm-a freeze, de-throttle law
     #     O-20261001-2355 sec.2 own-continuous-series) -----------------
     _set_wave(35)
@@ -3941,14 +4066,14 @@ def selftest() -> int:
             assert not (band & v1_a) and not (band & v1_b), f"W35 {nm} hits v1"
             assert not (band & w1_a) and not (band & w1_b), f"W35 {nm} hits W1"
             assert not (band & probes), f"W35 {nm} hits probe seeds"
-        # prior-wave disjointness incl. W30/W31/W32/W33 (all registered;
-        # W34 has NO registry row yet -- bm-b pre-scan ADMIT-READY r527,
-        # freeze pending at the bm-b seat; its published projection is
-        # asserted disjoint from W35 by the band-gate PUBLISHED leg and
-        # the arithmetic-continuation facts below).
+        # prior-wave disjointness incl. W30/W31/W32/W33/W34 (all
+        # registered; W34 registered by the bm-b r528 freeze adopted
+        # in this same merge -- the +34 auto-join of the r531-1/r541
+        # minimal-amendment precedent; the band-gate PUBLISHED leg
+        # and the arithmetic-continuation facts below cover it).
         for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
                       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-                      31, 32, 33):
+                      31, 32, 33, 34):
             assert not (w35_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
                                  for j in range(A_N)}), f"W35 A hits W{wprev}"
             assert not (w35_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
@@ -3995,13 +4120,12 @@ def selftest() -> int:
             PATHS.root, "research", "PERPETUAL_N1_W35_PREREG.md")), \
             "W35 per-wave prereg missing (materializer requirement)"
         # W35 finalize cumulative deps: W17..W33 outputs ALL PRESENT;
-        # W34 has no registry row at this freeze (bm-b pre-scan pending
-        # at their seat) -- when bm-b lands the W34 freeze+finalize,
-        # the dep pin auto-joins +34 per the r531-1/r541 minimal-amendment
-        # precedent (finalize runtime composes every registry key below
-        # 35 = FAIL-CLOSED honest wait for the W34 output once registered).
+        # W34 registered at the bm-b r528 freeze adopted in this merge
+        # -- the dep pin auto-joined +34 per the r531-1/r541 minimal-
+        # amendment precedent (finalize runtime composes every registry
+        # key below 35 = FAIL-CLOSED honest wait for the W34 output).
         for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
-                      30, 31, 32, 33):
+                      30, 31, 32, 33, 34):
             assert os.path.exists(os.path.join(
                 OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
                 f"W35 finalize cumulative dep (W{_depw} output) missing"
@@ -4011,8 +4135,8 @@ def selftest() -> int:
         # consumes it automatically).
         assert sorted(w for w in WAVE_CONFIGS if w < 35) == \
             [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
-             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33], \
-            "W35 prior-wave set must derive from registry keys (no 15, no 34)"
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34], \
+            "W35 prior-wave set must derive from registry keys (no 15, incl. 34)"
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)

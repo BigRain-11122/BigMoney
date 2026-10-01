@@ -668,6 +668,35 @@ N1_BANDS = {
     # receipt -- verify at W34 prereg (rotation slot W34=bm-b).
     33: {"a": (109_004, 111_003), "b_exit": (41_601, 41_800),
          "engine_owner": "bm-a"},
+    # W34 (r527 bm-b, prereg-time extension per the W33 row's W34+
+    # WARNING -- never-dry supply law standing step + O-20261001-2355
+    # CEO de-throttle order (seat serialization ruled a law-sec.1
+    # "never-dry" violation: every machine keeps its own continuous
+    # series, waiting forbidden; sequential scientific constraints
+    # may preserve finalize ORDER only -- order is not idleness).
+    # Sovereignty rotation law F-20260901-01 slot W34=bm-b per the
+    # +3 rotation from the W31=bm-b real anchor (finalize landed
+    # bm-b r525, K=66,120; W33 finalize landed bm-a r544 same-window,
+    # K=70,520, ledger 437,148 chain head -- W1..W33 ALL finalized
+    # at this freeze, the chain fully caught up, zero pending
+    # upstream face for the first time). BOTH tails arithmetic-clean
+    # exactly as the W33 row's W34+ WARNING projected (A 111_004..
+    # 113_003 == W33 A end + 1, B 41_801..42_000 == W33 B end + 1,
+    # no skip either side). Machine-verified at prereg time
+    # (results/_r527bmb_w34_band_gate.py ADMIT receipt vs the 31-row
+    # pre-W34 table incl. W30/W31/W32/W33 + SEED_REGISTRY values +
+    # probe-seed cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg; the
+    # same-window pre-scan receipt results/_r527bmb_w34_pre_band_
+    # gate.py is the leg-0 evidence base). TWENTY-THIRD engine-owned
+    # wave, bm-b's TENTH owned wave after W10/W11/W13/W16/W19/W22/
+    # W25/W28/W31. NOT a re-pick (R250: W34 bands were never
+    # assigned; the measurement face has no result to fish).
+    # W35+ WARNING: A +2_000 tail 113_004..115_003 and B +200 tail
+    # 42_001..42_200 projection per the r527 gate receipt -- verify
+    # at W35 prereg (rotation slot W35=bm-c).
+    34: {"a": (111_004, 113_003), "b_exit": (41_801, 42_000),
+         "engine_owner": "bm-b"},
     # W35 (r545 bm-a, engine de-throttle law O-20261001-2355 sec.2:
     # per-machine self-owned continuous series, zero-gap relay after the
     # machine's previous wave closes -- W33 finalize landed bm-a r544,
