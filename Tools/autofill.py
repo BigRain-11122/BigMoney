@@ -703,6 +703,41 @@ def _tick_owned_dirt():
     return [p for p in dirt if os.path.exists(p)]
 
 
+def _staged_foreign_block(dirt):
+    """F-20261002-02 pre-commit staged-ownership claw (r519 family
+    6th offender, live face: tick commit 6765a3b93 deleted
+    n1_w40_results.json from origin by committing a concurrent
+    session's leftover STAGED-DELETION index face -- a bare
+    `git commit` commits the WHOLE index, not just the tick's add).
+    Before any tick commit: verify the staged set is exactly the
+    tick's own dirt; any foreign staged path = a session owns the
+    index -> defer the tick commit (next tick retries). Fail-closed
+    on unreadable diff (no commit)."""
+    rc, out = _git(("diff", "--cached", "--name-only"))
+    if rc != 0:
+        _log("tick commit deferred: staged-set diff unreadable "
+             "(fail-closed, F-20261002-02)")
+        return True
+    staged = set()
+    for l in (out or "").splitlines():
+        l = l.strip()
+        if l:
+            l = l[2:] if l.startswith("./") else l
+            staged.add(l.replace(os.sep, "/"))
+    owned = set()
+    for p in dirt:
+        p = str(p)
+        p = p[2:] if p.startswith("./") else p
+        owned.add(p.replace(os.sep, "/"))
+    foreign = staged - owned
+    if foreign:
+        _log(f"tick commit deferred: foreign staged set x{len(foreign)} "
+             f"({'; '.join(sorted(foreign)[:3])}) -- session owns the "
+             f"index (F-20261002-02 staged-ownership claw)")
+        return True
+    return False
+
+
 def _runner_core_verdict(runner_rel):
     """O-20260930-2355 law-1 (T-134 s3): workers_plan is CODE, not a
     declaration -- source-scan the runner for a real process-pool
@@ -919,6 +954,11 @@ def _harvest_done_flips(myid):
         for args in (("add", *dirt),
                      ("commit", "-m", _hmsg),
                      ("push",)):
+            if args[0] == "commit" and _staged_foreign_block(dirt):
+                _log("harvest git deferred: foreign staged set -- "
+                     "session owns the index (F-20261002-02), next "
+                     "tick commits")
+                return len(flips)
             rc, err = _git(args)
             if rc == 0:
                 continue
@@ -1367,6 +1407,13 @@ def _claim_shard(sh, myid, entry_id):
                       f"(r199 launch-claim + r290 self-commit) "
                       f"[via {myid}]"),
                      ("push",)):
+            if args[0] == "commit" and _staged_foreign_block(
+                    (POOL, *_tick_owned_dirt())):
+                _pool_rollback(prev, prev_lane)
+                _log("claim deferred: foreign staged set -- session "
+                     "owns the index (F-20261002-02 staged-ownership "
+                     "claw) -> next tick re-claims")
+                return False
             rc, err = _git(args)
             if rc == 0:
                 continue
@@ -1492,6 +1539,13 @@ def _keepalive_claims(pool, myid):
                       f"(r288 claim-refresh + r290 self-commit) "
                       f"[via {myid}]"),
                      ("push",)):
+            if args[0] == "commit" and _staged_foreign_block(
+                    (POOL, *_tick_owned_dirt())):
+                _pool_rollback(prev, prev_lane)
+                _log("keepalive deferred: foreign staged set -- session "
+                     "owns the index (F-20261002-02 staged-ownership "
+                     "claw) -> next tick re-refreshes")
+                return []
             rc, err = _git(args)
             if rc == 0:
                 continue
@@ -2258,6 +2312,8 @@ def selftest():
         #                                       marker absent at add)
         behind_sim = {"on": False}   # r351: origin moved the pool past
         #                                  HEAD (probe returns "stale")
+        staged_sim = {"foreign": ()}  # F-20261002-02 leg: non-empty ->
+        #                                the staged-ownership claw trips
 
         def _fake_git(args):
             if args[0] in ("add", "commit", "push", "pull", "rebase"):
@@ -2266,6 +2322,9 @@ def selftest():
                 #                            the sequence assertions
             if args[0] == "diff" and behind_sim["on"]:
                 return 1, ""               # r351 pool-behind-origin face
+            if (args[0] == "diff" and "--cached" in args
+                    and staged_sim["foreign"]):
+                return 0, "\n".join(staged_sim["foreign"]) + "\n"
             if args[0] == "add":
                 add_args_all.append(args[1:])
             if args[0] == "push" and push_sim["mid_appears"]:
@@ -2323,6 +2382,20 @@ def selftest():
         p15b = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
         ok("S15b rival fresh claim -> yield, no overwrite",
            r15b is False and p15b.get("owner") == "bm-z")
+        # S15z F-20261002-02 staged-ownership claw: a foreign staged
+        # index face (concurrent session / leftover surgical S0 state)
+        # must DEFER the tick commit -- live case: 6765a3b93 committed
+        # a session's staged deletion of n1_w40_results.json to origin
+        # (r519 family 6th offender, tick self-commit variant).
+        _pool_with({"key": "s0", "status": "ready", "owner": None})
+        staged_sim["foreign"] = ("results/perpetual_faces/n1_w40_results.json",)
+        git_seq.clear()
+        rz = _claim_shard({"key": "s0"}, "bm-b", "E1")
+        pz = json.load(open(POOL, encoding="utf-8"))["entries"][0]["shards"][0]
+        ok("S15z foreign staged set -> claim deferred, no commit, pool rolled back",
+           rz is False and pz.get("owner") is None
+           and git_seq == ["add"])
+        staged_sim["foreign"] = ()
         # S15c rival STALE claim -> takeover, owner rewritten
         _pool_with({"key": "s0", "status": "ready", "owner": "bm-z",
                     "owner_since": "2026-09-24 18:00:00"})
