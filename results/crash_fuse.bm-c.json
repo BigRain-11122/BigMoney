@@ -391,6 +391,36 @@
    "entry": "LOWAMP-P1-CELL-LAEDGE-LEGACY-X2",
    "shard": "lowamp-p1-cell-laedge-legacy-x2-0of1",
    "machine": "bm-c"
+  },
+  "scripts/trial_labor_w14.py|generate": {
+   "count": 1,
+   "refusals": 17,
+   "code_sha256": "07ae17fea4ba8da2",
+   "last_crash_ts": "2026-10-01 06:00:04",
+   "entry": "TRIAL-LABOR-W14-GENERATE",
+   "shard": "generate-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-01 06:46:04"
+  },
+  "scripts/exclusion_marginal_scan.py|run": {
+   "count": 1,
+   "refusals": 3,
+   "code_sha256": "3cb919dc33b2c147",
+   "last_crash_ts": "2026-10-01 07:12:03",
+   "entry": "EXCLUSION-MARGINAL-P1-RUN",
+   "shard": "exclusion-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-01 07:16:04"
+  },
+  "scripts/cross_start_robustness.py|run_face_b": {
+   "count": 1,
+   "refusals": 2,
+   "code_sha256": "e2bcf587207adca1",
+   "last_crash_ts": "2026-10-01 07:14:03",
+   "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
+   "shard": "faceb-0of1",
+   "machine": "bm-b",
+   "last_refusal_ts": "2026-10-01 07:16:05"
   }
  },
  "cleared": {
@@ -561,6 +591,41 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "07ae17fea4ba8da2"
+  },
+  "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6": {
+   "cleared_ts": "2026-10-01 12:10:15",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "cce0f51237e4094d"
+  },
+  "scripts/stock_face_furnace.py|run,--family,lowamp,--cells,108:144,--workers,6": {
+   "cleared_ts": "2026-10-01 12:30:05",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "89a80afe23a7f6fb"
+  },
+  "scripts/stock_face_furnace.py|run,--family,mom,--cells,0:4,--workers,6": {
+   "cleared_ts": "2026-10-01 12:36:16",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "89a80afe23a7f6fb"
+  },
+  "scripts/stock_face_furnace.py|run,--family,mom,--cells,4:8,--workers,6": {
+   "cleared_ts": "2026-10-01 12:38:17",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "89a80afe23a7f6fb"
+  },
+  "scripts/lowamp_p2.py|run,--nulls": {
+   "cleared_ts": "2026-10-01 14:02:41",
+   "cleared_by": "bm-c",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "178142441a291551"
   }
  },
  "lane_machine": "bm-c"
