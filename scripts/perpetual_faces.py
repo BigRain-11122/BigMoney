@@ -182,6 +182,20 @@ N1_BANDS = {
     # still verified at that time.
     12: {"a": (63_050, 65_049), "b_exit": (29_100, 29_299),
          "engine_owner": "bm-a"},
+    # W13 (r512 bm-b, prereg-time extension per the W12 row's W13+
+    # WARNING -- never-dry supply law standing step / r512 watermark-red
+    # anti-idle root fix): A's +2_000 arithmetic tail (65_050..67_049) is
+    # REFUSED -- SEED_REGISTRY cluster bond_carry_w3a 66_000 /
+    # p1e_zoo_behavior 67_000 -- so A skips to the first 2,000-window
+    # clear of every reserved band AND the actual draw ranges
+    # (70_001..72_000); B keeps the +200 stride verbatim (29_300 ==
+    # W12 B end + 1, clean). FOURTH engine-owned wave, bm-b's third.
+    # ADMIT receipt: results/_r512bmb_w13_band_gate.py. Skip is FORCED,
+    # NOT a re-pick (R250). W14+ WARNING: A +2_000 arithmetic tail
+    # 72_001..74_000 and B +200 tail 29_500..29_699 project clean on the
+    # current registry face -- verify at prereg time as always.
+    13: {"a": (70_001, 72_000), "b_exit": (29_300, 29_499),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -767,8 +781,14 @@ def cmd_selftest():
         "W10 bands must clear the lfc actual draw range"
     assert N1_BANDS[10].get("engine_owner") == "bm-b", \
         "W10 engine_owner must be bm-b (T-141 s1 first engine wave)"
-    assert all(not N1_BANDS[w].get("engine_owner")
-               for w in N1_BANDS if w not in (10, 11, 12)), \
+    # engine-wave set derives from the band table itself (r511 law: enum-
+    # snapshot legs must derive, never hardcode wave ids -- W12 patched
+    # this tuple by hand once, W13 flagged it red again at freeze time;
+    # structural truth: engine ownership is an era property, not a
+    # per-wave whitelist -- every engine-owned wave must be >= 10, every
+    # wave below the engine era stays pool-owned).
+    assert all(w >= 10 for w in N1_BANDS
+               if N1_BANDS[w].get("engine_owner")), \
         "pool-era waves must stay pool-owned (engine_owner only on W10+ engine waves)"
     # 3h. W11 arithmetic-continuation invariant (r510 bm-b, SECOND
     # ENGINE-OWNED WAVE): the W10 row projected BOTH arithmetic tails

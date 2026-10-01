@@ -240,6 +240,30 @@ WAVE_CONFIGS = {
          "b_exit_seed_base": 29_100,     # law sec.4 W12 B: 29_100..29_299 (arithmetic)
          "shard_subdir": "n1_w12", "out_name": "n1_w12_results.json",
          "engine_owner": "bm-a"},
+    # W13 (r512 bm-b, never-dry supply law standing step = the r512
+    # watermark-red anti-idle root fix: FOURTH ENGINE-OWNED WAVE,
+    # engine_owner=bm-b -- bm-b's third owned wave after W10/W11, W12=bm-a
+    # in flight at freeze time -> burned by scripts/saturation_engine.py
+    # local perpetual queue, NEVER materialized into the pool by cmd_supply
+    # (engine-owner skip gate, SATURATION_ENGINE_LAW sec.1/sec.2 -- zero
+    # cross-machine duplication). A's arithmetic +2_000 tail
+    # (65_050..67_049) is REFUSED per the W12 row's WARNING projection --
+    # it hits the SEED_REGISTRY cluster bond_carry_w3a 66_000 /
+    # p1e_zoo_behavior 67_000; A packs at the first 2,000-window clear of
+    # every reserved band AND the actual draw ranges (70_001..72_000);
+    # B's arithmetic +200 tail (29_300..29_499, W12 B end + 1) lands clean
+    # and keeps the stride verbatim. Machine-verified at prereg time
+    # (results/_r512bmb_w13_band_gate.py ADMIT receipt). Skip is FORCED
+    # (leg1 arithmetic-tail REFUSED evidence), NOT a re-pick (R250).
+    13: {"batch": "PERPETUAL-N1-W13",
+         "prereg": ("research/PERPETUAL_N1_W13_PREREG.md (wave-level frozen "
+                    "pre-run; design = frozen v1 null calibration verbatim, "
+                    "new seed bands only; FOURTH ENGINE-OWNED WAVE, "
+                    "never-dry supply law, engine_owner=bm-b)"),
+         "a_seed_base": 70_001,          # law sec.4 W13 A: 70_001..72_000 (skip-over)
+         "b_exit_seed_base": 29_300,     # law sec.4 W13 B: 29_300..29_499 (arithmetic)
+         "shard_subdir": "n1_w13", "out_name": "n1_w13_results.json",
+         "engine_owner": "bm-b"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
