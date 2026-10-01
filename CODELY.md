@@ -2,6 +2,7 @@
 ### User
 - [2026-09-24 16:07:32] CEO 最高判据宣言「实战出真知」（2026-09-24 原话「对，不管什么玩意，实战出真知！」·2026-09-24 系列令的元哲学）：一切策略/因子/理论/外部方法论的最终裁判=实战数据（真实历史行情重演+当前市场模拟+前向纸盘），理论漂亮度、来源光环（学术/名库/民间经验）、叙事合理性一律不作数。与既有北极星「未回测=未测量」同源但更强：回测也要是「实战级」的（海量虚拟时点+指定起点窗+成本压测），不是单次历史曲线。How to apply：呈报只给实战数字与结论；对任何新策略/外采方法的评估先问「实盘级检验过没有」；叙述性框架（如 V3/V4 系统设计类文件）在 CEO 面永远次于跑出来的数字。（R156 热冷整编时自 09-24 批单条热恢复——User 节元律不随批归档；归档侧迁移记录留痕。）
 ### Feedback
+- [2026-10-01 13:4x r517 bm-a] O-1332 CEO 算力饱和恢复令回执（S7 双扫截获·同轮 ack）：T-139 点火 SLA 违例定谳=census stage-A 6/6（r512 产品）≠炉开烧；stage-B judged prereg（survivors=census_ranking.json top10_independent·D6 已过）为点火前置禁跳 → r518 首动作=prereg 冻结+池登记+开烧（ProcessPool+核分布行）；T-131 批准=bm-c 车道（r292 探针）；NULLS 烧录 TEMP 头/活尾分裂（r220 移件）→ 重聚律=烧录 EXIT 后才碰产物件（活句柄面禁中途合并）。正典=fleet/orders/O-20261001-1332-bm-c.md；回执=round_reports-bm-a.md r517 行+心跳 orders_ack。
 ### Project
 - 冷层指针（r483 合并·指针合并归档 r444 范式）：r478 验收判据多读法坑（判据原文量化面钉死）+r270 改革正典范围分工定谳（RW-5 冻结令）+r277 stash-pop 撞活跃运行件坑+r280 r277 前置避坑腿（plain pull 法）+r280 LHB 改史守卫误伤迟披露形态（is_pure_addition 第二判）+r471 同机猝死半成品处置律+UD 坑+r482 science_gates 调用模式坑（-m 模式律）——七条全文 verbatim=archive 202609.md『热冷整编 2026-09-30 r483 bm-a 窗批』节。
 - [2026-09-30 22:0x r289 bm-c] 共享 JSON 整文件重写格式坑（runnable_pool.json 翻面实弹·两连犯当场抓回）：python json.dump 整文件重写前必核原件 indent+行尾——runnable_pool.json=indent2+CRLF，裸 dumps(indent 不匹配) 或 LF 行尾都会刷 5,300+ 行整排 diff（dualrun 下轮漂移误报面）；正解=dumps(pool, ensure_ascii=False, indent=2) 后 .replace('\n','\r\n') 再 newline='' 写入，写后必 git diff --stat 核外科性（本窗两次整排均靠 diff --stat 当场抓回）。How to apply：一切对仓内共享 JSON 的程序化改写，写前探行尾（ReadAllBytes 数 CRLF/LF）+写后 diff 外科断言，勿信默认参数。
