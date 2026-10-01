@@ -683,6 +683,16 @@ def cmd_run(args) -> int:
     ram = _free_ram_gb()
     floor = _ram_floor_gb(workers)
     if ram < floor:
+        # r491 park family (resource-wait cousin of the data-wait law):
+        # free-RAM gate exit 3 is an honest zero-burn refusal, NOT a
+        # crash -- live 2026-10-01: rev-0to31 exit-3 fed the fuse and
+        # 21 refusals froze the shard. Marker -> confirmer parks the
+        # entry instead of fusing; un-park = RAM frees above floor.
+        import datetime as _dt
+        print(_dt.datetime.now().strftime(
+            "AUTOFILL-PARK: %Y-%m-%d %H:%M:%S ")
+              + f"free-RAM gate {ram:.1f}GB < floor {floor:.1f}GB "
+              f"(workers={workers}) -- honest zero-burn, exit 3")
         print(f"run: free RAM {ram:.1f}GB below floor {floor:.1f}GB "
               f"(workers={workers}) -- exit 3")
         return 3
