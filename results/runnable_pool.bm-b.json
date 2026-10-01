@@ -11081,7 +11081,7 @@
    ],
    "lane_owner": "ANY",
    "priority": 0,
-   "status": "ready",
+   "status": "done",
    "entered_at": "2026-10-01 12:42:28",
    "entered_by": "bm-a (OS iteration loop r514)",
    "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| fresh probe 0.1738 vs 0.7 + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod; sec.0.6 HOLD-THROUGH exit-axis (default stack disabled in runner params, six keys, prereg verbatim)",
@@ -11092,12 +11092,18 @@
    "shards": [
     {
      "key": "lowamp-p2-cell-laedge-legacy-base-0of1",
-     "status": "ready",
+     "status": "done",
      "checkpoint": "results/lowamp_p2/ JSONL per-start append, done-key skip",
      "owner": "bm-c",
-     "owner_since": "2026-10-01 13:00:11"
+     "owner_since": "2026-10-01 13:22:04",
+     "claimed_since": "2026-10-01 13:00:11",
+     "done_at": "2026-10-01 13:22:04",
+     "harvested_by": "bm-c",
+     "harvest_claim": "lowamp-p2-cell-laedge-legacy-base-0of1.bm-c.json"
     }
-   ]
+   ],
+   "done_by": "bm-c",
+   "done_at": "2026-10-01 13:22:04"
   },
   {
    "id": "LOWAMP-P2-CELL-LAEDGE-LEGACY-X2",
@@ -11244,8 +11250,8 @@
      "status": "ready",
      "checkpoint": "results/lowamp_p2/ JSONL per-start append, done-key skip",
      "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20334500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool; N_eff face: net ledger head + 2008",
-     "owner": "bm-a",
-     "owner_since": "2026-10-01 13:09:43"
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 13:30:14"
     }
    ]
   },
