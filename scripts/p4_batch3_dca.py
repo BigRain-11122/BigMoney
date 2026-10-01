@@ -62,6 +62,15 @@ Checkpoint row-level resume (t22 law) for cells + nulls; finalize
 reads the checkpoint file, never in-memory state (T-33 law);
 finalize single-shot guard (OUT_JSON exists -> refuse).
 
+ProcessPool face (T-134 s2 fifth conversion, r324 bm-c, O-2355): cells +
+nulls burn via scripts/parallel_runner.py ProcessPool BY DEFAULT;
+P4B3_MP=0 -> serial escape (legacy loop, byte-equal products). Workers
+ship the parent's CURRENT panels/triggers through initargs (r511 law);
+cells keep the swallow-and-record error law, nulls keep the propagate
+law on BOTH paths; audit.workers records the honest pool width. Pool
+completion order never leaks into products (finalize reads the
+checkpoint as a key->row dict in frozen structural order, T-33 law).
+
 Usage: python scripts/p4_batch3_dca.py run | selftest
 Products: results/shortline_p4_batch3.json
 + research/shortline/p4_batch3_results.csv + gate_attrition row
@@ -214,6 +223,183 @@ def run_cell(prices, idx, entry, exit_, params, ce, cost_mult=None,
             "n_trades": res["metrics"]["num_trades"],
             "n_entries": res["metrics"].get("num_entries", -1),
             "oos_trades": oos_ts, "stop_bite": sb, "staged_metrics": staged_m}
+
+
+# ------------------------------------------- pool face (T-134 s2 r324 bm-c)
+
+_MP_ENV = "P4B3_MP"              # =0 -> serial escape (legacy byte-equal)
+
+
+def _cell_row(prices, idx, tk, T, mode, regime, face, mult, staged):
+    """Cell unit + checkpoint row body -- SINGLE SOURCE for the serial and
+    pool paths (bit-identity by construction, r306 recipe). Raises on
+    engine errors; callers own the swallow (cells) vs propagate (nulls)
+    law. Byte-for-byte the pre-conversion inline construction."""
+    r = run_cell(prices, idx, T["entry"], T["exit"], T["params"],
+                 regime == "ce", mult, staged)
+    row = {"key": cell_key(tk, mode, regime, face), "name": T["name"],
+           "family": T["family"], "trigger": tk, "mode": mode,
+           "regime": regime, "cost_face": face, "status": "ok",
+           "full": {k: (round(float(v), 6)
+                        if isinstance(v, (int, float)) else v)
+                    for k, v in r["full"].items()},
+           "oos": {k: round(float(v), 6) for k, v in r["oos"].items()},
+           "n_trades": r["n_trades"], "n_entries": r["n_entries"],
+           "oos_trades": r["oos_trades"], "stop_bite": r["stop_bite"],
+           "staged_metrics": r["staged_metrics"], "note": T["note"]}
+    if face == "x1":
+        rets = r["eq"].pct_change().dropna()
+        row["_rets"] = [round(float(x), 8) for x in rets.to_numpy()]
+        row["_eq_index"] = [str(d.date()) for d in r["eq"].index]
+    return row
+
+
+def _cell_error_row(tk, mode, regime, face, ex):
+    """Error-row face verbatim from the pre-conversion serial catch."""
+    return {"key": cell_key(tk, mode, regime, face), "trigger": tk,
+            "mode": mode, "regime": regime, "cost_face": face,
+            "status": f"cell_error: {type(ex).__name__}: {ex}"}
+
+
+def _null_row(prices, idx, syms, regime, k):
+    """Null unit + checkpoint row body -- single source, same law."""
+    p = BASELINE_P[k // 25]
+    seed = null_seed(regime, k)
+    e = null_entry(idx, syms, p, seed)
+    r = run_cell(prices, idx, e, _false_panel(idx, syms), {}, regime == "ce")
+    return {"key": f"null|{regime}|{k}", "name": f"rand_{regime}_p{p}_s{k}",
+            "exit_regime": regime, "status": "ok", "p": p, "seed": seed,
+            "full": {"sharpe": round(float(r["full"]["sharpe"]), 6),
+                     "annual_return": round(float(r["full"]["annual_return"]), 6),
+                     "max_drawdown": round(float(r["full"]["max_drawdown"]), 6)},
+            "oos": {kk: round(float(vv), 6)
+                    for kk, vv in r["oos"].items()}}
+
+
+def _mp_init(prices, idx, syms, trig):
+    """Worker initializer: ship the PARENT'S CURRENT panels/triggers through
+    initargs into module globals (r511 law -- spawn-fresh workers never
+    depend on import-time state; no builder re-run)."""
+    g = globals()
+    g["_MP_PRICES"] = prices
+    g["_MP_IDX"] = idx
+    g["_MP_SYMS"] = syms
+    g["_MP_TRIG"] = trig
+
+
+def _mp_cell_job(tk, mode, regime, face, mult, staged):
+    """Pool cell unit. Swallows engine errors INTO THE SAME error-row face
+    the serial loop records (cells = swallow law); the parent persists."""
+    try:
+        T = _MP_TRIG[tk]
+        return {"row": _cell_row(_MP_PRICES, _MP_IDX, tk, T, mode, regime,
+                                 face, mult, staged)}
+    except Exception as ex:            # noqa: BLE001 -- serial swallow law
+        return {"err": _cell_error_row(tk, mode, regime, face, ex)}
+
+
+def _mp_null_job(regime, k):
+    """Pool null unit. NO swallow -- exceptions propagate to the parent
+    collect loop and crash the run (serial null law, no silent rows)."""
+    return {"row": _null_row(_MP_PRICES, _MP_IDX, _MP_SYMS, regime, k)}
+
+
+_LAST_MP_INFO = None   # honest audit face: pool width actually used
+
+
+def _burn_cells_and_nulls(prices, idx, syms, trig, done):
+    """Cells (16) + nulls (100) burn, checkpoint-resume, serial-or-pool.
+
+    Pool = default (T-134 s2 fifth conversion, r324 bm-c); P4B3_MP=0 is the
+    serial escape with the legacy loop body. Cells keep the
+    swallow-and-record law, nulls keep the propagate law, on BOTH paths.
+    """
+    global _LAST_MP_INFO
+    _LAST_MP_INFO = None
+    use_pool = os.environ.get(_MP_ENV, "1") != "0"
+    if not use_pool:
+        # ---- serial escape (legacy path, shared row bodies) ----
+        for tk in TRIGGERS:
+            T = trig[tk]
+            for mode in MODES:
+                staged = dict(STAGED) if mode == "staged" else None
+                for regime in REGIMES:
+                    for face, mult in (("x1", None), ("x2", 2.0)):
+                        key = cell_key(tk, mode, regime, face)
+                        if key in done:
+                            _log(f"cell {key}: resume-skip")
+                            continue
+                        try:
+                            row = _cell_row(prices, idx, tk, T, mode,
+                                            regime, face, mult, staged)
+                            _append_row(row)
+                            _log(f"cell {key}: "
+                                 f"s={row['full']['sharpe']:.4f} "
+                                 f"sb={row['stop_bite']['stop_bite_rate']:.4f} "  # noqa: E501
+                                 f"trades={row['n_trades']}")
+                        except Exception as ex:
+                            _append_row(_cell_error_row(tk, mode, regime,
+                                                        face, ex))
+                            _log(f"cell {key}: ERROR {ex}")
+        for regime in REGIMES:
+            for k in range(N_RAND):
+                key = f"null|{regime}|{k}"
+                if key in done:
+                    continue
+                _append_row(_null_row(prices, idx, syms, regime, k))
+            _log(f"nulls regime={regime}: checked {N_RAND}")
+        return None
+
+    # ---- pool path (ProcessPool via parallel_runner, O-2355/T-134) ----
+    from parallel_runner import run_cells_parallel
+    cell_jobs, null_jobs = [], []
+    for tk in TRIGGERS:
+        for mode in MODES:
+            staged = dict(STAGED) if mode == "staged" else None
+            for regime in REGIMES:
+                for face, mult in (("x1", None), ("x2", 2.0)):
+                    key = cell_key(tk, mode, regime, face)
+                    if key not in done:
+                        cell_jobs.append((key, _mp_cell_job,
+                                          (tk, mode, regime, face, mult,
+                                           staged)))
+                    else:
+                        _log(f"cell {key}: resume-skip")
+    for regime in REGIMES:
+        for k in range(N_RAND):
+            key = f"null|{regime}|{k}"
+            if key not in done:
+                null_jobs.append((key, _mp_null_job, (regime, k)))
+
+    def _persist(key, payload):
+        if "err" in payload:
+            _append_row(payload["err"])
+            _log(f"cell {key}: ERROR {payload['err']['status']}")
+        else:
+            row = payload["row"]
+            _append_row(row)
+            if key.startswith("cell|"):
+                _log(f"cell {key}: s={row['full']['sharpe']:.4f} "
+                     f"sb={row['stop_bite']['stop_bite_rate']:.4f} "
+                     f"trades={row['n_trades']}")
+
+    info = {}
+    if cell_jobs:
+        out = run_cells_parallel(cell_jobs, desc="p4b3-cells",
+                                 initializer=_mp_init,
+                                 initargs=(prices, idx, syms, trig),
+                                 on_result=_persist)
+        info["cells_workers"] = out["__workers__"]
+        info["cells_jobs"] = len(cell_jobs)
+    if null_jobs:
+        outn = run_cells_parallel(null_jobs, desc="p4b3-nulls",
+                                  initializer=_mp_init,
+                                  initargs=(prices, idx, syms, trig),
+                                  on_result=_persist)
+        info["nulls_workers"] = outn["__workers__"]
+        info["nulls_jobs"] = len(null_jobs)
+    _LAST_MP_INFO = info or None
+    return info
 
 
 # ---------------------------------------------------------------- checkpoint
@@ -479,7 +665,14 @@ def finalize(cell_rows, verdict_cells, pair_rows, nulls, passive_rows,
                                   + len(anchors.get("repro", []))
                                   + (1 if D6_KIN in anchors.get("rets", {})
                                      else 0)),
-                  "workers": 1, "cpu_parallel": "serial (single-process)",
+                  "workers": (_LAST_MP_INFO["cells_workers"]
+                              if _LAST_MP_INFO else 1),
+                  "cpu_parallel": ("ProcessPool via parallel_runner "
+                                   "(T-134 s2 fifth conversion r324 bm-c)"
+                                   if _LAST_MP_INFO
+                                   else "serial (single-process)"),
+                  "mp_overlay": (dict(_LAST_MP_INFO)
+                                 if _LAST_MP_INFO else None),
                   "prereg_frozen_before_run": True},
     }
     with open(OUT_JSON, "w", encoding="utf-8") as fh:
@@ -581,74 +774,9 @@ def cmd_run(_) -> int:
     trig = build_triggers(P)
     done = load_rows(CELLS_PATH)
 
-    # ---------- cells: 2 triggers x 2 modes x 2 regimes x 2 faces ----------
-    for tk in TRIGGERS:
-        T = trig[tk]
-        for mode in MODES:
-            staged = dict(STAGED) if mode == "staged" else None
-            for ce in (False, True):
-                regime = "ce" if ce else "default"
-                for face, mult in (("x1", None), ("x2", 2.0)):
-                    key = cell_key(tk, mode, regime, face)
-                    if key in done:
-                        _log(f"cell {key}: resume-skip")
-                        continue
-                    try:
-                        r = run_cell(prices, idx, T["entry"], T["exit"],
-                                     T["params"], ce, mult, staged)
-                        row = {"key": key, "name": T["name"],
-                               "family": T["family"], "trigger": tk,
-                               "mode": mode, "regime": regime,
-                               "cost_face": face, "status": "ok",
-                               "full": {k: (round(float(v), 6)
-                                            if isinstance(v, (int, float))
-                                            else v)
-                                        for k, v in r["full"].items()},
-                               "oos": {k: round(float(v), 6)
-                                       for k, v in r["oos"].items()},
-                               "n_trades": r["n_trades"],
-                               "n_entries": r["n_entries"],
-                               "oos_trades": r["oos_trades"],
-                               "stop_bite": r["stop_bite"],
-                               "staged_metrics": r["staged_metrics"],
-                               "note": T["note"]}
-                        if face == "x1":
-                            rets = r["eq"].pct_change().dropna()
-                            row["_rets"] = [round(float(x), 8)
-                                            for x in rets.to_numpy()]
-                            row["_eq_index"] = [str(d.date())
-                                                for d in r["eq"].index]
-                        _append_row(row)
-                        _log(f"cell {key}: s={r['full']['sharpe']:.4f} "
-                             f"sb={r['stop_bite']['stop_bite_rate']:.4f} "
-                             f"trades={r['n_trades']}")
-                    except Exception as ex:
-                        _append_row({"key": key, "trigger": tk, "mode": mode,
-                                     "regime": regime, "cost_face": face,
-                                     "status": f"cell_error: "
-                                               f"{type(ex).__name__}: {ex}"})
-                        _log(f"cell {key}: ERROR {ex}")
-
-    # ---------- nulls: 50 per exit regime, single-shot (checkpointed) ------
-    for ce in (False, True):
-        regime = "ce" if ce else "default"
-        for k in range(N_RAND):
-            p = BASELINE_P[k // 25]
-            seed = null_seed(regime, k)
-            key = f"null|{regime}|{k}"
-            if key in done:
-                continue
-            e = null_entry(idx, syms, p, seed)
-            r = run_cell(prices, idx, e, _false_panel(idx, syms), {}, ce)
-            _append_row({"key": key, "name": f"rand_{regime}_p{p}_s{k}",
-                         "exit_regime": regime, "status": "ok", "p": p,
-                         "seed": seed,
-                         "full": {"sharpe": round(float(r["full"]["sharpe"]), 6),
-                                  "annual_return": round(float(r["full"]["annual_return"]), 6),
-                                  "max_drawdown": round(float(r["full"]["max_drawdown"]), 6)},
-                         "oos": {kk: round(float(vv), 6)
-                                 for kk, vv in r["oos"].items()}})
-        _log(f"nulls regime={regime}: checked {N_RAND}")
+    # ---------- cells + nulls: burn via _burn_cells_and_nulls (pool
+    # ---------- default, P4B3_MP=0 serial escape; T-134 s2 r324 bm-c) ------
+    _burn_cells_and_nulls(prices, idx, syms, trig, done)
 
     # ---------- rebuild from checkpoint (T-33 law: file, not memory) ------
     rows = load_rows(CELLS_PATH)
@@ -917,6 +1045,81 @@ def cmd_selftest(_) -> int:
                                                        "sharpe": 0.5}}))
     finally:
         lp.seg_metrics = orig
+    # -- S-mp legs (T-134 s2 fifth conversion r324 bm-c; r312 recipe:
+    #    real-engine tiny fixtures, tmp artifacts only, zero repo products)
+    from live.paper import load_core as _lc
+    from parallel_runner import run_cells_parallel as _rcp
+    _ps = pd.Timestamp("2025-06-02")
+    sm_prices = {s: df[df.index <= _ps].tail(240)
+                 for s, df in _lc().items()}
+    sm_idx = next(iter(sm_prices.values())).index
+    sm_syms = list(sm_prices)
+    sm_entry = pd.DataFrame(False, index=sm_idx, columns=sm_syms)
+    for _j in range(0, len(sm_idx), 10):
+        for _s in sm_syms[:3]:
+            sm_entry.loc[sm_idx[_j], _s] = True
+    sm_exit = pd.DataFrame(False, index=sm_idx, columns=sm_syms)
+    sm_trig = {"smp": {"name": "smp_fixture", "family": "smp",
+                       "params": {}, "entry": sm_entry, "exit": sm_exit,
+                       "note": "S-mp plumbing fixture"}}
+    _jobs = []
+    for mode in MODES:
+        _st = dict(STAGED) if mode == "staged" else None
+        for regime in REGIMES:
+            for face, mult in (("x1", None), ("x2", 2.0)):
+                _jobs.append((cell_key("smp", mode, regime, face),
+                              _mp_cell_job,
+                              ("smp", mode, regime, face, mult, _st)))
+    _ser = {}
+    for _kj, _fn, _args in _jobs:
+        _tk, _mode, _regime, _face, _mult, _st = _args
+        _ser[_kj] = _cell_row(sm_prices, sm_idx, _tk, sm_trig[_tk], _mode,
+                              _regime, _face, _mult, _st)
+    _p1 = _rcp(_jobs, workers=2, desc="s-mp", initializer=_mp_init,
+               initargs=(sm_prices, sm_idx, sm_syms, sm_trig))
+    _p1b = _rcp(_jobs, workers=2, desc="s-mp-dbl", initializer=_mp_init,
+                initargs=(sm_prices, sm_idx, sm_syms, sm_trig))
+    _p2 = _rcp(_jobs, workers=1, desc="s-mp-w1", initializer=_mp_init,
+               initargs=(sm_prices, sm_idx, sm_syms, sm_trig))
+    _keysp = list(_ser)
+    ok("S-mp pool==serial bit-identical (8 cells, workers=2)",
+       all(_p1[k]["row"] == _ser[k] for k in _keysp))
+    ok("S-mp double-run determinism (pool twice)",
+       all(_p1b[k]["row"] == _p1[k]["row"] for k in _keysp))
+    ok("S-mp worker-count invariance (1 == 2) + __workers__ honest",
+       all(_p2[k]["row"] == _p1[k]["row"] for k in _keysp)
+       and _p1["__workers__"] == 2 and _p2["__workers__"] == 1)
+    _njobs = [(f"null|default|{k}", _mp_null_job, ("default", k))
+              for k in range(4)]
+    _sern = {k: _null_row(sm_prices, sm_idx, sm_syms, "default", k)
+             for k in range(4)}
+    _pn = _rcp(_njobs, workers=2, desc="s-mp-nulls", initializer=_mp_init,
+               initargs=(sm_prices, sm_idx, sm_syms, sm_trig))
+    ok("S-mp null pool==serial bit-identical (4 nulls)",
+       all(_pn[f"null|default|{k}"]["row"] == _sern[k] for k in range(4)))
+    _bad = {"name": "bad", "family": "bad", "params": {},
+            "entry": object(), "exit": sm_exit, "note": "raise fixture"}
+    try:
+        _cell_row(sm_prices, sm_idx, "bad", _bad, "single", "default",
+                  "x1", None, None)
+        _ser_status = "NO-RAISE"
+    except Exception as ex:
+        _ser_status = f"cell_error: {type(ex).__name__}: {ex}"
+    _pb = _rcp([(cell_key("bad", "single", "default", "x1"), _mp_cell_job,
+                 ("bad", "single", "default", "x1", None, None))],
+                workers=1, desc="s-mp-err", initializer=_mp_init,
+                initargs=(sm_prices, sm_idx, sm_syms, {"bad": _bad}))
+    _bkey = cell_key("bad", "single", "default", "x1")
+    ok("S-mp cell error swallow parity (same status face)",
+       "err" in _pb[_bkey] and _pb[_bkey]["err"]["status"] == _ser_status)
+    _raised = False
+    try:
+        _rcp([("null|default|0", _mp_null_job, ("default", 0))],
+             workers=1, desc="s-mp-prop", initializer=_mp_init,
+             initargs=(None, sm_idx, sm_syms, sm_trig))
+    except Exception:
+        _raised = True
+    ok("S-mp null error propagates (no silent swallow)", _raised)
     print("SELFTEST", "ALL PASS" if ok_all else "FAIL")
     return 0 if ok_all else 1
 

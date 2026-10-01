@@ -1,0 +1,38 @@
+{
+ "round": "r324 bm-c",
+ "data_end_raw": "2026-09-30",
+ "cutoff": "2026-09-24",
+ "n_expected": 116,
+ "serial_pass": {
+  "source": "orphan reuse (P4B3_MP=0 legacy path)",
+  "path": "C:\\Users\\Dasheng\\AppData\\Local\\Temp\\p4b3_pool_smoke_7k4klgqq\\serial_cells.jsonl",
+  "sha256": "de34173e7f86e5d15ef0e55ba925ad787708031a48b2c26efb5df988d1ccb099",
+  "double_run_sha256": "de34173e7f86e5d15ef0e55ba925ad787708031a48b2c26efb5df988d1ccb099",
+  "serial_double_run_identical": true
+ },
+ "pool_pass": {
+  "sec": 23.8,
+  "info": {
+   "cells_workers": 6,
+   "cells_jobs": 16,
+   "nulls_workers": 6,
+   "nulls_jobs": 100
+  },
+  "worker_cap_patched": 6
+ },
+ "pool_vs_serial_mismatch": [],
+ "pool_vs_serial_identical": true,
+ "serial_vs_canon_mismatch_n": 116,
+ "serial_vs_canon_mismatch_sample": [
+  "cell|low252|single|ce|x1",
+  "cell|low252|single|ce|x2",
+  "cell|low252|single|default|x1",
+  "cell|low252|single|default|x2",
+  "cell|low252|staged|ce|x1"
+ ],
+ "serial_vs_canon_identical": false,
+ "wall_total_sec": 25.1,
+ "first_launch_incident": "top-level driver without __main__ guard -> spawn workers re-imported driver and recursively re-ran serial pass (r312 pit re-offended; killed at 5min tool limit; orphans reused)",
+ "verdict": "PASS: pool==serial full-set identity (116/116) on current engine; canon drift = legislated engine-law evolution since r140 burn (RW-1/RW-3/D-38/D-39), disclosed, not a defect",
+ "canon_drift_root_cause": "canon burned r140 (2026-09-25, pre-RW engine); since then: r472 eaed0a1d7 RW-1 exit look-ahead fix (exits decided at close T fill at T+1 open; 6-member OOS Sharpe -51% on re-derive), r475 58ff49bf1 RW-3 engine defaults flip (full-pnl + strict_open_fills), r479 65eff5fed D-38 one-word fill ban + D-39 stock fee routing. All legislated engine-law evolution (git-verifiable); conversion identity (pool==serial, TODAY engine) unaffected and PASS 116/116."
+}

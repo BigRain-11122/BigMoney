@@ -1,0 +1,832 @@
+{
+ "scan": "T-134 s2 fifth-candidate evidence rescan (locality-fixed)",
+ "round": "r324 bm-c",
+ "law": "r304 evidence-order law + r312 data-host locality gap fix",
+ "census_summary": {
+  "single_core": 34,
+  "multiprocess": 46
+ },
+ "single_core_count": 34,
+ "falsified_or_excluded": {
+  "innovation_quota_w10.py": "light 0.09s/cell measured (r304 quota nulls) - deprioritized",
+  "national_team_s3_review.py": "segment-light perm path family (r304) - deprioritized",
+  "sentiment_axes_derive.py": "numpy-vectorized short batch (r304) - deprioritized",
+  "p1e_synth.py": "FALSIFIED: write-once delivered, family 6/6 dormant (r310)",
+  "grid_dualface_backtest.py": "FALSIFIED: judged 0/30 line closed (r310)",
+  "bond_panel_puller.py": "EXCLUDED: I/O puller not a CPU face (r311)",
+  "p1e_ic_batch.py": "EXCLUDED: family dormant (r311)",
+  "decision_chain_v2.py": "EXCLUDED: consumed via converted v3 mp path (r311)",
+  "gpu_factor_matrix.py": "EXCLUDED: GPU face, not a CPU ProcessPool target (O-1136 GPU audit lane)"
+ },
+ "ranking": [
+  {
+   "runner": "t33_router_validation.py",
+   "path": "scripts/t33_router_validation.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-24 20:54:15",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 0,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "t36_drill_runner.py",
+   "path": "Tools/t36_drill_runner.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-24 22:01:41",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "p4_batch3_dca.py",
+   "path": "scripts/p4_batch3_dca.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-25 04:08:26",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": [
+     {
+      "file": "results/shortline_p4_batch3.json",
+      "elapsed_sec": 88.1,
+      "workers": 1,
+      "machine": null
+     }
+    ]
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "alloc_backtest.py",
+   "path": "scripts/alloc_backtest.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-25 12:32:26",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "mf_rot_backtest.py",
+   "path": "scripts/mf_rot_backtest.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-25 13:21:31",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cta_wave1.py",
+   "path": "scripts/cta_wave1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-25 20:40:00",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_rev_tilt_p1.py",
+   "path": "scripts/cn_rev_tilt_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 13:33:03",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": [
+     {
+      "file": "results/cn_rev_tilt/p1_results.json",
+      "elapsed_sec": 41.0,
+      "workers": 1,
+      "machine": null
+     }
+    ]
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_div_lowvol_rot_p1.py",
+   "path": "scripts/cn_div_lowvol_rot_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 14:39:04",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": [
+     {
+      "file": "results/cn_div_lowvol_rot/p1_results.json",
+      "elapsed_sec": 18.4,
+      "workers": 1,
+      "machine": null
+     }
+    ]
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/sh"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_regime_policy_p1.py",
+   "path": "scripts/cn_regime_policy_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 16:17:58",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": [
+     {
+      "file": "results/cn_regime_policy/p1_results.json",
+      "elapsed_sec": 28.7,
+      "workers": 1,
+      "machine": null
+     }
+    ]
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_core_sat_p1.py",
+   "path": "scripts/cn_core_sat_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 17:48:11",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": [
+     {
+      "file": "results/cn_core_satellite/p1_results.json",
+      "elapsed_sec": 21.8,
+      "workers": 1,
+      "machine": null
+     }
+    ]
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_core_ddctl_p1.py",
+   "path": "scripts/cn_core_ddctl_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 18:18:13",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": [
+     {
+      "file": "results/cn_core_ddctl/p1_results.json",
+      "elapsed_sec": 22.3,
+      "workers": 1,
+      "machine": null
+     }
+    ]
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "t19_phantom_contribution.py",
+   "path": "scripts/t19_phantom_contribution.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-27 10:52:00",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "p1e_neighbor_corr.py",
+   "path": "scripts/p1e_neighbor_corr.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 06:10:30",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "rev_osc_stock_p1.py",
+   "path": "scripts/rev_osc_stock_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-27 00:31:00",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock",
+     "Money02"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_kline_pattern_p1.py",
+   "path": "scripts/cn_kline_pattern_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-27 04:19:37",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "Money02"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_sector_leader_p1.py",
+   "path": "scripts/cn_sector_leader_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-27 07:01:17",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 3,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock",
+     "Money02"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "cn_mkneutral_p1.py",
+   "path": "scripts/cn_mkneutral_p1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-27 08:21:13",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock",
+     "Money02"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "sina_construct_ic.py",
+   "path": "scripts/sina_construct_ic.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-27 16:35:37",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 0,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "sina_mf",
+     "Money02"
+    ],
+    "missing": []
+   },
+   "prior": null
+  },
+  {
+   "runner": "sentiment_axes_derive.py",
+   "path": "scripts/sentiment_axes_derive.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-28 16:39:05",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": "numpy-vectorized short batch (r304) - deprioritized"
+  },
+  {
+   "runner": "national_team_s3_review.py",
+   "path": "scripts/national_team_s3_review.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-28 19:57:17",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/"
+    ],
+    "missing": []
+   },
+   "prior": "segment-light perm path family (r304) - deprioritized"
+  },
+  {
+   "runner": "innovation_quota_w1.py",
+   "path": "scripts/innovation_quota_w1.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-28 20:58:31",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/repo_daily/"
+    ],
+    "missing": []
+   },
+   "prior": "family prior: w10 nulls measured light 0.09s/cell (r304) -> family deprioritized pending per-file elapsed evidence"
+  },
+  {
+   "runner": "innovation_quota_w2.py",
+   "path": "scripts/innovation_quota_w2.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-28 22:05:31",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/repo_daily/"
+    ],
+    "missing": []
+   },
+   "prior": "family prior: w10 nulls measured light 0.09s/cell (r304) -> family deprioritized pending per-file elapsed evidence"
+  },
+  {
+   "runner": "innovation_quota_w4.py",
+   "path": "scripts/innovation_quota_w4.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-30 01:45:00",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/sh510300.csv"
+    ],
+    "missing": []
+   },
+   "prior": "family prior: w10 nulls measured light 0.09s/cell (r304) -> family deprioritized pending per-file elapsed evidence"
+  },
+  {
+   "runner": "innovation_quota_w5.py",
+   "path": "scripts/innovation_quota_w5.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-30 03:17:58",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 3,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/sh510300.csv"
+    ],
+    "missing": []
+   },
+   "prior": "family prior: w10 nulls measured light 0.09s/cell (r304) -> family deprioritized pending per-file elapsed evidence"
+  },
+  {
+   "runner": "innovation_quota_w6.py",
+   "path": "scripts/innovation_quota_w6.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-30 05:47:34",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 3,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": "family prior: w10 nulls measured light 0.09s/cell (r304) -> family deprioritized pending per-file elapsed evidence"
+  },
+  {
+   "runner": "innovation_quota_w7.py",
+   "path": "scripts/innovation_quota_w7.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-30 07:25:05",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 3,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/"
+    ],
+    "missing": []
+   },
+   "prior": "family prior: w10 nulls measured light 0.09s/cell (r304) -> family deprioritized pending per-file elapsed evidence"
+  },
+  {
+   "runner": "innovation_quota_w9.py",
+   "path": "scripts/innovation_quota_w9.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-30 09:33:32",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 4,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/"
+    ],
+    "missing": []
+   },
+   "prior": "family prior: w10 nulls measured light 0.09s/cell (r304) -> family deprioritized pending per-file elapsed evidence"
+  },
+  {
+   "runner": "innovation_quota_w10.py",
+   "path": "scripts/innovation_quota_w10.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-30 11:30:31",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 4,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/510300.csv"
+    ],
+    "missing": []
+   },
+   "prior": "light 0.09s/cell measured (r304 quota nulls) - deprioritized"
+  },
+  {
+   "runner": "bond_panel_puller.py",
+   "path": "scripts/bond_panel_puller.py",
+   "pool_entries": 6,
+   "pool_statuses": {
+    "done": 6
+   },
+   "latest_entered_at": "2026-09-25 22:37:11",
+   "census_pool_entry_count": 6,
+   "elapsed_faces": {
+    "declared_outputs": 1,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [],
+    "missing": []
+   },
+   "prior": "EXCLUDED: I/O puller not a CPU face (r311)"
+  },
+  {
+   "runner": "grid_dualface_backtest.py",
+   "path": "scripts/grid_dualface_backtest.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-28 16:39:05",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 3,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": true,
+    "faces": [
+     "data/daily/sh510050.csv",
+     "data/daily/sh510300.csv",
+     "data/daily/sh510500.csv",
+     "data/daily/sh512100.csv",
+     "data/daily/sh588000.csv",
+     "data/minute_feed/"
+    ],
+    "missing": []
+   },
+   "prior": "FALSIFIED: judged 0/30 line closed (r310)"
+  },
+  {
+   "runner": "p1e_ic_batch.py",
+   "path": "scripts/p1e_ic_batch.py",
+   "pool_entries": 4,
+   "pool_statuses": {
+    "done": 4
+   },
+   "latest_entered_at": "2026-09-26 03:06:50",
+   "census_pool_entry_count": 4,
+   "elapsed_faces": {
+    "declared_outputs": 0,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock"
+    ],
+    "missing": []
+   },
+   "prior": "EXCLUDED: family dormant (r311)"
+  },
+  {
+   "runner": "decision_chain_v2.py",
+   "path": "scripts/decision_chain_v2.py",
+   "pool_entries": 2,
+   "pool_statuses": {
+    "done": 2
+   },
+   "latest_entered_at": "2026-09-28 00:41:57",
+   "census_pool_entry_count": 2,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock"
+    ],
+    "missing": []
+   },
+   "prior": "EXCLUDED: consumed via converted v3 mp path (r311)"
+  },
+  {
+   "runner": "p1e_synth.py",
+   "path": "scripts/p1e_synth.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 06:55:17",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 2,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock"
+    ],
+    "missing": []
+   },
+   "prior": "FALSIFIED: write-once delivered, family 6/6 dormant (r310)"
+  },
+  {
+   "runner": "gpu_factor_matrix.py",
+   "path": "scripts/gpu_factor_matrix.py",
+   "pool_entries": 1,
+   "pool_statuses": {
+    "done": 1
+   },
+   "latest_entered_at": "2026-09-26 09:52:00",
+   "census_pool_entry_count": 1,
+   "elapsed_faces": {
+    "declared_outputs": 0,
+    "audit_hits": []
+   },
+   "locality": {
+    "src": "read",
+    "local": false,
+    "faces": [
+     "p1c_stock"
+    ],
+    "missing": []
+   },
+   "prior": "EXCLUDED: GPU face, not a CPU ProcessPool target (O-1136 GPU audit lane)"
+  }
+ ]
+}

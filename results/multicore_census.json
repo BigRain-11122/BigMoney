@@ -1,12 +1,12 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T11:41:25+08:00",
+  "generated_at": "2026-10-01T16:45:33+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
-  "universe_size": 80,
+  "universe_size": 82,
   "summary": {
-    "single_core": 34,
-    "multiprocess": 46
+    "single_core": 33,
+    "multiprocess": 49
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
@@ -39,7 +39,6 @@
       "scripts/p1e_ic_batch.py",
       "scripts/p1e_neighbor_corr.py",
       "scripts/p1e_synth.py",
-      "scripts/p4_batch3_dca.py",
       "scripts/rev_osc_stock_p1.py",
       "scripts/sentiment_axes_derive.py",
       "scripts/sina_construct_ic.py",
@@ -859,6 +858,34 @@
         "12"
       ]
     },
+    "scripts/lowamp_p2.py": {
+      "path": "scripts/lowamp_p2.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 779,
+          "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
+        },
+        {
+          "line": 780,
+          "text": "from parallel_runner import worker_cap"
+        },
+        {
+          "line": 788,
+          "text": "with ProcessPoolExecutor(max_workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 57662,
+      "pool_entry_count": 18,
+      "pool_statuses": {
+        "done": 18
+      },
+      "workers_plan_declared": [
+        "12"
+      ]
+    },
     "scripts/mass_trial_w1.py": {
       "path": "scripts/mass_trial_w1.py",
       "exists": true,
@@ -1021,10 +1048,23 @@
     "scripts/p4_batch3_dca.py": {
       "path": "scripts/p4_batch3_dca.py",
       "exists": true,
-      "verdict": "single_core",
-      "evidence": [],
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 354,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 388,
+          "text": "out = run_cells_parallel(cell_jobs, desc=\"p4b3-cells\","
+        },
+        {
+          "line": 395,
+          "text": "outn = run_cells_parallel(null_jobs, desc=\"p4b3-nulls\","
+        }
+      ],
       "main_guard": true,
-      "size_bytes": 46177,
+      "size_bytes": 55705,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -1047,16 +1087,15 @@
           "text": "from concurrent.futures import ProcessPoolExecutor"
         },
         {
-          "line": 347,
+          "line": 441,
           "text": "with ProcessPoolExecutor(max_workers=workers,"
         }
       ],
       "main_guard": true,
-      "size_bytes": 64749,
-      "pool_entry_count": 84,
+      "size_bytes": 90628,
+      "pool_entry_count": 96,
       "pool_statuses": {
-        "done": 83,
-        "ready": 1
+        "done": 96
       },
       "workers_plan_declared": [
         "8"
@@ -1170,6 +1209,34 @@
         "6"
       ]
     },
+    "scripts/refine_bench_rev_p2.py": {
+      "path": "scripts/refine_bench_rev_p2.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 71,
+          "text": "from parallel_runner import run_cells_parallel"
+        },
+        {
+          "line": 161,
+          "text": "from parallel_runner import worker_cap"
+        },
+        {
+          "line": 337,
+          "text": "res = run_cells_parallel(jobs, workers=workers,"
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 35963,
+      "pool_entry_count": 3,
+      "pool_statuses": {
+        "done": 3
+      },
+      "workers_plan_declared": [
+        "6"
+      ]
+    },
     "scripts/rev_osc_stock_p1.py": {
       "path": "scripts/rev_osc_stock_p1.py",
       "exists": true,
@@ -1221,20 +1288,19 @@
       "verdict": "multiprocess",
       "evidence": [
         {
-          "line": 713,
+          "line": 751,
           "text": "from concurrent.futures import ProcessPoolExecutor, as_completed"
         },
         {
-          "line": 714,
+          "line": 752,
           "text": "with ProcessPoolExecutor(max_workers=workers,"
         }
       ],
       "main_guard": true,
-      "size_bytes": 42710,
+      "size_bytes": 45305,
       "pool_entry_count": 12,
       "pool_statuses": {
-        "ready": 10,
-        "done": 2
+        "done": 12
       },
       "workers_plan_declared": [
         "6"
@@ -1729,16 +1795,16 @@
           "text": "from parallel_runner import run_cells_parallel  # O-2355 s2 pool face (T-134)"
         },
         {
-          "line": 838,
+          "line": 851,
           "text": "res = run_cells_parallel(jobs, workers=workers,"
         },
         {
-          "line": 927,
+          "line": 942,
           "text": "res = run_cells_parallel(jobs, workers=workers, desc=\"wild-nulls\","
         }
       ],
       "main_guard": true,
-      "size_bytes": 74195,
+      "size_bytes": 75053,
       "pool_entry_count": 9,
       "pool_statuses": {
         "done": 9
