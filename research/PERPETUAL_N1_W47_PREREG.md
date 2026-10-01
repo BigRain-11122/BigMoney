@@ -62,8 +62,19 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-- （空——finalize 后机械回填）
+- finalize one-pass 2026-10-02 04:5x（bm-b r556 同窗收口：冻结 commit **811e6c579**〔r534 S0-2 外科重播面〕→**让渡收执**〔bm-a r555 W47 YIELD to bm-b per r511 commit-order law·双方独立机闸 derive 带位逐位同带交叉验证〔A 137_004..139_003/B 45_001..45_200〕·bm-a 引擎预收养 9 重复分片 0-8 于 owner 门自限弃置零科学污染〕→**本机 tick 引擎 12/12 烧录**〔04:30-04:5x 产物增长面验证·r325 律·pool_core_samples multicore_burn 遥测 25.1s/片·6.1-6.2 effective cores〕→finalize one-pass 本窗）；链序前置=**W46 finalize 已落账**〔bm-c r348·链头 465,748·零在飞上游面=冻结窗静态断言按 r307 两态律安全兑现〕。
+- S5 判据 4/4 PASS（锚=W46 finalize 实测·锚滚动零触发——本波冻结至 finalize 窗间零他机新 N1 finalize 落账）：
+  1. mu 漂移：W47-only **-0.094223** vs pre-W47 合并池锚（K=99,120）−0.091747【|Δ|=0.0025<0.02 PASS】（runner 机证 mu_delta_w47_vs_w46ext=**-0.008474** vs W46-only −0.085749 同域）；merged（K=101,320）**-0.091801**。
+  2. sigma 相对变化：W47-only **0.247066** vs W46-only 锚 0.240870【**+2.57%**<±10% PASS】；merged **0.244745**。
+  3. A 族 full_sharpe_p95：**0.3112** vs W46 锚 0.3214【Δ=-0.0102<0.05 PASS】（门校准注记：结果知情校准面·测量面零注册利害）。
+  4. K-lift 线移动：**+0.0002**【1.1584→1.1586 @n_eff_held 465,748】≤0.02 PASS（W3..W46 先例族内【W44 +0.0002/W45 −0.0001/W46 −0.0003/本波 +0.0002】正负交替如实报——加深不必然抬线先例续）。
+- 账本：prev **465,748**【==bm-c W46 finalize 落账头·r518 origin-timing 律 derive 禁手抄自证】＋本波 2,200＝total **467,948**·voids_applied LOWAMP-P1/P2 继承面 ✓；K=**101,320**==§0 投影 101,320 逐位；se_mu 0.000777→**0.000769** 续收窄；skill_line_v2 消费 n_eff=465,748。
+- 回填同窗合规：r307 两态守卫律兑现（本回填同窗+回填后缺省波 selftest 复跑绿 04:5x）；r538 一过定稿执行（finalize 一过·自产件在场净面自证：n1_w47_results.json finalize 后未重跑）。
+- 链序注记：下一波 **W48=bm-a 已公示自有波**（r555 让渡回执自报 next own wave=W48·de-throttle 令 §二自持连续系列）；本机下一自有波=法典表尾 fetch 实核后 first-free-number derive（r511 表尾锁律）。
 
 ## §8 批后复盘【必填·s7-T】
 
-- （空——finalize 后机械回填）
+- 设计零偏差：frozen v1 设计逐字复用（run_one 引擎同源），W47-only mu/sigma 与先例族【W2..W46】逐面同域，零断裂信号；B 族 p_exit=0.05 配对律齐备（n=200·45_001..45_200 强制跳位带==pc_l2_ic 45_000+1 首净窗·ADMIT 回执机证）。
+- 波节奏面：W47=**让渡-收口复合窗**【bm-a 同窗冻结撞车→r511 commit 序后到让路→本机正主线免重启 12/12（tick 架构 per-tick 重读自动见行·产物增长面验证）→finalize one-pass】——r511 让路律+让渡-收执-正主续烧全链路首次实证（双机独立 derive 同带交叉验证=r530 确定性律的撞车面正面价值）；本机 tick 架构免杀重启律续证（r535）。
+- 测量面结论：累计 null 池 K=101,320【+W47 2,200 合并】，mu -0.0918 / sigma 0.2447 稳定，se_mu 随累计加深收窄（0.000777→0.000769）——null 基线置信面继续加深，无质变；canon flip 不在本波（治理提案面素材累计·K2200 同律）。
+- 下游接线：skill_line_v2 @n_eff 465,748 活链头 derive；下一波 finalize 消费本波 **467,948** 为 prev（r518 origin-timing 律）。

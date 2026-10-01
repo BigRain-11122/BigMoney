@@ -1,0 +1,11 @@
+import json, re
+d = json.load(open('results/perpetual_faces/n1_w46_results.json', encoding='utf-8'))
+print('W46 keys:', list(d.keys()))
+print('W46 K:', d.get('K'), 'n_values:', len(d.get('null_pool', d.get('values', []))) if isinstance(d.get('null_pool'), list) else 'n/a')
+print('W46 ledger:', json.dumps(d.get('ledger'), ensure_ascii=False))
+print('W46 skill_line:', json.dumps(d.get('skill_line'), ensure_ascii=False)[:200])
+print()
+src = open('scripts/perpetual_faces_n1.py', encoding='utf-8').read()
+i = src.find('def _finalize')
+print('--- finalize fn head ---')
+print(src[i:i+1500])
