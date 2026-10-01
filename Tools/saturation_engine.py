@@ -110,7 +110,7 @@ STALL_EXIT_S = 300                       # inner watchdog: stall -> hard exit, t
 LOG_DIR = os.path.join(ROOT, "logs", "saturation_engine")
 TASK_NAME = "Bigmoney-SaturationEngine"
 
-STATE_VERSION = "v0.3-s3a"
+STATE_VERSION = "v0.4-d20261002-03"
 LAW_REF = ("firm/SATURATION_ENGINE_LAW.md v1.0 (T-2026-10-01-141 s1+s3, "
            "O-20261001-1410 CEO direct order)")
 FACE_DIR = os.path.join(ROOT, "results", "saturation_engine")
@@ -157,9 +157,43 @@ DAILY_DIR = os.path.join(ROOT, "data", "daily")
 CORE48_MIN_FILES = 48                        # in-repo core48 gate (W9 prereg 宿主门)
 
 
+_PF_PATH = os.path.join(ROOT, "scripts", "perpetual_faces.py")
+_pf_watch = {"mtime": None, "reloads": 0}
+
+
+def _mtime_stale(path, recorded):
+    """D-20261002-03 fix ① decision face (pure): (stale, mtime). stale
+    = on-disk module changed since the recorded load -> the resident
+    instance must re-read the law table."""
+    try:
+        m = os.path.getmtime(path)
+    except OSError:
+        return False, recorded
+    return recorded is not None and m != recorded, m
+
+
 def n1_bands():
-    """Law sec.4 band ledger single source (import, never re-implement)."""
+    """Law sec.4 band ledger single source (import, never re-implement).
+
+    D-20261002-03 fix ① (per-tick module-view re-read): a resident
+    instance's sys.modules cache is frozen at process start -- the r325
+    "new wave invisible to the live engine" / r330 kill-restart-cycle
+    root cause. Every call watches the law file's mtime and reloads the
+    module on change, so a freshly frozen wave row is visible to the
+    LIVE engine on the next cycle without any restart."""
     import perpetual_faces as pf
+    stale, m = _mtime_stale(_PF_PATH, _pf_watch["mtime"])
+    if stale:
+        try:
+            import importlib
+            pf = importlib.reload(pf)
+            _pf_watch["mtime"] = m
+            _pf_watch["reloads"] += 1
+        except Exception:
+            pass          # mid-surgery file (rebase checkout window):
+                        # keep the loaded view, retry next cycle
+    else:
+        _pf_watch["mtime"] = m
     return dict(pf.N1_BANDS)
 
 
@@ -533,6 +567,18 @@ def heartbeat_due(st, now):
     return (now - last) >= HEARTBEAT_S
 
 
+def cas_yield(spath, st):
+    """D-20261002-03 fix ② (r325 dual-instance masking cure): True = the
+    on-disk state carries a FRESHER heartbeat than our last flush ->
+    another live instance owns the state/face lane; this staler shadow
+    writer must yield, not overwrite. Pure decision face (selftest)."""
+    try:
+        disk_hb = load_state(spath).get("heartbeat_epoch") or 0
+    except Exception:
+        return False
+    return disk_hb > (st.get("heartbeat_epoch") or 0)
+
+
 # --------------------------------------------------------------------- run
 def run_engine(mid, once=False):
     if psutil:
@@ -693,6 +739,12 @@ def run_engine(mid, once=False):
 
 def _flush(st, spath, now, burns, done, quarantined, crash, remote_done,
            sync_err, cycle, mid, py_pct=None, mach_pct=None, fatal=None):
+    # D-20261002-03 fix ②: CAS gate -- a fresher on-disk heartbeat means
+    # another instance owns the lane; this staler shadow yields BOTH the
+    # state write and the CEO face write (r325 masking cure).
+    if cas_yield(spath, st):
+        st["cas_yields"] = int(st.get("cas_yields") or 0) + 1
+        return
     st["heartbeat_epoch"] = int(now)
     st["last_cycle_ts"] = time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(now))
     st["py_cpu_pct"] = py_pct
@@ -946,6 +998,44 @@ def selftest():
         all(i["wave"] == 2 for i in derive_n1_queue(
             {2: {"a": (1, 2)}}, {2: "p"}, set(), set(), slot=2,
             owner_mid="bm-c")))
+
+    # 13. D-20261002-03 fix ①: module-view re-read decision face +
+    #     live band read (hermetic: temp file, NEVER the real law file)
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        tp = os.path.join(td, "law.py")
+        open(tp, "w").write("x=1\n")
+        stale1, m1 = _mtime_stale(tp, None)
+        leg("mtime watch first-load records",
+            stale1 is False and m1 is not None)
+        stale2, _ = _mtime_stale(tp, m1)
+        leg("mtime watch unchanged not stale", stale2 is False)
+        os.utime(tp, (time.time() + 5, time.time() + 5))
+        stale3, m3 = _mtime_stale(tp, m1)
+        leg("mtime watch changed stale", stale3 is True and m3 != m1)
+        stale4, _ = _mtime_stale(os.path.join(td, "gone.py"), m1)
+        leg("mtime watch missing-file safe", stale4 is False)
+    bands_live = n1_bands()
+    bands_live2 = n1_bands()
+    leg("band ledger live re-read stable",
+        isinstance(bands_live, dict) and 36 in bands_live
+        and set(bands_live) == set(bands_live2))
+
+    # 14. D-20261002-03 fix ②: CAS dual-instance race (r325 cure) --
+    #     the fresher writer owns the lane; the staler shadow yields
+    with tempfile.TemporaryDirectory() as td:
+        cp = os.path.join(td, "cas.json")
+        st1 = {"heartbeat_epoch": 100}
+        write_state(cp, st1)                        # instance-1 flush t=100
+        st2 = {"heartbeat_epoch": 100}              # instance-2 loads disk
+        leg("cas fresh instance proceeds", cas_yield(cp, st2) is False)
+        st2["heartbeat_epoch"] = 101
+        write_state(cp, st2)                         # instance-2 flush t=101
+        leg("cas stale shadow yields", cas_yield(cp, st1) is True)
+        st1b = {"heartbeat_epoch": 200}
+        leg("cas advanced writer proceeds", cas_yield(cp, st1b) is False)
+        leg("cas missing-state safe",
+            cas_yield(os.path.join(td, "none.json"), st1) is False)
 
     total = n_legs[0]
     print("selftest: %d/%d PASS" % (total - len(fails), total)

@@ -737,6 +737,32 @@ N1_BANDS = {
     # W37 prereg (first-free-number law under O-2355 de-throttle).
     36: {"a": (115_004, 117_003), "b_exit": (42_201, 42_400),
          "engine_owner": "bm-b"},
+    # W37 (r341 bm-c, own-series continuation per CEO de-throttle order
+    # O-20261001-2355 sec.2 -- seat system TERMINATED: each machine
+    # materializes its next wave the moment its previous closes, no
+    # seat waiting. bm-c's EIGHTH owned wave after W14/W17/W20/W23/
+    # W26/W29/W32; this freeze follows the r341 W36 yield (bm-b's W36
+    # landed on origin 00:33:17 while this machine's identical W36
+    # draft sat uncommitted from a crashed session -- r511 commit-order
+    # yield, zero burn zero ledger zero loss). Wave 37 = first free
+    # number: W35 (bm-a) and W36 (bm-b) both registered; BOTH tails
+    # arithmetic continuation from the registered W36 row, no skip
+    # either side (A 117_004..119_003 == W36 A end + 1; B 42_401..42_600
+    # == W36 B end + 1). Machine-verified at prereg time
+    # (results/_r341bmc_w37_band_gate.py ADMIT receipt vs the 34-row
+    # pre-W37 table incl. W33/W34/W35/W36 + SEED_REGISTRY values +
+    # probe-seed cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg).
+    # TWENTY-SIXTH ENGINE-OWNED WAVE, engine_owner=bm-c
+    # (SATURATION_ENGINE_LAW sec.1/2 same contract as W10..W36, local
+    # queue, no pool entry). NOT a re-pick (R250: W37 bands were never
+    # assigned; the measurement face has no result to fish).
+    # W38+ WARNING: A +2_000 tail 119_004..121_003 and B +200 tail
+    # 42_601..42_800 projection per the r341 gate receipt -- verify at
+    # the next freeze's prereg (own-series: verify against the live
+    # table tail + all published projections at that time).
+    37: {"a": (117_004, 119_003), "b_exit": (42_401, 42_600),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
