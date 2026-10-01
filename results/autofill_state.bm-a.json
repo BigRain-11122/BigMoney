@@ -975,10 +975,43 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 09:04:01",
+  "ts": "2026-10-01 09:34:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "pool_empty_or_busy"
+  "harvest_flipped": 1,
+  "verdict": "multicore_gate_refused",
+  "multicore_refused": [
+   {
+    "entry": "PERPETUAL-N3-R1-COMPOSITE-CE-01",
+    "shard": "COMPOSITE-CE-01",
+    "runner": "scripts/perpetual_faces_n3.py",
+    "core_verdict": "single_core"
+   },
+   {
+    "entry": "PERPETUAL-N3-R1-COMPOSITE-CE-02",
+    "shard": "COMPOSITE-CE-02",
+    "runner": "scripts/perpetual_faces_n3.py",
+    "core_verdict": "single_core"
+   },
+   {
+    "entry": "PERPETUAL-N3-R1-DROUGHT-CE-01",
+    "shard": "DROUGHT-CE-01",
+    "runner": "scripts/perpetual_faces_n3.py",
+    "core_verdict": "single_core"
+   },
+   {
+    "entry": "PERPETUAL-N3-R1-ENGULF-CE-01",
+    "shard": "ENGULF-CE-01",
+    "runner": "scripts/perpetual_faces_n3.py",
+    "core_verdict": "single_core"
+   },
+   {
+    "entry": "PERPETUAL-N3-R1-VOLATILITY-CE-01",
+    "shard": "VOLATILITY-CE-01",
+    "runner": "scripts/perpetual_faces_n3.py",
+    "core_verdict": "single_core"
+   }
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-01T08:54:54+08:00"
