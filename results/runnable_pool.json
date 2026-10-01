@@ -9539,26 +9539,31 @@
 ],
 "lane_owner": "ANY",
 "priority": 1,
-"status": "ready",
+"status": "done",
 "entered_at": "2026-10-01 11:16:30",
 "worker_class": "bm-hosted",
 "data_gates": "in-runner FAIL-CLOSED: p1c_stock frozen panel T=8792 N=5222 cutoff 2026-09-22 + b_layer census + selftest 4/4 pre-burn + RAM floor 16GB + burn+flip atomics (shard file presence=done, r488) + worker claim handshake (r497)",
 "shards": [
 {
 "key": "rev-census-5of6",
-"status": "ready",
+"status": "done",
 "checkpoint": "results/refine_bench_stock/rev_census/shard-5of6.json (presence=done; census deterministic rerun byte-equal, selftest leg1/3)",
 "note": "REV stock-face axis census shard 5 of 6 (40 of 240 cells); ~3-5min multicore burn, panel load in worker initializer",
 "owner": "bm-a",
-"owner_since": "2026-10-01 11:16:18",
-"claimed_since": null
+"owner_since": "2026-10-01 11:16:53",
+"claimed_since": null,
+"done_at": "2026-10-01 11:16:53",
+"harvested_by": "bm-a",
+"harvest_claim": "rev-census-5of6.bm-a.json"
 }
 ],
 "workers_plan": {
 "workers": 6,
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
-}
+},
+"done_by": "bm-a",
+"done_at": "2026-10-01 11:16:53"
 },
 {
 "id": "STOCKFURN-REV-AKSHARE-SHARD-0",
