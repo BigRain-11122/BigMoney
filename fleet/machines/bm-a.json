@@ -1,11 +1,11 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-01T08:50:25+08:00",
- "current_task": "N1-W4 burn in flight (daemon 5/12), finalize next round",
+ "last_seen": "2026-10-01T09:10:15+08:00",
+ "current_task": "r508 closed: N1-W4 finalize + entry flips + prereg backfills; next r509 N3-R1 runner (canon drafting order)",
  "cpu_cores": 32,
- "cpu_pct": 0.9,
- "free_ram_gb": 53.8,
- "gpu_free_vram_gb": 5.65,
+ "cpu_pct": 3.7,
+ "free_ram_gb": 57.5,
+ "gpu_free_vram_gb": 5.57,
  "verdict": "loaded_ok",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
@@ -142,12 +142,12 @@
   "O-20260930-1901-bm-a.md",
   "O-20260930-2054-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790815825,
- "clock_read": "2026-10-01T08:50:25+08:00",
+ "heartbeat_epoch_utc": 1790817015,
+ "clock_read": "2026-10-01T09:10:15+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5812,
  "gpu_idle_vram_gb": 3.51,
- "task": "r506: PORTFOLIO_BOOK_P1 judged-negative closed (eligible 0/4, ledger +4, s3 not triggered); combination-book L2 line closed this window -- reopen needs new prereg/new window",
+ "task": "r508: N1-W4 finalize judged-closed (K=8920, ledger 373219) + W4 entry-layer flips + prereg sec7/8 backfilled x3; pool ready=0 -> r509 N3-R1 per canon drafting order",
  "total_ram_gb": 93.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-29 07:21, 6820MiB in use)",
  "prod_lanes": [
@@ -157,15 +157,15 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round_no": 507,
+ "round_no": 508,
  "gpu_total_vram_mb": 12282,
- "idle_ram_gb": 53.8,
- "cpu_util_pct": 11.2,
- "round": 471,
- "loop_round": 507,
+ "idle_ram_gb": 57.5,
+ "cpu_util_pct": 3.7,
+ "round": 508,
+ "loop_round": 508,
  "gpu0_free_vram_gb": 5.1,
- "gpu_free_vram_mib": 5812,
- "notes": "r507: r506-recovery 3-wave rebase closed + N1-W3 finalize K=6720 (+2200 ledger 371019) + PORTFOLIO-BOOK ghost heal + W4 gate frozen+supplied",
+ "gpu_free_vram_mib": 5706,
+ "notes": "r508: N1-W4 finalize landed (12/12, cumulative K=8920 mu=-0.0903 sigma=0.2451, skill_line_v2 1.1651->1.1508 K-lift -0.0143, ledger 371019->373219) + W4 pool 12 entries entry-layer flip done + prereg sec7/8 backfilled x3 (W2/W3/W4); pool ready=0, next= N3-R1 runner per canon drafting order",
  "gpu_idle_vram_mb": null,
- "ram_free_gb": 56.6
+ "ram_free_gb": 57.5
 }
