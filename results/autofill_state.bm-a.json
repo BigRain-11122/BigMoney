@@ -1,53 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 01:50:02",
-   "machine": "bm-a",
-   "py_cpu_pct": 37.4,
-   "keepalive": [
-    "lowamp-p1-nulls-0of1",
-    "lowamp-p1-sens-0of1"
-   ],
-   "fuse_skipped": [
-    {
-     "entry": "PERPETUAL-N1-W2-SHARD-0",
-     "shard": "n1w2-0of12",
-     "sig": "scripts/perpetual_faces_n1.py|run,--shard,0,--of,12",
-     "fuse_refusals": 4
-    },
-    {
-     "entry": "PERPETUAL-N1-W2-SHARD-1",
-     "shard": "n1w2-1of12",
-     "sig": "scripts/perpetual_faces_n1.py|run,--shard,1,--of,12",
-     "fuse_refusals": 3
-    },
-    {
-     "entry": "PERPETUAL-N1-W2-SHARD-2",
-     "shard": "n1w2-2of12",
-     "sig": "scripts/perpetual_faces_n1.py|run,--shard,2,--of,12",
-     "fuse_refusals": 2
-    },
-    {
-     "entry": "PERPETUAL-N1-W2-SHARD-3",
-     "shard": "n1w2-3of12",
-     "sig": "scripts/perpetual_faces_n1.py|run,--shard,3,--of,12",
-     "fuse_refusals": 1
-    }
-   ],
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W2-SHARD-4",
-   "shard": "n1w2-4of12",
-   "pid": 79276,
-   "runner_sha256": "5667c984e14af8e5",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": 84.4,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 02:48:02",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -950,26 +903,44 @@
    "fill_latency_min": 8.6,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 2
+   "saturation_launches": 2,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 11:21:32",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "PERPETUAL-N1-W8-SHARD-3",
+   "shard": "n1w8-3of12",
+   "pid": 4308,
+   "runner_sha256": "92281777984b98f7",
+   "core_verdict": "multiproc",
+   "core_marker": "import multiprocessing",
+   "fill_latency_min": 9.4,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 3
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 11:20:43",
+  "ts": "2026-10-01 11:21:32",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
   "harvest_flipped": 1,
   "verdict": "launched",
-  "entry": "PERPETUAL-N1-W8-SHARD-2",
-  "shard": "n1w8-2of12",
-  "pid": 43912,
+  "entry": "PERPETUAL-N1-W8-SHARD-3",
+  "shard": "n1w8-3of12",
+  "pid": 4308,
   "runner_sha256": "92281777984b98f7",
   "core_verdict": "multiproc",
   "core_marker": "import multiprocessing",
-  "fill_latency_min": 8.6,
+  "fill_latency_min": 9.4,
   "fullburn_window": true,
   "target_met": true,
-  "saturation_launches": 2
+  "saturation_launches": 3
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T11:20:28+08:00"
+ "core_samples_seen": "2026-10-01T11:21:17+08:00"
 }
