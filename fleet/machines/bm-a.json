@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-10-01T20:21:15+08:00",
-  "current_task": "r535 W24 THIRTEENTH engine wave frozen (A 90_001..92_000/B 39_500..39_699 ADMIT) + engine burning 7+/12 shards",
+  "last_seen": "2026-10-01T20:36:15+08:00",
+  "current_task": "r536 W24 12/12 delivered (batch2 shard-8..11); W24 finalize waits W23 finalize (bm-c chain next)",
   "cpu_cores": 32,
   "cpu_pct": 31.9,
   "free_ram_gb": 53.6,
   "gpu_free_vram_gb": null,
-  "verdict": "healthy: W24 frozen same-round (surgical 5b9ffb27b) + burn in flight; W23 (bm-c) finalize pending = W24 finalize registry-gated; board clean, pool next_pick=claimed",
+  "verdict": "healthy: W24 fully burned+delivered, engine alive queue 0; W24 finalize registry-gated on W23 (chain head W22 412948); board clean, pool drained",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -148,8 +148,8 @@
     "O-20261001-1410-bm-c.md",
     "O-20261001-1420-bm-c.md"
   ],
-  "heartbeat_epoch_utc": 1790857275,
-  "clock_read": "2026-10-01T20:21:15+08:00",
+  "heartbeat_epoch_utc": 1790858175,
+  "clock_read": "2026-10-01T20:36:15+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 5619,
   "gpu_idle_vram_gb": 3.51,
@@ -163,7 +163,7 @@
     "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
   ],
   "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
-  "round_no": 532,
+  "round_no": 536,
   "gpu_total_vram_mb": 12282,
   "cpu_util_pct": 8.1,
   "round": 529,
