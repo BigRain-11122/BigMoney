@@ -921,18 +921,22 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 11:14:01",
+  "ts": "2026-10-01 11:26:01",
   "machine": "bm-b",
-  "py_cpu_pct": 0.1,
-  "cooldown_skipped": {
-   "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
-   "shard": "stockfurn-rev-0to31",
-   "last_launch_min": 4.1
-  },
+  "py_cpu_pct": 0.0,
+  "fuse_skipped": [
+   {
+    "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
+    "shard": "stockfurn-rev-0to31",
+    "sig": "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6",
+    "fuse_refusals": 1
+   }
+  ],
   "verdict": "claim_lost_yield",
   "entry": "STOCKFURN-REV-AKSHARE-SHARD-31",
   "shard": "stockfurn-rev-31to62"
