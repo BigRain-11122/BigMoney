@@ -6127,12 +6127,15 @@ def selftest() -> int:
             assert not (band & v1_a) and not (band & v1_b), f"W50 {nm} hits v1"
             assert not (band & w1_a) and not (band & w1_b), f"W50 {nm} hits W1"
             assert not (band & probes), f"W50 {nm} hits probe seeds"
-        # prior-wave disjointness incl. W49 (registered, in-flight burn
-        # on bm-b -- coexists by band disjointness per r531 law).
+        # prior-wave disjointness incl. W48 (registered by the r557 bm-a
+        # same-window merged commit -- bands 139_004..141_003 /
+        # 45_201..45_400, exactly the published projection this freeze
+        # treated as reserved per r518-1) and W49 (registered, finalize
+        # in flight on bm-b -- coexists by band disjointness per r531).
         for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
                       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
                       31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
-                      44, 45, 46, 47, 49):
+                      44, 45, 46, 47, 48, 49):
             assert not (w50_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
                                  for j in range(A_N)}), f"W50 A hits W{wprev}"
             assert not (w50_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
@@ -6182,7 +6185,7 @@ def selftest() -> int:
         for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
                       18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
                       31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43,
-                      44, 45, 46, 47, 49):
+                      44, 45, 46, 47, 48, 49):
             assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
                 PATHS.results_dir, "p2cal_ext",
                 WAVE_CONFIGS[wprev]["shard_subdir"])), \
@@ -6193,13 +6196,16 @@ def selftest() -> int:
         # W50 finalize cumulative deps: W17..W47 outputs ALL PRESENT
         # (every landed upstream finalize before this freeze -- W46
         # bm-c r348 K=99,120 ledger 465,748; W47 bm-b r556 K=101,320
-        # ledger 467,948). W49 = REGISTERED but its finalize output
-        # is NOT pinned at freeze window (bm-b in-flight -- the
-        # finalize merge loop derives the wave set from registry
-        # keys at run time and stays FAIL-CLOSED on any
+        # ledger 467,948). W48 and W49 = REGISTERED but their finalize
+        # outputs are NOT pinned at freeze window (W48 r557 bm-a
+        # same-window freeze burning on the tick engine; W49 bm-b
+        # in-flight -- the finalize merge loop derives the wave set
+        # from registry keys at run time and stays FAIL-CLOSED on any
         # not-yet-finalized upstream seat, r307 two-state law).
-        # W48 = UNREGISTERED at this freeze (unregistered-gap honest
-        # note per the W19/W18 precedent).
+        # At THIS wave's freeze W48 was unregistered (honest freeze-time
+        # note); the r557 bm-a construct-merge registered it moments
+        # later -- the +48 expected-list amendment below is the
+        # minimal-disclosure construct-merge per r531 law.
         for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
                       30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
                       43, 44, 45, 46, 47):
@@ -6207,14 +6213,16 @@ def selftest() -> int:
                 OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
                 f"W50 finalize cumulative dep (W{_depw} output) missing"
         # finalize wave-set derivation face (r511 derive law): prior-wave
-        # set derives from registry keys below 50 (no 15, no 48 --
-        # W48 unregistered; 49 registered and included).
+        # set derives from registry keys below 50 (no 15; W48 registered
+        # by the r557 bm-a construct-merge + 49 registered -- both included,
+        # finalizes in flight, FAIL-CLOSED at run time).
         assert sorted(w for w in WAVE_CONFIGS if w < 50) == \
             [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
              20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
-             35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 49], \
+             35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49], \
             "W50 prior-wave set must derive from registry keys (no 15, " \
-            "no 48, incl. 49)"
+            "incl. 48 + 49 -- r557 +48 minimal-disclosure amendment per " \
+            "r531 construct-merge law)"
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
@@ -6742,9 +6750,12 @@ def selftest() -> int:
           "r523-b/r345-c/r346-c/r553-a/r554-a/r348-c/r556-b, ledger "
           "head 467,948; W49 registered with finalize NOT landed at "
           "freeze window -- bm-b in-flight, finalize merge loop "
-          "stays FAIL-CLOSED at run time; W48 UNREGISTERED at this "
-          "freeze = unregistered-gap honest note per the W19/W18 "
-          "precedent), THIRTY-NINTH ENGINE-OWNED WAVE bm-c's "
+          "stays FAIL-CLOSED at run time; W48/W49 registered with "
+          "finalizes NOT landed at freeze window -- in-flight "
+          "upstream, finalize merge loop FAIL-CLOSED at run time; "
+          "W48 registered by the r557 bm-a construct-merge after "
+          "this wave's freeze = +48 minimal-disclosure amendment "
+          "per r531 law), THIRTY-NINTH ENGINE-OWNED WAVE bm-c's "
           "fourteenth engine_owner=bm-c per engine de-throttle law "
           "O-20261001-2355 sec.2 own-continuous-series (wave 50 = "
           "next free number after the registered W49 row), BOTH "
