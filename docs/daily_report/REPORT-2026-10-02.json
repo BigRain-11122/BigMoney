@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-02",
- "generated_at": "2026-10-02 06:26:07",
+ "generated_at": "2026-10-02 06:56:35",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,20 +297,20 @@
   "md_link": "../live_usage/LIVE-2026-10-02.md"
  },
  "rd": {
-  "commits_24h": 928,
+  "commits_24h": 918,
   "result_jsons_landed_24h": 90,
   "digests_landed_24h": 0,
-  "prereg_md_touched_24h": 71,
+  "prereg_md_touched_24h": 73,
   "compute_audit_latest": {
-   "ts": "2026-10-02 06:25:13",
-   "py_cpu_pct": 11.5,
+   "ts": "2026-10-02 06:55:55",
+   "py_cpu_pct": 0.8,
    "flags": [
     "pool_starvation",
     "supply_floor"
    ],
    "verdict": "FLAG:pool_starvation,supply_floor"
   },
-  "watermark_verdict": "py_low_board_clear",
+  "watermark_verdict": "insufficient_history",
   "pool_keys_n": 6,
   "batch_in_flight": false
  },
@@ -625,11 +625,11 @@
  ],
  "token_line": {
   "total_state_tokens_est": 2049,
-  "total_report_tokens_est": 1080051,
+  "total_report_tokens_est": 1080397,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-02 05:44:12",
+   "prev_generated": "2026-10-02 06:06:01",
    "state_tokens_growth": 0,
-   "report_tokens_growth": -336,
+   "report_tokens_growth": 346,
    "mandate_growth": 0
   },
   "method": {
@@ -702,17 +702,13 @@
     "today_supply_gap_flags": 0
    },
    "bm-b": {
-    "latest_ts": "2026-10-02 06:25:13",
-    "py_pct": 11.5,
-    "cpu_pct": 16.0,
+    "latest_ts": "2026-10-02 06:55:55",
+    "py_pct": 0.8,
+    "cpu_pct": 10.0,
     "ready": 0,
-    "streak_min": 170.9,
+    "streak_min": 201.6,
     "verdict": "FLAG:pool_starvation,supply_floor",
     "py_series_tail": [
-     [
-      "01:14",
-      1.8
-     ],
      [
       "02:55",
       0.4
@@ -756,9 +752,13 @@
      [
       "06:25",
       11.5
+     ],
+     [
+      "06:55",
+      0.8
      ]
     ],
-    "today_samples": 14,
+    "today_samples": 15,
     "today_floor_ok": 1,
     "today_sla_flags": 0,
     "today_supply_gap_flags": 0
@@ -849,19 +849,19 @@
     }
    },
    "bm-b": {
-    "batches_judged": 96,
-    "core_seconds": 16704.8,
-    "wall_seconds": 2722.1,
-    "effective_cores": 6.14,
+    "batches_judged": 108,
+    "core_seconds": 18586.5,
+    "wall_seconds": 3039.8,
+    "effective_cores": 6.11,
     "single_core_burn": 0,
-    "multicore_burn": 96,
+    "multicore_burn": 108,
     "too_short": 0,
-    "last_ts": "2026-10-02T06:12:29+08:00",
+    "last_ts": "2026-10-02T06:41:45+08:00",
     "audit_window": {
      "readable": true,
      "window_min": 60.0,
-     "audit_batches": 23,
-     "audit_ts": "2026-10-02 06:25:13"
+     "audit_batches": 35,
+     "audit_ts": "2026-10-02 06:55:55"
     }
    },
    "bm-c": {
