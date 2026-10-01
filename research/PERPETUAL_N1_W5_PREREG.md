@@ -55,10 +55,17 @@
 - 波账=`results/perpetual_faces_state.json` waves[] append（生成器 §3 契约）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【跑前必须为空——写数字即造假】
+## §7 跑后实证【2026-10-01 09:4x finalize 回填·source=results/perpetual_faces/n1_w5_results.json】
 
-- （finalize 后回填：12/12 分片合并、W5-only mu/sigma、merged K=11,120 mu/sigma/se_mu、K-lift、A 队 p95/p99、账本行回执）
+- 12/12 分片合并（shards_consumed 12 件全在场·fail-closed 过）；W5-only **K=2,200 mu=−0.0974 sigma=0.2446**（mu_delta_w5_vs_w4ext=−0.0072）。
+- merged 累计池 **K=11,120 mu=−0.0917 sigma=0.2450**，se_mu@K11120=**0.002323**（五波加深收窄链持续：canon120→W1→W2→W3→W4→W5）。
+- skill_line_v2 @n_eff=373,219：line_pre_w5 **1.151 → merged 1.1492**（K-lift delta=**−0.0018**）。
+- A 队（n=2,000）：mu=−0.0914，**p95=0.3138**，p99=0.4661；B 队 200 run 逐件明细面在合并件。
+- 账本行回执：prev_total 373,219 ＋ batch 2,200 ＝ **total 375,419**（batch=PERPETUAL-N1-W5·file=n1_w5_results.json·evidence_cutoff 2026-09-22）；波账 waves[] append wave 5 自动落（perpetual_faces_state.json）。
 
-## §8 批后复盘【必填·s7-T·跑后回填】
+## §8 批后复盘【s7-T·2026-10-01 09:4x 回填】
 
-- 预测对账（对/部分/错逐条）＋K-lift 读数＋累计 null 池 11,120 态披露＋账本行回执；回执入轮报告+CODELY.md 行级追加。
+- 预测对账 **4/4 全对**：①|Δmu| W5-only vs −0.0903 锚=0.0071＜0.02 ✓（merged 侧 0.0014 亦过）②sigma 相对变化 −0.2%＜±10% ✓ ③A 队 p95 Δ=0.0083（0.3138−0.3055）＜0.05 ✓（且本波 Δ 亦＜原 0.03 门=三波首回原门内：W3 0.0403/W4 0.0323/W5 0.0083）④K-lift −0.0018≤0.02 ✓（W3 +0.0082/W4 −0.0143/W5 −0.0018 三波全带内·线稳 1.1492）。
+- 累计 null 池 11,120 态：mu −0.0917/sigma 0.2450/se_mu 0.002323——五波 22,000 值同设计同窗加深，mu/sigma 稳定先验再证；skill 线零质变（加深不抬线的 W4 结论第三次复证）。
+- 回执入轮报告（r308 bm-c）；CODELY.md 流水面按记忆门①不追加（W4 finalize 同先例·git/prereg/轮报告=永久回执）。
+- 供给线展望：W5 闭合后池供给面回落——W6 prereg 时 **B 带 +200 算术位（21_900..22_099）落入 W5 A 带，须同法跳位**（法典 §4 警示行已钉·r307 跳位先例复用）。
