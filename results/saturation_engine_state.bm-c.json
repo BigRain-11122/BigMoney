@@ -55,10 +55,11 @@
   "45": 12,
   "46": 12,
   "47": 12,
-  "48": 7,
+  "48": 12,
   "49": 12,
   "50": 12,
-  "51": 12
+  "51": 12,
+  "52": 3
  },
  "wave_complete_flags": [
   2,
@@ -106,54 +107,78 @@
   45,
   46,
   47,
+  48,
   49,
   50,
   51
  ],
- "queue_next": [],
+ "queue_next": [
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 11,
+   "nshards": 12,
+   "primary": true,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 0,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 1,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 3,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 4,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 6,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 7,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "shard": 9,
+   "nshards": 12,
+   "primary": false,
+   "authorization": "pre-claim-exempt (law sec.2)"
+  }
+ ],
  "ignitions": [
-  {
-   "wave": 14,
-   "shard": 8,
-   "pid": 18836,
-   "epoch": 1790846938,
-   "primary": true
-  },
-  {
-   "wave": 14,
-   "shard": 11,
-   "pid": 32036,
-   "epoch": 1790846972,
-   "primary": true
-  },
-  {
-   "wave": 17,
-   "shard": 2,
-   "pid": 42336,
-   "epoch": 1790850243,
-   "primary": true
-  },
-  {
-   "wave": 17,
-   "shard": 5,
-   "pid": 27556,
-   "epoch": 1790850243,
-   "primary": true
-  },
-  {
-   "wave": 17,
-   "shard": 8,
-   "pid": 3424,
-   "epoch": 1790850243,
-   "primary": true
-  },
-  {
-   "wave": 17,
-   "shard": 11,
-   "pid": 2252,
-   "epoch": 1790850300,
-   "primary": true
-  },
   {
    "wave": 17,
    "shard": 0,
@@ -1511,15 +1536,76 @@
    "pid": 7724,
    "epoch": 1790889539,
    "primary": false
+  },
+  {
+   "wave": 52,
+   "shard": 2,
+   "pid": 26160,
+   "epoch": 1790890536,
+   "primary": true
+  },
+  {
+   "wave": 52,
+   "shard": 5,
+   "pid": 44316,
+   "epoch": 1790890536,
+   "primary": true
+  },
+  {
+   "wave": 52,
+   "shard": 8,
+   "pid": 17112,
+   "epoch": 1790890536,
+   "primary": true
+  },
+  {
+   "wave": 52,
+   "shard": 11,
+   "pid": 34136,
+   "epoch": 1790890570,
+   "primary": true
+  },
+  {
+   "wave": 52,
+   "shard": 0,
+   "pid": 27176,
+   "epoch": 1790890570,
+   "primary": false
+  },
+  {
+   "wave": 52,
+   "shard": 1,
+   "pid": 32088,
+   "epoch": 1790890570,
+   "primary": false
   }
  ],
- "burns_active": [],
- "cycle": 140,
- "heartbeat_epoch": 1790889955,
- "last_cycle_ts": "2026-10-02T05:25:55",
- "py_cpu_pct": 0.62,
- "machine_cpu_pct": 6.7,
- "done_count": 583,
+ "burns_active": [
+  {
+   "wave": 52,
+   "shard": 11,
+   "pid": 34136,
+   "adopted": false
+  },
+  {
+   "wave": 52,
+   "shard": 0,
+   "pid": 27176,
+   "adopted": false
+  },
+  {
+   "wave": 52,
+   "shard": 1,
+   "pid": 32088,
+   "adopted": false
+  }
+ ],
+ "cycle": 179,
+ "heartbeat_epoch": 1790890605,
+ "last_cycle_ts": "2026-10-02T05:36:45",
+ "py_cpu_pct": 51.16,
+ "machine_cpu_pct": 31.6,
+ "done_count": 591,
  "quarantined": [
   [
    12,
@@ -1533,32 +1619,11 @@
   "42:8": 1
  },
  "sync": {
-  "last_epoch": 1790889955,
-  "remote_done_count": 542,
+  "last_epoch": 1790890605,
+  "remote_done_count": 588,
   "err": null
  },
  "completed": [
-  {
-   "wave": 14,
-   "shard": 4,
-   "pid": 39608,
-   "ended_epoch": 1790846001,
-   "rc": null
-  },
-  {
-   "wave": 14,
-   "shard": 6,
-   "pid": 34812,
-   "ended_epoch": 1790846001,
-   "rc": null
-  },
-  {
-   "wave": 14,
-   "shard": 7,
-   "pid": 35816,
-   "ended_epoch": 1790846034,
-   "rc": null
-  },
   {
    "wave": 14,
    "shard": 9,
@@ -2937,6 +3002,27 @@
    "pid": 7724,
    "ended_epoch": 1790889573,
    "rc": null
+  },
+  {
+   "wave": 52,
+   "shard": 2,
+   "pid": 26160,
+   "ended_epoch": 1790890570,
+   "rc": null
+  },
+  {
+   "wave": 52,
+   "shard": 5,
+   "pid": 44316,
+   "ended_epoch": 1790890570,
+   "rc": null
+  },
+  {
+   "wave": 52,
+   "shard": 8,
+   "pid": 17112,
+   "ended_epoch": 1790890570,
+   "rc": null
   }
  ],
  "grammar_consumption": [
@@ -3718,8 +3804,8 @@
    ],
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
-    "local_done": 7,
-    "remote_done": 0
+    "local_done": 12,
+    "remote_done": 12
    }
   },
   {
@@ -3736,7 +3822,7 @@
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
     "local_done": 12,
-    "remote_done": 2
+    "remote_done": 12
    }
   },
   {
@@ -3753,7 +3839,7 @@
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
     "local_done": 12,
-    "remote_done": 0
+    "remote_done": 12
    }
   },
   {
@@ -3770,11 +3856,28 @@
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
     "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 52,
+   "a_band": [
+    147004,
+    149003
+   ],
+   "b_exit_band": [
+    46201,
+    46400
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 3,
     "remote_done": 0
    }
   }
  ],
- "append_pending": 0,
+ "append_pending": 3,
  "append_err": null,
  "ledger_appends": [
   {
