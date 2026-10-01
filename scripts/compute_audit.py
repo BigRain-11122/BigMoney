@@ -181,13 +181,21 @@ def newest_result_age_min():
     return (now - newest) / 60.0 if newest else None
 
 
-def fleet_open_tasks():
+def fleet_open_tasks(tasks_dir=None):
+    """Open (unclaimed) ticket count -- claimed_by set (any machine) =
+    claim lock per fleet/README sec.4, NOT an open work candidate (r528
+    family residual: 18:51 audit flagged idle_with_work on the single
+    open+claimed ticket while the watermark probe correctly said
+    board-clear; r330 fix mirrors py_watermark._scan_tickets)."""
+    if tasks_dir is None:
+        tasks_dir = os.path.join(ROOT, "fleet", "tasks")
     n = 0
-    for p in glob.glob(os.path.join(ROOT, "fleet", "tasks", "*.json")):
+    for p in glob.glob(os.path.join(tasks_dir, "*.json")):
         try:
             with open(p, encoding="utf-8") as f:
-                if json.load(f).get("status") == "open":
-                    n += 1
+                d = json.load(f)
+            if d.get("status") == "open" and not d.get("claimed_by"):
+                n += 1
         except Exception:
             pass
     return n
@@ -771,6 +779,28 @@ def _selftest():
           parallel_efficiency_row(
               now, samples_path=os.path.join("Z:\\no", "such.jsonl"))
           .get("readable"), False)
+
+    # ---- r330 leg: fleet_open_tasks claim-lock exclusion (r528 family) --
+    import tempfile
+    with tempfile.TemporaryDirectory() as tmpd:
+        td = os.path.join(tmpd, "tasks")
+        os.makedirs(td)
+        for tid, st_ in (("T-1", "open"), ("T-2", "done"),
+                         ("T-3", "open"), ("T-4", "open")):
+            d = {"id": tid, "status": st_}
+            if tid == "T-4":
+                # mirrors the live T-141 shape: status=open but claimed
+                # by another machine -> claim lock, not open work (r528)
+                d["claimed_by"] = "bm-b"
+            with open(os.path.join(td, tid + ".json"), "w",
+                      encoding="utf-8") as f:
+                json.dump(d, f)
+        check("fleet_open_tasks open+unclaimed only",
+              fleet_open_tasks(td), 2)
+        with open(os.path.join(td, "bad.json"), "w", encoding="utf-8") as f:
+            f.write("{broken")
+        check("fleet_open_tasks tolerates corrupt",
+              fleet_open_tasks(td), 2)
 
     n_pass = sum(1 for _, ok, _, _ in cases if ok)
     print(f"compute_audit selftest: {n_pass}/{len(cases)} PASS")
