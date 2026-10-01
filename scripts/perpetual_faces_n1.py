@@ -225,6 +225,21 @@ def _set_wave(w: int) -> None:
     OUT = os.path.join(OUT_DIR, cfg["out_name"])
 
 
+# --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2: 池=账本非闸门) ----------
+# "pool" (default) = r496/r497 claim handshake ON: pool-lane daemon harvest
+# flips POOL entries from these claim files -- byte-identical legacy face.
+# "engine" = pre-claim exempt: perpetual-face burns under the resident
+# saturation engine derive authorization from the frozen prereg + law band
+# row and have NO pool entry to flip, so claim files there would be pure
+# orphan git traffic (the engine's batched ledger appender is the record).
+_LANE = "pool"
+
+
+def _set_lane(lane: str) -> None:
+    global _LANE
+    _LANE = lane
+
+
 # --- pool harvest handshake (r496 canon, T-134 s3) -------------------------
 # Worker-side half: on a verified-done shard write results/pool_claims/
 # <entry>/<shard>.<machine>.json state=closed outcome=ok so the launcher's
@@ -249,6 +264,12 @@ def _now_iso() -> str:
 
 
 def _pool_claim(entry_id: str, shard_key: str, detail: str) -> None:
+    if _LANE == "engine":
+        # T-141 s2 / law sec.2: engine-lane burns are pre-claim exempt --
+        # no pool entry exists to harvest-flip, so the handshake file would
+        # be orphan git traffic; the engine's batched append is the ledger.
+        print(f"claim exempt (engine lane, law sec.2): {shard_key}", flush=True)
+        return
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     d = os.path.join(root, "results", "pool_claims",
                      entry_id.replace("/", "_"))
@@ -1289,6 +1310,20 @@ def selftest() -> int:
             _set_wave(2)
     finally:
         _set_wave(2)
+    # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
+    #     exemption): engine lane writes NO claim file (orphan-traffic
+    #     ban -- engine waves have no pool entry to harvest-flip);
+    #     pool default restored after the probe. ---
+    _set_lane("engine")
+    try:
+        _claim_dir = os.path.join(PATHS.root, "results", "pool_claims",
+                                  "SELFTEST-LANE-EXEMPT")
+        _pool_claim("SELFTEST-LANE-EXEMPT", "selftest-key",
+                    "selftest: engine-lane exemption face (law sec.2)")
+        assert not os.path.exists(_claim_dir), \
+            "engine lane must not write pool claim files (law sec.2)"
+    finally:
+        _set_lane("pool")
     print("selftest: PASS (v1 constants + seed bands disjoint [v1/W1/registry/"
           "law W2/W3] + law band parity + p pattern + determinism + slice "
           "math + canon intact + W1 dep complete + path safety + O-2355 "
@@ -1312,7 +1347,8 @@ def selftest() -> int:
           "(r307 two-state law), FIRST ENGINE-OWNED WAVE "
           "engine_owner=bm-b per T-2026-10-01-141 s1, arithmetic "
           "continuation both tails clean per ADMIT receipt, law sec.4 "
-          "W10 row, r508 bm-b])")
+          "W10 row, r508 bm-b] + T-141 s2 engine-lane claim "
+          "exemption [law sec.2 pre-claim exempt face])")
     return 0
 
 
@@ -1326,6 +1362,12 @@ def main():
                   f"prereg time, law sec.4 tail rows)")
             return 2
         _set_wave(w)
+    if "--lane" in argv:
+        lane = argv[argv.index("--lane") + 1]
+        if lane not in ("pool", "engine"):
+            print(f"unknown lane {lane!r} (pool|engine, law sec.2)")
+            return 2
+        _set_lane(lane)
     if "selftest" in argv:
         return selftest()
     if "finalize" in argv:
@@ -1345,9 +1387,9 @@ def main():
         nshards = int(argv[argv.index("--nshards") + 1])
     if shard is None or nshards is None:
         print(__doc__)
-        print("usage: run --shard i --of N [--wave W] [--workers P] | "
-              "finalize [--wave W] | probe | parity | status [--wave W] | "
-              "selftest")
+        print("usage: run --shard i --of N [--wave W] [--workers P] "
+              "[--lane pool|engine] | finalize [--wave W] | probe | parity | "
+              "status [--wave W] | selftest")
         return 2
     if "run" not in argv:
         print("usage: run --shard i --of N [--wave W] [--workers P]")

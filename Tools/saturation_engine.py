@@ -43,11 +43,23 @@ Architecture (law sec.1-sec.5, per-machine instance; this file = bm-c's):
     results/saturation_engine_state.<mid>.json is an event-written lane
     face (D-03 naming) + <=60s heartbeat for the round-zero liveness
     check (T-141 s3 wiring).
-  * LEDGER (law sec.2): products land in the tracked conventional
-    results/p2cal_ext tree and are committed by round sessions / daemon
-    harvest (async batched 10-20min); the engine itself NEVER touches
-    the shared tree or pushes. finalize() stays a wave-owner action
-    (prereg sec.4) -- the engine only surfaces wave-complete flags.
+  * LEDGER (law sec.2, s2 conversion v0.2): products land in the tracked
+    conventional results/p2cal_ext tree and are delivered to git by the
+    engine's OWN async batched appender -- targeted pathspec commit of
+    NEW product files only (never add -A, r109 law), best-effort push,
+    NO engine-side rebase ever (a rejected push = local commit rides the
+    next round session's rebase; byte-identical twins already on origin
+    drop as empty picks, proven 10-01 CAS precedent). Batching window =
+    15min oldest-pending or >=4 shards (law 10-20min / N-shard band).
+    Guards before commit: rebase/merge surgery markers + index.lock
+    (r312/r314 family) -- any hit = honest defer to the next window.
+    Pre-claim exemption: engine-lane burns pass --lane engine to the
+    runner (no pool-claim handshake files -- engine waves have no pool
+    entry to flip; claim files would be orphan git traffic). Grammar
+    (seed-band) consumption is logged per wave in the state face with
+    the fetch-synced dedup counts (生成窗 fetch 对账, 防重烧).
+    finalize() stays a wave-owner action (prereg sec.4) -- the engine
+    only surfaces wave-complete flags.
   * OLD-LANE CO-EXISTENCE: perpetual_faces supply() materializer trigger
     requires py<70; while the engine burns, py>=70 keeps the materialize
     leg off (natural mutual exclusion). The adoption scan makes any
@@ -62,6 +74,7 @@ hermetic: no network, no real burns, no real git ops).
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import threading
@@ -86,13 +99,18 @@ MACHINE_IGNITE_HOLD = 88.0               # CEO 10%-reserve law: no new burn abov
 CYCLE_S = 15                             # supervision cadence (秒级起烧, law sec.1)
 HEARTBEAT_S = 60                         # state-face heartbeat bound
 SYNC_EVERY_S = 20 * 60                    # sync window cadence (law sec.1/sec.2)
+SYNC_TIMEOUT_S = 90
+APPEND_EVERY_S = 15 * 60                  # law sec.2 batch window (10-20min band)
+APPEND_MIN_SHARDS = 4                     # N-shard batch trigger (law sec.2)
+APPEND_TIMEOUT_S = 120
+GIT_BUSY_MARKERS = ("rebase-merge", "rebase-apply", "MERGE_HEAD",
+                    "CHERRY_PICK_HEAD", "REVERT_HEAD", "index.lock")
 FUSE_MAX = 3                             # crash fuse per (face, wave, shard)
 STALL_EXIT_S = 300                       # inner watchdog: stall -> hard exit, task restarts
-SYNC_TIMEOUT_S = 90
 LOG_DIR = os.path.join(ROOT, "logs", "saturation_engine")
 TASK_NAME = "Bigmoney-SaturationEngine"
 
-STATE_VERSION = "v0.1-s1"
+STATE_VERSION = "v0.2-s2a"
 
 
 # ----------------------------------------------------------------- helpers
@@ -183,7 +201,8 @@ def derive_n1_queue(bands, preregs, done, quarantined, slot,
             if key in done or key in quarantined:
                 continue
             items.append({"face": "N1", "wave": wave, "shard": shard,
-                          "nshards": nshards, "primary": shard in primary})
+                          "nshards": nshards, "primary": shard in primary,
+                          "authorization": "pre-claim-exempt (law sec.2)"})
             if len(items) >= max_items:
                 return items
     return items
@@ -218,7 +237,8 @@ def pre_ignition_checks(item, runner=RUNNER, daily_dir=DAILY_DIR,
 def build_burn_cmd(item, workers=WORKERS_PER_SHARD):
     return [sys.executable, RUNNER, "run",
             "--shard", str(item["shard"]), "--of", str(item["nshards"]),
-            "--wave", str(item["wave"]), "--workers", str(workers)]
+            "--wave", str(item["wave"]), "--workers", str(workers),
+            "--lane", "engine"]          # law sec.2: pre-claim-exempt lane
 
 
 def ignite(item, log_dir=LOG_DIR):
@@ -264,19 +284,38 @@ def adopt_inflight():
     return adopted
 
 
-def sync_window(active_waves):
-    """Law sec.1/2: the ONLY git surface (never in the hot path).
+def _git(args, cwd=None, timeout=SYNC_TIMEOUT_S):
+    """Zero-window git (CREATE_NO_WINDOW, U060/r317 discipline)."""
+    return subprocess.run(
+        ["git", "-C", cwd or ROOT] + args, capture_output=True, text=True,
+        timeout=timeout, creationflags=subprocess.CREATE_NO_WINDOW)
 
-    fetch origin (no tree touch, zero-window via CREATE_NO_WINDOW) then
-    ls-tree the product dirs of active waves -> remote done-truth. Never
-    mutates anything; failure degrades honestly to local-only truth.
+
+def parse_remote_shards(stdout_text):
+    """ls-tree --name-only emits FULL paths (results/p2cal_ext/n1_w9/
+    shard-0-of-12.json); collect the shard indices from the basename.
+    (s2 fix: the s1 parse matched bare names only -> remote_done was
+    always empty; caught live 2026-10-01 r321 against the real origin
+    face -- the dedup leg is load-bearing for law sec.2 防重烧.)"""
+    out = set()
+    for line in stdout_text.splitlines():
+        name = line.strip().split("/")[-1]
+        if name.startswith("shard-") and name.endswith(".json"):
+            try:
+                out.add(int(name.split("-")[1]))
+            except (ValueError, IndexError):
+                continue
+    return out
+
+
+def sync_window(active_waves):
+    """Law sec.1/2: the fetch/reconcile surface (never in the hot path).
+
+    fetch origin (no tree touch, zero-window) then ls-tree the product
+    dirs of active waves -> remote done-truth. Never mutates anything;
+    failure degrades honestly to local-only truth.
     """
     remote_done, err = set(), None
-    def _git(args):
-        return subprocess.run(
-            ["git", "-C", ROOT] + args, capture_output=True, text=True,
-            timeout=SYNC_TIMEOUT_S,
-            creationflags=subprocess.CREATE_NO_WINDOW)
     try:
         r = _git(["fetch", "origin"])
         if r.returncode != 0:
@@ -288,19 +327,136 @@ def sync_window(active_waves):
             if r.returncode != 0:
                 err = "ls-tree w%d rc=%d" % (wave, r.returncode)
                 continue
-            for line in r.stdout.splitlines():
-                line = line.strip()
-                if line.startswith("shard-") and line.endswith(".json"):
-                    try:
-                        s = int(line.split("-")[1])
-                        remote_done.add((wave, s))
-                    except ValueError:
-                        continue
+            remote_done |= {(wave, s) for s in parse_remote_shards(r.stdout)}
     except subprocess.TimeoutExpired:
         err = "sync timeout"
     except OSError as exc:
         err = "sync oserror %r" % (exc,)
     return remote_done, err
+
+
+# ------------------------------------------------- law sec.2 s2 conversion
+def git_busy(repo=None):
+    """Concurrent-surgery markers (r312/r314 family): any rebase/merge in
+    progress or a held index lock means the engine MUST NOT commit this
+    cycle (defer to the next batch window)."""
+    gd = os.path.join(repo or ROOT, ".git")
+    return [m for m in GIT_BUSY_MARKERS if os.path.exists(os.path.join(gd, m))]
+
+
+def untracked_products(repo=None, area="results/p2cal_ext"):
+    """Pending-append face: burned product files not yet in local git
+    (ls-files --others; ground truth self-derived from git, r488 family).
+    Returns (pending_list, err); pending items carry {path, wave, shard,
+    age_s} -- only the frozen product path convention is collected."""
+    r = _git(["ls-files", "--others", "--exclude-standard", "--", area],
+             cwd=repo or ROOT, timeout=60)
+    if r.returncode != 0:
+        return None, "ls-files rc=%d" % r.returncode
+    now = time.time()
+    pend = []
+    for raw in r.stdout.splitlines():
+        p = raw.strip().strip('"')
+        if not p:
+            continue
+        m = re.match(r"(?:^|.*/)n1_w(\d+)/shard-(\d+)-of-(\d+)\.json$",
+                     p.replace("\\", "/"))
+        if not m:
+            continue
+        fp = os.path.join(repo or ROOT, p.replace("/", os.sep))
+        try:
+            age = now - os.path.getmtime(fp)
+        except OSError:
+            age = None
+        pend.append({"path": p, "wave": int(m.group(1)),
+                     "shard": int(m.group(2)), "age_s": age})
+    return pend, None
+
+
+def append_due(pending):
+    """Law sec.2 batching decision (pure, selftest-legible): flush when
+    >= N shards are pending OR the oldest has waited out the window
+    (10-20min band -> 15min). Empty = never."""
+    if not pending:
+        return False
+    if len(pending) >= APPEND_MIN_SHARDS:
+        return True
+    ages = [p["age_s"] for p in pending if p["age_s"] is not None]
+    return bool(ages) and max(ages) >= APPEND_EVERY_S
+
+
+def ledger_append_batch(pending, mid, repo=None, dry=False):
+    """Law sec.2 face: async batched ledger append -- targeted pathspec
+    commit of NEW product files only (never add -A, r109 law), then a
+    best-effort push. NO engine-side rebase ever: a rejected push leaves
+    the local commit for the next round session's pull --rebase to
+    replay (byte-identical twins already on origin drop as empty picks,
+    proven 10-01 CAS precedent). Guards: rebase/merge markers + held
+    index lock (r312/r314 family) -> honest defer. Never raises."""
+    repo = repo or ROOT
+    rec = {"epoch": int(time.time()), "n_paths": len(pending), "mid": mid}
+    try:
+        marks = git_busy(repo)
+        if marks:
+            rec.update({"outcome": "deferred",
+                        "reason": "git busy: %s" % ",".join(marks)})
+            return rec
+        paths = [p["path"] for p in pending]
+        r = _git(["add", "--"] + paths, cwd=repo, timeout=APPEND_TIMEOUT_S)
+        if r.returncode != 0:
+            rec.update({"outcome": "deferred", "reason":
+                        "add rc=%d %s" % (r.returncode, (r.stderr or "")[:160])})
+            return rec
+        # pathspec commit: takes ONLY these paths from the worktree; any
+        # concurrent session's staged set stays staged untouched (r494
+        # staged-index 吞件 guard by construction).
+        msg = ("saturation engine ledger append (%s): %d n1 product shard(s) "
+               "[law sec.2 batched]" % (mid, len(paths)))
+        r = _git(["-c", "user.name=saturation-engine (%s)" % mid,
+                  "-c", "user.email=engine@bigmoney.local",
+                  "commit", "-m", msg, "--"] + paths,
+                 cwd=repo, timeout=APPEND_TIMEOUT_S)
+        if r.returncode != 0:
+            rec.update({"outcome": "deferred", "reason":
+                        "commit rc=%d %s" % (r.returncode, (r.stderr or "")[:200])})
+            return rec
+        rec["committed"] = ((r.stdout or "").strip().splitlines() or [""])[0]
+        if dry:
+            rec["outcome"] = "committed_dry"
+            return rec
+        r = _git(["push", "origin", "HEAD:refs/heads/main"],
+                 cwd=repo, timeout=APPEND_TIMEOUT_S)
+        rec["push_rc"] = r.returncode
+        if r.returncode == 0:
+            rec["outcome"] = "pushed"
+        else:
+            rec.update({"outcome": "push_rejected_local_kept",
+                        "reason": (r.stderr or "")[:200]})
+    except Exception as exc:               # honest, never crash the loop
+        rec.update({"outcome": "error", "reason": repr(exc)[:200]})
+    return rec
+
+
+def derive_grammar_consumption(bands, preregs, done, remote_done):
+    """Law sec.2 照记 face: per authorized wave, record the grammar (seed
+    band) consumption plus the fetch-synced dedup counts (生成窗 fetch
+    对账, 防重烧). Pure (selftest-legible)."""
+    out = []
+    for wave in sorted(bands):
+        if not preregs.get(wave):
+            continue
+        row = bands[wave] or {}
+        out.append({
+            "face": "N1", "wave": wave,
+            "a_band": list(row.get("a", ())),
+            "b_exit_band": list(row.get("b_exit", ())),
+            "authorization": "per-wave prereg + law sec.4 band ledger "
+                             "(pre-claim exempt, sec.2)",
+            "dedup": {"local_done": sum(1 for (w, _) in done if w == wave),
+                      "remote_done": sum(1 for (w, _) in remote_done
+                                         if w == wave)},
+        })
+    return out
 
 
 # ------------------------------------------------------------------- state
@@ -407,11 +563,29 @@ def run_engine(mid, once=False):
                 if crash["%d:%d" % (wave, shard)] >= FUSE_MAX:
                     quarantined.add(key)
 
-        # 3. sync window (20-min cadence; the ONLY git surface)
+        # 3. sync window (20-min cadence; the reconcile surface)
         if now - last_sync >= SYNC_EVERY_S:
             remote_done, sync_err = sync_window(active_waves)
             done |= remote_done
             last_sync = now
+
+        # 3.5 law sec.2 (s2): grammar consumption log (recorded with the
+        #     fetch-synced dedup counts, 生成窗 fetch 对账) + async
+        #     batched ledger append (products -> git, 15min/N-shard)
+        st["grammar_consumption"] = derive_grammar_consumption(
+            bands,
+            {w: prereg_path(w) if os.path.isfile(prereg_path(w)) else None
+             for w in active_waves},
+            done, remote_done)
+        pending, pend_err = untracked_products()
+        st["append_pending"] = len(pending) if pending is not None else None
+        st["append_err"] = pend_err
+        if pending and append_due(pending):
+            rec = ledger_append_batch(pending, mid)
+            st.setdefault("ledger_appends", []).append(rec)
+            st["ledger_appends"] = st["ledger_appends"][-40:]
+            if rec.get("epoch"):
+                st["last_append_epoch"] = rec["epoch"]
 
         # 4. ignite while: burns below cap AND machine under fill line
         py_pct, mach_pct = _py_cpu_pct(), _machine_cpu_pct()
@@ -509,6 +683,10 @@ def cmd_status(mid):
         "wave_complete_flags": st.get("wave_complete_flags", []),
         "disk_done_count": len(done), "quarantined": st.get("quarantined", []),
         "sync": st.get("sync"), "py_cpu_pct": st.get("py_cpu_pct"),
+        "append_pending": st.get("append_pending"),
+        "append_err": st.get("append_err"),
+        "last_append": (st.get("ledger_appends") or [None])[-1],
+        "grammar_consumption": st.get("grammar_consumption", []),
     }, ensure_ascii=False, indent=1))
     return 0
 
@@ -572,10 +750,11 @@ def selftest():
         leg("band ledger import", False)
         print("    (%r)" % (exc,))
 
-    # 6. burn cmdline contract
+    # 6. burn cmdline contract (s2: engine-lane flag, law sec.2)
     cmd = build_burn_cmd({"wave": 9, "shard": 2, "nshards": 12})
-    leg("burn cmd", cmd[-9:] == ["run", "--shard", "2", "--of", "12",
-                                 "--wave", "9", "--workers", "8"])
+    leg("burn cmd", cmd[-11:] == ["run", "--shard", "2", "--of", "12",
+                                  "--wave", "9", "--workers", "8",
+                                  "--lane", "engine"])
 
     # 7. fuse math
     leg("fuse max constant", FUSE_MAX == 3)
@@ -592,6 +771,83 @@ def selftest():
     done_w8 = sum(1 for s in range(N1_SHARDS)
                   if os.path.exists(product_path(8, s)))
     leg("env W8 shards done >=12", done_w8 >= N1_SHARDS)
+
+    # 10. law sec.2 s2 faces: batching decision + consumption log +
+    #     exemption face + busy markers + hermetic end-to-end append
+    leg("append_due empty", not append_due([]))
+    # s2 live bugfix face: ls-tree emits FULL paths -- the s1 bare-name
+    # parse starved remote_done (dedup leg load-bearing, caught r321)
+    leg("remote shard parse full-path shape",
+        parse_remote_shards(
+            "results/p2cal_ext/n1_w9/shard-0-of-12.json\n"
+            "results/p2cal_ext/n1_w9/shard-10-of-12.json\n"
+            "results/p2cal_ext/n1_w9/shard-11-of-12.json\n") == {0, 10, 11})
+    leg("remote shard parse noise-safe",
+        parse_remote_shards("shard-x-of-12.json\nn1_w9/other.json\n") == set())
+    leg("append_due N-shard trigger",
+        append_due([{"age_s": 1.0}] * APPEND_MIN_SHARDS))
+    leg("append_due window trigger",
+        append_due([{"age_s": APPEND_EVERY_S + 1.0}]))
+    leg("append_due young single no-flush",
+        not append_due([{"age_s": 30.0}]))
+    cons = derive_grammar_consumption(
+        {9: {"a": (26_100, 28_099), "b_exit": (28_100, 28_299)}, 10: {}},
+        {9: "research/PERPETUAL_N1_W9_PREREG.md", 10: None},
+        {(9, 0)}, {(9, 3)})
+    leg("consumption excludes unauthorized wave",
+        all(c["wave"] != 10 for c in cons))
+    leg("consumption dedup counts",
+        any(c["dedup"] == {"local_done": 1, "remote_done": 1} for c in cons))
+    leg("queue pre-claim-exempt face",
+        all(i["authorization"] == "pre-claim-exempt (law sec.2)"
+            for i in derive_n1_queue({2: "row"}, {2: "p"}, set(), set(),
+                                     slot=1)))
+    leg("queue authorization absent for unauthorized wave",
+        not derive_n1_queue({2: "row"}, {2: None}, set(), set(), slot=1))
+    import tempfile
+    with tempfile.TemporaryDirectory() as td:
+        fake = os.path.join(td, "fakebusy")
+        os.makedirs(os.path.join(fake, ".git", "rebase-merge"))
+        leg("git_busy marker detection", git_busy(fake) == ["rebase-merge"])
+        # hermetic end-to-end append: temp repo + bare remote (real git
+        # binary, ZERO company-repo/network surface)
+        repo = os.path.join(td, "repo")
+        bare = os.path.join(td, "bare.git")
+        def _g(args, cwd):
+            return subprocess.run(
+                ["git"] + args, cwd=cwd, capture_output=True, text=True,
+                timeout=60, creationflags=subprocess.CREATE_NO_WINDOW)
+        ok = True
+        for a, c in ((["init", "-q", "--initial-branch=main", repo], td),
+                     (["init", "-q", "--bare", "--initial-branch=main", bare], td)):
+            ok &= _g(a, c).returncode == 0
+        open(os.path.join(repo, "base.txt"), "w").write("base\n")
+        ok &= _g(["add", "base.txt"], repo).returncode == 0
+        ok &= _g(["-c", "user.name=st", "-c", "user.email=st@t",
+                  "commit", "-q", "-m", "base"], repo).returncode == 0
+        ok &= _g(["remote", "add", "origin", bare], repo).returncode == 0
+        ok &= _g(["push", "-q", "origin", "main"], repo).returncode == 0
+        pdir = os.path.join(repo, "results", "p2cal_ext", "n1_w9")
+        os.makedirs(pdir)
+        open(os.path.join(pdir, "shard-0-of-12.json"), "w").write("{}")
+        pend, perr = untracked_products(repo=repo)
+        leg("hermetic pending derive",
+            perr is None and bool(pend) and pend[0]["wave"] == 9
+            and pend[0]["shard"] == 0
+            and pend[0]["path"].endswith("n1_w9/shard-0-of-12.json"))
+        rec = ledger_append_batch(pend, "selftest", repo=repo)
+        ls = _g(["ls-tree", "--name-only", "origin/main",
+                 "results/p2cal_ext/n1_w9/"], repo)
+        leg("hermetic append committed+pushed",
+            ok and rec.get("outcome") == "pushed"
+            and "shard-0-of-12.json" in ls.stdout)
+        # busy-guard defer face: marker present -> honest defer, no commit
+        os.makedirs(os.path.join(repo, ".git", "CHERRY_PICK_HEAD"))
+        open(os.path.join(pdir, "shard-1-of-12.json"), "w").write("{}")
+        pend2, _ = untracked_products(repo=repo)
+        rec2 = ledger_append_batch(pend2, "selftest", repo=repo)
+        leg("hermetic busy defer", rec2.get("outcome") == "deferred"
+            and "CHERRY_PICK_HEAD" in rec2.get("reason", ""))
 
     total = n_legs[0]
     print("selftest: %d/%d PASS" % (total - len(fails), total)

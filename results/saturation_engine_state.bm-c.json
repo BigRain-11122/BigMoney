@@ -1,7 +1,7 @@
 {
  "machine_id": "bm-c",
  "engine": "saturation_engine",
- "version": "v0.1-s1",
+ "version": "v0.2-s2a",
  "law": "firm/SATURATION_ENGINE_LAW.md v1.0",
  "core_cap": 26,
  "workers_per_shard": 8,
@@ -117,17 +117,17 @@
   }
  ],
  "burns_active": [],
- "cycle": 143,
- "heartbeat_epoch": 1790838293,
- "last_cycle_ts": "2026-10-01T15:04:53",
- "py_cpu_pct": 0.2,
- "machine_cpu_pct": 2.3,
+ "cycle": 21,
+ "heartbeat_epoch": 1790839182,
+ "last_cycle_ts": "2026-10-01T15:19:42",
+ "py_cpu_pct": 0.24,
+ "machine_cpu_pct": 7.4,
  "done_count": 96,
  "quarantined": [],
  "crash_counts": {},
  "sync": {
-  "last_epoch": 1790838293,
-  "remote_done_count": 0,
+  "last_epoch": 1790839182,
+  "remote_done_count": 96,
   "err": null
  },
  "completed": [
@@ -180,5 +180,145 @@
    "ended_epoch": 1790835827,
    "rc": null
   }
- ]
+ ],
+ "grammar_consumption": [
+  {
+   "face": "N1",
+   "wave": 2,
+   "a_band": [
+    12100,
+    14099
+   ],
+   "b_exit_band": [
+    21100,
+    21299
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 3,
+   "a_band": [
+    14100,
+    16099
+   ],
+   "b_exit_band": [
+    21300,
+    21499
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 4,
+   "a_band": [
+    16100,
+    18099
+   ],
+   "b_exit_band": [
+    21500,
+    21699
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 5,
+   "a_band": [
+    21900,
+    23899
+   ],
+   "b_exit_band": [
+    21700,
+    21899
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 6,
+   "a_band": [
+    23900,
+    25899
+   ],
+   "b_exit_band": [
+    25900,
+    26099
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 7,
+   "a_band": [
+    26100,
+    28099
+   ],
+   "b_exit_band": [
+    28100,
+    28299
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 8,
+   "a_band": [
+    30100,
+    32099
+   ],
+   "b_exit_band": [
+    28300,
+    28499
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 9,
+   "a_band": [
+    32100,
+    34099
+   ],
+   "b_exit_band": [
+    28500,
+    28699
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 12
+   }
+  }
+ ],
+ "append_pending": 0,
+ "append_err": null
 }
