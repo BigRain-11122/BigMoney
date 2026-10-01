@@ -865,6 +865,27 @@ N1_BANDS = {
     # re-pick (R250: W43 bands never assigned; B skip forced).
     43: {"a": (129_004, 131_003), "b_exit": (44_001, 44_200),
          "engine_owner": "bm-c"},
+    # W44 (r553 bm-a, own-series continuation per O-20261001-2355
+    # sec.2 -- bm-a's NINTH owned wave after W12/W18/W21/W24/W27/
+    # W30/W33/W35; the W40 cross-burn attempt yielded canon to bm-b
+    # r531, not owned). Zero-gap relay after the W43 FULL CLOSEOUT
+    # (bm-c r346 same-window three-stage: freeze b3411b7c9 ->
+    # 12/12 burn -> finalize one-pass K=92,520, ledger 457,140 chain
+    # head). Wave 44 = first free number after W43's landed claim.
+    # BOTH SIDES no-skip arithmetic continuations per the W43 row's
+    # W44+ WARNING projections, machine-derived at this freeze (r535
+    # law: clean-projection claims must be machine-derived, never
+    # prose-copied): A = 131_004..133_003 == W43 A end + 1; B =
+    # 44_201..44_400 == W43 B end + 1. Machine-verified at prereg
+    # time (results/_r553bma_w44_band_gate.py ADMIT receipt vs the
+    # 41-row pre-W44 table + live SEED_REGISTRY values + probe-seed
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+    # band 70_000..70_005 MSG-183x r529 mandatory leg; origin slot
+    # vacancy machine-checked). THIRTY-FOURTH ENGINE-OWNED WAVE,
+    # engine_owner=bm-a (local queue, no pool entry). NOT a re-pick
+    # (R250: W44 bands never assigned).
+    44: {"a": (131_004, 133_003), "b_exit": (44_201, 44_400),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
