@@ -23,5 +23,11 @@ $s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBat
 # on this machine register S4U, never InteractiveToken -- survives logoff and
 # child console windows stay invisible (no desktop flash).
 $p = New-ScheduledTaskPrincipal -UserId "$env:USERDOMAIN\$env:USERNAME" -LogonType S4U
-Register-ScheduledTask -TaskName 'Bigmoney-LoopWatchdog' -Action $a -Trigger $t -Settings $s -Principal $p -Force | Out-Null
+# No-false-success gate (satengine principal-law precedent 2026-10-01):
+# from an unelevated session host, the S4U Register-ScheduledTask fails with
+# 0x80070005 access denied -- the success line must NEVER print in that case.
+# -ErrorAction Stop makes the failure terminating + rc=1 (honest both ways);
+# elevated contexts register unchanged. Existing healthy tasks are never
+# touched by a failed attempt (zero-change on access denied).
+Register-ScheduledTask -TaskName 'Bigmoney-LoopWatchdog' -Action $a -Trigger $t -Settings $s -Principal $p -Force -ErrorAction Stop | Out-Null
 Write-Output "registered Bigmoney-LoopWatchdog (project=$Project, logon=S4U), first fire $start"

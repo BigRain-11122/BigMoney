@@ -50,7 +50,11 @@ if ($pin -ge 0) {
 # ROUND-level event, never a task-level verdict, so the self-heal check
 # re-registers (re-enables + refreshes settings incl. the 35-min limit)
 # instead of leaving the loop dead until a human notices.
-$exists = schtasks /query /tn 'Bigmoney-IterationLoop' 2>$null
+# U060 zero-window law: bare schtasks from a windowless session host = one
+# desktop console flash per launch; route through the CreateNoWindow helper
+# (Tools\Invoke-SilentExe.ps1). Existence semantics unchanged: stdout rows
+# present = task exists, empty + exit 1 = missing (R49 schtasks canon kept).
+$exists = & (Join-Path $PSScriptRoot 'Invoke-SilentExe.ps1') -Exe schtasks -ArgString '/query /tn "Bigmoney-IterationLoop"'
 $disabledHeal = $false
 if ($exists) {
     try {

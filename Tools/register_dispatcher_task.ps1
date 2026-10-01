@@ -21,7 +21,10 @@ $a = New-ScheduledTaskAction -Execute 'wscript.exe' `
 # existence canon = schtasks (R49: Get-ScheduledTask CIM reads can transiently
 # false-negative while a task instance is running); Disabled heal via CIM with
 # CIM-fault fallthrough to a harmless idempotent re-register.
-$exists = schtasks /query /tn 'Bigmoney-ResidentDispatcher' 2>$null
+# U060 zero-window law: bare schtasks from a windowless session host = one
+# desktop console flash per launch; route through the CreateNoWindow helper
+# (Tools\Invoke-SilentExe.ps1). Existence semantics unchanged (R49 canon).
+$exists = & (Join-Path $PSScriptRoot 'Invoke-SilentExe.ps1') -Exe schtasks -ArgString '/query /tn "Bigmoney-ResidentDispatcher"'
 $disabledHeal = $false
 if ($exists) {
     try {
