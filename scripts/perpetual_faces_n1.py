@@ -840,6 +840,31 @@ WAVE_CONFIGS = {
                  "b_exit_seed_base": 42_001,    # law sec.4 W35 B: 42_001..42_200 (post-projection)
                  "shard_subdir": "n1_w35", "out_name": "n1_w35_results.json",
                  "engine_owner": "bm-a"},
+            # W36 (r528 bm-b, engine de-throttle law O-20261001-2355
+            # sec.2 -- per-machine self-owned continuous series,
+            # zero-gap relay after W34 full closeout (freeze+12/12 burn
+            # +finalize landed bm-b r528 same-window, K=72,720, ledger
+            # net head 437,340); wave 36 = first free number after
+            # W35's landed claim, seat system retired by the same
+            # order). BOTH tails arithmetic-clean exactly as the W35
+            # row's W36+ WARNING projected (no skip either side).
+            # Machine-verified at prereg time (results/_r528bmb_
+            # w36_band_gate.py ADMIT receipt vs the 33-row pre-W36
+            # table incl. W34/W35 + SEED_REGISTRY + probe-seed cluster
+            # + N3-R1 used-seed band). TWENTY-FIFTH ENGINE-OWNED WAVE,
+            # bm-b's ELEVENTH owned wave. NOT a re-pick (R250).
+            36: {"batch": "PERPETUAL-N1-W36",
+                 "prereg": ("research/PERPETUAL_N1_W36_PREREG.md (wave-level frozen "
+                            "pre-run; design = frozen v1 null calibration verbatim, "
+                            "new seed bands only; TWENTY-FIFTH ENGINE-OWNED WAVE, "
+                            "engine de-throttle law O-20261001-2355 sec.2 "
+                            "own-continuous-series, engine_owner=bm-b, wave 36 = "
+                            "first free number after W35's claim, both tails "
+                            "arithmetic continuation)"),
+                 "a_seed_base": 115_004,        # law sec.4 W36 A: 115_004..117_003 (arithmetic)
+                 "b_exit_seed_base": 42_201,    # law sec.4 W36 B: 42_201..42_400 (arithmetic)
+                 "shard_subdir": "n1_w36", "out_name": "n1_w36_results.json",
+                 "engine_owner": "bm-b"},
           }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -4140,6 +4165,95 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W36 materializer face (r528 bm-b freeze, de-throttle law
+    #     O-20261001-2355 sec.2 own-continuous-series) -----------------
+    _set_wave(36)
+    try:
+        assert WAVE_CONFIGS[36]["a_seed_base"] == pf.N1_BANDS[36]["a"][0], \
+            "W36 A band drift vs law mirror"
+        assert WAVE_CONFIGS[36]["b_exit_seed_base"] == \
+            pf.N1_BANDS[36]["b_exit"][0], "W36 B band drift vs law mirror"
+        assert WAVE_CONFIGS[36].get("engine_owner") == \
+            pf.N1_BANDS[36].get("engine_owner") == "bm-b", \
+            "W36 engine_owner drift (law mirror parity)"
+        w36_a = {A_SEED_BASE + j for j in range(A_N)}
+        w36_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w36_a & w36_b), "W36 A/B band overlap"
+        assert not (w36_a & reg_ints) and not (w36_b & reg_ints), \
+            "W36 hits SEED_REGISTRY"
+        for nm, band in (("A", w36_a), ("B", w36_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W36 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W36 {nm} hits W1"
+            assert not (band & probes), f"W36 {nm} hits probe seeds"
+        # prior-wave disjointness incl. W30..W34 (all registered) and
+        # W35 (bm-a, registered + burning at this freeze -- in-flight
+        # coexists by band disjointness per r531 law).
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35):
+            assert not (w36_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W36 A hits W{wprev}"
+            assert not (w36_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W36 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W36 bands must clear it.
+        n3r1_used36 = set(range(70_000, 70_006))
+        assert not (w36_a & n3r1_used36) and not (w36_b & n3r1_used36), \
+            "W36 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w36_a & lfc_actual12) and not (w36_b & lfc_actual12), \
+            "W36 bands must clear the lfc actual draw range"
+        assert not (w36_a & options_actual12) and \
+            not (w36_b & options_actual12), \
+            "W36 bands must clear the options_wave2 actual draw range"
+        # arithmetic-continuation facts (law sec.4 W36 row, r528): BOTH
+        # tails land clean exactly as the W35 row's W36+ WARNING
+        # projected -- no skip either side (candidate start == W35 band
+        # end + 1 on both sides; the W35-published projection window IS
+        # the candidate, machine-verified by the r528 gate).
+        assert WAVE_CONFIGS[36]["a_seed_base"] == 115_004 == 115_003 + 1, \
+            "W36 A must start at the W35 A end + 1 (arithmetic continuation)"
+        assert WAVE_CONFIGS[36]["b_exit_seed_base"] == 42_201 == 42_200 + 1, \
+            "W36 B must start at the W35 B end + 1 (arithmetic continuation)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W36-SHARD-0",
+                                          "n1w36-0of12"), "W36 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W36-SHARD-11",
+                                           "n1w36-11of12")
+        assert SHARD_DIR.endswith("n1_w36") and OUT.endswith(
+            "n1_w36_results.json"), "W36 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                      31, 32, 33, 34, 35):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W36 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W36_PREREG.md")), \
+            "W36 per-wave prereg missing (materializer requirement)"
+        # W36 finalize cumulative deps: W17..W34 outputs ALL PRESENT
+        # (W34 finalize landed bm-b r528 same-window as this freeze --
+        # net ledger head 437,340); W35 registered + BURNING at this
+        # freeze (bm-a) -- the dep pin carries the W35-pending
+        # two-state honest note per the r541 W30 precedent (finalize
+        # runtime composes every registry key below 36 = FAIL-CLOSED
+        # honest wait for the W35 output once it lands).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29,
+                      30, 31, 32, 33, 34):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W36 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 36 (no 15; W30..W35 all
+        # seated, W35 in-flight = runtime FAIL-CLOSED guard).
+        assert sorted(w for w in WAVE_CONFIGS if w < 36) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,
+             35], \
+            "W36 prior-wave set must derive from registry keys (no 15)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -4435,6 +4549,16 @@ def selftest() -> int:
           "O-20261001-2355 sec.2 own-continuous-series (first bm-a "
           "wave under the de-throttle law, zero-gap relay after W33 "
           "close), r545 bm-a] "
+          "+ W36 materializer face [same guard set, dep=W17..W34 ALL "
+          "present + W35 registered-in-flight two-state dep (bm-a "
+          "burning at this freeze -- finalize runtime FAIL-CLOSED "
+          "composes every registry key below 36), BOTH tails "
+          "arithmetic continuation per law sec.4 W36 row "
+          "115_004..117_003 / 42_201..42_400, zero skip, "
+          "TWENTY-FIFTH ENGINE-OWNED WAVE engine_owner=bm-b per engine "
+          "de-throttle law O-20261001-2355 sec.2 own-continuous-series "
+          "(zero-gap relay after the W34 full closeout, wave 36 = "
+          "first free number after W35's claim), r528 bm-b] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")

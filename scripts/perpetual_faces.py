@@ -715,6 +715,28 @@ N1_BANDS = {
     # W36 prereg (first-free-number law under O-2355 de-throttle).
     35: {"a": (113_004, 115_003), "b_exit": (42_001, 42_200),
          "engine_owner": "bm-a"},
+    # W36 (r528 bm-b, engine de-throttle law O-20261001-2355 sec.2:
+    # per-machine self-owned continuous series, zero-gap relay after
+    # the machine's previous wave closes -- W34 closed FULL-LIFECYCLE
+    # bm-b r528 same-window (freeze -> 12/12 burn -> finalize, K=72,720,
+    # ledger net head 437,340). Wave number 36 = FIRST FREE NUMBER after
+    # W35's landed claim (bm-a r545; seat system retired by the same
+    # order). NOT a re-pick (R250: W36 bands were never assigned; the
+    # measurement face has no result to fish). BOTH tails arithmetic-
+    # clean exactly as the W35 row's W36+ WARNING projected
+    # (A 115_004..117_003 == W35 A end + 1, B 42_201..42_400 == W35 B
+    # end + 1, no skip either side). Machine-verified at prereg time
+    # (results/_r528bmb_w36_band_gate.py ADMIT receipt vs the 33-row
+    # pre-W36 table incl. W34/W35 + SEED_REGISTRY values + probe-seed
+    # cluster 95_000..95_003 r335 discovery leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 mandatory leg). TWENTY-FIFTH
+    # engine-owned wave, bm-b's ELEVENTH owned wave after W10/W11/W13/
+    # W16/W19/W22/W25/W28/W31/W34.
+    # W37+ WARNING: A +2_000 tail 117_004..119_003 and B +200 tail
+    # 42_401..42_600 projection per the r528 gate receipt -- verify at
+    # W37 prereg (first-free-number law under O-2355 de-throttle).
+    36: {"a": (115_004, 117_003), "b_exit": (42_201, 42_400),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
