@@ -1,0 +1,116 @@
+{
+ "batch": "PERPETUAL-N3-R1",
+ "ticket": "T-2026-09-30-133",
+ "prereg": "research/PERPETUAL_N3_R1_PREREG.md",
+ "generated": "2026-10-01T09:53:37+08:00",
+ "members": 6,
+ "complete": true,
+ "engine_cells": 34,
+ "packs": [
+  {
+   "member": "COMPOSITE-CE-01",
+   "status": "judged",
+   "neighborhood_pass": true,
+   "cost_x3_pass": true,
+   "per_year_pass": true,
+   "line_recheck": {
+    "line": 1.1087,
+    "n_eff": 375447,
+    "center_full_sharpe": 0.9948,
+    "line_ok": false
+   },
+   "g2_v2_eligible": false
+  },
+  {
+   "member": "COMPOSITE-CE-02",
+   "status": "judged",
+   "neighborhood_pass": true,
+   "cost_x3_pass": true,
+   "per_year_pass": true,
+   "line_recheck": {
+    "line": 1.1087,
+    "n_eff": 375447,
+    "center_full_sharpe": 0.9649,
+    "line_ok": false
+   },
+   "g2_v2_eligible": false
+  },
+  {
+   "member": "DROUGHT-CE-01",
+   "status": "judged",
+   "neighborhood_pass": true,
+   "cost_x3_pass": true,
+   "per_year_pass": true,
+   "line_recheck": {
+    "line": 1.1087,
+    "n_eff": 375447,
+    "center_full_sharpe": 0.6678,
+    "line_ok": false
+   },
+   "g2_v2_eligible": false
+  },
+  {
+   "member": "ENGULF-CE-01",
+   "status": "judged",
+   "neighborhood_pass": true,
+   "cost_x3_pass": false,
+   "per_year_pass": true,
+   "line_recheck": {
+    "line": 1.1087,
+    "n_eff": 375447,
+    "center_full_sharpe": 0.4431,
+    "line_ok": false
+   },
+   "g2_v2_eligible": false
+  },
+  {
+   "member": "NEEDLE-DE-01",
+   "status": "judged",
+   "neighborhood_pass": true,
+   "cost_x3_pass": true,
+   "per_year_pass": true,
+   "line_recheck": {
+    "line": 1.1087,
+    "n_eff": 375447,
+    "center_full_sharpe": 0.5467,
+    "line_ok": false
+   },
+   "g2_v2_eligible": false
+  },
+  {
+   "member": "VOLATILITY-CE-01",
+   "status": "judged",
+   "neighborhood_pass": true,
+   "cost_x3_pass": false,
+   "per_year_pass": true,
+   "line_recheck": {
+    "line": 1.1087,
+    "n_eff": 375447,
+    "center_full_sharpe": 1.2534,
+    "line_ok": true
+   },
+   "g2_v2_eligible": false
+  }
+ ],
+ "subleg_counts": {
+  "neighborhood_pass": 6,
+  "cost_x3_pass": 4,
+  "per_year_pass": 6,
+  "line_recheck_pass": 1
+ },
+ "trials_ledger": {
+  "prev_total": 375419,
+  "batch_trials": 28,
+  "total": 375447,
+  "batch": "PERPETUAL-N3-R1",
+  "file": "perpetual_faces/n3_r1_results.json",
+  "note": "N3-R1 neighborhood stress grid on 6 registered members: 22 OAT nbhd + 6 x3 cells all new evidence (x3 provenance unverified/batch-era constructions per prereg sec.0 -- NEEDLE smoke-verified non-replay 0.3729 vs recorded 0.4833); 6 centers = recorded-cell replays (+0, t24 precedent); measurement-deepening face, no registration claim",
+  "evidence_cutoff": "2026-09-22"
+ },
+ "audit": {
+  "ledger_trials_added": 28,
+  "ledger_head_after": 375419,
+  "note": "G2 evidence-supply deepening face (PERPETUAL_FACES sec.2 N3); three-state registration verdicts N/A; member files read-only; g2_registration_v2 pbo=None refused honestly (single-member families = no legal CSCV sample, missing_inputs disclosed)"
+ },
+ "evidence_cutoff": "2026-09-22"
+}

@@ -76,11 +76,19 @@
 
 ## §7 跑后实证【跑前必须为空——写数字即造假】
 
-- （finalize 后机械回填：锚门实况/邻域红点数/成本 x3 实况/逐年/当期线复测 6 员对照表/账本行回执）
+- 锚门 6/6 PASS（d_in≤1.4e-5/d_oos≤6e-6·trades 双段逐位恒等·finalize 后 anchor_reverify 全员 pass=true）。
+- 邻域（G2_FOLK clause 2）6/6 过：红点 COMPOSITE-01 0/4·COMPOSITE-02 0/4·DROUGHT 2/4（最高应力员）·ENGULF 1/2·NEEDLE 1/4·VOLATILITY 0/4；红×2≤points 全员成立。
+- 成本 x3 4/6 存活：COMPOSITE-01 +0.2259/+0.2896 PASS·COMPOSITE-02 +0.3635/+0.8175 PASS·DROUGHT +0.4108/+0.9045 PASS·NEEDLE +0.3729/+0.0355 PASS；ENGULF full +0.1684/oos −0.166 FAIL·VOLATILITY full −0.1182 FAIL。
+- 逐年 6/6：worst_year −0.0380/+0.0056/−0.0179/−0.0319/−0.0078/−0.0065 全 > −0.35。
+- 当期线复测 1/6：VOLATILITY-CE-01 g1_pass=true（full_s 1.2534·CI95[0.4444,2.0495]·DSR 0.0712）；其余 5 员 g1=false（0.9948/0.9649/0.6678/0.5467/0.4431 全在线下）；eligible_v2 0/6（pbo=None 设计内缺省·missing_inputs=['family_pbo'] 如实）。
+- 账本行回执：append_ledger(batch="PERPETUAL-N3-R1", batch_trials=28, prev=375,419 → total=375,447, file="perpetual_faces/n3_r1_results.json", evidence_cutoff="2026-09-22")；finalize 2026-10-01T09:53:37+08:00 幂等门在（BATCH_JSON complete 复跑零重复）。
 
 ## §8 批后复盘【必填·s7-T·跑后回填】
 
-- （预测对账逐条对/部分/错＋应力面主读数＋账本行回执；回执入轮报告+CODELY.md 行级追加）
+- §5 预测对账 5 条：①锚门 6/6=对（探针复现事实）；②当期线 1/6 VOLATILITY=对（员名+full_s 1.2534 逐位命中）；③邻域 6/6 过=对（ENGULF 2 胞 1 红落在「五五开」过侧·红点 1/2 如实应力披露；DROUGHT 2/4 红为本波最高应力员）；④成本 x3=部分错：VOLATILITY FAIL（预测 −0.1903 不存活→实 −0.1182 同向✓）·NEEDLE PASS（冒烟 0.3729 命中✓）·DROUGHT PASS（同族构造✓）·ENGULF FAIL（预测低存活✓）·**COMPOSITE 两员预测「存活概率低」→实际双双 PASS（+0.2259/+0.3635 full·oos +0.2896/+0.8175）=方向保守面错**（overlay 后成本面未如预期变厚致死——预测错如实记，不回收改写）；⑤逐年 6/6=对（数据窗未变）。计分：对 4/部分错 1。
+- 应力面主读数：邻域稳健 6/6 全过（DROUGHT 2/4 红为邻域最弱点）；成本 x3 存活 4/6；当期线 1/6；中心 CI95 下界>0 仅 COMPOSITE-01/COMPOSITE-02/VOLATILITY 3 员；三态注册判读 N/A（测量面零注册门）；eligible_v2 0/6=PBO 设计内拒绝非判负。
+- 波状态：waves[] `n3_r1`（生成器 §3 契约·2026-10-01 09:33 supply 时点 append）；池 6 entry entry 层翻面 ready→done 同轮（r489 双层律）；引擎胞 34（22 OAT nbhd 新证+6 x3 新证+6 center 重放）；trials +28（x3 供给面 provenance 未验证计保守新证·NEEDLE 冒烟非重放 0.3729 vs recorded 0.4833 已 §0 披露）。
+- 回执入轮报告+CODELY.md 行级追加：r509 bm-a（本行）；finalize commit=本轮提交哈希（git 可验）。
 
 ## 冻结签名
 
