@@ -61,8 +61,19 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-- （空——finalize 后机械回填）
+- finalize one-pass 2026-10-02 05:1x（bm-b r556 同窗全生命周期收口：冻结 commit **4e4f1469a**〔五件套+三门 ADMIT〕→**同窗 12/12 免重启烧录**〔tick 架构 per-tick 重读自动见行·点火验证=产物增长面 2→3→…→12/12〔04:5x-05:1x〕·r325 律·multicore_burn 遥测〕→finalize one-pass 本窗）；链序前置=W1..W47 全部已落账〔注册面零在飞·W48 未注册=未注册缺口两态注记·finalize 波集运行时 derive=2..14+16..47 全在场〕。
+- S5 判据 4/4 PASS（锚=W47 finalize 实测·锚滚动零触发——冻结至 finalize 窗间零他机新 N1 finalize 落账·W48 未注册未落账）：
+  1. mu 漂移：W49-only **-0.090470** vs pre-W49 合并池锚（K=101,320）−0.091801【|Δ|=0.0013<0.02 PASS】（runner 机证 mu_delta_w49_vs_w47ext=**+0.003753** vs W47-only −0.094223 同域）；merged（K=103,520）**-0.091773**。
+  2. sigma 相对变化：W49-only **0.245455** vs W47-only 锚 0.247066【**-0.65%**<±10% PASS】；merged **0.244759**。
+  3. A 族 full_sharpe_p95：**0.3146** vs W47 锚 0.3112【Δ=+0.0034<0.05 PASS】（门校准注记：结果知情校准面·测量面零注册利害）。
+  4. K-lift 线移动：**+0.0001**【1.1588→1.1589 @n_eff_held 467,948】≤0.02 PASS（W3..W47 先例族内【W46 −0.0003/W47 +0.0002/本波 +0.0001】正负交替如实报——加深不必然抬线先例续）。
+- 账本：prev **467,948**【==本机 W47 finalize 落账头·r518 origin-timing 律 derive 禁手抄自证】＋本波 2,200＝total **470,148**·voids_applied LOWAMP-P1/P2 继承面 ✓；K=**103,520**==§0 投影 103,520 逐位；se_mu 0.000769→**0.000761** 续收窄；skill_line_v2 消费 n_eff=467,948。
+- 回填同窗合规：r307 两态守卫律兑现（本回填同窗+回填后缺省波 selftest 复跑绿 05:1x）；r538 一过定稿执行（finalize 一过·自产件在场净面自证：n1_w49_results.json finalize 后未重跑）。
+- 链序注记：W48（bm-a 已公示号位）仍未注册——bm-a W48 冻结后其 finalize 消费本波 **470,148** 为 prev（r518 origin-timing 律）；本机下一自有波=法典表尾 fetch 实核后 first-free-number derive（r511 表尾锁律·跳过一切已注册/公示号位与带位）。
 
 ## §8 批后复盘【必填·s7-T】
 
-- （空——finalize 后机械回填）
+- 设计零偏差：frozen v1 设计逐字复用（run_one 引擎同源），W49-only mu/sigma 与先例族【W2..W47】逐面同域，零断裂信号；B 族 p_exit=0.05 配对律齐备（n=200·45_401..45_600 强制跳位带==W48 公示投影 B 尾 45_400+1 首净窗·ADMIT 回执机证）。
+- 波节奏面：W49=**单窗全生命周期波**【r556 同窗三段：冻结（带闸 ADMIT+banned gate ADMIT+selftest PASS 三门·W48 公示投影预留面 r518① 律双面强制跳位）→免重启点火 12/12（tick 架构 per-tick 重读自动见行·产物增长面验证）→finalize one-pass】——第五枚单窗波（W32 r339/W42 r345/W43 r346/W46 r348/W47 r556 先例后）；**首个「双面公示投影跳位」波**（W19 先例的单窗化·r518① 律的执行面实证：预告面=预留面·跳位被迫性 refusal facts 机证非自由挑）。
+- 测量面结论：累计 null 池 K=103,520【+W49 2,200 合并】，mu -0.0918 / sigma 0.2448 稳定，se_mu 随累计加深收窄（0.000769→0.000761）——null 基线置信面继续加深，无质变；canon flip 不在本波（治理提案面素材累计·K2200 同律）。
+- 下游接线：skill_line_v2 @n_eff 467,948 活链头 derive；下一波 finalize 消费本波 **470,148** 为 prev（r518 origin-timing 律）。
