@@ -425,6 +425,34 @@ N1_BANDS = {
     # W25 prereg (rotation slot W25=bm-b).
     24: {"a": (90_001, 92_000), "b_exit": (39_500, 39_699),
          "engine_owner": "bm-a"},
+    # W25 (r520 bm-b, prereg-time extension per the W24 row's W25+ WARNING
+    # -- never-dry supply law standing step; sovereignty rotation law
+    # F-20261001-01 slot W25=bm-b per law sec.4 W24 row verbatim, bm-b's
+    # SEVENTH owned wave after W10/W11/W13/W16/W19/W22; no pointer gate
+    # pending: W22 registered + burned + FINALIZED by bm-b r519 addendum
+    # (K=46,320, ledger 412,948 chain head), W23 registered by bm-c r332
+    # (engine burn in flight, finalize pending on bm-c), W24 registered
+    # by bm-a r535 (engine burn pending on bm-a) -- coexistence judged by
+    # band disjointness not commit order, r531 law): BOTH tails
+    # arithmetic-clean exactly as the W24 row projected -- A's +2_000
+    # tail (92_001..94_000 == W24 A end + 1) and B's +200 tail
+    # (39_700..39_899 == W24 B end + 1), no skip on either side (39k-
+    # segment continuation of the W17 B re-base lineage). Machine-
+    # verified at prereg time (results/_r520bmb_w25_band_gate.py ADMIT
+    # receipt vs the 23-row pre-W25 table incl. W18..W24 + SEED_REGISTRY
+    # values + N2/N4 probe points + N2-W15 draft probe points +
+    # lfc/options actual ranges + N3-R1 used-seed band 70_000..70_005,
+    # MSG-183x r529 mandatory leg). FOURTEENTH engine-owned wave. NOT a
+    # re-pick (R250: W25 bands were never assigned; the measurement
+    # face has no result to fish). W26+ WARNING: A +2_000 tail
+    # 94_001..96_000 projects clean; B +200 tail 39_900..40_099 WILL
+    # HIT the N2/N4 design-probe reserved points 40_000/40_001 --
+    # W26 (bm-c slot) must run the disjoint machine gate and jump B to
+    # the first clean window past all reserved faces (W5/W6/W8/W12/W17
+    # jump family precedent; projection REFUSED per the r520 gate
+    # receipt -- verify at W26 prereg).
+    25: {"a": (92_001, 94_000), "b_exit": (39_700, 39_899),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
