@@ -373,6 +373,33 @@ N1_BANDS = {
     # at W23 prereg (rotation slot W23=bm-c).
     22: {"a": (86_001, 88_000), "b_exit": (39_100, 39_299),
          "engine_owner": "bm-b"},
+    # W23 (r332 bm-c, prereg-time extension per the W22 row's W23+ WARNING
+    # -- never-dry supply law standing step; sovereignty rotation law
+    # F-20261001-01 slot W23=bm-c per law sec.4 W22 row verbatim, bm-c's
+    # FOURTH owned wave after W14/W17/W20; no pointer gate pending: W20
+    # registered + burned 12/12 + FINALIZED by bm-c r331 (K=41,920,
+    # ledger 408,548 chain head; product byte-restored r519 bm-b after
+    # the c209aa962 closeout stomp, zero science pollution, MSG-201x
+    # three-face verified), W21 registered + burning by bm-a r533 (r534
+    # pushed shards 6-10, finalize pending on bm-a), W22 registered by
+    # bm-b r519 (engine burn pending on bm-b) -- coexistence judged by
+    # band disjointness not commit order, r531 law): BOTH tails
+    # arithmetic-clean exactly as the W22 row projected -- A's +2_000
+    # tail (88_001..90_000 == W22 A end + 1) and B's +200 tail
+    # (39_300..39_499 == W22 B end + 1), no skip on either side (39k-
+    # segment continuation of the W17 B re-base lineage). Machine-
+    # verified at prereg time (results/_r332bmc_w23_band_gate.py ADMIT
+    # receipt vs the 21-row pre-W23 table incl. W18/W19/W20/W21/W22 +
+    # SEED_REGISTRY values + N2/N4 probe points + N2-W15 draft probe
+    # points + lfc/options actual ranges + N3-R1 used-seed band
+    # 70_000..70_005, MSG-183x r529 mandatory leg). TWELFTH engine-owned
+    # wave. NOT a re-pick (R250: W23 bands were never assigned; the
+    # measurement face has no result to fish). W24+ WARNING: A +2_000
+    # tail 90_001..92_000 and B +200 tail 39_500..39_699 projection per
+    # the r332 gate receipt -- verify at W24 prereg (rotation slot
+    # W24=bm-a).
+    23: {"a": (88_001, 90_000), "b_exit": (39_300, 39_499),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
