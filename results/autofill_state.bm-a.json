@@ -919,20 +919,22 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 15:00:02",
+  "ts": "2026-10-01 15:06:03",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "REFINE-BENCH-REV-P2-SHARD-0",
+  "shard": "rev-p2-0of2",
+  "fuse_crashes": 1,
+  "fuse_refusals": 5,
   "fuse_skipped": [
    {
     "entry": "REFINE-BENCH-REV-P2-SHARD-0",
     "shard": "rev-p2-0of2",
     "sig": "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2",
-    "fuse_refusals": 2
+    "fuse_refusals": 5
    }
-  ],
-  "verdict": "claim_lost_yield",
-  "entry": "REFINE-BENCH-REV-P2-SHARD-1",
-  "shard": "rev-p2-1of2"
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-01T14:52:23+08:00"

@@ -80,6 +80,12 @@ CENSUS_RANKING = os.path.join(ROOT, "results", "refine_bench_stock",
                               "rev_census", "census_ranking.json")
 
 BATCH_NAME = "REFINE_BENCH_STOCK_REV_P2"
+# r514 same-source law: claim dir MUST equal the pool entry id -- autofill
+# _harvest_claims_scan matches dir name == entry id; the deployed pool
+# registration uses the hyphenated form (NULLS claim dir was already
+# renamed to it in r520), so claim dirs align here. Bookkeeping face
+# only, zero science-face change.
+POOL_ENTRY_PREFIX = "REFINE-BENCH-REV-P2"
 BATCH_CELLS = 2020          # 10 cells x 2 cost faces + 2000 nulls (prereg s0)
 K_NULLS = 2000
 N_NULL_CHUNKS = 20           # 20 x 100 null events per chunk
@@ -317,7 +323,7 @@ def cmd_run_shard(args):
     if not todo:
         print(f"[p2] shard {args.shard}/{args.of} already done (idempotent "
               f"skip, r488 burn+flip atomics: checkpoint presence = done)")
-        _pool_claim(f"{BATCH_NAME}-SHARD-{args.shard}",
+        _pool_claim(f"{POOL_ENTRY_PREFIX}-SHARD-{args.shard}",
                     f"rev-p2-{args.shard}of{N_SHARDS}",
                     f"cells {lo}..{hi-1} x2 faces checkpoints present",
                     started)
@@ -355,7 +361,7 @@ def cmd_run_shard(args):
     with open(os.path.join(OUT_DIR, f"shard-{args.shard}of{N_SHARDS}.audit.json"),
               "w", encoding="utf-8") as fh:
         json.dump(audit, fh, ensure_ascii=False, indent=1)
-    _pool_claim(f"{BATCH_NAME}-SHARD-{args.shard}",
+    _pool_claim(f"{POOL_ENTRY_PREFIX}-SHARD-{args.shard}",
                 f"rev-p2-{args.shard}of{N_SHARDS}",
                 f"cells {lo}..{hi-1} both faces, {len(todo)} cell-faces, "
                 f"{elapsed}s workers={res.get('__workers__')}", started)
@@ -440,7 +446,7 @@ def cmd_run_nulls(_):
     with open(pool_fp + ".tmp", "w", encoding="utf-8") as fh:
         json.dump(pool, fh, ensure_ascii=False, indent=1)
     os.replace(pool_fp + ".tmp", pool_fp)
-    _pool_claim(f"{BATCH_NAME}-NULLS", "rev-p2-nulls",
+    _pool_claim(f"{POOL_ENTRY_PREFIX}-NULLS", "rev-p2-nulls",
                 f"nulls {len(nets)} pooled / {K_NULLS} draws -> {pool_fp}",
                 started)
     print(f"[p2] nulls pool done: pooled={len(nets)} "
@@ -564,7 +570,7 @@ def cmd_finalize(_):
             rows.append({"cell": n, "face": f,
                          **cells_out[n][f]["stats"]})
     pd.DataFrame(rows).to_csv(OUT_CSV, index=False)
-    _pool_claim(f"{BATCH_NAME}-FINALIZE", "rev-p2-finalize",
+    _pool_claim(f"{POOL_ENTRY_PREFIX}-FINALIZE", "rev-p2-finalize",
                 f"p2_results.json gates={len(gates)} "
                 f"ledger={ledger['total']}", started)
     print(f"finalize ok: cells={len(result['cells'])} "
