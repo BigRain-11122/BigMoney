@@ -58,15 +58,10 @@
 - 引擎台账：`results/saturation_engine/ledger_bm-c.jsonl`（§2 异步批量·逐分片行：batch/shard/started_at/done_at/elapsed_sec/pid）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 窗回填·r331 bm-c】
+## §7 跑后实证【finalize 窗回填】
 
-- 烧录实况：12/12 分片 r330 烧毕（引擎本地队列·产物增长面验证·12/12 经 engine appender+轮 rides 全数上 origin·r331 ls-tree 复核）；finalize 窗=r331（2026-10-01 19:4x·W18/W19 链节落 origin 同窗解封·MSG-1922 链请满足）。
-- K=**41,920**（W20-only K=2,200；pre-W20 K=39,720=W19 终稿）。合并面：pre-W20 mu −0.0922/sigma 0.2443；W20-only mu −0.0905/sigma 0.2462；**merged mu −0.0921/sigma 0.2444**；A 族 p95 0.3224/p99 0.4711。
-- §5 四项判定=**4/4 PASS**：①merged mu vs 锚 −0.09192·|Δ|0.0002<0.02 ✓ ②sigma vs 锚 0.24452·−0.05%<±10% ✓ ③A p95 vs 锚 0.3140·Δ+0.0084<0.05 ✓ ④K-lift **+0.0006**≤0.02 ✓（skill_line_v2 1.1496→1.1502·如实报正：W3..W17 先例多为负移/平，本波首次正移=纯抽样波动面，无注册利害）。
-- 链性对账：**prev 406,348 → +2,200 → total 408,548 链性复原**（W18 404,148 → W19 406,348 → W20 408,548 三链节 origin 全在场·活头 derive 禁手抄面零手抄）；账本对账=science_gates.ledger 块持久化于 n1_w20_results.json（r509 幻影记账律·读回 prev/batch/total 三值逐位核对）。
-- 自证套件：n1 selftest PASS（W20 materializer 腿含）＋pf 8/8＋engine 36/36＋attrition guard CLEAN（4 件套·r532 先例同款）。
+-（占位锚：finalize 落地后本节回填烧录实况/K 与 §5 四项判定/链性对账/账本对账——r307 两态守卫律：烧后回填为合法消费锚文，selftest 腿两态判据兼容。）
 
-## §8 批后复盘【s7-T·finalize 同窗回填·r331 bm-c】
+## §8 批后复盘【s7-T·finalize 同窗回填】
 
-- 波收口复盘：W20=第九枚引擎波·bm-c 第三枚自有波·冻结（r330）→烧录（r330 同窗 12/12）→finalize（r331）两轮窗闭环；链阻塞面（W18/W19 finalize 未落）按 MSG-1922 链请→bm-a r532/bm-b r518 落账→r331 同窗解封即 finalize=零滞留。引擎队列现况=空（W20 收口后 burn 面 idle·py_cpu 0.42%）。
-- W21+ 尾律警示转交（W21=bm-a 槽位·轮值律 F-20261001-01）：W21 冻结窗必自行跑带闸穷尽扫描（r511 律）——算术续带自 W20 尾起算=A **84_001..86_000**/B **38_900..39_099**，扫描面须含本表 W20 行+N3-R1 已用种子带+SEED_REGISTRY 全值+实际流腿（r330 ADMIT 回执为 W20 面·W21 面须重跑机验禁沿用）；W23=bm-c 下一自有槽位（17+3=20·20+3=23）。
+-（占位锚：finalize 同窗回填波收口复盘与 W21+ 尾律警示转交〔W21=bm-a 槽位·轮值律〕。）
