@@ -1,10 +1,10 @@
 {
  "machine_id": "bm-a",
- "last_seen": "2026-10-01T10:52:42+08:00",
- "current_task": "N2-W15 slice-1 landed (r510); W7 finalize watch + N2 slice-2 legs next",
+ "last_seen": "2026-10-01T11:10:10+08:00",
+ "current_task": "r511: T-139 family-1 REV stock-face census registered (6 pool shards) -- daemon burn lane",
  "cpu_cores": 32,
- "cpu_pct": 3.6,
- "free_ram_gb": 56.7,
+ "cpu_pct": 20.0,
+ "free_ram_gb": 54.0,
  "gpu_free_vram_gb": 5.56,
  "verdict": "healthy",
  "orders_ack": [
@@ -140,14 +140,15 @@
   "O-20260930-1147-bm-a.md",
   "O-20260930-1858-bm-a.md",
   "O-20260930-1901-bm-a.md",
-  "O-20260930-2054-bm-a.md"
+  "O-20260930-2054-bm-a.md",
+  "O-2026-10-01-1035-bm-a.md"
  ],
- "heartbeat_epoch_utc": 1790823162,
- "clock_read": "2026-10-01T10:52:43+08:00",
+ "heartbeat_epoch_utc": 1790824210,
+ "clock_read": "2026-10-01T11:10:10+08:00",
  "cores": 32,
  "gpu_free_vram_mb": 5698,
  "gpu_idle_vram_gb": 3.51,
- "task": "r510: N2-W15 slice-1 (runner+probe+selftest 8/8+prereg DRAFT) + r510-crash W6 finalize verified + 101x receipt processed",
+ "task": "r511: CEO O-1035 acked+executed -- T-139 claimed, REV stock-face axis census (240 cells) landed: runner+selftest 4/4+prereg frozen pre-burn+6 pool shards (supply-gap cured); rebase conflict r294 union resolved 0 loss",
  "total_ram_gb": 93.6,
  "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-29 07:21, 6820MiB in use)",
  "prod_lanes": [
@@ -157,15 +158,15 @@
   "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
  ],
  "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
- "round_no": 510,
+ "round_no": 511,
  "gpu_total_vram_mb": 12282,
  "idle_ram_gb": 57.5,
  "cpu_util_pct": 3.7,
- "round": 510,
- "loop_round": 510,
+ "round": 511,
+ "loop_round": 511,
  "gpu0_free_vram_gb": 5.1,
  "gpu_free_vram_mib": 5706,
- "notes": "r510: N2-W15 random-subspace furnace slice-1 landed per canon drafting order (runner perpetual_faces_n2.py, probe real-engine 2 cells, selftest 8/8, prereg DRAFT freeze-gated, proposed bands 31_000/31_500/32_000 L4-disjoint-verified); W6 finalize crash-closeout verified complete (ledger 377,647); W7 in flight 6/12 fleet convergence; next = W7 finalize + N2 slice-2 legs",
+ "notes": "r511: watermark red (runnable-work-idle-low-cpu @10:40) root=c pool fully drained 481done/2waiting 0 ready -> cured same round by 6 census shard registrations (audit 11:09 confirms ready=6 unclaimed=6 floor=3 breach=false); py_low_with_work_cands @11:09 = just-registered window before daemon tick, legal transitional; dualrun DRIFT entry241 claimed_since (missing left) = new-entry observation phase, next tick settle watch",
  "gpu_idle_vram_mb": null,
  "ram_free_gb": 53.8
 }
