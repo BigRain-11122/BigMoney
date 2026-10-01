@@ -1,0 +1,10 @@
+"""r555 helper: check W47 insertion region for duplicated W46 residue."""
+src = open('scripts/perpetual_faces_n1.py', encoding='utf-8').read()
+i = src.find('47: {"batch"')
+print('W47 entry at line', src[:i].count('\n') + 1)
+print(src[i - 250:i + 1700])
+print('---')
+print('count of "46: {\"batch\"":', src.count('46: {"batch"'))
+print('count of "47: {\"batch\"":', src.count('47: {"batch"'))
+print('count of "a_seed_base": 135_004":', src.count('"a_seed_base": 135_004'))
+print('count of "a_seed_base": 137_004":', src.count('"a_seed_base": 137_004'))
