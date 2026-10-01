@@ -857,6 +857,14 @@ N1_BANDS = {
     # re-pick (R250: W42 bands never assigned).
     42: {"a": (127_004, 129_003), "b_exit": (43_601, 43_800),
          "engine_owner": "bm-c"},
+    # W43 (r346 bm-c): A tail arithmetic continuation no skip; B =
+    # machine-derived first clean window past the REFUSED arithmetic
+    # 43_801..44_000 (SEED_REGISTRY p4_queue=44_000 tail point, W42
+    # row W43+ WARNING, W39-B skip family). THIRTY-THIRD ENGINE-OWNED
+    # WAVE, engine_owner=bm-c (local queue, no pool entry). NOT a
+    # re-pick (R250: W43 bands never assigned; B skip forced).
+    43: {"a": (129_004, 131_003), "b_exit": (44_001, 44_200),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
