@@ -211,6 +211,27 @@ N1_BANDS = {
     # as always.
     14: {"a": (72_001, 74_000), "b_exit": (29_500, 29_699),
          "engine_owner": "bm-c"},
+    # W16 (r515 bm-b, prereg-time extension per the W14 row's W15+
+    # WARNING -- never-dry supply law standing step / r515 watermark-red
+    # anti-idle root fix; sovereignty rotation law F-20261001-01 slot:
+    # W13=bm-b anchored, +3 -> W16=bm-b; unified wave number 15 is
+    # concurrently held by bm-a's N2-W15 draft (seed domain 30_000+/
+    # 40_000+ per law sec.4 N2/N4 row -- disjoint from this 74_001+
+    # domain), so the N1 face numbering continues at W16 with NO W15
+    # row): BOTH arithmetic tails land clean exactly as the W14 row
+    # projected (A 74_001 == W14 A end + 1, B 29_700 == W14 B end + 1) --
+    # no forced skip this wave; machine-verified at prereg time
+    # (results/_r515bmb_w16_band_gate.py ADMIT receipt, 13-row N1_BANDS +
+    # 158 registry values + N2/N4 probe points + N2-W15 draft probe
+    # points + lfc/options actual ranges). SIXTH engine-owned wave,
+    # bm-b's fourth. NOT a re-pick (R250). W17+ WARNING: A +2_000
+    # arithmetic tail 76_001..78_000 projects clean on the current
+    # registry face; B +200 tail 29_900..30_099 is REFUSED by projection
+    # (hits the lfc actual draw 30_000..30_099 -- SEED_REGISTRY point
+    # 30_000 inside) -> W17 prereg must skip-position B (machine gate
+    # decides; W5/W6/W8 skip family); A tail still verified at that time.
+    16: {"a": (74_001, 76_000), "b_exit": (29_700, 29_899),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
