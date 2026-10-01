@@ -820,6 +820,25 @@ N1_BANDS = {
     # assigned; the measurement face has no result to fish).
     40: {"a": (123_004, 125_003), "b_exit": (43_201, 43_400),
          "engine_owner": "bm-b"},
+    # W41 (r344 bm-c, own-series continuation per O-20261001-2355
+    # sec.2 -- bm-c's TENTH owned wave; zero-gap relay after the W39
+    # FULL CLOSEOUT (freeze r342 -> 12/12 no-restart burn -> finalize
+    # r343 K=83,520... K=83,720 ledger 448,340; products delivered r344).
+    # Wave 41 = first free number after bm-b's W40 landed claim (r531,
+    # burn in flight at this freeze). SIDES INDEPENDENTLY ADJUDICATED
+    # per the W40 row's W41+ WARNING: A tail arithmetic continuation
+    # no skip (125_004..127_003 == W40 A end + 1); B tail arithmetic
+    # continuation no skip (43_401..43_600 == W40 B end + 1).
+    # Machine-verified at prereg time
+    # (results/_r344bmc_w41_band_gate.py ADMIT receipt vs the 38-row
+    # pre-W41 table + live SEED_REGISTRY values + probe-seed cluster
+    # 95_000..95_003 r335 discovery leg + N3-R1 used-seed band
+    # 70_000..70_005 MSG-183x r529 mandatory leg; origin slot vacancy
+    # machine-checked). THIRTY-FIRST ENGINE-OWNED WAVE,
+    # engine_owner=bm-c (local queue, no pool entry). NOT a re-pick
+    # (R250: W41 bands never assigned).
+    41: {"a": (125_004, 127_003), "b_exit": (43_401, 43_600),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
