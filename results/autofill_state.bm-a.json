@@ -1,26 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 00:22:41",
-   "machine": "bm-a",
-   "py_cpu_pct": 0.0,
-   "cooldown_skipped": {
-    "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-BASE",
-    "shard": "lowamp-p1-cell-larep-legacy-base-0of1",
-    "last_launch_min": 0.8
-   },
-   "verdict": "launched",
-   "entry": "LOWAMP-P1-CELL-LAREP-LEGACY-X2",
-   "shard": "lowamp-p1-cell-larep-legacy-x2-0of1",
-   "pid": 102452,
-   "runner_sha256": "d6997f152c007f80",
-   "fill_latency_min": 3.4,
-   "fullburn_window": true,
-   "target_met": true,
-   "saturation_launches": 2,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 00:23:21",
    "machine": "bm-a",
    "py_cpu_pct": 0.0,
@@ -973,26 +953,44 @@
    "fill_latency_min": 4.0,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 5
+   "saturation_launches": 5,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 08:49:53",
+   "machine": "bm-a",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "verdict": "launched",
+   "entry": "PERPETUAL-N1-W4-SHARD-5",
+   "shard": "n1w4-5of12",
+   "pid": 54520,
+   "runner_sha256": "b8abc2859a56fe57",
+   "core_verdict": "multiproc",
+   "core_marker": "import multiprocessing",
+   "fill_latency_min": 4.8,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 6
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 08:49:06",
+  "ts": "2026-10-01 08:49:53",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
   "harvest_flipped": 1,
   "verdict": "launched",
-  "entry": "PERPETUAL-N1-W4-SHARD-4",
-  "shard": "n1w4-4of12",
-  "pid": 32716,
+  "entry": "PERPETUAL-N1-W4-SHARD-5",
+  "shard": "n1w4-5of12",
+  "pid": 54520,
   "runner_sha256": "b8abc2859a56fe57",
   "core_verdict": "multiproc",
   "core_marker": "import multiprocessing",
-  "fill_latency_min": 4.0,
+  "fill_latency_min": 4.8,
   "fullburn_window": true,
   "target_met": true,
-  "saturation_launches": 5
+  "saturation_launches": 6
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T08:48:51+08:00"
+ "core_samples_seen": "2026-10-01T08:49:38+08:00"
 }
