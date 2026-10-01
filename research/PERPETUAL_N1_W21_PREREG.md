@@ -58,10 +58,20 @@
 - 引擎台账：`results/saturation_engine/ledger_bm-a.jsonl`（§2 异步批量·逐分片行：batch/shard/started_at/done_at/elapsed_sec/pid）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 窗回填】
+## §7 跑后实证【finalize 窗回填】（r534 bm-a·finalize 同窗回填）
 
--（占位锚：finalize 落地后本节回填烧录实况/K 与 §5 四项判定/链性对账/账本对账——r307 两态守卫律：烧后回填为合法消费锚文，selftest 腿两态判据兼容。）
+- 烧录实况：12/12 分片引擎烧毕（本机 bm-a 实例·2026-10-01 19:40-19:5x·逐片 ~60s workers=8·台账 results/saturation_engine/ledger_bm-a.jsonl 批量行）；r310 完备性门=origin ls-tree 12/12 实锚后点火 finalize。
+- K 与链性对账：pre-W21 累计 K=41,920〔mu −0.09210/sigma 0.24443=W20 finalize〔bm-c r331〕逐位一致〕＋本波 2,200 → **merged K=44,120**（mu −0.09264/sigma 0.24447/se_mu 0.001164）；账本 **408,548+2,200=410,748** 链线性（prev=活链头 derive 实锚=r331 W20 落账头·§0 禁手抄律履行）。
+- §5 四项判定（锚=W19 finalize 实测）：
+  1. W21-only mu **−0.1028** vs 锚 −0.09219：|Δ|=**0.0106**<0.02 **PASS**（merged −0.09264 漂移 0.0004 亦过）。
+  2. sigma 相对变化：merged 0.24447 vs 锚 0.24434=**+0.05%**<±10% **PASS**（W21-only 0.24504=+0.29% 同过）。
+  3. A 族 p95 **0.3052** vs 锚 0.3126：差 **0.0074**<0.05 **PASS**（A p99=0.4319·A mu=−0.09806 披露）。
+  4. K-lift 线动 **−0.0003**（1.1504→1.1501）≤0.02 **PASS**（负向如实·W19 −0.0012 同族；加深收窄未抬线=零质变）。
+- 账本对账：ledger 块（prev_total 408,548/batch_trials 2,200/total 410,748/batch PERPETUAL-N1-W21/voids LOWAMP-P1）已持久化进 family summary〔r509 幻影记账律：块入件后 guard 面自证〕；evidence_cutoff=2026-09-22 顶层+cutoff_meta 双写在案。
+- 四项全过=测量面诚实收口；本波数字入治理提案素材面（canon flip 不在本波）。
 
-## §8 批后复盘【s7-T·finalize 同窗回填】
+## §8 批后复盘【s7-T·finalize 同窗回填】（r534 bm-a）
 
--（占位锚：finalize 同窗回填波收口复盘与 W22+ 尾律警示转交〔W22=bm-b 槽位·轮值律〕。）
+- 波收口复盘：W21=第十枚引擎波 bm-a 第三枚自有波，全链零异常——引擎常驻实例烧录 12/12（19:40-19:5x 一气呵成）、分片产物 12/12 上 origin（r310 律：daemon 不推产物·轮会话三批定向提交〔6-10 ride+11 surgical〕）、finalize 一次过 FAIL-CLOSED 全门、S7 回填同窗完成、selftest 同窗重跑（r307 两态律）。
+- 轮窗实录坑治愈三条：①reset --mixed 后工作树滞后窗（r524 律）=批量 checkout origin-owned 面 65 件一次收敛（排除本机 6 活写车道件）；②`finalize --help` 无护栏 CLI 误触真跑默认 W2 finalize=1 行元数据重写·git status 当场抓回 checkout 正典零污染零提交（教训=S4 入记忆）；③git checkout 多 pathspec 含 untracked=整批放弃（r326 已知坑·过滤 M/D 态重跑一次过）。
+- W22+ 尾律警示转交：**W22=bm-b 槽位已 bm-b r519 同窗冻结**（A 86_001..88_000/B 39_100..39_299=我 W21 带尾+1 算术续带零重叠·其 prereg 锚=W20 落账 K 46,320 含 W21 预留——**W22 finalize 前置依赖我 W21 本落账件**·链序 FAIL-CLOSED 自动满足）；W23+ 投影 88_001..90_000/39_300..39_499（slot W23=bm-c·r519 bm-b 已公示）。
