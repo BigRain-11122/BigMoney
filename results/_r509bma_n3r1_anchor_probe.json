@@ -1,0 +1,200 @@
+{
+ "probe": "n3r1-anchor",
+ "machine": "bm-a",
+ "cutoff": "2026-09-22",
+ "rows": [
+  {
+   "id": "COMPOSITE-CE-01",
+   "entry": "top_n_rotation(composite, n=5, rebal_days=20)",
+   "recorded": {
+    "in_s": 1.1244,
+    "in_trades": 309,
+    "oos_s": 0.862,
+    "oos_trades": 164
+   },
+   "reproduced": {
+    "in_s": 1.1244,
+    "n_in": 309,
+    "oos_s": 0.862,
+    "n_oos": 164,
+    "full_s": 0.9948,
+    "n_total": 473
+   },
+   "d_in_s": 8e-06,
+   "d_oos_s": 3.6e-05,
+   "trades_in_match": true,
+   "trades_oos_match": true,
+   "yearly": {
+    "2020": 0.0126,
+    "2021": 0.0902,
+    "2022": -0.038,
+    "2023": 0.0605,
+    "2024": 0.1516,
+    "2025": 0.0896,
+    "2026": 0.0287
+   }
+  },
+  {
+   "id": "COMPOSITE-CE-02",
+   "entry": "top_n_rotation(composite, n=8, rebal_days=20)",
+   "recorded": {
+    "in_s": 0.7841,
+    "in_trades": 513,
+    "oos_s": 1.5605,
+    "oos_trades": 257
+   },
+   "reproduced": {
+    "in_s": 0.7841,
+    "n_in": 513,
+    "oos_s": 1.5605,
+    "n_oos": 257,
+    "full_s": 0.9649,
+    "n_total": 770
+   },
+   "d_in_s": 4.1e-05,
+   "d_oos_s": 5e-06,
+   "trades_in_match": true,
+   "trades_oos_match": true,
+   "yearly": {
+    "2020": 0.0209,
+    "2021": 0.0815,
+    "2022": 0.0056,
+    "2023": 0.0523,
+    "2024": 0.1174,
+    "2025": 0.1325,
+    "2026": 0.0295
+   }
+  },
+  {
+   "id": "DROUGHT-CE-01",
+   "entry": "vol_drought_reversal(vol_floor=0.55, drop_th=-0.05)",
+   "recorded": {
+    "in_s": 0.461,
+    "in_trades": 72,
+    "oos_s": 1.2407,
+    "oos_trades": 41
+   },
+   "reproduced": {
+    "in_s": 0.461,
+    "n_in": 72,
+    "oos_s": 1.2407,
+    "n_oos": 41,
+    "full_s": 0.6678,
+    "n_total": 113
+   },
+   "d_in_s": 1.8e-05,
+   "d_oos_s": 3.7e-05,
+   "trades_in_match": true,
+   "trades_oos_match": true,
+   "yearly": {
+    "2020": 0.0647,
+    "2021": -0.0179,
+    "2022": 0.0036,
+    "2023": 0.0067,
+    "2024": 0.0131,
+    "2025": 0.0326,
+    "2026": 0.0383
+   }
+  },
+  {
+   "id": "ENGULF-CE-01",
+   "entry": "engulf_reversal(drop_th=-0.05)",
+   "recorded": {
+    "in_s": 0.5337,
+    "in_trades": 97,
+    "oos_s": 0.1686,
+    "oos_trades": 43
+   },
+   "reproduced": {
+    "in_s": 0.5337,
+    "n_in": 97,
+    "oos_s": 0.1686,
+    "n_oos": 43,
+    "full_s": 0.4431,
+    "n_total": 140
+   },
+   "d_in_s": 4e-05,
+   "d_oos_s": 2.9e-05,
+   "trades_in_match": true,
+   "trades_oos_match": true,
+   "yearly": {
+    "2020": 0.0449,
+    "2021": -0.0108,
+    "2022": 0.0462,
+    "2023": -0.0113,
+    "2024": 0.0161,
+    "2025": 0.0414,
+    "2026": -0.0319
+   }
+  },
+  {
+   "id": "NEEDLE-DE-01",
+   "entry": "needle_probe(drop_th=-0.05, shadow_pct=0.02)",
+   "recorded": {
+    "in_s": 0.6862,
+    "in_trades": 49,
+    "oos_s": 0.1927,
+    "oos_trades": 19
+   },
+   "reproduced": {
+    "in_s": 0.6862,
+    "n_in": 49,
+    "oos_s": 0.1927,
+    "n_oos": 19,
+    "full_s": 0.5467,
+    "n_total": 68
+   },
+   "d_in_s": 7e-06,
+   "d_oos_s": 4.4e-05,
+   "trades_in_match": true,
+   "trades_oos_match": true,
+   "yearly": {
+    "2020": 0.0351,
+    "2021": 0.007,
+    "2022": 0.0097,
+    "2023": 0.0,
+    "2024": 0.0284,
+    "2025": 0.0162,
+    "2026": -0.0078
+   }
+  },
+  {
+   "id": "VOLATILITY-CE-01",
+   "entry": "low_vol_long(n=60, top_k=5, daily)",
+   "recorded": {
+    "in_s": 1.103,
+    "in_trades": 339,
+    "oos_s": 1.7166,
+    "oos_trades": 131
+   },
+   "reproduced": {
+    "in_s": 1.103,
+    "n_in": 339,
+    "oos_s": 1.7166,
+    "n_oos": 131,
+    "full_s": 1.2534,
+    "n_total": 470
+   },
+   "d_in_s": 1.4e-05,
+   "d_oos_s": 6e-06,
+   "trades_in_match": true,
+   "trades_oos_match": true,
+   "yearly": {
+    "2020": 0.0656,
+    "2021": 0.0024,
+    "2022": -0.0065,
+    "2023": 0.0319,
+    "2024": 0.0377,
+    "2025": 0.0369,
+    "2026": 0.0191
+   }
+  }
+ ],
+ "rl": {
+  "i_line": 0.3521,
+  "vi_bar": 0.4004,
+  "ce_null_core48": 0.4229,
+  "ce_null_p4_batch1": 0.4474,
+  "jurisdiction": "historical repro constants; current line = skill_line_v2"
+ }
+}

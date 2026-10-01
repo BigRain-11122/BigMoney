@@ -1712,6 +1712,12 @@ SEED_REGISTRY = {
         "lowamp_p1_nulls": 20331000,
         # dual nulls B=2000 block bootstrap + P=2000 sign-flip
         # rng([20331000, cell_idx]) per RANDOM_LARGE_SAMPLE_LAW sec.3
+        "perpetual_n3_r1": 70_000,
+        # PERPETUAL-N3-R1 (T-133 s2 N3 face wave-1): bootstrap_ci_sharpe
+        # per registered member rng(70_000+member_idx), i=0..5; future N3
+        # waves ladder +500 (70_500+). registry+rg scanned free 2026-10-01
+        # 09:2x before prereg freeze (r509 bm-a; 500-wide clearance from
+        # every registered base)
 
     }
 

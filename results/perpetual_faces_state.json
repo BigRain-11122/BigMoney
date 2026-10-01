@@ -1,70 +1,80 @@
 {
- "version": 1,
- "law_ref": "research/PERPETUAL_FACES.md v1.0 (T-133 s2, O-2026-09-30-2340)",
- "waves": [
-  {
-   "face": "N1",
-   "wave": 3,
-   "entered_at": "2026-10-01 07:29:48",
-   "n_entries": 12,
-   "bands": {
-    "a": [
-     14100,
-     16099
-    ],
-    "b_exit": [
-     21300,
-     21499
-    ]
-   }
+  "version": 1,
+  "law_ref": "research/PERPETUAL_FACES.md v1.0 (T-133 s2, O-2026-09-30-2340)",
+  "waves": [
+    {
+      "face": "N1",
+      "wave": 3,
+      "entered_at": "2026-10-01 07:29:48",
+      "n_entries": 12,
+      "bands": {
+        "a": [
+          14100,
+          16099
+        ],
+        "b_exit": [
+          21300,
+          21499
+        ]
+      }
+    },
+    {
+      "face": "N1",
+      "wave": 4,
+      "entered_at": "2026-10-01 08:45:18",
+      "n_entries": 12,
+      "bands": {
+        "a": [
+          16100,
+          18099
+        ],
+        "b_exit": [
+          21500,
+          21699
+        ]
+      }
+    },
+    {
+      "face": "N1",
+      "wave": 5,
+      "entered_at": "2026-10-01 09:22:40",
+      "n_entries": 12,
+      "bands": {
+        "a": [
+          21900,
+          23899
+        ],
+        "b_exit": [
+          21700,
+          21899
+        ]
+      }
+    },
+    {
+      "face": "N3",
+      "wave": 1,
+      "entered_at": "2026-10-01 09:33:18",
+      "n_entries": 6,
+      "bands": {
+        "seed_base": 70000,
+        "band": "70_000+member_idx"
+      }
+    }
+  ],
+  "flags": {
+    "pool_starved": true,
+    "supply_floor": false,
+    "generated_at": "2026-10-01 09:33:18"
   },
-  {
-   "face": "N1",
-   "wave": 4,
-   "entered_at": "2026-10-01 08:45:18",
-   "n_entries": 12,
-   "bands": {
-    "a": [
-     16100,
-     18099
+  "last_supply": {
+    "live": 0,
+    "starving": true,
+    "py": 0.0,
+    "py_ok": true,
+    "faces_pending": [
+      "N2",
+      "N4"
     ],
-    "b_exit": [
-     21500,
-     21699
-    ]
-   }
-  },
-  {
-   "face": "N1",
-   "wave": 5,
-   "entered_at": "2026-10-01 09:22:40",
-   "n_entries": 12,
-   "bands": {
-    "a": [
-     21900,
-     23899
-    ],
-    "b_exit": [
-     21700,
-     21899
-    ]
-   }
+    "awaiting": "law sec.4 bands for W5"
   }
- ],
- "last_supply": {
-  "live": 0,
-  "starving": true,
-  "py": 0.0,
-  "py_ok": true,
-  "faces_pending": [
-   "N3",
-   "N2",
-   "N4"
-  ]
- },
- "flags": {
-  "pool_starved": true,
-  "supply_floor": false,
-  "generated_at": "2026-10-01 09:22:40"
- }
 }
