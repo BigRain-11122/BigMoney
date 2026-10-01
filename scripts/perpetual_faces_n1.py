@@ -618,7 +618,12 @@ def finalize() -> int:
     # prior wave's finalize output + this wave (N_eff never resets)
     pre_values = list(canon_pool["values"]) + w1_vals       # 2,320 base
     pre_parts = ["canon 120", "W1 ext 2200"]
-    for w in range(2, WAVE):
+    # wave set DERIVES from the WAVE_CONFIGS registry keys below the
+    # current wave -- never a contiguous range() (r511 derive law; the
+    # W16 freeze exposed the gap: unified wave number 15 is held by the
+    # N2 face draft, so N1 keys run 2..14 then 16 -- range(2, WAVE)
+    # KeyErrors on the missing 15).
+    for w in sorted(w for w in WAVE_CONFIGS if w < WAVE):
         pre_values += _wave_values(w)
         pre_parts.append(f"W{w} 2200")
     merged_values = pre_values + wv_vals
@@ -651,6 +656,10 @@ def finalize() -> int:
                            evidence_cutoff=CUTOFF)
 
     a_full = [float(r["full"]["sharpe"]) for r in a_runs]
+    # prior wave for the mu_delta readout DERIVES from the registry
+    # (largest existing key below WAVE; 1 for W2), never WAVE - 1
+    # (r511 derive law; W16 gap: unified number 15 held by N2 face).
+    prior_wave = 1 if WAVE == 2 else max(w for w in WAVE_CONFIGS if w < WAVE)
     out = {
         "batch": BATCH,
         "generated": time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -706,14 +715,20 @@ def finalize() -> int:
         w1d = json.load(open(W1_EXT_OUT, encoding="utf-8"))
         prior_mu = ((w1d.get("null_pool_old_vs_new") or {})
                     .get("ext_only") or {}).get("mu")
+        prior_wave = 1
     else:
+        # prior wave DERIVES from the registry (largest existing key
+        # below WAVE), never WAVE - 1 (r511 derive law; W16 gap: the
+        # unified number 15 is held by the N2 face, so the prior N1
+        # wave is 14).
+        prior_wave = max(w for w in WAVE_CONFIGS if w < WAVE)
         wprev = json.load(open(os.path.join(
-            OUT_DIR, WAVE_CONFIGS[WAVE - 1]["out_name"]), encoding="utf-8"))
+            OUT_DIR, WAVE_CONFIGS[prior_wave]["out_name"]), encoding="utf-8"))
         prior_mu = ((wprev.get("null_pool_cumulative") or {})
-                    .get(f"w{WAVE - 1}_only") or {}).get("mu")
+                    .get(f"w{prior_wave}_only") or {}).get("mu")
     if prior_mu is not None:
-        out["null_pool_cumulative"][f"mu_delta_w{WAVE}_vs_w{WAVE-1}ext"] = round(
-            cov_wv["mu"] - prior_mu, 6)
+        out["null_pool_cumulative"][f"mu_delta_w{WAVE}_vs_w{prior_wave}ext"] = \
+            round(cov_wv["mu"] - prior_mu, 6)
     with open(OUT, "w", encoding="utf-8") as f:
         json.dump(out, f, ensure_ascii=False, default=str)
     print(f"pre-W{WAVE}  mu={cov_pre['mu']:.4f} sigma={cov_pre['sigma']:.4f} "
@@ -1792,6 +1807,15 @@ def selftest() -> int:
         assert os.path.exists(os.path.join(
             OUT_DIR, WAVE_CONFIGS[14]["out_name"])), \
             "W16 finalize cumulative dep (W14 output) missing"
+        # finalize wave-set derivation face (r511 derive law, W16 gap
+        # law): unified wave number 15 is held by the N2 face, so the
+        # N1 registry keys below W16 run 2..14 -- the finalize
+        # cumulative loop derives from registry keys (sorted < wave),
+        # never a contiguous range(2, wave) (live KeyError caught at
+        # the first gap-tolerant finalize, fixed same window).
+        assert sorted(w for w in WAVE_CONFIGS if w < 16) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], \
+            "W16 prior-wave set must derive from registry keys (no 15)"
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
