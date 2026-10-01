@@ -1,6 +1,6 @@
 {
  "report_date": "2026-10-01",
- "generated_at": "2026-10-01 07:38:11",
+ "generated_at": "2026-10-01 08:08:11",
  "combat": {
   "paper_summary": {
    "traders": 6,
@@ -297,19 +297,18 @@
   "md_link": "../live_usage/LIVE-2026-10-01.md"
  },
  "rd": {
-  "commits_24h": 465,
-  "result_jsons_landed_24h": 152,
+  "commits_24h": 464,
+  "result_jsons_landed_24h": 151,
   "digests_landed_24h": 1,
   "prereg_md_touched_24h": 39,
   "compute_audit_latest": {
-   "ts": "2026-10-01 07:36:15",
+   "ts": "2026-10-01 08:05:14",
    "py_cpu_pct": 0.0,
    "flags": [
-    "idle_with_work",
     "supply_gap",
     "supply_floor"
    ],
-   "verdict": "FLAG:idle_with_work,supply_gap,supply_floor"
+   "verdict": "FLAG:supply_gap,supply_floor"
   },
   "watermark_verdict": "py_low_with_work_cands",
   "pool_keys_n": 6,
@@ -628,9 +627,9 @@
   "total_state_tokens_est": 2049,
   "total_report_tokens_est": 1048709,
   "delta_vs_prev": {
-   "prev_generated": "2026-10-01 06:56:58",
+   "prev_generated": "2026-10-01 07:16:34",
    "state_tokens_growth": 0,
-   "report_tokens_growth": 571,
+   "report_tokens_growth": 0,
    "mandate_growth": 0
   },
   "method": {
@@ -765,17 +764,13 @@
     "today_supply_gap_flags": 15
    },
    "bm-c": {
-    "latest_ts": "2026-10-01 07:36:15",
+    "latest_ts": "2026-10-01 08:05:14",
     "py_pct": 0.0,
-    "cpu_pct": 9.0,
+    "cpu_pct": 20.0,
     "ready": 2,
-    "streak_min": 283.5,
-    "verdict": "FLAG:idle_with_work,supply_gap,supply_floor",
+    "streak_min": 312.5,
+    "verdict": "FLAG:supply_gap,supply_floor",
     "py_series_tail": [
-     [
-      "03:39",
-      0.0
-     ],
      [
       "03:42",
       0.4
@@ -819,12 +814,16 @@
      [
       "07:36",
       0.0
+     ],
+     [
+      "08:05",
+      0.0
      ]
     ],
-    "today_samples": 22,
+    "today_samples": 23,
     "today_floor_ok": 10,
     "today_sla_flags": 7,
-    "today_supply_gap_flags": 17
+    "today_supply_gap_flags": 18
    }
   },
   "fill_ledger": "T-107 slice-2 / T-108 D4 (catalog generator) pending -- honest label",
@@ -878,7 +877,7 @@
      "readable": true,
      "window_min": 60.0,
      "audit_batches": 0,
-     "audit_ts": "2026-10-01 07:36:15"
+     "audit_ts": "2026-10-01 08:05:14"
     }
    }
   },
