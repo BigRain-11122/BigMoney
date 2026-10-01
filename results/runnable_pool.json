@@ -9314,6 +9314,222 @@
 },
 "done_by": "bm-a",
 "done_at": "2026-10-01 10:56:46"
+},
+{
+"id": "REFINE-REV-STOCK-CENSUS-SHARD-0",
+"ticket_ref": "T-2026-10-01-139 family-1 (CEO direct O-2026-10-01-1035, immediate)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P1.md (frozen pre-run @ e3cb8961f; R99 zero real-data runs before freeze commit)",
+"consumer_plan": "stage-A axis census ranking -> top-10 independent forms -> stage-B judged prereg (trial-wave STOCK grammar first candidates + REV-OSC refinement, ticket output law)",
+"runner": "scripts/refine_bench_rev_census.py",
+"runner_args": [
+"run",
+"--shard",
+"0",
+"--of",
+"6"
+],
+"lane_owner": "ANY",
+"priority": 1,
+"status": "ready",
+"entered_at": "2026-10-01 11:16:30",
+"worker_class": "bm-hosted",
+"data_gates": "in-runner FAIL-CLOSED: p1c_stock frozen panel T=8792 N=5222 cutoff 2026-09-22 + b_layer census + selftest 4/4 pre-burn + RAM floor 16GB + burn+flip atomics (shard file presence=done, r488) + worker claim handshake (r497)",
+"shards": [
+{
+"key": "rev-census-0of6",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_census/shard-0of6.json (presence=done; census deterministic rerun byte-equal, selftest leg1/3)",
+"note": "REV stock-face axis census shard 0 of 6 (40 of 240 cells); ~3-5min multicore burn, panel load in worker initializer",
+"owner": null,
+"owner_since": null,
+"claimed_since": null
+}
+],
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
+}
+},
+{
+"id": "REFINE-REV-STOCK-CENSUS-SHARD-1",
+"ticket_ref": "T-2026-10-01-139 family-1 (CEO direct O-2026-10-01-1035, immediate)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P1.md (frozen pre-run @ e3cb8961f; R99 zero real-data runs before freeze commit)",
+"consumer_plan": "stage-A axis census ranking -> top-10 independent forms -> stage-B judged prereg (trial-wave STOCK grammar first candidates + REV-OSC refinement, ticket output law)",
+"runner": "scripts/refine_bench_rev_census.py",
+"runner_args": [
+"run",
+"--shard",
+"1",
+"--of",
+"6"
+],
+"lane_owner": "ANY",
+"priority": 1,
+"status": "ready",
+"entered_at": "2026-10-01 11:16:30",
+"worker_class": "bm-hosted",
+"data_gates": "in-runner FAIL-CLOSED: p1c_stock frozen panel T=8792 N=5222 cutoff 2026-09-22 + b_layer census + selftest 4/4 pre-burn + RAM floor 16GB + burn+flip atomics (shard file presence=done, r488) + worker claim handshake (r497)",
+"shards": [
+{
+"key": "rev-census-1of6",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_census/shard-1of6.json (presence=done; census deterministic rerun byte-equal, selftest leg1/3)",
+"note": "REV stock-face axis census shard 1 of 6 (40 of 240 cells); ~3-5min multicore burn, panel load in worker initializer",
+"owner": null,
+"owner_since": null,
+"claimed_since": null
+}
+],
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
+}
+},
+{
+"id": "REFINE-REV-STOCK-CENSUS-SHARD-2",
+"ticket_ref": "T-2026-10-01-139 family-1 (CEO direct O-2026-10-01-1035, immediate)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P1.md (frozen pre-run @ e3cb8961f; R99 zero real-data runs before freeze commit)",
+"consumer_plan": "stage-A axis census ranking -> top-10 independent forms -> stage-B judged prereg (trial-wave STOCK grammar first candidates + REV-OSC refinement, ticket output law)",
+"runner": "scripts/refine_bench_rev_census.py",
+"runner_args": [
+"run",
+"--shard",
+"2",
+"--of",
+"6"
+],
+"lane_owner": "ANY",
+"priority": 1,
+"status": "ready",
+"entered_at": "2026-10-01 11:16:30",
+"worker_class": "bm-hosted",
+"data_gates": "in-runner FAIL-CLOSED: p1c_stock frozen panel T=8792 N=5222 cutoff 2026-09-22 + b_layer census + selftest 4/4 pre-burn + RAM floor 16GB + burn+flip atomics (shard file presence=done, r488) + worker claim handshake (r497)",
+"shards": [
+{
+"key": "rev-census-2of6",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_census/shard-2of6.json (presence=done; census deterministic rerun byte-equal, selftest leg1/3)",
+"note": "REV stock-face axis census shard 2 of 6 (40 of 240 cells); ~3-5min multicore burn, panel load in worker initializer",
+"owner": null,
+"owner_since": null,
+"claimed_since": null
+}
+],
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
+}
+},
+{
+"id": "REFINE-REV-STOCK-CENSUS-SHARD-3",
+"ticket_ref": "T-2026-10-01-139 family-1 (CEO direct O-2026-10-01-1035, immediate)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P1.md (frozen pre-run @ e3cb8961f; R99 zero real-data runs before freeze commit)",
+"consumer_plan": "stage-A axis census ranking -> top-10 independent forms -> stage-B judged prereg (trial-wave STOCK grammar first candidates + REV-OSC refinement, ticket output law)",
+"runner": "scripts/refine_bench_rev_census.py",
+"runner_args": [
+"run",
+"--shard",
+"3",
+"--of",
+"6"
+],
+"lane_owner": "ANY",
+"priority": 1,
+"status": "ready",
+"entered_at": "2026-10-01 11:16:30",
+"worker_class": "bm-hosted",
+"data_gates": "in-runner FAIL-CLOSED: p1c_stock frozen panel T=8792 N=5222 cutoff 2026-09-22 + b_layer census + selftest 4/4 pre-burn + RAM floor 16GB + burn+flip atomics (shard file presence=done, r488) + worker claim handshake (r497)",
+"shards": [
+{
+"key": "rev-census-3of6",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_census/shard-3of6.json (presence=done; census deterministic rerun byte-equal, selftest leg1/3)",
+"note": "REV stock-face axis census shard 3 of 6 (40 of 240 cells); ~3-5min multicore burn, panel load in worker initializer",
+"owner": null,
+"owner_since": null,
+"claimed_since": null
+}
+],
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
+}
+},
+{
+"id": "REFINE-REV-STOCK-CENSUS-SHARD-4",
+"ticket_ref": "T-2026-10-01-139 family-1 (CEO direct O-2026-10-01-1035, immediate)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P1.md (frozen pre-run @ e3cb8961f; R99 zero real-data runs before freeze commit)",
+"consumer_plan": "stage-A axis census ranking -> top-10 independent forms -> stage-B judged prereg (trial-wave STOCK grammar first candidates + REV-OSC refinement, ticket output law)",
+"runner": "scripts/refine_bench_rev_census.py",
+"runner_args": [
+"run",
+"--shard",
+"4",
+"--of",
+"6"
+],
+"lane_owner": "ANY",
+"priority": 1,
+"status": "ready",
+"entered_at": "2026-10-01 11:16:30",
+"worker_class": "bm-hosted",
+"data_gates": "in-runner FAIL-CLOSED: p1c_stock frozen panel T=8792 N=5222 cutoff 2026-09-22 + b_layer census + selftest 4/4 pre-burn + RAM floor 16GB + burn+flip atomics (shard file presence=done, r488) + worker claim handshake (r497)",
+"shards": [
+{
+"key": "rev-census-4of6",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_census/shard-4of6.json (presence=done; census deterministic rerun byte-equal, selftest leg1/3)",
+"note": "REV stock-face axis census shard 4 of 6 (40 of 240 cells); ~3-5min multicore burn, panel load in worker initializer",
+"owner": null,
+"owner_since": null,
+"claimed_since": null
+}
+],
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
+}
+},
+{
+"id": "REFINE-REV-STOCK-CENSUS-SHARD-5",
+"ticket_ref": "T-2026-10-01-139 family-1 (CEO direct O-2026-10-01-1035, immediate)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P1.md (frozen pre-run @ e3cb8961f; R99 zero real-data runs before freeze commit)",
+"consumer_plan": "stage-A axis census ranking -> top-10 independent forms -> stage-B judged prereg (trial-wave STOCK grammar first candidates + REV-OSC refinement, ticket output law)",
+"runner": "scripts/refine_bench_rev_census.py",
+"runner_args": [
+"run",
+"--shard",
+"5",
+"--of",
+"6"
+],
+"lane_owner": "ANY",
+"priority": 1,
+"status": "ready",
+"entered_at": "2026-10-01 11:16:30",
+"worker_class": "bm-hosted",
+"data_gates": "in-runner FAIL-CLOSED: p1c_stock frozen panel T=8792 N=5222 cutoff 2026-09-22 + b_layer census + selftest 4/4 pre-burn + RAM floor 16GB + burn+flip atomics (shard file presence=done, r488) + worker claim handshake (r497)",
+"shards": [
+{
+"key": "rev-census-5of6",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_census/shard-5of6.json (presence=done; census deterministic rerun byte-equal, selftest leg1/3)",
+"note": "REV stock-face axis census shard 5 of 6 (40 of 240 cells); ~3-5min multicore burn, panel load in worker initializer",
+"owner": null,
+"owner_since": null,
+"claimed_since": null
+}
+],
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
+}
 }
 ]
 }
