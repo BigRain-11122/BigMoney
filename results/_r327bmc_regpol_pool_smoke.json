@@ -1,0 +1,32 @@
+{
+ "round": "r327 bm-c",
+ "ticket": "T-2026-09-30-134 s2 SEVENTH",
+ "runner": "scripts/cn_regime_policy_p1.py",
+ "face": "real-path full-set pool identity smoke (r326 recipe)",
+ "panel": {
+  "rows_truncated": 3483,
+  "rows_ok": true,
+  "first_ok": true,
+  "last_ok": true,
+  "states_nan_in_window": 0,
+  "adv_finite_in_window": false,
+  "cutoff": "2026-09-22",
+  "truncation_disclosure": "corpus refreshed forward by bm-b update_etf_daily lane (3488 rows @ 2026-09-30); lockbox-truncated to frozen evidence cutoff = canon burn face; runner run() gates remain fail-closed for canon re-finalize (rows_ok red on refreshed corpus by design)",
+  "rdr_index_local": true,
+  "adv_finite_in_window_note": "adv_arg[:20] NaN = designed ADV20 warmup head (first 19 bars cash-honest, sim never fills on non-finite adv); finite from bar 20 onward = healthy; not a defect",
+  "speedup_face_note": "unit granularity ~13.6ms compute vs per-job IPC (returns Series 27KB+transitions) and 12x spawn module-import overhead: pool wall 16.2s vs serial 13.6s = 0.84x, IPC/spawn-bound at this scale. Hard-law face satisfied (ProcessPool default + census flip + identity proven); methodology lesson for future sub-100ms-unit conversions: ship lean payloads (compute lean metrics in-worker for family-shaped units) to cut IPC. Live 60s core-spread accrues at next natural burn (r304 law)."
+ },
+ "n_units": 999,
+ "serial_elapsed_sec": 13.58,
+ "pool1_elapsed_sec": 16.23,
+ "pool1_workers": 12,
+ "pool2_elapsed_sec": 16.18,
+ "pool2_workers": 12,
+ "identity_pool_vs_serial": "999/999",
+ "determinism_pool_double_run": "999/999",
+ "canon_artifact_untouched": true,
+ "speedup_face": 0.84,
+ "machine": "bm-c",
+ "verdict": "PASS",
+ "total_elapsed_sec": 48.2
+}

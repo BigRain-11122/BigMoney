@@ -63,6 +63,12 @@ the canonical trials_ledger key (r252 law); single checkpoint npz with
 exact-resume semantics.
 
 Usage: run | selftest   (exit 0 ok; 2 = fail-closed gate/mechanism refusal)
+Pool face (T-134 s2, O-2355 multicore law): the 993-unit burn (9 cell
+sims + 990 exhaustive family sims) runs via scripts/parallel_runner.py
+ProcessPool BY DEFAULT; CN_REGIME_POLICY_P1_MP=0 -> serial escape
+(legacy loop, byte-equal). Pool==serial bit-identity by construction
+(every simulate is a pure function of (panel, target, cost_fn); zero
+RNG, zero wall-clock inside sim outputs; key-addressed assembly).
 """
 import argparse
 import itertools
@@ -127,6 +133,9 @@ PBP = 243.0                          # trading bars per year (family constant)
 CELLS = ("v3_base", "v3_policy", "policy_only")
 
 CURRENT_PANEL = None
+
+_MP_ENV = "CN_REGIME_POLICY_P1_MP"   # =0 -> serial escape (legacy loop)
+_MP_P = None                        # worker-side panel (set by _mp_init)
 
 
 def _log(msg):
@@ -445,6 +454,51 @@ def all_month_sets():
     return list(itertools.combinations(range(1, 13), 4))   # C(12,4)=495
 
 
+# ---------------------------------------------------------------- pool face
+
+
+def _unit_body(spec):
+    """Simulate one unit -- SINGLE SOURCE for the serial and pool paths
+    (bit-identity by construction, r306/r324 recipe). spec: ("tgt",
+    target_array, face) for precomputed targets (cells); ("mk", mode,
+    month_set) for family units (target derived in-worker). No swallow
+    face: errors propagate on BOTH paths."""
+    if spec[0] == "tgt":
+        return simulate(_MP_P, spec[1], FACES[spec[2]])
+    if spec[0] == "mk":
+        tgt = make_target(_MP_P, spec[1], spec[2])
+        return simulate(_MP_P, tgt, FACES[JUDGED_FACE])
+    raise ValueError(spec[0])
+
+
+def _mp_init(panel):
+    """Worker initializer: ship the PARENT'S CURRENT panel through
+    initargs into module globals (r511 law -- spawn-fresh workers never
+    depend on import-time state; no builder re-run)."""
+    globals()["_MP_P"] = panel
+
+
+def _mp_job(spec):
+    """Pool unit job (top-level picklable). Propagates errors like the
+    serial loop -- no silent rows."""
+    return _unit_body(spec)
+
+
+def _pool_worker_cap(panel):
+    """Payload-aware worker cap (r326 recipe): parallel_runner.worker_cap
+    assumes a generic ~0.5GB/worker; this batch ships one panel dict
+    per worker through initargs, so the cap is tightened by the honest
+    per-worker footprint (panel copy + process overhead)."""
+    from parallel_runner import worker_cap
+    import psutil
+    payload = sum(a.nbytes for a in (
+        panel["open"], panel["close"], panel["volume"], panel["states"],
+        panel["months"], panel["adv_arg"], panel["adv20"]))
+    per_worker_gb = payload / (1024 ** 3) + 0.25
+    free_gb = psutil.virtual_memory().available / (1024 ** 3)
+    return max(1, min(worker_cap(), int(free_gb * 0.8 / per_worker_gb)))
+
+
 # ---------------------------------------------------------------- checkpoint
 
 
@@ -458,6 +512,34 @@ def _ckpt_save(payload):
         else:
             meta[k] = v
     np.savez(CKPT, meta=json.dumps(meta), **arrays)
+
+
+def _ckpt_payload(P, cell_recs, famA, famB):
+    """Checkpoint payload construction (pure function; shared by the
+    pool and serial burn branches; key-addressed, order-independent
+    on the resume side -- T-33 law)."""
+    payload = {"n_days": len(P["days"]),
+               "first": str(P["days"][0].date()),
+               "last": str(P["days"][-1].date()),
+               "famA_sharpe": np.asarray(famA["sharpe"], float),
+               "famA_ann": np.asarray(famA["ann"], float),
+               "famA_maxdd": np.asarray(famA["maxdd"], float),
+               "famA_ntrades": np.asarray(famA["ntrades"], int),
+               "famB_sharpe": np.asarray(famB["sharpe"], float),
+               "famB_ann": np.asarray(famB["ann"], float),
+               "famB_maxdd": np.asarray(famB["maxdd"], float),
+               "famB_ntrades": np.asarray(famB["ntrades"], int)}
+    for (cell, face), rec in cell_recs.items():
+        payload[f"ret_{cell}_{face}"] = rec["returns"].to_numpy(float)
+        payload[f"ntr_{cell}_{face}"] = rec["n_trades"]
+        payload[f"nen_{cell}_{face}"] = rec["n_entries"]
+        payload[f"fed_{cell}_{face}"] = rec["first_entry_day"] or ""
+        payload[f"cost_{cell}_{face}"] = rec["cost_total"]
+        payload[f"cby_{cell}_{face}"] = json.dumps(rec["cost_by_year"])
+        payload[f"tno_{cell}_{face}"] = rec["traded_notional_total"]
+        payload[f"btn_{cell}_{face}"] = rec["bought_notional_total"]
+        payload[f"stn_{cell}_{face}"] = rec["sold_notional_total"]
+    return payload
 
 
 def _ckpt_load(P):
@@ -513,6 +595,8 @@ def run() -> int:
 
     ck = _ckpt_load(P)
     resumed = ck is not None
+    workers_used = 1                     # honest audit face (pool overrides)
+    execution_face = "serial"
     if ck is not None:
         _log("checkpoint resume: sims valid, reusing (exact-resume law)")
         famA = {"sharpe": ck["famA_sharpe"].tolist(),
@@ -552,65 +636,111 @@ def run() -> int:
                 }
                 cell_recs[(cell, face)] = rec
     else:
-        # -- judged cells x 3 faces
-        cell_recs = {}
-        for cell, tgt in (("v3_base", tgt_c1), ("v3_policy", tgt_c2),
-                          ("policy_only", tgt_c3)):
-            for face, fn in FACES.items():
-                rec = simulate(P, tgt, fn)
-                if not rec["t1_ok"]:
-                    print(f"FAIL-CLOSED: T+1 violation in {cell}/{face}")
-                    return 2
-                if rec["cap_violations"]:
-                    print(f"FAIL-CLOSED: ADV cap violations in {cell}/"
-                          f"{face}: {rec['cap_violations'][:2]} -- "
-                          "prereg s2 non-binding assertion broken")
-                    return 2
-                cell_recs[(cell, face)] = rec
-                _log(f"cell {cell}/{face}: sharpe="
-                     f"{_sharpe(rec['returns'])} trades={rec['n_trades']}")
-        # -- family A (ladder-shaped) + family B (calendar-only), x2 face
-        famA = {"sharpe": [], "ann": [], "maxdd": [], "ntrades": []}
-        famB = {"sharpe": [], "ann": [], "maxdd": [], "ntrades": []}
-        for i, S in enumerate(sets):
-            for mode, fam in (("ladder", famA), ("calendar", famB)):
-                rec = simulate(P, make_target(P, mode, S),
-                               FACES[JUDGED_FACE])
-                if rec["cap_violations"] or not rec["t1_ok"]:
-                    print(f"FAIL-CLOSED: family {mode} set {S} violation")
-                    return 2
-                m = metrics(rec, lean=True)
-                fam["sharpe"].append(m["sharpe"])
-                fam["ann"].append(m["ann_ret"])
-                fam["maxdd"].append(m["max_dd"])
-                fam["ntrades"].append(m["n_trades"])
-        _log(f"families: A mu={np.nanmean(famA['sharpe']):.4f} "
-             f"sigma={np.nanstd(famA['sharpe'], ddof=1):.4f} | "
-             f"B mu={np.nanmean(famB['sharpe']):.4f}")
-        # -- checkpoint (exact-resume contract)
-        payload = {"n_days": len(P["days"]),
-                   "first": str(P["days"][0].date()),
-                   "last": str(P["days"][-1].date()),
-                   "famA_sharpe": np.asarray(famA["sharpe"], float),
-                   "famA_ann": np.asarray(famA["ann"], float),
-                   "famA_maxdd": np.asarray(famA["maxdd"], float),
-                   "famA_ntrades": np.asarray(famA["ntrades"], int),
-                   "famB_sharpe": np.asarray(famB["sharpe"], float),
-                   "famB_ann": np.asarray(famB["ann"], float),
-                   "famB_maxdd": np.asarray(famB["maxdd"], float),
-                   "famB_ntrades": np.asarray(famB["ntrades"], int)}
-        for (cell, face), rec in cell_recs.items():
-            payload[f"ret_{cell}_{face}"] = \
-                rec["returns"].to_numpy(float)
-            payload[f"ntr_{cell}_{face}"] = rec["n_trades"]
-            payload[f"nen_{cell}_{face}"] = rec["n_entries"]
-            payload[f"fed_{cell}_{face}"] = rec["first_entry_day"] or ""
-            payload[f"cost_{cell}_{face}"] = rec["cost_total"]
-            payload[f"cby_{cell}_{face}"] = json.dumps(rec["cost_by_year"])
-            payload[f"tno_{cell}_{face}"] = rec["traded_notional_total"]
-            payload[f"btn_{cell}_{face}"] = rec["bought_notional_total"]
-            payload[f"stn_{cell}_{face}"] = rec["sold_notional_total"]
-        _ckpt_save(payload)
+        # -- pool face (T-134 s2 SEVENTH conversion, r327 bm-c, O-2355
+        #    multicore law): the 999-unit burn (9 cell sims + 990 family
+        #    sims; buy-hold stays inline, 1 unit) runs via parallel_runner
+        #    ProcessPool BY DEFAULT; CN_REGIME_POLICY_P1_MP=0 -> serial
+        #    escape (legacy loop, byte-equal). Parent ships its CURRENT
+        #    panel through initargs (r511 law); assembly stays
+        #    key-addressed parent-side (T-33 law); fail-closed checks
+        #    preserved verbatim (cells first, then families, any
+        #    violation -> exit 2 before any artifact write).
+        use_pool = os.environ.get(_MP_ENV, "1") != "0"
+        if use_pool:
+            from parallel_runner import run_cells_parallel
+            specs = []
+            for cell, tgt in (("v3_base", tgt_c1), ("v3_policy", tgt_c2),
+                              ("policy_only", tgt_c3)):
+                for face in FACES:
+                    specs.append((f"cell|{cell}|{face}",
+                                  ("tgt", tgt, face)))
+            for i, S in enumerate(sets):
+                specs.append((f"fam|A|{i}", ("mk", "ladder", S)))
+            for i, S in enumerate(sets):
+                specs.append((f"fam|B|{i}", ("mk", "calendar", S)))
+            res = run_cells_parallel(
+                [(key, _mp_job, (spec,)) for key, spec in specs],
+                workers=_pool_worker_cap(P), desc="cnregime-units",
+                initializer=_mp_init, initargs=(P,))
+            workers_used = res.pop("__workers__")
+            execution_face = "processpool"
+            # -- assembly + fail-closed checks in the ORIGINAL order
+            cell_recs = {}
+            for cell in CELLS:
+                for face in FACES:
+                    rec = res[f"cell|{cell}|{face}"]
+                    if not rec["t1_ok"]:
+                        print(f"FAIL-CLOSED: T+1 violation in {cell}/{face}")
+                        return 2
+                    if rec["cap_violations"]:
+                        print(f"FAIL-CLOSED: ADV cap violations in {cell}/"
+                              f"{face}: {rec['cap_violations'][:2]} -- "
+                              "prereg s2 non-binding assertion broken")
+                        return 2
+                    cell_recs[(cell, face)] = rec
+                    _log(f"cell {cell}/{face}: sharpe="
+                         f"{_sharpe(rec['returns'])} "
+                         f"trades={rec['n_trades']}")
+            # -- family A (ladder-shaped) + family B (calendar-only), x2
+            famA = {"sharpe": [], "ann": [], "maxdd": [], "ntrades": []}
+            famB = {"sharpe": [], "ann": [], "maxdd": [], "ntrades": []}
+            for i, S in enumerate(sets):
+                for mode, fam, tag in (("ladder", famA, "A"),
+                                       ("calendar", famB, "B")):
+                    rec = res[f"fam|{tag}|{i}"]
+                    if rec["cap_violations"] or not rec["t1_ok"]:
+                        print(f"FAIL-CLOSED: family {mode} set {S} "
+                              "violation")
+                        return 2
+                    m = metrics(rec, lean=True)
+                    fam["sharpe"].append(m["sharpe"])
+                    fam["ann"].append(m["ann_ret"])
+                    fam["maxdd"].append(m["max_dd"])
+                    fam["ntrades"].append(m["n_trades"])
+            _log(f"families: A mu={np.nanmean(famA['sharpe']):.4f} "
+                 f"sigma={np.nanstd(famA['sharpe'], ddof=1):.4f} | "
+                 f"B mu={np.nanmean(famB['sharpe']):.4f}")
+            # -- checkpoint (exact-resume contract)
+            _ckpt_save(_ckpt_payload(P, cell_recs, famA, famB))
+        else:
+            # ---- serial escape: legacy loop verbatim (byte-equal) ----
+            # -- judged cells x 3 faces
+            cell_recs = {}
+            for cell, tgt in (("v3_base", tgt_c1), ("v3_policy", tgt_c2),
+                              ("policy_only", tgt_c3)):
+                for face, fn in FACES.items():
+                    rec = simulate(P, tgt, fn)
+                    if not rec["t1_ok"]:
+                        print(f"FAIL-CLOSED: T+1 violation in {cell}/{face}")
+                        return 2
+                    if rec["cap_violations"]:
+                        print(f"FAIL-CLOSED: ADV cap violations in {cell}/"
+                              f"{face}: {rec['cap_violations'][:2]} -- "
+                              "prereg s2 non-binding assertion broken")
+                        return 2
+                    cell_recs[(cell, face)] = rec
+                    _log(f"cell {cell}/{face}: sharpe="
+                         f"{_sharpe(rec['returns'])} trades={rec['n_trades']}")
+            # -- family A (ladder-shaped) + family B (calendar-only), x2 face
+            famA = {"sharpe": [], "ann": [], "maxdd": [], "ntrades": []}
+            famB = {"sharpe": [], "ann": [], "maxdd": [], "ntrades": []}
+            for i, S in enumerate(sets):
+                for mode, fam in (("ladder", famA), ("calendar", famB)):
+                    rec = simulate(P, make_target(P, mode, S),
+                                   FACES[JUDGED_FACE])
+                    if rec["cap_violations"] or not rec["t1_ok"]:
+                        print(f"FAIL-CLOSED: family {mode} set {S} violation")
+                        return 2
+                    m = metrics(rec, lean=True)
+                    fam["sharpe"].append(m["sharpe"])
+                    fam["ann"].append(m["ann_ret"])
+                    fam["maxdd"].append(m["max_dd"])
+                    fam["ntrades"].append(m["n_trades"])
+            _log(f"families: A mu={np.nanmean(famA['sharpe']):.4f} "
+                 f"sigma={np.nanstd(famA['sharpe'], ddof=1):.4f} | "
+                 f"B mu={np.nanmean(famB['sharpe']):.4f}")
+            # -- checkpoint (exact-resume contract)
+            _ckpt_save(_ckpt_payload(P, cell_recs, famA, famB))
 
     # -- R240 sanity law: signal machinery produced trades
     for cell in CELLS:
@@ -870,6 +1000,10 @@ def run() -> int:
                      "(full cover); ladder = market_clock_call canon; "
                      "P4B={4,7,10,12} slice-B source-corrected",
             "machine": _machine_id(),
+            "cpu_parallel": f"993-unit burn face = {execution_face} "
+                            "(parallel_runner ProcessPool default per "
+                            "T-134 s2/O-2355; CN_REGIME_POLICY_P1_MP=0 "
+                            "= serial escape, byte-equal)",
         },
         "panel_gates": P["gates"],
         "cells": cells_out,
@@ -908,7 +1042,8 @@ def run() -> int:
         "n_trials": LEDGER_TRIALS,
         "audit": {
             "elapsed_sec": round(time.time() - t0, 1),
-            "workers": 1,
+            "workers": workers_used,
+            "execution_face": execution_face,
             "units_expected": LEDGER_TRIALS,
             "resumed_from_checkpoint": resumed,
             "resumed_disclosure": "checkpoint resume rebuilds gate faces "
@@ -1133,6 +1268,63 @@ def _selftest() -> bool:
           '"trials_ledger": led' in src)
     check("[F15b] attrition lands in entries list (r248)",
           'att["entries"].append' in src)
+
+    # [S-mp] pool face legs (T-134 s2 SEVENTH conversion r327 bm-c; r326
+    #        recipe: real unit bodies on _synth_panel fixtures, tmp-free,
+    #        zero repo products, spawn __main__ guard in place)
+    global _MP_P
+    from parallel_runner import run_cells_parallel as _rcp
+    _saved_panel = _MP_P
+    try:
+        Pm = _synth_panel(120, seed_states=["GREEN"] * 60 + ["RED"] * 60,
+                          months=[1] * 60 + [4] * 60)
+        _MP_P = Pm
+        tgt_m = make_target(Pm, "ladder", P4B)
+        specs_m = [("u_cell_x2", ("tgt", tgt_m, "x2")),
+                   ("u_famA", ("mk", "ladder", (2, 3, 4, 5))),
+                   ("u_famB", ("mk", "calendar", (1, 2, 3, 4)))]
+        jobs_m = [(u, _mp_job, (sp,)) for u, sp in specs_m]
+
+        def _rec_eq(a, b):
+            if set(a) != set(b):
+                return False
+            for k in a:
+                va, vb = a[k], b[k]
+                if isinstance(va, pd.Series):
+                    if not va.equals(vb):        # NaN==NaN position-aware
+                        return False
+                elif va != vb:
+                    return False
+            return True
+
+        ser_m = {u: _unit_body(sp) for u, sp in specs_m}
+        p2m = _rcp(jobs_m, workers=2, desc="s-mp", initializer=_mp_init,
+                   initargs=(Pm,))
+        p2b = _rcp(jobs_m, workers=2, desc="s-mp-dbl", initializer=_mp_init,
+                   initargs=(Pm,))
+        p1m = _rcp(jobs_m, workers=1, desc="s-mp-w1", initializer=_mp_init,
+                   initargs=(Pm,))
+        check("[S-mp] pool==serial bit-identical (3 units, workers=2)",
+              all(_rec_eq(p2m[u], ser_m[u]) for u in ser_m))
+        check("[S-mp] double-run determinism (pool twice)",
+              all(_rec_eq(p2b[u], ser_m[u]) for u in ser_m))
+        check("[S-mp] worker-count invariance (1==2) + __workers__ honest",
+              all(_rec_eq(p1m[u], p2m[u]) for u in ser_m)
+              and p2m["__workers__"] == 2 and p1m["__workers__"] == 1)
+        raised_ser = raised_pool = False
+        try:
+            _unit_body(("bogus",))
+        except Exception:
+            raised_ser = True
+        try:
+            _rcp([("u_bad", _mp_job, (("bogus",),))], workers=1,
+                 desc="s-mp-err", initializer=_mp_init, initargs=(Pm,))
+        except Exception:
+            raised_pool = True
+        check("[S-mp] error propagation parity (serial raise == pool raise)",
+              raised_ser and raised_pool)
+    finally:
+        _MP_P = _saved_panel
 
     print(f"cn_regime_policy_p1 selftest: {fails} FAIL")
     return fails == 0
