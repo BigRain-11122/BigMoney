@@ -1,12 +1,12 @@
 {
   "law_ref": "O-2026-09-30-2355 sec.1 (多核律: workers_plan 声明变代码)",
   "ticket_ref": "T-2026-09-30-134 s1 (runner census)",
-  "generated_at": "2026-10-01T08:57:37+08:00",
+  "generated_at": "2026-10-01T09:57:17+08:00",
   "universe": "pool-referenced runners (results/runnable_pool.json entries[].runner)",
-  "universe_size": 77,
+  "universe_size": 78,
   "summary": {
     "single_core": 35,
-    "multiprocess": 42
+    "multiprocess": 43
   },
   "hard_law_face": {
     "note": "single_core/thread_io_only/missing runners are banned from new-pool entry until converted+verified (T-134 s2)",
@@ -57,7 +57,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 4727,
+      "size_bytes": 4598,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -342,7 +342,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 78881,
+      "size_bytes": 77200,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -387,7 +387,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 78693,
+      "size_bytes": 76997,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -724,7 +724,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 58213,
+      "size_bytes": 59454,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -784,7 +784,7 @@
       "verdict": "single_core",
       "evidence": [],
       "main_guard": true,
-      "size_bytes": 65706,
+      "size_bytes": 67091,
       "pool_entry_count": 1,
       "pool_statuses": {
         "done": 1
@@ -1048,19 +1048,47 @@
           "text": "from concurrent.futures import ProcessPoolExecutor"
         },
         {
-          "line": 285,
+          "line": 298,
           "text": "with ProcessPoolExecutor(max_workers=workers,"
         }
       ],
       "main_guard": true,
-      "size_bytes": 43838,
-      "pool_entry_count": 36,
+      "size_bytes": 47928,
+      "pool_entry_count": 48,
       "pool_statuses": {
-        "done": 24,
+        "done": 36,
         "ready": 12
       },
       "workers_plan_declared": [
         "8"
+      ]
+    },
+    "scripts/perpetual_faces_n3.py": {
+      "path": "scripts/perpetual_faces_n3.py",
+      "exists": true,
+      "verdict": "multiprocess",
+      "evidence": [
+        {
+          "line": 373,
+          "text": "from parallel_runner import run_cells_parallel, worker_cap  # noqa: E402"
+        },
+        {
+          "line": 410,
+          "text": "run_cells_parallel(specs, workers=min(worker_cap(), len(specs)),"
+        },
+        {
+          "line": 923,
+          "text": "res_p = run_cells_parallel("
+        }
+      ],
+      "main_guard": true,
+      "size_bytes": 41280,
+      "pool_entry_count": 6,
+      "pool_statuses": {
+        "done": 6
+      },
+      "workers_plan_declared": [
+        "1"
       ]
     },
     "scripts/portfolio_book.py": {
