@@ -79,13 +79,16 @@ def _delta_stats(p1, p2, elapsed, cores):
 
 
 def _scan_tickets(tasks_dir=TASKS_DIR):
-    """Open (unclaimed) ticket ids - all priorities; signature = the ticket itself."""
+    """Open (unclaimed) ticket ids - all priorities; signature = the ticket itself.
+    claimed_by set (any machine) = claim lock per fleet/README sec.4 -> not a
+    work candidate for this machine (T-141 status=open+claimed_by shape fed a
+    chronic false work-cand / false red every round; r528 fix)."""
     ids = []
     for p in sorted(glob.glob(os.path.join(tasks_dir, "T-*.json"))):
         try:
             with open(p, encoding="utf-8") as f:
                 d = json.load(f)
-            if d.get("status") == "open":
+            if d.get("status") == "open" and not d.get("claimed_by"):
                 ids.append(d.get("id") or os.path.basename(p)[:-5])
         except Exception:
             pass
@@ -363,14 +366,22 @@ def selftest():
     try:
         td = os.path.join(tmpd, "tasks")
         os.makedirs(td)
-        for tid, st_ in (("T-1", "open"), ("T-2", "claimed"), ("T-3", "open")):
+        for tid, st_ in (("T-1", "open"), ("T-2", "claimed"),
+                         ("T-3", "open"), ("T-4", "open")):
             with open(os.path.join(td, tid + ".json"), "w",
                       encoding="utf-8") as f:
-                json.dump({"id": tid, "status": st_}, f)
-        check("ticket scan open only", _scan_tickets(td) == ["T-1", "T-3"])
+                # T-4 mirrors the live T-141 shape: status=open but claimed
+                # by another machine -> claim lock, not this machine's work
+                d = {"id": tid, "status": st_}
+                if tid == "T-4":
+                    d["claimed_by"] = "bm-b"
+                json.dump(d, f)
+        check("ticket scan open+unclaimed only",
+              _scan_tickets(td) == ["T-1", "T-3"])
         with open(os.path.join(td, "bad.json"), "w", encoding="utf-8") as f:
             f.write("{broken")
-        check("ticket scan tolerates corrupt", _scan_tickets(td) == ["T-1", "T-3"])
+        check("ticket scan tolerates corrupt",
+              _scan_tickets(td) == ["T-1", "T-3"])
         bp = os.path.join(tmpd, "bandit.json")
         with open(bp, "w", encoding="utf-8") as f:
             json.dump({"engineering_candidates": [
