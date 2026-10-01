@@ -9530,6 +9530,318 @@
 "priority": "BelowNormal",
 "workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); worker count = min(worker_cap, 6) memory guard ~8GB/worker (stock panel per-worker copy); RAM floor 16GB fail-closed exit 3"
 }
+},
+{
+"id": "STOCKFURN-REV-AKSHARE-SHARD-0",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "rev", "--cells", "0:31", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-rev-0to31",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/rev/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "REV oversold-rebound event furnace cells (7 REV_OSC judged grammars excluded, TRIAL_LABOR_LAW sec.4) 0..30"
+}
+]
+},
+{
+"id": "STOCKFURN-REV-AKSHARE-SHARD-31",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "rev", "--cells", "31:62", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-rev-31to62",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/rev/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "REV oversold-rebound event furnace cells (7 REV_OSC judged grammars excluded, TRIAL_LABOR_LAW sec.4) 31..61"
+}
+]
+},
+{
+"id": "STOCKFURN-REV-AKSHARE-SHARD-62",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "rev", "--cells", "62:91", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-rev-62to91",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/rev/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "REV oversold-rebound event furnace cells (7 REV_OSC judged grammars excluded, TRIAL_LABOR_LAW sec.4) 62..90"
+}
+]
+},
+{
+"id": "STOCKFURN-REV-AKSHARE-SHARD-91",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "rev", "--cells", "91:121", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-rev-91to121",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/rev/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "REV oversold-rebound event furnace cells (7 REV_OSC judged grammars excluded, TRIAL_LABOR_LAW sec.4) 91..120"
+}
+]
+},
+{
+"id": "STOCKFURN-LOWAMP-AKSHARE-SHARD-0",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "lowamp", "--cells", "0:36", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-lowamp-0to36",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/lowamp/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "LOWAMP low-amplitude daily cross-section furnace cells 0..35"
+}
+]
+},
+{
+"id": "STOCKFURN-LOWAMP-AKSHARE-SHARD-36",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "lowamp", "--cells", "36:72", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-lowamp-36to72",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/lowamp/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "LOWAMP low-amplitude daily cross-section furnace cells 36..71"
+}
+]
+},
+{
+"id": "STOCKFURN-LOWAMP-AKSHARE-SHARD-72",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "lowamp", "--cells", "72:108", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-lowamp-72to108",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/lowamp/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "LOWAMP low-amplitude daily cross-section furnace cells 72..107"
+}
+]
+},
+{
+"id": "STOCKFURN-LOWAMP-AKSHARE-SHARD-108",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "lowamp", "--cells", "108:144", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-lowamp-108to144",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/lowamp/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "LOWAMP low-amplitude daily cross-section furnace cells 108..143"
+}
+]
+},
+{
+"id": "STOCKFURN-MOM-AKSHARE-SHARD-0",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "mom", "--cells", "0:4", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-mom-0to4",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/mom/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "MOM monthly-rebalance momentum furnace cells 0..3"
+}
+]
+},
+{
+"id": "STOCKFURN-MOM-AKSHARE-SHARD-4",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "mom", "--cells", "4:8", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-mom-4to8",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/mom/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "MOM monthly-rebalance momentum furnace cells 4..7"
+}
+]
+},
+{
+"id": "STOCKFURN-MOM-AKSHARE-SHARD-8",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "mom", "--cells", "8:12", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-mom-8to12",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/mom/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "MOM monthly-rebalance momentum furnace cells 8..11"
+}
+]
+},
+{
+"id": "STOCKFURN-MOM-AKSHARE-SHARD-12",
+"ticket_ref": "T-2026-10-01-139-P1 (CEO immediate O-2026-10-01-1035 stocks mandate; akshare face = bm-b lane per ticket note; p1c face = GM session lane)",
+"prereg_ref": "research/STOCK_FACE_FURNACE_P1.md (frozen r502 pre-burn R99; banned_direction_gate ADMIT; exploration face zero verdict claims; cutoff 2026-09-30 panel lockbox)",
+"runner": "scripts/stock_face_furnace.py",
+"runner_args": ["run", "--family", "mom", "--cells", "12:16", "--workers", "6"],
+"lane_owner": "bm-b",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 11:2x",
+"entered_by": "bm-b (OS iteration loop r502)",
+"data_gates": "in-runner FAIL-CLOSED: probe_facts.json equality (universe/rows/elig_median/sha16) + panel complete cutoff==2026-09-30 + free-RAM floor 2.0+0.55*workers GB exit 3 + seed-registry law (stock_face_furnace_nulls=20333000 band [20333000,20445400)) + cost single-source import (rev_osc_stock_p1.COST_X1); per-cell JSON checkpoint (presence=done); idempotent no-op when block complete; selftest 22/22 hermetic + 3-cell real smoke r502",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law; --workers override; per-worker panel ~500MB npz cache under gitignored data/astock_daily/"
+},
+"shards": [
+{
+"key": "stockfurn-mom-12to16",
+"status": "ready",
+"checkpoint": "results/stock_face_furnace/cells/mom/cell-*.json (presence=done; deterministic rerun byte-equal)",
+"note": "MOM monthly-rebalance momentum furnace cells 12..15"
+}
+]
 }
 ]
 }

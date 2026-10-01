@@ -1718,6 +1718,13 @@ SEED_REGISTRY = {
         # waves ladder +500 (70_500+). registry+rg scanned free 2026-10-01
         # 09:2x before prereg freeze (r509 bm-a; 500-wide clearance from
         # every registered base)
+        "stock_face_furnace_nulls": 20_333_000,
+        # STOCK_FACE_FURNACE_P1 (T-139 akshare face, bm-b r502): per-cell
+        # dual nulls sign-flip 2000 + block bootstrap 2000, rng(base +
+        # cell_idx*4000 + k), cell_idx in [0,281) k in [0,4000); band
+        # [20333000, 20445400) disjoint-checked vs all registered bases
+        # 2026-10-01 r502 pre-freeze (prior head lowamp_p1_nulls 20331000
+        # width 2000 ends 20332999)
 
     }
 
