@@ -132,6 +132,12 @@ def stage(path, n):
     return subprocess.check_output(["git", "show", f":{n}:{path}"])
 
 
+def unmerged(path):
+    """True if the path still has conflict stages (:2:/:3:)."""
+    out = subprocess.check_output(["git", "ls-files", "-u", "--", path])
+    return bool(out.strip())
+
+
 def side_pick(path):
     """Return (pick2_bool, why). pick2=True -> origin side."""
     pa, pb = probe(stage(path, 2)), probe(stage(path, 3))
@@ -226,9 +232,10 @@ def main():
 
     # ---- resolve mode ----
     # docs families: all files in a family take the same side (probe jsons,
-    # family winner = newest probe across the family's json probes)
+    # family winner = newest probe across the family's json probes);
+    # stage-0 (auto-merged) files are left as git resolved them.
     for fam in (DOCS_REPORT, DOCS_LIVE):
-        jsons = [f for f in fam if f.endswith(".json")]
+        jsons = [f for f in fam if f.endswith(".json") and unmerged(f)]
         probes = {}
         for f in jsons:
             p = probe(stage(f, 2)), probe(stage(f, 3))
@@ -240,12 +247,17 @@ def main():
                 origin_newer = True
         fam_side = 2 if origin_newer else 3
         for f in fam:
+            if not unmerged(f):
+                report[f] = "auto-merged (kept)"
+                continue
             write_bytes(f, stage(f, fam_side))
             report[f] = f"family-take {'origin' if fam_side == 2 else 'theirs'}"
 
     # snapshots: per-file take-new
     for f in SNAPSHOTS:
-        if f in TWINS:
+        if f in TWINS or not unmerged(f):
+            if f not in TWINS:
+                report[f] = "auto-merged (kept)"
             continue
         pick2, why = side_pick(f)
         write_bytes(f, stage(f, 2 if pick2 else 3))
@@ -256,6 +268,9 @@ def main():
     # regime_state=history/transitions
     for f, keys in (("results/compute_audit.json", ["history"]),
                     ("results/regime_state.json", ["history", "transitions"])):
+        if not unmerged(f):
+            report[f] = "auto-merged (kept)"
+            continue
         merged, pick2, why, det = union_ledger(f, keys)
         base = stage(f, 2 if pick2 else 3)
         # mirror base blob formatting: indent+CRLF probe (r509/r514 laws)
@@ -272,6 +287,9 @@ def main():
 
     # append logs: line-level union zero loss
     for f in APPENDLOG:
+        if not unmerged(f):
+            report[f] = "auto-merged (kept)"
+            continue
         a = {ln for ln in stage(f, 2).decode("utf-8").splitlines() if ln}
         b = {ln for ln in stage(f, 3).decode("utf-8").splitlines() if ln}
         u = sorted(a | b)
@@ -283,6 +301,9 @@ def main():
 
     # twins follow primary
     for twin, primary in TWINS.items():
+        if not unmerged(twin):
+            report[twin] = "auto-merged (kept)"
+            continue
         pick2 = "pick origin" in report.get(primary, "") \
             or "family-take origin" in report.get(primary, "") \
             or "state=origin" in report.get(primary, "")
