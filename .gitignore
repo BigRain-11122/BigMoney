@@ -48,6 +48,10 @@ data/astock_daily/
 # T-16 ARB-1 fund-premium lane (r52 bm-c): NAV snapshots + per-fund NAV history
 # accrue locally on the lane owner; status via results/fund_premium_status.json only
 data/fund_premium/
+# T-131 P1 fundamental-history one-shot backfill (r317 bm-c, lane=bm-c):
+# per-symbol per-face source-verbatim JSONs (regenerable; ~500MB at full
+# universe); status via results/fund_history_status.json only
+data/fund_history/
 # T-43 THS aggregate-flow AUXILIARY panel (R121 bm-a): forward-lockbox daily
 # cross-sections (no backfill source exists); machine-local status via
 # data/ths_ggzjl/status.json (lane = bm-a only, R31); spec THS_PANEL.md
