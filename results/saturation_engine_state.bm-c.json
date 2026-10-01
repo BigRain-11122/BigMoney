@@ -49,7 +49,8 @@
   "39": 12,
   "40": 12,
   "41": 12,
-  "42": 12
+  "42": 12,
+  "43": 12
  },
  "wave_complete_flags": [
   2,
@@ -91,7 +92,8 @@
   39,
   40,
   41,
-  42
+  42,
+  43
  ],
  "queue_next": [],
  "ignitions": [
@@ -1179,15 +1181,99 @@
    "pid": 44792,
    "epoch": 1790880797,
    "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 2,
+   "pid": 31676,
+   "epoch": 1790882010,
+   "primary": true
+  },
+  {
+   "wave": 43,
+   "shard": 5,
+   "pid": 42076,
+   "epoch": 1790882010,
+   "primary": true
+  },
+  {
+   "wave": 43,
+   "shard": 8,
+   "pid": 19452,
+   "epoch": 1790882010,
+   "primary": true
+  },
+  {
+   "wave": 43,
+   "shard": 11,
+   "pid": 39840,
+   "epoch": 1790882062,
+   "primary": true
+  },
+  {
+   "wave": 43,
+   "shard": 0,
+   "pid": 37364,
+   "epoch": 1790882062,
+   "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 1,
+   "pid": 39268,
+   "epoch": 1790882062,
+   "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 3,
+   "pid": 852,
+   "epoch": 1790882113,
+   "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 4,
+   "pid": 35804,
+   "epoch": 1790882113,
+   "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 6,
+   "pid": 17528,
+   "epoch": 1790882113,
+   "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 7,
+   "pid": 17792,
+   "epoch": 1790882170,
+   "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 9,
+   "pid": 4068,
+   "epoch": 1790882170,
+   "primary": false
+  },
+  {
+   "wave": 43,
+   "shard": 10,
+   "pid": 43848,
+   "epoch": 1790882170,
+   "primary": false
   }
  ],
  "burns_active": [],
- "cycle": 490,
- "heartbeat_epoch": 1790881687,
- "last_cycle_ts": "2026-10-02T03:08:07",
- "py_cpu_pct": 15.63,
- "machine_cpu_pct": 18.5,
- "done_count": 480,
+ "cycle": 540,
+ "heartbeat_epoch": 1790882547,
+ "last_cycle_ts": "2026-10-02T03:22:27",
+ "py_cpu_pct": 16.51,
+ "machine_cpu_pct": 17.6,
+ "done_count": 492,
  "quarantined": [
   [
    12,
@@ -1201,8 +1287,8 @@
   "42:8": 1
  },
  "sync": {
-  "last_epoch": 1790881687,
-  "remote_done_count": 471,
+  "last_epoch": 1790882547,
+  "remote_done_count": 480,
   "err": null
  },
  "completed": [
@@ -2192,6 +2278,90 @@
    "pid": 44792,
    "ended_epoch": 1790880830,
    "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 2,
+   "pid": 31676,
+   "ended_epoch": 1790882062,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 5,
+   "pid": 42076,
+   "ended_epoch": 1790882062,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 8,
+   "pid": 19452,
+   "ended_epoch": 1790882062,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 11,
+   "pid": 39840,
+   "ended_epoch": 1790882113,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 0,
+   "pid": 37364,
+   "ended_epoch": 1790882113,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 1,
+   "pid": 39268,
+   "ended_epoch": 1790882113,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 3,
+   "pid": 852,
+   "ended_epoch": 1790882170,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 4,
+   "pid": 35804,
+   "ended_epoch": 1790882170,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 6,
+   "pid": 17528,
+   "ended_epoch": 1790882170,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 7,
+   "pid": 17792,
+   "ended_epoch": 1790882225,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 9,
+   "pid": 4068,
+   "ended_epoch": 1790882225,
+   "rc": null
+  },
+  {
+   "wave": 43,
+   "shard": 10,
+   "pid": 43848,
+   "ended_epoch": 1790882225,
+   "rc": null
   }
  ],
  "grammar_consumption": [
@@ -2855,7 +3025,7 @@
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
     "local_done": 12,
-    "remote_done": 9
+    "remote_done": 12
    }
   },
   {
@@ -2872,7 +3042,24 @@
    "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
    "dedup": {
     "local_done": 12,
-    "remote_done": 6
+    "remote_done": 12
+   }
+  },
+  {
+   "face": "N1",
+   "wave": 43,
+   "a_band": [
+    129004,
+    131003
+   ],
+   "b_exit_band": [
+    44001,
+    44200
+   ],
+   "authorization": "per-wave prereg + law sec.4 band ledger (pre-claim exempt, sec.2)",
+   "dedup": {
+    "local_done": 12,
+    "remote_done": 0
    }
   }
  ],
@@ -3097,7 +3284,23 @@
    "committed": "[main e97883691] saturation engine ledger append (bm-c): 4 n1 product shard(s) [law sec.2 batched]",
    "push_rc": 0,
    "outcome": "pushed"
+  },
+  {
+   "epoch": 1790882113,
+   "n_paths": 6,
+   "mid": "bm-c",
+   "committed": "[main a0b5950b2] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 0,
+   "outcome": "pushed"
+  },
+  {
+   "epoch": 1790882225,
+   "n_paths": 6,
+   "mid": "bm-c",
+   "committed": "[main 0f2eacab2] saturation engine ledger append (bm-c): 6 n1 product shard(s) [law sec.2 batched]",
+   "push_rc": 0,
+   "outcome": "pushed"
   }
  ],
- "last_append_epoch": 1790880830
+ "last_append_epoch": 1790882225
 }
