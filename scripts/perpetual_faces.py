@@ -787,6 +787,17 @@ N1_BANDS = {
     # table tail + all published projections at that time).
     38: {"a": (119_004, 121_003), "b_exit": (42_601, 42_800),
          "engine_owner": "bm-b"},
+    # W39 (r342 bm-c freeze): TWENTY-EIGHTH ENGINE-OWNED WAVE, engine_owner=
+    # bm-c per O-20261001-2355 sec.2 own-continuous-series (zero-gap relay
+    # after the W37 FULL CLOSEOUT same window r342: finalize one-pass K=
+    # 79,320, ledger 443,940 chain-linear). A = arithmetic continuation
+    # (the W38 row's W39+ WARNING projected CLEAN, machine-verified); B =
+    # FORCED SKIP -- the arithmetic window 42_801..43_000 is REFUSED by
+    # the SEED_REGISTRY point p4_folk=43_000 (tail point), first clean
+    # window 43_001..43_200 machine-derived (r307 wave-band tail law).
+    # NOT a re-pick (R250: W39 bands were never assigned).
+    39: {"a": (121_004, 123_003), "b_exit": (43_001, 43_200),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
