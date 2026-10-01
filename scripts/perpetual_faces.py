@@ -616,8 +616,31 @@ N1_BANDS = {
     # result to fish). W32+ WARNING: A +2_000 tail 107_004..109_003
     # and B +200 tail 41_401..41_600 projection per the r525 gate
     # receipt -- verify at W32 prereg (rotation slot W32=bm-c).
+    # W32 (r339 bm-c, prereg-time extension per the W31 row's W32+
+    # WARNING -- never-dry supply law standing step; sovereignty
+    # rotation law F-20260901-01 slot W32=bm-c per the +3 rotation
+    # from the W29=bm-c real anchor (finalize landed bm-c r337,
+    # K=61,720; W30 finalize landed bm-a r542, K=63,920, ledger
+    # 430,548; W31 finalize landed bm-b r525/r526 lineage, K=66,120,
+    # ledger 432,748 chain head -- every pre-W32 seat closed at
+    # this freeze). BOTH tails arithmetic-clean exactly as the W31
+    # row's W32+ WARNING projected (A 107_004..109_003 == W31 A
+    # end + 1, B 41_401..41_600 == W31 B end + 1, no skip either
+    # side). Machine-verified at prereg time
+    # (results/_r339bmc_w32_band_gate.py ADMIT receipt vs the 29-row
+    # pre-W32 table incl. W29/W30/W31 + SEED_REGISTRY values +
+    # probe-seed cluster 95_000..95_003 r335 discovery leg + N3-R1
+    # used-seed band 70_000..70_005 MSG-183x r529 mandatory leg).
+    # TWENTY-FIRST engine-owned wave, bm-c's SEVENTH owned wave
+    # after W14/W17/W20/W23/W26/W29. NOT a re-pick (R250: W32
+    # bands were never assigned; the measurement face has no
+    # result to fish). W33+ WARNING: A +2_000 tail 109_004..111_003
+    # and B +200 tail 41_601..41_800 projection per the r339 gate
+    # receipt -- verify at W33 prereg (rotation slot W33=bm-a).
     31: {"a": (105_004, 107_003), "b_exit": (41_201, 41_400),
          "engine_owner": "bm-b"},
+    32: {"a": (107_004, 109_003), "b_exit": (41_401, 41_600),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
