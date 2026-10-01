@@ -6,14 +6,14 @@
   {
    "face": "N1",
    "wave": 56,
-   "shard": 1,
+   "shard": 2,
    "nshards": 12,
-   "key": "n1w56-1of12",
+   "key": "n1w56-2of12",
    "batch": "PERPETUAL-N1-W56",
-   "pid": 55528,
-   "started_at": "2026-10-02T06:31:03+08:00",
-   "started_epoch": 1790893863,
-   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W56-1.log",
+   "pid": 57980,
+   "started_at": "2026-10-02T06:32:03+08:00",
+   "started_epoch": 1790893923,
+   "log": "C:\\Fluxgroup\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W56-2.log",
    "cfg": {
     "batch": "PERPETUAL-N1-W56",
     "prereg": "research/PERPETUAL_N1_W56_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; FORTY-FIFTH ENGINE-OWNED WAVE, own-series continuation per O-20261001-2355 sec.2 (first-free-number law over the registered W55 row), engine_owner=bm-b, wave 56 BOTH SIDES ARITHMETIC CONTINUATION no skip (A 155_004..157_003, B 47_201..47_400); upstream W53/W54/W55 finalizes NOT landed at this freeze = three in-flight chain seats honest note, finalize merge loop derives the wave set from registry keys at run time and stays FAIL-CLOSED on any not-yet-finalized upstream seat, r307 two-state law)",
@@ -39,6 +39,20 @@
    "done_at": "2026-10-02T06:31:03+08:00",
    "done_epoch": 1790893861,
    "elapsed_sec": 58.6
+  },
+  {
+   "machine_id": "bm-b",
+   "face": "N1",
+   "wave": 56,
+   "batch": "PERPETUAL-N1-W56",
+   "shard": 1,
+   "nshards": 12,
+   "key": "n1w56-1of12",
+   "pid": 55528,
+   "started_at": "2026-10-02T06:31:03+08:00",
+   "done_at": "2026-10-02T06:32:03+08:00",
+   "done_epoch": 1790893921,
+   "elapsed_sec": 58.6
   }
  ],
  "last_flush_at": "2026-10-02T06:27:04+08:00",
@@ -49,42 +63,20 @@
   "n1w36-1of12": 1,
   "n1w42-5of12": 1
  },
- "shards_done_total": 229,
- "last_shard_done_at": "2026-10-02T06:31:03+08:00",
+ "shards_done_total": 230,
+ "last_shard_done_at": "2026-10-02T06:32:03+08:00",
  "last_tick": {
-  "ts": "2026-10-02T06:31:03+08:00",
-  "epoch": 1790893861,
+  "ts": "2026-10-02T06:32:03+08:00",
+  "epoch": 1790893921,
   "py_cpu_pct": 0.0,
-  "ram_free_gb": 5.956798553466797,
-  "verdict": "ignited:n1w56-1of12 pid=55528",
+  "ram_free_gb": 6.279796600341797,
+  "verdict": "ignited:n1w56-2of12 pid=57980",
   "active_n": 1,
-  "queue_depth": 10,
+  "queue_depth": 9,
   "elapsed_sec": 2.2
  },
  "skips": [],
  "queue": [
-  {
-   "face": "N1",
-   "wave": 56,
-   "shard": 2,
-   "nshards": 12,
-   "key": "n1w56-2of12",
-   "batch": "PERPETUAL-N1-W56",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "2",
-    "--of",
-    "12",
-    "--wave",
-    "56",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  },
   {
    "face": "N1",
    "wave": 56,
