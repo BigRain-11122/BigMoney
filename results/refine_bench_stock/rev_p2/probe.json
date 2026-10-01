@@ -1,0 +1,49 @@
+{
+ "batch": "REFINE_BENCH_STOCK_REV_P2",
+ "probe_ts": "2026-10-01T14:08:01+08:00",
+ "machine": "bm-a",
+ "panel": {
+  "T": 8792,
+  "N": 5222,
+  "universe_ok_static": 3517,
+  "eligible_median": 193.0,
+  "eligible_median_2010": 1115.5,
+  "sse_cover": 1.0
+ },
+ "evidence_cutoff": "2026-09-22",
+ "survivors": [
+  "D-15|raw|base|time|h20",
+  "Dtop10|raw|base|time|h20",
+  "D-25|raw|base|time|h20",
+  "D-15|yang|base|time|h20",
+  "D-25|yang|base|time|h20",
+  "Dtop10|yang|base|time|h20",
+  "D-15|raw|liq2|time|h20",
+  "D-25|raw|liq2|time|h20",
+  "Dtop10|raw|liq2|time|h20",
+  "D-15|yang|liq2|time|h20"
+ ],
+ "survivor_source": "results/refine_bench_stock/rev_census/census_ranking.json top10_independent",
+ "stage_a_refs": [
+  "census_ranking.json",
+  "d6_top10_corr.json"
+ ],
+ "closed_family": {
+  "gate": "closed_family_check",
+  "family": "rev_osc_stock",
+  "status": "open",
+  "in_registry": false
+ },
+ "seed": {
+  "base": 20263300,
+  "k": 2000
+ },
+ "cost": {
+  "x1_per_side_bp": 1304.1,
+  "x2_per_side_bp": 2608.2,
+  "roundtrip_x1_bp": 2608.2,
+  "source": "P4_BATCH2 s3.2 V1 stock schedule (RV.COST_X1 single-source import)"
+ },
+ "exit_axis": "strategy-own: pure time exit H=20 (tp=None/sl=None; engine default exit stack never constructed)",
+ "verdict": "PASS"
+}
