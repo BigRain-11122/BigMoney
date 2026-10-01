@@ -9,7 +9,7 @@
     "workers_plan": "O-20260924-2130 s1.1: ready 批注册必带 workers_plan（多核计划，如 {\"workers\": 12, \"priority\": \"BelowNormal\"}）；无多核计划不入池 (autofill C8 read-side 强制门)",
     "entries[].worker_class": "O-20260928-2210 (T-113 s1): self-contained = in-repo data, clone-and-run on ANY machine; bm-hosted = data physically on the lane host (e.g. astock panel bm-b) -- workers honor data locality, no fake sharing; autofill._pick + Tools/pool_worker.py both read it"
   },
-  "updated_at": "2026-10-01 08:09:57",
+  "updated_at": "2026-10-01 08:45:18",
   "_stamp_note": "r459 bm-a control-plane repair flip 2: SLOT-6 runner_args backfill (launch 1 died argparse no-cmd; W12-JUDGE convention); owner claim bm-a held (owner_since 06:10:52, crash never reached engine)",
   "entries": [
     {
@@ -7027,7 +7027,7 @@
       ],
       "lane_owner": "ANY",
       "priority": 1,
-      "status": "ready",
+      "status": "done",
       "entered_at": "2026-10-01 08:09:57",
       "worker_class": "self-contained",
       "data_gates": "in-runner FAIL-CLOSED: prep manifest presence + probe-matrix same-face payload_sha256 pin (50b77e2a) + roster sha16 + regime-ladder gate; per-sleeve/per-config checkpoint kill-safe resume; BURN product presence=done (r488 law)",
@@ -7049,6 +7049,444 @@
         "workers": 12,
         "priority": "BelowNormal",
         "workers_law": "ProcessPool via parallel_runner.run_cells_parallel (r304 grid_p1_screen conversion canon; r496/W2 pool==inline parity family), min(worker_cap(),12), BLAS capped 1/worker, psutil BelowNormal in _init_worker; selftest S-mp parity legs 5/5; autofill _runner_core_verdict=multiproc"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-0",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "0",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-0of12",
+          "status": "done",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-0-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 0 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+          "owner": "bm-a",
+          "owner_since": "2026-10-01 08:46:43",
+          "claimed_since": "2026-10-01 08:46:07",
+          "done_at": "2026-10-01 08:46:43",
+          "harvested_by": "bm-a",
+          "harvest_claim": "n1w4-0of12.bm-a.json"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-1",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "1",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-1of12",
+          "status": "done",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-1-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 1 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+          "owner": "bm-a",
+          "owner_since": "2026-10-01 08:47:32",
+          "claimed_since": "2026-10-01 08:46:57",
+          "done_at": "2026-10-01 08:47:32",
+          "harvested_by": "bm-a",
+          "harvest_claim": "n1w4-1of12.bm-a.json"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-2",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "2",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-2of12",
+          "status": "done",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-2-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 2 of 12 (A2000+B200 contiguous slice); ~2min serial burn",
+          "owner": "bm-a",
+          "owner_since": "2026-10-01 08:48:20",
+          "claimed_since": "2026-10-01 08:47:44",
+          "done_at": "2026-10-01 08:48:20",
+          "harvested_by": "bm-a",
+          "harvest_claim": "n1w4-2of12.bm-a.json"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-3",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "3",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-3of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-3-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 3 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-4",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "4",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-4of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-4-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 4 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-5",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "5",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-5of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-5-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 5 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-6",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "6",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-6of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-6-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 6 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-7",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "7",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-7of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-7-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 7 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-8",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "8",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-8of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-8-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 8 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-9",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "9",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-9of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-9-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 9 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-10",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "10",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-10of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-10-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 10 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
+      }
+    },
+    {
+      "id": "PERPETUAL-N1-W4-SHARD-11",
+      "ticket_ref": "T-2026-09-30-133 s2 (O-2026-09-30-2340)",
+      "prereg_ref": "research/PERPETUAL_N1_W4_PREREG.md (frozen pre-run; law sec.4 W4 bands A 16100+ / B-exit 21500+)",
+      "consumer_plan": "science_gates null-pool deepening: merged pool (law sec.5 cumulative) -> skill_line_v2 K-lift + p95/p99 face (G1 prime skill line consumer)",
+      "runner": "scripts/perpetual_faces_n1.py",
+      "runner_args": [
+        "run",
+        "--shard",
+        "11",
+        "--of",
+        "12",
+        "--wave",
+        "4"
+      ],
+      "lane_owner": "ANY",
+      "priority": 1,
+      "status": "ready",
+      "entered_at": "2026-10-01 08:45:18",
+      "worker_class": "self-contained",
+      "data_gates": "in-runner FAIL-CLOSED: universe==48 bare codes + panel end==2026-09-22 same-window + law sec.4 seed bands (selftest-enforced) + determinism byte-equal rerun",
+      "shards": [
+        {
+          "key": "n1w4-11of12",
+          "status": "ready",
+          "checkpoint": "results/p2cal_ext/n1_w4/shard-11-of-12.json (presence=done; deterministic rerun byte-equal)",
+          "note": "N1-W4 wave shard 11 of 12 (A2000+B200 contiguous slice); ~2min serial burn"
+        }
+      ],
+      "workers_plan": {
+        "workers": 8,
+        "priority": "BelowNormal",
+        "workers_law": "ProcessPoolExecutor code-backed, O-20260930-2355 multicore law (serial-vs-pool byte-equal parity proven on W2); BLAS 1/worker cap; --workers override"
       }
     }
   ],
