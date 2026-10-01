@@ -1,42 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-10-01 02:06:02",
-   "machine": "bm-b",
-   "py_cpu_pct": 1.3,
-   "fuse_skipped": [
-    {
-     "entry": "EXCLUSION-MARGINAL-P1-RUN",
-     "shard": "exclusion-0of1",
-     "sig": "scripts/exclusion_marginal_scan.py|run",
-     "fuse_refusals": 3
-    },
-    {
-     "entry": "CROSS-START-ROBUSTNESS-P1-FACEB-RUN",
-     "shard": "faceb-0of1",
-     "sig": "scripts/cross_start_robustness.py|run_face_b",
-     "fuse_refusals": 2
-    }
-   ],
-   "cooldown_skipped": {
-    "entry": "PERPETUAL-N1-W2-SHARD-0",
-    "shard": "n1w2-0of12",
-    "last_launch_min": 4.1
-   },
-   "verdict": "launched",
-   "entry": "PERPETUAL-N1-W2-SHARD-2",
-   "shard": "n1w2-2of12",
-   "pid": 45976,
-   "runner_sha256": "df65b92869fb84fd",
-   "core_verdict": "multiproc",
-   "core_marker": "ProcessPoolExecutor",
-   "fill_latency_min": 100.3,
-   "fullburn_window": true,
-   "target_met": false,
-   "saturation_launches": 1,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 02:12:02",
    "machine": "bm-b",
    "py_cpu_pct": 1.0,
@@ -1013,26 +977,38 @@
    "fill_latency_min": -27.7,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 14:32:02",
+   "machine": "bm-b",
+   "py_cpu_pct": 5.2,
+   "cooldown_skipped": {
+    "entry": "REFINE-BENCH-REV-P2-SHARD-0",
+    "shard": "rev-p2-0of2",
+    "last_launch_min": 2.1
+   },
+   "verdict": "launched",
+   "entry": "REFINE-BENCH-REV-P2-SHARD-1",
+   "shard": "rev-p2-1of2",
+   "pid": 2636,
+   "runner_sha256": "131e76b424146404",
+   "core_verdict": "multiproc",
+   "core_marker": "from parallel_runner import",
+   "fill_latency_min": -25.9,
+   "fullburn_window": true,
+   "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 14:30:02",
+  "ts": "2026-10-01 15:10:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "harvest_flipped": 1,
-  "verdict": "launched",
-  "entry": "REFINE-BENCH-REV-P2-SHARD-0",
-  "shard": "rev-p2-0of2",
-  "pid": 57592,
-  "runner_sha256": "131e76b424146404",
-  "core_verdict": "multiproc",
-  "core_marker": "from parallel_runner import",
-  "fill_latency_min": -27.7,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "verdict": "pool_empty_or_busy"
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T14:28:46+08:00"
+ "core_samples_seen": "2026-10-01T14:59:29+08:00"
 }

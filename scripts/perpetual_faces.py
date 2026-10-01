@@ -134,6 +134,20 @@ N1_BANDS = {
     # NOT a re-pick (R250). N2/N4 yield note: this A band covers
     # 32_100..34_099 -- N2/N4 preregs must steer clear per law sec.4.
     9: {"a": (32_100, 34_099), "b_exit": (28_500, 28_699)},
+    # W10 (r508 bm-b, prereg-time extension per T-2026-10-01-141 s1 --
+    # FIRST ENGINE-OWNED WAVE: engine_owner=bm-b -> burned by the
+    # saturation engine local perpetual queue (SATURATION_ENGINE_LAW
+    # sec.1/sec.2), NEVER pool-materialized -- cmd_supply refuses
+    # engine-owned waves (zero cross-machine duplication face);
+    # arithmetic tails land clean exactly as the W9 row projected):
+    # A 34_100 == W9 A end + 1, B 28_700 == W9 B end + 1; no skip-over
+    # this wave, both strides kept verbatim. Machine-verified at prereg
+    # time (results/_r508bmb_w10_band_gate.py ADMIT receipt); the
+    # all-bands disjoint leg 2 covers W10 automatically once listed.
+    # NOT a re-pick (R250). N2/N4 yield note: this A band covers
+    # 34_100..36_099 -- N2/N4 preregs must steer clear per law sec.4.
+    10: {"a": (34_100, 36_099), "b_exit": (28_700, 28_899),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -501,6 +515,16 @@ def cmd_supply():
                 st["last_supply"]["awaiting"] = \
                     f"law sec.4 bands for W{wave}"
                 continue
+            # SATURATION_ENGINE_LAW sec.1 (T-2026-10-01-141 s1):
+            # engine-owned waves burn in the owning machine's local
+            # perpetual queue and NEVER enter the pool -- materializing
+            # them here would double-burn against the engine (r297
+            # family). Honest refusal, face falls through.
+            owner = N1_BANDS[wave].get("engine_owner")
+            if owner:
+                st["last_supply"]["awaiting"] = \
+                    f"W{wave} engine-owned by {owner} (local queue burn)"
+                continue
             prereg_rel = f"research/PERPETUAL_N1_W{wave}_PREREG.md"
             if not os.path.exists(os.path.join(PATHS.root, prereg_rel)):
                 st["last_supply"]["awaiting"] = f"frozen prereg for W{wave}"
@@ -686,6 +710,31 @@ def cmd_selftest():
     w9_b = set(range(N1_BANDS[9]["b_exit"][0], N1_BANDS[9]["b_exit"][1] + 1))
     assert not (w9_a & lfc_actual) and not (w9_b & lfc_actual), \
         "W9 bands must clear the lfc actual draw range"
+    # 3g. W10 arithmetic-continuation invariant (r508 bm-b, T-2026-10-01-
+    # 141 s1 FIRST ENGINE-OWNED WAVE): the W9 row projected BOTH
+    # arithmetic tails clean, and the machine gate at prereg time
+    # confirmed ADMIT (no forced skip) -- A == W9 A end + 1, B == W9 B
+    # end + 1, strides verbatim, both clear of every reserved band +
+    # SEED_REGISTRY + the lfc actual draw range (leg 2 all-bands
+    # disjoint covers W10 once listed here). engine_owner parity is
+    # asserted against the runner's WAVE_CONFIGS by the n1 selftest W10
+    # materializer leg; here the structural face: only engine-owned
+    # waves carry engine_owner, and cmd_supply must refuse them.
+    assert N1_BANDS[10]["a"][1] - N1_BANDS[10]["a"][0] + 1 == 2000, "W10 A width"
+    assert N1_BANDS[10]["b_exit"][1] - N1_BANDS[10]["b_exit"][0] + 1 == 200, \
+        "W10 B width"
+    assert N1_BANDS[10]["a"][0] == N1_BANDS[9]["a"][1] + 1, \
+        "W10 A must keep the arithmetic stride (no skip -- ADMIT receipt)"
+    assert N1_BANDS[10]["b_exit"][0] == N1_BANDS[9]["b_exit"][1] + 1, \
+        "W10 B must keep the arithmetic stride (no skip -- ADMIT receipt)"
+    w10_a = set(range(N1_BANDS[10]["a"][0], N1_BANDS[10]["a"][1] + 1))
+    w10_b = set(range(N1_BANDS[10]["b_exit"][0], N1_BANDS[10]["b_exit"][1] + 1))
+    assert not (w10_a & lfc_actual) and not (w10_b & lfc_actual), \
+        "W10 bands must clear the lfc actual draw range"
+    assert N1_BANDS[10].get("engine_owner") == "bm-b", \
+        "W10 engine_owner must be bm-b (T-141 s1 first engine wave)"
+    assert all(not N1_BANDS[w].get("engine_owner") for w in N1_BANDS if w != 10), \
+        "pool-era waves must stay pool-owned (engine_owner only on W10+ engine waves)"
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)

@@ -15,6 +15,7 @@ import glob
 import json
 import os
 import sys
+import time
 import statistics
 import datetime as dt
 
@@ -496,6 +497,47 @@ def _saturation_state() -> dict:
             1 for s in (au.get("history") or [])[-100:]
             if "pool_starvation" in (s.get("flags") or []))
     out["present"] = bool(py_tail) or bool(entries) or bool(au)
+    return out
+
+
+def _engine_face_state() -> dict:
+    """SATURATION_ENGINE CEO face (T-2026-10-01-141 s3, law sec.5):
+    three-machine py% standing row, engine-written live. Each machine's
+    saturation engine writes results/saturation_engine/face_<id>.json
+    (per-machine lane file, git-synced by round commits -- same-lane
+    law as autofill_state.<id>); this reader aggregates every face file
+    present into the standing row. Rows missing = that machine's engine
+    slice not landed yet (honest face, no fabrication)."""
+    out = {"present": False, "machines_total": 0, "machines_alive": 0,
+           "rows": []}
+    d = os.path.join(PATHS.results_dir, "saturation_engine")
+    if not os.path.isdir(d):
+        return out
+    rows = []
+    for fn in sorted(os.listdir(d)):
+        if not (fn.startswith("face_") and fn.endswith(".json")):
+            continue
+        r = _read_json(os.path.join(d, fn)) or {}
+        if not r.get("machine_id"):
+            continue
+        age_sec = None
+        if isinstance(r.get("epoch"), int):
+            age_sec = round(max(0.0, time.time() - r["epoch"]), 0)
+        alive = age_sec is not None and age_sec <= 300
+        rows.append({"machine_id": r.get("machine_id"),
+                     "py_cpu_pct": r.get("py_cpu_pct"),
+                     "engine_alive": bool(alive),
+                     "heartbeat_age_sec": age_sec,
+                     "active_burns": r.get("active_burns") or [],
+                     "queue_depth": r.get("queue_depth"),
+                     "shards_done_total": r.get("shards_done_total"),
+                     "last_shard_done_at": r.get("last_shard_done_at"),
+                     "ts": r.get("ts")})
+    rows.sort(key=lambda x: str(x.get("machine_id")))
+    out["rows"] = rows
+    out["machines_total"] = len(rows)
+    out["machines_alive"] = sum(1 for r in rows if r["engine_alive"])
+    out["present"] = bool(rows)
     return out
 
 
@@ -1903,6 +1945,7 @@ def build() -> dict:
     data["watermark"] = _watermark_state()
     data["autofill"] = _autofill_state()
     data["saturation"] = _saturation_state()
+    data["engine"] = _engine_face_state()
     data["regime"] = _regime_state()
     data["portfolio"] = _portfolio_state()
     data["corr_watch"] = _corr_watch_state()

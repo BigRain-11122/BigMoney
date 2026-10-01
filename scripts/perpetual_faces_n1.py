@@ -180,6 +180,24 @@ WAVE_CONFIGS = {
         "a_seed_base": 32_100,           # law sec.4 W9 A: 32_100..34_099 (arithmetic)
         "b_exit_seed_base": 28_500,      # law sec.4 W9 B: 28_500..28_699 (arithmetic)
         "shard_subdir": "n1_w9", "out_name": "n1_w9_results.json"},
+    # W10 (r508 bm-b, T-2026-10-01-141 s1 FIRST ENGINE-OWNED WAVE:
+    # engine_owner=bm-b -> burned by scripts/saturation_engine.py local
+    # perpetual queue, NEVER materialized into the pool by cmd_supply
+    # (engine-owner skip gate, SATURATION_ENGINE_LAW sec.1/sec.2 -- zero
+    # cross-machine duplication). BOTH arithmetic tails land clean
+    # exactly as the W9 row projected (A 34_100 == W9 A end + 1,
+    # B 28_700 == W9 B end + 1) -- no forced skip this wave; machine-
+    # verified at prereg time (results/_r508bmb_w10_band_gate.py ADMIT
+    # receipt). NOT a re-pick (R250).
+    10: {"batch": "PERPETUAL-N1-W10",
+         "prereg": ("research/PERPETUAL_N1_W10_PREREG.md (wave-level frozen "
+                    "pre-run; design = frozen v1 null calibration verbatim, "
+                    "new seed bands only; FIRST ENGINE-OWNED WAVE "
+                    "T-2026-10-01-141 s1, engine_owner=bm-b)"),
+         "a_seed_base": 34_100,          # law sec.4 W10 A: 34_100..36_099 (arithmetic)
+         "b_exit_seed_base": 28_700,     # law sec.4 W10 B: 28_700..28_899 (arithmetic)
+         "shard_subdir": "n1_w10", "out_name": "n1_w10_results.json",
+         "engine_owner": "bm-b"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -1202,6 +1220,71 @@ def selftest() -> int:
                 assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
             finally:
                 _set_wave(2)
+            # --- wave-10 face (r508 bm-b, T-2026-10-01-141 s1 FIRST
+            #     ENGINE-OWNED WAVE: engine_owner=bm-b, burned by the
+            #     saturation engine local queue, never pool-materialized;
+            #     arithmetic continuation BOTH tails clean per ADMIT
+            #     receipt) ---
+            _set_wave(10)
+            try:
+                assert WAVE_CONFIGS[10]["a_seed_base"] == pf.N1_BANDS[10]["a"][0], \
+                    "W10 A band drift vs law mirror"
+                assert WAVE_CONFIGS[10]["b_exit_seed_base"] == \
+                    pf.N1_BANDS[10]["b_exit"][0], "W10 B band drift vs law mirror"
+                assert WAVE_CONFIGS[10].get("engine_owner") == \
+                    pf.N1_BANDS[10].get("engine_owner") == "bm-b", \
+                    "W10 engine_owner drift (law mirror parity)"
+                w10_a = {A_SEED_BASE + j for j in range(A_N)}
+                w10_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+                assert not (w10_a & w10_b), "W10 A/B band overlap"
+                assert not (w10_a & reg_ints) and not (w10_b & reg_ints), \
+                    "W10 hits SEED_REGISTRY"
+                for nm, band in (("A", w10_a), ("B", w10_b)):
+                    assert not (band & v1_a) and not (band & v1_b), f"W10 {nm} hits v1"
+                    assert not (band & w1_a) and not (band & w1_b), f"W10 {nm} hits W1"
+                    assert not (band & probes), f"W10 {nm} hits probe seeds"
+                for wprev in (2, 3, 4, 5, 6, 7, 8, 9):
+                    assert not (w10_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                         for j in range(A_N)}), f"W10 A hits W{wprev}"
+                    assert not (w10_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                        for j in range(B_N)}), f"W10 B hits W{wprev}"
+                # arithmetic continuation facts (law sec.4 W10 row): both
+                # tails land clean (W9 row projection + prereg-time ADMIT
+                # receipt) -- A sits at W9 A end + 1, B at W9 B end + 1,
+                # strides verbatim, no skip-over refusal facts this wave.
+                lfc_actual10 = set(range(30_000, 30_100))
+                assert not (w10_a & lfc_actual10) and not (w10_b & lfc_actual10), \
+                    "W10 bands must clear the lfc actual draw range"
+                assert WAVE_CONFIGS[10]["a_seed_base"] == \
+                    WAVE_CONFIGS[9]["a_seed_base"] + A_N, \
+                    "W10 A stride drift (arithmetic continuation, no skip)"
+                assert WAVE_CONFIGS[10]["b_exit_seed_base"] == \
+                    WAVE_CONFIGS[9]["b_exit_seed_base"] + B_N, \
+                    "W10 B stride drift (arithmetic continuation, no skip)"
+                assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W10-SHARD-0",
+                                                  "n1w10-0of12"), "W10 entry identity"
+                assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W10-SHARD-11",
+                                                   "n1w10-11of12")
+                assert SHARD_DIR.endswith("n1_w10") and OUT.endswith(
+                    "n1_w10_results.json"), "W10 path drift"
+                for wprev in (2, 3, 4, 5, 6, 7, 8, 9):
+                    assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                        PATHS.results_dir, "p2cal_ext",
+                        WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                        f"W10 shard dir collides with W{wprev}"
+                assert os.path.exists(os.path.join(
+                    PATHS.root, "research", "PERPETUAL_N1_W10_PREREG.md")), \
+                    "W10 per-wave prereg missing (materializer requirement)"
+                # W10 finalize cumulative dep (W9 output) = IN FLIGHT at
+                # drafting (12/12 burned pool-side, finalize queued) -- no
+                # static exists-assert here: it would false-red now and
+                # expire later (r307 two-state lesson family, W7 leg same
+                # pattern); the finalize merge loop is FAIL-CLOSED on any
+                # missing prior-wave output at run time, which is the real
+                # guard.
+                assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+            finally:
+                _set_wave(2)
         finally:
             _set_wave(2)
     finally:
@@ -1224,7 +1307,12 @@ def selftest() -> int:
           "too), B=stride verbatim, law sec.4 W8 row, r312 bm-c] "
           "+ W9 materializer face [same guard set, dep=W8 present, "
           "arithmetic continuation both tails clean per ADMIT receipt, "
-          "law sec.4 W9 row, r506 bm-b])")
+          "law sec.4 W9 row, r506 bm-b] + W10 materializer face [same "
+          "guard set, dep=W9 in-flight=runtime FAIL-CLOSED guard "
+          "(r307 two-state law), FIRST ENGINE-OWNED WAVE "
+          "engine_owner=bm-b per T-2026-10-01-141 s1, arithmetic "
+          "continuation both tails clean per ADMIT receipt, law sec.4 "
+          "W10 row, r508 bm-b])")
     return 0
 
 

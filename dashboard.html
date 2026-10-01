@@ -426,6 +426,15 @@ function renderChains() {
       wm.red ? "bad" : "ok",
       wm.red ? "🚩红牌" : (np ? n2(np.status) : "绿")));
   }
+  const eng = D.data.engine;
+  if (eng && eng.present) {
+    const rowTxt = (eng.rows || []).map(r =>
+      `${esc(r.machine_id)} ${fnum(r.py_cpu_pct, 1)}%${r.engine_alive ? "" : " 💀"}`).join(" · ");
+    rows.push(chainRow("饱和引擎",
+      `${n2(eng.machines_alive)}/${n2(eng.machines_total)} 活 · ${rowTxt}`,
+      eng.machines_alive === eng.machines_total ? "ok" : "warn",
+      (eng.rows || []).map(r => `${esc(r.machine_id)} 队列 ${n2(r.queue_depth)} · 累计 ${n2(r.shards_done_total)} 片`).join("；")));
+  }
   const t = D.data.token;
   if (t && t.present) {
     rows.push(chainRow("TOKEN", `状态 ${n2(t.state_est)} · 报告 ${n2(t.report_est)} · 增长 ${n2(t.delta_state)}`, "dim", "粗估"));
