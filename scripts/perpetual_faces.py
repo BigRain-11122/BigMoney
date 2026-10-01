@@ -196,6 +196,21 @@ N1_BANDS = {
     # current registry face -- verify at prereg time as always.
     13: {"a": (70_001, 72_000), "b_exit": (29_300, 29_499),
          "engine_owner": "bm-b"},
+    # W14 (r325 bm-c, prereg-time extension per the W13 row's W14+
+    # WARNING -- never-dry supply law standing step / r325 watermark-red
+    # runnable-work-idle-low-cpu root fix; sovereignty rotation law
+    # F-20261001-01 slot: W13=bm-b anchored / W14=bm-c / W15=bm-a):
+    # BOTH arithmetic tails land clean exactly as the W13 row projected
+    # (A 72_001 == W13 A end + 1, B 29_500 == W13 B end + 1) -- no forced
+    # skip this wave; machine-verified at prereg time
+    # (results/_r325bmc_w14_band_gate.py ADMIT receipt, 12-row N1_BANDS +
+    # 158 registry values + lfc/options actual ranges). FIFTH engine-owned
+    # wave, bm-c's first. NOT a re-pick (R250). W15+ WARNING: A +2_000
+    # arithmetic tail 74_001..76_000 and B +200 tail 29_700..29_899
+    # project clean on the current registry face -- verify at prereg time
+    # as always.
+    14: {"a": (72_001, 74_000), "b_exit": (29_500, 29_699),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
