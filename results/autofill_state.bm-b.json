@@ -1,20 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-30 21:30:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 1.6,
-   "verdict": "launched",
-   "entry": "EXCLUSION-MARGINAL-P1-RUN",
-   "shard": "exclusion-0of1",
-   "pid": 50620,
-   "runner_sha256": "5dc9b37eef84d669",
-   "fill_latency_min": 105.9,
-   "fullburn_window": false,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-10-01 01:00:01",
    "machine": "bm-b",
    "py_cpu_pct": 2.1,
@@ -1047,27 +1033,39 @@
    "target_met": true,
    "saturation_launches": 1,
    "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 13:06:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "verdict": "launched",
+   "entry": "LOWAMP-P2-CELL-LAEDGE-LEGACY-X2",
+   "shard": "lowamp-p2-cell-laedge-legacy-x2-0of1",
+   "pid": 54016,
+   "runner_sha256": "178142441a291551",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": 23.6,
+   "fullburn_window": true,
+   "target_met": false,
+   "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 13:04:01",
+  "ts": "2026-10-01 13:06:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
-  "single_core_red_flags": [
-   {
-    "ts": "2026-10-01T13:02:25+08:00",
-    "entry": "STOCKFURN-MOM-AKSHARE-SHARD-12",
-    "shard": "stockfurn-mom-12to16",
-    "pid": 36792,
-    "wall_s": 10.0,
-    "effective_cores": 1.13,
-    "law": "O-20260930-2355 sec.1 law-2"
-   }
-  ],
-  "harvest_flipped": 1,
-  "verdict": "claim_lost_yield",
+  "verdict": "launched",
   "entry": "LOWAMP-P2-CELL-LAEDGE-LEGACY-X2",
-  "shard": "lowamp-p2-cell-laedge-legacy-x2-0of1"
+  "shard": "lowamp-p2-cell-laedge-legacy-x2-0of1",
+  "pid": 54016,
+  "runner_sha256": "178142441a291551",
+  "core_verdict": "multiproc",
+  "core_marker": "ProcessPoolExecutor",
+  "fill_latency_min": 23.6,
+  "fullburn_window": true,
+  "target_met": false,
+  "saturation_launches": 1
  },
  "lane_machine": "bm-b",
  "core_samples_seen": "2026-10-01T13:02:25+08:00"
