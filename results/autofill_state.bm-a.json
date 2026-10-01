@@ -914,25 +914,26 @@
    "fill_latency_min": -5.8,
    "fullburn_window": true,
    "target_met": true,
-   "saturation_launches": 1
+   "saturation_launches": 1,
+   "crash_counted": true
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 14:52:01",
+  "ts": "2026-10-01 15:00:02",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
-  "verdict": "launched",
-  "entry": "REFINE-BENCH-REV-P2-SHARD-0",
-  "shard": "rev-p2-0of2",
-  "pid": 88536,
-  "runner_sha256": "f089f3293e081094",
-  "core_verdict": "multiproc",
-  "core_marker": "from parallel_runner import",
-  "fill_latency_min": -5.8,
-  "fullburn_window": true,
-  "target_met": true,
-  "saturation_launches": 1
+  "fuse_skipped": [
+   {
+    "entry": "REFINE-BENCH-REV-P2-SHARD-0",
+    "shard": "rev-p2-0of2",
+    "sig": "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2",
+    "fuse_refusals": 2
+   }
+  ],
+  "verdict": "claim_lost_yield",
+  "entry": "REFINE-BENCH-REV-P2-SHARD-1",
+  "shard": "rev-p2-1of2"
  },
  "lane_machine": "bm-a",
- "core_samples_seen": "2026-10-01T14:43:24+08:00"
+ "core_samples_seen": "2026-10-01T14:52:23+08:00"
 }
