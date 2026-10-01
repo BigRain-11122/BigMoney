@@ -678,6 +678,39 @@ WAVE_CONFIGS = {
                  "b_exit_seed_base": 41_001,    # law sec.4 W30 B: 41_001..41_200 (skip past p4_batch1=41_000)
                  "shard_subdir": "n1_w30", "out_name": "n1_w30_results.json",
                  "engine_owner": "bm-a"},
+            # W31 (r525 bm-b, prereg-time extension per the W30 row's
+            # W31+ WARNING -- never-dry supply law standing step;
+            # sovereignty rotation law F-20260901-01 slot W31=bm-b
+            # per the +3 rotation from the W28=bm-b real anchor
+            # (finalize landed bm-b r524; W29=bm-c SEATED AND
+            # FINALIZED mid-draft bm-c r337 -- K=61,720, ledger
+            # 428,348 chain head; W30=bm-a frozen r541 burn in
+            # flight -- registered in-use face). W29's published
+            # projection window was honored by the bm-c freeze
+            # taking exactly that window (r337, r518 discharged).
+            # BOTH tails arithmetic-clean exactly as the W30 row's
+            # W31+ WARNING projected (A 105_004..107_003 == W30 A
+            # end + 1, B 41_201..41_400 == W30 B end + 1, no skip
+            # either side). Machine-verified at prereg time
+            # (results/_r525bmb_w31_band_gate.py ADMIT receipt vs
+            # the 28-row pre-W31 table incl. W25/W26/W27/W28/W29/W30
+            # + SEED_REGISTRY + probes/actuals + probe-seed cluster
+            # 95_000..95_003 r335 discovery leg + N3-R1 used-seed
+            # band 70_000..70_005 MSG-183x r529 mandatory leg).
+            # TWENTIETH engine-owned wave, bm-b's NINTH owned wave.
+            # NOT a re-pick (R250: W31 bands were never assigned;
+            # the measurement face has no result to fish).
+            31: {"batch": "PERPETUAL-N1-W31",
+                 "prereg": ("research/PERPETUAL_N1_W31_PREREG.md (wave-level frozen "
+                            "pre-run; design = frozen v1 null calibration verbatim, "
+                            "new seed bands only; TWENTIETH ENGINE-OWNED WAVE, "
+                            "sovereignty rotation law W31=bm-b, engine_owner=bm-b, "
+                            "W30 row slot assignment verbatim, both tails "
+                            "arithmetic continuation)"),
+                 "a_seed_base": 105_004,        # law sec.4 W31 A: 105_004..107_003 (arithmetic)
+                 "b_exit_seed_base": 41_201,    # law sec.4 W31 B: 41_201..41_400 (arithmetic)
+                 "shard_subdir": "n1_w31", "out_name": "n1_w31_results.json",
+                 "engine_owner": "bm-b"},
          }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -3536,6 +3569,97 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- W31 materializer face (r525 bm-b freeze) ----------------------------
+    _set_wave(31)
+    try:
+        assert WAVE_CONFIGS[31]["a_seed_base"] == pf.N1_BANDS[31]["a"][0], \
+            "W31 A band drift vs law mirror"
+        assert WAVE_CONFIGS[31]["b_exit_seed_base"] == \
+            pf.N1_BANDS[31]["b_exit"][0], "W31 B band drift vs law mirror"
+        assert WAVE_CONFIGS[31].get("engine_owner") == \
+            pf.N1_BANDS[31].get("engine_owner") == "bm-b", \
+            "W31 engine_owner drift (law mirror parity)"
+        w31_a = {A_SEED_BASE + j for j in range(A_N)}
+        w31_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w31_a & w31_b), "W31 A/B band overlap"
+        assert not (w31_a & reg_ints) and not (w31_b & reg_ints), \
+            "W31 hits SEED_REGISTRY"
+        for nm, band in (("A", w31_a), ("B", w31_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W31 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W31 {nm} hits W1"
+            assert not (band & probes), f"W31 {nm} hits probe seeds"
+        # prior-wave disjointness incl. W29 (SEATED r337 -- its published
+        # projection window was taken verbatim, r518 published=reserved
+        # discharged; the registered band IS the reserved face now) and
+        # W30 (bm-a r541, burn in flight -- registered in-use face).
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30):
+            assert not (w31_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W31 A hits W{wprev}"
+            assert not (w31_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W31 B hits W{wprev}"
+        # N3-R1 used-seed band leg (MSG-183x mandatory: R1=70_000..70_005,
+        # r529 bm-a adjudication row) -- W31 bands must clear it.
+        n3r1_used31 = set(range(70_000, 70_006))
+        assert not (w31_a & n3r1_used31) and not (w31_b & n3r1_used31), \
+            "W31 bands hit the N3-R1 used-seed band 70_000..70_005 (MSG-183x)"
+        # actual-draw-range avoidance (leg-3e family)
+        assert not (w31_a & lfc_actual12) and not (w31_b & lfc_actual12), \
+            "W31 bands must clear the lfc actual draw range"
+        assert not (w31_a & options_actual12) and \
+            not (w31_b & options_actual12), \
+            "W31 bands must clear the options_wave2 actual draw range"
+        # arithmetic-continuation facts (law sec.4 W31 row, r525): BOTH
+        # tails land clean exactly as the W30 row's W31+ WARNING
+        # projected -- no forced skip either side (candidate start ==
+        # W30 band end + 1 on both sides; the W30-published projection
+        # window IS the candidate, machine-verified by the r525 gate).
+        assert WAVE_CONFIGS[31]["a_seed_base"] == 105_004 == 105_003 + 1, \
+            "W31 A must start at the W30 A end + 1 (arithmetic continuation)"
+        assert WAVE_CONFIGS[31]["b_exit_seed_base"] == 41_201 == 41_200 + 1, \
+            "W31 B must start at the W30 B end + 1 (arithmetic continuation)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W31-SHARD-0",
+                                          "n1w31-0of12"), "W31 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W31-SHARD-11",
+                                           "n1w31-11of12")
+        assert SHARD_DIR.endswith("n1_w31") and OUT.endswith(
+            "n1_w31_results.json"), "W31 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17,
+                      18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W31 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W31_PREREG.md")), \
+            "W31 per-wave prereg missing (materializer requirement)"
+        # W31 finalize cumulative deps: W17..W29 outputs PRESENT (W29
+        # finalize = bm-c r337, K=61,720, ledger 428,348 chain head --
+        # landed mid-draft on this freeze window, anchor-roll law
+        # disclosed; local copy byte-identical to origin). W30 (bm-a,
+        # r541) IS REGISTERED with burn in flight -- its output is NOT
+        # asserted present at freeze time (two-state law, r307): the
+        # finalize merge loop derives the prior-wave set from registry
+        # keys and stays FAIL-CLOSED on any missing prior output at
+        # run time, so a W31 finalize ahead of the W30 finalize simply
+        # waits (chain-linearity discipline, r519 same-head law; r337
+        # CHAIN GATE handover: next finalize seats W30=bm-a then
+        # W31=bm-b).
+        for _depw in (17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29):
+            assert os.path.exists(os.path.join(
+                OUT_DIR, WAVE_CONFIGS[_depw]["out_name"])), \
+                f"W31 finalize cumulative dep (W{_depw} output) missing"
+        # finalize wave-set derivation face (r511 derive law): prior-wave
+        # set derives from registry keys below 31 (no 15; W29 seated r337;
+        # W30 registered r541 in-flight -- auto-joins the set by registry
+        # derivation).
+        assert sorted(w for w in WAVE_CONFIGS if w < 31) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 19,
+             20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30], \
+            "W31 prior-wave set must derive from registry keys (no 15)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -3783,6 +3907,12 @@ def selftest() -> int:
           "lineage; candidate == machine-derived first clean windows "
           "103_004..105_003 / 41_001..41_200), probe-seed cluster + "
           "N3-R1 used-seed leg, law sec.4 W30 row, r541 bm-a] "
+          "+ W31 materializer face [same guard set, dep=W17..W29 "
+          "present (W29 finalize landed bm-c r337 mid-draft, K=61,720, "
+          "ledger head 428,348, anchor-roll law disclosed; W30 "
+          "registered-in-flight two-state dep), BOTH tails arithmetic "
+          "continuation per law sec.4 W31 row 105_004..107_003 / "
+          "41_201..41_400, first zero-skip wave since W28, r525 bm-b] "
           "+ T-141 s2 "
           "engine-lane claim exemption [law sec.2 pre-claim exempt "
           "face])")
