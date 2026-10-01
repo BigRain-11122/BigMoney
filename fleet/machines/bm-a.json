@@ -1,12 +1,12 @@
 {
   "machine_id": "bm-a",
-  "last_seen": "2026-10-01T18:24:19+08:00",
-  "current_task": "r529 closed: N3-R1xW13 seed overlap adjudicated+guarded (canon row/S6b leg/MSG-183x); W18 projection CLEAN pending W17; r530 first action = N3-R2 draft",
+  "last_seen": "2026-10-01T19:05:20+08:00",
+  "current_task": "r531 closed: W18 EIGHTH engine wave frozen (adopted r530 crash draft after ADMIT re-verify) + constructive-merged with bm-b W19 v3 re-band (disjoint bands, both stand); W18 engine burn in flight; next = W18 finalize window",
   "cpu_cores": 32,
   "cpu_pct": 2.0,
   "free_ram_gb": 53.7,
   "gpu_free_vram_gb": null,
-  "verdict": "py_low_board_clear (legal idle: rotation W17=bm-c pending, governance holds T-142/W14/N2-W15, N3-R2 draft = r530 first action)",
+  "verdict": "engine_wave W18 in flight (12-shard burn); board clear; rotation W20+ per law sec.4; governance holds T-142/W14/N2-W15 unchanged (GM)",
   "orders_ack": [
     "O-2026-09-26-2335-bm-a.md",
     "O-2026-09-26-2340-bm-a.md",
@@ -148,12 +148,12 @@
     "O-20261001-1410-bm-c.md",
     "O-20261001-1420-bm-c.md"
   ],
-  "heartbeat_epoch_utc": 1790850260,
-  "clock_read": "2026-10-01T18:24:19+08:00",
+  "heartbeat_epoch_utc": 1790852720,
+  "clock_read": "2026-10-01T19:05:20+08:00",
   "cores": 32,
   "gpu_free_vram_mb": 5619,
   "gpu_idle_vram_gb": 3.51,
-  "task": "r528 close: py_watermark claim-lock fix (chronic WM false-red root-cure) landed + S6 33 legs rc0; governance holds: T-142 LOWAMP-P2 verdict + W14 293-candidate disposition + N2-W15 self-held (await GM); next N1 engine wave = W18 (after bm-c W17); 10-03 RW-5 -> T-126 prereg",
+  "task": "r531 closed: W18 EIGHTH engine wave frozen (adopted r530 crash draft after ADMIT re-verify) + constructive-merged with bm-b W19 v3 re-band (disjoint bands, both stand); W18 engine burn in flight; next = W18 finalize window",
   "total_ram_gb": 93.6,
   "gpu_model": "NVIDIA GeForce RTX 4070 SUPER 12282MiB (nvidia-smi read 2026-09-29 07:21, 6820MiB in use)",
   "prod_lanes": [
@@ -163,16 +163,16 @@
     "30b-coding-pilot C-arm (MSG-20260926-0925 group line, in flight per O-0913 sec.2.1, not reopened)"
   ],
   "prod_lanes_note": "O-20260927-0913 ack face 3: idle-window declaration -- standing lanes declared above; new-line first ticket opens when a genuine idle window appears (order sec.1 self-claim entry)",
-  "round_no": 530,
+  "round_no": 531,
   "gpu_total_vram_mb": 12282,
   "cpu_util_pct": 8.1,
   "round": 529,
   "loop_round": 515,
   "gpu0_free_vram_gb": 5.49,
   "gpu_free_vram_mib": 5619,
-  "notes": "r528: WM probe fix -- claimed tickets excluded from work-candidates (T-141 shape); live verdict py_low_board_clear; red self-clears next watchdog window",
+  "notes": "r531: W18 freeze adopted from r530 crash (ADMIT re-verified); W18xW19 same-window collision resolved by CONSTRUCTIVE merge (bands disjoint, both stand)",
   "gpu_idle_vram_mb": null,
   "ram_free_gb": 57.7,
   "idle_ram_mb": 57450,
-  "last_round": 528
+  "last_round": 530
 }
