@@ -1,0 +1,278 @@
+{
+ "stages": {
+  "origin_side_rows": 1864,
+  "origin_k_range": [
+   0,
+   1863
+  ],
+  "origin_dup_identical": 0,
+  "origin_bad": [],
+  "mine_ride1_rows": 764,
+  "mine_ride1_k_range": [
+   0,
+   763
+  ],
+  "mine_ride1_bad": [],
+  "base_rows": 710,
+  "origin_missing_k_in_range": [],
+  "origin_missing_k_count": 0,
+  "ride1_vs_origin_byte_mismatch_k": [],
+  "ride1_vs_origin_byte_mismatch_count": 0,
+  "ride1_mine_only_k": [],
+  "ride1_mine_only_count": 0
+ },
+ "working": {
+  "total_lines": 1978,
+  "markers": {
+   "start": [
+    711
+   ],
+   "base": [
+    1866
+   ],
+   "mid": [
+    1867
+   ],
+   "end": [
+    1922
+   ]
+  },
+  "post_rows": 56,
+  "post_k_range": [
+   791,
+   849
+  ],
+  "post_vs_origin_byte_mismatch_k": [],
+  "post_vs_origin_mismatch_count": 0,
+  "post_mine_only_k": [],
+  "post_mine_only_count": 0
+ },
+ "pool_entries": [
+  {
+   "id": "LOWAMP-P1-NULLS",
+   "ticket_ref": "T-2026-09-30-132-P1 (CEO immediate O-2026-09-30-2230 fast-track; s1 frozen 5074b5102 + 32c529f49; G-CENSUS zero-burn amendment 2026-10-01 r495 pre-burn, r251/r280 lineage)",
+   "prereg_ref": "research/LOWAMP-P1.md (frozen R99; sec.2 G-CENSUS legacy anchor amended 1255->1254 annotated 2026-10-01; cutoff 2026-09-22 D2)",
+   "runner": "scripts/lowamp_p1.py",
+   "runner_args": [
+    "run",
+    "--nulls"
+   ],
+   "lane_owner": "ANY",
+   "priority": 0,
+   "status": "done",
+   "entered_at": "2026-10-01 00:19:25",
+   "entered_by": "bm-a (OS iteration loop r495)",
+   "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod",
+   "workers_plan": {
+    "workers": 12,
+    "priority": "BelowNormal"
+   },
+   "shards": [
+    {
+     "key": "lowamp-p1-nulls-0of1",
+     "status": "done",
+     "checkpoint": "results/lowamp_p1/ JSONL per-start append, done-key skip",
+     "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20330500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 02:48:04",
+     "claimed_since": "2026-10-01 01:50:10",
+     "done_at": "2026-10-01 02:48:04",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p1-nulls-0of1.bm-a.json"
+    }
+   ]
+  },
+  {
+   "id": "LOWAMP-P2-NULLS",
+   "ticket_ref": "T-2026-10-01-140-P1 (GM immediate O-20261001-1108 sec.3 VOID ruling; action-4 prereg frozen c3c825c2a bm-a r514 adoption; banned_direction_gate ADMIT rc0 re-verified)",
+   "prereg_ref": "research/LOWAMP-P2.md (exit-axis explicit gate FIRST application: sec.0.6 hold-through + engine default exit stack disabled key-by-key in runner params; cutoff 2026-09-22 D2; evidence_cutoff 2026-09-22)",
+   "runner": "scripts/lowamp_p2.py",
+   "runner_args": [
+    "run",
+    "--nulls"
+   ],
+   "lane_owner": "ANY",
+   "priority": 0,
+   "status": "done",
+   "entered_at": "2026-10-01 12:42:28",
+   "entered_by": "bm-a (OS iteration loop r514)",
+   "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| fresh probe 0.1738 vs 0.7 + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod; sec.0.6 HOLD-THROUGH exit-axis (default stack disabled in runner params, six keys, prereg verbatim)",
+   "workers_plan": {
+    "workers": 12,
+    "priority": "BelowNormal"
+   },
+   "shards": [
+    {
+     "key": "lowamp-p2-nulls-0of1",
+     "status": "done",
+     "checkpoint": "results/lowamp_p2/ JSONL per-start append, done-key skip",
+     "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20334500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool; N_eff face: net ledger head + 2008",
+     "owner": "bm-b",
+     "owner_since": "2026-10-01 13:58:03",
+     "claimed_since": "2026-10-01 13:30:14",
+     "done_at": "2026-10-01 13:58:03",
+     "harvested_by": "bm-a",
+     "harvest_claim": "lowamp-p2-nulls-0of1.bm-a.json"
+    }
+   ],
+   "done_by": "bm-a",
+   "done_at": "2026-10-01 13:58:03"
+  },
+  {
+   "id": "LOWAMP-P3-NULLS",
+   "ticket_ref": "T-2026-10-01-140-P1 remaining face (O-20261001-2355 sec.1(e) re-open channel; prereg frozen 390f0bfce bm-a r547; banned_direction_gate ADMIT rc0)",
+   "prereg_ref": "research/LOWAMP-P3.md (exit-axis dual-channel: params bridge 4 keys + ExitPatch bridge-outer loss_time_days/global_hard_limit per live.paper contract = r522 dead-letter root cause fixed; law-A post-burn exit-reason census >20% auto-block; E1 four-leg mandatory pre-consumption; cutoff 2026-09-22 D2)",
+   "runner": "scripts/lowamp_p3.py",
+   "runner_args": [
+    "run",
+    "--nulls"
+   ],
+   "lane_owner": "ANY",
+   "priority": 0,
+   "status": "ready",
+   "entered_at": "2026-10-02 01:2x",
+   "entered_by": "bm-a (OS iteration loop r547)",
+   "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (results/lowamp_p3/probe.json PASS 14/14 2026-10-02: G-CENSUS 1254/1506 inherited + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| fresh probe 0.1868 vs 0.7 + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod; sec.0.6 HOLD-THROUGH dual-channel exit-axis (params bridge 4 keys + ExitPatch 2 keys, prereg verbatim); law-A census in finalize (default-stack share >20% -> consumption-blocked)",
+   "workers_plan": {
+    "workers": 12,
+    "priority": "BelowNormal"
+   },
+   "shards": [
+    {
+     "key": "lowamp-p3-nulls-0of1",
+     "status": "ready",
+     "checkpoint": "results/lowamp_p3/ nulls JSONL checkpoint",
+     "owner": "bm-c",
+     "owner_since": "2026-10-02 03:20:18"
+    }
+   ]
+  }
+ ],
+ "prereg_null_mentions": [
+  {
+   "file": "LOWAMP-FURNACE-20260930-P1.md",
+   "line": 6,
+   "text": "- 网格：60 系统格 + 1000 随机参数抽取（RANDOM_LARGE_SAMPLE_LAW §2）= 1060 格 × 双窗（发现窗=近 12m / 验证窗=2020-01→2025-09 全史）+ top-50 双 nulls（block bootstrap 10000 + 符号翻转置换 10000）"
+  },
+  {
+   "file": "LOWAMP-FURNACE-20260930-P1.md",
+   "line": 19,
+   "text": "- 勘探面选优偏差照律注记：真出样=判决面（K≥1000 虚拟起点·双 nulls·x2）+ 纸盘"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 10,
+   "text": "- 批名/批号：**LOWAMP-P1**。**N_eff=2,008**＝judged cells 4 × 判面 2（base+x2）+ same-mask null draws 2,000（CN 家族先例：null draws 计入 N_eff·CN_SECTOR_LEADER N_eff=2004 同式）；sen"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 13,
+   "text": "- 算力预算：**长活入池**（>5min 批一律 runnable_pool 提交·O-20260924-2100 s2·禁轮内内联代跑）——分片=4 cells × 2 axes × 2 faces=16 cell-shards（每片=单 cell 单轴单面全起点枚举）+ nulls 片（2,000 全面板随机组合"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 50,
+   "text": "- **null 对照（≥2,000 三族全律）**："
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 51,
+   "text": "1. **null_pool（G1' skill line 源）**：K=2,000 **same-mask 随机选择 null**——每日在**同一资格掩码宇宙**内均匀随机选 N 员（同 N·同窗·同执行·eq 权·`rng([20330500, k])` 子流律），全面板模拟取 Sharpe 分布（μ_null/"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 62,
+   "text": "- **G1' v2 = `science_gates.g1_prime_v2(sharpe_full, returns, batch_cells=2008, pool='core48', n_trades, n_entries, null_pool=<本批 2,000 same-mask own 池>)`**（hea"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 75,
+   "text": "3. **skill_line_v2 过线概率 [40%, 70%]**（N_eff=2008 双 null 校正为高门槛·诚实面：本批判负概率不低）。"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 91,
+   "text": "- **G1' v2（headline=LA-REP legacy 全面板 2020-01-02→2026-09-22 连续单跑）**：sharpe_full=**−1.4475** vs skill_line_v2=**1.9459**（μ_null=+0.0564·σ_null=0.3732·n_eff=ledge"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 98,
+   "text": "- nulls 三族：same-mask K=2000（μ=+0.0564·p05=−0.5062·p50=+0.0746·p95=+0.5951·σ=0.3732）+ block bootstrap B=2000（p_ge_obs=0.4865）+ sign-flip P=2000（p_two_sided=0.0）。"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 111,
+   "text": "- skill_line_v2 当批读数：**1.9459**（null_term 1.9459=μ 0.0564+σ 0.3732×√(2·ln 368,797)；passive_term 0.4792）。"
+  },
+  {
+   "file": "LOWAMP-P1.md",
+   "line": 112,
+   "text": "- 试验量归因：2,008 = judged cells 4×判面 2（base+x2）+ same-mask null draws 2,000（§0 冻结式·账本 366,789→368,797 已随 finalize 落账）。"
+  },
+  {
+   "file": "LOWAMP-P2.md",
+   "line": 10,
+   "text": "- 批名/批号：**LOWAMP-P2**。**N_eff=2,008**＝judged cells 4 × 判面 2（base+x2）+ same-mask null draws 2,000（P1 同式·CN 家族先例 null draws 计入）；sensitivity Sobol 腿=描述面**不计 N_eff*"
+  },
+  {
+   "file": "LOWAMP-P2.md",
+   "line": 12,
+   "text": "- 算力预算：**长活入池**（>5min 一律 runnable_pool·O-20260924-2100 s2）——分片=4 cells × 2 axes × 2 faces=16 cell-shards + nulls 片 + sensitivity 片 + finalize 片；workers_plan={\"w"
+  },
+  {
+   "file": "LOWAMP-P2.md",
+   "line": 51,
+   "text": "- **null 对照（≥2,000 三族全律·P1 同式）**：①**null_pool（G1' skill line 源）**：K=2,000 **same-mask 随机选择 null**——每日同一资格掩码宇宙内均匀随机选 N 员（同 N·同窗·同执行·eq 权·**`rng([20334500, k])` 子"
+  },
+  {
+   "file": "LOWAMP-P2.md",
+   "line": 60,
+   "text": "- **G1' v2 = `science_gates.g1_prime_v2(sharpe_full, returns, batch_cells=2008, pool='core48', n_trades, n_entries, null_pool=<本批 2,000 same-mask own 池>)`**（hea"
+  },
+  {
+   "file": "LOWAMP-P3.md",
+   "line": 10,
+   "text": "- 批名/批号：**LOWAMP-P3**。**N_eff=2,008**＝judged cells 4 × 判面 2（base+x2）+ same-mask null draws 2,000（P1/P2 同式）；sensitivity Sobol 腿=描述面**不计 N_eff**（§3）。扩容即买单。"
+  },
+  {
+   "file": "LOWAMP-P3.md",
+   "line": 12,
+   "text": "- 算力预算：**长活入池**（>5min 一律 runnable_pool·O-20260924-2100 s2）——分片=4 cells × 2 axes × 2 faces=16 cell-shards + nulls 片 + sensitivity 片；workers_plan={\"workers\": 12, "
+  },
+  {
+   "file": "LOWAMP-P3.md",
+   "line": 54,
+   "text": "- **null 对照（≥2,000 三族全律·P1/P2 同式·P3 新种子带）**：①**null_pool（G1' skill line 源）**：K=2,000 **same-mask 随机选择 null**——每日同一资格掩码宇宙内均匀随机选 N 员（同 N·同窗·同执行·eq 权·**`rng([20336"
+  },
+  {
+   "file": "LOWAMP-P3.md",
+   "line": 64,
+   "text": "- **G1' v2 = `science_gates.g1_prime_v2(sharpe_full, returns, batch_cells=2008, pool='core48', n_trades, n_entries, null_pool=<本批 2,000 same-mask own 池>)`**（hea"
+  },
+  {
+   "file": "LOWAMP_P1_PREREG.md",
+   "line": 3,
+   "text": "> 【状态：FROZEN——跑前 commit 冻结】令源：CEO 直令 O-2026-09-30-2230（「很好，务必关注有做工的」·快速通道律：名单内候选专用批 prereg 优先开热+过线即纸盘提案+判负如实出名）；票=T-2026-09-30-132-P1（immediate·四切片 s1 冻结/s2 run"
+  },
+  {
+   "file": "LOWAMP_P1_PREREG.md",
+   "line": 10,
+   "text": "- 算力预算：501 cells × (2 成本面 × 3 窗 {6m,12m,24m} × K=2000 虚拟起点评估 + 双 nulls B=2000/P=2000 重采样)——全向量化腿·est 分钟级-小时级池批 @ workers_plan ≥floor(26/0.8)=32 帽 26 workers（CPU"
+  },
+  {
+   "file": "LOWAMP_P1_PREREG.md",
+   "line": 11,
+   "text": "- consumer_plan（O-1820(3) 必填）：LOWAMP-P1 verdict 面（results/lowamp_p1/judge.json）→ s4 intake（D6 绑定门→STRATEGY_LIBRARY 注册行+LOWAMP-* 纸盘提案〔快速通道律：prereg-only、GM 署名+激活下"
+  },
+  {
+   "file": "LOWAMP_P1_PREREG.md",
+   "line": 43,
+   "text": "- **双 nulls（RANDOM_LARGE_SAMPLE_LAW 判决面）**：block bootstrap **B=2000**（block=20 交易日循环块·拼样截回 n 长）+ sign-flip 置换 **P=2000**（逐日符号独立翻转·双侧）；rng 流仅限重采样面禁挪用（census §9.1"
+  },
+  {
+   "file": "LOWAMP_P1_PREREG.md",
+   "line": 60,
+   "text": "3. **G1' 过线** ∈ [15, 300]（skill_line 数据自适应·null 族实读后定·族级强信号预期非零过线）；**G2 eligible ∈ [0, 3]——模态结局=近零**（DSR 按 333k+ 累计折减=极重校正·七批同门实证；零存活=合法产出）。"
+  }
+ ]
+}
