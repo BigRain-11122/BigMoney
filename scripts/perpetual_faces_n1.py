@@ -307,6 +307,29 @@ WAVE_CONFIGS = {
          "b_exit_seed_base": 29_700,     # law sec.4 W16 B: 29_700..29_899 (arithmetic)
          "shard_subdir": "n1_w16", "out_name": "n1_w16_results.json",
          "engine_owner": "bm-b"},
+    # W17 (r328 bm-c, prereg-time extension per the W16 row's W17+
+    # WARNING -- never-dry supply law standing step / r328 watermark-red
+    # anti-idle root fix; sovereignty rotation law F-20261001-01 slot
+    # W14=bm-c anchored +3 -> W17=bm-c, bm-c's SECOND owned wave): SPLIT
+    # tails -- A's arithmetic +2_000 tail (76_001 == W16 A end + 1)
+    # lands clean (stride kept verbatim, no skip); B's arithmetic +200
+    # tail (29_900..30_099) is REFUSED as the W16 row projected (lfc
+    # actual draw 30_000..30_099, SEED_REGISTRY lfc_p1_screen=30_000) --
+    # B re-bases past every reserved band incl. this wave's own A band,
+    # packing at the first clean 200-window (38_100..38_299, W11 A end
+    # + 1) per the W5/W6/W8/W12 forced-skip-over family; skip FORCED per
+    # leg1-B refusal facts, NOT a re-pick (R250). Machine-verified at
+    # prereg time (results/_r328bmc_w17_band_gate.py ADMIT receipt).
+    # SEVENTH ENGINE-OWNED WAVE.
+    17: {"batch": "PERPETUAL-N1-W17",
+         "prereg": ("research/PERPETUAL_N1_W17_PREREG.md (wave-level frozen "
+                    "pre-run; design = frozen v1 null calibration verbatim, "
+                    "new seed bands only; SEVENTH ENGINE-OWNED WAVE, "
+                    "sovereignty rotation law W17=bm-c, engine_owner=bm-c)"),
+         "a_seed_base": 76_001,          # law sec.4 W17 A: 76_001..78_000 (arithmetic)
+         "b_exit_seed_base": 38_100,     # law sec.4 W17 B: 38_100..38_299 (forced skip-over)
+         "shard_subdir": "n1_w17", "out_name": "n1_w17_results.json",
+         "engine_owner": "bm-c"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -1819,6 +1842,97 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- wave-17 face (r328 bm-c, never-dry supply law standing step =
+    #     the r328 watermark-red anti-idle root fix: SEVENTH ENGINE-OWNED
+    #     WAVE, engine_owner=bm-c per sovereignty rotation law
+    #     F-20261001-01 slot (W14=bm-c anchored, +3 -> W17=bm-c; wave
+    #     number 15 remains held by bm-a's N2-W15 draft); SPLIT tails
+    #     per the W16 row's W17+ WARNING: A +2_000 arithmetic tail
+    #     (76_001 == W16 A end + 1) lands CLEAN -- stride kept verbatim,
+    #     NO skip; B +200 arithmetic tail (29_900..30_099) is REFUSED
+    #     (lfc actual draw 30_000..30_099, SEED_REGISTRY point 30_000
+    #     inside) -- B re-bases past every reserved band incl. this
+    #     wave's own A band, packing at the first clean 200-window
+    #     (38_100..38_299, W11 A end + 1) per the W5/W6/W8/W12
+    #     forced-skip-over family, ADMIT receipt
+    #     results/_r328bmc_w17_band_gate.py; standalone leg --
+    #     try/finally restores the W2 default face) ---
+    _set_wave(17)
+    try:
+        assert WAVE_CONFIGS[17]["a_seed_base"] == pf.N1_BANDS[17]["a"][0], \
+            "W17 A band drift vs law mirror"
+        assert WAVE_CONFIGS[17]["b_exit_seed_base"] == \
+            pf.N1_BANDS[17]["b_exit"][0], "W17 B band drift vs law mirror"
+        assert WAVE_CONFIGS[17].get("engine_owner") == \
+            pf.N1_BANDS[17].get("engine_owner") == "bm-c", \
+            "W17 engine_owner drift (law mirror parity)"
+        w17_a = {A_SEED_BASE + j for j in range(A_N)}
+        w17_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w17_a & w17_b), "W17 A/B band overlap"
+        assert not (w17_a & reg_ints) and not (w17_b & reg_ints), \
+            "W17 hits SEED_REGISTRY"
+        for nm, band in (("A", w17_a), ("B", w17_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W17 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W17 {nm} hits W1"
+            assert not (band & probes), f"W17 {nm} hits probe seeds"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16):
+            assert not (w17_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W17 A hits W{wprev}"
+            assert not (w17_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                 for j in range(B_N)}), f"W17 B hits W{wprev}"
+        # split-tail facts (law sec.4 W17 row): A arithmetic tail CLEAN
+        # (machine evidence leg1-A of the ADMIT receipt) -- stride kept
+        # verbatim, NO skip; B arithmetic tail REFUSED (leg1-B refusal
+        # facts: lfc actual 30_000..30_099 + SEED_REGISTRY 30_000) --
+        # skip-over FORCED, B packs past every reserved band.
+        assert not (w17_a & lfc_actual12) and not (w17_b & lfc_actual12), \
+            "W17 bands must clear the lfc actual draw range"
+        assert not (w17_a & options_actual12) and \
+            not (w17_b & options_actual12), \
+            "W17 bands must clear the options_wave2 actual draw range"
+        arith_lo17 = WAVE_CONFIGS[16]["a_seed_base"] + A_N
+        arith_hits17 = sorted(v for v in reg_ints
+                              if arith_lo17 <= v <= arith_lo17 + A_N - 1)
+        assert arith_hits17 == [], \
+            "W17 A arithmetic tail must be clean (ADMIT receipt leg1-A)"
+        assert WAVE_CONFIGS[17]["a_seed_base"] == arith_lo17, \
+            "W17 A stride drift (arithmetic continuation, NO skip)"
+        arith_b_lo17 = WAVE_CONFIGS[16]["b_exit_seed_base"] + B_N
+        assert set(range(arith_b_lo17, arith_b_lo17 + B_N)) & lfc_actual12, \
+            "W17 B skip-over must be forced (arithmetic tail clean?)"
+        assert WAVE_CONFIGS[17]["b_exit_seed_base"] > arith_b_lo17, \
+            "W17 B must skip past the refused arithmetic tail"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W17-SHARD-0",
+                                          "n1w17-0of12"), "W17 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W17-SHARD-11",
+                                          "n1w17-11of12")
+        assert SHARD_DIR.endswith("n1_w17") and OUT.endswith(
+            "n1_w17_results.json"), "W17 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W17 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W17_PREREG.md")), \
+            "W17 per-wave prereg missing (materializer requirement)"
+        # W17 finalize cumulative dep (W16 output) = PRESENT at
+        # leg-writing time (bm-b r516 finalize landed before this leg)
+        # -- static exists-assert holds and never expires (r307
+        # two-state law family; the finalize merge loop stays
+        # FAIL-CLOSED at runtime).
+        assert os.path.exists(os.path.join(
+            OUT_DIR, WAVE_CONFIGS[16]["out_name"])), \
+            "W17 finalize cumulative dep (W16 output) missing"
+        # finalize wave-set derivation face (r511 derive law, gap law):
+        # registry keys below W17 run 2..14 + 16 (no 15) -- derive from
+        # registry keys, never a contiguous range.
+        assert sorted(w for w in WAVE_CONFIGS if w < 17) == \
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16], \
+            "W17 prior-wave set must derive from registry keys (no 15)"
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -1886,7 +2000,14 @@ def selftest() -> int:
           "(wave number 15 concurrently held by bm-a's N2-W15 draft), "
           "arithmetic continuation both tails clean per ADMIT receipt "
           "results/_r515bmb_w16_band_gate.py, law sec.4 W16 row, "
-          "r515 bm-b] + T-141 s2 engine-lane claim "
+          "r515 bm-b] + W17 materializer face [same guard set, "
+          "dep=W16 present (finalize landed r516 bm-b), SEVENTH "
+          "ENGINE-OWNED WAVE bm-c's second engine_owner=bm-c per "
+          "sovereignty rotation law F-20261001-01 slot W17=bm-c, "
+          "SPLIT tails: A=arithmetic stride verbatim per ADMIT "
+          "receipt results/_r328bmc_w17_band_gate.py leg1-A, "
+          "B=forced skip-over (lfc actual draw refusal, leg1-B), "
+          "law sec.4 W17 row, r328 bm-c] + T-141 s2 engine-lane claim "
           "exemption [law sec.2 pre-claim exempt face])")
     return 0
 

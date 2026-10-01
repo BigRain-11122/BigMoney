@@ -232,6 +232,27 @@ N1_BANDS = {
     # decides; W5/W6/W8 skip family); A tail still verified at that time.
     16: {"a": (74_001, 76_000), "b_exit": (29_700, 29_899),
          "engine_owner": "bm-b"},
+    # W17 (r328 bm-c, prereg-time extension per the W16 row's W17+
+    # WARNING -- never-dry supply law standing step / r328 watermark-red
+    # anti-idle root fix; sovereignty rotation law F-20261001-01 slot:
+    # W14=bm-c anchored, +3 -> W17=bm-c, bm-c's SECOND owned wave):
+    # SPLIT tails -- A's arithmetic +2_000 tail (76_001..78_000 == W16
+    # A end + 1) lands clean exactly as the W16 row projected (stride
+    # kept verbatim, no skip); B's arithmetic +200 tail (29_900..30_099)
+    # is REFUSED as projected (hits the lfc actual draw 30_000..30_099,
+    # SEED_REGISTRY point lfc_p1_screen=30_000 inside) -- B re-bases
+    # past every reserved band incl. this wave's own A band, packing at
+    # the first clean 200-window (38_100..38_299, W11 A end + 1) per
+    # the W5/W6/W8/W12 forced-skip-over family. Skip is FORCED (leg1-B
+    # refusal facts), NOT a re-pick (R250). Machine-verified at prereg
+    # time (results/_r328bmc_w17_band_gate.py ADMIT receipt, 14-row
+    # N1_BANDS + 158 registry values + N2/N4 probe points + N2-W15
+    # draft probe points + lfc/options actual ranges). SEVENTH
+    # engine-owned wave. W18+ WARNING: A +2_000 tail 78_001..80_000 and
+    # B +200 tail 38_300..38_499 project clean -- verify at W18 prereg
+    # (rotation slot W18=bm-a).
+    17: {"a": (76_001, 78_000), "b_exit": (38_100, 38_299),
+         "engine_owner": "bm-c"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
