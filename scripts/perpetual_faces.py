@@ -124,6 +124,16 @@ N1_BANDS = {
     # project clean next wave (A 32_100..34_099, B 28_500..28_699) --
     # no forced skip expected; verify at prereg time as always.
     8: {"a": (30_100, 32_099), "b_exit": (28_300, 28_499)},
+    # W9 (r506 bm-b, prereg-time extension per O-20261001-1332 sec.1.2 --
+    # arithmetic tails land clean exactly as the W8 row projected): A
+    # 32_100 == W8 A end + 1, B 28_500 == W8 B end + 1; no skip-over
+    # this wave, both strides kept verbatim. Machine-verified at prereg
+    # time against every reserved band + SEED_REGISTRY + the lfc actual
+    # draw range (results/_r506bmb_w9_band_gate.py ADMIT receipt); the
+    # all-bands disjoint leg 2 covers W9 automatically once listed.
+    # NOT a re-pick (R250). N2/N4 yield note: this A band covers
+    # 32_100..34_099 -- N2/N4 preregs must steer clear per law sec.4.
+    9: {"a": (32_100, 34_099), "b_exit": (28_500, 28_699)},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -659,6 +669,23 @@ def cmd_selftest():
         "W8 B arithmetic tail must be clean (no skip this wave)"
     assert N1_BANDS[8]["b_exit"][0] == N1_BANDS[7]["b_exit"][1] + 1, \
         "W8 B tail gap (stride kept verbatim)"
+    # 3f. W9 arithmetic-continuation invariant (r506 bm-b, O-20261001-1332
+    # sec.1.2): the W8 row projected BOTH arithmetic tails clean, and the
+    # machine gate at prereg time confirmed ADMIT (no forced skip this
+    # wave) -- A == W8 A end + 1, B == W8 B end + 1, strides verbatim,
+    # both clear of every reserved band + SEED_REGISTRY + the lfc actual
+    # draw range (leg 2 all-bands disjoint covers W9 once listed here).
+    assert N1_BANDS[9]["a"][1] - N1_BANDS[9]["a"][0] + 1 == 2000, "W9 A width"
+    assert N1_BANDS[9]["b_exit"][1] - N1_BANDS[9]["b_exit"][0] + 1 == 200, \
+        "W9 B width"
+    assert N1_BANDS[9]["a"][0] == N1_BANDS[8]["a"][1] + 1, \
+        "W9 A must keep the arithmetic stride (no skip -- ADMIT receipt)"
+    assert N1_BANDS[9]["b_exit"][0] == N1_BANDS[8]["b_exit"][1] + 1, \
+        "W9 B must keep the arithmetic stride (no skip -- ADMIT receipt)"
+    w9_a = set(range(N1_BANDS[9]["a"][0], N1_BANDS[9]["a"][1] + 1))
+    w9_b = set(range(N1_BANDS[9]["b_exit"][0], N1_BANDS[9]["b_exit"][1] + 1))
+    assert not (w9_a & lfc_actual) and not (w9_b & lfc_actual), \
+        "W9 bands must clear the lfc actual draw range"
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)

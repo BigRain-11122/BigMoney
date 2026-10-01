@@ -167,6 +167,19 @@ WAVE_CONFIGS = {
         "a_seed_base": 30_100,           # law sec.4 W8 A: 30_100..32_099 (skip-over)
         "b_exit_seed_base": 28_300,      # law sec.4 W8 B: 28_300..28_499 (arithmetic)
         "shard_subdir": "n1_w8", "out_name": "n1_w8_results.json"},
+    # W9 (r506 bm-b, O-20261001-1332 sec.1.2 supply step): BOTH arithmetic
+    # tails land clean exactly as the W8 row projected (A 32_100 == W8 A
+    # end + 1, B 28_500 == W8 B end + 1) -- no forced skip this wave;
+    # machine-verified at prereg time (results/_r506bmb_w9_band_gate.py
+    # ADMIT receipt). NOT a re-pick (R250). N2/N4 preregs must steer
+    # clear of 32_100..34_099 per law sec.4.
+    9: {"batch": "PERPETUAL-N1-W9",
+        "prereg": ("research/PERPETUAL_N1_W9_PREREG.md (wave-level frozen "
+                   "pre-run; design = frozen v1 null calibration verbatim, "
+                   "new seed bands only)"),
+        "a_seed_base": 32_100,           # law sec.4 W9 A: 32_100..34_099 (arithmetic)
+        "b_exit_seed_base": 28_500,      # law sec.4 W9 B: 28_500..28_699 (arithmetic)
+        "shard_subdir": "n1_w9", "out_name": "n1_w9_results.json"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -1129,6 +1142,66 @@ def selftest() -> int:
                 assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
             finally:
                 _set_wave(2)
+            # --- wave-9 face (r506 bm-b, O-20261001-1332 sec.1.2: same
+            #     guard set; arithmetic continuation -- BOTH tails land
+            #     clean exactly as the W8 row projected, no skip this
+            #     wave; ADMIT receipt results/_r506bmb_w9_band_gate.py) ---
+            _set_wave(9)
+            try:
+                assert WAVE_CONFIGS[9]["a_seed_base"] == pf.N1_BANDS[9]["a"][0], \
+                    "W9 A band drift vs law mirror"
+                assert WAVE_CONFIGS[9]["b_exit_seed_base"] == \
+                    pf.N1_BANDS[9]["b_exit"][0], "W9 B band drift vs law mirror"
+                w9_a = {A_SEED_BASE + j for j in range(A_N)}
+                w9_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+                assert not (w9_a & w9_b), "W9 A/B band overlap"
+                assert not (w9_a & reg_ints) and not (w9_b & reg_ints), \
+                    "W9 hits SEED_REGISTRY"
+                for nm, band in (("A", w9_a), ("B", w9_b)):
+                    assert not (band & v1_a) and not (band & v1_b), f"W9 {nm} hits v1"
+                    assert not (band & w1_a) and not (band & w1_b), f"W9 {nm} hits W1"
+                    assert not (band & probes), f"W9 {nm} hits probe seeds"
+                for wprev in (2, 3, 4, 5, 6, 7, 8):
+                    assert not (w9_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                        for j in range(A_N)}), f"W9 A hits W{wprev}"
+                    assert not (w9_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                       for j in range(B_N)}), f"W9 B hits W{wprev}"
+                # arithmetic continuation facts (law sec.4 W9 row): both
+                # tails land clean (W8 row projection + prereg-time ADMIT
+                # receipt) -- A sits at W8 A end + 1, B at W8 B end + 1,
+                # strides verbatim, no skip-over refusal facts this wave.
+                lfc_actual9 = set(range(30_000, 30_100))
+                assert not (w9_a & lfc_actual9) and not (w9_b & lfc_actual9), \
+                    "W9 bands must clear the lfc actual draw range"
+                assert WAVE_CONFIGS[9]["a_seed_base"] == \
+                    WAVE_CONFIGS[8]["a_seed_base"] + A_N, \
+                    "W9 A stride drift (arithmetic continuation, no skip)"
+                assert WAVE_CONFIGS[9]["b_exit_seed_base"] == \
+                    WAVE_CONFIGS[8]["b_exit_seed_base"] + B_N, \
+                    "W9 B stride drift (arithmetic continuation, no skip)"
+                assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W9-SHARD-0",
+                                                  "n1w9-0of12"), "W9 entry identity"
+                assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W9-SHARD-11",
+                                                   "n1w9-11of12")
+                assert SHARD_DIR.endswith("n1_w9") and OUT.endswith(
+                    "n1_w9_results.json"), "W9 path drift"
+                for wprev in (2, 3, 4, 5, 6, 7, 8):
+                    assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                        PATHS.results_dir, "p2cal_ext",
+                        WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                        f"W9 shard dir collides with W{wprev}"
+                assert os.path.exists(os.path.join(
+                    PATHS.root, "research", "PERPETUAL_N1_W9_PREREG.md")), \
+                    "W9 per-wave prereg missing (materializer requirement)"
+                # W9 finalize cumulative dep (W8 output) present on tree
+                # at drafting (bm-c r315 landed n1_w8_results.json with
+                # same-window backfill) -- static exists-assert valid.
+                assert os.path.exists(os.path.join(
+                    OUT_DIR, WAVE_CONFIGS[8]["out_name"])), \
+                    "W9 finalize cumulative dep (W8 output) missing"
+                assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+            finally:
+                _set_wave(2)
         finally:
             _set_wave(2)
     finally:
@@ -1148,7 +1221,10 @@ def selftest() -> int:
           "sec.4 W7 row, r501 bm-b] + W8 materializer face [same "
           "guard set, dep=W7 present same-window, A=skip-over with "
           "registry-point refusal (law-pinned warning window refused "
-          "too), B=stride verbatim, law sec.4 W8 row, r312 bm-c])")
+          "too), B=stride verbatim, law sec.4 W8 row, r312 bm-c] "
+          "+ W9 materializer face [same guard set, dep=W8 present, "
+          "arithmetic continuation both tails clean per ADMIT receipt, "
+          "law sec.4 W9 row, r506 bm-b])")
     return 0
 
 
