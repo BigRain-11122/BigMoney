@@ -166,6 +166,22 @@ N1_BANDS = {
     # projects clean, still verified at that time).
     11: {"a": (36_100, 38_099), "b_exit": (28_900, 29_099),
          "engine_owner": "bm-b"},
+    # W12 (r523 bm-a, prereg-time extension per the W11 row's W12+
+    # WARNING): A's +2_000 arithmetic tail (38_100..40_099) is REFUSED --
+    # N2/N4 design-probe reserved points 40_000/40_001 + SEED_REGISTRY
+    # new_signal_p1 40_000 / new_signal_p1_ce 40_050 -- so A skips to the
+    # first 2,000-window clear of every reserved band AND the actual draw
+    # ranges (63_050..65_049; options_wave2 actual 63_000..63_049 avoided,
+    # lfc leg-3e family); B keeps the +200 stride verbatim (29_100 ==
+    # W11 B end + 1, clean). Third engine-owned wave, FIRST bm-a-owned.
+    # ADMIT receipt: results/_r523bma_w12_band_gate.py. Skip is FORCED,
+    # NOT a re-pick (R250). W13+ WARNING: A +2_000 arithmetic tail
+    # 65_050..67_049 hits SEED_REGISTRY bond_carry_w3a 66_000 /
+    # p1e_zoo_behavior 67_000 / p1e_synth_null_b 67_200 -> W13 prereg
+    # must skip-position A again; B +200 = 29_300..29_499 projects clean,
+    # still verified at that time.
+    12: {"a": (63_050, 65_049), "b_exit": (29_100, 29_299),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -752,7 +768,7 @@ def cmd_selftest():
     assert N1_BANDS[10].get("engine_owner") == "bm-b", \
         "W10 engine_owner must be bm-b (T-141 s1 first engine wave)"
     assert all(not N1_BANDS[w].get("engine_owner")
-               for w in N1_BANDS if w not in (10, 11)), \
+               for w in N1_BANDS if w not in (10, 11, 12)), \
         "pool-era waves must stay pool-owned (engine_owner only on W10+ engine waves)"
     # 3h. W11 arithmetic-continuation invariant (r510 bm-b, SECOND
     # ENGINE-OWNED WAVE): the W10 row projected BOTH arithmetic tails

@@ -217,6 +217,29 @@ WAVE_CONFIGS = {
          "b_exit_seed_base": 28_900,     # law sec.4 W11 B: 28_900..29_099 (arithmetic)
          "shard_subdir": "n1_w11", "out_name": "n1_w11_results.json",
          "engine_owner": "bm-b"},
+    # W12 (r523 bm-a, never-dry supply law: THIRD ENGINE-OWNED WAVE, first
+    # bm-a-owned engine wave -> burned by scripts/saturation_engine.py local
+    # perpetual queue, NEVER materialized into the pool by cmd_supply
+    # (engine-owner skip gate, SATURATION_ENGINE_LAW sec.1/sec.2 -- zero
+    # cross-machine duplication). A's arithmetic +2_000 tail (38_100..40_099)
+    # is REFUSED per the W11 row's WARNING projection -- it hits the N2/N4
+    # design-probe reserved points 40_000/40_001 AND SEED_REGISTRY
+    # new_signal_p1 40_000 / new_signal_p1_ce 40_050; A packs at the first
+    # 2,000-window clear of every reserved band + actual draw range
+    # (63_050..65_049, options_wave2 actual 63_000..63_049 avoided); B's
+    # arithmetic +200 tail (29_100..29_299, W11 B end + 1) lands clean and
+    # keeps the stride verbatim. Machine-verified at prereg time
+    # (results/_r523bma_w12_band_gate.py ADMIT receipt). Skip is FORCED
+    # (leg1 arithmetic-tail REFUSED evidence), NOT a re-pick (R250).
+    12: {"batch": "PERPETUAL-N1-W12",
+         "prereg": ("research/PERPETUAL_N1_W12_PREREG.md (wave-level frozen "
+                    "pre-run; design = frozen v1 null calibration verbatim, "
+                    "new seed bands only; THIRD ENGINE-OWNED WAVE, "
+                    "never-dry supply law, engine_owner=bm-a)"),
+         "a_seed_base": 63_050,          # law sec.4 W12 A: 63_050..65_049 (skip-over)
+         "b_exit_seed_base": 29_100,     # law sec.4 W12 B: 29_100..29_299 (arithmetic)
+         "shard_subdir": "n1_w12", "out_name": "n1_w12_results.json",
+         "engine_owner": "bm-a"},
 }
 
 PREREG = WAVE_CONFIGS[2]["prereg"]
@@ -1394,6 +1417,84 @@ def selftest() -> int:
         assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
     finally:
         _set_wave(2)
+    # --- wave-12 face (r523 bm-a, never-dry supply law: THIRD
+    #     ENGINE-OWNED WAVE, FIRST bm-a-owned, engine_owner=bm-a;
+    #     A = FORCED SKIP-OVER per the W11 row's W12+ WARNING projection
+    #     (arithmetic tail 38_100..40_099 REFUSED on N2/N4 probe points
+    #     40_000/40_001 + SEED_REGISTRY 40_000/40_050; first clean
+    #     2,000-window 63_050..65_049 per ADMIT receipt
+    #     results/_r523bma_w12_band_gate.py); B = arithmetic +200 clean;
+    #     standalone leg -- try/finally restores the W2 default face) ---
+    _set_wave(12)
+    try:
+        assert WAVE_CONFIGS[12]["a_seed_base"] == pf.N1_BANDS[12]["a"][0], \
+            "W12 A band drift vs law mirror"
+        assert WAVE_CONFIGS[12]["b_exit_seed_base"] == \
+            pf.N1_BANDS[12]["b_exit"][0], "W12 B band drift vs law mirror"
+        assert WAVE_CONFIGS[12].get("engine_owner") == \
+            pf.N1_BANDS[12].get("engine_owner") == "bm-a", \
+            "W12 engine_owner drift (law mirror parity)"
+        w12_a = {A_SEED_BASE + j for j in range(A_N)}
+        w12_b = {B_EXIT_SEED_BASE + j for j in range(B_N)}
+        assert not (w12_a & w12_b), "W12 A/B band overlap"
+        assert not (w12_a & reg_ints) and not (w12_b & reg_ints), \
+            "W12 hits SEED_REGISTRY"
+        for nm, band in (("A", w12_a), ("B", w12_b)):
+            assert not (band & v1_a) and not (band & v1_b), f"W12 {nm} hits v1"
+            assert not (band & w1_a) and not (band & w1_b), f"W12 {nm} hits W1"
+            assert not (band & probes), f"W12 {nm} hits probe seeds"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11):
+            assert not (w12_a & {WAVE_CONFIGS[wprev]["a_seed_base"] + j
+                                 for j in range(A_N)}), f"W12 A hits W{wprev}"
+            assert not (w12_b & {WAVE_CONFIGS[wprev]["b_exit_seed_base"] + j
+                                for j in range(B_N)}), f"W12 B hits W{wprev}"
+        # forced skip-over facts (law sec.4 W12 row): the arithmetic +2_000
+        # tail (W11 A end + 1 .. +2_000) is REFUSED (N2/N4 probe points
+        # 40_000/40_001 + SEED_REGISTRY new_signal_p1 40_000 /
+        # new_signal_p1_ce 40_050 -- machine evidence leg1 of the ADMIT
+        # receipt); A packs at the FIRST 2,000-window clear of every
+        # reserved band AND the actual draw ranges -- lfc 30_000..30_099
+        # (leg-3e family) AND options_wave2 63_000..63_049 (K=50, new
+        # avoidance face this wave); B keeps the +200 stride verbatim.
+        lfc_actual12 = set(range(30_000, 30_100))
+        options_actual12 = set(range(63_000, 63_050))
+        assert not (w12_a & lfc_actual12) and not (w12_b & lfc_actual12), \
+            "W12 bands must clear the lfc actual draw range"
+        assert not (w12_a & options_actual12) and \
+            not (w12_b & options_actual12), \
+            "W12 bands must clear the options_wave2 actual draw range"
+        arith_lo = WAVE_CONFIGS[11]["a_seed_base"] + A_N
+        arith_hits12 = sorted(v for v in reg_ints | {40_000, 40_001}
+                              if arith_lo <= v <= arith_lo + A_N - 1)
+        assert arith_hits12, "W12 skip-over must be forced (arithmetic tail clean?)"
+        assert WAVE_CONFIGS[12]["a_seed_base"] > arith_lo, \
+            "W12 A must skip past the refused arithmetic tail"
+        assert WAVE_CONFIGS[12]["b_exit_seed_base"] == \
+            WAVE_CONFIGS[11]["b_exit_seed_base"] + B_N, \
+            "W12 B stride drift (arithmetic continuation, no skip)"
+        assert _entry_shard_of(0, 12) == ("PERPETUAL-N1-W12-SHARD-0",
+                                          "n1w12-0of12"), "W12 entry identity"
+        assert _entry_shard_of(11, 12) == ("PERPETUAL-N1-W12-SHARD-11",
+                                           "n1w12-11of12")
+        assert SHARD_DIR.endswith("n1_w12") and OUT.endswith(
+            "n1_w12_results.json"), "W12 path drift"
+        for wprev in (2, 3, 4, 5, 6, 7, 8, 9, 10, 11):
+            assert os.path.abspath(SHARD_DIR) != os.path.abspath(os.path.join(
+                PATHS.results_dir, "p2cal_ext",
+                WAVE_CONFIGS[wprev]["shard_subdir"])), \
+                f"W12 shard dir collides with W{wprev}"
+        assert os.path.exists(os.path.join(
+            PATHS.root, "research", "PERPETUAL_N1_W12_PREREG.md")), \
+            "W12 per-wave prereg missing (materializer requirement)"
+        # W12 finalize cumulative dep (W11 output) = IN FLIGHT at drafting
+        # (bm-b engine burning W11 shards, finalize queued on bm-b) -- no
+        # static exists-assert here: it would false-red now and expire
+        # later (r307 two-state lesson family, W10 leg same pattern); the
+        # finalize merge loop is FAIL-CLOSED on any missing prior-wave
+        # output at run time, which is the real guard.
+        assert pickle.dumps(_worker_init), "spawn-carrier unpicklable"
+    finally:
+        _set_wave(2)
     # --- T-141 s2 lane face (SATURATION_ENGINE_LAW sec.2 pre-claim
     #     exemption): engine lane writes NO claim file (orphan-traffic
     #     ban -- engine waves have no pool entry to harvest-flip);
@@ -1436,7 +1537,14 @@ def selftest() -> int:
           "ENGINE-OWNED WAVE engine_owner=bm-b per never-dry supply "
           "law, arithmetic continuation both tails clean per ADMIT "
           "receipt results/_r510bmb_w11_band_gate.py, law sec.4 W11 "
-          "row, r510 bm-b] + T-141 s2 engine-lane claim "
+          "row, r510 bm-b] + W12 materializer face [same guard set, "
+          "dep=W11 in-flight=runtime FAIL-CLOSED guard (r307 two-state "
+          "law), THIRD ENGINE-OWNED WAVE first bm-a-owned "
+          "engine_owner=bm-a per never-dry supply law, A=forced "
+          "skip-over per law sec.4 W12 row + ADMIT receipt "
+          "results/_r523bma_w12_band_gate.py, B=arithmetic stride "
+          "verbatim, options_wave2 actual-range avoidance new face, "
+          "r523 bm-a] + T-141 s2 engine-lane claim "
           "exemption [law sec.2 pre-claim exempt face])")
     return 0
 

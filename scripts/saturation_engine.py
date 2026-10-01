@@ -182,7 +182,8 @@ def _queue_items(wave_configs, done_probe, active_keys, machine_id,
                          "runner_args": ["run", "--shard", str(shard),
                                          "--of", str(nshards),
                                          "--wave", str(wave),
-                                         "--workers", str(WORKERS)]})
+                                         "--workers", str(WORKERS),
+                                         "--lane", "engine"]})
     return items
 
 
@@ -513,8 +514,11 @@ def selftest():
     assert len(q) == 12, "queue must hold the 12 shards of the owned wave"
     assert all(i["wave"] == 10 for i in q), "pool-era/other-owner waves invisible"
     assert q[0]["runner_args"] == ["run", "--shard", "0", "--of", "12",
-                                   "--wave", "10", "--workers", "8"], \
-        "runner args face drift"
+                                   "--wave", "10", "--workers", "8",
+                                   "--lane", "engine"], \
+        "runner args face drift (engine lane = sec.2 pre-claim exempt;" \
+        " pool-default lane wrote orphan claim files -- W10 burns on" \
+        " origin carry them, live-fire evidence r523 bm-a)"
     done.add((10, 0)); done.add((10, 5))
     q = _queue_items(fake_cfgs, probe, {"n1w10-3of12"}, "bm-b", nshards=12)
     assert len(q) == 9, "done + active shards must be excluded (12-2-1)"
@@ -525,35 +529,40 @@ def selftest():
     assert q == [], "fully burned wave = honest empty queue"
 
     # 2. sec.3 PreIgnitionChecks fail-closed (r316)
+    # (fixture owner must follow MACHINE_ID: this selftest runs on every
+    # machine -- a hardcoded bm-b owner false-reds the admit cases on
+    # bm-a/bm-c, first live-fire bm-a r523)
     daily = os.path.join(tmp, "daily")
     os.makedirs(daily, exist_ok=True)
     prereg = os.path.join(tmp, "PERPETUAL_N1_W10_PREREG.md")
     item = {"wave": 10, "shard": 0, "nshards": 12, "key": "n1w10-0of12",
             "batch": "PERPETUAL-N1-W10"}
+    own_cfg = dict(fake_cfgs[10], engine_owner=MACHINE_ID)
     ok, reasons = _pre_ignition_checks(
-        item, fake_cfgs[10], prereg, daily, lambda *a: False, {})
+        item, own_cfg, prereg, daily, lambda *a: False, {})
     assert not ok and any("prereg missing" in r for r in reasons), \
         "missing prereg must fail-closed"
     open(prereg, "w", encoding="utf-8").write("prereg")
     ok, reasons = _pre_ignition_checks(
-        item, fake_cfgs[10], prereg, daily, lambda *a: False, {})
+        item, own_cfg, prereg, daily, lambda *a: False, {})
     assert not ok and any("panel face short" in r for r in reasons), \
         "short panel must fail-closed"
     for i in range(48):
         open(os.path.join(daily, f"{600_000 + i}.csv"), "w").write("date,close")
     ok, reasons = _pre_ignition_checks(
-        item, fake_cfgs[10], prereg, daily, lambda *a: False, {})
+        item, own_cfg, prereg, daily, lambda *a: False, {})
     assert ok and not reasons, "all-present case must admit"
     ok, reasons = _pre_ignition_checks(
-        item, fake_cfgs[10], prereg, daily, lambda *a: True, {})
+        item, own_cfg, prereg, daily, lambda *a: True, {})
     assert not ok and any("presence=done" in r for r in reasons), \
         "valid checkpoint must refuse re-ignite (r488)"
+    other_cfg = dict(fake_cfgs[11], engine_owner="other-machine")
     ok, reasons = _pre_ignition_checks(
-        item, fake_cfgs[11], prereg, daily, lambda *a: False, {})
+        item, other_cfg, prereg, daily, lambda *a: False, {})
     assert not ok and any("engine-owned" in r for r in reasons), \
         "non-owned wave must fail-closed"
     ok, reasons = _pre_ignition_checks(
-        item, fake_cfgs[10], prereg, daily, lambda *a: False,
+        item, own_cfg, prereg, daily, lambda *a: False,
         {"n1w10-0of12": CRASH_QUARANTINE})
     assert not ok and any("quarantine" in r for r in reasons), \
         "crash-quarantined shard must fail-closed (sec.4 backoff)"
