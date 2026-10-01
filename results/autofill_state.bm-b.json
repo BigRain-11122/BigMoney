@@ -1,19 +1,6 @@
 {
  "launches": [
   {
-   "ts": "2026-09-29 23:30:01",
-   "machine": "bm-b",
-   "py_cpu_pct": 0.0,
-   "verdict": "launched",
-   "entry": "TRIAL-LABOR-W11-GENERATE",
-   "shard": "generate-0of1",
-   "pid": 28800,
-   "runner_sha256": "e8185934380e0d33",
-   "fill_latency_min": 14.2,
-   "target_met": false,
-   "crash_counted": true
-  },
-  {
    "ts": "2026-09-29 23:36:16",
    "machine": "bm-b",
    "py_cpu_pct": 0.0,
@@ -933,25 +920,52 @@
    "fill_latency_min": null,
    "fullburn_window": true,
    "target_met": true,
+   "saturation_launches": 1,
+   "crash_counted": true
+  },
+  {
+   "ts": "2026-10-01 11:30:01",
+   "machine": "bm-b",
+   "py_cpu_pct": 0.0,
+   "harvest_flipped": 1,
+   "fuse_skipped": [
+    {
+     "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
+     "shard": "stockfurn-rev-0to31",
+     "sig": "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6",
+     "fuse_refusals": 3
+    }
+   ],
+   "verdict": "launched",
+   "entry": "STOCKFURN-REV-AKSHARE-SHARD-62",
+   "shard": "stockfurn-rev-62to91",
+   "pid": 55680,
+   "runner_sha256": "cce0f51237e4094d",
+   "core_verdict": "multiproc",
+   "core_marker": "ProcessPoolExecutor",
+   "fill_latency_min": null,
+   "fullburn_window": true,
+   "target_met": true,
    "saturation_launches": 1
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 11:28:01",
+  "ts": "2026-10-01 11:30:01",
   "machine": "bm-b",
   "py_cpu_pct": 0.0,
+  "harvest_flipped": 1,
   "fuse_skipped": [
    {
     "entry": "STOCKFURN-REV-AKSHARE-SHARD-0",
     "shard": "stockfurn-rev-0to31",
     "sig": "scripts/stock_face_furnace.py|run,--family,rev,--cells,0:31,--workers,6",
-    "fuse_refusals": 2
+    "fuse_refusals": 3
    }
   ],
   "verdict": "launched",
-  "entry": "STOCKFURN-REV-AKSHARE-SHARD-31",
-  "shard": "stockfurn-rev-31to62",
-  "pid": 44876,
+  "entry": "STOCKFURN-REV-AKSHARE-SHARD-62",
+  "shard": "stockfurn-rev-62to91",
+  "pid": 55680,
   "runner_sha256": "cce0f51237e4094d",
   "core_verdict": "multiproc",
   "core_marker": "ProcessPoolExecutor",
@@ -961,5 +975,5 @@
   "saturation_launches": 1
  },
  "lane_machine": "bm-b",
- "core_samples_seen": "2026-10-01T11:10:19+08:00"
+ "core_samples_seen": "2026-10-01T11:28:31+08:00"
 }
