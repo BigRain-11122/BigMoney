@@ -6,14 +6,14 @@
   {
    "face": "N1",
    "wave": 44,
-   "shard": 1,
+   "shard": 2,
    "nshards": 12,
-   "key": "n1w44-1of12",
+   "key": "n1w44-2of12",
    "batch": "PERPETUAL-N1-W44",
-   "pid": 88388,
-   "started_at": "2026-10-02T03:32:04+08:00",
-   "started_epoch": 1790883124,
-   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W44-1.log",
+   "pid": 66512,
+   "started_at": "2026-10-02T03:33:04+08:00",
+   "started_epoch": 1790883184,
+   "log": "C:\\Users\\sjs20\\Desktop\\FluxGroup\\quant\\bigmoney\\logs\\saturation_engine\\PERPETUAL-N1-W44-2.log",
    "cfg": {
     "batch": "PERPETUAL-N1-W44",
     "prereg": "research/PERPETUAL_N1_W44_PREREG.md (wave-level frozen pre-run; design = frozen v1 null calibration verbatim, new seed bands only; THIRTY-FOURTH ENGINE-OWNED WAVE, own-series continuation per O-20261001-2355 sec.2 (seat system terminated, first-free-number law), engine_owner=bm-a, A tail arithmetic continuation from the registered W43 row no skip, B tail arithmetic continuation from the registered W43 row no skip per the W43 row W44+ WARNING projection (both sides CLEAN, machine-derived at this freeze))",
@@ -25,45 +25,38 @@
    }
   }
  ],
- "ledger_buffer": [],
+ "ledger_buffer": [
+  {
+   "machine_id": "bm-a",
+   "face": "N1",
+   "wave": 44,
+   "batch": "PERPETUAL-N1-W44",
+   "shard": 1,
+   "nshards": 12,
+   "key": "n1w44-1of12",
+   "pid": 88388,
+   "started_at": "2026-10-02T03:32:04+08:00",
+   "done_at": "2026-10-02T03:33:04+08:00",
+   "done_epoch": 1790883182,
+   "elapsed_sec": 58.4
+  }
+ ],
  "last_flush_at": "2026-10-02T03:32:04+08:00",
  "crashes": {},
- "shards_done_total": 108,
- "last_shard_done_at": "2026-10-02T03:32:04+08:00",
+ "shards_done_total": 109,
+ "last_shard_done_at": "2026-10-02T03:33:04+08:00",
  "last_tick": {
-  "ts": "2026-10-02T03:32:04+08:00",
-  "epoch": 1790883122,
-  "py_cpu_pct": 3.9,
-  "ram_free_gb": 53.35411834716797,
-  "verdict": "ignited:n1w44-1of12 pid=88388 ledger_flush=1",
+  "ts": "2026-10-02T03:33:04+08:00",
+  "epoch": 1790883182,
+  "py_cpu_pct": 0.0,
+  "ram_free_gb": 53.827186584472656,
+  "verdict": "ignited:n1w44-2of12 pid=66512",
   "active_n": 1,
-  "queue_depth": 10,
+  "queue_depth": 9,
   "elapsed_sec": 2.1
  },
  "skips": [],
  "queue": [
-  {
-   "face": "N1",
-   "wave": 44,
-   "shard": 2,
-   "nshards": 12,
-   "key": "n1w44-2of12",
-   "batch": "PERPETUAL-N1-W44",
-   "runner": "scripts/perpetual_faces_n1.py",
-   "runner_args": [
-    "run",
-    "--shard",
-    "2",
-    "--of",
-    "12",
-    "--wave",
-    "44",
-    "--workers",
-    "8",
-    "--lane",
-    "engine"
-   ]
-  },
   {
    "face": "N1",
    "wave": 44,
