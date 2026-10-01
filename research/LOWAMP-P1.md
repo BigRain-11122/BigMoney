@@ -112,3 +112,14 @@
 - 试验量归因：2,008 = judged cells 4×判面 2（base+x2）+ same-mask null draws 2,000（§0 冻结式·账本 366,789→368,797 已随 finalize 落账）。
 - 全起点分布：见 §7（最好/最坏/p25/中位/p75/正份额+滚动 3/5/10 年最差——非单一起点宣称）。
 - 新员注册：**无**（判负不出新员；完整性旗标下双禁——既不注册亦不据本 verdict 作族间 meta 结论）。
+
+
+---
+## §9 治理裁定附录（append-only·2026-10-01 11:4x·bm-a T-140 执行）
+
+- **裁定**：LOWAMP-P1 verdict **VOID-with-face-note**（O-20261001-1108 §三 GM P1 裁决·CEO 反瞎搞令随令裁决·T-2026-10-01-140 执行票）。T-136 审计（research/T136_VERDICT_AUDIT.md）Option VOID 采纳：prereg 自相矛盾（§0 α 机制段 ALWAYS-ON 家族定义 × 裸缺省出场栈=年涨 2-3% 的债对结构性 8-13 天强制换手 254 笔·−33.9pp 磨耗）——判负不归族设计面，**族按设计本意 +15.9%/夏普 +1.16**（审计 Legs B/C 无引擎算术双核）非判负。
+- **face-note 保留**：judged-negative 数值面作「引擎缺省出场栈 × 低幅乐器」杂交测量科学保留（verdict 字段已翻 void-with-face-note + verdict_ruling 块），本批产物文件零历史改写（trials_ledger 块逐字保留）。
+- **账本补偿回滚**：−2,008 试验（裁决刻快照 368,797→366,789；执行刻 W3..W7 已链入 LOWAMP 含入基·raw head 379,847→**377,839** 净额不变式）＝**results/lowamp_p1/lowamp_p1_void_compensation.json**（ledger_voids 活跃声明+补偿分录·append-only）；science_gates.ledger_head void 面升级（活跃 void 对未 stamp 块恰扣一次·voids_applied 单计律·selftest 69/69 含 6 新腿）；skill_line_v2 n_eff 面：本批判面读数 1.9459@368,799 为历史记录不变，未来读数链自净额 head。
+- **E1 完整性旗标解除**：T-136 四腿对账闭环（as-burned 引擎重放逐 bp＋出口中和腿＋无引擎独立算术腿）＝零仪器缺陷；r492 消费警告=正确保护动作（当时如实披露非误报）；修复单 T-2026-10-01-135-P0 面向 P2 出场轴设计收编（AXIS_EXITS 显式轴=设计内测量）。
+- **语法带与名单**：W∈[77,104] 带消费声明随判回退（TRIAL_GRAMMAR_LEDGER 行已翻面）——已烧 LOWAMP-P1 批本身禁重跑不变；POTENTIAL_WATCHLIST ① 复列（快通道不变）；**重开通道=LOWAMP-P2 新考卷**（出场轴显式门 TRIAL_LABOR_LAW §4 首个应用：ALWAYS-ON 持有到底显式声明＋runner 显式禁用引擎缺省出场栈·evidence_cutoff 2026-09-22 不变·同族去重门照走）。
+- **禁令不变**：冻结批零重跑（P2=新批非重跑）；engine/exit_rules.py 零触碰；样本外恒盲+成本恒开。

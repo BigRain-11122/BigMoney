@@ -1,0 +1,50 @@
+{
+ "batch": "LOWAMP-P1-VOID-COMPENSATION",
+ "kind": "governance-void-compensating-entry",
+ "evidence_cutoff": "2026-09-22",
+ "ruling": {
+  "order": "O-20261001-1108",
+  "section": "sec.3 (GM P1 ruling, CEO anti-blindspot order)",
+  "ticket": "T-2026-10-01-140",
+  "audit": "research/T136_VERDICT_AUDIT.md (Option VOID, auditor recommendation)",
+  "ruled_at": "2026-10-01 11:08",
+  "executed_by": "bm-a",
+  "executed_at": "2026-10-01 11:4x"
+ },
+ "trials_ledger": {
+  "prev_total": 379847,
+  "batch_trials": -2008,
+  "total": 377839,
+  "batch": "LOWAMP-P1-VOID-COMPENSATION",
+  "file": "results/lowamp_p1/lowamp_p1_results.json",
+  "note": "LOWAMP-P1 verdict VOID compensating rollback (-2,008) per O-20261001-1108 sec.3; ruling-time snapshot was 368,797->366,789 (LOWAMP-P1 was then the chain head); W3..W7 perpetual waves (+11,050) chained on top of the LOWAMP-inclusive base between ruling and execution, so the -2,008 nets at the execution-time raw head 379,847 -> 377,839 (cumulative as-if LOWAMP-P1 never burned, all else equal). Append-only discipline: the LOWAMP-P1 product's own trials_ledger block stays verbatim; the active void below makes every raw/downstream cumulative net of the 2,008 exactly once (ledger_head void face, science_gates T-140).",
+  "evidence_cutoff": "2026-09-22",
+  "voids_applied": [
+   "LOWAMP-P1"
+  ]
+ },
+ "ledger_voids": [
+  {
+   "batch": "LOWAMP-P1",
+   "file": "results/lowamp_p1/lowamp_p1_results.json",
+   "voided_trials": 2008,
+   "active": true,
+   "reason": "verdict VOID-with-face-note: prereg self-contradiction (ALWAYS-ON family definition x stock-tuned engine default exit stack = forced 8-13d churn, -33.9pp turnover drag burned +15.9% as-designed face down to -18.0%); the hybrid measurement itself is retained as face-note science (default-stack x low-amp instruments), NOT a family judged-negative.",
+   "ruling": "O-20261001-1108",
+   "ticket": "T-2026-10-01-140",
+   "audit": "research/T136_VERDICT_AUDIT.md"
+  }
+ ],
+ "skill_line_v2_n_eff_face": {
+  "lowamp_p1_own_read": 1.9459,
+  "lowamp_p1_own_n_eff": 368797,
+  "note": "LOWAMP-P1's burned judgment face consumed skill_line_v2=1.9459 at n_eff=368,797 -- historical record, unchanged. Future skill_line_v2 reads chain from the void-adjusted head (execution-time: 379,847 raw -> 377,839 adjusted); the 2,008 LOWAMP trials no longer inflate the null_term.",
+  "sibling_face_disclosure": "xlib_synth.chain_head_total (frozen factor-line runners) keeps a raw max face; live dual-dir consumers (t24_g2_pack, j13v2_mill) base on science_gates.ledger_head (void-aware) and add only the shortline raw scan on top. New shortline factor-line preregs must take prev_total from the void-adjusted face or disclose the +2,008 raw-chain delta."
+ },
+ "family_supply_face": {
+  "family": "lowamp (W in [77,104] x N in {2,3} x sizing in {invvol,eq} x always-on)",
+  "as_designed_face": "+15.9% / Sharpe +1.16 (audit Legs B/C, no-engine arithmetic)",
+  "reentry_channel": "LOWAMP-P2 prereg with EXPLICIT exit axis (TRIAL_LABOR_LAW sec.4 exit-axis gate FIRST application): ALWAYS-ON hold-through declared, engine default exit stack EXPLICITLY disabled in runner config; evidence_cutoff 2026-09-22 unchanged."
+ },
+ "generated": "2026-10-01 11:4x bm-a (T-2026-10-01-140 action 1)"
+}

@@ -31,12 +31,53 @@ EULER_GAMMA = 0.5772156649015329
 
 # ---------------------------------------------------------------- ledger (D1: N_eff)
 
+def active_voids(results_dir: str = RESULTS_DIR) -> list:
+    """T-140 (O-20261001-1108 sec.3, LOWAMP-P1 verdict VOID): governance-void
+    batch declarations, data-driven scan.
+
+    A results JSON may carry ledger_voids = [{"batch", "voided_trials",
+    "active": true, "ruling", ...}, ...] -- an append-only governance record
+    (verdict-VOID rulings; compensating entry lives in the same file). Each
+    active entry subtracts its voided_trials from the cumulative of every
+    ledger block whose chain position predates the void, i.e. blocks that do
+    NOT list the void batch in their own voids_applied stamp. Blocks written
+    by append_ledger AFTER a void carries voids_applied (single-count law:
+    netted once, never re-subtracted).
+    """
+    voids = []
+    for path in sorted(glob.glob(os.path.join(results_dir, "**", "*.json"),
+                                 recursive=True)):
+        try:
+            with open(path, encoding="utf-8") as fh:
+                d = json.load(fh)
+        except (OSError, ValueError, UnicodeDecodeError):
+            continue
+        if not isinstance(d, dict):
+            continue
+        lv = d.get("ledger_voids")
+        if not isinstance(lv, list):
+            continue
+        for v in lv:
+            if (isinstance(v, dict) and isinstance(v.get("batch"), str)
+                    and isinstance(v.get("voided_trials"), (int, float))
+                    and v.get("active", True)):
+                voids.append({"batch": v["batch"],
+                              "voided_trials": int(v["voided_trials"])})
+    return voids
+
+
 def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
     """Chain head of the trials ledger: the results JSON with the largest cumulative total.
 
     Every batch JSON carries {"trials_ledger": {"prev_total", "batch_trials", "total", ...}}.
     The chain head is data-driven (max total across files), never a hand-copied number.
+    T-140 void face: candidate totals are adjusted by active governance voids
+    (active_voids) unless the block's own voids_applied stamp already netted
+    them -- a voided batch's +N stops counting for every downstream block
+    exactly once, so a rolled-back head is authoritative for future n_eff.
     """
+    voids = active_voids(results_dir)
+    void_by_batch = {v["batch"]: v["voided_trials"] for v in voids}
     head = {"total": 0, "file": None, "note": None}
     # r112: recursive scan -- shortline-family batch files carry trials_ledger
     # blocks invisible to a top-level-only glob, silently diverging this scanner
@@ -65,9 +106,16 @@ def ledger_head(results_dir: str = RESULTS_DIR) -> dict:
         except (OSError, ValueError, UnicodeDecodeError):
             continue
         if isinstance(tl, dict) and isinstance(tl.get("total"), (int, float)):
-            if tl["total"] > head["total"]:
-                head = {"total": int(tl["total"]), "file": os.path.basename(path),
+            applied = tl.get("voids_applied")
+            applied = set(applied) if isinstance(applied, list) else set()
+            adj = int(tl["total"]) - sum(n for b, n in void_by_batch.items()
+                                         if b not in applied)
+            if adj > head["total"]:
+                head = {"total": int(adj), "file": os.path.basename(path),
                         "note": tl.get("note")}
+    if voids:
+        head["voided"] = [{"batch": v["batch"],
+                           "voided_trials": v["voided_trials"]} for v in voids]
     return head
 
 
@@ -579,6 +627,16 @@ def append_ledger(batch_name: str, batch_trials: int, file_name: str | None = No
         "total": prev + int(batch_trials),
         "batch": batch_name,
     }
+    # T-140 void face: entries appended AFTER an active governance void chain
+    # from the void-adjusted head, so their cumulative has the void netted --
+    # stamp it (single-count law; ledger_head never re-subtracts a stamped
+    # block). Explicit prev_total overrides (shortline raw-chain callers)
+    # stay unstamped: their raw cumulative still carries the voided +N and
+    # ledger_head's adjustment remains correct for them.
+    if prev_total is None:
+        applied = sorted({v["batch"] for v in active_voids(results_dir)})
+        if applied:
+            out["voids_applied"] = applied
     if file_name:
         out["file"] = file_name
     if note:
@@ -1719,6 +1777,9 @@ SEED_REGISTRY = {
         # 09:2x before prereg freeze (r509 bm-a; 500-wide clearance from
         # every registered base)
         "stock_face_furnace_nulls": 20_333_000,
+    "lowamp_p2_params": 20_333_500,  # T-140 LOWAMP-P2 sensitivity draws (rng([20333500, k]))
+    "lowamp_p2_starts": 20_334_000,  # T-140 LOWAMP-P2 start-point draw stream
+    "lowamp_p2_nulls": 20_334_500,   # T-140 LOWAMP-P2 same-mask nulls (rng([20334500, k]))
         # STOCK_FACE_FURNACE_P1 (T-139 akshare face, bm-b r502): per-cell
         # dual nulls sign-flip 2000 + block bootstrap 2000, rng(base +
         # cell_idx*4000 + k), cell_idx in [0,281) k in [0,4000); band
@@ -2384,13 +2445,19 @@ def selftest() -> int:
        and ledger_total(led_ovr) == 5539)
 
     # r112: ledger_head must see subdirectory batch files (shortline family)
+    # T-140: fixtures chained from the (void-adjusted) live head must stamp
+    # voids_applied exactly like append_ledger does, else the raw fixture
+    # total gets the active void subtracted twice (stale-leg double-count).
     sub = os.path.join(RESULTS_DIR, "_selftest_sub")
     os.makedirs(sub, exist_ok=True)
     sub_path = os.path.join(sub, "sub_ledger.json")
     try:
+        _applied = sorted({v["batch"] for v in active_voids()})
+        _sub_tl = {"prev_total": 1, "batch_trials": 1, "total": head_total + 11}
+        if _applied:
+            _sub_tl["voids_applied"] = _applied
         with open(sub_path, "w", encoding="utf-8") as fh:
-            json.dump({"trials_ledger": {"prev_total": 1, "batch_trials": 1,
-                                         "total": head_total + 11}}, fh)
+            json.dump({"trials_ledger": _sub_tl}, fh)
         ok("ledger_head recursive: subdir batch file visible (r112 fix)",
            ledger_head()["total"] == head_total + 11
            and ledger_head()["file"] == "sub_ledger.json")
@@ -2410,6 +2477,53 @@ def selftest() -> int:
     finally:
         os.unlink(list_path)
         os.rmdir(sub)
+
+    # T-140 (O-20261001-1108 sec.3): governance-void face, hermetic tmpdir
+    import tempfile
+    with tempfile.TemporaryDirectory() as vdir:
+        def _vw(name, payload):
+            with open(os.path.join(vdir, name), "w", encoding="utf-8") as fh:
+                json.dump(payload, fh)
+        _vw("a.json", {"trials_ledger": {"prev_total": 90, "batch_trials": 10,
+                                         "total": 100, "batch": "VOIDED-B1"}})
+        _vw("b.json", {"trials_ledger": {"prev_total": 100, "batch_trials": 50,
+                                         "total": 150, "batch": "DOWNSTREAM-B2"}})
+        _vw("decl.json", {"ledger_voids": [{"batch": "VOIDED-B1",
+                                            "voided_trials": 10, "active": True,
+                                            "ruling": "selftest"}]})
+        ok("ledger_head void face: active void subtracts from raw/downstream totals",
+           ledger_head(vdir)["total"] == 140)
+        _vw("c.json", {"trials_ledger": {"prev_total": 140, "batch_trials": 5,
+                                         "total": 145, "batch": "STAMPED-B3",
+                                         "voids_applied": ["VOIDED-B1"]}})
+        ok("ledger_head void face: voids_applied stamp never re-subtracted (single count)",
+           ledger_head(vdir)["total"] == 145)
+        # governance flip: the sole declaration goes inert -> raw face restored
+        _vw("decl.json", {"ledger_voids": [{"batch": "VOIDED-B1",
+                                            "voided_trials": 10, "active": False}]})
+        ok("ledger_head void face: inert declaration is inert (raw face restored)",
+           ledger_head(vdir)["total"] == 150)
+        led_stamp = append_ledger("stamp-selftest", 5, results_dir=vdir)
+        ok("append_ledger: no stamp when no active void (inert declaration)",
+           "voids_applied" not in led_stamp and led_stamp["prev_total"] == 150
+           and led_stamp["total"] == 155)
+        led_ovr_v = append_ledger("ovr-selftest", 5, prev_total=999, results_dir=vdir)
+        ok("append_ledger prev_total override stays unstamped (raw-chain callers)",
+           "voids_applied" not in led_ovr_v and led_ovr_v["total"] == 1004)
+
+    with tempfile.TemporaryDirectory() as vdir2:
+        with open(os.path.join(vdir2, "v.json"), "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": {"prev_total": 90, "batch_trials": 10,
+                                         "total": 100, "batch": "VOIDED-C1"},
+                       "ledger_voids": [{"batch": "VOIDED-C1", "voided_trials": 10,
+                                         "active": True, "ruling": "selftest"}]}, fh)
+        led_stamp2 = append_ledger("stamp2-selftest", 5, results_dir=vdir2)
+        with open(os.path.join(vdir2, "e.json"), "w", encoding="utf-8") as fh:
+            json.dump({"trials_ledger": led_stamp2}, fh)
+        ok("append_ledger stamps active voids (adjusted-head chain, single count)",
+           led_stamp2.get("voids_applied") == ["VOIDED-C1"]
+           and led_stamp2["prev_total"] == 90 and led_stamp2["total"] == 95
+           and ledger_head(vdir2)["total"] == 95)
 
     # pit-95 guard: finalize_already_landed read-only tripwire
     os.makedirs(sub, exist_ok=True)
