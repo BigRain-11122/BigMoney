@@ -7,9 +7,14 @@
  "status": "open",
  "created_by": "GM (quant 专管会话) via O-20261001-1410",
  "created_at": "2026-10-01 14:10",
- "note": "Lane: lane-free, slice-declared claims, every machine builds its own engine (s1+s3 per-machine instances; s2 shared faces first-claim). This ticket SUPERSEDES the unfinished materializer residue of T-133 s2 for perpetual faces (T-133 remains done-when-superseded per its slice table; O-2340 stays in force until engines live). Consumers per meaning gate above. Number 141 = max+1 re-verified pre-push (origin latest = T-2026-10-01-140).",
- "ticket_lineage": "seq 141 @ 14:10 (fresh-verified against origin at push per r239 collision law)",
  "claims": {
+  "s1": {
+   "bm-c": {
+    "claimed_at": "2026-10-01 14:19",
+    "status": "in_progress",
+    "scope": "bm-c engine core instance: resident supervisor Tools/saturation_engine.py (local perpetual queue N1-face v0.1, band-partition slot shard%3, PreIgnitionChecks r316, 26/32 core cap, detached burns close_fds r317, self-derived state, schtasks 1-min IgnoreNew host); s2 ledger/s3 CEO-face unclaimed"
+   }
+  },
   "s1-engine-core-bm-a": {
    "claimed_by": "bm-a",
    "claimed_at": "2026-10-01 14:47",
@@ -17,5 +22,7 @@
    "note": "law+ticket ingested same round (SATURATION_ENGINE_LAW frozen spec). Build starts r520: physical dependency this round = r518-crash recovery integration (git unblock + REV-P2 product delivery) + O-1420 receipt window (CEO direct <=15:21). r520 first action: engine skeleton + N1-N4 generator wiring + PreIgnitionChecks per law sec.1/3"
   }
  },
+ "note": "Lane: lane-free, slice-declared claims, every machine builds its own engine (s1+s3 per-machine instances; s2 shared faces first-claim). This ticket SUPERSEDES the unfinished materializer residue of T-133 s2 for perpetual faces (T-133 remains done-when-superseded per its slice table; O-2340 stays in force until engines live). Consumers per meaning gate above. Number 141 = max+1 re-verified pre-push (origin latest = T-2026-10-01-140).",
+ "ticket_lineage": "seq 141 @ 14:10 (fresh-verified against origin at push per r239 collision law)",
  "progress": "s1(bm-b engine-core instance)+s3(bm-b CEO-face/round-zero instance) claimed by bm-b r507 @ 2026-10-01T14:26:21+08:00 (law v1.0 read receipt: sec.1 local perpetual queue N1-N4 frozen-prereg-authorized generators, sec.3 PreIgnitionChecks r316-hardened, sec.4 round-zero watchdog, sec.5 bm-b full-core profile); build starts r508 first action (engine skeleton + N1 generator port reusing perpetual_faces machinery); s2 ledger-conversion open first-claim (lane-free)."
 }
