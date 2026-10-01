@@ -1208,6 +1208,20 @@ N1_BANDS = {
     # (R250: W58 bands were never assigned).
     58: {"a": (159_004, 161_003), "b_exit": (47_601, 47_800),
          "engine_owner": "bm-c"},
+    # W59 r562 bm-b: A = ARITHMETIC CONTINUATION from the registered
+    # W58 tail zero skip (161_004..163_003 = W58 A end 161_003 + 1,
+    # CLEAN, machine-derived == the W58 row W59+ published projection);
+    # B = FORCED SKIP family -- arithmetic window 47_801..48_000
+    # REFUSED at the SEED_REGISTRY point 48_000 (p4_pairs/
+    # p1d_gdhs_quarterly), first clean window 48_001..48_200
+    # scan-derived (W39-B/W43-B/W47-B family; ADMIT receipt
+    # results/_r562bmb_w59_band_gate.py; probe cluster 95_000..95_003
+    # r335 discovery leg + N3-R1 used-seed band 70_000..70_005
+    # MSG-183x r529 mandatory leg; origin slot vacancy
+    # machine-checked). NOT a re-pick (R250: W59 bands were never
+    # assigned).
+    59: {"a": (161_004, 163_003), "b_exit": (48_001, 48_200),
+         "engine_owner": "bm-b"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
