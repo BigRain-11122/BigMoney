@@ -422,25 +422,15 @@
    "machine": "bm-b",
    "last_refusal_ts": "2026-10-01 07:16:05"
   },
-  "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2": {
+  "scripts/refine_bench_rev_p2.py|run,--nulls": {
    "count": 1,
-   "refusals": 7,
+   "refusals": 1,
    "code_sha256": "f089f3293e081094",
-   "last_crash_ts": "2026-10-01 14:16:04",
-   "entry": "REFINE-BENCH-REV-P2-SHARD-0",
-   "shard": "rev-p2-0of2",
+   "last_crash_ts": "2026-10-01 14:42:12",
+   "entry": "REFINE-BENCH-REV-P2-NULLS",
+   "shard": "rev-p2-nulls",
    "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 14:30:09"
-  },
-  "scripts/refine_bench_rev_p2.py|run,--shard,1,--of,2": {
-   "count": 1,
-   "refusals": 7,
-   "code_sha256": "f089f3293e081094",
-   "last_crash_ts": "2026-10-01 14:16:04",
-   "entry": "REFINE-BENCH-REV-P2-SHARD-1",
-   "shard": "rev-p2-1of2",
-   "machine": "bm-a",
-   "last_refusal_ts": "2026-10-01 14:30:09"
+   "last_refusal_ts": "2026-10-01 14:42:18"
   }
  },
  "cleared": {
@@ -646,6 +636,20 @@
    "reason": "code_changed",
    "crashes": 1,
    "old_code_sha256": "178142441a291551"
+  },
+  "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2": {
+   "cleared_ts": "2026-10-01 14:30:16",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "f089f3293e081094"
+  },
+  "scripts/refine_bench_rev_p2.py|run,--shard,1,--of,2": {
+   "cleared_ts": "2026-10-01 14:32:06",
+   "cleared_by": "bm-b",
+   "reason": "code_changed",
+   "crashes": 1,
+   "old_code_sha256": "f089f3293e081094"
   }
  },
  "lane_machine": "bm-a"
