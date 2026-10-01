@@ -3,17 +3,17 @@
  "root_path": "C:\\Fluxgroup",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-10-01T13:25:22+08:00",
- "heartbeat_epoch_utc": 1790832322,
- "clock_read": "2026-10-01T13:25:22+08:00",
- "current_task": "r505 closeout: LOWAMP-P2 bm-b wave share complete (SENS+LEGACY-X2+LAT3-DEEP-X2 delivered), push-deadlock 3rd broken, awaiting bm-a NULLS/burns for finalize",
+ "last_seen": "2026-10-01T14:10:00+08:00",
+ "heartbeat_epoch_utc": 1790834184,
+ "clock_read": "2026-10-01T13:56:24+08:00",
+ "current_task": "r506: N1-W9 wave frozen per O-1332 sec.1.2 (supply auto-triggers when bm-a NULLS harvest lands); T-139 stage-A akshare furnace complete (3 families judged-negative); LOWAMP-P2 finalize gate watch (17/18 done, NULLS bm-a in-flight ETA ~14:15)",
  "cpu_cores": 16,
  "free_ram_gb": 5.4,
  "gpu_free_vram_gb": 2.2,
  "total_ram_gb": 0.0,
- "cpu_util_pct": 4.0,
- "round_no": 505,
- "verdict": "r505 products: push-deadlock 3rd recurrence broken (disjoint-set ride-commit -> rebase 5/5 zero-conflict -> sync 0/0, r504 fallback branch absorbed) + LOWAMP-P2 bm-b share burned&delivered (SENS 500/500 + LA-EDGE legacy_x2 1254 + LA-T3 deep_x2 1506, 3 claims closed ok, ls-tree verified) + MSG to bm-a (2 undelivered deep pairs block finalize per r310 gate) + S6 34 legs rc0 (11 same-window derive conflicts take-fresher, clock ORANGE_COOL cap50) + smoke 47/47",
+ "cpu_util_pct": 47.0,
+ "round_no": 506,
+ "verdict": "r506 products: O-1332 acked+executed on bm-b faces (N1-W9 wave frozen: law sec.4 row + prereg + WAVE_CONFIGS + N1_BANDS mirror + selftest leg 3f + W9 materializer face + ADMIT machine-gate receipt, both selftests green; supply auto-trigger wired, blocked only by live NULLS) + T-139 stage-A MOM finalize (n=16 robust=0, three-family furnace judged-negative, ledger 380320) + MSG to bm-a (t139-complete) + NULLS double-burn yielded per MSG-1345 kill-advice (r297, bm-a original owner in-flight wins, partial 300 rows kept for union) + S6 34 legs rc0 (reconcile ZERO-DRIFT streak 2/3, audit supply_floor wave-tail legal, LIVE/REPORT ORANGE cap50 regenerated)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -149,25 +149,8 @@
   "O-20260930-1858-bm-a.md",
   "O-20260930-1901-bm-a.md",
   "O-20260930-2054-bm-a.md",
+  "O-20261001-1058-bm-c.md",
   "O-20261001-1108-bm-c.md",
-  "O-20261001-1058-bm-c.md"
- ],
- "cores": 16,
- "idle_ram_gb": 5.4,
- "gpu_idle_vram_gb": 2.2,
- "n_orders_ack": 136,
- "round": 505,
- "gpu_model": "NVIDIA GeForce RTX 3070",
- "prod_lanes": [
-  "bigmoney-compute-node",
-  "tts-audio-batch",
-  "gpu-light-postprocess"
- ],
- "prod_lanes_note": "P-33 per O-20260927-0913 sec.4: primary lane in-force (BigMoney rounds + pool shards); tts-audio-batch IGNITED r315; gpu-light-postprocess chartered r313 idle-gated",
- "loop_round": 505,
- "gpu_free_vram_mb": 2252,
- "ram_free_gb": 5.4,
- "last_round_at": "2026-10-01T13:03:57+08:00",
- "last_round_ts": "2026-10-01T13:03:57+08:00",
- "gpu_idle_vram_mb": null
+  "O-20261001-1332-bm-c.md"
+ ]
 }
