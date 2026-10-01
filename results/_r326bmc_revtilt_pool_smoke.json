@@ -1,0 +1,36 @@
+{
+ "round": "r326 bm-c",
+ "ticket": "T-2026-10-01-134 s2 (T-134 s2 sixth conversion)",
+ "runner": "scripts/cn_rev_tilt_p1.py",
+ "smoke": "real-path pool==serial identity (r324 p4b3 precedent)",
+ "panel": {
+  "T": 1400,
+  "N": 1724,
+  "cutoff": "2026-09-30",
+  "face": "data\\daily real-panel fallback, 1724 syms (P1C census cache absent on bm-c -- r316 data-face law, host=bm-a/bm-b)",
+  "panel_mb": 18.4
+ },
+ "units": {
+  "batch1": 59,
+  "batch2": 6,
+  "total": 65
+ },
+ "workers": {
+  "batch1": 12,
+  "batch2": 12,
+  "cap_requested": 12
+ },
+ "elapsed_sec": {
+  "serial": 1.5,
+  "pool": 15.6,
+  "total": 21.7
+ },
+ "identity": {
+  "batch1_all_identical": true,
+  "batch2_all_identical": true,
+  "verdict": "PASS"
+ },
+ "tilt_weights": "REAL trail map from serial bare/mom x1 results (runner formula verbatim)",
+ "ckpt": "bypassed (fresh compute both paths, tmp only)",
+ "zero_repo_products": true
+}

@@ -59,6 +59,20 @@ ledger append single-shot at finalize (CN_REV_TILT_P1_REFINALIZE=1 is the
 only redo path); per-unit .npz checkpoints under results/cn_rev_tilt/ckpt/
 (gitignored binary, exact float64 -> resume is byte-identical to fresh).
 
+ProcessPool face (T-134 s2 sixth conversion, r326 bm-c, O-2355): the 65
+sim units (12 cell faces + 2 MOM machinery + 1 census baseline + 50
+nulls) burn via scripts/parallel_runner.py ProcessPool BY DEFAULT;
+CNREV_TILT_MP=0 -> serial escape (legacy loop, byte-equal products).
+Workers ship the parent's CURRENT close panel through initargs (r511
+law) with a payload-aware worker cap (~340MB dense copy per worker);
+units have NO swallow face -- errors propagate on BOTH paths (serial
+law preserved); pool completion order never leaks into products (recs
+are key-addressed, assembly follows the frozen structural order, T-33
+law). Tilt cells depend on the trail axis (bare x1 + MOM x1 results),
+so the pool burns two batches: batch-1 = bare + mom + baseline +
+nulls, batch-2 = tilt (dependency law; sanity face + trail stay in
+the parent between batches).
+
 Usage: run | selftest   (exit 0 ok; 2 = fail-closed gate/mechanism refusal)
 """
 import argparse
@@ -123,6 +137,49 @@ def _log(msg):
     with open(LOG_PATH, "a", encoding="utf-8") as fh:
         fh.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} {msg}\n")
     print(f"[cn_rev_tilt] {msg}", flush=True)
+
+
+# ------------------------------------------- pool face (T-134 s2 r326 bm-c)
+
+_MP_ENV = "CNREV_TILT_MP"       # =0 -> serial escape (legacy byte-equal)
+
+_MP_CLOSE = None                # parent's CURRENT panel (r511 law)
+_MP_IDX = None
+_LAST_MP_INFO = None            # honest audit face: pool widths actually used
+
+
+def _unit_body(unit, sels, rate, weight_by_r):
+    """Simulate one unit -- SINGLE SOURCE for the serial and pool paths
+    (bit-identity by construction, r306/r324 recipe). No swallow face:
+    errors propagate on BOTH paths (this runner has no cell_error row)."""
+    return simulate(_MP_CLOSE, _MP_IDX, sels, rate, weight_by_r)
+
+
+def _mp_init(close_arr, idx):
+    """Worker initializer: ship the PARENT'S CURRENT panel through
+    initargs into module globals (r511 law -- spawn-fresh workers never
+    depend on import-time state; no builder re-run)."""
+    g = globals()
+    g["_MP_CLOSE"] = close_arr
+    g["_MP_IDX"] = idx
+
+
+def _mp_job(unit, sels, rate, weight_by_r):
+    """Pool unit job (top-level picklable). Propagates errors like the
+    serial loop -- no silent rows."""
+    return _unit_body(unit, sels, rate, weight_by_r)
+
+
+def _pool_worker_cap(payload_arr):
+    """Payload-aware worker cap: parallel_runner.worker_cap() assumes a
+    generic ~0.5GB/worker; this batch ships the dense close panel copy
+    per worker through initargs, so the cap is tightened by the honest
+    per-worker footprint (panel copy + process overhead)."""
+    from parallel_runner import worker_cap
+    import psutil
+    per_worker_gb = payload_arr.nbytes / (1024 ** 3) + 0.25
+    free_gb = psutil.virtual_memory().available / (1024 ** 3)
+    return max(1, min(worker_cap(), int(free_gb * 0.8 / per_worker_gb)))
 
 
 # ---------------------------------------------------------------- panel
@@ -547,28 +604,106 @@ def run() -> int:
         if ck is not None and "returns" in ck:
             resumed.append(unit)
             return ck
-        rec = simulate(close_arr, idx, s, rate, weight_by_r)
+        rec = _unit_body(unit, s, rate, weight_by_r)
         _ck_save(unit, rec, rec["returns"])
         return rec
 
-    # -- judged bare cells x3 faces (REV bare x1 doubles as trail input)
-    for w in W_SET:
-        cell = f"REV{w}_bare"
-        for face, mult in FACES.items():
-            cell_recs[(cell, face)] = run_cell(
-                f"cell_{cell}_{face}", sels[("rev", w)],
-                V1_FLAT_SIDE * mult)
-        _log(f"cell {cell}: x1 sharpe="
-             f"{_sharpe(cell_recs[(cell, 'x1')]['returns'])} "
-             f"entries={cell_recs[(cell, 'x1')]['n_entries']}")
+    # -- pool face (T-134 s2 sixth conversion, r326 bm-c, O-2355): units
+    #    burn via parallel_runner ProcessPool BY DEFAULT;
+    #    CNREV_TILT_MP=0 -> serial escape (legacy loop, byte-equal).
+    #    Parent ships its CURRENT panel through initargs (r511 law);
+    #    checkpoint save + assembly stay parent-side (T-33 law).
+    global _MP_CLOSE, _MP_IDX, _LAST_MP_INFO
+    _MP_CLOSE = close_arr
+    _MP_IDX = idx
+    _LAST_MP_INFO = None
+    use_pool = os.environ.get(_MP_ENV, "1") != "0"
 
-    # -- machinery: MOM mirror bare sleeves at x1 (trail inputs, disclosure)
-    mom_x1 = {}
-    for w in W_SET:
-        mom_x1[w] = run_cell(f"mach_mom{w}_x1", sels[("mom", w)],
-                             V1_FLAT_SIDE)
-        _log(f"mach_mom{w}_x1: sharpe={_sharpe(mom_x1[w]['returns'])} "
-             f"entries={mom_x1[w]['n_entries']}")
+    def _pool_burn(specs, desc):
+        """Burn not-yet-resumed units through the pool; on_result fires
+        the parent-side checkpoint save per completed unit (r340
+        incremental-persist law). Key-addressed recs -> completion order
+        never leaks into products."""
+        from parallel_runner import run_cells_parallel
+        jobs, done_map = [], {}
+        for (unit, s, rate, wbr) in specs:
+            ck = _ck_load(unit, idx)
+            if ck is not None and "returns" in ck:
+                resumed.append(unit)
+                done_map[unit] = ck
+            else:
+                jobs.append((unit, _mp_job, (unit, s, rate, wbr)))
+
+        def _persist(key, rec):
+            _ck_save(key, rec, rec["returns"])
+
+        workers_used, n_jobs = None, len(jobs)
+        if jobs:
+            res = run_cells_parallel(
+                jobs, workers=_pool_worker_cap(close_arr), desc=desc,
+                initializer=_mp_init, initargs=(close_arr, idx),
+                on_result=_persist)
+            workers_used = res.pop("__workers__")
+            done_map.update(res)
+        return done_map, workers_used, n_jobs
+
+    if use_pool:
+        # ---- pool batch-1: bare(6) + mom(2) + baseline(1) + nulls(50);
+        #      tilt cells wait for the trail axis (dependency law) ----
+        ew_sels = []
+        for r in sched:
+            cols = np.flatnonzero(np.isfinite(close_arr[r]))
+            ew_sels.append((r, cols if cols.size else None))
+        null_sels = [null_selections(valids[20], sched, SEED_BASE + k)
+                     for k in range(K_NULLS)]
+        specs1 = []
+        for w in W_SET:
+            for face, mult in FACES.items():
+                specs1.append((f"cell_REV{w}_bare_{face}",
+                               sels[("rev", w)], V1_FLAT_SIDE * mult, None))
+        for w in W_SET:
+            specs1.append((f"mach_mom{w}_x1", sels[("mom", w)],
+                           V1_FLAT_SIDE, None))
+        specs1.append(("baseline_census_ew", ew_sels, V1_FLAT_SIDE, None))
+        for k in range(K_NULLS):
+            specs1.append((f"null_{k:02d}", null_sels[k],
+                           V1_FLAT_SIDE, None))
+        m1, w1, j1 = _pool_burn(specs1, "cnrev-batch1")
+        for w in W_SET:
+            cell = f"REV{w}_bare"
+            for face in FACES:
+                cell_recs[(cell, face)] = m1[f"cell_{cell}_{face}"]
+            _log(f"cell {cell}: x1 sharpe="
+                 f"{_sharpe(cell_recs[(cell, 'x1')]['returns'])} "
+                 f"entries={cell_recs[(cell, 'x1')]['n_entries']}")
+        mom_x1 = {}
+        for w in W_SET:
+            mom_x1[w] = m1[f"mach_mom{w}_x1"]
+            _log(f"mach_mom{w}_x1: sharpe={_sharpe(mom_x1[w]['returns'])} "
+                 f"entries={mom_x1[w]['n_entries']}")
+        ew_rec = m1["baseline_census_ew"]
+        null_recs = [m1[f"null_{k:02d}"] for k in range(K_NULLS)]
+        _LAST_MP_INFO = {"batch1_workers": w1, "batch1_jobs": j1}
+    else:
+        # ---- serial escape: legacy loop verbatim (byte-equal) ----
+        # -- judged bare cells x3 faces (REV bare x1 doubles as trail input)
+        for w in W_SET:
+            cell = f"REV{w}_bare"
+            for face, mult in FACES.items():
+                cell_recs[(cell, face)] = run_cell(
+                    f"cell_{cell}_{face}", sels[("rev", w)],
+                    V1_FLAT_SIDE * mult)
+            _log(f"cell {cell}: x1 sharpe="
+                 f"{_sharpe(cell_recs[(cell, 'x1')]['returns'])} "
+                 f"entries={cell_recs[(cell, 'x1')]['n_entries']}")
+
+        # -- machinery: MOM mirror bare sleeves at x1 (trail inputs, disclosure)
+        mom_x1 = {}
+        for w in W_SET:
+            mom_x1[w] = run_cell(f"mach_mom{w}_x1", sels[("mom", w)],
+                                 V1_FLAT_SIDE)
+            _log(f"mach_mom{w}_x1: sharpe={_sharpe(mom_x1[w]['returns'])} "
+                 f"entries={mom_x1[w]['n_entries']}")
 
     # sanity face (R240 law): never-invested sleeve = panel sickness
     for cell in ("REV20_bare", "REV60_bare"):
@@ -615,29 +750,49 @@ def run() -> int:
         tilt_w_by_w[w] = tw
     _log(f"trail built: {json.dumps(trail_by_w, default=str)[:220]}")
 
-    # -- judged tilt cells x3 faces (tilt weight series frozen at x1-caliber
-    #    trail; faces differ ONLY in rate -- pure cost stress)
-    for w in W_SET:
-        cell = f"REV{w}_tilt"
-        for face, mult in FACES.items():
-            cell_recs[(cell, face)] = run_cell(
-                f"cell_{cell}_{face}", sels[("rev", w)],
-                V1_FLAT_SIDE * mult, tilt_w_by_w[w])
-        _log(f"cell {cell}: x1 sharpe="
-             f"{_sharpe(cell_recs[(cell, 'x1')]['returns'])}")
+    if use_pool:
+        # ---- pool batch-2: tilt cells (after the trail axis; tilt weight
+        #      series frozen at x1-caliber trail, faces differ only in
+        #      rate -- pure cost stress) ----
+        specs2 = []
+        for w in W_SET:
+            for face, mult in FACES.items():
+                specs2.append((f"cell_REV{w}_tilt_{face}",
+                               sels[("rev", w)], V1_FLAT_SIDE * mult,
+                               tilt_w_by_w[w]))
+        m2, w2, j2 = _pool_burn(specs2, "cnrev-batch2")
+        _LAST_MP_INFO["batch2_workers"] = w2
+        _LAST_MP_INFO["batch2_jobs"] = j2
+        for w in W_SET:
+            cell = f"REV{w}_tilt"
+            for face in FACES:
+                cell_recs[(cell, face)] = m2[f"cell_{cell}_{face}"]
+            _log(f"cell {cell}: x1 sharpe="
+                 f"{_sharpe(cell_recs[(cell, 'x1')]['returns'])}")
+    else:
+        # -- judged tilt cells x3 faces (tilt weight series frozen at x1-caliber
+        #    trail; faces differ ONLY in rate -- pure cost stress)
+        for w in W_SET:
+            cell = f"REV{w}_tilt"
+            for face, mult in FACES.items():
+                cell_recs[(cell, face)] = run_cell(
+                    f"cell_{cell}_{face}", sels[("rev", w)],
+                    V1_FLAT_SIDE * mult, tilt_w_by_w[w])
+            _log(f"cell {cell}: x1 sharpe="
+                 f"{_sharpe(cell_recs[(cell, 'x1')]['returns'])}")
 
-    # -- census equal-weight baseline, same rhythm (s3.4 passive)
-    ew_sels = []
-    for r in sched:
-        cols = np.flatnonzero(np.isfinite(close_arr[r]))
-        ew_sels.append((r, cols if cols.size else None))
-    ew_rec = run_cell("baseline_census_ew", ew_sels, V1_FLAT_SIDE)
+        # -- census equal-weight baseline, same rhythm (s3.4 passive)
+        ew_sels = []
+        for r in sched:
+            cols = np.flatnonzero(np.isfinite(close_arr[r]))
+            ew_sels.append((r, cols if cols.size else None))
+        ew_rec = run_cell("baseline_census_ew", ew_sels, V1_FLAT_SIDE)
 
-    # -- K=50 same-mask nulls on the judged x1 face (s3.4; wild_route canon)
-    null_recs = []
-    for k in range(K_NULLS):
-        ns = null_selections(valids[20], sched, SEED_BASE + k)
-        null_recs.append(run_cell(f"null_{k:02d}", ns, V1_FLAT_SIDE))
+        # -- K=50 same-mask nulls on the judged x1 face (s3.4; wild_route canon)
+        null_recs = []
+        for k in range(K_NULLS):
+            ns = null_selections(valids[20], sched, SEED_BASE + k)
+            null_recs.append(run_cell(f"null_{k:02d}", ns, V1_FLAT_SIDE))
     null_vals = [(_sharpe(r["returns"]) or 0.0) for r in null_recs]
     mu, sigma = float(np.mean(null_vals)), float(np.std(null_vals, ddof=1))
     null_pool = {
@@ -868,7 +1023,15 @@ def run() -> int:
         "n_trials": LEDGER_TRIALS,
         "audit": {
             "elapsed_sec": round(time.time() - t0, 1),
-            "workers": 1,
+            "workers": (_LAST_MP_INFO["batch1_workers"]
+                        if _LAST_MP_INFO
+                        and _LAST_MP_INFO.get("batch1_workers") else 1),
+            "cpu_parallel": ("ProcessPool via parallel_runner "
+                             "(T-134 s2 sixth conversion, r326 bm-c)"
+                             if _LAST_MP_INFO
+                             and _LAST_MP_INFO.get("batch1_workers")
+                             else "serial (single-process)"),
+            "mp_overlay": (dict(_LAST_MP_INFO) if _LAST_MP_INFO else None),
             "units_expected": units_expected,
             "units_fresh_this_run": units_expected - len(resumed),
             "units_resumed_from_checkpoint": len(resumed),
@@ -1261,6 +1424,71 @@ def selftest() -> int:
     ok("[F15] empty-selection rebalance liquidates",
        rec_l["truncated"] is False and rec_l["n_active_rebal"] == 1
        and float(rec_l["returns"].iloc[21]) == 0.0)
+
+    # [S-mp] pool face legs (T-134 s2 sixth conversion r326 bm-c; r324
+    #        recipe: real unit bodies on _mk_panel fixtures, tmp-free,
+    #        zero repo products, spawn __main__ guard in place)
+    global _MP_CLOSE, _MP_IDX
+    from parallel_runner import run_cells_parallel as _rcp
+    _saved_close, _saved_idx = _MP_CLOSE, _MP_IDX
+    try:
+        cl_m2, idx_m2 = _mk_panel(T=420, N=12)
+        arr_m = cl_m2.to_numpy(dtype=np.float64)
+        _MP_CLOSE, _MP_IDX = arr_m, idx_m2
+        sch_m = rebal_schedule(arr_m.shape[0])
+        sels_m = topk_selections(sig_matrix(arr_m, 20, "rev"),
+                                signal_valid(arr_m, 20), sch_m)
+        wbr_m = {rr: (TILT_HI if (rr // 10) % 2 == 0 else TILT_LO)
+                 for rr in sch_m}
+        specs_m = [("u_bare", sels_m, V1_FLAT_SIDE, None),
+                   ("u_tilt", sels_m, V1_FLAT_SIDE * 2.0, wbr_m)]
+        jobs_m = [(u, _mp_job, (u, s, rt, wb))
+                  for (u, s, rt, wb) in specs_m]
+
+        def _req(a, b):
+            if set(a) != set(b):
+                return False
+            for k in a:
+                va, vb = a[k], b[k]
+                if isinstance(va, pd.Series):
+                    if not va.equals(vb):
+                        return False
+                elif va != vb:
+                    return False
+            return True
+
+        ser_m = {u: _unit_body(u, s, rt, wb)
+                 for (u, s, rt, wb) in specs_m}
+        p2m = _rcp(jobs_m, workers=2, desc="s-mp", initializer=_mp_init,
+                   initargs=(arr_m, idx_m2))
+        p2b = _rcp(jobs_m, workers=2, desc="s-mp-dbl", initializer=_mp_init,
+                   initargs=(arr_m, idx_m2))
+        p1m = _rcp(jobs_m, workers=1, desc="s-mp-w1", initializer=_mp_init,
+                   initargs=(arr_m, idx_m2))
+        ok("[S-mp] pool==serial bit-identical (2 units, workers=2)",
+           all(_req(p2m[u], ser_m[u]) for u in ser_m))
+        ok("[S-mp] double-run determinism (pool twice)",
+           all(_req(p2b[u], p2m[u]) for u in ser_m))
+        ok("[S-mp] worker-count invariance (1==2) + __workers__ honest",
+           all(_req(p1m[u], p2m[u]) for u in ser_m)
+           and p2m["__workers__"] == 2 and p1m["__workers__"] == 1)
+        bad_sel = [(9, np.array([99]))]      # col 99 out of N=12 -> raise
+        raised_ser = raised_pool = False
+        try:
+            _unit_body("u_bad", bad_sel, V1_FLAT_SIDE, None)
+        except Exception:
+            raised_ser = True
+        try:
+            _rcp([("u_bad", _mp_job,
+                    ("u_bad", bad_sel, V1_FLAT_SIDE, None))],
+                 workers=1, desc="s-mp-err", initializer=_mp_init,
+                 initargs=(arr_m, idx_m2))
+        except Exception:
+            raised_pool = True
+        ok("[S-mp] error propagation parity (serial raise == pool raise)",
+           raised_ser and raised_pool)
+    finally:
+        _MP_CLOSE, _MP_IDX = _saved_close, _saved_idx
 
     print(f"cn_rev_tilt_p1 selftest: {len(fails)} FAIL")
     return 0 if not fails else 1
