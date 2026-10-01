@@ -7,7 +7,7 @@
 
 ## §0 批件身份【必填·跑前】
 
-- 批名=**PERPETUAL-N1-W30**。N=**2,200**（A 族 2,000＋B 族 200）；账本 **+2,200**（null trials 计数律=K2200 先例；prev=**届时活链头 derive 禁手抄**——起草窗实况：W1..W28 finalize 已落账〔链头 426,148·W28=bm-b r524 一趟过（起草窗中途落账·锚滚动律披露）·W27=bm-a r540 前序〕·W29 未注册如实注记·本波 finalize 时 prev=届时活头 derive）；累计 null 池=canon 120＋W1 ext 2,200＋W2..W14 2,200×13＋W16..W25 2,200×10＋W26/W27/W28 已落账 2,200×3＋本波 2,200=**63,920**（法典 §5 跨波累计 N_eff 恒不重置；W29 未注册如实注记·derive 禁手抄）。
+- 批名=**PERPETUAL-N1-W30**。N=**2,200**（A 族 2,000＋B 族 200）；账本 **+2,200**（null trials 计数律=K2200 先例；prev=**届时活链头 derive 禁手抄**——起草窗实况：W1..W28 finalize 已落账〔链头 426,148·W28=bm-b r524 一趟过（起草窗中途落账·锚滚动律披露）·W27=bm-a r540 前序〕·W29 未注册如实注记·本波 finalize 时 prev=届时活头 derive）；累计 null 池=canon 120＋W1 ext 2,200＋W2..W14 2,200×13＋W16..W25 2,200×10＋W26/W27/W28 已落账 2,200×3＋本波 2,200=**61,720**（法典 §5 跨波累计 N_eff 恒不重置；W29 未注册如实注记·derive 禁手抄）。**勘误披露（r541 同窗·冻结后散文面修订·判据零改动·r503 §A1 先例）**：本行初稿（冻结 commit 614575701 面上）曾误书 63,920——锚滚动编辑时把 W28 的 2,200 重复计入一次；正确算术=120＋2,200＋50,600〔W2..W25 廿三波〕＋6,600〔W26/W27/W28〕＋2,200〔本波〕=61,720（与 §4 已落账 59,520＋本波 2,200 逐位吻合·W28 实测 merged n=59,520 实锚）；finalize 消费面=机器 derive（canon+ext+已落账波件全集）从不读本散文数字——科学面零影响·如实留痕。
 - 认领：never-dry 供给律常设步（TRIAL_LABOR_LAW §4·板空/池饿/无在飞判决批=默认续跑下一波；T-2026-10-01-141 s1 引擎线第十九波·bm-a 第六枚自有波·主权轮值律 F-20260901-01 槽位 W30=bm-a·lane-free）；部门=dept:研究。
 - 算力预算=**引擎本地队列烧录**（SATURATION_ENGINE_LAW §1/§2·**不入池**·免预认领）：12 分片（每片=A 族 2,000/12＋B 族 200/12 连续切片）；每片 workers=8（O-20260930-2355 多核律=逐片 8 workers·serial-vs-pool 字节恒等已证〔W2 parity r485/r488·W3..W27 多波 12/12 实烧重证〕）；点火前置自检=引擎 PreIgnitionChecks（r316 律升格：本机数据前置件复验·缺件=跳过+上报·禁僵尸点火）；checkpoint=分片件本体（presence=done 证据；确定性重跑字节恒等=断点续跑语义）；烧录宿主门=core48 in-repo 数据（worker_class=self-contained）；台账=引擎异步批量落 `results/saturation_engine/ledger_bm-a.jsonl`（§2 10-20min 或 N 片批）。
 - 物化条款（法典冻结签名行「runner 落地一批物化一批」）：本波=**引擎生成器物化**（N1 generator port：N1_BANDS 单源 derive·engine_owner==bm-a 波的未烧分片=本地队列项·per-wave prereg 在场=物化前置条件〔缺失=诚实拒绝物化，禁假供给〕）；池面 supply 生成器对 engine_owner 波拒绝物化（cmd_supply owner 跳过门·零双烧面）；**引擎实况注记（本机 bm-a 实例=tick 架构零重启自燃——schtasks 1-min fire 每 tick 新 python 进程重读活树=新波行天然可见，禁盲目跑杀实例重启循环〔r535 坑律 tick-arch 面·r540 实锚=zero restart auto-ignite〕）**：点火验证以**产物增长面**为准（r325 律验证面不变：冻结 commit 后 2 tick 内必验实点火·禁信 state 队列面）。
@@ -59,10 +59,15 @@
 - 引擎台账：`results/saturation_engine/ledger_bm-a.jsonl`（§2 异步批量·逐分片行：batch/shard/started_at/done_at/elapsed_sec/pid）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【finalize 窗回填】
+## §7 跑后实证【finalize 窗·r541 bm-a】
 
--（占位锚：finalize 落地后本节回填烧录实况/K 与 §5 四项判定/链性对账/账本对账——r307 两态守卫律：烧后回填为合法消费锚文，selftest 腿两态判据兼容。）
+- 烧录实况：12/12 分片引擎烧录（bm-a tick 架构零重启自燃〔r535 实证·本窗再证：冻结 commit 614575701 落 origin ~22:14 后 22:15 shard-0 首片自燃〕·22:15→22:29 十二片逐分钟收尾·每片 workers=8〔ProcessPoolExecutor·O-20260930-2355 多核律〕·audit.machine=bm-a 12/12·每片 elapsed 13.7–14.3s·全波 n_backtests **2,200 逐位吻合**·shard 件 results/p2cal_ext/n1_w30/shard-0..11-of-12.json；evidence_cutoff=2026-09-22 12/12 同窗律·本窗 finalize 一趟过零排队〔W28 finalize 已先行落账 r524 bm-b=链头 426,148 门开〕）。
+- K 与链性对账：K=**61,720**（pre-W30 累计 **59,520**〔W28 实测 merged n 实锚逐位〕＋本波 2,200=§0 勘误后散文 61,720 机器 derive 逐位吻合〔§0 初稿算术误书 63,920 已同窗勘误披露·finalize 消费面=机器 derive 零散文依赖·本对账即自证〕）；merged mu **−0.09150**·sigma **0.24478**·se_mu **0.000985**（W28 0.0010→收紧）；W30-only mu **−0.09037**（波单波抽样波动如实·mu_delta vs W28ext −0.0025）。
+- §5 四项判定：**4/4 PASS**（①mu-drift **+0.00117**<0.02〔W30-only vs 冻结锚 W28 merged −0.09154·锚滚动律同窗执行〕②sigma 相对 **−0.04%**<±10%〔锚 W28 0.24487·merged 0.24478〕③A p95 **0.308** vs 0.3278 Δ**−0.0198**<0.05〔波单波抽样面·非断裂〕④K-lift **−0.0005**≤0.02〔1.1553→1.1548·@n_eff_held 426,148·**负向如实报**〔W22 −0.0002 同族先例：加深收窄 se_mu 不必然抬线〕·canon_flip NOT performed——治理提案面·K2200 同法〕）。
+- 账本对账：prev=**426,148**（W28 finalize r524 bm-b 活头 derive·禁手抄）→ **428,348** 链线性；voids_applied=['LOWAMP-P1'] 自动面；audit.finalize_only=bm-a；ledger 块在产物件（finalize 输出含 science_gates.ledger 面）。
 
 ## §8 批后复盘【s7-T·finalize 同窗回填】
 
--（占位锚：finalize 同窗回填波收口复盘与 W31+ 尾律警示转交〔W31=bm-b 槽位·轮值律·A 105_004..107_003/B 41_201..41_400 投影双净空=r541 带闸回执 W31+ 投影腿·照例 W31 prereg 时机验〕。）
+- 波收口复盘：W30=bm-a 第 6 枚自有波（第十九枚引擎波）全链同轮闭环：r541 冻结（A 103_004..105_003/B 41_001..41_200 **双跳位 ADMIT**——A=W29 公示投影保留面 r518 执行·B=p4_batch1=41_000 带内点跳位 W26-B 族谱系·回执 _r541bma_w30_band_gate.py leg0/leg0b/leg1/leg1b/leg2/leg3 六腿）→tick 自燃 12/12（冻结同窗 22:15–22:29）→finalize 一趟过（22:3x·W28 门开零排队）→本节回填同窗——**冻结→烧毕→finalize→回填全链单轮完成=最快收口先例**（对照 W27=r539 冻结+烧毕/r540 finalize 两轮）。冻结窗内 origin 前移 4 commit（W28 finalize 落账 r524 bm-b）→锚滚动律同窗执行（§5 锚 W27→W28）+pull --rebase 脏树硬拒（r277 禁 stash 面）→r512 外科提交净路零 rebase 零吞件+reset --mixed 重锚+origin 新件 34 面 checkout 和解（本机活 lane 7 件保留）——全链零科学损失。
+- W29 指引（bm-c 座·未注册如实注记）：W28 行 W29+ 警示公示窗（A 101_004..103_003/B 40_651..40_850）经本波 r518 保留面腿**未被占用=仍为 W29 预留**；bm-c 注册时带闸按注册表 derive（必含 W30 行+探针种子簇腿+N3-R1 腿+全公示投影带）；finalize 链序走活头 derive（现头 428,348）与波号序无锁。
+- W31+ 尾律警示转交：**W31=bm-b 座位**（模 3 续行 28+3=31·W30 行 verbatim 接力）——A 侧续行 105_004..107_003·B 侧续行 41_201..41_400 投影双净空（r541 带闸回执 W31+ 投影腿）；冻结窗机闸穷尽扫描必含探针种子簇腿＋N3-R1 腿＋全公示投影带（本表 W28 行 W29+ 警示＋W30 行 W31+ 警示双面）＋SEED_REGISTRY 全值（41_000/43_000 带内点族教训=B 侧跳位机闸首净窗 derive）。
