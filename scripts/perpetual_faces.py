@@ -72,6 +72,18 @@ N1_BANDS = {
     2: {"a": (12_100, 14_099), "b_exit": (21_100, 21_299)},
     3: {"a": (14_100, 16_099), "b_exit": (21_300, 21_499)},
     4: {"a": (16_100, 18_099), "b_exit": (21_500, 21_699)},
+    # W5 (r307 bm-c, prereg-time tail extension per the law's "波5+ 顺延"
+    # clause): the arithmetic +2_000 tail (18_100..20_099) collides with
+    # the v1 B in-use band 20_000..20_019, SEED_REGISTRY value 20000 and
+    # the ext W1 B band 20_100..20_299 -- the disjointness hard law
+    # (selftest leg 2, R250) wins over the stride convention, so A skips
+    # to the first contiguous 2,000-window beyond every reserved band
+    # (21_900 == W5 B end + 1, packing invariant in selftest leg 3b).
+    # NOT a re-pick: the W5 band was never assigned and the measurement
+    # face has no result to fish. W6+ WARNING: the B +200 arithmetic tail
+    # (21_900..22_099) now lands inside the W5 A band -- the W6 prereg
+    # must re-base B with the same disclosed skip-over discipline.
+    5: {"a": (21_900, 23_899), "b_exit": (21_700, 21_899)},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
@@ -410,6 +422,16 @@ def cmd_selftest():
     for w in (3, 4):
         assert N1_BANDS[w]["a"][0] == N1_BANDS[w - 1]["a"][1] + 1, f"N1 w{w} A gap"
         assert N1_BANDS[w]["b_exit"][0] == N1_BANDS[w - 1]["b_exit"][1] + 1, f"N1 w{w} B gap"
+    # 3b. W5 skip-over packing invariant (law sec.4 W5 row): the arithmetic
+    # +2_000 tail (18_100..20_099) is documented-refused (hits v1 B band
+    # 20_000..20_019 / registry 20000 / ext W1 B 20_100..20_299); A sits at
+    # the first free window after every reserved band == W5 B end + 1, and
+    # the B tail keeps the +200 stride (W4 B end + 1).
+    assert N1_BANDS[5]["a"][0] == N1_BANDS[5]["b_exit"][1] + 1, \
+        "W5 packing drift (A must sit at W5 B end + 1)"
+    assert N1_BANDS[5]["a"][1] - N1_BANDS[5]["a"][0] + 1 == 2000, "W5 A width"
+    assert N1_BANDS[5]["b_exit"][1] - N1_BANDS[5]["b_exit"][0] + 1 == 200, "W5 B width"
+    assert N1_BANDS[4]["b_exit"][1] + 1 == N1_BANDS[5]["b_exit"][0], "W5 B tail gap"
     # 4. pool parse (read-only; missing file tolerated)
     pool = _load_pool()
     _pool_live_count(pool)
@@ -464,11 +486,16 @@ def cmd_selftest():
         assert "99999" in bad[0]["prereg_ref"], "expansion ignores band table"
     finally:
         N1_BANDS[3] = bands_copy
-    # 8. pool format-mirror probe (read-only; r289 law: indent2+CRLF probed)
+    # 8. pool format-mirror probe (read-only; r289 law: indent2+CRLF probed;
+    #    trailing face follows the migrated canonical producer -- bm-b r499
+    #    pool-format migration made the flip tool emit trailing NL and the
+    #    probe dynamic; the guard asserts probe-vs-bytes truth, not a
+    #    hardcoded pre-migration face)
     if os.path.exists(POOL_PATH):
         indent, crlf, trailing_nl = _pool_format_probe()
         assert indent == 2 and crlf, f"pool format face drifted: {indent}/{crlf}"
-        assert trailing_nl is False, "pool trailing face drifted"
+        b = open(POOL_PATH, "rb").read()
+        assert trailing_nl == b.endswith(b"\n"), "trailing probe drift vs bytes"
     # 8b. writer round-trip on a temp file (hermetic; real pool untouched):
     # probe defaults + CRLF mirror + no trailing NL + byte-identical face
     real_pool = POOL_PATH
