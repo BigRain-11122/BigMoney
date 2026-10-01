@@ -535,8 +535,35 @@ N1_BANDS = {
     # no result to fish). W29+ WARNING: A +2_000 tail 101_004..103_003
     # and B +200 tail 40_651..40_850 projection per the r523 gate
     # receipt -- verify at W29 prereg (rotation slot W29=bm-c).
+    # W30 (r541 bm-a, prereg-time extension per the W28 row's W29+
+    # WARNING -- never-dry supply law standing step; sovereignty
+    # rotation law F-20260901-01 slot W30=bm-a per the W27=bm-a real
+    # anchor: finalize landed bm-a r540, K=57,320, ledger 423,948
+    # chain head; W28=bm-b / W29=bm-c seats continue the +3 rotation
+    # -> W30=bm-a). W29 (bm-c seat) NOT registered at this freeze:
+    # its published projection (A 101_004..103_003 / B 40_651..40_850,
+    # the W28 row's W29+ WARNING naming the W29=bm-c rotation slot)
+    # is a RESERVED FACE (r518: published projection = reserved face)
+    # -- W30 skips past it. A side: first clean window 103_004..105_003
+    # == W29 projected A tail + 1, no further skip. B side: the
+    # arithmetic-from-W29-projection window 40_851..41_050 hits
+    # SEED_REGISTRY p4_batch1=41_000 -> advance to 41_001..41_200
+    # (W26 B re-base skip lineage, in-band point skip family).
+    # Machine-verified at prereg time (results/_r541bma_w30_band_gate.py
+    # ADMIT receipt vs the 26-row pre-W30 table incl. W25/W26/W27/W28
+    # + SEED_REGISTRY values + probe-seed cluster 95_000..95_003 r335
+    # discovery leg + N2/N4 probe points + N2-W15 draft probe points
+    # + lfc/options actual ranges + N3-R1 used-seed band 70_000..70_005,
+    # MSG-183x r529 mandatory leg + W29 published-projection reservation
+    # leg). NINETEENTH engine-owned wave. NOT a re-pick (R250: W30 bands
+    # were never assigned; the measurement face has no result to fish).
+    # W31+ WARNING: A +2_000 tail 105_004..107_003 and B +200 tail
+    # 41_201..41_400 projection per the r541 gate receipt -- verify at
+    # W31 prereg (rotation slot W31=bm-b).
     28: {"a": (99_004, 101_003), "b_exit": (40_451, 40_650),
          "engine_owner": "bm-b"},
+    30: {"a": (103_004, 105_003), "b_exit": (41_001, 41_200),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
