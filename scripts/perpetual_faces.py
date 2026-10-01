@@ -400,6 +400,31 @@ N1_BANDS = {
     # W24=bm-a).
     23: {"a": (88_001, 90_000), "b_exit": (39_300, 39_499),
          "engine_owner": "bm-c"},
+    # W24 (r535 bm-a, prereg-time extension per the W23 row's W24+ WARNING
+    # -- never-dry supply law standing step; sovereignty rotation law
+    # F-20261001-01 slot W24=bm-a per law sec.4 W23 row verbatim, bm-a's
+    # FOURTH owned wave after W12/W18/W21; no pointer gate pending:
+    # W21 registered + burned 12/12 + FINALIZED by bm-a r534 (K=44,120,
+    # ledger 410,748), W22 registered + burned + FINALIZED by bm-b r519
+    # addendum (K=46,320, ledger 412,948 chain head), W23 registered by
+    # bm-c r332 (engine burn pending on bm-c) -- coexistence judged by
+    # band disjointness not commit order, r531 law): BOTH tails
+    # arithmetic-clean exactly as the W23 row projected -- A's +2_000
+    # tail (90_001..92_000 == W23 A end + 1) and B's +200 tail
+    # (39_500..39_699 == W23 B end + 1), no skip on either side (39k-
+    # segment continuation of the W17 B re-base lineage). Machine-
+    # verified at prereg time (results/_r535bma_w24_band_gate.py ADMIT
+    # receipt vs the 22-row pre-W24 table incl. W18/W19/W20/W21/W22/W23
+    # + SEED_REGISTRY values + N2/N4 probe points + N2-W15 draft probe
+    # points + lfc/options actual ranges + N3-R1 used-seed band
+    # 70_000..70_005, MSG-183x r529 mandatory leg). THIRTEENTH
+    # engine-owned wave. NOT a re-pick (R250: W24 bands were never
+    # assigned; the measurement face has no result to fish). W25+
+    # WARNING: A +2_000 tail 92_001..94_000 and B +200 tail
+    # 39_700..39_899 projection per the r535 gate receipt -- verify at
+    # W25 prereg (rotation slot W25=bm-b).
+    24: {"a": (90_001, 92_000), "b_exit": (39_500, 39_699),
+         "engine_owner": "bm-a"},
 }
 # v1 + ext(wave-1) in-use bands (source of truth: those runners' constants)
 V1_IN_USE = set(range(10_000, 10_100)) | set(range(20_000, 20_020))
