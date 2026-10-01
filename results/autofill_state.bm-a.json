@@ -925,26 +925,28 @@
   }
  ],
  "last_tick": {
-  "ts": "2026-10-01 14:20:01",
+  "ts": "2026-10-01 14:30:01",
   "machine": "bm-a",
   "py_cpu_pct": 0.0,
+  "verdict": "fuse_refused_crash_loop",
+  "entry": "REFINE-BENCH-REV-P2-SHARD-0",
+  "shard": "rev-p2-0of2",
+  "fuse_crashes": 1,
+  "fuse_refusals": 7,
   "fuse_skipped": [
    {
     "entry": "REFINE-BENCH-REV-P2-SHARD-0",
     "shard": "rev-p2-0of2",
     "sig": "scripts/refine_bench_rev_p2.py|run,--shard,0,--of,2",
-    "fuse_refusals": 3
+    "fuse_refusals": 7
    },
    {
     "entry": "REFINE-BENCH-REV-P2-SHARD-1",
     "shard": "rev-p2-1of2",
     "sig": "scripts/refine_bench_rev_p2.py|run,--shard,1,--of,2",
-    "fuse_refusals": 3
+    "fuse_refusals": 7
    }
-  ],
-  "verdict": "claim_lost_yield",
-  "entry": "REFINE-BENCH-REV-P2-NULLS",
-  "shard": "rev-p2-nulls"
+  ]
  },
  "lane_machine": "bm-a",
  "core_samples_seen": "2026-10-01T14:11:14+08:00"
