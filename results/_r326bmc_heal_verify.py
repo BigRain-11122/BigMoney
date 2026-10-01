@@ -1,0 +1,21 @@
+# r326 bm-c heal verification: ownership + json.loads of restored W14 products (r525 law)
+import json, glob, io, sys
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+BM = r"K:\Fluxgroup\FluxGroup\quant\bigmoney"
+r = json.load(open(BM + r"\results\perpetual_faces\n1_w14_results.json", encoding="utf-8"))
+sh = sorted(glob.glob(BM + r"\results\p2cal_ext\n1_w14\shard-*.json"))
+mach = [json.load(open(p, encoding="utf-8"))["audit"]["machine"] for p in sh]
+print("results audit.machine", r["audit"]["machine"])
+print("shards on disk", len(sh), "all bm-c", all(m == "bm-c" for m in mach))
+print("shards_consumed", len(r["shards_consumed"]))
+print("ledger total", r["science_gates"]["ledger"]["total"], "k_merged", r["null_pool_cumulative"]["merged"]["n_values"])
+prereg = open(BM + r"\research\PERPETUAL_N1_W14_PREREG.md", encoding="utf-8").read()
+print("prereg S7 backfilled (no placeholder):", "finalize 回填" in prereg and "（占位" not in prereg.split("## §7")[1][:200])
+rr = open(BM + r"\round_reports-bm-c.md", encoding="utf-8").read()
+print("round_reports r325 line present:", "17:16:21+08:00｜r325" in rr)
+hb = json.load(open(BM + r"\fleet\machines\bm-c.json", encoding="utf-8"))
+print("heartbeat last_seen", hb.get("last_seen"), "epoch int", isinstance(hb.get("heartbeat_epoch_utc"), int))
+st = json.load(open(BM + r"\state-bm-c.json", encoding="utf-8"))
+print("state round_no", st.get("round_no"), "heartbeat ok")
+hq = open(BM + r"\HQ-FEEDBACK.md", encoding="utf-8").read()
+print("HQ-FEEDBACK F-20260901-02 present:", "F-20260901-02" in hq)
