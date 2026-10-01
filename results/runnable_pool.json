@@ -11236,7 +11236,10 @@
 ],
 "lane_owner": "ANY",
 "priority": 0,
-"status": "ready",
+"status": "done",
+"done_by": "bm-a",
+"done_at": "2026-10-01 14:58:00",
+"done_note": "r497 handshake claim on origin (pid 66764 closed 13:57:21); bm-b daemon 13:42 claim superseded per MSG-1345 kill-advice + bm-c r318 yield; reunion 2000/2000 delivered cf4cb64a8",
 "entered_at": "2026-10-01 12:42:28",
 "entered_by": "bm-a (OS iteration loop r514)",
 "data_gates": "in-runner FAIL-CLOSED: probe.json PASS required before ignition (G-CENSUS 1254/1506 + adj 19/19 + cutoff end-row==2026-09-22 + cost x1 rt 26.082bp single-source + D6 max|corr| fresh probe 0.1738 vs 0.7 + closed_family open); per-start JSONL checkpoint resume (t22 pattern); idempotent no-op when shard complete; engine canon T+1, exit priority frozen, engine/ zero-mod; sec.0.6 HOLD-THROUGH exit-axis (default stack disabled in runner params, six keys, prereg verbatim)",
@@ -11247,11 +11250,14 @@
 "shards": [
 {
 "key": "lowamp-p2-nulls-0of1",
-"status": "ready",
+"status": "done",
 "checkpoint": "results/lowamp_p2/ JSONL per-start append, done-key skip",
 "note": "K=2000 same-mask random selection nulls, legacy full panel, rng([20334500,k]) per prereg sec.3 verbatim; feeds skill_line_v2 null_pool; N_eff face: net ledger head + 2008",
 "owner": "bm-b",
-"owner_since": "2026-10-01 13:42:07"
+"owner_since": "2026-10-01 13:42:07",
+"done_at": "2026-10-01 14:58:00",
+"harvested_by": "bm-a",
+"harvest_claim": "lowamp-p2-nulls-0of1.bm-a.json"
 }
 ]
 },
@@ -11290,6 +11296,98 @@
 ],
 "done_by": "bm-b",
 "done_at": "2026-10-01 13:20:04"
+},
+{
+"id": "REFINE-BENCH-REV-P2-SHARD-0",
+"ticket_ref": "T-2026-10-01-139-P1 family-1 stage-B (CEO direct O-2026-10-01-1035 + ignition order O-20261001-1332 sec.1.1 bm-a immediate prereg+ignite)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P2.md (freeze 5c2afb10c r518; banned_direction_gate ADMIT rc0 BAN-04 new_data exception; exit-axis explicit: strategy-own pure time H20, engine default exit stack never constructed; N_eff=2020)",
+"runner": "scripts/refine_bench_rev_p2.py",
+"runner_args": [
+"run",
+"--shard",
+"0",
+"--of",
+"2"
+],
+"lane_owner": "ANY",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 14:58:00",
+"entered_by": "bm-a (OS iteration loop r518)",
+"data_gates": "in-runner FAIL-CLOSED: probe.json PASS required (panel T=8792 N=5222 cutoff 2026-09-22 D2 lockbox + survivor freeze assertion vs census_ranking.json top10_independent + closed_family open + seed 20263300 registry); per-cell-face checkpoint presence=done (r488); worker claim handshake (r497); RAM floor 16GB exit 3",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); workers=min(cap,6) ~8GB/worker stock panel guard; core-dist line in round report"
+},
+"shards": [
+{
+"key": "rev-p2-0of2",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_p2/ per-unit checkpoint presence=done",
+"note": "cells 0-4 (D-15|raw|base, Dtop10|raw|base, D-25|raw|base, D-15|yang|base, D-25|yang|base) x {x1,x2} = 10 cell-faces; est 2-5min multicore burn"
 }
 ]
+},
+{
+"id": "REFINE-BENCH-REV-P2-SHARD-1",
+"ticket_ref": "T-2026-10-01-139-P1 family-1 stage-B (CEO direct O-2026-10-01-1035 + ignition order O-20261001-1332 sec.1.1 bm-a immediate prereg+ignite)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P2.md (freeze 5c2afb10c r518; banned_direction_gate ADMIT rc0 BAN-04 new_data exception; exit-axis explicit: strategy-own pure time H20, engine default exit stack never constructed; N_eff=2020)",
+"runner": "scripts/refine_bench_rev_p2.py",
+"runner_args": [
+"run",
+"--shard",
+"1",
+"--of",
+"2"
+],
+"lane_owner": "ANY",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 14:58:00",
+"entered_by": "bm-a (OS iteration loop r518)",
+"data_gates": "in-runner FAIL-CLOSED: probe.json PASS required (panel T=8792 N=5222 cutoff 2026-09-22 D2 lockbox + survivor freeze assertion vs census_ranking.json top10_independent + closed_family open + seed 20263300 registry); per-cell-face checkpoint presence=done (r488); worker claim handshake (r497); RAM floor 16GB exit 3",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); workers=min(cap,6) ~8GB/worker stock panel guard; core-dist line in round report"
+},
+"shards": [
+{
+"key": "rev-p2-1of2",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_p2/ per-unit checkpoint presence=done",
+"note": "cells 5-9 (Dtop10|yang|base, D-15|raw|liq2, D-25|raw|liq2, Dtop10|raw|liq2, D-15|yang|liq2) x {x1,x2} = 10 cell-faces; est 2-5min multicore burn"
+}
+]
+},
+{
+"id": "REFINE-BENCH-REV-P2-NULLS",
+"ticket_ref": "T-2026-10-01-139-P1 family-1 stage-B (CEO direct O-2026-10-01-1035 + ignition order O-20261001-1332 sec.1.1 bm-a immediate prereg+ignite)",
+"prereg_ref": "research/REFINE_BENCH_STOCK_REV_P2.md (freeze 5c2afb10c r518; banned_direction_gate ADMIT rc0 BAN-04 new_data exception; exit-axis explicit: strategy-own pure time H20, engine default exit stack never constructed; N_eff=2020)",
+"runner": "scripts/refine_bench_rev_p2.py",
+"runner_args": [
+"run",
+"--nulls"
+],
+"lane_owner": "ANY",
+"priority": 0,
+"status": "ready",
+"entered_at": "2026-10-01 14:58:00",
+"entered_by": "bm-a (OS iteration loop r518)",
+"data_gates": "in-runner FAIL-CLOSED: probe.json PASS required (panel T=8792 N=5222 cutoff 2026-09-22 D2 lockbox + survivor freeze assertion vs census_ranking.json top10_independent + closed_family open + seed 20263300 registry); per-cell-face checkpoint presence=done (r488); worker claim handshake (r497); RAM floor 16GB exit 3",
+"workers_plan": {
+"workers": 6,
+"priority": "BelowNormal",
+"workers_law": "ProcessPoolExecutor via parallel_runner (O-20260930-2355); workers=min(cap,6) ~8GB/worker stock panel guard; core-dist line in round report"
+},
+"shards": [
+{
+"key": "rev-p2-nulls",
+"status": "ready",
+"checkpoint": "results/refine_bench_stock/rev_p2/ per-unit checkpoint presence=done",
+"note": "K=2000 same-mask random event nulls H=20 time-exit x1 cost rng(20263300+k), 20 chunks x 100 via ProcessPool; phase-2 52-cohort synthetic annual Sharpe -> nulls_pool.json; est 15-35min; feeds skill_line_v2 null_pool"
+}
+]
+}]
 }
