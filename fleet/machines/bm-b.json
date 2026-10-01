@@ -3,17 +3,17 @@
  "root_path": "C:\\Fluxgroup",
  "role": "compute-node",
  "joined": "2026-09-23",
- "last_seen": "2026-10-01T14:46:28+08:00",
- "heartbeat_epoch_utc": 1790837188,
- "clock_read": "2026-10-01T14:46:28+08:00",
- "current_task": "r508 close: T-141 s1+s3 SATURATION ENGINE built+fired (W10 first engine wave burning autonomously, shard-4+ in flight); s2 ledger-conversion open first-claim",
+ "last_seen": "2026-10-01T15:26:13+08:00",
+ "heartbeat_epoch_utc": 1790839573,
+ "clock_read": "2026-10-01T15:26:13+08:00",
+ "current_task": "r509 close: W10 finalized (388,748) + furnace ledger real-append + S0 integration delivered",
  "cpu_cores": 16,
  "free_ram_gb": 5.5,
  "gpu_free_vram_gb": 2.2,
  "total_ram_gb": 0.0,
  "cpu_util_pct": 13.7,
  "round_no": 508,
- "verdict": "r508: (1) T-141 s1+s3 ENGINE CORE + CEO FACE built and REAL-FIRED (SATURATION_ENGINE_LAW): scripts/saturation_engine.py v0.1 (selftest 7/7) + W10 first engine wave frozen (band gate ADMIT + banned-gate ADMIT + law sec.4 row + prereg + WAVE_CONFIGS/N1_BANDS engine_owner=bm-b + selftest legs) + Bigmoney-SatEngine-bm-b S4U 60s task + round-zero item wired + dashboard standing row live; closed loop proven: 14:41 manual ignite shard-0 (22.4s) -> 14:43 scheduled tick self-derived completion from checkpoint artifact -> same-tick ledger buffer (sec.2 batched) -> ignite shard-1; 3+ shards done by 14:45, queue drains autonomously; zero pool entries for PERPETUAL-N1-W10 (cmd_supply engine-owner skip gate = zero duplication). (2) S6 37 legs rc0 (reconcile ZERO-DRIFT 306 entries streak 1/3; audit FLAG:ignition_sla = W9 pool shards 4-11 daemon drain in progress, py 66.7% healthy saturation; stale-takeover derives legal, bm-a hb 62min). (3) smoke 47/47; attrition CLEAN; orders 137/137 double-scan EMPTY; D-19 753F99E8 MATCH-unchanged",
+ "verdict": "round-509-ok: products delivered (W10 finalize + furnace real-append); next: W11 prereg (never-dry)",
  "orders_ack": [
   "O-2026-09-26-2335-bm-a.md",
   "O-2026-09-26-2340-bm-a.md",
@@ -154,5 +154,7 @@
   "O-20261001-1332-bm-c.md",
   "O-20261001-1410-bm-c.md",
   "O-20261001-1420-bm-c.md"
- ]
+ ],
+ "idle_ram_gb": 5.0,
+ "gpu_idle_vram_gb": null
 }

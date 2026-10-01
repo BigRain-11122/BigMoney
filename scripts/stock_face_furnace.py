@@ -831,14 +831,24 @@ def cmd_finalize(args) -> int:
                    for fam in FAMILIES)
     guard = os.path.join(OUT_DIR, ".ledger_appended")
     if all_done and not os.path.exists(guard):
+        sp = os.path.join(OUT_DIR, f"{family}_summary.json")
         res = sg.append_ledger("STOCK_FACE_FURNACE_P1", N_CELLS_TOTAL,
-                               "stock_face_furnace",
+                               "stock_face_furnace/" + family + "_summary.json",
                                note="T-139 akshare-face exploration furnace "
                                     "(281 cells; supply=trial stock grammar)",
                                evidence_cutoff=EVIDENCE_CUTOFF)
+        # r509 fix: append_ledger returns a dict and never writes to disk --
+        # persist the block into the family summary product BEFORE the guard
+        # marker (r506 phantom: guard-only, 281 trials lost from the chain,
+        # manually re-appended r509 per MSG-20261001-1432).
+        d = json.load(open(sp, encoding="utf-8"))
+        assert "trials_ledger" not in d, "double-append refusal (pit-95)"
+        d["trials_ledger"] = res
+        _dump(d, sp)
         with open(guard, "w", encoding="utf-8") as f:
             f.write(_now_iso() + "\n")
-        print(f"finalize: trials ledger appended -> total {res.get('total')}")
+        print(f"finalize: trials ledger appended -> total {res.get('total')} "
+              f"(block persisted to {sp})")
     return 0
 
 

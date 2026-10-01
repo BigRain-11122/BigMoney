@@ -57,10 +57,18 @@
 - 引擎台账：`results/saturation_engine/ledger_bm-b.jsonl`（§2 异步批量·逐分片行：batch/shard/started_at/done_at/elapsed_sec/pid）；attrition 账本完整性 tripwire 覆盖本波产物件（r448 律）。
 - 下游=skill_line_v2/g1_prime_v2 的 null 基线消费面（自动·判线共享库零手抄）。
 
-## §7 跑后实证【待回填·finalize 后同窗回填=r307 两态守卫律】
+## §7 跑后实证【r509 finalize 同窗回填】
 
-- 占位（12/12 分片合并·W10-only K/mu/sigma·merged K=22,120 面·se_mu·K-lift·账本行回执 prev=W9 finalize 落账值+2,200 derive）。
+- 12/12 分片合并完成（shards_consumed 12·results/p2cal_ext/n1_w10/shard-0..11-of-12.json·引擎烧录 14:41-14:59 全 12 片·claim 件 12/12 在场）。
+- W10-only：K=2,200·mu=**−0.0838**·sigma=0.24446（A 族 n=2,000·p95=**0.3325**·p99=0.4657·mu=−0.0788）。
+- 累计池 merged：K=**22,120**·mu=**−0.0913**·sigma=**0.24453**·se_mu@K22120=**0.001644**（canon 120＋W1..W10 全并入·法典 §5 恒不重置实证）。
+- K-lift：skill_line_v2 @n_eff=386,548（=账本链头 W9→REV-P2→LOWAMP-P2→FURNACE_P1 后前态 derive·**禁手抄律执行**）＝**1.1482→1.1491（Δ+0.0009）**；canon_flip 未执行（K2200 同律·治理提案面）。
+- 账本行回执：`science_gates.ledger` ＝prev **386,548**＋2,200＝total **388,748**·voids_applied=[LOWAMP-P1]·evidence_cutoff=2026-09-22（数据驱动 prev·前波链头 derive·与 bm-c MSG-1432 重 derive 要求完全一致——W9/REV-P2/LOWAMP-P2/FURNACE 四前块全在场后本波落账·链线性）。
 
-## §8 批后复盘【s7-T·待回填】
+## §8 批后复盘【s7-T·r509 回填】
 
-- 占位（预测对账 4/4 面·累计池 22,120 态·波间协作如实记·W11+ 尾律警示窗照法典 §4 W10 行·引擎面首波运行实况〔点火延迟/自愈/台账批节奏〕如实记）。
+- §5 预测对账 **4/4 PASS**：①W10-only mu 漂移 |Δ|=0.0075<0.02 ✓（对 pre-W10 锚 −0.0921 为 +0.0083 ✓）②merged sigma 0.24453 vs 锚 0.2457＝−0.47%<±10% ✓ ③A 族 p95 0.3325 vs W8 锚 0.3179＝+0.0146<0.05 ✓ ④K-lift 线动 +0.0009≤0.02 ✓（W3..W10 七向先例族 −0.0143..+0.0082 内·加深未抬线未破线）。
+- se_mu 收窄面：19,920→22,120 后 se_mu=0.001644（合并池 sigma 稳定 0.24453·纯抽样噪声面·无结构变化）。
+- 波间协作如实记：本波=bm-b 引擎首波（engine_owner=bm-b·池面 0 物化=零双烧合同实证·bm-a/bm-c 引擎/池面未触碰 W10）；W9 finalize bm-c 落账在前（MSG-1432 衔接·本波 prev derive 链含其块）；REV-P2/LOWAMP-P2 双 finalize bm-a r521 同窗交付（链中间块·本波账本前态 386,548=四块后真值）。
+- **W11+ 尾律警示窗照法典 §4 W10 行**：W11 prereg 展行时 B +200 算术位（28_900..29_099）将落入本波 A 带（34_100..36_099 无撞·但 B 尾与 W10 A 头距离照 §4 表核）——同 W6 预告先例，展行前 disjoint 机验强制（含引擎队列面：bm-c s2 in_progress 的 ledger-conversion 后续波次按 engine_owner 跳过门+语法登记簿对账防重烧）。
+- 引擎面首波运行实况：手动 tick 14:41 点火 shard-0（22.4s/182 runs/8 workers）→计划任务 60s 自驱同 tick 自 derive 完成+续燃→12 片全毕 ~18min（14:41-14:59·含 daemon 双波并发窗）·queue 自排空·台账批量 flush 正常·PreIgnitionChecks 零拒·零池 claim 往返（SATURATION_ENGINE_LAW §1/§2 全链实证）；engine idle 后 queue_depth=0（引擎活·verdict=idle）。
