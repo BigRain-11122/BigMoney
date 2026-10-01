@@ -61,8 +61,18 @@
 
 ## §7 跑后实证【跑前必须为空——占位纪律：写数字即造假】
 
-（占位·finalize 窗机械回填。）
+- finalize one-pass 2026-10-02 03:0x（bm-c r345 同窗三段全生命周期收口：冻结 commit bd6dbb3cf→**同窗 12/12 烧录**〔免重启 per-tick 重读自动见行·pre-commit 点火自然行为〔r344 W41 同式·D-20261002-03 修法面〕·appender 批量交付 12/12 上 origin=r310 完备性门过〕→本窗 finalize one-pass；链序解锁=W41 finalize 已落账【r345 本轮早窗·n1_w41_results.json 在 origin·链头 452,740】→FAIL-CLOSED 等待面零（链全追平·零在飞上游面））。
+- S5 判据 4/4 PASS（锚滚动律披露：本波起草窗锚=W41 实测·冻结窗与本 finalize 窗之间**零新波 finalize 落账**（origin 净变动=引擎 appender 分片交付+bm-b daemon keepalive tick）→锚保持 W41 实测·单锚面如实披露）：
+  1. mu 漂移：W42-only **-0.093198** vs W41 锚 −0.090052【|Δ|=0.0031<0.02 PASS】；merged（K=90,320）**-0.091717**。
+  2. sigma 相对变化：W42-only **0.241379** vs W41 锚 0.249199【-3.14%<±10% PASS】；merged **0.244774**。
+  3. A 族 full_sharpe_p95：**0.3276** vs W41 锚 0.3181【Δ=0.0095<0.05 PASS】（门校准注记：结果知情校准面·测量面零注册利害）。
+  4. K-lift 线移动：**-0.0005**【1.1580→1.1575 @n_eff_held 452,740】≤0.02 PASS（W3..W41 先例族内【含 W39 −0.0007/W40 −0.0002/W41 +0.0006 转正】本波复归负——加深不必然抬线先例续·如实报负）。
+- 账本：prev **452,740**【==W41 finalize 落账头 450,540+2,200·derive 禁手抄自证】＋本波 2,200＝total **454,940**·voids_applied LOWAMP-P1/P2 继承面 ✓；skill_line_v2 消费 n_eff=452,740（W42 合并池 K=90,320 同步加深·se_mu 0.000814）；K=90,320==§0 投影 90,320 逐位。
+- 链序注记：下一波（W43+）尚未冻结——法典 §4 表尾当前=W42 行·按 first-free 律另窗起草；**W43+ 警示承继**：B +200 算术位（43_801..44_000）撞 SEED_REGISTRY p4_queue=44_000 尾点=r345 带闸机证 REFUSED——W43 B 面须机 derive 首净窗（W39-B 跳位族）。
 
 ## §8 批后复盘【必填·s7-T】
 
-（占位·finalize 窗机械回填。）
+- 设计零偏差：frozen v1 设计逐字复用（run_one 引擎同源），W42-only mu/sigma 与先例族【W2..W41】逐面同域，零断裂信号；B 族 p_exit=0.05 配对律齐备（n=200）。
+- 波节奏面：W42=**单窗全生命周期波**【r345 同窗三段：冻结（band gate ADMIT+banned gate+selftest 三门）→免重启点火 12/12（pre-commit 自然点火·appender 批量交付）→finalize one-pass】——链全追平态下「冻结→烧→收口」零隔完成的第二枚单窗波（W32 r339 先例后首枚）；r538 禁盲重跑律执行（finalize 前置核验=自产件不在场净面后点火·一过定稿）。
+- 测量面结论：累计 null 池 K=90,320【+W42 2,200 合并】，mu -0.0917 / sigma 0.2448 稳定，se_mu 随累计加深收窄——null 基线置信面继续加深，无质变；canon flip 不在本波（治理提案面素材累计·K2200 同律）。
+- 下游接线：skill_line_v2 @n_eff 452,740 活链头 derive；下一波 finalize 消费本波 454,940 为 prev。
