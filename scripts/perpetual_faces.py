@@ -253,6 +253,27 @@ N1_BANDS = {
     # (rotation slot W18=bm-a).
     17: {"a": (76_001, 78_000), "b_exit": (38_100, 38_299),
          "engine_owner": "bm-c"},
+    # W18 (r530 bm-a, prereg-time extension per the W17 row's W18+
+    # WARNING -- never-dry supply law standing step; sovereignty
+    # rotation law F-20261001-01 slot W18=bm-a per law sec.4 W17 row
+    # verbatim, bm-a's SECOND owned N1 wave after W12; freeze window
+    # opened only AFTER the W17xW19 same-band double-freeze adjudication
+    # landed (MSG-184x/185x: W17 stands, bm-b W19 yields; mirrors healed
+    # 6efed57b6)): BOTH tails arithmetic-clean for the first time since
+    # the W5/W6/W8/W12/W17 B-skip family -- A's +2_000 tail
+    # (78_001..80_000 == W17 A end + 1) and B's +200 tail
+    # (38_300..38_499 == W17 B end + 1) both land clean exactly as the
+    # W17 row projected (stride kept verbatim, no skip on either side).
+    # Machine-verified at prereg time (results/_r530bma_w18_band_gate.py
+    # ADMIT receipt, 15-row N1_BANDS + 158 registry values + N2/N4
+    # probe points + N2-W15 draft probe points + lfc/options actual
+    # ranges + r529-mandated N3-R1 actual-seed-set leg 70_000..70_005).
+    # EIGHTH engine-owned wave. W19+ WARNING: A +2_000 tail 80_001..82_000
+    # and B +200 tail 38_500..38_699 project clean -- verify at W19
+    # prereg (bm-b W19 yield re-band must machine-scan past this W18
+    # freeze per post-to-yield rotation law).
+    18: {"a": (78_001, 80_000), "b_exit": (38_300, 38_499),
+         "engine_owner": "bm-a"},
     # W19 (r517 bm-b freeze + r518 SAME-WINDOW DOUBLE-FREEZE COLLISION
     # YIELD + re-band -- r511 commit-order law: bm-c's W17 rows reached
     # origin first (r328, ~18:23) while the r517 W19 freeze was drafted
